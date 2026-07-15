@@ -3,7 +3,8 @@ FactoryBot.define do
     account
     automation_rule { association :automation_rule, account: account }
     conversation { association :conversation, account: account }
-    episode_key { "status:#{Time.current.to_i}" }
+    # Derive from production so the row is episode_current (matches the conversation's status).
+    episode_key { AutomationRulePendingExecution.episode_key_for(conversation, nil) }
     due_at { 1.hour.from_now }
     status { :pending }
   end

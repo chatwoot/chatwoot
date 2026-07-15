@@ -13,7 +13,8 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
   end
   let(:pending_execution) do
     AutomationRulePendingExecution.schedule(rule: rule, conversation: conversation)
-    AutomationRulePendingExecution.last
+    # The sweep only enqueues due rows, so make it due before the job runs.
+    AutomationRulePendingExecution.last.tap { |row| row.update!(due_at: 1.minute.ago) }
   end
 
   before do
@@ -69,7 +70,7 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
                                             actions: [{ 'action_name' => 'add_label', 'action_params' => ['stale'] }])
     agent_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
     AutomationRulePendingExecution.schedule(rule: message_rule, conversation: conversation, message: agent_reply)
-    row = AutomationRulePendingExecution.last
+    row = AutomationRulePendingExecution.last.tap { |r| r.update!(due_at: 1.minute.ago) }
 
     # Status change fails the condition but leaves the reply_chase episode (max incoming id) intact.
     conversation.update!(status: :open)
@@ -127,7 +128,7 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
                                             actions: [{ 'action_name' => 'send_message', 'action_params' => ['Just checking in'] }])
     agent_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
     AutomationRulePendingExecution.schedule(rule: message_rule, conversation: conversation, message: agent_reply)
-    row = AutomationRulePendingExecution.last
+    row = AutomationRulePendingExecution.last.tap { |r| r.update!(due_at: 1.minute.ago) }
 
     job.perform(row.reload)
 
@@ -142,7 +143,7 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
                                             actions: [{ 'action_name' => 'send_message', 'action_params' => ['Just checking in'] }])
     agent_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
     AutomationRulePendingExecution.schedule(rule: message_rule, conversation: conversation, message: agent_reply)
-    row = AutomationRulePendingExecution.last
+    row = AutomationRulePendingExecution.last.tap { |r| r.update!(due_at: 1.minute.ago) }
 
     create(:message, conversation: conversation, account: account, message_type: :incoming)
     job.perform(row.reload)

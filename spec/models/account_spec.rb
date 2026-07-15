@@ -103,6 +103,21 @@ RSpec.describe Account do
     end
   end
 
+  describe 'resuming delayed automations' do
+    let(:account) { create(:account) }
+
+    it 'enqueues the resume job when delayed_automations is turned back on' do
+      expect { account.enable_features!('delayed_automations') }
+        .to have_enqueued_job(AutomationRules::ResumePausedExecutionsJob).with(account)
+    end
+
+    it 'does not enqueue the resume job when the flag is turned off' do
+      account.enable_features!('delayed_automations')
+      expect { account.disable_features!('delayed_automations') }
+        .not_to have_enqueued_job(AutomationRules::ResumePausedExecutionsJob)
+    end
+  end
+
   describe 'feature flag columns' do
     let(:account) { described_class.new(name: 'Test Account') }
 

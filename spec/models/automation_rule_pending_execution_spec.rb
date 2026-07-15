@@ -150,12 +150,17 @@ RSpec.describe AutomationRulePendingExecution do
   end
 
   describe '#claim!' do
-    let(:row) { create(:automation_rule_pending_execution, account: account, conversation: conversation) }
+    let(:row) { create(:automation_rule_pending_execution, account: account, conversation: conversation, due_at: 1.minute.ago) }
 
     it 'claims a pending row exactly once so a duplicate enqueue cannot double-fire' do
       expect(row.claim!).to be(true)
       expect(row.reload).to be_processing
       expect(described_class.find(row.id).claim!).to be(false)
+    end
+
+    it 'does not claim a row whose due_at was pushed into the future (reply-chase reschedule)' do
+      row.update!(due_at: 1.hour.from_now)
+      expect(row.claim!).to be(false)
     end
 
     it 'does not claim terminal rows' do
@@ -194,6 +199,18 @@ RSpec.describe AutomationRulePendingExecution do
 
       expect(described_class.pluck(:id)).to contain_exactly(recent_skipped.id, pending.id)
       expect { old_executed.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
+  describe '.reschedule_paused' do
+    it 'resets rows overdue past the window so a resumed account replays them instead of expiring' do
+      expired = create(:automation_rule_pending_execution, account: account, conversation: conversation, due_at: 5.days.ago)
+      within_window = create(:automation_rule_pending_execution, account: account, due_at: 2.days.ago)
+
+      described_class.reschedule_paused(account)
+
+      expect(expired.reload.due_at).to be_within(5.seconds).of(Time.current)
+      expect(within_window.reload.due_at).to be_within(5.seconds).of(2.days.ago)
     end
   end
 end
