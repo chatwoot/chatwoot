@@ -29,7 +29,7 @@
           "ERROR": "Event is required"
         },
         "EXECUTE": {
-          "LABEL": "Execute",
+          "LABEL": "Delayed execution",
           "IMMEDIATELY": "Immediately",
           "AFTER_DELAY": "After a delay of",
           "UNITS": {
