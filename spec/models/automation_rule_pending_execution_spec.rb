@@ -10,12 +10,19 @@ RSpec.describe AutomationRulePendingExecution do
 
   describe '.episode_key_for' do
     it 'derives status episodes from status_changed_at' do
-      expect(described_class.episode_key_for(conversation, nil)).to eq("status:#{conversation.status_changed_at.to_f}")
+      expect(described_class.episode_key_for(conversation, nil)).to eq("status:#{conversation.status_changed_at.strftime('%s%6N')}")
+    end
+
+    it 'matches between an in-memory arm and a DB-reloaded fire (no float rounding drift)' do
+      conversation.status_changed_at = Time.zone.at(1_784_102_080.844761923r)
+      arm_key = described_class.episode_key_for(conversation, nil)
+      conversation.save!
+      expect(arm_key).to eq(described_class.episode_key_for(conversation.reload, nil))
     end
 
     it 'falls back to created_at when status_changed_at is blank' do
       conversation.update!(status_changed_at: nil)
-      expect(described_class.episode_key_for(conversation.reload, nil)).to eq("status:#{conversation.created_at.to_f}")
+      expect(described_class.episode_key_for(conversation.reload, nil)).to eq("status:#{conversation.created_at.strftime('%s%6N')}")
     end
 
     it 'derives awaiting_agent episodes from waiting_since (sub-second) for incoming messages' do
