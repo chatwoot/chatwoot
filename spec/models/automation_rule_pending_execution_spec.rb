@@ -20,7 +20,7 @@ RSpec.describe AutomationRulePendingExecution do
 
     it 'derives awaiting_agent episodes from waiting_since (sub-second) for incoming messages' do
       message = create(:message, conversation: conversation, account: account, message_type: :incoming)
-      expect(described_class.episode_key_for(conversation.reload, message)).to eq("awaiting_agent:#{conversation.waiting_since.to_f}")
+      expect(described_class.episode_key_for(conversation.reload, message)).to eq("awaiting_agent:#{conversation.waiting_since.strftime('%s%6N')}")
     end
 
     it 'distinguishes two waiting periods that fall within the same second' do
@@ -40,7 +40,7 @@ RSpec.describe AutomationRulePendingExecution do
 
       # Once waiting_since settles to the message's created_at, the strict fire-time key matches.
       conversation.update!(waiting_since: message.created_at)
-      expect(armed_key).to eq("awaiting_agent:#{message.created_at.to_f}")
+      expect(armed_key).to eq("awaiting_agent:#{message.created_at.strftime('%s%6N')}")
       expect(armed_key).to eq(described_class.episode_key_for(conversation.reload, message))
     end
 

@@ -103,7 +103,9 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
   end
 
   it 'leaves the row processing and reports the error when an action blows up' do
-    allow(AutomationRules::ActionService).to receive(:new).and_raise(StandardError, 'boom')
+    action_service = instance_double(AutomationRules::ActionService)
+    allow(AutomationRules::ActionService).to receive(:new).and_return(action_service)
+    allow(action_service).to receive(:perform).and_raise(StandardError, 'boom')
     allow(ChatwootExceptionTracker).to receive(:new).and_call_original
 
     job.perform(pending_execution.reload)
@@ -124,7 +126,7 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     job.perform(row.reload)
 
     expect(row.reload).to be_executed
-    expect(conversation.messages.outgoing.pluck(:content)).to include('Just checking in')
+    expect(conversation.messages.outgoing.where(content: 'Just checking in').count).to eq(1)
   end
 
   it 'cancels the follow-up when the customer replied before it was due' do
