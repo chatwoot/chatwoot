@@ -1,8 +1,4 @@
 # Chatwoot *web* service (Puma). Worker uses railway.worker.toml.
-#
-# Dockerfile already sets ENTRYPOINT=docker/entrypoints/rails.sh — do NOT
-# prefix the start command with rails.sh again or the process exits before
-# logging (Railway only shows "Stopping Container").
 
 [build]
 builder = "DOCKERFILE"
@@ -10,12 +6,9 @@ dockerfilePath = "docker/Dockerfile"
 watchPatterns = ["docker/**", "app/**", "config/**", "railway.toml", "Gemfile", "Gemfile.lock", "package.json", "pnpm-lock.yaml"]
 
 [deploy]
-# Must match Railway dashboard startCommand style (shell, includes rails.sh once).
-startCommand = "docker/entrypoints/rails.sh bundle exec rails ip_lookup:setup && bin/rails server -b 0.0.0.0 -p $PORT -e $RAILS_ENV"
-# preDeploy temporarily disabled while diagnosing empty deploy failures —
-# run migrations manually if needed: bundle exec rails db:chatwoot_prepare
+startCommand = "bin/rails server -b 0.0.0.0 -p $PORT -e production"
 healthcheckPath = "/api"
-healthcheckTimeout = 600
+healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 numReplicas = 1
