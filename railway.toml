@@ -1,11 +1,15 @@
-# Build-only config for optional fork builds.
-# Production Chatwoot *web* is pinned to:
-#   ghcr.io/railwayapp-templates/chatwoot:Community
-# Do NOT put startCommand here while web runs the Community image —
-# a fork-style startCommand breaks Community boots (empty deploy logs).
-# Worker (fork) uses railway.worker.toml.
+# Chatwoot web (Puma). Worker uses railway.worker.toml.
+#
+# Railway does NOT always run Dockerfile startCommand in a shell — bare
+# `cmd1 && cmd2` can fail silently. Always wrap with `sh -c`.
 
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "docker/Dockerfile"
-watchPatterns = ["docker/**", "app/**", "config/**", "Gemfile", "Gemfile.lock", "package.json", "pnpm-lock.yaml"]
+watchPatterns = ["docker/**", "app/**", "config/**", "railway.toml", "Gemfile", "Gemfile.lock", "package.json", "pnpm-lock.yaml"]
+
+[deploy]
+startCommand = "sh -c \"rm -f /app/tmp/pids/server.pid && bundle exec rails ip_lookup:setup && exec bin/rails server -b 0.0.0.0 -p \${PORT:-3000} -e production\""
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+numReplicas = 1

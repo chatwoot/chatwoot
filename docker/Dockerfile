@@ -152,8 +152,5 @@ WORKDIR /app
 
 EXPOSE 3000
 
-# No ENTRYPOINT — Railway web startCommand already runs:
-#   docker/entrypoints/rails.sh bundle exec rails ip_lookup:setup && bin/rails server ...
-# An ENTRYPOINT of rails.sh double-wrapped that and containers exited with only
-# "Stopping Container". Worker uses its own startCommand via railway.worker.toml.
-CMD ["docker/entrypoints/rails.sh", "sh", "-c", "bundle exec rails ip_lookup:setup && bin/rails server -b 0.0.0.0 -p ${PORT:-3000} -e ${RAILS_ENV:-production}"]
+# No ENTRYPOINT. Prefer Railway startCommand (shell-wrapped). This CMD is fallback.
+CMD ["sh", "-c", "rm -f /app/tmp/pids/server.pid && bundle exec rails ip_lookup:setup && exec bin/rails server -b 0.0.0.0 -p ${PORT:-3000} -e ${RAILS_ENV:-production}"]
