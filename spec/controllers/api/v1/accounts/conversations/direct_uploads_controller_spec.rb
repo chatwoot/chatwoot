@@ -71,6 +71,27 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
       end
     end
 
+    context 'when the account api_and_webhooks feature is disabled' do
+      before do
+        allow(Account).to receive(:find).and_call_original
+        allow(Account).to receive(:find).with(account.id.to_s).and_return(account)
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+      end
+
+      it 'returns forbidden for a token-authenticated request' do
+        create_direct_upload({ api_access_token: agent.access_token.token })
+
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it 'still creates the blob for a session-authenticated request' do
+        create_direct_upload(agent.create_new_auth_token)
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['content_type']).to eq('image/png')
+      end
+    end
+
     context 'when it is an authenticated session request' do
       it 'creates the blob for the direct upload' do
         create_direct_upload(agent.create_new_auth_token)
