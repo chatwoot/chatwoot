@@ -201,6 +201,7 @@ export const buildLocaleMenuItems = ({ isDefault, isDraft }) => {
     return [
       LOCALE_MENU_ITEMS.publishLocale,
       LOCALE_MENU_ITEMS.customizeContent,
+      LOCALE_MENU_ITEMS.selectPopularContent,
       LOCALE_MENU_ITEMS.delete,
     ];
   }

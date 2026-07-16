@@ -90,13 +90,18 @@ describe('PortalHelper', () => {
       ).toBe(true);
     });
 
-    it('returns publish, customize, and delete actions for draft locales', () => {
+    it('returns publish, customize, popular content, and delete actions for draft locales', () => {
       expect(
         buildLocaleMenuItems({
           isDefault: false,
           isDraft: true,
         }).map(({ action }) => action)
-      ).toEqual(['publish-locale', 'customize-content', 'delete']);
+      ).toEqual([
+        'publish-locale',
+        'customize-content',
+        'select-popular-content',
+        'delete',
+      ]);
     });
 
     it('returns default, draft, customize, and delete actions for live locales', () => {
