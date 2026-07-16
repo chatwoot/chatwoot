@@ -100,6 +100,7 @@
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "This token can be used if you are building an API based integration",
+        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
         "COPY": "Copy",
         "RESET": "Reset",
         "CONFIRM_RESET": "Are you sure?",
