@@ -107,5 +107,21 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
         expect(response.parsed_body['content_type']).to eq('image/png')
       end
     end
+
+    context 'when forgery protection is enabled' do
+      around do |example|
+        original = ActionController::Base.allow_forgery_protection
+        ActionController::Base.allow_forgery_protection = true
+        example.run
+        ActionController::Base.allow_forgery_protection = original
+      end
+
+      it 'creates the blob for a token-authenticated request without a CSRF token' do
+        create_direct_upload({ api_access_token: agent.access_token.token })
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['content_type']).to eq('image/png')
+      end
+    end
   end
 end

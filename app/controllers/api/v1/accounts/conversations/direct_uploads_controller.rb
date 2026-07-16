@@ -4,6 +4,8 @@ class Api::V1::Accounts::Conversations::DirectUploadsController < ActiveStorage:
   include AccessTokenAuthHelper
   include EnsureCurrentAccountHelper
 
+  skip_before_action :verify_authenticity_token, if: :authenticate_by_access_token?
+
   around_action :handle_with_exception
   before_action :authenticate_access_token!, if: :authenticate_by_access_token?
   before_action :validate_bot_access_token!, if: :authenticate_by_access_token?
