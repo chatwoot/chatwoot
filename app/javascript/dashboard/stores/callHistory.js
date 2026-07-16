@@ -26,6 +26,9 @@ export const useCallHistoryStore = defineStore('callHistory', {
       } catch (error) {
         // Don't surface errors from a fetch that a newer request already replaced.
         if (this.fetchRequestToken !== requestToken) return this.records;
+        // Drop the previous results so stale rows aren't shown under the new view.
+        this.records = [];
+        this.meta = { count: 0, currentPage: 1, totalPages: 0 };
         return throwErrorMessage(error);
       } finally {
         if (this.fetchRequestToken === requestToken) {

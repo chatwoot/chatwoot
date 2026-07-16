@@ -27,9 +27,7 @@ const callHistoryStore = useCallHistoryStore();
 const inboxes = useMapGetter('inboxes/getInboxes');
 const accountId = useMapGetter('getCurrentAccountId');
 const currentUserId = useMapGetter('getCurrentUserID');
-const assignableAgents = useMapGetter(
-  'inboxAssignableAgents/getAssignableAgents'
-);
+const agents = useMapGetter('agents/getVerifiedAgents');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
@@ -39,13 +37,6 @@ const isFeatureEnabledonAccount = useMapGetter(
 const { isAdmin } = useAdmin();
 
 const voiceInboxes = computed(() => inboxes.value.filter(isVoiceCallEnabled));
-const voiceInboxIds = computed(() => voiceInboxes.value.map(inbox => inbox.id));
-
-// Only agents who collaborate on the voice inboxes can own a call, so limit the
-// assignee options to them instead of every account user.
-const voiceInboxAgents = computed(() =>
-  assignableAgents.value(voiceInboxIds.value.join(','))
-);
 
 const isVoiceEnabled = computed(
   () =>
@@ -64,9 +55,9 @@ const inboxesUiFlags = useMapGetter('inboxes/getUIFlags');
 const activity = ref(
   CALL_ACTIVITY_PARAMS[route.query.activity] ? route.query.activity : null
 );
+
 const assigneeId = ref(
-  Number(route.query.assignee_id) ||
-    (isAdmin.value ? null : currentUserId.value)
+  isAdmin.value ? Number(route.query.assignee_id) || null : currentUserId.value
 );
 const inboxId = ref(Number(route.query.inbox_id) || null);
 const currentPage = ref(Number(route.query.page) || 1);
@@ -75,7 +66,8 @@ const syncFiltersToUrl = () => {
   router.replace({
     query: {
       ...(activity.value && { activity: activity.value }),
-      ...(assigneeId.value && { assignee_id: assigneeId.value }),
+      ...(isAdmin.value &&
+        assigneeId.value && { assignee_id: assigneeId.value }),
       ...(inboxId.value && { inbox_id: inboxId.value }),
       ...(currentPage.value > 1 && { page: currentPage.value }),
     },
@@ -112,9 +104,7 @@ const onPageChange = page => {
 store.dispatch('inboxes/get').then(() => {
   if (!isVoiceEnabled.value) return;
   // Only admins see the assignee filter, so only they need the agent list.
-  if (isAdmin.value) {
-    store.dispatch('inboxAssignableAgents/fetch', voiceInboxIds.value);
-  }
+  if (isAdmin.value) store.dispatch('agents/get');
   fetchCalls();
 });
 </script>
@@ -142,7 +132,7 @@ store.dispatch('inboxes/get').then(() => {
           v-model:inbox-id="inboxId"
           class="mt-5"
           :total-count="isFetching ? null : meta.count"
-          :agents="voiceInboxAgents"
+          :agents="agents"
           :inboxes="voiceInboxes"
           :show-assignee="isAdmin"
         />
