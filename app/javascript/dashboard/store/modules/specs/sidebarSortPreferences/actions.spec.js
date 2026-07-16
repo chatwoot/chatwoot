@@ -83,7 +83,7 @@ describe('#actions', () => {
       );
     });
 
-    it('ignores invalid preferences', () => {
+    it('ignores invalid sort values', () => {
       actions.setSectionSort(
         {
           commit,
@@ -95,7 +95,7 @@ describe('#actions', () => {
         },
         {
           section: SIDEBAR_SORT_SECTIONS.FOLDERS,
-          sortBy: SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC,
+          sortBy: 'invalid_sort',
         }
       );
 
