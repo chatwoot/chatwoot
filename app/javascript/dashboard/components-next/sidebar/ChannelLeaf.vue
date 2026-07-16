@@ -22,10 +22,20 @@ const props = defineProps({
     type: [Number, String],
     default: 0,
   },
+  manualMigrationRecommended: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const emit = defineEmits(['reviewManualMigration']);
 
 const reauthorizationRequired = computed(() => {
   return props.inbox.reauthorization_required;
+});
+
+const showManualMigrationRecommendation = computed(() => {
+  return props.manualMigrationRecommended && !reauthorizationRequired.value;
 });
 </script>
 
@@ -42,4 +52,14 @@ const reauthorizationRequired = computed(() => {
   >
     <Icon icon="i-woot-alert" class="size-3 text-n-ruby-9" />
   </div>
+  <button
+    v-else-if="showManualMigrationRecommendation"
+    v-tooltip.top-end="$t('SIDEBAR.WHATSAPP_MANUAL_MIGRATION')"
+    type="button"
+    :aria-label="$t('SIDEBAR.WHATSAPP_MANUAL_MIGRATION')"
+    class="grid place-content-center size-5 bg-n-blue-5/60 rounded-full hover:bg-n-blue-5 focus-visible:bg-n-blue-5 focus-visible:outline-none"
+    @click.stop.prevent="emit('reviewManualMigration')"
+  >
+    <Icon icon="i-lucide-info" class="size-3 text-n-blue-9" />
+  </button>
 </template>

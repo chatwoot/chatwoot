@@ -11,7 +11,9 @@
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "There are no inboxes attached to this account.",
+      "REAUTHORIZATION_REQUIRED": "Reauthorization required",
+      "MANUAL_SETUP_RECOMMENDED": "Manual setup recommended"
     },
     "CREATE_FLOW": {
       "CHANNEL": {

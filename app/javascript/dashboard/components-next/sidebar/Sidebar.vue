@@ -6,6 +6,8 @@ import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -43,6 +45,8 @@ const emit = defineEmits([
 ]);
 
 const { accountScopedRoute, isOnChatwootCloud } = useAccount();
+const { isAdmin } = useAdmin();
+const router = useRouter();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
@@ -91,6 +95,32 @@ const hasDataImport = computed(() => {
     FEATURE_FLAGS.DATA_IMPORT
   );
 });
+
+const hasWhatsAppManualTransfer = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.WHATSAPP_MANUAL_TRANSFER
+  );
+});
+
+const isWhatsAppManualMigrationRecommended = inbox => {
+  return (
+    isAdmin.value &&
+    hasWhatsAppManualTransfer.value &&
+    inbox.channel_type === 'Channel::Whatsapp' &&
+    inbox.provider === 'whatsapp_cloud' &&
+    inbox.provider_config?.source === 'embedded_signup' &&
+    !inbox.reauthorization_required
+  );
+};
+
+const reviewWhatsAppManualMigration = inboxId => {
+  router.push(
+    accountScopedRoute('settings_inbox_show', {
+      inboxId,
+    })
+  );
+};
 
 const fetchConversationUnreadCounts = ([currentAccountId, isEnabled]) => {
   if (!currentAccountId) return;
@@ -458,6 +488,10 @@ const menuItems = computed(() => {
                 active: leafProps.active,
                 inbox,
                 badgeCount: leafProps.badgeCount,
+                manualMigrationRecommended:
+                  isWhatsAppManualMigrationRecommended(inbox),
+                onReviewManualMigration: () =>
+                  reviewWhatsAppManualMigration(inbox.id),
               }),
           })),
         },

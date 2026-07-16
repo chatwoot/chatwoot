@@ -380,6 +380,7 @@
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "WHATSAPP_MANUAL_MIGRATION": "Manual setup recommended. Reconnect this WhatsApp inbox with your own Meta app.",
     "HELP_CENTER": {
       "TITLE": "Help Center",
       "ARTICLES": "Articles",

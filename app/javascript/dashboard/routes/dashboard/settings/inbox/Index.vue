@@ -15,6 +15,9 @@ import {
 import ChannelName from './components/ChannelName.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -26,6 +29,27 @@ const selectedInbox = ref({});
 const searchQuery = ref('');
 
 const inboxes = useMapGetter('inboxes/getInboxes');
+const accountId = useMapGetter('getCurrentAccountId');
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
+
+const hasWhatsAppManualTransfer = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.WHATSAPP_MANUAL_TRANSFER
+  );
+});
+
+const isWhatsAppManualMigrationRecommended = inbox => {
+  return (
+    hasWhatsAppManualTransfer.value &&
+    inbox.channel_type === 'Channel::Whatsapp' &&
+    inbox.provider === 'whatsapp_cloud' &&
+    inbox.provider_config?.source === 'embedded_signup' &&
+    !inbox.reauthorization_required
+  );
+};
 
 onActivated(() => {
   store.dispatch('inboxes/get');
@@ -146,12 +170,48 @@ const openDelete = inbox => {
               <span class="block text-heading-3 text-n-slate-12 capitalize">
                 {{ inbox.name }}
               </span>
-              <ChannelName
-                :channel-type="inbox.channel_type"
-                :medium="inbox.medium"
-                :voice-enabled="inbox.voice_enabled"
-                class="text-body-main text-n-slate-11"
-              />
+              <div class="flex flex-wrap items-center gap-2">
+                <ChannelName
+                  :channel-type="inbox.channel_type"
+                  :medium="inbox.medium"
+                  :voice-enabled="inbox.voice_enabled"
+                  class="text-body-main text-n-slate-11"
+                />
+                <router-link
+                  v-if="inbox.reauthorization_required"
+                  :to="{
+                    name: 'settings_inbox_show',
+                    params: { inboxId: inbox.id },
+                  }"
+                >
+                  <Label
+                    :label="$t('INBOX_MGMT.LIST.REAUTHORIZATION_REQUIRED')"
+                    color="ruby"
+                    compact
+                  >
+                    <template #icon>
+                      <Icon icon="i-lucide-triangle-alert" class="size-3.5" />
+                    </template>
+                  </Label>
+                </router-link>
+                <router-link
+                  v-else-if="isWhatsAppManualMigrationRecommended(inbox)"
+                  :to="{
+                    name: 'settings_inbox_show',
+                    params: { inboxId: inbox.id },
+                  }"
+                >
+                  <Label
+                    :label="$t('INBOX_MGMT.LIST.MANUAL_SETUP_RECOMMENDED')"
+                    color="blue"
+                    compact
+                  >
+                    <template #icon>
+                      <Icon icon="i-lucide-info" class="size-3.5" />
+                    </template>
+                  </Label>
+                </router-link>
+              </div>
             </div>
           </div>
           <div class="flex gap-3 justify-end">
