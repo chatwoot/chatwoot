@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onActivated, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { picoSearch } from '@scmmishra/pico-search';
@@ -26,6 +26,10 @@ const selectedInbox = ref({});
 const searchQuery = ref('');
 
 const inboxes = useMapGetter('inboxes/getInboxes');
+
+onActivated(() => {
+  store.dispatch('inboxes/get');
+});
 
 const inboxesList = computed(() => {
   return inboxes.value?.slice().sort((a, b) => a.name.localeCompare(b.name));
