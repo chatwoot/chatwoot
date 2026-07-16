@@ -310,9 +310,9 @@ defineExpose({ open, close });
               class="flex gap-3 p-3 border rounded-xl border-n-weak bg-n-alpha-2"
             >
               <span
-                class="grid flex-shrink-0 rounded-lg size-8 place-content-center bg-n-amber-3 text-n-amber-11"
+                class="grid flex-shrink-0 rounded-lg size-8 place-content-center bg-n-blue-3 text-n-blue-11"
               >
-                <Icon icon="i-lucide-triangle-alert" class="size-4" />
+                <Icon icon="i-lucide-info" class="size-4" />
               </span>
               <div>
                 <h4 class="mt-0 mb-1 text-base font-medium text-n-slate-12">

@@ -50,6 +50,15 @@ RSpec.describe Account do
     end
   end
 
+  describe '#api_and_webhooks_enabled?' do
+    it 'is enabled for self-hosted accounts regardless of the stored feature flag' do
+      account = create(:account)
+      account.disable_features!('api_and_webhooks')
+
+      expect(account.api_and_webhooks_enabled?).to be true
+    end
+  end
+
   describe 'captain defaults for new accounts' do
     it 'does not store Captain model overrides or enable premium Captain features' do
       InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').update!(
