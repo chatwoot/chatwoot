@@ -70,6 +70,7 @@ const conversationRoute = computed(() => ({
     accountId: route.params.accountId,
     conversation_id: props.call.conversation.displayId,
   },
+  query: { messageId: props.call.messageId },
 }));
 </script>
 

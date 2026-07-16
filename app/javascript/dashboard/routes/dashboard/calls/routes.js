@@ -1,3 +1,4 @@
+import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 import {
   CONVERSATION_PERMISSIONS,
   ROLES,
@@ -12,6 +13,10 @@ export const routes = [
     component: CallsIndex,
     meta: {
       permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+      installationTypes: [
+        INSTALLATION_TYPES.CLOUD,
+        INSTALLATION_TYPES.ENTERPRISE,
+      ],
     },
   },
 ];

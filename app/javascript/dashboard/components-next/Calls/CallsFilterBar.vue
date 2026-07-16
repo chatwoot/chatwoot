@@ -20,6 +20,12 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  // Self-scoped viewers only ever see their own calls, so the assignee filter
+  // is meaningless for them — only admins get it.
+  showAssignee: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const activity = defineModel('activity', { type: String, default: null });
@@ -193,7 +199,11 @@ const applyMoreFilter = ({ action, value }) => {
       </OnClickOutside>
     </div>
     <div class="flex items-center gap-2 shrink-0">
-      <OnClickOutside class="relative" @trigger="closeOnOutside('assignee')">
+      <OnClickOutside
+        v-if="showAssignee"
+        class="relative"
+        @trigger="closeOnOutside('assignee')"
+      >
         <Button
           variant="outline"
           color="slate"

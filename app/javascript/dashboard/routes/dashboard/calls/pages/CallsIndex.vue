@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import { isVoiceCallEnabled } from 'dashboard/helper/inbox';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useCallHistoryStore } from 'dashboard/stores/callHistory';
@@ -22,14 +23,28 @@ const router = useRouter();
 const store = useStore();
 const callHistoryStore = useCallHistoryStore();
 
-const agents = useMapGetter('agents/getAgents');
 const inboxes = useMapGetter('inboxes/getInboxes');
 const accountId = useMapGetter('getCurrentAccountId');
+const currentUserId = useMapGetter('getCurrentUserID');
+const assignableAgents = useMapGetter(
+  'inboxAssignableAgents/getAssignableAgents'
+);
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
 
+// CallFinder scopes non-admins to their own accepted calls, so the assignee
+// filter is only meaningful for admins; everyone else defaults to themselves.
+const { isAdmin } = useAdmin();
+
 const voiceInboxes = computed(() => inboxes.value.filter(isVoiceCallEnabled));
+const voiceInboxIds = computed(() => voiceInboxes.value.map(inbox => inbox.id));
+
+// Only agents who collaborate on the voice inboxes can own a call, so limit the
+// assignee options to them instead of every account user.
+const voiceInboxAgents = computed(() =>
+  assignableAgents.value(voiceInboxIds.value.join(','))
+);
 
 const isVoiceEnabled = computed(
   () =>
@@ -48,7 +63,10 @@ const inboxesUiFlags = useMapGetter('inboxes/getUIFlags');
 const activity = ref(
   CALL_ACTIVITY_PARAMS[route.query.activity] ? route.query.activity : null
 );
-const assigneeId = ref(Number(route.query.assignee_id) || null);
+const assigneeId = ref(
+  Number(route.query.assignee_id) ||
+    (isAdmin.value ? null : currentUserId.value)
+);
 const inboxId = ref(Number(route.query.inbox_id) || null);
 const currentPage = ref(Number(route.query.page) || 1);
 
@@ -83,11 +101,16 @@ const onPageChange = page => {
   fetchCalls();
 };
 
-store.dispatch('agents/get');
 // inboxes/get flips isFetching true synchronously, so the spinner shows on the
-// first render; only hit the calls endpoint once inboxes confirm voice is on.
+// first render and the setup CTA never flashes; hit the calls endpoint only
+// once inboxes confirm voice is on.
 store.dispatch('inboxes/get').then(() => {
-  if (isVoiceEnabled.value) fetchCalls();
+  if (!isVoiceEnabled.value) return;
+  // Only admins see the assignee filter, so only they need the agent list.
+  if (isAdmin.value) {
+    store.dispatch('inboxAssignableAgents/fetch', voiceInboxIds.value);
+  }
+  fetchCalls();
 });
 </script>
 
@@ -114,8 +137,9 @@ store.dispatch('inboxes/get').then(() => {
           v-model:inbox-id="inboxId"
           class="mt-5"
           :total-count="isFetching ? null : meta.count"
-          :agents="agents"
+          :agents="voiceInboxAgents"
           :inboxes="voiceInboxes"
+          :show-assignee="isAdmin"
         />
       </div>
     </header>
