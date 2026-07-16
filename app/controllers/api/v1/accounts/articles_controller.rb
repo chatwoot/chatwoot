@@ -31,7 +31,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def update
     persist_article_changes if params[:article].present?
-    render json: { error: @article.errors.messages }, status: :unprocessable_entity and return unless @article.valid?
+    render json: { message: @article.errors.full_messages.to_sentence }, status: :unprocessable_entity and return unless @article.valid?
   end
 
   def destroy
@@ -68,11 +68,14 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   # Draft-only autosaves must not bump the public-facing updated_at, so write
-  # them with update_columns (which skips the timestamp).
+  # them with update_columns (which skips the timestamp). update_columns also
+  # skips validations, so assign and validate first to avoid persisting content
+  # that exceeds the column length limit.
   def persist_article_changes
     keys = article_params.to_h.keys
     if keys.any? && (keys - %w[draft_title draft_content]).empty?
-      @article.update_columns(article_params.to_h) # rubocop:disable Rails/SkipsModelValidations
+      @article.assign_attributes(article_params)
+      @article.update_columns(article_params.to_h) if @article.valid? # rubocop:disable Rails/SkipsModelValidations
     else
       @article.update!(article_params)
     end
