@@ -3,9 +3,9 @@
   <head>
     <%= render 'layouts/portal_head' %>
   </head>
-  <body class="font-default">
+  <body class="font-default bg-white dark:bg-slate-900">
     <div id="portal" class="antialiased">
-      <main class="flex flex-col min-h-screen bg-white main-content dark:bg-slate-900" role="main">
+      <main class="flex flex-col min-h-screen main-content" role="main">
         <%= render 'public/api/v1/portals/header', portal: @portal unless @is_plain_layout_enabled %>
         <%= yield %>
         <%= render 'public/api/v1/portals/footer' unless @is_plain_layout_enabled || @portal.account.feature_enabled?('disable_branding') %>

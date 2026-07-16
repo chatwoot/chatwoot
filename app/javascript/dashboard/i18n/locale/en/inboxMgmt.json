@@ -848,8 +848,8 @@
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "WHATSAPP_MANUAL_MIGRATION": {
         "BANNER": {
-          "TITLE": "WhatsApp setup action required",
-          "DESCRIPTION": "Meta restrictions are affecting WhatsApp setup and management features. Reconnect this inbox manually to keep your WhatsApp configuration up to date.",
+          "TITLE": "Manual setup recommended",
+          "DESCRIPTION": "This inbox connects through the shared Meta app used for embedded signup, which recent Meta restrictions have affected. To avoid similar issues in the future, we recommend reconnecting it with your own Meta app.",
           "START": "Start manual migration",
           "GUIDE": "View guide"
         },
@@ -857,8 +857,8 @@
           "EYEBROW": "WhatsApp manual migration",
           "TITLE": "Reconnect WhatsApp inbox",
           "CLOSE": "Close",
-          "ACTION_REQUIRED_TITLE": "Action required for this WhatsApp inbox",
-          "ACTION_REQUIRED_DESCRIPTION": "Meta restrictions are affecting setup and management features. This guided flow updates the WhatsApp API connection without creating a new inbox.",
+          "ACTION_REQUIRED_TITLE": "Reconnect with your own Meta app",
+          "ACTION_REQUIRED_DESCRIPTION": "Inboxes connected through your own Meta app are not affected by restrictions on the shared embedded signup app. This guided flow updates the WhatsApp API connection without creating a new inbox.",
           "GUIDE_LINK": "Open the manual setup guide",
           "PRESERVED_TITLE": "Preserved",
           "PRESERVED_DESCRIPTION": "Conversations, contacts, collaborators, routing, business hours, and inbox settings.",
