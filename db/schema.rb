@@ -211,6 +211,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_13_184351) do
     t.string "slug", null: false
     t.integer "position"
     t.string "locale", default: "en", null: false
+    t.string "draft_title"
+    t.text "draft_content"
     t.index ["account_id"], name: "index_articles_on_account_id"
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
