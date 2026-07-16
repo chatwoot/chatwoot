@@ -46,7 +46,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def generate_response_with_v2
     runner_service = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation)
-    @response = runner_service.generate_response(message_history: collect_previous_messages_with_resolution_markers)
+    message_history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
+    @response = runner_service.generate_response(message_history: message_history)
     @run_result = runner_service.last_run_result
 
     process_response
