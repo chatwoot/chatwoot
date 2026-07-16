@@ -116,7 +116,7 @@ const openCreateAssistantDialog = () => {
     </div>
     <div
       v-if="assistants.length > 0"
-      class="flex flex-col flex-1 min-h-0 gap-2 px-4 overflow-y-auto overscroll-contain"
+      class="flex flex-col flex-1 min-h-0 gap-2 px-4 pb-3 overflow-y-auto overscroll-contain"
     >
       <Button
         v-for="assistant in assistants"
