@@ -158,7 +158,7 @@ const onDragEnd = () => {
         :class="{ 'opacity-50 pointer-events-none': disabled }"
       >
         <div
-          v-if="loading"
+          v-if="loading && selectedIds.length"
           class="flex flex-col gap-1 overflow-y-auto max-h-[216px]"
           aria-busy="true"
         >
