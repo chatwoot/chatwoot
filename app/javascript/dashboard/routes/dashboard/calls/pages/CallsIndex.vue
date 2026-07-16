@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { isVoiceCallEnabled } from 'dashboard/helper/inbox';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -81,14 +82,18 @@ const syncFiltersToUrl = () => {
   });
 };
 
-const fetchCalls = () => {
+const fetchCalls = async () => {
   syncFiltersToUrl();
-  callHistoryStore.fetchCalls({
-    page: currentPage.value,
-    ...(CALL_ACTIVITY_PARAMS[activity.value] || {}),
-    ...(assigneeId.value ? { agent_id: assigneeId.value } : {}),
-    ...(inboxId.value ? { inbox_id: inboxId.value } : {}),
-  });
+  try {
+    await callHistoryStore.fetchCalls({
+      page: currentPage.value,
+      ...(CALL_ACTIVITY_PARAMS[activity.value] || {}),
+      ...(assigneeId.value ? { agent_id: assigneeId.value } : {}),
+      ...(inboxId.value ? { inbox_id: inboxId.value } : {}),
+    });
+  } catch (error) {
+    useAlert(error.message);
+  }
 };
 
 watch([activity, assigneeId, inboxId], () => {
