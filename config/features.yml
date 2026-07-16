@@ -261,3 +261,7 @@
   display_name: API and Webhooks
   enabled: true
   column: feature_flags_ext_1
+- name: whatsapp_reconfigure
+  display_name: WhatsApp Reconfigure
+  enabled: false
+  column: feature_flags_ext_1
