@@ -1,4 +1,6 @@
 class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts::BaseController
+  # Reconfiguring/reauthorizing a live inbox swaps its credentials, so restrict it to admins.
+  before_action :check_admin_authorization?, if: -> { params[:inbox_id].present? }
   before_action :fetch_and_validate_inbox, if: -> { params[:inbox_id].present? }
 
   # POST /api/v1/accounts/:account_id/whatsapp/authorization
