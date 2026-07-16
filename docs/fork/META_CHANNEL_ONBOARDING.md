@@ -72,7 +72,38 @@ the **App Domain** under Settings → Basic. **[chatwoot]** (Chatwoot loads
 | `FB_APP_ID` | App ID (Settings → Basic) |
 | `FB_APP_SECRET` | App Secret (Settings → Basic) |
 | `FB_VERIFY_TOKEN` | a unique secret string you choose (used for webhook verification) |
-| `FACEBOOK_API_VERSION` | a currently-supported Graph API version (this fork's send path defaults to **v25.0**; Chatwoot's older doc references v17.0 — use a current one) **[code]** |
+| `FACEBOOK_API_VERSION` | a currently-supported Graph API version — **set `v25.0` in Super Admin, not `.env`** (see the warning below) **[code]** |
+
+> ### ⚠️ `FACEBOOK_API_VERSION`: shipped expired, and `.env` cannot fix it
+>
+> **The shipped value is `v18.0`** (`config/installation_config.yml`, mirrored as the
+> fallback at `dashboard_controller.rb:82`). **v18.0 expired 2026-01-26.** An earlier
+> version of this table claimed "this fork's send path defaults to **v25.0**" — that
+> was **wrong**: `v25.0` appears nowhere in this codebase. Corrected 2026-07-16.
+>
+> **It never errors.** Meta *"default[s]"* calls on an expired version *"to the next
+> oldest, usable version"*
+> ([versioning](https://developers.facebook.com/docs/graph-api/guides/versioning)), so
+> we silently run on **v20.0** — which itself expires **2026-09-24**. Nothing alerts;
+> `X-Ad-Api-Version-Warning` is Marketing-API-only.
+>
+> **`.env` does not work for this key**, though it does for `FB_APP_ID` /
+> `FB_APP_SECRET` / `FB_VERIFY_TOKEN` / `IG_VERIFY_TOKEN`.
+> `GlobalConfigService.load` returns the **DB row** when present and only falls back
+> to `ENV` when it is blank. Those keys ship **no** `value:` in
+> `installation_config.yml` → blank row → ENV fallback fires. `FACEBOOK_API_VERSION`
+> ships `value: 'v18.0'` → row present → **ENV never read**. Editing the yml also
+> won't help: `ConfigLoader` runs `reconcile_only_new: true` and never updates an
+> existing row.
+>
+> **Fix: Super Admin → Settings → Configuration** (the key is `locked: false`).
+> Verify the *effective* value, not the input:
+> `GlobalConfigService.load('FACEBOOK_API_VERSION', 'v18.0')`.
+>
+> **Still unfixed:** `app/services/instagram/messenger/send_on_instagram_service.rb:17`
+> hardcodes **`v11.0`** on the IG-via-Facebook-Login send path. No config reaches it;
+> it needs a `custom/` overlay (`UPSTREAM_DIFF.md`). WhatsApp has the same shape at
+> `whatsapp_cloud_service.rb:88` (**v13.0**) and `:117` (**v14.0**).
 
 **Messenger webhook** (Messenger → Settings → Webhooks):
 - **Callback URL:** `{CHATWOOT_URL}/bot` **[chatwoot]**
