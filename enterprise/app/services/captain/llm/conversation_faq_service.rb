@@ -51,6 +51,8 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     return [] unless relation.exists?
 
     ApplicationRecord.transaction do
+      # Force an exact search because IVFFlat can miss matches after relation filters.
+      # SET LOCAL keeps the planner change scoped to this transaction.
       ApplicationRecord.connection.execute('SET LOCAL enable_indexscan = off')
       relation
         .nearest_neighbors(:embedding, embedding, distance: 'cosine')
