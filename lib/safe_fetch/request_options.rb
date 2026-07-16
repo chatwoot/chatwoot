@@ -6,6 +6,7 @@ class SafeFetch::RequestOptions
     open_timeout: SafeFetch::DEFAULT_OPEN_TIMEOUT,
     read_timeout: SafeFetch::DEFAULT_READ_TIMEOUT,
     headers: nil,
+    sensitive_headers: [],
     http_basic_authentication: nil,
     allowed_content_type_prefixes: SafeFetch::DEFAULT_ALLOWED_CONTENT_TYPE_PREFIXES,
     allowed_content_types: SafeFetch::DEFAULT_ALLOWED_CONTENT_TYPES,
@@ -13,7 +14,7 @@ class SafeFetch::RequestOptions
   }.freeze
 
   attr_reader :allowed_content_type_prefixes, :allowed_content_types, :body, :headers,
-              :http_basic_authentication, :method, :open_timeout, :read_timeout, :uri, :url
+              :http_basic_authentication, :method, :open_timeout, :read_timeout, :sensitive_headers, :uri, :url
 
   def initialize(url:, **options)
     config = DEFAULTS.merge(options)
@@ -25,6 +26,7 @@ class SafeFetch::RequestOptions
     @open_timeout = config[:open_timeout]
     @read_timeout = config[:read_timeout]
     @headers = normalize_headers(config[:headers])
+    @sensitive_headers = normalize_sensitive_headers(config[:sensitive_headers])
     @http_basic_authentication = config[:http_basic_authentication]
     @allowed_content_type_prefixes = Array(config[:allowed_content_type_prefixes])
     @allowed_content_types = Array(config[:allowed_content_types])
@@ -84,15 +86,15 @@ class SafeFetch::RequestOptions
     value&.to_h
   end
 
+  def normalize_sensitive_headers(value)
+    (SafeFetch::DEFAULT_SENSITIVE_HEADERS + Array(value)).map { |header| header.to_s.downcase }.uniq
+  end
+
   def request_proc
     proc do |request|
       credentials = http_basic_authentication.presence || basic_authentication_for(request.uri)
       request.basic_auth(*credentials) if credentials.present?
     end
-  end
-
-  def sensitive_headers
-    SafeFetch::DEFAULT_SENSITIVE_HEADERS
   end
 
   def basic_authentication_for(request_uri)
