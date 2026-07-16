@@ -19,8 +19,7 @@ export function useChannelConfig() {
       installationConfig.whatsappAppId !== 'none' &&
       Boolean(installationConfig.whatsappConfigurationId),
     facebook: () => Boolean(installationConfig.fbAppId),
-    instagram: () =>
-      !isOnChatwootCloud.value && Boolean(installationConfig.instagramAppId),
+    instagram: () => Boolean(installationConfig.instagramAppId),
     tiktok: () => Boolean(installationConfig.tiktokAppId),
     gmail: () => Boolean(installationConfig.googleOAuthClientId),
     outlook: () => Boolean(globalConfig.value.azureAppId),

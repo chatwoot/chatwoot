@@ -207,7 +207,7 @@ describe('useDetectedChannels', () => {
       ]);
     });
 
-    it('hides Instagram from onboarding on Chatwoot Cloud', () => {
+    it('keeps Instagram available on Chatwoot Cloud', () => {
       const { displayedChannels } = mountComposable({
         isOnChatwootCloud: true,
         brandInfo: {
@@ -219,6 +219,7 @@ describe('useDetectedChannels', () => {
       });
 
       expect(displayedChannels.value.map(channel => channel.type)).toEqual([
+        'instagram',
         'tiktok',
       ]);
     });
