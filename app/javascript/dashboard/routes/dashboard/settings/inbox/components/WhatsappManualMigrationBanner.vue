@@ -21,14 +21,14 @@ const copy = computed(() => ({
 </script>
 
 <template>
-  <Banner color="amber" :action-label="copy.start" @action="emit('start')">
+  <Banner color="blue" :action-label="copy.start" @action="emit('start')">
     <div class="flex items-start gap-2">
       <Icon
-        icon="i-lucide-triangle-alert"
-        class="flex-shrink-0 mt-0.5 size-4 text-n-amber-11"
+        icon="i-lucide-info"
+        class="flex-shrink-0 mt-0.5 size-4 text-n-blue-11"
       />
       <div class="flex flex-col gap-0.5">
-        <span class="font-medium text-n-amber-12">{{ copy.title }}</span>
+        <span class="font-medium text-n-blue-12">{{ copy.title }}</span>
         <span>
           {{ copy.description }}
           <a
