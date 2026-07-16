@@ -1,19 +1,21 @@
-# Chatwoot web config for *future* fork Docker deploys.
+# Chatwoot / Coro Inbox web (Puma). Worker uses railway.worker.toml.
 #
-# Production web is pinned to:
-#   ghcr.io/railwayapp-templates/chatwoot:Community
-# because Railway Metal Docker builds for this project currently abort at
-# "scheduling build" (no build logs). Do not set startCommand while on Community.
-#
-# When Docker builds work again:
-#   1) service source -> Samersadek1/chatwoot@develop
-#   2) builder Dockerfile path docker/Dockerfile
-#   3) startCommand below (must be sh -c wrapped)
-# Worker uses railway.worker.toml.
+# Working Railway recipe (verified 2026-07-16):
+# - Source: Samersadek1/chatwoot @ develop
+# - Builder: DOCKERFILE (docker/Dockerfile)
+# - startCommand: EMPTY (use image CMD) — custom startCommand was crashing boots
+# - healthcheckPath: /api
+# - Branding: INSTALLATION_NAME / BRAND_NAME env vars
 
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "docker/Dockerfile"
 watchPatterns = ["docker/**", "app/**", "config/**", "Gemfile", "Gemfile.lock", "package.json", "pnpm-lock.yaml"]
 
-# [deploy] intentionally omitted for Community pin.
+[deploy]
+# Leave startCommand unset in Railway UI — Dockerfile CMD handles boot:
+#   sh -c "rm -f tmp/pids/server.pid && rails ip_lookup:setup && rails server ..."
+healthcheckPath = "/api"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+numReplicas = 1
