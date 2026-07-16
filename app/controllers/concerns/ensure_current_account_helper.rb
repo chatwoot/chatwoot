@@ -14,6 +14,8 @@ module EnsureCurrentAccountHelper
       account_accessible_for_user?(account)
     elsif @resource.is_a?(AgentBot)
       account_accessible_for_bot?(account)
+    else
+      render_unauthorized('You are not authorized to access this account')
     end
     account
   end
