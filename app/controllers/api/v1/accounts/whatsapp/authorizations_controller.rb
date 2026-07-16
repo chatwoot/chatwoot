@@ -31,7 +31,7 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
   end
 
   def validate_reauthorization_required
-    return if @inbox.channel.reauthorization_required? || can_upgrade_to_embedded_signup?
+    return if @inbox.channel.reauthorization_required? || can_reconfigure_channel?
 
     render json: {
       success: false,
@@ -39,9 +39,12 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
     }, status: :unprocessable_entity
   end
 
-  def can_upgrade_to_embedded_signup?
+  def can_reconfigure_channel?
     channel = @inbox.channel
     return false unless channel.provider == 'whatsapp_cloud'
+
+    # Reconfiguring a live embedded-signup channel requires the feature flag.
+    return Current.account.feature_enabled?('whatsapp_reconfigure') if channel.provider_config['source'] == 'embedded_signup'
 
     true
   end

@@ -8,6 +8,7 @@ export const FEATURE_FLAGS = {
   CAMPAIGNS: 'campaigns',
   WHATSAPP_CAMPAIGNS: 'whatsapp_campaign',
   WHATSAPP_MANUAL_TRANSFER: 'whatsapp_manual_transfer',
+  WHATSAPP_RECONFIGURE: 'whatsapp_reconfigure',
   CANNED_RESPONSES: 'canned_responses',
   CRM: 'crm',
   CUSTOM_ATTRIBUTES: 'custom_attributes',
