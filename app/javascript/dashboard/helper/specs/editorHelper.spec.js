@@ -11,9 +11,12 @@ import {
   calculateMenuPosition,
   cleanSignature,
   collapseSelection,
+  createVariableInputRule,
   extractTextFromMarkdown,
   findNodeToInsertImage,
   findSignatureInBody,
+  getAgentVariables,
+  getContactVariables,
   getContentNode,
   getFormattingForEditor,
   getMenuAnchor,
@@ -1226,5 +1229,151 @@ describe('Menu positioning helpers', () => {
       expect(result).toHaveProperty('width', 300);
       expect(result.left).toBeGreaterThanOrEqual(0);
     });
+  });
+});
+
+describe('getAgentVariables', () => {
+  it('builds agent variables from the user', () => {
+    expect(
+      getAgentVariables({ name: 'John Doe', email: 'john@example.com' })
+    ).toEqual({
+      'agent.name': 'John Doe',
+      'agent.first_name': 'John',
+      'agent.last_name': 'Doe',
+      'agent.email': 'john@example.com',
+    });
+  });
+
+  it('normalizes casing like the backend UserDrop (Ruby capitalize)', () => {
+    const variables = getAgentVariables({ name: 'JANE doE' });
+
+    expect(variables['agent.name']).toBe('Jane Doe');
+    expect(variables['agent.first_name']).toBe('Jane');
+    expect(variables['agent.last_name']).toBe('Doe');
+  });
+
+  it('ignores extra whitespace between words', () => {
+    expect(getAgentVariables({ name: '  john   doe ' })['agent.name']).toBe(
+      'John Doe'
+    );
+  });
+
+  it('leaves last_name empty for single-word names', () => {
+    const variables = getAgentVariables({ name: 'john' });
+
+    expect(variables['agent.first_name']).toBe('John');
+    expect(variables['agent.last_name']).toBe('');
+  });
+
+  it('handles a missing name', () => {
+    const variables = getAgentVariables({ email: 'john@example.com' });
+
+    expect(variables['agent.name']).toBe('');
+    expect(variables['agent.first_name']).toBe('');
+    expect(variables['agent.last_name']).toBe('');
+  });
+});
+
+describe('getContactVariables', () => {
+  it('normalizes casing like the backend ContactDrop (Ruby capitalize)', () => {
+    expect(getContactVariables({ name: 'JANE doE' })).toEqual({
+      'contact.name': 'Jane Doe',
+      'contact.first_name': 'Jane',
+      'contact.last_name': 'Doe',
+    });
+  });
+
+  it('leaves last_name empty for single-word names', () => {
+    const variables = getContactVariables({ name: 'john' });
+
+    expect(variables['contact.first_name']).toBe('John');
+    expect(variables['contact.last_name']).toBe('');
+  });
+
+  it('handles a missing contact', () => {
+    expect(getContactVariables(undefined)['contact.name']).toBe('');
+  });
+});
+
+describe('createVariableInputRule', () => {
+  // Editor holding `{{key}` so we can simulate typing the final `}`.
+  const buildView = (typed, { isPrivate = false, variables = {} } = {}) => {
+    const plugin = createVariableInputRule({
+      isPrivate: () => isPrivate,
+      getVariables: () => variables,
+    });
+    const state = EditorState.create({
+      schema,
+      doc: schema.node('doc', null, [
+        schema.node('paragraph', null, [schema.text(typed)]),
+      ]),
+      plugins: [plugin],
+    });
+    return new EditorView(document.body, { state });
+  };
+
+  // Types the closing `}`; when the rule declines, insert it like the browser would.
+  const typeClosingBrace = view => {
+    const end = view.state.doc.content.size - 1;
+    const handled = view.someProp('handleTextInput', fn =>
+      fn(view, end, end, '}')
+    );
+    if (!handled) {
+      view.dispatch(view.state.tr.insertText('}', end, end));
+    }
+  };
+
+  it('resolves a manually typed {{variable}} to its value on the closing brace', () => {
+    const view = buildView('{{contact.name}', {
+      variables: { 'contact.name': 'John' },
+    });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('John');
+    view.destroy();
+  });
+
+  it('resolves boolean/non-string values', () => {
+    const view = buildView('{{contact.custom_attribute.cloudCustomer}', {
+      variables: { 'contact.custom_attribute.cloudCustomer': true },
+    });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('true');
+    view.destroy();
+  });
+
+  it('keeps the placeholder when the variable has no value', () => {
+    const view = buildView('{{contact.email}', { variables: {} });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('{{contact.email}}');
+    view.destroy();
+  });
+
+  it('keeps the placeholder when the value itself contains Liquid syntax', () => {
+    const view = buildView('{{contact.name}', {
+      variables: { 'contact.name': '{{agent.email}}' },
+    });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('{{contact.name}}');
+    view.destroy();
+  });
+
+  it('does not resolve inside a private note', () => {
+    const view = buildView('{{contact.name}', {
+      isPrivate: true,
+      variables: { 'contact.name': 'John' },
+    });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('{{contact.name}}');
+    view.destroy();
   });
 });

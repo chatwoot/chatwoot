@@ -23,7 +23,6 @@ class Whatsapp::WebhookTeardownService
 
   def should_teardown_webhook?
     @channel.provider == 'whatsapp_cloud' &&
-      provider_config['source'] == 'embedded_signup' &&
       provider_config['api_key'].present? &&
       (provider_config['phone_number_id'].present? || provider_config['business_account_id'].present?)
   end
@@ -38,8 +37,11 @@ class Whatsapp::WebhookTeardownService
     Rails.logger.error "[WHATSAPP] Phone-level webhook clear failed for channel #{@channel.id}: #{e.message}"
   end
 
-  # The app subscription is shared by every inbox on the WABA, so only unsubscribe when this is the last one.
+  # Embedded signup only — a manual token's subscribed app is the customer's, not ours to unsubscribe.
+  # The subscription is shared across the WABA, so only unsubscribe when this is the last inbox.
   def unsubscribe_app_if_last_inbox(api_client)
+    return unless provider_config['source'] == 'embedded_signup'
+
     waba_id = provider_config['business_account_id']
     return if waba_id.blank?
     return if waba_sibling_exists?(waba_id)
