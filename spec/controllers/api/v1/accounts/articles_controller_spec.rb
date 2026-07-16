@@ -172,18 +172,15 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
       end
 
       it 'stages draft-only fields without bumping updated_at' do
-        article.update_columns(updated_at: 1.day.ago)
-        previous_updated_at = article.reload.updated_at
-
-        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
-            params: { article: { draft_title: 'Draft title', draft_content: 'Draft body' } },
-            headers: admin.create_new_auth_token
+        expect do
+          put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+              params: { article: { draft_title: 'Draft title', draft_content: 'Draft body' } },
+              headers: admin.create_new_auth_token
+        end.not_to(change { article.reload.updated_at })
 
         expect(response).to have_http_status(:success)
-        article.reload
         expect(article.draft_title).to eq('Draft title')
         expect(article.draft_content).to eq('Draft body')
-        expect(article.updated_at).to be_within(1.second).of(previous_updated_at)
       end
 
       it 'rejects an over-length draft without persisting it' do
