@@ -55,17 +55,22 @@ const localContent = ref(effectiveContent());
 
 const isDiffPanelOpen = ref(false);
 
-// Autosave on a delay. `start` restarts the timer with the latest value, `stop`
-// cancels a queued save so reseeding can't let it resurrect a resolved draft.
-// `isPending` (a queued save) is surfaced to the header so it can hold off a
-// publish until the latest edits have been written.
+// Autosave 500ms after the last edit. It sends both title and content so an
+// edit to one never drops a recent edit to the other. `stop` cancels a queued
+// save; `isPending` tells the header to wait before allowing a publish.
 const {
   isPending: isSaving,
   start: debouncedSave,
   stop: cancelSave,
-} = useTimeoutFn(value => emit('saveArticle', value), 500, {
-  immediate: false,
-});
+} = useTimeoutFn(
+  () =>
+    emit('saveArticle', {
+      title: localTitle.value,
+      content: localContent.value,
+    }),
+  500,
+  { immediate: false }
+);
 
 const syncLocalState = () => {
   cancelSave();
@@ -83,9 +88,9 @@ watch(
   }
 );
 
-const handleSave = value => {
+const scheduleSave = () => {
   if (isNewArticle.value) return;
-  debouncedSave(value);
+  debouncedSave();
 };
 
 // Flush a queued save on unmount so leaving the editor doesn't drop the last edit.
@@ -102,7 +107,7 @@ const articleTitle = computed({
   get: () => localTitle.value,
   set: value => {
     localTitle.value = value;
-    handleSave({ title: value });
+    scheduleSave();
   },
 });
 
@@ -110,7 +115,7 @@ const articleContent = computed({
   get: () => localContent.value,
   set: content => {
     localContent.value = content;
-    handleSave({ content });
+    scheduleSave();
   },
 });
 
