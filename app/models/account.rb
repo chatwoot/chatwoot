@@ -154,6 +154,10 @@ class Account < ApplicationRecord
     }
   end
 
+  def api_and_webhooks_enabled?
+    true
+  end
+
   def locale_english_name
     # the locale can also be something like pt_BR, en_US, fr_FR, etc.
     # the format is `<locale_code>_<country_code>`
