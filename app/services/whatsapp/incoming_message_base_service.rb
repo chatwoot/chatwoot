@@ -208,7 +208,14 @@ class Whatsapp::IncomingMessageBaseService
     # Only update if current name exactly matches the phone number or formatted phone number
     return unless contact_name_matches_phone_number?
 
-    @contact.update!(name: profile_name)
+    # Never abort inbound message ingestion for a cosmetic name update. Duplicate phone
+    # numbers from archive imports make Contact validations fail on save and previously
+    # left the WhatsApp source-id dedup lock held for 24h, permanently dropping the message.
+    return if @contact.update(name: profile_name)
+
+    Rails.logger.warn(
+      "WhatsApp contact name update skipped for contact #{@contact.id}: #{@contact.errors.full_messages.join(', ')}"
+    )
   end
 
   def contact_name_matches_phone_number?
