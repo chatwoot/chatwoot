@@ -255,13 +255,11 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
     context 'when a similar approved FAQ uses the account language' do
       let(:sample_faqs) { [{ 'question' => 'Como ativo o recurso?', 'answer' => 'Ative nas configuracoes.' }] }
-      let!(:existing_response) do
+
+      before do
         create(:captain_assistant_response, assistant: captain_assistant, account: captain_assistant.account,
                                             question: 'How do I enable the feature?', answer: 'Turn it on in settings.',
                                             embedding: embedding_one)
-      end
-
-      before do
         conversation.update!(additional_attributes: { conversation_language: 'pt-BR' })
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
       end
