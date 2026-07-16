@@ -2,10 +2,11 @@
 # Create a second Railway service from the same repo and point it at this file
 # (Settings → Config-as-code → railway.worker.toml), or set the start command manually:
 #
-#   bundle exec rails ip_lookup:setup && bundle exec sidekiq -C config/sidekiq.yml
+#   sh -c "bundle exec rails ip_lookup:setup && exec bundle exec sidekiq -C config/sidekiq.yml"
 #
 # Copy all env vars from the web service (especially SECRET_KEY_BASE, DATABASE_URL,
 # REDIS_URL, FRONTEND_URL). Do NOT regenerate secrets on the worker.
+# Must wrap with sh -c so && / exec work on Railway (same recipe as web Dockerfile CMD).
 
 [build]
 builder = "DOCKERFILE"
@@ -13,7 +14,7 @@ dockerfilePath = "docker/Dockerfile"
 watchPatterns = ["docker/**", "app/**", "config/**", "Gemfile", "Gemfile.lock"]
 
 [deploy]
-startCommand = "bundle exec rails ip_lookup:setup && bundle exec sidekiq -C config/sidekiq.yml"
+startCommand = "sh -c \"bundle exec rails ip_lookup:setup && exec bundle exec sidekiq -C config/sidekiq.yml\""
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 numReplicas = 1
