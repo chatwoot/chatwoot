@@ -67,7 +67,7 @@ const fetchCategories = async localeCode => {
     portalSlug: props.portal?.slug,
     locale: localeCode,
   });
-  categoryOptions.value = payload.map(category => ({
+  return payload.map(category => ({
     value: category.id,
     label: category.name,
     subtitle: t(`${KEY}.CATEGORIES.ARTICLES_COUNT`, {
@@ -79,13 +79,16 @@ const fetchCategories = async localeCode => {
 };
 
 const searchArticles = async (query = '') => {
+  const localeCode = activeLocale.value;
   const { data } = await articlesAPI.getArticles({
     pageNumber: 1,
     portalSlug: props.portal?.slug,
-    locale: activeLocale.value,
+    locale: localeCode,
     status: 'published',
     query,
   });
+  // Reopened for another locale mid-flight; drop the stale response.
+  if (localeCode !== activeLocale.value) return;
   articleResults.value = data.payload.map(article => {
     const option = toArticleOption(article);
     articleOptionById.value[article.id] = option;
@@ -118,22 +121,25 @@ const cacheSelectedArticleOptions = async () => {
 const loadCategories = async localeCode => {
   categoriesLoading.value = true;
   try {
-    await fetchCategories(localeCode);
+    const options = await fetchCategories(localeCode);
+    if (localeCode !== activeLocale.value) return;
+    categoryOptions.value = options;
   } catch (error) {
     useAlert(error?.message || t(`${KEY}.API.ERROR_MESSAGE`));
   } finally {
-    categoriesLoading.value = false;
+    if (localeCode === activeLocale.value) categoriesLoading.value = false;
   }
 };
 
 const loadArticles = async () => {
+  const localeCode = activeLocale.value;
   articlesLoading.value = true;
   try {
     await Promise.all([cacheSelectedArticleOptions(), searchArticles()]);
   } catch (error) {
     useAlert(error?.message || t(`${KEY}.API.ERROR_MESSAGE`));
   } finally {
-    articlesLoading.value = false;
+    if (localeCode === activeLocale.value) articlesLoading.value = false;
   }
 };
 
