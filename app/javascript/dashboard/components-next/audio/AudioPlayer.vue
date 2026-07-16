@@ -95,7 +95,7 @@ const downloadRecording = () => {
 
 <template>
   <div
-    class="flex items-center justify-center h-9 gap-2 px-2 rounded-full bg-n-alpha-1 dark:bg-n-alpha-2 overflow-hidden"
+    class="flex items-center justify-center h-8 gap-2 px-2 rounded-full bg-n-alpha-1 dark:bg-n-alpha-2 overflow-hidden"
     @click.stop
   >
     <audio
