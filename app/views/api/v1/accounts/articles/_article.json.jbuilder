@@ -4,6 +4,8 @@ json.title article.title
 json.content article.content
 json.description article.description
 json.status article.status
+json.draft_title article.draft_title
+json.draft_content article.draft_content
 json.position article.position
 json.account_id article.account_id
 json.updated_at article.updated_at.to_i

@@ -32,13 +32,15 @@ class Captain::Tools::HttpTool < Agents::Tool
   # fetching (resolution, timeouts, response size limits, and redirect handling).
   def execute_http_request(url, body, tool_context)
     json_body = body if @custom_tool.http_method == 'POST'
+    auth_headers = @custom_tool.build_auth_headers
 
     response_body = +''
     SafeFetch.fetch(
       url,
       method: @custom_tool.http_method == 'POST' ? :post : :get,
       body: json_body,
-      headers: request_headers(tool_context, json_body),
+      headers: request_headers(tool_context, json_body, auth_headers),
+      sensitive_headers: auth_headers.keys,
       http_basic_authentication: @custom_tool.build_basic_auth_credentials,
       max_bytes: MAX_RESPONSE_SIZE,
       validate_content_type: false
@@ -46,8 +48,8 @@ class Captain::Tools::HttpTool < Agents::Tool
     response_body
   end
 
-  def request_headers(tool_context, json_body)
-    headers = @custom_tool.build_auth_headers
+  def request_headers(tool_context, json_body, auth_headers)
+    headers = auth_headers.dup
     headers.merge!(@custom_tool.build_metadata_headers(tool_context&.state || {}))
     headers['Content-Type'] = 'application/json' if json_body.present?
     headers

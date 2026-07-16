@@ -5,6 +5,8 @@
 #  id                    :bigint           not null, primary key
 #  content               :text
 #  description           :text
+#  draft_content         :text
+#  draft_title           :string
 #  locale                :string           default("en"), not null
 #  meta                  :jsonb
 #  position              :integer
