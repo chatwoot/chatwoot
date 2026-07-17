@@ -533,6 +533,8 @@
             "PUBLISHED": "प्रकाशित",
             "ARCHIVED": "अभिलेखित"
           },
+          "PENDING_EDITS": "Unpublished edits",
+          "PENDING_EDITS_TOOLTIP": "This published article has unpublished edits",
           "CATEGORY": {
             "UNCATEGORISED": "वर्गीकरण नगरिएको"
           }
@@ -552,6 +554,7 @@
         "LOCALE": {
           "ALL": "सबै भाषाहरू"
         },
+        "SEARCH_PLACEHOLDER": "Search articles...",
         "NEW_ARTICLE": "नयाँ लेख"
       },
       "EMPTY_STATE": {
@@ -579,6 +582,10 @@
         "CATEGORY": {
           "TITLE": "यस श्रेणीमा कुनै लेखहरू छैनन्",
           "SUBTITLE": "यस श्रेणीका लेखहरू यहाँ देखिनेछन्"
+        },
+        "SEARCH": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "We couldn't find any articles matching your search. Try a different term."
         }
       },
       "BULK_TRANSLATE": {
@@ -611,6 +618,8 @@
         "DELETE": "Delete",
         "STATUS_SUCCESS": "Articles updated successfully",
         "STATUS_ERROR": "Failed to update articles",
+        "STATUS_SKIPPED": "1 article with unpublished edits was skipped — open it to publish or discard. | {count} articles with unpublished edits were skipped — open them to publish or discard.",
+        "STATUS_SKIPPED_ALL": "These articles have unpublished edits — open each to publish or discard.",
         "CATEGORY_SUCCESS": "Articles moved successfully",
         "CATEGORY_ERROR": "Failed to move articles",
         "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
@@ -624,6 +633,7 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "नयाँ श्रेणी",
         "EDIT_CATEGORY": "श्रेणी सम्पादन गर्नुहोस्",
+        "SEARCH_PLACEHOLDER": "Search categories...",
         "CATEGORIES_COUNT": "{n} श्रेणी | {n} श्रेणीहरू",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "श्रेणीहरू ({localeCode})",
@@ -633,6 +643,10 @@
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "कुनै श्रेणी फेला परेन",
         "SUBTITLE": "श्रेणीहरू यहाँ देखिनेछन्। तपाईं 'नयाँ श्रेणी' बटन क्लिक गरेर श्रेणी थप्न सक्नुहुन्छ।"
+      },
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching categories",
+        "SUBTITLE": "We couldn't find any categories matching your search. Try a different term."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} लेख | {count} लेखहरू"
@@ -691,6 +705,11 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "कुनै भाषा उपलब्ध छैन | {n} भाषा | {n} भाषाहरू",
       "NEW_LOCALE_BUTTON_TEXT": "नयाँ भाषा",
+      "SEARCH_PLACEHOLDER": "Search locales...",
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching locales",
+        "SUBTITLE": "We couldn't find any locales matching your search. Try a different term."
+      },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} लेख | {count} लेखहरू",
         "CATEGORIES_COUNT": "{count} श्रेणी | {count} श्रेणीहरू",
@@ -700,7 +719,49 @@
           "MAKE_DEFAULT": "पूर्वनिर्धारित बनाउनुहोस्",
           "MOVE_TO_DRAFT": "Move to draft",
           "PUBLISH_LOCALE": "Publish locale",
+          "CUSTOMIZE_CONTENT": "Localize content",
+          "SELECT_POPULAR_CONTENT": "Select recommended content",
           "DELETE": "मेटाउनुहोस्"
+        }
+      },
+      "POPULAR_CONTENT_DIALOG": {
+        "TITLE": "Recommended content",
+        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on this locale's help center home page. Drag them into the order you want visitors to see.",
+        "SEARCH": "Search...",
+        "EMPTY": "No matching results",
+        "ADD_ANOTHER": "Add another...",
+        "SLOTS_LEFT": "{count} slots left",
+        "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
+        "CONFIRM": "Save recommendations",
+        "CATEGORIES": {
+          "LABEL": "Recommended categories",
+          "ARTICLES_COUNT": "No articles | {count} article | {count} articles"
+        },
+        "ARTICLES": {
+          "LABEL": "Recommended articles",
+          "IN_CATEGORY": "in {category}",
+          "UNCATEGORIZED": "श्रेणीबिना"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Recommended content updated successfully",
+          "ERROR_MESSAGE": "Unable to update recommended content. Try again."
+        }
+      },
+      "CONTENT_DIALOG": {
+        "TITLE": "Localize content",
+        "DESCRIPTION": "Set values specific to this locale. Anything left blank falls back to the default locale.",
+        "NAME": {
+          "LABEL": "Name"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "पृष्ठ शीर्षक"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "हेडर पाठ"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Locale content updated successfully",
+          "ERROR_MESSAGE": "Unable to update locale content. Try again."
         }
       },
       "ADD_LOCALE_DIALOG": {
@@ -730,9 +791,29 @@
         },
         "PREVIEW": "पूर्वावलोकन",
         "PUBLISH": "प्रकाशित गर्नुहोस्",
+        "PUBLISH_CHANGES": "Publish changes",
+        "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
+        "PUBLISH_CHANGES_ERROR": "Could not publish changes",
+        "SAVE_IN_PROGRESS": "Still saving your latest changes — please try again in a moment.",
+        "DISCARD_CHANGES": "Discard changes",
+        "DISCARD_CHANGES_SUCCESS": "Changes discarded",
+        "DISCARD_CHANGES_ERROR": "Could not discard changes",
+        "PENDING_CHANGES": "Pending changes",
+        "VIEW_CHANGES": "View unpublished changes",
         "DRAFT": "ड्राफ्ट",
         "ARCHIVE": "अभिलेख",
         "BACK_TO_ARTICLES": "लेखहरूमा फर्कनुहोस्"
+      },
+      "PENDING_CHANGES_POPOVER": {
+        "TITLE": "Unpublished changes",
+        "DESCRIPTION": "This article has draft changes that aren't live yet. Apply them before changing the status, or discard them?",
+        "APPLY": "Apply changes",
+        "DISCARD": "Discard changes"
+      },
+      "DIFF_DIALOG": {
+        "TITLE": "Unpublished changes",
+        "DESCRIPTION": "Compare your draft against the version that's currently live.",
+        "TITLE_LABEL": "Title"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "थप गुणहरू",
