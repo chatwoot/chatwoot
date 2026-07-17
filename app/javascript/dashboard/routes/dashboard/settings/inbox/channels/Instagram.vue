@@ -56,7 +56,7 @@ const requestAuthorization = async () => {
       </div>
       <div
         v-else
-        class="flex flex-col items-center justify-center px-8 py-10 text-center rounded-2xl outline outline-1 outline-n-weak"
+        class="flex flex-col items-center justify-center w-full px-8 py-10 text-center rounded-2xl outline outline-1 outline-n-weak"
       >
         <h6 class="text-2xl font-medium">
           {{ $t('INBOX_MGMT.ADD.INSTAGRAM.CONNECT_YOUR_INSTAGRAM_PROFILE') }}

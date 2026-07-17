@@ -1,4 +1,4 @@
-json.access_token resource.access_token.token
+json.access_token resource.accounts.any?(&:api_and_webhooks_enabled?) ? resource.access_token.token : ''
 json.account_id resource.active_account_user&.account_id
 json.available_name resource.available_name
 json.avatar_url resource.avatar_url
@@ -31,6 +31,7 @@ json.accounts do
     # availability derived from presence
     json.availability_status account_user.availability_status
     json.auto_offline account_user.auto_offline
+    json.api_and_webhooks account_user.account.feature_enabled?('api_and_webhooks')
     json.partial! 'api/v1/models/account_user', account_user: account_user if ChatwootApp.enterprise?
   end
 end
