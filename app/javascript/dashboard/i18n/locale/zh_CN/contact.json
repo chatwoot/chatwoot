@@ -510,6 +510,7 @@
         "ATTRIBUTES": "属性",
         "HISTORY": "历史记录",
         "NOTES": "备注",
+        "MEDIA": "媒体",
         "MERGE": "合并"
       },
       "HISTORY": {
@@ -588,7 +589,7 @@
     "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "已成功分配标签.",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_SUCCESS": "标签删除成功。",
     "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
