@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useDebounceFn } from '@vueuse/core';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import categoriesAPI from 'dashboard/api/helpCenter/categories';
 import articlesAPI from 'dashboard/api/helpCenter/articles';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
@@ -27,7 +28,8 @@ const dialogRef = ref(null);
 const activeLocale = ref('');
 // One flag per picker so each shows its skeleton until its own data loads.
 const categoriesLoading = ref(false);
-const articlesLoading = ref(false);
+const { run: runArticleRequest, isPending: articlesLoading } =
+  useAbortableRequest();
 
 const categoryOptions = ref([]);
 const selectedCategoryIds = ref([]);
@@ -78,23 +80,24 @@ const fetchCategories = async localeCode => {
   }));
 };
 
-const searchArticles = async (query = '') => {
-  const localeCode = activeLocale.value;
+const requestArticles = async (query, signal) => {
   const { data } = await articlesAPI.getArticles({
     pageNumber: 1,
     portalSlug: props.portal?.slug,
-    locale: localeCode,
+    locale: activeLocale.value,
     status: 'published',
     query,
+    signal,
   });
-  // Reopened for another locale mid-flight; drop the stale response.
-  if (localeCode !== activeLocale.value) return;
   articleResults.value = data.payload.map(article => {
     const option = toArticleOption(article);
     articleOptionById.value[article.id] = option;
     return option;
   });
 };
+
+const searchArticles = (query = '') =>
+  runArticleRequest(signal => requestArticles(query, signal));
 
 const onArticleSearch = useDebounceFn(searchArticles, 300);
 
@@ -122,6 +125,7 @@ const loadCategories = async localeCode => {
   categoriesLoading.value = true;
   try {
     const options = await fetchCategories(localeCode);
+    // Reopened for another locale mid-flight; drop the stale response.
     if (localeCode !== activeLocale.value) return;
     categoryOptions.value = options;
   } catch (error) {
@@ -132,14 +136,12 @@ const loadCategories = async localeCode => {
 };
 
 const loadArticles = async () => {
-  const localeCode = activeLocale.value;
-  articlesLoading.value = true;
   try {
-    await Promise.all([cacheSelectedArticleOptions(), searchArticles()]);
+    await runArticleRequest(signal =>
+      Promise.all([cacheSelectedArticleOptions(), requestArticles('', signal)])
+    );
   } catch (error) {
     useAlert(error?.message || t(`${KEY}.API.ERROR_MESSAGE`));
-  } finally {
-    if (localeCode === activeLocale.value) articlesLoading.value = false;
   }
 };
 

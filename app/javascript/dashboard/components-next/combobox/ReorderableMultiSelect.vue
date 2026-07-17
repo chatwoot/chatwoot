@@ -4,6 +4,8 @@ import { OnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBoxDropdown from 'dashboard/components-next/combobox/ComboBoxDropdown.vue';
 import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 // Drag-reorderable multi-select capped at `max`. The model is the ordered list
 // of selected values.
@@ -158,7 +160,7 @@ const onDragEnd = () => {
         :class="{ 'opacity-50 pointer-events-none': disabled }"
       >
         <div
-          v-if="loading && selectedIds.length"
+          v-if="loading && selectedIds.length && !isOpen"
           class="flex flex-col gap-1 overflow-y-auto max-h-[216px]"
           aria-busy="true"
         >
@@ -251,12 +253,24 @@ const onDragEnd = () => {
             sm
             no-animation
             justify="start"
-            icon="i-lucide-search"
             :label="addLabel"
-            :disabled="loading"
+            :disabled="loading && !isOpen"
             class="w-full"
             @click="toggleDropdown"
-          />
+          >
+            <template #icon>
+              <Spinner
+                v-if="loading && !isOpen"
+                :size="16"
+                class="text-n-slate-11"
+              />
+              <Icon
+                v-else
+                icon="i-lucide-search"
+                class="flex-shrink-0 size-4"
+              />
+            </template>
+          </Button>
           <ComboBoxDropdown
             ref="dropdownRef"
             :open="isOpen"
@@ -264,6 +278,7 @@ const onDragEnd = () => {
             :search-value="searchQuery"
             :search-placeholder="searchPlaceholder"
             :empty-state="emptyState"
+            :loading="loading"
             @update:search-value="onSearch"
             @select="onSelect"
           />
