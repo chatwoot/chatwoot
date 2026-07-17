@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "Į šį pokalbį galite atsakyti tik naudodami šablono pranešimą, nes",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Pranešimų apribojimas 24 valandoms",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "Jūs atsakote į:",
     "REMOVE_SELECTION": "Pašalinti Pasirinkimą",
     "DOWNLOAD": "Parsisiųsti",
@@ -233,6 +235,7 @@
       "TIP_AUDIORECORDER_ERROR": "Nepavyko atidaryti audio",
       "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Norėdami pridėti, vilkite ir numeskite čia",
+      "IMAGE_UPLOAD_SUCCESS": "Paveiksliukas sėkmingai įkeltas",
       "START_AUDIO_RECORDING": "Pradėti audio įrašymą",
       "STOP_AUDIO_RECORDING": "Baigti audio įrašymą",
       "COPILOT_THINKING": "Copilot galvoja",
@@ -303,6 +306,25 @@
         "MESSAGE": "Negalite anuliuoti šio veiksmo",
         "DELETE": "Ištrinti",
         "CANCEL": "Atšaukti"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "Aprašymas",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -400,7 +422,8 @@
       "VIEW_ALL": "Peržiūrėti visus",
       "SHOW_LESS": "Show less",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Untitled file",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
