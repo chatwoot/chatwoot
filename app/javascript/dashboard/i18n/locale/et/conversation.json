@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "Sellele vestlusele saate vastata ainult mallisõnumi abil, sest",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-tunnine sõnumiakna piirang",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "See Instagram konto on üle viidud uude Instagrami kanalipostkasti. Kõik uued sõnumid kuvatakse seal. Sa ei saa enam sellest vestlusest sõnumeid saata.",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "Vastate sellele:",
     "REMOVE_SELECTION": "Eemalda valik",
     "DOWNLOAD": "Laadi alla",
@@ -233,6 +235,7 @@
       "TIP_AUDIORECORDER_ERROR": "Heli avamine ebaõnnestus",
       "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Lohista siia manusena lisamiseks",
+      "IMAGE_UPLOAD_SUCCESS": "Pilt edukalt üles laaditud",
       "START_AUDIO_RECORDING": "Alusta heli salvestamist",
       "STOP_AUDIO_RECORDING": "Peata heli salvestamine",
       "COPILOT_THINKING": "Copilot mõtleb",
@@ -303,6 +306,25 @@
         "MESSAGE": "Seda toimingut ei saa tagasi võtta",
         "DELETE": "Kustuta",
         "CANCEL": "Tühista"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -400,7 +422,8 @@
       "VIEW_ALL": "View all",
       "SHOW_LESS": "Show less",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Untitled file",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "Tellimus #{id}",
