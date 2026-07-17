@@ -20,8 +20,8 @@
     "CALL": "Llamar",
     "CALL_INITIATED": "Llamando al contacto…",
     "CALL_FAILED": "No se puede iniciar la llamada. Por favor, inténtelo de nuevo.",
-    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Solicitud de permiso de llamada al contacto enviada. Inténtalo de nuevo una vez que acepten.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Solicitud de permiso de llamada ya enviada recientemente. Inténtelo de nuevo una vez que el contacto acepte.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Seleccionar un buzón de entrada"
@@ -510,6 +510,7 @@
         "ATTRIBUTES": "Atributos",
         "HISTORY": "Historial",
         "NOTES": "Notas",
+        "MEDIA": "Media",
         "MERGE": "Combinar"
       },
       "HISTORY": {
@@ -585,11 +586,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Asignar etiquetas",
-    "REMOVE_LABELS": "Remove Labels",
+    "REMOVE_LABELS": "Quitar etiquetas",
     "ASSIGN_LABELS_SUCCESS": "Etiquetas asignadas correctamente.",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
-    "REMOVE_LABELS_FAILED": "Failed to remove labels",
+    "REMOVE_LABELS_SUCCESS": "Etiquetas removidas con éxito.",
+    "REMOVE_LABELS_FAILED": "Error al eliminar las etiquetas",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "{count} selected",
