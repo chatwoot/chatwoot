@@ -81,7 +81,7 @@
         "TEXT": "Priority: Highest first, Created: Oldest first"
       },
       "unread": {
-        "TEXT": "Unread Count: Highest first"
+        "TEXT": "Conteo de no leídos: el más alto primero"
       }
     },
     "ATTACHMENTS": {
