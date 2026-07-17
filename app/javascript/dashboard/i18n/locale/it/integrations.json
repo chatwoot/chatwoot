@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventi Sottoscritti",
       "LEARN_MORE": "Scopri di più sui webhooks",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Aggiorna ora",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copia secret negli appunti",
@@ -58,7 +65,7 @@
             "CONTACT_UPDATED": "Contatto aggiornato",
             "CONVERSATION_TYPING_ON": "Digitazione conversazione attiva",
             "CONVERSATION_TYPING_OFF": "Digitazione conversazione disattiva",
-            "INBOX_UPDATED": "Inbox updated"
+            "INBOX_UPDATED": "Inbox aggiornata"
           }
         },
         "NAME": {
@@ -392,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Scopri di più",
+    "OVERVIEW": {
+      "HEADER": "Panoramica",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Ignora"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review FAQs",
+        "DISMISS": "Ignora"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "Questo mese",
+        "LAST_MONTH": "Il mese scorso"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Carica altro",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "PENDING": "FAQ In Attesa",
+        "DOCUMENTS": "Documenti"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Area di prova",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "Fatturazione",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Assistenti",
       "SWITCH_ASSISTANT": "Cambia assistenti",
@@ -493,10 +576,6 @@
           "LABEL": "Nome",
           "PLACEHOLDER": "Inserisci il nome dell'assistente",
           "ERROR": "Il nome è richiesto"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Temperatura della Risposta",
-          "DESCRIPTION": "Regola quanto dovrebbero essere creative o restrittive le risposte dell'assistente. I valori più bassi producono risposte più mirate e deterministiche, mentre i valori più elevati consentono di ottenere risultati più creativi e variegati."
         },
         "DESCRIPTION": {
           "LABEL": "Descrizione",
@@ -739,6 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "Documenti",
       "ADD_NEW": "Crea un nuovo documento",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} selezionate",
       "SELECT_ALL": "Seleziona tutto ({count})",
       "UNSELECT_ALL": "Deseleziona tutto ({count})",
@@ -783,7 +863,7 @@
       "SYNC_STATUS": {
         "SYNCED": "ultimo aggiornamento {time}",
         "SYNCING": "aggiornamento...",
-        "STALE_SYNC": "update stalled",
+        "STALE_SYNC": "aggiornamento in stallo",
         "FAILED": "Sincronizzazione fallita",
         "NEVER_SYNCED": "non ancora aggiornato"
       },
@@ -798,7 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "FAQ Correlate",
-        "DESCRIPTION": "Queste FAQ vengono generate direttamente dai Documenti."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Non disponibile",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "Copia",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "Inserisci l'URL del documento per aggiungerlo come fonte e scegli l'assistente con cui associarlo.",
       "CREATE": {
@@ -838,7 +938,7 @@
         "ERROR_MESSAGE": "Si è verificato un errore durante l'eliminazione del documento, riprova."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Visualizza FAQ Correlate",
+        "VIEW_DETAILS": "Visualizza dettagli",
         "SYNC_NOW": "Aggiorna ora",
         "RETRY_SYNC": "Riprova ad aggiornare",
         "DELETE_DOCUMENT": "Elimina Documento"
