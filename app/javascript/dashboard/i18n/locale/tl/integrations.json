@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Mga Nakalistang Kaganapan",
       "LEARN_MORE": "Alamin pa tungkol sa webhooks",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Lihim",
         "COPY": "Copy secret to clipboard",
@@ -392,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Alamin pa",
+    "OVERVIEW": {
+      "HEADER": "Pangkalahatan",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review FAQs",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "PENDING": "Mga nakabinbing karaniwang tanong",
+        "DOCUMENTS": "Mga Dokumento"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Palaruan",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "Pagsingil",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Mga Katulong",
       "SWITCH_ASSISTANT": "Lumipat sa pagitan ng mga assistant",
@@ -493,10 +576,6 @@
           "LABEL": "Pangalan",
           "PLACEHOLDER": "Ilagay ang pangalan ng assistant",
           "ERROR": "Kinakailangan ang pangalan"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Temperatura ng Tugon",
-          "DESCRIPTION": "Ayusin kung gaano ka-malikhain o mahigpit ang mga sagot ng assistant. Ang mas mababang halaga ay nagreresulta sa mas nakatuon at deterministic na mga sagot, habang ang mas mataas ay nagpapahintulot ng mas malikhain at iba't ibang output."
         },
         "DESCRIPTION": {
           "LABEL": "Paglalarawan",
@@ -739,6 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "Mga Dokumento",
       "ADD_NEW": "Gumawa ng bagong dokumento",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} napili",
       "SELECT_ALL": "Piliin lahat ({count})",
       "UNSELECT_ALL": "Alisin ang pagpili sa lahat ({count})",
@@ -798,7 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "Mga Kaugnay na FAQ",
-        "DESCRIPTION": "Ang mga FAQ na ito ay direktang ginawa mula sa dokumento."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "Kopyahin",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "Ilagay ang URL ng dokumento upang idagdag ito bilang pinagkukunan ng kaalaman at piliin ang assistant na iuugnay dito.",
       "CREATE": {
@@ -838,7 +938,7 @@
         "ERROR_MESSAGE": "Nagkaroon ng error sa pagtanggal ng dokumento, pakisubukang muli."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Tingnan ang mga Kaugnay na Tugon",
+        "VIEW_DETAILS": "Tingnan ang mga detalye",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Tanggalin ang Dokumento"
