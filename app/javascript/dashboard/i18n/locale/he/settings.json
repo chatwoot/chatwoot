@@ -86,9 +86,21 @@
         "NOTE": "נהל תכונות אבטחה נוספות עבור חשבונך.",
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
+      "SESSIONS_SECTION": {
+        "TITLE": "Active Sessions",
+        "NOTE": "These are the devices currently logged in to your account.",
+        "CURRENT": "Current session",
+        "REVOKE": "Revoke",
+        "REVOKE_SUCCESS": "Session revoked successfully",
+        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
+        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
+        "LAST_ACTIVE": "Last active",
+        "UNKNOWN_DEVICE": "Unknown device"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "אסימון",
         "NOTE": "משמש לחיבורי API",
+        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
         "COPY": "עותק",
         "RESET": "איפוס",
         "CONFIRM_RESET": "האם אתה בטוח?",
@@ -313,6 +325,7 @@
     "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "קפטן",
     "CAPTAIN_ASSISTANTS": "עוזרים",
+    "CAPTAIN_OVERVIEW": "סקירה כללית",
     "CAPTAIN_DOCUMENTS": "מסמכים",
     "CAPTAIN_RESPONSES": "שאלות נפוצות",
     "CAPTAIN_TOOLS": "כלים",
@@ -328,6 +341,7 @@
     "NOTIFICATIONS": "התראות",
     "CANNED_RESPONSES": "תגובות מוכנות",
     "INTEGRATIONS": "אינטגרציות",
+    "DATA": "Data",
     "PROFILE_SETTINGS": "הגדרות פרופיל",
     "ACCOUNT_SETTINGS": "הגדרות חשבון",
     "APPLICATIONS": "יישומים",
@@ -379,10 +393,123 @@
       "INFO_TEXT": "תן למערכת לסמן אותך באופן אוטומטי במצב לא מקוון כשאתה לא משתמש באפליקציה או בלוח המחוונים.",
       "INFO_SHORT": "סמן אוטומטית כלא מקוון כאשר אינך משתמש באפליקציה."
     },
+    "SORT_TOOLTIP": "מיין",
+    "SORT_BY": "מיין לפי",
+    "SORT_GROUPS": {
+      "CREATED": "Sort by date of creation",
+      "ALPHABETICAL": "Sort in alphabetical order",
+      "UNREAD_COUNT": "Sort by unread count"
+    },
+    "SORT_OPTIONS": {
+      "CREATED_DESC": "Newest first",
+      "CREATED_ASC": "Oldest first",
+      "ALPHABETICAL_ASC": "Ascending (A - Z)",
+      "ALPHABETICAL_DESC": "Descending (Z - A)",
+      "UNREAD_COUNT_DESC": "Highest first",
+      "UNREAD_COUNT_ASC": "Lowest first"
+    },
     "DOCS": "קרא מסמכים",
     "SECURITY": "אבטחה",
     "CAPTAIN_AI": "קפטן",
     "CONVERSATION_WORKFLOW": "Conversation Workflow"
+  },
+  "DATA_IMPORTS": {
+    "HEADER": "Data",
+    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
+    "LOADING": "Fetching imports",
+    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "TABS": {
+      "IMPORT": "ייבוא",
+      "EXPORT": "ייצא"
+    },
+    "TYPES": {
+      "CONTACTS": "איש קשר",
+      "CONVERSATIONS": "שיחות",
+      "MESSAGES": "הודעות"
+    },
+    "DRAWER": {
+      "TITLE": "New import",
+      "SOURCE": "Source",
+      "NAME": "Import name",
+      "NAME_PLACEHOLDER": "July Intercom migration",
+      "ACCESS_KEY": "Intercom access key",
+      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "DATA_TYPES": "Data to import",
+      "VALIDATING": "Validating access key...",
+      "VALID_KEY": "Access key validated.",
+      "INVALID_KEY": "Could not validate this access key.",
+      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "CANCEL": "ביטול",
+      "IMPORT": "ייבוא"
+    },
+    "EXPORT": {
+      "TITLE": "Exports are on the way",
+      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
+      "COMING_SOON": "Coming soon"
+    },
+    "TABLE": {
+      "TITLE": "Recent imports",
+      "EMPTY": "No imports yet",
+      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "NEW_IMPORT": "ייבוא",
+      "COUNT": "{count} imports",
+      "UNNAMED": "Untitled import",
+      "IMPORTED_COUNT": "{count} imported",
+      "VIEW": "View import",
+      "NAME": "שם",
+      "TYPE": "סוג",
+      "STATUS": "מצב",
+      "IMPORTED": "Imported",
+      "CREATED": "נוצר",
+      "ABANDON": "Abandon"
+    },
+    "DETAIL": {
+      "BACK": "Back to imports",
+      "ERRORS": "Errors",
+      "SKIP_LOGS": "Skip logs",
+      "SOURCE": "Source",
+      "IMPORT_TYPES": "Import types",
+      "CREATED": "נוצר",
+      "DURATION": "משך",
+      "INITIATED_BY": "Started by",
+      "PROGRESS": "Import progress",
+      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
+      "PROGRESS_OF_TOTAL": "of {total} imported",
+      "PROGRESS_IMPORTED": "imported",
+      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
+      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
+      "DOWNLOAD_SKIP_LOGS": "Download CSV",
+      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "ALL_SKIP_LOGS": "הכל",
+      "KIND": "Kind",
+      "NO_ERRORS": "No errors recorded.",
+      "ERROR_CODE": "Code",
+      "SOURCE_OBJECT": "Source object",
+      "MESSAGE": "הודעה"
+    },
+    "MONITOR": {
+      "LIVE": "Live updates every {seconds}s",
+      "LAST_UPDATED": "Last updated {time}",
+      "REFRESH": "רענן",
+      "REFRESHING": "Refreshing",
+      "STAGES": {
+        "unknown": "Waiting for update",
+        "queued": "Queued",
+        "contacts": "Importing contacts",
+        "conversations": "Importing conversations",
+        "finalizing": "Finalizing import",
+        "completed": "הושלם",
+        "completed_with_errors": "Completed with errors",
+        "failed": "נכשל",
+        "abandoned": "Abandoned"
+      }
+    },
+    "ALERTS": {
+      "IMPORT_STARTED": "Intercom import has started.",
+      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the Intercom import."
+    }
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Captain Settings",
@@ -414,7 +541,9 @@
       "DESCRIPTION": "Enable or disable AI-powered features.",
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Audio Transcription",
-        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts."
+        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts.",
+        "MODEL_TITLE": "Audio Transcription Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
@@ -439,7 +568,18 @@
       "TITLE": "תוכנית נוכחית",
       "PLAN_NOTE": "אתה רשום כעת לתוכנית **{plan}** עם רישיונות **{quantity}**",
       "SEAT_COUNT": "מספר מושבים",
-      "RENEWS_ON": "מתחדש ב-"
+      "RENEWS_ON": "מתחדש ב-",
+      "CURRENCY": "Currency"
+    },
+    "CURRENCY": {
+      "SELECT": {
+        "TITLE": "Choose your billing currency",
+        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+      },
+      "OPTIONS": {
+        "USD": "US Dollar (USD)",
+        "BRL": "Brazilian Real (BRL)"
+      }
     },
     "VIEW_PRICING": "הצג תמחור",
     "MANAGE_SUBSCRIPTION": {
@@ -475,6 +615,7 @@
       "PURCHASE": "Purchase Credits",
       "LOADING": "Loading options...",
       "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "RETRY": "נסה שוב",
       "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
       "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
       "CONFIRM": {
@@ -775,6 +916,10 @@
           "DESCRIPTION": "הגדר את המספר המרבי של שיחות שניתן להקצות לכל סוכן בתוך חלון זמן כדי למנוע עומס יתר על סוכן כלשהו. שדה חובה זה מוגדר כברירת מחדל ל-100 שיחות לשעה.",
           "INPUT_MAX": "הקצה מקסימום",
           "DURATION": "שיחות לכל סוכן בכל"
+        },
+        "EXCLUDE_OLDER_THAN": {
+          "LABEL": "Skip stale conversations",
+          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
         },
         "INBOXES": {
           "LABEL": "תיבות דואר נכנס שנוספו",
