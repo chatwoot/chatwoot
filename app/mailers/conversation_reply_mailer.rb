@@ -210,8 +210,9 @@ class ConversationReplyMailer < ApplicationMailer
 
   def branded_email_layout_action?
     return false unless action_name.in?(%w[email_reply reply_without_summary])
+    return @inbox.branded_email_layout_available? if @inbox&.email?
 
-    @inbox&.branded_email_layout_available?
+    @account&.feature_enabled?(:branded_email_templates) && EmailTemplate.account_branded_layout_template_for(@account).present?
   end
 
   def liquid_droppables

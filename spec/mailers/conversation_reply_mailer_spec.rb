@@ -137,6 +137,34 @@ RSpec.describe ConversationReplyMailer do
       end
     end
 
+    context 'without summary for a non-email inbox' do
+      let(:inbox) { create(:inbox, account: account, channel: create(:channel_widget, account: account)) }
+      let(:conversation) { create(:conversation, assignee: agent, account: account, inbox: inbox) }
+      let!(:incoming_email_message) do
+        create(:message, conversation: conversation, account: account, message_type: :incoming, content_type: :incoming_email)
+      end
+      let!(:outgoing_message) do
+        create(:message, conversation: conversation, account: account, message_type: :outgoing, content: 'Outgoing email reply')
+      end
+      let(:mail) { described_class.reply_without_summary(conversation, incoming_email_message.id).deliver_now }
+
+      it 'applies the account branded email layout' do
+        account.enable_features!(:branded_email_templates)
+        create(:email_template, :layout, account: account, body: '<html><body>Account Brand {{ content_for_layout }}</body></html>')
+
+        expect(mail.decoded).to include('Account Brand')
+        expect(mail.decoded).to include(outgoing_message.content)
+      end
+
+      it 'does not apply an installation layout without an account override' do
+        account.enable_features!(:branded_email_templates)
+        create(:email_template, :layout, body: '<html><body>Installation Brand {{ content_for_layout }}</body></html>')
+
+        expect(mail.decoded).not_to include('Installation Brand')
+        expect(mail.decoded).to include(outgoing_message.content)
+      end
+    end
+
     context 'with references header' do
       let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account).reload }
       let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
