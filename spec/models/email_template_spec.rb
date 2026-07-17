@@ -13,6 +13,27 @@ RSpec.describe EmailTemplate do
       expect(inbox_template).to be_valid
     end
 
+    it 'allows an account-scoped layout after an inbox-scoped layout' do
+      account = create(:account)
+      inbox = create(:inbox, :with_email, account: account)
+      create(:email_template, :layout, account: account, inbox: inbox)
+
+      account_template = build(:email_template, :layout, account: account)
+
+      expect(account_template).to be_valid
+    end
+
+    it 'allows an installation-scoped layout after account and inbox-scoped layouts' do
+      account = create(:account)
+      inbox = create(:inbox, :with_email, account: account)
+      create(:email_template, :layout, account: account)
+      create(:email_template, :layout, account: account, inbox: inbox)
+
+      installation_template = build(:email_template, :layout, account: nil)
+
+      expect(installation_template).to be_valid
+    end
+
     it 'rejects duplicate installation-scoped templates' do
       create(:email_template)
       duplicate_template = build(:email_template)

@@ -29,8 +29,10 @@ class EmailTemplate < ApplicationRecord
   belongs_to :account, optional: true
   belongs_to :inbox, optional: true
 
-  validates :name, uniqueness: { scope: %i[template_type locale] }, if: :installation_scoped?
-  validates :name, uniqueness: { scope: %i[account_id template_type locale] }, if: :account_scoped?
+  validates :name,
+            uniqueness: { scope: %i[template_type locale], conditions: -> { where(account_id: nil, inbox_id: nil) } },
+            if: :installation_scoped?
+  validates :name, uniqueness: { scope: %i[account_id template_type locale], conditions: -> { where(inbox_id: nil) } }, if: :account_scoped?
   validates :name, uniqueness: { scope: %i[inbox_id template_type locale] }, if: :inbox_scoped?
   validate :validate_inbox_account
   validate :validate_liquid_body
