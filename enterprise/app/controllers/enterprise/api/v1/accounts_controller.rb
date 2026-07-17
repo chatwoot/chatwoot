@@ -1,6 +1,7 @@
 class Enterprise::Api::V1::AccountsController < Api::BaseController
   include BillingHelper
   before_action :fetch_account
+  before_action :validate_token_api_access, if: :authenticate_by_access_token?
   before_action :check_authorization
   before_action :check_cloud_env, only: [:limits, :toggle_deletion, :topup_options]
 
@@ -88,6 +89,12 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   private
+
+  def validate_token_api_access
+    return if @account.api_and_webhooks_enabled?
+
+    render json: { error: 'API access is not enabled for this account' }, status: :forbidden
+  end
 
   def check_cloud_env
     render json: { error: 'Not found' }, status: :not_found unless ChatwootApp.chatwoot_cloud?

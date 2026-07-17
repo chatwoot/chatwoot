@@ -1,4 +1,6 @@
 import { useMapGetter } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 // OAuth/SDK channels need installation-level app credentials to be usable. When
 // the credential is missing the channel is "not configured" and is hidden from
@@ -8,6 +10,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 export function useChannelConfig() {
   const globalConfig = useMapGetter('globalConfig/get');
   const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+  const { isCloudFeatureEnabled } = useAccount();
   const installationConfig = window.chatwootConfig || {};
 
   const CHANNEL_CONFIGURED = {
@@ -20,7 +23,8 @@ export function useChannelConfig() {
       Boolean(installationConfig.whatsappConfigurationId),
     facebook: () => Boolean(installationConfig.fbAppId),
     instagram: () =>
-      !isOnChatwootCloud.value && Boolean(installationConfig.instagramAppId),
+      Boolean(installationConfig.instagramAppId) &&
+      isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_INSTAGRAM),
     tiktok: () => Boolean(installationConfig.tiktokAppId),
     gmail: () => Boolean(installationConfig.googleOAuthClientId),
     outlook: () => Boolean(globalConfig.value.azureAppId),
