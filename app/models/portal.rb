@@ -53,7 +53,12 @@ class Portal < ApplicationRecord
   scope :active, -> { where(archived: false) }
 
   # TODO: 'website_token' is an unused reserved key; remove with a migration that scrubs it from existing portals' config
-  CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout locale_translations].freeze
+  CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout locale_translations
+                        popular_content].freeze
+
+  # Max number of recommended categories/articles shown per locale.
+  POPULAR_CATEGORY_LIMIT = 3
+  POPULAR_ARTICLE_LIMIT = 6
 
   def file_base_data
     {
@@ -113,6 +118,14 @@ class Portal < ApplicationRecord
 
   def layout
     config_value('layout').presence || 'classic'
+  end
+
+  def popular_category_ids(locale = default_locale)
+    Array(config.dig('popular_content', locale.to_s, 'category_ids')).first(POPULAR_CATEGORY_LIMIT)
+  end
+
+  def popular_article_ids(locale = default_locale)
+    Array(config.dig('popular_content', locale.to_s, 'article_ids')).first(POPULAR_ARTICLE_LIMIT)
   end
 
   def social_profiles
