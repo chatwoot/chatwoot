@@ -264,7 +264,7 @@
     "EMAIL_VERIFICATION_SENT": "El correo electrónico de verificación ha sido enviado. Por favor, comprueba tu bandeja de entrada.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Cuenta suspendida",
-      "MESSAGE": "Tu cuenta está suspendida. Comuníquese con el equipo de soporte para obtener más información."
+      "MESSAGE": "Tu cuenta ha sido suspendida debido a actividades que pueden violar nuestras políticas. Si crees que esto es un error, ponte en contacto con nuestro equipo de soporte."
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
@@ -913,7 +913,7 @@
         },
         "FAIR_DISTRIBUTION": {
           "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "DESCRIPTION": "Limita las conversaciones por agente dentro de una ventana de tiempo para evitar sobrecargas. Por defecto es 100 por hora.",
           "INPUT_MAX": "Assign max",
           "DURATION": "Conversations per agent in every"
         },
