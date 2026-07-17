@@ -40,9 +40,6 @@ export default {
     lastActivityTime() {
       return shortTimestamp(this.lastActivityAtTimeAgo);
     },
-    createdAtTime() {
-      return shortTimestamp(this.createdAtTimeAgo);
-    },
     createdAt() {
       const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
       const isBeforeAMonth = createdTimeDiff > DAY_IN_MILLI_SECONDS * 30;
@@ -127,6 +124,6 @@ export default {
     }"
     class="ml-auto leading-4 text-xxs text-n-slate-10 hover:text-n-slate-11"
   >
-    <span>{{ `${createdAtTime} • ${lastActivityTime}` }}</span>
+    <span>{{ lastActivityTime }}</span>
   </div>
 </template>
