@@ -6,9 +6,7 @@
   <body class="font-default bg-white dark:bg-slate-900">
     <div id="portal" class="antialiased">
       <main class="flex flex-col min-h-screen main-content" role="main">
-        <%= render 'public/api/v1/portals/header', portal: @portal %>
         <%= yield %>
-        <%= render 'public/api/v1/portals/footer' unless @portal.account.feature_enabled?('disable_branding') %>
       </main>
     </div>
     <%= render 'layouts/portal_scripts' %>

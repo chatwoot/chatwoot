@@ -4,26 +4,26 @@
       category_locale: category.locale,
       category_slug: category.slug,
       theme: @theme_from_params,
-      is_plain_layout_enabled: false
+      is_plain_layout_enabled: true
     }
 %>
 
 <section class="flex flex-col w-full h-full lg:container">
-   <div id="category-block" class="flex flex-col gap-8 h-full border border-solid border-slate-100 dark:border-slate-800 py-5 px-3 rounded-lg">
+   <div class="flex flex-col gap-8 h-full">
       <div class="flex items-center justify-between w-full">
          <div class="flex flex-col items-start gap-1">
-            <div class="flex flex-row items-center gap-2 px-1">
+            <div class="flex flex-row items-center gap-2">
                <% if category.icon.present? %>
-               <span class="text-lg rounded-md cursor-pointer inline-flex pl-1"><%= render_emoji_or_icon(category.icon, category.icon_color) %></span>
+               <span class="text-lg rounded-md cursor-pointer inline-flex"><%= render_emoji_or_icon(category.icon, category.icon_color) %></span>
                <% end %>
-               <h3 id="category-name" class="text-xl text-slate-800 dark:text-slate-50 font-semibold leading-relaxed hover:cursor-pointer <%= category.icon.blank? ? 'pl-1' : '' %>">
+               <h3 class="text-xl text-slate-800 dark:text-slate-50 font-semibold leading-relaxed hover:cursor-pointer hover:underline">
                   <a href="<%= generate_category_link(category_link_params) %>">
                   <%= category.name %>
                   </a>
                </h3>
             </div>
             <% if category.description.present? %>
-            <span class="text-base text-slate-600 dark:text-slate-400 px-2"><%= category.description %></span>
+            <span class="text-base text-slate-600 dark:text-slate-400"><%= category.description %></span>
             <% end %>
          </div>
       </div>
@@ -34,8 +34,8 @@
          </div>
          <% else %>
          <% category.articles.published.order(position: :asc).take(5).each do |article| %>
-         <a class="leading-7 text-slate-700 dark:text-slate-100" href="<%= generate_article_link(portal.slug, article.slug, @theme_from_params, false) %>">
-            <div id="category-item" class="flex justify-between hover:cursor-pointer items-start py-1 rounded-lg gap-6 px-2">
+         <a class="leading-7 text-slate-700 dark:text-slate-100" href="<%= generate_article_link(portal.slug, article.slug, @theme_from_params, true) %>">
+            <div class="flex justify-between hover:cursor-pointer items-start py-1 rounded-lg gap-6 hover:underline">
                <%= article.title %>
                <span class="flex items-center font-normal mt-1.5">
                   <%= render partial: 'icons/chevron-right' %>
@@ -45,7 +45,7 @@
          <% end %>
          <% end %>
       </div>
-      <div class="flex justify-between flex-row items-center px-2">
+      <div class="flex justify-between flex-row items-center">
          <div class="flex flex-row items-center gap-1">
            <%= render "public/api/v1/portals/authors", category: category, show_expanded: false %>
            <span class="text-slate-600 dark:text-slate-400">•</span>
