@@ -533,6 +533,8 @@
             "PUBLISHED": "Pubblicato",
             "ARCHIVED": "Archiviato"
           },
+          "PENDING_EDITS": "Unpublished edits",
+          "PENDING_EDITS_TOOLTIP": "This published article has unpublished edits",
           "CATEGORY": {
             "UNCATEGORISED": "Senza categoria"
           }
@@ -552,6 +554,7 @@
         "LOCALE": {
           "ALL": "Tutte le lingue"
         },
+        "SEARCH_PLACEHOLDER": "Cerca articoli...",
         "NEW_ARTICLE": "Nuovo articolo"
       },
       "EMPTY_STATE": {
@@ -579,6 +582,10 @@
         "CATEGORY": {
           "TITLE": "Non ci sono articoli in questa categoria",
           "SUBTITLE": "Gli articoli in questa categoria appariranno qui"
+        },
+        "SEARCH": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "We couldn't find any articles matching your search. Try a different term."
         }
       },
       "BULK_TRANSLATE": {
@@ -611,8 +618,10 @@
         "DELETE": "Elimina",
         "STATUS_SUCCESS": "Articoli aggiornati correttamente",
         "STATUS_ERROR": "Impossibile aggiornare gli articoli",
-        "CATEGORY_SUCCESS": "Articles moved successfully",
-        "CATEGORY_ERROR": "Failed to move articles",
+        "STATUS_SKIPPED": "1 article with unpublished edits was skipped — open it to publish or discard. | {count} articles with unpublished edits were skipped — open them to publish or discard.",
+        "STATUS_SKIPPED_ALL": "These articles have unpublished edits — open each to publish or discard.",
+        "CATEGORY_SUCCESS": "Articoli spostati correttamente",
+        "CATEGORY_ERROR": "Impossibile spostare gli articoli",
         "DELETE_CONFIRM_TITLE": "Elimina articolo | Elimina {count} articoli",
         "DELETE_CONFIRM_DESCRIPTION": "Questo eliminerà definitivamente l'articolo selezionato. Questa azione non può essere annullata. | Questo eliminerà definitivamente {count} articoli selezionati. Questa azione non può essere annullata.",
         "DELETE_CONFIRM": "Elimina",
@@ -624,6 +633,7 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "Nuova categoria",
         "EDIT_CATEGORY": "Modifica categoria",
+        "SEARCH_PLACEHOLDER": "Search categories...",
         "CATEGORIES_COUNT": "{n} categoria | {n} categorie",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Categorie ({localeCode})",
@@ -633,6 +643,10 @@
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "Nessuna categoria trovata",
         "SUBTITLE": "Le categorie appariranno qui. Puoi aggiungere una categoria cliccando sul pulsante 'Nuova Categoria'."
+      },
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching categories",
+        "SUBTITLE": "We couldn't find any categories matching your search. Try a different term."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} articolo | {count} articoli"
@@ -691,6 +705,11 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "Nessuna lingua disponibile | {n} lingua | {n} lingue",
       "NEW_LOCALE_BUTTON_TEXT": "Nuova lingua",
+      "SEARCH_PLACEHOLDER": "Search locales...",
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching locales",
+        "SUBTITLE": "We couldn't find any locales matching your search. Try a different term."
+      },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} articolo | {count} articoli",
         "CATEGORIES_COUNT": "{count} categoria | {count} categorie",
@@ -700,7 +719,49 @@
           "MAKE_DEFAULT": "Imposta predefinito",
           "MOVE_TO_DRAFT": "Move to draft",
           "PUBLISH_LOCALE": "Publish locale",
+          "CUSTOMIZE_CONTENT": "Localizza/traduci il contenuto",
+          "SELECT_POPULAR_CONTENT": "Select recommended content",
           "DELETE": "Elimina"
+        }
+      },
+      "POPULAR_CONTENT_DIALOG": {
+        "TITLE": "Recommended content",
+        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on this locale's help center home page. Drag them into the order you want visitors to see.",
+        "SEARCH": "Cerca...",
+        "EMPTY": "No matching results",
+        "ADD_ANOTHER": "Add another...",
+        "SLOTS_LEFT": "{count} slots left",
+        "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
+        "CONFIRM": "Save recommendations",
+        "CATEGORIES": {
+          "LABEL": "Recommended categories",
+          "ARTICLES_COUNT": "No articles | {count} article | {count} articles"
+        },
+        "ARTICLES": {
+          "LABEL": "Recommended articles",
+          "IN_CATEGORY": "in {category}",
+          "UNCATEGORIZED": "Senza categoria"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Recommended content updated successfully",
+          "ERROR_MESSAGE": "Unable to update recommended content. Try again."
+        }
+      },
+      "CONTENT_DIALOG": {
+        "TITLE": "Localizza/traduci il contenuto",
+        "DESCRIPTION": "Imposta valori specifici per questa lingua. Qualsiasi cosa lasciata vuota ritorna ala lingua predefinito.",
+        "NAME": {
+          "LABEL": "Nome"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Titolo della pagina"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Testo intestazione"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Contenuto della lingua aggiornato con successo",
+          "ERROR_MESSAGE": "Impossibile aggiornare il contenuto della lingua. Riprova."
         }
       },
       "ADD_LOCALE_DIALOG": {
@@ -730,9 +791,29 @@
         },
         "PREVIEW": "Anteprima",
         "PUBLISH": "Pubblica",
+        "PUBLISH_CHANGES": "Publish changes",
+        "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
+        "PUBLISH_CHANGES_ERROR": "Could not publish changes",
+        "SAVE_IN_PROGRESS": "Still saving your latest changes — please try again in a moment.",
+        "DISCARD_CHANGES": "Discard changes",
+        "DISCARD_CHANGES_SUCCESS": "Changes discarded",
+        "DISCARD_CHANGES_ERROR": "Could not discard changes",
+        "PENDING_CHANGES": "Pending changes",
+        "VIEW_CHANGES": "View unpublished changes",
         "DRAFT": "Bozza",
         "ARCHIVE": "Archivia",
         "BACK_TO_ARTICLES": "Torna agli articoli"
+      },
+      "PENDING_CHANGES_POPOVER": {
+        "TITLE": "Unpublished changes",
+        "DESCRIPTION": "This article has draft changes that aren't live yet. Apply them before changing the status, or discard them?",
+        "APPLY": "Apply changes",
+        "DISCARD": "Discard changes"
+      },
+      "DIFF_DIALOG": {
+        "TITLE": "Unpublished changes",
+        "DESCRIPTION": "Compare your draft against the version that's currently live.",
+        "TITLE_LABEL": "Titolo"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Altre proprietà",
@@ -871,22 +952,22 @@
       },
       "LAYOUT_CONTENT": {
         "HEADER": "Aspetto",
-        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "DESCRIPTION": "Scegli il layout che si adatta a come i tuoi visitatori leggono.",
         "LAYOUT": {
           "CLASSIC": {
-            "TITLE": "Classic",
-            "DESCRIPTION": "A welcoming home page with search and featured topics."
+            "TITLE": "Classico",
+            "DESCRIPTION": "Una home page accogliente con ricerca e argomenti in evidenza."
           },
           "SIDEBAR": {
-            "TITLE": "Documentation",
-            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+            "TITLE": "Documentazione",
+            "DESCRIPTION": "Navigazione side-by-side che mantiene ogni guida a portata di click."
           }
         },
         "SOCIAL_LINKS": {
-          "HEADER": "Social links",
-          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "HEADER": "Link social",
+          "DESCRIPTION": "Aggiungi l'handle per ogni social network e il tuo help center genera il link completo. Mostrato nel footer del layout della documentazione.",
           "PLACEHOLDER": "handle",
-          "ADD": "Add social link",
+          "ADD": "Aggiungi link social",
           "REMOVE": "Rimuovi"
         },
         "SAVE": "Salva modifiche"
