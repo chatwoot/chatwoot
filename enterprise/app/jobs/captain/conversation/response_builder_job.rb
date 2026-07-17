@@ -1,6 +1,7 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   include Captain::Conversation::V1ActionClassifier
   include Captain::Conversation::V1FalsePromiseHandler
+  include Captain::Conversation::MessageBuilder
 
   MAX_MESSAGE_LENGTH = 10_000
   retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds
@@ -44,9 +45,11 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def generate_response_with_v2
-    @response = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
-      message_history: collect_previous_messages_with_resolution_markers
-    )
+    runner_service = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation)
+    message_history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
+    @response = runner_service.generate_response(message_history: message_history)
+    @run_result = runner_service.last_run_result
+
     process_response
   end
 
@@ -65,6 +68,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
         # left is the customer-facing follow-up message.
         process_v2_handoff
       end
+      capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
     elsif v1_handoff_requested?
       # V1 only signals via the response string — no state has been touched yet. If
       # the conversation isn't pending anymore, a human took over mid-run; bail out
@@ -73,42 +77,14 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
       process_v1_handoff
     elsif conversation_pending?
+      message = nil
       ActiveRecord::Base.transaction do
-        create_messages
+        message = create_messages
         Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
         account.increment_response_usage
       end
+      capture_assistant_session(result_message: message, credits_consumed: 1.0)
     end
-  end
-
-  def collect_previous_messages
-    @conversation
-      .messages
-      .where(message_type: [:incoming, :outgoing])
-      .where(private: false)
-      .map do |message|
-      message_hash = {
-        content: prepare_multimodal_message_content(message),
-        role: determine_role(message)
-      }
-
-      # Include agent_name if present in additional_attributes
-      message_hash[:agent_name] = message.additional_attributes['agent_name'] if message.additional_attributes&.dig('agent_name').present?
-
-      message_hash
-    end
-  end
-
-  def collect_previous_messages_with_resolution_markers
-    Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
-  end
-
-  def determine_role(message)
-    message.message_type == 'incoming' ? 'user' : 'assistant'
-  end
-
-  def prepare_multimodal_message_content(message)
-    Captain::OpenAiMessageBuilderService.new(message: message).generate_content
   end
 
   def v1_handoff_requested?
@@ -157,34 +133,18 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def create_handoff_message(preserve_waiting_since: false)
-    create_outgoing_message(
+    @handoff_message = create_outgoing_message(
       @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'),
       preserve_waiting_since: preserve_waiting_since
     )
   end
 
-  def create_messages
-    validate_message_content!(@response['response'])
-    create_outgoing_message(@response['response'], agent_name: @response['agent_name'])
-  end
-
-  def validate_message_content!(content)
-    raise ArgumentError, 'Message content cannot be blank' if content.blank?
-  end
-
-  def create_outgoing_message(message_content, agent_name: nil, preserve_waiting_since: false)
-    additional_attrs = {}
-    additional_attrs[:agent_name] = agent_name if agent_name.present?
-
-    @conversation.messages.create!(
-      message_type: :outgoing,
-      account_id: account.id,
-      inbox_id: inbox.id,
-      sender: @assistant,
-      content: message_content,
-      additional_attributes: additional_attrs,
-      preserve_waiting_since: preserve_waiting_since
-    )
+  # Capture runs outside the delivery transaction and never raises (the service
+  # swallows its own failures): a session-logging bug must never roll back the
+  # customer reply or trigger the top-level handle_error handoff on top of it.
+  def capture_assistant_session(result_message:, credits_consumed:)
+    Captain::Assistant::SessionCaptureService.new(assistant: @assistant, conversation: @conversation, run_result: @run_result,
+                                                  result_message: result_message, credits_consumed: credits_consumed).capture
   end
 
   def handle_error(error)

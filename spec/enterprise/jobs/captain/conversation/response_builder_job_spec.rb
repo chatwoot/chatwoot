@@ -22,6 +22,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
       allow(Captain::Assistant::AgentRunnerService).to receive(:new).and_return(mock_agent_runner_service)
       allow(mock_agent_runner_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain V2' })
+      allow(mock_agent_runner_service).to receive(:last_run_result).and_return(nil)
       allow(Captain::Llm::AssistantActionClassifierService).to receive(:new).and_return(mock_action_classifier_service)
       allow(mock_action_classifier_service).to receive(:classify).and_return({ 'action' => 'continue' })
       allow(Captain::Llm::AssistantFalsePromiseService).to receive(:new).and_return(mock_false_promise_service)
@@ -70,6 +71,12 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
         account.reload
         expect(account.usage_limits[:captain][:responses][:consumed]).to eq(1)
+      end
+
+      it 'does not create a captain session' do
+        expect do
+          described_class.perform_now(conversation, assistant)
+        end.not_to change(Captain::AgentSession, :count)
       end
 
       it 'does not run the action classifier when the classifier feature is disabled' do
@@ -487,6 +494,98 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         public_messages = conversation.messages.outgoing.where(private: false)
         expect(public_messages.count).to eq(1)
         expect(public_messages.last.content).to eq(I18n.t('conversations.captain.handoff'))
+      end
+    end
+
+    context 'when capturing assistant sessions' do
+      let(:run_context) do
+        {
+          session_id: "#{account.id}_#{conversation.display_id}",
+          current_agent: 'Assistant',
+          turn_count: 1,
+          conversation_history: [
+            { role: :user, content: 'Hello' },
+            { role: :assistant, content: 'Hey, welcome to Captain V2', agent_name: 'Assistant' }
+          ],
+          state: { cw_metadata: { faq_ids: [7, 9], document_ids: [3] } }
+        }
+      end
+      let(:usage) do
+        Agents::RunContext::Usage.new.tap do |u|
+          u.input_tokens = 100
+          u.output_tokens = 20
+          u.total_tokens = 120
+        end
+      end
+      let(:run_result) { Agents::RunResult.new(output: { 'response' => 'Hey, welcome to Captain V2' }, usage: usage, context: run_context) }
+
+      before do
+        allow(account).to receive(:feature_enabled?).and_return(false)
+        allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(true)
+        allow(mock_agent_runner_service).to receive(:last_run_result).and_return(run_result)
+      end
+
+      it 'creates a session for a delivered response' do
+        described_class.perform_now(conversation, assistant)
+
+        session = Captain::AgentSession.last
+        expect(session).to have_attributes(
+          account_id: account.id,
+          assistant_id: assistant.id,
+          subject_id: conversation.id,
+          subject_type: 'Conversation',
+          result_id: conversation.messages.outgoing.last.id,
+          result_type: 'Message',
+          llm_model: 'openai-gpt-5.2',
+          credits_consumed: 1.0,
+          faq_ids: [7, 9],
+          document_ids: [3],
+          scenario_ids: [],
+          user_id: nil
+        )
+        expect(session).to be_session_assistant
+        expect(session.run_context.first).to include('role' => 'user', 'content' => 'Hello')
+      end
+
+      it 'creates a zero-credit session when the handoff tool fired' do
+        allow(mock_agent_runner_service).to receive(:generate_response) do
+          conversation.update!(status: :open)
+          { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
+        end
+
+        described_class.perform_now(conversation, assistant)
+
+        session = Captain::AgentSession.last
+        expect(session.credits_consumed).to eq(0.0)
+        expect(session.result_id).to eq(conversation.messages.outgoing.where(private: false).last.id)
+        expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+      end
+
+      it 'creates a zero-credit session when the handoff tool fired but failed to commit' do
+        allow(mock_agent_runner_service).to receive(:generate_response).and_return({
+                                                                                     'response' => 'I tried to hand off',
+                                                                                     'handoff_tool_called' => true
+                                                                                   })
+
+        described_class.perform_now(conversation, assistant)
+
+        session = Captain::AgentSession.last
+        expect(session.credits_consumed).to eq(0.0)
+        expect(session.result_id).to eq(conversation.messages.outgoing.where(private: false).last.id)
+      end
+
+      it 'still delivers the reply when session capture fails' do
+        allow(Captain::AgentSession).to receive(:create!).and_raise(StandardError, 'capture failed')
+        allow(ChatwootExceptionTracker).to receive(:new).and_call_original
+
+        expect do
+          described_class.perform_now(conversation, assistant)
+        end.not_to raise_error
+
+        expect(conversation.messages.outgoing.count).to eq(1)
+        expect(conversation.messages.outgoing.last.content).to eq('Hey, welcome to Captain V2')
+        expect(conversation.reload.status).to eq('pending')
+        expect(ChatwootExceptionTracker).to have_received(:new)
       end
     end
 

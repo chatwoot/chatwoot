@@ -75,6 +75,7 @@ en:
 
   errors:
     account:
+      not_authorized: You are not authorized to access this account
       reporting_timezone:
         invalid: is not a valid timezone
       support_email:
