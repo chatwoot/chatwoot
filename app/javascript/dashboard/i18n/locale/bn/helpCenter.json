@@ -533,6 +533,8 @@
             "PUBLISHED": "প্রকাশিত",
             "ARCHIVED": "সংরক্ষিত"
           },
+          "PENDING_EDITS": "Unpublished edits",
+          "PENDING_EDITS_TOOLTIP": "This published article has unpublished edits",
           "CATEGORY": {
             "UNCATEGORISED": "বিভাগবিহীন"
           }
@@ -552,6 +554,7 @@
         "LOCALE": {
           "ALL": "সমস্ত ভাষা"
         },
+        "SEARCH_PLACEHOLDER": "নিবন্ধ অনুসন্ধান করুন...",
         "NEW_ARTICLE": "নতুন নিবন্ধ"
       },
       "EMPTY_STATE": {
@@ -579,6 +582,10 @@
         "CATEGORY": {
           "TITLE": "এই বিভাগে কোনো নিবন্ধ নেই",
           "SUBTITLE": "এই বিভাগের নিবন্ধগুলি এখানে প্রদর্শিত হবে"
+        },
+        "SEARCH": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "We couldn't find any articles matching your search. Try a different term."
         }
       },
       "BULK_TRANSLATE": {
@@ -611,6 +618,8 @@
         "DELETE": "মুছে ফেলুন",
         "STATUS_SUCCESS": "Articles updated successfully",
         "STATUS_ERROR": "Failed to update articles",
+        "STATUS_SKIPPED": "1 article with unpublished edits was skipped — open it to publish or discard. | {count} articles with unpublished edits were skipped — open them to publish or discard.",
+        "STATUS_SKIPPED_ALL": "These articles have unpublished edits — open each to publish or discard.",
         "CATEGORY_SUCCESS": "Articles moved successfully",
         "CATEGORY_ERROR": "Failed to move articles",
         "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
@@ -624,6 +633,7 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "নতুন বিভাগ",
         "EDIT_CATEGORY": "বিভাগ সম্পাদনা করুন",
+        "SEARCH_PLACEHOLDER": "Search categories...",
         "CATEGORIES_COUNT": "{n} বিভাগ | {n} বিভাগসমূহ",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "বিভাগসমূহ ({localeCode})",
@@ -633,6 +643,10 @@
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "কোনো বিভাগ পাওয়া যায়নি",
         "SUBTITLE": "বিভাগগুলো এখানে দেখানো হবে. 'নতুন বিভাগ' বোতামে ক্লিক করে আপনি একটি বিভাগ যোগ করতে পারেন."
+      },
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching categories",
+        "SUBTITLE": "We couldn't find any categories matching your search. Try a different term."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} নিবন্ধ | {count} নিবন্ধসমূহ"
@@ -691,6 +705,11 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "কোনো লোকেল উপলব্ধ নেই | {n} লোকেল | {n} লোকেলসমূহ",
       "NEW_LOCALE_BUTTON_TEXT": "নতুন লোকেল",
+      "SEARCH_PLACEHOLDER": "Search locales...",
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching locales",
+        "SUBTITLE": "We couldn't find any locales matching your search. Try a different term."
+      },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} নিবন্ধ | {count} নিবন্ধসমূহ",
         "CATEGORIES_COUNT": "{count} বিভাগ | {count} বিভাগসমূহ",
@@ -700,7 +719,49 @@
           "MAKE_DEFAULT": "ডিফল্ট করুন",
           "MOVE_TO_DRAFT": "Move to draft",
           "PUBLISH_LOCALE": "Publish locale",
+          "CUSTOMIZE_CONTENT": "Localize content",
+          "SELECT_POPULAR_CONTENT": "Select recommended content",
           "DELETE": "মুছে ফেলুন"
+        }
+      },
+      "POPULAR_CONTENT_DIALOG": {
+        "TITLE": "Recommended content",
+        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on this locale's help center home page. Drag them into the order you want visitors to see.",
+        "SEARCH": "Search...",
+        "EMPTY": "No matching results",
+        "ADD_ANOTHER": "Add another...",
+        "SLOTS_LEFT": "{count} slots left",
+        "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
+        "CONFIRM": "Save recommendations",
+        "CATEGORIES": {
+          "LABEL": "Recommended categories",
+          "ARTICLES_COUNT": "No articles | {count} article | {count} articles"
+        },
+        "ARTICLES": {
+          "LABEL": "Recommended articles",
+          "IN_CATEGORY": "in {category}",
+          "UNCATEGORIZED": "বিভাগহীন"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Recommended content updated successfully",
+          "ERROR_MESSAGE": "Unable to update recommended content. Try again."
+        }
+      },
+      "CONTENT_DIALOG": {
+        "TITLE": "Localize content",
+        "DESCRIPTION": "Set values specific to this locale. Anything left blank falls back to the default locale.",
+        "NAME": {
+          "LABEL": "নাম"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "পৃষ্ঠার শিরোনাম"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "হেডার টেক্সট"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Locale content updated successfully",
+          "ERROR_MESSAGE": "Unable to update locale content. Try again."
         }
       },
       "ADD_LOCALE_DIALOG": {
@@ -730,9 +791,29 @@
         },
         "PREVIEW": "পূর্বরূপ",
         "PUBLISH": "প্রকাশ করুন",
+        "PUBLISH_CHANGES": "Publish changes",
+        "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
+        "PUBLISH_CHANGES_ERROR": "Could not publish changes",
+        "SAVE_IN_PROGRESS": "Still saving your latest changes — please try again in a moment.",
+        "DISCARD_CHANGES": "Discard changes",
+        "DISCARD_CHANGES_SUCCESS": "Changes discarded",
+        "DISCARD_CHANGES_ERROR": "Could not discard changes",
+        "PENDING_CHANGES": "Pending changes",
+        "VIEW_CHANGES": "View unpublished changes",
         "DRAFT": "খসড়া",
         "ARCHIVE": "আর্কাইভ",
         "BACK_TO_ARTICLES": "নিবন্ধগুলিতে ফিরে যান"
+      },
+      "PENDING_CHANGES_POPOVER": {
+        "TITLE": "Unpublished changes",
+        "DESCRIPTION": "This article has draft changes that aren't live yet. Apply them before changing the status, or discard them?",
+        "APPLY": "Apply changes",
+        "DISCARD": "Discard changes"
+      },
+      "DIFF_DIALOG": {
+        "TITLE": "Unpublished changes",
+        "DESCRIPTION": "Compare your draft against the version that's currently live.",
+        "TITLE_LABEL": "Title"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "আরও বৈশিষ্ট্য",
