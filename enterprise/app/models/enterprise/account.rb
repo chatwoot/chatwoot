@@ -73,6 +73,12 @@ module Enterprise::Account
     saml_settings&.saml_enabled? || false
   end
 
+  def api_and_webhooks_enabled?
+    return true unless ChatwootApp.chatwoot_cloud?
+
+    feature_enabled?('api_and_webhooks')
+  end
+
   def billing_currency
     # Feature off => everyone is billed in USD (legacy behaviour).
     return Enterprise::Billing::Currencies::DEFAULT unless Enterprise::Billing::Currencies.enabled?

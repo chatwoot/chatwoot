@@ -248,20 +248,53 @@ RSpec.describe Captain::Llm::ConversationFaqService do
           service.generate_and_deduplicate
         end.to change(captain_assistant.faq_suggestions, :count).by(1)
 
-        expect(captain_assistant.faq_suggestions.pluck(:language)).to contain_exactly('en', 'pt_BR')
+        expect(captain_assistant.faq_suggestions.pluck(:language)).to contain_exactly('en', 'pt')
         expect(existing_suggestion.reload.source_count).to eq(1)
+      end
+    end
+
+    context 'when an open suggestion uses another locale variant of the same language' do
+      let(:account) { create(:account, locale: 'pt_BR') }
+      let(:captain_assistant) { create(:captain_assistant, account: account) }
+      let(:conversation) { create(:conversation, account: account, first_reply_created_at: Time.zone.now) }
+      let(:sample_faqs) { [{ 'question' => 'Como ativo o recurso?', 'answer' => 'Ative nas configuracoes.' }] }
+      let(:existing_suggestion) do
+        captain_assistant.faq_suggestions.create!(
+          question: 'Como habilito o recurso?',
+          answer: 'Ative nas configuracoes.',
+          embedding: embedding_one,
+          language: 'pt',
+          source_count: 1
+        )
+      end
+      let(:equivalence_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
+
+      before do
+        existing_suggestion
+        allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
+        allow(mock_chat).to receive(:ask) do |input|
+          input.start_with?('{') ? equivalence_response : mock_response
+        end
+      end
+
+      it 'attaches the observation to the existing base-language suggestion' do
+        expect do
+          service.generate_and_deduplicate
+        end.to change(existing_suggestion.observations, :count).by(1)
+
+        expect(existing_suggestion.reload.source_count).to eq(2)
+        expect(captain_assistant.faq_suggestions.count).to eq(1)
+        expect(existing_suggestion.observations.last.language).to eq('pt')
       end
     end
 
     context 'when a similar approved FAQ uses the account language' do
       let(:sample_faqs) { [{ 'question' => 'Como ativo o recurso?', 'answer' => 'Ative nas configuracoes.' }] }
-      let!(:existing_response) do
+
+      before do
         create(:captain_assistant_response, assistant: captain_assistant, account: captain_assistant.account,
                                             question: 'How do I enable the feature?', answer: 'Turn it on in settings.',
                                             embedding: embedding_one)
-      end
-
-      before do
         conversation.update!(additional_attributes: { conversation_language: 'pt-BR' })
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
       end
@@ -271,7 +304,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
           service.generate_and_deduplicate
         end.to change(captain_assistant.faq_suggestions, :count).by(1)
         expect(Captain::FaqObservation.discarded.count).to be_zero
-        expect(captain_assistant.faq_suggestions.last.language).to eq('pt_BR')
+        expect(captain_assistant.faq_suggestions.last.language).to eq('pt')
       end
     end
 

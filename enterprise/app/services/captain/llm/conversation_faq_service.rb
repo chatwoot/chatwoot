@@ -9,7 +9,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     super(feature: LLM_FEATURE, account: conversation.account, fallback_model: Llm::Models.default_model_for(LLM_FEATURE))
     @assistant = assistant
     @conversation = conversation
-    @content = conversation_faq_content
+    @content = Captain::Llm::ConversationFaqContentService.new(assistant, conversation).generate
     @embedding_service = Captain::Llm::EmbeddingService.new(account_id: conversation.account_id)
   end
 
@@ -22,52 +22,6 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   private
 
   attr_reader :content, :conversation, :assistant, :embedding_service
-
-  def conversation_faq_content
-    [
-      'Business Context:',
-      JSON.pretty_generate(business_context),
-      "Conversation ID: ##{conversation.display_id}",
-      "Channel: #{conversation.inbox.channel.name}",
-      'Message History:',
-      conversation_faq_messages
-    ].join("\n")
-  end
-
-  def conversation_faq_messages
-    messages = conversation
-               .messages
-               .where(message_type: %i[incoming outgoing], private: false)
-               .order(created_at: :asc)
-
-    return "No messages in this conversation\n" if messages.empty?
-
-    messages.filter_map { |message| format_conversation_faq_message(message) }.join
-  end
-
-  def format_conversation_faq_message(message)
-    return unless faq_source_message?(message)
-
-    message_content = message.content_for_llm
-    return if message_content.blank?
-
-    sender = human_support_reply?(message) ? 'Support Agent' : 'User'
-    "#{sender}: #{message_content}\n"
-  end
-
-  def faq_source_message?(message)
-    return true if message.incoming? && message.sender_type == 'Contact'
-
-    human_support_reply?(message)
-  end
-
-  def human_support_reply?(message)
-    return false unless message.outgoing?
-    return false if message.content_attributes['automation_rule_id'].present?
-    return false if message.additional_attributes['campaign_id'].present?
-
-    message.sender_type == 'User' || message.content_attributes['external_echo'].present?
-  end
 
   def no_human_interaction?
     conversation.first_reply_created_at.nil?
@@ -97,6 +51,8 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     return [] unless relation.exists?
 
     ApplicationRecord.transaction do
+      # Force an exact search because IVFFlat can miss matches after relation filters.
+      # SET LOCAL keeps the planner change scoped to this transaction.
       ApplicationRecord.connection.execute('SET LOCAL enable_indexscan = off')
       relation
         .nearest_neighbors(:embedding, embedding, distance: 'cosine')
@@ -129,6 +85,8 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
 
   def attach_observation(suggestion, faq)
     suggestion.with_lock do
+      next unless suggestion.open?
+
       existing_observation = suggestion.observations.find_by(conversation: conversation)
       next existing_observation if existing_observation
 
@@ -159,7 +117,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   end
 
   def approved_faqs_for_language
-    return assistant.responses.approved if base_language(faq_language) == base_language(account_language)
+    return assistant.responses.approved if faq_language == account_language
 
     assistant.responses.none
   end
@@ -217,16 +175,6 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     Captain::Llm::ConversationFaqPromptsService.generator(language_name(faq_language))
   end
 
-  def business_context
-    {
-      product_name: assistant.config['product_name'],
-      assistant_description: assistant.description,
-      instructions: assistant.config['instructions'],
-      response_guidelines: assistant.response_guidelines,
-      guardrails: assistant.guardrails
-    }.compact
-  end
-
   def faq_language
     @faq_language ||= normalize_language(conversation.language.presence || conversation.account.locale.presence || I18n.default_locale.to_s)
   end
@@ -236,15 +184,11 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   end
 
   def normalize_language(language)
-    language.to_s.tr('-', '_')
-  end
-
-  def base_language(language)
-    language.split('_').first
+    language.to_s.tr('-', '_').split('_').first.downcase
   end
 
   def language_name(language)
-    ISO_639.find(base_language(language))&.english_name&.downcase || 'english'
+    ISO_639.find(language)&.english_name&.downcase || 'english'
   end
 
   def parse_generation_response(response)

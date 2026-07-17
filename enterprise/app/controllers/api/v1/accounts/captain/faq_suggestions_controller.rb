@@ -23,9 +23,11 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
   end
 
   def update
-    raise ActiveRecord::RecordNotFound unless @suggestion.open?
+    @suggestion.with_lock do
+      raise ActiveRecord::RecordNotFound unless @suggestion.open?
 
-    @suggestion.update!(suggestion_params)
+      @suggestion.update!(suggestion_params)
+    end
   end
 
   def approve
@@ -34,9 +36,11 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
   end
 
   def dismiss
-    raise ActiveRecord::RecordNotFound unless @suggestion.open?
+    @suggestion.with_lock do
+      raise ActiveRecord::RecordNotFound unless @suggestion.open?
 
-    @suggestion.dismissed!
+      @suggestion.dismissed!
+    end
   end
 
   private
@@ -55,6 +59,12 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
 
   def set_suggestions
     @suggestions = Current.account.captain_faq_suggestions.includes(:assistant).ordered
+    return if Current.account_user.administrator?
+
+    accessible_suggestion_ids = Captain::FaqObservation
+                                .where(conversation_id: accessible_conversations.select(:id))
+                                .select(:faq_suggestion_id)
+    @suggestions = @suggestions.where(id: accessible_suggestion_ids)
   end
 
   def set_suggestion
