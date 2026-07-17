@@ -86,9 +86,21 @@
         "NOTE": "আপনার অ্যাকাউন্টের জন্য অতিরিক্ত নিরাপত্তা বৈশিষ্ট্যগুলি পরিচালনা করুন।.",
         "MFA_BUTTON": "দ্বি-ফ্যাক্টর প্রমাণীকরণ পরিচালনা করুন"
       },
+      "SESSIONS_SECTION": {
+        "TITLE": "Active Sessions",
+        "NOTE": "These are the devices currently logged in to your account.",
+        "CURRENT": "Current session",
+        "REVOKE": "Revoke",
+        "REVOKE_SUCCESS": "Session revoked successfully",
+        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
+        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
+        "LAST_ACTIVE": "Last active",
+        "UNKNOWN_DEVICE": "Unknown device"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "অ্যাক্সেস টোকেন",
         "NOTE": "আপনি যদি API ভিত্তিক সংযোগ তৈরি করেন, তাহলে এই টোকেন ব্যবহার করা যেতে পারে",
+        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
         "COPY": "কপি",
         "RESET": "রিসেট",
         "CONFIRM_RESET": "আপনি কি নিশ্চিত?",
@@ -313,6 +325,7 @@
     "ALL_COMPANIES": "সমস্ত কোম্পানি",
     "CAPTAIN": "ক্যাপ্টেন",
     "CAPTAIN_ASSISTANTS": "সহকারী",
+    "CAPTAIN_OVERVIEW": "সারাংশ",
     "CAPTAIN_DOCUMENTS": "ডকুমেন্ট",
     "CAPTAIN_RESPONSES": "প্রশ্নাবলী",
     "CAPTAIN_TOOLS": "টুলস",
@@ -328,6 +341,7 @@
     "NOTIFICATIONS": "নোটিফিকেশন",
     "CANNED_RESPONSES": "সংরক্ষিত উত্তর",
     "INTEGRATIONS": "ইন্টিগ্রেশনসমূহ",
+    "DATA": "Data",
     "PROFILE_SETTINGS": "প্রোফাইল সেটিংস",
     "ACCOUNT_SETTINGS": "অ্যাকাউন্ট সেটিং",
     "APPLICATIONS": "অ্যাপ্লিকেশন",
@@ -379,10 +393,123 @@
       "INFO_TEXT": "যখন আপনি অ্যাপ বা ড্যাশবোর্ড ব্যবহার করছেন না তখন সিস্টেম স্বয়ংক্রিয়ভাবে আপনাকে অফলাইন চিহ্নিত করবে।.",
       "INFO_SHORT": "আপনি যখন অ্যাপ ব্যবহার করছেন না, তখন স্বয়ংক্রিয়ভাবে অফলাইন চিহ্নিত করুন।."
     },
+    "SORT_TOOLTIP": "Sort",
+    "SORT_BY": "ক্রম সাজান",
+    "SORT_GROUPS": {
+      "CREATED": "Sort by date of creation",
+      "ALPHABETICAL": "Sort in alphabetical order",
+      "UNREAD_COUNT": "Sort by unread count"
+    },
+    "SORT_OPTIONS": {
+      "CREATED_DESC": "Newest first",
+      "CREATED_ASC": "Oldest first",
+      "ALPHABETICAL_ASC": "Ascending (A - Z)",
+      "ALPHABETICAL_DESC": "Descending (Z - A)",
+      "UNREAD_COUNT_DESC": "Highest first",
+      "UNREAD_COUNT_ASC": "Lowest first"
+    },
     "DOCS": "ডকস পড়ুন",
     "SECURITY": "নিরাপত্তা",
     "CAPTAIN_AI": "ক্যাপ্টেন",
     "CONVERSATION_WORKFLOW": "কথোপকথন ওয়ার্কফ্লো"
+  },
+  "DATA_IMPORTS": {
+    "HEADER": "Data",
+    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
+    "LOADING": "Fetching imports",
+    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "TABS": {
+      "IMPORT": "আমদানি করুন",
+      "EXPORT": "রপ্তানি করুন"
+    },
+    "TYPES": {
+      "CONTACTS": "কন্টাক্টসমূহ",
+      "CONVERSATIONS": "Conversations",
+      "MESSAGES": "বার্তা"
+    },
+    "DRAWER": {
+      "TITLE": "New import",
+      "SOURCE": "Source",
+      "NAME": "Import name",
+      "NAME_PLACEHOLDER": "July Intercom migration",
+      "ACCESS_KEY": "Intercom access key",
+      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "DATA_TYPES": "Data to import",
+      "VALIDATING": "Validating access key...",
+      "VALID_KEY": "Access key validated.",
+      "INVALID_KEY": "Could not validate this access key.",
+      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "CANCEL": "বাতিল করুন",
+      "IMPORT": "আমদানি করুন"
+    },
+    "EXPORT": {
+      "TITLE": "Exports are on the way",
+      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
+      "COMING_SOON": "শীঘ্রই আসছে"
+    },
+    "TABLE": {
+      "TITLE": "Recent imports",
+      "EMPTY": "No imports yet",
+      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "NEW_IMPORT": "আমদানি করুন",
+      "COUNT": "{count} imports",
+      "UNNAMED": "Untitled import",
+      "IMPORTED_COUNT": "{count} imported",
+      "VIEW": "View import",
+      "NAME": "নাম",
+      "TYPE": "Type",
+      "STATUS": "অবস্থা",
+      "IMPORTED": "Imported",
+      "CREATED": "তৈরি হয়েছে",
+      "ABANDON": "Abandon"
+    },
+    "DETAIL": {
+      "BACK": "Back to imports",
+      "ERRORS": "Errors",
+      "SKIP_LOGS": "Skip logs",
+      "SOURCE": "Source",
+      "IMPORT_TYPES": "Import types",
+      "CREATED": "তৈরি হয়েছে",
+      "DURATION": "সময়কাল",
+      "INITIATED_BY": "Started by",
+      "PROGRESS": "Import progress",
+      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
+      "PROGRESS_OF_TOTAL": "of {total} imported",
+      "PROGRESS_IMPORTED": "imported",
+      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
+      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
+      "DOWNLOAD_SKIP_LOGS": "Download CSV",
+      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "ALL_SKIP_LOGS": "All",
+      "KIND": "Kind",
+      "NO_ERRORS": "No errors recorded.",
+      "ERROR_CODE": "Code",
+      "SOURCE_OBJECT": "Source object",
+      "MESSAGE": "Message"
+    },
+    "MONITOR": {
+      "LIVE": "Live updates every {seconds}s",
+      "LAST_UPDATED": "Last updated {time}",
+      "REFRESH": "Refresh",
+      "REFRESHING": "Refreshing",
+      "STAGES": {
+        "unknown": "Waiting for update",
+        "queued": "Queued",
+        "contacts": "Importing contacts",
+        "conversations": "Importing conversations",
+        "finalizing": "Finalizing import",
+        "completed": "Completed",
+        "completed_with_errors": "Completed with errors",
+        "failed": "ব্যর্থ",
+        "abandoned": "Abandoned"
+      }
+    },
+    "ALERTS": {
+      "IMPORT_STARTED": "Intercom import has started.",
+      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the Intercom import."
+    }
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "ক্যাপ্টেন সেটিংস",
@@ -414,7 +541,9 @@
       "DESCRIPTION": "AI-চালিত বৈশিষ্ট্যগুলি সক্রিয় বা নিষ্ক্রিয় করুন।.",
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "অডিও ট্রান্সক্রিপশন",
-        "DESCRIPTION": "স্বয়ংক্রিয়ভাবে ভয়েস মেসেজ এবং কল রেকর্ডিং অনুসন্ধানযোগ্য টেক্সট ট্রান্সক্রিপ্টে রূপান্তর করুন।."
+        "DESCRIPTION": "স্বয়ংক্রিয়ভাবে ভয়েস মেসেজ এবং কল রেকর্ডিং অনুসন্ধানযোগ্য টেক্সট ট্রান্সক্রিপ্টে রূপান্তর করুন।.",
+        "MODEL_TITLE": "Audio Transcription Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "হেল্প সেন্টার সার্চ ইনডেক্সিং",
@@ -439,7 +568,18 @@
       "TITLE": "বর্তমান প্ল্যান",
       "PLAN_NOTE": "আপনি বর্তমানে **{plan}** প্ল্যানে **{quantity}** লাইসেন্সে সাবস্ক্রাইব করেছেন",
       "SEAT_COUNT": "আসনের সংখ্যা",
-      "RENEWS_ON": "নবায়নের তারিখ"
+      "RENEWS_ON": "নবায়নের তারিখ",
+      "CURRENCY": "Currency"
+    },
+    "CURRENCY": {
+      "SELECT": {
+        "TITLE": "Choose your billing currency",
+        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+      },
+      "OPTIONS": {
+        "USD": "US Dollar (USD)",
+        "BRL": "Brazilian Real (BRL)"
+      }
     },
     "VIEW_PRICING": "মূল্য দেখুন",
     "MANAGE_SUBSCRIPTION": {
@@ -475,6 +615,7 @@
       "PURCHASE": "ক্রেডিট ক্রয় করুন",
       "LOADING": "অপশনগুলি লোড হচ্ছে...",
       "FETCH_ERROR": "ক্রেডিট অপশনগুলি লোড করতে ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।.",
+      "RETRY": "Retry",
       "PURCHASE_ERROR": "ক্রয় প্রক্রিয়া করতে ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।.",
       "PURCHASE_SUCCESS": "আপনার অ্যাকাউন্টে সফলভাবে {credits} ক্রেডিট যোগ করা হয়েছে",
       "CONFIRM": {
@@ -775,6 +916,10 @@
           "DESCRIPTION": "কোনো এক এজেন্টের অতিরিক্ত কাজ এড়াতে একটি নির্দিষ্ট সময়ের মধ্যে প্রতি এজেন্টকে বরাদ্দ করা সর্বোচ্চ কথোপকথনের সংখ্যা নির্ধারণ করুন। এই আবশ্যক ক্ষেত্রের ডিফল্ট মান প্রতি ঘণ্টায় ১০০ কথোপকথন.",
           "INPUT_MAX": "সর্বোচ্চ বরাদ্দ করুন",
           "DURATION": "প্রতি এজেন্ট প্রতি কথোপকথন প্রতি"
+        },
+        "EXCLUDE_OLDER_THAN": {
+          "LABEL": "Skip stale conversations",
+          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
         },
         "INBOXES": {
           "LABEL": "যোগ করা ইনবক্স",
