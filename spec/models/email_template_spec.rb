@@ -13,6 +13,33 @@ RSpec.describe EmailTemplate do
       expect(inbox_template).to be_valid
     end
 
+    it 'rejects duplicate installation-scoped templates' do
+      create(:email_template)
+      duplicate_template = build(:email_template)
+
+      expect(duplicate_template).not_to be_valid
+      expect(duplicate_template.errors[:name]).to include('has already been taken')
+    end
+
+    it 'rejects duplicate account-scoped templates' do
+      account = create(:account)
+      create(:email_template, account: account)
+      duplicate_template = build(:email_template, account: account)
+
+      expect(duplicate_template).not_to be_valid
+      expect(duplicate_template.errors[:name]).to include('has already been taken')
+    end
+
+    it 'rejects duplicate inbox-scoped templates' do
+      account = create(:account)
+      inbox = create(:inbox, :with_email, account: account)
+      create(:email_template, account: account, inbox: inbox)
+      duplicate_template = build(:email_template, account: account, inbox: inbox)
+
+      expect(duplicate_template).not_to be_valid
+      expect(duplicate_template.errors[:name]).to include('has already been taken')
+    end
+
     it 'requires branded layouts to include content_for_layout' do
       template = build(:email_template, name: EmailTemplate::BRANDED_LAYOUT_NAME, template_type: :layout, body: '<html><body>No slot</body></html>')
 

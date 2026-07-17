@@ -29,10 +29,9 @@ class EmailTemplate < ApplicationRecord
   belongs_to :account, optional: true
   belongs_to :inbox, optional: true
 
-  # Partial unique indexes cover installation, account, and inbox scopes.
-  # rubocop:disable Rails/UniqueValidationWithoutIndex
-  validates :name, uniqueness: { scope: [:account_id, :inbox_id, :template_type, :locale] }
-  # rubocop:enable Rails/UniqueValidationWithoutIndex
+  validates :name, uniqueness: { scope: %i[template_type locale] }, if: :installation_scoped?
+  validates :name, uniqueness: { scope: %i[account_id template_type locale] }, if: :account_scoped?
+  validates :name, uniqueness: { scope: %i[inbox_id template_type locale] }, if: :inbox_scoped?
   validate :validate_inbox_account
   validate :validate_liquid_body
   validate :validate_layout_slot, if: :layout?
@@ -85,6 +84,18 @@ class EmailTemplate < ApplicationRecord
   end
 
   private
+
+  def installation_scoped?
+    account_id.nil? && inbox_id.nil?
+  end
+
+  def account_scoped?
+    account_id.present? && inbox_id.nil?
+  end
+
+  def inbox_scoped?
+    inbox_id.present?
+  end
 
   def validate_inbox_account
     return if inbox.blank? || account.blank?
