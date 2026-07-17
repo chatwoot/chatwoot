@@ -86,9 +86,21 @@
         "NOTE": "Manage additional security features for your account.",
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
+      "SESSIONS_SECTION": {
+        "TITLE": "Active Sessions",
+        "NOTE": "These are the devices currently logged in to your account.",
+        "CURRENT": "Current session",
+        "REVOKE": "Revoke",
+        "REVOKE_SUCCESS": "Session revoked successfully",
+        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
+        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
+        "LAST_ACTIVE": "Last active",
+        "UNKNOWN_DEVICE": "Unknown device"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "访问令牌",
         "NOTE": "如果您正在构建基于 API 的集成，这个令牌可以被使用",
+        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
         "COPY": "复制",
         "RESET": "重置",
         "CONFIRM_RESET": "您确定吗？",
@@ -313,6 +325,7 @@
     "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "助手",
+    "CAPTAIN_OVERVIEW": "概览",
     "CAPTAIN_DOCUMENTS": "文档",
     "CAPTAIN_RESPONSES": "常见问题",
     "CAPTAIN_TOOLS": "工具",
@@ -328,6 +341,7 @@
     "NOTIFICATIONS": "消息通知",
     "CANNED_RESPONSES": "预设回复",
     "INTEGRATIONS": "集成方式",
+    "DATA": "Data",
     "PROFILE_SETTINGS": "个人资料设置",
     "ACCOUNT_SETTINGS": "账户设置",
     "APPLICATIONS": "应用程序",
@@ -379,10 +393,123 @@
       "INFO_TEXT": "当您不使用应用程序或仪表板时，让系统自动标记您离线。",
       "INFO_SHORT": "当您不使用应用程序时自动标记离线。"
     },
+    "SORT_TOOLTIP": "排序",
+    "SORT_BY": "排序方式",
+    "SORT_GROUPS": {
+      "CREATED": "Sort by date of creation",
+      "ALPHABETICAL": "Sort in alphabetical order",
+      "UNREAD_COUNT": "Sort by unread count"
+    },
+    "SORT_OPTIONS": {
+      "CREATED_DESC": "Newest first",
+      "CREATED_ASC": "Oldest first",
+      "ALPHABETICAL_ASC": "Ascending (A - Z)",
+      "ALPHABETICAL_DESC": "Descending (Z - A)",
+      "UNREAD_COUNT_DESC": "Highest first",
+      "UNREAD_COUNT_ASC": "Lowest first"
+    },
     "DOCS": "阅读文档",
     "SECURITY": "安全",
     "CAPTAIN_AI": "Captain",
     "CONVERSATION_WORKFLOW": "Conversation Workflow"
+  },
+  "DATA_IMPORTS": {
+    "HEADER": "Data",
+    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
+    "LOADING": "Fetching imports",
+    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "TABS": {
+      "IMPORT": "导入",
+      "EXPORT": "导出"
+    },
+    "TYPES": {
+      "CONTACTS": "联系人",
+      "CONVERSATIONS": "会话",
+      "MESSAGES": "消息"
+    },
+    "DRAWER": {
+      "TITLE": "New import",
+      "SOURCE": "Source",
+      "NAME": "Import name",
+      "NAME_PLACEHOLDER": "July Intercom migration",
+      "ACCESS_KEY": "Intercom access key",
+      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "DATA_TYPES": "Data to import",
+      "VALIDATING": "Validating access key...",
+      "VALID_KEY": "Access key validated.",
+      "INVALID_KEY": "Could not validate this access key.",
+      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "CANCEL": "取消",
+      "IMPORT": "导入"
+    },
+    "EXPORT": {
+      "TITLE": "Exports are on the way",
+      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
+      "COMING_SOON": "Coming soon"
+    },
+    "TABLE": {
+      "TITLE": "Recent imports",
+      "EMPTY": "No imports yet",
+      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "NEW_IMPORT": "导入",
+      "COUNT": "{count} imports",
+      "UNNAMED": "Untitled import",
+      "IMPORTED_COUNT": "{count} imported",
+      "VIEW": "View import",
+      "NAME": "姓名：",
+      "TYPE": "类型",
+      "STATUS": "状态",
+      "IMPORTED": "Imported",
+      "CREATED": "创建时间",
+      "ABANDON": "Abandon"
+    },
+    "DETAIL": {
+      "BACK": "Back to imports",
+      "ERRORS": "Errors",
+      "SKIP_LOGS": "Skip logs",
+      "SOURCE": "Source",
+      "IMPORT_TYPES": "Import types",
+      "CREATED": "创建时间",
+      "DURATION": "持续时间",
+      "INITIATED_BY": "Started by",
+      "PROGRESS": "Import progress",
+      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
+      "PROGRESS_OF_TOTAL": "of {total} imported",
+      "PROGRESS_IMPORTED": "imported",
+      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
+      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
+      "DOWNLOAD_SKIP_LOGS": "Download CSV",
+      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "ALL_SKIP_LOGS": "所有的",
+      "KIND": "Kind",
+      "NO_ERRORS": "No errors recorded.",
+      "ERROR_CODE": "Code",
+      "SOURCE_OBJECT": "Source object",
+      "MESSAGE": "消息"
+    },
+    "MONITOR": {
+      "LIVE": "Live updates every {seconds}s",
+      "LAST_UPDATED": "Last updated {time}",
+      "REFRESH": "刷新",
+      "REFRESHING": "Refreshing",
+      "STAGES": {
+        "unknown": "Waiting for update",
+        "queued": "Queued",
+        "contacts": "Importing contacts",
+        "conversations": "Importing conversations",
+        "finalizing": "Finalizing import",
+        "completed": "已完成",
+        "completed_with_errors": "Completed with errors",
+        "failed": "失败",
+        "abandoned": "Abandoned"
+      }
+    },
+    "ALERTS": {
+      "IMPORT_STARTED": "Intercom import has started.",
+      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the Intercom import."
+    }
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Captain Settings",
@@ -414,7 +541,9 @@
       "DESCRIPTION": "Enable or disable AI-powered features.",
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Audio Transcription",
-        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts."
+        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts.",
+        "MODEL_TITLE": "Audio Transcription Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
@@ -439,7 +568,18 @@
       "TITLE": "当前计划",
       "PLAN_NOTE": "您当前订阅的是 **{plan}** 计划，拥有 **{quantity}** 个许可证",
       "SEAT_COUNT": "座位数",
-      "RENEWS_ON": "续订于"
+      "RENEWS_ON": "续订于",
+      "CURRENCY": "Currency"
+    },
+    "CURRENCY": {
+      "SELECT": {
+        "TITLE": "Choose your billing currency",
+        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+      },
+      "OPTIONS": {
+        "USD": "US Dollar (USD)",
+        "BRL": "Brazilian Real (BRL)"
+      }
     },
     "VIEW_PRICING": "查看价格",
     "MANAGE_SUBSCRIPTION": {
@@ -475,6 +615,7 @@
       "PURCHASE": "Purchase Credits",
       "LOADING": "Loading options...",
       "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "RETRY": "重试",
       "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
       "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
       "CONFIRM": {
@@ -775,6 +916,10 @@
           "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
           "INPUT_MAX": "Assign max",
           "DURATION": "Conversations per agent in every"
+        },
+        "EXCLUDE_OLDER_THAN": {
+          "LABEL": "Skip stale conversations",
+          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
         },
         "INBOXES": {
           "LABEL": "Added inboxes",
