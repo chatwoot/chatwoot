@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "Només pots respondre a aquesta conversa mitjançant una plantilla de missatge a causa de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricció de finestra de missatges de 24 hores",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "Estas responent a:",
     "REMOVE_SELECTION": "Elimina la selecció",
     "DOWNLOAD": "Descarrega",
@@ -233,6 +235,7 @@
       "TIP_AUDIORECORDER_ERROR": "No s'ha pogut obrir l'àudio",
       "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Arrossega i deixa anar aquí per adjuntar-lo",
+      "IMAGE_UPLOAD_SUCCESS": "La imatge s'ha carregat correctament",
       "START_AUDIO_RECORDING": "Inicia la gravació d'àudio",
       "STOP_AUDIO_RECORDING": "Atura la gravació d'àudio",
       "COPILOT_THINKING": "Copilot està pensant",
@@ -303,6 +306,25 @@
         "MESSAGE": "No pots desfer aquesta acció",
         "DELETE": "Esborrar",
         "CANCEL": "Cancel·la"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "Descripció",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -400,7 +422,8 @@
       "VIEW_ALL": "Veure tot",
       "SHOW_LESS": "Show less",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Untitled file",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
