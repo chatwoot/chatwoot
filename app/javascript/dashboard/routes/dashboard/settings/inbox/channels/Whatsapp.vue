@@ -41,8 +41,10 @@ const shouldShowWhatsappEmbeddedSignup = computed(() => {
   return (
     selectedProvider.value === PROVIDER_TYPES.WHATSAPP &&
     hasWhatsappAppId.value &&
-    isOnChatwootCloud.value &&
-    isCloudFeatureEnabled(FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_INBOX_CREATION)
+    (!isOnChatwootCloud.value ||
+      isCloudFeatureEnabled(
+        FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_INBOX_CREATION
+      ))
   );
 });
 
