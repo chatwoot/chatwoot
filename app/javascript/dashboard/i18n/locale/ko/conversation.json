@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "다음 사유로 인해 템플릿 메시지로만 이 대화에 답장할 수 있습니다",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24시간 메시지 창 제한",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "이 Instagram 계정은 새 Instagram 채널 받은 메시지함으로 마이그레이션되었습니다. 모든 새 메시지는 해당 받은 메시지함에 표시됩니다. 이 대화에서는 더 이상 메시지를 보낼 수 없습니다.",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "회신할 대상:",
     "REMOVE_SELECTION": "선택 항목 제거",
     "DOWNLOAD": "다운로드",
@@ -233,6 +235,7 @@
       "TIP_AUDIORECORDER_ERROR": "오디오를 열 수 없습니다",
       "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "여기에 드래그 앤 드롭하여 첨부하십시오",
+      "IMAGE_UPLOAD_SUCCESS": "이미지가 성공적으로 업로드되었습니다",
       "START_AUDIO_RECORDING": "오디오 녹음 시작",
       "STOP_AUDIO_RECORDING": "오디오 녹음 중지",
       "COPILOT_THINKING": "Copilot이 생각하고 있습니다",
@@ -303,6 +306,25 @@
         "MESSAGE": "이 작업은 취소할 수 없습니다",
         "DELETE": "삭제",
         "CANCEL": "취소"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "설명",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -400,7 +422,8 @@
       "VIEW_ALL": "모두 보기",
       "SHOW_LESS": "Show less",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Untitled file",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "주문 #{id}",
