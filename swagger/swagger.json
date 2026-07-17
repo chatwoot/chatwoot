@@ -5403,8 +5403,8 @@
               }
             }
           },
-          "403": {
-            "description": "Access denied",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -5453,8 +5453,8 @@
               }
             }
           },
-          "403": {
-            "description": "Access denied",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {

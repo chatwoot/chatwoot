@@ -15,8 +15,8 @@ get:
         application/json:
           schema:
             $ref: '#/components/schemas/branded_email_layout'
-    '403':
-      description: Access denied
+    '401':
+      description: Unauthorized
       content:
         application/json:
           schema:
@@ -44,8 +44,8 @@ patch:
         application/json:
           schema:
             $ref: '#/components/schemas/branded_email_layout'
-    '403':
-      description: Access denied
+    '401':
+      description: Unauthorized
       content:
         application/json:
           schema:
