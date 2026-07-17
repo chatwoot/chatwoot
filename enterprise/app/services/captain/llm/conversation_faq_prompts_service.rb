@@ -57,12 +57,12 @@ class Captain::Llm::ConversationFaqPromptsService
       PROMPT
     end
 
-    def equivalence_classifier
+    def same_faq
       <<~PROMPT
-        Decide whether the candidate and existing entries represent the same reusable FAQ.
+        Decide whether the new FAQ and existing FAQ are the same.
 
-        Return `same_faq` as true only when both questions have the same user intent and both answers give the same substantive guidance.
-        Wording, grammar, level of detail, and examples may differ. Return false when either entry adds, removes, contradicts, or changes a condition,
+        Return `same_faq` as true only when both questions ask the same thing and both answers give the same guidance.
+        Wording, grammar, level of detail, and examples may differ. Return false when either FAQ adds, removes, contradicts, or changes a condition,
         policy, procedure, audience, product, plan, time frame, or outcome. Related FAQs are not the same FAQ. When uncertain, return false.
 
         Return only valid JSON in this exact structure:
