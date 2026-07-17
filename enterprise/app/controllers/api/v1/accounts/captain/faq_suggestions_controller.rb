@@ -1,6 +1,6 @@
 class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::BaseController
   before_action :current_account
-  before_action :check_admin_authorization?
+  before_action -> { check_authorization(Captain::Assistant) }
   before_action :set_suggestions
   before_action :set_suggestion, except: [:index]
 
@@ -59,6 +59,12 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
 
   def set_suggestions
     @suggestions = Current.account.captain_faq_suggestions.includes(:assistant).ordered
+    return if Current.account_user.administrator?
+
+    accessible_suggestion_ids = Captain::FaqObservation
+                                .where(conversation_id: accessible_conversations.select(:id))
+                                .select(:faq_suggestion_id)
+    @suggestions = @suggestions.where(id: accessible_suggestion_ids)
   end
 
   def set_suggestion
