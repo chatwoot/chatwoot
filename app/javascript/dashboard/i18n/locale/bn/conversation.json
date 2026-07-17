@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "আপনি শুধুমাত্র টেমপ্লেট বার্তা ব্যবহার করে এই আলাপে উত্তর দিতে পারবেন কারণ",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "২৪ ঘণ্টার বার্তা সীমাবদ্ধতা",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "এই Instagram অ্যাকাউন্টটি নতুন Instagram চ্যানেল ইনবক্সে স্থানান্তরিত হয়েছে। সব নতুন বার্তা সেখানে দেখা যাবে। আপনি আর এই কথোপকথন থেকে বার্তা পাঠাতে পারবেন না।",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "আপনি যাকে উত্তর দিচ্ছেন:",
     "REMOVE_SELECTION": "নির্বাচন সরান",
     "DOWNLOAD": "ডাউনলোড",
@@ -233,6 +235,7 @@
       "TIP_AUDIORECORDER_ERROR": "অডিও খোলা যায়নি",
       "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "সংযুক্ত করতে এখানে ড্র্যাগ ও ড্রপ করুন",
+      "IMAGE_UPLOAD_SUCCESS": "ছবি সফলভাবে আপলোড হয়েছে",
       "START_AUDIO_RECORDING": "অডিও রেকর্ডিং শুরু করুন",
       "STOP_AUDIO_RECORDING": "অডিও রেকর্ডিং বন্ধ করুন",
       "COPILOT_THINKING": "Copilot ভাবছে",
@@ -303,6 +306,25 @@
         "MESSAGE": "এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না",
         "DELETE": "মুছে ফেলুন",
         "CANCEL": "বাতিল করুন"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -400,7 +422,8 @@
       "VIEW_ALL": "সব দেখুন",
       "SHOW_LESS": "Show less",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Untitled file",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
