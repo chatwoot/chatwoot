@@ -58,6 +58,9 @@ class Captain::Assistant::SessionCaptureService
   # (assistant replies, tool calls/results, handoff hops).
   def current_turn_history
     history = Array(context[:conversation_history])
+    turn_start_index = context[:captain_v2_turn_start_index]
+    return history[turn_start_index..] if turn_start_index
+
     last_user_index = history.rindex { |message| message[:role].to_s == 'user' }
     last_user_index ? history[last_user_index..] : history
   end
