@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "Вы можете ответить в этой беседе только с помощью шаблона сообщения",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Ограничение на 24 часа",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Данный аккаунт Instagram был перенесен в новый канал Instagram. Все новые сообщения будут появляться там. Вы больше не сможете отправлять сообщения из этого диалога.",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "Вы отвечаете на:",
     "REMOVE_SELECTION": "Удалить выделенное",
     "DOWNLOAD": "Скачать",
@@ -233,6 +235,7 @@
       "TIP_AUDIORECORDER_ERROR": "Не удалось открыть аудио",
       "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Перетащите сюда, чтобы прикрепить",
+      "IMAGE_UPLOAD_SUCCESS": "Изображение успешно загружено",
       "START_AUDIO_RECORDING": "Начать запись аудио",
       "STOP_AUDIO_RECORDING": "Остановить запись аудио",
       "COPILOT_THINKING": "Copilot думает",
@@ -303,6 +306,25 @@
         "MESSAGE": "Вы не можете отменить это действие",
         "DELETE": "Удалить",
         "CANCEL": "Отменить"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "Описание",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -400,7 +422,8 @@
       "VIEW_ALL": "Посмотреть все",
       "SHOW_LESS": "Показать меньше",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Файл без заголовка"
+      "UNTITLED_FILE": "Файл без заголовка",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
