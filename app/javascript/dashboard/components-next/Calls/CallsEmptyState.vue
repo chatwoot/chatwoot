@@ -10,8 +10,8 @@ const router = useRouter();
 
 const setupVoiceChannel = () => {
   router.push({
-    name: 'settings_inboxes_page_channel',
-    params: { accountId: route.params.accountId, sub_page: 'voice' },
+    name: 'settings_inbox_new',
+    params: { accountId: route.params.accountId },
   });
 };
 </script>
