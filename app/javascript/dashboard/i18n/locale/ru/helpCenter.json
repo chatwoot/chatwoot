@@ -533,6 +533,8 @@
             "PUBLISHED": "Опубликовано",
             "ARCHIVED": "Архив"
           },
+          "PENDING_EDITS": "Unpublished edits",
+          "PENDING_EDITS_TOOLTIP": "This published article has unpublished edits",
           "CATEGORY": {
             "UNCATEGORISED": "Без категории"
           }
@@ -552,6 +554,7 @@
         "LOCALE": {
           "ALL": "Все локали"
         },
+        "SEARCH_PLACEHOLDER": "Поиск статей...",
         "NEW_ARTICLE": "Новая статья"
       },
       "EMPTY_STATE": {
@@ -579,6 +582,10 @@
         "CATEGORY": {
           "TITLE": "В этой категории нет статей",
           "SUBTITLE": "Статьи в этой категории будут отображаться здесь"
+        },
+        "SEARCH": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "We couldn't find any articles matching your search. Try a different term."
         }
       },
       "BULK_TRANSLATE": {
@@ -611,6 +618,8 @@
         "DELETE": "Удалить",
         "STATUS_SUCCESS": "Статьи успешно обновлены",
         "STATUS_ERROR": "Ошибка обновления статей",
+        "STATUS_SKIPPED": "1 article with unpublished edits was skipped — open it to publish or discard. | {count} articles with unpublished edits were skipped — open them to publish or discard.",
+        "STATUS_SKIPPED_ALL": "These articles have unpublished edits — open each to publish or discard.",
         "CATEGORY_SUCCESS": "Articles moved successfully",
         "CATEGORY_ERROR": "Failed to move articles",
         "DELETE_CONFIRM_TITLE": "Удаление статьи | Удалить статьи {count}",
@@ -624,6 +633,7 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "Новая категория",
         "EDIT_CATEGORY": "Редактировать категорию",
+        "SEARCH_PLACEHOLDER": "Search categories...",
         "CATEGORIES_COUNT": "{n} категорий | {n} категорий",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Категории ({localeCode})",
@@ -633,6 +643,10 @@
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "Категорий не найдено",
         "SUBTITLE": "Категории появятся здесь. Вы можете добавить категорию, нажав на кнопку 'Новая категория'."
+      },
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching categories",
+        "SUBTITLE": "We couldn't find any categories matching your search. Try a different term."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} статьи | {count} статьи"
@@ -691,6 +705,11 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "Нет доступных локалей | {n} локаль | {n} локалей",
       "NEW_LOCALE_BUTTON_TEXT": "Новая локаль",
+      "SEARCH_PLACEHOLDER": "Search locales...",
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching locales",
+        "SUBTITLE": "We couldn't find any locales matching your search. Try a different term."
+      },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} статьи | {count} статьи",
         "CATEGORIES_COUNT": "{count} категория | {count} категории",
@@ -700,7 +719,49 @@
           "MAKE_DEFAULT": "Сделать по умолчанию",
           "MOVE_TO_DRAFT": "Move to draft",
           "PUBLISH_LOCALE": "Publish locale",
+          "CUSTOMIZE_CONTENT": "Localize content",
+          "SELECT_POPULAR_CONTENT": "Select recommended content",
           "DELETE": "Удалить"
+        }
+      },
+      "POPULAR_CONTENT_DIALOG": {
+        "TITLE": "Recommended content",
+        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on this locale's help center home page. Drag them into the order you want visitors to see.",
+        "SEARCH": "Поиск...",
+        "EMPTY": "No matching results",
+        "ADD_ANOTHER": "Add another...",
+        "SLOTS_LEFT": "{count} slots left",
+        "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
+        "CONFIRM": "Save recommendations",
+        "CATEGORIES": {
+          "LABEL": "Recommended categories",
+          "ARTICLES_COUNT": "No articles | {count} article | {count} articles"
+        },
+        "ARTICLES": {
+          "LABEL": "Recommended articles",
+          "IN_CATEGORY": "in {category}",
+          "UNCATEGORIZED": "Без категории"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Recommended content updated successfully",
+          "ERROR_MESSAGE": "Unable to update recommended content. Try again."
+        }
+      },
+      "CONTENT_DIALOG": {
+        "TITLE": "Localize content",
+        "DESCRIPTION": "Set values specific to this locale. Anything left blank falls back to the default locale.",
+        "NAME": {
+          "LABEL": "Имя"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Заголовок страницы"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Текст заголовка"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Locale content updated successfully",
+          "ERROR_MESSAGE": "Unable to update locale content. Try again."
         }
       },
       "ADD_LOCALE_DIALOG": {
@@ -730,9 +791,29 @@
         },
         "PREVIEW": "Предпросмотр",
         "PUBLISH": "Опубликовано",
+        "PUBLISH_CHANGES": "Publish changes",
+        "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
+        "PUBLISH_CHANGES_ERROR": "Could not publish changes",
+        "SAVE_IN_PROGRESS": "Still saving your latest changes — please try again in a moment.",
+        "DISCARD_CHANGES": "Discard changes",
+        "DISCARD_CHANGES_SUCCESS": "Changes discarded",
+        "DISCARD_CHANGES_ERROR": "Could not discard changes",
+        "PENDING_CHANGES": "Pending changes",
+        "VIEW_CHANGES": "View unpublished changes",
         "DRAFT": "Черновик",
         "ARCHIVE": "Архив",
         "BACK_TO_ARTICLES": "Назад к статьям"
+      },
+      "PENDING_CHANGES_POPOVER": {
+        "TITLE": "Unpublished changes",
+        "DESCRIPTION": "This article has draft changes that aren't live yet. Apply them before changing the status, or discard them?",
+        "APPLY": "Apply changes",
+        "DISCARD": "Discard changes"
+      },
+      "DIFF_DIALOG": {
+        "TITLE": "Unpublished changes",
+        "DESCRIPTION": "Compare your draft against the version that's currently live.",
+        "TITLE_LABEL": "Название"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Больше параметров",
