@@ -203,8 +203,11 @@ RSpec.describe DataImports::Intercom::Importer do
     stats = data_import.reload.stats.deep_dup
     stats['messages']['imported'] = 0
     data_import.update!(stats: stats)
+    importer = described_class.new(data_import: data_import)
+    expect(importer).to receive(:reconcile_message_stats).once.ordered.and_call_original
+    expect(importer).to receive(:update_cursor).with('conversations', nil).once.ordered.and_call_original
 
-    described_class.new(data_import: data_import).import_conversations_page
+    importer.import_conversations_page
 
     expect(data_import.reload.stats.dig('messages', 'imported')).to eq(3)
   end
@@ -390,6 +393,79 @@ RSpec.describe DataImports::Intercom::Importer do
       )
       expect(error).to have_attributes(error_code: 'StandardError', message: 'mapping failed')
     end
+
+    it 'retries a contact query timeout after rolling back the first transaction', :aggregate_failures do
+      importer = described_class.new(data_import: data_import)
+      mapping_attempts = 0
+      allow(importer).to receive(:sleep)
+      allow(importer).to receive(:record_mapping).and_wrap_original do |method, object_type, source_id, record, metadata:|
+        if object_type == 'contact'
+          mapping_attempts += 1
+          raise ActiveRecord::QueryCanceled, 'statement timeout' if mapping_attempts == 1
+        end
+
+        method.call(object_type, source_id, record, metadata: metadata)
+      end
+
+      importer.import_contacts_page
+
+      expect(mapping_attempts).to eq(2)
+      expect(importer).to have_received(:sleep).with(be_between(0.2, 0.5)).once
+      expect(account.contacts.where(email: 'customer@example.com').count).to eq(1)
+      expect(data_import.mappings.where(source_object_type: 'contact', source_object_id: 'contact_1').count).to eq(1)
+      expect(data_import.import_errors).to be_empty
+      expect(data_import.reload.stats.dig('contacts', 'imported')).to eq(1)
+    end
+
+    it 'retries a message query timeout after rolling back the first transaction', :aggregate_failures do
+      importer = described_class.new(data_import: data_import)
+      mapping_attempts = 0
+      target_source_id = 'conversation:conversation_1:part:part_1'
+      allow(importer).to receive(:sleep)
+      allow(importer).to receive(:record_mapping).and_wrap_original do |method, object_type, source_id, record, metadata:|
+        if object_type == 'message' && source_id == target_source_id
+          mapping_attempts += 1
+          raise ActiveRecord::QueryCanceled, 'statement timeout' if mapping_attempts == 1
+        end
+
+        method.call(object_type, source_id, record, metadata: metadata)
+      end
+
+      importer.import_conversations_page
+
+      conversation = account.conversations.find_by!(identifier: 'intercom:conversation_1')
+      expect(mapping_attempts).to eq(2)
+      expect(importer).to have_received(:sleep).with(be_between(0.2, 0.5)).once
+      expect(conversation.messages.where(source_id: "intercom:#{target_source_id}").count).to eq(1)
+      expect(data_import.mappings.where(source_object_type: 'message', source_object_id: target_source_id).count).to eq(1)
+      expect(data_import.import_errors).to be_empty
+      expect(data_import.reload.stats.dig('messages', 'imported')).to eq(3)
+    end
+
+    it 'records one message failure only after the query timeout retry is exhausted', :aggregate_failures do
+      importer = described_class.new(data_import: data_import)
+      mapping_attempts = 0
+      target_source_id = 'conversation:conversation_1:part:part_1'
+      allow(importer).to receive(:sleep)
+      allow(importer).to receive(:record_mapping).and_wrap_original do |method, object_type, source_id, record, metadata:|
+        if object_type == 'message' && source_id == target_source_id
+          mapping_attempts += 1
+          raise ActiveRecord::QueryCanceled, 'statement timeout'
+        end
+
+        method.call(object_type, source_id, record, metadata: metadata)
+      end
+
+      importer.import_conversations_page
+
+      conversation = account.conversations.find_by!(identifier: 'intercom:conversation_1')
+      error = data_import.import_errors.find_by!(source_object_type: 'message', source_object_id: target_source_id)
+      expect(mapping_attempts).to eq(2)
+      expect(importer).to have_received(:sleep).with(be_between(0.2, 0.5)).once
+      expect(conversation.messages.where(source_id: "intercom:#{target_source_id}")).to be_empty
+      expect(error).to have_attributes(error_code: 'ActiveRecord::QueryCanceled', message: 'statement timeout')
+      expect(data_import.reload.stats.dig('errors', 'count')).to eq(1)
+    end
   end
 
   describe '#finish!' do
@@ -545,7 +621,11 @@ RSpec.describe DataImports::Intercom::Importer do
     end
 
     it 'repairs the item and imported count on retry', :aggregate_failures do
-      described_class.new(data_import: data_import).import_contacts_page
+      importer = described_class.new(data_import: data_import)
+      expect(importer).to receive(:reconcile_item_stats).with('contact').once.ordered.and_call_original
+      expect(importer).to receive(:update_cursor).with('contacts', nil).once.ordered.and_call_original
+
+      importer.import_contacts_page
 
       item = data_import.items.find_by!(source_object_type: 'contact', source_object_id: 'contact_1')
       expect(item).to be_imported
@@ -974,6 +1054,8 @@ RSpec.describe DataImports::Intercom::Importer do
   end
 
   context 'when a specific Intercom message part fails to persist' do
+    let(:insert_attempts) { [] }
+
     let(:conversation_payload) do
       super().deep_merge(
         'conversation_parts' => {
@@ -994,7 +1076,10 @@ RSpec.describe DataImports::Intercom::Importer do
 
     before do
       allow(Message).to receive(:insert_all!).and_wrap_original do |method, records, **kwargs|
-        raise ActiveRecord::StatementInvalid, 'bad message' if records.first[:source_id] == 'intercom:conversation:conversation_1:part:bad_part'
+        if records.first[:source_id] == 'intercom:conversation:conversation_1:part:bad_part'
+          insert_attempts << records.first[:source_id]
+          raise ActiveRecord::StatementInvalid, 'bad message'
+        end
 
         method.call(records, **kwargs)
       end
@@ -1015,6 +1100,7 @@ RSpec.describe DataImports::Intercom::Importer do
       )
       expect(data_import.reload).to be_completed_with_errors
       expect(data_import.stats.dig('errors', 'count')).to eq(1)
+      expect(insert_attempts.one?).to be(true)
     end
   end
 end
