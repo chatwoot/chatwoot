@@ -533,6 +533,8 @@
             "PUBLISHED": "게시됨",
             "ARCHIVED": "보관됨"
           },
+          "PENDING_EDITS": "Unpublished edits",
+          "PENDING_EDITS_TOOLTIP": "This published article has unpublished edits",
           "CATEGORY": {
             "UNCATEGORISED": "미분류"
           }
@@ -552,6 +554,7 @@
         "LOCALE": {
           "ALL": "모든 로케일"
         },
+        "SEARCH_PLACEHOLDER": "게시물 검색...",
         "NEW_ARTICLE": "새 게시물"
       },
       "EMPTY_STATE": {
@@ -579,6 +582,10 @@
         "CATEGORY": {
           "TITLE": "이 카테고리에 게시물이 없습니다",
           "SUBTITLE": "이 카테고리의 게시물이 여기에 표시됩니다"
+        },
+        "SEARCH": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "We couldn't find any articles matching your search. Try a different term."
         }
       },
       "BULK_TRANSLATE": {
@@ -611,6 +618,8 @@
         "DELETE": "삭제",
         "STATUS_SUCCESS": "Articles updated successfully",
         "STATUS_ERROR": "Failed to update articles",
+        "STATUS_SKIPPED": "1 article with unpublished edits was skipped — open it to publish or discard. | {count} articles with unpublished edits were skipped — open them to publish or discard.",
+        "STATUS_SKIPPED_ALL": "These articles have unpublished edits — open each to publish or discard.",
         "CATEGORY_SUCCESS": "Articles moved successfully",
         "CATEGORY_ERROR": "Failed to move articles",
         "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
@@ -624,6 +633,7 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "새 카테고리",
         "EDIT_CATEGORY": "카테고리 수정",
+        "SEARCH_PLACEHOLDER": "Search categories...",
         "CATEGORIES_COUNT": "{n}개 카테고리 | {n}개 카테고리",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "카테고리 ({localeCode})",
@@ -633,6 +643,10 @@
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "카테고리를 찾을 수 없습니다",
         "SUBTITLE": "카테고리가 여기에 표시됩니다. '새 카테고리' 버튼을 클릭하여 카테고리를 추가할 수 있습니다."
+      },
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching categories",
+        "SUBTITLE": "We couldn't find any categories matching your search. Try a different term."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count}개 게시물 | {count}개 게시물"
@@ -691,6 +705,11 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "사용 가능한 로케일 없음 | {n}개 로케일 | {n}개 로케일",
       "NEW_LOCALE_BUTTON_TEXT": "새 로케일",
+      "SEARCH_PLACEHOLDER": "Search locales...",
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching locales",
+        "SUBTITLE": "We couldn't find any locales matching your search. Try a different term."
+      },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count}개 게시물 | {count}개 게시물",
         "CATEGORIES_COUNT": "{count}개 카테고리 | {count}개 카테고리",
@@ -700,7 +719,49 @@
           "MAKE_DEFAULT": "기본값으로 설정",
           "MOVE_TO_DRAFT": "Move to draft",
           "PUBLISH_LOCALE": "Publish locale",
+          "CUSTOMIZE_CONTENT": "Localize content",
+          "SELECT_POPULAR_CONTENT": "Select recommended content",
           "DELETE": "삭제"
+        }
+      },
+      "POPULAR_CONTENT_DIALOG": {
+        "TITLE": "Recommended content",
+        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on this locale's help center home page. Drag them into the order you want visitors to see.",
+        "SEARCH": "검색...",
+        "EMPTY": "No matching results",
+        "ADD_ANOTHER": "Add another...",
+        "SLOTS_LEFT": "{count} slots left",
+        "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
+        "CONFIRM": "Save recommendations",
+        "CATEGORIES": {
+          "LABEL": "Recommended categories",
+          "ARTICLES_COUNT": "No articles | {count} article | {count} articles"
+        },
+        "ARTICLES": {
+          "LABEL": "Recommended articles",
+          "IN_CATEGORY": "in {category}",
+          "UNCATEGORIZED": "미분류"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Recommended content updated successfully",
+          "ERROR_MESSAGE": "Unable to update recommended content. Try again."
+        }
+      },
+      "CONTENT_DIALOG": {
+        "TITLE": "Localize content",
+        "DESCRIPTION": "Set values specific to this locale. Anything left blank falls back to the default locale.",
+        "NAME": {
+          "LABEL": "이름"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "페이지 제목"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "헤더 텍스트"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Locale content updated successfully",
+          "ERROR_MESSAGE": "Unable to update locale content. Try again."
         }
       },
       "ADD_LOCALE_DIALOG": {
@@ -730,9 +791,29 @@
         },
         "PREVIEW": "미리보기",
         "PUBLISH": "게시",
+        "PUBLISH_CHANGES": "Publish changes",
+        "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
+        "PUBLISH_CHANGES_ERROR": "Could not publish changes",
+        "SAVE_IN_PROGRESS": "Still saving your latest changes — please try again in a moment.",
+        "DISCARD_CHANGES": "Discard changes",
+        "DISCARD_CHANGES_SUCCESS": "Changes discarded",
+        "DISCARD_CHANGES_ERROR": "Could not discard changes",
+        "PENDING_CHANGES": "Pending changes",
+        "VIEW_CHANGES": "View unpublished changes",
         "DRAFT": "임시 저장",
         "ARCHIVE": "보관",
         "BACK_TO_ARTICLES": "게시물로 돌아가기"
+      },
+      "PENDING_CHANGES_POPOVER": {
+        "TITLE": "Unpublished changes",
+        "DESCRIPTION": "This article has draft changes that aren't live yet. Apply them before changing the status, or discard them?",
+        "APPLY": "Apply changes",
+        "DISCARD": "Discard changes"
+      },
+      "DIFF_DIALOG": {
+        "TITLE": "Unpublished changes",
+        "DESCRIPTION": "Compare your draft against the version that's currently live.",
+        "TITLE_LABEL": "제목"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "추가 속성",
