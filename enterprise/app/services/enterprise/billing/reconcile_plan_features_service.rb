@@ -18,6 +18,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     advanced_search
     linear_integration
     channel_voice
+    api_and_webhooks
   ].freeze
 
   BUSINESS_PLAN_FEATURES = %w[

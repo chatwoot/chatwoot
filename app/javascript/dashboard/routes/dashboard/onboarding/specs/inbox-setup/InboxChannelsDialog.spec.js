@@ -6,6 +6,9 @@ vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
 vi.mock('dashboard/composables/store', () => ({
   useMapGetter: () => ({ value: {} }),
 }));
+vi.mock('dashboard/composables/useAccount', () => ({
+  useAccount: () => ({ isCloudFeatureEnabled: () => false }),
+}));
 vi.mock('../../inbox-setup/useChannelConnect', () => ({
   useChannelConnect: () => ({
     connectViaOAuth: vi.fn(),
