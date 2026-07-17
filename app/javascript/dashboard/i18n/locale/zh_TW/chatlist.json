@@ -79,6 +79,9 @@
       },
       "priority_desc_created_at_asc": {
         "TEXT": "優先順序：高的在前，建立日期：舊的在前"
+      },
+      "unread": {
+        "TEXT": "Unread Count: Highest first"
       }
     },
     "ATTACHMENTS": {
