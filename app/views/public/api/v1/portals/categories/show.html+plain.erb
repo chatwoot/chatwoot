@@ -3,9 +3,5 @@
              category: @category, portal: @portal, locale: @locale, og_image_url: @og_image_url %>
 <% end %>
 
-<div id="portal-bg" class="bg-white dark:bg-slate-900">
-  <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6">
-    <%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal %>
-  </div>
-</div>
+<%= render 'public/api/v1/portals/categories/category-hero', category: @category, portal: @portal, plain: true %>
 <%= render 'public/api/v1/portals/categories/article_list', category: @category, portal: @portal %>
