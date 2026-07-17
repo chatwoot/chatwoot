@@ -86,9 +86,21 @@
         "NOTE": "ለመለያዎ ተጨማሪ የደህንነት ባለስልጣናት ያስተዳድሩ።.",
         "MFA_BUTTON": "ሁለት-አምስት ማረጋገጫ ያስተካክሉ"
       },
+      "SESSIONS_SECTION": {
+        "TITLE": "Active Sessions",
+        "NOTE": "These are the devices currently logged in to your account.",
+        "CURRENT": "Current session",
+        "REVOKE": "Revoke",
+        "REVOKE_SUCCESS": "Session revoked successfully",
+        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
+        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
+        "LAST_ACTIVE": "Last active",
+        "UNKNOWN_DEVICE": "Unknown device"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "የመዳረሻ ቶክን",
         "NOTE": "ይህ ቶክን ከAPI በመሠረት የተደረገ አንደኛ አገናኝ ሲሆን ሊጠቀምበት ይችላል",
+        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
         "COPY": "ቅዳ",
         "RESET": "እንደገና ማስጀመር",
         "CONFIRM_RESET": "እርግጠኛ ነህ?",
@@ -313,6 +325,7 @@
     "ALL_COMPANIES": "ሁሉም ኩባንያዎች",
     "CAPTAIN": "ካፕቴን",
     "CAPTAIN_ASSISTANTS": "እርዳታ አገልጋዮች",
+    "CAPTAIN_OVERVIEW": "አጠቃላይ እይታ",
     "CAPTAIN_DOCUMENTS": "ሰነዶች",
     "CAPTAIN_RESPONSES": "ተደጋጋሚ ጥያቄዎች",
     "CAPTAIN_TOOLS": "መሣሪያዎች",
@@ -328,6 +341,7 @@
     "NOTIFICATIONS": "ማስታወቂያዎች",
     "CANNED_RESPONSES": "ተዘጋጅቷ የሆነ መልስ",
     "INTEGRATIONS": "አካባቢዎች",
+    "DATA": "Data",
     "PROFILE_SETTINGS": "የመገለጫ ቅንብሮች",
     "ACCOUNT_SETTINGS": "የመለያ ቅንብሮች",
     "APPLICATIONS": "መተግበሪያዎች",
@@ -379,10 +393,123 @@
       "INFO_TEXT": "ሲስተሙ እርስዎን በመተግበሪያው ወይም በዳሽቦርድ ሳትጠቀሙ ራስሰር እንዲሆኑ ያደርጉ።.",
       "INFO_SHORT": "ሲስተሙ ሲሳለቅ ራስሰር እንዲሆኑ ያደርጉ።."
     },
+    "SORT_TOOLTIP": "Sort",
+    "SORT_BY": "በይፋ ያደርጉ",
+    "SORT_GROUPS": {
+      "CREATED": "Sort by date of creation",
+      "ALPHABETICAL": "Sort in alphabetical order",
+      "UNREAD_COUNT": "Sort by unread count"
+    },
+    "SORT_OPTIONS": {
+      "CREATED_DESC": "Newest first",
+      "CREATED_ASC": "Oldest first",
+      "ALPHABETICAL_ASC": "Ascending (A - Z)",
+      "ALPHABETICAL_DESC": "Descending (Z - A)",
+      "UNREAD_COUNT_DESC": "Highest first",
+      "UNREAD_COUNT_ASC": "Lowest first"
+    },
     "DOCS": "ሰነዶችን አንብቡ",
     "SECURITY": "ደህንነት",
     "CAPTAIN_AI": "ካፕቴን",
     "CONVERSATION_WORKFLOW": "የውይይት ስርዓት"
+  },
+  "DATA_IMPORTS": {
+    "HEADER": "Data",
+    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
+    "LOADING": "Fetching imports",
+    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "TABS": {
+      "IMPORT": "አስመጣ",
+      "EXPORT": "ውጣ"
+    },
+    "TYPES": {
+      "CONTACTS": "እውቂያዎች",
+      "CONVERSATIONS": "Conversations",
+      "MESSAGES": "Messages"
+    },
+    "DRAWER": {
+      "TITLE": "New import",
+      "SOURCE": "Source",
+      "NAME": "Import name",
+      "NAME_PLACEHOLDER": "July Intercom migration",
+      "ACCESS_KEY": "Intercom access key",
+      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "DATA_TYPES": "Data to import",
+      "VALIDATING": "Validating access key...",
+      "VALID_KEY": "Access key validated.",
+      "INVALID_KEY": "Could not validate this access key.",
+      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "CANCEL": "Cancel",
+      "IMPORT": "አስመጣ"
+    },
+    "EXPORT": {
+      "TITLE": "Exports are on the way",
+      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
+      "COMING_SOON": "በቅርብ ይመጣል"
+    },
+    "TABLE": {
+      "TITLE": "Recent imports",
+      "EMPTY": "No imports yet",
+      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "NEW_IMPORT": "አስመጣ",
+      "COUNT": "{count} imports",
+      "UNNAMED": "Untitled import",
+      "IMPORTED_COUNT": "{count} imported",
+      "VIEW": "View import",
+      "NAME": "Name",
+      "TYPE": "Type",
+      "STATUS": "Status",
+      "IMPORTED": "Imported",
+      "CREATED": "የተፈጠረበት",
+      "ABANDON": "Abandon"
+    },
+    "DETAIL": {
+      "BACK": "Back to imports",
+      "ERRORS": "Errors",
+      "SKIP_LOGS": "Skip logs",
+      "SOURCE": "Source",
+      "IMPORT_TYPES": "Import types",
+      "CREATED": "የተፈጠረበት",
+      "DURATION": "Duration",
+      "INITIATED_BY": "Started by",
+      "PROGRESS": "Import progress",
+      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
+      "PROGRESS_OF_TOTAL": "of {total} imported",
+      "PROGRESS_IMPORTED": "imported",
+      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
+      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
+      "DOWNLOAD_SKIP_LOGS": "Download CSV",
+      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "ALL_SKIP_LOGS": "All",
+      "KIND": "Kind",
+      "NO_ERRORS": "No errors recorded.",
+      "ERROR_CODE": "Code",
+      "SOURCE_OBJECT": "Source object",
+      "MESSAGE": "Message"
+    },
+    "MONITOR": {
+      "LIVE": "Live updates every {seconds}s",
+      "LAST_UPDATED": "Last updated {time}",
+      "REFRESH": "Refresh",
+      "REFRESHING": "Refreshing",
+      "STAGES": {
+        "unknown": "Waiting for update",
+        "queued": "Queued",
+        "contacts": "Importing contacts",
+        "conversations": "Importing conversations",
+        "finalizing": "Finalizing import",
+        "completed": "Completed",
+        "completed_with_errors": "Completed with errors",
+        "failed": "አልተሳካም",
+        "abandoned": "Abandoned"
+      }
+    },
+    "ALERTS": {
+      "IMPORT_STARTED": "Intercom import has started.",
+      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the Intercom import."
+    }
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "የCaptain ቅንብሮች",
@@ -414,7 +541,9 @@
       "DESCRIPTION": "የAI ኃይል ያላቸውን ባለስልጣናት አብራሪዎችን አንቀሳቅሱ ወይም ዝጋ።.",
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "የድምጽ ትርጉም",
-        "DESCRIPTION": "የድምፅ መልእክቶችና የጥሪ መዝገቦችን በራስሰር ወደ ሊቀ መለኪያ ጽሑፍ ይቀይሩ።."
+        "DESCRIPTION": "የድምፅ መልእክቶችና የጥሪ መዝገቦችን በራስሰር ወደ ሊቀ መለኪያ ጽሑፍ ይቀይሩ።.",
+        "MODEL_TITLE": "Audio Transcription Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "የእርዳታ ማዕከል ፍለጋ መደበኛ እና መረጃ ማውጫ",
@@ -439,7 +568,18 @@
       "TITLE": "የአሁኑ እቅድ",
       "PLAN_NOTE": "አሁን በ**{plan}** እቅድ እና በ**{quantity}** ፈቃዶች ተመዝግበዋል",
       "SEAT_COUNT": "የቦታ ብዛት",
-      "RENEWS_ON": "በዚህ ቀን ይደገፋል"
+      "RENEWS_ON": "በዚህ ቀን ይደገፋል",
+      "CURRENCY": "Currency"
+    },
+    "CURRENCY": {
+      "SELECT": {
+        "TITLE": "Choose your billing currency",
+        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+      },
+      "OPTIONS": {
+        "USD": "US Dollar (USD)",
+        "BRL": "Brazilian Real (BRL)"
+      }
     },
     "VIEW_PRICING": "ዋጋዎችን እይ",
     "MANAGE_SUBSCRIPTION": {
@@ -475,6 +615,7 @@
       "PURCHASE": "ክሬዲቶችን ግዛ",
       "LOADING": "አማራጮች እየጫኑ ነው...",
       "FETCH_ERROR": "የክሬዲት አማራጮችን ማስገባት አልተሳካም። እባክዎ እንደገና ይሞክሩ።.",
+      "RETRY": "Retry",
       "PURCHASE_ERROR": "ግዢውን ማካሄድ አልተሳካም። እባክዎ እንደገና ይሞክሩ።.",
       "PURCHASE_SUCCESS": "በተሳካ ሁኔታ {credits} ክሬዲቶች ወደ አካውንትዎ ተጨምሯል",
       "CONFIRM": {
@@ -775,6 +916,10 @@
           "DESCRIPTION": "በአንድ የጊዜ መስክ ውስጥ ለአንድ ወኪል ሊመደቡ የሚችሉትን ከፍተኛ የውይይት ብዛት ያስቀመጡ እና አንድ ወኪል ከፍተኛ ጭነት እንዳይደርስበት ያስተካክሉ። ይህ የሚጠየቀው መስክ በነባሪ ሁኔታ በሰዓት 100 ውይይቶች ይሆናል።.",
           "INPUT_MAX": "ከፍተኛ ያድርጉ",
           "DURATION": "በእያንዳንዱ የወኪል ውይይቶች በ"
+        },
+        "EXCLUDE_OLDER_THAN": {
+          "LABEL": "Skip stale conversations",
+          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
         },
         "INBOXES": {
           "LABEL": "ተጨማሪ የተላከ ሳጥኖች",
