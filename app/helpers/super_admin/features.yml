@@ -11,7 +11,7 @@ saml:
   enterprise: true
 custom_branding:
   name: 'Custom Branding'
-  description: 'Apply your own branding to this installation.'
+  description: 'Apply your own branding to this installation, including email template layout customization.'
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: 'icon-paint-brush-line'
   config_key: 'custom_branding'

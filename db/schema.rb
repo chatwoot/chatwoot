@@ -987,7 +987,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_13_184351) do
     t.integer "locale", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
+    t.index ["name", "account_id", "template_type", "locale"], name: "index_email_templates_on_name_account_type_locale", unique: true
   end
 
   create_table "folders", force: :cascade do |t|

@@ -35,6 +35,8 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
   def find_templates(name, prefix, partial, *_args)
     @template_name = name
     @template_type = prefix.include?('layout') ? 'layout' : 'content'
+    @_prefix = prefix
+    @_details = _args.first || {}
     @db_template = find_db_template
 
     return [] if @db_template.blank?
@@ -60,16 +62,34 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
   def find_account_template
     return unless Current.account
 
-    @@model.find_by(name: @template_name, template_type: @template_type, account: Current.account)
+    find_template_for(Current.account)
   end
 
   def find_installation_template
-    @@model.find_by(name: @template_name, template_type: @template_type, account: nil)
+    find_template_for(nil)
+  end
+
+  def find_template_for(account)
+    @@model.find_by(name: db_template_name, template_type: @template_type, locale: locale_from_details, account: account) ||
+      @@model.find_by(name: @template_name, template_type: @template_type, locale: locale_from_details, account: account)
+  end
+
+  def locale_from_details
+    return :en if @_details.blank?
+
+    locale = Array(@_details[:locale]).first
+    EmailTemplate.locales.key?(locale.to_s) ? locale : :en
   end
 
   # Build path with eventual prefix
   def build_path(prefix)
     prefix.present? ? "#{prefix}/#{@template_name}" : @template_name
+  end
+
+  def db_template_name
+    return @template_name if @template_type == 'layout'
+
+    build_path(@_prefix)
   end
 
   # returns a path depending if its a partial or template
