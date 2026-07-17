@@ -85,6 +85,8 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
 
   def attach_observation(suggestion, faq)
     suggestion.with_lock do
+      next unless suggestion.open?
+
       existing_observation = suggestion.observations.find_by(conversation: conversation)
       next existing_observation if existing_observation
 

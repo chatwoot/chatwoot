@@ -1,6 +1,6 @@
 class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::BaseController
   before_action :current_account
-  before_action -> { check_authorization(Captain::Assistant) }
+  before_action :check_admin_authorization?
   before_action :set_suggestions
   before_action :set_suggestion, except: [:index]
 
@@ -23,9 +23,11 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
   end
 
   def update
-    raise ActiveRecord::RecordNotFound unless @suggestion.open?
+    @suggestion.with_lock do
+      raise ActiveRecord::RecordNotFound unless @suggestion.open?
 
-    @suggestion.update!(suggestion_params)
+      @suggestion.update!(suggestion_params)
+    end
   end
 
   def approve
@@ -34,9 +36,11 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
   end
 
   def dismiss
-    raise ActiveRecord::RecordNotFound unless @suggestion.open?
+    @suggestion.with_lock do
+      raise ActiveRecord::RecordNotFound unless @suggestion.open?
 
-    @suggestion.dismissed!
+      @suggestion.dismissed!
+    end
   end
 
   private
