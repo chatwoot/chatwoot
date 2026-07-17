@@ -79,6 +79,9 @@
       },
       "priority_desc_created_at_asc": {
         "TEXT": "우선순위: 높은 순, 생성일: 오래된 순"
+      },
+      "unread": {
+        "TEXT": "Unread Count: Highest first"
       }
     },
     "ATTACHMENTS": {
