@@ -265,3 +265,7 @@
   display_name: WhatsApp Reconfigure
   enabled: false
   column: feature_flags_ext_1
+- name: whatsapp_embedded_signup_inbox_creation
+  display_name: WhatsApp Embedded Signup Inbox Creation
+  enabled: false
+  column: feature_flags_ext_1
