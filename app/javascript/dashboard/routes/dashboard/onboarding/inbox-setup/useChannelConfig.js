@@ -17,7 +17,10 @@ export function useChannelConfig() {
     // WhatsApp is onboarded only via Meta embedded signup, which needs both the
     // app id (not the 'none' sentinel) and the signup configuration id.
     whatsapp: () =>
-      !isOnChatwootCloud.value &&
+      (!isOnChatwootCloud.value ||
+        isCloudFeatureEnabled(
+          FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_INBOX_CREATION
+        )) &&
       Boolean(installationConfig.whatsappAppId) &&
       installationConfig.whatsappAppId !== 'none' &&
       Boolean(installationConfig.whatsappConfigurationId),
