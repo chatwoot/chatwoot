@@ -93,7 +93,7 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "Escludi conversazioni non partecipate",
+        "LABEL": "Escludi conversazioni senza risposta",
         "HELP": "Se abilitato, il sistema salterà la risoluzione delle conversazioni che sono ancora in attesa della risposta di un operatore."
       },
       "AUDIO_TRANSCRIPTION": {
