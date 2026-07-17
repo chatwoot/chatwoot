@@ -33,8 +33,33 @@ zh_TW:
     login_saml_user: 此帳號使用 SAML 驗證，請透過您組織的 SAML 提供者登入。
     saml_not_available: 此安裝尚未啟用 SAML 驗證。
     inbox_deletetion_response: 您的收件匣刪除請求將在一段時間後處理。
+  data_imports:
+    intercom:
+      activities:
+        assignment: '%{actor} assigned the conversation'
+        assignment_with_target: '%{actor} assigned the conversation to %{target}'
+        assign_and_reopen: '%{actor} assigned and reopened the conversation'
+        assign_and_reopen_with_target: '%{actor} assigned the conversation to %{target} and reopened it'
+        open: '%{actor} opened the conversation'
+        close: '%{actor} closed the conversation'
+        snoozed: '%{actor} snoozed the conversation'
+        participant_added: '%{actor} added a participant'
+        participant_added_with_target: '%{actor} added %{target} as a participant'
+        participant_removed: '%{actor} removed a participant'
+        participant_removed_with_target: '%{actor} removed %{target} as a participant'
+        conversation_attribute_updated: '%{actor} updated conversation attributes'
+        ticket_attribute_updated: '%{actor} updated ticket attributes'
+        ticket_state_updated: '%{actor} updated the ticket state'
+        custom_action_started: '%{actor} started a custom action'
+        custom_action_finished: '%{actor} finished a custom action'
+        quick_reply: '%{actor} used a quick reply'
+        generic: '%{actor} recorded %{event}'
+  profile_settings:
+    sessions:
+      cannot_revoke_current: You cannot revoke the current session.
   errors:
     account:
+      not_authorized: You are not authorized to access this account
       reporting_timezone:
         invalid: 不是有效的時區
       support_email:
@@ -64,9 +89,14 @@ zh_TW:
       file_too_large: '檔案超過允許的最大大小'
       unsupported_content_type: '不支援的檔案類型（僅允許圖片和影片）'
       unexpected: '發生未預期的錯誤'
+    database:
+      query_canceled: 'The request took too long to complete. Please try again.'
     saml:
       feature_not_enabled: 此帳號尚未啟用 SAML 功能
       sso_not_enabled: 此安裝尚未啟用 SAML SSO
+    conversations:
+      unread_counts:
+        feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
       data_type:
         invalid: 無效的資料類型
@@ -92,6 +122,15 @@ zh_TW:
         unique: 在該分類與入口網站中應為唯一
     dyte:
       invalid_message_type: '無效的訊息類型，不允許此操作'
+      realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
+    cloudflare:
+      realtimekit:
+        invalid_credentials: 'Cloudflare RealtimeKit credentials are invalid. Please check the Account ID, RealtimeKit App ID, and API token permissions.'
+        missing_credentials: 'Cloudflare Account ID, RealtimeKit App ID, and API token are required.'
+        invalid_api_token: 'Cloudflare API token is invalid or inactive. Please create a new token with Realtime Admin permissions.'
+        invalid_account_or_permissions: 'Cloudflare Account ID is invalid, or the API token does not have Realtime Admin access to this account.'
+        app_not_found: 'RealtimeKit App ID was not found in this Cloudflare account. Please check the app you selected.'
+        verification_failed: 'Could not verify Cloudflare RealtimeKit credentials right now. Please try again.'
     slack:
       invalid_channel_id: '無效的 Slack 頻道，請再試一次'
     whatsapp:
@@ -104,6 +143,7 @@ zh_TW:
         not_supported: '此類型的 WhatsApp 頻道不支援重新授權。'
       calls:
         not_enabled: 'Calling is not enabled for this inbox'
+        already_ended: 'This call has already ended'
         no_recording: 'No recording file provided'
         no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
@@ -142,6 +182,9 @@ zh_TW:
       invalid_token: 無效或已過期的 MFA 權杖
       invalid_credentials: 無效的憑證或驗證碼
       feature_unavailable: MFA 功能無法使用，請設定加密金鑰。
+    billing:
+      invalid_currency: Invalid billing currency
+      currency_locked: Billing currency cannot be changed after billing has been set up
     topup:
       credits_required: 需填入儲值點數金額
       invalid_credits: 無效的儲值點數金額
@@ -433,7 +476,10 @@ zh_TW:
       browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
       popular_articles: Popular articles
       popular_articles_subtitle: What other people are reading right now.
+      recommended: Recommended articles
+      recommended_subtitle: Hand-picked articles to get you started.
       popular_label: 'Popular topics:'
+      recommended_label: 'Recommended topics:'
       authors_others: "%{names} and %{count} others"
       primary_nav: Primary
     hero:
@@ -469,6 +515,7 @@ zh_TW:
         light: 淺色
         dark: 深色
       featured_articles: 精選文章
+      recommended: Recommended articles
       uncategorized: 未分類
     404:
       title: 找不到頁面
@@ -539,6 +586,29 @@ zh_TW:
     ssl_status:
       custom_domain_not_configured: '尚未設定自訂網域'
   super_admin:
+    captain_model_overrides:
+      form:
+        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        use_default: 'Use default: %{model} (%{model_id})'
+      show:
+        summary: 'View model routing'
+        provider: 'Provider'
+        model: 'Model'
+      sources:
+        account_override: 'Account override'
+        default: '預設'
+      features:
+        editor: 'Editor'
+        assistant: '助理'
+        copilot: 'Copilot'
+        label_suggestion: 'Label suggestion'
+        document_faq_generation: 'Document FAQ generation'
+        conversation_faq_generation: 'Conversation FAQ generation'
+        help_center_article_generation: 'Help center article generation'
+        onboarding_content_generation: 'Onboarding content generation'
+        help_center_query_translation: 'Help center query translation'
+        audio_transcription: 'Audio transcription'
+        help_center_search: 'Help center search'
     push_diagnostics:
       user_not_found: 'User not found.'
       no_subscriptions_to_test: 'Select at least one subscription to test.'
