@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "الأحداث المشتركة",
       "LEARN_MORE": "Learn more about webhooks",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copy secret to clipboard",
@@ -392,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "قائد",
     "HEADER_KNOW_MORE": "اعرف المزيد",
+    "OVERVIEW": {
+      "HEADER": "نظرة عامة",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "تجاهل"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review FAQs",
+        "DISMISS": "تجاهل"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "PENDING": "Pending FAQs",
+        "DOCUMENTS": "Documents"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "ساحة اللعب",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "الفواتير",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "المساعدون",
       "SWITCH_ASSISTANT": "التبديل بين المساعدين",
@@ -493,10 +576,6 @@
           "LABEL": "الاسم",
           "PLACEHOLDER": "Enter assistant name",
           "ERROR": "The name is required"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
         },
         "DESCRIPTION": {
           "LABEL": "الوصف",
@@ -739,6 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} selected",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
@@ -798,7 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "غير متاح",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "نسخ",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
       "CREATE": {
@@ -838,7 +938,7 @@
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
+        "VIEW_DETAILS": "عرض التفاصيل",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Delete Document"
