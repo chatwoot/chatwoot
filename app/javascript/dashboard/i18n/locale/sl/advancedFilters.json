@@ -19,6 +19,8 @@
       "OR": "ALI"
     },
     "INPUT_PLACEHOLDER": "Vnesite vrednost",
+    "CONTACT_SEARCH_PLACEHOLDER": "Išči stike",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "Enako",
       "not_equal_to": "Ni enako",
@@ -49,6 +51,7 @@
       "ASSIGNEE_NAME": "Ime prejemnika",
       "INBOX_NAME": "Ime nabiralnika",
       "TEAM_NAME": "Ime ekipe",
+      "CONTACT": "Kontakt",
       "CONVERSATION_IDENTIFIER": "Identifikator pogovora",
       "CAMPAIGN_NAME": "Ime kampanje",
       "LABELS": "Označbe",
