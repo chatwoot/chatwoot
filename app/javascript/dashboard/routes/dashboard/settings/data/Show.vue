@@ -26,6 +26,7 @@ const dataImport = ref(null);
 const isLoading = ref(true);
 const isRefreshing = ref(false);
 const isPolling = ref(false);
+const isRetrying = ref(false);
 const isAbandoning = ref(false);
 const isDownloadingErrorLogs = ref(false);
 const isDownloadingSkipLogs = ref(false);
@@ -117,6 +118,19 @@ const abandonImport = async () => {
   }
 };
 
+const retryImport = async () => {
+  isRetrying.value = true;
+  try {
+    const response = await DataImportsAPI.retry(dataImport.value.id);
+    dataImport.value = response.data;
+    useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_RETRIED'));
+  } catch {
+    useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_RETRY_FAILED'));
+  } finally {
+    isRetrying.value = false;
+  }
+};
+
 const downloadCsv = (response, filename) => {
   const url = window.URL.createObjectURL(
     new Blob([response.data], { type: 'text/csv' })
@@ -197,9 +211,11 @@ onBeforeUnmount(() => {
       <ImportDetailHeader
         :data-import="dataImport"
         :is-refreshing="isRefreshing"
+        :is-retrying="isRetrying"
         :is-abandoning="isAbandoning"
         :is-polling="isPolling"
         @refresh="fetchImport({ manual: true })"
+        @retry="retryImport"
         @abandon="abandonImport"
       />
     </template>

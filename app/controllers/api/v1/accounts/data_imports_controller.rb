@@ -4,7 +4,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   DATA_IMPORT_FEATURE = 'data_import'.freeze
 
   before_action :ensure_data_import_feature_enabled
-  before_action :set_data_import, only: [:show, :start, :abandon, :error_logs, :skip_logs]
+  before_action :set_data_import, only: [:show, :start, :retry_import, :abandon, :error_logs, :skip_logs]
   before_action :check_authorization
 
   def index
@@ -57,6 +57,24 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
 
     DataImports::Intercom::ImportJob.perform_later(@data_import, @data_import.active_intercom_import_run_id) if restart_result == :enqueue
     render_show
+  end
+
+  def retry_import
+    retry_service = DataImports::Intercom::RetryService.new(account: Current.account, data_import: @data_import)
+    retry_result = retry_service.perform
+    @data_import = retry_service.data_import
+
+    case retry_result
+    when :enqueue
+      DataImports::Intercom::ImportJob.perform_later(@data_import, @data_import.active_intercom_import_run_id)
+      render_show
+    when :not_stalled
+      render json: { message: 'This Intercom import is no longer stalled.' }, status: :unprocessable_entity
+    when :active_import_exists
+      render json: { message: 'Another Intercom import is already in progress.' }, status: :unprocessable_entity
+    when :access_token_missing
+      render json: { message: 'The Intercom access key for this import is unavailable.' }, status: :unprocessable_entity
+    end
   end
 
   def abandon
