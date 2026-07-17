@@ -495,7 +495,8 @@ en:
       popular_articles_subtitle: What other people are reading right now.
       recommended: Recommended articles
       recommended_subtitle: Hand-picked articles to get you started.
-      popular_label: 'Recommended topics:'
+      popular_label: 'Popular topics:'
+      recommended_label: 'Recommended topics:'
       authors_others: "%{names} and %{count} others"
       primary_nav: Primary
     hero:
