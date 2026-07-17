@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "سبسکرائب شدہ واقعات",
       "LEARN_MORE": "ویب ہکس کے بارے میں مزید جانیں",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copy secret to clipboard",
@@ -392,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "کپٹن",
     "HEADER_KNOW_MORE": "مزید جانیں",
+    "OVERVIEW": {
+      "HEADER": "جائزہ",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review FAQs",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "PENDING": "Pending FAQs",
+        "DOCUMENTS": "دستاویزات"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "پلے گراؤنڈ",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "بلنگ",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "اسسٹنٹس",
       "SWITCH_ASSISTANT": "اسسٹنٹس کے درمیان سوئچ کریں",
@@ -493,10 +576,6 @@
           "LABEL": "نام",
           "PLACEHOLDER": "اسسٹنٹ کا نام درج کریں",
           "ERROR": "نام ضروری ہے"
-        },
-        "TEMPERATURE": {
-          "LABEL": "جواب کا درجہ حرارت",
-          "DESCRIPTION": "اسسٹنٹ کے جوابات کتنے تخلیقی یا محدود ہونے چاہئیں، اسے ایڈجسٹ کریں۔ کم قیمتیں زیادہ مرکوز اور متعین جوابات دیتی ہیں، جبکہ زیادہ قیمتیں زیادہ تخلیقی اور متنوع نتائج کی اجازت دیتی ہیں۔"
         },
         "DESCRIPTION": {
           "LABEL": "تفصیل",
@@ -739,6 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "دستاویزات",
       "ADD_NEW": "نئی دستاویز بنائیں",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} منتخب شدہ",
       "SELECT_ALL": "تمام منتخب کریں ({count})",
       "UNSELECT_ALL": "تمام غیر منتخب کریں ({count})",
@@ -798,7 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "متعلقہ FAQs",
-        "DESCRIPTION": "یہ FAQs براہ راست دستاویز سے تیار کیے گئے ہیں۔"
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "کاپی کریں",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "دستاویز کا URL درج کریں تاکہ اسے معلوماتی ماخذ کے طور پر شامل کیا جا سکے اور اس سے منسلک اسسٹنٹ منتخب کریں۔",
       "CREATE": {
@@ -838,7 +938,7 @@
         "ERROR_MESSAGE": "دستاویز کو حذف کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "متعلقہ جوابات دیکھیں",
+        "VIEW_DETAILS": "View details",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "دستاویز حذف کریں"
