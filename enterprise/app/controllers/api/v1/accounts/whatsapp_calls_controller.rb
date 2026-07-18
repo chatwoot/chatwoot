@@ -13,6 +13,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
               Voice::CallErrors::AlreadyAccepted,
               Voice::CallErrors::CallFailed,
               with: :render_call_error
+  rescue_from Voice::CallErrors::CallAlreadyEnded, with: :render_call_ended
   rescue_from Voice::CallErrors::NoCallPermission, with: :render_permission_request
 
   def show; end
@@ -105,8 +106,13 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def create_outbound_call
     contact_phone = @conversation.contact.phone_number.delete('+')
+    # Claim for the caller only if unassigned at trigger time (before the round-trip); wins over auto-assignment.
+    claim_for_caller = @conversation.assignee_id.nil?
+
     result = provider_service.initiate_call(contact_phone, params[:sdp_offer])
     provider_call_id = result.dig('calls', 0, 'id') || result['call_id']
+
+    @conversation.with_lock { @conversation.update!(assignee: Current.user) } if claim_for_caller
 
     Current.account.calls.create!(
       provider: :whatsapp, inbox: @conversation.inbox, conversation: @conversation, contact: @conversation.contact,
@@ -189,5 +195,10 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def render_call_error(error)
     render_could_not_create_error(error.message)
+  end
+
+  # 409 (not 422) so the FE can tell "already ended" from a generic failure and dismiss the ringing UI.
+  def render_call_ended
+    render json: { error: I18n.t('errors.whatsapp.calls.already_ended') }, status: :conflict
   end
 end

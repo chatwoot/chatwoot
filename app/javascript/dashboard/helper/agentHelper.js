@@ -38,7 +38,7 @@ export const getAgentsByUpdatedPresence = (
   currentAccountId
 ) => {
   const agentsWithDynamicPresenceUpdate = agents.map(item =>
-    item.id === currentUser.id
+    item.id === currentUser.id && (item.assignee_type || 'User') === 'User'
       ? {
           ...item,
           availability_status: currentUser.accounts.find(

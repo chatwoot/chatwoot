@@ -9,16 +9,10 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   RESULTS_PER_PAGE = 25
 
   def index
-    base_query = @documents
-    base_query = base_query.where(assistant_id: permitted_params[:assistant_id]) if permitted_params[:assistant_id].present?
-    base_query = apply_source_filter(base_query, permitted_params[:source])
-    base_query = apply_filter(base_query, permitted_params[:filter])
-    base_query = apply_search(base_query, permitted_params[:search_key])
-    base_query = apply_sort(base_query, permitted_params[:sort])
-
-    @documents_count = base_query.count
+    @documents = filtered_documents
+    @documents_count = @documents.count
     @sync_interval_hours = current_sync_interval&.in_hours&.to_i
-    @documents = base_query.page(@current_page).per(RESULTS_PER_PAGE)
+    @documents = with_responses_count(@documents).page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def show; end
@@ -57,6 +51,21 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
 
   def set_documents
     @documents = Current.account.captain_documents.with_attached_pdf_file.includes(:assistant)
+  end
+
+  def filtered_documents
+    documents = @documents
+    documents = documents.where(assistant_id: permitted_params[:assistant_id]) if permitted_params[:assistant_id].present?
+    documents = apply_source_filter(documents, permitted_params[:source])
+    documents = apply_filter(documents, permitted_params[:filter])
+    documents = apply_search(documents, permitted_params[:search_key])
+    apply_sort(documents, permitted_params[:sort])
+  end
+
+  def with_responses_count(scope)
+    scope.left_joins(:responses)
+         .select('captain_documents.*, COUNT(captain_assistant_responses.id) AS responses_count')
+         .group('captain_documents.id')
   end
 
   def set_document

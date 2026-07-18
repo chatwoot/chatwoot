@@ -58,6 +58,15 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
 
       expect(response).to have_http_status(:unprocessable_entity)
     end
+
+    it 'returns 409 when the call has already ended (caller hung up mid-ring)' do
+      call.update!(status: 'no_answer')
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/accept",
+           params: { sdp_answer: 'sdp_answer' }, headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:conflict)
+    end
   end
 
   describe 'POST /api/v1/accounts/:account_id/whatsapp_calls/:id/reject' do
@@ -68,7 +77,7 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
            headers: agent.create_new_auth_token
 
       expect(response).to have_http_status(:ok)
-      expect(call.reload.status).to eq('failed')
+      expect(call.reload.status).to eq('rejected')
     end
   end
 
@@ -102,6 +111,31 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body).to include('status' => 'calling', 'call_id' => 'wacid_outbound')
       expect(Call.find_by(provider_call_id: 'wacid_outbound')).to have_attributes(direction: 'outgoing', status: 'ringing')
+    end
+
+    it 'assigns the conversation to the agent placing the call when it is unassigned' do
+      allow(provider_service).to receive(:initiate_call).and_return({ 'calls' => [{ 'id' => 'wacid_outbound' }] })
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+           headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(initiate_conversation.reload.assignee_id).to eq(agent.id)
+    end
+
+    it 'keeps the existing assignee when the conversation is already assigned' do
+      other_agent = create(:user, account: account, role: :agent)
+      create(:inbox_member, user: other_agent, inbox: inbox)
+      initiate_conversation.update!(assignee: other_agent)
+      allow(provider_service).to receive(:initiate_call).and_return({ 'calls' => [{ 'id' => 'wacid_outbound' }] })
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+           headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(initiate_conversation.reload.assignee_id).to eq(other_agent.id)
     end
 
     it 'sends a permission request and records the wamid when Meta returns NoCallPermission' do

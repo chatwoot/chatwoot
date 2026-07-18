@@ -20,6 +20,13 @@ describe ActionService do
         expect(applied_sla.conversation_id).to eq(conversation.id)
         expect(applied_sla.sla_status).to eq('active')
       end
+
+      it 'does not add the sla policy when contact is blocked' do
+        conversation.contact.update!(blocked: true)
+
+        expect { action_service.add_sla([sla_policy.id]) }.not_to change(AppliedSla, :count)
+        expect(conversation.reload.sla_policy_id).to be_nil
+      end
     end
 
     context 'when sla_policy_id is not present' do

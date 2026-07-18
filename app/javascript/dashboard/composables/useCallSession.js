@@ -161,6 +161,7 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
       return { conferenceSid: joinResponse?.conference_sid };
     } catch (error) {
       useAlert(error?.response?.data?.error || t('CONTACT_PANEL.CALL_FAILED'));
+      // 409 = the call already ended before accept landed (e.g. caller hung up mid-ring).
       if (error?.response?.status === 409) {
         TwilioVoiceClient.endClientCall();
         markDismissed(callSid);

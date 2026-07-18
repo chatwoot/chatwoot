@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { evaluateSLAStatus } from '@chatwoot/utils';
+import { evaluateSLAStatus } from 'dashboard/helper/slaHelper';
 import SLAPopoverCard from './SLAPopoverCard.vue';
 
 const props = defineProps({
@@ -61,6 +61,7 @@ const updateSlaStatus = () => {
   slaStatus.value = evaluateSLAStatus({
     appliedSla: appliedSLA.value,
     chat: props.chat,
+    slaEvents: slaEvents.value || [],
   });
 };
 

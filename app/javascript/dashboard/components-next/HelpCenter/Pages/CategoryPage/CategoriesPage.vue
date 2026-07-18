@@ -37,10 +37,21 @@ const { t } = useI18n();
 
 const editCategoryDialog = ref(null);
 const selectedCategory = ref(null);
+const searchQuery = ref('');
 
 const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
 const isLoading = computed(() => props.isFetching || isSwitchingPortal.value);
-const hasCategories = computed(() => props.categories?.length > 0);
+
+const filteredCategories = computed(() => {
+  const query = searchQuery.value.trim().toLowerCase();
+  if (!query) return props.categories;
+  return props.categories.filter(category =>
+    category.name?.toLowerCase().includes(query)
+  );
+});
+
+const hasCategories = computed(() => filteredCategories.value?.length > 0);
+const isSearching = computed(() => searchQuery.value.trim().length > 0);
 
 const updateRoute = (newParams, routeName) => {
   const { accountId, portalSlug, locale } = route.params;
@@ -115,6 +126,7 @@ const reorderCategories = async reorderedGroup => {
   <HelpCenterLayout :show-pagination-footer="false">
     <template #header-actions>
       <CategoryHeaderControls
+        v-model:search-query="searchQuery"
         :categories="categories"
         :is-category-articles="false"
         :allowed-locales="allowedLocales"
@@ -130,10 +142,17 @@ const reorderCategories = async reorderedGroup => {
       </div>
       <CategoryList
         v-else-if="hasCategories"
-        :categories="categories"
+        :categories="filteredCategories"
+        :disable-drag="isSearching"
         @click="openCategoryArticles"
         @action="handleAction"
         @reorder="reorderCategories"
+      />
+      <CategoryEmptyState
+        v-else-if="isSearching"
+        class="pt-14"
+        :title="t('HELP_CENTER.CATEGORY_PAGE.SEARCH_EMPTY_STATE.TITLE')"
+        :subtitle="t('HELP_CENTER.CATEGORY_PAGE.SEARCH_EMPTY_STATE.SUBTITLE')"
       />
       <CategoryEmptyState
         v-else

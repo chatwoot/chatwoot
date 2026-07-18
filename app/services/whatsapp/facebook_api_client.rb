@@ -1,5 +1,7 @@
 class Whatsapp::FacebookApiClient
   BASE_URI = 'https://graph.facebook.com'.freeze
+  # Base webhook fields resent on every subscribe so Meta won't reset to defaults. `calls` is added by callers only when voice is enabled.
+  WEBHOOK_DEFAULT_FIELDS = %w[messages smb_message_echoes].freeze
 
   def initialize(access_token = nil)
     @access_token = access_token
@@ -60,48 +62,62 @@ class Whatsapp::FacebookApiClient
     data['code_verification_status'] == 'VERIFIED'
   end
 
-  WEBHOOK_DEFAULT_FIELDS = %w[messages smb_message_echoes].freeze
+  def subscribe_phone_number_webhook(waba_id, phone_number_id, callback_url, verify_token, subscribed_fields: nil)
+    # Subscribe app to WABA first — Meta requires it before any callback override (issue #13097).
+    # subscribed_fields (incl. `calls` when voice is enabled) is declared here; the phone-level POST has no such field.
+    subscribe_app_to_waba(waba_id, subscribed_fields: subscribed_fields || WEBHOOK_DEFAULT_FIELDS)
 
-  def subscribe_waba_webhook(waba_id, callback_url, verify_token, subscribed_fields: WEBHOOK_DEFAULT_FIELDS)
-    # Step 1: Subscribe app to WABA first (required before override)
-    # Meta requires the app to be subscribed before using override_callback_uri
-    # See: https://github.com/chatwoot/chatwoot/issues/13097
-    subscribe_app_to_waba(waba_id)
-
-    # Step 2: Override callback URL for this specific WABA
-    override_waba_callback(waba_id, callback_url, verify_token, subscribed_fields: subscribed_fields)
+    # Phone-level override takes precedence over WABA-level, so numbers on one WABA can route to different URLs.
+    override_phone_number_callback(phone_number_id, callback_url, verify_token)
   end
 
-  def subscribe_app_to_waba(waba_id)
+  def subscribe_app_to_waba(waba_id, subscribed_fields: WEBHOOK_DEFAULT_FIELDS)
     response = HTTParty.post(
       "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
-      headers: request_headers
+      headers: request_headers,
+      body: { subscribed_fields: subscribed_fields }.to_json
     )
 
     handle_response(response, 'App subscription to WABA failed')
   end
 
-  def override_waba_callback(waba_id, callback_url, verify_token, subscribed_fields: WEBHOOK_DEFAULT_FIELDS)
+  def override_phone_number_callback(phone_number_id, callback_url, verify_token)
     response = HTTParty.post(
-      "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}",
       headers: request_headers,
       body: {
-        override_callback_uri: callback_url,
-        verify_token: verify_token,
-        subscribed_fields: subscribed_fields
+        webhook_configuration: {
+          override_callback_uri: callback_url,
+          verify_token: verify_token
+        }
       }.to_json
     )
 
-    handle_response(response, 'Webhook callback override failed')
+    handle_response(response, 'Phone number webhook callback override failed')
   end
 
-  def unsubscribe_waba_webhook(waba_id)
+  def clear_phone_number_callback_override(phone_number_id)
+    response = HTTParty.post(
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}",
+      headers: request_headers,
+      body: {
+        webhook_configuration: {
+          override_callback_uri: ''
+        }
+      }.to_json
+    )
+
+    handle_response(response, 'Phone number webhook callback clear failed')
+  end
+
+  # Fully removes this app's WABA subscription (last inbox deleted) so Meta stops delivering webhooks.
+  def unsubscribe_app_from_waba(waba_id)
     response = HTTParty.delete(
       "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
       headers: request_headers
     )
 
-    handle_response(response, 'Webhook unsubscription failed')
+    handle_response(response, 'WABA app unsubscription failed')
   end
 
   private
