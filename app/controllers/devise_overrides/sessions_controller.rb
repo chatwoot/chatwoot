@@ -135,7 +135,6 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
   def sessions_limit_reached?(user)
     limit = ENV.fetch('MAX_USER_SESSIONS', 25).to_i
-    limit = 25 if limit <= 0
     active_token_count(user) >= limit
   end
 
