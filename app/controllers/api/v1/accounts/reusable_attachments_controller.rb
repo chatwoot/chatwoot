@@ -9,7 +9,7 @@ class Api::V1::Accounts::ReusableAttachmentsController < Api::V1::Accounts::Base
   def show; end
 
   def create
-    @reusable_attachment = Current.account.reusable_attachments.new(reusable_attachment_params.merge(created_by_id: current_user.id))
+    @reusable_attachment = Current.account.reusable_attachments.new(reusable_attachment_params.merge(created_by_id: Current.user.id))
 
     if @reusable_attachment.save
       render json: @reusable_attachment.as_json, status: :created
