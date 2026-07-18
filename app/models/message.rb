@@ -452,6 +452,12 @@ class Message < ApplicationRecord
   end
 
   def reindex_for_search
+    # `reindex` is only mixed in by searchkick when `advanced_search_allowed?`
+    # is true at class-load time. That guard can disagree with the runtime
+    # `should_index?` check (for example when the flag is stubbed in specs),
+    # so make sure the method is available before calling it.
+    return unless respond_to?(:reindex)
+
     reindex(mode: :async)
   end
 end

@@ -835,6 +835,12 @@ RSpec.describe Message do
         message.save!
       end
 
+      it 'does not raise when searchkick reindex is not mixed in' do
+        message = create(:message, conversation: conversation, account: account, message_type: :incoming)
+        allow(message).to receive(:respond_to?).with(:reindex).and_return(false)
+        expect { message.send(:reindex_for_search) }.not_to raise_error
+      end
+
       it 'calls reindex_for_search for outgoing message on update' do
         # rubocop:disable RSpec/AnyInstance
         allow_any_instance_of(described_class).to receive(:reindex_for_search).and_return(true)
