@@ -1,7 +1,12 @@
 <script setup>
 import { ref, nextTick, onMounted } from 'vue';
 
-const emit = defineEmits(['send']);
+const props = defineProps({
+  onSend: {
+    type: Function,
+    required: true,
+  },
+});
 const message = ref('');
 const textareaRef = ref(null);
 
@@ -14,14 +19,16 @@ const adjustHeight = () => {
   textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`;
 };
 
-const sendMessage = () => {
+const sendMessage = async () => {
   if (message.value.trim()) {
-    emit('send', message.value);
-    message.value = '';
-    // Reset textarea height after sending
-    nextTick(() => {
-      adjustHeight();
-    });
+    const isSuccess = await props.onSend(message.value);
+    if (isSuccess) {
+      message.value = '';
+      // Reset textarea height after sending
+      nextTick(() => {
+        adjustHeight();
+      });
+    }
   }
 };
 
