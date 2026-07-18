@@ -91,7 +91,11 @@ class ReusableAttachment < ApplicationRecord
   def capture_replaced_blob
     return unless attachment_changes.key?('file')
 
-    @replaced_blob = file.blob if file.attached?
+    # file.blob already reflects the pending replacement; query the DB
+    # directly to get the currently persisted blob before it is detached.
+    @replaced_blob = ActiveStorage::Attachment.find_by(
+      record_type: self.class.name, record_id: id, name: 'file'
+    )&.blob
   end
 
   def purge_replaced_blob_if_unreferenced
