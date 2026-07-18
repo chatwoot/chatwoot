@@ -36,30 +36,30 @@ pt_BR:
   data_imports:
     intercom:
       activities:
-        assignment: '%{actor} assigned the conversation'
-        assignment_with_target: '%{actor} assigned the conversation to %{target}'
-        assign_and_reopen: '%{actor} assigned and reopened the conversation'
-        assign_and_reopen_with_target: '%{actor} assigned the conversation to %{target} and reopened it'
-        open: '%{actor} opened the conversation'
-        close: '%{actor} closed the conversation'
-        snoozed: '%{actor} snoozed the conversation'
-        participant_added: '%{actor} added a participant'
-        participant_added_with_target: '%{actor} added %{target} as a participant'
-        participant_removed: '%{actor} removed a participant'
-        participant_removed_with_target: '%{actor} removed %{target} as a participant'
-        conversation_attribute_updated: '%{actor} updated conversation attributes'
-        ticket_attribute_updated: '%{actor} updated ticket attributes'
-        ticket_state_updated: '%{actor} updated the ticket state'
-        custom_action_started: '%{actor} started a custom action'
-        custom_action_finished: '%{actor} finished a custom action'
-        quick_reply: '%{actor} used a quick reply'
-        generic: '%{actor} recorded %{event}'
+        assignment: '%{actor} atribuiu a conversa'
+        assignment_with_target: '%{actor} atribuiu a conversa a %{target}'
+        assign_and_reopen: '%{actor} atribuiu e reabriu a conversa'
+        assign_and_reopen_with_target: '%{actor} atribuiu a conversa a %{target} e a reabriu'
+        open: '%{actor} abriu a conversa'
+        close: '%{actor} fechou a conversa'
+        snoozed: '%{actor} adiou a conversa'
+        participant_added: '%{actor} adicionou um participante'
+        participant_added_with_target: '%{actor} adicionou %{target} como participante'
+        participant_removed: '%{actor} removeu um usuário'
+        participant_removed_with_target: '%{actor} removeu %{target} como participante'
+        conversation_attribute_updated: '%{actor} atualizou atributos de conversa'
+        ticket_attribute_updated: '%{actor} atributos atualizados do ticket'
+        ticket_state_updated: '%{actor} atualizou o estado do ticket'
+        custom_action_started: '%{actor} iniciou uma ação personalizada'
+        custom_action_finished: '%{actor} finalizou uma ação personalizada'
+        quick_reply: '%{actor} usou uma resposta rápida'
+        generic: '%{actor} gravou %{event}'
   profile_settings:
     sessions:
-      cannot_revoke_current: You cannot revoke the current session.
+      cannot_revoke_current: Você não pode revogar a sessão atual.
   errors:
     account:
-      not_authorized: You are not authorized to access this account
+      not_authorized: Você não está autorizado a acessar esta conta
       reporting_timezone:
         invalid: não é um fuso horário válido
       support_email:
@@ -90,7 +90,7 @@ pt_BR:
       unsupported_content_type: 'Tipo de arquivo não suportado (apenas imagens e vídeos são permitidos)'
       unexpected: 'Ocorreu um erro inesperado'
     database:
-      query_canceled: 'The request took too long to complete. Please try again.'
+      query_canceled: 'A solicitação demorou muito para ser concluída. Tente novamente.'
     saml:
       feature_not_enabled: SAML não está habilitado para esta conta
       sso_not_enabled: O SSO via SAML não está habilitado para esta instalação
@@ -122,15 +122,15 @@ pt_BR:
         unique: deve ser único na categoria e no portal
     dyte:
       invalid_message_type: 'Tipo de mensagem inválido. Ação não permitida'
-      realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
+      realtimekit_credentials_required: 'Credenciais do Cloudflare RealtimeKit são necessárias. Exclua a integração de Dyte existente e crie-a novamente com Cloudflare RealtimeKit credenciais.'
     cloudflare:
       realtimekit:
-        invalid_credentials: 'Cloudflare RealtimeKit credentials are invalid. Please check the Account ID, RealtimeKit App ID, and API token permissions.'
-        missing_credentials: 'Cloudflare Account ID, RealtimeKit App ID, and API token are required.'
-        invalid_api_token: 'Cloudflare API token is invalid or inactive. Please create a new token with Realtime Admin permissions.'
-        invalid_account_or_permissions: 'Cloudflare Account ID is invalid, or the API token does not have Realtime Admin access to this account.'
-        app_not_found: 'RealtimeKit App ID was not found in this Cloudflare account. Please check the app you selected.'
-        verification_failed: 'Could not verify Cloudflare RealtimeKit credentials right now. Please try again.'
+        invalid_credentials: 'As credenciais do Cloudflare RealtimeKit são inválidas. Verifique o ID da conta, RealtimeKit App ID e as permissões do token de API.'
+        missing_credentials: 'ID da conta Cloudflare, ID do App RealtimeKit e token API são necessários.'
+        invalid_api_token: 'O token API do Cloudflare está inválido ou inativo. Por favor, crie um novo token com permissões de administrador em tempo real.'
+        invalid_account_or_permissions: 'O ID da conta Cloudflare é inválido, ou o token de API não tem acesso de Administrador em tempo real a esta conta.'
+        app_not_found: 'RealtimeKit App ID não foi encontrado nesta conta Cloudflare. Por favor, verifique o app selecionado.'
+        verification_failed: 'Não foi possível verificar as credenciais do Cloudflare RealtimeKit agora. Tente novamente.'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, tente novamente'
     whatsapp:
@@ -143,7 +143,7 @@ pt_BR:
         not_supported: 'Reautenticação não é suportado por este tipo de canal WhatsApp.'
       calls:
         not_enabled: 'As chamadas não estão habilitadas para esta caixa de entrada'
-        already_ended: 'This call has already ended'
+        already_ended: 'Esta chamada já terminou'
         no_recording: 'Nenhum arquivo de gravação fornecido'
         no_message: 'A chamada não possui mensagem associada'
         sdp_offer_required: 'sdp_offer é obrigatório'
@@ -183,8 +183,8 @@ pt_BR:
       invalid_credentials: Credenciais ou código de verificação inválidos
       feature_unavailable: O recurso MFA não está disponível. Por favor, configure as chaves de criptografia.
     billing:
-      invalid_currency: Invalid billing currency
-      currency_locked: Billing currency cannot be changed after billing has been set up
+      invalid_currency: Moeda de cobrança inválida
+      currency_locked: Moeda de faturamento não pode ser alterada após o faturamento ter sido configurado
     topup:
       credits_required: A quantidade de créditos é obrigatória
       invalid_credits: Quantidade de créditos inválida
@@ -477,10 +477,10 @@ pt_BR:
       browse_by_topic_subtitle: Encontre guias, tutoriais e respostas organizados por categoria.
       popular_articles: Artigos populares
       popular_articles_subtitle: O que outras pessoas estão lendo agora.
-      recommended: Recommended articles
-      recommended_subtitle: Hand-picked articles to get you started.
+      recommended: Artigos recomendados
+      recommended_subtitle: Artigos escolhidos para você começar.
       popular_label: 'Tópicos populares:'
-      recommended_label: 'Recommended topics:'
+      recommended_label: 'Tópicos recomendados:'
       authors_others: "%{names} e %{count} outros"
       primary_nav: Primário
     hero:
@@ -516,7 +516,7 @@ pt_BR:
         light: Claro
         dark: Escuro
       featured_articles: Artigos em Destaque
-      recommended: Recommended articles
+      recommended: Artigos recomendados
       uncategorized: Não categorizado
     404:
       title: Página não encontrada
@@ -593,27 +593,27 @@ pt_BR:
   super_admin:
     captain_model_overrides:
       form:
-        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
-        use_default: 'Use default: %{model} (%{model_id})'
+        helper_text: 'Deixe um modelo em branco para usar o padrão YAML para esse recurso AI.'
+        use_default: 'Usar padrão: %{model} (%{model_id})'
       show:
-        summary: 'View model routing'
-        provider: 'Provider'
+        summary: 'Ver roteamento de modelo'
+        provider: 'Fornecedor'
         model: 'Modelo'
       sources:
-        account_override: 'Account override'
+        account_override: 'Substituição de cliente'
         default: 'Padrão'
       features:
-        editor: 'Editor'
+        editor: 'Editores'
         assistant: 'Assistente'
         copilot: 'Copiloto'
-        label_suggestion: 'Label suggestion'
-        document_faq_generation: 'Document FAQ generation'
-        conversation_faq_generation: 'Conversation FAQ generation'
-        help_center_article_generation: 'Help center article generation'
-        onboarding_content_generation: 'Onboarding content generation'
-        help_center_query_translation: 'Help center query translation'
-        audio_transcription: 'Audio transcription'
-        help_center_search: 'Help center search'
+        label_suggestion: 'Sugestão de etiqueta'
+        document_faq_generation: 'Documentar geração de FAQ'
+        conversation_faq_generation: 'Conversação de geração FAQ'
+        help_center_article_generation: 'Ajuda da geração de artigo central'
+        onboarding_content_generation: 'Integração de geração de conteúdo'
+        help_center_query_translation: 'Tradução da consulta central de ajuda'
+        audio_transcription: 'Transcrição de áudio'
+        help_center_search: 'Pesquisa central de ajuda'
     push_diagnostics:
       user_not_found: 'Usuário não encontrado.'
       no_subscriptions_to_test: 'Selecione pelo menos uma assinatura para teste.'
