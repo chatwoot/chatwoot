@@ -646,7 +646,7 @@
       "BOT_CONFIGURATION": "Configuración del bot",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "Encuestas de Satisfacción",
-      "VOICE": "Voice",
+      "VOICE": "Voz",
       "CALLS": "Llamadas"
     },
     "VOICE_CONFIGURATION": {
@@ -867,7 +867,7 @@
           "PHONE_NUMBER_ID": "ID de número de teléfono",
           "PHONE_NUMBER_PLACEHOLDER": "Ingrese el ID del número de teléfono",
           "PHONE_NUMBER_HELP": "ID único de Meta para el número de WhatsApp conectado a esta bandeja de entrada.",
-          "DISPLAY_PHONE_NUMBER": "Display phone number",
+          "DISPLAY_PHONE_NUMBER": "Número de teléfono visible",
           "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Ingrese el número de teléfono visible",
           "DISPLAY_PHONE_NUMBER_HELP": "El número WhatsApp orientado al cliente. Esto no se puede cambiar durante la migración.",
           "ACCESS_TOKEN": "Token de acceso permanente o token de usuario del sistema",
@@ -884,7 +884,7 @@
           "VERIFY_NOTICE": "Chatwoot verificará estas credenciales con Meta antes de aplicar cualquier cambio. Si la verificación falla, la configuración actual se deja sin tocar.",
           "BACK": "Atrás",
           "CANCEL": "Cancelar",
-          "CONTINUE": "Continue",
+          "CONTINUE": "Continuar",
           "REVIEW_MIGRATION": "Revisar migración",
           "RECONNECT": "Volver a conectar la bandeja de entrada de WhatsApp"
         },
@@ -903,7 +903,7 @@
           },
           "REVIEW_MIGRATION": {
             "TITLE": "Revisar migración",
-            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+            "DESCRIPTION": "Confirme los detalles de conexión antes de volver a conectar esta bandeja de entrada. Chatwoot verificará el token, WABA y el número de teléfono con Meta antes de aplicar los cambios."
           }
         }
       },
