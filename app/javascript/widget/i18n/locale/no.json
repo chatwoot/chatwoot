@@ -106,6 +106,11 @@
     "NOT_FOUND": "Ingen emojier samsvarer søket ditt",
     "ARIA_LABEL": "Emoji velger"
   },
+  "EMOJI_ICON_PICKER": {
+    "SEARCH_EMOJI": "Search emoji…",
+    "FREQUENTLY_USED": "Frequently used",
+    "NO_EMOJI": "No emoji match your search"
+  },
   "CSAT": {
     "TITLE": "Vurder samtalen din",
     "SUBMITTED_TITLE": "Takk for at du ga din vurdering",

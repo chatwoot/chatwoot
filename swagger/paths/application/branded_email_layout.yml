@@ -1,0 +1,58 @@
+get:
+  tags:
+    - Inboxes
+  operationId: getAccountBrandedEmailLayout
+  summary: Get account branded email layout
+  security:
+    - userApiKey: []
+  description: Get the account-scoped Liquid HTML layout used as the fallback for branded email replies.
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/branded_email_layout'
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+patch:
+  tags:
+    - Inboxes
+  operationId: updateAccountBrandedEmailLayout
+  summary: Update account branded email layout
+  security:
+    - userApiKey: []
+  description: Update or clear the account-scoped Liquid HTML layout used as the fallback for branded email replies.
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/account_branded_email_layout_payload'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/branded_email_layout'
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '422':
+      description: Validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
