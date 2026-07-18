@@ -43,7 +43,10 @@ class ReusableAttachment < ApplicationRecord
 
   before_save :set_file_metadata
   before_update :capture_replaced_blob
-  after_update :purge_replaced_blob_if_unreferenced
+  # after_commit (not after_update): ActiveStorage persists attachment_changes in its own
+  # after_save, which runs after after_update. Using after_update would see the old
+  # attachment row still present and incorrectly skip the purge.
+  after_commit :purge_replaced_blob_if_unreferenced, on: :update
   before_destroy :cleanup_file
 
   def file_url
