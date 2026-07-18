@@ -165,10 +165,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
   end
 
   describe 'session limit enforcement' do
-    # stub_const cannot override a constant already inlined by YJIT in Ruby 3.4;
-    # with_modified_env works because the controller now reads ENV on every call.
-    # See https://github.com/chatwoot/chatwoot/pull/15062
-    around { |example| with_modified_env('MAX_USER_SESSIONS' => '5') { example.run } }
+    before { stub_const('DeviseOverrides::SessionsController::MAX_SESSIONS', 5) }
 
     let(:user) { create(:user, password: 'Test@123456') }
     let(:browser_ua) { 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15' }

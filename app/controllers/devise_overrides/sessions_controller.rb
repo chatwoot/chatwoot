@@ -1,4 +1,6 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
+  MAX_SESSIONS = ENV.fetch('MAX_USER_SESSIONS', 25).to_i
+
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
   wrap_parameters format: []
@@ -134,10 +136,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def sessions_limit_reached?(user)
-    # Read ENV on each call instead of a class-level constant: Ruby 3.4 + YJIT inlines
-    # constant values at compile time, making stub_const ineffective in tests.
-    # Tracked in https://github.com/chatwoot/chatwoot/pull/15062
-    ENV.fetch('MAX_USER_SESSIONS', 25).to_i.then { |limit| active_token_count(user) >= limit }
+    active_token_count(user) >= MAX_SESSIONS
   end
 
   def active_token_count(user)
