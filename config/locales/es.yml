@@ -36,30 +36,30 @@ es:
   data_imports:
     intercom:
       activities:
-        assignment: '%{actor} assigned the conversation'
-        assignment_with_target: '%{actor} assigned the conversation to %{target}'
-        assign_and_reopen: '%{actor} assigned and reopened the conversation'
-        assign_and_reopen_with_target: '%{actor} assigned the conversation to %{target} and reopened it'
-        open: '%{actor} opened the conversation'
-        close: '%{actor} closed the conversation'
-        snoozed: '%{actor} snoozed the conversation'
-        participant_added: '%{actor} added a participant'
-        participant_added_with_target: '%{actor} added %{target} as a participant'
-        participant_removed: '%{actor} removed a participant'
-        participant_removed_with_target: '%{actor} removed %{target} as a participant'
-        conversation_attribute_updated: '%{actor} updated conversation attributes'
-        ticket_attribute_updated: '%{actor} updated ticket attributes'
-        ticket_state_updated: '%{actor} updated the ticket state'
-        custom_action_started: '%{actor} started a custom action'
-        custom_action_finished: '%{actor} finished a custom action'
-        quick_reply: '%{actor} used a quick reply'
-        generic: '%{actor} recorded %{event}'
+        assignment: '%{actor} asignó la conversación'
+        assignment_with_target: '%{actor} asignó la conversación a %{target}'
+        assign_and_reopen: '%{actor} asignado y reabierto la conversación'
+        assign_and_reopen_with_target: '%{actor} asignó la conversación a %{target} y la reabrió'
+        open: '%{actor} abrió la conversación'
+        close: '%{actor} cerró la conversación'
+        snoozed: '%{actor} silenció la conversación'
+        participant_added: '%{actor} agregó un participante'
+        participant_added_with_target: '%{actor} agregó a %{target} como participante'
+        participant_removed: '%{actor} eliminó un participante'
+        participant_removed_with_target: '%{actor} eliminó %{target} como participante'
+        conversation_attribute_updated: '%{actor} actualizó los atributos de la conversación'
+        ticket_attribute_updated: '%{actor} actualizó los atributos del ticket'
+        ticket_state_updated: '%{actor} actualizó el estado del ticket'
+        custom_action_started: '%{actor} inició una acción personalizada'
+        custom_action_finished: '%{actor} terminó una acción personalizada'
+        quick_reply: '%{actor} usó una respuesta rápida'
+        generic: '%{actor} grabado %{event}'
   profile_settings:
     sessions:
-      cannot_revoke_current: You cannot revoke the current session.
+      cannot_revoke_current: No puede revocar la sesión actual.
   errors:
     account:
-      not_authorized: You are not authorized to access this account
+      not_authorized: No está autorizado a acceder a esta cuenta
       reporting_timezone:
         invalid: is not a valid timezone
       support_email:
@@ -90,7 +90,7 @@ es:
       unsupported_content_type: 'File type not supported (only images and videos are allowed)'
       unexpected: 'An unexpected error occurred'
     database:
-      query_canceled: 'The request took too long to complete. Please try again.'
+      query_canceled: 'La solicitud tardó demasiado en completarse. Por favor, inténtalo de nuevo.'
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
@@ -122,15 +122,15 @@ es:
         unique: debe ser único en la categoría y el portal
     dyte:
       invalid_message_type: 'Tipo de mensaje inválido. Acción no permitida'
-      realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
+      realtimekit_credentials_required: 'Las credenciales de Cloudflare RealtimeKit son requeridas. Elimina la integración existente de Dyte y vuelve a crearla con las credenciales Cloudflare RealtimeKit.'
     cloudflare:
       realtimekit:
-        invalid_credentials: 'Cloudflare RealtimeKit credentials are invalid. Please check the Account ID, RealtimeKit App ID, and API token permissions.'
-        missing_credentials: 'Cloudflare Account ID, RealtimeKit App ID, and API token are required.'
-        invalid_api_token: 'Cloudflare API token is invalid or inactive. Please create a new token with Realtime Admin permissions.'
-        invalid_account_or_permissions: 'Cloudflare Account ID is invalid, or the API token does not have Realtime Admin access to this account.'
-        app_not_found: 'RealtimeKit App ID was not found in this Cloudflare account. Please check the app you selected.'
-        verification_failed: 'Could not verify Cloudflare RealtimeKit credentials right now. Please try again.'
+        invalid_credentials: 'Las credenciales de Cloudflare RealtimeKit no son válidas. Por favor, comprueba el ID de cuenta, el ID de la aplicación RealtimeKit y los permisos de token de la API.'
+        missing_credentials: 'ID de la cuenta Cloudflare, ID de la aplicación RealtimeKit, y token API son requeridos.'
+        invalid_api_token: 'El token de la API de Cloudflare no es válido o está inactivo. Por favor, crea un nuevo token con permisos de administración de tiempo real.'
+        invalid_account_or_permissions: 'El ID de cuenta de Cloudflare no es válido, o el token de la API no tiene acceso de Administrador de tiempo real a esta cuenta.'
+        app_not_found: 'El ID de la aplicación RealtimeKit no se ha encontrado en esta cuenta Cloudflare. Por favor, comprueba la aplicación seleccionada.'
+        verification_failed: 'No se han podido verificar las credenciales de Cloudflare RealtimeKit en este momento. Por favor, inténtalo de nuevo.'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, inténtalo de nuevo'
     whatsapp:
@@ -143,7 +143,7 @@ es:
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
       calls:
         not_enabled: 'Llamada no está habilitada para esta bandeja de entrada'
-        already_ended: 'This call has already ended'
+        already_ended: 'Esta llamada ya ha finalizado'
         no_recording: 'Ningún archivo de grabación proporcionado'
         no_message: 'La llamada no tiene ningún mensaje asociado'
         sdp_offer_required: 'sdp_offer es requerido'
@@ -183,8 +183,8 @@ es:
       invalid_credentials: Invalid credentials or verification code
       feature_unavailable: MFA feature is not available. Please configure encryption keys.
     billing:
-      invalid_currency: Invalid billing currency
-      currency_locked: Billing currency cannot be changed after billing has been set up
+      invalid_currency: Moneda de facturación no válida
+      currency_locked: La moneda de facturación no se puede cambiar después de que se haya configurado la facturación
     topup:
       credits_required: Credits amount is required
       invalid_credits: Invalid credits amount
@@ -461,7 +461,7 @@ es:
       no_results: "No se han encontrado resultados para '%{query}'"
       found_results:
         one: Se encontró 1 resultado
-        other: 'Found %{count} results'
+        other: 'Se encontraron %{count} resultados'
       submit: Buscar
     toc_header: 'En esta página'
     sidebar:
@@ -477,10 +477,10 @@ es:
       browse_by_topic_subtitle: Encuentra guías, tutoriales y respuestas organizadas por categoría.
       popular_articles: Artículos populares
       popular_articles_subtitle: Lo que otras personas están leyendo ahora mismo.
-      recommended: Recommended articles
-      recommended_subtitle: Hand-picked articles to get you started.
+      recommended: Artículos recomendados
+      recommended_subtitle: Artículos elegidos a mano para empezar.
       popular_label: 'Temas populares:'
-      recommended_label: 'Recommended topics:'
+      recommended_label: 'Temas recomendados:'
       authors_others: "%{names} y %{count} otros"
       primary_nav: Primario
     hero:
@@ -516,7 +516,7 @@ es:
         light: Claro
         dark: Oscuro
       featured_articles: Artículos destacados
-      recommended: Recommended articles
+      recommended: Artículos recomendados
       uncategorized: Sin categoría
     404:
       title: Página no encontrada
@@ -593,27 +593,27 @@ es:
   super_admin:
     captain_model_overrides:
       form:
-        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
-        use_default: 'Use default: %{model} (%{model_id})'
+        helper_text: 'Deje un modelo en blanco para usar el valor por defecto de YAML para esa función de IA.'
+        use_default: 'Usar por defecto: %{model} (%{model_id})'
       show:
-        summary: 'View model routing'
-        provider: 'Provider'
-        model: 'Model'
+        summary: 'Ver ruta del modelo'
+        provider: 'Proveedor'
+        model: 'Modelo'
       sources:
-        account_override: 'Account override'
+        account_override: 'Anulación de cuenta'
         default: 'Predeterminado'
       features:
         editor: 'Editor'
         assistant: 'Asistente'
         copilot: 'Copilot'
-        label_suggestion: 'Label suggestion'
-        document_faq_generation: 'Document FAQ generation'
-        conversation_faq_generation: 'Conversation FAQ generation'
-        help_center_article_generation: 'Help center article generation'
-        onboarding_content_generation: 'Onboarding content generation'
-        help_center_query_translation: 'Help center query translation'
-        audio_transcription: 'Audio transcription'
-        help_center_search: 'Help center search'
+        label_suggestion: 'Sugerencia de etiqueta'
+        document_faq_generation: 'Generación de FAQ de documentos'
+        conversation_faq_generation: 'Generación de FAQ de conversación'
+        help_center_article_generation: 'Centro de ayuda para la generación de artículos'
+        onboarding_content_generation: 'Generación de contenidos integrados'
+        help_center_query_translation: 'Traducción de consultas al centro de ayuda'
+        audio_transcription: 'Transcripción de audio'
+        help_center_search: 'Centro de búsqueda de ayuda'
     push_diagnostics:
       user_not_found: 'Usuario no encontrado.'
       no_subscriptions_to_test: 'Seleccione al menos una suscripción para probar.'
