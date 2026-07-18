@@ -1,5 +1,9 @@
 <script>
+import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useWhatsappEmbeddedSignup } from 'dashboard/composables/useWhatsappEmbeddedSignup';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import whatsappChannel from 'dashboard/api/channel/whatsappChannel';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
@@ -30,7 +34,8 @@ export default {
     },
   },
   setup() {
-    return { v$: useVuelidate() };
+    const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
+    return { v$: useVuelidate(), runEmbeddedSignup };
   },
   data() {
     return {
@@ -41,14 +46,28 @@ export default {
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
       isSettingDefaults: false,
+      isReconfiguring: false,
     };
   },
   validations: {
     whatsAppInboxAPIKey: { required },
   },
   computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     isEmbeddedSignupWhatsApp() {
       return this.inbox.provider_config?.source === 'embedded_signup';
+    },
+    showWhatsAppReconfigure() {
+      return (
+        this.isEmbeddedSignupWhatsApp &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.WHATSAPP_RECONFIGURE
+        )
+      );
     },
     isForwardingEnabled() {
       return !!this.inbox.forwarding_enabled;
@@ -158,6 +177,28 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+    async reconfigureWhatsApp() {
+      this.isReconfiguring = true;
+      try {
+        const credentials = await this.runEmbeddedSignup();
+        // User dismissed the Meta popup without completing signup.
+        if (!credentials) return;
+
+        await whatsappChannel.reauthorizeWhatsApp({
+          inboxId: this.inbox.id,
+          ...credentials,
+        });
+        useAlert(
+          this.$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_RECONFIGURE_SUCCESS')
+        );
+      } catch (error) {
+        useAlert(
+          this.$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_RECONFIGURE_ERROR')
+        );
+      } finally {
+        this.isReconfiguring = false;
       }
     },
     async syncTemplates() {
@@ -357,6 +398,23 @@ export default {
           "
         >
           <woot-code :script="inbox.provider_config.webhook_verify_token" />
+        </SettingsFieldSection>
+        <SettingsFieldSection
+          v-if="showWhatsAppReconfigure"
+          :label="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_EMBEDDED_SIGNUP_TITLE')
+          "
+          :help-text="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION')
+          "
+        >
+          <NextButton
+            :is-loading="isReconfiguring"
+            :disabled="isReconfiguring"
+            @click="reconfigureWhatsApp"
+          >
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_RECONFIGURE_BUTTON') }}
+          </NextButton>
         </SettingsFieldSection>
       </template>
 

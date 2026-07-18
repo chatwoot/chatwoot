@@ -15,7 +15,7 @@ RSpec.describe 'Agent Bot API', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated agent' do
       it 'returns all the agent_bots in account along with global agent bots' do
         global_bot = create(:agent_bot)
         get "/api/v1/accounts/#{account.id}/agent_bots",
@@ -25,7 +25,7 @@ RSpec.describe 'Agent Bot API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(agent_bot.name)
         expect(response.body).to include(global_bot.name)
-        expect(response.body).to include(agent_bot.access_token.token)
+        expect(response.body).not_to include(agent_bot.access_token.token)
         expect(response.body).not_to include(global_bot.access_token.token)
       end
 
@@ -54,6 +54,17 @@ RSpec.describe 'Agent Bot API', type: :request do
         expect(account_bot_response).to include('thumbnail')
       end
     end
+
+    context 'when it is an authenticated administrator' do
+      it 'returns the account bot access token' do
+        get "/api/v1/accounts/#{account.id}/agent_bots",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(agent_bot.access_token.token)
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/agent_bots/:id' do
@@ -65,7 +76,7 @@ RSpec.describe 'Agent Bot API', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated agent' do
       it 'shows the agent bot' do
         get "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}",
             headers: agent.create_new_auth_token,
@@ -73,7 +84,7 @@ RSpec.describe 'Agent Bot API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(agent_bot.name)
-        expect(response.body).to include(agent_bot.access_token.token)
+        expect(response.body).not_to include(agent_bot.access_token.token)
       end
 
       it 'will show a global agent bot' do
@@ -89,6 +100,17 @@ RSpec.describe 'Agent Bot API', type: :request do
         # Test for system_bot attribute and webhook URL not being exposed
         expect(response.parsed_body['system_bot']).to be(true)
         expect(response.parsed_body).not_to include('outgoing_url')
+      end
+    end
+
+    context 'when it is an authenticated administrator' do
+      it 'returns the account bot access token' do
+        get "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(agent_bot.access_token.token)
       end
     end
   end

@@ -13,6 +13,7 @@ vi.mock('vue-router');
 // channel_type, social ordering) derived from CHANNEL_LIST.
 const mountComposable = ({
   brandInfo,
+  features = { channel_instagram: true },
   inboxes = [],
   isOnChatwootCloud = false,
 } = {}) => {
@@ -30,8 +31,11 @@ const mountComposable = ({
         getters: {
           getAccount: () => () => ({
             id: 1,
+            features,
             custom_attributes: { brand_info: brandInfo },
           }),
+          isFeatureEnabledonAccount: () => (_accountId, feature) =>
+            Boolean(features[feature]),
         },
       },
       inboxes: {
@@ -207,8 +211,26 @@ describe('useDetectedChannels', () => {
       ]);
     });
 
-    it('hides Instagram from onboarding on Chatwoot Cloud', () => {
+    it('keeps Instagram available on Chatwoot Cloud when enabled for the account', () => {
       const { displayedChannels } = mountComposable({
+        isOnChatwootCloud: true,
+        brandInfo: {
+          socials: [
+            { type: 'instagram', url: 'https://instagram.com/acme' },
+            { type: 'tiktok', url: 'https://tiktok.com/@acme' },
+          ],
+        },
+      });
+
+      expect(displayedChannels.value.map(channel => channel.type)).toEqual([
+        'instagram',
+        'tiktok',
+      ]);
+    });
+
+    it('hides Instagram when disabled for the account', () => {
+      const { displayedChannels } = mountComposable({
+        features: { channel_instagram: false },
         isOnChatwootCloud: true,
         brandInfo: {
           socials: [
