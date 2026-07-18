@@ -871,39 +871,39 @@
           "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Informe o número de telefone de exibição",
           "DISPLAY_PHONE_NUMBER_HELP": "O número do WhatsApp exibido aos clientes. Ele não pode ser alterado durante a migração.",
           "ACCESS_TOKEN": "Token de acesso permanente ou token do usuário do sistema",
-          "ACCESS_TOKEN_PLACEHOLDER": "Paste access token",
-          "TOKEN_HELP_PREFIX": "The token must include",
+          "ACCESS_TOKEN_PLACEHOLDER": "Colar token de acesso",
+          "TOKEN_HELP_PREFIX": "O token deve incluir",
           "TOKEN_HELP_MIDDLE": "Adicionar",
-          "TOKEN_HELP_SUFFIX": "for template sync and template management.",
-          "MESSAGING_PERMISSION": "whatsapp_business_messaging.",
-          "MANAGEMENT_PERMISSION": "whatsapp_business_management",
-          "REVIEW_TITLE": "Review before reconnecting",
+          "TOKEN_HELP_SUFFIX": "para gerenciamento de modelos de sincronização e templates.",
+          "MESSAGING_PERMISSION": "mensagem_de_empresas_whatsapping.",
+          "MANAGEMENT_PERMISSION": "gerência_de_empresas_whatsapp",
+          "REVIEW_TITLE": "Revisar antes de reconectar",
           "INBOX": "Caixa de Entrada",
           "PHONE_NUMBER": "Número de telefone",
-          "NOT_ENTERED": "Not entered",
-          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
+          "NOT_ENTERED": "Não inserido",
+          "VERIFY_NOTICE": "O Chatwoot verificará estas credenciais com o Meta antes de aplicar quaisquer alterações. Se a verificação falhar, a configuração atual ficará intacta.",
           "BACK": "Anterior",
           "CANCEL": "Cancelar",
           "CONTINUE": "Continuar",
-          "REVIEW_MIGRATION": "Review migration",
+          "REVIEW_MIGRATION": "Revisar a migração",
           "RECONNECT": "Reconectar caixa de entrada do WhatsApp"
         },
         "STEPS": {
           "BEFORE_YOU_START": {
-            "TITLE": "Before you start",
-            "DESCRIPTION": "This reconnects the WhatsApp API details for this inbox. Conversations, collaborators, routing, business hours, CSAT, and bot settings will be preserved."
+            "TITLE": "Antes de começar",
+            "DESCRIPTION": "Isto reconecta os detalhes da API do WhatsApp para esta caixa de entrada. Conversos, colaboradores, roteadores, horários de funcionamento, CSS e configurações do bot serão preservadas."
           },
           "BUSINESS_DETAILS": {
-            "TITLE": "Business details",
-            "DESCRIPTION": "Enter the WhatsApp assets from the customer Meta Business account."
+            "TITLE": "Dados da empresa",
+            "DESCRIPTION": "Digite os ativos do WhatsApp da conta Meta Business do cliente."
           },
           "ACCESS_TOKEN": {
-            "TITLE": "Access token",
-            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions."
+            "TITLE": "Token de acesso",
+            "DESCRIPTION": "Cole um token de acesso permanente ou de sistema com as permissões do WhatsApp."
           },
           "REVIEW_MIGRATION": {
-            "TITLE": "Review migration",
-            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+            "TITLE": "Revisar a migração",
+            "DESCRIPTION": "Confirme os detalhes da conexão antes de reconectar esta caixa de entrada. O Chatwoot verificará o token, WABA e o número de telefone com meta antes de aplicar as alterações."
           }
         }
       },
