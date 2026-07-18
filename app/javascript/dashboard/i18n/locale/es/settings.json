@@ -87,20 +87,20 @@
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
       "SESSIONS_SECTION": {
-        "TITLE": "Active Sessions",
-        "NOTE": "These are the devices currently logged in to your account.",
-        "CURRENT": "Current session",
-        "REVOKE": "Revoke",
-        "REVOKE_SUCCESS": "Session revoked successfully",
-        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
-        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
-        "LAST_ACTIVE": "Last active",
+        "TITLE": "Sesiones activas",
+        "NOTE": "Estos son los dispositivos conectados actualmente a tu cuenta.",
+        "CURRENT": "Sesión actual",
+        "REVOKE": "Revocar",
+        "REVOKE_SUCCESS": "Sesión revocada con éxito",
+        "REVOKE_ERROR": "No se puede revocar la sesión. Por favor, inténtalo de nuevo.",
+        "FETCH_ERROR": "No se pueden recuperar las sesiones. Por favor, inténtalo de nuevo.",
+        "LAST_ACTIVE": "Última actividad",
         "UNKNOWN_DEVICE": "Dispositivo desconocido"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acceso",
         "NOTE": "Este token puede ser usado si estás construyendo una integración basada en API",
-        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
+        "PAID_PLAN_NOTE": "Los tokens de acceso API están disponibles en planes de pago.",
         "COPY": "Copiar",
         "RESET": "Reset",
         "CONFIRM_RESET": "¿Está seguro?",
@@ -341,7 +341,7 @@
     "NOTIFICATIONS": "Notificaciones",
     "CANNED_RESPONSES": "Respuestas predefinidas",
     "INTEGRATIONS": "Integraciones",
-    "DATA": "Data",
+    "DATA": "Datos",
     "PROFILE_SETTINGS": "Ajustes del perfil",
     "ACCOUNT_SETTINGS": "Configuración de la cuenta",
     "APPLICATIONS": "Aplicaciones",
@@ -396,17 +396,17 @@
     "SORT_TOOLTIP": "Ordenar",
     "SORT_BY": "Ordenar por",
     "SORT_GROUPS": {
-      "CREATED": "Sort by date of creation",
-      "ALPHABETICAL": "Sort in alphabetical order",
-      "UNREAD_COUNT": "Sort by unread count"
+      "CREATED": "Ordenar por fecha de creación",
+      "ALPHABETICAL": "Ordenar en orden alfabético",
+      "UNREAD_COUNT": "Ordenar por número de no leídos"
     },
     "SORT_OPTIONS": {
-      "CREATED_DESC": "Newest first",
-      "CREATED_ASC": "Oldest first",
-      "ALPHABETICAL_ASC": "Ascending (A - Z)",
-      "ALPHABETICAL_DESC": "Descending (Z - A)",
-      "UNREAD_COUNT_DESC": "Highest first",
-      "UNREAD_COUNT_ASC": "Lowest first"
+      "CREATED_DESC": "Más nuevo primero",
+      "CREATED_ASC": "Lo más antiguo primero",
+      "ALPHABETICAL_ASC": "Ascendente (A - Z)",
+      "ALPHABETICAL_DESC": "Descendente (Z - A)",
+      "UNREAD_COUNT_DESC": "Más alto primero",
+      "UNREAD_COUNT_ASC": "Más bajo primero"
     },
     "DOCS": "Leer documentos",
     "SECURITY": "Security",
@@ -414,10 +414,10 @@
     "CONVERSATION_WORKFLOW": "Conversation Workflow"
   },
   "DATA_IMPORTS": {
-    "HEADER": "Data",
-    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
-    "LOADING": "Fetching imports",
-    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "HEADER": "Datos",
+    "DESCRIPTION": "Trae tus contactos y conversaciones pasadas a esta cuenta desde otra herramienta de soporte. Cada importación se ejecuta en segundo plano, así que puedes seguir trabajando mientras termina, rastrea su progreso y revisa cualquier cosa que se haya omitido a lo largo del camino.",
+    "LOADING": "Obteniendo importaciones",
+    "DEFAULT_IMPORT_NAME": "Importar Intercom",
     "TABS": {
       "IMPORT": "Importar",
       "EXPORT": "Exportar"
@@ -428,47 +428,47 @@
       "MESSAGES": "Mensajes"
     },
     "DRAWER": {
-      "TITLE": "New import",
-      "SOURCE": "Source",
-      "NAME": "Import name",
-      "NAME_PLACEHOLDER": "July Intercom migration",
-      "ACCESS_KEY": "Intercom access key",
-      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
-      "DATA_TYPES": "Data to import",
-      "VALIDATING": "Validating access key...",
-      "VALID_KEY": "Access key validated.",
-      "INVALID_KEY": "Could not validate this access key.",
-      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "TITLE": "Nueva importación",
+      "SOURCE": "Fuente",
+      "NAME": "Importar nombre",
+      "NAME_PLACEHOLDER": "Migración de julio de Intercom",
+      "ACCESS_KEY": "Clave de acceso Intercom",
+      "ACCESS_KEY_PLACEHOLDER": "Pegue su clave de acceso Intercom",
+      "DATA_TYPES": "Datos a importar",
+      "VALIDATING": "Validando clave de acceso...",
+      "VALID_KEY": "Clave de acceso validada.",
+      "INVALID_KEY": "No se pudo validar esta clave de acceso.",
+      "ACTIVE_IMPORT": "Espere a que finalice la importación activa antes de comenzar otra.",
       "CANCEL": "Cancelar",
       "IMPORT": "Importar"
     },
     "EXPORT": {
-      "TITLE": "Exports are on the way",
-      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
-      "COMING_SOON": "Coming soon"
+      "TITLE": "Las exportaciones están en camino",
+      "DESCRIPTION": "Exporta tus contactos y conversaciones desde esta cuenta. Este flujo de trabajo estará disponible pronto.",
+      "COMING_SOON": "Próximamente"
     },
     "TABLE": {
-      "TITLE": "Recent imports",
-      "EMPTY": "No imports yet",
-      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "TITLE": "Importaciones recientes",
+      "EMPTY": "Aún no hay importaciones",
+      "EMPTY_DESCRIPTION": "Iniciar una importación para traer su historial de clientes existente a esta cuenta.",
       "NEW_IMPORT": "Importar",
-      "COUNT": "{count} imports",
-      "UNNAMED": "Untitled import",
-      "IMPORTED_COUNT": "{count} imported",
-      "VIEW": "View import",
+      "COUNT": "{count} importaciones",
+      "UNNAMED": "Importar sin título",
+      "IMPORTED_COUNT": "{count} importados",
+      "VIEW": "Ver importación",
       "NAME": "Nombre",
       "TYPE": "Tipo",
       "STATUS": "Estado",
-      "IMPORTED": "Imported",
+      "IMPORTED": "Importado",
       "CREATED": "Creado",
-      "ABANDON": "Abandon"
+      "ABANDON": "Abandonar"
     },
     "DETAIL": {
-      "BACK": "Back to imports",
-      "ERRORS": "Errors",
-      "SKIP_LOGS": "Skip logs",
+      "BACK": "Volver a las importaciones",
+      "ERRORS": "Errores",
+      "SKIP_LOGS": "Saltar registros",
       "SOURCE": "Fuente",
-      "IMPORT_TYPES": "Import types",
+      "IMPORT_TYPES": "Importar tipos",
       "CREATED": "Creado",
       "DURATION": "Duración",
       "INITIATED_BY": "Iniciado por",
@@ -484,31 +484,31 @@
       "ALL_SKIP_LOGS": "Todos",
       "KIND": "Clase",
       "NO_ERRORS": "No se han registrado errores.",
-      "ERROR_CODE": "Code",
+      "ERROR_CODE": "Código",
       "SOURCE_OBJECT": "Objeto origen",
       "MESSAGE": "Mensaje"
     },
     "MONITOR": {
-      "LIVE": "Live updates every {seconds}s",
+      "LIVE": "Actualizaciones en vivo cada {seconds}s",
       "LAST_UPDATED": "Última actualización {time}",
       "REFRESH": "Actualizar",
-      "REFRESHING": "Refreshing",
+      "REFRESHING": "Actualizando",
       "STAGES": {
-        "unknown": "Waiting for update",
-        "queued": "Queued",
-        "contacts": "Importing contacts",
-        "conversations": "Importing conversations",
-        "finalizing": "Finalizing import",
+        "unknown": "Esperando actualización",
+        "queued": "En cola",
+        "contacts": "Importando contactos",
+        "conversations": "Importando conversaciones",
+        "finalizing": "Finalizando importación",
         "completed": "Completado",
-        "completed_with_errors": "Completed with errors",
-        "failed": "Failed",
-        "abandoned": "Abandoned"
+        "completed_with_errors": "Completado con errores",
+        "failed": "Fallido",
+        "abandoned": "Abandonado"
       }
     },
     "ALERTS": {
-      "IMPORT_STARTED": "Intercom import has started.",
-      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
-      "IMPORT_FAILED": "Could not start the Intercom import."
+      "IMPORT_STARTED": "La importación de Intercom ha comenzado.",
+      "IMPORT_ABANDONED": "La importación de Intercom ha sido abandonada.",
+      "IMPORT_FAILED": "No se pudo iniciar la importación de Intercom."
     }
   },
   "CAPTAIN_SETTINGS": {
@@ -542,8 +542,8 @@
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Audio Transcription",
         "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts.",
-        "MODEL_TITLE": "Audio Transcription Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
+        "MODEL_TITLE": "Modelo de Transcripción de Audio",
+        "MODEL_DESCRIPTION": "Seleccione el modelo de IA a utilizar para convertir mensajes de audio en transcripciones de texto"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
@@ -569,16 +569,16 @@
       "PLAN_NOTE": "Actualmente está suscrito al plan **{plan}** con **{quantity}** licencias",
       "SEAT_COUNT": "Número de asientos",
       "RENEWS_ON": "Renueva el",
-      "CURRENCY": "Currency"
+      "CURRENCY": "Moneda"
     },
     "CURRENCY": {
       "SELECT": {
-        "TITLE": "Choose your billing currency",
-        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+        "TITLE": "Elige tu moneda de facturación",
+        "DESCRIPTION": "Selecciona la moneda en la que te gustaría ser facturado. Esto no se puede cambiar una vez creada tu suscripción."
       },
       "OPTIONS": {
-        "USD": "US Dollar (USD)",
-        "BRL": "Brazilian Real (BRL)"
+        "USD": "Dólar US (USD)",
+        "BRL": "Real Brasileño (BRL)"
       }
     },
     "VIEW_PRICING": "Ver precios",
@@ -615,7 +615,7 @@
       "PURCHASE": "Purchase Credits",
       "LOADING": "Loading options...",
       "FETCH_ERROR": "Failed to load credit options. Please try again.",
-      "RETRY": "Retry",
+      "RETRY": "Reintentar",
       "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
       "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
       "CONFIRM": {
@@ -918,8 +918,8 @@
           "DURATION": "Conversations per agent in every"
         },
         "EXCLUDE_OLDER_THAN": {
-          "LABEL": "Skip stale conversations",
-          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
+          "LABEL": "Saltar conversaciones obsoletas",
+          "DESCRIPTION": "Saltar conversaciones no asignadas más antiguas que esto. Por defecto es 7 días; borrar para desactivar."
         },
         "INBOXES": {
           "LABEL": "Added inboxes",
