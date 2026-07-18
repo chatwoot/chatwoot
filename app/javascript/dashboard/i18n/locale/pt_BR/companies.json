@@ -26,8 +26,8 @@
       "CREATE": "Adicionar empresa"
     },
     "SELECTOR": {
-      "PLACEHOLDER": "Select company",
-      "CREATE_OPTION": "Add \"{name}\""
+      "PLACEHOLDER": "Selecionar empresa",
+      "CREATE_OPTION": "Adicionar \"{name}\""
     },
     "CREATE": {
       "TITLE": "Adicionar detalhes da empresa",
