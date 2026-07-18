@@ -1,5 +1,6 @@
 class DashboardController < ActionController::Base
   include SwitchLocale
+  include PortalHomeData
 
   GLOBAL_CONFIG_KEYS = %w[
     LOGO
@@ -65,6 +66,8 @@ class DashboardController < ActionController::Base
     return unless @portal
 
     @locale = @portal.default_locale
+    request.variant = :documentation if @portal.layout == 'documentation'
+    load_home_data
     render 'public/api/v1/portals/show', layout: 'portal', portal: @portal and return
   end
 

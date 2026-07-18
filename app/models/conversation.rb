@@ -62,6 +62,14 @@ class Conversation < ApplicationRecord
   include PushDataHelper
   include ConversationMuteHelpers
 
+  CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language].freeze
+  FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS = %w[browser_language conversation_language mail_subject referer].freeze
+  FILTERED_UNREAD_COUNT_UPDATE_KEYS = %w[
+    cached_label_list campaign_id custom_attributes first_reply_created_at label_list last_activity_at priority snoozed_until waiting_since
+  ].freeze
+  private_constant :CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS, :FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS,
+                   :FILTERED_UNREAD_COUNT_UPDATE_KEYS
+
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
@@ -78,6 +86,9 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
+  scope :sort_on_unread, lambda { |_direction|
+    order(unread_messages_count_arel.desc).sort_on_last_activity_at('desc')
+  }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
   scope :resolvable_not_waiting, lambda { |auto_resolve_after|
     return none if auto_resolve_after.to_i.zero?
@@ -206,6 +217,26 @@ class Conversation < ApplicationRecord
     inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
   end
 
+  def self.unread_messages_count_arel
+    messages = Message.arel_table
+    conversations = arel_table
+    unread_messages = messages
+                      .project(messages[:id].count)
+                      .where(unread_messages_condition(messages, conversations))
+
+    Arel::Nodes::Grouping.new(unread_messages.ast)
+  end
+
+  def self.unread_messages_condition(messages, conversations)
+    messages[:conversation_id].eq(conversations[:id])
+                              .and(messages[:account_id].eq(conversations[:account_id]))
+                              .and(messages[:message_type].eq(Message.message_types[:incoming]))
+                              .and(
+                                conversations[:agent_last_seen_at].eq(nil)
+                                  .or(messages[:created_at].gt(conversations[:agent_last_seen_at]))
+                              )
+  end
+
   def recent_messages
     messages.chat.last(5)
   end
@@ -224,6 +255,7 @@ class Conversation < ApplicationRecord
     handle_resolved_status_change
     notify_status_change
     create_activity
+    invalidate_filtered_unread_count_conversation
     notify_conversation_updation
   end
 
@@ -290,10 +322,23 @@ class Conversation < ApplicationRecord
   end
 
   def allowed_keys?
-    (
-      previous_changes.keys.intersect?(list_of_keys) ||
-      (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
-    )
+    previous_changes.keys.intersect?(list_of_keys) ||
+      additional_attributes_changed?(CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS)
+  end
+
+  def invalidate_filtered_unread_count_conversation
+    return unless filtered_unread_count_update?
+
+    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).conversation_changed!
+  end
+
+  def filtered_unread_count_update?
+    previous_changes.keys.intersect?(FILTERED_UNREAD_COUNT_UPDATE_KEYS) ||
+      additional_attributes_changed?(FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS)
+  end
+
+  def additional_attributes_changed?(keys)
+    Array(previous_changes['additional_attributes']).compact.any? { |attributes| attributes.keys.intersect?(keys) }
   end
 
   def load_attributes_created_by_db_triggers

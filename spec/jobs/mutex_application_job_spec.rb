@@ -58,7 +58,7 @@ RSpec.describe MutexApplicationJob do
 
   describe '.retry_on_lock_conflict' do
     let(:job_class) do
-      Class.new(described_class) do
+      Class.new(MutexApplicationJob) do
         retry_on_lock_conflict wait: 1.second, attempts: 1, on_exhaustion: :process_without_lock
 
         attr_reader :fallback_args
@@ -90,7 +90,7 @@ RSpec.describe MutexApplicationJob do
 
     context 'without an exhaustion handler' do
       let(:job_class) do
-        Class.new(described_class) do
+        Class.new(MutexApplicationJob) do
           retry_on_lock_conflict wait: 1.second, attempts: 1
 
           def perform(lock_key)

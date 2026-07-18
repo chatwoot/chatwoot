@@ -1,11 +1,13 @@
 <script setup>
 import { computed, ref, onMounted, nextTick } from 'vue';
+import { onClickOutside } from '@vueuse/core';
 import { useRouter } from 'vue-router';
 import { useSidebarContext } from './provider';
 import { useMapGetter } from 'dashboard/composables/store';
 import Icon from 'next/icon/Icon.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 import SidebarUnreadBadge from './SidebarUnreadBadge.vue';
+import SidebarSortMenu from './SidebarSortMenu.vue';
 
 const props = defineProps({
   label: { type: String, required: true },
@@ -14,7 +16,7 @@ const props = defineProps({
   triggerRect: { type: Object, default: () => ({ top: 0, left: 0 }) },
 });
 
-const emit = defineEmits(['close', 'mouseenter', 'mouseleave']);
+const emit = defineEmits(['close', 'mouseenter', 'mouseleave', 'sortToggle']);
 
 const router = useRouter();
 const { isAllowed, sidebarWidth } = useSidebarContext();
@@ -28,6 +30,14 @@ const skipTransition = ref(true);
 const toggleSubGroup = name => {
   expandedSubGroup.value = expandedSubGroup.value === name ? null : name;
 };
+
+const handleSortToggle = isSortOpen => {
+  emit('sortToggle', isSortOpen);
+};
+
+onClickOutside(popoverRef, () => emit('close'), {
+  ignore: ['[data-popover-content]'],
+});
 
 const navigateAndClose = to => {
   router.push(to);
@@ -123,24 +133,44 @@ onMounted(async () => {
         >
           <template v-for="child in accessibleChildren" :key="child.name">
             <!-- SubGroup with children -->
-            <li v-if="child.children" class="py-0.5">
-              <button
-                class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-n-slate-11 hover:bg-n-alpha-2 transition-colors duration-150 ease-out text-left rtl:text-right"
-                @click="toggleSubGroup(child.name)"
+            <li v-if="child.children" class="group/sidebar-section py-0.5">
+              <div
+                class="flex items-center rounded-lg text-n-slate-11 hover:bg-n-alpha-2 transition-colors duration-150 ease-out"
               >
-                <Icon
-                  v-if="child.icon"
-                  :icon="child.icon"
-                  class="size-4 flex-shrink-0"
-                />
-                <span class="flex-1 truncate text-sm">{{ child.label }}</span>
-                <span
-                  class="size-3 transition-transform i-lucide-chevron-down"
-                  :class="{
-                    'rotate-180': expandedSubGroup === child.name,
-                  }"
-                />
-              </button>
+                <button
+                  class="flex flex-1 min-w-0 items-center gap-2 ps-2 py-1.5 text-left rtl:text-right"
+                  @click="toggleSubGroup(child.name)"
+                >
+                  <Icon
+                    v-if="child.icon"
+                    :icon="child.icon"
+                    class="size-4 flex-shrink-0"
+                  />
+                  <span class="flex-1 truncate text-sm">{{ child.label }}</span>
+                </button>
+                <div class="flex flex-shrink-0 items-center gap-1 pe-2">
+                  <SidebarSortMenu
+                    v-if="child.sortOptions?.length"
+                    :active-sort="child.activeSort"
+                    :options="child.sortOptions"
+                    :open-on-hover="false"
+                    @sort="child.onSortChange"
+                    @toggle="handleSortToggle"
+                  />
+                  <button
+                    type="button"
+                    class="flex size-6 flex-shrink-0 items-center justify-center rounded-md text-n-slate-11 hover:bg-n-alpha-2 focus-visible:bg-n-alpha-2 focus-visible:outline-none"
+                    @click.stop="toggleSubGroup(child.name)"
+                  >
+                    <span
+                      class="size-4 flex-shrink-0 transition-transform i-lucide-chevron-down"
+                      :class="{
+                        'rotate-180': expandedSubGroup === child.name,
+                      }"
+                    />
+                  </button>
+                </div>
+              </div>
               <Transition v-bind="transition">
                 <ul
                   v-if="expandedSubGroup === child.name"
