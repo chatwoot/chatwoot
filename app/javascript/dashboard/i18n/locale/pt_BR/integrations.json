@@ -32,11 +32,11 @@
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
       "LEARN_MORE": "Saiba mais sobre webhooks",
       "PAYWALL": {
-        "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
-        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "TITLE": "Webhooks estão disponíveis nos planos pagos",
+        "AVAILABLE_ON": "Use webhooks para receber eventos em tempo real de sua conta Chatwoot.",
+        "UPGRADE_PROMPT": "Atualize para Startups, Business ou Enterprise plano para usar webhooks.",
         "UPGRADE_NOW": "Atualizar agora",
-        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+        "CANCEL_ANYTIME": "Altere ou cancele seu plano a qualquer momento."
       },
       "SECRET": {
         "LABEL": "Segredo",
@@ -402,76 +402,76 @@
     "OVERVIEW": {
       "HEADER": "Visão geral",
       "WELCOME": {
-        "LABEL": "Captain summary",
-        "LOADING": "Generating summary…"
+        "LABEL": "Resumo do Capitão",
+        "LOADING": "Gerando resumo…"
       },
       "INBOX_BANNER": {
-        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
-        "ACTION": "Connect inbox",
+        "TEXT": "Este assistente ainda não está conectado a nenhuma caixa de entrada, então ele não responderá a conversas.",
+        "ACTION": "Conectar caixa de entrada",
         "DISMISS": "Recusar"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review FAQs",
+        "TEXT": "Perguntas Frequentes {count} estão pendentes, mantendo a cobertura em {coverage}%. Aprove-os para que seu assistente possa resolver mais por conta própria.",
+        "ACTION": "Revisar FAQs",
         "DISMISS": "Recusar"
       },
       "RANGES": {
-        "LAST_DAYS": "Last {count} days",
+        "LAST_DAYS": "Últimos {count} dias",
         "THIS_MONTH": "Este mês",
         "LAST_MONTH": "Último mês"
       },
       "METRICS": {
         "HANDLED": {
-          "LABEL": "Conversations handled",
-          "HINT": "Distinct conversations this assistant replied in."
+          "LABEL": "Manipulação de conversas",
+          "HINT": "Conversas distintas em que este assistente respondeu."
         },
         "AUTO_RESOLUTION": {
-          "LABEL": "Auto-resolution rate",
-          "HINT": "Share of handled conversations closed without a human reply."
+          "LABEL": "Taxa de resolução automática",
+          "HINT": "Compartilhamento de conversas manipuladas fechadas sem uma resposta humana."
         },
         "HANDOFF": {
-          "LABEL": "Handoff rate",
-          "HINT": "Share of handled conversations escalated to a human agent."
+          "LABEL": "Taxa de entrega",
+          "HINT": "Compartilhamento de conversas manipuladas escalado para um agente humano."
         },
         "HOURS_SAVED": {
-          "LABEL": "Time saved",
-          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+          "LABEL": "Tempo economizado",
+          "HINT": "Estimativa: Capitão responde a cerca de 2 minutos de esforço assumido de agente por resposta. Direcional, não medida de trabalho."
         },
         "REOPEN": {
-          "LABEL": "Reopen rate",
-          "HINT": "Auto-resolved conversations that were reopened afterwards."
+          "LABEL": "Reabrir tarifa",
+          "HINT": "Conversas resolvidas automaticamente que foram reabertas depois."
         },
         "DEPTH": {
-          "LABEL": "Messages / conversation",
-          "HINT": "Average replies the assistant sends per conversation."
+          "LABEL": "Mensagens / conversa",
+          "HINT": "Média de respostas que o assistente envia por conversa."
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Close details",
-        "EMPTY": "No records found for this metric.",
-        "ERROR": "Could not load records. Please try again.",
+        "CLOSE": "Detalhes do fechamento",
+        "EMPTY": "Não foram encontrados registros para essa métrica.",
+        "ERROR": "Não foi possível carregar os registros. Por favor, tente novamente.",
         "LOAD_MORE": "Carregar mais",
-        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+        "RESULT_COUNT_CONVERSATION": "Conversa {count} + Conversas {count}"
       },
       "KNOWLEDGE": {
-        "TITLE": "Knowledge coverage",
-        "COVERAGE": "{pct}% approved",
-        "APPROVED": "Approved FAQs",
+        "TITLE": "Cobertura de conhecimento",
+        "COVERAGE": "{pct}% aprovado",
+        "APPROVED": "FAQs Aprovadas",
         "PENDING": "FAQs pendentes",
         "DOCUMENTS": "Documentos"
       },
       "LINKS": {
         "DOCS": {
-          "TITLE": "Captain docs",
-          "DESCRIPTION": "Guides and how-tos for Captain"
+          "TITLE": "Documentação do capitão",
+          "DESCRIPTION": "Guias e guias para o Capitão"
         },
         "PLAYGROUND": {
           "TITLE": "Área de testes",
-          "DESCRIPTION": "Test this assistant's replies"
+          "DESCRIPTION": "Testar respostas deste assistente"
         },
         "BILLING": {
           "TITLE": "Cobrança",
-          "DESCRIPTION": "Manage credits and plan"
+          "DESCRIPTION": "Gerenciar créditos e plano"
         }
       }
     },
@@ -818,7 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "Documentos",
       "ADD_NEW": "Criar um novo documento",
-      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
+      "FAQ_COUNT": "Perguntas Frequentes (F{n} ) {n} FAQs",
       "SELECTED": "{count} selecionado",
       "SELECT_ALL": "Selecionar todos ({count})",
       "UNSELECT_ALL": "Desmarcar todos ({count})",
@@ -878,27 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "FAQs Relacionadas",
-        "EMPTY": "No FAQs have been generated from this document yet."
+        "EMPTY": "Nenhuma FAQs foi gerada a partir deste documento ainda."
       },
       "DETAILS": {
-        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
-        "SOURCE": "Source",
-        "GENERATED_FAQS": "Generated FAQs",
-        "LAST_UPDATED": "Last updated",
+        "DESCRIPTION": "Revise o conteúdo raswled e as FAQs geradas a partir desta fonte.",
+        "SOURCE": "fonte",
+        "GENERATED_FAQS": "FAQs Geradas",
+        "LAST_UPDATED": "Última atualização",
         "NOT_AVAILABLE": "Indisponível",
-        "CONTENT_TAB": "Crawled content",
-        "PDF_TAB": "PDF details",
-        "CONTENT_TITLE": "Crawled content",
-        "PDF_TITLE": "PDF file",
-        "PDF_DESCRIPTION": "Review the original PDF source.",
-        "CHARACTER_COUNT": "{count} characters extracted",
+        "CONTENT_TAB": "Conteúdo Rastejado",
+        "PDF_TAB": "Detalhes do PDF",
+        "CONTENT_TITLE": "Conteúdo Rastejado",
+        "PDF_TITLE": "Arquivo PDF",
+        "PDF_DESCRIPTION": "Revise a fonte PDF original.",
+        "CHARACTER_COUNT": "{count} caracteres extraídos",
         "COPY_CONTENT": "Copiar",
-        "COPY_SUCCESS": "Crawled content copied to clipboard",
-        "COPY_ERROR": "Could not copy crawled content",
-        "VIEW_RAW": "View raw",
-        "VIEW_PREVIEW": "View preview",
-        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
-        "EMPTY_CONTENT": "No crawled content is available for this document yet."
+        "COPY_SUCCESS": "Conteúdo copiado para a área de transferência",
+        "COPY_ERROR": "Não foi possível copiar o conteúdo rastreador",
+        "VIEW_RAW": "Ver raw",
+        "VIEW_PREVIEW": "Visualizar visualização",
+        "UNREADABLE_CONTENT": "O conteúdo legível não pôde ser extraído deste documento. Você pode visualizar o conteúdo extraído em bruto.",
+        "EMPTY_CONTENT": "Nenhum conteúdo rastreador está disponível para este documento ainda."
       },
       "FORM_DESCRIPTION": "Digite o URL do documento para adicioná-lo como fonte de conhecimento e escolha o assistente para associá-lo.",
       "CREATE": {
