@@ -913,7 +913,7 @@
         },
         "FAIR_DISTRIBUTION": {
           "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "DESCRIPTION": "حدّد الحد الأقصى لعدد المحادثات التي يمكن إسنادها إلى كل وكيل خلال مدّة زمنية، لتجنّب تحميل أي وكيل فوق طاقته. القيمة الافتراضية لهذا الحقل الإلزامي هي 100 محادثة في الساعة.",
           "INPUT_MAX": "Assign max",
           "DURATION": "Conversations per agent in every"
         },
