@@ -26,7 +26,19 @@ const uiFlags = computed(() => getters['macros/getUIFlags'].value);
 const filteredRecords = computed(() => {
   const query = searchQuery.value.trim();
   if (!query) return records.value;
-  return picoSearch(records.value, query, ['name']);
+  return picoSearch(records.value, query, ['name', 'folder']);
+});
+
+const sortedRecords = computed(() => {
+  return [...filteredRecords.value].sort((a, b) => {
+    const folderA = (a.folder || '').trim();
+    const folderB = (b.folder || '').trim();
+    if (!folderA && folderB) return 1;
+    if (folderA && !folderB) return -1;
+    const folderCompare = folderA.localeCompare(folderB);
+    if (folderCompare !== 0) return folderCompare;
+    return (a.name || '').localeCompare(b.name || '');
+  });
 });
 
 const deleteMessage = computed(() => ` ${selectedMacro.value.name}?`);
@@ -61,6 +73,7 @@ const confirmDeletion = () => {
 const tableHeaders = computed(() => {
   return [
     t('MACROS.LIST.TABLE_HEADER.NAME'),
+    t('MACROS.LIST.TABLE_HEADER.FOLDER'),
     t('MACROS.LIST.TABLE_HEADER.CREATED BY'),
     t('MACROS.LIST.TABLE_HEADER.LAST_UPDATED_BY'),
     t('MACROS.LIST.TABLE_HEADER.VISIBILITY'),
@@ -99,12 +112,18 @@ const tableHeaders = computed(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
+      <div
+        v-if="!filteredRecords.length"
+        class="px-4 py-8 text-center text-n-slate-11"
+      >
+        {{ searchQuery ? $t('MACROS.NO_RESULTS') : $t('MACROS.LIST.404') }}
+      </div>
       <BaseTable
+        v-else
+        class="w-full"
         :headers="tableHeaders"
-        :items="filteredRecords"
-        :no-data-message="
-          searchQuery ? $t('MACROS.NO_RESULTS') : $t('MACROS.LIST.404')
-        "
+        :items="sortedRecords"
+        :no-data-message="$t('MACROS.LIST.404')"
       >
         <template #row="{ items }">
           <MacrosTableRow

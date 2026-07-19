@@ -9,6 +9,7 @@
     "LOADING": "Fetching macros",
     "SEARCH_PLACEHOLDER": "Search macros...",
     "NO_RESULTS": "No macros found matching your search",
+    "UNCATEGORIZED": "Uncategorized",
     "ERROR": "Something went wrong. Please try again",
     "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
     "ADD": {
@@ -17,6 +18,10 @@
           "LABEL": "Macro name",
           "PLACEHOLDER": "Enter a name for your macro",
           "ERROR": "Name is required for creating a macro"
+        },
+        "FOLDER": {
+          "LABEL": "Folder",
+          "PLACEHOLDER": "Optional folder name (e.g. Sales)"
         },
         "ACTIONS": {
           "LABEL": "Actions"
@@ -30,6 +35,7 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Name",
+        "FOLDER": "Folder",
         "CREATED BY": "Created by",
         "LAST_UPDATED_BY": "Last updated by",
         "VISIBILITY": "Visibility",

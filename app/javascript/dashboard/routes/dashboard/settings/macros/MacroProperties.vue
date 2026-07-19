@@ -17,6 +17,14 @@ export default {
       type: String,
       default: 'global',
     },
+    macroFolder: {
+      type: String,
+      default: '',
+    },
+    folderOptions: {
+      type: Array,
+      default: () => [],
+    },
     canManagePublicMacros: {
       type: Boolean,
       default: true,
@@ -26,7 +34,7 @@ export default {
       default: false,
     },
   },
-  emits: ['update:name', 'update:visibility', 'submit'],
+  emits: ['update:name', 'update:visibility', 'update:folder', 'submit'],
   computed: {
     isPublicVisibilityDisabled() {
       return !this.canManagePublicMacros;
@@ -64,6 +72,10 @@ export default {
 
       this.$emit('update:visibility', value);
     },
+    onUpdateFolder(value) {
+      if (this.readOnly) return;
+      this.$emit('update:folder', value);
+    },
   },
 };
 </script>
@@ -82,6 +94,22 @@ export default {
         :readonly="readOnly"
         @update:model-value="onUpdateName"
       />
+      <woot-input
+        class="mt-3"
+        :model-value="macroFolder"
+        :label="$t('MACROS.ADD.FORM.FOLDER.LABEL')"
+        :placeholder="$t('MACROS.ADD.FORM.FOLDER.PLACEHOLDER')"
+        :readonly="readOnly"
+        list="macro-folder-suggestions"
+        @update:model-value="onUpdateFolder"
+      />
+      <datalist id="macro-folder-suggestions">
+        <option
+          v-for="folder in folderOptions"
+          :key="folder"
+          :value="folder"
+        />
+      </datalist>
     </div>
     <div class="mt-2">
       <p class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12">

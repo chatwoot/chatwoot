@@ -993,7 +993,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_28_150000) do
     t.jsonb "actions", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "folder", default: "", null: false
     t.index ["account_id"], name: "index_macros_on_account_id"
+    t.index ["account_id", "folder"], name: "index_macros_on_account_id_and_folder"
   end
 
   create_table "mentions", force: :cascade do |t|
