@@ -107,13 +107,32 @@ describe Whatsapp::OneoffCampaignService do
         described_class.new(campaign: campaign).perform
       end
 
-      it 'skips contacts without phone numbers' do
+      it 'persists sent recipients with source_id and execution_stats' do
+        contact = create(:contact, :with_phone_number, account: account)
+        contact.update_labels([label1.title])
+
+        allow(whatsapp_channel).to receive(:send_template).and_return('wamid.campaign_1')
+
+        described_class.new(campaign: campaign).perform
+
+        recipient = campaign.campaign_recipients.find_by(contact_id: contact.id)
+        expect(recipient).to be_sent
+        expect(recipient.source_id).to eq('wamid.campaign_1')
+        expect(campaign.reload.execution_stats['sent']).to eq(1)
+        expect(campaign.execution_stats['audience_total']).to eq(1)
+      end
+
+      it 'marks skipped recipients without phone numbers' do
         contact_without_phone = create(:contact, account: account, phone_number: nil)
         contact_without_phone.update_labels([label1.title])
 
         expect(whatsapp_channel).not_to receive(:send_template)
 
         described_class.new(campaign: campaign).perform
+
+        recipient = campaign.campaign_recipients.find_by(contact_id: contact_without_phone.id)
+        expect(recipient).to be_skipped
+        expect(recipient.error_message).to eq('no phone number')
       end
 
       it 'uses template processor service to process templates' do

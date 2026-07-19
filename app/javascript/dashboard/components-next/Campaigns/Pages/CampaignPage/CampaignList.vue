@@ -10,12 +10,17 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  clickableCards: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['edit', 'delete']);
+const emit = defineEmits(['edit', 'delete', 'select']);
 
 const handleEdit = campaign => emit('edit', campaign);
 const handleDelete = campaign => emit('delete', campaign);
+const handleSelect = campaign => emit('select', campaign);
 </script>
 
 <template>
@@ -30,9 +35,12 @@ const handleDelete = campaign => emit('delete', campaign);
       :sender="campaign.sender"
       :inbox="campaign.inbox"
       :scheduled-at="campaign.scheduled_at"
+      :execution-stats="campaign.execution_stats"
       :is-live-chat-type="isLiveChatType"
+      :clickable="clickableCards"
       @edit="handleEdit(campaign)"
       @delete="handleDelete(campaign)"
+      @select="handleSelect(campaign)"
     />
   </div>
 </template>

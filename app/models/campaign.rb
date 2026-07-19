@@ -8,6 +8,7 @@
 #  campaign_type                      :integer          default("ongoing"), not null
 #  description                        :text
 #  enabled                            :boolean          default(TRUE)
+#  execution_stats                    :jsonb
 #  message                            :text             not null
 #  scheduled_at                       :datetime
 #  template_params                    :jsonb
@@ -34,7 +35,7 @@ class Campaign < ApplicationRecord
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :title, presence: true
-  validates :message, presence: true
+  validates :message, presence: true, unless: :draft?
   validate :validate_campaign_inbox
   validate :validate_url
   validate :prevent_completed_campaign_from_update, on: :update
@@ -46,20 +47,35 @@ class Campaign < ApplicationRecord
   belongs_to :sender, class_name: 'User', optional: true
 
   enum campaign_type: { ongoing: 0, one_off: 1 }
-  # TODO : enabled attribute is unneccessary . lets move that to the campaign status with additional statuses like draft, disabled etc.
-  enum campaign_status: { active: 0, completed: 1, processing: 2 }
+  # TODO : enabled attribute is unneccessary . lets move that to the campaign status with additional statuses like disabled etc.
+  enum campaign_status: { active: 0, completed: 1, processing: 2, draft: 3 }
 
   has_many :conversations, dependent: :nullify, autosave: true
+  has_many :campaign_recipients, dependent: :destroy
 
   before_validation :ensure_correct_campaign_attributes
+  before_validation :ensure_draft_message
   after_commit :set_display_id, unless: :display_id?
 
   def trigger!
     return unless one_off?
+    return if draft?
     return unless feature_enabled?
     return unless mark_processing!
 
     execute_campaign
+  end
+
+  def refresh_execution_stats!
+    stats = CampaignRecipient.statuses.keys.index_with { 0 }
+    campaign_recipients.group(:status).count.each do |key, count|
+      status_name = key.is_a?(Integer) ? CampaignRecipient.statuses.key(key) : key.to_s
+      stats[status_name] = count if stats.key?(status_name)
+    end
+    update_columns( # rubocop:disable Rails/SkipsModelValidations -- stats cache only
+      execution_stats: stats.merge('audience_total' => stats.values.sum),
+      updated_at: Time.current
+    )
   end
 
   private
@@ -71,7 +87,7 @@ class Campaign < ApplicationRecord
   def mark_processing!
     # Multiple scheduler jobs can pick the same active campaign; lock before flipping status to avoid duplicate sends.
     with_lock do
-      next if completed? || processing?
+      next if completed? || processing? || draft?
 
       processing!
     end
@@ -104,11 +120,15 @@ class Campaign < ApplicationRecord
 
     if ['Twilio SMS', 'Sms', 'Whatsapp'].include?(inbox.inbox_type)
       self.campaign_type = 'one_off'
-      self.scheduled_at ||= Time.now.utc
+      self.scheduled_at ||= Time.now.utc unless draft?
     else
       self.campaign_type = 'ongoing'
       self.scheduled_at = nil
     end
+  end
+
+  def ensure_draft_message
+    self.message = '' if draft? && message.nil?
   end
 
   def validate_url

@@ -42,24 +42,37 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  executionStats: {
+    type: Object,
+    default: () => ({}),
+  },
+  clickable: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['edit', 'delete']);
+const emit = defineEmits(['edit', 'delete', 'select']);
 
 const { t } = useI18n();
 
 const STATUS_COMPLETED = 'completed';
 const STATUS_PROCESSING = 'processing';
+const STATUS_DRAFT = 'draft';
 
 const { formatMessage } = useMessageFormatter();
 
-const isActive = computed(() =>
-  props.isLiveChatType ? props.isEnabled : props.status !== STATUS_COMPLETED
-);
+const isDraft = computed(() => props.status === STATUS_DRAFT);
+
+const isActive = computed(() => {
+  if (props.isLiveChatType) return props.isEnabled;
+  return props.status !== STATUS_COMPLETED && props.status !== STATUS_DRAFT;
+});
 
 const statusTextColor = computed(() => ({
   'text-n-teal-11': isActive.value,
-  'text-n-slate-12': !isActive.value,
+  'text-n-amber-11': isDraft.value,
+  'text-n-slate-12': !isActive.value && !isDraft.value,
 }));
 
 const campaignStatus = computed(() => {
@@ -67,6 +80,10 @@ const campaignStatus = computed(() => {
     return props.isEnabled
       ? t('CAMPAIGN.LIVE_CHAT.CARD.STATUS.ENABLED')
       : t('CAMPAIGN.LIVE_CHAT.CARD.STATUS.DISABLED');
+  }
+
+  if (props.status === STATUS_DRAFT) {
+    return t('CAMPAIGN.SMS.CARD.STATUS.DRAFT');
   }
 
   if (props.status === STATUS_COMPLETED) {
@@ -80,16 +97,61 @@ const campaignStatus = computed(() => {
   return t('CAMPAIGN.SMS.CARD.STATUS.SCHEDULED');
 });
 
+const showEditButton = computed(
+  () => props.isLiveChatType || isDraft.value
+);
+
 const inboxName = computed(() => props.inbox?.name || '');
 
 const inboxIcon = computed(() => {
   const { medium, channel_type: type } = props.inbox;
   return getInboxIconByType(type, medium);
 });
+
+const statsSummary = computed(() => {
+  const stats = props.executionStats || {};
+  if (!stats.audience_total && !stats.sent && !stats.failed) return '';
+  const parts = [];
+  if (stats.sent) {
+    parts.push(
+      t('CAMPAIGN.WHATSAPP.CARD.STATS.SENT', { count: stats.sent })
+    );
+  }
+  if (stats.delivered) {
+    parts.push(
+      t('CAMPAIGN.WHATSAPP.CARD.STATS.DELIVERED', { count: stats.delivered })
+    );
+  }
+  if (stats.read) {
+    parts.push(
+      t('CAMPAIGN.WHATSAPP.CARD.STATS.READ', { count: stats.read })
+    );
+  }
+  if (stats.failed) {
+    parts.push(
+      t('CAMPAIGN.WHATSAPP.CARD.STATS.FAILED', { count: stats.failed })
+    );
+  }
+  if (stats.skipped) {
+    parts.push(
+      t('CAMPAIGN.WHATSAPP.CARD.STATS.SKIPPED', { count: stats.skipped })
+    );
+  }
+  if (stats.pending) {
+    parts.push(
+      t('CAMPAIGN.WHATSAPP.CARD.STATS.PENDING', { count: stats.pending })
+    );
+  }
+  return parts.join(' · ');
+});
 </script>
 
 <template>
-  <CardLayout layout="row">
+  <CardLayout
+    layout="row"
+    :class="{ 'cursor-pointer': clickable }"
+    @click="() => clickable && emit('select')"
+  >
     <div class="flex flex-col items-start justify-between flex-1 min-w-0 gap-2">
       <div class="flex justify-between gap-3 w-fit">
         <span
@@ -122,10 +184,16 @@ const inboxIcon = computed(() => {
           :scheduled-at="scheduledAt"
         />
       </div>
+      <p
+        v-if="statsSummary"
+        class="text-xs text-n-slate-11 line-clamp-1"
+      >
+        {{ statsSummary }}
+      </p>
     </div>
-    <div class="flex items-center justify-end w-20 gap-2">
+    <div class="flex items-center justify-end w-20 gap-2" @click.stop>
       <Button
-        v-if="isLiveChatType"
+        v-if="showEditButton"
         variant="faded"
         size="sm"
         color="slate"

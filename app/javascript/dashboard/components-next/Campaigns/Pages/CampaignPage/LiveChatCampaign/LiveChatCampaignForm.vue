@@ -6,11 +6,14 @@ import { required, minLength } from '@vuelidate/validators';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { URLPattern } from 'urlpattern-polyfill';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import InsertVariableButton from 'dashboard/components-next/variable/InsertVariableButton.vue';
 
 const props = defineProps({
   mode: {
@@ -202,6 +205,10 @@ watch(
 );
 
 defineExpose({ prepareCampaignDetails, isSubmitDisabled });
+
+const insertMessageVariable = liquid => {
+  emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, liquid);
+};
 </script>
 
 <template>
@@ -214,13 +221,25 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
       :message-type="formErrors.title ? 'error' : 'info'"
     />
 
-    <Editor
-      v-model="state.message"
-      :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.LABEL')"
-      :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.PLACEHOLDER')"
-      :message="formErrors.message"
-      :message-type="formErrors.message ? 'error' : 'info'"
-    />
+    <div class="flex flex-col gap-1">
+      <div class="flex items-center justify-between gap-2 mb-0.5">
+        <label class="text-sm font-medium text-n-slate-12">
+          {{ t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.LABEL') }}
+        </label>
+        <InsertVariableButton
+          context="campaign"
+          @insert="insertMessageVariable"
+        />
+      </div>
+      <Editor
+        v-model="state.message"
+        :placeholder="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.MESSAGE.PLACEHOLDER')"
+        :message="formErrors.message"
+        :message-type="formErrors.message ? 'error' : 'info'"
+        enable-variables
+        :enable-canned-responses="false"
+      />
+    </div>
 
     <div class="flex flex-col gap-1">
       <label for="inbox" class="mb-0.5 text-sm font-medium text-n-slate-12">

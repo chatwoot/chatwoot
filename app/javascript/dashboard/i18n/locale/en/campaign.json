@@ -90,7 +90,8 @@
         "STATUS": {
           "PROCESSING": "Processing",
           "COMPLETED": "Completed",
-          "SCHEDULED": "Scheduled"
+          "SCHEDULED": "Scheduled",
+          "DRAFT": "Draft"
         },
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Sent from",
@@ -120,7 +121,9 @@
           "AUDIENCE": {
             "LABEL": "Audience",
             "PLACEHOLDER": "Select the customer labels",
-            "ERROR": "Audience is required"
+            "ERROR": "Audience is required",
+            "PREVIEW_LOADING": "Calculating reach…",
+            "PREVIEW": "{total} contacts · {withPhone} with phone · {eligible} eligible"
           },
           "SCHEDULED_AT": {
             "LABEL": "Scheduled time",
@@ -128,14 +131,20 @@
             "ERROR": "Scheduled time is required"
           },
           "BUTTONS": {
-            "CREATE": "Create",
+            "CREATE": "Schedule",
+            "SCHEDULE": "Schedule",
+            "SAVE_DRAFT": "Save draft",
             "CANCEL": "Cancel"
           },
           "API": {
             "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "DRAFT_SUCCESS_MESSAGE": "SMS campaign draft saved",
             "ERROR_MESSAGE": "There was an error. Please try again."
           }
         }
+      },
+      "EDIT": {
+        "TITLE": "Edit SMS campaign"
       }
     },
     "WHATSAPP": {
@@ -149,11 +158,44 @@
         "STATUS": {
           "PROCESSING": "Processing",
           "COMPLETED": "Completed",
-          "SCHEDULED": "Scheduled"
+          "SCHEDULED": "Scheduled",
+          "DRAFT": "Draft"
         },
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Sent from",
           "ON": "on"
+        },
+        "STATS": {
+          "SENT": "{count} sent",
+          "DELIVERED": "{count} delivered",
+          "READ": "{count} read",
+          "FAILED": "{count} failed",
+          "SKIPPED": "{count} skipped",
+          "PENDING": "{count} pending"
+        }
+      },
+      "REPORT": {
+        "SUBTITLE": "Delivery details for this campaign (no conversations are created).",
+        "AUDIENCE_TOTAL": "Audience",
+        "EMPTY": "No recipients for this filter yet.",
+        "LOAD_MORE": "Load more",
+        "SEARCH_PLACEHOLDER": "Search by name or phone",
+        "STATUS": {
+          "PENDING": "Pending",
+          "SENT": "Sent",
+          "DELIVERED": "Delivered",
+          "READ": "Read",
+          "FAILED": "Failed",
+          "SKIPPED": "Skipped"
+        },
+        "TABLE": {
+          "CONTACT": "Contact",
+          "PHONE": "Phone",
+          "STATUS": "Status",
+          "DETAILS": "Details",
+          "SENT_AT": "Sent",
+          "DELIVERED_AT": "Delivered",
+          "READ_AT": "Read"
         }
       },
       "CREATE": {
@@ -185,7 +227,9 @@
           "AUDIENCE": {
             "LABEL": "Audience",
             "PLACEHOLDER": "Select the customer labels",
-            "ERROR": "Audience is required"
+            "ERROR": "Audience is required",
+            "PREVIEW_LOADING": "Calculating reach…",
+            "PREVIEW": "{total} contacts · {withPhone} with phone · {eligible} eligible"
           },
           "SCHEDULED_AT": {
             "LABEL": "Scheduled time",
@@ -193,14 +237,20 @@
             "ERROR": "Scheduled time is required"
           },
           "BUTTONS": {
-            "CREATE": "Create",
+            "CREATE": "Schedule",
+            "SCHEDULE": "Schedule",
+            "SAVE_DRAFT": "Save draft",
             "CANCEL": "Cancel"
           },
           "API": {
             "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "DRAFT_SUCCESS_MESSAGE": "WhatsApp campaign draft saved",
             "ERROR_MESSAGE": "There was an error. Please try again."
           }
         }
+      },
+      "EDIT": {
+        "TITLE": "Edit WhatsApp campaign"
       }
     },
     "CONFIRM_DELETE": {

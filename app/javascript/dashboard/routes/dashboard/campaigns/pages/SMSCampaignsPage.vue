@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useToggle } from '@vueuse/core';
 import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -15,7 +14,8 @@ const { t } = useI18n();
 const getters = useStoreGetters();
 
 const selectedCampaign = ref(null);
-const [showSMSCampaignDialog, toggleSMSCampaignDialog] = useToggle();
+const editingCampaign = ref(null);
+const smsCampaignDialogRef = ref(null);
 
 const uiFlags = useMapGetter('campaigns/getUIFlags');
 const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
@@ -28,9 +28,23 @@ const hasNoSMSCampaigns = computed(
   () => SMSCampaigns.value?.length === 0 && !isFetchingCampaigns.value
 );
 
+const openCreateDialog = () => {
+  editingCampaign.value = null;
+  smsCampaignDialogRef.value?.dialogRef.open();
+};
+
+const handleEdit = campaign => {
+  editingCampaign.value = campaign;
+  smsCampaignDialogRef.value?.dialogRef.open();
+};
+
 const handleDelete = campaign => {
   selectedCampaign.value = campaign;
   confirmDeleteCampaignDialogRef.value.dialogRef.open();
+};
+
+const handleCloseDialog = () => {
+  editingCampaign.value = null;
 };
 </script>
 
@@ -38,15 +52,8 @@ const handleDelete = campaign => {
   <CampaignLayout
     :header-title="t('CAMPAIGN.SMS.HEADER_TITLE')"
     :button-label="t('CAMPAIGN.SMS.NEW_CAMPAIGN')"
-    @click="toggleSMSCampaignDialog()"
-    @close="toggleSMSCampaignDialog(false)"
+    @click="openCreateDialog"
   >
-    <template #action>
-      <SMSCampaignDialog
-        v-if="showSMSCampaignDialog"
-        @close="toggleSMSCampaignDialog(false)"
-      />
-    </template>
     <div
       v-if="isFetchingCampaigns"
       class="flex items-center justify-center py-10 text-n-slate-11"
@@ -56,6 +63,7 @@ const handleDelete = campaign => {
     <CampaignList
       v-else-if="!hasNoSMSCampaigns"
       :campaigns="SMSCampaigns"
+      @edit="handleEdit"
       @delete="handleDelete"
     />
     <SMSCampaignEmptyState
@@ -69,4 +77,9 @@ const handleDelete = campaign => {
       :selected-campaign="selectedCampaign"
     />
   </CampaignLayout>
+  <SMSCampaignDialog
+    ref="smsCampaignDialogRef"
+    :selected-campaign="editingCampaign"
+    @close="handleCloseDialog"
+  />
 </template>

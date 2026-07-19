@@ -285,6 +285,28 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_28_150000) do
     t.index ["provider", "provider_call_id"], name: "index_calls_on_provider_and_provider_call_id", unique: true
   end
 
+
+  create_table "campaign_recipients", force: :cascade do |t|
+    t.bigint "campaign_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.string "phone_number"
+    t.integer "status", default: 0, null: false
+    t.string "source_id"
+    t.text "error_message"
+    t.datetime "sent_at"
+    t.datetime "delivered_at"
+    t.datetime "read_at"
+    t.datetime "failed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_campaign_recipients_on_account_id"
+    t.index ["campaign_id", "contact_id"], name: "index_campaign_recipients_on_campaign_id_and_contact_id"
+    t.index ["campaign_id", "status"], name: "index_campaign_recipients_on_campaign_id_and_status"
+    t.index ["campaign_id"], name: "index_campaign_recipients_on_campaign_id"
+    t.index ["contact_id"], name: "index_campaign_recipients_on_contact_id"
+    t.index ["source_id"], name: "index_campaign_recipients_on_source_id", unique: true, where: "(source_id IS NOT NULL)"
+  end
   create_table "campaigns", force: :cascade do |t|
     t.integer "display_id", null: false
     t.string "title", null: false
@@ -303,7 +325,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_28_150000) do
     t.datetime "scheduled_at", precision: nil
     t.boolean "trigger_only_during_business_hours", default: false
     t.jsonb "template_params"
-    t.index ["account_id"], name: "index_campaigns_on_account_id"
+    t.jsonb "execution_stats", default: {}, null: false
+        t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"
     t.index ["inbox_id"], name: "index_campaigns_on_inbox_id"
