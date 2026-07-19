@@ -11,6 +11,7 @@ class Api::V1::Accounts::Conversations::DirectUploadsController < ActiveStorage:
   before_action :authenticate_access_token!, if: :authenticate_by_access_token?
   before_action :validate_bot_access_token!, if: :authenticate_by_access_token?
   before_action :authenticate_user!, unless: :authenticate_by_access_token?
+  before_action :set_current_user, unless: :authenticate_by_access_token?
   before_action :current_account
   before_action :validate_token_api_access, if: :authenticate_by_access_token?
   before_action :conversation
@@ -22,6 +23,11 @@ class Api::V1::Accounts::Conversations::DirectUploadsController < ActiveStorage:
   end
 
   private
+
+  def set_current_user
+    @user ||= current_user
+    Current.user = @user
+  end
 
   def pundit_user
     {
