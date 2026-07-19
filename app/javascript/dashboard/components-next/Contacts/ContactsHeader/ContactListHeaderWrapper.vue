@@ -44,6 +44,7 @@ const emit = defineEmits([
   'search',
   'applyFilter',
   'clearFilters',
+  'contactCreated',
 ]);
 
 const { t } = useI18n();
@@ -73,8 +74,10 @@ const openCreateNewContactDialog = () => {
 };
 const openContactImportDialog = () =>
   contactImportDialogRef.value?.dialogRef.open();
-const openContactExportDialog = () =>
+const openContactExportDialog = () => {
+  contactExportDialogRef.value?.onDialogOpen?.();
   contactExportDialogRef.value?.dialogRef.open();
+};
 const openCreateSegmentDialog = () =>
   createSegmentDialogRef.value?.dialogRef.open();
 const openDeleteSegmentDialog = () =>
@@ -87,6 +90,7 @@ const onCreate = async contact => {
     useAlert(
       t('CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.SUCCESS_MESSAGE')
     );
+    emit('contactCreated');
   } catch (error) {
     const i18nPrefix = 'CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION';
     if (error instanceof DuplicateContactException) {
@@ -293,7 +297,7 @@ defineExpose({
   >
     <template #filter>
       <div
-        class="absolute mt-1 ltr:-right-52 rtl:-left-52 sm:ltr:right-0 sm:rtl:left-0 top-full"
+        class="absolute z-50 mt-1 ltr:-right-52 rtl:-left-52 sm:ltr:right-0 sm:rtl:left-0 top-full"
       >
         <ContactsFilter
           v-if="showFiltersModal"

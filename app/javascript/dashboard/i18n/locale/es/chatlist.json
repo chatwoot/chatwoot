@@ -180,6 +180,17 @@
     "SHOW_QUOTED_TEXT": "Mostrar texto citado",
     "MESSAGE_READ": "Leído",
     "SENDING": "Enviando",
-    "UNREAD_COUNT_OVERFLOW": "9+"
+    "UNREAD_COUNT_OVERFLOW": "9+",
+    "EXPORT_CONVERSATION": {
+      "TOOLTIP": "Exportar conversaciones",
+      "TITLE": "Exportar conversaciones",
+      "DESCRIPTION": "Exporta las conversaciones que coinciden con tus filtros actuales (una fila por conversación, sin transcript). Incluye atributos personalizados de conversación y contacto.",
+      "CONFIRM": "Exportar",
+      "FORMAT_LABEL": "Formato de archivo",
+      "FORMAT_XLSX": "Excel (.xlsx)",
+      "FORMAT_CSV": "CSV (.csv)",
+      "SUCCESS_MESSAGE": "La exportación se está preparando. La descarga iniciará automáticamente cuando esté lista. También recibirás un correo con el enlace.",
+      "ERROR_MESSAGE": "Hubo un error al exportar las conversaciones. Inténtalo de nuevo."
+    }
   }
 }

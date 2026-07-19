@@ -9,8 +9,10 @@ import {
 
 import ChatListHeader from './ChatListHeader.vue';
 import ConversationList from './ConversationList.vue';
+import ConversationExportDialog from './ConversationExportDialog.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ConversationFilter from 'next/filter/ConversationFilter.vue';
+import ConversationAPI from 'dashboard/api/inbox/conversation';
 import SaveCustomView from 'next/filter/SaveCustomView.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
@@ -39,6 +41,7 @@ import filterQueryGenerator from '../helper/filterQueryGenerator.js';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
+import { useStatusLabel } from 'dashboard/composables/useStatusLabel';
 import { conversationListPageURL } from '../helper/URLHelper';
 import {
   isOnMentionsView,
@@ -71,6 +74,7 @@ const props = defineProps({
 const emit = defineEmits(['conversationLoad']);
 const { uiSettings } = useUISettings();
 const { t } = useI18n();
+const { getStatusLabel } = useStatusLabel();
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
@@ -108,7 +112,10 @@ const chatListLoading = useMapGetter('getChatListLoadingStatus');
 const activeInbox = useMapGetter('getSelectedInbox');
 const conversationStats = useMapGetter('conversationStats/getStats');
 const appliedFilters = useMapGetter('getAppliedConversationFiltersV2');
+const appliedFiltersForExport = useMapGetter('getAppliedConversationFilters');
 const folders = useMapGetter('customViews/getConversationCustomViews');
+const conversationExportDialogRef = ref(null);
+const isExportingConversations = ref(false);
 const agentList = useMapGetter('agents/getAgents');
 const teamsList = useMapGetter('teams/getTeams');
 const inboxesList = useMapGetter('inboxes/getInboxes');
@@ -286,6 +293,19 @@ const conversationFilters = computed(() => {
     labels: props.label ? [props.label] : undefined,
     teamId: props.teamId || undefined,
     conversationType: props.conversationType || undefined,
+  };
+});
+
+// Snake_case list params for export — same fields ConversationFinder / index API use
+const listFiltersForExport = computed(() => {
+  const filters = conversationFilters.value;
+  return {
+    inbox_id: filters.inboxId,
+    status: filters.status,
+    assignee_type: filters.assigneeType,
+    team_id: filters.teamId,
+    labels: filters.labels,
+    conversation_type: filters.conversationType,
   };
 });
 
@@ -517,6 +537,7 @@ function setParamsForEditFolderModal() {
     ],
     filterTypes: advancedFilterTypes.value,
     allCustomAttributes: conversationCustomAttributes.value,
+    statusLabelFn: getStatusLabel,
   };
 }
 
@@ -597,6 +618,24 @@ function onToggleAdvanceFiltersModal() {
 
   showAdvancedFilters.value = true;
 }
+
+const openConversationExportDialog = () => {
+  conversationExportDialogRef.value?.dialogRef.open();
+};
+
+const onExportConversations = async query => {
+  isExportingConversations.value = true;
+  try {
+    await ConversationAPI.exportConversations(query);
+    useAlert(t('CHAT_LIST.EXPORT_CONVERSATION.SUCCESS_MESSAGE'));
+  } catch (error) {
+    useAlert(
+      error.message || t('CHAT_LIST.EXPORT_CONVERSATION.ERROR_MESSAGE')
+    );
+  } finally {
+    isExportingConversations.value = false;
+  }
+};
 
 function fetchConversations() {
   store.dispatch('updateChatListFilters', conversationFilters.value);
@@ -1004,11 +1043,13 @@ watch(conversationFilters, (newVal, oldVal) => {
       :is-on-expanded-layout="isOnExpandedLayout"
       :conversation-stats="conversationStats"
       :is-list-loading="chatListLoading && !conversationList.length"
+      :is-exporting="isExportingConversations"
       @add-folders="onClickOpenAddFoldersModal"
       @delete-folders="onClickOpenDeleteFoldersModal"
       @filters-modal="onToggleAdvanceFiltersModal"
       @reset-filters="resetAndFetchData"
       @basic-filter-change="onBasicFilterChange"
+      @export="openConversationExportDialog"
     />
 
     <TeleportWithDirection
@@ -1097,6 +1138,14 @@ watch(conversationFilters, (newVal, oldVal) => {
     <ConversationResolveAttributesModal
       ref="resolveAttributesModalRef"
       @submit="handleResolveWithAttributes"
+    />
+    <ConversationExportDialog
+      ref="conversationExportDialogRef"
+      :applied-filters="appliedFiltersForExport"
+      :active-folder="activeFolder"
+      :list-filters="listFiltersForExport"
+      :is-exporting="isExportingConversations"
+      @export="onExportConversations"
     />
   </div>
 </template>

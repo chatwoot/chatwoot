@@ -20,27 +20,27 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def agents
     @report_data = generate_agents_report
-    generate_csv('agents_report', 'api/v2/accounts/reports/agents')
+    generate_export('agents_report', 'api/v2/accounts/reports/agents')
   end
 
   def inboxes
     @report_data = generate_inboxes_report
-    generate_csv('inboxes_report', 'api/v2/accounts/reports/inboxes')
+    generate_export('inboxes_report', 'api/v2/accounts/reports/inboxes')
   end
 
   def labels
     @report_data = generate_labels_report
-    generate_csv('labels_report', 'api/v2/accounts/reports/labels')
+    generate_export('labels_report', 'api/v2/accounts/reports/labels')
   end
 
   def teams
     @report_data = generate_teams_report
-    generate_csv('teams_report', 'api/v2/accounts/reports/teams')
+    generate_export('teams_report', 'api/v2/accounts/reports/teams')
   end
 
   def conversations_summary
     @report_data = generate_conversations_report
-    generate_csv('conversations_summary_report', 'api/v2/accounts/reports/conversations_summary')
+    generate_export('conversations_summary_report', 'api/v2/accounts/reports/conversations_summary')
   end
 
   def conversation_traffic
@@ -48,7 +48,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     timezone_offset = (params[:timezone_offset] || 0).to_f
     @timezone = ActiveSupport::TimeZone[timezone_offset]
 
-    generate_csv('conversation_traffic_reports', 'api/v2/accounts/reports/conversation_traffic')
+    generate_export('conversation_traffic_reports', 'api/v2/accounts/reports/conversation_traffic')
   end
 
   def conversations
@@ -93,6 +93,28 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     response.headers['Content-Type'] = 'text/csv'
     response.headers['Content-Disposition'] = "attachment; filename=#{filename}.csv"
     render layout: false, template: template, formats: [:csv]
+  end
+
+  def generate_export(filename, template)
+    export_format = params[:export_format].to_s.downcase == 'xlsx' ? 'xlsx' : 'csv'
+    return generate_csv(filename, template) if export_format == 'csv'
+
+    csv_string = render_to_string(template: template, formats: [:csv], layout: false)
+    send_data(
+      csv_string_to_xlsx(csv_string),
+      filename: "#{filename}.xlsx",
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      disposition: 'attachment'
+    )
+  end
+
+  def csv_string_to_xlsx(csv_string)
+    rows = CSV.parse(csv_string.to_s)
+    package = Axlsx::Package.new
+    package.workbook.add_worksheet(name: 'Report') do |sheet|
+      rows.each { |row| sheet.add_row(Array(row)) }
+    end
+    package.to_stream.read
   end
 
   def check_authorization

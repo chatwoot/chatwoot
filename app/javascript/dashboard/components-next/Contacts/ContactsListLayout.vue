@@ -14,6 +14,7 @@ const props = defineProps({
   currentPage: { type: Number, default: 1 },
   totalItems: { type: Number, default: 100 },
   itemsPerPage: { type: Number, default: 15 },
+  perPageOptions: { type: Array, default: () => [15, 25, 50, 100] },
   activeSort: { type: String, default: '' },
   activeOrdering: { type: String, default: '' },
   activeSegment: { type: Object, default: null },
@@ -27,11 +28,13 @@ const props = defineProps({
 
 const emit = defineEmits([
   'update:currentPage',
+  'update:itemsPerPage',
   'update:sort',
   'search',
   'applyFilter',
   'clearFilters',
   'loadMore',
+  'contactCreated',
 ]);
 
 const route = useRoute();
@@ -78,9 +81,9 @@ const showPagination = computed(() => {
 
 <template>
   <section
-    class="flex w-full h-full gap-4 overflow-hidden justify-evenly bg-n-surface-1"
+    class="flex w-full h-full min-h-0 flex-1 gap-4 overflow-hidden justify-evenly bg-n-surface-1"
   >
-    <div class="flex flex-col w-full h-full transition-all duration-300">
+    <div class="flex flex-col w-full h-full min-h-0 transition-all duration-300">
       <ContactListHeaderWrapper
         ref="contactListHeaderWrapper"
         :show-search="isNotSegmentView && !isActiveView"
@@ -97,32 +100,38 @@ const showPagination = computed(() => {
         @search="emit('search', $event)"
         @apply-filter="emit('applyFilter', $event)"
         @clear-filters="emit('clearFilters')"
+        @contact-created="emit('contactCreated')"
       />
-      <main class="flex-1 overflow-y-auto px-6">
-        <div class="w-full mx-auto max-w-full">
+      <main class="relative z-0 flex flex-1 min-h-0 flex-col overflow-hidden px-6 pb-2">
+        <div class="flex w-full max-w-full mx-auto min-h-0 flex-1 flex-col gap-2">
           <ContactsActiveFiltersPreview
             v-if="showActiveFiltersPreview"
             :active-segment="activeSegment"
-            class="mb-1"
+            class="mb-1 shrink-0"
             @clear-filters="emit('clearFilters')"
             @open-filter="openFilter"
           />
-          <slot name="default" />
+          <div class="relative z-0 flex min-h-0 flex-1 flex-col overflow-hidden">
+            <slot name="default" />
+          </div>
           <ContactsLoadMore
             v-if="showLoadMore"
             :is-loading="isLoadingMore"
+            class="shrink-0"
             @load-more="emit('loadMore')"
           />
         </div>
       </main>
-      <footer v-if="showPagination" class="sticky bottom-0 z-0">
+      <footer v-if="showPagination" class="shrink-0 z-10 bg-n-surface-1">
         <PaginationFooter
           current-page-info="CONTACTS_LAYOUT.PAGINATION_FOOTER.SHOWING"
           :current-page="currentPage"
           :total-items="totalItems"
           class="max-w-full"
           :items-per-page="itemsPerPage"
+          :per-page-options="perPageOptions"
           @update:current-page="updateCurrentPage"
+          @update:items-per-page="emit('update:itemsPerPage', $event)"
         />
       </footer>
     </div>

@@ -329,9 +329,16 @@ class Message < ApplicationRecord
     # Channel delivery must not depend on side-effects (first-reply assign, etc.).
     # If those raise, the message would stay stuck with no source_id / WhatsApp send.
     send_reply
+    inherit_contact_labels_on_incoming
     dispatch_create_events
     execute_message_template_hooks
     update_contact_activity
+  end
+
+  def inherit_contact_labels_on_incoming
+    return unless incoming?
+
+    Conversations::InheritContactLabelsService.new(conversation: conversation).perform
   end
 
   def update_contact_activity

@@ -13,6 +13,7 @@ import ContactNotes from 'dashboard/components-next/Contacts/ContactsSidebar/Con
 import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/ContactHistory.vue';
 import ContactMedia from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMedia.vue';
 import ContactCustomAttributes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributes.vue';
+import ContactConversationMetrics from 'dashboard/components-next/Contacts/ContactConversationMetrics.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -20,11 +21,10 @@ const router = useRouter();
 
 const contact = useMapGetter('contacts/getContactById');
 const uiFlags = useMapGetter('contacts/getUIFlags');
-const conversations = useMapGetter(
-  'contactConversations/getAllConversationsByContactId'
-);
+const notesByContact = useMapGetter('contactNotes/getAllNotesByContactId');
 
-const activeTab = ref('history');
+const activeActivityTab = ref('history');
+const contactDetailsRef = ref(null);
 
 const isFetchingItem = computed(() => uiFlags.value.isFetchingItem);
 const isMergingContact = computed(() => uiFlags.value.isMerging);
@@ -36,29 +36,30 @@ const showSpinner = computed(
   () => isFetchingItem.value || isMergingContact.value
 );
 
-const conversationCount = computed(
-  () => conversations.value(route.params.contactId)?.length || 0
+const notesCount = computed(
+  () => notesByContact.value(route.params.contactId)?.length || 0
 );
 
 const { t } = useI18n();
 
-const CONTACT_TABS_OPTIONS = [
+const ACTIVITY_TABS = [
   { key: 'HISTORY', value: 'history' },
-  { key: 'NOTES', value: 'notes' },
   { key: 'MEDIA', value: 'media' },
-  { key: 'ATTRIBUTES', value: 'attributes' },
 ];
 
-const tabs = computed(() =>
-  CONTACT_TABS_OPTIONS.map(tab => ({
+const activityTabs = computed(() =>
+  ACTIVITY_TABS.map(tab => ({
     label: t(`CONTACTS_LAYOUT.SIDEBAR.TABS.${tab.key}`),
     value: tab.value,
-    count: tab.value === 'history' ? conversationCount.value : undefined,
+    count:
+      tab.value === 'history'
+        ? selectedContact.value?.conversationsCount
+        : undefined,
   }))
 );
 
-const activeTabIndex = computed(() =>
-  CONTACT_TABS_OPTIONS.findIndex(v => v.value === activeTab.value)
+const activeActivityTabIndex = computed(() =>
+  ACTIVITY_TABS.findIndex(v => v.value === activeActivityTab.value)
 );
 
 const goToContactsList = () => {
@@ -79,8 +80,12 @@ const fetchActiveContact = async () => {
   }
 };
 
-const handleTabChange = tab => {
-  activeTab.value = tab.value;
+const handleActivityTabChange = tab => {
+  activeActivityTab.value = tab.value;
+};
+
+const openEditContact = () => {
+  contactDetailsRef.value?.openEdit?.();
 };
 
 const fetchContactNotes = () => {
@@ -141,6 +146,7 @@ onMounted(() => {
       :is-updating="isUpdatingContact"
       @go-to-contacts-list="goToContactsList"
       @toggle-block="toggleContactBlock"
+      @edit="openEditContact"
     >
       <div
         v-if="showSpinner"
@@ -148,37 +154,80 @@ onMounted(() => {
       >
         <Spinner />
       </div>
-      <ContactDetails
+      <div
         v-else-if="selectedContact"
-        :selected-contact="selectedContact"
-      />
-      <template #sidebarHeader>
-        <div class="px-4 pt-4 pb-2">
-          <TabBar
-            :tabs="tabs"
-            :initial-active-tab="activeTabIndex"
-            class="w-full [&>button]:w-full bg-n-alpha-black2"
-            @tab-changed="handleTabChange"
-          />
+        class="flex flex-col gap-6 pb-6"
+      >
+        <!-- Identity + contact fields + socials -->
+        <ContactDetails
+          ref="contactDetailsRef"
+          :selected-contact="selectedContact"
+        />
+
+        <!-- Conversation metrics under profile -->
+        <ContactConversationMetrics :selected-contact="selectedContact" />
+
+        <div class="grid grid-cols-1 gap-6 xl:grid-cols-2 xl:gap-8">
+          <!-- Left: attributes + notes (who / internal context) -->
+          <div class="flex flex-col gap-6 min-w-0">
+            <section class="flex flex-col gap-3">
+              <h4 class="text-sm font-medium text-n-slate-12 px-1">
+                {{ t('CONTACTS_LAYOUT.SIDEBAR.TABS.ATTRIBUTES') }}
+              </h4>
+              <div
+                class="rounded-xl border border-n-weak bg-n-alpha-1 dark:bg-n-solid-2 p-3 sm:p-4"
+              >
+                <ContactCustomAttributes
+                  :selected-contact="selectedContact"
+                  compact
+                />
+              </div>
+            </section>
+
+            <section class="flex flex-col gap-3">
+              <div class="flex items-center justify-between gap-2 px-1">
+                <h4 class="text-sm font-medium text-n-slate-12">
+                  {{ t('CONTACTS_LAYOUT.SIDEBAR.TABS.NOTES') }}
+                </h4>
+                <span
+                  v-if="notesCount"
+                  class="text-xs text-n-slate-10 tabular-nums"
+                >
+                  {{ notesCount }}
+                </span>
+              </div>
+              <div
+                class="rounded-xl border border-n-weak bg-n-alpha-1 dark:bg-n-solid-2 p-3 sm:p-4"
+              >
+                <ContactNotes compact />
+              </div>
+            </section>
+          </div>
+
+          <!-- Right: conversations + media (what happened) -->
+          <div class="flex flex-col gap-3 min-w-0">
+            <h4 class="text-sm font-medium text-n-slate-12 px-1">
+              {{ t('CONTACTS_LAYOUT.DETAILS.SECTIONS.ACTIVITY') }}
+            </h4>
+            <div
+              class="rounded-xl border border-n-weak bg-n-alpha-1 dark:bg-n-solid-2 overflow-hidden flex flex-col min-h-[28rem]"
+            >
+              <div class="px-4 pt-4 pb-2">
+                <TabBar
+                  :tabs="activityTabs"
+                  :initial-active-tab="activeActivityTabIndex"
+                  class="w-full [&>button]:w-full bg-n-alpha-black2"
+                  @tab-changed="handleActivityTabChange"
+                />
+              </div>
+              <div class="flex-1 min-h-0 overflow-y-auto px-2 pb-4 pt-2">
+                <ContactHistory v-if="activeActivityTab === 'history'" />
+                <ContactMedia v-else-if="activeActivityTab === 'media'" />
+              </div>
+            </div>
+          </div>
         </div>
-      </template>
-      <template #sidebar>
-        <div
-          v-if="isFetchingItem"
-          class="flex items-center justify-center py-10 text-n-slate-11"
-        >
-          <Spinner />
-        </div>
-        <template v-else>
-          <ContactHistory v-if="activeTab === 'history'" />
-          <ContactNotes v-if="activeTab === 'notes'" />
-          <ContactMedia v-if="activeTab === 'media'" />
-          <ContactCustomAttributes
-            v-if="activeTab === 'attributes'"
-            :selected-contact="selectedContact"
-          />
-        </template>
-      </template>
+      </div>
     </ContactsDetailsLayout>
   </div>
 </template>

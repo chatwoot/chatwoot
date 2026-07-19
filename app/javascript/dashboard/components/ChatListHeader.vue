@@ -1,6 +1,9 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useStatusLabel } from 'dashboard/composables/useStatusLabel';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import { formatNumber } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -16,6 +19,7 @@ const props = defineProps({
   isOnExpandedLayout: { type: Boolean, required: true },
   conversationStats: { type: Object, required: true },
   isListLoading: { type: Boolean, required: true },
+  isExporting: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -24,9 +28,17 @@ const emit = defineEmits([
   'resetFilters',
   'basicFilterChange',
   'filtersModal',
+  'export',
 ]);
 
+const { t } = useI18n();
 const { uiSettings, updateUISettings } = useUISettings();
+const { getStatusLabel } = useStatusLabel();
+const { checkPermissions } = usePolicy();
+
+const canExportConversations = computed(() =>
+  checkPermissions(['administrator', 'conversation_manage'])
+);
 
 const onBasicFilterChange = (value, type) => {
   emit('basicFilterChange', value, type);
@@ -38,6 +50,13 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
 
 const allCount = computed(() => props.conversationStats?.allCount || 0);
 const formattedAllCount = computed(() => formatNumber(allCount.value));
+
+const activeStatusLabel = computed(() => {
+  if (props.activeStatus === 'all') {
+    return t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.all.TEXT');
+  }
+  return getStatusLabel(props.activeStatus);
+});
 
 const toggleConversationLayout = () => {
   const { LAYOUT_TYPES } = wootConstants;
@@ -82,7 +101,7 @@ const toggleConversationLayout = () => {
         v-if="!hasAppliedFiltersOrActiveFolders"
         class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
       >
-        {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
+        {{ activeStatusLabel }}
       </span>
     </div>
     <div class="flex items-center gap-1">
@@ -154,6 +173,17 @@ const toggleConversationLayout = () => {
           :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
         />
       </div>
+      <NextButton
+        v-if="canExportConversations"
+        v-tooltip.top-end="$t('CHAT_LIST.EXPORT_CONVERSATION.TOOLTIP')"
+        icon="i-lucide-download"
+        slate
+        xs
+        faded
+        :is-loading="isExporting"
+        :disabled="isExporting"
+        @click="emit('export')"
+      />
       <ConversationBasicFilter
         v-if="!hasAppliedFiltersOrActiveFolders"
         :is-on-expanded-layout="isOnExpandedLayout"

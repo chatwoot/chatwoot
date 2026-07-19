@@ -3,6 +3,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ContactSortMenu from './components/ContactSortMenu.vue';
+import ContactColumnMenu from './components/ContactColumnMenu.vue';
 import ContactMoreActions from './components/ContactMoreActions.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
@@ -32,9 +33,9 @@ const emit = defineEmits([
 </script>
 
 <template>
-  <header class="sticky top-0 z-20 px-6">
+  <header class="relative z-30 shrink-0 bg-n-surface-1 px-6">
     <div
-      class="flex items-start sm:items-center justify-between w-full py-6 gap-2 mx-auto max-w-5xl"
+      class="flex items-start sm:items-center justify-between w-full py-4 gap-2 mx-auto max-w-full"
     >
       <span class="text-xl font-medium truncate text-n-slate-12">
         {{ headerTitle }}
@@ -106,6 +107,7 @@ const emit = defineEmits([
               :active-ordering="activeOrdering"
               @update:sort="emit('update:sort', $event)"
             />
+            <ContactColumnMenu />
             <ContactMoreActions
               @add="emit('add')"
               @import="emit('import')"

@@ -10,6 +10,12 @@ module Enterprise::ConversationPolicy
     permits_participating?(permissions)
   end
 
+  def export?
+    return true if manage_all_conversations?(custom_role_permissions)
+
+    super
+  end
+
   private
 
   def manage_all_conversations?(permissions)

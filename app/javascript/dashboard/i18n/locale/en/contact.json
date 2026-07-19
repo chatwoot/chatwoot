@@ -296,6 +296,7 @@
       "ID": "(ID: {identifier})"
     }
   },
+
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "Contacts",
@@ -304,6 +305,7 @@
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Message",
       "SEND_MESSAGE": "Send message",
+      "EDIT": "Edit",
       "BLOCK_CONTACT": "Block contact",
       "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
@@ -339,10 +341,28 @@
         },
         "EXPORT_CONTACT": {
           "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+          "DESCRIPTION": "Export contacts matching your current filters. Choose which columns to include below. Download starts automatically when ready; a backup link is also emailed.",
           "CONFIRM": "Export",
-          "SUCCESS_MESSAGE": "Export is in progress. You will be notified on email when the export file is ready to download.",
+          "FORMAT_LABEL": "File format",
+          "FORMAT_XLSX": "Excel (.xlsx)",
+          "FORMAT_CSV": "CSV (.csv)",
+          "COLUMNS_LABEL": "Columns to export",
+          "COLUMNS_HINT": "Defaults match the columns visible in your table. You can change the selection before exporting.",
+          "USE_TABLE_COLUMNS": "Match table",
+          "SUCCESS_MESSAGE": "Export is preparing. The download will start automatically when ready. You will also receive an email with the file link.",
           "ERROR_MESSAGE": "There was an error, please try again"
+        },
+        "COLUMNS": {
+          "LABEL": "Columns",
+          "HINT": "Choose which fields appear in the contacts table. Name is always visible.",
+          "ORDER_HINT": "Drag to reorder. Name stays first.",
+          "VISIBLE_COUNT": "{count} visible",
+          "SEARCH": "Search columns…",
+          "SECTION_STANDARD": "Standard",
+          "SECTION_CUSTOM": "Custom attributes",
+          "EMPTY_SEARCH": "No columns match your search",
+          "DEFAULTS": "Defaults",
+          "ALL": "All"
         },
         "SORT_BY": {
           "LABEL": "Sort by",
@@ -351,14 +371,14 @@
             "EMAIL": "Email",
             "DOCUMENT_NUMBER": "Document number",
             "PHONE_NUMBER": "Phone number",
+            "IDENTIFIER": "Identifier",
             "COMPANY": "Company",
             "COUNTRY": "Country",
             "CITY": "City",
-            "LAST_ACTIVITY": "Last activity",
-            "CREATED_AT": "Created at",
-            "IDENTIFIER": "Identifier",
             "LABELS": "Labels",
             "ASSIGNED_AGENT": "Contact agent",
+            "LAST_ACTIVITY": "Last activity",
+            "CREATED_AT": "Created at",
             "BLOCKED": "Blocked"
           }
         },
@@ -392,18 +412,30 @@
     },
     "TABLE": {
       "SELECT_PAGE": "Select all {count} contacts on this page",
+      "UPDATING": "Updating…",
       "COLUMNS": {
         "NAME": "Name",
+        "FEATURED": "Metrics",
         "IDENTITY": "Identity",
         "PHONE": "Phone",
         "EMAIL": "Email",
+        "IDENTIFIER": "Identifier",
+        "COMPANY": "Company",
+        "CITY": "City",
+        "COUNTRY": "Country",
         "LABELS": "Labels",
         "ASSIGNED_AGENT": "Contact agent",
-        "LAST_ACTIVITY": "Last activity"
+        "CREATED_AT": "Created at",
+        "LAST_ACTIVITY": "Last activity",
+        "BLOCKED": "Blocked",
+        "BLOCKED_YES": "Yes",
+        "BLOCKED_NO": "No",
+        "ID": "ID"
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
+      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts",
+      "PER_PAGE": "Per page"
     },
     "FILTER": {
       "NAME": "Name",
@@ -515,7 +547,20 @@
       "LAST_ACTIVITY": "Last active {date}",
       "SECTIONS": {
         "CONTACT_DATA": "Contact data",
-        "SOCIAL_PROFILES": "Social profiles"
+        "SOCIAL_PROFILES": "Social profiles",
+        "ACTIVITY": "Activity"
+      },
+      "EMPTY_CONTACT_DATA": "No contact details yet. Use Edit to add them.",
+      "EMPTY_SOCIAL_PROFILES": "No social profiles yet. Add them from Edit.",
+      "FIELDS": {
+        "EMAIL": "Email",
+        "PHONE": "Phone",
+        "DOCUMENT": "Document number",
+        "IDENTIFIER": "Identifier",
+        "COMPANY": "Company",
+        "CITY": "City",
+        "COUNTRY": "Country",
+        "BIO": "Bio"
       },
       "MORE_ACTIONS": {
         "MERGE": "Merge contact",
@@ -551,6 +596,19 @@
           "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
         }
       }
+    },
+    "METRICS": {
+      "TITLE": "Conversation overview",
+      "TOTAL": "Total",
+      "OPEN": "Open",
+      "RESOLVED": "Resolved",
+      "OTHER": "Other",
+      "TOTAL_HINT": "All conversations with this contact",
+      "OPEN_HINT": "Open and pending conversations",
+      "RESOLVED_HINT": "Closed / resolved conversations",
+      "OTHER_HINT": "Snoozed or other statuses",
+      "LAST_ACTIVITY": "Last activity: {date}",
+      "NO_ACTIVITY": "No activity yet"
     },
     "SIDEBAR": {
       "TABS": {
@@ -617,8 +675,10 @@
         "ADD_NOTE": "Add contact note",
         "EXPAND": "Expand",
         "COLLAPSE": "Collapse",
+        "COUNT": "{count} note | {count} notes",
+        "SHORTCUT_HINT": "⌘/Ctrl + Enter to save",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "EMPTY_STATE": "No notes yet. Add context your team should remember about this contact.",
         "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
@@ -657,6 +717,7 @@
       "CONFIRM_SINGLE": "Delete contact"
     }
   },
+
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."

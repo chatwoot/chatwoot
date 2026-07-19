@@ -145,6 +145,70 @@ class Contact < ApplicationRecord
     )
   }
 
+  scope :order_on_assigned_agent, lambda { |direction|
+    left_joins(:assigned_agent).order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "LOWER(COALESCE(users.name, '')) #{direction} NULLS LAST"
+        )
+      )
+    )
+  }
+
+  scope :order_on_identifier, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "\"contacts\".\"identifier\" #{direction} NULLS LAST"
+        )
+      )
+    )
+  }
+
+  scope :order_on_blocked, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "\"contacts\".\"blocked\" #{direction} NULLS LAST"
+        )
+      )
+    )
+  }
+
+  scope :order_on_labels, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "(SELECT string_agg(tags.name, ',' ORDER BY tags.name)
+            FROM taggings
+            INNER JOIN tags ON tags.id = taggings.tag_id
+            WHERE taggings.taggable_id = contacts.id
+              AND taggings.taggable_type = 'Contact'
+              AND taggings.context = 'labels') #{direction} NULLS LAST"
+        )
+      )
+    )
+  }
+
+  scope :order_on_custom_attribute, lambda { |attribute_key, direction, numeric: false|
+    # attribute_key is whitelisted by the controller before calling this scope.
+    quoted_key = connection.quote(attribute_key)
+    expression = if numeric
+                   # Strip currency/percent noise then cast; invalid values sort as NULL.
+                   raw = "NULLIF(BTRIM(\"contacts\".\"custom_attributes\"->>#{quoted_key}), '')"
+                   cleaned = "NULLIF(regexp_replace(#{raw}, '[^0-9.\\-]+', '', 'g'), '')"
+                   "CASE WHEN #{cleaned} ~ '^-?[0-9]+(\\.[0-9]+)?$' THEN (#{cleaned})::numeric ELSE NULL END"
+                 else
+                   "\"contacts\".\"custom_attributes\"->>#{quoted_key}"
+                 end
+
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("#{expression} #{direction} NULLS LAST")
+      )
+    )
+  }
+
   # Find contacts that:
   # 1. Have no identification (email, phone_number, and identifier are NULL or empty string)
   # 2. Have no conversations
@@ -176,7 +240,8 @@ class Contact < ApplicationRecord
       blocked: blocked,
       type: 'contact',
       assigned_agent_id: assigned_agent_id,
-      assigned_agent: assigned_agent&.push_event_data
+      assigned_agent: assigned_agent&.push_event_data,
+      labels: label_list.to_a
     }
     data[:company_id] = company_id if account.feature_enabled?('companies')
     data

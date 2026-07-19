@@ -79,6 +79,9 @@ es:
         invalid: Email inválido
       phone_number:
         invalid: debe estar en formato e164
+    conversations:
+      export:
+        success: Le notificaremos cuando el archivo de exportación de conversaciones esté listo para ver.
     companies:
       domain:
         invalid: must be a valid domain name
@@ -160,6 +163,11 @@ es:
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
     utc_warning: El informe generado está en zona horaria UTC
+    resolution_count_labels:
+      resolved: Número de resoluciones
+      closed: Número de cerradas
+      sold: Número de vendidas
+      finished: Número de finalizadas
     agent_csv:
       agent_name: Nombre del agente
       conversations_count: Conversaciones asignadas
@@ -258,15 +266,20 @@ es:
       agent_bot:
         error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
-        resolved: 'La conversación fue marcada por %{user_name}'
-        contact_resolved: 'Conversación fue resuelta por %{contact_name}'
+        resolved: 'La conversación fue marcada como %{status_label} por %{user_name}'
+        contact_resolved: 'La conversación fue %{status_label} por %{contact_name}'
         open: 'La conversación fue reabierta por %{user_name}'
         pending: 'La conversación fue marcada como pendiente por %{user_name}'
         snoozed: 'La conversación fue pospuesta por %{user_name}'
-        auto_resolved_days: 'La conversación fue marcada por el sistema debido a %{count} días de inactividad'
-        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
-        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
+        auto_resolved_days: 'La conversación fue marcada como %{status_label} por el sistema debido a %{count} días de inactividad'
+        auto_resolved_hours: 'La conversación fue marcada como %{status_label} por el sistema debido a %{count} horas de inactividad'
+        auto_resolved_minutes: 'La conversación fue marcada como %{status_label} por el sistema debido a %{count} minutos de inactividad'
         system_auto_open: El sistema reabrió la conversación debido a un nuevo mensaje entrante.
+      status_labels:
+        resolved: resuelta
+        closed: cerrada
+        sold: vendida
+        finished: finalizada
       priority:
         added: '%{user_name} estableció la prioridad a %{new_priority}'
         updated: '%{user_name} cambió la prioridad de %{old_priority} a %{new_priority}'

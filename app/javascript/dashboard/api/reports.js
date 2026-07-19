@@ -55,39 +55,79 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getAgentReports({ from: since, to: until, businessHours }) {
+  getAgentReports({ from: since, to: until, businessHours, exportFormat }) {
     return axios.get(`${this.url}/agents`, {
-      params: { since, until, business_hours: businessHours },
+      params: {
+        since,
+        until,
+        business_hours: businessHours,
+        export_format: exportFormat,
+      },
+      responseType: exportFormat === 'xlsx' ? 'blob' : 'text',
     });
   }
 
-  getConversationsSummaryReports({ from: since, to: until, businessHours }) {
+  getConversationsSummaryReports({
+    from: since,
+    to: until,
+    businessHours,
+    exportFormat,
+  }) {
     return axios.get(`${this.url}/conversations_summary`, {
-      params: { since, until, business_hours: businessHours },
+      params: {
+        since,
+        until,
+        business_hours: businessHours,
+        export_format: exportFormat,
+      },
+      responseType: exportFormat === 'xlsx' ? 'blob' : 'text',
     });
   }
 
-  getConversationTrafficCSV({ daysBefore = 6 } = {}) {
+  getConversationTrafficCSV({ daysBefore = 6, exportFormat } = {}) {
     return axios.get(`${this.url}/conversation_traffic`, {
-      params: { timezone_offset: getTimeOffset(), days_before: daysBefore },
+      params: {
+        timezone_offset: getTimeOffset(),
+        days_before: daysBefore,
+        export_format: exportFormat,
+      },
+      responseType: exportFormat === 'xlsx' ? 'blob' : 'text',
     });
   }
 
-  getLabelReports({ from: since, to: until, businessHours }) {
+  getLabelReports({ from: since, to: until, businessHours, exportFormat }) {
     return axios.get(`${this.url}/labels`, {
-      params: { since, until, business_hours: businessHours },
+      params: {
+        since,
+        until,
+        business_hours: businessHours,
+        export_format: exportFormat,
+      },
+      responseType: exportFormat === 'xlsx' ? 'blob' : 'text',
     });
   }
 
-  getInboxReports({ from: since, to: until, businessHours }) {
+  getInboxReports({ from: since, to: until, businessHours, exportFormat }) {
     return axios.get(`${this.url}/inboxes`, {
-      params: { since, until, business_hours: businessHours },
+      params: {
+        since,
+        until,
+        business_hours: businessHours,
+        export_format: exportFormat,
+      },
+      responseType: exportFormat === 'xlsx' ? 'blob' : 'text',
     });
   }
 
-  getTeamReports({ from: since, to: until, businessHours }) {
+  getTeamReports({ from: since, to: until, businessHours, exportFormat }) {
     return axios.get(`${this.url}/teams`, {
-      params: { since, until, business_hours: businessHours },
+      params: {
+        since,
+        until,
+        business_hours: businessHours,
+        export_format: exportFormat,
+      },
+      responseType: exportFormat === 'xlsx' ? 'blob' : 'text',
     });
   }
 

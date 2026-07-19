@@ -65,13 +65,13 @@ export const handleContactOperationErrors = error => {
 export const actions = {
   search: async (
     { commit },
-    { search, page, sortAttr, label, append = false }
+    { search, page, sortAttr, label, append = false, perPage } = {}
   ) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.search(search, page, sortAttr, label);
+      } = await ContactAPI.search(search, page, sortAttr, label, { perPage });
       if (!append) {
         commit(types.CLEAR_CONTACTS);
       }
@@ -83,12 +83,12 @@ export const actions = {
     }
   },
 
-  get: async ({ commit }, { page = 1, sortAttr, label } = {}) => {
+  get: async ({ commit }, { page = 1, sortAttr, label, perPage } = {}) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.get(page, sortAttr, label);
+      } = await ContactAPI.get(page, sortAttr, label, perPage);
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
@@ -98,12 +98,12 @@ export const actions = {
     }
   },
 
-  active: async ({ commit }, { page = 1, sortAttr } = {}) => {
+  active: async ({ commit }, { page = 1, sortAttr, perPage } = {}) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.active(page, sortAttr);
+      } = await ContactAPI.active(page, sortAttr, perPage);
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
@@ -230,10 +230,15 @@ export const actions = {
     }
   },
 
-  export: async ({ commit }, { payload, label }) => {
+  export: async ({ commit }, { payload, label, export_format, column_names }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isExporting: true });
     try {
-      await ContactAPI.exportContacts({ payload, label });
+      await ContactAPI.exportContacts({
+        payload,
+        label,
+        export_format,
+        column_names,
+      });
 
       commit(types.SET_CONTACT_UI_FLAG, { isExporting: false });
     } catch (error) {
@@ -394,13 +399,13 @@ export const actions = {
 
   filter: async (
     { commit },
-    { page = 1, sortAttr, queryPayload, resetState = true } = {}
+    { page = 1, sortAttr, queryPayload, resetState = true, perPage } = {}
   ) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.filter(page, sortAttr, queryPayload);
+      } = await ContactAPI.filter(page, sortAttr, queryPayload, perPage);
       if (resetState) {
         commit(types.CLEAR_CONTACTS);
         commit(types.SET_CONTACTS, payload);

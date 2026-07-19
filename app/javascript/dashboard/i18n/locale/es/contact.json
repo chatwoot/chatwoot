@@ -304,6 +304,7 @@
       "SEARCH_PLACEHOLDER": "Buscar...",
       "MESSAGE_BUTTON": "Mensaje",
       "SEND_MESSAGE": "Enviar mensaje",
+      "EDIT": "Editar",
       "BLOCK_CONTACT": "Bloquear contacto",
       "UNBLOCK_CONTACT": "Desbloquear contacto",
       "BREADCRUMB": {
@@ -339,10 +340,28 @@
         },
         "EXPORT_CONTACT": {
           "TITLE": "Exportar contactos",
-          "DESCRIPTION": "Exporta rápidamente un archivo csv con los detalles completos de tus contactos",
+          "DESCRIPTION": "Exporta los contactos que coinciden con tus filtros actuales. Elige abajo qué columnas incluir. La descarga inicia automáticamente cuando esté lista; también se envía un enlace por correo.",
           "CONFIRM": "Exportar",
-          "SUCCESS_MESSAGE": "El proceso de exportar esta en proceso. Será notificado por correo cuando el archivo esté listo para descargar.",
+          "FORMAT_LABEL": "Formato de archivo",
+          "FORMAT_XLSX": "Excel (.xlsx)",
+          "FORMAT_CSV": "CSV (.csv)",
+          "COLUMNS_LABEL": "Columnas a exportar",
+          "COLUMNS_HINT": "Por defecto coincide con las columnas visibles en la tabla. Puedes cambiar la selección antes de exportar.",
+          "USE_TABLE_COLUMNS": "Igual que tabla",
+          "SUCCESS_MESSAGE": "La exportación se está preparando. La descarga iniciará automáticamente cuando esté lista. También recibirás un correo con el enlace.",
           "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+        },
+        "COLUMNS": {
+          "LABEL": "Columnas",
+          "HINT": "Elige qué campos se muestran en la tabla de contactos. El nombre siempre es visible.",
+          "ORDER_HINT": "Arrastra para reordenar. El nombre permanece primero.",
+          "VISIBLE_COUNT": "{count} visibles",
+          "SEARCH": "Buscar columnas…",
+          "SECTION_STANDARD": "Estándar",
+          "SECTION_CUSTOM": "Atributos personalizados",
+          "EMPTY_SEARCH": "Ninguna columna coincide con tu búsqueda",
+          "DEFAULTS": "Por defecto",
+          "ALL": "Todas"
         },
         "SORT_BY": {
           "LABEL": "Ordenar por",
@@ -351,14 +370,14 @@
             "EMAIL": "E-mail",
             "DOCUMENT_NUMBER": "Documento de identidad",
             "PHONE_NUMBER": "Número de teléfono",
+            "IDENTIFIER": "Identificador",
             "COMPANY": "Empresa",
             "COUNTRY": "País",
             "CITY": "Ciudad",
-            "LAST_ACTIVITY": "Última actividad",
-            "CREATED_AT": "Creado el",
-            "IDENTIFIER": "Identificador",
             "LABELS": "Etiquetas",
             "ASSIGNED_AGENT": "Agente del contacto",
+            "LAST_ACTIVITY": "Última actividad",
+            "CREATED_AT": "Creado el",
             "BLOCKED": "Bloqueado"
           }
         },
@@ -392,18 +411,30 @@
     },
     "TABLE": {
       "SELECT_PAGE": "Seleccionar los {count} contactos de esta página",
+      "UPDATING": "Actualizando…",
       "COLUMNS": {
         "NAME": "Nombre",
+        "FEATURED": "Métricas",
         "IDENTITY": "Identidad",
         "PHONE": "Teléfono",
         "EMAIL": "E-mail",
+        "IDENTIFIER": "Identificador",
+        "COMPANY": "Empresa",
+        "CITY": "Ciudad",
+        "COUNTRY": "País",
         "LABELS": "Etiquetas",
         "ASSIGNED_AGENT": "Agente del contacto",
-        "LAST_ACTIVITY": "Última actividad"
+        "CREATED_AT": "Creado el",
+        "LAST_ACTIVITY": "Última actividad",
+        "BLOCKED": "Bloqueado",
+        "BLOCKED_YES": "Sí",
+        "BLOCKED_NO": "No",
+        "ID": "ID"
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Mostrando {startItem} - {endItem} de {totalItems} contactos"
+      "SHOWING": "Mostrando {startItem} - {endItem} de {totalItems} contactos",
+      "PER_PAGE": "Por página"
     },
     "FILTER": {
       "NAME": "Nombre",
@@ -515,7 +546,20 @@
       "LAST_ACTIVITY": "Última actividad {date}",
       "SECTIONS": {
         "CONTACT_DATA": "Datos del contacto",
-        "SOCIAL_PROFILES": "Redes sociales"
+        "SOCIAL_PROFILES": "Redes sociales",
+        "ACTIVITY": "Actividad"
+      },
+      "EMPTY_CONTACT_DATA": "Aún no hay datos del contacto. Usa Editar para agregarlos.",
+      "EMPTY_SOCIAL_PROFILES": "Aún no hay redes sociales. Agrégalas desde Editar.",
+      "FIELDS": {
+        "EMAIL": "Correo",
+        "PHONE": "Teléfono",
+        "DOCUMENT": "Número de documento",
+        "IDENTIFIER": "Identificador",
+        "COMPANY": "Empresa",
+        "CITY": "Ciudad",
+        "COUNTRY": "País",
+        "BIO": "Biografía"
       },
       "MORE_ACTIONS": {
         "MERGE": "Combinar contacto",
@@ -551,6 +595,19 @@
           "ERROR_MESSAGE": "No se pudo eliminar el avatar. Inténtalo de nuevo más tarde."
         }
       }
+    },
+    "METRICS": {
+      "TITLE": "Resumen de conversaciones",
+      "TOTAL": "Total",
+      "OPEN": "Abiertas",
+      "RESOLVED": "Resueltas",
+      "OTHER": "Otras",
+      "TOTAL_HINT": "Todas las conversaciones con este contacto",
+      "OPEN_HINT": "Conversaciones abiertas y pendientes",
+      "RESOLVED_HINT": "Conversaciones cerradas / resueltas",
+      "OTHER_HINT": "Pospuestas u otros estados",
+      "LAST_ACTIVITY": "Última actividad: {date}",
+      "NO_ACTIVITY": "Sin actividad aún"
     },
     "SIDEBAR": {
       "TABS": {
@@ -614,12 +671,14 @@
         "WROTE": "escribió",
         "YOU": "Tú",
         "SAVE": "Guardar nota",
-        "ADD_NOTE": "Add contact note",
+        "ADD_NOTE": "Añadir nota de contacto",
         "EXPAND": "Expandir",
         "COLLAPSE": "Contraer",
+        "COUNT": "{count} nota | {count} notas",
+        "SHORTCUT_HINT": "⌘/Ctrl + Enter para guardar",
         "NO_NOTES": "No hay notas, puede agregar notas desde la página de detalles de contacto.",
-        "EMPTY_STATE": "No hay notas asociadas a este contacto. Puede añadir una nota escribiendo en el recuadro superior.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "EMPTY_STATE": "Aún no hay notas. Agrega contexto que tu equipo deba recordar sobre este contacto.",
+        "CONVERSATION_EMPTY_STATE": "Aún no hay notas. Usa el botón Añadir nota para crear una."
       }
     },
     "EMPTY_STATE": {
