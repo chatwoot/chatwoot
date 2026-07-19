@@ -56,6 +56,8 @@ export default {
       isUpdatingAllowedDomains: false,
       isSettingDefaults: false,
       isReconfiguring: false,
+      isUpdatingFeatureFlags: false,
+      hasPendingFeatureFlagUpdate: false,
     };
   },
   validations: {
@@ -132,29 +134,42 @@ export default {
       }
     },
     async updateWidgetFeatureFlags() {
+      // Serialize updates: if a request is already in flight, mark that another
+      // run is needed and let the active one pick it up. This coalesces rapid
+      // toggles into sequential PATCHes so a stale request can't land last and
+      // overwrite a newer one.
+      if (this.isUpdatingFeatureFlags) {
+        this.hasPendingFeatureFlagUpdate = true;
+        return;
+      }
+      this.isUpdatingFeatureFlags = true;
       try {
-        // Rebuild from the local toggle state (not the possibly-stale inbox
-        // prop) so toggling both widget flags in quick succession doesn't drop
-        // one of the updates; non-widget flags on the inbox are preserved.
-        const managedFlags = WIDGET_FEATURE_TOGGLES.map(t => t.flag);
-        const selectedFlags = (this.inbox.selected_feature_flags || []).filter(
-          f => !managedFlags.includes(f)
-        );
-        WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
-          if (this[field]) selectedFlags.push(flag);
-        });
+        do {
+          this.hasPendingFeatureFlagUpdate = false;
+          // Rebuild from the local toggle state (not the possibly-stale inbox
+          // prop) each pass; non-widget flags on the inbox are preserved.
+          const managedFlags = WIDGET_FEATURE_TOGGLES.map(t => t.flag);
+          const selectedFlags = (
+            this.inbox.selected_feature_flags || []
+          ).filter(f => !managedFlags.includes(f));
+          WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
+            if (this[field]) selectedFlags.push(flag);
+          });
 
-        const payload = {
-          id: this.inbox.id,
-          formData: false,
-          channel: {
-            selected_feature_flags: selectedFlags,
-          },
-        };
-        await this.$store.dispatch('inboxes/updateInbox', payload);
+          // Sequential by design: each PATCH must finish before the next so a
+          // stale one can't land last.
+          // eslint-disable-next-line no-await-in-loop
+          await this.$store.dispatch('inboxes/updateInbox', {
+            id: this.inbox.id,
+            formData: false,
+            channel: { selected_feature_flags: selectedFlags },
+          });
+        } while (this.hasPendingFeatureFlagUpdate);
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      } finally {
+        this.isUpdatingFeatureFlags = false;
       }
     },
     async updateAllowedDomains() {
