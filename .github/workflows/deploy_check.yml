@@ -1,12 +1,11 @@
-## github action to check deployment success
-## curl the deployment url and check for 200 status
-## deployment url will be of the form chatwoot-pr-<pr_number>.herokuapp.com
+## Upstream Chatwoot waits for Heroku review apps (chatwoot-pr-N.herokuapp.com).
+## This fork deploys via Dokploy/GHCR and has no Heroku review apps, so that
+## check always fails after ~40 minutes and blocks merges for no reason.
 name: Deploy Check
 
 on:
   pull_request:
 
-# If two pushes happen within a short time in the same PR, cancel the run of the oldest push
 concurrency:
   group: pr-${{ github.workflow }}-${{ github.head_ref }}
   cancel-in-progress: true
@@ -17,6 +16,8 @@ permissions:
 jobs:
   deployment_check:
     name: Check Deployment
+    # Only relevant for upstream chatwoot/chatwoot Heroku review apps.
+    if: github.repository == 'chatwoot/chatwoot'
     runs-on: ubuntu-latest
     steps:
       - name: Install jq
@@ -50,4 +51,3 @@ jobs:
           done
           echo "Deployment failed after $max_attempts attempts"
           exit  1
-          fi
