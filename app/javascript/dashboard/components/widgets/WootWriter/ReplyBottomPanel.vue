@@ -88,6 +88,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    enableCannedResponses: {
+      type: Boolean,
+      default: true,
+    },
     enableContentTemplates: {
       type: Boolean,
       default: false,
@@ -129,6 +133,7 @@ export default {
   emits: [
     'toggleInsertArticle',
     'selectWhatsappTemplate',
+    'selectCannedResponse',
     'selectContentTemplate',
     'toggleQuotedReply',
   ],
@@ -348,6 +353,15 @@ export default {
         sm
         :aria-pressed="quotedReplyEnabled"
         @click="$emit('toggleQuotedReply')"
+      />
+      <NextButton
+        v-if="enableCannedResponses && !isOnPrivateNote && !isEditorDisabled"
+        v-tooltip.top-end="$t('CONVERSATION.FOOTER.CANNED_RESPONSES')"
+        icon="i-lucide-text-quote"
+        slate
+        faded
+        sm
+        @click="$emit('selectCannedResponse')"
       />
       <NextButton
         v-if="enableWhatsAppTemplates"

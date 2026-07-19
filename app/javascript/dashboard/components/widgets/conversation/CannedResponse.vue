@@ -19,7 +19,10 @@ export default {
       return this.cannedMessages.map(cannedMessage => ({
         label: cannedMessage.short_code,
         key: cannedMessage.short_code,
-        description: cannedMessage.content,
+        description: cannedMessage.category
+          ? `[${cannedMessage.category}] ${cannedMessage.content}`
+          : cannedMessage.content,
+        content: cannedMessage.content,
       }));
     },
   },
@@ -33,10 +36,13 @@ export default {
   },
   methods: {
     fetchCannedResponses() {
-      this.$store.dispatch('getCannedResponse', { searchKey: this.searchKey });
+      this.$store.dispatch('getCannedResponse', {
+        searchKey: this.searchKey,
+        usable: true,
+      });
     },
     handleMentionClick(item = {}) {
-      this.$emit('replace', item.description);
+      this.$emit('replace', item.content || item.description);
     },
   },
 };

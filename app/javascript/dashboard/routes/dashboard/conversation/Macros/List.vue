@@ -79,13 +79,15 @@ const folderGroups = computed(() => {
 const hasMultipleFolders = computed(() => folderGroups.value.length > 1);
 
 const toggleFolder = key => {
+  const currentlyCollapsed = collapsedFolders.value[key] ?? true;
   collapsedFolders.value = {
     ...collapsedFolders.value,
-    [key]: !collapsedFolders.value[key],
+    [key]: !currentlyCollapsed,
   };
 };
 
-const isFolderCollapsed = key => !!collapsedFolders.value[key];
+// Collapsed by default so agents open folders in order.
+const isFolderCollapsed = key => collapsedFolders.value[key] ?? true;
 
 const onDragEnd = () => {
   dragging.value = false;

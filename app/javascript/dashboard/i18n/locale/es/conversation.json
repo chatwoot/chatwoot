@@ -222,7 +222,8 @@
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La firma del mensaje no está configurada, por favor configúrela en la configuración del perfil.",
       "COPILOT_MSG_INPUT": "Dale instrucciones adicionales a Copilot o pregúntale cualquier otra cosa... Pulsa Enter para enviar el seguimiento",
       "CLICK_HERE": "Haga clic aquí para actualizar",
-      "WHATSAPP_TEMPLATES": "Plantillas de Whatsapp"
+      "WHATSAPP_TEMPLATES": "Plantillas de Whatsapp",
+      "CANNED_RESPONSES": "Respuestas predefinidas"
     },
     "REPLYBOX": {
       "REPLY": "Responder",

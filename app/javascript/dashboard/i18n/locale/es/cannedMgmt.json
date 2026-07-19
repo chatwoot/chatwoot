@@ -2,72 +2,142 @@
   "CANNED_MGMT": {
     "HEADER": "Respuestas predefinidas",
     "LEARN_MORE": "Más información sobre respuestas predefinidas",
-    "DESCRIPTION": "Las respuestas predefinidas son plantillas preconfiguradas que le ayudan a responder rápidamente a una conversación. Los agentes pueden escribir el carácter '/' seguido por el código corto para insertar una respuesta predefinida durante una conversación. ",
-    "COUNT": "{n} canned response | {n} canned responses",
+    "DESCRIPTION": "Las respuestas predefinidas son plantillas de respuesta. Los agentes pueden crearlas y un administrador debe aprobarlas antes de usarlas con '/' o el selector. El admin puede aprobar solo para ese agente (personal) o para toda la cuenta.",
+    "COUNT": "{n} respuesta predefinida | {n} respuestas predefinidas",
     "HEADER_BTN_TXT": "Añadir respuesta predefinida",
     "LOADING": "Obteniendo respuestas predefinidas...",
-    "SEARCH_PLACEHOLDER": "Search canned responses...",
-    "NO_RESULTS": "No canned responses found matching your search",
+    "SEARCH_PLACEHOLDER": "Buscar respuestas predefinidas...",
+    "NO_RESULTS": "No se encontraron respuestas predefinidas que coincidan con tu búsqueda",
     "SEARCH_404": "No hay elementos que coincidan con esta consulta.",
+    "ALL_CATEGORIES": "Todas las categorías",
+    "UNCATEGORIZED": "Sin categoría",
+    "FILTER_VISIBILITY": {
+      "ALL": "Todas",
+      "MINE": "Mías",
+      "ACCOUNT": "Cuenta",
+      "PENDING": "Pendientes"
+    },
+    "STATUS_LABEL": {
+      "pending": "Pendiente",
+      "approved": "Aprobada",
+      "rejected": "Rechazada"
+    },
     "LIST": {
-      "404": "No hay respuestas enlatadas disponibles en esta cuenta.",
+      "404": "No hay respuestas predefinidas disponibles en esta cuenta.",
+      "404_AGENT": "Aún no tienes respuestas. Crea una: un administrador debe aprobarla antes de usarla en chats.",
       "TITLE": "Administrar respuestas predefinidas",
-      "DESC": "Las respuestas predefinidas son plantillas de respuesta predefinidas que pueden ser utilizadas para enviar rápidamente respuestas a conversaciones.",
+      "DESC": "Las respuestas predefinidas son plantillas de respuesta que pueden usarse para enviar respuestas rápidamente en conversaciones.",
       "TABLE_HEADER": {
         "SHORT_CODE": "Código corto",
         "CONTENT": "Contenido",
+        "CATEGORY": "Categoría",
+        "VISIBILITY": "Visibilidad",
+        "STATUS": "Estado",
         "ACTIONS": "Acciones"
       }
     },
     "ADD": {
       "TITLE": "Añadir respuesta predefinida",
-      "DESC": "Las respuestas predefinidas son plantillas de respuesta predefinidas que pueden ser utilizadas para enviar rápidamente respuestas a conversaciones.",
+      "DESC": "Las respuestas predefinidas son plantillas de respuesta que pueden usarse para enviar respuestas rápidamente en conversaciones.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
+      "AGENT_PENDING_HINT": "Tu respuesta quedará personal y pendiente hasta que un administrador la apruebe para ti o para toda la cuenta.",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Código corto",
           "PLACEHOLDER": "Por favor, introduzca un código corto.",
           "ERROR": "El código corto es requerido."
         },
+        "CATEGORY": {
+          "LABEL": "Categoría",
+          "PLACEHOLDER": "Categoría opcional (ej. Saludo, Soporte)",
+          "HELP": "Agrupa respuestas relacionadas para filtrar más fácil."
+        },
         "CONTENT": {
           "LABEL": "Mensaje",
-          "PLACEHOLDER": "Por favor, escriba el mensaje que desea guardar como una plantilla para usarlo más tarde.",
-          "ERROR": "El mensaje es obligatorio."
+          "PLACEHOLDER": "Escribe el mensaje que deseas guardar como plantilla para usarlo más tarde.",
+          "ERROR": "El mensaje es obligatorio.",
+          "VARIABLES_HELP": "Usa variables como {'{{'}contact.name{'}}'} o insértalas con el botón de abajo. Se reemplazan al usar la respuesta en una conversación."
+        },
+        "INSERT_VARIABLE": "Insertar variable",
+        "VISIBILITY": {
+          "LABEL": "Visibilidad",
+          "GLOBAL": {
+            "LABEL": "Cuenta",
+            "DESCRIPTION": "Disponible para todos los agentes de esta cuenta al guardar (solo admins).",
+            "CREATE_DISABLED_DESCRIPTION": "Solo los administradores pueden crear respuestas predefinidas de la cuenta."
+          },
+          "PERSONAL": {
+            "LABEL": "Personal",
+            "DESCRIPTION": "Solo tú puedes ver y usar esta respuesta (tras la aprobación)."
+          }
         },
         "SUBMIT": "Enviar"
       },
       "API": {
         "SUCCESS_MESSAGE": "Respuesta predefinida añadida correctamente.",
-        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+        "SUCCESS_MESSAGE_PENDING": "Respuesta enviada. Un administrador debe aprobarla antes de usarla en chats.",
+        "ERROR_MESSAGE": "No se pudo conectar al servidor. Por favor, inténtalo de nuevo."
       }
     },
     "EDIT": {
       "TITLE": "Editar respuesta predefinida",
       "CANCEL_BUTTON_TEXT": "Cancelar",
+      "AGENT_PENDING_HINT": "Al guardar, la respuesta volverá a pendiente de revisión.",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Código corto",
           "PLACEHOLDER": "Por favor, introduzca un código corto.",
           "ERROR": "El código corto es requerido."
         },
+        "CATEGORY": {
+          "LABEL": "Categoría",
+          "PLACEHOLDER": "Categoría opcional (ej. Saludo, Soporte)",
+          "HELP": "Agrupa respuestas relacionadas para filtrar más fácil."
+        },
         "CONTENT": {
           "LABEL": "Mensaje",
-          "PLACEHOLDER": "Por favor, escriba el mensaje que desea guardar como una plantilla para usarlo más tarde.",
-          "ERROR": "El mensaje es obligatorio."
+          "PLACEHOLDER": "Escribe el mensaje que deseas guardar como plantilla para usarlo más tarde.",
+          "ERROR": "El mensaje es obligatorio.",
+          "VARIABLES_HELP": "Usa variables como {'{{'}contact.name{'}}'} o insértalas con el botón de abajo. Se reemplazan al usar la respuesta en una conversación."
+        },
+        "INSERT_VARIABLE": "Insertar variable",
+        "VISIBILITY": {
+          "LABEL": "Visibilidad",
+          "GLOBAL": {
+            "LABEL": "Cuenta",
+            "DESCRIPTION": "Disponible para todos los agentes de esta cuenta.",
+            "CREATE_DISABLED_DESCRIPTION": "Solo los administradores pueden crear respuestas predefinidas de la cuenta.",
+            "EDIT_DISABLED_DESCRIPTION": "Solo los administradores pueden editar respuestas predefinidas de la cuenta."
+          },
+          "PERSONAL": {
+            "LABEL": "Personal",
+            "DESCRIPTION": "Solo tú puedes ver y usar esta respuesta predefinida."
+          }
         },
         "SUBMIT": "Enviar"
       },
       "BUTTON_TEXT": "Editar",
       "API": {
         "SUCCESS_MESSAGE": "Respuesta predefinida actualizada correctamente.",
-        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+        "ERROR_MESSAGE": "No se pudo conectar al servidor. Por favor, inténtalo de nuevo."
       }
+    },
+    "APPROVE": {
+      "PERSONAL": "Aprobar para el agente",
+      "ACCOUNT": "Aprobar para la cuenta",
+      "SUCCESS": "Respuesta aprobada.",
+      "ERROR": "No se pudo aprobar la respuesta."
+    },
+    "REJECT": {
+      "BUTTON": "Rechazar",
+      "SUCCESS": "Respuesta rechazada.",
+      "ERROR": "No se pudo rechazar la respuesta."
     },
     "DELETE": {
       "BUTTON_TEXT": "Eliminar",
       "API": {
         "SUCCESS_MESSAGE": "Respuesta predefinida eliminada correctamente.",
-        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+        "ERROR_MESSAGE": "No se pudo conectar al servidor. Por favor, inténtalo de nuevo."
       },
       "CONFIRM": {
         "TITLE": "Confirme eliminación",
@@ -75,6 +145,22 @@
         "YES": "Sí, eliminar ",
         "NO": "No, mantenerlo "
       }
+    },
+    "PICKER": {
+      "TITLE": "Respuestas predefinidas",
+      "SUBTITLE": "Busca e inserta una respuesta predefinida en tu respuesta.",
+      "SEARCH_PLACEHOLDER": "Buscar por código, categoría o contenido...",
+      "NO_RESULTS": "No se encontraron respuestas predefinidas para",
+      "EMPTY": "No hay respuestas predefinidas. Crea una en Ajustes → Respuestas predefinidas.",
+      "EMPTY_PENDING_HINT": "Aún no hay respuestas aprobadas. Pide a un administrador que apruebe plantillas en Ajustes → Respuestas predefinidas.",
+      "ALL_CATEGORIES": "Todas",
+      "UNCATEGORIZED": "Sin categoría",
+      "PERSONAL_BADGE": "Mía",
+      "ACCOUNT_BADGE": "Cuenta"
+    },
+    "VISIBILITY_LABEL": {
+      "personal": "Personal",
+      "global": "Cuenta"
     }
   }
 }

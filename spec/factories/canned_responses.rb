@@ -4,6 +4,8 @@ FactoryBot.define do
   factory :canned_response do
     content { 'Content' }
     sequence(:short_code) { |n| "CODE#{n}" }
+    visibility { :global }
+    approval_status { :approved }
     account
   end
 end

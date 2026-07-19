@@ -2,20 +2,37 @@
   "CANNED_MGMT": {
     "HEADER": "Canned Responses",
     "LEARN_MORE": "Learn more about canned responses",
-    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates. Agents can create templates that an administrator must approve before they can be used with '/' or the picker. Administrators can approve for one agent (personal) or the whole account.",
     "COUNT": "{n} canned response | {n} canned responses",
     "HEADER_BTN_TXT": "Add canned response",
     "LOADING": "Fetching canned responses...",
     "SEARCH_PLACEHOLDER": "Search canned responses...",
     "NO_RESULTS": "No canned responses found matching your search",
     "SEARCH_404": "There are no items matching this query.",
+    "ALL_CATEGORIES": "All categories",
+    "UNCATEGORIZED": "Uncategorized",
+    "FILTER_VISIBILITY": {
+      "ALL": "All",
+      "MINE": "Mine",
+      "ACCOUNT": "Account",
+      "PENDING": "Pending review"
+    },
+    "STATUS_LABEL": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
     "LIST": {
       "404": "There are no canned responses available in this account.",
+      "404_AGENT": "You have no canned responses yet. Create one — an administrator must approve it before you can use it in chats.",
       "TITLE": "Manage canned responses",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "TABLE_HEADER": {
         "SHORT_CODE": "Short code",
         "CONTENT": "Content",
+        "CATEGORY": "Category",
+        "VISIBILITY": "Visibility",
+        "STATUS": "Status",
         "ACTIONS": "Actions"
       }
     },
@@ -23,37 +40,79 @@
       "TITLE": "Add canned response",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "CANCEL_BUTTON_TEXT": "Cancel",
+      "AGENT_PENDING_HINT": "Your response will stay personal and pending until an administrator approves it for you or for the whole account.",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Short code",
           "PLACEHOLDER": "Please enter a short code.",
           "ERROR": "Short Code is required."
         },
+        "CATEGORY": {
+          "LABEL": "Category",
+          "PLACEHOLDER": "Optional category (e.g. Greeting, Support)",
+          "HELP": "Group related responses for easier filtering."
+        },
         "CONTENT": {
           "LABEL": "Message",
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "ERROR": "Message is required.",
+          "VARIABLES_HELP": "Use variables like {'{{'}contact.name{'}}'} or insert them with the button below. Variables are replaced when the response is used in a conversation."
+        },
+        "INSERT_VARIABLE": "Insert variable",
+        "VISIBILITY": {
+          "LABEL": "Visibility",
+          "GLOBAL": {
+            "LABEL": "Account",
+            "DESCRIPTION": "Available to all agents in this account after save (admins only).",
+            "CREATE_DISABLED_DESCRIPTION": "Only administrators can create account-wide canned responses."
+          },
+          "PERSONAL": {
+            "LABEL": "Personal",
+            "DESCRIPTION": "Only you can see and use this canned response (after approval)."
+          }
         },
         "SUBMIT": "Submit"
       },
       "API": {
         "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "SUCCESS_MESSAGE_PENDING": "Canned response submitted. An administrator must approve it before it can be used in chats.",
         "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
       }
     },
     "EDIT": {
       "TITLE": "Edit canned response",
       "CANCEL_BUTTON_TEXT": "Cancel",
+      "AGENT_PENDING_HINT": "Saving will send this response back to pending review.",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Short code",
           "PLACEHOLDER": "Please enter a shortcode.",
           "ERROR": "Short code is required."
         },
+        "CATEGORY": {
+          "LABEL": "Category",
+          "PLACEHOLDER": "Optional category (e.g. Greeting, Support)",
+          "HELP": "Group related responses for easier filtering."
+        },
         "CONTENT": {
           "LABEL": "Message",
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "ERROR": "Message is required.",
+          "VARIABLES_HELP": "Use variables like {'{{'}contact.name{'}}'} or insert them with the button below. Variables are replaced when the response is used in a conversation."
+        },
+        "INSERT_VARIABLE": "Insert variable",
+        "VISIBILITY": {
+          "LABEL": "Visibility",
+          "GLOBAL": {
+            "LABEL": "Account",
+            "DESCRIPTION": "Available to all agents in this account.",
+            "CREATE_DISABLED_DESCRIPTION": "Only administrators can create account-wide canned responses.",
+            "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit account-wide canned responses."
+          },
+          "PERSONAL": {
+            "LABEL": "Personal",
+            "DESCRIPTION": "Only you can see and use this canned response."
+          }
         },
         "SUBMIT": "Submit"
       },
@@ -62,6 +121,17 @@
         "SUCCESS_MESSAGE": "Canned response is updated successfully.",
         "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
       }
+    },
+    "APPROVE": {
+      "PERSONAL": "Approve for agent",
+      "ACCOUNT": "Approve for account",
+      "SUCCESS": "Canned response approved.",
+      "ERROR": "Could not approve canned response."
+    },
+    "REJECT": {
+      "BUTTON": "Reject",
+      "SUCCESS": "Canned response rejected.",
+      "ERROR": "Could not reject canned response."
     },
     "DELETE": {
       "BUTTON_TEXT": "Delete",
@@ -75,6 +145,22 @@
         "YES": "Yes, delete ",
         "NO": "No, keep "
       }
+    },
+    "PICKER": {
+      "TITLE": "Canned responses",
+      "SUBTITLE": "Search and insert a canned response into your reply.",
+      "SEARCH_PLACEHOLDER": "Search by short code, category, or content...",
+      "NO_RESULTS": "No canned responses found for",
+      "EMPTY": "No canned responses available. Create one in Settings → Canned Responses.",
+      "EMPTY_PENDING_HINT": "No approved canned responses yet. Ask an administrator to approve templates in Settings → Canned Responses.",
+      "ALL_CATEGORIES": "All",
+      "UNCATEGORIZED": "Uncategorized",
+      "PERSONAL_BADGE": "Mine",
+      "ACCOUNT_BADGE": "Account"
+    },
+    "VISIBILITY_LABEL": {
+      "personal": "Personal",
+      "global": "Account"
     }
   }
 }
