@@ -108,14 +108,14 @@
   display_name: Custom Tools
   enabled: false
   premium: true
-- name: message_reply_to
-  display_name: Message Reply To
+# Reclaimed deprecated slots (signed bigint feature_flags maxes at 63 bits).
+# Do not append past advanced_assignment without reclaiming or adding feature_flags_extra.
+- name: internal_tasks
+  display_name: Internal Tasks
   enabled: false
-  deprecated: true
-- name: insert_article_in_reply
-  display_name: Insert Article in Reply
+- name: internal_chats
+  display_name: Internal Chats
   enabled: false
-  deprecated: true
 - name: inbox_view
   display_name: Inbox View
   enabled: false

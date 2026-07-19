@@ -47,6 +47,8 @@ export const FEATURE_FLAGS = {
   ADVANCED_SEARCH: 'advanced_search',
   CONVERSATION_REQUIRED_ATTRIBUTES: 'conversation_required_attributes',
   CONVERSATION_UNREAD_COUNTS: 'conversation_unread_counts',
+  INTERNAL_TASKS: 'internal_tasks',
+  INTERNAL_CHATS: 'internal_chats',
 };
 
 export const PREMIUM_FEATURES = [

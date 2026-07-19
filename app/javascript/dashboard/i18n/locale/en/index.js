@@ -22,6 +22,7 @@ import generalSettings from './generalSettings.json';
 import helpCenter from './helpCenter.json';
 import inbox from './inbox.json';
 import inboxMgmt from './inboxMgmt.json';
+import internalChats from './internalChats.json';
 import internalTasks from './internalTasks.json';
 import integrationApps from './integrationApps.json';
 import integrations from './integrations.json';
@@ -70,6 +71,7 @@ export default {
   ...helpCenter,
   ...inbox,
   ...inboxMgmt,
+  ...internalChats,
   ...internalTasks,
   ...integrationApps,
   ...integrations,

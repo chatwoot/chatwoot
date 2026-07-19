@@ -550,3 +550,12 @@
   value: 'https://us.cloud.langfuse.com'
   locked: false
 ## ---- End of LLM Observability ---- ##
+
+## ------ PaluHub / InboxHub features ------ ##
+- name: INTERNAL_CHATS_ENABLED
+  display_title: 'Enable internal team chats (global kill-switch)'
+  value: false
+  locked: false
+  description: 'Global kill-switch AND with per-account Internal Chats feature. Prefer Super Admin → Account → Features → Internal Chats. Set false here to disable chats for all accounts.'
+  type: boolean
+## ------ End of PaluHub / InboxHub features ------ ##

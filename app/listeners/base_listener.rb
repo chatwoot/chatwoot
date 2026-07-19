@@ -34,6 +34,11 @@ class BaseListener
     [internal_task, internal_task.account]
   end
 
+  def extract_internal_message_and_account(event)
+    internal_message = event.data[:internal_message]
+    [internal_message, internal_message.account]
+  end
+
   def extract_changed_attributes(event)
     changed_attributes = event.data[:changed_attributes]
 

@@ -75,6 +75,23 @@ const hasConversationUnreadCounts = computed(() => {
   );
 });
 
+const hasInternalTasks = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.INTERNAL_TASKS
+  );
+});
+
+const globalConfig = useMapGetter('globalConfig/get');
+// Account feature is source of truth; globalConfig is temporary kill-switch AND.
+const hasInternalChats = computed(() => {
+  const accountEnabled = isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.INTERNAL_CHATS
+  );
+  return accountEnabled && Boolean(globalConfig.value?.internalChatsEnabled);
+});
+
 const fetchConversationUnreadCounts = ([currentAccountId, isEnabled]) => {
   if (!currentAccountId) return;
 
@@ -216,7 +233,13 @@ onMounted(() => {
   store.dispatch('attributes/get');
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
-  store.dispatch('internalTasks/fetchTabCounts');
+  if (hasInternalTasks.value) {
+    store.dispatch('internalTasks/fetchTabCounts');
+  }
+});
+
+watch(hasInternalTasks, enabled => {
+  if (enabled) store.dispatch('internalTasks/fetchTabCounts');
 });
 
 watch([accountId, hasConversationUnreadCounts], fetchConversationUnreadCounts, {
@@ -315,7 +338,7 @@ const newReportRoutes = () => [
 const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
-  return [
+  const items = [
     {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),
@@ -326,7 +349,10 @@ const menuItems = computed(() => {
         count: 'notifications/getUnreadCount',
       },
     },
-    {
+  ];
+
+  if (hasInternalTasks.value) {
+    items.push({
       name: 'Tasks',
       label: t('SIDEBAR.TASKS'),
       icon: 'i-lucide-list-checks',
@@ -336,8 +362,20 @@ const menuItems = computed(() => {
       getterKeys: {
         count: 'internalTasks/getMyOpenTaskCount',
       },
-    },
-    {
+    });
+  }
+
+  if (hasInternalChats.value) {
+    items.push({
+      name: 'Team chats',
+      label: t('SIDEBAR.INTERNAL_CHATS'),
+      icon: 'i-lucide-messages-square',
+      to: accountScopedRoute('internal_chats_index'),
+      activeOn: ['internal_chats_index', 'internal_chats_show'],
+    });
+  }
+
+  items.push({
       name: 'Conversation',
       label: t('SIDEBAR.CONVERSATIONS'),
       icon: 'i-lucide-message-circle',
@@ -854,8 +892,10 @@ const menuItems = computed(() => {
           to: accountScopedRoute('billing_settings_index'),
         },
       ],
-    },
-  ];
+    }
+  );
+
+  return items;
 });
 </script>
 

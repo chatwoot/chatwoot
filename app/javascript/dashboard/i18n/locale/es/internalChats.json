@@ -1,0 +1,53 @@
+{
+  "INTERNAL_CHATS": {
+    "TITLE": "Chats de equipo",
+    "SUBTITLE": "Una sala por equipo — solo texto",
+    "ROOM_SUBTITLE": "Sala del equipo",
+    "PLACEHOLDER": "Escribe un mensaje…",
+    "EMPTY_STATE": "Aún no hay mensajes. Saluda a tu equipo.",
+    "EMPTY_THREAD_BODY": "Sé el primero en enviar un mensaje en este equipo.",
+    "EMPTY_ROOMS": "Únete a un equipo para ver su sala.",
+    "SELECT_ROOM": "Selecciona un chat de equipo para empezar.",
+    "NO_MESSAGES": "Sin mensajes aún",
+    "LOADING": "Cargando…",
+    "LOADING_THREAD": "Cargando conversación…",
+    "LOADING_OLDER": "Cargando mensajes anteriores…",
+    "SEND": "Enviar",
+    "SEND_TOOLTIP": "Enviar (Enter)",
+    "BACK": "Volver a salas",
+    "UNKNOWN_TEAM": "Equipo",
+    "UNKNOWN_USER": "Agente",
+    "DAY": {
+      "TODAY": "Hoy",
+      "YESTERDAY": "Ayer"
+    },
+    "DAY_FULL": "EEEE, d MMMM yyyy",
+    "EMPTY": {
+      "SELECT_TITLE": "Elige un chat de equipo",
+      "THREAD_TITLE": "Empieza la conversación",
+      "NO_ROOMS_TITLE": "Aún no hay salas"
+    },
+    "MEMBERS": "Sin miembros | {n} miembro | {n} miembros",
+    "MEMBERS_TOOLTIP": "Ver miembros del equipo",
+    "INFO_TITLE": "Miembros del equipo",
+    "ONLINE_COUNT": "{count} en línea",
+    "SEARCH_PLACEHOLDER": "Buscar equipo…",
+    "CLEAR_SEARCH": "Limpiar búsqueda",
+    "NO_SEARCH_RESULTS": "Ningún equipo coincide con \"{query}\"",
+    "EMPTY_ROOMS_CTA": "Ir a Teams",
+    "DRAFT_RESTORED": "Borrador restaurado de tu última visita",
+    "DRAFT_SAVED": "Borrador guardado",
+    "CLEAR_DRAFT": "Borrar borrador",
+    "DRAFT_UNSAVED_WARNING": "Tienes un borrador sin enviar. ¿Salir de todos modos?",
+    "UNREAD_OVERFLOW": "99+",
+    "CHAR_COUNT": "{count} / {max}",
+    "MESSAGE_PENDING": "Enviando…",
+    "MESSAGE_FAILED": "Error al enviar",
+    "RETRY": "Reintentar",
+    "DRAG_REJECT_MESSAGE": "Los archivos no se admiten en los chats de equipo",
+    "ERRORS": {
+      "SEND": "No se pudo enviar el mensaje",
+      "DRAG_DROP_REJECTED": "Los archivos no se admiten en los chats de equipo"
+    }
+  }
+}
