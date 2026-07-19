@@ -11,8 +11,6 @@ const props = defineProps({
   },
 });
 
-const MAX_VISIBLE = 2;
-
 const accountLabels = useMapGetter('labels/getLabels');
 
 const resolvedLabels = computed(() => {
@@ -26,42 +24,20 @@ const resolvedLabels = computed(() => {
     return accountLabel || title;
   });
 });
-
-const visibleLabels = computed(() =>
-  resolvedLabels.value.slice(0, MAX_VISIBLE)
-);
-
-const hiddenCount = computed(() =>
-  Math.max(0, resolvedLabels.value.length - MAX_VISIBLE)
-);
-
-const hiddenLabelTitles = computed(() =>
-  resolvedLabels.value
-    .slice(MAX_VISIBLE)
-    .map(label => (typeof label === 'string' ? label : label.title))
-);
-
-const hiddenTooltip = computed(() => hiddenLabelTitles.value.join(', '));
 </script>
 
 <template>
   <div
     v-if="resolvedLabels.length"
-    class="flex items-center gap-1 min-w-0 max-w-[12rem]"
+    class="flex items-center gap-1 min-w-0 max-w-full overflow-x-auto whitespace-nowrap [scrollbar-width:thin]"
   >
     <Label
-      v-for="(label, index) in visibleLabels"
+      v-for="(label, index) in resolvedLabels"
       :key="typeof label === 'string' ? `${label}-${index}` : label.id"
       :label="label"
       compact
+      class="flex-shrink-0"
     />
-    <span
-      v-if="hiddenCount"
-      v-tooltip="hiddenTooltip"
-      class="inline-flex items-center justify-center h-6 px-1.5 rounded-md bg-n-slate-3 text-label-small text-n-slate-11 flex-shrink-0"
-    >
-      +{{ hiddenCount }}
-    </span>
   </div>
-  <span v-else class="text-sm text-n-slate-11">—</span>
+  <span v-else class="text-sm text-n-slate-11">--</span>
 </template>

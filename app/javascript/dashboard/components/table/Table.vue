@@ -27,7 +27,7 @@ const headerClass = computed(() =>
 </script>
 
 <template>
-  <table :class="{ 'table-fixed': fixed }">
+  <table class="min-w-full" :class="{ 'table-fixed': fixed }">
     <thead class="sticky top-0 z-10 bg-n-slate-1">
       <tr
         v-for="headerGroup in table.getHeaderGroups()"
@@ -40,13 +40,16 @@ const headerClass = computed(() =>
           :style="{
             width: `${header.getSize()}px`,
           }"
-          class="text-left py-3 px-5 font-medium text-sm text-n-slate-12"
-          :class="headerClass"
+          class="text-left font-medium text-sm text-n-slate-12"
+          :class="[
+            headerClass,
+            isRelaxed ? 'py-3 px-3 md:px-4' : 'py-2 px-3',
+          ]"
           @click="header.column.getCanSort() && header.column.toggleSorting()"
         >
           <div
             v-if="!header.isPlaceholder"
-            class="flex place-items-center gap-1"
+            class="flex min-w-0 items-start gap-1"
           >
             <FlexRender
               :render="header.column.columnDef.header"
@@ -63,7 +66,7 @@ const headerClass = computed(() =>
         <td
           v-for="cell in row.getVisibleCells()"
           :key="cell.id"
-          :class="isRelaxed ? 'py-4 px-5' : 'py-2 px-5'"
+          :class="isRelaxed ? 'py-3 px-3 md:px-4' : 'py-2 px-3'"
         >
           <FlexRender
             :render="cell.column.columnDef.cell"

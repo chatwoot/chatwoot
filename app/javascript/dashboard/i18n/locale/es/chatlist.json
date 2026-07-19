@@ -36,6 +36,42 @@
         "TEXT": "Todos"
       }
     },
+    "RESOLVED_STATUS_LABELS": {
+      "resolved": "Resuelta",
+      "closed": "Cerrada",
+      "sold": "Vendida",
+      "finished": "Finalizada"
+    },
+    "RESOLVED_STATUS_ACTIONS": {
+      "resolved": "Resolver",
+      "closed": "Cerrar",
+      "sold": "Vendida",
+      "finished": "Finalizar"
+    },
+    "RESOLVED_STATUS_MARK_AS": {
+      "resolved": "Marcar como resuelta",
+      "closed": "Marcar como cerrada",
+      "sold": "Marcar como vendida",
+      "finished": "Marcar como finalizada"
+    },
+    "RESOLVED_STATUS_CONVERSATION": {
+      "resolved": "Resolver conversación",
+      "closed": "Cerrar conversación",
+      "sold": "Marcar conversación como vendida",
+      "finished": "Finalizar conversación"
+    },
+    "RESOLVED_STATUS_REPORT_COUNT": {
+      "resolved": "Conteo de resoluciones",
+      "closed": "Conteo de cerradas",
+      "sold": "Conteo de vendidas",
+      "finished": "Conteo de finalizadas"
+    },
+    "RESOLVED_STATUS_RESOLVE_AND_NEXT": {
+      "resolved": "Resolver y siguiente",
+      "closed": "Cerrar y siguiente",
+      "sold": "Marcar vendida y siguiente",
+      "finished": "Finalizar y siguiente"
+    },
     "VIEW_FILTER": "Ver",
     "SORT_TOOLTIP_LABEL": "Ordenar conversaciones",
     "CHAT_SORT": {
@@ -78,7 +114,10 @@
         "TEXT": "Respuesta pendiente: la más corta primero"
       },
       "priority_desc_created_at_asc": {
-        "TEXT": "Priority: Highest first, Created: Oldest first"
+        "TEXT": "Prioridad: más alta primero, Creado: más antiguo primero"
+      },
+      "unread": {
+        "TEXT": "No leídos: más altos primero"
       }
     },
     "ATTACHMENTS": {

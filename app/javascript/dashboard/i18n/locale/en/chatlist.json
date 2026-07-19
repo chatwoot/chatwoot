@@ -36,6 +36,42 @@
         "TEXT": "All"
       }
     },
+    "RESOLVED_STATUS_LABELS": {
+      "resolved": "Resolved",
+      "closed": "Closed",
+      "sold": "Sold",
+      "finished": "Finished"
+    },
+    "RESOLVED_STATUS_ACTIONS": {
+      "resolved": "Resolve",
+      "closed": "Close",
+      "sold": "Sold",
+      "finished": "Finish"
+    },
+    "RESOLVED_STATUS_MARK_AS": {
+      "resolved": "Mark as resolved",
+      "closed": "Mark as closed",
+      "sold": "Mark as sold",
+      "finished": "Mark as finished"
+    },
+    "RESOLVED_STATUS_CONVERSATION": {
+      "resolved": "Resolve conversation",
+      "closed": "Close conversation",
+      "sold": "Mark conversation as sold",
+      "finished": "Finish conversation"
+    },
+    "RESOLVED_STATUS_REPORT_COUNT": {
+      "resolved": "Resolution Count",
+      "closed": "Closed Count",
+      "sold": "Sold Count",
+      "finished": "Finished Count"
+    },
+    "RESOLVED_STATUS_RESOLVE_AND_NEXT": {
+      "resolved": "Resolve and next",
+      "closed": "Close and next",
+      "sold": "Mark sold and next",
+      "finished": "Finish and next"
+    },
     "VIEW_FILTER": "View",
     "SORT_TOOLTIP_LABEL": "Sort conversations",
     "CHAT_SORT": {

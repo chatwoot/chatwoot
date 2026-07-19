@@ -296,7 +296,6 @@
       "ID": "(ID: {identifier})"
     }
   },
-
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "Contacts",
@@ -356,7 +355,11 @@
             "COUNTRY": "Country",
             "CITY": "City",
             "LAST_ACTIVITY": "Last activity",
-            "CREATED_AT": "Created at"
+            "CREATED_AT": "Created at",
+            "IDENTIFIER": "Identifier",
+            "LABELS": "Labels",
+            "ASSIGNED_AGENT": "Contact agent",
+            "BLOCKED": "Blocked"
           }
         },
         "ORDER": {
@@ -654,7 +657,6 @@
       "CONFIRM_SINGLE": "Delete contact"
     }
   },
-
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."

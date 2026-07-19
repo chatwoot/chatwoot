@@ -3,50 +3,63 @@
     "HEADER": "Conversations",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "DOWNLOAD_REPORTS": "Download reports",
     "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "VS_PREVIOUS_PERIOD": "{trend} vs previous period ({previous})",
+    "PREVIOUS_PERIOD_VALUE": "Previous period: {value}",
+    "INSIGHT_CONVERSATIONS": "Conversations are {trend} compared to the previous period.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
-        "DESC": "( Total )"
+        "DESC": "( Total )",
+        "HELP": "Total number of conversations in the selected period."
       },
       "INCOMING_MESSAGES": {
         "NAME": "Messages received",
-        "DESC": "( Total )"
+        "DESC": "( Total )",
+        "HELP": "Total messages received from contacts in the selected period."
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Messages sent",
-        "DESC": "( Total )"
+        "DESC": "( Total )",
+        "HELP": "Total messages sent by agents in the selected period."
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)",
+        "HELP": "Average time from the first customer message to the first agent reply."
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)",
+        "HELP": "Average time from conversation start until it is marked resolved."
       },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "DESC": "( Total )",
+        "HELP": "Total number of conversations resolved in the selected period."
       },
       "BOT_RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "DESC": "( Total )",
+        "HELP": "Total number of conversations resolved by the bot in the selected period."
       },
       "BOT_HANDOFF_COUNT": {
         "NAME": "Handoff Count",
-        "DESC": "( Total )"
+        "DESC": "( Total )",
+        "HELP": "Total number of conversations handed off from the bot to agents."
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
-        "DESC": ""
+        "DESC": "",
+        "HELP": "Average time customers wait between their message and the next agent reply."
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -480,7 +493,8 @@
         "LABEL": "Response rate",
         "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
       },
-      "RATING_DISTRIBUTION": "Rating distribution"
+      "RATING_DISTRIBUTION": "Rating distribution",
+      "INSIGHT_RESPONSE_RATE": "{rate} of CSAT surveys received a response ({responses} of {sent}). Satisfaction score: {score}."
     },
     "REVIEW_NOTES": {
       "TITLE": "Review notes",
@@ -525,27 +539,43 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Overview",
     "LIVE": "Live",
+    "CSV": {
+      "DATE": "Date",
+      "HOUR": "Hour"
+    },
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
       "OPEN": "Open",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "Unassigned",
-      "PENDING": "Pending"
+      "PENDING": "Pending",
+      "HELP": {
+        "OPEN": "Conversations currently in open status.",
+        "UNATTENDED": "Open conversations that have not received an agent reply yet.",
+        "UNASSIGNED": "Conversations that do not have an assigned agent.",
+        "PENDING": "Conversations currently in pending (bot) status."
+      }
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
       "CONVERSATION": "{count} conversation",
       "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "DOWNLOAD_REPORT": "Download report",
+      "PEAK_INSIGHT": "Peak: {value} on {day} at {hour}:00. Busiest day: {peakDay} ({peakDayTotal}).",
+      "LEGEND_LOW": "Low",
+      "LEGEND_HIGH": "High"
     },
     "RESOLUTION_HEATMAP": {
       "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "No conversations",
       "CONVERSATION": "{count} conversation",
       "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "DOWNLOAD_REPORT": "Download report",
+      "PEAK_INSIGHT": "Peak: {value} on {day} at {hour}:00. Busiest day: {peakDay} ({peakDayTotal}).",
+      "LEGEND_LOW": "Low",
+      "LEGEND_HIGH": "High"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
@@ -574,7 +604,12 @@
       "HEADER": "Agent status",
       "ONLINE": "Online",
       "BUSY": "Busy",
-      "OFFLINE": "Offline"
+      "OFFLINE": "Offline",
+      "HELP": {
+        "ONLINE": "Agents currently marked as online.",
+        "BUSY": "Agents currently marked as busy.",
+        "OFFLINE": "Agents currently marked as offline."
+      }
     }
   },
   "DAYS_OF_WEEK": {
@@ -618,6 +653,10 @@
         "LABEL": "Hit Rate",
         "TOOLTIP": "Percentage of SLAs created were completed successfully"
       },
+      "MISS_RATE": {
+        "LABEL": "Miss Rate",
+        "TOOLTIP": "Percentage of SLAs that missed at least one target"
+      },
       "NO_OF_MISSES": {
         "LABEL": "Number of Misses",
         "TOOLTIP": "Total SLA misses in a certain period"
@@ -625,7 +664,8 @@
       "NO_OF_CONVERSATIONS": {
         "LABEL": "Number of Conversations",
         "TOOLTIP": "Total number of conversations with SLA"
-      }
+      },
+      "INSIGHT": "Hit rate {hitRate} / miss rate {missRate} across {conversations} conversations ({misses} misses)."
     },
     "TABLE": {
       "HEADER": {
@@ -645,6 +685,17 @@
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
     "RESOLUTION_COUNT": "Resolution Count",
-    "CONVERSATIONS": "No. of conversations"
+    "CONVERSATIONS": "No. of conversations",
+    "SHARE": "Share %",
+    "RANK": "Rank",
+    "HELP": {
+      "CONVERSATIONS": "Number of conversations attributed to this row in the selected period.",
+      "SHARE": "Percentage of total conversations that this row represents.",
+      "RANK": "Ranking by conversation volume (1 = highest).",
+      "AVG_FIRST_RESPONSE_TIME": "Average time from the first customer message to the first agent reply.",
+      "AVG_RESOLUTION_TIME": "Average time from conversation start until it is marked resolved.",
+      "AVG_REPLY_TIME": "Average time customers wait between their message and the next agent reply.",
+      "RESOLUTION_COUNT": "Number of conversations resolved in the selected period."
+    }
   }
 }

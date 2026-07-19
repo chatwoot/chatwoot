@@ -355,7 +355,11 @@
             "COUNTRY": "País",
             "CITY": "Ciudad",
             "LAST_ACTIVITY": "Última actividad",
-            "CREATED_AT": "Creado el"
+            "CREATED_AT": "Creado el",
+            "IDENTIFIER": "Identificador",
+            "LABELS": "Etiquetas",
+            "ASSIGNED_AGENT": "Agente del contacto",
+            "BLOCKED": "Bloqueado"
           }
         },
         "ORDER": {

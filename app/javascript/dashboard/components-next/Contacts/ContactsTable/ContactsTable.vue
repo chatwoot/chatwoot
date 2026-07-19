@@ -211,7 +211,7 @@ const assignedAgentName = contact =>
 
               <div class="flex flex-col min-w-0">
                 <span class="text-sm font-medium text-n-slate-12 truncate">
-                  {{ contact.name || '—' }}
+                  {{ contact.name || '--' }}
                 </span>
 
                 <span
@@ -226,19 +226,19 @@ const assignedAgentName = contact =>
 
           <td class="py-2 px-3 max-w-[9rem]">
             <span class="text-sm text-n-slate-11 truncate">{{
-              contact.documentNumber || '—'
+              contact.documentNumber || '--'
             }}</span>
           </td>
 
           <td class="py-2 px-3 max-w-[9rem]">
             <span class="text-sm text-n-slate-11 truncate">{{
-              contact.phoneNumber || '—'
+              contact.phoneNumber || '--'
             }}</span>
           </td>
 
           <td class="py-2 px-3 max-w-[12rem]">
             <span class="text-sm text-n-slate-11 truncate">{{
-              contact.email || '—'
+              contact.email || '--'
             }}</span>
           </td>
 

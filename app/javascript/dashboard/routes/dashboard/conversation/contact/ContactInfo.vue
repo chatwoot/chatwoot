@@ -219,11 +219,11 @@ export default {
           :src="contact.thumbnail"
           :name="contact.name"
           :status="contact.availability_status"
-          :size="40"
+          :size="52"
           hide-offline-status
           class="flex-shrink-0"
         />
-        <div class="flex flex-col gap-0.5 min-w-0 flex-1">
+        <div class="flex flex-col gap-0.5 min-w-0 flex-1 justify-center">
           <div class="flex items-start gap-2 min-w-0">
             <InlineInput
               v-if="isEditingName"
@@ -277,16 +277,6 @@ export default {
             editable
             @update="value => onFieldUpdate('phone_number', value)"
           />
-          <ContactInfoRow
-            :value="documentNumber"
-            icon="contact-identify"
-            icon-class="i-ph-identification-card"
-            emoji="🪪"
-            :title="$t('CONTACT_PANEL.DOCUMENT_NUMBER')"
-            show-copy
-            editable
-            @update="value => onFieldUpdate('document_number', value)"
-          />
         </div>
       </div>
 
@@ -294,6 +284,17 @@ export default {
         {{ additionalAttributes.description }}
       </p>
       <div class="flex flex-col items-start w-full gap-2">
+
+        <ContactInfoRow
+          :value="documentNumber"
+          icon="contact-identify"
+          icon-class="i-ph-identification-card"
+          emoji="🪪"
+          :title="$t('CONTACT_PANEL.DOCUMENT_NUMBER')"
+          show-copy
+          editable
+          @update="value => onFieldUpdate('document_number', value)"
+        />
         <ContactInfoRow
           :href="contact.email ? `mailto:${contact.email}` : ''"
           :value="contact.email"
