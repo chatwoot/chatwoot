@@ -35,11 +35,11 @@ const getters = {
 const actions = {
   getCannedResponse: async function getCannedResponse(
     { commit },
-    { searchKey } = {}
+    { searchKey, usable } = {}
   ) {
     commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: true });
     try {
-      const response = await CannedResponseAPI.get({ searchKey });
+      const response = await CannedResponseAPI.get({ searchKey, usable });
       commit(types.default.SET_CANNED, response.data);
       commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: false });
     } catch (error) {
@@ -79,15 +79,44 @@ const actions = {
     }
   },
 
+  approveCannedResponse: async function approveCannedResponse(
+    { commit },
+    { id, visibility }
+  ) {
+    commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: true });
+    try {
+      const response = await CannedResponseAPI.approve(id, { visibility });
+      commit(types.default.EDIT_CANNED, response.data);
+      commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: false });
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: false });
+      return throwErrorMessage(error);
+    }
+  },
+
+  rejectCannedResponse: async function rejectCannedResponse({ commit }, id) {
+    commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: true });
+    try {
+      const response = await CannedResponseAPI.reject(id);
+      commit(types.default.EDIT_CANNED, response.data);
+      commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: false });
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: false });
+      return throwErrorMessage(error);
+    }
+  },
+
   deleteCannedResponse: async function deleteCannedResponse({ commit }, id) {
     commit(types.default.SET_CANNED_UI_FLAG, { deletingItem: true });
     try {
       await CannedResponseAPI.delete(id);
       commit(types.default.DELETE_CANNED, id);
-      commit(types.default.SET_CANNED_UI_FLAG, { deletingItem: true });
+      commit(types.default.SET_CANNED_UI_FLAG, { deletingItem: false });
       return id;
     } catch (error) {
-      commit(types.default.SET_CANNED_UI_FLAG, { deletingItem: true });
+      commit(types.default.SET_CANNED_UI_FLAG, { deletingItem: false });
       return throwErrorMessage(error);
     }
   },

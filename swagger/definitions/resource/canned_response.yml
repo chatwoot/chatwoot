@@ -19,9 +19,19 @@ properties:
     type: string
     enum: [personal, global]
     description: personal (author only) or global (all agents in the account)
+  approval_status:
+    type: string
+    enum: [pending, approved, rejected]
+    description: pending until an administrator approves the response for use
   created_by_id:
     type: integer
     description: User id of the creator
+  reviewed_by_id:
+    type: integer
+    description: User id of the administrator who last reviewed the response
+  reviewed_at:
+    type: string
+    description: When the response was last approved or rejected
   created_at:
     type: string
     description: The date and time when the canned response was created

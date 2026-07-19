@@ -104,7 +104,11 @@ export default {
         })
         .then(() => {
           this.addCanned.showLoading = false;
-          useAlert(this.$t('CANNED_MGMT.ADD.API.SUCCESS_MESSAGE'));
+          useAlert(
+            this.isAdmin
+              ? this.$t('CANNED_MGMT.ADD.API.SUCCESS_MESSAGE')
+              : this.$t('CANNED_MGMT.ADD.API.SUCCESS_MESSAGE_PENDING')
+          );
           this.resetForm();
           this.onClose();
         })
@@ -153,7 +157,7 @@ export default {
           </p>
         </div>
 
-        <div class="w-full mt-2">
+        <div v-if="isAdmin" class="w-full mt-2">
           <p class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12">
             {{ $t('CANNED_MGMT.ADD.FORM.VISIBILITY.LABEL') }}
           </p>
@@ -162,7 +166,6 @@ export default {
               type="button"
               class="flex flex-col items-start justify-between gap-2 p-2 text-start relative rounded-md border border-solid"
               :class="isActive('global')"
-              :disabled="isPublicVisibilityDisabled"
               @click="onUpdateVisibility('global')"
             >
               <div class="flex items-center justify-between w-full gap-2 min-w-0">
@@ -176,7 +179,7 @@ export default {
                 />
               </div>
               <p class="text-n-slate-11 text-label-small">
-                {{ publicVisibilityDescription }}
+                {{ $t('CANNED_MGMT.ADD.FORM.VISIBILITY.GLOBAL.DESCRIPTION') }}
               </p>
             </button>
             <button
@@ -201,6 +204,12 @@ export default {
             </button>
           </div>
         </div>
+        <p
+          v-else
+          class="w-full mt-2 mb-0 text-xs text-n-slate-11 rounded-md border border-solid border-n-weak bg-n-alpha-black2 px-2.5 py-2"
+        >
+          {{ $t('CANNED_MGMT.ADD.AGENT_PENDING_HINT') }}
+        </p>
 
         <div class="w-full mt-2">
           <label :class="{ error: v$.content.$error }">

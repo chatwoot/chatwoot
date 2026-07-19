@@ -339,11 +339,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_19_010001) do
     t.text "content"
     t.string "category"
     t.integer "visibility", default: 0, null: false
+    t.integer "approval_status", default: 0, null: false
     t.bigint "created_by_id"
+    t.bigint "reviewed_by_id"
+    t.datetime "reviewed_at"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["account_id", "category"], name: "index_canned_responses_on_account_id_and_category"
     t.index ["created_by_id"], name: "index_canned_responses_on_created_by_id"
+    t.index ["reviewed_by_id"], name: "index_canned_responses_on_reviewed_by_id"
   end
 
   create_table "captain_assistant_responses", force: :cascade do |t|
@@ -1424,6 +1428,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_19_010001) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "canned_responses", "users", column: "created_by_id"
+  add_foreign_key "canned_responses", "users", column: "reviewed_by_id"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

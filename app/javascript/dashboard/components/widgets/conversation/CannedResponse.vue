@@ -36,7 +36,10 @@ export default {
   },
   methods: {
     fetchCannedResponses() {
-      this.$store.dispatch('getCannedResponse', { searchKey: this.searchKey });
+      this.$store.dispatch('getCannedResponse', {
+        searchKey: this.searchKey,
+        usable: true,
+      });
     },
     handleMentionClick(item = {}) {
       this.$emit('replace', item.content || item.description);

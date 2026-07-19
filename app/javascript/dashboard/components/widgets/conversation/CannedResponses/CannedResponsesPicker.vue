@@ -17,7 +17,7 @@ const selectedCategory = ref(null);
 const cannedResponses = useMapGetter('getCannedResponses');
 
 onMounted(() => {
-  store.dispatch('getCannedResponse');
+  store.dispatch('getCannedResponse', { usable: true });
 });
 
 const categories = computed(() => {
@@ -154,7 +154,7 @@ const previewContent = content => {
           </p>
         </div>
         <p v-else class="mb-0 text-n-slate-11">
-          {{ t('CANNED_MGMT.PICKER.EMPTY') }}
+          {{ t('CANNED_MGMT.PICKER.EMPTY_PENDING_HINT') }}
         </p>
       </div>
     </div>

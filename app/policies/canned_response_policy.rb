@@ -8,24 +8,38 @@ class CannedResponsePolicy < ApplicationPolicy
   end
 
   def show?
-    @record.global? || author?
+    return true if @account_user.administrator?
+    return true if author?
+    return true if @record.global? && @record.approved?
+
+    false
   end
 
   def update?
-    return @account_user.administrator? if @record.global?
+    return true if @account_user.administrator?
+    return false if @record.global?
 
     author?
   end
 
   def destroy?
-    return @account_user.administrator? if @record.global?
+    return true if @account_user.administrator?
+    return false if @record.global?
 
     author?
+  end
+
+  def approve?
+    @account_user.administrator?
+  end
+
+  def reject?
+    @account_user.administrator?
   end
 
   private
 
   def author?
-    @record.created_by == @account_user.user
+    @record.created_by_id == @account_user.user_id
   end
 end
