@@ -85,12 +85,11 @@ export default {
   },
   watch: {
     inbox(newInbox, oldInbox) {
-      // Only drop a pending save when actually leaving the inbox; a same-inbox
-      // refresh (e.g. after saving Allowed Domains) must not cancel a queued
-      // feature-flag save.
+      // Leaving the inbox: flush any queued save to the inbox we're leaving so an
+      // unsaved toggle isn't silently discarded. A same-inbox refresh (e.g. after
+      // saving Allowed Domains) keeps the timer running.
       if (newInbox?.id !== oldInbox?.id) {
-        clearTimeout(this.featureFlagSaveTimer);
-        this.featureFlagSaveTimer = null;
+        this.flushWidgetFeatureFlagsSave(oldInbox);
       }
       this.setDefaults();
     },
@@ -106,7 +105,7 @@ export default {
     },
   },
   beforeUnmount() {
-    clearTimeout(this.featureFlagSaveTimer);
+    this.flushWidgetFeatureFlagsSave(this.inbox);
   },
   mounted() {
     this.setDefaults();
@@ -154,15 +153,20 @@ export default {
       clearTimeout(this.featureFlagSaveTimer);
       this.featureFlagSaveTimer = setTimeout(this.saveWidgetFeatureFlags, 500);
     },
-    async saveWidgetFeatureFlags() {
-      // The debounce fired: no save is queued anymore, so inbox refreshes may
-      // sync the toggles again once this one round-trips.
+    // Send a queued save immediately (e.g. before leaving the inbox) so an
+    // unsaved toggle isn't discarded.
+    flushWidgetFeatureFlagsSave(targetInbox) {
+      if (!this.featureFlagSaveTimer) return;
+      clearTimeout(this.featureFlagSaveTimer);
+      this.saveWidgetFeatureFlags(targetInbox);
+    },
+    async saveWidgetFeatureFlags(targetInbox = this.inbox) {
+      // The save is running now, so nothing is queued anymore. Build from the
+      // local toggle state (read synchronously, before any setDefaults resync),
+      // preserving non-widget flags on the target inbox, and write back to it.
       this.featureFlagSaveTimer = null;
-      // Bind to the current inbox; build from local toggle state and preserve
-      // any non-widget flags already on the inbox.
-      const inboxId = this.inbox.id;
       const managedFlags = WIDGET_FEATURE_TOGGLES.map(t => t.flag);
-      const selectedFlags = (this.inbox.selected_feature_flags || []).filter(
+      const selectedFlags = (targetInbox.selected_feature_flags || []).filter(
         f => !managedFlags.includes(f)
       );
       WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
@@ -171,7 +175,7 @@ export default {
 
       try {
         await this.$store.dispatch('inboxes/updateInbox', {
-          id: inboxId,
+          id: targetInbox.id,
           formData: false,
           channel: { selected_feature_flags: selectedFlags },
         });
