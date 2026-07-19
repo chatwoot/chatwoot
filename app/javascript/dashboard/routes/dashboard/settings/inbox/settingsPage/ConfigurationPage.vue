@@ -148,9 +148,13 @@ export default {
         return;
       }
       this.isUpdatingFeatureFlags = true;
+      // Bind this run to the inbox that was active; a pending retry must never
+      // write these flags onto a different inbox the admin navigated to.
+      const inboxId = this.inbox.id;
       try {
         do {
           this.hasPendingFeatureFlagUpdate = false;
+          if (this.inbox.id !== inboxId) break;
           // Rebuild from the local toggle state (not the possibly-stale inbox
           // prop) each pass; non-widget flags on the inbox are preserved.
           const managedFlags = WIDGET_FEATURE_TOGGLES.map(t => t.flag);
@@ -165,7 +169,7 @@ export default {
           // stale one can't land last.
           // eslint-disable-next-line no-await-in-loop
           await this.$store.dispatch('inboxes/updateInbox', {
-            id: this.inbox.id,
+            id: inboxId,
             formData: false,
             channel: { selected_feature_flags: selectedFlags },
           });
