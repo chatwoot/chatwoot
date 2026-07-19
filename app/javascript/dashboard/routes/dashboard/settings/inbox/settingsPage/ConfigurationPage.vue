@@ -84,10 +84,14 @@ export default {
     },
   },
   watch: {
-    inbox() {
-      // Drop any save still pending for the inbox we're leaving so it can never
-      // be written onto the inbox we're switching to.
-      clearTimeout(this.featureFlagSaveTimer);
+    inbox(newInbox, oldInbox) {
+      // Only drop a pending save when actually leaving the inbox; a same-inbox
+      // refresh (e.g. after saving Allowed Domains) must not cancel a queued
+      // feature-flag save.
+      if (newInbox?.id !== oldInbox?.id) {
+        clearTimeout(this.featureFlagSaveTimer);
+        this.featureFlagSaveTimer = null;
+      }
       this.setDefaults();
     },
     allowMobileWebview() {
@@ -111,10 +115,15 @@ export default {
     setDefaults() {
       this.isSettingDefaults = true;
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
-      const flags = this.inbox.selected_feature_flags || [];
-      WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
-        this[field] = flags.includes(flag);
-      });
+      // Don't overwrite the widget toggles while a save is still pending, or an
+      // unrelated same-inbox refresh (e.g. updating Allowed Domains) would revert
+      // the not-yet-saved toggle before the debounced save reads it.
+      if (!this.featureFlagSaveTimer) {
+        const flags = this.inbox.selected_feature_flags || [];
+        WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
+          this[field] = flags.includes(flag);
+        });
+      }
       this.allowedDomains = this.inbox.allowed_domains || '';
       this.$nextTick(() => {
         this.isSettingDefaults = false;
@@ -146,6 +155,9 @@ export default {
       this.featureFlagSaveTimer = setTimeout(this.saveWidgetFeatureFlags, 500);
     },
     async saveWidgetFeatureFlags() {
+      // The debounce fired: no save is queued anymore, so inbox refreshes may
+      // sync the toggles again once this one round-trips.
+      this.featureFlagSaveTimer = null;
       // Bind to the current inbox; build from local toggle state and preserve
       // any non-widget flags already on the inbox.
       const inboxId = this.inbox.id;
