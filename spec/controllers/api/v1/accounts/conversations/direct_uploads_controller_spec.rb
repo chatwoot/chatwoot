@@ -25,6 +25,10 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
          as: :json
   end
 
+  before do
+    create(:inbox_member, user: agent, inbox: web_widget.inbox)
+  end
+
   describe 'POST /api/v1/accounts/:account_id/conversations/:conversation_id/direct_uploads' do
     context 'when it is an unauthenticated request' do
       it 'returns unauthorized without any credentials' do
