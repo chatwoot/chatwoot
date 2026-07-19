@@ -106,10 +106,15 @@ export default {
     setDefaults() {
       this.isSettingDefaults = true;
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
-      const flags = this.inbox.selected_feature_flags || [];
-      WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
-        this[field] = flags.includes(flag);
-      });
+      // While a feature-flag update is in flight, the local toggles are the
+      // source of truth — don't overwrite them from an interim (possibly stale)
+      // updateInbox response, or the serialized retry would resend stale state.
+      if (!this.isUpdatingFeatureFlags) {
+        const flags = this.inbox.selected_feature_flags || [];
+        WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
+          this[field] = flags.includes(flag);
+        });
+      }
       this.allowedDomains = this.inbox.allowed_domains || '';
       this.$nextTick(() => {
         this.isSettingDefaults = false;
