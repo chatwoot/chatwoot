@@ -82,7 +82,7 @@ describe AgentBotListener do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
         expect(AgentBots::WebhookJob).to receive(:perform_later).with(
           agent_bot.outgoing_url,
-          hash_including(event: 'conversation_status_changed', changed_attributes: anything),
+          hash_including(event: 'conversation_status_changed', account: account.webhook_data, changed_attributes: anything),
           :agent_bot_webhook,
           hash_including(secret: agent_bot.secret)
         ).once
@@ -154,6 +154,24 @@ describe AgentBotListener do
           :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
         ).once
         listener.conversation_updated(event)
+      end
+    end
+  end
+
+  describe '#conversation_resolved' do
+    let(:event_name) { 'conversation.resolved' }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
+
+    context 'when agent bot is configured' do
+      it 'sends account details in the conversation payload' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url,
+          hash_including(event: 'conversation_resolved', account: account.webhook_data),
+          :agent_bot_webhook,
+          hash_including(secret: agent_bot.secret)
+        ).once
+        listener.conversation_resolved(event)
       end
     end
   end

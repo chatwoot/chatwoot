@@ -25,6 +25,7 @@ const props = defineProps({
 const emit = defineEmits([
   'clearSelection',
   'assignLabels',
+  'removeLabels',
   'toggleAll',
   'deleteSelected',
 ]);
@@ -72,6 +73,10 @@ const selectionModel = computed({
 const handleAssignLabels = labels => {
   emit('assignLabels', labels);
 };
+
+const handleRemoveLabels = labels => {
+  emit('removeLabels', labels);
+};
 </script>
 
 <template>
@@ -102,6 +107,13 @@ const handleAssignLabels = labels => {
             :is-loading="isLoading"
             :disabled="!selectedCount"
             @assign="handleAssignLabels"
+          />
+          <BulkLabelActions
+            type="contact"
+            action="remove"
+            :is-loading="isLoading"
+            :disabled="!selectedCount"
+            @remove="handleRemoveLabels"
           />
           <div class="w-px h-3 bg-n-weak rounded-lg" />
           <Policy :permissions="['administrator']">

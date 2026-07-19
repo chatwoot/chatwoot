@@ -95,7 +95,7 @@ const replyToPreview = computed(() => {
 
 <template>
   <div
-    class="text-sm"
+    class="text-sm min-w-0"
     :class="[
       messageClass,
       {

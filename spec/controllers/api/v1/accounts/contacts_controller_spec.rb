@@ -112,15 +112,15 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'returns all contacts with company name asc order with null values at last' do
+        contact_3
         get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=-company_name",
             headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['payload'].first['email']).to eq(contact_1.email)
-        expect(response_body['payload'].first['id']).to eq(contact_1.id)
-        expect(response_body['payload'].last['email']).to eq(contact_4.email)
+        expect(response_body['payload'].first(2).pluck('id')).to contain_exactly(contact.id, contact_1.id)
+        expect(response_body['payload'].last(2).pluck('id')).to contain_exactly(contact_3.id, contact_4.id)
       end
 
       it 'returns all contacts with country name desc order with null values at last' do

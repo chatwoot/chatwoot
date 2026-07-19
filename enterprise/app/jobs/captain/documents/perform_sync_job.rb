@@ -48,9 +48,7 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
     return if document.pdf_document?
 
     with_lock(lock_key(document), LOCK_TIMEOUT) do
-      mark_sync_started(document)
-      result = Captain::Documents::SyncService.new(document.reload).perform
-      log_sync_outcome(document, result: result, duration_ms: duration_ms_since(start_time))
+      perform_sync(document, start_time)
     end
   rescue LockAcquisitionError
     log_sync_outcome(document, result: :already_syncing)
@@ -63,6 +61,12 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
   end
 
   private
+
+  def perform_sync(document, start_time)
+    mark_sync_started(document)
+    result = Captain::Documents::SyncService.new(document.reload).perform
+    log_sync_outcome(document, result: result, duration_ms: duration_ms_since(start_time))
+  end
 
   def log_sync_outcome(document, **fields)
     payload = {

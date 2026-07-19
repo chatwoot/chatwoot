@@ -62,6 +62,14 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       job.perform_now(params)
     end
 
+    it 'still enqueues for manual channels even when reauthorization required' do
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'manual'))
+      channel.prompt_reauthorization!
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
+      job.perform_now(params)
+    end
+
     it 'will not enqueue if channel is not present' do
       allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
       allow(Whatsapp::IncomingMessageService).to receive(:new).and_return(process_service)

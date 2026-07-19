@@ -108,7 +108,7 @@ export function useBulkActions() {
     }
   }
 
-  // Only used in context menu
+  // Used by both context menu and bulk action bar.
   async function onRemoveLabels(labelsToRemove, conversationId = null) {
     try {
       await store.dispatch('bulkActions/process', {
@@ -119,14 +119,24 @@ export function useBulkActions() {
         },
       });
 
-      useAlert(
-        t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.SUCCESFUL', {
-          labelName: labelsToRemove[0],
-          conversationId,
-        })
-      );
+      // Context-menu remove should not disturb an existing bulk selection.
+      if (conversationId) {
+        useAlert(
+          t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.SUCCESFUL', {
+            labelName: labelsToRemove[0],
+            conversationId,
+          })
+        );
+      } else {
+        store.dispatch('bulkActions/clearSelectedConversationIds');
+        useAlert(t('BULK_ACTION.LABELS.REMOVE_SUCCESFUL'));
+      }
     } catch (err) {
-      useAlert(t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.FAILED'));
+      useAlert(
+        conversationId
+          ? t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.FAILED')
+          : t('BULK_ACTION.LABELS.REMOVE_FAILED')
+      );
     }
   }
 

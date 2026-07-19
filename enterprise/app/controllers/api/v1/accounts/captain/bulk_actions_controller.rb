@@ -75,7 +75,6 @@ class Api::V1::Accounts::Captain::BulkActionsController < Api::V1::Accounts::Bas
     Current.account.captain_documents.where(id: params[:ids]).find_each(batch_size: 100) do |document|
       next unless document.syncable?
       next unless document.available?
-      next if document.sync_in_progress?
 
       document.update!(
         sync_status: :syncing,

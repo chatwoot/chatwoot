@@ -67,6 +67,8 @@ class Whatsapp::IncomingMessageBaseService
 
   def create_messages
     message = messages_data.first
+    return create_unsupported_message(message) if message_type == 'unsupported'
+
     log_error(message) && return if error_webhook_event?(message)
 
     process_in_reply_to(message)
@@ -74,10 +76,22 @@ class Whatsapp::IncomingMessageBaseService
     message_type == 'contacts' ? create_contact_messages(message) : create_regular_message(message)
   end
 
+  # WhatsApp delivers messages it cannot render (e.g. coexistence companion-device syncs that
+  # fail with error 131060) as type: unsupported with no content. We still persist a placeholder
+  # so the contact/conversation isn't created "headless" and agents know to check the WhatsApp app.
+  def create_unsupported_message(message)
+    log_error(message) if error_webhook_event?(message)
+    process_in_reply_to(message)
+    create_message(message, source_id: message[:id])
+    @message.content = I18n.t('conversations.messages.whatsapp.unsupported_message')
+    @message.content_attributes = @message.content_attributes.merge(is_unsupported: true)
+    @message.save!
+  end
+
   def create_contact_messages(message)
     message['contacts'].each do |contact|
       # Pass source_id from parent message since contact objects don't have :id
-      create_message(contact, source_id: message[:id])
+      create_message(contact, source_id: message[:id], content_attributes_source: message)
       attach_contact(contact)
       @message.save!
     end
@@ -133,7 +147,7 @@ class Whatsapp::IncomingMessageBaseService
 
   def attach_location
     location = messages_data.first['location']
-    location_name = location['name'] ? "#{location['name']}, #{location['address']}" : ''
+    location_name = (location['name'] ? "#{location['name']}, #{location['address']}" : '').first(255)
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_content_type(message_type),
@@ -144,10 +158,7 @@ class Whatsapp::IncomingMessageBaseService
     )
   end
 
-  def create_message(message, source_id: nil)
-    content_attrs = outgoing_echo ? { external_echo: true } : {}
-    content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
-
+  def create_message(message, source_id: nil, content_attributes_source: message)
     @message = @conversation.messages.build(
       content: message_content(message),
       account_id: @inbox.account_id,
@@ -157,8 +168,16 @@ class Whatsapp::IncomingMessageBaseService
       status: outgoing_echo ? :delivered : :sent,
       sender: outgoing_echo ? nil : @contact,
       source_id: (source_id || message[:id]).to_s,
-      content_attributes: content_attrs
+      content_attributes: message_content_attributes(content_attributes_source)
     )
+  end
+
+  def message_content_attributes(message)
+    content_attrs = outgoing_echo ? { external_echo: true } : {}
+    content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
+    referral_content_attrs = referral_attributes(message)
+    content_attrs[:referral] = referral_content_attrs if referral_content_attrs.present?
+    content_attrs
   end
 
   def attach_contact(contact)

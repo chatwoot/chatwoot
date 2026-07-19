@@ -147,7 +147,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
                  params: sync_params,
                  headers: admin.create_new_auth_token,
                  as: :json
-          end.to have_enqueued_job(Captain::Documents::PerformSyncJob).exactly(documents.size).times
+          end.to have_enqueued_job(Captain::Documents::PerformSyncJob).on_queue('low').exactly(documents.size).times
 
           documents.each do |document|
             expect(document.reload).to have_attributes(
@@ -190,7 +190,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
         expect(response).to have_http_status(:ok)
       end
 
-      it 'skips documents that already have a sync in progress' do
+      it 'queues documents that already have a sync in progress' do
         syncing_document = create(:captain_document, assistant: assistant, account: account, status: :available)
         syncing_document.update!(sync_status: :syncing, last_sync_attempted_at: 1.minute.ago)
 
@@ -199,9 +199,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
                params: sync_params.merge(ids: [syncing_document.id]),
                headers: admin.create_new_auth_token,
                as: :json
-        end.not_to have_enqueued_job(Captain::Documents::PerformSyncJob)
+        end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(syncing_document).on_queue('low')
 
         expect(response).to have_http_status(:ok)
+        expect(json_response).to eq({ ids: [syncing_document.id], count: 1 })
       end
 
       it 'queues stale syncing documents again' do

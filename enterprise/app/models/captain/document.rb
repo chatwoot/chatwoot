@@ -5,7 +5,7 @@
 #  id                     :bigint           not null, primary key
 #  content                :text
 #  content_fingerprint    :string
-#  external_link          :string           not null
+#  external_link          :text             not null
 #  last_sync_attempted_at :datetime
 #  last_sync_error_code   :string
 #  last_synced_at         :datetime
@@ -20,12 +20,12 @@
 #
 # Indexes
 #
-#  idx_captain_documents_on_account_assistant_sync_stats      (account_id,assistant_id,sync_status,last_synced_at)
-#  index_captain_documents_on_account_id                      (account_id)
-#  index_captain_documents_on_account_id_and_sync_status      (account_id,sync_status)
-#  index_captain_documents_on_assistant_id                    (assistant_id)
-#  index_captain_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
-#  index_captain_documents_on_status                          (status)
+#  idx_captain_documents_on_account_assistant_sync_stats        (account_id,assistant_id,sync_status,last_synced_at)
+#  idx_captain_documents_on_assistant_id_and_external_link_md5  (assistant_id, md5(external_link)) UNIQUE
+#  index_captain_documents_on_account_id                        (account_id)
+#  index_captain_documents_on_account_id_and_sync_status        (account_id,sync_status)
+#  index_captain_documents_on_assistant_id                      (assistant_id)
+#  index_captain_documents_on_status                            (status)
 #
 class Captain::Document < ApplicationRecord
   class LimitExceededError < StandardError; end

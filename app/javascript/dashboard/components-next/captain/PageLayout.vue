@@ -182,7 +182,8 @@ const handleCreateAssistant = () => {
             </div>
           </div>
 
-          <div class="flex gap-2">
+          <div class="flex items-center gap-2">
+            <slot name="headerActions" />
             <slot name="search" />
             <div
               v-if="!showPaywall && buttonLabel"
