@@ -3,9 +3,10 @@ import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength } from '@vuelidate/validators';
 import { getRegexp, normalizeRegexPattern } from 'shared/helpers/Validators';
-import { ATTRIBUTE_TYPES } from './constants';
+import { ATTRIBUTE_TYPES, FORMULA_OPS } from './constants';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -38,6 +39,10 @@ export default {
       attributeKey: '',
       values: [],
       tagInputTouched: false,
+      featured: false,
+      formulaEnabled: false,
+      formulaOp: 'sum',
+      formulaSourceKey: '',
     };
   },
   validations: {
@@ -52,11 +57,34 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      getAttributesByModel: 'attributes/getAttributesByModel',
+    }),
     types() {
       return ATTRIBUTE_TYPES.map(item => ({
         ...item,
         option: this.$t(`ATTRIBUTES_MGMT.ATTRIBUTE_TYPES.${item.key}`),
       }));
+    },
+    formulaOps() {
+      return FORMULA_OPS.map(item => ({
+        ...item,
+        option: this.$t(`ATTRIBUTES_MGMT.FORMULA.OP.${item.key}`),
+      }));
+    },
+    isContactModel() {
+      return (
+        this.selectedAttribute.attribute_model === 'contact_attribute' ||
+        this.selectedAttribute.attribute_model === 1
+      );
+    },
+    conversationNumericAttributes() {
+      const defs = this.getAttributesByModel('conversation_attribute') || [];
+      return defs.filter(
+        def =>
+          ['number', 'currency'].includes(def.attribute_display_type) &&
+          def.attribute_key !== this.attributeKey
+      );
     },
     setAttributeListValue() {
       return this.selectedAttribute.attribute_values || [];
@@ -121,6 +149,11 @@ export default {
       this.regexCue = this.selectedAttribute.regex_cue;
       this.regexEnabled = regexPattern != null;
       this.values = this.setAttributeListValue;
+      this.featured = !!this.selectedAttribute.featured;
+      const formula = this.selectedAttribute.formula;
+      this.formulaEnabled = !!formula?.op;
+      this.formulaOp = formula?.op || 'sum';
+      this.formulaSourceKey = formula?.source_attribute_key || '';
     },
     async editAttributes() {
       this.v$.$touch();
@@ -139,6 +172,15 @@ export default {
           attribute_values: this.updatedAttributeListValues,
           regex_pattern: normalizeRegexPattern(this.regexPattern),
           regex_cue: this.regexCue,
+          featured: this.featured,
+          formula:
+            this.isContactModel && this.formulaEnabled && this.formulaSourceKey
+              ? {
+                  op: this.formulaOp,
+                  source_attribute_key: this.formulaSourceKey,
+                  source_model: 'conversation',
+                }
+              : null,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE');
         this.onClose();
@@ -257,6 +299,49 @@ export default {
           type="text"
           :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
         />
+        <div class="mb-4">
+          <label class="flex items-center gap-2">
+            <input v-model="featured" type="checkbox" />
+            {{ $t('ATTRIBUTES_MGMT.FEATURED.LABEL') }}
+          </label>
+          <p class="text-sm text-n-slate-11 mb-0 mt-1">
+            {{ $t('ATTRIBUTES_MGMT.FEATURED.HELP') }}
+          </p>
+        </div>
+        <div v-if="isContactModel" class="mb-4">
+          <label class="flex items-center gap-2">
+            <input v-model="formulaEnabled" type="checkbox" />
+            {{ $t('ATTRIBUTES_MGMT.FORMULA.ENABLE') }}
+          </label>
+          <p class="text-sm text-n-slate-11 mb-2 mt-1">
+            {{ $t('ATTRIBUTES_MGMT.FORMULA.HELP') }}
+          </p>
+          <template v-if="formulaEnabled">
+            <label>
+              {{ $t('ATTRIBUTES_MGMT.FORMULA.OP.LABEL') }}
+              <select v-model="formulaOp">
+                <option v-for="op in formulaOps" :key="op.id" :value="op.id">
+                  {{ op.option }}
+                </option>
+              </select>
+            </label>
+            <label>
+              {{ $t('ATTRIBUTES_MGMT.FORMULA.SOURCE.LABEL') }}
+              <select v-model="formulaSourceKey">
+                <option value="">
+                  {{ $t('ATTRIBUTES_MGMT.FORMULA.SOURCE.PLACEHOLDER') }}
+                </option>
+                <option
+                  v-for="attr in conversationNumericAttributes"
+                  :key="attr.attribute_key"
+                  :value="attr.attribute_key"
+                >
+                  {{ attr.attribute_display_name }}
+                </option>
+              </select>
+            </label>
+          </template>
+        </div>
       </div>
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <NextButton

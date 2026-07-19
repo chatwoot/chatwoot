@@ -293,6 +293,7 @@ const evenClass = [
               :description="element.attribute_description"
               :value="element.value"
               show-actions
+              :read-only="!!element.formula"
               :attribute-regex="element.regex_pattern"
               :regex-cue="element.regex_cue"
               :contact-id="contactId"

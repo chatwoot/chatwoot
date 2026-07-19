@@ -16,10 +16,30 @@
     "ATTRIBUTE_TYPES": {
       "TEXT": "Text",
       "NUMBER": "Number",
+      "CURRENCY": "Currency",
       "LINK": "Link",
       "DATE": "Date",
       "LIST": "List",
       "CHECKBOX": "Checkbox"
+    },
+    "FEATURED": {
+      "LABEL": "Show as badge",
+      "HELP": "Featured attributes appear as badges on lists and cards (max 2 per type)."
+    },
+    "FORMULA": {
+      "TITLE": "Computed value",
+      "ENABLE": "Compute from conversation attributes",
+      "OP": {
+        "LABEL": "Operation",
+        "SUM": "Sum",
+        "AVG": "Average",
+        "COUNT": "Count"
+      },
+      "SOURCE": {
+        "LABEL": "Conversation attribute",
+        "PLACEHOLDER": "Select a number or currency attribute"
+      },
+      "HELP": "Automatically updates when conversation attributes change. Read-only on contacts."
     },
     "ADD": {
       "TITLE": "Add Custom Attribute",

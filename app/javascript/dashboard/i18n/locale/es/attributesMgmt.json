@@ -16,10 +16,30 @@
     "ATTRIBUTE_TYPES": {
       "TEXT": "Texto",
       "NUMBER": "Número",
+      "CURRENCY": "Moneda",
       "LINK": "Enlace",
       "DATE": "Fecha",
       "LIST": "Lista",
       "CHECKBOX": "Casilla"
+    },
+    "FEATURED": {
+      "LABEL": "Mostrar como badge",
+      "HELP": "Los atributos destacados aparecen como badges en listas y tarjetas (máx. 2 por tipo)."
+    },
+    "FORMULA": {
+      "TITLE": "Valor calculado",
+      "ENABLE": "Calcular desde atributos de conversación",
+      "OP": {
+        "LABEL": "Operación",
+        "SUM": "Suma",
+        "AVG": "Promedio",
+        "COUNT": "Conteo"
+      },
+      "SOURCE": {
+        "LABEL": "Atributo de conversación",
+        "PLACEHOLDER": "Selecciona un atributo numérico o de moneda"
+      },
+      "HELP": "Se actualiza automáticamente cuando cambian los atributos de conversación. Solo lectura en contactos."
     },
     "ADD": {
       "TITLE": "Añadir atributo personalizado",
