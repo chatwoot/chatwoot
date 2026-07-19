@@ -9,6 +9,8 @@ import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Flag from 'dashboard/components-next/flag/Flag.vue';
 import ContactDeleteSection from 'dashboard/components-next/Contacts/ContactsCard/ContactDeleteSection.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
+import FeaturedAttributeBadges from 'dashboard/components-next/FeaturedAttributes/FeaturedAttributeBadges.vue';
+import { useFeaturedAttributes } from 'dashboard/composables/useFeaturedAttributes';
 import countries from 'shared/constants/countries';
 
 const props = defineProps({
@@ -18,6 +20,7 @@ const props = defineProps({
   documentNumber: { type: String, default: '' },
   companyId: { type: [Number, String], default: '' },
   additionalAttributes: { type: Object, default: () => ({}) },
+  customAttributes: { type: Object, default: () => ({}) },
   phoneNumber: { type: String, default: '' },
   thumbnail: { type: String, default: '' },
   availabilityStatus: { type: String, default: null },
@@ -36,6 +39,14 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+
+const contactRecord = computed(() => ({
+  custom_attributes: props.customAttributes,
+}));
+const { featuredBadges } = useFeaturedAttributes(
+  'contact_attribute',
+  contactRecord
+);
 
 const contactsFormRef = ref(null);
 
@@ -164,6 +175,7 @@ const handleAvatarHover = isHovered => {
               </span>
             </span>
           </div>
+          <FeaturedAttributeBadges :badges="featuredBadges" emphasized />
           <div
             class="flex flex-wrap items-center justify-start gap-x-3 gap-y-1"
           >

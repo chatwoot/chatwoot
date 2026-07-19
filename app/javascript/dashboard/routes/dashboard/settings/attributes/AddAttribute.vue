@@ -5,7 +5,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { convertToAttributeSlug } from 'dashboard/helper/commons.js';
 import { normalizeRegexPattern } from 'shared/helpers/Validators';
-import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
+import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES, FORMULA_OPS } from './constants';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
@@ -46,12 +46,17 @@ export default {
       values: [],
       show: true,
       tagInputTouched: false,
+      featured: false,
+      formulaEnabled: false,
+      formulaOp: 'sum',
+      formulaSourceKey: '',
     };
   },
 
   computed: {
     ...mapGetters({
       uiFlags: 'getUIFlags',
+      getAttributesByModel: 'attributes/getAttributesByModel',
     }),
     models() {
       return ATTRIBUTE_MODELS.map(item => ({
@@ -64,6 +69,21 @@ export default {
         ...item,
         option: this.$t(`ATTRIBUTES_MGMT.ATTRIBUTE_TYPES.${item.key}`),
       }));
+    },
+    formulaOps() {
+      return FORMULA_OPS.map(item => ({
+        ...item,
+        option: this.$t(`ATTRIBUTES_MGMT.FORMULA.OP.${item.key}`),
+      }));
+    },
+    isContactModel() {
+      return this.attributeModel === 1;
+    },
+    conversationNumericAttributes() {
+      const defs = this.getAttributesByModel('conversation_attribute') || [];
+      return defs.filter(def =>
+        ['number', 'currency'].includes(def.attribute_display_type)
+      );
     },
     isTagInputEmpty() {
       return this.isAttributeTypeList && this.values.length === 0;
@@ -145,6 +165,15 @@ export default {
           attribute_values: this.attributeListValues,
           regex_pattern: normalizeRegexPattern(this.regexPattern),
           regex_cue: this.regexCue,
+          featured: this.featured,
+          formula:
+            this.isContactModel && this.formulaEnabled && this.formulaSourceKey
+              ? {
+                  op: this.formulaOp,
+                  source_attribute_key: this.formulaSourceKey,
+                  source_model: 'conversation',
+                }
+              : null,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE');
         this.onClose();
@@ -273,6 +302,53 @@ export default {
             type="text"
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
           />
+          <div class="mb-4">
+            <label class="flex items-center gap-2">
+              <input v-model="featured" type="checkbox" />
+              {{ $t('ATTRIBUTES_MGMT.FEATURED.LABEL') }}
+            </label>
+            <p class="text-sm text-n-slate-11 mb-0 mt-1">
+              {{ $t('ATTRIBUTES_MGMT.FEATURED.HELP') }}
+            </p>
+          </div>
+          <div v-if="isContactModel" class="mb-4">
+            <label class="flex items-center gap-2">
+              <input v-model="formulaEnabled" type="checkbox" />
+              {{ $t('ATTRIBUTES_MGMT.FORMULA.ENABLE') }}
+            </label>
+            <p class="text-sm text-n-slate-11 mb-2 mt-1">
+              {{ $t('ATTRIBUTES_MGMT.FORMULA.HELP') }}
+            </p>
+            <template v-if="formulaEnabled">
+              <label>
+                {{ $t('ATTRIBUTES_MGMT.FORMULA.OP.LABEL') }}
+                <select v-model="formulaOp">
+                  <option
+                    v-for="op in formulaOps"
+                    :key="op.id"
+                    :value="op.id"
+                  >
+                    {{ op.option }}
+                  </option>
+                </select>
+              </label>
+              <label>
+                {{ $t('ATTRIBUTES_MGMT.FORMULA.SOURCE.LABEL') }}
+                <select v-model="formulaSourceKey">
+                  <option value="">
+                    {{ $t('ATTRIBUTES_MGMT.FORMULA.SOURCE.PLACEHOLDER') }}
+                  </option>
+                  <option
+                    v-for="attr in conversationNumericAttributes"
+                    :key="attr.attribute_key"
+                    :value="attr.attribute_key"
+                  >
+                    {{ attr.attribute_display_name }}
+                  </option>
+                </select>
+              </label>
+            </template>
+          </div>
           <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
             <NextButton
               faded
