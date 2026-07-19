@@ -1,0 +1,29 @@
+{
+  "VARIABLES": {
+    "INSERT": "Add variable",
+    "SEARCH_PLACEHOLDER": "Search variables...",
+    "LABELS": {
+      "conversation": {
+        "id": "Conversation ID"
+      },
+      "contact": {
+        "id": "Contact ID",
+        "name": "Contact name",
+        "first_name": "Contact first name",
+        "last_name": "Contact last name",
+        "email": "Contact email",
+        "phone_number": "Contact phone"
+      },
+      "agent": {
+        "name": "Agent name",
+        "first_name": "Agent first name",
+        "last_name": "Agent last name",
+        "email": "Agent email"
+      },
+      "inbox": {
+        "name": "Inbox name",
+        "id": "Inbox ID"
+      }
+    }
+  }
+}
