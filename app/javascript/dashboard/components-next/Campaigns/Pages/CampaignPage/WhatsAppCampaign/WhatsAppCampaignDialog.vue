@@ -1,26 +1,52 @@
 <script setup>
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { CAMPAIGN_TYPES } from 'shared/constants/campaign.js';
 import { CAMPAIGNS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events.js';
 
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import WhatsAppCampaignForm from 'dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsAppCampaign/WhatsAppCampaignForm.vue';
+
+const props = defineProps({
+  selectedCampaign: {
+    type: Object,
+    default: null,
+  },
+});
 
 const emit = defineEmits(['close']);
 
 const store = useStore();
 const { t } = useI18n();
+const dialogRef = ref(null);
 
-const addCampaign = async campaignDetails => {
+const isEdit = () => Boolean(props.selectedCampaign?.id);
+
+const persistCampaign = async campaignDetails => {
   try {
-    await store.dispatch('campaigns/create', campaignDetails);
+    if (isEdit()) {
+      await store.dispatch('campaigns/update', {
+        id: props.selectedCampaign.id,
+        ...campaignDetails,
+      });
+    } else {
+      await store.dispatch('campaigns/create', campaignDetails);
+      useTrack(CAMPAIGNS_EVENTS.CREATE_CAMPAIGN, {
+        type: CAMPAIGN_TYPES.ONE_OFF,
+      });
+    }
 
-    useTrack(CAMPAIGNS_EVENTS.CREATE_CAMPAIGN, {
-      type: CAMPAIGN_TYPES.ONE_OFF,
-    });
-
-    useAlert(t('CAMPAIGN.WHATSAPP.CREATE.FORM.API.SUCCESS_MESSAGE'));
+    const isDraft = campaignDetails.campaign_status === 'draft';
+    useAlert(
+      t(
+        isDraft
+          ? 'CAMPAIGN.WHATSAPP.CREATE.FORM.API.DRAFT_SUCCESS_MESSAGE'
+          : 'CAMPAIGN.WHATSAPP.CREATE.FORM.API.SUCCESS_MESSAGE'
+      )
+    );
+    dialogRef.value?.close();
   } catch (error) {
     const errorMessage =
       error?.response?.message ||
@@ -30,21 +56,38 @@ const addCampaign = async campaignDetails => {
 };
 
 const handleSubmit = campaignDetails => {
-  addCampaign(campaignDetails);
+  persistCampaign(campaignDetails);
 };
 
 const handleClose = () => emit('close');
+
+const handleCancel = () => {
+  dialogRef.value?.close();
+};
+
+defineExpose({ dialogRef });
 </script>
 
 <template>
-  <div
-    class="w-[25rem] z-50 min-w-0 absolute top-10 ltr:right-0 rtl:left-0 bg-n-alpha-3 backdrop-blur-[100px] rounded-xl border border-n-weak shadow-md max-h-[80vh] overflow-y-auto"
+  <Dialog
+    ref="dialogRef"
+    width="2xl"
+    :title="
+      isEdit()
+        ? t('CAMPAIGN.WHATSAPP.EDIT.TITLE')
+        : t('CAMPAIGN.WHATSAPP.CREATE.TITLE')
+    "
+    :show-cancel-button="false"
+    :show-confirm-button="false"
+    overflow-y-auto
+    position="top"
+    @close="handleClose"
   >
-    <div class="p-6 flex flex-col gap-6">
-      <h3 class="text-base font-medium text-n-slate-12 flex-shrink-0">
-        {{ t(`CAMPAIGN.WHATSAPP.CREATE.TITLE`) }}
-      </h3>
-      <WhatsAppCampaignForm @submit="handleSubmit" @cancel="handleClose" />
-    </div>
-  </div>
+    <WhatsAppCampaignForm
+      :selected-campaign="selectedCampaign"
+      @submit="handleSubmit"
+      @cancel="handleCancel"
+    />
+    <template #footer />
+  </Dialog>
 </template>

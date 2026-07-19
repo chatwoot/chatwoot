@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useToggle } from '@vueuse/core';
 import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -16,13 +15,12 @@ const { t } = useI18n();
 const getters = useStoreGetters();
 
 const editLiveChatCampaignDialogRef = ref(null);
+const liveChatCampaignDialogRef = ref(null);
 const confirmDeleteCampaignDialogRef = ref(null);
 const selectedCampaign = ref(null);
 
 const uiFlags = useMapGetter('campaigns/getUIFlags');
 const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
-
-const [showLiveChatCampaignDialog, toggleLiveChatCampaignDialog] = useToggle();
 
 const liveChatCampaigns = computed(
   () => getters['campaigns/getLiveChatCampaigns'].value
@@ -31,6 +29,10 @@ const liveChatCampaigns = computed(
 const hasNoLiveChatCampaigns = computed(
   () => liveChatCampaigns.value?.length === 0 && !isFetchingCampaigns.value
 );
+
+const openCreateDialog = () => {
+  liveChatCampaignDialogRef.value?.dialogRef.open();
+};
 
 const handleEdit = campaign => {
   selectedCampaign.value = campaign;
@@ -46,16 +48,8 @@ const handleDelete = campaign => {
   <CampaignLayout
     :header-title="t('CAMPAIGN.LIVE_CHAT.HEADER_TITLE')"
     :button-label="t('CAMPAIGN.LIVE_CHAT.NEW_CAMPAIGN')"
-    @click="toggleLiveChatCampaignDialog()"
-    @close="toggleLiveChatCampaignDialog(false)"
+    @click="openCreateDialog"
   >
-    <template #action>
-      <LiveChatCampaignDialog
-        v-if="showLiveChatCampaignDialog"
-        @close="toggleLiveChatCampaignDialog(false)"
-      />
-    </template>
-
     <div
       v-if="isFetchingCampaigns"
       class="flex justify-center items-center py-10 text-n-slate-11"
@@ -84,4 +78,5 @@ const handleDelete = campaign => {
       :selected-campaign="selectedCampaign"
     />
   </CampaignLayout>
+  <LiveChatCampaignDialog ref="liveChatCampaignDialogRef" />
 </template>

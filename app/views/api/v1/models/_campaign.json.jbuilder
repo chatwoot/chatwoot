@@ -13,6 +13,7 @@ json.template_params resource.template_params
 json.campaign_status resource.campaign_status
 json.enabled resource.enabled
 json.campaign_type resource.campaign_type
+json.execution_stats resource.execution_stats
 if resource.campaign_type == 'one_off'
   json.scheduled_at resource.scheduled_at.to_i
   json.audience resource.audience

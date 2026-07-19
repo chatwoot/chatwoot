@@ -8,6 +8,7 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CampaignLayout from 'dashboard/components-next/Campaigns/CampaignLayout.vue';
 import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignList.vue';
 import WhatsAppCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsAppCampaign/WhatsAppCampaignDialog.vue';
+import WhatsAppCampaignReportDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsAppCampaign/WhatsAppCampaignReportDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
 import WhatsAppCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/WhatsAppCampaignEmptyState.vue';
 
@@ -15,7 +16,10 @@ const { t } = useI18n();
 const getters = useStoreGetters();
 
 const selectedCampaign = ref(null);
-const [showWhatsAppCampaignDialog, toggleWhatsAppCampaignDialog] = useToggle();
+const editingCampaign = ref(null);
+const reportCampaign = ref(null);
+const whatsAppCampaignDialogRef = ref(null);
+const [showReportDialog, toggleReportDialog] = useToggle();
 
 const uiFlags = useMapGetter('campaigns/getUIFlags');
 const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
@@ -30,9 +34,37 @@ const hasNoWhatsAppCampaigns = computed(
   () => WhatsAppCampaigns.value?.length === 0 && !isFetchingCampaigns.value
 );
 
+const openCreateDialog = () => {
+  editingCampaign.value = null;
+  whatsAppCampaignDialogRef.value?.dialogRef.open();
+};
+
+const handleEdit = campaign => {
+  editingCampaign.value = campaign;
+  whatsAppCampaignDialogRef.value?.dialogRef.open();
+};
+
 const handleDelete = campaign => {
   selectedCampaign.value = campaign;
   confirmDeleteCampaignDialogRef.value.dialogRef.open();
+};
+
+const handleSelect = campaign => {
+  if (campaign.campaign_status === 'draft') {
+    handleEdit(campaign);
+    return;
+  }
+  reportCampaign.value = campaign;
+  toggleReportDialog(true);
+};
+
+const handleCloseReport = () => {
+  toggleReportDialog(false);
+  reportCampaign.value = null;
+};
+
+const handleCloseDialog = () => {
+  editingCampaign.value = null;
 };
 </script>
 
@@ -40,15 +72,8 @@ const handleDelete = campaign => {
   <CampaignLayout
     :header-title="t('CAMPAIGN.WHATSAPP.HEADER_TITLE')"
     :button-label="t('CAMPAIGN.WHATSAPP.NEW_CAMPAIGN')"
-    @click="toggleWhatsAppCampaignDialog()"
-    @close="toggleWhatsAppCampaignDialog(false)"
+    @click="openCreateDialog"
   >
-    <template #action>
-      <WhatsAppCampaignDialog
-        v-if="showWhatsAppCampaignDialog"
-        @close="toggleWhatsAppCampaignDialog(false)"
-      />
-    </template>
     <div
       v-if="isFetchingCampaigns"
       class="flex items-center justify-center py-10 text-n-slate-11"
@@ -58,7 +83,10 @@ const handleDelete = campaign => {
     <CampaignList
       v-else-if="!hasNoWhatsAppCampaigns"
       :campaigns="WhatsAppCampaigns"
+      clickable-cards
+      @edit="handleEdit"
       @delete="handleDelete"
+      @select="handleSelect"
     />
     <WhatsAppCampaignEmptyState
       v-else
@@ -71,4 +99,14 @@ const handleDelete = campaign => {
       :selected-campaign="selectedCampaign"
     />
   </CampaignLayout>
+  <WhatsAppCampaignDialog
+    ref="whatsAppCampaignDialogRef"
+    :selected-campaign="editingCampaign"
+    @close="handleCloseDialog"
+  />
+  <WhatsAppCampaignReportDialog
+    v-if="showReportDialog && reportCampaign"
+    :campaign="reportCampaign"
+    @close="handleCloseReport"
+  />
 </template>

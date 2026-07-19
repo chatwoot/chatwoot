@@ -18,4 +18,20 @@ class CampaignPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def recipients?
+    show?
+  end
+
+  def stats?
+    show?
+  end
+
+  def export_recipients?
+    show?
+  end
+
+  def preview_audience?
+    create?
+  end
 end

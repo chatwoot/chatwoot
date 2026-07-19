@@ -4,12 +4,21 @@ import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useDebounceFn } from '@vueuse/core';
+import CampaignsAPI from 'dashboard/api/campaigns';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
 import WhatsAppTemplateParser from 'dashboard/components-next/whatsapp/WhatsAppTemplateParser.vue';
+
+const props = defineProps({
+  selectedCampaign: {
+    type: Object,
+    default: null,
+  },
+});
 
 const emit = defineEmits(['submit', 'cancel']);
 
@@ -34,6 +43,8 @@ const initialState = {
 
 const state = reactive({ ...initialState });
 const templateParserRef = ref(null);
+const audiencePreview = ref({ total: 0, with_phone: 0, eligible: 0 });
+const isLoadingPreview = ref(false);
 
 const rules = {
   title: { required, minLength: minLength(1) },
@@ -45,10 +56,13 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
-const isCreating = computed(() => formState.uiFlags.value.isCreating);
+const isCreating = computed(
+  () => formState.uiFlags.value.isCreating || formState.uiFlags.value.isUpdating
+);
+
+const isEditMode = computed(() => Boolean(props.selectedCampaign?.id));
 
 const currentDateTime = computed(() => {
-  // Added to disable the scheduled at field from being set to the current time
   const now = new Date();
   const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
   return localTime.toISOString().slice(0, 16);
@@ -72,7 +86,6 @@ const templateOptions = computed(() => {
   if (!state.inboxId) return [];
   const templates = formState.getFilteredWhatsAppTemplates.value(state.inboxId);
   return templates.map(template => {
-    // Create a more user-friendly label from template name
     const friendlyName = template.name
       .replace(/_/g, ' ')
       .replace(/\b\w/g, l => l.toUpperCase());
@@ -112,36 +125,48 @@ const isSubmitDisabled = computed(
   () => v$.value.$invalid || !hasRequiredTemplateParams.value
 );
 
+const isDraftDisabled = computed(
+  () => !state.title?.trim() || !state.inboxId || isCreating.value
+);
+
 const formatToUTCString = localDateTime =>
   localDateTime ? new Date(localDateTime).toISOString() : null;
 
+const toLocalDateTimeInput = value => {
+  if (!value) return null;
+  const date =
+    typeof value === 'number' ? new Date(value * 1000) : new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 16);
+};
+
 const resetState = () => {
   Object.assign(state, initialState);
+  audiencePreview.value = { total: 0, with_phone: 0, eligible: 0 };
   v$.value.$reset();
 };
 
 const handleCancel = () => emit('cancel');
 
-const prepareCampaignDetails = () => {
-  // Find the selected template to get its content
+const prepareCampaignDetails = (status = 'active') => {
   const currentTemplate = selectedTemplate.value;
   const parserData = templateParserRef.value;
-
-  // Extract template content - this should be the template message body
   const templateContent = parserData?.renderedTemplate || '';
 
-  // Prepare template_params object with the same structure as used in contacts
-  const templateParams = {
-    name: currentTemplate?.name || '',
-    namespace: currentTemplate?.namespace || '',
-    category: currentTemplate?.category || 'UTILITY',
-    language: currentTemplate?.language || 'en_US',
-    processed_params: parserData?.processedParams || {},
-  };
+  const templateParams = currentTemplate
+    ? {
+        name: currentTemplate.name || '',
+        namespace: currentTemplate.namespace || '',
+        category: currentTemplate.category || 'UTILITY',
+        language: currentTemplate.language || 'en_US',
+        processed_params: parserData?.processedParams || {},
+      }
+    : props.selectedCampaign?.template_params || {};
 
   return {
     title: state.title,
-    message: templateContent,
+    message: templateContent || props.selectedCampaign?.message || '',
     template_params: templateParams,
     inbox_id: state.inboxId,
     scheduled_at: formatToUTCString(state.scheduledAt),
@@ -149,6 +174,7 @@ const prepareCampaignDetails = () => {
       id,
       type: 'Label',
     })),
+    campaign_status: status,
   };
 };
 
@@ -156,17 +182,73 @@ const handleSubmit = async () => {
   const isFormValid = await v$.value.$validate();
   if (!isFormValid) return;
 
-  emit('submit', prepareCampaignDetails());
+  emit('submit', prepareCampaignDetails('active'));
   resetState();
-  handleCancel();
 };
 
-// Reset template selection when inbox changes
+const handleSaveDraft = () => {
+  if (isDraftDisabled.value) return;
+  emit('submit', prepareCampaignDetails('draft'));
+  resetState();
+};
+
+const fetchAudiencePreview = useDebounceFn(async () => {
+  if (!state.inboxId || !state.selectedAudience?.length) {
+    audiencePreview.value = { total: 0, with_phone: 0, eligible: 0 };
+    return;
+  }
+
+  isLoadingPreview.value = true;
+  try {
+    const { data } = await CampaignsAPI.previewAudience({
+      inboxId: state.inboxId,
+      audience: state.selectedAudience.map(id => ({ id, type: 'Label' })),
+    });
+    audiencePreview.value = data;
+  } catch {
+    audiencePreview.value = { total: 0, with_phone: 0, eligible: 0 };
+  } finally {
+    isLoadingPreview.value = false;
+  }
+}, 300);
+
 watch(
   () => state.inboxId,
-  () => {
-    state.templateId = null;
+  (newId, oldId) => {
+    if (oldId != null && newId !== oldId) {
+      state.templateId = null;
+    }
+    fetchAudiencePreview();
   }
+);
+
+watch(
+  () => [...(state.selectedAudience || [])],
+  () => fetchAudiencePreview()
+);
+
+watch(
+  () => props.selectedCampaign,
+  campaign => {
+    if (!campaign?.id) {
+      resetState();
+      return;
+    }
+
+    state.title = campaign.title || '';
+    state.inboxId = campaign.inbox_id || campaign.inbox?.id || null;
+    state.scheduledAt = toLocalDateTimeInput(campaign.scheduled_at);
+    state.selectedAudience = (campaign.audience || []).map(item => item.id);
+
+    const templateName = campaign.template_params?.name;
+    if (templateName && state.inboxId) {
+      const match = templateOptions.value.find(
+        option => option.template?.name === templateName
+      );
+      state.templateId = match?.value || null;
+    }
+  },
+  { immediate: true }
 );
 </script>
 
@@ -213,11 +295,11 @@ watch(
       </p>
     </div>
 
-    <!-- Template Parser -->
     <WhatsAppTemplateParser
       v-if="selectedTemplate"
       ref="templateParserRef"
       :template="selectedTemplate"
+      variable-context="campaign"
     />
 
     <div class="flex flex-col gap-1">
@@ -233,6 +315,23 @@ watch(
         :message="formErrors.audience"
         class="[&>div>button]:bg-n-alpha-black2"
       />
+      <p
+        v-if="state.selectedAudience?.length"
+        class="mt-1 text-xs text-n-slate-11"
+      >
+        <span v-if="isLoadingPreview">
+          {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.AUDIENCE.PREVIEW_LOADING') }}
+        </span>
+        <span v-else>
+          {{
+            t('CAMPAIGN.WHATSAPP.CREATE.FORM.AUDIENCE.PREVIEW', {
+              total: audiencePreview.total,
+              withPhone: audiencePreview.with_phone,
+              eligible: audiencePreview.eligible,
+            })
+          }}
+        </span>
+      </p>
     </div>
 
     <Input
@@ -245,18 +344,32 @@ watch(
       :message-type="formErrors.scheduledAt ? 'error' : 'info'"
     />
 
-    <div class="flex gap-3 justify-between items-center w-full">
+    <div class="flex flex-wrap gap-3 justify-between items-center w-full">
       <Button
         variant="faded"
         color="slate"
         type="button"
         :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.BUTTONS.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
+        class="flex-1 min-w-[6rem] bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
         @click="handleCancel"
       />
       <Button
-        :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.BUTTONS.CREATE')"
-        class="w-full"
+        variant="faded"
+        color="slate"
+        type="button"
+        :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.BUTTONS.SAVE_DRAFT')"
+        class="flex-1 min-w-[6rem]"
+        :is-loading="isCreating"
+        :disabled="isDraftDisabled"
+        @click="handleSaveDraft"
+      />
+      <Button
+        :label="
+          isEditMode
+            ? t('CAMPAIGN.WHATSAPP.CREATE.FORM.BUTTONS.SCHEDULE')
+            : t('CAMPAIGN.WHATSAPP.CREATE.FORM.BUTTONS.CREATE')
+        "
+        class="flex-1 min-w-[6rem]"
         type="submit"
         :is-loading="isCreating"
         :disabled="isCreating || isSubmitDisabled"
