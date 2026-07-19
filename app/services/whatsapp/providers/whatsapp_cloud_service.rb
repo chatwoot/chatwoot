@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
     @message = message
@@ -16,7 +18,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
     request_body = {
       messaging_product: 'whatsapp',
-      recipient_type: 'individual', # Only individual messages supported (not group messages)
+      recipient_type: 'individual',
       to: phone_number,
       type: 'template',
       template: template_body
@@ -32,7 +34,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def sync_templates
-    # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
     templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
     whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc) if templates.present?
@@ -47,7 +48,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     end
 
     next_url = next_url(response)
-
     return response['data'] + fetch_whatsapp_templates(next_url) if next_url.present?
 
     response['data']
@@ -61,7 +61,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     config = whatsapp_channel.provider_config
     response = HTTParty.get("#{business_account_path}/message_templates?access_token=#{config['api_key']}")
     return log_transfer_failure('waba_or_token_check', response) unless response.success?
-    # The templates check only proves the WABA/token pair, so verify the phone_number_id belongs to this WABA when it changes.
+
     return true unless whatsapp_channel.provider_config_changed?
 
     phone_response = HTTParty.get("#{business_account_path}/phone_numbers?fields=id&limit=100&access_token=#{config['api_key']}")
@@ -94,7 +94,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   private
 
-  # Only saves dropping the embedded_signup source marker are transfer attempts; creation/rotation failures are setup errors. Returns false.
   def log_transfer_failure(check, response)
     return false unless whatsapp_channel.embedded_to_manual_transfer_pending?
 
@@ -112,7 +111,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
   end
 
-  # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
   def phone_id_path(version = 'v13.0')
     "#{api_base_path}/#{version}/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
@@ -158,7 +156,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def error_message(response)
-    # https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#sample-response
     response.parsed_response.dig('error', 'message') if response.parsed_response.is_a?(Hash)
   end
 
@@ -166,10 +163,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     type == 'audio' && attachment.meta&.dig('is_voice_message') && attachment.file.content_type == 'audio/ogg'
   end
 
-  # Marcel gem may re-detect OGG/Opus files as audio/opus after ActiveStorage
-  # blob attachment, but WhatsApp Cloud API requires audio/ogg content type
-  # for voice messages. Normalize so the download URL serves the correct
-  # Content-Type header. No-op when the frontend already uploads as audio/ogg.
   def normalize_opus_content_type(attachment)
     return unless attachment.file.attached?
 
@@ -181,12 +174,41 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     Rails.logger.error("Failed to normalize blob #{blob.id} content_type from audio/opus to audio/ogg")
   end
 
+  # Builds the attachment content hash for the WhatsApp API payload.
+  #
+  # When WHATSAPP_MEDIA_UPLOAD_STRATEGY=direct (default), the file is uploaded
+  # to the WhatsApp media endpoint first, and the returned media_id is sent.
+  # This bypasses Meta's fwdproxy, which is rate-limited per destination ASN
+  # and causes intermittent 131053 errors on shared-ASN hosting providers.
+  #
+  # When WHATSAPP_MEDIA_UPLOAD_STRATEGY=link, the legacy URL-based approach is
+  # used (sends link: attachment.download_url). Use this as a fallback only.
   def build_attachment_content(type, attachment, message)
-    type_content = { 'link' => attachment.download_url }
+    type_content = if direct_upload_strategy?
+                     upload_and_build_media_id_content(attachment)
+                   else
+                     { 'link' => attachment.download_url }
+                   end
+
     type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
-    type_content['filename'] = attachment.file.filename if type == 'document'
+    type_content['filename'] = attachment.file.filename.to_s if type == 'document'
     type_content['voice'] = true if voice_message?(type, attachment)
     type_content
+  end
+
+  def direct_upload_strategy?
+    ENV.fetch('WHATSAPP_MEDIA_UPLOAD_STRATEGY', 'direct') == 'direct'
+  end
+
+  def upload_and_build_media_id_content(attachment)
+    media_id = Whatsapp::MediaUploadService.new(
+      channel: whatsapp_channel,
+      attachment: attachment
+    ).upload
+    { 'id' => media_id }
+  rescue StandardError => e
+    Rails.logger.warn("[WHATSAPP] Direct media upload failed, falling back to link for attachment #{attachment.id}: #{e.message}")
+    { 'link' => attachment.download_url }
   end
 
   def template_body_parameters(template_info)
@@ -198,31 +220,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }
     }
 
-    # Enhanced template parameters structure
-    # Note: Legacy format support (simple parameter arrays) has been removed
-    # in favor of the enhanced component-based structure that supports
-    # headers, buttons, and authentication templates.
-    #
-    # Expected payload format from frontend:
-    # {
-    #   processed_params: {
-    #     body: { '1': 'John', '2': '123 Main St' },
-    #     header: {
-    #       media_url: 'https://...',
-    #       media_type: 'image',
-    #       media_name: 'filename.pdf' # Optional, for document templates only
-    #     },
-    #     buttons: [{ type: 'url', parameter: 'otp123456' }]
-    #   }
-    # }
-    # This gets transformed into WhatsApp API component format:
-    # [
-    #   { type: 'body', parameters: [...] },
-    #   { type: 'header', parameters: [...] },
-    #   { type: 'button', sub_type: 'url', parameters: [...] }
-    # ]
     template_body[:components] = template_info[:parameters] || []
-
     template_body
   end
 
@@ -230,9 +228,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     reply_to = message.content_attributes[:in_reply_to_external_id]
     return nil if reply_to.blank?
 
-    {
-      message_id: reply_to
-    }
+    { message_id: reply_to }
   end
 
   def send_interactive_text_message(phone_number, message)
