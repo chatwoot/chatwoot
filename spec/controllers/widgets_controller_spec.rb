@@ -79,79 +79,19 @@ describe '/widget', type: :request do
         expect(response.headers['Cross-Origin-Resource-Policy']).to eq('cross-origin')
       end
 
-      it 'echoes Access-Control-Allow-Origin for an origin whose host is in allowed_domains' do
+      # Origin-matching detail is covered by Widget::EmbedPolicy specs; here we
+      # only assert the controller wires the policy into the CORS header.
+      it 'echoes Access-Control-Allow-Origin for an allowed origin' do
         get_widget(origin: origin)
 
         expect(response.headers['Access-Control-Allow-Origin']).to eq(origin)
         expect(response.headers['Vary'].to_s).to include('Origin')
       end
 
-      it 'also matches when allowed_domains is stored with a scheme' do
-        web_widget.update!(allowed_domains: 'https://embed.example.com')
-
-        get_widget(origin: origin)
-
-        expect(response.headers['Access-Control-Allow-Origin']).to eq(origin)
-      end
-
-      it 'does not grant a different scheme when allowed_domains specifies one' do
-        web_widget.update!(allowed_domains: 'https://embed.example.com')
-
-        get_widget(origin: 'http://embed.example.com')
-
-        expect(response.headers).not_to include('Access-Control-Allow-Origin')
-      end
-
-      it 'does not grant a non-default port for a host-only allowed domain' do
-        get_widget(origin: 'https://embed.example.com:444')
-
-        expect(response.headers).not_to include('Access-Control-Allow-Origin')
-      end
-
-      it 'does not echo Access-Control-Allow-Origin for an origin outside allowed_domains' do
+      it 'does not echo Access-Control-Allow-Origin for a disallowed origin' do
         get_widget(origin: 'https://evil.example.com')
 
         expect(response.headers).not_to include('Access-Control-Allow-Origin')
-      end
-
-      it 'does not match a different host that merely contains an allowed domain' do
-        get_widget(origin: 'https://embed.example.com.evil.com')
-
-        expect(response.headers).not_to include('Access-Control-Allow-Origin')
-      end
-
-      it 'grants a matching-scheme origin for a host-only domain on an https install' do
-        get_widget(origin: 'https://embed.example.com', env: { 'HTTPS' => 'on' })
-
-        expect(response.headers['Access-Control-Allow-Origin']).to eq('https://embed.example.com')
-      end
-
-      it 'does not grant an http origin for a host-only domain on an https install' do
-        get_widget(origin: 'http://embed.example.com', env: { 'HTTPS' => 'on' })
-
-        expect(response.headers).not_to include('Access-Control-Allow-Origin')
-      end
-
-      context 'with a wildcard allowed domain' do
-        before { web_widget.update!(allowed_domains: '*.example.com') }
-
-        it 'echoes a subdomain origin that the wildcard frame-ancestor trusts' do
-          get_widget(origin: 'https://app.example.com')
-
-          expect(response.headers['Access-Control-Allow-Origin']).to eq('https://app.example.com')
-        end
-
-        it 'does not match the apex domain (CSP wildcards require a subdomain)' do
-          get_widget(origin: 'https://example.com')
-
-          expect(response.headers).not_to include('Access-Control-Allow-Origin')
-        end
-
-        it 'does not match a look-alike host outside the wildcard domain' do
-          get_widget(origin: 'https://app.example.com.evil.com')
-
-          expect(response.headers).not_to include('Access-Control-Allow-Origin')
-        end
       end
     end
   end

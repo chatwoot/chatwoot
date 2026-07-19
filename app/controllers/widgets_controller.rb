@@ -80,7 +80,7 @@ class WidgetsController < ActionController::Base
     if @web_widget.allowed_domains.blank? || embedded_from_non_web_origin?
       response.headers.delete('X-Frame-Options')
     else
-      response.headers['Content-Security-Policy'] = "frame-ancestors #{allowed_domains.join(' ')}"
+      response.headers['Content-Security-Policy'] = "frame-ancestors #{embed_policy.frame_ancestors_source}"
     end
 
     allow_cross_origin_isolation if @web_widget.allow_cross_origin_isolation?
@@ -92,66 +92,20 @@ class WidgetsController < ActionController::Base
   def allow_cross_origin_isolation
     response.headers['Cross-Origin-Embedder-Policy'] = 'credentialless'
     response.headers['Cross-Origin-Resource-Policy'] = 'cross-origin'
+    echo_allowed_embed_origin
+  end
 
+  # Echo the request Origin for CORS only when the embed policy trusts it.
+  def echo_allowed_embed_origin
     origin = request.headers['Origin']
-    return if origin.blank? || !embed_origin_allowed?(origin)
+    return if origin.blank? || !embed_policy.allows_origin?(origin, request_scheme: request.scheme)
 
     response.headers['Access-Control-Allow-Origin'] = origin
     response.headers['Vary'] = [response.headers['Vary'], 'Origin'].compact_blank.join(', ')
   end
 
-  # Echo the Origin only when it matches an allowed_domains entry, mirroring how
-  # the CSP frame-ancestors source for that entry would match (so CORS is never
-  # broader than the framing policy). allowed_domains is host-only by convention
-  # ("example.com"), but entries may also pin a scheme/port ("https://example.com").
-  def embed_origin_allowed?(origin)
-    origin_uri = parse_uri(origin)
-    return false if origin_uri.nil? || origin_uri.host.blank?
-
-    allowed_domains.any? { |domain| domain_matches_origin?(domain, origin_uri) }
-  end
-
-  def domain_matches_origin?(domain, origin_uri)
-    domain_uri = parse_uri(domain.include?('//') ? domain : "//#{domain}")
-    return false unless domain_uri && host_matches?(domain_uri.host, origin_uri.host)
-
-    # A scheme is enforced only when the entry pins one (a host-only entry matches
-    # any scheme); the port must be the one the entry pins, else the scheme default.
-    scheme_matches?(domain_uri, origin_uri) && port_matches?(domain_uri, origin_uri)
-  end
-
-  # Match the host the way the emitted frame-ancestors source would: exact match,
-  # or a "*." CSP wildcard that matches any subdomain (but not the apex).
-  def host_matches?(domain_host, origin_host)
-    return false if domain_host.blank? || origin_host.blank?
-
-    domain_host = domain_host.downcase
-    origin_host = origin_host.downcase
-    return origin_host.end_with?(domain_host.delete_prefix('*')) if domain_host.start_with?('*.')
-
-    domain_host == origin_host
-  end
-
-  # A host-only entry has no scheme, so CSP resolves it against the widget
-  # response's own scheme (request.scheme) — on an https install that means the
-  # origin must be https too, with http-response -> https-origin upgrade allowed.
-  def scheme_matches?(domain_uri, origin_uri)
-    effective_scheme = domain_uri.scheme || request.scheme
-    effective_scheme == origin_uri.scheme || (effective_scheme == 'http' && origin_uri.scheme == 'https')
-  end
-
-  def port_matches?(domain_uri, origin_uri)
-    (domain_uri.port || origin_uri.default_port) == origin_uri.port
-  end
-
-  def parse_uri(value)
-    URI.parse(value)
-  rescue URI::InvalidURIError
-    nil
-  end
-
-  def allowed_domains
-    @allowed_domains ||= @web_widget.allowed_domains.to_s.split(',').map(&:strip).reject(&:empty?)
+  def embed_policy
+    @embed_policy ||= ::Widget::EmbedPolicy.new(@web_widget.allowed_domains)
   end
 
   # Mobile WebViews (iOS/Android) load content from file:// or null origins,
