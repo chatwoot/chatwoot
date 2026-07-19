@@ -7,8 +7,9 @@
     "HEADER_BTN_TXT": "Añadir una nueva macro",
     "HEADER_BTN_TXT_SAVE": "Guardar macro",
     "LOADING": "Obteniendo macros",
-    "SEARCH_PLACEHOLDER": "Search macros...",
-    "NO_RESULTS": "No macros found matching your search",
+    "SEARCH_PLACEHOLDER": "Buscar macros...",
+    "NO_RESULTS": "No se encontraron macros que coincidan con tu búsqueda",
+    "UNCATEGORIZED": "Sin categoría",
     "ERROR": "Algo salió mal. Por favor, inténtalo de nuevo",
     "ORDER_INFO": "Las macros se ejecutarán en el orden en que añadas sus acciones. Puede reorganizarlas arrastrándolas por el manejador al lado de cada nodo.",
     "ADD": {
@@ -17,6 +18,10 @@
           "LABEL": "Nombre de macro",
           "PLACEHOLDER": "Introduzca un nombre para su macro",
           "ERROR": "Se requiere un nombre para crear una macro"
+        },
+        "FOLDER": {
+          "LABEL": "Carpeta",
+          "PLACEHOLDER": "Nombre de carpeta opcional (ej. Ventas)"
         },
         "ACTIONS": {
           "LABEL": "Acciones"
@@ -30,6 +35,7 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nombre",
+        "FOLDER": "Carpeta",
         "CREATED BY": "Creado por",
         "LAST_UPDATED_BY": "Última actualización por",
         "VISIBILITY": "Visibilidad",

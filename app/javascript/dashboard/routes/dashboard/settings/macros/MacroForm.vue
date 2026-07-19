@@ -43,6 +43,14 @@ export default {
       if (this.macro && this.macro.files) return this.macro.files;
       return [];
     },
+    folderOptions() {
+      const macros = this.$store?.getters?.['macros/getMacros'] || [];
+      return [
+        ...new Set(
+          macros.map(macro => (macro.folder || '').trim()).filter(Boolean)
+        ),
+      ].sort((a, b) => a.localeCompare(b));
+    },
   },
   watch: {
     $route: {
@@ -79,6 +87,9 @@ export default {
     },
     updateVisibility(value) {
       this.macro.visibility = value;
+    },
+    updateFolder(value) {
+      this.macro.folder = value;
     },
     appendNode() {
       this.macro.actions.push({
@@ -135,10 +146,13 @@ export default {
       <MacroProperties
         :macro-name="macro.name"
         :macro-visibility="macro.visibility"
+        :macro-folder="macro.folder || ''"
+        :folder-options="folderOptions"
         :can-manage-public-macros="canManagePublicMacros"
         :read-only="readOnly"
         @update:name="updateName"
         @update:visibility="updateVisibility"
+        @update:folder="updateFolder"
         @submit="submit"
       />
     </div>
