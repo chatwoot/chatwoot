@@ -50,7 +50,10 @@ const handleDelete = campaign => {
 };
 
 const handleSelect = campaign => {
-  if (campaign.campaign_status === 'draft') {
+  if (
+    campaign.campaign_status === 'draft' ||
+    campaign.campaign_status === 'active'
+  ) {
     handleEdit(campaign);
     return;
   }

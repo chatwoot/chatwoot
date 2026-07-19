@@ -59,6 +59,7 @@ const { t } = useI18n();
 const STATUS_COMPLETED = 'completed';
 const STATUS_PROCESSING = 'processing';
 const STATUS_DRAFT = 'draft';
+const STATUS_ACTIVE = 'active';
 
 const { formatMessage } = useMessageFormatter();
 
@@ -97,8 +98,12 @@ const campaignStatus = computed(() => {
   return t('CAMPAIGN.SMS.CARD.STATUS.SCHEDULED');
 });
 
+// One-off: edit draft + scheduled (active); not processing/completed
 const showEditButton = computed(
-  () => props.isLiveChatType || isDraft.value
+  () =>
+    props.isLiveChatType ||
+    props.status === STATUS_DRAFT ||
+    props.status === STATUS_ACTIVE
 );
 
 const inboxName = computed(() => props.inbox?.name || '');

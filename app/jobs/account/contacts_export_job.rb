@@ -5,7 +5,7 @@ class Account::ContactsExportJob < ApplicationJob
   ASSIGNED_AGENT_COLUMN = 'assigned_agent'.freeze
   VIRTUAL_COLUMNS = %w[assigned_agent company_name city country].freeze
   # Force spreadsheet apps to treat these as text (avoid scientific notation).
-  TEXT_FORCE_HEADERS = %w[phone_number document_number identifier].freeze
+  TEXT_FORCE_HEADERS = %w[phone_number document_number identifier contact_phone contact_document_number].freeze
   LABELS_DELIMITER = ','.freeze
   EXPORT_FORMATS = %w[csv xlsx].freeze
 
