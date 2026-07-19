@@ -12,7 +12,8 @@ env:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    # Oracle Cloud Ampere aarch64 VPS; amd64-only breaks Dokploy; native arm runner avoids QEMU multi-hour builds.
+    runs-on: ubuntu-22.04-arm
     permissions:
       contents: read
       packages: write
@@ -21,8 +22,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # amd64 only: multi-arch via QEMU on ubuntu-latest makes Chatwoot builds
-      # take 1–2+ hours. PaluHub Dokploy hosts are linux/amd64.
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -50,7 +49,7 @@ jobs:
           context: .
           file: docker/Dockerfile
           push: true
-          platforms: linux/amd64
+          platforms: linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
