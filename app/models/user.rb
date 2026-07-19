@@ -113,12 +113,14 @@ class User < ApplicationRecord
   has_many :teams, through: :team_members
   has_many :articles, foreign_key: 'author_id', dependent: :nullify, inverse_of: :author
   # rubocop:disable Rails/HasManyOrHasOneDependent
-  # we are handling this in `remove_macros` callback
+  # we are handling this in `remove_macros` / `remove_canned_responses` callbacks
   has_many :macros, foreign_key: 'created_by_id', inverse_of: :created_by
+  has_many :canned_responses, foreign_key: 'created_by_id', inverse_of: :created_by
   # rubocop:enable Rails/HasManyOrHasOneDependent
 
   before_validation :set_password_and_uid, on: :create
   after_destroy :remove_macros
+  after_destroy :remove_canned_responses
   after_save :sync_user_sessions, if: :saved_change_to_tokens?
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
@@ -223,6 +225,10 @@ class User < ApplicationRecord
 
   def remove_macros
     macros.personal.destroy_all
+  end
+
+  def remove_canned_responses
+    canned_responses.personal.destroy_all
   end
 end
 

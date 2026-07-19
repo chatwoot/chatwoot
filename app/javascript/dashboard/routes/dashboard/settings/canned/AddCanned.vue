@@ -2,17 +2,22 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Modal from '../../../../components/Modal.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import InsertVariableButton from './InsertVariableButton.vue';
 
 export default {
   name: 'AddCanned',
   components: {
     NextButton,
+    Icon,
     Modal,
     WootMessageEditor,
+    InsertVariableButton,
   },
   props: {
     responseContent: {
@@ -25,12 +30,15 @@ export default {
     },
   },
   setup() {
-    return { v$: useVuelidate() };
+    const { isAdmin } = useAdmin();
+    return { v$: useVuelidate(), isAdmin };
   },
   data() {
     return {
       shortCode: '',
+      category: '',
       content: this.responseContent || '',
+      visibility: 'personal',
       addCanned: {
         showLoading: false,
         message: '',
@@ -47,24 +55,54 @@ export default {
       required,
     },
   },
+  computed: {
+    isPublicVisibilityDisabled() {
+      return !this.isAdmin;
+    },
+    publicVisibilityDescription() {
+      if (this.isPublicVisibilityDisabled) {
+        return this.$t(
+          'CANNED_MGMT.ADD.FORM.VISIBILITY.GLOBAL.CREATE_DISABLED_DESCRIPTION'
+        );
+      }
+      return this.$t('CANNED_MGMT.ADD.FORM.VISIBILITY.GLOBAL.DESCRIPTION');
+    },
+  },
+  created() {
+    this.visibility = this.isAdmin ? 'global' : 'personal';
+  },
   methods: {
+    isActive(key) {
+      return this.visibility === key
+        ? 'bg-n-blue-2 dark:bg-n-blue-1 border-n-blue-3 dark:border-n-blue-4'
+        : 'bg-white dark:bg-n-solid-2 border-n-weak dark:border-n-strong';
+    },
+    onUpdateVisibility(value) {
+      if (value === 'global' && this.isPublicVisibilityDisabled) return;
+      this.visibility = value;
+    },
+    insertVariable(key) {
+      const token = `{{${key}}}`;
+      this.content = this.content ? `${this.content}${token}` : token;
+    },
     resetForm() {
       this.shortCode = '';
+      this.category = '';
       this.content = '';
+      this.visibility = this.isAdmin ? 'global' : 'personal';
       this.v$.shortCode.$reset();
       this.v$.content.$reset();
     },
     addCannedResponse() {
-      // Show loading on button
       this.addCanned.showLoading = true;
-      // Make API Calls
       this.$store
         .dispatch('createCannedResponse', {
           short_code: this.shortCode,
           content: this.content,
+          category: this.category || null,
+          visibility: this.visibility,
         })
         .then(() => {
-          // Reset Form, Show success message
           this.addCanned.showLoading = false;
           useAlert(this.$t('CANNED_MGMT.ADD.API.SUCCESS_MESSAGE'));
           this.resetForm();
@@ -102,6 +140,69 @@ export default {
         </div>
 
         <div class="w-full">
+          <label>
+            {{ $t('CANNED_MGMT.ADD.FORM.CATEGORY.LABEL') }}
+            <input
+              v-model="category"
+              type="text"
+              :placeholder="$t('CANNED_MGMT.ADD.FORM.CATEGORY.PLACEHOLDER')"
+            />
+          </label>
+          <p class="mb-0 text-xs text-n-slate-11">
+            {{ $t('CANNED_MGMT.ADD.FORM.CATEGORY.HELP') }}
+          </p>
+        </div>
+
+        <div class="w-full mt-2">
+          <p class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12">
+            {{ $t('CANNED_MGMT.ADD.FORM.VISIBILITY.LABEL') }}
+          </p>
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <button
+              type="button"
+              class="flex flex-col items-start justify-between gap-2 p-2 text-start relative rounded-md border border-solid"
+              :class="isActive('global')"
+              :disabled="isPublicVisibilityDisabled"
+              @click="onUpdateVisibility('global')"
+            >
+              <div class="flex items-center justify-between w-full gap-2 min-w-0">
+                <p class="block m-0 text-heading-3 text-n-slate-12 line-clamp-1">
+                  {{ $t('CANNED_MGMT.ADD.FORM.VISIBILITY.GLOBAL.LABEL') }}
+                </p>
+                <Icon
+                  v-if="visibility === 'global'"
+                  icon="i-lucide-circle-check-big"
+                  class="text-n-brand size-4"
+                />
+              </div>
+              <p class="text-n-slate-11 text-label-small">
+                {{ publicVisibilityDescription }}
+              </p>
+            </button>
+            <button
+              type="button"
+              class="flex flex-col items-start justify-between gap-2 p-2 text-start relative rounded-md border border-solid"
+              :class="isActive('personal')"
+              @click="onUpdateVisibility('personal')"
+            >
+              <div class="flex items-center justify-between w-full gap-2 min-w-0">
+                <p class="block m-0 text-heading-3 text-n-slate-12 line-clamp-1">
+                  {{ $t('CANNED_MGMT.ADD.FORM.VISIBILITY.PERSONAL.LABEL') }}
+                </p>
+                <Icon
+                  v-if="visibility === 'personal'"
+                  icon="i-lucide-circle-check-big"
+                  class="text-n-brand size-4"
+                />
+              </div>
+              <p class="text-n-slate-11 text-label-small">
+                {{ $t('CANNED_MGMT.ADD.FORM.VISIBILITY.PERSONAL.DESCRIPTION') }}
+              </p>
+            </button>
+          </div>
+        </div>
+
+        <div class="w-full mt-2">
           <label :class="{ error: v$.content.$error }">
             {{ $t('CANNED_MGMT.ADD.FORM.CONTENT.LABEL') }}
           </label>
@@ -116,6 +217,12 @@ export default {
               :placeholder="$t('CANNED_MGMT.ADD.FORM.CONTENT.PLACEHOLDER')"
               @blur="v$.content.$touch"
             />
+          </div>
+          <div class="flex flex-col gap-2 mt-2">
+            <InsertVariableButton @insert="insertVariable" />
+            <p class="mb-0 text-xs text-n-slate-11">
+              {{ $t('CANNED_MGMT.ADD.FORM.CONTENT.VARIABLES_HELP') }}
+            </p>
           </div>
         </div>
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">

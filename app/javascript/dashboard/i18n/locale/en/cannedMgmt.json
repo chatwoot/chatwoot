@@ -9,6 +9,13 @@
     "SEARCH_PLACEHOLDER": "Search canned responses...",
     "NO_RESULTS": "No canned responses found matching your search",
     "SEARCH_404": "There are no items matching this query.",
+    "ALL_CATEGORIES": "All categories",
+    "UNCATEGORIZED": "Uncategorized",
+    "FILTER_VISIBILITY": {
+      "ALL": "All",
+      "MINE": "Mine",
+      "ACCOUNT": "Account"
+    },
     "LIST": {
       "404": "There are no canned responses available in this account.",
       "TITLE": "Manage canned responses",
@@ -16,6 +23,8 @@
       "TABLE_HEADER": {
         "SHORT_CODE": "Short code",
         "CONTENT": "Content",
+        "CATEGORY": "Category",
+        "VISIBILITY": "Visibility",
         "ACTIONS": "Actions"
       }
     },
@@ -29,10 +38,29 @@
           "PLACEHOLDER": "Please enter a short code.",
           "ERROR": "Short Code is required."
         },
+        "CATEGORY": {
+          "LABEL": "Category",
+          "PLACEHOLDER": "Optional category (e.g. Greeting, Support)",
+          "HELP": "Group related responses for easier filtering."
+        },
         "CONTENT": {
           "LABEL": "Message",
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "ERROR": "Message is required.",
+          "VARIABLES_HELP": "Use variables like {'{{'}contact.name{'}}'} or insert them with the button below. Variables are replaced when the response is used in a conversation."
+        },
+        "INSERT_VARIABLE": "Insert variable",
+        "VISIBILITY": {
+          "LABEL": "Visibility",
+          "GLOBAL": {
+            "LABEL": "Account",
+            "DESCRIPTION": "Available to all agents in this account.",
+            "CREATE_DISABLED_DESCRIPTION": "Only administrators can create account-wide canned responses."
+          },
+          "PERSONAL": {
+            "LABEL": "Personal",
+            "DESCRIPTION": "Only you can see and use this canned response."
+          }
         },
         "SUBMIT": "Submit"
       },
@@ -50,10 +78,30 @@
           "PLACEHOLDER": "Please enter a shortcode.",
           "ERROR": "Short code is required."
         },
+        "CATEGORY": {
+          "LABEL": "Category",
+          "PLACEHOLDER": "Optional category (e.g. Greeting, Support)",
+          "HELP": "Group related responses for easier filtering."
+        },
         "CONTENT": {
           "LABEL": "Message",
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "ERROR": "Message is required.",
+          "VARIABLES_HELP": "Use variables like {'{{'}contact.name{'}}'} or insert them with the button below. Variables are replaced when the response is used in a conversation."
+        },
+        "INSERT_VARIABLE": "Insert variable",
+        "VISIBILITY": {
+          "LABEL": "Visibility",
+          "GLOBAL": {
+            "LABEL": "Account",
+            "DESCRIPTION": "Available to all agents in this account.",
+            "CREATE_DISABLED_DESCRIPTION": "Only administrators can create account-wide canned responses.",
+            "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit account-wide canned responses."
+          },
+          "PERSONAL": {
+            "LABEL": "Personal",
+            "DESCRIPTION": "Only you can see and use this canned response."
+          }
         },
         "SUBMIT": "Submit"
       },
@@ -75,6 +123,21 @@
         "YES": "Yes, delete ",
         "NO": "No, keep "
       }
+    },
+    "PICKER": {
+      "TITLE": "Canned responses",
+      "SUBTITLE": "Search and insert a canned response into your reply.",
+      "SEARCH_PLACEHOLDER": "Search by short code, category, or content...",
+      "NO_RESULTS": "No canned responses found for",
+      "EMPTY": "No canned responses available. Create one in Settings → Canned Responses.",
+      "ALL_CATEGORIES": "All",
+      "UNCATEGORIZED": "Uncategorized",
+      "PERSONAL_BADGE": "Mine",
+      "ACCOUNT_BADGE": "Account"
+    },
+    "VISIBILITY_LABEL": {
+      "personal": "Personal",
+      "global": "Account"
     }
   }
 }

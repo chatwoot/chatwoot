@@ -12,6 +12,16 @@ properties:
   content:
     type: string
     description: Message content for canned response
+  category:
+    type: string
+    description: Optional category label for grouping canned responses
+  visibility:
+    type: string
+    enum: [personal, global]
+    description: personal (author only) or global (all agents in the account)
+  created_by_id:
+    type: integer
+    description: User id of the creator
   created_at:
     type: string
     description: The date and time when the canned response was created

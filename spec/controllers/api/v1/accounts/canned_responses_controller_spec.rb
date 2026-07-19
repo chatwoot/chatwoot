@@ -87,14 +87,14 @@ RSpec.describe 'Canned Responses API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
 
       it 'updates an existing canned response' do
         params = { short_code: 'B' }
 
         put "/api/v1/accounts/#{account.id}/canned_responses/#{canned_response.id}",
             params: params,
-            headers: agent.create_new_auth_token,
+            headers: administrator.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
@@ -115,11 +115,11 @@ RSpec.describe 'Canned Responses API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
 
       it 'destroys the canned response' do
         delete "/api/v1/accounts/#{account.id}/canned_responses/#{canned_response.id}",
-               headers: agent.create_new_auth_token,
+               headers: administrator.create_new_auth_token,
                as: :json
 
         expect(response).to have_http_status(:success)

@@ -6,7 +6,7 @@ import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { useStoreGetters, useStore, useMapGetter } from 'dashboard/composables/store';
 import { picoSearch } from '@scmmishra/pico-search';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
@@ -25,6 +25,7 @@ defineOptions({
 const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
+const currentUser = useMapGetter('getCurrentUser');
 
 const { getPlainText } = useMessageFormatter();
 
@@ -37,16 +38,50 @@ const cannedResponseAPI = ref({ message: '' });
 
 const sortOrder = ref('asc');
 const searchQuery = ref('');
+const selectedCategory = ref(null);
+const visibilityFilter = ref('all');
 
 const records = computed(() =>
   getters.getSortedCannedResponses.value(sortOrder.value)
 );
 
+const categories = computed(() => {
+  const set = new Set();
+  records.value.forEach(item => {
+    if (item.category) set.add(item.category);
+  });
+  return [...set].sort((a, b) => a.localeCompare(b));
+});
+
+const visibilityFilteredRecords = computed(() => {
+  const userId = currentUser.value?.id;
+  if (visibilityFilter.value === 'mine') {
+    return records.value.filter(
+      item => item.visibility === 'personal' && item.created_by_id === userId
+    );
+  }
+  if (visibilityFilter.value === 'account') {
+    return records.value.filter(item => item.visibility === 'global');
+  }
+  return records.value;
+});
+
+const categoryFilteredRecords = computed(() => {
+  if (selectedCategory.value === null) return visibilityFilteredRecords.value;
+  if (selectedCategory.value === '') {
+    return visibilityFilteredRecords.value.filter(item => !item.category);
+  }
+  return visibilityFilteredRecords.value.filter(
+    item => item.category === selectedCategory.value
+  );
+});
+
 const filteredRecords = computed(() => {
   const query = searchQuery.value.trim();
-  if (!query) return records.value;
-  return picoSearch(records.value, query, [
+  if (!query) return categoryFilteredRecords.value;
+  return picoSearch(categoryFilteredRecords.value, query, [
     { name: 'short_code', weight: 4 },
+    { name: 'category', weight: 2 },
     'content',
   ]);
 });
@@ -130,9 +165,19 @@ const confirmDeletion = () => {
   deleteCannedResponse(activeResponse.value.id);
 };
 
+const visibilityLabel = item =>
+  t(`CANNED_MGMT.VISIBILITY_LABEL.${item.visibility || 'global'}`);
+
+const chipClass = active =>
+  active
+    ? 'bg-n-brand text-white border-n-brand'
+    : 'bg-n-alpha-black2 text-n-slate-12 border-n-weak hover:bg-n-alpha-2';
+
 const tableHeaders = computed(() => {
   return [
     t('CANNED_MGMT.LIST.TABLE_HEADER.SHORT_CODE'),
+    t('CANNED_MGMT.LIST.TABLE_HEADER.CATEGORY'),
+    t('CANNED_MGMT.LIST.TABLE_HEADER.VISIBILITY'),
     t('CANNED_MGMT.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
@@ -170,13 +215,67 @@ const tableHeaders = computed(() => {
     </template>
 
     <template #body>
+      <div v-if="records.length" class="flex flex-col gap-3 mb-4">
+        <div class="flex flex-wrap gap-2">
+          <button
+            v-for="filter in [
+              { key: 'all', label: $t('CANNED_MGMT.FILTER_VISIBILITY.ALL') },
+              { key: 'mine', label: $t('CANNED_MGMT.FILTER_VISIBILITY.MINE') },
+              {
+                key: 'account',
+                label: $t('CANNED_MGMT.FILTER_VISIBILITY.ACCOUNT'),
+              },
+            ]"
+            :key="filter.key"
+            type="button"
+            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
+            :class="chipClass(visibilityFilter === filter.key)"
+            @click="visibilityFilter = filter.key"
+          >
+            {{ filter.label }}
+          </button>
+        </div>
+        <div
+          v-if="categories.length || records.some(r => !r.category)"
+          class="flex flex-wrap gap-2"
+        >
+          <button
+            type="button"
+            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
+            :class="chipClass(selectedCategory === null)"
+            @click="selectedCategory = null"
+          >
+            {{ $t('CANNED_MGMT.ALL_CATEGORIES') }}
+          </button>
+          <button
+            v-for="cat in categories"
+            :key="cat"
+            type="button"
+            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
+            :class="chipClass(selectedCategory === cat)"
+            @click="selectedCategory = cat"
+          >
+            {{ cat }}
+          </button>
+          <button
+            v-if="records.some(r => !r.category)"
+            type="button"
+            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
+            :class="chipClass(selectedCategory === '')"
+            @click="selectedCategory = ''"
+          >
+            {{ $t('CANNED_MGMT.UNCATEGORIZED') }}
+          </button>
+        </div>
+      </div>
+
       <BaseTable
         :headers="tableHeaders"
         :items="filteredRecords"
         :no-data-message="
           !records.length
             ? $t('CANNED_MGMT.LIST.404')
-            : searchQuery
+            : searchQuery || selectedCategory !== null || visibilityFilter !== 'all'
               ? $t('CANNED_MGMT.NO_RESULTS')
               : ''
         "
@@ -202,11 +301,17 @@ const tableHeaders = computed(() => {
         <template #header-1>
           {{ tableHeaders[1] }}
         </template>
+        <template #header-2>
+          {{ tableHeaders[2] }}
+        </template>
+        <template #header-3>
+          {{ tableHeaders[3] }}
+        </template>
 
         <template #row="{ items }">
           <BaseTableRow
             v-for="cannedItem in items"
-            :key="cannedItem.short_code"
+            :key="cannedItem.id || cannedItem.short_code"
             :item="cannedItem"
           >
             <template #default>
@@ -219,6 +324,22 @@ const tableHeaders = computed(() => {
                     {{ getPlainText(cannedItem.content) }}
                   </p>
                 </div>
+              </BaseTableCell>
+
+              <BaseTableCell class="w-32">
+                <span
+                  v-if="cannedItem.category"
+                  class="inline-block px-2 py-0.5 text-xs rounded-lg bg-n-slate-3 text-n-slate-12"
+                >
+                  {{ cannedItem.category }}
+                </span>
+                <span v-else class="text-xs text-n-slate-10">—</span>
+              </BaseTableCell>
+
+              <BaseTableCell class="w-28">
+                <span class="text-xs text-n-slate-11">
+                  {{ visibilityLabel(cannedItem) }}
+                </span>
               </BaseTableCell>
 
               <BaseTableCell align="end" class="w-24">
@@ -256,6 +377,8 @@ const tableHeaders = computed(() => {
         :id="activeResponse.id"
         :edshort-code="activeResponse.short_code"
         :edcontent="activeResponse.content"
+        :edcategory="activeResponse.category"
+        :edvisibility="activeResponse.visibility"
         :on-close="hideEditPopup"
       />
     </woot-modal>

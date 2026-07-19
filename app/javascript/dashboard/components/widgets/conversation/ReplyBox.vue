@@ -26,8 +26,10 @@ import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import {
   getMessageVariables,
   getUndefinedVariablesInMessage,
+  replaceVariablesInMessage,
 } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
+import CannedResponsesModal from './CannedResponses/CannedResponsesModal.vue';
 import ContentTemplates from './ContentTemplates/ContentTemplatesModal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
@@ -75,6 +77,7 @@ export default {
     ReplyTopPanel,
     ContentTemplates,
     WhatsappTemplates,
+    CannedResponsesModal,
     WootMessageEditor,
     QuotedEmailPreview,
     CopilotEditorSection,
@@ -124,6 +127,7 @@ export default {
       toEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
+      showCannedResponsesModal: false,
       showContentTemplatesModal: false,
       updateEditorSelectionWith: '',
       undefinedVariableMessage: '',
@@ -776,6 +780,22 @@ export default {
     },
     hideWhatsappTemplatesModal() {
       this.showWhatsAppTemplatesModal = false;
+    },
+    openCannedResponsesModal() {
+      this.showCannedResponsesModal = true;
+    },
+    hideCannedResponsesModal() {
+      this.showCannedResponsesModal = false;
+    },
+    onSelectCannedResponse(item) {
+      const content = item?.content || '';
+      const updatedMessage = replaceVariablesInMessage({
+        message: content,
+        variables: this.messageVariables,
+      });
+      emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, updatedMessage);
+      useTrack(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
+      this.hideCannedResponsesModal();
     },
     openContentTemplateModal() {
       this.showContentTemplatesModal = true;
@@ -1492,6 +1512,7 @@ export default {
         :portal-slug="connectedPortalSlug"
         :new-conversation-modal-active="newConversationModalActive"
         @select-whatsapp-template="openWhatsappTemplateModal"
+        @select-canned-response="openCannedResponsesModal"
         @select-content-template="openContentTemplateModal"
         @toggle-insert-article="toggleInsertArticle"
         @toggle-quoted-reply="toggleQuotedReply"
@@ -1504,6 +1525,13 @@ export default {
       @close="hideWhatsappTemplatesModal"
       @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
+    />
+
+    <CannedResponsesModal
+      :show="showCannedResponsesModal"
+      @on-select="onSelectCannedResponse"
+      @cancel="hideCannedResponsesModal"
+      @update:show="showCannedResponsesModal = $event"
     />
 
     <ContentTemplates
