@@ -979,6 +979,32 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_28_150000) do
     t.jsonb "settings", default: {}
   end
 
+
+  create_table "internal_conversations", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "team_id", null: false
+    t.datetime "last_activity_at"
+    t.string "last_message_preview", limit: 140
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "team_id"], name: "index_internal_conversations_on_account_id_and_team_id", unique: true
+    t.index ["account_id"], name: "index_internal_conversations_on_account_id"
+    t.index ["team_id"], name: "index_internal_conversations_on_team_id"
+  end
+
+  create_table "internal_messages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "internal_conversation_id", null: false
+    t.bigint "user_id", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_internal_messages_on_account_id_and_created_at"
+    t.index ["account_id"], name: "index_internal_messages_on_account_id"
+    t.index ["internal_conversation_id", "id"], name: "index_internal_messages_on_internal_conversation_id_and_id"
+    t.index ["internal_conversation_id"], name: "index_internal_messages_on_internal_conversation_id"
+    t.index ["user_id"], name: "index_internal_messages_on_user_id"
+  end
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"

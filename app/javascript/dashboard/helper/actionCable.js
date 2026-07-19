@@ -49,9 +49,11 @@ class ActionCableConnector extends BaseActionCableConnector {
         this.onConversationUnreadCountChanged,
       'account.cache_invalidated': this.onCacheInvalidate,
       'account.enrichment_completed': this.onEnrichmentCompleted,
+      'export.completed': this.onExportCompleted,
       'copilot.message.created': this.onCopilotMessageCreated,
       'internal_task.created': this.onInternalTaskCreated,
       'internal_task.updated': this.onInternalTaskUpdated,
+      'internal_message.created': this.onInternalMessageCreated,
       'voice_call.incoming': this.onVoiceCallIncoming,
       'voice_call.outbound_connected': this.onVoiceCallOutboundConnected,
       'voice_call.outbound_accepted': this.onVoiceCallOutboundAccepted,
@@ -149,6 +151,11 @@ class ActionCableConnector extends BaseActionCableConnector {
   onInternalTaskUpdated = data => {
     if (!this.isAValidEvent(data)) return;
     this.app.$store.dispatch('internalTasks/handleTaskUpdated', data);
+  };
+
+  onInternalMessageCreated = data => {
+    if (!this.isAValidEvent(data)) return;
+    this.app.$store.dispatch('internalChats/handleMessageCreated', data);
   };
 
   onConversationUnreadCountChanged = () => {
@@ -278,6 +285,20 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onEnrichmentCompleted = () => {
     this.app.$store.dispatch('accounts/get', { silent: true });
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onExportCompleted = data => {
+    if (data?.download_url) {
+      const link = document.createElement('a');
+      link.href = data.download_url;
+      link.rel = 'noopener';
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+    emitter.emit(BUS_EVENTS.EXPORT_COMPLETED, data);
   };
 
   onCacheInvalidate = data => {

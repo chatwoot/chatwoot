@@ -1,0 +1,53 @@
+{
+  "INTERNAL_CHATS": {
+    "TITLE": "Team chats",
+    "SUBTITLE": "One room per team — text only",
+    "ROOM_SUBTITLE": "Team room",
+    "PLACEHOLDER": "Write a message…",
+    "EMPTY_STATE": "No messages yet. Say hello to your team.",
+    "EMPTY_THREAD_BODY": "Be the first to send a message in this team.",
+    "EMPTY_ROOMS": "Join a team to see its chat room.",
+    "SELECT_ROOM": "Select a team chat to start messaging.",
+    "NO_MESSAGES": "No messages yet",
+    "LOADING": "Loading…",
+    "LOADING_THREAD": "Loading conversation…",
+    "LOADING_OLDER": "Loading earlier messages…",
+    "SEND": "Send",
+    "SEND_TOOLTIP": "Send (Enter)",
+    "BACK": "Back to rooms",
+    "UNKNOWN_TEAM": "Team",
+    "UNKNOWN_USER": "Agent",
+    "DAY": {
+      "TODAY": "Today",
+      "YESTERDAY": "Yesterday"
+    },
+    "DAY_FULL": "EEEE, d MMMM yyyy",
+    "EMPTY": {
+      "SELECT_TITLE": "Pick a team chat",
+      "THREAD_TITLE": "Start the conversation",
+      "NO_ROOMS_TITLE": "No team rooms yet"
+    },
+    "MEMBERS": "No members | {n} member | {n} members",
+    "MEMBERS_TOOLTIP": "View team members",
+    "INFO_TITLE": "Team members",
+    "ONLINE_COUNT": "{count} online",
+    "SEARCH_PLACEHOLDER": "Search team…",
+    "CLEAR_SEARCH": "Clear search",
+    "NO_SEARCH_RESULTS": "No teams match \"{query}\"",
+    "EMPTY_ROOMS_CTA": "Go to Teams",
+    "DRAFT_RESTORED": "Draft restored from your last visit",
+    "DRAFT_SAVED": "Draft saved",
+    "CLEAR_DRAFT": "Clear draft",
+    "DRAFT_UNSAVED_WARNING": "You have an unsent draft. Leave anyway?",
+    "UNREAD_OVERFLOW": "99+",
+    "CHAR_COUNT": "{count} / {max}",
+    "MESSAGE_PENDING": "Sending…",
+    "MESSAGE_FAILED": "Failed to send",
+    "RETRY": "Retry",
+    "DRAG_REJECT_MESSAGE": "Files are not supported in team chats",
+    "ERRORS": {
+      "SEND": "Could not send the message",
+      "DRAG_DROP_REJECTED": "Files are not supported in team chats"
+    }
+  }
+}

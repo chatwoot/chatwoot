@@ -73,6 +73,8 @@ class ActionCableListener < BaseListener
 
   def internal_task_created(event)
     internal_task, account = extract_internal_task_and_account(event)
+    return unless account.feature_enabled?('internal_tasks')
+
     internal_task = load_internal_task_for_broadcast(internal_task.id)
     tokens = user_tokens(account, internal_task_agents(account, internal_task))
 
@@ -81,10 +83,22 @@ class ActionCableListener < BaseListener
 
   def internal_task_updated(event)
     internal_task, account = extract_internal_task_and_account(event)
+    return unless account.feature_enabled?('internal_tasks')
+
     internal_task = load_internal_task_for_broadcast(internal_task.id, include_events: true)
     tokens = user_tokens(account, internal_task_agents(account, internal_task))
 
     broadcast(account, tokens, INTERNAL_TASK_UPDATED, internal_task: internal_task.push_event_data(include_events: true))
+  end
+
+  def internal_message_created(event)
+    internal_message, account = extract_internal_message_and_account(event)
+    return unless account.feature_enabled?('internal_chats')
+
+    internal_message = InternalMessage.includes(:user, internal_conversation: :team).find(internal_message.id)
+    tokens = user_tokens(account, internal_chat_agents(account, internal_message.internal_conversation))
+
+    broadcast(account, tokens, INTERNAL_MESSAGE_CREATED, internal_message: internal_message.push_event_data)
   end
 
   def conversation_read(event)
@@ -252,6 +266,12 @@ class ActionCableListener < BaseListener
     agents << task.assigned_to if task.assigned_to
     agents.concat(task.team.members.to_a) if task.team
     agents.compact.uniq
+  end
+
+  # Align with InternalConversationPolicy::Scope: admins via user_tokens;
+  # agents who are members of the room's team.
+  def internal_chat_agents(_account, conversation)
+    conversation.team&.members.to_a || []
   end
 
   def message_broadcast_members(conversation, message)

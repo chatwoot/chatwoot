@@ -130,6 +130,12 @@ Rails.application.routes.draw do
               post :comment
             end
           end
+          resources :internal_conversations, only: [:index, :show] do
+            member do
+              get :messages
+              post :create_message
+            end
+          end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
           resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
           resources :agent_capacity_policies, only: [:index, :create, :show, :update, :destroy] do

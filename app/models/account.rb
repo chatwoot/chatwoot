@@ -101,6 +101,8 @@ class Account < ApplicationRecord
   has_many :working_hours, dependent: :destroy_async
   has_many :task_templates, dependent: :destroy_async
   has_many :internal_tasks, dependent: :destroy_async
+  has_many :internal_conversations, dependent: :destroy_async
+  has_many :internal_messages, dependent: :destroy_async
 
   has_one_attached :contacts_export
 

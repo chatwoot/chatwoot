@@ -65,4 +65,7 @@ module Events::Types
   # internal task events
   INTERNAL_TASK_CREATED = 'internal_task.created'
   INTERNAL_TASK_UPDATED = 'internal_task.updated'
+
+  # internal team chat events
+  INTERNAL_MESSAGE_CREATED = 'internal_message.created'
 end

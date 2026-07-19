@@ -25,6 +25,7 @@ const {
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
   DEPLOYMENT_ENV: deploymentEnv,
   ACTIVE_PLATFORM_BANNERS: activePlatformBanners,
+  INTERNAL_CHATS_ENABLED: internalChatsEnabled,
 } = window.globalConfig || {};
 
 const state = {
@@ -51,6 +52,7 @@ const state = {
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
   activePlatformBanners: activePlatformBanners || [],
+  internalChatsEnabled: parseBoolean(internalChatsEnabled),
 };
 
 export const getters = {
