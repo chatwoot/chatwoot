@@ -131,6 +131,28 @@ describe '/widget', type: :request do
 
         expect(response.headers).not_to include('Access-Control-Allow-Origin')
       end
+
+      context 'with a wildcard allowed domain' do
+        before { web_widget.update!(allowed_domains: '*.example.com') }
+
+        it 'echoes a subdomain origin that the wildcard frame-ancestor trusts' do
+          get_widget(origin: 'https://app.example.com')
+
+          expect(response.headers['Access-Control-Allow-Origin']).to eq('https://app.example.com')
+        end
+
+        it 'does not match the apex domain (CSP wildcards require a subdomain)' do
+          get_widget(origin: 'https://example.com')
+
+          expect(response.headers).not_to include('Access-Control-Allow-Origin')
+        end
+
+        it 'does not match a look-alike host outside the wildcard domain' do
+          get_widget(origin: 'https://app.example.com.evil.com')
+
+          expect(response.headers).not_to include('Access-Control-Allow-Origin')
+        end
+      end
     end
   end
 end

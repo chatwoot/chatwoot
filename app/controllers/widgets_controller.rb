@@ -113,11 +113,23 @@ class WidgetsController < ActionController::Base
 
   def domain_matches_origin?(domain, origin_uri)
     domain_uri = parse_uri(domain.include?('//') ? domain : "//#{domain}")
-    return false unless domain_uri&.host&.casecmp?(origin_uri.host)
+    return false unless domain_uri && host_matches?(domain_uri.host, origin_uri.host)
 
     # A scheme is enforced only when the entry pins one (a host-only entry matches
     # any scheme); the port must be the one the entry pins, else the scheme default.
     scheme_matches?(domain_uri, origin_uri) && port_matches?(domain_uri, origin_uri)
+  end
+
+  # Match the host the way the emitted frame-ancestors source would: exact match,
+  # or a "*." CSP wildcard that matches any subdomain (but not the apex).
+  def host_matches?(domain_host, origin_host)
+    return false if domain_host.blank? || origin_host.blank?
+
+    domain_host = domain_host.downcase
+    origin_host = origin_host.downcase
+    return origin_host.end_with?(domain_host.delete_prefix('*')) if domain_host.start_with?('*.')
+
+    domain_host == origin_host
   end
 
   # A host-only entry has no scheme, so CSP resolves it against the widget
