@@ -29,6 +29,11 @@ const updatedByName = computed(() => {
   return updatedBy.available_name ?? updatedBy.email ?? '';
 });
 
+const folderLabel = computed(() => {
+  const folder = (props.macro.folder || '').trim();
+  return folder || t('MACROS.UNCATEGORIZED');
+});
+
 const visibilityLabel = computed(() => {
   const i18nKey =
     props.macro.visibility === 'global'
@@ -49,13 +54,21 @@ const editTooltip = computed(() =>
 <template>
   <BaseTableRow :item="macro">
     <template #default>
-      <BaseTableCell class="max-w-0 min-w-0">
+      <BaseTableCell class="max-w-[20rem]">
         <span class="text-body-main text-n-slate-12 truncate block">
           {{ macro.name }}
         </span>
       </BaseTableCell>
 
-      <BaseTableCell class="max-w-0">
+      <BaseTableCell class="w-36">
+        <span
+          class="inline-flex max-w-full truncate rounded-md bg-n-alpha-1 px-2 py-0.5 text-xs text-n-slate-11"
+        >
+          {{ folderLabel }}
+        </span>
+      </BaseTableCell>
+
+      <BaseTableCell class="w-40">
         <div v-if="macro.created_by" class="flex items-center gap-2 min-w-0">
           <Avatar
             :name="createdByName"
@@ -70,7 +83,7 @@ const editTooltip = computed(() =>
         <span v-else class="text-body-main text-n-slate-11">--</span>
       </BaseTableCell>
 
-      <BaseTableCell class="max-w-0">
+      <BaseTableCell class="w-40">
         <div v-if="macro.updated_by" class="flex items-center gap-2 min-w-0">
           <Avatar
             :name="updatedByName"
@@ -85,7 +98,7 @@ const editTooltip = computed(() =>
         <span v-else class="text-body-main text-n-slate-11">--</span>
       </BaseTableCell>
 
-      <BaseTableCell class="max-w-0">
+      <BaseTableCell class="w-28 whitespace-nowrap">
         <span class="text-body-main text-n-slate-12 whitespace-nowrap">
           {{ visibilityLabel }}
         </span>

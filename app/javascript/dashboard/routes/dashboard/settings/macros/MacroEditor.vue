@@ -9,6 +9,7 @@ import { useAlert } from 'dashboard/composables';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
 import { useMacros } from 'dashboard/composables/useMacros';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useStatusLabel } from 'dashboard/composables/useStatusLabel';
 
 const store = useStore();
 const getters = useStoreGetters();
@@ -17,6 +18,7 @@ const route = useRoute();
 const router = useRouter();
 
 const { t } = useI18n();
+const { getResolveConversationPhrase } = useStatusLabel();
 
 const { getMacroDropdownValues } = useMacros();
 const { isAdmin } = useAdmin();
@@ -27,7 +29,10 @@ const mode = ref('CREATE');
 const macroActionTypes = computed(() => {
   return MACRO_ACTION_TYPES.map(type => ({
     ...type,
-    label: t(`MACROS.ACTIONS.${type.label}`),
+    label:
+      type.label === 'RESOLVE_CONVERSATION'
+        ? getResolveConversationPhrase()
+        : t(`MACROS.ACTIONS.${type.label}`),
   }));
 });
 
@@ -91,6 +96,7 @@ const initNewMacro = () => {
   mode.value = 'CREATE';
   macro.value = {
     name: '',
+    folder: '',
     actions: [
       {
         action_name: 'assign_team',

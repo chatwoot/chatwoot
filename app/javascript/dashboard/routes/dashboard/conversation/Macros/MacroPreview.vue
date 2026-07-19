@@ -7,6 +7,8 @@ import {
   resolveLabels,
   resolveAgents,
 } from 'dashboard/routes/dashboard/settings/macros/macroHelper';
+import { useI18n } from 'vue-i18n';
+import { useStatusLabel } from 'dashboard/composables/useStatusLabel';
 
 const props = defineProps({
   macro: {
@@ -15,9 +17,19 @@ const props = defineProps({
   },
 });
 
+const { t } = useI18n();
+const { getResolveConversationPhrase } = useStatusLabel();
+
 const labels = useMapGetter('labels/getLabels');
 const teams = useMapGetter('teams/getTeams');
 const agents = useMapGetter('agents/getAgents');
+
+const actionLabel = actionName => {
+  if (actionName === 'RESOLVE_CONVERSATION') {
+    return getResolveConversationPhrase();
+  }
+  return t(`MACROS.ACTIONS.${actionName}`);
+};
 
 const getActionValue = (key, params) => {
   const actionsMap = {
@@ -66,7 +78,7 @@ const resolvedMacro = computed(() => {
         class="absolute -left-[0.21875rem] top-[0.2734375rem] w-2 h-2 rounded-full bg-n-solid-1 border-2 border-solid border-n-weak dark:border-n-slate-6"
       />
       <p class="mb-1 text-xs text-n-slate-11">
-        {{ $t(`MACROS.ACTIONS.${action.actionName}`) }}
+        {{ actionLabel(action.actionName) }}
       </p>
       <p class="text-n-slate-12 text-sm">{{ action.actionValue }}</p>
     </div>

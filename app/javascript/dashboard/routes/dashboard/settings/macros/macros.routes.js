@@ -15,6 +15,7 @@ export default {
     {
       path: frontendURL('accounts/:accountId/settings/macros'),
       component: SettingsWrapper,
+      props: { wide: true },
       children: [
         {
           path: '',

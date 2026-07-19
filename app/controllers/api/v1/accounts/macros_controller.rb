@@ -57,7 +57,7 @@ class Api::V1::Accounts::MacrosController < Api::V1::Accounts::BaseController
 
   def permitted_params
     params.permit(
-      :name, :visibility,
+      :name, :visibility, :folder,
       actions: [:action_name, { action_params: [] }]
     )
   end
