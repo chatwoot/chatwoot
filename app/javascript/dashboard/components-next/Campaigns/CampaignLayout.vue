@@ -1,5 +1,4 @@
 <script setup>
-import { vOnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
@@ -13,7 +12,7 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['click', 'close']);
+const emit = defineEmits(['click']);
 
 const handleButtonClick = () => {
   emit('click');
@@ -28,23 +27,13 @@ const handleButtonClick = () => {
           <span class="text-heading-1 text-n-slate-12">
             {{ headerTitle }}
           </span>
-          <div
-            v-on-click-outside="[
-              () => emit('close'),
-              // This will prevent closing the modal when the editor Create link popup is open
-              { ignore: ['dialog.ProseMirror-prompt-backdrop'] },
-            ]"
-            class="relative group/campaign-button"
-          >
-            <Button
-              :label="buttonLabel"
-              icon="i-lucide-plus"
-              size="sm"
-              class="group-hover/campaign-button:brightness-110"
-              @click="handleButtonClick"
-            />
-            <slot name="action" />
-          </div>
+          <Button
+            :label="buttonLabel"
+            icon="i-lucide-plus"
+            size="sm"
+            class="hover:brightness-110"
+            @click="handleButtonClick"
+          />
         </div>
       </div>
     </header>

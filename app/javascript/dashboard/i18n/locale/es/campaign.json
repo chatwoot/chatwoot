@@ -88,9 +88,10 @@
       },
       "CARD": {
         "STATUS": {
-          "PROCESSING": "Processing",
+          "PROCESSING": "Procesando",
           "COMPLETED": "Completado",
-          "SCHEDULED": "Programado"
+          "SCHEDULED": "Programado",
+          "DRAFT": "Borrador"
         },
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Enviado desde",
@@ -120,7 +121,9 @@
           "AUDIENCE": {
             "LABEL": "Audiencia",
             "PLACEHOLDER": "Seleccione las etiquetas personalizadas",
-            "ERROR": "El público es requerido"
+            "ERROR": "El público es requerido",
+            "PREVIEW_LOADING": "Calculando alcance…",
+            "PREVIEW": "{total} contactos · {withPhone} con teléfono · {eligible} elegibles"
           },
           "SCHEDULED_AT": {
             "LABEL": "Programar tiempo",
@@ -128,32 +131,71 @@
             "ERROR": "El tiempo programado es requerido"
           },
           "BUTTONS": {
-            "CREATE": "Crear",
+            "CREATE": "Programar",
+            "SCHEDULE": "Programar",
+            "SAVE_DRAFT": "Guardar borrador",
             "CANCEL": "Cancelar"
           },
           "API": {
             "SUCCESS_MESSAGE": "Campaña de SMS creada con éxito",
+            "DRAFT_SUCCESS_MESSAGE": "Borrador de campaña SMS guardado",
             "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
           }
         }
+      },
+      "EDIT": {
+        "TITLE": "Editar campaña de SMS"
       }
     },
     "WHATSAPP": {
-      "HEADER_TITLE": "WhatsApp campaigns",
+      "HEADER_TITLE": "Campañas de WhatsApp",
       "NEW_CAMPAIGN": "Crear campaña",
       "EMPTY_STATE": {
-        "TITLE": "No WhatsApp campaigns are available",
-        "SUBTITLE": "Lanza una campaña de WhatsApp para conectar con tus clientes directamente. Envía ofertas o has anuncios fácilmente. Haz clic en 'Crear campaña' para comenzar."
+        "TITLE": "No hay campañas de WhatsApp disponibles",
+        "SUBTITLE": "Lanza una campaña de WhatsApp para conectar con tus clientes directamente. Envía ofertas o haz anuncios fácilmente. Haz clic en 'Crear campaña' para comenzar."
       },
       "CARD": {
         "STATUS": {
-          "PROCESSING": "Processing",
+          "PROCESSING": "Procesando",
           "COMPLETED": "Completado",
-          "SCHEDULED": "Programado"
+          "SCHEDULED": "Programado",
+          "DRAFT": "Borrador"
         },
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Enviado desde",
           "ON": "en"
+        },
+        "STATS": {
+          "SENT": "{count} enviados",
+          "DELIVERED": "{count} entregados",
+          "READ": "{count} leídos",
+          "FAILED": "{count} fallidos",
+          "SKIPPED": "{count} omitidos",
+          "PENDING": "{count} pendientes"
+        }
+      },
+      "REPORT": {
+        "SUBTITLE": "Detalle de envíos de esta campaña (no se crean conversaciones).",
+        "AUDIENCE_TOTAL": "Audiencia",
+        "EMPTY": "Aún no hay destinatarios para este filtro.",
+        "LOAD_MORE": "Cargar más",
+        "SEARCH_PLACEHOLDER": "Buscar por nombre o teléfono",
+        "STATUS": {
+          "PENDING": "Pendiente",
+          "SENT": "Enviado",
+          "DELIVERED": "Entregado",
+          "READ": "Leído",
+          "FAILED": "Fallido",
+          "SKIPPED": "Omitido"
+        },
+        "TABLE": {
+          "CONTACT": "Contacto",
+          "PHONE": "Teléfono",
+          "STATUS": "Estado",
+          "DETAILS": "Detalle",
+          "SENT_AT": "Enviado",
+          "DELIVERED_AT": "Entregado",
+          "READ_AT": "Leído"
         }
       },
       "CREATE": {
@@ -172,20 +214,22 @@
             "ERROR": "Se requiere buzón de entrada"
           },
           "TEMPLATE": {
-            "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
+            "LABEL": "Plantilla de WhatsApp",
+            "PLACEHOLDER": "Seleccione una plantilla",
+            "INFO": "Seleccione una plantilla para usar en esta campaña.",
+            "ERROR": "La plantilla es obligatoria",
             "PREVIEW_TITLE": "Procesar {templateName}",
             "LANGUAGE": "Idioma",
             "CATEGORY": "Categoría",
             "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+            "VARIABLE_PLACEHOLDER": "Ingrese el valor para {variable}"
           },
           "AUDIENCE": {
             "LABEL": "Audiencia",
             "PLACEHOLDER": "Seleccione las etiquetas personalizadas",
-            "ERROR": "El público es requerido"
+            "ERROR": "El público es requerido",
+            "PREVIEW_LOADING": "Calculando alcance…",
+            "PREVIEW": "{total} contactos · {withPhone} con teléfono · {eligible} elegibles"
           },
           "SCHEDULED_AT": {
             "LABEL": "Programar tiempo",
@@ -193,14 +237,20 @@
             "ERROR": "El tiempo programado es requerido"
           },
           "BUTTONS": {
-            "CREATE": "Crear",
+            "CREATE": "Programar",
+            "SCHEDULE": "Programar",
+            "SAVE_DRAFT": "Guardar borrador",
             "CANCEL": "Cancelar"
           },
           "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "SUCCESS_MESSAGE": "Campaña de WhatsApp creada con éxito",
+            "DRAFT_SUCCESS_MESSAGE": "Borrador de campaña WhatsApp guardado",
             "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
           }
         }
+      },
+      "EDIT": {
+        "TITLE": "Editar campaña de WhatsApp"
       }
     },
     "CONFIRM_DELETE": {
