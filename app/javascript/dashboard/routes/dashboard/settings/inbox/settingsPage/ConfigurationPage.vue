@@ -17,7 +17,7 @@ import TextArea from 'next/textarea/TextArea.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
 
 // Widget feature flags surfaced as toggles below, paired with their local data
-// field. Single source of truth so setDefaults() and updateWidgetFeatureFlags()
+// field. Single source of truth so setDefaults() and saveWidgetFeatureFlags()
 // stay in sync as flags are added.
 const WIDGET_FEATURE_TOGGLES = [
   { flag: 'allow_mobile_webview', field: 'allowMobileWebview' },
@@ -56,8 +56,7 @@ export default {
       isUpdatingAllowedDomains: false,
       isSettingDefaults: false,
       isReconfiguring: false,
-      isUpdatingFeatureFlags: false,
-      hasPendingFeatureFlagUpdate: false,
+      featureFlagSaveTimer: null,
     };
   },
   validations: {
@@ -86,18 +85,24 @@ export default {
   },
   watch: {
     inbox() {
+      // Drop any save still pending for the inbox we're leaving so it can never
+      // be written onto the inbox we're switching to.
+      clearTimeout(this.featureFlagSaveTimer);
       this.setDefaults();
     },
     allowMobileWebview() {
-      if (!this.isSettingDefaults) this.updateWidgetFeatureFlags();
+      if (!this.isSettingDefaults) this.scheduleWidgetFeatureFlagsSave();
     },
     allowCrossOriginIsolation() {
-      if (!this.isSettingDefaults) this.updateWidgetFeatureFlags();
+      if (!this.isSettingDefaults) this.scheduleWidgetFeatureFlagsSave();
     },
     hmacMandatory() {
       if (!this.isSettingDefaults && this.isAWebWidgetInbox)
         this.handleHmacFlag();
     },
+  },
+  beforeUnmount() {
+    clearTimeout(this.featureFlagSaveTimer);
   },
   mounted() {
     this.setDefaults();
@@ -106,15 +111,10 @@ export default {
     setDefaults() {
       this.isSettingDefaults = true;
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
-      // While a feature-flag update is in flight, the local toggles are the
-      // source of truth — don't overwrite them from an interim (possibly stale)
-      // updateInbox response, or the serialized retry would resend stale state.
-      if (!this.isUpdatingFeatureFlags) {
-        const flags = this.inbox.selected_feature_flags || [];
-        WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
-          this[field] = flags.includes(flag);
-        });
-      }
+      const flags = this.inbox.selected_feature_flags || [];
+      WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
+        this[field] = flags.includes(flag);
+      });
       this.allowedDomains = this.inbox.allowed_domains || '';
       this.$nextTick(() => {
         this.isSettingDefaults = false;
@@ -138,47 +138,34 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
-    async updateWidgetFeatureFlags() {
-      // Serialize updates: if a request is already in flight, mark that another
-      // run is needed and let the active one pick it up. This coalesces rapid
-      // toggles into sequential PATCHes so a stale request can't land last and
-      // overwrite a newer one.
-      if (this.isUpdatingFeatureFlags) {
-        this.hasPendingFeatureFlagUpdate = true;
-        return;
-      }
-      this.isUpdatingFeatureFlags = true;
-      // Bind this run to the inbox that was active; a pending retry must never
-      // write these flags onto a different inbox the admin navigated to.
+    scheduleWidgetFeatureFlagsSave() {
+      // Debounce so flipping several toggles in quick succession sends one PATCH
+      // with the final state (no racing/reordered requests). Cleared on inbox
+      // switch and unmount so a pending save can't target the wrong inbox.
+      clearTimeout(this.featureFlagSaveTimer);
+      this.featureFlagSaveTimer = setTimeout(this.saveWidgetFeatureFlags, 500);
+    },
+    async saveWidgetFeatureFlags() {
+      // Bind to the current inbox; build from local toggle state and preserve
+      // any non-widget flags already on the inbox.
       const inboxId = this.inbox.id;
-      try {
-        do {
-          this.hasPendingFeatureFlagUpdate = false;
-          if (this.inbox.id !== inboxId) break;
-          // Rebuild from the local toggle state (not the possibly-stale inbox
-          // prop) each pass; non-widget flags on the inbox are preserved.
-          const managedFlags = WIDGET_FEATURE_TOGGLES.map(t => t.flag);
-          const selectedFlags = (
-            this.inbox.selected_feature_flags || []
-          ).filter(f => !managedFlags.includes(f));
-          WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
-            if (this[field]) selectedFlags.push(flag);
-          });
+      const managedFlags = WIDGET_FEATURE_TOGGLES.map(t => t.flag);
+      const selectedFlags = (this.inbox.selected_feature_flags || []).filter(
+        f => !managedFlags.includes(f)
+      );
+      WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
+        if (this[field]) selectedFlags.push(flag);
+      });
 
-          // Sequential by design: each PATCH must finish before the next so a
-          // stale one can't land last.
-          // eslint-disable-next-line no-await-in-loop
-          await this.$store.dispatch('inboxes/updateInbox', {
-            id: inboxId,
-            formData: false,
-            channel: { selected_feature_flags: selectedFlags },
-          });
-        } while (this.hasPendingFeatureFlagUpdate);
+      try {
+        await this.$store.dispatch('inboxes/updateInbox', {
+          id: inboxId,
+          formData: false,
+          channel: { selected_feature_flags: selectedFlags },
+        });
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
-      } finally {
-        this.isUpdatingFeatureFlags = false;
       }
     },
     async updateAllowedDomains() {
