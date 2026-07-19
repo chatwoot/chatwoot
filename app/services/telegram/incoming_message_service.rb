@@ -150,9 +150,7 @@ class Telegram::IncomingMessageService
       return
     end
 
-    attachment_file = Down.download(
-      inbox.channel.get_telegram_file_path(file[:file_id])
-    )
+    attachment_file = Down.download(file_download_path)
 
     @message.attachments.new(
       account_id: @message.account_id,
