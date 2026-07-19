@@ -263,6 +263,13 @@ en:
         list_button_label: 'Choose an item'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
         unsupported_message: 'This message is unavailable.'
+        flow_response:
+          received: "Formulario completado:\n%{details}"
+          empty: 'Formulario completado.'
+        flow_confirmation:
+          header: '✅ Recibimos tu información. Por favor confirma que esté correcta:'
+          footer: 'Si algo está mal, responde a este chat y te enviamos el formulario de nuevo.'
+          empty: 'Recibimos tu formulario. Si necesitas corregir algo, escríbenos.'
       voice_call:
         twilio: 'Voice Call'
         whatsapp: 'WhatsApp Call'

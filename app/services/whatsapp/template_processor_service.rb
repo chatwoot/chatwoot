@@ -38,13 +38,13 @@ class Whatsapp::TemplateProcessorService
   end
 
   def process_enhanced_template_params(template, processed_params = nil)
-    processed_params ||= template_params['processed_params']
+    processed_params ||= template_params['processed_params'] || {}
     components = []
 
     components.concat(process_header_components(processed_params))
     components.concat(process_body_components(processed_params, template))
     components.concat(process_footer_components(processed_params))
-    components.concat(process_button_components(processed_params))
+    components.concat(process_button_components(processed_params, template))
 
     @template_params = components
   end
@@ -105,23 +105,76 @@ class Whatsapp::TemplateProcessorService
     footer_params.present? ? [{ type: 'footer', parameters: footer_params }] : []
   end
 
-  def process_button_components(processed_params)
+  def process_button_components(processed_params, template)
+    components = []
+    components.concat(process_parameterized_button_components(processed_params))
+    components.concat(process_flow_button_components(template, processed_params))
+    components
+  end
+
+  # URL / copy_code buttons that need runtime parameters from the agent UI.
+  def process_parameterized_button_components(processed_params)
     return [] if processed_params['buttons'].blank?
 
-    button_params = processed_params['buttons'].filter_map.with_index do |button, index|
+    processed_params['buttons'].filter_map.with_index do |button, index|
       next if button.blank?
+      next if button['type'].to_s.casecmp('flow').zero?
+      next unless button['type'] == 'url' || button['parameter'].present?
 
-      if button['type'] == 'url' || button['parameter'].present?
-        {
-          type: 'button',
-          sub_type: button['type'] || 'url',
-          index: index,
-          parameters: [parameter_builder.build_button_parameter(button)]
-        }
-      end
+      {
+        type: 'button',
+        sub_type: button['type'] || 'url',
+        index: index,
+        parameters: [parameter_builder.build_button_parameter(button)]
+      }
+    end
+  end
+
+  # Meta requires a flow button component when the template has a FLOW button.
+  # Chatwoot historically omitted it → API error 131009.
+  # Docs: https://developers.facebook.com/docs/whatsapp/flows/guides/sendingaflow/
+  def process_flow_button_components(template, processed_params)
+    template_buttons(template).each_with_index.filter_map do |button, index|
+      next unless button['type'].to_s.casecmp('FLOW').zero?
+
+      {
+        type: 'button',
+        sub_type: 'flow',
+        index: index.to_s,
+        parameters: [
+          {
+            type: 'action',
+            action: build_flow_action(processed_params, index)
+          }
+        ]
+      }
+    end
+  end
+
+  def template_buttons(template)
+    buttons_component = Array(template['components']).find do |component|
+      component['type'].to_s.casecmp('BUTTONS').zero?
     end
 
-    button_params.compact
+    Array(buttons_component&.dig('buttons'))
+  end
+
+  def build_flow_action(processed_params, index)
+    action = { flow_token: resolve_flow_token(processed_params, index) }
+
+    # Meta rejects empty flow_action_data ({}) with 131009 — only include when non-empty.
+    data = processed_params.dig('buttons', index, 'flow_action_data')
+    action[:flow_action_data] = data if data.is_a?(Hash) && data.present?
+
+    action
+  end
+
+  def resolve_flow_token(processed_params, index)
+    override = processed_params.dig('buttons', index, 'flow_token')
+    return override if override.present?
+    return "cw_#{message.conversation_id}_#{message.id}" if message&.id.present?
+
+    'unused'
   end
 
   def parameter_builder

@@ -374,6 +374,57 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         end
       end
     end
+
+    context 'when WhatsApp Flow nfm_reply is received' do
+      let(:flow_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Cliente Flow' }, wa_id: '593999111222' }],
+                messages: [{
+                  from: '593999111222',
+                  id: 'wamid.FLOW_REPLY_1',
+                  timestamp: '1664799904',
+                  type: 'interactive',
+                  interactive: {
+                    type: 'nfm_reply',
+                    nfm_reply: {
+                      name: 'flow',
+                      body: 'Sent',
+                      response_json: {
+                        flow_token: 'cw_9_9',
+                        nombre: 'Ana',
+                        ciudad: 'Quito'
+                      }.to_json
+                    }
+                  }
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'stores readable flow answers and sends confirmation to the customer' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: flow_params).perform
+
+        messages = whatsapp_channel.inbox.messages.order(:id)
+        incoming = messages.find(&:incoming?)
+        confirmation = messages.find(&:outgoing?)
+
+        expect(incoming.content).to include('Formulario completado')
+        expect(incoming.content).to include('Nombre: Ana')
+        expect(incoming.content_attributes['whatsapp_flow_response']['ciudad']).to eq('Quito')
+
+        expect(confirmation).to be_present
+        expect(confirmation.content).to include('Recibimos tu información')
+        expect(confirmation.content).to include('Ciudad: Quito')
+        expect(confirmation.content_attributes['whatsapp_flow_confirmation']).to be true
+      end
+    end
   end
 
   # Métodos auxiliares para reduzir o tamanho do exemplo

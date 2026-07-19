@@ -198,6 +198,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     #   { type: 'header', parameters: [...] },
     #   { type: 'button', sub_type: 'url', parameters: [...] }
     # ]
+    # FLOW templates also get an auto-built button component:
+    #   { type: 'button', sub_type: 'flow', index: '0', parameters: [{ type: 'action', action: { flow_token: '...' } }] }
     template_body[:components] = template_info[:parameters] || []
 
     template_body

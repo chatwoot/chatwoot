@@ -25,6 +25,9 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def message_content(message)
+    flow_content = flow_response_message_content(message)
+    return flow_content if flow_content.present?
+
     interactive_id = message.dig(:interactive, :button_reply, :id) ||
                      message.dig(:interactive, :list_reply, :id)
     interactive_id.presence ||
@@ -33,6 +36,20 @@ module Whatsapp::IncomingMessageServiceHelpers
       message.dig(:interactive, :button_reply, :title) ||
       message.dig(:interactive, :list_reply, :title) ||
       message.dig(:name, :formatted_name)
+  end
+
+  def flow_response_message_content(message)
+    return unless Whatsapp::FlowResponseFormatter.nfm_reply?(message)
+
+    Whatsapp::FlowResponseFormatter.format_for_agent(
+      Whatsapp::FlowResponseFormatter.parse_response_json(message)
+    )
+  end
+
+  def flow_response_payload(message)
+    return unless Whatsapp::FlowResponseFormatter.nfm_reply?(message)
+
+    Whatsapp::FlowResponseFormatter.parse_response_json(message)
   end
 
   def file_content_type(file_type)
