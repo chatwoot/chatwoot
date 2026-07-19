@@ -24,6 +24,16 @@ const avatarSrc = computed(() => {
   return avatarUrl.value || props.selectedContact?.thumbnail || '';
 });
 
+const displayName = computed(() => {
+  const name = props.selectedContact?.name?.toString().trim();
+  if (name && name !== '.') return name;
+  return (
+    props.selectedContact?.phoneNumber ||
+    props.selectedContact?.email ||
+    '—'
+  );
+});
+
 const createdAt = computed(() => {
   return props.selectedContact?.createdAt
     ? dynamicTime(props.selectedContact.createdAt)
@@ -57,7 +67,7 @@ const handleAvatarDelete = () => {
       <div class="flex flex-col gap-3 min-w-0 sm:flex-row sm:items-start">
         <Avatar
           :src="avatarSrc"
-          :name="selectedContact?.name || ''"
+          :name="displayName"
           :size="56"
           allow-upload
           hide-offline-status
@@ -69,7 +79,7 @@ const handleAvatarDelete = () => {
         <div class="flex flex-col gap-3 min-w-0 flex-1">
           <div class="flex flex-col gap-1 min-w-0">
             <h3 class="text-lg font-medium text-n-slate-12 truncate">
-              {{ selectedContact?.name || '—' }}
+              {{ displayName }}
             </h3>
             <p class="text-xs text-n-slate-10">
               {{ t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}

@@ -4,6 +4,8 @@ class Account::ConversationsExportJob < ApplicationJob
   LABELS_COLUMN = 'labels'.freeze
   LABELS_DELIMITER = ','.freeze
   EXPORT_FORMATS = %w[csv xlsx].freeze
+  # Force spreadsheet apps to treat these as text (avoid scientific notation).
+  TEXT_FORCE_HEADERS = %w[contact_phone contact_document_number display_id].freeze
 
   def perform(account_id, user_id, params = {})
     @account = Account.find(account_id)
@@ -62,8 +64,8 @@ class Account::ConversationsExportJob < ApplicationJob
     case header
     when 'display_id' then conversation.display_id
     when 'url' then conversation_url(conversation)
-    when 'created_at' then conversation.created_at
-    when 'last_activity_at' then conversation.last_activity_at
+    when 'created_at' then format_datetime(conversation.created_at)
+    when 'last_activity_at' then format_datetime(conversation.last_activity_at)
     when 'status' then conversation.status
     when 'status_label' then status_label(conversation)
     when 'assignee' then conversation.assignee&.name || conversation.assignee_agent_bot&.name
@@ -78,6 +80,25 @@ class Account::ConversationsExportJob < ApplicationJob
     else
       custom_attribute_value(conversation, header)
     end
+  end
+
+  def format_datetime(value)
+    return '' if value.blank?
+
+    value.in_time_zone.strftime('%Y-%m-%d %H:%M:%S')
+  end
+
+  def force_text_header?(header)
+    TEXT_FORCE_HEADERS.include?(header)
+  end
+
+  def spreadsheet_text(value)
+    return '' if value.nil?
+
+    text = value.to_s
+    return '' if text.blank?
+
+    "\t#{text}"
   end
 
   def custom_attribute_value(conversation, header)
@@ -175,7 +196,11 @@ class Account::ConversationsExportJob < ApplicationJob
   def attach_csv(headers, rows)
     csv_data = CSV.generate do |csv|
       csv << headers
-      rows.each { |row| csv << row }
+      rows.each do |row|
+        csv << row.map.with_index do |cell, index|
+          force_text_header?(headers[index]) ? spreadsheet_text(cell) : cell
+        end
+      end
     end
     return if csv_data.blank?
 
@@ -190,8 +215,12 @@ class Account::ConversationsExportJob < ApplicationJob
   def attach_xlsx(headers, rows)
     package = Axlsx::Package.new
     package.workbook.add_worksheet(name: 'Conversations') do |sheet|
+      types = headers.map { |header| force_text_header?(header) ? :string : nil }
       sheet.add_row headers
-      rows.each { |row| sheet.add_row row }
+      rows.each do |row|
+        cells = row.map { |cell| cell.nil? ? '' : cell }
+        sheet.add_row cells, types: types
+      end
     end
 
     @account.conversations_export.attach(

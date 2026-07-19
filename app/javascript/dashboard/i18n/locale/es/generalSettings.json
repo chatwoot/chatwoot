@@ -92,6 +92,16 @@
         "PLACEHOLDER": "Email de soporte de su empresa",
         "ERROR": ""
       },
+      "RESOLVED_STATUS_LABEL": {
+        "TITLE": "Etiqueta de estado resuelto",
+        "NOTE": "Elige cómo se muestran las conversaciones resueltas en la bandeja y los reportes.",
+        "LABEL": "Etiqueta para conversaciones resueltas",
+        "UPDATE_BUTTON": "Actualizar",
+        "API": {
+          "SUCCESS": "Etiqueta de estado resuelto actualizada correctamente",
+          "ERROR": "No se pudo actualizar la etiqueta de estado resuelto"
+        }
+      },
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Exclude unattended conversations",
         "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."

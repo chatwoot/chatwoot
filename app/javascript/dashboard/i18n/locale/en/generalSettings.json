@@ -92,6 +92,16 @@
         "PLACEHOLDER": "Your company's support email",
         "ERROR": ""
       },
+      "RESOLVED_STATUS_LABEL": {
+        "TITLE": "Resolved status label",
+        "NOTE": "Choose how resolved conversations are labeled in the inbox and reports.",
+        "LABEL": "Label for resolved conversations",
+        "UPDATE_BUTTON": "Update",
+        "API": {
+          "SUCCESS": "Resolved status label updated successfully",
+          "ERROR": "Failed to update resolved status label"
+        }
+      },
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Exclude unattended conversations",
         "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."

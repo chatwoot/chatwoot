@@ -21,7 +21,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['goToContactsList', 'toggleBlock']);
+const emit = defineEmits(['goToContactsList', 'toggleBlock', 'edit']);
 
 const { t } = useI18n();
 const slots = useSlots();
@@ -32,7 +32,13 @@ const isContactSidebarOpen = ref(false);
 const contactId = computed(() => route.params.contactId);
 
 const selectedContactName = computed(() => {
-  return props.selectedContact?.name;
+  const name = props.selectedContact?.name?.toString().trim();
+  if (name && name !== '.') return name;
+  return (
+    props.selectedContact?.phoneNumber ||
+    props.selectedContact?.email ||
+    t('CONTACTS_LAYOUT.HEADER.BREADCRUMB.FALLBACK_NAME')
+  );
 });
 
 const breadcrumbItems = computed(() => {
@@ -85,6 +91,13 @@ const closeMobileSidebar = () => {
               @click="handleBreadcrumbClick"
             />
             <div class="flex items-center gap-2">
+              <Button
+                :label="$t('CONTACTS_LAYOUT.HEADER.EDIT')"
+                size="sm"
+                slate
+                icon="i-lucide-pencil"
+                @click="emit('edit')"
+              />
               <Button
                 :label="
                   !isContactBlocked

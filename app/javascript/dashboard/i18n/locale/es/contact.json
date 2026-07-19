@@ -308,7 +308,8 @@
       "BLOCK_CONTACT": "Bloquear contacto",
       "UNBLOCK_CONTACT": "Desbloquear contacto",
       "BREADCRUMB": {
-        "CONTACTS": "Contactos"
+        "CONTACTS": "Contactos",
+        "FALLBACK_NAME": "Contacto"
       },
       "ACTIONS": {
         "CONTACT_CREATION": {
@@ -550,7 +551,7 @@
         "ACTIVITY": "Actividad"
       },
       "EMPTY_CONTACT_DATA": "Aún no hay datos del contacto. Usa Editar para agregarlos.",
-      "EMPTY_SOCIAL_PROFILES": "Aún no hay redes sociales. Agrégalas desde Editar.",
+      "EMPTY_SOCIAL_PROFILES": "Aún no hay redes sociales. Usa Editar para agregarlas.",
       "FIELDS": {
         "EMAIL": "Correo",
         "PHONE": "Teléfono",
