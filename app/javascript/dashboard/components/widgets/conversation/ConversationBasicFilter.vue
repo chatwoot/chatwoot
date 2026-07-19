@@ -5,6 +5,7 @@ import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
+import { useStatusLabel } from 'dashboard/composables/useStatusLabel';
 import wootConstants from 'dashboard/constants/globals';
 import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -20,6 +21,7 @@ const emit = defineEmits(['changeFilter']);
 
 const store = useStore();
 const { t } = useI18n();
+const { getStatusLabel } = useStatusLabel();
 
 const { updateUISettings } = useUISettings();
 
@@ -40,19 +42,19 @@ const currentSortBy = computed(() => {
 
 const chatStatusOptions = computed(() => [
   {
-    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.open.TEXT'),
+    label: getStatusLabel('open'),
     value: 'open',
   },
   {
-    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
+    label: getStatusLabel('resolved'),
     value: 'resolved',
   },
   {
-    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT'),
+    label: getStatusLabel('pending'),
     value: 'pending',
   },
   {
-    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
+    label: getStatusLabel('snoozed'),
     value: 'snoozed',
   },
   {
@@ -157,11 +159,12 @@ const handleSortChange = value => {
         'ltr:right-0 rtl:left-0': isOnExpandedLayout,
       }"
     >
-      <div class="flex items-center justify-between last:mt-4 gap-2">
-        <span class="text-sm truncate text-n-slate-12">
+      <div class="flex flex-col gap-1.5 last:mt-4">
+        <span class="text-sm text-n-slate-12">
           {{ $t('CHAT_LIST.CHAT_SORT.STATUS') }}
         </span>
         <SelectMenu
+          class="w-full"
           :model-value="chatStatusFilter"
           :options="chatStatusOptions"
           :label="activeChatStatusLabel"
@@ -169,11 +172,12 @@ const handleSortChange = value => {
           @update:model-value="handleStatusChange"
         />
       </div>
-      <div class="flex items-center justify-between last:mt-4 gap-2">
-        <span class="text-sm truncate text-n-slate-12">
+      <div class="flex flex-col gap-1.5 last:mt-4">
+        <span class="text-sm text-n-slate-12">
           {{ $t('CHAT_LIST.CHAT_SORT.ORDER_BY') }}
         </span>
         <SelectMenu
+          class="w-full"
           :model-value="chatSortFilter"
           :options="chatSortOptions"
           :label="activeChatSortLabel"

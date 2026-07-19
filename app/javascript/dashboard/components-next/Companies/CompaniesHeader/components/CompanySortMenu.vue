@@ -95,13 +95,14 @@ const handleOrderChange = value => {
     <div
       v-if="isMenuOpen"
       v-on-clickaway="() => (isMenuOpen = false)"
-      class="absolute top-full mt-1 ltr:-right-32 rtl:-left-32 sm:ltr:right-0 sm:rtl:left-0 flex flex-col gap-4 bg-n-alpha-3 backdrop-blur-[100px] border border-n-weak w-72 rounded-xl p-4"
+      class="absolute top-full mt-1 ltr:-right-32 rtl:-left-32 sm:ltr:right-0 sm:rtl:left-0 flex flex-col bg-n-alpha-3 backdrop-blur-[100px] border border-n-weak w-72 rounded-xl p-4"
     >
-      <div class="flex items-center justify-between gap-2">
+      <div class="flex flex-col gap-1.5 last:mt-4">
         <span class="text-sm text-n-slate-12">
           {{ t('COMPANIES.SORT_BY.LABEL') }}
         </span>
         <SelectMenu
+          class="w-full"
           :model-value="activeSort"
           :options="sortMenus"
           :label="activeSortLabel"
@@ -109,11 +110,12 @@ const handleOrderChange = value => {
           @update:model-value="handleSortChange"
         />
       </div>
-      <div class="flex items-center justify-between gap-2">
+      <div class="flex flex-col gap-1.5 last:mt-4">
         <span class="text-sm text-n-slate-12">
           {{ t('COMPANIES.ORDER.LABEL') }}
         </span>
         <SelectMenu
+          class="w-full"
           :model-value="activeOrdering"
           :options="orderingMenus"
           :label="activeOrderingLabel"

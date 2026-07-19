@@ -32,8 +32,16 @@ const sortMenus = [
     value: 'email',
   },
   {
+    label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.PHONE_NUMBER'),
+    value: 'phone_number',
+  },
+  {
     label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.DOCUMENT_NUMBER'),
     value: 'document_number',
+  },
+  {
+    label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.IDENTIFIER'),
+    value: 'identifier',
   },
   {
     label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.COMPANY'),
@@ -48,12 +56,24 @@ const sortMenus = [
     value: 'city',
   },
   {
+    label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.LABELS'),
+    value: 'labels',
+  },
+  {
+    label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.ASSIGNED_AGENT'),
+    value: 'assigned_agent',
+  },
+  {
     label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.LAST_ACTIVITY'),
     value: 'last_activity_at',
   },
   {
     label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.CREATED_AT'),
     value: 'created_at',
+  },
+  {
+    label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.BLOCKED'),
+    value: 'blocked',
   },
 ];
 
@@ -109,24 +129,26 @@ const handleOrderChange = value => {
     <div
       v-if="isMenuOpen"
       v-on-clickaway="() => (isMenuOpen = false)"
-      class="absolute top-full mt-1 ltr:-right-32 rtl:-left-32 sm:ltr:right-0 sm:rtl:left-0 flex flex-col gap-4 bg-n-alpha-3 backdrop-blur-[100px] border border-n-weak w-72 rounded-xl p-4 z-50"
+      class="absolute top-full mt-1 ltr:-right-32 rtl:-left-32 sm:ltr:right-0 sm:rtl:left-0 flex flex-col bg-n-alpha-3 backdrop-blur-[100px] border border-n-weak w-72 rounded-xl p-4 z-50"
     >
-      <div class="flex items-center justify-between gap-2">
+      <div class="flex flex-col gap-1.5 last:mt-4">
         <span class="text-sm text-n-slate-12">
           {{ t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.LABEL') }}
         </span>
         <SelectMenu
+          class="w-full"
           :model-value="activeSort"
           :options="sortMenus"
           :label="activeSortLabel"
           @update:model-value="handleSortChange"
         />
       </div>
-      <div class="flex items-center justify-between gap-2">
+      <div class="flex flex-col gap-1.5 last:mt-4">
         <span class="text-sm text-n-slate-12">
           {{ t('CONTACTS_LAYOUT.HEADER.ACTIONS.ORDER.LABEL') }}
         </span>
         <SelectMenu
+          class="w-full"
           :model-value="activeOrdering"
           :options="orderingMenus"
           :label="activeOrderingLabel"

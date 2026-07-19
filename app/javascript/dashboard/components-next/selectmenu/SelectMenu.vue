@@ -43,22 +43,23 @@ const handleSelect = value => {
 <template>
   <div
     v-on-clickaway="() => (isOpen = false)"
-    class="relative flex flex-col gap-1 w-fit"
+    class="relative flex flex-col gap-1"
   >
     <Button
+      v-tooltip.top="labelValue"
       icon="i-lucide-chevron-down"
       size="sm"
       trailing-icon
       color="slate"
       variant="faded"
-      class="!w-fit max-w-40"
+      class="!w-full max-w-full"
       :class="{ 'dark:!bg-n-alpha-2 !bg-n-slate-9/20': isOpen }"
       :label="labelValue"
       @click="toggleMenu"
     />
     <div
       v-if="isOpen"
-      class="absolute select-none max-w-64 flex flex-col gap-1 bg-n-alpha-3 backdrop-blur-[100px] p-1 top-0 shadow-lg z-40 rounded-lg border border-n-weak dark:border-n-strong/50"
+      class="absolute select-none w-max min-w-[10rem] max-w-[min(22rem,calc(100vw-2rem))] flex flex-col gap-1 bg-n-alpha-3 backdrop-blur-[100px] p-1 top-0 shadow-lg z-40 rounded-lg border border-n-weak dark:border-n-strong/50"
       :class="{
         'ltr:left-full rtl:right-full ltr:ml-1 rtl:mr-1':
           subMenuPosition === 'right',
@@ -76,7 +77,7 @@ const handleSelect = value => {
         variant="ghost"
         color="slate"
         trailing-icon
-        class="!justify-end !px-2.5 !h-7"
+        class="!justify-start !px-2.5 !h-auto min-h-7 [&_span]:whitespace-normal [&_span]:overflow-visible [&_span]:text-clip [&_span]:break-words"
         :class="{ '!bg-n-alpha-2': option.value === modelValue }"
         @click="handleSelect(option.value)"
       />

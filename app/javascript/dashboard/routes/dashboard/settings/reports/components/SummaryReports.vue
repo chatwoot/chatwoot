@@ -10,8 +10,13 @@ import {
   useVueTable,
   createColumnHelper,
   getCoreRowModel,
+  getSortedRowModel,
 } from '@tanstack/vue-table';
 import { computed, onMounted, ref, h } from 'vue';
+import { useI18n } from 'vue-i18n';
+import SummaryReportLink from './SummaryReportLink.vue';
+import ReportHelpLabel from './ReportHelpLabel.vue';
+import { useStatusLabel } from 'dashboard/composables/useStatusLabel';
 
 const props = defineProps({
   type: {
@@ -41,8 +46,7 @@ const store = useStore();
 const from = ref(0);
 const to = ref(0);
 const businessHours = ref(false);
-import { useI18n } from 'vue-i18n';
-import SummaryReportLink from './SummaryReportLink.vue';
+const sorting = ref([{ id: 'conversationsCount', desc: true }]);
 
 const flagMap = {
   agent: 'isFetchingAgentSummaryReports',
@@ -61,76 +65,175 @@ const getMetrics = id =>
   reportMetrics.value.find(metrics => metrics.id === Number(id)) || {};
 const columnHelper = createColumnHelper();
 const { t } = useI18n();
-
-const defaulSpanRender = cellProps =>
-  h(
-    'span',
-    {
-      class: cellProps.getValue() ? '' : 'text-n-slate-12',
-    },
-    cellProps.getValue()
-  );
-
-const columns = computed(() => [
-  columnHelper.accessor('name', {
-    header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
-    width: 300,
-    cell: cellProps => h(SummaryReportLink, cellProps),
-  }),
-  columnHelper.accessor('conversationsCount', {
-    header: t('SUMMARY_REPORTS.CONVERSATIONS'),
-    width: 200,
-    cell: defaulSpanRender,
-  }),
-  columnHelper.accessor('avgFirstResponseTime', {
-    header: t('SUMMARY_REPORTS.AVG_FIRST_RESPONSE_TIME'),
-    width: 200,
-    cell: defaulSpanRender,
-  }),
-  columnHelper.accessor('avgResolutionTime', {
-    header: t('SUMMARY_REPORTS.AVG_RESOLUTION_TIME'),
-    width: 200,
-    cell: defaulSpanRender,
-  }),
-  columnHelper.accessor('avgReplyTime', {
-    header: t('SUMMARY_REPORTS.AVG_REPLY_TIME'),
-    width: 200,
-    cell: defaulSpanRender,
-  }),
-  columnHelper.accessor('resolutionsCount', {
-    header: t('SUMMARY_REPORTS.RESOLUTION_COUNT'),
-    width: 200,
-    cell: defaulSpanRender,
-  }),
-]);
+const { getResolutionCountLabel } = useStatusLabel();
 
 const renderAvgTime = value => (value ? formatTime(value) : '--');
+const renderCount = value =>
+  value || value === 0 ? Number(value).toLocaleString() : '--';
 
-const renderCount = value => (value ? value.toLocaleString() : '--');
-
-const tableData = computed(() =>
-  rowItems.value.map(row => {
+const tableData = computed(() => {
+  const rows = rowItems.value.map(row => {
     const rowMetrics = getMetrics(row.id);
     const {
-      conversationsCount,
-      avgFirstResponseTime,
-      avgResolutionTime,
-      avgReplyTime,
-      resolvedConversationsCount,
+      conversationsCount = 0,
+      avgFirstResponseTime = 0,
+      avgResolutionTime = 0,
+      avgReplyTime = 0,
+      resolvedConversationsCount = 0,
     } = rowMetrics;
     return {
       id: row.id,
-      // we fallback on title, label for instance does not have a name property
       name: row.name ?? row.title,
       type: props.type,
-      conversationsCount: renderCount(conversationsCount),
-      avgFirstResponseTime: renderAvgTime(avgFirstResponseTime),
-      avgReplyTime: renderAvgTime(avgReplyTime),
-      avgResolutionTime: renderAvgTime(avgResolutionTime),
-      resolutionsCount: renderCount(resolvedConversationsCount),
+      conversationsCount: Number(conversationsCount || 0),
+      avgFirstResponseTime: Number(avgFirstResponseTime || 0),
+      avgReplyTime: Number(avgReplyTime || 0),
+      avgResolutionTime: Number(avgResolutionTime || 0),
+      resolutionsCount: Number(resolvedConversationsCount || 0),
+      conversationsCountDisplay: renderCount(conversationsCount),
+      avgFirstResponseTimeDisplay: renderAvgTime(avgFirstResponseTime),
+      avgReplyTimeDisplay: renderAvgTime(avgReplyTime),
+      avgResolutionTimeDisplay: renderAvgTime(avgResolutionTime),
+      resolutionsCountDisplay: renderCount(resolvedConversationsCount),
     };
-  })
-);
+  });
+
+  const totalConversations = rows.reduce(
+    (sum, row) => sum + row.conversationsCount,
+    0
+  );
+
+  const withShare = rows.map(row => {
+    const share =
+      totalConversations > 0
+        ? Math.round((row.conversationsCount / totalConversations) * 1000) / 10
+        : 0;
+    return {
+      ...row,
+      sharePercent: share,
+      sharePercentDisplay: `${share}%`,
+    };
+  });
+
+  const ranked = [...withShare].sort(
+    (a, b) => b.conversationsCount - a.conversationsCount
+  );
+  const rankById = new Map(ranked.map((row, index) => [row.id, index + 1]));
+  const rowCount = withShare.length;
+
+  return withShare.map(row => {
+    const rank = rankById.get(row.id) || 0;
+    return {
+      ...row,
+      rank,
+      isTop: rank > 0 && rank <= 3,
+      isBottom: rank > 0 && rowCount > 6 && rank > rowCount - 3,
+    };
+  });
+});
+
+const displayCell = (value, className = '') =>
+  h(
+    'span',
+    {
+      class: [
+        value === '--' ? 'text-n-slate-11' : '',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' '),
+    },
+    value
+  );
+
+const headerWithHelp = (labelKey, helpKey) => () =>
+  h(ReportHelpLabel, {
+    label: t(labelKey),
+    help: helpKey ? t(helpKey) : '',
+  });
+
+const columns = computed(() => [
+  columnHelper.accessor('rank', {
+    header: headerWithHelp('SUMMARY_REPORTS.RANK', 'SUMMARY_REPORTS.HELP.RANK'),
+    size: 56,
+    minSize: 48,
+    cell: info => displayCell(info.getValue()),
+  }),
+  columnHelper.accessor('name', {
+    header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
+    size: 280,
+    minSize: 160,
+    cell: cellProps => h(SummaryReportLink, cellProps),
+  }),
+  columnHelper.accessor('conversationsCount', {
+    header: headerWithHelp(
+      'SUMMARY_REPORTS.CONVERSATIONS',
+      'SUMMARY_REPORTS.HELP.CONVERSATIONS'
+    ),
+    size: 140,
+    minSize: 140,
+    cell: info =>
+      displayCell(info.row.original.conversationsCountDisplay),
+  }),
+  columnHelper.accessor('sharePercent', {
+    header: headerWithHelp(
+      'SUMMARY_REPORTS.SHARE',
+      'SUMMARY_REPORTS.HELP.SHARE'
+    ),
+    size: 100,
+    minSize: 100,
+    cell: info =>
+      displayCell(
+        info.row.original.sharePercentDisplay,
+        [
+          info.row.original.isTop ? 'text-n-teal-11 font-medium' : '',
+          info.row.original.isBottom ? 'text-n-slate-10' : '',
+        ]
+          .filter(Boolean)
+          .join(' ')
+      ),
+  }),
+  columnHelper.accessor('avgFirstResponseTime', {
+    header: headerWithHelp(
+      'SUMMARY_REPORTS.AVG_FIRST_RESPONSE_TIME',
+      'SUMMARY_REPORTS.HELP.AVG_FIRST_RESPONSE_TIME'
+    ),
+    size: 200,
+    minSize: 180,
+    cell: info =>
+      displayCell(info.row.original.avgFirstResponseTimeDisplay),
+  }),
+  columnHelper.accessor('avgResolutionTime', {
+    header: headerWithHelp(
+      'SUMMARY_REPORTS.AVG_RESOLUTION_TIME',
+      'SUMMARY_REPORTS.HELP.AVG_RESOLUTION_TIME'
+    ),
+    size: 200,
+    minSize: 180,
+    cell: info =>
+      displayCell(info.row.original.avgResolutionTimeDisplay),
+  }),
+  columnHelper.accessor('avgReplyTime', {
+    header: headerWithHelp(
+      'SUMMARY_REPORTS.AVG_REPLY_TIME',
+      'SUMMARY_REPORTS.HELP.AVG_REPLY_TIME'
+    ),
+    size: 180,
+    minSize: 180,
+    cell: info => displayCell(info.row.original.avgReplyTimeDisplay),
+  }),
+  columnHelper.accessor('resolutionsCount', {
+    header: () =>
+      h(ReportHelpLabel, {
+        label: getResolutionCountLabel(),
+        help: t('SUMMARY_REPORTS.HELP.RESOLUTION_COUNT'),
+      }),
+    size: 140,
+    minSize: 140,
+    cell: info =>
+      displayCell(info.row.original.resolutionsCountDisplay),
+  }),
+]);
 
 const fetchReportsWithRetry = async () => {
   const params = {
@@ -170,13 +273,21 @@ const table = useVueTable({
   get columns() {
     return columns.value;
   },
-  enableSorting: false,
+  state: {
+    get sorting() {
+      return sorting.value;
+    },
+  },
+  onSortingChange: updater => {
+    sorting.value =
+      typeof updater === 'function' ? updater(sorting.value) : updater;
+  },
+  enableSorting: true,
   getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
 });
 
-// downloadReports method is not used in this component
-// but it is exposed to be used in the parent component
-const downloadReports = () => {
+const downloadReports = (exportFormat = 'csv') => {
   const dispatchMethods = {
     agent: 'downloadAgentReports',
     label: 'downloadLabelReports',
@@ -188,12 +299,14 @@ const downloadReports = () => {
       type: props.type,
       to: to.value,
       businessHours: businessHours.value,
+      format: exportFormat,
     });
     const params = {
       from: from.value,
       to: to.value,
       fileName,
       businessHours: businessHours.value,
+      exportFormat,
     };
     store.dispatch(dispatchMethods[props.type], params);
   }
@@ -208,22 +321,20 @@ defineExpose({ downloadReports });
     @filter-change="onFilterChange"
   />
   <div
-    class="relative flex-1 overflow-auto px-2 py-2 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
+    class="relative flex-1 overflow-x-auto overflow-y-auto mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
-    <Table :table="table" />
+    <Table :table="table" type="compact" />
     <Transition
       enter-active-class="transition-opacity duration-300 ease-out"
       leave-active-class="transition-opacity duration-200 ease-in"
       enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
       <div
         v-if="isLoading"
-        class="absolute inset-0 flex justify-center pt-[12.5rem] bg-n-solid-1/70 rounded-xl pointer-events-none"
+        class="absolute inset-0 z-10 flex items-center justify-center bg-n-alpha-black1/40"
       >
-        <Spinner :size="32" class="text-n-brand" />
+        <Spinner />
       </div>
     </Transition>
   </div>
