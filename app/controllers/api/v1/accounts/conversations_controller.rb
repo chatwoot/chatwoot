@@ -3,7 +3,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include DateRangeHelper
   include HmacConcern
 
-  before_action :conversation, except: [:index, :meta, :search, :create, :filter]
+  before_action :conversation, except: [:index, :meta, :search, :create, :filter, :export]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
 
   ATTACHMENT_RESULTS_PER_PAGE = 100
@@ -56,6 +56,24 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
          CustomExceptions::CustomFilter::InvalidQueryOperator,
          CustomExceptions::CustomFilter::InvalidValue => e
     render_could_not_create_error(e.message)
+  end
+
+  def export
+    authorize Conversation, :export?
+    filter_params = {
+      payload: params.permit!['payload'],
+      # Rails reserves params[:format] for request format (e.g. json) — use export_format
+      export_format: params[:export_format],
+      # Basic list filters (same as ConversationFinder / index) when no advanced payload
+      inbox_id: params[:inbox_id],
+      status: params[:status],
+      assignee_type: params[:assignee_type],
+      team_id: params[:team_id],
+      labels: params[:labels],
+      conversation_type: params[:conversation_type]
+    }
+    Account::ConversationsExportJob.perform_later(Current.account.id, Current.user.id, filter_params)
+    head :ok, message: I18n.t('errors.conversations.export.success')
   end
 
   def mute

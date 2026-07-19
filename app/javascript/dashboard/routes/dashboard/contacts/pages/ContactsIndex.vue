@@ -7,6 +7,10 @@ import { useAlert } from 'dashboard/composables';
 import { debounce } from '@chatwoot/utils';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
+import {
+  ALLOWED_CONTACTS_PER_PAGE,
+  normalizeContactsPerPage,
+} from 'dashboard/helper/contactTableColumns';
 
 import ContactsListLayout from 'dashboard/components-next/Contacts/ContactsListLayout.vue';
 import ContactEmptyState from 'dashboard/components-next/Contacts/EmptyState/ContactEmptyState.vue';
@@ -57,6 +61,10 @@ const sortState = reactive({
   activeSort: initialSort,
   activeOrdering: initialOrder,
 });
+
+const itemsPerPage = computed(() =>
+  normalizeContactsPerPage(uiSettings.value?.contacts_per_page)
+);
 
 const activeLabel = computed(() => route.params.label);
 const activeSegmentId = computed(() => route.params.segmentId);
@@ -208,6 +216,7 @@ const getCommonFetchParams = (page = 1) => ({
   page,
   sortAttr: buildSortAttr(),
   label: activeLabel.value,
+  perPage: itemsPerPage.value,
 });
 
 const fetchContacts = async (page = 1, options = {}) => {
@@ -249,6 +258,7 @@ const fetchActiveContacts = async (page = 1, options = {}) => {
   await store.dispatch('contacts/active', {
     page,
     sortAttr: buildSortAttr(),
+    perPage: itemsPerPage.value,
   });
   updatePageParam(page);
 };
@@ -357,7 +367,7 @@ const assignLabels = async labels => {
     });
     useAlert(t('CONTACTS_BULK_ACTIONS.ASSIGN_LABELS_SUCCESS'));
     clearSelection();
-    await fetchContactsBasedOnContext(pageNumber.value);
+    scheduleContactsRefetchAfterBulk();
   } catch (error) {
     useAlert(t('CONTACTS_BULK_ACTIONS.ASSIGN_LABELS_FAILED'));
   } finally {
@@ -379,7 +389,7 @@ const removeLabels = async labels => {
     });
     useAlert(t('CONTACTS_BULK_ACTIONS.REMOVE_LABELS_SUCCESS'));
     clearSelection();
-    await fetchContactsBasedOnContext(pageNumber.value);
+    scheduleContactsRefetchAfterBulk();
   } catch (error) {
     useAlert(t('CONTACTS_BULK_ACTIONS.REMOVE_LABELS_FAILED'));
   } finally {
@@ -453,8 +463,28 @@ const handleSort = async ({ sort, order }) => {
     : fetchContacts());
 };
 
+const handlePerPageChange = async perPage => {
+  const next = normalizeContactsPerPage(perPage);
+  if (next === itemsPerPage.value) return;
+
+  await updateUISettings({ contacts_per_page: next });
+  await fetchContactsBasedOnContext(1, { clearSelection: false });
+};
+
 const createContact = async contact => {
   await store.dispatch('contacts/create', contact);
+  await fetchContactsBasedOnContext(pageNumber.value);
+};
+
+const onContactCreated = () => {
+  fetchContactsBasedOnContext(pageNumber.value);
+};
+
+const scheduleContactsRefetchAfterBulk = () => {
+  fetchContactsBasedOnContext(pageNumber.value);
+  // Bulk label jobs are async; refetch again so chips catch up after Sidekiq.
+  setTimeout(() => fetchContactsBasedOnContext(pageNumber.value), 1500);
+  setTimeout(() => fetchContactsBasedOnContext(pageNumber.value), 3000);
 };
 
 watch(hasSelection, value => {
@@ -500,6 +530,9 @@ watch(searchQuery, value => {
 });
 
 onMounted(async () => {
+  // Ensure custom attribute defs are loaded so custom columns/sort keys resolve
+  store.dispatch('attributes/get');
+
   if (!activeSegmentId.value) {
     if (searchQuery.value) {
       await searchContacts(searchQuery.value, pageNumber.value, false, {
@@ -523,13 +556,15 @@ onMounted(async () => {
 
 <template>
   <div
-    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-surface-1"
+    class="flex flex-col flex-1 h-full min-h-0 m-0 overflow-hidden bg-n-surface-1"
   >
     <ContactsListLayout
       :search-value="searchValue"
       :header-title="headerTitle"
       :current-page="currentPage"
       :total-items="totalItems"
+      :items-per-page="itemsPerPage"
+      :per-page-options="ALLOWED_CONTACTS_PER_PAGE"
       :show-pagination-footer="!isFetchingList && hasContacts && !isSearchView"
       :active-sort="sortState.activeSort"
       :active-ordering="sortState.activeOrdering"
@@ -541,6 +576,7 @@ onMounted(async () => {
       :has-more="hasMore"
       :is-loading-more="isLoadingMore"
       @update:current-page="onPageChange"
+      @update:items-per-page="handlePerPageChange"
       @search="
         value => searchContacts(value, 1, false, { clearSelection: false })
       "
@@ -548,65 +584,88 @@ onMounted(async () => {
       @apply-filter="fetchSavedOrAppliedFilteredContact"
       @clear-filters="fetchContacts"
       @load-more="loadMoreSearchResults"
+      @contact-created="onContactCreated"
     >
-      <div
-        v-if="isFetchingList && !(isSearchView && hasContacts)"
-        class="flex items-center justify-center py-10 text-n-slate-11"
-      >
-        <Spinner />
-      </div>
-
-      <template v-else>
-        <ContactsBulkActionBar
-          v-if="hasSelection"
-          :visible-contact-ids="visibleContactIds"
-          :selected-contact-ids="selectedContactIds"
-          :is-loading="isBulkActionLoading"
-          @toggle-all="toggleSelectAll"
-          @clear-selection="clearSelection"
-          @assign-labels="assignLabels"
-          @remove-labels="removeLabels"
-          @delete-selected="openBulkDeleteDialog"
-        />
-        <ContactEmptyState
-          v-if="showEmptyStateLayout"
-          class="pt-14"
-          :title="t('CONTACTS_LAYOUT.EMPTY_STATE.TITLE')"
-          :subtitle="t('CONTACTS_LAYOUT.EMPTY_STATE.SUBTITLE')"
-          :button-label="t('CONTACTS_LAYOUT.EMPTY_STATE.BUTTON_LABEL')"
-          @create="createContact"
-        />
-
+      <div class="relative flex min-h-0 flex-1 flex-col">
         <div
-          v-else-if="showEmptyText"
-          class="flex items-center justify-center py-10"
+          v-if="isFetchingList && !hasContacts"
+          class="flex items-center justify-center py-10 text-n-slate-11"
         >
-          <span class="text-base text-n-slate-11">
-            {{ emptyStateMessage }}
-          </span>
+          <Spinner />
         </div>
 
-        <div v-else class="flex flex-col gap-4 pt-4 pb-6">
-          <ContactsList
-            :contacts="contacts"
+        <template v-else>
+          <ContactsBulkActionBar
+            v-if="hasSelection"
+            :visible-contact-ids="visibleContactIds"
             :selected-contact-ids="selectedContactIds"
-            :active-sort="sortState.activeSort"
-            :active-ordering="sortState.activeOrdering"
-            @toggle-contact="toggleContactSelection"
-            @update:sort="handleSort"
-          />
-          <Dialog
-            v-if="selectedCount"
-            ref="bulkDeleteDialogRef"
-            type="alert"
-            :title="bulkDeleteDialogTitle"
-            :description="bulkDeleteDialogDescription"
-            :confirm-button-label="bulkDeleteDialogConfirmLabel"
             :is-loading="isBulkActionLoading"
-            @confirm="deleteContacts"
+            @toggle-all="toggleSelectAll"
+            @clear-selection="clearSelection"
+            @assign-labels="assignLabels"
+            @remove-labels="removeLabels"
+            @delete-selected="openBulkDeleteDialog"
           />
-        </div>
-      </template>
+          <ContactEmptyState
+            v-if="showEmptyStateLayout"
+            class="pt-14"
+            :title="t('CONTACTS_LAYOUT.EMPTY_STATE.TITLE')"
+            :subtitle="t('CONTACTS_LAYOUT.EMPTY_STATE.SUBTITLE')"
+            :button-label="t('CONTACTS_LAYOUT.EMPTY_STATE.BUTTON_LABEL')"
+            @create="createContact"
+          />
+
+          <div
+            v-else-if="showEmptyText && !isFetchingList"
+            class="flex items-center justify-center py-10"
+          >
+            <span class="text-base text-n-slate-11">
+              {{ emptyStateMessage }}
+            </span>
+          </div>
+
+          <div v-else class="flex min-h-0 flex-1 flex-col gap-2 pt-1">
+            <ContactsList
+              class="min-h-0 flex-1 flex flex-col"
+              :contacts="contacts"
+              :selected-contact-ids="selectedContactIds"
+              :active-sort="sortState.activeSort"
+              :active-ordering="sortState.activeOrdering"
+              @toggle-contact="toggleContactSelection"
+              @update:sort="handleSort"
+            />
+            <Dialog
+              v-if="selectedCount"
+              ref="bulkDeleteDialogRef"
+              type="alert"
+              :title="bulkDeleteDialogTitle"
+              :description="bulkDeleteDialogDescription"
+              :confirm-button-label="bulkDeleteDialogConfirmLabel"
+              :is-loading="isBulkActionLoading"
+              @confirm="deleteContacts"
+            />
+          </div>
+        </template>
+
+        <Transition
+          enter-active-class="transition-opacity duration-150"
+          leave-active-class="transition-opacity duration-150"
+          enter-from-class="opacity-0"
+          leave-to-class="opacity-0"
+        >
+          <div
+            v-if="isFetchingList && hasContacts"
+            class="absolute inset-0 z-20 flex items-start justify-center pt-16 bg-n-surface-1/55 backdrop-blur-[1px] pointer-events-none"
+          >
+            <div
+              class="inline-flex items-center gap-2 rounded-full border border-n-weak bg-n-solid-2 px-3 py-1.5 shadow-sm text-sm text-n-slate-12"
+            >
+              <Spinner class="size-4" />
+              <span>{{ t('CONTACTS_LAYOUT.TABLE.UPDATING') }}</span>
+            </div>
+          </div>
+        </Transition>
+      </div>
     </ContactsListLayout>
   </div>
 </template>

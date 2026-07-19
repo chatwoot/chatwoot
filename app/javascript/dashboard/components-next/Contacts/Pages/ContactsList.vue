@@ -116,23 +116,21 @@ const handleSort = sortPayload => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col flex-1 h-full min-h-0">
     <!-- Desktop: table view -->
-
     <ContactsTable
       :contacts="contacts"
       :selected-contact-ids="selectedContactIds"
       :active-sort="activeSort"
       :active-ordering="activeOrdering"
-      class="hidden md:block"
+      class="hidden md:flex min-h-0 flex-1"
       @toggle-contact="handleSelect"
       @show-contact="onClickViewDetails"
       @update:sort="handleSort"
     />
 
     <!-- Mobile: card view -->
-
-    <div class="md:hidden flex flex-col gap-4">
+    <div class="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto md:hidden">
       <div v-for="contact in contacts" :key="contact.id" class="relative">
         <ContactsCard
           :id="contact.id"
@@ -143,6 +141,7 @@ const handleSort = sortPayload => {
           :thumbnail="contact.thumbnail"
           :phone-number="contact.phoneNumber"
           :additional-attributes="contact.additionalAttributes"
+          :custom-attributes="contact.customAttributes"
           :availability-status="contact.availabilityStatus"
           :is-expanded="expandedCardId === contact.id"
           :is-updating="isUpdating"

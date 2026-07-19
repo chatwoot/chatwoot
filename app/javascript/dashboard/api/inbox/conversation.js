@@ -139,6 +139,28 @@ class ConversationApi extends ApiClient {
     return axios.get(`${this.url}/${conversationId}/inbox_assistant`);
   }
 
+  exportConversations({
+    payload,
+    export_format,
+    inbox_id,
+    status,
+    assignee_type,
+    team_id,
+    labels,
+    conversation_type,
+  }) {
+    return axios.post(`${this.url}/export`, {
+      payload,
+      export_format,
+      inbox_id,
+      status,
+      assignee_type,
+      team_id,
+      labels,
+      conversation_type,
+    });
+  }
+
   delete(conversationId) {
     return axios.delete(`${this.url}/${conversationId}`);
   }

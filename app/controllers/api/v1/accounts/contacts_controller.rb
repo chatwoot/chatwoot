@@ -9,11 +9,17 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   sort_on :city, internal_name: :order_on_city, type: :scope, scope_params: [:direction]
   sort_on :country, internal_name: :order_on_country_name, type: :scope, scope_params: [:direction]
   sort_on :document_number, internal_name: :order_on_document_number, type: :scope, scope_params: [:direction]
+  sort_on :assigned_agent, internal_name: :order_on_assigned_agent, type: :scope, scope_params: [:direction]
+  sort_on :identifier, internal_name: :order_on_identifier, type: :scope, scope_params: [:direction]
+  sort_on :blocked, internal_name: :order_on_blocked, type: :scope, scope_params: [:direction]
+  sort_on :labels, internal_name: :order_on_labels, type: :scope, scope_params: [:direction]
 
   RESULTS_PER_PAGE = 15
+  ALLOWED_PER_PAGE = [15, 25, 50, 100].freeze
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
+  before_action :set_results_per_page, only: [:index, :active, :search, :filter]
   before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
   before_action :set_include_contact_inboxes, only: [:index, :active, :search, :filter, :show, :update]
 
@@ -47,7 +53,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def export
     column_names = params['column_names']
-    filter_params = { :payload => params.permit!['payload'], :label => params.permit!['label'] }
+    filter_params = {
+      payload: params.permit!['payload'],
+      label: params.permit!['label'],
+      # Rails reserves params[:format] for request format (e.g. json) — use export_format
+      export_format: params[:export_format]
+    }
     Account::ContactsExportJob.perform_later(Current.account.id, Current.user.id, column_names, filter_params)
     head :ok, message: I18n.t('errors.contacts.export.success')
   end
@@ -61,7 +72,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     preload_contact_list_labels
   end
 
-  def show; end
+  def show
+    set_contact_conversation_metrics
+  end
 
   def filter
     result = ::Contacts::FilterService.new(Current.account, Current.user, params.permit!).perform
@@ -136,15 +149,20 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @current_page = params[:page] || 1
   end
 
+  def set_results_per_page
+    requested = params[:per_page].to_i
+    @results_per_page = ALLOWED_PER_PAGE.include?(requested) ? requested : RESULTS_PER_PAGE
+  end
+
   def fetch_contacts(contacts)
     # Build includes hash to avoid separate query when contact_inboxes are needed
     includes_hash = { avatar_attachment: [:blob] }
     includes_hash[:contact_inboxes] = { inbox: :channel } if @include_contact_inboxes
 
-    filtrate(contacts)
+    apply_contact_sort(contacts)
       .includes(includes_hash)
       .page(@current_page)
-      .per(RESULTS_PER_PAGE)
+      .per(@results_per_page)
   end
 
   def fetch_contacts_with_has_more(contacts)
@@ -152,17 +170,42 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     includes_hash[:contact_inboxes] = { inbox: :channel } if @include_contact_inboxes
 
     # Calculate offset manually to fetch one extra record for has_more check
-    offset = (@current_page.to_i - 1) * RESULTS_PER_PAGE
-    results = filtrate(contacts)
+    offset = (@current_page.to_i - 1) * @results_per_page
+    results = apply_contact_sort(contacts)
               .includes(includes_hash)
               .offset(offset)
-              .limit(RESULTS_PER_PAGE + 1)
+              .limit(@results_per_page + 1)
               .to_a
 
-    @has_more = results.size > RESULTS_PER_PAGE
-    results = results.first(RESULTS_PER_PAGE) if @has_more
+    @has_more = results.size > @results_per_page
+    results = results.first(@results_per_page) if @has_more
     @contacts_count = results.size
     results
+  end
+
+  def apply_contact_sort(contacts)
+    sort_param = params[:sort].to_s
+    match = sort_param.match(/\A(-?)custom:(.+)\z/)
+    return filtrate(contacts) unless match
+
+    direction = match[1] == '-' ? 'DESC' : 'ASC'
+    attribute_key = match[2]
+    definition = contact_custom_attribute_definitions[attribute_key]
+    return filtrate(contacts) unless definition
+
+    # Formula attrs always store computed numbers; treat as numeric even if mistyped as text.
+    numeric = definition.number? || definition.currency? || definition.percent? || definition.formula?
+    contacts.order_on_custom_attribute(attribute_key, direction, numeric: numeric)
+  end
+
+  def contact_custom_attribute_keys
+    contact_custom_attribute_definitions.keys
+  end
+
+  def contact_custom_attribute_definitions
+    @contact_custom_attribute_definitions ||= Current.account.custom_attribute_definitions
+                                                     .contact_attribute
+                                                     .index_by(&:attribute_key)
   end
 
   def build_contact_inbox
@@ -252,6 +295,25 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       account: Current.account,
       contact_ids: contact_records.map(&:id)
     )
+  end
+
+  def set_contact_conversation_metrics
+    conversations = Current.account.conversations.where(contact_id: @contact.id)
+    conversations = Conversations::PermissionFilterService.new(
+      conversations,
+      Current.user,
+      Current.account
+    ).perform
+
+    status_counts = conversations.reorder(nil).group(:status).count
+    open_statuses = [Conversation.statuses[:open], Conversation.statuses[:pending]]
+    open_count = open_statuses.sum { |status| status_counts[status].to_i }
+
+    @contact_conversation_metrics = {
+      conversations_count: status_counts.values.sum,
+      open_conversations_count: open_count,
+      resolved_conversations_count: status_counts[Conversation.statuses[:resolved]].to_i
+    }
   end
 end
 

@@ -18,12 +18,16 @@ const props = defineProps({
     type: Number,
     default: 16,
   },
+  perPageOptions: {
+    type: Array,
+    default: () => [],
+  },
   currentPageInfo: {
     type: String,
     default: '',
   },
 });
-const emit = defineEmits(['update:currentPage']);
+const emit = defineEmits(['update:currentPage', 'update:itemsPerPage']);
 const { t } = useI18n();
 const { formatCompactNumber, formatFullNumber } = useNumberFormatter();
 
@@ -43,6 +47,8 @@ const changePage = newPage => {
     emit('update:currentPage', newPage);
   }
 };
+
+const showPerPageSelector = computed(() => props.perPageOptions.length > 0);
 
 const currentPageInformation = computed(() => {
   const translationKey = props.currentPageInfo || 'PAGINATION_FOOTER.SHOWING';
@@ -67,16 +73,50 @@ const pageInfo = computed(() => {
     Number(totalPages.value)
   );
 });
+
+const selectPerPage = value => {
+  if (Number(value) === props.itemsPerPage) return;
+  emit('update:itemsPerPage', Number(value));
+};
 </script>
 
 <template>
   <div
-    class="flex justify-between h-[3.375rem] w-full border-t border-n-weak mx-auto bg-n-surface-1 py-3 px-6 items-center before:absolute before:inset-x-0 before:-top-4 before:bg-gradient-to-t before:from-n-surface-1 before:from-0% before:to-transparent before:h-4 before:pointer-events-none"
+    class="relative flex justify-between h-[3.375rem] w-full border-t border-n-weak mx-auto bg-n-surface-1 py-3 px-6 items-center before:absolute before:inset-x-0 before:-top-4 before:bg-gradient-to-t before:from-n-surface-1 before:from-0% before:to-transparent before:h-4 before:pointer-events-none"
   >
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 min-w-0">
       <span class="min-w-0 text-body-main line-clamp-1 text-n-slate-11">
         {{ currentPageInformation }}
       </span>
+      <div
+        v-if="showPerPageSelector"
+        class="hidden sm:inline-flex items-center gap-2 shrink-0"
+      >
+        <span class="text-sm text-n-slate-11">
+          {{ t('PAGINATION_FOOTER.PER_PAGE') }}
+        </span>
+        <div
+          class="inline-flex items-center rounded-lg border border-n-weak bg-n-alpha-2 p-0.5"
+          role="group"
+          :aria-label="t('PAGINATION_FOOTER.PER_PAGE')"
+        >
+          <button
+            v-for="option in perPageOptions"
+            :key="option"
+            type="button"
+            class="min-w-[2.25rem] h-6 px-2 rounded-md text-xs font-medium transition-colors"
+            :class="
+              Number(option) === itemsPerPage
+                ? 'bg-n-surface-1 text-n-slate-12 shadow-sm'
+                : 'text-n-slate-11 hover:text-n-slate-12'
+            "
+            :aria-pressed="Number(option) === itemsPerPage"
+            @click="selectPerPage(option)"
+          >
+            {{ option }}
+          </button>
+        </div>
+      </div>
     </div>
     <div class="flex items-center gap-2">
       <Button

@@ -3,6 +3,10 @@ class ConversationPolicy < ApplicationPolicy
     true
   end
 
+  def export?
+    administrator?
+  end
+
   def destroy?
     administrator?
   end

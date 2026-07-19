@@ -55,7 +55,12 @@ class Account < ApplicationRecord
   store_accessor :settings, :reporting_timezone
   store_accessor :settings, :keep_pending_on_bot_failure
   store_accessor :settings, :captain_auto_resolve_mode
+  store_accessor :settings, :resolved_label_key
   include AccountCaptainAutoResolve
+
+  RESOLVED_LABEL_KEYS = %w[resolved closed sold finished].freeze
+
+  before_validation :normalize_resolved_label_key
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -105,6 +110,7 @@ class Account < ApplicationRecord
   has_many :internal_messages, dependent: :destroy_async
 
   has_one_attached :contacts_export
+  has_one_attached :conversations_export
 
   enum :locale, LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h, prefix: true
   enum :status, { active: 0, suspended: 1 }
@@ -179,10 +185,30 @@ class Account < ApplicationRecord
     clear_unread_conversation_counts_cache
   end
 
+  def normalized_resolved_label_key
+    key = resolved_label_key.presence || 'resolved'
+    RESOLVED_LABEL_KEYS.include?(key.to_s) ? key.to_s : 'resolved'
+  end
+
+  def resolved_status_label_word
+    I18n.t("conversations.activity.status_labels.#{normalized_resolved_label_key}")
+  end
+
+  def resolution_count_csv_header
+    I18n.t("reports.resolution_count_labels.#{normalized_resolved_label_key}")
+  end
+
   private
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
+  end
+
+  def normalize_resolved_label_key
+    return if resolved_label_key.nil? && !settings_changed?
+
+    key = resolved_label_key.presence || 'resolved'
+    self.resolved_label_key = RESOLVED_LABEL_KEYS.include?(key.to_s) ? key.to_s : 'resolved'
   end
 
   def clear_unread_conversation_counts_cache
@@ -231,3 +257,5 @@ Account.prepend_mod_with('Account')
 Account.prepend_mod_with('Account::PlanUsageAndLimits')
 Account.include_mod_with('Concerns::Account')
 Account.include_mod_with('Audit::Account')
+# Ensure helpers stay public after enterprise prepends (Module#public needs send).
+Account.send(:public, :normalized_resolved_label_key, :resolved_status_label_word, :resolution_count_csv_header)
