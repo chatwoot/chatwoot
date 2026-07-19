@@ -18,6 +18,9 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 import ContactAssigneeSelector from 'dashboard/components-next/Contacts/ContactAssigneeSelector.vue';
+import FeaturedAttributeBadges from 'dashboard/components-next/FeaturedAttributes/FeaturedAttributeBadges.vue';
+import { useFeaturedAttributes } from 'dashboard/composables/useFeaturedAttributes';
+import { toRef } from 'vue';
 
 export default {
   components: {
@@ -32,6 +35,7 @@ export default {
     VoiceCallButton,
     InlineInput,
     ContactAssigneeSelector,
+    FeaturedAttributeBadges,
   },
   props: {
     contact: {
@@ -44,10 +48,16 @@ export default {
     },
   },
   emits: ['panelClose'],
-  setup() {
+  setup(props) {
     const { isAdmin } = useAdmin();
+    const contactRef = toRef(props, 'contact');
+    const { featuredBadges } = useFeaturedAttributes(
+      'contact_attribute',
+      contactRef
+    );
     return {
       isAdmin,
+      featuredBadges,
     };
   },
   data() {
@@ -284,7 +294,6 @@ export default {
         {{ additionalAttributes.description }}
       </p>
       <div class="flex flex-col items-start w-full gap-2">
-
         <ContactInfoRow
           :value="documentNumber"
           icon="contact-identify"
@@ -336,6 +345,12 @@ export default {
           :title="$t('CONTACT_PANEL.LOCATION')"
         />
         <SocialIcons :social-profiles="socialProfiles" />
+        <FeaturedAttributeBadges
+          v-if="featuredBadges.length"
+          :badges="featuredBadges"
+          class="mt-1"
+          emphasized
+        />
         <ContactAssigneeSelector
           v-if="contact.id"
           :contact="contact"
