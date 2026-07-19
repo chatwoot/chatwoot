@@ -159,7 +159,9 @@ class Telegram::IncomingMessageService
       file_type: file_content_type,
       file: {
         io: attachment_file,
-        filename: attachment_file.original_filename,
+        # Telegram's download URL uses an internal storage path, so Down derives a generic name from it.
+        # Prefer the original filename from the payload (present for document/audio/video) when available.
+        filename: file[:file_name].presence || attachment_file.original_filename,
         content_type: attachment_file.content_type
       }
     )
