@@ -3,6 +3,7 @@ class Api::V1::Accounts::Conversations::DirectUploadsController < ActiveStorage:
   include RequestExceptionHandler
   include AccessTokenAuthHelper
   include EnsureCurrentAccountHelper
+  include Pundit::Authorization
 
   skip_before_action :verify_authenticity_token, if: :authenticate_by_access_token?
 
@@ -22,6 +23,14 @@ class Api::V1::Accounts::Conversations::DirectUploadsController < ActiveStorage:
 
   private
 
+  def pundit_user
+    {
+      user: Current.user,
+      account: Current.account,
+      account_user: Current.account_user
+    }
+  end
+
   def authenticate_by_access_token?
     request.headers[:api_access_token].present? || request.headers[:HTTP_API_ACCESS_TOKEN].present?
   end
@@ -33,6 +42,7 @@ class Api::V1::Accounts::Conversations::DirectUploadsController < ActiveStorage:
   end
 
   def conversation
-    @conversation ||= Current.account.conversations.find_by(display_id: params[:conversation_id])
+    @conversation ||= Current.account.conversations.find_by!(display_id: params[:conversation_id])
+    authorize @conversation, :show?
   end
 end
