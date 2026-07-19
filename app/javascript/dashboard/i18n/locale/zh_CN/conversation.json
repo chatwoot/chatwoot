@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "您只能使用模板信息回复此会话，原因是",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小时消息窗口限制",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "此 Instagram 帐户已迁移到新的 Instagram 通道收件箱。 所有新消息都将在这里显示。您将无法从这个对话中发送消息。",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram 当前受到限制。在我们恢复完整支持期间，部分消息或操作可能会延迟或暂时不可用。",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "查看状态更新",
     "REPLYING_TO": "您正在回复到：",
     "REMOVE_SELECTION": "移除选择",
     "DOWNLOAD": "下载",
@@ -304,6 +306,25 @@
         "MESSAGE": "此操作无法撤销。",
         "DELETE": "删除",
         "CANCEL": "取消"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "报告消息",
+        "TITLE": "报告 Captain 消息",
+        "DESCRIPTION": "发现此 AI 回复存在问题？请告诉我们具体情况，团队会进行审核，以帮助提升 Captain 的准确性。",
+        "PROBLEM_TYPE": "问题类型",
+        "PROBLEM_TYPE_PLACEHOLDER": "选择问题类型",
+        "DESCRIPTION_LABEL": "描述信息",
+        "DESCRIPTION_PLACEHOLDER": "详细描述问题",
+        "SUBMIT": "提交报告",
+        "SUCCESS": "感谢您的报告，我们的团队会进行检查。",
+        "ERROR": "无法报告此消息，请重试。",
+        "REASONS": {
+          "incorrect_information": "信息不正确",
+          "inappropriate_response": "回复不恰当",
+          "incomplete_response": "回复不完整",
+          "outdated_information": "信息已过时",
+          "other": "其他"
+        }
       }
     },
     "SIDEBAR": {
@@ -401,7 +422,8 @@
       "VIEW_ALL": "查看全部",
       "SHOW_LESS": "收起",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "未命名文件"
+      "UNTITLED_FILE": "未命名文件",
+      "JUMP_TO_MESSAGE": "跳转到消息"
     },
     "SHOPIFY": {
       "ORDER_ID": "订单 #{id}",

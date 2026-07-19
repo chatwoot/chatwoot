@@ -16,7 +16,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
   end
 
   after do
-    store.clear_all_account!(account.id)
+    store.clear_account!(account.id)
   end
 
   it 'uses base counts for custom roles with conversation_manage permission' do
@@ -26,16 +26,10 @@ RSpec.describe Conversations::UnreadCounts::Counter do
 
     result = described_class.new(account: account, user: agent).perform
 
-    expect(result).to eq(
-      all_count: 2,
-      inboxes: { inbox.id.to_s => 2 },
-      labels: { label.id.to_s => 2 },
-      teams: { team.id.to_s => 2 },
-      mentions_count: 0,
-      participating_count: 0,
-      unattended_count: 2,
-      folders: {}
-    )
+    expect(result[:all_count]).to eq(2)
+    expect(result[:inboxes]).to eq(inbox.id.to_s => 2)
+    expect(result[:labels]).to eq(label.id.to_s => 2)
+    expect(result[:teams]).to eq(team.id.to_s => 2)
     expect(store.assignment_ready?(account.id)).to be(false)
   end
 
@@ -43,21 +37,14 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     account_user.update!(custom_role: create(:custom_role, account: account, permissions: ['conversation_unassigned_manage']))
     create_unread_conversation(account: account, inbox: inbox, labels: [label.title], assignee: agent, team: team)
     create_unread_conversation(account: account, inbox: inbox, labels: [label.title], team: team)
-    other_assigned_conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title], assignee: other_agent, team: team)
-    create(:conversation_participant, account: account, conversation: other_assigned_conversation, user: agent)
+    create_unread_conversation(account: account, inbox: inbox, labels: [label.title], assignee: other_agent, team: team)
 
     result = described_class.new(account: account, user: agent).perform
 
-    expect(result).to eq(
-      all_count: 2,
-      inboxes: { inbox.id.to_s => 2 },
-      labels: { label.id.to_s => 2 },
-      teams: { team.id.to_s => 2 },
-      mentions_count: 0,
-      participating_count: 0,
-      unattended_count: 2,
-      folders: {}
-    )
+    expect(result[:all_count]).to eq(2)
+    expect(result[:inboxes]).to eq(inbox.id.to_s => 2)
+    expect(result[:labels]).to eq(label.id.to_s => 2)
+    expect(result[:teams]).to eq(team.id.to_s => 2)
     expect(store.assignment_ready?(account.id)).to be(true)
   end
 
@@ -65,21 +52,13 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     account_user.update!(custom_role: create(:custom_role, account: account, permissions: ['conversation_participating_manage']))
     create_unread_conversation(account: account, inbox: inbox, labels: [label.title], assignee: agent, team: team)
     create_unread_conversation(account: account, inbox: inbox, labels: [label.title], team: team)
-    participating_conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title], team: team)
-    create(:conversation_participant, account: account, conversation: participating_conversation, user: agent)
 
     result = described_class.new(account: account, user: agent).perform
 
-    expect(result).to eq(
-      all_count: 1,
-      inboxes: { inbox.id.to_s => 1 },
-      labels: { label.id.to_s => 1 },
-      teams: { team.id.to_s => 1 },
-      mentions_count: 0,
-      participating_count: 1,
-      unattended_count: 1,
-      folders: {}
-    )
+    expect(result[:all_count]).to eq(1)
+    expect(result[:inboxes]).to eq(inbox.id.to_s => 1)
+    expect(result[:labels]).to eq(label.id.to_s => 1)
+    expect(result[:teams]).to eq(team.id.to_s => 1)
     expect(store.assignment_ready?(account.id)).to be(true)
   end
 
@@ -89,16 +68,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
 
     result = described_class.new(account: account, user: agent).perform
 
-    expect(result).to eq(
-      all_count: 0,
-      inboxes: {},
-      labels: {},
-      teams: {},
-      mentions_count: 0,
-      participating_count: 0,
-      unattended_count: 0,
-      folders: {}
-    )
+    expect(result).to eq(all_count: 0, inboxes: {}, labels: {}, teams: {})
     expect(store.base_ready?(account.id)).to be(false)
     expect(store.assignment_ready?(account.id)).to be(false)
   end

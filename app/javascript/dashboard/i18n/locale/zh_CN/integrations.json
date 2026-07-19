@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "订阅事件",
       "LEARN_MORE": "了解更多关于 Webhooks 的信息",
+      "PAYWALL": {
+        "TITLE": "付费方案支持 Webhook",
+        "AVAILABLE_ON": "使用 Webhook 接收 Chatwoot 账户中的实时事件。",
+        "UPGRADE_PROMPT": "升级到 Startups、Business 或 Enterprise 方案以使用 Webhook。",
+        "UPGRADE_NOW": "立即升级",
+        "CANCEL_ANYTIME": "您可以随时更改或取消方案。"
+      },
       "SECRET": {
         "LABEL": "密钥",
         "COPY": "复制密钥到剪贴板",
@@ -392,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "了解更多",
+    "OVERVIEW": {
+      "HEADER": "概览",
+      "WELCOME": {
+        "LABEL": "Captain 摘要",
+        "LOADING": "正在生成摘要…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "此助手尚未连接任何收件箱，因此不会回复对话。",
+        "ACTION": "连接收件箱",
+        "DISMISS": "取消"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "有 {count} 个常见问题待审核，知识覆盖率目前为 {coverage}%。批准这些内容，让助手能够自行解决更多问题。",
+        "ACTION": "审核常见问题",
+        "DISMISS": "取消"
+      },
+      "RANGES": {
+        "LAST_DAYS": "最近 {count} 天",
+        "THIS_MONTH": "本月",
+        "LAST_MONTH": "上月"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "已处理对话",
+          "HINT": "此助手回复过的不同对话数。"
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "自动解决率",
+          "HINT": "已处理对话中无需人工回复即关闭的比例。"
+        },
+        "HANDOFF": {
+          "LABEL": "转人工率",
+          "HINT": "已处理对话中转交人工客服的比例。"
+        },
+        "HOURS_SAVED": {
+          "LABEL": "节省时间",
+          "HINT": "估算方式：Captain 回复数乘以每次人工回复约 2 分钟。此数据仅供趋势参考，并非实际工时。"
+        },
+        "REOPEN": {
+          "LABEL": "重新打开率",
+          "HINT": "自动解决后又被重新打开的对话比例。"
+        },
+        "DEPTH": {
+          "LABEL": "每个对话的回复数",
+          "HINT": "助手在每个对话中发送的平均回复数。"
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "关闭详情",
+        "EMPTY": "未找到此指标的记录。",
+        "ERROR": "无法加载记录，请重试。",
+        "LOAD_MORE": "加载更多",
+        "RESULT_COUNT_CONVERSATION": "{count} 个对话 | {count} 个对话"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "知识覆盖率",
+        "COVERAGE": "已批准 {pct}%",
+        "APPROVED": "已批准的常见问题",
+        "PENDING": "待审核的常见问题",
+        "DOCUMENTS": "文档"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain 文档",
+          "DESCRIPTION": "Captain 使用指南与操作说明"
+        },
+        "PLAYGROUND": {
+          "TITLE": "试验场",
+          "DESCRIPTION": "测试此助手的回复"
+        },
+        "BILLING": {
+          "TITLE": "计费",
+          "DESCRIPTION": "管理积分和方案"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "助手",
       "SWITCH_ASSISTANT": "在助手之间切换",
@@ -493,10 +576,6 @@
           "LABEL": "助手名称",
           "PLACEHOLDER": "输入助手名称",
           "ERROR": "名称是必需的"
-        },
-        "TEMPERATURE": {
-          "LABEL": "响应温度",
-          "DESCRIPTION": "调整助手回复的创造性或限制程度。较低的数值会产生更专注和确定性的回复，而较高的数值则允许更有创意和多样化的输出。"
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
@@ -739,6 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "文档",
       "ADD_NEW": "创建新文档",
+      "FAQ_COUNT": "{n} 个常见问题 | {n} 个常见问题",
       "SELECTED": "{count} 已选择",
       "SELECT_ALL": "全选 ({count})",
       "UNSELECT_ALL": "取消全选({count})",
@@ -798,7 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "相关常见问题",
-        "DESCRIPTION": "这些常见问题直接从文档生成。"
+        "EMPTY": "尚未从此文档生成常见问题。"
+      },
+      "DETAILS": {
+        "DESCRIPTION": "查看抓取的内容以及从此来源生成的常见问题。",
+        "SOURCE": "来源",
+        "GENERATED_FAQS": "生成的常见问题",
+        "LAST_UPDATED": "最后更新",
+        "NOT_AVAILABLE": "暂无",
+        "CONTENT_TAB": "抓取内容",
+        "PDF_TAB": "PDF 详情",
+        "CONTENT_TITLE": "抓取内容",
+        "PDF_TITLE": "PDF 文件",
+        "PDF_DESCRIPTION": "查看原始 PDF 文件。",
+        "CHARACTER_COUNT": "已提取 {count} 个字符",
+        "COPY_CONTENT": "复制",
+        "COPY_SUCCESS": "抓取内容已复制到剪贴板",
+        "COPY_ERROR": "无法复制抓取内容",
+        "VIEW_RAW": "查看原始内容",
+        "VIEW_PREVIEW": "查看预览",
+        "UNREADABLE_CONTENT": "无法从此文档中提取可读内容，您可以查看原始提取内容。",
+        "EMPTY_CONTENT": "此文档目前没有可用的抓取内容。"
       },
       "FORM_DESCRIPTION": "输入文档的 URL 以将其添加为知识源，并选择要关联的助手。",
       "CREATE": {
@@ -838,7 +938,7 @@
         "ERROR_MESSAGE": "删除文档时出错，请重试"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "查看相关常见问题",
+        "VIEW_DETAILS": "查看详细信息",
         "SYNC_NOW": "立即刷新",
         "RETRY_SYNC": "重试刷新",
         "DELETE_DOCUMENT": "删除文档"

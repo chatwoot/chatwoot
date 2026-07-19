@@ -533,6 +533,8 @@
             "PUBLISHED": "已发布",
             "ARCHIVED": "已归档"
           },
+          "PENDING_EDITS": "未发布的修改",
+          "PENDING_EDITS_TOOLTIP": "这篇已发布的文章包含未发布的修改",
           "CATEGORY": {
             "UNCATEGORISED": "未分类"
           }
@@ -552,6 +554,7 @@
         "LOCALE": {
           "ALL": "所有语言环境"
         },
+        "SEARCH_PLACEHOLDER": "搜索文章...",
         "NEW_ARTICLE": "新建文章"
       },
       "EMPTY_STATE": {
@@ -579,6 +582,10 @@
         "CATEGORY": {
           "TITLE": "此类别中没有文章",
           "SUBTITLE": "此类别中的文章将显示在此处"
+        },
+        "SEARCH": {
+          "TITLE": "没有匹配的文章",
+          "SUBTITLE": "找不到与搜索内容匹配的文章，请尝试其他关键词。"
         }
       },
       "BULK_TRANSLATE": {
@@ -611,6 +618,8 @@
         "DELETE": "删除",
         "STATUS_SUCCESS": "文章更新成功",
         "STATUS_ERROR": "文章更新失败",
+        "STATUS_SKIPPED": "已跳过 1 篇含未发布修改的文章，请打开该文章以发布或放弃修改。| 已跳过 {count} 篇含未发布修改的文章，请逐一打开以发布或放弃修改。",
+        "STATUS_SKIPPED_ALL": "这些文章包含未发布的修改，请逐一打开以发布或放弃修改。",
         "CATEGORY_SUCCESS": "文章移动成功",
         "CATEGORY_ERROR": "文章移动失败",
         "DELETE_CONFIRM_TITLE": "删除文章 | 删除 {count} 篇文章",
@@ -624,6 +633,7 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "新建类别",
         "EDIT_CATEGORY": "编辑类别",
+        "SEARCH_PLACEHOLDER": "搜索类别...",
         "CATEGORIES_COUNT": "{n} 个类别 | {n} 个类别",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "类别 ({localeCode})",
@@ -633,6 +643,10 @@
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "未找到类别",
         "SUBTITLE": "类别将显示在此处。您可以点击“新建类别”按钮添加类别。"
+      },
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "没有匹配的类别",
+        "SUBTITLE": "找不到与搜索内容匹配的类别，请尝试其他关键词。"
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} 篇文章 | {count} 篇文章"
@@ -691,6 +705,11 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "没有可用的语言环境 | {n} 个语言环境 | {n} 个语言环境",
       "NEW_LOCALE_BUTTON_TEXT": "新建语言环境",
+      "SEARCH_PLACEHOLDER": "搜索语言环境...",
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "没有匹配的语言环境",
+        "SUBTITLE": "找不到与搜索内容匹配的语言环境，请尝试其他关键词。"
+      },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} 篇文章 | {count} 篇文章",
         "CATEGORIES_COUNT": "{count} 个类别 | {count} 个类别",
@@ -701,7 +720,31 @@
           "MOVE_TO_DRAFT": "移至草稿",
           "PUBLISH_LOCALE": "发布语言环境",
           "CUSTOMIZE_CONTENT": "本地化内容",
+          "SELECT_POPULAR_CONTENT": "选择推荐内容",
           "DELETE": "删除"
+        }
+      },
+      "POPULAR_CONTENT_DIALOG": {
+        "TITLE": "推荐内容",
+        "DESCRIPTION": "最多选择 3 个类别和 6 篇文章，展示在此语言环境的帮助中心首页。拖动即可调整访客看到的顺序。",
+        "SEARCH": "搜索……",
+        "EMPTY": "没有匹配结果",
+        "ADD_ANOTHER": "继续添加……",
+        "SLOTS_LEFT": "还可添加 {count} 项",
+        "OVERRIDING_DEFAULTS": "正在覆盖此语言环境的默认推荐内容",
+        "CONFIRM": "保存推荐内容",
+        "CATEGORIES": {
+          "LABEL": "推荐类别",
+          "ARTICLES_COUNT": "没有文章 | {count} 篇文章 | {count} 篇文章"
+        },
+        "ARTICLES": {
+          "LABEL": "推荐文章",
+          "IN_CATEGORY": "位于 {category}",
+          "UNCATEGORIZED": "未分类"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "推荐内容更新成功",
+          "ERROR_MESSAGE": "无法更新推荐内容，请重试。"
         }
       },
       "CONTENT_DIALOG": {
@@ -748,9 +791,29 @@
         },
         "PREVIEW": "预览",
         "PUBLISH": "发布",
+        "PUBLISH_CHANGES": "发布修改",
+        "PUBLISH_CHANGES_SUCCESS": "修改发布成功",
+        "PUBLISH_CHANGES_ERROR": "无法发布修改",
+        "SAVE_IN_PROGRESS": "最新修改仍在保存中，请稍后重试。",
+        "DISCARD_CHANGES": "放弃修改",
+        "DISCARD_CHANGES_SUCCESS": "修改已放弃",
+        "DISCARD_CHANGES_ERROR": "无法放弃修改",
+        "PENDING_CHANGES": "待发布修改",
+        "VIEW_CHANGES": "查看未发布的修改",
         "DRAFT": "草稿",
         "ARCHIVE": "归档",
         "BACK_TO_ARTICLES": "返回文章"
+      },
+      "PENDING_CHANGES_POPOVER": {
+        "TITLE": "未发布的修改",
+        "DESCRIPTION": "这篇文章包含尚未上线的草稿修改。更改状态前要应用这些修改，还是放弃修改？",
+        "APPLY": "应用修改",
+        "DISCARD": "放弃修改"
+      },
+      "DIFF_DIALOG": {
+        "TITLE": "未发布的修改",
+        "DESCRIPTION": "将草稿与当前已上线版本进行比较。",
+        "TITLE_LABEL": "标题"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "更多属性",

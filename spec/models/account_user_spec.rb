@@ -43,31 +43,42 @@ RSpec.describe AccountUser do
     end
   end
 
-  describe 'unread filter count invalidation' do
-    let(:notifier) { instance_double(Conversations::UnreadCounts::UserFilterNotifier, perform: true) }
+  describe 'filtered unread count invalidation' do
+    let(:account) { create(:account) }
+    let(:user) { create(:user) }
+    let(:invalidator) { instance_double(Conversations::UnreadCounts::FilteredCountInvalidator, user_visibility_changed!: true) }
 
     before do
-      allow(Conversations::UnreadCounts::UserFilterNotifier).to receive(:new).and_return(notifier)
+      allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).and_return(invalidator)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
     end
 
-    it 'notifies when the account role changes' do
+    it 'invalidates filtered counts when the user is added to an account' do
+      create(:account_user, account: account, user: user)
+
+      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id)
+    end
+
+    it 'invalidates filtered counts when the user role changes' do
+      account_user = create(:account_user, account: account, user: user)
+
       account_user.update!(role: :administrator)
 
-      expect(Conversations::UnreadCounts::UserFilterNotifier).to have_received(:new).with(
-        account: account_user.account,
-        user: account_user.user
+      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id).twice
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
+        account: account,
+        cache_keys: account.cache_keys
       )
-      expect(notifier).to have_received(:perform)
     end
 
-    it 'notifies when account access is removed' do
-      expect(Conversations::UnreadCounts::UserFilterNotifier).to receive(:new).with(
-        account: account_user.account,
-        user: account_user.user
-      ).and_return(notifier)
-      expect(notifier).to receive(:perform)
+    it 'invalidates filtered counts when the user is removed from an account' do
+      account_user = create(:account_user, account: account, user: user)
 
       account_user.destroy!
+
+      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id).twice
     end
   end
 end

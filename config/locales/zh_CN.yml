@@ -33,8 +33,33 @@ zh_CN:
     login_saml_user: 此账户使用 SAML 身份验证，请通过您组织的 SAML 身份提供商登录。
     saml_not_available: 此安装环境不支持 SAML 身份验证。
     inbox_deletetion_response: 您的收件箱删除请求将在一段时间内处理。
+  data_imports:
+    intercom:
+      activities:
+        assignment: '%{actor} 分配了该对话'
+        assignment_with_target: '%{actor} 将该对话分配给 %{target}'
+        assign_and_reopen: '%{actor} 分配并重新打开了该对话'
+        assign_and_reopen_with_target: '%{actor} 将该对话分配给 %{target} 并重新打开'
+        open: '%{actor} 打开了该对话'
+        close: '%{actor} 关闭了该对话'
+        snoozed: '%{actor} 暂停了该对话'
+        participant_added: '%{actor} 添加了一位参与者'
+        participant_added_with_target: '%{actor} 将 %{target} 添加为参与者'
+        participant_removed: '%{actor} 移除了一位参与者'
+        participant_removed_with_target: '%{actor} 移除了参与者 %{target}'
+        conversation_attribute_updated: '%{actor} 更新了对话属性'
+        ticket_attribute_updated: '%{actor} 更新了工单属性'
+        ticket_state_updated: '%{actor} 更新了工单状态'
+        custom_action_started: '%{actor} 启动了自定义操作'
+        custom_action_finished: '%{actor} 完成了自定义操作'
+        quick_reply: '%{actor} 使用了快捷回复'
+        generic: '%{actor} 记录了 %{event}'
+  profile_settings:
+    sessions:
+      cannot_revoke_current: You cannot revoke the current session.
   errors:
     account:
+      not_authorized: 您无权访问此账户
       reporting_timezone:
         invalid: 不是有效的时区
       support_email:
@@ -64,6 +89,8 @@ zh_CN:
       file_too_large: '文件超过允许的最大大小'
       unsupported_content_type: '不支持此文件类型（仅允许图片和视频）'
       unexpected: '发生意外错误'
+    database:
+      query_canceled: '请求处理时间过长，请重试。'
     saml:
       feature_not_enabled: 此账户未启用 SAML 功能
       sso_not_enabled: 此安装环境未启用 SAML SSO
@@ -95,6 +122,15 @@ zh_CN:
         unique: 在类别和门户中应该是唯一的
     dyte:
       invalid_message_type: '无效的消息类型。不允许操作'
+      realtimekit_credentials_required: '需要 Cloudflare RealtimeKit 凭据。请删除现有的 Dyte 集成，并使用 Cloudflare RealtimeKit 凭据重新创建。'
+    cloudflare:
+      realtimekit:
+        invalid_credentials: 'Cloudflare RealtimeKit 凭据无效。请检查账户 ID、RealtimeKit 应用 ID 和 API 令牌权限。'
+        missing_credentials: 'Cloudflare 账户 ID、RealtimeKit 应用 ID 和 API 令牌均为必填项。'
+        invalid_api_token: 'Cloudflare API 令牌无效或未激活。请创建具有 Realtime Admin 权限的新令牌。'
+        invalid_account_or_permissions: 'Cloudflare 账户 ID 无效，或 API 令牌没有此账户的 Realtime Admin 访问权限。'
+        app_not_found: '在此 Cloudflare 账户中找不到 RealtimeKit 应用 ID，请检查所选应用。'
+        verification_failed: '目前无法验证 Cloudflare RealtimeKit 凭据，请重试。'
     slack:
       invalid_channel_id: '无效的Slack频道。请重试'
     whatsapp:
@@ -107,6 +143,7 @@ zh_CN:
         not_supported: '此类型的 WhatsApp 频道不支持重新授权。'
       calls:
         not_enabled: '此收件箱未启用通话功能'
+        already_ended: '此通话已结束'
         no_recording: '未提供录音文件'
         no_message: '此通话没有关联消息'
         sdp_offer_required: 'sdp_offer 为必填项'
@@ -145,6 +182,9 @@ zh_CN:
       invalid_token: MFA 令牌无效或已过期
       invalid_credentials: 凭据或验证码无效
       feature_unavailable: MFA 功能不可用，请配置加密密钥。
+    billing:
+      invalid_currency: 无效的计费货币
+      currency_locked: 计费设置完成后无法更改货币
     topup:
       credits_required: 积分数量为必填项
       invalid_credits: 积分数量无效
@@ -437,7 +477,10 @@ zh_CN:
       browse_by_topic_subtitle: 按类别查找指南、教程和答案。
       popular_articles: 热门文章
       popular_articles_subtitle: 看看其他人正在阅读什么。
+      recommended: 推荐文章
+      recommended_subtitle: 精选文章，帮助您快速开始。
       popular_label: '热门主题：'
+      recommended_label: '推荐主题：'
       authors_others: "%{names} 和其他 %{count} 位作者"
       primary_nav: 主导航
     hero:
@@ -473,6 +516,7 @@ zh_CN:
         light: 浅色
         dark: 暗色
       featured_articles: 精选文章
+      recommended: 推荐文章
       uncategorized: 未分类
     404:
       title: 页面不存在
@@ -547,6 +591,29 @@ zh_CN:
     ssl_status:
       custom_domain_not_configured: '未配置自定义域名'
   super_admin:
+    captain_model_overrides:
+      form:
+        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        use_default: 'Use default: %{model} (%{model_id})'
+      show:
+        summary: 'View model routing'
+        provider: 'Provider'
+        model: 'Model'
+      sources:
+        account_override: 'Account override'
+        default: '默认'
+      features:
+        editor: 'Editor'
+        assistant: '助手'
+        copilot: 'Copilot'
+        label_suggestion: 'Label suggestion'
+        document_faq_generation: 'Document FAQ generation'
+        conversation_faq_generation: 'Conversation FAQ generation'
+        help_center_article_generation: 'Help center article generation'
+        onboarding_content_generation: 'Onboarding content generation'
+        help_center_query_translation: 'Help center query translation'
+        audio_transcription: 'Audio transcription'
+        help_center_search: 'Help center search'
     push_diagnostics:
       user_not_found: '未找到用户。'
       no_subscriptions_to_test: '请至少选择一个要测试的订阅。'

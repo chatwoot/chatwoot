@@ -1,7 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { h } from 'vue';
 import SidebarGroupLeaf from '../SidebarGroupLeaf.vue';
-import SidebarUnreadBadge from '../SidebarUnreadBadge.vue';
 
 vi.mock('../provider', () => ({
   useSidebarContext: () => ({
@@ -45,17 +44,6 @@ describe('SidebarGroupLeaf', () => {
     expect(badge.text()).toBe('7');
   });
 
-  it('passes tooltip copy to unread badge', () => {
-    const wrapper = mountLeaf({
-      badgeCount: 7,
-      badgeTooltip: 'Total unread conversations in this label',
-    });
-
-    expect(wrapper.findComponent(SidebarUnreadBadge).props('tooltip')).toBe(
-      'Total unread conversations in this label'
-    );
-  });
-
   it('does not render unread badge when count is zero', () => {
     const wrapper = mountLeaf({ badgeCount: 0 });
 
@@ -75,17 +63,14 @@ describe('SidebarGroupLeaf', () => {
   it('passes unread count to custom leaf components', () => {
     const wrapper = mountLeaf({
       badgeCount: 4,
-      badgeTooltip: 'Total unread conversations in this inbox',
       component: leafProps =>
         h(
           'span',
           { 'data-test-id': 'custom-leaf-count' },
-          `${leafProps.badgeCount}:${leafProps.badgeTooltip}`
+          leafProps.badgeCount
         ),
     });
 
-    expect(wrapper.find('[data-test-id="custom-leaf-count"]').text()).toBe(
-      '4:Total unread conversations in this inbox'
-    );
+    expect(wrapper.find('[data-test-id="custom-leaf-count"]').text()).toBe('4');
   });
 });

@@ -121,6 +121,26 @@
       "CLEAR_FILTER": "清除筛选条件",
       "EMPTY_LIST": "没有检索到相关信息"
     },
+    "DRILLDOWN": {
+      "TITLE": "{metric} 详情",
+      "RESULT_COUNT_CONVERSATION": "{count} 个对话 | {count} 个对话",
+      "RESULT_COUNT_MESSAGE": "{count} 条消息 | {count} 条消息",
+      "EMPTY": "未找到此数据项的记录。",
+      "ERROR": "无法加载记录，请重试。",
+      "ADMIN_ONLY": "只有管理员可以查看报表记录详情。",
+      "LOAD_MORE": "加载更多",
+      "CLOSE": "关闭详情",
+      "PREVIOUS_BUCKET": "上一个数据项",
+      "NEXT_BUCKET": "下一个数据项",
+      "UNKNOWN_CONTACT": "未知联系人",
+      "UNKNOWN_INBOX": "未知收件箱",
+      "UNASSIGNED_AGENT": "未分配",
+      "NO_MESSAGE_CONTENT": "无消息内容",
+      "MESSAGE_CREATED_AT": "消息创建于 {time}",
+      "EVENT_OCCURRED_AT": "事件发生于 {time}",
+      "INCOMING_MESSAGE": "收到的消息",
+      "OUTGOING_MESSAGE": "发出的消息"
+    },
     "PAGINATION": {
       "RESULTS": "显示 {start} 到 {end} 条，共 {total} 条结果",
       "PER_PAGE_TEMPLATE": "每页 {size} 条"

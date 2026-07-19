@@ -12,7 +12,7 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
   let(:store) { Conversations::UnreadCounts::Store }
 
   after do
-    store.clear_all_account!(account.id)
+    store.clear_account!(account.id)
   end
 
   it 'does not update redis when unread caches are not ready' do

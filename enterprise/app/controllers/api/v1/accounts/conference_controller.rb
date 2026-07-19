@@ -74,9 +74,9 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     rejected = call.with_lock do
       next false unless agent_rejecting_before_pickup?(call)
 
-      call.update!(status: 'failed', end_reason: 'agent_rejected', accepted_by_agent_id: Current.user.id)
+      call.update!(status: 'rejected', end_reason: 'agent_rejected', accepted_by_agent_id: Current.user.id)
       true
     end
-    Voice::CallMessageBuilder.new(call).update_status!(status: 'failed', agent: Current.user) if rejected
+    Voice::CallMessageBuilder.new(call).update_status!(status: 'rejected', agent: Current.user) if rejected
   end
 end

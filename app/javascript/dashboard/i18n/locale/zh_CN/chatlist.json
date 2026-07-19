@@ -79,6 +79,9 @@
       },
       "priority_desc_created_at_asc": {
         "TEXT": "优先级：最高在前，创建时间：最早在前"
+      },
+      "unread": {
+        "TEXT": "未读数：从高到低"
       }
     },
     "ATTACHMENTS": {

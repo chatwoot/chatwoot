@@ -22,10 +22,6 @@ const props = defineProps({
     type: [Number, String],
     default: 0,
   },
-  badgeTooltip: {
-    type: String,
-    default: '',
-  },
 });
 
 const reauthorizationRequired = computed(() => {
@@ -38,7 +34,7 @@ const reauthorizationRequired = computed(() => {
     <ChannelIcon :inbox="inbox" class="size-4" />
   </span>
   <div class="flex-1 truncate min-w-0">{{ label }}</div>
-  <SidebarUnreadBadge :count="badgeCount" :tooltip="badgeTooltip" />
+  <SidebarUnreadBadge :count="badgeCount" />
   <div
     v-if="reauthorizationRequired"
     v-tooltip.top-end="$t('SIDEBAR.REAUTHORIZE')"

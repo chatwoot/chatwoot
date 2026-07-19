@@ -30,5 +30,59 @@
     "VALIDATION_ERROR": "请填写所有必填字段",
     "SUCCESS": "信息保存成功",
     "ERROR": "无法保存信息，请重试。"
+  },
+  "ONBOARDING_INBOX_SETUP": {
+    "GREETING": "让我们先完成几项设置",
+    "SUBTITLE": "这将帮助您更快开始使用工作区",
+    "CONTINUE": "继续",
+    "SKIP": "跳过",
+    "ERROR": "出错了。请重试。",
+    "WHATSAPP_CONNECTED": "WhatsApp 连接成功",
+    "FACEBOOK_CONNECTED": "Facebook 连接成功",
+    "CREATED_FOR_YOU": {
+      "TITLE": "我们已为您创建以下内容",
+      "LIVE_CHAT": "在线聊天小组件",
+      "LIVE_CHAT_DESCRIPTION": "适用于您网站的即时通讯工具",
+      "LIVE_CHAT_STATUS": "即将完成…",
+      "LIVE_CHAT_READY": "已就绪",
+      "HELP_CENTER": "帮助中心",
+      "HELP_CENTER_DESCRIPTION": "您的数字知识库",
+      "HELP_CENTER_GENERATING": "正在创建帮助中心…",
+      "HELP_CENTER_ANALYZING_WEBSITE": "正在分析您的网站…",
+      "HELP_CENTER_SETTING_UP_CATEGORIES": "正在设置类别…",
+      "HELP_CENTER_CURATING_ARTICLES": "正在整理文章…",
+      "HELP_CENTER_ARTICLES": "已创建 {count} 篇文章 | 已创建 {count} 篇文章",
+      "HELP_CENTER_CATEGORIES": "{count} 个类别 | {count} 个类别",
+      "HELP_CENTER_SUMMARY": "已在 {categories} 中创建 {count} 篇文章 | 已在 {categories} 中创建 {count} 篇文章"
+    },
+    "CHANNELS": {
+      "TITLE": "连接您的所有对话渠道",
+      "HEADER": "我们发现了几个可连接的渠道",
+      "CONNECT": "连接",
+      "CONNECTED": "已连接",
+      "MORE_CHANNELS_NOTE": "稍后可在应用内设置 {email} 和 {voice} 渠道",
+      "MORE_CHANNELS_EMAIL": "电子邮件",
+      "MORE_CHANNELS_VOICE": "语音",
+      "VIEW_ALL": "查看全部",
+      "GMAIL": "Gmail",
+      "OUTLOOK": "Outlook",
+      "OTHER_EMAIL": "其他电子邮件服务商"
+    },
+    "CHANNELS_DIALOG": {
+      "TITLE": "立即连接您的所有渠道",
+      "SUBTITLE": "在一个工作台中统一管理所有渠道。您也可以稍后在应用内设置和编辑收件箱。",
+      "NOTE": "短信、API、语音和其他电子邮件服务商可稍后在工作台中设置。",
+      "CONNECT_TITLE": "连接您的 {name} 账户",
+      "CONNECT_SUBTITLE": "填写以下简要信息",
+      "CONNECT": "连接",
+      "BACK": "后退",
+      "SETUP_LATER": "稍后在应用内设置",
+      "FACEBOOK_SUBTITLE": "授权访问并选择要连接的主页。",
+      "FACEBOOK_LAUNCH": "使用 Facebook 继续",
+      "FACEBOOK_SELECT_PAGE": "选择要连接的主页",
+      "FACEBOOK_LOADING": "正在加载您的 Facebook 主页…",
+      "FACEBOOK_NO_PAGES": "未找到可连接的主页，您的所有主页均已连接。",
+      "FACEBOOK_ERROR": "无法连接 Facebook，请重试。"
+    }
   }
 }

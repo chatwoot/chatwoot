@@ -207,4 +207,29 @@ RSpec.describe Article do
       expect(article.to_llm_text).to eq(expected_output)
     end
   end
+
+  describe '.update_positions' do
+    let!(:article_a) { create(:article, portal: portal_1, category: category_1, author: user, position: 10) }
+    let!(:article_b) { create(:article, portal: portal_1, category: category_1, author: user, position: 11) }
+    let!(:article_c) { create(:article, portal: portal_1, category: category_1, author: user, position: 30) }
+
+    it 're-spaces the category to clean gaps and places a collided move after its tie' do
+      # Dropping C into the tight 10/11 gap gives a floored midpoint of 10, colliding with A
+      positions = described_class.update_positions(portal: portal_1, positions_hash: { article_c.id => 10 })
+
+      expect(article_a.reload.position).to eq(10)
+      expect(article_c.reload.position).to eq(20)
+      expect(article_b.reload.position).to eq(30)
+      expect(positions).to eq(article_a.id => 10, article_c.id => 20, article_b.id => 30)
+    end
+
+    it 'leaves a lone article untouched and returns nothing to sync' do
+      lone = create(:article, portal: portal_1, category: create(:category, portal_id: portal_1.id), author: user, position: 20)
+
+      positions = described_class.update_positions(portal: portal_1, positions_hash: { lone.id => 20 })
+
+      expect(lone.reload.position).to eq(20)
+      expect(positions).to be_empty
+    end
+  end
 end
