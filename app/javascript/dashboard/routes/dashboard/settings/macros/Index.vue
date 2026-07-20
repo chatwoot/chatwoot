@@ -6,7 +6,11 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import {
+  useStoreGetters,
+  useStore,
+  useMapGetter,
+} from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { BaseTable } from 'dashboard/components-next/table';
 import { useAdmin } from 'dashboard/composables/useAdmin';
@@ -15,18 +19,51 @@ const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
 const { isAdmin } = useAdmin();
+const currentUser = useMapGetter('getCurrentUser');
 
 const showDeleteConfirmationPopup = ref(false);
 const selectedMacro = ref({});
 const searchQuery = ref('');
+const visibilityFilter = ref('all');
+const selectedFolder = ref(null);
 
 const records = computed(() => getters['macros/getMacros'].value);
 const uiFlags = computed(() => getters['macros/getUIFlags'].value);
 
+const folders = computed(() => {
+  const set = new Set();
+  records.value.forEach(item => {
+    if (item.folder) set.add(item.folder);
+  });
+  return [...set].sort((a, b) => a.localeCompare(b));
+});
+
+const visibilityFilteredRecords = computed(() => {
+  const userId = currentUser.value?.id;
+  if (visibilityFilter.value === 'mine') {
+    return records.value.filter(item => item.created_by_id === userId);
+  }
+  if (visibilityFilter.value === 'global') {
+    return records.value.filter(item => item.visibility === 'global');
+  }
+  return records.value;
+});
+
+const folderFilteredRecords = computed(() => {
+  if (selectedFolder.value === null) return visibilityFilteredRecords.value;
+  if (selectedFolder.value === '') {
+    return visibilityFilteredRecords.value.filter(item => !item.folder);
+  }
+  return visibilityFilteredRecords.value.filter(
+    item => item.folder === selectedFolder.value
+  );
+});
+
 const filteredRecords = computed(() => {
   const query = searchQuery.value.trim();
-  if (!query) return records.value;
-  return picoSearch(records.value, query, ['name', 'folder']);
+  const base = folderFilteredRecords.value;
+  if (!query) return base;
+  return picoSearch(base, query, ['name', 'folder']);
 });
 
 const sortedRecords = computed(() => {
@@ -70,6 +107,17 @@ const confirmDeletion = () => {
   deleteMacro(selectedMacro.value.id);
 };
 
+const visibilityFilters = computed(() => [
+  { key: 'all', label: t('MACROS.FILTER_VISIBILITY.ALL') },
+  { key: 'mine', label: t('MACROS.FILTER_VISIBILITY.MINE') },
+  { key: 'global', label: t('MACROS.FILTER_VISIBILITY.GLOBAL') },
+]);
+
+const chipClass = active =>
+  active
+    ? 'bg-n-brand text-white border-n-brand'
+    : 'bg-n-alpha-black2 text-n-slate-12 border-n-weak hover:bg-n-alpha-2';
+
 const tableHeaders = computed(() => {
   return [
     t('MACROS.LIST.TABLE_HEADER.NAME'),
@@ -112,11 +160,62 @@ const tableHeaders = computed(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
+      <div v-if="records.length" class="flex flex-col gap-3 mb-4">
+        <div class="flex flex-wrap gap-2">
+          <button
+            v-for="filter in visibilityFilters"
+            :key="filter.key"
+            type="button"
+            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
+            :class="chipClass(visibilityFilter === filter.key)"
+            @click="visibilityFilter = filter.key"
+          >
+            {{ filter.label }}
+          </button>
+        </div>
+        <div
+          v-if="folders.length || records.some(r => !r.folder)"
+          class="flex flex-wrap gap-2"
+        >
+          <button
+            type="button"
+            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
+            :class="chipClass(selectedFolder === null)"
+            @click="selectedFolder = null"
+          >
+            {{ $t('MACROS.ALL_FOLDERS') }}
+          </button>
+          <button
+            v-for="folder in folders"
+            :key="folder"
+            type="button"
+            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
+            :class="chipClass(selectedFolder === folder)"
+            @click="selectedFolder = folder"
+          >
+            {{ folder }}
+          </button>
+          <button
+            v-if="records.some(r => !r.folder)"
+            type="button"
+            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
+            :class="chipClass(selectedFolder === '')"
+            @click="selectedFolder = ''"
+          >
+            {{ $t('MACROS.UNCATEGORIZED') }}
+          </button>
+        </div>
+      </div>
+
       <div
         v-if="!filteredRecords.length"
         class="px-4 py-8 text-center text-n-slate-11"
       >
-        {{ searchQuery ? $t('MACROS.NO_RESULTS') : $t('MACROS.LIST.404') }}
+        {{
+          searchQuery || visibilityFilter !== 'all' || selectedFolder !== null
+            ? $t('MACROS.NO_RESULTS')
+            : $t('MACROS.LIST.404')
+        }}
       </div>
       <BaseTable
         v-else

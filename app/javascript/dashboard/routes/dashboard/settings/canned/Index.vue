@@ -6,7 +6,11 @@ import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStoreGetters, useStore, useMapGetter } from 'dashboard/composables/store';
+import {
+  useStoreGetters,
+  useStore,
+  useMapGetter,
+} from 'dashboard/composables/store';
 import { picoSearch } from '@scmmishra/pico-search';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useAdmin } from 'dashboard/composables/useAdmin';
@@ -105,9 +109,7 @@ const deleteMessage = computed(() => {
 });
 
 const emptyListMessage = computed(() =>
-  isAdmin.value
-    ? t('CANNED_MGMT.LIST.404')
-    : t('CANNED_MGMT.LIST.404_AGENT')
+  isAdmin.value ? t('CANNED_MGMT.LIST.404') : t('CANNED_MGMT.LIST.404_AGENT')
 );
 
 const visibilityFilters = computed(() => {
@@ -364,7 +366,9 @@ const tableHeaders = computed(() => {
           {{ tableHeaders[3] }}
         </template>
         <template #header-4>
-          {{ tableHeaders[4] }}
+          <div class="text-end">
+            {{ tableHeaders[4] }}
+          </div>
         </template>
 
         <template #row="{ items }">
