@@ -6,14 +6,14 @@ import { useStore } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useMessageContext } from './provider.js';
-import { ORIENTATION } from './constants';
+import { MESSAGE_VARIANTS, ORIENTATION } from './constants';
 
 const props = defineProps({
   messageId: { type: Number, required: true },
 });
 
 const { t } = useI18n();
-const { orientation } = useMessageContext();
+const { orientation, variant } = useMessageContext();
 const store = useStore();
 const { isCloudFeatureEnabled } = useAccount();
 
@@ -116,9 +116,27 @@ const devDetails = computed(() => {
   return `${model} · ${credits}`;
 });
 
-const rowAlignClass = computed(() =>
-  orientation.value === ORIENTATION.LEFT ? 'justify-start' : 'justify-end'
-);
+// With the sparkle at the row start, the meta gets pushed to the opposite end;
+// without it, fall back to the message orientation.
+const rowLayoutClass = computed(() => {
+  if (showSparkle.value) return 'justify-between';
+  return orientation.value === ORIENTATION.LEFT
+    ? 'justify-start'
+    : 'justify-end';
+});
+
+// Blend the sparkle with the bubble background: amber on private notes,
+// slate everywhere else. Tokens adapt to dark mode on their own.
+const sparkleColorClass = computed(() => {
+  if (variant.value === MESSAGE_VARIANTS.PRIVATE) {
+    return isExpanded.value
+      ? 'text-n-amber-12/80'
+      : 'text-n-amber-12/40 hover:text-n-amber-12/70';
+  }
+  return isExpanded.value
+    ? 'text-n-slate-12'
+    : 'text-n-slate-11/60 hover:text-n-slate-12';
+});
 
 const prefetch = () => {
   store.dispatch('captainAgentSessions/fetch', props.messageId);
@@ -211,20 +229,23 @@ const toggle = () => {
         </template>
       </div>
     </Transition>
-    <div class="flex items-center gap-1.5" :class="rowAlignClass">
-      <slot name="meta" />
+    <div class="flex items-center gap-1.5" :class="rowLayoutClass">
       <button
         v-if="showSparkle"
         v-tooltip="t('CONVERSATION.CAPTAIN_GENERATION.TITLE')"
         type="button"
-        class="inline-flex items-center justify-center bg-transparent border-0 cursor-pointer text-n-slate-10 hover:text-n-slate-11"
-        :class="isExpanded ? 'text-n-slate-11' : ''"
+        class="inline-flex items-center gap-1 p-0 bg-transparent border-0 cursor-pointer"
+        :class="sparkleColorClass"
         @mouseenter="prefetch"
         @focus="prefetch"
         @click="toggle"
       >
         <Icon icon="i-ph-sparkle-fill" class="size-3.5" />
+        <span class="text-xs">
+          {{ t('CONVERSATION.CAPTAIN_GENERATION.GENERATED_BY') }}
+        </span>
       </button>
+      <slot name="meta" />
     </div>
   </div>
 </template>
