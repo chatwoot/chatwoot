@@ -39,7 +39,9 @@ export default {
         const isRecentMessage =
           createdAt &&
           Date.now() / 1000 - createdAt < RECENT_MESSAGE_WINDOW_SECONDS;
-        if (!isRecentMessage) {
+        // Only a 404 means "no session exists"; transient failures (5xx,
+        // network errors) stay uncached so a later hover retries.
+        if (error.response?.status === 404 && !isRecentMessage) {
           commit(SET_SESSION, { messageId, session: null });
         }
       } finally {
