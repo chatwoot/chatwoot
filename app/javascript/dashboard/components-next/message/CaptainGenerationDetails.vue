@@ -45,9 +45,21 @@ const scenarioTitles = computed(() =>
   }, {})
 );
 
+// Fallback for agents without a matching scenario title:
+// "chatwoot_assistant" → "Chatwoot assistant",
+// "scenario_5_chatwoot_uptime_agent" → "Chatwoot uptime".
+const humanizeAgentName = agentName => {
+  const label = agentName
+    .replace(/^scenario_\d+_/, '')
+    .replace(/_agent$/, '')
+    .replaceAll('_', ' ')
+    .trim();
+  return label.charAt(0).toUpperCase() + label.slice(1);
+};
+
 const handoffLabel = agentName => {
   const scenarioId = agentName.match(/^scenario_(\d+)/)?.[1];
-  return scenarioTitles.value[scenarioId] || agentName;
+  return scenarioTitles.value[scenarioId] || humanizeAgentName(agentName);
 };
 
 // Tool names arrive as RubyLLM identifiers like
@@ -84,6 +96,10 @@ const steps = computed(() => {
     }
 
     (entry.toolCalls || []).forEach(call => {
+      // Agent-to-agent transfers surface as "handoff_to_<agent>" tool calls;
+      // the agent_name change above already yields a handoff step for them.
+      if (call.name?.startsWith('handoff_to_')) return;
+
       result.push({
         type: 'tool',
         name: humanizeToolName(call.name),
