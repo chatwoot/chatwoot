@@ -20,7 +20,6 @@ export default {
       showPopoutButton: false,
       scrollPosition: 0,
       ticking: true,
-      disableBranding: window.chatwootWebChannel.disableBranding || false,
       requestID: null,
     };
   },
@@ -29,6 +28,9 @@ export default {
       appConfig: 'appConfig/getAppConfig',
       availableAgents: 'agent/availableAgents',
     }),
+    disableBranding() {
+      return window.chatwootWebChannel.disableBranding || false;
+    },
     portal() {
       return window.chatwootWebChannel.portal;
     },
