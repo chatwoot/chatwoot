@@ -23,13 +23,9 @@ class AutomationRule < ApplicationRecord
   include Reauthorizable
 
   EXECUTION_DELAY_RANGE = (10..43_200) # minutes: 10 min to 30 days
-  # The only valid delayed (wait) rule shapes: each supported event maps to the conditions that
-  # stay meaningful across the wait — status / message_type re-checked at fire time, plus the
-  # immutable inbox for scoping. Every other event or condition is rejected for delayed rules.
-  DELAYED_EVENT_ATTRIBUTES = {
-    'conversation_updated' => %w[status inbox_id],
-    'message_created' => %w[message_type inbox_id]
-  }.freeze
+  # Conversation-level delayed rules key their episode on status; only status and attributes
+  # that never change after the delay (inbox) are safe to also filter on.
+  DELAYED_CONVERSATION_ATTRIBUTES = %w[status inbox_id].freeze
 
   belongs_to :account
   has_many :pending_executions, class_name: 'AutomationRulePendingExecution', dependent: :delete_all
@@ -120,16 +116,13 @@ class AutomationRule < ApplicationRecord
     errors.add(:execution_delay, 'cannot be used with attribute_changed conditions.')
   end
 
-  # Delayed rules are limited to the shapes whose episode keys stay meaningful across the wait:
-  # conversation_updated on status/inbox, and message_created on message_type/inbox.
+  # Conversation-level episodes key on status_changed_at alone. Mutable attributes would collapse
+  # distinct periods into one episode, so only status and immutable filters (inbox) are allowed.
   def execution_delay_supported_event
-    return if execution_delay.blank?
+    return if execution_delay.blank? || conditions.blank? || event_name == 'message_created'
+    return if conditions.all? { |obj| DELAYED_CONVERSATION_ATTRIBUTES.include?(obj['attribute_key']) }
 
-    allowed = DELAYED_EVENT_ATTRIBUTES[event_name]
-    return errors.add(:execution_delay, 'is only supported for conversation_updated and message_created events.') if allowed.nil?
-    return if conditions.blank? || conditions.all? { |obj| allowed.include?(obj['attribute_key']) }
-
-    errors.add(:execution_delay, "only supports #{allowed.join(' and ')} conditions for #{event_name} events.")
+    errors.add(:execution_delay, 'only supports status and inbox conditions for conversation-level events.')
   end
 
   def execution_config_changed?
