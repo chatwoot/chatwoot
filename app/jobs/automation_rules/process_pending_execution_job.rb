@@ -37,7 +37,7 @@ class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
 
   def behavioral_skip_reason(pending_execution)
     return 'episode_moved' unless pending_execution.episode_current?
-    return 'conditions_changed' unless conditions_still_match?(pending_execution)
+    return AutomationRulePendingExecution::CONDITIONS_CHANGED_SKIP unless conditions_still_match?(pending_execution)
 
     nil
   end
