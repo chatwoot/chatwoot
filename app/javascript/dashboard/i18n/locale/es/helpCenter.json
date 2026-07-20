@@ -533,6 +533,8 @@
             "PUBLISHED": "Publicado",
             "ARCHIVED": "Archivado"
           },
+          "PENDING_EDITS": "Ediciones sin publicar",
+          "PENDING_EDITS_TOOLTIP": "Este artículo publicado tiene ediciones sin publicar",
           "CATEGORY": {
             "UNCATEGORISED": "Uncategorised"
           }
@@ -552,6 +554,7 @@
         "LOCALE": {
           "ALL": "All locales"
         },
+        "SEARCH_PLACEHOLDER": "Buscar artículos...",
         "NEW_ARTICLE": "New article"
       },
       "EMPTY_STATE": {
@@ -579,51 +582,58 @@
         "CATEGORY": {
           "TITLE": "There are no articles in this category",
           "SUBTITLE": "Articles in this category will appear here"
+        },
+        "SEARCH": {
+          "TITLE": "No hay artículos coincidentes",
+          "SUBTITLE": "No pudimos encontrar ningún artículo que coincida con tu búsqueda. Prueba con un término diferente."
         }
       },
       "BULK_TRANSLATE": {
-        "TITLE": "Translate article | Translate {count} articles",
-        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
-        "LOCALE_LABEL": "Target language",
-        "LOCALE_PLACEHOLDER": "Select a language",
-        "CATEGORY_LABEL": "Target category",
-        "CATEGORY_PLACEHOLDER": "Select a category",
-        "OPTIONAL": "(optional)",
+        "TITLE": "Traducir artículo | Traducir {count} artículos",
+        "DESCRIPTION": "Traducir el artículo seleccionado a otro idioma. | Traducir los artículos seleccionados a otro idioma.",
+        "LOCALE_LABEL": "Idioma destino",
+        "LOCALE_PLACEHOLDER": "Seleccione un idioma",
+        "CATEGORY_LABEL": "Categoría de destino",
+        "CATEGORY_PLACEHOLDER": "Seleccione una categoría",
+        "OPTIONAL": "(opcional)",
         "CONFIRM": "Traducir",
-        "SELECT_ALL": "Select all ({count})",
-        "SELECTED_COUNT": "{count} selected",
-        "CLEAR_SELECTION": "Clear selection",
+        "SELECT_ALL": "Seleccionar todo ({count})",
+        "SELECTED_COUNT": "{count} seleccionados",
+        "CLEAR_SELECTION": "Borrar selección",
         "TRANSLATE_BUTTON": "Traducir",
-        "CONFIRM_OVERWRITE": "Overwrite and translate",
-        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
-        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "CONFIRM_OVERWRITE": "Sobrescribir y traducir",
+        "DUPLICATE_WARNING": "Ya existe una traducción para este artículo en el idioma seleccionado. | Ya existen traducciones para los artículos {count} en el idioma seleccionado.",
+        "DUPLICATE_CONFIRM_HINT": "Haga clic en traducir de nuevo para sobrescribir la traducción existente.",
         "API": {
-          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
-          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+          "SUCCESS_MESSAGE": "Traducción en progreso. El artículo aparecerá como borrador una vez listo.",
+          "ERROR_MESSAGE": "Error al iniciar la traducción. Por favor, inténtalo de nuevo."
         }
       },
       "BULK_ACTIONS": {
         "PUBLISH": "Publicar",
         "DRAFT": "Borrador",
-        "ARCHIVE": "Archive",
+        "ARCHIVE": "Archivar",
         "TRANSLATE": "Traducir",
         "MOVE_TO_CATEGORY": "Categoría",
         "DELETE": "Eliminar",
-        "STATUS_SUCCESS": "Articles updated successfully",
-        "STATUS_ERROR": "Failed to update articles",
-        "CATEGORY_SUCCESS": "Articles moved successfully",
-        "CATEGORY_ERROR": "Failed to move articles",
-        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
-        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "STATUS_SUCCESS": "Artículos actualizados correctamente",
+        "STATUS_ERROR": "No se pudo actualizar artículos",
+        "STATUS_SKIPPED": "Se omitió 1 artículo con ediciones inéditas — ábrelo para publicarlo o descartar. | {count} artículos con ediciones sin publicar se omitieron — ábrelos para publicarlos o descartarlos.",
+        "STATUS_SKIPPED_ALL": "Estos artículos tienen ediciones inéditas — abren cada una para publicar o descartar.",
+        "CATEGORY_SUCCESS": "Artículos movidos con éxito",
+        "CATEGORY_ERROR": "No se pudo mover artículos",
+        "DELETE_CONFIRM_TITLE": "Eliminar artículo | Eliminar artículos {count}",
+        "DELETE_CONFIRM_DESCRIPTION": "Esto eliminará permanentemente el artículo seleccionado. Esta acción no se puede deshacer. | Esto eliminará permanentemente los {count} artículos seleccionados. Esta acción no se puede deshacer.",
         "DELETE_CONFIRM": "Eliminar",
-        "DELETE_SUCCESS": "Articles deleted successfully",
-        "DELETE_ERROR": "Failed to delete articles"
+        "DELETE_SUCCESS": "Artículos eliminados correctamente",
+        "DELETE_ERROR": "Error al eliminar artículos"
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "Nueva categoría",
         "EDIT_CATEGORY": "Editar categoría",
+        "SEARCH_PLACEHOLDER": "Buscar categorías...",
         "CATEGORIES_COUNT": "{n} category | {n} categories",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Categories ({localeCode})",
@@ -633,6 +643,10 @@
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "No se encontraron categorías",
         "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No hay categorías coincidentes",
+        "SUBTITLE": "No pudimos encontrar ninguna categoría que coincida con tu búsqueda. Prueba con un término diferente."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles"
@@ -691,6 +705,11 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
       "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "SEARCH_PLACEHOLDER": "Buscar locales...",
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No hay idiomas coincidentes",
+        "SUBTITLE": "No pudimos encontrar ningún local que coincida con tu búsqueda. Prueba con un término diferente."
+      },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles",
         "CATEGORIES_COUNT": "{count} category | {count} categories",
@@ -700,7 +719,49 @@
           "MAKE_DEFAULT": "Make default",
           "MOVE_TO_DRAFT": "Move to draft",
           "PUBLISH_LOCALE": "Publish locale",
+          "CUSTOMIZE_CONTENT": "Localizar contenido",
+          "SELECT_POPULAR_CONTENT": "Seleccionar contenido recomendado",
           "DELETE": "Eliminar"
+        }
+      },
+      "POPULAR_CONTENT_DIALOG": {
+        "TITLE": "Contenido recomendado",
+        "DESCRIPTION": "Recoge hasta 3 categorías y 6 artículos para que aparezcan en la página principal del centro de ayuda local. Arrastra el orden que quieres que los visitantes puedan ver.",
+        "SEARCH": "Buscar...",
+        "EMPTY": "No hay resultados coincidentes",
+        "ADD_ANOTHER": "Añadir otro...",
+        "SLOTS_LEFT": "Ranuras {count} restantes",
+        "OVERRIDING_DEFAULTS": "Reemplazar el valor predeterminado de este local",
+        "CONFIRM": "Guardar recomendaciones",
+        "CATEGORIES": {
+          "LABEL": "Categorías recomendadas",
+          "ARTICLES_COUNT": "Ningún artículo | {count} artículo | {count} artículos"
+        },
+        "ARTICLES": {
+          "LABEL": "Artículos recomendados",
+          "IN_CATEGORY": "en {category}",
+          "UNCATEGORIZED": "Sin categoría"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Contenido recomendado actualizado correctamente",
+          "ERROR_MESSAGE": "No se puede actualizar el contenido recomendado. Inténtelo de nuevo."
+        }
+      },
+      "CONTENT_DIALOG": {
+        "TITLE": "Localizar contenido",
+        "DESCRIPTION": "Establece los valores específicos de este idioma. Cualquier cosa que quede en blanco vuelve a la configuración local por defecto.",
+        "NAME": {
+          "LABEL": "Nombre"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Título de la página"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Texto del encabezado"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Contenido local actualizado correctamente",
+          "ERROR_MESSAGE": "No se puede actualizar el contenido de la localización. Vuelve a intentarlo."
         }
       },
       "ADD_LOCALE_DIALOG": {
@@ -730,9 +791,29 @@
         },
         "PREVIEW": "Previsualizar",
         "PUBLISH": "Publicar",
+        "PUBLISH_CHANGES": "Publicar cambios",
+        "PUBLISH_CHANGES_SUCCESS": "Cambios publicados con éxito",
+        "PUBLISH_CHANGES_ERROR": "No se pudo publicar los cambios",
+        "SAVE_IN_PROGRESS": "Todavía guarda tus últimos cambios — por favor inténtalo de nuevo en un momento.",
+        "DISCARD_CHANGES": "Descartar cambios",
+        "DISCARD_CHANGES_SUCCESS": "Cambios descartados",
+        "DISCARD_CHANGES_ERROR": "No se pudo descartar los cambios",
+        "PENDING_CHANGES": "Cambios pendientes",
+        "VIEW_CHANGES": "Ver cambios no publicados",
         "DRAFT": "Borrador",
         "ARCHIVE": "Archive",
         "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "PENDING_CHANGES_POPOVER": {
+        "TITLE": "Cambios no publicados",
+        "DESCRIPTION": "Este artículo tiene borradores de cambios que aún no están en vivo. ¿Aplicarlos antes de cambiar el estado, o descartarlos?",
+        "APPLY": "Aplicar cambios",
+        "DISCARD": "Descartar cambios"
+      },
+      "DIFF_DIALOG": {
+        "TITLE": "Cambios no publicados",
+        "DESCRIPTION": "Compara tu borrador con la versión que está en vivo.",
+        "TITLE_LABEL": "Título"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
@@ -871,25 +952,25 @@
       },
       "LAYOUT_CONTENT": {
         "HEADER": "Apariencia",
-        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "DESCRIPTION": "Elija el diseño que se ajuste a la lectura de sus visitantes.",
         "LAYOUT": {
           "CLASSIC": {
-            "TITLE": "Classic",
-            "DESCRIPTION": "A welcoming home page with search and featured topics."
+            "TITLE": "Clásico",
+            "DESCRIPTION": "Una página de inicio acogedora con temas destacados y búsqueda."
           },
           "SIDEBAR": {
-            "TITLE": "Documentation",
-            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+            "TITLE": "Documentación",
+            "DESCRIPTION": "Navegación lateral a lado que mantiene a cada guía a un clic de distancia."
           }
         },
         "SOCIAL_LINKS": {
-          "HEADER": "Social links",
-          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
-          "PLACEHOLDER": "handle",
-          "ADD": "Add social link",
+          "HEADER": "Enlaces Sociales",
+          "DESCRIPTION": "Agregue el manejador para cada red y su centro de ayuda construya el enlace completo. Mostrar en el pie de página de la documentación.",
+          "PLACEHOLDER": "mango",
+          "ADD": "Añadir enlace social",
           "REMOVE": "Eliminar"
         },
-        "SAVE": "Save changes"
+        "SAVE": "Guardar cambios"
       },
       "API": {
         "CREATE_PORTAL": {

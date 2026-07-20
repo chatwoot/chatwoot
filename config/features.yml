@@ -120,10 +120,9 @@
   display_name: Message Reply To
   enabled: false
   deprecated: true
-- name: insert_article_in_reply
-  display_name: Insert Article in Reply
+- name: branded_email_templates
+  display_name: Branded Email Templates
   enabled: false
-  deprecated: true
 - name: inbox_view
   display_name: Inbox View
   enabled: false
@@ -263,5 +262,9 @@
   column: feature_flags_ext_1
 - name: whatsapp_reconfigure
   display_name: WhatsApp Reconfigure
+  enabled: false
+  column: feature_flags_ext_1
+- name: whatsapp_embedded_signup_inbox_creation
+  display_name: WhatsApp Embedded Signup Inbox Creation
   enabled: false
   column: feature_flags_ext_1
