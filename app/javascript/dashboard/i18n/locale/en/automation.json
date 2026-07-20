@@ -68,6 +68,10 @@
         "ACTIONS": "Actions"
       },
       "404": "No automation rules found",
+      "SECTIONS": {
+        "INSTANT": "Automations",
+        "DELAYED": "Delayed (Wait)"
+      },
       "DELAY_BADGE": "Runs after {delay}",
       "DELAY_DISABLED_BANNER": "Waits are disabled for this account. Rules with a wait won't run until it is enabled again."
     },

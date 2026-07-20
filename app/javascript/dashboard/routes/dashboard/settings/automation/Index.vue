@@ -35,6 +35,31 @@ const filteredRecords = computed(() => {
   if (!query) return records.value;
   return picoSearch(records.value, query, ['name', 'description']);
 });
+
+// Delayed (wait) rules run on a different lifecycle, so list them in their own section.
+const hasDelayedRecords = computed(() =>
+  records.value.some(automation => automation.execution_delay)
+);
+
+const sections = computed(() => {
+  const instant = [];
+  const delayed = [];
+  filteredRecords.value.forEach(automation =>
+    (automation.execution_delay ? delayed : instant).push(automation)
+  );
+  return [
+    {
+      key: 'instant',
+      label: t('AUTOMATION.LIST.SECTIONS.INSTANT'),
+      items: instant,
+    },
+    {
+      key: 'delayed',
+      label: t('AUTOMATION.LIST.SECTIONS.DELAYED'),
+      items: delayed,
+    },
+  ].filter(section => section.items.length);
+});
 const uiFlags = computed(() => getters['automations/getUIFlags'].value);
 const accountId = computed(() => getters.getCurrentAccountId.value);
 
@@ -226,25 +251,43 @@ const tableHeaders = computed(() => {
       >
         {{ $t('AUTOMATION.LIST.DELAY_DISABLED_BANNER') }}
       </div>
+      <template v-if="filteredRecords.length">
+        <div
+          v-for="section in sections"
+          :key="section.key"
+          class="mb-6 last:mb-0"
+        >
+          <h4
+            v-if="hasDelayedRecords"
+            class="mb-2 text-sm font-medium text-n-slate-11"
+          >
+            {{ section.label }}
+          </h4>
+          <BaseTable :headers="tableHeaders" :items="section.items">
+            <template #row="{ items }">
+              <AutomationRuleRow
+                v-for="automation in items"
+                :key="automation.id"
+                :automation="automation"
+                :loading="loading[automation.id]"
+                @clone="cloneAutomation"
+                @toggle="toggleAutomation"
+                @edit="openEditPopup"
+                @delete="openDeletePopup"
+              />
+            </template>
+          </BaseTable>
+        </div>
+      </template>
       <BaseTable
+        v-else
         :headers="tableHeaders"
-        :items="filteredRecords"
+        :items="[]"
         :no-data-message="
           searchQuery ? $t('AUTOMATION.NO_RESULTS') : $t('AUTOMATION.LIST.404')
         "
       >
-        <template #row="{ items }">
-          <AutomationRuleRow
-            v-for="automation in items"
-            :key="automation.id"
-            :automation="automation"
-            :loading="loading[automation.id]"
-            @clone="cloneAutomation"
-            @toggle="toggleAutomation"
-            @edit="openEditPopup"
-            @delete="openDeletePopup"
-          />
-        </template>
+        <template #row />
       </BaseTable>
     </template>
 
