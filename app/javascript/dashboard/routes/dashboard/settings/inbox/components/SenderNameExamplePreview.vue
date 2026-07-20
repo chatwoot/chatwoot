@@ -32,7 +32,7 @@ const senderNameKeyOptions = computed(() => [
     content: t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.SUBTITLE'),
     preview: {
       senderName: 'Smith',
-      businessName: 'Chatwoot',
+      businessName: replaceInstallationName('Chatwoot'),
       email: '<support@yourbusiness.com>',
     },
   },
@@ -42,7 +42,7 @@ const senderNameKeyOptions = computed(() => [
     content: t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.PROFESSIONAL.SUBTITLE'),
     preview: {
       senderName: '',
-      businessName: 'Chatwoot',
+      businessName: replaceInstallationName('Chatwoot'),
       email: '<support@yourbusiness.com>',
     },
   },
@@ -53,9 +53,7 @@ const isKeyOptionFriendly = key => key === 'friendly';
 const userName = keyOption =>
   isKeyOptionFriendly(keyOption.key)
     ? keyOption.preview.senderName
-    : replaceInstallationName(
-        props.businessName || keyOption.preview.businessName || ''
-      );
+    : props.businessName || keyOption.preview.businessName;
 
 const toggleSenderNameType = key => {
   emit('update', key);
@@ -96,11 +94,7 @@ const toggleSenderNameType = key => {
               {{ t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.FROM') }}
             </span>
             <span class="text-body-main text-n-slate-12">
-              {{
-                replaceInstallationName(
-                  props.businessName || keyOption.preview.businessName || ''
-                )
-              }}
+              {{ props.businessName || keyOption.preview.businessName }}
             </span>
           </div>
           <span class="text-label-small text-n-slate-11">
