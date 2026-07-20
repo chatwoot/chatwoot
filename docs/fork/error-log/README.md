@@ -19,6 +19,7 @@ so the same problem is never debugged twice.
 
 Add a line here per entry, newest first:
 
+- [2026-07-20 — rspec `test` service loses installed gems on every `run --rm` (BUNDLE_PATH not mounted)](./2026-07-20-rspec-test-service-loses-installed-gems.md)
 - [2026-07-16 — Rails 500s on PendingMigrationError after the upstream merge; migrating churns schema.rb](./2026-07-16-pending-migrations-500-and-schema-churn.md)
 - [2026-07-16 — FACEBOOK_API_VERSION ships expired (v18.0) and `.env` cannot change it](./2026-07-16-facebook-api-version-shipped-expired-and-ignores-env.md)
 - [2026-07-10 — Vite dev server bound to container-localhost — assets 404 in the browser](./2026-07-10-vite-dev-server-bound-to-container-localhost.md)
