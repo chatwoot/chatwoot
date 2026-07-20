@@ -31,10 +31,11 @@ class Rack::Attack
       (default_allowed_ips + env_allowed_ips).include?(remote_ip)
     end
 
-    # Rails would allow requests to paths with extensions, so lets compare against the path with extension stripped
-    # example /auth & /auth.json would both work
+    # Rails allows paths with extensions and trailing slashes, so compare against a normalized path.
+    # For example, /auth, /auth.json, and /auth/ should all use the same throttle.
     def path_without_extensions
-      path[/^[^.]+/]
+      normalized_path = path[/^[^.]+/]
+      normalized_path == '/' ? normalized_path : normalized_path.delete_suffix('/')
     end
   end
 
@@ -191,7 +192,7 @@ class Rack::Attack
 
     ## Prevent Transcript Bombing on Widget API ###
     throttle('api/v1/widget/conversations/transcript', limit: 5, period: 1.hour) do |req|
-      req.ip if req.path_without_extensions.match?(%r{\A/api/v1/widget/conversations/transcript/?\z}) && req.post?
+      req.ip if req.path_without_extensions == '/api/v1/widget/conversations/transcript' && req.post?
     end
   end
 
