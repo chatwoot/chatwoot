@@ -7,6 +7,7 @@ import {
   getSortedAgentsByAvailability,
   getAgentsByUpdatedPresence,
 } from 'dashboard/helper/agentHelper.js';
+import { picoSearch } from '@scmmishra/pico-search';
 import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
 import wootConstants from 'dashboard/constants/globals';
@@ -87,6 +88,7 @@ export default {
   data() {
     return {
       MENU,
+      labelSearchQuery: '',
       STATUS_TYPE: wootConstants.STATUS_TYPE,
       readOption: {
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.MARK_AS_READ'),
@@ -216,6 +218,21 @@ export default {
       // Don't show snooze if the conversation is already snoozed/resolved/pending
       return this.status === wootConstants.STATUS_TYPE.OPEN;
     },
+    filteredLabels() {
+      const labels = this.labelSearchQuery
+        ? picoSearch(this.labels, this.labelSearchQuery, ['title'])
+        : this.labels;
+
+      // Assigned labels first, then alphabetical within each group.
+      return [...labels].sort((a, b) => {
+        const aSelected = this.conversationLabels.includes(a.title);
+        const bSelected = this.conversationLabels.includes(b.title);
+        if (aSelected !== bSelected) {
+          return aSelected ? -1 : 1;
+        }
+        return a.title.localeCompare(b.title);
+      });
+    },
   },
   mounted() {
     this.$store.dispatch('inboxAssignableAgents/fetch', [this.inboxId]);
@@ -335,8 +352,33 @@ export default {
         :option="labelMenuConfig"
         :sub-menu-available="!!labels.length"
       >
+        <!--
+          Sticky search bar. `-top-1` offsets the sticky stop by the submenu's
+          `p-1` padding so the opaque bar also covers the top padding strip when
+          the list is scrolled, stopping label rows from peeking above it.
+          `bg-n-solid-2` is opaque so rows don't show through the translucent
+          submenu background behind the bar.
+        -->
+        <div
+          class="sticky z-10 p-1 -top-1 min-w-[13rem] rounded-t-md bg-n-solid-2"
+        >
+          <!--
+            `reset-base` opts this input out of the global `input[type]` form
+            styling (`field-base h-10`), which would otherwise force a 40px
+            height and a 1rem bottom margin; the utility classes below then fully
+            control the input.
+          -->
+          <input
+            v-model="labelSearchQuery"
+            type="search"
+            class="reset-base block w-full px-2 py-1 text-xs bg-n-alpha-2 border border-n-weak rounded-md text-n-slate-12 placeholder:text-n-slate-10 focus:outline-none"
+            :placeholder="$t('CONVERSATION.CARD_CONTEXT_MENU.SEARCH_LABELS')"
+            @click.stop
+            @keydown.stop
+          />
+        </div>
         <MenuItem
-          v-for="label in labels"
+          v-for="label in filteredLabels"
           :key="label.id"
           :option="generateMenuLabelConfig(label, 'label')"
           :variant="
@@ -350,6 +392,12 @@ export default {
               : $emit('assignLabel', label)
           "
         />
+        <p
+          v-if="!filteredLabels.length"
+          class="px-2 py-2 m-0 text-xs text-center text-n-slate-11"
+        >
+          {{ $t('CONVERSATION.CARD_CONTEXT_MENU.NO_LABELS_FOUND') }}
+        </p>
       </MenuItemWithSubmenu>
       <MenuItemWithSubmenu
         v-if="isAllowed([MENU.AGENT])"
