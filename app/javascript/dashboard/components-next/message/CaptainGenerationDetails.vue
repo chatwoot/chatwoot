@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 import { useI18n, I18nT } from 'vue-i18n';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Popover from 'dashboard/components-next/popover/Popover.vue';
-import { useStore } from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useMessageContext } from './provider.js';
@@ -146,9 +146,13 @@ const STEP_KEYPATHS = {
   handoff: 'CONVERSATION.CAPTAIN_GENERATION.STEP_HANDOFF',
 };
 
-// Model and credits are only surfaced in development to aid debugging.
+const currentUser = useMapGetter('getCurrentUser');
+const isSuperAdmin = computed(() => currentUser.value.type === 'SuperAdmin');
+
+// Model and credits are only surfaced to super admins and in development.
 const devDetails = computed(() => {
-  if (!import.meta.env.DEV || !session.value) return null;
+  if (!session.value) return null;
+  if (!import.meta.env.DEV && !isSuperAdmin.value) return null;
   const model = t('CONVERSATION.CAPTAIN_GENERATION.MODEL', {
     model: session.value.llmModel,
   });
