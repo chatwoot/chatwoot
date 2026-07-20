@@ -376,43 +376,6 @@ defineExpose({ open, close });
         :error="errors.description ? $t('AUTOMATION.ADD.FORM.DESC.ERROR') : ''"
         :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
       />
-      <div v-if="allowsDelayedExecution" class="mb-6">
-        <div class="flex items-center justify-between gap-4">
-          <label class="mb-0" :class="{ error: errors.execution_delay }">
-            {{ $t('AUTOMATION.ADD.FORM.EXECUTE.LABEL') }}
-          </label>
-          <ToggleSwitch v-model="isDelayed" />
-        </div>
-        <div v-if="isDelayed" class="flex flex-wrap items-center gap-2 mt-2">
-          <span class="text-sm text-n-slate-11">
-            {{ $t('AUTOMATION.ADD.FORM.EXECUTE.AFTER_DELAY') }}
-          </span>
-          <input
-            v-model.number="delayValue"
-            type="number"
-            min="1"
-            class="!m-0 !w-24"
-          />
-          <select v-model="delayUnit" class="!m-0 !w-32">
-            <option
-              v-for="unit in DELAY_UNITS"
-              :key="unit.key"
-              :value="unit.key"
-            >
-              {{ $t(`AUTOMATION.ADD.FORM.EXECUTE.UNITS.${unit.key}`) }}
-            </option>
-          </select>
-        </div>
-        <span
-          v-if="isDelayed && executionDelayInvalid"
-          class="text-xs text-n-ruby-9"
-        >
-          {{ $t('AUTOMATION.ADD.FORM.EXECUTE.ERROR') }}
-        </span>
-        <p v-else-if="isDelayed" class="text-xs text-n-slate-11 pt-1 mb-0">
-          {{ $t('AUTOMATION.ADD.FORM.EXECUTE.HELP_TEXT') }}
-        </p>
-      </div>
       <div class="mb-6">
         <label :class="{ error: errors.event_name }">
           {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
@@ -491,6 +454,45 @@ defineExpose({ open, close });
         </ul>
       </section>
       <!-- Conditions End -->
+      <!-- Wait Start -->
+      <div v-if="allowsDelayedExecution" class="mb-6">
+        <div class="flex items-center justify-between gap-4">
+          <label class="mb-0" :class="{ error: errors.execution_delay }">
+            {{ $t('AUTOMATION.ADD.FORM.EXECUTE.LABEL') }}
+          </label>
+          <ToggleSwitch v-model="isDelayed" />
+        </div>
+        <div v-if="isDelayed" class="flex flex-wrap items-center gap-2 mt-2">
+          <span class="text-sm text-n-slate-11">
+            {{ $t('AUTOMATION.ADD.FORM.EXECUTE.AFTER_DELAY') }}
+          </span>
+          <input
+            v-model.number="delayValue"
+            type="number"
+            min="1"
+            class="!m-0 !w-24"
+          />
+          <select v-model="delayUnit" class="!m-0 !w-32">
+            <option
+              v-for="unit in DELAY_UNITS"
+              :key="unit.key"
+              :value="unit.key"
+            >
+              {{ $t(`AUTOMATION.ADD.FORM.EXECUTE.UNITS.${unit.key}`) }}
+            </option>
+          </select>
+        </div>
+        <span
+          v-if="isDelayed && executionDelayInvalid"
+          class="text-xs text-n-ruby-9"
+        >
+          {{ $t('AUTOMATION.ADD.FORM.EXECUTE.ERROR') }}
+        </span>
+        <p v-else-if="isDelayed" class="text-xs text-n-slate-11 pt-1 mb-0">
+          {{ $t('AUTOMATION.ADD.FORM.EXECUTE.HELP_TEXT') }}
+        </p>
+      </div>
+      <!-- Wait End -->
       <!-- Actions Start -->
       <section>
         <label>
