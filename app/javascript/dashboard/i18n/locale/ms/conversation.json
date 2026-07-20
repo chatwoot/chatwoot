@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "Anda hanya boleh membalas perbualan ini menggunakan mesej templat kerana",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Sekatan tetingkap mesej 24 jam",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Akaun Instagram ini telah dipindahkan ke peti masuk saluran Instagram baru. Semua mesej baru akan dipaparkan di sana. Anda tidak akan dapat menghantar mesej dari perbualan ini lagi.",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "Anda sedang membalas kepada:",
     "REMOVE_SELECTION": "Buang Pilihan",
     "DOWNLOAD": "Muat Turun",
@@ -233,6 +235,7 @@
       "TIP_AUDIORECORDER_ERROR": "Tidak dapat membuka audio",
       "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Seret dan lepaskan di sini untuk melampirkan",
+      "IMAGE_UPLOAD_SUCCESS": "Imej berjaya dimuat naik",
       "START_AUDIO_RECORDING": "Mula rakaman audio",
       "STOP_AUDIO_RECORDING": "Hentikan rakaman audio",
       "COPILOT_THINKING": "Copilot sedang berfikir",
@@ -303,6 +306,25 @@
         "MESSAGE": "Anda tidak boleh membatalkan tindakan ini",
         "DELETE": "Padamkan",
         "CANCEL": "Batalkan"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "Penerangan",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -400,7 +422,8 @@
       "VIEW_ALL": "View all",
       "SHOW_LESS": "Show less",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Untitled file",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

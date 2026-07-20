@@ -325,7 +325,7 @@
           "LABEL": "CSV-Datei:",
           "CHOOSE_FILE": "Datei auswählen",
           "CHANGE": "Ändern",
-          "CANCEL": "Stornieren",
+          "CANCEL": "Abbrechen",
           "IMPORT": "Importieren",
           "SUCCESS_MESSAGE": "Sie werden per E-Mail benachrichtigt, wenn der Import abgeschlossen ist.",
           "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
@@ -510,6 +510,7 @@
         "ATTRIBUTES": "Attribute",
         "HISTORY": "Verlauf",
         "NOTES": "Notizen",
+        "MEDIA": "Media",
         "MERGE": "Zusammenführen"
       },
       "HISTORY": {
