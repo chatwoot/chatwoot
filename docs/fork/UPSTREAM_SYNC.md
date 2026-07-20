@@ -6,9 +6,11 @@ repository."* on the fork's `develop`.
 
 **TL;DR:** When the banner offers to **discard commits**, do **not** click it —
 that variant deletes your fork work. (When it offers a plain **"Update branch"**
-merge instead, it is safe — see §1.) The real fix for the conflict case is a
-one-line merge conflict in a generated file. This doc records what happened on
-**2026-07-08**, exactly how it was fixed, and how to do it yourself next time.
+merge instead, it is safe — see §1.) Do the merge by hand (§6). Expect **at most
+two small conflicts**, both with a standing resolution rule: the `db/schema.rb`
+version line, and occasionally one of the OSS files the fork branded (§2). This
+doc records the **2026-07-08** sync and the **2026-07-20** one, which conflicted
+in a way the original version of this doc said was impossible (§3b).
 
 - **`upstream`** = `github.com/chatwoot/chatwoot` (the original repo).
 - **`origin`**  = `github.com/mujibulhaquetanim/meta-crm` (your fork).
@@ -58,28 +60,41 @@ GitHub's **Sync fork** button has two modes, picked automatically:
 
 So the button itself is not the trap — the **"discard commits"** fallback is.
 When you see "conflicts must be resolved / discard N commits", close the page
-and do the manual merge below; the only conflict is trivial.
+and do the manual merge below; the conflicts are few and each has a standing
+resolution rule (§2).
 
 ---
 
-## 2. The only real conflict: `db/schema.rb` (and only one line of it)
+## 2. The two things that can conflict
 
-When we did a trial merge of `upstream/develop` into `origin/develop`, git
-reported **exactly one** conflicted file:
+> **Corrected 2026-07-20.** This section used to claim `db/schema.rb` was the
+> *only* possible conflict and that there were "zero conflicts in any actual
+> code." That is wrong, and it set the wrong expectation: the 2026-07-20 sync
+> conflicted on a **`.vue` file** while `schema.rb` merged clean — the exact
+> inverse of what this doc promised. See §3b for that case.
 
-```
-Auto-merging app/models/team.rb          ← merged clean
-Auto-merging config/locales/en.yml       ← merged clean
-Auto-merging .../i18n/.../settings.json  ← merged clean
-Auto-merging db/schema.rb
-CONFLICT (content): Merge conflict in db/schema.rb   ← the ONLY conflict
-```
+There are exactly **two** classes of conflict, and they have different causes:
 
-**Zero conflicts in any actual code** — OSS (`app/`, `lib/`, `config/`) or the
-fork's `custom/` overlay. This is the fork architecture working as designed: all
-fork behavior lives in `custom/` (injected via `prepend_mod_with`), a tree
-upstream never touches, so it can never textually collide. See
-[`UPSTREAM_DIFF.md` §0](./UPSTREAM_DIFF.md).
+| # | Surface | Cause | Frequency |
+|---|---|---|---|
+| **A** | `db/schema.rb` version line | Both sides added migrations since the split | Only when *both* sides migrated |
+| **B** | The OSS files the fork **edits directly** | Upstream changes a line the fork also changed | Rare, and shrinking — see below |
+
+**Class B is the one to actually watch.** The reassuring version of this doc was
+right about `custom/`: fork *behavior* lives there, upstream never touches that
+tree, so it cannot textually collide. But the fork does not live *entirely* in
+`custom/`. It edits a small, catalogued set of OSS files directly — chiefly the
+**white-label pass** (`432483c`), which replaced literal "Chatwoot" strings in
+`en.json` / `en.yml` and a handful of `.vue` literals. Those lines are OSS lines,
+so upstream can and does edit them too. See
+[`UPSTREAM_DIFF.md` §0](./UPSTREAM_DIFF.md) for the full catalogue of the fork's
+OSS touchpoints — **that list is your conflict surface**, not `schema.rb`.
+
+The good news: class B is **self-liquidating**. Upstream is independently
+migrating its own hardcoded brand strings to `replaceInstallationName()`. Every
+time it does, the fork's corresponding hardcode should be *dropped* in favour of
+upstream's dynamic version (§3b) — which permanently removes that line from the
+conflict surface.
 
 ### Why `db/schema.rb` conflicts every time
 
@@ -170,6 +185,91 @@ git push origin develop                      # to YOUR fork, never upstream
 
 ---
 
+## 3b. Worked example of a class-B conflict (2026-07-20)
+
+The sync of **14 upstream commits** (`5af26e4` → `160732c`, Chatwoot 4.16.0)
+behaved the opposite way to everything above:
+
+- `db/schema.rb` **merged clean** — the fork added no migrations that cycle, so
+  upstream's newer stamp (`2026_07_13_184351`) won uncontested.
+- The one conflict was in
+  `app/javascript/dashboard/routes/dashboard/settings/inbox/components/SenderNameExamplePreview.vue`.
+
+Upstream PR **#15076** ("apply installation name to sender name preview") changed
+the same two lines the fork's white-label pass had changed:
+
+```
+<<<<<<< HEAD
+      businessName: 'Meta CRM',                        ← fork: hardcoded
+=======
+      businessName: replaceInstallationName('Chatwoot'), ← upstream: dynamic
+>>>>>>> upstream/develop
+```
+
+**Resolution rule for class B: when upstream implements the branding properly,
+take upstream's side and drop the fork's hardcode.**
+
+Here that was strictly better on three counts:
+
+1. It is the pattern the fork's own `CLAUDE.md` prescribes — route brand strings
+   through `replaceInstallationName` from `shared/composables/useBranding`
+   instead of hardcoding.
+2. It still renders "Meta CRM": the composable substitutes
+   `globalConfig.installationName`, which `Custom::BrandingSetup`
+   (`custom/app/services/custom/branding_setup.rb`) populates from
+   `INSTALLATION_NAME`.
+3. It **removes** a fork edit to an OSS file, so those two lines can never
+   conflict again.
+
+Before taking upstream wholesale, confirm the fork's edit to that file was
+*only* the branding lines:
+
+```bash
+git diff <merge-base> develop -- <the-conflicted-file>
+```
+
+If the fork made other changes to the file, resolve hunk-by-hunk instead of
+`git checkout --theirs`.
+
+### Verify the overlay still binds (do this every sync)
+
+A clean text merge does **not** prove the `custom/` overlay still works —
+`prepend` silently breaks if upstream renames or removes the method being
+`super`'d. Cross-reference what upstream touched against what the fork overlays:
+
+```bash
+git diff <merge-base> upstream/develop --name-only > /tmp/up.txt
+git ls-files custom/ | grep -E '\.rb$' | while read f; do
+  oss=$(echo "$f" | sed 's|^custom/||; s|/custom/|/|')
+  grep -qxF "$oss" /tmp/up.txt && echo "OVERLAP: $oss"
+done
+```
+
+For each overlap, confirm the method the overlay calls `super` on still exists.
+On 2026-07-20 there was one — `app/models/inbox.rb` — and it was benign:
+upstream added `InboxBrandedEmailLayoutable` and an `email_templates`
+association, neither of which touches `assignable_agents`, the method
+`Custom::Inbox` overrides.
+
+Also confirm the white-label pass did not regress — upstream's new strings can
+reintroduce "Chatwoot" into files the fork de-branded:
+
+```bash
+grep -ci chatwoot app/javascript/dashboard/i18n/locale/en/*.json
+# compare against the same counts before the merge; they should be unchanged
+```
+
+**Audit trail:**
+
+| Thing | SHA |
+|---|---|
+| merge-base | `5af26e4` |
+| `upstream/develop` tip merged in | `160732c` |
+| the merge commit on `develop` | `8d48f57` |
+| merge into `fork/super-admin-privilege-separation-spec` | `f2fe7e3` |
+
+---
+
 ## 4. The guards that stop you pushing fork code into Chatwoot
 
 Two guards were installed on **2026-07-08** so your project code can never
@@ -231,13 +331,15 @@ Do this whenever you want upstream's latest, or when GitHub nags about the fork
 being behind:
 
 ```bash
-git fetch upstream develop
+git fetch upstream develop             # NOT bare `git fetch upstream` — that pulls
+                                       # every branch and can take many minutes
 git checkout develop
 git merge --ff-only origin/develop     # only if local is behind the fork remote
-git merge --no-ff upstream/develop     # at most ONE conflict: db/schema.rb version line
-                                       # (only when BOTH sides added migrations; often clean)
-# -> if schema.rb conflicts: keep the higher (newer) version timestamp
-git add db/schema.rb && git commit --no-edit
+git merge --no-ff upstream/develop     # expect 0-2 conflicts, see §2:
+                                       #  A) db/schema.rb version line -> keep the higher timestamp
+                                       #  B) an OSS file the fork branded -> usually take upstream (§3b)
+git commit --no-edit
+# then verify the overlay still binds + no branding regressions (§3b)
 git push origin develop                # fork only
 ```
 
@@ -250,8 +352,13 @@ git merge develop                      # usually zero conflicts (schema already 
 
 ### Do / Don't
 
-- ✅ **Merge** `upstream/develop` into your `develop`, resolve the one schema line, push to `origin`.
-- ✅ Expect **at most** `db/schema.rb` to conflict, and only its version line.
+- ✅ **Merge** `upstream/develop` into your `develop`, resolve the conflicts in §2, push to `origin`.
+- ✅ Expect conflicts **only** in `db/schema.rb` and in the OSS files the fork edits
+  directly (catalogued in [`UPSTREAM_DIFF.md` §0](./UPSTREAM_DIFF.md)) — mostly branding strings.
+- ✅ When upstream implements a brand string via `replaceInstallationName`, take
+  **upstream's** version and delete the fork's hardcode (§3b).
+- ✅ Run the overlay-binding and branding-regression checks in §3b after every sync.
+- ✅ `git fetch upstream develop`, not bare `git fetch upstream`.
 - ✅ GitHub's **Sync fork → "Update branch"** (the clean-merge offer) is fine — it does this same merge.
 - ✅ Verify guards after any fresh clone.
 - ❌ **Never** click **"Discard N commits"** (Sync fork's conflict fallback) — it deletes the fork's commits.
@@ -268,7 +375,22 @@ in the four inert ways catalogued in
 [`UPSTREAM_DIFF.md` §0](./UPSTREAM_DIFF.md) (the fourth, dev-env/tooling files
 like `docker-compose.yaml` and `database.yml`, is the one surface that *can*
 conflict when upstream reworks those files — see `UPSTREAM_DIFF.md` §6).
-That is *why* a merge across 14
-upstream commits produced zero code conflicts. As long as that discipline holds,
-every future sync is the same trivial one-line `schema.rb` fix — never a real
-merge battle.
+That is *why* syncs of 13-14 upstream commits resolve in minutes rather than
+turning into merge battles.
+
+But "cheap" is not "zero" — the honest claim is narrower than the one this
+section used to make:
+
+- **`custom/`, `spec/custom/`, `docs/fork/` can never conflict.** Upstream does
+  not know those trees exist. This is the architecture doing its job, and it
+  covers the overwhelming majority of fork code.
+- **The fork's direct OSS edits can conflict, and periodically will.** That is
+  the white-label string pass plus the dev-env/tooling files. It is a small,
+  enumerable surface — but it is not empty, and 2026-07-20 proved it (§3b).
+
+The surface also **shrinks over time**: each time upstream converts one of its
+own hardcoded brand strings to `replaceInstallationName`, the fork deletes its
+corresponding hardcode and that line leaves the conflict surface permanently.
+The way to keep syncs cheap is therefore to keep taking upstream's dynamic
+implementation whenever it appears — never to re-hardcode a brand string that
+upstream now handles through config.
