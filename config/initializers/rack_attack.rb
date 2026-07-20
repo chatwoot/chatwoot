@@ -212,6 +212,24 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
+  ## Prevent abuse of agent create APIs (per account, covers bulk_create)
+  throttle('/api/v1/accounts/:account_id/agents POST',
+           limit: ENV.fetch('RATE_LIMIT_AGENT_CREATE', '100').to_i, period: 1.day) do |req|
+    next unless req.post?
+
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents(?:/bulk_create)?/?\z}.match(req.path_without_extensions)
+    match_data[:account_id] if match_data.present?
+  end
+
+  ## Prevent abuse of agent delete API (per account)
+  throttle('/api/v1/accounts/:account_id/agents/:id DELETE',
+           limit: ENV.fetch('RATE_LIMIT_AGENT_DELETE', '50').to_i, period: 1.day) do |req|
+    next unless req.delete?
+
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents/(?<id>\d+)/?\z}.match(req.path_without_extensions)
+    match_data[:account_id] if match_data.present?
+  end
+
   ## Prevent Abuse of attachment upload APIs ##
   throttle('/api/v1/accounts/:account_id/upload', limit: 60, period: 1.hour) do |req|
     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/upload}.match(req.path)
