@@ -188,6 +188,11 @@ class Rack::Attack
     throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
       req.ip if req.path_without_extensions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
     end
+
+    ## Prevent Transcript Bombing on Widget API ###
+    throttle('api/v1/widget/conversations/transcript', limit: 5, period: 1.hour) do |req|
+      req.ip if req.path_without_extensions == '/api/v1/widget/conversations/transcript' && req.post?
+    end
   end
 
   ##-----------------------------------------------##
