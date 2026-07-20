@@ -36,13 +36,6 @@ class Rack::Attack
     def path_without_extensions
       path[/^[^.]+/]
     end
-
-    def user_or_ip_identifier
-      user_uid = get_header('HTTP_UID')
-      api_access_token = get_header('HTTP_API_ACCESS_TOKEN') || get_header('api_access_token')
-
-      user_uid.presence || api_access_token.presence || ip
-    end
   end
 
   ### Safelist IPs from Environment Variable ###
@@ -219,22 +212,22 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
-  ## Prevent abuse of agent create API (per user or IP)
+  ## Prevent abuse of agent create APIs (per account, covers bulk_create)
   throttle('/api/v1/accounts/:account_id/agents POST',
-           limit: ENV.fetch('RATE_LIMIT_AGENT_CREATE', '30').to_i, period: 1.minute) do |req|
+           limit: ENV.fetch('RATE_LIMIT_AGENT_CREATE', '10').to_i, period: 1.minute) do |req|
     next unless req.post?
 
-    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents/?\z}.match(req.path_without_extensions)
-    req.user_or_ip_identifier if match_data.present?
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents(?:/bulk_create)?/?\z}.match(req.path_without_extensions)
+    match_data[:account_id] if match_data.present?
   end
 
-  ## Prevent abuse of agent delete API (per user or IP)
+  ## Prevent abuse of agent delete API (per account)
   throttle('/api/v1/accounts/:account_id/agents/:id DELETE',
            limit: ENV.fetch('RATE_LIMIT_AGENT_DELETE', '30').to_i, period: 1.minute) do |req|
     next unless req.delete?
 
     match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents/(?<id>\d+)/?\z}.match(req.path_without_extensions)
-    req.user_or_ip_identifier if match_data.present?
+    match_data[:account_id] if match_data.present?
   end
 
   ## Prevent Abuse of attachment upload APIs ##
