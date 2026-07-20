@@ -311,10 +311,12 @@ const resetToSupportedCondition = () => {
   ];
 };
 
-// Turning on a delay narrows the condition options; reset only the conditions a delayed rule
-// can't use (e.g. a mutable attribute) to a supported default. Actions are kept.
-watch(isDelayed, delayed => {
-  if (!delayed || !automation.value) return;
+// A delay narrows the condition options, so whenever the rule becomes unsupported while the
+// wait is on — toggling it on, or switching to an event whose default condition isn't allowed
+// (e.g. conversation_opened defaults to browser_language) — reset to a supported default.
+// Actions are kept. Resetting makes the rule supported again, so this can't loop.
+watch([isDelayed, isDelaySupported], () => {
+  if (!isDelayed.value || !automation.value) return;
   if (!isDelaySupported.value) resetToSupportedCondition();
 });
 
