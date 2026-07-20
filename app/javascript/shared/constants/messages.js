@@ -128,6 +128,30 @@ export const MESSAGE_VARIABLES = [
     key: 'contact.phone',
   },
   {
+    label: 'Contact identifier',
+    key: 'contact.identifier',
+  },
+  {
+    label: 'Contact document number',
+    key: 'contact.document_number',
+  },
+  {
+    label: 'Contact country code',
+    key: 'contact.country_code',
+  },
+  {
+    label: 'Contact city',
+    key: 'contact.city',
+  },
+  {
+    label: 'Contact company name',
+    key: 'contact.company_name',
+  },
+  {
+    label: 'Contact assigned agent',
+    key: 'contact.assigned_agent.name',
+  },
+  {
     label: 'Agent name',
     key: 'agent.name',
   },
