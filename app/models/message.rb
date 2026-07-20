@@ -225,9 +225,10 @@ class Message < ApplicationRecord
     return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
     return false if conversation.messages.outgoing
+                                .where.not(id: id)
                                 .where.not(sender_type: ['AgentBot', 'Captain::Assistant'])
                                 .where.not(private: true)
-                                .where("(additional_attributes->'campaign_id') is null").count > 1
+                                .where("(additional_attributes->'campaign_id') is null").count.positive?
 
     true
   end
@@ -369,14 +370,10 @@ class Message < ApplicationRecord
   end
 
   def human_response?
-    # if the sender is not a user, it's not a human response
-    # if automation rule id is present, it's not a human response
-    # if campaign id is present, it's not a human response
-    # external echo messages are responses sent from the native app (WhatsApp Business, Instagram)
-    outgoing? &&
-      content_attributes['automation_rule_id'].blank? &&
-      additional_attributes['campaign_id'].blank? &&
-      (sender.is_a?(User) || content_attributes['external_echo'].present?)
+    # Any outgoing, non-private message counts as a conversation response
+    # (agent, automation, bot, channel echo). Campaign outbound messages are excluded
+    # because they are bulk outreach, not conversational replies.
+    outgoing? && !private? && additional_attributes['campaign_id'].blank?
   end
 
   def bot_response?

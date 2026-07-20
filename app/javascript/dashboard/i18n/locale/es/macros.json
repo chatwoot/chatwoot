@@ -10,6 +10,12 @@
     "SEARCH_PLACEHOLDER": "Buscar macros...",
     "NO_RESULTS": "No se encontraron macros que coincidan con tu búsqueda",
     "UNCATEGORIZED": "Sin categoría",
+    "ALL_FOLDERS": "Todas las carpetas",
+    "FILTER_VISIBILITY": {
+      "ALL": "Todas",
+      "MINE": "Mías",
+      "GLOBAL": "Públicas"
+    },
     "ERROR": "Algo salió mal. Por favor, inténtalo de nuevo",
     "ORDER_INFO": "Las macros se ejecutarán en el orden en que añadas sus acciones. Puede reorganizarlas arrastrándolas por el manejador al lado de cada nodo.",
     "ADD": {

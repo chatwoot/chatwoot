@@ -12,7 +12,13 @@
         "first_name": "Contact first name",
         "last_name": "Contact last name",
         "email": "Contact email",
-        "phone_number": "Contact phone"
+        "phone_number": "Contact phone",
+        "phone": "Contact phone",
+        "identifier": "Contact identifier",
+        "document_number": "Contact document number",
+        "country_code": "Contact country code",
+        "city": "Contact city",
+        "company_name": "Contact company name"
       },
       "agent": {
         "name": "Agent name",
@@ -23,6 +29,11 @@
       "inbox": {
         "name": "Inbox name",
         "id": "Inbox ID"
+      },
+      "account": {
+        "name": "Account name",
+        "locale": "Account locale",
+        "timezone": "Account timezone"
       }
     }
   }

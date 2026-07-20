@@ -11,6 +11,11 @@ export default {
       type: String,
       default: '',
     },
+    context: {
+      type: String,
+      default: 'message',
+      validator: value => ['message', 'campaign'].includes(value),
+    },
   },
   emits: ['selectVariable'],
   computed: {
@@ -28,8 +33,16 @@ export default {
     },
     standardAttributeVariables() {
       return MESSAGE_VARIABLES.filter(variable => {
+        if (
+          this.context === 'campaign' &&
+          variable.key.startsWith('conversation.')
+        ) {
+          return false;
+        }
         return (
-          variable.label.includes(this.sanitizedSearchKey) ||
+          variable.label
+            .toLowerCase()
+            .includes(this.sanitizedSearchKey.toLowerCase()) ||
           variable.key.includes(this.sanitizedSearchKey)
         );
       }).map(variable => ({
@@ -39,18 +52,25 @@ export default {
       }));
     },
     customAttributeVariables() {
-      return this.customAttributes.map(attribute => {
-        const attributePrefix =
-          attribute.attribute_model === 'conversation_attribute'
-            ? 'conversation'
-            : 'contact';
+      return this.customAttributes
+        .filter(attribute => {
+          if (attribute.attribute_model === 'conversation_attribute') {
+            return this.context !== 'campaign';
+          }
+          return true;
+        })
+        .map(attribute => {
+          const attributePrefix =
+            attribute.attribute_model === 'conversation_attribute'
+              ? 'conversation'
+              : 'contact';
 
-        return {
-          label: `${attributePrefix}.custom_attribute.${attribute.attribute_key}`,
-          key: `${attributePrefix}.custom_attribute.${attribute.attribute_key}`,
-          description: attribute.attribute_description,
-        };
-      });
+          return {
+            label: `${attributePrefix}.custom_attribute.${attribute.attribute_key}`,
+            key: `${attributePrefix}.custom_attribute.${attribute.attribute_key}`,
+            description: attribute.attribute_description,
+          };
+        });
     },
   },
   methods: {

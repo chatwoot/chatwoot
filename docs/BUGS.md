@@ -3,8 +3,9 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** auditoría pre–chats grupales (2026-07-11), branch
-`feat/internal-tasks` (PR #3).
+**Última actualización:** fix `B-NEW-11` automation replies attended
+(2026-07-20). Auditoría previa pre–chats grupales (2026-07-11),
+branch `feat/internal-tasks` (PR #3).
 
 ---
 
@@ -53,6 +54,7 @@
 | TASK-006 | Baja | No | panel-ai (fuera de alcance Chatwoot) |
 | TASK-007 | Baja | No | ContactInfo mojibake — abierto |
 | TASK-008 | Baja | No | **Stale** — índice `[:account_id, :active, :position]` ya existe |
+| B-NEW-11 | Media | No | ✅ Fijado — automation replies ahora cuentan como attended; off-by-one en `valid_first_reply?` también |
 
 ---
 
@@ -251,6 +253,108 @@ def perform
   contact.update!(assigned_agent: agent)
 end
 ```
+
+### B-NEW-11 — Automation replies no marcaban la conversación como attended
+
+**Severidad:** Media — afecta reporting (`Unattended`/`Unassigned` counts en `LiveReports`) y SLA. Bug latente en cualquier cuenta que use automatizaciones (`AutomationRules::ActionService#send_message`) o macros con `send_message`.
+
+**Síntoma:** una automatización que responde automáticamente a un cliente no limpiaba `conversation.waiting_since` ni seteaba `conversation.first_reply_created_at`. La conversación quedaba en el bucket "Unattended" aunque la respuesta ya se había enviado y entregado.
+
+**Causa raíz:**
+
+`Message#human_response?` (`app/models/message.rb:371`) tenía esta firma:
+
+```ruby
+def human_response?
+  outgoing? &&
+    content_attributes['automation_rule_id'].blank? &&   # bloqueaba automation
+    additional_attributes['campaign_id'].blank? &&
+    (sender.is_a?(User) || content_attributes['external_echo'].present?)
+end
+```
+
+Cuando una automation corría vía `AutomationRules::ActionService#send_message` (`app/services/automation_rules/action_service.rb:46`), creaba el `Message` con:
+- `content_attributes: { automation_rule_id: @rule.id }` ← bloqueaba el chequeo
+- `sender = nil` (porque `MessageBuilder.new(nil, ...)`)
+
+Resultado: `human_response?` → `false` → `valid_first_reply?` → `false` → no se disparaba `FIRST_REPLY_CREATED`, no se limpiaba `waiting_since`, no se asignaba agente default.
+
+Bug secundario encontrado durante el fix: `valid_first_reply?` (línea 224) tenía un **off-by-one**. El filtro era:
+
+```ruby
+return false if conversation.messages.outgoing
+                            .where.not(sender_type: [...])
+                            .where.not(private: true)
+                            .where("(additional_attributes->'campaign_id') is null")
+                            .count > 1
+```
+
+Como `valid_first_reply?` corre **dentro del after_save** (`dispatch_create_events`, línea 387), el mensaje actual ya está persistido cuando se cuenta. Con `count > 1`, **cualquier segundo outgoing no-bot ya impedía que se setee `first_reply_created_at`** — incluso respuestas legítimas de agentes humanos en una conversación con respuestas previas.
+
+**Fix aplicado:**
+
+1. **`Message#human_response?`** — simplificado a la regla de negocio real: cualquier respuesta saliente del sistema cuenta como respuesta, excepto notas privadas y campañas outbound (que son outreach masivo, no replies).
+
+   ```ruby
+   def human_response?
+     outgoing? && !private? && additional_attributes['campaign_id'].blank?
+   end
+   ```
+
+   Cobertura post-fix:
+   - ✅ Mensajes de agente humano → cuentan (igual que antes)
+   - ✅ Mensajes de AgentBot / Captain → cuentan (ya estaban)
+   - ✅ Eco del canal (WhatsApp echo, Instagram echo) → cuentan (igual que antes)
+   - ✅ Automation salientes → cuentan (**antes NO**)
+   - ❌ Notas privadas → no cuentan
+   - ❌ Campañas outbound → no cuentan
+
+2. **`Message#valid_first_reply?`** — fix off-by-one: excluye el message actual (`where.not(id: id)`) y threshold `count.positive?` en vez de `count > 1`.
+
+**Archivos tocados:**
+
+- `app/models/message.rb` (líneas 224-233 y 371-380)
+- `spec/models/message_spec.rb` (líneas 228-236) — el test "does not update first reply if sent by automation" se invirtió a "updates first reply if sent by automation" reflejando la nueva semántica
+
+**Migración BD:** no requerida (cambia solo lógica del modelo).
+
+**Verificación end-to-end** (smoke test contra BD del contenedor):
+
+```
+After automation reply:
+  first_reply_created_at: SET ✓
+  waiting_since: nil ✓
+  matches unattended scope? false ✓
+  human_response? true ✓
+
+Negative cases:
+  campaign message → human_response? false ✓
+  private message  → human_response? false ✓
+  incoming message → human_response? false ✓
+
+Eventos disparados:
+  first.reply.created ✓
+  reply.created ✓
+  conversation.updated (con first_reply_created_at + waiting_since cleared) ✓
+```
+
+**Cómo probar en navegador:**
+
+1. Hard refresh (Ctrl+Shift+R).
+2. Settings → Automations → crear/editar una rule de `message_created` → acción `Send a Message`.
+3. Disparar un mensaje entrante en una conversación donde la automation aplique.
+4. Verificar en el chatlist:
+   - La conversación **sale del filtro "Unattended"** (`Unattended count` baja).
+   - Aparece en "Attended".
+   - `conversation.first_reply_created_at` queda seteado al timestamp del reply de automation.
+
+**Aprendizaje / nota arquitectónica:**
+
+El filtro `human_response?` se usaba como "single source of truth" para first-reply semantics. Tener un campo técnico (`content_attributes['automation_rule_id']`) bloqueando el reconocimiento de un reply fue un acoplamiento accidental. La regla correcta es semántica: **es un reply del sistema si sale hacia el contacto y no es nota privada ni campaña**. El flag `automation_rule_id` se mantiene en `content_attributes` para trazabilidad, pero no debe afectar el lifecycle de la conversación.
+
+`automation_rule_id` queda en `content_attributes` por compatibilidad con los specs existentes en `spec/listeners/automation_rule_listener_old_spec.rb` (líneas 629, 731-732). Si en el futuro se quisiera unificar con `additional_attributes` (donde está `campaign_id`), es un cambio de trazabilidad, no de comportamiento.
+
+**Estado:** ✅ Fijado y verificado contra BD.
 
 ---
 

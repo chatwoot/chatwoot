@@ -6,6 +6,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.vue';
 import MultiSelect from 'dashboard/components-next/filter/inputs/MultiSelect.vue';
 import NextInput from 'dashboard/components-next/input/Input.vue';
+import InsertVariableButton from 'dashboard/components-next/variable/InsertVariableButton.vue';
 
 export default {
   components: {
@@ -16,6 +17,7 @@ export default {
     SingleSelect,
     MultiSelect,
     NextInput,
+    InsertVariableButton,
   },
   props: {
     modelValue: {
@@ -118,6 +120,10 @@ export default {
       this.actionNameAsSelectModel = value;
       this.resetAction();
     },
+    insertMessageVariable(token) {
+      const current = this.castMessageVmodel || '';
+      this.castMessageVmodel = current ? `${current} ${token}` : token;
+    },
   },
 };
 </script>
@@ -194,6 +200,9 @@ export default {
         :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
         class="[&_.ProseMirror-menubar]:hidden px-3 py-1 bg-n-alpha-1 rounded-lg outline outline-1 outline-n-weak dark:outline-n-strong"
       />
+      <div v-if="inputType === 'textarea'" class="flex justify-end">
+        <InsertVariableButton @insert="insertMessageVariable" />
+      </div>
     </div>
     <span v-if="errorMessage" class="text-sm text-n-ruby-11">
       {{ errorMessage }}

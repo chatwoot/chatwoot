@@ -1,0 +1,40 @@
+{
+  "VARIABLES": {
+    "INSERT": "Añadir variable",
+    "SEARCH_PLACEHOLDER": "Buscar variables...",
+    "LABELS": {
+      "conversation": {
+        "id": "ID de la conversación"
+      },
+      "contact": {
+        "id": "ID del contacto",
+        "name": "Nombre del contacto",
+        "first_name": "Nombre",
+        "last_name": "Apellido",
+        "email": "Correo electrónico",
+        "phone_number": "Teléfono del contacto",
+        "phone": "Teléfono del contacto",
+        "identifier": "Identificador del contacto",
+        "document_number": "Número de documento",
+        "country_code": "Código de país",
+        "city": "Ciudad",
+        "company_name": "Empresa"
+      },
+      "agent": {
+        "name": "Nombre del agente",
+        "first_name": "Nombre del agente",
+        "last_name": "Apellido del agente",
+        "email": "Correo del agente"
+      },
+      "inbox": {
+        "name": "Nombre de la bandeja",
+        "id": "ID de la bandeja"
+      },
+      "account": {
+        "name": "Nombre de la cuenta",
+        "locale": "Idioma de la cuenta",
+        "timezone": "Zona horaria de la cuenta"
+      }
+    }
+  }
+}
