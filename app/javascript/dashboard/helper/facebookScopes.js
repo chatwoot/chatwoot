@@ -1,6 +1,5 @@
 export const FACEBOOK_PAGE_SCOPES = [
   'pages_manage_metadata',
-  'business_management',
   'pages_messaging',
   'pages_show_list',
   'pages_read_engagement',
