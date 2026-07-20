@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "Bu söhbətə yalnız şablon mesajı ilə cavab verə bilərsiniz, çünki",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 saatlıq mesaj pəncərəsi məhdudiyyəti",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Bu Instagram hesabı yeni Instagram kanalının daxil olan qutusuna köçürülüb. Bütün yeni mesajlar orada görünəcək. Bu söhbətdən artıq mesaj göndərə bilməyəcəksiniz.",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "Siz cavab verirsiniz:",
     "REMOVE_SELECTION": "Seçimi sil",
     "DOWNLOAD": "Yüklə",
@@ -233,6 +235,7 @@
       "TIP_AUDIORECORDER_ERROR": "Səsi açmaq mümkün olmadı",
       "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Qoşmaq üçün buraya sürükləyin və buraxın",
+      "IMAGE_UPLOAD_SUCCESS": "Şəkil uğurla yükləndi",
       "START_AUDIO_RECORDING": "Səs yazısını başla",
       "STOP_AUDIO_RECORDING": "Səs yazısını dayandırın",
       "COPILOT_THINKING": "Copilot düşünür",
@@ -303,6 +306,25 @@
         "MESSAGE": "Bu əməliyyatı geri qaytara bilməzsiniz",
         "DELETE": "Sil",
         "CANCEL": "Ləğv et"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -400,7 +422,8 @@
       "VIEW_ALL": "View all",
       "SHOW_LESS": "Show less",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Untitled file",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "Sifariş #{id}",
