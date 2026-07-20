@@ -260,11 +260,6 @@
   display_name: API and Webhooks
   enabled: true
   column: feature_flags_ext_1
-- name: delayed_automations
-  display_name: Delayed Automations
-  enabled: false
-  chatwoot_internal: true
-  column: feature_flags_ext_1
 - name: whatsapp_reconfigure
   display_name: WhatsApp Reconfigure
   enabled: false
@@ -272,4 +267,9 @@
 - name: whatsapp_embedded_signup_inbox_creation
   display_name: WhatsApp Embedded Signup Inbox Creation
   enabled: false
+  column: feature_flags_ext_1
+- name: delayed_automations
+  display_name: Delayed Automations
+  enabled: false
+  chatwoot_internal: true
   column: feature_flags_ext_1

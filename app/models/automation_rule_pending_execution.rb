@@ -51,9 +51,10 @@ class AutomationRulePendingExecution < ApplicationRecord
 
   def self.schedule(rule:, conversation:, message: nil)
     key = arm_episode_key_for(conversation, message)
+    anchor = arm_anchor_for(conversation, message)
     create!(
       automation_rule: rule, conversation: conversation, account_id: conversation.account_id,
-      message_id: message&.id, episode_key: key, due_at: rule.execution_delay.minutes.from_now
+      message_id: message&.id, episode_key: key, due_at: rule.execution_delay.minutes.since(anchor)
     )
   rescue ActiveRecord::RecordNotUnique
     # Episode already armed. Reply-chase tracks the latest agent reply, so its clock moves;
@@ -61,7 +62,20 @@ class AutomationRulePendingExecution < ApplicationRecord
     return unless message && !message.incoming?
 
     row = find_by!(automation_rule_id: rule.id, conversation_id: conversation.id, episode_key: key)
-    row.update!(due_at: rule.execution_delay.minutes.from_now, message_id: message.id) if row.pending?
+    row.update!(due_at: rule.execution_delay.minutes.since(anchor), message_id: message.id) if row.pending?
+  end
+
+  # The wait is measured from when the qualifying event happened, not when this (possibly
+  # backlogged or retried) listener runs, so a late dispatch still fires on schedule. Mirrors
+  # the timestamps the episode keys track.
+  def self.arm_anchor_for(conversation, message)
+    if message.nil?
+      conversation.status_changed_at.presence || conversation.created_at
+    elsif message.incoming?
+      conversation.waiting_since.presence || message.created_at
+    else
+      message.created_at
+    end
   end
 
   # waiting_since is written just after MESSAGE_CREATED dispatches, so it can still be nil when
