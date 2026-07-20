@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
+import { useBranding } from 'shared/composables/useBranding';
 
 const props = defineProps({
   senderNameType: {
@@ -22,6 +23,7 @@ const props = defineProps({
 const emit = defineEmits(['update']);
 
 const { t } = useI18n();
+const { replaceInstallationName } = useBranding();
 
 const senderNameKeyOptions = computed(() => [
   {
@@ -51,7 +53,9 @@ const isKeyOptionFriendly = key => key === 'friendly';
 const userName = keyOption =>
   isKeyOptionFriendly(keyOption.key)
     ? keyOption.preview.senderName
-    : keyOption.preview.businessName;
+    : replaceInstallationName(
+        props.businessName || keyOption.preview.businessName || ''
+      );
 
 const toggleSenderNameType = key => {
   emit('update', key);
@@ -92,7 +96,11 @@ const toggleSenderNameType = key => {
               {{ t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.FROM') }}
             </span>
             <span class="text-body-main text-n-slate-12">
-              {{ props.businessName || keyOption.preview.businessName }}
+              {{
+                replaceInstallationName(
+                  props.businessName || keyOption.preview.businessName || ''
+                )
+              }}
             </span>
           </div>
           <span class="text-label-small text-n-slate-11">
