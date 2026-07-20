@@ -22,13 +22,12 @@ class Captain::Assistant::SessionCaptureService
 
   def capture!
     model = @assistant.agent_model
-    metadata = context.dig(:state, :cw_metadata) || {}
 
     Captain::AgentSession.create!(
       assistant: @assistant,
       session_type: :assistant,
       subject: @conversation,
-      result: @result_message,
+      result: result_message,
       llm_model: "#{Llm::Models.provider_for(model)}-#{model}",
       credits_consumed: @credits_consumed,
       faq_ids: metadata[:faq_ids] || [],
@@ -42,6 +41,23 @@ class Captain::Assistant::SessionCaptureService
 
   def context
     @run_result.context || {}
+  end
+
+  def metadata
+    @metadata ||= context.dig(:state, :cw_metadata) || {}
+  end
+
+  # On handoff, HandoffTool records the private reason note it created; the session
+  # attaches there so agents can inspect the generation path on the note itself.
+  def result_message
+    handoff_note || @result_message
+  end
+
+  def handoff_note
+    note_id = metadata[:handoff_note_id]
+    return if note_id.blank?
+
+    @conversation.messages.find_by(id: note_id)
   end
 
   def scenario_ids
