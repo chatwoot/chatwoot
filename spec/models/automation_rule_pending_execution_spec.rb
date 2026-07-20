@@ -72,6 +72,14 @@ RSpec.describe AutomationRulePendingExecution do
       expect(row.due_at).to be_within(5.seconds).of(60.minutes.from_now)
     end
 
+    it 'anchors due_at to the event time, not when a backlogged listener runs' do
+      conversation.update!(status_changed_at: 30.minutes.ago)
+      described_class.schedule(rule: rule, conversation: conversation)
+
+      # A 60-minute rule on a status that changed 30 minutes ago is already 30 minutes into its wait.
+      expect(described_class.last.due_at).to be_within(5.seconds).of(30.minutes.from_now)
+    end
+
     it 'does not reset the clock for a repeated status episode' do
       described_class.schedule(rule: rule, conversation: conversation)
       original_due_at = described_class.last.due_at
@@ -86,10 +94,11 @@ RSpec.describe AutomationRulePendingExecution do
       first_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
       described_class.schedule(rule: rule, conversation: conversation, message: first_reply)
 
-      second_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
       travel_to(30.minutes.from_now) do
+        second_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
         described_class.schedule(rule: rule, conversation: conversation, message: second_reply)
 
+        # due_at is re-anchored to the new reply's created_at, not the original schedule time.
         expect(described_class.count).to eq(1)
         expect(described_class.last.message_id).to eq(second_reply.id)
         expect(described_class.last.due_at).to be_within(5.seconds).of(60.minutes.from_now)
