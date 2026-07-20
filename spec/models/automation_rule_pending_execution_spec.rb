@@ -177,7 +177,7 @@ RSpec.describe AutomationRulePendingExecution do
       expect(described_class.last).to be_skipped
     end
 
-    it 'does not reset the clock for a repeated awaiting_agent episode' do
+    it 'keeps the awaiting_agent clock but tracks the newest incoming message' do
       first_message = create(:message, conversation: conversation, account: account, message_type: :incoming)
       described_class.schedule(rule: rule, conversation: conversation, message: first_message)
       original_due_at = described_class.last.due_at
@@ -185,8 +185,27 @@ RSpec.describe AutomationRulePendingExecution do
       second_message = create(:message, conversation: conversation, account: account, message_type: :incoming)
       travel_to(30.minutes.from_now) { described_class.schedule(rule: rule, conversation: conversation, message: second_message) }
 
+      row = described_class.last
       expect(described_class.count).to eq(1)
-      expect(described_class.last.due_at).to be_within(1.second).of(original_due_at)
+      # The wait still counts from waiting_since, so the clock is unchanged...
+      expect(row.due_at).to be_within(1.second).of(original_due_at)
+      # ...but the row tracks the newest qualifying message, not the stale first one.
+      expect(row.message_id).to eq(second_message.id)
+    end
+
+    it 'keeps the newest message when an older incoming collision arrives last' do
+      first_message = create(:message, conversation: conversation, account: account, message_type: :incoming)
+      described_class.schedule(rule: rule, conversation: conversation, message: first_message)
+
+      older = create(:message, conversation: conversation, account: account, message_type: :incoming)
+      newer = create(:message, conversation: conversation, account: account, message_type: :incoming)
+
+      # The newer message re-arms first; a late older-message collision must not overwrite it.
+      described_class.schedule(rule: rule, conversation: conversation, message: newer)
+      described_class.schedule(rule: rule, conversation: conversation, message: older)
+
+      expect(described_class.count).to eq(1)
+      expect(described_class.last.message_id).to eq(newer.id)
     end
   end
 
