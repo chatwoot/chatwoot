@@ -105,6 +105,22 @@ RSpec.describe AutomationRulePendingExecution do
       end
     end
 
+    it 'does not let a late older reply move the reply_chase clock backwards' do
+      older_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+      newer_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+
+      # The newer reply's job runs first and arms the episode.
+      described_class.schedule(rule: rule, conversation: conversation, message: newer_reply)
+      armed_due_at = described_class.last.due_at
+
+      # The older reply's job arrives late; it must not pull the clock or message_id back.
+      described_class.schedule(rule: rule, conversation: conversation, message: older_reply)
+
+      expect(described_class.count).to eq(1)
+      expect(described_class.last.message_id).to eq(newer_reply.id)
+      expect(described_class.last.due_at).to eq(armed_due_at)
+    end
+
     it 'does not re-arm an executed reply_chase episode' do
       reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
       described_class.schedule(rule: rule, conversation: conversation, message: reply)
