@@ -62,7 +62,11 @@ class AutomationRulePendingExecution < ApplicationRecord
     return unless message && !message.incoming?
 
     row = find_by!(automation_rule_id: rule.id, conversation_id: conversation.id, episode_key: key)
-    row.update!(due_at: rule.execution_delay.minutes.since(anchor), message_id: message.id) if row.pending?
+    # Jobs can arrive out of order; only a newer reply moves the clock, so a late older reply
+    # can't pull due_at backwards and fire before the delay elapses since the latest reply.
+    return unless row.pending? && message.id > row.message_id
+
+    row.update!(due_at: rule.execution_delay.minutes.since(anchor), message_id: message.id)
   end
 
   # The wait is measured from when the qualifying event happened, not when this (possibly
