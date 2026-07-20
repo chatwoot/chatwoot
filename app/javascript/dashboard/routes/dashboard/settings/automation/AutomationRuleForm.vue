@@ -219,7 +219,8 @@ const allowsDelayedExecution = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.DELAYED_AUTOMATIONS)
 );
 
-// Mirrors the backend's execution_delay validations so we never offer an unsupported delay.
+// The UI curates delayed rules to the supported shapes (DELAYED_EVENT_ATTRS) plus the backend's
+// no-attribute_changed rule; anything outside that resets to a supported default.
 const delayRestrictionReason = computed(() => {
   const conditions = automation.value?.conditions || [];
   if (
