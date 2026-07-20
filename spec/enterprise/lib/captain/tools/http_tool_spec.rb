@@ -129,7 +129,7 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
       before do
         custom_tool.update!(
           auth_type: 'api_key',
-          auth_config: { 'key' => 'api_key_123', 'location' => 'header', 'name' => 'X-API-Key' },
+          auth_config: { 'key' => 'api_key_123', 'name' => 'X-API-Key' },
           endpoint_url: 'https://example.com/data',
           response_template: nil
         )
@@ -144,6 +144,22 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
         expect(result).to eq('{"authenticated": true}')
         expect(WebMock).to have_requested(:get, 'https://example.com/data')
           .with(headers: { 'X-API-Key' => 'api_key_123' })
+      end
+
+      it 'strips the API key header on cross-origin redirects' do
+        redirect_url = 'http://example.com/data'
+        redirected_headers = nil
+        stub_request(:get, 'https://example.com/data').to_return(status: 302, headers: { 'Location' => redirect_url })
+        stub_request(:get, redirect_url)
+          .with do |request|
+            redirected_headers = request.headers.transform_keys(&:downcase)
+            true
+          end
+          .to_return(status: 200, body: '{"authenticated": false}')
+
+        tool.perform(tool_context)
+
+        expect(redirected_headers).not_to include('x-api-key')
       end
     end
 

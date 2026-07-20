@@ -58,14 +58,17 @@
         "ERROR_MESSAGE": "Instagram-এ সংযোগ করতে একটি ত্রুটি হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
         "ERROR_AUTH": "Instagram-এ সংযোগ করতে একটি ত্রুটি হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
         "NEW_INBOX_SUGGESTION": "এই Instagram অ্যাকাউন্টটি পূর্বে অন্য একটি ইনবক্সের সাথে যুক্ত ছিল এবং এখন এখানে স্থানান্তরিত হয়েছে। সব নতুন বার্তা এখানে দেখা যাবে। পুরনো ইনবক্সটি আর এই অ্যাকাউন্টের জন্য বার্তা পাঠাতে বা গ্রহণ করতে পারবে না।.",
-        "DUPLICATE_INBOX_BANNER": "এই Instagram অ্যাকাউন্টটি নতুন Instagram চ্যানেল ইনবক্সে স্থানান্তরিত হয়েছে। আপনি আর এই ইনবক্স থেকে Instagram বার্তা পাঠাতে বা গ্রহণ করতে পারবেন না।."
+        "DUPLICATE_INBOX_BANNER": "এই Instagram অ্যাকাউন্টটি নতুন Instagram চ্যানেল ইনবক্সে স্থানান্তরিত হয়েছে। আপনি আর এই ইনবক্স থেকে Instagram বার্তা পাঠাতে বা গ্রহণ করতে পারবেন না।.",
+        "SETTINGS_RESTRICTED_WARNING": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+        "STATUS_LINK": "View status update"
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "TikTok দিয়ে চালিয়ে যান",
         "CONNECT_YOUR_TIKTOK_PROFILE": "আপনার TikTok প্রোফাইল সংযুক্ত করুন",
         "HELP": "আপনার TikTok প্রোফাইলকে একটি চ্যানেল হিসেবে যোগ করতে, আপনাকে 'TikTok দিয়ে চালিয়ে যান' ক্লিক করে TikTok প্রোফাইলটি প্রমাণীকরণ করতে হবে ",
         "ERROR_MESSAGE": "TikTok-এ সংযোগ করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
-        "ERROR_AUTH": "TikTok-এ সংযোগ করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
+        "ERROR_AUTH": "TikTok-এ সংযোগ করতে সমস্যা হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
+        "NORTH_AMERICA_WARNING": "TikTok connections for North American accounts are temporarily unavailable while we wait for an update from the TikTok team."
       },
       "TWITTER": {
         "HELP": "আপনার টুইটার প্রোফাইলকে একটি চ্যানেল হিসেবে যোগ করতে, আপনাকে 'Sign in with Twitter' ক্লিক করে আপনার টুইটার প্রোফাইল প্রমাণীকরণ করতে হবে। ",
@@ -653,6 +656,10 @@
       },
       "CREDENTIALS": {
         "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      },
+      "INBOUND": {
+        "LABEL": "Allow incoming calls",
+        "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
       }
     },
     "WHATSAPP_CALLING": {
@@ -810,6 +817,15 @@
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "এই ইনবক্সটি WhatsApp এম্বেডেড সাইনআপের মাধ্যমে সংযুক্ত হয়েছে।.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "আপনি এই ইনবক্সটি পুনরায় কনফিগার করে আপনার WhatsApp Business সেটিংস আপডেট করতে পারেন।.",
       "WHATSAPP_RECONFIGURE_BUTTON": "পুনরায় কনফিগার করুন",
+      "WHATSAPP_MANUAL_TRANSFER_TITLE": "Switch to Manual Setup",
+      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "This inbox was connected through WhatsApp embedded signup, which is no longer supported. Enter the WhatsApp Cloud API credentials from your own Meta app to switch this inbox to a manual setup. Configure the webhook in your Meta app using the verification token above before switching.",
+      "WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL": "Phone Number ID",
+      "WHATSAPP_MANUAL_TRANSFER_BUSINESS_ACCOUNT_ID_LABEL": "বিজনেস অ্যাকাউন্ট আইডি",
+      "WHATSAPP_MANUAL_TRANSFER_API_KEY_LABEL": "API কী",
+      "WHATSAPP_MANUAL_TRANSFER_API_KEY_PLACEHOLDER": "Enter a permanent access token from your Meta app",
+      "WHATSAPP_MANUAL_TRANSFER_BUTTON": "Switch to Manual Setup",
+      "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "Inbox switched to manual setup successfully.",
+      "WHATSAPP_MANUAL_TRANSFER_ERROR": "Could not switch to manual setup. Please verify the credentials and try again.",
       "WHATSAPP_CONNECT_TITLE": "WhatsApp Business-এ সংযুক্ত করুন",
       "WHATSAPP_CONNECT_SUBHEADER": "সহজ ব্যবস্থাপনার জন্য WhatsApp এম্বেডেড সাইনআপে আপগ্রেড করুন।.",
       "WHATSAPP_CONNECT_DESCRIPTION": "উন্নত ফিচার ও সহজ ব্যবস্থাপনার জন্য এই ইনবক্সটি WhatsApp Business-এর সাথে সংযুক্ত করুন।.",
@@ -827,6 +843,70 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "আপনার উপলব্ধ টেমপ্লেট আপডেট করতে WhatsApp থেকে মেসেজ টেমপ্লেটগুলো ম্যানুয়ালি সিঙ্ক করুন।.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "টেমপ্লেট সিঙ্ক করুন",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "টেমপ্লেট সিঙ্ক সফলভাবে শুরু হয়েছে। আপডেট হতে কয়েক মিনিট সময় লাগতে পারে।.",
+      "WHATSAPP_MANUAL_MIGRATION": {
+        "BANNER": {
+          "TITLE": "Manual setup recommended",
+          "DESCRIPTION": "This inbox connects through the shared Meta app used for embedded signup, which recent Meta restrictions have affected. To avoid similar issues in the future, we recommend reconnecting it with your own Meta app.",
+          "START": "Start manual migration",
+          "GUIDE": "View guide"
+        },
+        "DIALOG": {
+          "EYEBROW": "WhatsApp manual migration",
+          "TITLE": "Reconnect WhatsApp inbox",
+          "CLOSE": "বন্ধ করুন",
+          "ACTION_REQUIRED_TITLE": "Reconnect with your own Meta app",
+          "ACTION_REQUIRED_DESCRIPTION": "Inboxes connected through your own Meta app are not affected by restrictions on the shared embedded signup app. This guided flow updates the WhatsApp API connection without creating a new inbox.",
+          "GUIDE_LINK": "Open the manual setup guide",
+          "PRESERVED_TITLE": "Preserved",
+          "PRESERVED_DESCRIPTION": "Conversations, contacts, collaborators, routing, business hours, and inbox settings.",
+          "UPDATED_TITLE": "Updated",
+          "UPDATED_DESCRIPTION": "WABA ID, phone number ID, access token, and webhook configuration.",
+          "WABA_ID": "WABA ID",
+          "WABA_PLACEHOLDER": "Enter WABA ID",
+          "WABA_HELP": "The WhatsApp Business Account that owns this phone number.",
+          "PHONE_NUMBER_ID": "Phone Number ID",
+          "PHONE_NUMBER_PLACEHOLDER": "Enter Phone Number ID",
+          "PHONE_NUMBER_HELP": "Meta's unique ID for the WhatsApp number connected to this inbox.",
+          "DISPLAY_PHONE_NUMBER": "ফোন নম্বর প্রদর্শন করুন",
+          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Enter display phone number",
+          "DISPLAY_PHONE_NUMBER_HELP": "The customer-facing WhatsApp number. This cannot be changed during migration.",
+          "ACCESS_TOKEN": "Permanent access token or system user token",
+          "ACCESS_TOKEN_PLACEHOLDER": "Paste access token",
+          "TOKEN_HELP_PREFIX": "The token must include",
+          "TOKEN_HELP_MIDDLE": "যোগ করুন",
+          "TOKEN_HELP_SUFFIX": "for template sync and template management.",
+          "MESSAGING_PERMISSION": "whatsapp_business_messaging.",
+          "MANAGEMENT_PERMISSION": "whatsapp_business_management",
+          "REVIEW_TITLE": "Review before reconnecting",
+          "INBOX": "Inbox",
+          "PHONE_NUMBER": "ফোন নম্বর",
+          "NOT_ENTERED": "Not entered",
+          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
+          "BACK": "Back",
+          "CANCEL": "বাতিল করুন",
+          "CONTINUE": "চালিয়ে যান",
+          "REVIEW_MIGRATION": "Review migration",
+          "RECONNECT": "Reconnect WhatsApp inbox"
+        },
+        "STEPS": {
+          "BEFORE_YOU_START": {
+            "TITLE": "Before you start",
+            "DESCRIPTION": "This reconnects the WhatsApp API details for this inbox. Conversations, collaborators, routing, business hours, CSAT, and bot settings will be preserved."
+          },
+          "BUSINESS_DETAILS": {
+            "TITLE": "Business details",
+            "DESCRIPTION": "Enter the WhatsApp assets from the customer Meta Business account."
+          },
+          "ACCESS_TOKEN": {
+            "TITLE": "Access token",
+            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions."
+          },
+          "REVIEW_MIGRATION": {
+            "TITLE": "Review migration",
+            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+          }
+        }
+      },
       "WHATSAPP_CALLING_ENABLED": {
         "LABEL": "Enable voice calling",
         "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."

@@ -170,6 +170,12 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(result).to eq({ 'response' => 'Test response', 'agent_name' => nil, 'handoff_tool_called' => false })
     end
 
+    it 'exposes the raw run result via last_run_result' do
+      service.generate_response(message_history: message_history)
+
+      expect(service.last_run_result).to eq(mock_result)
+    end
+
     context 'when handoff tool was called during agent execution' do
       let(:runner_context) { { captain_v2_handoff_tool_called: true } }
       let(:mock_result) do
@@ -244,6 +250,12 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(Rails.logger).to receive(:error).with(kind_of(String))
 
         service.generate_response(message_history: message_history)
+      end
+
+      it 'leaves last_run_result nil' do
+        service.generate_response(message_history: message_history)
+
+        expect(service.last_run_result).to be_nil
       end
 
       context 'when conversation is nil' do
