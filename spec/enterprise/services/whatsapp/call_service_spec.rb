@@ -57,11 +57,11 @@ describe Whatsapp::CallService do
         .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::AlreadyAccepted') }
     end
 
-    it 'raises NotRinging when the call has reached a terminal state' do
+    it 'raises CallAlreadyEnded when the call has reached a terminal state' do
       call.update!(status: 'completed')
 
       expect { described_class.new(call: call, agent: agent, sdp_answer: sdp_answer).accept }
-        .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::NotRinging') }
+        .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::CallAlreadyEnded') }
     end
 
     it 'raises CallFailed when sdp_answer is missing' do

@@ -81,12 +81,17 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
       :name, :page_title, :slug, :archived,
       { config: [:default_locale, :layout, { allowed_locales: [] }, { draft_locales: [] },
                  { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] },
-                 { locale_translations: locale_translation_keys.index_with { %i[name page_title header_text] } }] }
+                 { locale_translations: locale_translation_keys.index_with { %i[name page_title header_text] } },
+                 { popular_content: popular_content_keys.index_with { { category_ids: [], article_ids: [] } } }] }
     )
   end
 
   def locale_translation_keys
     params.dig(:portal, :config, :locale_translations)&.keys || []
+  end
+
+  def popular_content_keys
+    params.dig(:portal, :config, :popular_content)&.keys || []
   end
 
   def live_chat_widget_params

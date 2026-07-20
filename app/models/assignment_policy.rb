@@ -22,6 +22,8 @@
 #  index_assignment_policies_on_enabled              (enabled)
 #
 class AssignmentPolicy < ApplicationRecord
+  DEFAULT_EXCLUDE_OLDER_THAN_HOURS = 168
+
   belongs_to :account
   has_many :inbox_assignment_policies, dependent: :destroy
   has_many :inboxes, through: :inbox_assignment_policies

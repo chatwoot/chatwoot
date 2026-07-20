@@ -94,16 +94,56 @@ describe('getContentNode', () => {
   });
 
   describe('getVariableNode', () => {
-    it('should create a variable node', () => {
-      const content = 'name';
-      const from = 0;
-      const to = 10;
-      getContentNode(editorView, 'variable', content, {
-        from,
-        to,
-      });
+    it('should render the resolved value directly when the variable has a value', () => {
+      getContentNode(
+        editorView,
+        'variable',
+        'contact.name',
+        { from: 0, to: 10 },
+        { 'contact.name': 'John' }
+      );
 
-      expect(editorView.state.schema.text).toHaveBeenCalledWith('{{name}}');
+      expect(editorView.state.schema.text).toHaveBeenCalledWith('John');
+    });
+
+    it('should resolve camelCase custom attributes and non-string values', () => {
+      getContentNode(
+        editorView,
+        'variable',
+        'contact.custom_attribute.cloudCustomer',
+        { from: 0, to: 10 },
+        { 'contact.custom_attribute.cloudCustomer': true }
+      );
+
+      expect(editorView.state.schema.text).toHaveBeenCalledWith('true');
+    });
+
+    it('should keep the placeholder when the variable has no value', () => {
+      getContentNode(
+        editorView,
+        'variable',
+        'contact.email',
+        { from: 0, to: 10 },
+        {}
+      );
+
+      expect(editorView.state.schema.text).toHaveBeenCalledWith(
+        '{{contact.email}}'
+      );
+    });
+
+    it('should keep the placeholder when the value contains Liquid syntax', () => {
+      getContentNode(
+        editorView,
+        'variable',
+        'contact.name',
+        { from: 0, to: 10 },
+        { 'contact.name': '{{agent.email}}' }
+      );
+
+      expect(editorView.state.schema.text).toHaveBeenCalledWith(
+        '{{contact.name}}'
+      );
     });
   });
 
