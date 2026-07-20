@@ -177,6 +177,22 @@ RSpec.describe 'Agents API', type: :request do
         expect(response.parsed_body['email']).to eq(params[:email])
         expect(account.users.last.name).to eq('NewUser')
       end
+
+      context 'when the account email limit is exhausted' do
+        before do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+          account.update!(limits: { 'emails' => 0 })
+        end
+
+        it 'does not create an agent' do
+          expect do
+            post "/api/v1/accounts/#{account.id}/agents", params: params, headers: admin.create_new_auth_token, as: :json
+          end.not_to change(User, :count)
+
+          expect(response).to have_http_status(:too_many_requests)
+          expect(response.parsed_body['error']).to eq('The daily email limit for this account has been reached')
+        end
+      end
     end
   end
 
@@ -210,6 +226,22 @@ RSpec.describe 'Agents API', type: :request do
         end.to change(User, :count).by(2)
 
         expect(response).to have_http_status(:ok)
+      end
+
+      context 'when the account email limit is exhausted' do
+        before do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+          account.update!(limits: { 'emails' => 0 })
+        end
+
+        it 'does not create agents' do
+          expect do
+            post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
+          end.not_to change(User, :count)
+
+          expect(response).to have_http_status(:too_many_requests)
+          expect(response.parsed_body['error']).to eq('The daily email limit for this account has been reached')
+        end
       end
     end
   end

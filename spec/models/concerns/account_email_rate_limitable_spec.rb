@@ -83,4 +83,38 @@ RSpec.describe AccountEmailRateLimitable do
       expect(Redis::Alfred).not_to have_received(:expire)
     end
   end
+
+  describe '#reserve_email_send_capacity' do
+    context 'when chatwoot cloud' do
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.update!(limits: { 'emails' => 2 })
+      end
+
+      it 'atomically reserves capacity without exceeding the limit' do
+        expect(account.reserve_email_send_capacity).to be true
+        expect(account.reserve_email_send_capacity).to be true
+        expect(account.reserve_email_send_capacity).to be false
+        expect(account.emails_sent_today).to eq(2)
+      end
+
+      it 'does not partially reserve a batch that exceeds the remaining capacity' do
+        expect(account.reserve_email_send_capacity(2)).to be true
+        expect(account.reserve_email_send_capacity(2)).to be false
+        expect(account.emails_sent_today).to eq(2)
+      end
+    end
+
+    context 'when self-hosted' do
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+        account.update!(limits: { 'emails' => 1 })
+      end
+
+      it 'does not reserve or track email capacity' do
+        expect(account.reserve_email_send_capacity(2)).to be true
+        expect(account.emails_sent_today).to eq(0)
+      end
+    end
+  end
 end
