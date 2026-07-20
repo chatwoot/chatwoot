@@ -35,7 +35,7 @@ class Rack::Attack
     # For example, /auth, /auth.json, and /auth/ should all use the same throttle.
     def path_without_extensions
       normalized_path = path[/^[^.]+/]
-      normalized_path == '/' ? normalized_path : normalized_path.delete_suffix('/')
+      normalized_path == '/' ? normalized_path : normalized_path.sub(%r{/+\z}, '')
     end
   end
 
