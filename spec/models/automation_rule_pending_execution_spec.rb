@@ -147,6 +147,24 @@ RSpec.describe AutomationRulePendingExecution do
       expect(row.message_id).to eq(second_reply.id)
     end
 
+    it 're-anchors a reply_chase row stuck in processing when a newer reply arrives' do
+      first_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+      described_class.schedule(rule: rule, conversation: conversation, message: first_reply)
+      # The worker claimed the row and then died, leaving it in processing with the old clock.
+      described_class.last.update!(status: :processing)
+
+      travel_to(30.minutes.from_now) do
+        second_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+        described_class.schedule(rule: rule, conversation: conversation, message: second_reply)
+
+        row = described_class.last
+        expect(described_class.count).to eq(1)
+        expect(row).to be_pending
+        expect(row.message_id).to eq(second_reply.id)
+        expect(row.due_at).to be_within(5.seconds).of(60.minutes.from_now)
+      end
+    end
+
     it 'does not re-arm an episode skipped for a non-condition reason' do
       reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
       described_class.schedule(rule: rule, conversation: conversation, message: reply)
