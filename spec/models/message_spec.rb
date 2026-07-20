@@ -225,14 +225,14 @@ RSpec.describe Message do
       expect(conversation.waiting_since).to eq conversation.created_at
     end
 
-    it 'does not update first reply if the message is sent by automation' do
+    it 'updates first reply if the message is sent by automation' do
       expect(conversation.first_reply_created_at).to be_nil
       expect(conversation.waiting_since).to eq conversation.created_at
 
       create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { automation_rule_id: 1 })
 
-      expect(conversation.first_reply_created_at).to be_nil
-      expect(conversation.waiting_since).to eq conversation.created_at
+      expect(conversation.first_reply_created_at).to be_present
+      expect(conversation.waiting_since).to be_nil
     end
   end
 

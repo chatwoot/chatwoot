@@ -287,6 +287,7 @@ _Última actualización: 2026-07-12_
 
 | Item | Repo | Acción |
 |------|------|--------|
+| **B-NEW-11** (automation replies attended) | chatwoot | commit + merge `feat/internal-tasks` → `develop`, GHCR redeploy, **no requiere `db:migrate`**, smoke en conversación con automation |
 | **InboxHub 1.0.0** | chatwoot | merge `feat/internal-tasks` → `develop`, tag `inboxhub-v1.0.0`, GHCR redeploy, **`db:migrate`**, smoke RELEASE |
 | WhatsApp channel + menús | panel-ai | verificar prod / merge `master` si falta |
 | Refactor UI asistentes | panel-ai | commit + merge cuando estable |
@@ -305,6 +306,8 @@ Cada fix tiene ID, archivo tocado, descripción y cómo probar.
     `TASK-CLAIM-01`, `TASK-SCOPE-01`, `NOTE-PRIV-01`, `UX-001/002`).
   - Segunda: 6 adicionales encontrados y cerrados (`B-NEW-01..05`, `B-NEW-09`,
     `B-NEW-10`). Ver `docs/BUGS.md` §2.1 para el detalle.
+  - **2026-07-20:** `B-NEW-11` — automation replies now mark conversation as attended.
+    Fix en `Message#human_response?` + off-by-one en `Message#valid_first_reply?`. Sin migración.
 - Verificar contra [`docs/INTERNAL_TASKS_AND_ALERTS.md`](docs/INTERNAL_TASKS_AND_ALERTS.md)
   antes de mergear — ese doc lista fixes ya aplicados que **no** se deben revertir.
 
