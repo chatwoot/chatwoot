@@ -14,7 +14,7 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const { orientation, variant } = useMessageContext();
+const { orientation, variant, createdAt } = useMessageContext();
 const store = useStore();
 const { isCloudFeatureEnabled } = useAccount();
 
@@ -197,7 +197,10 @@ const popoverAlign = computed(() =>
 );
 
 const prefetch = () => {
-  store.dispatch('captainAgentSessions/fetch', props.messageId);
+  store.dispatch('captainAgentSessions/fetch', {
+    messageId: props.messageId,
+    createdAt: createdAt.value,
+  });
 };
 
 const onPopoverShow = () => {
