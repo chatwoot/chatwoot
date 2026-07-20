@@ -214,7 +214,7 @@ class Rack::Attack
 
   ## Prevent abuse of agent create APIs (per account, covers bulk_create)
   throttle('/api/v1/accounts/:account_id/agents POST',
-           limit: ENV.fetch('RATE_LIMIT_AGENT_CREATE', '10').to_i, period: 1.minute) do |req|
+           limit: ENV.fetch('RATE_LIMIT_AGENT_CREATE', '100').to_i, period: 1.day) do |req|
     next unless req.post?
 
     match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents(?:/bulk_create)?/?\z}.match(req.path_without_extensions)
