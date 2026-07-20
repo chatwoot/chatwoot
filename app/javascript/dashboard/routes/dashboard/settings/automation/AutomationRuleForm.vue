@@ -11,7 +11,6 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import {
   generateAutomationPayload,
   getAttributes,
-  getDefaultConditions,
   getFileName,
   showActionInput,
 } from 'dashboard/helper/automationHelper';
@@ -295,15 +294,28 @@ watch([isDelayed, delayInMinutes], () => {
     : null;
 });
 
+// Reset to the first attribute the narrowed dropdown still offers for this event, so the
+// attribute and its operators are guaranteed to exist (events differ: e.g. conversation_opened
+// has no status attribute, only inbox).
+const resetToSupportedCondition = () => {
+  const [firstType] = filterTypes.value;
+  if (!firstType) return;
+  automation.value.conditions = [
+    {
+      attribute_key: firstType.value,
+      filter_operator: firstType.filterOperators?.[0]?.value ?? 'equal_to',
+      values: '',
+      query_operator: 'and',
+      custom_attribute_type: '',
+    },
+  ];
+};
+
 // Turning on a delay narrows the condition options; reset only the conditions a delayed rule
-// can't use (e.g. a mutable attribute) to the event default. Actions and valid selections are kept.
+// can't use (e.g. a mutable attribute) to a supported default. Actions are kept.
 watch(isDelayed, delayed => {
   if (!delayed || !automation.value) return;
-  if (!isDelaySupported.value) {
-    automation.value.conditions = getDefaultConditions(
-      automation.value.event_name
-    );
-  }
+  if (!isDelaySupported.value) resetToSupportedCondition();
 });
 
 watch(
