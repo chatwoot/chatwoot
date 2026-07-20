@@ -34,6 +34,14 @@ RSpec.describe 'Api::V1::Accounts::Captain::AgentSessions', type: :request do
       let(:plain_faq) do
         create(:captain_assistant_response, account: account, assistant: assistant, question: 'How do I change my email?')
       end
+      let(:pdf_document) do
+        create(:captain_document, account: account, assistant: assistant, external_link: nil,
+                                  pdf_file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/sample.pdf'), 'application/pdf'))
+      end
+      let(:pdf_faq) do
+        create(:captain_assistant_response, account: account, assistant: assistant,
+                                            question: 'What are the pricing tiers?', documentable: pdf_document)
+      end
       let(:scenario) { create(:captain_scenario, account: account, assistant: assistant, title: 'Refund flow') }
       let(:run_context) do
         [
@@ -48,7 +56,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::AgentSessions', type: :request do
         create(:captain_agent_session, account: account, assistant: assistant,
                                        subject: conversation, result: message,
                                        llm_model: 'openai-gpt-5.2', credits_consumed: 1.0,
-                                       faq_ids: [documented_faq.id, plain_faq.id, documented_faq.id + 100_000],
+                                       faq_ids: [documented_faq.id, plain_faq.id, pdf_faq.id, documented_faq.id + 100_000],
                                        scenario_ids: [scenario.id],
                                        run_context: run_context)
       end
@@ -67,10 +75,13 @@ RSpec.describe 'Api::V1::Accounts::Captain::AgentSessions', type: :request do
           expect(json_response[:run_context].second[:tool_calls].first[:arguments][:query]).to eq('refund')
 
           citations = json_response[:citations].index_by { |citation| citation[:id] }
-          expect(citations.keys).to contain_exactly(documented_faq.id, plain_faq.id)
+          expect(citations.keys).to contain_exactly(documented_faq.id, plain_faq.id, pdf_faq.id)
           expect(citations[documented_faq.id][:title]).to eq('How do I reset my password?')
           expect(citations[documented_faq.id][:link]).to eq(document.external_link)
           expect(citations[plain_faq.id][:link]).to be_nil
+          expect(pdf_document.external_link).to start_with('PDF:')
+          expect(citations[pdf_faq.id][:link]).to eq(pdf_document.display_url)
+          expect(citations[pdf_faq.id][:link]).to match(%r{\Ahttps?://})
 
           expect(json_response[:scenarios]).to eq([{ id: scenario.id, title: 'Refund flow' }])
         end
