@@ -82,10 +82,18 @@ const humanizeToolName = name => {
     .join(' ');
 };
 
+// Argument keys are camelCased by the store ("labelName"); show "Label Name".
+const humanizeArgumentKey = key =>
+  key
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+
 const formatArguments = args => {
   if (!args || typeof args !== 'object') return '';
   return Object.entries(args)
-    .map(([key, value]) => `${key}: ${value}`)
+    .map(([key, value]) => `${humanizeArgumentKey(key)}: ${value}`)
     .join(', ');
 };
 
