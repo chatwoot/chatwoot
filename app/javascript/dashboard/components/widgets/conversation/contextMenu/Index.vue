@@ -377,6 +377,12 @@ export default {
             @keydown.stop
           />
         </div>
+        <!--
+          `mousedown.prevent` keeps focus in the search input when a label row
+          (a non-focusable div) is clicked. Without it the input blurs, the menu
+          may close on focusout before the click lands, and focus leaves the
+          input so you can't keep typing to pick the next label.
+        -->
         <MenuItem
           v-for="label in filteredLabels"
           :key="label.id"
@@ -386,6 +392,7 @@ export default {
               ? 'label-assigned'
               : 'label'
           "
+          @mousedown.prevent
           @click.stop="
             conversationLabels.includes(label.title)
               ? $emit('removeLabel', label)
