@@ -191,7 +191,7 @@ class Rack::Attack
 
     ## Prevent Transcript Bombing on Widget API ###
     throttle('api/v1/widget/conversations/transcript', limit: 5, period: 1.hour) do |req|
-      req.ip if req.path_without_extensions == '/api/v1/widget/conversations/transcript' && req.post?
+      req.ip if req.path_without_extensions.match?(%r{\A/api/v1/widget/conversations/transcript/?\z}) && req.post?
     end
   end
 
