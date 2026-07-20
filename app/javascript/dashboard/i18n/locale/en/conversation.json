@@ -82,7 +82,7 @@
       "STEP_HANDOFF": "Handed off to {name}",
       "REASONING": "Reasoning",
       "SOURCES": "Knowledge base",
-      "SOURCES_SUMMARY": "Found {count} results",
+      "SOURCES_SUMMARY": "{count} result | {count} results",
       "MODEL": "Generated with {model}",
       "CREDITS": "Credits: {credits}"
     },

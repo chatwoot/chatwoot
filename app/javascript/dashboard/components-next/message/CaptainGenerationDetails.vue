@@ -62,11 +62,24 @@ const handoffLabel = agentName => {
   return scenarioTitles.value[scenarioId] || humanizeAgentName(agentName);
 };
 
+const ACRONYMS = ['faq', 'api', 'url', 'id', 'sla', 'csat'];
+
 // Tool names arrive as RubyLLM identifiers like
-// "captain--tools--add_private_note"; show "Add private note" instead.
+// "captain--tools--faq_lookup" or "custom_get_status_page_overview";
+// show "FAQ Lookup" / "Get Status Page Overview" instead.
 const humanizeToolName = name => {
-  const label = (name || '').split('--').pop().replaceAll('_', ' ').trim();
-  return label.charAt(0).toUpperCase() + label.slice(1);
+  return (name || '')
+    .split('--')
+    .pop()
+    .replace(/^custom_/, '')
+    .split('_')
+    .filter(Boolean)
+    .map(word =>
+      ACRONYMS.includes(word)
+        ? word.toUpperCase()
+        : word.charAt(0).toUpperCase() + word.slice(1)
+    )
+    .join(' ');
 };
 
 const formatArguments = args => {
@@ -243,10 +256,12 @@ const onPopoverHide = () => {
                     <I18nT
                       :keypath="STEP_KEYPATHS[step.type]"
                       tag="span"
-                      class="text-xs leading-5 text-n-slate-12"
+                      class="text-xs leading-5 text-n-slate-11"
                     >
                       <template #name>
-                        <span class="font-medium">{{ step.name }}</span>
+                        <span class="font-medium text-n-slate-12">
+                          {{ step.name }}
+                        </span>
                       </template>
                     </I18nT>
                     <span
@@ -259,25 +274,20 @@ const onPopoverHide = () => {
                 </div>
               </div>
             </div>
-            <div v-if="reasoning" class="flex flex-col gap-2">
-              <span class="text-xs font-medium text-n-slate-11">
-                {{ t('CONVERSATION.CAPTAIN_GENERATION.REASONING') }}
-              </span>
-              <p class="m-0 text-xs leading-normal text-n-slate-12 break-words">
-                {{ reasoning }}
-              </p>
-            </div>
             <div v-if="citations.length" class="flex flex-col gap-2">
-              <span class="text-xs font-medium text-n-slate-11">
-                {{ t('CONVERSATION.CAPTAIN_GENERATION.SOURCES') }}
-              </span>
-              <p class="m-0 text-xs text-n-slate-11">
-                {{
-                  t('CONVERSATION.CAPTAIN_GENERATION.SOURCES_SUMMARY', {
-                    count: citations.length,
-                  })
-                }}
-              </p>
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('CONVERSATION.CAPTAIN_GENERATION.SOURCES') }}
+                </span>
+                <span class="text-xs text-n-slate-10">
+                  {{
+                    t(
+                      'CONVERSATION.CAPTAIN_GENERATION.SOURCES_SUMMARY',
+                      citations.length
+                    )
+                  }}
+                </span>
+              </div>
               <ul class="flex flex-col gap-1 m-0 list-disc ps-4">
                 <li
                   v-for="citation in citations"
@@ -289,13 +299,21 @@ const onPopoverHide = () => {
                     :href="citation.link"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="text-n-blue-11 hover:underline"
+                    class="text-xs text-n-blue-11 hover:underline"
                   >
                     {{ citation.title || citation.link }}
                   </a>
                   <span v-else>{{ citation.title }}</span>
                 </li>
               </ul>
+            </div>
+            <div v-if="reasoning" class="flex flex-col gap-2">
+              <span class="text-xs font-medium text-n-slate-11">
+                {{ t('CONVERSATION.CAPTAIN_GENERATION.REASONING') }}
+              </span>
+              <p class="m-0 text-xs leading-normal text-n-slate-12 break-words">
+                {{ reasoning }}
+              </p>
             </div>
             <span v-if="devDetails" class="text-xs text-n-slate-11">
               {{ devDetails }}
