@@ -36,8 +36,12 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
     # Session capture attributes the run to this note so agents can inspect the
     # generation path on the handoff reason instead of the canned follow-up message.
-    metadata = tool_context.state[:cw_metadata] ||= {}
-    metadata[:handoff_note_id] = note.id
+    # A reason-less note has no content and never renders in the dashboard, so
+    # leave it unrecorded and let capture fall back to the follow-up message.
+    if reason.present?
+      metadata = tool_context.state[:cw_metadata] ||= {}
+      metadata[:handoff_note_id] = note.id
+    end
 
     # Trigger the bot handoff (sets status to open + dispatches events)
     conversation.bot_handoff!

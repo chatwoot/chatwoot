@@ -113,6 +113,12 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
           tool.perform(tool_context)
         end
+
+        it 'does not record a handoff note id since the empty note never renders' do
+          tool.perform(tool_context)
+
+          expect(tool_context.state[:cw_metadata]).to be_nil
+        end
       end
 
       context 'when handoff fails' do
