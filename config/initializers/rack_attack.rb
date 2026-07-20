@@ -223,7 +223,7 @@ class Rack::Attack
 
   ## Prevent abuse of agent delete API (per account)
   throttle('/api/v1/accounts/:account_id/agents/:id DELETE',
-           limit: ENV.fetch('RATE_LIMIT_AGENT_DELETE', '100').to_i, period: 1.day) do |req|
+           limit: ENV.fetch('RATE_LIMIT_AGENT_DELETE', '50').to_i, period: 1.day) do |req|
     next unless req.delete?
 
     match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents/(?<id>\d+)/?\z}.match(req.path_without_extensions)
