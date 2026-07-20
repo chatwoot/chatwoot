@@ -29,15 +29,15 @@
           "ERROR": "Event is required"
         },
         "EXECUTE": {
-          "LABEL": "Wait",
-          "AFTER_DELAY": "Wait for",
+          "LABEL": "Delayed execution",
+          "AFTER_DELAY": "Run after",
           "UNITS": {
             "MINUTES": "Minutes",
             "HOURS": "Hours",
             "DAYS": "Days"
           },
-          "ERROR": "Wait must be between 10 minutes and 30 days",
-          "ENDS_IF_LABEL": "Ends the wait if",
+          "ERROR": "Delay must be between 10 minutes and 30 days",
+          "ENDS_IF_LABEL": "Won't run if",
           "ENDS_IF": {
             "STATUS": "the conversation's status changes, or its conditions no longer match.",
             "CUSTOMER_REPLY": "the customer replies, or the conditions no longer match.",
@@ -45,6 +45,17 @@
             "GENERIC": "there is a new reply on the conversation, or the conditions no longer match."
           },
           "HELP_TEXT": "Only applies to conversations with activity after the rule is created."
+        },
+        "TRIGGER": {
+          "LABEL": "Trigger",
+          "WHEN_LABEL": "When",
+          "STATUS_LABEL": "Status is",
+          "INBOX_LABEL": "Inbox",
+          "OPTIONS": {
+            "CUSTOMER_UNRESPONSIVE": "Customer unresponsive",
+            "AGENT_UNRESPONSIVE": "Teammate unresponsive",
+            "CONVERSATION_STATUS": "Conversation in a status"
+          }
         },
         "CONDITIONS": {
           "LABEL": "Conditions"
@@ -70,10 +81,10 @@
       "404": "No automation rules found",
       "SECTIONS": {
         "INSTANT": "Automations",
-        "DELAYED": "Delayed (Wait)"
+        "DELAYED": "Delayed execution"
       },
       "DELAY_BADGE": "Runs after {delay}",
-      "DELAY_DISABLED_BANNER": "Waits are disabled for this account. Rules with a wait won't run until it is enabled again."
+      "DELAY_DISABLED_BANNER": "Delayed execution is disabled for this account. Delayed rules won't run until it is enabled again."
     },
     "DELETE": {
       "TITLE": "Delete Automation Rule",

@@ -7,6 +7,10 @@ import ConditionRow from 'dashboard/components-next/filter/ConditionRow.vue';
 import AutomationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
+import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.vue';
+import MultiSelect from 'dashboard/components-next/filter/inputs/MultiSelect.vue';
+import DurationInput from 'dashboard/components-next/input/DurationInput.vue';
+import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import {
   generateAutomationPayload,
@@ -73,21 +77,27 @@ const INPUT_TYPE_MAP = {
   date: 'date',
 };
 
-const DELAY_UNITS = [
-  { key: 'MINUTES', factor: 1 },
-  { key: 'HOURS', factor: 60 },
-  { key: 'DAYS', factor: 1440 },
-];
+const DEFAULT_DELAY_MINUTES = 240; // 4 hours
 const MIN_DELAY_MINUTES = 10;
 const MAX_DELAY_MINUTES = 43200; // 30 days
-// The only valid delayed (wait) rule shapes: each supported event maps to the conditions that
-// stay meaningful across the wait — status / message_type re-checked at fire time, plus the
-// immutable inbox for scoping. Every other event/condition is hidden while the wait is on.
-const DELAYED_EVENT_ATTRS = {
-  conversation_updated: ['status', 'inbox_id'],
-  message_created: ['message_type', 'inbox_id'],
-};
-const DELAYED_EVENTS = Object.keys(DELAYED_EVENT_ATTRS);
+// A delayed rule is expressed as one meaningful trigger instead of a raw event + conditions. Each
+// trigger maps to the automation's event_name plus a preset condition: message_type for the two
+// unresponsive cases (reply-chase / awaiting-agent), or a chosen status for conversation_updated.
+const DELAYED_TRIGGERS = [
+  { key: 'conversation_status', eventName: 'conversation_updated' },
+  {
+    key: 'customer_unresponsive',
+    eventName: 'message_created',
+    messageType: 'outgoing',
+  },
+  {
+    key: 'agent_unresponsive',
+    eventName: 'message_created',
+    messageType: 'incoming',
+  },
+];
+const DEFAULT_TRIGGER = DELAYED_TRIGGERS[0].key;
+const DEFAULT_TRIGGER_STATUS = 'pending';
 
 const { t } = useI18n();
 const { isCloudFeatureEnabled } = useAccount();
@@ -134,12 +144,7 @@ const filterTypes = computed(() => {
   const event = eventName.value;
   if (!event || !props.automationTypes[event]) return [];
 
-  let attributes = getTranslatedAttributes(props.automationTypes, event);
-  // A delayed rule can only filter on the attributes that stay meaningful across the wait.
-  if (isDelayed.value) {
-    const allowed = DELAYED_EVENT_ATTRS[event] || [];
-    attributes = attributes.filter(attr => allowed.includes(attr.key));
-  }
+  const attributes = getTranslatedAttributes(props.automationTypes, event);
 
   return attributes.map(attr => {
     if (attr.disabled) {
@@ -149,11 +154,7 @@ const filterTypes = computed(() => {
     const mappedInputType = INPUT_TYPE_MAP[attr.inputType] || 'plainText';
     const options = props.getConditionDropdownValues(attr.key) || [];
 
-    // attribute_changed can't be re-evaluated at fire time, so hide it for delayed rules.
-    const availableOperators = (attr.filterOperators || []).filter(
-      op => !isDelayed.value || op.value !== 'attribute_changed'
-    );
-    const filterOperators = availableOperators.map(op => {
+    const filterOperators = (attr.filterOperators || []).map(op => {
       const enriched = operators.value[op.value];
       if (enriched) return enriched;
       return {
@@ -179,15 +180,12 @@ const filterTypes = computed(() => {
   });
 });
 
-const automationRuleEvents = computed(() => {
-  const events = isDelayed.value
-    ? AUTOMATION_RULE_EVENTS.filter(event => DELAYED_EVENTS.includes(event.key))
-    : AUTOMATION_RULE_EVENTS;
-  return events.map(event => ({
+const automationRuleEvents = computed(() =>
+  AUTOMATION_RULE_EVENTS.map(event => ({
     ...event,
     value: t(`AUTOMATION.EVENTS.${event.value}`),
-  }));
-});
+  }))
+);
 
 const hasAutomationMutated = computed(() => {
   return Boolean(
@@ -219,31 +217,37 @@ const allowsDelayedExecution = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.DELAYED_AUTOMATIONS)
 );
 
-// The UI curates delayed rules to the supported shapes (DELAYED_EVENT_ATTRS) plus the backend's
-// no-attribute_changed rule; anything outside that resets to a supported default.
-const delayRestrictionReason = computed(() => {
-  const conditions = automation.value?.conditions || [];
-  if (
-    conditions.some(
-      condition => condition.filter_operator === 'attribute_changed'
-    )
-  ) {
-    return 'ATTRIBUTE_CHANGED';
-  }
-  const allowed = DELAYED_EVENT_ATTRS[eventName.value];
-  if (!allowed) return 'UNSUPPORTED_EVENT';
-  if (
-    conditions.some(
-      condition =>
-        condition.attribute_key && !allowed.includes(condition.attribute_key)
-    )
-  ) {
-    return 'UNSUPPORTED_CONDITION';
-  }
-  return null;
-});
+// Trigger controls for the delayed flow. They own event_name + conditions while the wait is on.
+// selectedTrigger / triggerStatus are plain values (FilterSelect); triggerInboxes is an array of
+// { id, name } (MultiSelect) — empty means the rule applies to every inbox.
+const selectedTrigger = ref(DEFAULT_TRIGGER);
+const triggerStatus = ref(DEFAULT_TRIGGER_STATUS);
+const triggerInboxes = ref([]);
 
-const isDelaySupported = computed(() => delayRestrictionReason.value === null);
+const isStatusTrigger = computed(
+  () => selectedTrigger.value === 'conversation_status'
+);
+
+// FilterSelect expects { label, value }.
+const statusSelectOptions = computed(() =>
+  (props.getConditionDropdownValues('status') || [])
+    .filter(option => option.id !== 'all')
+    .map(option => ({ value: option.id, label: option.name }))
+);
+
+const triggerSelectOptions = computed(() =>
+  DELAYED_TRIGGERS.map(trigger => ({
+    value: trigger.key,
+    label: t(
+      `AUTOMATION.ADD.FORM.TRIGGER.OPTIONS.${trigger.key.toUpperCase()}`
+    ),
+  }))
+);
+
+// MultiSelect expects (and returns) { id, name } options.
+const inboxOptions = computed(
+  () => props.getConditionDropdownValues('inbox_id') || []
+);
 
 // What ends the wait, mirroring the backend episode that arms the rule. Shown to the user so
 // they can predict when the rule runs. Conversation rules key on status; message rules key on
@@ -263,81 +267,112 @@ const waitEndsKey = computed(() => {
   return 'GENERIC';
 });
 
-const delayValue = ref(4);
-const delayUnit = ref('HOURS');
-
-const delayInMinutes = computed(() => {
-  const factor =
-    DELAY_UNITS.find(unit => unit.key === delayUnit.value)?.factor || 1;
-  return Math.round(Number(delayValue.value) * factor);
-});
+// DurationInput holds the wait in minutes and clamps to [MIN, MAX]; the unit is display-only.
+const delayMinutes = ref(DEFAULT_DELAY_MINUTES);
+const delayUnit = ref(DURATION_UNITS.HOURS);
 
 const executionDelayInvalid = computed(
-  () =>
-    isDelayed.value &&
-    (!Number.isFinite(delayInMinutes.value) ||
-      delayInMinutes.value < MIN_DELAY_MINUTES ||
-      delayInMinutes.value > MAX_DELAY_MINUTES)
+  () => isDelayed.value && !Number.isFinite(delayMinutes.value)
 );
 
-// Hydrate the delay controls from a delay (minutes), using the largest clean unit. Passed in
-// by open() rather than read from `automation`, whose model prop only settles a tick later.
+// Show the wait in the largest whole unit (240 min → 4 hours). Passed in by open() rather than
+// read from `automation`, whose model prop only settles a tick later.
 const syncDelayFromDelay = delay => {
   isDelayed.value = Boolean(delay);
-  if (!delay) {
-    delayValue.value = 4;
-    delayUnit.value = 'HOURS';
-    return;
-  }
-  const unit =
-    [...DELAY_UNITS].reverse().find(u => delay % u.factor === 0) ||
-    DELAY_UNITS[0];
-  delayUnit.value = unit.key;
-  delayValue.value = delay / unit.factor;
+  const minutes = delay || DEFAULT_DELAY_MINUTES;
+  if (minutes % 1440 === 0) delayUnit.value = DURATION_UNITS.DAYS;
+  else if (minutes % 60 === 0) delayUnit.value = DURATION_UNITS.HOURS;
+  else delayUnit.value = DURATION_UNITS.MINUTES;
+  delayMinutes.value = minutes;
 };
 
-watch([isDelayed, delayInMinutes], () => {
+watch([isDelayed, delayMinutes], () => {
   if (!automation.value || !allowsDelayedExecution.value) return;
   automation.value.execution_delay = isDelayed.value
-    ? delayInMinutes.value
+    ? delayMinutes.value
     : null;
 });
 
-// Reset to the first attribute the narrowed dropdown still offers for this event, so the
-// attribute and its operators are guaranteed to exist (events differ: e.g. conversation_opened
-// has no status attribute, only inbox).
-const resetToSupportedCondition = () => {
-  const [firstType] = filterTypes.value;
-  if (!firstType) return;
-  automation.value.conditions = [
-    {
-      attribute_key: firstType.value,
-      filter_operator: firstType.filterOperators?.[0]?.value ?? 'equal_to',
-      values: '',
-      query_operator: 'and',
-      custom_attribute_type: '',
-    },
+const buildTriggerCondition = (attributeKey, values) => ({
+  attribute_key: attributeKey,
+  filter_operator: 'equal_to',
+  values,
+  query_operator: 'and',
+  custom_attribute_type: '',
+});
+
+// Write the selected trigger (plus optional inbox scope) onto the rule's event_name + conditions.
+const applyDelayedTrigger = () => {
+  const trigger = DELAYED_TRIGGERS.find(
+    item => item.key === selectedTrigger.value
+  );
+  if (!automation.value || !trigger) return;
+  automation.value.event_name = trigger.eventName;
+  const conditions = [
+    trigger.messageType
+      ? buildTriggerCondition('message_type', trigger.messageType)
+      : buildTriggerCondition('status', triggerStatus.value),
   ];
+  if (triggerInboxes.value.length) {
+    conditions.push(
+      buildTriggerCondition(
+        'inbox_id',
+        triggerInboxes.value.map(inbox => inbox.id)
+      )
+    );
+  }
+  automation.value.conditions = conditions;
 };
 
-// A delay narrows the event list, so if the wait is turned on while an unsupported event is
-// selected (e.g. conversation_opened), switch to a meaningful default and reset its conditions
-// and actions the same way the event dropdown would.
+// A single value is a raw string in create mode and an option object ({ id }) after edit-mode
+// formatting; return its plain value either way.
+const rawConditionValue = condition => {
+  const raw = Array.isArray(condition?.values)
+    ? condition.values[0]
+    : condition?.values;
+  return raw && typeof raw === 'object' ? raw.id : raw;
+};
+
+// Populate the trigger controls from an existing delayed rule when editing.
+const hydrateTriggerFromAutomation = () => {
+  const conditions = automation.value?.conditions || [];
+  const byKey = key => conditions.find(c => c.attribute_key === key);
+  const messageType = rawConditionValue(byKey('message_type'));
+  if (messageType === 'incoming') selectedTrigger.value = 'agent_unresponsive';
+  else if (messageType === 'outgoing')
+    selectedTrigger.value = 'customer_unresponsive';
+  else {
+    selectedTrigger.value = 'conversation_status';
+    triggerStatus.value =
+      rawConditionValue(byKey('status')) || DEFAULT_TRIGGER_STATUS;
+  }
+  const inboxValues = byKey('inbox_id')?.values || [];
+  const inboxIds = inboxValues.map(value =>
+    value && typeof value === 'object' ? value.id : value
+  );
+  triggerInboxes.value = inboxOptions.value.filter(inbox =>
+    inboxIds.includes(inbox.id)
+  );
+};
+
+// Turning the wait on (create) sets the default trigger's event + conditions.
 watch(isDelayed, delayed => {
-  if (!delayed || !automation.value) return;
-  if (DELAYED_EVENTS.includes(automation.value.event_name)) return;
-  automation.value.event_name = DELAYED_EVENTS[0];
-  props.onEventChange();
+  if (delayed && automation.value && !isEditMode.value) applyDelayedTrigger();
 });
 
-// A delay narrows the condition options, so whenever the rule becomes unsupported while the
-// wait is on — toggling it on, or switching to an event whose default condition isn't allowed
-// (e.g. conversation_opened defaults to browser_language) — reset to a supported default.
-// Actions are kept. Resetting makes the rule supported again, so this can't loop.
-watch([isDelayed, isDelaySupported], () => {
-  if (!isDelayed.value || !automation.value) return;
-  if (!isDelaySupported.value) resetToSupportedCondition();
+// Any trigger-control change re-derives event_name + conditions. After hydration this simply
+// re-writes the same values, so it stays idempotent (no reference change → no loop).
+watch([selectedTrigger, triggerStatus, triggerInboxes], () => {
+  if (isDelayed.value) applyDelayedTrigger();
 });
+
+// Opening an existing delayed rule mirrors its event/conditions into the trigger controls.
+watch(
+  () => automation.value,
+  () => {
+    if (isDelayed.value && automation.value) hydrateTriggerFromAutomation();
+  }
+);
 
 watch(
   () => automation.value,
@@ -427,85 +462,7 @@ defineExpose({ open, close });
         :error="errors.description ? $t('AUTOMATION.ADD.FORM.DESC.ERROR') : ''"
         :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
       />
-      <div class="mb-6">
-        <label :class="{ error: errors.event_name }">
-          {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
-          <select
-            v-model="automation.event_name"
-            class="m-0"
-            @change="onEventChange()"
-          >
-            <option
-              v-for="event in automationRuleEvents"
-              :key="event.key"
-              :value="event.key"
-            >
-              {{ event.value }}
-            </option>
-          </select>
-          <span v-if="errors.event_name" class="message">
-            {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
-          </span>
-        </label>
-        <p
-          v-if="!isEditMode && hasAutomationMutated"
-          class="text-xs text-right text-n-teal-10 pt-1"
-        >
-          {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
-        </p>
-      </div>
-      <!-- Conditions Start -->
-      <section class="mb-5">
-        <label>
-          {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
-        </label>
-        <ul
-          class="grid gap-4 list-none p-3 mb-4 outline outline-1 rounded-xl -outline-offset-1"
-          :class="
-            hasConditionErrors
-              ? 'outline-n-ruby-5 bg-n-ruby-2/50'
-              : 'outline-n-weak dark:outline-n-strong'
-          "
-        >
-          <template v-for="(condition, i) in automation.conditions" :key="i">
-            <ConditionRow
-              v-if="i === 0"
-              ref="conditionsRef"
-              v-model:attribute-key="automation.conditions[i].attribute_key"
-              v-model:filter-operator="automation.conditions[i].filter_operator"
-              v-model:values="automation.conditions[i].values"
-              :filter-types="filterTypes"
-              :show-query-operator="false"
-              @remove="removeFilter(i)"
-            />
-            <ConditionRow
-              v-else
-              ref="conditionsRef"
-              v-model:attribute-key="automation.conditions[i].attribute_key"
-              v-model:filter-operator="automation.conditions[i].filter_operator"
-              v-model:query-operator="
-                automation.conditions[i - 1].query_operator
-              "
-              v-model:values="automation.conditions[i].values"
-              :filter-types="filterTypes"
-              show-query-operator
-              @remove="removeFilter(i)"
-            />
-          </template>
-          <div>
-            <NextButton
-              icon="i-lucide-plus"
-              blue
-              faded
-              sm
-              :label="$t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL')"
-              @click="appendNewCondition"
-            />
-          </div>
-        </ul>
-      </section>
-      <!-- Conditions End -->
-      <!-- Wait Start -->
+      <!-- Wait Start (choose the delay first, then the trigger) -->
       <div v-if="allowsDelayedExecution" class="mb-6">
         <div class="flex items-center justify-between gap-4">
           <label class="mb-0" :class="{ error: errors.execution_delay }">
@@ -517,21 +474,14 @@ defineExpose({ open, close });
           <span class="text-sm text-n-slate-11">
             {{ $t('AUTOMATION.ADD.FORM.EXECUTE.AFTER_DELAY') }}
           </span>
-          <input
-            v-model.number="delayValue"
-            type="number"
-            min="1"
-            class="!m-0 !w-24"
-          />
-          <select v-model="delayUnit" class="!m-0 !w-32">
-            <option
-              v-for="unit in DELAY_UNITS"
-              :key="unit.key"
-              :value="unit.key"
-            >
-              {{ $t(`AUTOMATION.ADD.FORM.EXECUTE.UNITS.${unit.key}`) }}
-            </option>
-          </select>
+          <div class="flex items-center gap-2 w-64">
+            <DurationInput
+              v-model="delayMinutes"
+              v-model:unit="delayUnit"
+              :min="MIN_DELAY_MINUTES"
+              :max="MAX_DELAY_MINUTES"
+            />
+          </div>
         </div>
         <span
           v-if="isDelayed && executionDelayInvalid"
@@ -539,19 +489,136 @@ defineExpose({ open, close });
         >
           {{ $t('AUTOMATION.ADD.FORM.EXECUTE.ERROR') }}
         </span>
-        <template v-else-if="isDelayed">
-          <p class="text-xs text-n-slate-11 pt-2 mb-0">
-            <span class="text-n-slate-12 font-medium">
-              {{ $t('AUTOMATION.ADD.FORM.EXECUTE.ENDS_IF_LABEL') }}
-            </span>
-            {{ $t(`AUTOMATION.ADD.FORM.EXECUTE.ENDS_IF.${waitEndsKey}`) }}
-          </p>
-          <p class="text-xs text-n-slate-11 pt-1 mb-0">
-            {{ $t('AUTOMATION.ADD.FORM.EXECUTE.HELP_TEXT') }}
-          </p>
-        </template>
       </div>
       <!-- Wait End -->
+      <!-- Delayed trigger: a curated event + condition, in place of raw Event/Conditions -->
+      <div v-if="isDelayed" class="mb-6">
+        <label class="mb-1">
+          {{ $t('AUTOMATION.ADD.FORM.TRIGGER.LABEL') }}
+        </label>
+        <div
+          class="flex flex-col gap-3 p-4 outline outline-1 -outline-offset-1 rounded-xl outline-n-weak dark:outline-n-strong"
+        >
+          <div class="flex items-center gap-3 min-h-8">
+            <span class="w-20 shrink-0 text-sm text-n-slate-11">
+              {{ $t('AUTOMATION.ADD.FORM.TRIGGER.WHEN_LABEL') }}
+            </span>
+            <FilterSelect
+              v-model="selectedTrigger"
+              :options="triggerSelectOptions"
+            />
+          </div>
+          <div v-if="isStatusTrigger" class="flex items-center gap-3 min-h-8">
+            <span class="w-20 shrink-0 text-sm text-n-slate-11">
+              {{ $t('AUTOMATION.ADD.FORM.TRIGGER.STATUS_LABEL') }}
+            </span>
+            <FilterSelect
+              v-model="triggerStatus"
+              :options="statusSelectOptions"
+            />
+          </div>
+          <div class="flex items-center gap-3 min-h-8">
+            <span class="w-20 shrink-0 text-sm text-n-slate-11">
+              {{ $t('AUTOMATION.ADD.FORM.TRIGGER.INBOX_LABEL') }}
+            </span>
+            <MultiSelect v-model="triggerInboxes" :options="inboxOptions" />
+          </div>
+        </div>
+        <p class="text-xs text-n-slate-11 pt-2 mb-0">
+          <span class="text-n-slate-12 font-medium">
+            {{ $t('AUTOMATION.ADD.FORM.EXECUTE.ENDS_IF_LABEL') }}
+          </span>
+          {{ $t(`AUTOMATION.ADD.FORM.EXECUTE.ENDS_IF.${waitEndsKey}`) }}
+        </p>
+        <p class="text-xs text-n-slate-11 pt-1 mb-0">
+          {{ $t('AUTOMATION.ADD.FORM.EXECUTE.HELP_TEXT') }}
+        </p>
+      </div>
+      <!-- Instant flow: raw Event + Conditions -->
+      <template v-else>
+        <div class="mb-6">
+          <label :class="{ error: errors.event_name }">
+            {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
+            <select
+              v-model="automation.event_name"
+              class="m-0"
+              @change="onEventChange()"
+            >
+              <option
+                v-for="event in automationRuleEvents"
+                :key="event.key"
+                :value="event.key"
+              >
+                {{ event.value }}
+              </option>
+            </select>
+            <span v-if="errors.event_name" class="message">
+              {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
+            </span>
+          </label>
+          <p
+            v-if="!isEditMode && hasAutomationMutated"
+            class="text-xs text-right text-n-teal-10 pt-1"
+          >
+            {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
+          </p>
+        </div>
+        <!-- Conditions Start -->
+        <section class="mb-5">
+          <label>
+            {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
+          </label>
+          <ul
+            class="grid gap-4 list-none p-3 mb-4 outline outline-1 rounded-xl -outline-offset-1"
+            :class="
+              hasConditionErrors
+                ? 'outline-n-ruby-5 bg-n-ruby-2/50'
+                : 'outline-n-weak dark:outline-n-strong'
+            "
+          >
+            <template v-for="(condition, i) in automation.conditions" :key="i">
+              <ConditionRow
+                v-if="i === 0"
+                ref="conditionsRef"
+                v-model:attribute-key="automation.conditions[i].attribute_key"
+                v-model:filter-operator="
+                  automation.conditions[i].filter_operator
+                "
+                v-model:values="automation.conditions[i].values"
+                :filter-types="filterTypes"
+                :show-query-operator="false"
+                @remove="removeFilter(i)"
+              />
+              <ConditionRow
+                v-else
+                ref="conditionsRef"
+                v-model:attribute-key="automation.conditions[i].attribute_key"
+                v-model:filter-operator="
+                  automation.conditions[i].filter_operator
+                "
+                v-model:query-operator="
+                  automation.conditions[i - 1].query_operator
+                "
+                v-model:values="automation.conditions[i].values"
+                :filter-types="filterTypes"
+                show-query-operator
+                @remove="removeFilter(i)"
+              />
+            </template>
+            <div>
+              <NextButton
+                icon="i-lucide-plus"
+                blue
+                faded
+                sm
+                :label="$t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL')"
+                @click="appendNewCondition"
+              />
+            </div>
+          </ul>
+        </section>
+        <!-- Conditions End -->
+      </template>
       <!-- Actions Start -->
       <section>
         <label>
