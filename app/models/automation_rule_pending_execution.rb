@@ -78,10 +78,11 @@ class AutomationRulePendingExecution < ApplicationRecord
       # A message episode key can recur (no new incoming reply) while conditions swing back into
       # match, so a later qualifying message re-arms the condition-only skip instead of dropping.
       row.update!(status: :pending, skip_reason: nil, due_at: due_at, message_id: message.id)
-    elsif !message.incoming? && !row.terminal?
-      # Reply-chase tracks the latest agent reply; awaiting-agent keeps its first clock. Re-anchor a
-      # row still processing (its worker died mid-run) back to pending too, so a stale reclaim can't
-      # fire the old clock instead of waiting the full delay from this latest reply.
+    elsif !row.terminal?
+      # Track the newest qualifying message. Reply-chase advances due_at with each agent reply;
+      # awaiting-agent keeps its first clock (its anchor is the stable waiting_since, so due_at is
+      # unchanged). Re-anchoring a row still processing (its worker died mid-run) back to pending
+      # also keeps a stale reclaim from firing the old clock instead of the latest one.
       row.update!(status: :pending, due_at: due_at, message_id: message.id)
     end
   end
