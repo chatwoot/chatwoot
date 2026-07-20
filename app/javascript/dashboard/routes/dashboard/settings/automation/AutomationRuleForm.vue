@@ -80,8 +80,14 @@ const DELAY_UNITS = [
 ];
 const MIN_DELAY_MINUTES = 10;
 const MAX_DELAY_MINUTES = 43200; // 30 days
-// Conversation-level delayed rules can filter on status plus immutable attributes (inbox).
-const DELAYED_CONVERSATION_ATTRS = ['status', 'inbox_id'];
+// The only valid delayed (wait) rule shapes: each supported event maps to the conditions that
+// stay meaningful across the wait — status / message_type re-checked at fire time, plus the
+// immutable inbox for scoping. Every other event/condition is hidden while the wait is on.
+const DELAYED_EVENT_ATTRS = {
+  conversation_updated: ['status', 'inbox_id'],
+  message_created: ['message_type', 'inbox_id'],
+};
+const DELAYED_EVENTS = Object.keys(DELAYED_EVENT_ATTRS);
 
 const { t } = useI18n();
 const { isCloudFeatureEnabled } = useAccount();
@@ -129,11 +135,10 @@ const filterTypes = computed(() => {
   if (!event || !props.automationTypes[event]) return [];
 
   let attributes = getTranslatedAttributes(props.automationTypes, event);
-  // A delayed conversation-level rule can filter only on status and immutable attributes (inbox).
-  if (isDelayed.value && event !== 'message_created') {
-    attributes = attributes.filter(attr =>
-      DELAYED_CONVERSATION_ATTRS.includes(attr.key)
-    );
+  // A delayed rule can only filter on the attributes that stay meaningful across the wait.
+  if (isDelayed.value) {
+    const allowed = DELAYED_EVENT_ATTRS[event] || [];
+    attributes = attributes.filter(attr => allowed.includes(attr.key));
   }
 
   return attributes.map(attr => {
@@ -174,12 +179,15 @@ const filterTypes = computed(() => {
   });
 });
 
-const automationRuleEvents = computed(() =>
-  AUTOMATION_RULE_EVENTS.map(event => ({
+const automationRuleEvents = computed(() => {
+  const events = isDelayed.value
+    ? AUTOMATION_RULE_EVENTS.filter(event => DELAYED_EVENTS.includes(event.key))
+    : AUTOMATION_RULE_EVENTS;
+  return events.map(event => ({
     ...event,
     value: t(`AUTOMATION.EVENTS.${event.value}`),
-  }))
-);
+  }));
+});
 
 const hasAutomationMutated = computed(() => {
   return Boolean(
@@ -221,15 +229,15 @@ const delayRestrictionReason = computed(() => {
   ) {
     return 'ATTRIBUTE_CHANGED';
   }
+  const allowed = DELAYED_EVENT_ATTRS[eventName.value];
+  if (!allowed) return 'UNSUPPORTED_EVENT';
   if (
-    eventName.value !== 'message_created' &&
     conditions.some(
       condition =>
-        condition.attribute_key &&
-        !DELAYED_CONVERSATION_ATTRS.includes(condition.attribute_key)
+        condition.attribute_key && !allowed.includes(condition.attribute_key)
     )
   ) {
-    return 'CONVERSATION_NON_STATUS';
+    return 'UNSUPPORTED_CONDITION';
   }
   return null;
 });
@@ -310,6 +318,16 @@ const resetToSupportedCondition = () => {
     },
   ];
 };
+
+// A delay narrows the event list, so if the wait is turned on while an unsupported event is
+// selected (e.g. conversation_opened), switch to a meaningful default and reset its conditions
+// and actions the same way the event dropdown would.
+watch(isDelayed, delayed => {
+  if (!delayed || !automation.value) return;
+  if (DELAYED_EVENTS.includes(automation.value.event_name)) return;
+  automation.value.event_name = DELAYED_EVENTS[0];
+  props.onEventChange();
+});
 
 // A delay narrows the condition options, so whenever the rule becomes unsupported while the
 // wait is on — toggling it on, or switching to an event whose default condition isn't allowed
