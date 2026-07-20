@@ -29,6 +29,9 @@ class AutomationRulePendingExecution < ApplicationRecord
   STALE_PROCESSING_TIMEOUT = 15.minutes
   # Terminal rows are purged after this to keep the table bounded.
   RETENTION_WINDOW = 30.days
+  # Skip reason for a row cancelled only because conditions no longer matched at fire time; unlike
+  # other terminal reasons, a later qualifying message can re-arm it (see .schedule).
+  CONDITIONS_CHANGED_SKIP = 'conditions_changed'.freeze
 
   belongs_to :automation_rule
   belongs_to :conversation
@@ -57,16 +60,28 @@ class AutomationRulePendingExecution < ApplicationRecord
       message_id: message&.id, episode_key: key, due_at: rule.execution_delay.minutes.since(anchor)
     )
   rescue ActiveRecord::RecordNotUnique
-    # Episode already armed. Reply-chase tracks the latest agent reply, so its clock moves;
-    # status / awaiting-agent episodes keep the first clock. A terminal row is never re-armed.
-    return unless message && !message.incoming?
+    rearm_or_advance_episode(rule, conversation, key, message, anchor)
+  end
+
+  # The episode is already armed. Status episodes keep their first clock (a status change would
+  # give a new key), so only message episodes advance or re-arm here.
+  def self.rearm_or_advance_episode(rule, conversation, key, message, anchor)
+    return unless message
 
     row = find_by!(automation_rule_id: rule.id, conversation_id: conversation.id, episode_key: key)
-    # Jobs can arrive out of order; only a newer reply moves the clock, so a late older reply
-    # can't pull due_at backwards and fire before the delay elapses since the latest reply.
-    return unless row.pending? && message.id > row.message_id
+    # Jobs can arrive out of order; only a strictly newer message advances or re-arms, so a late
+    # older message can't pull due_at backwards and fire before the delay elapses.
+    return unless message.id > row.message_id
 
-    row.update!(due_at: rule.execution_delay.minutes.since(anchor), message_id: message.id)
+    due_at = rule.execution_delay.minutes.since(anchor)
+    if row.condition_skipped?
+      # A message episode key can recur (no new incoming reply) while conditions swing back into
+      # match, so a later qualifying message re-arms the condition-only skip instead of dropping.
+      row.update!(status: :pending, skip_reason: nil, due_at: due_at, message_id: message.id)
+    elsif row.pending? && !message.incoming?
+      # Reply-chase tracks the latest agent reply; awaiting-agent keeps its first clock.
+      row.update!(due_at: due_at, message_id: message.id)
+    end
   end
 
   # The wait is measured from when the qualifying event happened, not when this (possibly
@@ -142,6 +157,10 @@ class AutomationRulePendingExecution < ApplicationRecord
 
   def episode_current?
     self.class.episode_key_for(conversation, message) == episode_key
+  end
+
+  def condition_skipped?
+    skipped? && skip_reason == CONDITIONS_CHANGED_SKIP
   end
 
   private
