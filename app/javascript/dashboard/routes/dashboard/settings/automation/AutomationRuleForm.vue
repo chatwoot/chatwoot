@@ -237,6 +237,24 @@ const delayRestrictionReason = computed(() => {
 
 const isDelaySupported = computed(() => delayRestrictionReason.value === null);
 
+// What ends the wait, mirroring the backend episode that arms the rule. Shown to the user so
+// they can predict when the rule runs. Conversation rules key on status; message rules key on
+// the reply that ends the wait (customer reply for outgoing, agent reply for incoming).
+const waitEndsKey = computed(() => {
+  if (eventName.value !== 'message_created') return 'STATUS';
+  const messageType = (automation.value?.conditions || []).find(
+    condition => condition.attribute_key === 'message_type'
+  );
+  const raw = Array.isArray(messageType?.values)
+    ? messageType.values[0]
+    : messageType?.values;
+  // Raw create-mode values are strings ('outgoing'); edit-mode values are option objects.
+  const value = raw && typeof raw === 'object' ? raw.id : raw;
+  if (value === 'outgoing') return 'CUSTOMER_REPLY';
+  if (value === 'incoming') return 'AGENT_REPLY';
+  return 'GENERIC';
+});
+
 const delayValue = ref(4);
 const delayUnit = ref('HOURS');
 
@@ -488,9 +506,17 @@ defineExpose({ open, close });
         >
           {{ $t('AUTOMATION.ADD.FORM.EXECUTE.ERROR') }}
         </span>
-        <p v-else-if="isDelayed" class="text-xs text-n-slate-11 pt-1 mb-0">
-          {{ $t('AUTOMATION.ADD.FORM.EXECUTE.HELP_TEXT') }}
-        </p>
+        <template v-else-if="isDelayed">
+          <p class="text-xs text-n-slate-11 pt-2 mb-0">
+            <span class="text-n-slate-12 font-medium">
+              {{ $t('AUTOMATION.ADD.FORM.EXECUTE.ENDS_IF_LABEL') }}
+            </span>
+            {{ $t(`AUTOMATION.ADD.FORM.EXECUTE.ENDS_IF.${waitEndsKey}`) }}
+          </p>
+          <p class="text-xs text-n-slate-11 pt-1 mb-0">
+            {{ $t('AUTOMATION.ADD.FORM.EXECUTE.HELP_TEXT') }}
+          </p>
+        </template>
       </div>
       <!-- Wait End -->
       <!-- Actions Start -->
