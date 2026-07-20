@@ -80,6 +80,21 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
 
         tool.perform(tool_context, query: 'password reset')
       end
+
+      it 'records retrieved faq ids and document ids into Chatwoot metadata' do
+        tool.perform(tool_context, query: 'password reset')
+
+        expect(tool_context.state.dig(:cw_metadata, :faq_ids)).to contain_exactly(response1.id, response2.id)
+        expect(tool_context.state.dig(:cw_metadata, :document_ids)).to contain_exactly(document.id)
+      end
+
+      it 'accumulates unique ids across multiple calls' do
+        tool.perform(tool_context, query: 'password reset')
+        tool.perform(tool_context, query: 'password reset again')
+
+        expect(tool_context.state.dig(:cw_metadata, :faq_ids)).to contain_exactly(response1.id, response2.id)
+        expect(tool_context.state.dig(:cw_metadata, :document_ids)).to contain_exactly(document.id)
+      end
     end
 
     context 'when no FAQs found' do
@@ -98,6 +113,12 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         expect(tool).to receive(:log_tool_usage).with('no_results', { query: 'nonexistent topic' })
 
         tool.perform(tool_context, query: 'nonexistent topic')
+      end
+
+      it 'leaves shared state untouched' do
+        tool.perform(tool_context, query: 'nonexistent topic')
+
+        expect(tool_context.state).to eq({})
       end
     end
 

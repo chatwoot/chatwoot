@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "אירועים מנויים",
       "LEARN_MORE": "למד עוד על Webhooks",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "שדרג עכשיו",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copy secret to clipboard",
@@ -392,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "קפטן",
     "HEADER_KNOW_MORE": "דע יותר",
+    "OVERVIEW": {
+      "HEADER": "סקירה כללית",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "סגור"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review FAQs",
+        "DISMISS": "סגור"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "החודש",
+        "LAST_MONTH": "חודש שעבר"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "טען עוד",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "PENDING": "שאלות נפוצות ממתינות",
+        "DOCUMENTS": "מסמכים"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "מגרש משחקים",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "חיוב",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "עוזרים",
       "SWITCH_ASSISTANT": "החלף בין עוזרים",
@@ -493,10 +576,6 @@
           "LABEL": "שם",
           "PLACEHOLDER": "הזן שם עוזר",
           "ERROR": "השם נדרש"
-        },
-        "TEMPERATURE": {
-          "LABEL": "טמפרטורת תגובה",
-          "DESCRIPTION": "התאם עד כמה התגובות של העוזר צריכות להיות יצירתיות או מגבילות. ערכים נמוכים יותר מייצרים תגובות ממוקדות ודטרמיניסטיות יותר, בעוד שערכים גבוהים יותר מאפשרים תוצאות יצירתיות ומגוונות יותר."
         },
         "DESCRIPTION": {
           "LABEL": "תיאור",
@@ -739,6 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "מסמכים",
       "ADD_NEW": "צור מסמך חדש",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} נבחרו",
       "SELECT_ALL": "בחר הכל ({count})",
       "UNSELECT_ALL": "בטל בחירת הכל ({count})",
@@ -798,7 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "שאלות נפוצות קשורות",
-        "DESCRIPTION": "שאלות נפוצות אלה נוצרו ישירות מהמסמך."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "לא זמין",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "עותק",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "הזן את כתובת ה-URL של המסמך כדי להוסיף אותו כמקור ידע ובחר את העוזר לשייך אליו.",
       "CREATE": {
@@ -838,7 +938,7 @@
         "ERROR_MESSAGE": "אירעה שגיאה במחיקת המסמך, אנא נסה שוב."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "הצג תגובות קשורות",
+        "VIEW_DETAILS": "הצג פרטים",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "מחק מסמך"
