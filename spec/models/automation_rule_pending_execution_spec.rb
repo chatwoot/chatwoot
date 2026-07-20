@@ -132,6 +132,33 @@ RSpec.describe AutomationRulePendingExecution do
       expect(described_class.last).to be_executed
     end
 
+    it 're-arms a condition-skipped episode when a newer qualifying message arrives' do
+      first_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+      described_class.schedule(rule: rule, conversation: conversation, message: first_reply)
+      described_class.last.update!(status: :skipped, skip_reason: 'conditions_changed')
+
+      second_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+      described_class.schedule(rule: rule, conversation: conversation, message: second_reply)
+
+      row = described_class.last
+      expect(described_class.count).to eq(1)
+      expect(row).to be_pending
+      expect(row.skip_reason).to be_nil
+      expect(row.message_id).to eq(second_reply.id)
+    end
+
+    it 'does not re-arm an episode skipped for a non-condition reason' do
+      reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+      described_class.schedule(rule: rule, conversation: conversation, message: reply)
+      described_class.last.update!(status: :skipped, skip_reason: 'episode_moved')
+
+      newer_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+      described_class.schedule(rule: rule, conversation: conversation, message: newer_reply)
+
+      expect(described_class.count).to eq(1)
+      expect(described_class.last).to be_skipped
+    end
+
     it 'does not reset the clock for a repeated awaiting_agent episode' do
       first_message = create(:message, conversation: conversation, account: account, message_type: :incoming)
       described_class.schedule(rule: rule, conversation: conversation, message: first_message)
