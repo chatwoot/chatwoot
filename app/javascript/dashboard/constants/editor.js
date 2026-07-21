@@ -188,6 +188,16 @@ export const ARTICLE_EDITOR_MENU_OPTIONS = [
   'insertTable',
 ];
 
+// [text](url) -> "text: url" (drop label if it equals the URL). Keep serializer
+// escapes; the re-parse renders them literally, unescaping would crash it.
+const flattenLink = (_match, text, url) => {
+  const cleanUrl = url
+    .trim()
+    .replace(/\s+["'(].*$/, '')
+    .replace(/^<|>$/g, '');
+  return text === cleanUrl ? cleanUrl : `${text}: ${cleanUrl}`;
+};
+
 /**
  * Markdown formatting patterns for stripping unsupported formatting.
  *
@@ -264,7 +274,12 @@ export const MARKDOWN_PATTERNS = [
   {
     type: 'link', // PM: link
     patterns: [
-      { pattern: /\[([^\]]+)\]\([^)]+\)/g, replacement: '$1' }, // [text](url) -> text
+      // Escape-aware label + URL captures so a \] or \) can't cut the match
+      // short and leave link markup that crashes the re-parse.
+      {
+        pattern: /\[((?:\\.|[^\]\\])*)\]\(((?:\\.|[^)\\])*)\)/g,
+        replacement: flattenLink,
+      },
       { pattern: /<([a-zA-Z][a-zA-Z0-9+.-]*:[^\s>]+)>/g, replacement: '$1' }, // <https://...>, <mailto:...>, <tel:...>, <ftp://...>, etc
       { pattern: /<([^\s@]+@[^\s@>]+)>/g, replacement: '$1' }, // <user@example.com> -> user@example.com
     ],

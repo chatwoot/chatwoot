@@ -44,6 +44,54 @@ RSpec.describe Voice::OutboundCallBuilder do
       end
     end
 
+    it 'assigns the conversation to the agent placing the call' do
+      call = described_class.perform!(
+        account: account,
+        inbox: inbox,
+        user: user,
+        contact: contact
+      )
+
+      expect(call.conversation.assignee_id).to eq(user.id)
+    end
+
+    it 'keeps the calling agent assigned even when auto-assignment would pick an online agent' do
+      other_agent = create(:user, account: account)
+      create(:inbox_member, inbox: inbox, user: other_agent)
+      create(:inbox_member, inbox: inbox, user: user)
+      inbox.update!(enable_auto_assignment: true)
+      # Only other_agent is online, so round-robin would claim the conversation unless the caller wins at creation.
+      OnlineStatusTracker.update_presence(account.id, 'User', other_agent.id)
+      OnlineStatusTracker.set_status(account.id, other_agent.id, 'online')
+
+      call = described_class.perform!(
+        account: account,
+        inbox: inbox,
+        user: user,
+        contact: contact
+      )
+
+      expect(call.conversation.assignee_id).to eq(user.id)
+    end
+
+    it 'claims a reused conversation for the caller when it is unassigned' do
+      # Reload so the builder gets a DB-fresh record, mirroring the controller's find_by load.
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact).reload
+
+      described_class.perform!(account: account, inbox: inbox, user: user, contact: contact, conversation: conversation)
+
+      expect(conversation.reload.assignee_id).to eq(user.id)
+    end
+
+    it 'keeps the existing assignee when a reused conversation is already assigned' do
+      other_agent = create(:user, account: account)
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact, assignee: other_agent).reload
+
+      described_class.perform!(account: account, inbox: inbox, user: user, contact: contact, conversation: conversation)
+
+      expect(conversation.reload.assignee_id).to eq(other_agent.id)
+    end
+
     it 'does not set conversation.identifier or write call state to additional_attributes' do
       call = described_class.perform!(
         account: account,
