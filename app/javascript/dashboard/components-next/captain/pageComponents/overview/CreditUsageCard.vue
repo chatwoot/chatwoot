@@ -61,11 +61,16 @@ const bars = computed(() => {
   }));
 });
 
-const formatDate = date =>
-  new Date(date).toLocaleDateString(undefined, {
+// Bucket dates arrive as date-only strings ('2026-07-17'), which new Date()
+// would parse as midnight UTC and shift a day back for viewers west of UTC.
+// Parse the parts as a local date so the label matches the server-side bucket.
+const formatDate = date => {
+  const [year, month, day] = date.split('-').map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString(undefined, {
     month: 'short',
     day: 'numeric',
   });
+};
 
 const barTooltip = bar => {
   const period =
