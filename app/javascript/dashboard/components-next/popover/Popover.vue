@@ -20,6 +20,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  closeOnScroll: {
+    type: Boolean,
+    default: true,
+  },
   showContentBorder: {
     type: Boolean,
     default: true,
@@ -70,7 +74,7 @@ useEventListener(
   window,
   'scroll',
   event => {
-    if (!showPopover.value) return;
+    if (!props.closeOnScroll || !showPopover.value) return;
     if (popoverRef.value?.contains(event.target)) return;
     const top = triggerRef.value?.getBoundingClientRect().top ?? 0;
     if (Math.abs(top - triggerTopAtOpen.value) > SCROLL_CLOSE_THRESHOLD) {
