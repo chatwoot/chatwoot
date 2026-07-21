@@ -1,6 +1,6 @@
 import { setActivePinia, createPinia } from 'pinia';
 import CompanyAPI from 'dashboard/api/companies';
-import { useCompaniesStore } from './companies';
+import { useCompaniesStore } from '../companies';
 
 vi.mock('dashboard/api/companies', () => ({
   default: {
