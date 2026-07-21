@@ -95,10 +95,19 @@ const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
     payload.customAttributes = customAttributes;
   }
 
-  store.dispatch('toggleStatus', payload).then(() => {
-    useAlert(t('CONVERSATION.CHANGE_STATUS'));
-    isLoading.value = false;
-  });
+  store
+    .dispatch('toggleStatus', payload)
+    .then(() => {
+      useAlert(t('CONVERSATION.CHANGE_STATUS'));
+    })
+    .catch(() => {
+      // Always release the spinner when the toggle promise resolves,
+      // even if the request fails. Without this the button can stay in
+      // the loading state forever if the backend hangs or returns an error.
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
 };
 
 const handleResolveWithAttributes = ({ attributes, context }) => {

@@ -227,6 +227,7 @@ class Message < ApplicationRecord
     return false if conversation.messages.outgoing
                                 .where.not(id: id)
                                 .where.not(sender_type: ['AgentBot', 'Captain::Assistant'])
+                                .where.not("coalesce(content_attributes->>'automation_rule_id', '') <> ''")
                                 .where.not(private: true)
                                 .where("(additional_attributes->'campaign_id') is null").count.positive?
 
@@ -370,10 +371,17 @@ class Message < ApplicationRecord
   end
 
   def human_response?
-    # Any outgoing, non-private message counts as a conversation response
-    # (agent, automation, bot, channel echo). Campaign outbound messages are excluded
-    # because they are bulk outreach, not conversational replies.
-    outgoing? && !private? && additional_attributes['campaign_id'].blank?
+    # Only true User outbound messages count as a human response for
+    # first-reply/waiting-since semantics. Automation, bot, external-echo, and
+    # campaign messages are explicitly excluded so they don't trigger
+    # FIRST_REPLY_CREATED or clear waiting_since before a real agent replies.
+    return false unless outgoing?
+    return false if private?
+    return false if content_attributes['automation_rule_id'].present?
+    return false if additional_attributes['campaign_id'].present?
+    return false if additional_attributes['external_echo'].present?
+
+    sender.is_a?(User)
   end
 
   def bot_response?

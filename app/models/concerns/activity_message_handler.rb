@@ -69,22 +69,31 @@ module ActivityMessageHandler
 
   def user_status_change_activity_content(user_name)
     if user_name
-      I18n.t("conversations.activity.status.#{status}", user_name: user_name)
+      I18n.t("conversations.activity.status.#{status}", user_name: user_name, status_label: status_label_word)
     elsif Current.contact.present? && resolved?
-      I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
+      I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize, status_label: status_label_word)
     elsif resolved?
       message_data = auto_resolve_message_key(auto_resolve_after || 0)
-      I18n.t("conversations.activity.status.#{message_data[:key]}", count: message_data[:count])
+      I18n.t("conversations.activity.status.#{message_data[:key]}", count: message_data[:count], status_label: status_label_word)
     end
   end
 
   def automation_status_change_activity_content
     if Current.executed_by.instance_of?(AutomationRule)
-      I18n.t("conversations.activity.status.#{status}", user_name: I18n.t('automation.system_name'))
+      I18n.t("conversations.activity.status.#{status}", user_name: I18n.t('automation.system_name'), status_label: status_label_word)
     elsif Current.executed_by.instance_of?(Contact)
       Current.executed_by = nil
       I18n.t('conversations.activity.status.system_auto_open')
     end
+  end
+
+  # Resolve the human-readable label for the current status. Defaults to the
+  # status name (e.g. "resolved") when the account has no custom resolved
+  # label configured. The i18n strings use %{status_label} so this is required.
+  def status_label_word
+    return account.resolved_status_label_word if resolved?
+
+    I18n.t("conversations.activity.status_labels.#{status}", default: status.to_s)
   end
 
   def activity_message_params(content)
