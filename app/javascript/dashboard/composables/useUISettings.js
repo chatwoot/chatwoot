@@ -15,6 +15,10 @@ export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = Object.freeze([
   { name: 'shopify_orders' },
 ]);
 
+export const DEFAULT_CONVERSATION_SIDEBAR_VISIBLE_ITEMS = Object.freeze(
+  DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER.map(item => item.name)
+);
+
 export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = Object.freeze([
   { name: 'contact_attributes' },
   { name: 'contact_labels' },
@@ -74,6 +78,59 @@ const useContactSidebarItemsOrder = uiSettings => {
  */
 const toggleSidebarUIState = (key, uiSettings, updateUISettings) => {
   updateUISettings({ [key]: !uiSettings.value[key] });
+};
+
+/**
+ * Computes the visible items in the conversation sidebar, using defaults if not present.
+ * @param {Object} uiSettings - Reactive UI settings object.
+ * @returns {Array} List of visible sidebar item names.
+ */
+const useConversationSidebarVisibleItems = uiSettings => {
+  return computed(() => {
+    const { conversation_sidebar_visible_items: visibleItems } =
+      uiSettings.value;
+    if (!visibleItems || !visibleItems.length) {
+      return [...DEFAULT_CONVERSATION_SIDEBAR_VISIBLE_ITEMS];
+    }
+    return visibleItems;
+  });
+};
+
+/**
+ * Toggles the visibility of a conversation sidebar item.
+ * @param {string} name - Item name to toggle.
+ * @param {Object} uiSettings - Reactive UI settings object.
+ * @param {Function} updateUISettings - Function to update UI settings.
+ */
+const toggleConversationSidebarItemVisibility = (
+  name,
+  uiSettings,
+  updateUISettings
+) => {
+  const visible = new Set(
+    uiSettings.value.conversation_sidebar_visible_items ||
+      DEFAULT_CONVERSATION_SIDEBAR_VISIBLE_ITEMS
+  );
+  if (visible.has(name)) {
+    visible.delete(name);
+  } else {
+    visible.add(name);
+  }
+  updateUISettings({
+    conversation_sidebar_visible_items: [...visible],
+  });
+};
+
+/**
+ * Resets conversation sidebar visibility to defaults.
+ * @param {Function} updateUISettings - Function to update UI settings.
+ */
+const resetConversationSidebarVisibility = updateUISettings => {
+  updateUISettings({
+    conversation_sidebar_visible_items: [
+      ...DEFAULT_CONVERSATION_SIDEBAR_VISIBLE_ITEMS,
+    ],
+  });
 };
 
 /**
@@ -155,10 +212,26 @@ export function useUISettings() {
     uiSettings,
     updateUISettings,
     conversationSidebarItemsOrder: useConversationSidebarItemsOrder(uiSettings),
+    conversationSidebarVisibleItems:
+      useConversationSidebarVisibleItems(uiSettings),
     contactSidebarItemsOrder: useContactSidebarItemsOrder(uiSettings),
     isContactSidebarItemOpen: key => !!uiSettings.value[key],
     toggleSidebarUIState: key =>
       toggleSidebarUIState(key, uiSettings, updateUISettings),
+    isConversationSidebarItemVisible: name => {
+      const visible =
+        uiSettings.value.conversation_sidebar_visible_items ||
+        DEFAULT_CONVERSATION_SIDEBAR_VISIBLE_ITEMS;
+      return visible.includes(name);
+    },
+    toggleConversationSidebarItemVisibility: name =>
+      toggleConversationSidebarItemVisibility(
+        name,
+        uiSettings,
+        updateUISettings
+      ),
+    resetConversationSidebarVisibility: () =>
+      resetConversationSidebarVisibility(updateUISettings),
     setSignatureFlagForInbox: (channelType, value) =>
       setSignatureFlagForInbox(channelType, value, updateUISettings),
     fetchSignatureFlagFromUISettings: channelType =>

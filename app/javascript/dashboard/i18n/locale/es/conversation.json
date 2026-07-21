@@ -322,7 +322,26 @@
     },
     "SIDEBAR": {
       "CONTACT": "Contacto",
-      "COPILOT": "Copilot"
+      "COPILOT": "Copilot",
+      "MENU": {
+        "TITLE": "Secciones del panel",
+        "VISIBLE_COUNT": "{count} visibles",
+        "ORDER_HINT": "Arrastra para reordenar",
+        "RESET": "Restaurar",
+        "EMPTY": "Todas las secciones están ocultas",
+        "conversation_actions": "Acciones de conversación",
+        "macros": "Macros",
+        "conversation_info": "Información de conversación",
+        "contact_attributes": "Atributos del contacto",
+        "contact_notes": "Notas del contacto",
+        "internal_tasks": "Tareas internas",
+        "shared_files": "Archivos compartidos",
+        "previous_conversation": "Conversaciones anteriores",
+        "conversation_participants": "Participantes",
+        "linear_issues": "Issues de Linear",
+        "shopify_orders": "Órdenes de Shopify"
+      },
+      "EMPTY_STATE": "Todas las secciones del panel están ocultas. Usa el menú de arriba para mostrarlas."
     },
     "VOICE_WIDGET": {
       "INCOMING_CALL": "Incoming call",

@@ -22,6 +22,7 @@ import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
 import ShopifyOrdersList from 'dashboard/components/widgets/conversation/ShopifyOrdersList.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
+import SidebarVisibilityMenu from './SidebarVisibilityMenu.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 import ConversationTasksPanel from 'dashboard/components-next/InternalTasks/ConversationTasksPanel.vue';
@@ -43,11 +44,28 @@ const {
   updateUISettings,
   isContactSidebarItemOpen,
   conversationSidebarItemsOrder,
+  conversationSidebarVisibleItems,
   toggleSidebarUIState,
 } = useUISettings();
 
 const dragging = ref(false);
-const conversationSidebarItems = ref([]);
+const conversationSidebarItems = ref(conversationSidebarItemsOrder.value);
+
+const isVisible = name => conversationSidebarVisibleItems.value.includes(name);
+
+const hasVisibleItems = computed(() =>
+  conversationSidebarItems.value.some(item => isVisible(item.name))
+);
+
+watch(
+  conversationSidebarItemsOrder,
+  newOrder => {
+    if (!dragging.value) {
+      conversationSidebarItems.value = newOrder;
+    }
+  },
+  { deep: true }
+);
 
 const shopifyIntegration = useFunctionGetter(
   'integrations/getIntegration',
@@ -158,10 +176,25 @@ onMounted(() => {
     <SidebarActionsHeader
       :title="$t('CONVERSATION.SIDEBAR.CONTACT')"
       @close="closeContactPanel"
-    />
+    >
+      <template #actions>
+        <SidebarVisibilityMenu />
+      </template>
+    </SidebarActionsHeader>
     <ContactInfo :contact="contact" :channel-type="channelType" />
-    <div class="px-2 pb-8 list-group">
+    <div class="px-3 pb-6 list-group">
+      <div
+        v-if="!hasVisibleItems"
+        class="flex flex-col items-center justify-center gap-2 py-8 text-center"
+      >
+        <span class="i-lucide-eye-off text-2xl text-n-slate-10" />
+        <p class="text-sm text-n-slate-11">
+          {{ $t('CONVERSATION.SIDEBAR.EMPTY_STATE') }}
+        </p>
+        <SidebarVisibilityMenu />
+      </div>
       <Draggable
+        v-else
         :list="conversationSidebarItems"
         animation="200"
         ghost-class="ghost"
@@ -173,12 +206,16 @@ onMounted(() => {
       >
         <template #item="{ element }">
           <div
-            v-if="element.name === 'conversation_actions'"
+            v-if="
+              element.name === 'conversation_actions' &&
+              isVisible('conversation_actions')
+            "
             class="conversation--actions"
           >
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_ACTIONS')"
               :is-open="isContactSidebarItemOpen('is_conv_actions_open')"
+              compact
               @toggle="
                 value => toggleSidebarUIState('is_conv_actions_open', value)
               "
@@ -190,12 +227,16 @@ onMounted(() => {
             </AccordionItem>
           </div>
           <div
-            v-else-if="element.name === 'conversation_participants'"
+            v-else-if="
+              element.name === 'conversation_participants' &&
+              isVisible('conversation_participants')
+            "
             class="conversation--actions"
           >
             <AccordionItem
               :title="$t('CONVERSATION_PARTICIPANTS.SIDEBAR_TITLE')"
               :is-open="isContactSidebarItemOpen('is_conv_participants_open')"
+              compact
               @toggle="
                 value =>
                   toggleSidebarUIState('is_conv_participants_open', value)
@@ -207,7 +248,12 @@ onMounted(() => {
               />
             </AccordionItem>
           </div>
-          <div v-else-if="element.name === 'conversation_info'">
+          <div
+            v-else-if="
+              element.name === 'conversation_info' &&
+              isVisible('conversation_info')
+            "
+          >
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_INFO')"
               :is-open="isContactSidebarItemOpen('is_conv_details_open')"
@@ -231,7 +277,12 @@ onMounted(() => {
               />
             </AccordionItem>
           </div>
-          <div v-else-if="element.name === 'contact_attributes'">
+          <div
+            v-else-if="
+              element.name === 'contact_attributes' &&
+              isVisible('contact_attributes')
+            "
+          >
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
               :is-open="isContactSidebarItemOpen('is_contact_attributes_open')"
@@ -260,9 +311,14 @@ onMounted(() => {
               />
             </AccordionItem>
           </div>
-          <div v-else-if="element.name === 'previous_conversation'">
+          <div
+            v-else-if="
+              element.name === 'previous_conversation' &&
+              isVisible('previous_conversation') &&
+              contact.id
+            "
+          >
             <AccordionItem
-              v-if="contact.id"
               :title="
                 $t('CONVERSATION_SIDEBAR.ACCORDION.PREVIOUS_CONVERSATION')
               "
@@ -279,7 +335,7 @@ onMounted(() => {
             </AccordionItem>
           </div>
           <woot-feature-toggle
-            v-else-if="element.name === 'macros'"
+            v-else-if="element.name === 'macros' && isVisible('macros')"
             feature-key="macros"
           >
             <AccordionItem
@@ -294,6 +350,7 @@ onMounted(() => {
           <div
             v-else-if="
               element.name === 'linear_issues' &&
+              isVisible('linear_issues') &&
               isLinearFeatureEnabled &&
               isLinearClientIdConfigured
             "
@@ -312,7 +369,9 @@ onMounted(() => {
           </div>
           <div
             v-else-if="
-              element.name === 'shopify_orders' && isShopifyFeatureEnabled
+              element.name === 'shopify_orders' &&
+              isVisible('shopify_orders') &&
+              isShopifyFeatureEnabled
             "
           >
             <AccordionItem
@@ -326,7 +385,11 @@ onMounted(() => {
               <ShopifyOrdersList :contact-id="contactId" />
             </AccordionItem>
           </div>
-          <div v-else-if="element.name === 'contact_notes'">
+          <div
+            v-else-if="
+              element.name === 'contact_notes' && isVisible('contact_notes')
+            "
+          >
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_NOTES')"
               :is-open="isContactSidebarItemOpen('is_contact_notes_open')"
@@ -338,7 +401,13 @@ onMounted(() => {
               <ContactNotes :contact-id="contactId" />
             </AccordionItem>
           </div>
-          <div v-else-if="element.name === 'internal_tasks' && hasInternalTasks">
+          <div
+            v-else-if="
+              element.name === 'internal_tasks' &&
+              isVisible('internal_tasks') &&
+              hasInternalTasks
+            "
+          >
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.INTERNAL_TASKS')"
               :is-open="isContactSidebarItemOpen('is_internal_tasks_open')"
@@ -350,7 +419,11 @@ onMounted(() => {
               <ConversationTasksPanel :conversation-id="conversationId" />
             </AccordionItem>
           </div>
-          <div v-else-if="element.name === 'shared_files'">
+          <div
+            v-else-if="
+              element.name === 'shared_files' && isVisible('shared_files')
+            "
+          >
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.SHARED_FILES')"
               :is-open="isContactSidebarItemOpen('is_shared_files_open')"
@@ -367,9 +440,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-:deep(.contact--profile) {
-  @apply pb-3 border-b border-solid border-n-weak;
-}
-</style>
