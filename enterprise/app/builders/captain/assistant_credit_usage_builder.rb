@@ -41,17 +41,31 @@ class Captain::AssistantCreditUsageBuilder
   # days ending today in the viewer's timezone, and month ranges follow the
   # window's calendar boundaries.
   def current_dates
-    @current_dates ||= if window.range.match?(/\A\d+\z/)
+    @current_dates ||= if day_range?
                          (today - (window.range.to_i - 1))..today
                        else
-                         window.current.first.in_time_zone(timezone).to_date..window.current.last.in_time_zone(timezone).to_date
+                         to_dates(window.current)
                        end
   end
 
-  # Derived from the current span (rather than window.previous) so the two
-  # spans stay equal-length and non-overlapping at the boundary day.
+  # Day ranges derive the comparison span from the current dates (the N days
+  # right before them), since current_dates redefines the window as N calendar
+  # days ending today. Named month ranges follow window.previous so the trend
+  # compares the same periods as every other overview metric.
   def previous_dates
-    (current_dates.first - current_dates.count)..(current_dates.first - 1)
+    if day_range?
+      (current_dates.first - current_dates.count)..(current_dates.first - 1)
+    else
+      to_dates(window.previous)
+    end
+  end
+
+  def day_range?
+    window.range.match?(/\A\d+\z/)
+  end
+
+  def to_dates(range)
+    range.first.in_time_zone(timezone).to_date..range.last.in_time_zone(timezone).to_date
   end
 
   # Pre-epoch days are never queried or cached; they fall out of the sums hash
