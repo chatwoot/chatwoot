@@ -464,6 +464,8 @@
         "TITLE": "Credit usage",
         "UNIT": "credits",
         "LEGEND": "Daily credits used",
+        "LEGEND_WEEKLY": "Weekly credits used",
+        "NO_DATA": "No data recorded",
         "DISCLAIMER": "Shows credits used by this assistant only. Your account's total credit usage also includes other assistants and features."
       },
       "LINKS": {

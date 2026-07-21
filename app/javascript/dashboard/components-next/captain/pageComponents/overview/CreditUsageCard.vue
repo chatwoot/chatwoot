@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   // The credit_usage stat from the overview stats endpoint:
@@ -7,18 +8,75 @@ const props = defineProps({
   usage: { type: Object, default: null },
 });
 
+const { t } = useI18n();
+
 const daily = computed(() => props.usage?.daily ?? []);
 
-// Bar heights as a percentage of the peak day, with a small floor so even the
-// lowest day stays visible.
+// Long ranges (90 days) get too many daily bars to read, so past this many
+// days the series is bucketed into weeks.
+const WEEKLY_THRESHOLD = 35;
+
+const isWeekly = computed(() => daily.value.length > WEEKLY_THRESHOLD);
+
+// One bucket per day, or per 7 consecutive days on long ranges (the last week
+// may be partial and always includes today). A bucket is unrecorded (null)
+// only when every day in it predates credit tracking.
+const buckets = computed(() => {
+  if (!isWeekly.value) {
+    return daily.value.map(day => ({
+      start: day.date,
+      end: day.date,
+      value: day.value,
+    }));
+  }
+
+  const weeks = [];
+  for (let i = 0; i < daily.value.length; i += 7) {
+    const chunk = daily.value.slice(i, i + 7);
+    const recorded = chunk.filter(day => day.value !== null);
+    weeks.push({
+      start: chunk[0].date,
+      end: chunk[chunk.length - 1].date,
+      value: recorded.length
+        ? +recorded.reduce((sum, day) => sum + day.value, 0).toFixed(2)
+        : null,
+    });
+  }
+  return weeks;
+});
+
+// Bar heights as a percentage of the peak bucket, with a small floor so even
+// the lowest one stays visible. Unrecorded buckets render as muted
+// placeholder bars.
 const bars = computed(() => {
-  const max = Math.max(...daily.value.map(day => day.value), 0);
-  return daily.value.map(day => ({
-    key: day.date,
-    value: day.value,
-    height: max === 0 ? 6 : Math.max(6, Math.round((day.value / max) * 100)),
+  const max = Math.max(...buckets.value.map(bucket => bucket.value ?? 0), 0);
+  return buckets.value.map(bucket => ({
+    ...bucket,
+    key: bucket.start,
+    recorded: bucket.value !== null,
+    height:
+      max === 0 || bucket.value === null
+        ? 6
+        : Math.max(6, Math.round((bucket.value / max) * 100)),
   }));
 });
+
+const formatDate = date =>
+  new Date(date).toLocaleDateString(undefined, {
+    month: 'short',
+    day: 'numeric',
+  });
+
+const barTooltip = bar => {
+  const period =
+    bar.start === bar.end
+      ? formatDate(bar.start)
+      : `${formatDate(bar.start)} – ${formatDate(bar.end)}`;
+  const usage = bar.recorded
+    ? `${bar.value} ${t('CAPTAIN.OVERVIEW.CREDITS.UNIT')}`
+    : t('CAPTAIN.OVERVIEW.CREDITS.NO_DATA');
+  return `${period} · ${usage}`;
+};
 
 const total = computed(() =>
   props.usage ? props.usage.current.toLocaleString() : '—'
@@ -29,12 +87,6 @@ const trend = computed(() => {
   const sign = props.usage.trend > 0 ? '+' : '';
   return `${sign}${props.usage.trend}%`;
 });
-
-const formatDate = date =>
-  new Date(date).toLocaleDateString(undefined, {
-    month: 'short',
-    day: 'numeric',
-  });
 
 const axisStart = computed(() =>
   daily.value.length ? formatDate(daily.value[0].date) : ''
@@ -77,7 +129,11 @@ const axisEnd = computed(() =>
       <div class="flex items-center gap-2 mt-1">
         <span class="rounded-full size-2.5 bg-n-brand" />
         <span class="text-xs text-n-slate-11">
-          {{ $t('CAPTAIN.OVERVIEW.CREDITS.LEGEND') }}
+          {{
+            isWeekly
+              ? $t('CAPTAIN.OVERVIEW.CREDITS.LEGEND_WEEKLY')
+              : $t('CAPTAIN.OVERVIEW.CREDITS.LEGEND')
+          }}
         </span>
       </div>
     </div>
@@ -87,10 +143,13 @@ const axisEnd = computed(() =>
         <div
           v-for="bar in bars"
           :key="bar.key"
-          v-tooltip="
-            `${formatDate(bar.key)} · ${bar.value} ${$t('CAPTAIN.OVERVIEW.CREDITS.UNIT')}`
+          v-tooltip="barTooltip(bar)"
+          class="flex-1 rounded-t transition-colors"
+          :class="
+            bar.recorded
+              ? 'bg-n-brand hover:bg-n-brand/70'
+              : 'bg-n-alpha-2 hover:bg-n-alpha-3'
           "
-          class="flex-1 rounded-t transition-colors bg-n-brand hover:bg-n-brand/70"
           :style="{ height: `${bar.height}%` }"
         />
       </div>
