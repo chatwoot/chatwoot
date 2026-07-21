@@ -393,7 +393,7 @@ export default {
         (!this.isOnChatwootCloud ||
           this.isFeatureEnabledonAccount(
             this.accountId,
-            FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_INBOX_CREATION
+            FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW
           )) &&
         this.inbox.reauthorization_required
       );
