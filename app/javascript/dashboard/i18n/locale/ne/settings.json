@@ -86,9 +86,21 @@
         "NOTE": "आफ्नो खाताका लागि थप सुरक्षा सुविधाहरू व्यवस्थापन गर्नुहोस्।",
         "MFA_BUTTON": "दुई-चरण प्रमाणीकरण व्यवस्थापन गर्नुहोस्"
       },
+      "SESSIONS_SECTION": {
+        "TITLE": "Active Sessions",
+        "NOTE": "These are the devices currently logged in to your account.",
+        "CURRENT": "Current session",
+        "REVOKE": "Revoke",
+        "REVOKE_SUCCESS": "Session revoked successfully",
+        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
+        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
+        "LAST_ACTIVE": "Last active",
+        "UNKNOWN_DEVICE": "Unknown device"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "यदि तपाईं API आधारित एकीकरण निर्माण गर्दै हुनुहुन्छ भने यो टोकन प्रयोग गर्न सकिन्छ",
+        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
         "COPY": "प्रतिलिपि गर्नु",
         "RESET": "रिसेट गर्नुहोस्",
         "CONFIRM_RESET": "पक्का हो?",
@@ -313,6 +325,7 @@
     "ALL_COMPANIES": "सबै कम्पनीहरू",
     "CAPTAIN": "क्याप्टेन",
     "CAPTAIN_ASSISTANTS": "सहायकहरू",
+    "CAPTAIN_OVERVIEW": "सारांश",
     "CAPTAIN_DOCUMENTS": "कागजातहरू",
     "CAPTAIN_RESPONSES": "सोधिने प्रश्नहरू",
     "CAPTAIN_TOOLS": "उपकरणहरू",
@@ -328,6 +341,7 @@
     "NOTIFICATIONS": "सूचनाहरू",
     "CANNED_RESPONSES": "तयार जवाफहरू",
     "INTEGRATIONS": "एकीकरणहरू",
+    "DATA": "Data",
     "PROFILE_SETTINGS": "प्रोफाइल सेटिङहरू",
     "ACCOUNT_SETTINGS": "खाता सेटिङ",
     "APPLICATIONS": "अनुप्रयोगहरू",
@@ -379,10 +393,123 @@
       "INFO_TEXT": "तपाईंले एप वा ड्यासबोर्ड प्रयोग नगर्दा प्रणालीले तपाईंलाई स्वचालित रूपमा अफलाइन मार्क गर्न दिनुहोस्।",
       "INFO_SHORT": "एप प्रयोग नगर्दा स्वचालित रूपमा अफलाइन मार्क गर्नुहोस्।"
     },
+    "SORT_TOOLTIP": "Sort",
+    "SORT_BY": "द्वारा क्रमबद्ध गर्नुहोस्",
+    "SORT_GROUPS": {
+      "CREATED": "Sort by date of creation",
+      "ALPHABETICAL": "Sort in alphabetical order",
+      "UNREAD_COUNT": "Sort by unread count"
+    },
+    "SORT_OPTIONS": {
+      "CREATED_DESC": "Newest first",
+      "CREATED_ASC": "Oldest first",
+      "ALPHABETICAL_ASC": "Ascending (A - Z)",
+      "ALPHABETICAL_DESC": "Descending (Z - A)",
+      "UNREAD_COUNT_DESC": "Highest first",
+      "UNREAD_COUNT_ASC": "Lowest first"
+    },
     "DOCS": "डक्स पढ्नु",
     "SECURITY": "सुरक्षा",
     "CAPTAIN_AI": "Captain",
     "CONVERSATION_WORKFLOW": "वार्ता कार्यप्रवाह"
+  },
+  "DATA_IMPORTS": {
+    "HEADER": "Data",
+    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
+    "LOADING": "Fetching imports",
+    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "TABS": {
+      "IMPORT": "आयात गर्नुहोस्",
+      "EXPORT": "निर्यात गर्नुहोस्"
+    },
+    "TYPES": {
+      "CONTACTS": "सम्पर्कहरू",
+      "CONVERSATIONS": "Conversations",
+      "MESSAGES": "सन्देशहरू"
+    },
+    "DRAWER": {
+      "TITLE": "New import",
+      "SOURCE": "Source",
+      "NAME": "Import name",
+      "NAME_PLACEHOLDER": "July Intercom migration",
+      "ACCESS_KEY": "Intercom access key",
+      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "DATA_TYPES": "Data to import",
+      "VALIDATING": "Validating access key...",
+      "VALID_KEY": "Access key validated.",
+      "INVALID_KEY": "Could not validate this access key.",
+      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "CANCEL": "Cancel",
+      "IMPORT": "आयात गर्नुहोस्"
+    },
+    "EXPORT": {
+      "TITLE": "Exports are on the way",
+      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
+      "COMING_SOON": "छिट्टै आउँदैछ"
+    },
+    "TABLE": {
+      "TITLE": "Recent imports",
+      "EMPTY": "No imports yet",
+      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "NEW_IMPORT": "आयात गर्नुहोस्",
+      "COUNT": "{count} imports",
+      "UNNAMED": "Untitled import",
+      "IMPORTED_COUNT": "{count} imported",
+      "VIEW": "View import",
+      "NAME": "Name",
+      "TYPE": "Type",
+      "STATUS": "Status",
+      "IMPORTED": "Imported",
+      "CREATED": "सिर्जना गरिएको",
+      "ABANDON": "Abandon"
+    },
+    "DETAIL": {
+      "BACK": "Back to imports",
+      "ERRORS": "Errors",
+      "SKIP_LOGS": "Skip logs",
+      "SOURCE": "Source",
+      "IMPORT_TYPES": "Import types",
+      "CREATED": "सिर्जना गरिएको",
+      "DURATION": "अवधि",
+      "INITIATED_BY": "Started by",
+      "PROGRESS": "Import progress",
+      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
+      "PROGRESS_OF_TOTAL": "of {total} imported",
+      "PROGRESS_IMPORTED": "imported",
+      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
+      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
+      "DOWNLOAD_SKIP_LOGS": "Download CSV",
+      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "ALL_SKIP_LOGS": "All",
+      "KIND": "Kind",
+      "NO_ERRORS": "No errors recorded.",
+      "ERROR_CODE": "Code",
+      "SOURCE_OBJECT": "Source object",
+      "MESSAGE": "Message"
+    },
+    "MONITOR": {
+      "LIVE": "Live updates every {seconds}s",
+      "LAST_UPDATED": "Last updated {time}",
+      "REFRESH": "Refresh",
+      "REFRESHING": "Refreshing",
+      "STAGES": {
+        "unknown": "Waiting for update",
+        "queued": "Queued",
+        "contacts": "Importing contacts",
+        "conversations": "Importing conversations",
+        "finalizing": "Finalizing import",
+        "completed": "Completed",
+        "completed_with_errors": "Completed with errors",
+        "failed": "असफल",
+        "abandoned": "Abandoned"
+      }
+    },
+    "ALERTS": {
+      "IMPORT_STARTED": "Intercom import has started.",
+      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the Intercom import."
+    }
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Captain सेटिङहरू",
@@ -414,7 +541,9 @@
       "DESCRIPTION": "एआई-सञ्चालित फिचरहरू सक्षम वा अक्षम गर्नुहोस्।",
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "अडियो ट्रान्सक्रिप्सन",
-        "DESCRIPTION": "आवाज सन्देश र कल रेकर्डिङलाई स्वचालित रूपमा खोज्न मिल्ने पाठमा रूपान्तरण गर्नुहोस्।"
+        "DESCRIPTION": "आवाज सन्देश र कल रेकर्डिङलाई स्वचालित रूपमा खोज्न मिल्ने पाठमा रूपान्तरण गर्नुहोस्।",
+        "MODEL_TITLE": "Audio Transcription Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "हेल्प सेन्टर खोज अनुक्रमणिका",
@@ -439,7 +568,18 @@
       "TITLE": "हालको योजना",
       "PLAN_NOTE": "तपाईं हाल **{plan}** योजना र **{quantity}** लाइसेन्सहरूसँग सदस्यता लिनुभएको छ",
       "SEAT_COUNT": "सिटहरूको संख्या",
-      "RENEWS_ON": "नवीकरण मिति"
+      "RENEWS_ON": "नवीकरण मिति",
+      "CURRENCY": "Currency"
+    },
+    "CURRENCY": {
+      "SELECT": {
+        "TITLE": "Choose your billing currency",
+        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+      },
+      "OPTIONS": {
+        "USD": "US Dollar (USD)",
+        "BRL": "Brazilian Real (BRL)"
+      }
     },
     "VIEW_PRICING": "मूल्य निर्धारण हेर्नुहोस्",
     "MANAGE_SUBSCRIPTION": {
@@ -475,6 +615,7 @@
       "PURCHASE": "क्रेडिट किन्नुहोस्",
       "LOADING": "विकल्पहरू लोड हुँदैछन्...",
       "FETCH_ERROR": "क्रेडिट विकल्पहरू लोड गर्न असफल भयो। कृपया फेरि प्रयास गर्नुहोस्।",
+      "RETRY": "Retry",
       "PURCHASE_ERROR": "किनमेल प्रक्रिया असफल भयो। कृपया फेरि प्रयास गर्नुहोस्।",
       "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
       "CONFIRM": {
@@ -775,6 +916,10 @@
           "DESCRIPTION": "कुनै पनि एजेन्टलाई अत्यधिक भार नपरोस् भनेर समय विन्डो भित्र प्रति एजेन्ट अधिकतम 100 कुराकानीहरू असाइन गर्न सकिने संख्या सेट गर्नुहोस्। यो आवश्यक फिल्डले डिफल्ट रूपमा प्रति घण्टा 100 कुराकानीहरू सेट गर्दछ।",
           "INPUT_MAX": "अधिकतम तोक्नुहोस्",
           "DURATION": "प्रति एजेन्ट प्रत्येक"
+        },
+        "EXCLUDE_OLDER_THAN": {
+          "LABEL": "Skip stale conversations",
+          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
         },
         "INBOXES": {
           "LABEL": "थपिएका इनबक्सहरू",

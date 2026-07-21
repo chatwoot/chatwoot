@@ -1,8 +1,9 @@
-<div class="flex flex-col px-4 md:px-8 max-w-5xl w-full mx-auto gap-6 <%= @is_plain_layout_enabled && 'py-4' %>">
+<%# locals: (category:, portal:, plain: false) %>
+<div class="flex flex-col px-4 md:px-8 max-w-5xl w-full mx-auto gap-6 <%= plain ? 'py-4' : '' %>">
   <div class="flex items-center flex-row">
     <a
-      class="text-slate-500 dark:text-slate-200 text-sm gap-1 <%= @is_plain_layout_enabled && 'hover:underline' %> hover:cursor-pointer leading-8 font-semibold"
-      href="<%= generate_home_link(portal.slug, category.locale, @theme_from_params, @is_plain_layout_enabled) %>"
+      class="text-slate-500 dark:text-slate-200 text-sm gap-1 <%= plain ? 'hover:underline' : '' %> hover:cursor-pointer leading-8 font-semibold"
+      href="<%= generate_home_link(portal.slug, category.locale, @theme_from_params, plain) %>"
     >
       <%= I18n.t('public_portal.common.home') %>
     </a>

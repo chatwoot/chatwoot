@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "由於以下原因，您只能使用範本訊息回覆此對話",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小時訊息視窗限制",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "此 Instagram 帳號已遷移至新的 Instagram 頻道收件匣。所有新訊息將顯示在該處。您將無法再從此對話發送訊息。",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "您正在回覆：",
     "REMOVE_SELECTION": "移除選擇",
     "DOWNLOAD": "下載",
@@ -233,6 +235,7 @@
       "TIP_AUDIORECORDER_ERROR": "無法開啟音訊",
       "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "拖放至此處以附加檔案",
+      "IMAGE_UPLOAD_SUCCESS": "圖片上傳成功",
       "START_AUDIO_RECORDING": "開始錄音",
       "STOP_AUDIO_RECORDING": "停止錄音",
       "COPILOT_THINKING": "Copilot 正在思考",
@@ -303,6 +306,25 @@
         "MESSAGE": "此操作無法復原",
         "DELETE": "刪除",
         "CANCEL": "取消"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "描述",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -400,7 +422,8 @@
       "VIEW_ALL": "查看全部",
       "SHOW_LESS": "Show less",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Untitled file",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "訂單 #{id}",
