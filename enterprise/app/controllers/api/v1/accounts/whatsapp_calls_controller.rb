@@ -142,12 +142,18 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def create_call_record(provider_call_id)
+    existing = Current.account.calls.whatsapp.find_by(provider_call_id: provider_call_id)
+    return existing if existing
+
     Current.account.calls.create!(
       provider: :whatsapp, inbox: @conversation.inbox, conversation: @conversation, contact: @conversation.contact,
       provider_call_id: provider_call_id, direction: :outgoing, status: 'ringing',
       accepted_by_agent_id: Current.user.id,
       meta: { 'sdp_offer' => params[:sdp_offer], 'ice_servers' => Call.default_ice_servers }
     )
+  rescue ActiveRecord::RecordNotUnique
+    # A webhook inserted the row between the find_by above and this create; reconcile to it.
+    Current.account.calls.whatsapp.find_by!(provider_call_id: provider_call_id)
   end
 
   def render_permission_request
