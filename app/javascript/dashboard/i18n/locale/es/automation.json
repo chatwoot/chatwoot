@@ -99,7 +99,10 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduzca su mensaje aquí",
       "TEAM_DROPDOWN_PLACEHOLDER": "Seleccionar equipos",
       "EMAIL_INPUT_PLACEHOLDER": "Introducir email",
-      "URL_INPUT_PLACEHOLDER": "Introducir URL"
+      "URL_INPUT_PLACEHOLDER": "Introducir URL",
+      "CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER": "Escribe un valor o inserta una variable",
+      "CUSTOM_ATTRIBUTE_DATE_PLACEHOLDER": "AAAA-MM-DD o {{date.today}}",
+      "VARIABLES_HINT": "Usa { } para insertar variables (contacto, atributos, fechas)"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activar regla de automatización",
@@ -155,6 +158,8 @@
       "SEND_MESSAGE": "Enviar mensaje",
       "ADD_PRIVATE_NOTE": "Añadir una nota privada",
       "CHANGE_PRIORITY": "Cambiar prioridad",
+      "UPDATE_CONTACT_CUSTOM_ATTRIBUTE": "Actualizar atributo personalizado del contacto",
+      "UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE": "Actualizar atributo personalizado de la conversación",
       "ADD_SLA": "Añadir SLA",
       "OPEN_CONVERSATION": "Abrir conversación",
       "PENDING_CONVERSATION": "Marca la conversación como pendiente"

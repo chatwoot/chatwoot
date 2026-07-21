@@ -95,6 +95,13 @@ export function useEditableAutomation() {
         message: params[0].message,
       };
     }
+    if (inputType === 'custom_attribute') {
+      const data = params[0] || {};
+      return {
+        attribute_key: data.attribute_key,
+        value: data.value,
+      };
+    }
     return [...params];
   };
 

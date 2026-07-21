@@ -1,5 +1,6 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
+import AutomationActionCustomAttributeInput from './AutomationActionCustomAttributeInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -11,6 +12,7 @@ import InsertVariableButton from 'dashboard/components-next/variable/InsertVaria
 export default {
   components: {
     AutomationActionTeamMessageInput,
+    AutomationActionCustomAttributeInput,
     AutomationActionFileInput,
     WootMessageEditor,
     NextButton,
@@ -95,7 +97,9 @@ export default {
       return this.actionTypes.map(a => ({ id: a.key, name: a.label }));
     },
     isVerticalLayout() {
-      return ['team_message', 'textarea'].includes(this.inputType);
+      return ['team_message', 'textarea', 'custom_attribute'].includes(
+        this.inputType
+      );
     },
     castMessageVmodel: {
       get() {
@@ -190,6 +194,12 @@ export default {
         v-if="inputType === 'team_message'"
         v-model="action_params"
         :teams="dropdownValues"
+        :dropdown-max-height="dropdownMaxHeight"
+      />
+      <AutomationActionCustomAttributeInput
+        v-if="inputType === 'custom_attribute'"
+        v-model="action_params"
+        :attributes="dropdownValues"
         :dropdown-max-height="dropdownMaxHeight"
       />
       <WootMessageEditor

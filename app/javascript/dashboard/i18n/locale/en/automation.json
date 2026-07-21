@@ -99,7 +99,10 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
       "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
       "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "URL_INPUT_PLACEHOLDER": "Enter URL",
+      "CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER": "Enter value or insert a variable",
+      "CUSTOM_ATTRIBUTE_DATE_PLACEHOLDER": "YYYY-MM-DD or {{date.today}}",
+      "VARIABLES_HINT": "Use { } to insert variables (contact fields, custom attributes, dates)"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
@@ -155,6 +158,8 @@
       "SEND_MESSAGE": "Send a Message",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "Change Priority",
+      "UPDATE_CONTACT_CUSTOM_ATTRIBUTE": "Update contact custom attribute",
+      "UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE": "Update conversation custom attribute",
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Open conversation",
       "PENDING_CONVERSATION": "Mark conversation as pending"

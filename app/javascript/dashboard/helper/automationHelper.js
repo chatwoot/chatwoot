@@ -102,7 +102,22 @@ export const getActionOptions = ({
   type,
   addNoneToListFn,
   priorityOptions,
+  contactAttributes = [],
+  conversationAttributes = [],
 }) => {
+  const writableAttributeOptions = attrs =>
+    (attrs || [])
+      .filter(attr =>
+        ['text', 'date', 'number', 'link'].includes(
+          attr.attributeDisplayType || attr.attribute_display_type
+        )
+      )
+      .map(attr => ({
+        id: attr.attributeKey || attr.attribute_key,
+        name: attr.attributeDisplayName || attr.attribute_display_name,
+        displayType: attr.attributeDisplayType || attr.attribute_display_type,
+      }));
+
   const actionsMap = {
     assign_agent: addNoneToListFn ? addNoneToListFn(agents) : agents,
     assign_team: addNoneToListFn ? addNoneToListFn(teams) : teams,
@@ -111,6 +126,11 @@ export const getActionOptions = ({
     remove_label: generateConditionOptions(labels, 'title'),
     change_priority: priorityOptions,
     add_sla: slaPolicies,
+    update_contact_custom_attribute:
+      writableAttributeOptions(contactAttributes),
+    update_conversation_custom_attribute: writableAttributeOptions(
+      conversationAttributes
+    ),
   };
   return actionsMap[type];
 };
@@ -335,8 +355,14 @@ export const getCustomAttributeType = (automationTypes, automation, key) => {
  * @returns {boolean} True if the action input should be shown, false otherwise.
  */
 export const showActionInput = (automationActionTypes, action) => {
-  if (action === 'send_email_to_team' || action === 'send_message')
+  if (
+    action === 'send_email_to_team' ||
+    action === 'send_message' ||
+    action === 'add_private_note' ||
+    action === 'update_contact_custom_attribute' ||
+    action === 'update_conversation_custom_attribute'
+  )
     return false;
-  const type = automationActionTypes.find(i => i.key === action).inputType;
+  const type = automationActionTypes.find(i => i.key === action)?.inputType;
   return !!type;
 };

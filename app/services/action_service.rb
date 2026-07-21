@@ -100,7 +100,66 @@ class ActionService
     end
   end
 
+  def update_contact_custom_attribute(params)
+    attribute_key, value = extract_custom_attribute_params(params)
+    return if attribute_key.blank?
+
+    definition = find_writable_custom_attribute(attribute_key, :contact_attribute)
+    return if definition.blank?
+
+    contact = @conversation.contact
+    contact.update!(
+      custom_attributes: contact.custom_attributes.merge(
+        attribute_key => normalize_custom_attribute_value(definition, value)
+      )
+    )
+  end
+
+  def update_conversation_custom_attribute(params)
+    attribute_key, value = extract_custom_attribute_params(params)
+    return if attribute_key.blank?
+
+    definition = find_writable_custom_attribute(attribute_key, :conversation_attribute)
+    return if definition.blank?
+
+    @conversation.update!(
+      custom_attributes: @conversation.custom_attributes.merge(
+        attribute_key => normalize_custom_attribute_value(definition, value)
+      )
+    )
+  end
+
   private
+
+  def extract_custom_attribute_params(params)
+    data = params.is_a?(Array) ? params[0] : params
+    return [nil, nil] if data.blank?
+
+    data = data.with_indifferent_access if data.respond_to?(:with_indifferent_access)
+    [data[:attribute_key].to_s, data[:value]]
+  end
+
+  def find_writable_custom_attribute(attribute_key, attribute_model)
+    definition = @account.custom_attribute_definitions.find_by(
+      attribute_key: attribute_key,
+      attribute_model: attribute_model
+    )
+    return if definition.blank?
+    return unless definition.text? || definition.date? || definition.number? || definition.link?
+
+    definition
+  end
+
+  def normalize_custom_attribute_value(definition, raw_value)
+    rendered = AutomationRules::MessageRendererService.new(@conversation, raw_value.to_s).perform
+    return rendered if definition.text? || definition.link?
+    return rendered.to_s.to_i if definition.number?
+
+    Date.parse(rendered.to_s).iso8601
+  rescue ArgumentError, TypeError
+    raw_value.to_s
+  end
+
 
   def last_responding_agent_id
     @conversation.messages.outgoing.where(sender_type: 'User', private: false).last&.sender_id
