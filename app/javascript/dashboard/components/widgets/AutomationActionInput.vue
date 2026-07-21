@@ -200,7 +200,16 @@ export default {
         :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
         class="[&_.ProseMirror-menubar]:hidden px-3 py-1 bg-n-alpha-1 rounded-lg outline outline-1 outline-n-weak dark:outline-n-strong"
       />
-      <div v-if="inputType === 'textarea'" class="flex justify-end">
+      <div
+        v-if="inputType === 'textarea'"
+        class="flex items-center justify-between gap-2 mt-1"
+      >
+        <span class="text-xs text-n-slate-11">
+          {{
+            $t('AUTOMATION.ACTION.VARIABLES_HINT') ||
+            'Use the { } button to insert variables like contact name, custom attributes, or dates (e.g. today)'
+          }}
+        </span>
         <InsertVariableButton @insert="insertMessageVariable" />
       </div>
     </div>

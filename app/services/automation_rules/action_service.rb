@@ -43,14 +43,16 @@ class AutomationRules::ActionService < ActionService
   def send_message(message)
     return if conversation_a_tweet?
 
-    params = { content: message[0], private: false, content_attributes: { automation_rule_id: @rule.id } }
+    rendered_content = AutomationRules::MessageRendererService.new(@conversation, message[0]).perform
+    params = { content: rendered_content, private: false, content_attributes: { automation_rule_id: @rule.id } }
     Messages::MessageBuilder.new(nil, @conversation, params).perform
   end
 
   def add_private_note(message)
     return if conversation_a_tweet?
 
-    params = { content: message[0], private: true, content_attributes: { automation_rule_id: @rule.id } }
+    rendered_content = AutomationRules::MessageRendererService.new(@conversation, message[0]).perform
+    params = { content: rendered_content, private: true, content_attributes: { automation_rule_id: @rule.id } }
     Messages::MessageBuilder.new(nil, @conversation.reload, params).perform
   end
 

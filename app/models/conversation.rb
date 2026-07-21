@@ -256,6 +256,14 @@ class Conversation < ApplicationRecord
     notify_status_change
     create_activity
     notify_conversation_updation
+    enqueue_formula_recompute
+  end
+
+  def enqueue_formula_recompute
+    return unless saved_change_to_custom_attributes?
+
+    CustomAttributes::RecomputeAccountContactFormulasJob.perform_later(account_id)
+    CustomAttributes::RecomputeAccountConversationFormulasJob.perform_later(account_id)
   end
 
   def handle_resolved_status_change

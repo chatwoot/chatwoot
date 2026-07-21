@@ -69,6 +69,7 @@ class Contact < ApplicationRecord
   before_validation :prepare_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
+  after_update_commit :enqueue_contact_formula_recompute, if: :saved_change_to_custom_attributes?
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
 
@@ -336,6 +337,10 @@ class Contact < ApplicationRecord
       Time.zone.now,
       contact_data: push_event_data.merge(account_id: account_id)
     )
+  end
+
+  def enqueue_contact_formula_recompute
+    CustomAttributes::RecomputeAccountContactFormulasJob.perform_later(account_id)
   end
 end
 Contact.include_mod_with('Concerns::Contact')

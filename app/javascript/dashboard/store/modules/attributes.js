@@ -89,6 +89,24 @@ export const actions = {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isDeleting: false });
     }
   },
+  recalculate: async (_, id) => {
+    try {
+      const response = await AttributeAPI.recalculate(id);
+      return response.data;
+    } catch (error) {
+      const errorMessage = error?.response?.data?.error;
+      throw new Error(errorMessage || 'Recompute failed');
+    }
+  },
+  preview: async (_, { id, sampleAttributes }) => {
+    try {
+      const response = await AttributeAPI.preview(id, sampleAttributes);
+      return response.data;
+    } catch (error) {
+      const errorMessage = error?.response?.data?.error;
+      throw new Error(errorMessage || 'Preview failed');
+    }
+  },
 };
 
 export const mutations = {
