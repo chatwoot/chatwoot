@@ -50,6 +50,15 @@ RSpec.describe Account do
     end
   end
 
+  describe '#api_and_webhooks_enabled?' do
+    it 'is enabled for self-hosted accounts regardless of the stored feature flag' do
+      account = create(:account)
+      account.disable_features!('api_and_webhooks')
+
+      expect(account.api_and_webhooks_enabled?).to be true
+    end
+  end
+
   describe 'captain defaults for new accounts' do
     it 'does not store Captain model overrides or enable premium Captain features' do
       InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').update!(
@@ -108,10 +117,16 @@ RSpec.describe Account do
 
     it 'configures the account feature flag extension column' do
       expect(described_class.flag_columns).to include('feature_flags', 'feature_flags_ext_1')
-      expect(described_class.flag_mapping['feature_flags_ext_1']).to eq(feature_whatsapp_manual_transfer: 1, feature_data_import: 1 << 1,
-                                                                        feature_api_and_webhooks: 1 << 2)
+      expect(described_class.flag_mapping['feature_flags_ext_1']).to eq(
+        feature_whatsapp_manual_transfer: 1,
+        feature_data_import: 1 << 1,
+        feature_api_and_webhooks: 1 << 2,
+        feature_whatsapp_reconfigure: 1 << 3,
+        feature_whatsapp_embedded_signup_inbox_creation: 1 << 4
+      )
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
+      expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_embedded_signup_inbox_creation]).to eq(16)
     end
 
     it 'keeps existing feature flags on the original column' do
