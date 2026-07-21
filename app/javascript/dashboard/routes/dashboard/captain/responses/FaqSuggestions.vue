@@ -231,6 +231,7 @@ onUnmounted(() => {
       <EmptyStateLayout
         :title="$t('CAPTAIN.FAQ_SUGGESTIONS.EMPTY_STATE.TITLE')"
         :subtitle="$t('CAPTAIN.FAQ_SUGGESTIONS.EMPTY_STATE.SUBTITLE')"
+        :show-backdrop="false"
       >
         <template #actions>
           <Button

@@ -1,5 +1,9 @@
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
+import {
+  CONVERSATION_PERMISSIONS,
+  ROLES,
+} from 'dashboard/constants/permissions';
 import { frontendURL } from '../../../helper/URLHelper';
 
 import CaptainPageRouteView from './pages/CaptainPageRouteView.vue';
@@ -22,6 +26,11 @@ const meta = {
   permissions: ['administrator', 'agent'],
   featureFlag: FEATURE_FLAGS.CAPTAIN,
   installationTypes: [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE],
+};
+
+const faqSuggestionsMeta = {
+  ...meta,
+  permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
 };
 
 const metaCustomTools = {
@@ -85,7 +94,7 @@ const assistantRoutes = [
     ),
     component: FaqSuggestionsIndex,
     name: 'captain_assistants_faq_suggestions',
-    meta,
+    meta: faqSuggestionsMeta,
   },
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/faqs/pending'),
