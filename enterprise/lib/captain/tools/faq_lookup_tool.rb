@@ -14,7 +14,7 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
       "No relevant FAQs found for: #{query}"
     else
       log_tool_usage('found_results', { query: query, count: responses.size })
-      format_responses(responses)
+      format_responses(tool_context, responses)
     end
   end
 
@@ -29,6 +29,8 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
     document_ids = document_responses(responses).map(&:documentable_id)
     metadata[:document_ids] = Array(metadata[:document_ids]) | document_ids
     metadata[:message_sources] = Array(metadata[:message_sources]) | message_sources(document_responses(responses))
+
+    document_ids.each { |document_id| citation_source_number(tool_context, document_id) }
   end
 
   def document_responses(responses)
@@ -39,30 +41,31 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
     responses.map { |response| { assistant_response_id: response.id, document_id: response.documentable_id } }
   end
 
-  def format_responses(responses)
-    responses.map { |response| format_response(response) }.join
+  def format_responses(tool_context, responses)
+    responses.map { |response| format_response(tool_context, response) }.join
   end
 
-  def format_response(response)
+  def format_response(tool_context, response)
     formatted_response = "
         Question: #{response.question}
         Answer: #{response.answer}
         "
-    if should_show_source?(response)
+    if response.documentable_type == 'Captain::Document'
       formatted_response += "
-          Source: #{response.documentable.external_link}
+          Source marker: [[source:#{citation_source_number(tool_context, response.documentable_id)}]]
           "
     end
 
     formatted_response
   end
 
-  def should_show_source?(response)
-    return false if response.documentable.blank?
-    return false unless response.documentable.try(:external_link)
+  def citation_source_number(tool_context, document_id)
+    source_map = tool_context.state[:captain_v2_citation_source_map] ||= {}
+    existing_number = source_map.find { |_number, id| id.to_i == document_id }&.first
+    return existing_number if existing_number.present?
 
-    # Don't show source if it's a PDF placeholder
-    external_link = response.documentable.external_link
-    !external_link.start_with?('PDF:')
+    source_number = (source_map.keys.map(&:to_i).max || 0) + 1
+    source_map[source_number.to_s] = document_id
+    source_number.to_s
   end
 end

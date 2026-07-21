@@ -66,12 +66,13 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         expect(result).to include('Answer: Go to settings and update email')
       end
 
-      it 'includes source link when document has external_link' do
+      it 'includes a source marker instead of the document link' do
         document.update!(external_link: 'https://help.example.com/password')
 
         result = tool.perform(tool_context, query: 'password')
 
-        expect(result).to include('Source: https://help.example.com/password')
+        expect(result).to include('Source marker: [[source:1]]')
+        expect(result).not_to include('https://help.example.com/password')
       end
 
       it 'logs tool usage for search' do
