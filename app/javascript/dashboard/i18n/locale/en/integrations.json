@@ -460,6 +460,12 @@
         "PENDING": "Pending FAQs",
         "DOCUMENTS": "Documents"
       },
+      "CREDITS": {
+        "TITLE": "Credit usage",
+        "UNIT": "credits",
+        "LEGEND": "Daily credits used",
+        "DISCLAIMER": "Shows credits used by this assistant only. Your account's total credit usage also includes other assistants and features."
+      },
       "LINKS": {
         "DOCS": {
           "TITLE": "Captain docs",

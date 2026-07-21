@@ -13,6 +13,7 @@ import WelcomeCard from 'dashboard/components-next/captain/pageComponents/overvi
 import MetricCard from 'dashboard/components-next/captain/pageComponents/overview/MetricCard.vue';
 import AssistantDrilldownDrawer from 'dashboard/components-next/captain/pageComponents/overview/AssistantDrilldownDrawer.vue';
 import KnowledgeCard from 'dashboard/components-next/captain/pageComponents/overview/KnowledgeCard.vue';
+import CreditUsageCard from 'dashboard/components-next/captain/pageComponents/overview/CreditUsageCard.vue';
 import QuickLinks from 'dashboard/components-next/captain/pageComponents/overview/QuickLinks.vue';
 import InboxBanner from 'dashboard/components-next/captain/pageComponents/overview/InboxBanner.vue';
 import CoverageBanner from 'dashboard/components-next/captain/pageComponents/overview/CoverageBanner.vue';
@@ -205,7 +206,10 @@ const closeDrilldown = () => {
           />
         </div>
 
-        <KnowledgeCard :knowledge="stats?.knowledge" />
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <KnowledgeCard :knowledge="stats?.knowledge" />
+          <CreditUsageCard :usage="stats?.credit_usage" />
+        </div>
 
         <QuickLinks />
       </div>
