@@ -24,7 +24,14 @@ const assistantId = computed(() => route.params.assistantId);
 const welcomeMarkdown = ref('');
 const isLoading = ref(false);
 
+// Increments on every fetch so a slow response for a superseded
+// range/stats/assistant can't overwrite the latest request's state.
+let fetchToken = 0;
+
 const fetchSummary = async () => {
+  fetchToken += 1;
+  const token = fetchToken;
+
   if (!props.stats) {
     welcomeMarkdown.value = '';
     isLoading.value = false;
@@ -32,18 +39,21 @@ const fetchSummary = async () => {
   }
 
   isLoading.value = true;
+  let message = '';
   try {
     const { data } = await CaptainAssistant.getSummary({
       assistantId: assistantId.value,
       range: props.range,
       stats: props.stats,
     });
-    welcomeMarkdown.value = data.message ?? '';
+    message = data.message ?? '';
   } catch {
-    welcomeMarkdown.value = '';
-  } finally {
-    isLoading.value = false;
+    message = '';
   }
+
+  if (token !== fetchToken) return;
+  welcomeMarkdown.value = message;
+  isLoading.value = false;
 };
 
 watch([() => props.range, () => props.stats, assistantId], fetchSummary, {
