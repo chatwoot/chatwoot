@@ -503,6 +503,12 @@ const avatarTooltip = computed(() => {
   return `${t('CONVERSATION.SENT_BY')} ${avatarInfo.value.name}`;
 });
 
+// for checking if the message was sent by current user
+const isMyMessage = computed(() => {
+  const effectiveSenderId = props.senderId ?? props.sender?.id;
+  return effectiveSenderId === props.currentUserId;
+});
+
 const setupHighlightTimer = () => {
   if (Number(route.query.messageId) !== Number(props.id)) {
     return;
@@ -523,6 +529,7 @@ provideMessageContext({
   variant,
   orientation,
   isBotOrAgentMessage,
+  isMyMessage,
   shouldGroupWithNext,
 });
 </script>
@@ -567,13 +574,25 @@ provideMessageContext({
         <Avatar v-bind="avatarInfo" :size="24" />
       </div>
       <div
-        class="[grid-area:bubble] flex min-w-0"
+        class="[grid-area:bubble] flex flex-col min-w-0"
         :class="{
-          'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
-          'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
+          'ltr:ml-8 rtl:mr-8 items-end': orientation === ORIENTATION.RIGHT,
+          'ltr:mr-8 rtl:ml-8 items-start': orientation === ORIENTATION.LEFT,
         }"
         @contextmenu="openContextMenu($event)"
       >
+        <!-- Sender Name Header -->
+        <span
+          v-if="
+            isBotOrAgentMessage &&
+            !shouldGroupWithNext &&
+            avatarInfo.name?.trim()
+          "
+          class="text-xs mb-1 font-medium text-n-slate-11 dark:text-n-slate-11 px-1"
+        >
+          {{ isMyMessage ? `${avatarInfo.name} (You)` : avatarInfo.name }}
+        </span>
+
         <Component :is="componentToRender" />
       </div>
       <MessageError
