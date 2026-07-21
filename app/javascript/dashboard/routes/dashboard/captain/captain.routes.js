@@ -15,7 +15,7 @@ import AssistantGuidelinesIndex from './assistants/guidelines/Index.vue';
 import AssistantScenariosIndex from './assistants/scenarios/Index.vue';
 import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
-import ResponsesPendingIndex from './responses/Pending.vue';
+import FaqSuggestionsIndex from './responses/FaqSuggestions.vue';
 import CustomToolsIndex from './tools/Index.vue';
 
 const meta = {
@@ -80,10 +80,20 @@ const assistantRoutes = [
     meta,
   },
   {
-    path: frontendURL('accounts/:accountId/captain/:assistantId/faqs/pending'),
-    component: ResponsesPendingIndex,
-    name: 'captain_assistants_responses_pending',
+    path: frontendURL(
+      'accounts/:accountId/captain/:assistantId/faqs/suggestions'
+    ),
+    component: FaqSuggestionsIndex,
+    name: 'captain_assistants_faq_suggestions',
     meta,
+  },
+  {
+    path: frontendURL('accounts/:accountId/captain/:assistantId/faqs/pending'),
+    redirect: to => ({
+      name: 'captain_assistants_faq_suggestions',
+      params: to.params,
+      query: to.query,
+    }),
   },
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/settings'),

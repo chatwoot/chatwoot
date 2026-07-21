@@ -27,6 +27,7 @@ const router = useRouter();
 const store = useStore();
 const dialogRef = ref(null);
 const details = ref(null);
+const detailsError = ref(false);
 
 const uiFlags = useMapGetter('captainFaqSuggestions/getUIFlags');
 const isFetching = computed(() => uiFlags.value.fetchingItem);
@@ -44,12 +45,15 @@ const isInvalid = computed(
 );
 
 const loadDetails = async () => {
+  detailsError.value = false;
+
   try {
     details.value = await store.dispatch(
       'captainFaqSuggestions/show',
       props.suggestion.id
     );
   } catch (error) {
+    detailsError.value = true;
     useAlert(
       error?.message || t('CAPTAIN.FAQ_SUGGESTIONS.ERRORS.LOAD_DETAILS')
     );
@@ -186,6 +190,23 @@ defineExpose({ dialogRef });
 
         <div v-if="isFetching" class="flex h-40 items-center justify-center">
           <Spinner />
+        </div>
+        <div
+          v-else-if="detailsError"
+          role="alert"
+          class="flex h-40 flex-col items-center justify-center gap-3 px-4 text-center"
+        >
+          <Icon icon="i-lucide-circle-alert" class="size-5 text-n-ruby-10" />
+          <p class="mb-0 text-sm text-n-slate-11">
+            {{ $t('CAPTAIN.FAQ_SUGGESTIONS.ERRORS.LOAD_DETAILS') }}
+          </p>
+          <Button
+            :label="$t('CAPTAIN.FAQ_SUGGESTIONS.DETAILS.RETRY')"
+            variant="faded"
+            color="slate"
+            size="sm"
+            @click="loadDetails"
+          />
         </div>
         <div
           v-else-if="!observations.length"

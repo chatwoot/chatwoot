@@ -232,14 +232,17 @@ RSpec.describe Captain::AssistantStatsBuilder do
   describe '#metrics knowledge' do
     before do
       create_list(:captain_assistant_response, 3, assistant: assistant, account: account, status: :approved)
-      create(:captain_assistant_response, assistant: assistant, account: account, status: :pending)
+      assistant.faq_suggestions.create!(
+        question: 'How do I enable the feature?',
+        answer: 'Turn it on in settings.'
+      )
       create_list(:captain_document, 2, assistant: assistant, account: account)
     end
 
-    it 'returns approved, pending, document counts and coverage' do
+    it 'returns approved FAQ, open suggestion, document counts and coverage' do
       knowledge = described_class.new(assistant, '30').metrics[:knowledge]
 
-      expect(knowledge).to eq(approved: 3, pending: 1, documents: 2, coverage: 75)
+      expect(knowledge).to eq(approved: 3, suggestions: 1, documents: 2, coverage: 75)
     end
 
     it 'reports zero coverage when there are no responses' do

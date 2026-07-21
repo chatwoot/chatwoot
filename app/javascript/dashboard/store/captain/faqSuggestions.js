@@ -3,6 +3,7 @@ import { createStore } from '../storeFactory';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 const SET_OPEN_COUNT = 'SET_OPEN_COUNT';
+let openCountRequestId = 0;
 
 export default createStore({
   name: 'CaptainFaqSuggestion',
@@ -20,6 +21,13 @@ export default createStore({
     },
   },
   actions: mutations => ({
+    setFetchingList({ commit }, isFetching) {
+      commit(mutations.SET_UI_FLAG, { fetchingList: isFetching });
+    },
+    setRecords({ commit }, { records, meta }) {
+      commit(mutations.SET, records);
+      commit(mutations.SET_META, meta);
+    },
     approve: async ({ commit }, { id, question, answer }) => {
       commit(mutations.SET_UI_FLAG, { updatingItem: true });
       try {
@@ -48,14 +56,20 @@ export default createStore({
       }
     },
     fetchOpenCount: async ({ commit }, assistantId) => {
+      openCountRequestId += 1;
+      const requestId = openCountRequestId;
+      commit(SET_OPEN_COUNT, 0);
+
       try {
         const response = await CaptainFaqSuggestionsAPI.get({
           assistantId,
           page: 1,
         });
+        if (requestId !== openCountRequestId) return;
+
         commit(SET_OPEN_COUNT, response.data?.meta?.total_count || 0);
-      } catch (error) {
-        commit(SET_OPEN_COUNT, 0);
+      } catch {
+        if (requestId === openCountRequestId) commit(SET_OPEN_COUNT, 0);
       }
     },
   }),

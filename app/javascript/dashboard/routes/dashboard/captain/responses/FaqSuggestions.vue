@@ -1,11 +1,12 @@
 <script setup>
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { computed, nextTick, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { debounce } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import CaptainFaqSuggestionsAPI from 'dashboard/api/captain/faqSuggestions';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
@@ -50,16 +51,47 @@ const updateURL = (page, search) => {
   router.replace({ query });
 };
 
+let suggestionsRequestId = 0;
+let fetchingListRequestId = null;
+
+const isCurrentSuggestionRequest = (requestId, assistantId) =>
+  requestId === suggestionsRequestId &&
+  assistantId === selectedAssistantId.value;
+
 const fetchSuggestions = async (page = 1) => {
+  suggestionsRequestId += 1;
+  const requestId = suggestionsRequestId;
+  const assistantId = selectedAssistantId.value;
+
   updateURL(page, searchQuery.value);
+  fetchingListRequestId = requestId;
+  store.dispatch('captainFaqSuggestions/setFetchingList', true);
+
   try {
-    await store.dispatch('captainFaqSuggestions/get', {
+    const response = await CaptainFaqSuggestionsAPI.get({
       page,
       search: searchQuery.value,
-      assistantId: selectedAssistantId.value,
+      assistantId,
     });
+
+    if (!isCurrentSuggestionRequest(requestId, assistantId)) return [];
+
+    const { payload, meta } = response.data;
+    store.dispatch('captainFaqSuggestions/setRecords', {
+      records: payload,
+      meta,
+    });
+    return payload;
   } catch (error) {
-    useAlert(error?.message || t('CAPTAIN.FAQ_SUGGESTIONS.ERRORS.LOAD'));
+    if (isCurrentSuggestionRequest(requestId, assistantId)) {
+      useAlert(error?.message || t('CAPTAIN.FAQ_SUGGESTIONS.ERRORS.LOAD'));
+    }
+    return [];
+  } finally {
+    if (fetchingListRequestId === requestId) {
+      fetchingListRequestId = null;
+      store.dispatch('captainFaqSuggestions/setFetchingList', false);
+    }
   }
 };
 
@@ -117,6 +149,11 @@ const handleResolved = () => {
 
 const debouncedSearch = debounce(() => fetchSuggestions(1), 500);
 
+const handleSearchInput = () => {
+  suggestionsRequestId += 1;
+  debouncedSearch();
+};
+
 const clearFilters = () => {
   searchQuery.value = '';
   fetchSuggestions(1);
@@ -127,7 +164,24 @@ const initializeFromURL = () => {
   fetchSuggestions(parseInt(route.query.page, 10) || 1);
 };
 
-onMounted(initializeFromURL);
+watch(
+  selectedAssistantId,
+  () => {
+    selectedSuggestion.value = null;
+    activeSuggestionId.value = null;
+    store.dispatch('captainFaqSuggestions/setRecords', {
+      records: [],
+      meta: { page: 1, total_count: 0 },
+    });
+    initializeFromURL();
+  },
+  { immediate: true }
+);
+
+onUnmounted(() => {
+  suggestionsRequestId += 1;
+  store.dispatch('captainFaqSuggestions/setFetchingList', false);
+});
 </script>
 
 <template>
@@ -151,7 +205,7 @@ onMounted(initializeFromURL);
         size="sm"
         type="search"
         autofocus
-        @input="debouncedSearch"
+        @input="handleSearchInput"
       />
     </template>
 
