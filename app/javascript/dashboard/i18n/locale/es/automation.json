@@ -102,6 +102,10 @@
       "URL_INPUT_PLACEHOLDER": "Introducir URL",
       "CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER": "Escribe un valor o inserta una variable",
       "CUSTOM_ATTRIBUTE_DATE_PLACEHOLDER": "AAAA-MM-DD o {{date.today}}",
+      "CUSTOM_ATTRIBUTE_LABEL": "Atributo",
+      "CUSTOM_ATTRIBUTE_VALUE_LABEL": "Valor",
+      "CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER": "Selecciona un atributo personalizado",
+      "CUSTOM_ATTRIBUTE_EMPTY": "No hay atributos de texto/fecha. Créalos en Configuración → Atributos personalizados.",
       "VARIABLES_HINT": "Usa { } para insertar variables (contacto, atributos, fechas)"
     },
     "TOGGLE": {

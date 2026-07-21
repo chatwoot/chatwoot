@@ -81,7 +81,13 @@ export default {
     },
     inputType() {
       return this.actionTypes.find(action => action.key === this.action_name)
-        .inputType;
+        ?.inputType;
+    },
+    isCustomAttributeAction() {
+      return [
+        'update_contact_custom_attribute',
+        'update_conversation_custom_attribute',
+      ].includes(this.action_name);
     },
     actionNameAsSelectModel: {
       get() {
@@ -97,8 +103,11 @@ export default {
       return this.actionTypes.map(a => ({ id: a.key, name: a.label }));
     },
     isVerticalLayout() {
-      return ['team_message', 'textarea', 'custom_attribute'].includes(
-        this.inputType
+      return (
+        this.isCustomAttributeAction ||
+        ['team_message', 'textarea', 'custom_attribute'].includes(
+          this.inputType
+        )
       );
     },
     castMessageVmodel: {
@@ -197,9 +206,9 @@ export default {
         :dropdown-max-height="dropdownMaxHeight"
       />
       <AutomationActionCustomAttributeInput
-        v-if="inputType === 'custom_attribute'"
+        v-if="isCustomAttributeAction || inputType === 'custom_attribute'"
         v-model="action_params"
-        :attributes="dropdownValues"
+        :attributes="dropdownValues || []"
         :dropdown-max-height="dropdownMaxHeight"
       />
       <WootMessageEditor

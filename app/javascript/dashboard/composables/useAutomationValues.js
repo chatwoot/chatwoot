@@ -136,18 +136,20 @@ export default function useAutomationValues() {
       ];
     }
 
-    return getActionOptions({
-      agents: agentsList,
-      labels: labels.value,
-      teams: teams.value,
-      slaPolicies: slaPolicies.value,
-      languages,
-      type,
-      addNoneToListFn: addNoneToList,
-      priorityOptions: priorityOptions.value,
-      contactAttributes: contactAttributes.value,
-      conversationAttributes: conversationAttributes.value,
-    });
+    return (
+      getActionOptions({
+        agents: agentsList,
+        labels: labels.value,
+        teams: teams.value,
+        slaPolicies: slaPolicies.value,
+        languages,
+        type,
+        addNoneToListFn: addNoneToList,
+        priorityOptions: priorityOptions.value,
+        contactAttributes: contactAttributes.value || [],
+        conversationAttributes: conversationAttributes.value || [],
+      }) || []
+    );
   };
 
   return {
