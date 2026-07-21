@@ -18,7 +18,6 @@ class DataImports::Intercom::Importer
   TRUNCATED_PARTS_ERROR_CODE = 'DataImports::Intercom::TruncatedConversationParts'.freeze
   E164_REGEX = /\A\+[1-9]\d{1,14}\z/
   INTERCOM_NUMBER_REGEX = /\A[1-9]\d{1,14}\z/
-  REGULAR_MESSAGE_PART_TYPES = %w[comment note source].freeze
 
   def initialize(data_import:, run_id: nil)
     @data_import = data_import
@@ -161,8 +160,7 @@ class DataImports::Intercom::Importer
     mapped_conversation = mapping&.chatwoot_record
     if mapped_conversation && mapping.data_import_id != @data_import.id
       skip_already_imported_item(item, mapping, already_handled: already_handled)
-      import_source_message(conversation, mapped_conversation, contact)
-      return unless import_conversation_parts(conversation, mapped_conversation, contact)
+      return unless import_conversation_messages(conversation, mapped_conversation, contact)
 
       update_conversation_activity(mapped_conversation)
       return
@@ -175,8 +173,7 @@ class DataImports::Intercom::Importer
     item.update!(status: :imported, chatwoot_record_type: 'Conversation', chatwoot_record_id: chatwoot_conversation.id)
     increment_stat('conversations', 'imported') unless already_handled
 
-    import_source_message(conversation, chatwoot_conversation, contact)
-    return unless import_conversation_parts(conversation, chatwoot_conversation, contact)
+    return unless import_conversation_messages(conversation, chatwoot_conversation, contact)
 
     update_conversation_activity(chatwoot_conversation)
   rescue StandardError => e
@@ -390,59 +387,57 @@ class DataImports::Intercom::Importer
     end
   end
 
-  def import_source_message(conversation, chatwoot_conversation, contact)
-    source = conversation['source'].to_h
-    return unless source_message_importable?(source)
-
-    message_source_id = "conversation:#{source_id_for(conversation)}:source:#{source['id'].presence || 'initial'}"
-    source_part = source.merge('part_type' => 'source', 'created_at' => conversation['created_at'])
-    import_message(chatwoot_conversation, contact, source_part, message_source_id)
-  end
-
-  def import_conversation_parts(conversation, chatwoot_conversation, contact)
+  def import_conversation_messages(conversation, chatwoot_conversation, contact)
     parts_payload = conversation['conversation_parts'].to_h
     parts = Array(parts_payload['conversation_parts'])
+    batch = with_query_timeout_retry do
+      DataImports::Intercom::MessageBatchBuilder.new(
+        data_import: @data_import,
+        conversation: chatwoot_conversation,
+        source_conversation: conversation
+      ).perform
+    end
+
+    batch.source_entries.each { |entry| import_message(chatwoot_conversation, contact, entry) }
     record_truncated_conversation_parts(conversation, parts.size)
 
-    parts.each do |part|
+    batch.part_entries.each do |entry|
       return false unless continue_import_with_heartbeat?
 
-      message_source_id = "conversation:#{source_id_for(conversation)}:part:#{part['id']}"
-      import_message(chatwoot_conversation, contact, part, message_source_id)
+      import_message(chatwoot_conversation, contact, entry)
     end
     true
   end
 
-  def import_message(conversation, contact, part, message_source_id)
+  def import_message(conversation, contact, entry)
     with_query_timeout_retry do
-      mapping = find_mapping('message', message_source_id)
-      if mapping && message_mapping_handled?(mapping, part)
-        if mapping.data_import_id == @data_import.id
-          reconcile_current_run_message_mapping(conversation, mapping, part)
-        else
-          skip_existing_message_mapping(conversation, mapping, part)
-        end
+      case entry.classification
+      when :current_import
+        reconcile_current_run_message_mapping(conversation, entry.mapping, entry.part)
+      when :previous_import
+        skip_existing_message_mapping(conversation, entry.mapping, entry.part)
+      when :repairable_stale_mapping, :existing_message, :new_message
+        create_message(conversation, contact, entry)
       else
-        create_message(conversation, contact, part, message_source_id)
+        raise ArgumentError, "Unsupported Intercom message classification: #{entry.classification}"
       end
     end
   rescue StandardError => e
-    fail_message(conversation, message_source_id, part, e)
+    fail_message(conversation, entry.source_id, entry.part, e)
   end
 
-  def create_message(conversation, contact, part, message_source_id)
-    content = content_for(part)
-    return record_skipped_message(conversation, message_source_id, part) if content.blank?
+  def create_message(conversation, contact, entry)
+    content = content_for(entry.part)
+    return record_skipped_message(conversation, entry) if content.blank?
 
-    attrs = message_attributes(conversation, contact, part, message_source_id, content)
-    message = nil
+    attrs = message_attributes(conversation, contact, entry.part, entry.source_id, content)
+    message = entry.message
     Message.transaction do
-      message = conversation.messages.find_by(source_id: attrs[:source_id])
       unless message
         result = Message.insert_all!([attrs], returning: %w[id])
         message = Message.find(result.rows.first.first)
       end
-      record_mapping('message', message_source_id, message, metadata: message_metadata(part))
+      record_message_mapping(entry, message)
     end
     increment_stat('messages', 'imported')
     reindex_message_for_search(message)
@@ -457,13 +452,12 @@ class DataImports::Intercom::Importer
     Rails.logger.warn("Intercom import message reindex failed for message #{message.id}: #{e.class} - #{e.message}")
   end
 
-  def record_skipped_message(conversation, message_source_id, part)
-    mapping = find_mapping('message', message_source_id)
-    if mapping
-      already_recorded = skip_log_recorded?('message', message_source_id, SKIPPED_MESSAGE_ERROR_CODE)
-      record_skipped_message_log(conversation, message_source_id, part)
+  def record_skipped_message(conversation, entry)
+    if entry.mapping
+      already_recorded = skip_log_recorded?('message', entry.source_id, SKIPPED_MESSAGE_ERROR_CODE)
+      record_skipped_message_log(conversation, entry.source_id, entry.part)
       increment_stat('messages', 'skipped') unless already_recorded
-      return mapping.chatwoot_record
+      return entry.message
     end
 
     DataImportMapping.create!(
@@ -471,13 +465,28 @@ class DataImports::Intercom::Importer
       data_import: @data_import,
       source_provider: PROVIDER,
       source_object_type: 'message',
-      source_object_id: message_source_id,
+      source_object_id: entry.source_id,
       chatwoot_record_type: 'Conversation',
       chatwoot_record_id: conversation.id,
-      metadata: message_metadata(part).merge(skipped: true, reason: 'blank_or_unsupported_intercom_part')
+      metadata: message_metadata(entry.part).merge(skipped: true, reason: 'blank_or_unsupported_intercom_part')
     )
-    record_skipped_message_log(conversation, message_source_id, part)
+    record_skipped_message_log(conversation, entry.source_id, entry.part)
     increment_stat('messages', 'skipped')
+  end
+
+  def record_message_mapping(entry, message)
+    (entry.mapping || DataImportMapping.new(
+      account: @account,
+      source_provider: PROVIDER,
+      source_object_type: 'message',
+      source_object_id: entry.source_id
+    )).tap do |mapping|
+      mapping.data_import = @data_import
+      mapping.chatwoot_record_type = 'Message'
+      mapping.chatwoot_record_id = message.id
+      mapping.metadata = message_metadata(entry.part)
+      mapping.save!
+    end
   end
 
   def message_attributes(conversation, contact, part, message_source_id, content)
@@ -520,8 +529,7 @@ class DataImports::Intercom::Importer
   end
 
   def activity_part?(part)
-    part_type = part['part_type'].to_s
-    part_type.present? && REGULAR_MESSAGE_PART_TYPES.exclude?(part_type)
+    DataImports::Intercom::MessageBatchBuilder.activity_part?(part)
   end
 
   def message_content(part)
@@ -697,12 +705,6 @@ class DataImports::Intercom::Importer
     increment_stat('messages', 'skipped') unless already_recorded
   end
 
-  def message_mapping_handled?(mapping, part)
-    return false if mapping.metadata['skipped'] && activity_part?(part)
-
-    mapping.metadata['skipped'] || mapping.chatwoot_record.present?
-  end
-
   def fail_item(item, error)
     increment_stat('errors', 'count')
     item&.update!(status: :failed, last_error_code: error.class.name, last_error_message: error.message)
@@ -800,7 +802,7 @@ class DataImports::Intercom::Importer
   end
 
   def source_message_importable?(source)
-    source['body'].present? || source['subject'].present? || source['attachments'].present?
+    DataImports::Intercom::MessageBatchBuilder.source_message_importable?(source)
   end
 
   def skipped_message_log_message(part)
