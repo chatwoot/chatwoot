@@ -1,5 +1,6 @@
 import { useMapGetter } from 'dashboard/composables/store';
-import { IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED } from 'dashboard/constants/globals';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 // OAuth/SDK channels need installation-level app credentials to be usable. When
 // the credential is missing the channel is "not configured" and is hidden from
@@ -8,20 +9,25 @@ import { IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED } from 'dashboard/constan
 // Mirrors the availability checks in ChannelItem.vue.
 export function useChannelConfig() {
   const globalConfig = useMapGetter('globalConfig/get');
+  const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+  const { isCloudFeatureEnabled } = useAccount();
   const installationConfig = window.chatwootConfig || {};
 
   const CHANNEL_CONFIGURED = {
     // WhatsApp is onboarded only via Meta embedded signup, which needs both the
     // app id (not the 'none' sentinel) and the signup configuration id.
     whatsapp: () =>
-      !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
+      (!isOnChatwootCloud.value ||
+        isCloudFeatureEnabled(
+          FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_INBOX_CREATION
+        )) &&
       Boolean(installationConfig.whatsappAppId) &&
       installationConfig.whatsappAppId !== 'none' &&
       Boolean(installationConfig.whatsappConfigurationId),
     facebook: () => Boolean(installationConfig.fbAppId),
     instagram: () =>
-      !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
-      Boolean(installationConfig.instagramAppId),
+      Boolean(installationConfig.instagramAppId) &&
+      isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_INSTAGRAM),
     tiktok: () => Boolean(installationConfig.tiktokAppId),
     gmail: () => Boolean(installationConfig.googleOAuthClientId),
     outlook: () => Boolean(globalConfig.value.azureAppId),

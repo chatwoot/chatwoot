@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import CaptainAssistant from 'dashboard/api/captain/assistant';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
@@ -10,6 +11,7 @@ import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Pay
 import RangeSelector from 'dashboard/components-next/captain/pageComponents/overview/RangeSelector.vue';
 import WelcomeCard from 'dashboard/components-next/captain/pageComponents/overview/WelcomeCard.vue';
 import MetricCard from 'dashboard/components-next/captain/pageComponents/overview/MetricCard.vue';
+import AssistantDrilldownDrawer from 'dashboard/components-next/captain/pageComponents/overview/AssistantDrilldownDrawer.vue';
 import KnowledgeCard from 'dashboard/components-next/captain/pageComponents/overview/KnowledgeCard.vue';
 import QuickLinks from 'dashboard/components-next/captain/pageComponents/overview/QuickLinks.vue';
 import InboxBanner from 'dashboard/components-next/captain/pageComponents/overview/InboxBanner.vue';
@@ -17,6 +19,9 @@ import CoverageBanner from 'dashboard/components-next/captain/pageComponents/ove
 
 const { t } = useI18n();
 const route = useRoute();
+// Drilldown is admin-only; the backend policy enforces the same restriction.
+const { checkPermissions } = usePolicy();
+const canDrilldown = computed(() => checkPermissions(['administrator']));
 
 const selectedRange = ref('this_month');
 
@@ -69,33 +74,37 @@ const metricFor = (statKey, formatValue, direction, trendKind = 'percent') => {
 const metrics = computed(() => [
   {
     key: 'handled',
+    metric: 'conversations_handled',
     label: t('CAPTAIN.OVERVIEW.METRICS.HANDLED.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HANDLED.HINT'),
     ...metricFor('conversations_handled', v => v.toLocaleString(), 'up'),
   },
   {
     key: 'autoResolution',
+    metric: 'auto_resolution_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.HINT'),
     ...metricFor('auto_resolution_rate', v => `${v}%`, 'up', 'point'),
   },
   {
     key: 'handoff',
+    metric: 'handoff_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.HANDOFF.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HANDOFF.HINT'),
     ...metricFor('handoff_rate', v => `${v}%`, 'down', 'point'),
+  },
+  {
+    key: 'reopen',
+    metric: 'reopen_rate',
+    label: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.HINT'),
+    ...metricFor('reopen_rate', v => `${v}%`, 'down', 'point'),
   },
   {
     key: 'hoursSaved',
     label: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
     ...metricFor('hours_saved', formatDuration, 'up'),
-  },
-  {
-    key: 'reopen',
-    label: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.HINT'),
-    ...metricFor('reopen_rate', v => `${v}%`, 'down', 'point'),
   },
   {
     key: 'depth',
@@ -109,6 +118,22 @@ const metrics = computed(() => [
     ),
   },
 ]);
+
+const drilldown = ref({ metric: '', label: '', value: '' });
+const isDrilldownOpen = ref(false);
+
+const openDrilldown = metric => {
+  drilldown.value = {
+    metric: metric.metric,
+    label: metric.label,
+    value: metric.value,
+  };
+  isDrilldownOpen.value = true;
+};
+
+const closeDrilldown = () => {
+  isDrilldownOpen.value = false;
+};
 </script>
 
 <template>
@@ -144,6 +169,8 @@ const metrics = computed(() => [
             :trend="metric.trend"
             :hint="metric.hint"
             :trend-good="metric.trendGood"
+            :clickable="canDrilldown && Boolean(metric.metric)"
+            @click="openDrilldown(metric)"
           />
         </div>
 
@@ -151,6 +178,17 @@ const metrics = computed(() => [
 
         <QuickLinks />
       </div>
+
+      <AssistantDrilldownDrawer
+        v-if="canDrilldown"
+        :open="isDrilldownOpen"
+        :assistant-id="assistantId"
+        :metric="drilldown.metric"
+        :metric-name="drilldown.label"
+        :metric-value="drilldown.value"
+        :range="selectedRange"
+        @close="closeDrilldown"
+      />
     </template>
   </PageLayout>
 </template>

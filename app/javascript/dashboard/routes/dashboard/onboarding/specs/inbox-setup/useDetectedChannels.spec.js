@@ -6,28 +6,36 @@ import { useDetectedChannels } from '../../inbox-setup/useDetectedChannels';
 
 vi.mock('vue-router');
 
-// Neutralize the temporary Instagram/WhatsApp kill switch so these specs keep
-// covering the credential-based gating it currently short-circuits.
-vi.mock('dashboard/constants/globals', async importOriginal => ({
-  ...(await importOriginal()),
-  IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED: false,
-}));
-
 // Mounts the composable against a real store and the real useAccount (only
 // useRoute and the underlying getters are faked), so a change to how useAccount
 // resolves the current account is exercised here too. The real ./constants are
 // used, so assertions validate against the actual channel identity (label keys,
 // channel_type, social ordering) derived from CHANNEL_LIST.
-const mountComposable = ({ brandInfo, inboxes = [] } = {}) => {
+const mountComposable = ({
+  brandInfo,
+  features = { channel_instagram: true },
+  inboxes = [],
+  isOnChatwootCloud = false,
+} = {}) => {
   const store = createStore({
     modules: {
+      globalConfig: {
+        namespaced: true,
+        getters: {
+          get: () => ({}),
+          isOnChatwootCloud: () => isOnChatwootCloud,
+        },
+      },
       accounts: {
         namespaced: true,
         getters: {
           getAccount: () => () => ({
             id: 1,
+            features,
             custom_attributes: { brand_info: brandInfo },
           }),
+          isFeatureEnabledonAccount: () => (_accountId, feature) =>
+            Boolean(features[feature]),
         },
       },
       inboxes: {
@@ -200,6 +208,40 @@ describe('useDetectedChannels', () => {
       // Facebook needs fbAppId (absent → hidden); LINE needs no install credential.
       expect(displayedChannels.value.map(channel => channel.type)).toEqual([
         'line',
+      ]);
+    });
+
+    it('keeps Instagram available on Chatwoot Cloud when enabled for the account', () => {
+      const { displayedChannels } = mountComposable({
+        isOnChatwootCloud: true,
+        brandInfo: {
+          socials: [
+            { type: 'instagram', url: 'https://instagram.com/acme' },
+            { type: 'tiktok', url: 'https://tiktok.com/@acme' },
+          ],
+        },
+      });
+
+      expect(displayedChannels.value.map(channel => channel.type)).toEqual([
+        'instagram',
+        'tiktok',
+      ]);
+    });
+
+    it('hides Instagram when disabled for the account', () => {
+      const { displayedChannels } = mountComposable({
+        features: { channel_instagram: false },
+        isOnChatwootCloud: true,
+        brandInfo: {
+          socials: [
+            { type: 'instagram', url: 'https://instagram.com/acme' },
+            { type: 'tiktok', url: 'https://tiktok.com/@acme' },
+          ],
+        },
+      });
+
+      expect(displayedChannels.value.map(channel => channel.type)).toEqual([
+        'tiktok',
       ]);
     });
   });

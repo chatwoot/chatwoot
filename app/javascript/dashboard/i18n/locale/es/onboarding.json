@@ -1,34 +1,88 @@
 {
   "ONBOARDING_NEXT": {
-    "GREETING": "Hello {name}!",
-    "SUBTITLE": "Please review the following details",
-    "YOUR_DETAILS": "Your details",
-    "COMPANY_DETAILS": "Company details",
+    "GREETING": "¡Hola {name}!",
+    "SUBTITLE": "Por favor, revise los siguientes detalles",
+    "YOUR_DETAILS": "Sus datos",
+    "COMPANY_DETAILS": "Detalles de la empresa",
     "FIELDS": {
       "EMAIL": "E-mail",
-      "YOUR_ROLE": "Your Role",
+      "YOUR_ROLE": "Tu rol",
       "WEBSITE": "Sitio web",
       "LANGUAGE": "Idioma",
       "TIMEZONE": "Timezone",
-      "COMPANY_SIZE": "Company Size",
-      "INDUSTRY": "Industry",
-      "REFERRAL_SOURCE": "Where did you find us?"
+      "COMPANY_SIZE": "Tamaño de la empresa",
+      "INDUSTRY": "Industria",
+      "REFERRAL_SOURCE": "¿Dónde nos encontraron?"
     },
     "PLACEHOLDERS": {
-      "SELECT_ROLE": "Select your role",
-      "ENTER_WEBSITE": "www.example.com",
-      "SELECT_LANGUAGE": "Select language",
+      "SELECT_ROLE": "Seleccione su rol",
+      "ENTER_WEBSITE": "www.ejemplo.com",
+      "SELECT_LANGUAGE": "Seleccionar idioma",
       "SELECT_TIMEZONE": "Seleccione la zona horaria",
-      "SELECT_COMPANY_SIZE": "Select company size",
-      "SELECT_INDUSTRY": "Select industry",
-      "SELECT_REFERRAL_SOURCE": "Select source"
+      "SELECT_COMPANY_SIZE": "Seleccione el tamaño de la empresa",
+      "SELECT_INDUSTRY": "Seleccionar industria",
+      "SELECT_REFERRAL_SOURCE": "Seleccionar fuente"
     },
-    "EMAIL_VERIFIED": "Email verified",
-    "SETTING_UP": "Setting up your account...",
+    "EMAIL_VERIFIED": "Email verificado",
+    "SETTING_UP": "Configurando tu cuenta...",
     "CONTINUE": "Continue",
     "SAVING": "Guardando...",
-    "VALIDATION_ERROR": "Please fill in all required fields",
-    "SUCCESS": "Details saved successfully",
-    "ERROR": "Could not save details. Please try again."
+    "VALIDATION_ERROR": "Por favor, rellene todos los campos requeridos",
+    "SUCCESS": "Detalles guardados correctamente",
+    "ERROR": "No se pudo guardar los detalles. Por favor, inténtelo de nuevo."
+  },
+  "ONBOARDING_INBOX_SETUP": {
+    "GREETING": "Vamos a configurar algunas cosas",
+    "SUBTITLE": "Esto le dará inicio en su área de trabajo",
+    "CONTINUE": "Continue",
+    "SKIP": "Skip",
+    "ERROR": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "WHATSAPP_CONNECTED": "WhatsApp se ha conectado correctamente",
+    "FACEBOOK_CONNECTED": "Facebook conectado correctamente",
+    "CREATED_FOR_YOU": {
+      "TITLE": "Hemos creado lo siguiente para ti",
+      "LIVE_CHAT": "Widget de Live Chat",
+      "LIVE_CHAT_DESCRIPTION": "Mensajero instantáneo para tu sitio web",
+      "LIVE_CHAT_STATUS": "Casi listo…",
+      "LIVE_CHAT_READY": "Ready",
+      "HELP_CENTER": "Centro de ayuda",
+      "HELP_CENTER_DESCRIPTION": "Tu enciclopedia digital",
+      "HELP_CENTER_GENERATING": "Creando tu centro de ayuda…",
+      "HELP_CENTER_ANALYZING_WEBSITE": "Analizando tu sitio web…",
+      "HELP_CENTER_SETTING_UP_CATEGORIES": "Configurando categorías…",
+      "HELP_CENTER_CURATING_ARTICLES": "Curando artículos…",
+      "HELP_CENTER_ARTICLES": "Artículo {count} creado | Artículos {count} creados",
+      "HELP_CENTER_CATEGORIES": "{count} category | {count} categories",
+      "HELP_CENTER_SUMMARY": "Artículo {count} creado a través de {categories} | Creado {count} artículos a través de {categories}"
+    },
+    "CHANNELS": {
+      "TITLE": "Conecta todos tus canales de conversación",
+      "HEADER": "Encontramos algunos canales que puedes conectar",
+      "CONNECT": "Conectar",
+      "CONNECTED": "Conectado",
+      "MORE_CHANNELS_NOTE": "Configurar los canales {email} y {voice} más adelante dentro de la aplicación",
+      "MORE_CHANNELS_EMAIL": "E-mail",
+      "MORE_CHANNELS_VOICE": "Voice",
+      "VIEW_ALL": "Ver todo",
+      "GMAIL": "Gmail",
+      "OUTLOOK": "Mirador",
+      "OTHER_EMAIL": "Otros proveedores de correo"
+    },
+    "CHANNELS_DIALOG": {
+      "TITLE": "Conecta todos tus canales al instante",
+      "SUBTITLE": "Gestiona todos desde un solo panel. También puedes configurar y editar las bandejas de entrada más adelante dentro de la aplicación.",
+      "NOTE": "SMS, API, Voice, y otros proveedores de correo electrónico pueden configurarse más tarde desde su panel de control.",
+      "CONNECT_TITLE": "Conecta tu cuenta de {name}",
+      "CONNECT_SUBTITLE": "Rellena estos detalles rápidos",
+      "CONNECT": "Conectar",
+      "BACK": "Atrás",
+      "SETUP_LATER": "Configurar más tarde en la aplicación",
+      "FACEBOOK_SUBTITLE": "Autorizar el acceso y elegir una página para conectar.",
+      "FACEBOOK_LAUNCH": "Continuar con Facebook",
+      "FACEBOOK_SELECT_PAGE": "Seleccione una página para conectar",
+      "FACEBOOK_LOADING": "Cargando tus páginas de Facebook…",
+      "FACEBOOK_NO_PAGES": "No se encontraron páginas conectables. Todas sus páginas ya están conectadas.",
+      "FACEBOOK_ERROR": "No se pudo conectar a Facebook. Por favor, inténtalo de nuevo."
+    }
   }
 }
