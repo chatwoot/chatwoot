@@ -26,8 +26,17 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
     metadata = tool_context.state[:cw_metadata] ||= {}
     metadata[:faq_ids] = Array(metadata[:faq_ids]) | responses.map(&:id)
 
-    document_ids = responses.filter_map { |response| response.documentable_id if response.documentable_type == 'Captain::Document' }
+    document_ids = document_responses(responses).map(&:documentable_id)
     metadata[:document_ids] = Array(metadata[:document_ids]) | document_ids
+    metadata[:message_sources] = Array(metadata[:message_sources]) | message_sources(document_responses(responses))
+  end
+
+  def document_responses(responses)
+    responses.select { |response| response.documentable_type == 'Captain::Document' }
+  end
+
+  def message_sources(responses)
+    responses.map { |response| { assistant_response_id: response.id, document_id: response.documentable_id } }
   end
 
   def format_responses(responses)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_13_184351) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_21_100000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -475,6 +475,23 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_13_184351) do
     t.index ["conversation_id"], name: "index_captain_message_reports_on_conversation_id"
     t.index ["message_id"], name: "index_captain_message_reports_on_message_id"
     t.index ["user_id"], name: "index_captain_message_reports_on_user_id"
+  end
+
+  create_table "captain_message_sources", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "message_id", null: false
+    t.bigint "document_id", null: false
+    t.bigint "assistant_response_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_message_sources_on_account_id"
+    t.index ["assistant_id"], name: "index_captain_message_sources_on_assistant_id"
+    t.index ["conversation_id"], name: "index_captain_message_sources_on_conversation_id"
+    t.index ["document_id"], name: "index_captain_message_sources_on_document_id"
+    t.index ["message_id", "assistant_response_id"], name: "idx_captain_message_sources_on_message_and_response", unique: true
+    t.index ["message_id"], name: "index_captain_message_sources_on_message_id"
   end
 
   create_table "captain_scenarios", force: :cascade do |t|

@@ -11,6 +11,10 @@ json.file_size resource.file_size
 json.pdf_document resource.pdf_document?
 responses_count = resource.respond_to?(:responses_count) ? resource.responses_count : resource.responses.count
 json.responses_count responses_count.to_i
+used_in_answers_count = resource.respond_to?(:used_in_answers_count) ? resource.used_in_answers_count : resource.message_sources.distinct.count(:message_id)
+json.used_in_answers_count used_in_answers_count.to_i
+used_in_conversations_count = resource.respond_to?(:used_in_conversations_count) ? resource.used_in_conversations_count : resource.message_sources.distinct.count(:conversation_id)
+json.used_in_conversations_count used_in_conversations_count.to_i
 json.id resource.id
 json.name resource.name
 json.status resource.status

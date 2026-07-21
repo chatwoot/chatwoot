@@ -68,7 +68,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
         # left is the customer-facing follow-up message.
         process_v2_handoff
       end
-      capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
+      capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0, capture_message_sources: false)
     elsif v1_handoff_requested?
       # V1 only signals via the response string — no state has been touched yet. If
       # the conversation isn't pending anymore, a human took over mid-run; bail out
@@ -83,7 +83,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
         Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
         account.increment_response_usage
       end
-      capture_assistant_session(result_message: message, credits_consumed: 1.0)
+      capture_assistant_session(result_message: message, credits_consumed: 1.0, capture_message_sources: captain_v2_enabled?)
     end
   end
 
@@ -142,9 +142,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   # Capture runs outside the delivery transaction and never raises (the service
   # swallows its own failures): a session-logging bug must never roll back the
   # customer reply or trigger the top-level handle_error handoff on top of it.
-  def capture_assistant_session(result_message:, credits_consumed:)
+  def capture_assistant_session(result_message:, credits_consumed:, capture_message_sources:)
     Captain::Assistant::SessionCaptureService.new(assistant: @assistant, conversation: @conversation, run_result: @run_result,
-                                                  result_message: result_message, credits_consumed: credits_consumed).capture
+                                                  result_message: result_message, credits_consumed: credits_consumed,
+                                                  capture_message_sources: capture_message_sources).capture
   end
 
   def handle_error(error)

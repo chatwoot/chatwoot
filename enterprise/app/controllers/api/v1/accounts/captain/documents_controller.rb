@@ -11,7 +11,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
     @documents = filtered_documents
     @documents_count = @documents.count
     @sync_interval_hours = current_sync_interval&.in_hours&.to_i
-    @documents = with_responses_count(@documents).page(@current_page).per(RESULTS_PER_PAGE)
+    @documents = with_document_usage(@documents).page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def show; end
@@ -61,14 +61,23 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
     apply_sort(documents, permitted_params[:sort])
   end
 
-  def with_responses_count(scope)
-    scope.left_joins(:responses)
-         .select('captain_documents.*, COUNT(captain_assistant_responses.id) AS responses_count')
-         .group('captain_documents.id')
+  def with_document_usage(scope)
+    response_counts = Captain::AssistantResponse.where(documentable_type: 'Captain::Document')
+                                                .group(:documentable_id)
+                                                .select('documentable_id AS document_id, COUNT(*) AS responses_count')
+    source_counts = Captain::MessageSource.group(:document_id).select(
+      'document_id, COUNT(DISTINCT message_id) AS used_in_answers_count, COUNT(DISTINCT conversation_id) AS used_in_conversations_count'
+    )
+
+    scope.joins("LEFT JOIN (#{response_counts.to_sql}) response_counts ON response_counts.document_id = captain_documents.id")
+         .joins("LEFT JOIN (#{source_counts.to_sql}) source_counts ON source_counts.document_id = captain_documents.id")
+         .select('captain_documents.*, COALESCE(response_counts.responses_count, 0) AS responses_count, ' \
+                 'COALESCE(source_counts.used_in_answers_count, 0) AS used_in_answers_count, ' \
+                 'COALESCE(source_counts.used_in_conversations_count, 0) AS used_in_conversations_count')
   end
 
   def set_document
-    @document = @documents.find(permitted_params[:id])
+    @document = with_document_usage(@documents).find(permitted_params[:id])
   end
 
   def set_assistant

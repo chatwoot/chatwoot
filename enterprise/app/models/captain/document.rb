@@ -34,6 +34,7 @@ class Captain::Document < ApplicationRecord
 
   belongs_to :assistant, class_name: 'Captain::Assistant'
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
+  has_many :message_sources, class_name: 'Captain::MessageSource', dependent: :destroy_async
   belongs_to :account
   has_one_attached :pdf_file
   store_accessor :metadata, :content_fingerprint, :last_sync_error_code, :sync_step, :openai_file_id
