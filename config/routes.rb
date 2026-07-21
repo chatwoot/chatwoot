@@ -76,6 +76,7 @@ Rails.application.routes.draw do
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
               resources :scenarios
             end
+            resources :agent_sessions, only: [:show]
             resources :assistant_responses
             resources :message_reports, only: [:create]
             resources :bulk_actions, only: [:create]
