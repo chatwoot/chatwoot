@@ -59,6 +59,11 @@ class Captain::Assistant::SessionCaptureService
   def current_turn_history
     history = Array(context[:conversation_history])
     last_user_index = history.rindex { |message| message[:role].to_s == 'user' }
-    last_user_index ? history[last_user_index..] : history
+    current_turn = last_user_index ? history[last_user_index..] : history
+
+    current_turn.map do |message|
+      content = message[:content]
+      content.is_a?(RubyLLM::Content) ? message.merge(content: content.to_h) : message
+    end
   end
 end
