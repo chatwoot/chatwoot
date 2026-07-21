@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "購読イベント",
       "LEARN_MORE": "Webhookについて詳しく知る",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "今すぐアップグレード",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copy secret to clipboard",
@@ -392,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "キャプテン",
     "HEADER_KNOW_MORE": "詳細を見る",
+    "OVERVIEW": {
+      "HEADER": "概要",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "閉じる"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review FAQs",
+        "DISMISS": "閉じる"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "さらに読み込む",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "PENDING": "Pending FAQs",
+        "DOCUMENTS": "ドキュメント"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "プレイグラウンド",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "請求",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "アシスタント",
       "SWITCH_ASSISTANT": "アシスタントを切り替える",
@@ -493,10 +576,6 @@
           "LABEL": "名前",
           "PLACEHOLDER": "Enter assistant name",
           "ERROR": "The name is required"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
         },
         "DESCRIPTION": {
           "LABEL": "説明",
@@ -739,6 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "ドキュメント",
       "ADD_NEW": "新しいドキュメントを作成",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} selected",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
@@ -798,7 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "関連するFAQ",
-        "DESCRIPTION": "これらのFAQはドキュメントから直接生成されます。"
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "離席中",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "コピー",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "ドキュメントのURLを入力して知識ソースとして追加し、それに関連付けるアシスタントを選択してください。",
       "CREATE": {
@@ -838,7 +938,7 @@
         "ERROR_MESSAGE": "ドキュメントの削除中にエラーが発生しました。もう一度お試しください。"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "関連する応答を表示",
+        "VIEW_DETAILS": "詳細を表示",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "ドキュメントを削除"

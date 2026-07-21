@@ -13,7 +13,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     @embedding_service = Captain::Llm::EmbeddingService.new(account_id: conversation.account_id)
   end
 
-  def generate_and_deduplicate
+  def generate_suggestions
     return [] if no_human_interaction?
 
     generate.map { |faq| route_candidate(faq) }
@@ -31,6 +31,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     embedding = embedding_service.get_embedding(candidate_text(faq))
 
     return discard_observation(faq) if matching_record(approved_faqs_for_language, faq, embedding)
+    return discard_observation(faq) if matching_record(dismissed_suggestions_for_language, faq, embedding)
 
     suggestion = matching_record(open_suggestions_for_language, faq, embedding)
     suggestion ||= assistant.faq_suggestions.create!(
@@ -66,8 +67,8 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
       candidate: candidate.slice('question', 'answer'),
       existing: { question: existing_record.question, answer: existing_record.answer }
     }
-    prompt = Captain::Llm::ConversationFaqPromptsService.equivalence_classifier
-    response = instrument_llm_call(equivalence_instrumentation_params(prompt, comparison)) do
+    prompt = Captain::Llm::ConversationFaqPromptsService.same_faq
+    response = instrument_llm_call(match_instrumentation_params(prompt, comparison)) do
       chat
         .with_params(response_format: { type: 'json_object' })
         .with_instructions(prompt)
@@ -79,7 +80,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
 
     JSON.parse(response_content).fetch('same_faq', false) == true
   rescue JSON::ParserError, RubyLLM::Error => e
-    Rails.logger.error "FAQ equivalence classification failed: #{e.message}"
+    Rails.logger.error "FAQ match failed: #{e.message}"
     false
   end
 
@@ -114,6 +115,10 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
 
   def open_suggestions_for_language
     assistant.faq_suggestions.where(account_id: conversation.account_id).open.by_language(faq_language)
+  end
+
+  def dismissed_suggestions_for_language
+    assistant.faq_suggestions.where(account_id: conversation.account_id).dismissed.by_language(faq_language)
   end
 
   def approved_faqs_for_language
@@ -155,14 +160,14 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     }
   end
 
-  def equivalence_instrumentation_params(prompt, comparison)
+  def match_instrumentation_params(prompt, comparison)
     {
-      span_name: 'llm.captain.faq_equivalence',
+      span_name: 'llm.captain.faq_match',
       model: model,
       temperature: temperature,
       account_id: conversation.account_id,
       conversation_id: conversation.display_id,
-      feature_name: 'conversation_faq_deduplication',
+      feature_name: 'conversation_faq_match',
       messages: [
         { role: 'system', content: prompt },
         { role: 'user', content: comparison.to_json }
