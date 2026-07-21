@@ -8,8 +8,9 @@
 class Captain::AssistantCreditUsageBuilder
   CACHE_TTL = 30.days
 
-  # Credit tracking on agent_sessions began on this date; there is no data
-  # before it, so both spans are clamped to start here.
+  # Credit tracking on agent_sessions began on this date. Earlier days are still
+  # returned in `daily` but with a nil value ("no data recorded") and are
+  # excluded from the queried span and the window totals.
   DATA_EPOCH = Date.new(2026, 7, 17)
 
   def initialize(assistant, window)
@@ -19,9 +20,10 @@ class Captain::AssistantCreditUsageBuilder
 
   # => { current:, previous:, daily: [{ date:, value: }, ...] }
   # `daily` covers the current window only; `previous` is the total for the
-  # preceding equal-length day span, used for the trend.
+  # preceding equal-length day span, used for the trend. A nil daily value means
+  # the day predates credit tracking.
   def build
-    sums = daily_sums(previous_dates.to_a + current_dates.to_a)
+    sums = daily_sums(recorded_dates)
 
     {
       current: total(sums, current_dates),
@@ -35,21 +37,29 @@ class Captain::AssistantCreditUsageBuilder
   attr_reader :assistant, :window
 
   # Credit usage is bucketed on calendar days (unlike the rolling timestamp
-  # windows of the other metrics), so the previous span is derived from the
-  # current one's dates rather than window.previous — this keeps the two spans
-  # non-overlapping at the boundary day.
+  # windows of the other metrics): a day-count range means exactly N calendar
+  # days ending today in the viewer's timezone, and month ranges follow the
+  # window's calendar boundaries.
   def current_dates
-    @current_dates ||= begin
-      first = window.current.first.in_time_zone(timezone).to_date
-      [first, DATA_EPOCH].max..window.current.last.in_time_zone(timezone).to_date
-    end
+    @current_dates ||= if window.range.match?(/\A\d+\z/)
+                         (today - (window.range.to_i - 1))..today
+                       else
+                         window.current.first.in_time_zone(timezone).to_date..window.current.last.in_time_zone(timezone).to_date
+                       end
   end
 
-  # Clamping can leave this span empty (window fully before the epoch); the
-  # trend then compares against 0 and the frontend hides it.
+  # Derived from the current span (rather than window.previous) so the two
+  # spans stay equal-length and non-overlapping at the boundary day.
   def previous_dates
-    first = current_dates.first - current_dates.count
-    [first, DATA_EPOCH].max..(current_dates.first - 1)
+    (current_dates.first - current_dates.count)..(current_dates.first - 1)
+  end
+
+  # Pre-epoch days are never queried or cached; they fall out of the sums hash
+  # and surface as nil daily values / zero contribution to totals. While the
+  # previous span is fully pre-epoch this leaves `previous` at 0, so the
+  # frontend hides the trend.
+  def recorded_dates
+    (previous_dates.to_a + current_dates.to_a).select { |date| date >= DATA_EPOCH }
   end
 
   def daily_sums(dates)
@@ -79,7 +89,7 @@ class Captain::AssistantCreditUsageBuilder
   end
 
   def total(sums, dates)
-    dates.sum { |date| sums[date] }.round(2)
+    dates.sum { |date| sums[date].to_f }.round(2)
   end
 
   def today
