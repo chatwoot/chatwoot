@@ -27,7 +27,7 @@ RSpec.describe Captain::AssistantStatsBuilder do
 
       expect(metrics.keys).to contain_exactly(
         :conversations_handled, :auto_resolution_rate, :handoff_rate,
-        :hours_saved, :reopen_rate, :conversation_depth, :knowledge
+        :hours_saved, :reopen_rate, :conversation_depth, :credit_usage, :knowledge
       )
       expect(metrics[:conversations_handled]).to include(:current, :previous, :trend)
     end

@@ -57,6 +57,7 @@ class Captain::AssistantStatsBuilder
       hours_saved: pack(current[:hours_saved], previous[:hours_saved], :percent),
       reopen_rate: pack(current[:reopen], previous[:reopen], :point),
       conversation_depth: pack(current[:depth], previous[:depth], :absolute),
+      credit_usage: credit_usage,
       knowledge: knowledge
     }
   end
@@ -179,6 +180,13 @@ class Captain::AssistantStatsBuilder
                              'AND reporting_events.event_end_time >= resolves.event_end_time')
                       .distinct.count('reporting_events.conversation_id')
     rate(reopened, resolved_scope.distinct.count(:conversation_id))
+  end
+
+  # Credits consumed by the assistant's agent sessions: window totals packed like
+  # the other trend metrics, plus the per-day series for the usage chart.
+  def credit_usage
+    usage = Captain::AssistantCreditUsageBuilder.new(assistant, window).build
+    pack(usage[:current], usage[:previous], :percent).merge(daily: usage[:daily])
   end
 
   # Approved/pending FAQ counts and the document total in a single round trip.

@@ -14,7 +14,7 @@ class Captain::AssistantStatsWindow
   DEFAULT_RANGE = '30'.freeze
   ALLOWED_RANGES = %w[7 30 90 this_month last_month].freeze
 
-  attr_reader :range
+  attr_reader :range, :timezone
 
   def initialize(range = DEFAULT_RANGE, timezone_offset = nil)
     @range = ALLOWED_RANGES.include?(range.to_s) ? range.to_s : DEFAULT_RANGE
