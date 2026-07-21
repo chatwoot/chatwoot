@@ -100,14 +100,13 @@
       "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
       "EMAIL_INPUT_PLACEHOLDER": "Enter email",
       "URL_INPUT_PLACEHOLDER": "Enter URL",
-      "CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER": "Enter value or insert a variable",
-      "CUSTOM_ATTRIBUTE_DATE_PLACEHOLDER": "YYYY-MM-DD or {{date.today}}",
+      "CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER": "Enter a value",
+      "CUSTOM_ATTRIBUTE_DATE_PLACEHOLDER": "YYYY-MM-DD",
       "CUSTOM_ATTRIBUTE_LABEL": "Attribute",
       "CUSTOM_ATTRIBUTE_VALUE_LABEL": "Value",
       "CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER": "Select a custom attribute",
-      "CUSTOM_ATTRIBUTE_EMPTY": "No text/date custom attributes found. Create them in Settings → Custom Attributes first.",
-      "CUSTOM_ATTRIBUTE_USE_TODAY": "Use today's date",
-      "VARIABLES_HINT": "You can use a fixed value or a Liquid variable such as date.today"
+      "CUSTOM_ATTRIBUTE_EMPTY": "No custom attributes found. Create them in Settings → Custom Attributes first.",
+      "CUSTOM_ATTRIBUTE_USE_TODAY": "Use today's date"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
