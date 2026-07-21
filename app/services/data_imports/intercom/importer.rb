@@ -434,10 +434,33 @@ class DataImports::Intercom::Importer
   end
 
   def bulk_message_batch_result(conversation, contact, batch_builder, entries)
-    bulk_write_message_entries(conversation, contact, batch_builder, entries)
-  rescue StandardError
-    entries.each { |entry| import_message(conversation, contact, entry) } unless @import_stopped
+    with_query_timeout_retry do
+      bulk_write_message_entries(conversation, contact, batch_builder, entries)
+    end
+  rescue ActiveRecord::ActiveRecordError
+    fallback_message_entries(conversation, contact, batch_builder, entries) unless @import_stopped
     nil
+  end
+
+  def fallback_message_entries(conversation, contact, batch_builder, entries)
+    entries.each do |entry|
+      break if @import_stopped
+
+      message = fallback_message_entry(conversation, contact, batch_builder, entry)
+      reindex_message_for_search(message) if message.is_a?(Message)
+    end
+  end
+
+  def fallback_message_entry(conversation, contact, batch_builder, entry)
+    @data_import.with_lock do
+      if inactive_import_run?
+        @import_stopped = true
+        next
+      end
+
+      refreshed_entry = batch_builder.refresh([entry]).entries.first
+      import_message(conversation, contact, refreshed_entry, reindex: false)
+    end
   end
 
   def bulk_write_message_entries(conversation, contact, batch_builder, entries)
@@ -533,19 +556,23 @@ class DataImports::Intercom::Importer
     increment_stat('messages', 'skipped') unless already_recorded
   end
 
-  def import_message(conversation, contact, entry)
-    with_query_timeout_retry do
-      case entry.classification
-      when :current_import
-        reconcile_current_run_message_mapping(conversation, entry.mapping, entry.part)
-      when :previous_import
-        skip_existing_message_mapping(conversation, entry.mapping, entry.part)
-      when :repairable_stale_mapping, :existing_message, :new_message
-        create_message(conversation, contact, entry)
-      else
-        raise ArgumentError, "Unsupported Intercom message classification: #{entry.classification}"
+  def import_message(conversation, contact, entry, reindex: true)
+    message = with_query_timeout_retry do
+      Message.transaction(requires_new: true) do
+        case entry.classification
+        when :current_import
+          reconcile_current_run_message_mapping(conversation, entry.mapping, entry.part)
+        when :previous_import
+          skip_existing_message_mapping(conversation, entry.mapping, entry.part)
+        when :repairable_stale_mapping, :existing_message, :new_message
+          create_message(conversation, contact, entry)
+        else
+          raise ArgumentError, "Unsupported Intercom message classification: #{entry.classification}"
+        end
       end
     end
+    reindex_message_for_search(message) if reindex && message.is_a?(Message)
+    message
   rescue StandardError => e
     fail_message(conversation, entry.source_id, entry.part, e)
   end
@@ -556,15 +583,12 @@ class DataImports::Intercom::Importer
 
     attrs = message_attributes(conversation, contact, entry.part, entry.source_id, content)
     message = entry.message
-    Message.transaction do
-      unless message
-        result = Message.insert_all!([attrs], returning: %w[id])
-        message = Message.find(result.rows.first.first)
-      end
-      record_message_mapping(entry, message)
+    unless message
+      result = Message.insert_all!([attrs], returning: %w[id])
+      message = Message.find(result.rows.first.first)
     end
+    record_message_mapping(entry, message)
     increment_stat('messages', 'imported')
-    reindex_message_for_search(message)
     message
   end
 
