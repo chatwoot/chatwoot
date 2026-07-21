@@ -26,7 +26,7 @@ const onActivate = () => {
 
 <template>
   <div
-    class="flex flex-col gap-3 p-5 group bg-n-solid-1"
+    class="flex flex-col gap-3 p-5 bg-n-solid-1"
     :class="
       clickable
         ? 'cursor-pointer transition-colors hover:bg-n-slate-2/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand'
@@ -43,7 +43,7 @@ const onActivate = () => {
       <span
         v-if="hint"
         v-tooltip="hint"
-        class="transition-opacity opacity-0 cursor-help i-lucide-info size-3.5 text-n-slate-10 group-hover:opacity-100"
+        class="cursor-help i-lucide-info size-3.5 text-n-slate-9"
       />
     </div>
     <div v-if="loading" class="flex items-end justify-between gap-2">

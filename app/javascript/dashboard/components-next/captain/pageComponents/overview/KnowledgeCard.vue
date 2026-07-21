@@ -57,13 +57,13 @@ const stats = computed(() => [
         {{ $t('CAPTAIN.OVERVIEW.KNOWLEDGE.COVERAGE', { pct: approvedPct }) }}
       </span>
     </div>
-    <div class="w-full h-2 overflow-hidden rounded-full bg-n-alpha-2">
+    <div class="w-full h-2 mt-4 overflow-hidden rounded-full bg-n-alpha-2">
       <div
         class="h-full rounded-full bg-n-brand"
         :style="{ width: `${approvedPct}%` }"
       />
     </div>
-    <div class="grid grid-cols-3 gap-3">
+    <div class="grid grid-cols-3 gap-3 mt-4">
       <RouterLink
         v-for="stat in stats"
         :key="stat.key"
