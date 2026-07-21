@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -27,18 +27,48 @@ const selectedRange = ref('this_month');
 
 const assistantId = computed(() => route.params.assistantId);
 const stats = ref(null);
+const isFetching = ref(false);
+
+// Increments on every fetch so a response (or retry) from a superseded
+// range/assistant can't clobber the latest request's state.
+let fetchToken = 0;
+let abortController = null;
 
 const fetchStats = async () => {
-  try {
-    const { data } = await CaptainAssistant.getStats({
+  fetchToken += 1;
+  const token = fetchToken;
+  abortController?.abort();
+  abortController = new AbortController();
+  const { signal } = abortController;
+  stats.value = null;
+  isFetching.value = true;
+
+  const requestStats = () =>
+    CaptainAssistant.getStats({
       assistantId: assistantId.value,
       range: selectedRange.value,
+      signal,
     });
-    stats.value = data;
+
+  let data = null;
+  try {
+    ({ data } = await requestStats());
   } catch {
-    stats.value = null;
+    // One silent retry before giving up, unless the request was aborted.
+    try {
+      if (token === fetchToken && !signal.aborted)
+        ({ data } = await requestStats());
+    } catch {
+      data = null;
+    }
   }
+
+  if (token !== fetchToken || signal.aborted) return;
+  stats.value = data;
+  isFetching.value = false;
 };
+
+onUnmounted(() => abortController?.abort());
 
 watch([selectedRange, assistantId], fetchStats, { immediate: true });
 
@@ -156,7 +186,7 @@ const closeDrilldown = () => {
 
         <CoverageBanner :knowledge="stats?.knowledge" />
 
-        <WelcomeCard :range="selectedRange" />
+        <WelcomeCard :range="selectedRange" :stats="stats" />
 
         <div
           class="grid grid-cols-1 gap-px overflow-hidden border rounded-xl sm:grid-cols-2 lg:grid-cols-3 bg-n-weak border-n-weak"
@@ -169,7 +199,8 @@ const closeDrilldown = () => {
             :trend="metric.trend"
             :hint="metric.hint"
             :trend-good="metric.trendGood"
-            :clickable="canDrilldown && Boolean(metric.metric)"
+            :loading="isFetching"
+            :clickable="canDrilldown && Boolean(metric.metric) && !isFetching"
             @click="openDrilldown(metric)"
           />
         </div>

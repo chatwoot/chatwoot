@@ -18,6 +18,18 @@
       </h1>
       <p class="text-slate-600 dark:text-slate-200 text-start text-lg leading-normal pt-2 pb-4"><%= I18n.t('public_portal.hero.sub_title') %></p>
       <div id="search-wrap" class="w-full relative z-30"></div>
+      <% if @recommended_categories.present? %>
+        <div class="mt-5 flex items-center gap-2 flex-wrap text-sm">
+          <span class="text-slate-500 dark:text-slate-400"><%= I18n.t('public_portal.sidebar.recommended_label') %></span>
+          <% @recommended_categories.each do |category| %>
+            <a href="<%= public_portal_category_path(@portal.slug, category.locale, category.slug) %>"
+               class="recommended-pill inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white dark:bg-slate-800 border border-solid border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-100 transition">
+              <% if category.icon.present? %><span class="inline-flex items-center text-xs leading-none"><%= render_emoji_or_icon(category.icon, category.icon_color) %></span><% end %>
+              <%= category.name %>
+            </a>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 </section>
