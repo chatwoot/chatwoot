@@ -44,11 +44,11 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def stats
-    render json: Captain::AssistantStatsBuilder.new(@assistant, params[:range], params[:timezone_offset]).metrics
+    render json: assistant_stats_builder.metrics
   end
 
   def summary
-    result = cached_or_generated_summary(Captain::AssistantStatsBuilder.new(@assistant, params[:range], params[:timezone_offset]))
+    result = cached_or_generated_summary(assistant_stats_builder)
 
     if result[:error]
       render json: { error: result[:error] }, status: :unprocessable_content
@@ -64,6 +64,15 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   private
+
+  def assistant_stats_builder
+    Captain::AssistantStatsBuilder.new(
+      @assistant,
+      params[:range],
+      params[:timezone_offset],
+      suggestions_scope: Captain::FaqSuggestionFinder.new(Current.user, Current.account).perform
+    )
+  end
 
   def drilldown_params
     params.permit(:metric, :range, :timezone_offset, :page, :per_page)
