@@ -11,6 +11,8 @@ import { IFrameHelper } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 import { emitter } from 'shared/helpers/mitt';
 
+const TRANSCRIPT_COOLDOWN_MS = 15000;
+
 export default {
   components: {
     ChatInputWrap,
@@ -25,7 +27,8 @@ export default {
     return {
       inReplyTo: null,
       isSendingTranscript: false,
-      transcriptSent: false,
+      transcriptCooldown: false,
+      transcriptCooldownTimer: null,
     };
   },
   computed: {
@@ -58,6 +61,9 @@ export default {
   },
   mounted() {
     emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
+  },
+  beforeUnmount() {
+    clearTimeout(this.transcriptCooldownTimer);
   },
   methods: {
     ...mapActions('conversation', ['sendMessage', 'sendAttachment']),
@@ -92,14 +98,25 @@ export default {
     toggleReplyTo(message) {
       this.inReplyTo = message;
     },
+    startTranscriptCooldown() {
+      this.transcriptCooldown = true;
+      clearTimeout(this.transcriptCooldownTimer);
+      this.transcriptCooldownTimer = setTimeout(() => {
+        this.transcriptCooldown = false;
+      }, TRANSCRIPT_COOLDOWN_MS);
+    },
     async sendTranscript() {
-      if (!this.hasEmail || this.isSendingTranscript || this.transcriptSent) {
+      if (
+        !this.hasEmail ||
+        this.isSendingTranscript ||
+        this.transcriptCooldown
+      ) {
         return;
       }
       this.isSendingTranscript = true;
       try {
         await sendEmailTranscript();
-        this.transcriptSent = true;
+        this.startTranscriptCooldown();
         emitter.emit(BUS_EVENTS.SHOW_ALERT, {
           message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'),
           type: 'success',
@@ -151,7 +168,7 @@ export default {
       v-if="showEmailTranscriptButton"
       type="clear"
       class="font-normal"
-      :disabled="isSendingTranscript || transcriptSent"
+      :disabled="isSendingTranscript || transcriptCooldown"
       @click="sendTranscript"
     >
       {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
