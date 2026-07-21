@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -32,10 +32,14 @@ const isFetching = ref(false);
 // Increments on every fetch so a response (or retry) from a superseded
 // range/assistant can't clobber the latest request's state.
 let fetchToken = 0;
+let abortController = null;
 
 const fetchStats = async () => {
   fetchToken += 1;
   const token = fetchToken;
+  abortController?.abort();
+  abortController = new AbortController();
+  const { signal } = abortController;
   stats.value = null;
   isFetching.value = true;
 
@@ -43,24 +47,28 @@ const fetchStats = async () => {
     CaptainAssistant.getStats({
       assistantId: assistantId.value,
       range: selectedRange.value,
+      signal,
     });
 
   let data = null;
   try {
     ({ data } = await requestStats());
   } catch {
-    // One silent retry before giving up.
+    // One silent retry before giving up, unless the request was aborted.
     try {
-      if (token === fetchToken) ({ data } = await requestStats());
+      if (token === fetchToken && !signal.aborted)
+        ({ data } = await requestStats());
     } catch {
       data = null;
     }
   }
 
-  if (token !== fetchToken) return;
+  if (token !== fetchToken || signal.aborted) return;
   stats.value = data;
   isFetching.value = false;
 };
+
+onUnmounted(() => abortController?.abort());
 
 watch([selectedRange, assistantId], fetchStats, { immediate: true });
 
