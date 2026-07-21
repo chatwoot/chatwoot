@@ -50,7 +50,12 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
   end
 
   def can_reconfigure_channel?
-    @inbox.channel.provider == 'whatsapp_cloud'
+    channel = @inbox.channel
+    return false unless channel.provider == 'whatsapp_cloud'
+    return true if ChatwootApp.chatwoot_cloud?
+    return Current.account.feature_enabled?('whatsapp_reconfigure') if channel.provider_config['source'] == 'embedded_signup'
+
+    true
   end
 
   def render_success_response(inbox)

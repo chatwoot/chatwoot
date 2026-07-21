@@ -64,11 +64,12 @@ export default {
     showWhatsAppReconfigure() {
       return (
         this.isEmbeddedSignupWhatsApp &&
-        (!this.isOnChatwootCloud ||
-          this.isFeatureEnabledonAccount(
-            this.accountId,
-            FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW
-          ))
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          this.isOnChatwootCloud
+            ? FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW
+            : FEATURE_FLAGS.WHATSAPP_RECONFIGURE
+        )
       );
     },
     isForwardingEnabled() {
