@@ -1282,8 +1282,9 @@ RSpec.describe 'Conversations API', type: :request do
              params: { custom_attributes: ['test'] },
              as: :json
 
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
         expect(conversation.reload.custom_attributes).to eq({ 'test1' => 'test1' })
+        expect(response.parsed_body['custom_attributes']).to eq({ 'test1' => 'test1' })
       end
     end
   end
