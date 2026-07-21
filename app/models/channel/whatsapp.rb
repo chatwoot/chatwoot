@@ -35,7 +35,7 @@ class Channel::Whatsapp < ApplicationRecord
   after_create :sync_templates
   after_update_commit :log_credentials_transfer, if: :saved_change_to_provider_config?
   before_destroy :teardown_webhooks
-  after_commit :setup_webhooks, on: :create, if: :should_auto_setup_webhooks?
+  after_commit :enqueue_webhook_setup, on: :create, if: :should_auto_setup_webhooks?
 
   def name
     'Whatsapp'
@@ -120,11 +120,18 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
 
+  # Runs synchronously inside Channels::Whatsapp::WebhookSetupJob; the Meta Graph
+  # calls are kept off the request thread so a slow response can't trip Rack::Timeout.
   def setup_webhooks
     perform_webhook_setup
   rescue StandardError => e
     Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
     prompt_reauthorization!
+  end
+
+  # Enqueue on the same channel record so GlobalID resolves it in the job.
+  def enqueue_webhook_setup
+    Channels::Whatsapp::WebhookSetupJob.perform_later(self)
   end
 
   private

@@ -124,26 +124,25 @@ RSpec.describe Channel::Whatsapp do
     end
 
     context 'when channel is created through manual setup' do
-      it 'setups webhooks via after_commit callback' do
-        expect(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
-        expect(webhook_service).to receive(:perform)
-
+      it 'enqueues webhook setup via after_commit callback' do
         # Explicitly set source to nil to test manual setup behavior (not embedded_signup)
-        create(:channel_whatsapp,
-               account: account,
-               provider: 'whatsapp_cloud',
-               provider_config: {
-                 'business_account_id' => 'test_waba_id',
-                 'api_key' => 'test_access_token',
-                 'source' => nil
-               },
-               validate_provider_config: false,
-               sync_templates: false)
+        expect do
+          create(:channel_whatsapp,
+                 account: account,
+                 provider: 'whatsapp_cloud',
+                 provider_config: {
+                   'business_account_id' => 'test_waba_id',
+                   'api_key' => 'test_access_token',
+                   'source' => nil
+                 },
+                 validate_provider_config: false,
+                 sync_templates: false)
+        end.to have_enqueued_job(Channels::Whatsapp::WebhookSetupJob)
       end
     end
 
     context 'when channel is created with different provider' do
-      it 'does not setup webhooks for 360dialog provider' do
+      it 'does not enqueue webhook setup for 360dialog provider' do
         expect(Whatsapp::WebhookSetupService).not_to receive(:new)
 
         create(:channel_whatsapp,
