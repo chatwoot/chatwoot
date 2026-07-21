@@ -39,18 +39,27 @@ class DataImports::Intercom::MessageBatchBuilder
   end
 
   def perform
-    source_entries = ordered_source_entries
+    classify(ordered_source_entries)
+  end
+
+  def refresh(entries)
+    classify(entries.map do |entry|
+      { source_id: entry.source_id, part: entry.part, position: entry.position }
+    end)
+  end
+
+  private
+
+  def classify(source_entries)
     return Batch.new(items: []) if source_entries.empty?
 
     mappings = message_mappings(source_entries)
     messages = messages_for(source_entries, mappings)
 
     Batch.new(items: source_entries.map.with_index do |source_entry, position|
-      build_entry(source_entry, position, mappings, messages)
+      build_entry(source_entry, source_entry.fetch(:position, position), mappings, messages)
     end)
   end
-
-  private
 
   def ordered_source_entries
     entries = []
