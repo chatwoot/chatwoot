@@ -32,9 +32,9 @@ class CaptainAssistant extends ApiClient {
     });
   }
 
-  getSummary({ assistantId, range }) {
+  getSummary({ assistantId, range, stats }) {
     return axios.get(`${this.url}/${assistantId}/summary`, {
-      params: { range, timezone_offset: getTimezoneOffset() },
+      params: { range, timezone_offset: getTimezoneOffset(), stats },
     });
   }
 

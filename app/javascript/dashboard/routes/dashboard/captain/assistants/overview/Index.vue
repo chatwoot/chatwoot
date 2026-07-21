@@ -156,7 +156,7 @@ const closeDrilldown = () => {
 
         <CoverageBanner :knowledge="stats?.knowledge" />
 
-        <WelcomeCard :range="selectedRange" />
+        <WelcomeCard :range="selectedRange" :stats="stats" />
 
         <div
           class="grid grid-cols-1 gap-px overflow-hidden border rounded-xl sm:grid-cols-2 lg:grid-cols-3 bg-n-weak border-n-weak"

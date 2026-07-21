@@ -9,6 +9,10 @@ const props = defineProps({
     type: String,
     default: '30',
   },
+  stats: {
+    type: Object,
+    default: null,
+  },
 });
 
 const route = useRoute();
@@ -21,11 +25,18 @@ const welcomeMarkdown = ref('');
 const isLoading = ref(false);
 
 const fetchSummary = async () => {
+  if (!props.stats) {
+    welcomeMarkdown.value = '';
+    isLoading.value = false;
+    return;
+  }
+
   isLoading.value = true;
   try {
     const { data } = await CaptainAssistant.getSummary({
       assistantId: assistantId.value,
       range: props.range,
+      stats: props.stats,
     });
     welcomeMarkdown.value = data.message ?? '';
   } catch {
@@ -35,7 +46,9 @@ const fetchSummary = async () => {
   }
 };
 
-watch([() => props.range, assistantId], fetchSummary, { immediate: true });
+watch([() => props.range, () => props.stats, assistantId], fetchSummary, {
+  immediate: true,
+});
 
 // Render through the shared markdown formatter (html disabled, so it is safe)
 // used everywhere else for Captain output, instead of a bespoke parser. It
