@@ -86,9 +86,21 @@
         "NOTE": "계정의 추가 보안 기능을 관리합니다.",
         "MFA_BUTTON": "2단계 인증 관리"
       },
+      "SESSIONS_SECTION": {
+        "TITLE": "Active Sessions",
+        "NOTE": "These are the devices currently logged in to your account.",
+        "CURRENT": "Current session",
+        "REVOKE": "Revoke",
+        "REVOKE_SUCCESS": "Session revoked successfully",
+        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
+        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
+        "LAST_ACTIVE": "Last active",
+        "UNKNOWN_DEVICE": "Unknown device"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "액세스 토큰",
         "NOTE": "API 기반 통합을 구축하는 경우 이 토큰을 사용할 수 있습니다",
+        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
         "COPY": "복사",
         "RESET": "재설정",
         "CONFIRM_RESET": "정말로 진행하시겠습니까?",
@@ -313,6 +325,7 @@
     "ALL_COMPANIES": "모든 회사",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "어시스턴트",
+    "CAPTAIN_OVERVIEW": "개요",
     "CAPTAIN_DOCUMENTS": "문서",
     "CAPTAIN_RESPONSES": "FAQ",
     "CAPTAIN_TOOLS": "도구",
@@ -328,6 +341,7 @@
     "NOTIFICATIONS": "알림",
     "CANNED_RESPONSES": "미리 준비된 답변",
     "INTEGRATIONS": "통합",
+    "DATA": "Data",
     "PROFILE_SETTINGS": "프로필 설정",
     "ACCOUNT_SETTINGS": "계정 설정",
     "APPLICATIONS": "애플리케이션",
@@ -379,10 +393,123 @@
       "INFO_TEXT": "앱이나 대시보드를 사용하지 않을 때 시스템이 자동으로 오프라인으로 표시합니다.",
       "INFO_SHORT": "앱을 사용하지 않을 때 자동으로 오프라인으로 표시합니다."
     },
+    "SORT_TOOLTIP": "정렬",
+    "SORT_BY": "정렬",
+    "SORT_GROUPS": {
+      "CREATED": "Sort by date of creation",
+      "ALPHABETICAL": "Sort in alphabetical order",
+      "UNREAD_COUNT": "Sort by unread count"
+    },
+    "SORT_OPTIONS": {
+      "CREATED_DESC": "Newest first",
+      "CREATED_ASC": "Oldest first",
+      "ALPHABETICAL_ASC": "Ascending (A - Z)",
+      "ALPHABETICAL_DESC": "Descending (Z - A)",
+      "UNREAD_COUNT_DESC": "Highest first",
+      "UNREAD_COUNT_ASC": "Lowest first"
+    },
     "DOCS": "문서 읽기",
     "SECURITY": "보안",
     "CAPTAIN_AI": "Captain",
     "CONVERSATION_WORKFLOW": "대화 워크플로"
+  },
+  "DATA_IMPORTS": {
+    "HEADER": "Data",
+    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
+    "LOADING": "Fetching imports",
+    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "TABS": {
+      "IMPORT": "가져오기",
+      "EXPORT": "내보내기"
+    },
+    "TYPES": {
+      "CONTACTS": "연락처",
+      "CONVERSATIONS": "대화",
+      "MESSAGES": "메시지"
+    },
+    "DRAWER": {
+      "TITLE": "New import",
+      "SOURCE": "Source",
+      "NAME": "Import name",
+      "NAME_PLACEHOLDER": "July Intercom migration",
+      "ACCESS_KEY": "Intercom access key",
+      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "DATA_TYPES": "Data to import",
+      "VALIDATING": "Validating access key...",
+      "VALID_KEY": "Access key validated.",
+      "INVALID_KEY": "Could not validate this access key.",
+      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "CANCEL": "취소",
+      "IMPORT": "가져오기"
+    },
+    "EXPORT": {
+      "TITLE": "Exports are on the way",
+      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
+      "COMING_SOON": "곧 출시 예정"
+    },
+    "TABLE": {
+      "TITLE": "Recent imports",
+      "EMPTY": "No imports yet",
+      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "NEW_IMPORT": "가져오기",
+      "COUNT": "{count} imports",
+      "UNNAMED": "Untitled import",
+      "IMPORTED_COUNT": "{count} imported",
+      "VIEW": "View import",
+      "NAME": "이름",
+      "TYPE": "유형",
+      "STATUS": "상태",
+      "IMPORTED": "Imported",
+      "CREATED": "생성일",
+      "ABANDON": "Abandon"
+    },
+    "DETAIL": {
+      "BACK": "Back to imports",
+      "ERRORS": "Errors",
+      "SKIP_LOGS": "Skip logs",
+      "SOURCE": "Source",
+      "IMPORT_TYPES": "Import types",
+      "CREATED": "생성일",
+      "DURATION": "기간",
+      "INITIATED_BY": "Started by",
+      "PROGRESS": "Import progress",
+      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
+      "PROGRESS_OF_TOTAL": "of {total} imported",
+      "PROGRESS_IMPORTED": "imported",
+      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
+      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
+      "DOWNLOAD_SKIP_LOGS": "Download CSV",
+      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "ALL_SKIP_LOGS": "모두",
+      "KIND": "Kind",
+      "NO_ERRORS": "No errors recorded.",
+      "ERROR_CODE": "Code",
+      "SOURCE_OBJECT": "Source object",
+      "MESSAGE": "메시지"
+    },
+    "MONITOR": {
+      "LIVE": "Live updates every {seconds}s",
+      "LAST_UPDATED": "Last updated {time}",
+      "REFRESH": "새로고침",
+      "REFRESHING": "Refreshing",
+      "STAGES": {
+        "unknown": "Waiting for update",
+        "queued": "Queued",
+        "contacts": "Importing contacts",
+        "conversations": "Importing conversations",
+        "finalizing": "Finalizing import",
+        "completed": "완료됨",
+        "completed_with_errors": "Completed with errors",
+        "failed": "실패",
+        "abandoned": "Abandoned"
+      }
+    },
+    "ALERTS": {
+      "IMPORT_STARTED": "Intercom import has started.",
+      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the Intercom import."
+    }
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Captain 설정",
@@ -414,7 +541,9 @@
       "DESCRIPTION": "AI 기반 기능을 활성화하거나 비활성화합니다.",
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "오디오 전사",
-        "DESCRIPTION": "음성 메시지와 통화 녹음을 검색 가능한 텍스트로 자동 변환합니다."
+        "DESCRIPTION": "음성 메시지와 통화 녹음을 검색 가능한 텍스트로 자동 변환합니다.",
+        "MODEL_TITLE": "Audio Transcription Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "도움말 센터 검색 인덱싱",
@@ -439,7 +568,18 @@
       "TITLE": "현재 플랜",
       "PLAN_NOTE": "현재 **{quantity}**개의 라이선스로 **{plan}** 플랜에 구독 중입니다",
       "SEAT_COUNT": "시트 수",
-      "RENEWS_ON": "갱신일"
+      "RENEWS_ON": "갱신일",
+      "CURRENCY": "Currency"
+    },
+    "CURRENCY": {
+      "SELECT": {
+        "TITLE": "Choose your billing currency",
+        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+      },
+      "OPTIONS": {
+        "USD": "US Dollar (USD)",
+        "BRL": "Brazilian Real (BRL)"
+      }
     },
     "VIEW_PRICING": "가격 보기",
     "MANAGE_SUBSCRIPTION": {
@@ -475,6 +615,7 @@
       "PURCHASE": "크레딧 구매",
       "LOADING": "옵션 로딩 중...",
       "FETCH_ERROR": "크레딧 옵션을 로드하지 못했습니다. 다시 시도하십시오.",
+      "RETRY": "재시도",
       "PURCHASE_ERROR": "구매 처리에 실패했습니다. 다시 시도하십시오.",
       "PURCHASE_SUCCESS": "{credits} 크레딧이 계정에 성공적으로 추가되었습니다",
       "CONFIRM": {
@@ -775,6 +916,10 @@
           "DESCRIPTION": "에이전트 과부하를 방지하기 위해 시간 창 내에서 에이전트당 배정할 수 있는 최대 대화 수를 설정합니다. 이 필수 필드의 기본값은 시간당 100개 대화입니다.",
           "INPUT_MAX": "최대 배정",
           "DURATION": "에이전트당 대화 수"
+        },
+        "EXCLUDE_OLDER_THAN": {
+          "LABEL": "Skip stale conversations",
+          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
         },
         "INBOXES": {
           "LABEL": "추가된 받은 메시지함",

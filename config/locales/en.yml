@@ -493,7 +493,10 @@ en:
       browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
       popular_articles: Popular articles
       popular_articles_subtitle: What other people are reading right now.
+      recommended: Recommended articles
+      recommended_subtitle: Hand-picked articles to get you started.
       popular_label: 'Popular topics:'
+      recommended_label: 'Recommended topics:'
       authors_others: "%{names} and %{count} others"
       primary_nav: Primary
     hero:
@@ -529,6 +532,7 @@ en:
         light: Light
         dark: Dark
       featured_articles: Featured Articles
+      recommended: Recommended articles
       uncategorized: Uncategorized
     404:
       title: Page not found

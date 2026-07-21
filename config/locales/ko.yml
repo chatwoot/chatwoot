@@ -33,8 +33,33 @@ ko:
     login_saml_user: 이 계정은 SAML 인증을 사용합니다. 조직의 SAML 제공자를 통해 로그인하십시오.
     saml_not_available: 이 설치에서는 SAML 인증을 사용할 수 없습니다.
     inbox_deletetion_response: 받은 메시지함 삭제 요청이 곧 처리될 예정입니다.
+  data_imports:
+    intercom:
+      activities:
+        assignment: '%{actor} assigned the conversation'
+        assignment_with_target: '%{actor} assigned the conversation to %{target}'
+        assign_and_reopen: '%{actor} assigned and reopened the conversation'
+        assign_and_reopen_with_target: '%{actor} assigned the conversation to %{target} and reopened it'
+        open: '%{actor} opened the conversation'
+        close: '%{actor} closed the conversation'
+        snoozed: '%{actor} snoozed the conversation'
+        participant_added: '%{actor} added a participant'
+        participant_added_with_target: '%{actor} added %{target} as a participant'
+        participant_removed: '%{actor} removed a participant'
+        participant_removed_with_target: '%{actor} removed %{target} as a participant'
+        conversation_attribute_updated: '%{actor} updated conversation attributes'
+        ticket_attribute_updated: '%{actor} updated ticket attributes'
+        ticket_state_updated: '%{actor} updated the ticket state'
+        custom_action_started: '%{actor} started a custom action'
+        custom_action_finished: '%{actor} finished a custom action'
+        quick_reply: '%{actor} used a quick reply'
+        generic: '%{actor} recorded %{event}'
+  profile_settings:
+    sessions:
+      cannot_revoke_current: You cannot revoke the current session.
   errors:
     account:
+      not_authorized: You are not authorized to access this account
       reporting_timezone:
         invalid: is not a valid timezone
       support_email:
@@ -64,9 +89,14 @@ ko:
       file_too_large: 'File exceeds the maximum allowed size'
       unsupported_content_type: 'File type not supported (only images and videos are allowed)'
       unexpected: 'An unexpected error occurred'
+    database:
+      query_canceled: 'The request took too long to complete. Please try again.'
     saml:
       feature_not_enabled: 이 계정에서는 SAML 기능이 활성화되지 않았습니다
       sso_not_enabled: 이 설치에서는 SAML SSO가 활성화되지 않았습니다
+    conversations:
+      unread_counts:
+        feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
       data_type:
         invalid: 유효하지 않은 데이터 유형
@@ -92,6 +122,15 @@ ko:
         unique: 카테고리와 포털에서 고유해야 합니다
     dyte:
       invalid_message_type: '유효하지 않은 메시지 유형입니다. 작업이 허용되지 않습니다'
+      realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
+    cloudflare:
+      realtimekit:
+        invalid_credentials: 'Cloudflare RealtimeKit credentials are invalid. Please check the Account ID, RealtimeKit App ID, and API token permissions.'
+        missing_credentials: 'Cloudflare Account ID, RealtimeKit App ID, and API token are required.'
+        invalid_api_token: 'Cloudflare API token is invalid or inactive. Please create a new token with Realtime Admin permissions.'
+        invalid_account_or_permissions: 'Cloudflare Account ID is invalid, or the API token does not have Realtime Admin access to this account.'
+        app_not_found: 'RealtimeKit App ID was not found in this Cloudflare account. Please check the app you selected.'
+        verification_failed: 'Could not verify Cloudflare RealtimeKit credentials right now. Please try again.'
     slack:
       invalid_channel_id: '유효하지 않은 Slack 채널입니다. 다시 시도하십시오'
     whatsapp:
@@ -104,6 +143,7 @@ ko:
         not_supported: '이 유형의 WhatsApp 채널은 재인증을 지원하지 않습니다.'
       calls:
         not_enabled: 'Calling is not enabled for this inbox'
+        already_ended: 'This call has already ended'
         no_recording: 'No recording file provided'
         no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
@@ -142,6 +182,9 @@ ko:
       invalid_token: 유효하지 않거나 만료된 MFA 토큰
       invalid_credentials: 유효하지 않은 자격 증명 또는 인증 코드
       feature_unavailable: MFA 기능을 사용할 수 없습니다. 암호화 키를 구성하십시오.
+    billing:
+      invalid_currency: Invalid billing currency
+      currency_locked: Billing currency cannot be changed after billing has been set up
     topup:
       credits_required: 크레딧 금액이 필요합니다
       invalid_credits: 유효하지 않은 크레딧 금액
@@ -433,7 +476,10 @@ ko:
       browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
       popular_articles: Popular articles
       popular_articles_subtitle: What other people are reading right now.
+      recommended: Recommended articles
+      recommended_subtitle: Hand-picked articles to get you started.
       popular_label: 'Popular topics:'
+      recommended_label: 'Recommended topics:'
       authors_others: "%{names} and %{count} others"
       primary_nav: Primary
     hero:
@@ -469,6 +515,7 @@ ko:
         light: 밝게
         dark: 어둡게
       featured_articles: 추천 게시물
+      recommended: Recommended articles
       uncategorized: 카테고리가 지정되지 않음
     404:
       title: 페이지를 찾을 수 없습니다
@@ -539,6 +586,29 @@ ko:
     ssl_status:
       custom_domain_not_configured: '사용자 정의 도메인이 구성되지 않았습니다'
   super_admin:
+    captain_model_overrides:
+      form:
+        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        use_default: 'Use default: %{model} (%{model_id})'
+      show:
+        summary: 'View model routing'
+        provider: 'Provider'
+        model: 'Model'
+      sources:
+        account_override: 'Account override'
+        default: '기본'
+      features:
+        editor: 'Editor'
+        assistant: '어시스턴트'
+        copilot: 'Copilot'
+        label_suggestion: 'Label suggestion'
+        document_faq_generation: 'Document FAQ generation'
+        conversation_faq_generation: 'Conversation FAQ generation'
+        help_center_article_generation: 'Help center article generation'
+        onboarding_content_generation: 'Onboarding content generation'
+        help_center_query_translation: 'Help center query translation'
+        audio_transcription: 'Audio transcription'
+        help_center_search: 'Help center search'
     push_diagnostics:
       user_not_found: 'User not found.'
       no_subscriptions_to_test: 'Select at least one subscription to test.'
