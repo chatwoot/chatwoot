@@ -570,5 +570,46 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         end
       end
     end
+
+    # Every renderer below tracks the current list type and item number in instance state,
+    # so a nested list must leave the enclosing list's state untouched.
+    context 'when content contains nested lists' do
+      {
+        'Channel::Telegram' => '•',
+        'Channel::Whatsapp' => '-',
+        'Channel::Instagram' => '-',
+        'Channel::FacebookPage' => '-',
+        'Channel::Sms' => '-'
+      }.each do |channel_type, bullet|
+        context "when channel is #{channel_type}" do
+          it 'keeps numbering the outer ordered list after a nested bullet list' do
+            content = "1. first\n   - detail a\n   - detail b\n2. second\n3. third"
+            result = described_class.new(content, channel_type).render
+            expect(result).to include('1. first')
+            expect(result).to include("#{bullet} detail a")
+            expect(result).to include("#{bullet} detail b")
+            expect(result).to include('2. second')
+            expect(result).to include('3. third')
+          end
+
+          it 'keeps numbering the outer ordered list after a nested ordered list' do
+            content = "1. first\n   1. inner one\n   2. inner two\n2. second\n3. third"
+            result = described_class.new(content, channel_type).render
+            expect(result).to include('1. inner one')
+            expect(result).to include('2. inner two')
+            expect(result).to include('2. second')
+            expect(result).to include('3. third')
+          end
+
+          it 'keeps bullet markers on outer items whose content is an ordered list' do
+            content = "- 1. alpha\n- 2. beta\n- 3. gamma"
+            result = described_class.new(content, channel_type).render
+            expect(result).to include("#{bullet} 1. alpha")
+            expect(result).to include("#{bullet} 2. beta")
+            expect(result).to include("#{bullet} 3. gamma")
+          end
+        end
+      end
+    end
   end
 end
