@@ -106,7 +106,8 @@
       "CUSTOM_ATTRIBUTE_VALUE_LABEL": "Value",
       "CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER": "Select a custom attribute",
       "CUSTOM_ATTRIBUTE_EMPTY": "No text/date custom attributes found. Create them in Settings → Custom Attributes first.",
-      "VARIABLES_HINT": "Use { } to insert variables (contact fields, custom attributes, dates)"
+      "CUSTOM_ATTRIBUTE_USE_TODAY": "Use today's date",
+      "VARIABLES_HINT": "You can use a fixed value or a Liquid variable such as date.today"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",

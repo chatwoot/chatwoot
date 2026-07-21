@@ -106,7 +106,8 @@
       "CUSTOM_ATTRIBUTE_VALUE_LABEL": "Valor",
       "CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER": "Selecciona un atributo personalizado",
       "CUSTOM_ATTRIBUTE_EMPTY": "No hay atributos de texto/fecha. Créalos en Configuración → Atributos personalizados.",
-      "VARIABLES_HINT": "Usa { } para insertar variables (contacto, atributos, fechas)"
+      "CUSTOM_ATTRIBUTE_USE_TODAY": "Usar fecha de hoy",
+      "VARIABLES_HINT": "Puedes usar un valor fijo o una variable Liquid como date.today"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activar regla de automatización",
