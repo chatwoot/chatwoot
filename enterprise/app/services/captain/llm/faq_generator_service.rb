@@ -23,7 +23,7 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
     []
   rescue Faraday::Error => e
     Rails.logger.error "LLM API Error (transport): #{e.message}"
-    []
+    raise
   end
 
   private
