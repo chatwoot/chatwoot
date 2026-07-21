@@ -70,6 +70,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  usedInConversationsCount: {
+    type: Number,
+    default: 0,
+  },
   isSelected: {
     type: Boolean,
     default: false,
@@ -150,6 +154,11 @@ const createdAtLabel = computed(() => dynamicTime(props.createdAt));
 const responsesCountLabel = computed(() =>
   t('CAPTAIN.DOCUMENTS.FAQ_COUNT', { n: props.responsesCount })
 );
+const usedInConversationsCountLabel = computed(() =>
+  t('CAPTAIN.DOCUMENTS.USED_IN_CONVERSATIONS', {
+    n: props.usedInConversationsCount,
+  })
+);
 
 const displayLink = computed(() =>
   isPdf.value
@@ -216,7 +225,7 @@ const handleRetry = () => {
         </div>
       </div>
     </div>
-    <div class="flex gap-4 justify-between items-center w-full">
+    <div class="flex flex-wrap gap-4 justify-between items-center w-full">
       <span
         class="flex gap-1 items-center text-sm truncate shrink-0 text-n-slate-11"
       >
@@ -245,6 +254,9 @@ const handleRetry = () => {
       </span>
       <span class="text-sm shrink-0 text-n-slate-11">
         {{ responsesCountLabel }}
+      </span>
+      <span class="text-sm shrink-0 text-n-slate-11">
+        {{ usedInConversationsCountLabel }}
       </span>
       <DocumentSyncStatus
         v-if="showSyncStatus"

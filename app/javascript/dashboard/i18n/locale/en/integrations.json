@@ -819,6 +819,7 @@
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
       "FAQ_COUNT": "{n} FAQ | {n} FAQs",
+      "USED_IN_CONVERSATIONS": "Used in {n} conversation | Used in {n} conversations",
       "SELECTED": "{count} selected",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
