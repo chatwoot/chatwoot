@@ -58,13 +58,7 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
   end
 
   def set_suggestions
-    @suggestions = Current.account.captain_faq_suggestions.includes(:assistant).ordered
-    return if Current.account_user.administrator?
-
-    accessible_suggestion_ids = Captain::FaqObservation
-                                .where(conversation_id: accessible_conversations.select(:id))
-                                .select(:faq_suggestion_id)
-    @suggestions = @suggestions.where(id: accessible_suggestion_ids)
+    @suggestions = Captain::FaqSuggestionFinder.new(Current.user, Current.account).perform.includes(:assistant).ordered
   end
 
   def set_suggestion
