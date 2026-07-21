@@ -25,8 +25,11 @@ const route = useRoute();
 
 const kind = computed(() => getCallKind(props.call));
 
-const contactName = computed(
-  () => props.call.contact.name || props.call.contact.phoneNumber
+const contactName = computed(() =>
+  (props.call.contact.name || props.call.contact.phoneNumber || '').replace(
+    /^\+/,
+    ''
+  )
 );
 
 const agentActionLabel = computed(() => {
