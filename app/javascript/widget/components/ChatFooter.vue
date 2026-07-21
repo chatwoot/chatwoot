@@ -24,6 +24,8 @@ export default {
   data() {
     return {
       inReplyTo: null,
+      isSendingTranscript: false,
+      transcriptSent: false,
     };
   },
   computed: {
@@ -91,18 +93,23 @@ export default {
       this.inReplyTo = message;
     },
     async sendTranscript() {
-      if (this.hasEmail) {
-        try {
-          await sendEmailTranscript();
-          emitter.emit(BUS_EVENTS.SHOW_ALERT, {
-            message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'),
-            type: 'success',
-          });
-        } catch (error) {
-          emitter.$emit(BUS_EVENTS.SHOW_ALERT, {
-            message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'),
-          });
-        }
+      if (!this.hasEmail || this.isSendingTranscript || this.transcriptSent) {
+        return;
+      }
+      this.isSendingTranscript = true;
+      try {
+        await sendEmailTranscript();
+        this.transcriptSent = true;
+        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'),
+          type: 'success',
+        });
+      } catch (error) {
+        emitter.$emit(BUS_EVENTS.SHOW_ALERT, {
+          message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'),
+        });
+      } finally {
+        this.isSendingTranscript = false;
       }
     },
   },
@@ -144,6 +151,7 @@ export default {
       v-if="showEmailTranscriptButton"
       type="clear"
       class="font-normal"
+      :disabled="isSendingTranscript || transcriptSent"
       @click="sendTranscript"
     >
       {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
