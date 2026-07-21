@@ -27,17 +27,39 @@ const selectedRange = ref('this_month');
 
 const assistantId = computed(() => route.params.assistantId);
 const stats = ref(null);
+const isFetching = ref(false);
+
+// Increments on every fetch so a response (or retry) from a superseded
+// range/assistant can't clobber the latest request's state.
+let fetchToken = 0;
 
 const fetchStats = async () => {
-  try {
-    const { data } = await CaptainAssistant.getStats({
+  fetchToken += 1;
+  const token = fetchToken;
+  stats.value = null;
+  isFetching.value = true;
+
+  const requestStats = () =>
+    CaptainAssistant.getStats({
       assistantId: assistantId.value,
       range: selectedRange.value,
     });
-    stats.value = data;
+
+  let data = null;
+  try {
+    ({ data } = await requestStats());
   } catch {
-    stats.value = null;
+    // One silent retry before giving up.
+    try {
+      if (token === fetchToken) ({ data } = await requestStats());
+    } catch {
+      data = null;
+    }
   }
+
+  if (token !== fetchToken) return;
+  stats.value = data;
+  isFetching.value = false;
 };
 
 watch([selectedRange, assistantId], fetchStats, { immediate: true });
@@ -169,7 +191,8 @@ const closeDrilldown = () => {
             :trend="metric.trend"
             :hint="metric.hint"
             :trend-good="metric.trendGood"
-            :clickable="canDrilldown && Boolean(metric.metric)"
+            :loading="isFetching"
+            :clickable="canDrilldown && Boolean(metric.metric) && !isFetching"
             @click="openDrilldown(metric)"
           />
         </div>
