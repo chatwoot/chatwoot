@@ -122,7 +122,7 @@ export default {
           type: 'success',
         });
       } catch (error) {
-        emitter.$emit(BUS_EVENTS.SHOW_ALERT, {
+        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
           message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'),
         });
       } finally {
