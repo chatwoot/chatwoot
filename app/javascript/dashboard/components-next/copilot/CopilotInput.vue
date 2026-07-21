@@ -9,6 +9,7 @@ const props = defineProps({
 });
 const message = ref('');
 const textareaRef = ref(null);
+const isSending = ref(false);
 
 const adjustHeight = () => {
   if (!textareaRef.value) return;
@@ -20,14 +21,19 @@ const adjustHeight = () => {
 };
 
 const sendMessage = async () => {
-  if (message.value.trim()) {
-    const isSuccess = await props.onSend(message.value);
-    if (isSuccess) {
-      message.value = '';
-      // Reset textarea height after sending
-      nextTick(() => {
-        adjustHeight();
-      });
+  if (message.value.trim() && !isSending.value) {
+    isSending.value = true;
+    try {
+      const isSuccess = await props.onSend(message.value);
+      if (isSuccess) {
+        message.value = '';
+        // Reset textarea height after sending
+        nextTick(() => {
+          adjustHeight();
+        });
+      }
+    } finally {
+      isSending.value = false;
     }
   }
 };

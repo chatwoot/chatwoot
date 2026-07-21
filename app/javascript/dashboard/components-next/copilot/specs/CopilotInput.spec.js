@@ -35,4 +35,26 @@ describe('CopilotInput', () => {
     expect(onSend).toHaveBeenCalledWith('Hello, how can you help me?');
     expect(textarea.element.value).toBe('Hello, how can you help me?');
   });
+
+  it('ignores a duplicate submit while a send is in flight', async () => {
+    let resolveSend;
+    const onSend = vi.fn(
+      () =>
+        new Promise(resolve => {
+          resolveSend = resolve;
+        })
+    );
+    const wrapper = mountCopilotInput(onSend);
+    const textarea = wrapper.find('textarea');
+    const form = wrapper.find('form');
+
+    await textarea.setValue('Hello, how can you help me?');
+    await form.trigger('submit');
+    await form.trigger('submit');
+
+    expect(onSend).toHaveBeenCalledTimes(1);
+
+    resolveSend(true);
+    await flushPromises();
+  });
 });
