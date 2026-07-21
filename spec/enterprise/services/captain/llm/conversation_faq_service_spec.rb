@@ -28,7 +28,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
     allow(mock_chat).to receive(:ask).and_return(mock_response)
   end
 
-  describe '#generate_and_deduplicate' do
+  describe '#generate_suggestions' do
     context 'when successful' do
       before do
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one, embedding_two)
@@ -39,7 +39,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
           model: Llm::Models.default_model_for('conversation_faq_generation')
         ).and_return(mock_chat)
 
-        described_class.new(captain_assistant, conversation).generate_and_deduplicate
+        described_class.new(captain_assistant, conversation).generate_suggestions
       end
 
       it 'uses the conversation FAQ default ahead of the legacy global installation model' do
@@ -49,7 +49,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
           model: Llm::Models.default_model_for('conversation_faq_generation')
         ).and_return(mock_chat)
 
-        described_class.new(captain_assistant, conversation).generate_and_deduplicate
+        described_class.new(captain_assistant, conversation).generate_suggestions
       end
 
       it 'keeps account conversation FAQ model overrides ahead of the feature default' do
@@ -58,7 +58,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
         expect(RubyLLM).to receive(:chat).with(model: 'gpt-4.1-mini').and_return(mock_chat)
 
-        described_class.new(captain_assistant, conversation).generate_and_deduplicate
+        described_class.new(captain_assistant, conversation).generate_suggestions
       end
 
       it 'resolves the feature model from the conversation account' do
@@ -67,7 +67,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
           account: conversation.account
         ).and_call_original
 
-        described_class.new(captain_assistant, conversation).generate_and_deduplicate
+        described_class.new(captain_assistant, conversation).generate_suggestions
       end
 
       it 'sends only customer and human support agent messages to the LLM' do
@@ -85,7 +85,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
                          message_type: :activity, content: 'Activity message')
 
-        service.generate_and_deduplicate
+        service.generate_suggestions
 
         expected_content = satisfy do |content|
           content.include?('User: Customer question') &&
@@ -105,7 +105,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
                          sender: nil, message_type: :outgoing, content: 'Human replied from the native app',
                          content_attributes: { external_echo: true })
 
-        service.generate_and_deduplicate
+        service.generate_suggestions
 
         expected_content = satisfy do |content|
           content.include?('User: Customer asks in a native channel') &&
@@ -134,19 +134,19 @@ RSpec.describe Captain::Llm::ConversationFaqService do
           block.call
         end
 
-        service.generate_and_deduplicate
+        service.generate_suggestions
       end
 
       it 'creates suggestions instead of trusted FAQs for valid conversation content' do
         expect do
-          service.generate_and_deduplicate
+          service.generate_suggestions
         end.to change(captain_assistant.faq_suggestions, :count).by(2)
         expect(Captain::FaqObservation.count).to eq(2)
         expect(captain_assistant.responses.count).to be_zero
       end
 
       it 'saves open suggestions with one attached source each' do
-        service.generate_and_deduplicate
+        service.generate_suggestions
         expect(
           captain_assistant.faq_suggestions.pluck(:question, :answer, :status, :source_count, :language)
         ).to contain_exactly(
@@ -163,12 +163,12 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       let(:conversation) { create(:conversation) }
 
       it 'returns an empty array without generating FAQs' do
-        expect(service.generate_and_deduplicate).to eq([])
+        expect(service.generate_suggestions).to eq([])
       end
 
       it 'does not call the LLM API' do
         expect(RubyLLM).not_to receive(:chat)
-        service.generate_and_deduplicate
+        service.generate_suggestions
       end
     end
 
@@ -177,19 +177,19 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         create(:captain_assistant_response, assistant: captain_assistant, account: captain_assistant.account,
                                             question: 'Similar question', answer: 'Similar answer', embedding: embedding_one)
       end
-      let(:equivalence_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
+      let(:match_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
 
       before do
         existing_response
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
         allow(mock_chat).to receive(:ask) do |input|
-          input.start_with?('{') ? equivalence_response : mock_response
+          input.start_with?('{') ? match_response : mock_response
         end
       end
 
       it 'discards candidates the LLM confirms are covered by an approved FAQ' do
         expect do
-          service.generate_and_deduplicate
+          service.generate_suggestions
         end.to change(Captain::FaqObservation.discarded, :count).by(2)
         expect(captain_assistant.faq_suggestions.count).to be_zero
       end
@@ -212,19 +212,19 @@ RSpec.describe Captain::Llm::ConversationFaqService do
           suggestion.update!(source_count: suggestion.observations.attached.count)
         end
       end
-      let(:equivalence_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
+      let(:match_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
 
       before do
         existing_suggestion
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
         allow(mock_chat).to receive(:ask) do |input|
-          input.start_with?('{') ? equivalence_response : mock_response
+          input.start_with?('{') ? match_response : mock_response
         end
       end
 
       it 'attaches the observation and increments the source count' do
         expect do
-          service.generate_and_deduplicate
+          service.generate_suggestions
         end.to change(existing_suggestion.observations, :count).by(1)
         expect(existing_suggestion.reload.source_count).to eq(2)
         expect(captain_assistant.faq_suggestions.count).to eq(1)
@@ -245,7 +245,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
       it 'creates a separate suggestion in the conversation language' do
         expect do
-          service.generate_and_deduplicate
+          service.generate_suggestions
         end.to change(captain_assistant.faq_suggestions, :count).by(1)
 
         expect(captain_assistant.faq_suggestions.pluck(:language)).to contain_exactly('en', 'pt')
@@ -267,19 +267,19 @@ RSpec.describe Captain::Llm::ConversationFaqService do
           source_count: 1
         )
       end
-      let(:equivalence_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
+      let(:match_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
 
       before do
         existing_suggestion
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
         allow(mock_chat).to receive(:ask) do |input|
-          input.start_with?('{') ? equivalence_response : mock_response
+          input.start_with?('{') ? match_response : mock_response
         end
       end
 
       it 'attaches the observation to the existing base-language suggestion' do
         expect do
-          service.generate_and_deduplicate
+          service.generate_suggestions
         end.to change(existing_suggestion.observations, :count).by(1)
 
         expect(existing_suggestion.reload.source_count).to eq(2)
@@ -301,7 +301,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
       it 'does not discard a candidate in another language' do
         expect do
-          service.generate_and_deduplicate
+          service.generate_suggestions
         end.to change(captain_assistant.faq_suggestions, :count).by(1)
         expect(Captain::FaqObservation.discarded.count).to be_zero
         expect(captain_assistant.faq_suggestions.last.language).to eq('pt')
@@ -320,19 +320,19 @@ RSpec.describe Captain::Llm::ConversationFaqService do
                                             question: 'Como ativo o recurso?', answer: 'Ative nas configuracoes.',
                                             embedding: embedding_one)
       end
-      let(:equivalence_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
+      let(:match_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
 
       before do
         existing_response
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
         allow(mock_chat).to receive(:ask) do |input|
-          input.start_with?('{') ? equivalence_response : mock_response
+          input.start_with?('{') ? match_response : mock_response
         end
       end
 
       it 'deduplicates against approved FAQs in the same base language' do
         expect do
-          service.generate_and_deduplicate
+          service.generate_suggestions
         end.to change(Captain::FaqObservation.discarded, :count).by(2)
         expect(captain_assistant.faq_suggestions.count).to be_zero
       end
@@ -346,7 +346,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
       it 'returns empty array and logs the error' do
         expect(Rails.logger).to receive(:error).with('LLM API Error: API Error')
-        expect(service.generate_and_deduplicate).to eq([])
+        expect(service.generate_suggestions).to eq([])
       end
     end
 
@@ -361,7 +361,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
       it 'handles JSON parsing errors gracefully' do
         expect(Rails.logger).to receive(:error).with(/Error in parsing GPT processed response:/)
-        expect(service.generate_and_deduplicate).to eq([])
+        expect(service.generate_suggestions).to eq([])
       end
     end
 
@@ -375,7 +375,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
 
       it 'returns empty array' do
-        expect(service.generate_and_deduplicate).to eq([])
+        expect(service.generate_suggestions).to eq([])
       end
     end
   end
@@ -398,7 +398,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
           .at_least(:once)
           .and_call_original
 
-        service.generate_and_deduplicate
+        service.generate_suggestions
       end
     end
 
@@ -420,7 +420,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
           .at_least(:once)
           .and_call_original
 
-        service.generate_and_deduplicate
+        service.generate_suggestions
       end
     end
   end

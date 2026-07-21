@@ -1,5 +1,4 @@
 class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accounts::BaseController
-  before_action :current_account
   before_action -> { check_authorization(Captain::Assistant) }
 
   before_action :set_current_page, only: [:index]
