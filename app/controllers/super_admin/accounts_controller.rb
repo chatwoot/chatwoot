@@ -33,6 +33,20 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
   # empty values into nil values. It uses other APIs such as `resource_class`
   # and `dashboard`:
   #
+  def update
+    if params[:account] && params[:account][:web_widget_branding].present?
+      params[:account][:web_widget_branding].each do |inbox_id, attrs|
+        inbox = requested_resource.inboxes.find_by(id: inbox_id)
+        next unless inbox&.web_widget?
+
+        inbox.channel.update(disable_branding: attrs[:disable_branding] == '1')
+      end
+      params[:account].delete(:web_widget_branding)
+    end
+
+    super
+  end
+
   def resource_params
     permitted_params = super
     permitted_params[:limits] = permitted_params[:limits].to_h.compact

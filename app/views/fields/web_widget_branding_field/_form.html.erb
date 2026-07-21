@@ -1,0 +1,29 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field">
+  <% widgets = field.resource.web_widgets.includes(:inbox).order('inboxes.name') %>
+  <% if widgets.any? %>
+    <div class="grid grid-cols-1 gap-3">
+      <% widgets.each do |widget| %>
+        <% inbox = widget.inbox %>
+        <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm outline outline-1 outline-n-container">
+          <div class="flex flex-col">
+            <span class="text-sm font-medium text-slate-700"><%= inbox.name %></span>
+            <span class="text-xs text-slate-500"><%= widget.website_url %></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <%= hidden_field_tag "account[web_widget_branding][#{inbox.id}][disable_branding]", '0' %>
+            <%= check_box_tag "account[web_widget_branding][#{inbox.id}][disable_branding]", '1',
+                              widget.disable_branding,
+                              class: 'h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-600',
+                              id: "account_web_widget_branding_#{inbox.id}_disable_branding" %>
+            <%= label_tag "account_web_widget_branding_#{inbox.id}_disable_branding", 'Disable branding', class: 'text-sm text-slate-600' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-sm text-slate-500">No web widget inboxes for this account.</p>
+  <% end %>
+</div>

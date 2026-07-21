@@ -600,3 +600,8 @@ en:
       no_subscriptions_to_test: 'Select at least one subscription to test.'
       no_subscriptions_to_delete: 'Select at least one subscription to delete.'
       subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+
+helpers:
+  label:
+    account:
+      web_widget_branding: 'Branding by channel'

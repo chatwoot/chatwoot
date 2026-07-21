@@ -27,7 +27,6 @@
 - name: disable_branding
   display_name: Disable Branding
   enabled: false
-  premium: true
 - name: email_continuity_on_api_channel
   display_name: Email Continuity on API Channel
   enabled: false
