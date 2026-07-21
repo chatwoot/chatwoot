@@ -13,6 +13,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { requiredIf } from '@vuelidate/validators';
 import { useI18n } from 'vue-i18n';
 
+import { isWhatsAppComplete } from '@chatwoot/utils';
 import Input from 'dashboard/components-next/input/Input.vue';
 import {
   buildTemplateParameters,
@@ -84,29 +85,10 @@ const renderedTemplate = computed(() => {
   return replaceTemplateVariables(bodyText.value, processedParams.value);
 });
 
-const isFormInvalid = computed(() => {
-  if (!hasVariables.value && !hasMediaHeader.value) return false;
-
-  if (hasMediaHeader.value && !processedParams.value.header?.media_url) {
-    return true;
-  }
-
-  if (hasVariables.value && processedParams.value.body) {
-    const hasEmptyBodyVariable = Object.values(processedParams.value.body).some(
-      value => !value
-    );
-    if (hasEmptyBodyVariable) return true;
-  }
-
-  if (processedParams.value.buttons) {
-    const hasEmptyButtonParameter = processedParams.value.buttons.some(
-      button => !button.parameter
-    );
-    if (hasEmptyButtonParameter) return true;
-  }
-
-  return false;
-});
+// Completeness validation is shared with the mobile app via @chatwoot/utils.
+const isFormInvalid = computed(
+  () => !isWhatsAppComplete(props.template, processedParams.value)
+);
 
 const v$ = useVuelidate(
   {
