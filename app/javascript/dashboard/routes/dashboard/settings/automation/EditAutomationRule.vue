@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAutomation } from 'dashboard/composables/useAutomation';
 import { useEditableAutomation } from 'dashboard/composables/useEditableAutomation';
 import AutomationRuleForm from './AutomationRuleForm.vue';
@@ -15,6 +15,7 @@ const props = defineProps({
 
 const emit = defineEmits(['saveAutomation']);
 
+const store = useStore();
 const allCustomAttributes = useMapGetter('attributes/getAttributes');
 const formRef = ref(null);
 
@@ -43,9 +44,10 @@ const onSave = (payload, mode) => {
 
 watch(
   () => props.selectedResponse,
-  value => {
+  async value => {
     if (!value?.conditions) return;
 
+    await store.dispatch('attributes/get');
     manifestCustomAttributes();
 
     automation.value = formatAutomation(

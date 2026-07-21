@@ -44,8 +44,9 @@ const {
   manifestCustomAttributes,
 } = useAutomation(START_VALUE);
 
-const open = () => {
+const open = async () => {
   automation.value = structuredClone(START_VALUE);
+  await store.dispatch('attributes/get');
   manifestCustomAttributes();
   formRef.value?.open();
 };
@@ -62,6 +63,7 @@ onMounted(() => {
   store.dispatch('teams/get');
   store.dispatch('labels/get');
   store.dispatch('campaigns/get');
+  store.dispatch('attributes/get');
 });
 
 defineExpose({ open, close });

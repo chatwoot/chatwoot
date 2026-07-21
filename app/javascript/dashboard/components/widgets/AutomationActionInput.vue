@@ -209,6 +209,11 @@ export default {
         v-if="isCustomAttributeAction || inputType === 'custom_attribute'"
         v-model="action_params"
         :attributes="dropdownValues || []"
+        :attribute-model="
+          action_name === 'update_conversation_custom_attribute'
+            ? 'conversation_attribute'
+            : 'contact_attribute'
+        "
         :dropdown-max-height="dropdownMaxHeight"
       />
       <WootMessageEditor

@@ -1,24 +1,56 @@
 <script>
+import { useMapGetter } from 'dashboard/composables/store';
+
 export default {
   props: {
     attributes: { type: Array, default: () => [] },
     modelValue: { type: [Object, Array], default: () => ({}) },
+    attributeModel: {
+      type: String,
+      default: 'contact_attribute',
+      validator: value =>
+        ['contact_attribute', 'conversation_attribute'].includes(value),
+    },
   },
   emits: ['update:modelValue'],
+  setup() {
+    const allAttributes = useMapGetter('attributes/getAttributes');
+    const contactAttributes = useMapGetter('attributes/getContactAttributes');
+    const conversationAttributes = useMapGetter(
+      'attributes/getConversationAttributes'
+    );
+    return { allAttributes, contactAttributes, conversationAttributes };
+  },
   computed: {
+    storeAttributes() {
+      if (this.attributeModel === 'conversation_attribute') {
+        return this.conversationAttributes || [];
+      }
+      return this.contactAttributes || [];
+    },
     attributeOptions() {
-      return (this.attributes || []).map(attr => ({
-        id: attr.id,
-        name: attr.name,
-        displayType: attr.displayType || attr.display_type || 'text',
-      }));
+      const source =
+        this.attributes?.length > 0 ? this.attributes : this.storeAttributes;
+
+      return (source || []).map(attr => {
+        const displayType = this.normalizeDisplayType(attr);
+        return {
+          id: attr.attributeKey || attr.attribute_key || attr.id,
+          name:
+            attr.name ||
+            attr.attributeDisplayName ||
+            attr.attribute_display_name ||
+            attr.attributeKey ||
+            attr.attribute_key,
+          displayType,
+          values:
+            attr.values || attr.attributeValues || attr.attribute_values || [],
+        };
+      });
     },
     selectedKey: {
       get() {
-        const data = Array.isArray(this.modelValue)
-          ? this.modelValue[0] || {}
-          : this.modelValue || {};
-        return data.attribute_key || '';
+        return this.payload.attribute_key || '';
       },
       set(attributeKey) {
         this.emitValue(attributeKey, this.selectedValue);
@@ -26,23 +58,51 @@ export default {
     },
     selectedValue: {
       get() {
-        const data = Array.isArray(this.modelValue)
-          ? this.modelValue[0] || {}
-          : this.modelValue || {};
-        return data.value ?? '';
+        return this.payload.value ?? '';
       },
       set(value) {
         this.emitValue(this.selectedKey, value);
       },
     },
+    payload() {
+      const data = Array.isArray(this.modelValue)
+        ? this.modelValue[0] || {}
+        : this.modelValue || {};
+      return data;
+    },
+    selectedAttribute() {
+      return this.attributeOptions.find(item => item.id === this.selectedKey);
+    },
     isDateAttribute() {
-      const selected = this.attributeOptions.find(
-        item => item.id === this.selectedKey
-      );
-      return selected?.displayType === 'date';
+      return this.selectedAttribute?.displayType === 'date';
+    },
+    isListAttribute() {
+      return this.selectedAttribute?.displayType === 'list';
+    },
+    isCheckboxAttribute() {
+      return this.selectedAttribute?.displayType === 'checkbox';
     },
   },
   methods: {
+    normalizeDisplayType(attr) {
+      const map = {
+        0: 'text',
+        1: 'number',
+        2: 'currency',
+        3: 'percent',
+        4: 'link',
+        5: 'date',
+        6: 'list',
+        7: 'checkbox',
+      };
+      const raw =
+        attr.displayType ??
+        attr.attributeDisplayType ??
+        attr.attribute_display_type ??
+        'text';
+      if (typeof raw === 'number') return map[raw] || 'text';
+      return String(raw);
+    },
     emitValue(attributeKey, value) {
       this.$emit('update:modelValue', {
         attribute_key: attributeKey || '',
@@ -81,7 +141,39 @@ export default {
     <label class="text-xs font-medium text-n-slate-12">
       {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_VALUE_LABEL') }}
     </label>
+
+    <select
+      v-if="isListAttribute"
+      v-model="selectedValue"
+      class="w-full mb-0 text-sm rounded-lg border-0 bg-n-solid-1 text-n-slate-12 px-3 py-2 outline outline-1 outline-n-weak"
+    >
+      <option disabled value="">
+        {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER') }}
+      </option>
+      <option
+        v-for="option in selectedAttribute?.values || []"
+        :key="option"
+        :value="option"
+      >
+        {{ option }}
+      </option>
+    </select>
+
+    <select
+      v-else-if="isCheckboxAttribute"
+      v-model="selectedValue"
+      class="w-full mb-0 text-sm rounded-lg border-0 bg-n-solid-1 text-n-slate-12 px-3 py-2 outline outline-1 outline-n-weak"
+    >
+      <option value="true">
+        {{ $t('FILTER.ATTRIBUTE_LABELS.TRUE') }}
+      </option>
+      <option value="false">
+        {{ $t('FILTER.ATTRIBUTE_LABELS.FALSE') }}
+      </option>
+    </select>
+
     <input
+      v-else
       v-model="selectedValue"
       type="text"
       class="w-full mb-0 text-sm rounded-lg border-0 bg-n-solid-1 text-n-slate-12 px-3 py-2 outline outline-1 outline-n-weak"
@@ -91,6 +183,7 @@ export default {
           : $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER')
       "
     />
+
     <div class="flex items-center justify-between gap-2">
       <span class="text-xs text-n-slate-11">
         {{ $t('AUTOMATION.ACTION.VARIABLES_HINT') }}

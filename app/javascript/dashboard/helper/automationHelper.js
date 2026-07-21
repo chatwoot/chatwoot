@@ -105,18 +105,39 @@ export const getActionOptions = ({
   contactAttributes = [],
   conversationAttributes = [],
 }) => {
+  const DISPLAY_TYPE_BY_ID = {
+    0: 'text',
+    1: 'number',
+    2: 'currency',
+    3: 'percent',
+    4: 'link',
+    5: 'date',
+    6: 'list',
+    7: 'checkbox',
+  };
+
+  const normalizeDisplayType = attr => {
+    const raw =
+      attr.attributeDisplayType ??
+      attr.attribute_display_type ??
+      attr.displayType ??
+      'text';
+    if (typeof raw === 'number') return DISPLAY_TYPE_BY_ID[raw] || 'text';
+    return String(raw);
+  };
+
   const writableAttributeOptions = attrs =>
-    (attrs || [])
-      .filter(attr =>
-        ['text', 'date', 'number', 'link'].includes(
-          attr.attributeDisplayType || attr.attribute_display_type
-        )
-      )
-      .map(attr => ({
-        id: attr.attributeKey || attr.attribute_key,
-        name: attr.attributeDisplayName || attr.attribute_display_name,
-        displayType: attr.attributeDisplayType || attr.attribute_display_type,
-      }));
+    (attrs || []).map(attr => ({
+      id: attr.attributeKey || attr.attribute_key || attr.id,
+      name:
+        attr.attributeDisplayName ||
+        attr.attribute_display_name ||
+        attr.name ||
+        attr.attributeKey ||
+        attr.attribute_key,
+      displayType: normalizeDisplayType(attr),
+      values: attr.attributeValues || attr.attribute_values || [],
+    }));
 
   const actionsMap = {
     assign_agent: addNoneToListFn ? addNoneToListFn(agents) : agents,
@@ -132,7 +153,7 @@ export const getActionOptions = ({
       conversationAttributes
     ),
   };
-  return actionsMap[type];
+  return actionsMap[type] || [];
 };
 
 export const getConditionOptions = ({

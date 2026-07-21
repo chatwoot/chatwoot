@@ -140,22 +140,26 @@ class ActionService
   end
 
   def find_writable_custom_attribute(attribute_key, attribute_model)
-    definition = @account.custom_attribute_definitions.find_by(
+    @account.custom_attribute_definitions.find_by(
       attribute_key: attribute_key,
       attribute_model: attribute_model
     )
-    return if definition.blank?
-    return unless definition.text? || definition.date? || definition.number? || definition.link?
-
-    definition
   end
 
   def normalize_custom_attribute_value(definition, raw_value)
     rendered = AutomationRules::MessageRendererService.new(@conversation, raw_value.to_s).perform
-    return rendered if definition.text? || definition.link?
-    return rendered.to_s.to_i if definition.number?
 
-    Date.parse(rendered.to_s).iso8601
+    case definition.attribute_display_type
+    when 'number', 'currency', 'percent'
+      rendered.to_s.to_f
+    when 'checkbox'
+      ActiveModel::Type::Boolean.new.cast(rendered)
+    when 'date'
+      Date.parse(rendered.to_s).iso8601
+    else
+      # text, link, list, and any other type
+      rendered
+    end
   rescue ArgumentError, TypeError
     raw_value.to_s
   end
