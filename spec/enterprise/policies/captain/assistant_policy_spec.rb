@@ -22,7 +22,7 @@ RSpec.describe Captain::AssistantPolicy, type: :policy do
     end
   end
 
-  permissions :tools?, :create?, :update?, :approve?, :dismiss?, :destroy?, :sync?, :drilldown? do
+  permissions :tools?, :create?, :update?, :destroy?, :sync?, :drilldown? do
     context 'when administrator' do
       it { expect(assistant_policy).to permit(administrator_context, assistant) }
     end
