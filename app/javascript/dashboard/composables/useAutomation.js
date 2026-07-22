@@ -133,6 +133,7 @@ export function useAutomation(startValue = null) {
     newActions[index] = {
       ...newActions[index],
       action_params: isCustomAttribute ? { attribute_key: '', value: '' } : [],
+      delivery: { delay_seconds: 0, mark_read_and_typing: false },
     };
 
     automation.value.actions = newActions;

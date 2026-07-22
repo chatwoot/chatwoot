@@ -117,6 +117,10 @@ export default {
       // so that the next item does not get marked invalid
       this.errors = this.removeObjectProperty(this.errors, `action_${index}`);
       this.macro.actions[index].action_params = [];
+      this.macro.actions[index].delivery = {
+        delay_seconds: 0,
+        mark_read_and_typing: false,
+      };
     },
     resetValidation() {
       this.errors = {};

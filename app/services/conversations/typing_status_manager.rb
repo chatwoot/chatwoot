@@ -17,9 +17,16 @@ class Conversations::TypingStatusManager
     case params[:typing_status]
     when 'on'
       trigger_typing_event(CONVERSATION_TYPING_ON, params[:is_private])
+      notify_whatsapp_typing unless ActiveModel::Type::Boolean.new.cast(params[:is_private])
     when 'off'
       trigger_typing_event(CONVERSATION_TYPING_OFF, params[:is_private])
     end
     # Return the head :ok response from the controller
+  end
+
+  private
+
+  def notify_whatsapp_typing
+    Whatsapp::TypingIndicatorJob.perform_later(@conversation.id)
   end
 end
