@@ -14,9 +14,6 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     language.to_s.tr('-', '_').split('_').first.downcase
   end
 
-  def self.account_language_for(account)
-    normalize_language(account.locale.presence || I18n.default_locale.to_s)
-  end
   private_class_method :normalize_language
 
   def initialize(assistant, conversation)
@@ -44,7 +41,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   def route_candidate(faq)
     embedding = embedding_service.get_embedding(candidate_text(faq))
 
-    return discard_observation(faq) if matching_record(approved_faqs_for_language, faq, embedding)
+    return discard_observation(faq) if matching_record(approved_faqs, faq, embedding)
     return discard_observation(faq) if matching_record(dismissed_suggestions_for_language, faq, embedding)
 
     suggestion = matching_record(open_suggestions_for_language, faq, embedding)
@@ -134,10 +131,8 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     assistant.faq_suggestions.where(account_id: conversation.account_id).dismissed.by_language(faq_language)
   end
 
-  def approved_faqs_for_language
-    return assistant.responses.approved if faq_language == account_language
-
-    assistant.responses.none
+  def approved_faqs
+    assistant.responses.approved
   end
 
   def candidate_text(faq)
@@ -195,10 +190,6 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
 
   def faq_language
     @faq_language ||= self.class.language_for(conversation)
-  end
-
-  def account_language
-    @account_language ||= self.class.account_language_for(conversation.account)
   end
 
   def language_name(language)
