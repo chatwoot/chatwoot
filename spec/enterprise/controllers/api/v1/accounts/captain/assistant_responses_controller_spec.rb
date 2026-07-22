@@ -9,6 +9,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
   let(:another_assistant) { create(:captain_assistant, account: account) }
   let(:another_document) { create(:captain_document, account: account, assistant: assistant) }
 
+  before { account.enable_features!('captain_integration') }
+
   def json_response
     JSON.parse(response.body, symbolize_names: true)
   end

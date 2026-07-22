@@ -9,17 +9,22 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def create
-    builder = AgentBuilder.new(
-      email: new_agent_params['email'],
-      name: new_agent_params['name'],
-      role: new_agent_params['role'],
-      availability: new_agent_params['availability'],
-      auto_offline: new_agent_params['auto_offline'],
-      inviter: current_user,
-      account: Current.account
-    )
+    # Lock the account row so concurrent invites can't both pass the seat-limit check (TOCTOU).
+    Current.account.with_lock do
+      next unless can_add_agent?
 
-    @agent = builder.perform
+      @agent = AgentBuilder.new(
+        email: new_agent_params['email'],
+        name: new_agent_params['name'],
+        role: new_agent_params['role'],
+        availability: new_agent_params['availability'],
+        auto_offline: new_agent_params['auto_offline'],
+        inviter: current_user,
+        account: Current.account
+      ).perform
+    end
+
+    render_payment_required('Account limit exceeded. Please purchase more licenses') if @agent.blank?
   end
 
   def update
@@ -36,19 +41,17 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   def bulk_create
     emails = params[:emails]
 
-    emails.each do |email|
-      builder = AgentBuilder.new(
-        email: email,
-        name: email.split('@').first,
-        inviter: current_user,
-        account: Current.account
-      )
-      begin
-        builder.perform
-      rescue ActiveRecord::RecordInvalid => e
-        Rails.logger.info "[Agent#bulk_create] ignoring email #{email}, errors: #{e.record.errors}"
+    # Lock the account row so concurrent bulk invites can't collectively exceed the seat limit (TOCTOU).
+    limit_exceeded = false
+    Current.account.with_lock do
+      if emails.count > available_agent_count
+        limit_exceeded = true
+        next
       end
+
+      invite_agents(emails)
     end
+    return render_payment_required('Account limit exceeded. Please purchase more licenses') if limit_exceeded
 
     # This endpoint is used to bulk create agents during onboarding
     # onboarding_step key in present in Current account custom attributes, since this is a one time operation
@@ -58,6 +61,19 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def invite_agents(emails)
+    emails.each do |email|
+      AgentBuilder.new(
+        email: email,
+        name: email.split('@').first,
+        inviter: current_user,
+        account: Current.account
+      ).perform
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.info "[Agent#bulk_create] ignoring email #{email}, errors: #{e.record.errors}"
+    end
+  end
 
   def check_authorization
     super(User)

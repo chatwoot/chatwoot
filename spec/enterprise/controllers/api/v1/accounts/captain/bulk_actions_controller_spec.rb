@@ -24,6 +24,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
     )
   end
 
+  before { account.enable_features!('captain_integration') }
+
   def json_response
     JSON.parse(response.body, symbolize_names: true)
   end

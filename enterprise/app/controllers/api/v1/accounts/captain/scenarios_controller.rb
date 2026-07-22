@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Captain::ScenariosController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Captain::ScenariosController < Api::V1::Accounts::Captain::BaseController
   before_action :current_account
   before_action -> { check_authorization(Captain::Scenario) }
   before_action :set_assistant
