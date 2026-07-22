@@ -1,9 +1,9 @@
-import { ref } from 'vue';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { useAgentsList } from '../useAgentsList';
 import { useMapGetter } from 'dashboard/composables/store';
-import { allAgentsData, formattedAgentsData } from './fixtures/agentFixtures';
 import * as agentHelper from 'dashboard/helper/agentHelper';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { ref } from 'vue';
+import { useAgentsList } from '../useAgentsList';
+import { allAgentsData, formattedAgentsData } from './fixtures/agentFixtures';
 
 // Mock vue-i18n
 vi.mock('vue-i18n', () => ({
@@ -94,13 +94,7 @@ describe('useAgentsList', () => {
     expect(agentsList.value.length).toBe(formattedAgentsData.slice(1).length);
   });
 
-  it('excludes entries without a name', () => {
-    const namedBot = {
-      id: 90,
-      name: 'Captain',
-      assignee_type: 'AgentBot',
-      availability_status: 'offline',
-    };
+  it('keeps nameless agent bots and applies a fallback label', () => {
     const namelessBot = {
       id: 91,
       name: null,
@@ -110,7 +104,6 @@ describe('useAgentsList', () => {
     mockUseMapGetter({
       'inboxAssignableAgents/getAssignableAgents': ref(() => [
         ...allAgentsData,
-        namedBot,
         namelessBot,
       ]),
     });
@@ -121,8 +114,10 @@ describe('useAgentsList', () => {
 
     const passedAgents =
       agentHelper.getAgentsByUpdatedPresence.mock.calls[0][0];
-    expect(passedAgents).toContainEqual(namedBot);
-    expect(passedAgents).not.toContainEqual(namelessBot);
+    expect(passedAgents).toContainEqual({
+      ...namelessBot,
+      name: '-',
+    });
   });
 
   it('handles empty assignable agents', () => {
