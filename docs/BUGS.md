@@ -3,8 +3,9 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** fix `B-NEW-11` automation replies attended
-(2026-07-20). Auditoría previa pre–chats grupales (2026-07-11),
+**Última actualización:** re-fix `B-NEW-11` automation/IA replies attended
+(2026-07-21, branch `feat/automation-formulas-and-date-vars`) tras regresión
+en `d54c4092d`. Auditoría previa pre–chats grupales (2026-07-11),
 branch `feat/internal-tasks` (PR #3).
 
 ---
@@ -54,7 +55,7 @@ branch `feat/internal-tasks` (PR #3).
 | TASK-006 | Baja | No | panel-ai (fuera de alcance Chatwoot) |
 | TASK-007 | Baja | No | ContactInfo mojibake — abierto |
 | TASK-008 | Baja | No | **Stale** — índice `[:account_id, :active, :position]` ya existe |
-| B-NEW-11 | Media | No | ✅ Fijado — automation replies ahora cuentan como attended; off-by-one en `valid_first_reply?` también |
+| B-NEW-11 | Media | No | ✅ Re-fijado (2026-07-21) — regresión en `d54c4092d` revirtió attended; restaurado en `feat/automation-formulas-and-date-vars` |
 
 ---
 
@@ -354,7 +355,18 @@ El filtro `human_response?` se usaba como "single source of truth" para first-re
 
 `automation_rule_id` queda en `content_attributes` por compatibilidad con los specs existentes en `spec/listeners/automation_rule_listener_old_spec.rb` (líneas 629, 731-732). Si en el futuro se quisiera unificar con `additional_attributes` (donde está `campaign_id`), es un cambio de trazabilidad, no de comportamiento.
 
-**Estado:** ✅ Fijado y verificado contra BD.
+**Estado:** ✅ Fijado originalmente (2026-07-20). **Regresión:** el commit
+`d54c4092d` (`fix(conversations): resolve toggle_status I18n and keep agent-only first-reply semantics`)
+revirtió `human_response?` a solo `User` + excluyó `automation_rule_id` de nuevo
+en `valid_first_reply?` (el hotfix de toggle_status/I18n de ese commit es legítimo
+y no se toca). **Re-fijado** 2026-07-21 en `feat/automation-formulas-and-date-vars`:
+restaurar `human_response?` amplio (agent + automation + bot/echo; excluye private
+y campaigns) y quitar el filtro `automation_rule_id` de `valid_first_reply?`,
+conservando el off-by-one (`where.not(id: id)` + `count.positive?`).
+
+Decisión de producto (aprobada): automation e IA/AgentBot/Captain cuentan como
+attended igual que un agente; colores de burbuja siguen familia bot (iris);
+private notes y campaigns no cuentan.
 
 ---
 
