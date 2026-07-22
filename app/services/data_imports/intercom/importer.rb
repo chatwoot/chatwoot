@@ -197,8 +197,8 @@ class DataImports::Intercom::Importer
   end
 
   def continue_import_with_heartbeat?
-    return true if @data_import.updated_at > HEARTBEAT_INTERVAL.ago
     return false if import_stopped?
+    return true if @data_import.updated_at > HEARTBEAT_INTERVAL.ago
 
     @data_import.touch if @data_import.updated_at <= HEARTBEAT_INTERVAL.ago
     true
@@ -435,6 +435,8 @@ class DataImports::Intercom::Importer
         fail_message(chatwoot_conversation, message_source_id, part, e)
       end
     end
+    return false if import_stopped?
+
     true
   end
 
