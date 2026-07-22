@@ -1,10 +1,10 @@
-import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
-import { useI18n } from 'vue-i18n';
 import {
   getAgentsByUpdatedPresence,
   getSortedAgentsByAvailability,
 } from 'dashboard/helper/agentHelper';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 /**
  * A composable function that provides a list of agents for assignment.
@@ -53,7 +53,11 @@ export function useAgentsList(
    * @type {import('vue').ComputedRef<Array>}
    */
   const agentsList = computed(() => {
-    const agents = assignableAgents.value || [];
+    const agents = (assignableAgents.value || []).map(agent =>
+      !agent.name && agent.assignee_type === 'AgentBot'
+        ? { ...agent, name: '-' }
+        : agent
+    );
     const agentsByUpdatedPresence = getAgentsByUpdatedPresence(
       agents,
       currentUser.value,
