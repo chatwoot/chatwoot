@@ -19,9 +19,8 @@ class SendReplyJob < ApplicationJob
 
   def perform(message_id)
     message = Message.find(message_id)
-    return mark_message_failed(message) unless message.inbox.active?
-
     channel_name = message.conversation.inbox.channel.class.to_s
+    return handle_disabled_inbox(message, channel_name) unless message.inbox.active?
 
     return send_on_facebook_page(message) if channel_name == 'Channel::FacebookPage'
 
@@ -32,6 +31,31 @@ class SendReplyJob < ApplicationJob
   end
 
   private
+
+  def handle_disabled_inbox(message, channel_name)
+    return unless send_service_available?(channel_name)
+    return unless deliverable_reply?(message, channel_name)
+
+    mark_message_failed(message)
+  end
+
+  def send_service_available?(channel_name)
+    channel_name == 'Channel::FacebookPage' || CHANNEL_SERVICES.key?(channel_name)
+  end
+
+  def deliverable_reply?(message, channel_name)
+    return false if message.private?
+    return false unless message.outgoing? || message.template?
+    return false if message.source_id.present?
+    return false if message.content_type == 'voice_call'
+    return message.email_notifiable_message? if email_delivery_channel?(channel_name)
+
+    true
+  end
+
+  def email_delivery_channel?(channel_name)
+    %w[Channel::Email Channel::WebWidget Channel::Api].include?(channel_name)
+  end
 
   def mark_message_failed(message)
     Messages::StatusUpdateService.new(message, 'failed', INBOX_DISABLED_ERROR).perform

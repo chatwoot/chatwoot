@@ -75,7 +75,7 @@ class Whatsapp::IncomingCallService
   end
 
   def create_inbound_call(payload)
-    unless inbox.channel.inbound_calls_enabled?
+    unless inbox.active? && inbox.channel.inbound_calls_enabled?
       Rails.logger.info "[WHATSAPP CALL] Inbound calls disabled for inbox #{inbox.id}; rejecting call #{payload[:id]}"
       inbox.channel.provider_service.reject_call(payload[:id])
       return

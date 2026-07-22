@@ -269,6 +269,22 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
 
         expect(conversation.reload.contact_last_seen_at).not_to be_nil
       end
+
+      it 'updates last seen when the inbox is disabled' do
+        current_time = DateTime.now.utc
+        allow(DateTime).to receive(:now).and_return(current_time)
+        web_widget.inbox.update!(active: false)
+
+        expect(Conversations::UpdateMessageStatusJob).to receive(:perform_later).with(conversation.id, current_time)
+
+        post '/api/v1/widget/conversations/update_last_seen',
+             headers: { 'X-Auth-Token' => token },
+             params: { website_token: web_widget.website_token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.contact_last_seen_at).not_to be_nil
+      end
     end
   end
 

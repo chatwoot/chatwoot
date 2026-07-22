@@ -134,6 +134,27 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       job.perform_now(wb_params)
     end
 
+    it 'processes call callbacks when the inbox is disabled' do
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:field] = 'calls'
+      wb_params[:entry].first[:changes].first[:value][:calls] = [
+        { id: 'wacid-test', from: '919745786257', event: 'connect', session: { sdp_type: 'offer' } }
+      ]
+      channel.inbox.update!(active: false)
+
+      allow(Whatsapp::IncomingCallService).to receive(:new).and_return(process_service)
+
+      expect(Whatsapp::IncomingCallService).to receive(:new).with(
+        inbox: channel.inbox,
+        params: {
+          calls: [wb_params[:entry].first[:changes].first[:value][:calls].first],
+          contacts: nil
+        }
+      )
+
+      job.perform_now(wb_params)
+    end
+
     it 'uses from_user_id as the mutex sender for BSUID-only inbound messages' do
       bsuid = 'IN.2081978709342942'
       wb_params = params.deep_dup

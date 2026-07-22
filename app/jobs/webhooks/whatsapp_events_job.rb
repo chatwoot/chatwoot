@@ -129,7 +129,7 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
     # Only skip for embedded signup when reauth is required; manual flow uses API keys and should still receive webhooks
     return true if channel.reauthorization_required? && embedded_signup_channel?(channel)
     return true unless channel.account.active?
-    return true unless channel.inbox.active? || status_update_event?(params)
+    return true unless channel.inbox.active? || existing_message_update_event?(params)
 
     false
   end
@@ -137,6 +137,14 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   def status_update_event?(params)
     value = params.dig(:entry, 0, :changes, 0, :value) || params
     value[:statuses].present?
+  end
+
+  def existing_message_update_event?(params)
+    status_update_event?(params) || call_event?(params)
+  end
+
+  def call_event?(params)
+    params.dig(:entry, 0, :changes, 0, :field) == 'calls'
   end
 
   def embedded_signup_channel?(channel)
