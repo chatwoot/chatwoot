@@ -262,8 +262,11 @@ class Conversation < ApplicationRecord
   def enqueue_formula_recompute
     return unless saved_change_to_custom_attributes?
 
-    CustomAttributes::RecomputeAccountContactFormulasJob.perform_later(account_id)
-    CustomAttributes::RecomputeAccountConversationFormulasJob.perform_later(account_id)
+    # Per-record only — account-wide jobs are reserved for formula definition
+    # changes and manual Recalculate. Writing formula results uses update_columns
+    # so this path cannot amplify into another full-account walk.
+    CustomAttributes::RecomputeConversationFormulasJob.perform_later(id)
+    CustomAttributes::RecomputeContactFormulasJob.perform_later(contact_id) if contact_id.present?
   end
 
   def handle_resolved_status_change

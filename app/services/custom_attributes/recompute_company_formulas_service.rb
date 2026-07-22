@@ -16,7 +16,13 @@ class CustomAttributes::RecomputeCompanyFormulasService
       attrs[definition.attribute_key] = compute(definition, company)
     end
 
-    company.update!(custom_attributes: attrs)
+    return if attrs == (company.custom_attributes || {})
+
+    # Quiet write: skip callbacks so formula persistence does not re-enqueue
+    # account-wide recompute jobs or flood ActionCable / EventDispatcher.
+    # rubocop:disable Rails/SkipsModelValidations
+    company.update_columns(custom_attributes: attrs, updated_at: Time.current)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   private

@@ -13,7 +13,13 @@ class CustomAttributes::RecomputeConversationFormulasService
       attrs[definition.attribute_key] = compute(definition, conversation)
     end
 
-    conversation.update!(custom_attributes: attrs)
+    return if attrs == (conversation.custom_attributes || {})
+
+    # Quiet write: skip callbacks so formula persistence does not re-enqueue
+    # account-wide recompute jobs or flood ActionCable / EventDispatcher.
+    # rubocop:disable Rails/SkipsModelValidations
+    conversation.update_columns(custom_attributes: attrs, updated_at: Time.current)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   private
