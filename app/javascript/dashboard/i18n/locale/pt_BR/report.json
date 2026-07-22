@@ -121,6 +121,26 @@
       "CLEAR_FILTER": "Limpar filtros",
       "EMPTY_LIST": "Nenhum resultado encontrado"
     },
+    "DRILLDOWN": {
+      "TITLE": "Detalhes {metric}",
+      "RESULT_COUNT_CONVERSATION": "Conversa {count} + Conversas {count}",
+      "RESULT_COUNT_MESSAGE": "Mensagem de {count} + {count}",
+      "EMPTY": "Nenhum registro encontrado para esta barra.",
+      "ERROR": "Não foi possível carregar os registros. Por favor, tente novamente.",
+      "ADMIN_ONLY": "Apenas os administradores podem detalhar nos registros do relatório.",
+      "LOAD_MORE": "Carregar mais",
+      "CLOSE": "Detalhes do fechamento",
+      "PREVIOUS_BUCKET": "Barra anterior",
+      "NEXT_BUCKET": "Próxima barra",
+      "UNKNOWN_CONTACT": "Contato desconhecido",
+      "UNKNOWN_INBOX": "Caixa de entrada desconhecida",
+      "UNASSIGNED_AGENT": "Não atribuídas",
+      "NO_MESSAGE_CONTENT": "Nenhum conteúdo de mensagem",
+      "MESSAGE_CREATED_AT": "Mensagem criada em {time}",
+      "EVENT_OCCURRED_AT": "Ocorreu um evento em {time}",
+      "INCOMING_MESSAGE": "Mensagem de entrada",
+      "OUTGOING_MESSAGE": "Mensagem de saída"
+    },
     "PAGINATION": {
       "RESULTS": "Exibindo {start} — {end} de {total} resultados",
       "PER_PAGE_TEMPLATE": "{size} / página"
@@ -513,7 +533,7 @@
         "TOOLTIP": "Número total de respostas enviadas pelo bot"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Tempo de resolução",
+        "LABEL": "Taxa de resolução",
         "TOOLTIP": "Número total de conversas resolvidas pelo bot / número total de conversas manipuladas pelo bot * 100"
       },
       "HANDOFF_RATE": {

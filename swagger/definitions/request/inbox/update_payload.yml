@@ -109,6 +109,15 @@ properties:
 
       Available for: `Website` `Email`
     example: 'My Business'
+  branded_email_layout:
+    type:
+      - string
+      - 'null'
+    description: |
+      Liquid HTML layout for outbound email replies. Must include `{{ content_for_layout }}`.
+
+      Available for: `Email`
+    example: '<html><body>{{ content_for_layout }}</body></html>'
   channel:
     anyOf:
       - $ref: '#/components/schemas/inbox_update_web_widget_channel_payload'

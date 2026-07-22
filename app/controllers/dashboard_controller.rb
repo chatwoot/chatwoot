@@ -64,10 +64,8 @@ class DashboardController < ActionController::Base
     return unless @portal
 
     @locale = @portal.default_locale
-    if @portal.layout == 'documentation'
-      request.variant = :documentation
-      load_home_data
-    end
+    request.variant = :documentation if @portal.layout == 'documentation'
+    load_home_data
     render 'public/api/v1/portals/show', layout: 'portal', portal: @portal and return
   end
 
