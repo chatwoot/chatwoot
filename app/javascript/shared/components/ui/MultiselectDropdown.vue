@@ -63,6 +63,14 @@ const hasValue = computed(() => {
 const hasIcon = computed(() => {
   return props.selectedItem?.icon || false;
 });
+
+const isAgentBot = computed(
+  () => props.selectedItem?.assignee_type === 'AgentBot'
+);
+
+const selectedThumbnail = computed(
+  () => props.selectedItem?.thumbnail || props.selectedItem?.avatar_url
+);
 </script>
 
 <template>
@@ -93,16 +101,25 @@ const hasIcon = computed(() => {
           </h4>
         </div>
         <Avatar
-          v-if="hasValue && hasThumbnail && !hasIcon"
-          :src="selectedItem.thumbnail"
+          v-if="hasValue && hasThumbnail && (isAgentBot || !hasIcon)"
+          :src="selectedThumbnail"
           :status="selectedItem.availability_status"
           :name="selectedItem.name"
+          :icon-name="isAgentBot ? 'i-lucide-bot' : undefined"
           :size="24"
           hide-offline-status
           rounded-full
-        />
+        >
+          <template v-if="isAgentBot && selectedThumbnail" #badge>
+            <div
+              class="absolute z-20 flex items-center justify-center rounded-full outline outline-1 outline-n-weak bg-n-solid-1 -bottom-0.5 ltr:-right-0.5 rtl:-left-0.5 size-3.5"
+            >
+              <Icon icon="i-lucide-bot" class="text-n-slate-11 size-2.5" />
+            </div>
+          </template>
+        </Avatar>
         <div
-          v-if="hasValue && hasIcon && showEmojiIcon"
+          v-else-if="hasValue && hasIcon && showEmojiIcon"
           class="flex items-center justify-center flex-shrink-0 text-sm rounded-full size-6 outline outline-1 -outline-offset-1 outline-n-weak"
         >
           <EmojiIcon
