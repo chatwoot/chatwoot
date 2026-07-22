@@ -73,6 +73,24 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqSuggestions', type: :request do
         include('conversation' => include('id' => conversation.id, 'display_id' => conversation.display_id))
       )
     end
+
+    it 'returns only source conversations the agent can access' do
+      create(:inbox_member, user: agent, inbox: inbox)
+      hidden_conversation = create(:conversation, account: account, inbox: create(:inbox, account: account))
+      suggestion.observations.create!(
+        conversation: hidden_conversation,
+        generated_question: suggestion.question,
+        generated_answer: suggestion.answer,
+        language: suggestion.language
+      )
+
+      get "/api/v1/accounts/#{account.id}/captain/faq_suggestions/#{suggestion.id}",
+          headers: agent.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['observations'].pluck('conversation').pluck('id')).to contain_exactly(conversation.id)
+    end
   end
 
   describe 'PATCH /api/v1/accounts/:account_id/captain/faq_suggestions/:id' do
