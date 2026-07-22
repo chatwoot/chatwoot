@@ -44,17 +44,43 @@ class SendReplyJob < ApplicationJob
   end
 
   def deliverable_reply?(message, channel_name)
-    return false if message.private?
-    return false unless message.outgoing? || message.template?
-    return false if message.source_id.present?
-    return false if message.content_type == 'voice_call'
-    return message.email_notifiable_message? if email_delivery_channel?(channel_name)
+    return false unless deliverable_message?(message)
+    return message.email_notifiable_message? if email_channel?(channel_name)
+    return email_notification_deliverable?(message, channel_name) if email_notification_channel?(channel_name)
 
     true
   end
 
-  def email_delivery_channel?(channel_name)
-    %w[Channel::Email Channel::WebWidget Channel::Api].include?(channel_name)
+  def deliverable_message?(message)
+    return false if message.private?
+    return false unless message.outgoing? || message.template?
+    return false if message.source_id.present?
+    return false if message.content_type == 'voice_call'
+
+    true
+  end
+
+  def email_channel?(channel_name)
+    channel_name == 'Channel::Email'
+  end
+
+  def email_notification_channel?(channel_name)
+    %w[Channel::WebWidget Channel::Api].include?(channel_name)
+  end
+
+  def email_notification_deliverable?(message, channel_name)
+    return false unless message.email_notifiable_message?
+    return false if message.conversation.contact.email.blank?
+    return false unless message.account.within_email_rate_limit?
+
+    email_notification_enabled?(message.inbox, channel_name)
+  end
+
+  def email_notification_enabled?(inbox, channel_name)
+    return inbox.channel.continuity_via_email if channel_name == 'Channel::WebWidget'
+    return inbox.account.feature_enabled?('email_continuity_on_api_channel') if channel_name == 'Channel::Api'
+
+    false
   end
 
   def mark_message_failed(message)

@@ -168,5 +168,16 @@ RSpec.describe SendReplyJob do
       expect(message.reload).not_to be_failed
       expect(message.external_error).to be_nil
     end
+
+    it 'does not mark web widget replies as failed when email continuity is disabled' do
+      webwidget_channel = create(:channel_widget, continuity_via_email: false)
+      message = create(:message, message_type: :outgoing, conversation: create(:conversation, inbox: webwidget_channel.inbox))
+      webwidget_channel.inbox.update!(active: false)
+
+      described_class.perform_now(message.id)
+
+      expect(message.reload).not_to be_failed
+      expect(message.external_error).to be_nil
+    end
   end
 end
