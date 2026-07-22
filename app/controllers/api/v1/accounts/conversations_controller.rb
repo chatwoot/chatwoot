@@ -88,17 +88,13 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     else
       @status = @conversation.toggle_status
     end
-    assign_conversation if should_assign_conversation?
+    update_assignment_after_open if @conversation.open? && Current.user.is_a?(User)
   end
 
   def pending_to_open_by_bot?
     return false unless Current.user.is_a?(AgentBot)
 
     @conversation.status == 'pending' && params[:status] == 'open'
-  end
-
-  def should_assign_conversation?
-    @conversation.status == 'open' && Current.user.is_a?(User) && Current.user&.agent?
   end
 
   def toggle_priority
@@ -183,8 +179,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
   end
 
-  def assign_conversation
-    @conversation.assignee = current_user
+  def update_assignment_after_open
+    @conversation.assignee_agent_bot = nil
+    @conversation.assignee = current_user if current_user.agent?
     @conversation.save!
   end
 
