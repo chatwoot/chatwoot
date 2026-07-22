@@ -15,6 +15,8 @@ module Enterprise::Api::V1::Accounts::AgentsController
     # `super` may render payment-required without creating an agent (seat limit lost in the locked check);
     # skip the association so that response is preserved instead of raising on a nil agent.
     return if @agent.blank?
+    # Custom roles are a premium feature; ignore custom_role_id assignment when the feature is disabled.
+    return unless Current.account.feature_enabled?('custom_roles')
 
     @agent.current_account_user.update!(custom_role_id: params[:custom_role_id])
   end
