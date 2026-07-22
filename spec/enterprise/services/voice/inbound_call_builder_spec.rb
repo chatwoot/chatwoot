@@ -17,8 +17,8 @@ RSpec.describe Voice::InboundCallBuilder do
   def perform_builder
     described_class.perform!(
       inbox: inbox,
-      from_number: from_number,
-      call_sid: call_sid
+      call_sid: call_sid,
+      caller: { source_ids: [from_number], contact_attributes: { name: from_number, phone_number: from_number } }
     )
   end
 
@@ -100,26 +100,29 @@ RSpec.describe Voice::InboundCallBuilder do
     end
   end
 
-  context 'when the WhatsApp wa_id needs Brazil normalization to match an existing ContactInbox' do
+  context 'when a WhatsApp call shares a BSUID with an existing ContactInbox' do
     let(:whatsapp_channel) do
       create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
                                 provider_config: { 'phone_number_id' => '123', 'source' => 'embedded_signup', 'calling_enabled' => true },
                                 validate_provider_config: false, sync_templates: false)
     end
     let(:whatsapp_inbox) { whatsapp_channel.inbox }
-    let!(:stored_contact) { create(:contact, account: account, phone_number: '+5541988887777') }
+    let!(:stored_contact) { create(:contact, account: account) }
     let!(:stored_contact_inbox) do
-      create(:contact_inbox, contact: stored_contact, inbox: whatsapp_inbox, source_id: '5541988887777')
+      create(:contact_inbox, contact: stored_contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342942')
     end
 
     before { account.enable_features!('channel_voice') }
 
-    it 'reuses the contact via normalized wa_id rather than forking a new ContactInbox' do
+    # Closes the gap: the contact was keyed by BSUID, but the call also carries a phone.
+    # Matching across every source_id reuses the contact instead of forking on the phone.
+    it 'reuses the contact by matching any source_id, not just the first' do
       call = described_class.perform!(
         inbox: whatsapp_inbox,
-        from_number: '+554188887777',
-        call_sid: 'wacall_br_1',
-        provider: :whatsapp
+        call_sid: 'wacall_bsuid_1',
+        provider: :whatsapp,
+        caller: { source_ids: ['5541988887777', 'IN.2081978709342942'],
+                  contact_attributes: { name: 'Ada Lovelace', phone_number: '+5541988887777' } }
       )
 
       expect(call.contact).to eq(stored_contact)

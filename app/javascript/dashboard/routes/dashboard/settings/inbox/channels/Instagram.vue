@@ -1,23 +1,15 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import instagramClient from 'dashboard/api/channel/instagramClient';
 import Button from 'dashboard/components-next/button/Button.vue';
-import Banner from 'dashboard/components-next/banner/Banner.vue';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
-import { useAccount } from 'dashboard/composables/useAccount';
-import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 
 const { t } = useI18n();
-const { isOnChatwootCloud } = useAccount();
 
 const hasError = ref(false);
 const errorStateMessage = ref('');
 const errorStateDescription = ref('');
 const isRequestingAuthorization = ref(false);
-const isInstagramConnectionRestricted = computed(() => {
-  return isOnChatwootCloud.value;
-});
 
 onMounted(() => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -76,36 +68,11 @@ const requestAuthorization = async () => {
           class="text-white !rounded-full !px-6 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCAF45]"
           lg
           icon="i-ri-instagram-line"
-          :disabled="
-            isRequestingAuthorization || isInstagramConnectionRestricted
-          "
+          :disabled="isRequestingAuthorization"
           :is-loading="isRequestingAuthorization"
           :label="$t('INBOX_MGMT.ADD.INSTAGRAM.CONTINUE_WITH_INSTAGRAM')"
           @click="requestAuthorization()"
         />
-        <Banner
-          v-if="isInstagramConnectionRestricted"
-          color="amber"
-          class="w-full max-w-2xl mt-6"
-        >
-          <div class="flex items-start gap-3 text-left">
-            <Icon
-              icon="i-lucide-triangle-alert"
-              class="flex-shrink-0 size-4 mt-0.5"
-            />
-            <span>
-              {{ $t('INBOX_MGMT.ADD.INSTAGRAM.RESTRICTED_WARNING') }}
-              <a
-                :href="META_RESTRICTION_STATUS_URL"
-                class="link underline"
-                rel="noopener noreferrer nofollow"
-                target="_blank"
-              >
-                {{ $t('INBOX_MGMT.ADD.INSTAGRAM.STATUS_LINK') }}
-              </a>
-            </span>
-          </div>
-        </Banner>
       </div>
     </div>
   </div>
