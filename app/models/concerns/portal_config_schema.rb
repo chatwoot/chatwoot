@@ -43,6 +43,11 @@ module PortalConfigSchema
       'popular_content' => {
         'type' => %w[object null],
         'additionalProperties' => POPULAR_CONTENT_SCHEMA
+      },
+      # Analytics ids keyed by provider, e.g. { "ga4" => "G-XXXX" }.
+      'analytics' => {
+        'type' => %w[object null],
+        'additionalProperties' => { 'type' => %w[string null] }
       }
     },
     'required' => [],

@@ -1,0 +1,7 @@
+<%# GTM noscript fallback; must sit right after <body> (invalid in <head>). %>
+<% if @portal.analytics['gtm'].present? %>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= @portal.analytics['gtm'] %>"
+  title="Google Tag Manager" height="0" width="0"
+  style="display:none;visibility:hidden"></iframe></noscript>
+<% end %>

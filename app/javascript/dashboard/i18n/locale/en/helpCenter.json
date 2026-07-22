@@ -972,6 +972,28 @@
         },
         "SAVE": "Save changes"
       },
+      "ANALYTICS": {
+        "HEADER": "Analytics",
+        "DESCRIPTION": "Choose an analytics provider and enter its ID. We add the tracking code to every public help center page automatically. Switching providers replaces the previous one.",
+        "PROVIDER": "Provider",
+        "INVALID_ID": "This doesn't look like a valid ID for this provider.",
+        "GA4": {
+          "LABEL": "Google Analytics (GA4)"
+        },
+        "GTM": {
+          "LABEL": "Google Tag Manager"
+        },
+        "CLARITY": {
+          "LABEL": "Microsoft Clarity"
+        },
+        "HOTJAR": {
+          "LABEL": "Hotjar"
+        },
+        "META_PIXEL": {
+          "LABEL": "Meta Pixel"
+        },
+        "SAVE": "Save changes"
+      },
       "API": {
         "CREATE_PORTAL": {
           "SUCCESS_MESSAGE": "Portal created successfully",

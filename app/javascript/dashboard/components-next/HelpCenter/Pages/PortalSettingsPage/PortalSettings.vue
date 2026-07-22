@@ -3,11 +3,13 @@ import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
 import PortalBaseSettings from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/PortalBaseSettings.vue';
 import PortalConfigurationSettings from './PortalConfigurationSettings.vue';
 import PortalLayoutContentSettings from './PortalLayoutContentSettings.vue';
+import PortalAnalyticsSettings from './PortalAnalyticsSettings.vue';
 import ConfirmDeletePortalDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/ConfirmDeletePortalDialog.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -33,6 +35,7 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 const route = useRoute();
+const { isAdmin } = useAdmin();
 
 const confirmDeletePortalDialogRef = ref(null);
 
@@ -108,6 +111,14 @@ const handleDeletePortal = () => {
           :is-fetching="isFetching"
           @update-portal-configuration="handleUpdatePortalConfiguration"
         />
+        <template v-if="isAdmin">
+          <div class="w-full h-px bg-n-weak" />
+          <PortalAnalyticsSettings
+            :active-portal="activePortal"
+            :is-fetching="isFetching"
+            @update-portal-configuration="handleUpdatePortalConfiguration"
+          />
+        </template>
         <div class="w-full h-px bg-n-weak" />
         <div class="flex items-end justify-between w-full gap-4">
           <div class="flex flex-col gap-2">

@@ -46,6 +46,7 @@ class Portal < ApplicationRecord
   validates :color, format: { with: /\A#(?:\h{3}|\h{6})\z/ }, allow_blank: true
   before_validation :normalize_config
   validate :validate_config
+  validate :validate_analytics
   validates_with JsonSchemaValidator,
                  schema: PortalConfigSchema::CONFIG_PARAMS_SCHEMA,
                  attribute_resolver: ->(record) { record.config }
@@ -54,7 +55,17 @@ class Portal < ApplicationRecord
 
   # TODO: 'website_token' is an unused reserved key; remove with a migration that scrubs it from existing portals' config
   CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout locale_translations
-                        popular_content].freeze
+                        popular_content analytics].freeze
+
+  # Analytics providers and their accepted id formats. Add a provider here and its
+  # snippet in layouts/_portal_analytics.html.erb.
+  ANALYTICS_PROVIDERS = {
+    'ga4' => /\AG-[A-Z0-9]+\z/,
+    'gtm' => /\AGTM-[A-Z0-9]+\z/,
+    'clarity' => /\A[a-z0-9]+\z/,
+    'hotjar' => /\A\d+\z/,
+    'meta_pixel' => /\A\d+\z/
+  }.freeze
 
   # Max number of recommended categories/articles shown per locale.
   POPULAR_CATEGORY_LIMIT = 3
@@ -132,6 +143,11 @@ class Portal < ApplicationRecord
     config_value('social_profiles') || {}
   end
 
+  # Valid analytics ids keyed by provider; drops unknown providers and blank ids.
+  def analytics
+    (config_value('analytics') || {}).select { |provider, id| ANALYTICS_PROVIDERS.key?(provider) && id.present? }
+  end
+
   private
 
   def normalize_config
@@ -145,6 +161,19 @@ class Portal < ApplicationRecord
     denied_keys = config.keys - CONFIG_JSON_KEYS
     errors.add(:config, "in portal on #{denied_keys.join(',')} is not supported.") if denied_keys.any?
     errors.add(:config, 'default locale cannot be drafted.') if draft_locale?(default_locale)
+  end
+
+  def validate_analytics
+    (config_value('analytics') || {}).each do |provider, id|
+      next if id.blank?
+
+      format = ANALYTICS_PROVIDERS[provider]
+      if format.nil?
+        errors.add(:config, "analytics provider #{provider} is not supported")
+      elsif !id.match?(format)
+        errors.add(:config, "analytics id for #{provider} is invalid")
+      end
+    end
   end
 
   def normalize_locale_codes(locale_codes)
