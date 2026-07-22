@@ -86,6 +86,12 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
           tool.perform(tool_context, reason: reason)
         end
+
+        it 'records the handoff note id in the run state for session capture' do
+          tool.perform(tool_context, reason: 'Customer needs specialized support')
+
+          expect(tool_context.state[:cw_metadata][:handoff_note_id]).to eq(Message.last.id)
+        end
       end
 
       context 'without reason provided' do
@@ -106,6 +112,12 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           )
 
           tool.perform(tool_context)
+        end
+
+        it 'does not record a handoff note id since the empty note never renders' do
+          tool.perform(tool_context)
+
+          expect(tool_context.state[:cw_metadata]).to be_nil
         end
       end
 

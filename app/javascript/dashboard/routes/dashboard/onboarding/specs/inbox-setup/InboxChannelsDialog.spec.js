@@ -7,7 +7,7 @@ vi.mock('dashboard/composables/store', () => ({
   useMapGetter: () => ({ value: {} }),
 }));
 vi.mock('dashboard/composables/useAccount', () => ({
-  useAccount: () => ({ isCloudFeatureEnabled: () => false }),
+  useAccount: () => ({ isCloudFeatureEnabled: () => true }),
 }));
 vi.mock('../../inbox-setup/useChannelConnect', () => ({
   useChannelConnect: () => ({

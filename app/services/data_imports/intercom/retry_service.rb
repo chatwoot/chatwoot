@@ -8,14 +8,15 @@ class DataImports::Intercom::RetryService
 
   def perform
     @account.with_lock do
-      @data_import.reload
-      next :not_stalled unless @data_import.stalled?
-      next :active_import_exists if another_active_import?
-      next :access_token_missing if @data_import.access_token.blank?
+      @data_import.with_lock do
+        next :not_stalled unless @data_import.stalled?
+        next :active_import_exists if another_active_import?
+        next :access_token_missing if @data_import.access_token.blank?
 
-      @data_import.assign_active_intercom_import_run_id
-      @data_import.update!(status: :pending)
-      :enqueue
+        @data_import.assign_active_intercom_import_run_id
+        @data_import.update!(status: :pending)
+        :enqueue
+      end
     end
   end
 
