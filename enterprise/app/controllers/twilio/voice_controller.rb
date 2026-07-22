@@ -90,10 +90,10 @@ class Twilio::VoiceController < ApplicationController
     from_number.start_with?('client:')
   end
 
-  # A fresh contact-initiated leg on an inbox with inbound calls turned off.
+  # A fresh contact-initiated leg on an inbox that cannot receive calls.
   # Reject it so no conference, conversation, or Call row is created.
   def reject_inbound?
-    twilio_direction == 'inbound' && !agent_leg?(twilio_from) && !inbox.channel.inbound_calls_enabled?
+    twilio_direction == 'inbound' && !agent_leg?(twilio_from) && (!inbox.active? || !inbox.channel.inbound_calls_enabled?)
   end
 
   def reject_twiml
