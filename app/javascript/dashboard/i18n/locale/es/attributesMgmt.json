@@ -17,6 +17,7 @@
       "TEXT": "Texto",
       "NUMBER": "Número",
       "CURRENCY": "Moneda",
+      "PERCENT": "Porcentaje",
       "LINK": "Enlace",
       "DATE": "Fecha",
       "LIST": "Lista",

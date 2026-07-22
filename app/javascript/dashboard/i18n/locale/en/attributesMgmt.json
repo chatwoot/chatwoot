@@ -17,6 +17,7 @@
       "TEXT": "Text",
       "NUMBER": "Number",
       "CURRENCY": "Currency",
+      "PERCENT": "Percent",
       "LINK": "Link",
       "DATE": "Date",
       "LIST": "List",

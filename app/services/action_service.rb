@@ -112,6 +112,10 @@ class ActionService
       Rails.logger.warn("[Automation] update_contact_custom_attribute skipped: no contact attribute '#{attribute_key}' on account #{@account.id}")
       return
     end
+    if definition.formula?
+      Rails.logger.warn("[Automation] update_contact_custom_attribute skipped: '#{attribute_key}' is a formula attribute")
+      return
+    end
 
     contact = @conversation.contact
     attrs = (contact.custom_attributes || {}).merge(
@@ -130,6 +134,10 @@ class ActionService
     definition = find_writable_custom_attribute(attribute_key, :conversation_attribute)
     if definition.blank?
       Rails.logger.warn("[Automation] update_conversation_custom_attribute skipped: no conversation attribute '#{attribute_key}' on account #{@account.id}")
+      return
+    end
+    if definition.formula?
+      Rails.logger.warn("[Automation] update_conversation_custom_attribute skipped: '#{attribute_key}' is a formula attribute")
       return
     end
 

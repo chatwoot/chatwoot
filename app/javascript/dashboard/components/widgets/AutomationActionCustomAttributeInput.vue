@@ -39,21 +39,26 @@ export default {
       const source =
         this.attributes?.length > 0 ? this.attributes : this.storeAttributes;
 
-      return (source || []).map(attr => {
-        const displayType = this.normalizeDisplayType(attr);
-        return {
-          id: attr.attributeKey || attr.attribute_key || attr.id,
-          name:
-            attr.name ||
-            attr.attributeDisplayName ||
-            attr.attribute_display_name ||
-            attr.attributeKey ||
-            attr.attribute_key,
-          displayType,
-          values:
-            attr.values || attr.attributeValues || attr.attribute_values || [],
-        };
-      });
+      return (source || [])
+        .filter(attr => !attr.formula && !attr.attributeFormula)
+        .map(attr => {
+          const displayType = this.normalizeDisplayType(attr);
+          return {
+            id: attr.attributeKey || attr.attribute_key || attr.id,
+            name:
+              attr.name ||
+              attr.attributeDisplayName ||
+              attr.attribute_display_name ||
+              attr.attributeKey ||
+              attr.attribute_key,
+            displayType,
+            values:
+              attr.values ||
+              attr.attributeValues ||
+              attr.attribute_values ||
+              [],
+          };
+        });
     },
     selectedKey: {
       get() {
@@ -99,7 +104,8 @@ export default {
       return String(this.selectedValue || '').includes('{{');
     },
     inputType() {
-      if (this.isDateAttribute && !this.valueUsesLiquid) return 'date';
+      // Never use native date inputs here: they reject Liquid tokens like
+      // {{ date.today }} and wipe the value before save validation.
       if (this.isNumberAttribute && !this.valueUsesLiquid) return 'number';
       return 'text';
     },

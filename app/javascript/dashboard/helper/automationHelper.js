@@ -126,18 +126,25 @@ export const getActionOptions = ({
     return String(raw);
   };
 
+  const isFormulaAttribute = attr =>
+    Boolean(attr?.formula) ||
+    Boolean(attr?.attributeFormula) ||
+    Boolean(attr?.attribute_formula);
+
   const writableAttributeOptions = attrs =>
-    (attrs || []).map(attr => ({
-      id: attr.attributeKey || attr.attribute_key || attr.id,
-      name:
-        attr.attributeDisplayName ||
-        attr.attribute_display_name ||
-        attr.name ||
-        attr.attributeKey ||
-        attr.attribute_key,
-      displayType: normalizeDisplayType(attr),
-      values: attr.attributeValues || attr.attribute_values || [],
-    }));
+    (attrs || [])
+      .filter(attr => !isFormulaAttribute(attr))
+      .map(attr => ({
+        id: attr.attributeKey || attr.attribute_key || attr.id,
+        name:
+          attr.attributeDisplayName ||
+          attr.attribute_display_name ||
+          attr.name ||
+          attr.attributeKey ||
+          attr.attribute_key,
+        displayType: normalizeDisplayType(attr),
+        values: attr.attributeValues || attr.attribute_values || [],
+      }));
 
   const actionsMap = {
     assign_agent: addNoneToListFn ? addNoneToListFn(agents) : agents,

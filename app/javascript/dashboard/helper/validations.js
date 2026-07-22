@@ -140,12 +140,13 @@ const validateSingleAction = action => {
     return ACTION_PARAMETERS_REQUIRED;
   }
 
+  const isCustomAttributeAction =
+    action.action_name === 'update_contact_custom_attribute' ||
+    action.action_name === 'update_conversation_custom_attribute';
+
   // Object-style params (team_message, custom attributes)
   if (!Array.isArray(params) && typeof params === 'object') {
-    if (
-      action.action_name === 'update_contact_custom_attribute' ||
-      action.action_name === 'update_conversation_custom_attribute'
-    ) {
+    if (isCustomAttributeAction) {
       if (
         !params.attribute_key ||
         params.value === undefined ||
@@ -160,6 +161,15 @@ const validateSingleAction = action => {
         return ACTION_PARAMETERS_REQUIRED;
       }
       return null;
+    }
+    return null;
+  }
+
+  // Array form used after payload generation / when editing saved rules
+  if (Array.isArray(params) && isCustomAttributeAction) {
+    const data = params[0] || {};
+    if (!data.attribute_key || data.value === undefined || data.value === '') {
+      return ACTION_PARAMETERS_REQUIRED;
     }
     return null;
   }
