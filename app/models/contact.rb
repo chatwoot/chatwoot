@@ -340,7 +340,7 @@ class Contact < ApplicationRecord
   end
 
   def enqueue_contact_formula_recompute
-    CustomAttributes::RecomputeAccountContactFormulasJob.perform_later(account_id)
+    CustomAttributes::RecomputeContactFormulasJob.perform_later(id)
   end
 end
 Contact.include_mod_with('Concerns::Contact')
