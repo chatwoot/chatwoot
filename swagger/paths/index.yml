@@ -411,6 +411,8 @@
     $ref: ./application/conversation/reporting_events.yml
 
 # Inboxes
+/api/v1/accounts/{account_id}/branded_email_layout:
+  $ref: ./application/branded_email_layout.yml
 /api/v1/accounts/{account_id}/inboxes:
   $ref: ./application/inboxes/index.yml
 /api/v1/accounts/{account_id}/inboxes/{id}:

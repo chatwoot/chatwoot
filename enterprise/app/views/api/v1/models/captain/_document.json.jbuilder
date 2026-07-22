@@ -9,6 +9,8 @@ json.external_link resource.external_link
 json.display_url resource.display_url
 json.file_size resource.file_size
 json.pdf_document resource.pdf_document?
+responses_count = resource.respond_to?(:responses_count) ? resource.responses_count : resource.responses.count
+json.responses_count responses_count.to_i
 json.id resource.id
 json.name resource.name
 json.status resource.status

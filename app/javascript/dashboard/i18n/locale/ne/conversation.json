@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "२४ घण्टे सन्देश विन्डो प्रतिबन्धका कारण तपाईंले यस कुराकानीमा टेम्प्लेट सन्देश प्रयोग गरेर मात्र जवाफ दिन सक्नुहुन्छ",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "२४ घण्टे सन्देश विन्डो प्रतिबन्ध",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "यो Instagram खाता नयाँ Instagram च्यानल इनबक्समा सारिएको छ। सबै नयाँ सन्देशहरू त्यहाँ देखिनेछन्। तपाईं अब यस कुराकानीबाट सन्देश पठाउन सक्नुहुन्न।",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "तपाईंले यसलाई जवाफ दिँदै हुनुहुन्छ:",
     "REMOVE_SELECTION": "चयन हटाउनुहोस्",
     "DOWNLOAD": "डाउनलोड",
@@ -233,6 +235,7 @@
       "TIP_AUDIORECORDER_ERROR": "अडियो खोल्न सकिएन",
       "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "यहाँ तान्नुहोस् र छोड्नुहोस् संलग्न गर्न",
+      "IMAGE_UPLOAD_SUCCESS": "छवि सफलतापूर्वक अपलोड गरियो।",
       "START_AUDIO_RECORDING": "अडियो रेकर्डिङ सुरु गर्नुहोस्",
       "STOP_AUDIO_RECORDING": "अडियो रेकर्डिङ रोक्नुहोस्",
       "COPILOT_THINKING": "Copilot सोच्दैछ",
@@ -303,6 +306,25 @@
         "MESSAGE": "यो कार्य फिर्ता गर्न सकिँदैन",
         "DELETE": "मेटाउनुहोस्",
         "CANCEL": "रद्द गर्नुहोस्"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -400,7 +422,8 @@
       "VIEW_ALL": "View all",
       "SHOW_LESS": "Show less",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Untitled file",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "अर्डर #{id}",

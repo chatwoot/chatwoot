@@ -129,6 +129,20 @@ features:
         gemini-3-pro,
       ]
     default: gpt-4.1-mini
+  conversation_faq_generation:
+    models:
+      [
+        gpt-4.1-mini,
+        gpt-5-mini,
+        gpt-4.1,
+        gpt-5.1,
+        gpt-5.2,
+        claude-haiku-4.5,
+        claude-sonnet-4.5,
+        gemini-3-flash,
+        gemini-3-pro,
+      ]
+    default: gpt-5.2
   pdf_faq_generation:
     models: [gpt-4.1-mini, gpt-5-mini, gpt-4.1, gpt-5.1, gpt-5.2]
     default: gpt-4.1-mini
