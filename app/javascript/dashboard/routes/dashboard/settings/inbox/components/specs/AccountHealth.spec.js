@@ -11,9 +11,9 @@ vi.mock('vue-i18n', () => ({
 }));
 
 describe('AccountHealth', () => {
-  const mountComponent = healthData =>
+  const mountComponent = (healthData, props = {}) =>
     shallowMount(AccountHealth, {
-      props: { healthData },
+      props: { healthData, ...props },
     });
 
   beforeEach(() => {
@@ -65,5 +65,21 @@ describe('AccountHealth', () => {
     expect(wrapper.text()).not.toContain(
       'INBOX_MGMT.ACCOUNT_HEALTH.VALUES.MODES.CUSTOM_MODE'
     );
+  });
+
+  it('shows the current error instead of stale health data', () => {
+    const wrapper = mountComponent(
+      { verified_name: 'Stale Business Name' },
+      {
+        healthError: {
+          type: 'authorization',
+          message: 'The connection needs to be refreshed',
+        },
+        isEmbeddedSignup: true,
+      }
+    );
+
+    expect(wrapper.text()).toContain('The connection needs to be refreshed');
+    expect(wrapper.text()).not.toContain('Stale Business Name');
   });
 });

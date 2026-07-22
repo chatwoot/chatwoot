@@ -412,7 +412,7 @@ const handleCopyWebhookUrl = async url => {
         </ButtonV4>
       </div>
 
-      <div v-if="healthData" class="space-y-6">
+      <div v-if="healthData && !errorState" class="space-y-6">
         <section v-for="section in healthSections" :key="section.key">
           <h3 class="mb-3 text-heading-4 text-n-slate-12">
             {{ section.title }}
