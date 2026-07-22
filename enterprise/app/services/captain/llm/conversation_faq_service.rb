@@ -76,13 +76,13 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
         .ask(comparison.to_json)
     end
 
-    response_content = sanitize_json_response(response.content)
-    return false if response_content.blank?
+    same_faq = JSON.parse(sanitize_json_response(response.content)).fetch('same_faq')
+    raise TypeError, 'same_faq must be a boolean' unless [true, false].include?(same_faq)
 
-    JSON.parse(response_content).fetch('same_faq', false) == true
-  rescue JSON::ParserError, RubyLLM::Error => e
+    same_faq
+  rescue JSON::ParserError, KeyError, TypeError, RubyLLM::Error => e
     Rails.logger.error "FAQ match failed: #{e.message}"
-    false
+    raise
   end
 
   def attach_observation(suggestion, faq)

@@ -195,6 +195,91 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
     end
 
+    context 'when FAQ comparison cannot be completed' do
+      let(:existing_response) do
+        create(:captain_assistant_response, assistant: captain_assistant, account: captain_assistant.account,
+                                            question: 'Similar question', answer: 'Similar answer', embedding: embedding_one)
+      end
+      let(:comparison_response) { instance_double(RubyLLM::Message, content: comparison_response_content) }
+      let(:comparison_response_content) { 'invalid json' }
+
+      before do
+        existing_response
+        allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
+        allow(mock_chat).to receive(:ask) do |input|
+          input.start_with?('{') ? comparison_response : mock_response
+        end
+        allow(Rails.logger).to receive(:error)
+      end
+
+      it 'raises when the comparison response is malformed' do
+        expect do
+          service.generate_suggestions
+        end.to raise_error(JSON::ParserError)
+        expect(captain_assistant.faq_suggestions.count).to be_zero
+      end
+
+      context 'when the response omits the comparison result' do
+        let(:comparison_response_content) { {}.to_json }
+
+        it 'raises instead of treating the response as a non-match' do
+          expect do
+            service.generate_suggestions
+          end.to raise_error(KeyError)
+          expect(captain_assistant.faq_suggestions.count).to be_zero
+        end
+      end
+
+      context 'when the comparison result is not a boolean' do
+        let(:comparison_response_content) { { same_faq: 'false' }.to_json }
+
+        it 'raises instead of treating the response as a non-match' do
+          expect do
+            service.generate_suggestions
+          end.to raise_error(TypeError, 'same_faq must be a boolean')
+          expect(captain_assistant.faq_suggestions.count).to be_zero
+        end
+      end
+
+      context 'when the comparison provider fails' do
+        before do
+          allow(mock_chat).to receive(:ask) do |input|
+            raise RubyLLM::Error.new(nil, 'API Error') if input.start_with?('{')
+
+            mock_response
+          end
+        end
+
+        it 'raises instead of treating the failure as a non-match' do
+          expect do
+            service.generate_suggestions
+          end.to raise_error(RubyLLM::Error)
+          expect(captain_assistant.faq_suggestions.count).to be_zero
+        end
+      end
+    end
+
+    context 'when the classifier confirms a non-match' do
+      let(:sample_faqs) { [{ 'question' => 'How can I use the feature?', 'answer' => 'Enable it in settings.' }] }
+      let(:match_response) { instance_double(RubyLLM::Message, content: { same_faq: false }.to_json) }
+
+      before do
+        create(:captain_assistant_response, assistant: captain_assistant, account: captain_assistant.account,
+                                            question: 'How do I enable the feature?', answer: 'Turn it on in settings.',
+                                            embedding: embedding_one)
+        allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
+        allow(mock_chat).to receive(:ask) do |input|
+          input.start_with?('{') ? match_response : mock_response
+        end
+      end
+
+      it 'creates a new suggestion' do
+        expect do
+          service.generate_suggestions
+        end.to change(captain_assistant.faq_suggestions, :count).by(1)
+      end
+    end
+
     context 'when an open suggestion is the same FAQ' do
       let(:sample_faqs) { [{ 'question' => 'How can I use the feature?', 'answer' => 'Enable it in settings.' }] }
       let(:existing_suggestion) do
