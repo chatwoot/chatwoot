@@ -9,6 +9,16 @@ class AttributeAPI extends ApiClient {
   getAttributesByModel() {
     return axios.get(this.url);
   }
+
+  recalculate(id) {
+    return axios.post(`${this.url}/${id}/recalculate`);
+  }
+
+  preview(id, sampleAttributes) {
+    return axios.post(`${this.url}/${id}/preview`, {
+      sample_attributes: sampleAttributes,
+    });
+  }
 }
 
 export default new AttributeAPI();

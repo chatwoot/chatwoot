@@ -282,7 +282,12 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
+          resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy] do
+            member do
+              post :recalculate
+              post :preview
+            end
+          end
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
             get :assignable_agents, on: :member

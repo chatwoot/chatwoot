@@ -56,7 +56,7 @@ class CustomAttributeDefinition < ApplicationRecord
   belongs_to :account
   after_update :update_widget_pre_chat_custom_fields, unless: :company_attribute?
   after_destroy :sync_widget_pre_chat_custom_fields, unless: :company_attribute?
-  after_commit :enqueue_contact_formula_recompute, on: [:create, :update]
+  after_commit :enqueue_formula_recompute, on: [:create, :update]
 
   def formula?
     formula.present?
@@ -64,11 +64,17 @@ class CustomAttributeDefinition < ApplicationRecord
 
   private
 
-  def enqueue_contact_formula_recompute
-    return unless contact_attribute?
+  def enqueue_formula_recompute
     return unless formula?
 
-    CustomAttributes::RecomputeAccountContactFormulasJob.perform_later(account_id)
+    case attribute_model
+    when 'contact_attribute'
+      CustomAttributes::RecomputeAccountContactFormulasJob.perform_later(account_id)
+    when 'conversation_attribute'
+      CustomAttributes::RecomputeAccountConversationFormulasJob.perform_later(account_id)
+    when 'company_attribute'
+      CustomAttributes::RecomputeAccountCompanyFormulasJob.perform_later(account_id)
+    end
   end
 
   def normalize_attribute_fields
@@ -114,18 +120,29 @@ class CustomAttributeDefinition < ApplicationRecord
   def validate_formula
     return if formula.blank?
 
-    unless contact_attribute?
-      errors.add(:formula, 'only allowed on contact attributes')
-      return
-    end
-
     op = formula['op'].to_s
     source_key = formula['source_attribute_key'].to_s
-    source_model = formula['source_model'].to_s.presence || 'conversation'
+    source_model = formula['source_model'].to_s.presence || default_source_model
 
     errors.add(:formula, 'invalid operation') unless FORMULA_OPS.include?(op)
     errors.add(:formula, 'source_attribute_key required') if source_key.blank?
-    errors.add(:formula, 'source_model must be conversation') unless source_model == 'conversation'
+
+    case attribute_model
+    when 'contact_attribute'
+      errors.add(:formula, 'source_model must be conversation') unless source_model == 'conversation'
+    when 'conversation_attribute'
+      errors.add(:formula, 'source_model must be self') unless %w[self conversation].include?(source_model)
+    when 'company_attribute'
+      errors.add(:formula, 'source_model must be self') unless %w[self company].include?(source_model)
+    end
+  end
+
+  def default_source_model
+    case attribute_model
+    when 'contact_attribute' then 'conversation'
+    when 'conversation_attribute' then 'self'
+    when 'company_attribute' then 'self'
+    end
   end
 end
 

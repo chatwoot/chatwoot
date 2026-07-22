@@ -14,7 +14,8 @@ module Liquidable
       'agent' => UserDrop.new(sender || conversation.assignee),
       'conversation' => ConversationDrop.new(conversation),
       'inbox' => InboxDrop.new(inbox),
-      'account' => AccountDrop.new(conversation.account)
+      'account' => AccountDrop.new(conversation.account),
+      'date' => DateDrop.new
     }
   end
 

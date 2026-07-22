@@ -124,9 +124,15 @@ export function useAutomation(startValue = null) {
    */
   const resetAction = index => {
     const newActions = [...automation.value.actions];
+    const actionName = newActions[index]?.action_name;
+    const isCustomAttribute = [
+      'update_contact_custom_attribute',
+      'update_conversation_custom_attribute',
+    ].includes(actionName);
+
     newActions[index] = {
       ...newActions[index],
-      action_params: [],
+      action_params: isCustomAttribute ? { attribute_key: '', value: '' } : [],
     };
 
     automation.value.actions = newActions;
@@ -170,7 +176,9 @@ export function useAutomation(startValue = null) {
       'conversation_created',
       'conversation_updated',
       'conversation_opened',
+      'conversation_resolved',
     ].forEach(eventToUpdate => {
+      if (!automationTypes[eventToUpdate]) return;
       const standardConditions = automationTypes[
         eventToUpdate
       ].conditions.filter(

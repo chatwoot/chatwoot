@@ -175,6 +175,34 @@ export const MESSAGE_VARIABLES = [
     label: 'Inbox id',
     key: 'inbox.id',
   },
+  {
+    label: 'Today',
+    key: 'date.today',
+  },
+  {
+    label: 'Now',
+    key: 'date.now',
+  },
+  {
+    label: 'Tomorrow',
+    key: 'date.tomorrow',
+  },
+  {
+    label: 'Yesterday',
+    key: 'date.yesterday',
+  },
+  {
+    label: 'Current year',
+    key: 'date.current_year',
+  },
+  {
+    label: 'Current month',
+    key: 'date.current_month',
+  },
+  {
+    label: 'Current day',
+    key: 'date.current_day',
+  },
 ];
 
 export const ATTACHMENT_ICONS = {

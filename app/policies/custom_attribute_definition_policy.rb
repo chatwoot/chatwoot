@@ -18,4 +18,12 @@ class CustomAttributeDefinitionPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def recalculate?
+    update?
+  end
+
+  def preview?
+    update?
+  end
 end

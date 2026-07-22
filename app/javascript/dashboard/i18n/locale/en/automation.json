@@ -99,7 +99,18 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
       "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
       "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "URL_INPUT_PLACEHOLDER": "Enter URL",
+      "CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER": "Enter a value",
+      "CUSTOM_ATTRIBUTE_DATE_DYNAMIC_TODAY": "Dynamic date: today",
+      "CUSTOM_ATTRIBUTE_DATE_DYNAMIC_HELP": "Resolved to today's date when the automation runs.",
+      "CUSTOM_ATTRIBUTE_DATE_PICK_FIXED": "Choose a fixed date",
+      "CUSTOM_ATTRIBUTE_NUMBER_PLACEHOLDER": "Enter a number",
+      "CUSTOM_ATTRIBUTE_LABEL": "Attribute",
+      "CUSTOM_ATTRIBUTE_VALUE_LABEL": "Value",
+      "CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER": "Select a custom attribute",
+      "CUSTOM_ATTRIBUTE_EMPTY": "No custom attributes found. Create them in Settings → Custom Attributes first.",
+      "CUSTOM_ATTRIBUTE_USE_TODAY": "Use today's date",
+      "VARIABLES_HINT": "Use the insert-variable button for contact name, custom attributes, or dates"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
@@ -155,6 +166,8 @@
       "SEND_MESSAGE": "Send a Message",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "Change Priority",
+      "UPDATE_CONTACT_CUSTOM_ATTRIBUTE": "Update contact custom attribute",
+      "UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE": "Update conversation custom attribute",
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Open conversation",
       "PENDING_CONVERSATION": "Mark conversation as pending"

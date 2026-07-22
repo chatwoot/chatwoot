@@ -159,10 +159,16 @@ const automationRuleEvents = computed(() =>
 );
 
 const hasAutomationMutated = computed(() => {
-  return Boolean(
-    automation.value?.conditions[0]?.values ||
-      automation.value?.actions[0]?.action_params?.length
-  );
+  const firstActionParams = automation.value?.actions[0]?.action_params;
+  const hasActionParams = Array.isArray(firstActionParams)
+    ? firstActionParams.length > 0
+    : Boolean(
+        firstActionParams &&
+          typeof firstActionParams === 'object' &&
+          Object.keys(firstActionParams).length
+      );
+
+  return Boolean(automation.value?.conditions[0]?.values || hasActionParams);
 });
 
 const automationActionTypes = computed(() => {
@@ -359,7 +365,7 @@ defineExpose({ open, close });
         >
           <AutomationActionInput
             v-for="(action, i) in automation.actions"
-            :key="i"
+            :key="`${i}-${action.action_name}`"
             v-model="automation.actions[i]"
             :action-types="automationActionTypes"
             dropdown-max-height="max-h-[7.5rem]"

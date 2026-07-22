@@ -131,10 +131,50 @@ const validateSingleAction = action => {
     'pending_conversation',
   ];
 
-  if (
-    !noParamActions.includes(action.action_name) &&
-    (!action.action_params || action.action_params.length === 0)
-  ) {
+  if (noParamActions.includes(action.action_name)) {
+    return null;
+  }
+
+  const params = action.action_params;
+  if (!params) {
+    return ACTION_PARAMETERS_REQUIRED;
+  }
+
+  const isCustomAttributeAction =
+    action.action_name === 'update_contact_custom_attribute' ||
+    action.action_name === 'update_conversation_custom_attribute';
+
+  // Object-style params (team_message, custom attributes)
+  if (!Array.isArray(params) && typeof params === 'object') {
+    if (isCustomAttributeAction) {
+      if (
+        !params.attribute_key ||
+        params.value === undefined ||
+        params.value === ''
+      ) {
+        return ACTION_PARAMETERS_REQUIRED;
+      }
+      return null;
+    }
+    if (action.action_name === 'send_email_to_team') {
+      if (!params.message || !params.team_ids?.length) {
+        return ACTION_PARAMETERS_REQUIRED;
+      }
+      return null;
+    }
+    return null;
+  }
+
+  // Array form used after payload generation / when editing saved rules
+  if (Array.isArray(params) && isCustomAttributeAction) {
+    const data = params[0] || {};
+    if (!data.attribute_key || data.value === undefined || data.value === '') {
+      return ACTION_PARAMETERS_REQUIRED;
+    }
+    return null;
+  }
+
+  if (params.length === 0) {
     return ACTION_PARAMETERS_REQUIRED;
   }
 

@@ -10,16 +10,22 @@ class AutomationRules::ActionService < ActionService
     @rule.actions.each do |action|
       @conversation.reload
       action = action.with_indifferent_access
+      action_name = action[:action_name].to_s
       begin
-        send(action[:action_name], action[:action_params])
+        unless respond_to?(action_name, true)
+          Rails.logger.error("[Automation] rule=#{@rule.id} unknown action '#{action_name}' — restart Sidekiq/Rails if this is a new action")
+          next
+        end
+
+        send(action_name, action[:action_params])
       rescue StandardError => e
+        Rails.logger.error("[Automation] rule=#{@rule.id} action='#{action_name}' failed: #{e.class}: #{e.message}")
         ChatwootExceptionTracker.new(e, account: @account).capture_exception
       end
     end
   ensure
     Current.reset
   end
-
   private
 
   def send_attachment(blob_ids)
@@ -43,14 +49,16 @@ class AutomationRules::ActionService < ActionService
   def send_message(message)
     return if conversation_a_tweet?
 
-    params = { content: message[0], private: false, content_attributes: { automation_rule_id: @rule.id } }
+    rendered_content = AutomationRules::MessageRendererService.new(@conversation, message[0]).perform
+    params = { content: rendered_content, private: false, content_attributes: { automation_rule_id: @rule.id } }
     Messages::MessageBuilder.new(nil, @conversation, params).perform
   end
 
   def add_private_note(message)
     return if conversation_a_tweet?
 
-    params = { content: message[0], private: true, content_attributes: { automation_rule_id: @rule.id } }
+    rendered_content = AutomationRules::MessageRendererService.new(@conversation, message[0]).perform
+    params = { content: rendered_content, private: true, content_attributes: { automation_rule_id: @rule.id } }
     Messages::MessageBuilder.new(nil, @conversation.reload, params).perform
   end
 

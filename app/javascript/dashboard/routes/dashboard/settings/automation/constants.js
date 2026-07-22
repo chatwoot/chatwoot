@@ -801,6 +801,16 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: 'search_select',
   },
   {
+    key: 'update_contact_custom_attribute',
+    label: 'UPDATE_CONTACT_CUSTOM_ATTRIBUTE',
+    inputType: 'custom_attribute',
+  },
+  {
+    key: 'update_conversation_custom_attribute',
+    label: 'UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE',
+    inputType: 'custom_attribute',
+  },
+  {
     key: 'add_sla',
     label: 'ADD_SLA',
     inputType: 'search_select',

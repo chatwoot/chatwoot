@@ -102,7 +102,50 @@ export const getActionOptions = ({
   type,
   addNoneToListFn,
   priorityOptions,
+  contactAttributes = [],
+  conversationAttributes = [],
 }) => {
+  const DISPLAY_TYPE_BY_ID = {
+    0: 'text',
+    1: 'number',
+    2: 'currency',
+    3: 'percent',
+    4: 'link',
+    5: 'date',
+    6: 'list',
+    7: 'checkbox',
+  };
+
+  const normalizeDisplayType = attr => {
+    const raw =
+      attr.attributeDisplayType ??
+      attr.attribute_display_type ??
+      attr.displayType ??
+      'text';
+    if (typeof raw === 'number') return DISPLAY_TYPE_BY_ID[raw] || 'text';
+    return String(raw);
+  };
+
+  const isFormulaAttribute = attr =>
+    Boolean(attr?.formula) ||
+    Boolean(attr?.attributeFormula) ||
+    Boolean(attr?.attribute_formula);
+
+  const writableAttributeOptions = attrs =>
+    (attrs || [])
+      .filter(attr => !isFormulaAttribute(attr))
+      .map(attr => ({
+        id: attr.attributeKey || attr.attribute_key || attr.id,
+        name:
+          attr.attributeDisplayName ||
+          attr.attribute_display_name ||
+          attr.name ||
+          attr.attributeKey ||
+          attr.attribute_key,
+        displayType: normalizeDisplayType(attr),
+        values: attr.attributeValues || attr.attribute_values || [],
+      }));
+
   const actionsMap = {
     assign_agent: addNoneToListFn ? addNoneToListFn(agents) : agents,
     assign_team: addNoneToListFn ? addNoneToListFn(teams) : teams,
@@ -111,8 +154,13 @@ export const getActionOptions = ({
     remove_label: generateConditionOptions(labels, 'title'),
     change_priority: priorityOptions,
     add_sla: slaPolicies,
+    update_contact_custom_attribute:
+      writableAttributeOptions(contactAttributes),
+    update_conversation_custom_attribute: writableAttributeOptions(
+      conversationAttributes
+    ),
   };
-  return actionsMap[type];
+  return actionsMap[type] || [];
 };
 
 export const getConditionOptions = ({
@@ -335,8 +383,14 @@ export const getCustomAttributeType = (automationTypes, automation, key) => {
  * @returns {boolean} True if the action input should be shown, false otherwise.
  */
 export const showActionInput = (automationActionTypes, action) => {
-  if (action === 'send_email_to_team' || action === 'send_message')
+  if (
+    action === 'send_email_to_team' ||
+    action === 'send_message' ||
+    action === 'add_private_note' ||
+    action === 'update_contact_custom_attribute' ||
+    action === 'update_conversation_custom_attribute'
+  )
     return false;
-  const type = automationActionTypes.find(i => i.key === action).inputType;
+  const type = automationActionTypes.find(i => i.key === action)?.inputType;
   return !!type;
 };

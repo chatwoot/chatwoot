@@ -1,5 +1,6 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
+import AutomationActionCustomAttributeInput from './AutomationActionCustomAttributeInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -11,6 +12,7 @@ import InsertVariableButton from 'dashboard/components-next/variable/InsertVaria
 export default {
   components: {
     AutomationActionTeamMessageInput,
+    AutomationActionCustomAttributeInput,
     AutomationActionFileInput,
     WootMessageEditor,
     NextButton,
@@ -79,7 +81,13 @@ export default {
     },
     inputType() {
       return this.actionTypes.find(action => action.key === this.action_name)
-        .inputType;
+        ?.inputType;
+    },
+    isCustomAttributeAction() {
+      return [
+        'update_contact_custom_attribute',
+        'update_conversation_custom_attribute',
+      ].includes(this.action_name);
     },
     actionNameAsSelectModel: {
       get() {
@@ -95,7 +103,12 @@ export default {
       return this.actionTypes.map(a => ({ id: a.key, name: a.label }));
     },
     isVerticalLayout() {
-      return ['team_message', 'textarea'].includes(this.inputType);
+      return (
+        this.isCustomAttributeAction ||
+        ['team_message', 'textarea', 'custom_attribute'].includes(
+          this.inputType
+        )
+      );
     },
     castMessageVmodel: {
       get() {
@@ -117,8 +130,26 @@ export default {
       this.$emit('resetAction');
     },
     onActionNameChange(value) {
-      this.actionNameAsSelectModel = value;
-      this.resetAction();
+      const actionName = value?.id || value;
+      const isCustomAttribute = [
+        'update_contact_custom_attribute',
+        'update_conversation_custom_attribute',
+      ].includes(actionName);
+
+      // Single atomic update so the custom-attribute panel mounts with the
+      // new action_name (avoid resetAction wiping state in a second tick).
+      this.$emit('update:modelValue', {
+        action_name: actionName,
+        action_params: isCustomAttribute
+          ? { attribute_key: '', value: '' }
+          : [],
+      });
+      this.$emit('input', {
+        action_name: actionName,
+        action_params: isCustomAttribute
+          ? { attribute_key: '', value: '' }
+          : [],
+      });
     },
     insertMessageVariable(token) {
       const current = this.castMessageVmodel || '';
@@ -192,6 +223,17 @@ export default {
         :teams="dropdownValues"
         :dropdown-max-height="dropdownMaxHeight"
       />
+      <AutomationActionCustomAttributeInput
+        v-if="isCustomAttributeAction || inputType === 'custom_attribute'"
+        v-model="action_params"
+        :attributes="dropdownValues || []"
+        :attribute-model="
+          action_name === 'update_conversation_custom_attribute'
+            ? 'conversation_attribute'
+            : 'contact_attribute'
+        "
+        :dropdown-max-height="dropdownMaxHeight"
+      />
       <WootMessageEditor
         v-if="inputType === 'textarea'"
         v-model="castMessageVmodel"
@@ -200,7 +242,13 @@ export default {
         :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
         class="[&_.ProseMirror-menubar]:hidden px-3 py-1 bg-n-alpha-1 rounded-lg outline outline-1 outline-n-weak dark:outline-n-strong"
       />
-      <div v-if="inputType === 'textarea'" class="flex justify-end">
+      <div
+        v-if="inputType === 'textarea'"
+        class="flex items-center justify-between gap-2 mt-1"
+      >
+        <span class="text-xs text-n-slate-11">
+          {{ $t('AUTOMATION.ACTION.VARIABLES_HINT') }}
+        </span>
         <InsertVariableButton @insert="insertMessageVariable" />
       </div>
     </div>

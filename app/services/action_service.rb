@@ -100,7 +100,117 @@ class ActionService
     end
   end
 
+  def update_contact_custom_attribute(params)
+    attribute_key, value = extract_custom_attribute_params(params)
+    if attribute_key.blank?
+      Rails.logger.warn("[Automation] update_contact_custom_attribute skipped: blank attribute_key params=#{params.inspect}")
+      return
+    end
+
+    definition = find_writable_custom_attribute(attribute_key, :contact_attribute)
+    if definition.blank?
+      Rails.logger.warn("[Automation] update_contact_custom_attribute skipped: no contact attribute '#{attribute_key}' on account #{@account.id}")
+      return
+    end
+    if definition.formula?
+      Rails.logger.warn("[Automation] update_contact_custom_attribute skipped: '#{attribute_key}' is a formula attribute")
+      return
+    end
+
+    contact = @conversation.contact
+    attrs = (contact.custom_attributes || {}).merge(
+      attribute_key => normalize_custom_attribute_value(definition, value)
+    )
+    contact.update!(custom_attributes: attrs)
+  end
+
+  def update_conversation_custom_attribute(params)
+    attribute_key, value = extract_custom_attribute_params(params)
+    if attribute_key.blank?
+      Rails.logger.warn("[Automation] update_conversation_custom_attribute skipped: blank attribute_key params=#{params.inspect}")
+      return
+    end
+
+    definition = find_writable_custom_attribute(attribute_key, :conversation_attribute)
+    if definition.blank?
+      Rails.logger.warn("[Automation] update_conversation_custom_attribute skipped: no conversation attribute '#{attribute_key}' on account #{@account.id}")
+      return
+    end
+    if definition.formula?
+      Rails.logger.warn("[Automation] update_conversation_custom_attribute skipped: '#{attribute_key}' is a formula attribute")
+      return
+    end
+
+    attrs = (@conversation.custom_attributes || {}).merge(
+      attribute_key => normalize_custom_attribute_value(definition, value)
+    )
+    @conversation.update!(custom_attributes: attrs)
+  end
+
   private
+
+  def extract_custom_attribute_params(params)
+    data = params.is_a?(Array) ? params[0] : params
+    return [nil, nil] if data.blank?
+
+    data = data.with_indifferent_access if data.respond_to?(:with_indifferent_access)
+    [data[:attribute_key].to_s, data[:value]]
+  end
+
+  def find_writable_custom_attribute(attribute_key, attribute_model)
+    @account.custom_attribute_definitions.find_by(
+      attribute_key: attribute_key,
+      attribute_model: attribute_model
+    )
+  end
+
+  def normalize_custom_attribute_value(definition, raw_value)
+    rendered = render_custom_attribute_template(raw_value)
+
+    case definition.attribute_display_type
+    when 'number', 'currency', 'percent'
+      Float(rendered)
+    when 'checkbox'
+      ActiveModel::Type::Boolean.new.cast(rendered)
+    when 'date'
+      parse_custom_attribute_date(rendered)
+    else
+      # text, link, list, and any other type
+      rendered.to_s
+    end
+  rescue ArgumentError, TypeError => e
+    Rails.logger.warn("[Automation] custom attribute normalize failed for #{definition.attribute_key}: #{e.message}")
+    # Do not persist garbage into typed date/number fields.
+    raise if %w[date number currency percent].include?(definition.attribute_display_type)
+
+    raw_value.to_s
+  end
+
+  def render_custom_attribute_template(raw_value)
+    text = raw_value.to_s
+    return text unless text.include?('{{')
+
+    AutomationRules::MessageRendererService.new(@conversation, text).perform
+  end
+
+  def parse_custom_attribute_date(rendered)
+    return rendered.iso8601 if rendered.is_a?(Date)
+    return rendered.to_date.iso8601 if rendered.is_a?(Time) || rendered.is_a?(DateTime)
+
+    text = rendered.to_s.strip
+    # Native date inputs and Liquid date.today resolve to ISO YYYY-MM-DD.
+    if text.match?(/\A\d{4}-\d{2}-\d{2}\z/)
+      return Date.iso8601(text).iso8601
+    end
+
+    %w[%d/%m/%Y %m/%d/%Y %Y/%m/%d].each do |fmt|
+      return Date.strptime(text, fmt).iso8601
+    rescue ArgumentError
+      next
+    end
+
+    raise ArgumentError, "invalid date: #{text}"
+  end
 
   def last_responding_agent_id
     @conversation.messages.outgoing.where(sender_type: 'User', private: false).last&.sender_id
