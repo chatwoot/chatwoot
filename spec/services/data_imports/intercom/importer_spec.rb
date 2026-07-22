@@ -285,6 +285,48 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(data_import.reload.cursor.dig('conversations', 'starting_after')).to be_nil
     end
 
+    it 'heartbeats at most once per minute while processing conversation parts' do
+      freeze_time do
+        started_at = Time.current
+        long_conversation = conversation_payload.deep_dup
+        template_part = long_conversation.dig('conversation_parts', 'conversation_parts').first
+        long_conversation['conversation_parts']['conversation_parts'] = Array.new(5) do |index|
+          template_part.merge('id' => "part_#{index + 1}")
+        end
+        allow(client).to receive(:retrieve_conversation).with('conversation_1').and_return(long_conversation)
+        heartbeat_times = []
+        allow(data_import).to receive(:touch).and_wrap_original do |method|
+          heartbeat_times << Time.current
+          method.call
+        end
+        importer = described_class.new(data_import: data_import)
+        allow(importer).to receive(:create_message) { travel 30.seconds }
+
+        importer.import_conversations_page
+
+        expect(heartbeat_times).to eq([started_at + 1.minute, started_at + 2.minutes])
+      end
+    end
+
+    it 'stops parts without heartbeating or persisting stale stats when a newer run takes over', :aggregate_failures do
+      freeze_time do
+        run_id = 'intercom-run-1'
+        data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
+        allow(data_import).to receive(:touch).and_call_original
+        importer = described_class.new(data_import: data_import, run_id: run_id)
+        allow(importer).to receive(:create_message) do
+          data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' })
+          travel 1.minute
+        end
+
+        importer.import_conversations_page
+
+        expect(importer).to have_received(:create_message).once
+        expect(data_import).not_to have_received(:touch)
+        expect(data_import.reload.stats.dig('conversations', 'imported')).to eq(0)
+      end
+    end
+
     it 'rolls back a newly inserted conversation when mapping persistence fails', :aggregate_failures do
       importer = described_class.new(data_import: data_import)
       allow(importer).to receive(:record_mapping).and_wrap_original do |method, object_type, source_id, record, metadata:|

@@ -7,6 +7,7 @@ class DataImports::Intercom::Importer
   end
 
   DEFAULT_IMPORT_TYPES = %w[contacts conversations].freeze
+  HEARTBEAT_INTERVAL = 1.minute
   PROVIDER = 'intercom'.freeze
   ALREADY_IMPORTED_ERROR_CODE = 'DataImports::Intercom::AlreadyImported'.freeze
   SKIPPED_MESSAGE_ERROR_CODE = 'DataImports::Intercom::SkippedMessage'.freeze
@@ -154,7 +155,8 @@ class DataImports::Intercom::Importer
     if mapped_conversation && mapping.data_import_id != @data_import.id
       skip_already_imported_item(item, mapping, already_handled: already_handled)
       import_source_message(conversation, mapped_conversation, contact)
-      import_conversation_parts(conversation, mapped_conversation, contact)
+      return unless import_conversation_parts(conversation, mapped_conversation, contact)
+
       update_conversation_activity(mapped_conversation)
       return
     end
@@ -167,14 +169,15 @@ class DataImports::Intercom::Importer
     increment_stat('conversations', 'imported') unless already_handled
 
     import_source_message(conversation, chatwoot_conversation, contact)
-    import_conversation_parts(conversation, chatwoot_conversation, contact)
+    return unless import_conversation_parts(conversation, chatwoot_conversation, contact)
+
     update_conversation_activity(chatwoot_conversation)
   rescue StandardError => e
     raise if e.is_a?(DataImports::Intercom::Client::Error)
 
     fail_item(item, e)
   ensure
-    persist_stats
+    persist_stats unless @import_stopped
   end
 
   def import_stopped?
@@ -182,6 +185,14 @@ class DataImports::Intercom::Importer
 
     @data_import.reload
     @import_stopped = @data_import.abandoned? || @data_import.completed? || @data_import.completed_with_errors? || stale_import_run?
+  end
+
+  def continue_import_with_heartbeat?
+    return true if @data_import.updated_at > HEARTBEAT_INTERVAL.ago
+    return false if import_stopped?
+
+    @data_import.touch if @data_import.updated_at <= HEARTBEAT_INTERVAL.ago
+    true
   end
 
   def stale_import_run?
@@ -396,21 +407,26 @@ class DataImports::Intercom::Importer
     record_truncated_conversation_parts(conversation, parts.size)
 
     parts.each do |part|
+      return false unless continue_import_with_heartbeat?
+
       message_source_id = "conversation:#{source_id_for(conversation)}:part:#{part['id']}"
-      if (mapping = find_mapping('message', message_source_id)) && message_mapping_handled?(mapping, part)
-        if mapping.data_import_id == @data_import.id
-          reconcile_current_run_message_mapping(chatwoot_conversation, mapping, part)
+      begin
+        if (mapping = find_mapping('message', message_source_id)) && message_mapping_handled?(mapping, part)
+          if mapping.data_import_id == @data_import.id
+            reconcile_current_run_message_mapping(chatwoot_conversation, mapping, part)
+            next
+          end
+
+          skip_existing_message_mapping(chatwoot_conversation, mapping, part)
           next
         end
 
-        skip_existing_message_mapping(chatwoot_conversation, mapping, part)
-        next
+        create_message(chatwoot_conversation, contact, part, message_source_id)
+      rescue StandardError => e
+        fail_message(chatwoot_conversation, message_source_id, part, e)
       end
-
-      create_message(chatwoot_conversation, contact, part, message_source_id)
-    rescue StandardError => e
-      fail_message(chatwoot_conversation, message_source_id, part, e)
     end
+    true
   end
 
   def create_message(conversation, contact, part, message_source_id)
