@@ -38,6 +38,19 @@ RSpec.describe DataImports::Intercom::RetryService do
     expect(data_import.reload).to be_processing
   end
 
+  it 'rechecks the import state after acquiring its row lock' do
+    data_import.update!(updated_at: 16.minutes.ago)
+    allow(data_import).to receive(:with_lock).and_wrap_original do |method, *args, &block|
+      data_import.update!(status: :completed, completed_at: Time.current)
+      method.call(*args, &block)
+    end
+
+    result = described_class.new(account: account, data_import: data_import).perform
+
+    expect(result).to eq(:not_stalled)
+    expect(data_import.reload).to be_completed
+  end
+
   it 'does not retry while another Intercom import is active' do
     data_import.update!(updated_at: 16.minutes.ago)
     create(:data_import, :intercom, account: account, status: :processing)
