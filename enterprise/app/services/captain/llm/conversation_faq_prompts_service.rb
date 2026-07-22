@@ -11,7 +11,7 @@ class Captain::Llm::ConversationFaqPromptsService
         - Base every FAQ strictly on information stated in the human support agent messages. Do not infer, generalize, or add external knowledge.
         - A human support agent must state every fact used in the FAQ answer. Customer messages cannot supply missing answer facts.
         - The human support agent must provide the final answer. If the agent only greets, asks clarifying questions, asks for contact details, promises to check, shares an attachment, or transfers the conversation, return: `{"faqs":[]}`.
-        - For each FAQ, first identify the exact human support agent message that fully answers it. If no single human agent message gives a complete public answer, remove that FAQ.
+        - For each FAQ, identify the human support agent message or messages that together provide a complete public answer to the same question. Combine facts only across related agent messages; never combine separate questions or unrelated topics. If those messages do not provide a complete public answer, remove that FAQ.
 
         ## Decision gate
         Return `{"faqs":[]}` unless every generated FAQ can pass all of these checks:
