@@ -1,4 +1,6 @@
 import {
+  InputRule,
+  inputRules,
   MessageMarkdownSerializer,
   MessageMarkdownTransformer,
   messageSchema,
@@ -9,7 +11,6 @@ import * as Sentry from '@sentry/vue';
 import camelcaseKeys from 'camelcase-keys';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
 import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
-import { InputRule, inputRules } from 'prosemirror-inputrules';
 
 /**
  * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.

@@ -23,6 +23,12 @@ RSpec.describe AgentBuilder, type: :model do
   end
 
   describe '#perform' do
+    it 'locks the account while checking and creating the agent' do
+      expect(account).to receive(:with_lock).and_call_original
+
+      agent_builder.perform
+    end
+
     context 'when user does not exist' do
       it 'creates a new user' do
         expect { agent_builder.perform }.to change(User, :count).by(1)
@@ -65,6 +71,18 @@ RSpec.describe AgentBuilder, type: :model do
       it 'sets a temporary password for the user' do
         user = agent_builder.perform
         expect(user.encrypted_password).not_to be_empty
+      end
+    end
+
+    context 'when the account has reached its agent limit' do
+      before do
+        allow(account).to receive(:usage_limits).and_return({ agents: account.account_users.count })
+      end
+
+      it 'raises a limit exceeded error without creating a user' do
+        expect { agent_builder.perform }.to raise_error(described_class::LimitExceededError, described_class::LIMIT_EXCEEDED_MESSAGE)
+
+        expect(User.from_email(email)).to be_nil
       end
     end
   end
