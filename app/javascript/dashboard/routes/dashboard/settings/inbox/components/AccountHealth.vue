@@ -335,11 +335,17 @@ const handleGoToSettings = () => {
 const getQualityRatingTextColor = rating =>
   QUALITY_COLORS[rating] || QUALITY_COLORS.UNKNOWN;
 
-const formatTierDisplay = tier =>
-  t(`INBOX_MGMT.ACCOUNT_HEALTH.VALUES.TIERS.${tier}`) || tier;
+const formatTierDisplay = tier => {
+  const translationKey = `INBOX_MGMT.ACCOUNT_HEALTH.VALUES.TIERS.${tier}`;
 
-const formatModeDisplay = mode =>
-  t(`INBOX_MGMT.ACCOUNT_HEALTH.VALUES.MODES.${mode}`) || mode;
+  return te(translationKey) ? t(translationKey) : formatStatusDisplay(tier);
+};
+
+const formatModeDisplay = mode => {
+  const translationKey = `INBOX_MGMT.ACCOUNT_HEALTH.VALUES.MODES.${mode}`;
+
+  return te(translationKey) ? t(translationKey) : formatStatusDisplay(mode);
+};
 
 const getModeStatusTextColor = mode => MODE_COLORS[mode] || 'text-n-slate-12';
 

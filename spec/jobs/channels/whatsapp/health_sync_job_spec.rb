@@ -23,4 +23,26 @@ RSpec.describe Channels::Whatsapp::HealthSyncJob do
 
     expect(health_service).to have_received(:sync_health_status!)
   end
+
+  it 'does not retry recorded API failures' do
+    error = Whatsapp::HealthService::ApiError.new(message: 'Request failed', http_status: 400)
+    allow(Whatsapp::HealthService).to receive(:new).with(whatsapp_channel).and_return(health_service)
+    allow(health_service).to receive(:sync_health_status!).and_raise(error)
+
+    expect { described_class.perform_now(whatsapp_channel) }.not_to raise_error
+  end
+
+  it 'does not retry recorded configuration failures' do
+    allow(Whatsapp::HealthService).to receive(:new).with(whatsapp_channel).and_return(health_service)
+    allow(health_service).to receive(:sync_health_status!).and_raise(ArgumentError, 'API key is missing')
+
+    expect { described_class.perform_now(whatsapp_channel) }.not_to raise_error
+  end
+
+  it 'retries unexpected failures' do
+    allow(Whatsapp::HealthService).to receive(:new).with(whatsapp_channel).and_return(health_service)
+    allow(health_service).to receive(:sync_health_status!).and_raise(StandardError, 'Database unavailable')
+
+    expect { described_class.perform_now(whatsapp_channel) }.to raise_error(StandardError, 'Database unavailable')
+  end
 end

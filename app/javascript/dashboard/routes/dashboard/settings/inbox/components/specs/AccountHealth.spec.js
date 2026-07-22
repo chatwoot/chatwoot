@@ -50,4 +50,20 @@ describe('AccountHealth', () => {
       '_blank'
     );
   });
+
+  it('formats unknown messaging tiers and account modes without exposing translation keys', () => {
+    const wrapper = mountComponent({
+      messaging_limit_tier: 'TIER_CUSTOM',
+      account_mode: 'CUSTOM_MODE',
+    });
+
+    expect(wrapper.text()).toContain('Tier Custom');
+    expect(wrapper.text()).toContain('Custom Mode');
+    expect(wrapper.text()).not.toContain(
+      'INBOX_MGMT.ACCOUNT_HEALTH.VALUES.TIERS.TIER_CUSTOM'
+    );
+    expect(wrapper.text()).not.toContain(
+      'INBOX_MGMT.ACCOUNT_HEALTH.VALUES.MODES.CUSTOM_MODE'
+    );
+  });
 });

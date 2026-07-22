@@ -587,7 +587,6 @@ export default {
         this.healthData = response.data;
       } catch (error) {
         const apiError = error.response?.data?.error;
-        this.healthData = null;
         this.healthError =
           typeof apiError === 'object'
             ? apiError

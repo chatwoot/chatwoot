@@ -685,7 +685,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_18_000000) do
     t.datetime "message_templates_last_updated", precision: nil
     t.jsonb "phone_number_health", default: {}, null: false
     t.datetime "phone_number_health_checked_at"
-    t.string "phone_number_health_error"
+    t.string "phone_number_health_error", limit: 500
     t.index ["phone_number_health_checked_at"], name: "index_channel_whatsapp_on_phone_number_health_checked_at"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
