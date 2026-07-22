@@ -962,17 +962,19 @@ class DataImports::Intercom::Importer
   def reconcile_dirty_stats
     return if @dirty_stat_groups.empty?
 
-    @dirty_stat_groups.each_key do |group|
-      case group
-      when 'contacts'
-        reconcile_item_stats('contact')
-      when 'messages'
-        reconcile_message_stats
-      else
-        raise ArgumentError, "Unsupported Intercom import stat group: #{group}"
+    with_query_timeout_retry do
+      @dirty_stat_groups.each_key do |group|
+        case group
+        when 'contacts'
+          reconcile_item_stats('contact')
+        when 'messages'
+          reconcile_message_stats
+        else
+          raise ArgumentError, "Unsupported Intercom import stat group: #{group}"
+        end
       end
+      persist_stats
     end
-    persist_stats
     @dirty_stat_groups.clear
   end
 
