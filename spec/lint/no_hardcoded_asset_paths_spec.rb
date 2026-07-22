@@ -93,6 +93,7 @@ RSpec.describe 'no hardcoded asset paths' do
     app/javascript/dashboard/routes/dashboard/captain/documents/Index.vue
     app/javascript/dashboard/routes/dashboard/captain/responses/Index.vue
     app/javascript/dashboard/routes/dashboard/captain/responses/Pending.vue
+    app/javascript/dashboard/routes/dashboard/settings/data/importSources.js
     app/javascript/dashboard/routes/dashboard/settings/integrations/Integration.vue
     app/javascript/dashboard/routes/dashboard/settings/integrations/IntegrationItem.vue
     app/javascript/dashboard/routes/dashboard/settings/integrations/SingleIntegrationHooks.vue
