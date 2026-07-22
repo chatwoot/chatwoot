@@ -1,8 +1,9 @@
 import { flushPromises, shallowMount } from '@vue/test-utils';
 import FaqSuggestionReviewDialog from './FaqSuggestionReviewDialog.vue';
 
-const { dispatch, uiFlags } = vi.hoisted(() => ({
+const { dispatch, push, uiFlags } = vi.hoisted(() => ({
   dispatch: vi.fn(),
+  push: vi.fn(),
   uiFlags: {
     value: {
       fetchingItem: false,
@@ -24,10 +25,11 @@ vi.mock('vue-i18n', () => ({
 }));
 
 vi.mock('vue-router', () => ({
-  useRouter: () => ({ push: vi.fn() }),
+  useRouter: () => ({ push }),
 }));
 
 const DialogStub = {
+  methods: { close: vi.fn() },
   template: `
     <div>
       <slot name="description" />
@@ -70,5 +72,43 @@ describe('FaqSuggestionReviewDialog', () => {
     expect(wrapper.text()).not.toContain(
       'CAPTAIN.FAQ_SUGGESTIONS.DETAILS.NO_SOURCES'
     );
+  });
+
+  it('opens source conversations using their display ID', async () => {
+    dispatch.mockResolvedValueOnce({
+      observations: [
+        {
+          id: 1,
+          generated_question: 'How do I enable the feature?',
+          created_at: 1,
+          conversation: { id: 99, display_id: 42 },
+        },
+      ],
+    });
+
+    const wrapper = shallowMount(FaqSuggestionReviewDialog, {
+      props: {
+        suggestion: {
+          id: 1,
+          question: 'How do I enable the feature?',
+          answer: 'Turn it on in settings.',
+          source_count: 1,
+          assistant: { name: 'Support assistant' },
+          language: 'en',
+        },
+      },
+      global: {
+        mocks: { $t: key => key },
+        stubs: { Dialog: DialogStub },
+      },
+    });
+
+    await flushPromises();
+    await wrapper.get('section button').trigger('click');
+
+    expect(push).toHaveBeenCalledWith({
+      name: 'inbox_conversation',
+      params: { conversation_id: 42 },
+    });
   });
 });

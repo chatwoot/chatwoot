@@ -220,7 +220,7 @@ defineExpose({ dialogRef });
             :key="observation.id"
             type="button"
             class="flex w-full flex-col gap-1.5 rounded-lg border border-n-weak bg-n-solid-2 p-3 text-start transition-colors hover:border-n-brand"
-            @click="openConversation(observation.conversation.id)"
+            @click="openConversation(observation.conversation.display_id)"
           >
             <span class="flex items-center justify-between gap-2">
               <span class="text-xs font-medium text-n-blue-11">
