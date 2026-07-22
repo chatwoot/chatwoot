@@ -6,6 +6,20 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   LLM_FEATURE = 'conversation_faq_generation'.freeze
   FAQ_MATCH_MODEL = 'gpt-4.1-mini'.freeze
 
+  def self.language_for(conversation)
+    language = conversation.language.presence || conversation.account.locale.presence || I18n.default_locale.to_s
+    normalize_language(language)
+  end
+
+  def self.normalize_language(language)
+    language.to_s.tr('-', '_').split('_').first.downcase
+  end
+
+  def self.account_language_for(account)
+    normalize_language(account.locale.presence || I18n.default_locale.to_s)
+  end
+  private_class_method :normalize_language
+
   def initialize(assistant, conversation)
     super(feature: LLM_FEATURE, account: conversation.account, fallback_model: Llm::Models.default_model_for(LLM_FEATURE))
     @assistant = assistant
@@ -180,15 +194,11 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   end
 
   def faq_language
-    @faq_language ||= normalize_language(conversation.language.presence || conversation.account.locale.presence || I18n.default_locale.to_s)
+    @faq_language ||= self.class.language_for(conversation)
   end
 
   def account_language
-    @account_language ||= normalize_language(conversation.account.locale.presence || I18n.default_locale.to_s)
-  end
-
-  def normalize_language(language)
-    language.to_s.tr('-', '_').split('_').first.downcase
+    @account_language ||= self.class.account_language_for(conversation.account)
   end
 
   def language_name(language)
