@@ -6,6 +6,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:conversation) { create(:conversation, account: account) }
 
+  before { account.enable_features!('captain_integration') }
+
   def json_response
     JSON.parse(response.body, symbolize_names: true)
   end
