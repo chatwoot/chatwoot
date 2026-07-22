@@ -111,6 +111,25 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
       expect(history.first).to include('role' => 'user', 'content' => 'CUST001')
     end
 
+    it 'stores multimodal content without cached attachment bytes' do
+      content = RubyLLM::Content.new('See image', ['https://example.com/image.jpg'])
+      content.attachments.first.instance_variable_set(:@content, "\xFF\xD8\xFF\xE0JFIF".b)
+      run_context[:conversation_history] = [
+        { role: :user, content: content },
+        { role: :assistant, content: 'I can see the image', agent_name: 'Assistant' }
+      ]
+
+      history = service.capture!.run_context
+
+      expect(history.first).to include(
+        'role' => 'user',
+        'content' => {
+          'text' => 'See image',
+          'attachments' => [{ 'type' => 'image', 'source' => 'https://example.com/image.jpg' }]
+        }
+      )
+    end
+
     it 'stores the full history when it contains no user message' do
       run_context[:conversation_history] = conversation_history.reject { |message| message[:role] == :user }
 
