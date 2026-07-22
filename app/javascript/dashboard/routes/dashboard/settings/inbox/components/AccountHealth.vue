@@ -314,11 +314,18 @@ const errorState = computed(() => {
 });
 
 const handleGoToSettings = () => {
-  const { business_portfolio_id: businessPortfolioId } = props.healthData || {};
+  const {
+    business_account_id: businessAccountId,
+    business_portfolio_id: businessPortfolioId,
+  } = props.healthData || {};
 
-  if (businessPortfolioId) {
-    const whatsappBusinessUrl = `https://business.facebook.com/latest/whatsapp_manager/phone_numbers/?business_id=${businessPortfolioId}&tab=phone-numbers`;
-    window.open(whatsappBusinessUrl, '_blank');
+  if (businessPortfolioId && businessAccountId) {
+    const whatsappBusinessUrl = new URL(
+      'https://business.facebook.com/latest/whatsapp_manager/phone_numbers/'
+    );
+    whatsappBusinessUrl.searchParams.set('business_id', businessPortfolioId);
+    whatsappBusinessUrl.searchParams.set('asset_id', businessAccountId);
+    window.open(whatsappBusinessUrl.toString(), '_blank');
   } else {
     const fallbackUrl = 'https://business.facebook.com/';
     window.open(fallbackUrl, '_blank');
