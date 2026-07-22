@@ -138,6 +138,19 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqSuggestions', type: :request do
       expect(suggestion.reload).to be_approved
     end
 
+    it 'approves a suggestion written in a language other than the account locale' do
+      suggestion.update!(language: 'pt')
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/captain/faq_suggestions/#{suggestion.id}/approve",
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.to change(assistant.responses.approved, :count).by(1)
+
+      expect(response).to have_http_status(:success)
+      expect(suggestion.reload).to be_approved
+    end
+
     it 'does not let an agent approve an inaccessible suggestion' do
       expect do
         post "/api/v1/accounts/#{account.id}/captain/faq_suggestions/#{suggestion.id}/approve",
