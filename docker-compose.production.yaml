@@ -12,6 +12,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - mailhog
     ports:
       - '127.0.0.1:3000:3000'
     environment:
@@ -27,6 +28,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - mailhog
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -38,14 +40,14 @@ services:
     image: pgvector/pgvector:pg16
     restart: always
     ports:
-      - '127.0.0.1:5432:5432'
+      - '127.0.0.1:55432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
       # Please provide your own password.
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
   redis:
     image: redis:alpine
@@ -56,6 +58,13 @@ services:
       - redis_data:/data
     ports:
       - '127.0.0.1:6379:6379'
+
+  mailhog:
+    image: mailhog/mailhog
+    restart: always
+    ports:
+      - '127.0.0.1:1025:1025'
+      - '127.0.0.1:8025:8025'
 
 volumes:
   storage_data:
