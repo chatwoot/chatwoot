@@ -14,6 +14,7 @@ class Messages::MessageBuilder
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
     @is_voice_message = ActiveModel::Type::Boolean.new.cast(params[:is_voice_message])
+    @force_audio_as_file = ActiveModel::Type::Boolean.new.cast(params[:force_audio_as_file])
     @automation_rule = content_attributes&.dig(:automation_rule_id)
     return unless params.instance_of?(ActionController::Parameters)
 
@@ -52,6 +53,8 @@ class Messages::MessageBuilder
     return if @attachments.blank?
 
     @attachments.each do |uploaded_attachment|
+      normalize_attachment_audio_mime!(uploaded_attachment)
+
       attachment = @message.attachments.build(
         account_id: @message.account_id,
         file: uploaded_attachment
@@ -63,15 +66,47 @@ class Messages::MessageBuilder
   end
 
   def attachment_file_type(uploaded_attachment)
-    if uploaded_attachment.is_a?(String)
-      file_type_by_signed_id(uploaded_attachment)
+    type = if uploaded_attachment.is_a?(String)
+             file_type_by_signed_id(uploaded_attachment)
+           else
+             file_type(resolved_upload_content_type(uploaded_attachment))
+           end
+
+    return :file if @force_audio_as_file && type.to_s == 'audio'
+
+    type
+  end
+
+  def resolved_upload_content_type(uploaded_attachment)
+    content_type = uploaded_attachment.try(:content_type)
+    filename = uploaded_attachment.try(:original_filename) || uploaded_attachment.try(:filename)
+    resolve_audio_content_type(content_type, filename)
+  end
+
+  def normalize_attachment_audio_mime!(uploaded_attachment)
+    blob = attachment_blob_for(uploaded_attachment)
+    return unless blob
+
+    resolved = resolve_audio_content_type(blob.content_type, blob.filename.to_s)
+    return if resolved.blank? || resolved == blob.content_type
+
+    blob.update!(content_type: resolved)
+  end
+
+  def attachment_blob_for(uploaded_attachment)
+    case uploaded_attachment
+    when ActiveStorage::Blob
+      uploaded_attachment
+    when String
+      ActiveStorage::Blob.find_signed(uploaded_attachment)
     else
-      file_type(uploaded_attachment&.content_type)
+      uploaded_attachment.try(:blob)
     end
   end
 
   def tag_voice_message(attachment)
     return unless @is_voice_message && attachment.file_type == 'audio'
+    return unless voice_note_content_type?(attachment.file.content_type)
 
     attachment.meta = (attachment.meta || {}).merge('is_voice_message' => true)
   end

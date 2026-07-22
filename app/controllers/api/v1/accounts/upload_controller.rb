@@ -1,4 +1,6 @@
 class Api::V1::Accounts::UploadController < Api::V1::Accounts::BaseController
+  include FileTypeHelper
+
   def create
     result = if params[:attachment].present?
                create_from_file
@@ -40,7 +42,7 @@ class Api::V1::Accounts::UploadController < Api::V1::Accounts::BaseController
     ActiveStorage::Blob.create_and_upload!(
       io: io,
       filename: filename,
-      content_type: content_type
+      content_type: resolve_audio_content_type(content_type, filename)
     )
   end
 

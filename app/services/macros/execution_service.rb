@@ -56,7 +56,7 @@ class Macros::ExecutionService < ActionService
 
     return if blobs.blank?
 
-    params = { content: nil, private: false, attachments: blobs }
+    params = attachment_message_params(blobs)
 
     # Added reload here to ensure conversation us persistent with the latest updates
     mb = Messages::MessageBuilder.new(@user, @conversation.reload, params)
