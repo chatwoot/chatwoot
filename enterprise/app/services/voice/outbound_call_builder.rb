@@ -16,6 +16,7 @@ class Voice::OutboundCallBuilder
   def perform!
     raise ArgumentError, 'Contact phone number required' if contact.phone_number.blank?
     raise ArgumentError, 'Agent required' if user.blank?
+    raise CustomExceptions::InboxDisabled unless inbox.active?
 
     # Claim for the caller if a reused conversation is unassigned at trigger time; wins over auto-assignment.
     # New conversations set the assignee at creation instead (see create_conversation!).

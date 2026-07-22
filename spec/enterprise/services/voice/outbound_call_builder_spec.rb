@@ -127,5 +127,20 @@ RSpec.describe Voice::OutboundCallBuilder do
         )
       end.to raise_error(ArgumentError, 'Agent required')
     end
+
+    it 'raises before initiating the provider call when the inbox is disabled' do
+      inbox.update!(active: false)
+
+      expect do
+        described_class.perform!(
+          account: account,
+          inbox: inbox,
+          user: user,
+          contact: contact
+        )
+      end.to raise_error(CustomExceptions::InboxDisabled)
+
+      expect(channel).not_to have_received(:initiate_call)
+    end
   end
 end

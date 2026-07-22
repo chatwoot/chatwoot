@@ -22,6 +22,7 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
   # The actual persistence happens in ReplyMailbox within a transaction that includes message creation.
   def find
     return nil unless @channel # No valid channel found
+    return nil unless @inbox.active?
     return nil unless incoming_email_from_valid_email? # Skip edge cases
 
     # Check if conversation already exists by in_reply_to

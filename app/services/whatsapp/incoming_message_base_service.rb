@@ -8,13 +8,13 @@ class Whatsapp::IncomingMessageBaseService
   pattr_initialize [:inbox!, :params!, :outgoing_echo]
 
   def perform
-    return unless @inbox.active?
-
     processed_params
 
     if processed_params.try(:[], :statuses).present?
       process_statuses
     elsif messages_data.present?
+      return unless @inbox.active?
+
       process_messages
     end
   end

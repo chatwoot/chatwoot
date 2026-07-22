@@ -3,7 +3,6 @@ class Api::V1::Widget::BaseController < ApplicationController
   include WebsiteTokenHelper
 
   before_action :set_web_widget
-  before_action :ensure_inbox_active
   before_action :set_contact
 
   private

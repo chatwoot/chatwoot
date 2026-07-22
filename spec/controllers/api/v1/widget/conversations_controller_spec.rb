@@ -43,6 +43,18 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
         expect(json_response['id']).to eq(conversation.display_id)
         expect(json_response['status']).to eq(conversation.status)
       end
+
+      it 'returns the conversation when the inbox is disabled' do
+        web_widget.inbox.update!(active: false)
+
+        get '/api/v1/widget/conversations',
+            headers: { 'X-Auth-Token' => token },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['id']).to eq(conversation.display_id)
+      end
     end
 
     context 'with a conversation but invalid source id' do
@@ -62,6 +74,19 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
   end
 
   describe 'POST /api/v1/widget/conversations' do
+    it 'does not create a conversation when the inbox is disabled' do
+      web_widget.inbox.update!(active: false)
+
+      expect do
+        post '/api/v1/widget/conversations',
+             headers: { 'X-Auth-Token' => token },
+             params: conversation_params,
+             as: :json
+      end.not_to change(Conversation, :count)
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
     it 'creates a conversation with correct details' do
       post '/api/v1/widget/conversations',
            headers: { 'X-Auth-Token' => token },

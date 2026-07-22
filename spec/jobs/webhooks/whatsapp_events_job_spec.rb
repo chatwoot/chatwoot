@@ -106,6 +106,34 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       job.perform_now(phone_number: unknown_phone)
     end
 
+    it 'processes status callbacks when the inbox is disabled' do
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:value][:statuses] = [
+        { id: 'wamid-test', recipient_id: '919745786257', status: 'delivered' }
+      ]
+      channel.inbox.update!(active: false)
+
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).with(inbox: channel.inbox, params: wb_params)
+
+      job.perform_now(wb_params)
+    end
+
+    it 'does not process message callbacks when the inbox is disabled' do
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:value][:messages] = [
+        { from: '919745786257', id: 'wamid-test', text: { body: 'Hello' }, type: 'text' }
+      ]
+      channel.inbox.update!(active: false)
+
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
+
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
+
+      job.perform_now(wb_params)
+    end
+
     it 'uses from_user_id as the mutex sender for BSUID-only inbound messages' do
       bsuid = 'IN.2081978709342942'
       wb_params = params.deep_dup

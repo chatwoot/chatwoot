@@ -6,6 +6,7 @@ class ReplyMailbox < ApplicationMailbox
   def process
     # Return early if no conversation was found (e.g., notification emails, suspended accounts)
     return unless @conversation
+    return unless @conversation.inbox.active?
 
     # Wrap everything in a transaction to ensure atomicity
     # This prevents orphan conversations if message/attachment creation fails

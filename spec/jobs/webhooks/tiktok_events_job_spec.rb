@@ -42,6 +42,38 @@ RSpec.describe Webhooks::TiktokEventsJob do
       expect(read_status_service).to have_received(:perform)
     end
 
+    it 'processes im_mark_read_msg events when the inbox is disabled' do
+      channel.inbox.update!(active: false)
+      read_status_service = instance_double(Tiktok::ReadStatusService, perform: true)
+      allow(Tiktok::ReadStatusService).to receive(:new).and_return(read_status_service)
+
+      event = {
+        event: 'im_mark_read_msg',
+        user_openid: 'biz-123',
+        content: { conversation_id: 'tt-conv-1', read: { last_read_timestamp: 1_700_000_000_000 }, from_user: { id: 'user-1' } }.to_json
+      }
+
+      job.perform(event)
+
+      expect(Tiktok::ReadStatusService).to have_received(:new).with(channel: channel, content: hash_including(conversation_id: 'tt-conv-1'))
+      expect(read_status_service).to have_received(:perform)
+    end
+
+    it 'does not process im_receive_msg events when the inbox is disabled' do
+      channel.inbox.update!(active: false)
+      allow(Tiktok::MessageService).to receive(:new)
+
+      event = {
+        event: 'im_receive_msg',
+        user_openid: 'biz-123',
+        content: { conversation_id: 'tt-conv-1' }.to_json
+      }
+
+      job.perform(event)
+
+      expect(Tiktok::MessageService).not_to have_received(:new)
+    end
+
     it 'ignores unsupported event types' do
       allow(Tiktok::MessageService).to receive(:new)
 

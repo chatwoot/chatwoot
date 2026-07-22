@@ -42,6 +42,17 @@ RSpec.describe ReplyMailbox do
       end
     end
 
+    context 'with reply uuid present for a disabled inbox' do
+      before do
+        conversation.update!(uuid: '6bdc3f4d-0bec-4515-a284-5d916fdde489')
+        conversation.inbox.update!(active: false)
+      end
+
+      it 'does not add the mail content as a new message' do
+        expect { described_subject }.not_to change(Message, :count)
+      end
+    end
+
     context 'with in reply to email' do
       let(:reply_mail_without_uuid) { create_inbound_email_from_fixture('reply_mail_without_uuid.eml') }
       let(:described_subject) { described_class.receive reply_mail_without_uuid }
@@ -64,6 +75,27 @@ RSpec.describe ReplyMailbox do
       it 'find channel with in-reply-to mail' do
         described_subject
         expect(conversation_1.messages.last.content).to include("Let's talk about these images:")
+      end
+    end
+
+    context 'when forwarded email inbox is disabled' do
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+      let(:forwarded_mail) { create_inbound_email_from_mail(from: 'sender@example.com', to: email_channel.email, subject: 'Hello') }
+
+      before do
+        email_channel.inbox.update!(active: false)
+      end
+
+      it 'does not create contacts, conversations, or messages' do
+        contact_count = Contact.count
+        conversation_count = Conversation.count
+        message_count = Message.count
+
+        described_class.receive forwarded_mail
+
+        expect(Contact.count).to eq(contact_count)
+        expect(Conversation.count).to eq(conversation_count)
+        expect(Message.count).to eq(message_count)
       end
     end
 
