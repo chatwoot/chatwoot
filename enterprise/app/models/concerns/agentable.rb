@@ -31,6 +31,13 @@ module Concerns::Agentable
     Captain::PromptRenderer.render(template_name, enhanced_context.with_indifferent_access)
   end
 
+  def agent_model
+    route = Llm::FeatureRouter.resolve(feature: 'assistant', account: account)
+    return route[:model] if route[:source] == :account_override || account&.feature_enabled?('captain_integration_v2')
+
+    installation_model.presence || route[:model]
+  end
+
   private
 
   def agent_name
@@ -43,13 +50,6 @@ module Concerns::Agentable
 
   def agent_tools
     []  # Default implementation, override if needed
-  end
-
-  def agent_model
-    route = Llm::FeatureRouter.resolve(feature: 'assistant', account: account)
-    return route[:model] if route[:source] == :account_override || account&.feature_enabled?('captain_integration_v2')
-
-    installation_model.presence || route[:model]
   end
 
   def installation_model

@@ -387,12 +387,15 @@ export default {
       return this.inbox.provider_config?.source === 'embedded_signup';
     },
     whatsappUnauthorized() {
-      // The manual migration banner supersedes the embedded-signup reauthorize flow when the feature is enabled.
       return (
         this.isAWhatsAppCloudChannel &&
         this.isEmbeddedSignupWhatsApp &&
-        this.inbox.reauthorization_required &&
-        !this.showWhatsAppManualMigration
+        (!this.isOnChatwootCloud ||
+          this.isFeatureEnabledonAccount(
+            this.accountId,
+            FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW
+          )) &&
+        this.inbox.reauthorization_required
       );
     },
     whatsappRegistrationIncomplete() {

@@ -150,6 +150,101 @@ describe('#actions', () => {
     });
   });
 
+  describe('#publishDraft', () => {
+    const state = {
+      articles: {
+        byId: {
+          1: {
+            id: 1,
+            draftTitle: 'Draft title',
+            draftContent: 'Draft content',
+          },
+        },
+      },
+    };
+
+    it('dispatches update promoting the edited fields and clearing the draft', async () => {
+      await actions.publishDraft(
+        { dispatch, state },
+        { portalSlug: 'room-rental', articleId: 1 }
+      );
+      expect(dispatch).toHaveBeenCalledWith('update', {
+        portalSlug: 'room-rental',
+        articleId: 1,
+        status: undefined,
+        draft_title: null,
+        draft_content: null,
+        title: 'Draft title',
+        content: 'Draft content',
+      });
+    });
+
+    it('only sends the fields that were actually edited', async () => {
+      const partialState = {
+        articles: { byId: { 1: { id: 1, draftContent: 'Only content' } } },
+      };
+      await actions.publishDraft(
+        { dispatch, state: partialState },
+        { portalSlug: 'room-rental', articleId: 1 }
+      );
+      expect(dispatch).toHaveBeenCalledWith('update', {
+        portalSlug: 'room-rental',
+        articleId: 1,
+        status: undefined,
+        draft_title: null,
+        draft_content: null,
+        content: 'Only content',
+      });
+    });
+
+    it('forwards a status to change it in the same update', async () => {
+      await actions.publishDraft(
+        { dispatch, state },
+        { portalSlug: 'room-rental', articleId: 1, status: 'archived' }
+      );
+      expect(dispatch).toHaveBeenCalledWith(
+        'update',
+        expect.objectContaining({
+          status: 'archived',
+          title: 'Draft title',
+          content: 'Draft content',
+          draft_title: null,
+          draft_content: null,
+        })
+      );
+    });
+  });
+
+  describe('#discardDraft', () => {
+    it('dispatches update clearing the draft columns', async () => {
+      await actions.discardDraft(
+        { dispatch },
+        { portalSlug: 'room-rental', articleId: 1 }
+      );
+      expect(dispatch).toHaveBeenCalledWith('update', {
+        portalSlug: 'room-rental',
+        articleId: 1,
+        status: undefined,
+        draft_title: null,
+        draft_content: null,
+      });
+    });
+
+    it('forwards a status to change it in the same update', async () => {
+      await actions.discardDraft(
+        { dispatch },
+        { portalSlug: 'room-rental', articleId: 1, status: 'draft' }
+      );
+      expect(dispatch).toHaveBeenCalledWith('update', {
+        portalSlug: 'room-rental',
+        articleId: 1,
+        status: 'draft',
+        draft_title: null,
+        draft_content: null,
+      });
+    });
+  });
+
   describe('#updateArticleMeta', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({

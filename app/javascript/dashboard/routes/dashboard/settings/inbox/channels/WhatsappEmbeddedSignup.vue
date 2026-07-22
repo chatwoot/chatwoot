@@ -7,7 +7,6 @@ import { useAlert } from 'dashboard/composables';
 import { useWhatsappEmbeddedSignup } from 'dashboard/composables/useWhatsappEmbeddedSignup';
 import Icon from 'next/icon/Icon.vue';
 import NextButton from 'next/button/Button.vue';
-import Banner from 'next/banner/Banner.vue';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import InboxesAPI from 'dashboard/api/inboxes';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
@@ -17,22 +16,6 @@ const props = defineProps({
   enableCallingOnComplete: {
     type: Boolean,
     default: false,
-  },
-  isDisabled: {
-    type: Boolean,
-    default: false,
-  },
-  showRestrictionAlert: {
-    type: Boolean,
-    default: false,
-  },
-  restrictionStatusUrl: {
-    type: String,
-    default: '',
-  },
-  restrictionWarningText: {
-    type: String,
-    default: '',
   },
 });
 
@@ -98,8 +81,6 @@ const handleSignupSuccess = async inboxData => {
 };
 
 const launchEmbeddedSignup = async () => {
-  if (props.isDisabled) return;
-
   let credentials;
   try {
     credentials = await runEmbeddedSignup();
@@ -193,33 +174,9 @@ const launchEmbeddedSignup = async () => {
         </I18nT>
       </div>
 
-      <Banner v-if="showRestrictionAlert" color="amber" class="w-full mb-6">
-        <div class="flex items-start gap-3 text-left">
-          <Icon
-            icon="i-lucide-triangle-alert"
-            class="flex-shrink-0 size-4 mt-0.5"
-          />
-          <span>
-            {{
-              restrictionWarningText ||
-              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.RESTRICTED_WARNING')
-            }}
-            <a
-              v-if="restrictionStatusUrl"
-              :href="restrictionStatusUrl"
-              class="link underline"
-              rel="noopener noreferrer nofollow"
-              target="_blank"
-            >
-              {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.STATUS_LINK') }}
-            </a>
-          </span>
-        </div>
-      </Banner>
-
       <div class="flex mt-4">
         <NextButton
-          :disabled="isAuthenticating || isDisabled"
+          :disabled="isAuthenticating"
           :is-loading="isAuthenticating"
           faded
           slate
