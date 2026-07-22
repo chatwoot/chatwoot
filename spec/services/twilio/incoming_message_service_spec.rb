@@ -670,6 +670,24 @@ describe Twilio::IncomingMessageService do
           expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+5541988887777')
         end
 
+        it 'reuses an existing contact in new format when the inbox has no contact inbox' do
+          existing_contact = create(:contact, account: account, phone_number: '+5541988887777')
+
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+554188887777',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Brazil',
+            ProfileName: 'João Silva'
+          }
+
+          expect { described_class.new(params: params).perform }.not_to change(account.contacts, :count)
+
+          contact_inbox = whatsapp_twilio_channel.inbox.contact_inboxes.find_by!(source_id: 'whatsapp:+554188887777')
+          expect(contact_inbox.contact).to eq(existing_contact)
+        end
+
         it 'creates contact inbox with incoming number when no existing contact' do
           params = {
             SmsSid: 'SMxx',

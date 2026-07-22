@@ -119,7 +119,7 @@ class Twilio::IncomingMessageService
     {
       name: contact_name,
       phone_number: phone_number.presence,
-      additional_attributes: additional_attributes
+      additional_attributes: additional_attributes, phone_number_candidates: twilio_whatsapp_phone_number_candidates
     }
   end
 
