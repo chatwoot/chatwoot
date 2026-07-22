@@ -37,6 +37,23 @@ class Captain::AssistantStatsBuilder
     build_metrics(current, previous)
   end
 
+  # Approved/pending FAQ counts and the document total in a single round trip.
+  def faq_stats
+    approved, pending, documents = Captain::AssistantResponse.by_assistant(assistant.id).reorder(nil).pick(
+      Arel.sql("COUNT(*) FILTER (WHERE status = #{Captain::AssistantResponse.statuses['approved']})"),
+      Arel.sql("COUNT(*) FILTER (WHERE status = #{Captain::AssistantResponse.statuses['pending']})"),
+      Arel.sql("(SELECT COUNT(*) FROM captain_documents WHERE assistant_id = #{assistant.id.to_i})")
+    )
+    total = approved + pending
+
+    {
+      approved: approved,
+      pending: pending,
+      documents: documents,
+      coverage: total.zero? ? 0 : (approved.to_f / total * 100).round
+    }
+  end
+
   private
 
   attr_reader :window
@@ -56,8 +73,7 @@ class Captain::AssistantStatsBuilder
       handoff_rate: pack(current[:handoff], previous[:handoff], :point),
       hours_saved: pack(current[:hours_saved], previous[:hours_saved], :percent),
       reopen_rate: pack(current[:reopen], previous[:reopen], :point),
-      conversation_depth: pack(current[:depth], previous[:depth], :absolute),
-      knowledge: knowledge
+      conversation_depth: pack(current[:depth], previous[:depth], :absolute)
     }
   end
 
@@ -179,23 +195,6 @@ class Captain::AssistantStatsBuilder
                              'AND reporting_events.event_end_time >= resolves.event_end_time')
                       .distinct.count('reporting_events.conversation_id')
     rate(reopened, resolved_scope.distinct.count(:conversation_id))
-  end
-
-  # Approved/pending FAQ counts and the document total in a single round trip.
-  def knowledge
-    approved, pending, documents = Captain::AssistantResponse.by_assistant(assistant.id).reorder(nil).pick(
-      Arel.sql("COUNT(*) FILTER (WHERE status = #{Captain::AssistantResponse.statuses['approved']})"),
-      Arel.sql("COUNT(*) FILTER (WHERE status = #{Captain::AssistantResponse.statuses['pending']})"),
-      Arel.sql("(SELECT COUNT(*) FROM captain_documents WHERE assistant_id = #{assistant.id.to_i})")
-    )
-    total = approved + pending
-
-    {
-      approved: approved,
-      pending: pending,
-      documents: documents,
-      coverage: total.zero? ? 0 : (approved.to_f / total * 100).round
-    }
   end
 
   def rate(numerator, denominator)
