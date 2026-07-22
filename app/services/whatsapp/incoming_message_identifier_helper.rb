@@ -76,11 +76,13 @@ module Whatsapp::IncomingMessageIdentifierHelper
     phone_number = whatsapp_phone_number(phone_identifier)
     return { name: name } if phone_number.blank?
 
-    # Normalize before storing/matching so country-specific format variations (e.g. Brazil's
-    # missing 9th digit) resolve to the same contact instead of creating duplicates.
-    formatted_phone_number = "+#{normalized_phone_number(phone_number)}"
+    formatted_phone_number = "+#{phone_number}"
     display_name = name == phone_identifier ? formatted_phone_number : name
-    { name: display_name, phone_number: formatted_phone_number }
+    attributes = { name: display_name, phone_number: formatted_phone_number }
+
+    normalized_number = normalized_phone_number(phone_number)
+    attributes[:phone_number_candidates] = ["+#{normalized_number}"] if normalized_number != phone_number
+    attributes
   end
 
   def normalized_phone_number(phone_number)
