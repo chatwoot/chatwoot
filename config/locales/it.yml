@@ -33,8 +33,33 @@ it:
     login_saml_user: Questo account utilizza autenticazione SAML. Effettua il login dal portale SAML della tua organizzazione.
     saml_not_available: Autenticazione SAML non disponibile in questa installazione.
     inbox_deletetion_response: La tua richiesta di cancellazione inbox verrà elaborata.
+  data_imports:
+    intercom:
+      activities:
+        assignment: '%{actor} assigned the conversation'
+        assignment_with_target: '%{actor} assigned the conversation to %{target}'
+        assign_and_reopen: '%{actor} assigned and reopened the conversation'
+        assign_and_reopen_with_target: '%{actor} assigned the conversation to %{target} and reopened it'
+        open: '%{actor} opened the conversation'
+        close: '%{actor} closed the conversation'
+        snoozed: '%{actor} snoozed the conversation'
+        participant_added: '%{actor} added a participant'
+        participant_added_with_target: '%{actor} added %{target} as a participant'
+        participant_removed: '%{actor} removed a participant'
+        participant_removed_with_target: '%{actor} removed %{target} as a participant'
+        conversation_attribute_updated: '%{actor} updated conversation attributes'
+        ticket_attribute_updated: '%{actor} updated ticket attributes'
+        ticket_state_updated: '%{actor} updated the ticket state'
+        custom_action_started: '%{actor} started a custom action'
+        custom_action_finished: '%{actor} finished a custom action'
+        quick_reply: '%{actor} used a quick reply'
+        generic: '%{actor} recorded %{event}'
+  profile_settings:
+    sessions:
+      cannot_revoke_current: You cannot revoke the current session.
   errors:
     account:
+      not_authorized: You are not authorized to access this account
       reporting_timezone:
         invalid: non è un fuso orario valido
       support_email:
@@ -64,9 +89,14 @@ it:
       file_too_large: 'Il file supera la dimensione massima consentita'
       unsupported_content_type: 'Tipo di file non supportato (sono ammessi solo immagini e video)'
       unexpected: 'Si è verificato un errore imprevisto'
+    database:
+      query_canceled: 'The request took too long to complete. Please try again.'
     saml:
       feature_not_enabled: Funzionalità SAML non attiva per questo account
       sso_not_enabled: SAML SSO non è abilitato per questa installazione
+    conversations:
+      unread_counts:
+        feature_not_enabled: Funzione conteggio conversazioni non lette non abilitata per questo account
     data_import:
       data_type:
         invalid: Tipo di dato non valido
@@ -92,6 +122,15 @@ it:
         unique: deve essere unico nella categoria e nel portale
     dyte:
       invalid_message_type: 'Tipo messaggio non valido. Azione non consentita'
+      realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
+    cloudflare:
+      realtimekit:
+        invalid_credentials: 'Cloudflare RealtimeKit credentials are invalid. Please check the Account ID, RealtimeKit App ID, and API token permissions.'
+        missing_credentials: 'Cloudflare Account ID, RealtimeKit App ID, and API token are required.'
+        invalid_api_token: 'Cloudflare API token is invalid or inactive. Please create a new token with Realtime Admin permissions.'
+        invalid_account_or_permissions: 'Cloudflare Account ID is invalid, or the API token does not have Realtime Admin access to this account.'
+        app_not_found: 'RealtimeKit App ID was not found in this Cloudflare account. Please check the app you selected.'
+        verification_failed: 'Could not verify Cloudflare RealtimeKit credentials right now. Please try again.'
     slack:
       invalid_channel_id: 'Canale slack non valido. Riprova'
     whatsapp:
@@ -104,13 +143,14 @@ it:
         not_supported: 'La riautorizzazione non è supportata per questo tipo di canale WhatsApp.'
       calls:
         not_enabled: 'Le chiamate non sono abilitate per questa inbox'
+        already_ended: 'This call has already ended'
         no_recording: 'Nessun file di registrazione fornito'
         no_message: 'La chiamata non ha messaggi associati'
         sdp_offer_required: 'sdp_offer è richiesto'
         contact_phone_required: 'È richiesto il numero di telefono del contatto'
         permission_request_failed: 'Impossibile inviare la richiesta di autorizzazione di chiamata'
     openai:
-      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
+      invalid_api_key: 'La chiave API OpenAI non è valida o è revocata. Controlla la tua chiave nella dashboard OpenAI.'
     inboxes:
       imap:
         socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
@@ -142,6 +182,9 @@ it:
       invalid_token: Token MFA non valido o scaduto
       invalid_credentials: Credenziali o codice di verifica non validi
       feature_unavailable: MFA non disponibile. Configura le chiavi di cifratura.
+    billing:
+      invalid_currency: Invalid billing currency
+      currency_locked: Billing currency cannot be changed after billing has been set up
     topup:
       credits_required: Quantità crediti richiesta
       invalid_credits: Quantità crediti non valida
@@ -241,7 +284,7 @@ it:
       whatsapp:
         list_button_label: 'Scegli un elemento'
         call_permission_request_body: 'Vorremmo chiamarti riguardo alla tua conversazione.'
-        unsupported_message: 'This message is unavailable.'
+        unsupported_message: 'Questo messaggio non è disponibile.'
       voice_call:
         twilio: 'Chiamata Vocale'
         whatsapp: 'Chiamata WhatsApp'
@@ -414,29 +457,32 @@ it:
       loading_placeholder: Ricerca...
       results_title: Risultati di ricerca
       results: Risultati di Ricerca
-      results_for: "Search Results for '%{query}'"
-      no_results: "No results found for '%{query}'"
+      results_for: "Risultati di ricerca per '%{query}'"
+      no_results: "Nessun risultato trovato per '%{query}'"
       found_results:
-        one: Found 1 result
-        other: 'Found %{count} results'
+        one: Trovato 1 risultato
+        other: 'Trovati %{count} risultati'
       submit: Cerca
     toc_header: 'Su questa pagina'
     sidebar:
       help_center: Help Center
       categories: Categorie
       language: Lingua
-      theme: Theme
+      theme: Tema
       open_sidebar: Apri barra laterale
       close_sidebar: Chiudi barra laterale
-      browse: Browse
-      back_to_category: Back to %{name}
-      browse_by_topic: Browse by topic
-      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
-      popular_articles: Popular articles
-      popular_articles_subtitle: What other people are reading right now.
-      popular_label: 'Popular topics:'
-      authors_others: "%{names} and %{count} others"
-      primary_nav: Primary
+      browse: Esplora
+      back_to_category: Torna a %{name}
+      browse_by_topic: Esplora per argomento
+      browse_by_topic_subtitle: Trova guide, tutorial e risposte organizzate per categoria.
+      popular_articles: Articoli popolari
+      popular_articles_subtitle: Cosa leggono le altre persone in questo momento.
+      recommended: Recommended articles
+      recommended_subtitle: Hand-picked articles to get you started.
+      popular_label: 'Argomenti popolari:'
+      recommended_label: 'Recommended topics:'
+      authors_others: "%{names} e %{count} altri"
+      primary_nav: Principale
     hero:
       sub_title: Cerca gli articoli qui oppure sfoglia le categorie qui sotto.
     common:
@@ -454,11 +500,11 @@ it:
       previous: Precedente
       next: Successivo
     article_actions:
-      label: Open in
-      view_markdown: View as Markdown
-      open_in_chatgpt: Open in ChatGPT
-      open_in_claude: Open in Claude
-      llm_prompt: "Read the following article and help me understand it: %{url}"
+      label: Apri in
+      view_markdown: Visualizza come Markdown
+      open_in_chatgpt: Apri in ChatGPT
+      open_in_claude: Apri in Claude
+      llm_prompt: "Leggi il seguente articolo e aiutami a capirlo: %{url}"
     footer:
       made_with: Realizzato con
     header:
@@ -470,6 +516,7 @@ it:
         light: Chiaro
         dark: Scuro
       featured_articles: Articoli in evidenza
+      recommended: Recommended articles
       uncategorized: Senza categoria
     404:
       title: Pagina non trovata
@@ -544,6 +591,29 @@ it:
     ssl_status:
       custom_domain_not_configured: 'Il dominio personalizzato non è configurato'
   super_admin:
+    captain_model_overrides:
+      form:
+        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        use_default: 'Use default: %{model} (%{model_id})'
+      show:
+        summary: 'View model routing'
+        provider: 'Provider'
+        model: 'Modello'
+      sources:
+        account_override: 'Account override'
+        default: 'Predefinito'
+      features:
+        editor: 'Editor'
+        assistant: 'Assistente'
+        copilot: 'Copilot'
+        label_suggestion: 'Label suggestion'
+        document_faq_generation: 'Document FAQ generation'
+        conversation_faq_generation: 'Conversation FAQ generation'
+        help_center_article_generation: 'Help center article generation'
+        onboarding_content_generation: 'Onboarding content generation'
+        help_center_query_translation: 'Help center query translation'
+        audio_transcription: 'Audio transcription'
+        help_center_search: 'Help center search'
     push_diagnostics:
       user_not_found: 'Utente non trovato.'
       no_subscriptions_to_test: 'Seleziona almeno una subscription da testare.'

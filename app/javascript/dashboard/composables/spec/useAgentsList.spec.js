@@ -26,11 +26,12 @@ const mockNoneAgent = {
 };
 
 const mockUseMapGetter = (overrides = {}) => {
+  const getAssignableAgents = vi.fn(() => allAgentsData);
   const defaultGetters = {
     getCurrentUser: ref(allAgentsData[0]),
     getSelectedChat: ref({ inbox_id: 1, meta: { assignee: true } }),
     getCurrentAccountId: ref(1),
-    'inboxAssignableAgents/getAssignableAgents': ref(() => allAgentsData),
+    'inboxAssignableAgents/getAssignableAgents': ref(getAssignableAgents),
   };
 
   const mergedGetters = { ...defaultGetters, ...overrides };
@@ -53,6 +54,24 @@ describe('useAgentsList', () => {
     const { agentsList, assignableAgents } = useAgentsList();
 
     expect(assignableAgents.value).toEqual(allAgentsData);
+    expect(
+      useMapGetter('inboxAssignableAgents/getAssignableAgents').value
+    ).toHaveBeenCalledWith(1, { includeAgentBots: false });
+    expect(agentsList.value[0]).toEqual(mockNoneAgent);
+    expect(agentsList.value.length).toBe(
+      formattedAgentsData.slice(1).length + 1
+    );
+  });
+
+  it('requests agent bots when explicitly included', () => {
+    const { agentsList, assignableAgents } = useAgentsList(true, {
+      includeAgentBots: true,
+    });
+
+    expect(assignableAgents.value).toEqual(allAgentsData);
+    expect(
+      useMapGetter('inboxAssignableAgents/getAssignableAgents').value
+    ).toHaveBeenCalledWith(1, { includeAgentBots: true });
     expect(agentsList.value[0]).toEqual(mockNoneAgent);
     expect(agentsList.value.length).toBe(
       formattedAgentsData.slice(1).length + 1

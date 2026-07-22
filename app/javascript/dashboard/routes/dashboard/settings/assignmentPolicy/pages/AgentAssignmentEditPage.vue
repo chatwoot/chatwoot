@@ -106,6 +106,7 @@ const formData = computed(() => ({
     selectedPolicy.value?.conversationPriority || EARLIEST_CREATED,
   fairDistributionLimit: selectedPolicy.value?.fairDistributionLimit || 100,
   fairDistributionWindow: selectedPolicy.value?.fairDistributionWindow || 3600,
+  excludeOlderThanHours: selectedPolicy.value?.excludeOlderThanHours ?? null,
 }));
 
 const handleDeleteInbox = async inboxId => {

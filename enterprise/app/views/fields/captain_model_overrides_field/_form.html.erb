@@ -1,0 +1,27 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+
+<div class="field-unit__field">
+  <p class="text-gray-400 text-xs italic mb-4"><%= t('super_admin.captain_model_overrides.form.helper_text') %></p>
+
+  <div class="grid grid-cols-1 gap-4">
+    <% field.feature_rows.each do |feature| %>
+      <div class="p-3 bg-white rounded-lg shadow-sm outline outline-1 outline-n-container">
+        <div class="mb-2">
+          <div class="text-sm font-medium text-slate-700"><%= feature[:name] %></div>
+          <div class="text-xs text-slate-500"><%= feature[:key] %></div>
+        </div>
+
+        <%= select_tag(
+              "account[captain_models][#{feature[:key]}]",
+              options_for_select(
+                [[t('super_admin.captain_model_overrides.form.use_default', model: feature[:default_model], model_id: feature[:default_model_id]), '']] + feature[:options],
+                feature[:selected_override]
+              ),
+              class: 'block w-full rounded-md border-slate-300 text-sm'
+            ) %>
+      </div>
+    <% end %>
+  </div>
+</div>

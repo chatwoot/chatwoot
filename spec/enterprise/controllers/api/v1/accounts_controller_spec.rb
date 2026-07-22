@@ -28,19 +28,22 @@ RSpec.describe 'Enterprise Accounts API', type: :request do
       allow(AccountBuilder).to receive(:new).and_return(account_builder)
       allow(account_builder).to receive(:perform).and_return([user, account])
 
-      with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
-        post api_v1_accounts_url,
-             params: {
-               account_name: 'test',
-               email: email,
-               user: nil,
-               locale: nil,
-               user_full_name: user_full_name,
-               password: 'Password1!'
-             },
-             headers: attribution_cookie_header,
-             as: :json
-      end
+      expect do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post api_v1_accounts_url,
+               params: {
+                 account_name: 'test',
+                 email: email,
+                 user: nil,
+                 locale: nil,
+                 user_full_name: user_full_name,
+                 password: 'Password1!'
+               },
+               headers: attribution_cookie_header,
+               as: :json
+        end
+      end.to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
+        .with(account.id, 'cloud_signup', account.created_at)
 
       attribution = account.reload.internal_attributes['marketing_attribution']
       expect(attribution['captured_from']).to eq('cookie')
@@ -51,13 +54,15 @@ RSpec.describe 'Enterprise Accounts API', type: :request do
     it 'does not record marketing attribution for authenticated add-workspace requests' do
       existing_user = create(:user, password: 'Password1!')
 
-      with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
-        post api_v1_accounts_url,
-             params: { account_name: 'Second Account', email: existing_user.email,
-                       user_full_name: existing_user.name, password: 'Password1!' },
-             headers: existing_user.create_new_auth_token.merge(attribution_cookie_header),
-             as: :json
-      end
+      expect do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post api_v1_accounts_url,
+               params: { account_name: 'Second Account', email: existing_user.email,
+                         user_full_name: existing_user.name, password: 'Password1!' },
+               headers: existing_user.create_new_auth_token.merge(attribution_cookie_header),
+               as: :json
+        end
+      end.not_to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
 
       account = Account.find(response.parsed_body.dig('data', 'account_id'))
       expect(account.internal_attributes).not_to include('marketing_attribution')
