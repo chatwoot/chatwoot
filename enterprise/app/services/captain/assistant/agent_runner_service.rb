@@ -122,7 +122,7 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def message_length_limit
-    @message_length_limit ||= Captain::MessageLengthLimit.for(@conversation&.inbox)
+    @message_length_limit ||= Captain::MessageLengthLimit.for(@conversation)
   end
 
   def error_response(error_message)
