@@ -55,6 +55,7 @@ const transformInbox = ({
   phoneNumber,
   channelType,
   medium,
+  voiceEnabled,
   ...rest,
 });
 
