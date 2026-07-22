@@ -74,7 +74,8 @@ const hideAddPopup = () => {
 };
 
 const openEditPopup = response => {
-  selectedAutomation.value = { ...response };
+  // JSON clone: structuredClone fails on Vue reactive/proxy store rows.
+  selectedAutomation.value = JSON.parse(JSON.stringify(response));
   editDialogRef.value?.open();
 };
 const hideEditPopup = () => {

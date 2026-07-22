@@ -104,21 +104,21 @@ export default {
       return String(this.selectedValue || '').includes('{{');
     },
     inputType() {
-      // Never use native date inputs here: they reject Liquid tokens like
-      // {{ date.today }} and wipe the value before save validation.
+      // Fixed dates use the native picker (ISO YYYY-MM-DD only).
+      // Dynamic "today" uses Liquid and switches to a read-only note.
+      if (this.isDateAttribute && !this.valueUsesLiquid) return 'date';
       if (this.isNumberAttribute && !this.valueUsesLiquid) return 'number';
       return 'text';
     },
     valuePlaceholder() {
-      if (this.isDateAttribute) {
-        return this.$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_DATE_PLACEHOLDER');
-      }
       if (this.isNumberAttribute) {
         return this.$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_NUMBER_PLACEHOLDER');
       }
       return this.$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER');
     },
     showVariablePicker() {
+      // Dates: fixed picker + "today" button only (no free-form Liquid).
+      if (this.isDateAttribute) return false;
       return (
         this.selectedKey && !this.isListAttribute && !this.isCheckboxAttribute
       );
@@ -174,7 +174,11 @@ export default {
       this.selectedValue = current ? `${current}${token}` : token;
     },
     useToday() {
+      // Evaluated when the automation runs (not when the rule is saved).
       this.selectedValue = '{{ date.today }}';
+    },
+    useFixedDate() {
+      this.selectedValue = '';
     },
   },
 };
@@ -253,6 +257,41 @@ export default {
         </span>
       </div>
 
+      <template v-else-if="isDateAttribute && valueUsesLiquid">
+        <div
+          class="flex flex-col gap-2 rounded-lg bg-n-alpha-black2 px-3 py-2 outline outline-1 outline-n-weak"
+        >
+          <p class="text-sm text-n-slate-12 m-0">
+            {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_DATE_DYNAMIC_TODAY') }}
+          </p>
+          <p class="text-xs text-n-slate-11 m-0">
+            {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_DATE_DYNAMIC_HELP') }}
+          </p>
+          <div class="flex items-center gap-2">
+            <NextButton
+              xs
+              faded
+              slate
+              :label="$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_DATE_PICK_FIXED')"
+              @click="useFixedDate"
+            />
+          </div>
+        </div>
+      </template>
+
+      <template v-else-if="isDateAttribute">
+        <NextInput v-model="selectedValue" type="date" size="sm" />
+        <div class="flex items-center gap-2">
+          <NextButton
+            xs
+            faded
+            slate
+            :label="$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_USE_TODAY')"
+            @click="useToday"
+          />
+        </div>
+      </template>
+
       <template v-else>
         <NextInput
           v-model="selectedValue"
@@ -262,17 +301,8 @@ export default {
         />
         <div
           v-if="showVariablePicker"
-          class="flex items-center justify-between gap-2"
+          class="flex items-center justify-end gap-2"
         >
-          <NextButton
-            v-if="isDateAttribute"
-            xs
-            faded
-            slate
-            :label="$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_USE_TODAY')"
-            @click="useToday"
-          />
-          <span v-else />
           <InsertVariableButton @insert="insertVariable" />
         </div>
       </template>

@@ -180,6 +180,9 @@ class ActionService
     end
   rescue ArgumentError, TypeError => e
     Rails.logger.warn("[Automation] custom attribute normalize failed for #{definition.attribute_key}: #{e.message}")
+    # Do not persist garbage into typed date/number fields.
+    raise if %w[date number currency percent].include?(definition.attribute_display_type)
+
     raw_value.to_s
   end
 
@@ -191,10 +194,22 @@ class ActionService
   end
 
   def parse_custom_attribute_date(rendered)
-    text = rendered.to_s.strip
-    return text if text.match?(/\A\d{4}-\d{2}-\d{2}\z/)
+    return rendered.iso8601 if rendered.is_a?(Date)
+    return rendered.to_date.iso8601 if rendered.is_a?(Time) || rendered.is_a?(DateTime)
 
-    Date.parse(text).iso8601
+    text = rendered.to_s.strip
+    # Native date inputs and Liquid date.today resolve to ISO YYYY-MM-DD.
+    if text.match?(/\A\d{4}-\d{2}-\d{2}\z/)
+      return Date.iso8601(text).iso8601
+    end
+
+    %w[%d/%m/%Y %m/%d/%Y %Y/%m/%d].each do |fmt|
+      return Date.strptime(text, fmt).iso8601
+    rescue ArgumentError
+      next
+    end
+
+    raise ArgumentError, "invalid date: #{text}"
   end
 
   def last_responding_agent_id

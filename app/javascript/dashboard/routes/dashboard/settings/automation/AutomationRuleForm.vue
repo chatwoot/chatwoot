@@ -365,7 +365,7 @@ defineExpose({ open, close });
         >
           <AutomationActionInput
             v-for="(action, i) in automation.actions"
-            :key="i"
+            :key="`${i}-${action.action_name}`"
             v-model="automation.actions[i]"
             :action-types="automationActionTypes"
             dropdown-max-height="max-h-[7.5rem]"

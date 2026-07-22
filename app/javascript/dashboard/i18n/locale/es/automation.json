@@ -101,14 +101,16 @@
       "EMAIL_INPUT_PLACEHOLDER": "Introducir email",
       "URL_INPUT_PLACEHOLDER": "Introducir URL",
       "CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER": "Escribe un valor",
-      "CUSTOM_ATTRIBUTE_DATE_PLACEHOLDER": "AAAA-MM-DD o {{ date.today }}",
+      "CUSTOM_ATTRIBUTE_DATE_DYNAMIC_TODAY": "Fecha dinámica: hoy",
+      "CUSTOM_ATTRIBUTE_DATE_DYNAMIC_HELP": "Se calcula con la fecha del día en que corre la automatización.",
+      "CUSTOM_ATTRIBUTE_DATE_PICK_FIXED": "Elegir fecha fija",
       "CUSTOM_ATTRIBUTE_NUMBER_PLACEHOLDER": "Escribe un número",
       "CUSTOM_ATTRIBUTE_LABEL": "Atributo",
       "CUSTOM_ATTRIBUTE_VALUE_LABEL": "Valor",
       "CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER": "Selecciona un atributo personalizado",
       "CUSTOM_ATTRIBUTE_EMPTY": "No hay atributos. Créalos en Configuración → Atributos personalizados.",
       "CUSTOM_ATTRIBUTE_USE_TODAY": "Usar fecha de hoy",
-      "VARIABLES_HINT": "Usa el botón { } para insertar variables como nombre del contacto, atributos personalizados o fechas (p. ej. {{ date.today }})"
+      "VARIABLES_HINT": "Usa el botón de variables para insertar nombre del contacto, atributos personalizados o fechas"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activar regla de automatización",

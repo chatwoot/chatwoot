@@ -130,8 +130,26 @@ export default {
       this.$emit('resetAction');
     },
     onActionNameChange(value) {
-      this.actionNameAsSelectModel = value;
-      this.resetAction();
+      const actionName = value?.id || value;
+      const isCustomAttribute = [
+        'update_contact_custom_attribute',
+        'update_conversation_custom_attribute',
+      ].includes(actionName);
+
+      // Single atomic update so the custom-attribute panel mounts with the
+      // new action_name (avoid resetAction wiping state in a second tick).
+      this.$emit('update:modelValue', {
+        action_name: actionName,
+        action_params: isCustomAttribute
+          ? { attribute_key: '', value: '' }
+          : [],
+      });
+      this.$emit('input', {
+        action_name: actionName,
+        action_params: isCustomAttribute
+          ? { attribute_key: '', value: '' }
+          : [],
+      });
     },
     insertMessageVariable(token) {
       const current = this.castMessageVmodel || '';

@@ -47,17 +47,20 @@ watch(
   async value => {
     if (!value?.conditions) return;
 
+    // Clear first so the dialog never shows a stale/half-mounted action row.
+    automation.value = null;
+
     await store.dispatch('attributes/get');
     manifestCustomAttributes();
 
     automation.value = formatAutomation(
-      value,
+      JSON.parse(JSON.stringify(value)),
       allCustomAttributes.value,
       automationTypes,
       AUTOMATION_ACTION_TYPES
     );
   },
-  { immediate: true }
+  { immediate: true, deep: true }
 );
 
 defineExpose({ open, close });
