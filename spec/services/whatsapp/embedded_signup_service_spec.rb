@@ -67,18 +67,6 @@ describe Whatsapp::EmbeddedSignupService do
         expect(Rails.logger).to receive(:error).with('[WHATSAPP] Embedded signup failed: Token error')
         expect { service.perform }.to raise_error('Token error')
       end
-
-      # Webhook setup now runs in Channels::Whatsapp::WebhookSetupJob; the channel's own
-      # setup_webhooks rescue marks it for reauthorization when the Meta calls fail.
-      it 'marks the channel for reauthorization when webhook setup fails' do
-        real_channel = create(:channel_whatsapp, account: account, phone_number: '+1234567890',
-                                                 validate_provider_config: false, sync_templates: false)
-        allow(real_channel).to receive(:perform_webhook_setup).and_raise('Webhook setup error')
-
-        expect(real_channel.reauthorization_required?).to be false
-        real_channel.setup_webhooks
-        expect(real_channel.reauthorization_required?).to be true
-      end
     end
 
     context 'with reauthorization flow' do
