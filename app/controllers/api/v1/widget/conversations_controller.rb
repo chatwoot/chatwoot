@@ -1,7 +1,9 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
 
-  DISABLED_INBOX_ACTIONS = [:create, :toggle_typing, :toggle_status, :update_last_seen, :set_custom_attributes, :destroy_custom_attributes].freeze
+  DISABLED_INBOX_ACTIONS = [
+    :create, :toggle_typing, :toggle_status, :update_last_seen, :set_custom_attributes, :destroy_custom_attributes, :transcript
+  ].freeze
 
   before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
   before_action :ensure_inbox_active, only: DISABLED_INBOX_ACTIONS

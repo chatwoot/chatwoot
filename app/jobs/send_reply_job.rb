@@ -1,6 +1,8 @@
 class SendReplyJob < ApplicationJob
   queue_as :high
 
+  INBOX_DISABLED_ERROR = 'This inbox is currently disabled'.freeze
+
   CHANNEL_SERVICES = {
     'Channel::TwitterProfile' => ::Twitter::SendOnTwitterService,
     'Channel::TwilioSms' => ::Twilio::SendOnTwilioService,
@@ -17,7 +19,7 @@ class SendReplyJob < ApplicationJob
 
   def perform(message_id)
     message = Message.find(message_id)
-    return unless message.inbox.active?
+    return mark_message_failed(message) unless message.inbox.active?
 
     channel_name = message.conversation.inbox.channel.class.to_s
 
@@ -30,6 +32,10 @@ class SendReplyJob < ApplicationJob
   end
 
   private
+
+  def mark_message_failed(message)
+    Messages::StatusUpdateService.new(message, 'failed', INBOX_DISABLED_ERROR).perform
+  end
 
   def send_on_facebook_page(message)
     if message.conversation.additional_attributes['type'] == 'instagram_direct_message'

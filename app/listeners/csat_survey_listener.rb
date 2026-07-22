@@ -3,6 +3,7 @@ class CsatSurveyListener < BaseListener
     conversation = extract_conversation_and_account(event)[0]
 
     return unless conversation.resolved?
+    return unless conversation.inbox.active?
 
     CsatSurveyService.new(conversation: conversation).perform
   end

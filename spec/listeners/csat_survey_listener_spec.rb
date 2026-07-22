@@ -52,6 +52,14 @@ describe CsatSurveyListener do
 
         listener.conversation_status_changed(event)
       end
+
+      it 'does not trigger CSAT survey service when the inbox is disabled' do
+        resolved_conversation.inbox.update!(active: false)
+        event = Events::Base.new(event_name, Time.zone.now, conversation: resolved_conversation)
+
+        expect(CsatSurveyService).not_to receive(:new)
+        listener.conversation_status_changed(event)
+      end
     end
 
     context 'when conversation is not resolved' do

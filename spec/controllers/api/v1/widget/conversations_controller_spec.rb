@@ -274,6 +274,19 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
 
   describe 'POST /api/v1/widget/conversations/transcript' do
     context 'with a conversation' do
+      it 'does not send transcript email when the inbox is disabled' do
+        web_widget.inbox.update!(active: false)
+        contact.update!(email: 'test@test.com')
+        expect(ConversationReplyMailer).not_to receive(:with)
+
+        post '/api/v1/widget/conversations/transcript',
+             headers: { 'X-Auth-Token' => token },
+             params: { website_token: web_widget.website_token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+      end
+
       it 'sends transcript email' do
         contact.update(email: 'test@test.com')
         mailer = double
