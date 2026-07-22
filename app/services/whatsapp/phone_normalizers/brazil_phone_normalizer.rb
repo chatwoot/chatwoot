@@ -20,6 +20,10 @@ class Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer < Whatsapp::PhoneNormali
     "55#{ddd}9#{number}"
   end
 
+  def contact_candidates(waid)
+    [waid, normalize(waid)].uniq
+  end
+
   private
 
   def country_code_pattern

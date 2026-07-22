@@ -469,6 +469,40 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(whatsapp_channel.inbox.conversations.last.contact).to eq(existing_contact)
       end
     end
+
+    context 'when an incoming Argentina number is already in the canonical form' do
+      let(:argentina_params) do
+        {
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Buenos Aires Office' }, wa_id: '541123456789' }],
+                messages: [{
+                  from: '541123456789',
+                  id: 'wamid.ARGENTINA_LANDLINE',
+                  timestamp: '1664799904',
+                  text: { body: 'Hello' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'does not infer a mobile 9 candidate for a valid landline' do
+        mobile_contact = create(:contact, phone_number: '+5491123456789', account: whatsapp_channel.account)
+
+        expect do
+          described_class.new(inbox: whatsapp_channel.inbox, params: argentina_params).perform
+        end.to change(Contact, :count).by(1)
+
+        contact = whatsapp_channel.inbox.conversations.last.contact
+        expect(contact).not_to eq(mobile_contact)
+        expect(contact.phone_number).to eq('+541123456789')
+      end
+    end
   end
 
   # Métodos auxiliares para reduzir o tamanho do exemplo

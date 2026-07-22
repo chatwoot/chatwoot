@@ -80,13 +80,17 @@ module Whatsapp::IncomingMessageIdentifierHelper
     display_name = name == phone_identifier ? formatted_phone_number : name
     attributes = { name: display_name, phone_number: formatted_phone_number }
 
-    normalized_number = normalized_phone_number(phone_number)
-    attributes[:phone_number_candidates] = ["+#{normalized_number}"] if normalized_number != phone_number
+    candidates = phone_number_candidates(phone_number).drop(1).map { |candidate| "+#{candidate}" }
+    attributes[:phone_number_candidates] = candidates if candidates.present?
     attributes
   end
 
-  def normalized_phone_number(phone_number)
-    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_number(phone_number)
+  def phone_number_candidates(phone_number)
+    phone_number_normalization_service.phone_number_candidates(phone_number)
+  end
+
+  def phone_number_normalization_service
+    @phone_number_normalization_service ||= Whatsapp::PhoneNumberNormalizationService.new(inbox)
   end
 
   def update_whatsapp_identifiers(source_ids: [], username: nil, phone_number: nil)

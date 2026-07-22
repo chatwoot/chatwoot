@@ -217,7 +217,7 @@ class Whatsapp::IncomingMessageBaseService
     message_phone_number = whatsapp_phone_number(messages_data.first[:from])
     return false if message_phone_number.blank?
 
-    [message_phone_number, normalized_phone_number(message_phone_number)].uniq.any? do |number|
+    phone_number_candidates(message_phone_number).any? do |number|
       phone_number = "+#{number}"
       formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
       @contact.name == phone_number || @contact.name == formatted_phone_number
