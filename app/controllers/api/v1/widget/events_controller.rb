@@ -1,6 +1,8 @@
 class Api::V1::Widget::EventsController < Api::V1::Widget::BaseController
   include Events::Types
 
+  before_action :ensure_inbox_active
+
   def create
     Rails.configuration.dispatcher.dispatch(permitted_params[:name], Time.zone.now, contact_inbox: @contact_inbox,
                                                                                     event_info: permitted_params[:event_info].to_h.merge(event_info))

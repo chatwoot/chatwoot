@@ -58,6 +58,7 @@ class Campaign < ApplicationRecord
   def trigger!
     return unless one_off?
     return unless feature_enabled?
+    return unless inbox.active?
     return unless mark_processing!
 
     execute_campaign

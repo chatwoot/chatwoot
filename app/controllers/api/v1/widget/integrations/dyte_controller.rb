@@ -1,4 +1,5 @@
 class Api::V1::Widget::Integrations::DyteController < Api::V1::Widget::BaseController
+  before_action :ensure_inbox_active
   before_action :set_message
 
   def add_participant_to_meeting

@@ -70,6 +70,17 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
             }
           )
         end
+
+        it 'does not add a participant when the inbox is disabled' do
+          web_widget.inbox.update!(active: false)
+
+          post add_participant_to_meeting_api_v1_widget_integrations_dyte_url,
+               headers: { 'X-Auth-Token' => token },
+               params: { website_token: web_widget.website_token, message_id: integration_message.id },
+               as: :json
+
+          expect(response).to have_http_status(:forbidden)
+        end
       end
     end
   end

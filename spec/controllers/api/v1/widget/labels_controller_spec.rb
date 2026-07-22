@@ -39,6 +39,18 @@ RSpec.describe '/api/v1/widget/labels', type: :request do
         expect(conversation.reload.label_list.count).to eq 1
         expect(conversation.reload.label_list.first).to eq 'customer-support'
       end
+
+      it 'does not add labels when the inbox is disabled' do
+        web_widget.inbox.update!(active: false)
+
+        post '/api/v1/widget/labels',
+             params: params,
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(conversation.reload.label_list.count).to eq 0
+      end
     end
 
     context 'with invalid website token' do
@@ -66,6 +78,18 @@ RSpec.describe '/api/v1/widget/labels', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.label_list.count).to eq 0
+      end
+
+      it 'does not remove labels when the inbox is disabled' do
+        web_widget.inbox.update!(active: false)
+
+        delete "/api/v1/widget/labels/#{params[:label]}",
+               params: params,
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(conversation.reload.label_list.count).to eq 1
       end
     end
 
