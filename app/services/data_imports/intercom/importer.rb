@@ -672,19 +672,21 @@ class DataImports::Intercom::Importer
   end
 
   def skip_already_imported_item(item, mapping, already_handled:)
-    item.update!(
-      status: :skipped,
-      chatwoot_record_type: mapping.chatwoot_record_type,
-      chatwoot_record_id: mapping.chatwoot_record_id,
-      last_error_code: ALREADY_IMPORTED_ERROR_CODE,
-      last_error_message: 'Already imported in a previous import.'
-    )
-    record_already_imported_log(
-      data_import_item: item,
-      source_object_type: item.source_object_type,
-      source_object_id: item.source_object_id,
-      mapping: mapping
-    )
+    DataImportItem.transaction do
+      item.update!(
+        status: :skipped,
+        chatwoot_record_type: mapping.chatwoot_record_type,
+        chatwoot_record_id: mapping.chatwoot_record_id,
+        last_error_code: ALREADY_IMPORTED_ERROR_CODE,
+        last_error_message: 'Already imported in a previous import.'
+      )
+      record_already_imported_log(
+        data_import_item: item,
+        source_object_type: item.source_object_type,
+        source_object_id: item.source_object_id,
+        mapping: mapping
+      )
+    end
     increment_stat(stat_group_for(item.source_object_type), 'skipped') unless already_handled
   end
 

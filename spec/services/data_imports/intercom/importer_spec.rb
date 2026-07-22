@@ -576,6 +576,30 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(next_data_import.import_errors.skip_logs.pluck(:details).map { |details| details['reason'] }.uniq).to eq(['already_imported'])
     end
 
+    it 'keeps skipped contact stats when a query timeout is retried after the item update', :aggregate_failures do
+      described_class.new(data_import: data_import).perform
+      importer = described_class.new(data_import: next_data_import)
+      contact_log_attempts = 0
+      allow(importer).to receive(:sleep)
+      allow(importer).to receive(:record_already_imported_log).and_wrap_original do |method, **attributes|
+        if attributes[:source_object_type] == 'contact'
+          contact_log_attempts += 1
+          raise ActiveRecord::QueryCanceled, 'statement timeout' if contact_log_attempts == 1
+        end
+
+        method.call(**attributes)
+      end
+
+      importer.import_contacts_page
+
+      contact_item = next_data_import.items.find_by!(source_object_type: 'contact', source_object_id: 'contact_1')
+      expect(contact_log_attempts).to eq(2)
+      expect(importer).to have_received(:sleep).with(be_between(0.2, 0.5)).once
+      expect(contact_item).to be_skipped
+      expect(next_data_import.reload.stats.dig('contacts', 'skipped')).to eq(1)
+      expect(next_data_import.import_errors.skip_logs.exists?(data_import_item: contact_item)).to be(true)
+    end
+
     it 'recreates messages when existing message mappings point to deleted records', :aggregate_failures do
       described_class.new(data_import: data_import).perform
       conversation = account.conversations.find_by!(identifier: 'intercom:conversation_1')
