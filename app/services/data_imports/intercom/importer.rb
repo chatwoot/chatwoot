@@ -158,6 +158,7 @@ class DataImports::Intercom::Importer
     mapped_conversation = mapping&.chatwoot_record
     if mapped_conversation && mapping.data_import_id != @data_import.id
       skip_already_imported_item(item, mapping, already_handled: already_handled)
+      reconcile_item_stats('conversation') if already_handled
       import_source_message(conversation, mapped_conversation, contact)
       return unless import_conversation_parts(conversation, mapped_conversation, contact)
 
@@ -170,7 +171,11 @@ class DataImports::Intercom::Importer
       record_mapping('conversation', source_id, chatwoot_conversation, metadata: conversation_metadata(conversation, inbox, source_type))
     end
     item.update!(status: :imported, chatwoot_record_type: 'Conversation', chatwoot_record_id: chatwoot_conversation.id)
-    increment_stat('conversations', 'imported') unless already_handled
+    if already_handled
+      reconcile_item_stats('conversation')
+    else
+      increment_stat('conversations', 'imported')
+    end
 
     import_source_message(conversation, chatwoot_conversation, contact)
     return unless import_conversation_parts(conversation, chatwoot_conversation, contact)
