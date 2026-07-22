@@ -73,6 +73,8 @@ describe Whatsapp::SendOnWhatsappService do
       end
 
       it 'fails a free-form message without contacting the provider when outside the 24 hour limit' do
+        create(:message, message_type: :incoming, content: 'test', created_at: 25.hours.ago,
+                         conversation: conversation, account: conversation.account)
         message = create(:message, message_type: :outgoing, content: 'test',
                                    conversation: conversation, account: conversation.account)
 
