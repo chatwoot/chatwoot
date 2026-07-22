@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::BaseController
   before_action :current_account
-  before_action -> { check_authorization(Captain::Assistant) }
-  before_action :set_suggestions
+  before_action -> { check_authorization(Captain::FaqSuggestion) }
+  before_action :set_accessible_suggestions
   before_action :set_suggestion, except: [:index]
 
   RESULTS_PER_PAGE = 25
@@ -50,6 +50,7 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
     base_query = base_query.where(status: permitted_params[:status]) if permitted_params[:status].present?
 
     if permitted_params[:search].present?
+      # TODO: Move FAQ suggestion search to Elasticsearch when the records are indexed there.
       search_term = "%#{permitted_params[:search]}%"
       base_query = base_query.where('question ILIKE :search OR answer ILIKE :search', search: search_term)
     end
@@ -57,7 +58,7 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
     base_query
   end
 
-  def set_suggestions
+  def set_accessible_suggestions
     @suggestions = Captain::FaqSuggestionFinder.new(Current.user, Current.account).perform.includes(:assistant).ordered
   end
 

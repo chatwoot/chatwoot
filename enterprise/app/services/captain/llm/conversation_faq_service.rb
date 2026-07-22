@@ -1,6 +1,8 @@
 class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   include Integrations::LlmInstrumentation
 
+  class SuggestionChangedError < StandardError; end
+
   DISTANCE_THRESHOLD = 0.3
   MATCH_LIMIT = 5
   LLM_FEATURE = 'conversation_faq_generation'.freeze
@@ -14,9 +16,6 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     language.to_s.tr('-', '_').split('_').first.downcase
   end
 
-  def self.account_language_for(account)
-    normalize_language(account.locale.presence || I18n.default_locale.to_s)
-  end
   private_class_method :normalize_language
 
   def initialize(assistant, conversation)
@@ -44,10 +43,11 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   def route_candidate(faq)
     embedding = embedding_service.get_embedding(candidate_text(faq))
 
-    return discard_observation(faq) if matching_record(approved_faqs_for_language, faq, embedding)
+    return discard_observation(faq) if matching_record(approved_faqs, faq, embedding)
     return discard_observation(faq) if matching_record(dismissed_suggestions_for_language, faq, embedding)
 
     suggestion = matching_record(open_suggestions_for_language, faq, embedding)
+    matched_content = suggestion&.slice('question', 'answer')
     suggestion ||= assistant.faq_suggestions.create!(
       question: faq.fetch('question'),
       answer: faq.fetch('answer'),
@@ -55,7 +55,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
       language: faq_language
     )
 
-    attach_observation(suggestion, faq)
+    attach_observation(suggestion, faq, matched_content)
   end
 
   def matching_record(relation, faq, embedding)
@@ -99,9 +99,10 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     raise
   end
 
-  def attach_observation(suggestion, faq)
+  def attach_observation(suggestion, faq, matched_content)
     suggestion.with_lock do
       next unless suggestion.open?
+      raise SuggestionChangedError if matched_content && suggestion.slice('question', 'answer') != matched_content
 
       existing_observation = suggestion.observations.find_by(conversation: conversation)
       next existing_observation if existing_observation
@@ -136,10 +137,8 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     assistant.faq_suggestions.where(account_id: conversation.account_id).dismissed.by_language(faq_language)
   end
 
-  def approved_faqs_for_language
-    return assistant.responses.approved if faq_language == account_language
-
-    assistant.responses.none
+  def approved_faqs
+    assistant.responses.approved
   end
 
   def candidate_text(faq)
@@ -197,10 +196,6 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
 
   def faq_language
     @faq_language ||= self.class.language_for(conversation)
-  end
-
-  def account_language
-    @account_language ||= self.class.account_language_for(conversation.account)
   end
 
   def language_name(language)
