@@ -36,6 +36,18 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(2)
       end
 
+      it 'does not include branded email layout in index responses' do
+        email_inbox = create(:inbox, :with_email, account: account)
+        create(:email_template, :layout, account: account, inbox: email_inbox, body: '<html>{{ content_for_layout }} Branded</html>')
+
+        get "/api/v1/accounts/#{account.id}/inboxes",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        inbox_data = JSON.parse(response.body, symbolize_names: true)[:payload].find { |item| item[:id] == email_inbox.id }
+        expect(inbox_data).not_to have_key(:branded_email_layout)
+      end
+
       it 'returns only assigned inboxes of current_account as agent' do
         get "/api/v1/accounts/#{account.id}/inboxes",
             headers: agent.create_new_auth_token,
@@ -161,8 +173,10 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       it 'returns imap details in inbox when admin' do
+        account.enable_features!(:branded_email_templates)
         email_channel = create(:channel_email, account: account, imap_enabled: true, imap_login: 'test@test.com')
         email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:email_template, :layout, account: account, inbox: email_inbox, body: '<html>{{ content_for_layout }} Branded</html>')
 
         imap_connection = double
         allow(Mail).to receive(:connection).and_return(imap_connection)
@@ -176,6 +190,35 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(data[:imap_enabled]).to be_truthy
         expect(data[:imap_login]).to eq('test@test.com')
+        expect(data[:branded_email_layout]).to eq('<html>{{ content_for_layout }} Branded</html>')
+      end
+
+      it 'does not return saved branded email layout when feature is disabled' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:email_template, :layout, account: account, inbox: email_inbox, body: '<html>{{ content_for_layout }} Branded</html>')
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).not_to have_key('branded_email_layout')
+      end
+
+      it 'does not return branded email layout for an agent' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:inbox_member, user: agent, inbox: email_inbox)
+        create(:email_template, :layout, account: account, inbox: email_inbox, body: '<html>{{ content_for_layout }} Branded</html>')
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        data = JSON.parse(response.body, symbolize_names: true)
+        expect(data[:branded_email_layout]).to be_nil
       end
 
       context 'when it is a Twilio inbox' do
@@ -575,6 +618,146 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(email_inbox.reload.enable_auto_assignment).to be_falsey
         expect(email_channel.reload.email).to eq('emailtest@email.test')
+      end
+
+      it 'updates branded email layout for email inbox when feature is enabled' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        layout = '<html><body><header>Brand</header>{{ content_for_layout }}</body></html>'
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: layout },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_inbox.reload.branded_email_layout).to eq(layout)
+        expect(response.parsed_body['branded_email_layout']).to eq(layout)
+      end
+
+      it 'rolls back branded email layout when inbox update fails' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { name: '', branded_email_layout: '<html>{{ content_for_layout }} Branded</html>' },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(email_inbox.reload.branded_email_layout).to be_nil
+      end
+
+      it 'clears branded email layout when blank value is passed' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:email_template, :layout, account: account, inbox: email_inbox)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: '' },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_inbox.reload.branded_email_layout).to be_nil
+      end
+
+      it 'clears branded email layout when null string value is passed' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:email_template, :layout, account: account, inbox: email_inbox)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: 'null' },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_inbox.reload.branded_email_layout).to be_nil
+      end
+
+      it 'rejects branded email layout when feature is disabled' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: '<html>{{ content_for_layout }}</html>' },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Branded email templates feature is not enabled')
+        expect(email_inbox.reload.branded_email_layout).to be_nil
+      end
+
+      it 'ignores blank branded email layout when feature is disabled' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { name: 'Renamed Email Inbox', branded_email_layout: nil },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_inbox.reload.name).to eq('Renamed Email Inbox')
+        expect(email_inbox.branded_email_layout).to be_nil
+      end
+
+      it 'rejects branded email layout for non-email inboxes' do
+        account.enable_features!(:branded_email_templates)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: '<html>{{ content_for_layout }}</html>' },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Branded email layout is only supported for email inboxes')
+      end
+
+      it 'ignores blank branded email layout for non-email inboxes' do
+        account.enable_features!(:branded_email_templates)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { name: 'Renamed Inbox', branded_email_layout: '' },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(inbox.reload.name).to eq('Renamed Inbox')
+      end
+
+      it 'rejects branded email layout without content slot' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: '<html>No slot</html>' },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to include('must include {{ content_for_layout }}')
+      end
+
+      it 'rejects branded email layout with invalid liquid syntax' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: '<html>{{ content_for_layout }} {{ broken </html>' },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to include('has invalid Liquid syntax')
       end
 
       it 'updates twilio sms inbox when administrator' do

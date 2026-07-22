@@ -23,8 +23,7 @@ const emit = defineEmits(['reconnect']);
 const { t } = useI18n();
 const { replaceInstallationName } = useBranding();
 
-const WHATSAPP_MANUAL_MIGRATION_GUIDE_URL =
-  'https://www.chatwoot.com/hc/user-guide/articles/1756799850-how-to-setup-a-whats_app-channel-manual-flow';
+const WHATSAPP_MANUAL_MIGRATION_GUIDE_URL = 'https://chwt.app/migrate-whatsapp';
 
 const dialogRef = ref(null);
 const currentStep = ref(0);
