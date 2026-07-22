@@ -122,7 +122,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqSuggestions', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.parsed_body['answer']).to eq('Enable it in account settings.')
       expect(suggestion.reload).to be_approved
-      expect(suggestion.observations).to be_empty
+      expect(suggestion.observations.pluck(:conversation_id)).to contain_exactly(conversation.id)
     end
 
     it 'lets an agent approve an accessible suggestion' do

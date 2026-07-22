@@ -16,7 +16,6 @@ class Captain::FaqSuggestionApprovalService
         answer: suggestion.answer,
         status: :approved
       )
-      suggestion.observations.delete_all
       suggestion.approved!
       response
     end
