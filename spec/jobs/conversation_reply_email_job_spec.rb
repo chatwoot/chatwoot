@@ -30,4 +30,12 @@ RSpec.describe ConversationReplyEmailJob, type: :job do
     described_class.perform_now(conversation.id, 123)
     expect(mailer).to have_received(:reply_without_summary)
   end
+
+  it 'does not send an email when the inbox is disabled before the job runs' do
+    conversation.inbox.update!(active: false)
+
+    described_class.perform_now(conversation.id, 123)
+
+    expect(ConversationReplyMailer).not_to have_received(:with)
+  end
 end
