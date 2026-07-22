@@ -12,8 +12,8 @@ defineProps({
 </script>
 
 <template>
-  <span class="inline-flex items-start gap-1">
-    <span class="whitespace-normal break-words leading-snug">{{ label }}</span>
+  <span class="inline-flex items-center gap-1 max-w-full">
+    <span class="whitespace-nowrap leading-snug">{{ label }}</span>
     <span
       v-if="help"
       v-tooltip.top="help"
