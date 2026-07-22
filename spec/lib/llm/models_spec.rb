@@ -25,6 +25,11 @@ RSpec.describe Llm::Models do
         expect(missing_models).to be_empty, "#{feature_key} references missing models: #{missing_models.join(', ')}"
       end
     end
+
+    it 'routes document and conversation FAQ generation independently' do
+      expect(described_class.default_model_for('document_faq_generation')).to eq('gpt-4.1-mini')
+      expect(described_class.default_model_for('conversation_faq_generation')).to eq('gpt-5.2')
+    end
   end
 
   describe '.models' do
