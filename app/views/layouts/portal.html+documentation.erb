@@ -3,9 +3,9 @@
   <head>
     <%= render 'layouts/portal_head' %>
   </head>
-  <body class="font-inter">
+  <body class="font-inter bg-white dark:bg-slate-900">
     <div id="portal" class="antialiased">
-      <main class="flex flex-col min-h-screen bg-white main-content dark:bg-slate-900" role="main">
+      <main class="flex flex-col min-h-screen main-content" role="main">
         <%= render 'public/api/v1/portals/documentation_layout/topbar',
                    portal: @portal, locale: @locale, article: @article, category: @category %>
         <div class="bg-white dark:bg-n-slate-2 flex-1 flex font-inter tracking-normal [font-optical-sizing:auto]">
