@@ -4,7 +4,6 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   DISTANCE_THRESHOLD = 0.3
   MATCH_LIMIT = 5
   LLM_FEATURE = 'conversation_faq_generation'.freeze
-  FAQ_MATCH_MODEL = 'gpt-4.1-mini'.freeze
 
   def self.language_for(conversation)
     language = conversation.language.presence || conversation.account.locale.presence || I18n.default_locale.to_s
@@ -83,8 +82,9 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
       existing: { question: existing_record.question, answer: existing_record.answer }
     }
     prompt = Captain::Llm::ConversationFaqPromptsService.same_faq
-    response = instrument_llm_call(match_instrumentation_params(prompt, comparison)) do
-      chat(model: FAQ_MATCH_MODEL)
+    faq_match_model = Llm::FeatureRouter.resolve(feature: 'conversation_faq_matching', account: conversation.account)[:model]
+    response = instrument_llm_call(match_instrumentation_params(prompt, comparison, faq_match_model)) do
+      chat(model: faq_match_model)
         .with_params(response_format: { type: 'json_object' })
         .with_instructions(prompt)
         .ask(comparison.to_json)
@@ -173,10 +173,10 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     }
   end
 
-  def match_instrumentation_params(prompt, comparison)
+  def match_instrumentation_params(prompt, comparison, faq_match_model)
     {
       span_name: 'llm.captain.faq_match',
-      model: FAQ_MATCH_MODEL,
+      model: faq_match_model,
       temperature: temperature,
       account_id: conversation.account_id,
       conversation_id: conversation.display_id,

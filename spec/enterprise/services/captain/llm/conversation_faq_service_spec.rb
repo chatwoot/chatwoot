@@ -193,6 +193,32 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         end.to change(Captain::FaqObservation.discarded, :count).by(2)
         expect(captain_assistant.faq_suggestions.count).to be_zero
       end
+
+      it 'uses the conversation FAQ matching feature model' do
+        expect(RubyLLM).to receive(:chat).with(
+          model: Llm::Models.default_model_for('conversation_faq_matching')
+        ).at_least(:once).and_return(mock_chat)
+
+        service.generate_suggestions
+      end
+
+      it 'uses the account model override for conversation FAQ matching' do
+        conversation.account.update!(captain_models: { 'conversation_faq_matching' => 'gpt-5-mini' })
+
+        expect(RubyLLM).to receive(:chat).with(model: 'gpt-5-mini').at_least(:once).and_return(mock_chat)
+
+        service.generate_suggestions
+      end
+
+      it 'resolves the matching feature model from the conversation account' do
+        allow(Llm::FeatureRouter).to receive(:resolve).and_call_original
+        expect(Llm::FeatureRouter).to receive(:resolve).with(
+          feature: 'conversation_faq_matching',
+          account: conversation.account
+        ).and_call_original
+
+        service.generate_suggestions
+      end
     end
 
     context 'when FAQ comparison cannot be completed' do
