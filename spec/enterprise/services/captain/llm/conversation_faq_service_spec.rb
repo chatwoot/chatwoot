@@ -340,6 +340,23 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         expect(existing_suggestion.reload.source_count).to eq(2)
         expect(captain_assistant.faq_suggestions.count).to eq(1)
       end
+
+      it 'does not attach the observation when the suggestion changes after classification' do
+        allow(mock_chat).to receive(:ask) do |input|
+          if input.start_with?('{')
+            existing_suggestion.update!(question: 'Edited after classification started')
+            match_response
+          else
+            mock_response
+          end
+        end
+
+        expect do
+          service.generate_suggestions
+        end.to raise_error(described_class::SuggestionChangedError)
+        expect(existing_suggestion.observations.count).to eq(1)
+        expect(existing_suggestion.reload.source_count).to eq(1)
+      end
     end
 
     context 'when a similar open suggestion uses another language' do
