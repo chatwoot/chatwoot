@@ -89,7 +89,7 @@ class Captain::AssistantStatsBuilder
       auto_resolution: rate(resolution[:resolved], handled),
       handoff: rate(resolution[:handoff], handled),
       hours_saved: (public_count * SECONDS_SAVED_PER_REPLY / 3600.0).round,
-      reopen: reopen_rate(range),
+      reopen: reopen_rate(range, resolution[:resolved]),
       depth: depth_conversations.zero? ? 0 : (public_count.to_f / depth_conversations).round(1)
     }
   end
@@ -174,7 +174,9 @@ class Captain::AssistantStatsBuilder
   # derived from the assistant's handled conversations (not current inbox membership) so a later
   # inbox reassignment doesn't drop historical resolves, and covers both the evaluated (inference)
   # and time-based (bot) resolve paths so the denominator matches auto_resolution_rate.
-  def reopen_rate(range)
+  def reopen_rate(range, resolved_count)
+    return 0 if resolved_count.zero?
+
     resolved_scope = account.reporting_events
                             .where(name: RESOLVED_EVENT_NAMES, created_at: range,
                                    conversation_id: handled_scope(range).select(:conversation_id))
@@ -194,7 +196,7 @@ class Captain::AssistantStatsBuilder
                              'ON resolves.conversation_id = reporting_events.conversation_id ' \
                              'AND reporting_events.event_end_time >= resolves.event_end_time')
                       .distinct.count('reporting_events.conversation_id')
-    rate(reopened, resolved_scope.distinct.count(:conversation_id))
+    rate(reopened, resolved_count)
   end
 
   def rate(numerator, denominator)
