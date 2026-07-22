@@ -399,8 +399,9 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
     end
 
-    context 'when a similar approved FAQ uses the account language' do
+    context 'when a similar approved FAQ uses another language' do
       let(:sample_faqs) { [{ 'question' => 'Como ativo o recurso?', 'answer' => 'Ative nas configuracoes.' }] }
+      let(:match_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
 
       before do
         create(:captain_assistant_response, assistant: captain_assistant, account: captain_assistant.account,
@@ -408,14 +409,16 @@ RSpec.describe Captain::Llm::ConversationFaqService do
                                             embedding: embedding_one)
         conversation.update!(additional_attributes: { conversation_language: 'pt-BR' })
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
+        allow(mock_chat).to receive(:ask) do |input|
+          input.start_with?('{') ? match_response : mock_response
+        end
       end
 
-      it 'does not discard a candidate in another language' do
+      it 'deduplicates against the approved FAQ' do
         expect do
           service.generate_suggestions
-        end.to change(captain_assistant.faq_suggestions, :count).by(1)
-        expect(Captain::FaqObservation.discarded.count).to be_zero
-        expect(captain_assistant.faq_suggestions.last.language).to eq('pt')
+        end.to change(Captain::FaqObservation.discarded, :count).by(1)
+        expect(captain_assistant.faq_suggestions.count).to be_zero
       end
     end
 
