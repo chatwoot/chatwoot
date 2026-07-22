@@ -5,6 +5,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import Integration from './Integration.vue';
 import SelectChannelWarning from './Slack/SelectChannelWarning.vue';
+import SlackIntegrationMode from './Slack/SlackIntegrationMode.vue';
 import SlackIntegrationHelpText from './Slack/SlackIntegrationHelpText.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -103,11 +104,12 @@ onMounted(() => {
             ),
           }"
         />
-        <div v-if="areHooksAvailable" class="flex-1">
+        <div v-if="areHooksAvailable" class="flex-1 space-y-5">
           <SelectChannelWarning
             v-if="!isIntegrationHookEnabled"
             :has-connected-a-channel="hasConnectedAChannel"
           />
+          <SlackIntegrationMode v-if="isIntegrationHookEnabled" :hook="hook" />
           <SlackIntegrationHelpText
             :selected-channel-name="selectedChannelName"
           />

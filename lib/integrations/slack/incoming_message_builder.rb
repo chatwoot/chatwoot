@@ -68,7 +68,13 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def process_message_payload?
-    thread_timestamp_available? && supported_message? && integration_hook
+    thread_timestamp_available? && supported_message? && integration_hook && !alerts_only_mode?
+  end
+
+  # In alerts_only mode, the Slack channel is a notification/internal discussion
+  # channel — thread replies are never synced back to the conversation.
+  def alerts_only_mode?
+    integration_hook.settings['integration_mode'] == 'alerts_only'
   end
 
   def link_shared?
