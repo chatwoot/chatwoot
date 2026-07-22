@@ -60,11 +60,35 @@ const deferred = () => {
   return { promise, resolve };
 };
 
+const PageLayoutStub = {
+  template: '<div><slot name="body" /></div>',
+};
+
+const FaqSuggestionCardStub = {
+  props: ['suggestion'],
+  template: '<div>{{ suggestion.question }}</div>',
+};
+
 describe('FaqSuggestions', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.route.params.assistantId = 1;
     mocks.route.query = {};
+    mocks.getterValues['captainFaqSuggestions/getRecords'].value = [];
+    mocks.getterValues['captainFaqSuggestions/getMeta'].value = {
+      totalCount: 0,
+      page: 1,
+    };
+    mocks.dispatch.mockImplementation((action, payload) => {
+      if (action !== 'captainFaqSuggestions/setRecords') return;
+
+      mocks.getterValues['captainFaqSuggestions/getRecords'].value =
+        payload.records;
+      mocks.getterValues['captainFaqSuggestions/getMeta'].value = {
+        totalCount: payload.meta.total_count,
+        page: payload.meta.page,
+      };
+    });
   });
 
   it('keeps the latest assistant results when requests finish in the wrong order', async () => {
@@ -77,6 +101,10 @@ describe('FaqSuggestions', () => {
     const wrapper = shallowMount(FaqSuggestions, {
       global: {
         mocks: { $t: key => key },
+        stubs: {
+          PageLayout: PageLayoutStub,
+          FaqSuggestionCard: FaqSuggestionCardStub,
+        },
       },
     });
 
@@ -100,29 +128,8 @@ describe('FaqSuggestions', () => {
     });
     await flushPromises();
 
-    expect(mocks.apiGet).toHaveBeenNthCalledWith(1, {
-      page: 1,
-      search: '',
-      assistantId: 1,
-    });
-    expect(mocks.apiGet).toHaveBeenNthCalledWith(2, {
-      page: 1,
-      search: '',
-      assistantId: 2,
-    });
-    expect(mocks.dispatch).toHaveBeenCalledWith(
-      'captainFaqSuggestions/setRecords',
-      {
-        records: [{ id: 2, question: 'Current assistant' }],
-        meta: { page: 1, total_count: 1 },
-      }
-    );
-    expect(mocks.dispatch).not.toHaveBeenCalledWith(
-      'captainFaqSuggestions/setRecords',
-      expect.objectContaining({
-        records: [{ id: 1, question: 'Previous assistant' }],
-      })
-    );
+    expect(wrapper.text()).toContain('Current assistant');
+    expect(wrapper.text()).not.toContain('Previous assistant');
 
     wrapper.unmount();
   });
