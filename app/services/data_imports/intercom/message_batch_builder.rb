@@ -106,7 +106,7 @@ class DataImports::Intercom::MessageBatchBuilder
   def build_entry(source_entry, position, mappings, messages)
     source_id = source_entry[:source_id]
     mapping = mappings[source_id]
-    mapped_message = messages[:by_id][mapping&.chatwoot_record_id]
+    mapped_message = messages[:by_id][mapping.chatwoot_record_id] if mapping&.chatwoot_record_type == 'Message'
     existing_message = messages[:by_source_id]["intercom:#{source_id}"]
 
     Entry.new(
