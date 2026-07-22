@@ -4,7 +4,20 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   DISTANCE_THRESHOLD = 0.3
   MATCH_LIMIT = 5
   LLM_FEATURE = 'conversation_faq_generation'.freeze
-  FAQ_MATCH_MODEL = 'gpt-4.1-mini'.freeze
+
+  def self.language_for(conversation)
+    language = conversation.language.presence || conversation.account.locale.presence || I18n.default_locale.to_s
+    normalize_language(language)
+  end
+
+  def self.normalize_language(language)
+    language.to_s.tr('-', '_').split('_').first.downcase
+  end
+
+  def self.account_language_for(account)
+    normalize_language(account.locale.presence || I18n.default_locale.to_s)
+  end
+  private_class_method :normalize_language
 
   def initialize(assistant, conversation)
     super(feature: LLM_FEATURE, account: conversation.account, fallback_model: Llm::Models.default_model_for(LLM_FEATURE))
@@ -69,20 +82,21 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
       existing: { question: existing_record.question, answer: existing_record.answer }
     }
     prompt = Captain::Llm::ConversationFaqPromptsService.same_faq
-    response = instrument_llm_call(match_instrumentation_params(prompt, comparison)) do
-      chat(model: FAQ_MATCH_MODEL)
+    faq_match_model = Llm::FeatureRouter.resolve(feature: 'conversation_faq_matching', account: conversation.account)[:model]
+    response = instrument_llm_call(match_instrumentation_params(prompt, comparison, faq_match_model)) do
+      chat(model: faq_match_model)
         .with_params(response_format: { type: 'json_object' })
         .with_instructions(prompt)
         .ask(comparison.to_json)
     end
 
-    response_content = sanitize_json_response(response.content)
-    return false if response_content.blank?
+    same_faq = JSON.parse(sanitize_json_response(response.content)).fetch('same_faq')
+    raise TypeError, 'same_faq must be a boolean' unless [true, false].include?(same_faq)
 
-    JSON.parse(response_content).fetch('same_faq', false) == true
-  rescue JSON::ParserError, RubyLLM::Error => e
+    same_faq
+  rescue JSON::ParserError, KeyError, TypeError, RubyLLM::Error => e
     Rails.logger.error "FAQ match failed: #{e.message}"
-    false
+    raise
   end
 
   def attach_observation(suggestion, faq)
@@ -161,10 +175,10 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     }
   end
 
-  def match_instrumentation_params(prompt, comparison)
+  def match_instrumentation_params(prompt, comparison, faq_match_model)
     {
       span_name: 'llm.captain.faq_match',
-      model: FAQ_MATCH_MODEL,
+      model: faq_match_model,
       temperature: temperature,
       account_id: conversation.account_id,
       conversation_id: conversation.display_id,
@@ -182,15 +196,11 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   end
 
   def faq_language
-    @faq_language ||= normalize_language(conversation.language.presence || conversation.account.locale.presence || I18n.default_locale.to_s)
+    @faq_language ||= self.class.language_for(conversation)
   end
 
   def account_language
-    @account_language ||= normalize_language(conversation.account.locale.presence || I18n.default_locale.to_s)
-  end
-
-  def normalize_language(language)
-    language.to_s.tr('-', '_').split('_').first.downcase
+    @account_language ||= self.class.account_language_for(conversation.account)
   end
 
   def language_name(language)
