@@ -102,31 +102,41 @@ class ActionService
 
   def update_contact_custom_attribute(params)
     attribute_key, value = extract_custom_attribute_params(params)
-    return if attribute_key.blank?
+    if attribute_key.blank?
+      Rails.logger.warn("[Automation] update_contact_custom_attribute skipped: blank attribute_key params=#{params.inspect}")
+      return
+    end
 
     definition = find_writable_custom_attribute(attribute_key, :contact_attribute)
-    return if definition.blank?
+    if definition.blank?
+      Rails.logger.warn("[Automation] update_contact_custom_attribute skipped: no contact attribute '#{attribute_key}' on account #{@account.id}")
+      return
+    end
 
     contact = @conversation.contact
-    contact.update!(
-      custom_attributes: contact.custom_attributes.merge(
-        attribute_key => normalize_custom_attribute_value(definition, value)
-      )
+    attrs = (contact.custom_attributes || {}).merge(
+      attribute_key => normalize_custom_attribute_value(definition, value)
     )
+    contact.update!(custom_attributes: attrs)
   end
 
   def update_conversation_custom_attribute(params)
     attribute_key, value = extract_custom_attribute_params(params)
-    return if attribute_key.blank?
+    if attribute_key.blank?
+      Rails.logger.warn("[Automation] update_conversation_custom_attribute skipped: blank attribute_key params=#{params.inspect}")
+      return
+    end
 
     definition = find_writable_custom_attribute(attribute_key, :conversation_attribute)
-    return if definition.blank?
+    if definition.blank?
+      Rails.logger.warn("[Automation] update_conversation_custom_attribute skipped: no conversation attribute '#{attribute_key}' on account #{@account.id}")
+      return
+    end
 
-    @conversation.update!(
-      custom_attributes: @conversation.custom_attributes.merge(
-        attribute_key => normalize_custom_attribute_value(definition, value)
-      )
+    attrs = (@conversation.custom_attributes || {}).merge(
+      attribute_key => normalize_custom_attribute_value(definition, value)
     )
+    @conversation.update!(custom_attributes: attrs)
   end
 
   private
@@ -147,23 +157,37 @@ class ActionService
   end
 
   def normalize_custom_attribute_value(definition, raw_value)
-    rendered = AutomationRules::MessageRendererService.new(@conversation, raw_value.to_s).perform
+    rendered = render_custom_attribute_template(raw_value)
 
     case definition.attribute_display_type
     when 'number', 'currency', 'percent'
-      rendered.to_s.to_f
+      Float(rendered)
     when 'checkbox'
       ActiveModel::Type::Boolean.new.cast(rendered)
     when 'date'
-      Date.parse(rendered.to_s).iso8601
+      parse_custom_attribute_date(rendered)
     else
       # text, link, list, and any other type
-      rendered
+      rendered.to_s
     end
-  rescue ArgumentError, TypeError
+  rescue ArgumentError, TypeError => e
+    Rails.logger.warn("[Automation] custom attribute normalize failed for #{definition.attribute_key}: #{e.message}")
     raw_value.to_s
   end
 
+  def render_custom_attribute_template(raw_value)
+    text = raw_value.to_s
+    return text unless text.include?('{{')
+
+    AutomationRules::MessageRendererService.new(@conversation, text).perform
+  end
+
+  def parse_custom_attribute_date(rendered)
+    text = rendered.to_s.strip
+    return text if text.match?(/\A\d{4}-\d{2}-\d{2}\z/)
+
+    Date.parse(text).iso8601
+  end
 
   def last_responding_agent_id
     @conversation.messages.outgoing.where(sender_type: 'User', private: false).last&.sender_id

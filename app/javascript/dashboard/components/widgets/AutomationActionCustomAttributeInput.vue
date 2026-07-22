@@ -1,11 +1,13 @@
 <script>
 import { useMapGetter } from 'dashboard/composables/store';
 import NextInput from 'dashboard/components-next/input/Input.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import InsertVariableButton from 'dashboard/components-next/variable/InsertVariableButton.vue';
 
 export default {
   components: {
     NextInput,
+    NextButton,
     InsertVariableButton,
   },
   props: {
@@ -63,7 +65,8 @@ export default {
     },
     selectedValue: {
       get() {
-        return this.payload.value ?? '';
+        const value = this.payload.value;
+        return value === undefined || value === null ? '' : value;
       },
       set(value) {
         this.emitValue(this.selectedKey, value);
@@ -81,11 +84,33 @@ export default {
     isDateAttribute() {
       return this.selectedAttribute?.displayType === 'date';
     },
+    isNumberAttribute() {
+      return ['number', 'currency', 'percent'].includes(
+        this.selectedAttribute?.displayType
+      );
+    },
     isListAttribute() {
       return this.selectedAttribute?.displayType === 'list';
     },
     isCheckboxAttribute() {
       return this.selectedAttribute?.displayType === 'checkbox';
+    },
+    valueUsesLiquid() {
+      return String(this.selectedValue || '').includes('{{');
+    },
+    inputType() {
+      if (this.isDateAttribute && !this.valueUsesLiquid) return 'date';
+      if (this.isNumberAttribute && !this.valueUsesLiquid) return 'number';
+      return 'text';
+    },
+    valuePlaceholder() {
+      if (this.isDateAttribute) {
+        return this.$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_DATE_PLACEHOLDER');
+      }
+      if (this.isNumberAttribute) {
+        return this.$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_NUMBER_PLACEHOLDER');
+      }
+      return this.$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER');
     },
     showVariablePicker() {
       return (
@@ -93,10 +118,12 @@ export default {
       );
     },
     selectClass() {
+      // Override global `select` styles (custom SVG arrow + bg-origin-content)
+      // which collide with native OS arrows and look broken at h-8.
       return [
-        'block w-full reset-base text-sm !mb-0 h-8 px-3 py-2',
-        'outline outline-1 border-none outline-offset-[-1px] rounded-lg',
-        'bg-n-alpha-black2 text-n-slate-12',
+        'block w-full reset-base appearance-none text-sm !mb-0 h-8',
+        'pl-3 pr-9 py-1.5 border-none outline outline-1 outline-offset-[-1px] rounded-lg',
+        'bg-n-alpha-black2 !bg-none text-n-slate-12',
         'outline-n-weak hover:outline-n-slate-6 focus:outline-n-brand',
       ].join(' ');
     },
@@ -122,14 +149,26 @@ export default {
       return String(raw);
     },
     emitValue(attributeKey, value) {
+      let nextValue = value ?? '';
+      if (
+        this.isNumberAttribute &&
+        nextValue !== '' &&
+        !String(nextValue).includes('{{')
+      ) {
+        const asNumber = Number(nextValue);
+        nextValue = Number.isFinite(asNumber) ? asNumber : nextValue;
+      }
       this.$emit('update:modelValue', {
         attribute_key: attributeKey || '',
-        value: value ?? '',
+        value: nextValue,
       });
     },
     insertVariable(token) {
       const current = this.selectedValue || '';
       this.selectedValue = current ? `${current}${token}` : token;
+    },
+    useToday() {
+      this.selectedValue = '{{ date.today }}';
     },
   },
 };
@@ -143,18 +182,25 @@ export default {
       <label class="text-sm font-medium text-n-slate-12">
         {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_LABEL') }}
       </label>
-      <select v-model="selectedKey" :class="selectClass">
-        <option disabled value="">
-          {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER') }}
-        </option>
-        <option
-          v-for="attr in attributeOptions"
-          :key="attr.id"
-          :value="attr.id"
+      <div class="relative">
+        <select v-model="selectedKey" :class="selectClass">
+          <option disabled value="">
+            {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER') }}
+          </option>
+          <option
+            v-for="attr in attributeOptions"
+            :key="attr.id"
+            :value="attr.id"
+          >
+            {{ attr.name }}
+          </option>
+        </select>
+        <span
+          class="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-n-slate-11"
         >
-          {{ attr.name }}
-        </option>
-      </select>
+          <span class="i-lucide-chevron-down size-3.5" />
+        </span>
+      </div>
       <p v-if="!attributeOptions.length" class="text-xs text-n-ruby-11 m-0">
         {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_EMPTY') }}
       </p>
@@ -165,48 +211,62 @@ export default {
         {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_VALUE_LABEL') }}
       </label>
 
-      <select
-        v-if="isListAttribute"
-        v-model="selectedValue"
-        :class="selectClass"
-      >
-        <option disabled value="">
-          {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER') }}
-        </option>
-        <option
-          v-for="option in selectedAttribute?.values || []"
-          :key="option"
-          :value="option"
+      <div v-if="isListAttribute" class="relative">
+        <select v-model="selectedValue" :class="selectClass">
+          <option disabled value="">
+            {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER') }}
+          </option>
+          <option
+            v-for="option in selectedAttribute?.values || []"
+            :key="option"
+            :value="option"
+          >
+            {{ option }}
+          </option>
+        </select>
+        <span
+          class="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-n-slate-11"
         >
-          {{ option }}
-        </option>
-      </select>
+          <span class="i-lucide-chevron-down size-3.5" />
+        </span>
+      </div>
 
-      <select
-        v-else-if="isCheckboxAttribute"
-        v-model="selectedValue"
-        :class="selectClass"
-      >
-        <option value="true">
-          {{ $t('FILTER.ATTRIBUTE_LABELS.TRUE') }}
-        </option>
-        <option value="false">
-          {{ $t('FILTER.ATTRIBUTE_LABELS.FALSE') }}
-        </option>
-      </select>
+      <div v-else-if="isCheckboxAttribute" class="relative">
+        <select v-model="selectedValue" :class="selectClass">
+          <option value="true">
+            {{ $t('FILTER.ATTRIBUTE_LABELS.TRUE') }}
+          </option>
+          <option value="false">
+            {{ $t('FILTER.ATTRIBUTE_LABELS.FALSE') }}
+          </option>
+        </select>
+        <span
+          class="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-n-slate-11"
+        >
+          <span class="i-lucide-chevron-down size-3.5" />
+        </span>
+      </div>
 
       <template v-else>
         <NextInput
           v-model="selectedValue"
-          type="text"
+          :type="inputType"
           size="sm"
-          :placeholder="
-            isDateAttribute
-              ? $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_DATE_PLACEHOLDER')
-              : $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER')
-          "
+          :placeholder="valuePlaceholder"
         />
-        <div v-if="showVariablePicker" class="flex items-center justify-end">
+        <div
+          v-if="showVariablePicker"
+          class="flex items-center justify-between gap-2"
+        >
+          <NextButton
+            v-if="isDateAttribute"
+            xs
+            faded
+            slate
+            :label="$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_USE_TODAY')"
+            @click="useToday"
+          />
+          <span v-else />
           <InsertVariableButton @insert="insertVariable" />
         </div>
       </template>

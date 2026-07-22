@@ -229,10 +229,7 @@ export default {
         class="flex items-center justify-between gap-2 mt-1"
       >
         <span class="text-xs text-n-slate-11">
-          {{
-            $t('AUTOMATION.ACTION.VARIABLES_HINT') ||
-            'Use the { } button to insert variables like contact name, custom attributes, or dates (e.g. today)'
-          }}
+          {{ $t('AUTOMATION.ACTION.VARIABLES_HINT') }}
         </span>
         <InsertVariableButton @insert="insertMessageVariable" />
       </div>

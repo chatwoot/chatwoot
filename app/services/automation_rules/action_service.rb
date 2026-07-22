@@ -10,16 +10,22 @@ class AutomationRules::ActionService < ActionService
     @rule.actions.each do |action|
       @conversation.reload
       action = action.with_indifferent_access
+      action_name = action[:action_name].to_s
       begin
-        send(action[:action_name], action[:action_params])
+        unless respond_to?(action_name, true)
+          Rails.logger.error("[Automation] rule=#{@rule.id} unknown action '#{action_name}' — restart Sidekiq/Rails if this is a new action")
+          next
+        end
+
+        send(action_name, action[:action_params])
       rescue StandardError => e
+        Rails.logger.error("[Automation] rule=#{@rule.id} action='#{action_name}' failed: #{e.class}: #{e.message}")
         ChatwootExceptionTracker.new(e, account: @account).capture_exception
       end
     end
   ensure
     Current.reset
   end
-
   private
 
   def send_attachment(blob_ids)
