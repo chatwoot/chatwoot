@@ -13,6 +13,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     let(:mock_action_classifier_service) { instance_double(Captain::Llm::AssistantActionClassifierService) }
     let(:mock_false_promise_service) { instance_double(Captain::Llm::AssistantFalsePromiseService) }
     let(:assistant_model) { Llm::Models.default_model_for('assistant') }
+    let(:trigger_message) { conversation.messages.find_by!(content: 'Hello') }
 
     before do
       create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
@@ -23,6 +24,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(Captain::Assistant::AgentRunnerService).to receive(:new).and_return(mock_agent_runner_service)
       allow(mock_agent_runner_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain V2' })
       allow(mock_agent_runner_service).to receive(:last_run_result).and_return(nil)
+      allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(false)
       allow(Captain::Llm::AssistantActionClassifierService).to receive(:new).and_return(mock_action_classifier_service)
       allow(mock_action_classifier_service).to receive(:classify).and_return({ 'action' => 'continue' })
       allow(Captain::Llm::AssistantFalsePromiseService).to receive(:new).and_return(mock_false_promise_service)
@@ -358,12 +360,26 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       it 'uses Captain::Assistant::AgentRunnerService' do
         expect(Captain::Assistant::AgentRunnerService).to receive(:new).with(
           assistant: assistant,
-          conversation: conversation
+          conversation: conversation,
+          trigger_message_id: trigger_message.id
         )
         expect(Captain::Llm::AssistantChatService).not_to receive(:new)
 
-        described_class.perform_now(conversation, assistant)
+        described_class.perform_now(conversation, assistant, trigger_message.id)
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain V2')
+      end
+
+      it 'discards a response when a newer message arrives during generation' do
+        allow(mock_agent_runner_service).to receive(:generate_response) do
+          create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
+          { 'response' => 'Stale response', 'handoff_tool_called' => false }
+        end
+        allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(true)
+
+        described_class.perform_now(conversation, assistant, trigger_message.id)
+
+        expect(conversation.messages.outgoing.count).to eq(0)
+        expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
       end
 
       it 'passes message history with resolution markers to agent runner service' do

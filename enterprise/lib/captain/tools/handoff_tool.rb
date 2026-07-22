@@ -5,6 +5,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   def perform(tool_context, reason: nil)
     conversation = find_conversation(tool_context.state)
     return 'Conversation not found' unless conversation
+    return 'Handoff skipped because a newer customer message arrived' unless trigger_message_current?(tool_context.state, conversation)
 
     # Log the handoff with reason
     log_tool_usage('tool_handoff', {
@@ -22,6 +23,17 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   end
 
   private
+
+  def trigger_message_current?(state, conversation)
+    trigger_message_id = state&.dig(:trigger_message_id)
+    return true if trigger_message_id.blank?
+
+    latest_incoming_message_id = Conversation.uncached do
+      conversation.messages.incoming.maximum(:id)
+    end
+
+    latest_incoming_message_id == trigger_message_id
+  end
 
   def trigger_handoff(tool_context, conversation, reason)
     # post the reason as a private note

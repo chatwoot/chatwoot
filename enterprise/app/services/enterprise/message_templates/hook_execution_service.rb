@@ -31,6 +31,7 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def schedule_captain_response
     job_args = [conversation, conversation.inbox.captain_assistant]
+    job_args << message.id if conversation.account.feature_enabled?('captain_integration_v2')
 
     if message.attachments.blank?
       Captain::Conversation::ResponseBuilderJob.perform_later(*job_args)

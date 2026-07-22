@@ -9,11 +9,12 @@ class Captain::Assistant::AgentRunnerService
 
   attr_reader :last_run_result
 
-  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil)
+  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, trigger_message_id: nil)
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
     @source = source
+    @trigger_message_id = trigger_message_id
     @handoff_tool_called = false
   end
 
@@ -29,6 +30,10 @@ class Captain::Assistant::AgentRunnerService
     Rails.logger.error e.backtrace.join("\n")
 
     error_response(e.message)
+  end
+
+  def response_discarded?
+    @response_discarded == true
   end
 
   private
@@ -151,10 +156,9 @@ class Captain::Assistant::AgentRunnerService
       track_handoff_usage(tool_name, handoff_tool_name, context_wrapper)
     end
 
-    if ChatwootApp.otel_enabled?
-      runner.on_run_complete do |_agent_name, _result, context_wrapper|
-        write_credits_used_metadata(context_wrapper)
-      end
+    runner.on_run_complete do |_agent_name, _result, context_wrapper|
+      @response_discarded = trigger_message_stale?
+      write_run_metadata(context_wrapper) if ChatwootApp.otel_enabled?
     end
     runner
   end
@@ -169,11 +173,22 @@ class Captain::Assistant::AgentRunnerService
     @handoff_tool_called = true
   end
 
-  def write_credits_used_metadata(context_wrapper)
+  def write_run_metadata(context_wrapper)
     root_span = context_wrapper&.context&.dig(:__otel_tracing, :root_span)
     return unless root_span
 
-    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), @handoff_tool_called ? 'false' : 'true')
+    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'discarded'), response_discarded?.to_s)
+    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), (!@handoff_tool_called && !response_discarded?).to_s)
+  end
+
+  def trigger_message_stale?
+    return false if @trigger_message_id.blank? || @conversation.blank?
+
+    latest_incoming_message_id = Conversation.uncached do
+      @conversation.messages.incoming.maximum(:id)
+    end
+
+    latest_incoming_message_id != @trigger_message_id
   end
 
   def runner

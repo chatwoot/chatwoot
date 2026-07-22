@@ -23,6 +23,7 @@ module Captain::Assistant::RunnerStateHelper
       timezone: @conversation&.inbox&.timezone.presence || 'UTC'
     }
     state[:source] = @source if @source.present?
+    state[:trigger_message_id] = @trigger_message_id if @trigger_message_id.present?
 
     build_conversation_state(state) if @conversation
     state

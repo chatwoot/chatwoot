@@ -28,6 +28,37 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
   describe '#perform' do
     context 'when conversation exists' do
+      context 'with a trigger message id' do
+        let(:trigger_message) do
+          create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming, created_at: same_second)
+        end
+        let(:same_second) { Time.current.change(usec: 0) }
+        let(:tool_context) do
+          Struct.new(:state).new({ conversation: { id: conversation.id }, trigger_message_id: trigger_message.id })
+        end
+
+        it 'hands off when the trigger message is still the latest message' do
+          trigger_message
+
+          expect do
+            result = tool.perform(tool_context, reason: 'Customer needs specialized support')
+            expect(result).to include('Conversation handed off')
+          end.to change(Message, :count).by(1)
+        end
+
+        it 'skips the handoff when a newer message has arrived' do
+          trigger_message
+          conversation.update!(status: :pending)
+          create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming, created_at: same_second)
+
+          expect do
+            result = tool.perform(tool_context, reason: 'Customer needs specialized support')
+            expect(result).to eq('Handoff skipped because a newer customer message arrived')
+          end.not_to change(Message, :count)
+          expect(conversation.reload.status).to eq('pending')
+        end
+      end
+
       context 'with reason provided' do
         it 'creates a private note with reason and hands off conversation' do
           reason = 'Customer needs specialized support'

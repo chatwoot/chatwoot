@@ -7,16 +7,19 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds
   retry_on Faraday::BadRequestError, attempts: 3, wait: 2.seconds
 
-  def perform(conversation, assistant, responding_to_message_id = nil) # rubocop:disable Lint/UnusedMethodArgument
+  def perform(conversation, assistant, trigger_message_id = nil)
     @conversation = conversation
     @inbox = conversation.inbox
     @assistant = assistant
+    @trigger_message_id = trigger_message_id if captain_v2_enabled?
 
     return unless conversation_pending?
 
     Current.executed_by = @assistant
 
     if captain_v2_enabled?
+      return unless trigger_message_current?
+
       generate_response_with_v2
     else
       generate_and_process_response
@@ -45,10 +48,17 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def generate_response_with_v2
-    runner_service = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation)
+    runner_service = Captain::Assistant::AgentRunnerService.new(
+      assistant: @assistant,
+      conversation: @conversation,
+      trigger_message_id: @trigger_message_id
+    )
     message_history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
     @response = runner_service.generate_response(message_history: message_history)
     @run_result = runner_service.last_run_result
+
+    return if runner_service.response_discarded?
+    return unless trigger_message_current?
 
     process_response
   end
@@ -77,14 +87,22 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
       process_v1_handoff
     elsif conversation_pending?
-      message = nil
-      ActiveRecord::Base.transaction do
-        message = create_messages
-        Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
-        account.increment_response_usage
-      end
-      capture_assistant_session(result_message: message, credits_consumed: 1.0)
+      process_standard_response
     end
+  end
+
+  def process_standard_response
+    message = nil
+    ActiveRecord::Base.transaction do
+      next unless trigger_message_current?
+
+      message = create_messages
+      Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
+      account.increment_response_usage
+    end
+    return unless message
+
+    capture_assistant_session(result_message: message, credits_consumed: 1.0)
   end
 
   def v1_handoff_requested?
@@ -117,6 +135,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_v2_handoff
+    return unless trigger_message_current?
+
     # HandoffTool already ran bot_handoff! + OOO inside the agent loop. Preserve
     # waiting_since so this message doesn't clear the timestamp it left in place.
     I18n.with_locale(@assistant.account.locale) do
@@ -152,7 +172,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response ||= {}
     @response['action_source'] ||= 'error'
     @response['action_reason'] ||= error_action_reason(error)
-    process_v1_handoff if conversation_pending?
+    process_v1_handoff if conversation_pending? && (!captain_v2_enabled? || trigger_message_current?)
     true
   end
 
@@ -180,5 +200,15 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def conversation_pending?
     status = Conversation.uncached { Conversation.where(id: @conversation.id).pick(:status) }
     status == 'pending' || status == Conversation.statuses[:pending]
+  end
+
+  def trigger_message_current?
+    return true if @trigger_message_id.blank?
+
+    latest_incoming_message_id = Conversation.uncached do
+      @conversation.messages.incoming.maximum(:id)
+    end
+
+    latest_incoming_message_id == @trigger_message_id
   end
 end
