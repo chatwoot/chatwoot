@@ -10,7 +10,6 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import Policy from 'dashboard/components/policy.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 
@@ -250,17 +249,15 @@ defineExpose({ dialogRef });
       <div
         class="flex w-full flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between"
       >
-        <Policy :permissions="['administrator']">
-          <Button
-            :label="$t('CAPTAIN.FAQ_SUGGESTIONS.DISMISS')"
-            icon="i-lucide-x"
-            variant="ghost"
-            color="ruby"
-            :is-loading="isDismissing"
-            :disabled="isSaving || isDismissing"
-            @click="handleDismiss"
-          />
-        </Policy>
+        <Button
+          :label="$t('CAPTAIN.FAQ_SUGGESTIONS.DISMISS')"
+          icon="i-lucide-x"
+          variant="ghost"
+          color="ruby"
+          :is-loading="isDismissing"
+          :disabled="isSaving || isDismissing"
+          @click="handleDismiss"
+        />
         <div class="flex items-center justify-end gap-2">
           <Button
             :label="$t('DIALOG.BUTTONS.CANCEL')"
@@ -269,23 +266,21 @@ defineExpose({ dialogRef });
             :disabled="isSaving || isDismissing"
             @click="close"
           />
-          <Policy :permissions="['administrator']">
-            <Button
-              :label="$t('CAPTAIN.FAQ_SUGGESTIONS.SAVE')"
-              variant="faded"
-              color="slate"
-              :is-loading="isSaving"
-              :disabled="isInvalid || isSaving || isDismissing"
-              @click="handleSave"
-            />
-            <Button
-              :label="$t('CAPTAIN.FAQ_SUGGESTIONS.APPROVE_FAQ')"
-              icon="i-lucide-circle-check-big"
-              :is-loading="isSaving"
-              :disabled="isInvalid || isSaving || isDismissing"
-              @click="handleApprove"
-            />
-          </Policy>
+          <Button
+            :label="$t('CAPTAIN.FAQ_SUGGESTIONS.SAVE')"
+            variant="faded"
+            color="slate"
+            :is-loading="isSaving"
+            :disabled="isInvalid || isSaving || isDismissing"
+            @click="handleSave"
+          />
+          <Button
+            :label="$t('CAPTAIN.FAQ_SUGGESTIONS.APPROVE_FAQ')"
+            icon="i-lucide-circle-check-big"
+            :is-loading="isSaving"
+            :disabled="isInvalid || isSaving || isDismissing"
+            @click="handleApprove"
+          />
         </div>
       </div>
     </template>

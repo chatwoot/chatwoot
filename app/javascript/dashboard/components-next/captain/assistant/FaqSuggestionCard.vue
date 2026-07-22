@@ -5,7 +5,6 @@ import { dynamicTime } from 'shared/helpers/timeHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import Policy from 'dashboard/components/policy.vue';
 
 const props = defineProps({
   suggestion: {
@@ -93,27 +92,25 @@ const language = computed(() =>
         </span>
       </div>
 
-      <Policy :permissions="['administrator']">
-        <div class="flex items-center gap-2">
-          <Button
-            :label="$t('CAPTAIN.FAQ_SUGGESTIONS.DISMISS')"
-            icon="i-lucide-x"
-            size="sm"
-            variant="ghost"
-            color="slate"
-            :disabled="isLoading"
-            @click="emit('dismiss', suggestion)"
-          />
-          <Button
-            :label="$t('CAPTAIN.FAQ_SUGGESTIONS.APPROVE')"
-            icon="i-lucide-circle-check-big"
-            size="sm"
-            :is-loading="isLoading"
-            :disabled="isLoading"
-            @click="emit('approve', suggestion)"
-          />
-        </div>
-      </Policy>
+      <div class="flex items-center gap-2">
+        <Button
+          :label="$t('CAPTAIN.FAQ_SUGGESTIONS.DISMISS')"
+          icon="i-lucide-x"
+          size="sm"
+          variant="ghost"
+          color="slate"
+          :disabled="isLoading"
+          @click="emit('dismiss', suggestion)"
+        />
+        <Button
+          :label="$t('CAPTAIN.FAQ_SUGGESTIONS.APPROVE')"
+          icon="i-lucide-circle-check-big"
+          size="sm"
+          :is-loading="isLoading"
+          :disabled="isLoading"
+          @click="emit('approve', suggestion)"
+        />
+      </div>
     </div>
   </article>
 </template>
