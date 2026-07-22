@@ -8,6 +8,7 @@ RSpec.describe MessageTemplates::HookExecutionService do
   let(:assistant) { create(:captain_assistant, account: account) }
 
   before do
+    account.enable_features!('captain_integration')
     create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
   end
 

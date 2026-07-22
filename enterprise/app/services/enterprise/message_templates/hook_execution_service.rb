@@ -50,7 +50,14 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
-    conversation.pending? && message.incoming? && inbox.captain_assistant.present?
+    conversation.pending? && message.incoming? && inbox.captain_assistant.present? && captain_feature_enabled?
+  end
+
+  # Captain is a premium feature; stop the runtime responder when it has been revoked, even if an
+  # assistant is still linked to the inbox.
+  def captain_feature_enabled?
+    account = conversation.account
+    account.feature_enabled?('captain_integration') || account.feature_enabled?('captain_integration_v2')
   end
 
   def perform_handoff
