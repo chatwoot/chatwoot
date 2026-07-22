@@ -276,6 +276,9 @@ es:
         auto_resolved_minutes: 'La conversación fue marcada como %{status_label} por el sistema debido a %{count} minutos de inactividad'
         system_auto_open: El sistema reabrió la conversación debido a un nuevo mensaje entrante.
       status_labels:
+        open: abierta
+        pending: pendiente
+        snoozed: pospuesta
         resolved: resuelta
         closed: cerrada
         sold: vendida

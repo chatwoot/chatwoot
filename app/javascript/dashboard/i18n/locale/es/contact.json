@@ -449,6 +449,7 @@
       "CREATED_AT": "Creado el",
       "LAST_ACTIVITY": "Última actividad",
       "REFERER_LINK": "Enlace de referencia",
+      "ASSIGNED_AGENT": "Agente del contacto",
       "BLOCKED": "Bloqueado",
       "BLOCKED_TRUE": "Verdadero",
       "BLOCKED_FALSE": "Falso",

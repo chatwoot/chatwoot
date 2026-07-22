@@ -17,6 +17,7 @@ import { useI18n } from 'vue-i18n';
 import SummaryReportLink from './SummaryReportLink.vue';
 import ReportHelpLabel from './ReportHelpLabel.vue';
 import { useStatusLabel } from 'dashboard/composables/useStatusLabel';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 const props = defineProps({
   type: {
@@ -66,6 +67,7 @@ const getMetrics = id =>
 const columnHelper = createColumnHelper();
 const { t } = useI18n();
 const { getResolutionCountLabel } = useStatusLabel();
+const { currentAccount } = useAccount();
 
 const renderAvgTime = value => (value ? formatTime(value) : '--');
 const renderCount = value =>
@@ -136,10 +138,7 @@ const displayCell = (value, className = '') =>
   h(
     'span',
     {
-      class: [
-        value === '--' ? 'text-n-slate-11' : '',
-        className,
-      ]
+      class: [value === '--' ? 'text-n-slate-11' : '', className]
         .filter(Boolean)
         .join(' '),
     },
@@ -155,14 +154,16 @@ const headerWithHelp = (labelKey, helpKey) => () =>
 const columns = computed(() => [
   columnHelper.accessor('rank', {
     header: headerWithHelp('SUMMARY_REPORTS.RANK', 'SUMMARY_REPORTS.HELP.RANK'),
-    size: 56,
-    minSize: 48,
+    size: 100,
+    minSize: 88,
+    meta: { stickyLeft: '0px' },
     cell: info => displayCell(info.getValue()),
   }),
   columnHelper.accessor('name', {
     header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
     size: 280,
-    minSize: 160,
+    minSize: 200,
+    meta: { stickyLeft: '100px' },
     cell: cellProps => h(SummaryReportLink, cellProps),
   }),
   columnHelper.accessor('conversationsCount', {
@@ -170,18 +171,17 @@ const columns = computed(() => [
       'SUMMARY_REPORTS.CONVERSATIONS',
       'SUMMARY_REPORTS.HELP.CONVERSATIONS'
     ),
-    size: 140,
+    size: 160,
     minSize: 140,
-    cell: info =>
-      displayCell(info.row.original.conversationsCountDisplay),
+    cell: info => displayCell(info.row.original.conversationsCountDisplay),
   }),
   columnHelper.accessor('sharePercent', {
     header: headerWithHelp(
       'SUMMARY_REPORTS.SHARE',
       'SUMMARY_REPORTS.HELP.SHARE'
     ),
-    size: 100,
-    minSize: 100,
+    size: 150,
+    minSize: 130,
     cell: info =>
       displayCell(
         info.row.original.sharePercentDisplay,
@@ -198,28 +198,26 @@ const columns = computed(() => [
       'SUMMARY_REPORTS.AVG_FIRST_RESPONSE_TIME',
       'SUMMARY_REPORTS.HELP.AVG_FIRST_RESPONSE_TIME'
     ),
-    size: 200,
-    minSize: 180,
-    cell: info =>
-      displayCell(info.row.original.avgFirstResponseTimeDisplay),
+    size: 160,
+    minSize: 140,
+    cell: info => displayCell(info.row.original.avgFirstResponseTimeDisplay),
   }),
   columnHelper.accessor('avgResolutionTime', {
     header: headerWithHelp(
       'SUMMARY_REPORTS.AVG_RESOLUTION_TIME',
       'SUMMARY_REPORTS.HELP.AVG_RESOLUTION_TIME'
     ),
-    size: 200,
-    minSize: 180,
-    cell: info =>
-      displayCell(info.row.original.avgResolutionTimeDisplay),
+    size: 160,
+    minSize: 140,
+    cell: info => displayCell(info.row.original.avgResolutionTimeDisplay),
   }),
   columnHelper.accessor('avgReplyTime', {
     header: headerWithHelp(
       'SUMMARY_REPORTS.AVG_REPLY_TIME',
       'SUMMARY_REPORTS.HELP.AVG_REPLY_TIME'
     ),
-    size: 180,
-    minSize: 180,
+    size: 160,
+    minSize: 140,
     cell: info => displayCell(info.row.original.avgReplyTimeDisplay),
   }),
   columnHelper.accessor('resolutionsCount', {
@@ -228,10 +226,9 @@ const columns = computed(() => [
         label: getResolutionCountLabel(),
         help: t('SUMMARY_REPORTS.HELP.RESOLUTION_COUNT'),
       }),
-    size: 140,
+    size: 160,
     minSize: 140,
-    cell: info =>
-      displayCell(info.row.original.resolutionsCountDisplay),
+    cell: info => displayCell(info.row.original.resolutionsCountDisplay),
   }),
 ]);
 
@@ -300,6 +297,7 @@ const downloadReports = (exportFormat = 'csv') => {
       to: to.value,
       businessHours: businessHours.value,
       format: exportFormat,
+      accountName: currentAccount.value?.name,
     });
     const params = {
       from: from.value,
@@ -323,7 +321,7 @@ defineExpose({ downloadReports });
   <div
     class="relative flex-1 overflow-x-auto overflow-y-auto mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
-    <Table :table="table" type="compact" />
+    <Table :table="table" type="relaxed" />
     <Transition
       enter-active-class="transition-opacity duration-300 ease-out"
       leave-active-class="transition-opacity duration-200 ease-in"

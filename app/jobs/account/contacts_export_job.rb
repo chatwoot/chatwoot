@@ -178,7 +178,7 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def export_filename(extension)
-    "#{@account.name}_#{@account.id}_contacts.#{extension}"
+    ExportFilename.build(account: @account, resource: 'contactos', extension: extension)
   end
 
   def broadcast_export_completed

@@ -314,6 +314,9 @@ en:
         auto_resolved_minutes: 'Conversation was marked %{status_label} by system due to %{count} minutes of inactivity'
         system_auto_open: System reopened the conversation due to a new incoming message.
       status_labels:
+        open: open
+        pending: pending
+        snoozed: snoozed
         resolved: resolved
         closed: closed
         sold: sold

@@ -113,9 +113,15 @@ class Account::ConversationsExportJob < ApplicationJob
   end
 
   def status_label(conversation)
-    return @account.resolved_status_label_word if conversation.resolved?
+    locale = @account.locale.presence || I18n.default_locale
+    I18n.with_locale(locale) do
+      return @account.resolved_status_label_word if conversation.resolved?
 
-    conversation.status
+      I18n.t(
+        "conversations.activity.status_labels.#{conversation.status}",
+        default: conversation.status.to_s.humanize
+      )
+    end
   end
 
   def conversation_url(conversation)
@@ -231,7 +237,7 @@ class Account::ConversationsExportJob < ApplicationJob
   end
 
   def export_filename(extension)
-    "#{@account.name}_#{@account.id}_conversations.#{extension}"
+    ExportFilename.build(account: @account, resource: 'conversaciones', extension: extension)
   end
 
   def broadcast_export_completed

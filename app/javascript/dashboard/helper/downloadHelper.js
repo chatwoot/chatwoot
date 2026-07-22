@@ -35,13 +35,27 @@ export const downloadFile = (fileName, content) => {
   return link;
 };
 
+const slugifyAccountName = name => {
+  if (!name) return '';
+  return name
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+};
+
 export const generateFileName = ({
   type,
   to,
   businessHours = false,
   format: fileFormat = 'csv',
+  accountName,
 }) => {
-  let name = `${type}-report-${format(fromUnixTime(to), 'dd-MM-yyyy')}`;
+  const date = format(fromUnixTime(to), 'yyyy-MM-dd');
+  const slug = slugifyAccountName(accountName);
+  let name = slug ? `${slug}-${type}-report-${date}` : `${type}-report-${date}`;
   if (businessHours) {
     name = `${name}-business-hours`;
   }
