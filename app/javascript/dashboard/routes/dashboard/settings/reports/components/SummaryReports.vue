@@ -154,16 +154,16 @@ const headerWithHelp = (labelKey, helpKey) => () =>
 const columns = computed(() => [
   columnHelper.accessor('rank', {
     header: headerWithHelp('SUMMARY_REPORTS.RANK', 'SUMMARY_REPORTS.HELP.RANK'),
-    size: 88,
+    size: 100,
     minSize: 88,
     meta: { stickyLeft: '0px' },
     cell: info => displayCell(info.getValue()),
   }),
   columnHelper.accessor('name', {
     header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
-    size: 200,
-    minSize: 180,
-    meta: { stickyLeft: '88px' },
+    size: 280,
+    minSize: 200,
+    meta: { stickyLeft: '100px' },
     cell: cellProps => h(SummaryReportLink, cellProps),
   }),
   columnHelper.accessor('conversationsCount', {
@@ -171,7 +171,7 @@ const columns = computed(() => [
       'SUMMARY_REPORTS.CONVERSATIONS',
       'SUMMARY_REPORTS.HELP.CONVERSATIONS'
     ),
-    size: 150,
+    size: 160,
     minSize: 140,
     cell: info => displayCell(info.row.original.conversationsCountDisplay),
   }),
@@ -180,7 +180,7 @@ const columns = computed(() => [
       'SUMMARY_REPORTS.SHARE',
       'SUMMARY_REPORTS.HELP.SHARE'
     ),
-    size: 140,
+    size: 150,
     minSize: 130,
     cell: info =>
       displayCell(
@@ -198,7 +198,7 @@ const columns = computed(() => [
       'SUMMARY_REPORTS.AVG_FIRST_RESPONSE_TIME',
       'SUMMARY_REPORTS.HELP.AVG_FIRST_RESPONSE_TIME'
     ),
-    size: 150,
+    size: 160,
     minSize: 140,
     cell: info => displayCell(info.row.original.avgFirstResponseTimeDisplay),
   }),
@@ -207,8 +207,8 @@ const columns = computed(() => [
       'SUMMARY_REPORTS.AVG_RESOLUTION_TIME',
       'SUMMARY_REPORTS.HELP.AVG_RESOLUTION_TIME'
     ),
-    size: 140,
-    minSize: 130,
+    size: 160,
+    minSize: 140,
     cell: info => displayCell(info.row.original.avgResolutionTimeDisplay),
   }),
   columnHelper.accessor('avgReplyTime', {
@@ -216,7 +216,7 @@ const columns = computed(() => [
       'SUMMARY_REPORTS.AVG_REPLY_TIME',
       'SUMMARY_REPORTS.HELP.AVG_REPLY_TIME'
     ),
-    size: 150,
+    size: 160,
     minSize: 140,
     cell: info => displayCell(info.row.original.avgReplyTimeDisplay),
   }),
@@ -226,7 +226,7 @@ const columns = computed(() => [
         label: getResolutionCountLabel(),
         help: t('SUMMARY_REPORTS.HELP.RESOLUTION_COUNT'),
       }),
-    size: 150,
+    size: 160,
     minSize: 140,
     cell: info => displayCell(info.row.original.resolutionsCountDisplay),
   }),

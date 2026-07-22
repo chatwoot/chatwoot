@@ -41,15 +41,15 @@ const columnSizeStyle = column => {
   const size = column.getSize();
   const minSize = column.columnDef.minSize ?? size;
   return {
-    width: `${size}px`,
     minWidth: `${minSize}px`,
+    width: `${size}px`,
   };
 };
 </script>
 
 <template>
-  <!-- w-max: grow with column sizes instead of crushing headers into a compact wrap -->
-  <table class="w-max min-w-full" :class="{ 'table-fixed': fixed }">
+  <!-- Fill the reports page width; minWidth on columns prevents crushing -->
+  <table class="w-full" :class="{ 'table-fixed': fixed }">
     <thead class="sticky top-0 z-10 bg-n-slate-1">
       <tr
         v-for="headerGroup in table.getHeaderGroups()"
