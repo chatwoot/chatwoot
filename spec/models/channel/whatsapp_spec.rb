@@ -158,6 +158,60 @@ RSpec.describe Channel::Whatsapp do
     end
   end
 
+  describe '#enqueue_webhook_setup' do
+    let(:channel) do
+      create(:channel_whatsapp, account: create(:account),
+                                validate_provider_config: false, sync_templates: false)
+    end
+
+    it 'enqueues the setup job with the health-check flag' do
+      expect { channel.enqueue_webhook_setup(run_health_check: true) }
+        .to have_enqueued_job(Channels::Whatsapp::WebhookSetupJob).with(channel, run_health_check: true)
+    end
+
+    it 'prompts reauthorization when the queue is unavailable' do
+      allow(Channels::Whatsapp::WebhookSetupJob).to receive(:perform_later).and_raise(StandardError, 'redis down')
+
+      expect(channel.reauthorization_required?).to be false
+      channel.enqueue_webhook_setup
+      expect(channel.reauthorization_required?).to be true
+    end
+  end
+
+  describe '#check_provisioning_health' do
+    let(:channel) do
+      create(:channel_whatsapp, account: create(:account),
+                                validate_provider_config: false, sync_templates: false)
+    end
+    let(:health_service) { instance_double(Whatsapp::HealthService) }
+
+    before { allow(Whatsapp::HealthService).to receive(:new).with(channel).and_return(health_service) }
+
+    it 'prompts reauthorization when platform_type is NOT_APPLICABLE' do
+      allow(health_service).to receive(:fetch_health_status)
+        .and_return(platform_type: 'NOT_APPLICABLE', throughput: { 'level' => 'STANDARD' })
+
+      channel.check_provisioning_health
+      expect(channel.reauthorization_required?).to be true
+    end
+
+    it 'prompts reauthorization when throughput level is NOT_APPLICABLE' do
+      allow(health_service).to receive(:fetch_health_status)
+        .and_return(platform_type: 'CLOUD_API', throughput: { 'level' => 'NOT_APPLICABLE' })
+
+      channel.check_provisioning_health
+      expect(channel.reauthorization_required?).to be true
+    end
+
+    it 'does not prompt reauthorization for a healthy number' do
+      allow(health_service).to receive(:fetch_health_status)
+        .and_return(platform_type: 'CLOUD_API', throughput: { 'level' => 'STANDARD' })
+
+      channel.check_provisioning_health
+      expect(channel.reauthorization_required?).to be false
+    end
+  end
+
   describe '#teardown_webhooks' do
     let(:account) { create(:account) }
 

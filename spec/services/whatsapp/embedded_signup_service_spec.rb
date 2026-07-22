@@ -44,61 +44,11 @@ describe Whatsapp::EmbeddedSignupService do
         .with(account, { waba_id: params[:waba_id], business_name: 'Test Business' }, phone_info, access_token)
         .and_return(channel_creation)
       allow(channel_creation).to receive(:perform).and_return(channel)
-
-      health_service = instance_double(Whatsapp::HealthService)
-      allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-      allow(health_service).to receive(:fetch_health_status).and_return({
-                                                                          platform_type: 'CLOUD_API',
-                                                                          throughput: { 'level' => 'STANDARD' },
-                                                                          messaging_limit_tier: 'TIER_1000'
-                                                                        })
     end
 
-    it 'creates channel and enqueues webhook setup' do
-      expect { service.perform }.to have_enqueued_job(Channels::Whatsapp::WebhookSetupJob).with(channel)
-    end
-
-    it 'checks health status after channel creation' do
-      health_service = instance_double(Whatsapp::HealthService)
-      allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-      expect(health_service).to receive(:fetch_health_status)
-
-      service.perform
-    end
-
-    context 'when channel is in pending state' do
-      it 'prompts reauthorization for pending channel' do
-        health_service = instance_double(Whatsapp::HealthService)
-        allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-        allow(health_service).to receive(:fetch_health_status).and_return({
-                                                                            platform_type: 'NOT_APPLICABLE',
-                                                                            throughput: { 'level' => 'STANDARD' },
-                                                                            messaging_limit_tier: 'TIER_1000'
-                                                                          })
-
-        expect(channel).to receive(:prompt_reauthorization!)
-        service.perform
-      end
-
-      it 'prompts reauthorization when throughput level is NOT_APPLICABLE' do
-        health_service = instance_double(Whatsapp::HealthService)
-        allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-        allow(health_service).to receive(:fetch_health_status).and_return({
-                                                                            platform_type: 'CLOUD_API',
-                                                                            throughput: { 'level' => 'NOT_APPLICABLE' },
-                                                                            messaging_limit_tier: 'TIER_1000'
-                                                                          })
-
-        expect(channel).to receive(:prompt_reauthorization!)
-        service.perform
-      end
-    end
-
-    context 'when channel is healthy' do
-      it 'does not prompt reauthorization for healthy channel' do
-        expect(channel).not_to receive(:prompt_reauthorization!)
-        service.perform
-      end
+    it 'creates the channel and enqueues webhook setup with the health check' do
+      expect { service.perform }
+        .to have_enqueued_job(Channels::Whatsapp::WebhookSetupJob).with(channel, run_health_check: true)
     end
 
     context 'when parameters are invalid' do
@@ -156,10 +106,11 @@ describe Whatsapp::EmbeddedSignupService do
                                                                           })
       end
 
-      it 'uses ReauthorizationService and enqueues webhook setup' do
+      it 'uses ReauthorizationService and enqueues webhook setup without the health check' do
         expect(reauth_service).to receive(:perform)
 
-        expect { service_with_inbox.perform }.to have_enqueued_job(Channels::Whatsapp::WebhookSetupJob).with(channel)
+        expect { service_with_inbox.perform }
+          .to have_enqueued_job(Channels::Whatsapp::WebhookSetupJob).with(channel, run_health_check: false)
       end
 
       context 'with real channel requiring reauthorization' do

@@ -129,12 +129,39 @@ class Channel::Whatsapp < ApplicationRecord
     prompt_reauthorization!
   end
 
-  # Enqueue on the same channel record so GlobalID resolves it in the job.
-  def enqueue_webhook_setup
-    Channels::Whatsapp::WebhookSetupJob.perform_later(self)
+  # Enqueue on the same channel record so GlobalID resolves it in the job. If the queue
+  # is unavailable, fall back to prompting reauthorization so the inbox has a visible
+  # recovery path instead of silently committing without its webhook registered.
+  def enqueue_webhook_setup(run_health_check: false)
+    Channels::Whatsapp::WebhookSetupJob.perform_later(self, run_health_check: run_health_check)
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] Failed to enqueue webhook setup: #{e.message}"
+    prompt_reauthorization!
+  end
+
+  # Runs after webhook registration (inside WebhookSetupJob) so it observes the
+  # post-registration provisioning state; prompts reauthorization if Meta still reports
+  # the number as not provisioned. Only used for new embedded-signup channels — running
+  # it before registration would spuriously flag freshly created numbers as pending.
+  def check_provisioning_health
+    health_data = Whatsapp::HealthService.new(self).fetch_health_status
+    return unless health_data
+
+    if provisioning_pending?(health_data)
+      prompt_reauthorization!
+    else
+      Rails.logger.info "[WHATSAPP] Channel #{phone_number} health check passed"
+    end
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] Health check failed for channel #{phone_number}: #{e.message}"
   end
 
   private
+
+  def provisioning_pending?(health_data)
+    health_data[:platform_type] == 'NOT_APPLICABLE' ||
+      health_data.dig(:throughput, 'level') == 'NOT_APPLICABLE'
+  end
 
   def ensure_webhook_verify_token
     provider_config['webhook_verify_token'] ||= SecureRandom.hex(16) if provider == 'whatsapp_cloud'
