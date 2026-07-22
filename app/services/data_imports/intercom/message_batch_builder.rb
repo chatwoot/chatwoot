@@ -38,16 +38,19 @@ class DataImports::Intercom::MessageBatchBuilder
     @source_conversation = source_conversation
   end
 
-  def perform
-    source_entries = ordered_source_entries
+  def perform(source_entries = unprepared_entries)
     return Batch.new(items: []) if source_entries.empty?
 
     mappings = message_mappings(source_entries)
     messages = messages_for(source_entries, mappings)
 
-    Batch.new(items: source_entries.map.with_index do |source_entry, position|
-      build_entry(source_entry, position, mappings, messages)
+    Batch.new(items: source_entries.map do |source_entry|
+      build_entry(source_entry, source_entry[:position], mappings, messages)
     end)
+  end
+
+  def unprepared_entries
+    ordered_source_entries.map.with_index { |entry, position| entry.merge(position: position) }
   end
 
   private

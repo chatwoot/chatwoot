@@ -392,13 +392,17 @@ class DataImports::Intercom::Importer
   def import_conversation_messages(conversation, chatwoot_conversation, contact)
     parts_payload = conversation['conversation_parts'].to_h
     parts = Array(parts_payload['conversation_parts'])
-    batch = with_query_timeout_retry do
-      DataImports::Intercom::MessageBatchBuilder.new(
-        data_import: @data_import,
-        conversation: chatwoot_conversation,
-        source_conversation: conversation
-      ).perform
+    batch_builder = DataImports::Intercom::MessageBatchBuilder.new(
+      data_import: @data_import,
+      conversation: chatwoot_conversation,
+      source_conversation: conversation
+    )
+    batch = begin
+      with_query_timeout_retry { batch_builder.perform }
+    rescue ActiveRecord::QueryCanceled
+      nil
     end
+    return import_conversation_messages_individually(conversation, chatwoot_conversation, contact, batch_builder, parts.size) if batch.nil?
 
     batch.source_entries.each { |entry| import_message(chatwoot_conversation, contact, entry) }
     record_truncated_conversation_parts(conversation, parts.size)
@@ -409,6 +413,26 @@ class DataImports::Intercom::Importer
       import_message(chatwoot_conversation, contact, entry)
     end
     true
+  end
+
+  def import_conversation_messages_individually(conversation, chatwoot_conversation, contact, batch_builder, parts_count)
+    source_entries, part_entries = batch_builder.unprepared_entries.partition { |entry| entry[:part]['part_type'] == 'source' }
+    source_entries.each { |entry| import_unprepared_message(chatwoot_conversation, contact, batch_builder, entry) }
+    record_truncated_conversation_parts(conversation, parts_count)
+
+    part_entries.each do |entry|
+      return false unless continue_import_with_heartbeat?
+
+      import_unprepared_message(chatwoot_conversation, contact, batch_builder, entry)
+    end
+    true
+  end
+
+  def import_unprepared_message(conversation, contact, batch_builder, source_entry)
+    entry = with_query_timeout_retry { batch_builder.perform([source_entry]).entries.first }
+    import_message(conversation, contact, entry)
+  rescue StandardError => e
+    fail_message(conversation, source_entry[:source_id], source_entry[:part], e)
   end
 
   def import_message(conversation, contact, entry)
