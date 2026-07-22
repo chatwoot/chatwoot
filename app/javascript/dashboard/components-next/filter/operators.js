@@ -128,6 +128,12 @@ export function useOperators() {
     operators.value[FILTER_OPS.DAYS_BEFORE],
   ]);
 
+  /** Custom dates: equality/presence + range + days_before */
+  const customDateOperators = computed(() => [
+    ...comparisonOperators.value,
+    operators.value[FILTER_OPS.DAYS_BEFORE],
+  ]);
+
   /**
    * Get operator types based on key
    * @param {string} key - Type of operator to get
@@ -140,11 +146,13 @@ export function useOperators() {
       case 'text':
         return containmentOperators.value;
       case 'number':
-        return equalityOperators.value;
+      case 'currency':
+      case 'percent':
+        return comparisonOperators.value;
       case 'link':
         return equalityOperators.value;
       case 'date':
-        return comparisonOperators.value;
+        return customDateOperators.value;
       case 'checkbox':
         return equalityOperators.value;
       default:
