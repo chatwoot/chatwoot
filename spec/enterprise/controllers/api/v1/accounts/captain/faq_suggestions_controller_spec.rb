@@ -61,6 +61,20 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqSuggestions', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/:account_id/captain/faq_suggestions/:id' do
+    it 'returns the suggestion with its source conversation' do
+      get "/api/v1/accounts/#{account.id}/captain/faq_suggestions/#{suggestion.id}",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body).to include('id' => suggestion.id, 'question' => suggestion.question)
+      expect(response.parsed_body['observations']).to contain_exactly(
+        include('conversation' => include('id' => conversation.id, 'display_id' => conversation.display_id))
+      )
+    end
+  end
+
   describe 'PATCH /api/v1/accounts/:account_id/captain/faq_suggestions/:id' do
     it 'lets an administrator edit an open suggestion' do
       patch "/api/v1/accounts/#{account.id}/captain/faq_suggestions/#{suggestion.id}",
