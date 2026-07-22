@@ -50,6 +50,7 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
     base_query = base_query.where(status: permitted_params[:status]) if permitted_params[:status].present?
 
     if permitted_params[:search].present?
+      # TODO: Move FAQ suggestion search to Elasticsearch when the records are indexed there.
       search_term = "%#{permitted_params[:search]}%"
       base_query = base_query.where('question ILIKE :search OR answer ILIKE :search', search: search_term)
     end
