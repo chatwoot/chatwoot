@@ -94,6 +94,37 @@ describe('useAgentsList', () => {
     expect(agentsList.value.length).toBe(formattedAgentsData.slice(1).length);
   });
 
+  it('excludes entries without a name', () => {
+    const namedBot = {
+      id: 90,
+      name: 'Captain',
+      assignee_type: 'AgentBot',
+      availability_status: 'offline',
+    };
+    const namelessBot = {
+      id: 91,
+      name: null,
+      assignee_type: 'AgentBot',
+      availability_status: 'offline',
+    };
+    mockUseMapGetter({
+      'inboxAssignableAgents/getAssignableAgents': ref(() => [
+        ...allAgentsData,
+        namedBot,
+        namelessBot,
+      ]),
+    });
+
+    const { agentsList } = useAgentsList();
+    // access the computed to trigger evaluation
+    expect(agentsList.value).toBeDefined();
+
+    const passedAgents =
+      agentHelper.getAgentsByUpdatedPresence.mock.calls[0][0];
+    expect(passedAgents).toContainEqual(namedBot);
+    expect(passedAgents).not.toContainEqual(namelessBot);
+  });
+
   it('handles empty assignable agents', () => {
     mockUseMapGetter({
       'inboxAssignableAgents/getAssignableAgents': ref(() => []),
