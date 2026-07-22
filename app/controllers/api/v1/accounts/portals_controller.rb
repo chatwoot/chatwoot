@@ -79,12 +79,19 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     params.require(:portal).permit(
       :id, :color, :custom_domain, :header_text, :homepage_link,
       :name, :page_title, :slug, :archived,
-      { config: [:default_locale, :layout, { allowed_locales: [] }, { draft_locales: [] },
-                 { analytics: %i[ga4 gtm clarity hotjar meta_pixel] },
-                 { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] },
-                 { locale_translations: locale_translation_keys.index_with { %i[name page_title header_text] } },
-                 { popular_content: popular_content_keys.index_with { { category_ids: [], article_ids: [] } } }] }
+      { config: config_param_keys }
     )
+  end
+
+  def config_param_keys
+    keys = [:default_locale, :layout, { allowed_locales: [] }, { draft_locales: [] },
+            { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] },
+            { locale_translations: locale_translation_keys.index_with { %i[name page_title header_text] } },
+            { popular_content: popular_content_keys.index_with { { category_ids: [], article_ids: [] } } }]
+    # Analytics injects tracking scripts into every public page, so keep it admin-only even though
+    # Enterprise lets knowledge_base_manage roles edit other portal settings.
+    keys << { analytics: %i[ga4 gtm clarity hotjar meta_pixel] } if Current.account_user&.administrator?
+    keys
   end
 
   def locale_translation_keys
