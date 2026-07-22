@@ -110,7 +110,10 @@
       "CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER": "Select a custom attribute",
       "CUSTOM_ATTRIBUTE_EMPTY": "No custom attributes found. Create them in Settings → Custom Attributes first.",
       "CUSTOM_ATTRIBUTE_USE_TODAY": "Use today's date",
-      "VARIABLES_HINT": "Use the insert-variable button for contact name, custom attributes, or dates"
+      "VARIABLES_HINT": "Use the insert-variable button for contact name, custom attributes, or dates",
+      "DELAY_SECONDS_LABEL": "Wait (seconds)",
+      "MARK_READ_TYPING_LABEL": "Mark as read and show typing",
+      "DELIVERY_HINT": "WhatsApp only for read/typing. Wait 1–25s required for typing. Other channels only wait."
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",

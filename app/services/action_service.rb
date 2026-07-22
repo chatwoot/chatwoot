@@ -148,6 +148,47 @@ class ActionService
     @conversation.update!(custom_attributes: attrs)
   end
 
+  MAX_DELIVERY_DELAY_SECONDS = 25
+
+  def normalize_delivery(delivery)
+    delivery = (delivery || {}).with_indifferent_access
+    delay = delivery[:delay_seconds].to_i.clamp(0, MAX_DELIVERY_DELAY_SECONDS)
+    mark = ActiveModel::Type::Boolean.new.cast(delivery[:mark_read_and_typing]) && delay.positive?
+    { delay_seconds: delay, mark_read_and_typing: mark }
+  end
+
+  def schedule_or_send_outbound(delivery:, content: nil, blob_ids: nil, user: nil, automation_rule_id: nil)
+    opts = normalize_delivery(delivery)
+    if opts[:delay_seconds].positive?
+      if opts[:mark_read_and_typing]
+        Whatsapp::MarkReadTypingService.new(conversation: @conversation, force: true).perform
+      end
+
+      Messages::DeferredOutboundJob.set(wait: opts[:delay_seconds].seconds).perform_later(
+        conversation_id: @conversation.id,
+        content: content,
+        blob_ids: blob_ids,
+        user_id: user&.id,
+        automation_rule_id: automation_rule_id
+      )
+    else
+      yield
+    end
+  end
+
+  def attachment_message_params(blobs)
+    blobs.each { |blob| normalize_blob_audio_content_type!(blob) }
+
+    whatsapp = @conversation.inbox.whatsapp?
+    {
+      content: nil,
+      private: false,
+      attachments: blobs,
+      is_voice_message: whatsapp && blobs.any? { |blob| voice_note_blob?(blob) },
+      force_audio_as_file: !whatsapp
+    }
+  end
+
   private
 
   def extract_custom_attribute_params(params)
@@ -232,19 +273,6 @@ class ActionService
     return false if @conversation.additional_attributes.blank?
 
     @conversation.additional_attributes['type'] == 'tweet'
-  end
-
-  def attachment_message_params(blobs)
-    blobs.each { |blob| normalize_blob_audio_content_type!(blob) }
-
-    whatsapp = @conversation.inbox.whatsapp?
-    {
-      content: nil,
-      private: false,
-      attachments: blobs,
-      is_voice_message: whatsapp && blobs.any? { |blob| voice_note_blob?(blob) },
-      force_audio_as_file: !whatsapp
-    }
   end
 
   def normalize_blob_audio_content_type!(blob)

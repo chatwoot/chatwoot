@@ -79,6 +79,32 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     "#{api_base_path}/v13.0/#{media_id}"
   end
 
+  # Marks the contact message as read and shows the WhatsApp typing indicator.
+  # Docs: https://developers.facebook.com/docs/whatsapp/cloud-api/typing-indicators/
+  def mark_message_read_with_typing!(message_id)
+    return false if message_id.blank?
+
+    response = HTTParty.post(
+      "#{phone_id_path('v24.0')}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        status: 'read',
+        message_id: message_id,
+        typing_indicator: { type: 'text' }
+      }.to_json
+    )
+
+    unless response.success?
+      Rails.logger.warn(
+        "[WhatsApp] mark_read_typing failed channel=#{whatsapp_channel.id} " \
+        "status=#{response.code} body=#{response.body}"
+      )
+    end
+
+    response.success?
+  end
+
   private
 
   def csat_template_service

@@ -110,7 +110,10 @@
       "CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER": "Selecciona un atributo personalizado",
       "CUSTOM_ATTRIBUTE_EMPTY": "No hay atributos. Créalos en Configuración → Atributos personalizados.",
       "CUSTOM_ATTRIBUTE_USE_TODAY": "Usar fecha de hoy",
-      "VARIABLES_HINT": "Usa el botón de variables para insertar nombre del contacto, atributos personalizados o fechas"
+      "VARIABLES_HINT": "Usa el botón de variables para insertar nombre del contacto, atributos personalizados o fechas",
+      "DELAY_SECONDS_LABEL": "Espera (segundos)",
+      "MARK_READ_TYPING_LABEL": "Marcar como leído y mostrar escribiendo",
+      "DELIVERY_HINT": "Leído/escribiendo solo en WhatsApp. Requiere espera de 1–25 s. En otros canales solo aplica la espera."
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activar regla de automatización",
