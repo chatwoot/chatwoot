@@ -464,6 +464,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       attributes = provider.generation_attributes(nil, nil, message)
 
       expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('final_response')
+      expect(attributes['langfuse.observation.metadata.discarded']).to eq('false')
     end
 
     it 'marks tool call generations separately from final responses' do
@@ -473,6 +474,18 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       attributes = provider.generation_attributes(nil, nil, message)
 
       expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('tool_call')
+    end
+
+    it 'marks a generation as discarded when a newer message has arrived' do
+      trigger_message = create(:message, conversation: conversation, message_type: :incoming)
+      runner_service = described_class.new(assistant: assistant, conversation: conversation, trigger_message_id: trigger_message.id)
+      attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
+      message = instance_double(RubyLLM::Message, tool_calls: {})
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      attributes = attribute_provider.generation_attributes(nil, nil, message)
+
+      expect(attributes['langfuse.observation.metadata.discarded']).to eq('true')
     end
   end
 
