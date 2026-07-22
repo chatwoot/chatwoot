@@ -59,10 +59,12 @@ class DataImports::Intercom::Importer
   end
 
   def fail!(error)
-    return if @data_import.reload.abandoned?
+    @data_import.with_lock do
+      next if @data_import.abandoned? || stale_import_run?
 
-    record_run_error(error)
-    @data_import.update!(status: :failed, last_error_at: Time.current)
+      record_run_error(error)
+      @data_import.update!(status: :failed, last_error_at: Time.current)
+    end
   end
 
   def import_contacts_page(starting_after: cursor_for('contacts'))
