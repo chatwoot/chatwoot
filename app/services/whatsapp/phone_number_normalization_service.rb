@@ -29,15 +29,6 @@ class Whatsapp::PhoneNumberNormalizationService
     existing_contact_inbox&.source_id || raw_number
   end
 
-  # @param clean_number [String] Phone number in clean cloud format, e.g. "5541988887777"
-  # @return [String] Country-normalized number, or the original when no normalizer applies
-  def normalize_number(clean_number)
-    normalizer = find_normalizer_for_country(clean_number)
-    return clean_number unless normalizer
-
-    normalizer.normalize(clean_number)
-  end
-
   # Keep the provider value first so exact contact matches always win. Each
   # country normalizer explicitly opts into contact-safe alternatives; source-id
   # normalization alone is not enough because the alternate may be another

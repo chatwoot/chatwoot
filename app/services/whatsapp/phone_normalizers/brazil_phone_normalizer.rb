@@ -14,7 +14,7 @@ class Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer < Whatsapp::PhoneNormali
     return waid unless handles_country?(waid)
 
     ddd = waid[COUNTRY_CODE_LENGTH, DDD_LENGTH]
-    number = waid[COUNTRY_CODE_LENGTH + DDD_LENGTH, waid.length - (COUNTRY_CODE_LENGTH + DDD_LENGTH)]
+    number = waid[(COUNTRY_CODE_LENGTH + DDD_LENGTH)..].to_s
     return waid unless number.match?(LEGACY_MOBILE_NUMBER_PATTERN)
 
     "55#{ddd}9#{number}"
