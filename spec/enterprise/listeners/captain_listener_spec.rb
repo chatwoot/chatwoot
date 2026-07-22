@@ -43,7 +43,7 @@ describe CaptainListener do
       end
 
       it 'enqueues FAQ suggestion generation' do
-        expect(Captain::Llm::ConversationFaqJob).to receive(:perform_later).with(conversation)
+        expect(Captain::Llm::ConversationFaqJob).to receive(:perform_later).with(conversation, assistant)
         expect(Captain::Llm::ContactNotesService).not_to receive(:new)
 
         listener.conversation_resolved(event)
