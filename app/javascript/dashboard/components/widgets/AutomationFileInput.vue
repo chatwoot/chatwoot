@@ -1,6 +1,22 @@
 <script>
 import { useAlert } from 'dashboard/composables';
 import Spinner from 'shared/components/Spinner.vue';
+
+const ATTACHMENT_ACCEPT = [
+  'image/*',
+  'video/*',
+  'audio/*',
+  '.pdf',
+  '.ogg',
+  '.oga',
+  '.opus',
+  '.mp3',
+  '.m4a',
+  '.aac',
+  '.wav',
+  '.amr',
+].join(',');
+
 export default {
   components: {
     Spinner,
@@ -16,6 +32,7 @@ export default {
     return {
       uploadState: 'idle',
       label: this.$t('AUTOMATION.ATTACHMENT.LABEL_IDLE'),
+      attachmentAccept: ATTACHMENT_ACCEPT,
     };
   },
   mounted() {
@@ -48,30 +65,36 @@ export default {
 </script>
 
 <template>
-  <label class="input-wrapper" :class="uploadState">
-    <input
-      v-if="uploadState !== 'processing'"
-      type="file"
-      name="attachment"
-      :class="uploadState === 'processing' ? 'disabled' : ''"
-      @change="onChangeFile"
-    />
-    <Spinner v-if="uploadState === 'processing'" />
-    <fluent-icon v-if="uploadState === 'idle'" icon="file-upload" />
-    <fluent-icon
-      v-if="uploadState === 'uploaded'"
-      icon="checkmark-circle"
-      type="outline"
-      class="success-icon"
-    />
-    <fluent-icon
-      v-if="uploadState === 'failed'"
-      icon="dismiss-circle"
-      type="outline"
-      class="error-icon"
-    />
-    <p class="file-button">{{ label }}</p>
-  </label>
+  <div class="flex flex-col gap-1 w-full">
+    <label class="input-wrapper" :class="uploadState">
+      <input
+        v-if="uploadState !== 'processing'"
+        type="file"
+        name="attachment"
+        :accept="attachmentAccept"
+        :class="uploadState === 'processing' ? 'disabled' : ''"
+        @change="onChangeFile"
+      />
+      <Spinner v-if="uploadState === 'processing'" />
+      <fluent-icon v-if="uploadState === 'idle'" icon="file-upload" />
+      <fluent-icon
+        v-if="uploadState === 'uploaded'"
+        icon="checkmark-circle"
+        type="outline"
+        class="success-icon"
+      />
+      <fluent-icon
+        v-if="uploadState === 'failed'"
+        icon="dismiss-circle"
+        type="outline"
+        class="error-icon"
+      />
+      <p class="file-button">{{ label }}</p>
+    </label>
+    <p class="mb-0 text-xs text-n-slate-11">
+      {{ $t('AUTOMATION.ATTACHMENT.AUDIO_HINT') }}
+    </p>
+  </div>
 </template>
 
 <style scoped>

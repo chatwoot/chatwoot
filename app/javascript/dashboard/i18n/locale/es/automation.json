@@ -129,7 +129,8 @@
       "LABEL_IDLE": "Subir archivo adjunto",
       "LABEL_UPLOADING": "Subiendo...",
       "LABEL_UPLOADED": "Subido correctamente",
-      "LABEL_UPLOAD_FAILED": "Error al subir"
+      "LABEL_UPLOAD_FAILED": "Error al subir",
+      "AUDIO_HINT": "WhatsApp: OGG = nota de voz; MP3/M4A = audio reproducible. Otros canales: se envía como archivo."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Clave de atributo es requerida",

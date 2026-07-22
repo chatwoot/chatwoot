@@ -1,5 +1,6 @@
 class ActionService
   include EmailHelper
+  include FileTypeHelper
 
   def initialize(conversation)
     @conversation = conversation.reload
@@ -231,6 +232,30 @@ class ActionService
     return false if @conversation.additional_attributes.blank?
 
     @conversation.additional_attributes['type'] == 'tweet'
+  end
+
+  def attachment_message_params(blobs)
+    blobs.each { |blob| normalize_blob_audio_content_type!(blob) }
+
+    whatsapp = @conversation.inbox.whatsapp?
+    {
+      content: nil,
+      private: false,
+      attachments: blobs,
+      is_voice_message: whatsapp && blobs.any? { |blob| voice_note_blob?(blob) },
+      force_audio_as_file: !whatsapp
+    }
+  end
+
+  def normalize_blob_audio_content_type!(blob)
+    resolved = resolve_audio_content_type(blob.content_type, blob.filename.to_s)
+    return if resolved.blank? || resolved == blob.content_type
+
+    blob.update!(content_type: resolved)
+  end
+
+  def voice_note_blob?(blob)
+    voice_note_content_type?(blob.content_type)
   end
 end
 

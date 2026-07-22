@@ -37,8 +37,7 @@ class AutomationRules::ActionService < ActionService
 
     return if blobs.blank?
 
-    params = { content: nil, private: false, attachments: blobs }
-    Messages::MessageBuilder.new(nil, @conversation, params).perform
+    Messages::MessageBuilder.new(nil, @conversation, attachment_message_params(blobs)).perform
   end
 
   def send_webhook_event(webhook_url)

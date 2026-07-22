@@ -129,7 +129,8 @@
       "LABEL_IDLE": "Upload Attachment",
       "LABEL_UPLOADING": "Uploading...",
       "LABEL_UPLOADED": "Successfully Uploaded",
-      "LABEL_UPLOAD_FAILED": "Upload Failed"
+      "LABEL_UPLOAD_FAILED": "Upload Failed",
+      "AUDIO_HINT": "WhatsApp: OGG = voice note; MP3/M4A = playable audio. Other channels: sent as a file."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
