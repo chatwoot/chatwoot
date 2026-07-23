@@ -265,6 +265,6 @@
   enabled: false
   column: feature_flags_ext_1
 - name: whatsapp_embedded_signup_inbox_creation
-  display_name: WhatsApp Embedded Signup Inbox Creation
+  display_name: WhatsApp Embedded Signup Flow
   enabled: false
   column: feature_flags_ext_1

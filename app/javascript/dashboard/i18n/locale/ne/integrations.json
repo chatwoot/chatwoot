@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "सदस्यता लिएका घटनाहरू",
       "LEARN_MORE": "वेबहुकहरू बारे थप जान्नुहोस्",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copy secret to clipboard",
@@ -392,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "कप्तान",
     "HEADER_KNOW_MORE": "थप जान्नु",
+    "OVERVIEW": {
+      "HEADER": "सारांश",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review FAQs",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "यो महिना",
+        "LAST_MONTH": "अघिल्लो महिना"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "PENDING": "Pending FAQs",
+        "DOCUMENTS": "कागजातहरू"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "प्लेलगाउँड",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "बिलिङ",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "सहायकहरू",
       "SWITCH_ASSISTANT": "सहायकहरू बीच साट्नुस्",
@@ -493,10 +576,6 @@
           "LABEL": "नाम",
           "PLACEHOLDER": "सहायकको नाम प्रविष्ट गर्नुहोस्",
           "ERROR": "नाम आवश्यक छ"
-        },
-        "TEMPERATURE": {
-          "LABEL": "प्रतिक्रिया तापक्रम",
-          "DESCRIPTION": "सहायकको प्रतिक्रियाहरू कति सिर्जनात्मक वा प्रतिबन्धित हुनुपर्छ समायोजन गर्नुहोस्। कम मानहरूले बढी केन्द्रित र निश्चित प्रतिक्रियाहरू उत्पादन गर्छन्, जबकि उच्च मानहरूले बढी सिर्जनात्मक र विविध आउटपुटहरू अनुमति दिन्छ।"
         },
         "DESCRIPTION": {
           "LABEL": "विवरण",
@@ -739,6 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "कागजातहरू",
       "ADD_NEW": "नयाँ कागजात सिर्जना गर्नुहोस्",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} चयन गरियो",
       "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
       "UNSELECT_ALL": "सबै चयन हटाउनुहोस् ({count})",
@@ -798,7 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "सम्बन्धित FAQ",
-        "DESCRIPTION": "यी FAQ सिधा कागजातबाट उत्पन्न भएका हुन्।"
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "प्रतिलिपि गर्नुहोस्",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "कागजातको URL प्रविष्ट गर्नुहोस् र यसलाई ज्ञान स्रोतको रूपमा थप्न र सम्बन्धित सहायक चयन गर्नुस्।",
       "CREATE": {
@@ -838,7 +938,7 @@
         "ERROR_MESSAGE": "कागजात मेटाउँदा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "सम्बन्धित प्रतिक्रियाहरू हेर्नुहोस्",
+        "VIEW_DETAILS": "विवरण हेर्नुहोस्",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "कागजात मेटाउनुहोस्"

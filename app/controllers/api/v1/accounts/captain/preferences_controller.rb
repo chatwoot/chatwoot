@@ -1,5 +1,4 @@
 class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::BaseController
-  before_action :current_account
   before_action :authorize_account_update, only: [:update]
 
   def show
