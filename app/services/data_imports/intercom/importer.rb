@@ -10,6 +10,8 @@ class DataImports::Intercom::Importer
   CONTACTS_PER_PAGE = 50
   CONVERSATIONS_PER_PAGE = 10
   HEARTBEAT_INTERVAL = 1.minute
+  QUERY_TIMEOUT_RETRY_LIMIT = 1
+  QUERY_TIMEOUT_RETRY_DELAY_RANGE = (0.2..0.5)
   PROVIDER = 'intercom'.freeze
   ALREADY_IMPORTED_ERROR_CODE = 'DataImports::Intercom::AlreadyImported'.freeze
   SKIPPED_MESSAGE_ERROR_CODE = 'DataImports::Intercom::SkippedMessage'.freeze
@@ -25,6 +27,7 @@ class DataImports::Intercom::Importer
     @client = DataImports::Intercom::Client.new(access_token: data_import.access_token)
     @placeholder_inboxes = DataImports::Intercom::PlaceholderInboxBuilder.new(account: @account)
     @stats = default_stats.deep_merge(data_import.stats || {})
+    @dirty_stat_groups = {}
   end
 
   def perform
@@ -77,6 +80,7 @@ class DataImports::Intercom::Importer
     end
     return PageResult.new(next_cursor: nil) if import_stopped?
 
+    reconcile_dirty_stats
     next_cursor = response.dig('pages', 'next', 'starting_after')
     update_cursor('contacts', next_cursor)
     PageResult.new(next_cursor: next_cursor)
@@ -92,6 +96,7 @@ class DataImports::Intercom::Importer
     end
     return PageResult.new(next_cursor: nil) if import_stopped?
 
+    reconcile_dirty_stats
     next_cursor = response.dig('pages', 'next', 'starting_after')
     update_cursor('conversations', next_cursor)
     PageResult.new(next_cursor: next_cursor)
@@ -210,32 +215,35 @@ class DataImports::Intercom::Importer
   end
 
   def import_contact(contact_payload, required_for_conversation: false)
-    source_id = source_id_for(contact_payload)
-    if source_id.present? && (mapping = find_mapping('contact', source_id)) && (mapped_contact = mapping.chatwoot_record)
-      return reuse_mapped_contact(contact_payload, source_id, mapping, mapped_contact)
-    end
+    item = nil
+    with_query_timeout_retry do
+      source_id = source_id_for(contact_payload)
+      if source_id.present? && (mapping = find_mapping('contact', source_id)) && (mapped_contact = mapping.chatwoot_record)
+        return reuse_mapped_contact(contact_payload, source_id, mapping, mapped_contact)
+      end
 
-    contact_payload = retrieve_contact_payload(contact_payload)
-    source_id = source_id_for(contact_payload)
-    already_handled = item_handled?('contact', source_id)
-    item = import_item('contact', source_id, contact_payload)
-    mapping = find_mapping('contact', source_id)
+      contact_payload = retrieve_contact_payload(contact_payload)
+      source_id = source_id_for(contact_payload)
+      already_handled = item_handled?('contact', source_id)
+      item = import_item('contact', source_id, contact_payload)
+      mapping = find_mapping('contact', source_id)
 
-    mapped_contact = mapping&.chatwoot_record
-    if mapped_contact && mapping.data_import_id != @data_import.id
-      skip_already_imported_item(item, mapping, already_handled: already_handled)
-      return mapped_contact
-    end
+      mapped_contact = mapping&.chatwoot_record
+      if mapped_contact && mapping.data_import_id != @data_import.id
+        skip_already_imported_item(item, mapping, already_handled: already_handled)
+        return mapped_contact
+      end
 
-    contact = Contact.transaction do
-      imported_contact = mapped_contact || find_existing_contact(contact_payload) || create_contact(contact_payload)
-      update_existing_contact(imported_contact, contact_payload)
-      record_mapping('contact', source_id, imported_contact, metadata: contact_metadata(contact_payload))
-      item.update!(status: :imported, chatwoot_record_type: 'Contact', chatwoot_record_id: imported_contact.id)
-      imported_contact
+      contact = Contact.transaction do
+        imported_contact = mapped_contact || find_existing_contact(contact_payload) || create_contact(contact_payload)
+        update_existing_contact(imported_contact, contact_payload)
+        record_mapping('contact', source_id, imported_contact, metadata: contact_metadata(contact_payload))
+        item.update!(status: :imported, chatwoot_record_type: 'Contact', chatwoot_record_id: imported_contact.id)
+        imported_contact
+      end
+      increment_stat('contacts', 'imported') unless already_handled
+      contact
     end
-    increment_stat('contacts', 'imported') unless already_handled
-    contact
   rescue StandardError => e
     raise if e.is_a?(DataImports::Intercom::Client::Error)
 
@@ -395,19 +403,7 @@ class DataImports::Intercom::Importer
 
     message_source_id = "conversation:#{source_id_for(conversation)}:source:#{source['id'].presence || 'initial'}"
     source_part = source.merge('part_type' => 'source', 'created_at' => conversation['created_at'])
-    if (mapping = find_mapping('message', message_source_id)) && message_mapping_handled?(mapping, source_part)
-      if mapping.data_import_id == @data_import.id
-        reconcile_current_run_message_mapping(chatwoot_conversation, mapping, source_part)
-        return
-      end
-
-      skip_existing_message_mapping(chatwoot_conversation, mapping, source_part)
-      return
-    end
-
-    create_message(chatwoot_conversation, contact, source_part, message_source_id)
-  rescue StandardError => e
-    fail_message(chatwoot_conversation, message_source_id, source_part, e)
+    import_message(chatwoot_conversation, contact, source_part, message_source_id)
   end
 
   def import_conversation_parts(conversation, chatwoot_conversation, contact)
@@ -419,25 +415,28 @@ class DataImports::Intercom::Importer
       return false unless continue_import_with_heartbeat?
 
       message_source_id = "conversation:#{source_id_for(conversation)}:part:#{part['id']}"
-      begin
-        if (mapping = find_mapping('message', message_source_id)) && message_mapping_handled?(mapping, part)
-          if mapping.data_import_id == @data_import.id
-            reconcile_current_run_message_mapping(chatwoot_conversation, mapping, part)
-            next
-          end
-
-          skip_existing_message_mapping(chatwoot_conversation, mapping, part)
-          next
-        end
-
-        create_message(chatwoot_conversation, contact, part, message_source_id)
-      rescue StandardError => e
-        fail_message(chatwoot_conversation, message_source_id, part, e)
-      end
+      import_message(chatwoot_conversation, contact, part, message_source_id)
     end
     return false if import_stopped?
 
     true
+  end
+
+  def import_message(conversation, contact, part, message_source_id)
+    with_query_timeout_retry do
+      mapping = find_mapping('message', message_source_id)
+      if mapping && message_mapping_handled?(mapping, part)
+        if mapping.data_import_id == @data_import.id
+          reconcile_current_run_message_mapping(conversation, mapping, part)
+        else
+          skip_existing_message_mapping(conversation, mapping, part)
+        end
+      else
+        create_message(conversation, contact, part, message_source_id)
+      end
+    end
+  rescue StandardError => e
+    fail_message(conversation, message_source_id, part, e)
   end
 
   def create_message(conversation, contact, part, message_source_id)
@@ -656,7 +655,7 @@ class DataImports::Intercom::Importer
     )
     item = import_item('contact', source_id, contact_payload) unless item&.imported?
     item.update!(status: :imported, chatwoot_record_type: 'Contact', chatwoot_record_id: mapped_contact.id)
-    reconcile_item_stats('contact')
+    mark_stat_group_dirty('contacts')
   end
 
   def reconcile_item_stats(source_object_type)
@@ -664,34 +663,37 @@ class DataImports::Intercom::Importer
     group = stat_group_for(source_object_type)
     @stats[group]['imported'] = items.imported.count
     @stats[group]['skipped'] = items.skipped.count
-    persist_stats
   end
 
   def reconcile_current_run_message_mapping(conversation, mapping, part)
     record_skipped_message_log(conversation, mapping.source_object_id, part) if mapping.metadata['skipped']
+    mark_stat_group_dirty('messages')
+  end
 
+  def reconcile_message_stats
     mappings = @data_import.mappings.where(source_provider: PROVIDER, source_object_type: 'message')
     skipped_mappings = mappings.where("metadata ->> 'skipped' = ?", 'true').count
     message_logs = @data_import.import_errors.where(source_object_type: 'message')
     @stats['messages']['imported'] = mappings.count - skipped_mappings
     @stats['messages']['skipped'] = message_logs.where("details ->> 'kind' = ?", 'skipped').count
-    persist_stats
   end
 
   def skip_already_imported_item(item, mapping, already_handled:)
-    item.update!(
-      status: :skipped,
-      chatwoot_record_type: mapping.chatwoot_record_type,
-      chatwoot_record_id: mapping.chatwoot_record_id,
-      last_error_code: ALREADY_IMPORTED_ERROR_CODE,
-      last_error_message: 'Already imported in a previous import.'
-    )
-    record_already_imported_log(
-      data_import_item: item,
-      source_object_type: item.source_object_type,
-      source_object_id: item.source_object_id,
-      mapping: mapping
-    )
+    DataImportItem.transaction do
+      item.update!(
+        status: :skipped,
+        chatwoot_record_type: mapping.chatwoot_record_type,
+        chatwoot_record_id: mapping.chatwoot_record_id,
+        last_error_code: ALREADY_IMPORTED_ERROR_CODE,
+        last_error_message: 'Already imported in a previous import.'
+      )
+      record_already_imported_log(
+        data_import_item: item,
+        source_object_type: item.source_object_type,
+        source_object_id: item.source_object_id,
+        mapping: mapping
+      )
+    end
     increment_stat(stat_group_for(item.source_object_type), 'skipped') unless already_handled
   end
 
@@ -965,6 +967,42 @@ class DataImports::Intercom::Importer
   def increment_stat(group, key)
     @stats[group] ||= {}
     @stats[group][key] = @stats[group][key].to_i + 1
+  end
+
+  def mark_stat_group_dirty(group)
+    @dirty_stat_groups[group] = true
+  end
+
+  def reconcile_dirty_stats
+    return if @dirty_stat_groups.empty?
+
+    with_query_timeout_retry do
+      @dirty_stat_groups.each_key do |group|
+        case group
+        when 'contacts'
+          reconcile_item_stats('contact')
+        when 'messages'
+          reconcile_message_stats
+        else
+          raise ArgumentError, "Unsupported Intercom import stat group: #{group}"
+        end
+      end
+      persist_stats
+    end
+    @dirty_stat_groups.clear
+  end
+
+  def with_query_timeout_retry
+    retries = 0
+    begin
+      yield
+    rescue ActiveRecord::QueryCanceled
+      raise if retries >= QUERY_TIMEOUT_RETRY_LIMIT
+
+      retries += 1
+      sleep(rand(QUERY_TIMEOUT_RETRY_DELAY_RANGE))
+      retry
+    end
   end
 
   def update_stat_total(group, total)
