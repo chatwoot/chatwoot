@@ -68,7 +68,7 @@ const filterOperatorIcon = {
  * @property {import('vue').ComputedRef<Operator[]>} containmentOperators - Containment check operators
  * @property {import('vue').ComputedRef<Operator[]>} comparisonOperators - Numeric comparison operators
  * @property {import('vue').ComputedRef<Operator[]>} dateOperators - Date-specific operators
- * @property {(key: 'list'|'text'|'number'|'link'|'date'|'checkbox') => Operator[]} getOperatorTypes - Get operators for a field type
+ * @property {(key: 'list'|'text'|'number'|'link'|'date'|'datetime'|'checkbox') => Operator[]} getOperatorTypes - Get operators for a field type
  */
 export function useOperators() {
   const { t } = useI18n();
@@ -128,6 +128,22 @@ export function useOperators() {
     operators.value[FILTER_OPS.DAYS_BEFORE],
   ]);
 
+  /** Custom dates: equality/presence + range + days_before */
+  const customDateOperators = computed(() => [
+    ...comparisonOperators.value,
+    operators.value[FILTER_OPS.DAYS_BEFORE],
+  ]);
+
+  /** Text: equality + contains + presence (empty / exists) */
+  const textOperators = computed(() => [
+    operators.value[FILTER_OPS.EQUAL_TO],
+    operators.value[FILTER_OPS.NOT_EQUAL_TO],
+    operators.value[FILTER_OPS.CONTAINS],
+    operators.value[FILTER_OPS.DOES_NOT_CONTAIN],
+    operators.value[FILTER_OPS.IS_PRESENT],
+    operators.value[FILTER_OPS.IS_NOT_PRESENT],
+  ]);
+
   /**
    * Get operator types based on key
    * @param {string} key - Type of operator to get
@@ -136,17 +152,18 @@ export function useOperators() {
   const getOperatorTypes = key => {
     switch (key) {
       case 'list':
-        return equalityOperators.value;
-      case 'text':
-        return containmentOperators.value;
-      case 'number':
-        return equalityOperators.value;
       case 'link':
-        return equalityOperators.value;
-      case 'date':
-        return comparisonOperators.value;
       case 'checkbox':
-        return equalityOperators.value;
+        return presenceOperators.value;
+      case 'text':
+        return textOperators.value;
+      case 'number':
+      case 'currency':
+      case 'percent':
+        return comparisonOperators.value;
+      case 'date':
+      case 'datetime':
+        return customDateOperators.value;
       default:
         return equalityOperators.value;
     }

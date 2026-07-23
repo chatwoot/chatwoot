@@ -48,15 +48,22 @@ const fetchDropdownData = () => {
   store.dispatch('agents/get');
   store.dispatch('teams/get');
   store.dispatch('labels/get');
+  store.dispatch('attributes/get');
 };
 
 const formatMacro = macroData => {
   const formattedActions = macroData.actions.map(action => {
     let actionParams = [];
-    if (action.action_params.length) {
+    const hasParams = Array.isArray(action.action_params)
+      ? action.action_params.length > 0
+      : action.action_params &&
+        typeof action.action_params === 'object' &&
+        Object.keys(action.action_params).length > 0;
+
+    if (hasParams) {
       const inputType = macroActionTypes.value.find(
         item => item.key === action.action_name
-      ).inputType;
+      )?.inputType;
       if (inputType === 'multi_select' || inputType === 'search_select') {
         actionParams = getMacroDropdownValues(action.action_name).filter(item =>
           [...action.action_params].includes(item.id)
@@ -68,7 +75,26 @@ const formatMacro = macroData => {
           ),
           message: action.action_params[0].message,
         };
-      } else actionParams = [...action.action_params];
+      } else if (inputType === 'custom_attribute') {
+        const data = Array.isArray(action.action_params)
+          ? action.action_params[0] || {}
+          : action.action_params || {};
+        actionParams = {
+          attribute_key: data.attribute_key || '',
+          value: data.value ?? '',
+        };
+      } else {
+        actionParams = Array.isArray(action.action_params)
+          ? [...action.action_params]
+          : [action.action_params];
+      }
+    } else if (
+      [
+        'update_contact_custom_attribute',
+        'update_conversation_custom_attribute',
+      ].includes(action.action_name)
+    ) {
+      actionParams = { attribute_key: '', value: '' };
     }
     return {
       ...action,

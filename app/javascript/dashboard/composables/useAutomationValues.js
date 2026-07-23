@@ -27,6 +27,11 @@ export default function useAutomationValues() {
   const labels = useMapGetter('labels/getLabels');
   const teams = useMapGetter('teams/getTeams');
   const slaPolicies = useMapGetter('sla/getSLA');
+  const contactAttributes = useMapGetter('attributes/getContactAttributes');
+  const conversationAttributes = useMapGetter(
+    'attributes/getConversationAttributes'
+  );
+  const macros = useMapGetter('macros/getMacros');
 
   const booleanFilterOptions = computed(() => [
     { id: true, name: t('FILTER.ATTRIBUTE_LABELS.TRUE') },
@@ -132,16 +137,21 @@ export default function useAutomationValues() {
       ];
     }
 
-    return getActionOptions({
-      agents: agentsList,
-      labels: labels.value,
-      teams: teams.value,
-      slaPolicies: slaPolicies.value,
-      languages,
-      type,
-      addNoneToListFn: addNoneToList,
-      priorityOptions: priorityOptions.value,
-    });
+    return (
+      getActionOptions({
+        agents: agentsList,
+        labels: labels.value,
+        teams: teams.value,
+        slaPolicies: slaPolicies.value,
+        languages,
+        type,
+        addNoneToListFn: addNoneToList,
+        priorityOptions: priorityOptions.value,
+        contactAttributes: contactAttributes.value || [],
+        conversationAttributes: conversationAttributes.value || [],
+        macros: macros.value || [],
+      }) || []
+    );
   };
 
   return {

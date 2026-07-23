@@ -1,0 +1,13 @@
+json.id resource.id
+json.name resource.name
+json.description resource.description
+json.date_preset resource.date_preset
+json.custom_since resource.custom_since
+json.custom_until resource.custom_until
+json.business_hours resource.business_hours
+json.favorite resource.favorite
+json.filters resource.filters
+json.widgets resource.widgets
+json.created_by_id resource.created_by_id
+json.created_at resource.created_at.to_i
+json.updated_at resource.updated_at.to_i

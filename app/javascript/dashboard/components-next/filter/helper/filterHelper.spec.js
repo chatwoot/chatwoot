@@ -53,6 +53,12 @@ describe('filterHelper', () => {
     it('returns plainText for unknown type', () => {
       expect(getCustomAttributeInputType('unknown')).toBe('plainText');
     });
+
+    it('returns number for number, currency and percent types', () => {
+      expect(getCustomAttributeInputType('number')).toBe('number');
+      expect(getCustomAttributeInputType('currency')).toBe('number');
+      expect(getCustomAttributeInputType('percent')).toBe('number');
+    });
   });
 
   describe('buildAttributesFilterTypes', () => {

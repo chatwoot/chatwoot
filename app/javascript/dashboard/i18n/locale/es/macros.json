@@ -119,8 +119,10 @@
       "SEND_ATTACHMENT": "Enviar archivo adjunto",
       "SEND_MESSAGE": "Enviar mensaje",
       "CHANGE_PRIORITY": "Cambiar prioridad",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Enviar Evento de Webhook"
+      "ADD_PRIVATE_NOTE": "Añadir nota privada",
+      "SEND_WEBHOOK_EVENT": "Enviar Evento de Webhook",
+      "UPDATE_CONTACT_CUSTOM_ATTRIBUTE": "Actualizar atributo personalizado del contacto",
+      "UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE": "Actualizar atributo personalizado de la conversación"
     },
     "PRIORITY_TYPES": {
       "NONE": "Ninguna",

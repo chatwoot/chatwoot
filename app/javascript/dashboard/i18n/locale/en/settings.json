@@ -366,6 +366,7 @@
     "ONE_OFF": "One off",
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "Bot",
+    "REPORTS_PANELS": "Panels",
     "REPORTS_AGENT": "Agents",
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Inbox",
@@ -616,6 +617,7 @@
           "NUMBER": "Enter a number",
           "LINK": "Add a link",
           "DATE": "Pick a date",
+          "DATETIME": "Pick a date and time",
           "LIST": "Select an option"
         },
         "CHECKBOX": {

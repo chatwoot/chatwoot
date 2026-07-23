@@ -24,8 +24,11 @@ const iconByType = {
   checkbox: 'i-lucide-circle-check-big',
   list: 'i-lucide-list',
   date: 'i-lucide-calendar',
+  datetime: 'i-lucide-calendar-clock',
   link: 'i-lucide-link',
   number: 'i-lucide-hash',
+  currency: 'i-lucide-coins',
+  percent: 'i-lucide-percent',
 };
 
 const attributeIcon = computed(() => {

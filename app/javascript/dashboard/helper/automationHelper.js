@@ -2,6 +2,7 @@ import {
   OPERATOR_TYPES_1,
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
+  OPERATOR_TYPES_7,
 } from 'dashboard/routes/dashboard/settings/automation/operators';
 import {
   DEFAULT_MESSAGE_CREATED_CONDITION,
@@ -15,6 +16,7 @@ import actionQueryGenerator from './actionQueryGenerator';
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
     date: 'date',
+    datetime: 'datetime',
     text: 'plain_text',
     list: 'search_select',
     checkbox: 'search_select',
@@ -61,12 +63,15 @@ export const isCustomAttributeList = (customAttributes, type) => {
 
 export const getOperatorTypes = key => {
   const operatorMap = {
-    list: OPERATOR_TYPES_1,
-    text: OPERATOR_TYPES_3,
-    number: OPERATOR_TYPES_1,
-    link: OPERATOR_TYPES_1,
+    list: OPERATOR_TYPES_3,
+    text: OPERATOR_TYPES_7,
+    number: OPERATOR_TYPES_4,
+    currency: OPERATOR_TYPES_4,
+    percent: OPERATOR_TYPES_4,
+    link: OPERATOR_TYPES_7,
     date: OPERATOR_TYPES_4,
-    checkbox: OPERATOR_TYPES_1,
+    datetime: OPERATOR_TYPES_4,
+    checkbox: OPERATOR_TYPES_3,
   };
 
   return operatorMap[key] || OPERATOR_TYPES_1;
@@ -102,7 +107,52 @@ export const getActionOptions = ({
   type,
   addNoneToListFn,
   priorityOptions,
+  contactAttributes = [],
+  conversationAttributes = [],
+  macros = [],
 }) => {
+  const DISPLAY_TYPE_BY_ID = {
+    0: 'text',
+    1: 'number',
+    2: 'currency',
+    3: 'percent',
+    4: 'link',
+    5: 'date',
+    6: 'list',
+    7: 'checkbox',
+    8: 'datetime',
+  };
+
+  const normalizeDisplayType = attr => {
+    const raw =
+      attr.attributeDisplayType ??
+      attr.attribute_display_type ??
+      attr.displayType ??
+      'text';
+    if (typeof raw === 'number') return DISPLAY_TYPE_BY_ID[raw] || 'text';
+    return String(raw);
+  };
+
+  const isFormulaAttribute = attr =>
+    Boolean(attr?.formula) ||
+    Boolean(attr?.attributeFormula) ||
+    Boolean(attr?.attribute_formula);
+
+  const writableAttributeOptions = attrs =>
+    (attrs || [])
+      .filter(attr => !isFormulaAttribute(attr))
+      .map(attr => ({
+        id: attr.attributeKey || attr.attribute_key || attr.id,
+        name:
+          attr.attributeDisplayName ||
+          attr.attribute_display_name ||
+          attr.name ||
+          attr.attributeKey ||
+          attr.attribute_key,
+        displayType: normalizeDisplayType(attr),
+        values: attr.attributeValues || attr.attribute_values || [],
+      }));
+
   const actionsMap = {
     assign_agent: addNoneToListFn ? addNoneToListFn(agents) : agents,
     assign_team: addNoneToListFn ? addNoneToListFn(teams) : teams,
@@ -111,8 +161,17 @@ export const getActionOptions = ({
     remove_label: generateConditionOptions(labels, 'title'),
     change_priority: priorityOptions,
     add_sla: slaPolicies,
+    execute_macro: (macros || []).map(macro => ({
+      id: macro.id,
+      name: macro.name,
+    })),
+    update_contact_custom_attribute:
+      writableAttributeOptions(contactAttributes),
+    update_conversation_custom_attribute: writableAttributeOptions(
+      conversationAttributes
+    ),
   };
-  return actionsMap[type];
+  return actionsMap[type] || [];
 };
 
 export const getConditionOptions = ({
@@ -335,8 +394,14 @@ export const getCustomAttributeType = (automationTypes, automation, key) => {
  * @returns {boolean} True if the action input should be shown, false otherwise.
  */
 export const showActionInput = (automationActionTypes, action) => {
-  if (action === 'send_email_to_team' || action === 'send_message')
+  if (
+    action === 'send_email_to_team' ||
+    action === 'send_message' ||
+    action === 'add_private_note' ||
+    action === 'update_contact_custom_attribute' ||
+    action === 'update_conversation_custom_attribute'
+  )
     return false;
-  const type = automationActionTypes.find(i => i.key === action).inputType;
+  const type = automationActionTypes.find(i => i.key === action)?.inputType;
   return !!type;
 };

@@ -50,8 +50,13 @@ const isMuted = ref(false);
 const currentTime = ref(0);
 const duration = ref(0);
 const playbackSpeed = ref(1);
+// While probing WebM/Opus duration we seek to a huge currentTime; ignore those
+// timeupdates so the UI does not flash values like 150119987579016:31.
+const isProbingDuration = ref(false);
 
 const { uid } = getCurrentInstance();
+
+const MAX_DISPLAY_SECONDS = 24 * 60 * 60; // 24h ceiling for mm:ss display
 
 // MediaRecorder-produced WebM/Opus blobs lack a Duration header → <audio>.duration
 // resolves to Infinity until we seek past the end, which forces the engine to
@@ -59,17 +64,30 @@ const { uid } = getCurrentInstance();
 // duration already (mp3/m4a/etc).
 const resolveStreamingDuration = () => {
   const el = audioPlayer.value;
-  if (!el) return;
-  const onTimeUpdate = () => {
-    el.removeEventListener('timeupdate', onTimeUpdate);
-    el.currentTime = 0;
-    duration.value = el.duration;
+  if (!el || isProbingDuration.value) return;
+
+  isProbingDuration.value = true;
+  const onProbeTimeUpdate = () => {
+    el.removeEventListener('timeupdate', onProbeTimeUpdate);
+    try {
+      el.currentTime = 0;
+    } catch {
+      /* ignore */
+    }
+    const d = el.duration;
+    if (Number.isFinite(d) && d > 0) {
+      duration.value = d;
+    }
+    currentTime.value = 0;
+    isProbingDuration.value = false;
   };
-  el.addEventListener('timeupdate', onTimeUpdate);
+
+  el.addEventListener('timeupdate', onProbeTimeUpdate);
   try {
     el.currentTime = Number.MAX_SAFE_INTEGER;
   } catch {
-    el.removeEventListener('timeupdate', onTimeUpdate);
+    el.removeEventListener('timeupdate', onProbeTimeUpdate);
+    isProbingDuration.value = false;
   }
 };
 
@@ -112,6 +130,7 @@ watch(timeStampURL, (url, previousUrl) => {
   currentTime.value = 0;
   duration.value = 0;
   isPlaying.value = false;
+  isProbingDuration.value = false;
 });
 
 // Listen for global audio play events and pause if it's not this audio
@@ -127,10 +146,18 @@ useEmitter('pause_playing_audio', currentPlayingId => {
 });
 
 const formatTime = time => {
-  if (!time || Number.isNaN(time)) return '00:00';
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  if (time === null || time === undefined || Number.isNaN(time)) return '00:00';
+  const seconds = Number(time);
+  if (
+    !Number.isFinite(seconds) ||
+    seconds < 0 ||
+    seconds > MAX_DISPLAY_SECONDS
+  ) {
+    return '00:00';
+  }
+  const minutes = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
 const toggleMute = () => {
@@ -139,11 +166,19 @@ const toggleMute = () => {
 };
 
 const onTimeUpdate = () => {
-  currentTime.value = audioPlayer.value?.currentTime;
+  if (isProbingDuration.value) return;
+
+  const t = audioPlayer.value?.currentTime;
+  if (!Number.isFinite(t) || t < 0 || t > MAX_DISPLAY_SECONDS) return;
+  // Ignore probe overshoots if duration is already known
+  if (duration.value > 0 && t > duration.value + 1) return;
+
+  currentTime.value = t;
 };
 
 const seek = event => {
   const time = Number(event.target.value);
+  if (!Number.isFinite(time) || time < 0) return;
   audioPlayer.value.currentTime = time;
   currentTime.value = time;
 };
@@ -215,7 +250,7 @@ const downloadAudio = async () => {
         <input
           type="range"
           min="0"
-          :max="duration"
+          :max="duration > 0 ? duration : 1"
           :value="currentTime"
           class="w-full h-1 bg-n-slate-12/40 rounded-lg appearance-none cursor-pointer accent-current"
           @input="seek"

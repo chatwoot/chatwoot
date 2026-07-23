@@ -13,6 +13,13 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 
+const toDatetimeLocalValue = date => {
+  const d = date instanceof Date ? date : new Date(date);
+  if (Number.isNaN(d.getTime())) return '';
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
+
 export default {
   components: {
     MultiselectDropdown,
@@ -46,6 +53,9 @@ export default {
   },
   computed: {
     displayValue() {
+      if (this.isAttributeTypeDatetime) {
+        return this.value ? new Date(this.value).toLocaleString() : '---';
+      }
       if (this.isAttributeTypeDate) {
         return this.value
           ? new Date(this.value || new Date()).toLocaleDateString()
@@ -57,6 +67,11 @@ export default {
       return this.hasValue ? this.value : '---';
     },
     formattedValue() {
+      if (this.isAttributeTypeDatetime) {
+        return this.value
+          ? toDatetimeLocalValue(this.value)
+          : toDatetimeLocalValue(new Date());
+      }
       return this.isAttributeTypeDate
         ? format(this.value ? new Date(this.value) : new Date(), DATE_FORMAT)
         : this.value;
@@ -83,6 +98,9 @@ export default {
     isAttributeTypeDate() {
       return this.attributeType === 'date';
     },
+    isAttributeTypeDatetime() {
+      return this.attributeType === 'datetime';
+    },
     hasValue() {
       return this.value !== null && this.value !== '';
     },
@@ -96,7 +114,9 @@ export default {
       return !this.isAttributeTypeCheckbox && !this.isAttributeTypeList;
     },
     inputType() {
-      return this.isAttributeTypeLink ? 'url' : this.attributeType;
+      if (this.isAttributeTypeDatetime) return 'datetime-local';
+      if (this.isAttributeTypeLink) return 'url';
+      return this.attributeType;
     },
     shouldShowErrorMessage() {
       return this.v$.editedValue.$error;
@@ -181,7 +201,7 @@ export default {
     },
     onUpdate() {
       const updatedValue =
-        this.attributeType === 'date'
+        this.isAttributeTypeDate || this.isAttributeTypeDatetime
           ? parseISO(this.editedValue)
           : this.editedValue;
       this.v$.$touch();

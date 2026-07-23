@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAutomation } from 'dashboard/composables/useAutomation';
 import { useEditableAutomation } from 'dashboard/composables/useEditableAutomation';
 import AutomationRuleForm from './AutomationRuleForm.vue';
@@ -15,6 +15,7 @@ const props = defineProps({
 
 const emit = defineEmits(['saveAutomation']);
 
+const store = useStore();
 const allCustomAttributes = useMapGetter('attributes/getAttributes');
 const formRef = ref(null);
 
@@ -43,19 +44,24 @@ const onSave = (payload, mode) => {
 
 watch(
   () => props.selectedResponse,
-  value => {
+  async value => {
     if (!value?.conditions) return;
 
+    // Clear first so the dialog never shows a stale/half-mounted action row.
+    automation.value = null;
+
+    await store.dispatch('attributes/get');
+    await store.dispatch('macros/get');
     manifestCustomAttributes();
 
     automation.value = formatAutomation(
-      value,
+      JSON.parse(JSON.stringify(value)),
       allCustomAttributes.value,
       automationTypes,
       AUTOMATION_ACTION_TYPES
     );
   },
-  { immediate: true }
+  { immediate: true, deep: true }
 );
 
 defineExpose({ open, close });

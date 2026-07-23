@@ -99,7 +99,24 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduzca su mensaje aquí",
       "TEAM_DROPDOWN_PLACEHOLDER": "Seleccionar equipos",
       "EMAIL_INPUT_PLACEHOLDER": "Introducir email",
-      "URL_INPUT_PLACEHOLDER": "Introducir URL"
+      "URL_INPUT_PLACEHOLDER": "Introducir URL",
+      "CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER": "Escribe un valor",
+      "CUSTOM_ATTRIBUTE_DATE_DYNAMIC_TODAY": "Fecha dinámica: hoy",
+      "CUSTOM_ATTRIBUTE_DATE_DYNAMIC_HELP": "Se calcula con la fecha del día en que corre la automatización.",
+      "CUSTOM_ATTRIBUTE_DATE_PICK_FIXED": "Elegir fecha fija",
+      "CUSTOM_ATTRIBUTE_NUMBER_PLACEHOLDER": "Escribe un número",
+      "CUSTOM_ATTRIBUTE_LABEL": "Atributo",
+      "CUSTOM_ATTRIBUTE_VALUE_LABEL": "Valor",
+      "CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER": "Selecciona un atributo personalizado",
+      "CUSTOM_ATTRIBUTE_EMPTY": "No hay atributos. Créalos en Configuración → Atributos personalizados.",
+      "CUSTOM_ATTRIBUTE_USE_TODAY": "Usar fecha de hoy",
+      "CUSTOM_ATTRIBUTE_USE_NOW": "Usar fecha y hora actuales",
+      "CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_NOW": "Fecha y hora dinámica: ahora",
+      "CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_HELP": "Se resuelve cuando corre la automatización. Usa variables como {{ date.now }} o {{ contact.custom_attribute.foo }}.",
+      "VARIABLES_HINT": "Usa el botón de variables para insertar nombre del contacto, atributos personalizados o fechas",
+      "DELAY_SECONDS_LABEL": "Espera (segundos)",
+      "MARK_READ_TYPING_LABEL": "Marcar como leído y mostrar escribiendo",
+      "DELIVERY_HINT": "Leído/escribiendo solo en WhatsApp. Requiere espera de 1–25 s. En otros canales solo aplica la espera."
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activar regla de automatización",
@@ -118,7 +135,8 @@
       "LABEL_IDLE": "Subir archivo adjunto",
       "LABEL_UPLOADING": "Subiendo...",
       "LABEL_UPLOADED": "Subido correctamente",
-      "LABEL_UPLOAD_FAILED": "Error al subir"
+      "LABEL_UPLOAD_FAILED": "Error al subir",
+      "AUDIO_HINT": "WhatsApp: OGG = nota de voz; MP3/M4A = audio reproducible. Otros canales: se envía como archivo."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Clave de atributo es requerida",
@@ -155,6 +173,9 @@
       "SEND_MESSAGE": "Enviar mensaje",
       "ADD_PRIVATE_NOTE": "Añadir una nota privada",
       "CHANGE_PRIORITY": "Cambiar prioridad",
+      "UPDATE_CONTACT_CUSTOM_ATTRIBUTE": "Actualizar atributo personalizado del contacto",
+      "UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE": "Actualizar atributo personalizado de la conversación",
+      "EXECUTE_MACRO": "Ejecutar macro",
       "ADD_SLA": "Añadir SLA",
       "OPEN_CONVERSATION": "Abrir conversación",
       "PENDING_CONVERSATION": "Marca la conversación como pendiente"

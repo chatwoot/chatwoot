@@ -45,32 +45,32 @@
         "NOTE": "Este ID es necesario si estás construyendo una integración basada en API"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "TITLE": "Resolver conversaciones automáticamente",
+        "NOTE": "Esta configuración permite resolver automáticamente la conversación tras un período de inactividad.",
         "DURATION": {
-          "LABEL": "Inactivity duration",
-          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "LABEL": "Duración de inactividad",
+          "HELP": "Tiempo de inactividad tras el cual la conversación se resuelve automáticamente",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "ERROR": "La duración de auto-resolución debe estar entre 10 minutos y 999 días",
           "API": {
-            "SUCCESS": "Auto resolve settings updated successfully",
-            "ERROR": "Failed to update auto resolve settings"
+            "SUCCESS": "Configuración de auto-resolución actualizada correctamente",
+            "ERROR": "No se pudo actualizar la configuración de auto-resolución"
           }
         },
         "MESSAGE": {
-          "LABEL": "Custom auto-resolution message",
-          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-          "HELP": "Message sent to the customer after conversation is auto-resolved"
+          "LABEL": "Mensaje personalizado de auto-resolución",
+          "PLACEHOLDER": "La conversación fue marcada como resuelta por el sistema debido a 15 días de inactividad",
+          "HELP": "Mensaje enviado al cliente cuando la conversación se resuelve automáticamente"
         },
         "PREFERENCES": "Preferencias",
         "LABEL": {
-          "LABEL": "Add label after auto-resolution",
-          "PLACEHOLDER": "Select a label"
+          "LABEL": "Agregar etiqueta tras la auto-resolución",
+          "PLACEHOLDER": "Selecciona una etiqueta"
         },
         "IGNORE_WAITING": {
-          "LABEL": "Skip conversations waiting for agent’s reply"
+          "LABEL": "Omitir conversaciones en espera de respuesta del agente"
         },
-        "UPDATE_BUTTON": "Save Changes"
+        "UPDATE_BUTTON": "Guardar cambios"
       },
       "NAME": {
         "LABEL": "Nombre de cuenta",
@@ -103,30 +103,30 @@
         }
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "Exclude unattended conversations",
-        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+        "LABEL": "Excluir conversaciones desatendidas",
+        "HELP": "Si está activo, el sistema no resolverá conversaciones que aún esperan respuesta del agente."
       },
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Transcribe Audio Messages",
-        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "TITLE": "Transcribir mensajes de audio",
+        "NOTE": "Transcribe automáticamente los mensajes de audio en las conversaciones. Genera una transcripción de texto cuando se envía o recibe un audio y la muestra junto al mensaje.",
         "API": {
-          "SUCCESS": "Audio transcription setting updated successfully",
-          "ERROR": "Failed to update audio transcription setting"
+          "SUCCESS": "Configuración de transcripción de audio actualizada correctamente",
+          "ERROR": "No se pudo actualizar la configuración de transcripción de audio"
         }
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Inactivity duration for resolution",
-        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "LABEL": "Duración de inactividad para resolución",
+        "HELP": "Tiempo tras el cual una conversación se resuelve automáticamente si no hay actividad",
         "PLACEHOLDER": "30",
-        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "ERROR": "La duración de auto-resolución debe estar entre 10 minutos y 999 días",
         "API": {
-          "SUCCESS": "Auto resolve settings updated successfully",
-          "ERROR": "Failed to update auto resolve settings"
+          "SUCCESS": "Configuración de auto-resolución actualizada correctamente",
+          "ERROR": "No se pudo actualizar la configuración de auto-resolución"
         },
         "UPDATE_BUTTON": "Actualizar",
-        "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+        "MESSAGE_LABEL": "Mensaje de resolución personalizado",
+        "MESSAGE_PLACEHOLDER": "La conversación fue marcada como resuelta por el sistema debido a 15 días de inactividad",
+        "MESSAGE_HELP": "Este mensaje se envía al cliente cuando el sistema resuelve automáticamente una conversación por inactividad."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Continuidad de la conversación con emails está habilitada para su cuenta.",
@@ -136,7 +136,7 @@
     "UPDATE_CHATWOOT": "Hay una actualización {latestChatwootVersion} para Chatwoot disponible. Por favor, actualiza tu instancia.",
     "LEARN_MORE": "Más información",
     "PAYMENT_PENDING": "Tu pago está pendiente. Por favor actualiza tu información de pago para seguir usando Chatwoot",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "UPGRADE": "Actualiza para seguir usando Chatwoot",
     "LIMITS_UPGRADE": "Su cuenta ha excedido los límites de uso, por favor actualice su plan para seguir usando Chatwoot",
     "OPEN_BILLING": "Abrir facturación"
   },

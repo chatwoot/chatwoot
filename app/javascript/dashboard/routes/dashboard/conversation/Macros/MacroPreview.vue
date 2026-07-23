@@ -32,6 +32,7 @@ const actionLabel = actionName => {
 };
 
 const getActionValue = (key, params) => {
+  const customAttrParams = Array.isArray(params) ? params[0] : params;
   const actionsMap = {
     assign_team: resolveTeamIds(teams.value, params),
     add_label: resolveLabels(labels.value, params),
@@ -46,6 +47,12 @@ const getActionValue = (key, params) => {
     send_message: params[0],
     send_email_transcript: params[0],
     add_private_note: params[0],
+    update_contact_custom_attribute: customAttrParams
+      ? `${customAttrParams.attribute_key}: ${customAttrParams.value}`
+      : '',
+    update_conversation_custom_attribute: customAttrParams
+      ? `${customAttrParams.attribute_key}: ${customAttrParams.value}`
+      : '',
   };
   return actionsMap[key] || '';
 };

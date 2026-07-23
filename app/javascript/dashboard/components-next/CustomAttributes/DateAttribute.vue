@@ -22,6 +22,10 @@ const emit = defineEmits(['update', 'delete']);
 
 const { t } = useI18n();
 
+const isDatetime = computed(
+  () => props.attribute.attributeDisplayType === 'datetime'
+);
+
 const isEditingValue = ref(false);
 const editedValue = ref(props.attribute.value || '');
 
@@ -34,10 +38,20 @@ const rules = {
 
 const v$ = useVuelidate(rules, { editedValue });
 
+const toDatetimeLocalValue = date => {
+  const d = date instanceof Date ? date : new Date(date);
+  if (Number.isNaN(d.getTime())) return '';
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
+
 const formattedDate = computed(() => {
-  return props.attribute.value
-    ? new Date(props.attribute.value).toLocaleDateString()
-    : t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.TRIGGER.INPUT');
+  if (!props.attribute.value) {
+    return t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.TRIGGER.INPUT');
+  }
+  const date = new Date(props.attribute.value);
+  if (Number.isNaN(date.getTime())) return String(props.attribute.value);
+  return isDatetime.value ? date.toLocaleString() : date.toLocaleDateString();
 });
 
 const hasError = computed(() => v$.value.$errors.length > 0);
@@ -45,10 +59,17 @@ const hasError = computed(() => v$.value.$errors.length > 0);
 const defaultDateValue = computed({
   get() {
     const existingDate = editedValue.value ?? props.attribute.value;
-    if (existingDate) return new Date(existingDate).toISOString().slice(0, 10);
-    return isEditingValue.value && !hasError.value
-      ? new Date().toISOString().slice(0, 10)
-      : '';
+    if (existingDate) {
+      return isDatetime.value
+        ? toDatetimeLocalValue(existingDate)
+        : new Date(existingDate).toISOString().slice(0, 10);
+    }
+    if (isEditingValue.value && !hasError.value) {
+      return isDatetime.value
+        ? toDatetimeLocalValue(new Date())
+        : new Date().toISOString().slice(0, 10);
+    }
+    return '';
   },
   set(value) {
     editedValue.value = value ? new Date(value).toISOString() : value;
@@ -124,7 +145,7 @@ const handleInputUpdate = async () => {
     >
       <Input
         v-model="defaultDateValue"
-        type="date"
+        :type="isDatetime ? 'datetime-local' : 'date'"
         class="w-full [&>p]:absolute [&>p]:mt-0.5 [&>p]:top-8 ltr:[&>p]:left-0 rtl:[&>p]:right-0"
         :message="
           hasError

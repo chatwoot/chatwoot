@@ -9,6 +9,9 @@ const customAttributeInputType = key => {
   switch (key) {
     case 'date':
       return 'date';
+    case 'datetime':
+      // Legacy filter UI has no datetime-local; date picker is enough there.
+      return 'date';
     case 'text':
       return 'plain_text';
     case 'list':
@@ -23,17 +26,18 @@ const customAttributeInputType = key => {
 const getOperatorTypes = key => {
   switch (key) {
     case 'list':
-      return OPERATORS.OPERATOR_TYPES_1;
-    case 'text':
-      return OPERATORS.OPERATOR_TYPES_3;
-    case 'number':
-      return OPERATORS.OPERATOR_TYPES_1;
-    case 'link':
-      return OPERATORS.OPERATOR_TYPES_1;
-    case 'date':
-      return OPERATORS.OPERATOR_TYPES_4;
     case 'checkbox':
-      return OPERATORS.OPERATOR_TYPES_1;
+      return OPERATORS.OPERATOR_TYPES_2;
+    case 'text':
+    case 'link':
+      return OPERATORS.OPERATOR_TYPES_6;
+    case 'number':
+    case 'currency':
+    case 'percent':
+      return OPERATORS.OPERATOR_TYPES_4;
+    case 'date':
+    case 'datetime':
+      return OPERATORS.OPERATOR_TYPES_4;
     default:
       return OPERATORS.OPERATOR_TYPES_1;
   }

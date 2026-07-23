@@ -1,5 +1,6 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
+import AutomationActionCustomAttributeInput from './AutomationActionCustomAttributeInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -8,9 +9,12 @@ import MultiSelect from 'dashboard/components-next/filter/inputs/MultiSelect.vue
 import NextInput from 'dashboard/components-next/input/Input.vue';
 import InsertVariableButton from 'dashboard/components-next/variable/InsertVariableButton.vue';
 
+const DEFAULT_DELIVERY = { delay_seconds: 0, mark_read_and_typing: false };
+
 export default {
   components: {
     AutomationActionTeamMessageInput,
+    AutomationActionCustomAttributeInput,
     AutomationActionFileInput,
     WootMessageEditor,
     NextButton,
@@ -77,9 +81,41 @@ export default {
         this.$emit('input', { ...payload, action_params: value });
       },
     },
+    delivery: {
+      get() {
+        return {
+          ...DEFAULT_DELIVERY,
+          ...(this.modelValue?.delivery || {}),
+        };
+      },
+      set(value) {
+        const payload = this.modelValue || {};
+        this.$emit('update:modelValue', { ...payload, delivery: value });
+        this.$emit('input', { ...payload, delivery: value });
+      },
+    },
+    delaySeconds: {
+      get() {
+        return Number(this.delivery.delay_seconds) || 0;
+      },
+    },
+    markReadAndTyping: {
+      get() {
+        return Boolean(this.delivery.mark_read_and_typing);
+      },
+    },
+    showDeliveryOptions() {
+      return ['textarea', 'attachment'].includes(this.inputType);
+    },
     inputType() {
       return this.actionTypes.find(action => action.key === this.action_name)
-        .inputType;
+        ?.inputType;
+    },
+    isCustomAttributeAction() {
+      return [
+        'update_contact_custom_attribute',
+        'update_conversation_custom_attribute',
+      ].includes(this.action_name);
     },
     actionNameAsSelectModel: {
       get() {
@@ -95,7 +131,12 @@ export default {
       return this.actionTypes.map(a => ({ id: a.key, name: a.label }));
     },
     isVerticalLayout() {
-      return ['team_message', 'textarea'].includes(this.inputType);
+      return (
+        this.isCustomAttributeAction ||
+        ['team_message', 'textarea', 'custom_attribute'].includes(
+          this.inputType
+        )
+      );
     },
     castMessageVmodel: {
       get() {
@@ -117,12 +158,45 @@ export default {
       this.$emit('resetAction');
     },
     onActionNameChange(value) {
-      this.actionNameAsSelectModel = value;
-      this.resetAction();
+      const actionName = value?.id || value;
+      const isCustomAttribute = [
+        'update_contact_custom_attribute',
+        'update_conversation_custom_attribute',
+      ].includes(actionName);
+      const supportsDelivery = ['send_message', 'send_attachment'].includes(
+        actionName
+      );
+
+      // Single atomic update so the custom-attribute panel mounts with the
+      // new action_name (avoid resetAction wiping state in a second tick).
+      const payload = {
+        action_name: actionName,
+        action_params: isCustomAttribute
+          ? { attribute_key: '', value: '' }
+          : [],
+        delivery: supportsDelivery ? { ...DEFAULT_DELIVERY } : undefined,
+      };
+      this.$emit('update:modelValue', payload);
+      this.$emit('input', payload);
     },
     insertMessageVariable(token) {
       const current = this.castMessageVmodel || '';
       this.castMessageVmodel = current ? `${current} ${token}` : token;
+    },
+    updateDelivery(partial) {
+      const next = { ...this.delivery, ...partial };
+      const delay = Math.min(25, Math.max(0, Number(next.delay_seconds) || 0));
+      next.delay_seconds = delay;
+      if (delay < 1) {
+        next.mark_read_and_typing = false;
+      }
+      this.delivery = next;
+    },
+    onDelayInput(event) {
+      this.updateDelivery({ delay_seconds: event.target.value });
+    },
+    onMarkReadChange(event) {
+      this.updateDelivery({ mark_read_and_typing: event.target.checked });
     },
   },
 };
@@ -192,6 +266,17 @@ export default {
         :teams="dropdownValues"
         :dropdown-max-height="dropdownMaxHeight"
       />
+      <AutomationActionCustomAttributeInput
+        v-if="isCustomAttributeAction || inputType === 'custom_attribute'"
+        v-model="action_params"
+        :attributes="dropdownValues || []"
+        :attribute-model="
+          action_name === 'update_conversation_custom_attribute'
+            ? 'conversation_attribute'
+            : 'contact_attribute'
+        "
+        :dropdown-max-height="dropdownMaxHeight"
+      />
       <WootMessageEditor
         v-if="inputType === 'textarea'"
         v-model="castMessageVmodel"
@@ -200,8 +285,48 @@ export default {
         :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
         class="[&_.ProseMirror-menubar]:hidden px-3 py-1 bg-n-alpha-1 rounded-lg outline outline-1 outline-n-weak dark:outline-n-strong"
       />
-      <div v-if="inputType === 'textarea'" class="flex justify-end">
+      <div
+        v-if="inputType === 'textarea'"
+        class="flex items-center justify-between gap-2 mt-1"
+      >
+        <span class="text-xs text-n-slate-11">
+          {{ $t('AUTOMATION.ACTION.VARIABLES_HINT') }}
+        </span>
         <InsertVariableButton @insert="insertMessageVariable" />
+      </div>
+      <div
+        v-if="showDeliveryOptions"
+        class="flex flex-col gap-1.5 rounded-lg border border-dashed border-n-weak px-3 py-2"
+      >
+        <div class="flex flex-wrap items-center gap-4">
+          <label class="flex items-center gap-2 text-xs text-n-slate-12">
+            <span>{{ $t('AUTOMATION.ACTION.DELAY_SECONDS_LABEL') }}</span>
+            <input
+              type="number"
+              min="0"
+              max="25"
+              class="h-7 w-16 rounded-md border border-n-strong bg-n-background px-2 text-xs"
+              :value="delaySeconds"
+              @input="onDelayInput"
+            />
+          </label>
+          <label
+            class="flex items-center gap-2 text-xs text-n-slate-12"
+            :class="{ 'opacity-50': delaySeconds < 1 }"
+          >
+            <input
+              type="checkbox"
+              class="rounded border-n-strong"
+              :disabled="delaySeconds < 1"
+              :checked="markReadAndTyping"
+              @change="onMarkReadChange"
+            />
+            <span>{{ $t('AUTOMATION.ACTION.MARK_READ_TYPING_LABEL') }}</span>
+          </label>
+        </div>
+        <p class="mb-0 text-xs text-n-slate-11">
+          {{ $t('AUTOMATION.ACTION.DELIVERY_HINT') }}
+        </p>
       </div>
     </div>
     <span v-if="errorMessage" class="text-sm text-n-ruby-11">

@@ -27,6 +27,9 @@ const placeholders = computed(() => ({
   ),
   link: t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.LINK'),
   date: t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.DATE'),
+  datetime: t(
+    'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.DATETIME'
+  ),
   list: t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.LIST'),
 }));
 
@@ -221,6 +224,18 @@ defineExpose({ open, close });
             type="date"
             size="md"
             :placeholder="getPlaceholder(ATTRIBUTE_TYPES.DATE)"
+            :message="getErrorMessage(attribute.value)"
+            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
+            @blur="v$[attribute.value].$touch"
+          />
+        </template>
+
+        <template v-else-if="attribute.type === ATTRIBUTE_TYPES.DATETIME">
+          <Input
+            v-model="formValues[attribute.value]"
+            type="datetime-local"
+            size="md"
+            :placeholder="getPlaceholder(ATTRIBUTE_TYPES.DATETIME)"
             :message="getErrorMessage(attribute.value)"
             :message-type="v$[attribute.value].$error ? 'error' : 'info'"
             @blur="v$[attribute.value].$touch"

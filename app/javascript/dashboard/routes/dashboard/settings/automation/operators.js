@@ -72,6 +72,10 @@ export const OPERATOR_TYPES_4 = [
     value: 'is_less_than',
     label: 'Is less than',
   },
+  {
+    value: 'days_before',
+    label: 'Is x days before',
+  },
 ];
 
 export const OPERATOR_TYPES_5 = [
@@ -109,5 +113,33 @@ export const OPERATOR_TYPES_6 = [
   {
     value: 'starts_with',
     label: 'Starts With',
+  },
+];
+
+/** Text / link: equality + contains + presence (empty / exists) */
+export const OPERATOR_TYPES_7 = [
+  {
+    value: 'equal_to',
+    label: 'Equal to',
+  },
+  {
+    value: 'not_equal_to',
+    label: 'Not equal to',
+  },
+  {
+    value: 'contains',
+    label: 'Contains',
+  },
+  {
+    value: 'does_not_contain',
+    label: 'Does not contain',
+  },
+  {
+    value: 'is_present',
+    label: 'Is present',
+  },
+  {
+    value: 'is_not_present',
+    label: 'Is not present',
   },
 ];

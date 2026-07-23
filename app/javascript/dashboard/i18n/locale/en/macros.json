@@ -120,7 +120,9 @@
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "Change Priority",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "UPDATE_CONTACT_CUSTOM_ATTRIBUTE": "Update contact custom attribute",
+      "UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE": "Update conversation custom attribute"
     },
     "PRIORITY_TYPES": {
       "NONE": "None",

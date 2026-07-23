@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_19_010001) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_22_160000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -877,6 +877,25 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_19_010001) do
     t.index ["user_id"], name: "index_dashboard_apps_on_user_id"
   end
 
+  create_table "saved_report_panels", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "created_by_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.string "date_preset", default: "last_7_days", null: false
+    t.bigint "custom_since"
+    t.bigint "custom_until"
+    t.boolean "business_hours", default: false, null: false
+    t.boolean "favorite", default: false, null: false
+    t.jsonb "filters", default: [], null: false
+    t.jsonb "widgets", default: [], null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "favorite"], name: "index_saved_report_panels_on_account_id_and_favorite"
+    t.index ["account_id"], name: "index_saved_report_panels_on_account_id"
+    t.index ["created_by_id"], name: "index_saved_report_panels_on_created_by_id"
+  end
+
   create_table "data_imports", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.string "data_type", null: false
@@ -1430,6 +1449,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_19_010001) do
   add_foreign_key "canned_responses", "users", column: "created_by_id"
   add_foreign_key "canned_responses", "users", column: "reviewed_by_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "saved_report_panels", "accounts"
+  add_foreign_key "saved_report_panels", "users", column: "created_by_id"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

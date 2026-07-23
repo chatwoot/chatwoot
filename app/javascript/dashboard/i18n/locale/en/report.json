@@ -681,11 +681,11 @@
     "AGENT": "Agent",
     "TEAM": "Team",
     "LABEL": "Label",
-    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
-    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
-    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "AVG_RESOLUTION_TIME": "Avg. resolution",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. first response",
+    "AVG_REPLY_TIME": "Avg. wait time",
     "RESOLUTION_COUNT": "Resolution Count",
-    "CONVERSATIONS": "No. of conversations",
+    "CONVERSATIONS": "Conversations",
     "SHARE": "Share %",
     "RANK": "Rank",
     "HELP": {
@@ -696,6 +696,173 @@
       "AVG_RESOLUTION_TIME": "Average time from conversation start until it is marked resolved.",
       "AVG_REPLY_TIME": "Average time customers wait between their message and the next agent reply.",
       "RESOLUTION_COUNT": "Number of conversations resolved in the selected period."
+    }
+  },
+  "REPORT_PANELS": {
+    "HEADER": "Panels",
+    "DESCRIPTION": "Saved report panels for this account: metrics, charts, and tables with optional filters.",
+    "CREATE": "New panel",
+    "EDIT": "Edit",
+    "OPEN": "Open",
+    "SAVE": "Save panel",
+    "DELETE": "Delete",
+    "BACK": "Back",
+    "EXPORT": "Export Excel",
+    "REFRESH": "Refresh",
+    "EMPTY": "No panels yet. Create one to track the metrics you care about.",
+    "FAVORITE": "Favorite",
+    "CHART_TIME_UNIT": "hours",
+    "LIST": {
+      "SCOPE_HINT": "Metrics default to the whole account (all agents/inboxes). Use panel filters to narrow by agent, inbox, labels, etc. Use an “Agent summary” table to break numbers down per agent.",
+      "COLUMNS": {
+        "NAME": "Name",
+        "PERIOD": "Period",
+        "WIDGETS": "Widgets",
+        "FILTERS": "Filters",
+        "UPDATED": "Updated",
+        "ACTIONS": "Actions"
+      }
+    },
+    "EMPTY_TABLE": "No rows for this period.",
+    "TABLE_CLICK_HINT": "Click a row to open the conversation or contact.",
+    "FILTERED_COUNT": "{count} conversations match the filters",
+    "FILTERED_CONTACTS_COUNT": "{count} contacts match the filters",
+    "TOTALS": {
+      "RECORDS": "Total records",
+      "RECORDS_COUNT": "{count} records",
+      "SUM": "Sum",
+      "FOOTER_LABEL": "Total"
+    },
+    "METRIC_SOURCES": {
+      "PRESET": "Preset metric",
+      "AGGREGATION": "Custom aggregation"
+    },
+    "AGGREGATIONS": {
+      "NONE": "No footer",
+      "COUNT": "Count",
+      "SUM": "Sum",
+      "AVG": "Average",
+      "MIN": "Min",
+      "MAX": "Max",
+      "ALL_ROWS": "All matching rows",
+      "GROUP_BY_CREATED_AT": "Created date (default)"
+    },
+    "AGGREGATION_ENTITIES": {
+      "CONVERSATIONS": "Conversations",
+      "CONTACTS": "Contacts"
+    },
+    "DATE_PRESETS": {
+      "TODAY": "Today",
+      "YESTERDAY": "Yesterday",
+      "LAST_7_DAYS": "Last 7 days",
+      "LAST_30_DAYS": "Last 30 days",
+      "CUSTOM": "Custom range"
+    },
+    "FIELDS": {
+      "NAME": "Name",
+      "NAME_PLACEHOLDER": "e.g. Sales last week",
+      "DESCRIPTION": "Description",
+      "DATE_PRESET": "Date range",
+      "CUSTOM_RANGE": "Custom dates",
+      "VIEW_RANGE": "View period",
+      "BUSINESS_HOURS": "Business hours only",
+      "FAVORITE": "Pin as favorite",
+      "WIDGET_TITLE": "Widget title",
+      "METRIC": "Metric",
+      "METRIC_SOURCE": "Value source",
+      "AGGREGATION_OP": "Aggregation",
+      "AGGREGATION_FIELD": "Numeric attribute",
+      "AGGREGATION_FIELD_OPTIONAL": "Attribute (optional)",
+      "AGGREGATION_FIELD_OPTIONAL_HINT": "Leave empty to count matching rows, or pick a numeric attribute to count only rows that have it.",
+      "AGGREGATION_GROUP_FIELD": "Group / filter by date attribute",
+      "AGGREGATION_GROUP_FIELD_HINT": "Use a custom date or date-time attribute (e.g. sale date) for the X-axis and period filter. Leave empty to use conversation/contact created date. Pair with a numeric custom attribute above (e.g. price) for sales charts.",
+      "AGGREGATION_ENTITY": "Aggregate over",
+      "TABLE_KIND": "Table type",
+      "TABLE_COLUMNS": "Columns",
+      "TABLE_COLUMNS_HINT": "Choose columns to show. For numeric columns, pick an optional footer aggregation (sum, avg, count…). Changing the table type resets columns."
+    },
+    "RESET_RANGE": "Reset to saved range",
+    "FILTERS": {
+      "TITLE": "Panel filters",
+      "ADD": "Add filter",
+      "HINT": "Filters apply to metrics, charts, and tables. Conversation filters (inbox, agents, conversation labels, …) narrow conversations in the date range. Contact labels / contact custom attributes narrow matching contacts, then intersect with conversation filters. Agent and inbox support multi-select (IN). Max 10. AND/OR between conditions is stored as query_operator on each filter except the last.",
+      "EMPTY": "No filters. Metrics and tables use the date range only.",
+      "SYSTEM_ATTRIBUTES": "Conversation attributes",
+      "CUSTOM_ATTRIBUTES": "Conversation custom attributes",
+      "CONTACT_ATTRIBUTES": "Contact attributes",
+      "CONTACT_CUSTOM_ATTRIBUTES": "Contact custom attributes",
+      "CONVERSATION_LABELS": "Conversation labels",
+      "CONTACT_LABELS": "Contact labels"
+    },
+    "WIDGETS": {
+      "TITLE": "Widgets",
+      "ADD_METRIC": "Add metric",
+      "ADD_CHART": "Add chart",
+      "ADD_TABLE": "Add table",
+      "REMOVE": "Remove",
+      "MOVE_UP": "Up",
+      "MOVE_DOWN": "Down",
+      "TYPES": {
+        "METRIC": "Metric",
+        "CHART": "Chart",
+        "TABLE": "Table"
+      }
+    },
+    "TABLE_KINDS": {
+      "AGENT": "Agent summary",
+      "INBOX": "Inbox summary",
+      "TEAM": "Team summary",
+      "LABEL": "Label summary",
+      "CONVERSATIONS": "Filtered conversations",
+      "CONTACTS": "Unique contacts (attended)"
+    },
+    "COLUMNS": {
+      "rank": "Rank",
+      "name": "Name",
+      "id": "ID",
+      "contact_name": "Contact",
+      "status": "Status",
+      "priority": "Priority",
+      "labels": "Labels",
+      "inbox": "Inbox",
+      "assignee": "Agent",
+      "phone_number": "Phone",
+      "email": "Email",
+      "document_number": "Document",
+      "conversations_count": "Conversations",
+      "resolved_conversations_count": "Resolved",
+      "incoming_messages_count": "Incoming messages",
+      "outgoing_messages_count": "Outgoing messages",
+      "csat_avg": "CSAT avg",
+      "avg_first_response_time": "First response",
+      "avg_resolution_time": "Resolution",
+      "avg_reply_time": "Wait time",
+      "share_percent": "Share",
+      "created_at": "Created",
+      "last_activity_at": "Last activity"
+    },
+    "METRICS": {
+      "conversations_count": "Conversations",
+      "unique_contacts_count": "Unique contacts attended",
+      "contacts_count": "Contacts created",
+      "incoming_messages_count": "Incoming messages",
+      "outgoing_messages_count": "Outgoing messages",
+      "avg_first_response_time": "Avg. first response",
+      "avg_resolution_time": "Avg. resolution",
+      "reply_time": "Avg. wait time",
+      "resolutions_count": "Resolutions"
+    },
+    "ERRORS": {
+      "LOAD": "Could not load panels",
+      "SAVE": "Could not save panel",
+      "RUN": "Could not run panel",
+      "EXPORT": "Could not export panel",
+      "NAME_REQUIRED": "Name is required",
+      "WIDGET_REQUIRED": "Add at least one widget",
+      "CUSTOM_RANGE_REQUIRED": "Pick a custom start and end date",
+      "MAX_WIDGETS": "Maximum 12 widgets per panel",
+      "MAX_FILTERS": "Maximum 10 filters per panel",
+      "FILTERS_INVALID": "Fix invalid filters before saving"
     }
   }
 }

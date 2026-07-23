@@ -40,7 +40,11 @@ export function useEditableAutomation() {
           condition.attribute_key
         );
       }
-      if (inputType === 'plain_text' || inputType === 'date') {
+      if (
+        inputType === 'plain_text' ||
+        inputType === 'date' ||
+        inputType === 'datetime'
+      ) {
         return { ...condition, values: condition.values[0] };
       }
       if (inputType === 'comma_separated_plain_text') {
@@ -71,6 +75,25 @@ export function useEditableAutomation() {
     });
   };
 
+  const isCustomAttributeAction = actionName =>
+    [
+      'update_contact_custom_attribute',
+      'update_conversation_custom_attribute',
+    ].includes(actionName);
+
+  const emptyCustomAttributeParams = () => ({
+    attribute_key: '',
+    value: '',
+  });
+
+  const hasActionParams = params => {
+    if (Array.isArray(params)) return params.length > 0;
+    if (params && typeof params === 'object') {
+      return Object.keys(params).length > 0;
+    }
+    return Boolean(params);
+  };
+
   /**
    * Generates an array of actions for the automation.
    * @param {Object} action - The action object.
@@ -81,7 +104,18 @@ export function useEditableAutomation() {
     const params = action.action_params;
     const inputType = automationActionTypes.find(
       item => item.key === action.action_name
-    ).inputType;
+    )?.inputType;
+
+    if (
+      inputType === 'custom_attribute' ||
+      isCustomAttributeAction(action.action_name)
+    ) {
+      const data = Array.isArray(params) ? params[0] || {} : params || {};
+      return {
+        attribute_key: data.attribute_key || '',
+        value: data.value ?? '',
+      };
+    }
     if (inputType === 'multi_select' || inputType === 'search_select') {
       return [...getActionDropdownValues(action.action_name)].filter(item =>
         [...params].includes(item.id)
@@ -95,7 +129,7 @@ export function useEditableAutomation() {
         message: params[0].message,
       };
     }
-    return [...params];
+    return Array.isArray(params) ? [...params] : [];
   };
 
   /**
@@ -106,12 +140,21 @@ export function useEditableAutomation() {
    * @returns {Array} An array of manifested actions.
    */
   const manifestActions = (automation, automationActionTypes) => {
-    return automation.actions.map(action => ({
-      ...action,
-      action_params: action.action_params.length
-        ? generateActionsArray(action, automationActionTypes)
-        : [],
-    }));
+    return automation.actions.map(action => {
+      if (!hasActionParams(action.action_params)) {
+        return {
+          ...action,
+          action_params: isCustomAttributeAction(action.action_name)
+            ? emptyCustomAttributeParams()
+            : [],
+        };
+      }
+
+      return {
+        ...action,
+        action_params: generateActionsArray(action, automationActionTypes),
+      };
+    });
   };
 
   /**

@@ -3,6 +3,7 @@ export const ATTRIBUTE_TYPES = {
   NUMBER: 'number',
   LINK: 'link',
   DATE: 'date',
+  DATETIME: 'datetime',
   LIST: 'list',
   CHECKBOX: 'checkbox',
 };

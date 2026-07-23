@@ -12,9 +12,11 @@ export const CONVERSATION_ATTRIBUTES = {
   CAMPAIGN_ID: 'campaign_id',
   LABELS: 'labels',
   BROWSER_LANGUAGE: 'browser_language',
+  CONVERSATION_LANGUAGE: 'conversation_language',
   REFERER: 'referer',
   CREATED_AT: 'created_at',
   LAST_ACTIVITY_AT: 'last_activity_at',
+  MAIL_SUBJECT: 'mail_subject',
 };
 
 export const CONTACT_ATTRIBUTES = {
@@ -31,17 +33,24 @@ export const CONTACT_ATTRIBUTES = {
   REFERER: 'referer',
   BLOCKED: 'blocked',
   LABELS: 'labels',
+  ASSIGNED_AGENT_ID: 'assigned_agent_id',
 };
 
 /**
  * Determines the input type for a custom attribute based on its key
  * @param {string} key - The attribute display type key
- * @returns {'date'|'plainText'|'searchSelect'|'booleanSelect'} The corresponding input type
+ * @returns {'date'|'datetime'|'number'|'plainText'|'searchSelect'|'booleanSelect'} The corresponding input type
  */
 export const getCustomAttributeInputType = key => {
   switch (key) {
     case 'date':
       return 'date';
+    case 'datetime':
+      return 'datetime';
+    case 'number':
+    case 'currency':
+    case 'percent':
+      return 'number';
     case 'text':
       return 'plainText';
     case 'list':

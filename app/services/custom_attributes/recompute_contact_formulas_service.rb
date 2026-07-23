@@ -8,13 +8,19 @@ class CustomAttributes::RecomputeContactFormulasService
     return if formula_defs.blank?
 
     conversations = contact.conversations.select(:id, :custom_attributes)
-    attrs = contact.custom_attributes.dup
+    attrs = (contact.custom_attributes || {}).dup
 
     formula_defs.each do |definition|
       attrs[definition.attribute_key] = compute(definition, conversations)
     end
 
-    contact.update!(custom_attributes: attrs)
+    return if attrs == (contact.custom_attributes || {})
+
+    # Quiet write: skip callbacks so formula persistence does not re-enqueue
+    # account-wide recompute jobs or flood ActionCable / EventDispatcher.
+    # rubocop:disable Rails/SkipsModelValidations
+    contact.update_columns(custom_attributes: attrs, updated_at: Time.current)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   private

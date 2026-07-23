@@ -17,8 +17,10 @@
       "TEXT": "Text",
       "NUMBER": "Number",
       "CURRENCY": "Currency",
+      "PERCENT": "Percent",
       "LINK": "Link",
       "DATE": "Date",
+      "DATETIME": "Date & time",
       "LIST": "List",
       "CHECKBOX": "Checkbox"
     },
