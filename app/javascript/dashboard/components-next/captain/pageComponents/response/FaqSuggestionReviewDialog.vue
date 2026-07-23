@@ -10,7 +10,6 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 
 const props = defineProps({
@@ -200,13 +199,39 @@ defineExpose({ dialogRef });
           </span>
         </div>
 
-        <div v-if="isFetching" class="flex h-40 items-center justify-center">
-          <Spinner />
+        <div
+          v-if="isFetching"
+          class="flex max-h-96 flex-col gap-2 overflow-hidden"
+          aria-busy="true"
+        >
+          <div
+            v-for="n in Math.min(suggestion.source_count, 6)"
+            :key="n"
+            class="flex w-full animate-pulse flex-col gap-1.5 rounded-lg outline outline-1 -outline-offset-1 outline-n-weak bg-n-solid-2 p-3"
+          >
+            <span class="flex items-center justify-between gap-2">
+              <span class="text-xs font-medium">
+                <span
+                  class="inline-block h-2 w-24 rounded-sm bg-n-alpha-2 align-middle"
+                />
+              </span>
+              <span class="size-3.5 shrink-0 rounded-sm bg-n-alpha-2" />
+            </span>
+            <span class="flex min-h-[2.5rem] flex-col text-xs leading-5">
+              <span class="h-2 w-full rounded-sm bg-n-alpha-2" />
+              <span class="mt-2 h-2 w-4/5 rounded-sm bg-n-alpha-2" />
+            </span>
+            <span class="text-xs">
+              <span
+                class="inline-block h-2 w-16 rounded-sm bg-n-alpha-2 align-middle"
+              />
+            </span>
+          </div>
         </div>
         <div
           v-else-if="detailsError"
           role="alert"
-          class="flex h-40 flex-col items-center justify-center gap-3 px-4 text-center"
+          class="flex min-h-[10rem] flex-col items-center justify-center gap-3 px-4 text-center"
         >
           <Icon icon="i-lucide-circle-alert" class="size-5 text-n-ruby-10" />
           <p class="mb-0 text-sm text-n-slate-11">
@@ -222,11 +247,11 @@ defineExpose({ dialogRef });
         </div>
         <div
           v-else-if="!observations.length"
-          class="flex h-40 items-center justify-center px-4 text-center text-sm text-n-slate-10"
+          class="flex min-h-[10rem] items-center justify-center px-4 text-center text-sm text-n-slate-10"
         >
           {{ $t('CAPTAIN.FAQ_SUGGESTIONS.DETAILS.NO_SOURCES') }}
         </div>
-        <div v-else class="flex max-h-[24rem] flex-col gap-2 overflow-y-auto">
+        <div v-else class="flex max-h-96 flex-col gap-2 overflow-y-auto">
           <button
             v-for="observation in observations"
             :key="observation.id"
@@ -247,7 +272,9 @@ defineExpose({ dialogRef });
                 class="size-3.5 text-n-slate-10"
               />
             </span>
-            <span class="line-clamp-2 text-xs leading-5 text-n-slate-11">
+            <span
+              class="line-clamp-2 min-h-[2.5rem] text-xs leading-5 text-n-slate-11"
+            >
               {{ observation.generated_question }}
             </span>
             <span class="text-xs text-n-slate-10">
