@@ -162,6 +162,7 @@ class DataImports::Intercom::Importer
     mapped_conversation = mapping&.chatwoot_record
     if mapped_conversation && mapping.data_import_id != @data_import.id
       skip_already_imported_item(item, mapping, already_handled: already_handled)
+      reconcile_item_stats('conversation') if already_handled
       return unless import_conversation_messages(conversation, mapped_conversation, contact)
 
       update_conversation_activity(mapped_conversation)
@@ -173,7 +174,11 @@ class DataImports::Intercom::Importer
       record_mapping('conversation', source_id, chatwoot_conversation, metadata: conversation_metadata(conversation, inbox, source_type))
     end
     item.update!(status: :imported, chatwoot_record_type: 'Conversation', chatwoot_record_id: chatwoot_conversation.id)
-    increment_stat('conversations', 'imported') unless already_handled
+    if already_handled
+      reconcile_item_stats('conversation')
+    else
+      increment_stat('conversations', 'imported')
+    end
 
     return unless import_conversation_messages(conversation, chatwoot_conversation, contact)
 
@@ -194,8 +199,8 @@ class DataImports::Intercom::Importer
   end
 
   def continue_import_with_heartbeat?
-    return true if @data_import.updated_at > HEARTBEAT_INTERVAL.ago
     return false if import_stopped?
+    return true if @data_import.updated_at > HEARTBEAT_INTERVAL.ago
 
     @data_import.touch if @data_import.updated_at <= HEARTBEAT_INTERVAL.ago
     true
@@ -412,6 +417,8 @@ class DataImports::Intercom::Importer
 
       import_message(chatwoot_conversation, contact, entry)
     end
+    return false if import_stopped?
+
     true
   end
 
@@ -704,19 +711,21 @@ class DataImports::Intercom::Importer
   end
 
   def skip_already_imported_item(item, mapping, already_handled:)
-    item.update!(
-      status: :skipped,
-      chatwoot_record_type: mapping.chatwoot_record_type,
-      chatwoot_record_id: mapping.chatwoot_record_id,
-      last_error_code: ALREADY_IMPORTED_ERROR_CODE,
-      last_error_message: 'Already imported in a previous import.'
-    )
-    record_already_imported_log(
-      data_import_item: item,
-      source_object_type: item.source_object_type,
-      source_object_id: item.source_object_id,
-      mapping: mapping
-    )
+    DataImportItem.transaction do
+      item.update!(
+        status: :skipped,
+        chatwoot_record_type: mapping.chatwoot_record_type,
+        chatwoot_record_id: mapping.chatwoot_record_id,
+        last_error_code: ALREADY_IMPORTED_ERROR_CODE,
+        last_error_message: 'Already imported in a previous import.'
+      )
+      record_already_imported_log(
+        data_import_item: item,
+        source_object_type: item.source_object_type,
+        source_object_id: item.source_object_id,
+        mapping: mapping
+      )
+    end
     increment_stat(stat_group_for(item.source_object_type), 'skipped') unless already_handled
   end
 
@@ -988,17 +997,19 @@ class DataImports::Intercom::Importer
   def reconcile_dirty_stats
     return if @dirty_stat_groups.empty?
 
-    @dirty_stat_groups.each_key do |group|
-      case group
-      when 'contacts'
-        reconcile_item_stats('contact')
-      when 'messages'
-        reconcile_message_stats
-      else
-        raise ArgumentError, "Unsupported Intercom import stat group: #{group}"
+    with_query_timeout_retry do
+      @dirty_stat_groups.each_key do |group|
+        case group
+        when 'contacts'
+          reconcile_item_stats('contact')
+        when 'messages'
+          reconcile_message_stats
+        else
+          raise ArgumentError, "Unsupported Intercom import stat group: #{group}"
+        end
       end
+      persist_stats
     end
-    persist_stats
     @dirty_stat_groups.clear
   end
 
