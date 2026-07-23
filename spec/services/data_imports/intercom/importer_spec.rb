@@ -359,6 +359,32 @@ RSpec.describe DataImports::Intercom::Importer do
     expect(data_import.stats.dig('errors', 'count')).to eq(1)
   end
 
+  it 'isolates an out-of-range message timestamp while importing valid messages', :aggregate_failures do
+    malformed_conversation = conversation_payload.deep_dup
+    malformed_conversation['source']['subject'] = nil
+    malformed_conversation['source']['body'] = nil
+    malformed_conversation.dig('conversation_parts', 'conversation_parts').first['created_at'] = Float::INFINITY
+    allow(client).to receive(:retrieve_conversation).with('conversation_1').and_return(malformed_conversation)
+    importer = described_class.new(data_import: data_import)
+    expect(importer).not_to receive(:fallback_message_entries)
+
+    importer.perform
+
+    expect(account.messages.pluck(:source_id)).to eq(['intercom:conversation:conversation_1:part:part_2'])
+    error = data_import.import_errors.find_by!(
+      source_object_type: 'message',
+      source_object_id: 'conversation:conversation_1:part:part_1'
+    )
+    expect(error).to have_attributes(
+      error_code: described_class::InvalidMessagePayloadError.name,
+      message: 'Intercom message created_at must be a Unix timestamp'
+    )
+    expect(data_import.import_errors.where(source_object_type: 'message').count).to eq(1)
+    expect(data_import.reload).to be_completed_with_errors
+    expect(data_import.stats.dig('messages', 'imported')).to eq(1)
+    expect(data_import.stats.dig('errors', 'count')).to eq(1)
+  end
+
   it 'imports historical records without dispatching record events or outbound side effects', :aggregate_failures do
     dispatched_events = []
     allow(Rails.configuration.dispatcher).to receive(:dispatch) do |event_name, *_args|

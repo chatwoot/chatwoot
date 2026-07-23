@@ -576,6 +576,10 @@ class DataImports::Intercom::Importer
       valid_timestamp = value.nil? || value.is_a?(Integer) || value.is_a?(Float) ||
                         (value.is_a?(String) && (value.blank? || value.match?(/\A-?\d+(?:\.\d+)?\z/)))
       raise InvalidMessagePayloadError, "Intercom message #{field} must be a Unix timestamp" unless valid_timestamp
+
+      timestamp_for(value) if value.present?
+    rescue RangeError
+      raise InvalidMessagePayloadError, "Intercom message #{field} must be a Unix timestamp"
     end
 
     %w[body subject].each do |field|
