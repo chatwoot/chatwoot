@@ -38,12 +38,19 @@ class AutomationRulePendingExecution < ApplicationRecord
   belongs_to :account
   belongs_to :message, optional: true
 
-  enum status: { pending: 0, processing: 1, executed: 2, skipped: 3 }
+  # `processing` is claimed but not yet acting, so it is safe to reclaim and retry. `executing`
+  # means the actions are running: a row that dies there is never replayed, because the actions
+  # are customer-facing (messages, emails, webhooks) and repeating them is worse than dropping them.
+  enum status: { pending: 0, processing: 1, executed: 2, skipped: 3, executing: 4 }
 
   # Rows a sweep should hand to a worker: due pending rows, plus processing rows whose lock went stale.
   scope :sweepable, lambda {
     pending.where(due_at: ..Time.current).or(processing.where(updated_at: ...STALE_PROCESSING_TIMEOUT.ago))
   }
+
+  # Rows whose worker died mid-action. Nothing reclaims them; the sweep only counts them so a
+  # crash that strands customer-facing actions is visible instead of silent.
+  scope :abandoned, -> { executing.where(updated_at: ...STALE_PROCESSING_TIMEOUT.ago) }
 
   # Non-terminal rows still bound to fire (a stale processing row is reclaimed by the sweep).
   scope :armed, -> { where(status: [statuses[:pending], statuses[:processing]]) }
