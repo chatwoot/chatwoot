@@ -172,7 +172,7 @@ const applyMoreFilter = ({ action, value }) => {
         size="sm"
         :icon="ACTIVITY_ICONS[chip]"
         :label="activityLabel(chip)"
-        class="shrink-0 text-n-slate-12 !h-7 !px-2"
+        class="shrink-0 text-n-slate-11 !h-7 !px-2"
         @click="setActivity(chip)"
       />
       <OnClickOutside

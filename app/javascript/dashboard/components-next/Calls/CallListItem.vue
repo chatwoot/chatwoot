@@ -216,10 +216,10 @@ const conversationRoute = computed(() => ({
         content: call.inbox.name,
         delay: { show: 500, hide: 0 },
       }"
-      class="flex items-center gap-1 justify-start min-w-14 shrink-[100] py-3.5"
+      class="flex items-center gap-1 justify-end w-40 min-w-4 shrink-[100] py-3.5"
     >
       <Icon :icon="providerIcon" class="size-4 text-n-slate-11 shrink-0" />
-      <span class="text-body-main truncate text-n-slate-11">
+      <span class="text-body-main truncate text-n-slate-11 min-w-0">
         {{ call.inbox.name }}
       </span>
     </div>
