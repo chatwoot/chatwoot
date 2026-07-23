@@ -1176,7 +1176,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "The review queue is clear",
-        "SUBTITLE": "New reusable questions will appear here after Captain groups similar resolved conversations.",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
         "CLEAR_SEARCH": "Clear search"
       },
       "SUCCESS": {

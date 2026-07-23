@@ -4,7 +4,9 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import CaptainFaqSuggestionsAPI from 'dashboard/api/captain/faqSuggestions';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
@@ -28,9 +30,9 @@ const details = ref(null);
 const detailsError = ref(false);
 
 const uiFlags = useMapGetter('captainFaqSuggestions/getUIFlags');
-const isFetching = computed(() => uiFlags.value.fetchingItem);
 const isSaving = computed(() => uiFlags.value.updatingItem);
 const isDismissing = computed(() => uiFlags.value.deletingItem);
+const { run: runDetailsRequest, isPending: isFetching } = useAbortableRequest();
 
 const state = reactive({
   question: props.suggestion.question,
@@ -46,10 +48,11 @@ const loadDetails = async () => {
   detailsError.value = false;
 
   try {
-    details.value = await store.dispatch(
-      'captainFaqSuggestions/show',
-      props.suggestion.id
+    const response = await runDetailsRequest(signal =>
+      CaptainFaqSuggestionsAPI.show(props.suggestion.id, { signal })
     );
+
+    if (response) details.value = response.data;
   } catch (error) {
     detailsError.value = true;
     useAlert(
@@ -295,7 +298,7 @@ defineExpose({ dialogRef });
           variant="ghost"
           color="ruby"
           :is-loading="isDismissing"
-          :disabled="isSaving || isDismissing"
+          :disabled="isFetching || isSaving || isDismissing"
           @click="handleDismiss"
         />
         <div class="flex items-center justify-end gap-2">
@@ -304,14 +307,14 @@ defineExpose({ dialogRef });
             variant="faded"
             color="slate"
             :is-loading="isSaving"
-            :disabled="isInvalid || isSaving || isDismissing"
+            :disabled="isFetching || isInvalid || isSaving || isDismissing"
             @click="handleSave"
           />
           <Button
             :label="$t('CAPTAIN.FAQ_SUGGESTIONS.APPROVE_FAQ')"
             icon="i-lucide-circle-check-big"
             :is-loading="isSaving"
-            :disabled="isInvalid || isSaving || isDismissing"
+            :disabled="isFetching || isInvalid || isSaving || isDismissing"
             @click="handleApprove"
           />
         </div>

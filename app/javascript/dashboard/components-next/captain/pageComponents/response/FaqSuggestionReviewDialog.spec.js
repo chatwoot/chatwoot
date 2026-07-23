@@ -2,9 +2,10 @@ import { flushPromises, shallowMount } from '@vue/test-utils';
 import Button from 'dashboard/components-next/button/Button.vue';
 import FaqSuggestionReviewDialog from './FaqSuggestionReviewDialog.vue';
 
-const { dispatch, push, uiFlags } = vi.hoisted(() => ({
+const { dispatch, push, show, uiFlags } = vi.hoisted(() => ({
   dispatch: vi.fn(),
   push: vi.fn(),
+  show: vi.fn(),
   uiFlags: {
     value: {
       fetchingItem: false,
@@ -17,6 +18,10 @@ const { dispatch, push, uiFlags } = vi.hoisted(() => ({
 vi.mock('dashboard/composables/store', () => ({
   useStore: () => ({ dispatch }),
   useMapGetter: () => uiFlags,
+}));
+
+vi.mock('dashboard/api/captain/faqSuggestions', () => ({
+  default: { show },
 }));
 
 vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
@@ -43,10 +48,12 @@ const DialogStub = {
 describe('FaqSuggestionReviewDialog', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    uiFlags.value.updatingItem = false;
+    uiFlags.value.deletingItem = false;
   });
 
   it('keeps a visible error when source conversations fail to load', async () => {
-    dispatch.mockRejectedValueOnce(new Error('Request failed'));
+    show.mockRejectedValueOnce(new Error('Request failed'));
 
     const wrapper = shallowMount(FaqSuggestionReviewDialog, {
       props: {
@@ -76,15 +83,17 @@ describe('FaqSuggestionReviewDialog', () => {
   });
 
   it('opens source conversations using their display ID', async () => {
-    dispatch.mockResolvedValueOnce({
-      observations: [
-        {
-          id: 1,
-          generated_question: 'How do I enable the feature?',
-          created_at: 1,
-          conversation: { id: 99, display_id: 42 },
-        },
-      ],
+    show.mockResolvedValueOnce({
+      data: {
+        observations: [
+          {
+            id: 1,
+            generated_question: 'How do I enable the feature?',
+            created_at: 1,
+            conversation: { id: 99, display_id: 42 },
+          },
+        ],
+      },
     });
 
     const wrapper = shallowMount(FaqSuggestionReviewDialog, {
@@ -114,7 +123,7 @@ describe('FaqSuggestionReviewDialog', () => {
   });
 
   it('shows the review actions to users who can open the page', async () => {
-    dispatch.mockResolvedValueOnce({ observations: [] });
+    show.mockResolvedValueOnce({ data: { observations: [] } });
 
     const wrapper = shallowMount(FaqSuggestionReviewDialog, {
       props: {
@@ -144,5 +153,80 @@ describe('FaqSuggestionReviewDialog', () => {
         'CAPTAIN.FAQ_SUGGESTIONS.APPROVE_FAQ',
       ])
     );
+  });
+
+  it('disables review actions while source conversations are loading', async () => {
+    let resolveRequest;
+    show.mockReturnValueOnce(
+      new Promise(resolve => {
+        resolveRequest = resolve;
+      })
+    );
+
+    const wrapper = shallowMount(FaqSuggestionReviewDialog, {
+      props: {
+        suggestion: {
+          id: 1,
+          question: 'How do I enable the feature?',
+          answer: 'Turn it on in settings.',
+          source_count: 1,
+          assistant: { name: 'Support assistant' },
+          language: 'en',
+        },
+      },
+      global: {
+        mocks: { $t: key => key },
+        stubs: { Dialog: DialogStub },
+      },
+    });
+    await flushPromises();
+
+    const actionButtons = wrapper
+      .findAllComponents(Button)
+      .filter(button =>
+        [
+          'CAPTAIN.FAQ_SUGGESTIONS.DISMISS',
+          'CAPTAIN.FAQ_SUGGESTIONS.SAVE',
+          'CAPTAIN.FAQ_SUGGESTIONS.APPROVE_FAQ',
+        ].includes(button.props('label'))
+      );
+
+    expect(actionButtons).toHaveLength(3);
+    expect(
+      actionButtons.map(button => ({
+        label: button.props('label'),
+        disabled: button.attributes('disabled'),
+      }))
+    ).toEqual([
+      {
+        label: 'CAPTAIN.FAQ_SUGGESTIONS.DISMISS',
+        disabled: 'true',
+      },
+      {
+        label: 'CAPTAIN.FAQ_SUGGESTIONS.SAVE',
+        disabled: 'true',
+      },
+      {
+        label: 'CAPTAIN.FAQ_SUGGESTIONS.APPROVE_FAQ',
+        disabled: 'true',
+      },
+    ]);
+
+    resolveRequest({ data: { observations: [] } });
+    await flushPromises();
+
+    const enabledActionButtons = wrapper
+      .findAllComponents(Button)
+      .filter(button =>
+        [
+          'CAPTAIN.FAQ_SUGGESTIONS.DISMISS',
+          'CAPTAIN.FAQ_SUGGESTIONS.SAVE',
+          'CAPTAIN.FAQ_SUGGESTIONS.APPROVE_FAQ',
+        ].includes(button.props('label'))
+      );
+
+    expect(
+      enabledActionButtons.map(button => button.attributes('disabled'))
+    ).toEqual(['false', 'false', 'false']);
   });
 });
