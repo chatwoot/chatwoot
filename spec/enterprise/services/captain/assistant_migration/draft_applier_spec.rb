@@ -23,7 +23,7 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
   let(:faq_document_candidate) do
     {
       'question' => 'When is support available?',
-      'answer' => 'Support is available Monday to Friday.'
+      'answer' => "Support is available Monday to Friday.\n\nUrgent requests are handled by the on-call team."
     }
   end
   let(:draft) do
@@ -46,11 +46,15 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       expect(result.dig(:changes, :response_guidelines, :to)).to include(
         'For account-specific billing issues, collect the invoice number and summarize the issue before escalating.'
       )
+      expect(result.dig(:changes, :faq_responses, :create)).to contain_exactly(
+        faq_document_candidate.merge('status' => 'approved')
+      )
       expect(assistant.reload.config).not_to have_key('assistant_migration')
+      expect(assistant.responses.count).to eq(0)
       expect(assistant.scenarios.count).to eq(0)
     end
 
-    it 'stores scenario candidates in assistant config and flattens them into response guidelines' do
+    it 'stores scenario and FAQ candidates and creates approved FAQ responses' do
       described_class.new(assistant: assistant, draft: draft, dry_run: false).perform
 
       assistant.reload
@@ -62,8 +66,55 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       expect(assistant.response_guidelines).to include(
         'For account-specific billing issues, collect the invoice number and summarize the issue before escalating.'
       )
-      expect(assistant.response_guidelines).not_to include(faq_document_candidate['answer'])
+      expect(assistant.responses).to contain_exactly(
+        have_attributes(
+          question: faq_document_candidate['question'],
+          answer: faq_document_candidate['answer'],
+          status: 'approved'
+        )
+      )
       expect(assistant.scenarios.count).to eq(0)
+
+      expect do
+        described_class.new(assistant: assistant, draft: draft, dry_run: false).perform
+      end.not_to(change { assistant.responses.count })
+    end
+
+    it 'leaves pending FAQ responses untouched' do
+      pending_response = assistant.responses.create!(
+        question: faq_document_candidate['question'],
+        answer: faq_document_candidate['answer'],
+        status: :pending
+      )
+
+      described_class.new(assistant: assistant, draft: draft, dry_run: false).perform
+
+      expect(pending_response.reload).to be_pending
+      expect(assistant.responses.approved).to contain_exactly(
+        have_attributes(
+          question: faq_document_candidate['question'],
+          answer: faq_document_candidate['answer']
+        )
+      )
+    end
+
+    it 'rejects conflicting FAQ answers within the same draft' do
+      conflicting_draft = draft.merge(
+        faq_document_candidates: [
+          faq_document_candidate,
+          {
+            'question' => "When is support\navailable?",
+            'answer' => 'Support is available every day.'
+          }
+        ]
+      )
+
+      expect do
+        described_class.new(assistant: assistant, draft: conflicting_draft, dry_run: true).perform
+      end.to raise_error(ArgumentError, 'FAQ candidate conflicts with an existing FAQ: When is support available?')
+
+      expect(assistant.responses.count).to eq(0)
+      expect(assistant.config).not_to have_key('assistant_migration')
     end
 
     it 'rejects stale drafts whose FAQ candidates use the old string format' do
@@ -87,8 +138,12 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
 
       assistant.reload
       expect(assistant.description).to eq('Support assistant for Test Product.')
-      expect(assistant.response_guidelines).to include('Be concise.')
-      expect(assistant.guardrails).to eq(['Do not guess.'])
+      expect(assistant.response_guidelines).to include(
+        'Use plain language.',
+        'Be concise.',
+        'For account-specific billing issues, collect the invoice number and summarize the issue before escalating.'
+      )
+      expect(assistant.guardrails).to contain_exactly('Do not disclose internal notes.', 'Do not guess.')
       expect(assistant.config.dig('assistant_migration', 'original_values')).to include(
         'name' => assistant.name,
         'description' => 'Existing assistant description.',

@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "Você só pode responder a esta conversa usando um modelo de mensagem devido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta conta do Instagram foi migrada para a nova caixa de entrada do canal do Instagram. Todas as novas mensagens serão mostradas lá. Você não poderá mais enviar mensagens desta conversa.",
+    "INSTAGRAM_RESTRICTION_BANNER": "O Instagram está com restrições no momento. Algumas mensagens ou ações podem sofrer atrasos ou/e ficar indisponíveis enquanto restauramos o funcionamento completo.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "Ver atualização de status",
     "REPLYING_TO": "Você está respondendo a:",
     "REMOVE_SELECTION": "Remover seleção",
     "DOWNLOAD": "Baixar",
@@ -231,8 +233,9 @@
       "TIP_AUDIORECORDER_ICON": "Gravar áudio",
       "TIP_AUDIORECORDER_PERMISSION": "Permitir acesso ao áudio",
       "TIP_AUDIORECORDER_ERROR": "Não foi possível abrir o áudio",
-      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
+      "AUDIO_CONVERSION_FAILED": "Falha na conversão do áudio. Tente novamente.",
       "DRAG_DROP": "Arraste e solte aqui para anexar",
+      "IMAGE_UPLOAD_SUCCESS": "Imagem enviada com sucesso",
       "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
       "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
       "COPILOT_THINKING": "O Copiloto está pensando",
@@ -303,6 +306,25 @@
         "MESSAGE": "Você não pode desfazer essa ação",
         "DELETE": "Excluir",
         "CANCEL": "Cancelar"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Reportar mensagem",
+        "TITLE": "Reportar mensagem do Capitão",
+        "DESCRIPTION": "Encontrou algum problema com esta resposta da IA? Conte-nos o que deu errado e nossa equipe irá analisar para ajudar a melhorar a precisão do Capitão.",
+        "PROBLEM_TYPE": "Tipo de problema",
+        "PROBLEM_TYPE_PLACEHOLDER": "Selecione um tipo de problema",
+        "DESCRIPTION_LABEL": "Descrição",
+        "DESCRIPTION_PLACEHOLDER": "Descreva o problema detalhadamente",
+        "SUBMIT": "Reportar",
+        "SUCCESS": "Obrigado pelo seu relato. Nossa equipe irá analisá-lo.",
+        "ERROR": "Não foi possível enviar o relato desta mensagem. Tente novamente.",
+        "REASONS": {
+          "incorrect_information": "Informação incorreta",
+          "inappropriate_response": "Resposta inadequada",
+          "incomplete_response": "Resposta incompleta",
+          "outdated_information": "Informação desatualizada",
+          "other": "Outro"
+        }
       }
     },
     "SIDEBAR": {
@@ -400,7 +422,8 @@
       "VIEW_ALL": "Visualizar tudo",
       "SHOW_LESS": "Mostrar menos",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Arquivo sem nome"
+      "UNTITLED_FILE": "Arquivo sem nome",
+      "JUMP_TO_MESSAGE": "Ir para mensagem"
     },
     "SHOPIFY": {
       "ORDER_ID": "Pedido #{id}",

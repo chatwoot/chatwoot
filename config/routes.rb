@@ -66,7 +66,8 @@ Rails.application.routes.draw do
             resources :assistants do
               member do
                 post :playground
-                get :stats
+                get :metrics
+                get :faq_stats
                 get :summary
                 get :drilldown
               end
@@ -76,6 +77,7 @@ Rails.application.routes.draw do
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
               resources :scenarios
             end
+            resources :agent_sessions, only: [:show]
             resources :assistant_responses
             resources :message_reports, only: [:create]
             resources :bulk_actions, only: [:create]
@@ -267,6 +269,7 @@ Rails.application.routes.draw do
 
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
+          resource :branded_email_layout, only: [:show, :update]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
