@@ -38,12 +38,19 @@ class AutomationRulePendingExecution < ApplicationRecord
   belongs_to :account
   belongs_to :message, optional: true
 
-  enum status: { pending: 0, processing: 1, executed: 2, skipped: 3 }
+  # `processing` is claimed but not yet acting, so it is safe to reclaim and retry. `executing`
+  # means the actions are running: a row that dies there is never replayed, because the actions
+  # are customer-facing (messages, emails, webhooks) and repeating them is worse than dropping them.
+  enum status: { pending: 0, processing: 1, executed: 2, skipped: 3, executing: 4 }
 
   # Rows a sweep should hand to a worker: due pending rows, plus processing rows whose lock went stale.
   scope :sweepable, lambda {
     pending.where(due_at: ..Time.current).or(processing.where(updated_at: ...STALE_PROCESSING_TIMEOUT.ago))
   }
+
+  # Rows whose worker died mid-action. Nothing reclaims them; the sweep only counts them so a
+  # crash that strands customer-facing actions is visible instead of silent.
+  scope :abandoned, -> { executing.where(updated_at: ...STALE_PROCESSING_TIMEOUT.ago) }
 
   # Non-terminal rows still bound to fire (a stale processing row is reclaimed by the sweep).
   scope :armed, -> { where(status: [statuses[:pending], statuses[:processing]]) }
@@ -53,6 +60,11 @@ class AutomationRulePendingExecution < ApplicationRecord
   scope :for_enabled_accounts, -> { joins(:account).merge(Account.feature_delayed_automations) }
 
   def self.schedule(rule:, conversation:, message: nil)
+    # status_changed_at is only written from this feature onwards, so a conversation that predates it
+    # has no status clock. Anchoring on created_at would make every old conversation instantly
+    # overdue and fire on the next sweep; leave them for their next status change to arm.
+    return if message.nil? && conversation.status_changed_at.blank?
+
     key = arm_episode_key_for(conversation, message)
     anchor = arm_anchor_for(conversation, message)
     create!(
@@ -68,22 +80,27 @@ class AutomationRulePendingExecution < ApplicationRecord
   def self.rearm_or_advance_episode(rule, conversation, key, message, anchor)
     return unless message
 
-    row = find_by!(automation_rule_id: rule.id, conversation_id: conversation.id, episode_key: key)
-    # Jobs can arrive out of order; only a strictly newer message advances or re-arms, so a late
-    # older message can't pull due_at backwards and fire before the delay elapses.
-    return unless message.id > row.message_id
-
     due_at = rule.execution_delay.minutes.since(anchor)
-    if row.condition_skipped?
-      # A message episode key can recur (no new incoming reply) while conditions swing back into
-      # match, so a later qualifying message re-arms the condition-only skip instead of dropping.
-      row.update!(status: :pending, skip_reason: nil, due_at: due_at, message_id: message.id)
-    elsif !row.terminal?
-      # Track the newest qualifying message. Reply-chase advances due_at with each agent reply;
-      # awaiting-agent keeps its first clock (its anchor is the stable waiting_since, so due_at is
-      # unchanged). Re-anchoring a row still processing (its worker died mid-run) back to pending
-      # also keeps a stale reclaim from firing the old clock instead of the latest one.
-      row.update!(status: :pending, due_at: due_at, message_id: message.id)
+    row = find_by!(automation_rule_id: rule.id, conversation_id: conversation.id, episode_key: key)
+    # The lock (and the reload it does) makes the compare-and-write atomic. Two listeners racing on
+    # the same episode would otherwise both read the old message_id and let whichever wrote last
+    # win, so an older message could overwrite a newer one and pull due_at backwards.
+    row.with_lock do
+      # Jobs can arrive out of order; only a strictly newer message advances or re-arms, so a late
+      # older message can't pull due_at backwards and fire before the delay elapses.
+      next unless message.id > row.message_id
+
+      if row.condition_skipped?
+        # A message episode key can recur (no new incoming reply) while conditions swing back into
+        # match, so a later qualifying message re-arms the condition-only skip instead of dropping.
+        row.update!(status: :pending, skip_reason: nil, due_at: due_at, message_id: message.id)
+      elsif row.pending? || row.stale_processing?
+        # Track the newest qualifying message. Reply-chase advances due_at with each agent reply;
+        # awaiting-agent keeps its first clock (its anchor is the stable waiting_since, so due_at is
+        # unchanged). Re-anchoring a row whose worker died mid-run back to pending also keeps a
+        # stale reclaim from firing the old clock instead of the latest one.
+        row.update!(status: :pending, due_at: due_at, message_id: message.id)
+      end
     end
   end
 
@@ -92,7 +109,7 @@ class AutomationRulePendingExecution < ApplicationRecord
   # the timestamps the episode keys track.
   def self.arm_anchor_for(conversation, message)
     if message.nil?
-      conversation.status_changed_at.presence || conversation.created_at
+      conversation.status_changed_at
     elsif message.incoming?
       conversation.waiting_since.presence || message.created_at
     else
@@ -122,7 +139,7 @@ class AutomationRulePendingExecution < ApplicationRecord
     if message.nil?
       # Sub-second precision so a resolve→reopen inside one second still ends the episode.
       # Integer microseconds (not a float) so an in-memory arm and a DB-reloaded fire agree.
-      "status:#{microsecond_stamp(conversation.status_changed_at.presence || conversation.created_at)}"
+      "status:#{microsecond_stamp(conversation.status_changed_at)}"
     elsif message.incoming?
       # waiting_since is cleared on agent/bot reply, so a reply invalidates this episode. Strict
       # here: at fire time a nil waiting_since means the agent replied (episode ended).
@@ -162,6 +179,13 @@ class AutomationRulePendingExecution < ApplicationRecord
     self.class.episode_key_for(conversation, message) == episode_key
   end
 
+  # The claim renews updated_at, so a processing row past the timeout means its worker died. Only
+  # then may a re-arm take the row back: pulling a live worker's row to pending would let the sweep
+  # claim it and run the same actions alongside the worker still executing them.
+  def stale_processing?
+    processing? && updated_at < STALE_PROCESSING_TIMEOUT.ago
+  end
+
   def condition_skipped?
     skipped? && skip_reason == CONDITIONS_CHANGED_SKIP
   end
@@ -175,6 +199,6 @@ class AutomationRulePendingExecution < ApplicationRecord
   def claimable?
     # due_at guard: a reply-chase reschedule can push due_at forward after this row was enqueued;
     # such a row must wait for a later sweep instead of firing early.
-    (pending? && due_at <= Time.current) || (processing? && updated_at < STALE_PROCESSING_TIMEOUT.ago)
+    (pending? && due_at <= Time.current) || stale_processing?
   end
 end

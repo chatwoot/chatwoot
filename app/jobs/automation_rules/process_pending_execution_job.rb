@@ -50,7 +50,10 @@ class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
     ).perform.present?
   end
 
+  # Marked before the actions run: a row that dies here stays `executing`, which no sweep reclaims,
+  # so a message/email/webhook is never sent twice. Everything up to this point is still retryable.
   def execute(pending_execution)
+    pending_execution.update!(status: :executing)
     AutomationRules::ActionService.new(
       pending_execution.automation_rule,
       pending_execution.account,
