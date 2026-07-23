@@ -49,7 +49,10 @@ module AccountEmailRateLimitable
     Redis::Alfred.with do |redis|
       redis.watch(email_count_cache_key) do
         current_count = redis.get(email_count_cache_key).to_i
-        next :limit_exceeded if current_count + count > email_rate_limit
+        if current_count + count > email_rate_limit
+          redis.unwatch
+          next :limit_exceeded
+        end
 
         redis.multi do |transaction|
           transaction.incrby(email_count_cache_key, count)
