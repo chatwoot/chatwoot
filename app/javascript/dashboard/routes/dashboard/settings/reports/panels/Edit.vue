@@ -37,9 +37,13 @@ import {
   customAttributeKeyFromColumn,
   customAttributeMeasureColumnKey,
   measureOpFromColumn,
+  measureBaseColumnKey,
   summaryMeasureOpsForAttrType,
   isContactCustomAttributeColumn,
   SUMMARY_TABLE_KINDS,
+  PIVOT_COLUMN_ATTR_TYPES,
+  MAX_PIVOT_VALUES,
+  defaultPivotConfig,
   defaultColumnsForTableKind,
   defaultChartWidget,
   defaultMetricWidget,
@@ -312,6 +316,9 @@ const ensureWidgetDefaults = widget => {
   if (widget.type === 'table' && !widget.column_aggregations) {
     widget.column_aggregations = {};
   }
+  if (widget.type === 'table' && !widget.pivot) {
+    widget.pivot = defaultPivotConfig();
+  }
   return widget;
 };
 
@@ -474,6 +481,11 @@ const onTableKindChange = (widget, kind) => {
   }
   widget.columns = defaultColumnsForTableKind(widget.table_kind);
   widget.column_aggregations = {};
+  if (!SUMMARY_TABLE_KINDS.has(widget.table_kind)) {
+    widget.pivot = defaultPivotConfig();
+  } else if (!widget.pivot) {
+    widget.pivot = defaultPivotConfig();
+  }
 };
 
 const mapAttrToColumnDef = (
@@ -551,28 +563,28 @@ const columnOptionsFor = widget => {
   return [...system, ...customColumnDefsFor(widget).map(item => item.key)];
 };
 
+const selectedColumnsFor = widget => {
+  if (Array.isArray(widget.columns) && widget.columns.length) {
+    return [...widget.columns];
+  }
+  return defaultColumnsForTableKind(widget.table_kind);
+};
+
 const columnLabel = (widget, key) => {
   if (isCustomAttributeColumn(key)) {
-    const match = customColumnDefsFor(widget).find(item => item.key === key);
-    return match?.label || customAttributeKeyFromColumn(key);
+    const baseKey = measureOpFromColumn(key) ? measureBaseColumnKey(key) : key;
+    const def = customColumnDefsFor(widget).find(item => item.key === baseKey);
+    return def?.label || customAttributeKeyFromColumn(baseKey) || key;
   }
   return t(`REPORT_PANELS.COLUMNS.${key}`);
 };
 
-const isColumnSelected = (widget, key) => {
-  const cols =
-    Array.isArray(widget.columns) && widget.columns.length
-      ? widget.columns
-      : defaultColumnsForTableKind(widget.table_kind);
-  return cols.includes(key);
-};
+const isColumnSelected = (widget, key) =>
+  selectedColumnsFor(widget).includes(key);
 
 const toggleColumn = (widget, key) => {
   const allowed = new Set(columnOptionsFor(widget));
-  let cols =
-    Array.isArray(widget.columns) && widget.columns.length
-      ? [...widget.columns]
-      : defaultColumnsForTableKind(widget.table_kind);
+  let cols = selectedColumnsFor(widget);
   if (cols.includes(key)) {
     cols = cols.filter(item => item !== key);
     if (widget.column_aggregations?.[key] != null) {
@@ -582,8 +594,6 @@ const toggleColumn = (widget, key) => {
     }
   } else {
     cols.push(key);
-    // Measure columns bake the row op into the key. Footer uses sum for
-    // count/sum measures (sum of per-row counts/sums = period total).
     const bakedOp = measureOpFromColumn(key);
     if (
       SUMMARY_TABLE_KINDS.has(widget.table_kind) &&
@@ -618,10 +628,84 @@ const attributeTypeForColumn = (widget, key) => {
   return match ? normalizeAttrDisplayType(match) : '';
 };
 
+const ensurePivot = widget => {
+  if (!widget.pivot) widget.pivot = defaultPivotConfig();
+  return widget.pivot;
+};
+
+const pivotAttributeOptions = computed(() => {
+  const attrs = conversationAttributes.value || [];
+  return [
+    {
+      value: '',
+      label: t('REPORT_PANELS.PIVOT.NONE'),
+    },
+    ...attrs
+      .filter(attr =>
+        PIVOT_COLUMN_ATTR_TYPES.has(normalizeAttrDisplayType(attr))
+      )
+      .map(attr => {
+        const key = attr.attributeKey || attr.attribute_key;
+        const name =
+          attr.attributeDisplayName || attr.attribute_display_name || key;
+        return { value: customAttributeColumnKey(key), label: name };
+      }),
+  ];
+});
+
+const pivotDefinitionFor = attributeKey => {
+  if (!attributeKey) return null;
+  const key = attributeKey.replace(/^ca:/, '');
+  return (conversationAttributes.value || []).find(
+    attr => (attr.attributeKey || attr.attribute_key) === key
+  );
+};
+
+const pivotValueOptions = widget => {
+  const pivot = ensurePivot(widget);
+  const def = pivotDefinitionFor(pivot.column_attribute);
+  const values = def?.attributeValues || def?.attribute_values || [];
+  return Array.isArray(values)
+    ? values.filter(Boolean).slice(0, MAX_PIVOT_VALUES)
+    : [];
+};
+
+const isPivotValueSelected = (widget, value) => {
+  const selected = ensurePivot(widget).column_values;
+  // Empty selection = all values (Excel default)
+  if (!Array.isArray(selected) || !selected.length) return true;
+  return selected.includes(value);
+};
+
+const togglePivotValue = (widget, value) => {
+  const pivot = ensurePivot(widget);
+  const all = pivotValueOptions(widget);
+  let selected = Array.isArray(pivot.column_values)
+    ? [...pivot.column_values]
+    : [];
+  // First explicit toggle from "all" → start with all except this one, or only this one?
+  // Excel: unchecked removes from set. From "all", first uncheck = all minus that value.
+  if (!selected.length) {
+    selected = all.filter(item => item !== value);
+  } else if (selected.includes(value)) {
+    selected = selected.filter(item => item !== value);
+  } else {
+    selected.push(value);
+  }
+  // If user re-selected everything, store [] (= all)
+  pivot.column_values =
+    selected.length === all.length ? [] : selected.slice(0, MAX_PIVOT_VALUES);
+};
+
+const setPivotAttribute = (widget, attributeKey) => {
+  const pivot = ensurePivot(widget);
+  pivot.column_attribute = attributeKey || '';
+  pivot.column_values = [];
+};
+
 const isMeasureColumnKey = key => Boolean(measureOpFromColumn(key));
 
 const isAggregatableColumnKey = (widget, key) => {
-  // Baked measure columns already chose their op — no second dropdown.
   if (isMeasureColumnKey(key)) return false;
   if (SUMMABLE_SYSTEM_COLUMNS.has(key)) return true;
   return SUMMABLE_CUSTOM_TYPES.has(attributeTypeForColumn(widget, key));
@@ -685,6 +769,20 @@ const buildPayload = () => {
           ([key, op]) => next.columns.includes(key) && Boolean(op)
         )
       );
+      if (
+        SUMMARY_TABLE_KINDS.has(next.table_kind) &&
+        next.pivot?.column_attribute
+      ) {
+        next.pivot = {
+          column_attribute: next.pivot.column_attribute,
+          column_values: Array.isArray(next.pivot.column_values)
+            ? next.pivot.column_values.slice(0, MAX_PIVOT_VALUES)
+            : [],
+          show_row_totals: next.pivot.show_row_totals !== false,
+        };
+      } else {
+        next.pivot = defaultPivotConfig();
+      }
     }
     return next;
   });
@@ -1072,23 +1170,100 @@ onMounted(async () => {
           v-if="widget.type === 'table'"
           class="text-sm text-n-slate-12 flex flex-col gap-1.5"
         >
-          {{ t('REPORT_PANELS.FIELDS.TABLE_KIND') }}
+          {{ t('REPORT_PANELS.PIVOT.ROWS') }}
           <SelectInput
             v-model="widget.table_kind"
             :options="tableKindOptions"
             full-width
             @update:model-value="kind => onTableKindChange(widget, kind)"
           />
+          <span class="text-xs text-n-slate-11">
+            {{ t('REPORT_PANELS.PIVOT.ROWS_HINT') }}
+          </span>
         </label>
+        <div
+          v-if="
+            widget.type === 'table' &&
+            SUMMARY_TABLE_KINDS.has(widget.table_kind)
+          "
+          class="rounded-lg border border-n-weak p-3 flex flex-col gap-2"
+        >
+          <span class="text-sm font-medium text-n-slate-12">
+            {{ t('REPORT_PANELS.PIVOT.COLUMNS') }}
+          </span>
+          <p class="text-xs text-n-slate-11">
+            {{ t('REPORT_PANELS.PIVOT.COLUMNS_HINT') }}
+          </p>
+          <label class="text-sm text-n-slate-12 flex flex-col gap-1.5">
+            {{ t('REPORT_PANELS.PIVOT.COLUMN_FIELD') }}
+            <SelectInput
+              :model-value="ensurePivot(widget).column_attribute"
+              :options="pivotAttributeOptions"
+              full-width
+              @update:model-value="value => setPivotAttribute(widget, value)"
+            />
+          </label>
+          <div
+            v-if="ensurePivot(widget).column_attribute"
+            class="flex flex-col gap-2"
+          >
+            <span class="text-xs font-medium text-n-slate-11">
+              {{ t('REPORT_PANELS.PIVOT.COLUMN_VALUES') }}
+            </span>
+            <p class="text-xs text-n-slate-11">
+              {{ t('REPORT_PANELS.PIVOT.COLUMN_VALUES_HINT') }}
+            </p>
+            <div
+              v-if="pivotValueOptions(widget).length"
+              class="flex flex-wrap gap-2"
+            >
+              <label
+                v-for="value in pivotValueOptions(widget)"
+                :key="value"
+                class="inline-flex items-center gap-1.5 text-sm text-n-slate-12"
+              >
+                <input
+                  type="checkbox"
+                  :checked="isPivotValueSelected(widget, value)"
+                  @change="togglePivotValue(widget, value)"
+                />
+                {{ value }}
+              </label>
+            </div>
+            <p v-else class="text-xs text-n-slate-11">
+              {{ t('REPORT_PANELS.PIVOT.COLUMN_VALUES_AUTO') }}
+            </p>
+            <label
+              class="inline-flex items-center gap-2 text-sm text-n-slate-12"
+            >
+              <input
+                type="checkbox"
+                :checked="ensurePivot(widget).show_row_totals !== false"
+                @change="
+                  ensurePivot(widget).show_row_totals = $event.target.checked
+                "
+              />
+              {{ t('REPORT_PANELS.PIVOT.SHOW_ROW_TOTALS') }}
+            </label>
+          </div>
+        </div>
         <div
           v-if="widget.type === 'table' && columnOptionsFor(widget).length"
           class="rounded-lg border border-n-weak p-3 flex flex-col gap-2"
         >
           <span class="text-sm font-medium text-n-slate-12">
-            {{ t('REPORT_PANELS.FIELDS.TABLE_COLUMNS') }}
+            {{
+              SUMMARY_TABLE_KINDS.has(widget.table_kind)
+                ? t('REPORT_PANELS.PIVOT.VALUES')
+                : t('REPORT_PANELS.FIELDS.TABLE_COLUMNS')
+            }}
           </span>
           <p class="text-xs text-n-slate-11">
-            {{ t('REPORT_PANELS.FIELDS.TABLE_COLUMNS_HINT') }}
+            {{
+              SUMMARY_TABLE_KINDS.has(widget.table_kind)
+                ? t('REPORT_PANELS.PIVOT.VALUES_HINT')
+                : t('REPORT_PANELS.FIELDS.TABLE_COLUMNS_HINT')
+            }}
           </p>
           <div class="flex flex-col gap-2">
             <div

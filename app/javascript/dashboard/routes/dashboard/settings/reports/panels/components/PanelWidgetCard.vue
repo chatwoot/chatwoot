@@ -13,6 +13,8 @@ import {
   isContactCustomAttributeColumn,
   customAttributeKeyFromColumn,
   measureOpFromColumn,
+  isPivotColumnKey,
+  parsePivotColumnKey,
   parseLocaleNumber,
   formatNumericAttribute,
   SUMMABLE_CUSTOM_TYPES,
@@ -144,6 +146,10 @@ const tableKind = computed(
 const tableRows = computed(() => props.result?.rows || []);
 
 const tableHeaders = computed(() => {
+  // Pivot runner returns expanded columns (measure__pv__value).
+  if (props.result?.columns?.length) {
+    return props.result.columns;
+  }
   const configured = resolveTableColumns(tableKind.value, props.widget.columns);
   if (configured.length) {
     if (!tableRows.value.length) return configured;
@@ -176,6 +182,10 @@ const NUMERIC_SYSTEM_COLUMNS = new Set([
 /** Currency / number / percent / counts / times — right-aligned. */
 const isNumericColumn = key => {
   if (NUMERIC_SYSTEM_COLUMNS.has(key)) return true;
+  if (isPivotColumnKey(key)) {
+    const measure = parsePivotColumnKey(key)?.measure;
+    return measure ? isNumericColumn(measure) : true;
+  }
   if (measureOpFromColumn(key)) return true;
   const type = columnType(key);
   return Boolean(type && SUMMABLE_CUSTOM_TYPES.has(type));
@@ -296,7 +306,7 @@ const rowsClickable = computed(() =>
   ['conversations', 'contacts'].includes(tableKind.value)
 );
 
-const headerLabel = key => {
+const headerLabelForMeasure = key => {
   if (isCustomAttributeColumn(key)) {
     const attrKey = customAttributeKeyFromColumn(key);
     const op = measureOpFromColumn(key);
@@ -316,6 +326,19 @@ const headerLabel = key => {
   const i18nKey = `REPORT_PANELS.COLUMNS.${key}`;
   const translated = t(i18nKey);
   return translated === i18nKey ? key : translated;
+};
+
+const headerLabel = key => {
+  if (isPivotColumnKey(key)) {
+    const parsed = parsePivotColumnKey(key);
+    const measureLabel = headerLabelForMeasure(parsed.measure);
+    const segment = parsed.value || t('REPORT_PANELS.PIVOT.BLANK_VALUE');
+    return t('REPORT_PANELS.PIVOT.HEADER', {
+      segment,
+      measure: measureLabel,
+    });
+  }
+  return headerLabelForMeasure(key);
 };
 
 const formatCustomAttributeCell = (value, type) => {
@@ -350,20 +373,29 @@ const formatCustomAttributeCell = (value, type) => {
 
 const formatCell = (row, key) => {
   const value = row[key];
-  if (isCustomAttributeColumn(key)) {
-    // Summary measure columns are already aggregated numbers.
-    if (measureOpFromColumn(key)) {
+  const measureKey = isPivotColumnKey(key)
+    ? parsePivotColumnKey(key)?.measure
+    : key;
+  if (isCustomAttributeColumn(measureKey) || isPivotColumnKey(key)) {
+    // Summary / pivot measure columns are already aggregated numbers.
+    if (measureOpFromColumn(measureKey) || isPivotColumnKey(key)) {
       if (value == null || value === '') return '—';
-      if (measureOpFromColumn(key) === 'count') {
+      if (
+        measureOpFromColumn(measureKey) === 'count' ||
+        measureKey === 'conversations_count' ||
+        measureKey === 'resolved_conversations_count'
+      ) {
         return Number(value).toLocaleString();
       }
-      const type = columnType(key);
+      const type = columnType(measureKey);
       if (type && SUMMABLE_CUSTOM_TYPES.has(type)) {
         return formatNumericAttribute(value, type);
       }
       return Number(value).toLocaleString();
     }
-    return formatCustomAttributeCell(value, columnType(key));
+    if (isCustomAttributeColumn(measureKey)) {
+      return formatCustomAttributeCell(value, columnType(measureKey));
+    }
   }
   if (value == null || value === '') return '—';
   if (TIME_COLUMNS.has(key)) return formatTime(value);

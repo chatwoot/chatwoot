@@ -170,20 +170,89 @@ export const CONTACT_CA_COLUMN_PREFIX = 'contact_ca:';
 /**
  * Summary measure columns bake the aggregation into the column id so Count(ventas)
  * and Sum(ventas) can both be selected: `ca:ventas__count`, `ca:ventas__sum`.
+ * Optional value match: `ca:estado__count__eq__venta` (URI-encoded value).
  * Attribute keys themselves must not end with `__{op}` (Chatwoot keys are simple).
  */
 export const MEASURE_OPS = ['count', 'sum', 'avg', 'min', 'max'];
 export const MEASURE_SEP = '__';
+/** Legacy single-value sugar (still parsed). Prefer pivot for Excel-style breakdown. */
+export const MEASURE_FILTER_EQ = 'eq';
+/** Pivot: measure__pv__{urlencoded value} */
+export const PIVOT_SEP = '__pv__';
+export const PIVOT_BLANK = '__blank__';
+export const MAX_PIVOT_VALUES = 12;
+/** Attr types eligible as pivot column dimension (Excel “Columnas”) */
+export const PIVOT_COLUMN_ATTR_TYPES = new Set(['list', 'text']);
 
-const stripMeasureSuffix = rest => {
+const FILTERED_MEASURE_RE = new RegExp(
+  `^(.+)${MEASURE_SEP}(${MEASURE_OPS.join('|')})${MEASURE_SEP}${MEASURE_FILTER_EQ}${MEASURE_SEP}(.+)$`
+);
+
+export const encodeMeasureFilterValue = value =>
+  encodeURIComponent(String(value));
+
+export const decodeMeasureFilterValue = encoded => {
+  try {
+    return decodeURIComponent(String(encoded));
+  } catch {
+    return String(encoded);
+  }
+};
+
+/** Parse ca:/contact_ca: column → attrKey, op, optional eq filter */
+export const parseCustomAttributeColumn = key => {
+  const empty = {
+    attrKey: null,
+    op: null,
+    filterOp: null,
+    filterValue: null,
+    contact: false,
+  };
+  if (typeof key !== 'string') return empty;
+
+  let contact = false;
+  let rest = null;
+  if (key.startsWith(CONTACT_CA_COLUMN_PREFIX)) {
+    contact = true;
+    rest = key.slice(CONTACT_CA_COLUMN_PREFIX.length);
+  } else if (key.startsWith(CA_COLUMN_PREFIX)) {
+    rest = key.slice(CA_COLUMN_PREFIX.length);
+  } else {
+    return empty;
+  }
+
+  const filtered = rest.match(FILTERED_MEASURE_RE);
+  if (filtered) {
+    return {
+      attrKey: filtered[1],
+      op: filtered[2],
+      filterOp: MEASURE_FILTER_EQ,
+      filterValue: decodeMeasureFilterValue(filtered[3]),
+      contact,
+    };
+  }
+
   for (let i = 0; i < MEASURE_OPS.length; i += 1) {
     const op = MEASURE_OPS[i];
     const suffix = `${MEASURE_SEP}${op}`;
     if (rest.endsWith(suffix) && rest.length > suffix.length) {
-      return { attrKey: rest.slice(0, -suffix.length), op };
+      return {
+        attrKey: rest.slice(0, -suffix.length),
+        op,
+        filterOp: null,
+        filterValue: null,
+        contact,
+      };
     }
   }
-  return { attrKey: rest, op: null };
+
+  return {
+    attrKey: rest,
+    op: null,
+    filterOp: null,
+    filterValue: null,
+    contact,
+  };
 };
 
 export const SUMMARY_TABLE_KINDS = new Set([
@@ -203,25 +272,20 @@ export const isCustomAttributeColumn = key =>
   isConversationCustomAttributeColumn(key) ||
   isContactCustomAttributeColumn(key);
 
-/** Strip ca:/contact_ca: and optional __{op} measure suffix → attribute_key */
-export const customAttributeKeyFromColumn = key => {
-  let rest = null;
-  if (isContactCustomAttributeColumn(key)) {
-    rest = key.slice(CONTACT_CA_COLUMN_PREFIX.length);
-  } else if (isConversationCustomAttributeColumn(key)) {
-    rest = key.slice(CA_COLUMN_PREFIX.length);
-  } else {
-    return null;
-  }
-  return stripMeasureSuffix(rest).attrKey;
-};
+/** Strip ca:/contact_ca: and optional __{op}[/__eq__/value] → attribute_key */
+export const customAttributeKeyFromColumn = key =>
+  parseCustomAttributeColumn(key).attrKey;
 
 export const measureOpFromColumn = key => {
   if (!isCustomAttributeColumn(key)) return null;
-  const raw = isContactCustomAttributeColumn(key)
-    ? key.slice(CONTACT_CA_COLUMN_PREFIX.length)
-    : key.slice(CA_COLUMN_PREFIX.length);
-  return stripMeasureSuffix(raw).op;
+  return parseCustomAttributeColumn(key).op;
+};
+
+export const measureFilterFromColumn = key => {
+  if (!isCustomAttributeColumn(key)) return null;
+  const { filterOp, filterValue } = parseCustomAttributeColumn(key);
+  if (!filterOp) return null;
+  return { op: filterOp, value: filterValue };
 };
 
 export const customAttributeColumnKey = attributeKey =>
@@ -234,14 +298,61 @@ export const contactCustomAttributeColumnKey = attributeKey =>
 export const customAttributeMeasureColumnKey = (
   attributeKey,
   op,
-  { contact = false } = {}
+  { contact = false, filterOp = null, filterValue = null } = {}
 ) => {
   const base = contact
     ? contactCustomAttributeColumnKey(attributeKey)
     : customAttributeColumnKey(attributeKey);
   if (!op || !MEASURE_OPS.includes(op)) return base;
-  return `${base}${MEASURE_SEP}${op}`;
+  let key = `${base}${MEASURE_SEP}${op}`;
+  if (
+    filterOp === MEASURE_FILTER_EQ &&
+    filterValue != null &&
+    String(filterValue) !== ''
+  ) {
+    key = `${key}${MEASURE_SEP}${MEASURE_FILTER_EQ}${MEASURE_SEP}${encodeMeasureFilterValue(filterValue)}`;
+  }
+  return key;
 };
+
+/** Base measure id without value filter (`ca:estado__count`). */
+export const measureBaseColumnKey = key => {
+  const parsed = parseCustomAttributeColumn(key);
+  if (!parsed.attrKey || !parsed.op) return key;
+  return customAttributeMeasureColumnKey(parsed.attrKey, parsed.op, {
+    contact: parsed.contact,
+  });
+};
+
+export const isPivotColumnKey = key =>
+  typeof key === 'string' && key.includes(PIVOT_SEP);
+
+export const parsePivotColumnKey = key => {
+  if (!isPivotColumnKey(key)) return null;
+  const idx = key.indexOf(PIVOT_SEP);
+  const measure = key.slice(0, idx);
+  const encoded = key.slice(idx + PIVOT_SEP.length);
+  const value =
+    encoded === PIVOT_BLANK ? '' : decodeMeasureFilterValue(encoded);
+  return { measure, value, encoded };
+};
+
+export const pivotColumnKey = (measure, value) => {
+  const encoded =
+    value == null || value === ''
+      ? PIVOT_BLANK
+      : encodeMeasureFilterValue(value);
+  return `${measure}${PIVOT_SEP}${encoded}`;
+};
+
+export const defaultPivotConfig = () => ({
+  column_attribute: '',
+  column_values: [],
+  show_row_totals: true,
+});
+
+/** Identity / label columns kept on the left of a pivot table */
+export const PIVOT_IDENTITY_COLUMNS = new Set(['rank', 'name', 'id']);
 
 /** Additive count columns eligible for footer aggregations */
 export const SUMMABLE_SYSTEM_COLUMNS = new Set([
@@ -393,6 +504,7 @@ export const defaultTableWidget = () => ({
   table_kind: 'agent_summary',
   columns: [],
   column_aggregations: {},
+  pivot: defaultPivotConfig(),
 });
 
 export const emptyPanel = () => ({

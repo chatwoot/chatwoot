@@ -779,13 +779,32 @@
       "AGGREGATION_ENTITY": "Aggregate over",
       "TABLE_KIND": "Table type",
       "TABLE_COLUMNS": "Columns",
-      "TABLE_COLUMNS_HINT": "Choose columns to show. On agent/inbox/team/label tables, pick Count/Sum/Avg/… per custom attribute as separate columns (e.g. Count(ventas) and Sum(ventas) together). Count = rows where the attribute is set. Detail tables show raw attribute values; use the footer dropdown for numeric rollups. Changing the table type resets columns."
+      "TABLE_COLUMNS_HINT": "Choose columns to show. On summary tables without a pivot field, pick Count/Sum per custom attribute as separate columns. With a pivot (Columnas), these become Valores broken down by each attribute value. Changing the table type resets columns.",
+      "MEASURE_VALUE_OPTIONAL": "Value (optional)",
+      "MEASURE_VALUE_ANY": "Any (is set)",
+      "MEASURE_VALUE_PLACEHOLDER": "e.g. venta"
     },
     "RESET_RANGE": "Reset to saved range",
+    "PIVOT": {
+      "ROWS": "Rows (filas)",
+      "ROWS_HINT": "Excel Rows: agent, inbox, team, or label summary — one row per entity.",
+      "COLUMNS": "Columns (columnas) — pivot field",
+      "COLUMNS_HINT": "Excel Columns: pick one conversation list/text attribute (e.g. estado). Its values become column groups. Leave empty for a flat summary (no pivot).",
+      "COLUMN_FIELD": "Pivot by attribute",
+      "COLUMN_VALUES": "Values to show as columns",
+      "COLUMN_VALUES_HINT": "Unchecked values are hidden. Leave all checked (or none stored) to show every value found.",
+      "COLUMN_VALUES_AUTO": "No fixed list on this attribute — segments are discovered from data (max 12).",
+      "SHOW_ROW_TOTALS": "Show row totals (across pivot segments)",
+      "VALUES": "Values (valores)",
+      "VALUES_HINT": "Excel Values: measures to aggregate. With a pivot field set, each measure expands once per column value (e.g. venta · Conversations, soporte · Conversations).",
+      "NONE": "No pivot (flat summary)",
+      "BLANK_VALUE": "(blank)",
+      "HEADER": "{segment} · {measure}"
+    },
     "FILTERS": {
-      "TITLE": "Panel filters",
+      "TITLE": "Report filters (filtros)",
       "ADD": "Add filter",
-      "HINT": "Filters apply to metrics, charts, and tables. Conversation filters (inbox, agents, conversation labels, …) narrow conversations in the date range. Contact labels / contact custom attributes narrow matching contacts, then intersect with conversation filters. Agent and inbox support multi-select (IN). Max 10. AND/OR between conditions is stored as query_operator on each filter except the last.",
+      "HINT": "Excel Filters / slicers: apply to the whole panel (outer AND). Conversation filters narrow conversations; contact filters intersect contacts. Pivot Columnas still break down within this filtered set. Max 10.",
       "EMPTY": "No filters. Metrics and tables use the date range only.",
       "SYSTEM_ATTRIBUTES": "Conversation attributes",
       "CUSTOM_ATTRIBUTES": "Conversation custom attributes",
@@ -842,7 +861,8 @@
       "last_activity_at": "Last activity",
       "CONVERSATION_CA_PREFIX": "Conversation: {name}",
       "CONTACT_CA_PREFIX": "Contact: {name}",
-      "MEASURE_CA": "{op}({name})"
+      "MEASURE_CA": "{op}({name})",
+      "MEASURE_CA_EQ": "{op}({name} = {value})"
     },
     "METRICS": {
       "conversations_count": "Conversations",
