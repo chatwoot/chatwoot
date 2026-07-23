@@ -173,7 +173,14 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
             ],
             'default_locale' => 'en',
             'layout' => 'classic',
-            'social_profiles' => {}
+            'social_profiles' => {},
+            'gtm_container_id' => nil,
+            'ga4_measurement_id' => nil,
+            'hotjar_site_id' => nil,
+            'plausible_domain' => nil,
+            'amplitude_api_key' => nil,
+            'clarity_project_id' => nil,
+            'meta_pixel_id' => nil
           }
         )
       end

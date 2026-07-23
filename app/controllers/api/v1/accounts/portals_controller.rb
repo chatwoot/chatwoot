@@ -79,7 +79,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     params.require(:portal).permit(
       :id, :color, :custom_domain, :header_text, :homepage_link,
       :name, :page_title, :slug, :archived,
-      { config: [:default_locale, :layout, :gtm_container_id, { allowed_locales: [] }, { draft_locales: [] },
+      { config: [:default_locale, :layout, *Portal::ANALYTICS_CONFIG_FORMATS.keys.map(&:to_sym),
+                 { allowed_locales: [] }, { draft_locales: [] },
                  { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] }] }
     )
   end

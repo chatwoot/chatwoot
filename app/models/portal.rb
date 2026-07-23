@@ -43,15 +43,28 @@ class Portal < ApplicationRecord
   validates :slug, presence: true, uniqueness: true
   validates :custom_domain, uniqueness: true, allow_nil: true
   validate :config_json_format
-  validate :gtm_container_id_format
+  validate :analytics_config_format
 
   scope :active, -> { where(archived: false) }
 
-  CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout gtm_container_id].freeze
+  # Analytics values are restricted to shapes safe to interpolate into the help center
+  # markup (no quotes/angle brackets). Mirrored by ANALYTICS_PROVIDERS in the frontend.
+  ANALYTICS_CONFIG_FORMATS = {
+    'gtm_container_id' => /\AGTM-[A-Z0-9]+\z/,
+    'ga4_measurement_id' => /\AG-[A-Z0-9]+\z/,
+    'hotjar_site_id' => /\A\d+\z/,
+    'plausible_domain' => /\A[a-z0-9]([a-z0-9.-]*[a-z0-9])?\z/i,
+    'amplitude_api_key' => /\A[a-z0-9]+\z/i,
+    'clarity_project_id' => /\A[a-z0-9]+\z/i,
+    'meta_pixel_id' => /\A\d+\z/
+  }.freeze
 
-  # Google Tag Manager container IDs look like `GTM-XXXXXX`. Restricting the value to this
-  # shape keeps it safe to interpolate into the help center markup (no quotes/angle brackets).
-  GTM_CONTAINER_ID_FORMAT = /\AGTM-[A-Z0-9]+\z/
+  CONFIG_JSON_KEYS = (%w[allowed_locales default_locale draft_locales website_token social_profiles layout] +
+    ANALYTICS_CONFIG_FORMATS.keys).freeze
+
+  ANALYTICS_CONFIG_FORMATS.each_key do |key|
+    define_method(key) { config_value(key).presence }
+  end
 
   def file_base_data
     {
@@ -107,17 +120,15 @@ class Portal < ApplicationRecord
     config_value('social_profiles') || {}
   end
 
-  def gtm_container_id
-    config_value('gtm_container_id').presence
-  end
-
   private
 
-  def gtm_container_id_format
-    value = config_value('gtm_container_id')
-    return if value.blank?
+  def analytics_config_format
+    ANALYTICS_CONFIG_FORMATS.each do |key, format|
+      value = config_value(key)
+      next if value.blank?
 
-    errors.add(:config, 'Google Tag Manager container ID is invalid') unless value.to_s.match?(GTM_CONTAINER_ID_FORMAT)
+      errors.add(:config, "#{key.humanize} is invalid") unless value.to_s.match?(format)
+    end
   end
 
   def config_json_format

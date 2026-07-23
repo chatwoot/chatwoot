@@ -20,8 +20,51 @@ const { t } = useI18n();
 const store = useStore();
 const { replaceInstallationName } = useBranding();
 
-// Mirrors Portal::GTM_CONTAINER_ID_FORMAT on the backend.
-const GTM_CONTAINER_ID_FORMAT = /^GTM-[A-Z0-9]+$/;
+// Mirrors Portal::ANALYTICS_CONFIG_FORMATS on the backend.
+const ANALYTICS_PROVIDERS = [
+  {
+    key: 'gtm_container_id',
+    i18nKey: 'GTM',
+    icon: 'i-logos-google-tag-manager',
+    format: /^GTM-[A-Z0-9]+$/,
+  },
+  {
+    key: 'ga4_measurement_id',
+    i18nKey: 'GA4',
+    icon: 'i-logos-google-analytics',
+    format: /^G-[A-Z0-9]+$/,
+  },
+  {
+    key: 'hotjar_site_id',
+    i18nKey: 'HOTJAR',
+    icon: 'i-logos-hotjar-icon',
+    format: /^\d+$/,
+  },
+  {
+    key: 'plausible_domain',
+    i18nKey: 'PLAUSIBLE',
+    icon: 'i-woot-plausible',
+    format: /^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$/i,
+  },
+  {
+    key: 'amplitude_api_key',
+    i18nKey: 'AMPLITUDE',
+    icon: 'i-logos-amplitude-icon',
+    format: /^[a-z0-9]+$/i,
+  },
+  {
+    key: 'clarity_project_id',
+    i18nKey: 'CLARITY',
+    icon: 'i-woot-microsoft-clarity',
+    format: /^[a-z0-9]+$/i,
+  },
+  {
+    key: 'meta_pixel_id',
+    i18nKey: 'META_PIXEL',
+    icon: 'i-logos-meta-icon',
+    format: /^\d+$/,
+  },
+];
 
 const portalConfig = computed(() => props.activePortal?.config || {});
 
@@ -43,13 +86,15 @@ const liveChatWidgets = computed(() => {
 
 const state = reactive({
   liveChatWidgetInboxId: '',
-  gtmContainerId: '',
+  ...Object.fromEntries(ANALYTICS_PROVIDERS.map(({ key }) => [key, ''])),
 });
 const originalState = reactive({ ...state });
 
 const resetFromPortal = () => {
   state.liveChatWidgetInboxId = props.activePortal?.inbox?.id || '';
-  state.gtmContainerId = portalConfig.value.gtm_container_id || '';
+  ANALYTICS_PROVIDERS.forEach(({ key }) => {
+    state[key] = portalConfig.value[key] || '';
+  });
   Object.assign(originalState, state);
 };
 
@@ -64,18 +109,27 @@ const liveChatTitle = computed(() =>
   )
 );
 
-const trimmedGtmId = computed(() => state.gtmContainerId.trim());
-
-const isGtmInvalid = computed(
-  () =>
-    trimmedGtmId.value !== '' &&
-    !GTM_CONTAINER_ID_FORMAT.test(trimmedGtmId.value)
+const trimmedAnalyticsValues = computed(() =>
+  Object.fromEntries(
+    ANALYTICS_PROVIDERS.map(({ key }) => [key, state[key].trim()])
+  )
 );
+
+const invalidAnalyticsKeys = computed(() =>
+  ANALYTICS_PROVIDERS.filter(({ key, format }) => {
+    const value = trimmedAnalyticsValues.value[key];
+    return value !== '' && !format.test(value);
+  }).map(({ key }) => key)
+);
+
+const isInvalid = key => invalidAnalyticsKeys.value.includes(key);
 
 const hasChanges = computed(
   () =>
     state.liveChatWidgetInboxId !== originalState.liveChatWidgetInboxId ||
-    trimmedGtmId.value !== originalState.gtmContainerId
+    ANALYTICS_PROVIDERS.some(
+      ({ key }) => trimmedAnalyticsValues.value[key] !== originalState[key]
+    )
 );
 
 const handleSave = () => {
@@ -83,7 +137,7 @@ const handleSave = () => {
     id: props.activePortal.id,
     slug: props.activePortal.slug,
     inbox_id: state.liveChatWidgetInboxId,
-    config: { gtm_container_id: trimmedGtmId.value },
+    config: { ...trimmedAnalyticsValues.value },
   });
 };
 </script>
@@ -132,41 +186,57 @@ const handleSave = () => {
     </div>
 
     <div
+      v-for="provider in ANALYTICS_PROVIDERS"
+      :key="provider.key"
       class="flex flex-col gap-4 p-4 rounded-xl outline outline-1 outline-n-weak"
     >
       <div class="flex items-start gap-3">
         <div
           class="flex items-center justify-center rounded-lg size-9 shrink-0 bg-n-alpha-2 text-n-slate-12"
         >
-          <Icon icon="i-ri-google-fill" class="size-5" />
+          <Icon :icon="provider.icon" class="size-5" />
         </div>
         <div class="flex flex-col gap-0.5">
           <h6 class="text-sm font-medium text-n-slate-12">
-            {{ t('HELP_CENTER.PORTAL_SETTINGS.INTEGRATIONS.GTM.TITLE') }}
+            {{
+              t(
+                `HELP_CENTER.PORTAL_SETTINGS.INTEGRATIONS.${provider.i18nKey}.TITLE`
+              )
+            }}
           </h6>
           <span class="text-sm text-n-slate-11">
-            {{ t('HELP_CENTER.PORTAL_SETTINGS.INTEGRATIONS.GTM.DESCRIPTION') }}
+            {{
+              t(
+                `HELP_CENTER.PORTAL_SETTINGS.INTEGRATIONS.${provider.i18nKey}.DESCRIPTION`
+              )
+            }}
           </span>
         </div>
       </div>
       <Input
-        v-model="state.gtmContainerId"
+        v-model="state[provider.key]"
         :placeholder="
-          t('HELP_CENTER.PORTAL_SETTINGS.INTEGRATIONS.GTM.PLACEHOLDER')
+          t(
+            `HELP_CENTER.PORTAL_SETTINGS.INTEGRATIONS.${provider.i18nKey}.PLACEHOLDER`
+          )
         "
         :message="
-          isGtmInvalid
-            ? t('HELP_CENTER.PORTAL_SETTINGS.INTEGRATIONS.GTM.INVALID')
-            : t('HELP_CENTER.PORTAL_SETTINGS.INTEGRATIONS.GTM.HELP')
+          isInvalid(provider.key)
+            ? t(
+                `HELP_CENTER.PORTAL_SETTINGS.INTEGRATIONS.${provider.i18nKey}.INVALID`
+              )
+            : t(
+                `HELP_CENTER.PORTAL_SETTINGS.INTEGRATIONS.${provider.i18nKey}.HELP`
+              )
         "
-        :message-type="isGtmInvalid ? 'error' : 'info'"
+        :message-type="isInvalid(provider.key) ? 'error' : 'info'"
       />
     </div>
 
     <div class="flex justify-end">
       <Button
         :label="t('HELP_CENTER.PORTAL_SETTINGS.INTEGRATIONS.SAVE')"
-        :disabled="!hasChanges || isGtmInvalid || isFetching"
+        :disabled="!hasChanges || invalidAnalyticsKeys.length > 0 || isFetching"
         @click="handleSave"
       />
     </div>

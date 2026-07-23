@@ -19,6 +19,12 @@ json.config do
   json.layout portal.layout
   json.social_profiles portal.social_profiles
   json.gtm_container_id portal.gtm_container_id
+  json.ga4_measurement_id portal.ga4_measurement_id
+  json.hotjar_site_id portal.hotjar_site_id
+  json.plausible_domain portal.plausible_domain
+  json.amplitude_api_key portal.amplitude_api_key
+  json.clarity_project_id portal.clarity_project_id
+  json.meta_pixel_id portal.meta_pixel_id
 end
 
 if portal.channel_web_widget
