@@ -1,8 +1,12 @@
 <p>Hello,</p>
 
-<p>Your Whatsapp Access has expired. </p>
-<p>Please reconnect Whatsapp to continue receiving messages.</p>
+<p>Meta can no longer validate the access token for your WhatsApp inbox.</p>
+{% if meta.embedded_signup %}
+<p>Please reconfigure the inbox to refresh the connection and continue receiving messages.</p>
+{% else %}
+<p>Please update the inbox with a valid access token to continue receiving messages.</p>
+{% endif %}
 
 <p>
-Click <a href="{{action_url}}">here</a> to re-connect.
+Open the inbox <a href="{{action_url}}">configuration page</a> to restore the connection.
 </p>

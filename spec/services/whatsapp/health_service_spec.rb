@@ -166,6 +166,7 @@ RSpec.describe Whatsapp::HealthService do
           expect(error.subcode).to eq(464)
           expect(error).to be_authorization_error
         end
+        expect(channel.authorization_error_count).to eq(1)
       end
 
       it 'preserves the successful snapshot and records the failed attempt' do

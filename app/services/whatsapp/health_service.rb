@@ -131,6 +131,7 @@ class Whatsapp::HealthService
       "[WHATSAPP HEALTH] WhatsApp API request failed: http_status=#{error.http_status} " \
       "code=#{error.code} subcode=#{error.subcode} message=#{error.message}"
     )
+    @channel.authorization_error! if error.authorization_error?
     raise error
   end
 

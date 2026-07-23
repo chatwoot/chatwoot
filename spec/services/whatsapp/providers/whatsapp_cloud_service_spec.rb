@@ -262,6 +262,26 @@ describe Whatsapp::Providers::WhatsappCloudService do
         subject.sync_templates
         expect(whatsapp_channel.reload.message_templates_last_updated).not_to eq(timstamp)
       end
+
+      it 'records an authorization error when Meta rejects the access token' do
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
+          .to_return(
+            status: 400,
+            headers: response_headers,
+            body: {
+              error: {
+                message: 'The access token cannot authorize this request.',
+                type: 'OAuthException',
+                code: 190,
+                error_subcode: 464
+              }
+            }.to_json
+          )
+
+        subject.sync_templates
+
+        expect(whatsapp_channel.authorization_error_count).to eq(1)
+      end
     end
   end
 

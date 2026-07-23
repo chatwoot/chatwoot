@@ -41,6 +41,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def fetch_whatsapp_templates(url)
     response = HTTParty.get(url)
     unless response.success?
+      whatsapp_channel.authorization_error! if meta_authorization_error?(response)
       Rails.logger.warn "[WHATSAPP] Template sync failed for account #{whatsapp_channel.account_id} " \
                         "inbox #{whatsapp_channel.inbox&.id}: #{response.code} #{error_message(response)}"
       return []
@@ -53,9 +54,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     response['data']
   end
 
-  def next_url(response)
-    response['paging'] ? response['paging']['next'] : ''
-  end
+  def next_url(response) = response['paging'] ? response['paging']['next'] : ''
 
   def validate_provider_config?
     config = whatsapp_channel.provider_config

@@ -33,16 +33,53 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
   end
 
   describe 'whatsapp_disconnect' do
-    let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
+    let(:source) { 'embedded_signup' }
+    let!(:whatsapp_channel) do
+      create(
+        :channel_whatsapp,
+        provider: 'whatsapp_cloud',
+        provider_config: {
+          'api_key' => 'synthetic_access_token',
+          'business_account_id' => 'synthetic_business_account_id',
+          'phone_number_id' => 'synthetic_phone_number_id',
+          'source' => 'embedded_signup'
+        },
+        sync_templates: false,
+        validate_provider_config: false
+      )
+    end
     let!(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
     let(:mail) { described_class.with(account: account).whatsapp_disconnect(whatsapp_inbox).deliver_now }
 
+    before do
+      allow(whatsapp_inbox.channel).to receive(:provider_config)
+        .and_return(whatsapp_channel.provider_config.merge('source' => source))
+    end
+
     it 'renders the subject' do
-      expect(mail.subject).to eq('Your Whatsapp connection has expired')
+      expect(mail.subject).to eq('Your WhatsApp connection needs to be refreshed')
     end
 
     it 'renders the receiver email' do
       expect(mail.to).to contain_exactly(administrator.email, another_administrator.email)
+    end
+
+    it 'links directly to the inbox configuration page' do
+      expected_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/settings/inboxes/#{whatsapp_inbox.id}/configuration"
+
+      expect(mail.body.decoded).to include(expected_url)
+    end
+
+    it 'asks embedded signup inboxes to reconfigure' do
+      expect(mail.body.decoded).to include('Please reconfigure the inbox')
+    end
+
+    context 'when the inbox uses manual setup' do
+      let(:source) { nil }
+
+      it 'asks the administrator to update the access token' do
+        expect(mail.body.decoded).to include('Please update the inbox with a valid access token')
+      end
     end
   end
 

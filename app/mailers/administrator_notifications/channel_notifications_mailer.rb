@@ -15,8 +15,9 @@ class AdministratorNotifications::ChannelNotificationsMailer < AdministratorNoti
   end
 
   def whatsapp_disconnect(inbox)
-    subject = 'Your Whatsapp connection has expired'
-    send_notification(subject, action_url: inbox_url(inbox))
+    subject = 'Your WhatsApp connection needs to be refreshed'
+    meta = { 'embedded_signup' => inbox.channel.provider_config['source'] == 'embedded_signup' }
+    send_notification(subject, action_url: "#{inbox_url(inbox)}/configuration", meta: meta)
   end
 
   def email_disconnect(inbox)

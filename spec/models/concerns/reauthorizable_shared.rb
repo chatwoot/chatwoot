@@ -85,6 +85,19 @@ shared_examples_for 'reauthorizable' do
         expect(AdministratorNotifications::ChannelNotificationsMailer).to have_received(:with).with(account: obj.account)
       end
     end
+
+    it 'notifies only once while reauthorization remains required' do
+      obj.prompt_reauthorization!
+      obj.prompt_reauthorization!
+
+      if model.to_s == 'AutomationRule'
+        expect(AdministratorNotifications::AccountNotificationMailer).to have_received(:with).once
+      elsif model.to_s == 'Integrations::Hook'
+        expect(AdministratorNotifications::IntegrationsNotificationMailer).to have_received(:with).once
+      else
+        expect(AdministratorNotifications::ChannelNotificationsMailer).to have_received(:with).once
+      end
+    end
   end
 
   it 'reauthorized!' do

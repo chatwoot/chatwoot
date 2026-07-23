@@ -9,6 +9,8 @@
 ######################################
 
 class Whatsapp::Providers::BaseService
+  META_AUTHORIZATION_ERROR_CODE = 190
+
   pattr_initialize [:whatsapp_channel!]
 
   def send_message(_phone_number, _message)
@@ -102,5 +104,12 @@ class Whatsapp::Providers::BaseService
     sections = [section1]
     json_hash = { :button => I18n.t('conversations.messages.whatsapp.list_button_label'), 'sections' => sections }
     create_payload('list', message.outgoing_content, JSON.generate(json_hash))
+  end
+
+  private
+
+  def meta_authorization_error?(response)
+    parsed_response = response.parsed_response
+    parsed_response.is_a?(Hash) && parsed_response.dig('error', 'code').to_i == META_AUTHORIZATION_ERROR_CODE
   end
 end

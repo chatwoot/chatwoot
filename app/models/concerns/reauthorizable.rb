@@ -40,11 +40,12 @@ module Reauthorizable
     state_changed = !reauthorization_required?
 
     ::Redis::Alfred.set(reauthorization_required_key, true)
+    return unless state_changed
 
     reauthorization_handlers[self.class.name]&.call(self)
 
     invalidate_inbox_cache unless instance_of?(::AutomationRule)
-    dispatch_inbox_reauthorization_event(true) if state_changed
+    dispatch_inbox_reauthorization_event(true)
   end
 
   def process_integration_hook_reauthorization_emails
