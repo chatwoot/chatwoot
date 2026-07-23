@@ -1,10 +1,11 @@
 <script setup>
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useBranding } from 'shared/composables/useBranding';
 import { login } from '../../api/auth';
+import wootAPI from '../../api/apiClient';
 import FormInput from '../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -13,18 +14,38 @@ const { replaceInstallationName } = useBranding();
 const globalConfig = useMapGetter('globalConfig/get');
 
 const credentials = reactive({
-  name: '',
+  userId: '',
   pin: '',
 });
 
+const deskUsers = ref([]);
+const loadingUsers = ref(true);
 const showLoading = ref(false);
 const hasErrored = ref(false);
 
+const loadDeskUsers = async () => {
+  loadingUsers.value = true;
+  try {
+    const { data } = await wootAPI.get('auth/desk_users');
+    deskUsers.value = data?.payload || [];
+    if (deskUsers.value.length === 1) {
+      credentials.userId = String(deskUsers.value[0].id);
+    }
+  } catch {
+    deskUsers.value = [];
+    useAlert(t('LOGIN.DESK.NAME.LOAD_ERROR'));
+  } finally {
+    loadingUsers.value = false;
+  }
+};
+
+onMounted(loadDeskUsers);
+
 const submitDeskLogin = async () => {
-  const name = credentials.name.trim();
+  const userId = String(credentials.userId || '').trim();
   const pin = credentials.pin.trim();
 
-  if (!name) {
+  if (!userId) {
     useAlert(t('LOGIN.DESK.NAME.ERROR'));
     return;
   }
@@ -38,7 +59,7 @@ const submitDeskLogin = async () => {
   hasErrored.value = false;
 
   try {
-    await login({ name, pin });
+    await login({ user_id: Number(userId), pin });
     useAlert(t('LOGIN.API.SUCCESS_MESSAGE'));
   } catch (error) {
     hasErrored.value = true;
@@ -77,15 +98,33 @@ const submitDeskLogin = async () => {
       :class="{ 'animate-wiggle': hasErrored }"
     >
       <form class="space-y-5" @submit.prevent="submitDeskLogin">
-        <FormInput
-          v-model="credentials.name"
-          name="desk_name"
-          type="text"
-          required
-          autocomplete="username"
-          :label="t('LOGIN.DESK.NAME.LABEL')"
-          :placeholder="t('LOGIN.DESK.NAME.PLACEHOLDER')"
-        />
+        <label class="block">
+          <span class="mb-2 text-sm font-medium text-n-slate-12">
+            {{ t('LOGIN.DESK.NAME.LABEL') }}
+          </span>
+          <select
+            v-model="credentials.userId"
+            name="desk_user_id"
+            required
+            class="w-full px-3 py-2 mt-2 text-base bg-white border rounded-lg outline-none border-n-weak text-n-slate-12 focus:border-n-brand dark:bg-n-solid-1"
+            :disabled="loadingUsers || !deskUsers.length"
+          >
+            <option disabled value="">
+              {{
+                loadingUsers
+                  ? t('LOGIN.DESK.NAME.LOADING')
+                  : t('LOGIN.DESK.NAME.PLACEHOLDER')
+              }}
+            </option>
+            <option
+              v-for="user in deskUsers"
+              :key="user.id"
+              :value="String(user.id)"
+            >
+              {{ user.name }}
+            </option>
+          </select>
+        </label>
         <FormInput
           v-model="credentials.pin"
           name="desk_pin"
@@ -103,7 +142,7 @@ const submitDeskLogin = async () => {
           type="submit"
           class="w-full"
           :label="t('LOGIN.DESK.SUBMIT')"
-          :disabled="showLoading"
+          :disabled="showLoading || loadingUsers || !credentials.userId"
           :is-loading="showLoading"
         />
       </form>

@@ -50,10 +50,11 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     user
   end
 
-  # Desk receptionists sign in with name + numeric PIN. Resolve to email/password
-  # so the rest of DeviseTokenAuth + MFA/session-limit flows stay unchanged.
+  # Desk receptionists sign in with name/user_id + numeric PIN. Resolve to
+  # email/password so DeviseTokenAuth + MFA/session-limit flows stay unchanged.
   def desk_login_request?
-    params[:name].present? && params[:pin].present? && params[:email].blank?
+    params[:pin].present? && params[:email].blank? &&
+      (params[:user_id].present? || params[:name].present?)
   end
 
   # Returns false when desk credentials are invalid (caller should render error).
@@ -64,19 +65,31 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     user = find_desk_user_for_pin
     return false unless user
 
+    # Assign into the request parameters hash DeviseTokenAuth reads from.
+    request.params[:email] = user.email
+    request.params[:password] = params[:pin].to_s
     params[:email] = user.email
-    params[:password] = params[:pin]
+    params[:password] = params[:pin].to_s
     true
   end
 
   def find_desk_user_for_pin
-    name = params[:name].to_s.strip
     pin = params[:pin].to_s
-    return nil if name.blank? || !pin.match?(DeskLoginable::PIN_FORMAT)
+    return nil unless pin.match?(DeskLoginable::PIN_FORMAT)
 
-    User.with_desk_login.where('LOWER(name) = ?', name.downcase).detect do |user|
-      user.valid_password?(pin) && user.active_for_authentication?
-    end
+    user = if params[:user_id].present?
+             User.with_desk_login.find_by(id: params[:user_id])
+           else
+             name = params[:name].to_s.strip
+             return nil if name.blank?
+
+             User.with_desk_login.find_by('LOWER(name) = ?', name.downcase)
+           end
+
+    return nil unless user&.valid_password?(pin)
+    return nil unless user.active_for_authentication?
+
+    user
   end
 
   def render_desk_login_error
