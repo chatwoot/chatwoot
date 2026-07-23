@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
+import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
@@ -36,14 +37,12 @@ const language = computed(() =>
 </script>
 
 <template>
-  <article
-    class="group flex flex-col gap-4 rounded-xl border border-n-weak bg-n-solid-2 p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-n-strong hover:shadow-md"
-  >
+  <CardLayout>
     <div
       class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
     >
       <div class="min-w-0">
-        <div class="mb-3 flex flex-wrap items-center gap-2">
+        <div class="mb-2 flex flex-wrap items-center gap-2">
           <span
             class="inline-flex items-center gap-1.5 rounded-full bg-n-brand/10 px-2.5 py-1 text-xs font-medium text-n-blue-11"
           >
@@ -72,12 +71,12 @@ const language = computed(() =>
       />
     </div>
 
-    <p class="line-clamp-3 text-sm leading-6 text-n-slate-11">
+    <p class="line-clamp-2 text-sm leading-5 text-n-slate-11">
       {{ suggestion.answer }}
     </p>
 
     <div
-      class="flex flex-col gap-3 border-t border-n-weak pt-4 sm:flex-row sm:items-center sm:justify-between"
+      class="flex flex-col gap-3 border-t border-n-weak pt-2.5 sm:flex-row sm:items-center sm:justify-between"
     >
       <div
         class="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2 text-xs text-n-slate-10"
@@ -95,7 +94,7 @@ const language = computed(() =>
       <div class="flex items-center gap-2">
         <Button
           :label="$t('CAPTAIN.FAQ_SUGGESTIONS.DISMISS')"
-          icon="i-lucide-x"
+          icon="i-lucide-circle-x"
           size="sm"
           variant="ghost"
           color="slate"
@@ -112,5 +111,5 @@ const language = computed(() =>
         />
       </div>
     </div>
-  </article>
+  </CardLayout>
 </template>

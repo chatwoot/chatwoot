@@ -123,20 +123,33 @@ defineExpose({ dialogRef });
     width="3xl"
     position="top"
     overflow-y-auto
-    :title="$t('CAPTAIN.FAQ_SUGGESTIONS.DETAILS.TITLE')"
     :show-cancel-button="false"
     :show-confirm-button="false"
     @close="emit('close')"
   >
-    <template #description>
-      <p class="mb-0 text-sm text-n-slate-11">
-        {{
-          $t('CAPTAIN.FAQ_SUGGESTIONS.DETAILS.DESCRIPTION', {
-            count: suggestion.source_count,
-          })
-        }}
-      </p>
-    </template>
+    <div class="flex items-start justify-between gap-4">
+      <div class="flex flex-col gap-1">
+        <h3 class="text-base font-medium leading-6 text-n-slate-12">
+          {{ $t('CAPTAIN.FAQ_SUGGESTIONS.DETAILS.TITLE') }}
+        </h3>
+        <p class="mb-0 text-sm text-n-slate-11">
+          {{
+            $t('CAPTAIN.FAQ_SUGGESTIONS.DETAILS.DESCRIPTION', {
+              count: suggestion.source_count,
+            })
+          }}
+        </p>
+      </div>
+      <Button
+        icon="i-lucide-x"
+        variant="ghost"
+        color="slate"
+        size="sm"
+        class="-me-1.5 -mt-1.5 shrink-0"
+        :aria-label="$t('DIALOG.BUTTONS.CANCEL')"
+        @click="close"
+      />
+    </div>
 
     <div
       class="grid min-h-0 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]"
@@ -251,7 +264,7 @@ defineExpose({ dialogRef });
       >
         <Button
           :label="$t('CAPTAIN.FAQ_SUGGESTIONS.DISMISS')"
-          icon="i-lucide-x"
+          icon="i-lucide-circle-x"
           variant="ghost"
           color="ruby"
           :is-loading="isDismissing"
@@ -259,13 +272,6 @@ defineExpose({ dialogRef });
           @click="handleDismiss"
         />
         <div class="flex items-center justify-end gap-2">
-          <Button
-            :label="$t('DIALOG.BUTTONS.CANCEL')"
-            variant="faded"
-            color="slate"
-            :disabled="isSaving || isDismissing"
-            @click="close"
-          />
           <Button
             :label="$t('CAPTAIN.FAQ_SUGGESTIONS.SAVE')"
             variant="faded"
