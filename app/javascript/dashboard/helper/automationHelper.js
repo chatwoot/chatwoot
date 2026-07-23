@@ -2,6 +2,7 @@ import {
   OPERATOR_TYPES_1,
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
+  OPERATOR_TYPES_7,
 } from 'dashboard/routes/dashboard/settings/automation/operators';
 import {
   DEFAULT_MESSAGE_CREATED_CONDITION,
@@ -15,6 +16,7 @@ import actionQueryGenerator from './actionQueryGenerator';
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
     date: 'date',
+    datetime: 'datetime',
     text: 'plain_text',
     list: 'search_select',
     checkbox: 'search_select',
@@ -61,12 +63,15 @@ export const isCustomAttributeList = (customAttributes, type) => {
 
 export const getOperatorTypes = key => {
   const operatorMap = {
-    list: OPERATOR_TYPES_1,
-    text: OPERATOR_TYPES_3,
-    number: OPERATOR_TYPES_1,
-    link: OPERATOR_TYPES_1,
+    list: OPERATOR_TYPES_3,
+    text: OPERATOR_TYPES_7,
+    number: OPERATOR_TYPES_4,
+    currency: OPERATOR_TYPES_4,
+    percent: OPERATOR_TYPES_4,
+    link: OPERATOR_TYPES_7,
     date: OPERATOR_TYPES_4,
-    checkbox: OPERATOR_TYPES_1,
+    datetime: OPERATOR_TYPES_4,
+    checkbox: OPERATOR_TYPES_3,
   };
 
   return operatorMap[key] || OPERATOR_TYPES_1;
@@ -104,6 +109,7 @@ export const getActionOptions = ({
   priorityOptions,
   contactAttributes = [],
   conversationAttributes = [],
+  macros = [],
 }) => {
   const DISPLAY_TYPE_BY_ID = {
     0: 'text',
@@ -114,6 +120,7 @@ export const getActionOptions = ({
     5: 'date',
     6: 'list',
     7: 'checkbox',
+    8: 'datetime',
   };
 
   const normalizeDisplayType = attr => {
@@ -154,6 +161,10 @@ export const getActionOptions = ({
     remove_label: generateConditionOptions(labels, 'title'),
     change_priority: priorityOptions,
     add_sla: slaPolicies,
+    execute_macro: (macros || []).map(macro => ({
+      id: macro.id,
+      name: macro.name,
+    })),
     update_contact_custom_attribute:
       writableAttributeOptions(contactAttributes),
     update_conversation_custom_attribute: writableAttributeOptions(

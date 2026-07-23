@@ -110,6 +110,9 @@
       "CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER": "Selecciona un atributo personalizado",
       "CUSTOM_ATTRIBUTE_EMPTY": "No hay atributos. Créalos en Configuración → Atributos personalizados.",
       "CUSTOM_ATTRIBUTE_USE_TODAY": "Usar fecha de hoy",
+      "CUSTOM_ATTRIBUTE_USE_NOW": "Usar fecha y hora actuales",
+      "CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_NOW": "Fecha y hora dinámica: ahora",
+      "CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_HELP": "Se resuelve cuando corre la automatización. Usa variables como {{ date.now }} o {{ contact.custom_attribute.foo }}.",
       "VARIABLES_HINT": "Usa el botón de variables para insertar nombre del contacto, atributos personalizados o fechas",
       "DELAY_SECONDS_LABEL": "Espera (segundos)",
       "MARK_READ_TYPING_LABEL": "Marcar como leído y mostrar escribiendo",
@@ -172,6 +175,7 @@
       "CHANGE_PRIORITY": "Cambiar prioridad",
       "UPDATE_CONTACT_CUSTOM_ATTRIBUTE": "Actualizar atributo personalizado del contacto",
       "UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE": "Actualizar atributo personalizado de la conversación",
+      "EXECUTE_MACRO": "Ejecutar macro",
       "ADD_SLA": "Añadir SLA",
       "OPEN_CONVERSATION": "Abrir conversación",
       "PENDING_CONVERSATION": "Marca la conversación como pendiente"

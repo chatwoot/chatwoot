@@ -69,6 +69,7 @@ const INPUT_TYPE_MAP = {
   plain_text: 'plainText',
   comma_separated_plain_text: 'plainText',
   date: 'date',
+  datetime: 'datetime',
 };
 
 const { t } = useI18n();

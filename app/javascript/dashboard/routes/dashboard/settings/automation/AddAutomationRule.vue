@@ -46,7 +46,10 @@ const {
 
 const open = async () => {
   automation.value = structuredClone(START_VALUE);
-  await store.dispatch('attributes/get');
+  await Promise.all([
+    store.dispatch('attributes/get'),
+    store.dispatch('macros/get'),
+  ]);
   manifestCustomAttributes();
   formRef.value?.open();
 };
@@ -64,6 +67,7 @@ onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('campaigns/get');
   store.dispatch('attributes/get');
+  store.dispatch('macros/get');
 });
 
 defineExpose({ open, close });

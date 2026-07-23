@@ -23,6 +23,9 @@ import CsatResponses from './CsatResponses.vue';
 import BotReports from './BotReports.vue';
 import LiveReports from './LiveReports.vue';
 import SLAReports from './SLAReports.vue';
+import ReportPanelsIndex from './panels/Index.vue';
+import ReportPanelsShow from './panels/Show.vue';
+import ReportPanelsEdit from './panels/Edit.vue';
 
 const meta = {
   featureFlag: FEATURE_FLAGS.REPORTS,
@@ -167,6 +170,32 @@ export default {
           name: 'bot_reports',
           meta,
           component: BotReports,
+        },
+        {
+          path: 'panels',
+          name: 'report_panels_index',
+          meta,
+          component: ReportPanelsIndex,
+        },
+        {
+          path: 'panels/new',
+          name: 'report_panels_new',
+          meta,
+          component: ReportPanelsEdit,
+          props: { isNew: true },
+        },
+        {
+          path: 'panels/:id/edit',
+          name: 'report_panels_edit',
+          meta,
+          component: ReportPanelsEdit,
+          props: { isNew: false },
+        },
+        {
+          path: 'panels/:id',
+          name: 'report_panels_show',
+          meta,
+          component: ReportPanelsShow,
         },
       ],
     },

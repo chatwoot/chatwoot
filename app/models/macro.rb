@@ -32,7 +32,8 @@ class Macro < ApplicationRecord
 
   ACTIONS_ATTRS = %w[send_message add_label assign_team assign_agent mute_conversation change_status remove_label remove_assigned_agent
                      remove_assigned_team resolve_conversation snooze_conversation change_priority send_email_transcript
-                     send_attachment add_private_note send_webhook_event].freeze
+                     send_attachment add_private_note send_webhook_event
+                     update_contact_custom_attribute update_conversation_custom_attribute].freeze
 
   def set_visibility(user, params)
     self.visibility = params[:visibility]

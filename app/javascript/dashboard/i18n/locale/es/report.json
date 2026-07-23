@@ -697,5 +697,172 @@
       "AVG_REPLY_TIME": "Tiempo promedio que espera el cliente entre su mensaje y la siguiente respuesta del agente.",
       "RESOLUTION_COUNT": "Número de conversaciones resueltas en el período seleccionado."
     }
+  },
+  "REPORT_PANELS": {
+    "HEADER": "Paneles",
+    "DESCRIPTION": "Paneles de informe guardados de esta cuenta: métricas, gráficas y tablas con filtros opcionales.",
+    "CREATE": "Nuevo panel",
+    "EDIT": "Editar",
+    "OPEN": "Abrir",
+    "SAVE": "Guardar panel",
+    "DELETE": "Eliminar",
+    "BACK": "Volver",
+    "EXPORT": "Exportar Excel",
+    "REFRESH": "Actualizar",
+    "EMPTY": "Aún no hay paneles. Crea uno para seguir las métricas que te importan.",
+    "FAVORITE": "Favorito",
+    "CHART_TIME_UNIT": "horas",
+    "LIST": {
+      "SCOPE_HINT": "Las métricas son por cuenta (toda la organización) por defecto. Usa filtros del panel para acotar por agente, bandeja, etiquetas, etc. Usa una tabla “Resumen de agentes” para ver el desglose por agente.",
+      "COLUMNS": {
+        "NAME": "Nombre",
+        "PERIOD": "Período",
+        "WIDGETS": "Widgets",
+        "FILTERS": "Filtros",
+        "UPDATED": "Actualizado",
+        "ACTIONS": "Acciones"
+      }
+    },
+    "EMPTY_TABLE": "Sin filas en este período.",
+    "TABLE_CLICK_HINT": "Haz clic en una fila para abrir la conversación o el contacto.",
+    "FILTERED_COUNT": "{count} conversaciones coinciden con los filtros",
+    "FILTERED_CONTACTS_COUNT": "{count} contactos coinciden con los filtros",
+    "TOTALS": {
+      "RECORDS": "Total de registros",
+      "RECORDS_COUNT": "{count} registros",
+      "SUM": "Suma",
+      "FOOTER_LABEL": "Total"
+    },
+    "METRIC_SOURCES": {
+      "PRESET": "Métrica predefinida",
+      "AGGREGATION": "Agregación personalizada"
+    },
+    "AGGREGATIONS": {
+      "NONE": "Sin pie",
+      "COUNT": "Conteo",
+      "SUM": "Suma",
+      "AVG": "Promedio",
+      "MIN": "Mínimo",
+      "MAX": "Máximo",
+      "ALL_ROWS": "Todas las filas coincidentes",
+      "GROUP_BY_CREATED_AT": "Fecha de creación (predeterminado)"
+    },
+    "AGGREGATION_ENTITIES": {
+      "CONVERSATIONS": "Conversaciones",
+      "CONTACTS": "Contactos"
+    },
+    "DATE_PRESETS": {
+      "TODAY": "Hoy",
+      "YESTERDAY": "Ayer",
+      "LAST_7_DAYS": "Últimos 7 días",
+      "LAST_30_DAYS": "Últimos 30 días",
+      "CUSTOM": "Rango personalizado"
+    },
+    "FIELDS": {
+      "NAME": "Nombre",
+      "NAME_PLACEHOLDER": "ej. Ventas última semana",
+      "DESCRIPTION": "Descripción",
+      "DATE_PRESET": "Rango de fechas",
+      "CUSTOM_RANGE": "Fechas personalizadas",
+      "VIEW_RANGE": "Período a ver",
+      "BUSINESS_HOURS": "Solo horario laboral",
+      "FAVORITE": "Marcar como favorito",
+      "WIDGET_TITLE": "Título del widget",
+      "METRIC": "Métrica",
+      "METRIC_SOURCE": "Origen del valor",
+      "AGGREGATION_OP": "Agregación",
+      "AGGREGATION_FIELD": "Atributo numérico",
+      "AGGREGATION_FIELD_OPTIONAL": "Atributo (opcional)",
+      "AGGREGATION_FIELD_OPTIONAL_HINT": "Déjalo vacío para contar filas coincidentes, o elige un atributo numérico para contar solo las que lo tienen.",
+      "AGGREGATION_GROUP_FIELD": "Agrupar / filtrar por atributo de fecha",
+      "AGGREGATION_GROUP_FIELD_HINT": "Usa un atributo personalizado date o date-time (p. ej. fecha de venta) para el eje X y el filtro del período. Vacío = fecha de creación. Combínalo con un atributo numérico arriba (p. ej. precio) para gráficas de ventas.",
+      "AGGREGATION_ENTITY": "Agregar sobre",
+      "TABLE_KIND": "Tipo de tabla",
+      "TABLE_COLUMNS": "Columnas",
+      "TABLE_COLUMNS_HINT": "Elige las columnas a mostrar. En columnas numéricas puedes elegir una agregación de pie (suma, promedio, conteo…). Cambiar el tipo de tabla restablece las columnas."
+    },
+    "RESET_RANGE": "Restablecer rango guardado",
+    "FILTERS": {
+      "TITLE": "Filtros del panel",
+      "ADD": "Añadir filtro",
+      "HINT": "Los filtros se aplican a métricas, gráficas y tablas. Los de conversación (bandeja, agentes, etiquetas de conversación, …) acotan conversaciones en el rango de fechas. Las etiquetas / atributos de contacto acotan contactos y se intersectan con los filtros de conversación. Agente y bandeja admiten multi-selección (IN). Máx. 10. Y/O entre condiciones se guarda como query_operator en cada filtro excepto el último.",
+      "EMPTY": "Sin filtros. Las métricas y tablas usan solo el rango de fechas.",
+      "SYSTEM_ATTRIBUTES": "Atributos de conversación",
+      "CUSTOM_ATTRIBUTES": "Atributos personalizados de conversación",
+      "CONTACT_ATTRIBUTES": "Atributos de contacto",
+      "CONTACT_CUSTOM_ATTRIBUTES": "Atributos personalizados de contacto",
+      "CONVERSATION_LABELS": "Etiquetas de conversación",
+      "CONTACT_LABELS": "Etiquetas de contacto"
+    },
+    "WIDGETS": {
+      "TITLE": "Widgets",
+      "ADD_METRIC": "Añadir métrica",
+      "ADD_CHART": "Añadir gráfica",
+      "ADD_TABLE": "Añadir tabla",
+      "REMOVE": "Quitar",
+      "MOVE_UP": "Subir",
+      "MOVE_DOWN": "Bajar",
+      "TYPES": {
+        "METRIC": "Métrica",
+        "CHART": "Gráfica",
+        "TABLE": "Tabla"
+      }
+    },
+    "TABLE_KINDS": {
+      "AGENT": "Resumen de agentes",
+      "INBOX": "Resumen de bandejas",
+      "TEAM": "Resumen de equipos",
+      "LABEL": "Resumen de etiquetas",
+      "CONVERSATIONS": "Conversaciones filtradas",
+      "CONTACTS": "Contactos únicos (atendidos)"
+    },
+    "COLUMNS": {
+      "rank": "Puesto",
+      "name": "Nombre",
+      "id": "ID",
+      "contact_name": "Contacto",
+      "status": "Estado",
+      "priority": "Prioridad",
+      "labels": "Etiquetas",
+      "inbox": "Bandeja",
+      "assignee": "Agente",
+      "phone_number": "Teléfono",
+      "email": "Email",
+      "document_number": "Documento",
+      "conversations_count": "Conversaciones",
+      "resolved_conversations_count": "Resueltas",
+      "incoming_messages_count": "Mensajes entrantes",
+      "outgoing_messages_count": "Mensajes salientes",
+      "csat_avg": "CSAT promedio",
+      "avg_first_response_time": "1ª respuesta",
+      "avg_resolution_time": "Resolución",
+      "avg_reply_time": "Espera cliente",
+      "share_percent": "Participación",
+      "created_at": "Creada",
+      "last_activity_at": "Última actividad"
+    },
+    "METRICS": {
+      "conversations_count": "Conversaciones",
+      "unique_contacts_count": "Contactos únicos atendidos",
+      "contacts_count": "Contactos creados",
+      "incoming_messages_count": "Mensajes entrantes",
+      "outgoing_messages_count": "Mensajes salientes",
+      "avg_first_response_time": "1ª respuesta",
+      "avg_resolution_time": "Resolución",
+      "reply_time": "Espera cliente",
+      "resolutions_count": "Resoluciones"
+    },
+    "ERRORS": {
+      "LOAD": "No se pudieron cargar los paneles",
+      "SAVE": "No se pudo guardar el panel",
+      "RUN": "No se pudo ejecutar el panel",
+      "EXPORT": "No se pudo exportar el panel",
+      "NAME_REQUIRED": "El nombre es obligatorio",
+      "WIDGET_REQUIRED": "Añade al menos un widget",
+      "CUSTOM_RANGE_REQUIRED": "Elige una fecha de inicio y fin",
+      "MAX_WIDGETS": "Máximo 12 widgets por panel",
+      "MAX_FILTERS": "Máximo 10 filtros por panel",
+      "FILTERS_INVALID": "Corrige los filtros inválidos antes de guardar"
+    }
   }
 }

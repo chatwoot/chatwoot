@@ -11,7 +11,7 @@ export const emptyMacro = {
 };
 
 export const resolveActionName = key => {
-  return macroActionTypes.find(i => i.key === key).label;
+  return macroActionTypes.find(i => i.key === key)?.label || key;
 };
 
 export const resolveTeamIds = (teams, ids) => {

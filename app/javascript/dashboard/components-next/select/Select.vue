@@ -1,7 +1,8 @@
 <script setup>
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import { computed } from 'vue';
 
-defineProps({
+const props = defineProps({
   options: {
     type: Array,
     default: () => [],
@@ -33,26 +34,41 @@ defineProps({
     type: String,
     default: '',
   },
+  fullWidth: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const modelValue = defineModel({
   type: [String, Number, Boolean],
   default: '',
 });
+
+const rootClass = computed(() =>
+  props.fullWidth ? 'w-full relative' : 'w-fit relative'
+);
+
+const selectClass = computed(() => [
+  'appearance-none bg-none rounded-lg border-0 outline-1 outline -outline-offset-1 transition-all duration-200 bg-n-surface-1 !mb-0 py-2 px-3 pr-10 text-sm',
+  props.fullWidth ? 'w-full' : '',
+]);
 </script>
 
 <template>
-  <div class="w-fit relative">
+  <div :class="rootClass">
     <select
       v-model="modelValue"
       :disabled="disabled"
-      class="appearance-none bg-none rounded-lg border-0 outline-1 outline -outline-offset-1 transition-all duration-200 bg-n-surface-1 !mb-0 py-2 px-3 pr-10 text-sm"
-      :class="{
-        'outline-n-weak hover:outline-n-slate-6 focus:outline-n-blue-9':
-          !error && !disabled,
-        'outline-n-red-9 focus:outline-n-red-9': error && !disabled,
-        'outline-n-weak bg-n-slate-2 cursor-not-allowed opacity-60': disabled,
-      }"
+      :class="[
+        ...selectClass,
+        {
+          'outline-n-weak hover:outline-n-slate-6 focus:outline-n-blue-9':
+            !error && !disabled,
+          'outline-n-red-9 focus:outline-n-red-9': error && !disabled,
+          'outline-n-weak bg-n-slate-2 cursor-not-allowed opacity-60': disabled,
+        },
+      ]"
     >
       <option v-if="placeholder" value="" disabled>
         {{ placeholder }}

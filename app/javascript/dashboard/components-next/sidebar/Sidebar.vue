@@ -375,7 +375,8 @@ const menuItems = computed(() => {
     });
   }
 
-  items.push({
+  items.push(
+    {
       name: 'Conversation',
       label: t('SIDEBAR.CONVERSATIONS'),
       icon: 'i-lucide-message-circle',
@@ -669,6 +670,17 @@ const menuItems = computed(() => {
           name: 'Reports Bot',
           label: t('SIDEBAR.REPORTS_BOT'),
           to: accountScopedRoute('bot_reports'),
+        },
+        {
+          name: 'Report Panels',
+          label: t('SIDEBAR.REPORTS_PANELS'),
+          to: accountScopedRoute('report_panels_index'),
+          activeOn: [
+            'report_panels_index',
+            'report_panels_show',
+            'report_panels_new',
+            'report_panels_edit',
+          ],
         },
       ],
     },

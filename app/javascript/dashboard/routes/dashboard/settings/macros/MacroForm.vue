@@ -116,7 +116,14 @@ export default {
       // remove that index specifically
       // so that the next item does not get marked invalid
       this.errors = this.removeObjectProperty(this.errors, `action_${index}`);
-      this.macro.actions[index].action_params = [];
+      const actionName = this.macro.actions[index]?.action_name;
+      const isCustomAttribute = [
+        'update_contact_custom_attribute',
+        'update_conversation_custom_attribute',
+      ].includes(actionName);
+      this.macro.actions[index].action_params = isCustomAttribute
+        ? { attribute_key: '', value: '' }
+        : [];
       this.macro.actions[index].delivery = {
         delay_seconds: 0,
         mark_read_and_typing: false,
