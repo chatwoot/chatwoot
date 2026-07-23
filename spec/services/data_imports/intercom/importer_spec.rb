@@ -520,29 +520,31 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(next_data_import.import_errors.skip_logs.pluck(:details).map { |details| details['reason'] }.uniq).to eq(['already_imported'])
     end
 
-    it 'reconciles skipped conversation stats when a superseded run is retried' do
+    it 'reconciles skipped stats when a superseded run is retried', :aggregate_failures do
       described_class.new(data_import: data_import).perform
       run_id = 'intercom-run-1'
       next_run_id = 'intercom-run-2'
       next_data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
 
-      freeze_time do
-        importer = described_class.new(data_import: next_data_import, run_id: run_id)
-        allow(importer).to receive(:skip_existing_message_mapping).and_wrap_original do |method, *args|
-          method.call(*args)
-          next_data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => next_run_id })
-          travel 1.minute
-        end
+      importer = described_class.new(data_import: next_data_import, run_id: run_id)
+      allow(importer).to receive(:skip_existing_message_mapping).and_wrap_original do |method, *args|
+        method.call(*args)
+        part = args[2]
+        next unless part['id'] == 'part_2'
 
-        importer.import_conversations_page
-        expect(next_data_import.reload.stats.dig('conversations', 'skipped')).to eq(0)
-
-        retry_importer = described_class.new(data_import: next_data_import, run_id: next_run_id)
-        retry_importer.import_conversations_page
-        retry_importer.finish!
-
-        expect(next_data_import.reload.stats.dig('conversations', 'skipped')).to eq(1)
+        DataImport.find(next_data_import.id).update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => next_run_id })
       end
+
+      importer.import_conversations_page
+      expect(next_data_import.reload.stats.dig('messages', 'skipped')).to eq(0)
+
+      retry_importer = described_class.new(data_import: next_data_import, run_id: next_run_id)
+      retry_importer.import_conversations_page
+      retry_importer.finish!
+
+      expect(next_data_import.reload.stats.dig('conversations', 'skipped')).to eq(1)
+      expect(next_data_import.stats.dig('messages', 'skipped')).to eq(3)
+      expect(next_data_import.total_records).to eq(5)
     end
 
     it 'recreates messages when existing message mappings point to deleted records', :aggregate_failures do
