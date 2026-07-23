@@ -33,9 +33,7 @@ import {
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
-import wootConstants, {
-  META_RESTRICTION_STATUS_URL,
-} from 'dashboard/constants/globals';
+import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
@@ -95,7 +93,6 @@ export default {
       currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
-      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
     isOpen() {
       return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
@@ -173,13 +170,6 @@ export default {
         instagramInbox
       );
     },
-    isInstagramRestrictionBannerVisible() {
-      return this.isOnChatwootCloud && this.isAnInstagramChannel;
-    },
-    instagramRestrictionStatusUrl() {
-      return META_RESTRICTION_STATUS_URL;
-    },
-
     replyWindowBannerMessage() {
       if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
@@ -464,15 +454,7 @@ export default {
   >
     <div ref="topBannerRef">
       <Banner
-        v-if="isInstagramRestrictionBannerVisible"
-        color-scheme="warning"
-        class="mx-2 mt-2 overflow-hidden rounded-lg"
-        :banner-message="$t('CONVERSATION.INSTAGRAM_RESTRICTION_BANNER')"
-        :href-link="instagramRestrictionStatusUrl"
-        :href-link-text="$t('CONVERSATION.INSTAGRAM_RESTRICTION_STATUS_LINK')"
-      />
-      <Banner
-        v-else-if="!currentChat.can_reply"
+        v-if="!currentChat.can_reply"
         color-scheme="alert"
         class="mx-2 mt-2 overflow-hidden rounded-lg"
         :banner-message="replyWindowBannerMessage"
