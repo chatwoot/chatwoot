@@ -160,6 +160,32 @@ export const DEFAULT_TABLE_COLUMNS = {
     'conversations_count',
     'last_activity_at',
   ],
+  // Summary defaults: counts only. CSAT / averages / share stay optional
+  // (and are not expanded under pivot Columnas).
+  agent_summary: [
+    'rank',
+    'name',
+    'conversations_count',
+    'resolved_conversations_count',
+  ],
+  inbox_summary: [
+    'rank',
+    'name',
+    'conversations_count',
+    'resolved_conversations_count',
+  ],
+  team_summary: [
+    'rank',
+    'name',
+    'conversations_count',
+    'resolved_conversations_count',
+  ],
+  label_summary: [
+    'rank',
+    'name',
+    'conversations_count',
+    'resolved_conversations_count',
+  ],
 };
 
 /** Prefix for custom-attribute columns stored in widget.columns */
@@ -364,6 +390,25 @@ export const SUMMABLE_SYSTEM_COLUMNS = new Set([
 
 export const SUMMABLE_CUSTOM_TYPES = new Set(['number', 'currency', 'percent']);
 
+/** Normalize CA display type (API may send int enum or string). */
+export const normalizeAttrDisplayType = attr => {
+  const map = {
+    0: 'text',
+    1: 'number',
+    2: 'currency',
+    3: 'percent',
+    4: 'link',
+    5: 'date',
+    6: 'list',
+    7: 'checkbox',
+    8: 'datetime',
+  };
+  const raw =
+    attr?.attributeDisplayType ?? attr?.attribute_display_type ?? 'text';
+  if (typeof raw === 'number') return map[raw] || 'text';
+  return String(raw);
+};
+
 /** Ops offered as separate selectable columns per attribute on summary tables */
 export const summaryMeasureOpsForAttrType = type => {
   if (SUMMABLE_CUSTOM_TYPES.has(type)) {
@@ -372,6 +417,18 @@ export const summaryMeasureOpsForAttrType = type => {
   // Non-numeric: only count of conversations/contacts where the attr is set / non-empty
   return ['count'];
 };
+
+/** Identity columns always kept on summary rows (not shown as Valores). */
+export const summaryIdentityColumnsFor = kind =>
+  (TABLE_COLUMN_OPTIONS[kind] || []).filter(key =>
+    PIVOT_IDENTITY_COLUMNS.has(key)
+  );
+
+/** System metrics eligible as Valores on summary tables (excludes rank/name). */
+export const summarySystemMeasureKeysFor = kind =>
+  (TABLE_COLUMN_OPTIONS[kind] || []).filter(
+    key => !PIVOT_IDENTITY_COLUMNS.has(key)
+  );
 
 /**
  * Parse number/currency/percent CA values that may use locale separators

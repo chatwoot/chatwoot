@@ -23,25 +23,12 @@ import {
   METRIC_SOURCES,
   AGGREGATION_OPS,
   AGGREGATION_ENTITIES,
-  COLUMN_AGGREGATION_OPS,
   TABLE_KINDS,
   CONTACT_ATTR_PREFIX,
   CONTACT_FILTER_PREFIX,
   MULTI_SELECT_SYSTEM_KEYS,
-  TABLE_COLUMN_OPTIONS,
-  SUMMABLE_SYSTEM_COLUMNS,
   SUMMABLE_CUSTOM_TYPES,
-  isCustomAttributeColumn,
-  customAttributeColumnKey,
-  contactCustomAttributeColumnKey,
-  customAttributeKeyFromColumn,
-  customAttributeMeasureColumnKey,
-  measureOpFromColumn,
-  measureBaseColumnKey,
-  summaryMeasureOpsForAttrType,
-  isContactCustomAttributeColumn,
   SUMMARY_TABLE_KINDS,
-  PIVOT_COLUMN_ATTR_TYPES,
   MAX_PIVOT_VALUES,
   defaultPivotConfig,
   defaultColumnsForTableKind,
@@ -51,7 +38,10 @@ import {
   emptyPanel,
   panelRangeToDates,
   resolveTableColumns,
+  normalizeAttrDisplayType,
+  customAttributeColumnKey,
 } from './panelConstants';
+import PanelTablePivotBuilder from './components/PanelTablePivotBuilder.vue';
 import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
 import { DATE_RANGE_TYPES } from 'dashboard/components/ui/DatePicker/helpers/DatePickerHelper';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
@@ -117,13 +107,6 @@ const aggregationOpOptions = computed(() =>
 
 const aggregationEntityOptions = computed(() =>
   AGGREGATION_ENTITIES.map(item => ({
-    value: item.value,
-    label: t(item.labelKey),
-  }))
-);
-
-const columnAggregationOpOptions = computed(() =>
-  COLUMN_AGGREGATION_OPS.map(item => ({
     value: item.value,
     label: t(item.labelKey),
   }))
@@ -404,24 +387,6 @@ const onMetricSourceChange = widget => {
   }
 };
 
-const normalizeAttrDisplayType = attr => {
-  const map = {
-    0: 'text',
-    1: 'number',
-    2: 'currency',
-    3: 'percent',
-    4: 'link',
-    5: 'date',
-    6: 'list',
-    7: 'checkbox',
-    8: 'datetime',
-  };
-  const raw =
-    attr?.attributeDisplayType ?? attr?.attribute_display_type ?? 'text';
-  if (typeof raw === 'number') return map[raw] || 'text';
-  return String(raw);
-};
-
 const aggregationFieldOptions = widget => {
   const entity = widget.aggregation_entity || 'conversations';
   const attrs =
@@ -486,247 +451,6 @@ const onTableKindChange = (widget, kind) => {
   } else if (!widget.pivot) {
     widget.pivot = defaultPivotConfig();
   }
-};
-
-const mapAttrToColumnDef = (
-  attr,
-  { contact = false, numericOnly = false } = {}
-) => {
-  if (
-    numericOnly &&
-    !SUMMABLE_CUSTOM_TYPES.has(normalizeAttrDisplayType(attr))
-  ) {
-    return null;
-  }
-  const attributeKey = attr.attributeKey || attr.attribute_key;
-  const name =
-    attr.attributeDisplayName || attr.attribute_display_name || attributeKey;
-  if (contact) {
-    return {
-      key: contactCustomAttributeColumnKey(attributeKey),
-      label: t('REPORT_PANELS.COLUMNS.CONTACT_CA_PREFIX', { name }),
-    };
-  }
-  return {
-    key: customAttributeColumnKey(attributeKey),
-    label: name,
-  };
-};
-
-/** One selectable column per (attribute × measure) for summary tables. */
-const mapAttrToMeasureColumnDefs = (attr, { contact = false } = {}) => {
-  const attributeKey = attr.attributeKey || attr.attribute_key;
-  if (!attributeKey) return [];
-  const name =
-    attr.attributeDisplayName || attr.attribute_display_name || attributeKey;
-  const scopedName = contact
-    ? t('REPORT_PANELS.COLUMNS.CONTACT_CA_PREFIX', { name })
-    : t('REPORT_PANELS.COLUMNS.CONVERSATION_CA_PREFIX', { name });
-  const type = normalizeAttrDisplayType(attr);
-  return summaryMeasureOpsForAttrType(type).map(op => ({
-    key: customAttributeMeasureColumnKey(attributeKey, op, { contact }),
-    label: t('REPORT_PANELS.COLUMNS.MEASURE_CA', {
-      op: t(`REPORT_PANELS.AGGREGATIONS.${op.toUpperCase()}`),
-      name: scopedName,
-    }),
-    measureOp: op,
-  }));
-};
-
-const customColumnDefsFor = widget => {
-  const kind = widget.table_kind;
-  if (kind === 'conversations') {
-    return (conversationAttributes.value || [])
-      .map(attr => mapAttrToColumnDef(attr))
-      .filter(Boolean);
-  }
-  if (kind === 'contacts') {
-    return (contactAttributes.value || [])
-      .map(attr => mapAttrToColumnDef(attr))
-      .filter(Boolean);
-  }
-  if (SUMMARY_TABLE_KINDS.has(kind)) {
-    // All conversation + contact CAs: Count for every type; Sum/Avg/… for numeric.
-    const conversationCols = (conversationAttributes.value || []).flatMap(
-      attr => mapAttrToMeasureColumnDefs(attr, { contact: false })
-    );
-    const contactCols = (contactAttributes.value || []).flatMap(attr =>
-      mapAttrToMeasureColumnDefs(attr, { contact: true })
-    );
-    return [...conversationCols, ...contactCols];
-  }
-  return [];
-};
-
-const columnOptionsFor = widget => {
-  const system = TABLE_COLUMN_OPTIONS[widget.table_kind] || [];
-  return [...system, ...customColumnDefsFor(widget).map(item => item.key)];
-};
-
-const selectedColumnsFor = widget => {
-  if (Array.isArray(widget.columns) && widget.columns.length) {
-    return [...widget.columns];
-  }
-  return defaultColumnsForTableKind(widget.table_kind);
-};
-
-const columnLabel = (widget, key) => {
-  if (isCustomAttributeColumn(key)) {
-    const baseKey = measureOpFromColumn(key) ? measureBaseColumnKey(key) : key;
-    const def = customColumnDefsFor(widget).find(item => item.key === baseKey);
-    return def?.label || customAttributeKeyFromColumn(baseKey) || key;
-  }
-  return t(`REPORT_PANELS.COLUMNS.${key}`);
-};
-
-const isColumnSelected = (widget, key) =>
-  selectedColumnsFor(widget).includes(key);
-
-const toggleColumn = (widget, key) => {
-  const allowed = new Set(columnOptionsFor(widget));
-  let cols = selectedColumnsFor(widget);
-  if (cols.includes(key)) {
-    cols = cols.filter(item => item !== key);
-    if (widget.column_aggregations?.[key] != null) {
-      const next = { ...widget.column_aggregations };
-      delete next[key];
-      widget.column_aggregations = next;
-    }
-  } else {
-    cols.push(key);
-    const bakedOp = measureOpFromColumn(key);
-    if (
-      SUMMARY_TABLE_KINDS.has(widget.table_kind) &&
-      isCustomAttributeColumn(key) &&
-      !widget.column_aggregations?.[key]
-    ) {
-      const footerOp =
-        !bakedOp || bakedOp === 'count' || bakedOp === 'sum' ? 'sum' : bakedOp;
-      widget.column_aggregations = {
-        ...(widget.column_aggregations || {}),
-        [key]: footerOp,
-      };
-    }
-  }
-  widget.columns = cols.filter(
-    item => allowed.has(item) || isCustomAttributeColumn(item)
-  );
-  if (!widget.columns.length) {
-    widget.columns = defaultColumnsForTableKind(widget.table_kind);
-  }
-};
-
-const attributeTypeForColumn = (widget, key) => {
-  if (!isCustomAttributeColumn(key)) return null;
-  const attrKey = customAttributeKeyFromColumn(key);
-  const pool = isContactCustomAttributeColumn(key)
-    ? contactAttributes.value || []
-    : conversationAttributes.value || [];
-  const match = pool.find(
-    attr => (attr.attributeKey || attr.attribute_key) === attrKey
-  );
-  return match ? normalizeAttrDisplayType(match) : '';
-};
-
-const ensurePivot = widget => {
-  if (!widget.pivot) widget.pivot = defaultPivotConfig();
-  return widget.pivot;
-};
-
-const pivotAttributeOptions = computed(() => {
-  const attrs = conversationAttributes.value || [];
-  return [
-    {
-      value: '',
-      label: t('REPORT_PANELS.PIVOT.NONE'),
-    },
-    ...attrs
-      .filter(attr =>
-        PIVOT_COLUMN_ATTR_TYPES.has(normalizeAttrDisplayType(attr))
-      )
-      .map(attr => {
-        const key = attr.attributeKey || attr.attribute_key;
-        const name =
-          attr.attributeDisplayName || attr.attribute_display_name || key;
-        return { value: customAttributeColumnKey(key), label: name };
-      }),
-  ];
-});
-
-const pivotDefinitionFor = attributeKey => {
-  if (!attributeKey) return null;
-  const key = attributeKey.replace(/^ca:/, '');
-  return (conversationAttributes.value || []).find(
-    attr => (attr.attributeKey || attr.attribute_key) === key
-  );
-};
-
-const pivotValueOptions = widget => {
-  const pivot = ensurePivot(widget);
-  const def = pivotDefinitionFor(pivot.column_attribute);
-  const values = def?.attributeValues || def?.attribute_values || [];
-  return Array.isArray(values)
-    ? values.filter(Boolean).slice(0, MAX_PIVOT_VALUES)
-    : [];
-};
-
-const isPivotValueSelected = (widget, value) => {
-  const selected = ensurePivot(widget).column_values;
-  // Empty selection = all values (Excel default)
-  if (!Array.isArray(selected) || !selected.length) return true;
-  return selected.includes(value);
-};
-
-const togglePivotValue = (widget, value) => {
-  const pivot = ensurePivot(widget);
-  const all = pivotValueOptions(widget);
-  let selected = Array.isArray(pivot.column_values)
-    ? [...pivot.column_values]
-    : [];
-  // First explicit toggle from "all" → start with all except this one, or only this one?
-  // Excel: unchecked removes from set. From "all", first uncheck = all minus that value.
-  if (!selected.length) {
-    selected = all.filter(item => item !== value);
-  } else if (selected.includes(value)) {
-    selected = selected.filter(item => item !== value);
-  } else {
-    selected.push(value);
-  }
-  // If user re-selected everything, store [] (= all)
-  pivot.column_values =
-    selected.length === all.length ? [] : selected.slice(0, MAX_PIVOT_VALUES);
-};
-
-const setPivotAttribute = (widget, attributeKey) => {
-  const pivot = ensurePivot(widget);
-  pivot.column_attribute = attributeKey || '';
-  pivot.column_values = [];
-};
-
-const isMeasureColumnKey = key => Boolean(measureOpFromColumn(key));
-
-const isAggregatableColumnKey = (widget, key) => {
-  if (isMeasureColumnKey(key)) return false;
-  if (SUMMABLE_SYSTEM_COLUMNS.has(key)) return true;
-  return SUMMABLE_CUSTOM_TYPES.has(attributeTypeForColumn(widget, key));
-};
-
-const columnAggregationValue = (widget, key) =>
-  widget.column_aggregations?.[key] || '';
-
-const setColumnAggregation = (widget, key, op) => {
-  // Materialize columns so aggregations are not stripped on save when
-  // the UI was showing defaults with an empty columns array.
-  if (!Array.isArray(widget.columns) || !widget.columns.length) {
-    widget.columns = defaultColumnsForTableKind(widget.table_kind);
-  }
-  if (!widget.columns.includes(key)) {
-    widget.columns = [...widget.columns, key];
-  }
-  const next = { ...(widget.column_aggregations || {}) };
-  if (!op) delete next[key];
-  else next[key] = op;
-  widget.column_aggregations = next;
 };
 
 const buildPayload = () => {
@@ -899,7 +623,7 @@ onMounted(async () => {
     </div>
   </ReportHeader>
 
-  <div class="flex flex-col gap-6 mt-4 max-w-4xl">
+  <div class="flex flex-col gap-6 mt-4 max-w-5xl">
     <section class="flex flex-col gap-4">
       <Input
         v-model="form.name"
@@ -1166,134 +890,14 @@ onMounted(async () => {
             </p>
           </template>
         </template>
-        <label
+        <PanelTablePivotBuilder
           v-if="widget.type === 'table'"
-          class="text-sm text-n-slate-12 flex flex-col gap-1.5"
-        >
-          {{ t('REPORT_PANELS.PIVOT.ROWS') }}
-          <SelectInput
-            v-model="widget.table_kind"
-            :options="tableKindOptions"
-            full-width
-            @update:model-value="kind => onTableKindChange(widget, kind)"
-          />
-          <span class="text-xs text-n-slate-11">
-            {{ t('REPORT_PANELS.PIVOT.ROWS_HINT') }}
-          </span>
-        </label>
-        <div
-          v-if="
-            widget.type === 'table' &&
-            SUMMARY_TABLE_KINDS.has(widget.table_kind)
-          "
-          class="rounded-lg border border-n-weak p-3 flex flex-col gap-2"
-        >
-          <span class="text-sm font-medium text-n-slate-12">
-            {{ t('REPORT_PANELS.PIVOT.COLUMNS') }}
-          </span>
-          <p class="text-xs text-n-slate-11">
-            {{ t('REPORT_PANELS.PIVOT.COLUMNS_HINT') }}
-          </p>
-          <label class="text-sm text-n-slate-12 flex flex-col gap-1.5">
-            {{ t('REPORT_PANELS.PIVOT.COLUMN_FIELD') }}
-            <SelectInput
-              :model-value="ensurePivot(widget).column_attribute"
-              :options="pivotAttributeOptions"
-              full-width
-              @update:model-value="value => setPivotAttribute(widget, value)"
-            />
-          </label>
-          <div
-            v-if="ensurePivot(widget).column_attribute"
-            class="flex flex-col gap-2"
-          >
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('REPORT_PANELS.PIVOT.COLUMN_VALUES') }}
-            </span>
-            <p class="text-xs text-n-slate-11">
-              {{ t('REPORT_PANELS.PIVOT.COLUMN_VALUES_HINT') }}
-            </p>
-            <div
-              v-if="pivotValueOptions(widget).length"
-              class="flex flex-wrap gap-2"
-            >
-              <label
-                v-for="value in pivotValueOptions(widget)"
-                :key="value"
-                class="inline-flex items-center gap-1.5 text-sm text-n-slate-12"
-              >
-                <input
-                  type="checkbox"
-                  :checked="isPivotValueSelected(widget, value)"
-                  @change="togglePivotValue(widget, value)"
-                />
-                {{ value }}
-              </label>
-            </div>
-            <p v-else class="text-xs text-n-slate-11">
-              {{ t('REPORT_PANELS.PIVOT.COLUMN_VALUES_AUTO') }}
-            </p>
-            <label
-              class="inline-flex items-center gap-2 text-sm text-n-slate-12"
-            >
-              <input
-                type="checkbox"
-                :checked="ensurePivot(widget).show_row_totals !== false"
-                @change="
-                  ensurePivot(widget).show_row_totals = $event.target.checked
-                "
-              />
-              {{ t('REPORT_PANELS.PIVOT.SHOW_ROW_TOTALS') }}
-            </label>
-          </div>
-        </div>
-        <div
-          v-if="widget.type === 'table' && columnOptionsFor(widget).length"
-          class="rounded-lg border border-n-weak p-3 flex flex-col gap-2"
-        >
-          <span class="text-sm font-medium text-n-slate-12">
-            {{
-              SUMMARY_TABLE_KINDS.has(widget.table_kind)
-                ? t('REPORT_PANELS.PIVOT.VALUES')
-                : t('REPORT_PANELS.FIELDS.TABLE_COLUMNS')
-            }}
-          </span>
-          <p class="text-xs text-n-slate-11">
-            {{
-              SUMMARY_TABLE_KINDS.has(widget.table_kind)
-                ? t('REPORT_PANELS.PIVOT.VALUES_HINT')
-                : t('REPORT_PANELS.FIELDS.TABLE_COLUMNS_HINT')
-            }}
-          </p>
-          <div class="flex flex-col gap-2">
-            <div
-              v-for="columnKey in columnOptionsFor(widget)"
-              :key="columnKey"
-              class="flex flex-wrap items-center gap-2 text-sm text-n-slate-12"
-            >
-              <label class="inline-flex items-center gap-2 min-w-[12rem]">
-                <input
-                  type="checkbox"
-                  :checked="isColumnSelected(widget, columnKey)"
-                  @change="toggleColumn(widget, columnKey)"
-                />
-                {{ columnLabel(widget, columnKey) }}
-              </label>
-              <SelectInput
-                v-if="
-                  isColumnSelected(widget, columnKey) &&
-                  isAggregatableColumnKey(widget, columnKey)
-                "
-                :model-value="columnAggregationValue(widget, columnKey)"
-                :options="columnAggregationOpOptions"
-                class="min-w-[8rem]"
-                @update:model-value="
-                  op => setColumnAggregation(widget, columnKey, op)
-                "
-              />
-            </div>
-          </div>
-        </div>
+          :widget="widget"
+          :table-kind-options="tableKindOptions"
+          :conversation-attributes="conversationAttributes"
+          :contact-attributes="contactAttributes"
+          @table-kind-change="kind => onTableKindChange(widget, kind)"
+        />
       </div>
     </section>
   </div>

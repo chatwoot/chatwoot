@@ -11,6 +11,18 @@ Saved dashboards under **Reports → Panels**: metrics, charts, and tables with 
 | **Columnas** | Pivot field: one conversation list/text custom attribute |
 | **Valores** | Measures: `conversations_count`, `resolved_conversations_count`, `ca:*__sum` / `__count`, etc. |
 
+### Editor UX (pivot builder)
+
+Summary tables use a **Campos → Filas / Columnas / Valores** builder (`PanelTablePivotBuilder.vue`), not a mile-long checkbox list of `Count(attr)` / `Sum(attr)`:
+
+- **Campos**: searchable list — each attribute appears once (system metrics + conversation/contact CAs). Drag with `vuedraggable`, or hover shortcuts → Cols / Vals.
+- **Filas**: read-only chip from table type (change via Filas select).
+- **Columnas**: one pivot CA (dropdown or drop zone) + optional value chips + row totals.
+- **Valores**: compact measure rows — pick aggregation (Count/Sum/…) per attribute after adding.
+- **Sugerencias**: one-click chips (max ~5) ranked from available attributes — column dimension if unset, then Sum of currency/number, then Count of list/text, then missing Conversations / Resolved. Already-applied items are hidden.
+
+Detail tables (`conversations` / `contacts`) keep a searchable grouped column picker.
+
 With a pivot field set, each value measure expands once per attribute value:
 
 `conversations_count__pv__venta`, `ca:ventas__sum__pv__venta`, …
@@ -19,12 +31,26 @@ Optional **row totals** keep the plain measure keys (`conversations_count`) as t
 
 Panel filters remain the report-wide context; they do **not** replace the pivot column dimension.
 
+### Smart suggestions
+
+While editing a summary table, the builder shows a compact **Sugerencias / Suggestions** chip strip when useful fields are still unused:
+
+| Priority | When | Chip action |
+|----------|------|-------------|
+| 1 | No pivot Columnas set | Use best list/text CA (few options preferred) as column dimension |
+| 2 | Currency / number / percent CA not in Valores | Add `Sum(name)` |
+| 3 | List/text (then other) CA not in Valores | Add `Count(name)` — top 2 |
+| 4 | System metric missing | Add Conversations / Resolved |
+
+Max 3–5 chips; applied suggestions disappear. Demo seed (`tmp/seed_report_panels_demo.rb`) creates attrs `producto` (list), `ventas` (currency), and a configured pivot plus a second empty-ish table to exercise chips.
+
 ### v1 limits
 
 - One column-dimension field (not multi-level column hierarchy).
 - Select which attribute values to show (all or subset, max 12).
 - No arbitrary DAX / calculated ratios.
 - Time averages / CSAT / message counts are not expanded in pivot mode (omit from Valores or use flat summary).
+- Drag-drop clones from Campos; reorder within Valores is supported. Nested multi-field column hierarchy is not.
 
 ## Custom attributes (detail + flat summary)
 
@@ -49,8 +75,8 @@ Legacy `ca:key__count__eq__value` is still parsed if present; prefer **pivot** f
 
 1. Conversation list attr `estado` with values `venta`, `soporte`, `seguimiento`.
 2. Table → **Filas** = Agent summary.
-3. **Columnas** = `estado`; keep the values you want as columns.
-4. **Valores** = Conversations + Sum(Ventas) (optional).
+3. In the builder, drag `estado` to **Columnas** (or pick it in the dropdown).
+4. Add **Valores**: Conversations + Ventas with Sum.
 5. Leave panel **Filtros** empty (or only inbox/team context).
 6. Result: each agent row shows Conversations and Sum under venta | soporte | seguimiento (+ totals).
 
