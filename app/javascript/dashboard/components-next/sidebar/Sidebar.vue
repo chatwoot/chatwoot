@@ -353,6 +353,13 @@ const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [
+    {
+      name: 'OpsTasks',
+      label: t('SIDEBAR.OPS_TASKS'),
+      icon: 'i-lucide-list-checks',
+      to: accountScopedRoute('ops_tasks'),
+      activeOn: ['ops_tasks'],
+    },
     // "My Inbox" (notification inbox-view) hidden for reception desk workflow.
     {
       name: 'Conversation',
