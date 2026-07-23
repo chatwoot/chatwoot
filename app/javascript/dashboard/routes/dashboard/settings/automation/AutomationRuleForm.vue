@@ -313,6 +313,11 @@ const applyDelayedTrigger = () => {
       ? buildTriggerCondition('message_type', trigger.messageType)
       : buildTriggerCondition('status', triggerStatus.value),
   ];
+  // A private note is an outgoing message, so without this an internal note would read as a reply
+  // and arm the customer-unresponsive wait. Incoming messages are never private.
+  if (trigger.messageType === 'outgoing') {
+    conditions.push(buildTriggerCondition('private_note', [false]));
+  }
   if (triggerInboxes.value.length) {
     conditions.push(
       buildTriggerCondition(
