@@ -438,12 +438,18 @@ class DataImports::Intercom::Importer
     return if result.blank?
 
     result.current_entries.each do |entry|
-      reconcile_current_run_message_mapping(conversation, entry.mapping, entry.part)
+      reconcile_bulk_message_entry(conversation, entry) do
+        reconcile_current_run_message_mapping(conversation, entry.mapping, entry.part)
+      end
     end
     result.previous_entries.each do |entry|
-      skip_existing_message_mapping(conversation, entry.mapping, entry.part)
+      reconcile_bulk_message_entry(conversation, entry) do
+        skip_existing_message_mapping(conversation, entry.mapping, entry.part)
+      end
     end
-    result.skipped_entries.each { |entry| record_bulk_skipped_message(conversation, entry) }
+    result.skipped_entries.each do |entry|
+      reconcile_bulk_message_entry(conversation, entry) { record_bulk_skipped_message(conversation, entry) }
+    end
     increment_stat('messages', 'imported', result.imported_entries.size)
     result.messages.each { |message| reindex_message_for_search(message) }
   end
@@ -451,7 +457,11 @@ class DataImports::Intercom::Importer
   def bulk_message_batch_result(conversation, contact, batch_builder, entries)
     bulk_write_message_entries(conversation, contact, batch_builder, entries)
   rescue StandardError
-    entries.each { |entry| import_message(conversation, contact, entry) } unless @import_stopped
+    entries.each do |entry|
+      break unless continue_import_with_heartbeat?
+
+      import_message(conversation, contact, entry)
+    end
     nil
   end
 
@@ -546,6 +556,12 @@ class DataImports::Intercom::Importer
     already_recorded = skip_log_recorded?('message', entry.source_id, SKIPPED_MESSAGE_ERROR_CODE)
     record_skipped_message_log(conversation, entry.source_id, entry.part)
     increment_stat('messages', 'skipped') unless already_recorded
+  end
+
+  def reconcile_bulk_message_entry(conversation, entry, &)
+    with_query_timeout_retry(&)
+  rescue StandardError => e
+    fail_message(conversation, entry.source_id, entry.part, e)
   end
 
   def import_conversation_messages_individually(conversation, chatwoot_conversation, contact, batch_builder, parts_count)
