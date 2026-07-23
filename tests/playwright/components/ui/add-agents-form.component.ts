@@ -13,14 +13,19 @@ export class AddAgentsForm {
     return this.page.getByPlaceholder('Pick agents for the inbox');
   }
 
+  getAgentSelector() {
+    return this.page.getByTestId('agent-selector');
+  }
+
   getAgentOption(agentName: string) {
-    return this.page
-      .locator('.bg-n-alpha-3')
-      .getByRole('button', { name: agentName, exact: true });
+    return this.getAgentSelector().getByRole('button', {
+      name: agentName,
+      exact: true,
+    });
   }
 
   getDropdownButtons() {
-    return this.page.locator('.bg-n-alpha-3 button[type="button"]');
+    return this.getAgentSelector().getByRole('button');
   }
 
   getSubmitButton() {
