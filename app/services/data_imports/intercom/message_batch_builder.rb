@@ -38,14 +38,18 @@ class DataImports::Intercom::MessageBatchBuilder
     @source_conversation = source_conversation
   end
 
-  def perform
-    classify(ordered_source_entries)
+  def perform(source_entries = unprepared_entries)
+    classify(source_entries)
   end
 
   def refresh(entries)
     classify(entries.map do |entry|
       { source_id: entry.source_id, part: entry.part, position: entry.position }
     end)
+  end
+
+  def unprepared_entries
+    ordered_source_entries.map.with_index { |entry, position| entry.merge(position: position) }
   end
 
   private
@@ -112,7 +116,7 @@ class DataImports::Intercom::MessageBatchBuilder
   def build_entry(source_entry, position, mappings, messages)
     source_id = source_entry[:source_id]
     mapping = mappings[source_id]
-    mapped_message = messages[:by_id][mapping&.chatwoot_record_id]
+    mapped_message = messages[:by_id][mapping.chatwoot_record_id] if mapping&.chatwoot_record_type == 'Message'
     existing_message = messages[:by_source_id]["intercom:#{source_id}"]
 
     Entry.new(
