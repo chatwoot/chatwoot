@@ -101,9 +101,6 @@ onMounted(() => {
     });
   }
 });
-
-// Allow parents to focus the field imperatively (e.g. focus on open).
-defineExpose({ focus: () => inputRef.value?.focus() });
 </script>
 
 <template>

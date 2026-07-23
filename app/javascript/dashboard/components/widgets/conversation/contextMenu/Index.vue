@@ -239,9 +239,6 @@ export default {
       if (!this.allowedOptions.length) return true;
       return keys.some(key => this.allowedOptions.includes(key));
     },
-    focusLabelSearch() {
-      this.$refs.labelSearchInput?.focus();
-    },
     toggleStatus(status, snoozedUntil) {
       this.$emit('updateConversation', status, snoozedUntil);
     },
@@ -351,11 +348,9 @@ export default {
         v-if="isAllowed([MENU.LABEL])"
         :option="labelMenuConfig"
         :sub-menu-available="!!labels.length"
-        @mouseenter="focusLabelSearch"
       >
-        <div class="py-1 w-[12.5rem]">
+        <div class="pb-1 w-[12.5rem]">
           <NextInput
-            ref="labelSearchInput"
             v-model="labelSearchQuery"
             type="search"
             size="sm"

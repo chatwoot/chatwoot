@@ -78,13 +78,9 @@ const handleClose = () => {
 };
 
 const handleFocusOut = event => {
-  // Keep the menu open when focus moves to an element inside it (e.g. the label
-  // search input in a submenu); only close when focus leaves the menu entirely.
+  // Keep the menu open while focus stays inside it (e.g. the label search
+  // input); close it once focus leaves the menu entirely.
   if (menuRef.value?.contains(event.relatedTarget)) {
-    return;
-  }
-  if (menuRef.value?.matches(':hover')) {
-    nextTick(() => menuRef.value?.focus());
     return;
   }
   handleClose();
