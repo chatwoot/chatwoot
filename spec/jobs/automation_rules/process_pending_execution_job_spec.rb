@@ -109,7 +109,7 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     expect(pending_execution.reload).to be_executed
   end
 
-  it 'leaves the row processing and reports the error when an action blows up' do
+  it 'leaves the row executing and reports the error when an action blows up' do
     action_service = instance_double(AutomationRules::ActionService)
     allow(AutomationRules::ActionService).to receive(:new).and_return(action_service)
     allow(action_service).to receive(:perform).and_raise(StandardError, 'boom')
@@ -117,8 +117,38 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
 
     job.perform(pending_execution.reload)
 
-    expect(pending_execution.reload).to be_processing
+    expect(pending_execution.reload).to be_executing
     expect(ChatwootExceptionTracker).to have_received(:new)
+  end
+
+  it 'leaves the row processing when it dies before the actions, so a later sweep retries it' do
+    allow(AutomationRules::ConditionsFilterService).to receive(:new).and_raise(StandardError, 'boom')
+
+    job.perform(pending_execution.reload)
+
+    expect(pending_execution.reload).to be_processing
+    expect(conversation.reload.label_list).to be_empty
+    travel_to(20.minutes.from_now) { expect(AutomationRulePendingExecution.sweepable).to include(pending_execution) }
+  end
+
+  it 'never replays the actions when the row dies after they ran' do
+    row = pending_execution.reload
+    allow(row).to receive(:update!).and_call_original
+    allow(row).to receive(:update!).with(status: :executed).and_raise(ActiveRecord::StatementInvalid, 'connection lost')
+    allow(AutomationRules::ActionService).to receive(:new).and_call_original
+
+    job.perform(row)
+
+    expect(row.reload).to be_executing
+    expect(conversation.reload.label_list).to include('stale')
+
+    travel_to(20.minutes.from_now) do
+      expect(AutomationRulePendingExecution.sweepable).not_to include(row)
+      expect(AutomationRulePendingExecution.abandoned).to include(row)
+      described_class.new.perform(AutomationRulePendingExecution.find(row.id))
+    end
+
+    expect(AutomationRules::ActionService).to have_received(:new).once
   end
 
   it 'sends the follow-up exactly once for the reply-chase story' do

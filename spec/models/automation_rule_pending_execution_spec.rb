@@ -20,11 +20,6 @@ RSpec.describe AutomationRulePendingExecution do
       expect(arm_key).to eq(described_class.episode_key_for(conversation.reload, nil))
     end
 
-    it 'falls back to created_at when status_changed_at is blank' do
-      conversation.update!(status_changed_at: nil)
-      expect(described_class.episode_key_for(conversation.reload, nil)).to eq("status:#{conversation.created_at.strftime('%s%6N')}")
-    end
-
     it 'derives awaiting_agent episodes from waiting_since (sub-second) for incoming messages' do
       message = create(:message, conversation: conversation, account: account, message_type: :incoming)
       expect(described_class.episode_key_for(conversation.reload, message)).to eq("awaiting_agent:#{conversation.waiting_since.strftime('%s%6N')}")
@@ -78,6 +73,12 @@ RSpec.describe AutomationRulePendingExecution do
 
       # A 60-minute rule on a status that changed 30 minutes ago is already 30 minutes into its wait.
       expect(described_class.last.due_at).to be_within(5.seconds).of(30.minutes.from_now)
+    end
+
+    it 'does not arm a status episode on a conversation that predates status_changed_at' do
+      conversation.status_changed_at = nil
+
+      expect { described_class.schedule(rule: rule, conversation: conversation) }.not_to change(described_class, :count)
     end
 
     it 'does not reset the clock for a repeated status episode' do

@@ -240,6 +240,12 @@ RSpec.describe AutomationRule do
       expect(rule.pending_executions.armed).to be_empty
     end
 
+    it 'leaves an executing row alone because its actions are already in flight' do
+      rule.pending_executions.first.update!(status: :executing)
+      rule.update!(actions: [{ 'action_name' => 'add_label', 'action_params' => ['urgent'] }])
+      expect(rule.pending_executions.executing.count).to eq(1)
+    end
+
     it 'frees the episode slot so the new definition re-arms for the same episode' do
       rule.update!(actions: [{ 'action_name' => 'add_label', 'action_params' => ['urgent'] }])
       AutomationRulePendingExecution.schedule(rule: rule, conversation: conversation)
