@@ -7,7 +7,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     return unless should_fetch_email?(channel)
 
     key = format(::Redis::Alfred::EMAIL_MESSAGE_MUTEX, inbox_id: channel.inbox.id)
-    with_lock(key, 24.minutes) do
+    with_lock(key, 30.minutes) do
       process_email_for_channel(channel, interval)
     end
   rescue *ExceptionList::IMAP_EXCEPTIONS => e
