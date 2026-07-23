@@ -2,6 +2,7 @@
 import { frontendURL } from '../../../helper/URLHelper';
 import store from '../../../store';
 import ConversationView from './ConversationView.vue';
+import OpsTasks from '../ops/OpsTasks.vue';
 
 const CONVERSATION_PERMISSIONS = [
   'administrator',
@@ -44,6 +45,14 @@ const redirectFolderConversationIfUnavailable = async (to, _from, next) => {
 
 export default {
   routes: [
+    {
+      path: frontendURL('accounts/:accountId/ops-tasks'),
+      name: 'ops_tasks',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: OpsTasks,
+    },
     {
       path: frontendURL('accounts/:accountId/dashboard'),
       name: 'home',

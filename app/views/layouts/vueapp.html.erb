@@ -56,7 +56,8 @@
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
         helpUrls: <%= feature_help_urls.to_json.html_safe %>,
         inboxEventsEnabled: '<%= ENV['ENABLE_INBOX_EVENTS'].present? %>',
-        selectedLocale: '<%= I18n.locale %>'
+        selectedLocale: '<%= I18n.locale %>',
+        coroHomeUrl: '<%= ENV.fetch('CORO_HOME_URL', '') %>'
       }
       window.globalConfig = <%= raw @global_config.to_json %>
       window.browserConfig = {

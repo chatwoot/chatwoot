@@ -47,9 +47,9 @@ export const getLoginRedirectURL = ({
     if (ssoConversationId) {
       return frontendURL(`${accountPath}/conversations/${ssoConversationId}`);
     }
-    // Reception desk agents skip the dashboard home and land on chats.
+    // Reception desk agents land on the ops task list first.
     if (user?.custom_attributes?.desk_login) {
-      return frontendURL(`${accountPath}/conversations`);
+      return frontendURL(`${accountPath}/ops-tasks`);
     }
     return frontendURL(`${accountPath}/dashboard`);
   }

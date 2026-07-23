@@ -306,11 +306,16 @@
       "NEW_INBOX": "Add Inbox"
     }
   },
+  "OPS_TASKS": {
+    "IFRAME_TITLE": "Ops tasks",
+    "MISSING_URL": "Ops tasks URL is not configured (CORO_HOME_URL)."
+  },
   "SIDEBAR": {
     "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "INBOX_VIEW": "Inbox View",
+    "OPS_TASKS": "Tasks",
     "CONVERSATIONS": "Conversations",
     "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "All Conversations",
