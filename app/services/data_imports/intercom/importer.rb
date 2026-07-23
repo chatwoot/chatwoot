@@ -432,6 +432,8 @@ class DataImports::Intercom::Importer
 
       import_unprepared_message(chatwoot_conversation, contact, batch_builder, entry)
     end
+    return false if import_stopped?
+
     true
   end
 
@@ -737,7 +739,12 @@ class DataImports::Intercom::Importer
       already_recorded = skip_log_recorded?('message', mapping.source_object_id, ALREADY_IMPORTED_ERROR_CODE)
       record_already_imported_log(source_object_type: 'message', source_object_id: mapping.source_object_id, mapping: mapping)
     end
-    increment_stat('messages', 'skipped') unless already_recorded
+    if already_recorded
+      message_logs = @data_import.import_errors.where(source_object_type: 'message')
+      @stats['messages']['skipped'] = message_logs.where("details ->> 'kind' = ?", 'skipped').count
+    else
+      increment_stat('messages', 'skipped')
+    end
   end
 
   def fail_item(item, error)
