@@ -60,6 +60,11 @@ class AutomationRulePendingExecution < ApplicationRecord
   scope :for_enabled_accounts, -> { joins(:account).merge(Account.feature_delayed_automations) }
 
   def self.schedule(rule:, conversation:, message: nil)
+    # status_changed_at is only written from this feature onwards, so a conversation that predates it
+    # has no status clock. Anchoring on created_at would make every old conversation instantly
+    # overdue and fire on the next sweep; leave them for their next status change to arm.
+    return if message.nil? && conversation.status_changed_at.blank?
+
     key = arm_episode_key_for(conversation, message)
     anchor = arm_anchor_for(conversation, message)
     create!(
@@ -104,7 +109,7 @@ class AutomationRulePendingExecution < ApplicationRecord
   # the timestamps the episode keys track.
   def self.arm_anchor_for(conversation, message)
     if message.nil?
-      conversation.status_changed_at.presence || conversation.created_at
+      conversation.status_changed_at
     elsif message.incoming?
       conversation.waiting_since.presence || message.created_at
     else
@@ -134,7 +139,7 @@ class AutomationRulePendingExecution < ApplicationRecord
     if message.nil?
       # Sub-second precision so a resolve→reopen inside one second still ends the episode.
       # Integer microseconds (not a float) so an in-memory arm and a DB-reloaded fire agree.
-      "status:#{microsecond_stamp(conversation.status_changed_at.presence || conversation.created_at)}"
+      "status:#{microsecond_stamp(conversation.status_changed_at)}"
     elsif message.incoming?
       # waiting_since is cleared on agent/bot reply, so a reply invalidates this episode. Strict
       # here: at fire time a nil waiting_since means the agent replied (episode ended).
