@@ -773,13 +773,13 @@
       "AGGREGATION_OP": "Agregación",
       "AGGREGATION_FIELD": "Atributo numérico",
       "AGGREGATION_FIELD_OPTIONAL": "Atributo (opcional)",
-      "AGGREGATION_FIELD_OPTIONAL_HINT": "Déjalo vacío para contar filas coincidentes, o elige un atributo numérico para contar solo las que lo tienen.",
+      "AGGREGATION_FIELD_OPTIONAL_HINT": "Déjalo vacío para contar filas coincidentes, o elige cualquier atributo para contar solo las que lo tienen (no vacío).",
       "AGGREGATION_GROUP_FIELD": "Agrupar / filtrar por atributo de fecha",
       "AGGREGATION_GROUP_FIELD_HINT": "Usa un atributo personalizado date o date-time (p. ej. fecha de venta) para el eje X y el filtro del período. Vacío = fecha de creación. Combínalo con un atributo numérico arriba (p. ej. precio) para gráficas de ventas.",
       "AGGREGATION_ENTITY": "Agregar sobre",
       "TABLE_KIND": "Tipo de tabla",
       "TABLE_COLUMNS": "Columnas",
-      "TABLE_COLUMNS_HINT": "Elige las columnas a mostrar. En tablas de agentes/bandejas/equipos/etiquetas, los atributos personalizados numéricos (conversación o contacto) se agrupan por fila (suma por defecto). En columnas numéricas puedes elegir una agregación de pie. Cambiar el tipo de tabla restablece las columnas."
+      "TABLE_COLUMNS_HINT": "Elige las columnas a mostrar. En tablas de agentes/bandejas/equipos/etiquetas, elige Count/Sum/Avg/… por atributo personalizado como columnas separadas (p. ej. Count(ventas) y Sum(ventas) juntas). Count = filas donde el atributo está definido. Las tablas de detalle muestran el valor crudo; usa el desplegable del pie para agregaciones numéricas. Cambiar el tipo de tabla restablece las columnas."
     },
     "RESET_RANGE": "Restablecer rango guardado",
     "FILTERS": {
@@ -841,7 +841,8 @@
       "created_at": "Creada",
       "last_activity_at": "Última actividad",
       "CONVERSATION_CA_PREFIX": "Conversación: {name}",
-      "CONTACT_CA_PREFIX": "Contacto: {name}"
+      "CONTACT_CA_PREFIX": "Contacto: {name}",
+      "MEASURE_CA": "{op}({name})"
     },
     "METRICS": {
       "conversations_count": "Conversaciones",

@@ -35,6 +35,9 @@ import {
   customAttributeColumnKey,
   contactCustomAttributeColumnKey,
   customAttributeKeyFromColumn,
+  customAttributeMeasureColumnKey,
+  measureOpFromColumn,
+  summaryMeasureOpsForAttrType,
   isContactCustomAttributeColumn,
   SUMMARY_TABLE_KINDS,
   defaultColumnsForTableKind,
@@ -418,15 +421,32 @@ const aggregationFieldOptions = widget => {
     entity === 'contacts'
       ? contactAttributes.value || []
       : conversationAttributes.value || [];
-  return attrs
-    .filter(attr => SUMMABLE_CUSTOM_TYPES.has(normalizeAttrDisplayType(attr)))
-    .map(attr => {
-      const key = attr.attributeKey || attr.attribute_key;
-      return {
-        value: customAttributeColumnKey(key),
-        label: attr.attributeDisplayName || attr.attribute_display_name || key,
-      };
-    });
+  const op = widget.aggregation_op || 'count';
+  // Count can target any attribute (non-empty presence). Sum/avg/min/max need numeric.
+  const filtered =
+    op === 'count'
+      ? attrs
+      : attrs.filter(attr =>
+          SUMMABLE_CUSTOM_TYPES.has(normalizeAttrDisplayType(attr))
+        );
+  return filtered.map(attr => {
+    const key = attr.attributeKey || attr.attribute_key;
+    return {
+      value: customAttributeColumnKey(key),
+      label: attr.attributeDisplayName || attr.attribute_display_name || key,
+    };
+  });
+};
+
+const onAggregationOpChange = widget => {
+  const field = widget.aggregation_field;
+  if (!field) return;
+  const allowed = new Set(
+    aggregationFieldOptions(widget).map(item => item.value)
+  );
+  if (!allowed.has(field)) {
+    widget.aggregation_field = '';
+  }
 };
 
 const DATE_GROUP_ATTR_TYPES = new Set(['date', 'datetime']);
@@ -481,6 +501,26 @@ const mapAttrToColumnDef = (
   };
 };
 
+/** One selectable column per (attribute × measure) for summary tables. */
+const mapAttrToMeasureColumnDefs = (attr, { contact = false } = {}) => {
+  const attributeKey = attr.attributeKey || attr.attribute_key;
+  if (!attributeKey) return [];
+  const name =
+    attr.attributeDisplayName || attr.attribute_display_name || attributeKey;
+  const scopedName = contact
+    ? t('REPORT_PANELS.COLUMNS.CONTACT_CA_PREFIX', { name })
+    : t('REPORT_PANELS.COLUMNS.CONVERSATION_CA_PREFIX', { name });
+  const type = normalizeAttrDisplayType(attr);
+  return summaryMeasureOpsForAttrType(type).map(op => ({
+    key: customAttributeMeasureColumnKey(attributeKey, op, { contact }),
+    label: t('REPORT_PANELS.COLUMNS.MEASURE_CA', {
+      op: t(`REPORT_PANELS.AGGREGATIONS.${op.toUpperCase()}`),
+      name: scopedName,
+    }),
+    measureOp: op,
+  }));
+};
+
 const customColumnDefsFor = widget => {
   const kind = widget.table_kind;
   if (kind === 'conversations') {
@@ -494,21 +534,13 @@ const customColumnDefsFor = widget => {
       .filter(Boolean);
   }
   if (SUMMARY_TABLE_KINDS.has(kind)) {
-    // Summary tables only offer numeric CAs (sum/avg per agent/inbox/…).
-    const conversationCols = (conversationAttributes.value || [])
-      .map(attr => mapAttrToColumnDef(attr, { numericOnly: true }))
-      .filter(Boolean)
-      .map(item => ({
-        ...item,
-        label: t('REPORT_PANELS.COLUMNS.CONVERSATION_CA_PREFIX', {
-          name: item.label,
-        }),
-      }));
-    const contactCols = (contactAttributes.value || [])
-      .map(attr =>
-        mapAttrToColumnDef(attr, { contact: true, numericOnly: true })
-      )
-      .filter(Boolean);
+    // All conversation + contact CAs: Count for every type; Sum/Avg/… for numeric.
+    const conversationCols = (conversationAttributes.value || []).flatMap(
+      attr => mapAttrToMeasureColumnDefs(attr, { contact: false })
+    );
+    const contactCols = (contactAttributes.value || []).flatMap(attr =>
+      mapAttrToMeasureColumnDefs(attr, { contact: true })
+    );
     return [...conversationCols, ...contactCols];
   }
   return [];
@@ -550,15 +582,19 @@ const toggleColumn = (widget, key) => {
     }
   } else {
     cols.push(key);
-    // Summary CA columns default to sum (row rollup + footer).
+    // Measure columns bake the row op into the key. Footer uses sum for
+    // count/sum measures (sum of per-row counts/sums = period total).
+    const bakedOp = measureOpFromColumn(key);
     if (
       SUMMARY_TABLE_KINDS.has(widget.table_kind) &&
       isCustomAttributeColumn(key) &&
       !widget.column_aggregations?.[key]
     ) {
+      const footerOp =
+        !bakedOp || bakedOp === 'count' || bakedOp === 'sum' ? 'sum' : bakedOp;
       widget.column_aggregations = {
         ...(widget.column_aggregations || {}),
-        [key]: 'sum',
+        [key]: footerOp,
       };
     }
   }
@@ -582,7 +618,11 @@ const attributeTypeForColumn = (widget, key) => {
   return match ? normalizeAttrDisplayType(match) : '';
 };
 
+const isMeasureColumnKey = key => Boolean(measureOpFromColumn(key));
+
 const isAggregatableColumnKey = (widget, key) => {
+  // Baked measure columns already chose their op — no second dropdown.
+  if (isMeasureColumnKey(key)) return false;
   if (SUMMABLE_SYSTEM_COLUMNS.has(key)) return true;
   return SUMMABLE_CUSTOM_TYPES.has(attributeTypeForColumn(widget, key));
 };
@@ -963,6 +1003,7 @@ onMounted(async () => {
                 v-model="widget.aggregation_op"
                 :options="aggregationOpOptions"
                 full-width
+                @update:model-value="() => onAggregationOpChange(widget)"
               />
             </label>
             <label

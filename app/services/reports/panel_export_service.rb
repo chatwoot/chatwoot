@@ -125,7 +125,7 @@ class Reports::PanelExportService
           sheet.add_row ['Sin datos para este periodo']
         else
           keys = rows.first.with_indifferent_access.keys.map(&:to_s)
-          sheet.add_row(keys.map { |key| HEADER_LABELS[key] || key.delete_prefix('contact_ca:').delete_prefix('ca:').humanize })
+          sheet.add_row(keys.map { |key| header_label_for(key) })
           rows.each do |row|
             row = row.with_indifferent_access
             sheet.add_row(keys.map { |key| format_cell(key, row[key]) })
@@ -154,6 +154,28 @@ class Reports::PanelExportService
         sheet.add_row ['Tipo de widget no soportado', widget[:type].to_s]
       end
     end
+  end
+
+  def header_label_for(key)
+    key = key.to_s
+    return HEADER_LABELS[key] if HEADER_LABELS.key?(key)
+
+    if key.start_with?('ca:', 'contact_ca:')
+      rest = key.delete_prefix('contact_ca:').delete_prefix('ca:')
+      op = nil
+      %w[count sum avg min max].each do |candidate|
+        suffix = "__#{candidate}"
+        next unless rest.end_with?(suffix) && rest.length > suffix.length
+
+        op = candidate
+        rest = rest.delete_suffix(suffix)
+        break
+      end
+      label = rest.humanize
+      return op.present? ? "#{op.capitalize}(#{label})" : label
+    end
+
+    key.humanize
   end
 
   def format_cell(key, value)

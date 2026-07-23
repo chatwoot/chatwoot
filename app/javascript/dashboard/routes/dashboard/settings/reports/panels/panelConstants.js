@@ -167,6 +167,25 @@ export const CA_COLUMN_PREFIX = 'ca:';
 /** Contact custom attrs on summary tables (agent/inbox/team/label) */
 export const CONTACT_CA_COLUMN_PREFIX = 'contact_ca:';
 
+/**
+ * Summary measure columns bake the aggregation into the column id so Count(ventas)
+ * and Sum(ventas) can both be selected: `ca:ventas__count`, `ca:ventas__sum`.
+ * Attribute keys themselves must not end with `__{op}` (Chatwoot keys are simple).
+ */
+export const MEASURE_OPS = ['count', 'sum', 'avg', 'min', 'max'];
+export const MEASURE_SEP = '__';
+
+const stripMeasureSuffix = rest => {
+  for (let i = 0; i < MEASURE_OPS.length; i += 1) {
+    const op = MEASURE_OPS[i];
+    const suffix = `${MEASURE_SEP}${op}`;
+    if (rest.endsWith(suffix) && rest.length > suffix.length) {
+      return { attrKey: rest.slice(0, -suffix.length), op };
+    }
+  }
+  return { attrKey: rest, op: null };
+};
+
 export const SUMMARY_TABLE_KINDS = new Set([
   'agent_summary',
   'inbox_summary',
@@ -184,14 +203,25 @@ export const isCustomAttributeColumn = key =>
   isConversationCustomAttributeColumn(key) ||
   isContactCustomAttributeColumn(key);
 
+/** Strip ca:/contact_ca: and optional __{op} measure suffix → attribute_key */
 export const customAttributeKeyFromColumn = key => {
+  let rest = null;
   if (isContactCustomAttributeColumn(key)) {
-    return key.slice(CONTACT_CA_COLUMN_PREFIX.length);
+    rest = key.slice(CONTACT_CA_COLUMN_PREFIX.length);
+  } else if (isConversationCustomAttributeColumn(key)) {
+    rest = key.slice(CA_COLUMN_PREFIX.length);
+  } else {
+    return null;
   }
-  if (isConversationCustomAttributeColumn(key)) {
-    return key.slice(CA_COLUMN_PREFIX.length);
-  }
-  return null;
+  return stripMeasureSuffix(rest).attrKey;
+};
+
+export const measureOpFromColumn = key => {
+  if (!isCustomAttributeColumn(key)) return null;
+  const raw = isContactCustomAttributeColumn(key)
+    ? key.slice(CONTACT_CA_COLUMN_PREFIX.length)
+    : key.slice(CA_COLUMN_PREFIX.length);
+  return stripMeasureSuffix(raw).op;
 };
 
 export const customAttributeColumnKey = attributeKey =>
@@ -199,6 +229,19 @@ export const customAttributeColumnKey = attributeKey =>
 
 export const contactCustomAttributeColumnKey = attributeKey =>
   `${CONTACT_CA_COLUMN_PREFIX}${attributeKey}`;
+
+/** Summary table column id with baked-in aggregation (Power BI-style measures). */
+export const customAttributeMeasureColumnKey = (
+  attributeKey,
+  op,
+  { contact = false } = {}
+) => {
+  const base = contact
+    ? contactCustomAttributeColumnKey(attributeKey)
+    : customAttributeColumnKey(attributeKey);
+  if (!op || !MEASURE_OPS.includes(op)) return base;
+  return `${base}${MEASURE_SEP}${op}`;
+};
 
 /** Additive count columns eligible for footer aggregations */
 export const SUMMABLE_SYSTEM_COLUMNS = new Set([
@@ -209,6 +252,15 @@ export const SUMMABLE_SYSTEM_COLUMNS = new Set([
 ]);
 
 export const SUMMABLE_CUSTOM_TYPES = new Set(['number', 'currency', 'percent']);
+
+/** Ops offered as separate selectable columns per attribute on summary tables */
+export const summaryMeasureOpsForAttrType = type => {
+  if (SUMMABLE_CUSTOM_TYPES.has(type)) {
+    return ['count', 'sum', 'avg', 'min', 'max'];
+  }
+  // Non-numeric: only count of conversations/contacts where the attr is set / non-empty
+  return ['count'];
+};
 
 /**
  * Parse number/currency/percent CA values that may use locale separators

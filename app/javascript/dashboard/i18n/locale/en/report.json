@@ -773,13 +773,13 @@
       "AGGREGATION_OP": "Aggregation",
       "AGGREGATION_FIELD": "Numeric attribute",
       "AGGREGATION_FIELD_OPTIONAL": "Attribute (optional)",
-      "AGGREGATION_FIELD_OPTIONAL_HINT": "Leave empty to count matching rows, or pick a numeric attribute to count only rows that have it.",
+      "AGGREGATION_FIELD_OPTIONAL_HINT": "Leave empty to count matching rows, or pick any attribute to count only rows where it is set (non-empty).",
       "AGGREGATION_GROUP_FIELD": "Group / filter by date attribute",
       "AGGREGATION_GROUP_FIELD_HINT": "Use a custom date or date-time attribute (e.g. sale date) for the X-axis and period filter. Leave empty to use conversation/contact created date. Pair with a numeric custom attribute above (e.g. price) for sales charts.",
       "AGGREGATION_ENTITY": "Aggregate over",
       "TABLE_KIND": "Table type",
       "TABLE_COLUMNS": "Columns",
-      "TABLE_COLUMNS_HINT": "Choose columns to show. On agent/inbox/team/label tables, numeric custom attributes (conversation or contact) are rolled up per row (default sum). For numeric columns, pick an optional footer aggregation. Changing the table type resets columns."
+      "TABLE_COLUMNS_HINT": "Choose columns to show. On agent/inbox/team/label tables, pick Count/Sum/Avg/… per custom attribute as separate columns (e.g. Count(ventas) and Sum(ventas) together). Count = rows where the attribute is set. Detail tables show raw attribute values; use the footer dropdown for numeric rollups. Changing the table type resets columns."
     },
     "RESET_RANGE": "Reset to saved range",
     "FILTERS": {
@@ -841,7 +841,8 @@
       "created_at": "Created",
       "last_activity_at": "Last activity",
       "CONVERSATION_CA_PREFIX": "Conversation: {name}",
-      "CONTACT_CA_PREFIX": "Contact: {name}"
+      "CONTACT_CA_PREFIX": "Contact: {name}",
+      "MEASURE_CA": "{op}({name})"
     },
     "METRICS": {
       "conversations_count": "Conversations",

@@ -10,7 +10,9 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import {
   resolveTableColumns,
   isCustomAttributeColumn,
+  isContactCustomAttributeColumn,
   customAttributeKeyFromColumn,
+  measureOpFromColumn,
   parseLocaleNumber,
   formatNumericAttribute,
   SUMMABLE_CUSTOM_TYPES,
@@ -165,6 +167,11 @@ const sortValueFor = (row, key) => {
   const value = row?.[key];
   if (value == null || value === '') return null;
 
+  if (measureOpFromColumn(key) === 'count') {
+    const num = Number(value);
+    return Number.isFinite(num) ? num : null;
+  }
+
   const type = columnType(key);
   if (type && SUMMABLE_CUSTOM_TYPES.has(type)) {
     return parseLocaleNumber(value);
@@ -256,9 +263,19 @@ const rowsClickable = computed(() =>
 const headerLabel = key => {
   if (isCustomAttributeColumn(key)) {
     const attrKey = customAttributeKeyFromColumn(key);
-    return (
-      props.attributeLabels[key] || props.attributeLabels[attrKey] || attrKey
-    );
+    const op = measureOpFromColumn(key);
+    const name =
+      props.attributeLabels[key] ||
+      props.attributeLabels[
+        isContactCustomAttributeColumn(key)
+          ? `contact_ca:${attrKey}`
+          : `ca:${attrKey}`
+      ] ||
+      props.attributeLabels[attrKey] ||
+      attrKey;
+    if (!op) return name;
+    const opLabel = t(`REPORT_PANELS.AGGREGATIONS.${String(op).toUpperCase()}`);
+    return t('REPORT_PANELS.COLUMNS.MEASURE_CA', { op: opLabel, name });
   }
   const i18nKey = `REPORT_PANELS.COLUMNS.${key}`;
   const translated = t(i18nKey);
@@ -298,6 +315,18 @@ const formatCustomAttributeCell = (value, type) => {
 const formatCell = (row, key) => {
   const value = row[key];
   if (isCustomAttributeColumn(key)) {
+    // Summary measure columns are already aggregated numbers.
+    if (measureOpFromColumn(key)) {
+      if (value == null || value === '') return '—';
+      if (measureOpFromColumn(key) === 'count') {
+        return Number(value).toLocaleString();
+      }
+      const type = columnType(key);
+      if (type && SUMMABLE_CUSTOM_TYPES.has(type)) {
+        return formatNumericAttribute(value, type);
+      }
+      return Number(value).toLocaleString();
+    }
     return formatCustomAttributeCell(value, columnType(key));
   }
   if (value == null || value === '') return '—';
@@ -335,6 +364,9 @@ const formatAggregateValue = (key, value) => {
   if (value == null || value === '') return '—';
   if (TIME_COLUMNS.has(key)) return formatTime(value);
   if (key === 'share_percent') return `${Number(value).toFixed(1)}%`;
+  if (measureOpFromColumn(key) === 'count') {
+    return Number(value).toLocaleString();
+  }
   const type = columnType(key);
   if (type && SUMMABLE_CUSTOM_TYPES.has(type)) {
     return formatNumericAttribute(value, type);
