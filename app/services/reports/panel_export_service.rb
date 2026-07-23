@@ -125,7 +125,7 @@ class Reports::PanelExportService
           sheet.add_row ['Sin datos para este periodo']
         else
           keys = rows.first.with_indifferent_access.keys.map(&:to_s)
-          sheet.add_row(keys.map { |key| HEADER_LABELS[key] || key.delete_prefix('ca:').humanize })
+          sheet.add_row(keys.map { |key| HEADER_LABELS[key] || key.delete_prefix('contact_ca:').delete_prefix('ca:').humanize })
           rows.each do |row|
             row = row.with_indifferent_access
             sheet.add_row(keys.map { |key| format_cell(key, row[key]) })
@@ -166,7 +166,7 @@ class Reports::PanelExportService
     return PRIORITY_LABELS[value.to_s] || value.to_s if key == 'priority'
     return Array(value).join(', ') if key == 'labels'
     return format_unix_datetime(value) if %w[created_at last_activity_at].include?(key) && numeric_unix?(value)
-    return format_iso_datetime(value) if key.start_with?('ca:') && looks_like_iso_datetime?(value)
+    return format_iso_datetime(value) if (key.start_with?('ca:') || key.start_with?('contact_ca:')) && looks_like_iso_datetime?(value)
 
     value
   end

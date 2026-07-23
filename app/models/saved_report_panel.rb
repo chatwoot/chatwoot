@@ -197,9 +197,9 @@ class SavedReportPanel < ApplicationRecord
                    avg_resolution_time avg_reply_time share_percent]
               end
 
-    # ca:* = custom attribute columns (conversation attrs for conversations, contact attrs for contacts)
+    # ca:* = conversation custom attrs (detail + summary). contact_ca:* = contact attrs on summary tables.
     invalid = columns.map(&:to_s).reject do |key|
-      allowed.include?(key) || key.match?(/\Aca:[\p{L}\p{N}_.\-]+\z/)
+      allowed.include?(key) || key.match?(/\A(?:ca|contact_ca):[\p{L}\p{N}_.\-]+\z/)
     end
     errors.add(:widgets, "invalid columns at index #{index}: #{invalid.join(', ')}") if invalid.any?
 
