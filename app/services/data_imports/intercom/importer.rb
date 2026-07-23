@@ -63,8 +63,9 @@ class DataImports::Intercom::Importer
   def finish!
     return if @data_import.reload.abandoned?
 
-    has_failures = @data_import.import_errors.non_skip_logs.exists? || @data_import.import_errors.failed.exists?
-    status = has_failures ? :completed_with_errors : :completed
+    error_count = @data_import.import_errors.non_skip_logs.count + @data_import.import_errors.failed.count
+    @stats['errors']['count'] = error_count
+    status = error_count.positive? ? :completed_with_errors : :completed
     @data_import.update!(
       status: status,
       completed_at: Time.current,

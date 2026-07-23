@@ -1563,6 +1563,29 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(data_import.reload).to be_completed_with_errors
       expect(data_import.stats.dig('errors', 'count')).to eq(1)
     end
+
+    it 'reconciles error stats when a superseded run is retried', :aggregate_failures do
+      run_id = 'intercom-run-1'
+      next_run_id = 'intercom-run-2'
+      data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
+      importer = described_class.new(data_import: data_import, run_id: run_id)
+      allow(importer).to receive(:bulk_write_message_entries).and_wrap_original do |method, *args|
+        method.call(*args).tap do
+          DataImport.find(data_import.id).update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => next_run_id })
+        end
+      end
+
+      importer.import_conversations_page
+      expect(data_import.reload.stats.dig('errors', 'count')).to eq(0)
+
+      retry_importer = described_class.new(data_import: data_import, run_id: next_run_id)
+      retry_importer.import_conversations_page
+      retry_importer.finish!
+
+      expect(data_import.reload).to be_completed_with_errors
+      expect(data_import.stats.dig('errors', 'count')).to eq(1)
+      expect(data_import.total_records).to eq(6)
+    end
   end
 
   context 'when the conversation parts total matches the returned parts' do
