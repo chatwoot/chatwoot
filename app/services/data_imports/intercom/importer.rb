@@ -648,6 +648,8 @@ class DataImports::Intercom::Importer
 
       import_unprepared_message(chatwoot_conversation, contact, batch_builder, entry)
     end
+    return false if import_stopped?
+
     true
   end
 

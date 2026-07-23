@@ -677,6 +677,41 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(data_import.reload.stats.dig('conversations', 'imported')).to eq(0)
     end
 
+    it 'does not persist stale stats when a newer run takes over during the final prefetch fallback entry', :aggregate_failures do
+      run_id = 'intercom-run-1'
+      data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
+      importer = described_class.new(data_import: data_import, run_id: run_id)
+      allow(importer).to receive(:sleep)
+      allow(DataImports::Intercom::MessageBatchBuilder).to receive(:new).and_wrap_original do |method, **kwargs|
+        method.call(**kwargs).tap do |batch_builder|
+          allow(batch_builder).to receive(:perform).and_wrap_original do |perform, *args|
+            raise ActiveRecord::QueryCanceled, 'statement timeout' if args.empty?
+
+            perform.call(*args)
+          end
+        end
+      end
+      allow(importer).to receive(:import_unprepared_message).and_wrap_original do |method, *args|
+        method.call(*args).tap do
+          source_entry = args.last
+          next unless source_entry.dig(:part, 'id') == 'part_2'
+
+          DataImport.find(data_import.id).update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' })
+        end
+      end
+      expect(importer).not_to receive(:update_conversation_activity)
+
+      importer.import_conversations_page
+
+      expect(importer).to have_received(:sleep).with(be_between(0.2, 0.5)).once
+      expect(importer).to have_received(:import_unprepared_message).exactly(3).times
+      expect(account.messages.count).to eq(3)
+      expect(data_import.reload.stats).to include(
+        'conversations' => include('imported' => 0),
+        'messages' => include('imported' => 0)
+      )
+    end
+
     it 'stops individual fallback entries when a newer run takes over', :aggregate_failures do
       run_id = 'intercom-run-1'
       data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
