@@ -83,6 +83,10 @@ const handleFocusOut = event => {
   if (menuRef.value?.contains(event.relatedTarget)) {
     return;
   }
+  if (menuRef.value?.matches(':hover')) {
+    nextTick(() => menuRef.value?.focus());
+    return;
+  }
   handleClose();
 };
 
