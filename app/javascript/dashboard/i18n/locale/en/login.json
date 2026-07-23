@@ -10,6 +10,24 @@
       "LABEL": "Password",
       "PLACEHOLDER": "Password"
     },
+    "DESK": {
+      "TITLE": "Reception desk login",
+      "SUBTITLE": "Enter your name and PIN to open WhatsApp chats",
+      "NAME": {
+        "LABEL": "Name",
+        "PLACEHOLDER": "Your full name",
+        "ERROR": "Please enter your name"
+      },
+      "PIN": {
+        "LABEL": "PIN",
+        "PLACEHOLDER": "4–6 digit PIN",
+        "ERROR": "Please enter your 4–6 digit PIN"
+      },
+      "SUBMIT": "Open desk",
+      "API": {
+        "UNAUTH": "Name or PIN is incorrect. Please try again."
+      }
+    },
     "API": {
       "SUCCESS_MESSAGE": "Login successful",
       "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",

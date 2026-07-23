@@ -50,6 +50,7 @@ class User < ApplicationRecord
   include Avatarable
   # Include default devise modules.
   include DeviseTokenAuth::Concerns::User
+  include DeskLoginable
   include Pubsubable
   include Rails.application.routes.url_helpers
   include Reportable

@@ -11,6 +11,8 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def create
+    return render_desk_login_error unless prepare_desk_login_credentials!
+
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
 
@@ -46,6 +48,42 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     return nil unless user.active_for_authentication?
 
     user
+  end
+
+  # Desk receptionists sign in with name + numeric PIN. Resolve to email/password
+  # so the rest of DeviseTokenAuth + MFA/session-limit flows stay unchanged.
+  def desk_login_request?
+    params[:name].present? && params[:pin].present? && params[:email].blank?
+  end
+
+  # Returns false when desk credentials are invalid (caller should render error).
+  # Returns true when not a desk login request, or when credentials were mapped.
+  def prepare_desk_login_credentials!
+    return true unless desk_login_request?
+
+    user = find_desk_user_for_pin
+    return false unless user
+
+    params[:email] = user.email
+    params[:password] = params[:pin]
+    true
+  end
+
+  def find_desk_user_for_pin
+    name = params[:name].to_s.strip
+    pin = params[:pin].to_s
+    return nil if name.blank? || !pin.match?(DeskLoginable::PIN_FORMAT)
+
+    User.with_desk_login.where('LOWER(name) = ?', name.downcase).detect do |user|
+      user.valid_password?(pin) && user.active_for_authentication?
+    end
+  end
+
+  def render_desk_login_error
+    render json: {
+      success: false,
+      errors: [I18n.t('devise_token_auth.sessions.bad_credentials')]
+    }, status: :unauthorized
   end
 
   def mfa_verification_request?

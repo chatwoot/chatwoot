@@ -1,6 +1,7 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
 import Login from './login/Index.vue';
+import DeskLogin from './login/Desk.vue';
 import SamlLogin from './login/Saml.vue';
 import Signup from './auth/signup/Index.vue';
 import ResetPassword from './auth/reset/password/Index.vue';
@@ -21,6 +22,11 @@ export default [
       ssoConversationId: route.query.sso_conversation_id,
       authError: route.query.error,
     }),
+  },
+  {
+    path: frontendURL('login/desk'),
+    name: 'desk_login',
+    component: DeskLogin,
   },
   {
     path: frontendURL('login/sso'),
