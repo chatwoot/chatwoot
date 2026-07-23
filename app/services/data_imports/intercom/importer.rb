@@ -190,8 +190,8 @@ class DataImports::Intercom::Importer
   end
 
   def continue_import_with_heartbeat?
-    return true if @data_import.updated_at > HEARTBEAT_INTERVAL.ago
     return false if import_stopped?
+    return true if @data_import.updated_at > HEARTBEAT_INTERVAL.ago
 
     @data_import.touch if @data_import.updated_at <= HEARTBEAT_INTERVAL.ago
     true

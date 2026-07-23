@@ -315,8 +315,7 @@ RSpec.describe DataImports::Intercom::Importer do
         allow(data_import).to receive(:touch).and_call_original
         importer = described_class.new(data_import: data_import, run_id: run_id)
         allow(importer).to receive(:create_message) do
-          data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' })
-          travel 1.minute
+          DataImport.find(data_import.id).update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' })
         end
 
         importer.import_conversations_page
