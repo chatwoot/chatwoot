@@ -651,6 +651,24 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(data_import.reload.stats.dig('conversations', 'imported')).to eq(0)
     end
 
+    it 'stops individual fallback entries when a newer run takes over', :aggregate_failures do
+      run_id = 'intercom-run-1'
+      data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
+      importer = described_class.new(data_import: data_import, run_id: run_id)
+      allow(importer).to receive(:bulk_write_message_entries).and_raise(ActiveRecord::StatementInvalid, 'bulk failed')
+      allow(importer).to receive(:fallback_message_entry).and_wrap_original do |method, *args|
+        method.call(*args).tap do
+          DataImport.find(data_import.id).update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' })
+        end
+      end
+
+      importer.import_conversations_page
+
+      expect(importer).to have_received(:fallback_message_entry).once
+      expect(account.messages.count).to eq(1)
+      expect(data_import.reload.stats.dig('conversations', 'imported')).to eq(0)
+    end
+
     it 'reconciles conversation stats when a superseded run is retried', :aggregate_failures do
       freeze_time do
         run_id = 'intercom-run-1'
@@ -1309,6 +1327,42 @@ RSpec.describe DataImports::Intercom::Importer do
         'author_type' => 'admin'
       )
       expect(data_import.reload.stats.dig('messages', 'skipped')).to eq(1)
+    end
+
+    it 'retries skip-log reconciliation after a query timeout', :aggregate_failures do
+      importer = described_class.new(data_import: data_import)
+      attempts = 0
+      allow(importer).to receive(:sleep)
+      allow(importer).to receive(:record_skipped_message_log).and_wrap_original do |method, *args|
+        attempts += 1
+        raise ActiveRecord::QueryCanceled, 'statement timeout' if attempts == 1
+
+        method.call(*args)
+      end
+
+      importer.perform
+
+      expect(attempts).to eq(2)
+      expect(importer).to have_received(:sleep).with(be_between(0.2, 0.5)).once
+      expect(data_import.reload).to be_completed
+      expect(data_import.stats.dig('messages', 'skipped')).to eq(1)
+    end
+
+    it 'isolates a persistent skip-log reconciliation failure to the message', :aggregate_failures do
+      importer = described_class.new(data_import: data_import)
+      allow(importer).to receive(:record_skipped_message_log).and_raise(ActiveRecord::StatementInvalid, 'skip log failed')
+
+      importer.perform
+
+      item = data_import.items.find_by!(source_object_type: 'conversation', source_object_id: 'conversation_1')
+      error = data_import.import_errors.find_by!(
+        source_object_type: 'message',
+        source_object_id: 'conversation:conversation_1:part:blank_part'
+      )
+      expect(item).to be_imported
+      expect(error).to have_attributes(error_code: 'ActiveRecord::StatementInvalid', message: 'skip log failed')
+      expect(data_import.reload).to be_completed_with_errors
+      expect(data_import.stats.dig('errors', 'count')).to eq(1)
     end
 
     it 'records the skip log again for a later import run', :aggregate_failures do
