@@ -2,6 +2,7 @@
 import { computed, onUnmounted, ref, nextTick, watch } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -97,20 +98,13 @@ const updateURLWithFilters = (page, search) => {
   router.replace({ query });
 };
 
-let responsesRequestId = 0;
-let fetchingListRequestId = null;
-
-const isCurrentResponseRequest = (requestId, assistantId) =>
-  requestId === responsesRequestId && assistantId === selectedAssistantId.value;
+const { run: runListRequest, abort: abortListRequest } = useAbortableRequest();
 
 const fetchResponses = async (page = 1) => {
-  responsesRequestId += 1;
-  const requestId = responsesRequestId;
-  const assistantId = selectedAssistantId.value;
   const filterParams = { page };
 
-  if (assistantId) {
-    filterParams.assistantId = assistantId;
+  if (selectedAssistantId.value) {
+    filterParams.assistantId = selectedAssistantId.value;
   }
   if (searchQuery.value) {
     filterParams.search = searchQuery.value;
@@ -119,30 +113,23 @@ const fetchResponses = async (page = 1) => {
   // Update URL with current filters
   updateURLWithFilters(page, searchQuery.value);
 
-  fetchingListRequestId = requestId;
   store.dispatch('captainResponses/setFetchingList', true);
 
   try {
-    const response = await CaptainResponseAPI.get(filterParams);
+    const response = await runListRequest(signal =>
+      CaptainResponseAPI.get({ ...filterParams, signal })
+    );
 
-    if (!isCurrentResponseRequest(requestId, assistantId)) return [];
+    if (!response) return;
 
-    const { payload, meta } = response.data;
     store.dispatch('captainResponses/setRecords', {
-      records: payload,
-      meta,
+      records: response.data.payload,
+      meta: response.data.meta,
     });
-    return payload;
+    store.dispatch('captainResponses/setFetchingList', false);
   } catch (error) {
-    if (isCurrentResponseRequest(requestId, assistantId)) {
-      useAlert(error?.message || t('CAPTAIN.RESPONSES.ERRORS.LOAD'));
-    }
-    return [];
-  } finally {
-    if (fetchingListRequestId === requestId) {
-      fetchingListRequestId = null;
-      store.dispatch('captainResponses/setFetchingList', false);
-    }
+    useAlert(error?.message || t('CAPTAIN.RESPONSES.ERRORS.LOAD'));
+    store.dispatch('captainResponses/setFetchingList', false);
   }
 };
 
@@ -217,7 +204,7 @@ const debouncedSearch = debounce(async () => {
 }, 500);
 
 const handleSearchInput = () => {
-  responsesRequestId += 1;
+  abortListRequest();
   debouncedSearch();
 };
 
@@ -256,7 +243,6 @@ watch(
 );
 
 onUnmounted(() => {
-  responsesRequestId += 1;
   store.dispatch('captainResponses/setFetchingList', false);
 });
 </script>

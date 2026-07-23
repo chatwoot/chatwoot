@@ -54,10 +54,12 @@ vi.mock('vue-router', async importOriginal => {
 
 const deferred = () => {
   let resolve;
-  const promise = new Promise(resolvePromise => {
+  let reject;
+  const promise = new Promise((resolvePromise, rejectPromise) => {
     resolve = resolvePromise;
+    reject = rejectPromise;
   });
-  return { promise, resolve };
+  return { promise, resolve, reject };
 };
 
 const PageLayoutStub = {
@@ -91,12 +93,20 @@ describe('FaqSuggestions', () => {
     });
   });
 
-  it('keeps the latest assistant results when requests finish in the wrong order', async () => {
+  it('keeps the latest assistant results when an older request is superseded', async () => {
     const firstRequest = deferred();
     const secondRequest = deferred();
-    mocks.apiGet
-      .mockReturnValueOnce(firstRequest.promise)
-      .mockReturnValueOnce(secondRequest.promise);
+    const queued = [firstRequest, secondRequest];
+
+    mocks.apiGet.mockImplementation(({ signal }) => {
+      const request = queued.shift();
+      signal.addEventListener('abort', () => {
+        const error = new Error('canceled');
+        error.name = 'CanceledError';
+        request.reject(error);
+      });
+      return request.promise;
+    });
 
     const wrapper = shallowMount(FaqSuggestions, {
       global: {
@@ -109,20 +119,13 @@ describe('FaqSuggestions', () => {
     });
 
     await flushPromises();
+    // Switching assistants aborts the first request before it resolves.
     mocks.route.params.assistantId = 2;
     await flushPromises();
 
     secondRequest.resolve({
       data: {
         payload: [{ id: 2, question: 'Current assistant' }],
-        meta: { page: 1, total_count: 1 },
-      },
-    });
-    await flushPromises();
-
-    firstRequest.resolve({
-      data: {
-        payload: [{ id: 1, question: 'Previous assistant' }],
         meta: { page: 1, total_count: 1 },
       },
     });
