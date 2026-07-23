@@ -98,6 +98,6 @@ test.describe('Inbox Creation - UI Flow', () => {
 
     await page.waitForURL(/\/settings\/inboxes\/.*\/finish/);
     const finishSetup = new FinishSetup(page);
-    await expect(finishSetup.getSuccessMessage()).toBeVisible();
+    await expect(finishSetup.getPageHeading()).toBeVisible();
   });
 });

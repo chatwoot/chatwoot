@@ -4,11 +4,10 @@ export class FinishSetup {
   constructor(private page: Page) {}
 
   getPageHeading() {
-    return this.page.getByRole('heading', { name: /setup complete|inbox ready/i });
-  }
-
-  getSuccessMessage() {
-    return this.page.locator('text=/success|created|ready/i').first();
+    return this.page.getByRole('heading', {
+      name: 'Your Inbox is ready!',
+      exact: true,
+    });
   }
 
   getGoToInboxButton() {
