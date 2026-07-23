@@ -280,4 +280,41 @@ describe AutomationRuleListener do
       end
     end
   end
+
+  # The builder's "customer unresponsive" trigger writes message_type = outgoing plus
+  # private_note = false, because a private note is an outgoing message and would otherwise
+  # start the wait without the customer ever having been replied to.
+  describe 'the curated customer-unresponsive trigger' do
+    let(:automation_rule) do
+      create(:automation_rule, account: account, event_name: 'message_created', execution_delay: 60,
+                               conditions: [
+                                 { 'attribute_key' => 'message_type', 'filter_operator' => 'equal_to',
+                                   'values' => ['outgoing'], 'query_operator' => 'and' },
+                                 { 'attribute_key' => 'private_note', 'filter_operator' => 'equal_to',
+                                   'values' => [false], 'query_operator' => nil }
+                               ],
+                               actions: [{ 'action_name' => 'add_label', 'action_params' => ['stale'] }])
+    end
+
+    before do
+      allow(AutomationRules::ConditionsFilterService).to receive(:new).and_call_original
+      account.enable_features!('delayed_automations')
+      automation_rule
+    end
+
+    it 'arms the wait on a real agent reply' do
+      reply = create(:message, account: account, conversation: conversation, message_type: :outgoing)
+      event = Events::Base.new('message_created', Time.zone.now, { message: reply })
+
+      expect { listener.message_created(event) }.to change(AutomationRulePendingExecution, :count).by(1)
+      expect(AutomationRulePendingExecution.last.automation_rule).to eq(automation_rule)
+    end
+
+    it 'does not arm the wait on a private note' do
+      note = create(:message, account: account, conversation: conversation, message_type: :outgoing, private: true)
+      event = Events::Base.new('message_created', Time.zone.now, { message: note })
+
+      expect { listener.message_created(event) }.not_to change(AutomationRulePendingExecution, :count)
+    end
+  end
 end
