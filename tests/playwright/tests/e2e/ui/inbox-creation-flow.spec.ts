@@ -53,7 +53,7 @@ test.describe('Inbox Creation - UI Flow', () => {
           if (responseData.id) {
             inboxId = responseData.id;
           }
-        } catch (_error) {
+        } catch {
           // ignore non-JSON responses
         }
       }
