@@ -300,10 +300,10 @@ class Conversation < ApplicationRecord
   end
 
   def set_active_bot_conversation
+    # TODO: make this an inbox config instead of assuming bot conversations should start as pending
     self.status = :pending
     return unless inbox.agent_bot_inbox&.active? && assignee_id.blank?
 
-    self.assignee = nil
     self.assignee_agent_bot = inbox.agent_bot
   end
 
