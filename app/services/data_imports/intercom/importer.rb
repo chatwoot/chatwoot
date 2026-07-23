@@ -419,6 +419,7 @@ class DataImports::Intercom::Importer
       nil
     end
     return import_conversation_messages_individually(conversation, chatwoot_conversation, contact, batch_builder, parts.size) if batch.nil?
+
     record_truncated_conversation_parts(conversation, parts.size)
 
     batch.entries.each_slice(MESSAGES_PER_BATCH) do |entries|
