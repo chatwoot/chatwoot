@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 const props = defineProps({
   // Null while a fetch is in flight so stale counts are never shown.
@@ -117,10 +118,16 @@ const moreFiltersSections = computed(() => [
   },
 ]);
 
+const selectedAssignee = computed(
+  () => props.agents.find(agent => agent.id === assigneeId.value) || null
+);
+
 const selectedAssigneeLabel = computed(
-  () =>
-    props.agents.find(agent => agent.id === assigneeId.value)?.name ||
-    t('CALLS_PAGE.FILTERS.ASSIGNEE')
+  () => selectedAssignee.value?.name || t('CALLS_PAGE.FILTERS.ASSIGNEE')
+);
+
+const isOtherActivitySelected = computed(() =>
+  OTHER_ACTIVITIES.includes(activity.value)
 );
 
 const hasMoreFilters = computed(() => Boolean(inboxId.value));
@@ -184,7 +191,10 @@ const applyMoreFilter = ({ action, value }) => {
           color="slate"
           size="sm"
           icon="i-lucide-phone"
-          class="text-n-slate-12 !h-7 !px-2"
+          class="!h-7 !px-2"
+          :class="
+            isOtherActivitySelected ? 'text-n-slate-12' : 'text-n-slate-11'
+          "
           @click="toggleMenu('activity')"
         >
           {{ t('CALLS_PAGE.FILTERS.OTHER_ACTIVITY') }}
@@ -209,9 +219,18 @@ const applyMoreFilter = ({ action, value }) => {
           color="slate"
           size="sm"
           icon="i-woot-empty-assignee"
-          class="max-w-52 text-n-slate-12 !h-7 !px-2"
+          class="max-w-52 !h-7 !px-2"
+          :class="assigneeId ? 'text-n-slate-12' : 'text-n-slate-11'"
           @click="toggleMenu('assignee')"
         >
+          <template v-if="selectedAssignee" #icon>
+            <Avatar
+              :src="selectedAssignee.thumbnail"
+              :name="selectedAssignee.name"
+              :size="16"
+              rounded-full
+            />
+          </template>
           <span class="truncate">{{ selectedAssigneeLabel }}</span>
           <Icon icon="i-lucide-chevron-down" class="text-n-slate-11 shrink-0" />
         </Button>
@@ -230,7 +249,7 @@ const applyMoreFilter = ({ action, value }) => {
           icon="i-lucide-list-filter"
           class="!h-7 !px-2"
           :color="hasMoreFilters ? 'blue' : 'slate'"
-          :class="hasMoreFilters ? '' : 'text-n-slate-12'"
+          :class="hasMoreFilters ? '' : 'text-n-slate-11'"
           @click="toggleMenu('more')"
         >
           {{ t('CALLS_PAGE.FILTERS.MORE_FILTERS') }}
