@@ -178,27 +178,44 @@ const filteredFieldGroups = computed(() => {
   return groups.filter(g => g.items.length);
 });
 
-const usedMeasureBases = computed(() => {
-  const bases = new Set();
+/** Exact measure keys already in Valores (`ca:ventas__count`, `conversations_count`, …). */
+const usedMeasureColumnKeys = computed(() => {
+  const keys = new Set();
   selectedColumns.value.forEach(key => {
     if (PIVOT_IDENTITY_COLUMNS.has(key)) return;
-    if (isCustomAttributeColumn(key)) {
-      const parsed = parseCustomAttributeColumn(key);
-      if (parsed.attrKey) {
-        bases.add(
-          parsed.contact
-            ? contactCustomAttributeColumnKey(parsed.attrKey)
-            : customAttributeColumnKey(parsed.attrKey)
-        );
-      }
-    } else {
-      bases.add(key);
-    }
+    keys.add(key);
   });
-  return bases;
+  return keys;
 });
 
-const isFieldInValues = field => usedMeasureBases.value.has(field.columnBase);
+const measureColumnKeyFor = (field, op) => {
+  if (!field) return null;
+  if (field.kind === 'system') return field.columnBase;
+  return customAttributeMeasureColumnKey(field.attributeKey, op, {
+    contact: field.contact,
+  });
+};
+
+const availableOpsForField = field => {
+  if (!field) return [];
+  const used = usedMeasureColumnKeys.value;
+  if (field.kind === 'system') {
+    return used.has(field.columnBase) ? [] : ['_sys'];
+  }
+  return (field.measureOps || []).filter(
+    op => !used.has(measureColumnKeyFor(field, op))
+  );
+};
+
+/** True when every available measure for this field is already in Valores. */
+const isFieldFullyInValues = field => availableOpsForField(field).length === 0;
+
+const nextFreeOpForField = field => {
+  const available = availableOpsForField(field);
+  if (!available.length || field?.kind === 'system') return null;
+  if (available.includes('sum')) return 'sum';
+  return available[0];
+};
 
 const isFieldInColumns = field => {
   const pivot = ensurePivot();
@@ -238,13 +255,13 @@ const countCandidateScore = field => {
   return score;
 };
 
-/** Ranked one-click chips — hide already applied; max ~5. */
+/** Ranked one-click chips — hide already applied measure keys; max ~5. */
 const suggestions = computed(() => {
   if (!isSummary.value) return [];
   const items = [];
-  const used = usedMeasureBases.value;
+  const used = usedMeasureColumnKeys.value;
   const hasPivot = Boolean(ensurePivot().column_attribute);
-  const suggestedFieldIds = new Set();
+  const suggestedMeasureKeys = new Set();
 
   if (!hasPivot) {
     const best = fieldCatalog.value
@@ -252,7 +269,6 @@ const suggestions = computed(() => {
       .filter(item => item.score > 0)
       .sort((a, b) => b.score - a.score)[0];
     if (best) {
-      suggestedFieldIds.add(best.field.id);
       items.push({
         id: `col:${best.field.id}`,
         kind: 'column',
@@ -265,12 +281,12 @@ const suggestions = computed(() => {
   }
 
   const summable = fieldCatalog.value
-    .filter(
-      field =>
-        field.kind !== 'system' &&
-        SUMMABLE_CUSTOM_TYPES.has(field.attrType) &&
-        !used.has(field.columnBase)
-    )
+    .filter(field => {
+      if (field.kind === 'system') return false;
+      if (!SUMMABLE_CUSTOM_TYPES.has(field.attrType)) return false;
+      const sumKey = measureColumnKeyFor(field, 'sum');
+      return sumKey && !used.has(sumKey);
+    })
     .sort((a, b) => {
       const rank = type => {
         if (type === 'currency') return 3;
@@ -282,7 +298,8 @@ const suggestions = computed(() => {
 
   summable.slice(0, 2).forEach(field => {
     if (items.length >= MAX_SUGGESTIONS) return;
-    suggestedFieldIds.add(field.id);
+    const sumKey = measureColumnKeyFor(field, 'sum');
+    suggestedMeasureKeys.add(sumKey);
     items.push({
       id: `sum:${field.id}`,
       field,
@@ -295,19 +312,20 @@ const suggestions = computed(() => {
   });
 
   const countCandidates = fieldCatalog.value
-    .filter(
-      field =>
-        field.kind !== 'system' &&
-        !used.has(field.columnBase) &&
-        !suggestedFieldIds.has(field.id)
-    )
+    .filter(field => {
+      if (field.kind === 'system') return false;
+      const countKey = measureColumnKeyFor(field, 'count');
+      return (
+        countKey && !used.has(countKey) && !suggestedMeasureKeys.has(countKey)
+      );
+    })
     .map(field => ({ field, score: countCandidateScore(field) }))
     .filter(item => item.score > 0)
     .sort((a, b) => b.score - a.score);
 
   countCandidates.slice(0, 2).forEach(({ field }) => {
     if (items.length >= MAX_SUGGESTIONS) return;
-    suggestedFieldIds.add(field.id);
+    suggestedMeasureKeys.add(measureColumnKeyFor(field, 'count'));
     items.push({
       id: `count:${field.id}`,
       field,
@@ -459,38 +477,51 @@ const setFooterAggregation = (columnKey, op, attrType = '') => {
 };
 
 const addFieldToValues = field => {
-  if (!field || isFieldInValues(field)) return;
-  const measures = [...valoresList.value];
-  let columnKey;
-  let op = null;
+  if (!field) return;
   if (field.kind === 'system') {
-    columnKey = field.columnBase;
-  } else {
-    op = defaultOpForField(field);
-    columnKey = customAttributeMeasureColumnKey(field.attributeKey, op, {
-      contact: field.contact,
-    });
+    if (usedMeasureColumnKeys.value.has(field.columnBase)) return;
+    const measures = [
+      ...valoresList.value,
+      {
+        columnKey: field.columnBase,
+        fieldId: field.id,
+        label: field.label,
+        op: null,
+        isCustom: false,
+        measureOps: [],
+        attrType: '',
+      },
+    ];
+    valoresList.value = measures;
+    syncColumnsFromMeasures(measures);
+    if (SUMMABLE_SYSTEM_COLUMNS.has(field.columnBase)) {
+      setFooterAggregation(field.columnBase, 'sum');
+    }
+    return;
   }
-  measures.push({
-    columnKey,
-    fieldId: field.id,
-    label: field.label,
-    op,
-    isCustom: field.kind !== 'system',
-    measureOps: field.measureOps || [],
-    attrType: field.attrType || '',
-  });
+  const op = nextFreeOpForField(field);
+  if (!op) return;
+  const columnKey = measureColumnKeyFor(field, op);
+  if (usedMeasureColumnKeys.value.has(columnKey)) return;
+  const measures = [
+    ...valoresList.value,
+    {
+      columnKey,
+      fieldId: field.id,
+      label: field.label,
+      op,
+      isCustom: true,
+      measureOps: field.measureOps || [],
+      attrType: field.attrType || '',
+    },
+  ];
   valoresList.value = measures;
   syncColumnsFromMeasures(measures);
-  if (field.kind !== 'system') {
-    setFooterAggregation(
-      columnKey,
-      defaultFooterOp(columnKey, op),
-      field.attrType
-    );
-  } else if (SUMMABLE_SYSTEM_COLUMNS.has(columnKey)) {
-    setFooterAggregation(columnKey, 'sum');
-  }
+  setFooterAggregation(
+    columnKey,
+    defaultFooterOp(columnKey, op),
+    field.attrType
+  );
 };
 
 const removeMeasure = columnKey => {
@@ -512,6 +543,9 @@ const changeMeasureOp = (row, op) => {
   const newKey = customAttributeMeasureColumnKey(field.attributeKey, op, {
     contact: field.contact,
   });
+  if (newKey === oldKey) return;
+  // Another Valores row already owns this measure key — don't clobber.
+  if (valoresList.value.some(m => m.columnKey === newKey)) return;
   const measures = valoresList.value.map(m =>
     m.columnKey === oldKey ? { ...m, columnKey: newKey, op } : m
   );
@@ -542,17 +576,18 @@ const setPivotFromField = field => {
 };
 
 const addMeasureWithOp = (field, op) => {
-  if (!field || isFieldInValues(field)) return;
+  if (!field) return;
   if (field.kind === 'system') {
     addFieldToValues(field);
     return;
   }
-  const measureOp = op || defaultOpForField(field) || 'count';
+  const measureOp = op || nextFreeOpForField(field) || 'count';
   const columnKey = customAttributeMeasureColumnKey(
     field.attributeKey,
     measureOp,
     { contact: field.contact }
   );
+  if (usedMeasureColumnKeys.value.has(columnKey)) return;
   const measures = [
     ...valoresList.value,
     {
@@ -633,11 +668,10 @@ const measureOpOptionsFor = row =>
   }));
 
 const addMeasureFieldOptions = computed(() => {
-  const used = usedMeasureBases.value;
   return [
     { value: '', label: t('REPORT_PANELS.PIVOT.ADD_MEASURE_PLACEHOLDER') },
     ...fieldCatalog.value
-      .filter(f => !used.has(f.columnBase))
+      .filter(f => availableOpsForField(f).length > 0)
       .map(f => ({ value: f.id, label: f.label })),
   ];
 });
@@ -647,7 +681,8 @@ const addMeasureOpOptions = computed(() => {
   if (!field || field.kind === 'system') {
     return [{ value: '', label: '—' }];
   }
-  return (field.measureOps || ['count']).map(op => ({
+  const available = availableOpsForField(field);
+  return available.map(op => ({
     value: op,
     label: t(`REPORT_PANELS.AGGREGATIONS.${op.toUpperCase()}`),
   }));
@@ -655,7 +690,9 @@ const addMeasureOpOptions = computed(() => {
 
 watch(addMeasureFieldId, id => {
   const field = fieldById.value[id];
-  addMeasureOp.value = field ? defaultOpForField(field) || 'count' : 'count';
+  addMeasureOp.value = field
+    ? nextFreeOpForField(field) || defaultOpForField(field) || 'count'
+    : 'count';
 });
 
 const confirmAddMeasure = () => {
@@ -664,11 +701,14 @@ const confirmAddMeasure = () => {
   if (field.kind === 'system') {
     addFieldToValues(field);
   } else {
-    const op = addMeasureOp.value || defaultOpForField(field);
+    const op =
+      addMeasureOp.value ||
+      nextFreeOpForField(field) ||
+      defaultOpForField(field);
     const columnKey = customAttributeMeasureColumnKey(field.attributeKey, op, {
       contact: field.contact,
     });
-    if (isFieldInValues(field)) return;
+    if (usedMeasureColumnKeys.value.has(columnKey)) return;
     const measures = [
       ...valoresList.value,
       {
@@ -925,7 +965,7 @@ const toggleDetailColumn = key => {
                     class="group flex items-center gap-1 rounded-md px-1.5 py-1 text-sm text-n-slate-12 hover:bg-n-alpha-2 cursor-grab active:cursor-grabbing"
                     :class="{
                       'opacity-50':
-                        isFieldInValues(field) && isFieldInColumns(field),
+                        isFieldFullyInValues(field) && isFieldInColumns(field),
                     }"
                   >
                     <Icon
@@ -947,7 +987,7 @@ const toggleDetailColumn = key => {
                     <button
                       type="button"
                       class="shrink-0 text-[10px] px-1 py-0.5 rounded text-n-slate-11 hover:bg-n-alpha-2 opacity-0 group-hover:opacity-100 disabled:opacity-30"
-                      :disabled="isFieldInValues(field)"
+                      :disabled="isFieldFullyInValues(field)"
                       :title="t('REPORT_PANELS.PIVOT.ADD_TO_VALUES')"
                       @click.stop="addFieldToValues(field)"
                     >

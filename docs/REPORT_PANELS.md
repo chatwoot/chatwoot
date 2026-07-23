@@ -18,7 +18,7 @@ Summary tables use a **Campos → Filas / Columnas / Valores** builder (`PanelTa
 - **Campos**: searchable list — each attribute appears once (system metrics + conversation/contact CAs). Drag with `vuedraggable`, or hover shortcuts → Cols / Vals.
 - **Filas**: read-only chip from table type (change via Filas select).
 - **Columnas**: one pivot CA (dropdown or drop zone) + optional value chips + row totals.
-- **Valores**: compact measure rows — pick aggregation (Count/Sum/…) per attribute after adding.
+- **Valores**: compact measure rows — pick aggregation (Count/Sum/…) per attribute after adding. The same custom attribute may appear more than once when the measure ops differ (e.g. `ca:ventas__count` + `ca:ventas__sum`); uniqueness is by full column key, not by attribute alone. System metrics (`conversations_count`, …) stay unique.
 - **Sugerencias**: one-click chips (max ~5) ranked from available attributes — column dimension if unset, then Sum of currency/number, then Count of list/text, then missing Conversations / Resolved. Already-applied items are hidden.
 
 Detail tables (`conversations` / `contacts`) keep a searchable grouped column picker.
@@ -38,8 +38,8 @@ While editing a summary table, the builder shows a compact **Sugerencias / Sugge
 | Priority | When | Chip action |
 |----------|------|-------------|
 | 1 | No pivot Columnas set | Use best list/text CA (few options preferred) as column dimension |
-| 2 | Currency / number / percent CA not in Valores | Add `Sum(name)` |
-| 3 | List/text (then other) CA not in Valores | Add `Count(name)` — top 2 |
+| 2 | Currency / number / percent CA missing that Sum measure | Add `Sum(name)` (even if Count of the same attr is already in Valores) |
+| 3 | List/text (then other) CA missing that Count measure | Add `Count(name)` — top 2 |
 | 4 | System metric missing | Add Conversations / Resolved |
 
 Max 3–5 chips; applied suggestions disappear. Demo seed (`tmp/seed_report_panels_demo.rb`) creates attrs `producto` (list), `ventas` (currency), and a configured pivot plus a second empty-ish table to exercise chips.
