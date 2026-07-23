@@ -530,26 +530,32 @@ class Reports::PanelRunnerService
     seen_contacts = Hash.new { |h, dim| h[dim] = Hash.new { |h2, pv| h2[pv] = {} } }
     discovered = {}
 
-    scope = filtered_conversations_scope(since_time, until_time)
-            .unscope(:order)
-            .includes(:contact)
-            .reorder(:id)
-            .limit(SavedReportPanel::FILTERED_CONVERSATIONS_LIMIT * 20)
-
-    scope.each do |conversation|
-      dim_ids = pivot_dimension_ids(table_kind, conversation)
-      next if dim_ids.empty?
-
-      raw_val = conversation.custom_attributes&.[](pivot_attr_key)
-      pivot_val = normalize_pivot_value(raw_val)
-      next if selected_values.present? && selected_values.exclude?(pivot_val) && !(pivot_val.blank? && selected_values.include?(''))
-
-      discovered[pivot_val] = true
-      dim_ids.each do |dim_id|
-        accum = buckets[dim_id][pivot_val]
-        accumulate_pivot_measures!(accum, conversation, measures, seen_contacts[dim_id][pivot_val])
-      end
+    # Keep the same row universe as the flat (non-pivot) summary — agents/inboxes/…
+    # with zeros — instead of only dimensions that appear in the pivot scan.
+    pivot_baseline_dimension_ids(table_kind, since_time, until_time).each do |dim_id|
+      buckets[dim_id] # touch empty bucket so the row survives with zero cells
     end
+
+    # ponytail: full range scan (batched). Old reorder(:id).limit(2k) biased to earliest
+    # conversations and dropped most agents in busy accounts; statement_timeout caps cost.
+    filtered_conversations_scope(since_time, until_time)
+      .unscope(:order)
+      .in_batches(of: 250) do |batch|
+        batch.includes(:contact).each do |conversation|
+          dim_ids = pivot_dimension_ids(table_kind, conversation)
+          next if dim_ids.empty?
+
+          raw_val = conversation.custom_attributes&.[](pivot_attr_key)
+          pivot_val = normalize_pivot_value(raw_val)
+          next if selected_values.present? && selected_values.exclude?(pivot_val) && !(pivot_val.blank? && selected_values.include?(''))
+
+          discovered[pivot_val] = true
+          dim_ids.each do |dim_id|
+            accum = buckets[dim_id][pivot_val]
+            accumulate_pivot_measures!(accum, conversation, measures, seen_contacts[dim_id][pivot_val])
+          end
+        end
+      end
 
     pivot_values =
       if selected_values.present?
@@ -566,6 +572,23 @@ class Reports::PanelRunnerService
     pivot_values = discovered.keys.map(&:to_s).first(MAX_PIVOT_VALUES) if pivot_values.empty?
 
     [pivot_values, buckets, name_map]
+  end
+
+  # Same dimension ids the flat summary table would show for this kind/filters/range.
+  def pivot_baseline_dimension_ids(table_kind, since_time, until_time)
+    rows =
+      case table_kind.to_s
+      when 'inbox_summary'
+        filtered_or_builder_summary(V2::Reports::InboxSummaryBuilder, :inbox_id, since_time, until_time, type: :inbox)
+      when 'team_summary'
+        filtered_or_builder_summary(V2::Reports::TeamSummaryBuilder, :team_id, since_time, until_time, type: :team)
+      when 'label_summary'
+        filtered_or_label_summary(since_time, until_time)
+      else
+        filtered_or_builder_summary(V2::Reports::AgentSummaryBuilder, :assignee_id, since_time, until_time, type: :agent)
+      end
+
+    Array(rows).filter_map { |row| row.with_indifferent_access[:id] }
   end
 
   def new_pivot_measure_accum(measures)
