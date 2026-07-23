@@ -679,19 +679,21 @@ class DataImports::Intercom::Importer
   end
 
   def skip_already_imported_item(item, mapping, already_handled:)
-    item.update!(
-      status: :skipped,
-      chatwoot_record_type: mapping.chatwoot_record_type,
-      chatwoot_record_id: mapping.chatwoot_record_id,
-      last_error_code: ALREADY_IMPORTED_ERROR_CODE,
-      last_error_message: 'Already imported in a previous import.'
-    )
-    record_already_imported_log(
-      data_import_item: item,
-      source_object_type: item.source_object_type,
-      source_object_id: item.source_object_id,
-      mapping: mapping
-    )
+    DataImportItem.transaction do
+      item.update!(
+        status: :skipped,
+        chatwoot_record_type: mapping.chatwoot_record_type,
+        chatwoot_record_id: mapping.chatwoot_record_id,
+        last_error_code: ALREADY_IMPORTED_ERROR_CODE,
+        last_error_message: 'Already imported in a previous import.'
+      )
+      record_already_imported_log(
+        data_import_item: item,
+        source_object_type: item.source_object_type,
+        source_object_id: item.source_object_id,
+        mapping: mapping
+      )
+    end
     increment_stat(stat_group_for(item.source_object_type), 'skipped') unless already_handled
   end
 
@@ -969,17 +971,19 @@ class DataImports::Intercom::Importer
   def reconcile_dirty_stats
     return if @dirty_stat_groups.empty?
 
-    @dirty_stat_groups.each_key do |group|
-      case group
-      when 'contacts'
-        reconcile_item_stats('contact')
-      when 'messages'
-        reconcile_message_stats
-      else
-        raise ArgumentError, "Unsupported Intercom import stat group: #{group}"
+    with_query_timeout_retry do
+      @dirty_stat_groups.each_key do |group|
+        case group
+        when 'contacts'
+          reconcile_item_stats('contact')
+        when 'messages'
+          reconcile_message_stats
+        else
+          raise ArgumentError, "Unsupported Intercom import stat group: #{group}"
+        end
       end
+      persist_stats
     end
-    persist_stats
     @dirty_stat_groups.clear
   end
 

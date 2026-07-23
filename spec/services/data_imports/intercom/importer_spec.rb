@@ -212,6 +212,28 @@ RSpec.describe DataImports::Intercom::Importer do
     expect(data_import.reload.stats.dig('messages', 'imported')).to eq(3)
   end
 
+  it 'retries a query timeout during deferred message stats reconciliation', :aggregate_failures do
+    described_class.new(data_import: data_import).import_conversations_page
+    stats = data_import.reload.stats.deep_dup
+    stats['messages']['imported'] = 0
+    data_import.update!(stats: stats)
+    importer = described_class.new(data_import: data_import)
+    reconciliation_attempts = 0
+    allow(importer).to receive(:sleep)
+    allow(importer).to receive(:reconcile_message_stats).and_wrap_original do |method|
+      reconciliation_attempts += 1
+      raise ActiveRecord::QueryCanceled, 'statement timeout' if reconciliation_attempts == 1
+
+      method.call
+    end
+
+    importer.import_conversations_page
+
+    expect(reconciliation_attempts).to eq(2)
+    expect(importer).to have_received(:sleep).with(be_between(0.2, 0.5)).once
+    expect(data_import.reload.stats.dig('messages', 'imported')).to eq(3)
+  end
+
   it 'indexes imported messages for advanced search' do
     allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
@@ -619,6 +641,30 @@ RSpec.describe DataImports::Intercom::Importer do
 
         expect(next_data_import.reload.stats.dig('conversations', 'skipped')).to eq(1)
       end
+    end
+
+    it 'keeps skipped contact stats when a query timeout is retried after the item update', :aggregate_failures do
+      described_class.new(data_import: data_import).perform
+      importer = described_class.new(data_import: next_data_import)
+      contact_log_attempts = 0
+      allow(importer).to receive(:sleep)
+      allow(importer).to receive(:record_already_imported_log).and_wrap_original do |method, **attributes|
+        if attributes[:source_object_type] == 'contact'
+          contact_log_attempts += 1
+          raise ActiveRecord::QueryCanceled, 'statement timeout' if contact_log_attempts == 1
+        end
+
+        method.call(**attributes)
+      end
+
+      importer.import_contacts_page
+
+      contact_item = next_data_import.items.find_by!(source_object_type: 'contact', source_object_id: 'contact_1')
+      expect(contact_log_attempts).to eq(2)
+      expect(importer).to have_received(:sleep).with(be_between(0.2, 0.5)).once
+      expect(contact_item).to be_skipped
+      expect(next_data_import.reload.stats.dig('contacts', 'skipped')).to eq(1)
+      expect(next_data_import.import_errors.skip_logs.exists?(data_import_item: contact_item)).to be(true)
     end
 
     it 'recreates messages when existing message mappings point to deleted records', :aggregate_failures do
