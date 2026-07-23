@@ -28,6 +28,8 @@ const isDownloading = ref(false);
 onMounted(() => {
   if (attachment.value?.dataUrl) {
     loadWithRetry(attachment.value.dataUrl);
+  } else {
+    hasError.value = true;
   }
 });
 

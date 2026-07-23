@@ -22,6 +22,8 @@ module FileTypeHelper
       'image/gif',
       'image/bmp',
       'image/webp',
+      'image/heic',
+      'image/heif',
       'image'
     ].include?(content_type)
   end

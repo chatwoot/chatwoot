@@ -26,6 +26,12 @@ msh_sync_contact_names_job:
   class: 'Msh::SyncContactNamesJob'
   queue: low
 
+# executed hourly — keep MSH WhatsApp api_key aligned with company-chat Meta token
+msh_sync_whatsapp_token_job:
+  cron: '35 * * * *'
+  class: 'Msh::SyncWhatsappTokenJob'
+  queue: low
+
 # executed At every minute..
 trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'
