@@ -79,6 +79,7 @@ class Account < ApplicationRecord
   has_many :custom_attribute_definitions, dependent: :destroy_async
   has_many :custom_filters, dependent: :destroy_async
   has_many :dashboard_apps, dependent: :destroy_async
+  has_many :saved_report_panels, dependent: :destroy_async
   has_many :data_imports, dependent: :destroy_async
   has_many :email_channels, dependent: :destroy_async, class_name: '::Channel::Email'
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
@@ -124,6 +125,7 @@ class Account < ApplicationRecord
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
   after_create_commit :seed_default_task_templates
+  after_create_commit :seed_default_report_panels
   after_update_commit :clear_unread_conversation_counts_cache, if: :saved_change_to_feature_conversation_unread_counts?
   after_destroy :remove_account_sequences
 
@@ -254,6 +256,12 @@ class Account < ApplicationRecord
 
   def seed_default_task_templates
     TaskTemplates::DefaultSeeder.new(account: self).perform
+  end
+
+  def seed_default_report_panels
+    return unless ActiveRecord::Base.connection.table_exists?(:saved_report_panels)
+
+    Reports::DefaultPanelsSeeder.new(account: self).perform
   end
 end
 

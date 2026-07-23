@@ -28,6 +28,13 @@ export default {
     );
     return { contactAttributes, conversationAttributes };
   },
+  data() {
+    return {
+      // Switch away from native date/datetime inputs BEFORE writing Liquid,
+      // otherwise the browser rejects `{{ ... }}` and emits '' (clears the action).
+      preferLiquidMode: false,
+    };
+  },
   computed: {
     storeAttributes() {
       if (this.attributeModel === 'conversation_attribute') {
@@ -65,6 +72,7 @@ export default {
         return this.payload.attribute_key || '';
       },
       set(attributeKey) {
+        this.preferLiquidMode = false;
         this.emitValue(attributeKey, '');
       },
     },
@@ -89,6 +97,9 @@ export default {
     isDateAttribute() {
       return this.selectedAttribute?.displayType === 'date';
     },
+    isDatetimeAttribute() {
+      return this.selectedAttribute?.displayType === 'datetime';
+    },
     isNumberAttribute() {
       return ['number', 'currency', 'percent'].includes(
         this.selectedAttribute?.displayType
@@ -101,12 +112,20 @@ export default {
       return this.selectedAttribute?.displayType === 'checkbox';
     },
     valueUsesLiquid() {
-      return String(this.selectedValue || '').includes('{{');
+      return (
+        this.preferLiquidMode || String(this.selectedValue || '').includes('{{')
+      );
+    },
+    isNowLiquid() {
+      return String(this.selectedValue || '').trim() === '{{ date.now }}';
     },
     inputType() {
       // Fixed dates use the native picker (ISO YYYY-MM-DD only).
       // Dynamic "today" uses Liquid and switches to a read-only note.
       if (this.isDateAttribute && !this.valueUsesLiquid) return 'date';
+      if (this.isDatetimeAttribute && !this.valueUsesLiquid) {
+        return 'datetime-local';
+      }
       if (this.isNumberAttribute && !this.valueUsesLiquid) return 'number';
       return 'text';
     },
@@ -117,7 +136,8 @@ export default {
       return this.$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER');
     },
     showVariablePicker() {
-      // Dates: fixed picker + "today" button only (no free-form Liquid).
+      // Dates (day-only): fixed picker + "today" button only (no free-form Liquid).
+      // Datetime: same Liquid path as text/number (variables + optional fixed picker).
       if (this.isDateAttribute) return false;
       return (
         this.selectedKey && !this.isListAttribute && !this.isCheckboxAttribute
@@ -134,6 +154,16 @@ export default {
       ].join(' ');
     },
   },
+  watch: {
+    modelValue: {
+      immediate: true,
+      handler() {
+        if (String(this.payload.value || '').includes('{{')) {
+          this.preferLiquidMode = true;
+        }
+      },
+    },
+  },
   methods: {
     normalizeDisplayType(attr) {
       const map = {
@@ -145,6 +175,7 @@ export default {
         5: 'date',
         6: 'list',
         7: 'checkbox',
+        8: 'datetime',
       };
       const raw =
         attr.displayType ??
@@ -169,15 +200,32 @@ export default {
         value: nextValue,
       });
     },
+    applyLiquidValue(token) {
+      this.preferLiquidMode = true;
+      this.$nextTick(() => {
+        this.selectedValue = token;
+      });
+    },
     insertVariable(token) {
-      const current = this.selectedValue || '';
-      this.selectedValue = current ? `${current}${token}` : token;
+      this.preferLiquidMode = true;
+      this.$nextTick(() => {
+        const current = String(this.selectedValue || '');
+        const isFixedDate =
+          /^\d{4}-\d{2}-\d{2}/.test(current) && !current.includes('{{');
+        this.selectedValue =
+          !current || isFixedDate ? token : `${current}${token}`;
+      });
     },
     useToday() {
       // Evaluated when the automation runs (not when the rule is saved).
-      this.selectedValue = '{{ date.today }}';
+      this.applyLiquidValue('{{ date.today }}');
+    },
+    useNow() {
+      // Evaluated when the automation runs (not when the rule is saved).
+      this.applyLiquidValue('{{ date.now }}');
     },
     useFixedDate() {
+      this.preferLiquidMode = false;
       this.selectedValue = '';
     },
   },
@@ -289,6 +337,65 @@ export default {
             :label="$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_USE_TODAY')"
             @click="useToday"
           />
+        </div>
+      </template>
+
+      <template v-else-if="isDatetimeAttribute && valueUsesLiquid">
+        <div
+          v-if="isNowLiquid"
+          class="flex flex-col gap-2 rounded-lg bg-n-alpha-black2 px-3 py-2 outline outline-1 outline-n-weak"
+        >
+          <p class="text-sm text-n-slate-12 m-0">
+            {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_NOW') }}
+          </p>
+          <p class="text-xs text-n-slate-11 m-0">
+            {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_HELP') }}
+          </p>
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <NextButton
+              xs
+              faded
+              slate
+              :label="$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_DATE_PICK_FIXED')"
+              @click="useFixedDate"
+            />
+            <InsertVariableButton @insert="insertVariable" />
+          </div>
+        </div>
+        <template v-else>
+          <NextInput
+            v-model="selectedValue"
+            type="text"
+            size="sm"
+            :placeholder="valuePlaceholder"
+          />
+          <p class="text-xs text-n-slate-11 m-0">
+            {{ $t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_HELP') }}
+          </p>
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <NextButton
+              xs
+              faded
+              slate
+              :label="$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_DATE_PICK_FIXED')"
+              @click="useFixedDate"
+            />
+            <InsertVariableButton @insert="insertVariable" />
+          </div>
+        </template>
+      </template>
+
+      <template v-else-if="isDatetimeAttribute">
+        <NextInput v-model="selectedValue" type="datetime-local" size="sm" />
+        <div class="flex items-center justify-between gap-2 flex-wrap">
+          <NextButton
+            xs
+            faded
+            slate
+            :label="$t('AUTOMATION.ACTION.CUSTOM_ATTRIBUTE_USE_NOW')"
+            @click="useNow"
+          />
+          <InsertVariableButton @insert="insertVariable" />
         </div>
       </template>
 

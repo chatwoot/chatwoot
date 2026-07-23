@@ -216,6 +216,8 @@ class ActionService
       ActiveModel::Type::Boolean.new.cast(rendered)
     when 'date'
       parse_custom_attribute_date(rendered)
+    when 'datetime'
+      parse_custom_attribute_datetime(rendered)
     else
       # text, link, list, and any other type
       rendered.to_s
@@ -223,7 +225,7 @@ class ActionService
   rescue ArgumentError, TypeError => e
     Rails.logger.warn("[Automation] custom attribute normalize failed for #{definition.attribute_key}: #{e.message}")
     # Do not persist garbage into typed date/number fields.
-    raise if %w[date number currency percent].include?(definition.attribute_display_type)
+    raise if %w[date datetime number currency percent].include?(definition.attribute_display_type)
 
     raw_value.to_s
   end
@@ -252,6 +254,17 @@ class ActionService
     end
 
     raise ArgumentError, "invalid date: #{text}"
+  end
+
+  def parse_custom_attribute_datetime(rendered)
+    return rendered.iso8601 if rendered.is_a?(Time) || rendered.is_a?(DateTime)
+    return rendered.to_time.iso8601 if rendered.is_a?(Date)
+
+    text = rendered.to_s.strip
+    parsed = Time.zone.parse(text)
+    raise ArgumentError, "invalid datetime: #{text}" if parsed.blank?
+
+    parsed.iso8601
   end
 
   def last_responding_agent_id

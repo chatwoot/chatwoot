@@ -7,7 +7,7 @@ class FilterService
 
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
   ATTRIBUTE_TYPES = {
-    date: 'date', text: 'text', number: 'numeric', currency: 'numeric', percent: 'numeric',
+    date: 'date', datetime: 'timestamp', text: 'text', number: 'numeric', currency: 'numeric', percent: 'numeric',
     link: 'text', list: 'text', checkbox: 'boolean'
   }.with_indifferent_access
 
@@ -152,6 +152,8 @@ class FilterService
     case attribute_data_type
     when 'date'
       Date.iso8601(raw_value.to_s)
+    when 'timestamp'
+      Time.zone.parse(raw_value.to_s) || raise(ArgumentError)
     when 'numeric'
       BigDecimal(raw_value.to_s)
     else

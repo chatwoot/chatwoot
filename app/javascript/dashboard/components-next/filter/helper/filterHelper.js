@@ -39,12 +39,14 @@ export const CONTACT_ATTRIBUTES = {
 /**
  * Determines the input type for a custom attribute based on its key
  * @param {string} key - The attribute display type key
- * @returns {'date'|'number'|'plainText'|'searchSelect'|'booleanSelect'} The corresponding input type
+ * @returns {'date'|'datetime'|'number'|'plainText'|'searchSelect'|'booleanSelect'} The corresponding input type
  */
 export const getCustomAttributeInputType = key => {
   switch (key) {
     case 'date':
       return 'date';
+    case 'datetime':
+      return 'datetime';
     case 'number':
     case 'currency':
     case 'percent':

@@ -160,6 +160,12 @@ Rails.application.routes.draw do
             end
           end
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
+          resources :saved_report_panels, only: [:index, :show, :create, :update, :destroy] do
+            member do
+              post :run
+              get :export
+            end
+          end
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end

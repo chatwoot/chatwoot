@@ -74,4 +74,14 @@ export const MACRO_ACTION_TYPES = [
     label: 'SEND_WEBHOOK_EVENT',
     inputType: 'url',
   },
+  {
+    key: 'update_contact_custom_attribute',
+    label: 'UPDATE_CONTACT_CUSTOM_ATTRIBUTE',
+    inputType: 'custom_attribute',
+  },
+  {
+    key: 'update_conversation_custom_attribute',
+    label: 'UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE',
+    inputType: 'custom_attribute',
+  },
 ];

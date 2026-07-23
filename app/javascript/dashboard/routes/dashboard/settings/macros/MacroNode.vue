@@ -37,14 +37,19 @@ const errorMessage = computed(() => {
 });
 
 const showActionInput = computed(() => {
+  const name = actionData.value.action_name;
   if (
-    actionData.value.action_name === 'send_email_to_team' ||
-    actionData.value.action_name === 'send_message'
-  )
+    name === 'send_email_to_team' ||
+    name === 'send_message' ||
+    name === 'add_private_note' ||
+    name === 'update_contact_custom_attribute' ||
+    name === 'update_conversation_custom_attribute'
+  ) {
     return false;
+  }
   const type = macroActionTypes.value.find(
-    action => action.key === actionData.value.action_name
-  ).inputType;
+    action => action.key === name
+  )?.inputType;
   return !!type;
 });
 

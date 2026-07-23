@@ -106,6 +106,7 @@ const validationError = computed(() => {
 
 const inputFieldType = computed(() => {
   if (inputType.value === 'date') return 'date';
+  if (inputType.value === 'datetime') return 'datetime-local';
   if (inputType.value === 'number') return 'number';
   return 'text';
 });

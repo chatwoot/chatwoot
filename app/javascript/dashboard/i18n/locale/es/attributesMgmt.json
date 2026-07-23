@@ -20,6 +20,7 @@
       "PERCENT": "Porcentaje",
       "LINK": "Enlace",
       "DATE": "Fecha",
+      "DATETIME": "Fecha y hora",
       "LIST": "Lista",
       "CHECKBOX": "Casilla"
     },

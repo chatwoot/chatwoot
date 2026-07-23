@@ -83,4 +83,23 @@ class AutomationRules::ActionService < ActionService
       @account.increment_email_sent_count
     end
   end
+
+  # Run a saved macro's actions on this conversation (one level deep — no nested execute_macro).
+  def execute_macro(macro_ids)
+    return if @executing_macro
+
+    macro_id = Array(macro_ids).first
+    return if macro_id.blank?
+
+    macro = @account.macros.find_by(id: macro_id)
+    return if macro.blank?
+
+    user = macro.created_by || @account.administrators.order(:id).first || @account.users.order(:id).first
+    return if user.blank?
+
+    @executing_macro = true
+    Macros::ExecutionService.new(macro, @conversation, user).perform
+  ensure
+    @executing_macro = false
+  end
 end

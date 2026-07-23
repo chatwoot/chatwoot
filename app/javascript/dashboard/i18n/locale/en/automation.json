@@ -110,6 +110,9 @@
       "CUSTOM_ATTRIBUTE_SELECT_PLACEHOLDER": "Select a custom attribute",
       "CUSTOM_ATTRIBUTE_EMPTY": "No custom attributes found. Create them in Settings → Custom Attributes first.",
       "CUSTOM_ATTRIBUTE_USE_TODAY": "Use today's date",
+      "CUSTOM_ATTRIBUTE_USE_NOW": "Use current date & time",
+      "CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_NOW": "Dynamic date & time: now",
+      "CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_HELP": "Resolved when the automation runs. Use variables like {{ date.now }} or {{ contact.custom_attribute.foo }}.",
       "VARIABLES_HINT": "Use the insert-variable button for contact name, custom attributes, or dates",
       "DELAY_SECONDS_LABEL": "Wait (seconds)",
       "MARK_READ_TYPING_LABEL": "Mark as read and show typing",
@@ -172,6 +175,7 @@
       "CHANGE_PRIORITY": "Change Priority",
       "UPDATE_CONTACT_CUSTOM_ATTRIBUTE": "Update contact custom attribute",
       "UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE": "Update conversation custom attribute",
+      "EXECUTE_MACRO": "Execute macro",
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Open conversation",
       "PENDING_CONVERSATION": "Mark conversation as pending"

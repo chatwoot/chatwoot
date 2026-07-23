@@ -121,6 +121,7 @@ const SORTABLE_CUSTOM_DISPLAY_TYPES = new Set([
   'currency',
   'percent',
   'date',
+  'datetime',
   'link',
 ]);
 
@@ -133,6 +134,7 @@ const DISPLAY_TYPE_ALIASES = {
   5: 'date',
   6: 'list',
   7: 'checkbox',
+  8: 'datetime',
 };
 
 export const normalizeDisplayType = displayType => {
@@ -141,7 +143,7 @@ export const normalizeDisplayType = displayType => {
     return DISPLAY_TYPE_ALIASES[displayType] || 'text';
   }
   const asString = String(displayType);
-  // Numeric string enums from JSON ("2" → currency)
+  // Numeric string enums from JSON ("2" â†’ currency)
   if (/^\d+$/.test(asString)) {
     return DISPLAY_TYPE_ALIASES[Number(asString)] || 'text';
   }
@@ -168,8 +170,7 @@ export const buildCustomColumns = attributeDefinitions =>
       formula: def.formula,
       featured: def.featured === true || def.featured === 1,
       // Formula results are numeric; keep column sortable even if display type is odd
-      sortable:
-        SORTABLE_CUSTOM_DISPLAY_TYPES.has(displayType) || hasFormula,
+      sortable: SORTABLE_CUSTOM_DISPLAY_TYPES.has(displayType) || hasFormula,
       sortKey: customColumnKey(attributeKey),
       exportKey: attributeKey,
       numeric: isNumericCustomDisplayType(displayType) || hasFormula,
@@ -179,7 +180,7 @@ export const buildCustomColumns = attributeDefinitions =>
 /**
  * Build default visible columns from the standard set only (no Metrics / featured bundle).
  */
-export const buildDefaultVisibleColumns = (availableKeys, _customColumns = []) => {
+export const buildDefaultVisibleColumns = availableKeys => {
   const available = new Set(availableKeys);
   return DEFAULT_CONTACT_TABLE_COLUMNS.filter(key => available.has(key));
 };
@@ -202,13 +203,9 @@ export const normalizeSavedColumnKeys = savedKeys => {
   return [];
 };
 
-export const resolveVisibleColumns = (
-  savedKeys,
-  availableKeys,
-  customColumns = []
-) => {
+export const resolveVisibleColumns = (savedKeys, availableKeys) => {
   const available = new Set(availableKeys);
-  const defaults = buildDefaultVisibleColumns(availableKeys, customColumns);
+  const defaults = buildDefaultVisibleColumns(availableKeys);
 
   // Migrate away from legacy "featured" / Metrics column
   const cleaned = normalizeSavedColumnKeys(savedKeys).filter(
