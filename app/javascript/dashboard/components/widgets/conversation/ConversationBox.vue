@@ -5,6 +5,8 @@ import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
 
+const DASHBOARD_APP_PANEL_STORAGE_KEY = 'dashboard_app_panel_expanded';
+
 export default {
   components: {
     ConversationHeader,
@@ -32,29 +34,21 @@ export default {
     },
   },
   data() {
-    return { activeIndex: 0 };
+    return {
+      isDashboardAppPanelExpanded:
+        localStorage.getItem(DASHBOARD_APP_PANEL_STORAGE_KEY) !== 'false',
+    };
   },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       dashboardApps: 'dashboardApps/getRecords',
     }),
-    dashboardAppTabs() {
-      return [
-        {
-          key: 'messages',
-          index: 0,
-          name: this.$t('CONVERSATION.DASHBOARD_APP_TAB_MESSAGES'),
-        },
-        ...this.dashboardApps.map((dashboardApp, index) => ({
-          key: `dashboard-${dashboardApp.id}`,
-          index: index + 1,
-          name: dashboardApp.title,
-        })),
-      ];
-    },
     showContactPanel() {
       return this.isContactPanelOpen && this.currentChat.id;
+    },
+    showDashboardAppPanel() {
+      return this.dashboardApps.length > 0 && Boolean(this.currentChat.id);
     },
   },
   watch: {
@@ -71,7 +65,6 @@ export default {
     },
     'currentChat.id'() {
       this.fetchLabels();
-      this.activeIndex = 0;
     },
   },
   mounted() {
@@ -85,8 +78,12 @@ export default {
       }
       this.$store.dispatch('conversationLabels/get', this.currentChat.id);
     },
-    onDashboardAppTabChange(index) {
-      this.activeIndex = index;
+    toggleDashboardAppPanel() {
+      this.isDashboardAppPanelExpanded = !this.isDashboardAppPanelExpanded;
+      localStorage.setItem(
+        DASHBOARD_APP_PANEL_STORAGE_KEY,
+        String(this.isDashboardAppPanelExpanded)
+      );
     },
   },
 };
@@ -103,45 +100,59 @@ export default {
       v-if="currentChat.id"
       :chat="currentChat"
       :show-back-button="isOnExpandedLayout && !isInboxView"
-      :class="{
-        'border-b border-b-n-weak !pt-2': !dashboardApps.length,
-      }"
+      class="border-b border-b-n-weak !pt-2"
     />
-    <woot-tabs
-      v-if="dashboardApps.length && currentChat.id"
-      :index="activeIndex"
-      class="h-10"
-      @change="onDashboardAppTabChange"
-    >
-      <woot-tabs-item
-        v-for="tab in dashboardAppTabs"
-        :key="tab.key"
-        :index="tab.index"
-        :name="tab.name"
-        :show-badge="false"
-        is-compact
-      />
-    </woot-tabs>
-    <div v-show="!activeIndex" class="flex h-full min-h-0 m-0">
-      <MessagesView
-        v-if="currentChat.id"
-        :inbox-id="inboxId"
-        :is-inbox-view="isInboxView"
-      />
-      <EmptyState
-        v-if="!currentChat.id && !isInboxView"
-        :is-on-expanded-layout="isOnExpandedLayout"
-      />
-      <slot />
+    <div class="flex flex-row h-full min-h-0 m-0">
+      <div class="flex h-full min-h-0 flex-1 min-w-0">
+        <MessagesView
+          v-if="currentChat.id"
+          :inbox-id="inboxId"
+          :is-inbox-view="isInboxView"
+        />
+        <EmptyState
+          v-if="!currentChat.id && !isInboxView"
+          :is-on-expanded-layout="isOnExpandedLayout"
+        />
+        <slot />
+      </div>
+      <!-- Dashboard app side panel (e.g. MSH Profile) — collapsible, next to the chat -->
+      <div
+        v-if="showDashboardAppPanel"
+        class="flex flex-row h-full min-h-0 border-l border-n-weak bg-n-surface-1"
+      >
+        <button
+          class="flex items-start justify-center w-6 pt-3 hover:bg-n-alpha-1 text-n-slate-10 hover:text-n-slate-12"
+          :title="
+            isDashboardAppPanelExpanded
+              ? $t('CONVERSATION.DASHBOARD_APP_PANEL.COLLAPSE')
+              : $t('CONVERSATION.DASHBOARD_APP_PANEL.EXPAND')
+          "
+          @click="toggleDashboardAppPanel"
+        >
+          <span
+            class="size-4"
+            :class="
+              isDashboardAppPanelExpanded
+                ? 'i-lucide-chevrons-right'
+                : 'i-lucide-chevrons-left'
+            "
+          />
+        </button>
+        <div
+          v-show="isDashboardAppPanelExpanded"
+          class="w-[360px] h-full min-h-0"
+        >
+          <DashboardAppFrame
+            v-for="(dashboardApp, index) in dashboardApps"
+            :key="currentChat.id + '-' + dashboardApp.id"
+            :is-visible="isDashboardAppPanelExpanded"
+            :config="dashboardApps[index].content"
+            :position="index"
+            :current-chat="currentChat"
+            class="h-full"
+          />
+        </div>
+      </div>
     </div>
-    <DashboardAppFrame
-      v-for="(dashboardApp, index) in dashboardApps"
-      v-show="activeIndex - 1 === index"
-      :key="currentChat.id + '-' + dashboardApp.id"
-      :is-visible="activeIndex - 1 === index"
-      :config="dashboardApps[index].content"
-      :position="index"
-      :current-chat="currentChat"
-    />
   </div>
 </template>

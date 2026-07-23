@@ -46,10 +46,13 @@ export default {
     },
   },
   watch: {
-    isVisible() {
-      if (this.isVisible) {
-        this.hasOpenedAtleastOnce = true;
-      }
+    isVisible: {
+      immediate: true,
+      handler() {
+        if (this.isVisible) {
+          this.hasOpenedAtleastOnce = true;
+        }
+      },
     },
   },
   mounted() {

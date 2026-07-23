@@ -20,6 +20,12 @@ trigger_hourly_scheduled_items_job:
   class: 'Internal::TriggerHourlyScheduledItemsJob'
   queue: scheduled_jobs
 
+# executed hourly — renames Coro Inbox contacts to "Pet(s) — Owner" from MSH
+msh_sync_contact_names_job:
+  cron: '30 * * * *'
+  class: 'Msh::SyncContactNamesJob'
+  queue: low
+
 # executed At every minute..
 trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'
