@@ -1,8 +1,6 @@
 class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   before_action :fetch_agent, except: [:create, :index, :bulk_create]
   before_action :check_authorization
-  before_action :validate_limit, only: [:create]
-  before_action :validate_limit_for_bulk_create, only: [:bulk_create]
 
   def index
     @agents = agents
@@ -20,6 +18,8 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     )
 
     @agent = builder.perform
+  rescue AgentBuilder::LimitExceededError => e
+    render_payment_required(e.message)
   end
 
   def update
@@ -36,25 +36,13 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   def bulk_create
     emails = params[:emails]
 
-    emails.each do |email|
-      builder = AgentBuilder.new(
-        email: email,
-        name: email.split('@').first,
-        inviter: current_user,
-        account: Current.account
-      )
-      begin
-        builder.perform
-      rescue ActiveRecord::RecordInvalid => e
-        Rails.logger.info "[Agent#bulk_create] ignoring email #{email}, errors: #{e.record.errors}"
-      end
-    end
-
+    bulk_create_agents(emails)
     # This endpoint is used to bulk create agents during onboarding
     # onboarding_step key in present in Current account custom attributes, since this is a one time operation
-    Current.account.custom_attributes.delete('onboarding_step')
-    Current.account.save!
+    clear_onboarding_step
     head :ok
+  rescue AgentBuilder::LimitExceededError => e
+    render_payment_required(e.message)
   end
 
   private
@@ -87,22 +75,33 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     @agents ||= Current.account.users.order_by_full_name.includes(:account_users, { avatar_attachment: [:blob] })
   end
 
-  def validate_limit_for_bulk_create
-    limit_available = params[:emails].count <= available_agent_count
+  def bulk_create_agents(emails)
+    Current.account.with_lock do
+      raise AgentBuilder::LimitExceededError if emails.count > available_agent_count
 
-    render_payment_required('Account limit exceeded. Please purchase more licenses') unless limit_available
+      emails.each { |email| create_agent_from_email(email) }
+    end
   end
 
-  def validate_limit
-    render_payment_required('Account limit exceeded. Please purchase more licenses') unless can_add_agent?
+  def create_agent_from_email(email)
+    builder = AgentBuilder.new(
+      email: email,
+      name: email.split('@').first,
+      inviter: current_user,
+      account: Current.account
+    )
+    builder.perform
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.info "[Agent#bulk_create] ignoring email #{email}, errors: #{e.record.errors}"
+  end
+
+  def clear_onboarding_step
+    Current.account.custom_attributes.delete('onboarding_step')
+    Current.account.save!
   end
 
   def available_agent_count
-    Current.account.usage_limits[:agents] - agents.count
-  end
-
-  def can_add_agent?
-    available_agent_count.positive?
+    Current.account.usage_limits[:agents] - Current.account.account_users.count
   end
 
   def delete_user_record(agent)

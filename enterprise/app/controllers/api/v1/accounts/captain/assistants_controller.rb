@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::BaseController
   before_action -> { check_authorization(Captain::Assistant) }
 
-  before_action :set_assistant, only: [:show, :update, :destroy, :playground, :stats, :summary, :drilldown]
+  before_action :set_assistant, only: [:show, :update, :destroy, :playground, :metrics, :faq_stats, :summary, :drilldown]
 
   def index
     @assistants = account_assistants.ordered
@@ -42,8 +42,12 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     @tools = assistant.available_agent_tools
   end
 
-  def stats
+  def metrics
     render json: Captain::AssistantStatsBuilder.new(@assistant, params[:range], params[:timezone_offset]).metrics
+  end
+
+  def faq_stats
+    render json: Captain::AssistantStatsBuilder.new(@assistant).faq_stats
   end
 
   def summary
