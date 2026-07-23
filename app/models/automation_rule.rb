@@ -131,7 +131,8 @@ class AutomationRule < ApplicationRecord
   end
 
   def discard_stale_pending_executions
-    # armed = pending + stale processing, which the sweep would otherwise reclaim.
+    # armed = pending + processing, the rows the sweep would otherwise still run. Rows already
+    # executing are left alone: their actions are in flight and cannot be called back.
     pending_executions.armed.delete_all
   end
 
