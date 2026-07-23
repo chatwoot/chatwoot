@@ -26,7 +26,7 @@ const hasErrored = ref(false);
 const loadDeskUsers = async () => {
   loadingUsers.value = true;
   try {
-    const { data } = await wootAPI.get('auth/desk_users');
+    const { data } = await wootAPI.get('desk_users');
     deskUsers.value = data?.payload || [];
     if (deskUsers.value.length === 1) {
       credentials.userId = String(deskUsers.value[0].id);

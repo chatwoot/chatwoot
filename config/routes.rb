@@ -9,7 +9,8 @@ Rails.application.routes.draw do
   }, via: [:get, :post]
 
   post 'resend_confirmation', to: 'auth/resend_confirmations#create'
-  get 'auth/desk_users', to: 'auth/desk_users#index'
+  # Outside /auth — that prefix is owned by DeviseTokenAuth/omniauth.
+  get 'desk_users', to: 'auth/desk_users#index'
 
   ## renders the frontend paths only if its not an api only server
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
