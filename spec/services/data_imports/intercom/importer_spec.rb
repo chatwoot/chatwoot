@@ -403,6 +403,28 @@ RSpec.describe DataImports::Intercom::Importer do
     expect(data_import.reload.stats.dig('messages', 'imported')).to eq(3)
   end
 
+  it 'retries a query timeout during deferred message stats reconciliation', :aggregate_failures do
+    described_class.new(data_import: data_import).import_conversations_page
+    stats = data_import.reload.stats.deep_dup
+    stats['messages']['imported'] = 0
+    data_import.update!(stats: stats)
+    importer = described_class.new(data_import: data_import)
+    reconciliation_attempts = 0
+    allow(importer).to receive(:sleep)
+    allow(importer).to receive(:reconcile_message_stats).and_wrap_original do |method|
+      reconciliation_attempts += 1
+      raise ActiveRecord::QueryCanceled, 'statement timeout' if reconciliation_attempts == 1
+
+      method.call
+    end
+
+    importer.import_conversations_page
+
+    expect(reconciliation_attempts).to eq(2)
+    expect(importer).to have_received(:sleep).with(be_between(0.2, 0.5)).once
+    expect(data_import.reload.stats.dig('messages', 'imported')).to eq(3)
+  end
+
   it 'indexes imported messages for advanced search' do
     allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
@@ -545,16 +567,59 @@ RSpec.describe DataImports::Intercom::Importer do
         allow(importer).to receive(:bulk_write_message_entries).and_wrap_original do |method, *args|
           result = method.call(*args)
           batch_write_count += 1
-          data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' }) if batch_write_count == 1
+          if batch_write_count == 1
+            DataImport.find(data_import.id).update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' })
+          end
           result
         end
 
         importer.import_conversations_page
 
-        expect(importer).to have_received(:bulk_write_message_entries).twice
+        expect(importer).to have_received(:bulk_write_message_entries).once
         expect(data_import).not_to have_received(:touch)
         expect(data_import.reload.stats.dig('conversations', 'imported')).to eq(0)
         expect(account.messages.count).to eq(100)
+      end
+    end
+
+    it 'does not persist stale stats when a newer run takes over during the final batch', :aggregate_failures do
+      run_id = 'intercom-run-1'
+      data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
+      importer = described_class.new(data_import: data_import, run_id: run_id)
+      allow(importer).to receive(:bulk_write_message_entries).and_wrap_original do |method, *args|
+        method.call(*args).tap do
+          DataImport.find(data_import.id).update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' })
+        end
+      end
+
+      importer.import_conversations_page
+
+      conversation = account.conversations.find_by!(identifier: 'intercom:conversation_1')
+      expect(conversation.messages.count).to eq(3)
+      expect(data_import.reload.stats.dig('conversations', 'imported')).to eq(0)
+    end
+
+    it 'reconciles conversation stats when a superseded run is retried', :aggregate_failures do
+      freeze_time do
+        run_id = 'intercom-run-1'
+        next_run_id = 'intercom-run-2'
+        data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
+        importer = described_class.new(data_import: data_import, run_id: run_id)
+        allow(importer).to receive(:bulk_write_message_entries).and_wrap_original do |method, *args|
+          method.call(*args).tap do
+            DataImport.find(data_import.id).update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => next_run_id })
+          end
+        end
+
+        importer.import_conversations_page
+        expect(data_import.reload.stats.dig('conversations', 'imported')).to eq(0)
+
+        retry_importer = described_class.new(data_import: data_import, run_id: next_run_id)
+        retry_importer.import_conversations_page
+        retry_importer.finish!
+
+        expect(data_import.reload.stats.dig('conversations', 'imported')).to eq(1)
+        expect(data_import.processed_records).to eq(5)
       end
     end
 
@@ -776,6 +841,55 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(
         DataImportMapping.where(account: account, source_provider: 'intercom', source_object_type: 'message').distinct.pluck(:data_import_id)
       ).to eq([data_import.id])
+    end
+
+    it 'reconciles skipped conversation stats when a superseded run is retried' do
+      described_class.new(data_import: data_import).perform
+      run_id = 'intercom-run-1'
+      next_run_id = 'intercom-run-2'
+      next_data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
+
+      freeze_time do
+        importer = described_class.new(data_import: next_data_import, run_id: run_id)
+        allow(importer).to receive(:skip_existing_message_mapping).and_wrap_original do |method, *args|
+          method.call(*args)
+          next_data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => next_run_id })
+          travel 1.minute
+        end
+
+        importer.import_conversations_page
+        expect(next_data_import.reload.stats.dig('conversations', 'skipped')).to eq(0)
+
+        retry_importer = described_class.new(data_import: next_data_import, run_id: next_run_id)
+        retry_importer.import_conversations_page
+        retry_importer.finish!
+
+        expect(next_data_import.reload.stats.dig('conversations', 'skipped')).to eq(1)
+      end
+    end
+
+    it 'keeps skipped contact stats when a query timeout is retried after the item update', :aggregate_failures do
+      described_class.new(data_import: data_import).perform
+      importer = described_class.new(data_import: next_data_import)
+      contact_log_attempts = 0
+      allow(importer).to receive(:sleep)
+      allow(importer).to receive(:record_already_imported_log).and_wrap_original do |method, **attributes|
+        if attributes[:source_object_type] == 'contact'
+          contact_log_attempts += 1
+          raise ActiveRecord::QueryCanceled, 'statement timeout' if contact_log_attempts == 1
+        end
+
+        method.call(**attributes)
+      end
+
+      importer.import_contacts_page
+
+      contact_item = next_data_import.items.find_by!(source_object_type: 'contact', source_object_id: 'contact_1')
+      expect(contact_log_attempts).to eq(2)
+      expect(importer).to have_received(:sleep).with(be_between(0.2, 0.5)).once
+      expect(contact_item).to be_skipped
+      expect(next_data_import.reload.stats.dig('contacts', 'skipped')).to eq(1)
+      expect(next_data_import.import_errors.skip_logs.exists?(data_import_item: contact_item)).to be(true)
     end
 
     it 'recreates messages when existing message mappings point to deleted records', :aggregate_failures do
