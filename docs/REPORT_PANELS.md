@@ -2,7 +2,57 @@
 
 Saved dashboards under **Reports → Panels**: metrics, charts, and tables with optional filters and date presets.
 
-## Custom attributes (v1)
+## Excel mapping (tabla dinámica)
+
+| Excel | Panel widget |
+|-------|----------------|
+| **Filtros** | Panel filters (outer AND / slicers) |
+| **Filas** | Table type: agent / inbox / team / label summary |
+| **Columnas** | Pivot field: one conversation list/text custom attribute |
+| **Valores** | Measures: `conversations_count`, `resolved_conversations_count`, `ca:*__sum` / `__count`, etc. |
+
+### Editor UX (pivot builder)
+
+Summary tables use a **Campos → Filas / Columnas / Valores** builder (`PanelTablePivotBuilder.vue`), not a mile-long checkbox list of `Count(attr)` / `Sum(attr)`:
+
+- **Campos**: searchable list — each attribute appears once (system metrics + conversation/contact CAs). Drag with `vuedraggable`, or hover shortcuts → Cols / Vals.
+- **Filas**: read-only chip from table type (change via Filas select).
+- **Columnas**: one pivot CA (dropdown or drop zone) + optional value chips + row totals.
+- **Valores**: compact measure rows — pick aggregation (Count/Sum/…) per attribute after adding.
+- **Sugerencias**: one-click chips (max ~5) ranked from available attributes — column dimension if unset, then Sum of currency/number, then Count of list/text, then missing Conversations / Resolved. Already-applied items are hidden.
+
+Detail tables (`conversations` / `contacts`) keep a searchable grouped column picker.
+
+With a pivot field set, each value measure expands once per attribute value:
+
+`conversations_count__pv__venta`, `ca:ventas__sum__pv__venta`, …
+
+Optional **row totals** keep the plain measure keys (`conversations_count`) as the sum across segments.
+
+Panel filters remain the report-wide context; they do **not** replace the pivot column dimension.
+
+### Smart suggestions
+
+While editing a summary table, the builder shows a compact **Sugerencias / Suggestions** chip strip when useful fields are still unused:
+
+| Priority | When | Chip action |
+|----------|------|-------------|
+| 1 | No pivot Columnas set | Use best list/text CA (few options preferred) as column dimension |
+| 2 | Currency / number / percent CA not in Valores | Add `Sum(name)` |
+| 3 | List/text (then other) CA not in Valores | Add `Count(name)` — top 2 |
+| 4 | System metric missing | Add Conversations / Resolved |
+
+Max 3–5 chips; applied suggestions disappear. Demo seed (`tmp/seed_report_panels_demo.rb`) creates attrs `producto` (list), `ventas` (currency), and a configured pivot plus a second empty-ish table to exercise chips.
+
+### v1 limits
+
+- One column-dimension field (not multi-level column hierarchy).
+- Select which attribute values to show (all or subset, max 12).
+- No arbitrary DAX / calculated ratios.
+- Time averages / CSAT / message counts are not expanded in pivot mode (omit from Valores or use flat summary).
+- Drag-drop clones from Campos; reorder within Valores is supported. Nested multi-field column hierarchy is not.
+
+## Custom attributes (detail + flat summary)
 
 ### Detail tables
 
@@ -11,42 +61,33 @@ Saved dashboards under **Reports → Panels**: metrics, charts, and tables with 
 | Filtered conversations | All conversation custom attrs as `ca:<key>` |
 | Unique contacts | All contact custom attrs as `ca:<key>` |
 
-Footer aggregations (sum/avg/count/min/max) apply to numeric types: `number`, `currency`, `percent`.
+### Flat summary (no pivot)
 
-### Summary tables (agent / inbox / team / label)
+| Column id | Meaning |
+|-----------|---------|
+| `ca:ventas__count` | Count where `ventas` is set |
+| `ca:ventas__sum` | Sum of numeric `ventas` |
+| `contact_ca:…` | Contact attrs (deduped per contact) |
 
-Numeric custom attributes can be added as columns and **rolled up per dimension**:
+Legacy `ca:key__count__eq__value` is still parsed if present; prefer **pivot** for Excel-style breakdowns.
 
-| Column prefix | Source | Roll-up |
-|---------------|--------|---------|
-| `ca:<key>` | Conversation `custom_attributes` | Sum/avg/min/max/count across conversations in the period (grouped by assignee / inbox / team / label) |
-| `contact_ca:<key>` | Contact `custom_attributes` | Same ops, **deduped per contact** within each dimension (avoids double-counting multi-convo contacts) |
+## Example: agents × estado (pivot)
 
-- Default op when enabling a summary CA column: **sum** (also used for the footer unless changed).
-- The column aggregation dropdown sets **both** the per-row roll-up and the footer.
-- Non-numeric types (text, list, checkbox, date, …) are **not** offered on summary tables in v1 (they remain available on detail tables).
-
-### Metric / chart aggregations
-
-Unchanged: metric/chart widgets with source `aggregation` can sum/avg a `ca:` field over conversations or contacts, optionally grouped by a date/datetime custom attribute.
-
-## Example: agents × sales
-
-1. Create a conversation (or contact) custom attribute type **number** or **currency**, e.g. key `ventas`.
-2. New panel → add **table** → type **Agent summary**.
-3. Enable column **Conversation: Ventas** (or **Contact: Ventas**).
-4. Leave aggregation on **Sum**.
-5. Save and open the panel — each agent row shows the rolled-up sales for the selected period.
+1. Conversation list attr `estado` with values `venta`, `soporte`, `seguimiento`.
+2. Table → **Filas** = Agent summary.
+3. In the builder, drag `estado` to **Columnas** (or pick it in the dropdown).
+4. Add **Valores**: Conversations + Ventas with Sum.
+5. Leave panel **Filtros** empty (or only inbox/team context).
+6. Result: each agent row shows Conversations and Sum under venta | soporte | seguimiento (+ totals).
 
 ## Currency / number parsing
 
-- Backend roll-ups and footer aggregations parse locale strings (`1000,00`, `1.000,50`, `1,000.50`) via `numeric_table_cell` (Ruby-only path — no PG `::float` on raw JSON text).
-- UI formats `currency` with a `$` prefix and 2 decimals; `percent` with `%`; `number` with locale grouping.
-- Panel tables: click a column header to sort asc/desc (client-side on returned rows). Icons match Contacts table (`arrow-up-down` / up / down).
+- Locale strings (`1000,00`, `1.000,50`) via `numeric_table_cell`.
+- UI formats `currency` with `$`; count cells as integers.
+- Click column headers to sort.
 
-## Limits / follow-ups (Power BI-like)
+## Follow-ups
 
-- Summary CA roll-up scans filtered conversations in Ruby (row ceiling for large periods).
-- No pivot by text/list custom attribute as a dimension yet (group-by enum).
-- No cross-entity joins beyond conversation↔contact for the period.
-- No calculated columns / measures beyond sum/avg/min/max/count.
+- Multi-level column hierarchy (attr A then attr B).
+- Pivot on contact attributes.
+- Matrix export with grouped Excel headers.

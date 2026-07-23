@@ -10,7 +10,11 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import {
   resolveTableColumns,
   isCustomAttributeColumn,
+  isContactCustomAttributeColumn,
   customAttributeKeyFromColumn,
+  measureOpFromColumn,
+  isPivotColumnKey,
+  parsePivotColumnKey,
   parseLocaleNumber,
   formatNumericAttribute,
   SUMMABLE_CUSTOM_TYPES,
@@ -142,7 +146,10 @@ const tableKind = computed(
 const tableRows = computed(() => props.result?.rows || []);
 
 const tableHeaders = computed(() => {
-  if (!tableRows.value.length && !props.value) return [];
+  // Pivot runner returns expanded columns (measure__pv__value).
+  if (props.result?.columns?.length) {
+    return props.result.columns;
+  }
   const configured = resolveTableColumns(tableKind.value, props.widget.columns);
   if (configured.length) {
     if (!tableRows.value.length) return configured;
@@ -161,9 +168,55 @@ const columnType = key => {
   return attributeTypes.value[key] || attributeTypes.value[attrKey] || null;
 };
 
+const NUMERIC_SYSTEM_COLUMNS = new Set([
+  'id',
+  'rank',
+  'conversations_count',
+  'resolutions_count',
+  'incoming_messages_count',
+  'outgoing_messages_count',
+  'share_percent',
+  ...TIME_COLUMNS,
+]);
+
+/** Currency / number / percent / counts / times — right-aligned. */
+const isNumericColumn = key => {
+  if (NUMERIC_SYSTEM_COLUMNS.has(key)) return true;
+  if (isPivotColumnKey(key)) {
+    const measure = parsePivotColumnKey(key)?.measure;
+    return measure ? isNumericColumn(measure) : true;
+  }
+  if (measureOpFromColumn(key)) return true;
+  const type = columnType(key);
+  return Boolean(type && SUMMABLE_CUSTOM_TYPES.has(type));
+};
+
+const headerCellClass = key =>
+  [
+    'py-2 px-2 text-n-slate-11 font-medium select-none cursor-pointer hover:text-n-slate-12',
+    isNumericColumn(key)
+      ? 'text-right whitespace-nowrap'
+      : 'text-left max-w-[14rem] min-w-0',
+  ].join(' ');
+
+const bodyCellClass = key =>
+  [
+    'py-2 px-2 text-n-slate-12',
+    isNumericColumn(key)
+      ? 'text-right whitespace-nowrap'
+      : 'text-left max-w-[14rem] min-w-0',
+  ].join(' ');
+
+const footerCellClass = key => `${bodyCellClass(key)} font-medium`;
+
 const sortValueFor = (row, key) => {
   const value = row?.[key];
   if (value == null || value === '') return null;
+
+  if (measureOpFromColumn(key) === 'count') {
+    const num = Number(value);
+    return Number.isFinite(num) ? num : null;
+  }
 
   const type = columnType(key);
   if (type && SUMMABLE_CUSTOM_TYPES.has(type)) {
@@ -253,16 +306,39 @@ const rowsClickable = computed(() =>
   ['conversations', 'contacts'].includes(tableKind.value)
 );
 
-const headerLabel = key => {
+const headerLabelForMeasure = key => {
   if (isCustomAttributeColumn(key)) {
     const attrKey = customAttributeKeyFromColumn(key);
-    return (
-      props.attributeLabels[key] || props.attributeLabels[attrKey] || attrKey
-    );
+    const op = measureOpFromColumn(key);
+    const name =
+      props.attributeLabels[key] ||
+      props.attributeLabels[
+        isContactCustomAttributeColumn(key)
+          ? `contact_ca:${attrKey}`
+          : `ca:${attrKey}`
+      ] ||
+      props.attributeLabels[attrKey] ||
+      attrKey;
+    if (!op) return name;
+    const opLabel = t(`REPORT_PANELS.AGGREGATIONS.${String(op).toUpperCase()}`);
+    return t('REPORT_PANELS.COLUMNS.MEASURE_CA', { op: opLabel, name });
   }
   const i18nKey = `REPORT_PANELS.COLUMNS.${key}`;
   const translated = t(i18nKey);
   return translated === i18nKey ? key : translated;
+};
+
+const headerLabel = key => {
+  if (isPivotColumnKey(key)) {
+    const parsed = parsePivotColumnKey(key);
+    const measureLabel = headerLabelForMeasure(parsed.measure);
+    const segment = parsed.value || t('REPORT_PANELS.PIVOT.BLANK_VALUE');
+    return t('REPORT_PANELS.PIVOT.HEADER', {
+      segment,
+      measure: measureLabel,
+    });
+  }
+  return headerLabelForMeasure(key);
 };
 
 const formatCustomAttributeCell = (value, type) => {
@@ -297,8 +373,29 @@ const formatCustomAttributeCell = (value, type) => {
 
 const formatCell = (row, key) => {
   const value = row[key];
-  if (isCustomAttributeColumn(key)) {
-    return formatCustomAttributeCell(value, columnType(key));
+  const measureKey = isPivotColumnKey(key)
+    ? parsePivotColumnKey(key)?.measure
+    : key;
+  if (isCustomAttributeColumn(measureKey) || isPivotColumnKey(key)) {
+    // Summary / pivot measure columns are already aggregated numbers.
+    if (measureOpFromColumn(measureKey) || isPivotColumnKey(key)) {
+      if (value == null || value === '') return '—';
+      if (
+        measureOpFromColumn(measureKey) === 'count' ||
+        measureKey === 'conversations_count' ||
+        measureKey === 'resolved_conversations_count'
+      ) {
+        return Number(value).toLocaleString();
+      }
+      const type = columnType(measureKey);
+      if (type && SUMMABLE_CUSTOM_TYPES.has(type)) {
+        return formatNumericAttribute(value, type);
+      }
+      return Number(value).toLocaleString();
+    }
+    if (isCustomAttributeColumn(measureKey)) {
+      return formatCustomAttributeCell(value, columnType(measureKey));
+    }
   }
   if (value == null || value === '') return '—';
   if (TIME_COLUMNS.has(key)) return formatTime(value);
@@ -331,10 +428,22 @@ const formatCell = (row, key) => {
   return value;
 };
 
+const cellTitle = (row, key) => {
+  if (isNumericColumn(key)) return undefined;
+  const formatted = formatCell(row, key);
+  if (formatted == null || formatted === '' || formatted === '—') {
+    return undefined;
+  }
+  return String(formatted);
+};
+
 const formatAggregateValue = (key, value) => {
   if (value == null || value === '') return '—';
   if (TIME_COLUMNS.has(key)) return formatTime(value);
   if (key === 'share_percent') return `${Number(value).toFixed(1)}%`;
+  if (measureOpFromColumn(key) === 'count') {
+    return Number(value).toLocaleString();
+  }
   const type = columnType(key);
   if (type && SUMMABLE_CUSTOM_TYPES.has(type)) {
     return formatNumericAttribute(value, type);
@@ -432,7 +541,7 @@ const tableSubtitle = computed(() => {
               <th
                 v-for="header in tableHeaders"
                 :key="header"
-                class="text-left py-2 px-2 text-n-slate-11 font-medium whitespace-nowrap select-none cursor-pointer hover:text-n-slate-12"
+                :class="headerCellClass(header)"
                 :aria-sort="
                   sortKey === header
                     ? sortDir === 'desc'
@@ -442,8 +551,18 @@ const tableSubtitle = computed(() => {
                 "
                 @click="toggleSort(header)"
               >
-                <span class="inline-flex items-center gap-1.5">
-                  {{ headerLabel(header) }}
+                <span
+                  class="inline-flex items-center gap-1.5 max-w-full"
+                  :class="{ 'justify-end': isNumericColumn(header) }"
+                >
+                  <span
+                    :class="{ truncate: !isNumericColumn(header) }"
+                    :title="
+                      isNumericColumn(header) ? undefined : headerLabel(header)
+                    "
+                  >
+                    {{ headerLabel(header) }}
+                  </span>
                   <span
                     class="size-3.5 shrink-0"
                     :class="sortIconClass(header)"
@@ -465,17 +584,19 @@ const tableSubtitle = computed(() => {
               <td
                 v-for="header in tableHeaders"
                 :key="header"
-                class="py-2 px-2 text-n-slate-12 whitespace-nowrap"
+                :class="bodyCellClass(header)"
               >
                 <span
-                  v-if="rowsClickable && header === tableHeaders[0]"
-                  class="text-n-brand font-medium"
+                  :class="[
+                    isNumericColumn(header) ? '' : 'block truncate',
+                    rowsClickable && header === tableHeaders[0]
+                      ? 'text-n-brand font-medium'
+                      : '',
+                  ]"
+                  :title="cellTitle(row, header)"
                 >
                   {{ formatCell(row, header) }}
                 </span>
-                <template v-else>
-                  {{ formatCell(row, header) }}
-                </template>
               </td>
             </tr>
           </tbody>
@@ -484,7 +605,7 @@ const tableSubtitle = computed(() => {
               <td
                 v-for="(header, index) in tableHeaders"
                 :key="`footer-${header}`"
-                class="py-2 px-2 text-n-slate-12 whitespace-nowrap font-medium"
+                :class="footerCellClass(header)"
               >
                 <template v-if="index === 0">
                   <span>{{ t('REPORT_PANELS.TOTALS.FOOTER_LABEL') }}</span>

@@ -126,7 +126,7 @@ class Reports::PanelRunnerService
     field = widget[:aggregation_field].to_s
     entity = (widget[:aggregation_entity].presence || 'conversations').to_s
     group_field = widget[:aggregation_group_field].to_s
-    values = aggregation_field_values(entity, field, since_time, until_time, group_field: group_field)
+    values = aggregation_field_values(entity, field, since_time, until_time, group_field: group_field, op: op)
 
     {
       id: widget[:id],
@@ -169,7 +169,7 @@ class Reports::PanelRunnerService
     }
   end
 
-  def aggregation_field_values(entity, field, since_time, until_time, group_field: nil)
+  def aggregation_field_values(entity, field, since_time, until_time, group_field: nil, op: 'sum')
     records = aggregation_source_records(entity, since_time, until_time, group_field: group_field)
 
     return Array(records).map { 1 } if field.blank?
@@ -178,9 +178,10 @@ class Reports::PanelRunnerService
     Array(records).filter_map do |record|
       attrs = record.custom_attributes || {}
       val = attrs[attr_key]
-      next if val.nil? || val == ''
+      next if custom_attr_blank?(val)
 
-      numeric_table_cell(val)
+      # Count = rows where attribute is set; sum/avg/min/max need numeric parse.
+      op.to_s == 'count' ? 1 : numeric_table_cell(val)
     end
   end
 
@@ -238,9 +239,9 @@ class Reports::PanelRunnerService
           bucket.filter_map do |record|
             attrs = record.custom_attributes || {}
             val = attrs[attr_key]
-            next if val.nil? || val == ''
+            next if custom_attr_blank?(val)
 
-            numeric_table_cell(val)
+            op == 'count' ? 1 : numeric_table_cell(val)
           end
         end
       { value: aggregate_numeric_values(values, op), timestamp: period.to_i }
@@ -354,11 +355,27 @@ class Reports::PanelRunnerService
   CA_COLUMN_PREFIX = 'ca:'.freeze
   CONTACT_CA_COLUMN_PREFIX = 'contact_ca:'.freeze
   SUMMARY_TABLE_KINDS = %w[agent_summary inbox_summary team_summary label_summary].freeze
+  # Bake aggregation into column id: ca:ventas__sum / ca:ventas__count (see panelConstants.js)
+  # Optional legacy value match: ca:estado__count__eq__venta
+  # Pivot segment: conversations_count__pv__venta / ca:ventas__sum__pv__Plan%20Pro
+  MEASURE_OPS = %w[count sum avg min max].freeze
+  MEASURE_SEP = '__'.freeze
+  MEASURE_FILTER_EQ = 'eq'.freeze
+  PIVOT_SEP = '__pv__'.freeze
+  PIVOT_BLANK = '__blank__'.freeze
+  MAX_PIVOT_VALUES = 12
+  PIVOT_IDENTITY_COLUMNS = %w[rank name id].freeze
+  PIVOT_SYSTEM_MEASURES = %w[conversations_count resolved_conversations_count].freeze
 
   def build_table_widget(widget, since_time, until_time)
     table_kind = (widget[:table_kind].presence || 'agent_summary').to_s
     columns = Array(widget[:columns]).map(&:to_s)
     column_aggregations = (widget[:column_aggregations].presence || {}).with_indifferent_access
+
+    if SUMMARY_TABLE_KINDS.include?(table_kind) && pivot_configured?(widget)
+      return build_pivot_summary_table(widget, table_kind, columns, column_aggregations, since_time, until_time)
+    end
+
     attribute_types = custom_attribute_type_map_for(table_kind, columns)
 
     rows =
@@ -412,6 +429,7 @@ class Reports::PanelRunnerService
       type: 'table',
       title: widget[:title],
       table_kind: table_kind,
+      columns: resolved_columns,
       rows: rows,
       total_count: total_count,
       attribute_types: attribute_types,
@@ -419,8 +437,277 @@ class Reports::PanelRunnerService
     }
   end
 
-  # Sum/avg/min/max numeric custom attrs onto summary dimensions (agent/inbox/team/label).
+  def pivot_configured?(widget)
+    pivot = (widget[:pivot].presence || {}).with_indifferent_access
+    pivot[:column_attribute].to_s.start_with?(CA_COLUMN_PREFIX)
+  end
+
+  # Excel-style pivot: rows = agent/inbox/team/label, columns = CA values, values = measures.
+  def build_pivot_summary_table(widget, table_kind, columns, column_aggregations, since_time, until_time)
+    pivot = (widget[:pivot].presence || {}).with_indifferent_access
+    pivot_attr_key = pivot[:column_attribute].to_s.delete_prefix(CA_COLUMN_PREFIX)
+    return { id: widget[:id], type: 'table', title: widget[:title], table_kind: table_kind, error: 'pivot_attribute_required', rows: [], columns: [] } if pivot_attr_key.blank?
+    return { id: widget[:id], type: 'table', title: widget[:title], table_kind: table_kind, error: 'unknown_pivot_attribute', rows: [], columns: [] } unless known_custom_attribute_key?(pivot_attr_key, :conversation_attribute)
+
+    measures = columns.reject { |c| PIVOT_IDENTITY_COLUMNS.include?(c) || c.start_with?('avg_') || %w[csat_avg share_percent incoming_messages_count outgoing_messages_count].include?(c) }
+    measures = %w[conversations_count] if measures.empty?
+    show_row_totals = ActiveModel::Type::Boolean.new.cast(pivot.fetch(:show_row_totals, true))
+
+    selected_values = Array(pivot[:column_values]).map(&:to_s).reject(&:blank?).first(MAX_PIVOT_VALUES)
+    pivot_values, buckets, name_map = accumulate_pivot_buckets(table_kind, pivot_attr_key, measures, selected_values, since_time, until_time)
+
+    expanded_columns = []
+    expanded_columns << 'name' if columns.include?('name') || columns.blank?
+    expanded_columns << 'rank' if columns.include?('rank')
+    pivot_values.each do |pval|
+      measures.each { |m| expanded_columns << pivot_column_key(m, pval) }
+    end
+    measures.each { |m| expanded_columns << m } if show_row_totals
+
+    rows = build_pivot_rows(buckets, name_map, measures, pivot_values, show_row_totals, expanded_columns)
+    attribute_types = custom_attribute_type_map_for(table_kind, measures)
+    measures.each do |m|
+      pivot_values.each do |pval|
+        attribute_types[pivot_column_key(m, pval)] = attribute_types[m] || attribute_types[custom_attribute_key_from_measure(m)]
+      end
+    end
+
+    footer_aggs = {}
+    if show_row_totals
+      measures.each do |m|
+        op = (column_aggregations[m].presence || (m.end_with?('__avg') ? 'avg' : 'sum')).to_s
+        footer_aggs[m] = op if SavedReportPanel::COLUMN_AGGREGATION_OPS.include?(op)
+      end
+    end
+    pivot_values.each do |pval|
+      measures.each do |m|
+        col = pivot_column_key(m, pval)
+        op = (column_aggregations[m].presence || (m.end_with?('__avg') ? 'avg' : 'sum')).to_s
+        footer_aggs[col] = op if SavedReportPanel::COLUMN_AGGREGATION_OPS.include?(op)
+      end
+    end
+
+    {
+      id: widget[:id],
+      type: 'table',
+      title: widget[:title],
+      table_kind: table_kind,
+      columns: expanded_columns,
+      rows: rows,
+      total_count: rows.size,
+      attribute_types: attribute_types,
+      pivot: {
+        column_attribute: "ca:#{pivot_attr_key}",
+        column_values: pivot_values,
+        measures: measures,
+        show_row_totals: show_row_totals
+      },
+      totals: build_table_totals(rows, expanded_columns, rows.size, attribute_types, footer_aggs)
+    }
+  end
+
+  def pivot_column_key(measure, value)
+    encoded = value.blank? ? PIVOT_BLANK : CGI.escape(value.to_s).gsub('+', '%20')
+    "#{measure}#{PIVOT_SEP}#{encoded}"
+  end
+
+  def custom_attribute_key_from_measure(measure)
+    attr_key, _op, _contact, _fop, _fv = parse_summary_ca_column(measure)
+    attr_key
+  end
+
+  def accumulate_pivot_buckets(table_kind, pivot_attr_key, measures, selected_values, since_time, until_time)
+    name_map =
+      case table_kind.to_s
+      when 'inbox_summary' then @account.inboxes.pluck(:id, :name).to_h
+      when 'team_summary' then @account.teams.pluck(:id, :name).to_h
+      when 'label_summary' then @account.labels.pluck(:id, :title).to_h
+      else agent_name_map
+      end
+
+    # buckets[dim_id][pivot_value] => { measure => accumulator }
+    buckets = Hash.new { |h, dim| h[dim] = Hash.new { |h2, pv| h2[pv] = new_pivot_measure_accum(measures) } }
+    seen_contacts = Hash.new { |h, dim| h[dim] = Hash.new { |h2, pv| h2[pv] = {} } }
+    discovered = {}
+
+    scope = filtered_conversations_scope(since_time, until_time)
+            .unscope(:order)
+            .includes(:contact)
+            .reorder(:id)
+            .limit(SavedReportPanel::FILTERED_CONVERSATIONS_LIMIT * 20)
+
+    scope.each do |conversation|
+      dim_ids = pivot_dimension_ids(table_kind, conversation)
+      next if dim_ids.empty?
+
+      raw_val = conversation.custom_attributes&.[](pivot_attr_key)
+      pivot_val = normalize_pivot_value(raw_val)
+      next if selected_values.present? && selected_values.exclude?(pivot_val) && !(pivot_val.blank? && selected_values.include?(''))
+
+      discovered[pivot_val] = true
+      dim_ids.each do |dim_id|
+        accum = buckets[dim_id][pivot_val]
+        accumulate_pivot_measures!(accum, conversation, measures, seen_contacts[dim_id][pivot_val])
+      end
+    end
+
+    pivot_values =
+      if selected_values.present?
+        selected_values
+      else
+        # Prefer list definition order, then discovered
+        defined = @account.custom_attribute_definitions.find_by(
+          attribute_key: pivot_attr_key, attribute_model: :conversation_attribute
+        )&.attribute_values
+        ordered = Array(defined).map(&:to_s) & discovered.keys.map(&:to_s)
+        rest = discovered.keys.map(&:to_s) - ordered
+        (ordered + rest).first(MAX_PIVOT_VALUES)
+      end
+    pivot_values = discovered.keys.map(&:to_s).first(MAX_PIVOT_VALUES) if pivot_values.empty?
+
+    [pivot_values, buckets, name_map]
+  end
+
+  def new_pivot_measure_accum(measures)
+    measures.each_with_object({}) do |m, memo|
+      _attr, op, = parse_summary_ca_column(m)
+      memo[m] = if op && %w[avg min max].include?(op)
+                  []
+                elsif op == 'sum'
+                  0.0
+                else
+                  0
+                end
+    end
+  end
+
+  def accumulate_pivot_measures!(accum, conversation, measures, seen_contact_ids)
+    measures.each do |measure|
+      if measure == 'conversations_count'
+        accum[measure] = accum[measure].to_i + 1
+        next
+      end
+      if measure == 'resolved_conversations_count'
+        accum[measure] = accum[measure].to_i + 1 if conversation.status == 'resolved'
+        next
+      end
+      next unless summary_ca_column?(measure)
+
+      attr_key, op, contact_attr, filter_op, filter_value = parse_summary_ca_column(measure)
+      op = (op.presence || 'count').to_s
+      if contact_attr
+        contact = conversation.contact
+        next if contact.blank? || seen_contact_ids[contact.id]
+
+        seen_contact_ids[contact.id] = true
+        val = contact.custom_attributes&.[](attr_key)
+      else
+        val = conversation.custom_attributes&.[](attr_key)
+      end
+      next if custom_attr_blank?(val)
+      next unless custom_attr_matches_filter?(val, filter_op, filter_value)
+
+      case op
+      when 'count'
+        accum[measure] = accum[measure].to_i + 1
+      when 'sum'
+        num = numeric_table_cell(val)
+        accum[measure] = accum[measure].to_f + num.to_f if num
+      when 'avg', 'min', 'max'
+        num = numeric_table_cell(val)
+        accum[measure] << num if num
+      end
+    end
+  end
+
+  def finalize_pivot_measure(accum_value, measure)
+    _attr, op, = parse_summary_ca_column(measure)
+    op = op.presence || 'count'
+    if accum_value.is_a?(Array)
+      result = aggregate_numeric_values(accum_value, op)
+      return result.is_a?(Float) ? result.round(2) : (result || 0)
+    end
+    val = accum_value || 0
+    val.is_a?(Float) ? val.round(2) : val
+  end
+
+  def pivot_dimension_ids(table_kind, conversation)
+    case table_kind.to_s
+    when 'inbox_summary'
+      conversation.inbox_id.present? ? [conversation.inbox_id] : []
+    when 'team_summary'
+      conversation.team_id.present? ? [conversation.team_id] : []
+    when 'label_summary'
+      titles = conversation.cached_label_list.to_s.split(',').map(&:strip).reject(&:blank?)
+      titles.filter_map { |t| labels_by_title[t]&.id }
+    else
+      conversation.assignee_id.present? ? [conversation.assignee_id] : []
+    end
+  end
+
+  def labels_by_title
+    @labels_by_title ||= @account.labels.index_by(&:title)
+  end
+
+  def normalize_pivot_value(raw)
+    return '' if raw.nil? || raw == ''
+    return raw.map(&:to_s).reject(&:blank?).first.to_s if raw.is_a?(Array)
+
+    raw.to_s
+  end
+
+  def build_pivot_rows(buckets, name_map, measures, pivot_values, show_row_totals, expanded_columns)
+    sort_measure = measures.include?('conversations_count') ? 'conversations_count' : measures.first
+    dim_ids = buckets.keys.sort_by do |id|
+      -pivot_values.sum do |pv|
+        cell = buckets[id][pv]
+        next 0 if cell.blank?
+
+        finalize_pivot_measure(cell[sort_measure], sort_measure).to_i
+      end
+    end
+
+    dim_ids.map.with_index(1) do |dim_id, rank|
+      row = { id: dim_id, rank: rank, name: name_map[dim_id].presence || "##{dim_id}" }
+      totals = measures.index_with { 0.0 }
+
+      pivot_values.each do |pval|
+        cell = buckets[dim_id][pval] || {}
+        measures.each do |m|
+          finalized = finalize_pivot_measure(cell[m], m)
+          row[pivot_column_key(m, pval)] = finalized || 0
+          totals[m] = totals[m].to_f + finalized.to_f if show_row_totals
+        end
+      end
+
+      if show_row_totals
+        measures.each do |m|
+          _a, op, = parse_summary_ca_column(m)
+          if %w[avg min max].include?(op)
+            vals = pivot_values.map { |pv| row[pivot_column_key(m, pv)] }.compact
+            row[m] =
+              case op
+              when 'avg' then vals.empty? ? 0 : (vals.sum(&:to_f) / vals.size).round(2)
+              when 'min' then vals.min || 0
+              else vals.max || 0
+              end
+          else
+            val = totals[m] || 0
+            row[m] = val.is_a?(Float) ? val.round(2) : val
+          end
+        end
+      end
+
+      expanded_columns.each { |col| row[col] = 0 if row[col].nil? }
+      row
+    end
+  end
+
+  # Sum/avg/min/max/count custom attrs onto summary dimensions (agent/inbox/team/label).
   # ca:* reads conversation.custom_attributes; contact_ca:* reads contact (deduped per contact).
+  # Column ids may bake the op: ca:ventas__sum + ca:ventas__count as separate columns.
+  # Optional value match: ca:estado__count__eq__venta (URI-encoded).
+  # Count without filter = conversations/contacts where the attribute is present (non-nil / non-empty).
   def summary_custom_attribute_maps(table_kind, columns, since_time, until_time, column_aggregations = {})
     return {} unless SUMMARY_TABLE_KINDS.include?(table_kind.to_s)
 
@@ -429,7 +716,8 @@ class Reports::PanelRunnerService
 
     maps = {}
     ca_columns.each do |col|
-      op = (column_aggregations[col].presence || 'sum').to_s
+      _attr_key, baked_op, _contact, _filter_op, _filter_value = parse_summary_ca_column(col)
+      op = (column_aggregations[col].presence || baked_op.presence || 'sum').to_s
       op = 'sum' unless SavedReportPanel::COLUMN_AGGREGATION_OPS.include?(op)
       maps[col] = aggregate_custom_attr_by_dimension(table_kind, col, op, since_time, until_time)
     end
@@ -440,20 +728,52 @@ class Reports::PanelRunnerService
     col.start_with?(CA_COLUMN_PREFIX) || col.start_with?(CONTACT_CA_COLUMN_PREFIX)
   end
 
+  # Returns [attribute_key, measure_op_or_nil, contact_attr?, filter_op_or_nil, filter_value_or_nil]
+  def parse_summary_ca_column(column)
+    col = column.to_s
+    contact_attr = col.start_with?(CONTACT_CA_COLUMN_PREFIX)
+    rest = col.delete_prefix(CONTACT_CA_COLUMN_PREFIX).delete_prefix(CA_COLUMN_PREFIX)
+
+    filtered = rest.match(/\A(.+)#{Regexp.escape(MEASURE_SEP)}(#{MEASURE_OPS.join('|')})#{Regexp.escape(MEASURE_SEP)}#{MEASURE_FILTER_EQ}#{Regexp.escape(MEASURE_SEP)}(.+)\z/)
+    if filtered
+      return [filtered[1], filtered[2], contact_attr, MEASURE_FILTER_EQ, decode_measure_filter_value(filtered[3])]
+    end
+
+    op = nil
+    MEASURE_OPS.each do |candidate|
+      suffix = "#{MEASURE_SEP}#{candidate}"
+      next unless rest.end_with?(suffix) && rest.length > suffix.length
+
+      op = candidate
+      rest = rest.delete_suffix(suffix)
+      break
+    end
+    [rest, op, contact_attr, nil, nil]
+  end
+
+  def decode_measure_filter_value(encoded)
+    URI.decode_www_form_component(encoded.to_s)
+  rescue ArgumentError
+    encoded.to_s
+  end
+
   def aggregate_custom_attr_by_dimension(table_kind, column, op, since_time, until_time)
-    contact_attr = column.start_with?(CONTACT_CA_COLUMN_PREFIX)
-    attr_key = column.delete_prefix(CONTACT_CA_COLUMN_PREFIX).delete_prefix(CA_COLUMN_PREFIX)
+    attr_key, _baked_op, contact_attr, filter_op, filter_value = parse_summary_ca_column(column)
     return {} unless known_custom_attribute_key?(attr_key, contact_attr ? :contact_attribute : :conversation_attribute)
 
     case table_kind.to_s
     when 'label_summary'
-      aggregate_custom_attr_by_label(attr_key, op, since_time, until_time, contact_attr: contact_attr)
+      aggregate_custom_attr_by_label(
+        attr_key, op, since_time, until_time,
+        contact_attr: contact_attr, filter_op: filter_op, filter_value: filter_value
+      )
     else
       dimension = summary_dimension_column(table_kind)
       return {} if dimension.blank?
 
       aggregate_custom_attr_by_sql_dimension(
-        dimension, attr_key, op, since_time, until_time, contact_attr: contact_attr
+        dimension, attr_key, op, since_time, until_time,
+        contact_attr: contact_attr, filter_op: filter_op, filter_value: filter_value
       )
     end
   end
@@ -471,11 +791,14 @@ class Reports::PanelRunnerService
   end
 
   # Always Ruby: JSON CA values may be locale strings ("1000,00") that break PG ::float.
-  def aggregate_custom_attr_by_sql_dimension(dimension, attr_key, op, since_time, until_time, contact_attr:)
-    aggregate_custom_attr_in_ruby(dimension, attr_key, op, since_time, until_time, contact_attr: contact_attr)
+  def aggregate_custom_attr_by_sql_dimension(dimension, attr_key, op, since_time, until_time, contact_attr:, filter_op: nil, filter_value: nil)
+    aggregate_custom_attr_in_ruby(
+      dimension, attr_key, op, since_time, until_time,
+      contact_attr: contact_attr, filter_op: filter_op, filter_value: filter_value
+    )
   end
 
-  def aggregate_custom_attr_in_ruby(dimension, attr_key, op, since_time, until_time, contact_attr:)
+  def aggregate_custom_attr_in_ruby(dimension, attr_key, op, since_time, until_time, contact_attr:, filter_op: nil, filter_value: nil)
     scope = filtered_conversations_scope(since_time, until_time)
             .unscope(:order)
             .where.not(dimension => nil)
@@ -499,9 +822,10 @@ class Reports::PanelRunnerService
       else
         val = conversation.custom_attributes&.[](attr_key)
       end
-      next if val.nil? || val == ''
+      next if custom_attr_blank?(val)
+      next unless custom_attr_matches_filter?(val, filter_op, filter_value)
 
-      buckets[dim_id] << numeric_table_cell(val)
+      buckets[dim_id] << (op == 'count' ? 1 : numeric_table_cell(val))
     end
 
     buckets.transform_values do |values|
@@ -510,7 +834,7 @@ class Reports::PanelRunnerService
     end
   end
 
-  def aggregate_custom_attr_by_label(attr_key, op, since_time, until_time, contact_attr:)
+  def aggregate_custom_attr_by_label(attr_key, op, since_time, until_time, contact_attr:, filter_op: nil, filter_value: nil)
     labels = @account.labels.index_by(&:title)
     return {} if labels.empty?
 
@@ -532,24 +856,26 @@ class Reports::PanelRunnerService
         next if contact.blank?
 
         val = contact.custom_attributes&.[](attr_key)
-        next if val.nil? || val == ''
+        next if custom_attr_blank?(val)
+        next unless custom_attr_matches_filter?(val, filter_op, filter_value)
 
         label_titles.each do |title|
           label = labels[title]
           next if label.blank? || seen_contacts[label.id][contact.id]
 
           seen_contacts[label.id][contact.id] = true
-          buckets[label.id] << numeric_table_cell(val)
+          buckets[label.id] << (op == 'count' ? 1 : numeric_table_cell(val))
         end
       else
         val = conversation.custom_attributes&.[](attr_key)
-        next if val.nil? || val == ''
+        next if custom_attr_blank?(val)
+        next unless custom_attr_matches_filter?(val, filter_op, filter_value)
 
         label_titles.each do |title|
           label = labels[title]
           next if label.blank?
 
-          buckets[label.id] << numeric_table_cell(val)
+          buckets[label.id] << (op == 'count' ? 1 : numeric_table_cell(val))
         end
       end
     end
@@ -558,6 +884,27 @@ class Reports::PanelRunnerService
       result = aggregate_numeric_values(values, op)
       result.is_a?(Float) ? result.round(2) : result
     end
+  end
+
+  def custom_attr_blank?(val)
+    val.nil? || val == '' || (val.is_a?(Array) && val.empty?)
+  end
+
+  # After non-blank check: optional equal_to match (case-insensitive, NFC, list-aware).
+  def custom_attr_matches_filter?(val, filter_op, filter_value)
+    return true if filter_op.blank?
+
+    case filter_op.to_s
+    when MEASURE_FILTER_EQ
+      needle = normalize_ca_compare(filter_value)
+      Array.wrap(val).any? { |item| normalize_ca_compare(item) == needle }
+    else
+      true
+    end
+  end
+
+  def normalize_ca_compare(value)
+    value.to_s.unicode_normalize(:nfc).downcase.strip
   end
 
   def report_builder(widget, since_time, until_time, metric: nil, group_by: 'day')
@@ -817,8 +1164,9 @@ class Reports::PanelRunnerService
     models = attribute_models_for_table(table_kind, columns)
     return {} if models.blank?
 
-    @account.custom_attribute_definitions.where(attribute_model: models).each_with_object({}) do |definition, map|
-      key = definition.attribute_key
+    defs_by_key = @account.custom_attribute_definitions.where(attribute_model: models).index_by(&:attribute_key)
+    map = {}
+    defs_by_key.each do |key, definition|
       type = definition.attribute_display_type
       map[key] = type
       if definition.contact_attribute?
@@ -827,6 +1175,22 @@ class Reports::PanelRunnerService
         map["#{CA_COLUMN_PREFIX}#{key}"] = type
       end
     end
+
+    # Measure columns (ca:ventas__sum) inherit the base attribute type for currency/$ formatting.
+    Array(columns).map(&:to_s).each do |col|
+      next unless summary_ca_column?(col)
+
+      attr_key, op, contact, _filter_op, _filter_value = parse_summary_ca_column(col)
+      next if op.blank?
+
+      definition = defs_by_key[attr_key]
+      next if definition.blank?
+      next if contact && !definition.contact_attribute?
+      next if !contact && !definition.conversation_attribute?
+
+      map[col] = definition.attribute_display_type
+    end
+    map
   end
 
   def attribute_models_for_table(table_kind, columns)

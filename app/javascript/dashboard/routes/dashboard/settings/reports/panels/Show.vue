@@ -271,7 +271,7 @@ onMounted(load);
       />
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2 mt-4">
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-4 mt-4">
       <PanelWidgetCard
         v-for="widget in panel.widgets"
         :key="widget.id"
@@ -281,7 +281,7 @@ onMounted(load);
         :attribute-types="attributeTypes"
         :class="
           widget.type === 'chart' || widget.type === 'table'
-            ? 'md:col-span-2'
+            ? 'md:col-span-2 xl:col-span-4'
             : ''
         "
       />

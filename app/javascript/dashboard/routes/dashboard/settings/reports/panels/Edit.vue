@@ -23,20 +23,14 @@ import {
   METRIC_SOURCES,
   AGGREGATION_OPS,
   AGGREGATION_ENTITIES,
-  COLUMN_AGGREGATION_OPS,
   TABLE_KINDS,
   CONTACT_ATTR_PREFIX,
   CONTACT_FILTER_PREFIX,
   MULTI_SELECT_SYSTEM_KEYS,
-  TABLE_COLUMN_OPTIONS,
-  SUMMABLE_SYSTEM_COLUMNS,
   SUMMABLE_CUSTOM_TYPES,
-  isCustomAttributeColumn,
-  customAttributeColumnKey,
-  contactCustomAttributeColumnKey,
-  customAttributeKeyFromColumn,
-  isContactCustomAttributeColumn,
   SUMMARY_TABLE_KINDS,
+  MAX_PIVOT_VALUES,
+  defaultPivotConfig,
   defaultColumnsForTableKind,
   defaultChartWidget,
   defaultMetricWidget,
@@ -44,7 +38,10 @@ import {
   emptyPanel,
   panelRangeToDates,
   resolveTableColumns,
+  normalizeAttrDisplayType,
+  customAttributeColumnKey,
 } from './panelConstants';
+import PanelTablePivotBuilder from './components/PanelTablePivotBuilder.vue';
 import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
 import { DATE_RANGE_TYPES } from 'dashboard/components/ui/DatePicker/helpers/DatePickerHelper';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
@@ -110,13 +107,6 @@ const aggregationOpOptions = computed(() =>
 
 const aggregationEntityOptions = computed(() =>
   AGGREGATION_ENTITIES.map(item => ({
-    value: item.value,
-    label: t(item.labelKey),
-  }))
-);
-
-const columnAggregationOpOptions = computed(() =>
-  COLUMN_AGGREGATION_OPS.map(item => ({
     value: item.value,
     label: t(item.labelKey),
   }))
@@ -309,6 +299,9 @@ const ensureWidgetDefaults = widget => {
   if (widget.type === 'table' && !widget.column_aggregations) {
     widget.column_aggregations = {};
   }
+  if (widget.type === 'table' && !widget.pivot) {
+    widget.pivot = defaultPivotConfig();
+  }
   return widget;
 };
 
@@ -394,39 +387,38 @@ const onMetricSourceChange = widget => {
   }
 };
 
-const normalizeAttrDisplayType = attr => {
-  const map = {
-    0: 'text',
-    1: 'number',
-    2: 'currency',
-    3: 'percent',
-    4: 'link',
-    5: 'date',
-    6: 'list',
-    7: 'checkbox',
-    8: 'datetime',
-  };
-  const raw =
-    attr?.attributeDisplayType ?? attr?.attribute_display_type ?? 'text';
-  if (typeof raw === 'number') return map[raw] || 'text';
-  return String(raw);
-};
-
 const aggregationFieldOptions = widget => {
   const entity = widget.aggregation_entity || 'conversations';
   const attrs =
     entity === 'contacts'
       ? contactAttributes.value || []
       : conversationAttributes.value || [];
-  return attrs
-    .filter(attr => SUMMABLE_CUSTOM_TYPES.has(normalizeAttrDisplayType(attr)))
-    .map(attr => {
-      const key = attr.attributeKey || attr.attribute_key;
-      return {
-        value: customAttributeColumnKey(key),
-        label: attr.attributeDisplayName || attr.attribute_display_name || key,
-      };
-    });
+  const op = widget.aggregation_op || 'count';
+  // Count can target any attribute (non-empty presence). Sum/avg/min/max need numeric.
+  const filtered =
+    op === 'count'
+      ? attrs
+      : attrs.filter(attr =>
+          SUMMABLE_CUSTOM_TYPES.has(normalizeAttrDisplayType(attr))
+        );
+  return filtered.map(attr => {
+    const key = attr.attributeKey || attr.attribute_key;
+    return {
+      value: customAttributeColumnKey(key),
+      label: attr.attributeDisplayName || attr.attribute_display_name || key,
+    };
+  });
+};
+
+const onAggregationOpChange = widget => {
+  const field = widget.aggregation_field;
+  if (!field) return;
+  const allowed = new Set(
+    aggregationFieldOptions(widget).map(item => item.value)
+  );
+  if (!allowed.has(field)) {
+    widget.aggregation_field = '';
+  }
 };
 
 const DATE_GROUP_ATTR_TYPES = new Set(['date', 'datetime']);
@@ -454,155 +446,11 @@ const onTableKindChange = (widget, kind) => {
   }
   widget.columns = defaultColumnsForTableKind(widget.table_kind);
   widget.column_aggregations = {};
-};
-
-const mapAttrToColumnDef = (
-  attr,
-  { contact = false, numericOnly = false } = {}
-) => {
-  if (
-    numericOnly &&
-    !SUMMABLE_CUSTOM_TYPES.has(normalizeAttrDisplayType(attr))
-  ) {
-    return null;
+  if (!SUMMARY_TABLE_KINDS.has(widget.table_kind)) {
+    widget.pivot = defaultPivotConfig();
+  } else if (!widget.pivot) {
+    widget.pivot = defaultPivotConfig();
   }
-  const attributeKey = attr.attributeKey || attr.attribute_key;
-  const name =
-    attr.attributeDisplayName || attr.attribute_display_name || attributeKey;
-  if (contact) {
-    return {
-      key: contactCustomAttributeColumnKey(attributeKey),
-      label: t('REPORT_PANELS.COLUMNS.CONTACT_CA_PREFIX', { name }),
-    };
-  }
-  return {
-    key: customAttributeColumnKey(attributeKey),
-    label: name,
-  };
-};
-
-const customColumnDefsFor = widget => {
-  const kind = widget.table_kind;
-  if (kind === 'conversations') {
-    return (conversationAttributes.value || [])
-      .map(attr => mapAttrToColumnDef(attr))
-      .filter(Boolean);
-  }
-  if (kind === 'contacts') {
-    return (contactAttributes.value || [])
-      .map(attr => mapAttrToColumnDef(attr))
-      .filter(Boolean);
-  }
-  if (SUMMARY_TABLE_KINDS.has(kind)) {
-    // Summary tables only offer numeric CAs (sum/avg per agent/inbox/…).
-    const conversationCols = (conversationAttributes.value || [])
-      .map(attr => mapAttrToColumnDef(attr, { numericOnly: true }))
-      .filter(Boolean)
-      .map(item => ({
-        ...item,
-        label: t('REPORT_PANELS.COLUMNS.CONVERSATION_CA_PREFIX', {
-          name: item.label,
-        }),
-      }));
-    const contactCols = (contactAttributes.value || [])
-      .map(attr =>
-        mapAttrToColumnDef(attr, { contact: true, numericOnly: true })
-      )
-      .filter(Boolean);
-    return [...conversationCols, ...contactCols];
-  }
-  return [];
-};
-
-const columnOptionsFor = widget => {
-  const system = TABLE_COLUMN_OPTIONS[widget.table_kind] || [];
-  return [...system, ...customColumnDefsFor(widget).map(item => item.key)];
-};
-
-const columnLabel = (widget, key) => {
-  if (isCustomAttributeColumn(key)) {
-    const match = customColumnDefsFor(widget).find(item => item.key === key);
-    return match?.label || customAttributeKeyFromColumn(key);
-  }
-  return t(`REPORT_PANELS.COLUMNS.${key}`);
-};
-
-const isColumnSelected = (widget, key) => {
-  const cols =
-    Array.isArray(widget.columns) && widget.columns.length
-      ? widget.columns
-      : defaultColumnsForTableKind(widget.table_kind);
-  return cols.includes(key);
-};
-
-const toggleColumn = (widget, key) => {
-  const allowed = new Set(columnOptionsFor(widget));
-  let cols =
-    Array.isArray(widget.columns) && widget.columns.length
-      ? [...widget.columns]
-      : defaultColumnsForTableKind(widget.table_kind);
-  if (cols.includes(key)) {
-    cols = cols.filter(item => item !== key);
-    if (widget.column_aggregations?.[key] != null) {
-      const next = { ...widget.column_aggregations };
-      delete next[key];
-      widget.column_aggregations = next;
-    }
-  } else {
-    cols.push(key);
-    // Summary CA columns default to sum (row rollup + footer).
-    if (
-      SUMMARY_TABLE_KINDS.has(widget.table_kind) &&
-      isCustomAttributeColumn(key) &&
-      !widget.column_aggregations?.[key]
-    ) {
-      widget.column_aggregations = {
-        ...(widget.column_aggregations || {}),
-        [key]: 'sum',
-      };
-    }
-  }
-  widget.columns = cols.filter(
-    item => allowed.has(item) || isCustomAttributeColumn(item)
-  );
-  if (!widget.columns.length) {
-    widget.columns = defaultColumnsForTableKind(widget.table_kind);
-  }
-};
-
-const attributeTypeForColumn = (widget, key) => {
-  if (!isCustomAttributeColumn(key)) return null;
-  const attrKey = customAttributeKeyFromColumn(key);
-  const pool = isContactCustomAttributeColumn(key)
-    ? contactAttributes.value || []
-    : conversationAttributes.value || [];
-  const match = pool.find(
-    attr => (attr.attributeKey || attr.attribute_key) === attrKey
-  );
-  return match ? normalizeAttrDisplayType(match) : '';
-};
-
-const isAggregatableColumnKey = (widget, key) => {
-  if (SUMMABLE_SYSTEM_COLUMNS.has(key)) return true;
-  return SUMMABLE_CUSTOM_TYPES.has(attributeTypeForColumn(widget, key));
-};
-
-const columnAggregationValue = (widget, key) =>
-  widget.column_aggregations?.[key] || '';
-
-const setColumnAggregation = (widget, key, op) => {
-  // Materialize columns so aggregations are not stripped on save when
-  // the UI was showing defaults with an empty columns array.
-  if (!Array.isArray(widget.columns) || !widget.columns.length) {
-    widget.columns = defaultColumnsForTableKind(widget.table_kind);
-  }
-  if (!widget.columns.includes(key)) {
-    widget.columns = [...widget.columns, key];
-  }
-  const next = { ...(widget.column_aggregations || {}) };
-  if (!op) delete next[key];
-  else next[key] = op;
-  widget.column_aggregations = next;
 };
 
 const buildPayload = () => {
@@ -645,6 +493,20 @@ const buildPayload = () => {
           ([key, op]) => next.columns.includes(key) && Boolean(op)
         )
       );
+      if (
+        SUMMARY_TABLE_KINDS.has(next.table_kind) &&
+        next.pivot?.column_attribute
+      ) {
+        next.pivot = {
+          column_attribute: next.pivot.column_attribute,
+          column_values: Array.isArray(next.pivot.column_values)
+            ? next.pivot.column_values.slice(0, MAX_PIVOT_VALUES)
+            : [],
+          show_row_totals: next.pivot.show_row_totals !== false,
+        };
+      } else {
+        next.pivot = defaultPivotConfig();
+      }
     }
     return next;
   });
@@ -761,7 +623,7 @@ onMounted(async () => {
     </div>
   </ReportHeader>
 
-  <div class="flex flex-col gap-6 mt-4 max-w-4xl">
+  <div class="flex flex-col gap-6 mt-4 max-w-5xl">
     <section class="flex flex-col gap-4">
       <Input
         v-model="form.name"
@@ -963,6 +825,7 @@ onMounted(async () => {
                 v-model="widget.aggregation_op"
                 :options="aggregationOpOptions"
                 full-width
+                @update:model-value="() => onAggregationOpChange(widget)"
               />
             </label>
             <label
@@ -1027,57 +890,14 @@ onMounted(async () => {
             </p>
           </template>
         </template>
-        <label
+        <PanelTablePivotBuilder
           v-if="widget.type === 'table'"
-          class="text-sm text-n-slate-12 flex flex-col gap-1.5"
-        >
-          {{ t('REPORT_PANELS.FIELDS.TABLE_KIND') }}
-          <SelectInput
-            v-model="widget.table_kind"
-            :options="tableKindOptions"
-            full-width
-            @update:model-value="kind => onTableKindChange(widget, kind)"
-          />
-        </label>
-        <div
-          v-if="widget.type === 'table' && columnOptionsFor(widget).length"
-          class="rounded-lg border border-n-weak p-3 flex flex-col gap-2"
-        >
-          <span class="text-sm font-medium text-n-slate-12">
-            {{ t('REPORT_PANELS.FIELDS.TABLE_COLUMNS') }}
-          </span>
-          <p class="text-xs text-n-slate-11">
-            {{ t('REPORT_PANELS.FIELDS.TABLE_COLUMNS_HINT') }}
-          </p>
-          <div class="flex flex-col gap-2">
-            <div
-              v-for="columnKey in columnOptionsFor(widget)"
-              :key="columnKey"
-              class="flex flex-wrap items-center gap-2 text-sm text-n-slate-12"
-            >
-              <label class="inline-flex items-center gap-2 min-w-[12rem]">
-                <input
-                  type="checkbox"
-                  :checked="isColumnSelected(widget, columnKey)"
-                  @change="toggleColumn(widget, columnKey)"
-                />
-                {{ columnLabel(widget, columnKey) }}
-              </label>
-              <SelectInput
-                v-if="
-                  isColumnSelected(widget, columnKey) &&
-                  isAggregatableColumnKey(widget, columnKey)
-                "
-                :model-value="columnAggregationValue(widget, columnKey)"
-                :options="columnAggregationOpOptions"
-                class="min-w-[8rem]"
-                @update:model-value="
-                  op => setColumnAggregation(widget, columnKey, op)
-                "
-              />
-            </div>
-          </div>
-        </div>
+          :widget="widget"
+          :table-kind-options="tableKindOptions"
+          :conversation-attributes="conversationAttributes"
+          :contact-attributes="contactAttributes"
+          @table-kind-change="kind => onTableKindChange(widget, kind)"
+        />
       </div>
     </section>
   </div>
