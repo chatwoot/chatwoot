@@ -288,6 +288,9 @@ en:
         list_button_label: 'Choose an item'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
         unsupported_message: 'This message is unavailable.'
+        flow_response:
+          received: "Formulario completado:\n%{details}"
+          empty: 'Formulario completado.'
       voice_call:
         twilio: 'Voice Call'
         whatsapp: 'WhatsApp Call'

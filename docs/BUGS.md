@@ -3,7 +3,9 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** re-fix `B-NEW-11` automation/IA replies attended
+**Última actualización:** fix `B-NEW-12` WhatsApp Flow nfm_reply (i18n + no
+reenviar confirmación al cliente) en branch `fix/whatsapp-flow-internal-response`
+(2026-07-23). Antes: re-fix `B-NEW-11` automation/IA replies attended
 (2026-07-21, branch `feat/automation-formulas-and-date-vars`) tras regresión
 en `d54c4092d`. Auditoría previa pre–chats grupales (2026-07-11),
 branch `feat/internal-tasks` (PR #3).
@@ -56,6 +58,7 @@ branch `feat/internal-tasks` (PR #3).
 | TASK-007 | Baja | No | ContactInfo mojibake — abierto |
 | TASK-008 | Baja | No | **Stale** — índice `[:account_id, :active, :position]` ya existe |
 | B-NEW-11 | Media | No | ✅ Re-fijado (2026-07-21) — regresión en `d54c4092d` revirtió attended; restaurado en `feat/automation-formulas-and-date-vars` |
+| B-NEW-12 | Media | No | ✅ Fijado — Flow nfm_reply: i18n restaurado + sin confirmación outbound al cliente |
 
 ---
 
@@ -367,6 +370,51 @@ conservando el off-by-one (`where.not(id: id)` + `count.positive?`).
 Decisión de producto (aprobada): automation e IA/AgentBot/Captain cuentan como
 attended igual que un agente; colores de burbuja siguen familia bot (iris);
 private notes y campaigns no cuentan.
+
+### B-NEW-12 — WhatsApp Flow nfm_reply: i18n perdido + confirmación enviada al cliente
+
+**Severidad:** Media — el agente ve `Translation missing` y el cliente recibe un resumen
+técnico (a veces con keys rotas) que debía ser solo interno.
+
+**Síntoma:**
+
+1. Tras completar un Flow, el bubble incoming muestra
+   `Translation missing: en.conversations.messages.whatsapp.flow_response.received`.
+2. Se crea un outgoing que WhatsApp entrega al contacto con header/footer también
+   como `Translation missing` + los campos del form.
+
+**Causa raíz:**
+
+- Keys `conversations.messages.whatsapp.flow_response.*` se agregaron en `23ce702b1`
+  y se borraron por accidente en `34d714fbb` (export de contactos).
+- `Whatsapp::FlowConfirmationService` creaba `message_type: :outgoing` sin
+  `private: true` → `SendReplyJob` lo enviaba al canal.
+
+**Fix aplicado:**
+
+1. Restaurar `flow_response.received` / `flow_response.empty` en `config/locales/en.yml`.
+2. Eliminar auto-confirmación al cliente (`send_flow_confirmation`,
+   `FlowConfirmationService`, `format_confirmation`). El incoming ya guarda texto
+   legible + `content_attributes['whatsapp_flow_response']`.
+
+**Archivos:**
+
+- `config/locales/en.yml`
+- `app/services/whatsapp/incoming_message_base_service.rb`
+- `app/services/whatsapp/flow_response_formatter.rb`
+- `app/services/whatsapp/flow_confirmation_service.rb` (eliminado)
+- specs correspondientes
+
+**Migración BD:** no requerida.
+
+**Cómo probar:**
+
+1. Enviar template/Flow → cliente completa.
+2. Inbox: un bubble incoming con “Formulario completado:” + campos (sin Translation missing).
+3. El cliente no recibe mensaje de confirmación.
+4. Tras el Flow, reply libre (`can_reply` / ventana 24h) sigue abierto vía el incoming.
+
+**Estado:** ✅ Fijado 2026-07-23 en `fix/whatsapp-flow-internal-response`.
 
 ---
 

@@ -20,12 +20,14 @@ describe Whatsapp::FlowResponseFormatter do
     end
   end
 
-  describe '.format_confirmation' do
-    it 'builds a customer confirmation message' do
-      text = described_class.format_confirmation(payload)
-      expect(text).to include('Recibimos tu información')
+  describe '.format_for_agent' do
+    it 'builds a readable agent summary from flow answers' do
+      text = described_class.format_for_agent(payload)
+      expect(text).to include('Formulario completado')
       expect(text).to include('Nombre: Diego')
-      expect(text).to include('Si algo está mal')
+      expect(text).to include('Direccion: Av. Amazonas 123')
+      expect(text).not_to include('cw_1_2')
+      expect(text).not_to include('secret')
     end
   end
 

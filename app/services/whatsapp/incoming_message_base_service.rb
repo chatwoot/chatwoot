@@ -102,15 +102,6 @@ class Whatsapp::IncomingMessageBaseService
     attach_files
     attach_location if message_type == 'location'
     @message.save!
-    send_flow_confirmation(message)
-  end
-
-  def send_flow_confirmation(message)
-    return if outgoing_echo
-    return unless Whatsapp::FlowResponseFormatter.nfm_reply?(message)
-
-    payload = Whatsapp::FlowResponseFormatter.parse_response_json(message)
-    Whatsapp::FlowConfirmationService.new(conversation: @conversation, payload: payload).perform
   end
 
   def set_contact

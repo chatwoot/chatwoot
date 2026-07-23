@@ -34,19 +34,6 @@ class Whatsapp::FlowResponseFormatter
       I18n.t('conversations.messages.whatsapp.flow_response.received', details: details)
     end
 
-    def format_confirmation(payload)
-      details = format_details(payload)
-      if details.blank?
-        return I18n.t('conversations.messages.whatsapp.flow_confirmation.empty')
-      end
-
-      [
-        I18n.t('conversations.messages.whatsapp.flow_confirmation.header'),
-        details,
-        I18n.t('conversations.messages.whatsapp.flow_confirmation.footer')
-      ].join("\n\n")
-    end
-
     private
 
     def hide_key?(key)
