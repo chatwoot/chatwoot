@@ -1,5 +1,7 @@
 # rubocop:disable Metrics/ClassLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Rails/SkipsModelValidations
 class DataImports::Intercom::Importer
+  class InvalidMessagePayloadError < StandardError; end
+
   PageResult = Struct.new(:next_cursor, keyword_init: true) do
     def done?
       next_cursor.blank?
@@ -27,6 +29,7 @@ class DataImports::Intercom::Importer
     :current_entries,
     :previous_entries,
     :messages,
+    :failed_entries,
     keyword_init: true
   )
 
@@ -444,6 +447,7 @@ class DataImports::Intercom::Importer
       skip_existing_message_mapping(conversation, entry.mapping, entry.part)
     end
     result.skipped_entries.each { |entry| record_bulk_skipped_message(conversation, entry) }
+    Array(result.failed_entries).each { |entry, error| fail_message(conversation, entry.source_id, entry.part, error) }
     increment_stat('messages', 'imported', result.imported_entries.size)
     result.messages.each { |message| reindex_message_for_search(message) }
   end
@@ -467,15 +471,19 @@ class DataImports::Intercom::Importer
   end
 
   def fallback_message_entry(conversation, contact, batch_builder, entry)
-    @data_import.with_lock do
-      if inactive_import_run?
-        @import_stopped = true
-        next
-      end
+    with_query_timeout_retry do
+      @data_import.with_lock do
+        if inactive_import_run?
+          @import_stopped = true
+          next
+        end
 
-      refreshed_entry = batch_builder.refresh([entry]).entries.first
-      import_message(conversation, contact, refreshed_entry, reindex: false)
+        refreshed_entry = batch_builder.refresh([entry]).entries.first
+        import_message(conversation, contact, refreshed_entry, reindex: false)
+      end
     end
+  rescue ActiveRecord::ActiveRecordError => e
+    fail_message(conversation, entry.source_id, entry.part, e)
   end
 
   def bulk_write_message_entries(conversation, contact, batch_builder, entries)
@@ -500,9 +508,23 @@ class DataImports::Intercom::Importer
     writable_entries = entries.select do |entry|
       %i[repairable_stale_mapping existing_message new_message].include?(entry.classification)
     end
-    content_by_source_id = writable_entries.to_h { |entry| [entry.source_id, content_for(entry.part)] }
+    content_by_source_id = {}
+    attributes_by_source_id = {}
+    failed_entries = []
+    writable_entries.select! do |entry|
+      validate_message_payload!(entry.part)
+      content = content_for(entry.part)
+      content_by_source_id[entry.source_id] = content
+      if content.present? && entry.message.blank?
+        attributes_by_source_id[entry.source_id] = message_attributes(conversation, contact, entry.part, entry.source_id, content)
+      end
+      true
+    rescue InvalidMessagePayloadError => e
+      failed_entries << [entry, e]
+      false
+    end
     skipped_entries, imported_entries = writable_entries.partition { |entry| content_by_source_id[entry.source_id].blank? }
-    messages = insert_messages(conversation, contact, imported_entries, content_by_source_id)
+    messages = insert_messages(imported_entries, attributes_by_source_id)
     upsert_message_mappings(conversation, imported_entries, skipped_entries, messages)
 
     MessageBatchResult.new(
@@ -510,22 +532,51 @@ class DataImports::Intercom::Importer
       skipped_entries: skipped_entries,
       current_entries: grouped_entries.fetch(:current_import, []),
       previous_entries: grouped_entries.fetch(:previous_import, []),
-      messages: messages
+      messages: messages,
+      failed_entries: failed_entries
     )
   end
 
-  def insert_messages(conversation, contact, entries, content_by_source_id)
+  def insert_messages(entries, attributes_by_source_id)
     new_entries = entries.reject(&:message)
     if new_entries.present?
-      attributes = new_entries.map do |entry|
-        message_attributes(conversation, contact, entry.part, entry.source_id, content_by_source_id.fetch(entry.source_id))
-      end
+      attributes = new_entries.map { |entry| attributes_by_source_id.fetch(entry.source_id) }
       result = Message.insert_all!(attributes, returning: %w[id source_id])
       inserted_messages = Message.where(id: result.pluck('id')).index_by(&:source_id)
     end
 
     entries.map do |entry|
       entry.message || inserted_messages.fetch("intercom:#{entry.source_id}")
+    end
+  end
+
+  def validate_message_payload!(part)
+    raise InvalidMessagePayloadError, 'Intercom message payload must be an object' unless part.is_a?(Hash)
+
+    %w[author assigned_to event_details].each do |field|
+      value = part[field]
+      next if value.nil? || value.is_a?(Hash)
+
+      raise InvalidMessagePayloadError, "Intercom message #{field} must be an object"
+    end
+
+    participant = part.dig('event_details', 'participant')
+    unless participant.nil? || participant.is_a?(Hash)
+      raise InvalidMessagePayloadError, 'Intercom message event_details.participant must be an object'
+    end
+
+    %w[created_at updated_at].each do |field|
+      value = part[field]
+      valid_timestamp = value.nil? || value.is_a?(Integer) || value.is_a?(Float) ||
+                        (value.is_a?(String) && (value.blank? || value.match?(/\A-?\d+(?:\.\d+)?\z/)))
+      raise InvalidMessagePayloadError, "Intercom message #{field} must be a Unix timestamp" unless valid_timestamp
+    end
+
+    %w[body subject].each do |field|
+      value = part[field]
+      next unless value.is_a?(String) && !value.valid_encoding?
+
+      raise InvalidMessagePayloadError, "Intercom message #{field} must use valid encoding"
     end
   end
 

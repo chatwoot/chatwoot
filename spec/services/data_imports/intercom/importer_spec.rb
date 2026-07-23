@@ -305,6 +305,58 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(data_import.import_errors).to be_empty
       expect(data_import.reload.stats.dig('messages', 'imported')).to eq(3)
     end
+
+    it 'retries a fallback refresh timeout after the lock transaction rolls back', :aggregate_failures do
+      importer = described_class.new(data_import: data_import)
+      refresh_attempts = 0
+      allow(importer).to receive(:sleep)
+      allow(importer).to receive(:bulk_write_message_entries).and_raise(ActiveRecord::StatementInvalid, 'bulk failed')
+      allow(DataImports::Intercom::MessageBatchBuilder).to receive(:new).and_wrap_original do |method, **kwargs|
+        method.call(**kwargs).tap do |batch_builder|
+          allow(batch_builder).to receive(:refresh).and_wrap_original do |refresh, entries|
+            refresh_attempts += 1
+            raise ActiveRecord::QueryCanceled, 'statement timeout' if refresh_attempts == 1
+
+            refresh.call(entries)
+          end
+        end
+      end
+
+      importer.perform
+
+      expect(refresh_attempts).to eq(4)
+      expect(importer).to have_received(:sleep).with(be_between(0.2, 0.5)).once
+      expect(account.messages.count).to eq(3)
+      expect(data_import.mappings.where(source_object_type: 'message').count).to eq(3)
+      expect(data_import.import_errors).to be_empty
+      expect(data_import.reload.stats.dig('messages', 'imported')).to eq(3)
+    end
+  end
+
+  it 'isolates a malformed message payload while importing valid messages', :aggregate_failures do
+    malformed_conversation = conversation_payload.deep_dup
+    malformed_conversation['source']['subject'] = nil
+    malformed_conversation['source']['body'] = nil
+    malformed_conversation.dig('conversation_parts', 'conversation_parts').first['created_at'] = { 'unexpected' => true }
+    allow(client).to receive(:retrieve_conversation).with('conversation_1').and_return(malformed_conversation)
+    importer = described_class.new(data_import: data_import)
+    expect(importer).not_to receive(:fallback_message_entries)
+
+    importer.perform
+
+    expect(account.messages.pluck(:source_id)).to eq(['intercom:conversation:conversation_1:part:part_2'])
+    error = data_import.import_errors.find_by!(
+      source_object_type: 'message',
+      source_object_id: 'conversation:conversation_1:part:part_1'
+    )
+    expect(error).to have_attributes(
+      error_code: described_class::InvalidMessagePayloadError.name,
+      message: 'Intercom message created_at must be a Unix timestamp'
+    )
+    expect(data_import.import_errors.where(source_object_type: 'message').count).to eq(1)
+    expect(data_import.reload).to be_completed_with_errors
+    expect(data_import.stats.dig('messages', 'imported')).to eq(1)
+    expect(data_import.stats.dig('errors', 'count')).to eq(1)
   end
 
   it 'imports historical records without dispatching record events or outbound side effects', :aggregate_failures do
