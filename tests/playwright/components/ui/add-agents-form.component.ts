@@ -6,7 +6,7 @@ export class AddAgentsForm {
   getPageHeading() {
     return this.page
       .locator('form')
-      .getByRole('heading', { name: 'Add Agents', level: 2, exact: true });
+      .getByRole('heading', { name: 'Agents', level: 2, exact: true });
   }
 
   getAgentDropdown() {
