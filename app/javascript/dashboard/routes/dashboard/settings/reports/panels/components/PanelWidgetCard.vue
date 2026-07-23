@@ -144,7 +144,6 @@ const tableKind = computed(
 const tableRows = computed(() => props.result?.rows || []);
 
 const tableHeaders = computed(() => {
-  if (!tableRows.value.length && !props.value) return [];
   const configured = resolveTableColumns(tableKind.value, props.widget.columns);
   if (configured.length) {
     if (!tableRows.value.length) return configured;
@@ -162,6 +161,43 @@ const columnType = key => {
   const attrKey = customAttributeKeyFromColumn(key);
   return attributeTypes.value[key] || attributeTypes.value[attrKey] || null;
 };
+
+const NUMERIC_SYSTEM_COLUMNS = new Set([
+  'id',
+  'rank',
+  'conversations_count',
+  'resolutions_count',
+  'incoming_messages_count',
+  'outgoing_messages_count',
+  'share_percent',
+  ...TIME_COLUMNS,
+]);
+
+/** Currency / number / percent / counts / times — right-aligned. */
+const isNumericColumn = key => {
+  if (NUMERIC_SYSTEM_COLUMNS.has(key)) return true;
+  if (measureOpFromColumn(key)) return true;
+  const type = columnType(key);
+  return Boolean(type && SUMMABLE_CUSTOM_TYPES.has(type));
+};
+
+const headerCellClass = key =>
+  [
+    'py-2 px-2 text-n-slate-11 font-medium select-none cursor-pointer hover:text-n-slate-12',
+    isNumericColumn(key)
+      ? 'text-right whitespace-nowrap'
+      : 'text-left max-w-[14rem] min-w-0',
+  ].join(' ');
+
+const bodyCellClass = key =>
+  [
+    'py-2 px-2 text-n-slate-12',
+    isNumericColumn(key)
+      ? 'text-right whitespace-nowrap'
+      : 'text-left max-w-[14rem] min-w-0',
+  ].join(' ');
+
+const footerCellClass = key => `${bodyCellClass(key)} font-medium`;
 
 const sortValueFor = (row, key) => {
   const value = row?.[key];
@@ -360,6 +396,15 @@ const formatCell = (row, key) => {
   return value;
 };
 
+const cellTitle = (row, key) => {
+  if (isNumericColumn(key)) return undefined;
+  const formatted = formatCell(row, key);
+  if (formatted == null || formatted === '' || formatted === '—') {
+    return undefined;
+  }
+  return String(formatted);
+};
+
 const formatAggregateValue = (key, value) => {
   if (value == null || value === '') return '—';
   if (TIME_COLUMNS.has(key)) return formatTime(value);
@@ -464,7 +509,7 @@ const tableSubtitle = computed(() => {
               <th
                 v-for="header in tableHeaders"
                 :key="header"
-                class="text-left py-2 px-2 text-n-slate-11 font-medium whitespace-nowrap select-none cursor-pointer hover:text-n-slate-12"
+                :class="headerCellClass(header)"
                 :aria-sort="
                   sortKey === header
                     ? sortDir === 'desc'
@@ -474,8 +519,18 @@ const tableSubtitle = computed(() => {
                 "
                 @click="toggleSort(header)"
               >
-                <span class="inline-flex items-center gap-1.5">
-                  {{ headerLabel(header) }}
+                <span
+                  class="inline-flex items-center gap-1.5 max-w-full"
+                  :class="{ 'justify-end': isNumericColumn(header) }"
+                >
+                  <span
+                    :class="{ truncate: !isNumericColumn(header) }"
+                    :title="
+                      isNumericColumn(header) ? undefined : headerLabel(header)
+                    "
+                  >
+                    {{ headerLabel(header) }}
+                  </span>
                   <span
                     class="size-3.5 shrink-0"
                     :class="sortIconClass(header)"
@@ -497,17 +552,19 @@ const tableSubtitle = computed(() => {
               <td
                 v-for="header in tableHeaders"
                 :key="header"
-                class="py-2 px-2 text-n-slate-12 whitespace-nowrap"
+                :class="bodyCellClass(header)"
               >
                 <span
-                  v-if="rowsClickable && header === tableHeaders[0]"
-                  class="text-n-brand font-medium"
+                  :class="[
+                    isNumericColumn(header) ? '' : 'block truncate',
+                    rowsClickable && header === tableHeaders[0]
+                      ? 'text-n-brand font-medium'
+                      : '',
+                  ]"
+                  :title="cellTitle(row, header)"
                 >
                   {{ formatCell(row, header) }}
                 </span>
-                <template v-else>
-                  {{ formatCell(row, header) }}
-                </template>
               </td>
             </tr>
           </tbody>
@@ -516,7 +573,7 @@ const tableSubtitle = computed(() => {
               <td
                 v-for="(header, index) in tableHeaders"
                 :key="`footer-${header}`"
-                class="py-2 px-2 text-n-slate-12 whitespace-nowrap font-medium"
+                :class="footerCellClass(header)"
               >
                 <template v-if="index === 0">
                   <span>{{ t('REPORT_PANELS.TOTALS.FOOTER_LABEL') }}</span>
