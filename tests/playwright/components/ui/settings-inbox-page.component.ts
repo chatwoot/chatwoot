@@ -1,5 +1,14 @@
 import { Page } from '@playwright/test';
 
+type DashboardApi = {
+  delete: (url: string) => Promise<unknown>;
+  get: (url: string) => Promise<{
+    data: {
+      payload: Array<{ id: number }>;
+    };
+  }>;
+};
+
 export class SettingsInboxPage {
   constructor(private page: Page) {}
 
@@ -19,31 +28,30 @@ export class SettingsInboxPage {
     return this.page.getByRole('heading', { name: /inboxes/i });
   }
 
-  getInboxTable() {
-    return this.page.locator('table');
+  async deleteInbox(accountId: number, inboxId: number) {
+    await this.page.evaluate(
+      async ({ accountId: currentAccountId, inboxId: currentInboxId }) => {
+        const api = (window as typeof window & { axios: DashboardApi }).axios;
+        await api.delete(
+          `/api/v1/accounts/${currentAccountId}/inboxes/${currentInboxId}`
+        );
+      },
+      { accountId, inboxId }
+    );
   }
 
-  getInboxByName(name: string) {
-    return this.page.getByRole('row').filter({ hasText: name });
-  }
-
-  async deleteInbox(inboxName: string) {
-    const inboxRow = this.getInboxByName(inboxName);
-    await inboxRow.click();
-
-    await this.page.waitForURL(/\/settings\/inboxes\/\d+/);
-
-    const settingsTab = this.page.getByRole('link', { name: /settings/i }).first();
-    if (await settingsTab.isVisible().catch(() => false)) {
-      await settingsTab.click();
-    }
-
-    const deleteButton = this.page.getByRole('button', { name: /delete/i });
-    await deleteButton.click();
-
-    const confirmButton = this.page.getByRole('button', { name: /yes|confirm|delete/i }).last();
-    await confirmButton.click();
-
-    await this.page.waitForURL(/\/settings\/inboxes\/list/);
+  async isInboxPresent(accountId: number, inboxId: number) {
+    return this.page.evaluate(
+      async ({ accountId: currentAccountId, inboxId: currentInboxId }) => {
+        const api = (window as typeof window & { axios: DashboardApi }).axios;
+        const response = await api.get(
+          `/api/v1/accounts/${currentAccountId}/inboxes`
+        );
+        return response.data.payload.some(
+          inbox => inbox.id === currentInboxId
+        );
+      },
+      { accountId, inboxId }
+    );
   }
 }

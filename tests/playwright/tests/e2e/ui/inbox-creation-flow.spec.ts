@@ -17,7 +17,34 @@ test.describe('Inbox Creation - UI Flow', () => {
     webhookUrl: 'https://example.com/webhook',
   };
 
-  let inboxId: number;
+  let accountId: number | undefined;
+  let inboxId: number | undefined;
+
+  test.beforeEach(() => {
+    accountId = undefined;
+    inboxId = undefined;
+  });
+
+  test.afterEach(async ({ page }) => {
+    const currentAccountId = accountId;
+    const currentInboxId = inboxId;
+    if (!currentAccountId || !currentInboxId) {
+      return;
+    }
+
+    const settingsInboxPage = new SettingsInboxPage(page);
+    await settingsInboxPage.deleteInbox(currentAccountId, currentInboxId);
+    await expect
+      .poll(
+        () =>
+          settingsInboxPage.isInboxPresent(currentAccountId, currentInboxId),
+        {
+          message: `Inbox ${currentInboxId} was not deleted`,
+          timeout: 30_000,
+        }
+      )
+      .toBe(false);
+  });
 
   test('should complete full inbox creation flow with UI validation', async ({
     page,
@@ -27,7 +54,7 @@ test.describe('Inbox Creation - UI Flow', () => {
     await loginComponent.login(TEST_EMAIL, TEST_PASSWORD);
     await page.waitForURL(/\/app\/accounts\/\d+\/dashboard/);
 
-    const accountId = Number(page.url().match(/\/app\/accounts\/(\d+)\//)![1]);
+    accountId = Number(page.url().match(/\/app\/accounts\/(\d+)\//)![1]);
     const settingsInboxPage = new SettingsInboxPage(page);
     await settingsInboxPage.navigate(accountId);
 
@@ -63,6 +90,7 @@ test.describe('Inbox Creation - UI Flow', () => {
     await apiChannelForm.fillChannelName(testInbox.name);
     await apiChannelForm.fillWebhookUrl(testInbox.webhookUrl);
     await apiChannelForm.submitForm();
+    await expect.poll(() => inboxId).toBeTruthy();
 
     const addAgentsForm = new AddAgentsForm(page);
     await expect(addAgentsForm.getPageHeading()).toBeVisible();
@@ -71,7 +99,5 @@ test.describe('Inbox Creation - UI Flow', () => {
     await page.waitForURL(/\/settings\/inboxes\/.*\/finish/);
     const finishSetup = new FinishSetup(page);
     await expect(finishSetup.getSuccessMessage()).toBeVisible();
-
-    expect(inboxId).toBeTruthy();
   });
 });
