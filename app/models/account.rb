@@ -7,6 +7,7 @@
 #  custom_attributes     :jsonb
 #  domain                :string(100)
 #  feature_flags         :bigint           default(0), not null
+#  feature_flags_ext_1   :bigint           default(0), not null
 #  internal_attributes   :jsonb            not null
 #  limits                :jsonb
 #  locale                :integer          default("en")
@@ -23,7 +24,7 @@
 #
 
 class Account < ApplicationRecord
-  # used for single column multi flags
+  # used for multi-flag bitset columns
   include FlagShihTzu
   include Reportable
   include Featurable
@@ -54,7 +55,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :captain_models, :captain_features
   store_accessor :settings, :reporting_timezone
   store_accessor :settings, :keep_pending_on_bot_failure
-  store_accessor :settings, :captain_auto_resolve_mode
+  store_accessor :settings, :captain_auto_resolve_mode, :captain_false_promise_harness_enabled
   include AccountCaptainAutoResolve
 
   has_many :account_users, dependent: :destroy_async
@@ -151,6 +152,10 @@ class Account < ApplicationRecord
       agents: ChatwootApp.max_limit.to_i,
       inboxes: ChatwootApp.max_limit.to_i
     }
+  end
+
+  def api_and_webhooks_enabled?
+    true
   end
 
   def locale_english_name

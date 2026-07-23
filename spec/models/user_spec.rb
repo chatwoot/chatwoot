@@ -254,4 +254,37 @@ RSpec.describe User do
       end
     end
   end
+
+  describe 'sync_user_sessions callback' do
+    let(:user_with_tokens) do
+      u = create(:user)
+      u.tokens = {
+        'client-a' => { 'token' => 'x', 'expiry' => 1.month.from_now.to_i },
+        'client-b' => { 'token' => 'x', 'expiry' => 1.month.from_now.to_i }
+      }
+      u.save!
+      u.user_sessions.create!(client_id: 'client-a', last_activity_at: Time.current)
+      u.user_sessions.create!(client_id: 'client-b', last_activity_at: Time.current)
+      u
+    end
+
+    it 'destroys user_sessions whose client_id is no longer in tokens' do
+      user_with_tokens.tokens = user_with_tokens.tokens.except('client-a')
+
+      expect { user_with_tokens.save! }.to change(user_with_tokens.user_sessions, :count).by(-1)
+      expect(user_with_tokens.user_sessions.pluck(:client_id)).to eq(['client-b'])
+    end
+
+    it 'leaves user_sessions alone when tokens did not change' do
+      user_with_tokens.update!(name: 'New Name')
+
+      expect(user_with_tokens.user_sessions.count).to eq(2)
+    end
+
+    it 'destroys all user_sessions when tokens is cleared' do
+      user_with_tokens.tokens = {}
+
+      expect { user_with_tokens.save! }.to change(user_with_tokens.user_sessions, :count).by(-2)
+    end
+  end
 end

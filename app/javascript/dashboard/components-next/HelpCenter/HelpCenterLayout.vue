@@ -67,11 +67,11 @@ const togglePortalSwitcher = () => {
         >
           <span
             v-if="activePortalName"
-            class="text-xl font-medium text-n-slate-12"
+            class="min-w-0 text-xl font-medium truncate text-n-slate-12"
           >
             {{ activePortalName }}
           </span>
-          <div v-if="activePortalName" class="relative group">
+          <div v-if="activePortalName" class="relative shrink-0 group">
             <OnClickOutside @trigger="showPortalSwitcher = false">
               <Button
                 icon="i-lucide-chevron-down"
@@ -90,6 +90,9 @@ const togglePortalSwitcher = () => {
               />
             </OnClickOutside>
             <CreatePortalDialog ref="createPortalDialogRef" />
+          </div>
+          <div class="flex justify-end min-w-0 grow">
+            <slot name="title-actions" />
           </div>
         </div>
         <slot name="header-actions" />

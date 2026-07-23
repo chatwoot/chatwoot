@@ -91,7 +91,7 @@ class Whatsapp::IncomingMessageBaseService
   def create_contact_messages(message)
     message['contacts'].each do |contact|
       # Pass source_id from parent message since contact objects don't have :id
-      create_message(contact, source_id: message[:id])
+      create_message(contact, source_id: message[:id], content_attributes_source: message)
       attach_contact(contact)
       @message.save!
     end
@@ -113,12 +113,14 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def set_conversation
+    # Scope reuse to the contact across all its contact_inboxes in this inbox: WhatsApp coexistence
+    # gives one contact multiple source_ids (phone + BSUID), so reopen must not be limited to a single contact_inbox.
+    conversations = @contact.conversations.where(inbox_id: @inbox.id)
     # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
     @conversation = if @inbox.lock_to_single_conversation
-                      @contact_inbox.conversations.last
+                      conversations.last
                     else
-                      @contact_inbox.conversations
-                                    .where.not(status: :resolved).last
+                      conversations.where.not(status: :resolved).last
                     end
     return if @conversation
 
@@ -158,10 +160,7 @@ class Whatsapp::IncomingMessageBaseService
     )
   end
 
-  def create_message(message, source_id: nil)
-    content_attrs = outgoing_echo ? { external_echo: true } : {}
-    content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
-
+  def create_message(message, source_id: nil, content_attributes_source: message)
     @message = @conversation.messages.build(
       content: message_content(message),
       account_id: @inbox.account_id,
@@ -171,8 +170,16 @@ class Whatsapp::IncomingMessageBaseService
       status: outgoing_echo ? :delivered : :sent,
       sender: outgoing_echo ? nil : @contact,
       source_id: (source_id || message[:id]).to_s,
-      content_attributes: content_attrs
+      content_attributes: message_content_attributes(content_attributes_source)
     )
+  end
+
+  def message_content_attributes(message)
+    content_attrs = outgoing_echo ? { external_echo: true } : {}
+    content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
+    referral_content_attrs = referral_attributes(message)
+    content_attrs[:referral] = referral_content_attrs if referral_content_attrs.present?
+    content_attrs
   end
 
   def attach_contact(contact)

@@ -31,10 +31,11 @@ class Rack::Attack
       (default_allowed_ips + env_allowed_ips).include?(remote_ip)
     end
 
-    # Rails would allow requests to paths with extensions, so lets compare against the path with extension stripped
-    # example /auth & /auth.json would both work
+    # Rails allows paths with extensions and trailing slashes, so compare against a normalized path.
+    # For example, /auth, /auth.json, and /auth/ should all use the same throttle.
     def path_without_extensions
-      path[/^[^.]+/]
+      normalized_path = path[/^[^.]+/]
+      normalized_path == '/' ? normalized_path : normalized_path.sub(%r{/+\z}, '')
     end
   end
 
@@ -188,6 +189,11 @@ class Rack::Attack
     throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
       req.ip if req.path_without_extensions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
     end
+
+    ## Prevent Transcript Bombing on Widget API ###
+    throttle('api/v1/widget/conversations/transcript', limit: 5, period: 1.hour) do |req|
+      req.ip if req.path_without_extensions == '/api/v1/widget/conversations/transcript' && req.post?
+    end
   end
 
   ##-----------------------------------------------##
@@ -203,6 +209,33 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
+  ## Prevent abuse of conversation delete API (per account)
+  throttle('/api/v1/accounts/:account_id/conversations/:id DELETE',
+           limit: ENV.fetch('RATE_LIMIT_CONVERSATION_DELETE', '60').to_i, period: 1.minute) do |req|
+    next unless req.delete?
+
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/conversations/(?<id>\d+)/?\z}.match(req.path_without_extensions)
+    match_data[:account_id] if match_data.present?
+  end
+
+  ## Prevent abuse of agent create APIs (per account, covers bulk_create)
+  throttle('/api/v1/accounts/:account_id/agents POST',
+           limit: ENV.fetch('RATE_LIMIT_AGENT_CREATE', '100').to_i, period: 1.day) do |req|
+    next unless req.post?
+
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents(?:/bulk_create)?/?\z}.match(req.path_without_extensions)
+    match_data[:account_id] if match_data.present?
+  end
+
+  ## Prevent abuse of agent delete API (per account)
+  throttle('/api/v1/accounts/:account_id/agents/:id DELETE',
+           limit: ENV.fetch('RATE_LIMIT_AGENT_DELETE', '50').to_i, period: 1.day) do |req|
+    next unless req.delete?
+
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents/(?<id>\d+)/?\z}.match(req.path_without_extensions)
+    match_data[:account_id] if match_data.present?
+  end
+
   ## Prevent Abuse of attachment upload APIs ##
   throttle('/api/v1/accounts/:account_id/upload', limit: 60, period: 1.hour) do |req|
     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/upload}.match(req.path)
@@ -215,8 +248,30 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
+  reports_api_user_level_limit = ENV.fetch('RATE_LIMIT_REPORTS_API_USER_LEVEL', '100').to_i
+  reports_drilldown_api_user_level_limit = ENV.fetch(
+    'RATE_LIMIT_REPORTS_DRILLDOWN_API_USER_LEVEL',
+    [(reports_api_user_level_limit / 10), 1].max
+  ).to_i
+
+  # Throttle drilldown requests by individual user (based on uid)
+  throttle('/api/v2/accounts/:account_id/reports/drilldown/user',
+           limit: reports_drilldown_api_user_level_limit, period: 1.minute) do |req|
+    match_data = %r{\A/api/v2/accounts/(?<account_id>\d+)/reports/drilldown\z}.match(req.path_without_extensions)
+    next unless match_data.present? && req.get?
+
+    # Extract user identification (uid for web, api_access_token for API requests)
+    user_uid = req.get_header('HTTP_UID')
+    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+
+    # Use uid if present, otherwise fallback to api_access_token for tracking
+    user_identifier = user_uid.presence || api_access_token.presence
+
+    "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
+  end
+
   # Throttle by individual user (based on uid)
-  throttle('/api/v2/accounts/:account_id/reports/user', limit: ENV.fetch('RATE_LIMIT_REPORTS_API_USER_LEVEL', '100').to_i, period: 1.minute) do |req|
+  throttle('/api/v2/accounts/:account_id/reports/user', limit: reports_api_user_level_limit, period: 1.minute) do |req|
     match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
     # Extract user identification (uid for web, api_access_token for API requests)
     user_uid = req.get_header('HTTP_UID')

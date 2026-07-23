@@ -28,6 +28,19 @@ RSpec.describe AssignmentPolicy do
     end
   end
 
+  describe 'exclude_older_than_hours validations' do
+    it 'requires exclude_older_than_hours to be greater than 0' do
+      policy = build(:assignment_policy, exclude_older_than_hours: 0)
+      expect(policy).not_to be_valid
+      expect(policy.errors[:exclude_older_than_hours]).to include('must be greater than 0')
+    end
+
+    it 'allows exclude_older_than_hours to be nil' do
+      policy = build(:assignment_policy, exclude_older_than_hours: nil)
+      expect(policy).to be_valid
+    end
+  end
+
   describe 'enum values' do
     let(:assignment_policy) { create(:assignment_policy) }
 

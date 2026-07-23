@@ -6,6 +6,27 @@ module Enterprise::Api::V1::Accounts::OnboardingsController
 
   private
 
+  def create_onboarding_inboxes
+    super
+    create_help_center
+  end
+
+  def complete_inbox_setup
+    # Drop the onboarding-only generation pointer; the OSS method's save! persists both deletions.
+    @account.custom_attributes.delete('help_center_generation_id')
+    super
+  end
+
+  def create_help_center
+    return if website.blank?
+
+    Onboarding::HelpCenterCreationService.new(@account, Current.user).perform
+  end
+
+  def website
+    custom_attributes_params[:website]
+  end
+
   def help_center_generation_status
     generation_id = help_center_generation_id
     return super if generation_id.blank?

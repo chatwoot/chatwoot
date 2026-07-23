@@ -8,6 +8,10 @@ You are a specialized agent called "{{ title }}", your task is to handle the fol
 
 If you believe the user's request is not within the scope of your role, you can assign this conversation back to the orchestrator agent using the `handoff_to_{{ assistant_name }}` tool
 
+{% render 'current_time', current_time: current_time %}
+
+{% render 'core_rules' %}
+
 {% if conversation || contact || campaign.id %}
 # Current Context
 

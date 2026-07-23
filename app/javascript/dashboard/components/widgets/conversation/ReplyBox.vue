@@ -48,6 +48,8 @@ import {
   appendSignature,
   removeSignature,
   getEffectiveChannelType,
+  getAgentVariables,
+  getContactVariables,
 } from 'dashboard/helper/editorHelper';
 import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -56,8 +58,9 @@ import { isFileTypeAllowedForChannel } from 'shared/helpers/FileHelper';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { emitter } from 'shared/helpers/mitt';
-const EmojiInput = defineAsyncComponent(
-  () => import('shared/components/emoji/EmojiInput.vue')
+const EmojiIconPicker = defineAsyncComponent(
+  () =>
+    import('dashboard/components-next/emoji-icon-picker/EmojiIconPicker.vue')
 );
 
 export default {
@@ -66,7 +69,7 @@ export default {
     AttachmentPreview,
     AudioRecorder,
     ReplyBoxBanner,
-    EmojiInput,
+    EmojiIconPicker,
     MessageSignatureMissingAlert,
     ReplyBottomPanel,
     ReplyEmailHead,
@@ -392,7 +395,13 @@ export default {
         contact: this.currentContact,
         inbox: this.inbox,
       });
-      return variables;
+      // Match the backend drops: names are Ruby-capitalized and
+      // {{agent.*}} is the message sender, not the assignee.
+      return {
+        ...variables,
+        ...getContactVariables(this.currentContact),
+        ...getAgentVariables(this.currentUser),
+      };
     },
     connectedPortalSlug() {
       const { help_center: portal = {} } = this.inbox;
@@ -1284,13 +1293,15 @@ export default {
           :message="inReplyTo"
           @dismiss="resetReplyToMessage"
         />
-        <EmojiInput
+        <EmojiIconPicker
           v-if="showEmojiPicker"
           v-on-clickaway="hideEmojiPicker"
+          mode="emoji"
+          class="emoji-dialog"
           :class="{
             'emoji-dialog--expanded': isOnExpandedLayout,
           }"
-          :on-click="addIntoEditor"
+          @select="addIntoEditor($event.value)"
         />
         <ReplyEmailHead
           v-if="showReplyHead && isDefaultEditorMode"

@@ -8,6 +8,7 @@ class Api::V1::AccountsController < Api::BaseController
   before_action :ensure_account_name, only: [:create]
   before_action :validate_captcha, only: [:create]
   before_action :fetch_account, except: [:create]
+  before_action :validate_token_api_access, if: :authenticate_by_access_token?, except: [:create]
   before_action :check_authorization, except: [:create]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
@@ -103,6 +104,12 @@ class Api::V1::AccountsController < Api::BaseController
   def fetch_account
     @account = current_user.accounts.find(params[:id])
     @current_account_user = @account.account_users.find_by(user_id: current_user.id)
+  end
+
+  def validate_token_api_access
+    return if @account.api_and_webhooks_enabled?
+
+    render json: { error: 'API access is not enabled for this account' }, status: :forbidden
   end
 
   def account_params
