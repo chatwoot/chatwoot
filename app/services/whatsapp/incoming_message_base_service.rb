@@ -132,7 +132,11 @@ class Whatsapp::IncomingMessageBaseService
     @message.content ||= attachment_payload[:caption]
 
     attachment_file = download_attachment_file(attachment_payload)
-    return if attachment_file.blank?
+    if attachment_file.blank?
+      # Avoid blank bubbles when Meta media download fails (expired token, permissions, etc.).
+      @message.content ||= I18n.t('conversations.messages.whatsapp.media_download_failed')
+      return
+    end
 
     @message.attachments.new(
       account_id: @message.account_id,
