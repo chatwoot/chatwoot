@@ -164,15 +164,41 @@ export const DEFAULT_TABLE_COLUMNS = {
 
 /** Prefix for custom-attribute columns stored in widget.columns */
 export const CA_COLUMN_PREFIX = 'ca:';
+/** Contact custom attrs on summary tables (agent/inbox/team/label) */
+export const CONTACT_CA_COLUMN_PREFIX = 'contact_ca:';
 
-export const isCustomAttributeColumn = key =>
+export const SUMMARY_TABLE_KINDS = new Set([
+  'agent_summary',
+  'inbox_summary',
+  'team_summary',
+  'label_summary',
+]);
+
+export const isConversationCustomAttributeColumn = key =>
   typeof key === 'string' && key.startsWith(CA_COLUMN_PREFIX);
 
-export const customAttributeKeyFromColumn = key =>
-  isCustomAttributeColumn(key) ? key.slice(CA_COLUMN_PREFIX.length) : null;
+export const isContactCustomAttributeColumn = key =>
+  typeof key === 'string' && key.startsWith(CONTACT_CA_COLUMN_PREFIX);
+
+export const isCustomAttributeColumn = key =>
+  isConversationCustomAttributeColumn(key) ||
+  isContactCustomAttributeColumn(key);
+
+export const customAttributeKeyFromColumn = key => {
+  if (isContactCustomAttributeColumn(key)) {
+    return key.slice(CONTACT_CA_COLUMN_PREFIX.length);
+  }
+  if (isConversationCustomAttributeColumn(key)) {
+    return key.slice(CA_COLUMN_PREFIX.length);
+  }
+  return null;
+};
 
 export const customAttributeColumnKey = attributeKey =>
   `${CA_COLUMN_PREFIX}${attributeKey}`;
+
+export const contactCustomAttributeColumnKey = attributeKey =>
+  `${CONTACT_CA_COLUMN_PREFIX}${attributeKey}`;
 
 /** Additive count columns eligible for footer aggregations */
 export const SUMMABLE_SYSTEM_COLUMNS = new Set([
@@ -184,11 +210,72 @@ export const SUMMABLE_SYSTEM_COLUMNS = new Set([
 
 export const SUMMABLE_CUSTOM_TYPES = new Set(['number', 'currency', 'percent']);
 
+/**
+ * Parse number/currency/percent CA values that may use locale separators
+ * ("1000,00", "1.000,50", "1,000.50") or currency symbols ("$10").
+ * Returns null when the value cannot be interpreted as a finite number.
+ */
+export const parseLocaleNumber = value => {
+  if (value == null || value === '') return null;
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null;
+  }
+
+  let str = String(value)
+    .trim()
+    .replace(/[^\d,.-]/g, '');
+  if (!str || str === '-' || str === '.' || str === ',') return null;
+
+  if (str.includes(',') && str.includes('.')) {
+    if (str.lastIndexOf(',') > str.lastIndexOf('.')) {
+      // European: 1.000,50
+      str = str.replace(/\./g, '').replace(',', '.');
+    } else {
+      // US: 1,000.50
+      str = str.replace(/,/g, '');
+    }
+  } else if (str.includes(',')) {
+    const parts = str.split(',');
+    if (parts.length === 2 && parts[1].length >= 1 && parts[1].length <= 2) {
+      // Decimal comma: 1000,00 / 10,5
+      str = str.replace(',', '.');
+    } else {
+      // Thousands commas: 1,000 / 1,000,000
+      str = str.replace(/,/g, '');
+    }
+  }
+
+  const num = Number(str);
+  return Number.isFinite(num) ? num : null;
+};
+
+/** Format numeric CA cells/footers; currency always shown with `$`. */
+export const formatNumericAttribute = (value, type) => {
+  const num = parseLocaleNumber(value);
+  if (num == null) return value == null || value === '' ? '—' : String(value);
+
+  if (type === 'currency') {
+    return `$${num.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  }
+  if (type === 'percent') {
+    return `${num.toLocaleString(undefined, {
+      maximumFractionDigits: 2,
+    })}%`;
+  }
+  return num.toLocaleString(undefined, { maximumFractionDigits: 2 });
+};
+
 export const isAggregatableColumn = (key, attributeTypes = {}) => {
   if (SUMMABLE_SYSTEM_COLUMNS.has(key)) return true;
   if (!isCustomAttributeColumn(key)) return false;
   const attrKey = customAttributeKeyFromColumn(key);
-  return SUMMABLE_CUSTOM_TYPES.has(attributeTypes[attrKey]);
+  return (
+    SUMMABLE_CUSTOM_TYPES.has(attributeTypes[key]) ||
+    SUMMABLE_CUSTOM_TYPES.has(attributeTypes[attrKey])
+  );
 };
 
 export const defaultColumnsForTableKind = kind => {

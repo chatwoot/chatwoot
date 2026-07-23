@@ -779,7 +779,7 @@
       "AGGREGATION_ENTITY": "Aggregate over",
       "TABLE_KIND": "Table type",
       "TABLE_COLUMNS": "Columns",
-      "TABLE_COLUMNS_HINT": "Choose columns to show. For numeric columns, pick an optional footer aggregation (sum, avg, count…). Changing the table type resets columns."
+      "TABLE_COLUMNS_HINT": "Choose columns to show. On agent/inbox/team/label tables, numeric custom attributes (conversation or contact) are rolled up per row (default sum). For numeric columns, pick an optional footer aggregation. Changing the table type resets columns."
     },
     "RESET_RANGE": "Reset to saved range",
     "FILTERS": {
@@ -839,7 +839,9 @@
       "avg_reply_time": "Wait time",
       "share_percent": "Share",
       "created_at": "Created",
-      "last_activity_at": "Last activity"
+      "last_activity_at": "Last activity",
+      "CONVERSATION_CA_PREFIX": "Conversation: {name}",
+      "CONTACT_CA_PREFIX": "Contact: {name}"
     },
     "METRICS": {
       "conversations_count": "Conversations",

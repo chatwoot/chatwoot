@@ -352,28 +352,34 @@ class Reports::PanelRunnerService
   end
 
   CA_COLUMN_PREFIX = 'ca:'.freeze
+  CONTACT_CA_COLUMN_PREFIX = 'contact_ca:'.freeze
+  SUMMARY_TABLE_KINDS = %w[agent_summary inbox_summary team_summary label_summary].freeze
 
   def build_table_widget(widget, since_time, until_time)
     table_kind = (widget[:table_kind].presence || 'agent_summary').to_s
     columns = Array(widget[:columns]).map(&:to_s)
-    attribute_types = custom_attribute_type_map_for(table_kind)
+    column_aggregations = (widget[:column_aggregations].presence || {}).with_indifferent_access
+    attribute_types = custom_attribute_type_map_for(table_kind, columns)
 
     rows =
       case table_kind
       when 'inbox_summary'
         enrich_named_rows(
           filtered_or_builder_summary(V2::Reports::InboxSummaryBuilder, :inbox_id, since_time, until_time, type: :inbox),
-          name_map: @account.inboxes.pluck(:id, :name).to_h
+          name_map: @account.inboxes.pluck(:id, :name).to_h,
+          extra_maps: summary_custom_attribute_maps(table_kind, columns, since_time, until_time, column_aggregations)
         )
       when 'team_summary'
         enrich_named_rows(
           filtered_or_builder_summary(V2::Reports::TeamSummaryBuilder, :team_id, since_time, until_time, type: :team),
-          name_map: @account.teams.pluck(:id, :name).to_h
+          name_map: @account.teams.pluck(:id, :name).to_h,
+          extra_maps: summary_custom_attribute_maps(table_kind, columns, since_time, until_time, column_aggregations)
         )
       when 'label_summary'
         enrich_named_rows(
           filtered_or_label_summary(since_time, until_time),
-          name_map: @account.labels.pluck(:id, :title).to_h
+          name_map: @account.labels.pluck(:id, :title).to_h,
+          extra_maps: summary_custom_attribute_maps(table_kind, columns, since_time, until_time, column_aggregations)
         )
       when 'conversations'
         filtered_conversation_rows(since_time, until_time, columns)
@@ -383,7 +389,9 @@ class Reports::PanelRunnerService
         enrich_named_rows(
           filtered_or_builder_summary(V2::Reports::AgentSummaryBuilder, :assignee_id, since_time, until_time, type: :agent),
           name_map: agent_name_map,
-          extra_maps: agent_extra_column_maps(since_time, until_time)
+          extra_maps: agent_extra_column_maps(since_time, until_time).merge(
+            summary_custom_attribute_maps(table_kind, columns, since_time, until_time, column_aggregations)
+          )
         )
       end
 
@@ -398,7 +406,6 @@ class Reports::PanelRunnerService
       end
 
     resolved_columns = columns.presence || rows.first&.keys&.map(&:to_s) || []
-    column_aggregations = (widget[:column_aggregations].presence || {}).with_indifferent_access
 
     {
       id: widget[:id],
@@ -410,6 +417,147 @@ class Reports::PanelRunnerService
       attribute_types: attribute_types,
       totals: build_table_totals(rows, resolved_columns, total_count, attribute_types, column_aggregations)
     }
+  end
+
+  # Sum/avg/min/max numeric custom attrs onto summary dimensions (agent/inbox/team/label).
+  # ca:* reads conversation.custom_attributes; contact_ca:* reads contact (deduped per contact).
+  def summary_custom_attribute_maps(table_kind, columns, since_time, until_time, column_aggregations = {})
+    return {} unless SUMMARY_TABLE_KINDS.include?(table_kind.to_s)
+
+    ca_columns = Array(columns).map(&:to_s).select { |col| summary_ca_column?(col) }
+    return {} if ca_columns.empty?
+
+    maps = {}
+    ca_columns.each do |col|
+      op = (column_aggregations[col].presence || 'sum').to_s
+      op = 'sum' unless SavedReportPanel::COLUMN_AGGREGATION_OPS.include?(op)
+      maps[col] = aggregate_custom_attr_by_dimension(table_kind, col, op, since_time, until_time)
+    end
+    maps
+  end
+
+  def summary_ca_column?(col)
+    col.start_with?(CA_COLUMN_PREFIX) || col.start_with?(CONTACT_CA_COLUMN_PREFIX)
+  end
+
+  def aggregate_custom_attr_by_dimension(table_kind, column, op, since_time, until_time)
+    contact_attr = column.start_with?(CONTACT_CA_COLUMN_PREFIX)
+    attr_key = column.delete_prefix(CONTACT_CA_COLUMN_PREFIX).delete_prefix(CA_COLUMN_PREFIX)
+    return {} unless known_custom_attribute_key?(attr_key, contact_attr ? :contact_attribute : :conversation_attribute)
+
+    case table_kind.to_s
+    when 'label_summary'
+      aggregate_custom_attr_by_label(attr_key, op, since_time, until_time, contact_attr: contact_attr)
+    else
+      dimension = summary_dimension_column(table_kind)
+      return {} if dimension.blank?
+
+      aggregate_custom_attr_by_sql_dimension(
+        dimension, attr_key, op, since_time, until_time, contact_attr: contact_attr
+      )
+    end
+  end
+
+  def summary_dimension_column(table_kind)
+    case table_kind.to_s
+    when 'agent_summary' then 'assignee_id'
+    when 'inbox_summary' then 'inbox_id'
+    when 'team_summary' then 'team_id'
+    end
+  end
+
+  def known_custom_attribute_key?(attr_key, model)
+    @account.custom_attribute_definitions.exists?(attribute_key: attr_key, attribute_model: model)
+  end
+
+  # Always Ruby: JSON CA values may be locale strings ("1000,00") that break PG ::float.
+  def aggregate_custom_attr_by_sql_dimension(dimension, attr_key, op, since_time, until_time, contact_attr:)
+    aggregate_custom_attr_in_ruby(dimension, attr_key, op, since_time, until_time, contact_attr: contact_attr)
+  end
+
+  def aggregate_custom_attr_in_ruby(dimension, attr_key, op, since_time, until_time, contact_attr:)
+    scope = filtered_conversations_scope(since_time, until_time)
+            .unscope(:order)
+            .where.not(dimension => nil)
+            .includes(:contact)
+            .reorder(:id)
+            .limit(SavedReportPanel::FILTERED_CONVERSATIONS_LIMIT * 20)
+
+    buckets = Hash.new { |h, k| h[k] = [] }
+    seen_contacts = Hash.new { |h, k| h[k] = {} }
+
+    scope.each do |conversation|
+      dim_id = conversation.public_send(dimension)
+      next if dim_id.blank?
+
+      if contact_attr
+        contact = conversation.contact
+        next if contact.blank? || seen_contacts[dim_id][contact.id]
+
+        seen_contacts[dim_id][contact.id] = true
+        val = contact.custom_attributes&.[](attr_key)
+      else
+        val = conversation.custom_attributes&.[](attr_key)
+      end
+      next if val.nil? || val == ''
+
+      buckets[dim_id] << numeric_table_cell(val)
+    end
+
+    buckets.transform_values do |values|
+      result = aggregate_numeric_values(values, op)
+      result.is_a?(Float) ? result.round(2) : result
+    end
+  end
+
+  def aggregate_custom_attr_by_label(attr_key, op, since_time, until_time, contact_attr:)
+    labels = @account.labels.index_by(&:title)
+    return {} if labels.empty?
+
+    scope = filtered_conversations_scope(since_time, until_time)
+            .unscope(:order)
+            .includes(:contact)
+            .reorder(:id)
+            .limit(SavedReportPanel::FILTERED_CONVERSATIONS_LIMIT * 20)
+
+    buckets = Hash.new { |h, k| h[k] = [] }
+    seen_contacts = Hash.new { |h, k| h[k] = {} }
+
+    scope.each do |conversation|
+      label_titles = conversation.cached_label_list.to_s.split(',').map(&:strip).reject(&:blank?)
+      next if label_titles.empty?
+
+      if contact_attr
+        contact = conversation.contact
+        next if contact.blank?
+
+        val = contact.custom_attributes&.[](attr_key)
+        next if val.nil? || val == ''
+
+        label_titles.each do |title|
+          label = labels[title]
+          next if label.blank? || seen_contacts[label.id][contact.id]
+
+          seen_contacts[label.id][contact.id] = true
+          buckets[label.id] << numeric_table_cell(val)
+        end
+      else
+        val = conversation.custom_attributes&.[](attr_key)
+        next if val.nil? || val == ''
+
+        label_titles.each do |title|
+          label = labels[title]
+          next if label.blank?
+
+          buckets[label.id] << numeric_table_cell(val)
+        end
+      end
+    end
+
+    buckets.transform_values do |values|
+      result = aggregate_numeric_values(values, op)
+      result.is_a?(Float) ? result.round(2) : result
+    end
   end
 
   def report_builder(widget, since_time, until_time, metric: nil, group_by: 'day')
@@ -534,7 +682,13 @@ class Reports::PanelRunnerService
       }
       extra_maps.each do |key, map|
         value = map[row[:id]]
-        payload[key] = value.nil? && key.to_s.end_with?('_count') ? 0 : value
+        key_s = key.to_s
+        payload[key] =
+          if value.nil? && (key_s.end_with?('_count') || summary_ca_column?(key_s))
+            0
+          else
+            value
+          end
       end
       payload
     end
@@ -659,16 +813,36 @@ class Reports::PanelRunnerService
     row
   end
 
-  def custom_attribute_type_map_for(table_kind)
-    model =
-      case table_kind
-      when 'conversations' then :conversation_attribute
-      when 'contacts' then :contact_attribute
-      else return {}
-      end
+  def custom_attribute_type_map_for(table_kind, columns = [])
+    models = attribute_models_for_table(table_kind, columns)
+    return {} if models.blank?
 
-    @account.custom_attribute_definitions.where(attribute_model: model).each_with_object({}) do |definition, map|
-      map[definition.attribute_key] = definition.attribute_display_type
+    @account.custom_attribute_definitions.where(attribute_model: models).each_with_object({}) do |definition, map|
+      key = definition.attribute_key
+      type = definition.attribute_display_type
+      map[key] = type
+      if definition.contact_attribute?
+        map["#{CONTACT_CA_COLUMN_PREFIX}#{key}"] = type if SUMMARY_TABLE_KINDS.include?(table_kind.to_s)
+      elsif definition.conversation_attribute?
+        map["#{CA_COLUMN_PREFIX}#{key}"] = type
+      end
+    end
+  end
+
+  def attribute_models_for_table(table_kind, columns)
+    case table_kind.to_s
+    when 'conversations'
+      [:conversation_attribute]
+    when 'contacts'
+      [:contact_attribute]
+    when *SUMMARY_TABLE_KINDS
+      cols = Array(columns).map(&:to_s)
+      selected = []
+      selected << :conversation_attribute if cols.any? { |c| c.start_with?(CA_COLUMN_PREFIX) }
+      selected << :contact_attribute if cols.any? { |c| c.start_with?(CONTACT_CA_COLUMN_PREFIX) }
+      selected.presence || %i[conversation_attribute contact_attribute]
+    else
+      []
     end
   end
 
@@ -717,10 +891,37 @@ class Reports::PanelRunnerService
     end
   end
 
+  # Locale-safe parse for number/currency/percent CAs ("1000,00", "1.000,50", "1,000.50", "$10").
   def numeric_table_cell(value)
     return 0 if value.nil? || value == ''
+    return value.to_f if value.is_a?(Numeric)
 
-    Float(value)
+    str = value.to_s.strip
+    return 0 if str.empty?
+
+    str = str.gsub(/[^\d,.\-]/, '')
+    return 0 if str.empty? || str == '-' || str == '.' || str == ','
+
+    if str.include?(',') && str.include?('.')
+      str = if str.rindex(',') > str.rindex('.')
+              # European thousands + decimal: 1.000,50
+              str.gsub('.', '').tr(',', '.')
+            else
+              # US thousands + decimal: 1,000.50
+              str.gsub(',', '')
+            end
+    elsif str.include?(',')
+      parts = str.split(',')
+      str = if parts.length == 2 && parts[1].length.between?(1, 2)
+              # Decimal comma: 1000,00 / 10,5
+              str.tr(',', '.')
+            else
+              # Thousands commas: 1,000 / 1,000,000
+              str.gsub(',', '')
+            end
+    end
+
+    Float(str)
   rescue ArgumentError, TypeError
     0
   end

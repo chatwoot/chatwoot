@@ -33,7 +33,10 @@ import {
   SUMMABLE_CUSTOM_TYPES,
   isCustomAttributeColumn,
   customAttributeColumnKey,
+  contactCustomAttributeColumnKey,
   customAttributeKeyFromColumn,
+  isContactCustomAttributeColumn,
+  SUMMARY_TABLE_KINDS,
   defaultColumnsForTableKind,
   defaultChartWidget,
   defaultMetricWidget,
@@ -453,20 +456,62 @@ const onTableKindChange = (widget, kind) => {
   widget.column_aggregations = {};
 };
 
-const attrsForTableKind = kind => {
-  if (kind === 'conversations') return conversationAttributes.value || [];
-  if (kind === 'contacts') return contactAttributes.value || [];
-  return [];
+const mapAttrToColumnDef = (
+  attr,
+  { contact = false, numericOnly = false } = {}
+) => {
+  if (
+    numericOnly &&
+    !SUMMABLE_CUSTOM_TYPES.has(normalizeAttrDisplayType(attr))
+  ) {
+    return null;
+  }
+  const attributeKey = attr.attributeKey || attr.attribute_key;
+  const name =
+    attr.attributeDisplayName || attr.attribute_display_name || attributeKey;
+  if (contact) {
+    return {
+      key: contactCustomAttributeColumnKey(attributeKey),
+      label: t('REPORT_PANELS.COLUMNS.CONTACT_CA_PREFIX', { name }),
+    };
+  }
+  return {
+    key: customAttributeColumnKey(attributeKey),
+    label: name,
+  };
 };
 
 const customColumnDefsFor = widget => {
-  return attrsForTableKind(widget.table_kind).map(attr => {
-    const attributeKey = attr.attributeKey || attr.attribute_key;
-    return {
-      key: customAttributeColumnKey(attributeKey),
-      label: attr.attributeDisplayName || attr.attribute_display_name,
-    };
-  });
+  const kind = widget.table_kind;
+  if (kind === 'conversations') {
+    return (conversationAttributes.value || [])
+      .map(attr => mapAttrToColumnDef(attr))
+      .filter(Boolean);
+  }
+  if (kind === 'contacts') {
+    return (contactAttributes.value || [])
+      .map(attr => mapAttrToColumnDef(attr))
+      .filter(Boolean);
+  }
+  if (SUMMARY_TABLE_KINDS.has(kind)) {
+    // Summary tables only offer numeric CAs (sum/avg per agent/inbox/…).
+    const conversationCols = (conversationAttributes.value || [])
+      .map(attr => mapAttrToColumnDef(attr, { numericOnly: true }))
+      .filter(Boolean)
+      .map(item => ({
+        ...item,
+        label: t('REPORT_PANELS.COLUMNS.CONVERSATION_CA_PREFIX', {
+          name: item.label,
+        }),
+      }));
+    const contactCols = (contactAttributes.value || [])
+      .map(attr =>
+        mapAttrToColumnDef(attr, { contact: true, numericOnly: true })
+      )
+      .filter(Boolean);
+    return [...conversationCols, ...contactCols];
+  }
+  return [];
 };
 
 const columnOptionsFor = widget => {
@@ -505,6 +550,17 @@ const toggleColumn = (widget, key) => {
     }
   } else {
     cols.push(key);
+    // Summary CA columns default to sum (row rollup + footer).
+    if (
+      SUMMARY_TABLE_KINDS.has(widget.table_kind) &&
+      isCustomAttributeColumn(key) &&
+      !widget.column_aggregations?.[key]
+    ) {
+      widget.column_aggregations = {
+        ...(widget.column_aggregations || {}),
+        [key]: 'sum',
+      };
+    }
   }
   widget.columns = cols.filter(
     item => allowed.has(item) || isCustomAttributeColumn(item)
@@ -517,7 +573,10 @@ const toggleColumn = (widget, key) => {
 const attributeTypeForColumn = (widget, key) => {
   if (!isCustomAttributeColumn(key)) return null;
   const attrKey = customAttributeKeyFromColumn(key);
-  const match = attrsForTableKind(widget.table_kind).find(
+  const pool = isContactCustomAttributeColumn(key)
+    ? contactAttributes.value || []
+    : conversationAttributes.value || [];
+  const match = pool.find(
     attr => (attr.attributeKey || attr.attribute_key) === attrKey
   );
   return match ? normalizeAttrDisplayType(match) : '';
