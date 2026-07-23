@@ -197,11 +197,13 @@ class SavedReportPanel < ApplicationRecord
                    avg_resolution_time avg_reply_time share_percent]
               end
 
-    # ca:* = custom attribute columns (conversation attrs for conversations, contact attrs for contacts)
+    # ca:* / contact_ca:* measures; pivot expands to measure__pv__value (may include %).
     invalid = columns.map(&:to_s).reject do |key|
-      allowed.include?(key) || key.match?(/\Aca:[\p{L}\p{N}_.\-]+\z/)
+      allowed.include?(key) || key.match?(/\A(?:ca|contact_ca):[\p{L}\p{N}_.\-%]+\z/)
     end
     errors.add(:widgets, "invalid columns at index #{index}: #{invalid.join(', ')}") if invalid.any?
+
+    validate_table_pivot(widget, index)
 
     aggregations = widget[:column_aggregations]
     return if aggregations.blank?
@@ -222,6 +224,35 @@ class SavedReportPanel < ApplicationRecord
         next
       end
       errors.add(:widgets, "invalid column aggregation '#{op}' at index #{index}") unless COLUMN_AGGREGATION_OPS.include?(op)
+    end
+  end
+
+  def validate_table_pivot(widget, index)
+    pivot = widget[:pivot]
+    return if pivot.blank?
+
+    unless pivot.is_a?(Hash)
+      errors.add(:widgets, "invalid pivot at index #{index}")
+      return
+    end
+
+    pivot = pivot.with_indifferent_access
+    attr = pivot[:column_attribute].to_s
+    return if attr.blank?
+
+    unless attr.match?(/\Aca:[\p{L}\p{N}_.\-]+\z/)
+      errors.add(:widgets, "invalid pivot column_attribute at index #{index}")
+    end
+
+    values = pivot[:column_values]
+    if values.present?
+      unless values.is_a?(Array)
+        errors.add(:widgets, "invalid pivot column_values at index #{index}")
+        return
+      end
+      if values.size > 12
+        errors.add(:widgets, "pivot column_values cannot exceed 12 at index #{index}")
+      end
     end
   end
 end

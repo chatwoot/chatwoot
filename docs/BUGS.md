@@ -3,10 +3,10 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** re-fix `B-NEW-11` automation/IA replies attended
-(2026-07-21, branch `feat/automation-formulas-and-date-vars`) tras regresión
-en `d54c4092d`. Auditoría previa pre–chats grupales (2026-07-11),
-branch `feat/internal-tasks` (PR #3).
+**Última actualización:** fix `B-NEW-13` report panel pivot collapsing agent
+rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
+`B-NEW-12` WhatsApp Flow nfm_reply. Auditoría previa pre–chats grupales
+(2026-07-11), branch `feat/internal-tasks` (PR #3).
 
 ---
 
@@ -56,6 +56,8 @@ branch `feat/internal-tasks` (PR #3).
 | TASK-007 | Baja | No | ContactInfo mojibake — abierto |
 | TASK-008 | Baja | No | **Stale** — índice `[:account_id, :active, :position]` ya existe |
 | B-NEW-11 | Media | No | ✅ Re-fijado (2026-07-21) — regresión en `d54c4092d` revirtió attended; restaurado en `feat/automation-formulas-and-date-vars` |
+| B-NEW-12 | Media | No | ✅ Fijado — Flow nfm_reply: i18n restaurado + sin confirmación outbound al cliente |
+| B-NEW-13 | 🔴 Alta (prod) | No | ✅ Fijado — pivot summary rows seeded from flat summary; no more agent collapse |
 
 ---
 
@@ -367,6 +369,96 @@ conservando el off-by-one (`where.not(id: id)` + `count.positive?`).
 Decisión de producto (aprobada): automation e IA/AgentBot/Captain cuentan como
 attended igual que un agente; colores de burbuja siguen familia bot (iris);
 private notes y campaigns no cuentan.
+
+### B-NEW-12 — WhatsApp Flow nfm_reply: i18n perdido + confirmación enviada al cliente
+
+**Severidad:** Media — el agente ve `Translation missing` y el cliente recibe un resumen
+técnico (a veces con keys rotas) que debía ser solo interno.
+
+**Síntoma:**
+
+1. Tras completar un Flow, el bubble incoming muestra
+   `Translation missing: en.conversations.messages.whatsapp.flow_response.received`.
+2. Se crea un outgoing que WhatsApp entrega al contacto con header/footer también
+   como `Translation missing` + los campos del form.
+
+**Causa raíz:**
+
+- Keys `conversations.messages.whatsapp.flow_response.*` se agregaron en `23ce702b1`
+  y se borraron por accidente en `34d714fbb` (export de contactos).
+- `Whatsapp::FlowConfirmationService` creaba `message_type: :outgoing` sin
+  `private: true` → `SendReplyJob` lo enviaba al canal.
+
+**Fix aplicado:**
+
+1. Restaurar `flow_response.received` / `flow_response.empty` en `config/locales/en.yml`.
+2. Eliminar auto-confirmación al cliente (`send_flow_confirmation`,
+   `FlowConfirmationService`, `format_confirmation`). El incoming ya guarda texto
+   legible + `content_attributes['whatsapp_flow_response']`.
+
+**Archivos:**
+
+- `config/locales/en.yml`
+- `app/services/whatsapp/incoming_message_base_service.rb`
+- `app/services/whatsapp/flow_response_formatter.rb`
+- `app/services/whatsapp/flow_confirmation_service.rb` (eliminado)
+- specs correspondientes
+
+**Migración BD:** no requerida.
+
+**Cómo probar:**
+
+1. Enviar template/Flow → cliente completa.
+2. Inbox: un bubble incoming con “Formulario completado:” + campos (sin Translation missing).
+3. El cliente no recibe mensaje de confirmación.
+4. Tras el Flow, reply libre (`can_reply` / ventana 24h) sigue abierto vía el incoming.
+
+**Estado:** ✅ Fijado 2026-07-23 en `fix/whatsapp-flow-internal-response`.
+
+### B-NEW-13 — Pivot en paneles de reporte colapsa filas de agentes
+
+**Severidad:** Alta (producción) — tras PR #29, tabla resumen de agentes con
+`pivot.column_attribute` (p.ej. atributo tipo “venta”/producto) mostraba **una
+sola fila** o perdía agentes; se esperaba cruce Excel (agentes × valores).
+
+**Síntoma:**
+
+1. Panel agent summary sin pivot: N agentes.
+2. Al poner un CA en Columnas (pivot): quedan 1–pocos agentes; el resto
+   desaparece en lugar de mostrar ceros por segmento.
+
+**Causa raíz:**
+
+1. `build_pivot_rows` solo emitía `buckets.keys` — dimensiones vistas al
+   escanear conversaciones que además pasan el filtro de `column_values`.
+2. El scan usaba `reorder(:id).limit(2000)`, sesgado a conversaciones viejas
+   y truncando cuentas grandes → pocos assignees en el bucket.
+
+Flat summary usa `AgentSummaryBuilder` (todos los `account_users`); pivot no.
+
+**Fix aplicado:**
+
+1. Sembrar buckets con los mismos dimension ids que el summary plano
+   (`pivot_baseline_dimension_ids`).
+2. Acumular con `in_batches` sin el `limit` sesgado (timeout de statement
+   sigue acotando).
+3. Smoke: `tmp/smoke_pivot_agent_rows.rb` — pivot/subset row count ≥ flat.
+
+**Archivos:**
+
+- `app/services/reports/panel_runner_service.rb`
+- `tmp/smoke_pivot_agent_rows.rb`
+
+**Migración BD:** no. Paneles guardados: sin cambio de config (transparente).
+
+**Cómo probar:**
+
+1. Seed demo: `tmp/seed_report_panels_demo.rb`.
+2. Smoke: `rails runner tmp/smoke_pivot_agent_rows.rb` → `OK`.
+3. UI: panel «Demo Agentes × Ventas» — mismas filas de agente con y sin
+   Columnas=Producto; celdas 0 donde no hay cruce.
+
+**Estado:** ✅ Fijado 2026-07-23 en `fix/report-panels-pivot-agent-rows`.
 
 ---
 

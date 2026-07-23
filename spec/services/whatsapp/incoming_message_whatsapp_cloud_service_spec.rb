@@ -408,21 +408,16 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         }.with_indifferent_access
       end
 
-      it 'stores readable flow answers and sends confirmation to the customer' do
+      it 'stores readable flow answers for the agent without messaging the customer' do
         described_class.new(inbox: whatsapp_channel.inbox, params: flow_params).perform
 
         messages = whatsapp_channel.inbox.messages.order(:id)
         incoming = messages.find(&:incoming?)
-        confirmation = messages.find(&:outgoing?)
 
         expect(incoming.content).to include('Formulario completado')
         expect(incoming.content).to include('Nombre: Ana')
         expect(incoming.content_attributes['whatsapp_flow_response']['ciudad']).to eq('Quito')
-
-        expect(confirmation).to be_present
-        expect(confirmation.content).to include('Recibimos tu información')
-        expect(confirmation.content).to include('Ciudad: Quito')
-        expect(confirmation.content_attributes['whatsapp_flow_confirmation']).to be true
+        expect(messages.none?(&:outgoing?)).to be true
       end
     end
   end

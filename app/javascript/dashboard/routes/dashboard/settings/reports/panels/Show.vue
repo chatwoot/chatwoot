@@ -39,14 +39,55 @@ const usingOverride = ref(false);
 
 const panelId = computed(() => route.params.id);
 
+const ATTR_TYPE_MAP = {
+  0: 'text',
+  1: 'number',
+  2: 'currency',
+  3: 'percent',
+  4: 'link',
+  5: 'date',
+  6: 'list',
+  7: 'checkbox',
+  8: 'datetime',
+};
+
+const normalizeAttrDisplayType = attr => {
+  const raw =
+    attr?.attributeDisplayType ?? attr?.attribute_display_type ?? 'text';
+  if (typeof raw === 'number') return ATTR_TYPE_MAP[raw] || 'text';
+  return String(raw);
+};
+
 const attributeLabels = computed(() => {
   const map = {};
-  [
-    ...(conversationAttributes.value || []),
-    ...(contactAttributes.value || []),
-  ].forEach(attr => {
+  (conversationAttributes.value || []).forEach(attr => {
     const key = attr.attributeKey || attr.attribute_key;
-    map[key] = attr.attributeDisplayName || attr.attribute_display_name;
+    const name = attr.attributeDisplayName || attr.attribute_display_name;
+    map[key] = name;
+    map[`ca:${key}`] = name;
+  });
+  (contactAttributes.value || []).forEach(attr => {
+    const key = attr.attributeKey || attr.attribute_key;
+    const name = attr.attributeDisplayName || attr.attribute_display_name;
+    map[key] = name;
+    map[`contact_ca:${key}`] = name;
+  });
+  return map;
+});
+
+const attributeTypes = computed(() => {
+  const map = {};
+  (conversationAttributes.value || []).forEach(attr => {
+    const key = attr.attributeKey || attr.attribute_key;
+    const type = normalizeAttrDisplayType(attr);
+    map[key] = type;
+    map[`ca:${key}`] = type;
+  });
+  (contactAttributes.value || []).forEach(attr => {
+    const key = attr.attributeKey || attr.attribute_key;
+    const type = normalizeAttrDisplayType(attr);
+    map[key] = type;
+    map[`contact_ca:${key}`] = type;
   });
   return map;
 });
@@ -230,16 +271,17 @@ onMounted(load);
       />
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2 mt-4">
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-4 mt-4">
       <PanelWidgetCard
         v-for="widget in panel.widgets"
         :key="widget.id"
         :widget="widget"
         :result="resultByWidgetId[widget.id]"
         :attribute-labels="attributeLabels"
+        :attribute-types="attributeTypes"
         :class="
           widget.type === 'chart' || widget.type === 'table'
-            ? 'md:col-span-2'
+            ? 'md:col-span-2 xl:col-span-4'
             : ''
         "
       />

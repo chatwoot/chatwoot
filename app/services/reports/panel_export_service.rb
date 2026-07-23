@@ -125,7 +125,7 @@ class Reports::PanelExportService
           sheet.add_row ['Sin datos para este periodo']
         else
           keys = rows.first.with_indifferent_access.keys.map(&:to_s)
-          sheet.add_row(keys.map { |key| HEADER_LABELS[key] || key.delete_prefix('ca:').humanize })
+          sheet.add_row(keys.map { |key| header_label_for(key) })
           rows.each do |row|
             row = row.with_indifferent_access
             sheet.add_row(keys.map { |key| format_cell(key, row[key]) })
@@ -156,6 +156,50 @@ class Reports::PanelExportService
     end
   end
 
+  def header_label_for(key)
+    key = key.to_s
+    return HEADER_LABELS[key] if HEADER_LABELS.key?(key)
+
+    if key.start_with?('ca:', 'contact_ca:') || key.include?('__pv__')
+      if key.include?('__pv__')
+        measure, encoded = key.split('__pv__', 2)
+        segment = encoded == '__blank__' ? '(blank)' : begin
+          URI.decode_www_form_component(encoded.to_s)
+        rescue ArgumentError
+          encoded.to_s
+        end
+        return "#{segment} · #{header_label_for(measure)}"
+      end
+      rest = key.delete_prefix('contact_ca:').delete_prefix('ca:')
+      op = nil
+      filter_value = nil
+      filtered = rest.match(/\A(.+)__(count|sum|avg|min|max)__eq__(.+)\z/)
+      if filtered
+        rest = filtered[1]
+        op = filtered[2]
+        filter_value = begin
+          URI.decode_www_form_component(filtered[3])
+        rescue ArgumentError
+          filtered[3]
+        end
+      else
+        %w[count sum avg min max].each do |candidate|
+          suffix = "__#{candidate}"
+          next unless rest.end_with?(suffix) && rest.length > suffix.length
+
+          op = candidate
+          rest = rest.delete_suffix(suffix)
+          break
+        end
+      end
+      label = rest.humanize
+      return "#{op.capitalize}(#{label} = #{filter_value})" if op.present? && filter_value.present?
+      return op.present? ? "#{op.capitalize}(#{label})" : label
+    end
+
+    key.humanize
+  end
+
   def format_cell(key, value)
     return '' if value.nil?
 
@@ -166,7 +210,7 @@ class Reports::PanelExportService
     return PRIORITY_LABELS[value.to_s] || value.to_s if key == 'priority'
     return Array(value).join(', ') if key == 'labels'
     return format_unix_datetime(value) if %w[created_at last_activity_at].include?(key) && numeric_unix?(value)
-    return format_iso_datetime(value) if key.start_with?('ca:') && looks_like_iso_datetime?(value)
+    return format_iso_datetime(value) if (key.start_with?('ca:') || key.start_with?('contact_ca:')) && looks_like_iso_datetime?(value)
 
     value
   end
