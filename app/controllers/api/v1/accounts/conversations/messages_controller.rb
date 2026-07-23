@@ -1,6 +1,5 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
   before_action :ensure_api_inbox, only: :update
-  before_action :ensure_agent_bot_takeover, only: :create
 
   def index
     @messages = message_finder.perform
@@ -74,21 +73,6 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def already_translated_content_available?
     message.translations.present? && message.translations[permitted_params[:target_language]].present?
-  end
-
-  def ensure_agent_bot_takeover
-    return unless Current.user.is_a?(User) && @conversation.assignee_agent_bot_id.present?
-    return if private_message? || incoming_message?
-
-    render json: { error: 'Conversation is assigned to an Agent Bot. Take over the conversation before replying.' }, status: :unprocessable_entity
-  end
-
-  def private_message?
-    ActiveModel::Type::Boolean.new.cast(params[:private])
-  end
-
-  def incoming_message?
-    params[:message_type] == 'incoming'
   end
 
   # API inbox check
