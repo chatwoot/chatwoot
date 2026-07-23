@@ -73,6 +73,33 @@ RSpec.describe DataImports::Intercom::MessageBatchBuilder do
     expect(builder.perform.entries).to be_empty
   end
 
+  it 'refreshes classifications while preserving source positions' do
+    batch = builder.perform
+    target_entry = batch.entries.second
+    message = create(
+      :message,
+      account: account,
+      conversation: conversation,
+      inbox: conversation.inbox,
+      source_id: "intercom:#{target_entry.source_id}"
+    )
+    DataImportMapping.create!(
+      account: account,
+      data_import: data_import,
+      source_provider: 'intercom',
+      source_object_type: 'message',
+      source_object_id: target_entry.source_id,
+      chatwoot_record_type: 'Message',
+      chatwoot_record_id: message.id,
+      metadata: {}
+    )
+
+    refreshed_batch = builder.refresh(batch.entries)
+
+    expect(refreshed_batch.entries.map(&:position)).to eq([0, 1, 2])
+    expect(refreshed_batch.entries.second).to have_attributes(classification: :current_import, message: message)
+  end
+
   it 'classifies a live mapping from the current import as already handled' do
     message = create(
       :message,
