@@ -82,7 +82,9 @@ module Enterprise::MessageTemplates::HookExecutionService
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(conversation)
   end
 
+  # Only let Captain suppress the fallback templates when it can actually reply; otherwise a revoked
+  # feature would leave the contact with neither a Captain response nor a greeting/OOO/email-collect.
   def captain_handling_conversation?
-    conversation.pending? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present?
+    conversation.pending? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present? && captain_feature_enabled?
   end
 end

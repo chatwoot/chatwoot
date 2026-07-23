@@ -203,6 +203,29 @@ RSpec.describe MessageTemplates::HookExecutionService do
     end
   end
 
+  context 'when the Captain feature is disabled but an assistant is still linked' do
+    before do
+      account.disable_features!('captain_integration', 'captain_integration_v2')
+      conversation.update!(status: :pending)
+    end
+
+    it 'does not schedule captain response job' do
+      expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+    end
+
+    it 'falls back to the greeting message instead of leaving the contact without a reply' do
+      inbox.update!(greeting_enabled: true, greeting_message: 'Hello! How can we help you?', enable_email_collect: false)
+
+      expect do
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
+      end.to change { conversation.reload.messages.template.count }.by(1)
+
+      expect(conversation.reload.messages.template.last.content).to eq('Hello! How can we help you?')
+    end
+  end
+
   context 'when Captain is not configured' do
     before do
       CaptainInbox.where(inbox: inbox).destroy_all
