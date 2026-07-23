@@ -13,7 +13,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
                    })
 
     # Use existing handoff mechanism from ResponseBuilderJob
-    trigger_handoff(conversation, reason)
+    trigger_handoff(tool_context, conversation, reason)
 
     "Conversation handed off to human support team#{" (Reason: #{reason})" if reason}"
   rescue StandardError => e
@@ -23,9 +23,9 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
   private
 
-  def trigger_handoff(conversation, reason)
+  def trigger_handoff(tool_context, conversation, reason)
     # post the reason as a private note
-    conversation.messages.create!(
+    note = conversation.messages.create!(
       message_type: :outgoing,
       private: true,
       sender: @assistant,
@@ -33,6 +33,15 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
       inbox: conversation.inbox,
       content: reason
     )
+
+    # Session capture attributes the run to this note so agents can inspect the
+    # generation path on the handoff reason instead of the canned follow-up message.
+    # A reason-less note has no content and never renders in the dashboard, so
+    # leave it unrecorded and let capture fall back to the follow-up message.
+    if reason.present?
+      metadata = tool_context.state[:cw_metadata] ||= {}
+      metadata[:handoff_note_id] = note.id
+    end
 
     # Trigger the bot handoff (sets status to open + dispatches events)
     conversation.bot_handoff!
