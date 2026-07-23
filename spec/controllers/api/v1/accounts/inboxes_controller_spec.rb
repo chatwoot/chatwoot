@@ -636,6 +636,22 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.parsed_body['branded_email_layout']).to eq(layout)
       end
 
+      it 'rejects branded email layouts larger than 256 KiB' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        slot = '{{ content_for_layout }}'
+        large_layout = "#{'a' * (EmailTemplate::MAX_BODY_LENGTH - slot.length + 1)}#{slot}"
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: large_layout },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to include('is too long (maximum is 262144 characters)')
+      end
+
       it 'rolls back branded email layout when inbox update fails' do
         account.enable_features!(:branded_email_templates)
         email_channel = create(:channel_email, account: account)
