@@ -624,12 +624,13 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       service.send(:add_usage_metadata_callback, runner)
 
-      context_wrapper = Struct.new(:context).new({})
+      context_wrapper = Struct.new(:context).new({ state: { captain_v2_handoff_tool_completed: true } })
 
       expect(tool_complete_callback).not_to be_nil
       tool_complete_callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'ok', context_wrapper)
 
       expect(context_wrapper.context[:captain_v2_handoff_tool_called]).to be true
+      expect(service.handoff_completed?).to be true
     end
 
     it 'tracks discarded responses when OTEL is disabled' do

@@ -16,6 +16,7 @@ class Captain::Assistant::AgentRunnerService
     @source = source
     @trigger_message_id = trigger_message_id
     @handoff_tool_called = false
+    @handoff_tool_completed = false
   end
 
   def generate_response(message_history: [])
@@ -34,6 +35,10 @@ class Captain::Assistant::AgentRunnerService
 
   def response_discarded?
     @response_discarded == true
+  end
+
+  def handoff_completed?
+    @handoff_tool_completed == true
   end
 
   private
@@ -171,6 +176,10 @@ class Captain::Assistant::AgentRunnerService
     # the runner raises before returning a result (the context is unreachable then).
     context_wrapper.context[:captain_v2_handoff_tool_called] = true
     @handoff_tool_called = true
+
+    return unless context_wrapper.context.dig(:state, :captain_v2_handoff_tool_completed)
+
+    @handoff_tool_completed = true
   end
 
   def write_run_metadata(context_wrapper)

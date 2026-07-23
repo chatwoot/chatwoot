@@ -57,6 +57,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
     # Trigger the bot handoff (sets status to open + dispatches events)
     conversation.bot_handoff!
+    tool_context.state[:captain_v2_handoff_tool_completed] = true
 
     # Send out of office message if applicable (since template messages were suppressed while Captain was handling)
     send_out_of_office_message_if_applicable(conversation)

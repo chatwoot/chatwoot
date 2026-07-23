@@ -25,6 +25,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(mock_agent_runner_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain V2' })
       allow(mock_agent_runner_service).to receive(:last_run_result).and_return(nil)
       allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(false)
+      allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(false)
       allow(Captain::Llm::AssistantActionClassifierService).to receive(:new).and_return(mock_action_classifier_service)
       allow(mock_action_classifier_service).to receive(:classify).and_return({ 'action' => 'continue' })
       allow(Captain::Llm::AssistantFalsePromiseService).to receive(:new).and_return(mock_false_promise_service)
@@ -433,9 +434,11 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       before do
         allow(account).to receive(:feature_enabled?).and_return(false)
         allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(true)
+        allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(true)
       end
 
-      it 'creates a public handoff message visible to the customer' do
+      it 'creates a public handoff message after the generated response is discarded' do
+        allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(true)
         allow(mock_agent_runner_service).to receive(:generate_response) do
           conversation.update!(status: :open)
           { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
@@ -485,6 +488,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'does not hand off when handoff_tool_called is false' do
+        allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(false)
         allow(mock_agent_runner_service).to receive(:generate_response).and_return({
                                                                                      'response' => 'Hi! How can I help you?',
                                                                                      'handoff_tool_called' => false
@@ -498,6 +502,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'falls back to a full V1 handoff when HandoffTool fired but failed to commit' do
+        allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(false)
         allow(mock_agent_runner_service).to receive(:generate_response).and_return({
                                                                                      'response' => 'I tried to hand off',
                                                                                      'handoff_tool_called' => true
@@ -564,6 +569,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'creates a zero-credit session when the handoff tool fired' do
+        allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(true)
         allow(mock_agent_runner_service).to receive(:generate_response) do
           conversation.update!(status: :open)
           { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
@@ -578,6 +584,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'attributes the handoff session to the private reason note when the tool recorded one' do
+        allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(true)
         handoff_note = create(:message, conversation: conversation, account: account, message_type: :outgoing,
                                         private: true, sender: assistant, content: 'Needs a human')
         run_context[:state][:cw_metadata][:handoff_note_id] = handoff_note.id

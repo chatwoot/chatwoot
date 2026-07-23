@@ -44,6 +44,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
             result = tool.perform(tool_context, reason: 'Customer needs specialized support')
             expect(result).to include('Conversation handed off')
           end.to change(Message, :count).by(1)
+          expect(tool_context.state[:captain_v2_handoff_tool_completed]).to be true
         end
 
         it 'skips the handoff when a newer message has arrived' do

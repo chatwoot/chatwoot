@@ -56,28 +56,25 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     message_history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
     @response = runner_service.generate_response(message_history: message_history)
     @run_result = runner_service.last_run_result
+    @v2_handoff_tool_completed = runner_service.handoff_completed?
 
-    return if runner_service.response_discarded?
+    if runner_service.response_discarded?
+      process_response if v2_handoff_tool_completed?
+      return
+    end
     return unless trigger_message_current?
 
     process_response
   end
 
   def process_response
-    # Check V2 before V1: error_response can set both signals at once when HandoffTool
-    # fired before the runner errored. V2 must win — running V1 on top would duplicate
-    # OOO and re-dispatch the bot_handoff event.
-    if v2_handoff_tool_fired?
-      if conversation_pending?
-        # HandoffTool flipped the flag without committing — its perform returned a
-        # failure string (e.g. "Conversation not found") before bot_handoff! ran. Fall
-        # back to a full V1 handoff so the customer still ends up with a human.
-        process_v1_handoff
-      else
-        # HandoffTool already opened the conversation inside the agent loop. All that's
-        # left is the customer-facing follow-up message.
-        process_v2_handoff
-      end
+    if v2_handoff_tool_completed?
+      process_v2_handoff
+      capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
+    elsif v2_handoff_tool_fired?
+      return unless conversation_pending?
+
+      process_v1_handoff
       capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
     elsif v1_handoff_requested?
       # V1 only signals via the response string — no state has been touched yet. If
@@ -121,6 +118,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response['handoff_tool_called']
   end
 
+  def v2_handoff_tool_completed?
+    @v2_handoff_tool_completed == true
+  end
+
   def process_v1_handoff
     I18n.with_locale(@assistant.account.locale) do
       Rails.logger.info(
@@ -135,8 +136,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_v2_handoff
-    return unless trigger_message_current?
-
     # HandoffTool already ran bot_handoff! + OOO inside the agent loop. Preserve
     # waiting_since so this message doesn't clear the timestamp it left in place.
     I18n.with_locale(@assistant.account.locale) do
