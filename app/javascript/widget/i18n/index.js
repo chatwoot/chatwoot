@@ -73,6 +73,7 @@ export default {
   ro,
   ru,
   sk,
+  sl,
   sr,
   sv,
   ta,
