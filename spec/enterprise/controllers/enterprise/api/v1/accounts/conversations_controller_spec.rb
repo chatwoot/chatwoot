@@ -13,6 +13,7 @@ RSpec.describe 'Enterprise Conversations API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       before do
+        account.enable_features!('sla')
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
