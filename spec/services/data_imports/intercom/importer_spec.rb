@@ -367,8 +367,8 @@ RSpec.describe DataImports::Intercom::Importer do
       importer = described_class.new(data_import: data_import, run_id: run_id)
       allow(importer).to receive(:create_message).and_wrap_original do |method, *args|
         method.call(*args).tap do
-          part = args[2]
-          next unless part['id'] == 'part_2'
+          entry = args[2]
+          next unless entry.part['id'] == 'part_2'
 
           DataImport.find(data_import.id).update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' })
         end
@@ -441,11 +441,7 @@ RSpec.describe DataImports::Intercom::Importer do
 
     it 'rolls back a newly inserted message when mapping persistence fails', :aggregate_failures do
       importer = described_class.new(data_import: data_import)
-      allow(importer).to receive(:record_mapping).and_wrap_original do |method, object_type, source_id, record, metadata:|
-        raise StandardError, 'mapping failed' if object_type == 'message'
-
-        method.call(object_type, source_id, record, metadata: metadata)
-      end
+      allow(importer).to receive(:record_message_mapping).and_raise(StandardError, 'mapping failed')
 
       importer.import_conversations_page
 
@@ -486,13 +482,13 @@ RSpec.describe DataImports::Intercom::Importer do
       mapping_attempts = 0
       target_source_id = 'conversation:conversation_1:part:part_1'
       allow(importer).to receive(:sleep)
-      allow(importer).to receive(:record_mapping).and_wrap_original do |method, object_type, source_id, record, metadata:|
-        if object_type == 'message' && source_id == target_source_id
+      allow(importer).to receive(:record_message_mapping).and_wrap_original do |method, entry, message|
+        if entry.source_id == target_source_id
           mapping_attempts += 1
           raise ActiveRecord::QueryCanceled, 'statement timeout' if mapping_attempts == 1
         end
 
-        method.call(object_type, source_id, record, metadata: metadata)
+        method.call(entry, message)
       end
 
       importer.import_conversations_page
@@ -511,13 +507,13 @@ RSpec.describe DataImports::Intercom::Importer do
       mapping_attempts = 0
       target_source_id = 'conversation:conversation_1:part:part_1'
       allow(importer).to receive(:sleep)
-      allow(importer).to receive(:record_mapping).and_wrap_original do |method, object_type, source_id, record, metadata:|
-        if object_type == 'message' && source_id == target_source_id
+      allow(importer).to receive(:record_message_mapping).and_wrap_original do |method, entry, message|
+        if entry.source_id == target_source_id
           mapping_attempts += 1
           raise ActiveRecord::QueryCanceled, 'statement timeout'
         end
 
-        method.call(object_type, source_id, record, metadata: metadata)
+        method.call(entry, message)
       end
 
       importer.import_conversations_page
@@ -692,6 +688,33 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(next_data_import.import_errors.skip_logs.where(source_object_type: 'message')).to be_empty
       message_mappings = DataImportMapping.where(account: account, source_provider: 'intercom', source_object_type: 'message')
       expect(message_mappings.filter_map(&:chatwoot_record).count).to eq(3)
+    end
+
+    it 'repairs a missing mapping without recreating the existing message', :aggregate_failures do
+      described_class.new(data_import: data_import).import_conversations_page
+      conversation = account.conversations.find_by!(identifier: 'intercom:conversation_1')
+      message = conversation.messages.find_by!(source_id: 'intercom:conversation:conversation_1:part:part_1')
+      DataImportMapping.find_by!(
+        account: account,
+        source_provider: 'intercom',
+        source_object_type: 'message',
+        source_object_id: 'conversation:conversation_1:part:part_1'
+      ).destroy!
+      importer = described_class.new(data_import: data_import)
+      allow(importer).to receive(:find_mapping).and_call_original
+
+      importer.import_conversations_page
+
+      repaired_mapping = DataImportMapping.find_by!(
+        account: account,
+        source_provider: 'intercom',
+        source_object_type: 'message',
+        source_object_id: 'conversation:conversation_1:part:part_1'
+      )
+      expect(conversation.messages.where(source_id: message.source_id).count).to eq(1)
+      expect(repaired_mapping.chatwoot_record).to eq(message)
+      expect(importer).not_to have_received(:find_mapping).with('message', anything)
+      expect(data_import.reload.stats.dig('messages', 'imported')).to eq(3)
     end
 
     it 'updates conversation activity when a later import adds new messages to the mapped conversation', :aggregate_failures do
