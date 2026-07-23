@@ -1,6 +1,8 @@
 module Enterprise::Api::V1::Accounts::AgentsController
   def create
     super
+    return if @agent.blank?
+
     associate_agent_with_custom_role
   end
 
@@ -12,9 +14,6 @@ module Enterprise::Api::V1::Accounts::AgentsController
   private
 
   def associate_agent_with_custom_role
-    # `super` may render payment-required without creating an agent (seat limit lost in the locked check);
-    # skip the association so that response is preserved instead of raising on a nil agent.
-    return if @agent.blank?
     # Custom roles are a premium feature; ignore custom_role_id assignment when the feature is disabled.
     return unless Current.account.feature_enabled?('custom_roles')
 
