@@ -252,7 +252,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
     end
   end
 
-  describe 'GET /api/v1/accounts/{account.id}/captain/assistants/{id}/stats' do
+  describe 'GET /api/v1/accounts/{account.id}/captain/assistants/{id}/faq_stats' do
     let(:assistant) { create(:captain_assistant, account: account) }
 
     it 'returns approved FAQ, open suggestion, document counts and coverage' do
@@ -260,23 +260,21 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       assistant.faq_suggestions.create!(question: 'How do I enable the feature?', answer: 'Turn it on in settings.')
       create_list(:captain_document, 2, assistant: assistant, account: account)
 
-      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/stats",
-          params: { range: '30' },
+      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/faq_stats",
           headers: admin.create_new_auth_token,
           as: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response[:knowledge]).to eq(approved: 3, suggestions: 1, documents: 2, coverage: 75)
+      expect(json_response).to eq(approved: 3, suggestions: 1, documents: 2, coverage: 75)
     end
 
     it 'returns zero coverage when there are no FAQs or suggestions' do
-      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/stats",
-          params: { range: '30' },
+      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/faq_stats",
           headers: admin.create_new_auth_token,
           as: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response[:knowledge]).to include(approved: 0, suggestions: 0, coverage: 0)
+      expect(json_response).to include(approved: 0, suggestions: 0, coverage: 0)
     end
 
     it 'counts only suggestions backed by conversations the agent can access' do
@@ -300,13 +298,12 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         language: hidden_suggestion.language
       )
 
-      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/stats",
-          params: { range: '30' },
+      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/faq_stats",
           headers: agent.create_new_auth_token,
           as: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response[:knowledge]).to include(approved: 1, suggestions: 1, coverage: 50)
+      expect(json_response).to include(approved: 1, suggestions: 1, coverage: 50)
     end
   end
 

@@ -27,7 +27,7 @@ RSpec.describe Captain::AssistantStatsBuilder do
 
       expect(metrics.keys).to contain_exactly(
         :conversations_handled, :auto_resolution_rate, :handoff_rate,
-        :hours_saved, :reopen_rate, :conversation_depth, :knowledge
+        :hours_saved, :reopen_rate, :conversation_depth
       )
       expect(metrics[:conversations_handled]).to include(:current, :previous, :trend)
     end
@@ -226,6 +226,32 @@ RSpec.describe Captain::AssistantStatsBuilder do
       travel_to(Time.utc(2026, 7, 1, 3, 0, 0)) do
         expect(described_class.new(assistant, 'this_month').period[:starts_on]).to eq(Date.new(2026, 7, 1))
       end
+    end
+  end
+
+  describe '#faq_stats' do
+    before do
+      create_list(:captain_assistant_response, 3, assistant: assistant, account: account, status: :approved)
+      assistant.faq_suggestions.create!(
+        question: 'How do I enable the feature?',
+        answer: 'Turn it on in settings.'
+      )
+      create_list(:captain_document, 2, assistant: assistant, account: account)
+    end
+
+    it 'returns approved FAQ, open suggestion, document counts and coverage' do
+      stats = described_class.new(assistant).faq_stats
+
+      expect(stats).to eq(approved: 3, suggestions: 1, documents: 2, coverage: 75)
+    end
+
+    it 'reports zero coverage when there are no FAQs or suggestions' do
+      Captain::AssistantResponse.where(assistant: assistant).delete_all
+      Captain::FaqSuggestion.where(assistant: assistant).delete_all
+
+      stats = described_class.new(assistant).faq_stats
+
+      expect(stats).to eq(approved: 0, suggestions: 0, documents: 2, coverage: 0)
     end
   end
 

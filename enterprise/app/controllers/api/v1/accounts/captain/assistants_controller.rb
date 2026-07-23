@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::BaseController
   before_action -> { check_authorization(Captain::Assistant) }
 
-  before_action :set_assistant, only: [:show, :update, :destroy, :playground, :stats, :summary, :drilldown]
+  before_action :set_assistant, only: [:show, :update, :destroy, :playground, :metrics, :faq_stats, :summary, :drilldown]
 
   def index
     @assistants = account_assistants.ordered
@@ -42,8 +42,17 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     @tools = assistant.available_agent_tools
   end
 
-  def stats
-    render json: assistant_stats_builder.metrics
+  def metrics
+    render json: Captain::AssistantStatsBuilder.new(@assistant, params[:range], params[:timezone_offset]).metrics
+  end
+
+  def faq_stats
+    builder = Captain::AssistantStatsBuilder.new(
+      @assistant,
+      suggestions_scope: Captain::FaqSuggestionFinder.new(Current.user, Current.account).perform
+    )
+
+    render json: builder.faq_stats
   end
 
   def summary
@@ -64,15 +73,6 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   private
-
-  def assistant_stats_builder
-    Captain::AssistantStatsBuilder.new(
-      @assistant,
-      params[:range],
-      params[:timezone_offset],
-      suggestions_scope: Captain::FaqSuggestionFinder.new(Current.user, Current.account).perform
-    )
-  end
 
   def drilldown_params
     params.permit(:metric, :range, :timezone_offset, :page, :per_page)
