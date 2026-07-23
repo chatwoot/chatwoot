@@ -31,10 +31,11 @@ class Rack::Attack
       (default_allowed_ips + env_allowed_ips).include?(remote_ip)
     end
 
-    # Rails would allow requests to paths with extensions, so lets compare against the path with extension stripped
-    # example /auth & /auth.json would both work
+    # Rails allows paths with extensions and trailing slashes, so compare against a normalized path.
+    # For example, /auth, /auth.json, and /auth/ should all use the same throttle.
     def path_without_extensions
-      path[/^[^.]+/]
+      normalized_path = path[/^[^.]+/]
+      normalized_path == '/' ? normalized_path : normalized_path.sub(%r{/+\z}, '')
     end
   end
 
@@ -188,6 +189,11 @@ class Rack::Attack
     throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
       req.ip if req.path_without_extensions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
     end
+
+    ## Prevent Transcript Bombing on Widget API ###
+    throttle('api/v1/widget/conversations/transcript', limit: 5, period: 1.hour) do |req|
+      req.ip if req.path_without_extensions == '/api/v1/widget/conversations/transcript' && req.post?
+    end
   end
 
   ##-----------------------------------------------##
@@ -209,6 +215,24 @@ class Rack::Attack
     next unless req.delete?
 
     match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/conversations/(?<id>\d+)/?\z}.match(req.path_without_extensions)
+    match_data[:account_id] if match_data.present?
+  end
+
+  ## Prevent abuse of agent create APIs (per account, covers bulk_create)
+  throttle('/api/v1/accounts/:account_id/agents POST',
+           limit: ENV.fetch('RATE_LIMIT_AGENT_CREATE', '100').to_i, period: 1.day) do |req|
+    next unless req.post?
+
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents(?:/bulk_create)?/?\z}.match(req.path_without_extensions)
+    match_data[:account_id] if match_data.present?
+  end
+
+  ## Prevent abuse of agent delete API (per account)
+  throttle('/api/v1/accounts/:account_id/agents/:id DELETE',
+           limit: ENV.fetch('RATE_LIMIT_AGENT_DELETE', '50').to_i, period: 1.day) do |req|
+    next unless req.delete?
+
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/agents/(?<id>\d+)/?\z}.match(req.path_without_extensions)
     match_data[:account_id] if match_data.present?
   end
 
