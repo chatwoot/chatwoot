@@ -15,6 +15,7 @@ class Whatsapp::HealthService
   end
 
   BASE_URI = 'https://graph.facebook.com'.freeze
+  MINIMUM_HEALTH_API_VERSION = 24.0
   PERSISTED_FIELDS = %i[
     id
     display_phone_number
@@ -40,7 +41,8 @@ class Whatsapp::HealthService
   def initialize(channel)
     @channel = channel
     @access_token = channel.provider_config['api_key']
-    @api_version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
+    configured_api_version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0').delete_prefix('v').to_f
+    @api_version = "v#{[configured_api_version, MINIMUM_HEALTH_API_VERSION].max}"
   end
 
   def fetch_health_status

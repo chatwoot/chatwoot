@@ -58,9 +58,9 @@ RSpec.describe Whatsapp::HealthService do
   end
 
   before do
-    stub_request(:get, %r{graph\.facebook\.com/v22\.0/test_phone_number_id})
+    stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_phone_number_id})
       .to_return(status: 200, body: phone_health_response.to_json, headers: { 'Content-Type' => 'application/json' })
-    stub_request(:get, %r{graph\.facebook\.com/v22\.0/test_waba_id})
+    stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_waba_id})
       .to_return(status: 200, body: business_account_response.to_json, headers: { 'Content-Type' => 'application/json' })
   end
 
@@ -91,15 +91,27 @@ RSpec.describe Whatsapp::HealthService do
       )
     end
 
-    it 'requests the current messaging capacity field instead of the deprecated field' do
+    it 'requests the current messaging capacity field with the minimum supported API version' do
       service.fetch_health_status
 
       expect(
-        a_request(:get, %r{graph\.facebook\.com/v22\.0/test_phone_number_id}).with do |request|
+        a_request(:get, %r{graph\.facebook\.com/v24\.0/test_phone_number_id}).with do |request|
           fields = CGI.parse(request.uri.query)['fields']&.first.to_s.split(',')
           fields.include?('whatsapp_business_manager_messaging_limit') && fields.exclude?('messaging_limit_tier')
         end
       ).to have_been_made.once
+    end
+
+    it 'uses a newer configured API version' do
+      allow(GlobalConfigService).to receive(:load).with('WHATSAPP_API_VERSION', 'v22.0').and_return('v25.0')
+      stub_request(:get, %r{graph\.facebook\.com/v25\.0/test_phone_number_id})
+        .to_return(status: 200, body: phone_health_response.to_json, headers: { 'Content-Type' => 'application/json' })
+      stub_request(:get, %r{graph\.facebook\.com/v25\.0/test_waba_id})
+        .to_return(status: 200, body: business_account_response.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      service.fetch_health_status
+
+      expect(a_request(:get, %r{graph\.facebook\.com/v25\.0/test_phone_number_id})).to have_been_made.once
     end
   end
 
@@ -132,7 +144,7 @@ RSpec.describe Whatsapp::HealthService do
       let(:previous_health) { { quality_rating: 'GREEN', status: 'CONNECTED' } }
 
       before do
-        stub_request(:get, %r{graph\.facebook\.com/v22\.0/test_phone_number_id})
+        stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_phone_number_id})
           .to_return(
             status: 400,
             body: {
