@@ -1,6 +1,8 @@
 class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   include Integrations::LlmInstrumentation
 
+  class SuggestionChangedError < StandardError; end
+
   DISTANCE_THRESHOLD = 0.3
   MATCH_LIMIT = 5
   LLM_FEATURE = 'conversation_faq_generation'.freeze
@@ -45,6 +47,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     return discard_observation(faq) if matching_record(dismissed_suggestions_for_language, faq, embedding)
 
     suggestion = matching_record(open_suggestions_for_language, faq, embedding)
+    matched_content = suggestion&.slice('question', 'answer')
     suggestion ||= assistant.faq_suggestions.create!(
       question: faq.fetch('question'),
       answer: faq.fetch('answer'),
@@ -52,7 +55,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
       language: faq_language
     )
 
-    attach_observation(suggestion, faq)
+    attach_observation(suggestion, faq, matched_content)
   end
 
   def matching_record(relation, faq, embedding)
@@ -96,8 +99,11 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     raise
   end
 
-  def attach_observation(suggestion, faq)
+  def attach_observation(suggestion, faq, matched_content)
     suggestion.with_lock do
+      next unless suggestion.open?
+      raise SuggestionChangedError if matched_content && suggestion.slice('question', 'answer') != matched_content
+
       existing_observation = suggestion.observations.find_by(conversation: conversation)
       next existing_observation if existing_observation
 
