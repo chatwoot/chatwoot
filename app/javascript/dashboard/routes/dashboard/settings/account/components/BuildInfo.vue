@@ -9,6 +9,7 @@ import semver from 'semver';
 
 const { t } = useI18n();
 const { currentAccount } = useAccount();
+const currentUser = useMapGetter('getCurrentUser');
 
 const latestChatwootVersion = computed(() => {
   return currentAccount.value.latest_chatwoot_version;
@@ -16,7 +17,12 @@ const latestChatwootVersion = computed(() => {
 
 const globalConfig = useMapGetter('globalConfig/get');
 
+const isSuperAdmin = computed(() => currentUser.value?.type === 'SuperAdmin');
+
 const hasAnUpdateAvailable = computed(() => {
+  if (!isSuperAdmin.value) {
+    return false;
+  }
   if (!semver.valid(latestChatwootVersion.value)) {
     return false;
   }
