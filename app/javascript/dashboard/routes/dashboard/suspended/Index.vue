@@ -39,10 +39,11 @@ onMounted(() => {
 <template>
   <div class="items-center bg-n-slate-2 flex justify-center h-full w-full">
     <EmptyState
+      class="max-w-lg"
       :title="$t('APP_GLOBAL.ACCOUNT_SUSPENDED.TITLE')"
       :message="$t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGE')"
     >
-      <div class="flex flex-col items-center gap-3">
+      <div class="flex flex-col items-center gap-3 mt-4">
         <NextButton
           icon="i-lucide-life-buoy"
           :label="$t('SIDEBAR_ITEMS.CONTACT_SUPPORT')"
