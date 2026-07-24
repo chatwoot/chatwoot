@@ -14,9 +14,11 @@ customization needed for production.
 
 1. `Avatarable#avatar_url` generates an Active Storage representation proxy
    URL so Cloudflare can cache the image bytes instead of a private S3 redirect.
-2. `docker/Dockerfile` accepts `SOURCE_COMMIT`. A Git submodule checkout uses a
-   `.git` pointer that is not valid inside Docker's build context, so Jenkins
-   passes the exact fork commit for `/app/.git_sha`.
+2. `docker/Dockerfile` accepts `SOURCE_COMMIT`, so Jenkins can record the exact
+   fork commit in `/app/.git_sha` even when Git metadata is excluded from the
+   Docker build context.
+3. `Jenkinsfile.bg` builds a selected fork branch and optionally deploys the
+   resulting immutable image to the `dev-chatwoot` Helm release.
 
 ## Upgrade Workflow
 
@@ -24,7 +26,7 @@ customization needed for production.
 2. Create a new BG maintenance branch from the target upstream tag.
 3. Cherry-pick or reapply the small BG customization commit.
 4. Run the focused validation and build a new immutable image.
-5. Update the bg-devops submodule pointer only after review.
+5. Run the Jenkins job with the new maintenance branch selected.
 
 Do not merge an upstream version change directly into the production branch
 without reviewing Chatwoot migrations, release notes, and the avatar URL code.

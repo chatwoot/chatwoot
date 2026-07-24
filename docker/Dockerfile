@@ -87,8 +87,8 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   && rm -rf spec node_modules tmp/cache; \
   fi
 
-# A submodule checkout contains a .git pointer that is invalid inside the build
-# context. Jenkins passes this fork's exact commit to preserve runtime metadata.
+# Jenkins passes the exact checked-out source commit to preserve runtime metadata
+# even when the Docker build context excludes Git metadata.
 RUN test -n "$SOURCE_COMMIT" \
   && printf '%s\n' "$SOURCE_COMMIT" > /app/.git_sha
 

@@ -1,0 +1,285 @@
+@Library('bg-shared-lib@main') _
+
+def APP_NAME = 'chatwoot'
+def SOURCE_REPOSITORY = 'https://github.com/bluegame-studio/chatwoot-bg'
+
+def HARBOR_REGISTRY = 'repo.labk.work'
+def HARBOR_PROJECT = 'app'
+def HARBOR_CREDENTIALS_ID = 'HARBOR-REGISTRY'
+def BUILDKIT_ADDRESS = 'tcp://buildkitd.jenkins.svc.cluster.local:1234'
+
+def DEV_KUBECONFIG_ID = 'eks-bg-dev'
+def DEV_CLUSTER = 'bg-eks-dev'
+def DEV_NAMESPACE = 'dev-chatwoot'
+def DEV_RELEASE = 'chatwoot'
+def DEV_CHART_VERSION = '2.0.23'
+def DEV_IMAGE_PULL_SECRET = 'harbor-regcred'
+
+pipeline {
+    agent any
+
+    parameters {
+        choice(
+            name: 'ACTION',
+            choices: ['BUILD_ONLY', 'BUILD_AND_DEPLOY_DEV'],
+            description: 'Build and push only, or build, push, and deploy the image to dev-chatwoot.'
+        )
+        string(
+            name: 'SOURCE_BRANCH',
+            defaultValue: 'bg/v4.11.1-avatar-proxy',
+            description: 'Branch from bluegame-studio/chatwoot-bg to load and build.'
+        )
+        string(
+            name: 'IMAGE_TAG',
+            defaultValue: '',
+            description: 'Optional immutable image tag. Leave empty to generate one from version, branch, commit, and build number.'
+        )
+        string(name: 'LARK_USER', defaultValue: '', description: 'Optional Lark notification target.')
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+        disableConcurrentBuilds()
+        skipDefaultCheckout()
+        timeout(time: 120, unit: 'MINUTES')
+    }
+
+    stages {
+        stage('1. Checkout selected Chatwoot branch') {
+            steps {
+                script {
+                    deleteDir()
+                    def scmVars = checkout scm
+                    env.CHATWOOT_SOURCE_COMMIT = scmVars.GIT_COMMIT ?: sh(
+                        script: 'git rev-parse HEAD',
+                        returnStdout: true
+                    ).trim()
+                }
+            }
+        }
+
+        stage('2. Validate source and image tag') {
+            steps {
+                script {
+                    def sourceVersion = readFile('VERSION_CW').trim()
+                    if (!(sourceVersion ==~ /\d+\.\d+\.\d+/)) {
+                        error "Unexpected VERSION_CW: ${sourceVersion}"
+                    }
+
+                    def normalizedBranch = params.SOURCE_BRANCH
+                        .trim()
+                        .replaceAll(/[^A-Za-z0-9_.-]+/, '-')
+                        .replaceAll(/^-+|-+$/, '')
+                    if (!normalizedBranch) {
+                        error 'SOURCE_BRANCH must contain at least one Docker tag character.'
+                    }
+
+                    def requestedTag = params.IMAGE_TAG?.trim()
+                    env.IMAGE_TAG = requestedTag ?: "v${sourceVersion}-${normalizedBranch}-${env.CHATWOOT_SOURCE_COMMIT.take(7)}-${env.BUILD_NUMBER}"
+                    if (!(env.IMAGE_TAG ==~ /[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}/)) {
+                        error "Invalid Docker tag: ${env.IMAGE_TAG}"
+                    }
+
+                    env.CHATWOOT_SOURCE_VERSION = sourceVersion
+                    env.HARBOR_REGISTRY = HARBOR_REGISTRY
+                    env.BUILDKIT_ADDRESS = BUILDKIT_ADDRESS
+                    env.FULL_IMAGE_NAME = "${HARBOR_REGISTRY}/${HARBOR_PROJECT}/${APP_NAME}:${env.IMAGE_TAG}"
+                    env.DEPLOYED = 'false'
+
+                    sh "test -f docker/Dockerfile"
+                    sh "grep -Fq 'rails_blob_representation_proxy_url' app/models/concerns/avatarable.rb"
+                    sh "grep -Fq 'ARG SOURCE_COMMIT' docker/Dockerfile"
+                    sh '''
+                        docker run --rm \
+                          -v "$PWD:/src:ro" \
+                          --entrypoint ruby \
+                          ruby:3.4.4-alpine3.21 \
+                          -c /src/app/models/concerns/avatarable.rb
+                    '''
+
+                    currentBuild.displayName = "#${env.BUILD_NUMBER} ${env.IMAGE_TAG}"
+                    currentBuild.description = "${params.ACTION} | ${params.SOURCE_BRANCH} | ${env.FULL_IMAGE_NAME}"
+
+                    echo "Action       : ${params.ACTION}"
+                    echo "Source repo  : ${SOURCE_REPOSITORY}"
+                    echo "Source branch: ${params.SOURCE_BRANCH}"
+                    echo "Source commit: ${env.CHATWOOT_SOURCE_COMMIT}"
+                    echo "Source version: ${sourceVersion}"
+                    echo "Image        : ${env.FULL_IMAGE_NAME}"
+                }
+            }
+        }
+
+        stage('3. Build and push image') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(
+                        credentialsId: HARBOR_CREDENTIALS_ID,
+                        usernameVariable: 'HARBOR_USER',
+                        passwordVariable: 'HARBOR_PASS'
+                    )]) {
+                        sh '''#!/bin/sh
+                            set -eu
+                            set +x
+                            printf '%s' "$HARBOR_PASS" | \
+                              docker login "$HARBOR_REGISTRY" -u "$HARBOR_USER" --password-stdin
+                        '''
+
+                        sh '''#!/bin/sh
+                            set -eu
+                            docker buildx inspect bgremote >/dev/null 2>&1 || \
+                              docker buildx create \
+                                --name bgremote \
+                                --driver remote \
+                                "$BUILDKIT_ADDRESS"
+                            docker buildx use bgremote
+
+                            docker buildx build \
+                              --platform linux/amd64 \
+                              -f docker/Dockerfile \
+                              --build-arg SOURCE_COMMIT="$CHATWOOT_SOURCE_COMMIT" \
+                              --label org.opencontainers.image.source=https://github.com/bluegame-studio/chatwoot-bg \
+                              --label org.opencontainers.image.version="$CHATWOOT_SOURCE_VERSION" \
+                              --label org.opencontainers.image.revision="$CHATWOOT_SOURCE_COMMIT" \
+                              -t "$FULL_IMAGE_NAME" \
+                              --provenance=false \
+                              --push \
+                              .
+
+                            docker buildx imagetools inspect "$FULL_IMAGE_NAME"
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('4. Deploy dev with Helm') {
+            when {
+                expression { params.ACTION == 'BUILD_AND_DEPLOY_DEV' }
+            }
+            steps {
+                script {
+                    docker.image(commonConfig.getHelmKubectlImage()).inside("--entrypoint=''") {
+                        withCredentials([
+                            file(credentialsId: DEV_KUBECONFIG_ID, variable: 'KUBECONFIG'),
+                            usernamePassword(
+                                credentialsId: HARBOR_CREDENTIALS_ID,
+                                usernameVariable: 'HARBOR_USER',
+                                passwordVariable: 'HARBOR_PASS'
+                            )
+                        ]) {
+                            withEnv([
+                                "EXPECTED_CLUSTER=${DEV_CLUSTER}",
+                                "TARGET_NAMESPACE=${DEV_NAMESPACE}",
+                                "HELM_RELEASE=${DEV_RELEASE}",
+                                "HELM_CHART_VERSION=${DEV_CHART_VERSION}",
+                                "IMAGE_PULL_SECRET=${DEV_IMAGE_PULL_SECRET}"
+                            ]) {
+                                sh '''#!/bin/sh
+                                    set -eu
+
+                                    TARGET_CONTEXT=$(kubectl config get-contexts -o name | grep cicd-service-account | head -n1 || true)
+                                    if [ -z "$TARGET_CONTEXT" ]; then
+                                        TARGET_CONTEXT=$(kubectl config get-contexts -o name | head -n1)
+                                    fi
+                                    if [ -z "$TARGET_CONTEXT" ]; then
+                                        echo 'No context found in the Jenkins kubeconfig.' >&2
+                                        exit 1
+                                    fi
+
+                                    kubectl config use-context "$TARGET_CONTEXT"
+                                    ACTUAL_CLUSTER=$(kubectl config view --minify -o jsonpath='{.clusters[0].name}')
+                                    case "$ACTUAL_CLUSTER" in
+                                        *"$EXPECTED_CLUSTER"*) ;;
+                                        *)
+                                            echo "Refusing deployment: kubeconfig targets '$ACTUAL_CLUSTER', expected '$EXPECTED_CLUSTER'." >&2
+                                            exit 1
+                                            ;;
+                                    esac
+
+                                    kubectl get namespace "$TARGET_NAMESPACE" >/dev/null
+                                    helm status "$HELM_RELEASE" --namespace "$TARGET_NAMESPACE" >/dev/null
+                                    helm repo add chatwoot https://chatwoot.github.io/charts --force-update
+                                    helm repo update chatwoot
+
+                                    set +x
+                                    kubectl create secret docker-registry "$IMAGE_PULL_SECRET" \
+                                      --namespace "$TARGET_NAMESPACE" \
+                                      --docker-server "$HARBOR_REGISTRY" \
+                                      --docker-username "$HARBOR_USER" \
+                                      --docker-password "$HARBOR_PASS" \
+                                      --dry-run=client \
+                                      --output yaml | kubectl apply -f -
+
+                                    helm upgrade "$HELM_RELEASE" chatwoot/chatwoot \
+                                      --version "$HELM_CHART_VERSION" \
+                                      --namespace "$TARGET_NAMESPACE" \
+                                      --reuse-values \
+                                      --set-string image.repository="$HARBOR_REGISTRY/app/chatwoot" \
+                                      --set-string image.tag="$IMAGE_TAG" \
+                                      --set "imagePullSecrets[0].name=$IMAGE_PULL_SECRET" \
+                                      --atomic \
+                                      --cleanup-on-fail \
+                                      --history-max 20 \
+                                      --timeout 15m \
+                                      --wait
+
+                                    kubectl rollout status deployment/chatwoot-web \
+                                      --namespace "$TARGET_NAMESPACE" --timeout=5m
+                                    kubectl rollout status deployment/chatwoot-worker \
+                                      --namespace "$TARGET_NAMESPACE" --timeout=5m
+
+                                    WEB_IMAGE=$(kubectl get deployment chatwoot-web \
+                                      --namespace "$TARGET_NAMESPACE" \
+                                      -o jsonpath='{.spec.template.spec.containers[0].image}')
+                                    WORKER_IMAGE=$(kubectl get deployment chatwoot-worker \
+                                      --namespace "$TARGET_NAMESPACE" \
+                                      -o jsonpath='{.spec.template.spec.containers[0].image}')
+                                    if [ "$WEB_IMAGE" != "$FULL_IMAGE_NAME" ] || [ "$WORKER_IMAGE" != "$FULL_IMAGE_NAME" ]; then
+                                        echo "Image verification failed after Helm upgrade." >&2
+                                        exit 1
+                                    fi
+                                '''
+                            }
+                        }
+                    }
+                    env.DEPLOYED = 'true'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                sh "docker logout ${HARBOR_REGISTRY} >/dev/null 2>&1 || true"
+
+                def ok = currentBuild.currentResult == 'SUCCESS'
+                def result = [
+                    status: ok ? 'success' : 'failed',
+                    action: params.ACTION,
+                    source_branch: params.SOURCE_BRANCH,
+                    source_commit: env.CHATWOOT_SOURCE_COMMIT,
+                    source_version: env.CHATWOOT_SOURCE_VERSION,
+                    image_tag: env.IMAGE_TAG,
+                    full_image_name: env.FULL_IMAGE_NAME,
+                    deployed: env.DEPLOYED == 'true',
+                    deploy_target: params.ACTION == 'BUILD_AND_DEPLOY_DEV' ? "${DEV_CLUSTER}/${DEV_NAMESPACE}/${DEV_RELEASE}" : null
+                ]
+                echo 'DEVOPS_RESULT_JSON=' + groovy.json.JsonOutput.toJson(result)
+
+                try {
+                    larkNotification(
+                        appName: 'chatwoot-bg',
+                        branch: params.SOURCE_BRANCH,
+                        platform: params.ACTION == 'BUILD_AND_DEPLOY_DEV' ? 'dev-chatwoot' : 'build',
+                        imageTag: env.IMAGE_TAG,
+                        buildUser: params.LARK_USER?.trim() ?: 'system'
+                    )
+                } catch (e) {
+                    echo "Lark notification skipped: ${e.message}"
+                }
+            }
+        }
+    }
+}
