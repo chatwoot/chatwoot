@@ -6,10 +6,14 @@ import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useMapGetter } from 'dashboard/composables/store';
 
 const { isAdmin } = useAdmin();
+const currentAccount = useMapGetter('getCurrentAccount');
 const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
 
 const showBillingLink = computed(
-  () => isAdmin.value && isOnChatwootCloud.value
+  () =>
+    isAdmin.value &&
+    isOnChatwootCloud.value &&
+    currentAccount.value?.suspension_category === 'non_payment'
 );
 
 const toggleSupportWidgetVisibility = () => {

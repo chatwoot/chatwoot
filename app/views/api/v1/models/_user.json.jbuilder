@@ -22,6 +22,9 @@ json.accounts do
     json.id account_user.account_id
     json.name account_user.account.name
     json.status account_user.account.status
+    if account_user.account.suspended?
+      json.suspension_category account_user.account.suspension_history.last&.dig('category')
+    end
     json.onboarding_step account_user.account.onboarding_step
     json.active_at account_user.active_at
     json.role account_user.role
