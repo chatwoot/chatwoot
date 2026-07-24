@@ -29,7 +29,7 @@ describe CaptainListener do
           .to receive(:new)
           .with(assistant, conversation)
           .and_return(instance_double(Captain::Llm::ContactNotesService, generate_and_update_notes: nil))
-        expect(Captain::Llm::ConversationFaqService).not_to receive(:new)
+        expect(Captain::Llm::ConversationFaqJob).not_to receive(:perform_later)
 
         listener.conversation_resolved(event)
       end
@@ -42,11 +42,8 @@ describe CaptainListener do
         assistant.save!
       end
 
-      it 'generates and deduplicates FAQs' do
-        expect(Captain::Llm::ConversationFaqService)
-          .to receive(:new)
-          .with(assistant, conversation)
-          .and_return(instance_double(Captain::Llm::ConversationFaqService, generate_and_deduplicate: false))
+      it 'enqueues FAQ suggestion generation' do
+        expect(Captain::Llm::ConversationFaqJob).to receive(:perform_later).with(conversation, assistant)
         expect(Captain::Llm::ContactNotesService).not_to receive(:new)
 
         listener.conversation_resolved(event)
