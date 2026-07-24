@@ -117,8 +117,8 @@ const downloadRecording = () => {
     >
       <template #icon>
         <Icon
-          :icon="isPlaying ? 'i-lucide-pause' : 'i-lucide-play'"
-          class="size-4 flex-shrink-0"
+          :icon="isPlaying ? 'i-woot-audio-pause' : 'i-woot-audio-play'"
+          class="size-4 flex-shrink-0 text-n-slate-11"
         />
       </template>
     </Button>
@@ -127,10 +127,10 @@ const downloadRecording = () => {
       min="0"
       :max="duration || 0"
       :value="currentTime"
-      class="flex-1 min-w-0 lg:grow-0 lg:basis-24 h-1 rounded-lg appearance-none cursor-pointer bg-n-slate-12/30 accent-n-slate-11"
+      class="flex-1 min-w-0 lg:grow-0 lg:basis-24 h-0.5 rounded-full appearance-none cursor-pointer bg-n-slate-12/30 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:size-2 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-n-slate-11 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:size-2 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-n-slate-11"
       @input="seek"
     />
-    <span class="text-sm tabular-nums text-n-slate-11 shrink-0">
+    <span class="text-label-small tabular-nums text-n-slate-11 shrink-0">
       {{ displayedTime }}
     </span>
     <div class="w-px h-3.5 bg-n-slate-6 shrink-0" />
