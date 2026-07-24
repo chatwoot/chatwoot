@@ -570,11 +570,15 @@ export const emptyPanel = () => ({
   date_preset: 'last_7_days',
   custom_since: null,
   custom_until: null,
+  date_attribute: '',
   business_hours: false,
   favorite: false,
   filters: [],
   widgets: [defaultMetricWidget(), defaultChartWidget()],
 });
+
+/** Conversation date/datetime CAs eligible as panel date axis (`ca:key`). */
+export const DATE_AXIS_ATTR_TYPES = new Set(['date', 'datetime']);
 
 /** Map saved panel date_preset → WootDatePicker rangeType. */
 export const panelPresetToRangeType = preset => {

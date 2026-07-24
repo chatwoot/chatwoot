@@ -3,7 +3,9 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** fix `B-NEW-19` pivot name/rank = 0 + fila Sin asignar
+**Última actualización:** fix `B-NEW-20` report panel full-scan (aggregation +
+flat CA measures) (2026-07-24, branch `fix/report-panels-correctness`). Antes:
+`B-NEW-19` pivot name/rank = 0 + fila Sin asignar
 (2026-07-24, branch `fix/report-panels-pivot-identity`). Antes:
 `B-NEW-13` report panel pivot collapsing agent
 rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
@@ -61,6 +63,8 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-12 | Media | No | ✅ Fijado — Flow nfm_reply: i18n restaurado + sin confirmación outbound al cliente |
 | B-NEW-13 | 🔴 Alta (prod) | No | ✅ Fijado — pivot summary rows seeded from flat summary; no more agent collapse |
 | B-NEW-19 | 🔴 Alta (prod) | No | ✅ Fijado — pivot name/rank no longer clobbered to 0; Sin asignar row |
+| B-NEW-20 | 🔴 Alta (prod) | No | ✅ Fijado — aggregation + flat CA measures full-scan (no 100/2000 cap) |
+| B-NEW-21 | Media | No | ✅ Fijado — panel `date_attribute` + NumericParser + filter UX |
 | B-NEW-14 | Feature | No | ✅ Business rules + time automations + multi_list (branch `feat/business-rules-time-multilist`) |
 | B-NEW-15 | Flows UI | Baja | ✅ Portado a `feat/business-rules-time-multilist` (model/API/UI/`flows_v1`) |
 | B-NEW-16 | 🔴 P0 | No | ✅ Time-rule ledger: conditions before claim + hours window_id from message id/created_at |
@@ -510,6 +514,68 @@ Además el KPI Conversaciones (cuenta) no coincidía con la suma de la tabla
 3. Smoke: `rails runner tmp/smoke_pivot_agent_rows.rb`.
 
 **Estado:** ✅ Fijado 2026-07-24 en `fix/report-panels-pivot-identity`.
+
+### B-NEW-20 — Aggregation / flat CA measures truncaban el universo
+
+**Severidad:** Alta (producción) — métricas `source: aggregation` y columnas
+`ca:*__sum` / `__count` en summary plano no coincidían con
+`conversations_count` ni con el pivot (mismo panel / rango).
+
+**Síntoma:**
+
+1. KPI / Count de conversaciones = N (completo vía ReportBuilder).
+2. Sum(ventas) / Count(attr) mucho más bajo o sesgado a conversaciones viejas.
+3. Pivot (ya full-scan) ≠ flat CA measure en el mismo rango.
+
+**Causa raíz:**
+
+1. Aggregation: `.limit(100)` al cargar conversaciones.
+2. Flat CA: `reorder(:id).limit(2000)` — mismos IDs tempranos que B-NEW-13.
+3. Date-attribute charts: `limit * 5` sobre `updated_at`.
+
+**Fix aplicado:**
+
+1. `each_conversation_in_batches` (mismo patrón que pivot) para aggregation,
+   flat CA por dimensión/label, y rangos por CA date.
+2. Contacts aggregation: `DISTINCT contact_id` sin tope artificial.
+3. Detail tables: caps `DETAIL_*_LIMIT` + flag `truncated` cuando rows < total.
+4. Smoke: `tmp/smoke_panel_full_scan.rb`.
+
+**Archivos:**
+
+- `app/services/reports/panel_runner_service.rb`
+- `app/models/saved_report_panel.rb`
+- `tmp/smoke_panel_full_scan.rb`
+- `docs/REPORT_PANELS.md`
+
+**Migración BD:** no (fase 1). Ver también `date_attribute` (fase 3).
+
+**Cómo probar:**
+
+1. Seed demo: `tmp/seed_report_panels_demo.rb`.
+2. Smoke: `rails runner tmp/smoke_panel_full_scan.rb` → `ok`.
+3. UI: métrica aggregation Sum(ventas) ≈ suma de `ca:ventas__sum` en summary.
+
+**Estado:** ✅ Fijado 2026-07-24 en `fix/report-panels-correctness`.
+
+### B-NEW-21 — Panel date_attribute + NumericParser + UX filtros
+
+**Severidad:** Media — semántica de fechas/metadatos y parseo inconsistente
+hacían que “ventas del mes” o Sum con `"1.000,50"` no cuadraran.
+
+**Fix aplicado (mismo branch `fix/report-panels-correctness`):**
+
+1. `date_attribute` en `saved_report_panels` (`""` = created_at, `ca:key` = CA date).
+2. `CustomAttributes::NumericParser` compartido (runner + fórmulas).
+3. Sum/Avg saltan no-parseables; Count = atributo presente.
+4. UI: selector fecha del panel; banner filtros mixtos; “Mostrando N de M”;
+   hint contact_ca lifetime.
+
+**Smokes:** `tmp/smoke_numeric_parser.rb`, `tmp/smoke_panel_date_attribute.rb`.
+
+**Migración:** `20260724190000_add_date_attribute_to_saved_report_panels.rb`.
+
+**Estado:** ✅ Fijado 2026-07-24.
 
 ---
 

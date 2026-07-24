@@ -950,6 +950,12 @@ const toggleDetailColumn = key => {
               >
                 {{ group.label }}
               </div>
+              <p
+                v-if="group.key === 'contact'"
+                class="px-1 pb-1 text-[11px] text-n-slate-11 leading-snug"
+              >
+                {{ t('REPORT_PANELS.PIVOT.FIELDS_CONTACT_HINT') }}
+              </p>
               <Draggable
                 :list="group.items"
                 :group="{ name: 'pivot-campos', pull: 'clone', put: false }"

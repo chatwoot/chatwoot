@@ -25,6 +25,7 @@ class Reports::PanelRunnerService
         date_preset: @panel.date_preset,
         custom_since: @panel.custom_since,
         custom_until: @panel.custom_until,
+        date_attribute: @panel.date_attribute.to_s.presence || SavedReportPanel::DATE_ATTRIBUTE_CREATED_AT,
         since: since_time.to_i,
         until: until_time.to_i,
         business_hours: @panel.business_hours,
@@ -78,7 +79,7 @@ class Reports::PanelRunnerService
         filtered_contacts_count(since_time, until_time)
       elsif metric == 'unique_contacts_count'
         unique_contacts_count(since_time, until_time)
-      elsif conversation_filters? || contact_filters?
+      elsif conversation_filters? || contact_filters? || panel_date_attribute_key.present?
         filtered_metric_value(metric, since_time, until_time)
       else
         report_builder(widget, since_time, until_time).summary[metric.to_sym]
@@ -100,7 +101,7 @@ class Reports::PanelRunnerService
     metric = widget[:metric].to_s
     group_by = widget[:group_by].presence || 'day'
     points =
-      if conversation_filters? || contact_filters?
+      if conversation_filters? || contact_filters? || panel_date_attribute_key.present?
         filtered_chart_points(metric, since_time, until_time, group_by)
       else
         report_builder(widget, since_time, until_time, metric: metric, group_by: group_by).build
@@ -180,25 +181,29 @@ class Reports::PanelRunnerService
       val = attrs[attr_key]
       next if custom_attr_blank?(val)
 
-      # Count = rows where attribute is set; sum/avg/min/max need numeric parse.
-      op.to_s == 'count' ? 1 : numeric_table_cell(val)
+      # Count = rows where attribute is set; sum/avg/min/max need numeric parse (skip nil).
+      op.to_s == 'count' ? 1 : CustomAttributes::NumericParser.parse(val)
     end
   end
 
   def filtered_contacts_for_aggregation(since_time, until_time)
+    # Full distinct contact set for the conversation scope (no artificial cap).
     contact_ids = Conversation.where(id: filtered_conversation_ids_subquery(since_time, until_time))
                               .distinct
-                              .limit(SavedReportPanel::FILTERED_CONTACTS_LIMIT)
                               .pluck(:contact_id)
     @account.contacts.where(id: contact_ids)
   end
 
   def aggregate_numeric_values(values, op)
-    list = Array(values).map { |v| numeric_table_cell(v) }
-    return list.size if op == 'count'
+    # Count may pass 1s; sum/avg/min/max skip unparseable (nil from NumericParser).
+    if op.to_s == 'count'
+      return Array(values).size
+    end
+
+    list = Array(values).filter_map { |v| v.is_a?(Numeric) ? v.to_f : CustomAttributes::NumericParser.parse(v) }
     return 0 if list.empty?
 
-    case op
+    case op.to_s
     when 'sum' then list.sum
     when 'avg' then list.sum.to_f / list.size
     when 'min' then list.min
@@ -241,7 +246,7 @@ class Reports::PanelRunnerService
             val = attrs[attr_key]
             next if custom_attr_blank?(val)
 
-            op == 'count' ? 1 : numeric_table_cell(val)
+            op == 'count' ? 1 : CustomAttributes::NumericParser.parse(val)
           end
         end
       { value: aggregate_numeric_values(values, op), timestamp: period.to_i }
@@ -264,34 +269,74 @@ class Reports::PanelRunnerService
     if group_attr.present?
       conversations_for_attribute_date_range(since_time, until_time, group_attr)
     else
-      filtered_conversations_scope(since_time, until_time)
-        .limit(SavedReportPanel::FILTERED_CONVERSATIONS_LIMIT)
-        .to_a
+      # Full range scan (batched) — same universe as pivot / flat CA measures.
+      each_conversation_in_batches(filtered_conversations_scope(since_time, until_time))
     end
   end
 
   # Conversations whose custom date/datetime attribute falls in the panel range.
   # Panel filters (inbox/agent/…) still apply; created_at date filter does not.
   def conversations_for_attribute_date_range(since_time, until_time, group_attr_key)
+    ids = conversation_ids_for_attribute_date_range(since_time, until_time, group_attr_key)
+    conversations_matching_filters_without_date.where(id: ids).to_a
+  end
+
+  def conversation_ids_for_attribute_date_range(since_time, until_time, group_attr_key)
+    cache_key = [since_time.to_i, until_time.to_i, group_attr_key]
+    @conversation_ids_by_ca_date ||= {}
+    return @conversation_ids_by_ca_date[cache_key] if @conversation_ids_by_ca_date.key?(cache_key)
+
     scope = conversations_matching_filters_without_date
-    scope = scope.where('custom_attributes ? :key', key: group_attr_key)
-    limit = SavedReportPanel::FILTERED_CONVERSATIONS_LIMIT * 5
-    Array(scope.order(updated_at: :desc).limit(limit)).select do |conversation|
+             .where('custom_attributes ? :key', key: group_attr_key)
+             .unscope(:order)
+    ids = []
+    each_conversation_in_batches(scope) do |conversation|
       ts = parse_custom_attribute_time(conversation.custom_attributes&.[](group_attr_key))
-      ts.present? && ts >= since_time && ts <= until_time
+      next unless ts.present? && ts >= since_time && ts <= until_time
+
+      ids << conversation.id
     end
+    @conversation_ids_by_ca_date[cache_key] = ids
   end
 
   def contacts_for_attribute_date_range(since_time, until_time, group_attr_key)
     scope = @account.contacts.where('custom_attributes ? :key', key: group_attr_key)
-    if contact_filters?
-      scope = scope.where(id: filtered_contact_ids)
+    scope = scope.where(id: filtered_contact_ids) if contact_filters?
+    matched = []
+    scope.unscope(:order).in_batches(of: 250) do |batch|
+      batch.each do |contact|
+        ts = parse_custom_attribute_time(contact.custom_attributes&.[](group_attr_key))
+        next unless ts.present? && ts >= since_time && ts <= until_time
+
+        matched << contact
+      end
     end
-    limit = SavedReportPanel::FILTERED_CONTACTS_LIMIT * 5
-    Array(scope.order(updated_at: :desc).limit(limit)).select do |contact|
-      ts = parse_custom_attribute_time(contact.custom_attributes&.[](group_attr_key))
-      ts.present? && ts >= since_time && ts <= until_time
+    matched
+  end
+
+  # Yields each conversation (or collects to array if no block). Full scan; statement_timeout caps cost.
+  def each_conversation_in_batches(scope, includes: nil)
+    relation = scope.unscope(:order)
+    collected = block_given? ? nil : []
+    relation.in_batches(of: 250) do |batch|
+      records = includes.present? ? batch.includes(*Array(includes)) : batch
+      records.each do |conversation|
+        if block_given?
+          yield conversation
+        else
+          collected << conversation
+        end
+      end
     end
+    collected
+  end
+
+  def panel_date_attribute_key
+    attr = @panel.date_attribute.to_s
+    return nil if attr.blank? || attr == SavedReportPanel::DATE_ATTRIBUTE_CREATED_AT
+    return nil unless attr.start_with?(CA_COLUMN_PREFIX)
+
+    attr.delete_prefix(CA_COLUMN_PREFIX)
   end
 
   def conversations_matching_filters_without_date
@@ -429,6 +474,7 @@ class Reports::PanelRunnerService
       end
 
     resolved_columns = columns.presence || rows.first&.keys&.map(&:to_s) || []
+    detail_table = %w[conversations contacts].include?(table_kind)
 
     {
       id: widget[:id],
@@ -438,6 +484,7 @@ class Reports::PanelRunnerService
       columns: resolved_columns,
       rows: rows,
       total_count: total_count,
+      truncated: detail_table && rows.size < total_count,
       attribute_types: attribute_types,
       totals: build_table_totals(rows, resolved_columns, total_count, attribute_types, column_aggregations)
     }
@@ -644,10 +691,10 @@ class Reports::PanelRunnerService
       when 'count'
         accum[measure] = accum[measure].to_i + 1
       when 'sum'
-        num = numeric_table_cell(val)
-        accum[measure] = accum[measure].to_f + num.to_f if num
+        num = CustomAttributes::NumericParser.parse(val)
+        accum[measure] = accum[measure].to_f + num if num
       when 'avg', 'min', 'max'
-        num = numeric_table_cell(val)
+        num = CustomAttributes::NumericParser.parse(val)
         accum[measure] << num if num
       end
     end
@@ -843,17 +890,14 @@ class Reports::PanelRunnerService
 
   def aggregate_custom_attr_in_ruby(dimension, attr_key, op, since_time, until_time, contact_attr:, filter_op: nil, filter_value: nil)
     scope = filtered_conversations_scope(since_time, until_time)
-            .unscope(:order)
-            .includes(:contact)
-            .reorder(:id)
-            .limit(SavedReportPanel::FILTERED_CONVERSATIONS_LIMIT * 20)
     # Agent summary keeps unassigned (nil assignee → UNASSIGNED_AGENT_ID); other dims skip nil.
     scope = scope.where.not(dimension => nil) unless dimension.to_s == 'assignee_id'
 
     buckets = Hash.new { |h, k| h[k] = [] }
     seen_contacts = Hash.new { |h, k| h[k] = {} }
 
-    scope.each do |conversation|
+    # ponytail: full range scan (batched). Old reorder(:id).limit(2k) biased early IDs.
+    each_conversation_in_batches(scope, includes: [:contact]) do |conversation|
       dim_id = conversation.public_send(dimension)
       dim_id = UNASSIGNED_AGENT_ID if dimension.to_s == 'assignee_id' && dim_id.blank?
       next if dim_id.blank?
@@ -870,7 +914,12 @@ class Reports::PanelRunnerService
       next if custom_attr_blank?(val)
       next unless custom_attr_matches_filter?(val, filter_op, filter_value)
 
-      buckets[dim_id] << (op == 'count' ? 1 : numeric_table_cell(val))
+      if op == 'count'
+        buckets[dim_id] << 1
+      else
+        num = CustomAttributes::NumericParser.parse(val)
+        buckets[dim_id] << num if num
+      end
     end
 
     buckets.transform_values do |values|
@@ -883,16 +932,13 @@ class Reports::PanelRunnerService
     labels = @account.labels.index_by(&:title)
     return {} if labels.empty?
 
-    scope = filtered_conversations_scope(since_time, until_time)
-            .unscope(:order)
-            .includes(:contact)
-            .reorder(:id)
-            .limit(SavedReportPanel::FILTERED_CONVERSATIONS_LIMIT * 20)
-
     buckets = Hash.new { |h, k| h[k] = [] }
     seen_contacts = Hash.new { |h, k| h[k] = {} }
 
-    scope.each do |conversation|
+    each_conversation_in_batches(
+      filtered_conversations_scope(since_time, until_time),
+      includes: [:contact]
+    ) do |conversation|
       label_titles = conversation.cached_label_list.to_s.split(',').map(&:strip).reject(&:blank?)
       next if label_titles.empty?
 
@@ -909,7 +955,12 @@ class Reports::PanelRunnerService
           next if label.blank? || seen_contacts[label.id][contact.id]
 
           seen_contacts[label.id][contact.id] = true
-          buckets[label.id] << (op == 'count' ? 1 : numeric_table_cell(val))
+          if op == 'count'
+            buckets[label.id] << 1
+          else
+            num = CustomAttributes::NumericParser.parse(val)
+            buckets[label.id] << num if num
+          end
         end
       else
         val = conversation.custom_attributes&.[](attr_key)
@@ -920,7 +971,12 @@ class Reports::PanelRunnerService
           label = labels[title]
           next if label.blank?
 
-          buckets[label.id] << (op == 'count' ? 1 : numeric_table_cell(val))
+          if op == 'count'
+            buckets[label.id] << 1
+          else
+            num = CustomAttributes::NumericParser.parse(val)
+            buckets[label.id] << num if num
+          end
         end
       end
     end
@@ -978,7 +1034,7 @@ class Reports::PanelRunnerService
   end
 
   def filtered_or_builder_summary(klass, dimension, since_time, until_time, type: nil)
-    if conversation_filters? || contact_filters?
+    if conversation_filters? || contact_filters? || panel_date_attribute_key.present?
       filtered_dimension_summary(dimension, since_time, until_time)
     else
       summary_builder(klass, since_time, until_time, type: type)
@@ -986,7 +1042,7 @@ class Reports::PanelRunnerService
   end
 
   def filtered_or_label_summary(since_time, until_time)
-    if conversation_filters? || contact_filters?
+    if conversation_filters? || contact_filters? || panel_date_attribute_key.present?
       filtered_label_summary(since_time, until_time)
     else
       summary_builder(V2::Reports::LabelSummaryBuilder, since_time, until_time)
@@ -1087,7 +1143,7 @@ class Reports::PanelRunnerService
   end
 
   def agent_extra_column_maps(since_time, until_time)
-    conv_ids = (conversation_filters? || contact_filters?) ? filtered_conversation_ids_subquery(since_time, until_time) : nil
+    conv_ids = (conversation_filters? || contact_filters? || panel_date_attribute_key.present?) ? filtered_conversation_ids_subquery(since_time, until_time) : nil
     csat_scope = @account.csat_survey_responses.where(created_at: since_time..until_time).where.not(assigned_agent_id: nil)
     csat_scope = csat_scope.where(conversation_id: conv_ids) if conv_ids
     csat_avg = csat_scope.group(:assigned_agent_id).average(:rating)
@@ -1139,20 +1195,14 @@ class Reports::PanelRunnerService
   end
 
   def unassigned_agent_conversation_stats(since_time, until_time)
-    scope =
-      if conversation_filters? || contact_filters?
-        Conversation.where(id: filtered_conversation_ids_subquery(since_time, until_time))
-      else
-        @account.conversations.where(created_at: since_time..until_time)
-      end
-    unassigned = scope.where(assignee_id: nil)
+    unassigned = filtered_conversations_scope(since_time, until_time).where(assignee_id: nil)
     [unassigned.count, unassigned.where(status: :resolved).count]
   end
 
   def filtered_conversation_rows(since_time, until_time, columns = [])
     scope = filtered_conversations_scope(since_time, until_time)
              .includes(:inbox, :assignee, :contact)
-             .limit(SavedReportPanel::FILTERED_CONVERSATIONS_LIMIT)
+             .limit(SavedReportPanel::DETAIL_CONVERSATIONS_LIMIT)
 
     scope.map do |conversation|
       row = {
@@ -1172,7 +1222,7 @@ class Reports::PanelRunnerService
 
   # Distinct contacts from filtered conversations in the date range (attended in period).
   def filtered_contact_rows(since_time, until_time, columns = [])
-    limit = SavedReportPanel::FILTERED_CONTACTS_LIMIT
+    limit = SavedReportPanel::DETAIL_CONTACTS_LIMIT
     # ponytail: walk newest matching convos until `limit` unique contacts; scan ceiling limit*20
     scope = filtered_conversations_scope(since_time, until_time)
              .includes(:inbox, :assignee, contact: :assigned_agent)
@@ -1310,13 +1360,9 @@ class Reports::PanelRunnerService
   end
 
   def aggregate_column_values(values, op)
-    nums = Array(values).filter_map do |value|
-      next if value.nil? || value == ''
+    return Array(values).count { |v| !v.nil? && v != '' } if op == 'count'
 
-      numeric_table_cell(value)
-    end
-
-    return nums.size if op == 'count'
+    nums = Array(values).filter_map { |value| CustomAttributes::NumericParser.parse(value) }
     return nil if nums.empty?
 
     case op
@@ -1328,39 +1374,9 @@ class Reports::PanelRunnerService
     end
   end
 
-  # Locale-safe parse for number/currency/percent CAs ("1000,00", "1.000,50", "1,000.50", "$10").
+  # Locale-safe parse; nil when unparseable (display/legacy callers may coerce).
   def numeric_table_cell(value)
-    return 0 if value.nil? || value == ''
-    return value.to_f if value.is_a?(Numeric)
-
-    str = value.to_s.strip
-    return 0 if str.empty?
-
-    str = str.gsub(/[^\d,.\-]/, '')
-    return 0 if str.empty? || str == '-' || str == '.' || str == ','
-
-    if str.include?(',') && str.include?('.')
-      str = if str.rindex(',') > str.rindex('.')
-              # European thousands + decimal: 1.000,50
-              str.gsub('.', '').tr(',', '.')
-            else
-              # US thousands + decimal: 1,000.50
-              str.gsub(',', '')
-            end
-    elsif str.include?(',')
-      parts = str.split(',')
-      str = if parts.length == 2 && parts[1].length.between?(1, 2)
-              # Decimal comma: 1000,00 / 10,5
-              str.tr(',', '.')
-            else
-              # Thousands commas: 1,000 / 1,000,000
-              str.gsub(',', '')
-            end
-    end
-
-    Float(str)
-  rescue ArgumentError, TypeError
-    0
+    CustomAttributes::NumericParser.parse(value) || 0
   end
 
   def unique_contacts_count(since_time, until_time)
@@ -1463,22 +1479,14 @@ class Reports::PanelRunnerService
   end
 
   def filtered_conversations_scope(since_time, until_time)
-    scope =
-      if conversation_filter_payload.present?
-        Conversations::FilterService.new(
-          { payload: conversation_filter_payload },
-          @user,
-          @account
-        ).perform[:conversations].unscope(:limit, :offset)
-      else
-        Conversations::PermissionFilterService.new(
-          @account.conversations,
-          @user,
-          @account
-        ).perform
-      end
+    scope = conversations_matching_filters_without_date
 
-    scope = scope.where(contact_id: filtered_contact_ids) if contact_filters?
+    date_key = panel_date_attribute_key
+    if date_key.present?
+      ids = conversation_ids_for_attribute_date_range(since_time, until_time, date_key)
+      return scope.where(id: ids)
+    end
+
     scope.where(created_at: since_time..until_time)
   end
 

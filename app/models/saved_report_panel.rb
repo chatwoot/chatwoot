@@ -12,6 +12,7 @@
 #  filters         :jsonb            not null
 #  name            :string           not null
 #  widgets         :jsonb            not null
+#  date_attribute  :string           default(""), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  account_id      :bigint           not null
@@ -41,19 +42,27 @@ class SavedReportPanel < ApplicationRecord
   MAX_WIDGETS = 12
   MAX_FILTERS = 10
   MAX_PER_ACCOUNT = Limits::MAX_SAVED_REPORT_PANELS_PER_ACCOUNT
-  FILTERED_CONVERSATIONS_LIMIT = 100
-  FILTERED_CONTACTS_LIMIT = 200
+  # Detail-table preview caps only — aggregation / summary CA measures scan the full range.
+  DETAIL_CONVERSATIONS_LIMIT = 100
+  DETAIL_CONTACTS_LIMIT = 200
+  # Legacy aliases (detail paths + older call sites)
+  FILTERED_CONVERSATIONS_LIMIT = DETAIL_CONVERSATIONS_LIMIT
+  FILTERED_CONTACTS_LIMIT = DETAIL_CONTACTS_LIMIT
   # Marker in filters JSON: route to Contacts::FilterService (labels + contact custom attrs)
   CONTACT_FILTER_TYPES = %w[contact contact_attribute].freeze
+  # Panel date axis: blank / created_at = conversation.created_at; ca:<key> = CA date/datetime
+  DATE_ATTRIBUTE_CREATED_AT = 'created_at'.freeze
 
   belongs_to :account
   belongs_to :created_by, class_name: 'User'
 
   before_validation :clear_custom_range_unless_custom
+  before_validation :normalize_date_attribute
 
   validates :name, presence: true, length: { maximum: 120 }
   validates :date_preset, inclusion: { in: DATE_PRESETS }
   validate :validate_custom_date_range
+  validate :validate_date_attribute
   validate :validate_widgets
   validate :validate_filters
   validate :validate_account_limit, on: :create
@@ -67,6 +76,20 @@ class SavedReportPanel < ApplicationRecord
 
     self.custom_since = nil
     self.custom_until = nil
+  end
+
+  def normalize_date_attribute
+    self.date_attribute = date_attribute.to_s.strip
+    self.date_attribute = '' if date_attribute == DATE_ATTRIBUTE_CREATED_AT
+  end
+
+  def validate_date_attribute
+    attr = date_attribute.to_s
+    return if attr.blank?
+
+    unless attr.match?(/\Aca:[\p{L}\p{N}_.\-]+\z/)
+      errors.add(:date_attribute, 'must be blank or ca:<attribute_key>')
+    end
   end
 
   def validate_custom_date_range

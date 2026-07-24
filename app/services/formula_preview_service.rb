@@ -11,7 +11,7 @@ class FormulaPreviewService
     return nil if source_key.blank?
 
     raw = sample_attributes&.[](source_key)
-    value = parse_numeric(raw)
+    value = CustomAttributes::NumericParser.parse(raw)
     return nil if value.nil?
 
     apply_op(op, value)
@@ -28,13 +28,5 @@ class FormulaPreviewService
     else
       value
     end
-  end
-
-  def parse_numeric(raw)
-    return nil if raw.nil? || raw == ''
-
-    Float(raw.to_s)
-  rescue ArgumentError, TypeError
-    nil
   end
 end

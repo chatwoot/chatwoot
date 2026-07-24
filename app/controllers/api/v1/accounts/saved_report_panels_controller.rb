@@ -69,6 +69,7 @@ class Api::V1::Accounts::SavedReportPanelsController < Api::V1::Accounts::BaseCo
     attrs[:date_preset] = raw[:date_preset] if raw.key?(:date_preset)
     attrs[:custom_since] = cast_unix(raw[:custom_since]) if raw.key?(:custom_since)
     attrs[:custom_until] = cast_unix(raw[:custom_until]) if raw.key?(:custom_until)
+    attrs[:date_attribute] = raw[:date_attribute].to_s if raw.key?(:date_attribute)
     attrs[:filters] = normalize_json_array(raw[:filters]) if raw.key?(:filters)
     attrs[:widgets] = normalize_json_array(raw[:widgets]) if raw.key?(:widgets)
     attrs[:business_hours] = ActiveModel::Type::Boolean.new.cast(raw[:business_hours]) if raw.key?(:business_hours)

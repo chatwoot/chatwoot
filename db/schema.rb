@@ -887,6 +887,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_23_210000) do
     t.string "date_preset", default: "last_7_days", null: false
     t.bigint "custom_since"
     t.bigint "custom_until"
+    t.string "date_attribute", default: "", null: false
     t.boolean "business_hours", default: false, null: false
     t.boolean "favorite", default: false, null: false
     t.jsonb "filters", default: [], null: false

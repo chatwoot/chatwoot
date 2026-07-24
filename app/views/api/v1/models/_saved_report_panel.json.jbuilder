@@ -4,6 +4,7 @@ json.description resource.description
 json.date_preset resource.date_preset
 json.custom_since resource.custom_since
 json.custom_until resource.custom_until
+json.date_attribute resource.date_attribute
 json.business_hours resource.business_hours
 json.favorite resource.favorite
 json.filters resource.filters
