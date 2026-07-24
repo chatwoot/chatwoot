@@ -925,6 +925,25 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(data_import.reload).to be_abandoned
       expect(data_import.completed_at).to be_nil
     end
+
+    it 'does not finish an import after a newer run takes over', :aggregate_failures do
+      run_id = 'intercom-run-1'
+      data_import.update!(
+        status: :processing,
+        source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id }
+      )
+      importer = described_class.new(data_import: data_import, run_id: run_id)
+
+      DataImport.find(data_import.id).update!(
+        status: :pending,
+        source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'intercom-run-2' }
+      )
+
+      importer.finish!
+
+      expect(data_import.reload).to be_pending
+      expect(data_import.completed_at).to be_nil
+    end
   end
 
   describe '#fail!' do

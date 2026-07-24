@@ -61,18 +61,20 @@ class DataImports::Intercom::Importer
   end
 
   def finish!
-    return if @data_import.reload.abandoned?
+    @data_import.with_lock do
+      next if @data_import.abandoned? || stale_import_run?
 
-    error_count = @data_import.import_errors.non_skip_logs.count + @data_import.import_errors.failed.count
-    @stats['errors']['count'] = error_count
-    status = error_count.positive? ? :completed_with_errors : :completed
-    @data_import.update!(
-      status: status,
-      completed_at: Time.current,
-      stats: @stats,
-      total_records: total_processed_records,
-      processed_records: total_successful_records
-    )
+      error_count = @data_import.import_errors.non_skip_logs.count + @data_import.import_errors.failed.count
+      @stats['errors']['count'] = error_count
+      status = error_count.positive? ? :completed_with_errors : :completed
+      @data_import.update!(
+        status: status,
+        completed_at: Time.current,
+        stats: @stats,
+        total_records: total_processed_records,
+        processed_records: total_successful_records
+      )
+    end
   end
 
   def fail!(error)
