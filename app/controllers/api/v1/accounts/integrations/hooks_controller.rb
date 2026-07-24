@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Integrations::BaseController
   before_action :fetch_hook, except: [:create]
   before_action :check_authorization
 
@@ -33,10 +33,6 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
 
   def fetch_hook
     @hook = Current.account.hooks.find(params[:id])
-  end
-
-  def check_authorization
-    authorize(:hook)
   end
 
   def permitted_params
