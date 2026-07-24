@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# Smoke: pivot agent rows must not collapse vs flat agent summary.
+# Smoke: pivot agent rows must not collapse vs flat agent summary,
+# and identity columns must keep real names/ranks (B-NEW-19).
 # Usage (Docker):
 #   docker cp tmp/smoke_pivot_agent_rows.rb chatwoot-chatwoot-rails-1:/tmp/smoke_pivot_agent_rows.rb
 #   docker exec chatwoot-chatwoot-rails-1 bundle exec rails runner /tmp/smoke_pivot_agent_rows.rb
@@ -45,4 +46,16 @@ zero_ok = subset_result[:rows].any? do |row|
 end
 raise 'FAIL: expected some zero pivot cells' unless zero_ok
 
-puts 'OK — pivot agent count >= flat agent count (incl. selected column_values)'
+# B-NEW-19: name/rank must not be clobbered to 0
+identity_ok = pivot[:rows].all? do |row|
+  r = row.with_indifferent_access
+  name = r[:name].to_s
+  rank = r[:rank].to_i
+  name.present? && name != '0' && rank >= 1
+end
+raise 'FAIL: pivot name/rank clobbered to 0 (B-NEW-19)' unless identity_ok
+
+unassigned = flat[:rows].find { |row| row.with_indifferent_access[:id] == Reports::PanelRunnerService::UNASSIGNED_AGENT_ID }
+raise 'FAIL: missing Sin asignar / Unassigned row on flat agent summary' if unassigned.blank?
+
+puts 'OK — pivot agent count >= flat; identity columns intact; unassigned row present'

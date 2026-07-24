@@ -713,7 +713,7 @@
     "FAVORITE": "Favorito",
     "CHART_TIME_UNIT": "horas",
     "LIST": {
-      "SCOPE_HINT": "Las métricas son por cuenta (toda la organización) por defecto. Usa filtros del panel para acotar por agente, bandeja, etiquetas, etc. Usa una tabla “Resumen de agentes” para ver el desglose por agente.",
+      "SCOPE_HINT": "Las métricas del panel cuentan toda la cuenta en el rango de fechas (todos los estados, incluidas sin asignar). La tabla “Resumen de agentes” desglosa por asignado e incluye la fila “Sin asignar”. Usa filtros del panel (p. ej. status = open/pending) para acotar todos los widgets.",
       "COLUMNS": {
         "NAME": "Nombre",
         "PERIOD": "Período",
@@ -836,8 +836,8 @@
     "FILTERS": {
       "TITLE": "Filtros del informe",
       "ADD": "Añadir filtro",
-      "HINT": "Como filtros/segmentación de Excel: aplican a todo el panel (AND exterior). Los filtros de conversación acotan conversaciones; los de contacto intersectan contactos. El pivote desglosa dentro de ese conjunto. Máx. 10.",
-      "EMPTY": "Sin filtros. Métricas y tablas usan solo el rango de fechas.",
+      "HINT": "Como filtros/segmentación de Excel: aplican a todo el panel (AND exterior), incluidas métricas y tablas pivote. Los filtros de conversación acotan conversaciones (prueba status = open/pending/resolved); los de contacto intersectan contactos. El pivote desglosa dentro de ese conjunto. Máx. 10.",
+      "EMPTY": "Sin filtros. Las métricas cuentan toda la cuenta en el rango; las tablas de agentes muestran asignados más Sin asignar.",
       "SYSTEM_ATTRIBUTES": "Atributos de conversación",
       "CUSTOM_ATTRIBUTES": "Atributos personalizados de conversación",
       "CONTACT_ATTRIBUTES": "Atributos de contacto",
@@ -880,7 +880,7 @@
       "phone_number": "Teléfono",
       "email": "Email",
       "document_number": "Documento",
-      "conversations_count": "Conversaciones",
+      "conversations_count": "Conversaciones (asignadas)",
       "resolved_conversations_count": "Resueltas",
       "incoming_messages_count": "Mensajes entrantes",
       "outgoing_messages_count": "Mensajes salientes",
@@ -897,7 +897,7 @@
       "MEASURE_CA_EQ": "{op}({name} = {value})"
     },
     "METRICS": {
-      "conversations_count": "Conversaciones",
+      "conversations_count": "Conversaciones (cuenta)",
       "unique_contacts_count": "Contactos únicos atendidos",
       "contacts_count": "Contactos creados",
       "incoming_messages_count": "Mensajes entrantes",

@@ -366,6 +366,8 @@ class Reports::PanelRunnerService
   MAX_PIVOT_VALUES = 12
   PIVOT_IDENTITY_COLUMNS = %w[rank name id].freeze
   PIVOT_SYSTEM_MEASURES = %w[conversations_count resolved_conversations_count].freeze
+  # Synthetic agent row for conversations with assignee_id NULL (never a real user id).
+  UNASSIGNED_AGENT_ID = 0
 
   def build_table_widget(widget, since_time, until_time)
     table_kind = (widget[:table_kind].presence || 'agent_summary').to_s
@@ -404,7 +406,11 @@ class Reports::PanelRunnerService
         filtered_contact_rows(since_time, until_time, columns)
       else
         enrich_named_rows(
-          filtered_or_builder_summary(V2::Reports::AgentSummaryBuilder, :assignee_id, since_time, until_time, type: :agent),
+          with_unassigned_agent_row(
+            filtered_or_builder_summary(V2::Reports::AgentSummaryBuilder, :assignee_id, since_time, until_time, type: :agent),
+            since_time,
+            until_time
+          ),
           name_map: agent_name_map,
           extra_maps: agent_extra_column_maps(since_time, until_time).merge(
             summary_custom_attribute_maps(table_kind, columns, since_time, until_time, column_aggregations)
@@ -585,7 +591,11 @@ class Reports::PanelRunnerService
       when 'label_summary'
         filtered_or_label_summary(since_time, until_time)
       else
-        filtered_or_builder_summary(V2::Reports::AgentSummaryBuilder, :assignee_id, since_time, until_time, type: :agent)
+        with_unassigned_agent_row(
+          filtered_or_builder_summary(V2::Reports::AgentSummaryBuilder, :assignee_id, since_time, until_time, type: :agent),
+          since_time,
+          until_time
+        )
       end
 
     Array(rows).filter_map { |row| row.with_indifferent_access[:id] }
@@ -664,7 +674,7 @@ class Reports::PanelRunnerService
       titles = conversation.cached_label_list.to_s.split(',').map(&:strip).reject(&:blank?)
       titles.filter_map { |t| labels_by_title[t]&.id }
     else
-      conversation.assignee_id.present? ? [conversation.assignee_id] : []
+      conversation.assignee_id.present? ? [conversation.assignee_id] : [UNASSIGNED_AGENT_ID]
     end
   end
 
@@ -691,7 +701,13 @@ class Reports::PanelRunnerService
     end
 
     dim_ids.map.with_index(1) do |dim_id, rank|
-      row = { id: dim_id, rank: rank, name: name_map[dim_id].presence || "##{dim_id}" }
+      # String keys only — a later nil-fill with expanded_columns (strings) must not
+      # invent a second :name/:rank that as_json prefers as 0 (B-NEW-19).
+      row = {
+        'id' => dim_id,
+        'rank' => rank,
+        'name' => name_map[dim_id].presence || "##{dim_id}"
+      }
       totals = measures.index_with { 0.0 }
 
       pivot_values.each do |pval|
@@ -721,7 +737,11 @@ class Reports::PanelRunnerService
         end
       end
 
-      expanded_columns.each { |col| row[col] = 0 if row[col].nil? }
+      expanded_columns.each do |col|
+        next if PIVOT_IDENTITY_COLUMNS.include?(col.to_s)
+
+        row[col] = 0 if row[col].nil?
+      end
       row
     end
   end
@@ -824,16 +844,18 @@ class Reports::PanelRunnerService
   def aggregate_custom_attr_in_ruby(dimension, attr_key, op, since_time, until_time, contact_attr:, filter_op: nil, filter_value: nil)
     scope = filtered_conversations_scope(since_time, until_time)
             .unscope(:order)
-            .where.not(dimension => nil)
             .includes(:contact)
             .reorder(:id)
             .limit(SavedReportPanel::FILTERED_CONVERSATIONS_LIMIT * 20)
+    # Agent summary keeps unassigned (nil assignee → UNASSIGNED_AGENT_ID); other dims skip nil.
+    scope = scope.where.not(dimension => nil) unless dimension.to_s == 'assignee_id'
 
     buckets = Hash.new { |h, k| h[k] = [] }
     seen_contacts = Hash.new { |h, k| h[k] = {} }
 
     scope.each do |conversation|
       dim_id = conversation.public_send(dimension)
+      dim_id = UNASSIGNED_AGENT_ID if dimension.to_s == 'assignee_id' && dim_id.blank?
       next if dim_id.blank?
 
       if contact_attr
@@ -1091,12 +1113,40 @@ class Reports::PanelRunnerService
   end
 
   def agent_name_map
-    @account.account_users.includes(:user).each_with_object({}) do |account_user, map|
+    map = @account.account_users.includes(:user).each_with_object({}) do |account_user, memo|
       user = account_user.user
       next if user.blank?
 
-      map[user.id] = user.available_name.presence || user.name.presence || user.email
+      memo[user.id] = user.available_name.presence || user.name.presence || user.email
     end
+    map[UNASSIGNED_AGENT_ID] = I18n.t('reports.panels.unassigned_agent')
+    map
+  end
+
+  # Append synthetic row so ∑ Conversaciones (tabla) can match the account KPI.
+  def with_unassigned_agent_row(rows, since_time, until_time)
+    list = Array(rows).map { |row| row.with_indifferent_access }
+    list = list.reject { |row| row[:id].nil? || row[:id] == UNASSIGNED_AGENT_ID }
+    count, resolved = unassigned_agent_conversation_stats(since_time, until_time)
+    list + [{
+      id: UNASSIGNED_AGENT_ID,
+      conversations_count: count,
+      resolved_conversations_count: resolved,
+      avg_first_response_time: nil,
+      avg_resolution_time: nil,
+      avg_reply_time: nil
+    }]
+  end
+
+  def unassigned_agent_conversation_stats(since_time, until_time)
+    scope =
+      if conversation_filters? || contact_filters?
+        Conversation.where(id: filtered_conversation_ids_subquery(since_time, until_time))
+      else
+        @account.conversations.where(created_at: since_time..until_time)
+      end
+    unassigned = scope.where(assignee_id: nil)
+    [unassigned.count, unassigned.where(status: :resolved).count]
   end
 
   def filtered_conversation_rows(since_time, until_time, columns = [])

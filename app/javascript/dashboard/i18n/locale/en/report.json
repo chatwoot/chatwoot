@@ -713,7 +713,7 @@
     "FAVORITE": "Favorite",
     "CHART_TIME_UNIT": "hours",
     "LIST": {
-      "SCOPE_HINT": "Metrics default to the whole account (all agents/inboxes). Use panel filters to narrow by agent, inbox, labels, etc. Use an “Agent summary” table to break numbers down per agent.",
+      "SCOPE_HINT": "Metric widgets count the whole account for the date range (all statuses, including unassigned). Agent summary tables break down by assignee and include an “Unassigned” row. Use panel filters (e.g. status = open/pending) to narrow every widget.",
       "COLUMNS": {
         "NAME": "Name",
         "PERIOD": "Period",
@@ -836,8 +836,8 @@
     "FILTERS": {
       "TITLE": "Report filters",
       "ADD": "Add filter",
-      "HINT": "Like Excel filters / slicers: apply to the whole panel (outer AND). Conversation filters narrow conversations; contact filters intersect contacts. Pivot Columns still break down within this filtered set. Max 10.",
-      "EMPTY": "No filters. Metrics and tables use the date range only.",
+      "HINT": "Like Excel filters / slicers: apply to the whole panel (outer AND), including metrics and pivot tables. Conversation filters narrow conversations (try status = open/pending/resolved); contact filters intersect contacts. Pivot Columns still break down within this filtered set. Max 10.",
+      "EMPTY": "No filters. Metrics count the whole account for the date range; agent tables show assigned agents plus Unassigned.",
       "SYSTEM_ATTRIBUTES": "Conversation attributes",
       "CUSTOM_ATTRIBUTES": "Conversation custom attributes",
       "CONTACT_ATTRIBUTES": "Contact attributes",
@@ -880,7 +880,7 @@
       "phone_number": "Phone",
       "email": "Email",
       "document_number": "Document",
-      "conversations_count": "Conversations",
+      "conversations_count": "Conversations (assigned)",
       "resolved_conversations_count": "Resolved",
       "incoming_messages_count": "Incoming messages",
       "outgoing_messages_count": "Outgoing messages",
@@ -897,7 +897,7 @@
       "MEASURE_CA_EQ": "{op}({name} = {value})"
     },
     "METRICS": {
-      "conversations_count": "Conversations",
+      "conversations_count": "Conversations (account)",
       "unique_contacts_count": "Unique contacts attended",
       "contacts_count": "Contacts created",
       "incoming_messages_count": "Incoming messages",

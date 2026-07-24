@@ -183,6 +183,8 @@ en:
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
+    panels:
+      unassigned_agent: Unassigned
     resolution_count_labels:
       resolved: Resolution Count
       closed: Closed Count
