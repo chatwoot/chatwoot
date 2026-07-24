@@ -13,8 +13,9 @@ dockerfilePath = "docker/Dockerfile"
 watchPatterns = ["docker/**", "app/**", "config/**", "Gemfile", "Gemfile.lock", "package.json", "pnpm-lock.yaml"]
 
 [deploy]
-# Leave startCommand unset in Railway UI — Dockerfile CMD handles boot:
-#   sh -c "rm -f tmp/pids/server.pid && rails ip_lookup:setup && rails server ..."
+# Leave startCommand unset — Dockerfile CMD handles boot.
+# IMAP SSL VERIFY_NONE patch: config/initializers/imap_ssl_verify_none.rb (committed).
+# Clear any Railway UI startCommand override so image CMD is used.
 healthcheckPath = "/api"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
