@@ -6,6 +6,32 @@ export const GUARD_RULE_TYPES = [
   'require_assignee_on_status',
 ];
 
+export const emptyConfigForType = type => {
+  switch (type) {
+    case 'require_attributes_on_status':
+      return { status: 'resolved', attribute_keys: [] };
+    case 'if_attribute_then_require':
+      return {
+        when_attribute: '',
+        when_values: [],
+        require_attribute_keys: [],
+        on_status: 'resolved',
+      };
+    case 'require_reason_on_status':
+      return {
+        statuses: ['pending', 'snoozed'],
+        require_private_note: true,
+        reason_attribute_key: '',
+      };
+    case 'forbid_status_if':
+      return { status: 'resolved', label: '' };
+    case 'require_assignee_on_status':
+      return { status: 'open', require_team_or_agent: true };
+    default:
+      return {};
+  }
+};
+
 export const BUSINESS_RULE_PRESETS = [
   {
     id: 'require_on_resolve',

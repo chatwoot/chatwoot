@@ -56,7 +56,11 @@ describe('useConversationRequiredAttributes', () => {
 
   const setupMocks = (
     requiredAttributes = ['priority', 'category', 'is_urgent'],
-    { attributes = defaultAttributes, featureEnabled = true } = {}
+    {
+      attributes = defaultAttributes,
+      featureEnabled = true,
+      businessRules = [],
+    } = {}
   ) => {
     useMapGetter.mockImplementation(getter => {
       if (getter === 'accounts/isFeatureEnabledonAccount') {
@@ -73,6 +77,7 @@ describe('useConversationRequiredAttributes', () => {
         value: {
           settings: {
             conversation_required_attributes: requiredAttributes,
+            business_rules: businessRules,
           },
         },
       },
@@ -343,6 +348,68 @@ describe('useConversationRequiredAttributes', () => {
 
       expect(result.hasMissing).toBe(true);
       expect(result.missing[0].value).toBe('category');
+    });
+
+    it('requires only attribute_keys from require_attributes_on_status rules', () => {
+      setupMocks([], {
+        businessRules: [
+          {
+            id: 'r1',
+            type: 'require_attributes_on_status',
+            enabled: true,
+            config: { status: 'resolved', attribute_keys: ['priority'] },
+          },
+        ],
+      });
+
+      const { checkMissingAttributes } = useConversationRequiredAttributes();
+      const result = checkMissingAttributes({});
+
+      expect(result.hasMissing).toBe(true);
+      expect(result.missing.map(a => a.value)).toEqual(['priority']);
+    });
+
+    it('ignores require_attributes rule with empty attribute_keys', () => {
+      setupMocks([], {
+        businessRules: [
+          {
+            id: 'r1',
+            type: 'require_attributes_on_status',
+            enabled: true,
+            config: { status: 'resolved', attribute_keys: [] },
+          },
+        ],
+      });
+
+      const { checkMissingAttributes } = useConversationRequiredAttributes();
+      expect(checkMissingAttributes({}).hasMissing).toBe(false);
+    });
+
+    it('applies if_attribute_then_require only when when_attribute matches', () => {
+      setupMocks([], {
+        businessRules: [
+          {
+            id: 'r1',
+            type: 'if_attribute_then_require',
+            enabled: true,
+            config: {
+              on_status: 'resolved',
+              when_attribute: 'priority',
+              when_values: ['High'],
+              require_attribute_keys: ['category'],
+            },
+          },
+        ],
+      });
+
+      const { checkMissingAttributes } = useConversationRequiredAttributes();
+
+      expect(checkMissingAttributes({ priority: 'Low' }).hasMissing).toBe(
+        false
+      );
+      expect(
+        checkMissingAttributes({ priority: 'High' }).missing.map(a => a.value)
+      ).toEqual(['category']);
     });
   });
 });

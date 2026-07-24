@@ -1,27 +1,41 @@
 {
   "BUSINESS_RULES": {
+    "HEADER": "Business rules",
     "TITLE": "Business rules (guardrails)",
-    "DESCRIPTION": "Block status changes unless required fields, notes, assignee, or label conditions are met. Create custom rules or start from a preset — all rules are editable.",
+    "DESCRIPTION": "Conditions that must be met before a conversation can change status. Only the attributes you select are required — never the full attribute list.",
+    "FORM_HELP": "Only the attributes you mark below will be required. Leaving none selected means the rule does not block status changes.",
     "PRESETS_TITLE": "Quick presets",
-    "PRESETS_HELP": "One click adds a ready-made rule. You can edit it afterward or create one from scratch.",
+    "PRESETS_HELP": "One click adds a ready-made rule with empty attribute lists. Edit it to choose which fields apply.",
     "EMPTY": "No guardrails yet. Create a custom rule or activate a preset.",
-    "CREATE_CUSTOM": "Create custom rule",
-    "CREATE_CUSTOM_TITLE": "New custom rule",
+    "CREATE_CUSTOM": "Create rule",
+    "CREATE_CUSTOM_TITLE": "New business rule",
+    "EDIT": "Edit",
+    "EDIT_TITLE": "Edit business rule",
     "CREATE_ADD": "Add rule",
     "CANCEL": "Cancel",
     "CUSTOM_DEFAULT_NAME": "Custom rule · {type}",
-    "SAVE": "Save business rules",
+    "NAME_REQUIRED": "Enter a rule name",
+    "SAVE": "Save",
     "SAVE_SUCCESS": "Business rules saved",
     "SAVE_ERROR": "Could not save business rules",
     "REMOVE": "Remove",
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "TYPE": "Type",
+        "ENABLED": "Enabled",
+        "ACTION": "Actions"
+      }
+    },
     "FIELDS": {
       "NAME": "Name",
-      "NAME_PLACEHOLDER": "e.g. Require product on resolve",
+      "NAME_PLACEHOLDER": "e.g. Require sale total on resolve",
       "TYPE": "Rule type",
       "STATUS": "Target status",
       "STATUSES": "Statuses (comma-separated)",
       "STATUSES_PLACEHOLDER": "pending, snoozed",
       "ATTRIBUTES": "Required attributes",
+      "ATTRIBUTES_HELP": "Only checked attributes will be required. Do not select everything unless you truly need it.",
       "WHEN_ATTRIBUTE": "When this attribute is set",
       "WHEN_VALUES": "Trigger values (optional)",
       "WHEN_VALUES_PLACEHOLDER": "sale, won — empty = any value",
@@ -29,7 +43,8 @@
       "REQUIRE_PRIVATE_NOTE": "Require a recent private note",
       "REASON_ATTRIBUTE": "Reason attribute (optional)",
       "LABEL": "Forbidden label",
-      "REQUIRE_TEAM_OR_AGENT": "Require team or agent assignee"
+      "REQUIRE_TEAM_OR_AGENT": "Require team or agent assignee",
+      "NONE": "None"
     },
     "TYPES": {
       "require_attributes_on_status": "Require attributes on status change",
@@ -44,6 +59,7 @@
       "pending": "Pending",
       "snoozed": "Snoozed"
     },
+    "NO_ATTRIBUTES": "No conversation attributes defined yet.",
     "PRESETS": {
       "REQUIRE_ON_RESOLVE": "Require attributes on resolve",
       "REQUIRE_ON_RESOLVE_DESC": "Agents must fill selected attributes before resolving.",

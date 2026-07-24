@@ -1,27 +1,41 @@
 {
   "BUSINESS_RULES": {
+    "HEADER": "Reglas de negocio",
     "TITLE": "Reglas de negocio (restricciones)",
-    "DESCRIPTION": "Bloquean cambios de estado si faltan campos, notas, asignación o si hay etiquetas que lo prohíben. Puedes crear reglas propias o partir de un preset; todas son editables.",
+    "DESCRIPTION": "Condiciones que deben cumplirse antes de cambiar el estado de una conversación. Solo se exigen los atributos que elijas — nunca la lista completa.",
+    "FORM_HELP": "Solo los atributos que marques abajo serán obligatorios. Si no marcas ninguno, la regla no bloquea el cambio de estado.",
     "PRESETS_TITLE": "Presets rápidos",
-    "PRESETS_HELP": "Un clic añade una regla ya armada. Después puedes editarla o crear una desde cero.",
+    "PRESETS_HELP": "Un clic añade una regla con listas de atributos vacías. Edítala para elegir qué campos aplican.",
     "EMPTY": "Aún no hay restricciones. Crea una regla propia o activa un preset.",
-    "CREATE_CUSTOM": "Crear regla propia",
-    "CREATE_CUSTOM_TITLE": "Nueva regla personalizada",
+    "CREATE_CUSTOM": "Crear regla",
+    "CREATE_CUSTOM_TITLE": "Nueva regla de negocio",
+    "EDIT": "Editar",
+    "EDIT_TITLE": "Editar regla de negocio",
     "CREATE_ADD": "Añadir regla",
     "CANCEL": "Cancelar",
     "CUSTOM_DEFAULT_NAME": "Regla personalizada · {type}",
-    "SAVE": "Guardar reglas de negocio",
+    "NAME_REQUIRED": "Escribe un nombre para la regla",
+    "SAVE": "Guardar",
     "SAVE_SUCCESS": "Reglas de negocio guardadas",
     "SAVE_ERROR": "No se pudieron guardar las reglas de negocio",
     "REMOVE": "Quitar",
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Nombre",
+        "TYPE": "Tipo",
+        "ENABLED": "Activa",
+        "ACTION": "Acciones"
+      }
+    },
     "FIELDS": {
       "NAME": "Nombre",
-      "NAME_PLACEHOLDER": "Ej. Exigir producto al resolver",
+      "NAME_PLACEHOLDER": "Ej. Exigir total de venta al resolver",
       "TYPE": "Tipo de regla",
       "STATUS": "Estado objetivo",
       "STATUSES": "Estados (separados por coma)",
       "STATUSES_PLACEHOLDER": "pending, snoozed",
       "ATTRIBUTES": "Atributos obligatorios",
+      "ATTRIBUTES_HELP": "Solo los atributos marcados serán obligatorios. No selecciones todos salvo que realmente lo necesites.",
       "WHEN_ATTRIBUTE": "Cuando este atributo tenga valor",
       "WHEN_VALUES": "Valores que disparan (opcional)",
       "WHEN_VALUES_PLACEHOLDER": "venta, ganado — vacío = cualquier valor",
@@ -29,7 +43,8 @@
       "REQUIRE_PRIVATE_NOTE": "Exigir una nota privada reciente",
       "REASON_ATTRIBUTE": "Atributo de motivo (opcional)",
       "LABEL": "Etiqueta prohibida",
-      "REQUIRE_TEAM_OR_AGENT": "Exigir equipo o agente asignado"
+      "REQUIRE_TEAM_OR_AGENT": "Exigir equipo o agente asignado",
+      "NONE": "Ninguno"
     },
     "TYPES": {
       "require_attributes_on_status": "Exigir atributos al cambiar estado",
@@ -44,6 +59,7 @@
       "pending": "Pendiente",
       "snoozed": "Pospuesta"
     },
+    "NO_ATTRIBUTES": "Aún no hay atributos de conversación definidos.",
     "PRESETS": {
       "REQUIRE_ON_RESOLVE": "Exigir atributos al resolver",
       "REQUIRE_ON_RESOLVE_DESC": "Los agentes deben completar los atributos elegidos antes de resolver.",
