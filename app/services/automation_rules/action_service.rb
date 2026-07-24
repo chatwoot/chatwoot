@@ -102,4 +102,22 @@ class AutomationRules::ActionService < ActionService
   ensure
     @executing_macro = false
   end
+
+  def enter_flow(flow_refs)
+    return unless @account.feature_enabled?('flows_v1')
+    return if @conversation.in_flow?
+
+    ref = Array(flow_refs).first
+    return if ref.blank?
+
+    flow = @account.flows.active.find_by(id: ref) || @account.flows.active.find_by(name: ref.to_s)
+    return if flow.blank?
+
+    Flows::StartService.new(
+      account: @account,
+      conversation: @conversation,
+      flow: flow,
+      trigger: 'automation_rule'
+    ).perform
+  end
 end

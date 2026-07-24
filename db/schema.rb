@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_22_160000) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_23_120000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -919,6 +919,50 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_22_160000) do
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
   end
 
+  
+  create_table "flow_events", force: :cascade do |t|
+    t.bigint "flow_run_id", null: false
+    t.string "event_type", null: false
+    t.string "node_id"
+    t.jsonb "data", default: {}
+    t.datetime "created_at", null: false
+    t.index ["flow_run_id", "event_type"], name: "index_flow_events_on_flow_run_id_and_event_type"
+    t.index ["flow_run_id"], name: "index_flow_events_on_flow_run_id"
+  end
+
+  create_table "flow_runs", force: :cascade do |t|
+    t.bigint "flow_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "account_id", null: false
+    t.integer "state", default: 0, null: false
+    t.string "current_node_id"
+    t.jsonb "variables", default: {}, null: false
+    t.jsonb "trail", default: [], null: false
+    t.string "trigger", default: "automation_rule"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.string "ended_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_flow_runs_on_account_id"
+    t.index ["conversation_id", "state"], name: "index_flow_runs_on_conversation_id_and_state"
+    t.index ["conversation_id"], name: "index_flow_runs_on_conversation_id"
+    t.index ["flow_id"], name: "index_flow_runs_on_flow_id"
+    t.index ["state"], name: "index_flow_runs_on_state"
+  end
+
+  create_table "flows", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.boolean "active", default: true, null: false
+    t.jsonb "graph", default: {}, null: false
+    t.jsonb "exit_policy", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_flows_on_account_id_and_name", unique: true
+    t.index ["account_id"], name: "index_flows_on_account_id"
+  end
   create_table "folders", force: :cascade do |t|
     t.integer "account_id", null: false
     t.integer "category_id", null: false
@@ -1451,6 +1495,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_22_160000) do
   add_foreign_key "inboxes", "portals"
   add_foreign_key "saved_report_panels", "accounts"
   add_foreign_key "saved_report_panels", "users", column: "created_by_id"
+  add_foreign_key "flow_events", "flow_runs"
+  add_foreign_key "flow_runs", "accounts"
+  add_foreign_key "flow_runs", "conversations"
+  add_foreign_key "flow_runs", "flows"
+  add_foreign_key "flows", "accounts"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

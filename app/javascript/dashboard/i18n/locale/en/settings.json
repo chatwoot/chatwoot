@@ -347,6 +347,7 @@
     "CUSTOM_ATTRIBUTES": "Custom Attributes",
     "AUTOMATION": "Automation",
     "MACROS": "Macros",
+    "FLOWS": "Flows",
     "TEAMS": "Teams",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",
@@ -592,6 +593,11 @@
         "TITLE": "Conversation Workflows",
         "DESCRIPTION": "Configure rules and required fields for conversation resolution."
       }
+    },
+    "FLOWS": {
+      "TITLE": "Conversation Flows",
+      "DESCRIPTION": "Build multi-step message flows with buttons, typing delays, and handoff rules. Trigger them from Automations.",
+      "CTA": "Configure flows"
     },
     "REQUIRED_ATTRIBUTES": {
       "TITLE": "Attributes required on resolution",

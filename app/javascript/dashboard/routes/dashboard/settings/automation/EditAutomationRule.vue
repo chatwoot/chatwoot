@@ -52,6 +52,7 @@ watch(
 
     await store.dispatch('attributes/get');
     await store.dispatch('macros/get');
+    await store.dispatch('flows/get');
     manifestCustomAttributes();
 
     automation.value = formatAutomation(

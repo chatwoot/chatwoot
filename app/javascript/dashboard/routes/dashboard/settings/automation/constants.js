@@ -816,6 +816,11 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: 'search_select',
   },
   {
+    key: 'enter_flow',
+    label: 'ENTER_FLOW',
+    inputType: 'search_select',
+  },
+  {
     key: 'add_sla',
     label: 'ADD_SLA',
     inputType: 'search_select',

@@ -126,6 +126,7 @@ Rails.application.routes.draw do
           resources :macros, only: [:index, :create, :show, :update, :destroy] do
             post :execute, on: :member
           end
+          resources :flows, only: [:index, :create, :show, :update, :destroy]
           resources :task_templates, only: [:index, :create, :show, :update, :destroy]
           resources :internal_tasks, only: [:index, :show, :update, :destroy] do
             member do

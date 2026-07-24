@@ -25,6 +25,7 @@ import customRoles from './customRoles/customRole.routes';
 import profile from './profile/profile.routes';
 import security from './security/security.routes';
 import conversationWorkflow from './conversationWorkflow/conversationWorkflow.routes';
+import flows from './flows/flows.routes';
 import captain from './captain/captain.routes';
 
 export default {
@@ -66,6 +67,7 @@ export default {
     ...profile.routes,
     ...security.routes,
     ...conversationWorkflow.routes,
+    ...flows.routes,
     ...captain.routes,
   ],
 };

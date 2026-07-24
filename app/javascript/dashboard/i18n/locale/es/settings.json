@@ -336,6 +336,7 @@
     "CUSTOM_ATTRIBUTES": "Atributos personalizados",
     "AUTOMATION": "Automatización",
     "MACROS": "Macros",
+    "FLOWS": "Flujos",
     "TEAMS": "Equipos",
     "BILLING": "Facturación",
     "CUSTOM_VIEWS_FOLDER": "Carpetas",
@@ -566,6 +567,11 @@
         "TITLE": "Flujos de conversación",
         "DESCRIPTION": "Configura reglas y campos obligatorios para resolver conversaciones."
       }
+    },
+    "FLOWS": {
+      "TITLE": "Flujos de conversación",
+      "DESCRIPTION": "Crea flujos de mensajes de varios pasos con botones, demoras de escritura y reglas de escalamiento. Actívalos desde Automatizaciones.",
+      "CTA": "Configurar flujos"
     },
     "REQUIRED_ATTRIBUTES": {
       "TITLE": "Atributos obligatorios al resolver",

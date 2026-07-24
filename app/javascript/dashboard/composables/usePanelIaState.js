@@ -27,10 +27,24 @@ export function usePanelIaState(chatRef) {
 
   const isBotHandled = computed(() => isBotHandledConversation(unref(chatRef)));
 
+  const hasFlowState = computed(() => {
+    const chat = unref(chatRef);
+    return Boolean(
+      chat?.flow_run ||
+        chat?.custom_attributes?.panel_ia_estado ||
+        chat?.custom_attributes?.panel_ia_estado_label
+    );
+  });
+
   const state = computed(() => {
     const chat = unref(chatRef);
     const estado = chat?.custom_attributes?.panel_ia_estado;
     if (estado) return estado;
+    if (chat?.flow_run?.state === 'waiting') return 'esperando';
+    if (chat?.flow_run?.state === 'running') return 'activo';
+    if (['handed_off', 'failed'].includes(chat?.flow_run?.state)) {
+      return 'solicita_ayuda';
+    }
     if (chat?.status === 'resolved' && isBotHandled.value) {
       return 'cerrado_inactividad';
     }
@@ -38,7 +52,9 @@ export function usePanelIaState(chatRef) {
   });
 
   const showIndicator = computed(
-    () => isBotHandled.value && Boolean(STATE_CONFIG[state.value])
+    () =>
+      (isBotHandled.value || hasFlowState.value) &&
+      Boolean(STATE_CONFIG[state.value])
   );
 
   const config = computed(() => STATE_CONFIG[state.value] || null);

@@ -110,6 +110,7 @@ export const getActionOptions = ({
   contactAttributes = [],
   conversationAttributes = [],
   macros = [],
+  flows = [],
 }) => {
   const DISPLAY_TYPE_BY_ID = {
     0: 'text',
@@ -164,6 +165,10 @@ export const getActionOptions = ({
     execute_macro: (macros || []).map(macro => ({
       id: macro.id,
       name: macro.name,
+    })),
+    enter_flow: (flows || []).map(flow => ({
+      id: flow.id,
+      name: flow.name,
     })),
     update_contact_custom_attribute:
       writableAttributeOptions(contactAttributes),

@@ -1,0 +1,120 @@
+{
+  "FLOWS": {
+    "HEADER": "Flujos de conversación",
+    "DESCRIPTION": "Rutas de varios pasos con acciones tipo Automatizaciones, espera/rama según respuesta y políticas de escalamiento. Se entra una vez desde Automatizaciones — el flujo controla el recorrido.",
+    "LEARN_MORE": "Más información sobre flujos",
+    "COUNT": "{n} flujo | {n} flujos",
+    "HEADER_BTN_TXT": "Añadir un nuevo flujo",
+    "HEADER_BTN_TXT_SAVE": "Guardar flujo",
+    "LOADING": "Obteniendo flujos",
+    "SEARCH_PLACEHOLDER": "Buscar flujos...",
+    "NO_RESULTS": "No se encontraron flujos que coincidan con tu búsqueda",
+    "ORDER_INFO": "Tras enter_flow, la conversación permanece en esta ruta. Los pasos usan los mismos tipos de acción que Automatizaciones/Macros. Los botones opcionales esperan respuesta y ramifican — sin condiciones encadenadas de “¿ya pasó auto1?”.",
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Nombre",
+        "STATUS": "Estado",
+        "ACTIONS": "Acciones"
+      },
+      "404": "No se encontraron flujos",
+      "NO_DESCRIPTION": "Sin descripción",
+      "ACTIVE": "Activo",
+      "INACTIVE": "Inactivo"
+    },
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nombre del flujo",
+          "PLACEHOLDER": "Introduce un nombre para tu flujo",
+          "ERROR": "Se requiere un nombre para crear un flujo"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descripción",
+          "PLACEHOLDER": "Descripción opcional"
+        },
+        "ACTIVE": {
+          "LABEL": "Activo",
+          "DESCRIPTION": "Los flujos inactivos no se pueden iniciar desde Automatizaciones."
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Flujo añadido correctamente",
+        "ERROR_MESSAGE": "No se puede crear el flujo, por favor inténtalo de nuevo más tarde"
+      }
+    },
+    "EDIT": {
+      "HEADER": "Editar flujo",
+      "TOOLTIP": "Editar flujo",
+      "LOADING": "Buscando flujo",
+      "START_FLOW": "Iniciar flujo",
+      "END_FLOW": "Finalizar flujo",
+      "ADD_BTN_TOOLTIP": "Añadir paso",
+      "ADD_ACTION": "Añadir acción",
+      "DELETE_ACTION_TOOLTIP": "Quitar acción",
+      "DELETE_BTN_TOOLTIP": "Eliminar paso",
+      "STEP_N": "Paso {n}",
+      "MESSAGE_LABEL": "Mensaje",
+      "MESSAGE_PLACEHOLDER": "Mensaje que verá el cliente…",
+      "DELAY": "Demora de escritura (segundos)",
+      "TYPING_INDICATOR": "Marcar leído y mostrar escribiendo",
+      "BUTTONS": "Esperar respuesta (botones, máx. 3)",
+      "BUTTONS_HINT": "Opcional. Tras las acciones del paso, espera una respuesta coincidente y ramifica. Vacío = continúa al siguiente paso.",
+      "BUTTON_TITLE": "Etiqueta del botón",
+      "BUTTON_VALUE": "Valor de coincidencia",
+      "BRANCH_TO": "Luego ir a",
+      "BRANCH_END": "Finalizar flujo",
+      "BRANCH_HANDOFF": "Escalar a humano",
+      "BRANCHES_PREVIEW": "Ramas",
+      "HAS_BRANCHES": "Ramas",
+      "FORK": "rama",
+      "LINEAR_NEXT": "Continúa al paso {n}: {label}",
+      "STEP_PROPERTIES": "Paso seleccionado",
+      "NO_STEP_SELECTED": "Haz clic en un paso a la izquierda para editar botones, ramas y demora de escritura.",
+      "NO_WAIT_WITHOUT_MESSAGE": "Añade una acción Enviar mensaje para habilitar botones de espera/rama.",
+      "HANDOFF_REASON": "Eligió {label}",
+      "VALIDATION": "Se requieren un nombre y al menos un paso",
+      "API": {
+        "SUCCESS_MESSAGE": "Flujo actualizado correctamente",
+        "ERROR_MESSAGE": "No se pudo actualizar el flujo, por favor inténtalo de nuevo más tarde"
+      }
+    },
+    "DELETE": {
+      "TOOLTIP": "Eliminar flujo",
+      "CONFIRM": {
+        "TITLE": "¿Eliminar flujo?",
+        "MESSAGE": "¿Está seguro de eliminar ",
+        "YES": "Sí, eliminar",
+        "NO": "No"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Flujo eliminado correctamente",
+        "ERROR_MESSAGE": "Hubo un error al eliminar el flujo. Por favor, inténtalo de nuevo más tarde"
+      }
+    },
+    "EXIT": {
+      "TITLE": "Cuando termina el flujo",
+      "HINT": "Estado y asignado que se aplican al completar, fallar o escalar el recorrido.",
+      "STATUS": "Estado de la conversación",
+      "ASSIGNEE": "Asignado",
+      "TEAM": "Equipo",
+      "AGENT": "Asesor",
+      "PICK_TEAM": "Selecciona un equipo",
+      "PICK_AGENT": "Selecciona un asesor",
+      "PRIVATE_NOTE": "Dejar nota privada de escalamiento",
+      "ON_COMPLETE": "Completado",
+      "ON_HANDOFF": "Escalamiento",
+      "ON_FAIL": "Fallido / sin coincidencia",
+      "ON_HUMAN_BREAK": "Agente respondió",
+      "STATUS_OPEN": "Abierta",
+      "STATUS_PENDING": "Pendiente",
+      "STATUS_RESOLVED": "Resuelta",
+      "MODE_NONE": "No cambiar asignado",
+      "MODE_KEEP": "Mantener asignado actual",
+      "MODE_UNASSIGNED": "Limbo (sin asignar)",
+      "MODE_PENDING": "Marcar pendiente",
+      "MODE_TEAM": "Asignar equipo",
+      "MODE_AGENT": "Asignar asesor",
+      "MODE_OWNER": "Dueño del contacto"
+    }
+  }
+}

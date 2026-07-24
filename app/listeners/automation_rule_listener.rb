@@ -23,6 +23,9 @@ class AutomationRuleListener < BaseListener
     account = message.try(:account)
     changed_attributes = event.data[:changed_attributes]
 
+    # While a conversation flow is active, the flow engine owns inbound replies.
+    return if message.conversation&.in_flow?
+
     return unless rule_present?('message_created', account)
 
     rules = current_account_rules('message_created', account)
