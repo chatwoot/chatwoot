@@ -64,14 +64,20 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         expect(result).to include('Answer: Click on forgot password link')
         expect(result).to include('Question: How to change email?')
         expect(result).to include('Answer: Go to settings and update email')
+        expect(result).not_to include('Citation marker:')
       end
 
-      it 'includes source link when document has external_link' do
+      it 'includes a citation marker instead of the document link' do
+        assistant.update!(config: assistant.config.merge('feature_citation' => true))
         document.update!(external_link: 'https://help.example.com/password')
 
         result = tool.perform(tool_context, query: 'password')
+        repeated_result = tool.perform(tool_context, query: 'password again')
 
-        expect(result).to include('Source: https://help.example.com/password')
+        expect(result).to include('Citation marker: [[faq:1]]')
+        expect(repeated_result).to include('Citation marker: [[faq:1]]')
+        expect(result).not_to include('https://help.example.com/password')
+        expect(tool_context.state[:captain_v2_citation_sources]).to eq('1' => response1.id)
       end
 
       it 'logs tool usage for search' do

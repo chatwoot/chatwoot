@@ -1,4 +1,6 @@
 module Captain::Conversation::MessageBuilder
+  MODEL_CITATION_PATTERN = /\[\[faq:(\d+)\]\]/
+
   private
 
   def collect_previous_messages
@@ -28,8 +30,38 @@ module Captain::Conversation::MessageBuilder
   end
 
   def create_messages
-    validate_message_content!(@response['response'])
-    create_outgoing_message(@response['response'], agent_name: @response['agent_name'])
+    message_content = resolve_v2_citations(@response['response'])
+    validate_message_content!(message_content)
+    create_outgoing_message(message_content, agent_name: @response['agent_name'])
+  end
+
+  def resolve_v2_citations(content)
+    return content unless captain_v2_enabled? && @assistant.config['feature_citation']
+    return content if content.blank?
+
+    citation_urls = trusted_citation_urls
+    content.gsub(MODEL_CITATION_PATTERN) do
+      index = Regexp.last_match(1)
+      url = citation_urls[index]
+      url.present? ? "[[#{index}](#{url})]" : ''
+    end
+  end
+
+  def trusted_citation_urls
+    sources = @run_result&.context&.dig(:state, :captain_v2_citation_sources) || {}
+    responses = @assistant.responses.where(id: sources.values).includes(:documentable).index_by(&:id)
+
+    sources.transform_values do |response_id|
+      customer_visible_source_url(responses[response_id.to_i])
+    end.compact.transform_keys(&:to_s)
+  end
+
+  def customer_visible_source_url(response)
+    document = response&.documentable
+    return unless document.is_a?(Captain::Document)
+    return if document.pdf_document?
+
+    document.external_link.presence
   end
 
   def validate_message_content!(content)

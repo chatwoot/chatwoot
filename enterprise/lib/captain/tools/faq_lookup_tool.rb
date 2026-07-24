@@ -14,7 +14,7 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
       "No relevant FAQs found for: #{query}"
     else
       log_tool_usage('found_results', { query: query, count: responses.size })
-      format_responses(responses)
+      format_responses(tool_context, responses)
     end
   end
 
@@ -30,30 +30,38 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
     metadata[:document_ids] = Array(metadata[:document_ids]) | document_ids
   end
 
-  def format_responses(responses)
-    responses.map { |response| format_response(response) }.join
+  def format_responses(tool_context, responses)
+    responses.map { |response| format_response(tool_context, response) }.join
   end
 
-  def format_response(response)
+  def format_response(tool_context, response)
     formatted_response = "
+        FAQ result:
+        "
+    if citation_enabled? && response.documentable_type == 'Captain::Document'
+      formatted_response += "
+          Citation marker: [[faq:#{citation_index(tool_context, response)}]]
+          "
+    end
+    formatted_response += "
         Question: #{response.question}
         Answer: #{response.answer}
         "
-    if should_show_source?(response)
-      formatted_response += "
-          Source: #{response.documentable.external_link}
-          "
-    end
 
     formatted_response
   end
 
-  def should_show_source?(response)
-    return false if response.documentable.blank?
-    return false unless response.documentable.try(:external_link)
+  def citation_enabled?
+    @assistant.config['feature_citation']
+  end
 
-    # Don't show source if it's a PDF placeholder
-    external_link = response.documentable.external_link
-    !external_link.start_with?('PDF:')
+  def citation_index(tool_context, response)
+    sources = tool_context.state[:captain_v2_citation_sources] ||= {}
+    existing_index = sources.find { |_index, response_id| response_id == response.id }&.first
+    return existing_index if existing_index.present?
+
+    index = (sources.size + 1).to_s
+    sources[index] = response.id
+    index
   end
 end
