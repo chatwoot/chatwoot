@@ -68,6 +68,23 @@ RSpec.describe EmailTemplate do
       expect(template.errors[:body]).to include('must include {{ content_for_layout }}')
     end
 
+    it 'allows email templates up to 262,144 characters' do
+      slot = '{{ content_for_layout }}'
+      body = "#{'a' * (described_class::MAX_BODY_LENGTH - slot.length)}#{slot}"
+      template = build(:email_template, :layout, account: create(:account), body: body)
+
+      expect(template).to be_valid
+    end
+
+    it 'rejects email templates larger than 262,144 characters' do
+      slot = '{{ content_for_layout }}'
+      body = "#{'a' * (described_class::MAX_BODY_LENGTH - slot.length + 1)}#{slot}"
+      template = build(:email_template, :layout, account: create(:account), body: body)
+
+      expect(template).not_to be_valid
+      expect(template.errors[:body]).to include('is too long (maximum is 262144 characters)')
+    end
+
     it 'validates liquid syntax' do
       template = build(:email_template, body: '{{ broken ')
 
