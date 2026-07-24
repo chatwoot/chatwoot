@@ -269,6 +269,31 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(data_import.reload.stats.dig('messages', 'imported')).to eq(3)
     end
 
+    it 'validates malformed messages before inserting them through the fallback path', :aggregate_failures do
+      malformed_conversation = conversation_payload.deep_dup
+      malformed_conversation['source']['subject'] = nil
+      malformed_conversation['source']['body'] = nil
+      malformed_conversation.dig('conversation_parts', 'conversation_parts').first['created_at'] = { 'unexpected' => true }
+      allow(client).to receive(:retrieve_conversation).with('conversation_1').and_return(malformed_conversation)
+      importer = described_class.new(data_import: data_import)
+      allow(importer).to receive(:bulk_write_message_entries).and_raise(ActiveRecord::StatementInvalid, 'bulk failed')
+
+      importer.perform
+
+      expect(account.messages.pluck(:source_id)).to eq(['intercom:conversation:conversation_1:part:part_2'])
+      error = data_import.import_errors.find_by!(
+        source_object_type: 'message',
+        source_object_id: 'conversation:conversation_1:part:part_1'
+      )
+      expect(error).to have_attributes(
+        error_code: described_class::InvalidMessagePayloadError.name,
+        message: 'Intercom message created_at must be a Unix timestamp'
+      )
+      expect(data_import.reload).to be_completed_with_errors
+      expect(data_import.stats.dig('messages', 'imported')).to eq(1)
+      expect(data_import.stats.dig('errors', 'count')).to eq(1)
+    end
+
     it 'refreshes fallback entries when another worker repairs a message', :aggregate_failures do
       importer = described_class.new(data_import: data_import)
       allow(importer).to receive(:bulk_write_message_entries).and_raise(ActiveRecord::StatementInvalid, 'bulk failed')

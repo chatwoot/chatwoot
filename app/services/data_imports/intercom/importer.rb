@@ -683,6 +683,7 @@ class DataImports::Intercom::Importer
   end
 
   def create_message(conversation, contact, entry)
+    validate_message_payload!(entry.part)
     content = content_for(entry.part)
     return record_skipped_message(conversation, entry) if content.blank?
 
