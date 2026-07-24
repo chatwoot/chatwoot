@@ -179,12 +179,80 @@ RSpec.describe Whatsapp::HealthService do
       end
     end
 
+    context 'when a newer health check finishes first' do
+      let(:previous_health) { { quality_rating: 'GREEN', status: 'CONNECTED' } }
+      let(:newer_health) { { quality_rating: 'GREEN', status: 'CONNECTED' } }
+      let(:phone_health_response) { super().merge('quality_rating' => 'YELLOW') }
+
+      it 'does not overwrite the newer successful snapshot' do
+        attempted_at = Time.zone.parse('2026-07-21 12:00:00')
+        newer_attempted_at = attempted_at + 1.minute
+        stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_phone_number_id}).to_return do
+          channel.update_columns( # rubocop:disable Rails/SkipsModelValidations
+            phone_number_health: newer_health,
+            phone_number_health_checked_at: newer_attempted_at,
+            phone_number_health_error: nil
+          )
+          { status: 200, body: phone_health_response.to_json, headers: { 'Content-Type' => 'application/json' } }
+        end
+
+        travel_to(attempted_at) { service.sync_health_status! }
+        channel.reload
+
+        expect(channel.phone_number_health).to eq('quality_rating' => 'GREEN', 'status' => 'CONNECTED')
+        expect(channel.phone_number_health_checked_at).to eq(newer_attempted_at)
+        expect(channel.phone_number_health_error).to be_nil
+      end
+
+      it 'does not replace the newer successful snapshot with an older error' do
+        attempted_at = Time.zone.parse('2026-07-21 12:00:00')
+        newer_attempted_at = attempted_at + 1.minute
+        stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_phone_number_id}).to_return do
+          channel.update_columns( # rubocop:disable Rails/SkipsModelValidations
+            phone_number_health: newer_health,
+            phone_number_health_checked_at: newer_attempted_at,
+            phone_number_health_error: nil
+          )
+          {
+            status: 400,
+            body: { error: { message: 'Older request failed' } }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          }
+        end
+
+        travel_to(attempted_at) do
+          expect { service.sync_health_status! }.to raise_error(described_class::ApiError, 'Older request failed')
+        end
+        channel.reload
+
+        expect(channel.phone_number_health).to eq('quality_rating' => 'GREEN', 'status' => 'CONNECTED')
+        expect(channel.phone_number_health_checked_at).to eq(newer_attempted_at)
+        expect(channel.phone_number_health_error).to be_nil
+      end
+    end
+
     context 'when health first becomes risky' do
       let(:previous_health) { { quality_rating: 'GREEN', status: 'CONNECTED', messaging_limit_tier: 'TIER_250' } }
       let(:phone_health_response) { super().merge('quality_rating' => 'YELLOW') }
 
       it 'logs the risky transition once it is persisted' do
         expect(Rails.logger).to receive(:warn).with(/risky_phone_number.*quality_rating=YELLOW/)
+
+        service.sync_health_status!
+      end
+    end
+
+    context 'when only messaging capacity changes for an already risky number' do
+      let(:previous_health) { { quality_rating: 'YELLOW', status: 'CONNECTED', messaging_limit_tier: 'TIER_250' } }
+      let(:phone_health_response) do
+        super().merge(
+          'quality_rating' => 'YELLOW',
+          'whatsapp_business_manager_messaging_limit' => 'TIER_2K'
+        )
+      end
+
+      it 'does not log another risky transition' do
+        expect(Rails.logger).not_to receive(:warn)
 
         service.sync_health_status!
       end

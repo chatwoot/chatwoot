@@ -56,16 +56,15 @@ class Whatsapp::HealthService
   end
 
   def sync_health_status!
-    health_status = fetch_health_status
-    checked_at = Time.current
+    attempted_at = Time.current
     previous_health = @channel.phone_number_health
+    health_status = fetch_health_status
 
-    persist_health_status(health_status, checked_at)
-    log_risky_transition(previous_health, health_status)
+    log_risky_transition(previous_health, health_status) if persist_health_status(health_status, attempted_at)
 
-    health_status.merge(health_checked_at: checked_at)
+    health_status.merge(health_checked_at: attempted_at)
   rescue StandardError => e
-    persist_health_error(e)
+    persist_health_error(e, attempted_at)
     raise
   end
 
@@ -174,26 +173,30 @@ class Whatsapp::HealthService
     "#{frontend_url}/webhooks/whatsapp/#{@channel.phone_number}"
   end
 
-  def persist_health_status(health_status, checked_at)
+  def persist_health_status(health_status, attempted_at)
     # Health polling must bypass credential validation, timestamps, inbox touches, and audit callbacks.
     # rubocop:disable Rails/SkipsModelValidations
-    @channel.update_columns(
-      phone_number_health: health_status.slice(*PERSISTED_FIELDS),
-      phone_number_health_checked_at: checked_at,
-      phone_number_health_error: nil
-    )
+    @channel.class.where(id: @channel.id)
+            .where('phone_number_health_checked_at < ? OR phone_number_health_checked_at IS NULL', attempted_at)
+            .update_all(
+              phone_number_health: health_status.slice(*PERSISTED_FIELDS),
+              phone_number_health_checked_at: attempted_at,
+              phone_number_health_error: nil
+            )
     # rubocop:enable Rails/SkipsModelValidations
   end
 
-  def persist_health_error(error)
+  def persist_health_error(error, attempted_at)
     return unless @channel&.persisted?
 
     # Recording a provider failure must not run the same provider validation or channel callbacks.
     # rubocop:disable Rails/SkipsModelValidations
-    @channel.update_columns(
-      phone_number_health_checked_at: Time.current,
-      phone_number_health_error: error.message.truncate(500)
-    )
+    @channel.class.where(id: @channel.id)
+            .where('phone_number_health_checked_at < ? OR phone_number_health_checked_at IS NULL', attempted_at)
+            .update_all(
+              phone_number_health_checked_at: attempted_at,
+              phone_number_health_error: error.message.truncate(500)
+            )
     # rubocop:enable Rails/SkipsModelValidations
   end
 
@@ -214,6 +217,6 @@ class Whatsapp::HealthService
   end
 
   def risk_signature(health_status)
-    health_status.to_h.with_indifferent_access.values_at(:quality_rating, :status, :messaging_limit_tier)
+    health_status.to_h.with_indifferent_access.values_at(:quality_rating, :status)
   end
 end
