@@ -737,6 +737,34 @@ RSpec.describe DataImports::Intercom::Importer do
       )
     end
 
+    it 'does not write prefetch fallback entries after a newer run takes over', :aggregate_failures do
+      run_id = 'intercom-run-1'
+      data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
+      importer = described_class.new(data_import: data_import, run_id: run_id)
+      allow(importer).to receive(:sleep)
+      allow(DataImports::Intercom::MessageBatchBuilder).to receive(:new).and_wrap_original do |method, **kwargs|
+        method.call(**kwargs).tap do |batch_builder|
+          allow(batch_builder).to receive(:perform).and_wrap_original do |perform, *args|
+            raise ActiveRecord::QueryCanceled, 'statement timeout' if args.empty?
+
+            perform.call(*args)
+          end
+        end
+      end
+      allow(importer).to receive(:import_unprepared_message).and_wrap_original do |method, *args|
+        DataImport.find(data_import.id).update!(
+          source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' }
+        )
+        method.call(*args)
+      end
+
+      importer.import_conversations_page
+
+      expect(importer).to have_received(:import_unprepared_message).once
+      expect(account.messages).to be_empty
+      expect(data_import.mappings.where(source_object_type: 'message')).to be_empty
+    end
+
     it 'stops individual fallback entries when a newer run takes over', :aggregate_failures do
       run_id = 'intercom-run-1'
       data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })

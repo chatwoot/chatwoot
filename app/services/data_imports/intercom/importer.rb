@@ -657,8 +657,17 @@ class DataImports::Intercom::Importer
   end
 
   def import_unprepared_message(conversation, contact, batch_builder, source_entry)
-    entry = with_query_timeout_retry { batch_builder.perform([source_entry]).entries.first }
-    import_message(conversation, contact, entry)
+    with_query_timeout_retry do
+      @data_import.with_lock do
+        if inactive_import_run?
+          @import_stopped = true
+          next
+        end
+
+        entry = batch_builder.perform([source_entry]).entries.first
+        import_message(conversation, contact, entry)
+      end
+    end
   rescue StandardError => e
     fail_message(conversation, source_entry[:source_id], source_entry[:part], e)
   end
