@@ -23,6 +23,7 @@ class AutomationRules::ConditionsFilterService < FilterService
   end
 
   def perform
+    return true if @rule.conditions.blank?
     return false unless rule_valid?
 
     @attribute_changed_query_filter = []

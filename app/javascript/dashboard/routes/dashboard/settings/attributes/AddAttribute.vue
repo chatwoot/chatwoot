@@ -109,7 +109,7 @@ export default {
       return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR');
     },
     isAttributeTypeList() {
-      return this.attributeType === 6;
+      return this.attributeType === 6 || this.attributeType === 9;
     },
     isAttributeTypeText() {
       return this.attributeType === 0;
@@ -323,11 +323,7 @@ export default {
               <label>
                 {{ $t('ATTRIBUTES_MGMT.FORMULA.OP.LABEL') }}
                 <select v-model="formulaOp">
-                  <option
-                    v-for="op in formulaOps"
-                    :key="op.id"
-                    :value="op.id"
-                  >
+                  <option v-for="op in formulaOps" :key="op.id" :value="op.id">
                     {{ op.option }}
                   </option>
                 </select>

@@ -19,6 +19,9 @@ class TriggerScheduledItemsJob < ApplicationJob
 
     # Job to sync whatsapp templates
     Channels::Whatsapp::TemplatesSyncSchedulerJob.perform_later
+
+    # Time-based automation rules (every ~5 min via this cron)
+    Automations::TimeBasedSchedulerJob.perform_later
   end
 end
 

@@ -66,6 +66,8 @@ class AutomationRuleListener < BaseListener
   end
 
   def current_account_rules(event_name, account)
+    return AutomationRule.none if event_name.to_s == 'time_triggered'
+
     AutomationRule.where(
       event_name: event_name,
       account_id: account.id,

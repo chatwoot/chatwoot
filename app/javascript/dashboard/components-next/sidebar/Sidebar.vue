@@ -909,6 +909,12 @@ const menuItems = computed(() => {
             ]
           : []),
         {
+          name: 'Settings Business Rules',
+          label: t('SIDEBAR.BUSINESS_RULES'),
+          icon: 'i-lucide-shield-check',
+          to: accountScopedRoute('business_rules_index'),
+        },
+        {
           name: 'Settings Security',
           label: t('SIDEBAR.SECURITY'),
           icon: 'i-lucide-shield',

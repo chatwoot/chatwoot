@@ -72,6 +72,7 @@ class Conversation < ApplicationRecord
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
   validate :validate_referer_url
+  validate :validate_business_rules_on_status_change, if: :will_save_change_to_status?
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
@@ -281,6 +282,32 @@ class Conversation < ApplicationRecord
 
   def ensure_snooze_until_reset
     self.snoozed_until = nil unless snoozed?
+  end
+
+  def validate_business_rules_on_status_change
+    result = Conversations::BusinessRulesGuard.new(conversation: self, new_status: status).perform
+    return if result.ok?
+
+    result.errors.each do |err|
+      errors.add(:status, business_rule_error_message(err))
+    end
+  end
+
+  def business_rule_error_message(err)
+    case err[:code]
+    when 'required_on_resolve', 'require_attributes_on_status', 'if_attribute_then_require'
+      "missing_attribute:#{err[:attribute_key]}"
+    when 'require_reason_attribute'
+      "missing_reason_attribute:#{err[:attribute_key]}"
+    when 'require_private_note'
+      'missing_private_note'
+    when 'forbid_status_if'
+      "forbidden_label:#{err[:label]}"
+    when 'require_assignee_on_status'
+      'missing_assignee'
+    else
+      err[:code].to_s
+    end
   end
 
   def ensure_waiting_since

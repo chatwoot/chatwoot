@@ -22,7 +22,8 @@
       "DATE": "Date",
       "DATETIME": "Date & time",
       "LIST": "List",
-      "CHECKBOX": "Checkbox"
+      "CHECKBOX": "Checkbox",
+      "MULTI_LIST": "Multi-select list"
     },
     "FEATURED": {
       "LABEL": "Show as badge",

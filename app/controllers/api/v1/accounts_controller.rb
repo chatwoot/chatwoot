@@ -114,12 +114,32 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def settings_params
-    params.permit(*permitted_settings_attributes)
+    result = params.permit(*permitted_settings_attributes)
+    result[:business_rules] = sanitize_business_rules(params[:business_rules]) if params.key?(:business_rules)
+    result
+  end
+
+  def sanitize_business_rules(rules)
+    Array(rules).filter_map do |rule|
+      h = rule.respond_to?(:to_unsafe_h) ? rule.to_unsafe_h : rule.to_h
+      h = h.with_indifferent_access
+      next if h[:type].blank?
+
+      config = h[:config].is_a?(Hash) ? h[:config] : {}
+      {
+        'id' => h[:id].to_s.presence || "br_#{SecureRandom.hex(4)}",
+        'preset_id' => h[:preset_id].presence,
+        'type' => h[:type].to_s,
+        'enabled' => ActiveModel::Type::Boolean.new.cast(h.fetch(:enabled, true)),
+        'name' => h[:name].to_s,
+        'config' => config.deep_stringify_keys
+      }.compact
+    end
   end
 
   def permitted_settings_attributes
     [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label,
-     :resolved_label_key]
+     :resolved_label_key, { business_rules: [:id, :preset_id, :type, :enabled, :name, { config: {} }] }]
   end
 
   def check_signup_enabled

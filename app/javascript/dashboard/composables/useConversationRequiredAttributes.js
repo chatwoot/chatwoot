@@ -4,12 +4,75 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { ATTRIBUTE_TYPES } from 'dashboard/components-next/ConversationWorkflow/constants';
 
+const attributeBlank = (attrs, key, type) => {
+  if (type === ATTRIBUTE_TYPES.CHECKBOX || type === 'checkbox') {
+    return !(key in attrs);
+  }
+  const value = attrs[key];
+  if (Array.isArray(value)) return value.length === 0;
+  return value == null || String(value).trim() === '';
+};
+
+const attributeMatches = (attrs, whenKey, whenValues) => {
+  const value = attrs[whenKey];
+  if (
+    value == null ||
+    value === '' ||
+    (Array.isArray(value) && !value.length)
+  ) {
+    return false;
+  }
+  const values = (whenValues || []).map(String).filter(Boolean);
+  if (!values.length) return true;
+  const normalized = values.map(v => v.toLowerCase());
+  return Array.isArray(value)
+    ? value.map(String).some(v => normalized.includes(v.toLowerCase()))
+    : normalized.includes(String(value).toLowerCase());
+};
+
 /**
- * Composable for managing conversation required attributes workflow
- *
- * This handles the logic for checking if conversations have all required
- * custom attributes filled before they can be resolved.
+ * Keys required to change conversation status, from business_rules + legacy list.
+ * Conditional: if-then only when when_attribute already matches.
  */
+export function requiredKeysForStatusChange({
+  businessRules = [],
+  legacyKeys = [],
+  targetStatus = 'resolved',
+  customAttributes = {},
+} = {}) {
+  const keys = new Set();
+
+  (legacyKeys || []).forEach(key => {
+    if (key) keys.add(String(key));
+  });
+
+  (businessRules || [])
+    .filter(rule => rule?.enabled !== false)
+    .forEach(rule => {
+      const config = rule.config || {};
+      if (rule.type === 'require_attributes_on_status') {
+        if (String(config.status || '') !== String(targetStatus)) return;
+        (config.attribute_keys || []).forEach(key => {
+          if (key) keys.add(String(key));
+        });
+      }
+      if (rule.type === 'if_attribute_then_require') {
+        const onStatus = config.on_status || 'resolved';
+        if (String(onStatus) !== String(targetStatus)) return;
+        const whenKey = config.when_attribute;
+        if (!whenKey) return;
+        if (!attributeMatches(customAttributes, whenKey, config.when_values)) {
+          return;
+        }
+        (config.require_attribute_keys || []).forEach(key => {
+          if (key) keys.add(String(key));
+        });
+      }
+    });
+
+  return [...keys];
+}
+
 export function useConversationRequiredAttributes() {
   const { currentAccount, accountId } = useAccount();
   const isFeatureEnabledonAccount = useMapGetter(
@@ -26,12 +89,19 @@ export function useConversationRequiredAttributes() {
     )
   );
 
-  const requiredAttributeKeys = computed(() => {
+  const legacyAttributeKeys = computed(() => {
     if (!isFeatureEnabled.value) return [];
     return (
       currentAccount.value?.settings?.conversation_required_attributes || []
     );
   });
+
+  const businessRules = computed(
+    () => currentAccount.value?.settings?.business_rules || []
+  );
+
+  /** @deprecated use keys required for a specific status + attrs */
+  const requiredAttributeKeys = computed(() => legacyAttributeKeys.value);
 
   const allAttributeOptions = computed(() =>
     (conversationAttributes.value || []).map(attribute => ({
@@ -43,49 +113,47 @@ export function useConversationRequiredAttributes() {
     }))
   );
 
-  /**
-   * Get the full attribute definitions for only the required attributes
-   * Filters allAttributeOptions to only include attributes marked as required
-   */
-  const requiredAttributes = computed(
-    () =>
-      requiredAttributeKeys.value
-        .map(key =>
-          allAttributeOptions.value.find(attribute => attribute.value === key)
-        )
-        .filter(Boolean) // Remove any undefined attributes (deleted attributes)
+  const requiredAttributes = computed(() =>
+    requiredAttributeKeys.value
+      .map(key =>
+        allAttributeOptions.value.find(attribute => attribute.value === key)
+      )
+      .filter(Boolean)
   );
 
-  /**
-   * Check if a conversation is missing any required attributes
-   *
-   * @param {Object} conversationCustomAttributes - Current conversation's custom attributes
-   * @returns {Object} - Analysis result with missing attributes info
-   */
-  const checkMissingAttributes = (conversationCustomAttributes = {}) => {
-    // If no attributes are required, conversation can be resolved
-    if (!requiredAttributes.value.length) {
-      return { hasMissing: false, missing: [] };
+  const checkMissingAttributes = (
+    conversationCustomAttributes = {},
+    targetStatus = 'resolved'
+  ) => {
+    const keys = requiredKeysForStatusChange({
+      businessRules: businessRules.value,
+      legacyKeys: legacyAttributeKeys.value,
+      targetStatus,
+      customAttributes: conversationCustomAttributes,
+    });
+
+    if (!keys.length) {
+      return { hasMissing: false, missing: [], all: [] };
     }
 
-    // Find attributes that are missing or empty
-    const missing = requiredAttributes.value.filter(attribute => {
-      const value = conversationCustomAttributes[attribute.value];
+    const all = keys
+      .map(key =>
+        allAttributeOptions.value.find(attribute => attribute.value === key)
+      )
+      .filter(Boolean);
 
-      // For checkbox/boolean attributes, only check if the key exists
-      if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) {
-        return !(attribute.value in conversationCustomAttributes);
-      }
-
-      // For other attribute types, only consider null, undefined, empty string, or whitespace-only as missing
-      // Allow falsy values like 0, false as they are valid filled values
-      return value == null || String(value).trim() === '';
-    });
+    const missing = all.filter(attribute =>
+      attributeBlank(
+        conversationCustomAttributes,
+        attribute.value,
+        attribute.type
+      )
+    );
 
     return {
       hasMissing: missing.length > 0,
       missing,
-      all: requiredAttributes.value,
+      all,
     };
   };
 
@@ -93,5 +161,6 @@ export function useConversationRequiredAttributes() {
     requiredAttributeKeys,
     requiredAttributes,
     checkMissingAttributes,
+    businessRules,
   };
 }

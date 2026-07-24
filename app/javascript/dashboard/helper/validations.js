@@ -129,6 +129,7 @@ const validateSingleAction = action => {
     'remove_assigned_team',
     'open_conversation',
     'pending_conversation',
+    'notify_assignee',
   ];
 
   if (noParamActions.includes(action.action_name)) {
@@ -219,12 +220,34 @@ export const validateActions = actions => {
  */
 export const validateAutomation = automation => {
   const basicErrors = validateBasicFields(automation);
-  const conditionErrors = validateConditions(automation.conditions);
+  const conditionErrors =
+    automation.event_name === 'time_triggered'
+      ? {}
+      : validateConditions(automation.conditions);
   const actionErrors = validateActions(automation.actions);
+  const scheduleErrors = {};
+  if (automation.event_name === 'time_triggered') {
+    const kind = automation.schedule?.kind;
+    if (!kind) {
+      scheduleErrors.schedule = 'KIND_REQUIRED';
+    } else if (
+      kind === 'days_since_attribute' &&
+      (!automation.schedule?.attribute_key || !automation.schedule?.days)
+    ) {
+      scheduleErrors.schedule = 'ATTRIBUTE_DAYS_REQUIRED';
+    } else if (
+      (kind === 'hours_since_last_outgoing' ||
+        kind === 'hours_since_last_incoming') &&
+      !automation.schedule?.hours
+    ) {
+      scheduleErrors.schedule = 'HOURS_REQUIRED';
+    }
+  }
 
   return {
     ...basicErrors,
     ...conditionErrors,
     ...actionErrors,
+    ...scheduleErrors,
   };
 };

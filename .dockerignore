@@ -11,6 +11,9 @@ tmp
 .codeclimate.yml
 public/packs
 node_modules
+.pnpm-store
+.git
+graphify-out
 vendor/bundle
 .DS_Store
 *.swp

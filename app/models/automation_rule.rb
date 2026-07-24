@@ -9,6 +9,7 @@
 #  description :text
 #  event_name  :string           not null
 #  name        :string           not null
+#  schedule    :jsonb            not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  account_id  :bigint           not null
@@ -28,22 +29,29 @@ class AutomationRule < ApplicationRecord
   validate :json_actions_format
   validate :query_operator_presence
   validate :query_operator_value
+  validate :schedule_format, if: :time_triggered?
   validates :account_id, presence: true
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
 
   scope :active, -> { where(active: true) }
 
+  def time_triggered?
+    event_name == 'time_triggered'
+  end
+
   def conditions_attributes
     %w[content email country_code status message_type browser_language assignee_id team_id referer city company_name inbox_id
-       mail_subject phone_number priority conversation_language labels private_note]
+       mail_subject phone_number priority conversation_language labels private_note days_since hours_since_last_outgoing
+       hours_since_last_incoming]
   end
 
   def actions_attributes
     %w[send_message add_label remove_label send_email_to_team assign_team assign_agent remove_assigned_agent
        remove_assigned_team send_webhook_event mute_conversation send_attachment change_status resolve_conversation
        open_conversation pending_conversation snooze_conversation change_priority send_email_transcript
-       add_private_note update_contact_custom_attribute update_conversation_custom_attribute execute_macro enter_flow].freeze
+       add_private_note update_contact_custom_attribute update_conversation_custom_attribute execute_macro
+       enter_flow notify_assignee].freeze
   end
 
   def file_base_data
@@ -61,6 +69,11 @@ class AutomationRule < ApplicationRecord
   end
 
   private
+
+  def schedule_format
+    kind = schedule.is_a?(Hash) ? (schedule['kind'].presence || schedule[:kind]) : nil
+    errors.add(:schedule, 'kind is required for time_triggered rules') if kind.blank?
+  end
 
   def json_conditions_format
     return if conditions.blank?
@@ -87,9 +100,9 @@ class AutomationRule < ApplicationRecord
     errors.add(:conditions, 'Automation conditions should have query operator.') if operators.length > 1
   end
 
-  # This validation ensures logical operators are being used correctly in automation conditions.
-  # And we don't push any unsanitized query operators to the database.
   def query_operator_value
+    return if conditions.blank?
+
     conditions.each do |obj|
       validate_single_condition(obj)
     end

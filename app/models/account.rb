@@ -56,6 +56,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :keep_pending_on_bot_failure
   store_accessor :settings, :captain_auto_resolve_mode
   store_accessor :settings, :resolved_label_key
+  store_accessor :settings, :business_rules
   include AccountCaptainAutoResolve
 
   RESOLVED_LABEL_KEYS = %w[resolved closed sold finished].freeze

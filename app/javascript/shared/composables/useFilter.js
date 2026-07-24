@@ -16,6 +16,8 @@ const customAttributeInputType = key => {
       return 'plain_text';
     case 'list':
       return 'search_select';
+    case 'multi_list':
+      return 'multi_select';
     case 'checkbox':
       return 'search_select';
     default:
@@ -28,6 +30,8 @@ const getOperatorTypes = key => {
     case 'list':
     case 'checkbox':
       return OPERATORS.OPERATOR_TYPES_2;
+    case 'multi_list':
+      return OPERATORS.OPERATOR_TYPES_3;
     case 'text':
     case 'link':
       return OPERATORS.OPERATOR_TYPES_6;

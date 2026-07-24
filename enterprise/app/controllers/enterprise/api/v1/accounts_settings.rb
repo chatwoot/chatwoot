@@ -16,6 +16,9 @@ module Enterprise::Api::V1::AccountsSettings
   end
 
   def permitted_settings_attributes
-    super + [{ conversation_required_attributes: [] }]
+    super + [
+      { conversation_required_attributes: [] },
+      { business_rules: [:id, :preset_id, :type, :enabled, :name, { config: {} }] }
+    ]
   end
 end

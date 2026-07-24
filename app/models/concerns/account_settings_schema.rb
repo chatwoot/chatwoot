@@ -17,6 +17,22 @@ module AccountSettingsSchema
           'type': %w[array null],
           'items': { 'type': 'string' }
         },
+        'business_rules': {
+          'type': %w[array null],
+          'items': {
+            'type': 'object',
+            'properties': {
+              'id': { 'type': %w[string null] },
+              'preset_id': { 'type': %w[string null] },
+              'type': { 'type': 'string' },
+              'enabled': { 'type': %w[boolean null] },
+              'name': { 'type': %w[string null] },
+              'config': { 'type': %w[object null] }
+            },
+            'required': ['type'],
+            'additionalProperties': true
+          }
+        },
         'captain_models': {
           'type': %w[object null],
           'properties': {

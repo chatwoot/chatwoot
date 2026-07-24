@@ -34,6 +34,9 @@ module Redis::RedisKeys
   UNREAD_CONVERSATIONS_TEAM_INBOX_ASSIGNEE =
     'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::TEAM::%<team_id>d::INBOX::%<inbox_id>d::ASSIGNEE::%<user_id>d'.freeze
 
+  # Time-based automation ledger: one fire per rule × conversation × window
+  AUTOMATION_TIME_RULE_LEDGER = 'AUTOMATION_TIME_RULE::%<rule_id>d::%<conversation_id>d::%<window>s'.freeze
+
   ## User Keys
   # SSO Auth Tokens
   USER_SSO_AUTH_TOKEN = 'USER_SSO_AUTH_TOKEN::%<user_id>d::%<token>s'.freeze

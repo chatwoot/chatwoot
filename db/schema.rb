@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_23_120000) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_23_210000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -258,6 +258,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_23_120000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
+    t.jsonb "schedule", default: {}, null: false
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
   end
 
@@ -919,7 +920,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_23_120000) do
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
   end
 
-  
   create_table "flow_events", force: :cascade do |t|
     t.bigint "flow_run_id", null: false
     t.string "event_type", null: false
@@ -963,6 +963,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_23_120000) do
     t.index ["account_id", "name"], name: "index_flows_on_account_id_and_name", unique: true
     t.index ["account_id"], name: "index_flows_on_account_id"
   end
+
   create_table "folders", force: :cascade do |t|
     t.integer "account_id", null: false
     t.integer "category_id", null: false
@@ -1492,6 +1493,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_23_120000) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "canned_responses", "users", column: "created_by_id"
   add_foreign_key "canned_responses", "users", column: "reviewed_by_id"
+  add_foreign_key "flow_events", "flow_runs"
+  add_foreign_key "flow_runs", "accounts"
+  add_foreign_key "flow_runs", "conversations"
+  add_foreign_key "flow_runs", "flows"
+  add_foreign_key "flows", "accounts"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "saved_report_panels", "accounts"
   add_foreign_key "saved_report_panels", "users", column: "created_by_id"

@@ -20,9 +20,11 @@ module Filters::CustomAttributeFilterHelper
   end
 
   def build_custom_attr_query(query_hash, current_index)
+    table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
+    return multi_list_query(table_name, query_hash, current_index) if @attribute_data_type == 'jsonb'
+
     filter_operator_value = filter_operation(query_hash, current_index)
     query_operator = query_hash[:query_operator]
-    table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
 
     query = if attribute_data_type == 'text'
               ActiveRecord::Base.sanitize_sql_array(
@@ -35,6 +37,38 @@ module Filters::CustomAttributeFilterHelper
             end
 
     query + not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
+  end
+
+  # multi_list values are JSON arrays in custom_attributes
+  def multi_list_query(table_name, query_hash, current_index)
+    query_operator = query_hash[:query_operator]
+    values = Array(query_hash[:values]).map(&:to_s)
+    placeholder = "value_#{current_index}"
+    @filter_values[placeholder] = values
+
+    case query_hash[:filter_operator]
+    when 'contains'
+      ActiveRecord::Base.sanitize_sql_array(
+        ["(#{table_name}.custom_attributes -> ?)::jsonb ?| ARRAY[:#{placeholder}] #{query_operator} ", @attribute_key]
+      )
+    when 'does_not_contain', 'not_contains'
+      ActiveRecord::Base.sanitize_sql_array(
+        ["NOT ((#{table_name}.custom_attributes -> ?)::jsonb ?| ARRAY[:#{placeholder}]) #{query_operator} ", @attribute_key]
+      )
+    when 'is_present'
+      ActiveRecord::Base.sanitize_sql_array(
+        ["jsonb_array_length(COALESCE((#{table_name}.custom_attributes -> ?)::jsonb, '[]'::jsonb)) > 0 #{query_operator} ", @attribute_key]
+      )
+    when 'is_not_present'
+      ActiveRecord::Base.sanitize_sql_array(
+        ["jsonb_array_length(COALESCE((#{table_name}.custom_attributes -> ?)::jsonb, '[]'::jsonb)) = 0 #{query_operator} ", @attribute_key]
+      )
+    else
+      # equal_to: array contains all selected values (same as contains for single value)
+      ActiveRecord::Base.sanitize_sql_array(
+        ["(#{table_name}.custom_attributes -> ?)::jsonb ?| ARRAY[:#{placeholder}] #{query_operator} ", @attribute_key]
+      )
+    end
   end
 
   def custom_attribute(attribute_key, account, custom_attribute_type)

@@ -49,6 +49,14 @@ export function useAutomation(startValue = null) {
   const onEventChange = () => {
     automation.value.conditions = getDefaultConditions(eventName.value);
     automation.value.actions = getDefaultActions();
+    if (eventName.value === 'time_triggered') {
+      automation.value.schedule = automation.value.schedule || {
+        kind: 'hours_since_last_outgoing',
+        hours: 24,
+      };
+    } else {
+      automation.value.schedule = {};
+    }
   };
 
   /**
@@ -56,6 +64,19 @@ export function useAutomation(startValue = null) {
    */
   const appendNewCondition = () => {
     const defaultCondition = getDefaultConditions(eventName.value);
+    if (!defaultCondition.length) {
+      automation.value.conditions = [
+        ...automation.value.conditions,
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: '',
+          query_operator: 'and',
+          custom_attribute_type: '',
+        },
+      ];
+      return;
+    }
     automation.value.conditions = [
       ...automation.value.conditions,
       ...defaultCondition,
@@ -75,7 +96,10 @@ export function useAutomation(startValue = null) {
    * @param {number} index - The index of the filter to remove.
    */
   const removeFilter = index => {
-    if (automation.value.conditions.length <= 1) {
+    if (
+      automation.value.event_name !== 'time_triggered' &&
+      automation.value.conditions.length <= 1
+    ) {
       useAlert(t('AUTOMATION.CONDITION.DELETE_MESSAGE'));
     } else {
       automation.value.conditions = automation.value.conditions.filter(
@@ -178,6 +202,7 @@ export function useAutomation(startValue = null) {
       'conversation_updated',
       'conversation_opened',
       'conversation_resolved',
+      'time_triggered',
     ].forEach(eventToUpdate => {
       if (!automationTypes[eventToUpdate]) return;
       const standardConditions = automationTypes[

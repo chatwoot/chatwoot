@@ -11,6 +11,7 @@ import { picoSearch } from '@scmmishra/pico-search';
 import AutomationRuleRow from './AutomationRuleRow.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { BaseTable } from 'dashboard/components-next/table';
+import { TIME_RULE_PRESETS } from 'dashboard/components-next/ConversationWorkflow/businessRulesConstants';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -23,6 +24,7 @@ const editDialogRef = ref(null);
 const showDeleteConfirmationPopup = ref(false);
 const selectedAutomation = ref({});
 const searchQuery = ref('');
+const activeTab = ref('event');
 const toggleModalTitle = ref(t('AUTOMATION.TOGGLE.ACTIVATION_TITLE'));
 const toggleModalDescription = ref(
   t('AUTOMATION.TOGGLE.ACTIVATION_DESCRIPTION')
@@ -30,10 +32,18 @@ const toggleModalDescription = ref(
 
 const records = computed(() => getters['automations/getAutomations'].value);
 
+const tabFilteredRecords = computed(() => {
+  const all = records.value || [];
+  if (activeTab.value === 'time') {
+    return all.filter(r => r.event_name === 'time_triggered');
+  }
+  return all.filter(r => r.event_name !== 'time_triggered');
+});
+
 const filteredRecords = computed(() => {
   const query = searchQuery.value.trim();
-  if (!query) return records.value;
-  return picoSearch(records.value, query, ['name', 'description']);
+  if (!query) return tabFilteredRecords.value;
+  return picoSearch(tabFilteredRecords.value, query, ['name', 'description']);
 });
 const uiFlags = computed(() => getters['automations/getUIFlags'].value);
 const accountId = computed(() => getters.getCurrentAccountId.value);
@@ -69,14 +79,47 @@ onMounted(() => {
 });
 
 const openAddPopup = () => {
-  addDialogRef.value?.open();
+  addDialogRef.value?.open(activeTab.value === 'time' ? 'time' : 'event');
 };
 const hideAddPopup = () => {
   addDialogRef.value?.close();
 };
 
+const activateTimePreset = async preset => {
+  try {
+    const schedule = { ...(preset.defaults.schedule || {}) };
+    let conditions = preset.defaults.conditions;
+    // Blank schedule attribute_key still creates the rule; default to open
+    // so the preset is useful before the agent fills the CA key.
+    if (!conditions?.length && !schedule.attribute_key) {
+      conditions = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: ['open'],
+          query_operator: null,
+          custom_attribute_type: '',
+        },
+      ];
+    }
+    const payload = {
+      name: t(preset.nameKey),
+      description: t(preset.descriptionKey),
+      event_name: 'time_triggered',
+      active: true,
+      conditions: conditions || [],
+      actions: preset.defaults.actions || [],
+      schedule,
+    };
+    await store.dispatch('automations/create', payload);
+    useAlert(t('AUTOMATION.ADD.API.SUCCESS_MESSAGE'));
+    activeTab.value = 'time';
+  } catch (error) {
+    useAlert(t('AUTOMATION.ADD.API.ERROR_MESSAGE'));
+  }
+};
+
 const openEditPopup = response => {
-  // JSON clone: structuredClone fails on Vue reactive/proxy store rows.
   selectedAutomation.value = JSON.parse(JSON.stringify(response));
   editDialogRef.value?.open();
 };
@@ -216,6 +259,42 @@ const tableHeaders = computed(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <Button
+          sm
+          :solid="activeTab === 'event'"
+          :faded="activeTab !== 'event'"
+          :label="$t('AUTOMATION.TAB_EVENT')"
+          @click="activeTab = 'event'"
+        />
+        <Button
+          sm
+          :solid="activeTab === 'time'"
+          :faded="activeTab !== 'time'"
+          :label="$t('AUTOMATION.TAB_TIME')"
+          @click="activeTab = 'time'"
+        />
+      </div>
+
+      <div
+        v-if="activeTab === 'time'"
+        class="flex flex-col gap-2 mb-4 rounded-lg border border-n-weak bg-n-solid-2 p-3"
+      >
+        <p class="m-0 text-xs font-medium uppercase text-n-slate-11">
+          {{ $t('AUTOMATION.TIME_PRESETS_TITLE') }}
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <Button
+            v-for="preset in TIME_RULE_PRESETS"
+            :key="preset.id"
+            sm
+            faded
+            :label="$t(preset.nameKey)"
+            @click="activateTimePreset(preset)"
+          />
+        </div>
+      </div>
+
       <BaseTable
         :headers="tableHeaders"
         :items="filteredRecords"

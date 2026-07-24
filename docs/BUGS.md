@@ -58,6 +58,11 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-11 | Media | No | ✅ Re-fijado (2026-07-21) — regresión en `d54c4092d` revirtió attended; restaurado en `feat/automation-formulas-and-date-vars` |
 | B-NEW-12 | Media | No | ✅ Fijado — Flow nfm_reply: i18n restaurado + sin confirmación outbound al cliente |
 | B-NEW-13 | 🔴 Alta (prod) | No | ✅ Fijado — pivot summary rows seeded from flat summary; no more agent collapse |
+| B-NEW-14 | Feature | No | ✅ Business rules + time automations + multi_list (branch `feat/business-rules-time-multilist`) |
+| B-NEW-15 | Flows UI | Baja | ✅ Portado a `feat/business-rules-time-multilist` (model/API/UI/`flows_v1`) |
+| B-NEW-16 | 🔴 P0 | No | ✅ Time-rule ledger: conditions before claim + hours window_id from message id/created_at |
+| B-NEW-17 | Feature | No | ✅ P0 CRM unlock: time-rule CA actions + relative dates + seguimiento_30d + safe date SQL |
+| B-NEW-18 | Smoke | No | ✅ Local Docker smoke: VPS DFIT attrs + seguimiento_30d on `fecha_seguimiento` (conv #154) |
 
 ---
 
@@ -498,6 +503,65 @@ Ver secciones 5b previas / commits en PR #3.
 | TASK-008 | Índice position | — | **Stale / cerrado** |
 | P2-VALID | assignee/team_id sin check same-account; status libre en PATCH | Baja | Backlog |
 | CABLE-OPS | presence / proxy idle / staleThreshold | Ops | Documentado en INTERNAL_TASKS |
+
+---
+
+### B-NEW-14 — Business rules, time automations, multi_list
+
+**Feature (2026-07-23).** Guardrails in account `settings.business_rules` via
+`Conversations::BusinessRulesGuard`; time automations with
+`event_name: time_triggered` + `schedule` jsonb +
+`Automations::TimeBasedSchedulerJob` (from `TriggerScheduledItemsJob`);
+custom attribute `multi_list` (display type 9) with JSON array values and
+`contains` filters.
+
+**Migración:** `20260723210000_add_schedule_to_automation_rules.rb`
+
+**Cómo probar:** Settings → Conversation Workflow (activate guard preset) →
+status change blocked with alert; Automations → By time tab + preset;
+Custom Attributes → Multi-select list → filter contains.
+
+**i18n ES (2026-07-23):** `es/businessRules.json` + tabs/schedule en
+`es/automation.json` + `MULTI_LIST` en `es/attributesMgmt.json`. UI locale ES
+debe mostrar copy en español (rebuild Vite local).
+
+**B-NEW-16 (ledger order + window_id, 2026-07-23):**
+`TimeBasedRuleRunner` claimed Redis before `conditions_match?`, burning the
+~90d ledger when filters failed. Order is now conditions → claim → actions.
+Hours `window_id` no longer uses `last_activity_at` (label/assign churn);
+it uses `time_rule_message_id` + `time_rule_message_at` from the same
+`latest_messages` join as the SQL scope.
+
+**B-NEW-17 (CRM P0 unlock on B-NEW-14/16, 2026-07-23):**
+Time-triggered FE actions now include
+`update_conversation_custom_attribute` /
+`update_contact_custom_attribute`. Relative date CA values use Liquid via
+`MessageRendererService` + `LiquidFilters::DateFilter`:
+`{{ date.today }}`, `{{ date.today | plus_days: N }}`,
+`{{ date.today | minus_days: N }}` (DateDrop `days_from_now`/`days_ago`
+cannot take Liquid args — use the filters). `days_since_attribute` SQL
+skips non-ISO strings instead of raising. Preset `seguimiento_30d` +
+Index defaults `status=open` when schedule `attribute_key` is blank.
+
+**B-NEW-18 (smoke VPS attrs → local Docker, 2026-07-24):**
+Imported prod DFIT conversation CAs (`fecha_seguimiento`, `fecha_venta`, …)
+into local account 1. Seed conv **#154** open with `fecha_seguimiento` ≈ 35d
+ago. Upserted active time rule `Seguimiento 30d (smoke DFIT)` (id **9**):
+`days_since_attribute` on `fecha_seguimiento` / 30d → `send_message` +
+`update_conversation_custom_attribute` (`{{ date.today }}`) +
+`notify_assignee`. `TimeBasedRuleRunner` fired: outgoing msg **#1319**,
+CAs updated `2026-06-19` → `2026-07-24`, no exception. Preset defaults now
+use prod keys `fecha_seguimiento` / `fecha_venta` (alias `ultimo_seguimiento`
+is local-only).
+
+### B-NEW-15 — Flows menu no visible (local / prod) — secundario
+
+**Estado:** ✅ portado (2026-07-24) sobre `feat/business-rules-time-multilist`.
+Traído desde `feat/conversation-flows`: modelos `Flow`/`FlowRun`/`FlowEvent`,
+API, store/rutas FE, Sidebar **Flows**, flag `flows_v1`, acción automation
+`enter_flow`. Business-rules UI/servicios intactos. Activar por cuenta:
+`Account.find(1).enable_features!('flows_v1')`. UI: rebuild Vite/Docker assets
+si el menú no aparece tras restart Rails.
 
 ---
 

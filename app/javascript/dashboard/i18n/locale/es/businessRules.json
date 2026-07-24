@@ -1,0 +1,90 @@
+{
+  "BUSINESS_RULES": {
+    "HEADER": "Reglas de negocio",
+    "TITLE": "Reglas de negocio (restricciones)",
+    "DESCRIPTION": "Condiciones que deben cumplirse antes de cambiar el estado de una conversación. Solo se exigen los atributos que elijas — nunca la lista completa.",
+    "FORM_HELP": "Solo los atributos que marques abajo serán obligatorios. Si no marcas ninguno, la regla no bloquea el cambio de estado.",
+    "PRESETS_TITLE": "Presets rápidos",
+    "PRESETS_HELP": "Un clic añade una regla con listas de atributos vacías. Edítala para elegir qué campos aplican.",
+    "EMPTY": "Aún no hay restricciones. Crea una regla propia o activa un preset.",
+    "CREATE_CUSTOM": "Crear regla",
+    "CREATE_CUSTOM_TITLE": "Nueva regla de negocio",
+    "EDIT": "Editar",
+    "EDIT_TITLE": "Editar regla de negocio",
+    "CREATE_ADD": "Añadir regla",
+    "CANCEL": "Cancelar",
+    "CUSTOM_DEFAULT_NAME": "Regla personalizada · {type}",
+    "NAME_REQUIRED": "Escribe un nombre para la regla",
+    "SAVE": "Guardar",
+    "SAVE_SUCCESS": "Reglas de negocio guardadas",
+    "SAVE_ERROR": "No se pudieron guardar las reglas de negocio",
+    "REMOVE": "Quitar",
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Nombre",
+        "TYPE": "Tipo",
+        "ENABLED": "Activa",
+        "ACTION": "Acciones"
+      }
+    },
+    "FIELDS": {
+      "NAME": "Nombre",
+      "NAME_PLACEHOLDER": "Ej. Exigir total de venta al resolver",
+      "TYPE": "Tipo de regla",
+      "STATUS": "Estado objetivo",
+      "STATUSES": "Estados (separados por coma)",
+      "STATUSES_PLACEHOLDER": "pending, snoozed",
+      "ATTRIBUTES": "Atributos obligatorios",
+      "ATTRIBUTES_HELP": "Solo los atributos marcados serán obligatorios. No selecciones todos salvo que realmente lo necesites.",
+      "WHEN_ATTRIBUTE": "Cuando este atributo tenga valor",
+      "WHEN_VALUES": "Valores que disparan (opcional)",
+      "WHEN_VALUES_PLACEHOLDER": "venta, ganado — vacío = cualquier valor",
+      "REQUIRE_ATTRIBUTES": "Entonces exigir estos atributos",
+      "REQUIRE_PRIVATE_NOTE": "Exigir una nota privada reciente",
+      "REASON_ATTRIBUTE": "Atributo de motivo (opcional)",
+      "LABEL": "Etiqueta prohibida",
+      "REQUIRE_TEAM_OR_AGENT": "Exigir equipo o agente asignado",
+      "NONE": "Ninguno"
+    },
+    "TYPES": {
+      "require_attributes_on_status": "Exigir atributos al cambiar estado",
+      "if_attribute_then_require": "Si atributo X, exigir Y/Z",
+      "require_reason_on_status": "Exigir motivo al posponer",
+      "forbid_status_if": "Prohibir estado si hay etiqueta",
+      "require_assignee_on_status": "Exigir asignación al cambiar estado"
+    },
+    "STATUSES": {
+      "open": "Abierta",
+      "resolved": "Resuelta",
+      "pending": "Pendiente",
+      "snoozed": "Pospuesta"
+    },
+    "NO_ATTRIBUTES": "Aún no hay atributos de conversación definidos.",
+    "PRESETS": {
+      "REQUIRE_ON_RESOLVE": "Exigir atributos al resolver",
+      "REQUIRE_ON_RESOLVE_DESC": "Los agentes deben completar los atributos elegidos antes de resolver.",
+      "IF_X_REQUIRE_YZ": "Si X, entonces exigir Y/Z",
+      "IF_X_REQUIRE_YZ_DESC": "Si un atributo coincide, exigir campos adicionales al resolver.",
+      "MOTIVO_POSPONER": "Motivo al posponer",
+      "MOTIVO_POSPONER_DESC": "Exigir nota privada o atributo de motivo al dejar pendiente/pospuesta.",
+      "FORBID_RESOLVE_LABEL": "No resolver con etiqueta",
+      "FORBID_RESOLVE_LABEL_DESC": "Bloquear resolver si la conversación tiene una etiqueta dada.",
+      "REQUIRE_ASSIGNEE_ON_OPEN": "Exigir asignación al abrir",
+      "REQUIRE_ASSIGNEE_ON_OPEN_DESC": "Al abrir una conversación se requiere equipo o agente.",
+      "POST_COMPRA": "Seguimiento post-compra (N días)",
+      "POST_COMPRA_DESC": "Tras N días desde un atributo de fecha, ejecuta acciones (etiqueta, mensaje, etc.).",
+      "FOLLOWUP_24H": "Seguimiento a las 24h sin respuesta",
+      "FOLLOWUP_24H_DESC": "Si el último mensaje del agente tiene más de 24h y el cliente no respondió, enviar un recordatorio.",
+      "SEGUIMIENTO_30D": "Seguimiento cada 30 días",
+      "SEGUIMIENTO_30D_DESC": "Si fecha_seguimiento tiene 30+ días (conversaciones abiertas), envía un mensaje, actualiza la fecha y notifica al asignado."
+    },
+    "STATUS_ERRORS": {
+      "missing_attribute": "Completa el atributo obligatorio: {key}",
+      "missing_reason_attribute": "Completa el atributo de motivo: {key}",
+      "missing_private_note": "Añade una nota privada antes de cambiar el estado",
+      "forbidden_label": "No se puede cambiar el estado mientras esté la etiqueta “{label}”",
+      "missing_assignee": "Asigna un equipo o agente antes de cambiar el estado",
+      "generic": "Una regla de negocio bloqueó este cambio de estado"
+    }
+  }
+}

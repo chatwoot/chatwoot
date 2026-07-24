@@ -81,6 +81,44 @@ const openSnoozeModal = () => {
   ninja.open({ parent: 'snooze_conversation' });
 };
 
+const formatBusinessRuleError = message => {
+  if (!message || typeof message !== 'string') return null;
+
+  const text = message.replace(/^Status\s+/i, '').trim();
+  const missingAttr = text.match(/missing_attribute:(\S+)/);
+  if (missingAttr) {
+    return t('BUSINESS_RULES.STATUS_ERRORS.missing_attribute', {
+      key: missingAttr[1],
+    });
+  }
+  const missingReason = text.match(/missing_reason_attribute:(\S+)/);
+  if (missingReason) {
+    return t('BUSINESS_RULES.STATUS_ERRORS.missing_reason_attribute', {
+      key: missingReason[1],
+    });
+  }
+  if (text.includes('missing_private_note')) {
+    return t('BUSINESS_RULES.STATUS_ERRORS.missing_private_note');
+  }
+  const forbidden = text.match(/forbidden_label:(\S+)/);
+  if (forbidden) {
+    return t('BUSINESS_RULES.STATUS_ERRORS.forbidden_label', {
+      label: forbidden[1],
+    });
+  }
+  if (text.includes('missing_assignee')) {
+    return t('BUSINESS_RULES.STATUS_ERRORS.missing_assignee');
+  }
+  if (
+    /missing_attribute|missing_reason|forbidden_label|missing_assignee|missing_private_note/.test(
+      text
+    )
+  ) {
+    return t('BUSINESS_RULES.STATUS_ERRORS.generic');
+  }
+  return text;
+};
+
 const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
   closeDropdown();
   isLoading.value = true;
@@ -100,10 +138,15 @@ const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
     .then(() => {
       useAlert(t('CONVERSATION.CHANGE_STATUS'));
     })
-    .catch(() => {
-      // Always release the spinner when the toggle promise resolves,
-      // even if the request fails. Without this the button can stay in
-      // the loading state forever if the backend hangs or returns an error.
+    .catch(error => {
+      const serverMessage =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message;
+      useAlert(
+        formatBusinessRuleError(serverMessage) ||
+          t('CONVERSATION.CHANGE_STATUS_FAILED')
+      );
     })
     .finally(() => {
       isLoading.value = false;
