@@ -38,9 +38,11 @@ class Whatsapp::WebhookTeardownService
     Rails.logger.error "[WHATSAPP] Phone-level webhook clear failed for channel #{@channel.id}: #{e.message}"
   end
 
-  # Releases the number from the app so the customer can re-add it elsewhere. Without this the
-  # number stays registered and Meta reports "already in a partner app".
+  # Embedded signup only — deregistering a manually connected number disables it on the customer's own app.
+  # Releases the number from our app so the customer can re-add it elsewhere.
   def deregister_phone_number(api_client)
+    return unless provider_config['source'] == 'embedded_signup'
+
     phone_number_id = provider_config['phone_number_id']
     return if phone_number_id.blank?
 
