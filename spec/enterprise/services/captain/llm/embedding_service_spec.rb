@@ -32,7 +32,40 @@ RSpec.describe Captain::Llm::EmbeddingService, type: :service do
 
       expect(RubyLLM).to receive(:embed).with('search text', model: 'custom-embedding-model').and_return(embedding_response)
 
-      expect(described_class.new(account_id: account.id).get_embedding('search text')).to eq([0.1, 0.2])
+      expect(
+        described_class.new(account_id: account.id).get_embedding(
+          'search text',
+          purpose: 'search',
+          source: 'faq_lookup'
+        )
+      ).to eq([0.1, 0.2])
+    end
+
+    it 'keeps the embedding observation contract and adds embedding context metadata' do
+      service = described_class.new(account_id: account.id)
+      allow(RubyLLM).to receive(:embed).and_return(embedding_response)
+
+      expect(service).to receive(:instrument_embedding_call).with(
+        {
+          span_name: 'llm.captain.embedding',
+          model: LlmConstants::DEFAULT_EMBEDDING_MODEL,
+          input: 'search text',
+          feature_name: 'embedding',
+          account_id: account.id,
+          metadata: {
+            assistant_id: 42,
+            embedding_purpose: 'search',
+            embedding_source: 'faq_lookup'
+          }
+        }
+      ).and_yield
+
+      service.get_embedding(
+        'search text',
+        purpose: 'search',
+        source: 'faq_lookup',
+        metadata: { assistant_id: 42 }
+      )
     end
   end
 end

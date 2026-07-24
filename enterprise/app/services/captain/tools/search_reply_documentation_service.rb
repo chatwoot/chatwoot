@@ -31,10 +31,22 @@ class Captain::Tools::SearchReplyDocumentationService < RubyLLM::Tool
   private
 
   def search_responses(query)
+    embedding_metadata = { assistant_id: @assistant&.id }.compact
+
     if @assistant.present?
-      @assistant.responses.approved.search(query, account_id: @account.id)
+      @assistant.responses.approved.search(
+        query,
+        account_id: @account.id,
+        embedding_source: 'reply_suggestion',
+        embedding_metadata: embedding_metadata
+      )
     else
-      @account.captain_assistant_responses.approved.search(query, account_id: @account.id)
+      @account.captain_assistant_responses.approved.search(
+        query,
+        account_id: @account.id,
+        embedding_source: 'reply_suggestion',
+        embedding_metadata: embedding_metadata
+      )
     end
   end
 

@@ -13,10 +13,10 @@ class Captain::Llm::EmbeddingService
     InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence || LlmConstants::DEFAULT_EMBEDDING_MODEL
   end
 
-  def get_embedding(content, model: @embedding_model)
+  def get_embedding(content, purpose:, source:, metadata: {}, model: @embedding_model)
     return [] if content.blank?
 
-    instrument_embedding_call(instrumentation_params(content, model)) do
+    instrument_embedding_call(instrumentation_params(content, model, purpose, source, metadata)) do
       RubyLLM.embed(content, model: model).vectors
     end
   rescue RubyLLM::Error => e
@@ -26,13 +26,14 @@ class Captain::Llm::EmbeddingService
 
   private
 
-  def instrumentation_params(content, model)
+  def instrumentation_params(content, model, purpose, source, metadata)
     {
       span_name: 'llm.captain.embedding',
       model: model,
       input: content,
       feature_name: 'embedding',
-      account_id: @account_id
+      account_id: @account_id,
+      metadata: metadata.merge(embedding_purpose: purpose, embedding_source: source)
     }
   end
 end

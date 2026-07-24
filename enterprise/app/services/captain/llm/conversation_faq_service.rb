@@ -41,7 +41,10 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   end
 
   def route_candidate(faq)
-    embedding = embedding_service.get_embedding(candidate_text(faq))
+    embedding = embedding_service.get_embedding(
+      candidate_text(faq), purpose: 'candidate_grouping', source: 'conversation_faq',
+                           metadata: { assistant_id: assistant.id, conversation_id: conversation.display_id, language: faq_language }
+    )
 
     return discard_observation(faq) if matching_record(approved_faqs, faq, embedding)
     return discard_observation(faq) if matching_record(dismissed_suggestions_for_language, faq, embedding)

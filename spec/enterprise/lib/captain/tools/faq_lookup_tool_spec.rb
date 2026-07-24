@@ -4,14 +4,14 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:tool) { described_class.new(assistant) }
-  let(:tool_context) { Struct.new(:state).new({}) }
+  let(:tool_context) { Struct.new(:state).new({ conversation: { display_id: 321 } }) }
+  let(:embedding_service) { instance_double(Captain::Llm::EmbeddingService) }
 
   before do
     # Create installation config for OpenAI API key to avoid errors
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
 
     # Mock embedding service to avoid actual API calls
-    embedding_service = instance_double(Captain::Llm::EmbeddingService)
     allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
     allow(embedding_service).to receive(:get_embedding).and_return(Array.new(1536, 0.1))
   end
@@ -60,6 +60,13 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
       it 'searches FAQs and returns formatted responses' do
         result = tool.perform(tool_context, query: 'password reset')
 
+        expect(Captain::Llm::EmbeddingService).to have_received(:new).with(account_id: account.id)
+        expect(embedding_service).to have_received(:get_embedding).with(
+          'password reset',
+          purpose: 'search',
+          source: 'faq_lookup',
+          metadata: { assistant_id: assistant.id, conversation_id: 321 }
+        )
         expect(result).to include('Question: How to reset password?')
         expect(result).to include('Answer: Click on forgot password link')
         expect(result).to include('Question: How to change email?')
@@ -118,7 +125,7 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
       it 'leaves shared state untouched' do
         tool.perform(tool_context, query: 'nonexistent topic')
 
-        expect(tool_context.state).to eq({})
+        expect(tool_context.state).to eq(conversation: { display_id: 321 })
       end
     end
 

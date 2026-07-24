@@ -11,7 +11,7 @@ module Enterprise::Concerns::Article
     add_article_embedding_association
 
     def self.vector_search(params)
-      embedding = Captain::Llm::EmbeddingService.new(account_id: params[:account_id]).get_embedding(params['query'])
+      embedding = help_center_search_embedding(params)
       records = joins(
         :category
       ).search_by_category_slug(
@@ -36,6 +36,13 @@ module Enterprise::Concerns::Article
       # Fetch the articles by the IDs obtained from the nearest neighbors search
       where(id: article_ids).in_order_of(:id, article_ids)
     end
+
+    def self.help_center_search_embedding(params)
+      Captain::Llm::EmbeddingService.new(account_id: params[:account_id]).get_embedding(
+        params['query'], purpose: 'search', source: 'help_center_search', metadata: { language: params[:locale] }.compact
+      )
+    end
+    private_class_method :help_center_search_embedding
   end
 
   def add_article_embedding

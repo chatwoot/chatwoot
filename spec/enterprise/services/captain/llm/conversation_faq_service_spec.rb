@@ -70,6 +70,21 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         described_class.new(captain_assistant, conversation).generate_suggestions
       end
 
+      it 'adds grouping context to each candidate embedding' do
+        expect(embedding_service).to receive(:get_embedding).with(
+          kind_of(String),
+          purpose: 'candidate_grouping',
+          source: 'conversation_faq',
+          metadata: {
+            assistant_id: captain_assistant.id,
+            conversation_id: conversation.display_id,
+            language: 'en'
+          }
+        ).twice.and_return(embedding_one, embedding_two)
+
+        service.generate_suggestions
+      end
+
       it 'sends only customer and human support agent messages to the LLM' do
         create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
                          sender: create(:contact, account: conversation.account), message_type: :incoming,
