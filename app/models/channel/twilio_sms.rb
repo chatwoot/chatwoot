@@ -49,7 +49,7 @@ class Channel::TwilioSms < ApplicationRecord
   validates :phone_number, absence: true, if: :messaging_service_sid?
   validates :phone_number, uniqueness: true, allow_nil: true
 
-  enum medium: { sms: 0, whatsapp: 1 }
+  enum :medium, { sms: 0, whatsapp: 1 }
 
   def name
     medium == 'sms' ? 'Twilio SMS' : 'Whatsapp'

@@ -19,7 +19,7 @@ class CopilotMessage < ApplicationRecord
   belongs_to :copilot_thread
   belongs_to :account
 
-  enum message_type: { user: 0, assistant: 1, assistant_thinking: 2 }
+  enum :message_type, { user: 0, assistant: 1, assistant_thinking: 2 }
 
   validates :message_type, presence: true
   validates :message, presence: true
