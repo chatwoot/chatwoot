@@ -409,6 +409,7 @@ export default {
       return (
         this.isAWhatsAppCloudChannel &&
         this.isEmbeddedSignupWhatsApp &&
+        this.healthError?.type !== 'authorization' &&
         this.isFeatureEnabledonAccount(
           this.accountId,
           FEATURE_FLAGS.WHATSAPP_MANUAL_TRANSFER
@@ -578,9 +579,24 @@ export default {
         const response = await InboxHealthAPI.getHealthStatus(this.inbox.id);
         this.healthData = response.data;
       } catch (error) {
-        this.healthError = error.message || 'Failed to fetch health data';
+        const apiError = error.response?.data?.error;
+        this.healthError =
+          typeof apiError === 'object'
+            ? apiError
+            : {
+                type: 'generic',
+                message: apiError || error.message,
+              };
       } finally {
         this.isLoadingHealth = false;
+      }
+    },
+    goToWhatsAppConfiguration() {
+      const configurationTabIndex = this.tabs.findIndex(
+        tab => tab.key === 'configuration'
+      );
+      if (configurationTabIndex !== -1) {
+        this.onTabChange(configurationTabIndex);
       }
     },
     async registerWebhook() {
@@ -1377,8 +1393,11 @@ export default {
         <div v-if="selectedTabKey === 'whatsapp-health'">
           <AccountHealth
             :health-data="healthData"
+            :health-error="healthError"
+            :is-embedded-signup="isEmbeddedSignupWhatsApp"
             :is-registering-webhook="isRegisteringWebhook"
             @register-webhook="registerWebhook"
+            @go-to-configuration="goToWhatsAppConfiguration"
           />
         </div>
         <WhatsappManualMigrationDialog

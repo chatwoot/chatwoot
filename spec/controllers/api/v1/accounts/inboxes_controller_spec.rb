@@ -1321,19 +1321,24 @@ RSpec.describe 'Inboxes API', type: :request do
     let(:health_service) { instance_double(Whatsapp::HealthService) }
     let(:health_data) do
       {
+        id: 'phone123',
         display_phone_number: '+1234567890',
         verified_name: 'Test Business',
         name_status: 'APPROVED',
         quality_rating: 'GREEN',
         messaging_limit_tier: 'TIER_1000',
         account_mode: 'LIVE',
-        business_id: 'business123'
+        status: 'CONNECTED',
+        business_account_id: 'waba123',
+        business_account_name: 'Test WABA',
+        business_portfolio_id: 'business123',
+        business_portfolio_name: 'Test Business Portfolio'
       }
     end
 
     before do
       allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-      allow(health_service).to receive(:fetch_health_status).and_return(health_data)
+      allow(health_service).to receive(:sync_health_status!).and_return(health_data)
     end
 
     context 'when it is an unauthenticated user' do
@@ -1354,13 +1359,18 @@ RSpec.describe 'Inboxes API', type: :request do
           expect(response).to have_http_status(:success)
           json_response = response.parsed_body
           expect(json_response).to include(
+            'id' => 'phone123',
             'display_phone_number' => '+1234567890',
             'verified_name' => 'Test Business',
             'name_status' => 'APPROVED',
             'quality_rating' => 'GREEN',
             'messaging_limit_tier' => 'TIER_1000',
             'account_mode' => 'LIVE',
-            'business_id' => 'business123'
+            'status' => 'CONNECTED',
+            'business_account_id' => 'waba123',
+            'business_account_name' => 'Test WABA',
+            'business_portfolio_id' => 'business123',
+            'business_portfolio_name' => 'Test Business Portfolio'
           )
         end
 
@@ -1386,7 +1396,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         it 'calls the health service with correct channel' do
           expect(Whatsapp::HealthService).to receive(:new).with(whatsapp_channel).and_return(health_service)
-          expect(health_service).to receive(:fetch_health_status)
+          expect(health_service).to receive(:sync_health_status!)
 
           get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
               headers: admin.create_new_auth_token,
@@ -1396,7 +1406,7 @@ RSpec.describe 'Inboxes API', type: :request do
         end
 
         it 'handles service errors gracefully' do
-          allow(health_service).to receive(:fetch_health_status).and_raise(StandardError, 'API Error')
+          allow(health_service).to receive(:sync_health_status!).and_raise(StandardError, 'API Error')
 
           get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
               headers: admin.create_new_auth_token,
@@ -1405,6 +1415,29 @@ RSpec.describe 'Inboxes API', type: :request do
           expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
           expect(json_response['error']).to include('API Error')
+        end
+
+        it 'classifies Meta authorization failures for the recovery UI' do
+          error = Whatsapp::HealthService::ApiError.new(
+            message: 'The access token cannot authorize this request.',
+            http_status: 400,
+            code: 190,
+            subcode: 464
+          )
+          allow(health_service).to receive(:sync_health_status!).and_raise(error)
+
+          get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq(
+            'type' => 'authorization',
+            'message' => 'The access token cannot authorize this request.',
+            'http_status' => 400,
+            'code' => 190,
+            'subcode' => 464
+          )
         end
       end
 
