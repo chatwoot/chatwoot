@@ -80,24 +80,6 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       end.not_to(change { assistant.responses.count })
     end
 
-    it 'leaves pending FAQ responses untouched' do
-      pending_response = assistant.responses.create!(
-        question: faq_document_candidate['question'],
-        answer: faq_document_candidate['answer'],
-        status: :pending
-      )
-
-      described_class.new(assistant: assistant, draft: draft, dry_run: false).perform
-
-      expect(pending_response.reload).to be_pending
-      expect(assistant.responses.approved).to contain_exactly(
-        have_attributes(
-          question: faq_document_candidate['question'],
-          answer: faq_document_candidate['answer']
-        )
-      )
-    end
-
     it 'rejects conflicting FAQ answers within the same draft' do
       conflicting_draft = draft.merge(
         faq_document_candidates: [

@@ -92,11 +92,11 @@ RSpec.describe EmailTemplate do
       create(:email_template, :layout, body: 'Global {{ content_for_layout }}')
       account_template = create(:email_template, :layout, account: account, body: 'Account {{ content_for_layout }}')
 
-      expect(described_class.branded_layout_for(inbox: inbox, account: account, locale: :en)).to eq(account_template)
+      expect(described_class.branded_layout_for(inbox: inbox, account: account, locale: :en).id).to eq(account_template.id)
 
       inbox_template = create(:email_template, :layout, account: account, inbox: inbox, body: 'Inbox {{ content_for_layout }}')
 
-      expect(described_class.branded_layout_for(inbox: inbox, account: account, locale: :en)).to eq(inbox_template)
+      expect(described_class.branded_layout_for(inbox: inbox, account: account, locale: :en).id).to eq(inbox_template.id)
     end
   end
 
