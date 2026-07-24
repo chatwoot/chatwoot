@@ -1,7 +1,7 @@
 {
   "MFA_SETTINGS": {
     "TITLE": "Two-Factor Authentication",
-    "SUBTITLE": "Secure your account with TOTP-based authentication",
+    "SUBTITLE": "Protect your account from unauthorized access with TOTP-based authentication. This adds an extra layer of security to your account.",
     "DESCRIPTION": "Add an extra layer of security to your account using a time-based one-time password (TOTP)",
     "STATUS_TITLE": "Authentication Status",
     "STATUS_DESCRIPTION": "Manage your two-factor authentication settings and backup recovery codes",
@@ -55,6 +55,10 @@
       "PASSWORD": "Salasana",
       "OTP_CODE": "Verification Code",
       "OTP_CODE_PLACEHOLDER": "000000",
+      "BACKUP_CODE": "Backup Code",
+      "BACKUP_CODE_PLACEHOLDER": "Enter one of your backup codes",
+      "USE_BACKUP_CODE": "Lost access to your authenticator? Use a backup code instead",
+      "USE_OTP_CODE": "Use a verification code from your authenticator app",
       "CONFIRM": "Disable 2FA",
       "CANCEL": "Peruuta",
       "SUCCESS": "Two-factor authentication has been disabled",

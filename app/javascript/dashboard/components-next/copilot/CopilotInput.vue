@@ -29,6 +29,12 @@ const handleInput = () => {
   nextTick(adjustHeight);
 };
 
+const handleEnterKey = event => {
+  if (event.isComposing) return;
+  event.preventDefault();
+  sendMessage();
+};
+
 onMounted(() => {
   nextTick(adjustHeight);
 });
@@ -43,7 +49,7 @@ onMounted(() => {
       class="w-full reset-base bg-n-alpha-3 ltr:pl-4 ltr:pr-12 rtl:pl-12 rtl:pr-4 py-3 text-sm border border-n-weak rounded-lg focus:outline-0 focus:outline-none focus:ring-2 focus:ring-n-blue-11 focus:border-n-blue-11 resize-none overflow-hidden max-h-[200px] mb-0 text-n-slate-12"
       rows="1"
       @input="handleInput"
-      @keydown.enter.exact.prevent="sendMessage"
+      @keydown.enter.exact="handleEnterKey"
     />
     <button
       class="absolute ltr:right-1 rtl:left-1 top-1/2 -translate-y-1/2 h-9 w-10 flex items-center justify-center text-n-slate-11 hover:text-n-blue-11"

@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useOperators } from './operators';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useChannelIcon } from 'next/icon/provider';
+import { createContactSearcher } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
 import {
   buildAttributesFilterTypes,
   CONVERSATION_ATTRIBUTES,
@@ -30,7 +31,7 @@ import languages from 'dashboard/components/widgets/conversation/advancedFilterI
  * @property {string} value - This is a proxy for the attribute key used in FilterSelect
  * @property {string} attributeName - The attribute name used to display on the UI
  * @property {string} label - This is a proxy for the attribute name used in FilterSelect
- * @property {'multiSelect'|'searchSelect'|'plainText'|'date'|'booleanSelect'} inputType - The input type for the attribute
+ * @property {'multiSelect'|'searchSelect'|'asyncSearchSelect'|'plainText'|'date'|'booleanSelect'} inputType - The input type for the attribute
  * @property {FilterOption[]} [options] - The options available for the attribute if it is a multiSelect or singleSelect type
  * @property {'text'|'number'} dataType
  * @property {FilterOperator[]} filterOperators - The operators available for the attribute
@@ -67,6 +68,30 @@ export function useConversationFilterContext() {
     dateOperators,
     getOperatorTypes,
   } = useOperators();
+
+  const searchContacts = createContactSearcher();
+
+  const contactOptionName = contact =>
+    contact.name ||
+    contact.email ||
+    contact.phoneNumber ||
+    contact.identifier ||
+    t('FILTER.CONTACT_FALLBACK', { id: contact.id });
+
+  const searchContactOptions = async query => {
+    const contacts = await searchContacts(query, {
+      skipMinLength: true,
+      reachableOnly: false,
+    });
+
+    // null means the request was aborted (a newer search is in-flight)
+    if (contacts === null) return null;
+
+    return contacts.map(contact => ({
+      id: contact.id,
+      name: contactOptionName(contact),
+    }));
+  };
 
   /**
    * @type {import('vue').ComputedRef<FilterType[]>}
@@ -156,6 +181,18 @@ export function useConversationFilterContext() {
       options: teams.value,
       dataType: 'number',
       filterOperators: presenceOperators.value,
+      attributeModel: 'standard',
+    },
+    {
+      attributeKey: CONVERSATION_ATTRIBUTES.CONTACT_ID,
+      value: CONVERSATION_ATTRIBUTES.CONTACT_ID,
+      attributeName: t('FILTER.ATTRIBUTES.CONTACT'),
+      label: t('FILTER.ATTRIBUTES.CONTACT'),
+      inputType: 'asyncSearchSelect',
+      searchOptions: searchContactOptions,
+      searchPlaceholder: t('FILTER.CONTACT_SEARCH_PLACEHOLDER'),
+      dataType: 'number',
+      filterOperators: equalityOperators.value,
       attributeModel: 'standard',
     },
     {

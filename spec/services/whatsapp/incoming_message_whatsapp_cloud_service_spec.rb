@@ -2,6 +2,10 @@ require 'rails_helper'
 
 describe Whatsapp::IncomingMessageWhatsappCloudService do
   describe '#perform' do
+    after do
+      Redis::Alfred.scan_each(match: 'MESSAGE_SOURCE_KEY::*') { |key| Redis::Alfred.delete(key) }
+    end
+
     let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
     let(:sender_number) { '2423423243' }
     let(:params) do
@@ -56,6 +60,41 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    context 'when document attachment includes an accented filename' do
+      let(:document_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: '2423423243' }],
+                messages: [{
+                  from: '2423423243',
+                  document: {
+                    id: 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
+                    mime_type: 'application/pdf',
+                    filename: 'Currículum café.pdf',
+                    caption: 'My résumé'
+                  },
+                  timestamp: '1664799904', type: 'document'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'preserves the original filename from the payload' do
+        stub_media_url_request
+        stub_sample_png_request
+        described_class.new(inbox: whatsapp_channel.inbox, params: document_params).perform
+
+        attachment = whatsapp_channel.inbox.messages.first.attachments.first
+        expect(attachment.file.filename.to_s).to eq('Currículum café.pdf')
+      end
+    end
+
     context 'when invalid attachment message params' do
       let(:error_params) do
         {
@@ -94,6 +133,98 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    context 'when BSUID identifiers are present' do
+      it 'creates a contact and conversation when only BSUID is present' do
+        bsuid_params = {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{
+                  profile: { name: 'Muhsin', username: 'muhsin' },
+                  user_id: 'IN.2081978709342942',
+                  parent_user_id: 'IN.ENT.9081726354'
+                }],
+                messages: [{
+                  from_user_id: 'IN.2081978709342942',
+                  from_parent_user_id: 'IN.ENT.9081726354',
+                  id: 'wamid.cloud-bsuid-only-message',
+                  text: { body: 'testing bsuid' },
+                  timestamp: '1778579582',
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_params).perform
+
+        contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
+        contact = contact_inbox.contact
+        parent_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.ENT.9081726354')
+
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        expect(whatsapp_channel.inbox.messages.first.content).to eq('testing bsuid')
+        expect(contact).to have_attributes(name: 'Muhsin', phone_number: nil)
+        expect(contact.additional_attributes).to include(
+          'social_whatsapp_user_name' => 'muhsin',
+          'social_profiles' => { 'whatsapp' => 'muhsin' }
+        )
+        expect(parent_contact_inbox.contact).to eq(contact)
+      end
+
+      it 'links phone and BSUID source ids to the same contact' do
+        phone_with_bsuid_params = {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Muhsin' }, wa_id: '919745786257', user_id: 'IN.2081978709342942' }],
+                messages: [{
+                  from: '919745786257',
+                  from_user_id: 'IN.2081978709342942',
+                  id: 'wamid.cloud-phone-bsuid-message',
+                  text: { body: 'phone and bsuid' },
+                  timestamp: '1778579582',
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+        bsuid_only_params = {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Muhsin' }, user_id: 'IN.2081978709342942' }],
+                messages: [{
+                  from_user_id: 'IN.2081978709342942',
+                  id: 'wamid.cloud-bsuid-follow-up-message',
+                  text: { body: 'bsuid only' },
+                  timestamp: '1778579583',
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
+        contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: '919745786257')
+        bsuid_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
+
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_only_params).perform }.not_to raise_error
+        expect(whatsapp_channel.inbox.contact_inboxes.count).to eq(2)
+        expect(whatsapp_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'bsuid only')
+        expect(bsuid_contact_inbox.contact).to eq(contact_inbox.contact)
+      end
+    end
+
     context 'when invalid params' do
       it 'will not throw error' do
         described_class.new(inbox: whatsapp_channel.inbox, params: { phone_number: whatsapp_channel.phone_number,
@@ -101,6 +232,147 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(whatsapp_channel.inbox.conversations.count).to eq(0)
         expect(Contact.find_by(phone_number: contact_phone_number)).to be_nil
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
+      end
+    end
+
+    context 'when message contains referral data' do
+      let(:referral_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Mom' }, wa_id: '255718573302', user_id: 'TZ.1040042605869930' }],
+                messages: [{
+                  referral: {
+                    source_url: 'https://fb.me/3TYpooaRT',
+                    source_id: '52558118838064',
+                    source_type: 'ad',
+                    body: 'washa data tu',
+                    headline: 'Diana Digital',
+                    media_type: 'video',
+                    video_url: 'https://www.facebook.com/reel/1438165771395493/',
+                    thumbnail_url: 'https://scontent.xx.fbcdn.net/sample.jpg',
+                    ctwa_clid: 'AfhcQdP2E4A8wWpeb1FqUzUi',
+                    welcome_message: {
+                      text: 'Hi! Please let us know how we can help you.'
+                    }
+                  },
+                  from: '255718573302',
+                  from_user_id: 'TZ.1040042605869930',
+                  id: 'wamid.CTWA_REFERRAL_MESSAGE',
+                  timestamp: '1780649766',
+                  text: { body: 'Hello nielekeze' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'stores the referral payload in message content attributes' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: referral_params).perform
+
+        message = whatsapp_channel.inbox.messages.last
+        expect(message.content).to eq('Hello nielekeze')
+        expect(message.content_attributes['referral']).to include(
+          'source_url' => 'https://fb.me/3TYpooaRT',
+          'source_id' => '52558118838064',
+          'source_type' => 'ad',
+          'body' => 'washa data tu',
+          'headline' => 'Diana Digital',
+          'media_type' => 'video',
+          'video_url' => 'https://www.facebook.com/reel/1438165771395493/',
+          'thumbnail_url' => 'https://scontent.xx.fbcdn.net/sample.jpg',
+          'ctwa_clid' => 'AfhcQdP2E4A8wWpeb1FqUzUi',
+          'welcome_message' => { 'text' => 'Hi! Please let us know how we can help you.' }
+        )
+      end
+
+      it 'preserves the referral payload when the message contains contacts' do
+        contacts_referral_params = referral_params.deep_dup
+        parent_message = contacts_referral_params.dig(:entry, 0, :changes, 0, :value, :messages, 0)
+        parent_message[:type] = 'contacts'
+        parent_message.delete(:text)
+        parent_message[:contacts] = [{
+          name: {
+            formatted_name: 'Diana Digital',
+            first_name: 'Diana',
+            last_name: 'Digital'
+          },
+          phones: [{ phone: '+255718573302' }]
+        }]
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: contacts_referral_params).perform
+
+        message = whatsapp_channel.inbox.messages.last
+        expect(message.content).to eq('Diana Digital')
+        expect(message.content_attributes['referral']).to include(
+          'source_id' => '52558118838064',
+          'headline' => 'Diana Digital',
+          'ctwa_clid' => 'AfhcQdP2E4A8wWpeb1FqUzUi'
+        )
+      end
+    end
+
+    context 'when message is a reply (has context)' do
+      let(:reply_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Pranav' }, wa_id: '16503071063' }],
+                messages: [{
+                  context: {
+                    from: '16503071063',
+                    id: 'wamid.ORIGINAL_MESSAGE_ID'
+                  },
+                  from: '16503071063',
+                  id: 'wamid.REPLY_MESSAGE_ID',
+                  timestamp: '1770407829',
+                  text: { body: 'This is a reply' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      context 'when the original message exists in Chatwoot' do
+        it 'sets in_reply_to to reference the existing message' do
+          # Create a conversation and the original message that will be replied to first
+          contact = create(:contact, phone_number: '+16503071063', account: whatsapp_channel.account)
+          contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_channel.inbox, source_id: '16503071063')
+          conversation = create(:conversation, contact: contact, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+
+          original_message = create(:message,
+                                    conversation: conversation,
+                                    source_id: 'wamid.ORIGINAL_MESSAGE_ID',
+                                    content: 'Original message')
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          reply_message = whatsapp_channel.inbox.messages.last
+          expect(reply_message.content).to eq('This is a reply')
+          expect(reply_message.content_attributes['in_reply_to']).to eq(original_message.id)
+          expect(reply_message.content_attributes['in_reply_to_external_id']).to eq('wamid.ORIGINAL_MESSAGE_ID')
+        end
+      end
+
+      context 'when the original message does not exist in Chatwoot' do
+        it 'does not set in_reply_to (discards the reply reference)' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          reply_message = whatsapp_channel.inbox.messages.last
+          expect(reply_message.content).to eq('This is a reply')
+          expect(reply_message.content_attributes['in_reply_to']).to be_nil
+          expect(reply_message.content_attributes['in_reply_to_external_id']).to be_nil
+        end
       end
     end
   end

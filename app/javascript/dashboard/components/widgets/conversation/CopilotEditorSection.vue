@@ -16,10 +16,6 @@ defineProps({
     type: String,
     default: '',
   },
-  isPopout: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const emit = defineEmits([
@@ -69,7 +65,6 @@ const onSend = () => {
       :generated-content="generatedContent"
       :min-height="4"
       :enabled-menu-options="[]"
-      :is-popout="isPopout"
       @focus="onFocus"
       @blur="onBlur"
       @clear-selection="clearEditorSelection"
@@ -78,7 +73,7 @@ const onSend = () => {
     <div
       v-else-if="isGeneratingContent"
       key="loading-state"
-      class="bg-n-iris-5 rounded min-h-16 w-full mb-4 p-4 flex items-start"
+      class="bg-n-iris-5 rounded min-h-[4.75rem] w-full mb-4 p-4 flex items-start"
     >
       <div class="flex items-center gap-2">
         <CaptainLoader class="text-n-iris-10 size-4" />

@@ -16,8 +16,9 @@ RSpec.describe Enterprise::AutoAssignment::AssignmentService, type: :service do
     # Link inbox to assignment policy
     create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
 
-    allow(account).to receive(:feature_enabled?).and_return(false)
-    allow(account).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
+    # Enable assignment_v2 (base) and advanced_assignment (premium) features
+    account.enable_features('assignment_v2')
+    account.save!
 
     # Set agents as online
     OnlineStatusTracker.update_presence(account.id, 'User', agent1.id)
@@ -89,8 +90,8 @@ RSpec.describe Enterprise::AutoAssignment::AssignmentService, type: :service do
     end
 
     context 'when excluding conversations by age' do
-      let!(:old_conversation) { create(:conversation, inbox: inbox, assignee: nil, created_at: 25.hours.ago) }
-      let!(:recent_conversation) { create(:conversation, inbox: inbox, assignee: nil, created_at: 1.hour.ago) }
+      let!(:old_conversation) { create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 25.hours.ago) }
+      let!(:recent_conversation) { create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 1.hour.ago) }
 
       before do
         capacity_policy.update!(exclusion_rules: {
@@ -123,10 +124,10 @@ RSpec.describe Enterprise::AutoAssignment::AssignmentService, type: :service do
     context 'when combining exclusion rules' do
       it 'applies both exclusion rules' do
         # Create conversations
-        old_conversation_with_label = create(:conversation, inbox: inbox, assignee: nil, created_at: 25.hours.ago)
-        old_conversation_without_label = create(:conversation, inbox: inbox, assignee: nil, created_at: 25.hours.ago)
-        recent_conversation_with_label = create(:conversation, inbox: inbox, assignee: nil, created_at: 1.hour.ago)
-        recent_conversation_without_label = create(:conversation, inbox: inbox, assignee: nil, created_at: 1.hour.ago)
+        old_conversation_with_label = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 25.hours.ago)
+        old_conversation_without_label = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 25.hours.ago)
+        recent_conversation_with_label = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 1.hour.ago)
+        recent_conversation_without_label = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 1.hour.ago)
 
         # Add labels
         old_conversation_with_label.update_labels([label1.title])
@@ -179,6 +180,24 @@ RSpec.describe Enterprise::AutoAssignment::AssignmentService, type: :service do
         expect(assigned_count).to eq(2)
         expect(conversation1.reload.assignee).to be_present
         expect(conversation2.reload.assignee).to be_present
+      end
+    end
+
+    context 'when excluding by age via the assignment policy' do
+      let!(:old_conversation) { create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 25.hours.ago) }
+      let!(:recent_conversation) { create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 1.hour.ago) }
+
+      before do
+        InboxCapacityLimit.destroy_all
+        assignment_policy.update!(exclude_older_than_hours: 24)
+      end
+
+      it 'skips conversations older than the policy threshold without a capacity policy' do
+        assigned_count = assignment_service.perform_bulk_assignment(limit: 10)
+
+        expect(assigned_count).to eq(1)
+        expect(old_conversation.reload.assignee).to be_nil
+        expect(recent_conversation.reload.assignee).to be_present
       end
     end
   end

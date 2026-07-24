@@ -1,6 +1,7 @@
-class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Integrations::BaseController
   before_action :fetch_conversation, only: [:create_issue, :link_issue, :unlink_issue, :linked_issues]
   before_action :fetch_hook, only: [:destroy]
+  before_action :check_authorization, only: [:destroy]
 
   def destroy
     revoke_linear_token
@@ -126,7 +127,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     return unless @hook&.access_token
 
     begin
-      linear_client = Linear.new(@hook.access_token)
+      linear_client = Linear.new(@hook.access_token, refresh_token: @hook.settings&.[]('refresh_token'))
       linear_client.revoke_token
     rescue StandardError => e
       Rails.logger.error "Failed to revoke Linear token: #{e.message}"

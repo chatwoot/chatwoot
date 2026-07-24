@@ -21,8 +21,23 @@
 #  index_captain_scenarios_on_enabled                   (enabled)
 #
 class Captain::Scenario < ApplicationRecord
+  DESCRIPTION_LENGTH_LIMIT = 500
+
   include Concerns::CaptainToolsHelpers
   include Concerns::Agentable
+
+  # OpenAI enforces a 64-char limit on function names. The ai-agents gem
+  # prepends "handoff_to_" (11 chars), so we keep a safety margin and cap
+  # the full tool name to MAX_HANDOFF_TOOL_NAME_LENGTH (60 chars).
+  # Format: "scenario_{id}_{slug}_agent" for persisted records (stable + readable),
+  # and "scenario_draft_{slug}_agent" for unsaved records, with slug truncated
+  # based on the available length budget.
+  HANDOFF_TOOL_PREFIX = 'handoff_to_'.freeze
+  HANDOFF_KEY_PREFIX = 'scenario'.freeze
+  HANDOFF_KEY_SUFFIX = 'agent'.freeze
+  MAX_HANDOFF_TOOL_NAME_LENGTH = 60
+  MAX_AGENT_NAME_LENGTH = MAX_HANDOFF_TOOL_NAME_LENGTH - HANDOFF_TOOL_PREFIX.length
+  MAX_HANDOFF_SLUG_LENGTH = 24
 
   self.table_name = 'captain_scenarios'
 
@@ -30,7 +45,7 @@ class Captain::Scenario < ApplicationRecord
   belongs_to :account
 
   validates :title, presence: true
-  validates :description, presence: true
+  validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :instruction, presence: true
   validates :assistant_id, presence: true
   validates :account_id, presence: true
@@ -41,6 +56,10 @@ class Captain::Scenario < ApplicationRecord
   delegate :temperature, :feature_faq, :feature_memory, :product_name, :response_guidelines, :guardrails, to: :assistant
 
   before_save :resolve_tool_references
+
+  def handoff_key
+    [handoff_id_key, compact_handoff_slug, HANDOFF_KEY_SUFFIX].compact.join('_')
+  end
 
   def prompt_context
     {
@@ -56,7 +75,28 @@ class Captain::Scenario < ApplicationRecord
   private
 
   def agent_name
-    "#{title} Agent".parameterize(separator: '_')
+    handoff_key
+  end
+
+  def handoff_id_key
+    return "#{HANDOFF_KEY_PREFIX}_#{id}" if id.present?
+
+    "#{HANDOFF_KEY_PREFIX}_draft"
+  end
+
+  def compact_handoff_slug
+    slug = title.to_s.parameterize(separator: '_').presence
+    return nil if slug.blank?
+
+    max_slug_length = [MAX_HANDOFF_SLUG_LENGTH, dynamic_slug_max_length].min
+    return nil if max_slug_length <= 0
+
+    slug.first(max_slug_length).sub(/_+\z/, '').presence
+  end
+
+  def dynamic_slug_max_length
+    # handoff_to_#{scenario_<id>_<slug>_agent}
+    MAX_AGENT_NAME_LENGTH - handoff_id_key.length - HANDOFF_KEY_SUFFIX.length - 2
   end
 
   def agent_tools

@@ -3,8 +3,11 @@
     "HEADER": "Automation",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Add Automation Rule",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Fetching automation rules",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Add Automation Rule",
       "SUBMIT": "Create",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Name",
-        "DESCRIPTION": "Description",
         "ACTIVE": "Active",
-        "CREATED_ON": "Created on"
+        "CREATED_ON": "Created on",
+        "ACTIONS": "Actions"
       },
       "404": "No automation rules found"
     },
@@ -127,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "None",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Conversation Created",
       "CONVERSATION_UPDATED": "Conversation Updated",
@@ -137,6 +141,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Cakto te një agjent",
       "ASSIGN_TEAM": "Cakto një ekip",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Hiq ekipin e caktuar",
       "ADD_LABEL": "Shto një etiketë",
       "REMOVE_LABEL": "Hiq një etiketë",
       "SEND_EMAIL_TO_TEAM": "Dërgo një email ekipit",
@@ -150,7 +156,8 @@
       "ADD_PRIVATE_NOTE": "Shto një shënim privat",
       "CHANGE_PRIORITY": "Change Priority",
       "ADD_SLA": "Add SLA",
-      "OPEN_CONVERSATION": "Open conversation"
+      "OPEN_CONVERSATION": "Open conversation",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Mesazh hyrës",
@@ -165,6 +172,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Lloji i mesazhit",
+      "PRIVATE_NOTE": "Shënim Privat",
       "MESSAGE_CONTAINS": "Mesazhi përmban",
       "EMAIL": "Email",
       "INBOX": "Inbox",
@@ -174,6 +182,7 @@
       "BROWSER_LANGUAGE": "Browser Language",
       "MAIL_SUBJECT": "Subjekti i emailit",
       "COUNTRY_NAME": "Country",
+      "COMPANY_NAME": "Kompania",
       "REFERER_LINK": "Lidhja e referuesit",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Team",

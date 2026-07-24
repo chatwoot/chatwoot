@@ -14,12 +14,16 @@ module Enterprise::AutoAssignment::AssignmentService
   end
 
   # Extend agent finding to add capacity checks
-  def find_available_agent
-    agents = filter_agents_by_rate_limit(inbox.available_agents)
+  def find_available_agent(conversation = nil)
+    agents = filter_agents_by_team(inbox.available_agents, conversation)
+    return nil if agents.nil?
+
+    agents = filter_agents_by_rate_limit(agents)
     agents = filter_agents_by_capacity(agents) if capacity_filtering_enabled?
     return nil if agents.empty?
 
-    selector = policy&.balanced? ? balanced_selector : round_robin_selector
+    # Use balanced selector only if advanced_assignment feature is enabled
+    selector = policy&.balanced? && account.feature_enabled?('advanced_assignment') ? balanced_selector : round_robin_selector
     selector.select_agent(agents)
   end
 
@@ -31,7 +35,7 @@ module Enterprise::AutoAssignment::AssignmentService
   end
 
   def capacity_filtering_enabled?
-    account.feature_enabled?('assignment_v2') &&
+    account.feature_enabled?('advanced_assignment') &&
       account.account_users.joins(:agent_capacity_policy).exists?
   end
 
@@ -55,7 +59,10 @@ module Enterprise::AutoAssignment::AssignmentService
   def unassigned_conversations(limit)
     scope = inbox.conversations.unassigned.open
 
-    # Apply exclusion rules from capacity policy or assignment policy
+    # First apply the assignment policy's age exclusion (defaults to 7 days)
+    scope = apply_age_exclusions(scope, age_exclusion_hours(policy))
+
+    # Then apply the capacity policy's exclusion rules (labels and age)
     scope = apply_exclusion_rules(scope)
 
     # Apply conversation priority using enum methods if policy exists
@@ -81,14 +88,5 @@ module Enterprise::AutoAssignment::AssignmentService
     return scope if excluded_labels.blank?
 
     scope.tagged_with(excluded_labels, exclude: true, on: :labels)
-  end
-
-  def apply_age_exclusions(scope, hours_threshold)
-    return scope if hours_threshold.blank?
-
-    hours = hours_threshold.to_i
-    return scope unless hours.positive?
-
-    scope.where('conversations.created_at >= ?', hours.hours.ago)
   end
 end

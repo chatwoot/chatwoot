@@ -91,9 +91,19 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
 
   def fallback_params(attachment)
     {
-      fallback_title: attachment['title'],
-      external_url: attachment['url']
+      fallback_title: attachment['title'] || attachment.dig('payload', 'title'),
+      external_url: attachment['url'] || attachment.dig('payload', 'url')
     }
+  end
+
+  # Facebook shared posts point to page URLs, not downloadable media URLs.
+  # Both `share` and `post` attachment types carry a page URL rather than a media file,
+  # so map them to `fallback` (which keeps the title/link without attempting a download).
+  # Keep this Facebook-only so Messenger/Instagram share attachments still use the parent media handling.
+  def normalize_file_type(type)
+    return :fallback if [:share, :post].include?(type.to_sym)
+
+    super
   end
 
   def conversation_params
@@ -105,15 +115,19 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def message_params
+    content_attributes = {
+      in_reply_to_external_id: response.in_reply_to_external_id
+    }
+    content_attributes[:external_echo] = true if @outgoing_echo
+
     {
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: @message_type,
+      status: @outgoing_echo ? :delivered : :sent,
       content: response.content,
       source_id: response.identifier,
-      content_attributes: {
-        in_reply_to_external_id: response.in_reply_to_external_id
-      },
+      content_attributes: content_attributes,
       sender: @outgoing_echo ? nil : @contact_inbox.contact
     }
   end

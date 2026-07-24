@@ -85,6 +85,11 @@ export const PORTALS_EVENTS = Object.freeze({
 });
 
 export const CAPTAIN_EVENTS = Object.freeze({
+  // Editor funnel events
+  EDITOR_AI_MENU_OPENED: 'Captain: Editor AI menu opened',
+  GENERATION_FAILED: 'Captain: Generation failed',
+  AI_ASSISTED_MESSAGE_SENT: 'Captain: AI-assisted message sent',
+
   // Rewrite events (with operation attribute in payload)
   REWRITE_USED: 'Captain: Rewrite used',
   REWRITE_APPLIED: 'Captain: Rewrite applied',
@@ -112,6 +117,10 @@ export const COPILOT_EVENTS = Object.freeze({
   SEND_SUGGESTED: 'Copilot: Send suggested message',
   SEND_MESSAGE: 'Copilot: Sent a message',
   USE_CAPTAIN_RESPONSE: 'Copilot: Used captain response',
+});
+
+export const SNOOZE_EVENTS = Object.freeze({
+  NLP_SNOOZE_APPLIED: 'Applied snooze via text-to-date input',
 });
 
 export const GENERAL_EVENTS = Object.freeze({
@@ -143,4 +152,17 @@ export const YEAR_IN_REVIEW_EVENTS = Object.freeze({
   MODAL_OPENED: 'Year in Review: Modal opened',
   NEXT_CLICKED: 'Year in Review: Next clicked',
   SHARE_CLICKED: 'Year in Review: Share clicked',
+});
+
+export const SESSION_EVENTS = Object.freeze({
+  LIMIT_HIT: 'Session limit reached at login',
+  REVOKED_FROM_PROFILE: 'Revoked an active session',
+});
+
+export const ONBOARDING_EVENTS = Object.freeze({
+  ACCOUNT_DETAILS_VISITED: 'Onboarding: Account details visited',
+  ACCOUNT_DETAILS_COMPLETED: 'Onboarding: Account details completed',
+  INBOX_SETUP_VISITED: 'Onboarding: Inbox setup visited',
+  INBOX_SETUP_COMPLETED: 'Onboarding: Inbox setup completed',
+  INBOX_SETUP_SKIPPED: 'Onboarding: Inbox setup skipped',
 });

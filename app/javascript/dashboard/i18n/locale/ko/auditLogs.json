@@ -1,77 +1,77 @@
 {
   "AUDIT_LOGS": {
-    "HEADER": "Audit Logs",
-    "HEADER_BTN_TXT": "Add Audit Logs",
-    "LOADING": "Fetching Audit Logs",
-    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
-    "LEARN_MORE": "Learn more about audit logs",
-    "SEARCH_404": "이 쿼리와 일치하는 항목이 없음",
-    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
+    "HEADER": "감사 로그",
+    "HEADER_BTN_TXT": "감사 로그 추가",
+    "LOADING": "감사 로그를 가져오는 중",
+    "DESCRIPTION": "감사 로그는 계정의 활동 기록을 유지하여 계정, 팀 또는 서비스를 추적하고 감사할 수 있도록 합니다.",
+    "LEARN_MORE": "감사 로그에 대해 알아보기",
+    "SEARCH_404": "이 쿼리와 일치하는 항목이 없습니다.",
+    "SIDEBAR_TXT": "<p><b>감사 로그</b> </p><p> 감사 로그는 Chatwoot 시스템의 이벤트 및 작업에 대한 기록입니다. </p>",
     "LIST": {
-      "404": "There are no Audit Logs available in this account.",
-      "TITLE": "Manage Audit Logs",
-      "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
+      "404": "이 계정에 사용 가능한 감사 로그가 없습니다.",
+      "TITLE": "감사 로그 관리",
+      "DESC": "감사 로그는 Chatwoot 시스템의 이벤트 및 작업에 대한 기록입니다.",
       "TABLE_HEADER": {
-        "ACTIVITY": "User",
-        "TIME": "Action",
+        "ACTIVITY": "활동",
+        "TIME": "시간",
         "IP_ADDRESS": "IP 주소"
       }
     },
     "API": {
-      "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
+      "SUCCESS_MESSAGE": "감사 로그를 성공적으로 가져왔습니다.",
+      "ERROR_MESSAGE": "Woot 서버에 연결할 수 없습니다. 나중에 다시 시도하십시오."
     },
-    "DEFAULT_USER": "System",
+    "DEFAULT_USER": "시스템",
     "AUTOMATION_RULE": {
-      "ADD": "{agentName} created a new automation rule (#{id})",
-      "EDIT": "{agentName} updated an automation rule (#{id})",
-      "DELETE": "{agentName} deleted an automation rule (#{id})"
+      "ADD": "{agentName}님이 새 자동화 규칙을 생성했습니다 (#{id})",
+      "EDIT": "{agentName}님이 자동화 규칙을 업데이트했습니다 (#{id})",
+      "DELETE": "{agentName}님이 자동화 규칙을 삭제했습니다 (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "{agentName} invited {invitee} to the account as an {role}",
+      "ADD": "{agentName}님이 {invitee}님을 {role}(으)로 계정에 초대했습니다",
       "EDIT": {
-        "SELF": "{agentName} changed their {attributes} to {values}",
-        "OTHER": "{agentName} changed {attributes} of {user} to {values}",
-        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
+        "SELF": "{agentName}님이 자신의 {attributes}을(를) {values}(으)로 변경했습니다",
+        "OTHER": "{agentName}님이 {user}님의 {attributes}을(를) {values}(으)로 변경했습니다",
+        "DELETED": "{agentName}님이 삭제된 사용자의 {attributes}을(를) {values}(으)로 변경했습니다"
       }
     },
     "INBOX": {
-      "ADD": "{agentName} created a new inbox (#{id})",
-      "EDIT": "{agentName} updated an inbox (#{id})",
-      "DELETE": "{agentName} deleted an inbox (#{id})"
+      "ADD": "{agentName}님이 새 받은 메시지함을 생성했습니다 (#{id})",
+      "EDIT": "{agentName}님이 받은 메시지함을 업데이트했습니다 (#{id})",
+      "DELETE": "{agentName}님이 받은 메시지함을 삭제했습니다 (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "{agentName} created a new webhook (#{id})",
-      "EDIT": "{agentName} updated a webhook (#{id})",
-      "DELETE": "{agentName} deleted a webhook (#{id})"
+      "ADD": "{agentName}님이 새 웹훅을 생성했습니다 (#{id})",
+      "EDIT": "{agentName}님이 웹훅을 업데이트했습니다 (#{id})",
+      "DELETE": "{agentName}님이 웹훅을 삭제했습니다 (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "{agentName} signed in",
-      "SIGN_OUT": "{agentName} signed out"
+      "SIGN_IN": "{agentName}님이 로그인했습니다",
+      "SIGN_OUT": "{agentName}님이 로그아웃했습니다"
     },
     "TEAM": {
-      "ADD": "{agentName} created a new team (#{id})",
-      "EDIT": "{agentName} updated a team (#{id})",
-      "DELETE": "{agentName} deleted a team (#{id})"
+      "ADD": "{agentName}님이 새 팀을 생성했습니다 (#{id})",
+      "EDIT": "{agentName}님이 팀을 업데이트했습니다 (#{id})",
+      "DELETE": "{agentName}님이 팀을 삭제했습니다 (#{id})"
     },
     "MACRO": {
-      "ADD": "{agentName} created a new macro (#{id})",
-      "EDIT": "{agentName} updated a macro (#{id})",
-      "DELETE": "{agentName} deleted a macro (#{id})"
+      "ADD": "{agentName}님이 새 매크로를 생성했습니다 (#{id})",
+      "EDIT": "{agentName}님이 매크로를 업데이트했습니다 (#{id})",
+      "DELETE": "{agentName}님이 매크로를 삭제했습니다 (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "{agentName} added {user} to the inbox(#{inbox_id})",
-      "REMOVE": "{agentName} removed {user} from the inbox(#{inbox_id})"
+      "ADD": "{agentName}님이 {user}님을 받은 메시지함(#{inbox_id})에 추가했습니다",
+      "REMOVE": "{agentName}님이 {user}님을 받은 메시지함(#{inbox_id})에서 제거했습니다"
     },
     "TEAM_MEMBER": {
-      "ADD": "{agentName} added {user} to the team(#{team_id})",
-      "REMOVE": "{agentName} removed {user} from the team(#{team_id})"
+      "ADD": "{agentName}님이 {user}님을 팀(#{team_id})에 추가했습니다",
+      "REMOVE": "{agentName}님이 {user}님을 팀(#{team_id})에서 제거했습니다"
     },
     "ACCOUNT": {
-      "EDIT": "{agentName} updated the account configuration (#{id})"
+      "EDIT": "{agentName}님이 계정 구성을 업데이트했습니다 (#{id})"
     },
     "CONVERSATION": {
-      "DELETE": "{agentName} deleted conversation #{id}"
+      "DELETE": "{agentName}님이 대화 #{id}을(를) 삭제했습니다"
     }
   }
 }

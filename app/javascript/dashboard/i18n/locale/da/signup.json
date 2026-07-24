@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Opret en konto",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Registrer",
     "TESTIMONIAL_HEADER": "Alt, hvad der skal til, er blot et skridt for at komme videre",
     "TESTIMONIAL_CONTENT": "Du er et skridt fra at engagere dine kunder, fastholde dem og finde nye kunder.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
     },
     "SUBMIT": "Opret en konto",
-    "HAVE_AN_ACCOUNT": "Har du allerede en konto?"
+    "HAVE_AN_ACCOUNT": "Har du allerede en konto?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Resend verification email",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

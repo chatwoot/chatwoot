@@ -1,14 +1,15 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
+    "HEADER": "एजेन्टहरू",
+    "HEADER_BTN_TXT": "एजेन्ट थप गर्नुहोस्",
+    "LOADING": "एजेन्ट सूची ल्याउँदैछ",
     "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
     "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrator",
       "AGENT": "Agent"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "There are no agents associated to this account",
       "TITLE": "Manage agents in your team",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
+    "SEARCH_PLACEHOLDER": "Search agents...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "No results found."
     },

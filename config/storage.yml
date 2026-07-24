@@ -27,6 +27,7 @@ microsoft:
   storage_account_name: <%= ENV.fetch('AZURE_STORAGE_ACCOUNT_NAME', '') %>
   storage_access_key: <%= ENV.fetch('AZURE_STORAGE_ACCESS_KEY', '') %>
   container: <%= ENV.fetch('AZURE_STORAGE_CONTAINER', '') %>
+  storage_blob_host: <%= ENV.fetch('AZURE_STORAGE_BLOB_HOST', nil) %>
 
 # s3 compatible service such as DigitalOcean Spaces, Minio.
 s3_compatible:

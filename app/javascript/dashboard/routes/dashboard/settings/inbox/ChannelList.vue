@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -14,7 +14,7 @@ const { accountId, currentAccount } = useAccount();
 
 const globalConfig = useMapGetter('globalConfig/get');
 
-const enabledFeatures = ref({});
+const enabledFeatures = computed(() => currentAccount.value?.features || {});
 
 const hasTiktokConfigured = computed(() => {
   return window.chatwootConfig?.tiktokAppId;
@@ -92,15 +92,18 @@ const channelList = computed(() => {
     key: 'voice',
     title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.TITLE'),
     description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.DESCRIPTION'),
-    icon: 'i-ri-phone-fill',
+    icon: 'i-woot-voice',
+  });
+
+  channels.push({
+    key: 'whatsapp_call',
+    title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.WHATSAPP_CALL.TITLE'),
+    description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.WHATSAPP_CALL.DESCRIPTION'),
+    icon: 'i-woot-whatsapp',
   });
 
   return channels;
 });
-
-const initializeEnabledFeatures = async () => {
-  enabledFeatures.value = currentAccount.value.features;
-};
 
 const initChannelAuth = channel => {
   const params = {
@@ -109,24 +112,18 @@ const initChannelAuth = channel => {
   };
   router.push({ name: 'settings_inboxes_page_channel', params });
 };
-
-onMounted(() => {
-  initializeEnabledFeatures();
-});
 </script>
 
 <template>
-  <div class="w-full p-8 overflow-auto">
-    <div
-      class="grid max-w-3xl grid-cols-1 xs:grid-cols-2 mx-0 gap-6 sm:grid-cols-3"
-    >
-      <ChannelItem
-        v-for="channel in channelList"
-        :key="channel.key"
-        :channel="channel"
-        :enabled-features="enabledFeatures"
-        @channel-item-click="initChannelAuth"
-      />
-    </div>
+  <div
+    class="grid max-w-3xl grid-cols-1 xs:grid-cols-2 mx-0 gap-6 sm:grid-cols-3 p-8"
+  >
+    <ChannelItem
+      v-for="channel in channelList"
+      :key="channel.key"
+      :channel="channel"
+      :enabled-features="enabledFeatures"
+      @channel-item-click="initChannelAuth"
+    />
   </div>
 </template>

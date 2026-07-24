@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Ylläpitäjä",
       "AGENT": "Edustajat"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "Tälle tilille ei ole liitetty edustajia",
       "TITLE": "Hallitse edustajia tiimissäsi",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
       }
     },
+    "SEARCH_PLACEHOLDER": "Search agents...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "No results found."
     },

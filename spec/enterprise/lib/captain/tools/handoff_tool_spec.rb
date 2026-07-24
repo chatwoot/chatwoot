@@ -63,6 +63,20 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           tool.perform(tool_context, reason: 'Test reason')
         end
 
+        it 'creates a conversation_bot_handoff reporting event' do
+          create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+          Current.executed_by = assistant
+
+          perform_enqueued_jobs do
+            tool.perform(tool_context, reason: 'Customer needs specialized support')
+          end
+
+          reporting_event = ReportingEvent.find_by(conversation_id: conversation.id, name: 'conversation_bot_handoff')
+          expect(reporting_event).to be_present
+        ensure
+          Current.reset
+        end
+
         it 'logs tool usage with reason' do
           reason = 'Customer needs help'
           expect(tool).to receive(:log_tool_usage).with(
@@ -71,6 +85,12 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           )
 
           tool.perform(tool_context, reason: reason)
+        end
+
+        it 'records the handoff note id in the run state for session capture' do
+          tool.perform(tool_context, reason: 'Customer needs specialized support')
+
+          expect(tool_context.state[:cw_metadata][:handoff_note_id]).to eq(Message.last.id)
         end
       end
 
@@ -92,6 +112,12 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           )
 
           tool.perform(tool_context)
+        end
+
+        it 'does not record a handoff note id since the empty note never renders' do
+          tool.perform(tool_context)
+
+          expect(tool_context.state[:cw_metadata]).to be_nil
         end
       end
 

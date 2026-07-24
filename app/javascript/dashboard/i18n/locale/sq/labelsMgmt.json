@@ -5,6 +5,9 @@
     "LOADING": "Fetching labels",
     "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
     "LEARN_MORE": "Learn more about labels",
+    "COUNT": "{n} label | {n} labels",
+    "SEARCH_PLACEHOLDER": "Search labels...",
+    "NO_RESULTS": "No labels found matching your search",
     "SEARCH_404": "There are no items matching this query",
     "LIST": {
       "404": "There are no labels available in this account.",
@@ -13,7 +16,8 @@
       "TABLE_HEADER": {
         "NAME": "Name",
         "DESCRIPTION": "Description",
-        "COLOR": "Color"
+        "COLOR": "Color",
+        "ACTION": "Actions"
       }
     },
     "FORM": {

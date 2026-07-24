@@ -4,6 +4,10 @@ defineProps({
     type: String,
     default: '',
   },
+  height: {
+    type: String,
+    default: 'max-h-96',
+  },
 });
 </script>
 
@@ -15,7 +19,10 @@ defineProps({
     >
       {{ title }}
     </div>
-    <ul class="gap-2 grid reset-base list-none px-2 max-h-96 overflow-y-auto">
+    <ul
+      class="gap-2 grid reset-base list-none px-2 overflow-y-auto"
+      :class="height"
+    >
       <slot />
     </ul>
   </div>

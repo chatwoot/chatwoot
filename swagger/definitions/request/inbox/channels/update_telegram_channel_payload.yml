@@ -1,0 +1,7 @@
+type: object
+title: Telegram channel settings
+properties:
+  bot_token:
+    type: string
+    description: Telegram bot token
+    example: 123456789:telegram-bot-token

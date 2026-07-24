@@ -261,6 +261,71 @@ describe('tagInputHelper', () => {
       });
       expect(result).toEqual(menuItems);
     });
+
+    it('does not create suggestion when allowCreate is false', () => {
+      const result = buildTagMenuItems({
+        ...baseParams,
+        type: INPUT_TYPES.EMAIL,
+        newTag: 'test@example.com',
+        allowCreate: false,
+      });
+      expect(result).toEqual([]);
+    });
+
+    it('still returns available menu items when allowCreate is false', () => {
+      const menuItems = [
+        { label: 'Agent 1', value: '1' },
+        { label: 'Agent 2', value: '2' },
+      ];
+      const result = buildTagMenuItems({
+        ...baseParams,
+        menuItems,
+        newTag: 'Agent',
+        allowCreate: false,
+      });
+      expect(result).toEqual(menuItems);
+    });
+
+    it('creates new item when allowCreate is true (default)', () => {
+      const result = buildTagMenuItems({
+        ...baseParams,
+        type: INPUT_TYPES.EMAIL,
+        newTag: 'test@example.com',
+        allowCreate: true,
+      });
+      expect(result).toHaveLength(1);
+      expect(result[0]).toMatchObject({
+        label: 'test@example.com',
+        action: 'create',
+      });
+    });
+
+    it('skips label dedup when skipLabelDedup is true', () => {
+      const menuItems = [
+        { label: 'HDMA', value: 1 },
+        { label: 'HDMA', value: 2 },
+      ];
+      const result = buildTagMenuItems({
+        ...baseParams,
+        tags: ['HDMA'],
+        menuItems,
+        skipLabelDedup: true,
+      });
+      expect(result).toEqual(menuItems);
+    });
+
+    it('filters by label when skipLabelDedup is false (default)', () => {
+      const menuItems = [
+        { label: 'HDMA', value: 1 },
+        { label: 'HDMA', value: 2 },
+      ];
+      const result = buildTagMenuItems({
+        ...baseParams,
+        tags: ['HDMA'],
+        menuItems,
+      });
+      expect(result).toEqual([]);
+    });
   });
 
   describe('canAddTag', () => {

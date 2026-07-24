@@ -2,6 +2,7 @@ require 'json'
 
 class FilterService
   include Filters::FilterHelper
+  include Filters::CustomAttributeFilterHelper
   include CustomExceptions::CustomFilter
 
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
@@ -33,9 +34,9 @@ class FilterService
     when 'is_not_present'
       @filter_values["value_#{current_index}"] = 'IS NULL'
     when 'is_greater_than', 'is_less_than'
-      @filter_values["value_#{current_index}"] = lt_gt_filter_values(query_hash)
+      lt_gt_filter_query(query_hash, current_index)
     when 'days_before'
-      @filter_values["value_#{current_index}"] = days_before_filter_values(query_hash)
+      days_before_filter_query(query_hash, current_index)
     else
       @filter_values["value_#{current_index}"] = filter_values(query_hash).to_s
       "= :value_#{current_index}"
@@ -81,21 +82,29 @@ class FilterService
     query_hash['values'].downcase
   end
 
-  def lt_gt_filter_values(query_hash)
+  def lt_gt_filter_query(query_hash, current_index)
     attribute_key = query_hash[:attribute_key]
     attribute_model = query_hash['custom_attribute_type'].presence || self.class::ATTRIBUTE_MODEL
     attribute_type = custom_attribute(attribute_key, @account, attribute_model).try(:attribute_display_type)
-    attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
-    value = query_hash['values'][0]
+    attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type] || standard_attribute_data_type(attribute_key)
+
+    @filter_values["value_#{current_index}"] = coerce_lt_gt_value(
+      query_hash['values'][0],
+      attribute_data_type,
+      attribute_key
+    )
     operator = query_hash['filter_operator'] == 'is_less_than' ? '<' : '>'
-    "#{operator} '#{value}'::#{attribute_data_type}"
+    "#{operator} :value_#{current_index}"
   end
 
-  def days_before_filter_values(query_hash)
+  def days_before_filter_query(query_hash, current_index)
     date = Time.zone.today - query_hash['values'][0].to_i.days
-    query_hash['values'] = [date.strftime]
-    query_hash['filter_operator'] = 'is_less_than'
-    lt_gt_filter_values(query_hash)
+    updated_query_hash = query_hash.with_indifferent_access.merge(
+      values: [date.strftime],
+      filter_operator: 'is_less_than'
+    )
+
+    lt_gt_filter_query(updated_query_hash, current_index)
   end
 
   def set_count_for_all_conversations
@@ -129,52 +138,26 @@ class FilterService
     end
   end
 
-  def custom_attribute_query(query_hash, custom_attribute_type, current_index)
-    @attribute_key = query_hash[:attribute_key]
-    @custom_attribute_type = custom_attribute_type
-    attribute_data_type
-    return '' if @custom_attribute.blank?
-
-    build_custom_attr_query(query_hash, current_index)
-  end
-
   private
 
-  def attribute_model
-    @attribute_model = @custom_attribute_type.presence || self.class::ATTRIBUTE_MODEL
+  def standard_attribute_data_type(attribute_key)
+    @filters.each_value do |section|
+      return section.dig(attribute_key, 'data_type') if section.is_a?(Hash) && section.key?(attribute_key)
+    end
+    nil
   end
 
-  def attribute_data_type
-    attribute_type = custom_attribute(@attribute_key, @account, attribute_model).try(:attribute_display_type)
-    @attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type]
-  end
-
-  def build_custom_attr_query(query_hash, current_index)
-    filter_operator_value = filter_operation(query_hash, current_index)
-    query_operator = query_hash[:query_operator]
-    table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
-
-    query = if attribute_data_type == 'text'
-              "LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
-            else
-              "(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
-            end
-
-    query + not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
-  end
-
-  def custom_attribute(attribute_key, account, custom_attribute_type)
-    current_account = account || Current.account
-    attribute_model = custom_attribute_type.presence || self.class::ATTRIBUTE_MODEL
-    @custom_attribute = current_account.custom_attribute_definitions.where(
-      attribute_model: attribute_model
-    ).find_by(attribute_key: attribute_key)
-  end
-
-  def not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
-    return '' unless query_hash[:filter_operator] == 'not_equal_to'
-
-    " OR (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} IS NULL "
+  def coerce_lt_gt_value(raw_value, attribute_data_type, attribute_key)
+    case attribute_data_type
+    when 'date'
+      Date.iso8601(raw_value.to_s)
+    when 'numeric'
+      BigDecimal(raw_value.to_s)
+    else
+      raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key)
+    end
+  rescue  ArgumentError, FloatDomainError, TypeError
+    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key)
   end
 
   def equals_to_filter_string(filter_operator, current_index)

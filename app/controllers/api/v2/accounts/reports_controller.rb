@@ -51,6 +51,13 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     generate_csv('conversation_traffic_reports', 'api/v2/accounts/reports/conversation_traffic')
   end
 
+  def drilldown
+    return head :unauthorized unless Current.account_user.administrator?
+    return head :unprocessable_entity unless valid_drilldown_params?
+
+    render json: V2::Reports::DrilldownBuilder.new(Current.account, drilldown_params).build
+  end
+
   def conversations
     return head :unprocessable_entity if params[:type].blank?
 
@@ -75,6 +82,15 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       account: Current.account,
       params: first_response_time_distribution_params
     )
+    render json: builder.build
+  end
+
+  OUTGOING_MESSAGES_ALLOWED_GROUP_BY = %w[agent team inbox label].freeze
+
+  def outgoing_messages_count
+    return head :unprocessable_entity unless OUTGOING_MESSAGES_ALLOWED_GROUP_BY.include?(params[:group_by])
+
+    builder = V2::Reports::OutgoingMessagesCountBuilder.new(Current.account, outgoing_messages_count_params)
     render json: builder.build
   end
 
@@ -124,6 +140,22 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
                         })
   end
 
+  def drilldown_params
+    permitted_params = params.permit(
+      :metric, :id, :since, :until, :group_by, :timezone_offset, :bucket_timestamp, :page, :per_page
+    ).to_h.symbolize_keys
+    permitted_params.merge(
+      type: (params[:type].presence || 'account').to_sym,
+      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
+    )
+  end
+
+  def valid_drilldown_params?
+    %i[metric bucket_timestamp since until].all? { |param| params[param].present? } &&
+      Reports::ReportMetricRegistry.supported?(params[:metric]) &&
+      V2::Reports::DrilldownBuilder.supported_dimension_type?(params[:type]) && Reports::DrilldownTimestampValidator.valid?(params)
+  end
+
   def conversation_params
     {
       type: params[:type].to_sym,
@@ -167,6 +199,14 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def first_response_time_distribution_params
     {
+      since: params[:since],
+      until: params[:until]
+    }
+  end
+
+  def outgoing_messages_count_params
+    {
+      group_by: params[:group_by],
       since: params[:since],
       until: params[:until]
     }

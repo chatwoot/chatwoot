@@ -15,6 +15,7 @@ TimeoutStopSec=30
 KillMode=mixed
 StandardInput=null
 SyslogIdentifier=%p
+LimitNOFILE=65536
 
 Environment="PATH=/home/chatwoot/.rvm/gems/ruby-3.4.4/bin:/home/chatwoot/.rvm/gems/ruby-3.4.4@global/bin:/home/chatwoot/.rvm/rubies/ruby-3.4.4/bin:/home/chatwoot/.rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/home/chatwoot/.rvm/bin:/home/chatwoot/.rvm/bin"
 Environment="PORT=3000"

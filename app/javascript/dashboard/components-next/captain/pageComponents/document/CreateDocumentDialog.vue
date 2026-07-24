@@ -15,7 +15,7 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'createSuccess']);
 const { t } = useI18n();
 const store = useStore();
 
@@ -26,6 +26,7 @@ const i18nKey = 'CAPTAIN.DOCUMENTS.CREATE';
 const handleSubmit = async newDocument => {
   try {
     await store.dispatch('captainDocuments/create', newDocument);
+    emit('createSuccess');
     useAlert(t(`${i18nKey}.SUCCESS_MESSAGE`));
     dialogRef.value.close();
   } catch (error) {

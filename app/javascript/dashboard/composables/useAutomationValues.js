@@ -20,7 +20,7 @@ import {
 export default function useAutomationValues() {
   const getters = useStoreGetters();
   const { t } = useI18n();
-  const agents = useMapGetter('agents/getAgents');
+  const agents = useMapGetter('agents/getVerifiedAgents');
   const campaigns = useMapGetter('campaigns/getAllCampaigns');
   const contacts = useMapGetter('contacts/getContacts');
   const inboxes = useMapGetter('inboxes/getInboxes');
@@ -121,8 +121,19 @@ export default function useAutomationValues() {
    * @returns {Array} An array of action dropdown values.
    */
   const getActionDropdownValues = type => {
+    let agentsList = agents.value;
+    if (type === 'assign_agent') {
+      agentsList = [
+        {
+          id: 'last_responding_agent',
+          name: t('AUTOMATION.LAST_RESPONDING_AGENT'),
+        },
+        ...agentsList,
+      ];
+    }
+
     return getActionOptions({
-      agents: agents.value,
+      agents: agentsList,
       labels: labels.value,
       teams: teams.value,
       slaPolicies: slaPolicies.value,

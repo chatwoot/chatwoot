@@ -44,14 +44,16 @@ const bccEmailsArray = computed(() =>
 );
 
 const contactEmailsList = computed(() => {
-  return props.contacts?.map(({ name, id, email }) => ({
-    id,
-    label: email,
-    email,
-    thumbnail: { name: name, src: '' },
-    value: id,
-    action: 'email',
-  }));
+  return props.contacts
+    ?.filter(contact => contact.email)
+    .map(({ name, id, email }) => ({
+      id,
+      label: email,
+      email,
+      thumbnail: { name: name, src: '' },
+      value: id,
+      action: 'email',
+    }));
 });
 
 // Handle updates from TagInput and convert array back to string
@@ -95,8 +97,8 @@ const inputClass = computed(() => {
           :show-dropdown="showCcEmailsDropdown"
           :is-loading="isLoading"
           type="email"
+          allow-create
           class="flex-1 min-h-7"
-          @focus="emit('updateDropdown', 'cc', true)"
           @input="emit('searchCcEmails', $event)"
           @on-click-outside="emit('updateDropdown', 'cc', false)"
           @update:model-value="handleCcUpdate"
@@ -127,9 +129,9 @@ const inputClass = computed(() => {
         :show-dropdown="showBccEmailsDropdown"
         :is-loading="isLoading"
         type="email"
+        allow-create
         class="flex-1 min-h-7"
         focus-on-mount
-        @focus="emit('updateDropdown', 'bcc', true)"
         @input="emit('searchBccEmails', $event)"
         @on-click-outside="emit('updateDropdown', 'bcc', false)"
         @update:model-value="handleBccUpdate"

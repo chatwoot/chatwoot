@@ -5,6 +5,9 @@
     "LOADING": "Tải về các nhãn",
     "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
     "LEARN_MORE": "Learn more about labels",
+    "COUNT": "{n} label | {n} labels",
+    "SEARCH_PLACEHOLDER": "Tìm nhãn...",
+    "NO_RESULTS": "No labels found matching your search",
     "SEARCH_404": "Không có kết quả nào phù hợp",
     "LIST": {
       "404": "Không có nhãn nào có sẵn trong tài khoản này.",
@@ -13,7 +16,8 @@
       "TABLE_HEADER": {
         "NAME": "Tên",
         "DESCRIPTION": "Mô tả",
-        "COLOR": "Màu sắc"
+        "COLOR": "Màu sắc",
+        "ACTION": "Hành động"
       }
     },
     "FORM": {

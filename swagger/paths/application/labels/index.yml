@@ -1,0 +1,26 @@
+tags:
+  - Labels
+operationId: list-all-labels
+summary: List all labels
+security:
+  - userApiKey: []
+description: List all labels available in the current account
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            payload:
+              type: array
+              description: Array of labels
+              items:
+                $ref: '#/components/schemas/label'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

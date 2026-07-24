@@ -3,9 +3,12 @@
     "HEADER": "מאקרו",
     "DESCRIPTION": "מאקרו הוא קבוצה של פעולות שמורות המסייעות לסוכני שירות לקוחות להשלים משימות בקלות. הסוכנים יכולים להגדיר קבוצה של פעולות כמו תיוג שיחה בתווית, שליחת תמלול דוא\"ל, עדכון תכונה מותאמת אישית וכו', והם יכולים להפעיל פעולות אלה בלחיצה אחת.",
     "LEARN_MORE": "למד עוד על מאקרואים",
+    "COUNT": "{n} macro | {n} macros",
     "HEADER_BTN_TXT": "הוסף מאקרו חדש",
     "HEADER_BTN_TXT_SAVE": "שמור מאקרו",
     "LOADING": "מביא פקודות מאקרו",
+    "SEARCH_PLACEHOLDER": "Search macros...",
+    "NO_RESULTS": "No macros found matching your search",
     "ERROR": "משהו השתבש. אנא נסה שוב",
     "ORDER_INFO": "פקודות מאקרו יפעלו לפי הסדר שתוסיף את הפעולות שלך. תוכל לסדר אותם מחדש על ידי גרירתם על ידי הידית לצד כל צומת.",
     "ADD": {
@@ -29,7 +32,8 @@
         "NAME": "שם",
         "CREATED BY": "נוצר על ידי",
         "LAST_UPDATED_BY": "עודכן לאחרונה על ידי",
-        "VISIBILITY": "רְאוּת"
+        "VISIBILITY": "רְאוּת",
+        "ACTIONS": "פעולות"
       },
       "404": "לא נמצאו פקודות מאקרו"
     },
@@ -44,6 +48,9 @@
         "SUCCESS_MESSAGE": "המאקרו נמחק בהצלחה",
         "ERROR_MESSAGE": "אירעה שגיאה במחיקת המאקרו. אנא נסה שוב מאוחר יותר"
       }
+    },
+    "VIEW": {
+      "TOOLTIP": "View macro"
     },
     "EDIT": {
       "TOOLTIP": "ערוך מאקרו",
@@ -62,7 +69,9 @@
         "LABEL": "נראות מאקרו",
         "GLOBAL": {
           "LABEL": "ציבורי",
-          "DESCRIPTION": "מאקרו זה זמין באופן ציבורי עבור כל הסוכנים בחשבון זה."
+          "DESCRIPTION": "מאקרו זה זמין באופן ציבורי עבור כל הסוכנים בחשבון זה.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "פרטי",
@@ -89,6 +98,7 @@
       "ASSIGN_AGENT": "הקצה סוכן",
       "ADD_LABEL": "הוסף תווית",
       "REMOVE_LABEL": "הסר תווית",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "הסר צוות שהוקצה",
       "SEND_EMAIL_TRANSCRIPT": "שלח תמלול דוא\"ל",
       "MUTE_CONVERSATION": "השתק שיחה",

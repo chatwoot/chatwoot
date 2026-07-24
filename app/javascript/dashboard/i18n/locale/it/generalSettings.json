@@ -93,7 +93,7 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "Escludi conversazioni non partecipate",
+        "LABEL": "Escludi conversazioni senza risposta",
         "HELP": "Se abilitato, il sistema salterà la risoluzione delle conversazioni che sono ancora in attesa della risposta di un operatore."
       },
       "AUDIO_TRANSCRIPTION": {
@@ -182,6 +182,7 @@
   },
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "Cerca o vai a",
+    "SNOOZE_PLACEHOLDER": "Digita un momento, ad esempio domani, tra 2 ore, venerdì prossimo, il 15 gennaio, ecc...",
     "SECTIONS": {
       "GENERAL": "Generale",
       "REPORTS": "Report",

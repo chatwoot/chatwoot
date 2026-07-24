@@ -79,12 +79,20 @@ const chatSortOptions = computed(() => [
     value: 'created_at_asc',
   },
   {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.unread.TEXT'),
+    value: 'unread',
+  },
+  {
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.priority_desc.TEXT'),
     value: 'priority_desc',
   },
   {
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.priority_asc.TEXT'),
     value: 'priority_asc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.priority_desc_created_at_asc.TEXT'),
+    value: 'priority_desc_created_at_asc',
   },
   {
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.waiting_since_asc.TEXT'),

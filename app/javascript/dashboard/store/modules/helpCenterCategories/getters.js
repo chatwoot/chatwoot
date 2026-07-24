@@ -21,6 +21,16 @@ export const getters = {
     });
     return categories;
   },
+  allCategoriesSortedByPosition: (...getterArguments) => {
+    const [state, _getters] = getterArguments;
+    const categories = state.categories.allIds
+      .map(id => _getters.categoryById(id))
+      .filter(category => category !== undefined);
+    // Sort by position so reordered categories stay in correct order after store updates
+    return categories.sort(
+      (a, b) => (a.position ?? Infinity) - (b.position ?? Infinity)
+    );
+  },
   categoriesByLocaleCode:
     (...getterArguments) =>
     localeCode => {

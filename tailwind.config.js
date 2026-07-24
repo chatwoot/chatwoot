@@ -22,7 +22,7 @@ const defaultSansFonts = [
 const tailwindConfig = {
   darkMode: 'class',
   content: [
-    './enterprise/app/views/**/*.html.erb',
+    './enterprise/app/views/**/*.erb',
     './app/javascript/widget/**/*.vue',
     './app/javascript/v3/**/*.vue',
     './app/javascript/dashboard/**/*.vue',
@@ -34,7 +34,7 @@ const tailwindConfig = {
     './app/javascript/dashboard/composables/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',
     './app/javascript/dashboard/routes/dashboard/**/**/*.js',
-    './app/views/**/*.html.erb',
+    './app/views/**/*.erb',
   ],
   theme: {
     extend: {
@@ -48,6 +48,7 @@ const tailwindConfig = {
         440: '440',
         460: '460',
         520: '520',
+        620: '620',
       },
       typography: {
         bubble: {
@@ -105,24 +106,30 @@ const tailwindConfig = {
               textDecoration: 'underline',
             },
             ul: {
-              paddingInlineStart: '0.625em',
+              paddingInlineStart: '0',
+              listStylePosition: 'inside',
             },
             ol: {
-              paddingInlineStart: '0.625em',
+              paddingInlineStart: '0',
+              listStylePosition: 'inside',
             },
-            'ul li': {
-              margin: '0 0 0.5em 1em',
+            'ul > li': {
+              marginBlockEnd: '0.5em',
               listStyleType: 'disc',
-              '[dir="rtl"] &': {
-                margin: '0 1em 0.5em 0',
-              },
+              paddingInlineStart: '1.5em',
+              textIndent: '-1.5em',
             },
-            'ol li': {
-              margin: '0 0 0.5em 1em',
+            'ol > li': {
+              marginBlockEnd: '0.5em',
               listStyleType: 'decimal',
-              '[dir="rtl"] &': {
-                margin: '0 1em 0.5em 0',
-              },
+              paddingInlineStart: '1.5em',
+              textIndent: '-1.5em',
+            },
+            'li > p:first-child': {
+              display: 'inline',
+            },
+            'li > *': {
+              textIndent: '0',
             },
             blockquote: {
               color: 'rgb(var(--slate-11))',

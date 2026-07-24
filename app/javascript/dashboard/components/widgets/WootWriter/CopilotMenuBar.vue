@@ -4,24 +4,35 @@ import { useI18n } from 'vue-i18n';
 import { useElementSize, useWindowSize } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
-import { useCaptain } from 'dashboard/composables/useCaptain';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 
 import Icon from 'next/icon/Icon.vue';
 
-defineProps({
+const props = defineProps({
   hasSelection: {
     type: Boolean,
     default: false,
+  },
+  isEditorMenuPopover: {
+    type: Boolean,
+    default: false,
+  },
+  // Signature-aware emptiness is computed by the parent (which has access to
+  // the signature + channel context) and passed in as a boolean.
+  hasContent: {
+    type: Boolean,
+    default: false,
+  },
+  conversationId: {
+    type: Number,
+    default: null,
   },
 });
 
 const emit = defineEmits(['executeCopilotAction']);
 
 const { t } = useI18n();
-
-const { draftMessage } = useCaptain();
 
 const replyMode = useMapGetter('draftMessages/getReplyEditorMode');
 
@@ -42,8 +53,9 @@ const menuItems = computed(() => {
       icon: 'i-fluent-pen-sparkle-24-regular',
     });
   } else if (
+    props.conversationId &&
     replyMode.value === REPLY_EDITOR_MODES.REPLY &&
-    draftMessage.value
+    props.hasContent
   ) {
     items.push({
       label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.IMPROVE_REPLY'),
@@ -52,7 +64,7 @@ const menuItems = computed(() => {
     });
   }
 
-  if (draftMessage.value) {
+  if (props.hasContent) {
     items.push(
       {
         label: t(
@@ -105,7 +117,7 @@ const menuItems = computed(() => {
 
 const generalMenuItems = computed(() => {
   const items = [];
-  if (replyMode.value === REPLY_EDITOR_MODES.REPLY) {
+  if (props.conversationId && replyMode.value === REPLY_EDITOR_MODES.REPLY) {
     items.push({
       label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.SUGGESTION'),
       key: 'reply_suggestion',
@@ -113,7 +125,10 @@ const generalMenuItems = computed(() => {
     });
   }
 
-  if (replyMode.value === REPLY_EDITOR_MODES.NOTE || true) {
+  if (
+    props.conversationId &&
+    (replyMode.value === REPLY_EDITOR_MODES.NOTE || true)
+  ) {
     items.push({
       label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.SUMMARIZE'),
       key: 'summarize',
@@ -176,8 +191,8 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
   <DropdownBody
     ref="menuRef"
     class="min-w-56 [&>ul]:gap-3 z-50 [&>ul]:px-4 [&>ul]:py-3.5"
-    :class="{ 'selection-menu': hasSelection }"
-    :style="hasSelection ? selectionMenuStyle : {}"
+    :class="{ 'selection-menu': hasSelection && isEditorMenuPopover }"
+    :style="hasSelection && isEditorMenuPopover ? selectionMenuStyle : {}"
   >
     <div v-if="menuItems.length > 0" class="flex flex-col items-start gap-2.5">
       <div

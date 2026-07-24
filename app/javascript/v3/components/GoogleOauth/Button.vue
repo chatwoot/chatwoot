@@ -6,8 +6,7 @@ export default {
       // Creating the URL manually because the devise-token-auth with
       // omniauth has a standing issue on redirecting the post request
       // https://github.com/lynndylanhurley/devise_token_auth/issues/1466
-      const baseUrl =
-        'https://accounts.google.com/o/oauth2/auth/oauthchooseaccount';
+      const baseUrl = 'https://accounts.google.com/o/oauth2/auth';
       const clientId = window.chatwootConfig.googleOAuthClientId;
       const redirectUri = window.chatwootConfig.googleOAuthCallbackUrl;
       const responseType = 'code';

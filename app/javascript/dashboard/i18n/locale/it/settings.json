@@ -68,7 +68,8 @@
         "API_SUCCESS": "Firma salvata con successo",
         "IMAGE_UPLOAD_ERROR": "Impossibile caricare l'immagine! Riprova",
         "IMAGE_UPLOAD_SUCCESS": "Immagine aggiunta con successo. Clicca su Salva per salvare la firma",
-        "IMAGE_UPLOAD_SIZE_ERROR": "La dimensione dell'immagine deve essere inferiore a {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "La dimensione dell'immagine deve essere inferiore a {size}MB",
+        "INLINE_IMAGE_WARNING": "Le immagini in linea non possono più essere incollate. Si prega di utilizzare il pulsante di caricamento dell'immagine per aggiungere immagini alla firma."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Firma del messaggio",
@@ -85,9 +86,21 @@
         "NOTE": "Gestisci funzionalità di sicurezza aggiuntive per il tuo account.",
         "MFA_BUTTON": "Gestisci Autenticazione A Due Fattori"
       },
+      "SESSIONS_SECTION": {
+        "TITLE": "Active Sessions",
+        "NOTE": "These are the devices currently logged in to your account.",
+        "CURRENT": "Current session",
+        "REVOKE": "Revoke",
+        "REVOKE_SUCCESS": "Session revoked successfully",
+        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
+        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
+        "LAST_ACTIVE": "Last active",
+        "UNKNOWN_DEVICE": "Unknown device"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Token di accesso",
         "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API",
+        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
         "COPY": "Copia",
         "RESET": "Reset",
         "CONFIRM_RESET": "Sei sicuro?",
@@ -112,9 +125,9 @@
           "ASSIGNED": "Riceverai avvisi per le conversazioni assegnate a te.",
           "UNASSIGNED": "Riceverai avvisi per qualsiasi conversazione non assegnata.",
           "NOTME": "Riceverai avvisi per le conversazioni assegnate ad altri.",
-          "ASSIGNED+UNASSIGNED": "Riceverai avvisi per le conversazioni assegnate a te e per quelle non risposte.",
+          "ASSIGNED+UNASSIGNED": "Riceverai avvisi per le conversazioni assegnate a te e per quelle senza risposta.",
           "ASSIGNED+NOTME": "Riceverai avvisi per le conversazioni assegnate a te e agli altri, ma non per quelle non assegnate.",
-          "NOTME+UNASSIGNED": "Riceverai avvisi per conversazioni non risposte e per quelle assegnate ad altri.",
+          "NOTME+UNASSIGNED": "Riceverai avvisi per conversazioni senza risposta e per quelle assegnate ad altri.",
           "ASSIGNED+NOTME+UNASSIGNED": "Riceverai avvisi per tutte le conversazioni."
         },
         "ALERT_TYPE": {
@@ -161,7 +174,7 @@
           "SLA_MISSED_NEXT_RESPONSE": "Una conversazione manca il tempo di risposta successiva SLA",
           "SLA_MISSED_RESOLUTION": "Una conversazione manca il tempo di risoluzione SLA"
         },
-        "BROWSER_PERMISSION": "Abilita le notifiche push per il browser in modo da poterle ricevere"
+        "BROWSER_PERMISSION": "Abilita le notifiche push per il browser"
       },
       "API": {
         "UPDATE_SUCCESS": "Le preferenze per le notifiche sono state aggiornate con successo",
@@ -273,7 +286,8 @@
     "FILE_BUBBLE": {
       "DOWNLOAD": "Scarica",
       "UPLOADING": "Caricamento...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "Questa storia non è più disponibile."
+      "INSTAGRAM_STORY_UNAVAILABLE": "Questa storia non è più disponibile.",
+      "INSTAGRAM_STORY_REPLY": "Ha risposto alla tua storia:"
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Vedi sulla mappa"
@@ -311,6 +325,7 @@
     "ALL_COMPANIES": "Tutte le Aziende",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistenti",
+    "CAPTAIN_OVERVIEW": "Panoramica",
     "CAPTAIN_DOCUMENTS": "Documenti",
     "CAPTAIN_RESPONSES": "FAQ",
     "CAPTAIN_TOOLS": "Strumenti",
@@ -326,6 +341,7 @@
     "NOTIFICATIONS": "Notifiche",
     "CANNED_RESPONSES": "Risposte Predefinite",
     "INTEGRATIONS": "Integrazioni",
+    "DATA": "Data",
     "PROFILE_SETTINGS": "Impostazioni Profilo",
     "ACCOUNT_SETTINGS": "Impostazioni Account",
     "APPLICATIONS": "Applicazioni",
@@ -377,8 +393,173 @@
       "INFO_TEXT": "Consenti al sistema di impostarti automaticamente offline quando non utilizzi l'app o la dashboard.",
       "INFO_SHORT": "Imposta automaticamente offline quando non stai usando l'app."
     },
+    "SORT_TOOLTIP": "Ordina",
+    "SORT_BY": "Ordina per",
+    "SORT_GROUPS": {
+      "CREATED": "Sort by date of creation",
+      "ALPHABETICAL": "Sort in alphabetical order",
+      "UNREAD_COUNT": "Sort by unread count"
+    },
+    "SORT_OPTIONS": {
+      "CREATED_DESC": "Newest first",
+      "CREATED_ASC": "Oldest first",
+      "ALPHABETICAL_ASC": "Ascending (A - Z)",
+      "ALPHABETICAL_DESC": "Descending (Z - A)",
+      "UNREAD_COUNT_DESC": "Highest first",
+      "UNREAD_COUNT_ASC": "Lowest first"
+    },
     "DOCS": "Leggi i documenti",
-    "SECURITY": "Sicurezza"
+    "SECURITY": "Sicurezza",
+    "CAPTAIN_AI": "Captain",
+    "CONVERSATION_WORKFLOW": "Workflow Conversazione"
+  },
+  "DATA_IMPORTS": {
+    "HEADER": "Data",
+    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
+    "LOADING": "Fetching imports",
+    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "TABS": {
+      "IMPORT": "Importa",
+      "EXPORT": "Esporta"
+    },
+    "TYPES": {
+      "CONTACTS": "Contatti",
+      "CONVERSATIONS": "Conversazioni",
+      "MESSAGES": "Messaggi"
+    },
+    "DRAWER": {
+      "TITLE": "New import",
+      "SOURCE": "Source",
+      "NAME": "Import name",
+      "NAME_PLACEHOLDER": "July Intercom migration",
+      "ACCESS_KEY": "Intercom access key",
+      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "DATA_TYPES": "Data to import",
+      "VALIDATING": "Validating access key...",
+      "VALID_KEY": "Access key validated.",
+      "INVALID_KEY": "Could not validate this access key.",
+      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "CANCEL": "Annulla",
+      "IMPORT": "Importa"
+    },
+    "EXPORT": {
+      "TITLE": "Exports are on the way",
+      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
+      "COMING_SOON": "In arrivo"
+    },
+    "TABLE": {
+      "TITLE": "Recent imports",
+      "EMPTY": "No imports yet",
+      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "NEW_IMPORT": "Importa",
+      "COUNT": "{count} imports",
+      "UNNAMED": "Untitled import",
+      "IMPORTED_COUNT": "{count} imported",
+      "VIEW": "View import",
+      "NAME": "Nome",
+      "TYPE": "Tipo",
+      "STATUS": "Stato",
+      "IMPORTED": "Imported",
+      "CREATED": "Creato il",
+      "ABANDON": "Abandon"
+    },
+    "DETAIL": {
+      "BACK": "Back to imports",
+      "ERRORS": "Errors",
+      "SKIP_LOGS": "Skip logs",
+      "SOURCE": "Source",
+      "IMPORT_TYPES": "Import types",
+      "CREATED": "Creato il",
+      "DURATION": "Durata",
+      "INITIATED_BY": "Started by",
+      "PROGRESS": "Import progress",
+      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
+      "PROGRESS_OF_TOTAL": "of {total} imported",
+      "PROGRESS_IMPORTED": "imported",
+      "LAST_UPDATED_TOOLTIP": "Ultimo aggiornamento {time}",
+      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
+      "DOWNLOAD_SKIP_LOGS": "Download CSV",
+      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "ALL_SKIP_LOGS": "Tutte",
+      "KIND": "Kind",
+      "NO_ERRORS": "No errors recorded.",
+      "ERROR_CODE": "Code",
+      "SOURCE_OBJECT": "Source object",
+      "MESSAGE": "Messaggio"
+    },
+    "MONITOR": {
+      "LIVE": "Live updates every {seconds}s",
+      "LAST_UPDATED": "Ultimo aggiornamento {time}",
+      "REFRESH": "Aggiorna",
+      "REFRESHING": "Refreshing",
+      "STAGES": {
+        "unknown": "Waiting for update",
+        "queued": "Queued",
+        "contacts": "Importing contacts",
+        "conversations": "Importing conversations",
+        "finalizing": "Finalizing import",
+        "completed": "Completata",
+        "completed_with_errors": "Completed with errors",
+        "failed": "Non Riuscito",
+        "abandoned": "Abandoned"
+      }
+    },
+    "ALERTS": {
+      "IMPORT_STARTED": "Intercom import has started.",
+      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the Intercom import."
+    }
+  },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "Impostazioni Captain",
+    "DESCRIPTION": "Configura i tuoi modelli AI e le funzionalità di Captain. La fatturazione di Captain si basa sui crediti, che ti verranno scalati per ogni azione di Captain in base al modello selezionato.",
+    "LOADING": "Caricamento configurazione Captain...",
+    "LINK_TEXT": "Scopri di più sui Crediti Captain",
+    "NOT_ENABLED": "Captain non è abilitato per il tuo account. Aggiorna il tuo piano per accedere alle funzionalità Captain.",
+    "MODEL_CONFIG": {
+      "TITLE": "Configurazione Modello",
+      "DESCRIPTION": "Seleziona modelli AI per le varie funzionalità.",
+      "SELECT_MODEL": "Seleziona modello",
+      "CREDITS_PER_MESSAGE": "{credits} crediti/messaggio",
+      "COMING_SOON": "In arrivo",
+      "EDITOR": {
+        "TITLE": "Funzionalità Editor",
+        "DESCRIPTION": "Permette smart compose, correzioni grammaticali, gestione del tono di voce e miglioramento del contenuto nell'editor dei messaggi."
+      },
+      "ASSISTANT": {
+        "TITLE": "Assistente",
+        "DESCRIPTION": "Gestisce risposte automatizzate, riassunti delle conversazioni e suggerimenti di risposta intelligenti per le interazioni con i clienti."
+      },
+      "COPILOT": {
+        "TITLE": "Co-pilot",
+        "DESCRIPTION": "Fornisce suggerimenti contestuali in tempo reale, consigli sulla knowledge base e insight proattivi durante le conversazioni."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "Funzionalità",
+      "DESCRIPTION": "Abilita o disabilita le funzionalità AI.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Trascrizione Audio",
+        "DESCRIPTION": "Converte automaticamente i messaggi vocali e le registrazioni delle chiamate in trascrizioni di testo ricercabili.",
+        "MODEL_TITLE": "Audio Transcription Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "Indicizzazione Ricerca Help Center",
+        "DESCRIPTION": "Usa l'AI per effettuare una ricerca contestualizzata tra gli articoli dell'help center."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "Suggerimento Etichette",
+        "DESCRIPTION": "Suggerisce automaticamente etichette e tag rilevanti per le conversazioni in base all'analisi e al contesto dei contenuti.",
+        "MODEL_TITLE": "Modello Di Suggerimento Etichette",
+        "MODEL_DESCRIPTION": "Seleziona il modello AI da utilizzare per analizzare le conversazioni e suggerire etichette appropriate"
+      }
+    },
+    "API": {
+      "SUCCESS": "Impostazioni Captain aggiornate con successo.",
+      "ERROR": "Impossibile aggiornare le impostazioni Captain. Per favore riprova."
+    }
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fatturazione",
@@ -387,7 +568,18 @@
       "TITLE": "Piano attuale",
       "PLAN_NOTE": "Sei attualmente abbonato al piano **{plan}** con **{quantity}** licenze",
       "SEAT_COUNT": "Numero di seat",
-      "RENEWS_ON": "Si rinnova il"
+      "RENEWS_ON": "Si rinnova il",
+      "CURRENCY": "Currency"
+    },
+    "CURRENCY": {
+      "SELECT": {
+        "TITLE": "Choose your billing currency",
+        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+      },
+      "OPTIONS": {
+        "USD": "US Dollar (USD)",
+        "BRL": "Brazilian Real (BRL)"
+      }
     },
     "VIEW_PRICING": "Visualizza Prezzi",
     "MANAGE_SUBSCRIPTION": {
@@ -423,6 +615,7 @@
       "PURCHASE": "Acquista Crediti",
       "LOADING": "Caricamento opzioni...",
       "FETCH_ERROR": "Impossibile caricare le opzioni crediti. Riprova.",
+      "RETRY": "Riprova",
       "PURCHASE_ERROR": "Impossibile elaborare l'acquisto. Riprova.",
       "PURCHASE_SUCCESS": "{credits} crediti aggiunti correttamente al tuo account",
       "CONFIRM": {
@@ -503,6 +696,58 @@
       "INFO_SECTION": {
         "TITLE": "Informazioni sul Service Provider",
         "TOOLTIP": "Copia questi valori e configurali nel tuo Identity Provider per stabilire la connessione SAML"
+      }
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Workflow Conversazione",
+        "DESCRIPTION": "Configura regole e campi obbligatori per la risoluzione delle conversazioni."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "Attributi richiesti per la risoluzione",
+      "DESCRIPTION": "Quando si risolve una conversazione, agli operatori verrà chiesto di compilare questi attributi se non sono ancora stati compilati.",
+      "NO_ATTRIBUTES": "Nessun attributo aggiunto",
+      "ADD": {
+        "TITLE": "Aggiungi Attributi",
+        "SEARCH_PLACEHOLDER": "Cerca attributi"
+      },
+      "SAVE": {
+        "SUCCESS": "Attributi richiesti aggiornati",
+        "ERROR": "Impossibile aggiornare gli attributi richiesti, riprova"
+      },
+      "MODAL": {
+        "TITLE": "Risolvi la conversazione",
+        "DESCRIPTION": "Inserisci i seguenti attributi personalizzati prima di risolvere questa conversazione",
+        "ACTIONS": {
+          "RESOLVE": "Risolvi la conversazione",
+          "CANCEL": "Annulla"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "Scrivi una nota...",
+          "NUMBER": "Inserisci un numero",
+          "LINK": "Aggiungi un link",
+          "DATE": "Scegli una data",
+          "LIST": "Seleziona un'opzione"
+        },
+        "CHECKBOX": {
+          "YES": "Sì",
+          "NO": "No"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "Aggiorna per utilizzare gli attributi richiesti",
+        "AVAILABLE_ON": "La funzionalità Attributi di Conversazione Richiesti è disponibile solo nei piani Business e Enterprise.",
+        "UPGRADE_PROMPT": "Aggiorna il tuo piano per chiedere agli operatori di compilare gli attributi richiesti prima della risoluzione della conversazione.",
+        "UPGRADE_NOW": "Aggiorna ora",
+        "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "La funzionalità Attributi di Conversazione Richiesti è disponibile solo nei piani a pagamento.",
+        "UPGRADE_PROMPT": "Passa a un piano a pagamento per imporre gli attributi richiesti prima della risoluzione della conversazione.",
+        "ASK_ADMIN": "Contatta il tuo amministratore per l'aggiornamento."
       }
     }
   },
@@ -591,7 +836,8 @@
         "CREATE_BUTTON": "Crea policy",
         "API": {
           "SUCCESS_MESSAGE": "Policy di assegnazione creata con successo",
-          "ERROR_MESSAGE": "Impossibile creare la policy di assegnazione"
+          "ERROR_MESSAGE": "Impossibile creare la policy di assegnazione",
+          "INBOX_LINKED": "La inbox è stata collegata alla policy"
         }
       },
       "EDIT": {
@@ -604,6 +850,12 @@
           "DESCRIPTION": "La Inbox {inboxName} è già collegata ad un'altra policy. Sei sicuro di volerla collegare a questa policy? Sarà scollegata dall'altra policy.",
           "CONFIRM_BUTTON_LABEL": "Continua",
           "CANCEL_BUTTON_LABEL": "Annulla"
+        },
+        "INBOX_LINK_PROMPT": {
+          "TITLE": "Collega inbox alla policy",
+          "DESCRIPTION": "Vuoi collegare questa inbox alla policy di assegnazione?",
+          "LINK_BUTTON": "Collega inbox",
+          "CANCEL_BUTTON": "Salta"
         },
         "API": {
           "SUCCESS_MESSAGE": "Policy di assegnazione aggiornata con successo",
@@ -643,7 +895,9 @@
           },
           "BALANCED": {
             "LABEL": "Bilanciato",
-            "DESCRIPTION": "Assegna le conversazioni in base alla capacità disponibile."
+            "DESCRIPTION": "Assegna le conversazioni in base alla capacità disponibile.",
+            "PREMIUM_MESSAGE": "Fai l’upgrade per accedere all’assegnazione bilanciata e alla gestione della capacità degli operatori.",
+            "PREMIUM_BADGE": "Premium"
           }
         },
         "ASSIGNMENT_PRIORITY": {
@@ -662,6 +916,10 @@
           "DESCRIPTION": "Imposta il numero massimo di conversazioni che possono essere assegnate per operatore in una finestra temporale per evitare di sovraccaricarlo. Questo campo obbligatorio è impostato di default a 100 conversazioni l'ora.",
           "INPUT_MAX": "Assegna max",
           "DURATION": "Conversazioni per operatore ogni"
+        },
+        "EXCLUDE_OLDER_THAN": {
+          "LABEL": "Skip stale conversations",
+          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
         },
         "INBOXES": {
           "LABEL": "Inbox aggiunte",
@@ -728,6 +986,20 @@
           "REMOVE": {
             "SUCCESS_MESSAGE": "Operatore rimosso correttamente dalla policy",
             "ERROR_MESSAGE": "Impossibile rimuovere l’operatore dalla policy"
+          }
+        },
+        "INBOX_LIMIT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Limite inbox aggiunto con successo",
+            "ERROR_MESSAGE": "Impossibile aggiungere il limite inbox"
+          },
+          "UPDATE": {
+            "SUCCESS_MESSAGE": "Limite inbox aggiornato con successo",
+            "ERROR_MESSAGE": "Impossibile aggiornare il limite inbox"
+          },
+          "DELETE": {
+            "SUCCESS_MESSAGE": "Limite inbox eliminato con successo",
+            "ERROR_MESSAGE": "Impossibile eliminare il limite inbox"
           }
         }
       },

@@ -46,7 +46,8 @@ RSpec.describe AccountDeletionService do
 
         # Reload the user to get the updated email
         user_with_one_account.reload
-        expect(user_with_one_account.email).to eq("#{original_email}-deleted.com")
+        expect(user_with_one_account.email).to eq("#{user_with_one_account.id}@chatwoot-deleted.invalid")
+        expect(user_with_one_account.email).not_to eq(original_email)
       end
 
       it 'does not modify emails for users belonging to multiple accounts' do

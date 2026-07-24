@@ -2,6 +2,14 @@
 # It initializes with necessary attributes and provides a perform method
 # to create a user and account user in a transaction.
 class AgentBuilder
+  LIMIT_EXCEEDED_MESSAGE = 'Account limit exceeded. Please purchase more licenses'.freeze
+
+  class LimitExceededError < StandardError
+    def initialize
+      super(AgentBuilder::LIMIT_EXCEEDED_MESSAGE)
+    end
+  end
+
   # Initializes an AgentBuilder with necessary attributes.
   # @param email [String] the email of the user.
   # @param name [String] the name of the user.
@@ -14,14 +22,22 @@ class AgentBuilder
   # Creates a user and account user in a transaction.
   # @return [User] the created user.
   def perform
-    ActiveRecord::Base.transaction do
-      @user = find_or_create_user
-      create_account_user
+    account.with_lock do
+      raise LimitExceededError unless can_add_agent?
+
+      ActiveRecord::Base.transaction do
+        @user = find_or_create_user
+        create_account_user
+      end
     end
     @user
   end
 
   private
+
+  def can_add_agent?
+    account.usage_limits[:agents] > account.account_users.count
+  end
 
   # Finds a user by email or creates a new one with a temporary password.
   # @return [User] the found or created user.
@@ -29,8 +45,9 @@ class AgentBuilder
     user = User.from_email(email)
     return user if user
 
+    @name = email.split('@').first if @name.blank?
     temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
-    User.create!(email: email, name: name, password: temp_password, password_confirmation: temp_password)
+    User.create!(email: email, name: @name, password: temp_password, password_confirmation: temp_password)
   end
 
   # Checks if the user needs confirmation.

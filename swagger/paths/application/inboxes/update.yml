@@ -1,3 +1,38 @@
+get:
+  tags:
+    - Inboxes
+  operationId: GetInbox
+  summary: Get an inbox
+  security:
+    - userApiKey: []
+  description: Get an inbox available in the current account
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: number
+      description: ID of the inbox
+      required: true
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inbox'
+    '404':
+      description: Inbox not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
 patch:
   tags:
     - Inboxes
@@ -20,14 +55,120 @@ patch:
       application/json:
         schema:
           $ref: '#/components/schemas/inbox_update_payload'
+        examples:
+          web_widget:
+            summary: Website inbox settings
+            value:
+              name: Support
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_email_collect: true
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
+              channel:
+                website_url: https://example.com
+                welcome_title: Welcome to our support
+                welcome_tagline: We are here to help you
+                widget_color: '#FF5733'
+                reply_time: in_a_few_minutes
+                pre_chat_form_enabled: false
+                continuity_via_email: true
+                hmac_mandatory: false
+                selected_feature_flags:
+                  - attachments
+                  - emoji_picker
+                  - end_conversation
+          api:
+            summary: API channel settings
+            value:
+              name: API Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              channel:
+                webhook_url: https://example.com/webhook
+                hmac_mandatory: false
+                additional_attributes:
+                  source: mobile_app
+          email:
+            summary: Email channel settings
+            value:
+              name: Email Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              channel:
+                email: support@example.com
+                imap_enabled: false
+                smtp_enabled: false
+          line:
+            summary: LINE channel settings
+            value:
+              name: LINE Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              channel:
+                line_channel_id: '1234567890'
+                line_channel_secret: line-channel-secret
+                line_channel_token: line-channel-token
+          telegram:
+            summary: Telegram channel settings
+            value:
+              name: Telegram Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              channel:
+                bot_token: 123456789:telegram-bot-token
+          whatsapp:
+            summary: WhatsApp channel settings
+            value:
+              name: WhatsApp Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              channel:
+                phone_number: '+15551234567'
+                provider: whatsapp_cloud
+                provider_config:
+                  api_key: your-api-key
+                  phone_number_id: your-phone-number-id
+                  business_account_id: your-business-account-id
+          sms:
+            summary: SMS channel settings
+            value:
+              name: SMS Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              channel:
+                phone_number: '+15551234567'
+                provider_config:
+                  api_key: your-api-key
+                  api_secret: your-api-secret
+                  application_id: your-application-id
+                  account_id: your-account-id
   responses:
     '200':
       description: Success
       content:
         application/json:
           schema:
-            type: object
-            description: 'Updated inbox object'
             $ref: '#/components/schemas/inbox'
     '404':
       description: Inbox not found

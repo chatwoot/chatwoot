@@ -85,7 +85,12 @@ export default {
         useAlert(this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'));
         this.onCancel();
       } catch (error) {
-        useAlert(this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'));
+        const status = error?.response?.status;
+        if (status === 402) {
+          useAlert(this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_PAYMENT_REQUIRED'));
+        } else {
+          useAlert(this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'));
+        }
       } finally {
         this.isSubmitting = false;
       }
@@ -118,7 +123,13 @@ export default {
               $t('EMAIL_TRANSCRIPT.FORM.SEND_TO_CONTACT')
             }}</label>
           </div>
-          <div v-if="currentChat.meta.assignee" class="flex items-center gap-2">
+          <div
+            v-if="
+              currentChat.meta.assignee &&
+              currentChat.meta.assignee_type !== 'AgentBot'
+            "
+            class="flex items-center gap-2"
+          >
             <input
               id="assignee"
               v-model="selectedType"

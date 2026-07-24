@@ -49,6 +49,18 @@ class Redis::LockManager
     true
   end
 
+  def with_lock(key, timeout = LOCK_TIMEOUT)
+    return false unless lock(key, timeout)
+
+    begin
+      yield
+    ensure
+      unlock(key)
+    end
+
+    true
+  end
+
   # Checks if the given key is currently locked.
   #
   # === Parameters

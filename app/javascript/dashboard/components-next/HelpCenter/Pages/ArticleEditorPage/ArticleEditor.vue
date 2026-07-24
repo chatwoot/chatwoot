@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from 'vue';
-import { debounce } from '@chatwoot/utils';
+import { ref, computed, watch, onBeforeUnmount } from 'vue';
+import { useTimeoutFn } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 
@@ -9,6 +9,7 @@ import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import FullEditor from 'dashboard/components/widgets/WootWriter/FullEditor.vue';
 import ArticleEditorHeader from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditorHeader.vue';
 import ArticleEditorControls from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditorControls.vue';
+import ArticleDiffPanel from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleDiffPanel.vue';
 
 const props = defineProps({
   article: {
@@ -27,59 +28,94 @@ const props = defineProps({
 
 const emit = defineEmits([
   'saveArticle',
-  'saveArticleAsync',
   'goBack',
   'setAuthor',
   'setCategory',
   'previewArticle',
+  'createArticle',
 ]);
 
 const { t } = useI18n();
 
 const isNewArticle = computed(() => !props.article?.id);
 
-const saveAndSync = value => {
-  emit('saveArticle', value);
-};
+// Prefer the draft; `??` keeps a deliberately-cleared empty string instead of
+// falling back to the live value.
+const effectiveTitle = () =>
+  props.article?.draftTitle ?? props.article?.title ?? '';
+const effectiveContent = () =>
+  props.article?.draftContent ?? props.article?.content ?? '';
 
-// this will only send the data to the backend
-// but will not update the local state preventing unnecessary re-renders
-// since the data is already saved and we keep the editor text as the source of truth
-const quickSave = debounce(
-  value => emit('saveArticleAsync', value),
-  400,
-  false
+const hasPendingChanges = computed(
+  () => props.article?.draftTitle != null || props.article?.draftContent != null
 );
 
-// 2.5 seconds is enough to know that the user has stopped typing and is taking a pause
-// so we can save the data to the backend and retrieve the updated data
-// this will update the local state with response data
-// Only use to save for existing articles
-const saveAndSyncDebounced = debounce(saveAndSync, 2500, false);
+const localTitle = ref(effectiveTitle());
+const localContent = ref(effectiveContent());
 
-// Debounced save for new articles
-const quickSaveNewArticle = debounce(saveAndSync, 400, false);
+const isDiffPanelOpen = ref(false);
 
-const handleSave = value => {
-  if (isNewArticle.value) {
-    quickSaveNewArticle(value);
-  } else {
-    quickSave(value);
-    saveAndSyncDebounced(value);
-  }
+// Autosave 500ms after the last edit. It sends both title and content so an
+// edit to one never drops a recent edit to the other. `stop` cancels a queued
+// save; `isPending` tells the header to wait before allowing a publish.
+const {
+  isPending: isSaving,
+  start: debouncedSave,
+  stop: cancelSave,
+} = useTimeoutFn(
+  () =>
+    emit('saveArticle', {
+      title: localTitle.value,
+      content: localContent.value,
+    }),
+  500,
+  { immediate: false }
+);
+
+const syncLocalState = () => {
+  cancelSave();
+  localTitle.value = effectiveTitle();
+  localContent.value = effectiveContent();
 };
 
+// Reseed on article switch or once a draft is published/discarded; close the
+// diff panel in the latter case since there's nothing left to compare.
+watch(
+  [() => props.article?.id, hasPendingChanges],
+  ([id, pending], [prevId, prevPending]) => {
+    if ((id && id !== prevId) || (prevPending && !pending)) syncLocalState();
+    if (prevPending && !pending) isDiffPanelOpen.value = false;
+  }
+);
+
+const scheduleSave = () => {
+  if (isNewArticle.value) return;
+  debouncedSave();
+};
+
+// Flush a queued save on unmount so leaving the editor doesn't drop the last edit.
+onBeforeUnmount(() => {
+  if (isNewArticle.value || !isSaving.value) return;
+  cancelSave();
+  emit('saveArticle', {
+    title: localTitle.value,
+    content: localContent.value,
+  });
+});
+
 const articleTitle = computed({
-  get: () => props.article.title,
+  get: () => localTitle.value,
   set: value => {
-    handleSave({ title: value });
+    localTitle.value = value;
+    scheduleSave();
   },
 });
 
 const articleContent = computed({
-  get: () => props.article.content,
+  get: () => localContent.value,
   set: content => {
-    handleSave({ content });
+    localContent.value = content;
+    scheduleSave();
   },
 });
 
@@ -98,6 +134,14 @@ const setCategoryId = categoryId => {
 const previewArticle = () => {
   emit('previewArticle');
 };
+
+const handleCreateArticle = event => {
+  if (!isNewArticle.value) return;
+  const title = event?.target?.value || '';
+  if (title.trim()) {
+    emit('createArticle', { title, content: localContent.value });
+  }
+};
 </script>
 
 <template>
@@ -108,9 +152,13 @@ const previewArticle = () => {
         :is-saved="isSaved"
         :status="article.status"
         :article-id="article.id"
+        :pending-changes="hasPendingChanges"
+        :is-saving="isSaving"
         @go-back="onClickGoBack"
         @preview-article="previewArticle"
+        @show-diff="isDiffPanelOpen = !isDiffPanelOpen"
       />
+      <ArticleDiffPanel v-model="isDiffPanelOpen" :article="article" />
     </template>
     <template #content>
       <div class="flex flex-col gap-3 pl-4 mb-3 rtl:pr-3 rtl:pl-0">
@@ -121,11 +169,12 @@ const previewArticle = () => {
           custom-text-area-class="!text-[32px] !leading-[48px] !font-medium !tracking-[0.2px]"
           custom-text-area-wrapper-class="border-0 !bg-transparent dark:!bg-transparent !py-0 !px-0"
           placeholder="Title"
-          autofocus
+          :autofocus="isNewArticle"
+          @blur="handleCreateArticle"
         />
         <ArticleEditorControls
           :article="article"
-          @save-article="saveAndSync"
+          @save-article="values => emit('saveArticle', values)"
           @set-author="setAuthorId"
           @set-category="setCategoryId"
         />
@@ -137,53 +186,50 @@ const previewArticle = () => {
           t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')
         "
         :enabled-menu-options="ARTICLE_EDITOR_MENU_OPTIONS"
-        :autofocus="false"
+        :autofocus="!isNewArticle"
       />
     </template>
   </HelpCenterLayout>
 </template>
 
 <style lang="scss" scoped>
-::v-deep {
-  .ProseMirror .empty-node::before {
-    @apply text-n-slate-10 text-base;
-  }
+:deep(.ProseMirror .empty-node::before) {
+  @apply text-n-slate-10 text-base;
+}
 
-  .ProseMirror-menubar-wrapper {
-    .ProseMirror-woot-style {
-      @apply min-h-[15rem] max-h-full;
-    }
+:deep(.ProseMirror-menubar-wrapper) {
+  .ProseMirror-woot-style {
+    @apply min-h-[15rem] max-h-full;
+  }
+}
+
+:deep(.ProseMirror-menubar) {
+  display: none; // Hide by default
+}
+
+:deep(.editor-root .has-selection) {
+  .ProseMirror-menubar:not(:has(*)) {
+    display: none !important;
   }
 
   .ProseMirror-menubar {
-    display: none; // Hide by default
-  }
+    @apply rounded-lg !px-3 !py-1.5 z-50 bg-n-background items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
+    display: flex;
+    top: var(--selection-top, auto) !important;
+    left: var(--selection-left, 0) !important;
+    width: fit-content !important;
+    position: absolute !important;
 
-  .editor-root .has-selection {
-    .ProseMirror-menubar {
-      @apply h-8 rounded-lg !px-2 z-50 bg-n-solid-3 items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
-      display: flex;
-      top: var(--selection-top, auto) !important;
-      left: var(--selection-left, 0) !important;
-      width: fit-content !important;
-      position: absolute !important;
+    .ProseMirror-menuitem {
+      @apply ltr:mr-0 rtl:ml-0 size-4 flex items-center;
 
-      .ProseMirror-menuitem {
-        @apply mr-0;
-
-        .ProseMirror-icon {
-          @apply p-0 mt-0 !mr-0;
-
-          svg {
-            width: 20px !important;
-            height: 20px !important;
-          }
-        }
+      .ProseMirror-icon {
+        @apply p-0.5 flex-shrink-0 ltr:mr-2 rtl:ml-2;
       }
+    }
 
-      .ProseMirror-menu-active {
-        @apply bg-n-slate-3;
-      }
+    .ProseMirror-menu-active {
+      @apply bg-n-slate-3;
     }
   }
 }

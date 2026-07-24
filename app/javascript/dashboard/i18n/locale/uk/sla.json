@@ -5,7 +5,12 @@
     "ADD_ACTION_LONG": "Створити нову SLA політику",
     "DESCRIPTION": "Угода про рівень послуг (SLAs) - це контракти, що визначають чіткі очікування між вашою командою та клієнтами. Вони встановлюють стандарти часу реагування та резолюції, створюючи рамки підзвітності та забезпечують послідовний, якісний досвід.",
     "LEARN_MORE": "Дізнатися більше про SLA",
+    "COUNT": "{n} SLA | {n} SLAs",
     "LOADING": "Отримання SLAs",
+    "SEARCH_PLACEHOLDER": "Search SLA...",
+    "SEARCH": {
+      "NO_RESULTS": "No SLA found matching your search"
+    },
     "PAYWALL": {
       "TITLE": "Оновіть, щоб створити SLA",
       "AVAILABLE_ON": "Функція SLA доступна тільки в планах Business та Enterprise.",
@@ -20,14 +25,18 @@
     },
     "LIST": {
       "404": "У цьому обліковому записі немає SLA.",
+      "TABLE_HEADER": {
+        "SLA": "SLA",
+        "BUSINESS_HOURS": "Business hours"
+      },
       "EMPTY": {
         "TITLE_1": "Enterprise P0",
         "DESC_1": "Питання, висунуті корпоративними клієнтами, які потребують негайної уваги.",
         "TITLE_2": "Enterprise P1",
         "DESC_2": "Питання, отримані підприємницькими клієнтами, потрібно швидко визнати."
       },
-      "BUSINESS_HOURS_ON": "Увімкнено робочий час",
-      "BUSINESS_HOURS_OFF": "Вимкнено робочий час",
+      "BUSINESS_HOURS_ON": "Turned on",
+      "BUSINESS_HOURS_OFF": "Turned off",
       "RESPONSE_TYPES": {
         "FRT": "Час першої відповіді",
         "NRT": "Час наступної відповіді",

@@ -28,13 +28,42 @@ tr:
       invalid_email: 'Lütfen geçerli bir e-posta adresi girin'
       authentication_failed: 'Kimlik doğrulama başarısız oldu. Lütfen kimlik bilgilerinizi kontrol edin ve tekrar deneyin.'
   messages:
-    reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
-    reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
+    reset_password: Request for password reset is successful. A email with instructions will be sent to your email if it exists.
     reset_password_saml_user: Bu hesap SAML kimlik doğrulaması kullanmaktadır. Şifre sıfırlama mevcut değildir. Lütfen yöneticinizle iletişime geçin.
     login_saml_user: Bu hesap SAML kimlik doğrulaması kullanmaktadır. Lütfen kuruluşunuzun SAML sağlayıcısı aracılığıyla oturum açın.
     saml_not_available: SAML kimlik doğrulaması bu kurulumda mevcut değildir.
     inbox_deletetion_response: Gelen kutusu silme isteğiniz bir süre sonra işleme alınacaktır.
+  data_imports:
+    intercom:
+      activities:
+        assignment: '%{actor} assigned the conversation'
+        assignment_with_target: '%{actor} assigned the conversation to %{target}'
+        assign_and_reopen: '%{actor} assigned and reopened the conversation'
+        assign_and_reopen_with_target: '%{actor} assigned the conversation to %{target} and reopened it'
+        open: '%{actor} opened the conversation'
+        close: '%{actor} closed the conversation'
+        snoozed: '%{actor} snoozed the conversation'
+        participant_added: '%{actor} added a participant'
+        participant_added_with_target: '%{actor} added %{target} as a participant'
+        participant_removed: '%{actor} removed a participant'
+        participant_removed_with_target: '%{actor} removed %{target} as a participant'
+        conversation_attribute_updated: '%{actor} updated conversation attributes'
+        ticket_attribute_updated: '%{actor} updated ticket attributes'
+        ticket_state_updated: '%{actor} updated the ticket state'
+        custom_action_started: '%{actor} started a custom action'
+        custom_action_finished: '%{actor} finished a custom action'
+        quick_reply: '%{actor} used a quick reply'
+        generic: '%{actor} recorded %{event}'
+  profile_settings:
+    sessions:
+      cannot_revoke_current: You cannot revoke the current session.
   errors:
+    account:
+      not_authorized: You are not authorized to access this account
+      reporting_timezone:
+        invalid: geçerli bir saat dilimi değil
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: boş bırakılmamalı
     webhook:
@@ -46,13 +75,28 @@ tr:
       email_already_exists: '%{email} ile zaten bir hesaba kaydoldunuz'
       invalid_params: 'Hata, lütfen kayıt olma parametrelerini kontrol edin ve tekrar deneyin'
       failed: Kayıt başarısız oldu
+    voice:
+      call_already_accepted: '%{agent_name} is already handling the call.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
       invalid: Invalid attachment
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
+    database:
+      query_canceled: 'The request took too long to complete. Please try again.'
     saml:
       feature_not_enabled: Bu hesap için SAML özelliği etkinleştirilmemiş
       sso_not_enabled: SAML SSO bu kurulum için etkinleştirilmemiş
+    conversations:
+      unread_counts:
+        feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
       data_type:
         invalid: Hatalı veri türü
@@ -78,6 +122,15 @@ tr:
         unique: kategori ve portalde tekil olmalı
     dyte:
       invalid_message_type: 'Geçersiz mesaj türü. İşlem izin verilmiyor'
+      realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
+    cloudflare:
+      realtimekit:
+        invalid_credentials: 'Cloudflare RealtimeKit credentials are invalid. Please check the Account ID, RealtimeKit App ID, and API token permissions.'
+        missing_credentials: 'Cloudflare Account ID, RealtimeKit App ID, and API token are required.'
+        invalid_api_token: 'Cloudflare API token is invalid or inactive. Please create a new token with Realtime Admin permissions.'
+        invalid_account_or_permissions: 'Cloudflare Account ID is invalid, or the API token does not have Realtime Admin access to this account.'
+        app_not_found: 'RealtimeKit App ID was not found in this Cloudflare account. Please check the app you selected.'
+        verification_failed: 'Could not verify Cloudflare RealtimeKit credentials right now. Please try again.'
     slack:
       invalid_channel_id: 'Geçersiz Slack kanalı. Lütfen tekrar deneyin'
     whatsapp:
@@ -88,6 +141,16 @@ tr:
       reauthorization:
         generic: 'WhatsApp''ı yeniden yetkilendirme işlemi başarısız oldu. Lütfen tekrar deneyin.'
         not_supported: 'Bu tür WhatsApp kanalları için yeniden yetkilendirme desteklenmemektedir.'
+      calls:
+        not_enabled: 'Calling is not enabled for this inbox'
+        already_ended: 'This call has already ended'
+        no_recording: 'No recording file provided'
+        no_message: 'Call has no associated message'
+        sdp_offer_required: 'sdp_offer is required'
+        contact_phone_required: 'Contact phone number is required'
+        permission_request_failed: 'Failed to send call permission request'
+    openai:
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
       imap:
         socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
@@ -95,6 +158,11 @@ tr:
         host_unreachable_error: Host ulaşılamaz, Lütfen IMAP adresini, IMAP portunu kontrol edin ve tekrar deneyin.
         connection_timed_out_error: '%{address}:%{port} için bağlantı zaman aşımına uğradı.'
         connection_closed_error: Bağlantı kapalı.
+      smtp:
+        authentication_error: SMTP authentication failed. Please verify your login credentials.
+        connection_error: Could not connect to SMTP server. Please check the server address and port.
+        ssl_error: SSL/TLS error. Please verify your encryption settings.
+        smtp_error: SMTP server error. Please check your configuration and try again.
       validations:
         name: sembollerle başlamamalı veya bitmemeli, < > / \ @ karakterlerini içermemeli.
     custom_filters:
@@ -104,6 +172,7 @@ tr:
       invalid_query_operator: Query operator must be either "AND" or "OR".
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
     custom_attribute_definition:
+      attribute_key_format: must only contain letters, numbers, underscores, hyphens, and dots
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
     mfa:
       already_enabled: MFA zaten etkinleştirilmiştir
@@ -113,6 +182,9 @@ tr:
       invalid_token: Geçersiz veya süresi dolmuş MFA jetonu
       invalid_credentials: Geçersiz kimlik bilgileri veya doğrulama kodu
       feature_unavailable: MFA özelliği kullanılamıyor. Lütfen şifreleme anahtarlarını yapılandırın.
+    billing:
+      invalid_currency: Invalid billing currency
+      currency_locked: Billing currency cannot be changed after billing has been set up
     topup:
       credits_required: Credits amount is required
       invalid_credits: Invalid credits amount
@@ -120,6 +192,8 @@ tr:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA başarıyla etkinleştirildi
@@ -156,6 +230,14 @@ tr:
       avg_resolution_time: Avg resolution time
       resolution_count: Çözüm Sayısı
       avg_customer_waiting_time: Avg customer waiting time
+    conversation_csv:
+      conversations_count: Konuşmalar
+      incoming_messages_count: Gelen Mesajlar
+      outgoing_messages_count: Giden Mesajlar
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Resolution count
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Zaman dilimi
     sla_csv:
@@ -178,6 +260,7 @@ tr:
         rating: Derecelendirme
         feedback: Derecelendirme Yorumu
         recorded_at: Kaydedilen tarih
+        review_notes: İnceleme Notları
   notifications:
     notification_title:
       conversation_creation: '%{inbox_name} kutusunda (#%{display_id}) numaralı bir konuşma oluşturuldu.'
@@ -200,12 +283,21 @@ tr:
       deleted: Bu mesaj silinmiş
       whatsapp:
         list_button_label: 'Bir öğe seçin'
+        call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
+      voice_call:
+        twilio: 'Voice Call'
+        whatsapp: 'WhatsApp Call'
       delivery_status:
         error_code: 'Hata kodu: %{error_code}'
     activity:
       captain:
         resolved: 'Konuşma, %{user_name} tarafından etkinlik olmadığı için çözüldü olarak işaretlendi'
+        resolved_with_reason: 'Conversation was marked resolved by %{user_name} (%{reason})'
+        resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
         open: 'Konuşma, %{user_name} tarafından açık olarak işaretlendi'
+        open_with_reason: 'Conversation was marked open by %{user_name} (%{reason})'
+        auto_opened_after_agent_reply: 'Conversation was marked open automatically after an agent reply'
       agent_bot:
         error_moved_to_open: 'Temsilci botta meydana gelen bir hata nedeniyle konuşma, sistem tarafından açık olarak işaretlendi.'
       status:
@@ -240,6 +332,9 @@ tr:
         issue_created: 'Linear sorun %{issue_id} %{user_name} tarafından oluşturuldu'
         issue_linked: 'Linear sorun %{issue_id} %{user_name} tarafından bağlandı'
         issue_unlinked: 'Linear sorun %{issue_id} %{user_name} tarafından bağlantısı kaldırıldı'
+      whatsapp_call:
+        permission_requested: 'Sent a call permission request to %{contact_name}.'
+        permission_granted: '%{contact_name} accepted the call permission request.'
       csat:
         not_sent_due_to_messaging_window: 'Giden mesaj kısıtlamaları nedeniyle CSAT anketi gönderilmedi'
       auto_resolve:
@@ -304,6 +399,7 @@ tr:
       name: 'Linear'
       short_description: 'Linear sorunlarını doğrudan sohbetlerden oluşturun ve bağlayın.'
       description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+      attachment_link_title: 'Conversation (#%{conversation_id}) with %{name}'
     notion:
       name: 'Notion'
       short_description: 'Veritabanlarını, dokümanları ve sayfaları doğrudan Captain ile entegre edin.'
@@ -320,6 +416,9 @@ tr:
     copilot_message_required: Mesaj gerekli
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    upgrade: 'Captain AI''yi etkinleştirmek için planınızı yükseltin'
+    disabled: 'Bu hesap için Captain AI devre dışı.'
+    api_key_missing: 'Captain AI API anahtarı yapılandırılmamış.'
     copilot:
       using_tool: '%{function_name} aracını kullanıyor'
       completed_tool_call: '%{function_name} aracı çağrısı tamamlandı'
@@ -329,6 +428,9 @@ tr:
       limit_exceeded: 'Belge sınırı aşıldı'
       pdf_format_error: 'PDF dosyası olmalıdır'
       pdf_size_error: '10 MB''dan az olmalıdır'
+      sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
+      sync_only_available_documents: 'Sync is only available for processed documents'
+      sync_already_in_progress: 'Document sync is already in progress'
       pdf_upload_failed: 'OpenAI''ye PDF yükleme başarısız'
       pdf_upload_success: 'PDF başarıyla yüklendi, file_id: %{file_id}'
       pdf_processing_failed: 'PDF belgesi işlenemedi %{document_id}: %{error}'
@@ -347,13 +449,40 @@ tr:
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: Başlık veya içerikle makale arayın...
       empty_placeholder: Sonuç bulunamadı.
       loading_placeholder: Aranıyor...
       results_title: Arama sonuçları
+      results: Arama Sonucu
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Ara
     toc_header: 'Bu sayfada'
+    sidebar:
+      help_center: Yardım Merkezi
+      categories: Kategoriler
+      language: Dil
+      theme: Theme
+      open_sidebar: Kenar Çubuğunu Aç
+      close_sidebar: Kenar Çubuğunu Kapat
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      recommended: Recommended articles
+      recommended_subtitle: Hand-picked articles to get you started.
+      popular_label: 'Popular topics:'
+      recommended_label: 'Recommended topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: Makaleleri buradan arayın veya aşağıdaki kategorilere göz atın.
     common:
@@ -368,21 +497,35 @@ tr:
       others: diğerleri
       by: Tarafından
       no_articles: Burada makale bulunmuyor
+      previous: Önceki
+      next: Sonraki
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: İle yapılmıştır
     header:
       go_to_homepage: Website
       visit_website: Siteyi ziyaret et
       appearance:
+        title: Görünüm
         system: Sistem
         light: Açık Mod
         dark: Koyu Mod
       featured_articles: Öne Çıkan Makaleler
+      recommended: Recommended articles
       uncategorized: Kategorize Edilmemiş
     404:
       title: Sayfa bulunamadı
       description: Aradığınız sayfayı bulamadık.
       back_to_home: Ana sayfaya dön
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: İsim
@@ -405,6 +548,9 @@ tr:
     seconds:
       one: '%{count} second'
       other: '%{count} seconds'
+  auto_assignment:
+    default_policy_name: 'Default Policy'
+    policy_actor: 'Automation System via %{policy_name}'
   automation:
     system_name: 'Otomasyon Sistemi'
   crm:
@@ -430,6 +576,12 @@ tr:
   agent_capacity_policy:
     inbox_already_assigned: 'Gelen Kutusu bu politikaya zaten atanmış'
   portals:
+    articles:
+      captain_not_available: 'Translation requires Captain to be enabled for this account'
+      locale_not_available: 'Locale not available in this portal'
+      category_not_found: 'Category not found in this portal'
+      no_articles_found: 'No articles found to process'
+      invalid_status: 'Invalid status value'
     send_instructions:
       email_required: 'E-posta gereklidir'
       invalid_email_format: 'Geçersiz e-posta formatı'
@@ -438,3 +590,32 @@ tr:
       subject: '%{custom_domain} kurulumunu tamamlayın'
     ssl_status:
       custom_domain_not_configured: 'Özel alan adı yapılandırılmamış'
+  super_admin:
+    captain_model_overrides:
+      form:
+        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        use_default: 'Use default: %{model} (%{model_id})'
+      show:
+        summary: 'View model routing'
+        provider: 'Provider'
+        model: 'Model'
+      sources:
+        account_override: 'Account override'
+        default: 'Varsayılan'
+      features:
+        editor: 'Editor'
+        assistant: 'Asistan'
+        copilot: 'Copilot'
+        label_suggestion: 'Label suggestion'
+        document_faq_generation: 'Document FAQ generation'
+        conversation_faq_generation: 'Conversation FAQ generation'
+        help_center_article_generation: 'Help center article generation'
+        onboarding_content_generation: 'Onboarding content generation'
+        help_center_query_translation: 'Help center query translation'
+        audio_transcription: 'Audio transcription'
+        help_center_search: 'Help center search'
+    push_diagnostics:
+      user_not_found: 'User not found.'
+      no_subscriptions_to_test: 'Select at least one subscription to test.'
+      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
+      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."

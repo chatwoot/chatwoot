@@ -5,7 +5,12 @@
     "ADD_ACTION_LONG": "Crea una nuova policy SLA",
     "DESCRIPTION": "I Service Level Agreement (SLA) sono contratti che definiscono chiare aspettative tra il team e i clienti. Stabiliscono norme per i tempi di risposta e di risoluzione, creando un quadro per la responsabilità e garantendo un'esperienza coerente e di alta qualità.",
     "LEARN_MORE": "Scopri di più su SLA",
+    "COUNT": "{n} SLA | {n} SLA",
     "LOADING": "Caricamento SLA",
+    "SEARCH_PLACEHOLDER": "Cerca SLA...",
+    "SEARCH": {
+      "NO_RESULTS": "Nessun SLA trovato corrispondente alla tua ricerca"
+    },
     "PAYWALL": {
       "TITLE": "Aggiorna per creare SLA",
       "AVAILABLE_ON": "La funzionalità SLA è disponibile solo nei piani Business e Enterprise.",
@@ -20,14 +25,18 @@
     },
     "LIST": {
       "404": "Non ci sono SLA disponibili in questo account.",
+      "TABLE_HEADER": {
+        "SLA": "SLA",
+        "BUSINESS_HOURS": "Orario di lavoro"
+      },
       "EMPTY": {
         "TITLE_1": "Enterprise P0",
         "DESC_1": "Problemi sollevati dai clienti enterprise, che richiedono un'attenzione immediata.",
         "TITLE_2": "Enterprise P1",
         "DESC_2": "Problemi sollevati dai clienti enterprise, che devono essere riconosciuti rapidamente."
       },
-      "BUSINESS_HOURS_ON": "Orario di lavoro attivo",
-      "BUSINESS_HOURS_OFF": "Orario di lavoro disattivo",
+      "BUSINESS_HOURS_ON": "Abilitato",
+      "BUSINESS_HOURS_OFF": "Disabilitato",
       "RESPONSE_TYPES": {
         "FRT": "Soglia tempo di prima risposta",
         "NRT": "Soglia tempo di risposta successiva",

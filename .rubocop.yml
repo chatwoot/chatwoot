@@ -2,7 +2,6 @@ plugins:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
-  - rubocop-rspec_rails
   - rubocop-factory_bot
 
 require:
@@ -203,12 +202,6 @@ RSpec/MultipleExpectations:
 
 RSpec/MultipleMemoizedHelpers:
   Max: 14
-
-RSpecRails/InferredSpecType:
-  Enabled: false
-
-RSpecRails/NegationBeValid:
-  Enabled: false
 
 # custom rules
 UseFromEmail:

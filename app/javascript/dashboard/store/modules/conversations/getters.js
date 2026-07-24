@@ -57,6 +57,8 @@ const getters = {
   getSelectedChatAttachments: ({ selectedChatId, attachments }) => {
     return attachments[selectedChatId] || [];
   },
+  getSelectedChatAttachmentsLoaded: ({ selectedChatId, attachments }) =>
+    selectedChatId !== null && attachments[selectedChatId] !== undefined,
   getChatListFilters: ({ conversationFilters }) => conversationFilters,
   getLastEmailInSelectedChat: (stage, _getters) => {
     const selectedChat = _getters.getSelectedChat;
@@ -100,6 +102,19 @@ const getters = {
       const isUnAssigned = !conversation.meta.assignee;
       const shouldFilter = applyPageFilters(conversation, activeFilters);
       return isUnAssigned && shouldFilter;
+    });
+  },
+  getParticipatingChats: (_state, _, __, rootGetters) => activeFilters => {
+    const currentUserId = rootGetters.getCurrentUser?.id;
+    const getWatchers = rootGetters['conversationWatchers/getByConversationId'];
+    return _state.allConversations.filter(conversation => {
+      const watchers = getWatchers(conversation.id);
+      // Watchers are only loaded for the conversation open in the detail
+      // panel. If loaded and current user is not in them, filter it out.
+      if (watchers && !watchers.some(w => w.id === currentUserId)) {
+        return false;
+      }
+      return applyPageFilters(conversation, activeFilters);
     });
   },
   getAllStatusChats: (_state, _, __, rootGetters) => activeFilters => {

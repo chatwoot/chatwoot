@@ -6,8 +6,13 @@ RSpec.describe Conversation, type: :model do
   end
 
   describe 'SLA policy updates' do
-    let!(:conversation) { create(:conversation) }
+    let(:conversation) { create(:conversation) }
     let!(:sla_policy) { create(:sla_policy, account: conversation.account) }
+
+    before do
+      stub_request(:get, %r{\Ahttps://www\.gravatar\.com.*}).to_return(status: 404)
+      stub_request(:get, %r{\Ahttps://www\.google\.com/s2/favicons.*}).to_return(status: 404)
+    end
 
     it 'generates an activity message when the SLA policy is updated' do
       conversation.update!(sla_policy_id: sla_policy.id)
@@ -53,6 +58,30 @@ RSpec.describe Conversation, type: :model do
         conversation.sla_policy = sla_policy
         conversation.save!
         expect(conversation.applied_sla.sla_policy_id).to eq(sla_policy.id)
+      end
+
+      it 'throws error if contact is blocked' do
+        conversation.contact.update!(blocked: true)
+        conversation.sla_policy = sla_policy
+
+        expect(conversation.valid?).to be false
+        expect(conversation.errors[:sla_policy]).to eq(['cannot be assigned to conversations with blocked contacts'])
+      end
+
+      it 'allows assigning sla after contact is unblocked' do
+        conversation.contact.update!(blocked: true)
+        conversation.contact.update!(blocked: false)
+        conversation.sla_policy = sla_policy
+
+        conversation.save!
+
+        expect(conversation.applied_sla.sla_policy_id).to eq(sla_policy.id)
+      end
+
+      it 'keeps existing behavior when contact is missing' do
+        conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+
+        expect(conversation.reload.sla_applicable?).to be true
       end
     end
 

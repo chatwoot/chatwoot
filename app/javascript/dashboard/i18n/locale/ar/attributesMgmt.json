@@ -5,9 +5,13 @@
     "LOADING": "جلب الصفات المخصصة",
     "DESCRIPTION": "سمة مخصصة تتتبع تفاصيل إضافية حول جهات الاتصال أو المحادثات الخاصة بك - مثل خطة الاشتراك أو تاريخ الشراء الأول. يمكنك إضافة أنواع مختلفة من السمات المخصصة، مثل النص أو القوائم أو الأرقام، لالتقاط المعلومات المحددة التي تحتاجها.",
     "LEARN_MORE": "تعرف على المزيد حول السمات المخصصة",
+    "COUNT": "{n} attribute | {n} attributes",
+    "SEARCH_PLACEHOLDER": "البحث عن صفات...",
+    "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "المحادثات",
-      "CONTACT": "جهات الاتصال"
+      "CONTACT": "جهات الاتصال",
+      "COMPANY": "المنشأة"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "النص",
@@ -63,6 +67,10 @@
         },
         "ENABLE_REGEX": {
           "LABEL": "تمكين التحقق من صحة regex"
+        },
+        "BADGES": {
+          "PRE_CHAT": "Pre-chat",
+          "RESOLUTION": "Resolution"
         }
       },
       "API": {
@@ -101,7 +109,8 @@
     "TABS": {
       "HEADER": "صفات مخصصة",
       "CONVERSATION": "المحادثات",
-      "CONTACT": "جهات الاتصال"
+      "CONTACT": "جهات الاتصال",
+      "COMPANY": "المنشأة"
     },
     "LIST": {
       "TABLE_HEADER": {

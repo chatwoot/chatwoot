@@ -5,9 +5,13 @@
     "LOADING": "Đang lấy thuộc tính tuỳ chỉnh",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "COUNT": "{n} attribute | {n} attributes",
+    "SEARCH_PLACEHOLDER": "Tìm kiếm nhiều thuộc tính...",
+    "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Cuộc hội thoại",
-      "CONTACT": "Liên hệ"
+      "CONTACT": "Liên hệ",
+      "COMPANY": "Công ty"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Văn bản",
@@ -63,6 +67,10 @@
         },
         "ENABLE_REGEX": {
           "LABEL": "Enable regex validation"
+        },
+        "BADGES": {
+          "PRE_CHAT": "Pre-chat",
+          "RESOLUTION": "Resolution"
         }
       },
       "API": {
@@ -101,7 +109,8 @@
     "TABS": {
       "HEADER": "Thuộc tính tùy chỉnh",
       "CONVERSATION": "Cuộc hội thoại",
-      "CONTACT": "Liên lạc"
+      "CONTACT": "Liên lạc",
+      "COMPANY": "Công ty"
     },
     "LIST": {
       "TABLE_HEADER": {

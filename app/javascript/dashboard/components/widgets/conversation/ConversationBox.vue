@@ -62,7 +62,10 @@ export default {
       immediate: true,
       handler(inboxId) {
         if (inboxId) {
-          this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+          this.$store.dispatch('inboxAssignableAgents/fetch', {
+            inboxIds: [inboxId],
+            includeAgentBots: true,
+          });
         }
       },
     },
@@ -100,6 +103,9 @@ export default {
       v-if="currentChat.id"
       :chat="currentChat"
       :show-back-button="isOnExpandedLayout && !isInboxView"
+      :class="{
+        'border-b border-b-n-weak !pt-2': !dashboardApps.length,
+      }"
     />
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"

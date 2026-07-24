@@ -1,103 +1,117 @@
 {
   "AGENT_BOTS": {
     "HEADER": "봇",
-    "LOADING_EDITOR": "Loading editor...",
+    "LOADING_EDITOR": "에디터 로딩 중...",
     "DESCRIPTION": "에이전트 봇은 팀에서 가장 뛰어난 멤버와 같습니다. 사소한 일은 봇이 처리해 주니, 중요한 일에 집중하세요. 한번 사용해 보세요. 이 페이지에서 봇을 관리하거나 '봇 추가' 버튼을 통해 새 봇을 생성할 수 있습니다.",
-    "LEARN_MORE": "Learn about agent bots",
+    "LEARN_MORE": "에이전트 봇에 대해 알아보기",
+    "COUNT": "{n}개의 봇 | {n}개의 봇",
+    "SEARCH_PLACEHOLDER": "에이전트 봇 검색...",
+    "NO_RESULTS": "검색과 일치하는 봇이 없습니다",
     "GLOBAL_BOT": "시스템 봇",
-    "GLOBAL_BOT_BADGE": "System",
+    "GLOBAL_BOT_BADGE": "시스템",
     "AVATAR": {
-      "SUCCESS_DELETE": "Bot avatar deleted successfully",
-      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+      "SUCCESS_DELETE": "봇 아바타가 성공적으로 삭제되었습니다.",
+      "ERROR_DELETE": "봇 아바타 삭제 중 오류가 발생했습니다. 다시 시도하십시오."
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
-      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "TITLE": "에이전트 봇 선택",
+      "DESC": "받은 메시지함에 에이전트 봇을 할당하십시오. 초기 대화를 처리하고 필요시 실제 에이전트에게 전달할 수 있습니다.",
       "SUBMIT": "업데이트",
-      "DISCONNECT": "Disconnect bot",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot.",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot.",
-      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
-      "SELECT_PLACEHOLDER": "Select bot"
+      "DISCONNECT": "봇 연결 해제",
+      "SUCCESS_MESSAGE": "에이전트 봇이 성공적으로 업데이트되었습니다.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "에이전트 봇이 성공적으로 연결 해제되었습니다.",
+      "ERROR_MESSAGE": "에이전트 봇을 업데이트할 수 없습니다. 다시 시도하십시오.",
+      "DISCONNECTED_ERROR_MESSAGE": "에이전트 봇 연결을 해제할 수 없습니다. 다시 시도하십시오.",
+      "SELECT_PLACEHOLDER": "봇 선택"
     },
     "ADD": {
-      "TITLE": "Agregar Bot",
+      "TITLE": "봇 추가",
       "CANCEL_BUTTON_TEXT": "취소",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully.",
-        "ERROR_MESSAGE": "Could not add bot. Please try again later."
+        "SUCCESS_MESSAGE": "봇이 성공적으로 추가되었습니다.",
+        "ERROR_MESSAGE": "봇을 추가할 수 없습니다. 나중에 다시 시도하십시오."
       }
     },
     "LIST": {
-      "404": "Bot no encontrado. Puedes crear uno haciendo click en el botón 'Agregar Bot'.",
-      "LOADING": "Fetching bots...",
+      "404": "봇을 찾을 수 없습니다. '봇 추가' 버튼을 클릭하여 봇을 생성할 수 있습니다.",
+      "LOADING": "봇을 가져오는 중...",
       "TABLE_HEADER": {
-        "DETAILS": "Detalles del Bot",
-        "URL": "웹훅 URL"
+        "DETAILS": "봇 상세 정보",
+        "URL": "웹훅 URL",
+        "ACTIONS": "액션"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "삭제",
-      "TITLE": "Delete bot",
+      "TITLE": "봇 삭제",
       "CONFIRM": {
         "TITLE": "삭제 확인",
-        "MESSAGE": "Are you sure you want to delete {name}?",
-        "YES": "Yes, Delete",
+        "MESSAGE": "{name}을(를) 삭제하시겠습니까?",
+        "YES": "예, 삭제합니다",
         "NO": "아니요, 유지합니다"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully.",
-        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+        "SUCCESS_MESSAGE": "봇이 성공적으로 삭제되었습니다.",
+        "ERROR_MESSAGE": "봇을 삭제할 수 없습니다. 다시 시도하십시오."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "수정",
-      "TITLE": "Edit bot",
+      "TITLE": "봇 수정",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully.",
-        "ERROR_MESSAGE": "Could not update bot. Please try again."
+        "SUCCESS_MESSAGE": "봇이 성공적으로 업데이트되었습니다.",
+        "ERROR_MESSAGE": "봇을 업데이트할 수 없습니다. 다시 시도하십시오."
       }
     },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "시크릿을 클립보드에 복사",
+      "COPY_SUCCESS": "시크릿이 클립보드에 복사되었습니다",
+      "TOGGLE": "시크릿 표시 전환",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "Done",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+    },
     "ACCESS_TOKEN": {
-      "TITLE": "엑세스 토큰",
-      "DESCRIPTION": "Copy the access token and save it securely",
-      "COPY_SUCCESSFUL": "Access token copied to clipboard",
-      "RESET_SUCCESS": "Access token regenerated successfully",
-      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+      "TITLE": "액세스 토큰",
+      "DESCRIPTION": "액세스 토큰을 복사하여 안전하게 보관하십시오.",
+      "COPY_SUCCESSFUL": "액세스 토큰이 클립보드에 복사되었습니다.",
+      "RESET_SUCCESS": "액세스 토큰이 성공적으로 재생성되었습니다.",
+      "RESET_ERROR": "액세스 토큰을 재생성할 수 없습니다. 다시 시도하십시오."
     },
     "FORM": {
       "AVATAR": {
-        "LABEL": "Bot avatar"
+        "LABEL": "봇 아바타"
       },
       "NAME": {
-        "LABEL": "Bot name",
-        "PLACEHOLDER": "Enter bot name",
-        "REQUIRED": "Bot name is required"
+        "LABEL": "봇 이름",
+        "PLACEHOLDER": "봇 이름을 입력하십시오",
+        "REQUIRED": "봇 이름은 필수입니다."
       },
       "DESCRIPTION": {
-        "LABEL": "내용",
-        "PLACEHOLDER": "What does this bot do?"
+        "LABEL": "설명",
+        "PLACEHOLDER": "이 봇은 어떤 역할을 합니까?"
       },
       "WEBHOOK_URL": {
         "LABEL": "웹훅 URL",
         "PLACEHOLDER": "https://example.com/webhook",
-        "REQUIRED": "Webhook URL is required"
+        "REQUIRED": "웹훅 URL은 필수입니다."
       },
       "ERRORS": {
-        "NAME": "Bot name is required",
-        "URL": "Webhook URL is required",
-        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+        "NAME": "봇 이름은 필수입니다.",
+        "URL": "웹훅 URL은 필수입니다.",
+        "VALID_URL": "http:// 또는 https://로 시작하는 유효한 URL을 입력하십시오."
       },
       "CANCEL": "취소",
-      "CREATE": "Create Bot",
-      "UPDATE": "Update Bot"
+      "CREATE": "봇 생성",
+      "UPDATE": "봇 업데이트"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+      "DESCRIPTION": "웹훅 봇을 구성하여 사용자 정의 서비스와 통합하십시오. 봇은 대화의 이벤트를 수신하고 처리하며 응답할 수 있습니다."
     },
     "TYPES": {
-      "WEBHOOK": "Webhook bot"
+      "WEBHOOK": "웹훅 봇"
     }
   }
 }

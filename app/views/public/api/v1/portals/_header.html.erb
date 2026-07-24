@@ -1,11 +1,11 @@
 <header class="sticky top-0 z-50 w-full bg-white shadow-sm dark:bg-slate-900">
   <nav class="hidden sm:flex max-w-5xl px-4 mx-auto md:px-8" aria-label="Top">
     <div class="flex items-center w-full py-5 overflow-hidden">
-      <a href="<%= generate_home_link(@portal.slug, @portal.config['default_locale'] || params[:locale], @theme_from_params, @is_plain_layout_enabled) %>" class="flex items-center min-w-0 h-10">
+      <a href="<%= generate_home_link(@portal.slug, @portal.config['default_locale'] || params[:locale], @theme_from_params, false) %>" class="flex items-center min-w-0 h-10">
         <% if @portal.logo.present? %>
           <img src="<%= url_for(@portal.logo) %>" class="w-auto h-10 ltr:mr-2 rtl:ml-2" draggable="false" />
         <% end %>
-        <span class="text-lg font-semibold text-slate-900 truncate dark:text-white <%= @portal.logo.present? ? 'hidden lg:block' : 'hidden sm:block' %>"><%= @portal.name %></span>
+        <span class="text-lg font-semibold text-slate-900 truncate dark:text-white <%= @portal.logo.present? ? 'hidden lg:block' : 'hidden sm:block' %>"><%= @portal.localized_value('name', @locale) %></span>
       </a>
     </div>
 
@@ -78,7 +78,7 @@
       </div>
 
       <%# Locale switcher section %>
-      <% if @portal.config["allowed_locales"].length > 1 %>
+      <% if @portal.public_locale_codes.length > 1 %>
         <div id="header-action-button" class="flex items-center stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
           <div class="flex items-center gap-1 px-1 py-2 cursor-pointer">
             <%= render partial: 'icons/globe' %>
@@ -86,7 +86,10 @@
               data-portal-slug="<%= @portal.slug %>"
               class="w-24 overflow-hidden text-sm font-medium leading-tight bg-white appearance-none cursor-pointer dark:bg-slate-900 text-ellipsis whitespace-nowrap focus:outline-none focus:shadow-outline locale-switcher"
             >
-              <% @portal.config["allowed_locales"].each do |locale| %>
+              <% if @portal.draft_locale?(@locale) %>
+                <option selected disabled value="<%= @locale %>"><%= "#{language_name(@locale)} (#{@locale})" %></option>
+              <% end %>
+              <% @portal.public_locale_codes.each do |locale| %>
                 <option <%= locale == @locale ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
               <% end %>
             </select>
@@ -99,11 +102,11 @@
 
   <nav class="flex sm:hidden max-w-5xl px-4 mx-auto" aria-label="Mobile Top">
     <div class="flex items-center justify-between w-full py-5">
-      <a href="<%= generate_home_link(@portal.slug, @portal.config['default_locale'] || params[:locale], @theme_from_params, @is_plain_layout_enabled) %>" class="flex items-center min-w-0 h-10 text-lg font-semibold text-slate-900 dark:text-white">
+      <a href="<%= generate_home_link(@portal.slug, @portal.config['default_locale'] || params[:locale], @theme_from_params, false) %>" class="flex items-center min-w-0 h-10 text-lg font-semibold text-slate-900 dark:text-white">
         <% if @portal.logo.present? %>
           <img src="<%= url_for(@portal.logo) %>" class="w-auto h-10 ltr:mr-2 rtl:ml-2" draggable="false" />
         <% end %>
-         <span class="text-lg font-semibold text-slate-900 truncate dark:text-white <%= @portal.logo.present? ? 'hidden' : 'sm:hidden block' %>"><%= @portal.name %></span>
+         <span class="text-lg font-semibold text-slate-900 truncate dark:text-white <%= @portal.logo.present? ? 'hidden' : 'sm:hidden block' %>"><%= @portal.localized_value('name', @locale) %></span>
       </a>
 
       <!-- Mobile Menu Component -->

@@ -6,7 +6,8 @@ import { useI18n } from 'vue-i18n';
 import Integration from './Integration.vue';
 import SelectChannelWarning from './Slack/SelectChannelWarning.vue';
 import SlackIntegrationHelpText from './Slack/SlackIntegrationHelpText.vue';
-import Spinner from 'shared/components/Spinner.vue';
+import SettingsLayout from '../SettingsLayout.vue';
+import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 
 const props = defineProps({
   code: { type: String, default: '' },
@@ -76,32 +77,42 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    v-if="integrationLoaded && !uiFlags.isCreatingSlack"
-    class="flex flex-col flex-1 overflow-auto gap-5 pt-1 pb-10"
-  >
-    <Integration
-      :integration-id="integration.id"
-      :integration-logo="integration.logo"
-      :integration-name="integration.name"
-      :integration-description="integration.description"
-      :integration-enabled="integration.enabled"
-      :integration-action="integrationAction"
-      :action-button-text="$t('INTEGRATION_SETTINGS.SLACK.DELETE')"
-      :delete-confirmation-text="{
-        title: $t('INTEGRATION_SETTINGS.SLACK.DELETE_CONFIRMATION.TITLE'),
-        message: $t('INTEGRATION_SETTINGS.SLACK.DELETE_CONFIRMATION.MESSAGE'),
-      }"
-    />
-    <div v-if="areHooksAvailable" class="flex-1">
-      <SelectChannelWarning
-        v-if="!isIntegrationHookEnabled"
-        :has-connected-a-channel="hasConnectedAChannel"
+  <SettingsLayout :is-loading="!integrationLoaded || uiFlags.isCreatingSlack">
+    <template #header>
+      <BaseSettingsHeader
+        :title="$t('INTEGRATION_SETTINGS.SLACK.HEADER')"
+        description=""
+        feature-name="slack_integration"
+        :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       />
-      <SlackIntegrationHelpText :selected-channel-name="selectedChannelName" />
-    </div>
-  </div>
-  <div v-else class="flex items-center justify-center flex-1">
-    <Spinner size="" color-scheme="primary" />
-  </div>
+    </template>
+    <template #body>
+      <div class="space-y-5">
+        <Integration
+          :integration-id="integration.id"
+          :integration-logo="integration.logo"
+          :integration-name="integration.name"
+          :integration-description="integration.description"
+          :integration-enabled="integration.enabled"
+          :integration-action="integrationAction"
+          :action-button-text="$t('INTEGRATION_SETTINGS.SLACK.DELETE')"
+          :delete-confirmation-text="{
+            title: $t('INTEGRATION_SETTINGS.SLACK.DELETE_CONFIRMATION.TITLE'),
+            message: $t(
+              'INTEGRATION_SETTINGS.SLACK.DELETE_CONFIRMATION.MESSAGE'
+            ),
+          }"
+        />
+        <div v-if="areHooksAvailable" class="flex-1">
+          <SelectChannelWarning
+            v-if="!isIntegrationHookEnabled"
+            :has-connected-a-channel="hasConnectedAChannel"
+          />
+          <SlackIntegrationHelpText
+            :selected-channel-name="selectedChannelName"
+          />
+        </div>
+      </div>
+    </template>
+  </SettingsLayout>
 </template>

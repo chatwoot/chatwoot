@@ -9,37 +9,13 @@ class V2::Reports::BaseSummaryBuilder
   private
 
   def load_data
-    @conversations_count = fetch_conversations_count
-    load_reporting_events_data
-  end
+    results = data_source.summary
 
-  def load_reporting_events_data
-    # Extract the column name for indexing (e.g., 'conversations.team_id' -> 'team_id')
-    index_key = group_by_key.to_s.split('.').last
-
-    results = reporting_events
-              .select(
-                "#{group_by_key} as #{index_key}",
-                "COUNT(CASE WHEN name = 'conversation_resolved' THEN 1 END) as resolved_count",
-                "AVG(CASE WHEN name = 'conversation_resolved' THEN #{average_value_key} END) as avg_resolution_time",
-                "AVG(CASE WHEN name = 'first_response' THEN #{average_value_key} END) as avg_first_response_time",
-                "AVG(CASE WHEN name = 'reply_time' THEN #{average_value_key} END) as avg_reply_time"
-              )
-              .group(group_by_key)
-              .index_by { |record| record.public_send(index_key) }
-
-    @resolved_count = results.transform_values(&:resolved_count)
-    @avg_resolution_time = results.transform_values(&:avg_resolution_time)
-    @avg_first_response_time = results.transform_values(&:avg_first_response_time)
-    @avg_reply_time = results.transform_values(&:avg_reply_time)
-  end
-
-  def reporting_events
-    @reporting_events ||= account.reporting_events.where(created_at: range)
-  end
-
-  def fetch_conversations_count
-    # Override this method
+    @conversations_count = results.transform_values { |data| data[:conversations_count] }
+    @resolved_count = results.transform_values { |data| data[:resolved_conversations_count] }
+    @avg_resolution_time = results.transform_values { |data| data[:avg_resolution_time] }
+    @avg_first_response_time = results.transform_values { |data| data[:avg_first_response_time] }
+    @avg_reply_time = results.transform_values { |data| data[:avg_reply_time] }
   end
 
   def group_by_key
@@ -50,7 +26,26 @@ class V2::Reports::BaseSummaryBuilder
     # Override this method
   end
 
-  def average_value_key
-    ActiveModel::Type::Boolean.new.cast(params[:business_hours]).present? ? :value_in_business_hours : :value
+  def data_source
+    @data_source ||= Reports::DataSource.for(
+      account: account,
+      metric: nil,
+      dimension_type: summary_dimension_type,
+      dimension_id: nil,
+      scope: nil,
+      range: range,
+      group_by: 'day',
+      timezone_offset: params[:timezone_offset],
+      business_hours: params[:business_hours]
+    )
+  end
+
+  def summary_dimension_type
+    {
+      'account_id' => 'account',
+      'user_id' => 'agent',
+      'inbox_id' => 'inbox',
+      'conversations.team_id' => 'team'
+    }.fetch(group_by_key.to_s)
   end
 end

@@ -1,94 +1,94 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "My Inbox",
-      "DISPLAY_DROPDOWN": "Display",
-      "LOADING": "Fetching notifications",
-      "404": "There are no active notifications in this group.",
-      "NO_NOTIFICATIONS": "No notifications",
-      "NOTE": "Notifications from all subscribed inboxes",
-      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
-      "SNOOZED_UNTIL": "Snoozed until",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week"
+      "TITLE": "내 받은 메시지함",
+      "DISPLAY_DROPDOWN": "표시",
+      "LOADING": "알림을 가져오는 중",
+      "404": "이 그룹에 활성 알림이 없습니다.",
+      "NO_NOTIFICATIONS": "알림 없음",
+      "NOTE": "구독한 모든 받은 메시지함의 알림",
+      "NO_MESSAGES_AVAILABLE": "메시지를 가져올 수 없습니다",
+      "SNOOZED_UNTIL": "일시 중지 기한",
+      "SNOOZED_UNTIL_TOMORROW": "내일까지 일시 중지",
+      "SNOOZED_UNTIL_NEXT_WEEK": "다음 주까지 일시 중지"
     },
     "ACTION_HEADER": {
-      "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification",
+      "SNOOZE": "알림 일시 중지",
+      "DELETE": "알림 삭제",
       "BACK": "뒤로"
     },
     "TYPES": {
-      "CONVERSATION_MENTION": "You have been mentioned in a conversation",
-      "CONVERSATION_CREATION": "New conversation created",
-      "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
-      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in",
-      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
-      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
-      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
+      "CONVERSATION_MENTION": "대화에서 멘션되었습니다",
+      "CONVERSATION_CREATION": "새 대화가 생성되었습니다",
+      "CONVERSATION_ASSIGNMENT": "대화가 배정되었습니다",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "배정된 대화에 새 메시지가 있습니다",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "참여 중인 대화에 새 메시지가 있습니다",
+      "SLA_MISSED_FIRST_RESPONSE": "대화에 대한 SLA 최초 응답 목표를 놓쳤습니다",
+      "SLA_MISSED_NEXT_RESPONSE": "대화에 대한 SLA 다음 응답 목표를 놓쳤습니다",
+      "SLA_MISSED_RESOLUTION": "대화에 대한 SLA 해결 목표를 놓쳤습니다"
     },
     "TYPES_NEXT": {
-      "CONVERSATION_MENTION": "Mentioned",
-      "CONVERSATION_ASSIGNMENT": "Assigned to you",
-      "CONVERSATION_CREATION": "New Conversation",
-      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
-      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
-      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "CONVERSATION_MENTION": "멘션됨",
+      "CONVERSATION_ASSIGNMENT": "배정됨",
+      "CONVERSATION_CREATION": "새 대화",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA 위반",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA 위반",
+      "SLA_MISSED_RESOLUTION": "SLA 위반",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "새 메시지",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "새 메시지",
-      "SNOOZED_UNTIL": "Snoozed for {time}",
-      "SNOOZED_ENDS": "Snooze ended"
+      "SNOOZED_UNTIL": "{time} 동안 일시 중지됨",
+      "SNOOZED_ENDS": "일시 중지 종료됨"
     },
     "NO_CONTENT": "콘텐츠 이용 불가",
     "MENU_ITEM": {
-      "MARK_AS_READ": "Mark as read",
-      "MARK_AS_UNREAD": "Mark as unread",
-      "SNOOZE": "Snooze",
+      "MARK_AS_READ": "읽음으로 표시",
+      "MARK_AS_UNREAD": "읽지 않음으로 표시",
+      "SNOOZE": "일시 중지",
       "DELETE": "삭제",
-      "MARK_ALL_READ": "전부 읽음으로 바꾸기",
-      "DELETE_ALL": "Delete all",
-      "DELETE_ALL_READ": "Delete all read"
+      "MARK_ALL_READ": "전부 읽음으로 표시",
+      "DELETE_ALL": "전부 삭제",
+      "DELETE_ALL_READ": "읽은 항목 전부 삭제"
     },
     "DISPLAY_MENU": {
-      "SORT": "Sort",
-      "DISPLAY": "Display :",
+      "SORT": "정렬",
+      "DISPLAY": "표시 :",
       "SORT_OPTIONS": {
-        "NEWEST": "Newest",
-        "OLDEST": "Oldest",
-        "PRIORITY": "Priority"
+        "NEWEST": "최신순",
+        "OLDEST": "오래된 순",
+        "PRIORITY": "우선순위"
       },
       "DISPLAY_OPTIONS": {
         "SNOOZED": "일시 중지됨",
-        "READ": "읽기",
+        "READ": "읽음",
         "LABELS": "라벨",
-        "CONVERSATION_ID": "Conversation ID"
+        "CONVERSATION_ID": "대화 ID"
       }
     },
     "ALERTS": {
-      "MARK_AS_READ": "Notification marked as read",
-      "MARK_AS_UNREAD": "Notification marked as unread",
-      "SNOOZE": "Notification snoozed",
-      "DELETE": "Notification deleted",
-      "MARK_ALL_READ": "All notifications marked as read",
-      "DELETE_ALL": "All notifications deleted",
-      "DELETE_ALL_READ": "All read notifications deleted"
+      "MARK_AS_READ": "알림이 읽음으로 표시되었습니다",
+      "MARK_AS_UNREAD": "알림이 읽지 않음으로 표시되었습니다",
+      "SNOOZE": "알림이 일시 중지되었습니다",
+      "DELETE": "알림이 삭제되었습니다",
+      "MARK_ALL_READ": "모든 알림이 읽음으로 표시되었습니다",
+      "DELETE_ALL": "모든 알림이 삭제되었습니다",
+      "DELETE_ALL_READ": "읽은 모든 알림이 삭제되었습니다"
     },
     "REAUTHORIZE": {
-      "TITLE": "Reauthorization Required",
-      "DESCRIPTION": "Your WhatsApp connection has expired. Please reconnect to continue receiving and sending messages.",
-      "BUTTON_TEXT": "Reconnect WhatsApp",
-      "LOADING_FACEBOOK": "Loading Facebook SDK...",
-      "SUCCESS": "WhatsApp reconnected successfully",
-      "ERROR": "Failed to reconnect WhatsApp. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "CONFIGURATION_ERROR": "Configuration error occurred during reauthorization.",
-      "FACEBOOK_LOAD_ERROR": "Failed to load Facebook SDK. Please try again.",
+      "TITLE": "재인증 필요",
+      "DESCRIPTION": "WhatsApp 연결이 만료되었습니다. 메시지를 계속 수신하고 전송하려면 다시 연결하십시오.",
+      "BUTTON_TEXT": "WhatsApp 다시 연결",
+      "LOADING_FACEBOOK": "Facebook SDK를 불러오는 중...",
+      "SUCCESS": "WhatsApp이 성공적으로 다시 연결되었습니다",
+      "ERROR": "WhatsApp 다시 연결에 실패했습니다. 다시 시도하십시오.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp 앱 ID가 설정되지 않았습니다. 관리자에게 문의하십시오.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp 설정 ID가 구성되지 않았습니다. 관리자에게 문의하십시오.",
+      "CONFIGURATION_ERROR": "재인증 중 설정 오류가 발생했습니다.",
+      "FACEBOOK_LOAD_ERROR": "Facebook SDK를 불러오지 못했습니다. 다시 시도하십시오.",
       "TROUBLESHOOTING": {
-        "TITLE": "Troubleshooting",
-        "POPUP_BLOCKED": "Ensure pop-ups are allowed for this site",
-        "COOKIES": "Third-party cookies must be enabled",
-        "ADMIN_ACCESS": "You need admin access to the WhatsApp Business Account"
+        "TITLE": "문제 해결",
+        "POPUP_BLOCKED": "이 사이트에 대해 팝업이 허용되어 있는지 확인하십시오",
+        "COOKIES": "서드파티 쿠키가 활성화되어 있어야 합니다",
+        "ADMIN_ACCESS": "WhatsApp Business 계정에 대한 관리자 액세스 권한이 필요합니다"
       }
     }
   }

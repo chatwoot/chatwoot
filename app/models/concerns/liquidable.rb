@@ -11,7 +11,7 @@ module Liquidable
   def message_drops
     {
       'contact' => ContactDrop.new(conversation.contact),
-      'agent' => UserDrop.new(sender),
+      'agent' => UserDrop.new(sender || conversation.assignee),
       'conversation' => ConversationDrop.new(conversation),
       'inbox' => InboxDrop.new(inbox),
       'account' => AccountDrop.new(conversation.account)

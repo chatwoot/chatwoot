@@ -1,4 +1,6 @@
 class Email::BaseBuilder
+  include EmailAddressParseable
+
   pattr_initialize [:inbox!]
 
   private
@@ -39,16 +41,12 @@ class Email::BaseBuilder
   end
 
   def business_name
-    inbox.business_name || inbox.sanitized_name
+    inbox.sanitized_business_name
   end
 
   def account_support_email
     # Parse the email to ensure it's in the correct format, the user
     # can save it in the format "Name <email@domain.com>"
     parse_email(account.support_email)
-  end
-
-  def parse_email(email_string)
-    Mail::Address.new(email_string).address
   end
 end

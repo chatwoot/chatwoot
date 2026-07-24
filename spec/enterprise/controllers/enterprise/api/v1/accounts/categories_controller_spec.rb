@@ -108,4 +108,27 @@ RSpec.describe 'Enterprise Categories API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/:account_id/portals/:portal_slug/categories/reorder' do
+    context 'when it is an authenticated user' do
+      it 'returns success for agents with knowledge_base_manage permission' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/reorder",
+             params: { positions_hash: { category.id => 20 } },
+             headers: agent_with_role.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(category.reload.position).to eq(20)
+      end
+
+      it 'returns not found for invalid portal slug' do
+        post "/api/v1/accounts/#{account.id}/portals/invalid-portal-slug/categories/reorder",
+             params: { positions_hash: { category.id => 20 } },
+             headers: agent_with_role.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
 end

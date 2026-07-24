@@ -2,10 +2,14 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useBranding } from 'shared/composables/useBranding';
+import { picoSearch } from '@scmmishra/pico-search';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { BaseTable } from 'dashboard/components-next/table';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
 import WebhookRow from './WebhookRow.vue';
+import WebhookPaywall from './WebhookPaywall.vue';
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../../SettingsLayout.vue';
 
@@ -14,9 +18,11 @@ export default {
     SettingsLayout,
     NextButton,
     BaseSettingsHeader,
+    BaseTable,
     NewWebhook,
     EditWebhook,
     WebhookRow,
+    WebhookPaywall,
   },
   setup() {
     const { replaceInstallationName } = useBranding();
@@ -29,15 +35,33 @@ export default {
       showEditPopup: false,
       showDeleteConfirmationPopup: false,
       selectedWebHook: {},
+      searchQuery: '',
     };
   },
   computed: {
     ...mapGetters({
       records: 'webhooks/getWebhooks',
       uiFlags: 'webhooks/getUIFlags',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
+    apiAndWebhooksEnabled() {
+      return (
+        !this.isOnChatwootCloud ||
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.API_AND_WEBHOOKS
+        )
+      );
+    },
     integration() {
       return this.$store.getters['integrations/getIntegration']('webhook');
+    },
+    filteredRecords() {
+      const query = this.searchQuery.trim();
+      if (!query) return this.records;
+      return picoSearch(this.records, query, ['name', 'url']);
     },
     tableHeaders() {
       return [
@@ -48,8 +72,16 @@ export default {
       ];
     },
   },
+  watch: {
+    apiAndWebhooksEnabled: {
+      immediate: true,
+      handler(enabled) {
+        if (enabled) this.$store.dispatch('webhooks/get');
+      },
+    },
+  },
   mounted() {
-    this.$store.dispatch('webhooks/get');
+    this.$store.dispatch('integrations/get', 'webhook');
   },
   methods: {
     openAddPopup() {
@@ -95,58 +127,78 @@ export default {
 
 <template>
   <SettingsLayout
-    :is-loading="uiFlags.fetchingList"
+    :is-loading="apiAndWebhooksEnabled && uiFlags.fetchingList"
     :loading-message="$t('INTEGRATION_SETTINGS.WEBHOOK.LOADING')"
     :no-records-message="$t('INTEGRATION_SETTINGS.WEBHOOK.LIST.404')"
-    :no-records-found="!records.length"
+    :no-records-found="apiAndWebhooksEnabled && !records.length"
   >
     <template #header>
       <BaseSettingsHeader
         v-if="integration.name"
+        v-model:search-query="searchQuery"
         :title="integration.name"
         :description="replaceInstallationName(integration.description)"
         :link-text="$t('INTEGRATION_SETTINGS.WEBHOOK.LEARN_MORE')"
+        :search-placeholder="
+          apiAndWebhooksEnabled
+            ? $t('INTEGRATION_SETTINGS.WEBHOOK.SEARCH_PLACEHOLDER')
+            : ''
+        "
         feature-name="webhook"
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       >
-        <template #actions>
+        <template v-if="apiAndWebhooksEnabled && records?.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{
+              $t('INTEGRATION_SETTINGS.WEBHOOK.COUNT', { n: records.length })
+            }}
+          </span>
+        </template>
+        <template v-if="apiAndWebhooksEnabled" #actions>
           <NextButton
             blue
-            icon="i-lucide-circle-plus"
             :label="$t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT')"
+            size="sm"
             @click="openAddPopup"
           />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-n-weak">
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11 last:text-right last:pr-4"
-          >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
+      <WebhookPaywall v-if="!apiAndWebhooksEnabled" />
+      <BaseTable
+        v-else
+        :headers="tableHeaders"
+        :items="filteredRecords"
+        :no-data-message="
+          searchQuery ? $t('INTEGRATION_SETTINGS.WEBHOOK.NO_RESULTS') : ''
+        "
+      >
+        <template #row="{ items }">
           <WebhookRow
-            v-for="(webHookItem, index) in records"
+            v-for="(webHookItem, index) in items"
             :key="webHookItem.id"
             :index="index"
             :webhook="webHookItem"
             @edit="openEditPopup"
             @delete="openDeletePopup"
           />
-        </tbody>
-      </table>
+        </template>
+      </BaseTable>
     </template>
-    <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
+    <woot-modal
+      v-if="apiAndWebhooksEnabled"
+      v-model:show="showAddPopup"
+      :on-close="hideAddPopup"
+    >
       <NewWebhook v-if="showAddPopup" :on-close="hideAddPopup" />
     </woot-modal>
 
-    <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
+    <woot-modal
+      v-if="apiAndWebhooksEnabled"
+      v-model:show="showEditPopup"
+      :on-close="hideEditPopup"
+    >
       <EditWebhook
         v-if="showEditPopup"
         :id="selectedWebHook.id"
@@ -155,6 +207,7 @@ export default {
       />
     </woot-modal>
     <woot-delete-modal
+      v-if="apiAndWebhooksEnabled"
       v-model:show="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"

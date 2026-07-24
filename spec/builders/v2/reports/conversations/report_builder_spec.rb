@@ -4,19 +4,19 @@ describe V2::Reports::Conversations::ReportBuilder do
   subject { described_class.new(account, params) }
 
   let(:account) { create(:account) }
-  let(:average_builder) { V2::Reports::Timeseries::AverageReportBuilder }
-  let(:count_builder) { V2::Reports::Timeseries::CountReportBuilder }
+  let(:builder) { V2::Reports::Timeseries::ReportBuilder }
 
-  shared_examples 'valid metric handler' do |metric, method, builder|
+  shared_examples 'valid metric handler' do |metric, method|
     context 'when a valid metric is given' do
       let(:params) { { metric: metric } }
 
-      it "calls the correct #{method} builder for #{metric}" do
+      it "calls the shared #{method} builder for #{metric}" do
         builder_instance = instance_double(builder)
         allow(builder).to receive(:new).and_return(builder_instance)
-        allow(builder_instance).to receive(method)
+        allow(builder_instance).to receive(method).and_return(:result)
 
-        builder_instance.public_send(method)
+        expect(subject.public_send(method)).to eq(:result)
+        expect(builder).to have_received(:new).with(account, params)
         expect(builder_instance).to have_received(method)
       end
     end
@@ -33,12 +33,12 @@ describe V2::Reports::Conversations::ReportBuilder do
   end
 
   describe '#timeseries' do
-    it_behaves_like 'valid metric handler', 'avg_first_response_time', :timeseries, V2::Reports::Timeseries::AverageReportBuilder
-    it_behaves_like 'valid metric handler', 'conversations_count', :timeseries, V2::Reports::Timeseries::CountReportBuilder
+    it_behaves_like 'valid metric handler', 'avg_first_response_time', :timeseries
+    it_behaves_like 'valid metric handler', 'conversations_count', :timeseries
   end
 
   describe '#aggregate_value' do
-    it_behaves_like 'valid metric handler', 'avg_first_response_time', :aggregate_value, V2::Reports::Timeseries::AverageReportBuilder
-    it_behaves_like 'valid metric handler', 'conversations_count', :aggregate_value, V2::Reports::Timeseries::CountReportBuilder
+    it_behaves_like 'valid metric handler', 'avg_first_response_time', :aggregate_value
+    it_behaves_like 'valid metric handler', 'conversations_count', :aggregate_value
   end
 end

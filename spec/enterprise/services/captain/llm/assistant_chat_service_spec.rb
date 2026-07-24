@@ -28,6 +28,71 @@ RSpec.describe Captain::Llm::AssistantChatService do
     allow(mock_chat).to receive(:messages).and_return([])
   end
 
+  describe 'instrumentation metadata' do
+    it 'uses the assistant feature model' do
+      account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
+
+      expect(RubyLLM).to receive(:chat).with(model: 'gpt-5.2').and_return(mock_chat)
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+
+    it 'uses default temperature when assistant config does not include temperature' do
+      expect(mock_chat).to receive(:with_temperature).with(0.5).and_return(mock_chat)
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+
+    it 'preserves explicit assistant config temperature' do
+      assistant.update!(config: assistant.config.merge('temperature' => 1.0))
+
+      expect(mock_chat).to receive(:with_temperature).with(1.0).and_return(mock_chat)
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+
+    it 'passes channel_type to the agent session instrumentation' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+
+      expect(service).to receive(:instrument_agent_session).with(
+        hash_including(metadata: hash_including(channel_type: conversation.inbox.channel_type))
+      ).and_yield
+
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+
+    it 'marks final response generations for observation-level evaluators' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      message = instance_double(RubyLLM::Message, content: 'Final answer', input_tokens: 10, output_tokens: 20, tool_calls: {})
+
+      attributes = service.send(:generation_attributes, mock_chat, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('final_response')
+    end
+
+    it 'marks tool call generations separately from final responses' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      message = instance_double(
+        RubyLLM::Message,
+        content: '',
+        input_tokens: 10,
+        output_tokens: 20,
+        tool_calls: { 'call_1' => instance_double(RubyLLM::ToolCall) }
+      )
+
+      attributes = service.send(:generation_attributes, mock_chat, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('tool_call')
+    end
+  end
+
   describe 'image analysis' do
     context 'when user sends a message with an image attachment' do
       let(:message_history) do
@@ -48,7 +113,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
           with: ['https://example.com/screenshot.png']
         ).and_return(mock_response)
 
-        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id)
+        service = described_class.new(assistant: assistant, conversation: conversation)
         service.generate_response(message_history: message_history)
       end
     end
@@ -71,7 +136,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
           with: ['https://example.com/photo.jpg']
         ).and_return(mock_response)
 
-        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id)
+        service = described_class.new(assistant: assistant, conversation: conversation)
         service.generate_response(message_history: message_history)
       end
     end
@@ -86,7 +151,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
       it 'sends the text without attachments' do
         expect(mock_chat).to receive(:ask).with('Hello, how can you help me?').and_return(mock_response)
 
-        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id)
+        service = described_class.new(assistant: assistant, conversation: conversation)
         service.generate_response(message_history: message_history)
       end
     end
@@ -126,9 +191,78 @@ RSpec.describe Captain::Llm::AssistantChatService do
         # Current message asked via chat.ask
         expect(mock_chat).to receive(:ask).with('It still does not work').and_return(mock_response)
 
-        service = described_class.new(assistant: assistant, conversation_id: conversation.display_id)
+        service = described_class.new(assistant: assistant, conversation: conversation)
         service.generate_response(message_history: message_history)
       end
+    end
+  end
+
+  describe 'contact attributes in system prompt' do
+    let(:contact) { create(:contact, account: account, name: 'Diep Bui', email: 'diep@example.com', custom_attributes: { 'plan' => 'pro' }) }
+    let(:conversation) { create(:conversation, account: account, contact: contact) }
+
+    context 'when feature_contact_attributes is enabled' do
+      before { assistant.update!(config: assistant.config.merge('feature_contact_attributes' => true)) }
+
+      it 'includes contact information in the system prompt' do
+        allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+        expect(mock_chat).to receive(:with_instructions).with(a_string_including('[Contact Information]')) do |_instructions|
+          mock_chat
+        end
+
+        service = described_class.new(assistant: assistant, conversation: conversation)
+        service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+      end
+
+      it 'includes custom attributes in the system prompt' do
+        allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+        expect(mock_chat).to receive(:with_instructions).with(a_string_including('plan: pro')) do |_instructions|
+          mock_chat
+        end
+
+        service = described_class.new(assistant: assistant, conversation: conversation)
+        service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+      end
+    end
+
+    context 'when feature_contact_attributes is disabled' do
+      it 'does not include contact information in the system prompt' do
+        allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+        expect(mock_chat).to receive(:with_instructions).with(satisfy { |s| s.exclude?('[Contact Information]') }) do |_instructions|
+          mock_chat
+        end
+
+        service = described_class.new(assistant: assistant, conversation: conversation)
+        service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+      end
+    end
+  end
+
+  describe 'account custom instructions in system prompt' do
+    before do
+      assistant.update!(config: assistant.config.merge('instructions' => 'if user enters 1112234 suggest handoff'))
+    end
+
+    it 'adds custom instructions in a separate delimited section' do
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      expect(mock_chat).to receive(:with_instructions).with(
+        a_string_including(
+          '<account_custom_instructions>',
+          'if user enters 1112234 suggest handoff',
+          '</account_custom_instructions>'
+        )
+      ) do |instructions|
+        expect(instructions).not_to include('<custom-instructions>')
+        expect(instructions.index('<account_custom_instructions>')).to be < instructions.index('```json')
+        mock_chat
+      end
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
     end
   end
 end

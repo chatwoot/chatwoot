@@ -4,14 +4,15 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
   attr_reader :assistant, :account, :user, :copilot_thread, :previous_history, :messages
 
   def initialize(assistant, config)
-    super()
+    super(feature: 'copilot', account: assistant.account)
 
     @assistant = assistant
     @account = assistant.account
     @user = nil
     @copilot_thread = nil
     @previous_history = []
-    @conversation_id = config[:conversation_id]
+    @conversation = @account.conversations.find_by(display_id: config[:conversation_id])
+    @conversation_id = @conversation&.display_id
 
     setup_user(config)
     setup_message_history(config)

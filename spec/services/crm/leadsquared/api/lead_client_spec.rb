@@ -153,6 +153,131 @@ RSpec.describe Crm::Leadsquared::Api::LeadClient do
       end
     end
 
+    context 'when request fails with MXDuplicateEntryException and lead has Mobile' do
+      let(:lead_data) do
+        {
+          'FirstName' => 'John',
+          'EmailAddress' => 'john.doe@example.com',
+          'Mobile' => '+91-7507684392'
+        }
+      end
+      let(:formatted_lead_data) do
+        lead_data.map { |key, value| { 'Attribute' => key, 'Value' => value } }
+      end
+      let(:formatted_lead_data_with_search_by) do
+        formatted_lead_data + [{ 'Attribute' => 'SearchBy', 'Value' => 'Phone' }]
+      end
+      let(:lead_id) { SecureRandom.uuid }
+      let(:duplicate_error_response) do
+        {
+          'Status' => 'Error',
+          'ExceptionType' => 'MXDuplicateEntryException',
+          'ExceptionMessage' => 'A Lead with same Primary Mobile Number already exists.',
+          'IsMXException' => true
+        }
+      end
+      let(:success_response) do
+        { 'Status' => 'Success', 'Message' => { 'Id' => lead_id } }
+      end
+
+      before do
+        stub_request(:post, full_url)
+          .with(body: formatted_lead_data.to_json, headers: headers)
+          .to_return(status: 500, body: duplicate_error_response.to_json, headers: { 'Content-Type' => 'application/json' })
+        stub_request(:post, full_url)
+          .with(body: formatted_lead_data_with_search_by.to_json, headers: headers)
+          .to_return(status: 200, body: success_response.to_json, headers: { 'Content-Type' => 'application/json' })
+      end
+
+      it 'retries with SearchBy=Phone and returns lead ID' do
+        expect(client.create_or_update_lead(lead_data)).to eq(lead_id)
+      end
+    end
+
+    context 'when request fails with MXDuplicateEntryException but lead has no Mobile' do
+      let(:duplicate_error_response) do
+        {
+          'Status' => 'Error',
+          'ExceptionType' => 'MXDuplicateEntryException',
+          'ExceptionMessage' => 'A Lead with same Primary Mobile Number already exists.',
+          'IsMXException' => true
+        }
+      end
+
+      before do
+        stub_request(:post, full_url)
+          .with(body: formatted_lead_data.to_json, headers: headers)
+          .to_return(status: 500, body: duplicate_error_response.to_json, headers: { 'Content-Type' => 'application/json' })
+      end
+
+      it 'raises ApiError without retrying' do
+        expect { client.create_or_update_lead(lead_data) }
+          .to(raise_error { |error| expect(error.class.name).to eq('Crm::Leadsquared::Api::BaseClient::ApiError') })
+      end
+    end
+
+    context 'when request fails with a non-duplicate 500 error' do
+      let(:lead_data) do
+        { 'FirstName' => 'John', 'Mobile' => '+91-7507684392' }
+      end
+      let(:formatted_lead_data) do
+        lead_data.map { |key, value| { 'Attribute' => key, 'Value' => value } }
+      end
+
+      before do
+        stub_request(:post, full_url)
+          .with(body: formatted_lead_data.to_json, headers: headers)
+          .to_return(
+            status: 500,
+            body: { 'Status' => 'Error', 'ExceptionType' => 'SomeOtherException', 'ExceptionMessage' => 'Something else' }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'raises ApiError without retrying' do
+        expect { client.create_or_update_lead(lead_data) }
+          .to(raise_error { |error| expect(error.class.name).to eq('Crm::Leadsquared::Api::BaseClient::ApiError') })
+      end
+    end
+
+    context 'when retry with SearchBy=Phone also fails' do
+      let(:lead_data) do
+        { 'FirstName' => 'John', 'Mobile' => '+91-7507684392' }
+      end
+      let(:formatted_lead_data) do
+        lead_data.map { |key, value| { 'Attribute' => key, 'Value' => value } }
+      end
+      let(:formatted_lead_data_with_search_by) do
+        formatted_lead_data + [{ 'Attribute' => 'SearchBy', 'Value' => 'Phone' }]
+      end
+      let(:duplicate_error_response) do
+        {
+          'Status' => 'Error',
+          'ExceptionType' => 'MXDuplicateEntryException',
+          'ExceptionMessage' => 'A Lead with same Primary Mobile Number already exists.',
+          'IsMXException' => true
+        }
+      end
+
+      before do
+        stub_request(:post, full_url)
+          .with(body: formatted_lead_data.to_json, headers: headers)
+          .to_return(status: 500, body: duplicate_error_response.to_json, headers: { 'Content-Type' => 'application/json' })
+        stub_request(:post, full_url)
+          .with(body: formatted_lead_data_with_search_by.to_json, headers: headers)
+          .to_return(
+            status: 500,
+            body: { 'Status' => 'Error', 'ExceptionMessage' => 'Still failing' }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'raises ApiError from the retry attempt' do
+        expect { client.create_or_update_lead(lead_data) }
+          .to(raise_error { |error| expect(error.class.name).to eq('Crm::Leadsquared::Api::BaseClient::ApiError') })
+      end
+    end
+
     # Add test for update_lead method
     describe '#update_lead' do
       let(:path) { 'LeadManagement.svc/Lead.Update' }

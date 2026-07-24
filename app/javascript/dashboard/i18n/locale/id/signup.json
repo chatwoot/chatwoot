@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Buat akun",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Daftar",
     "TESTIMONIAL_HEADER": "Hanya butuh satu langkah untuk maju",
     "TESTIMONIAL_CONTENT": "Anda hanya tinggal selangkah lagi untuk berinteraksi dengan pelanggan Anda, mempertahankan mereka, dan menemukan yang baru.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
     },
     "SUBMIT": "Buat akun",
-    "HAVE_AN_ACCOUNT": "Sudah punya akun?"
+    "HAVE_AN_ACCOUNT": "Sudah punya akun?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Resend verification email",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

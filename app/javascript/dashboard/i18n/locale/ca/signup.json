@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Crear un compte",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Registre",
     "TESTIMONIAL_HEADER": "Només cal un pas per avançar",
     "TESTIMONIAL_CONTENT": "Esteu a un pas de captar els vostres clients, retenir-los i trobar-ne de nous.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
     },
     "SUBMIT": "Crear un compte",
-    "HAVE_AN_ACCOUNT": "Ja tens un compte?"
+    "HAVE_AN_ACCOUNT": "Ja tens un compte?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Reenviar correu electrònic de verificació",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

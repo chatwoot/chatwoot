@@ -5,7 +5,12 @@
     "ADD_ACTION_LONG": "Izveidot jaunu SLA politiku",
     "DESCRIPTION": "Pakalpojuma līmeņa līgumi (SLA) ir līgumi, kas nosaka skaidras cerības starp jūsu komandu un klientiem. Tie nosaka atbildes un atrisināšanas laika standartus, veidojot pārskatatbildības sistēmu un nodrošinot konsekventu, augstas kvalitātes pieredzi.",
     "LEARN_MORE": "Uzzināt vairāk par SLA",
+    "COUNT": "{n} SLA | {n} SLAs",
     "LOADING": "Notiek SLA iegūšana",
+    "SEARCH_PLACEHOLDER": "Search SLA...",
+    "SEARCH": {
+      "NO_RESULTS": "No SLA found matching your search"
+    },
     "PAYWALL": {
       "TITLE": "Pārejiet uz maksas versiju, lai izveidotu SLA",
       "AVAILABLE_ON": "SLA funkcija ir pieejama tikai Business un Enterprise versijās.",
@@ -20,14 +25,18 @@
     },
     "LIST": {
       "404": "Šim kontam nav piesaistīti SLA līgumi.",
+      "TABLE_HEADER": {
+        "SLA": "SLA",
+        "BUSINESS_HOURS": "Business hours"
+      },
       "EMPTY": {
         "TITLE_1": "Enterprise P0",
         "DESC_1": "Uzņēmuma klientu izvirzītās problēmas, kurām nepieciešama tūlītēja uzmanība.",
         "TITLE_2": "Enterprise P1",
         "DESC_2": "Uzņēmuma klientu izvirzītās problēmas, uz kurām ātri jāreaģē."
       },
-      "BUSINESS_HOURS_ON": "Darba laiks ieslēgts",
-      "BUSINESS_HOURS_OFF": "Darba laiks izslēgts",
+      "BUSINESS_HOURS_ON": "Turned on",
+      "BUSINESS_HOURS_OFF": "Turned off",
       "RESPONSE_TYPES": {
         "FRT": "Pirmās atbildes laika slieksnis",
         "NRT": "Nākamās atbildes laika slieksnis",

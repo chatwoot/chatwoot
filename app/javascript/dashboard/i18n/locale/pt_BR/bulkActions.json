@@ -1,12 +1,12 @@
 {
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "{conversationCount} conversas selecionadas",
-    "AGENT_SELECT_LABEL": "Selecionar agente",
-    "ASSIGN_CONFIRMATION_LABEL": "Você tem certeza que quer atribuir {conversationCount} {conversationLabel} para",
-    "UNASSIGN_CONFIRMATION_LABEL": "Você tem certeza que quer remover a atribuição de {conversationCount} {conversationLabel}?",
-    "GO_BACK_LABEL": "Voltar atrás",
-    "ASSIGN_LABEL": "Atribua",
+    "NONE": "Nenhuma",
+    "CLEAR_SELECTION": "Limpar",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Tem certeza de que deseja atribuir {n} conversa para {agentName}? | Tem certeza de que deseja atribuir {n} conversas para {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Tem certeza de que deseja remover a atribuição de {n} conversa? | Tem certeza de que deseja remover a atribuição de {n} conversas?",
     "YES": "Sim",
+    "CANCEL": "Cancelar",
     "SEARCH_INPUT_PLACEHOLDER": "Pesquisar",
     "ASSIGN_AGENT_TOOLTIP": "Atribuir Agente",
     "ASSIGN_TEAM_TOOLTIP": "Atribuir time",
@@ -15,25 +15,30 @@
     "RESOLVE_SUCCESFUL": "Conversas resolvidas com sucesso.",
     "RESOLVE_FAILED": "Falha ao resolver conversas. Por favor, tente novamente.",
     "ALL_CONVERSATIONS_SELECTED_ALERT": "Conversas visíveis nesta página só estão selecionadas.",
-    "AGENT_LIST_LOADING": "Carregando agentes",
     "UPDATE": {
       "CHANGE_STATUS": "Alterar status",
       "SNOOZE_UNTIL": "Adiar",
       "UPDATE_SUCCESFUL": "Status da conversa atualizado com sucesso.",
       "UPDATE_FAILED": "Falha ao atualizar conversas. Por favor, tente novamente."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Não é possível resolver a conversa devido à ausência de atributos obrigatórios",
+      "PARTIAL_SUCCESS": "Algumas conversas exigem atributos obrigatórios antes da resolução e foram ignoradas"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Atribuir rótulo",
-      "NO_LABELS_FOUND": "Nenhuma etiqueta encontrada",
+      "REMOVE_LABELS": "Remover etiquetas",
       "ASSIGN_SELECTED_LABELS": "Atribuir etiquetas selecionadas",
+      "REMOVE_SELECTED_LABELS": "Remover etiquetas selecionadas",
       "ASSIGN_SUCCESFUL": "Rótulos atribuídos com sucesso.",
-      "ASSIGN_FAILED": "Falha ao atribuir etiquetas. Por favor, tente novamente."
+      "ASSIGN_FAILED": "Falha ao atribuir etiquetas. Por favor, tente novamente.",
+      "REMOVE_SUCCESFUL": "Etiquetas removidas com sucesso.",
+      "REMOVE_FAILED": "Falha ao remover etiquetas. Por favor, tente novamente."
     },
     "TEAMS": {
-      "TEAM_SELECT_LABEL": "Selecionar time",
       "NONE": "Nenhum",
-      "NO_TEAMS_AVAILABLE": "Ainda não há times adicionados a esta conta.",
-      "ASSIGN_SELECTED_TEAMS": "Atribuir time selecionado.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Tem certeza de que deseja atribuir {n} conversa ao time {teamName}? | Tem certeza de que deseja atribuir {n} conversas ao time {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Tem certeza de que deseja remover a atribuição de {n} conversa? | Tem certeza de que deseja remover a atribuição de {n} conversas?",
       "ASSIGN_SUCCESFUL": "Times atribuídos com sucesso.",
       "ASSIGN_FAILED": "Falha ao atribuir time. Por favor, tente novamente."
     }

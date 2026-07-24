@@ -19,6 +19,6 @@ class InboxCapacityLimit < ApplicationRecord
   belongs_to :agent_capacity_policy
   belongs_to :inbox
 
-  validates :conversation_limit, presence: true, numericality: { greater_than: 0, only_integer: true }
+  validates :conversation_limit, presence: true, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :inbox_id, uniqueness: { scope: :agent_capacity_policy_id }
 end

@@ -170,6 +170,29 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['status']).to eql(article_params[:article][:status])
         expect(json_response['payload']['position']).to eql(article_params[:article][:position])
       end
+
+      it 'stages draft-only fields without bumping updated_at' do
+        expect do
+          put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+              params: { article: { draft_title: 'Draft title', draft_content: 'Draft body' } },
+              headers: admin.create_new_auth_token
+        end.not_to(change { article.reload.updated_at })
+
+        expect(response).to have_http_status(:success)
+        expect(article.draft_title).to eq('Draft title')
+        expect(article.draft_content).to eq('Draft body')
+      end
+
+      it 'rejects an over-length draft without persisting it' do
+        expect do
+          put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+              params: { article: { draft_content: 'a' * 20_001 } },
+              headers: admin.create_new_auth_token
+        end.not_to(change { article.reload.draft_content })
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to include('too long')
+      end
     end
   end
 
@@ -188,6 +211,38 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:success)
         deleted_article = Article.find_by(id: article.id)
         expect(deleted_article).to be_nil
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/articles/reorder' do
+    let!(:article_2) do
+      create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, position: 20)
+    end
+    let(:positions_hash) do
+      {
+        article.id => 20,
+        article_2.id => 10
+      }
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/reorder",
+             params: { positions_hash: positions_hash }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'reorders articles' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/reorder",
+             params: { positions_hash: positions_hash },
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.position).to eq(20)
+        expect(article_2.reload.position).to eq(10)
       end
     end
   end

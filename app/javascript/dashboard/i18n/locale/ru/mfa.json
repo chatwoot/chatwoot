@@ -1,7 +1,7 @@
 {
   "MFA_SETTINGS": {
     "TITLE": "Двухфакторная аутентификация",
-    "SUBTITLE": "Защитите ваш аккаунт с помощью аутентификации на базе TOTP",
+    "SUBTITLE": "Protect your account from unauthorized access with TOTP-based authentication. This adds an extra layer of security to your account.",
     "DESCRIPTION": "Добавьте дополнительный уровень безопасности для вашего аккаунта, используя одноразовый пароль (TOTP)",
     "STATUS_TITLE": "Статус аутентификации",
     "STATUS_DESCRIPTION": "Управление настройками двухфакторной аутентификации и резервными кодами",
@@ -55,6 +55,10 @@
       "PASSWORD": "Пароль",
       "OTP_CODE": "Проверочный код",
       "OTP_CODE_PLACEHOLDER": "000000",
+      "BACKUP_CODE": "Резервные код",
+      "BACKUP_CODE_PLACEHOLDER": "Введите один из ваших резервных кодов",
+      "USE_BACKUP_CODE": "Потеряли доступ к вашему аутентификатору? Используйте вместо этого резервный код",
+      "USE_OTP_CODE": "Используйте проверочный код из вашего приложения-аутентификатора",
       "CONFIRM": "Отключить 2FA",
       "CANCEL": "Отменить",
       "SUCCESS": "Двухфакторная аутентификация была отключена",

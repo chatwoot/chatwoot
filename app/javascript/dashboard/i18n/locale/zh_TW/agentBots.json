@@ -2,31 +2,34 @@
   "AGENT_BOTS": {
     "HEADER": "機器人",
     "LOADING_EDITOR": "正在載入編輯器...",
-    "DESCRIPTION": "代理機器人就像您團隊中最出色的成員。他們可以處理瑣碎的事務，讓您可以專注於重要的事情。試試看吧！您可以從此頁面管理您的機器人，或使用「新增機器人」按鈕建立新的機器人。",
-    "LEARN_MORE": "Learn about agent bots",
+    "DESCRIPTION": "機器人就像您團隊中最出色的成員。它們可以處理瑣碎的事務，讓您專注於重要的事情。試試看吧！您可以從此頁面管理機器人，或使用「新增機器人」按鈕建立新的機器人。",
+    "LEARN_MORE": "瞭解更多關於機器人",
+    "COUNT": "{n} 個機器人 | {n} 個機器人",
+    "SEARCH_PLACEHOLDER": "搜尋機器人...",
+    "NO_RESULTS": "找不到符合搜尋條件的機器人",
     "GLOBAL_BOT": "系統機器人",
     "GLOBAL_BOT_BADGE": "系統",
     "AVATAR": {
-      "SUCCESS_DELETE": "機器人頭像已成功刪除",
+      "SUCCESS_DELETE": "機器人頭像刪除成功",
       "ERROR_DELETE": "刪除機器人頭像時發生錯誤，請再試一次"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "選擇一個機器人",
-      "DESC": "將機器人分配到您的收件匣中。它們可以處理初始對話，並在必要時轉接給真人客服",
+      "TITLE": "選擇機器人",
+      "DESC": "將機器人指派到您的收件匣。它們可以處理初始對話，並在需要時轉接給真人客服。",
       "SUBMIT": "更新",
       "DISCONNECT": "取消機器人連結",
-      "SUCCESS_MESSAGE": "成功更新機器人",
-      "DISCONNECTED_SUCCESS_MESSAGE": "成功解除機器人連結",
-      "ERROR_MESSAGE": "無法更新機器人，請再試一次",
-      "DISCONNECTED_ERROR_MESSAGE": "無法斷開機器人，請再試一次",
+      "SUCCESS_MESSAGE": "機器人更新成功。",
+      "DISCONNECTED_SUCCESS_MESSAGE": "機器人已成功解除連結。",
+      "ERROR_MESSAGE": "無法更新機器人，請再試一次。",
+      "DISCONNECTED_ERROR_MESSAGE": "無法解除機器人連結，請再試一次。",
       "SELECT_PLACEHOLDER": "選擇機器人"
     },
     "ADD": {
       "TITLE": "新增機器人",
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
-        "SUCCESS_MESSAGE": "機器人新增成功.",
-        "ERROR_MESSAGE": "無法新增機器人，請稍後再試."
+        "SUCCESS_MESSAGE": "機器人新增成功。",
+        "ERROR_MESSAGE": "無法新增機器人，請稍後再試。"
       }
     },
     "LIST": {
@@ -34,7 +37,8 @@
       "LOADING": "正在取得機器人...",
       "TABLE_HEADER": {
         "DETAILS": "機器人詳情",
-        "URL": "Webhook 網址"
+        "URL": "Webhook 網址",
+        "ACTIONS": "操作"
       }
     },
     "DELETE": {
@@ -47,24 +51,34 @@
         "NO": "不，保留"
       },
       "API": {
-        "SUCCESS_MESSAGE": "機器人刪除成功",
-        "ERROR_MESSAGE": "無法刪除機器人，請再試一次"
+        "SUCCESS_MESSAGE": "機器人刪除成功。",
+        "ERROR_MESSAGE": "無法刪除機器人，請再試一次。"
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "編輯",
       "TITLE": "編輯機器人",
       "API": {
-        "SUCCESS_MESSAGE": "機器人更新成功.",
-        "ERROR_MESSAGE": "無法更新機器人，請稍後再試"
+        "SUCCESS_MESSAGE": "機器人更新成功。",
+        "ERROR_MESSAGE": "無法更新機器人，請再試一次。"
       }
     },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "複製密鑰至剪貼簿",
+      "COPY_SUCCESS": "密鑰已複製至剪貼簿",
+      "TOGGLE": "切換密鑰顯示",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "完成",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+    },
     "ACCESS_TOKEN": {
-      "TITLE": "訪問 token",
-      "DESCRIPTION": "複製訪問token並妥善保管",
-      "COPY_SUCCESSFUL": "訪問token已複製到剪貼簿",
-      "RESET_SUCCESS": "訪問token已成功重新產生",
-      "RESET_ERROR": "無法重新產生訪問token。請再試一次"
+      "TITLE": "存取權杖",
+      "DESCRIPTION": "複製存取權杖並妥善保管",
+      "COPY_SUCCESSFUL": "存取權杖已複製到剪貼簿",
+      "RESET_SUCCESS": "存取權杖已成功重新產生",
+      "RESET_ERROR": "無法重新產生存取權杖，請再試一次"
     },
     "FORM": {
       "AVATAR": {
@@ -76,8 +90,8 @@
         "REQUIRED": "機器人名稱為必填"
       },
       "DESCRIPTION": {
-        "LABEL": "描述資訊",
-        "PLACEHOLDER": "這個機器人的作用是什麼"
+        "LABEL": "描述",
+        "PLACEHOLDER": "這個機器人的功能是什麼？"
       },
       "WEBHOOK_URL": {
         "LABEL": "Webhook 網址",

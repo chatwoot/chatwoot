@@ -4,16 +4,19 @@ properties:
     type: integer
     description: Total number of articles
   archived_articles_count:
-    type: integer
-    nullable: true
+    type:
+      - integer
+      - 'null'
     description: Number of archived articles
   published_count:
-    type: integer
-    nullable: true
+    type:
+      - integer
+      - 'null'
     description: Number of published articles
   draft_articles_count:
-    type: integer
-    nullable: true
+    type:
+      - integer
+      - 'null'
     description: Number of draft articles
   categories_count:
     type: integer

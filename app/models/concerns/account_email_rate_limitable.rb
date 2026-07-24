@@ -12,7 +12,12 @@ module AccountEmailRateLimitable
     Redis::Alfred.get(email_count_cache_key).to_i
   end
 
+  def email_transcript_enabled?
+    true
+  end
+
   def within_email_rate_limit?
+    return true unless ChatwootApp.chatwoot_cloud?
     return true if emails_sent_today < email_rate_limit
 
     Rails.logger.warn("Account #{id} reached daily email rate limit of #{email_rate_limit}. Sent: #{emails_sent_today}")

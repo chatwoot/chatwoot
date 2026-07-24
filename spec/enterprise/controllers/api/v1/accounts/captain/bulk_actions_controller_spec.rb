@@ -14,6 +14,15 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
       status: 'pending'
     )
   end
+  let!(:documents) do
+    create_list(
+      :captain_document,
+      2,
+      assistant: assistant,
+      account: account,
+      status: :available
+    )
+  end
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)
@@ -95,6 +104,140 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
         pending_responses.each do |response|
           expect(response.reload.status).to eq('pending')
         end
+      end
+    end
+
+    context 'when deleting documents' do
+      let(:document_delete_params) do
+        {
+          type: 'AssistantDocument',
+          ids: documents.map(&:id),
+          fields: { status: 'delete' }
+        }
+      end
+
+      it 'deletes the documents and returns the deleted count' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/bulk_actions",
+               params: document_delete_params,
+               headers: admin.create_new_auth_token,
+               as: :json
+        end.to change(Captain::Document, :count).by(-2)
+
+        expect(response).to have_http_status(:ok)
+        expect(json_response).to eq({ count: documents.size })
+      end
+    end
+
+    context 'when syncing documents' do
+      let(:sync_params) do
+        {
+          type: 'AssistantDocument',
+          ids: documents.map(&:id),
+          fields: { status: 'sync' }
+        }
+      end
+
+      before { clear_enqueued_jobs }
+
+      it 'queues a sync for each web document and returns the enqueued document ids' do
+        freeze_time do
+          expect do
+            post "/api/v1/accounts/#{account.id}/captain/bulk_actions",
+                 params: sync_params,
+                 headers: admin.create_new_auth_token,
+                 as: :json
+          end.to have_enqueued_job(Captain::Documents::PerformSyncJob).on_queue('low').exactly(documents.size).times
+
+          documents.each do |document|
+            expect(document.reload).to have_attributes(
+              sync_status: 'syncing',
+              last_sync_attempted_at: Time.current
+            )
+          end
+        end
+
+        expect(response).to have_http_status(:ok)
+        expect(json_response).to eq({ ids: documents.map(&:id), count: documents.size })
+      end
+
+      it 'skips PDF documents because they are not syncable' do
+        pdf_document = build(:captain_document, assistant: assistant, account: account)
+        pdf_document.pdf_file.attach(io: StringIO.new('PDF content'), filename: 'test.pdf',
+                                     content_type: 'application/pdf')
+        pdf_document.save!
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/bulk_actions",
+               params: sync_params.merge(ids: [pdf_document.id]),
+               headers: admin.create_new_auth_token,
+               as: :json
+        end.not_to have_enqueued_job(Captain::Documents::PerformSyncJob)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'skips documents that are still being processed' do
+        in_progress_document = create(:captain_document, assistant: assistant, account: account, status: :in_progress)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/bulk_actions",
+               params: sync_params.merge(ids: [in_progress_document.id]),
+               headers: admin.create_new_auth_token,
+               as: :json
+        end.not_to have_enqueued_job(Captain::Documents::PerformSyncJob)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'queues documents that already have a sync in progress' do
+        syncing_document = create(:captain_document, assistant: assistant, account: account, status: :available)
+        syncing_document.update!(sync_status: :syncing, last_sync_attempted_at: 1.minute.ago)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/bulk_actions",
+               params: sync_params.merge(ids: [syncing_document.id]),
+               headers: admin.create_new_auth_token,
+               as: :json
+        end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(syncing_document).on_queue('low')
+
+        expect(response).to have_http_status(:ok)
+        expect(json_response).to eq({ ids: [syncing_document.id], count: 1 })
+      end
+
+      it 'queues stale syncing documents again' do
+        syncing_document = create(:captain_document, assistant: assistant, account: account, status: :available)
+
+        freeze_time do
+          syncing_document.update!(
+            sync_status: :syncing,
+            last_sync_attempted_at: (Captain::Document::SYNC_STALE_TIMEOUT + 1.minute).ago
+          )
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/captain/bulk_actions",
+                 params: sync_params.merge(ids: [syncing_document.id]),
+                 headers: admin.create_new_auth_token,
+                 as: :json
+          end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(syncing_document)
+
+          expect(syncing_document.reload).to have_attributes(
+            sync_status: 'syncing',
+            last_sync_attempted_at: Time.current
+          )
+        end
+
+        expect(response).to have_http_status(:ok)
+        expect(json_response).to eq({ ids: [syncing_document.id], count: 1 })
+      end
+
+      it 'denies non-administrators' do
+        post "/api/v1/accounts/#{account.id}/captain/bulk_actions",
+             params: sync_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 

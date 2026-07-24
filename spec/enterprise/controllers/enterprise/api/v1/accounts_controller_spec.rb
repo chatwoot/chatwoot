@@ -5,6 +5,30 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let!(:agent) { create(:user, account: account, role: :agent) }
 
+  describe 'API token access' do
+    before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      account.disable_features!('api_and_webhooks')
+    end
+
+    it 'returns forbidden when API and webhook access is disabled for the account' do
+      get "/enterprise/api/v1/accounts/#{account.id}/limits",
+          headers: { api_access_token: admin.access_token.token },
+          as: :json
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error']).to eq('API access is not enabled for this account')
+    end
+
+    it 'allows session-authenticated requests' do
+      get "/enterprise/api/v1/accounts/#{account.id}/limits",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   describe 'POST /enterprise/api/v1/accounts/{account.id}/subscription' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -256,6 +280,14 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
                { 'name' => 'Hacker', 'product_id' => ['prod_hacker'], 'price_ids' => ['price_hacker'] },
                { 'name' => 'Business', 'product_id' => ['prod_business'], 'price_ids' => ['price_business'] }
              ])
+      create(:installation_config, name: 'CAPTAIN_TOPUP_OPTIONS', value: {
+               'usd' => [
+                 { 'credits' => 1000, 'amount' => 20.0 },
+                 { 'credits' => 2500, 'amount' => 50.0 },
+                 { 'credits' => 6000, 'amount' => 100.0 },
+                 { 'credits' => 12_000, 'amount' => 200.0 }
+               ]
+             })
     end
 
     it 'returns unauthorized for unauthenticated user' do
@@ -281,6 +313,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
         allow(Stripe::Invoice).to receive(:create).and_return(stripe_invoice)
         allow(Stripe::InvoiceItem).to receive(:create)
         allow(Stripe::Invoice).to receive(:finalize_invoice)
+        allow(Stripe::Invoice).to receive(:retrieve).and_return(Struct.new(:status).new('open'))
         allow(Stripe::Invoice).to receive(:pay)
         allow(Stripe::Billing::CreditGrant).to receive(:create)
       end
@@ -357,10 +390,32 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
       context 'when it is an admin' do
         before do
           # Create the installation config for cloud environment
-          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'cloud')
+          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_initialize.update!(value: 'cloud')
         end
 
         it 'marks the account for deletion when action is delete' do
+          cancellation_service = instance_double(Enterprise::Billing::CancelCloudSubscriptionsService, perform: true)
+          allow(Enterprise::Billing::CancelCloudSubscriptionsService).to receive(:new).with(account: account)
+                                                                                      .and_return(cancellation_service)
+
+          post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
+               headers: admin.create_new_auth_token,
+               params: { action_type: 'delete' },
+               as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(account.reload.custom_attributes['marked_for_deletion_at']).to be_present
+          expect(account.custom_attributes['marked_for_deletion_reason']).to eq('manual_deletion')
+          expect(Enterprise::Billing::CancelCloudSubscriptionsService).to have_received(:new).with(account: account)
+          expect(cancellation_service).to have_received(:perform)
+        end
+
+        it 'returns success even if stripe cancellation fails' do
+          cancellation_service = instance_double(Enterprise::Billing::CancelCloudSubscriptionsService)
+          allow(Enterprise::Billing::CancelCloudSubscriptionsService).to receive(:new).with(account: account)
+                                                                                      .and_return(cancellation_service)
+          allow(cancellation_service).to receive(:perform).and_raise(Stripe::APIError.new('stripe unavailable'))
+
           post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
                headers: admin.create_new_auth_token,
                params: { action_type: 'delete' },

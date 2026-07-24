@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Izveidot kontu",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Reģistrēt",
     "TESTIMONIAL_HEADER": "Viss, kas nepieciešams, ir viens solis, lai virzītos uz priekšu",
     "TESTIMONIAL_CONTENT": "Jūs esat viena soļa attālumā no klientu piesaistīšanas, noturēšanas un jaunu klientu atrašanas.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Woot serveri. Lūdzu mēģiniet vēlreiz."
     },
     "SUBMIT": "Izveidot kontu",
-    "HAVE_AN_ACCOUNT": "Jau ir konts?"
+    "HAVE_AN_ACCOUNT": "Jau ir konts?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Sūtīt verifikācijas e-pastu atkārtoti",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

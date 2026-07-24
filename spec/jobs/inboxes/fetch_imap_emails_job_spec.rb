@@ -88,7 +88,10 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
     end
 
     context 'when the fetch service returns the email objects' do
-      let(:inbound_mail) {  create_inbound_email_from_fixture('welcome.eml').mail }
+      let(:inbound_mail) { instance_double(Mail::Message, message_id: 'message-id') }
+      let(:failure_cache_key) { "email_failures:#{inbound_mail.message_id}" }
+      let(:second_inbound_mail) { instance_double(Mail::Message, message_id: 'second-message-id') }
+      let(:second_failure_cache_key) { "email_failures:#{second_inbound_mail.message_id}" }
       let(:mailbox) { double }
       let(:exception_tracker) { double }
       let(:fetch_service) { double }
@@ -101,12 +104,47 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
         allow(fetch_service).to receive(:perform).and_return([inbound_mail])
       end
 
+      after do
+        Rails.cache.delete(failure_cache_key)
+        Rails.cache.delete(second_failure_cache_key)
+      end
+
       it 'calls the mailbox to create emails' do
         allow(mailbox).to receive(:process)
 
         expect(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
         expect(fetch_service).to receive(:perform).and_return([inbound_mail])
         expect(mailbox).to receive(:process).with(inbound_mail, imap_email_channel)
+
+        described_class.perform_now(imap_email_channel)
+      end
+
+      it 'marks the email as failed when processing times out' do
+        allow(Timeout).to receive(:timeout).and_raise(Timeout::Error)
+        allow(Rails.cache).to receive(:read).and_call_original
+        allow(Rails.cache).to receive(:read).with(failure_cache_key).and_return(nil)
+
+        expect(Rails.cache).to receive(:write).with(failure_cache_key, 1, expires_in: 6.hours)
+
+        described_class.perform_now(imap_email_channel)
+      end
+
+      it 'continues processing remaining emails when one email fails' do
+        allow(fetch_service).to receive(:perform).and_return([inbound_mail, second_inbound_mail])
+        allow(mailbox).to receive(:process).with(inbound_mail, imap_email_channel).and_raise(StandardError)
+        allow(mailbox).to receive(:process).with(second_inbound_mail, imap_email_channel)
+        allow(exception_tracker).to receive(:capture_exception)
+
+        described_class.perform_now(imap_email_channel)
+
+        expect(mailbox).to have_received(:process).with(second_inbound_mail, imap_email_channel)
+      end
+
+      it 'skips emails that have failed multiple times recently' do
+        allow(Rails.cache).to receive(:read).and_call_original
+        allow(Rails.cache).to receive(:read).with(failure_cache_key).and_return(3)
+
+        expect(mailbox).not_to receive(:process)
 
         described_class.perform_now(imap_email_channel)
       end

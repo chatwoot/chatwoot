@@ -9,12 +9,12 @@ FactoryBot.define do
 
     trait :dialogflow do
       app_id { 'dialogflow' }
-      settings { { project_id: 'test', credentials: {}, region: 'global' } }
+      settings { { project_id: 'test', credentials: {}, region: 'global', language_code: 'en-US' } }
     end
 
     trait :dyte do
       app_id { 'dyte' }
-      settings { { api_key: 'api_key', organization_id: 'org_id' } }
+      settings { { account_id: 'account_id', app_id: 'app_id', api_token: 'api_token' } }
     end
 
     trait :google_translate do

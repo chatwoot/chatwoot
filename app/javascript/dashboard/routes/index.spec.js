@@ -12,7 +12,9 @@ vi.mock('../store', () => ({
         id: null,
         accounts: [],
       },
+      'accounts/getAccount': () => ({}),
     },
+    dispatch: vi.fn(() => Promise.resolve()),
   },
 }));
 
@@ -60,14 +62,14 @@ describe('#validateAuthenticateRoutePermission', () => {
     });
 
     describe('when route is not accessible to current user', () => {
-      it('should redirect to dashboard', () => {
+      it('should redirect to dashboard', async () => {
         const to = {
           name: 'general_settings_index',
           params: { accountId: 1 },
           meta: { permissions: ['administrator'] },
         };
 
-        validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission(to, next);
 
         expect(next).toHaveBeenCalledWith('/app/accounts/1/dashboard');
       });
@@ -90,14 +92,14 @@ describe('#validateAuthenticateRoutePermission', () => {
         };
       });
 
-      it('should go to the intended route', () => {
+      it('should go to the intended route', async () => {
         const to = {
           name: 'general_settings_index',
           params: { accountId: 1 },
           meta: { permissions: ['administrator'] },
         };
 
-        validateAuthenticateRoutePermission(to, next);
+        await validateAuthenticateRoutePermission(to, next);
 
         expect(next).toHaveBeenCalledWith();
       });

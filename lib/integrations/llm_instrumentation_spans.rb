@@ -39,6 +39,8 @@ module Integrations::LlmInstrumentationSpans
 
     tool_name = tool_call.name.to_s
     span = tracer.start_span(format(TOOL_SPAN_NAME, tool_name))
+    apply_current_langfuse_attributes(span)
+    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_TYPE, 'tool')
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, tool_call.arguments.to_json)
 
     @pending_tool_spans ||= []
@@ -58,6 +60,24 @@ module Integrations::LlmInstrumentationSpans
     span.finish
   rescue StandardError => e
     Rails.logger.warn "Failed to end tool span: #{e.message}"
+  end
+
+  def instrument_with_span(span_name, params, &)
+    result = nil
+    executed = false
+    tracer.in_span(span_name) do |span|
+      set_metadata_attributes(span, params)
+      track_result = lambda do |r|
+        executed = true
+        result = r
+      end
+      yield(span, track_result)
+    end
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: resolve_account(params)).capture_exception
+    raise unless executed
+
+    result
   end
 
   private

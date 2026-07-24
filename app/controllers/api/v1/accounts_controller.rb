@@ -8,6 +8,7 @@ class Api::V1::AccountsController < Api::BaseController
   before_action :ensure_account_name, only: [:create]
   before_action :validate_captcha, only: [:create]
   before_action :fetch_account, except: [:create]
+  before_action :validate_token_api_access, if: :authenticate_by_access_token?, except: [:create]
   before_action :check_authorization, except: [:create]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
@@ -30,9 +31,20 @@ class Api::V1::AccountsController < Api::BaseController
       locale: account_params[:locale],
       user: current_user
     ).perform
+    enqueue_branding_enrichment
     if @user
-      send_auth_headers(@user)
-      render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
+      # Authenticated users (dashboard "add account") and api_only signups
+      # need the full response with account_id. API-only deployments have no
+      # frontend to handle the email confirmation flow, so they need auth
+      # tokens to proceed.
+      # Unauthenticated web signup returns only the email — no session is
+      # created until the user confirms via the email link.
+      if current_user || api_only_signup?
+        send_auth_headers(@user)
+        render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
+      else
+        render json: { email: @user.email }
+      end
     else
       render_error_response(CustomExceptions::Account::SignupFailed.new({}))
     end
@@ -59,6 +71,17 @@ class Api::V1::AccountsController < Api::BaseController
 
   private
 
+  def enqueue_branding_enrichment
+    email = account_params[:email].presence || @user&.email
+    return if email.blank?
+
+    Account::BrandingEnrichmentJob.perform_later(@account.id, email)
+    Redis::Alfred.set(format(Redis::Alfred::ACCOUNT_ONBOARDING_ENRICHMENT, account_id: @account.id), '1', ex: 30)
+  rescue StandardError => e
+    # Enrichment is optional — never let queue/Redis failures abort signup
+    ChatwootExceptionTracker.new(e).capture_exception
+  end
+
   def ensure_account_name
     # ensure that account_name and user_full_name is present
     # this is becuase the account builder and the models validations are not triggered
@@ -83,12 +106,18 @@ class Api::V1::AccountsController < Api::BaseController
     @current_account_user = @account.account_users.find_by(user_id: current_user.id)
   end
 
+  def validate_token_api_access
+    return if @account.api_and_webhooks_enabled?
+
+    render json: { error: 'API access is not enabled for this account' }, status: :forbidden
+  end
+
   def account_params
     params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :user_full_name)
   end
 
   def custom_attributes_params
-    params.permit(:industry, :company_size, :timezone)
+    params.permit(:industry, :company_size, :timezone, :referral_source, :user_role, :website)
   end
 
   def settings_params
@@ -100,7 +129,16 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def check_signup_enabled
-    raise ActionController::RoutingError, 'Not Found' if GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false') == 'false'
+    raise ActionController::RoutingError, 'Not Found' unless GlobalConfigService.account_signup_enabled?
+  end
+
+  def api_only_signup?
+    # CW_API_ONLY_SERVER is the canonical flag for API-only deployments.
+    # ENABLE_ACCOUNT_SIGNUP='api_only' is a legacy sentinel for the same purpose.
+    # Read ENABLE_ACCOUNT_SIGNUP raw from InstallationConfig because GlobalConfig.get
+    # typecasts it to boolean, coercing 'api_only' to true.
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false)) ||
+      InstallationConfig.find_by(name: 'ENABLE_ACCOUNT_SIGNUP')&.value.to_s == 'api_only'
   end
 
   def validate_captcha

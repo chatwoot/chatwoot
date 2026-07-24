@@ -1,12 +1,12 @@
 {
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "{conversationCount} گفتگو انتخاب شده است",
-    "AGENT_SELECT_LABEL": "انتخاب اپراتور",
-    "ASSIGN_CONFIRMATION_LABEL": "آیا مطمئن هستید که به {conversationCount} {conversationLabel} اختصاص می‌دهید",
-    "UNASSIGN_CONFIRMATION_LABEL": "آیا مطمئنید که {conversationCount} {conversationLabel} را می‌خواهید اختصاص را لغو کنید؟",
-    "GO_BACK_LABEL": "بازگشت",
-    "ASSIGN_LABEL": "اختصاص دادن",
+    "NONE": "هیچکدام",
+    "CLEAR_SELECTION": "پاک کردن",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "بله",
+    "CANCEL": "انصراف",
     "SEARCH_INPUT_PLACEHOLDER": "جستجو",
     "ASSIGN_AGENT_TOOLTIP": "اپراتور را تعیین کنید",
     "ASSIGN_TEAM_TOOLTIP": "تیم را تعیین کنید",
@@ -15,25 +15,30 @@
     "RESOLVE_SUCCESFUL": "گفتگو با موفقیت حل شد.",
     "RESOLVE_FAILED": "گفتگو حل نشد، لطفا دوباره امتحان کنید.",
     "ALL_CONVERSATIONS_SELECTED_ALERT": "گفتگوهای قابل مشاهده در این صفحه فقط انتخاب می‌شوند.",
-    "AGENT_LIST_LOADING": "بارگذاری ایجنت ها",
     "UPDATE": {
       "CHANGE_STATUS": "تغییر وضعیت",
       "SNOOZE_UNTIL": "به تعویق انداختن",
       "UPDATE_SUCCESFUL": "وضعیت گفتگو با موفقیت به روز شد.",
       "UPDATE_FAILED": "گفتگوها به روز نشدند، لطفا دوباره امتحان کنید."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "برچسب اختصاص دهید",
-      "NO_LABELS_FOUND": "هیچ برچسبی یافت نشد",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "اختصاص برچسب‌های انتخاب شده",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "برچسب‌ها با موفقیت اختصاص یافتند.",
-      "ASSIGN_FAILED": "اختصاص برچسب‌ به صورت موفق انجام نشد، لطفا دوباره امتحان کنید."
+      "ASSIGN_FAILED": "اختصاص برچسب‌ به صورت موفق انجام نشد، لطفا دوباره امتحان کنید.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
-      "TEAM_SELECT_LABEL": "انتخاب تیم",
       "NONE": "هیچکدام",
-      "NO_TEAMS_AVAILABLE": "هنوز هیچ تیمی به این حساب کاربری اضافه نشده است.",
-      "ASSIGN_SELECTED_TEAMS": "اختصاص تیم انتخاب شده.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "اختصاص تیم با موفقیت انجام نشد، لطفا دوباره امتحان کنید."
     }

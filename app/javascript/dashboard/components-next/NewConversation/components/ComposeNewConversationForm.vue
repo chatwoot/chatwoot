@@ -1,8 +1,8 @@
 <script setup>
-import { reactive, ref, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf } from '@vuelidate/validators';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { INBOX_TYPES, isVoiceCallEnabled } from 'dashboard/helper/inbox';
 import {
   appendSignature,
   removeSignature,
@@ -15,6 +15,9 @@ import {
   prepareWhatsAppMessagePayload,
 } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper.js';
 
+import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+
 import ContactSelector from './ContactSelector.vue';
 import InboxSelector from './InboxSelector.vue';
 import EmailOptions from './EmailOptions.vue';
@@ -22,6 +25,7 @@ import MessageEditor from './MessageEditor.vue';
 import ActionButtons from './ActionButtons.vue';
 import InboxEmptyState from './InboxEmptyState.vue';
 import AttachmentPreviews from './AttachmentPreviews.vue';
+import CopilotReplyBottomPanel from 'dashboard/components/widgets/WootWriter/CopilotReplyBottomPanel.vue';
 
 const props = defineProps({
   contacts: { type: Array, default: () => [] },
@@ -37,10 +41,12 @@ const props = defineProps({
   contactsUiFlags: { type: Object, default: null },
   messageSignature: { type: String, default: '' },
   sendWithSignature: { type: Boolean, default: false },
+  formState: { type: Object, required: true },
 });
 
 const emit = defineEmits([
   'searchContacts',
+  'resetContactSearch',
   'discard',
   'updateSelectedContact',
   'updateTargetInbox',
@@ -50,6 +56,8 @@ const emit = defineEmits([
 
 const DEFAULT_FORMATTING = 'Context::Default';
 
+const copilot = useCopilotReply();
+
 const showContactsDropdown = ref(false);
 const showInboxesDropdown = ref(false);
 const showCcEmailsDropdown = ref(false);
@@ -57,13 +65,13 @@ const showBccEmailsDropdown = ref(false);
 
 const isCreating = computed(() => props.contactConversationsUiFlags.isCreating);
 
-const state = reactive({
+const state = props.formState || {
   message: '',
   subject: '',
   ccEmails: '',
   bccEmails: '',
   attachedFiles: [],
-});
+};
 
 const inboxTypes = computed(() => ({
   isEmail: props.targetInbox?.channelType === INBOX_TYPES.EMAIL,
@@ -91,6 +99,8 @@ const whatsappMessageTemplates = computed(() =>
 const inboxChannelType = computed(() => props.targetInbox?.channelType || '');
 
 const inboxMedium = computed(() => props.targetInbox?.medium || '');
+
+const voiceCallEnabled = computed(() => isVoiceCallEnabled(props.targetInbox));
 
 const effectiveChannelType = computed(() =>
   getEffectiveChannelType(inboxChannelType.value, inboxMedium.value)
@@ -156,22 +166,8 @@ const isAnyDropdownActive = computed(() => {
 });
 
 const handleContactSearch = value => {
-  showContactsDropdown.value = true;
-  const query = typeof value === 'string' ? value.trim() : '';
-  const hasAlphabet = Array.from(query).some(char => {
-    const lower = char.toLowerCase();
-    const upper = char.toUpperCase();
-    return lower !== upper;
-  });
-  const isEmailLike = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(query);
-
-  const keys = ['email', 'phone_number', 'name'].filter(key => {
-    if (key === 'phone_number' && hasAlphabet) return false;
-    if (key === 'name' && isEmailLike) return false;
-    return true;
-  });
-
-  emit('searchContacts', { keys, query: value });
+  showContactsDropdown.value = value.trim().length > 1;
+  emit('searchContacts', value);
 };
 
 const handleDropdownUpdate = (type, value) => {
@@ -185,13 +181,17 @@ const handleDropdownUpdate = (type, value) => {
 };
 
 const searchCcEmails = value => {
-  showCcEmailsDropdown.value = true;
-  emit('searchContacts', { keys: ['email'], query: value });
+  showBccEmailsDropdown.value = false;
+  emit('resetContactSearch');
+  showCcEmailsDropdown.value = value.trim().length >= 2;
+  emit('searchContacts', value);
 };
 
 const searchBccEmails = value => {
-  showBccEmailsDropdown.value = true;
-  emit('searchContacts', { keys: ['email'], query: value });
+  showCcEmailsDropdown.value = false;
+  emit('resetContactSearch');
+  showBccEmailsDropdown.value = value.trim().length >= 2;
+  emit('searchContacts', value);
 };
 
 const setSelectedContact = async ({ value, action, ...rest }) => {
@@ -209,6 +209,7 @@ const stripMessageFormatting = channelType => {
 
 const handleInboxAction = ({ value, action, channelType, medium, ...rest }) => {
   v$.value.$reset();
+  copilot.reset(false);
 
   // Strip unsupported formatting when changing the target inbox
   if (channelType) {
@@ -235,6 +236,7 @@ const removeSignatureFromMessage = () => {
 
 const removeTargetInbox = value => {
   v$.value.$reset();
+  copilot.reset(false);
   removeSignatureFromMessage();
 
   stripMessageFormatting(DEFAULT_FORMATTING);
@@ -244,6 +246,7 @@ const removeTargetInbox = value => {
 };
 
 const clearSelectedContact = () => {
+  copilot.reset(false);
   removeSignatureFromMessage();
   emit('clearSelectedContact');
   state.message = '';
@@ -275,6 +278,7 @@ const handleAttachFile = files => {
 };
 
 const clearForm = () => {
+  copilot.reset(false);
   Object.assign(state, {
     message: '',
     subject: '',
@@ -337,11 +341,29 @@ const shouldShowMessageEditor = computed(() => {
     !inboxTypes.value.isTwilioWhatsapp
   );
 });
+
+const isCopilotActive = computed(() => copilot.isActive?.value ?? false);
+
+const onSubmitCopilotReply = () => {
+  const acceptedMessage = copilot.accept();
+  state.message = acceptedMessage;
+};
+
+useKeyboardEvents({
+  '$mod+Enter': {
+    action: () => {
+      if (isCopilotActive.value && !copilot.isButtonDisabled.value) {
+        onSubmitCopilotReply();
+      }
+    },
+    allowOnFocusedInput: true,
+  },
+});
 </script>
 
 <template>
   <div
-    class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0 max-h-[calc(100vh-8rem)]"
+    class="w-full md:w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0 max-h-[calc(100vh-8rem)]"
   >
     <div class="flex-1 overflow-y-auto divide-y divide-n-strong">
       <ContactSelector
@@ -367,6 +389,7 @@ const shouldShowMessageEditor = computed(() => {
         :show-inboxes-dropdown="showInboxesDropdown"
         :contactable-inboxes-list="contactableInboxesList"
         :has-errors="validationStates.isInboxInvalid"
+        :is-fetching-inboxes="isFetchingInboxes"
         @update-inbox="removeTargetInbox"
         @toggle-dropdown="showInboxesDropdown = $event"
         @handle-inbox-action="handleInboxAction"
@@ -395,6 +418,7 @@ const shouldShowMessageEditor = computed(() => {
         :has-errors="validationStates.isMessageInvalid"
         :channel-type="inboxChannelType"
         :medium="targetInbox?.medium || ''"
+        :copilot="copilot"
       />
 
       <AttachmentPreviews
@@ -404,7 +428,15 @@ const shouldShowMessageEditor = computed(() => {
       />
     </div>
 
+    <CopilotReplyBottomPanel
+      v-if="isCopilotActive"
+      :is-generating-content="copilot.isButtonDisabled.value"
+      class="h-[3.25rem] !px-4 !py-2"
+      @submit="onSubmitCopilotReply"
+      @cancel="copilot.reset"
+    />
     <ActionButtons
+      v-else
       :attached-files="state.attachedFiles"
       :is-whatsapp-inbox="inboxTypes.isWhatsapp"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
@@ -412,6 +444,7 @@ const shouldShowMessageEditor = computed(() => {
       :is-twilio-whats-app-inbox="inboxTypes.isTwilioWhatsapp"
       :message-templates="whatsappMessageTemplates"
       :channel-type="inboxChannelType"
+      :voice-enabled="voiceCallEnabled"
       :is-loading="isCreating"
       :disable-send-button="isCreating"
       :has-selected-inbox="!!targetInbox"

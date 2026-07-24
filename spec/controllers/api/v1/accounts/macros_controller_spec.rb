@@ -79,6 +79,9 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
               'action_params': %w[support priority_customer]
             },
             {
+              'action_name': :remove_assigned_agent
+            },
+            {
               'action_name': :remove_assigned_team
             },
             {
@@ -229,6 +232,22 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         put "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
             params: params,
             headers: agent_1.create_new_auth_token
+
+        json_response = response.parsed_body
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response['error']).to eq('You are not authorized to do this action')
+      end
+
+      # A public macro can still point to an agent when an admin who authored it
+      # is later changed to the agent role. Public macros should remain
+      # admin-managed even when the original author is no longer an admin.
+      it 'does not allow agents to update public macros they created' do
+        macro = create(:macro, account: account, created_by: agent, updated_by: agent, visibility: :global)
+
+        put "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+            params: params,
+            headers: agent.create_new_auth_token
 
         json_response = response.parsed_body
 
@@ -484,6 +503,22 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
           expect(conversation.reload.team_id).to be_nil
         end
+
+        it 'Unassign the agent' do
+          macro.update!(actions: [
+                          { 'action_name' => 'remove_assigned_agent' }
+                        ])
+          conversation.update!(assignee: user_1)
+          expect(conversation.reload.assignee).to be_present
+
+          perform_enqueued_jobs do
+            post "/api/v1/accounts/#{account.id}/macros/#{macro.id}/execute",
+                 params: { conversation_ids: [conversation.display_id] },
+                 headers: administrator.create_new_auth_token
+          end
+
+          expect(conversation.reload.assignee).to be_nil
+        end
       end
     end
   end
@@ -525,6 +560,21 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
         delete "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
                headers: agent_1.create_new_auth_token
+
+        json_response = response.parsed_body
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(json_response['error']).to eq('You are not authorized to do this action')
+      end
+
+      # A public macro can still point to an agent when an admin who authored it
+      # is later changed to the agent role. Public macros should remain
+      # admin-managed even when the original author is no longer an admin.
+      it 'does not allow agents to delete public macros they created' do
+        macro = create(:macro, account: account, created_by: agent, updated_by: agent, visibility: :global)
+
+        delete "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+               headers: agent.create_new_auth_token
 
         json_response = response.parsed_body
 

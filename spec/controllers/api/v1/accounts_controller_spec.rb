@@ -26,8 +26,8 @@ RSpec.describe 'Accounts API', type: :request do
 
           expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
           expect(account_builder).to have_received(:perform)
-          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
-          expect(response.body).to include('en')
+          expect(response.headers.keys).not_to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+          expect(response.parsed_body['email']).to eq(email)
         end
       end
 
@@ -46,8 +46,8 @@ RSpec.describe 'Accounts API', type: :request do
                as: :json
 
           expect(ChatwootCaptcha).to have_received(:new).with('123')
-          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
-          expect(response.body).to include('en')
+          expect(response.headers.keys).not_to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+          expect(response.parsed_body['email']).to eq(email)
         end
       end
 
@@ -68,6 +68,23 @@ RSpec.describe 'Accounts API', type: :request do
       end
     end
 
+    context 'when an authenticated user creates a second account' do
+      let(:existing_user) { create(:user, password: 'Password1!') }
+
+      it 'returns the full response with account_id' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post api_v1_accounts_url,
+               params: { account_name: 'Second Account', email: existing_user.email,
+                         user_full_name: existing_user.name, password: 'Password1!' },
+               headers: existing_user.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body.dig('data', 'account_id')).to be_present
+        end
+      end
+    end
+
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to false' do
       it 'responds 404 on requests' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name }
@@ -81,8 +98,41 @@ RSpec.describe 'Accounts API', type: :request do
       end
     end
 
+    context 'when ENABLE_ACCOUNT_SIGNUP is stored as boolean false' do
+      before do
+        GlobalConfig.clear_cache
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+        InstallationConfig.create!(name: 'ENABLE_ACCOUNT_SIGNUP', value: false, locked: false)
+      end
+
+      after do
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+        GlobalConfig.clear_cache
+      end
+
+      it 'responds 404 on requests' do
+        params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
+
+        post api_v1_accounts_url,
+             params: params,
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to api_only' do
-      it 'does not respond 404 on requests' do
+      before do
+        GlobalConfig.clear_cache
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+      end
+
+      after do
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+        GlobalConfig.clear_cache
+      end
+
+      it 'returns auth headers and full response for api_only signup' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'api_only' do
           post api_v1_accounts_url,
@@ -90,6 +140,21 @@ RSpec.describe 'Accounts API', type: :request do
                as: :json
 
           expect(response).to have_http_status(:success)
+          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+        end
+      end
+    end
+
+    context 'when CW_API_ONLY_SERVER is true' do
+      it 'returns auth headers and full response' do
+        params = { account_name: 'test', email: email, user_full_name: user_full_name, password: 'Password1!' }
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true', CW_API_ONLY_SERVER: 'true' do
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
         end
       end
     end
@@ -126,11 +191,28 @@ RSpec.describe 'Accounts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(response.body).to include(account.name)
         expect(response.body).to include(account.locale)
         expect(response.body).to include(account.domain)
         expect(response.body).to include(account.support_email)
         expect(response.body).to include(account.locale)
+      end
+    end
+
+    context 'when API and webhook access is disabled for the account' do
+      it 'returns forbidden for API token authentication' do
+        account_scope = double
+        allow(account_scope).to receive(:find).with(account.id.to_s).and_return(account)
+        allow_any_instance_of(User).to receive(:accounts).and_return(account_scope) # rubocop:disable RSpec/AnyInstance
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+
+        get "/api/v1/accounts/#{account.id}",
+            headers: { api_access_token: admin.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq('API access is not enabled for this account')
       end
     end
   end
@@ -159,24 +241,39 @@ RSpec.describe 'Accounts API', type: :request do
       expect(response.headers['Cache-Control']).to include('private')
       expect(response.headers['Cache-Control']).to include('stale-while-revalidate=300')
     end
+
+    context 'when API and webhook access is disabled for the account' do
+      it 'returns forbidden for API token authentication' do
+        account_scope = double
+        allow(account_scope).to receive(:find).with(account.id.to_s).and_return(account)
+        allow_any_instance_of(User).to receive(:accounts).and_return(account_scope) # rubocop:disable RSpec/AnyInstance
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+
+        get "/api/v1/accounts/#{account.id}/cache_keys",
+            headers: { api_access_token: admin.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
   end
 
-  describe 'PUT /api/v1/accounts/{account.id}' do
+  describe 'PATCH /api/v1/accounts/{account.id}' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, account: account, role: :agent) }
     let(:admin) { create(:user, account: account, role: :administrator) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        put "/api/v1/accounts/#{account.id}"
+        patch "/api/v1/accounts/#{account.id}"
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
     context 'when it is an unauthorized user' do
       it 'returns unauthorized' do
-        put "/api/v1/accounts/#{account.id}",
-            headers: agent.create_new_auth_token
+        patch "/api/v1/accounts/#{account.id}",
+              headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -196,11 +293,20 @@ RSpec.describe 'Accounts API', type: :request do
         company_size: '1-10'
       }
 
+      it 'returns a valid schema' do
+        patch "/api/v1/accounts/#{account.id}",
+              params: params,
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to conform_schema(200)
+      end
+
       it 'modifies an account' do
-        put "/api/v1/accounts/#{account.id}",
-            params: params,
-            headers: admin.create_new_auth_token,
-            as: :json
+        patch "/api/v1/accounts/#{account.id}",
+              params: params,
+              headers: admin.create_new_auth_token,
+              as: :json
 
         expect(response).to have_http_status(:success)
         expect(account.reload.name).to eq(params[:name])
@@ -219,19 +325,19 @@ RSpec.describe 'Accounts API', type: :request do
 
       it 'updates onboarding step to invite_team if onboarding step is present in account custom attributes' do
         account.update(custom_attributes: { onboarding_step: 'account_update' })
-        put "/api/v1/accounts/#{account.id}",
-            params: params,
-            headers: admin.create_new_auth_token,
-            as: :json
+        patch "/api/v1/accounts/#{account.id}",
+              params: params,
+              headers: admin.create_new_auth_token,
+              as: :json
 
         expect(account.reload.custom_attributes['onboarding_step']).to eq('invite_team')
       end
 
       it 'will not update onboarding step if onboarding step is not present in account custom attributes' do
-        put "/api/v1/accounts/#{account.id}",
-            params: params,
-            headers: admin.create_new_auth_token,
-            as: :json
+        patch "/api/v1/accounts/#{account.id}",
+              params: params,
+              headers: admin.create_new_auth_token,
+              as: :json
 
         expect(account.reload.custom_attributes['onboarding_step']).to be_nil
       end
@@ -239,14 +345,32 @@ RSpec.describe 'Accounts API', type: :request do
       it 'Throws error 422' do
         params[:name] = 'test' * 999
 
-        put "/api/v1/accounts/#{account.id}",
-            params: params,
-            headers: admin.create_new_auth_token,
-            as: :json
+        patch "/api/v1/accounts/#{account.id}",
+              params: params,
+              headers: admin.create_new_auth_token,
+              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
         json_response = response.parsed_body
         expect(json_response['message']).to eq('Name is too long (maximum is 255 characters)')
+      end
+    end
+
+    context 'when API and webhook access is disabled for the account' do
+      it 'returns forbidden without modifying the account for API token authentication' do
+        account_scope = double
+        allow(account_scope).to receive(:find).with(account.id.to_s).and_return(account)
+        allow_any_instance_of(User).to receive(:accounts).and_return(account_scope) # rubocop:disable RSpec/AnyInstance
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+
+        expect do
+          patch "/api/v1/accounts/#{account.id}",
+                params: { name: 'Updated through API' },
+                headers: { api_access_token: admin.access_token.token },
+                as: :json
+        end.not_to(change { account.reload.name })
+
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end
@@ -272,6 +396,23 @@ RSpec.describe 'Accounts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(agent.account_users.first.active_at).not_to be_nil
+      end
+    end
+
+    context 'when API and webhook access is disabled for the account' do
+      it 'returns forbidden without updating active_at for API token authentication' do
+        account_scope = double
+        allow(account_scope).to receive(:find).with(account.id.to_s).and_return(account)
+        allow_any_instance_of(User).to receive(:accounts).and_return(account_scope) # rubocop:disable RSpec/AnyInstance
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+        account_user = agent.account_users.first
+
+        post "/api/v1/accounts/#{account.id}/update_active_at",
+             headers: { api_access_token: agent.access_token.token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(account_user.reload.active_at).to be_nil
       end
     end
   end

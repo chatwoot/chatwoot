@@ -9,7 +9,11 @@ class Captain::Tools::SearchDocumentationService < Captain::Tools::BaseTool
   def execute(query:)
     Rails.logger.info { "#{self.class.name}: #{query}" }
 
-    responses = assistant.responses.approved.search(query)
+    translated_query = Captain::Llm::TranslateQueryService
+                       .new(account: assistant.account)
+                       .translate(query, target_language: assistant.account.locale_english_name)
+
+    responses = assistant.responses.approved.search(translated_query)
 
     return 'No FAQs found for the given query' if responses.empty?
 

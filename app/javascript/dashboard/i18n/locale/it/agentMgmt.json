@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Amministratore",
       "AGENT": "Operatore"
     },
+    "COUNT": "{n} operatore | {n} operatori",
     "LIST": {
       "404": "Non ci sono operatori associati a questo account",
       "TITLE": "Gestisci gli operatori nel tuo team",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
       }
     },
+    "SEARCH_PLACEHOLDER": "Cerca operatori...",
+    "NO_RESULTS": "Nessun operatore trovato corrispondente alla tua ricerca",
     "SEARCH": {
       "NO_RESULTS": "Nessun risultato trovato."
     },

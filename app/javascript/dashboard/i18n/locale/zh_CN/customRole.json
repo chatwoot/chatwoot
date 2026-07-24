@@ -3,8 +3,11 @@
     "HEADER": "自定义角色",
     "LEARN_MORE": "了解更多关于自定义角色的信息",
     "DESCRIPTION": "自定义角色是由账户所有者或管理员创建的角色。这些角色可以分配给客服人员，以定义他们在账户中的访问权限和权限。自定义角色可以根据组织的需求创建特定的权限和访问级别。",
+    "COUNT": "{n} custom role | {n} custom roles",
     "HEADER_BTN_TXT": "添加自定义角色",
     "LOADING": "正在获取自定义角色……",
+    "SEARCH_PLACEHOLDER": "Search custom roles...",
+    "NO_RESULTS": "No custom roles found matching your search",
     "SEARCH_404": "没有任何项目符合此查询。",
     "PAYWALL": {
       "TITLE": "升级以创建自定义角色",

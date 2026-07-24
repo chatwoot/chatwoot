@@ -30,23 +30,37 @@ const modelValue = defineModel({
 });
 
 const selectedCount = computed(() => modelValue.value.size);
-const totalCount = computed(() => props.allItems.length);
-
+const visibleItemIds = computed(() => props.allItems.map(item => item.id));
+const visibleItemCount = computed(() => visibleItemIds.value.length);
+const selectedVisibleCount = computed(
+  () => visibleItemIds.value.filter(id => modelValue.value.has(id)).length
+);
 const hasSelected = computed(() => selectedCount.value > 0);
 const isIndeterminate = computed(
-  () => hasSelected.value && selectedCount.value < totalCount.value
+  () =>
+    selectedVisibleCount.value > 0 &&
+    selectedVisibleCount.value < visibleItemCount.value
 );
 const allSelected = computed(
-  () => totalCount.value > 0 && selectedCount.value === totalCount.value
+  () =>
+    visibleItemCount.value > 0 &&
+    selectedVisibleCount.value === visibleItemCount.value
 );
 
 const bulkCheckboxState = computed({
   get: () => allSelected.value,
   set: shouldSelectAll => {
-    const newSelectedIds = shouldSelectAll
-      ? new Set(props.allItems.map(item => item.id))
-      : new Set();
-    modelValue.value = newSelectedIds;
+    if (!visibleItemCount.value) {
+      return;
+    }
+
+    const updatedSelection = new Set(modelValue.value);
+    if (shouldSelectAll) {
+      visibleItemIds.value.forEach(id => updatedSelection.add(id));
+    } else {
+      visibleItemIds.value.forEach(id => updatedSelection.delete(id));
+    }
+    modelValue.value = updatedSelection;
   },
 });
 </script>
@@ -63,7 +77,7 @@ const bulkCheckboxState = computed({
       v-if="hasSelected"
       class="flex items-center gap-3 py-1 ltr:pl-3 rtl:pr-3 ltr:pr-4 rtl:pl-4 rounded-lg bg-n-solid-2 outline outline-1 outline-n-container shadow"
     >
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 min-w-0">
         <div class="flex items-center gap-1.5 min-w-0">
           <Checkbox
             v-model="bulkCheckboxState"
@@ -78,21 +92,25 @@ const bulkCheckboxState = computed({
         <span class="text-sm text-n-slate-10 truncate tabular-nums">
           {{ selectedCountLabel }}
         </span>
-        <div class="h-4 w-px bg-n-strong" />
-        <slot name="secondary-actions" />
+        <div v-if="$slots.primaryActions" class="h-4 w-px bg-n-strong" />
+        <slot v-if="$slots.primaryActions" name="primaryActions" />
       </div>
       <div class="flex items-center gap-3">
-        <slot name="actions" :selected-count="selectedCount">
-          <Button
-            :label="deleteLabel"
-            sm
-            ruby
-            ghost
-            class="!px-1.5"
-            icon="i-lucide-trash"
-            @click="emit('bulkDelete')"
-          />
-        </slot>
+        <slot v-if="$slots.secondaryActions" name="secondaryActions" />
+        <div v-if="$slots.secondaryActions" class="h-4 w-px bg-n-strong" />
+        <div class="flex items-center gap-3">
+          <slot name="actions" :selected-count="selectedCount">
+            <Button
+              :label="deleteLabel"
+              sm
+              ruby
+              ghost
+              class="!px-1.5"
+              icon="i-lucide-trash"
+              @click="emit('bulkDelete')"
+            />
+          </slot>
+        </div>
       </div>
     </div>
     <div v-else class="flex items-center gap-3">

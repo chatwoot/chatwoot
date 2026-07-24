@@ -1,5 +1,7 @@
 class Twilio::IncomingMessageService
   include ::FileTypeHelper
+  include ::Twilio::WhatsappIdentifierHelper
+  include ::Twilio::ReferralParamsHelper
 
   pattr_initialize [:params!]
 
@@ -14,7 +16,8 @@ class Twilio::IncomingMessageService
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: params[:SmsSid]
+      source_id: params[:SmsSid],
+      content_attributes: message_content_attributes
     )
     attach_files
     attach_location if location_message?
@@ -26,10 +29,21 @@ class Twilio::IncomingMessageService
   def twilio_channel
     @twilio_channel ||= ::Channel::TwilioSms.find_by(messaging_service_sid: params[:MessagingServiceSid]) if params[:MessagingServiceSid].present?
     if params[:AccountSid].present? && params[:To].present?
-      @twilio_channel ||= ::Channel::TwilioSms.find_by!(account_sid: params[:AccountSid],
-                                                        phone_number: params[:To])
+      @twilio_channel ||= ::Channel::TwilioSms.find_by(account_sid: params[:AccountSid],
+                                                       phone_number: params[:To])
     end
+    log_channel_not_found if @twilio_channel.blank?
     @twilio_channel
+  end
+
+  def log_channel_not_found
+    Rails.logger.warn(
+      '[TWILIO] Incoming message channel lookup failed ' \
+      "account_sid=#{params[:AccountSid]} " \
+      "to=#{params[:To]} " \
+      "messaging_service_sid=#{params[:MessagingServiceSid]} " \
+      "sms_sid=#{params[:SmsSid]}"
+    )
   end
 
   def inbox
@@ -40,17 +54,27 @@ class Twilio::IncomingMessageService
     @account ||= inbox.account
   end
 
+  # Twilio WhatsApp phone payloads arrive as `whatsapp:+E164`. BSUID-only
+  # payloads use `whatsapp:<BSUID>` in `From`, so this intentionally returns
+  # nil when `From` is not phone-shaped.
   def phone_number
-    twilio_channel.sms? ? params[:From] : params[:From].gsub('whatsapp:', '')
+    return params[:From] if twilio_channel.sms?
+    return unless twilio_whatsapp_phone_source?
+
+    params[:From].gsub('whatsapp:', '')
   end
 
+  # Keep Twilio WhatsApp source ids in Twilio's native shape. Phone messages use
+  # `whatsapp:+E164`; BSUID-only messages fall back to `whatsapp:<BSUID>`.
   def normalized_phone_number
     return phone_number unless twilio_channel.whatsapp?
 
-    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider("whatsapp:#{phone_number}", :twilio)
+    twilio_whatsapp_primary_source_id
   end
 
   def formatted_phone_number
+    return if phone_number.blank?
+
     TelephoneNumber.parse(phone_number).international_number
   end
 
@@ -60,15 +84,9 @@ class Twilio::IncomingMessageService
 
   def set_contact
     source_id = twilio_channel.whatsapp? ? normalized_phone_number : params[:From]
-
-    contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: source_id,
-      inbox: inbox,
-      contact_attributes: contact_attributes
-    ).perform
-
-    @contact_inbox = contact_inbox
-    @contact = contact_inbox.contact
+    @contact_inbox = twilio_contact_inbox(source_id)
+    @contact = @contact_inbox.contact
+    update_twilio_whatsapp_identifiers
 
     # Update existing contact name if ProfileName is available and current name is just phone number
     update_contact_name_if_needed
@@ -100,13 +118,13 @@ class Twilio::IncomingMessageService
   def contact_attributes
     {
       name: contact_name,
-      phone_number: phone_number,
+      phone_number: phone_number.presence,
       additional_attributes: additional_attributes
     }
   end
 
   def contact_name
-    params[:ProfileName].presence || formatted_phone_number
+    params[:ProfileName].presence || formatted_phone_number || twilio_whatsapp_display_identifier || params[:From]
   end
 
   def additional_attributes
@@ -196,6 +214,8 @@ class Twilio::IncomingMessageService
   end
 
   def contact_name_matches_phone_number?
+    return false if phone_number.blank?
+
     @contact.name == phone_number || @contact.name == formatted_phone_number
   end
 end

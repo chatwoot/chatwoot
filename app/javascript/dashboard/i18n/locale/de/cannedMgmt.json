@@ -3,8 +3,11 @@
     "HEADER": "Vorgefertigte Antworten",
     "LEARN_MORE": "Erfahren Sie mehr über vorgefertigte Antworten",
     "DESCRIPTION": "Vorgefertigte Antworten sind vorgeschriebene Antwortvorlagen, die Ihnen helfen, schnell auf eine Konversation zu reagieren. Agenten können das Zeichen '/' gefolgt von dem Kurzbefehl eingeben, um während einer Konversation eine vorgefertigte Antwort einzufügen. ",
+    "COUNT": "{n} canned response | {n} canned responses",
     "HEADER_BTN_TXT": "Vorgefertigte Antwort hinzufügen",
     "LOADING": "Lade vorgefertigte Antworten...",
+    "SEARCH_PLACEHOLDER": "Search canned responses...",
+    "NO_RESULTS": "No canned responses found matching your search",
     "SEARCH_404": "Es existieren keine Elemente, die dieser Abfrage entsprechen.",
     "LIST": {
       "404": "In diesem Konto sind keine gespeicherten Antworten verfügbar.",

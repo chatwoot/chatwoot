@@ -40,5 +40,13 @@ RSpec.describe TriggerScheduledItemsJob do
       expect(Campaigns::TriggerOneoffCampaignJob).to receive(:perform_later).with(campaign).once
       described_class.perform_now
     end
+
+    it 'does not trigger campaigns that are already processing' do
+      create(:campaign, inbox: twilio_inbox, account: account, campaign_status: :processing)
+
+      expect(Campaigns::TriggerOneoffCampaignJob).not_to receive(:perform_later)
+
+      described_class.perform_now
+    end
   end
 end

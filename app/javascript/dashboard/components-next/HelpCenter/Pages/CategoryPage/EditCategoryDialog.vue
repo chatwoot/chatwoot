@@ -52,8 +52,8 @@ const activeLocaleCode = computed(() => activeLocale.value?.code ?? '');
 const onUpdateCategory = async () => {
   if (!categoryFormRef.value) return;
   const { state } = categoryFormRef.value;
-  const { id, name, slug, icon, description } = state;
-  const categoryData = { name, icon, slug, description };
+  const { id, name, slug, icon, iconColor, description } = state;
+  const categoryData = { name, icon, icon_color: iconColor, slug, description };
   categoryData.id = id;
 
   try {

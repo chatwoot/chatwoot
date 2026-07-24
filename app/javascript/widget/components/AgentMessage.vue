@@ -72,6 +72,10 @@ export default {
         return this.message.sender.available_name || this.message.sender.name;
       }
 
+      if (this.message.additional_attributes?.sender_name) {
+        return this.message.additional_attributes.sender_name;
+      }
+
       if (this.useInboxAvatarForBot) {
         return this.channelConfig.websiteName;
       }
@@ -87,9 +91,13 @@ export default {
         return displayImage;
       }
 
-      return this.message.sender
-        ? this.message.sender.avatar_url
-        : displayImage;
+      if (this.message.sender) {
+        return this.message.sender.avatar_url;
+      }
+
+      return (
+        this.message.additional_attributes?.sender_avatar_url || displayImage
+      );
     },
     hasRecordedResponse() {
       return (

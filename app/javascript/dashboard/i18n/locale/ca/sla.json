@@ -5,7 +5,12 @@
     "ADD_ACTION_LONG": "Crea una nova política de SLA",
     "DESCRIPTION": "Els acords de nivell de servei (SLA) són contractes que defineixen expectatives clares entre el vostre equip i els clients. Estableixen estàndards de temps de resposta i resolució, creen un marc de responsabilitat i garanteixen una experiència coherent i d'alta qualitat.",
     "LEARN_MORE": "Més informació sobre SLA",
+    "COUNT": "{n} SLA | {n} SLAs",
     "LOADING": "S'estan obtenint SLAs",
+    "SEARCH_PLACEHOLDER": "Search SLA...",
+    "SEARCH": {
+      "NO_RESULTS": "No SLA found matching your search"
+    },
     "PAYWALL": {
       "TITLE": "Actualitza per crear SLA",
       "AVAILABLE_ON": "La funció SLA només està disponible als plans Business i Enterprise.",
@@ -20,14 +25,18 @@
     },
     "LIST": {
       "404": "No hi ha cap SLA disponible en aquest compte.",
+      "TABLE_HEADER": {
+        "SLA": "SLA",
+        "BUSINESS_HOURS": "Business hours"
+      },
       "EMPTY": {
         "TITLE_1": "Empresa P0",
         "DESC_1": "Problemes plantejats pels clients empresarials, que requereixen atenció immediata.",
         "TITLE_2": "Empresa P1",
         "DESC_2": "Problemes plantejats pels clients empresarials, que cal reconèixer ràpidament."
       },
-      "BUSINESS_HOURS_ON": "Horari comercial activat",
-      "BUSINESS_HOURS_OFF": "Horari comercial desactivat",
+      "BUSINESS_HOURS_ON": "Turned on",
+      "BUSINESS_HOURS_OFF": "Turned off",
       "RESPONSE_TYPES": {
         "FRT": "Primer llindar de temps de resposta",
         "NRT": "Següent llindar de temps de resposta",

@@ -25,7 +25,7 @@ export default {
     },
   },
   setup() {
-    const { agentsList } = useAgentsList();
+    const { agentsList } = useAgentsList(true, { includeAgentBots: true });
     return {
       agentsList,
     };
@@ -36,27 +36,27 @@ export default {
         {
           id: null,
           name: this.$t('CONVERSATION.PRIORITY.OPTIONS.NONE'),
-          thumbnail: `/assets/images/dashboard/priority/none.svg`,
+          icon: 'i-woot-priority-empty',
         },
         {
           id: CONVERSATION_PRIORITY.URGENT,
           name: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
-          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.URGENT}.svg`,
+          icon: 'i-woot-priority-urgent',
         },
         {
           id: CONVERSATION_PRIORITY.HIGH,
           name: this.$t('CONVERSATION.PRIORITY.OPTIONS.HIGH'),
-          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.HIGH}.svg`,
+          icon: 'i-woot-priority-high',
         },
         {
           id: CONVERSATION_PRIORITY.MEDIUM,
           name: this.$t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM'),
-          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.MEDIUM}.svg`,
+          icon: 'i-woot-priority-medium',
         },
         {
           id: CONVERSATION_PRIORITY.LOW,
           name: this.$t('CONVERSATION.PRIORITY.OPTIONS.LOW'),
-          thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.LOW}.svg`,
+          icon: 'i-woot-priority-low',
         },
       ],
     };
@@ -81,15 +81,27 @@ export default {
     },
     assignedAgent: {
       get() {
-        return this.currentChat.meta.assignee;
+        const assignee = this.currentChat.meta.assignee;
+        return (
+          assignee && {
+            ...assignee,
+            assignee_type: this.currentChat.meta.assignee_type || 'User',
+          }
+        );
       },
       set(agent) {
         const agentId = agent ? agent.id : null;
-        this.$store.dispatch('setCurrentChatAssignee', agent);
+        const assigneeType = agent ? agent.assignee_type || 'User' : null;
+        this.$store.dispatch('setCurrentChatAssignee', {
+          conversationId: this.currentChat.id,
+          assignee: agent,
+          assigneeType,
+        });
         this.$store
           .dispatch('assignAgent', {
             conversationId: this.currentChat.id,
             agentId,
+            assigneeType,
           })
           .then(() => {
             useAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
@@ -122,7 +134,7 @@ export default {
       set(priorityItem) {
         const conversationId = this.currentChat.id;
         const oldValue = this.currentChat?.priority;
-        const priority = priorityItem ? priorityItem.id : null;
+        const priority = priorityItem.id;
 
         this.$store.dispatch('setCurrentChatPriority', {
           priority,
@@ -149,7 +161,10 @@ export default {
       if (!this.assignedAgent) {
         return true;
       }
-      if (this.assignedAgent.id !== this.currentUser.id) {
+      if (
+        this.assignedAgent.id !== this.currentUser.id ||
+        (this.assignedAgent.assignee_type || 'User') !== 'User'
+      ) {
         return true;
       }
       return false;
@@ -180,7 +195,11 @@ export default {
       this.assignedAgent = selfAssign;
     },
     onClickAssignAgent(selectedItem) {
-      if (this.assignedAgent && this.assignedAgent.id === selectedItem.id) {
+      if (
+        this.assignedAgent?.id === selectedItem.id &&
+        (this.assignedAgent?.assignee_type || 'User') ===
+          (selectedItem.assignee_type || 'User')
+      ) {
         this.assignedAgent = null;
       } else {
         this.assignedAgent = selectedItem;
@@ -200,7 +219,9 @@ export default {
         this.assignedPriority &&
         this.assignedPriority.id === selectedPriorityItem.id;
 
-      this.assignedPriority = isSamePriority ? null : selectedPriorityItem;
+      this.assignedPriority = isSamePriority
+        ? this.priorityOptions[0]
+        : selectedPriorityItem;
     },
   },
 };
@@ -208,7 +229,7 @@ export default {
 
 <template>
   <div>
-    <div class="multiselect-wrap--small">
+    <div>
       <ContactDetailsItem
         compact
         :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
@@ -239,7 +260,7 @@ export default {
         @select="onClickAssignAgent"
       />
     </div>
-    <div class="multiselect-wrap--small">
+    <div>
       <ContactDetailsItem
         compact
         :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
@@ -247,6 +268,7 @@ export default {
       <MultiselectDropdown
         :options="teamsList"
         :selected-item="assignedTeam"
+        show-emoji-icon
         :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.TEAM')"
         :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
         :no-search-result="
@@ -258,7 +280,7 @@ export default {
         @select="onClickAssignTeam"
       />
     </div>
-    <div class="multiselect-wrap--small">
+    <div>
       <ContactDetailsItem compact :title="$t('CONVERSATION.PRIORITY.TITLE')" />
       <MultiselectDropdown
         :options="priorityOptions"
