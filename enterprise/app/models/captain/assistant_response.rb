@@ -44,7 +44,7 @@ class Captain::AssistantResponse < ApplicationRecord
   scope :by_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
   scope :with_document, ->(document_id) { where(document_id: document_id) }
 
-  enum status: { pending: 0, approved: 1 }
+  enum status: { approved: 1 }
 
   def self.search(query, account_id: nil)
     embedding = Captain::Llm::EmbeddingService.new(account_id: account_id).get_embedding(query)

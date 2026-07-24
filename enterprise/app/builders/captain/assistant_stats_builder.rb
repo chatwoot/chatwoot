@@ -23,10 +23,11 @@ class Captain::AssistantStatsBuilder
   # ('this_month', 'last_month'). `timezone_offset` is the viewer's UTC offset in
   # hours (as the reports API sends it), so month/day boundaries anchor to the
   # viewer's day rather than UTC. Both windows are resolved by AssistantStatsWindow.
-  def initialize(assistant, range = Captain::AssistantStatsWindow::DEFAULT_RANGE, timezone_offset = nil)
+  def initialize(assistant, range = Captain::AssistantStatsWindow::DEFAULT_RANGE, timezone_offset = nil, suggestions_scope: nil)
     @assistant = assistant
     @account = assistant.account
     @window = Captain::AssistantStatsWindow.new(range, timezone_offset)
+    @suggestions_scope = suggestions_scope || assistant.faq_suggestions
   end
 
   def metrics
@@ -37,18 +38,18 @@ class Captain::AssistantStatsBuilder
     build_metrics(current, previous)
   end
 
-  # Approved/pending FAQ counts and the document total in a single round trip.
+  # Approved FAQ, open suggestion, and document counts in a single round trip.
   def faq_stats
-    approved, pending, documents = Captain::AssistantResponse.by_assistant(assistant.id).reorder(nil).pick(
+    approved, suggestions, documents = Captain::AssistantResponse.by_assistant(assistant.id).reorder(nil).pick(
       Arel.sql("COUNT(*) FILTER (WHERE status = #{Captain::AssistantResponse.statuses['approved']})"),
-      Arel.sql("COUNT(*) FILTER (WHERE status = #{Captain::AssistantResponse.statuses['pending']})"),
+      Arel.sql("(#{open_suggestion_count_sql})"),
       Arel.sql("(SELECT COUNT(*) FROM captain_documents WHERE assistant_id = #{assistant.id.to_i})")
     )
-    total = approved + pending
+    total = approved + suggestions
 
     {
       approved: approved,
-      pending: pending,
+      suggestions: suggestions,
       documents: documents,
       coverage: total.zero? ? 0 : (approved.to_f / total * 100).round
     }
@@ -56,7 +57,7 @@ class Captain::AssistantStatsBuilder
 
   private
 
-  attr_reader :window
+  attr_reader :window, :suggestions_scope
 
   def current_range
     window.current
@@ -197,6 +198,10 @@ class Captain::AssistantStatsBuilder
                              'AND reporting_events.event_end_time >= resolves.event_end_time')
                       .distinct.count('reporting_events.conversation_id')
     rate(reopened, resolved_count)
+  end
+
+  def open_suggestion_count_sql
+    suggestions_scope.where(assistant_id: assistant.id).open.reorder(nil).select('COUNT(*)').to_sql
   end
 
   def rate(numerator, denominator)
