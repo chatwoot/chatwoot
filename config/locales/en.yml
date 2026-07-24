@@ -47,12 +47,36 @@ en:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
 
+  data_imports:
+    intercom:
+      activities:
+        assignment: '%{actor} assigned the conversation'
+        assignment_with_target: '%{actor} assigned the conversation to %{target}'
+        assign_and_reopen: '%{actor} assigned and reopened the conversation'
+        assign_and_reopen_with_target: '%{actor} assigned the conversation to %{target} and reopened it'
+        open: '%{actor} opened the conversation'
+        close: '%{actor} closed the conversation'
+        snoozed: '%{actor} snoozed the conversation'
+        participant_added: '%{actor} added a participant'
+        participant_added_with_target: '%{actor} added %{target} as a participant'
+        participant_removed: '%{actor} removed a participant'
+        participant_removed_with_target: '%{actor} removed %{target} as a participant'
+        conversation_attribute_updated: '%{actor} updated conversation attributes'
+        ticket_attribute_updated: '%{actor} updated ticket attributes'
+        ticket_state_updated: '%{actor} updated the ticket state'
+        custom_action_started: '%{actor} started a custom action'
+        custom_action_finished: '%{actor} finished a custom action'
+        quick_reply: '%{actor} used a quick reply'
+        generic: '%{actor} recorded %{event}'
+
   profile_settings:
     sessions:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
     account:
+      not_authorized: You are not authorized to access this account
+      email_limit_exceeded: The daily email limit for this account has been reached
       reporting_timezone:
         invalid: is not a valid timezone
       support_email:
@@ -82,6 +106,8 @@ en:
       file_too_large: 'File exceeds the maximum allowed size'
       unsupported_content_type: 'File type not supported (only images and videos are allowed)'
       unexpected: 'An unexpected error occurred'
+    database:
+      query_canceled: 'The request took too long to complete. Please try again.'
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
@@ -129,6 +155,7 @@ en:
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
       phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
@@ -468,7 +495,10 @@ en:
       browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
       popular_articles: Popular articles
       popular_articles_subtitle: What other people are reading right now.
+      recommended: Recommended articles
+      recommended_subtitle: Hand-picked articles to get you started.
       popular_label: 'Popular topics:'
+      recommended_label: 'Recommended topics:'
       authors_others: "%{names} and %{count} others"
       primary_nav: Primary
     hero:
@@ -504,6 +534,7 @@ en:
         light: Light
         dark: Dark
       featured_articles: Featured Articles
+      recommended: Recommended articles
       uncategorized: Uncategorized
     404:
       title: Page not found
@@ -595,6 +626,8 @@ en:
         copilot: 'Copilot'
         label_suggestion: 'Label suggestion'
         document_faq_generation: 'Document FAQ generation'
+        conversation_faq_generation: 'Conversation FAQ generation'
+        conversation_faq_matching: 'Conversation FAQ matching'
         help_center_article_generation: 'Help center article generation'
         onboarding_content_generation: 'Onboarding content generation'
         help_center_query_translation: 'Help center query translation'

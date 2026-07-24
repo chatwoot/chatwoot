@@ -56,6 +56,9 @@ const localeMenuLabels = computed(() => ({
   'customize-content': t(
     'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.CUSTOMIZE_CONTENT'
   ),
+  'select-popular-content': t(
+    'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.SELECT_POPULAR_CONTENT'
+  ),
   delete: t('HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.DELETE'),
 }));
 
