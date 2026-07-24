@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'uri'
+
 module Avatarable
   extend ActiveSupport::Concern
   include Rails.application.routes.url_helpers
@@ -11,9 +13,18 @@ module Avatarable
   end
 
   def avatar_url
-    return url_for(avatar.representation(resize_to_fill: [250, nil])) if avatar.attached? && avatar.representable?
+    return '' unless avatar.attached? && avatar.representable?
 
-    ''
+    representation = avatar.representation(resize_to_fill: [250, nil])
+    frontend_url = URI.parse(ENV.fetch('FRONTEND_URL'))
+
+    rails_blob_representation_proxy_url(
+      representation.blob.signed_id,
+      representation.variation.key,
+      representation.blob.filename,
+      host: frontend_url.host,
+      protocol: frontend_url.scheme
+    )
   end
 
   def fetch_avatar_from_gravatar

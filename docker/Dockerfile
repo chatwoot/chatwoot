@@ -4,6 +4,7 @@ FROM ruby:3.4.4-alpine3.21 AS pre-builder
 
 ARG NODE_VERSION="24.13.0"
 ARG PNPM_VERSION="10.2.0"
+ARG SOURCE_COMMIT
 ENV NODE_VERSION=${NODE_VERSION}
 ENV PNPM_VERSION=${PNPM_VERSION}
 
@@ -86,8 +87,10 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   && rm -rf spec node_modules tmp/cache; \
   fi
 
-# Generate .git_sha file with current commit hash
-RUN git rev-parse HEAD > /app/.git_sha
+# A submodule checkout contains a .git pointer that is invalid inside the build
+# context. Jenkins passes this fork's exact commit to preserve runtime metadata.
+RUN test -n "$SOURCE_COMMIT" \
+  && printf '%s\n' "$SOURCE_COMMIT" > /app/.git_sha
 
 # Remove unnecessary files
 RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \
