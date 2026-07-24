@@ -2,12 +2,27 @@
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useMapGetter } from 'dashboard/composables/store';
 
+const { t } = useI18n();
 const { isAdmin } = useAdmin();
 const currentAccount = useMapGetter('getCurrentAccount');
 const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+
+const suspensionMessage = computed(() => {
+  switch (currentAccount.value?.suspension_category) {
+    case 'spam':
+      return t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.SPAM');
+    case 'non_payment':
+      return t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.NON_PAYMENT');
+    case 'other':
+      return t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.OTHER');
+    default:
+      return t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.DEFAULT');
+  }
+});
 
 const showBillingLink = computed(
   () =>
@@ -47,7 +62,7 @@ onMounted(() => {
     <EmptyState
       class="max-w-lg"
       :title="$t('APP_GLOBAL.ACCOUNT_SUSPENDED.TITLE')"
-      :message="$t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGE')"
+      :message="suspensionMessage"
     >
       <div class="flex flex-col items-center gap-3 mt-4">
         <NextButton
