@@ -173,6 +173,7 @@ class Conversation < ApplicationRecord
 
   def bot_handoff!
     mark_bot_handoff
+    self.assignee_agent_bot = nil
     save!
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
   end
@@ -297,13 +298,19 @@ class Conversation < ApplicationRecord
 
     return handle_campaign_status if campaign.present?
 
-    # TODO: make this an inbox config instead of assuming bot conversations should start as pending
-    self.status = :pending if inbox.active_bot?
+    set_active_bot_conversation if inbox.active_bot?
   end
 
   def handle_campaign_status
-    # If campaign has no sender (bot-initiated) and inbox has active bot, let bot handle it
-    self.status = :pending if campaign.sender_id.nil? && inbox.active_bot?
+    set_active_bot_conversation if campaign.sender_id.nil? && inbox.active_bot?
+  end
+
+  def set_active_bot_conversation
+    # TODO: make this an inbox config instead of assuming bot conversations should start as pending
+    self.status = :pending
+    return unless inbox.agent_bot_inbox&.active? && assignee_id.blank?
+
+    self.assignee_agent_bot = inbox.agent_bot
   end
 
   def notify_conversation_creation

@@ -533,6 +533,8 @@
             "PUBLISHED": "Publicado",
             "ARCHIVED": "Arquivado"
           },
+          "PENDING_EDITS": "Edições não publicadas",
+          "PENDING_EDITS_TOOLTIP": "Este artigo publicado tem edições não publicadas",
           "CATEGORY": {
             "UNCATEGORISED": "Sem categoria"
           }
@@ -552,6 +554,7 @@
         "LOCALE": {
           "ALL": "Todos os Idioma"
         },
+        "SEARCH_PLACEHOLDER": "Pesquisar artigos...",
         "NEW_ARTICLE": "Novo artigo"
       },
       "EMPTY_STATE": {
@@ -579,6 +582,10 @@
         "CATEGORY": {
           "TITLE": "Não há artigos nesta categoria",
           "SUBTITLE": "Os artigos nesta categoria aparecerão aqui"
+        },
+        "SEARCH": {
+          "TITLE": "Nenhum artigo correspondente",
+          "SUBTITLE": "Não foi possível encontrar artigos que correspondam à sua pesquisa. Tente um termo diferente."
         }
       },
       "BULK_TRANSLATE": {
@@ -611,6 +618,8 @@
         "DELETE": "Excluir",
         "STATUS_SUCCESS": "Artigos atualizados com sucesso",
         "STATUS_ERROR": "Falha ao atualizar artigos",
+        "STATUS_SKIPPED": "1 artigo com edições não publicadas foi ignorado - abra-o para publicar ou descartar. Artigos de {count} com edições não publicadas foram ignorados - abra-os para publicar ou descartar.",
+        "STATUS_SKIPPED_ALL": "Esses artigos têm edições não publicadas — abra cada um para publicar ou descartar.",
         "CATEGORY_SUCCESS": "Artigos movidos com sucesso",
         "CATEGORY_ERROR": "Falha ao mover artigos",
         "DELETE_CONFIRM_TITLE": "Excluir artigo | Excluir {count} artigos",
@@ -624,6 +633,7 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "Nova categoria",
         "EDIT_CATEGORY": "Alterar categoria",
+        "SEARCH_PLACEHOLDER": "Pesquisar categorias...",
         "CATEGORIES_COUNT": "categoria {n} | {n} categorias",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Categorias ({localeCode})",
@@ -633,6 +643,10 @@
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "Nenhuma categoria encontrada",
         "SUBTITLE": "Categorias aparecerão aqui. Você pode adicionar uma categoria clicando no botão 'Nova Categoria'."
+      },
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "Nenhuma categoria correspondente",
+        "SUBTITLE": "Não foi possível encontrar nenhuma categoria que corresponda à sua pesquisa. Tente um termo diferente."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "artigo {count} | {count} artigos"
@@ -691,6 +705,11 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "Localizações não disponíveis | {n} local | {n} localidades",
       "NEW_LOCALE_BUTTON_TEXT": "Nova localização",
+      "SEARCH_PLACEHOLDER": "Pesquisar locais...",
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching locales",
+        "SUBTITLE": "Não conseguimos encontrar nenhum idioma correspondente à sua pesquisa. Tente um termo diferente."
+      },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "artigo {count} | {count} artigos",
         "CATEGORIES_COUNT": "categoria {count} | {count} categorias",
@@ -700,7 +719,49 @@
           "MAKE_DEFAULT": "Tornar padrão",
           "MOVE_TO_DRAFT": "Mover para rascunho",
           "PUBLISH_LOCALE": "Publicar localidade",
+          "CUSTOMIZE_CONTENT": "Localizar conteúdo",
+          "SELECT_POPULAR_CONTENT": "Selecionar conteúdo recomendado",
           "DELETE": "Excluir"
+        }
+      },
+      "POPULAR_CONTENT_DIALOG": {
+        "TITLE": "Conteúdo recomendado",
+        "DESCRIPTION": "Pegue até 3 categorias e 6 artigos para destacar na página central de ajuda desta localidade. Arraste-os para a ordem que você deseja que os visitantes vejam.",
+        "SEARCH": "Pesquisar...",
+        "EMPTY": "Nenhum resultado correspondente",
+        "ADD_ANOTHER": "Adicionar outro...",
+        "SLOTS_LEFT": "{count} slots restantes",
+        "OVERRIDING_DEFAULTS": "Sobrescrevendo padrões para esta localidade",
+        "CONFIRM": "Salvar recomendações",
+        "CATEGORIES": {
+          "LABEL": "Categorias recomendadas",
+          "ARTICLES_COUNT": "Nenhum artigo | {count} artigo | {count} artigos"
+        },
+        "ARTICLES": {
+          "LABEL": "Artigos recomendados",
+          "IN_CATEGORY": "em {category}",
+          "UNCATEGORIZED": "Não categorizado"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Conteúdo recomendado atualizado com sucesso",
+          "ERROR_MESSAGE": "Não foi possível atualizar o conteúdo recomendado. Tente novamente."
+        }
+      },
+      "CONTENT_DIALOG": {
+        "TITLE": "Localizar conteúdo",
+        "DESCRIPTION": "Defina valores específicos para este idioma. Qualquer campo deixado em branco utilizará o idioma padrão.",
+        "NAME": {
+          "LABEL": "Nome"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Título da Página"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Texto do Cabeçalho"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Conteúdo do idioma atualizado com sucesso",
+          "ERROR_MESSAGE": "Não foi possível atualizar o conteúdo do idioma. Tente novamente."
         }
       },
       "ADD_LOCALE_DIALOG": {
@@ -730,9 +791,29 @@
         },
         "PREVIEW": "Pré-visualizar",
         "PUBLISH": "Publicar",
+        "PUBLISH_CHANGES": "Publicar alterações",
+        "PUBLISH_CHANGES_SUCCESS": "Alterações publicadas com sucesso",
+        "PUBLISH_CHANGES_ERROR": "Não foi possível publicar as alterações",
+        "SAVE_IN_PROGRESS": "Ainda salvando as alterações mais recentes — por favor, tente novamente em um momento.",
+        "DISCARD_CHANGES": "Descartar alterações",
+        "DISCARD_CHANGES_SUCCESS": "Alterações descartadas",
+        "DISCARD_CHANGES_ERROR": "Não foi possível descartar as alterações",
+        "PENDING_CHANGES": "Alterações pendentes",
+        "VIEW_CHANGES": "Ver alterações não publicadas",
         "DRAFT": "Rascunho",
         "ARCHIVE": "Arquivar",
         "BACK_TO_ARTICLES": "Voltar aos artigos"
+      },
+      "PENDING_CHANGES_POPOVER": {
+        "TITLE": "Alterações não publicadas",
+        "DESCRIPTION": "Este artigo possui alterações de rascunho que não estão disponíveis ainda. Aplique-as antes de alterar o status ou descartá-las?",
+        "APPLY": "Aplicar as alterações",
+        "DISCARD": "Descartar alterações"
+      },
+      "DIFF_DIALOG": {
+        "TITLE": "Alterações não publicadas",
+        "DESCRIPTION": "Compara seu rascunho com a versão que está disponível no momento.",
+        "TITLE_LABEL": "Título"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Mais propriedades",

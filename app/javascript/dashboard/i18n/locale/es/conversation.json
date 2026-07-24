@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta cuenta de Instagram fue migrada a la nueva bandeja de entrada del canal Instagram. Todos los nuevos mensajes aparecerán allí. Ya no podrás enviar mensajes de esta conversación.",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram está restringido. Algunos mensajes o acciones pueden retrasarse o no estar disponibles mientras restauramos el soporte completo.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "Ver actualización de estado",
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
@@ -62,7 +64,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de WhatsApp.",
     "SUCCESS_DELETE_MESSAGE": "Mensaje eliminado correctamente",
     "FAIL_DELETE_MESSSAGE": "¡No se pudo eliminar el mensaje! Inténtalo de nuevo",
     "NO_RESPONSE": "No hay respuesta",
@@ -73,7 +75,7 @@
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
       "HIDE_LABELS": "Ocultar etiquetas",
-      "LABELS_COUNT": "{count} labels"
+      "LABELS_COUNT": "{count} etiquetas"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
@@ -81,21 +83,21 @@
       "CALL_IN_PROGRESS": "Call in progress",
       "NO_ANSWER": "No answer",
       "NO_ANSWER_OUTBOUND_LABEL": "No answer",
-      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "El contacto no ha atendido",
       "MISSED_CALL": "Missed call",
-      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
-      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
+      "MISSED_CALL_INBOUND_SUBTEXT": "Ningún agente escogido",
+      "MISSED_CALL_DECLINED_BY": "Denegado por {agentName}",
       "CALL_ENDED": "Call ended",
-      "HANDLED_BY": "Handled by {agentName}",
+      "HANDLED_BY": "Manejado por {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",
-      "CALLING": "Calling…",
+      "CALLING": "Llamando…",
       "THEY_ANSWERED": "They answered",
       "YOU_ANSWERED": "You answered",
-      "AGENT_ANSWERED": "{agentName} answered",
+      "AGENT_ANSWERED": "{agentName} respondió",
       "JOIN_CALL": "Unirse a la llamada",
-      "CALL_BACK": "Call back",
-      "TRANSCRIPT_SHOW_MORE": "Show more",
-      "TRANSCRIPT_SHOW_LESS": "Show less"
+      "CALL_BACK": "Llamar de vuelta",
+      "TRANSCRIPT_SHOW_MORE": "Mostrar más",
+      "TRANSCRIPT_SHOW_LESS": "Mostrar menos"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -105,17 +107,17 @@
       "OPEN": "Más",
       "CLOSE": "Cerrar",
       "DETAILS": "detalles",
-      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
+      "COPY_ID_SUCCESS": "ID de conversación copiado al portapapeles",
       "SNOOZED_UNTIL": "Posponer hasta",
       "SNOOZED_UNTIL_TOMORROW": "Pospuesto hasta mañana",
       "SNOOZED_UNTIL_NEXT_WEEK": "Pospuesto hasta la próxima semana",
       "SNOOZED_UNTIL_NEXT_REPLY": "Posponer hasta la siguiente respuesta",
-      "WHATSAPP_CALL": "Start WhatsApp call",
-      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
-      "VOICE_CALL": "Start call",
-      "VOICE_CALL_FAILED": "Could not start the call.",
-      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+      "WHATSAPP_CALL": "Iniciar llamada de WhatsApp",
+      "WHATSAPP_CALL_FAILED": "No se pudo iniciar la llamada de WhatsApp.",
+      "VOICE_CALL": "Iniciar llamada",
+      "VOICE_CALL_FAILED": "No se pudo iniciar la llamada.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Solicitud de permiso de llamada al contacto enviada. Inténtalo de nuevo una vez que acepten.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Solicitud de permiso de llamada ya enviada recientemente. Inténtelo de nuevo una vez que el contacto acepte.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -231,8 +233,9 @@
       "TIP_AUDIORECORDER_ICON": "Grabar audio",
       "TIP_AUDIORECORDER_PERMISSION": "Permitir el acceso a audio",
       "TIP_AUDIORECORDER_ERROR": "No se pudo abrir el audio",
-      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
+      "AUDIO_CONVERSION_FAILED": "Error al convertir audio. Vuelve a intentarlo.",
       "DRAG_DROP": "Arrastra y suelta aquí para adjuntar",
+      "IMAGE_UPLOAD_SUCCESS": "Imagen subida con éxito",
       "START_AUDIO_RECORDING": "Iniciar grabación de audio",
       "STOP_AUDIO_RECORDING": "Detener grabación de audio",
       "COPILOT_THINKING": "Copilot está pensando",
@@ -303,6 +306,25 @@
         "MESSAGE": "No puede deshacer esta acción",
         "DELETE": "Eliminar",
         "CANCEL": "Cancelar"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Reportar mensaje",
+        "TITLE": "Reportar mensaje de Capitán",
+        "DESCRIPTION": "¿Ha encontrado un problema con esta respuesta de IA? Háganos saber qué salió mal y nuestro equipo lo revisará para ayudar a mejorar la precisión del Capitán.",
+        "PROBLEM_TYPE": "Tipo de problema",
+        "PROBLEM_TYPE_PLACEHOLDER": "Seleccione un tipo de problema",
+        "DESCRIPTION_LABEL": "Descripción",
+        "DESCRIPTION_PLACEHOLDER": "Describa el problema en detalle",
+        "SUBMIT": "Reportar",
+        "SUCCESS": "Gracias por reportar. Nuestro equipo echará un vistazo.",
+        "ERROR": "No se pudo reportar este mensaje. Por favor, inténtelo de nuevo.",
+        "REASONS": {
+          "incorrect_information": "Información incorrecta",
+          "inappropriate_response": "Respuesta inapropiada",
+          "incomplete_response": "Respuesta incompleta",
+          "outdated_information": "Información desactualizada",
+          "other": "Otro"
+        }
       }
     },
     "SIDEBAR": {
@@ -319,10 +341,10 @@
       "DISMISS_CALL": "Descartar",
       "JOIN_CALL": "Unirse a la llamada",
       "END_CALL": "Terminar llamada",
-      "MUTE": "Mute mic",
-      "UNMUTE": "Unmute mic",
-      "VIEW_CHAT_HISTORY": "View chat history",
-      "GO_TO_CONVERSATION": "Go to conversation thread"
+      "MUTE": "Silenciar micrófono",
+      "UNMUTE": "Reactivar micrófono",
+      "VIEW_CHAT_HISTORY": "Ver historial de chat",
+      "GO_TO_CONVERSATION": "Ir al hilo de conversación"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -389,18 +411,19 @@
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Problemas lineales vinculados",
       "SHOPIFY_ORDERS": "Shopify Orders",
-      "SHARED_FILES": "Attachments"
+      "SHARED_FILES": "Adjuntos"
     },
     "SHARED_FILES": {
-      "EMPTY": "No attachments yet",
-      "DOWNLOAD": "Download file",
-      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "EMPTY": "No hay archivos adjuntos aún",
+      "DOWNLOAD": "Descargar archivo",
+      "DOWNLOAD_ERROR": "No se pudo descargar el archivo. Por favor, inténtelo de nuevo.",
       "MEDIA_HEADING": "Media",
-      "FILES_HEADING": "Files",
+      "FILES_HEADING": "Archivos",
       "VIEW_ALL": "Ver todo",
-      "SHOW_LESS": "Show less",
+      "SHOW_LESS": "Mostrar menos",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Archivo sin título",
+      "JUMP_TO_MESSAGE": "Ir al mensaje"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
