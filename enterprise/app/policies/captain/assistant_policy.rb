@@ -35,6 +35,14 @@ class Captain::AssistantPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def approve?
+    update?
+  end
+
+  def dismiss?
+    update?
+  end
+
   def destroy?
     @account_user.administrator?
   end
