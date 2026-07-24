@@ -24,10 +24,15 @@ pipeline {
             choices: ['BUILD_ONLY', 'BUILD_AND_DEPLOY_DEV'],
             description: 'Build and push only, or build, push, and deploy the image to dev-chatwoot.'
         )
-        string(
+        gitParameter(
             name: 'SOURCE_BRANCH',
+            type: 'PT_BRANCH',
+            branchFilter: 'origin/(.*)',
             defaultValue: 'bg/v4.11.1-avatar-proxy',
-            description: 'Branch from bluegame-studio/chatwoot-bg to load and build.'
+            description: 'Branch from bluegame-studio/chatwoot-bg to load and build.',
+            selectedValue: 'DEFAULT',
+            sortMode: 'ASCENDING_SMART',
+            quickFilterEnabled: true
         )
         string(
             name: 'IMAGE_TAG',
