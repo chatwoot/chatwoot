@@ -3,7 +3,9 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** fix `B-NEW-13` report panel pivot collapsing agent
+**Última actualización:** fix `B-NEW-19` pivot name/rank = 0 + fila Sin asignar
+(2026-07-24, branch `fix/report-panels-pivot-identity`). Antes:
+`B-NEW-13` report panel pivot collapsing agent
 rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 `B-NEW-12` WhatsApp Flow nfm_reply. Auditoría previa pre–chats grupales
 (2026-07-11), branch `feat/internal-tasks` (PR #3).
@@ -58,6 +60,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-11 | Media | No | ✅ Re-fijado (2026-07-21) — regresión en `d54c4092d` revirtió attended; restaurado en `feat/automation-formulas-and-date-vars` |
 | B-NEW-12 | Media | No | ✅ Fijado — Flow nfm_reply: i18n restaurado + sin confirmación outbound al cliente |
 | B-NEW-13 | 🔴 Alta (prod) | No | ✅ Fijado — pivot summary rows seeded from flat summary; no more agent collapse |
+| B-NEW-19 | 🔴 Alta (prod) | No | ✅ Fijado — pivot name/rank no longer clobbered to 0; Sin asignar row |
 | B-NEW-14 | Feature | No | ✅ Business rules + time automations + multi_list (branch `feat/business-rules-time-multilist`) |
 | B-NEW-15 | Flows UI | Baja | ✅ Portado a `feat/business-rules-time-multilist` (model/API/UI/`flows_v1`) |
 | B-NEW-16 | 🔴 P0 | No | ✅ Time-rule ledger: conditions before claim + hours window_id from message id/created_at |
@@ -464,6 +467,49 @@ Flat summary usa `AgentSummaryBuilder` (todos los `account_users`); pivot no.
    Columnas=Producto; celdas 0 donde no hay cruce.
 
 **Estado:** ✅ Fijado 2026-07-23 en `fix/report-panels-pivot-agent-rows`.
+
+### B-NEW-19 — Pivot muestra Nombre/Puesto = 0 + KPI ≠ suma agentes
+
+**Severidad:** Alta (producción) — con `pivot.column_attribute` la tabla
+“Resumen de agentes” listaba 7 filas pero **Nombre** y **Puesto** salían `0`.
+Además el KPI Conversaciones (cuenta) no coincidía con la suma de la tabla
+(faltaba bucket sin asignar).
+
+**Síntoma:**
+
+1. Pivote por CA (p.ej. Tipo de conversación): filas de agente OK en cantidad
+   (B-NEW-13) pero identidad en `0`.
+2. KPI Conversaciones = 8; suma tabla agentes = 2 (solo asignadas).
+
+**Causa raíz:**
+
+1. `build_pivot_rows` setea `:name`/`:rank` (symbol) y luego
+   `expanded_columns.each { row[col] = 0 if nil }` con strings → JSON queda `0`.
+2. Tabla agrupa por `assignee_id`; `nil` no tenía fila.
+
+**Fix aplicado:**
+
+1. Keys string + no rellenar columnas de identidad.
+2. Fila sintética `UNASSIGNED_AGENT_ID = 0` (“Sin asignar”) en plano y pivote.
+3. Copy EN/ES: Conversaciones (cuenta) vs (asignadas); hints de filtro status.
+4. Smoke: assert name/rank ≠ 0 + fila unassigned.
+
+**Archivos:**
+
+- `app/services/reports/panel_runner_service.rb`
+- `tmp/smoke_pivot_agent_rows.rb`
+- `config/locales/en.yml`, `es.yml`
+- `app/javascript/dashboard/i18n/locale/{en,es}/report.json`
+
+**Migración BD:** no.
+
+**Cómo probar:**
+
+1. Panel con pivote → Nombre/Puesto reales.
+2. Plano: suma Conversaciones (agentes + Sin asignar) ≈ KPI.
+3. Smoke: `rails runner tmp/smoke_pivot_agent_rows.rb`.
+
+**Estado:** ✅ Fijado 2026-07-24 en `fix/report-panels-pivot-identity`.
 
 ---
 

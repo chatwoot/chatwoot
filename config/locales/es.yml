@@ -163,6 +163,8 @@ es:
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
     utc_warning: El informe generado está en zona horaria UTC
+    panels:
+      unassigned_agent: Sin asignar
     resolution_count_labels:
       resolved: Número de resoluciones
       closed: Número de cerradas
