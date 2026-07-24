@@ -82,9 +82,38 @@ Legacy `ca:key__count__eq__value` is still parsed if present; prefer **pivot** f
 
 ## Currency / number parsing
 
-- Locale strings (`1000,00`, `1.000,50`) via `numeric_table_cell`.
+- Locale strings (`1000,00`, `1.000,50`) via `CustomAttributes::NumericParser`
+  (panel runner + formula recompute share the same helper).
+- Unparseable values are skipped in Sum/Avg/Min/Max (not coerced to `0`).
+- Count = attribute present (non-blank), not “parseable as number”.
 - UI formats `currency` with `$`; count cells as integers.
 - Click column headers to sort.
+
+## Scan limits
+
+| Path | Behavior |
+|------|----------|
+| Aggregation metrics / charts | Full range (`in_batches`) |
+| Flat summary `ca:*` / `contact_ca:*` measures | Full range (`in_batches`) |
+| Pivot summary | Full range (`in_batches`) |
+| Detail tables (`conversations` / `contacts`) | Preview caps (`DETAIL_CONVERSATIONS_LIMIT` / `DETAIL_CONTACTS_LIMIT`); response includes `truncated` + `total_count` |
+
+## Date axis
+
+- Default: filter conversations by `created_at` in the panel preset/custom range.
+- Optional panel `date_attribute` = `ca:<key>` (conversation date/datetime CA):
+  the range applies to that attribute instead of `created_at` (filters still apply).
+
+## Contact formulas vs period measures
+
+- Contact attribute **formulas** persist a lifetime aggregate over conversations.
+- Panel `contact_ca:*` measures read that stored value (deduped per contact in range).
+- For period totals prefer conversation measures (`ca:ventas__sum`), not formula contact attrs.
+
+## Filters
+
+- Conversation filters and contact filters are split and combined with **AND** across groups.
+- OR only applies within the same filter group (conversation vs contact).
 
 ## Follow-ups
 

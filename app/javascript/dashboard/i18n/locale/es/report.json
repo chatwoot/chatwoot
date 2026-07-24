@@ -730,6 +730,7 @@
     "TOTALS": {
       "RECORDS": "Total de registros",
       "RECORDS_COUNT": "{count} registros",
+      "TRUNCATED_COUNT": "Mostrando {shown} de {total}",
       "SUM": "Suma",
       "FOOTER_LABEL": "Total"
     },
@@ -763,6 +764,9 @@
       "NAME_PLACEHOLDER": "ej. Ventas última semana",
       "DESCRIPTION": "Descripción",
       "DATE_PRESET": "Rango de fechas",
+      "DATE_ATTRIBUTE": "Campo de fecha",
+      "DATE_ATTRIBUTE_CREATED_AT": "Fecha de creación de la conversación",
+      "DATE_ATTRIBUTE_HINT": "Usa un atributo personalizado date/datetime de conversación (p. ej. fecha de venta) en lugar de la fecha de creación para el período del panel.",
       "CUSTOM_RANGE": "Fechas personalizadas",
       "VIEW_RANGE": "Período a ver",
       "BUSINESS_HOURS": "Solo horario laboral",
@@ -809,6 +813,7 @@
       "FIELDS_SYSTEM": "Métricas del sistema",
       "FIELDS_CONVERSATION": "Atributos de conversación",
       "FIELDS_CONTACT": "Atributos de contacto",
+      "FIELDS_CONTACT_HINT": "Los valores de contacto están en el contacto (las fórmulas son totales de por vida). Para sumas del período usa atributos de conversación.",
       "ZONE_ROWS": "Filas",
       "ZONE_ROWS_HINT": "Fijo según el tipo de tabla — cambia Filas arriba para cambiar la entidad.",
       "ZONE_COLUMNS": "Columnas",
@@ -837,6 +842,7 @@
       "TITLE": "Filtros del informe",
       "ADD": "Añadir filtro",
       "HINT": "Como filtros/segmentación de Excel: aplican a todo el panel (AND exterior), incluidas métricas y tablas pivote. Los filtros de conversación acotan conversaciones (prueba status = open/pending/resolved); los de contacto intersectan contactos. El pivote desglosa dentro de ese conjunto. Máx. 10.",
+      "MIXED_GROUPS_BANNER": "Los filtros de conversación y de contacto se combinan con AND entre grupos. OR solo aplica dentro del mismo grupo (todas las condiciones de conversación, o todas las de contacto).",
       "EMPTY": "Sin filtros. Las métricas cuentan toda la cuenta en el rango; las tablas de agentes muestran asignados más Sin asignar.",
       "SYSTEM_ATTRIBUTES": "Atributos de conversación",
       "CUSTOM_ATTRIBUTES": "Atributos personalizados de conversación",

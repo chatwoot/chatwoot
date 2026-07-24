@@ -35,9 +35,7 @@ class CustomAttributes::RecomputeContactFormulasService
       raw = conversation.custom_attributes&.[](source_key)
       next if raw.nil? || raw == ''
 
-      Float(raw)
-    rescue ArgumentError, TypeError
-      nil
+      CustomAttributes::NumericParser.parse(raw)
     end
 
     case op

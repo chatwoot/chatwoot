@@ -34,7 +34,7 @@ class CustomAttributes::RecomputeCompanyFormulasService
     return nil if source_key.blank?
 
     raw = company.custom_attributes&.[](source_key)
-    value = parse_numeric(raw)
+    value = CustomAttributes::NumericParser.parse(raw)
     return nil if value.nil?
 
     case op
@@ -45,13 +45,5 @@ class CustomAttributes::RecomputeCompanyFormulasService
     else
       value
     end
-  end
-
-  def parse_numeric(raw)
-    return nil if raw.nil? || raw == ''
-
-    Float(raw)
-  rescue ArgumentError, TypeError
-    nil
   end
 end

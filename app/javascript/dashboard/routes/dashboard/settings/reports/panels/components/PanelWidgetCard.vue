@@ -501,6 +501,13 @@ const tableSubtitle = computed(() => {
   if (props.widget.type !== 'table') return '';
   const total = totals.value.count;
   if (total == null) return '';
+  const shown = tableRows.value.length;
+  if (props.result?.truncated && shown < total) {
+    return t('REPORT_PANELS.TOTALS.TRUNCATED_COUNT', {
+      shown,
+      total,
+    });
+  }
   return t('REPORT_PANELS.TOTALS.RECORDS_COUNT', { count: total });
 });
 </script>

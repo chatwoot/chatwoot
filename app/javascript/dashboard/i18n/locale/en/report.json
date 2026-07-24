@@ -730,6 +730,7 @@
     "TOTALS": {
       "RECORDS": "Total records",
       "RECORDS_COUNT": "{count} records",
+      "TRUNCATED_COUNT": "Showing {shown} of {total}",
       "SUM": "Sum",
       "FOOTER_LABEL": "Total"
     },
@@ -763,6 +764,9 @@
       "NAME_PLACEHOLDER": "e.g. Sales last week",
       "DESCRIPTION": "Description",
       "DATE_PRESET": "Date range",
+      "DATE_ATTRIBUTE": "Date field",
+      "DATE_ATTRIBUTE_CREATED_AT": "Conversation created date",
+      "DATE_ATTRIBUTE_HINT": "Use a conversation date/datetime custom attribute (e.g. sale date) instead of created date for the panel period.",
       "CUSTOM_RANGE": "Custom dates",
       "VIEW_RANGE": "View period",
       "BUSINESS_HOURS": "Business hours only",
@@ -809,6 +813,7 @@
       "FIELDS_SYSTEM": "System metrics",
       "FIELDS_CONVERSATION": "Conversation attributes",
       "FIELDS_CONTACT": "Contact attributes",
+      "FIELDS_CONTACT_HINT": "Contact values are stored on the contact (formulas are lifetime totals). For period sums use conversation attributes.",
       "ZONE_ROWS": "Rows",
       "ZONE_ROWS_HINT": "Fixed by table type — change Rows above to switch entity.",
       "ZONE_COLUMNS": "Columns",
@@ -837,6 +842,7 @@
       "TITLE": "Report filters",
       "ADD": "Add filter",
       "HINT": "Like Excel filters / slicers: apply to the whole panel (outer AND), including metrics and pivot tables. Conversation filters narrow conversations (try status = open/pending/resolved); contact filters intersect contacts. Pivot Columns still break down within this filtered set. Max 10.",
+      "MIXED_GROUPS_BANNER": "Conversation and contact filters are combined with AND across groups. OR only applies within the same group (all conversation conditions, or all contact conditions).",
       "EMPTY": "No filters. Metrics count the whole account for the date range; agent tables show assigned agents plus Unassigned.",
       "SYSTEM_ATTRIBUTES": "Conversation attributes",
       "CUSTOM_ATTRIBUTES": "Conversation custom attributes",

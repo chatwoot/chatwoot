@@ -40,6 +40,8 @@ import {
   resolveTableColumns,
   normalizeAttrDisplayType,
   customAttributeColumnKey,
+  DATE_AXIS_ATTR_TYPES,
+  CA_COLUMN_PREFIX,
 } from './panelConstants';
 import PanelTablePivotBuilder from './components/PanelTablePivotBuilder.vue';
 import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
@@ -83,6 +85,23 @@ const datePresetOptions = computed(() =>
     label: t(preset.labelKey),
   }))
 );
+
+const dateAttributeOptions = computed(() => {
+  const created = {
+    value: '',
+    label: t('REPORT_PANELS.FIELDS.DATE_ATTRIBUTE_CREATED_AT'),
+  };
+  const attrs = (conversationAttributes.value || [])
+    .filter(attr => DATE_AXIS_ATTR_TYPES.has(normalizeAttrDisplayType(attr)))
+    .map(attr => {
+      const key = attr.attributeKey || attr.attribute_key;
+      return {
+        value: `${CA_COLUMN_PREFIX}${key}`,
+        label: attr.attributeDisplayName || attr.attribute_display_name || key,
+      };
+    });
+  return [created, ...attrs];
+});
 
 const metricOptions = computed(() =>
   METRIC_OPTIONS.map(metric => ({
@@ -243,6 +262,24 @@ const resolveFilterType = attributeKey =>
     item => item.attributeKey === attributeKey || item.value === attributeKey
   );
 
+const hasMixedFilterGroups = computed(() => {
+  if (uiFilters.value.length < 2) return false;
+  let hasConversation = false;
+  let hasContact = false;
+  uiFilters.value.forEach(filter => {
+    const type = resolveFilterType(filter.attributeKey);
+    if (
+      type?.customAttributeType === 'contact_attribute' ||
+      type?.customAttributeType === 'contact'
+    ) {
+      hasContact = true;
+    } else {
+      hasConversation = true;
+    }
+  });
+  return hasConversation && hasContact;
+});
+
 const contactFilterLookupKey = filter => {
   if (filter.custom_attribute_type === 'contact_attribute') {
     return `${CONTACT_ATTR_PREFIX}${filter.attribute_key}`;
@@ -315,6 +352,7 @@ const loadExisting = async () => {
       date_preset: data.date_preset,
       custom_since: data.custom_since,
       custom_until: data.custom_until,
+      date_attribute: data.date_attribute || '',
       business_hours: data.business_hours,
       favorite: data.favorite,
       filters: data.filters || [],
@@ -645,6 +683,17 @@ onMounted(async () => {
           @update:model-value="onPresetChange"
         />
       </label>
+      <label class="text-sm text-n-slate-12 flex flex-col gap-1.5">
+        {{ t('REPORT_PANELS.FIELDS.DATE_ATTRIBUTE') }}
+        <SelectInput
+          v-model="form.date_attribute"
+          :options="dateAttributeOptions"
+          full-width
+        />
+        <span class="text-xs text-n-slate-11">
+          {{ t('REPORT_PANELS.FIELDS.DATE_ATTRIBUTE_HINT') }}
+        </span>
+      </label>
       <div v-if="isCustomRange" class="flex flex-col gap-2">
         <span class="text-sm text-n-slate-12">
           {{ t('REPORT_PANELS.FIELDS.CUSTOM_RANGE') }}
@@ -681,6 +730,12 @@ onMounted(async () => {
       </div>
       <p class="text-sm text-n-slate-11 mb-3">
         {{ t('REPORT_PANELS.FILTERS.HINT') }}
+      </p>
+      <p
+        v-if="hasMixedFilterGroups"
+        class="text-sm text-amber-800 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-lg px-3 py-2 mb-3"
+      >
+        {{ t('REPORT_PANELS.FILTERS.MIXED_GROUPS_BANNER') }}
       </p>
       <div v-if="uiFilters.length" class="flex flex-col gap-2">
         <!--
