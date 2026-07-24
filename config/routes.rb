@@ -234,6 +234,7 @@ Rails.application.routes.draw do
             end
             member do
               post :start
+              post :retry, action: :retry_import
               post :abandon
               get :error_logs
               get :skip_logs
