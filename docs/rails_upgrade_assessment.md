@@ -64,7 +64,7 @@ The implementation work converted the estimates into these exact checkpoint diff
 | Checkpoint | Stack base | Files changed | Validation result |
 | --- | --- | ---: | --- |
 | Rails 7.2.3.1 | Current `develop` | 22 | 7,940 Ruby examples and 3,787 frontend tests passed; Vite/Sprockets builds, production preflight, Sidekiq Cron, Disk/Azurite storage, and five Playwright product tests passed. |
-| Rails 8.0.5 | Rails 7.2.3.1 checkpoint | 51 | 7,940 Ruby examples and 3,787 frontend tests passed; focused Administrate/reporting regressions, Vite/Sprockets builds, production preflight, Sidekiq Cron, Disk/Azurite storage, five Playwright product tests, and the Super Admin remote-search browser flow passed. |
+| Rails 8.0.5 | Rails 7.2.3.1 checkpoint | 52 | 7,940 Ruby examples and 3,787 frontend tests passed; focused Administrate/reporting regressions, Vite/Sprockets builds, production preflight, Sidekiq Cron, Disk/Azurite storage, five Playwright product tests, and the Super Admin remote-search browser flow passed. |
 
 The Rails 8.0 implementation found several interfaces that a boot-only experiment could not prove:
 
@@ -138,7 +138,7 @@ These estimates are for tracked files in the Chatwoot repository. Any remaining 
 | --- | ---: | ---: | --- |
 | Rails 7.2.3.1, version compatibility only | 3 | 3–5 | `Gemfile`, `Gemfile.lock`, and the `User` association alias. |
 | Refreshed existing Rails 7.2 PR | 22 | 22 | Also carries Rails-7.2 boundary fixes, Azure adapter replacement, Sidekiq scheduler and profiler compatibility, test stabilization, a production preflight, and the migration guide. |
-| Stacked Rails 8.0.5 checkpoint | 51 | 51 | Includes 30 enum files, supported dependencies, route/time/test configuration, Groupdate, Administrate 1 assets and remote search replacement, preflight extensions, and the production guide. |
+| Stacked Rails 8.0.5 checkpoint | 52 | 52 | Includes 30 enum files, supported dependencies, route/time/test configuration, Groupdate, Administrate 1 assets and remote search replacement, the explicit deferral of strong-parameter `expect` semantics, preflight extensions, and the production guide. |
 | Rails 7.2.3.1 plus staged 7.1/7.2 defaults | 3 | 8–15 | Adds explicit defaults, encryption/serialization guards, and focused regression specs. |
 | Rails 8.1.3, minimum boot floor from 7.1 | 36 | At least 36 | 31 enum files, two dependency files, `User`, routes, and schema dumper. |
 | Rails 8.1.3, production-ready | 36 | 50–70 | Adds Azure strategy, Super Admin asset fixes, defaults, job/auth/storage/request specs, schema validation, and rollout configuration. |
