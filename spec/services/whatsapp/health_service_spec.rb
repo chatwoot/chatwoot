@@ -187,6 +187,7 @@ RSpec.describe Whatsapp::HealthService do
       it 'does not overwrite the newer successful snapshot' do
         attempted_at = Time.zone.parse('2026-07-21 12:00:00')
         newer_attempted_at = attempted_at + 1.minute
+        expect(Rails.logger).not_to receive(:warn)
         stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_phone_number_id}).to_return do
           channel.update_columns( # rubocop:disable Rails/SkipsModelValidations
             phone_number_health: newer_health,

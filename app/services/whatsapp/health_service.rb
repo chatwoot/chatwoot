@@ -176,14 +176,14 @@ class Whatsapp::HealthService
   def persist_health_status(health_status, attempted_at)
     # Health polling must bypass credential validation, timestamps, inbox touches, and audit callbacks.
     # rubocop:disable Rails/SkipsModelValidations
-    @channel.class.where(id: @channel.id)
-            .where('phone_number_health_checked_at < ? OR phone_number_health_checked_at IS NULL', attempted_at)
-            .update_all(
-              phone_number_health: health_status.slice(*PERSISTED_FIELDS),
-              phone_number_health_checked_at: attempted_at,
-              phone_number_health_error: nil
-            )
+    updated_rows = health_attempt_scope(attempted_at).update_all(
+      phone_number_health: health_status.slice(*PERSISTED_FIELDS),
+      phone_number_health_checked_at: attempted_at,
+      phone_number_health_error: nil
+    )
     # rubocop:enable Rails/SkipsModelValidations
+
+    updated_rows == 1
   end
 
   def persist_health_error(error, attempted_at)
@@ -191,13 +191,16 @@ class Whatsapp::HealthService
 
     # Recording a provider failure must not run the same provider validation or channel callbacks.
     # rubocop:disable Rails/SkipsModelValidations
-    @channel.class.where(id: @channel.id)
-            .where('phone_number_health_checked_at < ? OR phone_number_health_checked_at IS NULL', attempted_at)
-            .update_all(
-              phone_number_health_checked_at: attempted_at,
-              phone_number_health_error: error.message.truncate(500)
-            )
+    health_attempt_scope(attempted_at).update_all(
+      phone_number_health_checked_at: attempted_at,
+      phone_number_health_error: error.message.truncate(500)
+    )
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def health_attempt_scope(attempted_at)
+    Channel::Whatsapp.where(id: @channel.id)
+                     .where('phone_number_health_checked_at < ? OR phone_number_health_checked_at IS NULL', attempted_at)
   end
 
   def log_risky_transition(previous_health, health_status)
