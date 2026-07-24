@@ -5,7 +5,7 @@ ruby '3.4.4'
 ##-- base gems for rails --##
 
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '8.0.5'
+gem 'rails', '8.1.3'
 gem 'sprockets-rails', '~> 3.5'
 
 # Reduces boot times through caching; required in config/boot.rb
@@ -185,7 +185,7 @@ gem 'audited', '~> 5.8'
 gem 'omniauth', '>= 2.1.2'
 gem 'omniauth-saml'
 gem 'omniauth-google-oauth2', '>= 1.1.3'
-gem 'omniauth-rails_csrf_protection', '~> 1.0', '>= 1.0.2'
+gem 'omniauth-rails_csrf_protection', '~> 2.0', '>= 2.0.1'
 
 ## Gems for reponse bot
 # adds cosine similarity to postgres using vector extension
