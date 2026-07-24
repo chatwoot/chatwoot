@@ -4,8 +4,6 @@ import { shouldBeUrl } from 'shared/helpers/Validators';
 import { useAlert } from 'dashboard/composables';
 import { useVuelidate } from '@vuelidate/core';
 import Avatar from 'next/avatar/Avatar.vue';
-import Banner from 'dashboard/components-next/banner/Banner.vue';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
@@ -46,11 +44,9 @@ import SelectInput from 'dashboard/components-next/select/Select.vue';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
-import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 
 export default {
   components: {
-    Banner,
     BotConfiguration,
     CollaboratorsPage,
     ConfigurationPage,
@@ -84,7 +80,6 @@ export default {
     WhatsappManualMigrationBanner,
     Widget,
     AccessToken,
-    Icon,
   },
   mixins: [inboxMixin],
   setup() {
@@ -347,12 +342,6 @@ export default {
     },
     instagramUnauthorized() {
       return this.isAnInstagramChannel && this.inbox.reauthorization_required;
-    },
-    showInstagramRestrictionSettingsBanner() {
-      return this.isOnChatwootCloud && this.isAnInstagramChannel;
-    },
-    metaRestrictionStatusUrl() {
-      return META_RESTRICTION_STATUS_URL;
     },
     tiktokUnauthorized() {
       return this.isATiktokChannel && this.inbox.reauthorization_required;
@@ -820,29 +809,6 @@ export default {
           :class="bannerMaxWidth"
           @start="openWhatsAppManualMigrationDialog"
         />
-        <Banner
-          v-if="showInstagramRestrictionSettingsBanner"
-          color="amber"
-          class="mx-6 mb-4 max-w-4xl"
-        >
-          <div class="flex items-start gap-3 text-start">
-            <Icon
-              icon="i-lucide-triangle-alert"
-              class="flex-shrink-0 size-4 mt-0.5"
-            />
-            <span>
-              {{ $t('INBOX_MGMT.ADD.INSTAGRAM.SETTINGS_RESTRICTED_WARNING') }}
-              <a
-                :href="metaRestrictionStatusUrl"
-                class="link underline"
-                rel="noopener noreferrer nofollow"
-                target="_blank"
-              >
-                {{ $t('INBOX_MGMT.ADD.INSTAGRAM.STATUS_LINK') }}
-              </a>
-            </span>
-          </div>
-        </Banner>
 
         <div
           v-if="selectedTabKey === 'inbox-settings'"

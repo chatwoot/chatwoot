@@ -8,6 +8,8 @@ import {
   EditorState,
   Selection,
   imageResizeView,
+  toggleMark,
+  wrapInList,
 } from '@chatwoot/prosemirror-schema';
 import {
   suggestionsPlugin,
@@ -17,8 +19,6 @@ import imagePastePlugin from '@chatwoot/prosemirror-schema/src/plugins/image';
 import embedPreviewPlugin from '@chatwoot/prosemirror-schema/src/plugins/embedPreview';
 import trailingParagraphPlugin from '@chatwoot/prosemirror-schema/src/plugins/trailingParagraph';
 import { embeds as markdownEmbeds } from 'dashboard/helper/markdownEmbeds';
-import { toggleMark } from 'prosemirror-commands';
-import { wrapInList } from 'prosemirror-schema-list';
 import { toggleBlockType } from '@chatwoot/prosemirror-schema/src/menu/common';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { isEscape } from 'shared/helpers/KeyboardHelpers';
