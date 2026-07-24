@@ -25,7 +25,7 @@ class AgentBuilder
     account.with_lock do
       raise LimitExceededError unless can_add_agent?
 
-      ActiveRecord::Base.transaction do
+      ActiveRecord::Base.transaction(requires_new: true) do
         @user = find_or_create_user
         create_account_user
         reserve_invitation_email_capacity if user_needs_confirmation?
