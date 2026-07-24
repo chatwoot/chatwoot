@@ -37,7 +37,12 @@ const store = useStore();
 const getters = useStoreGetters();
 const route = useRoute();
 const { t } = useI18n();
-const { uiSettings, updateUISettings } = useUISettings();
+const {
+  uiSettings,
+  updateUISettings,
+  isContactSidebarItemOpen,
+  toggleSidebarUIState,
+} = useUISettings();
 
 const dragging = ref(false);
 
@@ -88,36 +93,37 @@ const filteredCustomAttributes = computed(() =>
   })
 );
 
+const attributeCategory = attribute =>
+  (attribute?.category || attribute?.Category || '').trim();
+
 // Order key name for UI settings
 const orderKey = computed(
   () => `conversation_elements_order_${props.attributeFrom}`
 );
 
-const combinedElements = computed(() => {
-  // Get saved order from UI settings
-  const savedOrder = uiSettings.value[orderKey.value] ?? [];
-  const allElements = [
-    ...props.staticElements,
-    ...filteredCustomAttributes.value,
-  ];
+const sortBySavedOrder = (elements, savedOrder) => {
+  if (!savedOrder.length) return elements;
 
-  // If no saved order exists, return in default order
-  if (!savedOrder.length) return allElements;
-
-  return allElements.sort((a, b) => {
-    // Find positions of elements in saved order
+  return [...elements].sort((a, b) => {
     const aPosition = savedOrder.indexOf(a.key);
     const bPosition = savedOrder.indexOf(b.key);
 
-    // Handle cases where elements are not in saved order:
-    // - New elements (not in saved order) go to the end
-    // - If both elements are new, maintain their relative order
     if (aPosition === -1 && bPosition === -1) return 0;
     if (aPosition === -1) return 1;
     if (bPosition === -1) return -1;
 
     return aPosition - bPosition;
   });
+};
+
+const combinedElements = computed(() => {
+  const savedOrder = uiSettings.value[orderKey.value] ?? [];
+  const allElements = [
+    ...props.staticElements,
+    ...filteredCustomAttributes.value,
+  ];
+
+  return sortBySavedOrder(allElements, savedOrder);
 });
 
 const displayedElements = computed(() => {
@@ -125,9 +131,70 @@ const displayedElements = computed(() => {
     return combinedElements.value;
   }
 
-  // Show first 5 elements in the order they appear
   return combinedElements.value.slice(0, 5);
 });
+
+const orderedStaticElements = computed(() => {
+  const savedOrder = uiSettings.value[orderKey.value] ?? [];
+  return sortBySavedOrder([...props.staticElements], savedOrder);
+});
+
+const categorySlug = category => {
+  const trimmed = (category || '').trim();
+  if (!trimmed) return 'uncategorized';
+  return trimmed
+    .toLowerCase()
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_-]/g, '');
+};
+
+const categoryOpenKey = slug =>
+  `attr_category_open_${props.attributeFrom}_${slug}`;
+
+const isCategoryOpen = slug => isContactSidebarItemOpen(categoryOpenKey(slug));
+
+const toggleCategoryOpen = slug => toggleSidebarUIState(categoryOpenKey(slug));
+
+const categoryGroups = computed(() => {
+  const savedOrder = uiSettings.value[orderKey.value] ?? [];
+  const sortedAttributes = sortBySavedOrder(
+    filteredCustomAttributes.value,
+    savedOrder
+  );
+  const groups = new Map();
+
+  sortedAttributes.forEach(attribute => {
+    const category = attributeCategory(attribute);
+    const key = category || '__uncategorized__';
+    if (!groups.has(key)) {
+      groups.set(key, {
+        key,
+        slug: categorySlug(category),
+        title: category || t('CUSTOM_ATTRIBUTES.UNCATEGORIZED'),
+        attributes: [],
+      });
+    }
+    groups.get(key).attributes.push(attribute);
+  });
+
+  return [...groups.values()].sort((a, b) => {
+    if (a.key === '__uncategorized__') return 1;
+    if (b.key === '__uncategorized__') return -1;
+    return a.title.localeCompare(b.title);
+  });
+});
+
+// Same gate as macros conversation list: folders only when 2+ groups.
+const hasMultipleCategories = computed(() => categoryGroups.value.length > 1);
+
+// Compact list stays flat; "Show all attributes" switches to folder groups.
+const showCategoryFolderView = computed(
+  () =>
+    hasMultipleCategories.value &&
+    (showAllAttributes.value || combinedElements.value.length <= 5)
+);
+
+const showToggleButton = computed(() => combinedElements.value.length > 5);
 
 // Reorder elements with static elements position preserved
 // There is case where all the static elements will not be available (API, Email channels, etc).
@@ -163,7 +230,6 @@ const reorderElementsWithStaticPreservation = (
 
 const onDragEnd = () => {
   dragging.value = false;
-  // Get the saved and current saved order
   const savedOrder = uiSettings.value[orderKey.value] ?? [];
   const currentOrder = combinedElements.value.map(({ key }) => key);
 
@@ -174,6 +240,43 @@ const onDragEnd = () => {
 
   updateUISettings({
     [orderKey.value]: finalOrder,
+  });
+};
+
+const onCategoryOrderChange = (categoryKey, newAttributes) => {
+  dragging.value = false;
+  const savedOrder = uiSettings.value[orderKey.value] ?? [];
+  const newKeys = newAttributes.map(({ key }) => key);
+  const categoryKeySet = new Set(newKeys);
+  const result = [];
+  let inserted = false;
+
+  savedOrder.forEach(key => {
+    if (categoryKeySet.has(key)) {
+      if (!inserted) {
+        result.push(...newKeys);
+        inserted = true;
+      }
+      return;
+    }
+    result.push(key);
+  });
+
+  if (!inserted) {
+    result.push(...newKeys);
+  }
+
+  // Keep any keys not yet in saved order (statics / new attrs)
+  const resultSet = new Set(result);
+  orderedStaticElements.value.forEach(({ key }) => {
+    if (!resultSet.has(key)) result.push(key);
+  });
+  filteredCustomAttributes.value.forEach(({ key }) => {
+    if (!resultSet.has(key) && !categoryKeySet.has(key)) result.push(key);
+  });
+
+  updateUISettings({
+    [orderKey.value]: result,
   });
 };
 
@@ -258,62 +361,139 @@ const evenClass = [
 
 <template>
   <div class="conversation--details">
-    <Draggable
-      :list="displayedElements"
-      :disabled="!showAllAttributes"
-      animation="200"
-      ghost-class="ghost"
-      handle=".drag-handle"
-      item-key="key"
-      class="last:rounded-b-lg"
-      :class="evenClass"
-      @start="dragging = true"
-      @end="onDragEnd"
-    >
-      <template #item="{ element }">
+    <!-- "Show all attributes": macros-style category folders -->
+    <template v-if="showCategoryFolderView">
+      <div
+        v-if="orderedStaticElements.length"
+        class="last:rounded-b-lg"
+        :class="evenClass"
+      >
         <div
-          class="drag-handle relative border-b border-n-weak/50 dark:border-n-weak/90"
-          :class="{
-            'cursor-grab': showAllAttributes,
-            'last:border-transparent dark:last:border-transparent':
-              combinedElements.length <= 5,
-          }"
+          v-for="element in orderedStaticElements"
+          :key="element.key"
+          class="relative border-b border-n-weak/50 dark:border-n-weak/90"
         >
-          <template v-if="element.type === 'static_attribute'">
-            <slot name="staticItem" :element="element" />
-          </template>
-
-          <template v-else>
-            <CustomAttribute
-              :key="element.id"
-              :attribute-key="element.attribute_key"
-              :attribute-type="element.attribute_display_type"
-              :values="element.attribute_values"
-              :label="element.attribute_display_name"
-              :description="element.attribute_description"
-              :value="element.value"
-              show-actions
-              :read-only="!!element.formula"
-              :attribute-regex="element.regex_pattern"
-              :regex-cue="element.regex_cue"
-              :contact-id="contactId"
-              @update="onUpdate"
-              @delete="onDelete"
-              @copy="onCopy"
-            />
-          </template>
+          <slot name="staticItem" :element="element" />
         </div>
-      </template>
-    </Draggable>
+      </div>
 
-    <p
-      v-if="!displayedElements.length && emptyStateMessage"
-      class="p-3 text-center"
-    >
-      {{ emptyStateMessage }}
-    </p>
-    <!-- Show more and show less buttons show it if the combinedElements length is greater than 5 -->
-    <div v-if="combinedElements.length > 5" class="flex items-center px-2 py-2">
+      <div class="flex flex-col gap-1 p-1">
+        <div v-for="group in categoryGroups" :key="group.key">
+          <button
+            type="button"
+            class="flex w-full items-center justify-between gap-2 px-2 py-1.5 rounded-md text-start hover:bg-n-alpha-2"
+            @click="toggleCategoryOpen(group.slug)"
+          >
+            <span class="text-xs font-medium text-n-slate-11 truncate">
+              {{ group.title }}
+              <span class="font-normal">({{ group.attributes.length }})</span>
+            </span>
+            <span
+              class="i-lucide-chevron-down size-3.5 text-n-slate-11 transition-transform shrink-0"
+              :class="{ '-rotate-90': !isCategoryOpen(group.slug) }"
+            />
+          </button>
+          <Draggable
+            v-show="isCategoryOpen(group.slug)"
+            :model-value="group.attributes"
+            animation="200"
+            ghost-class="ghost"
+            handle=".drag-handle"
+            item-key="key"
+            class="pl-1 last:rounded-b-lg"
+            :class="evenClass"
+            @start="dragging = true"
+            @update:model-value="
+              value => onCategoryOrderChange(group.key, value)
+            "
+          >
+            <template #item="{ element }">
+              <div
+                class="drag-handle relative cursor-grab border-b border-n-weak/50 dark:border-n-weak/90 last:border-transparent dark:last:border-transparent"
+              >
+                <CustomAttribute
+                  :key="element.id"
+                  :attribute-key="element.attribute_key"
+                  :attribute-type="element.attribute_display_type"
+                  :values="element.attribute_values"
+                  :label="element.attribute_display_name"
+                  :description="element.attribute_description"
+                  :value="element.value"
+                  show-actions
+                  :read-only="!!element.formula"
+                  :attribute-regex="element.regex_pattern"
+                  :regex-cue="element.regex_cue"
+                  :contact-id="contactId"
+                  @update="onUpdate"
+                  @delete="onDelete"
+                  @copy="onCopy"
+                />
+              </div>
+            </template>
+          </Draggable>
+        </div>
+      </div>
+    </template>
+
+    <!-- Compact / uncategorized flat list -->
+    <template v-else>
+      <Draggable
+        :list="displayedElements"
+        :disabled="!showAllAttributes"
+        animation="200"
+        ghost-class="ghost"
+        handle=".drag-handle"
+        item-key="key"
+        class="last:rounded-b-lg"
+        :class="evenClass"
+        @start="dragging = true"
+        @end="onDragEnd"
+      >
+        <template #item="{ element }">
+          <div
+            class="drag-handle relative border-b border-n-weak/50 dark:border-n-weak/90"
+            :class="{
+              'cursor-grab': showAllAttributes,
+              'last:border-transparent dark:last:border-transparent':
+                combinedElements.length <= 5,
+            }"
+          >
+            <template v-if="element.type === 'static_attribute'">
+              <slot name="staticItem" :element="element" />
+            </template>
+
+            <template v-else>
+              <CustomAttribute
+                :key="element.id"
+                :attribute-key="element.attribute_key"
+                :attribute-type="element.attribute_display_type"
+                :values="element.attribute_values"
+                :label="element.attribute_display_name"
+                :description="element.attribute_description"
+                :value="element.value"
+                show-actions
+                :read-only="!!element.formula"
+                :attribute-regex="element.regex_pattern"
+                :regex-cue="element.regex_cue"
+                :contact-id="contactId"
+                @update="onUpdate"
+                @delete="onDelete"
+                @copy="onCopy"
+              />
+            </template>
+          </div>
+        </template>
+      </Draggable>
+
+      <p
+        v-if="!displayedElements.length && emptyStateMessage"
+        class="p-3 text-center"
+      >
+        {{ emptyStateMessage }}
+      </p>
+    </template>
+
+    <div v-if="showToggleButton" class="flex items-center px-2 py-2">
       <NextButton
         ghost
         xs
@@ -324,6 +504,18 @@ const evenClass = [
         @click="onClickToggle"
       />
     </div>
+
+    <p
+      v-if="
+        showCategoryFolderView &&
+        !filteredCustomAttributes.length &&
+        !orderedStaticElements.length &&
+        emptyStateMessage
+      "
+      class="p-3 text-center"
+    >
+      {{ emptyStateMessage }}
+    </p>
   </div>
 </template>
 

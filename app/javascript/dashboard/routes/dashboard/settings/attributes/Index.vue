@@ -28,6 +28,7 @@ const inboxes = useMapGetter('inboxes/getInboxes');
 const [showAddPopup, toggleAddPopup] = useToggle(false);
 const selectedTabIndex = ref(0);
 const searchQuery = ref('');
+const selectedCategory = ref(null);
 const uiFlags = computed(() => getters['attributes/getUIFlags'].value);
 const [showEditPopup, toggleEditPopup] = useToggle(false);
 const [showDeletePopup, toggleDeletePopup] = useToggle(false);
@@ -81,6 +82,7 @@ const attributes = computed(() =>
 const onClickTabChange = tab => {
   selectedTabIndex.value = tab.key;
   searchQuery.value = '';
+  selectedCategory.value = null;
 };
 
 const handleEditAttribute = attribute => {
@@ -139,6 +141,9 @@ const buildBadges = attribute => {
   return badges;
 };
 
+const attributeCategory = attribute =>
+  (attribute?.category || attribute?.Category || '').trim();
+
 const derivedAttributes = computed(() =>
   attributes.value.map(attribute => ({
     ...attribute,
@@ -149,15 +154,100 @@ const derivedAttributes = computed(() =>
   }))
 );
 
+const categories = computed(() => {
+  const set = new Set();
+  derivedAttributes.value.forEach(attribute => {
+    const category = attributeCategory(attribute);
+    if (category) set.add(category);
+  });
+  return [...set].sort((a, b) => a.localeCompare(b));
+});
+
+const hasUncategorized = computed(() =>
+  derivedAttributes.value.some(attribute => !attributeCategory(attribute))
+);
+
+const showCategoryFilters = computed(
+  () => categories.value.length > 0 || hasUncategorized.value
+);
+
+const categoryFilteredAttributes = computed(() => {
+  if (selectedCategory.value === null) return derivedAttributes.value;
+  if (selectedCategory.value === '') {
+    return derivedAttributes.value.filter(
+      attribute => !attributeCategory(attribute)
+    );
+  }
+  return derivedAttributes.value.filter(
+    attribute => attributeCategory(attribute) === selectedCategory.value
+  );
+});
+
 const filteredAttributes = computed(() => {
   const query = searchQuery.value.trim();
-  if (!query) return derivedAttributes.value;
-  return picoSearch(derivedAttributes.value, query, [
+  if (!query) return categoryFilteredAttributes.value;
+  return picoSearch(categoryFilteredAttributes.value, query, [
     'attribute_display_name',
     'attribute_key',
     'attribute_description',
+    'category',
   ]);
 });
+
+const sortAttributesByName = list =>
+  [...list].sort((a, b) =>
+    (a.attribute_display_name || a.label || '').localeCompare(
+      b.attribute_display_name || b.label || ''
+    )
+  );
+
+// When "All categories" is selected and named categories exist, show section
+// headers (A–Z, Uncategorized last). A single-category filter skips headers.
+const groupedAttributes = computed(() => {
+  const list = filteredAttributes.value;
+  const shouldGroup =
+    selectedCategory.value === null && categories.value.length > 0;
+
+  if (!shouldGroup) {
+    return [
+      {
+        key: selectedCategory.value ?? '__all__',
+        title: null,
+        attributes: sortAttributesByName(list),
+      },
+    ];
+  }
+
+  const groups = new Map();
+  list.forEach(attribute => {
+    const category = attributeCategory(attribute);
+    const key = category || '__uncategorized__';
+    if (!groups.has(key)) {
+      groups.set(key, {
+        key,
+        title: category || t('ATTRIBUTES_MGMT.UNCATEGORIZED'),
+        attributes: [],
+      });
+    }
+    groups.get(key).attributes.push(attribute);
+  });
+
+  return [...groups.values()]
+    .map(group => ({
+      ...group,
+      attributes: sortAttributesByName(group.attributes),
+    }))
+    .sort((a, b) => {
+      if (a.key === '__uncategorized__') return 1;
+      if (b.key === '__uncategorized__') return -1;
+      return a.title.localeCompare(b.title);
+    });
+});
+
+const chipClass = active =>
+  active
+    ? 'bg-n-brand text-white border-n-brand'
+    : 'bg-n-alpha-black2 text-n-slate-12 border-n-weak hover:bg-n-alpha-2';
 </script>
 
 <template>
@@ -197,24 +287,77 @@ const filteredAttributes = computed(() => {
     </template>
     <template #body>
       <div class="flex flex-col gap-4">
+        <div
+          v-if="attributes.length && showCategoryFilters"
+          class="flex flex-wrap gap-2"
+        >
+          <button
+            type="button"
+            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
+            :class="chipClass(selectedCategory === null)"
+            @click="selectedCategory = null"
+          >
+            {{ $t('ATTRIBUTES_MGMT.ALL_CATEGORIES') }}
+          </button>
+          <button
+            v-for="category in categories"
+            :key="category"
+            type="button"
+            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
+            :class="chipClass(selectedCategory === category)"
+            @click="selectedCategory = category"
+          >
+            {{ category }}
+          </button>
+          <button
+            v-if="hasUncategorized"
+            type="button"
+            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
+            :class="chipClass(selectedCategory === '')"
+            @click="selectedCategory = ''"
+          >
+            {{ $t('ATTRIBUTES_MGMT.UNCATEGORIZED') }}
+          </button>
+        </div>
+
         <span
-          v-if="!filteredAttributes.length && searchQuery"
+          v-if="
+            !filteredAttributes.length &&
+            (searchQuery || selectedCategory !== null)
+          "
           class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
         >
           {{ $t('ATTRIBUTES_MGMT.NO_RESULTS') }}
         </span>
-        <div
-          v-else-if="filteredAttributes.length"
-          class="flex flex-col divide-y divide-n-weak border-t border-n-weak"
-        >
-          <AttributeListItem
-            v-for="attribute in filteredAttributes"
-            :key="attribute.id"
-            :attribute="attribute"
-            :badges="attribute.badges"
-            @edit="handleEditAttribute"
-            @delete="handleDeleteAttribute"
-          />
+        <div v-else-if="filteredAttributes.length" class="flex flex-col gap-6">
+          <section
+            v-for="group in groupedAttributes"
+            :key="group.key"
+            class="flex flex-col gap-1"
+          >
+            <div
+              v-if="group.title"
+              class="flex w-full items-center justify-between gap-2 px-1 py-1.5 text-start"
+            >
+              <span class="text-xs font-medium text-n-slate-11 truncate">
+                {{ group.title }}
+                <span class="font-normal">({{ group.attributes.length }})</span>
+              </span>
+            </div>
+            <div
+              class="flex flex-col divide-y divide-n-weak border-t border-n-weak"
+              :class="{ 'pl-1': group.title }"
+            >
+              <AttributeListItem
+                v-for="attribute in group.attributes"
+                :key="attribute.id"
+                :attribute="attribute"
+                :badges="attribute.badges"
+                @edit="handleEditAttribute"
+                @delete="handleDeleteAttribute"
+              />
+            </div>
+          </section>
         </div>
         <p
           v-else

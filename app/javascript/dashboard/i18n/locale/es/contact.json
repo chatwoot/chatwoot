@@ -210,6 +210,7 @@
     "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
     "SHOW_MORE": "Mostrar todos los atributos",
     "SHOW_LESS": "Mostrar menos atributos",
+    "UNCATEGORIZED": "Sin categoría",
     "ACTIONS": {
       "COPY": "Copiar atributo",
       "DELETE": "Eliminar atributo",
