@@ -50,7 +50,7 @@ class DataImport < ApplicationRecord
   validates :access_token, presence: true, on: :create, if: :intercom_import?
   validate :validate_import_types
 
-  enum status: { pending: 0, processing: 1, completed: 2, failed: 3, completed_with_errors: 6, abandoned: 7 }
+  enum :status, { pending: 0, processing: 1, completed: 2, failed: 3, completed_with_errors: 6, abandoned: 7 }
 
   scope :active_intercom, -> { where(data_type: 'intercom', source_provider: 'intercom', status: [:pending, :processing]) }
 
