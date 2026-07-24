@@ -172,7 +172,7 @@ class Whatsapp::HealthService
   end
 
   def persist_health_status(health_status, checked_at)
-    # Health polling should not touch the inbox or run channel credential validation.
+    # Health polling must bypass credential validation, timestamps, inbox touches, and audit callbacks.
     # rubocop:disable Rails/SkipsModelValidations
     @channel.update_columns(
       phone_number_health: health_status.slice(*PERSISTED_FIELDS),
@@ -185,6 +185,7 @@ class Whatsapp::HealthService
   def persist_health_error(error)
     return unless @channel&.persisted?
 
+    # Recording a provider failure must not run the same provider validation or channel callbacks.
     # rubocop:disable Rails/SkipsModelValidations
     @channel.update_columns(
       phone_number_health_checked_at: Time.current,

@@ -30,8 +30,9 @@ RSpec.describe TriggerScheduledItemsJob do
     described_class.perform_now
   end
 
-  it 'triggers Channels::Whatsapp::HealthSyncSchedulerJob' do
-    expect(Channels::Whatsapp::HealthSyncSchedulerJob).to receive(:perform_later).once
+  it 'does not trigger the hourly WhatsApp health scheduler' do
+    expect(Channels::Whatsapp::HealthSyncSchedulerJob).not_to receive(:perform_later)
+
     described_class.perform_now
   end
 
