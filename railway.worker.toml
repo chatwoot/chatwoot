@@ -14,6 +14,7 @@ dockerfilePath = "docker/Dockerfile"
 watchPatterns = ["docker/**", "app/**", "config/**", "Gemfile", "Gemfile.lock"]
 
 [deploy]
+# IMAP SSL VERIFY_NONE patch lives in config/initializers/imap_ssl_verify_none.rb (committed).
 startCommand = "sh -c \"bundle exec rails ip_lookup:setup && exec bundle exec sidekiq -C config/sidekiq.yml\""
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
