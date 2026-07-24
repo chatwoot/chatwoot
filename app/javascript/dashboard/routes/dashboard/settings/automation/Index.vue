@@ -62,6 +62,7 @@ onMounted(() => {
   store.dispatch('automations/get');
   store.dispatch('attributes/get');
   store.dispatch('macros/get');
+  store.dispatch('flows/get');
   if (isSLAEnabled.value) {
     store.dispatch('sla/get');
   }

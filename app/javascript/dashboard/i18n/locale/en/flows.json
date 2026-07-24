@@ -1,0 +1,120 @@
+{
+  "FLOWS": {
+    "HEADER": "Conversation Flows",
+    "DESCRIPTION": "Multi-step paths with automation-like actions, wait/branch on replies, and escalation policies. Enter once from Automations — the flow owns the walk.",
+    "LEARN_MORE": "Learn more about flows",
+    "COUNT": "{n} flow | {n} flows",
+    "HEADER_BTN_TXT": "Add a new flow",
+    "HEADER_BTN_TXT_SAVE": "Save flow",
+    "LOADING": "Fetching flows",
+    "SEARCH_PLACEHOLDER": "Search flows...",
+    "NO_RESULTS": "No flows found matching your search",
+    "ORDER_INFO": "After enter_flow, the conversation stays on this path. Steps run in order with the same action types as Automations/Macros. Optional buttons wait for a reply and branch — no chained “did auto1 run?” conditions.",
+    "LIST": {
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "STATUS": "Status",
+        "ACTIONS": "Actions"
+      },
+      "404": "No flows found",
+      "NO_DESCRIPTION": "No description",
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive"
+    },
+    "ADD": {
+      "FORM": {
+        "NAME": {
+          "LABEL": "Flow name",
+          "PLACEHOLDER": "Enter a name for your flow",
+          "ERROR": "Name is required for creating a flow"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Description",
+          "PLACEHOLDER": "Optional description"
+        },
+        "ACTIVE": {
+          "LABEL": "Active",
+          "DESCRIPTION": "Inactive flows cannot be started from Automations."
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Flow added successfully",
+        "ERROR_MESSAGE": "Unable to create flow, please try again later"
+      }
+    },
+    "EDIT": {
+      "HEADER": "Edit flow",
+      "TOOLTIP": "Edit flow",
+      "LOADING": "Fetching flow",
+      "START_FLOW": "Start flow",
+      "END_FLOW": "End flow",
+      "ADD_BTN_TOOLTIP": "Add step",
+      "ADD_ACTION": "Add action",
+      "DELETE_ACTION_TOOLTIP": "Remove action",
+      "DELETE_BTN_TOOLTIP": "Remove step",
+      "STEP_N": "Step {n}",
+      "MESSAGE_LABEL": "Message",
+      "MESSAGE_PLACEHOLDER": "Message the customer will see…",
+      "DELAY": "Typing delay (seconds)",
+      "TYPING_INDICATOR": "Mark as read and show typing",
+      "BUTTONS": "Wait for reply (buttons, max 3)",
+      "BUTTONS_HINT": "Optional. After this step’s actions, wait for a matching reply and branch. Leave empty to continue to the next step.",
+      "BUTTON_TITLE": "Button label",
+      "BUTTON_VALUE": "Match value",
+      "BRANCH_TO": "Then go to",
+      "BRANCH_END": "End flow",
+      "BRANCH_HANDOFF": "Hand off to human",
+      "BRANCHES_PREVIEW": "Branches",
+      "HAS_BRANCHES": "Branches",
+      "FORK": "fork",
+      "LINEAR_NEXT": "Continues to step {n}: {label}",
+      "STEP_PROPERTIES": "Selected step",
+      "NO_STEP_SELECTED": "Click a step on the left to edit buttons, branches, and typing delay.",
+      "NO_WAIT_WITHOUT_MESSAGE": "Add a Send message action to enable wait/branch buttons.",
+      "HANDOFF_REASON": "Chose {label}",
+      "VALIDATION": "Name and at least one step are required",
+      "API": {
+        "SUCCESS_MESSAGE": "Flow updated successfully",
+        "ERROR_MESSAGE": "Could not update flow, please try again later"
+      }
+    },
+    "DELETE": {
+      "TOOLTIP": "Delete flow",
+      "CONFIRM": {
+        "TITLE": "Delete flow?",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete",
+        "NO": "No"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Flow deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the flow. Please try again later"
+      }
+    },
+    "EXIT": {
+      "TITLE": "When the flow ends",
+      "HINT": "Status and assignee applied when the run completes, fails, or hands off.",
+      "STATUS": "Conversation status",
+      "ASSIGNEE": "Assignee",
+      "TEAM": "Team",
+      "AGENT": "Agent",
+      "PICK_TEAM": "Select a team",
+      "PICK_AGENT": "Select an agent",
+      "PRIVATE_NOTE": "Leave a private handoff note",
+      "ON_COMPLETE": "Completed",
+      "ON_HANDOFF": "Hand off",
+      "ON_FAIL": "Failed / no match",
+      "ON_HUMAN_BREAK": "Agent replied",
+      "STATUS_OPEN": "Open",
+      "STATUS_PENDING": "Pending",
+      "STATUS_RESOLVED": "Resolved",
+      "MODE_NONE": "Do not change assignee",
+      "MODE_KEEP": "Keep current assignee",
+      "MODE_UNASSIGNED": "Limbo (unassigned)",
+      "MODE_PENDING": "Mark pending",
+      "MODE_TEAM": "Assign team",
+      "MODE_AGENT": "Assign agent",
+      "MODE_OWNER": "Contact owner"
+    }
+  }
+}

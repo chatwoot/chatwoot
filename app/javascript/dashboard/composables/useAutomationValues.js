@@ -32,6 +32,7 @@ export default function useAutomationValues() {
     'attributes/getConversationAttributes'
   );
   const macros = useMapGetter('macros/getMacros');
+  const flows = useMapGetter('flows/getFlows');
 
   const booleanFilterOptions = computed(() => [
     { id: true, name: t('FILTER.ATTRIBUTE_LABELS.TRUE') },
@@ -150,6 +151,7 @@ export default function useAutomationValues() {
         contactAttributes: contactAttributes.value || [],
         conversationAttributes: conversationAttributes.value || [],
         macros: macros.value || [],
+        flows: flows.value || [],
       }) || []
     );
   };

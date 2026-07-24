@@ -1,21 +1,56 @@
 # Conversation Flows — Potenciar Automatizaciones con Flujos Conversacionales
 
-> **Estado:** propuesta de diseño
-> **Rama objetivo:** `feat/conversation-flows`
-> **Base:** desde `develop`
-> **Feature flag:** `:flows_v1`
-> **Estimación total:** 7-8 días de trabajo
+> **Estado:** WIP listo para review local (rama `feat/conversation-flows`)
+> **Feature flag:** `flows_v1` (bit index ~56 en `features.yml`; default `enabled: true`)
+> **UI:** Settings → Flows (editor estilo Macros) + Automation action `enter_flow`
+> **Semáforo:** reutiliza `panel_ia_estado` / `PanelIaStateIndicator` vía `flow_run`
+> **Salida:** `exit_policy` (limbo unassigned / pending / team / agent / owner)
+
+## Cómo probar en local (Docker)
+
+```powershell
+cd d:\DOCUMENTOS\GITHUB\chatwoot\chatwoot
+docker exec chatwoot-chatwoot-rails-1 bundle exec rails db:migrate
+pnpm exec vite build
+docker cp public/vite chatwoot-chatwoot-rails-1:/app/public/
+docker restart chatwoot-chatwoot-rails-1 chatwoot-chatwoot-sidekiq-1
+# Flag (si no aparece el menú):
+# rails runner: Account.find(1).enable_features('flows_v1'); Account.find(1).save!
+```
+
+- **Lista:** http://localhost:3000/app/accounts/1/settings/flows
+- **Nuevo:** http://localhost:3000/app/accounts/1/settings/flows/new
+- También: Settings → Conversation Workflow → Flows CTA
+- Disparo: Automatizaciones → acción **Enter conversation flow**
+
+### Editor (Macros language)
+
+- Izquierda: árbol de pasos (acciones + preview de ramas / fork)
+- Derecha: nombre/activo, propiedades del paso seleccionado (botones, branch, delay), exit policy (team/agent pickers + private note)
+- Sin canvas drag-and-drop (v2)
+
+### Gaps conocidos (follow-up)
+
+- No hay start manual desde el panel de conversación ni webhook `/start` aún
+- Timeout automático en `wait_response` no implementado
+- Specs RSpec / FE no escritos (a propósito en WIP)
+- Canvas visual v2 diferido
+
+---
 
 ## TL;DR
 
-Construir un sistema de **Flujos conversacionales** (graph-based, multi-step, con branches) independiente de `AutomationRule`. Las automatizaciones existentes podrán **invocar un flujo** cuando se cumpla una condición. Una vez dentro del flujo, la conversación opera como una máquina de estados propia con respuesta interactiva (botones, match por texto, etc.) hasta completarse o transferirse a un humano.
+Sistema de **Flujos conversacionales** (graph multi-step) independiente de `AutomationRule`. Las automatizaciones invocan un flujo con `enter_flow` **una sola vez**. A partir de ahí el motor del flujo posee el recorrido (`FlowRun` + `current_node_id` + edges): **no hace falta encadenar automatizaciones** con condiciones del estilo “¿ya pasó auto1/auto2?”.
 
-**Badge visual de estado** en la conversación (header + lista):
-- 🟢 **Verde**: flujo ejecutando pasos del bot
-- 🟠 **Naranja**: esperando respuesta del cliente
-- 🔴 **Rojo**: terminado / entregado a humano / falló
+Cada paso puede ejecutar el **mismo catálogo de acciones** que Automatizaciones/Macros (`Flows::ActionService` reutiliza `ActionService`), más conceptos propios del flujo: `wait_response` / match / ramas / `exit_policy`. Mensajes al cliente usan typing+delay (`Flows::HumanLikeSendService`). Al salir, `Flows::ExitPolicyService` aplica status/asignación.
 
-Cuando un humano (agent) responde en una conversación que está dentro de un flujo, el flujo se **rompe automáticamente**, se crea un activity message con el resumen de los pasos recorridos + variables recogidas, y el control pasa al humano.
+---
+
+## Por qué Flows (vs solo Automatizaciones)
+
+**Dolor con solo Automations:** para un diálogo de varios turnos había que crear muchas reglas encadenadas (“si dice hola → X”, “si dice buenos días **y** pasó auto1 → Y”, “si pasó auto1+auto2 **y** match → auto4”). Cada paso re-evalúa condiciones globales sobre *qué otras reglas ya corrieron*.
+
+**Qué aporta el flujo:** entrar una vez (`enter_flow`) → estado `in_flow` / `FlowRun` → avanzar por edges del grafo (acciones + wait/match) con trazabilidad (`trail` / `flow_events`). Las Macros/Automations siguen siendo el catálogo mental de acciones; el flujo aporta **conexión + path state**.
 
 ---
 
@@ -35,7 +70,7 @@ Las automatizaciones son **transaccionales**. No hay:
 - estado intermedio (esperando match / procesando / completado)
 - handoff limpio con contexto del flujo
 
-El usuario quiere que la automatización **dirija** la conversación: detectar intención, ofrecer opciones, esperar respuesta, decidir branch, terminar.
+El usuario quiere que la automatización **abra** la conversación en un camino, y que el motor del flujo **dirija** el resto: acciones ricas, opciones, esperar respuesta, branch, terminar.
 
 ---
 
@@ -64,12 +99,22 @@ El flujo se almacena como JSON en `flows.graph`:
 ```json
 {
   "nodes": [
-    {"id": "n1", "type": "send_message",      "data": {"content": "Hola, ¿qué necesitas?", "buttons": ["A", "B", "C"]}},
-    {"id": "n2", "type": "wait_response",    "data": {"match": [{"label": "A", "pattern": "^a$"}, {"label": "B", "pattern": "^b$"}, {"label": "C", "pattern": "^c$"}]}},
-    {"id": "n3", "type": "send_message",      "data": {"content": "Tu pedido está en camino."}},
-    {"id": "n4", "type": "send_message",      "data": {"content": "Devoluciones: ..."}},
-    {"id": "n5", "type": "handoff",          "data": {"reason": "Cliente eligió 'Otro'"}},
-    {"id": "nE", "type": "end",               "data": {}}
+    {
+      "id": "n1",
+      "type": "actions",
+      "data": {
+        "actions": [
+          {"action_name": "add_label", "action_params": ["soporte"]},
+          {"action_name": "send_message", "action_params": ["Hola, ¿qué necesitas?"], "delivery": {"delay_seconds": 3, "mark_read_and_typing": true}}
+        ],
+        "buttons": [{"title": "A", "value": "A"}, {"title": "B", "value": "B"}, {"title": "C", "value": "C"}]
+      }
+    },
+    {"id": "n2", "type": "wait_response", "data": {"match": [{"label": "A", "pattern": "^A$"}, {"label": "B", "pattern": "^B$"}, {"label": "C", "pattern": "^C$"}]}},
+    {"id": "n3", "type": "actions", "data": {"actions": [{"action_name": "send_message", "action_params": ["Tu pedido está en camino."]}], "buttons": []}},
+    {"id": "n4", "type": "actions", "data": {"actions": [{"action_name": "send_message", "action_params": ["Devoluciones: ..."]}], "buttons": []}},
+    {"id": "n5", "type": "handoff", "data": {"reason": "Cliente eligió 'Otro'"}},
+    {"id": "nE", "type": "end", "data": {}}
   ],
   "edges": [
     {"from": "n1", "to": "n2"},
@@ -81,17 +126,20 @@ El flujo se almacena como JSON en `flows.graph`:
 }
 ```
 
-Tipos de nodo soportados (MVP):
+Tipos de nodo soportados:
 
 | Tipo | Descripción |
 |------|-------------|
-| `send_message` | Envía un mensaje al cliente con texto y opcionalmente botones |
-| `wait_response` | Pausa hasta que el cliente responda y matchea contra patterns |
-| `condition` | Evalúa condición sobre variables recogidas y bifurca |
-| `set_variable` | Guarda un valor en el run para usarlo después |
-| `delay` | Espera N segundos antes de continuar |
-| `handoff` | Transfiere la conversación a un humano con resumen |
-| `end` | Cierra el run con estado `completed` |
+| `actions` | Lista de acciones estilo Automatización/Macro (`action_name` + `action_params`). `send_message` usa HumanLikeSend + botones opcionales del paso |
+| `send_message` | Legacy (sigue ejecutándose); el editor guarda `actions` |
+| `wait_response` | Pausa hasta respuesta del cliente y matchea patterns / botones |
+| `set_variable` | Guarda un valor en el run |
+| `handoff` | Escala a humano (`exit_policy.on_handoff`) |
+| `end` | Cierra el run (`on_complete`) |
+
+**Acciones reutilizadas** (vía `Flows::ActionService` ← `ActionService`): assign agent/team, labels, mute/snooze/resolve/open/pending, private note, webhook, email transcript / email to team, priority, custom attributes, `send_message`.
+
+**Excluidas mid-flow:** `enter_flow`, `execute_macro`, `add_sla`, `send_attachment` (sin storage de archivos en Flow aún).
 
 ### 3. Disparador: automatización lanza, flujo opera
 

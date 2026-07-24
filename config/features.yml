@@ -214,10 +214,9 @@
   display_name: Reply Mailer Migration
   enabled: false
   chatwoot_internal: true
-- name: quoted_email_reply
-  display_name: Quoted Email Reply
-  enabled: false
-  deprecated: true
+- name: flows_v1
+  display_name: Conversation Flows
+  enabled: true
 - name: companies
   display_name: Companies
   enabled: false

@@ -82,6 +82,13 @@ const hasInternalTasks = computed(() => {
   );
 });
 
+const hasFlows = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.FLOWS_V1
+  );
+});
+
 const globalConfig = useMapGetter('globalConfig/get');
 // Account feature is source of truth; globalConfig is temporary kill-switch AND.
 const hasInternalChats = computed(() => {
@@ -891,6 +898,16 @@ const menuItems = computed(() => {
           icon: 'i-lucide-workflow',
           to: accountScopedRoute('conversation_workflow_index'),
         },
+        ...(hasFlows.value
+          ? [
+              {
+                name: 'Settings Flows',
+                label: t('SIDEBAR.FLOWS'),
+                icon: 'i-lucide-git-branch',
+                to: accountScopedRoute('flows_index'),
+              },
+            ]
+          : []),
         {
           name: 'Settings Security',
           label: t('SIDEBAR.SECURITY'),

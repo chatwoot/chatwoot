@@ -176,6 +176,7 @@
       "UPDATE_CONTACT_CUSTOM_ATTRIBUTE": "Update contact custom attribute",
       "UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE": "Update conversation custom attribute",
       "EXECUTE_MACRO": "Execute macro",
+      "ENTER_FLOW": "Enter conversation flow",
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Open conversation",
       "PENDING_CONVERSATION": "Mark conversation as pending"

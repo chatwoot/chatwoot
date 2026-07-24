@@ -45,6 +45,15 @@ json.can_reply conversation.can_reply?
 json.bot_handling conversation.bot_handling?
 json.contact_last_seen_at conversation.contact_last_seen_at.to_i
 json.custom_attributes conversation.custom_attributes
+if conversation.in_flow?
+  run = conversation.active_flow_run
+  json.flow_run do
+    json.id run.id
+    json.state run.state
+    json.flow_name run.flow.name
+    json.current_node_id run.current_node_id
+  end
+end
 json.inbox_id conversation.inbox_id
 json.labels conversation.cached_label_list_array
 json.muted conversation.muted?

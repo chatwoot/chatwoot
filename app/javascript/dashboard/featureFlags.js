@@ -49,6 +49,7 @@ export const FEATURE_FLAGS = {
   CONVERSATION_UNREAD_COUNTS: 'conversation_unread_counts',
   INTERNAL_TASKS: 'internal_tasks',
   INTERNAL_CHATS: 'internal_chats',
+  FLOWS_V1: 'flows_v1',
 };
 
 export const PREMIUM_FEATURES = [

@@ -49,6 +49,7 @@ const open = async () => {
   await Promise.all([
     store.dispatch('attributes/get'),
     store.dispatch('macros/get'),
+    store.dispatch('flows/get'),
   ]);
   manifestCustomAttributes();
   formRef.value?.open();
