@@ -8,6 +8,8 @@
     "COUNT": "{n} attribute | {n} attributes",
     "SEARCH_PLACEHOLDER": "Search attributes...",
     "NO_RESULTS": "No attributes found matching your search",
+    "ALL_CATEGORIES": "All categories",
+    "UNCATEGORIZED": "Uncategorized",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Conversation",
       "CONTACT": "Contact",
@@ -24,6 +26,13 @@
       "LIST": "List",
       "CHECKBOX": "Checkbox",
       "MULTI_LIST": "Multi-select list"
+    },
+    "FORM": {
+      "CATEGORY": {
+        "LABEL": "Category",
+        "PLACEHOLDER": "e.g. Billing, Shipping",
+        "HELP": "Optional. Groups this attribute on the custom attributes settings list."
+      }
     },
     "FEATURED": {
       "LABEL": "Show as badge",

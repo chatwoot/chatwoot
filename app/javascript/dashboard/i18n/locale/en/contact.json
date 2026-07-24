@@ -210,6 +210,7 @@
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "SHOW_MORE": "Show all attributes",
     "SHOW_LESS": "Show less attributes",
+    "UNCATEGORIZED": "Uncategorized",
     "ACTIONS": {
       "COPY": "Copy attribute",
       "DELETE": "Delete attribute",

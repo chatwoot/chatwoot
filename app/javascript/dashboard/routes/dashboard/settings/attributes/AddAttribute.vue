@@ -47,6 +47,7 @@ export default {
       show: true,
       tagInputTouched: false,
       featured: false,
+      category: '',
       formulaEnabled: false,
       formulaOp: 'sum',
       formulaSourceKey: '',
@@ -58,6 +59,20 @@ export default {
       uiFlags: 'getUIFlags',
       getAttributesByModel: 'attributes/getAttributesByModel',
     }),
+    categoryOptions() {
+      const modelMap = {
+        0: 'conversation_attribute',
+        1: 'contact_attribute',
+        2: 'company_attribute',
+      };
+      const defs =
+        this.getAttributesByModel(modelMap[this.attributeModel]) || [];
+      return [
+        ...new Set(
+          defs.map(def => (def.category || '').trim()).filter(Boolean)
+        ),
+      ].sort((a, b) => a.localeCompare(b));
+    },
     models() {
       return ATTRIBUTE_MODELS.map(item => ({
         ...item,
@@ -166,6 +181,7 @@ export default {
           regex_pattern: normalizeRegexPattern(this.regexPattern),
           regex_cue: this.regexCue,
           featured: this.featured,
+          category: this.category,
           formula:
             this.isContactModel && this.formulaEnabled && this.formulaSourceKey
               ? {
@@ -302,6 +318,24 @@ export default {
             type="text"
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
           />
+          <woot-input
+            v-model="category"
+            class="mb-2"
+            :label="$t('ATTRIBUTES_MGMT.FORM.CATEGORY.LABEL')"
+            type="text"
+            :placeholder="$t('ATTRIBUTES_MGMT.FORM.CATEGORY.PLACEHOLDER')"
+            list="attribute-category-suggestions"
+          />
+          <datalist id="attribute-category-suggestions">
+            <option
+              v-for="option in categoryOptions"
+              :key="option"
+              :value="option"
+            />
+          </datalist>
+          <p class="text-sm text-n-slate-11 mb-4 mt-0">
+            {{ $t('ATTRIBUTES_MGMT.FORM.CATEGORY.HELP') }}
+          </p>
           <div class="mb-4">
             <label class="flex items-center gap-2">
               <input v-model="featured" type="checkbox" />

@@ -35,6 +35,10 @@ const attributeIcon = computed(() => {
   const typeKey = props.attribute.type?.toLowerCase();
   return iconByType[typeKey] || 'i-lucide-menu';
 });
+
+const categoryLabel = computed(() =>
+  (props.attribute.category || props.attribute.Category || '').trim()
+);
 </script>
 
 <template>
@@ -51,8 +55,14 @@ const attributeIcon = computed(() => {
             <h4 class="text-heading-3 truncate text-n-slate-12 min-w-0">
               {{ attribute.label }}
             </h4>
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-1.5 flex-wrap">
               <Label :label="attribute.type" compact />
+              <Label
+                v-if="categoryLabel"
+                :label="categoryLabel"
+                color="teal"
+                compact
+              />
               <AttributeBadge
                 v-for="badge in badges"
                 :key="badge.type"

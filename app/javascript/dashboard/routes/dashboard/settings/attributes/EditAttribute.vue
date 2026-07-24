@@ -40,6 +40,7 @@ export default {
       values: [],
       tagInputTouched: false,
       featured: false,
+      category: '',
       formulaEnabled: false,
       formulaOp: 'sum',
       formulaSourceKey: '',
@@ -60,6 +61,16 @@ export default {
     ...mapGetters({
       getAttributesByModel: 'attributes/getAttributesByModel',
     }),
+    categoryOptions() {
+      const model =
+        this.selectedAttribute.attribute_model || 'conversation_attribute';
+      const defs = this.getAttributesByModel(model) || [];
+      return [
+        ...new Set(
+          defs.map(def => (def.category || '').trim()).filter(Boolean)
+        ),
+      ].sort((a, b) => a.localeCompare(b));
+    },
     types() {
       return ATTRIBUTE_TYPES.map(item => ({
         ...item,
@@ -150,6 +161,7 @@ export default {
       this.regexEnabled = regexPattern != null;
       this.values = this.setAttributeListValue;
       this.featured = !!this.selectedAttribute.featured;
+      this.category = this.selectedAttribute.category || '';
       const formula = this.selectedAttribute.formula;
       this.formulaEnabled = !!formula?.op;
       this.formulaOp = formula?.op || 'sum';
@@ -173,6 +185,7 @@ export default {
           regex_pattern: normalizeRegexPattern(this.regexPattern),
           regex_cue: this.regexCue,
           featured: this.featured,
+          category: this.category,
           formula:
             this.isContactModel && this.formulaEnabled && this.formulaSourceKey
               ? {
@@ -299,6 +312,24 @@ export default {
           type="text"
           :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
         />
+        <woot-input
+          v-model="category"
+          class="mb-2"
+          :label="$t('ATTRIBUTES_MGMT.FORM.CATEGORY.LABEL')"
+          type="text"
+          :placeholder="$t('ATTRIBUTES_MGMT.FORM.CATEGORY.PLACEHOLDER')"
+          list="attribute-category-suggestions-edit"
+        />
+        <datalist id="attribute-category-suggestions-edit">
+          <option
+            v-for="option in categoryOptions"
+            :key="option"
+            :value="option"
+          />
+        </datalist>
+        <p class="text-sm text-n-slate-11 mb-4 mt-0">
+          {{ $t('ATTRIBUTES_MGMT.FORM.CATEGORY.HELP') }}
+        </p>
         <div class="mb-4">
           <label class="flex items-center gap-2">
             <input v-model="featured" type="checkbox" />

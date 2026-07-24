@@ -81,6 +81,7 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
       :regex_pattern,
       :regex_cue,
       :featured,
+      :category,
       attribute_values: [],
       formula: [:op, :source_attribute_key, :source_model]
     )

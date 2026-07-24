@@ -9,6 +9,7 @@
 #  attribute_key          :string
 #  attribute_model        :integer          default("conversation_attribute")
 #  attribute_values       :jsonb
+#  category               :string           default(""), not null
 #  default_value          :integer
 #  featured               :boolean          default(FALSE), not null
 #  formula                :jsonb
@@ -83,6 +84,7 @@ class CustomAttributeDefinition < ApplicationRecord
   def normalize_attribute_fields
     self.attribute_key = attribute_key.strip if attribute_key.present?
     self.attribute_display_name = attribute_display_name.strip if attribute_display_name.present?
+    self.category = category.strip if category.present?
     self.featured = false if featured.nil?
   end
 

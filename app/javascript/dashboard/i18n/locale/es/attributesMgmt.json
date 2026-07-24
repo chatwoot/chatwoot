@@ -8,6 +8,8 @@
     "COUNT": "{n} attribute | {n} attributes",
     "SEARCH_PLACEHOLDER": "Buscar atributos...",
     "NO_RESULTS": "No attributes found matching your search",
+    "ALL_CATEGORIES": "Todas las categorías",
+    "UNCATEGORIZED": "Sin categoría",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Conversación",
       "CONTACT": "Contacto",
@@ -24,6 +26,13 @@
       "LIST": "Lista",
       "CHECKBOX": "Casilla",
       "MULTI_LIST": "Lista multi-selección"
+    },
+    "FORM": {
+      "CATEGORY": {
+        "LABEL": "Categoría",
+        "PLACEHOLDER": "ej. Facturación, Envíos",
+        "HELP": "Opcional. Agrupa este atributo en la barra lateral de la conversación."
+      }
     },
     "FEATURED": {
       "LABEL": "Mostrar como badge",
