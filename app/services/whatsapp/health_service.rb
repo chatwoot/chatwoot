@@ -41,6 +41,7 @@ class Whatsapp::HealthService
   def initialize(channel)
     @channel = channel
     @access_token = channel.provider_config['api_key']
+    # TODO: Remove this health-specific minimum when all WhatsApp integrations are consolidated on the latest Graph API version.
     configured_api_version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0').delete_prefix('v').to_f
     @api_version = "v#{[configured_api_version, MINIMUM_HEALTH_API_VERSION].max}"
   end
