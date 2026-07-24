@@ -1,5 +1,6 @@
 import {
   OPERATOR_TYPES_1,
+  OPERATOR_TYPES_2,
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
   OPERATOR_TYPES_7,
@@ -19,6 +20,7 @@ export const getCustomAttributeInputType = key => {
     datetime: 'datetime',
     text: 'plain_text',
     list: 'search_select',
+    multi_list: 'multi_select',
     checkbox: 'search_select',
   };
 
@@ -56,7 +58,8 @@ export const isCustomAttributeCheckbox = (customAttributes, key) => {
 export const isCustomAttributeList = (customAttributes, type) => {
   return customAttributes.find(attr => {
     return (
-      attr.attribute_key === type && attr.attribute_display_type === 'list'
+      attr.attribute_key === type &&
+      ['list', 'multi_list'].includes(attr.attribute_display_type)
     );
   });
 };
@@ -64,6 +67,7 @@ export const isCustomAttributeList = (customAttributes, type) => {
 export const getOperatorTypes = key => {
   const operatorMap = {
     list: OPERATOR_TYPES_3,
+    multi_list: OPERATOR_TYPES_2,
     text: OPERATOR_TYPES_7,
     number: OPERATOR_TYPES_4,
     currency: OPERATOR_TYPES_4,
@@ -122,6 +126,7 @@ export const getActionOptions = ({
     6: 'list',
     7: 'checkbox',
     8: 'datetime',
+    9: 'multi_list',
   };
 
   const normalizeDisplayType = attr => {
@@ -233,6 +238,9 @@ export const getFileName = (action, files = []) => {
 };
 
 export const getDefaultConditions = eventName => {
+  if (eventName === 'time_triggered') {
+    return [];
+  }
   if (eventName === 'message_created') {
     return structuredClone(DEFAULT_MESSAGE_CREATED_CONDITION);
   }
@@ -266,9 +274,15 @@ export const getStandardAttributeInputType = (automationTypes, event, key) => {
 
 export const generateAutomationPayload = payload => {
   const automation = JSON.parse(JSON.stringify(payload));
-  automation.conditions[automation.conditions.length - 1].query_operator = null;
-  automation.conditions = filterQueryGenerator(automation.conditions).payload;
+  if (automation.conditions?.length) {
+    automation.conditions[automation.conditions.length - 1].query_operator =
+      null;
+    automation.conditions = filterQueryGenerator(automation.conditions).payload;
+  } else {
+    automation.conditions = [];
+  }
   automation.actions = actionQueryGenerator(automation.actions);
+  if (!automation.schedule) automation.schedule = {};
   return automation;
 };
 

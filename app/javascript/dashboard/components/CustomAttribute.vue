@@ -30,7 +30,7 @@ export default {
     label: { type: String, required: true },
     description: { type: String, default: '' },
     values: { type: Array, default: () => [] },
-    value: { type: [String, Number, Boolean], default: '' },
+    value: { type: [String, Number, Boolean, Array], default: '' },
     showActions: { type: Boolean, default: false },
     attributeType: { type: String, default: 'text' },
     attributeRegex: {
@@ -53,6 +53,9 @@ export default {
   },
   computed: {
     displayValue() {
+      if (this.isAttributeTypeMultiList) {
+        return this.multiListDisplay;
+      }
       if (this.isAttributeTypeDatetime) {
         return this.value ? new Date(this.value).toLocaleString() : '---';
       }
@@ -67,6 +70,9 @@ export default {
       return this.hasValue ? this.value : '---';
     },
     formattedValue() {
+      if (this.isAttributeTypeMultiList) {
+        return Array.isArray(this.value) ? [...this.value] : [];
+      }
       if (this.isAttributeTypeDatetime) {
         return this.value
           ? toDatetimeLocalValue(this.value)
@@ -92,6 +98,9 @@ export default {
     isAttributeTypeList() {
       return this.attributeType === 'list';
     },
+    isAttributeTypeMultiList() {
+      return this.attributeType === 'multi_list';
+    },
     isAttributeTypeLink() {
       return this.attributeType === 'link';
     },
@@ -102,6 +111,9 @@ export default {
       return this.attributeType === 'datetime';
     },
     hasValue() {
+      if (this.isAttributeTypeMultiList) {
+        return Array.isArray(this.value) && this.value.length > 0;
+      }
       return this.value !== null && this.value !== '';
     },
     urlValue() {
@@ -111,7 +123,18 @@ export default {
       return isValidURL(this.value) ? this.value : '';
     },
     notAttributeTypeCheckboxAndList() {
-      return !this.isAttributeTypeCheckbox && !this.isAttributeTypeList;
+      return (
+        !this.isAttributeTypeCheckbox &&
+        !this.isAttributeTypeList &&
+        !this.isAttributeTypeMultiList
+      );
+    },
+    multiListSelected() {
+      return Array.isArray(this.editedValue) ? this.editedValue : [];
+    },
+    multiListDisplay() {
+      if (!Array.isArray(this.value) || !this.value.length) return '---';
+      return this.value.join(', ');
     },
     inputType() {
       if (this.isAttributeTypeDatetime) return 'datetime-local';
@@ -199,14 +222,29 @@ export default {
         this.onUpdate();
       }
     },
+    onToggleMultiListValue(optionName, checked) {
+      const current = Array.isArray(this.editedValue)
+        ? [...this.editedValue]
+        : [];
+      if (checked) {
+        if (!current.includes(optionName)) current.push(optionName);
+      } else {
+        const idx = current.indexOf(optionName);
+        if (idx >= 0) current.splice(idx, 1);
+      }
+      this.editedValue = current;
+      this.onUpdate();
+    },
     onUpdate() {
       const updatedValue =
         this.isAttributeTypeDate || this.isAttributeTypeDatetime
           ? parseISO(this.editedValue)
           : this.editedValue;
-      this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
+      if (!this.isAttributeTypeMultiList) {
+        this.v$.$touch();
+        if (this.v$.$invalid) {
+          return;
+        }
       }
       this.isEditing = false;
       this.$emit('update', this.attributeKey, updatedValue);
@@ -354,6 +392,23 @@ export default {
         "
         @select="onUpdateListValue"
       />
+    </div>
+    <div v-if="isAttributeTypeMultiList" class="flex flex-col gap-1.5">
+      <label
+        v-for="option in values"
+        :key="option"
+        class="flex items-center gap-2 text-sm text-n-slate-12"
+      >
+        <input
+          type="checkbox"
+          :checked="multiListSelected.includes(option)"
+          @change="onToggleMultiListValue(option, $event.target.checked)"
+        />
+        {{ option }}
+      </label>
+      <p v-if="!values.length" class="m-0 text-sm text-n-slate-11">
+        {{ multiListDisplay }}
+      </p>
     </div>
   </div>
 </template>

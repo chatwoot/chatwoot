@@ -84,6 +84,18 @@ class AutomationRules::ActionService < ActionService
     end
   end
 
+  def notify_assignee(_params = nil)
+    return if @conversation.assignee.blank?
+
+    NotificationBuilder.new(
+      notification_type: 'conversation_assignment',
+      user: @conversation.assignee,
+      account: @account,
+      primary_actor: @conversation,
+      secondary_actor: nil
+    ).perform
+  end
+
   # Run a saved macro's actions on this conversation (one level deep — no nested execute_macro).
   def execute_macro(macro_ids)
     return if @executing_macro

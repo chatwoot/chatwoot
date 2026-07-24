@@ -22,7 +22,8 @@
       "DATE": "Fecha",
       "DATETIME": "Fecha y hora",
       "LIST": "Lista",
-      "CHECKBOX": "Casilla"
+      "CHECKBOX": "Casilla",
+      "MULTI_LIST": "Lista multi-selección"
     },
     "FEATURED": {
       "LABEL": "Mostrar como badge",

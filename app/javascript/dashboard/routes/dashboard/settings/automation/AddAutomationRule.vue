@@ -6,10 +6,11 @@ import AutomationRuleForm from './AutomationRuleForm.vue';
 
 const emit = defineEmits(['saveAutomation']);
 
-const START_VALUE = {
+const START_VALUE_EVENT = {
   name: null,
   description: null,
   event_name: 'conversation_created',
+  schedule: {},
   conditions: [
     {
       attribute_key: 'status',
@@ -22,6 +23,20 @@ const START_VALUE = {
   actions: [
     {
       action_name: 'assign_agent',
+      action_params: [],
+    },
+  ],
+};
+
+const START_VALUE_TIME = {
+  name: null,
+  description: null,
+  event_name: 'time_triggered',
+  schedule: { kind: 'hours_since_last_outgoing', hours: 24 },
+  conditions: [],
+  actions: [
+    {
+      action_name: 'send_message',
       action_params: [],
     },
   ],
@@ -42,10 +57,12 @@ const {
   resetAction,
   getActionDropdownValues,
   manifestCustomAttributes,
-} = useAutomation(START_VALUE);
+} = useAutomation(START_VALUE_EVENT);
 
-const open = async () => {
-  automation.value = structuredClone(START_VALUE);
+const open = async (mode = 'event') => {
+  automation.value = structuredClone(
+    mode === 'time' ? START_VALUE_TIME : START_VALUE_EVENT
+  );
   await Promise.all([
     store.dispatch('attributes/get'),
     store.dispatch('macros/get'),

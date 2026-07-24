@@ -155,6 +155,8 @@ export function useOperators() {
       case 'link':
       case 'checkbox':
         return presenceOperators.value;
+      case 'multi_list':
+        return containmentOperators.value;
       case 'text':
         return textOperators.value;
       case 'number':

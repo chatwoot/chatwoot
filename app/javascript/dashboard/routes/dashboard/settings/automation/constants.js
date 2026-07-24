@@ -684,6 +684,100 @@ export const AUTOMATIONS = {
       },
     ],
   },
+  time_triggered: {
+    conditions: [
+      {
+        key: 'status',
+        name: 'STATUS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'inbox_id',
+        name: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'assignee_id',
+        name: 'ASSIGNEE_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'team_id',
+        name: 'TEAM_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'priority',
+        name: 'PRIORITY',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+    ],
+    actions: [
+      {
+        key: 'send_message',
+        name: 'SEND_MESSAGE',
+      },
+      {
+        key: 'add_private_note',
+        name: 'ADD_PRIVATE_NOTE',
+      },
+      {
+        key: 'add_label',
+        name: 'ADD_LABEL',
+      },
+      {
+        key: 'remove_label',
+        name: 'REMOVE_LABEL',
+      },
+      {
+        key: 'open_conversation',
+        name: 'OPEN_CONVERSATION',
+      },
+      {
+        key: 'resolve_conversation',
+        name: 'RESOLVE_CONVERSATION',
+      },
+      {
+        key: 'assign_agent',
+        name: 'ASSIGN_AGENT',
+      },
+      {
+        key: 'assign_team',
+        name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'execute_macro',
+        name: 'EXECUTE_MACRO',
+      },
+      {
+        key: 'notify_assignee',
+        name: 'NOTIFY_ASSIGNEE',
+      },
+      {
+        key: 'send_webhook_event',
+        name: 'SEND_WEBHOOK_EVENT',
+      },
+      {
+        key: 'update_conversation_custom_attribute',
+        name: 'UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE',
+      },
+      {
+        key: 'update_contact_custom_attribute',
+        name: 'UPDATE_CONTACT_CUSTOM_ATTRIBUTE',
+      },
+    ],
+  },
 };
 
 export const AUTOMATION_RULE_EVENTS = [
@@ -706,6 +800,10 @@ export const AUTOMATION_RULE_EVENTS = [
   {
     key: 'conversation_opened',
     value: 'CONVERSATION_OPENED',
+  },
+  {
+    key: 'time_triggered',
+    value: 'TIME_TRIGGERED',
   },
 ];
 
@@ -819,6 +917,11 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'enter_flow',
     label: 'ENTER_FLOW',
     inputType: 'search_select',
+  },
+  {
+    key: 'notify_assignee',
+    label: 'NOTIFY_ASSIGNEE',
+    inputType: null,
   },
   {
     key: 'add_sla',

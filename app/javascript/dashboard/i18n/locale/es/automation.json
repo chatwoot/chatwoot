@@ -4,10 +4,13 @@
     "DESCRIPTION": "La automatización puede reemplazar y agilizar los procesos existentes que requieren esfuerzo manual, como añadir etiquetas y asignar conversaciones al agente más adecuado. Esto permite al equipo concentrarse en sus fortalezas, mientras que reduce el tiempo dedicado a las tareas de rutina.",
     "LEARN_MORE": "Aprende más sobre automatización",
     "COUNT": "{n} automation | {n} automations",
-    "HEADER_BTN_TXT": "Create Automation",
+    "HEADER_BTN_TXT": "Crear automatización",
+    "TAB_EVENT": "Por evento",
+    "TAB_TIME": "Por tiempo",
+    "TIME_PRESETS_TITLE": "Presets de tiempo",
     "LOADING": "Obteniendo reglas de automatización",
-    "SEARCH_PLACEHOLDER": "Search automation rules...",
-    "NO_RESULTS": "No automation rules found matching your search",
+    "SEARCH_PLACEHOLDER": "Buscar reglas de automatización...",
+    "NO_RESULTS": "No se encontraron reglas que coincidan con la búsqueda",
     "ADD": {
       "TITLE": "Añadir regla de automatización",
       "SUBMIT": "Crear",
@@ -29,7 +32,27 @@
           "ERROR": "El evento es requerido"
         },
         "CONDITIONS": {
-          "LABEL": "Condiciones"
+          "LABEL": "Condiciones",
+          "OPTIONAL_LABEL": "Condiciones extra (opcional)"
+        },
+        "SCHEDULE": {
+          "LABEL": "Programación",
+          "KIND": "Cuándo ejecutar",
+          "ATTRIBUTE_KEY": "Clave del atributo de fecha",
+          "ATTRIBUTE_KEY_PLACEHOLDER": "p. ej. fecha_compra",
+          "DAYS": "Días desde el atributo",
+          "HOURS": "Horas desde el último mensaje",
+          "HELP": "Se revisa cada ~5 minutos. Cada regla se dispara una vez por conversación y ventana.",
+          "KINDS": {
+            "DAYS_SINCE": "N días desde un atributo de fecha",
+            "HOURS_OUTGOING": "Horas desde el último mensaje saliente",
+            "HOURS_INCOMING": "Horas desde el último mensaje entrante"
+          },
+          "ERRORS": {
+            "KIND_REQUIRED": "El tipo de programación es obligatorio",
+            "ATTRIBUTE_DAYS_REQUIRED": "Atributo y días son obligatorios",
+            "HOURS_REQUIRED": "Las horas son obligatorias"
+          }
         },
         "ACTIONS": {
           "LABEL": "Acciones"
@@ -154,13 +177,14 @@
       "CONVERSATION_UPDATED": "Conversación actualizada",
       "MESSAGE_CREATED": "Mensaje creado",
       "CONVERSATION_RESOLVED": "Conversación Resuelta",
-      "CONVERSATION_OPENED": "Conversación abierta"
+      "CONVERSATION_OPENED": "Conversación abierta",
+      "TIME_TRIGGERED": "Por tiempo (programado)"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Asignar al agente",
       "ASSIGN_TEAM": "Asignar equipo",
-      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
+      "REMOVE_ASSIGNED_AGENT": "Quitar agente asignado",
+      "REMOVE_ASSIGNED_TEAM": "Quitar equipo asignado",
       "ADD_LABEL": "Añadir etiqueta",
       "REMOVE_LABEL": "Eliminar etiqueta",
       "SEND_EMAIL_TO_TEAM": "Enviar un email al equipo",
@@ -176,6 +200,8 @@
       "UPDATE_CONTACT_CUSTOM_ATTRIBUTE": "Actualizar atributo personalizado del contacto",
       "UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE": "Actualizar atributo personalizado de la conversación",
       "EXECUTE_MACRO": "Ejecutar macro",
+      "ENTER_FLOW": "Entrar a flujo de conversación",
+      "NOTIFY_ASSIGNEE": "Notificar al asignado",
       "ADD_SLA": "Añadir SLA",
       "OPEN_CONVERSATION": "Abrir conversación",
       "PENDING_CONVERSATION": "Marca la conversación como pendiente"

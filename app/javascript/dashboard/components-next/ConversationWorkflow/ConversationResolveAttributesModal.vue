@@ -31,6 +31,9 @@ const placeholders = computed(() => ({
     'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.DATETIME'
   ),
   list: t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.LIST'),
+  multi_list: t(
+    'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.LIST'
+  ),
 }));
 
 const getPlaceholder = type => placeholders.value[type] || '';
@@ -85,6 +88,9 @@ const isFormComplete = computed(() =>
     if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) {
       return formValues[attribute.value] !== null;
     }
+    if (attribute.type === ATTRIBUTE_TYPES.MULTI_LIST) {
+      return Array.isArray(value) && value.length > 0;
+    }
 
     // For other attribute types, check for valid non-empty values
     return value !== undefined && value !== null && String(value).trim() !== '';
@@ -127,10 +133,14 @@ const open = (attributes = [], initialValues = {}, context = null) => {
     if (presetValue !== undefined && presetValue !== null) {
       formValues[attribute.value] = presetValue;
     } else {
-      // For checkbox attributes, initialize to null to avoid pre-selection
-      // For other attributes, initialize to empty string
-      formValues[attribute.value] =
-        attribute.type === ATTRIBUTE_TYPES.CHECKBOX ? null : '';
+      // Checkbox → null (no pre-selection); multi_list → []; else ''
+      let initial = '';
+      if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) {
+        initial = null;
+      } else if (attribute.type === ATTRIBUTE_TYPES.MULTI_LIST) {
+        initial = [];
+      }
+      formValues[attribute.value] = initial;
     }
   });
 
@@ -252,6 +262,39 @@ defineExpose({ open, close });
             :has-error="v$[attribute.value].$error"
             class="w-full"
           />
+        </template>
+
+        <template v-else-if="attribute.type === ATTRIBUTE_TYPES.MULTI_LIST">
+          <div class="flex flex-col gap-1.5">
+            <label
+              v-for="option in attribute.attributeValues || []"
+              :key="option"
+              class="flex items-center gap-2 text-sm text-n-slate-12"
+            >
+              <input
+                type="checkbox"
+                :checked="
+                  Array.isArray(formValues[attribute.value]) &&
+                  formValues[attribute.value].includes(option)
+                "
+                @change="
+                  event => {
+                    const current = Array.isArray(formValues[attribute.value])
+                      ? [...formValues[attribute.value]]
+                      : [];
+                    if (event.target.checked) {
+                      if (!current.includes(option)) current.push(option);
+                    } else {
+                      const idx = current.indexOf(option);
+                      if (idx >= 0) current.splice(idx, 1);
+                    }
+                    formValues[attribute.value] = current;
+                  }
+                "
+              />
+              {{ option }}
+            </label>
+          </div>
         </template>
 
         <template v-else-if="attribute.type === ATTRIBUTE_TYPES.CHECKBOX">

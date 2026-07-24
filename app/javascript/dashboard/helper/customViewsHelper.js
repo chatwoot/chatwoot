@@ -12,6 +12,7 @@ export const generateCustomAttributesInputType = type => {
     date: 'string',
     checkbox: 'multi_select',
     list: 'multi_select',
+    multi_list: 'multi_select',
     link: 'string',
   };
   return filterInputTypes[type];

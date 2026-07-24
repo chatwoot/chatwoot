@@ -121,7 +121,7 @@ export default {
       return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR');
     },
     isAttributeTypeList() {
-      return this.attributeType === 6;
+      return this.attributeType === 6 || this.attributeType === 9;
     },
     isAttributeTypeText() {
       return this.attributeType === 0;

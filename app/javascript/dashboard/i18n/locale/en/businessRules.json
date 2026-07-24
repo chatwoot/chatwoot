@@ -1,0 +1,74 @@
+{
+  "BUSINESS_RULES": {
+    "TITLE": "Business rules (guardrails)",
+    "DESCRIPTION": "Block status changes unless required fields, notes, assignee, or label conditions are met. Create custom rules or start from a preset — all rules are editable.",
+    "PRESETS_TITLE": "Quick presets",
+    "PRESETS_HELP": "One click adds a ready-made rule. You can edit it afterward or create one from scratch.",
+    "EMPTY": "No guardrails yet. Create a custom rule or activate a preset.",
+    "CREATE_CUSTOM": "Create custom rule",
+    "CREATE_CUSTOM_TITLE": "New custom rule",
+    "CREATE_ADD": "Add rule",
+    "CANCEL": "Cancel",
+    "CUSTOM_DEFAULT_NAME": "Custom rule · {type}",
+    "SAVE": "Save business rules",
+    "SAVE_SUCCESS": "Business rules saved",
+    "SAVE_ERROR": "Could not save business rules",
+    "REMOVE": "Remove",
+    "FIELDS": {
+      "NAME": "Name",
+      "NAME_PLACEHOLDER": "e.g. Require product on resolve",
+      "TYPE": "Rule type",
+      "STATUS": "Target status",
+      "STATUSES": "Statuses (comma-separated)",
+      "STATUSES_PLACEHOLDER": "pending, snoozed",
+      "ATTRIBUTES": "Required attributes",
+      "WHEN_ATTRIBUTE": "When this attribute is set",
+      "WHEN_VALUES": "Trigger values (optional)",
+      "WHEN_VALUES_PLACEHOLDER": "sale, won — empty = any value",
+      "REQUIRE_ATTRIBUTES": "Then require these attributes",
+      "REQUIRE_PRIVATE_NOTE": "Require a recent private note",
+      "REASON_ATTRIBUTE": "Reason attribute (optional)",
+      "LABEL": "Forbidden label",
+      "REQUIRE_TEAM_OR_AGENT": "Require team or agent assignee"
+    },
+    "TYPES": {
+      "require_attributes_on_status": "Require attributes on status change",
+      "if_attribute_then_require": "If attribute X, require Y/Z",
+      "require_reason_on_status": "Require reason when postponing",
+      "forbid_status_if": "Forbid status if label present",
+      "require_assignee_on_status": "Require assignee on status change"
+    },
+    "STATUSES": {
+      "open": "Open",
+      "resolved": "Resolved",
+      "pending": "Pending",
+      "snoozed": "Snoozed"
+    },
+    "PRESETS": {
+      "REQUIRE_ON_RESOLVE": "Require attributes on resolve",
+      "REQUIRE_ON_RESOLVE_DESC": "Agents must fill selected attributes before resolving.",
+      "IF_X_REQUIRE_YZ": "If X then require Y/Z",
+      "IF_X_REQUIRE_YZ_DESC": "When an attribute matches, require additional fields on resolve.",
+      "MOTIVO_POSPONER": "Reason when postponing",
+      "MOTIVO_POSPONER_DESC": "Require a private note or reason attribute when pending/snoozed.",
+      "FORBID_RESOLVE_LABEL": "Forbid resolve with label",
+      "FORBID_RESOLVE_LABEL_DESC": "Block resolve when a conversation has a given label.",
+      "REQUIRE_ASSIGNEE_ON_OPEN": "Require assignee on open",
+      "REQUIRE_ASSIGNEE_ON_OPEN_DESC": "Opening a conversation requires a team or agent.",
+      "POST_COMPRA": "Post-purchase follow-up (N days)",
+      "POST_COMPRA_DESC": "After N days from a date attribute, run actions (label, message, etc.).",
+      "FOLLOWUP_24H": "Follow-up after 24h without reply",
+      "FOLLOWUP_24H_DESC": "If the last agent message is older than 24h with no customer reply, send a nudge.",
+      "SEGUIMIENTO_30D": "Follow-up every 30 days",
+      "SEGUIMIENTO_30D_DESC": "When fecha_seguimiento is 30+ days old (open conversations), send a nudge, update the date, and notify the assignee."
+    },
+    "STATUS_ERRORS": {
+      "missing_attribute": "Fill required attribute: {key}",
+      "missing_reason_attribute": "Fill reason attribute: {key}",
+      "missing_private_note": "Add a private note before changing status",
+      "forbidden_label": "Cannot change status while label “{label}” is present",
+      "missing_assignee": "Assign a team or agent before changing status",
+      "generic": "Business rule blocked this status change"
+    }
+  }
+}

@@ -207,6 +207,8 @@ class ActionService
   end
 
   def normalize_custom_attribute_value(definition, raw_value)
+    return Array.wrap(raw_value).map(&:to_s) if definition.attribute_display_type == 'multi_list'
+
     rendered = render_custom_attribute_template(raw_value)
 
     case definition.attribute_display_type
@@ -242,7 +244,8 @@ class ActionService
     return rendered.to_date.iso8601 if rendered.is_a?(Time) || rendered.is_a?(DateTime)
 
     text = rendered.to_s.strip
-    # Native date inputs and Liquid date.today resolve to ISO YYYY-MM-DD.
+    # Native date inputs and Liquid relative dates resolve to ISO YYYY-MM-DD:
+    # {{ date.today }}, {{ date.today | plus_days: N }}, {{ date.today | minus_days: N }}.
     if text.match?(/\A\d{4}-\d{2}-\d{2}\z/)
       return Date.iso8601(text).iso8601
     end

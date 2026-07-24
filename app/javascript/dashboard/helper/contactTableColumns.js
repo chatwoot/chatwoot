@@ -135,6 +135,7 @@ const DISPLAY_TYPE_ALIASES = {
   6: 'list',
   7: 'checkbox',
   8: 'datetime',
+  9: 'multi_list',
 };
 
 export const normalizeDisplayType = displayType => {

@@ -111,6 +111,24 @@ const getTranslatedAttributes = (type, event) => {
 };
 
 const eventName = computed(() => automation.value?.event_name);
+const isTimeTriggered = computed(() => eventName.value === 'time_triggered');
+
+const ensureSchedule = () => {
+  if (!automation.value.schedule) {
+    automation.value.schedule = {
+      kind: 'hours_since_last_outgoing',
+      hours: 24,
+    };
+  }
+};
+
+watch(
+  isTimeTriggered,
+  enabled => {
+    if (enabled) ensureSchedule();
+  },
+  { immediate: true }
+);
 
 const filterTypes = computed(() => {
   const event = eventName.value;
@@ -300,10 +318,88 @@ defineExpose({ open, close });
           {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
         </p>
       </div>
+      <!-- Schedule (time-triggered) -->
+      <section v-if="isTimeTriggered" class="mb-5">
+        <label>{{ $t('AUTOMATION.ADD.FORM.SCHEDULE.LABEL') }}</label>
+        <div
+          class="grid gap-3 p-3 mb-2 outline outline-1 rounded-xl -outline-offset-1 outline-n-weak dark:outline-n-strong"
+        >
+          <label class="text-sm text-n-slate-11">
+            {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.KIND') }}
+            <select v-model="automation.schedule.kind" class="mt-1 w-full m-0">
+              <option value="days_since_attribute">
+                {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.KINDS.DAYS_SINCE') }}
+              </option>
+              <option value="hours_since_last_outgoing">
+                {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.KINDS.HOURS_OUTGOING') }}
+              </option>
+              <option value="hours_since_last_incoming">
+                {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.KINDS.HOURS_INCOMING') }}
+              </option>
+            </select>
+          </label>
+          <label
+            v-if="automation.schedule.kind === 'days_since_attribute'"
+            class="text-sm text-n-slate-11"
+          >
+            {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.ATTRIBUTE_KEY') }}
+            <input
+              v-model="automation.schedule.attribute_key"
+              type="text"
+              class="mt-1 w-full"
+              :placeholder="
+                $t('AUTOMATION.ADD.FORM.SCHEDULE.ATTRIBUTE_KEY_PLACEHOLDER')
+              "
+            />
+          </label>
+          <label
+            v-if="automation.schedule.kind === 'days_since_attribute'"
+            class="text-sm text-n-slate-11"
+          >
+            {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.DAYS') }}
+            <input
+              v-model.number="automation.schedule.days"
+              type="number"
+              min="1"
+              class="mt-1 w-full"
+            />
+          </label>
+          <label
+            v-if="
+              automation.schedule.kind === 'hours_since_last_outgoing' ||
+              automation.schedule.kind === 'hours_since_last_incoming'
+            "
+            class="text-sm text-n-slate-11"
+          >
+            {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.HOURS') }}
+            <input
+              v-model.number="automation.schedule.hours"
+              type="number"
+              min="1"
+              class="mt-1 w-full"
+            />
+          </label>
+          <p v-if="errors.schedule" class="m-0 text-sm text-n-ruby-11">
+            {{
+              $t(
+                `AUTOMATION.ADD.FORM.SCHEDULE.ERRORS.${errors.schedule}`,
+                errors.schedule
+              )
+            }}
+          </p>
+        </div>
+        <p class="text-xs text-n-slate-11 m-0">
+          {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.HELP') }}
+        </p>
+      </section>
       <!-- Conditions Start -->
       <section class="mb-5">
         <label>
-          {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
+          {{
+            isTimeTriggered
+              ? $t('AUTOMATION.ADD.FORM.CONDITIONS.OPTIONAL_LABEL')
+              : $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL')
+          }}
         </label>
         <ul
           class="grid gap-4 list-none p-3 mb-4 outline outline-1 rounded-xl -outline-offset-1"

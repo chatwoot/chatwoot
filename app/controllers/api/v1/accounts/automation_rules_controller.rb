@@ -16,7 +16,8 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
     @automation_rule = Current.account.automation_rules.new(automation_rules_permit)
     @automation_rule.actions = actions
-    @automation_rule.conditions = params[:conditions]
+    @automation_rule.conditions = params[:conditions] || []
+    @automation_rule.schedule = params[:schedule] if params.key?(:schedule)
 
     return render_could_not_create_error(@automation_rule.errors.messages) unless @automation_rule.valid?
 
@@ -32,6 +33,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
       @automation_rule.assign_attributes(automation_rules_permit)
       @automation_rule.actions = actions if params[:actions]
       @automation_rule.conditions = params[:conditions] if params[:conditions]
+      @automation_rule.schedule = params[:schedule] if params.key?(:schedule)
       @automation_rule.save!
       blobs.each { |blob| @automation_rule.files.attach(blob) }
     rescue StandardError => e
@@ -58,7 +60,8 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     params.permit(
       :name, :description, :event_name, :active,
       conditions: [:attribute_key, :filter_operator, :query_operator, :custom_attribute_type, { values: [] }],
-      actions: [:action_name, { action_params: [] }]
+      actions: [:action_name, { action_params: [] }],
+      schedule: {}
     )
   end
 

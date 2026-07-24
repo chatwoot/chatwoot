@@ -13,6 +13,7 @@ export const ATTRIBUTE_TYPES = [
   { id: 6, key: 'LIST' },
   { id: 7, key: 'CHECKBOX' },
   { id: 8, key: 'DATETIME' },
+  { id: 9, key: 'MULTI_LIST' },
 ];
 
 export const FORMULA_OPS = [

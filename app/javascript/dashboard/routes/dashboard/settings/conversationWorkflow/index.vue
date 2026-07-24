@@ -1,20 +1,26 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ConversationRequiredAttributes from 'dashboard/components-next/ConversationWorkflow/ConversationRequiredAttributes.vue';
+import BusinessRulesPanel from 'dashboard/components-next/ConversationWorkflow/BusinessRulesPanel.vue';
 import AutoResolve from 'dashboard/routes/dashboard/settings/account/components/AutoResolve.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
+const store = useStore();
 const router = useRouter();
 const { accountId } = useAccount();
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
+
+onMounted(() => {
+  store.dispatch('attributes/get');
+});
 
 const showAutoResolutionConfig = computed(() => {
   return isFeatureEnabledonAccount.value(
@@ -73,6 +79,7 @@ const openFlows = () => {
         </div>
         <AutoResolve v-if="showAutoResolutionConfig" />
         <ConversationRequiredAttributes :is-enabled="showRequiredAttributes" />
+        <BusinessRulesPanel />
       </div>
     </template>
   </SettingsLayout>

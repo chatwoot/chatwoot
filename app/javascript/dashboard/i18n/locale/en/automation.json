@@ -5,6 +5,9 @@
     "LEARN_MORE": "Learn more about automation",
     "COUNT": "{n} automation | {n} automations",
     "HEADER_BTN_TXT": "Create Automation",
+    "TAB_EVENT": "By event",
+    "TAB_TIME": "By time",
+    "TIME_PRESETS_TITLE": "Time presets",
     "LOADING": "Fetching automation rules",
     "SEARCH_PLACEHOLDER": "Search automation rules...",
     "NO_RESULTS": "No automation rules found matching your search",
@@ -29,7 +32,27 @@
           "ERROR": "Event is required"
         },
         "CONDITIONS": {
-          "LABEL": "Conditions"
+          "LABEL": "Conditions",
+          "OPTIONAL_LABEL": "Extra conditions (optional)"
+        },
+        "SCHEDULE": {
+          "LABEL": "Schedule",
+          "KIND": "When to run",
+          "ATTRIBUTE_KEY": "Date attribute key",
+          "ATTRIBUTE_KEY_PLACEHOLDER": "e.g. purchase_date",
+          "DAYS": "Days since attribute",
+          "HOURS": "Hours since last message",
+          "HELP": "Scanned about every 5 minutes. Each rule fires once per conversation window.",
+          "KINDS": {
+            "DAYS_SINCE": "N days since a date attribute",
+            "HOURS_OUTGOING": "Hours since last outgoing message",
+            "HOURS_INCOMING": "Hours since last incoming message"
+          },
+          "ERRORS": {
+            "KIND_REQUIRED": "Schedule kind is required",
+            "ATTRIBUTE_DAYS_REQUIRED": "Attribute and days are required",
+            "HOURS_REQUIRED": "Hours are required"
+          }
         },
         "ACTIONS": {
           "LABEL": "Actions"
@@ -154,7 +177,8 @@
       "CONVERSATION_UPDATED": "Conversation Updated",
       "MESSAGE_CREATED": "Message Created",
       "CONVERSATION_RESOLVED": "Conversation Resolved",
-      "CONVERSATION_OPENED": "Conversation Opened"
+      "CONVERSATION_OPENED": "Conversation Opened",
+      "TIME_TRIGGERED": "By time (scheduled)"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Assign to Agent",
@@ -177,6 +201,7 @@
       "UPDATE_CONVERSATION_CUSTOM_ATTRIBUTE": "Update conversation custom attribute",
       "EXECUTE_MACRO": "Execute macro",
       "ENTER_FLOW": "Enter conversation flow",
+      "NOTIFY_ASSIGNEE": "Notify assignee",
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Open conversation",
       "PENDING_CONVERSATION": "Mark conversation as pending"

@@ -104,7 +104,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       set_conversation_status
       @status = @conversation.save!
     else
-      @status = @conversation.toggle_status
+      # Use assign + save! so business-rule validations surface as RecordInvalid
+      @conversation.status = @conversation.open? ? :resolved : :open
+      @conversation.status = :open if @conversation.pending? || @conversation.snoozed?
+      @status = @conversation.save!
     end
     assign_conversation if should_assign_conversation?
   end
