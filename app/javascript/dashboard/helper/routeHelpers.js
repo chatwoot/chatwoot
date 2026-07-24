@@ -72,7 +72,9 @@ export const validateLoggedInRoutes = (to, user) => {
   const userPermissions = getUserPermissions(user, to.params.accountId);
   const canAccessBilling =
     userPermissions.includes('administrator') &&
-    currentAccount.suspension_category === 'non_payment';
+    [null, undefined, 'non_payment'].includes(
+      currentAccount.suspension_category
+    );
   const accessibleRoutes = canAccessBilling
     ? ['account_suspended', 'billing_settings_index']
     : ['account_suspended'];

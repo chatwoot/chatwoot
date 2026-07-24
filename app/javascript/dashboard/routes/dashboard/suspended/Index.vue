@@ -13,7 +13,9 @@ const showBillingLink = computed(
   () =>
     isAdmin.value &&
     isOnChatwootCloud.value &&
-    currentAccount.value?.suspension_category === 'non_payment'
+    [null, undefined, 'non_payment'].includes(
+      currentAccount.value?.suspension_category
+    )
 );
 
 const toggleSupportWidgetVisibility = () => {
