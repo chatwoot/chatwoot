@@ -37,6 +37,20 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(open_conversation.reload.status).to eq('open')
     end
 
+    it 'does not resolve pending conversations assigned to an agent bot' do
+      agent_bot_pending_conversation = create(
+        :conversation,
+        inbox: inbox,
+        last_activity_at: 2.hours.ago,
+        status: :pending,
+        assignee_agent_bot: create(:agent_bot, account: inbox.account)
+      )
+
+      described_class.perform_now(inbox)
+
+      expect(agent_bot_pending_conversation.reload.status).to eq('pending')
+    end
+
     it 'does not call ConversationCompletionService' do
       allow(Captain::ConversationCompletionService).to receive(:new)
 
@@ -75,6 +89,20 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       mock_service = instance_double(Captain::ConversationCompletionService)
       allow(mock_service).to receive(:perform) do
         resolvable_pending_conversation.update!(last_activity_at: Time.current)
+        { complete: true, reason: 'Customer question was answered' }
+      end
+      allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+      expect(resolvable_pending_conversation.messages.outgoing).to be_empty
+    end
+
+    it 'skips auto-action if conversation is assigned to an agent bot after evaluation' do
+      mock_service = instance_double(Captain::ConversationCompletionService)
+      allow(mock_service).to receive(:perform) do
+        resolvable_pending_conversation.update!(assignee_agent_bot: create(:agent_bot, account: inbox.account))
         { complete: true, reason: 'Customer question was answered' }
       end
       allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)

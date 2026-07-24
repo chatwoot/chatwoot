@@ -87,5 +87,13 @@ RSpec.describe Message do
 
       expect(conversation.reload.pending?).to be true
     end
+
+    it 'does not mark the conversation open when the pending conversation is assigned to an agent bot' do
+      conversation.update!(assignee_agent_bot: create(:agent_bot, account: conversation.account))
+
+      create(:message, message_type: :outgoing, conversation: conversation)
+
+      expect(conversation.reload.pending?).to be true
+    end
   end
 end
