@@ -17,8 +17,9 @@ customization needed for production.
 2. `docker/Dockerfile` accepts `SOURCE_COMMIT`, so Jenkins can record the exact
    fork commit in `/app/.git_sha` even when Git metadata is excluded from the
    Docker build context.
-3. `Jenkinsfile.bg` builds a selected fork branch and optionally deploys the
-   resulting immutable image to the `dev-chatwoot` Helm release.
+3. The build and deployment Pipeline is maintained in
+   `bluegame-studio/bg-devops` at
+   `jenkinsfile/deploy/chatwoot-bg-build-deploy.jenkinsfile`.
 
 ## Upgrade Workflow
 
