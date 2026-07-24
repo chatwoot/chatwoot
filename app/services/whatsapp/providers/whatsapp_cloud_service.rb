@@ -16,7 +16,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
     request_body = {
       messaging_product: 'whatsapp',
-      # BSUID -> `recipient` (+recipient_type: individual); phone number -> `to`. See recipient_params.
+      recipient_type: 'individual', # Only individual messages supported (not group messages)
+      # BSUID -> `recipient`; phone number -> `to` (see recipient_params in the base provider).
       **recipient_params(phone_number),
       type: 'template',
       template: template_body
@@ -119,20 +120,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def business_account_path
     "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
-  end
-
-  # WhatsApp coexistence / username migration: a contact may become addressable only by a Business-Scoped
-  # User ID (BSUID, e.g. "BR.123..."), with no phone number available. The Cloud API requires a BSUID to be
-  # passed in the `recipient` field (with recipient_type: individual), NOT in `to`. Passing a BSUID in `to`
-  # returns HTTP 200 with a message id but the message is silently dropped: the "CC." prefix is stripped and
-  # the remainder is treated as a phone number (wa_id), which never resolves. Phone numbers keep using `to`.
-  # See: https://developers.facebook.com/documentation/business-messaging/whatsapp/business-scoped-user-ids/
-  def recipient_params(identifier)
-    if identifier.to_s.match?(RegexHelper::WHATSAPP_BSUID_REGEX)
-      { recipient_type: 'individual', recipient: identifier }
-    else
-      { to: identifier }
-    end
   end
 
   def send_text_message(phone_number, message)

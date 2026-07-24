@@ -200,6 +200,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
     let(:template_body) do
       {
         messaging_product: 'whatsapp',
+        recipient_type: 'individual', # Added recipient_type field
         to: '+123456789',
         type: 'template',
         template: {
