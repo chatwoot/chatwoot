@@ -19,6 +19,7 @@ json.config do
   json.layout portal.layout
   json.social_profiles portal.social_profiles
   json.locale_translations portal.config['locale_translations'] || {}
+  json.popular_content portal.config['popular_content'] || {}
 end
 
 if portal.channel_web_widget

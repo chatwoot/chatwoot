@@ -49,7 +49,7 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
   end
 
   def destroy
-    @company.destroy!
+    Companies::DeleteJob.perform_later(company_id: @company.id)
     head :ok
   end
 

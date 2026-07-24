@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Messages::AudioTranscriptionService, type: :service do
   let(:account) { create(:account, audio_transcriptions: true) }
   let(:conversation) { create(:conversation, account: account) }
-  let(:message) { create(:message, conversation: conversation) }
+  let(:message) { create(:message, account: account, conversation: conversation) }
   let(:attachment) { message.attachments.create!(account: account, file_type: :audio) }
 
   before do
@@ -12,7 +12,13 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
     InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_MODEL') { |config| config.value = 'gpt-4o-mini' }
 
     # Mock usage limits for transcription to be available
-    allow(account).to receive(:usage_limits).and_return({ captain: { responses: { current_available: 100 } } })
+    allow(account).to receive(:usage_limits).and_return(
+      {
+        agents: ChatwootApp.max_limit,
+        inboxes: ChatwootApp.max_limit,
+        captain: { responses: { current_available: 100 } }
+      }
+    )
   end
 
   describe '#perform' do
@@ -99,6 +105,31 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
       expect(File.extname(temp_file_path)).to eq('.mpeg')
     ensure
       FileUtils.rm_f(temp_file_path) if temp_file_path.present?
+    end
+  end
+
+  describe '#transcribe_audio' do
+    let(:service) { described_class.new(attachment) }
+    let(:audio_api) { double('audio_api') } # rubocop:disable RSpec/VerifiedDoubles
+    let(:audio_file_path) { Rails.root.join('tmp/audio_transcription_service_spec.mp3').to_s }
+
+    before do
+      File.binwrite(audio_file_path, 'audio')
+      allow(service).to receive(:fetch_audio_file).and_return(audio_file_path)
+      allow(service).to receive(:update_transcription)
+      allow(service.client).to receive(:audio).and_return(audio_api)
+    end
+
+    after do
+      FileUtils.rm_f(audio_file_path)
+    end
+
+    it 'uses the audio transcription feature model' do
+      expect(audio_api).to receive(:transcribe).with(
+        parameters: hash_including(model: 'gpt-4o-mini-transcribe', temperature: 0.0)
+      ).and_return({ 'text' => 'Audio transcript' })
+
+      expect(service.send(:transcribe_audio)).to eq('Audio transcript')
     end
   end
 end

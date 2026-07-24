@@ -57,11 +57,11 @@ describe Whatsapp::CallService do
         .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::AlreadyAccepted') }
     end
 
-    it 'raises NotRinging when the call has reached a terminal state' do
+    it 'raises CallAlreadyEnded when the call has reached a terminal state' do
       call.update!(status: 'completed')
 
       expect { described_class.new(call: call, agent: agent, sdp_answer: sdp_answer).accept }
-        .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::NotRinging') }
+        .to raise_error(StandardError) { |error| expect(error.class.name).to eq('Voice::CallErrors::CallAlreadyEnded') }
     end
 
     it 'raises CallFailed when sdp_answer is missing' do
@@ -84,13 +84,14 @@ describe Whatsapp::CallService do
   describe '#reject' do
     before { allow(provider_service).to receive(:reject_call).and_return(true) }
 
-    it 'tells Meta to reject and finalizes the call as failed' do
+    it 'tells Meta to reject and finalizes the call as rejected' do
       described_class.new(call: call, agent: agent).reject
 
       expect(provider_service).to have_received(:reject_call).with('wacid_abc')
-      expect(call.reload.status).to eq('failed')
+      expect(call.reload.status).to eq('rejected')
+      expect(call.end_reason).to eq('agent_rejected')
       expect(ActionCable.server).to have_received(:broadcast).with(
-        "account_#{account.id}", hash_including(event: 'voice_call.ended', data: hash_including(status: 'failed'))
+        "account_#{account.id}", hash_including(event: 'voice_call.ended', data: hash_including(status: 'rejected'))
       )
     end
 

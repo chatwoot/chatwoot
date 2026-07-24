@@ -23,6 +23,10 @@ class AccountPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def select_billing_currency?
+    @account_user.administrator?
+  end
+
   def checkout?
     @account_user.administrator?
   end
@@ -32,6 +36,10 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def topup_checkout?
+    @account_user.administrator?
+  end
+
+  def topup_options?
     @account_user.administrator?
   end
 end
