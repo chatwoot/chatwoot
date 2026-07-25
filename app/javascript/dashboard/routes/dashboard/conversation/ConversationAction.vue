@@ -2,19 +2,20 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import ContactDetailsItem from './ContactDetailsItem.vue';
-import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
-import ConversationAssigneeSelector from 'dashboard/components/widgets/conversation/ConversationAssigneeSelector.vue';
+import OutlinedAttributeField from 'dashboard/components-next/CustomAttributes/OutlinedAttributeField.vue';
+import OutlinedSelectField from 'dashboard/components-next/CustomAttributes/OutlinedSelectField.vue';
 import ConversationLabels from './labels/LabelBox.vue';
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
+import { useConversationAssignee } from 'dashboard/composables/useConversationAssignee';
+import { onMounted, watch } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   components: {
-    ContactDetailsItem,
-    MultiselectDropdown,
-    ConversationAssigneeSelector,
+    OutlinedAttributeField,
+    OutlinedSelectField,
     ConversationLabels,
   },
   props: {
@@ -22,6 +23,31 @@ export default {
       type: [Number, String],
       required: true,
     },
+  },
+  setup() {
+    const store = useStore();
+    const { agentsList, assignedAgent, isAssigning, onClickAssignAgent } =
+      useConversationAssignee();
+
+    const fetchAssignableAgents = () => {
+      const inboxId = store.getters.getSelectedChat?.inbox_id;
+      if (inboxId) {
+        store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+      }
+    };
+
+    onMounted(fetchAssignableAgents);
+    watch(
+      () => store.getters.getSelectedChat?.inbox_id,
+      () => fetchAssignableAgents()
+    );
+
+    return {
+      agentsList,
+      assignedAgent,
+      isAssigning,
+      onClickAssignAgent,
+    };
   },
   data() {
     return {
@@ -144,57 +170,42 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col gap-0.5">
-    <div>
-      <ContactDetailsItem
-        compact
-        :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
-      />
-      <ConversationAssigneeSelector />
-    </div>
-    <div>
-      <ContactDetailsItem
-        compact
-        :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
-      />
-      <MultiselectDropdown
-        compact
-        :options="teamsList"
-        :selected-item="assignedTeam"
-        :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.TEAM')"
-        :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
-        :no-search-result="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.TEAM')
-        "
-        :input-placeholder="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.TEAM')
-        "
-        @select="onClickAssignTeam"
-      />
-    </div>
-    <div>
-      <ContactDetailsItem compact :title="$t('CONVERSATION.PRIORITY.TITLE')" />
-      <MultiselectDropdown
-        compact
-        :options="priorityOptions"
-        :selected-item="assignedPriority"
-        :multiselector-title="$t('CONVERSATION.PRIORITY.TITLE')"
-        :multiselector-placeholder="
-          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SELECT_PLACEHOLDER')
-        "
-        :no-search-result="
-          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.NO_RESULTS')
-        "
-        :input-placeholder="
-          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
-        "
-        @select="onClickAssignPriority"
-      />
-    </div>
-    <ContactDetailsItem
-      compact
-      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
+  <div class="flex flex-col gap-1.5 px-1 py-0.5">
+    <OutlinedSelectField
+      :label="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
+      :options="agentsList"
+      :selected-item="assignedAgent"
+      :placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
+      :disabled="isAssigning"
+      has-thumbnail
+      @select="onClickAssignAgent"
     />
-    <ConversationLabels :conversation-id="conversationId" />
+
+    <OutlinedSelectField
+      :label="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
+      :options="teamsList"
+      :selected-item="assignedTeam"
+      :placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
+      @select="onClickAssignTeam"
+    />
+
+    <OutlinedSelectField
+      :label="$t('CONVERSATION.PRIORITY.TITLE')"
+      :options="priorityOptions"
+      :selected-item="assignedPriority"
+      :placeholder="
+        $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SELECT_PLACEHOLDER')
+      "
+      :show-search="false"
+      @select="onClickAssignPriority"
+    />
+
+    <OutlinedAttributeField
+      :label="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
+      filled
+      tall
+    >
+      <ConversationLabels :conversation-id="conversationId" />
+    </OutlinedAttributeField>
   </div>
 </template>

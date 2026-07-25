@@ -26,8 +26,6 @@ import SidebarVisibilityMenu from './SidebarVisibilityMenu.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 import ConversationTasksPanel from 'dashboard/components-next/InternalTasks/ConversationTasksPanel.vue';
-import FeaturedAttributeBadges from 'dashboard/components-next/FeaturedAttributes/FeaturedAttributeBadges.vue';
-import { useFeaturedAttributes } from 'dashboard/composables/useFeaturedAttributes';
 
 const props = defineProps({
   conversationId: {
@@ -121,14 +119,6 @@ const channelType = computed(() => currentChat.value.meta?.channel);
 
 const contactId = computed(() => currentChat.value.meta?.sender?.id);
 const contact = useFunctionGetter('contacts/getContactById', contactId);
-const { featuredBadges: featuredContactBadges } = useFeaturedAttributes(
-  'contact_attribute',
-  contact
-);
-const { featuredBadges: featuredConversationBadges } = useFeaturedAttributes(
-  'conversation_attribute',
-  currentChat
-);
 const contactAdditionalAttributes = computed(
   () =>
     contact.value.additionalAttributes ||
@@ -166,8 +156,8 @@ onMounted(() => {
   conversationSidebarItems.value = conversationSidebarItemsOrder.value;
   getContactDetails();
   store.dispatch('attributes/get', 0);
-  // Load integrations to ensure linear integration state is available
-  store.dispatch('integrations/get', 'linear');
+  // Load integrations so Shopify/Linear gates (panel + visibility menu) are accurate
+  store.dispatch('integrations/get');
 });
 </script>
 
@@ -262,15 +252,6 @@ onMounted(() => {
                 value => toggleSidebarUIState('is_conv_details_open', value)
               "
             >
-              <div
-                v-if="featuredConversationBadges.length"
-                class="px-4 py-2 border-b border-n-weak/50"
-              >
-                <FeaturedAttributeBadges
-                  :badges="featuredConversationBadges"
-                  emphasized
-                />
-              </div>
               <ConversationInfo
                 :conversation-attributes="conversationAdditionalAttributes"
                 :contact-attributes="contactAdditionalAttributes"
@@ -292,15 +273,6 @@ onMounted(() => {
                   toggleSidebarUIState('is_contact_attributes_open', value)
               "
             >
-              <div
-                v-if="featuredContactBadges.length"
-                class="px-4 py-2 border-b border-n-weak/50"
-              >
-                <FeaturedAttributeBadges
-                  :badges="featuredContactBadges"
-                  emphasized
-                />
-              </div>
               <CustomAttributes
                 attribute-type="contact_attribute"
                 attribute-from="conversation_contact_panel"

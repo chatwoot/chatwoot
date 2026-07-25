@@ -75,16 +75,18 @@ const customAttributes = computed(() => {
 const conversationId = computed(() => currentChat.value.id);
 
 const filteredCustomAttributes = computed(() =>
-  attributes.value.map(attribute => {
-    const hasValue = attribute.attribute_key in customAttributes.value;
+  attributes.value
+    .filter(attribute => !attribute.featured)
+    .map(attribute => {
+      const hasValue = attribute.attribute_key in customAttributes.value;
 
-    return {
-      ...attribute,
-      type: 'custom_attribute',
-      key: attribute.attribute_key,
-      value: hasValue ? customAttributes.value[attribute.attribute_key] : '',
-    };
-  })
+      return {
+        ...attribute,
+        type: 'custom_attribute',
+        key: attribute.attribute_key,
+        value: hasValue ? customAttributes.value[attribute.attribute_key] : '',
+      };
+    })
 );
 
 const attributeCategory = attribute =>

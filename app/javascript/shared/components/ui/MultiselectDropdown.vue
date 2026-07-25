@@ -45,7 +45,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  chevronOnly: {
+  borderless: {
     type: Boolean,
     default: false,
   },
@@ -83,7 +83,7 @@ const chevronIcon = computed(() =>
       :class="{
         'w-8 shrink-0': chevronOnly,
         'w-full': !chevronOnly,
-        'mb-2': !compact && !chevronOnly,
+        'mb-2': !compact && !chevronOnly && !borderless,
       }"
       @keyup.esc="onCloseDropdown"
     >
@@ -101,12 +101,18 @@ const chevronIcon = computed(() =>
       <Button
         v-else
         slate
-        outline
         trailing-icon
+        :outline="!borderless"
+        :ghost="borderless"
         :disabled="disabled"
         :size="compact ? 'sm' : undefined"
         :icon="chevronIcon"
-        :class="compact ? 'w-full !h-8 !px-2' : 'w-full !px-2'"
+        :class="[
+          compact ? 'w-full !h-8 !px-2' : 'w-full !px-2',
+          borderless
+            ? '!outline-none !shadow-none !bg-transparent hover:!bg-n-alpha-2'
+            : '',
+        ]"
         @click="() => toggleDropdown()"
       >
         <div class="flex items-center flex-1 min-w-0 gap-1">

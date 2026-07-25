@@ -15,6 +15,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  borderless: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const { t } = useI18n();
@@ -112,6 +116,7 @@ const canSelfAssign = computed(
     />
     <div class="min-w-0 w-full">
       <MultiselectDropdown
+        :borderless="borderless"
         :disabled="isAssigning"
         :options="agentsList"
         :selected-item="assignedAgent"

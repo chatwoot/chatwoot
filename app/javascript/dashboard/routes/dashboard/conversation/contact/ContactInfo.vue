@@ -20,7 +20,8 @@ import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue'
 import ContactAssigneeSelector from 'dashboard/components-next/Contacts/ContactAssigneeSelector.vue';
 import FeaturedAttributeBadges from 'dashboard/components-next/FeaturedAttributes/FeaturedAttributeBadges.vue';
 import { useFeaturedAttributes } from 'dashboard/composables/useFeaturedAttributes';
-import { toRef } from 'vue';
+import { computed, toRef } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   components: {
@@ -50,14 +51,19 @@ export default {
   emits: ['panelClose'],
   setup(props) {
     const { isAdmin } = useAdmin();
+    const store = useStore();
     const contactRef = toRef(props, 'contact');
-    const { featuredBadges } = useFeaturedAttributes(
+    const currentChat = computed(() => store.getters.getSelectedChat);
+    const { featuredBadges: featuredContactBadges } = useFeaturedAttributes(
       'contact_attribute',
       contactRef
     );
+    const { featuredBadges: featuredConversationBadges } =
+      useFeaturedAttributes('conversation_attribute', currentChat);
     return {
       isAdmin,
-      featuredBadges,
+      featuredContactBadges,
+      featuredConversationBadges,
     };
   },
   data() {
@@ -345,12 +351,23 @@ export default {
           :title="$t('CONTACT_PANEL.LOCATION')"
         />
         <SocialIcons :social-profiles="socialProfiles" />
-        <FeaturedAttributeBadges
-          v-if="featuredBadges.length"
-          :badges="featuredBadges"
-          class="mt-1"
-          emphasized
-        />
+        <div
+          v-if="
+            featuredContactBadges.length || featuredConversationBadges.length
+          "
+          class="flex flex-col gap-1 mt-1"
+        >
+          <FeaturedAttributeBadges
+            v-if="featuredContactBadges.length"
+            :badges="featuredContactBadges"
+            variant="contact"
+          />
+          <FeaturedAttributeBadges
+            v-if="featuredConversationBadges.length"
+            :badges="featuredConversationBadges"
+            variant="conversation"
+          />
+        </div>
         <ContactAssigneeSelector
           v-if="contact.id"
           :contact="contact"

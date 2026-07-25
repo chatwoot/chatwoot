@@ -3,7 +3,12 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Draggable from 'vuedraggable';
 import Button from 'dashboard/components-next/button/Button.vue';
-import { useStoreGetters } from 'dashboard/composables/store';
+import {
+  useStoreGetters,
+  useFunctionGetter,
+} from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
   useUISettings,
   DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
@@ -14,6 +19,7 @@ import {
 
 const { t } = useI18n();
 const getters = useStoreGetters();
+const { isCloudFeatureEnabled } = useAccount();
 const {
   conversationSidebarItemsOrder,
   conversationSidebarVisibleItems,
@@ -27,11 +33,31 @@ const {
   setConversationSidebarItemsOrder,
 } = useUISettings();
 
+const shopifyIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'shopify'
+);
+const linearIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'linear'
+);
+
+const isSectionAvailable = name => {
+  if (name === 'shopify_orders') {
+    return !!shopifyIntegration.value?.enabled;
+  }
+  if (name === 'linear_issues') {
+    return (
+      isCloudFeatureEnabled(FEATURE_FLAGS.LINEAR) &&
+      !!linearIntegration.value?.id
+    );
+  }
+  return true;
+};
+
 const isOpen = ref(false);
 const dragging = ref(false);
-const sections = ref(
-  conversationSidebarItemsOrder.value.map(item => ({ ...item }))
-);
+const sections = ref([]);
 /** Local category lists keyed by section name (mutated by Draggable). */
 const categoryRows = ref({});
 
@@ -87,9 +113,11 @@ const buildCategoriesForType = attributeType => {
 
 const syncFromSettings = () => {
   if (dragging.value) return;
-  sections.value = conversationSidebarItemsOrder.value.map(item => ({
-    ...item,
-  }));
+  sections.value = conversationSidebarItemsOrder.value
+    .filter(item => isSectionAvailable(item.name))
+    .map(item => ({
+      ...item,
+    }));
   const rows = {};
   Object.entries(SIDEBAR_SECTION_ATTRIBUTE_TYPE).forEach(
     ([sectionName, attributeType]) => {
@@ -98,6 +126,8 @@ const syncFromSettings = () => {
   );
   categoryRows.value = rows;
 };
+
+syncFromSettings();
 
 const visibleCount = computed(
   () =>
@@ -123,7 +153,15 @@ const closeMenu = () => {
 
 const onSectionDragEnd = () => {
   dragging.value = false;
-  setConversationSidebarItemsOrder(sections.value.map(item => ({ ...item })));
+  // Keep unavailable sections in saved order so prefs survive enabling an integration later.
+  const availableNames = new Set(sections.value.map(item => item.name));
+  const hidden = conversationSidebarItemsOrder.value.filter(
+    item => !availableNames.has(item.name)
+  );
+  setConversationSidebarItemsOrder([
+    ...sections.value.map(item => ({ ...item })),
+    ...hidden,
+  ]);
 };
 
 const onToggleSection = name => {
@@ -146,7 +184,9 @@ const onCategoryDragEnd = sectionName => {
 
 const onReset = () => {
   resetConversationSidebarVisibility();
-  sections.value = DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER.map(item => ({
+  sections.value = DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER.filter(item =>
+    isSectionAvailable(item.name)
+  ).map(item => ({
     ...item,
   }));
   const rows = {};
