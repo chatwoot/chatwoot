@@ -5,7 +5,7 @@ class Channels::Whatsapp::TemplatesSyncSchedulerJob < ApplicationJob
     Channel::Whatsapp.joins(:account)
                      .merge(Account.active)
                      .order(Arel.sql('message_templates_last_updated IS NULL DESC, message_templates_last_updated ASC'))
-                     .where('message_templates_last_updated <= ? OR message_templates_last_updated IS NULL', 3.hours.ago)
+                     .where('message_templates_last_updated <= ? OR message_templates_last_updated IS NULL', 3.days.ago)
                      .limit(Limits::BULK_EXTERNAL_HTTP_CALLS_LIMIT)
                      .each do |channel|
       Channels::Whatsapp::TemplatesSyncJob.perform_later(channel)
