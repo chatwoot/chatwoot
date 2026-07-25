@@ -95,7 +95,6 @@ onUnmounted(() => {
   <div class="relative flex items-center gap-2 actions--container min-w-0">
     <ConversationAssigneeSelector
       v-if="currentChat?.id"
-      compact
       show-self-assign-button
       class="hidden md:flex shrink-0"
     />

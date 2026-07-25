@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import UnreadBadge from './UnreadBadge.vue';
 
 const props = defineProps({
   conversation: {
@@ -54,14 +55,7 @@ const unreadMessagesCount = computed(() => {
         :status="assignee.status"
         rounded-full
       />
-      <div
-        v-if="unreadMessagesCount > 0"
-        class="inline-flex items-center justify-center rounded-full size-5 bg-n-brand"
-      >
-        <span class="text-xs font-semibold text-white">
-          {{ unreadMessagesCount }}
-        </span>
-      </div>
+      <UnreadBadge :count="unreadMessagesCount" align-bottom />
     </div>
   </div>
 </template>

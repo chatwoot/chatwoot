@@ -131,33 +131,32 @@ onMounted(() => {
     </div>
 
     <template v-if="!uiFlags.isFetching && macros.length">
-      <div v-if="hasMultipleFolders" class="flex flex-col gap-1 p-1">
+      <div v-if="hasMultipleFolders" class="flex flex-col gap-0.5">
         <div v-for="group in folderGroups" :key="group.key">
           <button
             type="button"
-            class="flex w-full items-center justify-between gap-2 px-2 py-1.5 rounded-md text-start hover:bg-n-alpha-2"
+            class="flex w-full items-center gap-1.5 px-1.5 py-1.5 rounded-md text-start hover:bg-n-alpha-2"
             @click="toggleFolder(group.key)"
           >
-            <span class="text-xs font-medium text-n-slate-11 truncate">
-              {{ group.label }}
-              <span class="font-normal">({{ group.macros.length }})</span>
-            </span>
             <span
               class="i-lucide-chevron-down size-3.5 text-n-slate-11 transition-transform shrink-0"
               :class="{ '-rotate-90': isFolderCollapsed(group.key) }"
             />
+            <span class="text-sm font-normal text-n-slate-11 truncate">
+              {{ group.label }}
+              <span class="font-normal text-n-slate-10">
+                ({{ group.macros.length }})
+              </span>
+            </span>
           </button>
           <Draggable
             v-show="!isFolderCollapsed(group.key)"
             :model-value="group.macros"
-            class="pl-1"
             animation="200"
             ghost-class="ghost"
             handle=".drag-handle"
             item-key="id"
-            @update:model-value="
-              value => onFolderOrderChange(group.key, value)
-            "
+            @update:model-value="value => onFolderOrderChange(group.key, value)"
             @start="dragging = true"
             @end="onDragEnd"
           >
@@ -174,7 +173,6 @@ onMounted(() => {
       <Draggable
         v-else
         v-model="orderedMacros"
-        class="p-1"
         animation="200"
         ghost-class="ghost"
         handle=".drag-handle"

@@ -1,7 +1,8 @@
 <script setup>
+import { computed } from 'vue';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     required: true,
@@ -26,6 +27,15 @@ defineProps({
 
 const emit = defineEmits(['toggle']);
 
+const isLucideIcon = computed(
+  () => typeof props.icon === 'string' && props.icon.startsWith('i-')
+);
+
+const lucideIconClass = computed(() => {
+  const size = props.compact ? 'size-3.5' : 'size-4';
+  return `${props.icon} ${size} shrink-0 text-n-slate-11`;
+});
+
 const onToggle = () => {
   emit('toggle');
 };
@@ -34,28 +44,48 @@ const onToggle = () => {
 <template>
   <div class="text-sm">
     <button
-      class="flex items-center select-none w-full rounded-lg bg-n-slate-2 outline outline-1 outline-n-weak m-0 cursor-grab justify-between py-2 px-4 drag-handle"
-      :class="{ 'rounded-bl-none rounded-br-none': isOpen }"
+      class="flex items-center select-none w-full rounded-lg bg-n-slate-2 outline outline-1 outline-n-weak m-0 cursor-grab justify-between drag-handle"
+      :class="[
+        compact ? 'py-1.5 px-3' : 'py-2 px-4',
+        { 'rounded-bl-none rounded-br-none': isOpen },
+      ]"
       @click.stop="onToggle"
     >
-      <div class="flex justify-between">
-        <EmojiOrIcon class="inline-block w-5" :icon="icon" :emoji="emoji" />
-        <h5 class="text-n-slate-12 text-sm mb-0 py-0 pr-2 pl-0">
+      <div class="flex items-center gap-1.5 min-w-0">
+        <span v-if="isLucideIcon" :class="lucideIconClass" />
+        <EmojiOrIcon
+          v-else-if="icon || emoji"
+          class="inline-block shrink-0"
+          :class="compact ? 'w-4' : 'w-5'"
+          :icon="icon"
+          :emoji="emoji"
+        />
+        <h5 class="text-n-slate-12 text-sm mb-0 py-0 pr-2 pl-0 truncate">
           {{ title }}
         </h5>
       </div>
-      <div class="flex flex-row">
+      <div class="flex flex-row shrink-0">
         <slot name="button" />
         <div class="flex justify-end w-3 text-n-blue-11 cursor-pointer">
-          <fluent-icon v-if="isOpen" size="24" icon="subtract" type="solid" />
-          <fluent-icon v-else size="24" icon="add" type="solid" />
+          <fluent-icon
+            v-if="isOpen"
+            :size="compact ? 20 : 24"
+            icon="subtract"
+            type="solid"
+          />
+          <fluent-icon
+            v-else
+            :size="compact ? 20 : 24"
+            icon="add"
+            type="solid"
+          />
         </div>
       </div>
     </button>
     <div
       v-if="isOpen"
-      class="outline outline-1 outline-n-weak -mt-[-1px] border-t-0 rounded-br-lg rounded-bl-lg"
-      :class="compact ? 'p-0' : 'px-2 py-4'"
+      class="outline outline-1 -mt-[-1px] border-t-0 rounded-br-lg rounded-bl-lg"
+      :class="compact ? 'p-1.5 outline-n-strong' : 'px-2 py-4 outline-n-weak'"
     >
       <slot />
     </div>

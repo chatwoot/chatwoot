@@ -53,11 +53,11 @@ const closeMacroPreview = () => {
 
 <template>
   <div
-    class="relative flex items-center justify-between leading-4 rounded-md h-10 pl-3 pr-2"
+    class="relative flex items-center justify-between leading-4 rounded-md h-9 px-2"
     :class="showPreview ? 'cursor-default' : 'drag-handle cursor-grab'"
   >
     <span
-      class="overflow-hidden whitespace-nowrap text-ellipsis font-medium text-n-slate-12"
+      class="overflow-hidden whitespace-nowrap text-ellipsis text-sm font-medium text-n-slate-12"
     >
       {{ macro.name }}
     </span>

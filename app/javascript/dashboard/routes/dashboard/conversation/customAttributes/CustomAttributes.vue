@@ -1,15 +1,17 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import Draggable from 'vuedraggable';
-import { useToggle } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
-import { useUISettings } from 'dashboard/composables/useUISettings';
+import {
+  useUISettings,
+  attributeCategorySlug,
+  SYSTEM_CATEGORY_SLUG,
+} from 'dashboard/composables/useUISettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   attributeType: {
@@ -42,11 +44,11 @@ const {
   updateUISettings,
   isContactSidebarItemOpen,
   toggleSidebarUIState,
+  isConversationSidebarCategoryVisible,
+  conversationSidebarCategoryOrder,
 } = useUISettings();
 
 const dragging = ref(false);
-
-const [showAllAttributes, toggleShowAllAttributes] = useToggle(false);
 
 const currentChat = computed(() => getters.getSelectedChat.value);
 const attributes = computed(() =>
@@ -72,31 +74,24 @@ const customAttributes = computed(() => {
 
 const conversationId = computed(() => currentChat.value.id);
 
-const toggleButtonText = computed(() =>
-  !showAllAttributes.value
-    ? t('CUSTOM_ATTRIBUTES.SHOW_MORE')
-    : t('CUSTOM_ATTRIBUTES.SHOW_LESS')
-);
-
 const filteredCustomAttributes = computed(() =>
-  attributes.value.map(attribute => {
-    // Check if the attribute key exists in customAttributes
-    const hasValue = attribute.attribute_key in customAttributes.value;
+  attributes.value
+    .filter(attribute => !attribute.featured)
+    .map(attribute => {
+      const hasValue = attribute.attribute_key in customAttributes.value;
 
-    return {
-      ...attribute,
-      type: 'custom_attribute',
-      key: attribute.attribute_key,
-      // Set value from customAttributes if it exists, otherwise use ''
-      value: hasValue ? customAttributes.value[attribute.attribute_key] : '',
-    };
-  })
+      return {
+        ...attribute,
+        type: 'custom_attribute',
+        key: attribute.attribute_key,
+        value: hasValue ? customAttributes.value[attribute.attribute_key] : '',
+      };
+    })
 );
 
 const attributeCategory = attribute =>
   (attribute?.category || attribute?.Category || '').trim();
 
-// Order key name for UI settings
 const orderKey = computed(
   () => `conversation_elements_order_${props.attributeFrom}`
 );
@@ -127,79 +122,170 @@ const combinedElements = computed(() => {
 });
 
 const displayedElements = computed(() => {
-  if (showAllAttributes.value || combinedElements.value.length <= 5) {
-    return combinedElements.value;
-  }
-
-  return combinedElements.value.slice(0, 5);
+  const savedOrder = uiSettings.value[orderKey.value] ?? [];
+  const systemVisible = isConversationSidebarCategoryVisible(
+    props.attributeType,
+    SYSTEM_CATEGORY_SLUG
+  );
+  const statics = systemVisible
+    ? sortBySavedOrder([...props.staticElements], savedOrder)
+    : [];
+  const visibleAttrs = filteredCustomAttributes.value.filter(attribute =>
+    isConversationSidebarCategoryVisible(
+      props.attributeType,
+      attributeCategorySlug(attributeCategory(attribute))
+    )
+  );
+  return sortBySavedOrder([...statics, ...visibleAttrs], savedOrder);
 });
+
+const flatList = ref([]);
+watch(
+  displayedElements,
+  elements => {
+    if (!dragging.value) {
+      flatList.value = [...elements];
+    }
+  },
+  { immediate: true }
+);
 
 const orderedStaticElements = computed(() => {
   const savedOrder = uiSettings.value[orderKey.value] ?? [];
   return sortBySavedOrder([...props.staticElements], savedOrder);
 });
 
-const categorySlug = category => {
-  const trimmed = (category || '').trim();
-  if (!trimmed) return 'uncategorized';
-  return trimmed
-    .toLowerCase()
-    .replace(/\s+/g, '_')
-    .replace(/[^a-z0-9_-]/g, '');
-};
-
 const categoryOpenKey = slug =>
   `attr_category_open_${props.attributeFrom}_${slug}`;
 
-const isCategoryOpen = slug => isContactSidebarItemOpen(categoryOpenKey(slug));
+/** Unset preference → open by default so category folders are visible. */
+const isCategoryOpen = slug => {
+  const key = categoryOpenKey(slug);
+  if (uiSettings.value[key] === undefined) return true;
+  return isContactSidebarItemOpen(key);
+};
 
 const toggleCategoryOpen = slug => toggleSidebarUIState(categoryOpenKey(slug));
 
+const isSystemCategoryVisible = computed(() =>
+  isConversationSidebarCategoryVisible(
+    props.attributeType,
+    SYSTEM_CATEGORY_SLUG
+  )
+);
+
+const visibleStaticElements = computed(() => {
+  if (!isSystemCategoryVisible.value) return [];
+  return orderedStaticElements.value;
+});
+
 const categoryGroups = computed(() => {
   const savedOrder = uiSettings.value[orderKey.value] ?? [];
-  const sortedAttributes = sortBySavedOrder(
-    filteredCustomAttributes.value,
-    savedOrder
-  );
   const groups = new Map();
 
-  sortedAttributes.forEach(attribute => {
-    const category = attributeCategory(attribute);
+  const ensureGroup = (category, slug) => {
     const key = category || '__uncategorized__';
     if (!groups.has(key)) {
       groups.set(key, {
         key,
-        slug: categorySlug(category),
+        slug,
         title: category || t('CUSTOM_ATTRIBUTES.UNCATEGORIZED'),
         attributes: [],
+        staticElements: [],
+        // Total defs in this category (incl. featured shown as badges).
+        totalCount: 0,
       });
     }
-    groups.get(key).attributes.push(attribute);
+    return groups.get(key);
+  };
+
+  if (visibleStaticElements.value.length) {
+    groups.set('__system__', {
+      key: '__system__',
+      slug: SYSTEM_CATEGORY_SLUG,
+      title: t('CUSTOM_ATTRIBUTES.SYSTEM'),
+      attributes: [],
+      staticElements: visibleStaticElements.value,
+      totalCount: visibleStaticElements.value.length,
+    });
+  }
+
+  // Seed folders from all definitions so Shipping/Billing stay visible even
+  // when their attrs are featured (badges only) and omitted from the list.
+  attributes.value.forEach(attribute => {
+    const category = attributeCategory(attribute);
+    const slug = attributeCategorySlug(category);
+    if (!isConversationSidebarCategoryVisible(props.attributeType, slug)) {
+      return;
+    }
+    ensureGroup(category, slug).totalCount += 1;
   });
 
-  return [...groups.values()].sort((a, b) => {
+  const sortedAttributes = sortBySavedOrder(
+    filteredCustomAttributes.value,
+    savedOrder
+  );
+  sortedAttributes.forEach(attribute => {
+    const category = attributeCategory(attribute);
+    const slug = attributeCategorySlug(category);
+    if (!isConversationSidebarCategoryVisible(props.attributeType, slug)) {
+      return;
+    }
+    ensureGroup(category, slug).attributes.push(attribute);
+  });
+
+  const list = [...groups.values()].filter(
+    group =>
+      group.attributes.length > 0 ||
+      (group.staticElements?.length || 0) > 0 ||
+      group.totalCount > 0
+  );
+  const categoryOrder = conversationSidebarCategoryOrder(props.attributeType);
+
+  return list.sort((a, b) => {
+    if (categoryOrder.length) {
+      const aPos = categoryOrder.indexOf(a.slug);
+      const bPos = categoryOrder.indexOf(b.slug);
+      if (aPos !== -1 || bPos !== -1) {
+        if (aPos === -1) return 1;
+        if (bPos === -1) return -1;
+        return aPos - bPos;
+      }
+    }
+    if (a.key === '__system__') return -1;
+    if (b.key === '__system__') return 1;
     if (a.key === '__uncategorized__') return 1;
     if (b.key === '__uncategorized__') return -1;
     return a.title.localeCompare(b.title);
   });
 });
 
-// Same gate as macros conversation list: folders only when 2+ groups.
-const hasMultipleCategories = computed(() => categoryGroups.value.length > 1);
+const showCategoryFolderView = computed(() => categoryGroups.value.length > 1);
 
-// Compact list stays flat; "Show all attributes" switches to folder groups.
-const showCategoryFolderView = computed(
-  () =>
-    hasMultipleCategories.value &&
-    (showAllAttributes.value || combinedElements.value.length <= 5)
-);
+const allCategoriesHidden = computed(() => {
+  const hasStatics = props.staticElements.length > 0;
+  const hasCustoms = filteredCustomAttributes.value.length > 0;
+  if (!hasStatics && !hasCustoms) return false;
 
-const showToggleButton = computed(() => combinedElements.value.length > 5);
+  const systemHidden =
+    !hasStatics ||
+    !isConversationSidebarCategoryVisible(
+      props.attributeType,
+      SYSTEM_CATEGORY_SLUG
+    );
+  const customsHidden =
+    !hasCustoms ||
+    filteredCustomAttributes.value.every(
+      attribute =>
+        !isConversationSidebarCategoryVisible(
+          props.attributeType,
+          attributeCategorySlug(attributeCategory(attribute))
+        )
+    );
 
-// Reorder elements with static elements position preserved
-// There is case where all the static elements will not be available (API, Email channels, etc).
-// In that case, we need to preserve the order of the static elements and
-// insert them in the correct position.
+  return systemHidden && customsHidden;
+});
+
 const reorderElementsWithStaticPreservation = (
   savedOrder = [],
   currentOrder = []
@@ -207,17 +293,13 @@ const reorderElementsWithStaticPreservation = (
   const finalOrder = [...currentOrder];
   const visibleKeys = new Set(currentOrder);
 
-  // Process hidden static elements from saved order
   savedOrder
-    // Find static elements that aren't currently visible
     .filter(key => key.startsWith('static-') && !visibleKeys.has(key))
     .forEach(staticKey => {
-      // Find next visible element after this static element in saved order
       const nextVisible = savedOrder
         .slice(savedOrder.indexOf(staticKey))
         .find(key => visibleKeys.has(key));
 
-      // If next visible element found, insert before it; otherwise add to end
       if (nextVisible) {
         finalOrder.splice(finalOrder.indexOf(nextVisible), 0, staticKey);
       } else {
@@ -231,7 +313,7 @@ const reorderElementsWithStaticPreservation = (
 const onDragEnd = () => {
   dragging.value = false;
   const savedOrder = uiSettings.value[orderKey.value] ?? [];
-  const currentOrder = combinedElements.value.map(({ key }) => key);
+  const currentOrder = flatList.value.map(({ key }) => key);
 
   const finalOrder = reorderElementsWithStaticPreservation(
     savedOrder,
@@ -266,7 +348,6 @@ const onCategoryOrderChange = (categoryKey, newAttributes) => {
     result.push(...newKeys);
   }
 
-  // Keep any keys not yet in saved order (statics / new attrs)
   const resultSet = new Set(result);
   orderedStaticElements.value.forEach(({ key }) => {
     if (!resultSet.has(key)) result.push(key);
@@ -288,16 +369,6 @@ const initializeSettings = () => {
       [orderKey.value]: initialOrder,
     });
   }
-
-  showAllAttributes.value =
-    uiSettings.value[`show_all_attributes_${props.attributeFrom}`] || false;
-};
-
-const onClickToggle = () => {
-  toggleShowAllAttributes();
-  updateUISettings({
-    [`show_all_attributes_${props.attributeFrom}`]: showAllAttributes.value,
-  });
 };
 
 const onUpdate = async (key, value) => {
@@ -361,85 +432,84 @@ const evenClass = [
 
 <template>
   <div class="conversation--details">
-    <!-- "Show all attributes": macros-style category folders -->
     <template v-if="showCategoryFolderView">
-      <div
-        v-if="orderedStaticElements.length"
-        class="last:rounded-b-lg"
-        :class="evenClass"
-      >
-        <div
-          v-for="element in orderedStaticElements"
-          :key="element.key"
-          class="relative border-b border-n-weak/50 dark:border-n-weak/90"
-        >
-          <slot name="staticItem" :element="element" />
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-1 p-1">
+      <div class="flex flex-col gap-0.5">
         <div v-for="group in categoryGroups" :key="group.key">
           <button
             type="button"
-            class="flex w-full items-center justify-between gap-2 px-2 py-1.5 rounded-md text-start hover:bg-n-alpha-2"
+            class="flex w-full items-center gap-1.5 px-1.5 py-1.5 rounded-md text-start hover:bg-n-alpha-2"
             @click="toggleCategoryOpen(group.slug)"
           >
-            <span class="text-xs font-medium text-n-slate-11 truncate">
-              {{ group.title }}
-              <span class="font-normal">({{ group.attributes.length }})</span>
-            </span>
             <span
               class="i-lucide-chevron-down size-3.5 text-n-slate-11 transition-transform shrink-0"
               :class="{ '-rotate-90': !isCategoryOpen(group.slug) }"
             />
+            <span class="text-sm font-normal text-n-slate-11 truncate">
+              {{ group.title }}
+              <span class="font-normal text-n-slate-10">
+                ({{
+                  group.totalCount ||
+                  group.attributes.length + (group.staticElements?.length || 0)
+                }})
+              </span>
+            </span>
           </button>
-          <Draggable
+
+          <div
             v-show="isCategoryOpen(group.slug)"
-            :model-value="group.attributes"
-            animation="200"
-            ghost-class="ghost"
-            handle=".drag-handle"
-            item-key="key"
-            class="pl-1 last:rounded-b-lg"
+            class="last:rounded-b-lg"
             :class="evenClass"
-            @start="dragging = true"
-            @update:model-value="
-              value => onCategoryOrderChange(group.key, value)
-            "
           >
-            <template #item="{ element }">
-              <div
-                class="drag-handle relative cursor-grab border-b border-n-weak/50 dark:border-n-weak/90 last:border-transparent dark:last:border-transparent"
-              >
-                <CustomAttribute
-                  :key="element.id"
-                  :attribute-key="element.attribute_key"
-                  :attribute-type="element.attribute_display_type"
-                  :values="element.attribute_values"
-                  :label="element.attribute_display_name"
-                  :description="element.attribute_description"
-                  :value="element.value"
-                  show-actions
-                  :read-only="!!element.formula"
-                  :attribute-regex="element.regex_pattern"
-                  :regex-cue="element.regex_cue"
-                  :contact-id="contactId"
-                  @update="onUpdate"
-                  @delete="onDelete"
-                  @copy="onCopy"
-                />
-              </div>
-            </template>
-          </Draggable>
+            <div
+              v-for="element in group.staticElements || []"
+              :key="element.key"
+              class="relative"
+            >
+              <slot name="staticItem" :element="element" />
+            </div>
+
+            <Draggable
+              v-if="group.attributes.length"
+              :model-value="group.attributes"
+              animation="200"
+              ghost-class="ghost"
+              handle=".drag-handle"
+              item-key="key"
+              @start="dragging = true"
+              @update:model-value="
+                value => onCategoryOrderChange(group.key, value)
+              "
+            >
+              <template #item="{ element }">
+                <div class="drag-handle relative cursor-grab">
+                  <CustomAttribute
+                    :key="element.id"
+                    :attribute-key="element.attribute_key"
+                    :attribute-type="element.attribute_display_type"
+                    :values="element.attribute_values"
+                    :label="element.attribute_display_name"
+                    :description="element.attribute_description"
+                    :value="element.value"
+                    show-actions
+                    :read-only="!!element.formula"
+                    :attribute-regex="element.regex_pattern"
+                    :regex-cue="element.regex_cue"
+                    :contact-id="contactId"
+                    @update="onUpdate"
+                    @delete="onDelete"
+                    @copy="onCopy"
+                  />
+                </div>
+              </template>
+            </Draggable>
+          </div>
         </div>
       </div>
     </template>
 
-    <!-- Compact / uncategorized flat list -->
     <template v-else>
       <Draggable
-        :list="displayedElements"
-        :disabled="!showAllAttributes"
+        :list="flatList"
         animation="200"
         ghost-class="ghost"
         handle=".drag-handle"
@@ -450,14 +520,7 @@ const evenClass = [
         @end="onDragEnd"
       >
         <template #item="{ element }">
-          <div
-            class="drag-handle relative border-b border-n-weak/50 dark:border-n-weak/90"
-            :class="{
-              'cursor-grab': showAllAttributes,
-              'last:border-transparent dark:last:border-transparent':
-                combinedElements.length <= 5,
-            }"
-          >
+          <div class="drag-handle relative cursor-grab">
             <template v-if="element.type === 'static_attribute'">
               <slot name="staticItem" :element="element" />
             </template>
@@ -484,33 +547,27 @@ const evenClass = [
           </div>
         </template>
       </Draggable>
-
-      <p
-        v-if="!displayedElements.length && emptyStateMessage"
-        class="p-3 text-center"
-      >
-        {{ emptyStateMessage }}
-      </p>
     </template>
 
-    <div v-if="showToggleButton" class="flex items-center px-2 py-2">
-      <NextButton
-        ghost
-        xs
-        :icon="
-          showAllAttributes ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
-        "
-        :label="toggleButtonText"
-        @click="onClickToggle"
-      />
-    </div>
-
     <p
-      v-if="
-        showCategoryFolderView &&
-        !filteredCustomAttributes.length &&
+      v-if="allCategoriesHidden"
+      class="p-3 text-center text-sm text-n-slate-11"
+    >
+      {{ $t('CONVERSATION.SIDEBAR.MENU.CATEGORIES_HIDDEN') }}
+    </p>
+    <p
+      v-else-if="
+        emptyStateMessage &&
         !orderedStaticElements.length &&
-        emptyStateMessage
+        !filteredCustomAttributes.length
+      "
+      class="p-3 text-center"
+    >
+      {{ emptyStateMessage }}
+    </p>
+    <p
+      v-else-if="
+        emptyStateMessage && !showCategoryFolderView && !flatList.length
       "
       class="p-3 text-center"
     >

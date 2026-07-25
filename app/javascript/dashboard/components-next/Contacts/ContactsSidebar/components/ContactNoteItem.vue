@@ -24,6 +24,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  compact: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['delete']);
@@ -48,7 +52,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 border-b border-n-strong group/note">
+  <div
+    class="flex flex-col border-b border-n-strong group/note"
+    :class="compact ? 'gap-1' : 'gap-2'"
+  >
     <div class="flex items-center justify-between gap-2">
       <div class="flex items-center gap-1.5 min-w-0">
         <Avatar

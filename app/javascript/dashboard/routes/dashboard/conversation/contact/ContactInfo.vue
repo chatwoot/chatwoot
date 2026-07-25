@@ -20,7 +20,8 @@ import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue'
 import ContactAssigneeSelector from 'dashboard/components-next/Contacts/ContactAssigneeSelector.vue';
 import FeaturedAttributeBadges from 'dashboard/components-next/FeaturedAttributes/FeaturedAttributeBadges.vue';
 import { useFeaturedAttributes } from 'dashboard/composables/useFeaturedAttributes';
-import { toRef } from 'vue';
+import { computed, toRef } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   components: {
@@ -50,14 +51,19 @@ export default {
   emits: ['panelClose'],
   setup(props) {
     const { isAdmin } = useAdmin();
+    const store = useStore();
     const contactRef = toRef(props, 'contact');
-    const { featuredBadges } = useFeaturedAttributes(
+    const currentChat = computed(() => store.getters.getSelectedChat);
+    const { featuredBadges: featuredContactBadges } = useFeaturedAttributes(
       'contact_attribute',
       contactRef
     );
+    const { featuredBadges: featuredConversationBadges } =
+      useFeaturedAttributes('conversation_attribute', currentChat);
     return {
       isAdmin,
-      featuredBadges,
+      featuredContactBadges,
+      featuredConversationBadges,
     };
   },
   data() {
@@ -221,15 +227,15 @@ export default {
 </script>
 
 <template>
-  <div class="relative items-center w-full px-3 py-2">
-    <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
+  <div class="relative items-center w-full px-2 py-2">
+    <div class="flex flex-col w-full gap-1 text-left rtl:text-right">
       <div class="flex flex-row items-start gap-2.5 w-full min-w-0">
         <Avatar
           v-if="showAvatar"
           :src="contact.thumbnail"
           :name="contact.name"
           :status="contact.availability_status"
-          :size="52"
+          :size="48"
           hide-offline-status
           class="flex-shrink-0"
         />
@@ -293,7 +299,7 @@ export default {
       <p v-if="additionalAttributes.description" class="break-words mb-0.5">
         {{ additionalAttributes.description }}
       </p>
-      <div class="flex flex-col items-start w-full gap-2">
+      <div class="flex flex-col items-start w-full gap-1.5">
         <ContactInfoRow
           :value="documentNumber"
           icon="contact-identify"
@@ -345,19 +351,30 @@ export default {
           :title="$t('CONTACT_PANEL.LOCATION')"
         />
         <SocialIcons :social-profiles="socialProfiles" />
-        <FeaturedAttributeBadges
-          v-if="featuredBadges.length"
-          :badges="featuredBadges"
-          class="mt-1"
-          emphasized
-        />
+        <div
+          v-if="
+            featuredContactBadges.length || featuredConversationBadges.length
+          "
+          class="flex flex-col gap-1 mt-1"
+        >
+          <FeaturedAttributeBadges
+            v-if="featuredContactBadges.length"
+            :badges="featuredContactBadges"
+            variant="contact"
+          />
+          <FeaturedAttributeBadges
+            v-if="featuredConversationBadges.length"
+            :badges="featuredConversationBadges"
+            variant="conversation"
+          />
+        </div>
         <ContactAssigneeSelector
           v-if="contact.id"
           :contact="contact"
-          class="mt-2"
+          class="mt-1"
         />
       </div>
-      <div class="flex items-center w-full mt-0.5 gap-2">
+      <div class="flex items-center w-full mt-1 gap-1.5">
         <ComposeConversation :contact-id="String(contact.id)">
           <template #trigger>
             <NextButton
@@ -366,7 +383,7 @@ export default {
               icon="i-ph-chat-circle-dots"
               slate
               faded
-              sm
+              xs
             />
           </template>
         </ComposeConversation>
@@ -375,7 +392,7 @@ export default {
           :contact-id="contact.id"
           :conversation-id="currentChat?.id"
           icon="i-lucide-phone"
-          sm
+          size="xs"
           faded
           slate
           :tooltip-label="$t('CONTACT_PANEL.CALL')"
@@ -386,7 +403,7 @@ export default {
           icon="i-ph-pencil-simple"
           slate
           faded
-          sm
+          xs
           @click="toggleEditModal"
         />
         <ContactMergeModal :primary-contact="contact">
@@ -397,7 +414,7 @@ export default {
               icon="i-ph-arrows-merge"
               slate
               faded
-              sm
+              xs
               :disabled="uiFlags.isMerging"
             />
           </template>
@@ -414,7 +431,7 @@ export default {
               icon="i-ph-trash"
               slate
               faded
-              sm
+              xs
               ruby
               :disabled="uiFlags.isDeleting"
             />

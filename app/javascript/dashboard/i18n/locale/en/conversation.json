@@ -342,7 +342,28 @@
     },
     "SIDEBAR": {
       "CONTACT": "Contact",
-      "COPILOT": "Copilot"
+      "COPILOT": "Copilot",
+      "MENU": {
+        "TITLE": "Sidebar sections",
+        "VISIBLE_COUNT": "{count} visible",
+        "ORDER_HINT": "Drag to reorder",
+        "RESET": "Reset",
+        "EMPTY": "All sections are hidden",
+        "CATEGORIES_HIDDEN": "All attribute categories are hidden. Use the menu above to show them.",
+        "CATEGORIES": "Categories",
+        "conversation_actions": "Conversation actions",
+        "macros": "Macros",
+        "conversation_info": "Conversation info",
+        "contact_attributes": "Contact attributes",
+        "contact_notes": "Contact notes",
+        "internal_tasks": "Internal tasks",
+        "shared_files": "Shared files",
+        "previous_conversation": "Previous conversations",
+        "conversation_participants": "Participants",
+        "linear_issues": "Linear issues",
+        "shopify_orders": "Shopify orders"
+      },
+      "EMPTY_STATE": "All sidebar sections are hidden. Use the menu above to show them."
     },
     "VOICE_WIDGET": {
       "INCOMING_CALL": "Incoming call",

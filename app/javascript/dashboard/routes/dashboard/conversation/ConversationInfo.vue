@@ -97,6 +97,7 @@ const staticElements = computed(() =>
           :key="element.title"
           :title="$t(element.title)"
           :value="element.content.value"
+          outlined
         >
           <a
             v-if="element.key === 'static-referer'"
