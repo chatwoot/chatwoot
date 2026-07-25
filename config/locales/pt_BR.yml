@@ -33,8 +33,33 @@ pt_BR:
     login_saml_user: Esta conta usa autenticação SAML. Por favor, faça login através do provedor SAML da sua organização.
     saml_not_available: A autenticação SAML não está disponível nesta instalação.
     inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado dentro de algum tempo.
+  data_imports:
+    intercom:
+      activities:
+        assignment: '%{actor} atribuiu a conversa'
+        assignment_with_target: '%{actor} atribuiu a conversa a %{target}'
+        assign_and_reopen: '%{actor} atribuiu e reabriu a conversa'
+        assign_and_reopen_with_target: '%{actor} atribuiu a conversa a %{target} e a reabriu'
+        open: '%{actor} abriu a conversa'
+        close: '%{actor} fechou a conversa'
+        snoozed: '%{actor} adiou a conversa'
+        participant_added: '%{actor} adicionou um participante'
+        participant_added_with_target: '%{actor} adicionou %{target} como participante'
+        participant_removed: '%{actor} removeu um usuário'
+        participant_removed_with_target: '%{actor} removeu %{target} como participante'
+        conversation_attribute_updated: '%{actor} atualizou atributos de conversa'
+        ticket_attribute_updated: '%{actor} atributos atualizados do ticket'
+        ticket_state_updated: '%{actor} atualizou o estado do ticket'
+        custom_action_started: '%{actor} iniciou uma ação personalizada'
+        custom_action_finished: '%{actor} finalizou uma ação personalizada'
+        quick_reply: '%{actor} usou uma resposta rápida'
+        generic: '%{actor} gravou %{event}'
+  profile_settings:
+    sessions:
+      cannot_revoke_current: Você não pode revogar a sessão atual.
   errors:
     account:
+      not_authorized: Você não está autorizado a acessar esta conta
       reporting_timezone:
         invalid: não é um fuso horário válido
       support_email:
@@ -64,9 +89,14 @@ pt_BR:
       file_too_large: 'O arquivo excede o tamanho máximo permitido'
       unsupported_content_type: 'Tipo de arquivo não suportado (apenas imagens e vídeos são permitidos)'
       unexpected: 'Ocorreu um erro inesperado'
+    database:
+      query_canceled: 'A solicitação demorou muito para ser concluída. Tente novamente.'
     saml:
       feature_not_enabled: SAML não está habilitado para esta conta
       sso_not_enabled: O SSO via SAML não está habilitado para esta instalação
+    conversations:
+      unread_counts:
+        feature_not_enabled: O recurso de contagem de conversas não lidas não está habilitado para esta conta
     data_import:
       data_type:
         invalid: Tipo de dado inválido
@@ -92,6 +122,15 @@ pt_BR:
         unique: deve ser único na categoria e no portal
     dyte:
       invalid_message_type: 'Tipo de mensagem inválido. Ação não permitida'
+      realtimekit_credentials_required: 'Credenciais do Cloudflare RealtimeKit são necessárias. Exclua a integração de Dyte existente e crie-a novamente com Cloudflare RealtimeKit credenciais.'
+    cloudflare:
+      realtimekit:
+        invalid_credentials: 'As credenciais do Cloudflare RealtimeKit são inválidas. Verifique o ID da conta, RealtimeKit App ID e as permissões do token de API.'
+        missing_credentials: 'ID da conta Cloudflare, ID do App RealtimeKit e token API são necessários.'
+        invalid_api_token: 'O token API do Cloudflare está inválido ou inativo. Por favor, crie um novo token com permissões de administrador em tempo real.'
+        invalid_account_or_permissions: 'O ID da conta Cloudflare é inválido, ou o token de API não tem acesso de Administrador em tempo real a esta conta.'
+        app_not_found: 'RealtimeKit App ID não foi encontrado nesta conta Cloudflare. Por favor, verifique o app selecionado.'
+        verification_failed: 'Não foi possível verificar as credenciais do Cloudflare RealtimeKit agora. Tente novamente.'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, tente novamente'
     whatsapp:
@@ -104,6 +143,7 @@ pt_BR:
         not_supported: 'Reautenticação não é suportado por este tipo de canal WhatsApp.'
       calls:
         not_enabled: 'As chamadas não estão habilitadas para esta caixa de entrada'
+        already_ended: 'Esta chamada já terminou'
         no_recording: 'Nenhum arquivo de gravação fornecido'
         no_message: 'A chamada não possui mensagem associada'
         sdp_offer_required: 'sdp_offer é obrigatório'
@@ -142,6 +182,9 @@ pt_BR:
       invalid_token: Token MFA inválido ou expirado
       invalid_credentials: Credenciais ou código de verificação inválidos
       feature_unavailable: O recurso MFA não está disponível. Por favor, configure as chaves de criptografia.
+    billing:
+      invalid_currency: Moeda de cobrança inválida
+      currency_locked: Moeda de faturamento não pode ser alterada após o faturamento ter sido configurado
     topup:
       credits_required: A quantidade de créditos é obrigatória
       invalid_credits: Quantidade de créditos inválida
@@ -414,11 +457,11 @@ pt_BR:
       loading_placeholder: Procurando...
       results_title: Resultados de pesquisa
       results: Resultados da Pesquisa
-      results_for: "Search Results for '%{query}'"
-      no_results: "No results found for '%{query}'"
+      results_for: "Resultados da pesquisa para '%{query}'"
+      no_results: "Nenhum resultado encontrado para '%{query}'"
       found_results:
         one: Um resultado encontrado
-        other: 'Found %{count} results'
+        other: 'Encontrados %{count} resultados'
       submit: Pesquisar
     toc_header: 'Nesta página'
     sidebar:
@@ -434,7 +477,10 @@ pt_BR:
       browse_by_topic_subtitle: Encontre guias, tutoriais e respostas organizados por categoria.
       popular_articles: Artigos populares
       popular_articles_subtitle: O que outras pessoas estão lendo agora.
+      recommended: Artigos recomendados
+      recommended_subtitle: Artigos escolhidos para você começar.
       popular_label: 'Tópicos populares:'
+      recommended_label: 'Tópicos recomendados:'
       authors_others: "%{names} e %{count} outros"
       primary_nav: Primário
     hero:
@@ -470,6 +516,7 @@ pt_BR:
         light: Claro
         dark: Escuro
       featured_articles: Artigos em Destaque
+      recommended: Artigos recomendados
       uncategorized: Não categorizado
     404:
       title: Página não encontrada
@@ -544,6 +591,29 @@ pt_BR:
     ssl_status:
       custom_domain_not_configured: 'Domínio personalizado não está configurado'
   super_admin:
+    captain_model_overrides:
+      form:
+        helper_text: 'Deixe um modelo em branco para usar o padrão YAML para esse recurso AI.'
+        use_default: 'Usar padrão: %{model} (%{model_id})'
+      show:
+        summary: 'Ver roteamento de modelo'
+        provider: 'Fornecedor'
+        model: 'Modelo'
+      sources:
+        account_override: 'Substituição de cliente'
+        default: 'Padrão'
+      features:
+        editor: 'Editores'
+        assistant: 'Assistente'
+        copilot: 'Copiloto'
+        label_suggestion: 'Sugestão de etiqueta'
+        document_faq_generation: 'Documentar geração de FAQ'
+        conversation_faq_generation: 'Conversação de geração FAQ'
+        help_center_article_generation: 'Ajuda da geração de artigo central'
+        onboarding_content_generation: 'Integração de geração de conteúdo'
+        help_center_query_translation: 'Tradução da consulta central de ajuda'
+        audio_transcription: 'Transcrição de áudio'
+        help_center_search: 'Pesquisa central de ajuda'
     push_diagnostics:
       user_not_found: 'Usuário não encontrado.'
       no_subscriptions_to_test: 'Selecione pelo menos uma assinatura para teste.'
