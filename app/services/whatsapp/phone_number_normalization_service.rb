@@ -64,6 +64,7 @@ class Whatsapp::PhoneNumberNormalizationService
 
   NORMALIZERS = [
     Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer,
-    Whatsapp::PhoneNormalizers::ArgentinaPhoneNormalizer
+    Whatsapp::PhoneNormalizers::ArgentinaPhoneNormalizer,
+    Whatsapp::PhoneNormalizers::MexicoPhoneNormalizer
   ].freeze
 end
