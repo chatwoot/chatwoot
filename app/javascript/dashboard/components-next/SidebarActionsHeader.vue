@@ -20,14 +20,10 @@ const handleButtonClick = button => {
 
 <template>
   <div
-    class="flex items-center justify-between px-3 py-2 border-b border-n-weak h-11"
+    class="flex items-center justify-between px-4 py-2 border-b border-n-weak h-14 shrink-0 bg-n-surface-2"
   >
     <div class="flex items-center justify-between gap-2 flex-1">
-      <span
-        class="font-bold uppercase text-[11px] tracking-wider text-n-slate-12"
-      >
-        {{ title }}
-      </span>
+      <span class="font-medium text-sm text-n-slate-12">{{ title }}</span>
       <div class="flex items-center">
         <slot name="actions" />
         <Button
@@ -36,14 +32,16 @@ const handleButtonClick = button => {
           v-tooltip="button.tooltip"
           :icon="button.icon"
           ghost
-          xs
+          sm
+          slate
           @click="handleButtonClick(button)"
         />
         <Button
           v-tooltip="$t('GENERAL.CLOSE')"
           icon="i-lucide-x"
           ghost
-          xs
+          sm
+          slate
           @click="$emit('close')"
         />
       </div>

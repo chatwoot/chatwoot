@@ -59,9 +59,10 @@ const closeContactPanel = () => {
       },
     ]"
   >
-    <div class="flex flex-1 overflow-auto">
+    <div class="flex flex-1 min-h-0 overflow-hidden">
       <ContactPanel
         v-show="activeTab === 0"
+        class="w-full min-h-0"
         :conversation-id="currentChat.id"
         :inbox-id="currentChat.inbox_id"
       />

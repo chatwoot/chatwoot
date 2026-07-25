@@ -1,7 +1,8 @@
 <script setup>
+import { computed } from 'vue';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     required: true,
@@ -26,6 +27,15 @@ defineProps({
 
 const emit = defineEmits(['toggle']);
 
+const isLucideIcon = computed(
+  () => typeof props.icon === 'string' && props.icon.startsWith('i-')
+);
+
+const lucideIconClass = computed(() => {
+  const size = props.compact ? 'size-3.5' : 'size-4';
+  return `${props.icon} ${size} shrink-0 text-n-slate-11`;
+});
+
 const onToggle = () => {
   emit('toggle');
 };
@@ -41,21 +51,20 @@ const onToggle = () => {
       ]"
       @click.stop="onToggle"
     >
-      <div class="flex justify-between items-center">
+      <div class="flex items-center gap-1.5 min-w-0">
+        <span v-if="isLucideIcon" :class="lucideIconClass" />
         <EmojiOrIcon
-          class="inline-block w-5"
+          v-else-if="icon || emoji"
+          class="inline-block shrink-0"
           :class="compact ? 'w-4' : 'w-5'"
           :icon="icon"
           :emoji="emoji"
         />
-        <h5
-          class="text-n-slate-12 mb-0 py-0 pr-2 pl-0"
-          :class="compact ? 'text-sm font-semibold tracking-wide' : 'text-sm'"
-        >
+        <h5 class="text-n-slate-12 text-sm mb-0 py-0 pr-2 pl-0 truncate">
           {{ title }}
         </h5>
       </div>
-      <div class="flex flex-row">
+      <div class="flex flex-row shrink-0">
         <slot name="button" />
         <div class="flex justify-end w-3 text-n-blue-11 cursor-pointer">
           <fluent-icon

@@ -135,17 +135,19 @@ onMounted(() => {
         <div v-for="group in folderGroups" :key="group.key">
           <button
             type="button"
-            class="flex w-full items-center justify-between gap-2 px-2 py-1.5 rounded-md text-start hover:bg-n-alpha-2"
+            class="flex w-full items-center gap-1.5 px-1.5 py-1.5 rounded-md text-start hover:bg-n-alpha-2"
             @click="toggleFolder(group.key)"
           >
-            <span class="text-sm font-medium text-n-slate-11 truncate">
-              {{ group.label }}
-              <span class="font-normal">({{ group.macros.length }})</span>
-            </span>
             <span
               class="i-lucide-chevron-down size-3.5 text-n-slate-11 transition-transform shrink-0"
               :class="{ '-rotate-90': isFolderCollapsed(group.key) }"
             />
+            <span class="text-sm font-normal text-n-slate-11 truncate">
+              {{ group.label }}
+              <span class="font-normal text-n-slate-10">
+                ({{ group.macros.length }})
+              </span>
+            </span>
           </button>
           <Draggable
             v-show="!isFolderCollapsed(group.key)"

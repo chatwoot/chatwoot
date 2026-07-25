@@ -158,7 +158,12 @@ const orderedStaticElements = computed(() => {
 const categoryOpenKey = slug =>
   `attr_category_open_${props.attributeFrom}_${slug}`;
 
-const isCategoryOpen = slug => isContactSidebarItemOpen(categoryOpenKey(slug));
+/** Unset preference → open by default so category folders are visible. */
+const isCategoryOpen = slug => {
+  const key = categoryOpenKey(slug);
+  if (uiSettings.value[key] === undefined) return true;
+  return isContactSidebarItemOpen(key);
+};
 
 const toggleCategoryOpen = slug => toggleSidebarUIState(categoryOpenKey(slug));
 
@@ -176,28 +181,9 @@ const visibleStaticElements = computed(() => {
 
 const categoryGroups = computed(() => {
   const savedOrder = uiSettings.value[orderKey.value] ?? [];
-  const sortedAttributes = sortBySavedOrder(
-    filteredCustomAttributes.value,
-    savedOrder
-  );
   const groups = new Map();
 
-  if (visibleStaticElements.value.length) {
-    groups.set('__system__', {
-      key: '__system__',
-      slug: SYSTEM_CATEGORY_SLUG,
-      title: t('CUSTOM_ATTRIBUTES.SYSTEM'),
-      attributes: [],
-      staticElements: visibleStaticElements.value,
-    });
-  }
-
-  sortedAttributes.forEach(attribute => {
-    const category = attributeCategory(attribute);
-    const slug = attributeCategorySlug(category);
-    if (!isConversationSidebarCategoryVisible(props.attributeType, slug)) {
-      return;
-    }
+  const ensureGroup = (category, slug) => {
     const key = category || '__uncategorized__';
     if (!groups.has(key)) {
       groups.set(key, {
@@ -206,12 +192,54 @@ const categoryGroups = computed(() => {
         title: category || t('CUSTOM_ATTRIBUTES.UNCATEGORIZED'),
         attributes: [],
         staticElements: [],
+        // Total defs in this category (incl. featured shown as badges).
+        totalCount: 0,
       });
     }
-    groups.get(key).attributes.push(attribute);
+    return groups.get(key);
+  };
+
+  if (visibleStaticElements.value.length) {
+    groups.set('__system__', {
+      key: '__system__',
+      slug: SYSTEM_CATEGORY_SLUG,
+      title: t('CUSTOM_ATTRIBUTES.SYSTEM'),
+      attributes: [],
+      staticElements: visibleStaticElements.value,
+      totalCount: visibleStaticElements.value.length,
+    });
+  }
+
+  // Seed folders from all definitions so Shipping/Billing stay visible even
+  // when their attrs are featured (badges only) and omitted from the list.
+  attributes.value.forEach(attribute => {
+    const category = attributeCategory(attribute);
+    const slug = attributeCategorySlug(category);
+    if (!isConversationSidebarCategoryVisible(props.attributeType, slug)) {
+      return;
+    }
+    ensureGroup(category, slug).totalCount += 1;
   });
 
-  const list = [...groups.values()];
+  const sortedAttributes = sortBySavedOrder(
+    filteredCustomAttributes.value,
+    savedOrder
+  );
+  sortedAttributes.forEach(attribute => {
+    const category = attributeCategory(attribute);
+    const slug = attributeCategorySlug(category);
+    if (!isConversationSidebarCategoryVisible(props.attributeType, slug)) {
+      return;
+    }
+    ensureGroup(category, slug).attributes.push(attribute);
+  });
+
+  const list = [...groups.values()].filter(
+    group =>
+      group.attributes.length > 0 ||
+      (group.staticElements?.length || 0) > 0 ||
+      group.totalCount > 0
+  );
   const categoryOrder = conversationSidebarCategoryOrder(props.attributeType);
 
   return list.sort((a, b) => {
@@ -232,10 +260,7 @@ const categoryGroups = computed(() => {
   });
 });
 
-// Same gate as macros: folders only when 2+ visible groups.
-const hasMultipleCategories = computed(() => categoryGroups.value.length > 1);
-
-const showCategoryFolderView = computed(() => hasMultipleCategories.value);
+const showCategoryFolderView = computed(() => categoryGroups.value.length > 1);
 
 const allCategoriesHidden = computed(() => {
   const hasStatics = props.staticElements.length > 0;
@@ -412,21 +437,22 @@ const evenClass = [
         <div v-for="group in categoryGroups" :key="group.key">
           <button
             type="button"
-            class="flex w-full items-center justify-between gap-2 px-2 py-1.5 rounded-md text-start hover:bg-n-alpha-2"
+            class="flex w-full items-center gap-1.5 px-1.5 py-1.5 rounded-md text-start hover:bg-n-alpha-2"
             @click="toggleCategoryOpen(group.slug)"
           >
-            <span class="text-sm font-medium text-n-slate-11 truncate">
-              {{ group.title }}
-              <span class="font-normal">
-                ({{
-                  group.attributes.length + (group.staticElements?.length || 0)
-                }})
-              </span>
-            </span>
             <span
               class="i-lucide-chevron-down size-3.5 text-n-slate-11 transition-transform shrink-0"
               :class="{ '-rotate-90': !isCategoryOpen(group.slug) }"
             />
+            <span class="text-sm font-normal text-n-slate-11 truncate">
+              {{ group.title }}
+              <span class="font-normal text-n-slate-10">
+                ({{
+                  group.totalCount ||
+                  group.attributes.length + (group.staticElements?.length || 0)
+                }})
+              </span>
+            </span>
           </button>
 
           <div
@@ -437,7 +463,7 @@ const evenClass = [
             <div
               v-for="element in group.staticElements || []"
               :key="element.key"
-              class="relative border-b border-n-weak/50 dark:border-n-weak/90"
+              class="relative"
             >
               <slot name="staticItem" :element="element" />
             </div>
@@ -455,9 +481,7 @@ const evenClass = [
               "
             >
               <template #item="{ element }">
-                <div
-                  class="drag-handle relative cursor-grab border-b border-n-weak/50 dark:border-n-weak/90 last:border-transparent dark:last:border-transparent"
-                >
+                <div class="drag-handle relative cursor-grab">
                   <CustomAttribute
                     :key="element.id"
                     :attribute-key="element.attribute_key"
@@ -496,9 +520,7 @@ const evenClass = [
         @end="onDragEnd"
       >
         <template #item="{ element }">
-          <div
-            class="drag-handle relative cursor-grab border-b border-n-weak/50 dark:border-n-weak/90 last:border-transparent dark:last:border-transparent"
-          >
+          <div class="drag-handle relative cursor-grab">
             <template v-if="element.type === 'static_attribute'">
               <slot name="staticItem" :element="element" />
             </template>

@@ -205,7 +205,8 @@ const onReset = () => {
       v-tooltip="$t('CONVERSATION.SIDEBAR.MENU.TITLE')"
       icon="i-lucide-ellipsis-vertical"
       ghost
-      xs
+      sm
+      slate
       :class="isOpen ? 'bg-n-alpha-2' : ''"
       @click.stop="toggleMenu"
     />
