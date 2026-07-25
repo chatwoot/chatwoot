@@ -31,6 +31,7 @@ export default {
         headerTitle: 'FLOWS.HEADER',
         icon: 'git-branch',
         showBackButton: true,
+        fullWidth: true,
       }),
       children: [
         {

@@ -44,6 +44,6 @@ class Api::V1::Accounts::FlowsController < Api::V1::Accounts::BaseController
   end
 
   def flow_params
-    params.permit(:name, :description, :active, graph: {}, exit_policy: {})
+    params.permit(:name, :description, :active, :category, graph: {}, exit_policy: {})
   end
 end

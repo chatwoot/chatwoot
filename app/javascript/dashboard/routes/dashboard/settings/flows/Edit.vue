@@ -8,8 +8,11 @@ import useAutomationValues from 'dashboard/composables/useAutomationValues';
 import { useStatusLabel } from 'dashboard/composables/useStatusLabel';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
 import { FLOW_ACTION_TYPES } from './constants';
-import FlowNodes from './FlowNodes.vue';
-import FlowProperties from './FlowProperties.vue';
+import FlowCanvas from './FlowCanvas.vue';
+import FlowStepInspector from './FlowStepInspector.vue';
+import FlowHeader from './FlowHeader.vue';
+import FlowFooter from './FlowFooter.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -26,9 +29,11 @@ const teams = computed(() => getters['teams/getTeams'].value || []);
 const loading = ref(!isNew.value);
 const saving = ref(false);
 const selectedStepId = ref(null);
+const exitDialogRef = ref(null);
 
 const name = ref('');
 const description = ref('');
+const category = ref('');
 const active = ref(true);
 const steps = ref([]);
 const exitPolicy = ref({
@@ -67,15 +72,9 @@ const emptyAction = () => ({
   delivery: { delay_seconds: 3, mark_read_and_typing: true },
 });
 
-const emptyButtons = () => [
-  { title: '', value: '' },
-  { title: '', value: '' },
-  { title: '', value: '' },
-];
-
 const ensureStepShape = step => {
-  if (!step.buttons) step.buttons = emptyButtons();
-  while (step.buttons.length < 3) step.buttons.push({ title: '', value: '' });
+  if (step.title === undefined) step.title = '';
+  if (!Array.isArray(step.buttons)) step.buttons = [];
   if (!step.branches) step.branches = {};
   if (!step.actions?.length) step.actions = [emptyAction()];
   return step;
@@ -84,8 +83,9 @@ const ensureStepShape = step => {
 const addStep = () => {
   const step = ensureStepShape({
     id: newId(),
+    title: '',
     actions: [emptyAction()],
-    buttons: emptyButtons(),
+    buttons: [],
     branches: {},
   });
   steps.value.push(step);
@@ -93,10 +93,18 @@ const addStep = () => {
 };
 
 const addActionToStep = step => {
-  step.actions.push({
-    action_name: 'add_label',
+  const used = new Set((step.actions || []).map(a => a.action_name));
+  const nextType = flowActionTypes.value.find(type => !used.has(type.key));
+  if (!nextType) return;
+
+  const action = {
+    action_name: nextType.key,
     action_params: [],
-  });
+  };
+  if (nextType.key === 'send_message') {
+    action.delivery = { delay_seconds: 3, mark_read_and_typing: true };
+  }
+  step.actions.push(action);
 };
 
 const removeActionFromStep = (step, actionIndex) => {
@@ -116,12 +124,53 @@ const removeStep = index => {
   if (steps.value.length === 1) return;
   const removed = steps.value[index];
   steps.value.splice(index, 1);
+  steps.value.forEach(step => {
+    Object.keys(step.branches || {}).forEach(key => {
+      if (step.branches[key] === removed.id) step.branches[key] = 'end';
+    });
+  });
   if (selectedStepId.value === removed.id) {
     selectedStepId.value = steps.value[Math.max(0, index - 1)]?.id || null;
   }
 };
 
-const stepLabel = step => {
+const connectBranch = ({ sourceId, targetId, sourceHandle }) => {
+  const step = steps.value.find(s => s.id === sourceId);
+  if (!step) return;
+  ensureStepShape(step);
+
+  const handleMatch = sourceHandle?.match(/^btn-(\d+)$/);
+  if (handleMatch) {
+    const btnIndex = Number(handleMatch[1]);
+    if (!step.branches) step.branches = {};
+    step.branches[btnIndex] = targetId;
+    return;
+  }
+
+  const buttons = (step.buttons || []).filter(b => (b.title || '').trim());
+  if (buttons.length) {
+    let pick = buttons.findIndex(b => {
+      const bi = step.buttons.indexOf(b);
+      const current = step.branches?.[bi];
+      return !current || current === 'end' || current === 'handoff';
+    });
+    if (pick < 0) pick = 0;
+    const btnIndex = step.buttons.indexOf(buttons[pick]);
+    step.branches[btnIndex] = targetId;
+    return;
+  }
+
+  if (targetId === 'end' || targetId === 'handoff') return;
+  const fromIdx = steps.value.findIndex(s => s.id === sourceId);
+  const toIdx = steps.value.findIndex(s => s.id === targetId);
+  if (fromIdx < 0 || toIdx < 0 || fromIdx === toIdx) return;
+  const [moved] = steps.value.splice(toIdx, 1);
+  const insertAt = steps.value.findIndex(s => s.id === sourceId) + 1;
+  steps.value.splice(insertAt, 0, moved);
+};
+
+const stepPreview = step => {
+  if ((step.title || '').trim()) return step.title.trim();
   const send = (step.actions || []).find(a => a.action_name === 'send_message');
   if (send) {
     const content = Array.isArray(send.action_params)
@@ -141,7 +190,7 @@ const stepTargets = computed(() => [
   { id: 'handoff', label: t('FLOWS.EDIT.BRANCH_HANDOFF') },
   ...steps.value.map((s, i) => ({
     id: s.id,
-    label: `${t('FLOWS.EDIT.STEP_N', { n: i + 1 })}: ${stepLabel(s)}`,
+    label: `${t('FLOWS.EDIT.STEP_N', { n: i + 1 })}: ${stepPreview(s)}`,
   })),
 ]);
 
@@ -198,10 +247,8 @@ const serializeStepActions = actions => {
   });
 };
 
-const branchTargetFor = (step, label, btnIndex) => {
-  // Prefer index-keyed branches (editor); fall back to label keys (legacy)
-  return step.branches?.[btnIndex] ?? step.branches?.[label];
-};
+const branchTargetFor = (step, label, btnIndex) =>
+  step.branches?.[btnIndex] ?? step.branches?.[label];
 
 const buildGraph = () => {
   const nodes = [];
@@ -215,6 +262,7 @@ const buildGraph = () => {
       id: sendId,
       type: 'actions',
       data: {
+        ...(step.title?.trim() ? { title: step.title.trim() } : {}),
         actions: serializeStepActions(step.actions || []),
         buttons: buttons.map(b => ({
           title: b.title,
@@ -240,6 +288,7 @@ const buildGraph = () => {
 
       buttons.forEach(b => {
         const label = b.value || b.title;
+        const reasonLabel = (b.title || '').trim() || label;
         const btnIndex = (step.buttons || []).indexOf(b);
         const targetKey = branchTargetFor(step, label, btnIndex);
         let toId = targetKey;
@@ -254,7 +303,9 @@ const buildGraph = () => {
             nodes.push({
               id: toId,
               type: 'handoff',
-              data: { reason: t('FLOWS.EDIT.HANDOFF_REASON', { label }) },
+              data: {
+                reason: t('FLOWS.EDIT.HANDOFF_REASON', { label: reasonLabel }),
+              },
             });
           }
         }
@@ -288,7 +339,6 @@ const nodeToStep = (node, graph) => {
     title: b.title,
     value: b.value,
   }));
-  while (buttons.length < 3) buttons.push({ title: '', value: '' });
 
   const branches = {};
   (graph.edges || [])
@@ -328,6 +378,7 @@ const nodeToStep = (node, graph) => {
 
   return ensureStepShape({
     id: node.id,
+    title: node.data?.title || '',
     actions,
     buttons,
     branches,
@@ -345,12 +396,12 @@ const loadFlow = async () => {
     const flow = await store.dispatch('flows/show', route.params.flowId);
     name.value = flow.name;
     description.value = flow.description || '';
+    category.value = flow.category || '';
     active.value = flow.active;
     exitPolicy.value = {
       ...exitPolicy.value,
       ...(flow.exit_policy || {}),
     };
-    // Deep-merge per-event defaults so missing keys stay editable
     ['on_complete', 'on_handoff', 'on_fail', 'on_human_break'].forEach(key => {
       exitPolicy.value[key] = {
         status: 'open',
@@ -380,6 +431,7 @@ const save = async () => {
   const payload = {
     name: name.value.trim(),
     description: description.value,
+    category: category.value.trim() || null,
     active: active.value,
     graph: buildGraph(),
     exit_policy: exitPolicy.value,
@@ -420,62 +472,62 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-6 mb-8 max-w-7xl mx-auto h-full w-full !px-6">
+  <div class="flex flex-col h-full w-full min-h-0">
     <woot-loading-state v-if="loading" :message="t('FLOWS.EDIT.LOADING')" />
-    <div v-else class="flex flex-col w-full h-auto lg:flex-row lg:h-full">
+    <template v-else>
+      <FlowHeader
+        :name="name"
+        :description="description"
+        :category="category"
+        :saving="saving || uiFlags.isCreating || uiFlags.isUpdating"
+        @update:name="name = $event"
+        @update:description="description = $event"
+        @update:category="category = $event"
+        @open-exit="exitDialogRef?.open()"
+        @submit="save"
+      />
+
       <div
-        class="flex-1 w-full h-full max-h-full ltr:pl-12 ltr:pr-6 rtl:pl-6 rtl:pr-12 py-4 overflow-y-auto lg:w-auto flow-gradient-radial dark:flow-dark-gradient-radial flow-gradient-radial-size"
+        class="flex flex-col-reverse lg:flex-row flex-1 min-h-0 gap-3 px-4 py-3 overflow-auto lg:overflow-hidden"
       >
-        <FlowNodes
-          :steps="steps"
-          :selected-step-id="selectedStepId"
-          :flow-action-types="flowActionTypes"
-          :get-action-dropdown-values="getActionDropdownValues"
-          @select-step="selectedStepId = $event"
-          @add-step="addStep"
-          @remove-step="removeStep"
-          @add-action="addActionToStep"
-          @remove-action="removeActionFromStep"
-          @reset-action="resetAction"
-        />
+        <div
+          class="w-full lg:w-[28rem] xl:w-[32rem] flex-shrink-0 min-h-[20rem] lg:min-h-0 lg:h-full"
+        >
+          <FlowStepInspector
+            :selected-step="selectedStep"
+            :selected-step-index="selectedStepIndex"
+            :step-targets="stepTargets"
+            :flow-action-types="flowActionTypes"
+            :get-action-dropdown-values="getActionDropdownValues"
+            @add-action="addActionToStep"
+            @remove-action="removeActionFromStep"
+            @reset-action="resetAction"
+          />
+        </div>
+        <div class="flex-1 min-w-0 min-h-[50vh] lg:min-h-0">
+          <FlowCanvas
+            :steps="steps"
+            :selected-step-id="selectedStepId"
+            @select-step="selectedStepId = $event"
+            @add-step="addStep"
+            @remove-step="removeStep"
+            @connect-branch="connectBranch"
+          />
+        </div>
       </div>
 
-      <div class="w-full lg:w-1/3 pb-4">
-        <FlowProperties
-          :name="name"
-          :description="description"
-          :active="active"
-          :exit-policy="exitPolicy"
-          :selected-step="selectedStep"
-          :selected-step-index="selectedStepIndex"
-          :step-targets="stepTargets"
-          :agents="agents"
-          :teams="teams"
-          :saving="saving || uiFlags.isCreating || uiFlags.isUpdating"
-          @update:name="name = $event"
-          @update:description="description = $event"
-          @update:active="active = $event"
-          @submit="save"
-        />
-      </div>
-    </div>
+      <Dialog
+        ref="exitDialogRef"
+        type="edit"
+        width="3xl"
+        overflow-y-auto
+        :title="t('FLOWS.EXIT.TITLE')"
+        :confirm-button-label="t('FLOWS.EXIT.DONE')"
+        :show-cancel-button="false"
+        @confirm="exitDialogRef?.close()"
+      >
+        <FlowFooter :exit-policy="exitPolicy" :agents="agents" :teams="teams" />
+      </Dialog>
+    </template>
   </div>
 </template>
-
-<style scoped>
-@tailwind components;
-
-@layer components {
-  .flow-gradient-radial {
-    background-image: radial-gradient(#ebf0f5 1.2px, transparent 0);
-  }
-
-  .flow-dark-gradient-radial {
-    background-image: radial-gradient(#293f51 1.2px, transparent 0);
-  }
-
-  .flow-gradient-radial-size {
-    background-size: 1rem 1rem;
-  }
-}
-</style>

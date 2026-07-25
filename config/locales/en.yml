@@ -277,6 +277,17 @@ en:
       sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
     attachment: 'Attachment'
     no_content: 'No content'
+  flows:
+    handoff_note:
+      ended: 'Flow "%{name}" ended (%{state}).'
+      reason: 'Reason: %{reason}'
+      path_header: 'Customer path:'
+      path_choice: '%{message} → chose "%{choice}"'
+      path_chose: 'Chose "%{choice}"'
+      variables: 'Variables: %{vars}'
+      state_handed_off: 'handed off to human'
+      state_failed: 'failed'
+      state_cancelled: 'cancelled'
   conversations:
     captain:
       handoff: 'Transferring to another agent for further assistance.'

@@ -1,8 +1,8 @@
 # Conversation Flows — Potenciar Automatizaciones con Flujos Conversacionales
 
-> **Estado:** WIP listo para review local (rama `feat/conversation-flows`)
+> **Estado:** WIP con canvas visual (rama flows / business-rules)
 > **Feature flag:** `flows_v1` (bit index ~56 en `features.yml`; default `enabled: true`)
-> **UI:** Settings → Flows (editor estilo Macros) + Automation action `enter_flow`
+> **UI:** Settings → Flows (canvas full-bleed + step inspector + footer meta/exit) + Automation action `enter_flow`
 > **Semáforo:** reutiliza `panel_ia_estado` / `PanelIaStateIndicator` vía `flow_run`
 > **Salida:** `exit_policy` (limbo unassigned / pending / team / agent / owner)
 
@@ -23,18 +23,19 @@ docker restart chatwoot-chatwoot-rails-1 chatwoot-chatwoot-sidekiq-1
 - También: Settings → Conversation Workflow → Flows CTA
 - Disparo: Automatizaciones → acción **Enter conversation flow**
 
-### Editor (Macros language)
+### Editor (canvas + panel)
 
-- Izquierda: árbol de pasos (acciones + preview de ramas / fork)
-- Derecha: nombre/activo, propiedades del paso seleccionado (botones, branch, delay), exit policy (team/agent pickers + private note)
-- Sin canvas drag-and-drop (v2)
+- Canvas grande (`@vue-flow/core` + dagre TB): nodos compactos, chips de botones, handles por botón.
+- Derecha: inspector del paso (secciones Actions / Wait for reply; sin delay duplicado).
+- Header: nombre, descripción, categoría, Exit rules (drawer), Guardar. Activo se controla en la lista.
+- Nota de handoff: resumen legible del camino del cliente (sin IDs técnicos de nodos)
 
 ### Gaps conocidos (follow-up)
 
 - No hay start manual desde el panel de conversación ni webhook `/start` aún
 - Timeout automático en `wait_response` no implementado
 - Specs RSpec / FE no escritos (a propósito en WIP)
-- Canvas visual v2 diferido
+- Persistencia de posiciones del canvas en JSONB (hoy auto-layout en sesión)
 
 ---
 
@@ -1071,11 +1072,11 @@ actions:
 
 | Riesgo | Mitigación |
 |--------|-----------|
-| Canvas UI es trabajo grande (4-6 días) | Empezar con editor JSON simple + vista previa; refactorizar a canvas real en v2 |
+| Canvas UI con muchos pasos | Vue Flow + dagre auto-layout TB + minimap; detalle en panel derecho |
 | Polling / timeouts en `wait_response` requiere Sidekiq | Job `Flows::DelayJob` + interval configurable por flow |
 | Conversación ya en flow → ¿re-entrarla? | Validar `in_flow?` antes de iniciar nuevo; documentar comportamiento |
 | Run huérfano si conversation se borra | `dependent: :destroy` en FlowRun |
-| Handoff sin contexto | Activity message con resumen + variables recogidas |
+| Handoff sin contexto | Private note legible (`Flows::HandoffService`) con camino del cliente |
 | Flow mal diseñado bloquea conversación | Timeouts automáticos (ej: 24h en `waiting` → fail) |
 | Patrones regex pueden ser peligrosos | Sandbox regex (no `eval`, no backtracking infinito) |
 | Race conditions en message_created + flow execution | Locks con `with_lock` en FlowRun |
@@ -1094,7 +1095,10 @@ actions:
 
 ## Roadmap posterior (no incluido en esta rama)
 
-- **v2**: canvas visual con drag-and-drop nativo (sin librería externa)
+- Persistir posiciones del canvas en `graph` JSONB
+- Colapsar subárboles / agrupar ramas en el canvas
+- Timeout automático en `wait_response`
+- Start manual desde conversación / webhook `/start`
 - **v3**: variables de sistema (`{{conversation.id}}`, `{{contact.email}}`)
 - **v4**: integración con Captain LLM (decidir próximo nodo con AI)
 - **v5**: A/B testing de flows

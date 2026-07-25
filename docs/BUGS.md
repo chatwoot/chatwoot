@@ -3,7 +3,12 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** fix `B-NEW-20` report panel full-scan (aggregation +
+**Última actualización:** polish `B-NEW-26` flows layout/acciones/i18n
+(2026-07-24). Antes: fix `B-NEW-25` flows actions cards/dropdown clip
+(2026-07-24). Antes: polish `B-NEW-24` flows lista/categoría/drawer/inspector
+(2026-07-24). Antes: polish `B-NEW-23` flows editor layout/perf/buttons
+(2026-07-24). Antes: fix `B-NEW-22` flows canvas + handoff note legible
+(2026-07-24). Antes: `B-NEW-20` report panel full-scan (aggregation +
 flat CA measures) (2026-07-24, branch `fix/report-panels-correctness`). Antes:
 `B-NEW-19` pivot name/rank = 0 + fila Sin asignar
 (2026-07-24, branch `fix/report-panels-pivot-identity`). Antes:
@@ -70,6 +75,11 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-16 | 🔴 P0 | No | ✅ Time-rule ledger: conditions before claim + hours window_id from message id/created_at |
 | B-NEW-17 | Feature | No | ✅ P0 CRM unlock: time-rule CA actions + relative dates + seguimiento_30d + safe date SQL |
 | B-NEW-18 | Smoke | No | ✅ Local Docker smoke: VPS DFIT attrs + seguimiento_30d on `fecha_seguimiento` (conv #154) |
+| B-NEW-22 | Flows UX | Baja | ✅ Canvas Vue Flow + nota handoff legible (sin IDs técnicos) |
+| B-NEW-23 | Flows UX | Baja | ✅ Polish: full-bleed, footer exit, botones opcionales, títulos, perf |
+| B-NEW-24 | Flows UX | Baja | ✅ Activo en lista, categoría, exit drawer, inspector compacto |
+| B-NEW-25 | Flows UX | Baja | ✅ Acciones numeradas en cards; dropdown sin clip por overflow |
+| B-NEW-26 | Flows UX | Baja | ✅ Acciones horiz., tipos únicos, menubar, panel izq, i18n es |
 
 ---
 
@@ -674,6 +684,89 @@ API, store/rutas FE, Sidebar **Flows**, flag `flows_v1`, acción automation
 `enter_flow`. Business-rules UI/servicios intactos. Activar por cuenta:
 `Account.find(1).enable_features!('flows_v1')`. UI: rebuild Vite/Docker assets
 si el menú no aparece tras restart Rails.
+
+### B-NEW-22 — Flows: columna infinita + nota handoff con IDs técnicos
+
+**Síntoma:** el editor listaba todos los pasos en una columna; con muchas ramas
+era confuso. La nota privada de handoff volcaba IDs
+(`handoff_n1784…_boton3`) en lugar del camino del cliente.
+
+**Fix (2026-07-24):**
+1. `Flows::HandoffService` — resumen legible: motivo + camino con preview de
+   mensaje y botón elegido (trail `matched` + `buttons[].title`).
+2. `buildGraph` — `HANDOFF_REASON` usa el **title** del botón.
+3. Editor canvas: `FlowCanvas.vue` (`@vue-flow/core` + dagre TB), acciones en
+   `FlowProperties.vue`. Contrato `buildGraph`/`nodeToStep` intacto.
+
+**Archivos:** `handoff_service.rb`, `Edit.vue`, `FlowCanvas.vue`,
+`FlowStepNode.vue`, `FlowTerminalNode.vue`, `FlowProperties.vue`,
+`en.yml` (`flows.handoff_note.*`), `en/flows.json`.
+
+**Cómo probar:**
+1. Settings → Flows → editar: canvas con edges por botón; click → panel derecho.
+2. Flujo con handoff → nota privada sin IDs; camino tipo
+   `"¿Qué necesitas?" → chose "Botón 3"`.
+3. Rebuild Vite/Docker assets para ver el canvas.
+
+### B-NEW-23 — Flows editor polish (layout / botones / perf)
+
+**Síntoma:** panel derecho mezclaba meta del flow + exit + paso; 3 slots de
+botones siempre visibles; canvas lento por fitView/re-layout al tipear.
+
+**Fix (2026-07-24):**
+1. Layout full-bleed: canvas + `FlowStepInspector` derecha + `FlowFooter` abajo
+   (exit policy colapsable).
+2. Toggle Wait for reply + add/remove botones (máx. 3); default off.
+3. Nombre de nodo (`data.title`) editable en canvas/inspector.
+4. Handles por botón + flechas; fitView solo al cargar/add/remove step;
+   debounce content sync; sin MiniMap.
+
+**Cómo probar:** Settings → Flows → editar: canvas amplio, footer con Save,
+toggle botones, renombrar nodo, conectar desde handle de botón.
+
+### B-NEW-24 — Flows: Activo/categoría/exit drawer/inspector
+
+**Síntoma:** Activo en el editor; exit policy comía el canvas; delay duplicado;
+toolbar del mensaje se desbordaba; sin categoría.
+
+**Fix (2026-07-24):**
+1. Switch Activo en la lista (`FlowsTableRow`); quitado del header.
+2. Columna `flows.category` + input en header + columna en lista.
+3. Exit rules vía Dialog drawer desde el header (canvas `min-h-[50vh]`).
+4. Inspector: sin delay duplicado; secciones Actions/Buttons; overflow en editor.
+5. Nodos TB más compactos con chips de botón visibles.
+
+**Cómo probar:** lista toggle activo; editar categoría; Exit rules no tapa canvas;
+configurar botones sin scroll infinito de delay doble.
+
+### B-NEW-25 — Flows: acciones montadas + dropdown roto en inspector
+
+**Síntoma:** Acciones del paso se veían apiladas sin número/borde; al abrir el
+select aparecía un input de búsqueda suelto con el trash (dropdown clipado por
+`overflow-hidden` del wrapper).
+
+**Fix (2026-07-24):**
+1. Cada acción en card con label `Action {n}` + trash en header (como botones).
+2. Quitado `overflow-hidden` del wrapper de acciones; dropdowns visibles.
+3. `dropdown-max-height` acotado en el inspector estrecho.
+
+**Cómo probar:** editar paso con varias acciones → cards numeradas; abrir
+“Add label” / tipo de acción → menú usable, sin fila de búsqueda fantasma.
+
+### B-NEW-26 — Flows: acciones horiz., tipos únicos, panel izq, i18n
+
+**Síntoma:** acciones apiladas vertical; tipo repetible; menubar de texto oculto;
+dropdown limitado a ~3 opciones; header desalineado; strings EN en UI ES;
+inspector a la derecha.
+
+**Fix (2026-07-24):**
+1. Acciones horizontales (como Automatizaciones) + menubar ProseMirror visible.
+2. Tipo de acción único por paso (filtro en select + add deshabilitado).
+3. `dropdown-max-height: max-h-80`; panel config a la izquierda / canvas a la derecha.
+4. Header botones alineados con `items-end`; `es/flows.json` sincronizado.
+
+**Cómo probar:** layout L/R; añadir 2× “Add label” bloqueado; menú con muchas
+opciones; editor de mensaje con toolbar; textos ES en header/inspector.
 
 ---
 

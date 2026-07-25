@@ -957,11 +957,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_23_210000) do
     t.bigint "account_id", null: false
     t.string "name", null: false
     t.text "description"
+    t.string "category"
     t.boolean "active", default: true, null: false
     t.jsonb "graph", default: {}, null: false
     t.jsonb "exit_policy", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id", "category"], name: "index_flows_on_account_id_and_category"
     t.index ["account_id", "name"], name: "index_flows_on_account_id_and_name", unique: true
     t.index ["account_id"], name: "index_flows_on_account_id"
   end
