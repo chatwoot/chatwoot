@@ -76,7 +76,7 @@ const onToggle = () => {
     <div
       v-if="isOpen"
       class="outline outline-1 -mt-[-1px] border-t-0 rounded-br-lg rounded-bl-lg"
-      :class="compact ? 'p-2 outline-n-strong' : 'px-2 py-4 outline-n-weak'"
+      :class="compact ? 'p-1.5 outline-n-strong' : 'px-2 py-4 outline-n-weak'"
     >
       <slot />
     </div>

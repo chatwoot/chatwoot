@@ -9,6 +9,7 @@ import {
   DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
   SIDEBAR_SECTION_ATTRIBUTE_TYPE,
   attributeCategorySlug,
+  SYSTEM_CATEGORY_SLUG,
 } from 'dashboard/composables/useUISettings';
 
 const { t } = useI18n();
@@ -53,6 +54,16 @@ const buildCategoriesForType = attributeType => {
   });
 
   const list = [...groups.values()];
+
+  // Conversation metadata (browser, IP, …) always exposed as System under info.
+  if (attributeType === 'conversation_attribute') {
+    list.unshift({
+      key: '__system__',
+      slug: SYSTEM_CATEGORY_SLUG,
+      title: t('CUSTOM_ATTRIBUTES.SYSTEM'),
+    });
+  }
+
   if (list.length <= 1) return [];
 
   const savedOrder = conversationSidebarCategoryOrder(attributeType);
@@ -66,6 +77,8 @@ const buildCategoriesForType = attributeType => {
         return aPos - bPos;
       }
     }
+    if (a.key === '__system__') return -1;
+    if (b.key === '__system__') return 1;
     if (a.key === '__uncategorized__') return 1;
     if (b.key === '__uncategorized__') return -1;
     return a.title.localeCompare(b.title);

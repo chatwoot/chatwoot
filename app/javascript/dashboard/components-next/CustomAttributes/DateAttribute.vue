@@ -1,10 +1,9 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { parseISO } from 'date-fns';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -12,13 +11,13 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  isEditingView: {
+  readOnly: {
     type: Boolean,
     default: false,
   },
 });
 
-const emit = defineEmits(['update', 'delete']);
+const emit = defineEmits(['update', 'focusChange']);
 
 const { t } = useI18n();
 
@@ -28,6 +27,13 @@ const isDatetime = computed(
 
 const isEditingValue = ref(false);
 const editedValue = ref(props.attribute.value || '');
+
+watch(
+  () => props.attribute.value,
+  val => {
+    if (!isEditingValue.value) editedValue.value = val || '';
+  }
+);
 
 const rules = {
   editedValue: {
@@ -46,9 +52,7 @@ const toDatetimeLocalValue = date => {
 };
 
 const formattedDate = computed(() => {
-  if (!props.attribute.value) {
-    return t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.TRIGGER.INPUT');
-  }
+  if (!props.attribute.value) return '';
   const date = new Date(props.attribute.value);
   if (Number.isNaN(date.getTime())) return String(props.attribute.value);
   return isDatetime.value ? date.toLocaleString() : date.toLocaleDateString();
@@ -77,8 +81,10 @@ const defaultDateValue = computed({
 });
 
 const toggleEditValue = value => {
+  if (props.readOnly) return;
   isEditingValue.value =
     typeof value === 'boolean' ? value : !isEditingValue.value;
+  emit('focusChange', isEditingValue.value);
 
   if (isEditingValue.value && !editedValue.value) {
     v$.value.$reset();
@@ -91,79 +97,50 @@ const handleInputUpdate = async () => {
   if (!isValid) return;
 
   emit('update', parseISO(editedValue.value));
-  isEditingValue.value = false;
+  toggleEditValue(false);
+};
+
+const onClickAway = () => {
+  v$.value.$reset();
+  toggleEditValue(false);
 };
 </script>
 
 <template>
-  <div
-    class="flex items-center w-full min-w-0 gap-2"
-    :class="{
-      'justify-start': isEditingView,
-      'justify-end': !isEditingView,
-    }"
-  >
+  <div class="flex items-center w-full min-w-0">
     <span
       v-if="!isEditingValue"
-      class="min-w-0 text-sm"
-      :class="{
-        'cursor-pointer text-n-slate-11 hover:text-n-slate-12 py-2 select-none font-medium':
-          !isEditingView,
-        'text-n-slate-12 truncate': isEditingView,
-      }"
-      @click="toggleEditValue(!isEditingView)"
+      class="min-w-0 text-sm text-n-slate-12 truncate min-h-8 flex items-center w-full"
+      :class="{ 'opacity-0': !formattedDate, 'cursor-pointer': !readOnly }"
+      @click="toggleEditValue(true)"
     >
-      {{ formattedDate }}
+      {{ formattedDate || '\u00A0' }}
     </span>
 
     <div
-      v-if="isEditingView && !isEditingValue"
-      class="flex items-center gap-1"
+      v-else
+      v-on-clickaway="onClickAway"
+      class="flex flex-col w-full min-w-0"
     >
-      <Button
-        variant="faded"
-        color="slate"
-        icon="i-lucide-pencil"
-        size="xs"
-        class="flex-shrink-0 opacity-0 group-hover/attribute:opacity-100 hover:no-underline"
-        @click="toggleEditValue(true)"
-      />
-      <Button
-        variant="faded"
-        color="ruby"
-        icon="i-lucide-trash"
-        size="xs"
-        class="flex-shrink-0 opacity-0 group-hover/attribute:opacity-100 hover:no-underline"
-        @click="emit('delete')"
-      />
-    </div>
-
-    <div
-      v-if="isEditingValue"
-      v-on-clickaway="() => toggleEditValue(false)"
-      class="flex items-center w-full"
-    >
-      <Input
-        v-model="defaultDateValue"
-        :type="isDatetime ? 'datetime-local' : 'date'"
-        class="w-full [&>p]:absolute [&>p]:mt-0.5 [&>p]:top-8 ltr:[&>p]:left-0 rtl:[&>p]:right-0"
-        :message="
-          hasError
-            ? t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.VALIDATIONS.INVALID_DATE')
-            : ''
-        "
-        :message-type="hasError ? 'error' : 'info'"
-        autofocus
-        custom-input-class="h-8 ltr:rounded-r-none rtl:rounded-l-none"
-        @enter="handleInputUpdate"
-      />
-      <Button
-        icon="i-lucide-check"
-        :color="hasError ? 'ruby' : 'blue'"
-        size="sm"
-        class="flex-shrink-0 ltr:rounded-l-none rtl:rounded-r-none"
-        @click="handleInputUpdate"
-      />
+      <div class="flex items-center w-full gap-1">
+        <input
+          v-model="defaultDateValue"
+          :type="isDatetime ? 'datetime-local' : 'date'"
+          class="!mb-0 !h-8 !border-0 !shadow-none !outline-none !bg-transparent !px-0 !text-sm w-full"
+          autofocus
+          @keyup.enter="handleInputUpdate"
+        />
+        <Button
+          icon="i-lucide-check"
+          :color="hasError ? 'ruby' : 'blue'"
+          size="sm"
+          class="flex-shrink-0"
+          @click="handleInputUpdate"
+        />
+      </div>
+      <span v-if="hasError" class="text-xs text-n-ruby-11 mt-0.5">
+        {{ t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.VALIDATIONS.INVALID_DATE') }}
+      </span>
     </div>
   </div>
 </template>

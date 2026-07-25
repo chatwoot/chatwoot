@@ -1,13 +1,12 @@
-<!-- Attribute type "Text, URL, Number" -->
+<!-- Attribute type "Text, URL, Number, currency, percent" -->
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { isValidURL } from 'dashboard/helper/URLHelper.js';
 import { getRegexp } from 'shared/helpers/Validators';
 
-import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -15,17 +14,26 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  isEditingView: {
+  readOnly: {
     type: Boolean,
     default: false,
   },
 });
 
-const emit = defineEmits(['update', 'delete']);
+const emit = defineEmits(['update', 'focusChange']);
 
 const { t } = useI18n();
 const isEditingValue = ref(false);
 const editedValue = ref(props.attribute.value || '');
+const currencyPrefix = '$';
+const percentSuffix = '%';
+
+watch(
+  () => props.attribute.value,
+  val => {
+    if (!isEditingValue.value) editedValue.value = val || '';
+  }
+);
 
 const isAttributeTypeLink = computed(
   () => props.attribute.attributeDisplayType === 'link'
@@ -35,9 +43,28 @@ const isAttributeTypeText = computed(
   () => props.attribute.attributeDisplayType === 'text'
 );
 
-const isAttributeTypeNumber = computed(
-  () => props.attribute.attributeDisplayType === 'number'
+const isAttributeTypeCurrency = computed(
+  () => props.attribute.attributeDisplayType === 'currency'
 );
+
+const isAttributeTypePercent = computed(
+  () => props.attribute.attributeDisplayType === 'percent'
+);
+
+const isAttributeTypeNumber = computed(
+  () =>
+    props.attribute.attributeDisplayType === 'number' ||
+    isAttributeTypeCurrency.value ||
+    isAttributeTypePercent.value
+);
+
+const displayValue = computed(() => {
+  const val = props.attribute.value;
+  if (val === null || val === undefined || val === '') return '';
+  if (isAttributeTypeCurrency.value) return `$${val}`;
+  if (isAttributeTypePercent.value) return `${val}%`;
+  return val;
+});
 
 const rules = computed(() => ({
   editedValue: {
@@ -93,6 +120,8 @@ const getInputType = computed(() => {
     case 'link':
       return 'url';
     case 'number':
+    case 'currency':
+    case 'percent':
       return 'number';
     default:
       return 'text';
@@ -100,8 +129,10 @@ const getInputType = computed(() => {
 });
 
 const toggleEditValue = value => {
+  if (props.readOnly) return;
   isEditingValue.value =
     typeof value === 'boolean' ? value : !isEditingValue.value;
+  emit('focusChange', isEditingValue.value);
   if (isEditingValue.value) {
     v$.value.$reset();
     editedValue.value = props.attribute.value || '';
@@ -115,91 +146,76 @@ const handleInputUpdate = async () => {
   emit('update', editedValue.value);
   toggleEditValue(false);
 };
+
+const onClickAway = () => {
+  v$.value.$reset();
+  toggleEditValue(false);
+};
 </script>
 
 <template>
-  <div
-    class="flex items-center w-full min-w-0 gap-2"
-    :class="{
-      'justify-start': isEditingView,
-      'justify-end': !isEditingView,
-    }"
-  >
-    <span
+  <div class="flex items-center w-full min-w-0">
+    <div
       v-if="!isEditingValue"
-      class="min-w-0 text-sm"
-      :class="{
-        'cursor-pointer text-n-slate-11 hover:text-n-slate-12 py-2 select-none font-medium':
-          !isEditingView,
-        'text-n-slate-12 truncate': isEditingView && !isAttributeTypeLink,
-        'truncate hover:text-n-brand text-n-blue-11':
-          isEditingView && isAttributeTypeLink,
-      }"
-      @click="toggleEditValue(!isEditingView)"
+      class="flex items-center w-full min-h-8 min-w-0"
+      :class="{ 'cursor-pointer': !readOnly }"
+      @click="toggleEditValue(true)"
     >
       <a
-        v-if="isAttributeTypeLink && attribute.value && isEditingView"
+        v-if="isAttributeTypeLink && attribute.value"
         :href="attribute.value"
         target="_blank"
         rel="noopener noreferrer"
-        class="hover:underline"
+        class="text-sm text-n-brand break-all hover:underline"
         @click.stop
       >
         {{ attribute.value }}
       </a>
-      <template v-else>
-        {{
-          attribute.value ||
-          t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.TRIGGER.INPUT')
-        }}
-      </template>
-    </span>
-
-    <div
-      v-if="isEditingView && !isEditingValue"
-      class="flex items-center gap-1"
-    >
-      <Button
-        variant="faded"
-        color="slate"
-        icon="i-lucide-pencil"
-        size="xs"
-        class="flex-shrink-0 opacity-0 group-hover/attribute:opacity-100 hover:no-underline"
-        @click="toggleEditValue(true)"
-      />
-      <Button
-        variant="faded"
-        color="ruby"
-        icon="i-lucide-trash"
-        size="xs"
-        class="flex-shrink-0 opacity-0 group-hover/attribute:opacity-100 hover:no-underline"
-        @click="emit('delete')"
-      />
+      <span
+        v-else
+        class="text-sm text-n-slate-12 truncate"
+        :class="{ 'opacity-0': !attribute.value }"
+      >
+        {{ displayValue || '\u00A0' }}
+      </span>
     </div>
 
     <div
-      v-if="isEditingValue"
-      v-on-clickaway="() => toggleEditValue(false)"
-      class="flex items-center w-full"
+      v-else
+      v-on-clickaway="onClickAway"
+      class="flex flex-col w-full min-w-0"
     >
-      <Input
-        v-model="editedValue"
-        :placeholder="t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.TRIGGER.INPUT')"
-        :type="getInputType"
-        class="w-full [&>p]:absolute [&>p]:mt-0.5 [&>p]:top-8 ltr:[&>p]:left-0 rtl:[&>p]:right-0"
-        autofocus
-        :message="attributeErrorMessage"
-        :message-type="hasError ? 'error' : 'info'"
-        custom-input-class="h-8 ltr:rounded-r-none rtl:rounded-l-none"
-        @enter="handleInputUpdate"
-      />
-      <Button
-        icon="i-lucide-check"
-        :color="hasError ? 'ruby' : 'blue'"
-        size="sm"
-        class="flex-shrink-0 ltr:rounded-l-none rtl:rounded-r-none"
-        @click="handleInputUpdate"
-      />
+      <div class="flex items-center w-full gap-1">
+        <span
+          v-if="isAttributeTypeCurrency"
+          class="text-sm text-n-slate-11 shrink-0"
+        >
+          {{ currencyPrefix }}
+        </span>
+        <input
+          v-model="editedValue"
+          :type="getInputType"
+          class="!mb-0 !h-8 !border-0 !shadow-none !outline-none !bg-transparent !px-0 !text-sm w-full"
+          autofocus
+          @keyup.enter="handleInputUpdate"
+        />
+        <span
+          v-if="isAttributeTypePercent"
+          class="text-sm text-n-slate-11 shrink-0"
+        >
+          {{ percentSuffix }}
+        </span>
+        <Button
+          icon="i-lucide-check"
+          :color="hasError ? 'ruby' : 'blue'"
+          size="sm"
+          class="flex-shrink-0"
+          @click="handleInputUpdate"
+        />
+      </div>
+      <span v-if="hasError" class="text-xs text-n-ruby-11 mt-0.5">
+        {{ attributeErrorMessage }}
+      </span>
     </div>
   </div>
 </template>

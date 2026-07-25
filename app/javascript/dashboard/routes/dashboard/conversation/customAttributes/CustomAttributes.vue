@@ -8,6 +8,7 @@ import { useI18n } from 'vue-i18n';
 import {
   useUISettings,
   attributeCategorySlug,
+  SYSTEM_CATEGORY_SLUG,
 } from 'dashboard/composables/useUISettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
@@ -120,7 +121,13 @@ const combinedElements = computed(() => {
 
 const displayedElements = computed(() => {
   const savedOrder = uiSettings.value[orderKey.value] ?? [];
-  const statics = sortBySavedOrder([...props.staticElements], savedOrder);
+  const systemVisible = isConversationSidebarCategoryVisible(
+    props.attributeType,
+    SYSTEM_CATEGORY_SLUG
+  );
+  const statics = systemVisible
+    ? sortBySavedOrder([...props.staticElements], savedOrder)
+    : [];
   const visibleAttrs = filteredCustomAttributes.value.filter(attribute =>
     isConversationSidebarCategoryVisible(
       props.attributeType,
@@ -153,6 +160,18 @@ const isCategoryOpen = slug => isContactSidebarItemOpen(categoryOpenKey(slug));
 
 const toggleCategoryOpen = slug => toggleSidebarUIState(categoryOpenKey(slug));
 
+const isSystemCategoryVisible = computed(() =>
+  isConversationSidebarCategoryVisible(
+    props.attributeType,
+    SYSTEM_CATEGORY_SLUG
+  )
+);
+
+const visibleStaticElements = computed(() => {
+  if (!isSystemCategoryVisible.value) return [];
+  return orderedStaticElements.value;
+});
+
 const categoryGroups = computed(() => {
   const savedOrder = uiSettings.value[orderKey.value] ?? [];
   const sortedAttributes = sortBySavedOrder(
@@ -160,6 +179,16 @@ const categoryGroups = computed(() => {
     savedOrder
   );
   const groups = new Map();
+
+  if (visibleStaticElements.value.length) {
+    groups.set('__system__', {
+      key: '__system__',
+      slug: SYSTEM_CATEGORY_SLUG,
+      title: t('CUSTOM_ATTRIBUTES.SYSTEM'),
+      attributes: [],
+      staticElements: visibleStaticElements.value,
+    });
+  }
 
   sortedAttributes.forEach(attribute => {
     const category = attributeCategory(attribute);
@@ -174,6 +203,7 @@ const categoryGroups = computed(() => {
         slug,
         title: category || t('CUSTOM_ATTRIBUTES.UNCATEGORIZED'),
         attributes: [],
+        staticElements: [],
       });
     }
     groups.get(key).attributes.push(attribute);
@@ -192,6 +222,8 @@ const categoryGroups = computed(() => {
         return aPos - bPos;
       }
     }
+    if (a.key === '__system__') return -1;
+    if (b.key === '__system__') return 1;
     if (a.key === '__uncategorized__') return 1;
     if (b.key === '__uncategorized__') return -1;
     return a.title.localeCompare(b.title);
@@ -204,17 +236,27 @@ const hasMultipleCategories = computed(() => categoryGroups.value.length > 1);
 const showCategoryFolderView = computed(() => hasMultipleCategories.value);
 
 const allCategoriesHidden = computed(() => {
-  if (!filteredCustomAttributes.value.length) return false;
-  return (
-    !categoryGroups.value.length &&
+  const hasStatics = props.staticElements.length > 0;
+  const hasCustoms = filteredCustomAttributes.value.length > 0;
+  if (!hasStatics && !hasCustoms) return false;
+
+  const systemHidden =
+    !hasStatics ||
+    !isConversationSidebarCategoryVisible(
+      props.attributeType,
+      SYSTEM_CATEGORY_SLUG
+    );
+  const customsHidden =
+    !hasCustoms ||
     filteredCustomAttributes.value.every(
       attribute =>
         !isConversationSidebarCategoryVisible(
           props.attributeType,
           attributeCategorySlug(attributeCategory(attribute))
         )
-    )
-  );
+    );
+
+  return systemHidden && customsHidden;
 });
 
 const reorderElementsWithStaticPreservation = (
@@ -364,74 +406,77 @@ const evenClass = [
 <template>
   <div class="conversation--details">
     <template v-if="showCategoryFolderView">
-      <div
-        v-if="orderedStaticElements.length"
-        class="last:rounded-b-lg"
-        :class="evenClass"
-      >
-        <div
-          v-for="element in orderedStaticElements"
-          :key="element.key"
-          class="relative border-b border-n-weak/50 dark:border-n-weak/90"
-        >
-          <slot name="staticItem" :element="element" />
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-1 p-1">
+      <div class="flex flex-col gap-0.5">
         <div v-for="group in categoryGroups" :key="group.key">
           <button
             type="button"
             class="flex w-full items-center justify-between gap-2 px-2 py-1.5 rounded-md text-start hover:bg-n-alpha-2"
             @click="toggleCategoryOpen(group.slug)"
           >
-            <span class="text-xs font-medium text-n-slate-11 truncate">
+            <span class="text-sm font-medium text-n-slate-11 truncate">
               {{ group.title }}
-              <span class="font-normal">({{ group.attributes.length }})</span>
+              <span class="font-normal">
+                ({{
+                  group.attributes.length + (group.staticElements?.length || 0)
+                }})
+              </span>
             </span>
             <span
               class="i-lucide-chevron-down size-3.5 text-n-slate-11 transition-transform shrink-0"
               :class="{ '-rotate-90': !isCategoryOpen(group.slug) }"
             />
           </button>
-          <Draggable
+
+          <div
             v-show="isCategoryOpen(group.slug)"
-            :model-value="group.attributes"
-            animation="200"
-            ghost-class="ghost"
-            handle=".drag-handle"
-            item-key="key"
-            class="pl-1 last:rounded-b-lg"
+            class="last:rounded-b-lg"
             :class="evenClass"
-            @start="dragging = true"
-            @update:model-value="
-              value => onCategoryOrderChange(group.key, value)
-            "
           >
-            <template #item="{ element }">
-              <div
-                class="drag-handle relative cursor-grab border-b border-n-weak/50 dark:border-n-weak/90 last:border-transparent dark:last:border-transparent"
-              >
-                <CustomAttribute
-                  :key="element.id"
-                  :attribute-key="element.attribute_key"
-                  :attribute-type="element.attribute_display_type"
-                  :values="element.attribute_values"
-                  :label="element.attribute_display_name"
-                  :description="element.attribute_description"
-                  :value="element.value"
-                  show-actions
-                  :read-only="!!element.formula"
-                  :attribute-regex="element.regex_pattern"
-                  :regex-cue="element.regex_cue"
-                  :contact-id="contactId"
-                  @update="onUpdate"
-                  @delete="onDelete"
-                  @copy="onCopy"
-                />
-              </div>
-            </template>
-          </Draggable>
+            <div
+              v-for="element in group.staticElements || []"
+              :key="element.key"
+              class="relative border-b border-n-weak/50 dark:border-n-weak/90"
+            >
+              <slot name="staticItem" :element="element" />
+            </div>
+
+            <Draggable
+              v-if="group.attributes.length"
+              :model-value="group.attributes"
+              animation="200"
+              ghost-class="ghost"
+              handle=".drag-handle"
+              item-key="key"
+              @start="dragging = true"
+              @update:model-value="
+                value => onCategoryOrderChange(group.key, value)
+              "
+            >
+              <template #item="{ element }">
+                <div
+                  class="drag-handle relative cursor-grab border-b border-n-weak/50 dark:border-n-weak/90 last:border-transparent dark:last:border-transparent"
+                >
+                  <CustomAttribute
+                    :key="element.id"
+                    :attribute-key="element.attribute_key"
+                    :attribute-type="element.attribute_display_type"
+                    :values="element.attribute_values"
+                    :label="element.attribute_display_name"
+                    :description="element.attribute_description"
+                    :value="element.value"
+                    show-actions
+                    :read-only="!!element.formula"
+                    :attribute-regex="element.regex_pattern"
+                    :regex-cue="element.regex_cue"
+                    :contact-id="contactId"
+                    @update="onUpdate"
+                    @delete="onDelete"
+                    @copy="onCopy"
+                  />
+                </div>
+              </template>
+            </Draggable>
+          </div>
         </div>
       </div>
     </template>

@@ -144,7 +144,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col gap-0.5">
     <div>
       <ContactDetailsItem
         compact
@@ -158,6 +158,7 @@ export default {
         :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
       />
       <MultiselectDropdown
+        compact
         :options="teamsList"
         :selected-item="assignedTeam"
         :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.TEAM')"
@@ -174,6 +175,7 @@ export default {
     <div>
       <ContactDetailsItem compact :title="$t('CONVERSATION.PRIORITY.TITLE')" />
       <MultiselectDropdown
+        compact
         :options="priorityOptions"
         :selected-item="assignedPriority"
         :multiselector-title="$t('CONVERSATION.PRIORITY.TITLE')"

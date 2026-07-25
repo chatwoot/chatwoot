@@ -33,6 +33,9 @@ export const SIDEBAR_SECTION_ATTRIBUTE_TYPE = Object.freeze({
 
 export const UNCATEGORIZED_CATEGORY_SLUG = 'uncategorized';
 
+/** Built-in category for conversation metadata (browser, IP, referer, …) */
+export const SYSTEM_CATEGORY_SLUG = 'system';
+
 /**
  * Slugify a custom-attribute category label (shared by sidebar menu + CustomAttributes).
  * @param {string} category

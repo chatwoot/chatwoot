@@ -211,6 +211,7 @@
     "SHOW_MORE": "Mostrar todos los atributos",
     "SHOW_LESS": "Mostrar menos atributos",
     "UNCATEGORIZED": "Sin categoría",
+    "SYSTEM": "Sistema",
     "ACTIONS": {
       "COPY": "Copiar atributo",
       "DELETE": "Eliminar atributo",
