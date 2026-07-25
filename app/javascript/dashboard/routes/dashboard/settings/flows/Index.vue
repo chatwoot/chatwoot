@@ -24,7 +24,7 @@ const uiFlags = computed(() => getters['flows/getUIFlags'].value);
 const filteredRecords = computed(() => {
   const query = searchQuery.value.trim();
   if (!query) return records.value;
-  return picoSearch(records.value, query, ['name', 'description']);
+  return picoSearch(records.value, query, ['name', 'description', 'category']);
 });
 
 const deleteMessage = computed(() => ` ${selectedFlow.value.name}?`);
@@ -58,6 +58,7 @@ const confirmDeletion = () => {
 
 const tableHeaders = computed(() => [
   t('FLOWS.LIST.TABLE_HEADER.NAME'),
+  t('FLOWS.LIST.TABLE_HEADER.CATEGORY'),
   t('FLOWS.LIST.TABLE_HEADER.STATUS'),
   t('FLOWS.LIST.TABLE_HEADER.ACTIONS'),
 ]);

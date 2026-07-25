@@ -1,6 +1,7 @@
 json.id resource.id
 json.name resource.name
 json.description resource.description
+json.category resource.category
 json.active resource.active
 json.graph resource.graph
 json.exit_policy resource.exit_policy

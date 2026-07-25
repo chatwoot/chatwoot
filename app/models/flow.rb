@@ -4,6 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  active      :boolean          default(TRUE), not null
+#  category    :string
 #  description :text
 #  exit_policy :jsonb            not null
 #  graph       :jsonb            not null

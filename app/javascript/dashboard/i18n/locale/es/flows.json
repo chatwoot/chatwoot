@@ -13,11 +13,13 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nombre",
+        "CATEGORY": "Categoría",
         "STATUS": "Estado",
         "ACTIONS": "Acciones"
       },
       "404": "No se encontraron flujos",
       "NO_DESCRIPTION": "Sin descripción",
+      "NO_CATEGORY": "Sin categoría",
       "ACTIVE": "Activo",
       "INACTIVE": "Inactivo"
     },
@@ -31,6 +33,10 @@
         "DESCRIPTION": {
           "LABEL": "Descripción",
           "PLACEHOLDER": "Descripción opcional"
+        },
+        "CATEGORY": {
+          "LABEL": "Categoría",
+          "PLACEHOLDER": "p. ej. Soporte, Ventas"
         },
         "ACTIVE": {
           "LABEL": "Activo",
@@ -50,15 +56,21 @@
       "END_FLOW": "Finalizar flujo",
       "ADD_BTN_TOOLTIP": "Añadir paso",
       "ADD_ACTION": "Añadir acción",
+      "ACTION_N": "Acción {n}",
       "DELETE_ACTION_TOOLTIP": "Quitar acción",
       "DELETE_BTN_TOOLTIP": "Eliminar paso",
       "STEP_N": "Paso {n}",
       "MESSAGE_LABEL": "Mensaje",
       "MESSAGE_PLACEHOLDER": "Mensaje que verá el cliente…",
       "DELAY": "Demora de escritura (segundos)",
-      "TYPING_INDICATOR": "Marcar leído y mostrar escribiendo",
+      "TYPING_INDICATOR": "Marcar como leído y mostrar escribiendo",
       "BUTTONS": "Esperar respuesta (botones, máx. 3)",
       "BUTTONS_HINT": "Opcional. Tras las acciones del paso, espera una respuesta coincidente y ramifica. Vacío = continúa al siguiente paso.",
+      "WAIT_REPLY_TOGGLE": "Esperar respuesta",
+      "WAIT_REPLY_HINT": "Pide al cliente que elija un botón y luego ramifica. Máximo 3 botones.",
+      "ADD_BUTTON": "Añadir botón",
+      "REMOVE_BUTTON": "Quitar botón",
+      "BUTTON_N": "Botón {n}",
       "BUTTON_TITLE": "Etiqueta del botón",
       "BUTTON_VALUE": "Valor de coincidencia",
       "BRANCH_TO": "Luego ir a",
@@ -69,9 +81,14 @@
       "FORK": "rama",
       "LINEAR_NEXT": "Continúa al paso {n}: {label}",
       "STEP_PROPERTIES": "Paso seleccionado",
-      "NO_STEP_SELECTED": "Haz clic en un paso a la izquierda para editar botones, ramas y demora de escritura.",
+      "NODE_NAME": "Nombre del nodo",
+      "NODE_NAME_PLACEHOLDER": "Etiqueta opcional en el lienzo",
+      "SECTION_ACTIONS": "Acciones",
+      "SECTION_BUTTONS": "Botones y ramas",
+      "NO_STEP_SELECTED": "Haz clic en un paso del lienzo para editar su nombre, acciones y botones.",
       "NO_WAIT_WITHOUT_MESSAGE": "Añade una acción Enviar mensaje para habilitar botones de espera/rama.",
       "HANDOFF_REASON": "Eligió {label}",
+      "CANVAS_HINT": "Haz clic en un paso para configurarlo. Arrastra desde un handle para conectar. Usa la barra superior para el nombre y las reglas de salida.",
       "VALIDATION": "Se requieren un nombre y al menos un paso",
       "API": {
         "SUCCESS_MESSAGE": "Flujo actualizado correctamente",
@@ -93,6 +110,8 @@
     },
     "EXIT": {
       "TITLE": "Cuando termina el flujo",
+      "OPEN_BUTTON": "Reglas de salida",
+      "DONE": "Listo",
       "HINT": "Estado y asignado que se aplican al completar, fallar o escalar el recorrido.",
       "STATUS": "Estado de la conversación",
       "ASSIGNEE": "Asignado",

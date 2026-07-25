@@ -13,11 +13,13 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Name",
+        "CATEGORY": "Category",
         "STATUS": "Status",
         "ACTIONS": "Actions"
       },
       "404": "No flows found",
       "NO_DESCRIPTION": "No description",
+      "NO_CATEGORY": "Uncategorized",
       "ACTIVE": "Active",
       "INACTIVE": "Inactive"
     },
@@ -31,6 +33,10 @@
         "DESCRIPTION": {
           "LABEL": "Description",
           "PLACEHOLDER": "Optional description"
+        },
+        "CATEGORY": {
+          "LABEL": "Category",
+          "PLACEHOLDER": "e.g. Support, Sales"
         },
         "ACTIVE": {
           "LABEL": "Active",
@@ -50,6 +56,7 @@
       "END_FLOW": "End flow",
       "ADD_BTN_TOOLTIP": "Add step",
       "ADD_ACTION": "Add action",
+      "ACTION_N": "Action {n}",
       "DELETE_ACTION_TOOLTIP": "Remove action",
       "DELETE_BTN_TOOLTIP": "Remove step",
       "STEP_N": "Step {n}",
@@ -59,6 +66,11 @@
       "TYPING_INDICATOR": "Mark as read and show typing",
       "BUTTONS": "Wait for reply (buttons, max 3)",
       "BUTTONS_HINT": "Optional. After this step’s actions, wait for a matching reply and branch. Leave empty to continue to the next step.",
+      "WAIT_REPLY_TOGGLE": "Wait for reply",
+      "WAIT_REPLY_HINT": "Ask the customer to choose a button, then branch. Max 3 buttons.",
+      "ADD_BUTTON": "Add button",
+      "REMOVE_BUTTON": "Remove button",
+      "BUTTON_N": "Button {n}",
       "BUTTON_TITLE": "Button label",
       "BUTTON_VALUE": "Match value",
       "BRANCH_TO": "Then go to",
@@ -69,9 +81,14 @@
       "FORK": "fork",
       "LINEAR_NEXT": "Continues to step {n}: {label}",
       "STEP_PROPERTIES": "Selected step",
-      "NO_STEP_SELECTED": "Click a step on the left to edit buttons, branches, and typing delay.",
+      "NODE_NAME": "Node name",
+      "NODE_NAME_PLACEHOLDER": "Optional label on the canvas",
+      "SECTION_ACTIONS": "Actions",
+      "SECTION_BUTTONS": "Buttons & branches",
+      "NO_STEP_SELECTED": "Click a step on the canvas to edit its name, actions, and buttons.",
       "NO_WAIT_WITHOUT_MESSAGE": "Add a Send message action to enable wait/branch buttons.",
       "HANDOFF_REASON": "Chose {label}",
+      "CANVAS_HINT": "Click a step to configure it. Drag from a handle to connect. Use the bottom bar for flow name and exit rules.",
       "VALIDATION": "Name and at least one step are required",
       "API": {
         "SUCCESS_MESSAGE": "Flow updated successfully",
@@ -93,6 +110,8 @@
     },
     "EXIT": {
       "TITLE": "When the flow ends",
+      "OPEN_BUTTON": "Exit rules",
+      "DONE": "Done",
       "HINT": "Status and assignee applied when the run completes, fails, or hands off.",
       "STATUS": "Conversation status",
       "ASSIGNEE": "Assignee",
