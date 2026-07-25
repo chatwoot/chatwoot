@@ -349,6 +349,8 @@
         "ORDER_HINT": "Drag to reorder",
         "RESET": "Reset",
         "EMPTY": "All sections are hidden",
+        "CATEGORIES_HIDDEN": "All attribute categories are hidden. Use the menu above to show them.",
+        "CATEGORIES": "Categories",
         "conversation_actions": "Conversation actions",
         "macros": "Macros",
         "conversation_info": "Conversation info",

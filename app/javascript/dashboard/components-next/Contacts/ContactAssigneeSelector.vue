@@ -53,6 +53,10 @@ const isAssignedToMe = computed(
 
 const isUnassigned = computed(() => !assignedAgentId.value);
 
+const assignedAgentName = computed(
+  () => assignedAgent.value?.name || assignedAgent.value?.available_name || ''
+);
+
 const selectedAgent = computed(() => {
   if (!assignedAgentId.value) return null;
   return (
@@ -123,51 +127,48 @@ const handleSelfUnassign = () => {
 
 <template>
   <div class="w-full">
-    <label class="block mb-1.5 text-sm font-medium text-n-slate-11">
+    <label
+      class="block mb-1.5 text-xs font-medium tracking-wide text-n-slate-11"
+    >
       {{ t('CONTACTS_LAYOUT.DETAILS.ASSIGNEE.LABEL') }}
     </label>
 
     <!-- Admin view: full dropdown -->
     <template v-if="isAdmin">
-      <MultiselectDropdown
-        :compact="false"
-        :disabled="disabled || isUpdating"
-        :options="agentsList"
-        :selected-item="selectedAgent"
-        :multiselector-title="t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
-        :multiselector-placeholder="t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
-        :no-search-result="
-          t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
-        "
-        :input-placeholder="
-          t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
-        "
-        @select="handleSelect"
-      />
+      <div
+        class="rounded-lg"
+        :class="{
+          'ring-2 ring-n-brand/70 animate-pulse': isUnassigned,
+        }"
+      >
+        <MultiselectDropdown
+          compact
+          :disabled="disabled || isUpdating"
+          :options="agentsList"
+          :selected-item="selectedAgent"
+          :multiselector-title="t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
+          :multiselector-placeholder="
+            t('CONTACTS_LAYOUT.DETAILS.ASSIGNEE.NONE')
+          "
+          :no-search-result="
+            t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
+          "
+          :input-placeholder="
+            t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
+          "
+          @select="handleSelect"
+        />
+      </div>
     </template>
 
-    <!-- Agent view: read-only text + self-assign/unassign buttons -->
+    <!-- Agent view: compact row + self-assign/unassign -->
     <template v-else>
-      <div class="flex flex-col gap-2">
-        <div class="text-sm text-n-slate-12">
-          <span v-if="isUnassigned" class="text-n-slate-10">
-            {{ t('CONTACTS_LAYOUT.DETAILS.ASSIGNEE.NONE') }}
-          </span>
-          <span v-else-if="isAssignedToMe">
-            {{ assignedAgent?.name || assignedAgent?.available_name || '' }}
-          </span>
-          <span v-else>
-            {{
-              t('CONTACTS_LAYOUT.DETAILS.ASSIGNEE.ASSIGNED_TO_OTHER', {
-                agentName:
-                  assignedAgent?.name || assignedAgent?.available_name || '',
-              })
-            }}
-          </span>
-        </div>
-
+      <div
+        v-if="isUnassigned"
+        class="rounded-lg ring-2 ring-n-brand/70 animate-pulse"
+      >
         <NextButton
-          v-if="isUnassigned"
+          class="w-full"
           size="sm"
           slate
           faded
@@ -176,16 +177,42 @@ const handleSelfUnassign = () => {
           :label="t('CONTACTS_LAYOUT.DETAILS.ASSIGNEE.SELF_ASSIGN')"
           @click="handleSelfAssign"
         />
+      </div>
+
+      <div
+        v-else-if="isAssignedToMe"
+        class="flex items-center gap-1 min-h-8 px-2 rounded-lg outline outline-1 outline-n-weak bg-n-solid-1"
+      >
+        <span
+          class="flex-1 min-w-0 text-sm text-n-slate-12 truncate"
+          :title="assignedAgentName"
+        >
+          {{ assignedAgentName }}
+        </span>
         <NextButton
-          v-else-if="isAssignedToMe"
-          size="sm"
+          v-tooltip.left="t('CONTACTS_LAYOUT.DETAILS.ASSIGNEE.SELF_UNASSIGN')"
+          :aria-label="t('CONTACTS_LAYOUT.DETAILS.ASSIGNEE.SELF_UNASSIGN')"
+          icon="i-lucide-user-round-x"
+          ghost
           slate
-          faded
+          xs
           :is-loading="isUpdating"
           :disabled="disabled || isUpdating"
-          :label="t('CONTACTS_LAYOUT.DETAILS.ASSIGNEE.SELF_UNASSIGN')"
           @click="handleSelfUnassign"
         />
+      </div>
+
+      <div
+        v-else
+        class="flex items-center min-h-8 px-2 rounded-lg outline outline-1 outline-n-weak"
+      >
+        <span class="text-sm text-n-slate-11 truncate">
+          {{
+            t('CONTACTS_LAYOUT.DETAILS.ASSIGNEE.ASSIGNED_TO_OTHER', {
+              agentName: assignedAgentName,
+            })
+          }}
+        </span>
       </div>
     </template>
   </div>

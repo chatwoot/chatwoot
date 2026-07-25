@@ -329,6 +329,8 @@
         "ORDER_HINT": "Arrastra para reordenar",
         "RESET": "Restaurar",
         "EMPTY": "Todas las secciones están ocultas",
+        "CATEGORIES_HIDDEN": "Todas las categorías de atributos están ocultas. Usa el menú de arriba para mostrarlas.",
+        "CATEGORIES": "Categorías",
         "conversation_actions": "Acciones de conversación",
         "macros": "Macros",
         "conversation_info": "Información de conversación",

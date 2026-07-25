@@ -25,6 +25,28 @@ export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = Object.freeze([
   { name: 'previous_conversation' },
 ]);
 
+/** Sidebar section name → custom attribute model for category prefs */
+export const SIDEBAR_SECTION_ATTRIBUTE_TYPE = Object.freeze({
+  conversation_info: 'conversation_attribute',
+  contact_attributes: 'contact_attribute',
+});
+
+export const UNCATEGORIZED_CATEGORY_SLUG = 'uncategorized';
+
+/**
+ * Slugify a custom-attribute category label (shared by sidebar menu + CustomAttributes).
+ * @param {string} category
+ * @returns {string}
+ */
+export const attributeCategorySlug = category => {
+  const trimmed = (category || '').trim();
+  if (!trimmed) return UNCATEGORIZED_CATEGORY_SLUG;
+  return trimmed
+    .toLowerCase()
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_-]/g, '');
+};
+
 /**
  * Slugifies the channel name.
  * Replaces spaces, hyphens, and double colons with underscores.
@@ -122,7 +144,7 @@ const toggleConversationSidebarItemVisibility = (
 };
 
 /**
- * Resets conversation sidebar visibility to defaults.
+ * Resets conversation sidebar visibility, section order, and category prefs.
  * @param {Function} updateUISettings - Function to update UI settings.
  */
 const resetConversationSidebarVisibility = updateUISettings => {
@@ -130,7 +152,96 @@ const resetConversationSidebarVisibility = updateUISettings => {
     conversation_sidebar_visible_items: [
       ...DEFAULT_CONVERSATION_SIDEBAR_VISIBLE_ITEMS,
     ],
+    conversation_sidebar_items_order: [
+      ...DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
+    ],
+    conversation_sidebar_visible_categories: {},
+    conversation_sidebar_category_order: {},
   });
+};
+
+/**
+ * Whether a category slug is visible for an attribute type.
+ * Missing key = all visible; explicit array (incl. empty) = that list.
+ * @param {string} attributeType
+ * @param {string} slug
+ * @param {Object} uiSettings
+ * @returns {boolean}
+ */
+const isConversationSidebarCategoryVisible = (
+  attributeType,
+  slug,
+  uiSettings
+) => {
+  const byType = uiSettings.value.conversation_sidebar_visible_categories;
+  if (!byType || !(attributeType in byType) || byType[attributeType] == null) {
+    return true;
+  }
+  return byType[attributeType].includes(slug);
+};
+
+/**
+ * Toggle category visibility for an attribute type.
+ * @param {string} attributeType
+ * @param {string} slug
+ * @param {string[]} allSlugs - Known category slugs (seed when unset)
+ * @param {Object} uiSettings
+ * @param {Function} updateUISettings
+ */
+const toggleConversationSidebarCategoryVisibility = (
+  attributeType,
+  slug,
+  allSlugs,
+  uiSettings,
+  updateUISettings
+) => {
+  const byType = uiSettings.value.conversation_sidebar_visible_categories || {};
+  const current = byType[attributeType];
+  const visible = new Set(current == null ? allSlugs : current);
+  if (visible.has(slug)) {
+    visible.delete(slug);
+  } else {
+    visible.add(slug);
+  }
+  updateUISettings({
+    conversation_sidebar_visible_categories: {
+      ...byType,
+      [attributeType]: [...visible],
+    },
+  });
+};
+
+/**
+ * Persist category folder order for an attribute type.
+ * @param {string} attributeType
+ * @param {string[]} order - Ordered category slugs
+ * @param {Object} uiSettings
+ * @param {Function} updateUISettings
+ */
+const reorderConversationSidebarCategories = (
+  attributeType,
+  order,
+  uiSettings,
+  updateUISettings
+) => {
+  updateUISettings({
+    conversation_sidebar_category_order: {
+      ...(uiSettings.value.conversation_sidebar_category_order || {}),
+      [attributeType]: order,
+    },
+  });
+};
+
+/**
+ * Ordered category slugs for an attribute type (may be empty = use default sort).
+ * @param {string} attributeType
+ * @param {Object} uiSettings
+ * @returns {string[]}
+ */
+const conversationSidebarCategoryOrder = (attributeType, uiSettings) => {
+  return (
+    uiSettings.value.conversation_sidebar_category_order?.[attributeType] || []
+  );
 };
 
 /**
@@ -232,6 +343,31 @@ export function useUISettings() {
       ),
     resetConversationSidebarVisibility: () =>
       resetConversationSidebarVisibility(updateUISettings),
+    isConversationSidebarCategoryVisible: (attributeType, slug) =>
+      isConversationSidebarCategoryVisible(attributeType, slug, uiSettings),
+    toggleConversationSidebarCategoryVisibility: (
+      attributeType,
+      slug,
+      allSlugs
+    ) =>
+      toggleConversationSidebarCategoryVisibility(
+        attributeType,
+        slug,
+        allSlugs,
+        uiSettings,
+        updateUISettings
+      ),
+    reorderConversationSidebarCategories: (attributeType, order) =>
+      reorderConversationSidebarCategories(
+        attributeType,
+        order,
+        uiSettings,
+        updateUISettings
+      ),
+    conversationSidebarCategoryOrder: attributeType =>
+      conversationSidebarCategoryOrder(attributeType, uiSettings),
+    setConversationSidebarItemsOrder: itemsOrder =>
+      updateUISettings({ conversation_sidebar_items_order: itemsOrder }),
     setSignatureFlagForInbox: (channelType, value) =>
       setSignatureFlagForInbox(channelType, value, updateUISettings),
     fetchSignatureFlagFromUISettings: channelType =>
