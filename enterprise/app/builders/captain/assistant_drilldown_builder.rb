@@ -1,6 +1,6 @@
 # Lists the underlying records behind a single Captain assistant stat card, so a
 # viewer can drill from an aggregate (e.g. "auto-resolution 42%") into the exact
-# conversations or messages that produced it.
+# conversations that produced it.
 #
 # The window is resolved by Captain::AssistantStatsWindow from the same `range`
 # and `timezone_offset` the stat card used, so the drilldown covers precisely the
@@ -11,10 +11,8 @@ class Captain::AssistantDrilldownBuilder
   RESOLVED_EVENT_NAMES = Captain::AssistantStatsBuilder::RESOLVED_EVENT_NAMES
   HANDOFF_EVENT_NAMES = Captain::AssistantStatsBuilder::HANDOFF_EVENT_NAMES
 
-  # Metrics whose records are individual messages rather than conversations.
-  MESSAGE_METRICS = %w[hours_saved].freeze
   SUPPORTED_METRICS = %w[
-    conversations_handled auto_resolution_rate handoff_rate hours_saved reopen_rate conversation_depth
+    conversations_handled auto_resolution_rate handoff_rate reopen_rate
   ].freeze
 
   DEFAULT_PAGE = 1
@@ -43,19 +41,12 @@ class Captain::AssistantDrilldownBuilder
   def meta
     {
       metric: metric,
-      record_type: record_type,
       current_page: current_page,
       per_page: per_page,
       total_count: paginated_records.total_count,
-      conversation_count: conversation_count,
+      conversation_count: paginated_records.total_count,
       range: { since: range.first.to_i, until: range.last.to_i }
     }
-  end
-
-  def conversation_count
-    return paginated_records.total_count unless message_metric?
-
-    drilldown_scope.except(:includes).reorder(nil).distinct.count(:conversation_id)
   end
 
   def paginated_records
@@ -67,9 +58,7 @@ class Captain::AssistantDrilldownBuilder
     when 'conversations_handled' then handled_conversations
     when 'auto_resolution_rate' then conversations_for(resolved_events.select(:conversation_id))
     when 'handoff_rate' then event_conversations(HANDOFF_EVENT_NAMES)
-    when 'hours_saved' then public_reply_messages
     when 'reopen_rate' then reopened_conversations
-    when 'conversation_depth' then depth_conversations
     else
       raise ArgumentError, "Unsupported assistant drilldown metric: #{metric}"
     end
@@ -86,13 +75,6 @@ class Captain::AssistantDrilldownBuilder
 
   def handled_conversations
     conversations_for(handled_conversation_ids)
-  end
-
-  # Public agent-facing replies the assistant sent; the rows behind hours_saved.
-  def public_reply_messages
-    handled_messages.where(message_type: :outgoing, private: false)
-                    .includes(:sender, conversation: [:assignee, :contact, :inbox])
-                    .reorder(created_at: :desc)
   end
 
   # Conversations in the handled cohort that recorded one of the given reporting
@@ -129,11 +111,6 @@ class Captain::AssistantDrilldownBuilder
     conversations_for(ids)
   end
 
-  # Conversations the assistant sent at least one public reply in; the denominator behind conversation_depth.
-  def depth_conversations
-    conversations_for(handled_messages.where(message_type: :outgoing, private: false).select(:conversation_id))
-  end
-
   def conversations_for(conversation_ids)
     account.conversations
            .where(id: conversation_ids)
@@ -146,10 +123,6 @@ class Captain::AssistantDrilldownBuilder
   end
 
   def metric = params[:metric].to_s
-
-  def message_metric? = MESSAGE_METRICS.include?(metric)
-
-  def record_type = message_metric? ? 'message' : 'conversation'
 
   def current_page = [params[:page].to_i, DEFAULT_PAGE].max
 

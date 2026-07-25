@@ -54,7 +54,7 @@ class Internal::Accounts::InternalAttributesService
   def valid_feature_list
     Enterprise::Billing::ReconcilePlanFeaturesService::BUSINESS_PLAN_FEATURES +
       Enterprise::Billing::ReconcilePlanFeaturesService::ENTERPRISE_PLAN_FEATURES +
-      %w[inbound_emails]
+      %w[inbound_emails api_and_webhooks]
   end
 
   # Account notes functionality removed for now

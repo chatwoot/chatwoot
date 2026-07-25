@@ -1,0 +1,65 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+
+<div class="field-unit__field" data-account-suspension-form data-original-status="<%= field.original_status %>" data-has-suspension-history="<%= field.resource.suspension_history.present? %>">
+  <%= f.select(
+        field.attribute,
+        options_for_select(field.selectable_options, field.data),
+        { include_blank: field.include_blank_option },
+        {
+          class: 'rounded border border-n-weak bg-white p-2',
+          data: { account_status_select: true }
+        }
+      ) %>
+
+  <% if f.object.persisted? %>
+    <%
+      submitted_account = params[:account]
+      latest_suspension = field.resource.suspended? ? field.latest_suspension : {}
+      category = if submitted_account&.key?(:suspension_category)
+                   submitted_account[:suspension_category]
+                 else
+                   latest_suspension['category']
+                 end
+      reason = if submitted_account&.key?(:suspension_reason)
+                 submitted_account[:suspension_reason]
+               else
+                 latest_suspension['reason']
+               end
+      suspension_selected = field.data == 'suspended'
+    %>
+
+    <div class="mt-6 space-y-4 <%= 'hidden' unless suspension_selected %>" data-account-suspension-fields>
+      <div>
+        <%= label_tag :account_suspension_category, t('super_admin.account_suspension.form.category'), class: 'font-normal' %>
+        <%= select_tag(
+              'account[suspension_category]',
+              options_for_select(
+                [[t('super_admin.account_suspension.form.category_prompt'), '']] + field.suspension_category_options,
+                category
+              ),
+              id: :account_suspension_category,
+              disabled: !suspension_selected,
+              class: 'mt-1 rounded border border-n-weak bg-white p-2',
+              data: { suspension_category: true }
+            ) %>
+      </div>
+
+      <div>
+        <%= label_tag :account_suspension_reason, t('super_admin.account_suspension.form.reason'), class: 'font-normal' %>
+        <%= text_area_tag(
+              'account[suspension_reason]',
+              reason,
+              id: :account_suspension_reason,
+              rows: 4,
+              maxlength: 256,
+              disabled: !suspension_selected,
+              class: 'mt-1 rounded border border-n-weak bg-white p-2',
+              data: { suspension_reason: true }
+            ) %>
+        <p class="mt-1 text-xs text-n-slate-11"><%= t('super_admin.account_suspension.form.reason_hint') %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
