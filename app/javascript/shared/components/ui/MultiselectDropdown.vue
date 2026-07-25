@@ -90,8 +90,8 @@ const chevronIcon = computed(() =>
       <!-- Chevron-only trigger (header split) — no default slot so icon-only sizing works -->
       <Button
         v-if="chevronOnly"
-        slate
-        ghost
+        color="slate"
+        variant="ghost"
         sm
         :disabled="disabled"
         :icon="chevronIcon"
@@ -100,10 +100,9 @@ const chevronIcon = computed(() =>
       />
       <Button
         v-else
-        slate
+        color="slate"
         trailing-icon
-        :outline="!borderless"
-        :ghost="borderless"
+        :variant="borderless ? 'ghost' : 'outline'"
         :disabled="disabled"
         :size="compact ? 'sm' : undefined"
         :icon="chevronIcon"

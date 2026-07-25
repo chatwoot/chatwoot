@@ -11,11 +11,11 @@ export function formatAttributeValue(value, displayType) {
   if (type === 'currency') {
     const num = Number(value);
     if (Number.isNaN(num)) return String(value);
-    return new Intl.NumberFormat(undefined, {
-      style: 'currency',
-      currency: 'USD',
+    const formatted = new Intl.NumberFormat(undefined, {
+      minimumFractionDigits: 0,
       maximumFractionDigits: 2,
     }).format(num);
+    return `$${formatted}`;
   }
 
   if (type === 'percent') {

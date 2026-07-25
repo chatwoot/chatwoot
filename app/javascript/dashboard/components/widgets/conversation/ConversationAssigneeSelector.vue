@@ -1,21 +1,16 @@
 <script setup>
 import { computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
-import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+import { useToggle } from '@vueuse/core';
+import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import { useConversationAssignee } from 'dashboard/composables/useConversationAssignee';
 import { useI18n } from 'vue-i18n';
+import { OnClickOutside } from '@vueuse/components';
 
-const props = defineProps({
-  compact: {
-    type: Boolean,
-    default: false,
-  },
+defineProps({
   showSelfAssignButton: {
-    type: Boolean,
-    default: false,
-  },
-  borderless: {
     type: Boolean,
     default: false,
   },
@@ -33,6 +28,8 @@ const {
   onSelfAssign,
 } = useConversationAssignee();
 
+const [showMenu, toggleMenu] = useToggle(false);
+
 const fetchAssignableAgents = () => {
   const inboxId = store.getters.getSelectedChat?.inbox_id;
   if (inboxId) {
@@ -47,89 +44,105 @@ watch(
   () => fetchAssignableAgents()
 );
 
-const leftLabel = computed(() => {
-  if (props.showSelfAssignButton && showSelfAssign.value) {
-    return t('CONVERSATION_SIDEBAR.SELF_ASSIGN');
-  }
-  return (
-    assignedAgent.value?.name || t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')
-  );
-});
+const canSelfAssign = computed(() => showSelfAssign.value);
 
-const canSelfAssign = computed(
-  () => props.showSelfAssignButton && showSelfAssign.value
+const displayName = computed(
+  () => assignedAgent.value?.name || t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')
 );
+
+const closeMenu = () => toggleMenu(false);
+
+const onTriggerClick = () => {
+  if (isAssigning.value) return;
+  toggleMenu();
+};
+
+const onSelectAgent = agent => {
+  onClickAssignAgent(agent);
+  closeMenu();
+};
 </script>
 
 <template>
-  <!-- Header: split control (label | chevron) — no overflow-hidden so menu is visible -->
-  <div
-    v-if="compact"
-    v-tooltip="t('CONVERSATION.HEADER.ASSIGNEE')"
-    class="relative flex items-center h-8 min-w-[11rem] max-w-[14rem] rounded-lg outline outline-1 outline-n-weak bg-n-background shrink-0"
-  >
-    <button
-      v-if="canSelfAssign"
-      type="button"
-      class="flex-1 min-w-0 h-full px-2.5 text-left text-sm font-medium text-n-blue-11 truncate rounded-none border-0 bg-transparent hover:bg-n-alpha-2 disabled:opacity-50"
-      :disabled="isAssigning"
-      @click="onSelfAssign"
+  <OnClickOutside @trigger="closeMenu">
+    <div
+      v-tooltip="t('CONVERSATION.HEADER.ASSIGNEE')"
+      class="relative flex items-center h-8 min-w-[11rem] max-w-[14rem] rounded-lg outline outline-1 outline-n-weak bg-n-background shrink-0"
     >
-      {{ leftLabel }}
-    </button>
-    <span
-      v-else
-      class="flex-1 min-w-0 h-full px-2.5 flex items-center text-sm text-n-slate-12 truncate"
-      :title="leftLabel"
-    >
-      {{ leftLabel }}
-    </span>
-    <div class="w-px h-4 bg-n-weak shrink-0" />
-    <MultiselectDropdown
-      chevron-only
-      compact
-      :disabled="isAssigning"
-      :options="agentsList"
-      :selected-item="assignedAgent"
-      :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
-      :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
-      :no-search-result="
-        $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
-      "
-      :input-placeholder="
-        $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
-      "
-      @select="onClickAssignAgent"
-    />
-  </div>
-
-  <!-- Sidebar / full: unchanged -->
-  <div v-else class="flex items-center gap-1 min-w-0 w-full">
-    <NextButton
-      v-if="showSelfAssignButton && showSelfAssign"
-      link
-      xs
-      class="!gap-1 flex-shrink-0"
-      :disabled="isAssigning"
-      :label="$t('CONVERSATION_SIDEBAR.SELF_ASSIGN')"
-      @click="onSelfAssign"
-    />
-    <div class="min-w-0 w-full">
-      <MultiselectDropdown
-        :borderless="borderless"
+      <button
+        v-if="showSelfAssignButton && canSelfAssign"
+        type="button"
+        class="flex-1 min-w-0 h-full px-2.5 text-left text-sm font-medium text-n-blue-11 truncate rounded-none border-0 bg-transparent hover:bg-n-alpha-2 disabled:opacity-50"
         :disabled="isAssigning"
-        :options="agentsList"
-        :selected-item="assignedAgent"
-        :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
-        :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
-        :no-search-result="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
-        "
-        :input-placeholder="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
-        "
-        @select="onClickAssignAgent"
+        @click.stop="onSelfAssign"
+      >
+        {{ t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
+      </button>
+      <button
+        v-else
+        type="button"
+        class="flex flex-1 min-w-0 items-center gap-1.5 h-full px-2 text-left border-0 bg-transparent hover:bg-n-alpha-2 rounded-none"
+        :disabled="isAssigning"
+        @click="onTriggerClick"
+      >
+        <Avatar
+          v-if="assignedAgent"
+          :name="assignedAgent.name"
+          :src="assignedAgent.thumbnail"
+          :status="assignedAgent.availability_status"
+          :size="18"
+          hide-offline-status
+          rounded-full
+          class="shrink-0"
+        />
+        <span
+          class="min-w-0 text-sm text-n-slate-12 truncate"
+          :title="displayName"
+        >
+          {{ displayName }}
+        </span>
+      </button>
+      <div class="w-px h-4 bg-n-weak shrink-0" />
+      <NextButton
+        color="slate"
+        variant="ghost"
+        size="sm"
+        :disabled="isAssigning"
+        :icon="showMenu ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+        class="!w-8 !h-8 !min-w-8 !rounded-none !outline-transparent"
+        @click.stop="onTriggerClick"
       />
+      <div
+        v-if="showMenu"
+        class="box-border border rounded-lg bg-n-alpha-3 backdrop-blur-[100px] absolute shadow-lg border-n-strong dark:border-n-strong p-2 z-[9999] top-9 ltr:right-0 rtl:left-0 min-w-[16rem] w-max"
+      >
+        <div class="flex items-center justify-between mb-1">
+          <h4
+            class="m-0 overflow-hidden text-sm text-n-slate-11 whitespace-nowrap text-ellipsis"
+          >
+            {{ $t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT') }}
+          </h4>
+          <NextButton
+            variant="ghost"
+            color="slate"
+            size="xs"
+            icon="i-lucide-x"
+            @click="closeMenu"
+          />
+        </div>
+        <MultiselectDropdownItems
+          :options="agentsList"
+          :selected-items="assignedAgent ? [assignedAgent] : []"
+          has-thumbnail
+          :input-placeholder="
+            $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
+          "
+          :no-search-result="
+            $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
+          "
+          @select="onSelectAgent"
+        />
+      </div>
     </div>
-  </div>
+  </OnClickOutside>
 </template>

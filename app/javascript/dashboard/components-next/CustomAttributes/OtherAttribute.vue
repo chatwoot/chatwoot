@@ -128,6 +128,10 @@ const getInputType = computed(() => {
   }
 });
 
+const numberMin = computed(() =>
+  isAttributeTypeCurrency.value ? 0 : undefined
+);
+
 const toggleEditValue = value => {
   if (props.readOnly) return;
   isEditingValue.value =
@@ -143,7 +147,14 @@ const handleInputUpdate = async () => {
   const isValid = await v$.value.$validate();
   if (!isValid) return;
 
-  emit('update', editedValue.value);
+  let nextValue = editedValue.value;
+  if (isAttributeTypeCurrency.value) {
+    const num = Number(nextValue);
+    if (Number.isNaN(num) || num < 0) return;
+    nextValue = num;
+  }
+
+  emit('update', nextValue);
   toggleEditValue(false);
 };
 
@@ -195,6 +206,7 @@ const onClickAway = () => {
         <input
           v-model="editedValue"
           :type="getInputType"
+          :min="numberMin"
           class="!mb-0 !h-8 !border-0 !shadow-none !outline-none !bg-transparent !px-0 !text-sm w-full"
           autofocus
           @keyup.enter="handleInputUpdate"

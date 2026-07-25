@@ -37,12 +37,19 @@ const displayLabel = computed(() => {
   return props.selectedItem?.name || props.placeholder || '';
 });
 
+const sameId = (a, b) => {
+  if (a === b) return true;
+  if (a == null || b == null) return a === b;
+  return String(a) === String(b);
+};
+
 const menuItems = computed(() =>
   (props.options || []).map(option => ({
     label: option.name,
     value: option.id,
     action: 'select',
-    isSelected: props.selectedItem && option.id === props.selectedItem.id,
+    isSelected:
+      !!props.selectedItem && sameId(option.id, props.selectedItem.id),
     icon: option.icon || undefined,
     thumbnail:
       props.hasThumbnail && option.name
@@ -51,12 +58,17 @@ const menuItems = computed(() =>
             src: option.thumbnail || '',
           }
         : undefined,
-    raw: option,
+    option,
   }))
 );
 
-const openMenu = () => {
+const onTriggerClick = () => {
   if (props.disabled) return;
+  if (showMenu.value) {
+    toggleMenu(false);
+    isFocused.value = false;
+    return;
+  }
   toggleMenu(true);
   isFocused.value = true;
 };
@@ -67,7 +79,9 @@ const closeMenu = () => {
 };
 
 const onAction = item => {
-  emit('select', item.raw || props.options.find(o => o.id === item.value));
+  const selected =
+    item.option || props.options.find(o => sameId(o.id, item.value)) || null;
+  emit('select', selected);
   closeMenu();
 };
 </script>
@@ -83,7 +97,7 @@ const onAction = item => {
       v-on-clickaway="closeMenu"
       class="relative flex items-center w-full min-h-8 gap-1.5"
       :class="{ 'cursor-pointer': !disabled }"
-      @click="openMenu"
+      @click="onTriggerClick"
     >
       <Avatar
         v-if="hasThumbnail && hasValue"

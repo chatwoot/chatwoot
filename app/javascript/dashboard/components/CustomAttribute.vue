@@ -243,7 +243,7 @@ export default {
     },
     openListDropdown() {
       if (this.readOnly) return;
-      this.toggleListDropdown(true);
+      this.toggleListDropdown();
     },
     closeListDropdown() {
       this.toggleListDropdown(false);
@@ -269,10 +269,18 @@ export default {
     },
     onUpdate() {
       if (this.readOnly) return;
-      const updatedValue =
+      let updatedValue =
         this.isAttributeTypeDate || this.isAttributeTypeDatetime
           ? parseISO(this.editedValue)
           : this.editedValue;
+      if (this.isAttributeTypeCurrency) {
+        const num = Number(updatedValue);
+        if (Number.isNaN(num) || num < 0) {
+          this.v$.$touch();
+          return;
+        }
+        updatedValue = num;
+      }
       if (!this.isAttributeTypeMultiList && !this.isAttributeTypeCheckbox) {
         this.v$.$touch();
         if (this.v$.$invalid) {
@@ -366,30 +374,31 @@ export default {
       </template>
     </OutlinedAttributeField>
 
-    <!-- Multi-list -->
+    <!-- Multi-list: always expanded (label stays floating; avoids overlap with options) -->
     <OutlinedAttributeField
       v-else-if="isAttributeTypeMultiList"
       :label="label"
       :description="description"
-      :filled="hasValue || isFocused"
+      filled
       :focused="isFocused"
       tall
       @focusin="isFocused = true"
       @focusout="isFocused = false"
     >
-      <div class="flex flex-col gap-1 py-0.5">
+      <div class="flex flex-col gap-1.5 py-0.5">
         <label
-          v-for="option in values"
-          :key="option"
-          class="flex items-center gap-2 text-sm text-n-slate-12"
+          v-for="(option, index) in values"
+          :key="`${attributeKey}-opt-${index}`"
+          class="flex items-center gap-2 text-sm text-n-slate-12 cursor-pointer"
         >
           <input
             type="checkbox"
+            class="!my-0 shrink-0"
             :disabled="readOnly"
             :checked="multiListSelected.includes(option)"
             @change="onToggleMultiListValue(option, $event.target.checked)"
           />
-          {{ option }}
+          <span class="min-w-0 break-words">{{ option }}</span>
         </label>
         <p v-if="!values.length" class="m-0 text-sm text-n-slate-11">
           {{ emptyListPlaceholder }}
@@ -418,6 +427,7 @@ export default {
             ref="inputfield"
             v-model="editedValue"
             :type="inputType"
+            :min="isAttributeTypeCurrency ? 0 : undefined"
             class="!mb-0 !h-8 !border-0 !shadow-none !outline-none !bg-transparent !px-0 !text-sm w-full"
             autofocus="true"
             :class="{ error: v$.editedValue.$error }"

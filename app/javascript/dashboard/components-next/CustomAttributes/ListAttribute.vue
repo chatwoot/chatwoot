@@ -29,15 +29,19 @@ const attributeListMenuItems = computed(() => {
   );
 });
 
-const openDropdown = () => {
-  if (props.readOnly) return;
-  toggleAttributeListDropdown(true);
-  emit('focusChange', true);
-};
-
 const closeDropdown = () => {
   toggleAttributeListDropdown(false);
   emit('focusChange', false);
+};
+
+const openDropdown = () => {
+  if (props.readOnly) return;
+  if (showAttributeListDropdown.value) {
+    closeDropdown();
+    return;
+  }
+  toggleAttributeListDropdown(true);
+  emit('focusChange', true);
 };
 
 const handleAttributeAction = async action => {
