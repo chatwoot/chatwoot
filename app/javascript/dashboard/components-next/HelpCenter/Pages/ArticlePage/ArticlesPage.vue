@@ -3,7 +3,7 @@ import { ref, computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { OnClickOutside } from '@vueuse/components';
-import { useMapGetter } from 'dashboard/composables/store.js';
+import { useStore, useMapGetter } from 'dashboard/composables/store.js';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { debounce } from '@chatwoot/utils';
 import { ARTICLE_TABS, CATEGORY_ALL } from 'dashboard/helper/portalHelper';
@@ -60,6 +60,7 @@ const emit = defineEmits([
 
 const router = useRouter();
 const route = useRoute();
+const store = useStore();
 const { t } = useI18n();
 
 const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
@@ -70,6 +71,7 @@ const isFeatureEnabledonAccount = useMapGetter(
 );
 
 const selectedArticleIds = ref(new Set());
+const isArticleDragging = ref(false);
 const deleteConfirmDialogRef = ref(null);
 const isCategoryMenuOpen = ref(false);
 const searchQuery = ref(route.query.search || '');
@@ -148,6 +150,8 @@ const articlesCount = computed(() => {
   return Number(countMap[tab] || countMap['']);
 });
 
+const totalPages = computed(() => Math.ceil(articlesCount.value / 25) || 1);
+
 const showArticleHeaderControls = computed(
   () => !props.isCategoryArticles && !isSwitchingPortal.value
 );
@@ -224,15 +228,46 @@ const onBulkActionSuccess = message => {
 };
 
 const bulkUpdateStatus = async status => {
+  const selectedIds = [...selectedArticleIds.value];
+  const { portalSlug } = route.params;
+
+  const pendingIds = props.articles
+    .filter(
+      article =>
+        selectedIds.includes(article.id) &&
+        article.status === ARTICLE_STATUSES.PUBLISHED &&
+        hasPendingChanges(article)
+    )
+    .map(article => article.id);
+
+  // Publish promotes each pending draft; other status changes skip them.
+  const isPublishing = status === ARTICLE_STATUSES.PUBLISHED;
+  const draftIds = isPublishing ? pendingIds : [];
+  const skippedCount = isPublishing ? 0 : pendingIds.length;
+  const articleIds = selectedIds.filter(id => !pendingIds.includes(id));
+
+  if (!articleIds.length && !draftIds.length) {
+    useAlert(t('HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.STATUS_SKIPPED_ALL'));
+    return;
+  }
+
   try {
-    await articlesAPI.bulkUpdateStatus({
-      portalSlug: route.params.portalSlug,
-      articleIds: [...selectedArticleIds.value],
-      status,
-    });
+    if (articleIds.length) {
+      await articlesAPI.bulkUpdateStatus({ portalSlug, articleIds, status });
+    }
+    await Promise.all(
+      draftIds.map(articleId =>
+        store.dispatch('articles/publishDraft', { portalSlug, articleId })
+      )
+    );
     onBulkActionSuccess(
       t('HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.STATUS_SUCCESS')
     );
+    if (skippedCount) {
+      useAlert(
+        t('HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.STATUS_SKIPPED', skippedCount)
+      );
+    }
   } catch (error) {
     useAlert(
       error?.message || t('HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.STATUS_ERROR')
@@ -343,7 +378,7 @@ watch(
     </template>
     <template #content>
       <div
-        v-if="isLoading"
+        v-if="isLoading && !isArticleDragging"
         class="flex items-center justify-center py-10 text-n-slate-11"
       >
         <Spinner />
@@ -453,9 +488,13 @@ watch(
           :is-category-articles="isCategoryArticles"
           :is-searching="isSearching"
           :selected-article-ids="selectedArticleIds"
+          :current-page="Number(meta.currentPage)"
+          :total-pages="totalPages"
           class="relative z-0"
           @translate-article="handleTranslateArticle"
           @toggle-select="handleToggleSelect"
+          @navigate-page="handlePageChange"
+          @dragging="isArticleDragging = $event"
         />
       </template>
       <ArticleEmptyState

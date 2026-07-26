@@ -28,6 +28,7 @@ import conversationWorkflow from './conversationWorkflow/conversationWorkflow.ro
 import flows from './flows/flows.routes';
 import businessRules from './businessRules/businessRules.routes';
 import captain from './captain/captain.routes';
+import data from './data/data.routes';
 
 export default {
   routes: [
@@ -59,6 +60,7 @@ export default {
     ...canned.routes,
     ...inbox.routes,
     ...integrations.routes,
+    ...data.routes,
     ...labels.routes,
     ...macros.routes,
     ...reports.routes,

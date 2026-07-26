@@ -30,7 +30,7 @@ class ArticlesAPI extends PortalsAPI {
       host: this.url,
     });
 
-    return axios.get(url);
+    return axios.get(url, { signal });
   }
 
   searchArticles({ portalSlug, query }) {

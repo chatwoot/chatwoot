@@ -54,7 +54,20 @@ module ActivityMessageHandler
                 user_status_change_activity_content(user_name)
               end
 
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    return if content.blank?
+
+    ::Conversations::ActivityMessageJob.perform_later(
+      self,
+      activity_message_params(
+        content,
+        content_attributes: {
+          activity: {
+            type: 'conversation_status_changed',
+            status: status
+          }
+        }
+      )
+    )
   end
 
   def auto_resolve_message_key(minutes)

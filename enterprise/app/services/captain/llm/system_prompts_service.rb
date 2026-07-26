@@ -53,14 +53,56 @@ class Captain::Llm::SystemPromptsService
 
     def conversation_faq_generator(language = 'english')
       <<~SYSTEM_PROMPT_MESSAGE
-        You are a support agent looking to convert the conversations with users into short FAQs that can be added to your website help center.
-        Filter out any responses or messages from the bot itself and only use messages from the support agent and the customer to create the FAQ.
+        You create high-quality FAQ candidates from resolved support conversations.
+        Only generate an FAQ when the conversation contains durable, reusable knowledge that would help many future customers.
 
-        Ensure that you only generate faqs from the information provided only.
-        Generate the FAQs only in the #{language}, use no other language
-        If no match is available, return an empty JSON.
+        ## Source rules
+        - The conversation history contains only customer messages and human support agent messages.
+        - Base every FAQ strictly on information stated in the human support agent messages. Do not infer, generalize, or add external knowledge.
+        - A human support agent must state every fact used in the FAQ answer. Customer messages cannot supply missing answer facts.
+        - The human support agent must provide the final answer. If the agent only greets, asks clarifying questions, asks for contact details, promises to check, shares an attachment, or transfers the conversation, return: `{"faqs":[]}`.
+        - For each FAQ, first identify the exact human support agent message that fully answers it. If no single human agent message gives a complete public answer, remove that FAQ.
+
+        ## Decision gate
+        Return `{"faqs":[]}` unless every generated FAQ can pass all of these checks:
+        1. The answer is fully stated by a human support agent, not by the customer.
+        2. The answer is a public, durable rule or procedure, not a private account action, manual review, troubleshooting session, quote, file, link, or follow-up.
+        3. The answer can be written without private identifiers, customer-specific facts, direct URLs, attachments, invoices, screenshots, or support-ticket steps.
+        4. The question would still make sense in a help center if the original conversation, customer, and agent did not exist.
+        Do not rescue a rejected conversation by rewriting it as a generic support question.
+
+        ## Return no FAQ for
+        - Spam, scams, advertisements, SEO/link-building pitches, adult/gambling/financial promotions, gibberish, abusive content, or conversations unrelated to the business being supported.
+        - Account-specific, order-specific, payment-specific, subscription-specific, login/access, verification, delivery, certificate, or troubleshooting issues, even if they could be rewritten as a general support question.
+        - Conversations that mainly hand off to a human, ask the customer to wait, request private identifiers or contact details, collect screenshots, attachments, or documents, or tell the customer to contact support for case review.
+        - Temporary workarounds, one-off exceptions, unclear answers, unresolved problems, wrong-service conversations, complaints, greetings, or abandoned conversations.
+        - Internal support workflow details, chat session rules, escalation mechanics, ticket-routing instructions, or "someone will get back to you" messages.
+        - Answers that are just a direct/private link, attachment, file, invoice, one-off quote or estimate, account-specific URL, or instructions to open a support ticket.
+        - Questions whose useful answer is "contact support", "wait for the team", "share your details", "we will check", or "this needs manual review".
+        - Questions about whether support can help with a private issue, third-party service, transaction, payment, delivery, or account problem.
+        - Pricing, policy, availability, roadmap, deadline, or legal claims unless the human support agent gives a clear and stable answer in the conversation.
+        - Questions already answered only by asking the customer for more information.
+
+        ## FAQ quality rules
+        - Prefer returning no FAQ over a weak or narrow FAQ.
+        - A good candidate teaches a generally reusable product, service, policy, setup, or process rule that another customer could use without contacting support.
+        - Generate at most one FAQ unless the human agent clearly answered multiple distinct, reusable questions.
+        - Do not create duplicate or overlapping FAQs in the same response.
+        - Questions must be general enough for a help center, not personalized to the current customer.
+        - Remove customer names, order numbers, invoice numbers, IDs, private URLs, phone numbers, emails, screenshots, attachments, and other personal or transaction-specific details.
+        - Answers must be complete, self-contained, and supported by the human agent's messages.
+
+        ## Examples
+        - Customer mentions a price or procedure, then the human agent only greets or says they will check: return `{"faqs":[]}`.
+        - Human agent shares only a private link, file, invoice, quote, screenshot, or attachment: return `{"faqs":[]}`.
+        - Human agent clearly states a public rule, such as which purchases are allowed for a program or service: generate one general FAQ.
+
+        Generate the FAQs only in the #{language}, use no other language.
+        If no suitable reusable FAQ is available, return: `{"faqs":[]}`.
+
+        Return only valid JSON in this exact structure:
         ```json
-        { faqs: [ { question: '', answer: ''} ]
+        { "faqs": [ { "question": "", "answer": "" } ] }
         ```
       SYSTEM_PROMPT_MESSAGE
     end
@@ -132,6 +174,65 @@ class Captain::Llm::SystemPromptsService
         - The assistant response itself says the current conversation will be transferred to a human agent now.
 
         #{assistant_action_classifier_custom_instructions_policy if has_custom_instructions}
+
+        Return only the structured fields requested by the response schema.
+      PROMPT
+    end
+
+    def assistant_false_promise_detector
+      <<~PROMPT
+        You are checking one failure mode in a customer-support assistant response: unsupported promises of future work.
+
+        Return decision "future_work_promise" when the assistant response says or clearly implies that work has already
+        started, is happening now, or will definitely happen later outside the current reply because of this assistant
+        message. This includes promises that the assistant, bot, Captain, or system will check, verify, investigate,
+        review, monitor, notify, update, email, call back, follow up, get back later, process, refund, cancel, book,
+        order, reserve, file, escalate/forward something in the background, or claim that the current conversation has
+        been or will be transferred, connected, or handed off to a human.
+
+        Do not mark a response as a future-work promise merely because it describes what a human agent, support team,
+        company team, or external system may do after the user accepts a handoff, provides requested details, submits a
+        form/ticket/email/order, or starts that external process themselves.
+
+        Do not mark ordinary in-chat help as a future-work promise. Asking the user for missing information, confirmation,
+        or completion of a step before continuing is safe when the response does not also claim that work has started,
+        is happening now, or will happen in the background.
+
+        Treat transfer claims as future-work promises unless the response is exactly the internal action token
+        `conversation_handoff`. Examples that are future-work promises: "I'm transferring you now", "You've been
+        transferred", "Connecting you now", "Handing off to the team now", "I'll connect you with support",
+        "I'll escalate this", and equivalent phrases in any language.
+
+        Return decision "safe" when:
+        - The assistant answers now, asks a clarifying question, or asks the user to check, try, confirm, or provide info.
+        - The assistant says it can help, check, look up, or guide the user after the user first provides requested
+          information, confirms something, or completes a step.
+        - The assistant asks the user to report back after completing a step and offers to continue helping in chat.
+        - The assistant gives a bounded answer that documentation or available information is insufficient.
+        - The assistant points the user to an external/self-serve support path without promising that the assistant will do it.
+        - The assistant describes what an external support, sales, delivery, finance, or operations team will do after the
+          user submits a form, request, email, application, order, ticket, or in-app chat themselves.
+        - The assistant recommends waiting for an existing external process or support response that was already started
+          outside this assistant message.
+        - The assistant offers future help, monitoring, escalation, or handoff conditionally and waits for the user to
+          accept, without saying the work or transfer has already started.
+        - The response says an external system may automatically send an email/tracking update, without promising that the
+          assistant will personally perform future work.
+        - The response is exactly `conversation_handoff`, which is an internal action token and not a customer-visible promise.
+
+        Be language-independent. The customer and assistant may write in any language.
+        Be conservative: only mark "future_work_promise" when the response promises background/asynchronous work,
+        says work is happening now, or claims a handoff/escalation/notification/action has started or will definitely happen.
+
+        The reason field MUST be one of:
+        - "safe_response"
+        - "asks_user_to_check_or_provide_info"
+        - "external_support_direction"
+        - "unaccepted_handoff_offer"
+        - "future_check_or_investigation"
+        - "future_notification_or_update"
+        - "future_callback_or_email"
+        - "background_escalation_promise"
 
         Return only the structured fields requested by the response schema.
       PROMPT
@@ -235,6 +336,7 @@ class Captain::Llm::SystemPromptsService
         - Do not generate a response more than three sentences.
         - Keep the conversation flowing.
         - Do not use use your own understanding and training data to provide an answer.
+        - Do not promise work that will happen after this reply. Do not say you will check, investigate, monitor, follow up, notify, email, call, refund, cancel, book, escalate, transfer, or submit anything unless you complete that action now using an available tool or, for human transfer, return `conversation_handoff` as the response. If you lack enough information, ask the user for the missing detail without promising future work.
         - Clarify: when there is ambiguity, ask clarifying questions, rather than make assumptions.
         - Don't implicitly or explicitly try to end the chat (i.e. do not end a response with "Talk soon!" or "Enjoy!").
         - Sometimes the user might just want to chat. Ask them relevant follow-up questions.

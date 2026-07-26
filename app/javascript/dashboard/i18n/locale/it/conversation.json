@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "È possibile rispondere a questa conversazione solo utilizzando un messaggio modello a causa di",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrizione finestra messaggio 24 ore",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Questo account Instagram è stato migrato alla nuova Inbox del canale Instagram. Tutti i nuovi messaggi verranno visualizzati lì. Non sarà più possibile inviare messaggi da questa conversazione.",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "Stai rispondendo a:",
     "REMOVE_SELECTION": "Rimuovi Selezione",
     "DOWNLOAD": "Scarica",
@@ -62,7 +64,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app TikTok.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app WhatsApp.",
     "SUCCESS_DELETE_MESSAGE": "Messaggio eliminato con successo",
     "FAIL_DELETE_MESSSAGE": "Impossibile eliminare il messaggio! Riprova",
     "NO_RESPONSE": "Nessuna risposta",
@@ -81,20 +83,20 @@
       "CALL_IN_PROGRESS": "Chiamata in corso",
       "NO_ANSWER": "Nessuna risposta",
       "NO_ANSWER_OUTBOUND_LABEL": "Nessuna risposta",
-      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Il contatto non ha risposto",
       "MISSED_CALL": "Chiamata persa",
-      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
-      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
+      "MISSED_CALL_INBOUND_SUBTEXT": "Nessun operatore ha risposto",
+      "MISSED_CALL_DECLINED_BY": "Rifiutata da {agentName}",
       "CALL_ENDED": "Chiamata terminata",
-      "HANDLED_BY": "Handled by {agentName}",
+      "HANDLED_BY": "Gestita da {agentName}",
       "NOT_ANSWERED_YET": "Non ancora risposta",
-      "CALLING": "Calling…",
+      "CALLING": "Chiamata in corso…",
       "THEY_ANSWERED": "Hanno risposto",
       "YOU_ANSWERED": "Hai risposto",
       "AGENT_ANSWERED": "{agentName} ha risposto",
       "JOIN_CALL": "Entra nella chiamata",
-      "CALL_BACK": "Call back",
-      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "CALL_BACK": "Richiama",
+      "TRANSCRIPT_SHOW_MORE": "Mostra di più",
       "TRANSCRIPT_SHOW_LESS": "Mostra meno"
     },
     "HEADER": {
@@ -110,12 +112,12 @@
       "SNOOZED_UNTIL_TOMORROW": "Posticipata fino a domani",
       "SNOOZED_UNTIL_NEXT_WEEK": "Posticipata fino alla prossima settimana",
       "SNOOZED_UNTIL_NEXT_REPLY": "Posticipata fino alla prossima risposta",
-      "WHATSAPP_CALL": "Start WhatsApp call",
-      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
-      "VOICE_CALL": "Start call",
-      "VOICE_CALL_FAILED": "Could not start the call.",
-      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+      "WHATSAPP_CALL": "Avvia chiamata WhatsApp",
+      "WHATSAPP_CALL_FAILED": "Impossibile avviare la chiamata WhatsApp.",
+      "VOICE_CALL": "Avvia chiamata",
+      "VOICE_CALL_FAILED": "Impossibile avviare la chiamata.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Inviata una richiesta di autorizzazione di chiamata al contatto. Riprova una volta accettata.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Richiesta di autorizzazione chiamata già inviata di recente. Riprova una volta che il contatto accetta.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -231,8 +233,9 @@
       "TIP_AUDIORECORDER_ICON": "Registra audio",
       "TIP_AUDIORECORDER_PERMISSION": "Consenti l'accesso all'audio",
       "TIP_AUDIORECORDER_ERROR": "Impossibile aprire l'audio",
-      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
+      "AUDIO_CONVERSION_FAILED": "Conversione audio non riuscita. Riprova.",
       "DRAG_DROP": "Trascina qui per allegare",
+      "IMAGE_UPLOAD_SUCCESS": "Immagine caricata correttamente",
       "START_AUDIO_RECORDING": "Avvia registrazione audio",
       "STOP_AUDIO_RECORDING": "Interrompi registrazione audio",
       "COPILOT_THINKING": "Copilot sta pensando",
@@ -303,6 +306,25 @@
         "MESSAGE": "Non puoi annullare questa azione",
         "DELETE": "Elimina",
         "CANCEL": "Annulla"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "Descrizione",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -319,10 +341,10 @@
       "DISMISS_CALL": "Ignora",
       "JOIN_CALL": "Entra nella chiamata",
       "END_CALL": "Termina chiamata",
-      "MUTE": "Mute mic",
-      "UNMUTE": "Unmute mic",
-      "VIEW_CHAT_HISTORY": "View chat history",
-      "GO_TO_CONVERSATION": "Go to conversation thread"
+      "MUTE": "Silenzia microfono",
+      "UNMUTE": "Riattiva microfono",
+      "VIEW_CHAT_HISTORY": "Visualizza cronologia chat",
+      "GO_TO_CONVERSATION": "Vai alla conversazione"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -400,7 +422,8 @@
       "VIEW_ALL": "Vedi tutti",
       "SHOW_LESS": "Mostra meno",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "File senza titolo"
+      "UNTITLED_FILE": "File senza titolo",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "Ordine #{id}",

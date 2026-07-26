@@ -170,6 +170,29 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['status']).to eql(article_params[:article][:status])
         expect(json_response['payload']['position']).to eql(article_params[:article][:position])
       end
+
+      it 'stages draft-only fields without bumping updated_at' do
+        expect do
+          put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+              params: { article: { draft_title: 'Draft title', draft_content: 'Draft body' } },
+              headers: admin.create_new_auth_token
+        end.not_to(change { article.reload.updated_at })
+
+        expect(response).to have_http_status(:success)
+        expect(article.draft_title).to eq('Draft title')
+        expect(article.draft_content).to eq('Draft body')
+      end
+
+      it 'rejects an over-length draft without persisting it' do
+        expect do
+          put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+              params: { article: { draft_content: 'a' * 20_001 } },
+              headers: admin.create_new_auth_token
+        end.not_to(change { article.reload.draft_content })
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to include('too long')
+      end
     end
   end
 

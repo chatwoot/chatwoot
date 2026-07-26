@@ -113,12 +113,14 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def set_conversation
+    # Scope reuse to the contact across all its contact_inboxes in this inbox: WhatsApp coexistence
+    # gives one contact multiple source_ids (phone + BSUID), so reopen must not be limited to a single contact_inbox.
+    conversations = @contact.conversations.where(inbox_id: @inbox.id)
     # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
     @conversation = if @inbox.lock_to_single_conversation
-                      @contact_inbox.conversations.last
+                      conversations.last
                     else
-                      @contact_inbox.conversations
-                                    .where.not(status: :resolved).last
+                      conversations.where.not(status: :resolved).last
                     end
     return if @conversation
 

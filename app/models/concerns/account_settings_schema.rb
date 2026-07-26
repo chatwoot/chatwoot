@@ -1,6 +1,9 @@
 module AccountSettingsSchema
   extend ActiveSupport::Concern
 
+  CAPTAIN_MODEL_PROPERTIES = Llm::Models.feature_keys.index_with { { 'type': %w[string null] } }.freeze
+  CAPTAIN_FEATURE_PROPERTIES = Llm::Models.feature_keys.index_with { { 'type': %w[boolean null] } }.freeze
+
   SETTINGS_PARAMS_SCHEMA = {
     'type': 'object',
     'properties':
@@ -13,6 +16,7 @@ module AccountSettingsSchema
         'resolved_label_key': { 'type': %w[string null], 'enum': ['resolved', 'closed', 'sold', 'finished', nil] },
         'keep_pending_on_bot_failure': { 'type': %w[boolean null] },
         'captain_auto_resolve_mode': { 'type': %w[string null], 'enum': ['evaluated', 'legacy', 'disabled', nil] },
+        'captain_false_promise_harness_enabled': { 'type': %w[boolean null] },
         'conversation_required_attributes': {
           'type': %w[array null],
           'items': { 'type': 'string' }
@@ -35,26 +39,12 @@ module AccountSettingsSchema
         },
         'captain_models': {
           'type': %w[object null],
-          'properties': {
-            'editor': { 'type': %w[string null] },
-            'assistant': { 'type': %w[string null] },
-            'copilot': { 'type': %w[string null] },
-            'label_suggestion': { 'type': %w[string null] },
-            'audio_transcription': { 'type': %w[string null] },
-            'help_center_search': { 'type': %w[string null] }
-          },
+          'properties': CAPTAIN_MODEL_PROPERTIES,
           'additionalProperties': false
         },
         'captain_features': {
           'type': %w[object null],
-          'properties': {
-            'editor': { 'type': %w[boolean null] },
-            'assistant': { 'type': %w[boolean null] },
-            'copilot': { 'type': %w[boolean null] },
-            'label_suggestion': { 'type': %w[boolean null] },
-            'audio_transcription': { 'type': %w[boolean null] },
-            'help_center_search': { 'type': %w[boolean null] }
-          },
+          'properties': CAPTAIN_FEATURE_PROPERTIES,
           'additionalProperties': false
         }
       },

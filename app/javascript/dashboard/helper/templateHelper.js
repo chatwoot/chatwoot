@@ -1,19 +1,16 @@
-// Constants
+import { processVariable, buildWhatsAppProcessedParams } from '@chatwoot/utils';
+
+// Constants and pure template helpers are shared with the mobile app via
+// @chatwoot/utils so the logic lives in one place.
+export {
+  MEDIA_FORMATS,
+  COMPONENT_TYPES,
+  findComponentByType,
+  processVariable,
+} from '@chatwoot/utils';
+
 export const DEFAULT_LANGUAGE = 'en';
 export const DEFAULT_CATEGORY = 'UTILITY';
-export const COMPONENT_TYPES = {
-  HEADER: 'HEADER',
-  BODY: 'BODY',
-  BUTTONS: 'BUTTONS',
-};
-export const MEDIA_FORMATS = ['IMAGE', 'VIDEO', 'DOCUMENT'];
-
-export const findComponentByType = (template, type) =>
-  template.components?.find(component => component.type === type);
-
-export const processVariable = str => {
-  return str.replace(/{{|}}/g, '');
-};
 
 export const allKeysRequired = value => {
   const keys = Object.keys(value);

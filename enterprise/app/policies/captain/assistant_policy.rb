@@ -7,8 +7,20 @@ class Captain::AssistantPolicy < ApplicationPolicy
     true
   end
 
-  def stats?
+  def metrics?
     true
+  end
+
+  def faq_stats?
+    true
+  end
+
+  def summary?
+    true
+  end
+
+  def drilldown?
+    @account_user.administrator?
   end
 
   def tools?

@@ -6,6 +6,7 @@ import { useToggle } from '@vueuse/core';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
 
 const props = defineProps({
@@ -123,20 +124,38 @@ const chevronIcon = computed(() =>
             class="overflow-hidden text-sm leading-tight whitespace-nowrap text-ellipsis text-n-slate-12"
             :title="selectedItem.name"
           >
-            {{ selectedItem.name }}
+            {{ selectedItemName }}
           </h4>
         </div>
         <Avatar
-          v-if="hasValue && hasThumbnail && !hasIcon"
-          :src="selectedItem.thumbnail"
+          v-if="hasValue && hasThumbnail && (isAgentBot || !hasIcon)"
+          :src="selectedThumbnail"
           :status="selectedItem.availability_status"
           :name="selectedItem.name"
           :size="compact ? 20 : 24"
           hide-offline-status
           rounded-full
-        />
+        >
+          <template v-if="isAgentBot && selectedThumbnail" #badge>
+            <div
+              class="absolute z-20 flex items-center justify-center rounded-full outline outline-1 outline-n-weak bg-n-solid-1 -bottom-0.5 ltr:-right-0.5 rtl:-left-0.5 size-3.5"
+            >
+              <Icon icon="i-lucide-bot" class="text-n-slate-11 size-2.5" />
+            </div>
+          </template>
+        </Avatar>
+        <div
+          v-else-if="hasValue && hasIcon && showEmojiIcon"
+          class="flex items-center justify-center flex-shrink-0 text-sm rounded-full size-6 outline outline-1 -outline-offset-1 outline-n-weak"
+        >
+          <EmojiIcon
+            :value="selectedItem.icon"
+            :color="selectedItem.icon_color"
+            class="size-3.5 !text-sm"
+          />
+        </div>
         <Icon
-          v-if="hasValue && hasIcon"
+          v-else-if="hasValue && hasIcon"
           :icon="selectedItem.icon"
           class="size-5 text-n-slate-11"
         />
@@ -164,6 +183,7 @@ const chevronIcon = computed(() =>
           :has-thumbnail="hasThumbnail"
           :input-placeholder="inputPlaceholder"
           :no-search-result="noSearchResult"
+          :show-emoji-icon="showEmojiIcon"
           @select="onClickSelectItem"
         />
       </div>
