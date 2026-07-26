@@ -55,12 +55,15 @@ class Voice::InboundCallBuilder
     ).perform
   end
 
-  # Mirror Whatsapp::IncomingMessageBaseService#set_conversation: reuse this row's open conversation (or last when locked), else create.
+  # Mirror Whatsapp::IncomingMessageBaseService#set_conversation: reuse the contact's open conversation across
+  # its ContactInboxes in this inbox (or last when locked), else create. Scoping to the contact — not a single
+  # ContactInbox — keeps a call on the same thread after a phone -> BSUID-only transition repointed it.
   def resolve_conversation!(contact, contact_inbox)
+    conversations = contact.conversations.where(inbox_id: inbox.id)
     reusable = if inbox.lock_to_single_conversation
-                 contact_inbox.conversations.last
+                 conversations.last
                else
-                 contact_inbox.conversations.where.not(status: :resolved).last
+                 conversations.where.not(status: :resolved).last
                end
     return reusable if reusable
 

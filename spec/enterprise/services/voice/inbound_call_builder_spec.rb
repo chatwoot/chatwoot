@@ -130,6 +130,39 @@ RSpec.describe Voice::InboundCallBuilder do
     end
   end
 
+  context 'when a WhatsApp call arrives after a phone -> BSUID-only conversation repoint' do
+    let(:whatsapp_channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                provider_config: { 'phone_number_id' => '123', 'source' => 'embedded_signup', 'calling_enabled' => true },
+                                validate_provider_config: false, sync_templates: false)
+    end
+    let(:whatsapp_inbox) { whatsapp_channel.inbox }
+    let!(:contact) { create(:contact, account: account) }
+    let!(:phone_contact_inbox) { create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: '5541988887777') }
+    let!(:bsuid_contact_inbox) { create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342942') }
+    # message path opened the thread on the phone, then a BSUID-only message repointed it to the BSUID ContactInbox
+    let!(:repointed_conversation) do
+      create(:conversation, account: account, inbox: whatsapp_inbox, contact: contact, contact_inbox: bsuid_contact_inbox, status: :open)
+    end
+
+    before { account.enable_features!('channel_voice') }
+
+    it 'reuses the repointed conversation instead of forking a duplicate on the phone ContactInbox' do
+      call = nil
+      expect do
+        call = described_class.perform!(
+          inbox: whatsapp_inbox,
+          call_sid: 'wacall_repoint_1',
+          provider: :whatsapp,
+          caller: { source_ids: ['5541988887777', 'IN.2081978709342942'],
+                    contact_attributes: { name: 'Ada Lovelace', phone_number: '+5541988887777' } }
+        )
+      end.not_to change(account.conversations, :count)
+
+      expect(call.conversation).to eq(repointed_conversation)
+    end
+  end
+
   context 'when the inbox has lock_to_single_conversation enabled' do
     let!(:contact) { create(:contact, account: account, phone_number: from_number) }
     let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox, source_id: from_number) }
