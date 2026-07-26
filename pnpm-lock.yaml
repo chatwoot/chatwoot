@@ -28,8 +28,8 @@ importers:
         specifier: 1.3.23
         version: 1.3.23
       '@chatwoot/utils':
-        specifier: ^0.0.55
-        version: 0.0.55
+        specifier: ^0.0.56
+        version: 0.0.56
       '@dagrejs/dagre':
         specifier: ^3.0.0
         version: 3.0.0
