@@ -83,11 +83,53 @@ const handleAddAttributesClick = event => {
   toggleDropdown();
 };
 
+const LEGACY_REQUIRE_ON_RESOLVE_ID = 'legacy_require_on_resolve';
+
+/** Keep business_rules as source of truth; sync legacy list for one release. */
+const businessRulesSyncedWithKeys = keys => {
+  const rules = (currentAccount.value?.settings?.business_rules || []).map(
+    rule => ({ ...rule, config: { ...(rule.config || {}) } })
+  );
+  const idx = rules.findIndex(
+    rule =>
+      rule.id === LEGACY_REQUIRE_ON_RESOLVE_ID ||
+      (rule.type === 'require_attributes_on_status' &&
+        String(rule.config?.status || '') === 'resolved' &&
+        rule.preset_id === 'require_on_resolve')
+  );
+
+  if (!keys.length) {
+    if (idx >= 0) {
+      rules.splice(idx, 1);
+    }
+    return rules;
+  }
+
+  const nextRule = {
+    id: LEGACY_REQUIRE_ON_RESOLVE_ID,
+    preset_id: 'require_on_resolve',
+    type: 'require_attributes_on_status',
+    enabled: true,
+    name: 'Required attributes on resolve',
+    config: { status: 'resolved', attribute_keys: keys },
+  };
+
+  if (idx >= 0) {
+    rules[idx] = { ...rules[idx], ...nextRule, config: nextRule.config };
+  } else {
+    rules.push(nextRule);
+  }
+  return rules;
+};
+
 const saveRequiredAttributes = async keys => {
   try {
     toggleSaving(true);
     await updateAccount(
-      { conversation_required_attributes: keys },
+      {
+        conversation_required_attributes: keys,
+        business_rules: businessRulesSyncedWithKeys(keys),
+      },
       { silent: true }
     );
     useAlert(t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.SAVE.SUCCESS'));
