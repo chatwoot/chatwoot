@@ -222,6 +222,60 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(whatsapp_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'bsuid only')
         expect(bsuid_contact_inbox.contact).to eq(contact_inbox.contact)
       end
+
+      it 'repoints a reused phone-backed conversation to the BSUID contact_inbox on a BSUID-only follow-up' do
+        phone_with_bsuid_params = {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Muhsin' }, wa_id: '919745786257', user_id: 'IN.2081978709342942' }],
+                messages: [{
+                  from: '919745786257',
+                  from_user_id: 'IN.2081978709342942',
+                  id: 'wamid.cloud-p3-phone-bsuid',
+                  text: { body: 'phone and bsuid' },
+                  timestamp: '1778579582',
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+        bsuid_only_params = {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Muhsin' }, user_id: 'IN.2081978709342942' }],
+                messages: [{
+                  from_user_id: 'IN.2081978709342942',
+                  id: 'wamid.cloud-p3-bsuid-only',
+                  text: { body: 'bsuid only' },
+                  timestamp: '1778579583',
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
+        phone_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: '919745786257')
+        bsuid_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
+        conversation = whatsapp_channel.inbox.conversations.first
+        # opened while the phone was present -> attached to the phone contact_inbox
+        expect(conversation.contact_inbox).to eq(phone_contact_inbox)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_only_params).perform
+
+        # the BSUID-only follow-up reuses the same conversation and repoints it to the BSUID contact_inbox,
+        # so outbound replies address the BSUID instead of the now-stale phone source id
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        expect(conversation.reload.contact_inbox).to eq(bsuid_contact_inbox)
+      end
     end
 
     context 'when invalid params' do
