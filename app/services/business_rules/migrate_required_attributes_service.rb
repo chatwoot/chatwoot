@@ -42,12 +42,12 @@ module BusinessRules
       end
 
       rules = upsert_rule(rules, keys)
+      @migrated += 1
       return if @dry_run
 
       settings = (account.settings || {}).deep_dup
       settings['business_rules'] = rules
       account.update!(settings: settings)
-      @migrated += 1
     end
 
     def equivalent_rule?(rules, keys)
