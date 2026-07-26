@@ -6,7 +6,8 @@ class Internal::ReconcilePlanConfigService
     create_premium_config_reset_warning if premium_config_reset_required?
 
     reconcile_premium_config
-    reconcile_premium_features
+    # ponytail: PaluHub self-hosted keeps Super Admin feature toggles; do not wipe premium flags.
+    # Upgrade path: restore `reconcile_premium_features` if a real EE license must enforce community limits.
   end
 
   private
@@ -49,11 +50,8 @@ class Internal::ReconcilePlanConfigService
     @premium_features ||= YAML.safe_load(File.read("#{config_path}/premium_features.yml")).freeze
   end
 
+  # Kept for reference / future EE license enforcement; intentionally unused in PaluHub.
   def reconcile_premium_features
-    Account.find_in_batches do |accounts|
-      accounts.each do |account|
-        account.disable_features!(*premium_features)
-      end
-    end
+    # no-op
   end
 end
