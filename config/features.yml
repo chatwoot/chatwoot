@@ -6,17 +6,25 @@
 # help_url: the url to the help center article
 # chatwoot_internal: whether the feature is internal to Chatwoot and should not be shown in the UI for other self hosted installations
 # deprecated: purpose of feature flag is done, no need to show it in the UI anymore
+# category: Super Admin grouping (channels|conversations|contacts|ai|reports|security|integrations|branding)
+# description: Short Super Admin explanation of what the feature unlocks
 - name: inbound_emails
   display_name: Inbound Emails
   enabled: true
+  category: channels
+  description: Receive and process inbound emails into conversations.
 - name: channel_email
   display_name: Email Channel
   enabled: true
   help_url: https://chwt.app/hc/email
+  category: channels
+  description: Connect email inboxes and reply to customers by email.
 - name: channel_facebook
   display_name: Facebook Channel
   enabled: true
   help_url: https://chwt.app/hc/fb
+  category: channels
+  description: Connect Facebook Messenger pages as inboxes.
 - name: conversation_unread_counts
   display_name: Conversation Unread Counts
   enabled: false
@@ -24,97 +32,151 @@
 - name: ip_lookup
   display_name: IP Lookup
   enabled: false
+  category: contacts
+  description: Enrich contacts with geo/IP lookup data when available.
 - name: disable_branding
   display_name: Disable Branding
   enabled: false
+  category: branding
+  description: Hide Chatwoot branding on the widget and outbound emails.
 - name: email_continuity_on_api_channel
   display_name: Email Continuity on API Channel
   enabled: false
+  category: channels
+  description: Continue conversations over email for API channel contacts.
 - name: help_center
   display_name: Help Center
   enabled: true
   help_url: https://chwt.app/hc/help-center
+  category: branding
+  description: Publish help center portals and articles for customers.
 - name: agent_bots
   display_name: Agent Bots
   enabled: true
   help_url: https://chwt.app/hc/agent-bots
+  category: contacts
+  description: Connect and manage agent bots for automated replies.
 - name: macros
   display_name: Macros
   enabled: true
+  category: conversations
+  description: Run saved multi-step actions on conversations.
 - name: agent_management
   display_name: Agent Management
   enabled: true
+  category: security
+  description: Invite and manage agents on the account.
 - name: team_management
   display_name: Team Management
   enabled: true
   help_url: https://chwt.app/hc/teams
+  category: conversations
+  description: Create teams and assign conversations to teams.
 - name: inbox_management
   display_name: Inbox Management
   enabled: true
+  category: conversations
+  description: Create and configure inboxes for the account.
 - name: labels
   display_name: Labels
   enabled: true
   help_url: https://chwt.app/hc/labels
+  category: conversations
+  description: Tag conversations and contacts with labels.
 - name: custom_attributes
   display_name: Custom Attributes
   enabled: true
   help_url: https://chwt.app/hc/custom-attributes
+  category: contacts
+  description: Define custom fields on contacts, conversations, and companies.
 - name: automations
   display_name: Automations
   enabled: true
+  category: conversations
+  description: Trigger rules that run actions when events occur.
 - name: canned_responses
   display_name: Canned Responses
   enabled: true
   help_url: https://chwt.app/hc/canned
+  category: conversations
+  description: Save and insert reusable reply snippets.
 - name: integrations
   display_name: Integrations
   enabled: true
   help_url: https://chwt.app/hc/integrations
+  category: integrations
+  description: Enable the integrations marketplace for the account.
 - name: voice_recorder
   display_name: Voice Recorder
   enabled: true
+  category: conversations
+  description: Record and send voice notes from the dashboard.
 - name: report_rollup
   display_name: Report Rollup
   enabled: false
+  category: reports
+  description: Aggregate report metrics across longer time windows.
 - name: channel_website
   display_name: Website Channel
   enabled: true
+  category: channels
+  description: Embed the live chat website widget.
 - name: campaigns
   display_name: Campaigns
   enabled: true
   help_url: https://chwt.app/hc/campaigns
+  category: branding
+  description: Run proactive messaging campaigns to contacts.
 - name: reports
   display_name: Reports
   enabled: true
   help_url: https://chwt.app/hc/reports
+  category: reports
+  description: Access conversation, agent, and overview reports.
 - name: crm
   display_name: CRM
   enabled: true
+  category: contacts
+  description: Enable CRM-oriented contact and company workflows.
 - name: auto_resolve_conversations
   display_name: Auto Resolve Conversations
   enabled: true
+  category: conversations
+  description: Automatically resolve inactive conversations after a delay.
 - name: custom_reply_email
   display_name: Custom Reply Email
   enabled: false
+  category: channels
+  description: Use a custom From address when replying by email.
 - name: custom_reply_domain
   display_name: Custom Reply Domain
   enabled: false
+  category: channels
+  description: Send replies from your own email domain.
 - name: audit_logs
   display_name: Audit Logs
   enabled: false
   premium: true
+  category: security
+  description: Track account activity with searchable audit logs.
 - name: custom_tools
   display_name: Custom Tools
   enabled: false
   premium: true
+  category: integrations
+  description: Define custom tools that Captain and automations can call.
 # Reclaimed deprecated slots (signed bigint feature_flags maxes at 63 bits).
 # Do not append past advanced_assignment without reclaiming or adding feature_flags_extra.
 - name: internal_tasks
   display_name: Internal Tasks
   enabled: false
+  category: conversations
+  description: Internal tasks inbox and kanban for agent follow-ups.
 - name: internal_chats
   display_name: Internal Chats
   enabled: false
+  category: conversations
+  description: Internal chat threads between agents.
 - name: inbox_view
   display_name: Inbox View
   enabled: false
@@ -124,6 +186,8 @@
   enabled: false
   premium: true
   help_url: https://chwt.app/hc/sla
+  category: conversations
+  description: Define and enforce service-level policies on conversations.
 - name: help_center_embedding_search
   display_name: Help Center Embedding Search
   enabled: false
@@ -132,17 +196,25 @@
 - name: linear_integration
   display_name: Linear Integration
   enabled: false
+  category: integrations
+  description: Link conversations to Linear issues from the sidebar.
 - name: captain_integration
   display_name: Captain
   enabled: false
   premium: true
+  category: ai
+  description: Enable Captain AI assistants for automated conversations.
 - name: custom_roles
   display_name: Custom Roles
   enabled: false
   premium: true
+  category: security
+  description: Create custom roles with fine-grained permissions.
 - name: chatwoot_v4
   display_name: Chatwoot V4
   enabled: true
+  category: branding
+  description: Enable Chatwoot v4 dashboard experience.
 - name: captain_v1_action_classifier
   display_name: Captain V1 Action Classifier
   enabled: false
@@ -163,20 +235,30 @@
 - name: channel_instagram
   display_name: Instagram Channel
   enabled: true
+  category: channels
+  description: Connect Instagram Direct messaging inboxes.
 - name: crm_integration
   display_name: CRM Integration
   enabled: false
+  category: contacts
+  description: Sync contacts with external CRM providers.
 - name: channel_voice
   display_name: Voice Channel
   enabled: false
   premium: true
+  category: channels
+  description: Enable voice calling inboxes for agents and customers.
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
+  category: integrations
+  description: Connect Notion for knowledge and workflow integrations.
 - name: captain_integration_v2
   display_name: Captain V2
   enabled: false
   premium: true
+  category: ai
+  description: Use the Captain V2 assistant experience and APIs.
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
   enabled: false
@@ -184,6 +266,8 @@
 - name: whatsapp_campaign
   display_name: WhatsApp Campaign
   enabled: false
+  category: channels
+  description: Send one-off WhatsApp campaign messages.
 - name: crm_v2
   display_name: CRM V2
   enabled: false
@@ -191,18 +275,26 @@
 - name: assignment_v2
   display_name: Assignment V2
   enabled: true
+  category: conversations
+  description: Use the improved conversation assignment engine.
 - name: captain_document_auto_sync
   display_name: Captain Document Auto Sync
   enabled: false
   premium: true
+  category: ai
+  description: Automatically sync help documents into Captain knowledge.
 - name: advanced_search
   display_name: Advanced Search
   enabled: false
   premium: true
+  category: reports
+  description: Full-text advanced search across conversations and messages.
 - name: saml
   display_name: SAML
   enabled: false
   premium: true
+  category: security
+  description: Sign in with SAML SSO for enterprise identity providers.
 - name: advanced_search_indexing
   display_name: Advanced Search Indexing
   enabled: false
@@ -217,25 +309,39 @@
 - name: flows_v1
   display_name: Conversation Flows
   enabled: true
+  category: conversations
+  description: Build and run conversation workflow flows.
 - name: companies
   display_name: Companies
   enabled: false
   premium: true
+  category: contacts
+  description: CRM companies list and contact association in the sidebar.
 - name: channel_tiktok
   display_name: TikTok Channel
   enabled: true
+  category: channels
+  description: Connect TikTok messaging as an inbox channel.
 - name: csat_review_notes
   display_name: CSAT Review Notes
   enabled: false
   premium: true
+  category: conversations
+  description: Add internal review notes on CSAT survey responses.
 - name: captain_tasks
   display_name: Captain Tasks
   enabled: true
+  category: ai
+  description: Enable Captain task workflows for assistants.
 - name: conversation_required_attributes
   display_name: Required Conversation Attributes
   enabled: false
   premium: true
+  category: conversations
+  description: Require custom attributes before resolving conversations.
 - name: advanced_assignment
   display_name: Advanced Assignment
   enabled: false
   premium: true
+  category: conversations
+  description: Advanced capacity and assignment rules for agents.

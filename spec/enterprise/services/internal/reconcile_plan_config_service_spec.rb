@@ -9,14 +9,14 @@ RSpec.describe Internal::ReconcilePlanConfigService do
         allow(ChatwootHub).to receive(:pricing_plan).and_return('community')
       end
 
-      it 'disables the premium features for accounts' do
+      it 'does not disable the premium features for accounts' do
         account = create(:account)
         account.enable_features!('audit_logs', 'captain_integration')
         account_with_captain = create(:account)
         account_with_captain.enable_features!('captain_integration')
         service.perform
-        expect(account.reload.enabled_features.keys).not_to include('captain_integration', 'audit_logs')
-        expect(account_with_captain.reload.enabled_features.keys).not_to include('captain_integration')
+        expect(account.reload.enabled_features.keys).to include('captain_integration', 'audit_logs')
+        expect(account_with_captain.reload.enabled_features.keys).to include('captain_integration')
       end
 
       it 'creates a premium config reset warning if config was modified' do
