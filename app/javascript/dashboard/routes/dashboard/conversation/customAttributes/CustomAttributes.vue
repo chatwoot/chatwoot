@@ -75,18 +75,16 @@ const customAttributes = computed(() => {
 const conversationId = computed(() => currentChat.value.id);
 
 const filteredCustomAttributes = computed(() =>
-  attributes.value
-    .filter(attribute => !attribute.featured)
-    .map(attribute => {
-      const hasValue = attribute.attribute_key in customAttributes.value;
+  attributes.value.map(attribute => {
+    const hasValue = attribute.attribute_key in customAttributes.value;
 
-      return {
-        ...attribute,
-        type: 'custom_attribute',
-        key: attribute.attribute_key,
-        value: hasValue ? customAttributes.value[attribute.attribute_key] : '',
-      };
-    })
+    return {
+      ...attribute,
+      type: 'custom_attribute',
+      key: attribute.attribute_key,
+      value: hasValue ? customAttributes.value[attribute.attribute_key] : '',
+    };
+  })
 );
 
 const attributeCategory = attribute =>
@@ -192,7 +190,7 @@ const categoryGroups = computed(() => {
         title: category || t('CUSTOM_ATTRIBUTES.UNCATEGORIZED'),
         attributes: [],
         staticElements: [],
-        // Total defs in this category (incl. featured shown as badges).
+        // Total defs in this category (featured stay as badges + editors).
         totalCount: 0,
       });
     }
@@ -210,8 +208,7 @@ const categoryGroups = computed(() => {
     });
   }
 
-  // Seed folders from all definitions so Shipping/Billing stay visible even
-  // when their attrs are featured (badges only) and omitted from the list.
+  // Seed folders from all definitions so empty categories still appear.
   attributes.value.forEach(attribute => {
     const category = attributeCategory(attribute);
     const slug = attributeCategorySlug(category);
