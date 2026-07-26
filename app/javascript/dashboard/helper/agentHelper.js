@@ -7,7 +7,7 @@
 export const getAgentsByAvailability = (agents, availability) => {
   return agents
     .filter(agent => agent.availability_status === availability)
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 };
 
 /**

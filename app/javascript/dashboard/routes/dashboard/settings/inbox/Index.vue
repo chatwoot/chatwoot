@@ -27,6 +27,10 @@ const searchQuery = ref('');
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 
+onActivated(() => {
+  store.dispatch('inboxes/get');
+});
+
 const inboxesList = computed(() => {
   return inboxes.value?.slice().sort((a, b) => a.name.localeCompare(b.name));
 });

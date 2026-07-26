@@ -2,6 +2,9 @@ import {
   format,
   isSameDay,
   isSameYear,
+  isThisYear,
+  isToday,
+  isYesterday,
   fromUnixTime,
   formatDistanceToNow,
   differenceInDays,
@@ -52,6 +55,22 @@ export const messageTimestamp = (time, dateFormat = 'MMM d, yyyy') => {
     return format(messageTime, 'LLL d y, h:mm a');
   }
   return messageDate;
+};
+
+/**
+ * Formats a Unix timestamp relative to today: the time for today, a caller-
+ * supplied label for yesterday, and a date otherwise. The yesterday label is
+ * passed in so the caller keeps ownership of translation.
+ * @param {number} time - Unix timestamp.
+ * @param {string} yesterdayLabel - Localized label shown for yesterday.
+ * @returns {string} Formatted timestamp string.
+ */
+export const relativeDayTimestamp = (time, yesterdayLabel) => {
+  const date = fromUnixTime(time);
+  if (isToday(date)) return format(date, 'h:mm a');
+  if (isYesterday(date)) return yesterdayLabel;
+  if (isThisYear(date)) return format(date, 'MMM d');
+  return format(date, 'MMM d, yyyy');
 };
 
 /**

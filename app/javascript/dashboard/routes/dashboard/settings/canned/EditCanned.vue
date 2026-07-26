@@ -260,9 +260,5 @@ export default {
 
 :deep(.ProseMirror-woot-style) {
   @apply min-h-[12.5rem];
-
-  p {
-    @apply text-base;
-  }
 }
 </style>

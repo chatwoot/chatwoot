@@ -1,6 +1,4 @@
-import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
-import { useI18n } from 'vue-i18n';
 import {
   getAgentsByUpdatedPresence,
   getSortedAgentsByAvailability,
@@ -11,9 +9,14 @@ import { getInboxBotAgent } from 'dashboard/helper/assigneeHelper';
  * A composable function that provides a list of agents for assignment.
  *
  * @param {boolean} [includeNoneAgent=true] - Whether to include a 'None' agent option.
+ * @param {Object} [options] - Options for the assignable agents list.
+ * @param {boolean} [options.includeAgentBots=false] - Whether to include AgentBot assignees. Only pass this from surfaces that thread `assignee_type` through the assignment request.
  * @returns {Object} An object containing the agents list and assignable agents.
  */
-export function useAgentsList(includeNoneAgent = true) {
+export function useAgentsList(
+  includeNoneAgent = true,
+  { includeAgentBots = false } = {}
+) {
   const { t } = useI18n();
   const currentUser = useMapGetter('getCurrentUser');
   const currentChat = useMapGetter('getSelectedChat');
@@ -40,7 +43,9 @@ export function useAgentsList(includeNoneAgent = true) {
    * @type {import('vue').ComputedRef<Array>}
    */
   const assignableAgents = computed(() => {
-    return inboxId.value ? assignable.value(inboxId.value) : [];
+    return inboxId.value
+      ? assignable.value(inboxId.value, { includeAgentBots })
+      : [];
   });
 
   const inboxBotAgent = computed(() =>
