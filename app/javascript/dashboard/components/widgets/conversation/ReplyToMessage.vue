@@ -38,12 +38,4 @@ const emit = defineEmits(['dismiss']);
   </div>
 </template>
 
-<style lang="scss">
-// TODO: Remove this
-// override for dashboard/assets/scss/widgets/_reply-box.scss
-.reply-editor {
-  .icon {
-    margin-right: 0px !important;
-  }
-}
-</style>
+
