@@ -193,9 +193,14 @@ These are the **largest textual-conflict surface after `db/schema.rb`** — upst
 edits them occasionally — so they are catalogued here and should be kept as close
 to upstream's text as the setup allows:
 
-- **`docker-compose.yaml`** — rewritten for the external-Postgres/Redis dev
-  stack (Neon/Upstash via `.env`, no local `postgres`/`redis` services, per-repo
-  build targets). Also carries two env guards born from error-log entries:
+- **`docker-compose.yaml`** — rewritten for the external-Postgres dev stack
+  (Neon via `POSTGRES_*` in `.env`, no local `postgres` service, per-repo build
+  targets). **Redis and mailhog are local services again** — the 2026-07-27
+  entry below covers why: they were dropped in the original rewrite while
+  `.env` still addressed them by their compose hostnames. `rails` and `sidekiq`
+  gate on `redis: condition: service_healthy`, which matters because `sidekiq`
+  declares no `entrypoint:` and therefore has no wait loop of its own. Also
+  carries two env guards born from error-log entries:
   `ANNOTATERB_SKIP_ON_DB_TASKS=1` on `rails` (stops `db:migrate` from
   re-annotating OSS/enterprise models — the annotation-spill root cause) and
   `VITE_RUBY_HOST=0.0.0.0` on `vite` (dev server otherwise binds

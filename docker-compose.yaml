@@ -59,7 +59,10 @@ services:
       ANNOTATERB_SKIP_ON_DB_TASKS: "1"
 
     depends_on:
-      - vite
+      vite:
+        condition: service_started
+      redis:
+        condition: service_healthy
 
     entrypoint: docker/entrypoints/rails.sh
 
@@ -92,6 +95,12 @@ services:
     environment:
       NODE_ENV: development
       RAILS_ENV: development
+
+    # sidekiq has no entrypoint, so it gets no pg_isready/redis wait of its own.
+    # Without this gate it boots ahead of redis and crash-loops on connect.
+    depends_on:
+      redis:
+        condition: service_healthy
 
     command:
       - bundle
@@ -135,8 +144,49 @@ services:
       - bin/vite
       - dev
 
+  ##################################################################
+  # Redis
+  ##################################################################
+  #
+  # Postgres stays external (Neon, via POSTGRES_* in .env), but Redis runs
+  # locally here — REDIS_URL=redis://redis:6379 resolves to this service.
+
+  redis:
+    image: redis:alpine
+
+    env_file:
+      - .env
+
+    command: ["sh", "-c", "redis-server --requirepass \"$$REDIS_PASSWORD\""]
+
+    volumes:
+      - redis:/data/redis
+
+    ports:
+      - "6379:6379"
+
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  ##################################################################
+  # Mailhog
+  ##################################################################
+  #
+  # Dev SMTP sink; .env already points SMTP_PORT at 1025. Web UI on :8025.
+
+  mailhog:
+    image: mailhog/mailhog
+
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
 volumes:
   node_modules:
   packs:
   cache:
   bundle:
+  redis:
