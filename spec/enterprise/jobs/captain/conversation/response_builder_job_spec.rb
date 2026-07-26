@@ -561,6 +561,22 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
       end
 
+      it 'attributes the handoff session to the private reason note when the tool recorded one' do
+        handoff_note = create(:message, conversation: conversation, account: account, message_type: :outgoing,
+                                        private: true, sender: assistant, content: 'Needs a human')
+        run_context[:state][:cw_metadata][:handoff_note_id] = handoff_note.id
+        allow(mock_agent_runner_service).to receive(:generate_response) do
+          conversation.update!(status: :open)
+          { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
+        end
+
+        described_class.perform_now(conversation, assistant)
+
+        session = Captain::AgentSession.last
+        expect(session.credits_consumed).to eq(0.0)
+        expect(session.result_id).to eq(handoff_note.id)
+      end
+
       it 'creates a zero-credit session when the handoff tool fired but failed to commit' do
         allow(mock_agent_runner_service).to receive(:generate_response).and_return({
                                                                                      'response' => 'I tried to hand off',

@@ -1,5 +1,6 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
+import { until } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
@@ -49,7 +50,9 @@ const isVoiceEnabled = computed(
 const calls = computed(() => callHistoryStore.records);
 const meta = computed(() => callHistoryStore.meta);
 const isFetching = computed(() => callHistoryStore.uiFlags.isFetching);
-const inboxesUiFlags = useMapGetter('inboxes/getUIFlags');
+const accountUiFlags = useMapGetter('accounts/getUIFlags');
+
+const isInitializing = ref(true);
 
 // Filters are seeded from the URL so a shared link restores the same view.
 const activity = ref(
@@ -98,20 +101,25 @@ const onPageChange = page => {
   fetchCalls();
 };
 
-// inboxes/get flips isFetching true synchronously, so the spinner shows on the
-// first render and the setup CTA never flashes; hit the calls endpoint only
-// once inboxes confirm voice is on.
-store.dispatch('inboxes/get').then(() => {
-  if (!isVoiceEnabled.value) return;
-  // Only admins see the assignee filter, so only they need the agent list.
-  if (isAdmin.value) store.dispatch('agents/get');
-  fetchCalls();
+onMounted(async () => {
+  try {
+    await Promise.all([
+      store.dispatch('inboxes/get'),
+      until(() => accountUiFlags.value.isFetchingItem).toBe(false),
+    ]);
+    if (!isVoiceEnabled.value) return;
+    // Only admins see the assignee filter, so only they need the agent list.
+    if (isAdmin.value) store.dispatch('agents/get');
+    await fetchCalls();
+  } finally {
+    isInitializing.value = false;
+  }
 });
 </script>
 
 <template>
   <div
-    v-if="inboxesUiFlags.isFetching"
+    v-if="isInitializing"
     class="flex items-center justify-center w-full h-full bg-n-surface-1"
   >
     <Spinner :size="24" />
@@ -121,22 +129,22 @@ store.dispatch('inboxes/get').then(() => {
     v-else
     class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1"
   >
-    <header class="px-6 pt-6 pb-4 shrink-0">
-      <div class="w-full">
+    <header class="shrink-0">
+      <div class="w-full px-6 pt-6">
         <h1 class="text-xl font-medium text-n-slate-12">
           {{ t('CALLS_PAGE.HEADER') }}
         </h1>
-        <CallsFilterBar
-          v-model:activity="activity"
-          v-model:assignee-id="assigneeId"
-          v-model:inbox-id="inboxId"
-          class="mt-5"
-          :total-count="isFetching ? null : meta.count"
-          :agents="agents"
-          :inboxes="voiceInboxes"
-          :show-assignee="isAdmin"
-        />
       </div>
+      <CallsFilterBar
+        v-model:activity="activity"
+        v-model:assignee-id="assigneeId"
+        v-model:inbox-id="inboxId"
+        class="mt-5 pb-4 border-b border-n-weak mx-6"
+        :total-count="isFetching ? null : meta.count"
+        :agents="agents"
+        :inboxes="voiceInboxes"
+        :show-assignee="isAdmin"
+      />
     </header>
     <main class="flex-1 px-6 overflow-y-auto">
       <div class="w-full">
