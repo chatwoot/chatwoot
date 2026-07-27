@@ -9,9 +9,11 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import { useAlert } from 'dashboard/composables';
+import { useBranding } from 'shared/composables/useBranding';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 const { t } = useI18n();
+const { replaceInstallationName } = useBranding();
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
@@ -300,7 +302,11 @@ onBeforeUnmount(() => {
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.HEADER.TITLE') }}
         </h1>
         <p class="mt-1 text-body-main text-n-slate-11">
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.HEADER.DESCRIPTION') }}
+          {{
+            replaceInstallationName(
+              $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.HEADER.DESCRIPTION')
+            )
+          }}
         </p>
       </div>
     </div>
@@ -736,7 +742,11 @@ onBeforeUnmount(() => {
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.VERIFY.TITLE') }}
           </h2>
           <p class="mt-2 max-w-3xl text-body-main text-n-slate-11">
-            {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.VERIFY.DESCRIPTION') }}
+            {{
+              replaceInstallationName(
+                $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.VERIFY.DESCRIPTION')
+              )
+            }}
           </p>
         </div>
 

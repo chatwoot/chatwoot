@@ -1,4 +1,6 @@
 class Whatsapp::WebhookSetupService
+  attr_reader :registration_error
+
   def initialize(channel, waba_id = nil, access_token = nil)
     @channel = channel
     @waba_id = waba_id || channel.provider_config['business_account_id']
@@ -38,6 +40,7 @@ class Whatsapp::WebhookSetupService
     @api_client.register_phone_number(phone_number_id, pin)
     store_pin(pin)
   rescue StandardError => e
+    @registration_error = e
     Rails.logger.warn("[WHATSAPP] Phone registration failed but continuing: #{e.message}")
   end
 
