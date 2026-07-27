@@ -6,6 +6,9 @@
 #  message_templates              :jsonb
 #  message_templates_last_updated :datetime
 #  phone_number                   :string           not null
+#  phone_number_health            :jsonb            not null
+#  phone_number_health_checked_at :datetime
+#  phone_number_health_error      :string
 #  provider                       :string           default("default")
 #  provider_config                :jsonb
 #  created_at                     :datetime         not null
@@ -14,7 +17,8 @@
 #
 # Indexes
 #
-#  index_channel_whatsapp_on_phone_number  (phone_number) UNIQUE
+#  index_channel_whatsapp_on_phone_number                    (phone_number) UNIQUE
+#  index_channel_whatsapp_on_phone_number_health_checked_at  (phone_number_health_checked_at)
 #
 
 class Channel::Whatsapp < ApplicationRecord
