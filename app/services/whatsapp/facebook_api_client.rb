@@ -59,6 +59,16 @@ class Whatsapp::FacebookApiClient
     handle_response(response, 'WABA message templates fetch failed')
   end
 
+  def fetch_business_profile(phone_number_id)
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}/whatsapp_business_profile",
+      headers: request_headers,
+      query: { fields: 'about' }
+    )
+
+    handle_response(response, 'WhatsApp business profile fetch failed')
+  end
+
   def fetch_subscribed_apps(waba_id)
     response = HTTParty.get(
       "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",

@@ -363,7 +363,9 @@
             "COPY_SUCCESS": "Webhook URL copied to clipboard",
             "COMPLETE": "Verified",
             "PENDING": "Pending",
-            "SUCCESS": "Your WhatsApp number is connected and ready for agent assignment."
+            "SUCCESS": "Your WhatsApp number is connected and ready for agent assignment.",
+            "RETRY_SUCCESS": "Webhook setup retried successfully.",
+            "RETRY_ERROR": "We could not retry the webhook setup. Try again."
           },
           "ACTIONS": {
             "BACK": "Back",

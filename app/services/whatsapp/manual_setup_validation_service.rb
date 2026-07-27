@@ -15,6 +15,7 @@ class Whatsapp::ManualSetupValidationService
     phone_data = find_phone_data!
     verify_uniqueness!(phone_data)
     verify_template_access!
+    verify_messaging_access!
 
     build_preview(phone_data)
   end
@@ -56,6 +57,13 @@ class Whatsapp::ManualSetupValidationService
   rescue StandardError
     raise ArgumentError,
           'The token can access the number but cannot access message templates. Generate a token with whatsapp_business_management permission.'
+  end
+
+  def verify_messaging_access!
+    @api_client.fetch_business_profile(@phone_number_id)
+  rescue StandardError
+    raise ArgumentError,
+          'The token cannot access WhatsApp messaging. Generate a token with whatsapp_business_messaging permission.'
   end
 
   def build_preview(phone_data)

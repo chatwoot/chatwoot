@@ -25,7 +25,7 @@ class Api::V1::Accounts::Whatsapp::ManualSetupController < Api::V1::Accounts::Ba
 
   def setup_webhook
     channel = @inbox.channel
-    Whatsapp::WebhookSetupService.new(channel).register_callback
+    Whatsapp::WebhookSetupService.new(channel).perform
     render json: Whatsapp::ManualWebhookStatusService.new(channel.reload).perform
   rescue StandardError => e
     render_setup_error(e)

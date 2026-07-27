@@ -50,7 +50,7 @@ class Whatsapp::ManualSetupService
   end
 
   def setup_webhook
-    Whatsapp::WebhookSetupService.new(@channel, @waba_id, @access_token).register_callback
+    Whatsapp::WebhookSetupService.new(@channel, @waba_id, @access_token).perform
   rescue StandardError => e
     @webhook_error = e.message
   end
