@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** hotfix `B-NEW-36` exigir agente humano + selector
+**Última actualización:** hotfix `B-NEW-37` select fecha/datetime en
+time automation schedule (2026-07-27). Antes: hotfix `B-NEW-36` exigir agente humano + selector
 contacto transparente (2026-07-27). Antes: hotfix `B-NEW-35` BR guard skip
 en automations (2026-07-27). Antes: hotfix `B-NEW-34` motivo al posponer (nota FE +
 snooze errors) (2026-07-27). Antes: hotfix `B-NEW-33` dialog BR submit
@@ -101,6 +102,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-34 | Bug UX | No | ✅ Motivo al posponer: FE no bloquea nota a ciegas; snooze con errores BR |
 | B-NEW-35 | Bug | No | ✅ BR Guard no bloquea cambios de status hechos por AutomationRule |
 | B-NEW-36 | Bug | No | ✅ Exigir assignee = humano/equipo (bot no cuenta); ContactAssignee dropdown |
+| B-NEW-37 | UX | No | ✅ Time automation: select CA fecha/datetime (no input libre) |
 
 ---
 
@@ -932,6 +934,20 @@ válido → la regla nunca pedía humano. Backend ya miraba `assignee_id` (User)
 **Cómo probar:** inbox con bot, conversación solo-bot, regla exigir al abrir →
 bloquea hasta asignar humano/equipo. Contacto sin agente → abrir selector →
 lista legible opaca.
+
+### B-NEW-37 — Post-compra: atributo de fecha era texto libre
+
+**Causa:** `days_since_attribute` usaba `<input>` para `schedule.attribute_key`.
+
+**Fix:** select con CAs de conversación tipo `date` y `datetime` (display name).
+Claves huérfanas de reglas viejas siguen visibles. Datetime ya castea por
+día calendario (`LEFT(..., 10)::date` en el runner).
+
+**Archivos:** `AutomationRuleForm.vue`, i18n automation EN/ES,
+`time_based_rule_runner.rb` (comentario).
+
+**Cómo probar:** Automations → time triggered / preset post-compra →
+dropdown lista fechas; datetime marcado; sin CAs de fecha → mensaje vacío.
 
 ---
 

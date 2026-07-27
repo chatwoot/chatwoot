@@ -38,13 +38,17 @@
         "SCHEDULE": {
           "LABEL": "Schedule",
           "KIND": "When to run",
-          "ATTRIBUTE_KEY": "Date attribute key",
+          "ATTRIBUTE_KEY": "Date / datetime attribute",
           "ATTRIBUTE_KEY_PLACEHOLDER": "e.g. purchase_date",
+          "ATTRIBUTE_KEY_EMPTY": "Select an attribute…",
+          "ATTRIBUTE_KEY_NONE": "No conversation date or datetime attributes found. Create them under Custom attributes.",
+          "ATTRIBUTE_KEY_ORPHAN": "{key} (not found)",
+          "ATTRIBUTE_TYPE_DATETIME": "datetime",
           "DAYS": "Days since attribute",
           "HOURS": "Hours since last message",
           "HELP": "Scanned about every 5 minutes. Each rule fires once per conversation window.",
           "KINDS": {
-            "DAYS_SINCE": "N days since a date attribute",
+            "DAYS_SINCE": "N days since a date or datetime attribute",
             "HOURS_OUTGOING": "Hours since last outgoing message",
             "HOURS_INCOMING": "Hours since last incoming message"
           },
