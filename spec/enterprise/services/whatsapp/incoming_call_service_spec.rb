@@ -186,6 +186,48 @@ describe Whatsapp::IncomingCallService do
       expect(Call.last.conversation.contact_inbox).to eq(existing)
       expect(inbox.contact_inboxes.find_by(source_id: from_number).contact).to eq(contact)
     end
+
+    it 'reuses a conversation already repointed to BSUID when a later call carries phone and BSUID' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      phone_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
+      bsuid_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: bsuid_contact_inbox)
+
+      params = {
+        calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: from_number, user_id: bsuid }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(Conversation, :count)
+
+      expect(Call.last.conversation).to eq(conversation)
+      expect(Call.last.conversation.contact_inbox).to eq(bsuid_contact_inbox)
+      expect(phone_contact_inbox.reload.contact).to eq(contact)
+    end
+
+    it 'repoints a reused phone-backed conversation when the first BSUID-only event is a call' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
+      bsuid_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact,
+                                           contact_inbox: inbox.contact_inboxes.find_by!(source_id: from_number))
+
+      params = {
+        calls: [{ id: provider_call_id, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ user_id: bsuid }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(Conversation, :count)
+
+      expect(Call.last.conversation).to eq(conversation)
+      expect(conversation.reload.contact_inbox).to eq(bsuid_contact_inbox)
+    end
   end
 
   describe 'outbound connect (existing call)' do

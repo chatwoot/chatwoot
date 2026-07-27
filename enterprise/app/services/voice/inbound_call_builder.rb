@@ -55,13 +55,9 @@ class Voice::InboundCallBuilder
     ).perform
   end
 
-  # Mirror Whatsapp::IncomingMessageBaseService#set_conversation: reuse this row's open conversation (or last when locked), else create.
   def resolve_conversation!(contact, contact_inbox)
-    reusable = if inbox.lock_to_single_conversation
-                 contact_inbox.conversations.last
-               else
-                 contact_inbox.conversations.where.not(status: :resolved).last
-               end
+    reusable = reusable_conversation(contact, contact_inbox)
+    repoint_whatsapp_conversation!(reusable, contact_inbox) if reusable
     return reusable if reusable
 
     account.conversations.create!(
@@ -70,6 +66,25 @@ class Voice::InboundCallBuilder
       contact_id: contact.id,
       status: :open
     )
+  end
+
+  def reusable_conversation(contact, contact_inbox)
+    conversations = whatsapp_provider? ? contact.conversations.where(inbox_id: inbox.id) : contact_inbox.conversations
+    return conversations.last if inbox.lock_to_single_conversation
+
+    conversations.where.not(status: :resolved).last
+  end
+
+  def repoint_whatsapp_conversation!(conversation, contact_inbox)
+    return unless whatsapp_provider?
+    return unless contact_inbox.source_id.to_s.match?(RegexHelper::WHATSAPP_BSUID_REGEX)
+    return if conversation.contact_inbox_id == contact_inbox.id
+
+    conversation.update!(contact_inbox_id: contact_inbox.id)
+  end
+
+  def whatsapp_provider?
+    provider == :whatsapp
   end
 
   def create_call!(contact, conversation)

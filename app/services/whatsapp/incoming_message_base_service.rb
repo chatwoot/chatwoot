@@ -125,9 +125,10 @@ class Whatsapp::IncomingMessageBaseService
     # WhatsApp coexistence transition (phone -> BSUID-only): a conversation opened while a phone was present
     # stays attached to the phone-backed contact_inbox even after the contact-scoped reuse above picks it up for
     # a later BSUID-only webhook. Outbound replies use conversation.contact_inbox.source_id, so they would keep
-    # targeting the now-stale phone. When the current message resolved to a BSUID contact_inbox, repoint the
-    # reused conversation to it so replies address the BSUID. Only "upgrades" phone -> BSUID.
+    # targeting the now-stale phone. Cloud API can address BSUIDs with `recipient`, so when the current message
+    # resolved to a BSUID contact_inbox, repoint the reused conversation to it. 360Dialog still addresses via `to`.
     if @conversation &&
+       @inbox.channel.provider == 'whatsapp_cloud' &&
        @contact_inbox.source_id.to_s.match?(RegexHelper::WHATSAPP_BSUID_REGEX) &&
        @conversation.contact_inbox_id != @contact_inbox.id
       @conversation.update!(contact_inbox_id: @contact_inbox.id)

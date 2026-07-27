@@ -150,6 +150,7 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.contact_inboxes.count).to eq(2)
         expect(whatsapp_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'bsuid only')
         expect(bsuid_contact_inbox.contact).to eq(contact_inbox.contact)
+        expect(whatsapp_channel.inbox.conversations.first.contact_inbox).to eq(contact_inbox)
       end
 
       it 'backfills contact phone number when a phone arrives after BSUID-only creation' do
