@@ -1,6 +1,4 @@
 class Whatsapp::InReplyToMessageFinder
-  MESSAGE_TOKEN_PATTERN = /(?<![0-9a-f])(?:[0-9a-f]{32}|[0-9a-f]{20})(?![0-9a-f])/i
-
   pattr_initialize [:conversation!, :source_id!]
 
   def perform
@@ -29,7 +27,7 @@ class Whatsapp::InReplyToMessageFinder
   def message_token(message_id)
     return unless message_id.start_with?('wamid.')
 
-    tokens = Base64.strict_decode64(message_id.delete_prefix('wamid.')).scan(MESSAGE_TOKEN_PATTERN)
+    tokens = Base64.strict_decode64(message_id.delete_prefix('wamid.')).scan(RegexHelper::WHATSAPP_WAMID_TOKEN_REGEX)
     tokens.one? ? tokens.first.downcase : nil
   rescue ArgumentError
     nil
