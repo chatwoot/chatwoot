@@ -269,6 +269,16 @@ export const icons = {
     width: 24,
     height: 24,
   },
+  'voice-call': {
+    body: `<mask id="cvc" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16"><rect width="16" height="16" fill="#fff"/><circle cx="12" cy="4" r="4" fill="#000"/></mask><g mask="url(#cvc)"><path d="M7.916 10.784a.5.5 0 0 0 .607-.152L8.7 10.4a1 1 0 0 1 .8-.4H11a1 1 0 0 1 1 1v1.5a1 1 0 0 1-1 1 9 9 0 0 1-9-9 1 1 0 0 1 1-1h1.5a1 1 0 0 1 1 1V6a1 1 0 0 1-.4.8l-.234.176a.5.5 0 0 0-.146.616 7 7 0 0 0 3.196 3.192" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g><circle cx="12" cy="4" r="4" fill="currentColor" fill-opacity="0.15"/><path d="M10.4 3.2v1.6M12 2.4v3.2m1.6-2.4v1.6" stroke="currentColor" stroke-width=".833" stroke-linecap="round" stroke-linejoin="round"/>`,
+    width: 16,
+    height: 16,
+  },
+  'whatsapp-voice': {
+    body: `<mask id="cwv" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16"><rect width="16" height="16" fill="#fff"/><circle cx="12" cy="4.5" r="4" fill="#000"/></mask><g mask="url(#cwv)"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.349 3.655A5.6 5.6 0 0 0 8.357 2a5.65 5.65 0 0 0-5.643 5.642c0 .995.26 1.966.753 2.821l-.512 1.873a.63.63 0 0 0 .767.775l1.936-.508a5.64 5.64 0 0 0 2.697.687h.002A5.65 5.65 0 0 0 14 7.647a5.6 5.6 0 0 0-1.652-3.992m-3.992 8.682h-.002a4.7 4.7 0 0 1-2.387-.654l-.171-.102-1.776.466.474-1.73-.111-.178a4.7 4.7 0 0 1-.717-2.496 4.697 4.697 0 0 1 4.692-4.69c1.253 0 2.43.489 3.316 1.376a4.66 4.66 0 0 1 1.372 3.317 4.697 4.697 0 0 1-4.69 4.69m2.573-3.513c-.141-.07-.835-.411-.964-.458-.13-.047-.223-.07-.317.07a8 8 0 0 1-.446.553c-.083.094-.165.106-.306.035s-.595-.22-1.134-.7a4.3 4.3 0 0 1-.784-.976c-.082-.141-.009-.218.061-.288.064-.063.141-.165.212-.247.07-.082.094-.141.141-.235s.024-.176-.012-.247c-.035-.07-.317-.765-.434-1.047-.115-.275-.231-.237-.318-.242a6 6 0 0 0-.27-.005.52.52 0 0 0-.376.177c-.13.14-.493.482-.493 1.176 0 .693.505 1.364.575 1.458.071.094.995 1.518 2.409 2.13.336.145.599.232.804.297.337.107.645.092.888.056.27-.041.834-.342.951-.671.118-.33.118-.612.083-.67-.035-.06-.13-.095-.27-.166" fill="currentColor"/></g><circle cx="12" cy="4.5" r="4" fill="currentColor" fill-opacity="0.15"/><path d="M10.4 3.7v1.6M12 2.9v3.2m1.6-2.4v1.6" stroke="currentColor" stroke-width=".833" stroke-linecap="round" stroke-linejoin="round"/>`,
+    width: 16,
+    height: 16,
+  },
   instagram: {
     body: `<g fill="none" stroke="currentColor"><path d="M12.0003 15.3329C13.8412 15.3329 15.3337 13.8405 15.3337 11.9996C15.3337 10.1586 13.8412 8.66626 12.0003 8.66626C10.1594 8.66626 8.66699 10.1586 8.66699 11.9996C8.66699 13.8405 10.1594 15.3329 12.0003 15.3329Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 15.3333V8.66667C4.5 6.36548 6.36548 4.5 8.66667 4.5H15.3333C17.6345 4.5 19.5 6.36548 19.5 8.66667V15.3333C19.5 17.6345 17.6345 19.5 15.3333 19.5H8.66667C6.36548 19.5 4.5 17.6345 4.5 15.3333Z" stroke-width="1.5"/><path d="M16.583 7.42552L16.5913 7.41626" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></g>`,
     width: 24,
@@ -469,6 +479,16 @@ export const icons = {
     body: `<defs><mask id="cw-tagrm-cut"><rect width="24" height="24" fill="white"/><circle cx="7" cy="17" r="6.3" fill="black"/></mask><mask id="cw-tagrm-x"><rect width="24" height="24" fill="white"/><path d="M4.3 14.3 9.7 19.7M9.7 14.3 4.3 19.7" stroke="black" stroke-width="2.4" stroke-linecap="round"/></mask></defs><g transform="translate(24 0) scale(-1 1)"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" mask="url(#cw-tagrm-cut)"/><circle cx="7.5" cy="7.5" r=".5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="7" cy="17" r="6.5" fill="currentColor" mask="url(#cw-tagrm-x)"/></g>`,
     width: 24,
     height: 24,
+  },
+  'audio-play': {
+    body: `<path d="M3.31445 11.3998V2.6002C3.31445 2.35931 3.39947 2.15725 3.56951 1.99401C3.73955 1.83077 3.93793 1.74944 4.16465 1.75C4.2355 1.75 4.31004 1.76049 4.38826 1.78146C4.46647 1.80243 4.54073 1.83446 4.61101 1.87753L11.5401 6.27732C11.6677 6.36234 11.7635 6.46862 11.8275 6.59615C11.8916 6.72368 11.9233 6.85829 11.9227 6.99999C11.9222 7.14169 11.8904 7.27631 11.8275 7.40384C11.7646 7.53137 11.6688 7.63764 11.5401 7.72266L4.61101 12.1224C4.54016 12.165 4.46591 12.197 4.38826 12.2185C4.3106 12.2401 4.23607 12.2505 4.16465 12.25C3.93793 12.25 3.73955 12.1684 3.56951 12.0051C3.39947 11.8419 3.31445 11.6401 3.31445 11.3998Z" fill="currentColor"/>`,
+    width: 14,
+    height: 14,
+  },
+  'audio-pause': {
+    body: `<path d="M10.5001 1.75H8.75008C8.42792 1.75 8.16675 2.01117 8.16675 2.33333V11.6667C8.16675 11.9888 8.42792 12.25 8.75008 12.25H10.5001C10.8222 12.25 11.0834 11.9888 11.0834 11.6667V2.33333C11.0834 2.01117 10.8222 1.75 10.5001 1.75Z" fill="currentColor"/><path d="M5.25008 1.75H3.50008C3.17792 1.75 2.91675 2.01117 2.91675 2.33333V11.6667C2.91675 11.9888 3.17792 12.25 3.50008 12.25H5.25008C5.57225 12.25 5.83342 11.9888 5.83342 11.6667V2.33333C5.83342 2.01117 5.57225 1.75 5.25008 1.75Z" fill="currentColor"/>`,
+    width: 14,
+    height: 14,
   },
   /** Ends */
 };
