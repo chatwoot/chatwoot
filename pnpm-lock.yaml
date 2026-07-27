@@ -25,8 +25,8 @@ importers:
         specifier: 1.2.3
         version: 1.2.3
       '@chatwoot/prosemirror-schema':
-        specifier: 1.3.28
-        version: 1.3.28
+        specifier: 1.3.29
+        version: 1.3.29
       '@chatwoot/utils':
         specifier: ^0.0.56
         version: 0.0.56
@@ -452,8 +452,8 @@ packages:
   '@chatwoot/ninja-keys@1.2.3':
     resolution: {integrity: sha512-xM8d9P5ikDMZm2WbaCTk/TW5HFauylrU3cJ75fq5je6ixKwyhl/0kZbVN/vbbZN4+AUX/OaSIn6IJbtCgIF67g==}
 
-  '@chatwoot/prosemirror-schema@1.3.28':
-    resolution: {integrity: sha512-BaK5u13BPcXNDXFwpml7b1G6u8t6dfRqT6TGpZqk+4NiAfWpPHREmG8TovPKpgTmnuPmcH3j2NkSeVYpArEqgg==}
+  '@chatwoot/prosemirror-schema@1.3.29':
+    resolution: {integrity: sha512-qII/w+wKtylbFwjVHxwMLvfM/0o+8+JvCforNPrM8DOfqrpbhWGPvKKcNa/ijqlw8cRjjQ0VOgnOuS0LSMHOSg==}
 
   '@chatwoot/utils@0.0.56':
     resolution: {integrity: sha512-A6dmPLfTSrW4qYNY73btyi4PqpfzcXRSaucscZTQdzNqF6G/QUdgnBmHtho8HeiYby/kSHXaSxLJj+0dx3yEQQ==}
@@ -5124,8 +5124,10 @@ snapshots:
       hotkeys-js: 3.8.7
       lit: 2.2.6
 
-  '@chatwoot/prosemirror-schema@1.3.28':
+  '@chatwoot/prosemirror-schema@1.3.29':
     dependencies:
+      linkify-it: 5.0.0
+      markdown-it: 14.1.1
       markdown-it-sup: 2.0.0
       prosemirror-commands: 1.7.1
       prosemirror-dropcursor: 1.8.1
