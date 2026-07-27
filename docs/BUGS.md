@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** feature `B-NEW-38` automation audit private note
+**Última actualización:** hotfix `B-NEW-39` skip outbound si ventana Meta/WA
+cerrada (2026-07-27). Antes: feature `B-NEW-38` automation audit private note
 (2026-07-27). Antes: hotfix `B-NEW-37` select fecha/datetime en
 time automation schedule (2026-07-27). Antes: hotfix `B-NEW-36` exigir agente humano + selector
 contacto transparente (2026-07-27). Antes: hotfix `B-NEW-35` BR guard skip
@@ -105,6 +106,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-36 | Bug | No | ✅ Exigir assignee = humano/equipo (bot no cuenta); ContactAssignee dropdown |
 | B-NEW-37 | UX | No | ✅ Time automation: select CA fecha/datetime (no input libre) |
 | B-NEW-38 | Feature | No | ✅ Automation siempre deja nota privada corta de auditoría |
+| B-NEW-39 | Bug | No | ✅ Automation no envía outbound si `can_reply?` false (ventana 24h) |
 
 ---
 
@@ -965,6 +967,21 @@ deja una nota privada corta vía `Conversations::SystemAuditNote`
 
 **Cómo probar:** disparar cualquier automation (o time rule) → timeline muestra
 «Automatización «…» ejecutada.» como nota privada.
+
+### B-NEW-39 — Automation: no enviar si ventana Meta/WhatsApp cerrada
+
+**Causa:** `send_message` / attachment creaban outbound que WA marcaba failed
+fuera de la ventana 24h (Messenger/IG similar vía `can_reply?`).
+
+**Fix:** antes de enviar (inmediato o `DeferredOutboundJob`), si
+`conversation.can_reply?` es false → no crear mensaje público; dejar nota
+privada (`messaging_window_skipped`) + la auditoría B-NEW-38 al final.
+
+**Archivos:** `automation_rules/action_service.rb`,
+`messages/deferred_outbound_job.rb`, `en.yml` / `es.yml`, `docs/BUGS.md`.
+
+**Cómo probar:** conversación WA sin incoming reciente → automation con
+`send_message` → sin bubble al cliente; sí nota de ventana cerrada + audit.
 
 ---
 
