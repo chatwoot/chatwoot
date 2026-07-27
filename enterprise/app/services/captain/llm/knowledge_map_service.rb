@@ -3,13 +3,14 @@ class Captain::Llm::KnowledgeMapService
   MAX_MAP_CHARACTERS = 500_000
   MAX_TOPICS = 100
   MAP_VERSION = 1
+  DISCOVERY_CACHE_TTL = 24.hours
 
   pattr_initialize [:assistant!]
 
   def perform
     return empty_result if empty?
 
-    candidates = run_phase(Captain::Llm::KnowledgeMapTopicDiscoveryService, faq_records: prompt_sources)
+    candidates = discovery_candidates
     return empty_result if candidates.empty?
 
     canonical_topics = run_phase(Captain::Llm::KnowledgeMapTopicCanonicalizationService, candidates: candidates)
@@ -31,6 +32,10 @@ class Captain::Llm::KnowledgeMapService
     source_records.empty?
   end
 
+  def clear_discovery_checkpoint
+    Redis::Alfred.delete(discovery_cache_key)
+  end
+
   private
 
   def source_records
@@ -43,6 +48,23 @@ class Captain::Llm::KnowledgeMapService
     @prompt_sources ||= source_records.map do |source|
       source.merge(answer: source[:answer].to_s.first(MAX_ANSWER_CHARACTERS))
     end
+  end
+
+  def discovery_candidates
+    cached_candidates = Redis::Alfred.get(discovery_cache_key)
+    return JSON.parse(cached_candidates, symbolize_names: true) if cached_candidates
+
+    candidates = run_phase(Captain::Llm::KnowledgeMapTopicDiscoveryService, faq_records: prompt_sources)
+    Redis::Alfred.set(discovery_cache_key, JSON.generate(candidates), ex: DISCOVERY_CACHE_TTL.to_i)
+    candidates
+  end
+
+  def discovery_cache_key
+    format(
+      Redis::Alfred::CAPTAIN_KNOWLEDGE_MAP_DISCOVERY,
+      assistant_id: assistant.id,
+      source_digest: source_digest
+    )
   end
 
   def run_phase(service_class, **attributes)

@@ -31,6 +31,7 @@ class Captain::KnowledgeMapBuilderJob < MutexApplicationJob
       knowledge_map_source_digest: source_digest,
       knowledge_map_built_at: Time.current
     )
+    service.clear_discovery_checkpoint
   end
 
   def knowledge_changed?(assistant, source_digest)

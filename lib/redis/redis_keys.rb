@@ -75,6 +75,8 @@ module Redis::RedisKeys
   # Check if a message create with same source-id is in progress?
   MESSAGE_SOURCE_KEY = 'MESSAGE_SOURCE_KEY::%<id>s'.freeze
   OPENAI_CONVERSATION_KEY = 'OPEN_AI_CONVERSATION_KEY::V1::%<event_name>s::%<conversation_id>d::%<updated_at>d'.freeze
+  CAPTAIN_KNOWLEDGE_MAP_DISCOVERY =
+    'CAPTAIN_KNOWLEDGE_MAP_DISCOVERY::V1::%<assistant_id>d::%<source_digest>s'.freeze
   # Bridges a WhatsApp call `terminate` that overtook its `connect` so the later connect can finalize it.
   WHATSAPP_CALL_TERMINATE_TOMBSTONE = 'WHATSAPP_CALL_TERMINATE_TOMBSTONE::%<call_id>s'.freeze
 
