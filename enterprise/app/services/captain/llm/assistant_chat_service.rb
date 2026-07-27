@@ -9,7 +9,7 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
     @conversation_id = conversation&.display_id
     @source = source
 
-    @messages = [system_message]
+    @messages = []
     @response = ''
     @tools = build_tools
   end
@@ -22,6 +22,11 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
   # NOTE: Parameters are provided as keyword arguments to improve clarity and avoid relying on
   # positional ordering.
   def generate_response(additional_message: nil, message_history: [], role: 'user')
+    current_query, previous_user_message = knowledge_map_messages(
+      additional_message: additional_message,
+      message_history: message_history
+    )
+    @messages = [system_message(query: current_query, previous_user_message: previous_user_message)]
     @messages += message_history
     @messages << { role: role, content: additional_message } if additional_message.present?
     request_chat_completion
@@ -38,17 +43,34 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
     end
   end
 
-  def system_message
+  def system_message(query:, previous_user_message:)
     {
       role: 'system',
       content: Captain::Llm::SystemPromptsService.assistant_response_generator(
         @assistant.name,
         @assistant.config['product_name'],
-        @assistant.config.merge('timezone' => inbox_timezone, 'knowledge_map' => @assistant.knowledge_map_for_prompt),
+        @assistant.config.merge(
+          'timezone' => inbox_timezone,
+          'knowledge_map' => @assistant.knowledge_map_for_prompt(query: query, previous_user_message: previous_user_message)
+        ),
         contact: contact_attributes,
         custom_tools: custom_tools_metadata
       )
     }
+  end
+
+  def knowledge_map_messages(additional_message:, message_history:)
+    user_messages = message_history.select { |message| message[:role].to_s == 'user' }
+    return [message_text(content: additional_message), message_text(user_messages.last)] if @source == 'playground'
+
+    return [message_text(user_messages.last), message_text(user_messages[-2])] if user_messages.any?
+
+    [message_text(content: additional_message), '']
+  end
+
+  def message_text(message = nil, content: nil)
+    content ||= message&.[](:content)
+    Captain::OpenAiMessageBuilderService.extract_text_and_attachments(content).first.to_s
   end
 
   def custom_tools_metadata

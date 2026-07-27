@@ -68,12 +68,22 @@ class Captain::Scenario < ApplicationRecord
       tools: resolved_tools,
       assistant_name: assistant.name.downcase.gsub(/\s+/, '_'),
       response_guidelines: response_guidelines || [],
-      guardrails: guardrails || [],
-      knowledge_map: assistant.knowledge_map.present? ? JSON.generate(assistant.knowledge_map_for_prompt) : nil
+      guardrails: guardrails || []
     }
   end
 
   private
+
+  def knowledge_map_prompt_context(state)
+    return if assistant.knowledge_map.blank?
+
+    JSON.generate(
+      assistant.knowledge_map_for_prompt(
+        query: state[:knowledge_map_query],
+        previous_user_message: state[:knowledge_map_previous_user_message]
+      )
+    )
+  end
 
   def agent_name
     handoff_key

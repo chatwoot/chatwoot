@@ -16,6 +16,7 @@ module Concerns::Agentable
 
   def agent_instructions(context = nil)
     enhanced_context = prompt_context
+    state = {}
 
     if context
       state = context.context[:state] || {}
@@ -28,6 +29,7 @@ module Concerns::Agentable
         message_length_limit: state[:message_length_limit]
       )
     end
+    enhanced_context[:knowledge_map] = knowledge_map_prompt_context(state)
 
     Captain::PromptRenderer.render(template_name, enhanced_context.with_indifferent_access)
   end
@@ -69,5 +71,9 @@ module Concerns::Agentable
 
   def prompt_context
     raise NotImplementedError, "#{self.class} must implement prompt_context"
+  end
+
+  def knowledge_map_prompt_context(_state)
+    nil
   end
 end

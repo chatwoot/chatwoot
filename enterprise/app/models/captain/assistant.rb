@@ -70,14 +70,12 @@ class Captain::Assistant < ApplicationRecord
     available_agent_tools.pluck(:id)
   end
 
-  def knowledge_map_for_prompt
-    return {} if knowledge_map.blank?
-
-    {
-      'version' => knowledge_map['version'],
-      'business_summary' => knowledge_map['business_summary'],
-      'topics' => Array(knowledge_map['topics']).map { |topic| knowledge_map_topic_for_prompt(topic) }
-    }
+  def knowledge_map_for_prompt(query: nil, previous_user_message: nil)
+    Captain::KnowledgeMapPrunerService.new(
+      assistant: self,
+      query: query,
+      previous_user_message: previous_user_message
+    ).perform
   end
 
   def push_event_data
@@ -129,25 +127,19 @@ class Captain::Assistant < ApplicationRecord
         }
       end,
       response_guidelines: response_guidelines || [],
-      guardrails: guardrails || [],
-      knowledge_map: formatted_knowledge_map
+      guardrails: guardrails || []
     }
   end
 
-  def formatted_knowledge_map
-    JSON.generate(knowledge_map_for_prompt) if knowledge_map.present?
-  end
+  def knowledge_map_prompt_context(state)
+    return if knowledge_map.blank?
 
-  def knowledge_map_topic_for_prompt(topic)
-    {
-      'name' => topic['name'],
-      'summary' => topic['summary'],
-      'concepts' => Array(topic['concepts']).first(6),
-      'relationships' => Array(topic['relationships']).first(3).map do |relationship|
-        relationship.slice('subject', 'predicate', 'object')
-      end,
-      'distinctions' => Array(topic['distinctions']).first(3).map { |distinction| distinction.slice('statement') }
-    }
+    JSON.generate(
+      knowledge_map_for_prompt(
+        query: state[:knowledge_map_query],
+        previous_user_message: state[:knowledge_map_previous_user_message]
+      )
+    )
   end
 
   def default_avatar_url

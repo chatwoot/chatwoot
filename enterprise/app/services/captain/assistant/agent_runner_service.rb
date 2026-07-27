@@ -43,7 +43,7 @@ class Captain::Assistant::AgentRunnerService
 
   private
 
-  def build_context(message_history)
+  def build_context(message_history, knowledge_map_query: '', knowledge_map_previous_user_message: nil)
     conversation_history = message_history.map do |msg|
       content = msg[:content]
       # Preserve multimodal arrays (with image_url entries) as-is for the runner to restore with attachments.
@@ -57,10 +57,13 @@ class Captain::Assistant::AgentRunnerService
       }
     end
 
+    state = build_state.merge(knowledge_map_query: knowledge_map_query)
+    state[:knowledge_map_previous_user_message] = knowledge_map_previous_user_message if knowledge_map_previous_user_message.present?
+
     {
       session_id: "#{@assistant.account_id}_#{@conversation&.display_id}",
       conversation_history: conversation_history,
-      state: build_state
+      state: state
     }
   end
 
@@ -75,6 +78,20 @@ class Captain::Assistant::AgentRunnerService
     return text if attachments.blank?
 
     RubyLLM::Content.new(text, attachments)
+  end
+
+  def extract_user_message_text(message)
+    return '' if message.blank?
+
+    content = message[:content]
+    return Captain::OpenAiMessageBuilderService.extract_text_and_attachments(content).first.to_s if content.is_a?(Array)
+
+    extract_text_from_content(content).to_s
+  end
+
+  def previous_user_message_text(message_history)
+    user_messages = message_history.select { |message| message[:role] == 'user' }
+    extract_user_message_text(user_messages[-2]) if user_messages.length > 1
   end
 
   def message_history_without_last_user_message(message_history)
@@ -164,7 +181,12 @@ class Captain::Assistant::AgentRunnerService
 
   def run_payload(message_history)
     message_to_process = extract_last_user_message(message_history)
-    context = build_context(message_history_without_last_user_message(message_history))
+    current_user_message = message_history.reverse.find { |message| message[:role] == 'user' }
+    context = build_context(
+      message_history_without_last_user_message(message_history),
+      knowledge_map_query: extract_user_message_text(current_user_message),
+      knowledge_map_previous_user_message: previous_user_message_text(message_history)
+    )
     enrich_context_with_trace_payload!(context, message_history, message_to_process)
     [message_to_process, context]
   end
