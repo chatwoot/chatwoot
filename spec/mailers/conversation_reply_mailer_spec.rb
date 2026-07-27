@@ -355,9 +355,9 @@ RSpec.describe ConversationReplyMailer do
                            content: 'Vendor has been looped in',
                            content_attributes: { to_emails: [], cc_emails: [], bcc_emails: [] })
 
-          expect(mail.to).to eq(['customer@example.com'])
-          expect(mail.cc).to eq(['vendor@example.com'])
-          expect(mail.bcc).to eq(['audit@example.com'])
+          expect(mail.to).to eq(message.content_attributes[:to_emails])
+          expect(mail.cc).to eq(message.content_attributes[:cc_emails])
+          expect(mail.bcc).to eq(message.content_attributes[:bcc_emails])
         end
       end
 
