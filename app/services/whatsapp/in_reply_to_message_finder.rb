@@ -19,7 +19,7 @@ class Whatsapp::InReplyToMessageFinder
     # even when their complete source IDs differ.
     matches = conversation.messages.where('source_id LIKE ?', 'wamid.%').select(:id, :source_id).select do |message|
       message_token(message.source_id) == token
-    end
+    end.uniq(&:source_id)
 
     matches.one? ? matches.first : nil
   end
