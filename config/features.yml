@@ -393,3 +393,18 @@
   chatwoot_internal: true
   category: conversations
   description: Cache unread counts for conversation filters.
+# Upstream flags whose main-column slots PaluHub used for internal_* / flows_v1.
+# Keep on ext_1 so FlagShihTzu methods exist for repurpose migrations / EE code.
+- name: branded_email_templates
+  display_name: Branded Email Templates
+  enabled: false
+  column: feature_flags_ext_1
+  category: branding
+  description: Custom branded layouts for outbound emails.
+- name: message_reply_to
+  display_name: Message Reply To
+  enabled: false
+  column: feature_flags_ext_1
+  chatwoot_internal: true
+  category: conversations
+  description: Reply-to threading support for messages.

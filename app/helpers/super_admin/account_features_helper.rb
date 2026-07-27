@@ -21,12 +21,22 @@ module SuperAdmin::AccountFeaturesHelper
     'branding' => 'Branding & misc'
   }.freeze
 
+  PLAN_TIER_LABELS = {
+    'startups' => 'Startups',
+    'business' => 'Business',
+    'enterprise' => 'Enterprise'
+  }.freeze
+
   def self.account_features
     YAML.safe_load(Rails.root.join('config/features.yml').read).freeze
   end
 
   def self.account_premium_features
-    account_features.filter { |feature| feature['premium'] }.pluck('name')
+    account_features.filter { |feature| premium_feature?(feature) }.pluck('name')
+  end
+
+  def self.premium_feature?(feature)
+    feature['premium'] == true || feature_plan_tier(feature['name']).present?
   end
 
   def self.feature_metadata
@@ -35,9 +45,18 @@ module SuperAdmin::AccountFeaturesHelper
         display_name: feature['display_name'],
         description: feature['description'].to_s,
         category: feature['category'].presence || 'branding',
-        premium: feature['premium'] == true
+        premium: premium_feature?(feature),
+        plan_tier: feature_plan_tier(feature['name'])
       }
     end
+  end
+
+  def self.feature_plan_tier(feature_name)
+    return 'startups' if Enterprise::Billing::ReconcilePlanFeaturesService::STARTUP_PLAN_FEATURES.include?(feature_name)
+    return 'business' if Enterprise::Billing::ReconcilePlanFeaturesService::BUSINESS_PLAN_FEATURES.include?(feature_name)
+    return 'enterprise' if Enterprise::Billing::ReconcilePlanFeaturesService::ENTERPRISE_PLAN_FEATURES.include?(feature_name)
+
+    nil
   end
 
   # Returns a hash mapping feature names to their display names
@@ -101,6 +120,8 @@ module SuperAdmin::AccountFeaturesHelper
         display_name: meta[:display_name].presence || feature_key,
         description: meta[:description].to_s,
         premium: meta[:premium] == true,
+        plan_tier: meta[:plan_tier],
+        plan_tier_label: PLAN_TIER_LABELS[meta[:plan_tier]],
         enabled: enabled
       }
     end
