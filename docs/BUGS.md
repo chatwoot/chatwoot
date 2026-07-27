@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** polish `B-NEW-26` flows layout/acciones/i18n
+**Última actualización:** hotfix `B-NEW-28` api_and_webhooks (login 500
+post 4.16.1) (2026-07-26). Antes: polish `B-NEW-26` flows layout/acciones/i18n
 (2026-07-24). Antes: fix `B-NEW-25` flows actions cards/dropdown clip
 (2026-07-24). Antes: polish `B-NEW-24` flows lista/categoría/drawer/inspector
 (2026-07-24). Antes: polish `B-NEW-23` flows editor layout/perf/buttons
@@ -80,6 +81,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-24 | Flows UX | Baja | ✅ Activo en lista, categoría, exit drawer, inspector compacto |
 | B-NEW-25 | Flows UX | Baja | ✅ Acciones numeradas en cards; dropdown sin clip por overflow |
 | B-NEW-26 | Flows UX | Baja | ✅ Acciones horiz., tipos únicos, menubar, panel izq, i18n es |
+| B-NEW-28 | 🔴 P0 prod | Sí | ✅ Login 500: faltaba `api_and_webhooks` en features.yml ext_1 |
 
 ---
 
@@ -767,6 +769,18 @@ inspector a la derecha.
 
 **Cómo probar:** layout L/R; añadir 2× “Add label” bloqueado; menú con muchas
 opciones; editor de mensaje con toolbar; textos ES en header/inspector.
+
+### B-NEW-28 — Login 500 post-merge 4.16.1 (`feature_api_and_webhooks?`)
+
+**Severidad:** P0 prod — `/auth/validate_token` 500; dashboard no entra.
+
+**Causa:** merge upstream con `-X ours` en `config/features.yml` omitió los
+flags de `feature_flags_ext_1` (incl. `api_and_webhooks`).
+
+**Fix:** append flags ext_1 (orden upstream) + jbuilder usa
+`api_and_webhooks_enabled?` + `Message.unscoped` en time-based DISTINCT ON.
+
+**Deploy:** merge a `develop` + GHCR redeploy. Sin migración.
 
 ---
 

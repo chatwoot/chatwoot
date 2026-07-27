@@ -3,11 +3,19 @@
 # name: the name to be used internally in the code
 # display_name: the name to be used in the UI
 # enabled: whether the feature is enabled by default
+# column: the account bitset column used to store the flag. Defaults to feature_flags.
+#         Use feature_flags_ext_1 for extension flags. Each bigint column supports 63 flags.
 # help_url: the url to the help center article
 # chatwoot_internal: whether the feature is internal to Chatwoot and should not be shown in the UI for other self hosted installations
 # deprecated: purpose of feature flag is done, no need to show it in the UI anymore
 # category: Super Admin grouping (channels|conversations|contacts|ai|reports|security|integrations|branding)
 # description: Short Super Admin explanation of what the feature unlocks
+#
+# ADDING A NEW FEATURE FLAG:
+#   - The `feature_flags` column is FULL (63/63 slots used). Do NOT add to it.
+#   - New flags MUST set `column: feature_flags_ext_1` and be appended at the end.
+#   - Bit positions are persisted per column; never reorder or remove existing
+#     entries, and never change an existing feature's `column` after release.
 - name: inbound_emails
   display_name: Inbound Emails
   enabled: true
@@ -345,3 +353,43 @@
   premium: true
   category: conversations
   description: Advanced capacity and assignment rules for agents.
+# feature_flags column is full (63). New flags MUST use feature_flags_ext_1.
+# Bit order in this extension column must match upstream Chatwoot 4.16.x.
+- name: whatsapp_manual_transfer
+  display_name: WhatsApp Manual Transfer
+  enabled: false
+  column: feature_flags_ext_1
+  category: channels
+  description: Manually transfer WhatsApp conversations between numbers.
+- name: data_import
+  display_name: Data Import
+  enabled: false
+  column: feature_flags_ext_1
+  category: contacts
+  description: Import contacts and related data in bulk.
+- name: api_and_webhooks
+  display_name: API and Webhooks
+  enabled: true
+  column: feature_flags_ext_1
+  category: integrations
+  description: Account API access token and outbound webhooks.
+- name: whatsapp_reconfigure
+  display_name: WhatsApp Reconfigure
+  enabled: false
+  column: feature_flags_ext_1
+  category: channels
+  description: Reconfigure WhatsApp Cloud API inbox credentials.
+- name: whatsapp_embedded_signup_inbox_creation
+  display_name: WhatsApp Embedded Signup Flow
+  enabled: false
+  column: feature_flags_ext_1
+  category: channels
+  description: Create WhatsApp inboxes via Meta embedded signup.
+# PaluHub: main column already used flows_v1 instead of unread_count_for_filters.
+- name: unread_count_for_filters
+  display_name: Unread Count for Filters
+  enabled: false
+  column: feature_flags_ext_1
+  chatwoot_internal: true
+  category: conversations
+  description: Cache unread counts for conversation filters.
