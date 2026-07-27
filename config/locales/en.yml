@@ -619,6 +619,7 @@ en:
     policy_actor: 'Automation System via %{policy_name}'
   automation:
     system_name: 'Automation System'
+    audit_note: 'Automation "%{name}" ran.'
   crm:
     no_message: 'No messages in conversation'
     attachment: '[Attachment: %{type}]'

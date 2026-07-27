@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** hotfix `B-NEW-37` select fecha/datetime en
+**Última actualización:** feature `B-NEW-38` automation audit private note
+(2026-07-27). Antes: hotfix `B-NEW-37` select fecha/datetime en
 time automation schedule (2026-07-27). Antes: hotfix `B-NEW-36` exigir agente humano + selector
 contacto transparente (2026-07-27). Antes: hotfix `B-NEW-35` BR guard skip
 en automations (2026-07-27). Antes: hotfix `B-NEW-34` motivo al posponer (nota FE +
@@ -103,6 +104,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-35 | Bug | No | ✅ BR Guard no bloquea cambios de status hechos por AutomationRule |
 | B-NEW-36 | Bug | No | ✅ Exigir assignee = humano/equipo (bot no cuenta); ContactAssignee dropdown |
 | B-NEW-37 | UX | No | ✅ Time automation: select CA fecha/datetime (no input libre) |
+| B-NEW-38 | Feature | No | ✅ Automation siempre deja nota privada corta de auditoría |
 
 ---
 
@@ -948,6 +950,21 @@ día calendario (`LEFT(..., 10)::date` en el runner).
 
 **Cómo probar:** Automations → time triggered / preset post-compra →
 dropdown lista fechas; datetime marcado; sin CAs de fecha → mensaje vacío.
+
+### B-NEW-38 — Automation: nota privada de auditoría al ejecutarse
+
+**Causa:** time/event rules podían correr sin rastro visible (solo Redis ledger /
+acciones mudas).
+
+**Fix:** tras las acciones configuradas, `AutomationRules::ActionService` siempre
+deja una nota privada corta vía `Conversations::SystemAuditNote`
+(`system_audit: true`, `automation_rule_id`). Flows fuera de alcance.
+
+**Archivos:** `system_audit_note.rb`, `automation_rules/action_service.rb`,
+`en.yml` / `es.yml` (`automation.audit_note`), `docs/BUGS.md`.
+
+**Cómo probar:** disparar cualquier automation (o time rule) → timeline muestra
+«Automatización «…» ejecutada.» como nota privada.
 
 ---
 

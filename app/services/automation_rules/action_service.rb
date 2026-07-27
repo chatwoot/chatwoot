@@ -16,11 +16,25 @@ class AutomationRules::ActionService < ActionService
         ChatwootExceptionTracker.new(e, account: @account).capture_exception
       end
     end
+    append_system_audit_note
   ensure
     Current.reset
   end
 
   private
+
+  def append_system_audit_note
+    locale = @account.locale.presence || I18n.default_locale
+    content = I18n.with_locale(locale) do
+      I18n.t('automation.audit_note', name: @rule.name)
+    end
+
+    Conversations::SystemAuditNote.perform(
+      conversation: @conversation,
+      content: content,
+      content_attributes: { automation_rule_id: @rule.id }
+    )
+  end
 
   def execute_action(action)
     name = action[:action_name].to_s
