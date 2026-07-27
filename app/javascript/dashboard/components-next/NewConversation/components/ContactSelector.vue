@@ -43,10 +43,21 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // Additional To recipients are only supported on email inboxes, where the
+  // channel can deliver a single message to more than one address.
+  allowAdditionalRecipients: {
+    type: Boolean,
+    default: false,
+  },
+  showToEmailsDropdown: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
   'searchContacts',
+  'searchToEmails',
   'setSelectedContact',
   'clearSelectedContact',
   'updateDropdown',
@@ -56,6 +67,16 @@ const i18nPrefix = 'COMPOSE_NEW_CONVERSATION.FORM.CONTACT_SELECTOR';
 const { t } = useI18n();
 
 const inputType = ref(INPUT_TYPES.EMAIL);
+
+const toEmails = defineModel('toEmails', { type: String, default: '' });
+
+const toEmailsArray = computed(() =>
+  toEmails.value ? toEmails.value.split(',').map(email => email.trim()) : []
+);
+
+const handleToEmailsUpdate = value => {
+  toEmails.value = value.join(',');
+};
 
 const contactsList = computed(() => {
   return props.contacts?.map(({ name, id, thumbnail, email, ...rest }) => ({
@@ -69,6 +90,19 @@ const contactsList = computed(() => {
     action: 'contact',
   }));
 });
+
+const contactEmailsList = computed(() =>
+  props.contacts
+    ?.filter(({ email }) => email && email !== props.selectedContact?.email)
+    .map(({ name, id, email }) => ({
+      id,
+      label: email,
+      email,
+      thumbnail: { name, src: '' },
+      value: id,
+      action: 'email',
+    }))
+);
 
 const selectedContactLabel = computed(() => {
   const { name, email = '', phoneNumber = '' } = props.selectedContact || {};
@@ -98,7 +132,7 @@ const handleInput = value => {
 
 <template>
   <div class="relative flex-1 px-4 py-3 overflow-y-visible">
-    <div class="flex items-baseline w-full gap-3 min-h-7">
+    <div class="flex flex-wrap items-baseline w-full gap-3 min-h-7">
       <label class="text-sm font-medium text-n-slate-11 whitespace-nowrap">
         {{ t(`${i18nPrefix}.LABEL`) }}
       </label>
@@ -150,6 +184,20 @@ const handleInput = value => {
         @on-click-outside="emit('updateDropdown', 'contacts', false)"
         @add="emit('setSelectedContact', $event)"
         @remove="emit('clearSelectedContact')"
+      />
+      <TagInput
+        v-if="selectedContact && allowAdditionalRecipients"
+        :model-value="toEmailsArray"
+        :placeholder="t(`${i18nPrefix}.ADDITIONAL_RECIPIENTS_PLACEHOLDER`)"
+        :menu-items="contactEmailsList"
+        :show-dropdown="showToEmailsDropdown"
+        :is-loading="isLoading"
+        type="email"
+        allow-create
+        class="flex-1 min-h-7"
+        @input="emit('searchToEmails', $event)"
+        @on-click-outside="emit('updateDropdown', 'to', false)"
+        @update:model-value="handleToEmailsUpdate"
       />
     </div>
   </div>

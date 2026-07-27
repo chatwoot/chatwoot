@@ -49,6 +49,7 @@ const isSearching = ref(false);
 const formState = reactive({
   message: '',
   subject: '',
+  toEmails: '',
   ccEmails: '',
   bccEmails: '',
   attachedFiles: [],
@@ -57,6 +58,7 @@ const formState = reactive({
 const clearFormState = () => {
   Object.assign(formState, {
     subject: '',
+    toEmails: '',
     ccEmails: '',
     bccEmails: '',
     attachedFiles: [],
