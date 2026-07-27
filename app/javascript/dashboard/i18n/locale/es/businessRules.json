@@ -3,9 +3,10 @@
     "HEADER": "Reglas de negocio",
     "TITLE": "Reglas de negocio (restricciones)",
     "DESCRIPTION": "Condiciones que deben cumplirse antes de cambiar el estado de una conversación. Solo se exigen los atributos que elijas — nunca la lista completa.",
-    "FORM_HELP": "Solo los atributos que marques abajo serán obligatorios. Si no marcas ninguno, la regla no bloquea el cambio de estado.",
+    "FORM_HELP": "Configura condiciones de filtro opcionales (Cuando) y luego el efecto que bloquea (Entonces). Solo los atributos o categorías elegidos son obligatorios.",
     "PRESETS_TITLE": "Presets rápidos",
-    "PRESETS_HELP": "Un clic añade una regla con listas de atributos vacías. Edítala para elegir qué campos aplican.",
+    "PRESETS_HELP": "Un clic añade una regla lista. Edítala para elegir campos y condiciones.",
+    "ACTIVATE_PRESET": "Activar",
     "EMPTY": "Aún no hay restricciones. Crea una regla propia o activa un preset.",
     "CREATE_CUSTOM": "Crear regla",
     "CREATE_CUSTOM_TITLE": "Nueva regla de negocio",
@@ -19,10 +20,20 @@
     "SAVE_SUCCESS": "Reglas de negocio guardadas",
     "SAVE_ERROR": "No se pudieron guardar las reglas de negocio",
     "REMOVE": "Quitar",
+    "LEGACY_BANNER": "Esta cuenta aún tiene atributos obligatorios legacy. Prefiere reglas de negocio abajo; ambos se aplican al resolver hasta que migres.",
+    "SUMMARY": {
+      "STATUS": "Estado {status}",
+      "CATEGORIES": "{count} categorías",
+      "KEYS": "{count} campos",
+      "CONDITIONS": "{count} condiciones",
+      "LABEL": "Etiqueta {label}",
+      "EMPTY": "Incompleta — edita para configurar"
+    },
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nombre",
         "TYPE": "Tipo",
+        "SUMMARY": "Resumen",
         "ENABLED": "Activa",
         "ACTION": "Acciones"
       }
@@ -31,20 +42,37 @@
       "NAME": "Nombre",
       "NAME_PLACEHOLDER": "Ej. Exigir total de venta al resolver",
       "TYPE": "Tipo de regla",
+      "ENABLED": "Regla activa",
       "STATUS": "Estado objetivo",
-      "STATUSES": "Estados (separados por coma)",
+      "STATUSES": "Estados",
       "STATUSES_PLACEHOLDER": "pending, snoozed",
       "ATTRIBUTES": "Atributos obligatorios",
-      "ATTRIBUTES_HELP": "Solo los atributos marcados serán obligatorios. No selecciones todos salvo que realmente lo necesites.",
+      "ATTRIBUTES_HELP": "Marca una categoría para exigir todos sus campos (incluidos futuros), o elige campos sueltos.",
+      "CONDITIONS": "Cuando (condiciones)",
+      "CONDITIONS_HELP": "Opcional. Mismos filtros que Automatizaciones. Vacío = aplicar el efecto siempre al estado objetivo.",
+      "ADD_CONDITION": "Añadir condición",
+      "EFFECT": "Entonces (efecto)",
       "WHEN_ATTRIBUTE": "Cuando este atributo tenga valor",
+      "WHEN_ATTRIBUTE_MODEL": "El atributo pertenece a",
       "WHEN_VALUES": "Valores que disparan (opcional)",
       "WHEN_VALUES_PLACEHOLDER": "venta, ganado — vacío = cualquier valor",
       "REQUIRE_ATTRIBUTES": "Entonces exigir estos atributos",
       "REQUIRE_PRIVATE_NOTE": "Exigir una nota privada reciente",
       "REASON_ATTRIBUTE": "Atributo de motivo (opcional)",
       "LABEL": "Etiqueta prohibida",
-      "REQUIRE_TEAM_OR_AGENT": "Exigir equipo o agente asignado",
+      "REQUIRE_TEAM_OR_AGENT": "Exigir equipo o agente humano",
+      "SECTION_CONVERSATION": "Conversación",
+      "SECTION_CONTACT": "Contacto",
+      "UNCATEGORIZED": "Sin categoría",
+      "CATEGORY_ALL_HELP": "todos los {count} ahora y futuros",
       "NONE": "Ninguno"
+    },
+    "TYPE_HELP": {
+      "require_attributes_on_status": "Exige campos de conversación y/o contacto al pasar al estado elegido. Al resolver, un modal pide los que falten. En número/moneda/porcentaje, el 0 cuenta como vacío.",
+      "if_attribute_then_require": "Solo si las condiciones Cuando coinciden. Entonces exige campos extra de conversación y/o contacto. Al resolver, el mismo modal recoge lo faltante. El 0 no cuenta como lleno en campos numéricos.",
+      "require_reason_on_status": "Al pasar a pendiente/pospuesta, exige nota privada reciente y/o un atributo de motivo de conversación.",
+      "forbid_status_if": "Bloquea el cambio de estado si la conversación tiene la etiqueta indicada.",
+      "require_assignee_on_status": "Bloquea el cambio de estado si no hay equipo o agente humano. Un bot del canal no cuenta."
     },
     "TYPES": {
       "require_attributes_on_status": "Exigir atributos al cambiar estado",
@@ -60,17 +88,18 @@
       "snoozed": "Pospuesta"
     },
     "NO_ATTRIBUTES": "Aún no hay atributos de conversación definidos.",
+    "NO_CONTACT_ATTRIBUTES": "Aún no hay atributos de contacto definidos.",
     "PRESETS": {
       "REQUIRE_ON_RESOLVE": "Exigir atributos al resolver",
       "REQUIRE_ON_RESOLVE_DESC": "Los agentes deben completar los atributos elegidos antes de resolver.",
       "IF_X_REQUIRE_YZ": "Si X, entonces exigir Y/Z",
-      "IF_X_REQUIRE_YZ_DESC": "Si un atributo coincide, exigir campos adicionales al resolver.",
+      "IF_X_REQUIRE_YZ_DESC": "Si las condiciones de filtro coinciden, exigir campos adicionales al resolver.",
       "MOTIVO_POSPONER": "Motivo al posponer",
       "MOTIVO_POSPONER_DESC": "Exigir nota privada o atributo de motivo al dejar pendiente/pospuesta.",
       "FORBID_RESOLVE_LABEL": "No resolver con etiqueta",
       "FORBID_RESOLVE_LABEL_DESC": "Bloquear resolver si la conversación tiene una etiqueta dada.",
       "REQUIRE_ASSIGNEE_ON_OPEN": "Exigir asignación al abrir",
-      "REQUIRE_ASSIGNEE_ON_OPEN_DESC": "Al abrir una conversación se requiere equipo o agente.",
+      "REQUIRE_ASSIGNEE_ON_OPEN_DESC": "Al abrir se exige equipo o agente humano (el bot del canal no cuenta).",
       "POST_COMPRA": "Seguimiento post-compra (N días)",
       "POST_COMPRA_DESC": "Tras N días desde un atributo de fecha, ejecuta acciones (etiqueta, mensaje, etc.).",
       "FOLLOWUP_24H": "Seguimiento a las 24h sin respuesta",
@@ -85,6 +114,13 @@
       "forbidden_label": "No se puede cambiar el estado mientras esté la etiqueta “{label}”",
       "missing_assignee": "Asigna un equipo o agente antes de cambiar el estado",
       "generic": "Una regla de negocio bloqueó este cambio de estado"
+    },
+    "MODAL": {
+      "TITLE_RESOLVED": "Completa los campos obligatorios para resolver",
+      "TITLE_PENDING": "Completa los campos obligatorios para pendiente",
+      "TITLE_SNOOZED": "Completa los campos obligatorios para posponer",
+      "TITLE_OPEN": "Completa los campos obligatorios para abrir",
+      "PRIVATE_NOTE_HINT": "Añade una nota privada en la conversación e inténtalo de nuevo."
     }
   }
 }

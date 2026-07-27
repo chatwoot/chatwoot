@@ -38,13 +38,17 @@
         "SCHEDULE": {
           "LABEL": "Programación",
           "KIND": "Cuándo ejecutar",
-          "ATTRIBUTE_KEY": "Clave del atributo de fecha",
+          "ATTRIBUTE_KEY": "Atributo de fecha / fecha-hora",
           "ATTRIBUTE_KEY_PLACEHOLDER": "p. ej. fecha_compra",
+          "ATTRIBUTE_KEY_EMPTY": "Selecciona un atributo…",
+          "ATTRIBUTE_KEY_NONE": "No hay atributos de conversación tipo fecha o fecha-hora. Créalos en Atributos personalizados.",
+          "ATTRIBUTE_KEY_ORPHAN": "{key} (no encontrado)",
+          "ATTRIBUTE_TYPE_DATETIME": "fecha-hora",
           "DAYS": "Días desde el atributo",
           "HOURS": "Horas desde el último mensaje",
           "HELP": "Se revisa cada ~5 minutos. Cada regla se dispara una vez por conversación y ventana.",
           "KINDS": {
-            "DAYS_SINCE": "N días desde un atributo de fecha",
+            "DAYS_SINCE": "N días desde un atributo de fecha o fecha-hora",
             "HOURS_OUTGOING": "Horas desde el último mensaje saliente",
             "HOURS_INCOMING": "Horas desde el último mensaje entrante"
           },

@@ -43,8 +43,10 @@ class Automations::TimeBasedRuleRunner
     return Conversation.none if key.blank? || days <= 0
 
     threshold = days.days.ago.to_date
-    # Only cast ISO YYYY-MM-DD (or datetime starting with that). Invalid strings
-    # like "foo" must not raise — they would abort the whole scheduler job.
+    # Only cast ISO YYYY-MM-DD (or datetime starting with that, e.g.
+    # 2026-07-27T15:30:00Z). Invalid strings like "foo" must not raise —
+    # they would abort the whole scheduler job. Datetime values use the
+    # calendar date portion (LEFT 10) so "N days since" stays day-based.
     casted = <<~SQL.squish
       CASE
         WHEN (conversations.custom_attributes ->> ?) ~ '^\\d{4}-\\d{2}-\\d{2}'

@@ -5,6 +5,11 @@ class Messages::DeferredOutboundJob < ApplicationJob
     conversation = Conversation.find_by(id: conversation_id)
     return if conversation.blank?
 
+    unless conversation.can_reply?
+      leave_messaging_window_note(conversation, automation_rule_id)
+      return
+    end
+
     user = User.find_by(id: user_id) if user_id.present?
 
     if blob_ids.present?
@@ -15,6 +20,25 @@ class Messages::DeferredOutboundJob < ApplicationJob
   end
 
   private
+
+  def leave_messaging_window_note(conversation, automation_rule_id)
+    rule = AutomationRule.find_by(id: automation_rule_id) if automation_rule_id.present?
+    account = conversation.account
+    locale = account.locale.presence || I18n.default_locale
+    name = rule&.name.presence || I18n.t('automation.system_name', locale: locale)
+    content = I18n.with_locale(locale) do
+      I18n.t('automation.message_skipped_messaging_window', name: name)
+    end
+
+    attrs = { messaging_window_skipped: true }
+    attrs[:automation_rule_id] = rule.id if rule
+
+    Conversations::SystemAuditNote.perform(
+      conversation: conversation,
+      content: content,
+      content_attributes: attrs
+    )
+  end
 
   def send_text(conversation, user, content, automation_rule_id)
     return if content.blank?

@@ -6,15 +6,33 @@ export const GUARD_RULE_TYPES = [
   'require_assignee_on_status',
 ];
 
+export const emptyCondition = () => ({
+  attribute_key: 'status',
+  filter_operator: 'equal_to',
+  values: [],
+  query_operator: null,
+  custom_attribute_type: '',
+});
+
 export const emptyConfigForType = type => {
   switch (type) {
     case 'require_attributes_on_status':
-      return { status: 'resolved', attribute_keys: [] };
+      return {
+        status: 'resolved',
+        attribute_keys: [],
+        contact_attribute_keys: [],
+        attribute_category_keys: [],
+        contact_attribute_category_keys: [],
+      };
     case 'if_attribute_then_require':
       return {
         when_attribute: '',
+        when_attribute_model: 'conversation',
         when_values: [],
         require_attribute_keys: [],
+        require_contact_attribute_keys: [],
+        require_attribute_category_keys: [],
+        require_contact_attribute_category_keys: [],
         on_status: 'resolved',
       };
     case 'require_reason_on_status':
@@ -42,7 +60,14 @@ export const BUSINESS_RULE_PRESETS = [
     defaults: {
       type: 'require_attributes_on_status',
       enabled: true,
-      config: { status: 'resolved', attribute_keys: [] },
+      conditions: [],
+      config: {
+        status: 'resolved',
+        attribute_keys: [],
+        contact_attribute_keys: [],
+        attribute_category_keys: [],
+        contact_attribute_category_keys: [],
+      },
     },
   },
   {
@@ -54,10 +79,15 @@ export const BUSINESS_RULE_PRESETS = [
     defaults: {
       type: 'if_attribute_then_require',
       enabled: true,
+      conditions: [],
       config: {
         when_attribute: '',
+        when_attribute_model: 'conversation',
         when_values: [],
         require_attribute_keys: [],
+        require_contact_attribute_keys: [],
+        require_attribute_category_keys: [],
+        require_contact_attribute_category_keys: [],
         on_status: 'resolved',
       },
     },
@@ -71,6 +101,7 @@ export const BUSINESS_RULE_PRESETS = [
     defaults: {
       type: 'require_reason_on_status',
       enabled: true,
+      conditions: [],
       config: {
         statuses: ['pending', 'snoozed'],
         require_private_note: true,
@@ -87,6 +118,7 @@ export const BUSINESS_RULE_PRESETS = [
     defaults: {
       type: 'forbid_status_if',
       enabled: true,
+      conditions: [],
       config: { status: 'resolved', label: '' },
     },
   },
@@ -99,6 +131,7 @@ export const BUSINESS_RULE_PRESETS = [
     defaults: {
       type: 'require_assignee_on_status',
       enabled: true,
+      conditions: [],
       config: { status: 'open', require_team_or_agent: true },
     },
   },
@@ -112,7 +145,6 @@ export const TIME_RULE_PRESETS = [
     descriptionKey: 'BUSINESS_RULES.PRESETS.POST_COMPRA_DESC',
     defaults: {
       event_name: 'time_triggered',
-      // Prod DFIT key; edit after activate if account uses another sale-date CA.
       schedule: {
         kind: 'days_since_attribute',
         attribute_key: 'fecha_venta',
@@ -148,7 +180,6 @@ export const TIME_RULE_PRESETS = [
       event_name: 'time_triggered',
       schedule: {
         kind: 'days_since_attribute',
-        // Prod DFIT key. Local alias `ultimo_seguimiento` exists in seed/import only.
         attribute_key: 'fecha_seguimiento',
         days: 30,
       },
@@ -185,3 +216,47 @@ export const TIME_RULE_PRESETS = [
 
 export const newRuleId = () =>
   `br_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+
+export const summarizeRule = (rule, t) => {
+  if (!rule) return '';
+  const config = rule.config || {};
+  const status =
+    config.status ||
+    config.on_status ||
+    (Array.isArray(config.statuses) ? config.statuses.join(', ') : '');
+  const parts = [];
+  if (status) {
+    parts.push(
+      t('BUSINESS_RULES.SUMMARY.STATUS', {
+        status: t(`BUSINESS_RULES.STATUSES.${status}`, status),
+      })
+    );
+  }
+  const catCount =
+    (config.attribute_category_keys || []).length +
+    (config.contact_attribute_category_keys || []).length +
+    (config.require_attribute_category_keys || []).length +
+    (config.require_contact_attribute_category_keys || []).length;
+  const keyCount =
+    (config.attribute_keys || []).length +
+    (config.contact_attribute_keys || []).length +
+    (config.require_attribute_keys || []).length +
+    (config.require_contact_attribute_keys || []).length;
+  if (catCount) {
+    parts.push(t('BUSINESS_RULES.SUMMARY.CATEGORIES', { count: catCount }));
+  }
+  if (keyCount) {
+    parts.push(t('BUSINESS_RULES.SUMMARY.KEYS', { count: keyCount }));
+  }
+  if ((rule.conditions || []).length) {
+    parts.push(
+      t('BUSINESS_RULES.SUMMARY.CONDITIONS', {
+        count: rule.conditions.length,
+      })
+    );
+  }
+  if (config.label) {
+    parts.push(t('BUSINESS_RULES.SUMMARY.LABEL', { label: config.label }));
+  }
+  return parts.join(' · ') || t('BUSINESS_RULES.SUMMARY.EMPTY');
+};

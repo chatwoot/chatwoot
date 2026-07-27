@@ -3,7 +3,17 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** hotfix `B-NEW-30` toggle_status 500
+**Última actualización:** hotfix `B-NEW-39` skip outbound si ventana Meta/WA
+cerrada (2026-07-27). Antes: feature `B-NEW-38` automation audit private note
+(2026-07-27). Antes: hotfix `B-NEW-37` select fecha/datetime en
+time automation schedule (2026-07-27). Antes: hotfix `B-NEW-36` exigir agente humano + selector
+contacto transparente (2026-07-27). Antes: hotfix `B-NEW-35` BR guard skip
+en automations (2026-07-27). Antes: hotfix `B-NEW-34` motivo al posponer (nota FE +
+snooze errors) (2026-07-27). Antes: hotfix `B-NEW-33` dialog BR submit
+accidental (MultiSelect type=button) (2026-07-27). Antes: feature `B-NEW-32`
+business rules ConditionRow + categorías + multi-status (2026-07-27). Antes:
+feature `B-NEW-31` business rules contact attrs + zero-as-blank + TYPE_HELP
+(2026-07-27). Antes: hotfix `B-NEW-30` toggle_status 500
 (`activity_message_params` kwargs) + resolve modal currency/percent (2026-07-27).
 Antes: hotfix `B-NEW-29` dashboard JS post-4.16.1
 (`hasFilteredUnreadCounts` / `useI18n`) (2026-07-26). Antes: hotfix
@@ -88,6 +98,15 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-28 | 🔴 P0 prod | Sí | ✅ Login 500: faltaba `api_and_webhooks` en features.yml ext_1 |
 | B-NEW-29 | 🔴 P0 prod | Sí | ✅ Dashboard JS: `hasFilteredUnreadCounts` + `useI18n` imports |
 | B-NEW-30 | 🔴 P0 prod | Sí | ✅ toggle_status 500: `activity_message_params` + modal currency/percent |
+| B-NEW-31 | Feature | No | ✅ Business rules: contact attrs + zero-as-blank + TYPE_HELP |
+| B-NEW-32 | Feature | No | ✅ Business rules UX: ConditionRow + categorías + multi-status (sin tab tiempo) |
+| B-NEW-33 | Bug UX | No | ✅ Dialog BR: MultiSelect/ConditionRow buttons type=button (no submit accidental) |
+| B-NEW-34 | Bug UX | No | ✅ Motivo al posponer: FE no bloquea nota a ciegas; snooze con errores BR |
+| B-NEW-35 | Bug | No | ✅ BR Guard no bloquea cambios de status hechos por AutomationRule |
+| B-NEW-36 | Bug | No | ✅ Exigir assignee = humano/equipo (bot no cuenta); ContactAssignee dropdown |
+| B-NEW-37 | UX | No | ✅ Time automation: select CA fecha/datetime (no input libre) |
+| B-NEW-38 | Feature | No | ✅ Automation siempre deja nota privada corta de auditoría |
+| B-NEW-39 | Bug | No | ✅ Automation no envía outbound si `can_reply?` false (ventana 24h) |
 
 ---
 
@@ -828,6 +847,141 @@ rules (esas serían 422).
 message en timeline; si hay required `currency`/`percent`, modal los
 edita. Local: `.\scripts\dev-up.ps1` (Vue en imagen). Prod: merge
 `develop` + GHCR redeploy (sin migración).
+
+### B-NEW-31 — Business rules: contact attrs + zero-as-blank + TYPE_HELP
+
+**Feature.** Guardrails pueden exigir atributos de **conversación y contacto**.
+En `number`/`currency`/`percent`, el valor `0` cuenta como vacío. El form
+muestra `TYPE_HELP` por tipo de regla. Al resolver, el modal pide ambos
+modelos y guarda contacto vía `contacts/update` antes de `toggle_status`.
+
+**Archivos:**
+- `Conversations::BusinessRulesGuard`
+- `BusinessRuleForm.vue`, `useConversationRequiredAttributes.js`
+- `ConversationResolveAttributesModal.vue`, `ResolveAction.vue`
+- `en/es/businessRules.json`
+
+**Cómo probar:** Settings → Business rules → exigir CA de contacto +
+condicional `tipo=venta` → currency; resolve con `0` bloquea; valor > 0 OK.
+Local: `up -d --build` (Vue en imagen).
+
+### B-NEW-32 — Business rules UX: ConditionRow + categorías + multi-status
+
+**Feature.** Guards usan `conditions[]` (mismos filtros que Automations via
+`ConditionRow`), pueden exigir attrs por **categoría**, y el pre-check FE
+cubre resolve/pending/open (forbid/assignee/nota vía alert). Las reglas por
+tiempo siguen solo en **Automations** (`time_triggered`), no en Business rules.
+
+**Archivos:**
+- `BusinessRules::ConditionsMatcher`, `RequiredAttributeKeys`, Guard
+- `BusinessRuleForm.vue`, `AttributeRequirementPicker.vue`, Index
+- `useBusinessRulesStatusGuard.js`, ResolveAction / ChatList / bulk
+
+**Cómo probar:** form Cuando/Entonces; categoría Venta exige keys nuevas;
+resolve modal; pending con require_reason. Local: `--build`.
+
+### B-NEW-33 — Dialog Business rules: clic en filtro guardaba la regla
+
+**Causa:** `Dialog` usa `<form @submit>` y `MultiSelect` / trash / “Añadir
+condición” renderizaban `<button>` sin `type="button"` → submit al abrir
+estados (multiSelect).
+
+**Fix:** `type="button"` en `MultiSelect.vue`, `ConditionRow.vue`,
+`BusinessRuleForm.vue`.
+
+**Cómo probar:** editar regla → condición Status → abrir valores; el modal
+no debe cerrarse ni guardar.
+
+### B-NEW-34 — Motivo al posponer: FE bloqueaba nota y snooze sin error
+
+**Causa:** pre-check FE marcaba `needsPrivateNote` sin mirar mensajes →
+pending nunca llegaba al Guard. Snooze vía cmdbar no formateaba 422 de BR.
+
+**Fix:** defer nota privada al API; snooze pre-check + `formatBusinessRuleError`;
+si falta CA de motivo al posponer desde ResolveAction, modal → luego picker.
+
+**Cómo probar:** preset motivo (solo nota) → pending sin nota → alert API;
+añadir nota privada → pending OK. Snooze sin nota → alert legible.
+
+### B-NEW-35 — Automation por tiempo + regla “motivo al posponer” chocaban
+
+**Causa:** `BusinessRulesGuard` corre en todo `will_save_change_to_status?`.
+Una automation (`snooze_conversation` / `pending`) no llena motivo/nota →
+`RecordInvalid` tragado por `AutomationRules::ActionService` → mensaje sí,
+posponer no.
+
+**Fix:** si `Current.executed_by` es `AutomationRule`, el Guard retorna OK
+(candados para agentes; robots no). Macros / UI agent siguen validados.
+
+**Archivo:** `app/services/conversations/business_rules_guard.rb`
+
+**Cómo probar:** regla motivo en snoozed + automation “tras N min → snooze +
+mensaje” → conversación queda snoozed y mensaje enviado. Agente snooze
+sin motivo → sigue bloqueado.
+
+### B-NEW-36 — Exigir agente + dropdown contacto transparente
+
+**Causa (assignee):** FE trataba `meta.assignee` (incluye bot del canal) como
+válido → la regla nunca pedía humano. Backend ya miraba `assignee_id` (User).
+
+**Fix:** FE usa `isHumanAssigneeMeta` o team; copy aclara “humano / bot no cuenta”.
+
+**Causa (UI):** `animate-pulse` en Sin asignar anima opacity → stacking context
++ menú `bg-n-alpha` → Acciones de conversación se ven a través del dropdown.
+
+**Fix:** quitar pulse; menú con fondo sólido + `z-50` al abrir en
+`OutlinedSelectField`.
+
+**Archivos:** `useBusinessRulesStatusGuard.js`, `ContactAssigneeSelector.vue`,
+`OutlinedSelectField.vue`, i18n businessRules.
+
+**Cómo probar:** inbox con bot, conversación solo-bot, regla exigir al abrir →
+bloquea hasta asignar humano/equipo. Contacto sin agente → abrir selector →
+lista legible opaca.
+
+### B-NEW-37 — Post-compra: atributo de fecha era texto libre
+
+**Causa:** `days_since_attribute` usaba `<input>` para `schedule.attribute_key`.
+
+**Fix:** select con CAs de conversación tipo `date` y `datetime` (display name).
+Claves huérfanas de reglas viejas siguen visibles. Datetime ya castea por
+día calendario (`LEFT(..., 10)::date` en el runner).
+
+**Archivos:** `AutomationRuleForm.vue`, i18n automation EN/ES,
+`time_based_rule_runner.rb` (comentario).
+
+**Cómo probar:** Automations → time triggered / preset post-compra →
+dropdown lista fechas; datetime marcado; sin CAs de fecha → mensaje vacío.
+
+### B-NEW-38 — Automation: nota privada de auditoría al ejecutarse
+
+**Causa:** time/event rules podían correr sin rastro visible (solo Redis ledger /
+acciones mudas).
+
+**Fix:** tras las acciones configuradas, `AutomationRules::ActionService` siempre
+deja una nota privada corta vía `Conversations::SystemAuditNote`
+(`system_audit: true`, `automation_rule_id`). Flows fuera de alcance.
+
+**Archivos:** `system_audit_note.rb`, `automation_rules/action_service.rb`,
+`en.yml` / `es.yml` (`automation.audit_note`), `docs/BUGS.md`.
+
+**Cómo probar:** disparar cualquier automation (o time rule) → timeline muestra
+«Automatización «…» ejecutada.» como nota privada.
+
+### B-NEW-39 — Automation: no enviar si ventana Meta/WhatsApp cerrada
+
+**Causa:** `send_message` / attachment creaban outbound que WA marcaba failed
+fuera de la ventana 24h (Messenger/IG similar vía `can_reply?`).
+
+**Fix:** antes de enviar (inmediato o `DeferredOutboundJob`), si
+`conversation.can_reply?` es false → no crear mensaje público; dejar nota
+privada (`messaging_window_skipped`) + la auditoría B-NEW-38 al final.
+
+**Archivos:** `automation_rules/action_service.rb`,
+`messages/deferred_outbound_job.rb`, `en.yml` / `es.yml`, `docs/BUGS.md`.
+
+**Cómo probar:** conversación WA sin incoming reciente → automation con
+`send_message` → sin bubble al cliente; sí nota de ventana cerrada + audit.
 
 ---
 

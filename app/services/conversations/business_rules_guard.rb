@@ -2,6 +2,7 @@
 
 class Conversations::BusinessRulesGuard
   Result = Struct.new(:ok?, :errors, keyword_init: true)
+  NUMERIC_DISPLAY_TYPES = %w[number currency percent].freeze
 
   def initialize(conversation:, new_status: nil)
     @conversation = conversation
@@ -11,8 +12,11 @@ class Conversations::BusinessRulesGuard
   end
 
   def perform
+    # Automations change status without a human filling reason/attrs.
+    # Candados apply to agents; system actors skip the guard.
+    return Result.new(ok?: true, errors: []) if system_status_change?
+
     rules = Array(@account.settings&.dig('business_rules')).select { |r| r['enabled'] }
-    # Legacy: conversation_required_attributes still enforce on resolve
     legacy_errors = legacy_required_on_resolve
     rule_errors = rules.flat_map { |rule| evaluate_rule(rule) }
     errors = (legacy_errors + rule_errors).uniq
@@ -21,18 +25,24 @@ class Conversations::BusinessRulesGuard
 
   private
 
+  def system_status_change?
+    Current.executed_by.instance_of?(AutomationRule)
+  end
+
   def legacy_required_on_resolve
     return [] unless @new_status == 'resolved'
     return [] unless status_changing_to?('resolved')
 
     keys = Array(@account.settings&.dig('conversation_required_attributes')).map(&:to_s)
-    missing_attribute_errors(keys, code: 'required_on_resolve')
+    missing_attribute_errors(keys, code: 'required_on_resolve', model: 'conversation')
   end
 
   def evaluate_rule(rule)
     type = rule['type'].to_s
     raw_config = rule['config']
     config = (raw_config.is_a?(Hash) ? raw_config : {}).with_indifferent_access
+    return [] unless rule_conditions_satisfied?(rule, config, type)
+
     case type
     when 'require_attributes_on_status'
       require_attributes_on_status(config)
@@ -49,21 +59,68 @@ class Conversations::BusinessRulesGuard
     end
   end
 
+  def rule_conditions_satisfied?(rule, config, type)
+    conditions = Array(rule['conditions']).presence || Array(rule[:conditions]).presence
+    if conditions.present?
+      return BusinessRules::ConditionsMatcher.match?(
+        account: @account,
+        conversation: @conversation,
+        conditions: conditions,
+        rule_id: rule['id'] || rule[:id] || 'business_rule'
+      )
+    end
+
+    # Legacy if_attribute_then_require uses when_* when conditions are absent.
+    if type == 'if_attribute_then_require'
+      when_key = config[:when_attribute].to_s
+      return false if when_key.blank?
+
+      when_model = (config[:when_attribute_model].presence || 'conversation').to_s
+      return attribute_matches?(when_key, config[:when_values], model: when_model)
+    end
+
+    true
+  end
+
   def require_attributes_on_status(config)
     return [] unless status_changing_to?(config[:status].to_s)
 
-    missing_attribute_errors(Array(config[:attribute_keys]), code: 'require_attributes_on_status')
+    conv_keys = BusinessRules::RequiredAttributeKeys.resolve(
+      account: @account,
+      attribute_keys: config[:attribute_keys],
+      attribute_category_keys: config[:attribute_category_keys],
+      attribute_model: :conversation_attribute
+    )
+    contact_keys = BusinessRules::RequiredAttributeKeys.resolve(
+      account: @account,
+      attribute_keys: config[:contact_attribute_keys],
+      attribute_category_keys: config[:contact_attribute_category_keys],
+      attribute_model: :contact_attribute
+    )
+
+    missing_attribute_errors(conv_keys, code: 'require_attributes_on_status', model: 'conversation') +
+      missing_attribute_errors(contact_keys, code: 'require_attributes_on_status', model: 'contact')
   end
 
   def if_attribute_then_require(config)
     target_status = config[:on_status].presence || 'resolved'
     return [] unless status_changing_to?(target_status.to_s)
 
-    when_key = config[:when_attribute].to_s
-    return [] if when_key.blank?
-    return [] unless attribute_matches?(when_key, config[:when_values])
+    conv_keys = BusinessRules::RequiredAttributeKeys.resolve(
+      account: @account,
+      attribute_keys: config[:require_attribute_keys],
+      attribute_category_keys: config[:require_attribute_category_keys],
+      attribute_model: :conversation_attribute
+    )
+    contact_keys = BusinessRules::RequiredAttributeKeys.resolve(
+      account: @account,
+      attribute_keys: config[:require_contact_attribute_keys],
+      attribute_category_keys: config[:require_contact_attribute_category_keys],
+      attribute_model: :contact_attribute
+    )
 
-    missing_attribute_errors(Array(config[:require_attribute_keys]), code: 'if_attribute_then_require')
+    missing_attribute_errors(conv_keys, code: 'if_attribute_then_require', model: 'conversation') +
+      missing_attribute_errors(contact_keys, code: 'if_attribute_then_require', model: 'contact')
   end
 
   def require_reason_on_status(config)
@@ -73,13 +130,12 @@ class Conversations::BusinessRulesGuard
 
     errors = []
     reason_key = config[:reason_attribute_key].to_s
-    if reason_key.present? && attribute_blank?(reason_key)
-      errors << { code: 'require_reason_attribute', attribute_key: reason_key }
+    if reason_key.present? && attribute_blank?(reason_key, model: 'conversation')
+      errors << { code: 'require_reason_attribute', attribute_key: reason_key, attribute_model: 'conversation' }
     end
 
     if ActiveModel::Type::Boolean.new.cast(config[:require_private_note]) && !recent_private_note?
-      # If reason CA is filled, skip note requirement
-      unless reason_key.present? && !attribute_blank?(reason_key)
+      unless reason_key.present? && !attribute_blank?(reason_key, model: 'conversation')
         errors << { code: 'require_private_note' }
       end
     end
@@ -100,11 +156,14 @@ class Conversations::BusinessRulesGuard
     return [] unless status_changing_to?(config[:status].to_s)
     return [] unless ActiveModel::Type::Boolean.new.cast(config[:require_team_or_agent])
 
-    if @conversation.assignee_id.blank? && @conversation.team_id.blank?
-      [{ code: 'require_assignee_on_status' }]
-    else
-      []
-    end
+    # Bot assignee alone does not satisfy — inbox bots can't be cleared to "none".
+    return [] if human_assignee_or_team?
+
+    [{ code: 'require_assignee_on_status' }]
+  end
+
+  def human_assignee_or_team?
+    @conversation.assignee_id.present? || @conversation.team_id.present?
   end
 
   def status_changing_to?(status)
@@ -113,9 +172,9 @@ class Conversations::BusinessRulesGuard
     @new_status == status && @previous_status != status
   end
 
-  def attribute_matches?(key, when_values)
-    value = @conversation.custom_attributes&.[](key)
-    return false if attribute_value_blank?(value)
+  def attribute_matches?(key, when_values, model: 'conversation')
+    value = attribute_value(key, model: model)
+    return false if attribute_value_blank?(value, type: attribute_type_for(key, model: model))
 
     values = Array(when_values).map(&:to_s).reject(&:blank?)
     return true if values.empty?
@@ -123,19 +182,59 @@ class Conversations::BusinessRulesGuard
     Array.wrap(value).map(&:to_s).any? { |v| values.map(&:downcase).include?(v.downcase) }
   end
 
-  def attribute_blank?(key)
-    attribute_value_blank?(@conversation.custom_attributes&.[](key))
+  def attribute_blank?(key, model: 'conversation')
+    attribute_value_blank?(
+      attribute_value(key, model: model),
+      type: attribute_type_for(key, model: model)
+    )
   end
 
-  def attribute_value_blank?(value)
-    value.nil? || value == '' || (value.is_a?(Array) && value.empty?)
+  def attribute_value(key, model:)
+    if model.to_s == 'contact'
+      @conversation.contact&.custom_attributes&.[](key)
+    else
+      @conversation.custom_attributes&.[](key)
+    end
   end
 
-  def missing_attribute_errors(keys, code:)
+  def attribute_value_blank?(value, type: nil)
+    return true if value.nil? || value == '' || (value.is_a?(Array) && value.empty?)
+
+    if NUMERIC_DISPLAY_TYPES.include?(type.to_s)
+      numeric = Float(value, exception: false)
+      return true if numeric && numeric.zero?
+      return true if value.to_s.strip.match?(/\A0(?:\.0+)?\z/)
+    end
+
+    false
+  end
+
+  def attribute_type_for(key, model:)
+    attribute_definitions_by_model[model.to_s][key.to_s]
+  end
+
+  def attribute_definitions_by_model
+    @attribute_definitions_by_model ||= begin
+      map = { 'conversation' => {}, 'contact' => {} }
+      @account.custom_attribute_definitions.find_each do |definition|
+        bucket = if definition.conversation_attribute?
+                   'conversation'
+                 elsif definition.contact_attribute?
+                   'contact'
+                 end
+        next unless bucket
+
+        map[bucket][definition.attribute_key.to_s] = definition.attribute_display_type.to_s
+      end
+      map
+    end
+  end
+
+  def missing_attribute_errors(keys, code:, model:)
     Array(keys).map(&:to_s).reject(&:blank?).filter_map do |key|
-      next unless attribute_blank?(key)
+      next unless attribute_blank?(key, model: model)
 
-      { code: code, attribute_key: key }
+      { code: code, attribute_key: key, attribute_model: model }
     end
   end
 

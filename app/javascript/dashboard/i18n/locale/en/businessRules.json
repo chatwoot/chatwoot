@@ -3,9 +3,10 @@
     "HEADER": "Business rules",
     "TITLE": "Business rules (guardrails)",
     "DESCRIPTION": "Conditions that must be met before a conversation can change status. Only the attributes you select are required — never the full attribute list.",
-    "FORM_HELP": "Only the attributes you mark below will be required. Leaving none selected means the rule does not block status changes.",
+    "FORM_HELP": "Configure optional filter conditions (When), then the blocking effect (Then). Only selected attributes or categories are required.",
     "PRESETS_TITLE": "Quick presets",
-    "PRESETS_HELP": "One click adds a ready-made rule with empty attribute lists. Edit it to choose which fields apply.",
+    "PRESETS_HELP": "One click adds a ready-made rule. Edit it to choose which fields and conditions apply.",
+    "ACTIVATE_PRESET": "Activate",
     "EMPTY": "No guardrails yet. Create a custom rule or activate a preset.",
     "CREATE_CUSTOM": "Create rule",
     "CREATE_CUSTOM_TITLE": "New business rule",
@@ -19,10 +20,20 @@
     "SAVE_SUCCESS": "Business rules saved",
     "SAVE_ERROR": "Could not save business rules",
     "REMOVE": "Remove",
+    "LEGACY_BANNER": "This account still has legacy conversation required attributes. Prefer business rules below; both are enforced on resolve until you migrate.",
+    "SUMMARY": {
+      "STATUS": "Status {status}",
+      "CATEGORIES": "{count} categories",
+      "KEYS": "{count} fields",
+      "CONDITIONS": "{count} conditions",
+      "LABEL": "Label {label}",
+      "EMPTY": "Incomplete — edit to configure"
+    },
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Name",
         "TYPE": "Type",
+        "SUMMARY": "Summary",
         "ENABLED": "Enabled",
         "ACTION": "Actions"
       }
@@ -31,20 +42,37 @@
       "NAME": "Name",
       "NAME_PLACEHOLDER": "e.g. Require sale total on resolve",
       "TYPE": "Rule type",
+      "ENABLED": "Rule enabled",
       "STATUS": "Target status",
-      "STATUSES": "Statuses (comma-separated)",
+      "STATUSES": "Statuses",
       "STATUSES_PLACEHOLDER": "pending, snoozed",
       "ATTRIBUTES": "Required attributes",
-      "ATTRIBUTES_HELP": "Only checked attributes will be required. Do not select everything unless you truly need it.",
+      "ATTRIBUTES_HELP": "Mark a category to require all of its fields (including future ones), or pick individual fields.",
+      "CONDITIONS": "When (conditions)",
+      "CONDITIONS_HELP": "Optional. Same filters as Automations. Empty = always apply the effect on the target status.",
+      "ADD_CONDITION": "Add condition",
+      "EFFECT": "Then (effect)",
       "WHEN_ATTRIBUTE": "When this attribute is set",
+      "WHEN_ATTRIBUTE_MODEL": "Attribute belongs to",
       "WHEN_VALUES": "Trigger values (optional)",
       "WHEN_VALUES_PLACEHOLDER": "sale, won — empty = any value",
       "REQUIRE_ATTRIBUTES": "Then require these attributes",
       "REQUIRE_PRIVATE_NOTE": "Require a recent private note",
       "REASON_ATTRIBUTE": "Reason attribute (optional)",
       "LABEL": "Forbidden label",
-      "REQUIRE_TEAM_OR_AGENT": "Require team or agent assignee",
+      "REQUIRE_TEAM_OR_AGENT": "Require team or human agent",
+      "SECTION_CONVERSATION": "Conversation",
+      "SECTION_CONTACT": "Contact",
+      "UNCATEGORIZED": "Uncategorized",
+      "CATEGORY_ALL_HELP": "all {count} now and future",
       "NONE": "None"
+    },
+    "TYPE_HELP": {
+      "require_attributes_on_status": "Require selected conversation and/or contact fields when changing to the target status. On resolve, a modal asks for any missing values. Number/currency/percent values of 0 count as empty.",
+      "if_attribute_then_require": "Only when the When conditions match. Then require extra conversation and/or contact fields. On resolve, the same modal collects missing values. 0 is treated as empty for numeric fields.",
+      "require_reason_on_status": "When moving to pending/snoozed, require a recent private note and/or a conversation reason attribute.",
+      "forbid_status_if": "Block the status change if the conversation has the given label.",
+      "require_assignee_on_status": "Block the status change unless a team or human agent is assigned. An inbox bot does not count."
     },
     "TYPES": {
       "require_attributes_on_status": "Require attributes on status change",
@@ -60,17 +88,18 @@
       "snoozed": "Snoozed"
     },
     "NO_ATTRIBUTES": "No conversation attributes defined yet.",
+    "NO_CONTACT_ATTRIBUTES": "No contact attributes defined yet.",
     "PRESETS": {
       "REQUIRE_ON_RESOLVE": "Require attributes on resolve",
       "REQUIRE_ON_RESOLVE_DESC": "Agents must fill selected attributes before resolving.",
       "IF_X_REQUIRE_YZ": "If X then require Y/Z",
-      "IF_X_REQUIRE_YZ_DESC": "When an attribute matches, require additional fields on resolve.",
+      "IF_X_REQUIRE_YZ_DESC": "When filter conditions match, require additional fields on resolve.",
       "MOTIVO_POSPONER": "Reason when postponing",
       "MOTIVO_POSPONER_DESC": "Require a private note or reason attribute when pending/snoozed.",
       "FORBID_RESOLVE_LABEL": "Forbid resolve with label",
       "FORBID_RESOLVE_LABEL_DESC": "Block resolve when a conversation has a given label.",
       "REQUIRE_ASSIGNEE_ON_OPEN": "Require assignee on open",
-      "REQUIRE_ASSIGNEE_ON_OPEN_DESC": "Opening a conversation requires a team or agent.",
+      "REQUIRE_ASSIGNEE_ON_OPEN_DESC": "Opening requires a team or human agent (inbox bot does not count).",
       "POST_COMPRA": "Post-purchase follow-up (N days)",
       "POST_COMPRA_DESC": "After N days from a date attribute, run actions (label, message, etc.).",
       "FOLLOWUP_24H": "Follow-up after 24h without reply",
@@ -85,6 +114,13 @@
       "forbidden_label": "Cannot change status while label “{label}” is present",
       "missing_assignee": "Assign a team or agent before changing status",
       "generic": "Business rule blocked this status change"
+    },
+    "MODAL": {
+      "TITLE_RESOLVED": "Complete required fields to resolve",
+      "TITLE_PENDING": "Complete required fields for pending",
+      "TITLE_SNOOZED": "Complete required fields to snooze",
+      "TITLE_OPEN": "Complete required fields to open",
+      "PRIVATE_NOTE_HINT": "Add a private note in the conversation, then try again."
     }
   }
 }

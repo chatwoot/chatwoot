@@ -133,20 +133,31 @@ class Api::V1::AccountsController < Api::BaseController
       next if h[:type].blank?
 
       config = h[:config].is_a?(Hash) ? h[:config] : {}
-      {
+      conditions = Array(h[:conditions]).filter_map do |condition|
+        next unless condition.respond_to?(:to_h)
+
+        condition.to_h.deep_stringify_keys
+      end
+      payload = {
         'id' => h[:id].to_s.presence || "br_#{SecureRandom.hex(4)}",
         'preset_id' => h[:preset_id].presence,
         'type' => h[:type].to_s,
         'enabled' => ActiveModel::Type::Boolean.new.cast(h.fetch(:enabled, true)),
         'name' => h[:name].to_s,
-        'config' => config.deep_stringify_keys
-      }.compact
+        'config' => config.deep_stringify_keys,
+        'conditions' => conditions
+      }
+      payload.compact
     end
   end
 
   def permitted_settings_attributes
     [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label,
-     :resolved_label_key, { business_rules: [:id, :preset_id, :type, :enabled, :name, { config: {} }] }]
+     :resolved_label_key, {
+       business_rules: [:id, :preset_id, :type, :enabled, :name, { config: {} },
+                        { conditions: [:attribute_key, :filter_operator, :query_operator, :custom_attribute_type,
+                                       { values: [] }] }]
+     }]
   end
 
   def check_signup_enabled

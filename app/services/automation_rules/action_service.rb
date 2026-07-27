@@ -16,11 +16,25 @@ class AutomationRules::ActionService < ActionService
         ChatwootExceptionTracker.new(e, account: @account).capture_exception
       end
     end
+    append_system_audit_note
   ensure
     Current.reset
   end
 
   private
+
+  def append_system_audit_note
+    locale = @account.locale.presence || I18n.default_locale
+    content = I18n.with_locale(locale) do
+      I18n.t('automation.audit_note', name: @rule.name)
+    end
+
+    Conversations::SystemAuditNote.perform(
+      conversation: @conversation,
+      content: content,
+      content_attributes: { automation_rule_id: @rule.id }
+    )
+  end
 
   def execute_action(action)
     name = action[:action_name].to_s
@@ -33,6 +47,7 @@ class AutomationRules::ActionService < ActionService
 
   def send_attachment(blob_ids, delivery = nil)
     return if conversation_a_tweet?
+    return skip_outbound_outside_messaging_window! unless @conversation.can_reply?
 
     return unless @rule.files.attached?
 
@@ -54,6 +69,7 @@ class AutomationRules::ActionService < ActionService
 
   def send_message(message, delivery = nil)
     return if conversation_a_tweet?
+    return skip_outbound_outside_messaging_window! unless @conversation.can_reply?
 
     content = message.is_a?(Array) ? message[0] : message
     schedule_or_send_outbound(
@@ -64,6 +80,22 @@ class AutomationRules::ActionService < ActionService
       params = { content: content, private: false, content_attributes: { automation_rule_id: @rule.id } }
       Messages::MessageBuilder.new(nil, @conversation, params).perform
     end
+  end
+
+  def skip_outbound_outside_messaging_window!
+    locale = @account.locale.presence || I18n.default_locale
+    content = I18n.with_locale(locale) do
+      I18n.t('automation.message_skipped_messaging_window', name: @rule.name)
+    end
+
+    Conversations::SystemAuditNote.perform(
+      conversation: @conversation,
+      content: content,
+      content_attributes: {
+        automation_rule_id: @rule.id,
+        messaging_window_skipped: true
+      }
+    )
   end
 
   def add_private_note(message)

@@ -2,6 +2,7 @@
 import { ref, computed, h, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useOperators } from 'dashboard/components-next/filter/operators';
 import ConditionRow from 'dashboard/components-next/filter/ConditionRow.vue';
 import AutomationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
@@ -61,6 +62,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['save']);
+
+const DATE_SCHEDULE_ATTRIBUTE_TYPES = new Set(['date', 'datetime']);
+
 const automation = defineModel('automation', { type: Object, default: null });
 
 const INPUT_TYPE_MAP = {
@@ -75,12 +79,49 @@ const INPUT_TYPE_MAP = {
 const { t } = useI18n();
 const { isCloudFeatureEnabled } = useAccount();
 const { operators } = useOperators();
+const customAttributes = useMapGetter('attributes/getAttributes');
 
 const dialogRef = ref(null);
 const conditionsRef = useTemplateRef('conditionsRef');
 const errors = ref({});
 
 const isEditMode = computed(() => props.mode === 'edit');
+
+const scheduleDateAttributeOptions = computed(() => {
+  const options = (customAttributes.value || [])
+    .filter(
+      attr =>
+        attr.attribute_model === 'conversation_attribute' &&
+        DATE_SCHEDULE_ATTRIBUTE_TYPES.has(String(attr.attribute_display_type))
+    )
+    .map(attr => {
+      const base = attr.attribute_display_name || attr.attribute_key;
+      const label =
+        attr.attribute_display_type === 'datetime'
+          ? `${base} (${t('AUTOMATION.ADD.FORM.SCHEDULE.ATTRIBUTE_TYPE_DATETIME')})`
+          : base;
+      return {
+        key: attr.attribute_key,
+        label,
+        type: attr.attribute_display_type,
+      };
+    })
+    .sort((a, b) => a.label.localeCompare(b.label));
+
+  // Keep orphan keys from saved rules selectable (renamed/deleted CA).
+  const currentKey = automation.value?.schedule?.attribute_key;
+  if (currentKey && !options.some(option => option.key === currentKey)) {
+    options.unshift({
+      key: currentKey,
+      label: t('AUTOMATION.ADD.FORM.SCHEDULE.ATTRIBUTE_KEY_ORPHAN', {
+        key: currentKey,
+      }),
+      type: 'unknown',
+    });
+  }
+
+  return options;
+});
 
 const titleKey = computed(() =>
   isEditMode.value ? 'AUTOMATION.EDIT.TITLE' : 'AUTOMATION.ADD.TITLE'
@@ -343,14 +384,27 @@ defineExpose({ open, close });
             class="text-sm text-n-slate-11"
           >
             {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.ATTRIBUTE_KEY') }}
-            <input
+            <select
               v-model="automation.schedule.attribute_key"
-              type="text"
-              class="mt-1 w-full"
-              :placeholder="
-                $t('AUTOMATION.ADD.FORM.SCHEDULE.ATTRIBUTE_KEY_PLACEHOLDER')
-              "
-            />
+              class="mt-1 w-full m-0"
+            >
+              <option value="">
+                {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.ATTRIBUTE_KEY_EMPTY') }}
+              </option>
+              <option
+                v-for="attr in scheduleDateAttributeOptions"
+                :key="attr.key"
+                :value="attr.key"
+              >
+                {{ attr.label }}
+              </option>
+            </select>
+            <p
+              v-if="!scheduleDateAttributeOptions.length"
+              class="m-0 mt-1 text-xs text-n-slate-10"
+            >
+              {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.ATTRIBUTE_KEY_NONE') }}
+            </p>
           </label>
           <label
             v-if="automation.schedule.kind === 'days_since_attribute'"

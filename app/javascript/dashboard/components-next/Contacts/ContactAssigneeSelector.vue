@@ -141,7 +141,9 @@ const handleSelfUnassign = () => {
     :disabled="disabled || isUpdating"
     has-thumbnail
     :class="{
-      'ring-2 ring-n-brand/70 animate-pulse rounded-lg': isUnassigned,
+      // No animate-pulse: opacity animation traps the dropdown stacking
+      // context and makes the menu look transparent over sidebar content.
+      'ring-2 ring-n-brand/70 rounded-lg': isUnassigned,
     }"
     @select="handleSelect"
   />
@@ -152,7 +154,7 @@ const handleSelfUnassign = () => {
     :label="t('CONTACTS_LAYOUT.DETAILS.ASSIGNEE.LABEL')"
     filled
     :class="{
-      'ring-2 ring-n-brand/70 animate-pulse rounded-lg': isUnassigned,
+      'ring-2 ring-n-brand/70 rounded-lg': isUnassigned,
     }"
   >
     <NextButton

@@ -619,6 +619,8 @@ en:
     policy_actor: 'Automation System via %{policy_name}'
   automation:
     system_name: 'Automation System'
+    audit_note: 'Automation "%{name}" ran.'
+    message_skipped_messaging_window: 'Automation "%{name}" did not send an outbound message (messaging window closed).'
   crm:
     no_message: 'No messages in conversation'
     attachment: '[Attachment: %{type}]'
