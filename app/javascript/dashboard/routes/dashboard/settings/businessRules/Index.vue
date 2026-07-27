@@ -19,6 +19,7 @@ import {
   BUSINESS_RULE_PRESETS,
   emptyConfigForType,
   newRuleId,
+  summarizeRule,
 } from 'dashboard/components-next/ConversationWorkflow/businessRulesConstants';
 
 const { t } = useI18n();
@@ -33,6 +34,7 @@ const dialogMode = ref('create');
 
 onMounted(() => {
   store.dispatch('attributes/get');
+  store.dispatch('labels/get');
 });
 
 watch(
@@ -48,6 +50,7 @@ watch(
 const tableHeaders = computed(() => [
   t('BUSINESS_RULES.LIST.TABLE_HEADER.NAME'),
   t('BUSINESS_RULES.LIST.TABLE_HEADER.TYPE'),
+  t('BUSINESS_RULES.LIST.TABLE_HEADER.SUMMARY'),
   t('BUSINESS_RULES.LIST.TABLE_HEADER.ENABLED'),
   t('BUSINESS_RULES.LIST.TABLE_HEADER.ACTION'),
 ]);
@@ -57,6 +60,12 @@ const unusedPresets = computed(() =>
     preset => !rules.value.some(rule => rule.preset_id === preset.id)
   )
 );
+
+const hasLegacyRequiredAttributes = computed(() => {
+  const legacy =
+    currentAccount.value?.settings?.conversation_required_attributes || [];
+  return Array.isArray(legacy) && legacy.length > 0;
+});
 
 const typeLabel = type => t(`BUSINESS_RULES.TYPES.${type}`);
 
@@ -81,6 +90,7 @@ const openCreate = () => {
     type: 'require_attributes_on_status',
     enabled: true,
     preset_id: null,
+    conditions: [],
     config: emptyConfigForType('require_attributes_on_status'),
   };
   dialogRef.value?.open();
@@ -105,6 +115,9 @@ const saveFromDialog = async () => {
   const payload = {
     ...formRule.value,
     name: formRule.value.name.trim(),
+    conditions: Array.isArray(formRule.value.conditions)
+      ? formRule.value.conditions
+      : [],
     config: { ...(formRule.value.config || {}) },
   };
   let next;
@@ -125,6 +138,7 @@ const activatePreset = async preset => {
     ...JSON.parse(JSON.stringify(preset.defaults)),
   };
   if (!rule.config) rule.config = emptyConfigForType(rule.type);
+  if (!Array.isArray(rule.conditions)) rule.conditions = [];
   await persist([...rules.value, rule]);
 };
 
@@ -166,6 +180,13 @@ const dialogTitle = computed(() =>
 
     <template #body>
       <div
+        v-if="hasLegacyRequiredAttributes"
+        class="mb-4 rounded-lg border border-n-amber-5 bg-n-amber-2/40 p-3 text-sm text-n-slate-12"
+      >
+        {{ $t('BUSINESS_RULES.LEGACY_BANNER') }}
+      </div>
+
+      <div
         v-if="unusedPresets.length"
         class="mb-6 flex flex-col gap-3 rounded-lg border border-n-weak bg-n-solid-2 p-4"
       >
@@ -177,16 +198,28 @@ const dialogTitle = computed(() =>
             {{ $t('BUSINESS_RULES.PRESETS_HELP') }}
           </p>
         </div>
-        <div class="flex flex-wrap gap-2">
-          <Button
+        <div class="flex flex-col gap-2">
+          <div
             v-for="preset in unusedPresets"
             :key="preset.id"
-            sm
-            faded
-            :label="$t(preset.nameKey)"
-            :is-loading="saving"
-            @click="activatePreset(preset)"
-          />
+            class="flex flex-wrap items-center justify-between gap-2 rounded-md border border-n-weak bg-n-solid-1 p-3"
+          >
+            <div>
+              <p class="m-0 text-sm font-medium text-n-slate-12">
+                {{ $t(preset.nameKey) }}
+              </p>
+              <p class="mb-0 mt-1 text-xs text-n-slate-11">
+                {{ $t(preset.descriptionKey) }}
+              </p>
+            </div>
+            <Button
+              sm
+              faded
+              :label="$t('BUSINESS_RULES.ACTIVATE_PRESET')"
+              :is-loading="saving"
+              @click="activatePreset(preset)"
+            />
+          </div>
         </div>
       </div>
 
@@ -206,6 +239,11 @@ const dialogTitle = computed(() =>
               <BaseTableCell>
                 <span class="text-body-main text-n-slate-11">
                   {{ typeLabel(rule.type) }}
+                </span>
+              </BaseTableCell>
+              <BaseTableCell>
+                <span class="text-xs text-n-slate-11">
+                  {{ summarizeRule(rule, t) }}
                 </span>
               </BaseTableCell>
               <BaseTableCell>

@@ -3,8 +3,14 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** feature `B-NEW-31` business rules contact attrs +
-zero-as-blank + TYPE_HELP (2026-07-27). Antes: hotfix `B-NEW-30` toggle_status 500
+**Última actualización:** hotfix `B-NEW-36` exigir agente humano + selector
+contacto transparente (2026-07-27). Antes: hotfix `B-NEW-35` BR guard skip
+en automations (2026-07-27). Antes: hotfix `B-NEW-34` motivo al posponer (nota FE +
+snooze errors) (2026-07-27). Antes: hotfix `B-NEW-33` dialog BR submit
+accidental (MultiSelect type=button) (2026-07-27). Antes: feature `B-NEW-32`
+business rules ConditionRow + categorías + multi-status (2026-07-27). Antes:
+feature `B-NEW-31` business rules contact attrs + zero-as-blank + TYPE_HELP
+(2026-07-27). Antes: hotfix `B-NEW-30` toggle_status 500
 (`activity_message_params` kwargs) + resolve modal currency/percent (2026-07-27).
 Antes: hotfix `B-NEW-29` dashboard JS post-4.16.1
 (`hasFilteredUnreadCounts` / `useI18n`) (2026-07-26). Antes: hotfix
@@ -90,6 +96,11 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-29 | 🔴 P0 prod | Sí | ✅ Dashboard JS: `hasFilteredUnreadCounts` + `useI18n` imports |
 | B-NEW-30 | 🔴 P0 prod | Sí | ✅ toggle_status 500: `activity_message_params` + modal currency/percent |
 | B-NEW-31 | Feature | No | ✅ Business rules: contact attrs + zero-as-blank + TYPE_HELP |
+| B-NEW-32 | Feature | No | ✅ Business rules UX: ConditionRow + categorías + multi-status (sin tab tiempo) |
+| B-NEW-33 | Bug UX | No | ✅ Dialog BR: MultiSelect/ConditionRow buttons type=button (no submit accidental) |
+| B-NEW-34 | Bug UX | No | ✅ Motivo al posponer: FE no bloquea nota a ciegas; snooze con errores BR |
+| B-NEW-35 | Bug | No | ✅ BR Guard no bloquea cambios de status hechos por AutomationRule |
+| B-NEW-36 | Bug | No | ✅ Exigir assignee = humano/equipo (bot no cuenta); ContactAssignee dropdown |
 
 ---
 
@@ -847,6 +858,80 @@ modelos y guarda contacto vía `contacts/update` antes de `toggle_status`.
 **Cómo probar:** Settings → Business rules → exigir CA de contacto +
 condicional `tipo=venta` → currency; resolve con `0` bloquea; valor > 0 OK.
 Local: `up -d --build` (Vue en imagen).
+
+### B-NEW-32 — Business rules UX: ConditionRow + categorías + multi-status
+
+**Feature.** Guards usan `conditions[]` (mismos filtros que Automations via
+`ConditionRow`), pueden exigir attrs por **categoría**, y el pre-check FE
+cubre resolve/pending/open (forbid/assignee/nota vía alert). Las reglas por
+tiempo siguen solo en **Automations** (`time_triggered`), no en Business rules.
+
+**Archivos:**
+- `BusinessRules::ConditionsMatcher`, `RequiredAttributeKeys`, Guard
+- `BusinessRuleForm.vue`, `AttributeRequirementPicker.vue`, Index
+- `useBusinessRulesStatusGuard.js`, ResolveAction / ChatList / bulk
+
+**Cómo probar:** form Cuando/Entonces; categoría Venta exige keys nuevas;
+resolve modal; pending con require_reason. Local: `--build`.
+
+### B-NEW-33 — Dialog Business rules: clic en filtro guardaba la regla
+
+**Causa:** `Dialog` usa `<form @submit>` y `MultiSelect` / trash / “Añadir
+condición” renderizaban `<button>` sin `type="button"` → submit al abrir
+estados (multiSelect).
+
+**Fix:** `type="button"` en `MultiSelect.vue`, `ConditionRow.vue`,
+`BusinessRuleForm.vue`.
+
+**Cómo probar:** editar regla → condición Status → abrir valores; el modal
+no debe cerrarse ni guardar.
+
+### B-NEW-34 — Motivo al posponer: FE bloqueaba nota y snooze sin error
+
+**Causa:** pre-check FE marcaba `needsPrivateNote` sin mirar mensajes →
+pending nunca llegaba al Guard. Snooze vía cmdbar no formateaba 422 de BR.
+
+**Fix:** defer nota privada al API; snooze pre-check + `formatBusinessRuleError`;
+si falta CA de motivo al posponer desde ResolveAction, modal → luego picker.
+
+**Cómo probar:** preset motivo (solo nota) → pending sin nota → alert API;
+añadir nota privada → pending OK. Snooze sin nota → alert legible.
+
+### B-NEW-35 — Automation por tiempo + regla “motivo al posponer” chocaban
+
+**Causa:** `BusinessRulesGuard` corre en todo `will_save_change_to_status?`.
+Una automation (`snooze_conversation` / `pending`) no llena motivo/nota →
+`RecordInvalid` tragado por `AutomationRules::ActionService` → mensaje sí,
+posponer no.
+
+**Fix:** si `Current.executed_by` es `AutomationRule`, el Guard retorna OK
+(candados para agentes; robots no). Macros / UI agent siguen validados.
+
+**Archivo:** `app/services/conversations/business_rules_guard.rb`
+
+**Cómo probar:** regla motivo en snoozed + automation “tras N min → snooze +
+mensaje” → conversación queda snoozed y mensaje enviado. Agente snooze
+sin motivo → sigue bloqueado.
+
+### B-NEW-36 — Exigir agente + dropdown contacto transparente
+
+**Causa (assignee):** FE trataba `meta.assignee` (incluye bot del canal) como
+válido → la regla nunca pedía humano. Backend ya miraba `assignee_id` (User).
+
+**Fix:** FE usa `isHumanAssigneeMeta` o team; copy aclara “humano / bot no cuenta”.
+
+**Causa (UI):** `animate-pulse` en Sin asignar anima opacity → stacking context
++ menú `bg-n-alpha` → Acciones de conversación se ven a través del dropdown.
+
+**Fix:** quitar pulse; menú con fondo sólido + `z-50` al abrir en
+`OutlinedSelectField`.
+
+**Archivos:** `useBusinessRulesStatusGuard.js`, `ContactAssigneeSelector.vue`,
+`OutlinedSelectField.vue`, i18n businessRules.
+
+**Cómo probar:** inbox con bot, conversación solo-bot, regla exigir al abrir →
+bloquea hasta asignar humano/equipo. Contacto sin agente → abrir selector →
+lista legible opaca.
 
 ---
 

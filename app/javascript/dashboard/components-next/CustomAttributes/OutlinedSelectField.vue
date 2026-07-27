@@ -96,7 +96,7 @@ const onAction = item => {
     <div
       v-on-clickaway="closeMenu"
       class="relative flex items-center w-full min-h-8 gap-1.5"
-      :class="{ 'cursor-pointer': !disabled }"
+      :class="{ 'cursor-pointer': !disabled, 'z-50': showMenu }"
       @click="onTriggerClick"
     >
       <Avatar
@@ -129,7 +129,7 @@ const onAction = item => {
         :menu-items="menuItems"
         :show-search="showSearch"
         :thumbnail-size="20"
-        class="w-full min-w-[14rem] max-h-64 mt-1 top-full ltr:left-0 rtl:right-0 z-[100]"
+        class="w-full min-w-[14rem] max-h-64 mt-1 top-full ltr:left-0 rtl:right-0 z-[100] !bg-n-solid-2 dark:!bg-n-solid-3 !backdrop-blur-none"
         @click.stop
         @action="onAction"
       />

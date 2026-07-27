@@ -31,7 +31,7 @@ import {
   useSnakeCase,
 } from 'dashboard/composables/useTransformKeys';
 import { useEmitter } from 'dashboard/composables/emitter';
-import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
+import { useBusinessRulesStatusGuard } from 'dashboard/composables/useBusinessRulesStatusGuard';
 
 import { emitter } from 'shared/helpers/mitt';
 
@@ -150,7 +150,7 @@ const {
   attributeModel: 'conversation_attribute',
 });
 
-const { checkMissingAttributes } = useConversationRequiredAttributes();
+const { checkStatusChange } = useBusinessRulesStatusGuard();
 
 // computed
 
@@ -629,9 +629,7 @@ const onExportConversations = async query => {
     await ConversationAPI.exportConversations(query);
     useAlert(t('CHAT_LIST.EXPORT_CONVERSATION.SUCCESS_MESSAGE'));
   } catch (error) {
-    useAlert(
-      error.message || t('CHAT_LIST.EXPORT_CONVERSATION.ERROR_MESSAGE')
-    );
+    useAlert(error.message || t('CHAT_LIST.EXPORT_CONVERSATION.ERROR_MESSAGE'));
   } finally {
     isExportingConversations.value = false;
   }
@@ -823,43 +821,60 @@ function handleResolveConversation(conversationId, status, snoozedUntil) {
     return;
   }
 
-  // Check for required attributes before resolving
   const conversation = getConversationById.value(conversationId);
-  const currentCustomAttributes = conversation?.custom_attributes || {};
-  const { hasMissing, missing } = checkMissingAttributes(
-    currentCustomAttributes
-  );
+  const guard = checkStatusChange(conversation, status);
+  if (guard.forbiddenLabels?.length || guard.needsAssignee) {
+    return;
+  }
 
-  if (hasMissing) {
-    // Pass conversation context through the modal's API
-    const conversationContext = {
-      id: conversationId,
-      snoozedUntil,
-    };
+  if (guard.missingAttributes?.length) {
     resolveAttributesModalRef.value?.open(
-      missing,
-      currentCustomAttributes,
-      conversationContext
+      guard.missingAttributes,
+      conversation?.custom_attributes || {},
+      { id: conversationId, snoozedUntil, status },
+      conversation?.meta?.sender?.custom_attributes || {}
     );
   } else {
     toggleConversationStatus(conversationId, status, snoozedUntil);
   }
 }
 
-function handleResolveWithAttributes({ attributes, context }) {
-  if (context) {
-    const existingConversation = getConversationById.value(context.id);
+function handleResolveWithAttributes({
+  attributes,
+  contactAttributes = {},
+  context,
+}) {
+  if (!context) return;
+
+  const existingConversation = getConversationById.value(context.id);
+  const contactId = existingConversation?.meta?.sender?.id;
+  const runToggle = () => {
     const currentCustomAttributes =
       existingConversation?.custom_attributes || {};
     const mergedAttributes = { ...currentCustomAttributes, ...attributes };
-
     toggleConversationStatus(
       context.id,
-      wootConstants.STATUS_TYPE.RESOLVED,
+      context.status || wootConstants.STATUS_TYPE.RESOLVED,
       context.snoozedUntil,
       mergedAttributes
     );
+  };
+
+  if (contactId && Object.keys(contactAttributes || {}).length) {
+    store
+      .dispatch('contacts/update', {
+        id: contactId,
+        customAttributes: {
+          ...(existingConversation?.meta?.sender?.custom_attributes || {}),
+          ...contactAttributes,
+        },
+      })
+      .then(runToggle)
+      .catch(() => {});
+    return;
   }
+
+  runToggle();
 }
 
 function allSelectedConversationsStatus(status) {

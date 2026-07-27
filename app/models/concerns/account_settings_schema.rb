@@ -31,7 +31,11 @@ module AccountSettingsSchema
               'type': { 'type': 'string' },
               'enabled': { 'type': %w[boolean null] },
               'name': { 'type': %w[string null] },
-              'config': { 'type': %w[object null] }
+              'config': { 'type': %w[object null] },
+              'conditions': {
+                'type': %w[array null],
+                'items': { 'type': 'object' }
+              }
             },
             'required': ['type'],
             'additionalProperties': true

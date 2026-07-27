@@ -6,7 +6,8 @@ import { useI18n } from 'vue-i18n';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
+import { useBusinessRulesStatusGuard } from 'dashboard/composables/useBusinessRulesStatusGuard';
+import { useFormatBusinessRuleError } from 'dashboard/composables/useFormatBusinessRuleError';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
@@ -23,7 +24,8 @@ import ConversationResolveAttributesModal from 'dashboard/components-next/Conver
 const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
-const { checkMissingAttributes } = useConversationRequiredAttributes();
+const { checkStatusChange } = useBusinessRulesStatusGuard();
+const formatBusinessRuleError = useFormatBusinessRuleError();
 
 const arrowDownButtonRef = ref(null);
 const isLoading = ref(false);
@@ -76,47 +78,20 @@ const getConversationParams = () => {
   };
 };
 
-const openSnoozeModal = () => {
-  const ninja = document.querySelector('ninja-keys');
-  ninja.open({ parent: 'snooze_conversation' });
-};
-
-const formatBusinessRuleError = message => {
-  if (!message || typeof message !== 'string') return null;
-
-  const text = message.replace(/^Status\s+/i, '').trim();
-  const missingAttr = text.match(/missing_attribute:(\S+)/);
-  if (missingAttr) {
-    return t('BUSINESS_RULES.STATUS_ERRORS.missing_attribute', {
-      key: missingAttr[1],
-    });
+const showGuardAlerts = guard => {
+  if (guard.forbiddenLabels?.length) {
+    useAlert(
+      t('BUSINESS_RULES.STATUS_ERRORS.forbidden_label', {
+        label: guard.forbiddenLabels[0],
+      })
+    );
+    return true;
   }
-  const missingReason = text.match(/missing_reason_attribute:(\S+)/);
-  if (missingReason) {
-    return t('BUSINESS_RULES.STATUS_ERRORS.missing_reason_attribute', {
-      key: missingReason[1],
-    });
+  if (guard.needsAssignee) {
+    useAlert(t('BUSINESS_RULES.STATUS_ERRORS.missing_assignee'));
+    return true;
   }
-  if (text.includes('missing_private_note')) {
-    return t('BUSINESS_RULES.STATUS_ERRORS.missing_private_note');
-  }
-  const forbidden = text.match(/forbidden_label:(\S+)/);
-  if (forbidden) {
-    return t('BUSINESS_RULES.STATUS_ERRORS.forbidden_label', {
-      label: forbidden[1],
-    });
-  }
-  if (text.includes('missing_assignee')) {
-    return t('BUSINESS_RULES.STATUS_ERRORS.missing_assignee');
-  }
-  if (
-    /missing_attribute|missing_reason|forbidden_label|missing_assignee|missing_private_note/.test(
-      text
-    )
-  ) {
-    return t('BUSINESS_RULES.STATUS_ERRORS.generic');
-  }
-  return text;
+  return false;
 };
 
 const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
@@ -153,6 +128,49 @@ const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
     });
 };
 
+const openSnoozeModal = () => {
+  closeDropdown();
+  const guard = checkStatusChange(
+    currentChat.value,
+    wootConstants.STATUS_TYPE.SNOOZED
+  );
+  if (showGuardAlerts(guard)) return;
+
+  if (guard.missingAttributes?.length) {
+    resolveAttributesModalRef.value?.open(
+      guard.missingAttributes,
+      currentChat.value.custom_attributes || {},
+      {
+        id: currentChat.value.id,
+        status: wootConstants.STATUS_TYPE.SNOOZED,
+        openSnoozeAfter: true,
+      },
+      currentChat.value.meta?.sender?.custom_attributes || {}
+    );
+    return;
+  }
+
+  const ninja = document.querySelector('ninja-keys');
+  ninja?.open({ parent: 'snooze_conversation' });
+};
+
+const attemptStatusChange = (status, snoozedUntil = null) => {
+  const guard = checkStatusChange(currentChat.value, status);
+  if (showGuardAlerts(guard)) return;
+
+  if (guard.missingAttributes?.length) {
+    resolveAttributesModalRef.value?.open(
+      guard.missingAttributes,
+      currentChat.value.custom_attributes || {},
+      { id: currentChat.value.id, snoozedUntil, status },
+      currentChat.value.meta?.sender?.custom_attributes || {}
+    );
+    return;
+  }
+
+  toggleStatus(status, snoozedUntil);
+};
+
 const handleResolveWithAttributes = async ({
   attributes,
   contactAttributes = {},
@@ -180,41 +198,36 @@ const handleResolveWithAttributes = async ({
 
   const currentCustomAttributes = currentChat.value.custom_attributes || {};
   const mergedAttributes = { ...currentCustomAttributes, ...attributes };
+
+  // Snooze needs a time from the command bar — save attrs first, then open picker.
+  if (context.openSnoozeAfter) {
+    try {
+      await store.dispatch('updateCustomAttributes', {
+        conversationId: currentChat.value.id,
+        customAttributes: mergedAttributes,
+      });
+    } catch (error) {
+      useAlert(t('CONVERSATION.CHANGE_STATUS_FAILED'));
+      return;
+    }
+    const ninja = document.querySelector('ninja-keys');
+    ninja?.open({ parent: 'snooze_conversation' });
+    return;
+  }
+
   toggleStatus(
-    wootConstants.STATUS_TYPE.RESOLVED,
+    context.status || wootConstants.STATUS_TYPE.RESOLVED,
     context.snoozedUntil,
     mergedAttributes
   );
 };
 
 const onCmdOpenConversation = () => {
-  toggleStatus(wootConstants.STATUS_TYPE.OPEN);
+  attemptStatusChange(wootConstants.STATUS_TYPE.OPEN);
 };
 
 const onCmdResolveConversation = () => {
-  const currentCustomAttributes = currentChat.value.custom_attributes || {};
-  const contactCustomAttributes =
-    currentChat.value.meta?.sender?.custom_attributes || {};
-  const { hasMissing, missing } = checkMissingAttributes(
-    currentCustomAttributes,
-    wootConstants.STATUS_TYPE.RESOLVED,
-    contactCustomAttributes
-  );
-
-  if (hasMissing) {
-    const conversationContext = {
-      id: currentChat.value.id,
-      snoozedUntil: null,
-    };
-    resolveAttributesModalRef.value?.open(
-      missing,
-      currentCustomAttributes,
-      conversationContext,
-      contactCustomAttributes
-    );
-  } else {
-    toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
-  }
+  attemptStatusChange(wootConstants.STATUS_TYPE.RESOLVED);
 };
 
 const keyboardEvents = {
@@ -324,7 +337,9 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
             start
             icon="i-lucide-circle-dot-dashed"
             class="w-full"
-            @click="() => toggleStatus(wootConstants.STATUS_TYPE.PENDING)"
+            @click="
+              () => attemptStatusChange(wootConstants.STATUS_TYPE.PENDING)
+            "
           />
         </WootDropdownItem>
       </WootDropdownMenu>

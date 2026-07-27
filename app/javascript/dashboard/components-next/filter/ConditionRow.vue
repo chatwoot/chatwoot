@@ -245,6 +245,7 @@ defineExpose({ validate, resetValidation });
         />
       </template>
       <Button
+        type="button"
         sm
         solid
         slate

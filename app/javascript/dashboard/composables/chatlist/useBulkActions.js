@@ -3,13 +3,13 @@ import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
-import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
+import { useBusinessRulesStatusGuard } from 'dashboard/composables/useBusinessRulesStatusGuard';
 import wootConstants from 'dashboard/constants/globals';
 
 export function useBulkActions() {
   const store = useStore();
   const { t } = useI18n();
-  const { checkMissingAttributes } = useConversationRequiredAttributes();
+  const { checkStatusChange } = useBusinessRulesStatusGuard();
 
   const selectedConversations = useMapGetter(
     'bulkActions/getSelectedConversationIds'
@@ -58,11 +58,12 @@ export function useBulkActions() {
 
   // Same method used in context menu, conversationId being passed from there.
   async function onAssignAgent(agent, conversationId = null) {
-    const conversationIds = conversationId
-      ? Array.isArray(conversationId)
+    let conversationIds = selectedConversations.value;
+    if (conversationId) {
+      conversationIds = Array.isArray(conversationId)
         ? conversationId
-        : [conversationId]
-      : selectedConversations.value;
+        : [conversationId];
+    }
 
     try {
       if (!agent?.id) {
@@ -196,12 +197,9 @@ export function useBulkActions() {
       const { validIds, skippedIds } = selectedConversations.value.reduce(
         (acc, id) => {
           const conversation = store.getters.getConversationById(id);
-          const currentCustomAttributes = conversation?.custom_attributes || {};
-          const { hasMissing } = checkMissingAttributes(
-            currentCustomAttributes
-          );
+          const guard = checkStatusChange(conversation, status);
 
-          if (!hasMissing) {
+          if (!guard.blocked) {
             acc.validIds.push(id);
           } else {
             acc.skippedIds.push(id);

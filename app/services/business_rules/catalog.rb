@@ -22,7 +22,11 @@ module BusinessRules
             'defaults' => {
               'type' => 'require_attributes_on_status',
               'enabled' => true,
-              'config' => { 'status' => 'resolved', 'attribute_keys' => [] }
+              'config' => {
+              'status' => 'resolved',
+              'attribute_keys' => [],
+              'attribute_category_keys' => []
+            }
             }
           },
           {
@@ -38,6 +42,7 @@ module BusinessRules
                 'when_attribute' => '',
                 'when_values' => [],
                 'require_attribute_keys' => [],
+                'require_attribute_category_keys' => [],
                 'on_status' => 'resolved'
               }
             }
