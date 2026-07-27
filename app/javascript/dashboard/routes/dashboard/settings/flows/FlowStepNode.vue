@@ -19,12 +19,17 @@ const displayTitle = computed(() => {
   return props.data.label;
 });
 
-const cardClass = computed(() => [
-  'min-w-[11rem] max-w-[15rem] rounded-md shadow-sm outline outline-1 px-2.5 py-2 bg-n-background dark:bg-n-solid-1',
-  props.selected
-    ? 'outline-n-brand bg-n-blue-2/40 dark:bg-n-solid-blue'
-    : 'outline-n-weak',
-]);
+const cardClass = computed(() => {
+  const base =
+    'min-w-[11rem] max-w-[15rem] rounded-md shadow-sm outline outline-1 px-2.5 py-2 bg-n-background dark:bg-n-solid-1';
+  if (props.data.brokenBranch) {
+    return `${base} outline-n-amber-9 bg-n-amber-2/40 dark:bg-n-solid-amber`;
+  }
+  if (props.selected) {
+    return `${base} outline-n-brand bg-n-blue-2/40 dark:bg-n-solid-blue`;
+  }
+  return `${base} outline-n-weak`;
+});
 
 const onRemove = event => {
   event.stopPropagation();
@@ -64,11 +69,11 @@ const handleStyle = leftPercent => ({
       {{ displayTitle }}
     </p>
 
-    <div v-if="filledButtons.length" class="mt-1.5 flex flex-col gap-1 pb-2">
+    <div v-if="filledButtons.length" class="mt-2 flex flex-col gap-1.5 pb-3">
       <span
         v-for="(btn, i) in filledButtons"
         :key="i"
-        class="text-[11px] leading-tight font-medium text-n-amber-11 bg-n-amber-2 dark:bg-n-solid-amber px-2 py-1 rounded truncate w-full text-center"
+        class="text-[11px] leading-tight font-medium text-n-amber-11 bg-n-amber-2 dark:bg-n-solid-amber px-2 py-1.5 rounded truncate w-full text-center"
       >
         {{ btn.title }}
       </span>

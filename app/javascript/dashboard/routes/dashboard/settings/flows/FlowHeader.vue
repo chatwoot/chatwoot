@@ -15,6 +15,7 @@ const emit = defineEmits([
   'update:description',
   'update:category',
   'open-exit',
+  'open-overview',
   'submit',
 ]);
 
@@ -56,6 +57,15 @@ const { t } = useI18n();
           {{ t('FLOWS.HEADER_BTN_TXT_SAVE') }}
         </span>
         <div class="flex items-center gap-2 h-10">
+          <NextButton
+            v-tooltip.top="t('FLOWS.EDIT.OVERVIEW_TOOLTIP')"
+            slate
+            faded
+            icon="i-lucide-info"
+            class="!h-10 !min-h-10 !w-10 !min-w-10 !px-0 !py-0"
+            :aria-label="t('FLOWS.EDIT.OVERVIEW_TOOLTIP')"
+            @click="emit('open-overview')"
+          />
           <NextButton
             slate
             faded

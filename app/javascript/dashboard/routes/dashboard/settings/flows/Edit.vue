@@ -12,6 +12,7 @@ import FlowCanvas from './FlowCanvas.vue';
 import FlowStepInspector from './FlowStepInspector.vue';
 import FlowHeader from './FlowHeader.vue';
 import FlowFooter from './FlowFooter.vue';
+import FlowOverview from './FlowOverview.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const { t } = useI18n();
@@ -30,6 +31,9 @@ const loading = ref(!isNew.value);
 const saving = ref(false);
 const selectedStepId = ref(null);
 const exitDialogRef = ref(null);
+const overviewDialogRef = ref(null);
+const layoutPositions = ref({});
+const canvasViewport = ref({ x: 0, y: 0, zoom: 1 });
 
 const name = ref('');
 const description = ref('');
@@ -76,6 +80,7 @@ const ensureStepShape = step => {
   if (step.title === undefined) step.title = '';
   if (!Array.isArray(step.buttons)) step.buttons = [];
   if (!step.branches) step.branches = {};
+  if (step.next === undefined) step.next = 'end';
   if (!step.actions?.length) step.actions = [emptyAction()];
   return step;
 };
@@ -87,6 +92,7 @@ const addStep = () => {
     actions: [emptyAction()],
     buttons: [],
     branches: {},
+    next: 'end',
   });
   steps.value.push(step);
   selectedStepId.value = step.id;
@@ -125,10 +131,16 @@ const removeStep = index => {
   const removed = steps.value[index];
   steps.value.splice(index, 1);
   steps.value.forEach(step => {
+    if (step.next === removed.id) step.next = 'end';
     Object.keys(step.branches || {}).forEach(key => {
       if (step.branches[key] === removed.id) step.branches[key] = 'end';
     });
   });
+  if (layoutPositions.value[removed.id]) {
+    const next = { ...layoutPositions.value };
+    delete next[removed.id];
+    layoutPositions.value = next;
+  }
   if (selectedStepId.value === removed.id) {
     selectedStepId.value = steps.value[Math.max(0, index - 1)]?.id || null;
   }
@@ -147,26 +159,13 @@ const connectBranch = ({ sourceId, targetId, sourceHandle }) => {
     return;
   }
 
-  const buttons = (step.buttons || []).filter(b => (b.title || '').trim());
-  if (buttons.length) {
-    let pick = buttons.findIndex(b => {
-      const bi = step.buttons.indexOf(b);
-      const current = step.branches?.[bi];
-      return !current || current === 'end' || current === 'handoff';
-    });
-    if (pick < 0) pick = 0;
-    const btnIndex = step.buttons.indexOf(buttons[pick]);
-    step.branches[btnIndex] = targetId;
-    return;
-  }
+  // Linear "out" handle only — never guess a button branch.
+  if (sourceHandle !== 'out') return;
 
-  if (targetId === 'end' || targetId === 'handoff') return;
-  const fromIdx = steps.value.findIndex(s => s.id === sourceId);
-  const toIdx = steps.value.findIndex(s => s.id === targetId);
-  if (fromIdx < 0 || toIdx < 0 || fromIdx === toIdx) return;
-  const [moved] = steps.value.splice(toIdx, 1);
-  const insertAt = steps.value.findIndex(s => s.id === sourceId) + 1;
-  steps.value.splice(insertAt, 0, moved);
+  const buttons = (step.buttons || []).filter(b => (b.title || '').trim());
+  if (buttons.length) return;
+
+  step.next = targetId;
 };
 
 const stepPreview = step => {
@@ -254,7 +253,7 @@ const buildGraph = () => {
   const nodes = [];
   const edges = [];
 
-  steps.value.forEach((step, index) => {
+  steps.value.forEach(step => {
     const sendId = step.id;
     const buttons = (step.buttons || []).filter(b => b.title).slice(0, 3);
 
@@ -316,14 +315,26 @@ const buildGraph = () => {
         });
       });
     } else {
-      const next = steps.value[index + 1];
-      if (next) {
-        edges.push({ from: sendId, to: next.id });
-      } else {
-        const endId = `end_${sendId}`;
-        nodes.push({ id: endId, type: 'end', data: {} });
-        edges.push({ from: sendId, to: endId });
+      const targetKey = step.next || 'end';
+      let toId = targetKey;
+      if (targetKey === 'end') {
+        toId = `end_${sendId}`;
+        if (!nodes.find(n => n.id === toId)) {
+          nodes.push({ id: toId, type: 'end', data: {} });
+        }
+      } else if (targetKey === 'handoff') {
+        toId = `handoff_${sendId}`;
+        if (!nodes.find(n => n.id === toId)) {
+          nodes.push({
+            id: toId,
+            type: 'handoff',
+            data: {
+              reason: step.title?.trim() || t('FLOWS.EDIT.BRANCH_HANDOFF'),
+            },
+          });
+        }
       }
+      edges.push({ from: sendId, to: toId });
     }
   });
 
@@ -331,7 +342,24 @@ const buildGraph = () => {
     entry_node_id: steps.value[0]?.id,
     nodes,
     edges,
+    ui: {
+      positions: { ...(layoutPositions.value || {}) },
+      viewport: {
+        x: canvasViewport.value?.x || 0,
+        y: canvasViewport.value?.y || 0,
+        zoom: canvasViewport.value?.zoom || 1,
+      },
+    },
   };
+};
+
+const resolveGraphTarget = (targetId, graph) => {
+  const targetNode = (graph.nodes || []).find(n => n.id === targetId);
+  if (!targetNode) return null;
+  if (targetNode.type === 'end') return 'end';
+  if (targetNode.type === 'handoff') return 'handoff';
+  if (['actions', 'send_message'].includes(targetNode.type)) return targetId;
+  return null;
 };
 
 const nodeToStep = (node, graph) => {
@@ -349,14 +377,18 @@ const nodeToStep = (node, graph) => {
       const btnIndex = buttons.findIndex(b => (b.value || b.title) === label);
       if (btnIndex < 0) return;
 
-      const targetNode = (graph.nodes || []).find(n => n.id === e.to);
-      if (!targetNode) return;
-      if (targetNode.type === 'end') branches[btnIndex] = 'end';
-      else if (targetNode.type === 'handoff') branches[btnIndex] = 'handoff';
-      else if (['actions', 'send_message'].includes(targetNode.type)) {
-        branches[btnIndex] = e.to;
-      }
+      const resolved = resolveGraphTarget(e.to, graph);
+      if (resolved) branches[btnIndex] = resolved;
     });
+
+  let next = 'end';
+  const linearEdge = (graph.edges || []).find(
+    e => e.from === node.id && !e.when
+  );
+  if (linearEdge) {
+    const resolved = resolveGraphTarget(linearEdge.to, graph);
+    if (resolved) next = resolved;
+  }
 
   let actions = [];
   if (node.type === 'actions') {
@@ -382,6 +414,7 @@ const nodeToStep = (node, graph) => {
     actions,
     buttons,
     branches,
+    next,
   });
 };
 
@@ -415,6 +448,13 @@ const loadFlow = async () => {
       ['actions', 'send_message'].includes(n.type)
     );
     steps.value = stepNodes.map(node => nodeToStep(node, graph));
+    const ui = graph.ui || {};
+    layoutPositions.value = { ...(ui.positions || {}) };
+    canvasViewport.value = {
+      x: ui.viewport?.x || 0,
+      y: ui.viewport?.y || 0,
+      zoom: ui.viewport?.zoom || 1,
+    };
     if (!steps.value.length) addStep();
     else selectedStepId.value = steps.value[0].id;
   } finally {
@@ -484,6 +524,7 @@ onMounted(async () => {
         @update:description="description = $event"
         @update:category="category = $event"
         @open-exit="exitDialogRef?.open()"
+        @open-overview="overviewDialogRef?.open()"
         @submit="save"
       />
 
@@ -508,13 +549,34 @@ onMounted(async () => {
           <FlowCanvas
             :steps="steps"
             :selected-step-id="selectedStepId"
+            :layout-positions="layoutPositions"
+            :viewport="canvasViewport"
             @select-step="selectedStepId = $event"
             @add-step="addStep"
             @remove-step="removeStep"
             @connect-branch="connectBranch"
+            @update:layout-positions="layoutPositions = $event"
+            @update:viewport="canvasViewport = $event"
           />
         </div>
       </div>
+
+      <Dialog
+        ref="overviewDialogRef"
+        type="edit"
+        width="2xl"
+        overflow-y-auto
+        :title="t('FLOWS.EDIT.OVERVIEW_TITLE')"
+        :confirm-button-label="t('FLOWS.EXIT.DONE')"
+        :show-cancel-button="false"
+        @confirm="overviewDialogRef?.close()"
+      >
+        <FlowOverview
+          :steps="steps"
+          :step-targets="stepTargets"
+          :flow-action-types="flowActionTypes"
+        />
+      </Dialog>
 
       <Dialog
         ref="exitDialogRef"
