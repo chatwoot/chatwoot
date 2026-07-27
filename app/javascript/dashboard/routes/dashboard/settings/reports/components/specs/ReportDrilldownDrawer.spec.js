@@ -255,8 +255,8 @@ describe('ReportDrilldownDrawer.vue', () => {
     await flushPromises();
 
     const drawer = wrapper.get('[role="dialog"]');
-    expect(drawer.classes()).toContain('end-0');
-    expect(drawer.classes()).not.toContain('right-0');
+    expect(drawer.classes()).toContain('end-3');
+    expect(drawer.classes()).not.toContain('right-3');
   });
 
   it('flips the navigation caret icons in RTL', async () => {
@@ -275,7 +275,7 @@ describe('ReportDrilldownDrawer.vue', () => {
     const wrapper = mountDrawer();
     await flushPromises();
 
-    await wrapper.get('[aria-label="REPORT.DRILLDOWN.CLOSE"]').trigger('click');
+    await wrapper.get('[aria-label="DRAWER.CLOSE"]').trigger('click');
 
     expect(wrapper.emitted('close')).toBeTruthy();
   });
@@ -341,7 +341,9 @@ describe('ReportDrilldownDrawer.vue', () => {
     await flushPromises();
     await nextTick();
 
-    await wrapper.get('[aria-label="REPORT.DRILLDOWN.CLOSE"]').trigger('click');
+    await wrapper.get('[aria-label="DRAWER.CLOSE"]').trigger('click');
+    await wrapper.setProps({ open: false });
+    await nextTick();
 
     expect(document.activeElement).toBe(opener);
 
