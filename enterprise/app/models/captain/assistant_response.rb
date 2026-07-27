@@ -38,6 +38,7 @@ class Captain::AssistantResponse < ApplicationRecord
   before_validation :ensure_status
   before_validation :mark_as_edited, on: :update
   after_commit :update_response_embedding
+  after_commit :enqueue_knowledge_map_rebuild, if: :knowledge_map_rebuild_required?
 
   scope :ordered, -> { order(created_at: :desc) }
   scope :by_account, ->(account_id) { where(account_id: account_id) }
@@ -69,5 +70,27 @@ class Captain::AssistantResponse < ApplicationRecord
     return unless saved_change_to_question? || saved_change_to_answer? || embedding.nil?
 
     Captain::Llm::UpdateEmbeddingJob.perform_later(self, "#{question}: #{answer}")
+  end
+
+  def enqueue_knowledge_map_rebuild
+    affected_assistant_ids.each do |id|
+      Captain::KnowledgeMapBuilderJob
+        .set(wait: Captain::KnowledgeMapBuilderJob::REBUILD_DELAY)
+        .perform_later(id)
+    end
+  end
+
+  def affected_assistant_ids
+    ids = [assistant_id]
+    ids << assistant_id_before_last_save if saved_change_to_assistant_id?
+    ids.compact.uniq
+  end
+
+  def knowledge_content_changed?
+    saved_change_to_question? || saved_change_to_answer? || saved_change_to_status? || saved_change_to_assistant_id?
+  end
+
+  def knowledge_map_rebuild_required?
+    previously_new_record? || destroyed? || knowledge_content_changed?
   end
 end

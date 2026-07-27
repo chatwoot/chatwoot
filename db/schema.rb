@@ -397,6 +397,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_29_051500) do
     t.jsonb "config", default: {}, null: false
     t.jsonb "response_guidelines", default: []
     t.jsonb "guardrails", default: []
+    t.jsonb "knowledge_map", default: {}, null: false
+    t.string "knowledge_map_source_digest"
+    t.datetime "knowledge_map_built_at"
     t.index ["account_id"], name: "index_captain_assistants_on_account_id"
   end
 
