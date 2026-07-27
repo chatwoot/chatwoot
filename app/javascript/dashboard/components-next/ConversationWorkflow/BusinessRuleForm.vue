@@ -85,10 +85,12 @@ watch(
 );
 
 const attributeOptions = computed(() =>
-  (conversationAttributes.value || []).map(attr => ({
-    value: attr.attributeKey || attr.attribute_key,
-    label: attr.attributeDisplayName || attr.attribute_display_name,
-  }))
+  (conversationAttributes.value || [])
+    .filter(attr => !attr.formula)
+    .map(attr => ({
+      value: attr.attributeKey || attr.attribute_key,
+      label: attr.attributeDisplayName || attr.attribute_display_name,
+    }))
 );
 
 const typeLabel = type => t(`BUSINESS_RULES.TYPES.${type}`);

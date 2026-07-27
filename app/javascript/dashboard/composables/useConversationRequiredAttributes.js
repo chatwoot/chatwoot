@@ -104,13 +104,15 @@ export function useConversationRequiredAttributes() {
   const requiredAttributeKeys = computed(() => legacyAttributeKeys.value);
 
   const allAttributeOptions = computed(() =>
-    (conversationAttributes.value || []).map(attribute => ({
-      ...attribute,
-      value: attribute.attributeKey,
-      label: attribute.attributeDisplayName,
-      type: attribute.attributeDisplayType,
-      attributeValues: attribute.attributeValues,
-    }))
+    (conversationAttributes.value || [])
+      .filter(attribute => !attribute.formula)
+      .map(attribute => ({
+        ...attribute,
+        value: attribute.attributeKey,
+        label: attribute.attributeDisplayName,
+        type: attribute.attributeDisplayType,
+        attributeValues: attribute.attributeValues,
+      }))
   );
 
   const requiredAttributes = computed(() =>

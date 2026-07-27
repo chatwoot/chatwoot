@@ -31,7 +31,8 @@ class Conversations::BusinessRulesGuard
 
   def evaluate_rule(rule)
     type = rule['type'].to_s
-    config = (rule['config'] || {}).with_indifferent_access
+    raw_config = rule['config']
+    config = (raw_config.is_a?(Hash) ? raw_config : {}).with_indifferent_access
     case type
     when 'require_attributes_on_status'
       require_attributes_on_status(config)

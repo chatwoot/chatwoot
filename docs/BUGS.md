@@ -3,7 +3,9 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** hotfix `B-NEW-29` dashboard JS post-4.16.1
+**Última actualización:** hotfix `B-NEW-30` toggle_status 500
+(`activity_message_params` kwargs) + resolve modal currency/percent (2026-07-27).
+Antes: hotfix `B-NEW-29` dashboard JS post-4.16.1
 (`hasFilteredUnreadCounts` / `useI18n`) (2026-07-26). Antes: hotfix
 `B-NEW-28` api_and_webhooks (login 500 post 4.16.1) (2026-07-26). Antes:
 polish `B-NEW-26` flows layout/acciones/i18n
@@ -85,6 +87,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-26 | Flows UX | Baja | ✅ Acciones horiz., tipos únicos, menubar, panel izq, i18n es |
 | B-NEW-28 | 🔴 P0 prod | Sí | ✅ Login 500: faltaba `api_and_webhooks` en features.yml ext_1 |
 | B-NEW-29 | 🔴 P0 prod | Sí | ✅ Dashboard JS: `hasFilteredUnreadCounts` + `useI18n` imports |
+| B-NEW-30 | 🔴 P0 prod | Sí | ✅ toggle_status 500: `activity_message_params` + modal currency/percent |
 
 ---
 
@@ -795,6 +798,36 @@ sin definir, y `useAgentsList.js` sin imports de `vue` / `vue-i18n`.
 **Fix:** definir computeds + `UNREAD_COUNT_FOR_FILTERS` en featureFlags + imports.
 
 **Deploy:** merge PR + GHCR rebuild (assets en imagen).
+
+### B-NEW-30 — `toggle_status` 500 (resolve / reopen / pending / snooze)
+
+**Severidad:** P0 prod — cualquier cambio de estado vía
+`POST .../conversations/:id/toggle_status` devolvía 500
+(account 2 / conv 929 en `inbox.paluhub.com`).
+
+**Causa:** `status_change_activity` pasaba `content_attributes:` a
+`activity_message_params`, pero el helper solo aceptaba `content` →
+`ArgumentError` en Ruby 3 dentro de `after_update_commit`. No es business
+rules (esas serían 422).
+
+**Fix:**
+- `ActivityMessageHandler#activity_message_params(content, content_attributes: nil)`
+  mergea `content_attributes` cuando está presente.
+- Modal resolve: inputs `currency` / `percent`; pickers excluyen CAs con
+  `formula`.
+- `BusinessRulesGuard`: `config` no-Hash → `{}` (evita 500 con settings corruptos).
+
+**Archivos:**
+- `app/models/concerns/activity_message_handler.rb`
+- `app/services/conversations/business_rules_guard.rb`
+- `ConversationResolveAttributesModal.vue`, `constants.js`
+- `useConversationRequiredAttributes.js`, `ConversationRequiredAttributes.vue`,
+  `BusinessRuleForm.vue`
+
+**Cómo probar:** resolve → reopen → pending → snooze sin 500; activity
+message en timeline; si hay required `currency`/`percent`, modal los
+edita. Local: `.\scripts\dev-up.ps1` (Vue en imagen). Prod: merge
+`develop` + GHCR redeploy (sin migración).
 
 ---
 

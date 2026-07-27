@@ -62,5 +62,21 @@ RSpec.describe Conversations::BusinessRulesGuard do
       expect(result.ok?).to be(false)
       expect(result.errors).to include(hash_including(code: 'forbid_status_if', label: 'hold'))
     end
+
+    it 'ignores rules with non-hash config instead of raising' do
+      set_rules([
+                  {
+                    'id' => 'r3',
+                    'type' => 'require_attributes_on_status',
+                    'enabled' => true,
+                    'config' => 'not-a-hash'
+                  }
+                ])
+
+      result = described_class.new(conversation: conversation, new_status: 'resolved').perform
+
+      expect(result.ok?).to be(true)
+      expect(result.errors).to be_empty
+    end
   end
 end
