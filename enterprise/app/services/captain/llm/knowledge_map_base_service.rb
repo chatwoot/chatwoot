@@ -19,13 +19,13 @@ class Captain::Llm::KnowledgeMapBaseService < Captain::BaseTaskService
     response[:message].deep_stringify_keys
   end
 
-  def normalize_relationships(raw_relationships)
+  def normalize_relationships(raw_relationships, allowed_ids:)
     relationships = Array(raw_relationships).filter_map do |raw_relationship|
       relationship = raw_relationship.to_h.deep_symbolize_keys
       subject = clean_string(relationship[:subject], 100)
       predicate = clean_string(relationship[:predicate], 80)
       object = clean_string(relationship[:object], 100)
-      faq_ids = normalize_ids(relationship[:faq_ids])
+      faq_ids = normalize_known_ids(relationship[:faq_ids], allowed_ids)
       next if subject.blank? || predicate.blank? || object.blank? || faq_ids.empty?
 
       { subject: subject, predicate: predicate, object: object, faq_ids: faq_ids }
@@ -33,11 +33,11 @@ class Captain::Llm::KnowledgeMapBaseService < Captain::BaseTaskService
     merge_duplicate_cited_items(relationships, [:subject, :predicate, :object]).first(6)
   end
 
-  def normalize_distinctions(raw_distinctions)
+  def normalize_distinctions(raw_distinctions, allowed_ids:)
     distinctions = Array(raw_distinctions).filter_map do |raw_distinction|
       distinction = raw_distinction.to_h.deep_symbolize_keys
       statement = clean_string(distinction[:statement], 300)
-      faq_ids = normalize_ids(distinction[:faq_ids])
+      faq_ids = normalize_known_ids(distinction[:faq_ids], allowed_ids)
       next if statement.blank? || faq_ids.empty?
 
       { statement: statement, faq_ids: faq_ids }
@@ -55,11 +55,8 @@ class Captain::Llm::KnowledgeMapBaseService < Captain::BaseTaskService
     Array(values).filter_map { |value| Integer(value, exception: false) }.uniq.sort
   end
 
-  def validate_known_ids!(ids, allowed_ids)
-    invalid_ids = ids - allowed_ids
-    return if invalid_ids.empty?
-
-    raise Captain::Llm::KnowledgeMapGenerationError, "Knowledge map cites unknown FAQ IDs: #{invalid_ids.join(', ')}"
+  def normalize_known_ids(values, allowed_ids)
+    normalize_ids(values) & allowed_ids
   end
 
   def clean_string(value, maximum_length)

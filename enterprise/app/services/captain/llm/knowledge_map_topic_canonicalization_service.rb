@@ -1,5 +1,6 @@
 class Captain::Llm::KnowledgeMapTopicCanonicalizationService < Captain::Llm::KnowledgeMapBaseService
   MAX_TOPICS = 100
+  MAX_CANDIDATES_PER_CALL = 50
 
   pattr_initialize [:account!, :candidates!]
 
@@ -14,17 +15,22 @@ class Captain::Llm::KnowledgeMapTopicCanonicalizationService < Captain::Llm::Kno
     current_candidates = candidates
 
     loop do
-      batches = chunked(current_candidates.map { |candidate| candidate.slice(:candidate_id, :name, :summary, :concepts) })
+      batches = candidate_batches(current_candidates)
       maximum_topics = batches.many? ? (MAX_TOPICS.to_f / batches.length).ceil : MAX_TOPICS
       candidates_by_id = current_candidates.index_by { |item| item[:candidate_id] }
       canonicalized = batches.flat_map { |batch| canonicalize_batch(batch, candidates_by_id, maximum_topics) }
-      next current_candidates = canonicalized if batches.many?
-
       canonicalized = merge_duplicate_topics(canonicalized)
-      raise Captain::Llm::KnowledgeMapGenerationError, "Knowledge map exceeds #{MAX_TOPICS} topics" if canonicalized.length > MAX_TOPICS
+      return canonicalized if canonicalized.length <= MAX_TOPICS
+      raise Captain::Llm::KnowledgeMapGenerationError, 'Topic canonicalization made no progress' if canonicalized.length >= current_candidates.length
 
-      return canonicalized
+      current_candidates = canonicalized
     end
+  end
+
+  def candidate_batches(current_candidates)
+    cards = current_candidates.map { |candidate| candidate.slice(:candidate_id, :name, :summary, :concepts) }
+    max_items = MAX_CANDIDATES_PER_CALL if current_candidates.length > MAX_TOPICS
+    chunked(cards, max_items: max_items)
   end
 
   def canonicalize_batch(batch, candidates_by_id, maximum_topics)
@@ -34,9 +40,7 @@ class Captain::Llm::KnowledgeMapTopicCanonicalizationService < Captain::Llm::Kno
       payload: { topic_candidates: batch, maximum_topics: maximum_topics }
     )
     topics = normalize_topics(message['topics'])
-    raise Captain::Llm::KnowledgeMapGenerationError, "Canonicalization exceeded #{maximum_topics} topics" if topics.length > maximum_topics
-
-    validate_coverage!(topics, batch.pluck(:candidate_id))
+    topics = reconcile_coverage(topics, batch, candidates_by_id)
     topics.map { |topic| expand_topic(topic, candidates_by_id) }
   end
 
@@ -57,16 +61,22 @@ class Captain::Llm::KnowledgeMapTopicCanonicalizationService < Captain::Llm::Kno
     end
   end
 
-  def validate_coverage!(topics, allowed_ids)
-    emitted_ids = topics.flat_map { |topic| topic[:candidate_ids] }
-    unknown_ids = emitted_ids - allowed_ids
-    missing_ids = allowed_ids - emitted_ids
-    duplicate_ids = emitted_ids.tally.select { |_id, count| count > 1 }.keys
-    return if unknown_ids.empty? && missing_ids.empty? && duplicate_ids.empty?
+  def reconcile_coverage(topics, batch, candidates_by_id)
+    allowed_ids = batch.pluck(:candidate_id)
+    assigned_ids = []
+    reconciled_topics = topics.filter_map do |topic|
+      candidate_ids = topic[:candidate_ids].select { |candidate_id| allowed_ids.include?(candidate_id) && assigned_ids.exclude?(candidate_id) }
+      next if candidate_ids.empty?
 
-    raise Captain::Llm::KnowledgeMapGenerationError,
-          "Invalid topic candidate coverage. Unknown: #{unknown_ids.join(', ')}; " \
-          "missing: #{missing_ids.join(', ')}; duplicate: #{duplicate_ids.join(', ')}"
+      assigned_ids.concat(candidate_ids)
+      topic.merge(candidate_ids: candidate_ids)
+    end
+
+    missing_topics = (allowed_ids - assigned_ids).map do |candidate_id|
+      candidate = candidates_by_id.fetch(candidate_id)
+      candidate.slice(:name, :summary, :concepts).merge(candidate_ids: [candidate_id])
+    end
+    reconciled_topics + missing_topics
   end
 
   def expand_topic(topic, candidates_by_id)

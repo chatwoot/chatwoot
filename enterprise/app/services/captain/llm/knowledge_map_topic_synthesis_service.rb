@@ -1,5 +1,6 @@
 class Captain::Llm::KnowledgeMapTopicSynthesisService < Captain::Llm::KnowledgeMapBaseService
   TOPICS_PER_CALL = 5
+  MAX_TASK_ATTEMPTS = 3
 
   pattr_initialize [:account!, :topics!, :faq_records!]
 
@@ -37,34 +38,60 @@ class Captain::Llm::KnowledgeMapTopicSynthesisService < Captain::Llm::KnowledgeM
     chunked(tasks, max_items: TOPICS_PER_CALL).flat_map { |task_group| synthesize_task_group(task_group) }
   end
 
-  def synthesize_task_group(tasks)
+  def synthesize_task_group(tasks, attempt = 1)
+    tasks_by_key = tasks.index_by { |task| task[:topic_key] }
+    synthesized_by_key = normalize_generated_topics(generated_topics(tasks), tasks_by_key)
+    missing_tasks = tasks.reject { |task| synthesized_by_key.key?(task[:topic_key]) }
+    return ordered_topics(tasks, synthesized_by_key) if missing_tasks.empty?
+
+    recovered = recover_missing_tasks(missing_tasks, attempt)
+    ordered_topics(tasks, synthesized_by_key.merge(recovered.index_by { |topic| topic[:topic_key] }))
+  end
+
+  def generated_topics(tasks)
     message = generate(
       schema: Captain::Llm::KnowledgeMapTopicSynthesisSchema,
       system_prompt: system_prompt,
       payload: { topic_tasks: tasks }
     )
     raw_topics = Array(message['topics']).map { |topic| topic.to_h.deep_symbolize_keys }
-    task_keys = tasks.pluck(:topic_key)
-    emitted_keys = raw_topics.pluck(:topic_key)
-    unless emitted_keys.tally == task_keys.tally
-      raise Captain::Llm::KnowledgeMapGenerationError, 'Topic synthesis did not return every topic task exactly once'
+    return raw_topics unless tasks.one? && raw_topics.any?
+
+    [raw_topics.first.merge(topic_key: tasks.first[:topic_key])]
+  end
+
+  def normalize_generated_topics(raw_topics, tasks_by_key)
+    raw_topics.each_with_object({}) do |topic, synthesized|
+      topic_key = topic[:topic_key]
+      next unless tasks_by_key.key?(topic_key) && synthesized.exclude?(topic_key)
+
+      synthesized[topic_key] = normalize_topic(topic, tasks_by_key.fetch(topic_key))
+    rescue Captain::Llm::KnowledgeMapGenerationError
+      next
+    end
+  end
+
+  def recover_missing_tasks(missing_tasks, attempt)
+    if attempt >= MAX_TASK_ATTEMPTS
+      raise Captain::Llm::KnowledgeMapGenerationError,
+            "Topic synthesis failed for tasks: #{missing_tasks.pluck(:topic_key).join(', ')}"
     end
 
-    tasks_by_key = tasks.index_by { |task| task[:topic_key] }
-    raw_topics.map { |topic| normalize_topic(topic, tasks_by_key.fetch(topic[:topic_key])) }
+    missing_tasks.flat_map { |task| synthesize_task_group([task], attempt + 1) }
+  end
+
+  def ordered_topics(tasks, topics_by_key)
+    tasks.map { |task| topics_by_key.fetch(task[:topic_key]) }
   end
 
   def normalize_topic(topic, task)
     allowed_ids = task_faq_ids(task)
     validate_coverage!(topic, task, allowed_ids)
     summary = clean_string(topic[:summary], 400)
-    faq_ids = normalize_ids(topic[:faq_ids])
+    faq_ids = normalize_known_ids(topic[:faq_ids], allowed_ids)
     validate_topic_content!(summary, faq_ids, task)
-    relationships = normalize_relationships(topic[:relationships])
-    distinctions = normalize_distinctions(topic[:distinctions])
-    ([faq_ids] + relationships.pluck(:faq_ids) + distinctions.pluck(:faq_ids)).each do |ids|
-      validate_known_ids!(ids, allowed_ids)
-    end
+    relationships = normalize_relationships(topic[:relationships], allowed_ids: allowed_ids)
+    distinctions = normalize_distinctions(topic[:distinctions], allowed_ids: allowed_ids)
 
     build_topic(
       topic,
@@ -77,7 +104,7 @@ class Captain::Llm::KnowledgeMapTopicSynthesisService < Captain::Llm::KnowledgeM
   end
 
   def validate_coverage!(topic, task, allowed_ids)
-    covered_ids = normalize_ids(topic[:covered_faq_ids])
+    covered_ids = normalize_known_ids(topic[:covered_faq_ids], allowed_ids)
     return if covered_ids == allowed_ids
 
     raise Captain::Llm::KnowledgeMapGenerationError, "Topic #{task[:topic_key]} did not process every FAQ"
@@ -94,7 +121,7 @@ class Captain::Llm::KnowledgeMapTopicSynthesisService < Captain::Llm::KnowledgeM
       name: task[:name],
       summary: details[:summary],
       faq_ids: details[:faq_ids],
-      covered_faq_ids: normalize_ids(topic[:covered_faq_ids]),
+      covered_faq_ids: normalize_known_ids(topic[:covered_faq_ids], task_faq_ids(task)),
       concepts: clean_strings(topic[:concepts], limit: 12, length: 100),
       relationships: details[:relationships],
       distinctions: details[:distinctions]

@@ -23,8 +23,7 @@ class Captain::Llm::KnowledgeMapTopicDiscoveryService < Captain::Llm::KnowledgeM
     allowed_ids = records.pluck(:id)
     topics = normalize_topics(message['topics'], allowed_ids)
     topic_ids = topics.flat_map { |topic| topic[:faq_ids] }.uniq
-    ignored_ids = normalize_ids(message['ignored_faq_ids']) - topic_ids
-    validate_known_ids!(ignored_ids, allowed_ids)
+    ignored_ids = normalize_known_ids(message['ignored_faq_ids'], allowed_ids) - topic_ids
 
     missing_ids = allowed_ids - topic_ids - ignored_ids
     return topics if missing_ids.empty?
@@ -39,10 +38,9 @@ class Captain::Llm::KnowledgeMapTopicDiscoveryService < Captain::Llm::KnowledgeM
       topic = raw_topic.to_h.deep_symbolize_keys
       name = clean_string(topic[:name], 100)
       summary = clean_string(topic[:summary], 300)
-      faq_ids = normalize_ids(topic[:faq_ids])
+      faq_ids = normalize_known_ids(topic[:faq_ids], allowed_ids)
       next if name.blank? || summary.blank? || faq_ids.empty?
 
-      validate_known_ids!(faq_ids, allowed_ids)
       {
         name: name,
         summary: summary,

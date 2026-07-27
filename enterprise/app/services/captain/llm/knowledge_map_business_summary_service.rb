@@ -23,11 +23,10 @@ class Captain::Llm::KnowledgeMapBusinessSummaryService < Captain::Llm::Knowledge
       payload: payload
     )
     summary = clean_string(message['business_summary'], 1500)
-    faq_ids = normalize_ids(message['business_summary_faq_ids'])
+    faq_ids = normalize_known_ids(message['business_summary_faq_ids'], collect_faq_ids(payload))
     raise Captain::Llm::KnowledgeMapGenerationError, 'Knowledge map has no business summary' if summary.blank?
     raise Captain::Llm::KnowledgeMapGenerationError, 'Knowledge map business summary has no citations' if faq_ids.empty?
 
-    validate_known_ids!(faq_ids, collect_faq_ids(payload))
     { business_summary: summary, business_summary_faq_ids: faq_ids }
   end
 
