@@ -6,4 +6,11 @@ module WidgetHelper
 
     [contact_inbox, token]
   end
+
+  def widget_conversation_ai_state(conversation)
+    return 'resolved' if conversation.resolved?
+    return 'ai' if conversation.pending? && conversation.inbox.active_bot?
+
+    'human'
+  end
 end

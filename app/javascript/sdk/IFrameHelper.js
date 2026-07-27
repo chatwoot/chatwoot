@@ -52,7 +52,11 @@ const updateCampaignReadStatus = baseDomain => {
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
-    return `${baseUrl}/widget?website_token=${websiteToken}`;
+    const widgetPath =
+      window.$chatwoot && window.$chatwoot.widgetVersion === 'v2'
+        ? 'widget/v2'
+        : 'widget';
+    return `${baseUrl}/${widgetPath}?website_token=${websiteToken}`;
   },
   createFrame: ({ baseUrl, websiteToken }) => {
     if (IFrameHelper.getAppFrame()) {
@@ -99,10 +103,15 @@ export const IFrameHelper = {
     );
   },
   initPostMessageCommunication: () => {
+    // baseUrl can be empty or relative (same-origin embeds like /widget_tests);
+    // resolve it against the page URL before comparing origins.
+    const widgetOrigin = new URL(window.$chatwoot.baseUrl, window.location.href)
+      .origin;
     window.onmessage = e => {
       if (
         typeof e.data !== 'string' ||
-        e.data.indexOf('chatwoot-widget:') !== 0
+        e.data.indexOf('chatwoot-widget:') !== 0 ||
+        e.origin !== widgetOrigin
       ) {
         return;
       }
@@ -173,6 +182,7 @@ export const IFrameHelper = {
         enableFileUpload: window.$chatwoot.enableFileUpload,
         enableEmojiPicker: window.$chatwoot.enableEmojiPicker,
         enableEndConversation: window.$chatwoot.enableEndConversation,
+        theme: window.$chatwoot.theme,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,

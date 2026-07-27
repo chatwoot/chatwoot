@@ -24,6 +24,7 @@ const tailwindConfig = {
   content: [
     './enterprise/app/views/**/*.erb',
     './app/javascript/widget/**/*.vue',
+    './app/javascript/widget-v2/**/*.{vue,js}',
     './app/javascript/v3/**/*.vue',
     './app/javascript/dashboard/**/*.vue',
     './app/javascript/portal/**/*.vue',
@@ -214,6 +215,21 @@ const tailwindConfig = {
       current: 'currentColor',
       ...colors,
       body: slateDark.slate7,
+      // Widget v2 design tokens — values declared in widget-v2/assets/styles/widget-v2.scss
+      cw: {
+        primary: 'var(--cw-primary)',
+        'primary-soft': 'var(--cw-primary-soft)',
+        'primary-strong': 'var(--cw-primary-strong)',
+        'primary-foreground': 'var(--cw-primary-foreground)',
+        background: 'var(--cw-background)',
+        surface: 'var(--cw-surface)',
+        muted: 'var(--cw-muted)',
+        border: 'var(--cw-border)',
+        'border-strong': 'var(--cw-border-strong)',
+        text: 'var(--cw-text)',
+        'text-muted': 'var(--cw-text-muted)',
+        'text-faint': 'var(--cw-text-faint)',
+      },
     },
     keyframes: {
       ...defaultTheme.keyframes,

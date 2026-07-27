@@ -132,7 +132,9 @@ linters:
 
   PropertySpelling:
     enabled: true
-    extra_properties: []
+    extra_properties:
+      - scrollbar-color
+      - scrollbar-width
     disabled_properties: []
 
   PropertyUnits:

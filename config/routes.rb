@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     get '/app/accounts/:account_id/onboarding/inbox-setup', to: 'dashboard#index', as: 'app_onboarding_inbox_setup'
 
     resource :widget, only: [:show]
+    get 'widget/v2', to: 'widget_v2#show'
     namespace :survey do
       resources :responses, only: [:show]
     end
@@ -502,6 +503,18 @@ Rails.application.routes.draw do
     end
 
     namespace :v2 do
+      namespace :widget do
+        resource :config, only: [:show]
+        resources :conversations, only: [:index, :create, :show], param: :display_id do
+          member do
+            post :resolve
+            post :update_last_seen
+            post :toggle_typing
+          end
+          resources :messages, only: [:index, :create, :update]
+        end
+      end
+
       resources :accounts, only: [:create] do
         scope module: :accounts do
           resources :summary_reports, only: [] do

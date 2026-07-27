@@ -194,6 +194,21 @@ class Rack::Attack
     throttle('api/v1/widget/conversations/transcript', limit: 5, period: 1.hour) do |req|
       req.ip if req.path_without_extensions == '/api/v1/widget/conversations/transcript' && req.post?
     end
+
+    ## Prevent Conversation Bombing on Widget v2 APIs ###
+    throttle('api/v2/widget/conversations', limit: 6, period: 12.hours) do |req|
+      req.ip if req.path_without_extensions == '/api/v2/widget/conversations' && req.post?
+    end
+
+    ## Prevent Message Bombing on Widget v2 APIs ###
+    throttle('api/v2/widget/messages', limit: 60, period: 1.hour) do |req|
+      req.ip if req.path_without_extensions.match?(%r{^/api/v2/widget/conversations/[^/]+/messages$}) && req.post?
+    end
+
+    ## Prevent Conversation Bombing through multiple widget v2 sessions
+    throttle('widget/v2?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
+      req.ip if req.path_without_extensions == '/widget/v2' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
+    end
   end
 
   ##-----------------------------------------------##

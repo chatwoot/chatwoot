@@ -3,6 +3,7 @@ class WidgetTestsController < ActionController::Base
   before_action :ensure_widget_position
   before_action :ensure_widget_type
   before_action :ensure_widget_style
+  before_action :ensure_widget_version
   before_action :ensure_dark_mode
 
   def index
@@ -25,6 +26,10 @@ class WidgetTestsController < ActionController::Base
 
   def ensure_widget_type
     @widget_type = params[:type] || 'expanded_bubble'
+  end
+
+  def ensure_widget_version
+    @widget_version = params[:version] == 'v2' ? 'v2' : 'v1'
   end
 
   def inbox_id

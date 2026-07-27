@@ -1,0 +1,62 @@
+@import 'shared/assets/fonts/widget_fonts';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --cw-background: #ffffff;
+    --cw-border: #e4e4e7;
+    --cw-border-strong: #d4d4d8;
+    --cw-font-sans: 'InterDisplay', 'Inter', -apple-system, system-ui,
+      BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --cw-muted: #f4f4f5;
+    --cw-primary: #2781f6;
+    --cw-primary-foreground: #ffffff;
+    --cw-primary-soft: color-mix(in srgb, var(--cw-primary), transparent 92%);
+    --cw-primary-strong: color-mix(in srgb, var(--cw-primary), #000 15%);
+    --cw-radius: 12px;
+    --cw-surface: #fafafa;
+    --cw-text: #09090b;
+    --cw-text-faint: #a1a1aa;
+    --cw-text-muted: #52525b;
+  }
+
+  .dark {
+    --cw-background: #0c0c0e;
+    --cw-border: #26262b;
+    --cw-border-strong: #3f3f46;
+    --cw-muted: #202024;
+    --cw-primary-soft: color-mix(in srgb, var(--cw-primary), transparent 85%);
+    --cw-primary-strong: color-mix(in srgb, var(--cw-primary), #fff 15%);
+    --cw-surface: #131316;
+    --cw-text: #fafafa;
+    --cw-text-faint: #71717a;
+    --cw-text-muted: #a1a1aa;
+  }
+
+  html,
+  body {
+    font-family: var(--cw-font-sans);
+    -webkit-font-smoothing: antialiased;
+    height: 100%;
+    margin: 0;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+@layer utilities {
+  .rounded-token {
+    border-radius: var(--cw-radius);
+  }
+
+  .rounded-token-sm {
+    border-radius: calc(var(--cw-radius) * 0.66);
+  }
+
+  .scrollbar-thin {
+    scrollbar-color: var(--cw-border-strong) transparent;
+    scrollbar-width: thin;
+  }
+}

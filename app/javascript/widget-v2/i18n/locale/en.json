@@ -1,0 +1,89 @@
+{
+  "HOME": {
+    "GREETING": "Hi there 👋",
+    "REPLY_TIME": {
+      "in_a_few_minutes": "Typically replies in a few minutes",
+      "in_a_few_hours": "Typically replies in a few hours",
+      "in_a_day": "Typically replies in a day"
+    },
+    "START_CONVERSATION": "Start a conversation",
+    "RECENT_CONVERSATIONS": "Recent conversations",
+    "VIEW_ALL": "View all",
+    "SEARCH_ARTICLES": "Search help articles",
+    "POPULAR_ARTICLES": "Popular articles"
+  },
+  "TABS": {
+    "HOME": "Home",
+    "MESSAGES": "Messages",
+    "HELP": "Help",
+    "AI": "Ask AI"
+  },
+  "CONVERSATIONS": {
+    "TITLE": "Messages",
+    "EMPTY_TITLE": "No conversations yet",
+    "EMPTY_DESCRIPTION": "Your conversations with our team will show up here.",
+    "NEW": "New conversation",
+    "YOU": "You",
+    "BOT": "Bot",
+    "RESOLVED": "Resolved",
+    "LOAD_MORE": "Load older conversations"
+  },
+  "CONVERSATION": {
+    "PLACEHOLDER": "Type your message…",
+    "SEND": "Send message",
+    "ATTACH": "Attach a file",
+    "RESOLVE": "End conversation",
+    "RESOLVED_NOTICE": "This conversation has ended. Send a message to start again.",
+    "TYPING": "Typing…",
+    "LOAD_EARLIER": "Load earlier messages",
+    "UPLOAD_FAILED": "The file could not be uploaded. Try again.",
+    "SEND_FAILED": "The message could not be sent. Try again."
+  },
+  "AI_STATE": {
+    "AI": "{name} is handling this conversation",
+    "AI_DEFAULT_NAME": "AI assistant",
+    "HUMAN": "You're chatting with {name}",
+    "HUMAN_DEFAULT_NAME": "our team",
+    "TRANSFERRED": "Transferred to {name}"
+  },
+  "AI": {
+    "TITLE": "Ask AI",
+    "DESCRIPTION": "Get instant answers from {name}.",
+    "NEW_CHAT": "Ask a question",
+    "PAST_CHATS": "Past chats",
+    "EMPTY_TITLE": "No AI chats yet",
+    "EMPTY_DESCRIPTION": "Ask anything — you'll get an instant answer, and a teammate can step in whenever needed.",
+    "THINKING": "Thinking…",
+    "WELCOME_FALLBACK": "Hi! Ask me anything — I'll answer instantly."
+  },
+  "HELP": {
+    "TITLE": "Help center",
+    "SEARCH_PLACEHOLDER": "Search articles",
+    "NO_RESULTS_TITLE": "No articles found",
+    "NO_RESULTS_DESCRIPTION": "Try a different search term.",
+    "OPEN_IN_NEW_TAB": "Open in a new tab",
+    "BACK": "All articles"
+  },
+  "PRE_CHAT": {
+    "TITLE": "Before we start",
+    "NAME_LABEL": "Name",
+    "NAME_PLACEHOLDER": "Your name",
+    "EMAIL_LABEL": "Email",
+    "EMAIL_PLACEHOLDER": "you@example.com",
+    "MESSAGE_LABEL": "Message",
+    "MESSAGE_PLACEHOLDER": "How can we help?",
+    "START": "Start conversation",
+    "EMAIL_INVALID": "Enter a valid email address"
+  },
+  "COMMON": {
+    "AI_BADGE": "AI",
+    "BACK": "Back",
+    "CLOSE": "Close chat",
+    "RETRY": "Retry",
+    "TODAY": "Today",
+    "YESTERDAY": "Yesterday",
+    "ERROR_TITLE": "Something went wrong",
+    "ERROR_DESCRIPTION": "The widget could not load. Reload the page to try again.",
+    "POWERED_BY": "Powered by"
+  }
+}

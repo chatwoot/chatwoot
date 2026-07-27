@@ -10,6 +10,7 @@ export const aliases = {
   shared: path.resolve('./app/javascript/shared'),
   survey: path.resolve('./app/javascript/survey'),
   widget: path.resolve('./app/javascript/widget'),
+  'widget-v2': path.resolve('./app/javascript/widget-v2'),
   assets: path.resolve('./app/javascript/dashboard/assets'),
 };
 

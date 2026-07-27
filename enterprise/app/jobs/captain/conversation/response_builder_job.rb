@@ -1,4 +1,5 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
+  include Events::Types
   include Captain::Conversation::V1ActionClassifier
   include Captain::Conversation::V1FalsePromiseHandler
   include Captain::Conversation::MessageBuilder
@@ -15,6 +16,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return unless conversation_pending?
 
     Current.executed_by = @assistant
+    toggle_assistant_typing(CONVERSATION_TYPING_ON)
 
     if captain_v2_enabled?
       generate_response_with_v2
@@ -27,12 +29,18 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   rescue StandardError => e
     handle_error(e)
   ensure
+    toggle_assistant_typing(CONVERSATION_TYPING_OFF)
     Current.executed_by = nil
   end
 
   private
 
   delegate :account, :inbox, to: :@conversation
+
+  # Surfaces "AI is thinking" in the widget while the LLM call is in flight.
+  def toggle_assistant_typing(event)
+    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: @conversation, user: @assistant)
+  end
 
   def generate_and_process_response
     message_history = collect_previous_messages
