@@ -28,10 +28,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   def retry
     return if message.blank?
 
-    service = Messages::StatusUpdateService.new(message, 'sent')
-    service.perform
-    message.update!(content_attributes: {})
-    ::SendReplyJob.perform_later(message.id)
+    Messages::RetryService.new(message).perform
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end

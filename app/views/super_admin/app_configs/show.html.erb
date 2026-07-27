@@ -76,6 +76,8 @@
   <% end %>
 </section>
 
+<%= render 'failed_email_retries' if @config == 'internal' %>
+
 <% content_for :javascript do %>
   <script>
   document.addEventListener('DOMContentLoaded', () => {

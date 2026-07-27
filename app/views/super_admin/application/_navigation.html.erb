@@ -33,7 +33,13 @@ as defined by the routes in the `admin/` namespace
     <ul class="my-4">
       <%= render partial: "nav_item", locals: { icon: 'icon-grid-line', url: super_admin_root_url, label: 'Dashboard' } %>
       <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
-        <% next if ["account_users", "access_tokens", "installation_configs", "dashboard", "devise/sessions", "app_configs", "instance_statuses", "settings", "push_diagnostics"].include?  resource.resource %>
+        <%
+          hidden_resources = %w[
+            account_users access_tokens installation_configs dashboard devise/sessions app_configs
+            instance_statuses settings push_diagnostics failed_email_retry_batches
+          ]
+          next if hidden_resources.include?(resource.resource)
+        %>
         <% next if resource.resource == "platform_banners" && !ChatwootApp.chatwoot_cloud? %>
         <%= render partial: "nav_item", locals: {
             icon: sidebar_icons[resource.resource.to_sym],

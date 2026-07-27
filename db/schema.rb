@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_13_184351) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_26_000002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -994,6 +994,27 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_13_184351) do
     t.index ["name", "template_type", "locale"], name: "index_email_templates_on_installation_scope", unique: true, where: "(account_id IS NULL) AND (inbox_id IS NULL)"
   end
 
+  create_table "failed_email_retry_batches", force: :cascade do |t|
+    t.integer "requested_by_id", null: false
+    t.integer "lookback_hours", null: false
+    t.datetime "range_start", null: false
+    t.datetime "range_end", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "candidate_count", default: 0, null: false
+    t.integer "eligible_count", default: 0, null: false
+    t.integer "scheduled_count", default: 0, null: false
+    t.integer "skipped_count", default: 0, null: false
+    t.integer "error_count", default: 0, null: false
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.text "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "(1)", name: "index_failed_email_retry_batches_on_active_status", unique: true, where: "(status = ANY (ARRAY[0, 1]))"
+    t.index ["requested_by_id"], name: "index_failed_email_retry_batches_on_requested_by_id"
+    t.index ["status", "created_at"], name: "index_failed_email_retry_batches_on_status_and_created_at"
+  end
+
   create_table "folders", force: :cascade do |t|
     t.integer "account_id", null: false
     t.integer "category_id", null: false
@@ -1164,6 +1185,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_13_184351) do
     t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
     t.index ["conversation_id", "account_id", "message_type", "created_at"], name: "index_messages_on_conversation_account_type_created"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["created_at", "inbox_id"], name: "index_messages_on_failed_outgoing_created_inbox", where: "((status = 3) AND (message_type = 1))"
     t.index ["created_at"], name: "index_messages_on_created_at"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
     t.index ["sender_type", "sender_id", "created_at"], name: "index_messages_on_sender_and_created"
@@ -1496,6 +1518,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_13_184351) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "failed_email_retry_batches", "users", column: "requested_by_id"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

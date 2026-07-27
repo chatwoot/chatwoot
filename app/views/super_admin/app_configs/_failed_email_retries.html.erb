@@ -1,0 +1,180 @@
+<% active_batch = @failed_email_retry_batch&.active? %>
+
+<section id="failed-email-retry-section" class="mx-6 mb-8 mt-10 border-t border-slate-200 pt-8">
+  <div class="max-w-4xl rounded-lg border border-slate-200 bg-white p-6">
+    <h2 class="text-lg font-semibold text-slate-900">
+      <%= t('super_admin.failed_email_retries.title') %>
+    </h2>
+    <p class="mt-2 text-sm text-slate-600">
+      <%= t('super_admin.failed_email_retries.description') %>
+    </p>
+
+    <%= form_with url: super_admin_app_config_path, method: :get, local: true, class: 'mt-6 flex items-end gap-3' do |form| %>
+      <%= form.hidden_field :config, value: 'internal' %>
+      <div>
+        <%= form.label :lookback_hours,
+                       t('super_admin.failed_email_retries.lookback_label'),
+                       class: 'mb-1 block text-sm font-medium text-slate-700' %>
+        <%= form.select :lookback_hours,
+                        FailedEmailRetryBatch::LOOKBACK_HOURS.map { |hours|
+                          [t('super_admin.failed_email_retries.lookback_option', count: hours), hours]
+                        },
+                        { selected: @failed_email_retry_lookback_hours },
+                        class: 'rounded-md border border-slate-200 p-2 text-sm',
+                        disabled: active_batch %>
+      </div>
+      <%= form.submit t('super_admin.failed_email_retries.check_messages'),
+                      class: 'rounded-md border border-slate-300 bg-slate-50 px-4 py-2 text-sm font-medium cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
+                      disabled: active_batch %>
+    <% end %>
+
+    <% if @failed_email_retry_preview %>
+      <div class="mt-6 rounded-md bg-slate-50 p-4">
+        <p class="mb-3 text-xs text-slate-500">
+          <%= t(
+                'super_admin.failed_email_retries.preview_range',
+                start_time: l(@failed_email_retry_preview[:range_start], format: :long),
+                end_time: l(@failed_email_retry_preview[:range_end], format: :long)
+              ) %>
+        </p>
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <div>
+            <p class="text-xs font-medium uppercase text-slate-500"><%= t('super_admin.failed_email_retries.failed_messages') %></p>
+            <p class="mt-1 text-2xl font-semibold text-slate-900"><%= @failed_email_retry_preview[:candidate_count] %></p>
+          </div>
+          <div>
+            <p class="text-xs font-medium uppercase text-slate-500"><%= t('super_admin.failed_email_retries.eligible_messages') %></p>
+            <p class="mt-1 text-2xl font-semibold text-green-700"><%= @failed_email_retry_preview[:eligible_count] %></p>
+          </div>
+          <div>
+            <p class="text-xs font-medium uppercase text-slate-500"><%= t('super_admin.failed_email_retries.suspended_messages') %></p>
+            <p class="mt-1 text-2xl font-semibold text-amber-700"><%= @failed_email_retry_preview[:suspended_count] %></p>
+          </div>
+        </div>
+      </div>
+
+      <% if @failed_email_retry_preview[:eligible_count].zero? %>
+        <p class="mt-4 text-sm text-slate-600"><%= t('super_admin.failed_email_retries.empty_state') %></p>
+      <% else %>
+        <%= form_with url: super_admin_failed_email_retry_batches_path,
+                      method: :post,
+                      local: true,
+                      class: 'failed-email-retry-schedule-form mt-4',
+                      data: {
+                        confirmation: t(
+                          'super_admin.failed_email_retries.confirmation',
+                          count: @failed_email_retry_lookback_hours,
+                          lookback_hours: @failed_email_retry_lookback_hours,
+                          eligible_count: @failed_email_retry_preview[:eligible_count],
+                          suspended_count: @failed_email_retry_preview[:suspended_count]
+                        )
+                      } do |form| %>
+          <%= form.hidden_field :lookback_hours, value: @failed_email_retry_lookback_hours %>
+          <%= form.submit t('super_admin.failed_email_retries.schedule_sending'),
+                          class: 'rounded-md bg-woot-500 px-4 py-2 text-sm font-medium text-white cursor-pointer disabled:cursor-not-allowed disabled:opacity-50',
+                          disabled: active_batch %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% if @failed_email_retry_batch %>
+      <div
+        id="failed-email-retry-batch"
+        class="mt-8 rounded-md border border-slate-200 p-4"
+        data-active="<%= @failed_email_retry_batch.active? %>"
+        data-status-url="<%= super_admin_failed_email_retry_batch_path(@failed_email_retry_batch) %>"
+      >
+        <div class="flex items-center justify-between gap-4">
+          <h3 class="text-sm font-semibold text-slate-900"><%= t('super_admin.failed_email_retries.latest_batch') %></h3>
+          <span data-batch-field="status" class="rounded-full bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
+            <%= t("super_admin.failed_email_retries.statuses.#{@failed_email_retry_batch.status}") %>
+          </span>
+        </div>
+        <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div>
+            <p class="text-xs text-slate-500"><%= t('super_admin.failed_email_retries.candidates_found') %></p>
+            <p data-batch-field="candidate_count" class="mt-1 text-xl font-semibold"><%= @failed_email_retry_batch.candidate_count %></p>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500"><%= t('super_admin.failed_email_retries.retries_scheduled') %></p>
+            <p data-batch-field="scheduled_count" class="mt-1 text-xl font-semibold text-green-700"><%= @failed_email_retry_batch.scheduled_count %></p>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500"><%= t('super_admin.failed_email_retries.skipped') %></p>
+            <p data-batch-field="skipped_count" class="mt-1 text-xl font-semibold text-amber-700"><%= @failed_email_retry_batch.skipped_count %></p>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500"><%= t('super_admin.failed_email_retries.scheduling_errors') %></p>
+            <p data-batch-field="error_count" class="mt-1 text-xl font-semibold text-red-700"><%= @failed_email_retry_batch.error_count %></p>
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-slate-500"><%= t('super_admin.failed_email_retries.scheduled_note') %></p>
+        <p
+          data-batch-field="completed_at"
+          class="mt-2 text-xs text-slate-500 <%= 'hidden' if @failed_email_retry_batch.completed_at.blank? %>"
+        >
+          <% if @failed_email_retry_batch.completed_at %>
+            <%= t(
+                  'super_admin.failed_email_retries.completed_at',
+                  time: l(@failed_email_retry_batch.completed_at, format: :long)
+                ) %>
+          <% end %>
+        </p>
+        <p
+          data-batch-field="error_message"
+          class="mt-3 text-sm text-red-700 <%= 'hidden' unless @failed_email_retry_batch.failed? %>"
+        >
+          <%= @failed_email_retry_batch.error_message %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<% content_for :javascript do %>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const scheduleForm = document.querySelector('.failed-email-retry-schedule-form');
+      scheduleForm?.addEventListener('submit', event => {
+        if (!window.confirm(scheduleForm.dataset.confirmation)) {
+          event.preventDefault();
+        }
+      });
+
+      const batch = document.getElementById('failed-email-retry-batch');
+      if (!batch || batch.dataset.active !== 'true') return;
+
+      const updateBatch = data => {
+        ['status', 'candidate_count', 'scheduled_count', 'skipped_count', 'error_count'].forEach(field => {
+          const element = batch.querySelector(`[data-batch-field="${field}"]`);
+          if (element) element.textContent = field === 'status' ? data.status_label : data[field];
+        });
+      };
+
+      const pollBatch = async () => {
+        try {
+          const response = await fetch(batch.dataset.statusUrl, {
+            headers: { Accept: 'application/json' },
+          });
+          if (!response.ok) return;
+
+          const data = await response.json();
+          updateBatch(data);
+          batch.dataset.active = data.active.toString();
+          if (!data.active) {
+            window.location.reload();
+            return;
+          }
+        } catch (_error) {
+          // Keep polling; a transient request failure should not hide batch progress.
+        } finally {
+          if (batch.dataset.active === 'true') {
+            window.setTimeout(pollBatch, 2000);
+          }
+        }
+      };
+
+      window.setTimeout(pollBatch, 2000);
+    });
+  </script>
+<% end %>

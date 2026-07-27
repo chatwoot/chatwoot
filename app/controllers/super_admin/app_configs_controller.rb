@@ -12,6 +12,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     @installation_configs = ConfigLoader.new.general_configs.each_with_object({}) do |config_hash, result|
       result[config_hash['name']] = config_hash.except('name')
     end
+    load_failed_email_retry_data if @config == 'internal'
   end
 
   def create
@@ -72,6 +73,21 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
 
   def restart_required_config_saved?
     params.fetch('app_config', {}).keys.intersect?(InstallationConfig::RESTART_REQUIRED_CONFIG_KEYS)
+  end
+
+  def load_failed_email_retry_data
+    requested_lookback = params[:lookback_hours].to_i
+    @failed_email_retry_lookback_hours = if FailedEmailRetryBatch::LOOKBACK_HOURS.include?(requested_lookback)
+                                           requested_lookback
+                                         else
+                                           FailedEmailRetryBatch::LOOKBACK_HOURS.first
+                                         end
+    if params[:lookback_hours].present?
+      @failed_email_retry_preview = FailedEmailRetryBatch.preview_for(lookback_hours: @failed_email_retry_lookback_hours)
+    end
+
+    requested_batch = FailedEmailRetryBatch.find_by(id: params[:failed_email_retry_batch_id])
+    @failed_email_retry_batch = requested_batch || FailedEmailRetryBatch.order(created_at: :desc).first
   end
 end
 

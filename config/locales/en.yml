@@ -608,6 +608,42 @@ en:
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
   super_admin:
+    failed_email_retries:
+      title: 'Retry failed email messages'
+      description: 'Find failed outgoing email messages, skip suspended accounts, and spread retry jobs across the following two hours.'
+      lookback_label: 'Lookback period'
+      lookback_option:
+        one: 'Last hour'
+        other: 'Last %{count} hours'
+      check_messages: 'Check failed messages'
+      preview_range: 'Messages created between %{start_time} and %{end_time}'
+      failed_messages: 'Failed messages'
+      eligible_messages: 'Eligible to retry'
+      suspended_messages: 'Suspended accounts'
+      empty_state: 'No eligible failed email messages were found for this period.'
+      schedule_sending: 'Schedule Sending'
+      confirmation:
+        one: 'Schedule eligible retries from the last hour? Eligible messages: %{eligible_count}. Messages from suspended accounts to skip: %{suspended_count}. Scheduled messages will be reset to sent, and their jobs will run between 1 minute and 2 hours from now.'
+        other: 'Schedule eligible retries from the last %{lookback_hours} hours? Eligible messages: %{eligible_count}. Messages from suspended accounts to skip: %{suspended_count}. Scheduled messages will be reset to sent, and their jobs will run between 1 minute and 2 hours from now.'
+      latest_batch: 'Latest retry batch'
+      candidates_found: 'Candidates found'
+      retries_scheduled: 'Retries scheduled'
+      skipped: 'Skipped'
+      scheduling_errors: 'Scheduling errors'
+      scheduled_note: 'Scheduled means the retry was accepted into the job queue; it does not confirm SMTP delivery.'
+      completed_at: 'Completed at %{time}'
+      queued_notice:
+        one: 'Queued a retry batch for 1 eligible message.'
+        other: 'Queued a retry batch for %{count} eligible messages.'
+      invalid_lookback: 'Select a supported lookback period.'
+      batch_in_progress: 'A failed email retry batch was already active. Review its status before scheduling another.'
+      enqueue_failed: 'The failed email retry batch could not be queued.'
+      batch_failed: 'Scheduling stopped unexpectedly. Check the application logs, then check the remaining failures again.'
+      statuses:
+        queued: 'Queued'
+        processing: 'Scheduling retries'
+        completed: 'Completed'
+        failed: 'Failed'
     captain_model_overrides:
       form:
         helper_text: 'Leave a model blank to use the YAML default for that AI feature.'

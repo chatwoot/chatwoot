@@ -697,6 +697,7 @@ Rails.application.routes.draw do
       root to: 'dashboard#index'
 
       resource :app_config, only: [:show, :create]
+      resources :failed_email_retry_batches, only: [:create, :show]
       resource :push_diagnostics, only: [:show, :create] do
         post :destroy_subscriptions, on: :collection
       end
