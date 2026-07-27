@@ -6,6 +6,11 @@ import yaml from '@rollup/plugin-yaml';
 
 export default defineConfig({
   plugins: [ruby(), vue(vueOptions), yaml()],
+  server: {
+    hmr: {
+      clientPort: Number(process.env.VITE_HMR_CLIENT_PORT || 3037),
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {

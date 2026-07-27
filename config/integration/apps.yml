@@ -36,6 +36,7 @@ openai:
       'properties':
         {
           'api_key': { 'type': 'string' },
+          'api_base': { 'type': 'string' },
           'label_suggestion': { 'type': 'boolean' },
         },
       'required': ['api_key'],
@@ -48,6 +49,14 @@ openai:
         'type': 'text',
         'name': 'api_key',
         'validation': 'required',
+      },
+      {
+        'label': 'API Base URL',
+        'type': 'text',
+        'name': 'api_base',
+        'placeholder': 'https://api.openai.com/v1',
+        'help': 'Optional. Use this for OpenAI-compatible providers or gateways.',
+        'validation': 'url',
       },
       {
         'label': 'Show label suggestions',
