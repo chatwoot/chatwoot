@@ -69,7 +69,7 @@ class Captain::Scenario < ApplicationRecord
       assistant_name: assistant.name.downcase.gsub(/\s+/, '_'),
       response_guidelines: response_guidelines || [],
       guardrails: guardrails || [],
-      knowledge_map: assistant.knowledge_map.present? ? JSON.pretty_generate(assistant.knowledge_map) : nil
+      knowledge_map: assistant.knowledge_map.present? ? JSON.generate(assistant.knowledge_map_for_prompt) : nil
     }
   end
 

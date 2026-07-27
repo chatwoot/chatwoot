@@ -70,6 +70,16 @@ class Captain::Assistant < ApplicationRecord
     available_agent_tools.pluck(:id)
   end
 
+  def knowledge_map_for_prompt
+    return {} if knowledge_map.blank?
+
+    {
+      'version' => knowledge_map['version'],
+      'business_summary' => knowledge_map['business_summary'],
+      'topics' => Array(knowledge_map['topics']).map { |topic| knowledge_map_topic_for_prompt(topic) }
+    }
+  end
+
   def push_event_data
     {
       id: id,
@@ -125,7 +135,19 @@ class Captain::Assistant < ApplicationRecord
   end
 
   def formatted_knowledge_map
-    JSON.pretty_generate(knowledge_map) if knowledge_map.present?
+    JSON.generate(knowledge_map_for_prompt) if knowledge_map.present?
+  end
+
+  def knowledge_map_topic_for_prompt(topic)
+    {
+      'name' => topic['name'],
+      'summary' => topic['summary'],
+      'concepts' => Array(topic['concepts']).first(6),
+      'relationships' => Array(topic['relationships']).first(3).map do |relationship|
+        relationship.slice('subject', 'predicate', 'object')
+      end,
+      'distinctions' => Array(topic['distinctions']).first(3).map { |distinction| distinction.slice('statement') }
+    }
   end
 
   def default_avatar_url
