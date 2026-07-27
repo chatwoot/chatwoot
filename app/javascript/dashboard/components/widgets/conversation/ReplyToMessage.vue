@@ -37,5 +37,3 @@ const emit = defineEmits(['dismiss']);
     />
   </div>
 </template>
-
-
