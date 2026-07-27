@@ -28,7 +28,12 @@ const inboxes = computed(() => {
     return {
       name: inbox.name,
       id: inbox.id,
-      icon: getInboxIconByType(inbox.channelType, inbox.medium, 'line'),
+      icon: getInboxIconByType(
+        inbox.channelType,
+        inbox.medium,
+        'line',
+        inbox.voiceEnabled
+      ),
     };
   });
 });

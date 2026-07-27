@@ -684,40 +684,98 @@
     "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
+      "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
       "GO_TO_SETTINGS": "Go to Meta Business Manager",
       "NO_DATA": "Health data is not available",
+      "ERRORS": {
+        "AUTHORIZATION": {
+          "EMBEDDED_TITLE": "WhatsApp connection needs to be refreshed",
+          "EMBEDDED_DESCRIPTION": "Meta could not validate the connection for this inbox. Go to Configuration to reconfigure it using Embedded Signup.",
+          "MANUAL_TITLE": "WhatsApp access token needs attention",
+          "MANUAL_DESCRIPTION": "Meta could not validate the access token for this inbox. Go to Configuration to verify or replace it."
+        },
+        "GENERIC_TITLE": "WhatsApp health data is unavailable",
+        "GENERIC_DESCRIPTION": "Meta could not return the current health details. Review the error below and try again later.",
+        "GO_TO_CONFIGURATION": "Go to Configuration"
+      },
+      "SECTIONS": {
+        "PHONE_NUMBER": "Phone number",
+        "HEALTH_AND_CAPACITY": "Health and capacity",
+        "BUSINESS_ACCOUNT": "Business account"
+      },
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
           "LABEL": "Display phone number",
           "TOOLTIP": "Phone number displayed to customers"
         },
         "VERIFIED_NAME": {
-          "LABEL": "Business name",
-          "TOOLTIP": "Business name verified by WhatsApp"
+          "LABEL": "WhatsApp display name",
+          "TOOLTIP": "Display name associated with this phone number on WhatsApp"
+        },
+        "PHONE_NUMBER_ID": {
+          "LABEL": "Phone number ID",
+          "TOOLTIP": "Meta identifier for this WhatsApp phone number"
+        },
+        "COEXISTENCE": {
+          "LABEL": "Coexistence",
+          "TOOLTIP": "This number is connected to both the WhatsApp Business app and Cloud API"
         },
         "DISPLAY_NAME_STATUS": {
           "LABEL": "Display name status",
-          "TOOLTIP": "Status of your business name verification"
+          "TOOLTIP": "Review status of the WhatsApp display name"
+        },
+        "LAST_ONBOARDED_TIME": {
+          "LABEL": "Last onboarded",
+          "TOOLTIP": "Most recent time Meta onboarded this phone number"
+        },
+        "PHONE_NUMBER_STATUS": {
+          "LABEL": "Phone number status",
+          "TOOLTIP": "Current connection status of this phone number on WhatsApp"
         },
         "QUALITY_RATING": {
           "LABEL": "Quality rating",
-          "TOOLTIP": "WhatsApp quality rating for your account"
+          "TOOLTIP": "Quality rating Meta assigns to this phone number based on recent messaging signals"
         },
         "MESSAGING_LIMIT_TIER": {
           "LABEL": "Messaging limit tier",
-          "TOOLTIP": "Daily messaging limit for your account"
+          "TOOLTIP": "Number of customers this phone number can initiate conversations with in 24 hours"
         },
         "ACCOUNT_MODE": {
           "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of your WhatsApp account"
+          "TOOLTIP": "Current operating mode of this WhatsApp phone number"
+        },
+        "CODE_VERIFICATION_STATUS": {
+          "LABEL": "Code verification",
+          "TOOLTIP": "Verification-code status reported by Meta for this phone number"
+        },
+        "THROUGHPUT_LEVEL": {
+          "LABEL": "Throughput",
+          "TOOLTIP": "Message throughput level assigned to this phone number"
+        },
+        "BUSINESS_ACCOUNT_NAME": {
+          "LABEL": "WhatsApp Business Account name",
+          "TOOLTIP": "Name of the WhatsApp Business Account linked to this phone number"
+        },
+        "BUSINESS_ACCOUNT_ID": {
+          "LABEL": "WhatsApp Business Account ID",
+          "TOOLTIP": "Meta identifier for the linked WhatsApp Business Account"
+        },
+        "BUSINESS_PORTFOLIO_NAME": {
+          "LABEL": "Business portfolio name",
+          "TOOLTIP": "Name of the Meta business portfolio that owns the WhatsApp Business Account"
+        },
+        "BUSINESS_PORTFOLIO_ID": {
+          "LABEL": "Business portfolio ID",
+          "TOOLTIP": "Meta identifier for the business portfolio that owns the WhatsApp Business Account"
         }
       },
       "VALUES": {
+        "NOT_AVAILABLE": "Not available",
         "TIERS": {
           "TIER_250": "250 customers per 24h",
           "TIER_1000": "1K customers per 24h",
           "TIER_1K": "1K customers per 24h",
+          "TIER_2K": "2K customers per 24h",
           "TIER_10K": "10K customers per 24h",
           "TIER_100K": "100K customers per 24h",
           "TIER_UNLIMITED": "Unlimited customers per 24h",
@@ -725,6 +783,16 @@
         },
         "STATUSES": {
           "APPROVED": "Approved",
+          "CONNECTED": "Connected",
+          "VERIFIED": "Verified",
+          "STANDARD": "Standard",
+          "ACTIVE": "Active",
+          "EXPIRED": "Expired",
+          "FLAGGED": "Flagged",
+          "RESTRICTED": "Restricted",
+          "BANNED": "Banned",
+          "DISCONNECTED": "Disconnected",
+          "UNKNOWN": "Not available",
           "PENDING_REVIEW": "Pending Review",
           "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
           "REJECTED": "Rejected",
@@ -744,7 +812,11 @@
         "REGISTER_SUCCESS": "Webhook registered successfully",
         "REGISTER_ERROR": "Failed to register webhook. Please try again.",
         "CONFIGURED_SUCCESS": "Webhook configured successfully",
-        "URL_MISMATCH": "Webhook URL mismatch"
+        "URL_MISMATCH": "Webhook URL mismatch",
+        "CONFIGURED_URL": "Configured URL",
+        "EXPECTED_URL": "Expected URL",
+        "COPY_URL": "Copy webhook URL",
+        "COPY_SUCCESS": "Webhook URL copied to clipboard"
       }
     },
     "SETTINGS": "Settings",
