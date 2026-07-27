@@ -26,25 +26,28 @@ const canDrilldown = computed(() => checkPermissions(['administrator']));
 const selectedRange = ref('this_month');
 
 const assistantId = computed(() => route.params.assistantId);
-const stats = ref(null);
-const isFetching = ref(false);
+const metricStats = ref(null);
+const faqStats = ref(null);
+const isFetchingMetrics = ref(false);
 
 // Increments on every fetch so a response (or retry) from a superseded
 // range/assistant can't clobber the latest request's state.
-let fetchToken = 0;
-let abortController = null;
+let metricsFetchToken = 0;
+let faqStatsFetchToken = 0;
+let metricsAbortController = null;
+let faqStatsAbortController = null;
 
-const fetchStats = async () => {
-  fetchToken += 1;
-  const token = fetchToken;
-  abortController?.abort();
-  abortController = new AbortController();
-  const { signal } = abortController;
-  stats.value = null;
-  isFetching.value = true;
+const fetchMetrics = async () => {
+  metricsFetchToken += 1;
+  const token = metricsFetchToken;
+  metricsAbortController?.abort();
+  metricsAbortController = new AbortController();
+  const { signal } = metricsAbortController;
+  metricStats.value = null;
+  isFetchingMetrics.value = true;
 
-  const requestStats = () =>
-    CaptainAssistant.getStats({
+  const requestMetrics = () =>
+    CaptainAssistant.getMetrics({
       assistantId: assistantId.value,
       range: selectedRange.value,
       signal,
@@ -52,25 +55,54 @@ const fetchStats = async () => {
 
   let data = null;
   try {
-    ({ data } = await requestStats());
+    ({ data } = await requestMetrics());
   } catch {
     // One silent retry before giving up, unless the request was aborted.
     try {
-      if (token === fetchToken && !signal.aborted)
-        ({ data } = await requestStats());
+      if (token === metricsFetchToken && !signal.aborted)
+        ({ data } = await requestMetrics());
     } catch {
       data = null;
     }
   }
 
-  if (token !== fetchToken || signal.aborted) return;
-  stats.value = data;
-  isFetching.value = false;
+  if (token !== metricsFetchToken || signal.aborted) return;
+  metricStats.value = data;
+  isFetchingMetrics.value = false;
 };
 
-onUnmounted(() => abortController?.abort());
+const fetchFaqStats = async () => {
+  faqStatsFetchToken += 1;
+  const token = faqStatsFetchToken;
+  faqStatsAbortController?.abort();
+  faqStatsAbortController = new AbortController();
+  const { signal } = faqStatsAbortController;
+  faqStats.value = null;
 
-watch([selectedRange, assistantId], fetchStats, { immediate: true });
+  try {
+    const { data } = await CaptainAssistant.getFaqStats({
+      assistantId: assistantId.value,
+      signal,
+    });
+    if (token === faqStatsFetchToken && !signal.aborted) faqStats.value = data;
+  } catch {
+    if (token === faqStatsFetchToken && !signal.aborted) faqStats.value = null;
+  }
+};
+
+const summaryStats = computed(() => {
+  if (!metricStats.value || !faqStats.value) return null;
+
+  return { ...metricStats.value, knowledge: faqStats.value };
+});
+
+onUnmounted(() => {
+  metricsAbortController?.abort();
+  faqStatsAbortController?.abort();
+});
+
+watch([selectedRange, assistantId], fetchMetrics, { immediate: true });
+watch(assistantId, fetchFaqStats, { immediate: true });
 
 // `direction` says whether a rising trend is good ('up'), bad ('down'), or
 // neutral, so we can colour the delta independently of its sign.
@@ -90,7 +122,7 @@ const formatDuration = hours =>
   hours >= 100 ? `${Math.round(hours / 24)}d` : `${hours}h`;
 
 const metricFor = (statKey, formatValue, direction, trendKind = 'percent') => {
-  const data = stats.value?.[statKey];
+  const data = metricStats.value?.[statKey];
   if (!data) return { value: '—', trend: '', trendGood: null };
 
   const sign = data.trend > 0 ? '+' : '';
@@ -184,9 +216,9 @@ const closeDrilldown = () => {
       <div class="flex flex-col gap-6 pb-8">
         <InboxBanner />
 
-        <CoverageBanner :knowledge="stats?.knowledge" />
+        <CoverageBanner :knowledge="faqStats ?? undefined" />
 
-        <WelcomeCard :range="selectedRange" :stats="stats" />
+        <WelcomeCard :range="selectedRange" :stats="summaryStats" />
 
         <div
           class="grid grid-cols-1 gap-px overflow-hidden border rounded-xl sm:grid-cols-2 lg:grid-cols-3 bg-n-weak border-n-weak"
@@ -199,13 +231,15 @@ const closeDrilldown = () => {
             :trend="metric.trend"
             :hint="metric.hint"
             :trend-good="metric.trendGood"
-            :loading="isFetching"
-            :clickable="canDrilldown && Boolean(metric.metric) && !isFetching"
+            :loading="isFetchingMetrics"
+            :clickable="
+              canDrilldown && Boolean(metric.metric) && !isFetchingMetrics
+            "
             @click="openDrilldown(metric)"
           />
         </div>
 
-        <KnowledgeCard :knowledge="stats?.knowledge" />
+        <KnowledgeCard :knowledge="faqStats ?? undefined" />
 
         <QuickLinks />
       </div>
