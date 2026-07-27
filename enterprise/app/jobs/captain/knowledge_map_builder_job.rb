@@ -5,7 +5,7 @@ class Captain::KnowledgeMapBuilderJob < MutexApplicationJob
   REBUILD_DELAY = 1.minute
 
   retry_on_lock_conflict wait: 30.seconds, attempts: 30
-  retry_on Captain::Llm::KnowledgeMapService::GenerationError, wait: 1.minute, attempts: 3
+  retry_on Captain::Llm::KnowledgeMapGenerationError, wait: 1.minute, attempts: 3
 
   def perform(assistant_id)
     assistant = Captain::Assistant.find_by(id: assistant_id)
