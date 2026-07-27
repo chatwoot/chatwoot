@@ -20,7 +20,7 @@ const activeTab = defineModel({ type: String, required: true });
   <div class="flex flex-col w-full gap-4 md:flex-row md:items-start md:gap-8">
     <!-- Horizontal scrollable tab row on small screens; vertical rail from md up. -->
     <nav
-      class="flex flex-row w-full gap-1 pb-2 overflow-x-auto no-scrollbar border-b shrink-0 border-n-weak md:sticky md:top-0 md:flex-col md:w-48 md:gap-0.5 md:py-1 md:pb-1 md:border-b-0 md:overflow-visible"
+      class="flex flex-row w-full gap-1 pb-2 overflow-x-auto no-scrollbar border-b shrink-0 border-n-weak md:sticky md:top-0 md:flex-col md:w-48 md:gap-0.5 md:border-b-0 md:overflow-visible"
     >
       <button
         v-for="tab in tabs"
