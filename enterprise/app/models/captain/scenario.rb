@@ -68,7 +68,8 @@ class Captain::Scenario < ApplicationRecord
       tools: resolved_tools,
       assistant_name: assistant.name.downcase.gsub(/\s+/, '_'),
       response_guidelines: response_guidelines || [],
-      guardrails: guardrails || []
+      guardrails: guardrails || [],
+      knowledge_map: assistant.knowledge_map.present? ? JSON.pretty_generate(assistant.knowledge_map) : nil
     }
   end
 

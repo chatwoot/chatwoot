@@ -2,15 +2,18 @@
 #
 # Table name: captain_assistants
 #
-#  id                  :bigint           not null, primary key
-#  config              :jsonb            not null
-#  description         :text
-#  guardrails          :jsonb
-#  name                :string           not null
-#  response_guidelines :jsonb
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  account_id          :bigint           not null
+#  id                          :bigint           not null, primary key
+#  config                      :jsonb            not null
+#  description                 :text
+#  guardrails                  :jsonb
+#  knowledge_map               :jsonb            not null
+#  knowledge_map_built_at      :datetime
+#  knowledge_map_source_digest :string
+#  name                        :string           not null
+#  response_guidelines         :jsonb
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  account_id                  :bigint           not null
 #
 # Indexes
 #
@@ -116,8 +119,13 @@ class Captain::Assistant < ApplicationRecord
         }
       end,
       response_guidelines: response_guidelines || [],
-      guardrails: guardrails || []
+      guardrails: guardrails || [],
+      knowledge_map: formatted_knowledge_map
     }
+  end
+
+  def formatted_knowledge_map
+    JSON.pretty_generate(knowledge_map) if knowledge_map.present?
   end
 
   def default_avatar_url

@@ -42,7 +42,9 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
     {
       role: 'system',
       content: Captain::Llm::SystemPromptsService.assistant_response_generator(
-        @assistant.name, @assistant.config['product_name'], @assistant.config.merge('timezone' => inbox_timezone),
+        @assistant.name,
+        @assistant.config['product_name'],
+        @assistant.config.merge('timezone' => inbox_timezone, 'knowledge_map' => @assistant.knowledge_map),
         contact: contact_attributes,
         custom_tools: custom_tools_metadata
       )
