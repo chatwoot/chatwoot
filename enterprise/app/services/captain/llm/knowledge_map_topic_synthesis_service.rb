@@ -77,6 +77,7 @@ class Captain::Llm::KnowledgeMapTopicSynthesisService < Captain::Llm::KnowledgeM
             "Topic synthesis failed for tasks: #{missing_tasks.pluck(:topic_key).join(', ')}"
     end
 
+    log_progress("retrying missing_tasks=#{missing_tasks.pluck(:topic_key).join(',')} attempt=#{attempt + 1}")
     missing_tasks.flat_map { |task| synthesize_task_group([task], attempt + 1) }
   end
 

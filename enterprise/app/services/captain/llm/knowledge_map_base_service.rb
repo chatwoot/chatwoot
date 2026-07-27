@@ -112,6 +112,10 @@ class Captain::Llm::KnowledgeMapBaseService < Captain::BaseTaskService
     @usage ||= %w[prompt_tokens completion_tokens total_tokens].index_with { 0 }
   end
 
+  def log_progress(message)
+    Rails.logger.info("[Captain::KnowledgeMap] phase=#{event_name} #{message}")
+  end
+
   def captain_tasks_enabled?
     true
   end

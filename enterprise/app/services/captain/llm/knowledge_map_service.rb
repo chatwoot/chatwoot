@@ -8,7 +8,12 @@ class Captain::Llm::KnowledgeMapService
   pattr_initialize [:assistant!]
 
   def perform
-    return empty_result if empty?
+    if empty?
+      log_progress('skipped approved_faqs=0')
+      return empty_result
+    end
+
+    log_progress("started approved_faqs=#{source_records.length}")
 
     candidates = discovery_candidates
     return empty_result if candidates.empty?
@@ -20,8 +25,10 @@ class Captain::Llm::KnowledgeMapService
       faq_records: prompt_sources
     )
     business_summary = run_phase(Captain::Llm::KnowledgeMapBusinessSummaryService, topics: topics)
+    map = assemble_map(topics, business_summary)
+    log_progress("completed topics=#{topics.length} output_characters=#{JSON.generate(map).length} total_tokens=#{usage['total_tokens']}")
 
-    { message: assemble_map(topics, business_summary), usage: usage }
+    { message: map, usage: usage }
   end
 
   def source_digest
@@ -52,10 +59,15 @@ class Captain::Llm::KnowledgeMapService
 
   def discovery_candidates
     cached_candidates = Redis::Alfred.get(discovery_cache_key)
-    return JSON.parse(cached_candidates, symbolize_names: true) if cached_candidates
+    if cached_candidates
+      candidates = JSON.parse(cached_candidates, symbolize_names: true)
+      log_progress("phase=topic_discovery cache_hit items=#{candidates.length}")
+      return candidates
+    end
 
     candidates = run_phase(Captain::Llm::KnowledgeMapTopicDiscoveryService, faq_records: prompt_sources)
     Redis::Alfred.set(discovery_cache_key, JSON.generate(candidates), ex: DISCOVERY_CACHE_TTL.to_i)
+    log_progress("phase=topic_discovery cached items=#{candidates.length} ttl=#{DISCOVERY_CACHE_TTL.to_i}s")
     candidates
   end
 
@@ -68,11 +80,15 @@ class Captain::Llm::KnowledgeMapService
   end
 
   def run_phase(service_class, **attributes)
+    phase = service_class.name.demodulize.delete_prefix('KnowledgeMap').delete_suffix('Service').underscore
     result = service_class.new(account: assistant.account, **attributes).perform
     raise Captain::Llm::KnowledgeMapGenerationError, result[:error] if result[:error]
 
     add_usage(result[:usage])
-    result.fetch(:message)
+    message = result.fetch(:message)
+    item_count = message.is_a?(Array) ? message.length : 1
+    log_progress("phase=#{phase} completed items=#{item_count}")
+    message
   end
 
   def assemble_map(topics, business_summary)
@@ -100,5 +116,9 @@ class Captain::Llm::KnowledgeMapService
 
   def empty_result
     { message: {}, usage: usage }
+  end
+
+  def log_progress(message)
+    Rails.logger.info("[Captain::KnowledgeMap] assistant_id=#{assistant.id} #{message}")
   end
 end
