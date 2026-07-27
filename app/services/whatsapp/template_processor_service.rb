@@ -45,6 +45,7 @@ class Whatsapp::TemplateProcessorService
     components.concat(process_body_components(processed_params, template))
     components.concat(process_footer_components(processed_params))
     components.concat(process_button_components(processed_params))
+    components.concat(process_flow_button_components(template, components))
 
     @template_params = components
   end
@@ -108,20 +109,74 @@ class Whatsapp::TemplateProcessorService
   def process_button_components(processed_params)
     return [] if processed_params['buttons'].blank?
 
-    button_params = processed_params['buttons'].filter_map.with_index do |button, index|
+    processed_params['buttons'].filter_map.with_index do |button, index|
       next if button.blank?
 
-      if button['type'] == 'url' || button['parameter'].present?
-        {
-          type: 'button',
-          sub_type: button['type'] || 'url',
-          index: index,
-          parameters: [parameter_builder.build_button_parameter(button)]
-        }
-      end
+      build_button_component(button, index)
     end
+  end
 
-    button_params.compact
+  def build_button_component(button, index)
+    # FLOW buttons need an action/flow_token payload, not a text parameter —
+    # honour a caller-supplied token so an explicit component stays valid.
+    return build_flow_button_component(index, button['parameter']) if flow_button?(button)
+    return unless button['type'] == 'url' || button['parameter'].present?
+
+    {
+      type: 'button',
+      sub_type: button['type'] || 'url',
+      index: index,
+      parameters: [parameter_builder.build_button_parameter(button)]
+    }
+  end
+
+  # Templates containing FLOW buttons require a button component carrying a
+  # flow_token at send time — without it Meta rejects the message with error
+  # 131009 ("Parameter value is not valid"), which made flow templates
+  # impossible to send from the dashboard. We append the component
+  # automatically from the template definition, so no UI changes are needed.
+  # https://developers.facebook.com/docs/whatsapp/flows/guides/sendingaflow#templates
+  def process_flow_button_components(template, existing_components)
+    template_buttons(template).each_with_index.filter_map do |button, index|
+      next unless flow_button?(button)
+      next if component_present?(existing_components, index)
+
+      build_flow_button_component(index)
+    end
+  end
+
+  def template_buttons(template)
+    (template['components'] || [])
+      .select { |component| component['type'] == 'BUTTONS' }
+      .flat_map { |component| component['buttons'] || [] }
+  end
+
+  def flow_button?(button)
+    button['type'].to_s.casecmp('FLOW').zero?
+  end
+
+  def component_present?(existing_components, index)
+    existing_components.any? { |component| component[:type] == 'button' && component[:index] == index }
+  end
+
+  # Builds the button component WhatsApp expects for a FLOW button: an action
+  # parameter carrying the flow_token. Reused for both auto-appended template
+  # buttons and explicit caller-provided flow buttons.
+  def build_flow_button_component(index, token = nil)
+    {
+      type: 'button',
+      sub_type: 'flow',
+      index: index,
+      parameters: [{ type: 'action', action: { flow_token: token.presence || flow_button_token } }]
+    }
+  end
+
+  # Unique, opaque token echoed back by Meta in the flow response (nfm_reply) —
+  # embedding the conversation id lets flow endpoints correlate completions
+  # with the originating conversation.
+  def flow_button_token
+    conversation_id = message&.conversation&.display_id
+    "chatwoot_#{conversation_id || 'na'}_#{(Time.now.to_f * 1000).to_i}"
   end
 
   def parameter_builder
