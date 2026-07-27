@@ -3,8 +3,10 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** hotfix `B-NEW-28` api_and_webhooks (login 500
-post 4.16.1) (2026-07-26). Antes: polish `B-NEW-26` flows layout/acciones/i18n
+**Última actualización:** hotfix `B-NEW-29` dashboard JS post-4.16.1
+(`hasFilteredUnreadCounts` / `useI18n`) (2026-07-26). Antes: hotfix
+`B-NEW-28` api_and_webhooks (login 500 post 4.16.1) (2026-07-26). Antes:
+polish `B-NEW-26` flows layout/acciones/i18n
 (2026-07-24). Antes: fix `B-NEW-25` flows actions cards/dropdown clip
 (2026-07-24). Antes: polish `B-NEW-24` flows lista/categoría/drawer/inspector
 (2026-07-24). Antes: polish `B-NEW-23` flows editor layout/perf/buttons
@@ -82,6 +84,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-25 | Flows UX | Baja | ✅ Acciones numeradas en cards; dropdown sin clip por overflow |
 | B-NEW-26 | Flows UX | Baja | ✅ Acciones horiz., tipos únicos, menubar, panel izq, i18n es |
 | B-NEW-28 | 🔴 P0 prod | Sí | ✅ Login 500: faltaba `api_and_webhooks` en features.yml ext_1 |
+| B-NEW-29 | 🔴 P0 prod | Sí | ✅ Dashboard JS: `hasFilteredUnreadCounts` + `useI18n` imports |
 
 ---
 
@@ -781,6 +784,17 @@ flags de `feature_flags_ext_1` (incl. `api_and_webhooks`).
 `api_and_webhooks_enabled?` + `Message.unscoped` en time-based DISTINCT ON.
 
 **Deploy:** merge a `develop` + GHCR redeploy. Sin migración.
+
+### B-NEW-29 — Dashboard JS roto post-4.16.1 (`hasFilteredUnreadCounts` / `useI18n`)
+
+**Severidad:** P0 prod — login OK pero sidebar/commandbar crash; UI incompleta.
+
+**Causa:** merge `-X ours` dejó usos de `hasFilteredUnreadCounts` / `hasDataImport`
+sin definir, y `useAgentsList.js` sin imports de `vue` / `vue-i18n`.
+
+**Fix:** definir computeds + `UNREAD_COUNT_FOR_FILTERS` en featureFlags + imports.
+
+**Deploy:** merge PR + GHCR rebuild (assets en imagen).
 
 ---
 

@@ -1,3 +1,5 @@
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import {
   getAgentsByUpdatedPresence,
@@ -53,10 +55,7 @@ export function useAgentsList(
   );
 
   const showNoneAgent = computed(
-    () =>
-      includeNoneAgent &&
-      isAgentSelected.value &&
-      !inboxBotAgent.value
+    () => includeNoneAgent && isAgentSelected.value && !inboxBotAgent.value
   );
 
   /**
@@ -64,8 +63,12 @@ export function useAgentsList(
    */
   const agentsList = computed(() => {
     const agents = assignableAgents.value || [];
-    const humanAgents = agents.filter(agent => agent.assignee_type !== 'AgentBot');
-    const botAgents = agents.filter(agent => agent.assignee_type === 'AgentBot');
+    const humanAgents = agents.filter(
+      agent => agent.assignee_type !== 'AgentBot'
+    );
+    const botAgents = agents.filter(
+      agent => agent.assignee_type === 'AgentBot'
+    );
     const agentsByUpdatedPresence = getAgentsByUpdatedPresence(
       humanAgents,
       currentUser.value,
