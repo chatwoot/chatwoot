@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** hotfix `B-NEW-30` toggle_status 500
+**Última actualización:** feature `B-NEW-31` business rules contact attrs +
+zero-as-blank + TYPE_HELP (2026-07-27). Antes: hotfix `B-NEW-30` toggle_status 500
 (`activity_message_params` kwargs) + resolve modal currency/percent (2026-07-27).
 Antes: hotfix `B-NEW-29` dashboard JS post-4.16.1
 (`hasFilteredUnreadCounts` / `useI18n`) (2026-07-26). Antes: hotfix
@@ -88,6 +89,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-28 | 🔴 P0 prod | Sí | ✅ Login 500: faltaba `api_and_webhooks` en features.yml ext_1 |
 | B-NEW-29 | 🔴 P0 prod | Sí | ✅ Dashboard JS: `hasFilteredUnreadCounts` + `useI18n` imports |
 | B-NEW-30 | 🔴 P0 prod | Sí | ✅ toggle_status 500: `activity_message_params` + modal currency/percent |
+| B-NEW-31 | Feature | No | ✅ Business rules: contact attrs + zero-as-blank + TYPE_HELP |
 
 ---
 
@@ -828,6 +830,23 @@ rules (esas serían 422).
 message en timeline; si hay required `currency`/`percent`, modal los
 edita. Local: `.\scripts\dev-up.ps1` (Vue en imagen). Prod: merge
 `develop` + GHCR redeploy (sin migración).
+
+### B-NEW-31 — Business rules: contact attrs + zero-as-blank + TYPE_HELP
+
+**Feature.** Guardrails pueden exigir atributos de **conversación y contacto**.
+En `number`/`currency`/`percent`, el valor `0` cuenta como vacío. El form
+muestra `TYPE_HELP` por tipo de regla. Al resolver, el modal pide ambos
+modelos y guarda contacto vía `contacts/update` antes de `toggle_status`.
+
+**Archivos:**
+- `Conversations::BusinessRulesGuard`
+- `BusinessRuleForm.vue`, `useConversationRequiredAttributes.js`
+- `ConversationResolveAttributesModal.vue`, `ResolveAction.vue`
+- `en/es/businessRules.json`
+
+**Cómo probar:** Settings → Business rules → exigir CA de contacto +
+condicional `tipo=venta` → currency; resolve con `0` bloquea; valor > 0 OK.
+Local: `up -d --build` (Vue en imagen).
 
 ---
 

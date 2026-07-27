@@ -2,6 +2,7 @@
 
 class Conversations::BusinessRulesGuard
   Result = Struct.new(:ok?, :errors, keyword_init: true)
+  NUMERIC_DISPLAY_TYPES = %w[number currency percent].freeze
 
   def initialize(conversation:, new_status: nil)
     @conversation = conversation
@@ -26,7 +27,7 @@ class Conversations::BusinessRulesGuard
     return [] unless status_changing_to?('resolved')
 
     keys = Array(@account.settings&.dig('conversation_required_attributes')).map(&:to_s)
-    missing_attribute_errors(keys, code: 'required_on_resolve')
+    missing_attribute_errors(keys, code: 'required_on_resolve', model: 'conversation')
   end
 
   def evaluate_rule(rule)
@@ -52,7 +53,10 @@ class Conversations::BusinessRulesGuard
   def require_attributes_on_status(config)
     return [] unless status_changing_to?(config[:status].to_s)
 
-    missing_attribute_errors(Array(config[:attribute_keys]), code: 'require_attributes_on_status')
+    missing_attribute_errors(Array(config[:attribute_keys]), code: 'require_attributes_on_status',
+                                                             model: 'conversation') +
+      missing_attribute_errors(Array(config[:contact_attribute_keys]), code: 'require_attributes_on_status',
+                                                                       model: 'contact')
   end
 
   def if_attribute_then_require(config)
@@ -61,9 +65,14 @@ class Conversations::BusinessRulesGuard
 
     when_key = config[:when_attribute].to_s
     return [] if when_key.blank?
-    return [] unless attribute_matches?(when_key, config[:when_values])
 
-    missing_attribute_errors(Array(config[:require_attribute_keys]), code: 'if_attribute_then_require')
+    when_model = (config[:when_attribute_model].presence || 'conversation').to_s
+    return [] unless attribute_matches?(when_key, config[:when_values], model: when_model)
+
+    missing_attribute_errors(Array(config[:require_attribute_keys]), code: 'if_attribute_then_require',
+                                                                     model: 'conversation') +
+      missing_attribute_errors(Array(config[:require_contact_attribute_keys]), code: 'if_attribute_then_require',
+                                                                              model: 'contact')
   end
 
   def require_reason_on_status(config)
@@ -73,13 +82,13 @@ class Conversations::BusinessRulesGuard
 
     errors = []
     reason_key = config[:reason_attribute_key].to_s
-    if reason_key.present? && attribute_blank?(reason_key)
-      errors << { code: 'require_reason_attribute', attribute_key: reason_key }
+    if reason_key.present? && attribute_blank?(reason_key, model: 'conversation')
+      errors << { code: 'require_reason_attribute', attribute_key: reason_key, attribute_model: 'conversation' }
     end
 
     if ActiveModel::Type::Boolean.new.cast(config[:require_private_note]) && !recent_private_note?
       # If reason CA is filled, skip note requirement
-      unless reason_key.present? && !attribute_blank?(reason_key)
+      unless reason_key.present? && !attribute_blank?(reason_key, model: 'conversation')
         errors << { code: 'require_private_note' }
       end
     end
@@ -113,9 +122,9 @@ class Conversations::BusinessRulesGuard
     @new_status == status && @previous_status != status
   end
 
-  def attribute_matches?(key, when_values)
-    value = @conversation.custom_attributes&.[](key)
-    return false if attribute_value_blank?(value)
+  def attribute_matches?(key, when_values, model: 'conversation')
+    value = attribute_value(key, model: model)
+    return false if attribute_value_blank?(value, type: attribute_type_for(key, model: model))
 
     values = Array(when_values).map(&:to_s).reject(&:blank?)
     return true if values.empty?
@@ -123,19 +132,59 @@ class Conversations::BusinessRulesGuard
     Array.wrap(value).map(&:to_s).any? { |v| values.map(&:downcase).include?(v.downcase) }
   end
 
-  def attribute_blank?(key)
-    attribute_value_blank?(@conversation.custom_attributes&.[](key))
+  def attribute_blank?(key, model: 'conversation')
+    attribute_value_blank?(
+      attribute_value(key, model: model),
+      type: attribute_type_for(key, model: model)
+    )
   end
 
-  def attribute_value_blank?(value)
-    value.nil? || value == '' || (value.is_a?(Array) && value.empty?)
+  def attribute_value(key, model:)
+    if model.to_s == 'contact'
+      @conversation.contact&.custom_attributes&.[](key)
+    else
+      @conversation.custom_attributes&.[](key)
+    end
   end
 
-  def missing_attribute_errors(keys, code:)
+  def attribute_value_blank?(value, type: nil)
+    return true if value.nil? || value == '' || (value.is_a?(Array) && value.empty?)
+
+    if NUMERIC_DISPLAY_TYPES.include?(type.to_s)
+      numeric = Float(value, exception: false)
+      return true if numeric && numeric.zero?
+      return true if value.to_s.strip.match?(/\A0(?:\.0+)?\z/)
+    end
+
+    false
+  end
+
+  def attribute_type_for(key, model:)
+    attribute_definitions_by_model[model.to_s][key.to_s]
+  end
+
+  def attribute_definitions_by_model
+    @attribute_definitions_by_model ||= begin
+      map = { 'conversation' => {}, 'contact' => {} }
+      @account.custom_attribute_definitions.find_each do |definition|
+        bucket = if definition.conversation_attribute?
+                   'conversation'
+                 elsif definition.contact_attribute?
+                   'contact'
+                 end
+        next unless bucket
+
+        map[bucket][definition.attribute_key.to_s] = definition.attribute_display_type.to_s
+      end
+      map
+    end
+  end
+
+  def missing_attribute_errors(keys, code:, model:)
     Array(keys).map(&:to_s).reject(&:blank?).filter_map do |key|
-      next unless attribute_blank?(key)
+      next unless attribute_blank?(key, model: model)
 
-      { code: code, attribute_key: key }
+      { code: code, attribute_key: key, attribute_model: model }
     end
   end
 

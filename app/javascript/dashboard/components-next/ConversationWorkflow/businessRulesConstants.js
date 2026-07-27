@@ -9,12 +9,18 @@ export const GUARD_RULE_TYPES = [
 export const emptyConfigForType = type => {
   switch (type) {
     case 'require_attributes_on_status':
-      return { status: 'resolved', attribute_keys: [] };
+      return {
+        status: 'resolved',
+        attribute_keys: [],
+        contact_attribute_keys: [],
+      };
     case 'if_attribute_then_require':
       return {
         when_attribute: '',
+        when_attribute_model: 'conversation',
         when_values: [],
         require_attribute_keys: [],
+        require_contact_attribute_keys: [],
         on_status: 'resolved',
       };
     case 'require_reason_on_status':
@@ -42,7 +48,11 @@ export const BUSINESS_RULE_PRESETS = [
     defaults: {
       type: 'require_attributes_on_status',
       enabled: true,
-      config: { status: 'resolved', attribute_keys: [] },
+      config: {
+        status: 'resolved',
+        attribute_keys: [],
+        contact_attribute_keys: [],
+      },
     },
   },
   {
@@ -56,8 +66,10 @@ export const BUSINESS_RULE_PRESETS = [
       enabled: true,
       config: {
         when_attribute: '',
+        when_attribute_model: 'conversation',
         when_values: [],
         require_attribute_keys: [],
+        require_contact_attribute_keys: [],
         on_status: 'resolved',
       },
     },

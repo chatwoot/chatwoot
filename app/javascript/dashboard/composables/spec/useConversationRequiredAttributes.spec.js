@@ -35,6 +35,9 @@ describe('useConversationRequiredAttributes', () => {
       if (getter === 'attributes/getConversationAttributes') {
         return { value: defaultAttributes };
       }
+      if (getter === 'attributes/getContactAttributes') {
+        return { value: [] };
+      }
       return { value: null };
     });
 
@@ -68,6 +71,9 @@ describe('useConversationRequiredAttributes', () => {
       }
       if (getter === 'attributes/getConversationAttributes') {
         return { value: attributes };
+      }
+      if (getter === 'attributes/getContactAttributes') {
+        return { value: [] };
       }
       return { value: null };
     });
@@ -262,8 +268,8 @@ describe('useConversationRequiredAttributes', () => {
       expect(result.missing[0].type).toBe('checkbox');
     });
 
-    it('should handle falsy values correctly for non-checkbox attributes', () => {
-      setupMocks(['score', 'status_flag'], {
+    it('treats numeric zero as blank for number attributes', () => {
+      setupMocks(['score'], {
         attributes: [
           {
             attributeKey: 'score',
@@ -271,6 +277,21 @@ describe('useConversationRequiredAttributes', () => {
             attributeDisplayType: 'number',
             attributeValues: [],
           },
+        ],
+      });
+
+      const { checkMissingAttributes } = useConversationRequiredAttributes();
+
+      expect(checkMissingAttributes({ score: 0 }).hasMissing).toBe(true);
+      expect(checkMissingAttributes({ score: 0 }).missing[0].value).toBe(
+        'score'
+      );
+      expect(checkMissingAttributes({ score: 5 }).hasMissing).toBe(false);
+    });
+
+    it('should handle falsy text values as present when non-empty stringable', () => {
+      setupMocks(['status_flag'], {
+        attributes: [
           {
             attributeKey: 'status_flag',
             attributeDisplayName: 'Status Flag',
@@ -282,15 +303,10 @@ describe('useConversationRequiredAttributes', () => {
 
       const { checkMissingAttributes } = useConversationRequiredAttributes();
 
-      const customAttributes = {
-        score: 0, // zero should be considered valid, not missing
-        status_flag: false, // false should be considered valid, not missing
-      };
-
-      const result = checkMissingAttributes(customAttributes);
-
-      expect(result.hasMissing).toBe(false);
-      expect(result.missing).toEqual([]);
+      // false stringifies to "false" and is considered filled for text
+      expect(checkMissingAttributes({ status_flag: false }).hasMissing).toBe(
+        false
+      );
     });
 
     it('should handle null values as missing for text attributes', () => {

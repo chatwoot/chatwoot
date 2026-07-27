@@ -44,18 +44,21 @@ const placeholders = computed(() => ({
 
 const getPlaceholder = type => placeholders.value[type] || '';
 
+const fieldKey = attribute =>
+  `${attribute.attributeModel || 'conversation'}__${attribute.value}`;
+
 const validationRules = computed(() => {
   const rules = {};
   visibleAttributes.value.forEach(attribute => {
+    const key = fieldKey(attribute);
     if (attribute.type === ATTRIBUTE_TYPES.LINK) {
-      rules[attribute.value] = { required, url };
+      rules[key] = { required, url };
     } else if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) {
-      // Checkbox doesn't need validation - any selection is valid
-      rules[attribute.value] = {};
+      rules[key] = {};
     } else {
-      rules[attribute.value] = { required };
+      rules[key] = { required };
       if (attribute.regexPattern) {
-        rules[attribute.value].regexValidation = helpers.withParams(
+        rules[key].regexValidation = helpers.withParams(
           { regexCue: attribute.regexCue },
           value => !value || getRegexp(attribute.regexPattern).test(value)
         );
@@ -67,8 +70,8 @@ const validationRules = computed(() => {
 
 const v$ = useVuelidate(validationRules, formValues);
 
-const getErrorMessage = attributeKey => {
-  const field = v$.value[attributeKey];
+const getErrorMessage = attribute => {
+  const field = v$.value[fieldKey(attribute)];
   if (!field || !field.$error) return '';
 
   if (field.url && field.url.$invalid) {
@@ -86,20 +89,32 @@ const getErrorMessage = attributeKey => {
   return '';
 };
 
+const isNumericType = type =>
+  [
+    ATTRIBUTE_TYPES.NUMBER,
+    ATTRIBUTE_TYPES.CURRENCY,
+    ATTRIBUTE_TYPES.PERCENT,
+  ].includes(type);
+
 const isFormComplete = computed(() =>
   visibleAttributes.value.every(attribute => {
-    const value = formValues[attribute.value];
+    const key = fieldKey(attribute);
+    const value = formValues[key];
 
-    // For checkbox attributes, ensure the agent has explicitly selected a value
     if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) {
-      return formValues[attribute.value] !== null;
+      return value !== null;
     }
     if (attribute.type === ATTRIBUTE_TYPES.MULTI_LIST) {
       return Array.isArray(value) && value.length > 0;
     }
-
-    // For other attribute types, check for valid non-empty values
-    return value !== undefined && value !== null && String(value).trim() !== '';
+    if (value === undefined || value === null || String(value).trim() === '') {
+      return false;
+    }
+    if (isNumericType(attribute.type)) {
+      const numeric = Number(value);
+      if (!Number.isNaN(numeric) && numeric === 0) return false;
+    }
+    return true;
   })
 );
 
@@ -107,7 +122,7 @@ const comboBoxOptions = computed(() => {
   const options = {};
   visibleAttributes.value.forEach(attribute => {
     if (attribute.type === ATTRIBUTE_TYPES.LIST) {
-      options[attribute.value] = (attribute.attributeValues || []).map(
+      options[fieldKey(attribute)] = (attribute.attributeValues || []).map(
         option => ({
           value: option,
           label: option,
@@ -124,29 +139,36 @@ const close = () => {
   v$.value.$reset();
 };
 
-const open = (attributes = [], initialValues = {}, context = null) => {
+const open = (
+  attributes = [],
+  initialConversationValues = {},
+  context = null,
+  initialContactValues = {}
+) => {
   visibleAttributes.value = attributes;
   conversationContext.value = context;
 
-  // Clear existing formValues
   Object.keys(formValues).forEach(key => {
     delete formValues[key];
   });
 
-  // Initialize form values
   attributes.forEach(attribute => {
-    const presetValue = initialValues[attribute.value];
+    const key = fieldKey(attribute);
+    const source =
+      attribute.attributeModel === 'contact'
+        ? initialContactValues
+        : initialConversationValues;
+    const presetValue = source[attribute.value];
     if (presetValue !== undefined && presetValue !== null) {
-      formValues[attribute.value] = presetValue;
+      formValues[key] = presetValue;
     } else {
-      // Checkbox → null (no pre-selection); multi_list → []; else ''
       let initial = '';
       if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) {
         initial = null;
       } else if (attribute.type === ATTRIBUTE_TYPES.MULTI_LIST) {
         initial = [];
       }
-      formValues[attribute.value] = initial;
+      formValues[key] = initial;
     }
   });
 
@@ -160,14 +182,26 @@ const handleConfirm = async () => {
     return;
   }
 
+  const conversationAttributes = {};
+  const contactAttributes = {};
+  visibleAttributes.value.forEach(attribute => {
+    const value = formValues[fieldKey(attribute)];
+    if (attribute.attributeModel === 'contact') {
+      contactAttributes[attribute.value] = value;
+    } else {
+      conversationAttributes[attribute.value] = value;
+    }
+  });
+
   emit('submit', {
-    attributes: { ...formValues },
+    attributes: conversationAttributes,
+    contactAttributes,
     context: conversationContext.value,
   });
   close();
 };
 
-defineExpose({ open, close });
+defineExpose({ open, close, fieldKey });
 </script>
 
 <template>
@@ -190,106 +224,97 @@ defineExpose({ open, close });
     <div class="flex flex-col gap-4">
       <div
         v-for="attribute in visibleAttributes"
-        :key="attribute.value"
+        :key="fieldKey(attribute)"
         class="flex flex-col gap-2"
       >
-        <div class="flex justify-between items-center">
-          <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+        <div class="flex items-center gap-2">
+          <label class="mb-0 text-sm font-medium text-n-slate-12">
             {{ attribute.label }}
           </label>
+          <span
+            class="rounded bg-n-alpha-2 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-n-slate-11"
+          >
+            {{
+              attribute.attributeModel === 'contact'
+                ? $t('BUSINESS_RULES.FIELDS.SECTION_CONTACT')
+                : $t('BUSINESS_RULES.FIELDS.SECTION_CONVERSATION')
+            }}
+          </span>
         </div>
 
         <template v-if="attribute.type === ATTRIBUTE_TYPES.TEXT">
           <TextArea
-            v-model="formValues[attribute.value]"
+            v-model="formValues[fieldKey(attribute)]"
             class="w-full"
             :placeholder="getPlaceholder(ATTRIBUTE_TYPES.TEXT)"
-            :message="getErrorMessage(attribute.value)"
-            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
-            @blur="v$[attribute.value].$touch"
+            :message="getErrorMessage(attribute)"
+            :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
+            @blur="v$[fieldKey(attribute)].$touch"
           />
         </template>
 
-        <template v-else-if="attribute.type === ATTRIBUTE_TYPES.NUMBER">
+        <template
+          v-else-if="
+            attribute.type === ATTRIBUTE_TYPES.NUMBER ||
+            attribute.type === ATTRIBUTE_TYPES.CURRENCY ||
+            attribute.type === ATTRIBUTE_TYPES.PERCENT
+          "
+        >
           <Input
-            v-model="formValues[attribute.value]"
+            v-model="formValues[fieldKey(attribute)]"
             type="number"
             size="md"
-            :placeholder="getPlaceholder(ATTRIBUTE_TYPES.NUMBER)"
-            :message="getErrorMessage(attribute.value)"
-            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
-            @blur="v$[attribute.value].$touch"
-          />
-        </template>
-
-        <template v-else-if="attribute.type === ATTRIBUTE_TYPES.CURRENCY">
-          <Input
-            v-model="formValues[attribute.value]"
-            type="number"
-            size="md"
-            :placeholder="getPlaceholder(ATTRIBUTE_TYPES.CURRENCY)"
-            :message="getErrorMessage(attribute.value)"
-            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
-            @blur="v$[attribute.value].$touch"
-          />
-        </template>
-
-        <template v-else-if="attribute.type === ATTRIBUTE_TYPES.PERCENT">
-          <Input
-            v-model="formValues[attribute.value]"
-            type="number"
-            size="md"
-            :placeholder="getPlaceholder(ATTRIBUTE_TYPES.PERCENT)"
-            :message="getErrorMessage(attribute.value)"
-            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
-            @blur="v$[attribute.value].$touch"
+            :placeholder="getPlaceholder(attribute.type)"
+            :message="getErrorMessage(attribute)"
+            :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
+            @blur="v$[fieldKey(attribute)].$touch"
           />
         </template>
 
         <template v-else-if="attribute.type === ATTRIBUTE_TYPES.LINK">
           <Input
-            v-model="formValues[attribute.value]"
+            v-model="formValues[fieldKey(attribute)]"
             type="url"
             size="md"
             :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LINK)"
-            :message="getErrorMessage(attribute.value)"
-            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
-            @blur="v$[attribute.value].$touch"
+            :message="getErrorMessage(attribute)"
+            :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
+            @blur="v$[fieldKey(attribute)].$touch"
           />
         </template>
 
         <template v-else-if="attribute.type === ATTRIBUTE_TYPES.DATE">
           <Input
-            v-model="formValues[attribute.value]"
+            v-model="formValues[fieldKey(attribute)]"
             type="date"
             size="md"
             :placeholder="getPlaceholder(ATTRIBUTE_TYPES.DATE)"
-            :message="getErrorMessage(attribute.value)"
-            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
-            @blur="v$[attribute.value].$touch"
+            :message="getErrorMessage(attribute)"
+            :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
+            @blur="v$[fieldKey(attribute)].$touch"
           />
         </template>
 
         <template v-else-if="attribute.type === ATTRIBUTE_TYPES.DATETIME">
           <Input
-            v-model="formValues[attribute.value]"
+            v-model="formValues[fieldKey(attribute)]"
             type="datetime-local"
             size="md"
             :placeholder="getPlaceholder(ATTRIBUTE_TYPES.DATETIME)"
-            :message="getErrorMessage(attribute.value)"
-            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
-            @blur="v$[attribute.value].$touch"
+            :message="getErrorMessage(attribute)"
+            :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
+            @blur="v$[fieldKey(attribute)].$touch"
           />
         </template>
 
         <template v-else-if="attribute.type === ATTRIBUTE_TYPES.LIST">
           <ComboBox
-            v-model="formValues[attribute.value]"
-            :options="comboBoxOptions[attribute.value]"
+            v-model="formValues[fieldKey(attribute)]"
+            :options="comboBoxOptions[fieldKey(attribute)]"
             :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LIST)"
-            :message="getErrorMessage(attribute.value)"
-            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
-            :has-error="v$[attribute.value].$error"
+            :message="getErrorMessage(attribute)"
+            :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
+            :has-error="v$[fieldKey(attribute)].$error"
             class="w-full"
           />
         </template>
@@ -304,13 +329,14 @@ defineExpose({ open, close });
               <input
                 type="checkbox"
                 :checked="
-                  Array.isArray(formValues[attribute.value]) &&
-                  formValues[attribute.value].includes(option)
+                  Array.isArray(formValues[fieldKey(attribute)]) &&
+                  formValues[fieldKey(attribute)].includes(option)
                 "
                 @change="
                   event => {
-                    const current = Array.isArray(formValues[attribute.value])
-                      ? [...formValues[attribute.value]]
+                    const key = fieldKey(attribute);
+                    const current = Array.isArray(formValues[key])
+                      ? [...formValues[key]]
                       : [];
                     if (event.target.checked) {
                       if (!current.includes(option)) current.push(option);
@@ -318,7 +344,7 @@ defineExpose({ open, close });
                       const idx = current.indexOf(option);
                       if (idx >= 0) current.splice(idx, 1);
                     }
-                    formValues[attribute.value] = current;
+                    formValues[key] = current;
                   }
                 "
               />
@@ -328,7 +354,7 @@ defineExpose({ open, close });
         </template>
 
         <template v-else-if="attribute.type === ATTRIBUTE_TYPES.CHECKBOX">
-          <ChoiceToggle v-model="formValues[attribute.value]" />
+          <ChoiceToggle v-model="formValues[fieldKey(attribute)]" />
         </template>
       </div>
     </div>

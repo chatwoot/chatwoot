@@ -153,16 +153,38 @@ const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
     });
 };
 
-const handleResolveWithAttributes = ({ attributes, context }) => {
-  if (context) {
-    const currentCustomAttributes = currentChat.value.custom_attributes || {};
-    const mergedAttributes = { ...currentCustomAttributes, ...attributes };
-    toggleStatus(
-      wootConstants.STATUS_TYPE.RESOLVED,
-      context.snoozedUntil,
-      mergedAttributes
-    );
+const handleResolveWithAttributes = async ({
+  attributes,
+  contactAttributes = {},
+  context,
+}) => {
+  if (!context) return;
+
+  const contactId = currentChat.value.meta?.sender?.id;
+  if (contactId && Object.keys(contactAttributes || {}).length) {
+    const existingContactAttrs =
+      currentChat.value.meta?.sender?.custom_attributes || {};
+    try {
+      await store.dispatch('contacts/update', {
+        id: contactId,
+        customAttributes: {
+          ...existingContactAttrs,
+          ...contactAttributes,
+        },
+      });
+    } catch (error) {
+      useAlert(t('CONVERSATION.CHANGE_STATUS_FAILED'));
+      return;
+    }
   }
+
+  const currentCustomAttributes = currentChat.value.custom_attributes || {};
+  const mergedAttributes = { ...currentCustomAttributes, ...attributes };
+  toggleStatus(
+    wootConstants.STATUS_TYPE.RESOLVED,
+    context.snoozedUntil,
+    mergedAttributes
+  );
 };
 
 const onCmdOpenConversation = () => {
@@ -171,8 +193,12 @@ const onCmdOpenConversation = () => {
 
 const onCmdResolveConversation = () => {
   const currentCustomAttributes = currentChat.value.custom_attributes || {};
+  const contactCustomAttributes =
+    currentChat.value.meta?.sender?.custom_attributes || {};
   const { hasMissing, missing } = checkMissingAttributes(
-    currentCustomAttributes
+    currentCustomAttributes,
+    wootConstants.STATUS_TYPE.RESOLVED,
+    contactCustomAttributes
   );
 
   if (hasMissing) {
@@ -183,7 +209,8 @@ const onCmdResolveConversation = () => {
     resolveAttributesModalRef.value?.open(
       missing,
       currentCustomAttributes,
-      conversationContext
+      conversationContext,
+      contactCustomAttributes
     );
   } else {
     toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);

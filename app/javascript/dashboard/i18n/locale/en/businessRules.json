@@ -37,6 +37,7 @@
       "ATTRIBUTES": "Required attributes",
       "ATTRIBUTES_HELP": "Only checked attributes will be required. Do not select everything unless you truly need it.",
       "WHEN_ATTRIBUTE": "When this attribute is set",
+      "WHEN_ATTRIBUTE_MODEL": "Attribute belongs to",
       "WHEN_VALUES": "Trigger values (optional)",
       "WHEN_VALUES_PLACEHOLDER": "sale, won — empty = any value",
       "REQUIRE_ATTRIBUTES": "Then require these attributes",
@@ -44,7 +45,16 @@
       "REASON_ATTRIBUTE": "Reason attribute (optional)",
       "LABEL": "Forbidden label",
       "REQUIRE_TEAM_OR_AGENT": "Require team or agent assignee",
+      "SECTION_CONVERSATION": "Conversation",
+      "SECTION_CONTACT": "Contact",
       "NONE": "None"
+    },
+    "TYPE_HELP": {
+      "require_attributes_on_status": "Require selected conversation and/or contact fields when changing to the target status. On resolve, a modal asks for any missing values. Number/currency/percent values of 0 count as empty.",
+      "if_attribute_then_require": "Only when the trigger attribute matches. Then require extra conversation and/or contact fields. On resolve, the same modal collects missing values. 0 is treated as empty for numeric fields.",
+      "require_reason_on_status": "When moving to pending/snoozed, require a recent private note and/or a conversation reason attribute.",
+      "forbid_status_if": "Block the status change if the conversation has the given label.",
+      "require_assignee_on_status": "Block the status change unless a team or agent is assigned."
     },
     "TYPES": {
       "require_attributes_on_status": "Require attributes on status change",
@@ -60,6 +70,7 @@
       "snoozed": "Snoozed"
     },
     "NO_ATTRIBUTES": "No conversation attributes defined yet.",
+    "NO_CONTACT_ATTRIBUTES": "No contact attributes defined yet.",
     "PRESETS": {
       "REQUIRE_ON_RESOLVE": "Require attributes on resolve",
       "REQUIRE_ON_RESOLVE_DESC": "Agents must fill selected attributes before resolving.",

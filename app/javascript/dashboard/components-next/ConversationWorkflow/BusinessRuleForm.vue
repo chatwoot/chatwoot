@@ -20,6 +20,7 @@ const { t } = useI18n();
 const conversationAttributes = useMapGetter(
   'attributes/getConversationAttributes'
 );
+const contactAttributes = useMapGetter('attributes/getContactAttributes');
 
 const STATUS_OPTIONS = ['open', 'resolved', 'pending', 'snoozed'];
 const syncing = ref(false);
@@ -33,6 +34,24 @@ const draft = reactive({
   config: emptyConfigForType(GUARD_RULE_TYPES[0]),
 });
 
+const ensureArrayKeys = () => {
+  [
+    'attribute_keys',
+    'contact_attribute_keys',
+    'require_attribute_keys',
+    'require_contact_attribute_keys',
+    'when_values',
+    'statuses',
+  ].forEach(key => {
+    if (!Array.isArray(draft.config[key])) {
+      draft.config[key] = [];
+    }
+  });
+  if (!draft.config.when_attribute_model) {
+    draft.config.when_attribute_model = 'conversation';
+  }
+};
+
 const applyModel = value => {
   if (!value) return;
   syncing.value = true;
@@ -45,18 +64,7 @@ const applyModel = value => {
     ...emptyConfigForType(draft.type),
     ...(value.config || {}),
   };
-  if (!Array.isArray(draft.config.attribute_keys)) {
-    draft.config.attribute_keys = [];
-  }
-  if (!Array.isArray(draft.config.require_attribute_keys)) {
-    draft.config.require_attribute_keys = [];
-  }
-  if (!Array.isArray(draft.config.when_values)) {
-    draft.config.when_values = [];
-  }
-  if (!Array.isArray(draft.config.statuses)) {
-    draft.config.statuses = [];
-  }
+  ensureArrayKeys();
   nextTick(() => {
     syncing.value = false;
   });
@@ -84,16 +92,30 @@ watch(
   { deep: true }
 );
 
-const attributeOptions = computed(() =>
-  (conversationAttributes.value || [])
+const mapAttributeOptions = attrs =>
+  (attrs || [])
     .filter(attr => !attr.formula)
     .map(attr => ({
       value: attr.attributeKey || attr.attribute_key,
       label: attr.attributeDisplayName || attr.attribute_display_name,
-    }))
+    }));
+
+const conversationOptions = computed(() =>
+  mapAttributeOptions(conversationAttributes.value)
+);
+const contactOptions = computed(() =>
+  mapAttributeOptions(contactAttributes.value)
 );
 
+const whenAttributeOptions = computed(() => {
+  if (draft.config.when_attribute_model === 'contact') {
+    return contactOptions.value;
+  }
+  return conversationOptions.value;
+});
+
 const typeLabel = type => t(`BUSINESS_RULES.TYPES.${type}`);
+const typeHelp = computed(() => t(`BUSINESS_RULES.TYPE_HELP.${draft.type}`));
 
 const onTypeChange = type => {
   draft.type = type;
@@ -139,6 +161,10 @@ const statusesText = computed({
       .filter(Boolean);
   },
 });
+
+const onWhenModelChange = () => {
+  draft.config.when_attribute = '';
+};
 </script>
 
 <template>
@@ -169,6 +195,9 @@ const statusesText = computed({
         </option>
       </select>
     </label>
+    <p class="m-0 -mt-2 text-xs text-n-slate-11">
+      {{ typeHelp }}
+    </p>
 
     <template v-if="draft.type === 'require_attributes_on_status'">
       <label class="text-xs text-n-slate-11">
@@ -190,12 +219,15 @@ const statusesText = computed({
         <p class="mb-2 mt-1 text-xs text-n-slate-11">
           {{ $t('BUSINESS_RULES.FIELDS.ATTRIBUTES_HELP') }}
         </p>
+        <p class="mb-1 mt-2 text-xs font-medium text-n-slate-11">
+          {{ $t('BUSINESS_RULES.FIELDS.SECTION_CONVERSATION') }}
+        </p>
         <div
-          class="flex max-h-48 flex-col gap-2 overflow-y-auto rounded-md border border-n-weak p-2"
+          class="flex max-h-40 flex-col gap-2 overflow-y-auto rounded-md border border-n-weak p-2"
         >
           <label
-            v-for="opt in attributeOptions"
-            :key="opt.value"
+            v-for="opt in conversationOptions"
+            :key="`conv-${opt.value}`"
             class="flex items-center gap-2 text-sm text-n-slate-12"
           >
             <input
@@ -206,10 +238,32 @@ const statusesText = computed({
             {{ opt.label }}
           </label>
           <p
-            v-if="!attributeOptions.length"
+            v-if="!conversationOptions.length"
             class="m-0 text-xs text-n-slate-11"
           >
             {{ $t('BUSINESS_RULES.NO_ATTRIBUTES') }}
+          </p>
+        </div>
+        <p class="mb-1 mt-3 text-xs font-medium text-n-slate-11">
+          {{ $t('BUSINESS_RULES.FIELDS.SECTION_CONTACT') }}
+        </p>
+        <div
+          class="flex max-h-40 flex-col gap-2 overflow-y-auto rounded-md border border-n-weak p-2"
+        >
+          <label
+            v-for="opt in contactOptions"
+            :key="`contact-${opt.value}`"
+            class="flex items-center gap-2 text-sm text-n-slate-12"
+          >
+            <input
+              type="checkbox"
+              :checked="isChecked('contact_attribute_keys', opt.value)"
+              @change="toggleKey('contact_attribute_keys', opt.value)"
+            />
+            {{ opt.label }}
+          </label>
+          <p v-if="!contactOptions.length" class="m-0 text-xs text-n-slate-11">
+            {{ $t('BUSINESS_RULES.NO_CONTACT_ATTRIBUTES') }}
           </p>
         </div>
       </div>
@@ -229,13 +283,28 @@ const statusesText = computed({
         </select>
       </label>
       <label class="text-xs text-n-slate-11">
+        {{ $t('BUSINESS_RULES.FIELDS.WHEN_ATTRIBUTE_MODEL') }}
+        <select
+          v-model="draft.config.when_attribute_model"
+          class="mt-1 w-full"
+          @change="onWhenModelChange"
+        >
+          <option value="conversation">
+            {{ $t('BUSINESS_RULES.FIELDS.SECTION_CONVERSATION') }}
+          </option>
+          <option value="contact">
+            {{ $t('BUSINESS_RULES.FIELDS.SECTION_CONTACT') }}
+          </option>
+        </select>
+      </label>
+      <label class="text-xs text-n-slate-11">
         {{ $t('BUSINESS_RULES.FIELDS.WHEN_ATTRIBUTE') }}
         <select v-model="draft.config.when_attribute" class="mt-1 w-full">
           <option value="">
             {{ $t('BUSINESS_RULES.FIELDS.NONE') }}
           </option>
           <option
-            v-for="opt in attributeOptions"
+            v-for="opt in whenAttributeOptions"
             :key="opt.value"
             :value="opt.value"
           >
@@ -259,18 +328,40 @@ const statusesText = computed({
         <p class="mb-2 mt-1 text-xs text-n-slate-11">
           {{ $t('BUSINESS_RULES.FIELDS.ATTRIBUTES_HELP') }}
         </p>
+        <p class="mb-1 mt-2 text-xs font-medium text-n-slate-11">
+          {{ $t('BUSINESS_RULES.FIELDS.SECTION_CONVERSATION') }}
+        </p>
         <div
-          class="flex max-h-48 flex-col gap-2 overflow-y-auto rounded-md border border-n-weak p-2"
+          class="flex max-h-40 flex-col gap-2 overflow-y-auto rounded-md border border-n-weak p-2"
         >
           <label
-            v-for="opt in attributeOptions"
-            :key="opt.value"
+            v-for="opt in conversationOptions"
+            :key="`req-conv-${opt.value}`"
             class="flex items-center gap-2 text-sm text-n-slate-12"
           >
             <input
               type="checkbox"
               :checked="isChecked('require_attribute_keys', opt.value)"
               @change="toggleKey('require_attribute_keys', opt.value)"
+            />
+            {{ opt.label }}
+          </label>
+        </div>
+        <p class="mb-1 mt-3 text-xs font-medium text-n-slate-11">
+          {{ $t('BUSINESS_RULES.FIELDS.SECTION_CONTACT') }}
+        </p>
+        <div
+          class="flex max-h-40 flex-col gap-2 overflow-y-auto rounded-md border border-n-weak p-2"
+        >
+          <label
+            v-for="opt in contactOptions"
+            :key="`req-contact-${opt.value}`"
+            class="flex items-center gap-2 text-sm text-n-slate-12"
+          >
+            <input
+              type="checkbox"
+              :checked="isChecked('require_contact_attribute_keys', opt.value)"
+              @change="toggleKey('require_contact_attribute_keys', opt.value)"
             />
             {{ opt.label }}
           </label>
@@ -299,7 +390,7 @@ const statusesText = computed({
             {{ $t('BUSINESS_RULES.FIELDS.NONE') }}
           </option>
           <option
-            v-for="opt in attributeOptions"
+            v-for="opt in conversationOptions"
             :key="opt.value"
             :value="opt.value"
           >

@@ -4,13 +4,27 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { ATTRIBUTE_TYPES } from 'dashboard/components-next/ConversationWorkflow/constants';
 
-const attributeBlank = (attrs, key, type) => {
+const NUMERIC_TYPES = new Set([
+  ATTRIBUTE_TYPES.NUMBER,
+  ATTRIBUTE_TYPES.CURRENCY,
+  ATTRIBUTE_TYPES.PERCENT,
+  'number',
+  'currency',
+  'percent',
+]);
+
+export const attributeBlank = (attrs, key, type) => {
   if (type === ATTRIBUTE_TYPES.CHECKBOX || type === 'checkbox') {
     return !(key in attrs);
   }
   const value = attrs[key];
   if (Array.isArray(value)) return value.length === 0;
-  return value == null || String(value).trim() === '';
+  if (value == null || String(value).trim() === '') return true;
+  if (NUMERIC_TYPES.has(type)) {
+    const numeric = Number(value);
+    if (!Number.isNaN(numeric) && numeric === 0) return true;
+  }
+  return false;
 };
 
 const attributeMatches = (attrs, whenKey, whenValues) => {
@@ -31,20 +45,27 @@ const attributeMatches = (attrs, whenKey, whenValues) => {
 };
 
 /**
- * Keys required to change conversation status, from business_rules + legacy list.
- * Conditional: if-then only when when_attribute already matches.
+ * Required attribute descriptors for a status change (conversation + contact).
  */
 export function requiredKeysForStatusChange({
   businessRules = [],
   legacyKeys = [],
   targetStatus = 'resolved',
   customAttributes = {},
+  contactCustomAttributes = {},
 } = {}) {
-  const keys = new Set();
+  const items = [];
+  const seen = new Set();
 
-  (legacyKeys || []).forEach(key => {
-    if (key) keys.add(String(key));
-  });
+  const add = (key, attributeModel) => {
+    if (!key) return;
+    const id = `${attributeModel}:${key}`;
+    if (seen.has(id)) return;
+    seen.add(id);
+    items.push({ key: String(key), attributeModel });
+  };
+
+  (legacyKeys || []).forEach(key => add(key, 'conversation'));
 
   (businessRules || [])
     .filter(rule => rule?.enabled !== false)
@@ -52,25 +73,32 @@ export function requiredKeysForStatusChange({
       const config = rule.config || {};
       if (rule.type === 'require_attributes_on_status') {
         if (String(config.status || '') !== String(targetStatus)) return;
-        (config.attribute_keys || []).forEach(key => {
-          if (key) keys.add(String(key));
-        });
+        (config.attribute_keys || []).forEach(key => add(key, 'conversation'));
+        (config.contact_attribute_keys || []).forEach(key =>
+          add(key, 'contact')
+        );
       }
       if (rule.type === 'if_attribute_then_require') {
         const onStatus = config.on_status || 'resolved';
         if (String(onStatus) !== String(targetStatus)) return;
         const whenKey = config.when_attribute;
         if (!whenKey) return;
-        if (!attributeMatches(customAttributes, whenKey, config.when_values)) {
+        const whenModel = config.when_attribute_model || 'conversation';
+        const whenAttrs =
+          whenModel === 'contact' ? contactCustomAttributes : customAttributes;
+        if (!attributeMatches(whenAttrs, whenKey, config.when_values)) {
           return;
         }
-        (config.require_attribute_keys || []).forEach(key => {
-          if (key) keys.add(String(key));
-        });
+        (config.require_attribute_keys || []).forEach(key =>
+          add(key, 'conversation')
+        );
+        (config.require_contact_attribute_keys || []).forEach(key =>
+          add(key, 'contact')
+        );
       }
     });
 
-  return [...keys];
+  return items;
 }
 
 export function useConversationRequiredAttributes() {
@@ -81,6 +109,7 @@ export function useConversationRequiredAttributes() {
   const conversationAttributes = useMapGetter(
     'attributes/getConversationAttributes'
   );
+  const contactAttributes = useMapGetter('attributes/getContactAttributes');
 
   const isFeatureEnabled = computed(() =>
     isFeatureEnabledonAccount.value(
@@ -103,8 +132,8 @@ export function useConversationRequiredAttributes() {
   /** @deprecated use keys required for a specific status + attrs */
   const requiredAttributeKeys = computed(() => legacyAttributeKeys.value);
 
-  const allAttributeOptions = computed(() =>
-    (conversationAttributes.value || [])
+  const mapOptions = (attrs, attributeModel) =>
+    (attrs || [])
       .filter(attribute => !attribute.formula)
       .map(attribute => ({
         ...attribute,
@@ -112,45 +141,60 @@ export function useConversationRequiredAttributes() {
         label: attribute.attributeDisplayName,
         type: attribute.attributeDisplayType,
         attributeValues: attribute.attributeValues,
-      }))
-  );
+        attributeModel,
+      }));
+
+  const allAttributeOptions = computed(() => [
+    ...mapOptions(conversationAttributes.value, 'conversation'),
+    ...mapOptions(contactAttributes.value, 'contact'),
+  ]);
 
   const requiredAttributes = computed(() =>
     requiredAttributeKeys.value
       .map(key =>
-        allAttributeOptions.value.find(attribute => attribute.value === key)
+        allAttributeOptions.value.find(
+          attribute =>
+            attribute.value === key &&
+            attribute.attributeModel === 'conversation'
+        )
       )
       .filter(Boolean)
   );
 
   const checkMissingAttributes = (
     conversationCustomAttributes = {},
-    targetStatus = 'resolved'
+    targetStatus = 'resolved',
+    contactCustomAttributes = {}
   ) => {
-    const keys = requiredKeysForStatusChange({
+    const required = requiredKeysForStatusChange({
       businessRules: businessRules.value,
       legacyKeys: legacyAttributeKeys.value,
       targetStatus,
       customAttributes: conversationCustomAttributes,
+      contactCustomAttributes,
     });
 
-    if (!keys.length) {
+    if (!required.length) {
       return { hasMissing: false, missing: [], all: [] };
     }
 
-    const all = keys
-      .map(key =>
-        allAttributeOptions.value.find(attribute => attribute.value === key)
+    const all = required
+      .map(({ key, attributeModel }) =>
+        allAttributeOptions.value.find(
+          attribute =>
+            attribute.value === key &&
+            attribute.attributeModel === attributeModel
+        )
       )
       .filter(Boolean);
 
-    const missing = all.filter(attribute =>
-      attributeBlank(
-        conversationCustomAttributes,
-        attribute.value,
-        attribute.type
-      )
-    );
+    const missing = all.filter(attribute => {
+      const attrs =
+        attribute.attributeModel === 'contact'
+          ? contactCustomAttributes
+          : conversationCustomAttributes;
+      return attributeBlank(attrs, attribute.value, attribute.type);
+    });
 
     return {
       hasMissing: missing.length > 0,
