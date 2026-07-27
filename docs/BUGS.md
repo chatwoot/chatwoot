@@ -107,6 +107,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-37 | UX | No | ✅ Time automation: select CA fecha/datetime (no input libre) |
 | B-NEW-38 | Feature | No | ✅ Automation siempre deja nota privada corta de auditoría |
 | B-NEW-39 | Bug | No | ✅ Automation no envía outbound si `can_reply?` false (ventana 24h) |
+| B-NEW-40 | 🔴 P0 prod | Sí | ✅ WA templates: `findComponentByType is not defined` → sin inputs + crash al enviar |
 
 ---
 
@@ -982,6 +983,33 @@ privada (`messaging_window_skipped`) + la auditoría B-NEW-38 al final.
 
 **Cómo probar:** conversación WA sin incoming reciente → automation con
 `send_message` → sin bubble al cliente; sí nota de ventana cerrada + audit.
+
+### B-NEW-40 — Plantillas WA: sin inputs de variables + ReferenceError al enviar
+
+**Severidad:** P0 prod — modal de plantillas inutilizable (con o sin variables).
+
+**Síntoma:**
+- Plantilla con `{{contact_name}}` (ej. `ventas_seguimiento`): preview OK, mensaje
+  “rellene todas las variables”, **sin inputs**, Send clickeable.
+- Plantilla sin variables: al Enviar →
+  `ReferenceError: findComponentByType is not defined` (`templateHelper.js`).
+
+**Causa:** tras el refactor `@chatwoot/utils` (#15001) + merge, `templateHelper.js`
+hacía `export { findComponentByType, ... } from '@chatwoot/utils'` (re-export)
+pero las funciones locales (`buildTemplateParameters`,
+`buildTemplateButtonsSnapshot`) llamaban `findComponentByType` **sin importarlo
+al scope del módulo**. En ES modules el re-export no define el binding local →
+crash en init (params vacíos) y en send (snapshot).
+
+**Fix:**
+- Import local de `findComponentByType`, `COMPONENT_TYPES`, `MEDIA_FORMATS`.
+- `buildTemplateParameters` delega a `buildWhatsAppProcessedParams`.
+- Parser: init sin 2º arg obsoleto.
+
+**Archivos:** `helper/templateHelper.js`, `WhatsAppTemplateParser.vue`.
+
+**Cómo probar:** abrir `ventas_seguimiento` → input `contact_name`; rellenar y
+enviar. Plantilla sin vars → Enviar sin error en consola.
 
 ---
 
