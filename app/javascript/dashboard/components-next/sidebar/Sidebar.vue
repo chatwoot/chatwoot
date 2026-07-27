@@ -83,6 +83,23 @@ const hasConversationUnreadCounts = computed(() => {
   );
 });
 
+const hasFilteredUnreadCounts = computed(() => {
+  return (
+    hasConversationUnreadCounts.value &&
+    isFeatureEnabledonAccount.value(
+      accountId.value,
+      FEATURE_FLAGS.UNREAD_COUNT_FOR_FILTERS
+    )
+  );
+});
+
+const hasDataImport = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.DATA_IMPORT
+  );
+});
+
 const hasInternalTasks = computed(() => {
   return isFeatureEnabledonAccount.value(
     accountId.value,
