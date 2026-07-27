@@ -1,6 +1,6 @@
 class Captain::KnowledgeMapPrunerService
-  MAX_TOPICS = 10
-  MAX_PROMPT_BYTES = 20_000
+  MAX_TOPICS = 15
+  MAX_PROMPT_BYTES = 30_000
 
   def initialize(assistant:, query: nil, previous_user_message: nil)
     @assistant = assistant
@@ -51,10 +51,7 @@ class Captain::KnowledgeMapPrunerService
   end
 
   def build_pruned_payload(selected)
-    base_payload.merge(
-      'topic_index' => topics.filter_map { |topic| topic['name'] },
-      'topics' => selected.map { |topic| topic_for_prompt(topic) }
-    )
+    base_payload.merge('topics' => selected.map { |topic| topic_for_prompt(topic) })
   end
 
   def base_payload
