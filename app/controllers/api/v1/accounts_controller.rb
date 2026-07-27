@@ -18,7 +18,8 @@ class Api::V1::AccountsController < Api::BaseController
               with: :render_error_response
 
   def show
-    @latest_chatwoot_version = ::Redis::Alfred.get(::Redis::Alfred::LATEST_CHATWOOT_VERSION)
+    # The upgrade banner is a self-hosted nudge; the managed instance is always current.
+    @latest_chatwoot_version = ::Redis::Alfred.get(::Redis::Alfred::LATEST_CHATWOOT_VERSION) unless ChatwootApp.chatwoot_cloud?
     render 'api/v1/accounts/show', format: :json
   end
 

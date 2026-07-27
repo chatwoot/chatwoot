@@ -198,6 +198,27 @@ RSpec.describe 'Accounts API', type: :request do
         expect(response.body).to include(account.support_email)
         expect(response.body).to include(account.locale)
       end
+
+      it 'exposes the latest chatwoot version on self-hosted' do
+        ::Redis::Alfred.set(::Redis::Alfred::LATEST_CHATWOOT_VERSION, '4.16.1')
+
+        get "/api/v1/accounts/#{account.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response.parsed_body['latest_chatwoot_version']).to eq('4.16.1')
+      end
+
+      it 'does not expose the latest chatwoot version on cloud' do
+        ::Redis::Alfred.set(::Redis::Alfred::LATEST_CHATWOOT_VERSION, '4.16.1')
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+
+        get "/api/v1/accounts/#{account.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response.parsed_body['latest_chatwoot_version']).to be_nil
+      end
     end
 
     context 'when API and webhook access is disabled for the account' do
