@@ -51,8 +51,9 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     return true if response.success?
 
     parsed = response.parsed_response.is_a?(Hash) ? response.parsed_response : {}
+    error = parsed['error'].is_a?(Hash) ? parsed['error'] : {}
     Rails.logger.error "[WHATSAPP CALL] update_calling_status failed: status=#{response.code} body=#{response.body}"
-    raise meta_error_message(parsed, 'Failed to update calling status')
+    raise meta_error_message(error, 'Failed to update calling status')
   end
 
   private
@@ -101,8 +102,9 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
 
     Rails.logger.error "[WHATSAPP CALL] initiate_call failed: status=#{response.code} body=#{response.body}"
     parsed = response.parsed_response.is_a?(Hash) ? response.parsed_response : {}
-    error_code = parsed.dig('error', 'code')
-    error_msg = meta_error_message(parsed, 'Failed to initiate call')
+    error = parsed['error'].is_a?(Hash) ? parsed['error'] : {}
+    error_code = error['code']
+    error_msg = meta_error_message(error, 'Failed to initiate call')
 
     raise Voice::CallErrors::NoCallPermission, error_msg if error_code == Voice::CallErrors::NO_CALL_PERMISSION_CODE
 
@@ -111,8 +113,7 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
 
   # Meta often returns a blank error_user_msg (e.g. code 131044 business-eligibility);
   # an empty string is truthy, so `||` would surface it. Prefer the first non-blank field.
-  def meta_error_message(parsed, default)
-    error = parsed['error'] || {}
+  def meta_error_message(error, default)
     error['error_user_msg'].presence || error['message'].presence || error['error_user_title'].presence || default
   end
 end
