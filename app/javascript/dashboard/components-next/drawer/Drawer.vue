@@ -14,7 +14,9 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close']);
+// `afterLeave` fires once the slide-out transition finishes, so consumers
+// mounted with v-if can wait for it before unmounting the drawer.
+const emit = defineEmits(['close', 'afterLeave']);
 
 const drawerRef = ref(null);
 
@@ -84,6 +86,7 @@ onBeforeUnmount(() => {
 <template>
   <TeleportWithDirection to="body">
     <Transition
+      appear
       enter-active-class="transition-opacity duration-300 ease-out"
       enter-from-class="opacity-0"
       leave-active-class="transition-opacity duration-200 ease-in"
@@ -97,10 +100,12 @@ onBeforeUnmount(() => {
       />
     </Transition>
     <Transition
+      appear
       enter-active-class="transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]"
       enter-from-class="translate-x-[calc(100%+12px)] rtl:translate-x-[calc(-100%-12px)]"
       leave-active-class="transition-transform duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]"
       leave-to-class="translate-x-[calc(100%+12px)] rtl:translate-x-[calc(-100%-12px)]"
+      @after-leave="emit('afterLeave')"
     >
       <aside
         v-if="open"
