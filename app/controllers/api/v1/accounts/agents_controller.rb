@@ -76,11 +76,19 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def bulk_create_agents(emails)
+    email_limit_error = nil
+
     Current.account.with_lock do
       raise AgentBuilder::LimitExceededError if emails.count > available_agent_count
 
-      emails.each { |email| create_agent_from_email(email) }
+      emails.each do |email|
+        create_agent_from_email(email)
+      rescue CustomExceptions::Account::EmailLimitExceeded => e
+        email_limit_error = e
+      end
     end
+
+    raise email_limit_error if email_limit_error
   end
 
   def create_agent_from_email(email)
