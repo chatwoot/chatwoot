@@ -25,6 +25,12 @@ const placeholders = computed(() => ({
   number: t(
     'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.NUMBER'
   ),
+  currency: t(
+    'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.NUMBER'
+  ),
+  percent: t(
+    'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.NUMBER'
+  ),
   link: t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.LINK'),
   date: t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.DATE'),
   datetime: t(
@@ -210,6 +216,30 @@ defineExpose({ open, close });
             type="number"
             size="md"
             :placeholder="getPlaceholder(ATTRIBUTE_TYPES.NUMBER)"
+            :message="getErrorMessage(attribute.value)"
+            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
+            @blur="v$[attribute.value].$touch"
+          />
+        </template>
+
+        <template v-else-if="attribute.type === ATTRIBUTE_TYPES.CURRENCY">
+          <Input
+            v-model="formValues[attribute.value]"
+            type="number"
+            size="md"
+            :placeholder="getPlaceholder(ATTRIBUTE_TYPES.CURRENCY)"
+            :message="getErrorMessage(attribute.value)"
+            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
+            @blur="v$[attribute.value].$touch"
+          />
+        </template>
+
+        <template v-else-if="attribute.type === ATTRIBUTE_TYPES.PERCENT">
+          <Input
+            v-model="formValues[attribute.value]"
+            type="number"
+            size="md"
+            :placeholder="getPlaceholder(ATTRIBUTE_TYPES.PERCENT)"
             :message="getErrorMessage(attribute.value)"
             :message-type="v$[attribute.value].$error ? 'error' : 'info'"
             @blur="v$[attribute.value].$touch"

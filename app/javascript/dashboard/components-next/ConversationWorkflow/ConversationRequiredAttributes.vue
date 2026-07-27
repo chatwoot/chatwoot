@@ -53,13 +53,15 @@ const selectedAttributeKeys = computed(
 );
 
 const allAttributeOptions = computed(() =>
-  (conversationAttributes.value || []).map(attribute => ({
-    ...attribute,
-    action: 'add',
-    value: attribute.attributeKey,
-    label: attribute.attributeDisplayName,
-    type: attribute.attributeDisplayType,
-  }))
+  (conversationAttributes.value || [])
+    .filter(attribute => !attribute.formula)
+    .map(attribute => ({
+      ...attribute,
+      action: 'add',
+      value: attribute.attributeKey,
+      label: attribute.attributeDisplayName,
+      type: attribute.attributeDisplayType,
+    }))
 );
 
 const attributeOptions = computed(() => {
