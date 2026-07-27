@@ -48,6 +48,7 @@ import {
   appendSignature,
   removeSignature,
   getEffectiveChannelType,
+  getFormattingForEditor,
   getAgentVariables,
   getContactVariables,
 } from 'dashboard/helper/editorHelper';
@@ -87,6 +88,7 @@ export default {
   setup() {
     const {
       uiSettings,
+      updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
       setQuotedReplyFlagForInbox,
@@ -100,6 +102,7 @@ export default {
 
     return {
       uiSettings,
+      updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
       setQuotedReplyFlagForInbox,
@@ -436,6 +439,19 @@ export default {
     shouldShowQuotedReplyToggle() {
       return this.isAnEmailChannel && !this.isOnPrivateNote;
     },
+    editorFormattingMenu() {
+      const formatType = this.isPrivate
+        ? 'Context::PrivateNote'
+        : getEffectiveChannelType(this.channelType, this.inbox?.medium || '');
+
+      return getFormattingForEditor(formatType).menu;
+    },
+    shouldShowFormattingToolbarToggle() {
+      return !this.isEditorDisabled && this.editorFormattingMenu.length > 0;
+    },
+    isFormattingToolbarPinned() {
+      return !!this.uiSettings.formatting_toolbar_enabled;
+    },
     shouldShowQuotedPreview() {
       return (
         this.shouldShowQuotedReplyToggle &&
@@ -580,6 +596,11 @@ export default {
       );
 
       useTrack(CONVERSATION_EVENTS.INSERT_ARTICLE_LINK);
+    },
+    toggleFormattingToolbar() {
+      this.updateUISettings({
+        formatting_toolbar_enabled: !this.isFormattingToolbarPinned,
+      });
     },
     toggleQuotedReply() {
       if (!this.isAnEmailChannel) {
@@ -1338,7 +1359,8 @@ export default {
           v-model="message"
           :conversation-id="conversationId"
           :editor-id="editorStateId"
-          class="input popover-prosemirror-menu"
+          class="input"
+          :popover-menu="!isFormattingToolbarPinned"
           :is-private="isOnPrivateNote"
           :placeholder="messagePlaceHolder"
           :update-selection-with="updateEditorSelectionWith"
@@ -1431,6 +1453,8 @@ export default {
         :show-file-upload="showFileUpload"
         :show-quoted-reply-toggle="shouldShowQuotedReplyToggle"
         :quoted-reply-enabled="quotedReplyPreference"
+        :show-formatting-toolbar-toggle="shouldShowFormattingToolbarToggle"
+        :formatting-toolbar-enabled="isFormattingToolbarPinned"
         :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"
         :toggle-audio-recorder="toggleAudioRecorder"
         :toggle-emoji-picker="toggleEmojiPicker"
@@ -1441,6 +1465,7 @@ export default {
         @select-content-template="openContentTemplateModal"
         @toggle-insert-article="toggleInsertArticle"
         @toggle-quoted-reply="toggleQuotedReply"
+        @toggle-formatting-toolbar="toggleFormattingToolbar"
       />
     </Transition>
 

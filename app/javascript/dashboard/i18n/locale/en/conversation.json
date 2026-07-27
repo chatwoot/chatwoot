@@ -275,6 +275,10 @@
           "CANCEL": "Cancel"
         }
       },
+      "FORMATTING_TOOLBAR": {
+        "ENABLE_TOOLTIP": "Show formatting toolbar",
+        "DISABLE_TOOLTIP": "Hide formatting toolbar"
+      },
       "QUOTED_REPLY": {
         "ENABLE_TOOLTIP": "Include quoted email thread",
         "DISABLE_TOOLTIP": "Don't include quoted email thread",
