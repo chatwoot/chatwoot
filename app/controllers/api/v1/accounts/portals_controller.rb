@@ -90,7 +90,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
             { popular_content: popular_content_keys.index_with { { category_ids: [], article_ids: [] } } }]
     # Analytics injects tracking scripts into every public page, so keep it admin-only even though
     # Enterprise lets knowledge_base_manage roles edit other portal settings.
-    keys << { analytics: %i[ga4 gtm clarity hotjar meta_pixel] } if Current.account_user&.administrator?
+    keys << { analytics: Portal::ANALYTICS_CONFIG_FORMATS.keys.map(&:to_sym) } if Current.account_user&.administrator?
     keys
   end
 

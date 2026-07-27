@@ -88,7 +88,7 @@ RSpec.describe 'Enterprise Portal API', type: :request do
 
       it 'ignores analytics config for knowledge_base_manage users' do
         put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
-            params: { portal: { name: 'updated_portal', config: { analytics: { ga4: 'G-KBMANAGER1' } } } },
+            params: { portal: { name: 'updated_portal', config: { analytics: { ga4_measurement_id: 'G-KBMANAGER1' } } } },
             headers: agent_with_role.create_new_auth_token,
             as: :json
 

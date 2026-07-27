@@ -53,19 +53,30 @@ class Portal < ApplicationRecord
 
   scope :active, -> { where(archived: false) }
 
-  # TODO: 'website_token' is an unused reserved key; remove with a migration that scrubs it from existing portals' config
-  CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout locale_translations
-                        popular_content analytics].freeze
-
-  # Analytics providers and their accepted id formats. Add a provider here and its
-  # snippet in layouts/_portal_analytics.html.erb.
-  ANALYTICS_PROVIDERS = {
-    'ga4' => /\AG-[A-Z0-9]+\z/,
-    'gtm' => /\AGTM-[A-Z0-9]+\z/,
-    'clarity' => /\A[a-z0-9]+\z/,
-    'hotjar' => /\A\d+\z/,
-    'meta_pixel' => /\A\d+\z/
+  # Analytics id fields and the format each must match. Formats keep values safe to
+  # interpolate into markup. Add a provider here and its snippet in _portal_analytics.html.erb.
+  ANALYTICS_CONFIG_FORMATS = {
+    'gtm_container_id' => /\AGTM-[A-Z0-9]+\z/,
+    'ga4_measurement_id' => /\AG-[A-Z0-9]+\z/,
+    'hotjar_site_id' => /\A\d+\z/,
+    'plausible_domain' => /\A[a-z0-9]([a-z0-9.-]*[a-z0-9])?\z/i,
+    'amplitude_api_key' => /\A[a-z0-9]+\z/i,
+    'clarity_project_id' => /\A[a-z0-9]+\z/i,
+    'meta_pixel_id' => /\A\d+\z/
   }.freeze
+
+  # TODO: 'website_token' is an unused reserved key; remove with a migration that scrubs it from existing portals' config
+  CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout
+                        locale_translations popular_content analytics].freeze
+
+  def analytics
+    config_value('analytics') || {}
+  end
+
+  # Reader per analytics id (e.g. portal.ga4_measurement_id) so the snippet partials stay simple.
+  ANALYTICS_CONFIG_FORMATS.each_key do |key|
+    define_method(key) { analytics[key].presence }
+  end
 
   # Max number of recommended categories/articles shown per locale.
   POPULAR_CATEGORY_LIMIT = 3
@@ -143,11 +154,6 @@ class Portal < ApplicationRecord
     config_value('social_profiles') || {}
   end
 
-  # Valid analytics ids keyed by provider; drops unknown providers and blank ids.
-  def analytics
-    (config_value('analytics') || {}).select { |provider, id| ANALYTICS_PROVIDERS.key?(provider) && id.present? }
-  end
-
   private
 
   def normalize_config
@@ -164,15 +170,11 @@ class Portal < ApplicationRecord
   end
 
   def validate_analytics
-    (config_value('analytics') || {}).each do |provider, id|
-      next if id.blank?
+    ANALYTICS_CONFIG_FORMATS.each do |key, format|
+      value = analytics[key]
+      next if value.blank?
 
-      format = ANALYTICS_PROVIDERS[provider]
-      if format.nil?
-        errors.add(:config, "analytics provider #{provider} is not supported")
-      elsif !id.match?(format)
-        errors.add(:config, "analytics id for #{provider} is invalid")
-      end
+      errors.add(:config, "#{key.humanize} is invalid") unless value.to_s.match?(format)
     end
   end
 
