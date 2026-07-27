@@ -17,11 +17,22 @@ class Whatsapp::InReplyToMessageFinder
 
     # Phone-scoped and BSUID-scoped WAMIDs can carry the same message token
     # even when their complete source IDs differ.
-    matches = conversation.messages.where('source_id LIKE ?', 'wamid.%').select(:id, :source_id).select do |message|
-      message_token(message.source_id) == token
-    end.uniq(&:source_id)
+    matching_message = nil
+    ambiguous_match = false
 
-    matches.one? ? matches.first : nil
+    conversation.messages.where('source_id LIKE ?', 'wamid.%').select(:id, :source_id).find_each do |message|
+      next unless message_token(message.source_id) == token
+      next if matching_message&.source_id == message.source_id
+
+      if matching_message
+        ambiguous_match = true
+        break
+      end
+
+      matching_message = message
+    end
+
+    matching_message unless ambiguous_match
   end
 
   def message_token(message_id)
