@@ -42,7 +42,7 @@ class Whatsapp::FacebookApiClient
       )
       data = handle_response(response, 'WABA phone numbers fetch failed')
       phone_numbers.concat(data['data'] || [])
-      after_cursor = data.dig('paging', 'cursors', 'after') if data.dig('paging', 'next').present?
+      after_cursor = data.dig('paging', 'next').present? ? data.dig('paging', 'cursors', 'after') : nil
       break if after_cursor.blank?
     end
 
