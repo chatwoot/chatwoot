@@ -15,7 +15,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="menu text-n-slate-12 min-h-7 min-w-0" role="button">
+  <div class="menu group text-n-slate-12 min-h-7 min-w-0" role="button">
     <fluent-icon
       v-if="variant === 'icon' && option.icon"
       :icon="option.icon"
@@ -52,7 +52,7 @@ defineProps({
     <Icon
       v-if="variant === 'label-assigned'"
       icon="i-lucide-check"
-      class="flex-shrink-0 size-3.5 mr-1"
+      class="flex-shrink-0 size-3.5 text-n-brand group-hover:text-white"
     />
   </div>
 </template>

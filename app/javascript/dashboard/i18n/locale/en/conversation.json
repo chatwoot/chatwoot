@@ -193,6 +193,8 @@
       },
       "ASSIGN_AGENT": "Assign agent",
       "ASSIGN_LABEL": "Assign label",
+      "SEARCH_LABELS": "Search labels",
+      "NO_LABELS_FOUND": "No labels found",
       "AGENTS_LOADING": "Loading agents...",
       "ASSIGN_TEAM": "Assign team",
       "DELETE": "Delete conversation",

@@ -232,22 +232,26 @@ RSpec.describe Captain::AssistantStatsBuilder do
   describe '#faq_stats' do
     before do
       create_list(:captain_assistant_response, 3, assistant: assistant, account: account, status: :approved)
-      create(:captain_assistant_response, assistant: assistant, account: account, status: :pending)
+      assistant.faq_suggestions.create!(
+        question: 'How do I enable the feature?',
+        answer: 'Turn it on in settings.'
+      )
       create_list(:captain_document, 2, assistant: assistant, account: account)
     end
 
-    it 'returns approved, pending, document counts and coverage' do
-      knowledge = described_class.new(assistant).faq_stats
+    it 'returns approved FAQ, open suggestion, document counts and coverage' do
+      stats = described_class.new(assistant).faq_stats
 
-      expect(knowledge).to eq(approved: 3, pending: 1, documents: 2, coverage: 75)
+      expect(stats).to eq(approved: 3, suggestions: 1, documents: 2, coverage: 75)
     end
 
-    it 'reports zero coverage when there are no responses' do
+    it 'reports zero coverage when there are no FAQs or suggestions' do
       Captain::AssistantResponse.where(assistant: assistant).delete_all
+      Captain::FaqSuggestion.where(assistant: assistant).delete_all
 
-      knowledge = described_class.new(assistant).faq_stats
+      stats = described_class.new(assistant).faq_stats
 
-      expect(knowledge[:coverage]).to eq(0)
+      expect(stats).to eq(approved: 0, suggestions: 0, documents: 2, coverage: 0)
     end
   end
 
