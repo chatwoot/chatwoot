@@ -67,8 +67,14 @@ export const validateLoggedInRoutes = (to, user) => {
     return validateActiveAccountRoutes(to, user);
   }
 
-  // If the current account is not active, then redirect the user to the suspended screen
-  if (to.name !== 'account_suspended') {
+  // If the current account is not active, only the suspended screen is
+  // reachable; administrators can also access billing to restore the account
+  const userPermissions = getUserPermissions(user, to.params.accountId);
+  const accessibleRoutes = userPermissions.includes('administrator')
+    ? ['account_suspended', 'billing_settings_index']
+    : ['account_suspended'];
+
+  if (!accessibleRoutes.includes(to.name)) {
     return `accounts/${to.params.accountId}/suspended`;
   }
 
