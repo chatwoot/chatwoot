@@ -66,7 +66,9 @@ class Automations::TimeBasedRuleRunner
     return Conversation.none if type_value.nil?
 
     # Latest non-activity, non-private message is of the given type and older than N hours.
+    # Message has default_scope order(created_at: :asc) — must unscope or DISTINCT ON breaks.
     latest = Message
+             .unscoped
              .select('DISTINCT ON (conversation_id) conversation_id, id, message_type, created_at')
              .where(account_id: @account.id)
              .where(private: false)
