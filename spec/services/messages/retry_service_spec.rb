@@ -45,8 +45,10 @@ RSpec.describe Messages::RetryService do
     original_attributes = message.content_attributes.deep_dup
     allow(SendReplyJob).to receive(:perform_later).and_raise(ActiveJob::EnqueueError, 'Redis unavailable')
 
-    expect { described_class.new(message).perform }
-      .to raise_error(ActiveJob::EnqueueError, 'Redis unavailable')
+    travel_to Time.zone.parse('2026-07-27 12:00:00.123456789 UTC'), with_usec: true do
+      expect { described_class.new(message).perform }
+        .to raise_error(ActiveJob::EnqueueError, 'Redis unavailable')
+    end
 
     expect(message.reload).to be_failed
     expect(message.content_attributes).to eq(original_attributes)

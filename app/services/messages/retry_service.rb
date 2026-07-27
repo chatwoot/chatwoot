@@ -26,6 +26,7 @@ class Messages::RetryService
       @original_content_attributes = message.content_attributes.deep_dup
       Messages::StatusUpdateService.new(message, 'sent').perform
       message.update!(content_attributes: {})
+      message.reload
       @marked_updated_at = message.updated_at
       true
     end
