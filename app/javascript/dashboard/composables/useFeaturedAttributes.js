@@ -12,7 +12,7 @@ export function formatAttributeValue(value, displayType) {
     const num = Number(value);
     if (Number.isNaN(num)) return String(value);
     const formatted = new Intl.NumberFormat(undefined, {
-      minimumFractionDigits: 0,
+      minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(num);
     return `$${formatted}`;

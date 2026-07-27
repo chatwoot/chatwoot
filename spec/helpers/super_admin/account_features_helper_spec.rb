@@ -23,6 +23,14 @@ RSpec.describe SuperAdmin::AccountFeaturesHelper do
       expect(companies[:premium]).to be(true)
       expect(companies[:enabled]).to be(true)
       expect(companies[:description]).to include('companies')
+      expect(companies[:plan_tier]).to eq('business')
+      expect(companies[:plan_tier_label]).to eq('Business')
+
+      channels = sections.find { |s| s[:key] == 'channels' }
+      channel_email = channels[:items].find { |i| i[:key] == 'channel_email' }
+      expect(channel_email[:premium]).to be(true)
+      expect(channel_email[:plan_tier]).to eq('startups')
+      expect(channel_email[:plan_tier_label]).to eq('Startups')
     end
 
     it 'excludes chatwoot_internal features on self-hosted' do

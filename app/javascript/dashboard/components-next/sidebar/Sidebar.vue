@@ -28,6 +28,7 @@ import {
   resolveSidebarSort,
   sortSidebarItems,
 } from 'dashboard/helper/sidebarSort';
+import { isVoiceCallEnabled } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   isMobileSidebarOpen: {
@@ -47,11 +48,6 @@ const { accountScopedRoute, isOnChatwootCloud } = useAccount();
 const { isEnterprise } = useConfig();
 const store = useStore();
 
-// Calls run on the enterprise-only API (cloud runs enterprise); hide the entry
-// on community so it doesn't lead to a dashboard/CTA the backend can't serve.
-const isCallsAvailable = computed(
-  () => isOnChatwootCloud.value || isEnterprise
-);
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
 
@@ -235,6 +231,18 @@ useEventListener(document, 'touchmove', onResizeMove, { passive: false });
 useEventListener(document, 'touchend', onResizeEnd);
 
 const inboxes = useMapGetter('inboxes/getInboxes');
+const hasVoiceInboxes = computed(() =>
+  (inboxes.value || []).some(isVoiceCallEnabled)
+);
+const hasVoiceFeature = computed(() =>
+  isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.CHANNEL_VOICE)
+);
+const isCallsAvailable = computed(
+  () =>
+    (isOnChatwootCloud.value || isEnterprise) &&
+    hasVoiceFeature.value &&
+    hasVoiceInboxes.value
+);
 const labels = useMapGetter('labels/getLabelsOnSidebar');
 const allUnreadCount = useMapGetter(
   'conversationUnreadCounts/getAllUnreadCount'

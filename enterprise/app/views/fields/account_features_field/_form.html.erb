@@ -16,6 +16,11 @@
                   </span>
                 <% end %>
                 <span class="text-sm text-slate-700 font-medium"><%= item[:display_name] %></span>
+                <% if item[:plan_tier_label].present? %>
+                  <span class="shrink-0 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-600">
+                    <%= item[:plan_tier_label] %>
+                  </span>
+                <% end %>
               </div>
               <% if item[:description].present? %>
                 <p class="text-xs text-slate-500 mt-1 mb-0 line-clamp-2"><%= item[:description] %></p>

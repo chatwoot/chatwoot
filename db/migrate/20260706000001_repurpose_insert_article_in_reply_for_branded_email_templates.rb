@@ -1,8 +1,10 @@
 class RepurposeInsertArticleInReplyForBrandedEmailTemplates < ActiveRecord::Migration[7.1]
   def up
-    Account.feature_branded_email_templates.find_each(batch_size: 100) do |account|
-      account.disable_features(:branded_email_templates)
-      account.save!(validate: false)
+    if Account.respond_to?(:feature_branded_email_templates)
+      Account.feature_branded_email_templates.find_each(batch_size: 100) do |account|
+        account.disable_features(:branded_email_templates)
+        account.save!(validate: false)
+      end
     end
 
     remove_stale_default_feature
