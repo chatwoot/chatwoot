@@ -55,7 +55,7 @@ useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>
-  <div class="flex flex-col gap-6 py-6">
+  <div class="flex flex-col gap-6">
     <Editor
       v-model="state.message"
       :placeholder="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.PLACEHOLDER')"

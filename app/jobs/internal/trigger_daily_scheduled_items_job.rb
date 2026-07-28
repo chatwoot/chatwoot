@@ -23,3 +23,5 @@ class Internal::TriggerDailyScheduledItemsJob < ApplicationJob
     @designated_minute ||= Digest::MD5.hexdigest(ChatwootHub.installation_identifier).hex % 1440
   end
 end
+
+Internal::TriggerDailyScheduledItemsJob.prepend_mod_with('Internal::TriggerDailyScheduledItemsJob')

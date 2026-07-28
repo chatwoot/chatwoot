@@ -48,6 +48,12 @@ class TwilioVoiceClient extends EventTarget {
     return !!this.activeConnection;
   }
 
+  setMuted(shouldMute) {
+    if (!this.activeConnection) return false;
+    this.activeConnection.mute(shouldMute);
+    return shouldMute;
+  }
+
   endClientCall() {
     if (this.activeConnection) {
       this.activeConnection.disconnect();

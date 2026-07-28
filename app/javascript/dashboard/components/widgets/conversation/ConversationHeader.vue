@@ -93,7 +93,9 @@ const hasMultipleInboxes = computed(
   () => store.getters['inboxes/getInboxes'].length > 1
 );
 
-const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+const hasSlaPolicyId = computed(
+  () => props.chat?.applied_sla?.id && !currentContact.value?.blocked
+);
 
 const copyConversationId = async () => {
   try {
@@ -124,7 +126,6 @@ const copyConversationId = async () => {
         :size="32"
         :status="currentContact.availability_status"
         hide-offline-status
-        rounded-full
       />
       <div
         class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"

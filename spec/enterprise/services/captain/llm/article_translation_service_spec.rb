@@ -5,6 +5,7 @@ RSpec.describe Captain::Llm::ArticleTranslationService do
   let(:target_language) { 'Spanish' }
 
   before do
+    InstallationConfig.where(name: %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL]).destroy_all
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
     allow(account).to receive(:feature_enabled?).and_call_original
     allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
@@ -17,11 +18,26 @@ RSpec.describe Captain::Llm::ArticleTranslationService do
 
     it 'returns the stripped translated title' do
       expect(service).to receive(:make_api_call) do |args|
+        expect(args[:feature]).to eq('help_center_article_generation')
+        expect(args[:model]).to eq(Llm::Config::DEFAULT_MODEL)
         expect(args[:messages][0][:content]).to include('professional translator')
         expect(args[:messages][0][:content]).to include(target_language)
         expect(args[:messages][1][:content]).to eq('Getting Started')
         { message: "  Primeros pasos  \n" }
       end
+
+      expect(service.perform).to include(message: 'Primeros pasos')
+    end
+
+    it 'uses the installation model when no account override is configured' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+
+      expect(service).to receive(:make_api_call).with(
+        hash_including(
+          feature: 'help_center_article_generation',
+          model: 'gpt-4.1-nano'
+        )
+      ).and_return(message: 'Primeros pasos')
 
       expect(service.perform).to include(message: 'Primeros pasos')
     end

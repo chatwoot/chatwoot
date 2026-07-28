@@ -3,7 +3,7 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
 
   def perform
     api_response = make_api_call(
-      model: GPT_MODEL,
+      feature: 'editor',
       messages: [
         { role: 'system', content: system_prompt },
         { role: 'user', content: message }
@@ -62,5 +62,9 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
 
   def event_name
     'csat_utility_analysis'
+  end
+
+  def use_account_openai_hook?
+    true
   end
 end
