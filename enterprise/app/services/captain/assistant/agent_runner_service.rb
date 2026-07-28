@@ -9,12 +9,12 @@ class Captain::Assistant::AgentRunnerService
 
   attr_reader :last_run_result
 
-  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, trigger_message_id: nil)
+  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil)
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
     @source = source
-    @trigger_message_id = trigger_message_id
+    @responding_to_message_id = responding_to_message_id
     @handoff_tool_called = false
     @handoff_tool_completed = false
   end
@@ -191,13 +191,13 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def newer_customer_message_arrived?
-    return false if @trigger_message_id.blank? || @conversation.blank?
+    return false if @responding_to_message_id.blank? || @conversation.blank?
 
     latest_incoming_message_id = Conversation.uncached do
       @conversation.messages.incoming.maximum(:id)
     end
 
-    latest_incoming_message_id != @trigger_message_id
+    latest_incoming_message_id != @responding_to_message_id
   end
 
   def runner

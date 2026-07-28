@@ -28,17 +28,17 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
   describe '#perform' do
     context 'when conversation exists' do
-      context 'with a trigger message id' do
-        let(:trigger_message) do
+      context 'when Captain is responding to a customer message' do
+        let(:responding_to_message) do
           create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming, created_at: same_second)
         end
         let(:same_second) { Time.current.change(usec: 0) }
         let(:tool_context) do
-          Struct.new(:state).new({ conversation: { id: conversation.id }, trigger_message_id: trigger_message.id })
+          Struct.new(:state).new({ conversation: { id: conversation.id }, responding_to_message_id: responding_to_message.id })
         end
 
-        it 'hands off when the trigger message is still the latest message' do
-          trigger_message
+        it 'hands off when no newer customer message has arrived' do
+          responding_to_message
 
           expect do
             result = tool.perform(tool_context, reason: 'Customer needs specialized support')
@@ -48,7 +48,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
         end
 
         it 'skips the handoff when a newer message has arrived' do
-          trigger_message
+          responding_to_message
           conversation.update!(status: :pending)
           create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming, created_at: same_second)
 

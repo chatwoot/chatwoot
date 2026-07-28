@@ -49,15 +49,15 @@ class Captain::Tools::BasePublicTool < Agents::Tool
   end
 
   def newer_customer_message_arrived?(state)
-    trigger_message_id = state&.dig(:trigger_message_id)
-    return false if trigger_message_id.blank?
+    responding_to_message_id = state&.dig(:responding_to_message_id)
+    return false if responding_to_message_id.blank?
 
     conversation_id = state&.dig(:conversation, :id)
     latest_incoming_message_id = ::Message.uncached do
       account_scoped(::Message).where(conversation_id: conversation_id).incoming.maximum(:id)
     end
 
-    latest_incoming_message_id != trigger_message_id
+    latest_incoming_message_id != responding_to_message_id
   end
 
   def log_tool_usage(action, details = {})

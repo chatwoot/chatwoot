@@ -7,11 +7,11 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds
   retry_on Faraday::BadRequestError, attempts: 3, wait: 2.seconds
 
-  def perform(conversation, assistant, trigger_message_id = nil)
+  def perform(conversation, assistant, responding_to_message_id = nil)
     @conversation = conversation
     @inbox = conversation.inbox
     @assistant = assistant
-    @trigger_message_id = trigger_message_id if captain_v2_enabled?
+    @responding_to_message_id = responding_to_message_id if captain_v2_enabled?
 
     return unless conversation_pending?
 
@@ -51,7 +51,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     runner_service = Captain::Assistant::AgentRunnerService.new(
       assistant: @assistant,
       conversation: @conversation,
-      trigger_message_id: @trigger_message_id
+      responding_to_message_id: @responding_to_message_id
     )
     message_history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
     @response = runner_service.generate_response(message_history: message_history)
@@ -204,12 +204,12 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def newer_customer_message_arrived?
-    return false if @trigger_message_id.blank?
+    return false if @responding_to_message_id.blank?
 
     latest_incoming_message_id = Conversation.uncached do
       @conversation.messages.incoming.maximum(:id)
     end
 
-    latest_incoming_message_id != @trigger_message_id
+    latest_incoming_message_id != @responding_to_message_id
   end
 end

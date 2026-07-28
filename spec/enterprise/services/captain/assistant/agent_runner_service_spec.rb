@@ -53,10 +53,10 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(service.instance_variable_get(:@callbacks)).to eq(callbacks)
     end
 
-    it 'accepts the trigger message id' do
-      service = described_class.new(assistant: assistant, conversation: conversation, trigger_message_id: 123)
+    it 'accepts the message id it is responding to' do
+      service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: 123)
 
-      expect(service.instance_variable_get(:@trigger_message_id)).to eq(123)
+      expect(service.instance_variable_get(:@responding_to_message_id)).to eq(123)
     end
   end
 
@@ -105,12 +105,12 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       service.generate_response(message_history: message_history)
     end
 
-    it 'adds the trigger message id to the runner state' do
-      service = described_class.new(assistant: assistant, conversation: conversation, trigger_message_id: 123)
+    it 'adds the customer message id to the runner state' do
+      service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: 123)
 
       expect(mock_runner).to receive(:run).with(
         'I need help with my account',
-        context: hash_including(state: hash_including(trigger_message_id: 123)),
+        context: hash_including(state: hash_including(responding_to_message_id: 123)),
         max_turns: 10
       )
 
@@ -477,8 +477,9 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     it 'marks a generation as discarded when a newer message has arrived' do
-      trigger_message = create(:message, conversation: conversation, message_type: :incoming)
-      runner_service = described_class.new(assistant: assistant, conversation: conversation, trigger_message_id: trigger_message.id)
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      runner_service = described_class.new(assistant: assistant, conversation: conversation,
+                                           responding_to_message_id: responding_to_message.id)
       attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
       message = instance_double(RubyLLM::Message, tool_calls: {})
       create(:message, conversation: conversation, message_type: :incoming)
@@ -634,8 +635,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     it 'tracks discarded responses when OTEL is disabled' do
-      trigger_message = create(:message, conversation: conversation, message_type: :incoming)
-      service = described_class.new(assistant: assistant, conversation: conversation, trigger_message_id: trigger_message.id)
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: responding_to_message.id)
       runner = instance_double(Agents::AgentRunner)
       run_complete_callback = nil
 
@@ -678,8 +679,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     it 'marks the trace discarded and does not use credit when a newer message arrived' do
-      trigger_message = create(:message, conversation: conversation, message_type: :incoming)
-      service = described_class.new(assistant: assistant, conversation: conversation, trigger_message_id: trigger_message.id)
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: responding_to_message.id)
       runner = instance_double(Agents::AgentRunner)
       run_complete_callback = nil
       span_class = Class.new do
