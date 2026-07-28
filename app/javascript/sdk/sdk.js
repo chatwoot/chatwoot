@@ -53,6 +53,12 @@ export const SDK_CSS = `
   z-index: 2147483000 !important;
 }
 
+.woot-widget-bubble:focus-visible {
+  outline: 2px solid AccentColor;
+  outline: 2px solid -webkit-focus-ring-color;
+  outline-offset: 2px;
+}
+
 .woot-widget-bubble.woot-widget-bubble--flat {
   border-radius: 0;
 }
