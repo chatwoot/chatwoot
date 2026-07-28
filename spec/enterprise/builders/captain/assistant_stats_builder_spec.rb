@@ -117,9 +117,9 @@ RSpec.describe Captain::AssistantStatsBuilder do
     end
 
     it 'falls back to the default range for values outside the allowed set' do
-      expect(described_class.new(assistant, '365000').range).to eq('30')
-      expect(described_class.new(assistant, 'bogus').range).to eq('30')
-      expect(described_class.new(assistant, nil).range).to eq('30')
+      expect(described_class.new(assistant, '365000').range).to eq('7')
+      expect(described_class.new(assistant, 'bogus').range).to eq('7')
+      expect(described_class.new(assistant, nil).range).to eq('7')
     end
   end
 
