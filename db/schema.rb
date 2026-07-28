@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_18_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_28_080549) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -377,6 +377,42 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_18_000000) do
     t.jsonb "response_guidelines", default: []
     t.jsonb "guardrails", default: []
     t.index ["account_id"], name: "index_captain_assistants_on_account_id"
+  end
+
+  create_table "captain_conversation_outcomes", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "inbox_id", null: false
+    t.datetime "eligible_at", null: false
+    t.datetime "captain_involved_at"
+    t.datetime "first_captain_reply_at"
+    t.datetime "last_captain_reply_at"
+    t.integer "captain_reply_count", default: 0, null: false
+    t.datetime "first_human_reply_at"
+    t.datetime "handoff_at"
+    t.string "handoff_reason_category"
+    t.text "handoff_reason"
+    t.integer "resolution_type"
+    t.datetime "resolved_at"
+    t.datetime "first_reopened_at"
+    t.datetime "last_reopened_at"
+    t.integer "reopen_count", default: 0, null: false
+    t.datetime "durable_resolved_at"
+    t.integer "first_response_seconds"
+    t.integer "resolution_seconds"
+    t.integer "csat_rating"
+    t.datetime "csat_received_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "assistant_id", "conversation_id"], name: "idx_captain_outcomes_unique_conversation", unique: true
+    t.index ["account_id", "assistant_id", "eligible_at"], name: "idx_captain_outcomes_on_assistant_eligible_at"
+    t.index ["account_id", "assistant_id", "handoff_at"], name: "idx_captain_outcomes_on_assistant_handoff_at"
+    t.index ["account_id", "assistant_id", "resolved_at"], name: "idx_captain_outcomes_on_assistant_resolved_at"
+    t.index ["account_id"], name: "index_captain_conversation_outcomes_on_account_id"
+    t.index ["assistant_id"], name: "index_captain_conversation_outcomes_on_assistant_id"
+    t.index ["conversation_id"], name: "index_captain_conversation_outcomes_on_conversation_id"
+    t.index ["inbox_id"], name: "index_captain_conversation_outcomes_on_inbox_id"
   end
 
   create_table "captain_custom_tools", force: :cascade do |t|
