@@ -72,6 +72,12 @@ const availableProviders = computed(() => [
   },
 ]);
 
+const providerSelectionDescription = computed(() =>
+  isWhatsappEmbeddedSignupDisabled.value
+    ? t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.RESTRICTION_DESCRIPTION')
+    : t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.DESCRIPTION')
+);
+
 const selectProvider = providerValue => {
   const targetProvider =
     providerValue === PROVIDER_TYPES.WHATSAPP &&
@@ -107,7 +113,7 @@ const handleManualLinkClick = () => {
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.TITLE') }}
         </h1>
         <p class="text-sm leading-relaxed text-n-slate-11">
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.DESCRIPTION') }}
+          {{ providerSelectionDescription }}
         </p>
       </div>
 
