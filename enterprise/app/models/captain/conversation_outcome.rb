@@ -30,6 +30,8 @@
 #  inbox_id                :bigint           not null
 #
 class Captain::ConversationOutcome < ApplicationRecord
+  self.table_name = 'captain_conversation_outcomes'
+
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
   belongs_to :conversation, class_name: '::Conversation'
