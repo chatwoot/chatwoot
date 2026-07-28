@@ -29,10 +29,7 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     AutomationRulePendingExecution.last.tap { |row| row.update!(due_at: 1.minute.ago) }
   end
 
-  before do
-    GlobalConfig.clear_cache
-    account.enable_features!('delayed_automations')
-  end
+  before { account.enable_features!('delayed_automations') }
 
   it 'runs the actions and marks the row executed when every guard passes' do
     job.perform(pending_execution.reload)
@@ -98,15 +95,6 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
 
     expect(pending_execution.reload).to be_skipped
     expect(pending_execution.skip_reason).to eq('expired')
-    expect(conversation.reload.label_list).to be_empty
-  end
-
-  it 'leaves the row untouched without executing when the kill switch is set' do
-    create(:installation_config, name: 'DISABLE_DELAYED_AUTOMATIONS', serialized_value: { value: true }.with_indifferent_access)
-    GlobalConfig.clear_cache
-    job.perform(pending_execution.reload)
-
-    expect(pending_execution.reload).to be_pending
     expect(conversation.reload.label_list).to be_empty
   end
 

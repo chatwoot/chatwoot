@@ -6,10 +6,7 @@ RSpec.describe AutomationRules::TriggerPendingExecutionsJob do
   let(:account) { create(:account) }
   let(:conversation) { create(:conversation, account: account) }
 
-  before do
-    GlobalConfig.clear_cache
-    account.enable_features!('delayed_automations')
-  end
+  before { account.enable_features!('delayed_automations') }
 
   it 'enqueues a per-row job for due pending rows but not future ones' do
     due_row = create(:automation_rule_pending_execution, account: account, conversation: conversation, due_at: 1.minute.ago)
@@ -50,13 +47,5 @@ RSpec.describe AutomationRules::TriggerPendingExecutionsJob do
 
     expect { job.perform }.to have_enqueued_job(AutomationRules::ProcessPendingExecutionJob).exactly(:once)
     expect(AutomationRules::ProcessPendingExecutionJob).to have_been_enqueued.with(enabled_row)
-  end
-
-  it 'does nothing when the kill switch is set' do
-    create(:installation_config, name: 'DISABLE_DELAYED_AUTOMATIONS', serialized_value: { value: true }.with_indifferent_access)
-    GlobalConfig.clear_cache
-    create(:automation_rule_pending_execution, account: account, conversation: conversation, due_at: 1.minute.ago)
-
-    expect { job.perform }.not_to have_enqueued_job(AutomationRules::ProcessPendingExecutionJob)
   end
 end

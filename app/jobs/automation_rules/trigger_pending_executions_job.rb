@@ -4,8 +4,6 @@ class AutomationRules::TriggerPendingExecutionsJob < ApplicationJob
   DEFAULT_SWEEP_LIMIT = 1000
 
   def perform
-    return if delayed_automations_disabled?
-
     started_at = Time.current
     purged = AutomationRulePendingExecution.purge_terminal!
 
@@ -17,10 +15,6 @@ class AutomationRules::TriggerPendingExecutionsJob < ApplicationJob
   end
 
   private
-
-  def delayed_automations_disabled?
-    GlobalConfig.get('DISABLE_DELAYED_AUTOMATIONS')['DISABLE_DELAYED_AUTOMATIONS']
-  end
 
   def sweep_limit
     (InstallationConfig.find_by(name: 'AUTOMATION_PENDING_EXECUTIONS_SWEEP_LIMIT')&.value || DEFAULT_SWEEP_LIMIT).to_i

@@ -567,10 +567,3 @@
   value: 'https://us.cloud.langfuse.com'
   locked: false
 ## ---- End of LLM Observability ---- ##
-
-- name: DISABLE_DELAYED_AUTOMATIONS
-  display_title: 'Disable delayed automations'
-  description: 'Emergency stop for delayed automation rules: halts the pending-execution sweep and per-row execution within one tick'
-  value: false
-  locked: false
-  type: boolean

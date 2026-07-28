@@ -4,7 +4,6 @@ class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
   discard_on ActiveJob::DeserializationError
 
   def perform(pending_execution)
-    return if delayed_automations_disabled?
     # Account flag off pauses (not skips): leave the row pending so re-enabling resumes it.
     return unless pending_execution.account.feature_enabled?('delayed_automations')
     # Atomic claim: a duplicate enqueue (overlapping sweep or stale reclaim) loses here and returns.
@@ -60,9 +59,5 @@ class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
       pending_execution.conversation
     ).perform
     pending_execution.update!(status: :executed)
-  end
-
-  def delayed_automations_disabled?
-    GlobalConfig.get('DISABLE_DELAYED_AUTOMATIONS')['DISABLE_DELAYED_AUTOMATIONS']
   end
 end
