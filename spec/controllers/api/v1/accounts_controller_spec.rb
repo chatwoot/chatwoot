@@ -200,7 +200,7 @@ RSpec.describe 'Accounts API', type: :request do
       end
 
       it 'exposes the latest chatwoot version on self-hosted' do
-        ::Redis::Alfred.set(::Redis::Alfred::LATEST_CHATWOOT_VERSION, '4.16.1')
+        Redis::Alfred.set(Redis::Alfred::LATEST_CHATWOOT_VERSION, '4.16.1')
 
         get "/api/v1/accounts/#{account.id}",
             headers: admin.create_new_auth_token,
@@ -210,7 +210,7 @@ RSpec.describe 'Accounts API', type: :request do
       end
 
       it 'does not expose the latest chatwoot version on cloud' do
-        ::Redis::Alfred.set(::Redis::Alfred::LATEST_CHATWOOT_VERSION, '4.16.1')
+        Redis::Alfred.set(Redis::Alfred::LATEST_CHATWOOT_VERSION, '4.16.1')
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
 
         get "/api/v1/accounts/#{account.id}",
