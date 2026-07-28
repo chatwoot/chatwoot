@@ -19,7 +19,30 @@ class BusinessRules::ConditionsMatcher
     end
     return true if list.blank?
 
+    list = list.map { |condition| normalize_values(condition) }
+
     duck = RuleDuck.new(id: rule_id.to_s, account: account, conditions: list)
     AutomationRules::ConditionsFilterService.new(duck, conversation).perform
   end
+
+  # ConditionRow may persist SingleSelect as { "id" => "...", "name" => "..." }.
+  def self.normalize_values(condition)
+    values = condition['values']
+    return condition if values.nil?
+
+    coerced = Array.wrap(values).map { |value| coerce_condition_value(value) }
+    condition.merge('values' => coerced)
+  end
+
+  def self.coerce_condition_value(value)
+    case value
+    when Hash
+      raw = value.with_indifferent_access
+      pick = raw[:id].presence || raw[:name].presence || raw[:title].presence || raw[:value]
+      pick.nil? ? '' : pick.to_s
+    else
+      value
+    end
+  end
+  private_class_method :normalize_values, :coerce_condition_value
 end

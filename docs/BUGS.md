@@ -3,7 +3,9 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** hotfix `B-NEW-45` resolve `.map` business rules
+**Última actualización:** hotfix `B-NEW-47` modal resolve precarga + * + rojo
+(2026-07-28). Antes: hotfix `B-NEW-46` cadena de business rules en modal resolve
+(2026-07-28). Antes: hotfix `B-NEW-45` resolve `.map` business rules
 (2026-07-28). Antes: feature `B-NEW-44` automation timeline tuerca + actividades
 (2026-07-28). Antes: hotfix `B-NEW-43` franja Panel IA pegada con humano
 (2026-07-27). Antes: feature `B-NEW-42` flows explicit next + step preview
@@ -119,6 +121,8 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-43 | Bug UX | No | ✅ Franja Panel IA se oculta con assignee humano; limpia `panel_ia_*` + leyenda Bots/Flows |
 | B-NEW-44 | Automation UX | No | ✅ Sin nota audit genérica; tuerca en outbound; activity con nombre de regla |
 | B-NEW-45 | 🔴 Bug UX | No | ✅ Resolve crash: `condition.values` scalar → `.map is not a function` |
+| B-NEW-46 | Bug UX | No | ✅ Modal resolve encadena reglas al cambiar attrs (ej. tipo=Venta → pide Y/Z) |
+| B-NEW-47 | Bug UX | No | ✅ Modal resolve precarga valores, `*` obligatorio, faltante en rojo al abrir |
 
 ---
 
@@ -1020,6 +1024,58 @@ array (MultiSelect). `(expectedValues || []).map` falla si `values` es string.
 
 **Cómo probar:** conversación con business rules con condiciones → Resolver
 sin error en consola. Hard refresh tras redeploy (assets Vite).
+
+### B-NEW-46 — Modal resolve: cadena de reglas en el mismo paso
+
+**Síntoma:** al Resolver, el modal pide `tipo_de_conversacion`; el agente elige
+`Venta` y la conversación se cierra sin pedir campos de la 2ª regla. Solo al
+reabrir y resolver de nuevo aparecen Y/Z.
+
+**Causa:** el guard FE evaluaba attrs una sola vez al abrir el modal (tipo aún
+vacío → 2ª regla no aplica). Además `ConditionRow` guarda `values` como
+`{id,name}` y `String(objeto)` no matcheaba.
+
+**Fix:**
+1. Modal re-evalúa con el **set completo** de campos requeridos del draft
+   (`requiredAttributes`), no solo los vacíos — así `tipo=Venta` no desaparece
+   del form y no oscila la cadena.
+2. FE/BE coercen `{id,name}` → string al comparar condiciones.
+3. UX modal: fecha→hoy, datetime→ahora, lista de 1 opción auto, checkbox
+   false, secciones conversación/contacto, botón Hoy/Ahora, copy de cadena.
+4. `if_attribute_then_require` aplica si conditions **o** `when_*` coinciden.
+
+**Archivos:** `ConversationResolveAttributesModal.vue`,
+`ResolveAction.vue`, `ChatList.vue`, `useBusinessRulesStatusGuard.js`,
+`useConversationRequiredAttributes.js`, `conditions_matcher.rb`,
+`en`/`es` settings.json.
+
+**Cómo probar:** chat con label de test + reglas tipo→venta. Resolver → elegir
+Venta en el modal → deben aparecer campos de venta **sin** cerrar. Completar y
+resolver en un solo flujo. Hard refresh tras redeploy.
+
+### B-NEW-47 — Modal resolve: precarga valores + obligatorio visible
+
+**Síntoma:** al Resolver con 4/5 attrs ya llenos, el form abría “en blanco”
+(sin valores previos), sin `*` de obligatorio, y el faltante no se marcaba en
+rojo hasta interactuar.
+
+**Causa:** callers pasaban solo `missingAttributes`; al expandir a
+`requiredAttributes` los campos ya llenos se hidrataban con defaults en vez de
+`custom_attributes`. Además `$reset()` al abrir limpiaba errores.
+
+**Fix:**
+1. Abrir con `requiredAttributes` (fallback missing).
+2. Hidratar desde conversación/contacto; blanks quedan vacíos (no default
+   engañoso) y se `$touch` al abrir → rojo + scroll al primero.
+3. Asterisco `*` en labels del modal.
+4. Al encadenar campos nuevos: seed conversación, si no hay → smart default.
+
+**Archivos:** `ConversationResolveAttributesModal.vue`, `ResolveAction.vue`,
+`ChatList.vue`, `docs/BUGS.md`.
+
+**Cómo probar:** conversación con venta casi completa, borrar un campo (o
+dejar uno vacío) → Resolver → form muestra los valores existentes, `*` en
+labels, el vacío en rojo.
 
 ### B-NEW-39 — Automation: no enviar si ventana Meta/WhatsApp cerrada
 

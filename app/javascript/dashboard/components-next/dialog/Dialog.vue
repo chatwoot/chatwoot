@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, provide } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
 
@@ -48,6 +48,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // Title + footer stay put; only the default slot scrolls (ComboBox should teleport).
+  bodyScroll: {
+    type: Boolean,
+    default: false,
+  },
   width: {
     type: String,
     default: 'lg',
@@ -68,22 +73,42 @@ const dialogRef = ref(null);
 const dialogContentRef = ref(null);
 const isOpen = ref(false);
 
-const maxWidthClass = computed(() => {
+// ComboBox menus teleport here so they stay in the dialog top-layer
+// and are not clipped by the scrollable body.
+provide('dialogPortalTarget', dialogRef);
+
+// Explicit width: native <dialog> otherwise shrinks to content.
+const widthClass = computed(() => {
   const classesMap = {
-    '3xl': 'max-w-3xl',
-    '2xl': 'max-w-2xl',
-    xl: 'max-w-xl',
-    lg: 'max-w-lg',
-    md: 'max-w-md',
-    sm: 'max-w-sm',
+    '3xl': 'w-[min(100vw-2rem,48rem)]',
+    '2xl': 'w-[min(100vw-2rem,42rem)]',
+    xl: 'w-[min(100vw-2rem,36rem)]',
+    lg: 'w-[min(100vw-2rem,32rem)]',
+    md: 'w-[min(100vw-2rem,28rem)]',
+    sm: 'w-[min(100vw-2rem,24rem)]',
   };
 
-  return classesMap[props.width] ?? 'max-w-md';
+  return classesMap[props.width] ?? classesMap.lg;
 });
 
 const positionClass = computed(() =>
   props.position === 'top' ? 'dialog-position-top' : ''
 );
+
+const dialogOverflowClass = computed(() => {
+  // Keep overflow visible so teleported ComboBox menus aren't clipped by <dialog>.
+  if (props.bodyScroll) return 'max-h-[90vh] overflow-visible';
+  if (props.overflowYAuto) return 'max-h-[90vh] overflow-y-auto';
+  return 'overflow-visible';
+});
+
+const formClass = computed(() => {
+  // Avoid `transform` with bodyScroll so fixed teleported menus aren't trapped.
+  if (props.bodyScroll) {
+    return 'flex flex-col w-full max-h-[90vh] gap-4 p-6 overflow-hidden text-start align-middle transition-all duration-300 ease-in-out bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl';
+  }
+  return 'flex flex-col w-full h-auto gap-6 p-6 overflow-visible text-start align-middle transition-all duration-300 ease-in-out transform bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl';
+});
 
 const open = () => {
   isOpen.value = true;
@@ -101,8 +126,9 @@ const close = () => {
 const handleDialogClose = e => e.target === dialogRef.value && close();
 
 // Only close on click-outside if this dialog is the topmost one.
-// If another dialog (e.g. ProseMirror prompt) is open on top, ignore.
-const handleClickOutside = () => {
+// Ignore teleported ComboBox menus (sibling of the form, still in <dialog>).
+const handleClickOutside = event => {
+  if (event?.target?.closest?.('[data-combobox-dropdown]')) return;
   const dialogs = document.querySelectorAll('dialog[open]');
   if (dialogs[dialogs.length - 1] === dialogRef.value) close();
 };
@@ -118,22 +144,18 @@ defineExpose({ open, close });
   <TeleportWithDirection to="body">
     <dialog
       ref="dialogRef"
-      class="w-full transition-all duration-300 ease-in-out shadow-xl rounded-xl"
-      :class="[
-        maxWidthClass,
-        positionClass,
-        overflowYAuto ? 'overflow-y-auto' : 'overflow-visible',
-      ]"
+      class="transition-all duration-300 ease-in-out shadow-xl rounded-xl"
+      :class="[widthClass, positionClass, dialogOverflowClass]"
       @close.prevent="handleDialogClose"
     >
       <OnClickOutside @trigger="handleClickOutside">
         <form
           ref="dialogContentRef"
-          class="flex flex-col w-full h-auto gap-6 p-6 overflow-visible text-start align-middle transition-all duration-300 ease-in-out transform bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
+          :class="formClass"
           @submit.prevent="confirm"
           @click.stop
         >
-          <div v-if="title || description" class="flex flex-col gap-2">
+          <div v-if="title || description" class="flex flex-col gap-2 shrink-0">
             <h3 class="text-base font-medium leading-6 text-n-slate-12">
               {{ title }}
             </h3>
@@ -143,33 +165,44 @@ defineExpose({ open, close });
               </p>
             </slot>
           </div>
-          <slot v-if="isOpen" />
-          <!-- Dialog content will be injected here -->
-          <slot name="footer">
-            <div
-              v-if="showCancelButton || showConfirmButton"
-              class="flex items-center justify-between w-full gap-3"
-            >
-              <Button
-                v-if="showCancelButton"
-                variant="faded"
-                color="slate"
-                :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
-                class="w-full"
-                type="button"
-                @click="close"
-              />
-              <Button
-                v-if="showConfirmButton"
-                :color="type === 'edit' ? 'blue' : 'ruby'"
-                :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
-                class="w-full"
-                :is-loading="isLoading"
-                :disabled="disableConfirmButton || isLoading"
-                type="submit"
-              />
-            </div>
-          </slot>
+          <!-- Explicit max-height so the scrollbar appears when fields overflow -->
+          <div
+            v-if="isOpen && bodyScroll"
+            class="overflow-y-auto overscroll-contain -mx-1 px-1 max-h-[calc(90vh-11rem)]"
+          >
+            <slot />
+          </div>
+          <slot v-else-if="isOpen" />
+          <div
+            class="shrink-0"
+            :class="{ 'pt-4 border-t border-n-weak': bodyScroll }"
+          >
+            <slot name="footer">
+              <div
+                v-if="showCancelButton || showConfirmButton"
+                class="flex items-center justify-between w-full gap-3"
+              >
+                <Button
+                  v-if="showCancelButton"
+                  variant="faded"
+                  color="slate"
+                  :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
+                  class="w-full"
+                  type="button"
+                  @click="close"
+                />
+                <Button
+                  v-if="showConfirmButton"
+                  :color="type === 'edit' ? 'blue' : 'ruby'"
+                  :label="confirmButtonLabel || t('DIALOG.BUTTONS.CONFIRM')"
+                  class="w-full"
+                  :is-loading="isLoading"
+                  :disabled="disableConfirmButton || isLoading"
+                  type="submit"
+                />
+              </div>
+            </slot>
+          </div>
         </form>
       </OnClickOutside>
     </dialog>

@@ -138,12 +138,15 @@ const openSnoozeModal = () => {
 
   if (guard.missingAttributes?.length) {
     resolveAttributesModalRef.value?.open(
-      guard.missingAttributes,
+      guard.requiredAttributes?.length
+        ? guard.requiredAttributes
+        : guard.missingAttributes,
       currentChat.value.custom_attributes || {},
       {
         id: currentChat.value.id,
         status: wootConstants.STATUS_TYPE.SNOOZED,
         openSnoozeAfter: true,
+        conversation: currentChat.value,
       },
       currentChat.value.meta?.sender?.custom_attributes || {}
     );
@@ -160,9 +163,16 @@ const attemptStatusChange = (status, snoozedUntil = null) => {
 
   if (guard.missingAttributes?.length) {
     resolveAttributesModalRef.value?.open(
-      guard.missingAttributes,
+      guard.requiredAttributes?.length
+        ? guard.requiredAttributes
+        : guard.missingAttributes,
       currentChat.value.custom_attributes || {},
-      { id: currentChat.value.id, snoozedUntil, status },
+      {
+        id: currentChat.value.id,
+        snoozedUntil,
+        status,
+        conversation: currentChat.value,
+      },
       currentChat.value.meta?.sender?.custom_attributes || {}
     );
     return;

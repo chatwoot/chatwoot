@@ -33,6 +33,15 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // When true, parent positions via fixed/Teleport — drop absolute + mt-1.
+  portal: {
+    type: Boolean,
+    default: false,
+  },
+  showSearch: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['select', 'search']);
@@ -66,9 +75,11 @@ defineExpose({
 <template>
   <div
     v-show="open"
-    class="absolute z-50 w-full mt-1 transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-strong"
+    data-combobox-dropdown
+    class="z-50 w-full transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-strong flex flex-col overflow-hidden"
+    :class="portal ? 'fixed' : 'absolute mt-1'"
   >
-    <div class="relative border-b border-n-strong">
+    <div v-if="showSearch" class="relative border-b border-n-strong shrink-0">
       <Spinner
         v-if="loading"
         :size="16"
@@ -89,7 +100,8 @@ defineExpose({
       />
     </div>
     <ul
-      class="py-1 mb-0 overflow-auto max-h-60"
+      class="py-1 mb-0 overflow-auto min-h-0"
+      :class="portal ? 'max-h-none' : 'max-h-60'"
       role="listbox"
       :aria-multiselectable="multiple"
     >
