@@ -48,6 +48,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // Single scroll on the body slot; title + footer stay fixed.
+  bodyScroll: {
+    type: Boolean,
+    default: false,
+  },
   width: {
     type: String,
     default: 'lg',
@@ -85,6 +90,16 @@ const positionClass = computed(() =>
   props.position === 'top' ? 'dialog-position-top' : ''
 );
 
+const dialogOverflowClass = computed(() => {
+  if (props.bodyScroll) return 'max-h-[90vh] overflow-hidden';
+  if (props.overflowYAuto) return 'overflow-y-auto';
+  return 'overflow-visible';
+});
+
+const formLayoutClass = computed(() =>
+  props.bodyScroll ? 'max-h-[90vh] min-h-0' : 'h-auto overflow-visible'
+);
+
 const open = () => {
   isOpen.value = true;
   dialogRef.value?.showModal();
@@ -119,21 +134,21 @@ defineExpose({ open, close });
     <dialog
       ref="dialogRef"
       class="w-full transition-all duration-300 ease-in-out shadow-xl rounded-xl"
-      :class="[
-        maxWidthClass,
-        positionClass,
-        overflowYAuto ? 'overflow-y-auto' : 'overflow-visible',
-      ]"
+      :class="[maxWidthClass, positionClass, dialogOverflowClass]"
       @close.prevent="handleDialogClose"
     >
       <OnClickOutside @trigger="handleClickOutside">
         <form
           ref="dialogContentRef"
-          class="flex flex-col w-full h-auto gap-6 p-6 overflow-visible text-start align-middle transition-all duration-300 ease-in-out transform bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
+          class="flex flex-col w-full gap-6 p-6 text-start align-middle transition-all duration-300 ease-in-out transform bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
+          :class="formLayoutClass"
           @submit.prevent="confirm"
           @click.stop
         >
-          <div v-if="title || description" class="flex flex-col gap-2">
+          <div
+            v-if="title || description"
+            class="flex flex-col flex-shrink-0 gap-2"
+          >
             <h3 class="text-base font-medium leading-6 text-n-slate-12">
               {{ title }}
             </h3>
@@ -143,12 +158,18 @@ defineExpose({ open, close });
               </p>
             </slot>
           </div>
-          <slot v-if="isOpen" />
+          <div
+            v-if="bodyScroll && isOpen"
+            class="flex flex-col flex-1 min-h-0 gap-4 overflow-y-auto overscroll-contain"
+          >
+            <slot />
+          </div>
+          <slot v-else-if="isOpen" />
           <!-- Dialog content will be injected here -->
           <slot name="footer">
             <div
               v-if="showCancelButton || showConfirmButton"
-              class="flex items-center justify-between w-full gap-3"
+              class="flex flex-shrink-0 items-center justify-between w-full gap-3"
             >
               <Button
                 v-if="showCancelButton"
