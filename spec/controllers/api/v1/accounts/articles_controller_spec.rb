@@ -206,6 +206,18 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(article.reload.author_id).to eq(agent.id)
       end
 
+      it 'allows editing an article whose author is no longer an account member' do
+        foreign_user = create(:user, account: create(:account), role: :agent)
+        article.update!(author_id: foreign_user.id)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            params: { article: { title: 'Updated title', author_id: foreign_user.id } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.title).to eq('Updated title')
+      end
+
       it 'stages draft-only fields without bumping updated_at' do
         expect do
           put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
@@ -362,6 +374,18 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
         expect(json_response['payload']['title']).to eq(article2.title)
         expect(json_response['payload']['id']).to eq(article2.id)
+      end
+
+      it 'does not expose an author who is not a member of the account' do
+        foreign_user = create(:user, account: create(:account), role: :agent)
+        article.update!(author_id: foreign_user.id)
+
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).not_to have_key('author')
+        expect(response.body).not_to include(foreign_user.email)
       end
 
       it 'get associated articles' do
