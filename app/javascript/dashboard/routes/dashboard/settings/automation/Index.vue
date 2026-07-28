@@ -12,6 +12,7 @@ import AutomationRuleRow from './AutomationRuleRow.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import { BaseTable } from 'dashboard/components-next/table';
+import { DEFAULT_DELAY_MINUTES } from './constants';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -132,7 +133,9 @@ onMounted(() => {
 });
 
 const openAddPopup = () => {
-  addDialogRef.value?.open();
+  const startsWithWait =
+    isDelayedAutomationsEnabled.value && activeTab.value === 'delayed';
+  addDialogRef.value?.open(startsWithWait ? DEFAULT_DELAY_MINUTES : null);
 };
 const hideAddPopup = () => {
   addDialogRef.value?.close();
@@ -270,9 +273,9 @@ const tableHeaders = computed(() => {
             @tab-changed="onTabChanged"
           />
         </template>
-        <template v-if="records?.length" #count>
+        <template v-if="visibleRecords.length" #count>
           <span class="text-body-main text-n-slate-11">
-            {{ $t('AUTOMATION.COUNT', { n: records.length }) }}
+            {{ $t('AUTOMATION.COUNT', { n: visibleRecords.length }) }}
           </span>
         </template>
         <template #actions>
