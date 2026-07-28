@@ -36,10 +36,23 @@ Phased so every phase leaves the app releasable. All commands run in Docker
 
 ## Phase 0 — Environment sanity ✅ Done
 
-- `docker compose build base rails vite` (first time), then
-  `docker compose up rails sidekiq vite`.
-- DB is external (Neon Postgres) and Redis is external (Upstash) via `.env` —
-  never commit `.env`, never echo its values into docs/logs.
+> **Superseded by [DEV_SETUP.md](./DEV_SETUP.md)** — use that for the actual
+> fresh-clone runbook. Two instructions below turned out to be wrong or stale;
+> they are corrected inline and kept for history.
+
+- ~~`docker compose build base rails vite` (first time)~~ — **this fails on a
+  fresh clone.** Compose builds targets in parallel, so `rails`/`vite` try to
+  resolve the base image before `base` has produced it
+  (`pull access denied ... mesh-crm:development`). Build `base` **alone** first,
+  then `rails vite`. The combined form only works once the base image already
+  exists locally.
+- Then `docker compose up -d` — one stack (`mesh-crm`), five services.
+- DB is external (Neon Postgres) via `.env` — never commit `.env`, never echo
+  its values into docs/logs. **Redis is no longer external**; it is a local
+  compose service alongside mailhog (see
+  [error-log 2026-07-27](./error-log/2026-07-27-redis-service-missing-from-compose.md)).
+- Schema load is **not** automatic — nothing in the boot path migrates. Run
+  `db:chatwoot_prepare` with `POSTGRES_STATEMENT_TIMEOUT=600s` (see DEV_SETUP §3).
 - Test DB: RSpec needs its own database; confirm `POSTGRES_DATABASE` handling
   for `RAILS_ENV=test` against the external Postgres (or a local throwaway
   Postgres container) before Phase 2. Record whatever you settle on in the

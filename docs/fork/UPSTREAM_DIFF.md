@@ -193,6 +193,15 @@ These are the **largest textual-conflict surface after `db/schema.rb`** — upst
 edits them occasionally — so they are catalogued here and should be kept as close
 to upstream's text as the setup allows:
 
+- **`docker/dockerfiles/rails.Dockerfile` / `docker/dockerfiles/vite.Dockerfile`**
+  — one line each: `FROM chatwoot:development` became
+  `ARG BASE_IMAGE=chatwoot:development` + `FROM ${BASE_IMAGE}`. **The default is
+  upstream's original value**, so an upstream build that passes no build-arg
+  behaves exactly as before and the conflict surface stays one line. Compose
+  passes `BASE_IMAGE: mesh-crm:development` so the fork builds and runs its own
+  tags (`mesh-crm:development`, `mesh-crm-rails:development`,
+  `mesh-crm-vite:development`) instead of squatting on the `chatwoot:*` names
+  used by upstream's published images.
 - **`docker-compose.yaml`** — rewritten for the external-Postgres dev stack
   (Neon via `POSTGRES_*` in `.env`, no local `postgres` service, per-repo build
   targets). **Redis and mailhog are local services again** — the 2026-07-27

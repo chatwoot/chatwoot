@@ -48,6 +48,7 @@ Read in this order:
 
 | File | Purpose |
 | --- | --- |
+| [DEV_SETUP.md](./DEV_SETUP.md) | **Start here if you just cloned this repo** — fresh-clone runbook: `.env` (Neon) config and its two classic traps, correct image build order, schema load, starting the stack, how to *verify* it actually works (not just that containers are `Up`), login credentials, everyday container commands, and a troubleshooting table |
 | [HOW_IT_WORKS.md](./HOW_IT_WORKS.md) | **Plain-English, diagram-first overview for non-technical readers** — what the product does, what we added, and how it talks to the external Next.js frontend and NestJS + LangGraph backend |
 | [ROLES_AND_CONTROL.md](./ROLES_AND_CONTROL.md) | **Plain-English roles & control guide** — who controls what (super admin, brain, AI robot, human agent, tenant, customer), the limits we enforce, and why our additions won't cause upstream merge conflicts |
 | [SUPER_ADMIN.md](./SUPER_ADMIN.md) | **Super Admin operator guide** — what the `/super_admin` console controls (accounts, users, Platform Apps/`PLATFORM_TOKEN`, installation configs, Sidekiq), who can reach it, how it's protected today (separate Devise scope, throttle, no MFA), how to create/rotate operators, and the production hardening checklist |

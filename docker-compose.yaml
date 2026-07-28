@@ -1,4 +1,8 @@
-version: "3.9"
+# Single stack for the whole fork: app services (rails, sidekiq, vite) plus
+# local infra (redis, mailhog). Postgres is external (Neon, via POSTGRES_* in
+# .env). Pinning the project name keeps `docker compose` commands addressing the
+# same stack regardless of the directory it is invoked from.
+name: mesh-crm
 
 x-app-volumes: &app-volumes
   - ./:/app:delegated
@@ -22,7 +26,9 @@ services:
         RAILS_ENV: development
         RAILS_SERVE_STATIC_FILES: "false"
 
-    image: chatwoot:development
+    # Fork-owned tag. The build context is this repo, so the `custom/` overlay
+    # is baked in — this is never upstream's published chatwoot image.
+    image: mesh-crm:development
 
     profiles:
       - build-only
@@ -35,8 +41,10 @@ services:
     build:
       context: .
       dockerfile: docker/dockerfiles/rails.Dockerfile
+      args:
+        BASE_IMAGE: mesh-crm:development
 
-    image: chatwoot-rails:development
+    image: mesh-crm-rails:development
 
     env_file:
       - .env
@@ -50,6 +58,23 @@ services:
       NODE_ENV: development
       RAILS_ENV: development
       VITE_DEV_SERVER_HOST: vite
+      # vite_ruby probes VITE_RUBY_HOST (NOT VITE_DEV_SERVER_HOST, which is only
+      # what Vite itself binds to). Unset, rails looks for the dev server on
+      # localhost:3036 — its OWN namespace, where nothing listens — decides the
+      # dev server is down, and falls back to an in-process `vite build` that
+      # OOMs the container ("Ineffective mark-compacts near heap limit"). Every
+      # page then 500s with "Vite Ruby can't find entrypoints/v3app.js in the
+      # manifests". Point it at the vite service; vite_ruby's DevServerProxy
+      # middleware forwards /vite-dev/* there, so the browser only ever talks to
+      # :3000 (which is what makes this work behind the tunnel).
+      VITE_RUBY_HOST: vite
+      # The `vite` service owns building (see its `bin/vite build --watch`).
+      # Without this, vite_ruby's autoBuild makes RAILS shell out to its own
+      # `vite build` on a manifest miss — inside the rails container, on the
+      # default Node heap — which OOMs after ~100s and 500s the request, while
+      # the perfectly good manifest the vite service just wrote sits unused.
+      # One builder, one manifest.
+      VITE_RUBY_AUTO_BUILD: "false"
       # annotaterb hooks db:migrate in development and re-annotates EVERY model
       # whose schema comment drifts — spilling diffs into OSS/enterprise files the
       # fork must not touch (see docs/fork/error-log/
@@ -57,6 +82,11 @@ services:
       # annotations frozen at upstream's text; after adding a fork migration, run
       # annotaterb manually for just the fork-touched models.
       ANNOTATERB_SKIP_ON_DB_TASKS: "1"
+      # rack-mini-profiler's asset endpoint 500s on every page render here
+      # (/mini-profiler-resources/includes.js), adding a red herring to every
+      # browser console. The fork does not use it; Procfile.tunnel already
+      # disables it for the same reason.
+      DISABLE_MINI_PROFILER: "true"
 
     depends_on:
       vite:
@@ -84,8 +114,10 @@ services:
     build:
       context: .
       dockerfile: docker/dockerfiles/rails.Dockerfile
+      args:
+        BASE_IMAGE: mesh-crm:development
 
-    image: chatwoot-rails:development
+    image: mesh-crm-rails:development
 
     env_file:
       - .env
@@ -117,8 +149,10 @@ services:
     build:
       context: .
       dockerfile: docker/dockerfiles/vite.Dockerfile
+      args:
+        BASE_IMAGE: mesh-crm:development
 
-    image: chatwoot-vite:development
+    image: mesh-crm-vite:development
 
     env_file:
       - .env
@@ -137,12 +171,41 @@ services:
       # server binds container-localhost (::1), the published 3036 port resets
       # every host connection, and the dashboard's assets 404 in the browser.
       VITE_RUBY_HOST: 0.0.0.0
+      # Vite >= 6 blocks requests whose Host header is not allow-listed. Rails
+      # proxies /vite-dev/* to http://vite:3036, i.e. `Host: vite`, so without
+      # this every asset 403s — Rails still serves the HTML, so you get a 200
+      # page that renders a BLANK SCREEN because the SPA bundle never loads.
+      # Consumed by vite.config.ts (inert when unset).
+      VITE_ALLOWED_HOSTS: vite,localhost
+      # Chatwoot's bundle exceeds Node's default old-space on a full build — an
+      # unraised limit dies with "Ineffective mark-compacts near heap limit /
+      # JavaScript heap out of memory" and leaves NO manifest, which surfaces as
+      # `Vite Ruby can't find entrypoints/v3app.js` 500s on every page.
+      NODE_OPTIONS: --max-old-space-size=4096
 
     entrypoint: docker/entrypoints/vite.sh
 
+    # BUILD --watch, not `dev`.
+    #
+    # `bin/vite dev` serves the app as ~1600 UNBUNDLED ES modules (every locale x
+    # every namespace is its own `?import` request). On one machine that is fine.
+    # Through the Cloudflare tunnel and vite_ruby's Rails asset proxy it is not:
+    # measured individual module fetches of 5s / 14s / 25s, and a first paint
+    # around TWO MINUTES. The page is blank the whole time, so it reads as
+    # "Chatwoot never opens" rather than "Chatwoot is slow".
+    #
+    # `build --watch` precompiles one bundle; Rails then serves it straight from
+    # public/vite via the manifest, with no dev server in the request path at all.
+    # Frontend edits still rebuild automatically — you lose hot-module reload, not
+    # the reload. Since this fork is infrastructure (vendors never develop against
+    # its UI), that is the right trade. Matches Procfile.tunnel.
+    #
+    # Switch back to `dev` only if you are actively developing Chatwoot's frontend
+    # AND reaching it directly on localhost:3000.
     command:
       - bin/vite
-      - dev
+      - build
+      - --watch
 
   ##################################################################
   # Redis
