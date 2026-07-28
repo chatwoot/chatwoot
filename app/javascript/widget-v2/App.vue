@@ -86,7 +86,7 @@ onMounted(async () => {
     },
   });
 
-  watchSystemDarkMode(() => configStore.darkMode);
+  watchSystemDarkMode(() => configStore.applyCurrentTheme());
   setLocale(window.chatwootWebChannel?.locale);
   await configStore.load();
   useAgentsStore()

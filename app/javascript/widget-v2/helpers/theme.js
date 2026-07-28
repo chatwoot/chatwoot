@@ -80,11 +80,16 @@ const loadFontStylesheet = url => {
   document.head.appendChild(link);
 };
 
-// A theme is either a name ('tetris') or an object ({ name, ...overrides }).
-// Precedence: scss defaults → inbox accent → named theme → explicit overrides.
-// The inbox accent is the weakest so a theme's own palette isn't overwritten
-// by the colour configured in the dashboard.
-export const applyTheme = (theme = {}, { defaultPrimary } = {}) => {
+const prefersDark = mode =>
+  mode === 'dark' || (mode === 'auto' && darkModeQuery.matches);
+
+// A theme is either a name ('spotify') or an object ({ name, ...overrides }).
+// Precedence: scss defaults → inbox accent → named theme → explicit overrides
+// → the active scheme's `light`/`dark` block. The inbox accent is the weakest
+// so a theme's own palette isn't overwritten by the colour configured in the
+// dashboard; the scheme block is the strongest so a theme can state outright
+// what it looks like in dark.
+export const applyTheme = (theme = {}, { defaultPrimary, darkMode } = {}) => {
   const root = document.documentElement;
   const config = typeof theme === 'string' ? { name: theme } : theme || {};
   const named = getTheme(config.name);
@@ -94,7 +99,20 @@ export const applyTheme = (theme = {}, { defaultPrimary } = {}) => {
     ...config,
   };
 
-  root.classList.toggle('frosted', resolved.material === 'frosted');
+  // A theme that declares a colorScheme owns it: a brand whose widget is dark
+  // by design must not be flipped light by the host or by the visitor's OS
+  // preference, which would leave its dark ink on a light ground.
+  const isDark = resolved.colorScheme
+    ? resolved.colorScheme === 'dark'
+    : prefersDark(resolved.darkMode || darkMode || 'light');
+  root.classList.toggle('dark', isDark);
+
+  const scheme = isDark
+    ? { ...named.dark, ...config.dark }
+    : { ...named.light, ...config.light };
+  const tokens = { ...resolved, ...scheme };
+
+  root.classList.toggle('frosted', tokens.material === 'frosted');
 
   // Themes replace rather than accumulate: clear anything a previous theme set
   // so its tokens can't leak into the next one.
@@ -104,7 +122,7 @@ export const applyTheme = (theme = {}, { defaultPrimary } = {}) => {
   root.style.removeProperty('--cw-font-sans');
 
   Object.entries(TOKEN_VARS).forEach(([token, cssVar]) => {
-    const value = resolved[token];
+    const value = tokens[token];
     // An empty value means "unset", leaving the default in place.
     if (value === undefined || value === '' || !isSafeValue(String(value))) {
       return;
@@ -112,28 +130,22 @@ export const applyTheme = (theme = {}, { defaultPrimary } = {}) => {
     root.style.setProperty(cssVar, value);
   });
 
-  if (HEX_PATTERN.test(resolved.primary || '') && !resolved.primaryForeground) {
+  if (HEX_PATTERN.test(tokens.primary || '') && !tokens.primaryForeground) {
     root.style.setProperty(
       '--cw-primary-foreground',
-      foregroundFor(resolved.primary)
+      foregroundFor(tokens.primary)
     );
   }
 
-  if (resolved.fontUrl) loadFontStylesheet(resolved.fontUrl);
-  if (isSafeValue(resolved.font || '')) {
+  if (tokens.fontUrl) loadFontStylesheet(tokens.fontUrl);
+  if (isSafeValue(tokens.font || '')) {
     root.style.setProperty(
       '--cw-font-sans',
-      `${resolved.font}, Inter, -apple-system, system-ui, sans-serif`
+      `${tokens.font}, Inter, -apple-system, system-ui, sans-serif`
     );
   }
 };
 
-export const applyDarkMode = mode => {
-  const root = document.documentElement;
-  const isDark = mode === 'dark' || (mode === 'auto' && darkModeQuery.matches);
-  root.classList.toggle('dark', isDark);
-};
-
-export const watchSystemDarkMode = getMode => {
-  darkModeQuery.addEventListener('change', () => applyDarkMode(getMode()));
+export const watchSystemDarkMode = reapply => {
+  darkModeQuery.addEventListener('change', reapply);
 };

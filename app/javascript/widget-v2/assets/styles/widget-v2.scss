@@ -285,6 +285,13 @@
     outline-offset: 0;
   }
 
+  // prose-bubble hardcodes the dashboard's ink colour, which goes invisible
+  // inside a themed bubble. Message text inherits the bubble's own colour.
+  .bubble-prose,
+  .bubble-prose * {
+    color: inherit;
+  }
+
   .bubble-visitor {
     background: var(--cw-bubble-visitor-bg);
     color: var(--cw-bubble-visitor-text);

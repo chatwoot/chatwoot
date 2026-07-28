@@ -94,7 +94,36 @@ Every token is optional. Omitted tokens keep their `standard` value.
 | Token | Values | Controls |
 | --- | --- | --- |
 | `material` | `frosted` | Makes chrome translucent so the host page shows through |
-| `darkMode` | `light` \| `dark` \| `auto` | Colour scheme |
+| `darkMode` | `light` \| `dark` \| `auto` | Colour scheme the host asks for |
+| `colorScheme` | `light` \| `dark` | Pins the scheme, ignoring `darkMode` |
+
+## Light and dark
+
+By default the widget follows `darkMode` — the host's setting, or the
+visitor's OS preference under `auto` — and the tokens you set apply to both
+schemes.
+
+A theme built around one palette should say so with `colorScheme`. Spotify's
+ground is near-black by design, so it pins `colorScheme: 'dark'` and stays
+dark on a light host page; without it, a light host would leave the theme's
+white ink on a light surface.
+
+To support both schemes from one theme, put the differences in `light` and
+`dark` blocks. They are applied last, over everything else:
+
+```js
+const acme = {
+  primary: '#2464EC',
+  radius: '8px',
+  dark: {
+    background: '#0B0B0F',
+    solid: '#15151C',
+    border: '#26262F',
+    text: '#F5F5F7',
+    primary: '#6E9BFF',
+  },
+};
+```
 
 ## Bundling a named theme
 
@@ -132,6 +161,8 @@ A named theme can still be overridden per site:
 - **Dark palettes need the full colour set.** Setting only `background` leaves
   text and borders on their light defaults; set `solid`, `surface`, `muted`,
   `border`, `hairline`, `text`, `textMuted` and `textFaint` together.
+- **A one-palette theme should pin `colorScheme`.** Otherwise the host or the
+  visitor's OS can flip the scheme underneath it and break contrast.
 - **Host-supplied values are sanitised.** Values containing `;`, `{}`,
   `@import`, `javascript:` or `url()` are rejected, and `fontUrl` must be
   https.

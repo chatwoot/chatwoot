@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { fetchWidgetConfig } from 'widget-v2/api/config';
-import { applyTheme, applyDarkMode } from 'widget-v2/helpers/theme';
+import { applyTheme } from 'widget-v2/helpers/theme';
 
 export const useConfigStore = defineStore('config', () => {
   const config = ref(null);
@@ -30,8 +30,8 @@ export const useConfigStore = defineStore('config', () => {
     applyTheme(host, {
       defaultPrimary:
         channel.value.widget_color || window.chatwootWebChannel?.widgetColor,
+      darkMode: host.darkMode || darkMode.value,
     });
-    applyDarkMode(host.darkMode || darkMode.value);
   };
 
   const load = async () => {

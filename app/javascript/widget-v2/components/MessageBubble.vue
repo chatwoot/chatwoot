@@ -100,8 +100,7 @@ const aspectRatio = attachment => {
         <div
           v-if="message.content"
           v-dompurify-html="formattedContent"
-          class="prose prose-bubble [&_a]:underline"
-          :class="isVisitor ? '[&_*]:!text-cw-primary-foreground' : ''"
+          class="prose prose-bubble bubble-prose [&_a]:underline"
         />
       </div>
 

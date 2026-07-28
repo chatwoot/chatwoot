@@ -39,6 +39,8 @@ const spotify = {
   bubbleAgentText: '#FFFFFF',
   bubbleRadius: '16px',
   bubbleTailRadius: '16px',
+  // The palette is dark by design, so it stays dark on a light host page.
+  colorScheme: 'dark',
   hairline: 'rgba(255, 255, 255, 0.08)',
   muted: '#232323',
   primary: '#1CD463',
