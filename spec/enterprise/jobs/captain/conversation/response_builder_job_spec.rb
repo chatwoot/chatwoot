@@ -50,6 +50,12 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
       end
 
+      it 'does not emit captain lifecycle events' do
+        expect(Captain::ConversationEvents).not_to receive(:response_completed)
+
+        described_class.perform_now(conversation, assistant)
+      end
+
       it 'keeps the default message history limited to public chat messages' do
         create(
           :message,
@@ -410,6 +416,24 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
         account.reload
         expect(account.usage_limits[:captain][:responses][:consumed]).to eq(1)
+      end
+
+      it 'emits a response completed event' do
+        expect(Captain::ConversationEvents).to receive(:response_completed)
+          .with(conversation: conversation, assistant: assistant, message: kind_of(Message), at: kind_of(Time))
+
+        described_class.perform_now(conversation, assistant)
+      end
+
+      it 'emits response failed and generation failure handoff events when generation errors' do
+        allow(mock_agent_runner_service).to receive(:generate_response).and_raise(StandardError, 'llm down')
+
+        expect(Captain::ConversationEvents).to receive(:response_failed)
+          .with(conversation: conversation, assistant: assistant, reason: 'standard_error', at: kind_of(Time))
+        expect(Captain::ConversationEvents).to receive(:handed_off)
+          .with(conversation: conversation, assistant: assistant, source: 'generation_failure', reason_category: :tool_failure, at: kind_of(Time))
+
+        described_class.perform_now(conversation, assistant)
       end
     end
 

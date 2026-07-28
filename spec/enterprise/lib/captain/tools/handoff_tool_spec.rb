@@ -63,6 +63,13 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           tool.perform(tool_context, reason: 'Test reason')
         end
 
+        it 'emits a captain handoff event with the tool source' do
+          expect(Captain::ConversationEvents).to receive(:handed_off)
+            .with(conversation: conversation, assistant: assistant, source: 'tool', at: kind_of(Time))
+
+          tool.perform(tool_context, reason: 'Test reason')
+        end
+
         it 'creates a conversation_bot_handoff reporting event' do
           create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
           Current.executed_by = assistant

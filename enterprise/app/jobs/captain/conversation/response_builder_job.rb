@@ -77,14 +77,28 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
       process_v1_handoff
     elsif conversation_pending?
-      message = nil
-      ActiveRecord::Base.transaction do
-        message = create_messages
-        Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
-        account.increment_response_usage
-      end
-      capture_assistant_session(result_message: message, credits_consumed: 1.0)
+      deliver_generated_response
     end
+  end
+
+  def deliver_generated_response
+    message = nil
+    ActiveRecord::Base.transaction do
+      message = create_messages
+      Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
+      account.increment_response_usage
+    end
+    capture_assistant_session(result_message: message, credits_consumed: 1.0)
+    record_v2_response_completed(message) if captain_v2_enabled?
+  end
+
+  def record_v2_response_completed(message)
+    Captain::ConversationEvents.response_completed(
+      conversation: @conversation,
+      assistant: @assistant,
+      message: message,
+      at: Time.current
+    )
   end
 
   def v1_handoff_requested?
@@ -152,8 +166,31 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response ||= {}
     @response['action_source'] ||= 'error'
     @response['action_reason'] ||= error_action_reason(error)
-    process_v1_handoff if conversation_pending?
+    record_v2_response_failure(error) if captain_v2_enabled?
+    if conversation_pending?
+      process_v1_handoff
+      record_v2_failure_handoff if captain_v2_enabled?
+    end
     true
+  end
+
+  def record_v2_response_failure(error)
+    Captain::ConversationEvents.response_failed(
+      conversation: @conversation,
+      assistant: @assistant,
+      reason: error_action_reason(error),
+      at: Time.current
+    )
+  end
+
+  def record_v2_failure_handoff
+    Captain::ConversationEvents.handed_off(
+      conversation: @conversation,
+      assistant: @assistant,
+      source: 'generation_failure',
+      reason_category: :tool_failure,
+      at: Time.current
+    )
   end
 
   def log_error(error)
