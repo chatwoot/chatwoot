@@ -225,6 +225,38 @@ RSpec.describe Whatsapp::HealthService do
         )
         expect(channel.phone_number_health_error).to be_present
       end
+
+      it 'preserves previously fetched business account health' do
+        channel.update!(
+          phone_number_health: {
+            business_account_id: 'previous_waba_id',
+            business_account_name: 'Previous WABA',
+            business_portfolio_id: 'previous_portfolio_id',
+            business_portfolio_name: 'Previous Business Portfolio'
+          }
+        )
+
+        result = service.sync_health_status!
+        channel.reload
+
+        expect(result).to include(
+          business_account_id: 'previous_waba_id',
+          business_account_name: 'Previous WABA',
+          business_portfolio_id: 'previous_portfolio_id',
+          business_portfolio_name: 'Previous Business Portfolio',
+          quality_rating: 'GREEN',
+          status: 'CONNECTED'
+        )
+        expect(channel.phone_number_health).to include(
+          'business_account_id' => 'previous_waba_id',
+          'business_account_name' => 'Previous WABA',
+          'business_portfolio_id' => 'previous_portfolio_id',
+          'business_portfolio_name' => 'Previous Business Portfolio',
+          'quality_rating' => 'GREEN',
+          'status' => 'CONNECTED'
+        )
+        expect(channel.phone_number_health_error).to eq('(#200) You do not have permission to access this field.')
+      end
     end
 
     context 'when a newer health check finishes first' do

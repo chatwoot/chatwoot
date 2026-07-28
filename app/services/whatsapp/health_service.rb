@@ -16,6 +16,7 @@ class Whatsapp::HealthService
 
   BASE_URI = 'https://graph.facebook.com'.freeze
   MINIMUM_HEALTH_API_VERSION = 24.0
+  BUSINESS_HEALTH_FIELDS = %i[business_account_id business_account_name business_portfolio_id business_portfolio_name].freeze
   PERSISTED_FIELDS = %i[
     id
     display_phone_number
@@ -52,6 +53,7 @@ class Whatsapp::HealthService
     attempted_at = Time.current
     previous_health = @channel.phone_number_health
     health_status, error = fetch_health_status_with_error
+    health_status = previous_health.symbolize_keys.slice(*BUSINESS_HEALTH_FIELDS).merge(health_status) if error
 
     log_risky_transition(previous_health, health_status) if persist_health_status(health_status, attempted_at, error)
 
@@ -220,9 +222,7 @@ class Whatsapp::HealthService
     )
   end
 
-  def risky_health?(health_status)
-    RISKY_QUALITY_RATINGS.include?(health_status[:quality_rating]) || RISKY_STATUSES.include?(health_status[:status])
-  end
+  def risky_health?(health_status) = RISKY_QUALITY_RATINGS.include?(health_status[:quality_rating]) || RISKY_STATUSES.include?(health_status[:status])
 
   def risk_signature(health_status) = health_status.to_h.with_indifferent_access.values_at(:quality_rating, :status)
 end
