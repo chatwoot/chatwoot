@@ -33,6 +33,7 @@
 #
 class DataImport < ApplicationRecord
   ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY = 'active_intercom_import_run_id'.freeze
+  INTERCOM_STALLED_AFTER = 15.minutes
   LEGACY_DATA_TYPES = ['contacts'].freeze
   INTEGRATION_DATA_TYPES = ['intercom'].freeze
   IMPORT_TYPES = %w[contacts conversations].freeze
@@ -69,6 +70,10 @@ class DataImport < ApplicationRecord
 
   def restartable?
     failed? || abandoned?
+  end
+
+  def stalled?
+    intercom_import? && (pending? || processing?) && updated_at <= INTERCOM_STALLED_AFTER.ago
   end
 
   def abandonable?

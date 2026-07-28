@@ -18,6 +18,7 @@ module Enterprise::Message
   def mark_pending_conversation_as_open_for_human_response
     return unless captain_pending_conversation?
     return unless human_response?
+    return if bot_response?
     return if private?
     return if template_bootstrap_message?
 

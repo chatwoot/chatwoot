@@ -109,8 +109,12 @@ const showEditButton = computed(
 const inboxName = computed(() => props.inbox?.name || '');
 
 const inboxIcon = computed(() => {
-  const { medium, channel_type: type } = props.inbox;
-  return getInboxIconByType(type, medium);
+  const {
+    medium,
+    channel_type: type,
+    voice_enabled: voiceEnabled,
+  } = props.inbox;
+  return getInboxIconByType(type, medium, 'fill', voiceEnabled);
 });
 
 const statsSummary = computed(() => {
@@ -118,9 +122,7 @@ const statsSummary = computed(() => {
   if (!stats.audience_total && !stats.sent && !stats.failed) return '';
   const parts = [];
   if (stats.sent) {
-    parts.push(
-      t('CAMPAIGN.WHATSAPP.CARD.STATS.SENT', { count: stats.sent })
-    );
+    parts.push(t('CAMPAIGN.WHATSAPP.CARD.STATS.SENT', { count: stats.sent }));
   }
   if (stats.delivered) {
     parts.push(
@@ -128,9 +130,7 @@ const statsSummary = computed(() => {
     );
   }
   if (stats.read) {
-    parts.push(
-      t('CAMPAIGN.WHATSAPP.CARD.STATS.READ', { count: stats.read })
-    );
+    parts.push(t('CAMPAIGN.WHATSAPP.CARD.STATS.READ', { count: stats.read }));
   }
   if (stats.failed) {
     parts.push(
@@ -189,10 +189,7 @@ const statsSummary = computed(() => {
           :scheduled-at="scheduledAt"
         />
       </div>
-      <p
-        v-if="statsSummary"
-        class="text-xs text-n-slate-11 line-clamp-1"
-      >
+      <p v-if="statsSummary" class="text-xs text-n-slate-11 line-clamp-1">
         {{ statsSummary }}
       </p>
     </div>
