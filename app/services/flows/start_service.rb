@@ -8,6 +8,7 @@ class Flows::StartService
 
   def perform
     return failure('already_in_flow') if @conversation.in_flow?
+    return failure('flow_already_entered') if @conversation.flow_already_entered?(@flow.id)
     return failure('flow_inactive') unless @flow.active?
     return failure('missing_entry') if @flow.entry_node.blank?
 

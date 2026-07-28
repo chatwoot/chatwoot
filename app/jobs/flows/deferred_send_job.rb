@@ -23,10 +23,9 @@ class Flows::DeferredSendJob < ApplicationJob
     params = {
       content: content,
       private: false,
-      content_attributes: {
-        flow_run_id: run.id,
+      content_attributes: MessageSourceAttributes.for_flow(run).merge(
         flow_node_id: payload[:node_id]
-      }
+      )
     }
 
     if buttons.any?

@@ -16,24 +16,14 @@ class AutomationRules::ActionService < ActionService
         ChatwootExceptionTracker.new(e, account: @account).capture_exception
       end
     end
-    append_system_audit_note
   ensure
     Current.reset
   end
 
   private
 
-  def append_system_audit_note
-    locale = @account.locale.presence || I18n.default_locale
-    content = I18n.with_locale(locale) do
-      I18n.t('automation.audit_note', name: @rule.name)
-    end
-
-    Conversations::SystemAuditNote.perform(
-      conversation: @conversation,
-      content: content,
-      content_attributes: { automation_rule_id: @rule.id }
-    )
+  def automation_message_attributes
+    MessageSourceAttributes.for_automation(@rule)
   end
 
   def execute_action(action)
@@ -56,9 +46,13 @@ class AutomationRules::ActionService < ActionService
 
     schedule_or_send_outbound(
       delivery: delivery,
-      blob_ids: blobs.map(&:id)
+      blob_ids: blobs.map(&:id),
+      message_source_attrs: automation_message_attributes
     ) do
-      Messages::MessageBuilder.new(nil, @conversation, attachment_message_params(blobs)).perform
+      params = attachment_message_params(blobs).merge(
+        content_attributes: automation_message_attributes
+      )
+      Messages::MessageBuilder.new(nil, @conversation, params).perform
     end
   end
 
@@ -75,9 +69,13 @@ class AutomationRules::ActionService < ActionService
     schedule_or_send_outbound(
       delivery: delivery,
       content: content,
-      automation_rule_id: @rule.id
+      message_source_attrs: automation_message_attributes
     ) do
-      params = { content: content, private: false, content_attributes: { automation_rule_id: @rule.id } }
+      params = {
+        content: content,
+        private: false,
+        content_attributes: automation_message_attributes
+      }
       Messages::MessageBuilder.new(nil, @conversation, params).perform
     end
   end
@@ -101,7 +99,11 @@ class AutomationRules::ActionService < ActionService
   def add_private_note(message)
     return if conversation_a_tweet?
 
-    params = { content: message[0], private: true, content_attributes: { automation_rule_id: @rule.id } }
+    params = {
+      content: message[0],
+      private: true,
+      content_attributes: automation_message_attributes
+    }
     Messages::MessageBuilder.new(nil, @conversation.reload, params).perform
   end
 
@@ -156,6 +158,7 @@ class AutomationRules::ActionService < ActionService
 
     flow = @account.flows.active.find_by(id: ref) || @account.flows.active.find_by(name: ref.to_s)
     return if flow.blank?
+    return if @conversation.flow_already_entered?(flow.id)
 
     Flows::StartService.new(
       account: @account,

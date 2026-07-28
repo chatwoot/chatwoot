@@ -20,16 +20,6 @@ module AssigneeActivityMessageHandler
   end
 
   def activity_message_owner(user_name)
-    if !user_name && Current.executed_by.present?
-      user_name = case Current.executed_by
-                  when AssignmentPolicy
-                    I18n.t('auto_assignment.policy_actor', policy_name: Current.executed_by.name)
-                  when Inbox
-                    I18n.t('auto_assignment.default_policy_name')
-                  else
-                    I18n.t('automation.system_name')
-                  end
-    end
-    user_name
+    AutomationRuleActor.activity_owner(user_name)
   end
 end

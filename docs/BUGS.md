@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** hotfix `B-NEW-43` franja Panel IA pegada con humano
+**Última actualización:** feature `B-NEW-44` automation timeline tuerca + actividades
+(2026-07-28). Antes: hotfix `B-NEW-43` franja Panel IA pegada con humano
 (2026-07-27). Antes: feature `B-NEW-42` flows explicit next + step preview
 (2026-07-27). Antes: `B-NEW-41` flows canvas layout persistente (2026-07-27).
 Antes: hotfix `B-NEW-40` WA template vars (`findComponentByType`) (2026-07-27).
@@ -115,6 +116,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-41 | Flows UX | Baja | ✅ Canvas: posiciones persistentes, no re-dagre, connect por handle |
 | B-NEW-42 | Flows UX | Media | ✅ Rutas explícitas `step.next` + overview ℹ️ del flujo |
 | B-NEW-43 | Bug UX | No | ✅ Franja Panel IA se oculta con assignee humano; limpia `panel_ia_*` + leyenda Bots/Flows |
+| B-NEW-44 | Automation UX | No | ✅ Sin nota audit genérica; tuerca en outbound; activity con nombre de regla |
 
 ---
 
@@ -963,18 +965,42 @@ dropdown lista fechas; datetime marcado; sin CAs de fecha → mensaje vacío.
 
 ### B-NEW-38 — Automation: nota privada de auditoría al ejecutarse
 
-**Causa:** time/event rules podían correr sin rastro visible (solo Redis ledger /
-acciones mudas).
+**Estado:** sustituido por **B-NEW-44** (2026-07-28). Ya no se deja nota audit al
+final de cada run; ver B-NEW-44.
 
-**Fix:** tras las acciones configuradas, `AutomationRules::ActionService` siempre
-deja una nota privada corta vía `Conversations::SystemAuditNote`
-(`system_audit: true`, `automation_rule_id`). Flows fuera de alcance.
+**Causa original:** time/event rules podían correr sin rastro visible.
 
-**Archivos:** `system_audit_note.rb`, `automation_rules/action_service.rb`,
-`en.yml` / `es.yml` (`automation.audit_note`), `docs/BUGS.md`.
+**Fix original (2026-07-27):** nota privada vía `Conversations::SystemAuditNote`.
 
-**Cómo probar:** disparar cualquier automation (o time rule) → timeline muestra
-«Automatización «…» ejecutada.» como nota privada.
+### B-NEW-44 — Automation: nota audit ruidosa → tuerca + actividades
+
+**Síntoma:** cada automatización dejaba nota privada *«Automatización "X" ejecutada»*
+(B-NEW-38) además de mensajes/activities ya existentes.
+
+**Fix (2026-07-28):**
+1. Quitar `append_system_audit_note` al final de `ActionService#perform`.
+2. Outbound: `automation_rule_id` + `automation_rule_name` en `content_attributes`;
+   icono tuerca en `MessageMeta.vue` con tooltip (**camelCase** — `MessageList` convierte keys).
+3. Acciones no-mensaje: activity con texto *«por automatización «nombre»»* vía
+   `automation.activity_actor` + tuerca en `Activity.vue`; attrs de regla en activity messages.
+4. Mantener `SystemAuditNote` solo para ventana WA/Meta cerrada
+   (`messaging_window_skipped`).
+5. `MessageBuilder`: ya no pisa `content_attributes` con merge de solo `automation_rule_id`.
+
+**Follow-up (2026-07-28):** tuerca invisible — assets Vite en imagen Docker sin rebuild;
+`MessageMeta` leía snake_case pero el store usa camelCase. **Fix v2:** `message_source`
+unificado (`automation`/`macro`/`flow`) + `MessageSourceIndicator` con iconos del sidebar
+(`repeat` / `toy-brick` / `git-branch`). Flujos: `flow_already_entered?` bloquea reentrada
+al mismo flujo en la misma conversación. Macros: `Current.executed_by = macro` para que
+activities (assign/team/labels/…) lleven icono toy-brick sin nota audit genérica.
+
+**Archivos:** `action_service.rb`, `automation_rules/action_service.rb`,
+`deferred_outbound_job.rb`, `message_builder.rb`, `lib/automation_rule_actor.rb`,
+activity handlers, `MessageMeta.vue`, `en`/`es` automation.json, `docs/BUGS.md`.
+
+**Cómo probar:** automation con `send_message` → tuerca en bubble, sin nota audit;
+`assign_agent` → activity *by «Nombre regla»*; WA fuera de ventana → nota skip sí,
+sin audit genérico extra.
 
 ### B-NEW-39 — Automation: no enviar si ventana Meta/WhatsApp cerrada
 
@@ -983,13 +1009,13 @@ fuera de la ventana 24h (Messenger/IG similar vía `can_reply?`).
 
 **Fix:** antes de enviar (inmediato o `DeferredOutboundJob`), si
 `conversation.can_reply?` es false → no crear mensaje público; dejar nota
-privada (`messaging_window_skipped`) + la auditoría B-NEW-38 al final.
+privada (`messaging_window_skipped`) vía `SystemAuditNote`.
 
 **Archivos:** `automation_rules/action_service.rb`,
 `messages/deferred_outbound_job.rb`, `en.yml` / `es.yml`, `docs/BUGS.md`.
 
 **Cómo probar:** conversación WA sin incoming reciente → automation con
-`send_message` → sin bubble al cliente; sí nota de ventana cerrada + audit.
+`send_message` → sin bubble al cliente; sí nota de ventana cerrada (sin audit genérico).
 
 ### B-NEW-40 — Plantillas WA: sin inputs de variables + ReferenceError al enviar
 

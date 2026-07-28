@@ -93,7 +93,9 @@ module ActivityMessageHandler
 
   def automation_status_change_activity_content
     if Current.executed_by.instance_of?(AutomationRule)
-      I18n.t("conversations.activity.status.#{status}", user_name: I18n.t('automation.system_name'), status_label: status_label_word)
+      I18n.t("conversations.activity.status.#{status}",
+             user_name: AutomationRuleActor.activity_owner(nil),
+             status_label: status_label_word)
     elsif Current.executed_by.instance_of?(Contact)
       Current.executed_by = nil
       I18n.t('conversations.activity.status.system_auto_open')
@@ -116,8 +118,19 @@ module ActivityMessageHandler
       message_type: :activity,
       content: content
     }
-    params[:content_attributes] = content_attributes if content_attributes.present?
+    attrs = content_attributes || {}
+    attrs = attrs.merge(message_source_attributes_for_activity) if message_source_attributes_for_activity.present?
+    params[:content_attributes] = attrs if attrs.present?
     params
+  end
+
+  def message_source_attributes_for_activity
+    case Current.executed_by
+    when AutomationRule
+      MessageSourceAttributes.for_automation(Current.executed_by)
+    when Macro
+      MessageSourceAttributes.for_macro(Current.executed_by)
+    end
   end
 
   def create_muted_message

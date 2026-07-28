@@ -1,8 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { messageBubbleStamp, messageStamp } from 'shared/helpers/timeHelper';
-
 import MessageStatus from './MessageStatus.vue';
+import MessageSourceIndicator from './MessageSourceIndicator.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useMessageContext } from './provider.js';
@@ -36,7 +36,6 @@ const readableTime = computed(() => messageBubbleStamp(createdAt.value));
 const fullReadableTime = computed(() =>
   messageStamp(createdAt.value, 'd MMM yyyy, HH:mm')
 );
-
 const showStatusIndicator = computed(() => {
   if (isPrivate.value) return false;
   // Don't show status for failed messages, we already show error message
@@ -130,6 +129,13 @@ const statusToShow = computed(() => {
 
   return MESSAGE_STATUS.PROGRESS;
 });
+
+const showSourceIndicator = computed(
+  () =>
+    !isPrivate.value &&
+    !contentAttributes.value?.systemAudit &&
+    !contentAttributes.value?.system_audit
+);
 </script>
 
 <template>
@@ -139,8 +145,11 @@ const statusToShow = computed(() => {
         readableTime
       }}</time>
     </div>
+    <MessageSourceIndicator
+      v-if="showSourceIndicator"
+      :content-attributes="contentAttributes"
+    />
     <Icon v-if="isPrivate" icon="i-lucide-lock-keyhole" class="size-3" />
     <MessageStatus v-if="showStatusIndicator" :status="statusToShow" />
   </div>
 </template>
-`

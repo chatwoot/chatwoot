@@ -11,6 +11,8 @@
     "LOADING": "Fetching automation rules",
     "SEARCH_PLACEHOLDER": "Search automation rules...",
     "NO_RESULTS": "No automation rules found matching your search",
+    "MESSAGE_FROM_RULE": "Sent by automation \"{name}\"",
+    "MESSAGE_FROM_RULE_FALLBACK": "Sent by automation (rule #{id})",
     "ADD": {
       "TITLE": "Add Automation Rule",
       "SUBMIT": "Create",

@@ -620,6 +620,7 @@ en:
     policy_actor: 'Automation System via %{policy_name}'
   automation:
     system_name: 'Automation System'
+    activity_actor: 'automation «%{name}»'
     audit_note: 'Automation "%{name}" ran.'
     message_skipped_messaging_window: 'Automation "%{name}" did not send an outbound message (messaging window closed).'
   crm:

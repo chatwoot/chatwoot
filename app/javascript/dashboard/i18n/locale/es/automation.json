@@ -11,6 +11,8 @@
     "LOADING": "Obteniendo reglas de automatización",
     "SEARCH_PLACEHOLDER": "Buscar reglas de automatización...",
     "NO_RESULTS": "No se encontraron reglas que coincidan con la búsqueda",
+    "MESSAGE_FROM_RULE": "Enviado por automatización «{name}»",
+    "MESSAGE_FROM_RULE_FALLBACK": "Enviado por automatización (regla #{id})",
     "ADD": {
       "TITLE": "Añadir regla de automatización",
       "SUBMIT": "Crear",
