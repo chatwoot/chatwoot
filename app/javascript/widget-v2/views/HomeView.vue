@@ -170,6 +170,36 @@ const openConversation = id =>
             class="i-ph-caret-right text-cw-text-faint transition-transform group-hover:translate-x-0.5"
           />
         </button>
+
+        <button
+          type="button"
+          class="group flex items-center w-full gap-3.5 px-4 py-4 text-left transition-colors hover:bg-cw-surface border-t border-cw-hairline outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
+          @click="router.push({ name: 'conversations' })"
+        >
+          <span
+            class="flex items-center justify-center w-9 h-9 rounded-full bg-cw-muted text-cw-text-muted"
+          >
+            <span class="i-ph-chat-circle-fill text-sm" />
+          </span>
+          <span class="flex-1 flex items-center gap-2">
+            <span class="text-sm font-520 text-cw-text">
+              {{ $t('TABS.MESSAGES') }}
+            </span>
+            <span
+              v-if="conversationsStore.totalUnread"
+              class="min-w-5 h-5 px-1.5 flex items-center justify-center rounded-full bg-cw-primary text-cw-primary-foreground text-xs font-semibold"
+            >
+              {{
+                conversationsStore.totalUnread > 9
+                  ? '9+'
+                  : conversationsStore.totalUnread
+              }}
+            </span>
+          </span>
+          <span
+            class="i-ph-caret-right text-cw-text-faint transition-transform group-hover:translate-x-0.5"
+          />
+        </button>
       </section>
 
       <section
@@ -200,24 +230,34 @@ const openConversation = id =>
         </button>
       </section>
 
-      <section
-        v-if="configStore.portal && articlesStore.popularArticles.length"
-        class="surface-card overflow-hidden"
-      >
-        <h2 class="px-4 pt-4 pb-1 type-overline text-cw-text-faint">
-          {{ $t('HOME.POPULAR_ARTICLES') }}
-        </h2>
-        <ArticleCard
-          v-for="article in articlesStore.popularArticles"
-          :key="article.id"
-          :article="article"
-          @click="
-            router.push({
-              name: 'help-article',
-              params: { slug: article.slug },
-            })
-          "
-        />
+      <section v-if="configStore.portal" class="surface-card overflow-hidden">
+        <button
+          type="button"
+          class="flex items-center gap-2 w-full h-11 px-4 text-left text-cw-text-faint transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
+          @click="router.push({ name: 'help' })"
+        >
+          <span class="i-ph-magnifying-glass" />
+          <span class="text-sm">{{ $t('HOME.SEARCH_ARTICLES') }}</span>
+        </button>
+
+        <template v-if="articlesStore.popularArticles.length">
+          <h2
+            class="px-4 pt-3 pb-1 type-overline text-cw-text-faint border-t border-cw-hairline"
+          >
+            {{ $t('HOME.POPULAR_ARTICLES') }}
+          </h2>
+          <ArticleCard
+            v-for="article in articlesStore.popularArticles"
+            :key="article.id"
+            :article="article"
+            @click="
+              router.push({
+                name: 'help-article',
+                params: { slug: article.slug },
+              })
+            "
+          />
+        </template>
       </section>
 
       <BlogPosts v-if="configStore.hostPosts" :posts="configStore.hostPosts" />

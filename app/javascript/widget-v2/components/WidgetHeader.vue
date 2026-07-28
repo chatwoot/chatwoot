@@ -10,6 +10,13 @@ defineProps({
 
 const router = useRouter();
 const uiStore = useUiStore();
+
+// A restored session (or a deep link) has nothing to pop, so fall back to the
+// hub rather than leaving the visitor stranded.
+const goBack = () => {
+  if (router.options.history.state?.back) router.back();
+  else router.push({ name: 'home' });
+};
 </script>
 
 <template>
@@ -21,7 +28,7 @@ const uiStore = useUiStore();
       type="button"
       class="flex items-center justify-center w-8 h-8 -ml-2 rounded-full text-cw-text-muted hover:bg-cw-muted outline-none transition-colors focus-visible:ring-[3px] focus-visible:ring-cw-ring"
       :aria-label="$t('COMMON.BACK')"
-      @click="router.back()"
+      @click="goBack"
     >
       <span class="i-ph-arrow-left text-lg" />
     </button>
