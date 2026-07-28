@@ -42,7 +42,7 @@ const coerceConditionValue = value => {
   return '';
 };
 
-const attributeMatches = (attrs, whenKey, whenValues) => {
+export const attributeMatches = (attrs, whenKey, whenValues) => {
   const value = attrs[whenKey];
   if (
     value == null ||

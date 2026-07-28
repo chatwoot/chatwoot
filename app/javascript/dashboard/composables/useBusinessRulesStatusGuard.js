@@ -3,6 +3,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import {
   attributeBlank,
+  attributeMatches,
   requiredKeysForStatusChange,
 } from 'dashboard/composables/useConversationRequiredAttributes';
 import { isHumanAssigneeMeta } from 'dashboard/helper/assigneeHelper';
@@ -217,7 +218,8 @@ export function useBusinessRulesStatusGuard() {
       typeof l === 'string' ? l : l.title || l
     );
 
-    const missingKeySet = new Set();
+    const requiredKeySet = new Set();
+    const requiredItems = [];
     const missingItems = [];
     let needsPrivateNote = false;
     let needsReasonKey = null;
@@ -225,22 +227,33 @@ export function useBusinessRulesStatusGuard() {
     let needsAssignee = false;
     let deferredToApi = false;
 
-    const addMissing = item => {
-      const id = `${item.attributeModel}:${item.key}`;
-      if (missingKeySet.has(id)) return;
-      missingKeySet.add(id);
+    const resolveDef = item => {
       const def = allAttributeOptions.value.find(
         attr =>
           attr.value === item.key && attr.attributeModel === item.attributeModel
       );
-      if (def) missingItems.push(def);
-      else {
-        missingItems.push({
+      return (
+        def || {
           value: item.key,
           label: item.key,
           type: 'text',
           attributeModel: item.attributeModel,
-        });
+        }
+      );
+    };
+
+    // Track every field the rules require for this draft (filled or blank).
+    // Modal chaining must keep filled triggers (e.g. tipo=Venta) visible.
+    const addRequired = item => {
+      const id = `${item.attributeModel}:${item.key}`;
+      if (requiredKeySet.has(id)) return;
+      requiredKeySet.add(id);
+      const def = resolveDef(item);
+      requiredItems.push(def);
+      const attrs =
+        item.attributeModel === 'contact' ? contactAttrs : convAttrs;
+      if (attributeBlank(attrs, item.key, def.type || 'text')) {
+        missingItems.push(def);
       }
     };
 
@@ -252,17 +265,7 @@ export function useBusinessRulesStatusGuard() {
       customAttributes: convAttrs,
       contactCustomAttributes: contactAttrs,
     });
-    baseRequired.forEach(item => {
-      const attrs =
-        item.attributeModel === 'contact' ? contactAttrs : convAttrs;
-      const def = allAttributeOptions.value.find(
-        attr =>
-          attr.value === item.key && attr.attributeModel === item.attributeModel
-      );
-      if (attributeBlank(attrs, item.key, def?.type || 'text')) {
-        addMissing(item);
-      }
-    });
+    baseRequired.forEach(item => addRequired(item));
 
     (businessRules.value || [])
       .filter(rule => rule?.enabled !== false)
@@ -274,55 +277,51 @@ export function useBusinessRulesStatusGuard() {
         );
         if (conditionsResult === null) {
           deferredToApi = true;
-          return;
         }
-        if (conditionsResult === false) return;
 
         if (
           rule.type === 'require_attributes_on_status' ||
           rule.type === 'if_attribute_then_require'
         ) {
-          // Category expansion beyond requiredKeysForStatusChange
+          const onStatus =
+            rule.type === 'if_attribute_then_require'
+              ? config.on_status || 'resolved'
+              : config.status;
+          if (String(onStatus) !== String(targetStatus)) return;
+
+          // if_attribute: apply when conditions match OR legacy when_* matches.
+          // (UI often stores both; FE label filters can fail while when_* is correct.)
+          if (rule.type === 'if_attribute_then_require') {
+            const whenKey = config.when_attribute;
+            const whenModel = config.when_attribute_model || 'conversation';
+            const whenAttrs =
+              whenModel === 'contact' ? contactAttrs : convAttrs;
+            const whenMatches =
+              Boolean(whenKey) &&
+              attributeMatches(whenAttrs, whenKey, config.when_values);
+            if (!(whenMatches || conditionsResult === true)) return;
+          } else if (conditionsResult === false || conditionsResult === null) {
+            return;
+          }
+
           expandRequiredItems(config, rule.type).forEach(item => {
-            const onStatus =
-              rule.type === 'if_attribute_then_require'
-                ? config.on_status || 'resolved'
-                : config.status;
-            if (String(onStatus) !== String(targetStatus)) return;
-            // Legacy when_* already handled inside requiredKeysForStatusChange when conditions empty
-            if (
-              rule.type === 'if_attribute_then_require' &&
-              !(rule.conditions || []).length &&
-              config.when_attribute
-            ) {
-              // already covered by requiredKeysForStatusChange
-            }
-            const attrs =
-              item.attributeModel === 'contact' ? contactAttrs : convAttrs;
-            const def = allAttributeOptions.value.find(
-              attr =>
-                attr.value === item.key &&
-                attr.attributeModel === item.attributeModel
-            );
-            if (attributeBlank(attrs, item.key, def?.type || 'text')) {
-              addMissing(item);
-            }
+            addRequired(item);
           });
+          return;
         }
+
+        // Unsupported operators already deferred above — skip hard FE checks.
+        if (conditionsResult === false || conditionsResult === null) return;
 
         if (rule.type === 'require_reason_on_status') {
           const statuses = asArray(config.statuses).map(String);
           if (!statuses.includes(String(targetStatus))) return;
           if (config.reason_attribute_key) {
-            if (
-              attributeBlank(convAttrs, config.reason_attribute_key, 'text')
-            ) {
-              needsReasonKey = config.reason_attribute_key;
-              addMissing({
-                key: config.reason_attribute_key,
-                attributeModel: 'conversation',
-              });
-            }
+            needsReasonKey = config.reason_attribute_key;
+            addRequired({
+              key: config.reason_attribute_key,
+              attributeModel: 'conversation',
+            });
           }
           // Private notes are only known server-side (15-min window). Never
           // hard-block in FE — defer to BusinessRulesGuard / API error.
@@ -367,6 +366,8 @@ export function useBusinessRulesStatusGuard() {
     return {
       blocked,
       deferredToApi,
+      // All fields required for this draft (includes already-filled triggers).
+      requiredAttributes: requiredItems,
       missingAttributes: missingItems,
       needsPrivateNote,
       needsReasonKey,

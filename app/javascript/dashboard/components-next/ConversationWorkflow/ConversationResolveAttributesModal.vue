@@ -160,25 +160,27 @@ const isNumericType = type =>
     ATTRIBUTE_TYPES.PERCENT,
   ].includes(type);
 
+const isBlankFormValue = (value, type) => {
+  if (type === ATTRIBUTE_TYPES.CHECKBOX) {
+    return value === null || value === undefined;
+  }
+  if (type === ATTRIBUTE_TYPES.MULTI_LIST) {
+    return !Array.isArray(value) || value.length === 0;
+  }
+  if (value === undefined || value === null || String(value).trim() === '') {
+    return true;
+  }
+  if (isNumericType(type)) {
+    const numeric = Number(value);
+    if (!Number.isNaN(numeric) && numeric === 0) return true;
+  }
+  return false;
+};
+
 const isFormComplete = computed(() =>
   visibleAttributes.value.every(attribute => {
     const key = fieldKey(attribute);
-    const value = formValues[key];
-
-    if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) {
-      return value !== null && value !== undefined;
-    }
-    if (attribute.type === ATTRIBUTE_TYPES.MULTI_LIST) {
-      return Array.isArray(value) && value.length > 0;
-    }
-    if (value === undefined || value === null || String(value).trim() === '') {
-      return false;
-    }
-    if (isNumericType(attribute.type)) {
-      const numeric = Number(value);
-      if (!Number.isNaN(numeric) && numeric === 0) return false;
-    }
-    return true;
+    return !isBlankFormValue(formValues[key], attribute.type);
   })
 );
 
@@ -260,8 +262,8 @@ const buildDraftConversation = () => {
   };
 };
 
-const syncVisibleAttributes = nextMissing => {
-  const next = Array.isArray(nextMissing) ? nextMissing : [];
+const syncVisibleAttributes = nextRequired => {
+  const next = Array.isArray(nextRequired) ? nextRequired : [];
   if (
     attributeSignature(next) === attributeSignature(visibleAttributes.value)
   ) {
@@ -270,6 +272,8 @@ const syncVisibleAttributes = nextMissing => {
 
   syncingFields.value = true;
   const keepKeys = new Set(next.map(fieldKey));
+  const previousValues = { ...formValues };
+
   Object.keys(formValues).forEach(key => {
     if (!keepKeys.has(key)) delete formValues[key];
   });
@@ -278,6 +282,7 @@ const syncVisibleAttributes = nextMissing => {
   const ordered = [];
   const seen = new Set();
 
+  // Keep prior order for fields that remain required (e.g. tipo stays first).
   previousOrder.forEach(key => {
     const attr = next.find(a => fieldKey(a) === key);
     if (attr) {
@@ -295,7 +300,12 @@ const syncVisibleAttributes = nextMissing => {
 
   ordered.forEach(attribute => {
     const key = fieldKey(attribute);
-    if (formValues[key] === undefined) {
+    if (
+      previousValues[key] !== undefined &&
+      !isBlankFormValue(previousValues[key], attribute.type)
+    ) {
+      formValues[key] = previousValues[key];
+    } else if (formValues[key] === undefined) {
       formValues[key] = defaultValueFor(attribute);
     }
   });
@@ -317,8 +327,12 @@ const reevaluateDependentRules = async () => {
     conversationContext.value.targetStatus ||
     'resolved';
   const guard = checkStatusChange(draft, targetStatus);
-  const changed = syncVisibleAttributes(guard.missingAttributes || []);
-  // New fields may arrive with smart defaults that unlock further rules.
+  // Use full required set (not only blanks) so filled triggers stay in the form.
+  const changed = syncVisibleAttributes(
+    guard.requiredAttributes?.length
+      ? guard.requiredAttributes
+      : guard.missingAttributes || []
+  );
   if (changed) {
     await nextTick();
     reevaluateDependentRules();

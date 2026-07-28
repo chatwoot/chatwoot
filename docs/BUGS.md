@@ -1034,11 +1034,13 @@ vacío → 2ª regla no aplica). Además `ConditionRow` guarda `values` como
 `{id,name}` y `String(objeto)` no matcheaba.
 
 **Fix:**
-1. Modal re-evalúa `checkStatusChange` al cambiar form values y agrega campos
-   faltantes de **cualquier** regla encadenada (no solo Venta).
+1. Modal re-evalúa con el **set completo** de campos requeridos del draft
+   (`requiredAttributes`), no solo los vacíos — así `tipo=Venta` no desaparece
+   del form y no oscila la cadena.
 2. FE/BE coercen `{id,name}` → string al comparar condiciones.
 3. UX modal: fecha→hoy, datetime→ahora, lista de 1 opción auto, checkbox
    false, secciones conversación/contacto, botón Hoy/Ahora, copy de cadena.
+4. `if_attribute_then_require` aplica si conditions **o** `when_*` coinciden.
 
 **Archivos:** `ConversationResolveAttributesModal.vue`,
 `ResolveAction.vue`, `ChatList.vue`, `useBusinessRulesStatusGuard.js`,
