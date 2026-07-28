@@ -33,7 +33,6 @@ class CreateCaptainConversationOutcomes < ActiveRecord::Migration[7.1]
   def add_handoff_fields(table)
     table.datetime :handoff_at
     table.string :handoff_reason_category
-    table.text :handoff_reason
   end
 
   def add_resolution_fields(table)

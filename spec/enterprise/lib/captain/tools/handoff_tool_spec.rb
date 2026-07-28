@@ -92,6 +92,29 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
           expect(tool_context.state[:cw_metadata][:handoff_note_id]).to eq(Message.last.id)
         end
+
+        it 'records the handoff on an existing V2 outcome' do
+          create(
+            :captain_conversation_outcome,
+            account: account,
+            assistant: assistant,
+            conversation: conversation,
+            inbox: inbox,
+            eligible_at: 1.minute.ago
+          )
+
+          tool.perform(
+            tool_context,
+            reason: 'Customer needs specialized support',
+            reason_category: 'unsupported_request'
+          )
+
+          expect(Captain::ConversationOutcome.last).to have_attributes(
+            handoff_reason_category: 'unsupported_request',
+            captain_involved_at: be_present,
+            handoff_at: be_present
+          )
+        end
       end
 
       context 'without reason provided' do

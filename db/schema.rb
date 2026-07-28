@@ -392,7 +392,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_28_080549) do
     t.datetime "first_human_reply_at"
     t.datetime "handoff_at"
     t.string "handoff_reason_category"
-    t.text "handoff_reason"
     t.integer "resolution_type"
     t.datetime "resolved_at"
     t.datetime "first_reopened_at"

@@ -6,6 +6,7 @@ module Enterprise::MessageTemplates::HookExecutionService
     return unless should_process_captain_response?
     return perform_handoff unless inbox.captain_active?
 
+    track_captain_eligibility
     schedule_captain_response
   end
 
@@ -28,6 +29,11 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   private
+
+  def track_captain_eligibility
+    Captain::ConversationOutcomeTracker.new(conversation: conversation, assistant: inbox.captain_assistant)
+                                       .record_eligibility(at: message.created_at)
+  end
 
   def schedule_captain_response
     job_args = [conversation, conversation.inbox.captain_assistant]

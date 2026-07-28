@@ -12,6 +12,36 @@ RSpec.describe MessageTemplates::HookExecutionService do
   end
 
   context 'when captain assistant is configured' do
+    context 'when Captain V2 is enabled' do
+      before do
+        account.enable_features!('captain_integration_v2')
+      end
+
+      it 'records the conversation as eligible before scheduling a response' do
+        expect do
+          create(:message, conversation: conversation, message_type: :incoming, account: account)
+        end.to change(Captain::ConversationOutcome, :count).by(1)
+
+        expect(Captain::ConversationOutcome.last).to have_attributes(
+          assistant: assistant,
+          conversation: conversation,
+          eligible_at: conversation.messages.incoming.last.created_at
+        )
+      end
+    end
+
+    context 'when Captain V2 is disabled' do
+      before do
+        account.disable_features!('captain_integration_v2')
+      end
+
+      it 'does not record a conversation outcome' do
+        expect do
+          create(:message, conversation: conversation, message_type: :incoming, account: account)
+        end.not_to change(Captain::ConversationOutcome, :count)
+      end
+    end
+
     context 'when within business hours' do
       before do
         inbox.update!(working_hours_enabled: true)

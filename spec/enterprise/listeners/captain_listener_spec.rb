@@ -50,4 +50,57 @@ describe CaptainListener do
       end
     end
   end
+
+  describe '#message_created' do
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :pending) }
+
+    before do
+      account.enable_features!('captain_integration_v2')
+      create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+      create(
+        :captain_conversation_outcome,
+        account: account,
+        assistant: assistant,
+        conversation: conversation,
+        inbox: inbox,
+        eligible_at: 1.minute.ago
+      )
+    end
+
+    it 'records public Captain replies' do
+      message = create(
+        :message,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        sender: assistant,
+        message_type: :outgoing
+      )
+      event = Events::Base.new(:message_created, message.created_at, message: message)
+
+      listener.message_created(event)
+
+      expect(Captain::ConversationOutcome.last).to have_attributes(
+        captain_involved_at: message.created_at,
+        first_captain_reply_at: message.created_at
+      )
+    end
+
+    it 'ignores Captain messages without an existing V2 outcome' do
+      Captain::ConversationOutcome.delete_all
+      message = create(
+        :message,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        sender: assistant,
+        message_type: :outgoing
+      )
+      event = Events::Base.new(:message_created, message.created_at, message: message)
+
+      expect do
+        listener.message_created(event)
+      end.not_to change(Captain::ConversationOutcome, :count)
+    end
+  end
 end

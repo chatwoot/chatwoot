@@ -14,7 +14,6 @@
 #  first_reopened_at       :datetime
 #  first_response_seconds  :integer
 #  handoff_at              :datetime
-#  handoff_reason          :text
 #  handoff_reason_category :string
 #  last_captain_reply_at   :datetime
 #  last_reopened_at        :datetime
