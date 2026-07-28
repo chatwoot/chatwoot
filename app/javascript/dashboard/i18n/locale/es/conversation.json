@@ -546,5 +546,11 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "No se pudo descargar el archivo adjunto. Por favor, inténtelo de nuevo"
+  },
+  "MESSAGE_SOURCE": {
+    "AUTOMATION": "Enviado por automatización «{name}»",
+    "MACRO": "Enviado por macro «{name}»",
+    "FLOW": "Enviado por flujo «{name}»",
+    "FALLBACK": "Enviado por {type} #{id}"
   }
 }

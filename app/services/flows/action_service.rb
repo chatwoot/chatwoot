@@ -50,7 +50,7 @@ class Flows::ActionService < ActionService
     params = {
       content: content,
       private: true,
-      content_attributes: { flow_run_id: @flow_run.id }
+      content_attributes: MessageSourceAttributes.for_flow(@flow_run)
     }
     Messages::MessageBuilder.new(nil, @conversation.reload, params).perform
   end

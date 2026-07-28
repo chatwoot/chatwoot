@@ -9,6 +9,10 @@ module Flowable
     flow_runs.where(state: %i[running waiting]).exists?
   end
 
+  def flow_already_entered?(flow_id)
+    flow_runs.where(flow_id: flow_id).exists?
+  end
+
   def active_flow_run
     flow_runs.where(state: %i[running waiting]).order(started_at: :desc).first
   end

@@ -157,8 +157,11 @@ class ActionService
     { delay_seconds: delay, mark_read_and_typing: mark }
   end
 
-  def schedule_or_send_outbound(delivery:, content: nil, blob_ids: nil, user: nil, automation_rule_id: nil)
+  def schedule_or_send_outbound(delivery:, content: nil, blob_ids: nil, user: nil, automation_rule_id: nil,
+                                automation_rule_name: nil, message_source_attrs: nil)
     opts = normalize_delivery(delivery)
+    source_attrs = message_source_attrs.presence ||
+                   legacy_automation_source(automation_rule_id, automation_rule_name)
     if opts[:delay_seconds].positive?
       if opts[:mark_read_and_typing]
         Whatsapp::MarkReadTypingService.new(conversation: @conversation, force: true).perform
@@ -169,7 +172,7 @@ class ActionService
         content: content,
         blob_ids: blob_ids,
         user_id: user&.id,
-        automation_rule_id: automation_rule_id
+        message_source_attrs: source_attrs
       )
     else
       yield
@@ -190,6 +193,15 @@ class ActionService
   end
 
   private
+
+  def legacy_automation_source(automation_rule_id, automation_rule_name)
+    return if automation_rule_id.blank?
+
+    MessageSourceAttributes.payload('automation', automation_rule_id, automation_rule_name).merge(
+      automation_rule_id: automation_rule_id,
+      automation_rule_name: automation_rule_name
+    )
+  end
 
   def extract_custom_attribute_params(params)
     data = params.is_a?(Array) ? params[0] : params

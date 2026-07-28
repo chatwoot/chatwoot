@@ -568,5 +568,11 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  },
+  "MESSAGE_SOURCE": {
+    "AUTOMATION": "Sent by automation «{name}»",
+    "MACRO": "Sent by macro «{name}»",
+    "FLOW": "Sent by flow «{name}»",
+    "FALLBACK": "Sent by {type} #{id}"
   }
 }

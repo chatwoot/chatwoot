@@ -4,10 +4,13 @@ class Macros::ExecutionService < ActionService
     @macro = macro
     @account = macro.account
     @user = user
-    Current.user = user
   end
 
   def perform
+    previous_executed_by = Current.executed_by
+    Current.executed_by = @macro
+    Current.user = @user
+
     @macro.actions.each do |action|
       action = action.with_indifferent_access
       begin
@@ -17,7 +20,8 @@ class Macros::ExecutionService < ActionService
       end
     end
   ensure
-    Current.reset
+    Current.executed_by = previous_executed_by
+    Current.user = nil
   end
 
   private
@@ -39,7 +43,11 @@ class Macros::ExecutionService < ActionService
   def add_private_note(message)
     return if conversation_a_tweet?
 
-    params = { content: message[0], private: true }
+    params = {
+      content: message[0],
+      private: true,
+      content_attributes: macro_message_attributes
+    }
 
     # Added reload here to ensure conversation us persistent with the latest updates
     mb = Messages::MessageBuilder.new(@user, @conversation.reload, params)
@@ -53,9 +61,14 @@ class Macros::ExecutionService < ActionService
     schedule_or_send_outbound(
       delivery: delivery,
       content: content,
-      user: @user
+      user: @user,
+      message_source_attrs: macro_message_attributes
     ) do
-      params = { content: content, private: false }
+      params = {
+        content: content,
+        private: false,
+        content_attributes: macro_message_attributes
+      }
       Messages::MessageBuilder.new(@user, @conversation.reload, params).perform
     end
   end
@@ -71,11 +84,18 @@ class Macros::ExecutionService < ActionService
     schedule_or_send_outbound(
       delivery: delivery,
       blob_ids: blobs.map(&:id),
-      user: @user
+      user: @user,
+      message_source_attrs: macro_message_attributes
     ) do
-      params = attachment_message_params(blobs)
+      params = attachment_message_params(blobs).merge(
+        content_attributes: macro_message_attributes
+      )
       Messages::MessageBuilder.new(@user, @conversation.reload, params).perform
     end
+  end
+
+  def macro_message_attributes
+    MessageSourceAttributes.for_macro(@macro)
   end
 
   def send_webhook_event(webhook_url)
