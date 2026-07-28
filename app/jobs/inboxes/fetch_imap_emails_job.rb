@@ -33,14 +33,19 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
 
   def fetch_mails_with_lock(channel, interval)
     key = format(::Redis::Alfred::EMAIL_MESSAGE_MUTEX, inbox_id: channel.inbox.id)
+    success = false
 
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Attempting lock for inbox #{channel.inbox.id}"
     with_lock(key, 5.minutes) do
       Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Lock acquired for inbox #{channel.inbox.id}"
-      process_email_for_channel(channel, interval)
+      success = process_email_for_channel(channel, interval)
     end
 
-    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Job completed for inbox #{channel.inbox.id}"
+    if success
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Job completed for inbox #{channel.inbox.id}"
+    else
+      Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Job completed with authorization error for inbox #{channel.inbox.id}"
+    end
   end
 
   def log_skipped_fetch(channel)
@@ -64,9 +69,11 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     end
 
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Finished processing fetched emails for inbox #{channel.inbox.id}"
+    true
   rescue OAuth2::Error => e
-    Rails.logger.error "Error for email channel - #{channel.inbox.id} : #{e.message}"
+    Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] OAuth error for inbox #{channel.inbox.id} : #{e.message}"
     channel.authorization_error!
+    false
   end
 
   def should_skip_email?(message_id)
