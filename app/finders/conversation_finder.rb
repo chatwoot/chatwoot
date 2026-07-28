@@ -142,8 +142,7 @@ class ConversationFinder
       conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
       @conversations = @conversations.where(id: conversation_ids)
     when 'participating'
-      participating_ids = current_user.participating_conversations.where(account_id: current_account.id).select(:id)
-      @conversations = @conversations.where(id: participating_ids)
+      @conversations = current_user.participating_conversations.where(account_id: current_account.id)
     when 'unattended'
       @conversations = @conversations.unattended
     end
