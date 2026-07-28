@@ -737,6 +737,7 @@
         "DESCRIPTION": "Fill the fields below to continue. More fields may appear as you answer — that means another rule applies.",
         "SECTION_CONVERSATION": "Conversation",
         "SECTION_CONTACT": "Contact",
+        "REQUIRED_MARK": "*",
         "USE_TODAY": "Today",
         "USE_NOW": "Now",
         "PROGRESS": "{filled} of {total} completed",

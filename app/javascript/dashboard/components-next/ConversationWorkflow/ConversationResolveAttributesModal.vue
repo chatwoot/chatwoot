@@ -24,6 +24,8 @@ const visibleAttributes = ref([]);
 const formValues = reactive({});
 const conversationContext = ref(null);
 const baseConversation = ref(null);
+const seedConversationValues = ref({});
+const seedContactValues = ref({});
 const syncingFields = ref(false);
 const previousFieldCount = ref(0);
 
@@ -210,20 +212,26 @@ const scrollNewFieldsIntoView = async () => {
   last?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 };
 
-const comboBoxOptions = computed(() => {
-  const options = {};
-  visibleAttributes.value.forEach(attribute => {
-    if (attribute.type === ATTRIBUTE_TYPES.LIST) {
-      options[fieldKey(attribute)] = (attribute.attributeValues || []).map(
-        option => ({
-          value: option,
-          label: option,
-        })
-      );
-    }
-  });
-  return options;
-});
+const scrollFirstBlankIntoView = async () => {
+  await nextTick();
+  const root = fieldsRootRef.value;
+  if (!root) return;
+  const blank = visibleAttributes.value.find(attribute =>
+    isBlankFormValue(formValues[fieldKey(attribute)], attribute.type)
+  );
+  if (!blank) return;
+  const el = root.querySelector(
+    `[data-resolve-field-key="${fieldKey(blank)}"]`
+  );
+  el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
+/** Empty shell for missing fields (so validation can mark them red). */
+const emptyValueFor = attribute => {
+  if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) return null;
+  if (attribute.type === ATTRIBUTE_TYPES.MULTI_LIST) return [];
+  return '';
+};
 
 /** Sensible empty-state defaults so agents spend less time clicking. */
 const defaultValueFor = attribute => {
@@ -240,6 +248,57 @@ const defaultValueFor = attribute => {
   if (attribute.type === ATTRIBUTE_TYPES.DATETIME) return nowDateTimeValue();
   return '';
 };
+
+const valueFromSeed = attribute => {
+  const source =
+    attribute.attributeModel === 'contact'
+      ? seedContactValues.value
+      : seedConversationValues.value;
+  const presetValue = source?.[attribute.value];
+  if (
+    presetValue === undefined ||
+    presetValue === null ||
+    (typeof presetValue === 'string' && presetValue.trim() === '') ||
+    isBlankFormValue(presetValue, attribute.type)
+  ) {
+    return undefined;
+  }
+  return presetValue;
+};
+
+/** Prefer conversation value; otherwise empty (open) or smart default (chain). */
+const resolveInitialValue = (attribute, { useSmartDefault = false } = {}) => {
+  const seeded = valueFromSeed(attribute);
+  if (seeded !== undefined) return seeded;
+  if (useSmartDefault) return defaultValueFor(attribute);
+  return emptyValueFor(attribute);
+};
+
+const touchBlankFields = async () => {
+  await nextTick();
+  visibleAttributes.value.forEach(attribute => {
+    const key = fieldKey(attribute);
+    if (isBlankFormValue(formValues[key], attribute.type)) {
+      v$.value[key]?.$touch?.();
+    }
+  });
+  await scrollFirstBlankIntoView();
+};
+
+const comboBoxOptions = computed(() => {
+  const options = {};
+  visibleAttributes.value.forEach(attribute => {
+    if (attribute.type === ATTRIBUTE_TYPES.LIST) {
+      options[fieldKey(attribute)] = (attribute.attributeValues || []).map(
+        option => ({
+          value: option,
+          label: option,
+        })
+      );
+    }
+  });
+  return options;
+});
 
 const setToday = attribute => {
   formValues[fieldKey(attribute)] = todayDateValue();
@@ -332,7 +391,10 @@ const syncVisibleAttributes = nextRequired => {
     ) {
       formValues[key] = previousValues[key];
     } else if (formValues[key] === undefined) {
-      formValues[key] = defaultValueFor(attribute);
+      // New field from chain: seed from conversation, else smart default.
+      formValues[key] = resolveInitialValue(attribute, {
+        useSmartDefault: true,
+      });
     }
   });
 
@@ -346,7 +408,7 @@ const syncVisibleAttributes = nextRequired => {
   return true;
 };
 
-const reevaluateDependentRules = async () => {
+const reevaluateDependentRules = async ({ touchBlanks = false } = {}) => {
   if (syncingFields.value) return;
   if (!baseConversation.value || !conversationContext.value) return;
 
@@ -366,8 +428,10 @@ const reevaluateDependentRules = async () => {
   );
   if (changed) {
     await nextTick();
-    reevaluateDependentRules();
+    await reevaluateDependentRules({ touchBlanks });
+    return;
   }
+  if (touchBlanks) await touchBlankFields();
 };
 
 watch(
@@ -382,6 +446,8 @@ const close = () => {
   dialogRef.value?.close();
   conversationContext.value = null;
   baseConversation.value = null;
+  seedConversationValues.value = {};
+  seedContactValues.value = {};
   v$.value.$reset();
 };
 
@@ -393,6 +459,14 @@ const open = (
 ) => {
   conversationContext.value = context;
   baseConversation.value = context?.conversation || null;
+  seedConversationValues.value = {
+    ...(baseConversation.value?.custom_attributes || {}),
+    ...initialConversationValues,
+  };
+  seedContactValues.value = {
+    ...(baseConversation.value?.meta?.sender?.custom_attributes || {}),
+    ...initialContactValues,
+  };
   syncingFields.value = true;
 
   Object.keys(formValues).forEach(key => {
@@ -404,26 +478,18 @@ const open = (
 
   attributes.forEach(attribute => {
     const key = fieldKey(attribute);
-    const source =
-      attribute.attributeModel === 'contact'
-        ? initialContactValues
-        : initialConversationValues;
-    const presetValue = source[attribute.value];
-    if (
-      presetValue !== undefined &&
-      presetValue !== null &&
-      !(typeof presetValue === 'string' && presetValue.trim() === '')
-    ) {
-      formValues[key] = presetValue;
-    } else {
-      formValues[key] = defaultValueFor(attribute);
-    }
+    // Keep blanks empty so missing fields show validation error on open.
+    formValues[key] = resolveInitialValue(attribute, {
+      useSmartDefault: false,
+    });
   });
 
   syncingFields.value = false;
   v$.value.$reset();
   dialogRef.value?.open();
-  nextTick(() => reevaluateDependentRules());
+  nextTick(async () => {
+    await reevaluateDependentRules({ touchBlanks: true });
+  });
 };
 
 const handleConfirm = async () => {
@@ -454,7 +520,7 @@ defineExpose({ open, close, fieldKey });
 <template>
   <Dialog
     ref="dialogRef"
-    width="xl"
+    width="lg"
     position="top"
     body-scroll
     :title="t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.TITLE')"
@@ -468,7 +534,7 @@ defineExpose({ open, close, fieldKey });
     :disable-confirm-button="!isFormComplete"
     @confirm="handleConfirm"
   >
-    <div ref="fieldsRootRef" class="flex flex-col gap-4">
+    <div ref="fieldsRootRef" class="flex flex-col gap-4 pb-2">
       <p
         v-if="visibleAttributes.length > 1"
         class="mb-0 text-xs text-n-slate-11"
@@ -492,11 +558,17 @@ defineExpose({ open, close, fieldKey });
           v-for="attribute in section.attributes"
           :key="fieldKey(attribute)"
           data-resolve-field
+          :data-resolve-field-key="fieldKey(attribute)"
           class="flex flex-col gap-1.5"
         >
           <div class="flex items-center justify-between gap-2">
             <label class="mb-0 text-sm font-medium text-n-slate-12">
               {{ attribute.label }}
+              <span class="text-n-ruby-9" aria-hidden="true">{{
+                t(
+                  'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.REQUIRED_MARK'
+                )
+              }}</span>
             </label>
             <Button
               v-if="attribute.type === ATTRIBUTE_TYPES.DATE"
@@ -593,8 +665,8 @@ defineExpose({ open, close, fieldKey });
               :options="comboBoxOptions[fieldKey(attribute)]"
               :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LIST)"
               :message="getErrorMessage(attribute)"
-              :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
               :has-error="v$[fieldKey(attribute)].$error"
+              teleport
               class="w-full"
             />
           </template>

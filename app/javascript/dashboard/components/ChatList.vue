@@ -829,7 +829,9 @@ function handleResolveConversation(conversationId, status, snoozedUntil) {
 
   if (guard.missingAttributes?.length) {
     resolveAttributesModalRef.value?.open(
-      guard.missingAttributes,
+      guard.requiredAttributes?.length
+        ? guard.requiredAttributes
+        : guard.missingAttributes,
       conversation?.custom_attributes || {},
       { id: conversationId, snoozedUntil, status, conversation },
       conversation?.meta?.sender?.custom_attributes || {}

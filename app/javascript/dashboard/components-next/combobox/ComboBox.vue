@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch, nextTick } from 'vue';
-import { OnClickOutside } from '@vueuse/components';
+import { ref, computed, watch, nextTick, onBeforeUnmount, inject } from 'vue';
+import { onClickOutside } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -23,26 +23,47 @@ const props = defineProps({
   emptyState: { type: String, default: '' },
   message: { type: String, default: '' },
   hasError: { type: Boolean, default: false },
-  useApiResults: { type: Boolean, default: false }, // useApiResults prop to determine if search is handled by API
+  useApiResults: { type: Boolean, default: false },
+  // Render menu outside overflow parents (modals). Prefers dialog portal target.
+  teleport: { type: Boolean, default: false },
+  // undefined = auto (hide search when few options)
+  showSearch: { type: Boolean, default: undefined },
 });
-
 const emit = defineEmits(['update:modelValue', 'search', 'open']);
+const SEARCH_ROW_PX = 41;
+const OPTION_ROW_PX = 36;
+const LIST_PAD_PX = 8;
+const MENU_GAP_PX = 4;
+const VIEWPORT_PAD_PX = 12;
+const SEARCH_OPTION_THRESHOLD = 6;
 
 const { t } = useI18n();
+
+const dialogPortalTarget = inject('dialogPortalTarget', null);
 
 const selectedValue = ref(props.modelValue);
 const open = ref(false);
 const search = ref('');
 const dropdownRef = ref(null);
 const comboboxRef = ref(null);
+const triggerRef = ref(null);
+const dropdownStyle = ref({});
+
+const teleportTarget = computed(() => {
+  if (!props.teleport) return 'body';
+  return dialogPortalTarget?.value || 'body';
+});
+
+const showSearchField = computed(() => {
+  if (typeof props.showSearch === 'boolean') return props.showSearch;
+  return props.options.length > SEARCH_OPTION_THRESHOLD;
+});
 
 const filteredOptions = computed(() => {
-  // For API search, don't filter options locally
   if (props.useApiResults && search.value) {
     return props.options;
   }
 
-  // For local search, filter options based on search term
   const searchTerm = search.value.toLowerCase();
   return props.options.filter(option =>
     option.label.toLowerCase().includes(searchTerm)
@@ -58,6 +79,12 @@ const selectedLabel = computed(() => {
   return selected?.label ?? (props.displayLabel || selectPlaceholder.value);
 });
 
+const estimateMenuHeight = () => {
+  const count = Math.max(filteredOptions.value.length, 1);
+  const listH = Math.min(count, 8) * OPTION_ROW_PX + LIST_PAD_PX;
+  return (showSearchField.value ? SEARCH_ROW_PX : 0) + listH;
+};
+
 const selectOption = option => {
   if (selectedValue.value === option.value) {
     selectedValue.value = '';
@@ -70,13 +97,92 @@ const selectOption = option => {
   search.value = '';
 };
 
-const toggleDropdown = () => {
+const getScrollParent = el => {
+  let node = el?.parentElement;
+  while (node && node !== document.body) {
+    const { overflowY } = window.getComputedStyle(node);
+    if (
+      /(auto|scroll|overlay)/.test(overflowY) &&
+      node.scrollHeight > node.clientHeight
+    ) {
+      return node;
+    }
+    node = node.parentElement;
+  }
+  return null;
+};
+
+/** Prefer opening downward: scroll the field up if the menu wouldn't fit. */
+const ensureRoomBelow = neededPx => {
+  const el = triggerRef.value;
+  if (!el) return;
+  const rect = el.getBoundingClientRect();
+  const spaceBelow = window.innerHeight - rect.bottom - VIEWPORT_PAD_PX;
+  if (spaceBelow >= neededPx) return;
+
+  const deficit = neededPx - spaceBelow;
+  const scroller = getScrollParent(el);
+  if (scroller) {
+    scroller.scrollTop += deficit;
+  } else {
+    el.scrollIntoView({ block: 'center', inline: 'nearest' });
+  }
+};
+
+const updateDropdownPosition = () => {
+  if (!props.teleport || !open.value) return;
+  const el = triggerRef.value;
+  if (!el?.getBoundingClientRect) return;
+  const rect = el.getBoundingClientRect();
+  const spaceBelow = Math.max(
+    96,
+    window.innerHeight - rect.bottom - MENU_GAP_PX - VIEWPORT_PAD_PX
+  );
+  const ideal = estimateMenuHeight();
+  const maxHeight = Math.min(ideal, spaceBelow);
+
+  // Always open downward — never flip up (avoids the clipped "corte" look).
+  dropdownStyle.value = {
+    position: 'fixed',
+    top: `${rect.bottom + MENU_GAP_PX}px`,
+    left: `${rect.left}px`,
+    width: `${rect.width}px`,
+    maxHeight: `${maxHeight}px`,
+    zIndex: 10050,
+  };
+};
+
+const stopPositionListeners = () => {
+  window.removeEventListener('scroll', updateDropdownPosition, true);
+  window.removeEventListener('resize', updateDropdownPosition);
+};
+
+const startPositionListeners = () => {
+  stopPositionListeners();
+  window.addEventListener('scroll', updateDropdownPosition, true);
+  window.addEventListener('resize', updateDropdownPosition);
+};
+
+const toggleDropdown = async () => {
   if (props.disabled) return;
   open.value = !open.value;
   if (open.value) {
     search.value = '';
     emit('open');
-    nextTick(() => dropdownRef.value?.focus());
+    if (props.teleport) {
+      ensureRoomBelow(estimateMenuHeight());
+      await nextTick();
+      await new Promise(resolve => {
+        requestAnimationFrame(() => resolve());
+      });
+      updateDropdownPosition();
+      startPositionListeners();
+    } else {
+      await nextTick();
+    }
+    dropdownRef.value?.focus();
+  } else {
+    stopPositionListeners();
   }
 };
 
@@ -86,6 +192,25 @@ watch(
     selectedValue.value = newValue;
   }
 );
+
+watch(open, isOpen => {
+  if (!isOpen) stopPositionListeners();
+});
+
+onClickOutside(
+  comboboxRef,
+  () => {
+    open.value = false;
+    stopPositionListeners();
+  },
+  {
+    ignore: [dropdownRef],
+  }
+);
+
+onBeforeUnmount(() => {
+  stopPositionListeners();
+});
 </script>
 
 <template>
@@ -98,7 +223,7 @@ watch(
     }"
     @click.prevent
   >
-    <OnClickOutside @trigger="open = false">
+    <div ref="triggerRef" class="w-full">
       <Button
         variant="outline"
         :color="hasError && !open ? 'ruby' : open ? 'blue' : 'slate'"
@@ -115,7 +240,9 @@ watch(
         :icon="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
         @click="toggleDropdown"
       />
+    </div>
 
+    <Teleport :to="teleportTarget" :disabled="!teleport">
       <ComboBoxDropdown
         ref="dropdownRef"
         v-model:search-value="search"
@@ -124,20 +251,23 @@ watch(
         :search-placeholder="searchPlaceholder"
         :empty-state="emptyState"
         :selected-values="selectedValue"
+        :portal="teleport"
+        :show-search="showSearchField"
+        :style="teleport ? dropdownStyle : undefined"
         @search="emit('search', $event)"
         @select="selectOption"
       />
+    </Teleport>
 
-      <p
-        v-if="message"
-        class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
-        :class="{
-          'text-n-ruby-9': hasError,
-          'text-n-slate-11': !hasError,
-        }"
-      >
-        {{ message }}
-      </p>
-    </OnClickOutside>
+    <p
+      v-if="message"
+      class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
+      :class="{
+        'text-n-ruby-9': hasError,
+        'text-n-slate-11': !hasError,
+      }"
+    >
+      {{ message }}
+    </p>
   </div>
 </template>
