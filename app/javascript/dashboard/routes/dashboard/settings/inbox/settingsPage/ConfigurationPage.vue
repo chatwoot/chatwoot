@@ -45,6 +45,7 @@ export default {
       whatsAppInboxAPIKey: '',
       whatsAppBusinessManagementToken: '',
       isUpdatingWhatsAppBusinessManagementToken: false,
+      isRemovingWhatsAppBusinessManagementToken: false,
       isSyncingTemplates: false,
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
@@ -208,6 +209,26 @@ export default {
         );
       } finally {
         this.isUpdatingWhatsAppBusinessManagementToken = false;
+      }
+    },
+    async removeWhatsAppBusinessManagementToken() {
+      this.isRemovingWhatsAppBusinessManagementToken = true;
+      try {
+        await InboxesAPI.removeWhatsappBusinessManagementToken(this.inbox.id);
+        useAlert(
+          this.$t(
+            'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REMOVE_SUCCESS'
+          )
+        );
+      } catch (error) {
+        useAlert(
+          error.response?.data?.message ||
+            this.$t(
+              'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REMOVE_ERROR'
+            )
+        );
+      } finally {
+        this.isRemovingWhatsAppBusinessManagementToken = false;
       }
     },
     async reconfigureWhatsApp() {
@@ -498,7 +519,7 @@ export default {
         </SettingsFieldSection>
       </template>
       <SettingsFieldSection
-        v-if="isOnChatwootCloud"
+        v-if="isOnChatwootCloud && inbox.provider === 'whatsapp_cloud'"
         :label="
           $t(
             'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_TITLE'
@@ -532,6 +553,20 @@ export default {
             @click="updateWhatsAppBusinessManagementToken"
           >
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
+          </NextButton>
+          <NextButton
+            color-scheme="alert"
+            variant="outline"
+            class="ml-2"
+            :is-loading="isRemovingWhatsAppBusinessManagementToken"
+            :disabled="isUpdatingWhatsAppBusinessManagementToken"
+            @click="removeWhatsAppBusinessManagementToken"
+          >
+            {{
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REMOVE_BUTTON'
+              )
+            }}
           </NextButton>
         </div>
       </SettingsFieldSection>

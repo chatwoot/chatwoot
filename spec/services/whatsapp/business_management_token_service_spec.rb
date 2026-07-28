@@ -21,15 +21,31 @@ RSpec.describe Whatsapp::BusinessManagementTokenService do
   before do
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     allow(Whatsapp::BusinessManagementTokenValidationService).to receive(:new).with('business-token').and_return(validation_service)
-    allow(channel).to receive(:provider_service)
-      .and_return(instance_double(Whatsapp::Providers::WhatsappCloudService, validate_provider_config?: true))
   end
 
   it 'stores the business management token without replacing the API key' do
+    original_api_key = channel.provider_config['api_key']
+
     service.update!('business-token')
 
     expect(channel.reload.business_management_token).to eq('business-token')
-    expect(channel.provider_config['api_key']).to eq('test_key')
+    expect(channel.provider_config['api_key']).to eq(original_api_key)
+  end
+
+  it 'stores the token without revalidating the existing provider API key' do
+    expect(channel).not_to receive(:validate_provider_config)
+
+    service.update!('business-token')
+  end
+
+  it 'removes the token so template synchronization falls back to the API key' do
+    channel.business_management_token = 'business-token'
+    channel.save!(validate: false)
+
+    service.remove!
+
+    expect(channel.reload.business_management_token).to be_nil
+    expect(channel.template_access_token).to eq(channel.provider_config['api_key'])
   end
 
   it 'rejects updates outside Chatwoot Cloud' do

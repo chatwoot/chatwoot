@@ -3,6 +3,16 @@ require 'rails_helper'
 RSpec.describe Whatsapp::BusinessManagementTokenValidationService do
   let(:permissions_url) { 'https://graph.facebook.com/v22.0/me/permissions' }
 
+  around do |example|
+    with_modified_env WHATSAPP_CLOUD_BASE_URL: 'https://graph.facebook.com' do
+      example.run
+    end
+  end
+
+  before do
+    allow(GlobalConfigService).to receive(:load).with('WHATSAPP_API_VERSION', 'v22.0').and_return('v22.0')
+  end
+
   it 'accepts a token with the WhatsApp business management permission' do
     stub_request(:get, permissions_url)
       .with(headers: { 'Authorization' => 'Bearer business-token' })
@@ -49,5 +59,12 @@ RSpec.describe Whatsapp::BusinessManagementTokenValidationService do
 
     expect { described_class.new('business-token').perform }
       .to raise_error(ArgumentError, 'Permission denied')
+  end
+
+  it 'returns a safe error when the permission request times out' do
+    stub_request(:get, permissions_url).to_timeout
+
+    expect { described_class.new('business-token').perform }
+      .to raise_error(ArgumentError, 'Could not validate business management token permissions. Please try again.')
   end
 end

@@ -57,5 +57,12 @@ describe('#InboxesAPI', () => {
         { business_management_token: 'business-token' }
       );
     });
+
+    it('#removeWhatsappBusinessManagementToken', () => {
+      inboxesAPI.removeWhatsappBusinessManagementToken(2);
+      expect(axiosMock.delete).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/whatsapp_business_management_token'
+      );
+    });
   });
 });

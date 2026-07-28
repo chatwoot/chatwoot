@@ -82,6 +82,10 @@ class Channel::Whatsapp < ApplicationRecord
     business_management_token.presence || provider_config['api_key']
   end
 
+  def serializable_hash(options = nil)
+    super.except('business_management_token')
+  end
+
   # Enables voice: turns calling on at Meta (idempotent), then re-registers webhooks
   # with the in-memory calling_enabled flag so the `calls` field is subscribed. The
   # flag is persisted only after registration succeeds, so a webhook failure can't

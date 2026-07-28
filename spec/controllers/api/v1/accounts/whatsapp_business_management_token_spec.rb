@@ -8,7 +8,7 @@ RSpec.describe 'WhatsApp business management token API', type: :request do
     create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
   end
   let(:inbox) { channel.inbox }
-  let(:service) { instance_double(Whatsapp::BusinessManagementTokenService, update!: true) }
+  let(:service) { instance_double(Whatsapp::BusinessManagementTokenService, update!: true, remove!: true) }
 
   before do
     allow(Whatsapp::BusinessManagementTokenService).to receive(:new).with(channel).and_return(service)
@@ -32,5 +32,26 @@ RSpec.describe 'WhatsApp business management token API', type: :request do
 
     expect(service).not_to have_received(:update!)
     expect(response).to have_http_status(:unauthorized)
+  end
+
+  it 'allows an administrator to remove the token' do
+    delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/whatsapp_business_management_token",
+           headers: admin.create_new_auth_token,
+           as: :json
+
+    expect(service).to have_received(:remove!)
+    expect(response).to have_http_status(:no_content)
+  end
+
+  it 'returns a consistent validation error response' do
+    allow(service).to receive(:update!).and_raise(ArgumentError, 'Invalid token')
+
+    put "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/whatsapp_business_management_token",
+        headers: admin.create_new_auth_token,
+        params: { business_management_token: 'business-token' },
+        as: :json
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response.parsed_body).to eq('error' => 'Invalid token', 'message' => 'Invalid token')
   end
 end

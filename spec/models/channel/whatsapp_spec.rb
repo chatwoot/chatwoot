@@ -4,6 +4,14 @@ require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 
 RSpec.describe Channel::Whatsapp do
+  describe '#serializable_hash' do
+    it 'does not expose the business management token' do
+      channel = build(:channel_whatsapp, business_management_token: 'business-token')
+
+      expect(channel.serializable_hash).not_to have_key('business_management_token')
+    end
+  end
+
   describe '#template_access_token' do
     let(:channel) do
       build(

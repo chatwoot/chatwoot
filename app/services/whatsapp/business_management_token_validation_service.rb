@@ -12,6 +12,8 @@ class Whatsapp::BusinessManagementTokenValidationService
     return true if required_permission_granted?(response)
 
     raise ArgumentError, "Business management token must grant the #{REQUIRED_PERMISSION} permission"
+  rescue Net::OpenTimeout, Net::ReadTimeout, SocketError
+    raise ArgumentError, 'Could not validate business management token permissions. Please try again.'
   end
 
   private
