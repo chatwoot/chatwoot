@@ -470,7 +470,7 @@ export default {
       <Banner
         v-if="isInstagramRestrictionBannerVisible"
         color-scheme="warning"
-        class="mx-2 mt-2 overflow-hidden rounded-lg"
+        class="mx-2 mt-2 min-h-12 !h-auto rounded-lg"
         :banner-message="$t('CONVERSATION.INSTAGRAM_RESTRICTION_BANNER')"
         :href-link="instagramRestrictionStatusUrl"
         :href-link-text="$t('CONVERSATION.INSTAGRAM_RESTRICTION_STATUS_LINK')"
