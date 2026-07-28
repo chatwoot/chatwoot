@@ -227,6 +227,59 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
   end
 
+  describe 'when the recipient is a Business-Scoped User ID (BSUID)' do
+    # Meta requires a BSUID to be sent in the `recipient` field (with recipient_type: individual), not `to`.
+    let(:bsuid) { 'BR.13491208655302741918' }
+
+    it 'sends a text message via the recipient field instead of to' do
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .with(
+          body: {
+            messaging_product: 'whatsapp',
+            context: nil,
+            recipient_type: 'individual',
+            recipient: bsuid,
+            text: { body: message.content },
+            type: 'text'
+          }.to_json
+        )
+        .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message(bsuid, message)).to eq 'message_id'
+    end
+
+    it 'sends a template via the recipient field instead of to' do
+      template_info = { name: 'test_template', namespace: 'test_namespace', lang_code: 'en_US', parameters: [] }
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .with(body: hash_including({ messaging_product: 'whatsapp', recipient_type: 'individual', recipient: bsuid, type: 'template' }))
+        .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_template(bsuid, template_info, message)).to eq 'message_id'
+    end
+
+    it 'sends an interactive message via the recipient field instead of to' do
+      interactive_message = create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
+                                             content_type: 'input_select',
+                                             content_attributes: { items: [{ title: 'Burito', value: 'Burito' }] })
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .with(body: hash_including({ messaging_product: 'whatsapp', recipient_type: 'individual', recipient: bsuid, type: 'interactive' }))
+        .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message(bsuid, interactive_message)).to eq 'message_id'
+    end
+
+    it 'sends an attachment via the recipient field instead of to' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+      stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
+        .with(body: hash_including({ messaging_product: 'whatsapp', recipient_type: 'individual', recipient: bsuid, type: 'image' }))
+        .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message(bsuid, message)).to eq 'message_id'
+    end
+  end
+
   describe '#sync_templates' do
     context 'when called' do
       it 'updated the message templates' do
