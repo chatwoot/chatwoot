@@ -1,5 +1,12 @@
 <script setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  watch,
+} from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useConfigStore } from 'widget-v2/stores/config';
@@ -68,9 +75,25 @@ const composerDisabled = computed(
 );
 
 const scrollRef = ref(null);
+const contentRef = ref(null);
+
+// Attachments have no dimensions in the payload, so a thread's height grows
+// once images decode. Staying pinned to the bottom while the visitor is
+// already there keeps the newest message visible instead of pushing it away.
+const PIN_THRESHOLD = 80;
+const isPinned = ref(true);
+let resizeObserver = null;
+
 const scrollToBottom = async () => {
   await nextTick();
   if (scrollRef.value) scrollRef.value.scrollTop = scrollRef.value.scrollHeight;
+};
+
+const onScroll = () => {
+  const el = scrollRef.value;
+  if (!el) return;
+  isPinned.value =
+    el.scrollHeight - el.scrollTop - el.clientHeight < PIN_THRESHOLD;
 };
 
 const showMeta = index => {
@@ -89,12 +112,25 @@ onMounted(async () => {
   }
   await messagesStore.load(displayId.value);
   conversationsStore.markSeen(displayId.value);
-  scrollToBottom();
+  await scrollToBottom();
+
+  // Catches every late height change — decoded images, wrapped text after a
+  // webfont swaps, the typing indicator appearing.
+  if (contentRef.value && window.ResizeObserver) {
+    resizeObserver = new ResizeObserver(() => {
+      if (isPinned.value) scrollToBottom();
+    });
+    resizeObserver.observe(contentRef.value);
+  }
 });
+
+onBeforeUnmount(() => resizeObserver?.disconnect());
 
 watch(
   () => messages.value.length,
   () => {
+    // A new message always pulls the view back down.
+    isPinned.value = true;
     scrollToBottom();
     conversationsStore.markSeen(displayId.value);
   }
@@ -124,35 +160,38 @@ const onTyping = status =>
 
     <div
       ref="scrollRef"
-      class="flex-1 overflow-y-auto scrollbar-thin py-4 flex flex-col gap-2"
+      class="flex-1 overflow-y-auto scrollbar-thin"
+      @scroll="onScroll"
     >
-      <div
-        v-if="thread?.loading && !messages.length"
-        class="flex justify-center py-8"
-      >
-        <BaseSpinner />
+      <div ref="contentRef" class="py-4 flex flex-col gap-2">
+        <div
+          v-if="thread?.loading && !messages.length"
+          class="flex justify-center py-8"
+        >
+          <BaseSpinner />
+        </div>
+
+        <button
+          v-if="!thread?.allFetched && messages.length && !thread?.loading"
+          type="button"
+          class="self-center text-xs font-medium text-cw-text-muted hover:text-cw-text py-1 px-3 rounded-full outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
+          @click="loadEarlier"
+        >
+          {{ $t('CONVERSATION.LOAD_EARLIER') }}
+        </button>
+
+        <MessageBubble
+          v-for="(message, index) in messages"
+          :key="message.id"
+          :message="message"
+          :show-meta="showMeta(index)"
+        />
+
+        <TypingIndicator
+          v-if="isAgentTyping || isAiThinking"
+          :label="isAiThinking && !isAgentTyping ? $t('AI.THINKING') : ''"
+        />
       </div>
-
-      <button
-        v-if="!thread?.allFetched && messages.length && !thread?.loading"
-        type="button"
-        class="self-center text-xs font-medium text-cw-text-muted hover:text-cw-text py-1 px-3 rounded-full outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
-        @click="loadEarlier"
-      >
-        {{ $t('CONVERSATION.LOAD_EARLIER') }}
-      </button>
-
-      <MessageBubble
-        v-for="(message, index) in messages"
-        :key="message.id"
-        :message="message"
-        :show-meta="showMeta(index)"
-      />
-
-      <TypingIndicator
-        v-if="isAgentTyping || isAiThinking"
-        :label="isAiThinking && !isAgentTyping ? $t('AI.THINKING') : ''"
-      />
     </div>
 
     <p

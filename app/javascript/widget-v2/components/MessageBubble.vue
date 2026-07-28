@@ -23,6 +23,18 @@ const formattedContent = computed(() =>
 );
 const attachments = computed(() => props.message.attachments || []);
 const isFailed = computed(() => props.message.status === 'failed');
+
+// Attachments carry the stored dimensions, so the box can be reserved before
+// the image decodes — otherwise the thread grows underneath the visitor and
+// pushes the newest message out of view. Very tall images are clamped so a
+// portrait screenshot can't fill the whole panel.
+const MIN_ASPECT_RATIO = 0.62;
+
+const aspectRatio = attachment => {
+  const { width, height } = attachment;
+  if (!width || !height) return null;
+  return Math.max(width / height, MIN_ASPECT_RATIO);
+};
 </script>
 
 <template>
@@ -56,7 +68,15 @@ const isFailed = computed(() => props.message.status === 'failed');
           <img
             v-if="attachment.file_type === 'image'"
             :src="attachment.data_url"
-            class="max-w-full rounded-token-sm"
+            :width="attachment.width || undefined"
+            :height="attachment.height || undefined"
+            :style="
+              aspectRatio(attachment)
+                ? { aspectRatio: String(aspectRatio(attachment)) }
+                : null
+            "
+            class="w-full max-w-full object-cover rounded-token-sm bg-cw-muted"
+            decoding="async"
             :alt="attachment.extension || 'attachment'"
           />
           <audio
