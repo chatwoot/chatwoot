@@ -27,6 +27,12 @@ export const attributeBlank = (attrs, key, type) => {
   return false;
 };
 
+const asArray = value => {
+  if (Array.isArray(value)) return value;
+  if (value == null || value === '') return [];
+  return [value];
+};
+
 const attributeMatches = (attrs, whenKey, whenValues) => {
   const value = attrs[whenKey];
   if (
@@ -36,7 +42,7 @@ const attributeMatches = (attrs, whenKey, whenValues) => {
   ) {
     return false;
   }
-  const values = (whenValues || []).map(String).filter(Boolean);
+  const values = asArray(whenValues).map(String).filter(Boolean);
   if (!values.length) return true;
   const normalized = values.map(v => v.toLowerCase());
   return Array.isArray(value)

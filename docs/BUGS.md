@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** feature `B-NEW-44` automation timeline tuerca + actividades
+**Última actualización:** hotfix `B-NEW-45` resolve `.map` business rules
+(2026-07-28). Antes: feature `B-NEW-44` automation timeline tuerca + actividades
 (2026-07-28). Antes: hotfix `B-NEW-43` franja Panel IA pegada con humano
 (2026-07-27). Antes: feature `B-NEW-42` flows explicit next + step preview
 (2026-07-27). Antes: `B-NEW-41` flows canvas layout persistente (2026-07-27).
@@ -117,6 +118,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-42 | Flows UX | Media | ✅ Rutas explícitas `step.next` + overview ℹ️ del flujo |
 | B-NEW-43 | Bug UX | No | ✅ Franja Panel IA se oculta con assignee humano; limpia `panel_ia_*` + leyenda Bots/Flows |
 | B-NEW-44 | Automation UX | No | ✅ Sin nota audit genérica; tuerca en outbound; activity con nombre de regla |
+| B-NEW-45 | 🔴 Bug UX | No | ✅ Resolve crash: `condition.values` scalar → `.map is not a function` |
 
 ---
 
@@ -1001,6 +1003,23 @@ activity handlers, `MessageMeta.vue`, `en`/`es` automation.json, `docs/BUGS.md`.
 **Cómo probar:** automation con `send_message` → tuerca en bubble, sin nota audit;
 `assign_agent` → activity *by «Nombre regla»*; WA fuera de ventana → nota skip sí,
 sin audit genérico extra.
+
+### B-NEW-45 — Resolve crash: `.map is not a function` en business rules
+
+**Síntoma:** al clic en Resolver →
+`TypeError: (n || []).map is not a function` en
+`useBusinessRulesStatusGuard.js` (`conditionValueMatches`).
+
+**Causa:** `ConditionRow` guarda `values` como scalar (SingleSelect/Input) o
+array (MultiSelect). `(expectedValues || []).map` falla si `values` es string.
+
+**Fix:** helper `asArray` en el guard FE + `useConversationRequiredAttributes`.
+
+**Archivos:** `useBusinessRulesStatusGuard.js`,
+`useConversationRequiredAttributes.js`.
+
+**Cómo probar:** conversación con business rules con condiciones → Resolver
+sin error en consola. Hard refresh tras redeploy (assets Vite).
 
 ### B-NEW-39 — Automation: no enviar si ventana Meta/WhatsApp cerrada
 
