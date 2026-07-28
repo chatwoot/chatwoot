@@ -264,7 +264,8 @@
     "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
-      "MESSAGE": "Your account has been suspended due to activity that may violate our policies. If you believe this is a mistake, please contact our support team."
+      "MESSAGE": "Your account has been suspended due to activity that may violate our policies. If you believe this is a mistake, please contact our support team.",
+      "MANAGE_BILLING": "Manage billing"
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
@@ -462,6 +463,7 @@
       "STATUS": "Status",
       "IMPORTED": "Imported",
       "CREATED": "Created",
+      "RETRY": "Retry",
       "ABANDON": "Abandon"
     },
     "DETAIL": {
@@ -508,6 +510,8 @@
     },
     "ALERTS": {
       "IMPORT_STARTED": "Intercom import has started.",
+      "IMPORT_RETRIED": "Intercom import has been queued to resume.",
+      "IMPORT_RETRY_FAILED": "Could not retry the Intercom import.",
       "IMPORT_ABANDONED": "Intercom import has been abandoned.",
       "IMPORT_FAILED": "Could not start the Intercom import."
     }

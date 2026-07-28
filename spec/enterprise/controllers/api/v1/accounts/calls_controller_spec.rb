@@ -32,6 +32,7 @@ RSpec.describe 'Calls API', type: :request do
       item = body['payload'].find { |c| c['id'] == agent_call.id }
       expect(item['transcript']).to eq('hello world')
       expect(item['contact']['phone_number']).to eq(contact.phone_number)
+      expect(item['inbox']).to include('id' => inbox.id, 'name' => inbox.name, 'channel_type' => inbox.channel_type)
     end
 
     it 'scopes the list to calls the agent accepted' do
