@@ -3,7 +3,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :check_authorization
   before_action :fetch_article, except: [:index, :create, :reorder]
   before_action :set_current_page, only: [:index]
-  before_action :validate_author, only: [:create, :update]
+  before_action :validate_author, only: [:create]
 
   def index
     @portal_articles = @portal.articles
@@ -67,10 +67,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   def validate_author
     author_id = params.dig(:article, :author_id)
     return if author_id.blank?
-
-    parsed_id = author_id.to_s.match?(/\A\d+\z/) ? author_id.to_i : nil
-    # allow echoing the current author so edits are not blocked if they left the account
-    return if parsed_id && (parsed_id == @article&.author_id || Current.account.users.exists?(id: parsed_id))
+    return if author_id.to_s.match?(/\A\d+\z/) && Current.account.users.exists?(id: author_id.to_i)
 
     render json: { error: 'Invalid author ID' }, status: :unprocessable_entity
   end
