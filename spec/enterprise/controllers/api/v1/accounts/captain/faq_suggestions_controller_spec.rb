@@ -16,6 +16,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqSuggestions', type: :request do
   end
 
   before do
+    account.enable_features!('captain_integration')
     suggestion.observations.create!(
       conversation: conversation,
       generated_question: suggestion.question,

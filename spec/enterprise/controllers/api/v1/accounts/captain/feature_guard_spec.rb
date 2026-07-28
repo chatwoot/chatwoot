@@ -41,6 +41,12 @@ RSpec.describe 'Captain API premium feature guard', type: :request do
       expect(response).to have_http_status(:forbidden)
     end
 
+    it 'blocks captain faq suggestions' do
+      get "/api/v1/accounts/#{account.id}/captain/faq_suggestions", headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
     it 'blocks captain custom tools' do
       account.enable_features!('custom_tools')
 
