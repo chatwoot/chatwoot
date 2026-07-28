@@ -57,17 +57,17 @@ const unreadCount = computed(() => conversationsStore.totalUnread);
     :aria-label="$t('TABS.HOME')"
   >
     <div
-      class="flex items-stretch w-full gap-1 p-1 rounded-full bar-blur border border-cw-hairline shadow-lg pointer-events-auto"
+      class="surface-card flex items-stretch w-full gap-1 p-1 pointer-events-auto"
     >
       <button
         v-for="tab in tabs"
         :key="tab.name"
         type="button"
-        class="relative flex flex-col items-center justify-center flex-1 gap-0.5 h-12 rounded-full transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
+        class="relative flex flex-col items-center justify-center flex-1 gap-1 h-12 rounded-token-sm transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
         :class="
           isActive(tab.name)
             ? 'bg-cw-primary-soft text-cw-primary'
-            : 'text-cw-text-faint hover:text-cw-text-muted hover:bg-cw-muted'
+            : 'text-cw-text-faint hover:text-cw-text-muted hover:bg-cw-surface'
         "
         @click="router.push({ name: tab.name })"
       >
@@ -84,7 +84,7 @@ const unreadCount = computed(() => conversationsStore.totalUnread);
           </span>
         </span>
         <span
-          class="text-xxs tracking-wide"
+          class="text-xs"
           :class="isActive(tab.name) ? 'font-520' : 'font-medium'"
         >
           {{ $t(tab.label) }}

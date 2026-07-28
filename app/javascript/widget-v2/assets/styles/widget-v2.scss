@@ -95,12 +95,6 @@
     box-shadow: var(--cw-shadow-card);
   }
 
-  // Frosted bar for tab navigation; content scrolls beneath it.
-  .bar-blur {
-    backdrop-filter: blur(12px);
-    background: color-mix(in srgb, var(--cw-solid), transparent 14%);
-  }
-
   .scrollbar-thin {
     scrollbar-color: var(--cw-border-strong) transparent;
     scrollbar-width: thin;
