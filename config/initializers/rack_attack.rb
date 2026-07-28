@@ -185,8 +185,8 @@ class Rack::Attack
                period: 1.minute) do |req|
         next unless req.path_without_extensions == '/api/v1/widget/conversations' && req.post?
 
-        token = req.params['website_token'].presence ||
-                ActionDispatch::Request.new(req.env).params['website_token'].presence
+        # Read the token with the controller's precedence (query wins) so a body token can't fork the bucket.
+        token = ActionDispatch::Request.new(req.env).params['website_token'].presence
         "#{req.ip}:#{token}" if token
       end
     end
@@ -199,8 +199,8 @@ class Rack::Attack
                period: 1.minute) do |req|
         next unless req.path_without_extensions == '/api/v1/widget/messages' && req.post?
 
-        token = req.params['website_token'].presence ||
-                ActionDispatch::Request.new(req.env).params['website_token'].presence
+        # Read the token with the controller's precedence (query wins) so a body token can't fork the bucket.
+        token = ActionDispatch::Request.new(req.env).params['website_token'].presence
         "#{req.ip}:#{token}" if token
       end
     end
