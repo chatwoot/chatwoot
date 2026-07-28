@@ -135,7 +135,7 @@ onMounted(() => {
               <BaseTableCell class="max-w-0">
                 <div class="flex items-center gap-4 min-w-0">
                   <Avatar
-                    :name="bot.name"
+                    :name="bot.name || ''"
                     :src="bot.thumbnail"
                     :size="40"
                     class="flex-shrink-0"

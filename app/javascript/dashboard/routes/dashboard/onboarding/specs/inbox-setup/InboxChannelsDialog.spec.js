@@ -1,11 +1,14 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
-import { createStore } from 'vuex';
-import { useRoute } from 'vue-router';
 import InboxChannelsDialog from '../../inbox-setup/InboxChannelsDialog.vue';
 
 vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
-vi.mock('vue-router');
+vi.mock('dashboard/composables/store', () => ({
+  useMapGetter: () => ({ value: {} }),
+}));
+vi.mock('dashboard/composables/useAccount', () => ({
+  useAccount: () => ({ isCloudFeatureEnabled: () => true }),
+}));
 vi.mock('../../inbox-setup/useChannelConnect', () => ({
   useChannelConnect: () => ({
     connectViaOAuth: vi.fn(),
@@ -13,30 +16,10 @@ vi.mock('../../inbox-setup/useChannelConnect', () => ({
   }),
 }));
 
-const store = createStore({
-  modules: {
-    globalConfig: {
-      namespaced: true,
-      getters: {
-        get: () => ({}),
-        isOnChatwootCloud: () => false,
-      },
-    },
-    accounts: {
-      namespaced: true,
-      getters: {
-        getAccount: () => () => ({ id: 1, features: {} }),
-        isFeatureEnabledonAccount: () => () => false,
-      },
-    },
-  },
-});
-
 const mountDialog = () =>
   mount(InboxChannelsDialog, {
     props: { inboxes: [] },
     global: {
-      plugins: [store],
       stubs: {
         Dialog: {
           template: '<div><slot /></div>',
@@ -51,10 +34,6 @@ const mountDialog = () =>
   });
 
 describe('InboxChannelsDialog Facebook gating', () => {
-  beforeEach(() => {
-    useRoute.mockReturnValue({ params: { accountId: '1' } });
-  });
-
   afterEach(() => {
     delete window.chatwootConfig;
   });

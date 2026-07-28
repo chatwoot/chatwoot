@@ -27,7 +27,7 @@ RSpec.describe Captain::AssistantStatsBuilder do
 
       expect(metrics.keys).to contain_exactly(
         :conversations_handled, :auto_resolution_rate, :handoff_rate,
-        :hours_saved, :reopen_rate, :conversation_depth, :knowledge
+        :hours_saved, :reopen_rate, :conversation_depth
       )
       expect(metrics[:conversations_handled]).to include(:current, :previous, :trend)
     end
@@ -117,9 +117,9 @@ RSpec.describe Captain::AssistantStatsBuilder do
     end
 
     it 'falls back to the default range for values outside the allowed set' do
-      expect(described_class.new(assistant, '365000').range).to eq('30')
-      expect(described_class.new(assistant, 'bogus').range).to eq('30')
-      expect(described_class.new(assistant, nil).range).to eq('30')
+      expect(described_class.new(assistant, '365000').range).to eq('7')
+      expect(described_class.new(assistant, 'bogus').range).to eq('7')
+      expect(described_class.new(assistant, nil).range).to eq('7')
     end
   end
 
@@ -229,25 +229,29 @@ RSpec.describe Captain::AssistantStatsBuilder do
     end
   end
 
-  describe '#metrics knowledge' do
+  describe '#faq_stats' do
     before do
       create_list(:captain_assistant_response, 3, assistant: assistant, account: account, status: :approved)
-      create(:captain_assistant_response, assistant: assistant, account: account, status: :pending)
+      assistant.faq_suggestions.create!(
+        question: 'How do I enable the feature?',
+        answer: 'Turn it on in settings.'
+      )
       create_list(:captain_document, 2, assistant: assistant, account: account)
     end
 
-    it 'returns approved, pending, document counts and coverage' do
-      knowledge = described_class.new(assistant, '30').metrics[:knowledge]
+    it 'returns approved FAQ, open suggestion, document counts and coverage' do
+      stats = described_class.new(assistant).faq_stats
 
-      expect(knowledge).to eq(approved: 3, pending: 1, documents: 2, coverage: 75)
+      expect(stats).to eq(approved: 3, suggestions: 1, documents: 2, coverage: 75)
     end
 
-    it 'reports zero coverage when there are no responses' do
+    it 'reports zero coverage when there are no FAQs or suggestions' do
       Captain::AssistantResponse.where(assistant: assistant).delete_all
+      Captain::FaqSuggestion.where(assistant: assistant).delete_all
 
-      knowledge = described_class.new(assistant, '30').metrics[:knowledge]
+      stats = described_class.new(assistant).faq_stats
 
-      expect(knowledge[:coverage]).to eq(0)
+      expect(stats).to eq(approved: 0, suggestions: 0, documents: 2, coverage: 0)
     end
   end
 

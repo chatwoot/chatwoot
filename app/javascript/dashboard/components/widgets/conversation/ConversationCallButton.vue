@@ -69,9 +69,9 @@ const callButtonTooltip = computed(() =>
 const startWhatsappCall = async () => {
   if (whatsappCallSession.isInitiating.value) return;
   try {
-    const response = await whatsappCallSession.initiateOutboundCall(
-      props.chat.id
-    );
+    const response = await whatsappCallSession.initiateOutboundCall({
+      conversationId: props.chat.id,
+    });
 
     // Composable returns LOCKED when init is already in flight or a call is
     // active; soft no-op so a parallel click doesn't trigger a banner.
