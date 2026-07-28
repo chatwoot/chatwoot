@@ -11,8 +11,33 @@ describe BaseMarkdownRenderer do
   describe '#image' do
     context 'when image has a height' do
       it 'renders the img tag with the correct attributes' do
-        markdown = '![Sample Title](https://example.com/image.jpg?cw_image_height=100)'
-        expect(render_markdown(markdown)).to include('<img src="https://example.com/image.jpg?cw_image_height=100" height="100" width="auto" />')
+        markdown = '![Sample Title](https://example.com/image.jpg?cw_image_height=100px)'
+        expect(render_markdown(markdown)).to include('<img src="https://example.com/image.jpg?cw_image_height=100px" style="height: 100px;" />')
+      end
+    end
+
+    context 'when image has a width' do
+      it 'renders the img tag with the correct attributes' do
+        markdown = '![Sample Title](https://example.com/image.jpg?cw_image_width=200px)'
+        expect(render_markdown(markdown)).to include(
+          '<img src="https://example.com/image.jpg?cw_image_width=200px" style="width: 200px; max-width: 100%; height: auto;" />'
+        )
+      end
+    end
+
+    context 'when the sizing param contains an attribute-injection payload' do
+      it 'drops the malicious height value' do
+        markdown = '![x](https://example.com/image.jpg?cw_image_height=1px%22%20onmouseover%3D%22alert(1))'
+        rendered = render_markdown(markdown)
+        expect(rendered).not_to include('style=')
+        expect(rendered).not_to include('onmouseover="')
+      end
+
+      it 'drops the malicious width value' do
+        markdown = '![x](https://example.com/image.jpg?cw_image_width=1px%22%20onmouseover%3D%22alert(1))'
+        rendered = render_markdown(markdown)
+        expect(rendered).not_to include('style=')
+        expect(rendered).not_to include('onmouseover="')
       end
     end
 

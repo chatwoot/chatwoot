@@ -132,8 +132,10 @@ const headers = computed(() => [
     </template>
   </BaseTable>
 
-  <div class="flex items-center justify-between mt-4">
-    <p class="text-body-main text-n-slate-11">
+  <div
+    class="sticky bottom-0 py-4 px-8 -mx-8 z-20 flex items-center justify-between bg-n-surface-1 border-t border-n-weak"
+  >
+    <p class="text-body-main text-n-slate-11 mb-0">
       {{
         $t('TEAMS_SETTINGS.AGENTS.SELECTED_COUNT', {
           selected: selectedAgents.length,

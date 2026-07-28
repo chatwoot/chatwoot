@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, defineExpose, defineProps } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useRouter } from 'vue-router';

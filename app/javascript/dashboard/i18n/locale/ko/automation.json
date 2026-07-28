@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "최소 하나의 액션이 필요합니다"
     },
     "NONE_OPTION": "없음",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "대화 생성됨",
       "CONVERSATION_UPDATED": "대화 업데이트됨",
@@ -140,6 +141,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "에이전트에게 배정",
       "ASSIGN_TEAM": "팀 배정",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "배정된 팀 제거",
       "ADD_LABEL": "라벨 추가",
       "REMOVE_LABEL": "라벨 제거",
       "SEND_EMAIL_TO_TEAM": "팀에 이메일 보내기",
@@ -169,6 +172,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "메시지 유형",
+      "PRIVATE_NOTE": "개인 노트",
       "MESSAGE_CONTAINS": "메시지 포함",
       "EMAIL": "이메일",
       "INBOX": "받은 메시지함",
@@ -178,6 +182,7 @@
       "BROWSER_LANGUAGE": "브라우저 언어",
       "MAIL_SUBJECT": "이메일 제목",
       "COUNTRY_NAME": "국가",
+      "COMPANY_NAME": "회사",
       "REFERER_LINK": "참조 링크",
       "ASSIGNEE_NAME": "담당자",
       "TEAM_NAME": "팀",

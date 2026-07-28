@@ -63,6 +63,16 @@
         "ERROR_MESSAGE": "Could not update bot. Please try again."
       }
     },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "গোপন কোড ক্লিপবোর্ডে কপি করুন",
+      "COPY_SUCCESS": "গোপন কোড ক্লিপবোর্ডে কপি হয়েছে",
+      "TOGGLE": "গোপন কোডের দৃশ্যমানতা টগল করুন",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "সম্পন্ন",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+    },
     "ACCESS_TOKEN": {
       "TITLE": "Access Token",
       "DESCRIPTION": "Copy the access token and save it securely",

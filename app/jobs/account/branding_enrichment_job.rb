@@ -3,7 +3,10 @@ class Account::BrandingEnrichmentJob < ApplicationJob
 
   def perform(account_id, email)
     result = WebsiteBrandingService.new(email).perform
-    return if result.blank?
+    if result.blank?
+      Rails.logger.info "[BrandingEnrichment] Enrichment failed for account=#{account_id} email=#{email}"
+      return
+    end
 
     account = Account.find(account_id)
     account.name = result[:title] if result[:title].present?

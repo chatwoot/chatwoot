@@ -7,6 +7,7 @@ import de from './locale/de';
 import el from './locale/el';
 import en from './locale/en';
 import es from './locale/es';
+import et from './locale/et';
 import fa from './locale/fa';
 import fi from './locale/fi';
 import fr from './locale/fr';
@@ -33,6 +34,7 @@ import ta from './locale/ta';
 import th from './locale/th';
 import tr from './locale/tr';
 import uk from './locale/uk';
+import uz from './locale/uz';
 import vi from './locale/vi';
 import zh_CN from './locale/zh_CN';
 import zh_TW from './locale/zh_TW';
@@ -49,6 +51,7 @@ export default {
   el,
   en,
   es,
+  et,
   fa,
   fi,
   fr,
@@ -75,6 +78,7 @@ export default {
   th,
   tr,
   uk,
+  uz,
   vi,
   zh_CN,
   zh_TW,

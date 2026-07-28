@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "None",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "საუბარი შეიქმნა",
       "CONVERSATION_UPDATED": "საუბარი განახლდა",
@@ -140,6 +141,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "აგენტის მინიჭება",
       "ASSIGN_TEAM": "გუნდის მინიჭება",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "ADD_LABEL": "იარლიყის დამატება",
       "REMOVE_LABEL": "იარლიყის მოცილება",
       "SEND_EMAIL_TO_TEAM": "ელფოსტის გაგზავნა გუნდისთვის",
@@ -169,6 +172,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "შეტყობინების ტიპი",
+      "PRIVATE_NOTE": "Private Note",
       "MESSAGE_CONTAINS": "შეტყობინება შეიცავს",
       "EMAIL": "ელფოსტა",
       "INBOX": "ინბოქსი",
@@ -178,6 +182,7 @@
       "BROWSER_LANGUAGE": "ბრაუზერის ენა",
       "MAIL_SUBJECT": "ელფოსტის თემა",
       "COUNTRY_NAME": "ქვეყანა",
+      "COMPANY_NAME": "კომპანია",
       "REFERER_LINK": "რეფერერის ბმული",
       "ASSIGNEE_NAME": "დავალებული",
       "TEAM_NAME": "გუნდი",

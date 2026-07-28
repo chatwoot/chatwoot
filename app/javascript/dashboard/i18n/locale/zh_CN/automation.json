@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "至少需要一个动作"
     },
     "NONE_OPTION": "无",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "对话创建",
       "CONVERSATION_UPDATED": "对话已更新",
@@ -140,6 +141,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "分配客服",
       "ASSIGN_TEAM": "分配团队",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "移除已分配的团队",
       "ADD_LABEL": "添加标签",
       "REMOVE_LABEL": "移除标签",
       "SEND_EMAIL_TO_TEAM": "发送电子邮件给团队",
@@ -169,6 +172,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "消息类型",
+      "PRIVATE_NOTE": "私人便笺",
       "MESSAGE_CONTAINS": "消息包含",
       "EMAIL": "Email",
       "INBOX": "收件箱",
@@ -178,6 +182,7 @@
       "BROWSER_LANGUAGE": "浏览器语言",
       "MAIL_SUBJECT": "电子邮件主题",
       "COUNTRY_NAME": "国家",
+      "COMPANY_NAME": "公司",
       "REFERER_LINK": "引荐链接",
       "ASSIGNEE_NAME": "负责人",
       "TEAM_NAME": "团队",

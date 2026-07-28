@@ -16,7 +16,20 @@ describe('useEditableAutomation', () => {
 
         return [];
       }),
-      getActionDropdownValues: vi.fn(),
+      getActionDropdownValues: vi.fn(actionName => {
+        if (actionName === 'assign_agent') {
+          return [
+            { id: 'nil', name: 'None' },
+            {
+              id: 'last_responding_agent',
+              name: 'Last Responding Agent',
+            },
+            { id: 1, name: 'Agent 1' },
+          ];
+        }
+
+        return [];
+      }),
     });
   });
 
@@ -48,6 +61,37 @@ describe('useEditableAutomation', () => {
         filter_operator: 'equal_to',
         values: { id: false, name: 'False' },
         query_operator: 'and',
+      },
+    ]);
+  });
+
+  it('rehydrates last responding agent as a selected action option', () => {
+    const automation = {
+      event_name: 'conversation_created',
+      conditions: [],
+      actions: [
+        {
+          action_name: 'assign_agent',
+          action_params: ['last_responding_agent'],
+        },
+      ],
+    };
+    const automationActionTypes = [
+      { key: 'assign_agent', inputType: 'search_select' },
+    ];
+
+    const { formatAutomation } = useEditableAutomation();
+    const result = formatAutomation(automation, [], {}, automationActionTypes);
+
+    expect(result.actions).toEqual([
+      {
+        action_name: 'assign_agent',
+        action_params: [
+          {
+            id: 'last_responding_agent',
+            name: 'Last Responding Agent',
+          },
+        ],
       },
     ]);
   });

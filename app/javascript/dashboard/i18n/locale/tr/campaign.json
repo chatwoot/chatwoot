@@ -88,6 +88,7 @@
       },
       "CARD": {
         "STATUS": {
+          "PROCESSING": "İşleniyor",
           "COMPLETED": "Tamamlandı",
           "SCHEDULED": "Planlanmış"
         },
@@ -146,6 +147,7 @@
       },
       "CARD": {
         "STATUS": {
+          "PROCESSING": "İşleniyor",
           "COMPLETED": "Tamamlandı",
           "SCHEDULED": "Planlanmış"
         },

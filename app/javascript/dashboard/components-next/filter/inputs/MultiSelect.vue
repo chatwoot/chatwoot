@@ -1,5 +1,5 @@
 <script setup>
-import { defineModel, computed } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Icon from 'next/icon/Icon.vue';
 import Button from 'next/button/Button.vue';

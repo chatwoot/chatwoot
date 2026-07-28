@@ -63,6 +63,16 @@
         "ERROR_MESSAGE": "Não foi possível atualizar o robô. Por favor, tente novamente mais tarde."
       }
     },
+    "SECRET": {
+      "LABEL": "Segredo do Webhook",
+      "COPY": "Copiar segredo para a área de transferência",
+      "COPY_SUCCESS": "Segredo copiado para a área de transferência",
+      "TOGGLE": "Alternar visibilidade do segredo",
+      "CREATED_DESC": "Use o segredo abaixo para verificar as assinaturas do webhook. Copie-o agora, você também poderá encontrá-lo depois nas configurações do robô.",
+      "DONE": "Concluído",
+      "RESET_SUCCESS": "Segredo do webhook regenerado com sucesso",
+      "RESET_ERROR": "Não foi possível regenerar o segredo do webhook. Por favor, tente novamente"
+    },
     "ACCESS_TOKEN": {
       "TITLE": "Token de acesso",
       "DESCRIPTION": "Copie o token de acesso e salve-o de forma segura",

@@ -140,6 +140,38 @@ RSpec.describe 'Public Articles API', type: :request do
       get "/hc/#{portal.slug}/articles/#{article_in_locale.slug}"
       expect(response).to have_http_status(:success)
     end
+
+    it 'resolves the locale from the article itself for an uncategorized article' do
+      uncategorized_article = create(:article, category: nil, locale: 'es', portal: portal,
+                                               account_id: account.id, author_id: agent.id)
+      get "/hc/#{portal.slug}/articles/#{uncategorized_article.slug}"
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('lang="es"')
+    end
+  end
+
+  describe 'GET /public/api/v1/portals/:slug/articles/:slug.md (markdown)' do
+    it 'serves the raw article markdown for a published article' do
+      get "/hc/#{portal.slug}/articles/#{article.slug}.md"
+
+      expect(response).to have_http_status(:success)
+      expect(response.headers['Content-Type']).to include('text/markdown')
+      expect(response.body).to eq(article.content)
+    end
+
+    it 'returns 404 for a draft article' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, account_id: account.id, author_id: agent.id)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}.md"
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns 404 if the article does not exist' do
+      get "/hc/#{portal.slug}/articles/non-existent-article.md"
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   describe 'GET /public/api/v1/portals/:slug/articles/:slug.png (tracking pixel)' do
@@ -177,6 +209,32 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response.headers['Cache-Control']).to include('max-age=86400')
       expect(response.headers['Cache-Control']).to include('private')
       expect(response.headers['Content-Type']).to eq('image/png')
+    end
+  end
+
+  describe 'documentation layout sidebar for a region-variant locale' do
+    let!(:th_portal) do
+      create(:portal, slug: 'th-portal', custom_domain: 'th.example.com',
+                      config: { allowed_locales: ['th_TH'], default_locale: 'th_TH', layout: 'documentation' })
+    end
+    let!(:th_category) do
+      create(:category, name: 'TH Category', portal: th_portal, account_id: account.id, locale: 'th_TH', slug: 'th-cat')
+    end
+    let!(:th_article) do
+      create(:article, category: th_category, portal: th_portal, account_id: account.id, author_id: agent.id, locale: 'th_TH')
+    end
+
+    before do
+      create(:article, category: th_category, portal: th_portal, account_id: account.id, author_id: agent.id,
+                       locale: 'th_TH', title: 'Sibling In Sidebar', status: :published)
+    end
+
+    it 'lists the category and sibling articles using the full portal locale' do
+      host! 'th.example.com'
+      get "/hc/#{th_portal.slug}/articles/#{th_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Sibling In Sidebar')
     end
   end
 end

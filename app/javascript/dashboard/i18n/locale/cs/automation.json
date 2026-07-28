@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Nic",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Conversation Created",
       "CONVERSATION_UPDATED": "Conversation Updated",
@@ -140,6 +141,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Přiřadit agentovi",
       "ASSIGN_TEAM": "Přiřadit tým",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "ADD_LABEL": "Přidat štítek",
       "REMOVE_LABEL": "Odebrat štítek",
       "SEND_EMAIL_TO_TEAM": "Poslat e-mail týmu",
@@ -169,6 +172,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Typ zprávy",
+      "PRIVATE_NOTE": "Soukromá poznámka",
       "MESSAGE_CONTAINS": "Zpráva obsahuje",
       "EMAIL": "E-mailová adresa",
       "INBOX": "Inbox",
@@ -178,6 +182,7 @@
       "BROWSER_LANGUAGE": "Browser Language",
       "MAIL_SUBJECT": "Předmět e-mailu",
       "COUNTRY_NAME": "Země",
+      "COMPANY_NAME": "Společnost",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Team",

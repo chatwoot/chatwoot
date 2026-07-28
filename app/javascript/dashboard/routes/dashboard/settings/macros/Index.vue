@@ -9,10 +9,12 @@ import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { BaseTable } from 'dashboard/components-next/table';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
+const { isAdmin } = useAdmin();
 
 const showDeleteConfirmationPopup = ref(false);
 const selectedMacro = ref({});
@@ -109,6 +111,7 @@ const tableHeaders = computed(() => {
             v-for="macro in items"
             :key="macro.id"
             :macro="macro"
+            :can-manage-public-macros="isAdmin"
             @delete="openDeletePopup(macro)"
           />
         </template>

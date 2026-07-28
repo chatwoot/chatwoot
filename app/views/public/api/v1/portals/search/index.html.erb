@@ -1,0 +1,15 @@
+<% content_for :head do %>
+  <title><%= I18n.t('public_portal.search.results_for', query: @query) %> | <%= @portal.localized_value('name', @locale) %></title>
+<% end %>
+
+<% search_input_class = 'w-full px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' %>
+
+<div id="portal-bg" class="bg-white dark:bg-slate-900 shadow-inner">
+  <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6">
+    <div class="max-w-5xl px-4 md:px-8 mx-auto flex flex-col">
+      <%= render 'public/api/v1/portals/search/results_header', search_input_class: search_input_class %>
+    </div>
+  </div>
+</div>
+
+<%= render 'public/api/v1/portals/search/results' %>

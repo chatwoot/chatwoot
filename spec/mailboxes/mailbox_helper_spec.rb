@@ -47,6 +47,31 @@ RSpec.describe MailboxHelper do
         helper_instance.send(:create_message)
       end
     end
+
+    context 'when message data contains null bytes' do
+      let(:mail) do
+        mail = Mail.new
+        mail.from = 'Sender <sender@example.com>'
+        mail.to = 'Inbox <inbox@example.com>'
+        mail.subject = "Hello\u0000"
+        mail.message_id = "message\u0000@example.com"
+        mail.content_type = 'text/plain'
+        mail.body = "Body\u0000 text"
+        mail
+      end
+
+      it 'creates the message with sanitized values' do
+        helper_instance = mailbox_helper_obj.new(conversation, processed_mail)
+
+        expect { helper_instance.send(:create_message) }.to change(conversation.messages, :count).by(1)
+
+        message = conversation.messages.last
+        expect(message.source_id).to eq('message@example.com')
+        expect(message.content).to eq('Body text')
+        expect(message.content_attributes.dig('email', 'message_id')).to eq('message@example.com')
+        expect(message.content_attributes.to_json).not_to include('\u0000')
+      end
+    end
   end
 
   describe '#embed_plain_text_email_with_inline_image' do
@@ -75,6 +100,62 @@ RSpec.describe MailboxHelper do
 
       text_content = helper_instance.instance_variable_get(:@text_content)
       expect(text_content).to include(Rails.application.routes.url_helpers.url_for(mail_attachment[:blob]))
+    end
+  end
+
+  describe '#body_references_cid?' do
+    let(:helper_instance) { mailbox_helper_obj.new(conversation, processed_mail) }
+
+    it 'detects percent-encoded CID references in HTML content' do
+      helper_instance.instance_variable_set(:@html_content, '<img src="cid:image001.jpg%40test">')
+
+      expect(helper_instance.send(:body_references_cid?, 'image001.jpg@test')).to be true
+    end
+  end
+
+  describe '#upload_inline_image' do
+    let(:mail_attachment) do
+      {
+        original: OpenStruct.new(cid: 'image001.jpg@test'),
+        blob: get_blob_for('spec/assets/avatar.png', 'image/png')
+      }
+    end
+    let(:helper_instance) { mailbox_helper_obj.new(conversation, processed_mail) }
+
+    it 'replaces percent-encoded CID references in HTML content' do
+      allow(Rails.application.routes.url_helpers).to receive(:url_for).and_return('/fake-image-url')
+      helper_instance.instance_variable_set(:@html_content, '<img src="cid:image001.jpg%40test">')
+
+      helper_instance.send(:upload_inline_image, mail_attachment)
+
+      html_content = helper_instance.instance_variable_get(:@html_content)
+      expect(html_content).to include('/fake-image-url"')
+      expect(html_content).not_to include('cid:')
+    end
+  end
+
+  describe '#add_attachments_to_message' do
+    let(:mail) { create_inbound_email_from_fixture('cid_inline_images_without_disposition.eml').mail }
+    let(:processed_mail) { MailPresenter.new(mail) }
+    let(:conversation) { create(:conversation) }
+    let(:helper_instance) { mailbox_helper_obj.new(conversation, processed_mail) }
+
+    before do
+      helper_instance.send(:create_message)
+    end
+
+    it 'detects inline image attachment by cid reference when Content-Disposition is missing' do
+      allow(Rails.application.routes.url_helpers).to receive(:url_for).and_return('/fake-image-url')
+      helper_instance.send(:add_attachments_to_message)
+
+      message = conversation.messages[0]
+
+      expect(message.attachments.count).to eq(0)
+
+      html_content = message.content_attributes[:email][:html_content][:full]
+
+      expect(html_content).to include('/fake-image-url"')
+      expect(html_content).not_to include('cid:')
     end
   end
 end

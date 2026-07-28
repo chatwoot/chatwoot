@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Acara Langganan",
       "LEARN_MORE": "Ketahui lebih lanjut tentang webhook",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "Rahsia",
         "COPY": "Salin rahsia ke papan klip",
@@ -57,7 +64,8 @@
             "CONTACT_CREATED": "Kenalan dicipta",
             "CONTACT_UPDATED": "Kenalan dikemas kini",
             "CONVERSATION_TYPING_ON": "Perbualan Mengetik Aktif",
-            "CONVERSATION_TYPING_OFF": "Perbualan Mengetik Tidak Aktif"
+            "CONVERSATION_TYPING_OFF": "Perbualan Mengetik Tidak Aktif",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
@@ -391,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "Kapten",
     "HEADER_KNOW_MORE": "Ketahui lebih lanjut",
+    "OVERVIEW": {
+      "HEADER": "Gambaran Keseluruhan",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review FAQs",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "PENDING": "Soalan Lazim Tertunggak",
+        "DOCUMENTS": "Dokumen"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Tempat Permainan",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "Pengebilan",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Pembantu",
       "SWITCH_ASSISTANT": "Bertukar antara pembantu",
@@ -492,10 +576,6 @@
           "LABEL": "Nama",
           "PLACEHOLDER": "Masukkan nama pembantu",
           "ERROR": "Nama diperlukan"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Suhu Respons",
-          "DESCRIPTION": "Laraskan sejauh mana kreativiti atau kekangan dalam respons pembantu. Nilai yang lebih rendah menghasilkan respons yang lebih fokus dan deterministik, manakala nilai yang lebih tinggi membenarkan output yang lebih kreatif dan pelbagai."
         },
         "DESCRIPTION": {
           "LABEL": "Penerangan",
@@ -738,10 +818,12 @@
     "DOCUMENTS": {
       "HEADER": "Dokumen",
       "ADD_NEW": "Cipta dokumen baru",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} dipilih",
       "SELECT_ALL": "Pilih semua ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
       "BULK_DELETE_BUTTON": "Padamkan",
+      "BULK_SYNC_BUTTON": "Refresh",
       "BULK_DELETE": {
         "TITLE": "Delete documents?",
         "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
@@ -749,9 +831,74 @@
         "SUCCESS_MESSAGE": "Documents deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
+        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
+        "ZERO_MESSAGE": "No documents marked for refresh.",
+        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
+        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "All sources",
+          "WEB": "Web pages",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Any status",
+          "UPDATED": "Updated",
+          "NEEDS_UPDATE": "Needs update",
+          "UPDATING": "Updating",
+          "FAILED": "Gagal"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_CREATED": "Recently created"
+        },
+        "SEARCH_PLACEHOLDER": "Search..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "last updated {time}",
+        "SYNCING": "updating...",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Failed to sync",
+        "NEVER_SYNCED": "not updated yet"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "Page not found",
+        "ACCESS_DENIED": "Access denied",
+        "TIMEOUT": "Page took too long to respond",
+        "CONTENT_EMPTY": "Page returned empty content",
+        "FETCH_FAILED": "Could not fetch page",
+        "SYNC_ERROR": "Unexpected error",
+        "DEFAULT": "Sync error"
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Soalan Lazim Berkaitan",
-        "DESCRIPTION": "Soalan Lazim ini dijana terus daripada dokumen."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "Salin",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "Masukkan URL dokumen untuk menambahnya sebagai sumber pengetahuan dan pilih pembantu untuk dikaitkan dengannya.",
       "CREATE": {
@@ -791,12 +938,16 @@
         "ERROR_MESSAGE": "Terdapat ralat semasa memadam dokumen, sila cuba lagi."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Lihat Respons Berkaitan",
+        "VIEW_DETAILS": "View details",
+        "SYNC_NOW": "Refresh now",
+        "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Padam Dokumen"
       },
       "EMPTY_STATE": {
         "TITLE": "Tiada dokumen tersedia",
         "SUBTITLE": "Dokumen digunakan oleh pembantu anda untuk menjana Soalan Lazim. Anda boleh mengimport dokumen untuk memberikan konteks kepada pembantu anda.",
+        "FILTERED_TITLE": "No matching documents",
+        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
           "NOTE": "Dokumen dalam Captain berfungsi sebagai sumber pengetahuan untuk pembantu. Dengan menyambungkan pusat bantuan atau panduan anda, Captain boleh menganalisis kandungan dan memberikan respons tepat untuk pertanyaan pelanggan."
@@ -836,6 +987,18 @@
         "CONFIRM": "Ya, padam",
         "SUCCESS_MESSAGE": "Alat tersuai berjaya dipadam",
         "ERROR_MESSAGE": "Gagal memadam alat tersuai"
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
       },
       "TEST": {
         "BUTTON": "Test connection",

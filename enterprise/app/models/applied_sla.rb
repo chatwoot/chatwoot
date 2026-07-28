@@ -40,10 +40,13 @@ class AppliedSla < ApplicationRecord
                                         joins(:conversation).where(conversations: { assignee_id: assigned_agent_id }) if assigned_agent_id.present?
                                       }
   scope :missed, -> { where(sla_status: %i[missed active_with_misses]) }
+  scope :with_sla_applicable_conversation, -> { where(conversation_id: Conversation.with_sla_applicable_contact.select(:id)) }
 
   after_update_commit :push_conversation_event
 
   def push_event_data
+    sla_due_at_values = due_at_values
+
     {
       id: id,
       sla_id: sla_policy_id,
@@ -55,8 +58,63 @@ class AppliedSla < ApplicationRecord
       sla_first_response_time_threshold: sla_policy.first_response_time_threshold,
       sla_next_response_time_threshold: sla_policy.next_response_time_threshold,
       sla_only_during_business_hours: sla_policy.only_during_business_hours,
-      sla_resolution_time_threshold: sla_policy.resolution_time_threshold
+      sla_resolution_time_threshold: sla_policy.resolution_time_threshold,
+      sla_frt_due_at: sla_due_at_values[:frt],
+      sla_nrt_due_at: sla_due_at_values[:nrt],
+      sla_rt_due_at: sla_due_at_values[:rt]
     }
+  end
+
+  def due_at_values
+    working_hours_by_day_cache = conversation.inbox.working_hours.index_by(&:day_of_week) if sla_policy.only_during_business_hours?
+
+    {
+      frt: frt_due_at(working_hours_by_day_cache: working_hours_by_day_cache),
+      nrt: nrt_due_at(working_hours_by_day_cache: working_hours_by_day_cache),
+      rt: rt_due_at(working_hours_by_day_cache: working_hours_by_day_cache)
+    }
+  end
+
+  def frt_due_at(working_hours_by_day_cache: nil)
+    return nil if sla_policy.first_response_time_threshold.blank?
+
+    calculate_due_at(
+      conversation.created_at,
+      sla_policy.first_response_time_threshold,
+      working_hours_by_day_cache: working_hours_by_day_cache
+    )
+  end
+
+  def nrt_due_at(working_hours_by_day_cache: nil)
+    return nil if sla_policy.next_response_time_threshold.blank?
+    return nil if conversation.waiting_since.blank?
+
+    calculate_due_at(
+      conversation.waiting_since,
+      sla_policy.next_response_time_threshold,
+      working_hours_by_day_cache: working_hours_by_day_cache
+    )
+  end
+
+  def rt_due_at(working_hours_by_day_cache: nil)
+    return nil if sla_policy.resolution_time_threshold.blank?
+
+    calculate_due_at(
+      conversation.created_at,
+      sla_policy.resolution_time_threshold,
+      working_hours_by_day_cache: working_hours_by_day_cache
+    )
+  end
+
+  def calculate_due_at(start_time, threshold_seconds, working_hours_by_day_cache: nil)
+    return (start_time + threshold_seconds.to_i.seconds).to_i unless sla_policy.only_during_business_hours?
+
+    Sla::BusinessHoursService.new(
+      inbox: conversation.inbox,
+      start_time: start_time,
+      threshold_seconds: threshold_seconds,
+      working_hours_by_day_cache: working_hours_by_day_cache
+    ).deadline.to_i
   end
 
   private

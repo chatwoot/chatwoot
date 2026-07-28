@@ -7,8 +7,15 @@ module Enterprise::Concerns::Conversation
     has_many :sla_events, dependent: :destroy_async
     has_many :calls, dependent: :destroy_async
     has_many :captain_responses, class_name: 'Captain::AssistantResponse', dependent: :nullify, as: :documentable
+    has_many :captain_faq_observations, class_name: 'Captain::FaqObservation', dependent: :delete_all
+    scope :with_sla_applicable_contact, -> { left_joins(:contact).where(contacts: { blocked: [false, nil] }) }
+
     before_validation :validate_sla_policy, if: -> { sla_policy_id_changed? }
     around_save :ensure_applied_sla_is_created, if: -> { sla_policy_id_changed? }
+  end
+
+  def sla_applicable?
+    !contact&.blocked?
   end
 
   private
@@ -17,6 +24,11 @@ module Enterprise::Concerns::Conversation
     # TODO: remove these validations once we figure out how to deal with these cases
     if sla_policy_id.nil? && changes[:sla_policy_id].first.present?
       errors.add(:sla_policy, 'cannot remove sla policy from conversation')
+      return
+    end
+
+    unless sla_applicable?
+      errors.add(:sla_policy, 'cannot be assigned to conversations with blocked contacts')
       return
     end
 

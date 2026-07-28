@@ -42,6 +42,17 @@ RSpec.describe CustomAttributeDefinition do
         cad = build(:custom_attribute_definition, account: account, attribute_key: 'key()')
         expect(cad).not_to be_valid
       end
+
+      it 'allows company custom attributes' do
+        cad = build(:custom_attribute_definition, account: account, attribute_model: 'company_attribute')
+        expect(cad).to be_valid
+      end
+
+      it 'rejects company custom attributes that conflict with standard company fields' do
+        cad = build(:custom_attribute_definition, account: account, attribute_model: 'company_attribute', attribute_key: 'domain')
+        expect(cad).not_to be_valid
+        expect(cad.errors[:attribute_key]).to be_present
+      end
     end
   end
 
@@ -55,6 +66,52 @@ RSpec.describe CustomAttributeDefinition do
       it 'strips leading and trailing whitespace from attribute_display_name' do
         cad = create(:custom_attribute_definition, account: account, attribute_display_name: '  Order Date  ')
         expect(cad.attribute_display_name).to eq('Order Date')
+      end
+    end
+
+    describe 'filtered unread count invalidation' do
+      let(:invalidator) { instance_double(Conversations::UnreadCounts::FilteredCountInvalidator, custom_attribute_definition_changed!: true) }
+
+      before do
+        allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+      end
+
+      it 'invalidates conversation filters when a conversation custom attribute definition changes' do
+        cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+        cad.update!(attribute_display_name: 'Updated Order Date')
+
+        expect(invalidator).to have_received(:custom_attribute_definition_changed!).with(cad)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          'account.cache_invalidated',
+          kind_of(Time),
+          account: account,
+          cache_keys: account.cache_keys
+        )
+      end
+
+      it 'invalidates conversation filters when a conversation custom attribute definition is deleted' do
+        cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+        cad.destroy!
+
+        expect(invalidator).to have_received(:custom_attribute_definition_changed!).with(cad)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          'account.cache_invalidated',
+          kind_of(Time),
+          account: account,
+          cache_keys: account.cache_keys
+        )
+      end
+
+      it 'ignores contact custom attribute definition changes' do
+        cad = create(:custom_attribute_definition, account: account, attribute_model: 'contact_attribute')
+
+        cad.update!(attribute_display_name: 'Updated Contact Field')
+
+        expect(invalidator).not_to have_received(:custom_attribute_definition_changed!)
+        expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
       end
     end
   end

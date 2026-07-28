@@ -120,6 +120,8 @@ describe V2::ReportBuilder do
             # Reopen 1 conversation
             conversations.first.open!
           end
+          create(:reporting_event, account: account, inbox: account.inboxes.first, conversation: nil, conversation_id: nil,
+                                   name: 'conversation_bot_handoff', created_at: Time.zone.today)
 
           builder = described_class.new(account, params)
           metrics = builder.timeseries

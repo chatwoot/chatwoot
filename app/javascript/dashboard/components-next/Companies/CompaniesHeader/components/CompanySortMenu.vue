@@ -36,6 +36,10 @@ const sortMenus = [
     value: 'created_at',
   },
   {
+    label: t('COMPANIES.SORT_BY.OPTIONS.LAST_ACTIVITY_AT'),
+    value: 'last_activity_at',
+  },
+  {
     label: t('COMPANIES.SORT_BY.OPTIONS.CONTACTS_COUNT'),
     value: 'contacts_count',
   },
@@ -101,6 +105,7 @@ const handleOrderChange = value => {
           :model-value="activeSort"
           :options="sortMenus"
           :label="activeSortLabel"
+          sub-menu-position="left"
           @update:model-value="handleSortChange"
         />
       </div>
@@ -112,6 +117,7 @@ const handleOrderChange = value => {
           :model-value="activeOrdering"
           :options="orderingMenus"
           :label="activeOrderingLabel"
+          sub-menu-position="left"
           @update:model-value="handleOrderChange"
         />
       </div>

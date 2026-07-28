@@ -1,0 +1,6 @@
+<header class="<%= local_assigns[:wrapper_class] || 'mb-8' %>">
+  <h2 class="text-2xl md:text-3xl font-620 tracking-tight text-n-slate-12"><%= title %></h2>
+  <% if local_assigns[:subtitle].present? %>
+    <p class="<%= local_assigns[:subtitle_class] || 'mt-2 text-base text-n-slate-11' %>"><%= subtitle %></p>
+  <% end %>
+</header>

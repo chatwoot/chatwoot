@@ -17,7 +17,7 @@ const CommandBar = defineAsyncComponent(
 );
 
 const FloatingCallWidget = defineAsyncComponent(
-  () => import('dashboard/components/widgets/FloatingCallWidget.vue')
+  () => import('dashboard/components-next/call/FloatingCallWidget.vue')
 );
 
 import CopilotLauncher from 'dashboard/components-next/copilot/CopilotLauncher.vue';

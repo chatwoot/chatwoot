@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "Необходимо указать хотя бы одно действие"
     },
     "NONE_OPTION": "Нет",
+    "LAST_RESPONDING_AGENT": "Последний ответ агента",
     "EVENTS": {
       "CONVERSATION_CREATED": "Диалог создан",
       "CONVERSATION_UPDATED": "Диалог обновлён",
@@ -140,6 +141,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Назначить агента",
       "ASSIGN_TEAM": "Назначить команду",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Удалить назначенную команду",
       "ADD_LABEL": "Добавить метку",
       "REMOVE_LABEL": "Удалить метку",
       "SEND_EMAIL_TO_TEAM": "Отправить Email команде",
@@ -169,6 +172,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Тип сообщения",
+      "PRIVATE_NOTE": "Личная заметка",
       "MESSAGE_CONTAINS": "Сообщение содержит",
       "EMAIL": "Email",
       "INBOX": "Источник",
@@ -178,6 +182,7 @@
       "BROWSER_LANGUAGE": "Язык браузера",
       "MAIL_SUBJECT": "Тема письма",
       "COUNTRY_NAME": "Страна",
+      "COMPANY_NAME": "Компания",
       "REFERER_LINK": "Источник перехода",
       "ASSIGNEE_NAME": "Назначенный агент",
       "TEAM_NAME": "Команда",

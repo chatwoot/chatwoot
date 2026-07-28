@@ -45,6 +45,13 @@
       "ERROR_MESSAGE": "Woot sunucusuna bağlanılamadı. Lütfen tekrar deneyin."
     },
     "SUBMIT": "Hesap oluştur",
-    "HAVE_AN_ACCOUNT": "Hesabın var mı?"
+    "HAVE_AN_ACCOUNT": "Hesabın var mı?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Doğrulama E-Postasını tekrar gönder",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

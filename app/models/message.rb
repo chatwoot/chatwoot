@@ -34,7 +34,7 @@
 #  index_messages_on_conversation_id                    (conversation_id)
 #  index_messages_on_created_at                         (created_at)
 #  index_messages_on_inbox_id                           (inbox_id)
-#  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
+#  index_messages_on_sender_and_created                 (sender_type,sender_id,created_at)
 #  index_messages_on_source_id                          (source_id)
 #
 
@@ -168,6 +168,13 @@ class Message < ApplicationRecord
     data[:sender] = sender.push_event_data if sender && !sender.is_a?(AgentBot)
     data[:sender] = sender.push_event_data(inbox) if sender.is_a?(AgentBot)
     data
+  end
+
+  def webhook_push_event_data
+    push_event_data.merge(
+      content: Messages::WebhookContentNormalizer.normalize(content),
+      processed_message_content: Messages::WebhookContentNormalizer.normalize(processed_message_content)
+    )
   end
 
   def webhook_data
