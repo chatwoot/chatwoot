@@ -54,7 +54,7 @@ const onFileChange = event => {
 </script>
 
 <template>
-  <div class="px-4 pb-4 pt-2 bg-cw-solid">
+  <div class="glass-layer px-4 pb-4 pt-2 bg-cw-solid">
     <div
       class="flex items-end gap-1 p-1.5 rounded-token border border-cw-border bg-cw-solid shadow-sm transition-shadow focus-within:ring-[3px] focus-within:ring-cw-ring focus-within:border-transparent"
     >

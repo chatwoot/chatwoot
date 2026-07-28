@@ -39,6 +39,52 @@
     --cw-primary-strong: color-mix(in srgb, var(--cw-primary), #fff 16%);
   }
 
+  // Glass surface option: translucent layers that pick up the host page
+  // behind the iframe, with light borders standing in for the specular edge.
+  .glass {
+    --cw-background: transparent;
+    --cw-border: rgba(255, 255, 255, 0.5);
+    --cw-hairline: rgba(255, 255, 255, 0.3);
+    --cw-muted: rgba(255, 255, 255, 0.35);
+    --cw-shadow-card: 0 1px 1px rgba(9, 9, 11, 0.04),
+      0 8px 24px rgba(9, 9, 11, 0.1);
+    --cw-solid: rgba(255, 255, 255, 0.62);
+    // Bright top edge standing in for Liquid Glass's specular highlight.
+    --cw-specular: rgba(255, 255, 255, 0.45);
+    --cw-specular-fade: rgba(255, 255, 255, 0);
+    --cw-surface: rgba(255, 255, 255, 0.4);
+  }
+
+  .glass.dark {
+    --cw-border: rgba(255, 255, 255, 0.14);
+    --cw-hairline: rgba(255, 255, 255, 0.1);
+    --cw-muted: rgba(255, 255, 255, 0.1);
+    --cw-shadow-card: 0 1px 1px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.4);
+    --cw-solid: rgba(22, 23, 26, 0.62);
+    --cw-specular: rgba(255, 255, 255, 0.1);
+    --cw-surface: rgba(255, 255, 255, 0.06);
+  }
+
+  // The host page can only show through if the widget document is see-through.
+  .glass,
+  .glass body {
+    background: transparent;
+  }
+
+  // Apple's material honours Reduced Transparency; fall back to opaque.
+  @media (prefers-reduced-transparency: reduce) {
+    .glass {
+      --cw-muted: rgb(var(--slate-3));
+      --cw-solid: rgb(var(--solid-1));
+      --cw-surface: rgb(var(--slate-2));
+    }
+
+    .glass,
+    .glass body {
+      background: rgb(var(--solid-1));
+    }
+  }
+
   html,
   body {
     font-family: var(--cw-font-sans);
@@ -93,6 +139,26 @@
     border: 1px solid var(--cw-border);
     border-radius: var(--cw-radius);
     box-shadow: var(--cw-shadow-card);
+  }
+
+  // In glass mode every surface refracts what is behind it, and carries a
+  // bright top edge standing in for Liquid Glass's specular highlight.
+  .glass .surface-card,
+  .glass .glass-layer {
+    backdrop-filter: blur(24px) saturate(180%);
+    background-image: linear-gradient(
+      to bottom,
+      var(--cw-specular),
+      var(--cw-specular-fade) 45%
+    );
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .glass .surface-card,
+    .glass .glass-layer {
+      backdrop-filter: none;
+      background-image: none;
+    }
   }
 
   .scrollbar-thin {

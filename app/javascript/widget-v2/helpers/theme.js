@@ -47,6 +47,9 @@ export const applyTheme = (theme = {}) => {
   if (SIZE_PATTERN.test(theme.radius || '')) {
     root.style.setProperty('--cw-radius', theme.radius);
   }
+  // Opt-in translucent surfaces; anything else keeps the opaque default.
+  root.classList.toggle('glass', theme.surface === 'glass');
+
   if (theme.fontUrl) loadFontStylesheet(theme.fontUrl);
   if (typeof theme.font === 'string' && theme.font.length < 200) {
     root.style.setProperty(

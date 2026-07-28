@@ -14,7 +14,7 @@ const uiStore = useUiStore();
 
 <template>
   <header
-    class="flex items-center gap-2 px-4 h-16 shrink-0 bg-cw-solid border-b border-cw-hairline"
+    class="glass-layer flex items-center gap-2 px-4 h-16 shrink-0 bg-cw-solid border-b border-cw-hairline"
   >
     <button
       v-if="showBack"

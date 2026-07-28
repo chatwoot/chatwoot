@@ -34,7 +34,12 @@
     bottom: 0;
     width: 33.333%;
     border-left: 1px dashed #d9d9de;
-    background: repeating-linear-gradient(45deg, #fbfbfb, #fbfbfb 12px, #f4f4f5 12px, #f4f4f5 24px);
+    /* Colourful backdrop so translucent surface styles are actually visible. */
+    background:
+      radial-gradient(60% 40% at 20% 15%, #c7d7ff 0%, transparent 60%),
+      radial-gradient(50% 40% at 85% 30%, #ffd9c7 0%, transparent 60%),
+      radial-gradient(60% 50% at 50% 90%, #d6f5e6 0%, transparent 60%),
+      repeating-linear-gradient(45deg, #fbfbfb, #fbfbfb 12px, #f4f4f5 12px, #f4f4f5 24px);
   }
   body[data-position="right"] .widget-zone { right: 0; }
   body[data-position="left"] .widget-zone { left: 0; border-left: none; border-right: 1px dashed #d9d9de; }
@@ -150,6 +155,11 @@
 
       <fieldset>
         <legend>Theme (v2)</legend>
+        <label>Surface style</label>
+        <select data-theme-key="surface">
+          <option value="">solid (default)</option>
+          <option value="glass">glass (translucent)</option>
+        </select>
         <label>Primary color</label>
         <input type="color" data-theme-key="primary" value="#2781f6" />
         <label>Radius (e.g. 14px)</label>
