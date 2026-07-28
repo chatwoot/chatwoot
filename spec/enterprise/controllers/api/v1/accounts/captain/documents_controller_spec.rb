@@ -13,6 +13,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
     }.with_indifferent_access
   end
 
+  before { account.enable_features!('captain_integration') }
+
   def json_response
     JSON.parse(response.body, symbolize_names: true)
   end

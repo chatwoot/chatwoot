@@ -50,7 +50,14 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
-    conversation.pending? && message.incoming? && inbox.captain_assistant.present?
+    conversation.pending? && message.incoming? && inbox.captain_assistant.present? && captain_feature_enabled?
+  end
+
+  # Captain is a premium feature; stop the runtime responder when it has been revoked, even if an
+  # assistant is still linked to the inbox.
+  def captain_feature_enabled?
+    account = conversation.account
+    account.feature_enabled?('captain_integration') || account.feature_enabled?('captain_integration_v2')
   end
 
   def perform_handoff
@@ -75,7 +82,9 @@ module Enterprise::MessageTemplates::HookExecutionService
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(conversation)
   end
 
+  # Only let Captain suppress the fallback templates when it can actually reply; otherwise a revoked
+  # feature would leave the contact with neither a Captain response nor a greeting/OOO/email-collect.
   def captain_handling_conversation?
-    conversation.pending? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present?
+    conversation.pending? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present? && captain_feature_enabled?
   end
 end

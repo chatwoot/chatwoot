@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Captain::BaseController
   before_action -> { check_authorization(Captain::Assistant) }
 
   before_action :set_assistant, only: [:show, :update, :destroy, :playground, :metrics, :faq_stats, :summary, :drilldown]

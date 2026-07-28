@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Captain::CopilotMessagesController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Captain::CopilotMessagesController < Api::V1::Accounts::Captain::BaseController
   before_action :set_copilot_thread
 
   def index

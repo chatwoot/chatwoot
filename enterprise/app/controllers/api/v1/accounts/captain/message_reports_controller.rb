@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Captain::MessageReportsController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Captain::MessageReportsController < Api::V1::Accounts::Captain::BaseController
   before_action :ensure_cloud_installation
   before_action :set_message
   before_action :authorize_conversation
