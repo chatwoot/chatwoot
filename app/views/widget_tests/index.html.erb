@@ -154,18 +154,26 @@
       </fieldset>
 
       <fieldset>
-        <legend>Theme (v2) &mdash; applies live</legend>
-        <label>Theme</label>
-        <select data-theme-key="name">
-          <option value="standard">standard</option>
+        <legend>Brand tokens (v2) &mdash; applies live</legend>
+        <label>Base font size (scales the whole widget)</label>
+        <input type="text" data-theme-key="fontSizeRoot" placeholder="16px" />
+        <label>Material</label>
+        <select data-theme-key="material">
+          <option value="">solid (default)</option>
           <option value="frosted">frosted</option>
-          <option value="tetris">tetris</option>
-          <option value="editorial">editorial</option>
         </select>
         <label>Primary color</label>
         <input type="color" data-theme-key="primary" value="#2781f6" />
         <label>Radius (e.g. 14px)</label>
         <input type="text" data-theme-key="radius" placeholder="14px" />
+        <label>Border width</label>
+        <input type="text" data-theme-key="borderWidth" placeholder="1px" />
+        <label>Card shadow</label>
+        <input type="text" data-theme-key="shadowCard" placeholder="0 1px 2px rgba(9,9,11,.04)" />
+        <label>Bubble radius</label>
+        <input type="text" data-theme-key="bubbleRadius" placeholder="18px" />
+        <label>Avatar radius</label>
+        <input type="text" data-theme-key="avatarRadius" placeholder="9999px" />
         <label>Font family</label>
         <input type="text" data-theme-key="font" placeholder="Sofia Sans" />
         <label>Font stylesheet URL (https)</label>
@@ -222,9 +230,8 @@
           <button onclick="setIdentifiedUser()">setUser (HMAC)</button>
           <button onclick="window.$chatwoot.setLocale(document.querySelector('[data-key=locale]').value || 'en')">setLocale (live)</button>
           <button onclick="window.$chatwoot.setColorScheme(document.querySelector('[data-key=darkMode]').value)">setColorScheme (live)</button>
-          <button onclick="window.$chatwoot.setTheme('tetris')">Theme: tetris</button>
-          <button onclick="window.$chatwoot.setTheme('editorial')">Theme: editorial</button>
-          <button onclick="window.$chatwoot.setTheme('standard')">Theme: standard</button>
+          <button onclick="window.$chatwoot.setTheme({ material: 'frosted' })">Material: frosted</button>
+          <button onclick="window.$chatwoot.setTheme({ material: '' })">Material: solid</button>
           <button onclick="window.$chatwoot.setCustomAttributes({ plan: 'enterprise', signed_up_at: '2024-01-01' })">setCustomAttributes</button>
           <button onclick="window.$chatwoot.setLabel('support')">setLabel</button>
           <button onclick="window.$chatwoot.popoutChatWindow()">Popout</button>
@@ -298,7 +305,10 @@
   function applyThemeLive() {
     if (!window.$chatwoot || !window.$chatwoot.setTheme) return;
     var theme = readForm().theme;
-    theme.name = document.querySelector('[data-theme-key="name"]').value;
+    // Send every control, including cleared ones, so tokens can be reset.
+    document.querySelectorAll('[data-theme-key]').forEach(function (el) {
+      theme[el.dataset.themeKey] = el.value;
+    });
     window.$chatwoot.setTheme(theme);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(readForm()));
     logEvent('setTheme', theme);

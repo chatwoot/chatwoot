@@ -20,6 +20,7 @@ const TOKEN_VARS = {
   canvasImage: '--cw-canvas-image',
   cardGap: '--cw-card-gap',
   fontSizeRoot: '--cw-font-size-root',
+  hairline: '--cw-hairline',
   headerHeight: '--cw-header-height',
   iconSize: '--cw-icon-size',
   fontWeightStrong: '--cw-font-weight-strong',
@@ -36,6 +37,7 @@ const TOKEN_VARS = {
   surface: '--cw-surface',
   tabHeight: '--cw-tab-height',
   text: '--cw-text',
+  textFaint: '--cw-text-faint',
   textMuted: '--cw-text-muted',
   trackingDisplay: '--cw-tracking-display',
   transitionDuration: '--cw-transition-duration',
@@ -79,11 +81,18 @@ const loadFontStylesheet = url => {
 };
 
 // A theme is either a name ('tetris') or an object ({ name, ...overrides }).
-// Precedence: widget-v2.scss defaults → named theme → explicit overrides.
-export const applyTheme = (theme = {}) => {
+// Precedence: scss defaults → inbox accent → named theme → explicit overrides.
+// The inbox accent is the weakest so a theme's own palette isn't overwritten
+// by the colour configured in the dashboard.
+export const applyTheme = (theme = {}, { defaultPrimary } = {}) => {
   const root = document.documentElement;
   const config = typeof theme === 'string' ? { name: theme } : theme || {};
-  const resolved = { ...getTheme(config.name), ...config };
+  const named = getTheme(config.name);
+  const resolved = {
+    ...(defaultPrimary && !named.primary ? { primary: defaultPrimary } : {}),
+    ...named,
+    ...config,
+  };
 
   root.classList.toggle('frosted', resolved.material === 'frosted');
 
@@ -96,7 +105,10 @@ export const applyTheme = (theme = {}) => {
 
   Object.entries(TOKEN_VARS).forEach(([token, cssVar]) => {
     const value = resolved[token];
-    if (value === undefined || !isSafeValue(String(value))) return;
+    // An empty value means "unset", leaving the default in place.
+    if (value === undefined || value === '' || !isSafeValue(String(value))) {
+      return;
+    }
     root.style.setProperty(cssVar, value);
   });
 

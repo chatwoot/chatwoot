@@ -27,10 +27,9 @@ export const useConfigStore = defineStore('config', () => {
       typeof hostTheme.value === 'string'
         ? { name: hostTheme.value }
         : hostTheme.value || {};
-    applyTheme({
-      primary:
+    applyTheme(host, {
+      defaultPrimary:
         channel.value.widget_color || window.chatwootWebChannel?.widgetColor,
-      ...host,
     });
     applyDarkMode(host.darkMode || darkMode.value);
   };

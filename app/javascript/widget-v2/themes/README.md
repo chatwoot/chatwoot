@@ -1,53 +1,38 @@
 # Widget styling kit
 
-The live chat widget (v2) is themeable end to end. A **theme** is a named
-bundle of design tokens. `standard` is the default; everything else is
-expressed purely as overrides of it.
+The live chat widget (v2) is themeable end to end. Everything visual is a
+**design token**, so a brand can match the widget to its own identity without
+touching the widget's code.
 
-## Choosing a theme
+`standard` is the only bundled theme and is the default.
 
-Pass a theme name in your embed snippet:
+## Customising for a brand
 
-```js
-window.chatwootSettings = {
-  widgetVersion: 'v2',
-  theme: 'editorial',
-};
-```
-
-Adopt a theme but override part of it:
+Pass tokens in your embed snippet:
 
 ```js
 window.chatwootSettings = {
   widgetVersion: 'v2',
-  theme: { name: 'editorial', primary: '#B3261E', radius: '8px' },
+  theme: {
+    primary: '#0F766E',
+    radius: '4px',
+    fontSizeRoot: '15px',
+    font: 'Söhne',
+    fontUrl: 'https://example.com/fonts/sohne.css',
+  },
 };
 ```
 
-Build your own from the defaults by passing only tokens:
+Change tokens at runtime — no reload. Values merge into the current theme, so
+a single token can be changed on its own:
 
 ```js
-window.chatwootSettings = {
-  widgetVersion: 'v2',
-  theme: { primary: '#0F766E', radius: '4px', fontSizeRoot: '15px' },
-};
+window.$chatwoot.setTheme({ primary: '#7C3AED' });
+window.$chatwoot.setTheme({ material: 'frosted' });
+window.$chatwoot.setTheme({ material: '' }); // back to solid
 ```
 
-Switch at runtime — no reload:
-
-```js
-window.$chatwoot.setTheme('tetris');
-window.$chatwoot.setTheme({ primary: '#7C3AED' }); // merges into the current theme
-```
-
-## Bundled themes
-
-| Name | Look |
-| --- | --- |
-| `standard` | The default. Neutral surfaces, 14px radius, Inter. |
-| `frosted` | Translucent chrome that picks up the page behind the widget. |
-| `tetris` | Blocky arcade: pixel type, square corners, thick borders, hard shadows. |
-| `editorial` | Publishing: serif, warm cream, generous spacing, no shadows. |
+An empty value resets a token to its default.
 
 ## Token reference
 
@@ -111,9 +96,11 @@ Every token is optional. Omitted tokens keep their `standard` value.
 | `material` | `frosted` | Makes chrome translucent so the host page shows through |
 | `darkMode` | `light` \| `dark` \| `auto` | Colour scheme |
 
-## Authoring a theme
+## Bundling a named theme
 
-Add a token bundle to `themes/index.js` and register it in `THEMES`:
+If a look should be reusable rather than pasted into every embed, register a
+token bundle in `themes/index.js` — it then becomes available as
+`theme: '<name>'`:
 
 ```js
 const midnight = {
@@ -126,8 +113,11 @@ const midnight = {
   shadowCard: 'none',
 };
 
-export const THEMES = { standard, frosted, tetris, editorial, midnight };
+export const THEMES = { standard, midnight };
 ```
+
+A named theme can still be overridden per site:
+`theme: { name: 'midnight', primary: '#B3261E' }`.
 
 ### Rules worth following
 
@@ -137,8 +127,11 @@ export const THEMES = { standard, frosted, tetris, editorial, midnight };
   more for a theme's character than any colour.
 - **Keep contrast.** Text tokens must stay legible on their surfaces; the
   widget is support UI before it is decoration.
-- **`frosted` legibility depends on the host page.** Over busy imagery it will
-  get muddy — prefer it on calm backgrounds.
+- **The `frosted` material's legibility depends on the host page.** Over busy
+  imagery it will get muddy — prefer it on calm backgrounds.
+- **Dark palettes need the full colour set.** Setting only `background` leaves
+  text and borders on their light defaults; set `solid`, `surface`, `muted`,
+  `border`, `hairline`, `text`, `textMuted` and `textFaint` together.
 - **Host-supplied values are sanitised.** Values containing `;`, `{}`,
   `@import`, `javascript:` or `url()` are rejected, and `fontUrl` must be
   https.
