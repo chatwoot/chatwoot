@@ -603,7 +603,7 @@
         },
         "INACTIVITY_RESOLUTION": {
           "TITLE": "Inactive conversations",
-          "DESCRIPTION": "Pending conversations are waiting for the customer to reply. Choose what Captain does if the customer does not respond.",
+          "DESCRIPTION": "Pending conversations are waiting for the customer to reply.",
           "CURRENT_MODE": "Current setting: {mode}",
           "CURRENT_MODE_AFTER": "Current setting: {mode} after {duration}",
           "DURATION_HOURS": "{count} hour | {count} hours",
@@ -653,7 +653,7 @@
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
-          "DESCRIPTION_V2": "Choose how Captain handles inactive conversations. Set the messages Captain sends when it hands off or resolves a conversation."
+          "DESCRIPTION_V2": "Set the messages Captain sends when it hands off or resolves a conversation."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
