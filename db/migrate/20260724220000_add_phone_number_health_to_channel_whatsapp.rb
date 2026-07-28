@@ -1,5 +1,7 @@
 class AddPhoneNumberHealthToChannelWhatsapp < ActiveRecord::Migration[7.1]
   def change
+    return if column_exists?(:channel_whatsapp, :phone_number_health)
+
     add_column :channel_whatsapp, :phone_number_health, :jsonb, default: {}, null: false
     add_column :channel_whatsapp, :phone_number_health_checked_at, :datetime
     add_column :channel_whatsapp, :phone_number_health_error, :string, limit: 500
