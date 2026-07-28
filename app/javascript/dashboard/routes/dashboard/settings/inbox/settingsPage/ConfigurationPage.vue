@@ -531,43 +531,59 @@ export default {
           )
         "
       >
-        <div
-          class="flex flex-1 justify-between items-center whatsapp-settings--content"
-        >
-          <woot-input
-            v-model="whatsAppBusinessManagementToken"
-            type="password"
-            class="flex-1 mr-2 [&>input]:!mb-0"
-            :placeholder="
-              $t(
-                'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER'
-              )
-            "
-          />
-          <NextButton
-            :disabled="
-              v$.whatsAppBusinessManagementToken.$invalid ||
-              isUpdatingWhatsAppBusinessManagementToken
-            "
-            :is-loading="isUpdatingWhatsAppBusinessManagementToken"
-            @click="updateWhatsAppBusinessManagementToken"
+        <div class="flex flex-col gap-2">
+          <div
+            class="flex flex-1 justify-between items-center whatsapp-settings--content"
           >
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
-          </NextButton>
-          <NextButton
-            color-scheme="alert"
-            variant="outline"
-            class="ml-2"
-            :is-loading="isRemovingWhatsAppBusinessManagementToken"
-            :disabled="isUpdatingWhatsAppBusinessManagementToken"
-            @click="removeWhatsAppBusinessManagementToken"
+            <woot-input
+              v-model="whatsAppBusinessManagementToken"
+              type="password"
+              class="flex-1 mr-2 [&>input]:!mb-0"
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER'
+                )
+              "
+            />
+            <NextButton
+              :disabled="
+                v$.whatsAppBusinessManagementToken.$invalid ||
+                isUpdatingWhatsAppBusinessManagementToken
+              "
+              :is-loading="isUpdatingWhatsAppBusinessManagementToken"
+              @click="updateWhatsAppBusinessManagementToken"
+            >
+              {{
+                $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON')
+              }}
+            </NextButton>
+            <NextButton
+              color-scheme="alert"
+              variant="outline"
+              class="ml-2"
+              :is-loading="isRemovingWhatsAppBusinessManagementToken"
+              :disabled="isUpdatingWhatsAppBusinessManagementToken"
+              @click="removeWhatsAppBusinessManagementToken"
+            >
+              {{
+                $t(
+                  'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REMOVE_BUTTON'
+                )
+              }}
+            </NextButton>
+          </div>
+          <a
+            href="https://www.chatwoot.com/hc/user-guide/articles/1785260890-whatsapp-business-token"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-label-small text-n-blue-11 hover:underline"
           >
             {{
               $t(
-                'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REMOVE_BUTTON'
+                'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK'
               )
             }}
-          </NextButton>
+          </a>
         </div>
       </SettingsFieldSection>
       <SettingsFieldSection
