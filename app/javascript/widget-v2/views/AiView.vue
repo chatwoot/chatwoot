@@ -29,7 +29,7 @@ onMounted(() => {
   <div class="flex flex-col h-full bg-cw-solid">
     <WidgetHeader :title="$t('AI.TITLE')" />
 
-    <div class="flex-1 overflow-y-auto scrollbar-thin">
+    <div class="flex-1 overflow-y-auto scrollbar-thin pb-20">
       <div class="flex flex-col items-center px-6 pt-8 pb-6 text-center">
         <BaseAvatar :src="aiAgent?.avatar_url" :name="aiName" :size="56" />
         <h2 class="mt-3 text-base font-620 text-cw-text type-display">

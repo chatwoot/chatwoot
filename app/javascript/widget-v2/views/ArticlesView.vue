@@ -69,7 +69,7 @@ const openCategory = category =>
       </label>
     </div>
 
-    <div class="flex-1 overflow-y-auto scrollbar-thin">
+    <div class="flex-1 overflow-y-auto scrollbar-thin pb-20">
       <div v-if="articlesStore.loading" class="flex justify-center py-8">
         <BaseSpinner />
       </div>

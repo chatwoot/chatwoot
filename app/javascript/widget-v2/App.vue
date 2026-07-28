@@ -101,7 +101,9 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col h-full bg-cw-solid text-cw-text antialiased">
+  <div
+    class="relative flex flex-col h-full bg-cw-solid text-cw-text antialiased"
+  >
     <EmptyState
       v-if="configStore.status === 'error'"
       class="my-auto"

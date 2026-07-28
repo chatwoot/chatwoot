@@ -50,40 +50,46 @@ const unreadCount = computed(() => conversationsStore.totalUnread);
 </script>
 
 <template>
+  <!-- Floating pill: content scrolls beneath it, so the panel keeps its full
+       height and the widget loses the docked-tab-bar silhouette. -->
   <nav
-    class="flex items-stretch shrink-0 h-16 bar-blur border-t border-cw-hairline"
+    class="absolute inset-x-0 bottom-0 z-10 flex justify-center px-3 pb-3 pointer-events-none"
     :aria-label="$t('TABS.HOME')"
   >
-    <button
-      v-for="tab in tabs"
-      :key="tab.name"
-      type="button"
-      class="relative flex flex-col items-center justify-center flex-1 gap-1 outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring transition-colors"
-      :class="
-        isActive(tab.name)
-          ? 'text-cw-primary'
-          : 'text-cw-text-faint hover:text-cw-text-muted'
-      "
-      @click="router.push({ name: tab.name })"
+    <div
+      class="flex items-stretch w-full gap-1 p-1 rounded-full bar-blur border border-cw-hairline shadow-lg pointer-events-auto"
     >
-      <span class="relative flex items-center justify-center h-6">
-        <span
-          :class="isActive(tab.name) ? tab.activeIcon : tab.icon"
-          class="text-xl"
-        />
-        <span
-          v-if="tab.name === 'conversations' && unreadCount"
-          class="absolute -top-1 -right-2.5 min-w-4 h-4 px-1 flex items-center justify-center rounded-full bg-cw-primary text-cw-primary-foreground text-xxs font-semibold ring-2 ring-cw-solid"
-        >
-          {{ unreadCount > 9 ? '9+' : unreadCount }}
-        </span>
-      </span>
-      <span
-        class="text-xs tracking-wide"
-        :class="isActive(tab.name) ? 'font-520' : 'font-medium'"
+      <button
+        v-for="tab in tabs"
+        :key="tab.name"
+        type="button"
+        class="relative flex flex-col items-center justify-center flex-1 gap-0.5 h-12 rounded-full transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
+        :class="
+          isActive(tab.name)
+            ? 'bg-cw-primary-soft text-cw-primary'
+            : 'text-cw-text-faint hover:text-cw-text-muted hover:bg-cw-muted'
+        "
+        @click="router.push({ name: tab.name })"
       >
-        {{ $t(tab.label) }}
-      </span>
-    </button>
+        <span class="relative flex items-center justify-center">
+          <span
+            :class="isActive(tab.name) ? tab.activeIcon : tab.icon"
+            class="text-lg"
+          />
+          <span
+            v-if="tab.name === 'conversations' && unreadCount"
+            class="absolute -top-1 -right-2.5 min-w-4 h-4 px-1 flex items-center justify-center rounded-full bg-cw-primary text-cw-primary-foreground text-xxs font-semibold ring-2 ring-cw-solid"
+          >
+            {{ unreadCount > 9 ? '9+' : unreadCount }}
+          </span>
+        </span>
+        <span
+          class="text-xxs tracking-wide"
+          :class="isActive(tab.name) ? 'font-520' : 'font-medium'"
+        >
+          {{ $t(tab.label) }}
+        </span>
+      </button>
+    </div>
   </nav>
 </template>

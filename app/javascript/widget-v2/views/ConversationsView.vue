@@ -32,7 +32,7 @@ const section = conversationsStore.sections.human;
       </template>
     </WidgetHeader>
 
-    <div class="flex-1 overflow-y-auto scrollbar-thin">
+    <div class="flex-1 overflow-y-auto scrollbar-thin pb-20">
       <EmptyState
         v-if="!section.loading && !conversationsStore.humanConversations.length"
         icon="i-ph-chat-circle"

@@ -120,7 +120,7 @@ const openConversation = id =>
       </div>
     </header>
 
-    <div class="flex flex-col gap-4 px-4 pb-6">
+    <div class="flex flex-col gap-4 px-4 pb-24">
       <NoticeBanner
         v-for="announcement in configStore.announcements"
         :key="announcement.id"
