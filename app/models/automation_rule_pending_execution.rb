@@ -29,9 +29,6 @@ class AutomationRulePendingExecution < ApplicationRecord
   STALE_PROCESSING_TIMEOUT = 15.minutes
   # Terminal rows are purged after this to keep the table bounded.
   RETENTION_WINDOW = 30.days
-  # Skip reason for a row cancelled only because conditions no longer matched at fire time; unlike
-  # other terminal reasons, a later qualifying message can re-arm it (see .schedule).
-  CONDITIONS_CHANGED_SKIP = 'conditions_changed'.freeze
 
   belongs_to :automation_rule
   belongs_to :conversation
@@ -90,18 +87,16 @@ class AutomationRulePendingExecution < ApplicationRecord
       # Jobs can arrive out of order; only a strictly newer message advances or re-arms, so a late
       # older message can't pull due_at backwards and fire before the delay elapses.
       next unless message.id > row.message_id
+      # A row that already acted keeps its episode's single run, and a live worker keeps its row.
+      next unless row.pending? || row.skipped? || row.stale_processing?
 
-      if row.condition_skipped?
-        # A message episode key can recur (no new incoming reply) while conditions swing back into
-        # match, so a later qualifying message re-arms the condition-only skip instead of dropping.
-        row.update!(status: :pending, skip_reason: nil, due_at: due_at, message_id: message.id)
-      elsif row.pending? || row.stale_processing?
-        # Track the newest qualifying message. Reply-chase advances due_at with each agent reply;
-        # awaiting-agent keeps its first clock (its anchor is the stable waiting_since, so due_at is
-        # unchanged). Re-anchoring a row whose worker died mid-run back to pending also keeps a
-        # stale reclaim from firing the old clock instead of the latest one.
-        row.update!(status: :pending, due_at: due_at, message_id: message.id)
-      end
+      # Track the newest qualifying message. Reply-chase advances due_at with each agent reply;
+      # awaiting-agent keeps its first clock (its anchor is the stable waiting_since, so due_at is
+      # unchanged). Re-anchoring a row whose worker died mid-run back to pending also keeps a stale
+      # reclaim from firing the old clock instead of the latest one. A skipped row re-arms whatever
+      # the reason: its key recurs while the customer stays quiet, so leaving it terminal would
+      # suppress every later message in the episode until the row is purged.
+      row.update!(status: :pending, skip_reason: nil, due_at: due_at, message_id: message.id)
     end
   end
 
@@ -187,10 +182,6 @@ class AutomationRulePendingExecution < ApplicationRecord
   # claim it and run the same actions alongside the worker still executing them.
   def stale_processing?
     processing? && updated_at < STALE_PROCESSING_TIMEOUT.ago
-  end
-
-  def condition_skipped?
-    skipped? && skip_reason == CONDITIONS_CHANGED_SKIP
   end
 
   def terminal?

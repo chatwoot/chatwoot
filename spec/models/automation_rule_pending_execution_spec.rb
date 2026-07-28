@@ -166,16 +166,20 @@ RSpec.describe AutomationRulePendingExecution do
       end
     end
 
-    it 'does not re-arm an episode skipped for a non-condition reason' do
+    it 're-arms an episode skipped for a reason other than conditions, so later messages are not suppressed' do
       reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
       described_class.schedule(rule: rule, conversation: conversation, message: reply)
-      described_class.last.update!(status: :skipped, skip_reason: 'episode_moved')
+      # The sweep was down long enough for the row to age out; a disabled rule leaves the same trail.
+      described_class.last.update!(status: :skipped, skip_reason: 'expired')
 
       newer_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
       described_class.schedule(rule: rule, conversation: conversation, message: newer_reply)
 
+      row = described_class.last
       expect(described_class.count).to eq(1)
-      expect(described_class.last).to be_skipped
+      expect(row).to be_pending
+      expect(row.skip_reason).to be_nil
+      expect(row.message_id).to eq(newer_reply.id)
     end
 
     it 'keeps the awaiting_agent clock but tracks the newest incoming message' do

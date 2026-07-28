@@ -48,12 +48,12 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   def clone
     automation_rule = Current.account.automation_rules.find_by(id: params[:automation_rule_id])
-    new_rule = automation_rule.dup
-    # dup copies execution_delay; drop it when the feature is off so clone can't create new
-    # delayed rules that create/update would reject.
-    new_rule.execution_delay = nil unless delayed_automations_enabled?
-    new_rule.save!
-    @automation_rule = new_rule
+    # Dropping the delay here would clone a paused wait into a rule that fires instantly on the
+    # next matching event, so refuse rather than rewrite what the rule means.
+    return render_delayed_automations_error if automation_rule.execution_delay.present? && !delayed_automations_enabled?
+
+    @automation_rule = automation_rule.dup
+    @automation_rule.save!
   end
 
   private
@@ -73,6 +73,10 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     return if delayed_automations_enabled?
     return if params[:execution_delay].blank?
 
+    render_delayed_automations_error
+  end
+
+  def render_delayed_automations_error
     render json: { error: 'Delayed automations are not enabled for this account.' }, status: :unprocessable_entity
   end
 

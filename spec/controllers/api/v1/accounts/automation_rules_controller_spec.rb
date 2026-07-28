@@ -507,14 +507,24 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(account.automation_rules.last.execution_delay).to be_nil
       end
 
-      it 'strips execution_delay when cloning an existing delayed rule' do
+      it 'rejects cloning an existing delayed rule instead of turning it into an instant one' do
         automation_rule = create(:automation_rule, account: account, execution_delay: 240)
 
         post "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/clone",
              headers: administrator.create_new_auth_token
 
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.automation_rules.count).to eq(1)
+      end
+
+      it 'still clones a rule that carries no delay' do
+        automation_rule = create(:automation_rule, account: account)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/clone",
+             headers: administrator.create_new_auth_token
+
         expect(response).to have_http_status(:success)
-        expect(account.automation_rules.last.execution_delay).to be_nil
+        expect(account.automation_rules.count).to eq(2)
       end
     end
   end
