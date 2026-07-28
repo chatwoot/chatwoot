@@ -39,6 +39,10 @@
     "ERROR": "Something went wrong. Please try again.",
     "WHATSAPP_CONNECTED": "WhatsApp connected successfully",
     "FACEBOOK_CONNECTED": "Facebook connected successfully",
+    "META_RESTRICTION": {
+      "MESSAGE": "Instagram and WhatsApp inbox creation through Meta is temporarily unavailable. You can continue setup later from your dashboard.",
+      "STATUS_LINK": "View status updates"
+    },
     "CREATED_FOR_YOU": {
       "TITLE": "We've created the following for you",
       "LIVE_CHAT": "Live Chat widget",

@@ -9,6 +9,10 @@ import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import {
+  IS_META_INBOX_CREATION_DISABLED,
+  META_RESTRICTION_STATUS_URL,
+} from 'dashboard/constants/globals';
 
 const route = useRoute();
 const router = useRouter();
@@ -36,6 +40,9 @@ const selectedProvider = computed(() => route.query.provider);
 const showProviderSelection = computed(() => !selectedProvider.value);
 
 const showConfiguration = computed(() => Boolean(selectedProvider.value));
+const isWhatsappEmbeddedSignupDisabled = computed(
+  () => isOnChatwootCloud.value && IS_META_INBOX_CREATION_DISABLED
+);
 
 const shouldShowWhatsappEmbeddedSignup = computed(() => {
   return (
@@ -109,7 +116,11 @@ const handleManualLinkClick = () => {
     <div v-else-if="showConfiguration">
       <div class="px-6 py-5 rounded-2xl border border-n-weak">
         <div v-if="shouldShowWhatsappEmbeddedSignup">
-          <WhatsappEmbeddedSignup />
+          <WhatsappEmbeddedSignup
+            :is-disabled="isWhatsappEmbeddedSignupDisabled"
+            :show-restriction-alert="isWhatsappEmbeddedSignupDisabled"
+            :restriction-status-url="META_RESTRICTION_STATUS_URL"
+          />
 
           <!-- Manual setup fallback option -->
           <div class="pt-6 mt-6 border-t border-n-weak">
