@@ -38,53 +38,58 @@ const initialState = {
 const state = reactive({ ...initialState });
 const isInactivityResolutionSettingsExpanded = ref(false);
 
-const inactivityDurationGroups = computed(() => {
-  const minuteOptions = Array.from({ length: 11 }, (_, index) => {
-    const minutes = (index + 1) * 5;
+const inactivityHourOptions = Array.from({ length: 25 }, (_, hours) => ({
+  value: hours,
+  label: String(hours),
+}));
+
+const inactivityThresholdHours = computed({
+  get: () => Math.floor(state.inactivityThresholdMinutes / 60),
+  set: hours => {
+    const remainingMinutes = state.inactivityThresholdMinutes % 60;
+    const requestedMinutes = Number(hours) * 60 + remainingMinutes;
+    state.inactivityThresholdMinutes = Math.min(
+      Math.max(requestedMinutes, 5),
+      24 * 60
+    );
+  },
+});
+
+const inactivityThresholdRemainingMinutes = computed({
+  get: () => state.inactivityThresholdMinutes % 60,
+  set: minutes => {
+    const completeHours = Math.floor(state.inactivityThresholdMinutes / 60);
+    const requestedMinutes = completeHours * 60 + Number(minutes);
+    state.inactivityThresholdMinutes = Math.min(
+      Math.max(requestedMinutes, 5),
+      24 * 60
+    );
+  },
+});
+
+const inactivityMinuteOptions = computed(() => {
+  return Array.from({ length: 12 }, (_, index) => {
+    const minutes = index * 5;
+    const hours = inactivityThresholdHours.value;
+
     return {
       value: minutes,
-      label: t(
-        'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES',
-        { count: minutes }
-      ),
+      label: String(minutes).padStart(2, '0'),
+      disabled:
+        (hours === 0 && minutes === 0) || (hours === 24 && minutes !== 0),
     };
   });
-
-  const hourOptions = Array.from({ length: 24 }, (_, index) => {
-    const hours = index + 1;
-    return {
-      value: hours * 60,
-      label:
-        hours === 1
-          ? t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_ONE_HOUR')
-          : t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HOURS', {
-              count: hours,
-            }),
-    };
-  });
-
-  hourOptions.splice(1, 0, {
-    value: 90,
-    label: t(
-      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_NINETY_MINUTES'
-    ),
-  });
-
-  return [
-    {
-      label: t(
-        'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_GROUP_MINUTES'
-      ),
-      options: minuteOptions,
-    },
-    {
-      label: t(
-        'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_GROUP_HOURS'
-      ),
-      options: hourOptions,
-    },
-  ];
 });
+
+const inactivityResolutionHelp = computed(() =>
+  state.resolveInactiveConversations
+    ? t(
+        'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TOGGLE_HELP_WHEN_ENABLED'
+      )
+    : t(
+        'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TOGGLE_HELP_WHEN_DISABLED'
+      )
+);
 
 const validationRules = {
   handoffMessage: { minLength: minLength(1) },
@@ -213,9 +218,7 @@ watch(
               }}
             </p>
             <p class="text-sm text-n-slate-11">
-              {{
-                t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TOGGLE_HELP')
-              }}
+              {{ inactivityResolutionHelp }}
             </p>
           </div>
           <Switch v-model="state.resolveInactiveConversations" class="mt-1" />
@@ -225,29 +228,44 @@ watch(
           v-if="state.resolveInactiveConversations"
           class="flex flex-col gap-2"
         >
-          <label class="text-sm font-medium text-n-slate-12">
+          <p class="text-sm font-medium text-n-slate-12">
             {{
               t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_LABEL')
             }}
-          </label>
-          <Select
-            v-model="state.inactivityThresholdMinutes"
-            :groups="inactivityDurationGroups"
-            :error="formErrors.inactivityThresholdMinutes"
-            class="!w-full [&>select]:w-full"
-          />
+          </p>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="flex flex-col gap-1.5 text-xs text-n-slate-11">
+              {{
+                t(
+                  'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HOURS_LABEL'
+                )
+              }}
+              <Select
+                v-model="inactivityThresholdHours"
+                :options="inactivityHourOptions"
+                :error="formErrors.inactivityThresholdMinutes"
+                class="!w-full [&>select]:w-full"
+              />
+            </label>
+            <label class="flex flex-col gap-1.5 text-xs text-n-slate-11">
+              {{
+                t(
+                  'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES_LABEL'
+                )
+              }}
+              <Select
+                v-model="inactivityThresholdRemainingMinutes"
+                :options="inactivityMinuteOptions"
+                :error="formErrors.inactivityThresholdMinutes"
+                class="!w-full [&>select]:w-full"
+              />
+            </label>
+          </div>
           <p
-            class="text-xs"
-            :class="
-              formErrors.inactivityThresholdMinutes
-                ? 'text-n-ruby-9'
-                : 'text-n-slate-11'
-            "
+            v-if="formErrors.inactivityThresholdMinutes"
+            class="text-xs text-n-ruby-9"
           >
-            {{
-              formErrors.inactivityThresholdMinutes ||
-              t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HELP')
-            }}
+            {{ formErrors.inactivityThresholdMinutes }}
           </p>
         </div>
       </div>
