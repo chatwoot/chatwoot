@@ -74,6 +74,8 @@ const branchTargetsForStep = computed(() => {
   return props.stepTargets.filter(o => o.id !== props.selectedStep.id);
 });
 
+const nextTargetsForStep = computed(() => branchTargetsForStep.value);
+
 const canAddButton = computed(
   () => (props.selectedStep?.buttons || []).length < MAX_BUTTONS
 );
@@ -199,6 +201,26 @@ const removeButton = index => {
           />
         </div>
       </details>
+
+      <template v-if="!waitReplyEnabled">
+        <label class="mb-2 block">
+          <span class="mb-0.5 block text-xs text-n-slate-11">
+            {{ t('FLOWS.EDIT.AFTER_ACTIONS') }}
+          </span>
+          <select v-model="selectedStep.next" class="mb-0">
+            <option
+              v-for="opt in nextTargetsForStep"
+              :key="opt.id"
+              :value="opt.id"
+            >
+              {{ opt.label }}
+            </option>
+          </select>
+        </label>
+      </template>
+      <p v-else class="mb-2 text-[11px] leading-snug text-n-slate-11">
+        {{ t('FLOWS.EDIT.AFTER_ACTIONS_WAIT_HINT') }}
+      </p>
 
       <template v-if="stepHasSendMessage">
         <div
