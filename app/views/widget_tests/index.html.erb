@@ -162,8 +162,14 @@
           <option value="">solid (default)</option>
           <option value="frosted">frosted</option>
         </select>
-        <label>Primary color</label>
-        <input type="color" data-theme-key="primary" value="#2781f6" />
+        <label>Theme</label>
+        <select data-theme-key="name">
+          <option value="standard">standard</option>
+          <option value="context">context (brand demo)</option>
+          <option value="spotify">spotify (brand demo)</option>
+        </select>
+        <label>Primary color (blank = use the theme's own)</label>
+        <input type="text" data-theme-key="primary" placeholder="#2781f6" />
         <label>Radius (e.g. 14px)</label>
         <input type="text" data-theme-key="radius" placeholder="14px" />
         <label>Border width</label>
@@ -230,6 +236,8 @@
           <button onclick="setIdentifiedUser()">setUser (HMAC)</button>
           <button onclick="window.$chatwoot.setLocale(document.querySelector('[data-key=locale]').value || 'en')">setLocale (live)</button>
           <button onclick="window.$chatwoot.setColorScheme(document.querySelector('[data-key=darkMode]').value)">setColorScheme (live)</button>
+          <button onclick="applyBrandDemo('context')">Brand: Context</button>
+          <button onclick="applyBrandDemo('spotify')">Brand: Spotify</button>
           <button onclick="window.$chatwoot.setTheme({ material: 'frosted' })">Material: frosted</button>
           <button onclick="window.$chatwoot.setTheme({ material: '' })">Material: solid</button>
           <button onclick="window.$chatwoot.setCustomAttributes({ plan: 'enterprise', signed_up_at: '2024-01-01' })">setCustomAttributes</button>
@@ -349,6 +357,52 @@
     var line = new Date().toLocaleTimeString() + '  ' + name +
       (detail ? '  ' + JSON.stringify(detail) : '');
     log.textContent = line + '\n' + log.textContent;
+  }
+
+  // Generated from brand.dev responses: theme tokens plus the brand block.
+  var BRAND_DEMOS = {
+    context: {
+      theme: { name: 'context' },
+      brand: {
+        logo: 'https://media.brand.dev/a5f9dee3-c77d-44bb-a047-cd452454ccbd.png',
+        coverImage: 'https://media.brand.dev/355a306a-696e-4d52-b64e-f5f84c01f0ae.png',
+        email: 'hello@context.dev',
+        links: [
+          { label: 'Pricing', url: 'https://www.context.dev/pricing' },
+          { label: 'Blog', url: 'https://www.context.dev/blog' },
+          { label: 'Contact', url: 'https://www.context.dev/contact' }
+        ],
+        social: {
+          x: 'https://x.com/getcontextdev',
+          linkedin: 'https://linkedin.com/company/contextdev'
+        }
+      }
+    },
+    spotify: {
+      theme: { name: 'spotify' },
+      brand: {
+        logo: 'https://media.brand.dev/6720b675-70dc-4a61-802e-1d9f2440e15c.png',
+        coverImage: 'https://media.brand.dev/4b2946b3-eed2-4635-b585-e4fe8b54bb3d.jpg',
+        social: {
+          x: 'https://x.com/Spotify',
+          linkedin: 'https://linkedin.com/company/spotify-for-artists',
+          youtube: 'https://youtube.com/c/spotify'
+        }
+      }
+    }
+  };
+
+  function applyBrandDemo(name) {
+    var demo = BRAND_DEMOS[name];
+    window.$chatwoot.theme = {};
+    window.$chatwoot.setTheme(demo.theme);
+    // Brand assets ride the same config channel as the initial handshake.
+    document.querySelector('[data-theme-key="name"]').value = name;
+    var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    saved.brand = demo.brand;
+    saved.theme = demo.theme;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+    logEvent('brand demo: ' + name + ' (reload to apply brand assets)');
   }
 
   function setIdentifiedUser() {
