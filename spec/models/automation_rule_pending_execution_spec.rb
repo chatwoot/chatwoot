@@ -237,6 +237,13 @@ RSpec.describe AutomationRulePendingExecution do
       create(:message, conversation: conversation, account: account, message_type: :incoming)
       expect(described_class.last.episode_current?).to be(false)
     end
+
+    it 'is true for a factory-built row anchored on a message' do
+      reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+      row = create(:automation_rule_pending_execution, account: account, conversation: conversation, message: reply)
+
+      expect(row.episode_current?).to be(true)
+    end
   end
 
   describe '#claim!' do
@@ -301,6 +308,27 @@ RSpec.describe AutomationRulePendingExecution do
 
       expect(expired.reload.due_at).to be_within(5.seconds).of(Time.current)
       expect(within_window.reload.due_at).to be_within(5.seconds).of(2.days.ago)
+    end
+
+    it 'hands a stale processing row back to pending instead of leaving it to expire on the next sweep' do
+      stale = travel_to(5.days.ago) do
+        create(:automation_rule_pending_execution, account: account, conversation: conversation, status: :processing)
+      end
+
+      described_class.reschedule_paused(account)
+
+      expect(stale.reload).to be_pending
+      expect(stale.due_at).to be_within(5.seconds).of(Time.current)
+    end
+
+    it 'leaves a live worker holding its own row' do
+      claimed = create(:automation_rule_pending_execution, account: account, conversation: conversation,
+                                                           status: :processing, due_at: 5.days.ago)
+
+      described_class.reschedule_paused(account)
+
+      expect(claimed.reload).to be_processing
+      expect(claimed.due_at).to be_within(5.seconds).of(5.days.ago)
     end
   end
 end
