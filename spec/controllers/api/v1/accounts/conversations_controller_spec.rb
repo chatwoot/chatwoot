@@ -1212,6 +1212,30 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.custom_attributes).not_to be_nil
         expect(conversation.reload.custom_attributes.count).to eq 3
       end
+
+      it 'merges custom attributes when merge is enabled' do
+        conversation.update!(custom_attributes: { existing_key: 'keep', user_id: 1 })
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
+             headers: agent.create_new_auth_token,
+             params: { custom_attributes: { user_id: 1001 }, merge: true },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.custom_attributes).to eq({ 'existing_key' => 'keep', 'user_id' => 1001 })
+      end
+
+      it 'replaces custom attributes by default' do
+        conversation.update!(custom_attributes: { existing_key: 'gone' })
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
+             headers: agent.create_new_auth_token,
+             params: { custom_attributes: { user_id: 1001 } },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.custom_attributes).to eq({ 'user_id' => 1001 })
+      end
     end
 
     context 'when it is a bot' do
@@ -1232,6 +1256,37 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.custom_attributes).not_to be_nil
         expect(conversation.reload.custom_attributes.count).to eq 3
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/destroy_custom_attributes' do
+    let(:conversation) { create(:conversation, account: account, custom_attributes: { test: 'test', test1: 'test1' }) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/destroy_custom_attributes"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'deletes the given custom attribute' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/destroy_custom_attributes",
+             headers: agent.create_new_auth_token,
+             params: { custom_attributes: ['test'] },
+             as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(conversation.reload.custom_attributes).to eq({ 'test1' => 'test1' })
+        expect(response.parsed_body['custom_attributes']).to eq({ 'test1' => 'test1' })
       end
     end
   end
