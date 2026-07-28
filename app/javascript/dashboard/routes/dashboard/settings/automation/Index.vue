@@ -10,6 +10,7 @@ import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { picoSearch } from '@scmmishra/pico-search';
 import AutomationRuleRow from './AutomationRuleRow.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import { BaseTable } from 'dashboard/components-next/table';
 
 const getters = useStoreGetters();
@@ -36,32 +37,66 @@ const filteredRecords = computed(() => {
   return picoSearch(records.value, query, ['name', 'description']);
 });
 
-// Delayed (wait) rules run on a different lifecycle, so list them in their own section.
-const hasDelayedRecords = computed(() =>
-  records.value.some(automation => automation.execution_delay)
-);
-
-const sections = computed(() => {
-  const instant = [];
-  const delayed = [];
-  filteredRecords.value.forEach(automation =>
-    (automation.execution_delay ? delayed : instant).push(automation)
-  );
-  return [
-    {
-      key: 'instant',
-      label: t('AUTOMATION.LIST.SECTIONS.INSTANT'),
-      items: instant,
-    },
-    {
-      key: 'delayed',
-      label: t('AUTOMATION.LIST.SECTIONS.DELAYED'),
-      items: delayed,
-    },
-  ].filter(section => section.items.length);
-});
 const uiFlags = computed(() => getters['automations/getUIFlags'].value);
 const accountId = computed(() => getters.getCurrentAccountId.value);
+
+const isDelayedAutomationsEnabled = computed(() =>
+  getters['accounts/isFeatureEnabledonAccount'].value(
+    accountId.value,
+    'delayed_automations'
+  )
+);
+
+const instantRecords = computed(() =>
+  filteredRecords.value.filter(automation => !automation.execution_delay)
+);
+const delayedRecords = computed(() =>
+  filteredRecords.value.filter(automation => automation.execution_delay)
+);
+
+// Accounts that can't create delayed rules, and have none left over, just see the plain list.
+const showTabs = computed(
+  () =>
+    isDelayedAutomationsEnabled.value ||
+    records.value.some(automation => automation.execution_delay)
+);
+
+const activeTab = ref('instant');
+
+const tabs = computed(() => [
+  {
+    key: 'instant',
+    label: t('AUTOMATION.LIST.TABS.INSTANT'),
+    count: instantRecords.value.length,
+  },
+  {
+    key: 'delayed',
+    label: t('AUTOMATION.LIST.TABS.DELAYED'),
+    count: delayedRecords.value.length,
+  },
+]);
+
+const activeTabIndex = computed(() =>
+  tabs.value.findIndex(tab => tab.key === activeTab.value)
+);
+
+const visibleRecords = computed(() => {
+  if (!showTabs.value) return filteredRecords.value;
+  return activeTab.value === 'delayed'
+    ? delayedRecords.value
+    : instantRecords.value;
+});
+
+const noDataMessage = computed(() => {
+  if (searchQuery.value) return t('AUTOMATION.NO_RESULTS');
+  return showTabs.value && activeTab.value === 'delayed'
+    ? t('AUTOMATION.LIST.404_DELAYED')
+    : t('AUTOMATION.LIST.404');
+});
+
+const onTabChanged = tab => {
+  activeTab.value = tab.key;
+};
 
 const deleteConfirmText = computed(
   () => `${t('AUTOMATION.DELETE.CONFIRM.YES')} ${selectedAutomation.value.name}`
@@ -79,10 +114,8 @@ const isSLAEnabled = computed(() =>
 
 const showDelayDisabledBanner = computed(
   () =>
-    !getters['accounts/isFeatureEnabledonAccount'].value(
-      accountId.value,
-      'delayed_automations'
-    ) && records.value.some(automation => automation.execution_delay)
+    !isDelayedAutomationsEnabled.value &&
+    records.value.some(automation => automation.execution_delay)
 );
 
 onMounted(() => {
@@ -230,6 +263,13 @@ const tableHeaders = computed(() => {
         :search-placeholder="$t('AUTOMATION.SEARCH_PLACEHOLDER')"
         feature-name="automation"
       >
+        <template v-if="showTabs" #tabs>
+          <TabBar
+            :tabs="tabs"
+            :initial-active-tab="activeTabIndex"
+            @tab-changed="onTabChanged"
+          />
+        </template>
         <template v-if="records?.length" #count>
           <span class="text-body-main text-n-slate-11">
             {{ $t('AUTOMATION.COUNT', { n: records.length }) }}
@@ -251,43 +291,23 @@ const tableHeaders = computed(() => {
       >
         {{ $t('AUTOMATION.LIST.DELAY_DISABLED_BANNER') }}
       </div>
-      <template v-if="filteredRecords.length">
-        <div
-          v-for="section in sections"
-          :key="section.key"
-          class="mb-6 last:mb-0"
-        >
-          <h4
-            v-if="hasDelayedRecords"
-            class="mb-2 text-sm font-medium text-n-slate-11"
-          >
-            {{ section.label }}
-          </h4>
-          <BaseTable :headers="tableHeaders" :items="section.items">
-            <template #row="{ items }">
-              <AutomationRuleRow
-                v-for="automation in items"
-                :key="automation.id"
-                :automation="automation"
-                :loading="loading[automation.id]"
-                @clone="cloneAutomation"
-                @toggle="toggleAutomation"
-                @edit="openEditPopup"
-                @delete="openDeletePopup"
-              />
-            </template>
-          </BaseTable>
-        </div>
-      </template>
       <BaseTable
-        v-else
         :headers="tableHeaders"
-        :items="[]"
-        :no-data-message="
-          searchQuery ? $t('AUTOMATION.NO_RESULTS') : $t('AUTOMATION.LIST.404')
-        "
+        :items="visibleRecords"
+        :no-data-message="noDataMessage"
       >
-        <template #row />
+        <template #row="{ items }">
+          <AutomationRuleRow
+            v-for="automation in items"
+            :key="automation.id"
+            :automation="automation"
+            :loading="loading[automation.id]"
+            @clone="cloneAutomation"
+            @toggle="toggleAutomation"
+            @edit="openEditPopup"
+            @delete="openDeletePopup"
+          />
+        </template>
       </BaseTable>
     </template>
 

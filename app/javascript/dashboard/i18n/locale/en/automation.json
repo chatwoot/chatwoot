@@ -28,34 +28,42 @@
           "PLACEHOLDER": "Please select one",
           "ERROR": "Event is required"
         },
-        "EXECUTE": {
-          "LABEL": "Delayed execution",
-          "AFTER_DELAY": "Run after",
-          "UNITS": {
-            "MINUTES": "Minutes",
-            "HOURS": "Hours",
-            "DAYS": "Days"
-          },
-          "ERROR": "Delay must be between 10 minutes and 30 days",
-          "ENDS_IF_LABEL": "Won't run if",
-          "ENDS_IF": {
-            "STATUS": "the conversation's status changes, or its conditions no longer match.",
-            "CUSTOMER_REPLY": "the customer replies, or the conditions no longer match.",
-            "AGENT_REPLY": "an agent replies, or the conditions no longer match.",
-            "GENERIC": "there is a new reply on the conversation, or the conditions no longer match."
-          },
-          "HELP_TEXT": "Only applies to conversations with activity after the rule is created."
+        "RUN_TYPE": {
+          "LABEL": "When should this rule run?",
+          "OPTIONS": {
+            "INSTANT": {
+              "LABEL": "Run instantly",
+              "DESCRIPTION": "Runs the moment an event happens, as long as the conditions match."
+            },
+            "WAIT": {
+              "LABEL": "Run after a wait",
+              "DESCRIPTION": "Waits for a set time and runs only if things are still the same. If they change, the rule is skipped."
+            }
+          }
         },
-        "TRIGGER": {
-          "LABEL": "Trigger",
+        "WAIT": {
+          "LABEL": "Wait condition",
           "WHEN_LABEL": "When",
           "STATUS_LABEL": "Status is",
+          "FOR_LABEL": "For",
           "INBOX_LABEL": "Inbox",
+          "ERROR": "The wait must be between 10 minutes and 30 days",
           "OPTIONS": {
-            "CUSTOMER_UNRESPONSIVE": "Customer unresponsive",
-            "AGENT_UNRESPONSIVE": "Teammate unresponsive",
-            "CONVERSATION_STATUS": "Conversation in a status"
-          }
+            "CONVERSATION_STATUS": "Conversation stays in a status",
+            "CUSTOMER_UNRESPONSIVE": "Customer hasn't replied",
+            "AGENT_UNRESPONSIVE": "No teammate has replied"
+          },
+          "DURATION": {
+            "MINUTES": "{count} minute | {count} minutes",
+            "HOURS": "{count} hour | {count} hours",
+            "DAYS": "{count} day | {count} days"
+          },
+          "EXPLANATION": {
+            "CONVERSATION_STATUS": "The clock starts when a conversation moves into this status. If it is still there {duration} later, the actions below run. If the status changes before then, nothing happens.",
+            "CUSTOMER_UNRESPONSIVE": "The clock starts when a teammate replies. If the customer hasn't written back {duration} later, the actions below run. If they do reply, nothing happens, and the next teammate reply starts the clock again.",
+            "AGENT_UNRESPONSIVE": "The clock starts when a customer sends a message. If no teammate has replied {duration} later, the actions below run. If someone replies before then, nothing happens."
+          },
+          "FOOTNOTE": "Only new activity starts a clock. Conversations already sitting in this state are picked up the next time something happens on them."
         },
         "CONDITIONS": {
           "LABEL": "Conditions"
@@ -79,12 +87,13 @@
         "ACTIONS": "Actions"
       },
       "404": "No automation rules found",
-      "SECTIONS": {
-        "INSTANT": "Automations",
-        "DELAYED": "Delayed execution"
+      "404_DELAYED": "No rules run after a wait yet",
+      "TABS": {
+        "INSTANT": "Runs instantly",
+        "DELAYED": "Runs after a wait"
       },
       "DELAY_BADGE": "Runs after {delay}",
-      "DELAY_DISABLED_BANNER": "Delayed execution is disabled for this account. Delayed rules won't run until it is enabled again."
+      "DELAY_DISABLED_BANNER": "Delayed execution is turned off for this account, so the rules below that run after a wait are paused until it is turned back on."
     },
     "DELETE": {
       "TITLE": "Delete Automation Rule",
