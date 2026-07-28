@@ -185,12 +185,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def record_v2_response_failure(reason)
-    Captain::ConversationEvents.response_failed(
-      conversation: @conversation,
-      assistant: @assistant,
-      reason: reason,
-      at: Time.current
-    )
+    Captain::ConversationEvents.response_failed(conversation: @conversation, assistant: @assistant, reason: reason, at: Time.current)
   end
 
   def v2_generation_errored?
