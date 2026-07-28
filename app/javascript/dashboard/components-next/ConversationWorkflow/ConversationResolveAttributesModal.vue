@@ -19,11 +19,13 @@ const { t } = useI18n();
 const { checkStatusChange } = useBusinessRulesStatusGuard();
 
 const dialogRef = ref(null);
+const fieldsScrollRef = ref(null);
 const visibleAttributes = ref([]);
 const formValues = reactive({});
 const conversationContext = ref(null);
 const baseConversation = ref(null);
 const syncingFields = ref(false);
+const previousFieldCount = ref(0);
 
 const pad2 = n => String(n).padStart(2, '0');
 
@@ -184,6 +186,30 @@ const isFormComplete = computed(() =>
   })
 );
 
+const filledCount = computed(
+  () =>
+    visibleAttributes.value.filter(
+      attribute =>
+        !isBlankFormValue(formValues[fieldKey(attribute)], attribute.type)
+    ).length
+);
+
+const progressLabel = computed(() =>
+  t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PROGRESS', {
+    filled: filledCount.value,
+    total: visibleAttributes.value.length,
+  })
+);
+
+const showScrollHint = computed(() => visibleAttributes.value.length > 4);
+
+const scrollFieldsIntoView = async () => {
+  await nextTick();
+  const el = fieldsScrollRef.value;
+  if (!el) return;
+  el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+};
+
 const comboBoxOptions = computed(() => {
   const options = {};
   visibleAttributes.value.forEach(attribute => {
@@ -312,6 +338,11 @@ const syncVisibleAttributes = nextRequired => {
 
   visibleAttributes.value = ordered;
   syncingFields.value = false;
+
+  const grew = ordered.length > previousFieldCount.value;
+  previousFieldCount.value = ordered.length;
+  if (grew) scrollFieldsIntoView();
+
   return true;
 };
 
@@ -368,6 +399,7 @@ const open = (
     delete formValues[key];
   });
 
+  previousFieldCount.value = 0;
   visibleAttributes.value = attributes;
 
   attributes.forEach(attribute => {
@@ -422,7 +454,9 @@ defineExpose({ open, close, fieldKey });
 <template>
   <Dialog
     ref="dialogRef"
-    width="lg"
+    width="xl"
+    position="top"
+    overflow-y-auto
     :title="t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.TITLE')"
     :description="
       t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.DESCRIPTION')
@@ -434,168 +468,194 @@ defineExpose({ open, close, fieldKey });
     :disable-confirm-button="!isFormComplete"
     @confirm="handleConfirm"
   >
-    <div class="flex flex-col gap-5">
-      <section
-        v-for="section in attributeSections"
-        :key="section.id"
-        class="flex flex-col gap-4"
+    <div class="flex flex-col gap-3 min-h-0">
+      <div
+        class="flex items-center justify-between gap-3 text-xs text-n-slate-11"
       >
-        <h3
-          v-if="showSectionHeaders"
-          class="text-xs font-semibold uppercase tracking-wide text-n-slate-11"
+        <span v-if="visibleAttributes.length">{{ progressLabel }}</span>
+        <span v-if="showScrollHint" class="ms-auto">
+          {{ t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.SCROLL_HINT') }}
+        </span>
+      </div>
+
+      <div
+        ref="fieldsScrollRef"
+        class="flex flex-col gap-4 max-h-[min(65vh,36rem)] overflow-y-auto overflow-x-hidden pe-1 -me-1 overscroll-contain"
+      >
+        <section
+          v-for="section in attributeSections"
+          :key="section.id"
+          class="flex flex-col gap-3"
         >
-          {{ section.title }}
-        </h3>
-
-        <div
-          v-for="attribute in section.attributes"
-          :key="fieldKey(attribute)"
-          class="flex flex-col gap-2"
-        >
-          <div class="flex items-center justify-between gap-2">
-            <label class="mb-0 text-sm font-medium text-n-slate-12">
-              {{ attribute.label }}
-            </label>
-            <Button
-              v-if="attribute.type === ATTRIBUTE_TYPES.DATE"
-              type="button"
-              size="xs"
-              ghost
-              slate
-              :label="
-                t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.USE_TODAY')
-              "
-              @click="setToday(attribute)"
-            />
-            <Button
-              v-else-if="attribute.type === ATTRIBUTE_TYPES.DATETIME"
-              type="button"
-              size="xs"
-              ghost
-              slate
-              :label="
-                t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.USE_NOW')
-              "
-              @click="setNow(attribute)"
-            />
-          </div>
-
-          <template v-if="attribute.type === ATTRIBUTE_TYPES.TEXT">
-            <TextArea
-              v-model="formValues[fieldKey(attribute)]"
-              class="w-full"
-              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.TEXT)"
-              :message="getErrorMessage(attribute)"
-              :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
-              @blur="v$[fieldKey(attribute)].$touch"
-            />
-          </template>
-
-          <template
-            v-else-if="
-              attribute.type === ATTRIBUTE_TYPES.NUMBER ||
-              attribute.type === ATTRIBUTE_TYPES.CURRENCY ||
-              attribute.type === ATTRIBUTE_TYPES.PERCENT
-            "
+          <h3
+            v-if="showSectionHeaders"
+            class="sticky top-0 z-10 bg-n-alpha-3/95 backdrop-blur-sm py-1 text-xs font-semibold uppercase tracking-wide text-n-slate-11"
           >
-            <Input
-              v-model="formValues[fieldKey(attribute)]"
-              type="number"
-              size="md"
-              :placeholder="getPlaceholder(attribute.type)"
-              :message="getErrorMessage(attribute)"
-              :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
-              @blur="v$[fieldKey(attribute)].$touch"
-            />
-          </template>
+            {{ section.title }}
+          </h3>
 
-          <template v-else-if="attribute.type === ATTRIBUTE_TYPES.LINK">
-            <Input
-              v-model="formValues[fieldKey(attribute)]"
-              type="url"
-              size="md"
-              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LINK)"
-              :message="getErrorMessage(attribute)"
-              :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
-              @blur="v$[fieldKey(attribute)].$touch"
-            />
-          </template>
-
-          <template v-else-if="attribute.type === ATTRIBUTE_TYPES.DATE">
-            <Input
-              v-model="formValues[fieldKey(attribute)]"
-              type="date"
-              size="md"
-              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.DATE)"
-              :message="getErrorMessage(attribute)"
-              :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
-              @blur="v$[fieldKey(attribute)].$touch"
-            />
-          </template>
-
-          <template v-else-if="attribute.type === ATTRIBUTE_TYPES.DATETIME">
-            <Input
-              v-model="formValues[fieldKey(attribute)]"
-              type="datetime-local"
-              size="md"
-              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.DATETIME)"
-              :message="getErrorMessage(attribute)"
-              :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
-              @blur="v$[fieldKey(attribute)].$touch"
-            />
-          </template>
-
-          <template v-else-if="attribute.type === ATTRIBUTE_TYPES.LIST">
-            <ComboBox
-              v-model="formValues[fieldKey(attribute)]"
-              :options="comboBoxOptions[fieldKey(attribute)]"
-              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LIST)"
-              :message="getErrorMessage(attribute)"
-              :message-type="v$[fieldKey(attribute)].$error ? 'error' : 'info'"
-              :has-error="v$[fieldKey(attribute)].$error"
-              class="w-full"
-            />
-          </template>
-
-          <template v-else-if="attribute.type === ATTRIBUTE_TYPES.MULTI_LIST">
-            <div class="flex flex-col gap-1.5">
-              <label
-                v-for="option in attribute.attributeValues || []"
-                :key="option"
-                class="flex items-center gap-2 text-sm text-n-slate-12"
-              >
-                <input
-                  type="checkbox"
-                  :checked="
-                    Array.isArray(formValues[fieldKey(attribute)]) &&
-                    formValues[fieldKey(attribute)].includes(option)
-                  "
-                  @change="
-                    event => {
-                      const key = fieldKey(attribute);
-                      const current = Array.isArray(formValues[key])
-                        ? [...formValues[key]]
-                        : [];
-                      if (event.target.checked) {
-                        if (!current.includes(option)) current.push(option);
-                      } else {
-                        const idx = current.indexOf(option);
-                        if (idx >= 0) current.splice(idx, 1);
-                      }
-                      formValues[key] = current;
-                    }
-                  "
-                />
-                {{ option }}
+          <div
+            v-for="attribute in section.attributes"
+            :key="fieldKey(attribute)"
+            class="flex flex-col gap-1.5"
+          >
+            <div class="flex items-center justify-between gap-2">
+              <label class="mb-0 text-sm font-medium text-n-slate-12">
+                {{ attribute.label }}
               </label>
+              <Button
+                v-if="attribute.type === ATTRIBUTE_TYPES.DATE"
+                type="button"
+                size="xs"
+                ghost
+                slate
+                :label="
+                  t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.USE_TODAY')
+                "
+                @click="setToday(attribute)"
+              />
+              <Button
+                v-else-if="attribute.type === ATTRIBUTE_TYPES.DATETIME"
+                type="button"
+                size="xs"
+                ghost
+                slate
+                :label="
+                  t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.USE_NOW')
+                "
+                @click="setNow(attribute)"
+              />
             </div>
-          </template>
 
-          <template v-else-if="attribute.type === ATTRIBUTE_TYPES.CHECKBOX">
-            <ChoiceToggle v-model="formValues[fieldKey(attribute)]" />
-          </template>
-        </div>
-      </section>
+            <template v-if="attribute.type === ATTRIBUTE_TYPES.TEXT">
+              <TextArea
+                v-model="formValues[fieldKey(attribute)]"
+                class="w-full min-h-[4.5rem]"
+                :placeholder="getPlaceholder(ATTRIBUTE_TYPES.TEXT)"
+                :message="getErrorMessage(attribute)"
+                :message-type="
+                  v$[fieldKey(attribute)].$error ? 'error' : 'info'
+                "
+                @blur="v$[fieldKey(attribute)].$touch"
+              />
+            </template>
+
+            <template
+              v-else-if="
+                attribute.type === ATTRIBUTE_TYPES.NUMBER ||
+                attribute.type === ATTRIBUTE_TYPES.CURRENCY ||
+                attribute.type === ATTRIBUTE_TYPES.PERCENT
+              "
+            >
+              <Input
+                v-model="formValues[fieldKey(attribute)]"
+                type="number"
+                size="md"
+                :placeholder="getPlaceholder(attribute.type)"
+                :message="getErrorMessage(attribute)"
+                :message-type="
+                  v$[fieldKey(attribute)].$error ? 'error' : 'info'
+                "
+                @blur="v$[fieldKey(attribute)].$touch"
+              />
+            </template>
+
+            <template v-else-if="attribute.type === ATTRIBUTE_TYPES.LINK">
+              <Input
+                v-model="formValues[fieldKey(attribute)]"
+                type="url"
+                size="md"
+                :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LINK)"
+                :message="getErrorMessage(attribute)"
+                :message-type="
+                  v$[fieldKey(attribute)].$error ? 'error' : 'info'
+                "
+                @blur="v$[fieldKey(attribute)].$touch"
+              />
+            </template>
+
+            <template v-else-if="attribute.type === ATTRIBUTE_TYPES.DATE">
+              <Input
+                v-model="formValues[fieldKey(attribute)]"
+                type="date"
+                size="md"
+                :placeholder="getPlaceholder(ATTRIBUTE_TYPES.DATE)"
+                :message="getErrorMessage(attribute)"
+                :message-type="
+                  v$[fieldKey(attribute)].$error ? 'error' : 'info'
+                "
+                @blur="v$[fieldKey(attribute)].$touch"
+              />
+            </template>
+
+            <template v-else-if="attribute.type === ATTRIBUTE_TYPES.DATETIME">
+              <Input
+                v-model="formValues[fieldKey(attribute)]"
+                type="datetime-local"
+                size="md"
+                :placeholder="getPlaceholder(ATTRIBUTE_TYPES.DATETIME)"
+                :message="getErrorMessage(attribute)"
+                :message-type="
+                  v$[fieldKey(attribute)].$error ? 'error' : 'info'
+                "
+                @blur="v$[fieldKey(attribute)].$touch"
+              />
+            </template>
+
+            <template v-else-if="attribute.type === ATTRIBUTE_TYPES.LIST">
+              <ComboBox
+                v-model="formValues[fieldKey(attribute)]"
+                :options="comboBoxOptions[fieldKey(attribute)]"
+                :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LIST)"
+                :message="getErrorMessage(attribute)"
+                :message-type="
+                  v$[fieldKey(attribute)].$error ? 'error' : 'info'
+                "
+                :has-error="v$[fieldKey(attribute)].$error"
+                class="w-full"
+              />
+            </template>
+
+            <template v-else-if="attribute.type === ATTRIBUTE_TYPES.MULTI_LIST">
+              <div class="flex flex-col gap-1.5">
+                <label
+                  v-for="option in attribute.attributeValues || []"
+                  :key="option"
+                  class="flex items-center gap-2 text-sm text-n-slate-12"
+                >
+                  <input
+                    type="checkbox"
+                    :checked="
+                      Array.isArray(formValues[fieldKey(attribute)]) &&
+                      formValues[fieldKey(attribute)].includes(option)
+                    "
+                    @change="
+                      event => {
+                        const key = fieldKey(attribute);
+                        const current = Array.isArray(formValues[key])
+                          ? [...formValues[key]]
+                          : [];
+                        if (event.target.checked) {
+                          if (!current.includes(option)) current.push(option);
+                        } else {
+                          const idx = current.indexOf(option);
+                          if (idx >= 0) current.splice(idx, 1);
+                        }
+                        formValues[key] = current;
+                      }
+                    "
+                  />
+                  {{ option }}
+                </label>
+              </div>
+            </template>
+
+            <template v-else-if="attribute.type === ATTRIBUTE_TYPES.CHECKBOX">
+              <ChoiceToggle v-model="formValues[fieldKey(attribute)]" />
+            </template>
+          </div>
+        </section>
+      </div>
     </div>
   </Dialog>
 </template>

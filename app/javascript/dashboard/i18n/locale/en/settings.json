@@ -739,6 +739,8 @@
         "SECTION_CONTACT": "Contact",
         "USE_TODAY": "Today",
         "USE_NOW": "Now",
+        "PROGRESS": "{filled} of {total} completed",
+        "SCROLL_HINT": "Scroll to see all fields",
         "ACTIONS": {
           "RESOLVE": "Resolve conversation",
           "CONTINUE": "Continue",
