@@ -27,6 +27,8 @@ docker restart chatwoot-chatwoot-rails-1 chatwoot-chatwoot-sidekiq-1
 
 - Canvas grande (`@vue-flow/core` + dagre TB): nodos compactos, chips de botones, handles por botón.
 - Derecha: inspector del paso (secciones Actions / Wait for reply; sin delay duplicado).
+- **Rutas explícitas:** cada paso sin botones tiene `next` (`end` | `handoff` | stepId). El orden del array `steps` solo afecta numeración "Paso N"; ya no encadena automáticamente por índice. Select **Después de las acciones** o handle `out` en canvas.
+- **Resumen del flujo:** botón ℹ️ en el header (tooltip) abre un diálogo con el resumen de todos los pasos.
 - Header: nombre, descripción, categoría, Exit rules (drawer), Guardar. Activo se controla en la lista.
 - Nota de handoff: resumen legible del camino del cliente (sin IDs técnicos de nodos)
 
@@ -35,7 +37,7 @@ docker restart chatwoot-chatwoot-rails-1 chatwoot-chatwoot-sidekiq-1
 - No hay start manual desde el panel de conversación ni webhook `/start` aún
 - Timeout automático en `wait_response` no implementado
 - Specs RSpec / FE no escritos (a propósito en WIP)
-- Persistencia de posiciones del canvas en JSONB (hoy auto-layout en sesión)
+- ✅ Persistencia de posiciones del canvas en `graph.ui` (positions + viewport)
 
 ---
 
@@ -123,9 +125,17 @@ El flujo se almacena como JSON en `flows.graph`:
     {"from": "n2", "to": "n4", "when": {"match_label": "B"}},
     {"from": "n2", "to": "n5", "when": {"match_label": "C"}}
   ],
-  "entry_node_id": "n1"
+  "entry_node_id": "n1",
+  "ui": {
+    "positions": { "n1": { "x": 120, "y": 40 }, "n3": { "x": 40, "y": 280 } },
+    "viewport": { "x": 0, "y": 0, "zoom": 1 }
+  }
 }
 ```
+
+`ui` es solo del editor (posiciones/viewport del canvas). El runtime lo ignora.
+
+**Modelo editor (steps[], no persistido tal cual):** cada paso incluye `next: 'end' | 'handoff' | '<stepId>'` cuando no hay botones/espera. `buildGraph` lo traduce a edges incondicionales `{ from, to }` (mismo contrato runtime). Flujos guardados antes de `step.next` cargan el destino desde el edge lineal existente en el grafo.
 
 Tipos de nodo soportados:
 
@@ -1095,7 +1105,7 @@ actions:
 
 ## Roadmap posterior (no incluido en esta rama)
 
-- Persistir posiciones del canvas en `graph` JSONB
+- ~~Persistir posiciones del canvas en `graph` JSONB~~ → hecho (`graph.ui.positions` + `viewport`; runtime ignora `ui`)
 - Colapsar subárboles / agrupar ramas en el canvas
 - Timeout automático en `wait_response`
 - Start manual desde conversación / webhook `/start`
@@ -1108,4 +1118,5 @@ actions:
 
 ## Changelog de la propuesta
 
+- **2026-07-27** — canvas: `graph.ui` layout persistente, no re-dagre al editar, connect por handle, Auto-organizar
 - **2026-07-21** v0.1 — propuesta inicial, status borrador

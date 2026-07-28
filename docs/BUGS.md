@@ -3,7 +3,10 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** hotfix `B-NEW-39` skip outbound si ventana Meta/WA
+**Última actualización:** feature `B-NEW-42` flows explicit next + step preview
+(2026-07-27). Antes: `B-NEW-41` flows canvas layout persistente (2026-07-27).
+Antes: hotfix `B-NEW-40` WA template vars (`findComponentByType`) (2026-07-27).
+Antes: hotfix `B-NEW-39` skip outbound si ventana Meta/WA
 cerrada (2026-07-27). Antes: feature `B-NEW-38` automation audit private note
 (2026-07-27). Antes: hotfix `B-NEW-37` select fecha/datetime en
 time automation schedule (2026-07-27). Antes: hotfix `B-NEW-36` exigir agente humano + selector
@@ -108,6 +111,8 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-38 | Feature | No | ✅ Automation siempre deja nota privada corta de auditoría |
 | B-NEW-39 | Bug | No | ✅ Automation no envía outbound si `can_reply?` false (ventana 24h) |
 | B-NEW-40 | 🔴 P0 prod | Sí | ✅ WA templates: `findComponentByType is not defined` → sin inputs + crash al enviar |
+| B-NEW-41 | Flows UX | Baja | ✅ Canvas: posiciones persistentes, no re-dagre, connect por handle |
+| B-NEW-42 | Flows UX | Media | ✅ Rutas explícitas `step.next` + overview ℹ️ del flujo |
 
 ---
 
@@ -1010,6 +1015,44 @@ crash en init (params vacíos) y en send (snapshot).
 
 **Cómo probar:** abrir `ventas_seguimiento` → input `contact_name`; rellenar y
 enviar. Plantilla sin vars → Enviar sin error en consola.
+
+### B-NEW-41 — Flows canvas: layout no persistía / re-dagre al editar
+
+**Síntoma:** al mover nodos y refrescar, el layout volvía a dagre; editar texto
+o ramas reubicaba todo; conectar sin handle adivinaba rama; edges cruzados.
+
+**Fix (2026-07-27):**
+1. `graph.ui.positions` + `viewport` en save/load (runtime ignora `ui`).
+2. Rebuild estructural conserva coords; dagre solo nodos nuevos o **Auto-organizar**.
+3. `onConnect` exige `btn-N` / `out`; `connectBranch` ya no adivina rama.
+4. Alturas por #botones, snap 16px, MiniMap si <40 steps, rama rota en ámbar.
+
+**Archivos:** `FlowCanvas.vue`, `Edit.vue`, `FlowStepNode.vue`, `flow.rb`,
+`en`/`es` flows.json, `FEATURE_CONVERSATION_FLOWS.md`.
+
+**Cómo probar:** mover nodos → Guardar → F5 mismas posiciones; editar mensaje
+sin salto; conectar desde botón 2; Auto-organizar + Guardar.
+
+### B-NEW-42 — Flows: encadenamiento index+1 + preview por paso
+
+**Síntoma:** paso sin botones seguía al siguiente por orden en el array
+(`steps[index + 1]`), aunque otra rama ya hubiera ramificado; conectar handle
+`out` reordenaba el array en lugar de guardar destino.
+
+**Fix (2026-07-27):**
+1. `step.next` (`end` | `handoff` | stepId) en editor; default `end` en pasos nuevos.
+2. `buildGraph` / `nodeToStep` / `connectBranch` usan destino explícito (sin splice).
+3. Canvas `linearTarget`, `structureKey` con `next`, rama rota en ámbar.
+4. Inspector: select **Después de las acciones**. Botón ℹ️ del header abre
+   diálogo con resumen de todos los pasos (no panel por paso).
+
+**Archivos:** `Edit.vue`, `FlowCanvas.vue`, `FlowStepInspector.vue`,
+`FlowHeader.vue`, `FlowOverview.vue`, `flowStepSummary.js`, `en`/`es` flows.json,
+`FEATURE_CONVERSATION_FLOWS.md`.
+
+**Cómo probar:** 3 pasos — Paso 1 con 2 botones → 2 y 3; Paso 2 sin botones,
+`next = Fin` → no encadena a 3 en canvas ni runtime; select ↔ handle `out`;
+preview en vivo; Guardar + F5; flujo viejo carga `next` desde edge lineal.
 
 ---
 

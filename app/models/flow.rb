@@ -68,6 +68,7 @@ class Flow < ApplicationRecord
       return
     end
 
+    # graph['ui'] (positions/viewport) is editor-only and ignored by the runtime.
     return if graph['entry_node_id'].blank?
 
     return if nodes.any? { |n| n['id'] == graph['entry_node_id'] }
