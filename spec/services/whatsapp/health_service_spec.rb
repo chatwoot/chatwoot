@@ -179,6 +179,86 @@ RSpec.describe Whatsapp::HealthService do
       end
     end
 
+    context 'when business account enrichment fails' do
+      before do
+        stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_waba_id})
+          .to_return(
+            status: 400,
+            body: {
+              error: {
+                message: '(#200) You do not have permission to access this field.',
+                type: 'OAuthException',
+                code: 200
+              }
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'persists and returns the phone health with the enrichment error' do
+        result = service.sync_health_status!
+        channel.reload
+
+        expect(result).to include(
+          quality_rating: 'GREEN',
+          messaging_limit_tier: 'TIER_250',
+          status: 'CONNECTED'
+        )
+        expect(result).not_to have_key(:business_account_id)
+        expect(channel.phone_number_health).to include(
+          'quality_rating' => 'GREEN',
+          'messaging_limit_tier' => 'TIER_250',
+          'status' => 'CONNECTED'
+        )
+        expect(channel.phone_number_health_error).to eq('(#200) You do not have permission to access this field.')
+      end
+
+      it 'preserves the phone health when the enrichment request times out' do
+        stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_waba_id}).to_timeout
+
+        expect { service.sync_health_status! }.not_to raise_error
+
+        channel.reload
+        expect(channel.phone_number_health).to include(
+          'quality_rating' => 'GREEN',
+          'status' => 'CONNECTED'
+        )
+        expect(channel.phone_number_health_error).to be_present
+      end
+
+      it 'preserves previously fetched business account health' do
+        channel.update!(
+          phone_number_health: {
+            business_account_id: 'previous_waba_id',
+            business_account_name: 'Previous WABA',
+            business_portfolio_id: 'previous_portfolio_id',
+            business_portfolio_name: 'Previous Business Portfolio'
+          }
+        )
+
+        result = service.sync_health_status!
+        channel.reload
+
+        expect(result).to include(
+          business_account_id: 'previous_waba_id',
+          business_account_name: 'Previous WABA',
+          business_portfolio_id: 'previous_portfolio_id',
+          business_portfolio_name: 'Previous Business Portfolio',
+          quality_rating: 'GREEN',
+          status: 'CONNECTED'
+        )
+        expect(channel.phone_number_health).to include(
+          'business_account_id' => 'previous_waba_id',
+          'business_account_name' => 'Previous WABA',
+          'business_portfolio_id' => 'previous_portfolio_id',
+          'business_portfolio_name' => 'Previous Business Portfolio',
+          'quality_rating' => 'GREEN',
+          'status' => 'CONNECTED'
+        )
+        expect(channel.phone_number_health_error).to eq('(#200) You do not have permission to access this field.')
+      end
+    end
+
     context 'when a newer health check finishes first' do
       let(:previous_health) { { quality_rating: 'GREEN', status: 'CONNECTED' } }
       let(:newer_health) { { quality_rating: 'GREEN', status: 'CONNECTED' } }
