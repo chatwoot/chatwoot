@@ -70,6 +70,7 @@ const hostEvents = {
   'set-user': identifyUser,
   'set-locale': ({ locale }) => setLocale(locale),
   'set-color-scheme': ({ darkMode }) => configStore.setDarkMode(darkMode),
+  'set-theme': ({ theme }) => configStore.setHostTheme(theme),
 };
 
 onMounted(async () => {

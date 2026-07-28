@@ -154,7 +154,7 @@
       </fieldset>
 
       <fieldset>
-        <legend>Theme (v2)</legend>
+        <legend>Theme (v2) &mdash; applies live</legend>
         <label>Surface style</label>
         <select data-theme-key="surface">
           <option value="">solid (default)</option>
@@ -220,6 +220,7 @@
           <button onclick="setIdentifiedUser()">setUser (HMAC)</button>
           <button onclick="window.$chatwoot.setLocale(document.querySelector('[data-key=locale]').value || 'en')">setLocale (live)</button>
           <button onclick="window.$chatwoot.setColorScheme(document.querySelector('[data-key=darkMode]').value)">setColorScheme (live)</button>
+          <button onclick="window.$chatwoot.setTheme({ surface: document.querySelector('[data-theme-key=surface]').value === 'glass' ? 'solid' : 'glass' }); document.querySelector('[data-theme-key=surface]').value = document.querySelector('[data-theme-key=surface]').value === 'glass' ? '' : 'glass'">Toggle glass/solid</button>
           <button onclick="window.$chatwoot.setCustomAttributes({ plan: 'enterprise', signed_up_at: '2024-01-01' })">setCustomAttributes</button>
           <button onclick="window.$chatwoot.setLabel('support')">setLabel</button>
           <button onclick="window.$chatwoot.popoutChatWindow()">Popout</button>
@@ -288,6 +289,22 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(readForm()));
     location.reload();
   }
+
+  // Theme tokens are runtime-switchable, so apply them without a reload.
+  function applyThemeLive() {
+    if (!window.$chatwoot || !window.$chatwoot.setTheme) return;
+    var theme = readForm().theme;
+    // An empty surface means "solid"; send it explicitly so glass turns off.
+    theme.surface =
+      document.querySelector('[data-theme-key="surface"]').value || 'solid';
+    window.$chatwoot.setTheme(theme);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(readForm()));
+    logEvent('setTheme', theme);
+  }
+
+  document.querySelectorAll('[data-theme-key]').forEach(function (el) {
+    el.addEventListener('change', applyThemeLive);
+  });
 
   function resetBuilder() {
     localStorage.removeItem(STORAGE_KEY);

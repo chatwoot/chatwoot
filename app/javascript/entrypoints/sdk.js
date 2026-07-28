@@ -197,6 +197,13 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       });
     },
 
+    // Merges into the current theme, so callers can change a single token
+    // (e.g. { surface: 'glass' }) without restating the rest.
+    setTheme(theme = {}) {
+      window.$chatwoot.theme = { ...window.$chatwoot.theme, ...theme };
+      IFrameHelper.sendMessage('set-theme', { theme: window.$chatwoot.theme });
+    },
+
     reset() {
       if (window.$chatwoot.isOpen) {
         IFrameHelper.events.toggleBubble();
