@@ -162,7 +162,7 @@ class Captain::Assistant::AgentRunnerService
     end
 
     runner.on_run_complete do |_agent_name, _result, context_wrapper|
-      @response_discarded = trigger_message_stale?
+      @response_discarded = newer_customer_message_arrived?
       write_run_metadata(context_wrapper) if ChatwootApp.otel_enabled?
     end
     runner
@@ -190,7 +190,7 @@ class Captain::Assistant::AgentRunnerService
     root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), (!@handoff_tool_called && !response_discarded?).to_s)
   end
 
-  def trigger_message_stale?
+  def newer_customer_message_arrived?
     return false if @trigger_message_id.blank? || @conversation.blank?
 
     latest_incoming_message_id = Conversation.uncached do

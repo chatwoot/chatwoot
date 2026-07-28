@@ -14,7 +14,7 @@ class Captain::Assistant::InstrumentationAttributeProvider
   def generation_attributes(_context_wrapper, _chat, message)
     {
       format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'generation_stage') => generation_stage(message),
-      format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'discarded') => @service.send(:trigger_message_stale?).to_s
+      format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'discarded') => @service.send(:newer_customer_message_arrived?).to_s
     }
   end
 

@@ -18,7 +18,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     Current.executed_by = @assistant
 
     if captain_v2_enabled?
-      return unless trigger_message_current?
+      return if newer_customer_message_arrived?
 
       generate_response_with_v2
     else
@@ -58,11 +58,13 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @run_result = runner_service.last_run_result
     @v2_handoff_tool_completed = runner_service.handoff_completed?
 
-    if runner_service.response_discarded?
-      process_response if v2_handoff_tool_completed?
+    if v2_handoff_tool_completed?
+      process_response
       return
     end
-    return unless trigger_message_current?
+
+    return if runner_service.response_discarded?
+    return if newer_customer_message_arrived?
 
     process_response
   end
@@ -91,7 +93,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def process_standard_response
     message = nil
     ActiveRecord::Base.transaction do
-      next unless trigger_message_current?
+      next if newer_customer_message_arrived?
 
       message = create_messages
       Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
@@ -171,7 +173,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response ||= {}
     @response['action_source'] ||= 'error'
     @response['action_reason'] ||= error_action_reason(error)
-    process_v1_handoff if conversation_pending? && (!captain_v2_enabled? || trigger_message_current?)
+    process_v1_handoff if conversation_pending? && (!captain_v2_enabled? || !newer_customer_message_arrived?)
     true
   end
 
@@ -201,13 +203,13 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     status == 'pending' || status == Conversation.statuses[:pending]
   end
 
-  def trigger_message_current?
-    return true if @trigger_message_id.blank?
+  def newer_customer_message_arrived?
+    return false if @trigger_message_id.blank?
 
     latest_incoming_message_id = Conversation.uncached do
       @conversation.messages.incoming.maximum(:id)
     end
 
-    latest_incoming_message_id == @trigger_message_id
+    latest_incoming_message_id != @trigger_message_id
   end
 end
