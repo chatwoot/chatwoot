@@ -45,6 +45,14 @@
     "PANEL_IA_STATE_WAITING": "AI waiting",
     "PANEL_IA_STATE_HELP": "AI requests help",
     "PANEL_IA_STATE_INACTIVITY_CLOSED": "Closed due to inactivity",
+    "PANEL_IA_STATE_LEGEND": {
+      "TITLE": "Conversation list color stripe",
+      "ACTIVE": "Teal — AI or flow is actively responding",
+      "WAITING": "Amber — AI or flow is waiting for input",
+      "HELP": "Red — AI or flow needs human help",
+      "INACTIVITY_CLOSED": "Gray — closed while bot-handled (inactivity)",
+      "HUMAN_NOTE": "When a human agent is assigned, the stripe disappears."
+    },
     "PANEL_IA_HANDOFF_BANNER": "Panel IA escalated this conversation. Check the private notes in the thread (lock icon) for the summary and context.",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
