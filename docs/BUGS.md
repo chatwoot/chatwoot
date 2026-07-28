@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** hotfix `B-NEW-45` resolve `.map` business rules
+**Última actualización:** hotfix `B-NEW-46` cadena de business rules en modal resolve
+(2026-07-28). Antes: hotfix `B-NEW-45` resolve `.map` business rules
 (2026-07-28). Antes: feature `B-NEW-44` automation timeline tuerca + actividades
 (2026-07-28). Antes: hotfix `B-NEW-43` franja Panel IA pegada con humano
 (2026-07-27). Antes: feature `B-NEW-42` flows explicit next + step preview
@@ -119,6 +120,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-43 | Bug UX | No | ✅ Franja Panel IA se oculta con assignee humano; limpia `panel_ia_*` + leyenda Bots/Flows |
 | B-NEW-44 | Automation UX | No | ✅ Sin nota audit genérica; tuerca en outbound; activity con nombre de regla |
 | B-NEW-45 | 🔴 Bug UX | No | ✅ Resolve crash: `condition.values` scalar → `.map is not a function` |
+| B-NEW-46 | Bug UX | No | ✅ Modal resolve encadena reglas al cambiar attrs (ej. tipo=Venta → pide Y/Z) |
 
 ---
 
@@ -1020,6 +1022,32 @@ array (MultiSelect). `(expectedValues || []).map` falla si `values` es string.
 
 **Cómo probar:** conversación con business rules con condiciones → Resolver
 sin error en consola. Hard refresh tras redeploy (assets Vite).
+
+### B-NEW-46 — Modal resolve: cadena de reglas en el mismo paso
+
+**Síntoma:** al Resolver, el modal pide `tipo_de_conversacion`; el agente elige
+`Venta` y la conversación se cierra sin pedir campos de la 2ª regla. Solo al
+reabrir y resolver de nuevo aparecen Y/Z.
+
+**Causa:** el guard FE evaluaba attrs una sola vez al abrir el modal (tipo aún
+vacío → 2ª regla no aplica). Además `ConditionRow` guarda `values` como
+`{id,name}` y `String(objeto)` no matcheaba.
+
+**Fix:**
+1. Modal re-evalúa `checkStatusChange` al cambiar form values y agrega campos
+   faltantes de **cualquier** regla encadenada (no solo Venta).
+2. FE/BE coercen `{id,name}` → string al comparar condiciones.
+3. UX modal: fecha→hoy, datetime→ahora, lista de 1 opción auto, checkbox
+   false, secciones conversación/contacto, botón Hoy/Ahora, copy de cadena.
+
+**Archivos:** `ConversationResolveAttributesModal.vue`,
+`ResolveAction.vue`, `ChatList.vue`, `useBusinessRulesStatusGuard.js`,
+`useConversationRequiredAttributes.js`, `conditions_matcher.rb`,
+`en`/`es` settings.json.
+
+**Cómo probar:** chat con label de test + reglas tipo→venta. Resolver → elegir
+Venta en el modal → deben aparecer campos de venta **sin** cerrar. Completar y
+resolver en un solo flujo. Hard refresh tras redeploy.
 
 ### B-NEW-39 — Automation: no enviar si ventana Meta/WhatsApp cerrada
 

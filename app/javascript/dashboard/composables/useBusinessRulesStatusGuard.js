@@ -23,9 +23,19 @@ const asArray = value => {
   return [value];
 };
 
+// Dropdown options often persist as { id, name } — never String(object).
+const coerceConditionValue = value => {
+  if (value == null) return '';
+  if (typeof value !== 'object') return String(value);
+  if (Array.isArray(value)) return value.map(coerceConditionValue).join(',');
+  const pick = value.id ?? value.name ?? value.title ?? value.value;
+  if (pick != null && pick !== '') return String(pick);
+  return '';
+};
+
 const resolveCategoryKeys = (attributes, categoryNames = []) => {
   const categories = new Set(
-    asArray(categoryNames).map(String).filter(Boolean)
+    asArray(categoryNames).map(coerceConditionValue).filter(Boolean)
   );
   if (!categories.size) return [];
   return (attributes || [])
@@ -36,7 +46,7 @@ const resolveCategoryKeys = (attributes, categoryNames = []) => {
 };
 
 const conditionValueMatches = (actual, operator, expectedValues) => {
-  const values = asArray(expectedValues).map(String);
+  const values = asArray(expectedValues).map(coerceConditionValue);
   if (operator === 'is_present') {
     return !(
       actual == null ||
@@ -52,8 +62,8 @@ const conditionValueMatches = (actual, operator, expectedValues) => {
     );
   }
   const normalizedActual = Array.isArray(actual)
-    ? actual.map(String)
-    : [String(actual ?? '')];
+    ? actual.map(coerceConditionValue)
+    : [coerceConditionValue(actual ?? '')];
   const lowerExpected = values.map(v => v.toLowerCase());
   const hit = normalizedActual.some(v =>
     lowerExpected.includes(String(v).toLowerCase())

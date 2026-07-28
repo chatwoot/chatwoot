@@ -733,16 +733,23 @@
         "ERROR": "Could not update required attributes, please try again"
       },
       "MODAL": {
-        "TITLE": "Resolve conversation",
-        "DESCRIPTION": "Please fill in the following custom attributes before resolving this conversation",
+        "TITLE": "Complete required fields",
+        "DESCRIPTION": "Fill the fields below to continue. More fields may appear as you answer — that means another rule applies.",
+        "SECTION_CONVERSATION": "Conversation",
+        "SECTION_CONTACT": "Contact",
+        "USE_TODAY": "Today",
+        "USE_NOW": "Now",
         "ACTIONS": {
           "RESOLVE": "Resolve conversation",
+          "CONTINUE": "Continue",
           "CANCEL": "Cancel"
         },
         "PLACEHOLDERS": {
           "TEXT": "Write a note...",
           "NUMBER": "Enter a number",
-          "LINK": "Add a link",
+          "CURRENCY": "Amount (e.g. 25.00)",
+          "PERCENT": "Percent (e.g. 10)",
+          "LINK": "https://…",
           "DATE": "Pick a date",
           "DATETIME": "Pick a date and time",
           "LIST": "Select an option"

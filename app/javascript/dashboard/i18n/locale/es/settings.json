@@ -728,16 +728,23 @@
         "ERROR": "No se pudieron actualizar los atributos obligatorios, inténtalo de nuevo"
       },
       "MODAL": {
-        "TITLE": "Resolver conversación",
-        "DESCRIPTION": "Completa los siguientes atributos personalizados antes de resolver esta conversación",
+        "TITLE": "Completar campos obligatorios",
+        "DESCRIPTION": "Completa los campos para continuar. Pueden aparecer más según tus respuestas: significa que aplica otra regla.",
+        "SECTION_CONVERSATION": "Conversación",
+        "SECTION_CONTACT": "Contacto",
+        "USE_TODAY": "Hoy",
+        "USE_NOW": "Ahora",
         "ACTIONS": {
           "RESOLVE": "Resolver conversación",
+          "CONTINUE": "Continuar",
           "CANCEL": "Cancelar"
         },
         "PLACEHOLDERS": {
           "TEXT": "Escribe una nota...",
           "NUMBER": "Ingresa un número",
-          "LINK": "Agrega un enlace",
+          "CURRENCY": "Monto (ej. 25.00)",
+          "PERCENT": "Porcentaje (ej. 10)",
+          "LINK": "https://…",
           "DATE": "Elige una fecha",
           "DATETIME": "Elige fecha y hora",
           "LIST": "Selecciona una opción"

@@ -33,6 +33,15 @@ const asArray = value => {
   return [value];
 };
 
+const coerceConditionValue = value => {
+  if (value == null) return '';
+  if (typeof value !== 'object') return String(value);
+  if (Array.isArray(value)) return value.map(coerceConditionValue).join(',');
+  const pick = value.id ?? value.name ?? value.title ?? value.value;
+  if (pick != null && pick !== '') return String(pick);
+  return '';
+};
+
 const attributeMatches = (attrs, whenKey, whenValues) => {
   const value = attrs[whenKey];
   if (
@@ -42,12 +51,14 @@ const attributeMatches = (attrs, whenKey, whenValues) => {
   ) {
     return false;
   }
-  const values = asArray(whenValues).map(String).filter(Boolean);
+  const values = asArray(whenValues).map(coerceConditionValue).filter(Boolean);
   if (!values.length) return true;
   const normalized = values.map(v => v.toLowerCase());
   return Array.isArray(value)
-    ? value.map(String).some(v => normalized.includes(v.toLowerCase()))
-    : normalized.includes(String(value).toLowerCase());
+    ? value
+        .map(coerceConditionValue)
+        .some(v => normalized.includes(v.toLowerCase()))
+    : normalized.includes(coerceConditionValue(value).toLowerCase());
 };
 
 /**
