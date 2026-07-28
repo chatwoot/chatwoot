@@ -126,8 +126,13 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def record_failed_v2_handoff
-    Captain::ConversationOutcomeTracker.new(conversation: @conversation, assistant: @assistant)
-                                       .record_handoff(at: Time.current, reason_category: :tool_failure)
+    Captain::ConversationEvents.handed_off(
+      conversation: @conversation,
+      assistant: @assistant,
+      reason_category: :tool_failure,
+      source: 'generation_failure',
+      at: Time.current
+    )
   end
 
   def send_out_of_office_message_if_applicable

@@ -31,8 +31,11 @@ module Enterprise::MessageTemplates::HookExecutionService
   private
 
   def track_captain_eligibility
-    Captain::ConversationOutcomeTracker.new(conversation: conversation, assistant: inbox.captain_assistant)
-                                       .record_eligibility(at: message.created_at)
+    Captain::ConversationEvents.eligible(
+      conversation: conversation,
+      assistant: inbox.captain_assistant,
+      at: message.created_at
+    )
   end
 
   def schedule_captain_response
@@ -70,8 +73,13 @@ module Enterprise::MessageTemplates::HookExecutionService
       content: 'Transferring to another agent for further assistance.'
     )
     conversation.bot_handoff!
-    Captain::ConversationOutcomeTracker.new(conversation: conversation, assistant: inbox.captain_assistant)
-                                       .record_handoff(at: Time.current, reason_category: :usage_limit)
+    Captain::ConversationEvents.handed_off(
+      conversation: conversation,
+      assistant: inbox.captain_assistant,
+      reason_category: :usage_limit,
+      source: 'usage_limit',
+      at: Time.current
+    )
     send_out_of_office_message_after_handoff
   end
 

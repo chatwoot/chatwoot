@@ -185,3 +185,5 @@ class ReportingEventListener < BaseListener
     ChatwootExceptionTracker.new(e, account: reporting_event.account).capture_exception
   end
 end
+
+ReportingEventListener.prepend_mod_with('ReportingEventListener')

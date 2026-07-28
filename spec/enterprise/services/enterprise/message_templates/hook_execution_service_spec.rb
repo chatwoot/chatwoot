@@ -130,19 +130,14 @@ RSpec.describe MessageTemplates::HookExecutionService do
         expect(conversation.reload.status).to eq('open')
       end
 
-      it 'records usage limit as the handoff category for an existing V2 outcome' do
-        outcome = create(
-          :captain_conversation_outcome,
-          account: account,
-          assistant: assistant,
-          conversation: conversation,
-          inbox: inbox,
-          eligible_at: 5.minutes.ago
-        )
+      it 'records the V2 handoff when the usage limit is reached before Captain replies' do
+        account.enable_features!('captain_integration_v2')
 
-        create(:message, conversation: conversation, message_type: :incoming, account: account)
+        expect do
+          create(:message, conversation: conversation, message_type: :incoming, account: account)
+        end.to change(Captain::ConversationOutcome, :count).by(1)
 
-        expect(outcome.reload).to have_attributes(
+        expect(Captain::ConversationOutcome.last).to have_attributes(
           handoff_reason_category: 'usage_limit',
           handoff_at: be_present
         )

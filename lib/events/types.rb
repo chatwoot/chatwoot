@@ -24,6 +24,8 @@ module Events::Types
   CONVERSATION_RESOLVED = 'conversation.resolved'
   CONVERSATION_CAPTAIN_INFERENCE_RESOLVED = 'conversation.captain_inference_resolved'
   CONVERSATION_CAPTAIN_INFERENCE_HANDOFF = 'conversation.captain_inference_handoff'
+  CAPTAIN_CONVERSATION_ELIGIBLE = 'captain.conversation.eligible'
+  CAPTAIN_CONVERSATION_HANDED_OFF = 'captain.conversation.handed_off'
 
   CONVERSATION_STATUS_CHANGED = 'conversation.status_changed'
   CONVERSATION_CONTACT_CHANGED = 'conversation.contact_changed'
