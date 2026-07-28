@@ -1,0 +1,158 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Yuklab olish",
+      "UPLOADING": "Yuklanmoqda..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Yuborish"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Xabarni qayta yuborish",
+      "ERROR_MESSAGE": "Yuborib bo'lmadi, qayta urinib ko'ring"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Mavjud emas"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Biz onlaynmiz",
+    "OFFLINE": "Hozircha javob bera olmaymiz",
+    "BACK_AS_SOON_AS_POSSIBLE": "Imkon qadar tezroq qaytamiz"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Odatda bir necha daqiqada javob beramiz",
+    "IN_A_FEW_HOURS": "Odatda bir necha soatda javob beramiz",
+    "IN_A_DAY": "Odatda bir kun ichida javob beramiz",
+    "BACK_IN_HOURS": "{n} soatdan keyin onlayn bo'lamiz | {n} soatdan keyin onlayn bo'lamiz",
+    "BACK_IN_MINUTES": "{time} daqiqadan keyin onlayn bo'lamiz",
+    "BACK_AT_TIME": "Soat {time} da onlayn bo'lamiz",
+    "BACK_ON_DAY": "{day} kuni onlayn bo'lamiz",
+    "BACK_TOMORROW": "Ertaga onlayn bo'lamiz",
+    "BACK_IN_SOME_TIME": "Birozdan keyin onlayn bo'lamiz"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "Yakshanba",
+    "MONDAY": "Dushanba",
+    "TUESDAY": "Seshanba",
+    "WEDNESDAY": "Chorshanba",
+    "THURSDAY": "Payshanba",
+    "FRIDAY": "Juma",
+    "SATURDAY": "Shanba"
+  },
+  "START_CONVERSATION": "Suhbatni boshlash",
+  "END_CONVERSATION": "Suhbatni tugatish",
+  "CONTINUE_CONVERSATION": "Suhbatni davom ettirish",
+  "YOU": "Siz",
+  "START_NEW_CONVERSATION": "Yangi suhbatni boshlash",
+  "VIEW_UNREAD_MESSAGES": "Sizda o'qilmagan xabarlar bor",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Yangi xabarlarni ko'rish",
+    "CLOSE_MESSAGES_BUTTON": "Yopish",
+    "COMPANY_FROM": "tomonidan",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Biz bilan suhbatlashing"
+  },
+  "POWERED_BY": "Chatwoot yordamida ishlaydi",
+  "EMAIL_PLACEHOLDER": "Iltimos, emailingizni kiriting",
+  "CHAT_PLACEHOLDER": "Xabaringizni yozing",
+  "TODAY": "Bugun",
+  "YESTERDAY": "Kecha",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "To'liq ism",
+        "PLACEHOLDER": "Iltimos, to'liq ismingizni kiriting",
+        "REQUIRED_ERROR": "To'liq ism kiritilishi shart"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Email manzili",
+        "PLACEHOLDER": "Iltimos, email manzilingizni kiriting",
+        "REQUIRED_ERROR": "Email manzilini kiritish shart",
+        "VALID_ERROR": "Iltimos, to'g'ri email manzilini kiriting"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefon raqami",
+        "PLACEHOLDER": "Iltimos, telefon raqamingizni kiriting",
+        "REQUIRED_ERROR": "Telefon raqami kiritilishi shart",
+        "DIAL_CODE_VALID_ERROR": "Iltimos, mamlakat kodini tanlang",
+        "VALID_ERROR": "Iltimos, to'g'ri telefon raqamini kiriting",
+        "DROPDOWN_EMPTY": "Natija topilmadi",
+        "DROPDOWN_SEARCH": "Mamlakatni qidirish"
+      },
+      "MESSAGE": {
+        "LABEL": "Xabar",
+        "PLACEHOLDER": "Iltimos, xabaringizni kiriting",
+        "ERROR": "Xabar juda qisqa"
+      }
+    },
+    "CAMPAIGN_HEADER": "Suhbatni boshlashdan oldin ism va emailingizni kiriting",
+    "IS_REQUIRED": "kiritilishi shart",
+    "REQUIRED": "Majburiy",
+    "REGEX_ERROR": "Iltimos, to'g'ri ma'lumot kiriting"
+  },
+  "FILE_SIZE_LIMIT": "Fayl {MAXIMUM_FILE_UPLOAD_SIZE} biriktirma chegarasidan oshib ketdi",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Noto'g'ri maydon"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Emoji qidirish",
+    "NOT_FOUND": "Qidiruvga mos emoji topilmadi",
+    "ARIA_LABEL": "Emoji tanlagich"
+  },
+  "EMOJI_ICON_PICKER": {
+    "SEARCH_EMOJI": "Emojilarni qidirish…",
+    "FREQUENTLY_USED": "Ko'p ishlatiladiganlar",
+    "NO_EMOJI": "Qidiruvga mos emoji topilmadi"
+  },
+  "CSAT": {
+    "TITLE": "Suhbatingizni baholang",
+    "SUBMITTED_TITLE": "Baho berganingiz uchun rahmat",
+    "PLACEHOLDER": "Batafsil aytib bering..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Suhbat tarixini so'rash",
+    "SEND_EMAIL_SUCCESS": "Suhbat tarixi muvaffaqiyatli yuborildi",
+    "SEND_EMAIL_ERROR": "Xatolik yuz berdi, qayta urinib ko'ring"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Qo'shilish uchun shu yerni bosing",
+      "LEAVE_THE_ROOM": "Qo'ng'iroqni tark etish"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Ommabop maqolalar",
+    "VIEW_ALL_ARTICLES": "Barcha maqolalarni ko'rish",
+    "IFRAME_LOAD_ERROR": "Maqolani yuklashda xatolik yuz berdi, sahifani yangilab qayta urinib ko'ring."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Rasmli xabar"
+    },
+    "audio": {
+      "CONTENT": "Audio xabar"
+    },
+    "video": {
+      "CONTENT": "Video xabar"
+    },
+    "file": {
+      "CONTENT": "Fayl biriktirmasi"
+    },
+    "location": {
+      "CONTENT": "Joylashuv"
+    },
+    "fallback": {
+      "CONTENT": "havola ulashdi"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Javob berilmoqda:"
+  }
+}

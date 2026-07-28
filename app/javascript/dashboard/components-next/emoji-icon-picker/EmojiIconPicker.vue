@@ -168,6 +168,7 @@ const selectEmoji = emoji => {
       <Button
         v-if="showRemoveButton && value"
         v-tooltip.top="t('EMOJI_ICON_PICKER.REMOVE')"
+        type="button"
         variant="ghost"
         color="slate"
         size="sm"

@@ -18,6 +18,21 @@ RSpec.describe 'Conversations API', type: :request do
       expect(response.parsed_body['sla_events'].first['id']).to eq(sla_event.id)
     end
 
+    it 'returns cleared SLA data when the contact is blocked' do
+      account.enable_features!('sla')
+      conversation = create(:conversation, account: account)
+      applied_sla = create(:applied_sla, conversation: conversation)
+      create(:sla_event, conversation: conversation, applied_sla: applied_sla)
+      conversation.contact.update!(blocked: true)
+
+      get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: administrator.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['sla_policy_id']).to be_nil
+      expect(response.parsed_body['applied_sla']).to be_nil
+      expect(response.parsed_body['sla_events']).to eq([])
+    end
+
     it 'does not return SLA data for the conversation if the feature is disabled' do
       account.disable_features!('sla')
       conversation = create(:conversation, account: account)

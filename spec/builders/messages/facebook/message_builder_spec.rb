@@ -212,6 +212,12 @@ describe Messages::Facebook::MessageBuilder do
         attachment: { type: 'share', title: 'Shared Facebook post', payload: { url: 'https://www.facebook.com/example/posts/123' } },
         title: 'Shared Facebook post',
         url: 'https://www.facebook.com/example/posts/123'
+      },
+      {
+        source_id: 'm_post_test',
+        attachment: { type: 'post', payload: { title: 'Shared post caption', url: 'https://www.facebook.com/example/posts/456' } },
+        title: 'Shared post caption',
+        url: 'https://www.facebook.com/example/posts/456'
       }
     ].each do |message_data|
       it "stores #{message_data[:attachment][:type]} attachments as fallback links" do

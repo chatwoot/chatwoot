@@ -1,9 +1,9 @@
 class Whatsapp::ReauthorizationService
-  def initialize(account:, inbox_id:, phone_number_id:, business_id:)
+  def initialize(account:, inbox_id:, phone_number_id:, waba_id:)
     @account = account
     @inbox_id = inbox_id
     @phone_number_id = phone_number_id
-    @business_id = business_id
+    @waba_id = waba_id
   end
 
   def perform(access_token, phone_info)
@@ -27,10 +27,13 @@ class Whatsapp::ReauthorizationService
 
   def update_channel_config(channel, access_token, phone_info)
     current_config = channel.provider_config || {}
+    # Legacy clients may omit phone_number_id; fall back to the value just fetched from Meta.
+    resolved_phone_number_id = @phone_number_id.presence || phone_info[:phone_number_id]
+
     channel.provider_config = current_config.merge(
       'api_key' => access_token,
-      'phone_number_id' => @phone_number_id,
-      'business_account_id' => @business_id,
+      'phone_number_id' => resolved_phone_number_id,
+      'business_account_id' => @waba_id,
       'source' => 'embedded_signup'
     )
     channel.save!

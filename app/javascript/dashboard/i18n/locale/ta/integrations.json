@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "சந்தா எடுத்த நிகழ்வுகள்",
       "LEARN_MORE": "வெப்ஹுக்குகள் பற்றி மேலும் அறிக",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "ரகசியம்",
         "COPY": "Copy secret to clipboard",
@@ -392,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "கேப்டன்",
     "HEADER_KNOW_MORE": "மேலும் அறியவும்",
+    "OVERVIEW": {
+      "HEADER": "Overview",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review FAQs",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "PENDING": "நிலுவையில் உள்ள அடிக்கடி கேட்கப்படும் கேள்விகள்",
+        "DOCUMENTS": "ஆவணங்கள்"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "விளையாட்டு மைதானம்",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "Billing",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "உதவியாளர்கள்",
       "SWITCH_ASSISTANT": "உதவியாளர்களுக்கு இடையே மாறவும்",
@@ -493,10 +576,6 @@
           "LABEL": "பெயர்",
           "PLACEHOLDER": "உதவியாளர் பெயரை உள்ளிடவும்",
           "ERROR": "பெயர் அவசியம்"
-        },
-        "TEMPERATURE": {
-          "LABEL": "பதில் வெப்பநிலை",
-          "DESCRIPTION": "உதவியாளரின் பதில்கள் எவ்வளவு படைப்பாற்றல் அல்லது கட்டுப்படுத்தப்பட்டதாக இருக்க வேண்டும் என்பதை சரிசெய்க. குறைந்த மதிப்புகள் அதிக கவனம் செலுத்திய மற்றும் தீர்மானமான பதில்களை உருவாக்கும், அதிக மதிப்புகள் அதிக படைப்பாற்றல் மற்றும் மாறுபட்ட வெளியீடுகளை அனுமதிக்கும்."
         },
         "DESCRIPTION": {
           "LABEL": "விளக்கம்",
@@ -739,6 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "ஆவணங்கள்",
       "ADD_NEW": "புதிய ஆவணத்தை உருவாக்கவும்",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} தேர்ந்தெடுக்கப்பட்டது",
       "SELECT_ALL": "அனைத்தையும் தேர்ந்தெடு ({count})",
       "UNSELECT_ALL": "அனைத்தையும் தேர்விலிருந்து நீக்கு ({count})",
@@ -798,7 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "சம்பந்தப்பட்ட அடிக்கடி கேட்கப்படும் கேள்விகள்",
-        "DESCRIPTION": "இந்த அடிக்கடி கேட்கப்படும் கேள்விகள் நேரடியாக ஆவணத்திலிருந்து உருவாக்கப்பட்டவை."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "நகல்",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "அறிவுத்தளமாக சேர்க்க ஆவணத்தின் URL ஐ உள்ளிடவும் மற்றும் அதை தொடர்புபடுத்த வேண்டிய உதவியாளரை தேர்ந்தெடுக்கவும்.",
       "CREATE": {
@@ -838,7 +938,7 @@
         "ERROR_MESSAGE": "ஆவணத்தை நீக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "சம்பந்தப்பட்ட பதில்களைப் பார்க்கவும்",
+        "VIEW_DETAILS": "View details",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "ஆவணத்தை நீக்கு"
