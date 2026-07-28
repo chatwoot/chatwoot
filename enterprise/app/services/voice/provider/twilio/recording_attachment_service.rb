@@ -19,6 +19,8 @@ class Voice::Provider::Twilio::RecordingAttachmentService
     # Bump the message updated_at so the message.updated dispatcher rebroadcasts
     # the embedded Call payload (now with recording_url) to connected clients.
     call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+
+    Voice::CallTranscriptionJob.perform_later(call.id)
   end
 
   private
