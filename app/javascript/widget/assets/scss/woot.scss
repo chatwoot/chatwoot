@@ -13,6 +13,12 @@ body {
 .is-mobile {
   display: block;
 
+  &.is-unread-preview.is-bubble-hidden {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
   .actions {
     .close-button {
       display: block !important;

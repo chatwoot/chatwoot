@@ -138,11 +138,13 @@ export default {
     },
     setIframeHeight(isFixedHeight) {
       this.$nextTick(() => {
-        const extraHeight = getExtraSpaceToScroll();
-        IFrameHelper.sendMessage({
-          event: 'updateIframeHeight',
-          isFixedHeight,
-          extraHeight,
+        requestAnimationFrame(() => {
+          const extraHeight = getExtraSpaceToScroll();
+          IFrameHelper.sendMessage({
+            event: 'updateIframeHeight',
+            isFixedHeight,
+            extraHeight,
+          });
         });
       });
     },
@@ -164,13 +166,27 @@ export default {
       }
     },
     registerUnreadEvents() {
-      emitter.on(ON_AGENT_MESSAGE_RECEIVED, () => {
-        const { name: routeName } = this.$route;
-        if ((this.isWidgetOpen || !this.isIFrame) && routeName === 'messages') {
-          this.$store.dispatch('conversation/setUserLastSeen');
+      emitter.on(
+        ON_AGENT_MESSAGE_RECEIVED,
+        ({ source } = { source: 'created' }) => {
+          const { name: routeName } = this.$route;
+
+          if (source === 'updated') {
+            if (routeName !== 'unread-messages') return;
+            this.setUnreadView();
+            return;
+          }
+
+          if (
+            (this.isWidgetOpen || !this.isIFrame) &&
+            routeName === 'messages'
+          ) {
+            this.$store.dispatch('conversation/setUserLastSeen');
+          }
+
+          this.setUnreadView();
         }
-        this.setUnreadView();
-      });
+      );
       emitter.on(ON_UNREAD_MESSAGE_CLICK, () => {
         this.router
           .replace({ name: 'messages' })
@@ -222,12 +238,24 @@ export default {
       } else if (
         this.isIFrame &&
         unreadMessageCount > 0 &&
-        !this.isWidgetOpen
+        (!this.isWidgetOpen ||
+          ['unread-messages', 'campaigns'].includes(this.$route.name))
       ) {
-        this.router.replace({ name: 'unread-messages' }).then(() => {
+        const applyPreviewChrome = () => {
+          const skipSetUnreadMode =
+            this.$route.name === 'unread-messages' && this.isWidgetOpen;
+          if (!skipSetUnreadMode) {
+            IFrameHelper.sendMessage({ event: 'setUnreadMode' });
+          }
           this.setIframeHeight(true);
-          IFrameHelper.sendMessage({ event: 'setUnreadMode' });
-        });
+        };
+        if (this.$route.name === 'unread-messages') {
+          applyPreviewChrome();
+        } else {
+          this.router.replace({ name: 'unread-messages' }).then(() => {
+            applyPreviewChrome();
+          });
+        }
         this.handleUnreadNotificationDot();
       }
     },
@@ -374,6 +402,7 @@ export default {
     class="flex flex-col justify-end h-full"
     :class="{
       'is-mobile': isMobile,
+      'is-unread-preview': $route.name === 'unread-messages',
       'is-widget-right': isRightAligned,
       'is-bubble-hidden': hideMessageBubble,
       'is-flat-design': isWidgetStyleFlat,
