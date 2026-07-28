@@ -67,6 +67,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
         # HandoffTool flipped the flag without committing — its perform returned a
         # failure string (e.g. "Conversation not found") before bot_handoff! ran. Fall
         # back to a full V1 handoff so the customer still ends up with a human.
+        # Known gap, accepted for now: this repaired handoff emits no
+        # captain.conversation.handed_off event (the tool emits only after a successful
+        # bot_handoff!). If outcome data ever needs it, emit here with a distinct
+        # source such as 'tool_fallback'.
         process_v1_handoff
       else
         # HandoffTool already opened the conversation inside the agent loop. All that's
