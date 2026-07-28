@@ -74,6 +74,39 @@ const selectedAutoResolveModeLabel = computed(() => {
   )?.label;
 });
 
+const inactivityThresholdLabel = computed(() => {
+  const hours = Math.floor(state.inactivityThresholdMinutes / 60);
+  const minutes = state.inactivityThresholdMinutes % 60;
+
+  return [
+    hours
+      ? t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HOURS', {
+          count: hours,
+        })
+      : '',
+    minutes
+      ? t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES', {
+          count: minutes,
+        })
+      : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+});
+
+const selectedInactivityResolutionSummary = computed(() => {
+  if (state.autoResolveMode === 'disabled') {
+    return t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.CURRENT_MODE', {
+      mode: selectedAutoResolveModeLabel.value,
+    });
+  }
+
+  return t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.CURRENT_MODE_AFTER', {
+    mode: selectedAutoResolveModeLabel.value,
+    duration: inactivityThresholdLabel.value,
+  });
+});
+
 const shouldShowInactivityDuration = computed(
   () => state.autoResolveMode !== 'disabled'
 );
@@ -220,11 +253,14 @@ watch(
           <p class="text-sm text-n-slate-11">
             {{ t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DESCRIPTION') }}
           </p>
+          <p
+            v-if="!isInactivityResolutionSettingsExpanded"
+            class="text-xs font-medium text-n-slate-12"
+          >
+            {{ selectedInactivityResolutionSummary }}
+          </p>
         </div>
-        <div class="flex shrink-0 items-center gap-3">
-          <span class="hidden text-xs font-medium text-n-slate-11 xl:inline">
-            {{ selectedAutoResolveModeLabel }}
-          </span>
+        <div class="flex shrink-0 items-center">
           <span
             class="i-lucide-chevron-down size-4 text-n-slate-11 transition-transform"
             :class="{ 'rotate-180': isInactivityResolutionSettingsExpanded }"
