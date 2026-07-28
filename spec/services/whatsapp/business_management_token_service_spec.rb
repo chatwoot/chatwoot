@@ -20,7 +20,9 @@ RSpec.describe Whatsapp::BusinessManagementTokenService do
 
   before do
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-    allow(Whatsapp::BusinessManagementTokenValidationService).to receive(:new).with('business-token').and_return(validation_service)
+    allow(Whatsapp::BusinessManagementTokenValidationService).to receive(:new)
+      .with('business-token', channel.provider_config['business_account_id'])
+      .and_return(validation_service)
   end
 
   it 'stores the business management token without replacing the API key' do

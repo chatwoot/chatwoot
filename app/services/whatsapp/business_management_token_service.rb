@@ -7,7 +7,10 @@ class Whatsapp::BusinessManagementTokenService
     validate_channel!
     raise ArgumentError, 'Business management token is required' if business_management_token.blank?
 
-    Whatsapp::BusinessManagementTokenValidationService.new(business_management_token).perform
+    Whatsapp::BusinessManagementTokenValidationService.new(
+      business_management_token,
+      @channel.provider_config['business_account_id']
+    ).perform
 
     @channel.business_management_token = business_management_token
     @channel.save!(validate: false)

@@ -4,7 +4,6 @@ import { useAlert } from 'dashboard/composables';
 import { useWhatsappEmbeddedSignup } from 'dashboard/composables/useWhatsappEmbeddedSignup';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import whatsappChannel from 'dashboard/api/channel/whatsappChannel';
-import InboxesAPI from 'dashboard/api/inboxes';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
@@ -16,6 +15,7 @@ import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
+import WhatsappBusinessManagementToken from './WhatsappBusinessManagementToken.vue';
 
 export default {
   components: {
@@ -26,6 +26,7 @@ export default {
     SmtpSettings,
     NextButton,
     TextArea,
+    WhatsappBusinessManagementToken,
   },
   mixins: [inboxMixin],
   props: {
@@ -43,9 +44,6 @@ export default {
       hmacMandatory: false,
       allowMobileWebview: false,
       whatsAppInboxAPIKey: '',
-      whatsAppBusinessManagementToken: '',
-      isUpdatingWhatsAppBusinessManagementToken: false,
-      isRemovingWhatsAppBusinessManagementToken: false,
       isSyncingTemplates: false,
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
@@ -55,7 +53,6 @@ export default {
   },
   validations: {
     whatsAppInboxAPIKey: { required },
-    whatsAppBusinessManagementToken: { required },
   },
   computed: {
     ...mapGetters({
@@ -185,50 +182,6 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
-      }
-    },
-    async updateWhatsAppBusinessManagementToken() {
-      this.isUpdatingWhatsAppBusinessManagementToken = true;
-      try {
-        await InboxesAPI.updateWhatsappBusinessManagementToken(
-          this.inbox.id,
-          this.whatsAppBusinessManagementToken
-        );
-        this.whatsAppBusinessManagementToken = '';
-        useAlert(
-          this.$t(
-            'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS'
-          )
-        );
-      } catch (error) {
-        useAlert(
-          error.response?.data?.message ||
-            this.$t(
-              'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR'
-            )
-        );
-      } finally {
-        this.isUpdatingWhatsAppBusinessManagementToken = false;
-      }
-    },
-    async removeWhatsAppBusinessManagementToken() {
-      this.isRemovingWhatsAppBusinessManagementToken = true;
-      try {
-        await InboxesAPI.removeWhatsappBusinessManagementToken(this.inbox.id);
-        useAlert(
-          this.$t(
-            'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REMOVE_SUCCESS'
-          )
-        );
-      } catch (error) {
-        useAlert(
-          error.response?.data?.message ||
-            this.$t(
-              'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REMOVE_ERROR'
-            )
-        );
-      } finally {
-        this.isRemovingWhatsAppBusinessManagementToken = false;
       }
     },
     async reconfigureWhatsApp() {
@@ -518,78 +471,14 @@ export default {
           </div>
         </SettingsFieldSection>
       </template>
-      <SettingsFieldSection
+      <WhatsappBusinessManagementToken
         v-if="
           isOnChatwootCloud &&
           inbox.provider === 'whatsapp_cloud' &&
           isEmbeddedSignupWhatsApp
         "
-        :label="
-          $t(
-            'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_TITLE'
-          )
-        "
-        :help-text="
-          $t(
-            'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER'
-          )
-        "
-      >
-        <div class="flex flex-col gap-2">
-          <div
-            class="flex flex-1 justify-between items-center whatsapp-settings--content"
-          >
-            <woot-input
-              v-model="whatsAppBusinessManagementToken"
-              type="password"
-              class="flex-1 mr-2 [&>input]:!mb-0"
-              :placeholder="
-                $t(
-                  'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER'
-                )
-              "
-            />
-            <NextButton
-              :disabled="
-                v$.whatsAppBusinessManagementToken.$invalid ||
-                isUpdatingWhatsAppBusinessManagementToken
-              "
-              :is-loading="isUpdatingWhatsAppBusinessManagementToken"
-              @click="updateWhatsAppBusinessManagementToken"
-            >
-              {{
-                $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON')
-              }}
-            </NextButton>
-            <NextButton
-              color-scheme="alert"
-              variant="outline"
-              class="ml-2"
-              :is-loading="isRemovingWhatsAppBusinessManagementToken"
-              :disabled="isUpdatingWhatsAppBusinessManagementToken"
-              @click="removeWhatsAppBusinessManagementToken"
-            >
-              {{
-                $t(
-                  'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REMOVE_BUTTON'
-                )
-              }}
-            </NextButton>
-          </div>
-          <a
-            href="https://www.chatwoot.com/hc/user-guide/articles/1785260890-whatsapp-business-token"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-label-small text-n-blue-11 hover:underline"
-          >
-            {{
-              $t(
-                'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK'
-              )
-            }}
-          </a>
-        </div>
-      </SettingsFieldSection>
+        :inbox="inbox"
+      />
       <SettingsFieldSection
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
         :help-text="
