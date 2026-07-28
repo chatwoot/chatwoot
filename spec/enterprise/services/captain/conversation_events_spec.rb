@@ -58,6 +58,22 @@ RSpec.describe Captain::ConversationEvents do
     end
   end
 
+  describe 'when dispatch fails' do
+    it 'captures the exception instead of raising into the Captain flow' do
+      conversation
+      assistant
+      error = StandardError.new('redis down')
+      allow(Rails.configuration.dispatcher).to receive(:dispatch).and_raise(error)
+      expect(ChatwootExceptionTracker).to receive(:new)
+        .with(error, account: account)
+        .and_return(instance_double(ChatwootExceptionTracker, capture_exception: true))
+
+      expect do
+        described_class.engaged(conversation: conversation, assistant: assistant, at: timestamp)
+      end.not_to raise_error
+    end
+  end
+
   describe '.response_failed' do
     it 'dispatches the response failed event with the failure reason' do
       expect(Rails.configuration.dispatcher).to receive(:dispatch).with(

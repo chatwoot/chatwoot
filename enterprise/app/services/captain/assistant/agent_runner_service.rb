@@ -28,7 +28,7 @@ class Captain::Assistant::AgentRunnerService
     Rails.logger.error "[Captain V2] AgentRunnerService error: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
 
-    error_response(e.message)
+    error_response(e)
   end
 
   private
@@ -93,10 +93,12 @@ class Captain::Assistant::AgentRunnerService
     response
   end
 
-  def error_response(error_message)
+  def error_response(error)
     {
       'response' => 'conversation_handoff',
-      'reasoning' => "Error occurred: #{error_message}",
+      'reasoning' => "Error occurred: #{error.message}",
+      'error' => true,
+      'error_reason' => error.class.name.underscore.tr('/', '_'),
       'handoff_tool_called' => @handoff_tool_called
     }
   end

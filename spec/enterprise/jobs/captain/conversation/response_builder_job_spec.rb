@@ -425,7 +425,21 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
       end
 
-      it 'emits response failed and generation failure handoff events when generation errors' do
+      it 'emits response failed and generation failure handoff events when the runner returns an error response' do
+        allow(mock_agent_runner_service).to receive(:generate_response).and_return(
+          { 'response' => 'conversation_handoff', 'reasoning' => 'Error occurred: llm down', 'error' => true,
+            'error_reason' => 'standard_error', 'handoff_tool_called' => false }
+        )
+
+        expect(Captain::ConversationEvents).to receive(:response_failed)
+          .with(conversation: conversation, assistant: assistant, reason: 'standard_error', at: kind_of(Time))
+        expect(Captain::ConversationEvents).to receive(:handed_off)
+          .with(conversation: conversation, assistant: assistant, source: 'generation_failure', reason_category: :tool_failure, at: kind_of(Time))
+
+        described_class.perform_now(conversation, assistant)
+      end
+
+      it 'emits response failed and generation failure handoff events when generation raises' do
         allow(mock_agent_runner_service).to receive(:generate_response).and_raise(StandardError, 'llm down')
 
         expect(Captain::ConversationEvents).to receive(:response_failed)

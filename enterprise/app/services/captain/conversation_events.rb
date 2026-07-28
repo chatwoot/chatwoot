@@ -52,8 +52,13 @@ class Captain::ConversationEvents
 
     private
 
+    # Lifecycle events are secondary effects: a dispatch failure must never alter
+    # the customer-facing Captain flow (blocking a response from being scheduled,
+    # or turning an already-delivered reply into a spurious handoff).
     def dispatch(event_name, at:, **data)
       Rails.configuration.dispatcher.dispatch(event_name, at, data)
+    rescue StandardError => e
+      ChatwootExceptionTracker.new(e, account: data[:conversation]&.account).capture_exception
     end
   end
 end

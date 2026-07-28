@@ -54,6 +54,11 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_response
+    # The V2 runner rescues its own generation errors and signals them via an error
+    # response instead of raising, so the failure event must be emitted here — the
+    # top-level handle_error path only sees exceptions raised outside the runner.
+    record_v2_response_failure(@response['error_reason']) if v2_generation_errored?
+
     # Check V2 before V1: error_response can set both signals at once when HandoffTool
     # fired before the runner errored. V2 must win — running V1 on top would duplicate
     # OOO and re-dispatch the bot_handoff event.
@@ -70,15 +75,20 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       end
       capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
     elsif v1_handoff_requested?
-      # V1 only signals via the response string — no state has been touched yet. If
-      # the conversation isn't pending anymore, a human took over mid-run; bail out
-      # rather than posting a stale handoff message on top of their reply.
-      return unless conversation_pending?
-
-      process_v1_handoff
+      process_v1_handoff_request
     elsif conversation_pending?
       deliver_generated_response
     end
+  end
+
+  def process_v1_handoff_request
+    # V1 only signals via the response string — no state has been touched yet. If
+    # the conversation isn't pending anymore, a human took over mid-run; bail out
+    # rather than posting a stale handoff message on top of their reply.
+    return unless conversation_pending?
+
+    process_v1_handoff
+    record_v2_failure_handoff if v2_generation_errored?
   end
 
   def deliver_generated_response
@@ -166,7 +176,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response ||= {}
     @response['action_source'] ||= 'error'
     @response['action_reason'] ||= error_action_reason(error)
-    record_v2_response_failure(error) if captain_v2_enabled?
+    record_v2_response_failure(error_action_reason(error)) if captain_v2_enabled?
     if conversation_pending?
       process_v1_handoff
       record_v2_failure_handoff if captain_v2_enabled?
@@ -174,13 +184,17 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     true
   end
 
-  def record_v2_response_failure(error)
+  def record_v2_response_failure(reason)
     Captain::ConversationEvents.response_failed(
       conversation: @conversation,
       assistant: @assistant,
-      reason: error_action_reason(error),
+      reason: reason,
       at: Time.current
     )
+  end
+
+  def v2_generation_errored?
+    captain_v2_enabled? && @response['error'].present?
   end
 
   def record_v2_failure_handoff
