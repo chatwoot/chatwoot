@@ -62,6 +62,18 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(portal.articles.where(author_id: foreign_user.id)).to be_empty
       end
 
+      it 'rejects a malformed author_id without raising' do
+        [%w[3 4], ' 3 ', '3abc'].each do |bad_author_id|
+          post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+               params: { article: { title: 'MyTitle', slug: 'my-title', content: 'This is my content.', author_id: bad_author_id } },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body).to eq('error' => 'Invalid author ID')
+        end
+      end
+
       it 'creates article even if category is not provided' do
         article_params = {
           article: {

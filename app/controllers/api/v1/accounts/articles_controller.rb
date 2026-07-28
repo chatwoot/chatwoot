@@ -67,9 +67,10 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   def validate_author
     author_id = params.dig(:article, :author_id)
     return if author_id.blank?
+
+    parsed_id = author_id.to_s.match?(/\A\d+\z/) ? author_id.to_i : nil
     # allow echoing the current author so edits are not blocked if they left the account
-    return if author_id.to_i == @article&.author_id
-    return if Current.account.users.exists?(id: author_id)
+    return if parsed_id && (parsed_id == @article&.author_id || Current.account.users.exists?(id: parsed_id))
 
     render json: { error: 'Invalid author ID' }, status: :unprocessable_entity
   end
