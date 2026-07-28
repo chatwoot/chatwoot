@@ -7,7 +7,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
   let(:user) { create(:user, account: account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:contact) { create(:contact, account: account) }
-  let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact) }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, status: :pending) }
   let(:tool_context) { Struct.new(:state).new({ conversation: { id: conversation.id } }) }
 
   describe '#description' do

@@ -14,7 +14,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
                    })
 
     # Use existing handoff mechanism from ResponseBuilderJob
-    trigger_handoff(tool_context, conversation, reason)
+    return 'Handoff skipped because the conversation changed' unless trigger_handoff(tool_context, conversation, reason)
 
     "Conversation handed off to human support team#{" (Reason: #{reason})" if reason}"
   rescue StandardError => e
@@ -36,15 +36,23 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   end
 
   def trigger_handoff(tool_context, conversation, reason)
-    # post the reason as a private note
-    note = conversation.messages.create!(
-      message_type: :outgoing,
-      private: true,
-      sender: @assistant,
-      account: conversation.account,
-      inbox: conversation.inbox,
-      content: reason
-    )
+    note = nil
+    handoff_completed = conversation.with_lock do
+      next false unless conversation.pending?
+      next false unless trigger_message_current?(tool_context.state, conversation)
+
+      # post the reason as a private note
+      note = conversation.messages.create!(
+        message_type: :outgoing, private: true, sender: @assistant,
+        account: conversation.account, inbox: conversation.inbox, content: reason
+      )
+
+      # Trigger the bot handoff (sets status to open + dispatches events)
+      conversation.bot_handoff!
+      true
+    end
+
+    return false unless handoff_completed
 
     # Session capture attributes the run to this note so agents can inspect the
     # generation path on the handoff reason instead of the canned follow-up message.
@@ -55,12 +63,11 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
       metadata[:handoff_note_id] = note.id
     end
 
-    # Trigger the bot handoff (sets status to open + dispatches events)
-    conversation.bot_handoff!
     tool_context.state[:captain_v2_handoff_tool_completed] = true
 
     # Send out of office message if applicable (since template messages were suppressed while Captain was handling)
     send_out_of_office_message_if_applicable(conversation)
+    true
   end
 
   def send_out_of_office_message_if_applicable(conversation)
