@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { isWebUrl } from 'widget-v2/helpers/urlHelpers';
+import HomeSection from 'widget-v2/components/HomeSection.vue';
 
 const props = defineProps({
   brand: { type: Object, required: true },
@@ -59,20 +60,17 @@ const rows = computed(() => {
 </script>
 
 <template>
-  <section
+  <HomeSection
     v-if="rows.length || socialLinks.length"
-    class="surface-card overflow-hidden"
+    :label="$t('HOME.CONTACT')"
   >
-    <h2 class="px-4 pt-4 pb-1 type-overline text-cw-text-faint">
-      {{ $t('HOME.CONTACT') }}
-    </h2>
     <a
       v-for="row in rows"
       :key="row.href"
       :href="row.href"
       :target="row.external ? '_blank' : undefined"
       :rel="row.external ? 'noreferrer noopener' : undefined"
-      class="group flex items-center gap-3 row-pad transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
+      class="group flex items-center gap-3 row-pad rounded-token-sm transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
     >
       <span
         class="flex items-center justify-center w-8 h-8 rounded-full bg-cw-muted text-cw-text-muted"
@@ -88,11 +86,7 @@ const rows = computed(() => {
       />
     </a>
 
-    <div
-      v-if="socialLinks.length"
-      class="flex items-center gap-2 px-4 py-3"
-      :class="{ 'border-t border-cw-hairline': rows.length }"
-    >
+    <div v-if="socialLinks.length" class="flex items-center gap-2 px-2 pt-2">
       <a
         v-for="social in socialLinks"
         :key="social.network"
@@ -105,5 +99,5 @@ const rows = computed(() => {
         <span :class="social.icon" class="text-sm" />
       </a>
     </div>
-  </section>
+  </HomeSection>
 </template>

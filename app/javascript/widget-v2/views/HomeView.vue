@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useConfigStore } from 'widget-v2/stores/config';
 import { useConversationsStore } from 'widget-v2/stores/conversations';
@@ -7,6 +7,8 @@ import { useArticlesStore } from 'widget-v2/stores/articles';
 import { useUiStore } from 'widget-v2/stores/ui';
 import { useAvailability } from 'widget-v2/composables/useAvailability';
 import { isWebUrl } from 'widget-v2/helpers/urlHelpers';
+import HomeComposer from 'widget-v2/components/HomeComposer.vue';
+import HomeSection from 'widget-v2/components/HomeSection.vue';
 import ConversationCard from 'widget-v2/components/ConversationCard.vue';
 import ArticleCard from 'widget-v2/components/ArticleCard.vue';
 import NoticeBanner from 'widget-v2/components/NoticeBanner.vue';
@@ -40,24 +42,63 @@ const logoUrl = computed(() =>
   isWebUrl(brand.value.logo) ? brand.value.logo : channel.value.avatar_url
 );
 
-const recentConversation = computed(
-  () => conversationsStore.humanConversations[0]
+// Picking up where you left off is the returning visitor's main job, so the
+// two most recent threads sit above everything a first-time visitor needs.
+const CONTINUE_LIMIT = 2;
+const ongoing = computed(() =>
+  [
+    ...conversationsStore.humanConversations,
+    ...conversationsStore.aiConversations,
+  ]
+    .filter(conversation => conversation.status !== 'resolved')
+    .sort((a, b) => (b.last_activity_at || 0) - (a.last_activity_at || 0))
+    .slice(0, CONTINUE_LIMIT)
 );
+
+const starting = ref(false);
 
 onMounted(() => {
   conversationsStore.loadSection('human');
+  if (configStore.hasAiAgent) conversationsStore.loadSection('ai');
   articlesStore.loadPopular();
 });
 
 const openConversation = id =>
   router.push({ name: 'conversation-detail', params: { id } });
+
+const preChatFields = computed(() => {
+  if (!channel.value.pre_chat_form_enabled) return [];
+  const options = channel.value.pre_chat_form_options || {};
+  return (options.pre_chat_fields || []).filter(field => field.enabled);
+});
+
+// The draft goes straight out unless the inbox asks for details first, in
+// which case the compose screen collects them with the message carried over.
+const startConversation = async ({ content, section }) => {
+  if (starting.value) return;
+  if (section === 'human' && preChatFields.value.length) {
+    router.push({ name: 'compose', query: { draft: content } });
+    return;
+  }
+
+  starting.value = true;
+  try {
+    const conversation = await conversationsStore.create({ section, content });
+    router.push({
+      name: 'conversation-detail',
+      params: { id: conversation.id },
+    });
+  } finally {
+    starting.value = false;
+  }
+};
 </script>
 
 <template>
   <div
     class="flex flex-col h-full overflow-y-auto scrollbar-thin bg-cw-background"
   >
-    <header :class="hasCover ? 'pb-6' : 'px-6 pt-7 pb-6'">
+    <header :class="hasCover ? 'pb-5' : 'px-6 pt-7 pb-5'">
       <div v-if="hasCover" class="relative h-28">
         <img
           v-if="coverImage"
@@ -82,22 +123,13 @@ const openConversation = id =>
 
       <div :class="hasCover ? 'px-6 -mt-7 relative' : ''">
         <div class="flex items-start justify-between">
-          <span class="relative inline-flex">
-            <BaseAvatar
-              :src="logoUrl"
-              :name="channel.website_name"
-              :size="hasCover ? 56 : 48"
-              class="shadow-sm"
-              :class="
-                hasCover ? 'ring-4 ring-cw-solid' : 'ring-2 ring-cw-solid'
-              "
-            />
-            <span
-              v-if="isOnline"
-              class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-n-teal-9 ring-2 ring-cw-solid"
-              :title="$t('AVAILABILITY.ONLINE')"
-            />
-          </span>
+          <BaseAvatar
+            :src="logoUrl"
+            :name="channel.website_name"
+            :size="hasCover ? 56 : 48"
+            class="shadow-sm"
+            :class="hasCover ? 'ring-4 ring-cw-solid' : 'ring-2 ring-cw-solid'"
+          />
           <button
             v-if="!hasCover"
             type="button"
@@ -116,6 +148,19 @@ const openConversation = id =>
           class="mt-1.5 text-sm leading-relaxed text-cw-text-muted max-w-72"
         >
           {{ channel.welcome_tagline }}
+        </p>
+        <!-- Availability answers the visitor's first question, so it reads as
+             a line of the greeting rather than fine print on a button. -->
+        <p class="flex items-center gap-1.5 mt-2 text-xs text-cw-text-muted">
+          <span
+            class="w-1.5 h-1.5 rounded-full"
+            :class="isOnline ? 'bg-n-teal-9' : 'bg-cw-text-faint'"
+          />
+          {{
+            isOnline
+              ? $t(`HOME.REPLY_TIME.${replyTimeKey}`)
+              : $t('AVAILABILITY.TEAM_AWAY')
+          }}
         </p>
       </div>
     </header>
@@ -137,80 +182,27 @@ const openConversation = id =>
         :notice="configStore.hostNotice"
       />
 
-      <section class="surface-card overflow-hidden">
+      <HomeComposer @submit="startConversation" />
+
+      <section v-if="ongoing.length" class="surface-card overflow-hidden">
         <ConversationCard
-          v-if="recentConversation"
-          :conversation="recentConversation"
-          @click="openConversation(recentConversation.id)"
+          v-for="(conversation, index) in ongoing"
+          :key="conversation.id"
+          :conversation="conversation"
+          :class="{ 'border-t border-cw-hairline': index }"
+          @click="openConversation(conversation.id)"
         />
-        <button
-          type="button"
-          class="group flex items-center w-full gap-3.5 row-pad text-left transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
-          :class="{ 'border-t border-cw-hairline': recentConversation }"
-          @click="router.push({ name: 'compose' })"
-        >
-          <span
-            class="flex items-center justify-center w-9 h-9 rounded-full bg-cw-primary text-cw-primary-foreground shadow-sm"
-          >
-            <span class="i-ph-paper-plane-tilt-fill text-sm" />
-          </span>
-          <span class="flex-1">
-            <span class="block text-sm font-520 text-cw-text">
-              {{ $t('HOME.START_CONVERSATION') }}
-            </span>
-            <span class="block mt-0.5 text-xs text-cw-text-muted">
-              {{
-                isOnline
-                  ? $t(`HOME.REPLY_TIME.${replyTimeKey}`)
-                  : $t('AVAILABILITY.TEAM_AWAY')
-              }}
-            </span>
-          </span>
-          <span
-            class="i-ph-caret-right text-cw-text-faint transition-transform group-hover:translate-x-0.5"
-          />
-        </button>
       </section>
 
-      <section
-        v-if="configStore.hasAiAgent"
-        class="surface-card overflow-hidden"
-      >
-        <button
-          type="button"
-          class="group flex items-center w-full gap-3.5 row-pad text-left transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
-          @click="router.push({ name: 'ai-compose' })"
-        >
-          <span
-            class="ai-accent-well flex items-center justify-center w-9 h-9 rounded-full"
-          >
-            <span class="i-ph-sparkle-fill text-sm" />
-          </span>
-          <span class="flex-1">
-            <span class="block text-sm font-520 text-cw-text">
-              {{ $t('AI.NEW_CHAT') }}
-            </span>
-            <span class="block mt-0.5 text-xs text-cw-text-muted">
-              {{ $t('AI.DESCRIPTION', { name: configStore.aiAgent.name }) }}
-            </span>
-          </span>
-          <span
-            class="i-ph-caret-right text-cw-text-faint transition-transform group-hover:translate-x-0.5"
-          />
-        </button>
-      </section>
-
-      <section
+      <HomeSection
         v-if="configStore.portal && articlesStore.popularArticles.length"
-        class="surface-card overflow-hidden"
+        :label="$t('HOME.SUGGESTED')"
       >
-        <h2 class="px-4 pt-4 pb-1 type-overline text-cw-text-faint">
-          {{ $t('HOME.POPULAR_ARTICLES') }}
-        </h2>
         <ArticleCard
           v-for="article in articlesStore.popularArticles"
           :key="article.id"
           :article="article"
+          flat
           @click="
             router.push({
               name: 'help-article',
@@ -218,7 +210,17 @@ const openConversation = id =>
             })
           "
         />
-      </section>
+        <button
+          type="button"
+          class="group flex items-center gap-1 self-start px-2 py-2 text-xs font-520 text-cw-text-muted rounded-token-sm transition-colors hover:text-cw-text outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
+          @click="router.push({ name: 'help' })"
+        >
+          {{ $t('HOME.BROWSE_ARTICLES') }}
+          <span
+            class="i-ph-caret-right transition-transform group-hover:translate-x-0.5"
+          />
+        </button>
+      </HomeSection>
 
       <BlogPosts v-if="configStore.hostPosts" :posts="configStore.hostPosts" />
 

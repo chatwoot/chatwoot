@@ -1,13 +1,17 @@
 <script setup>
 defineProps({
   article: { type: Object, required: true },
+  // Home lists articles straight on the background; the card views put them
+  // on a solid surface.
+  flat: { type: Boolean, default: false },
 });
 </script>
 
 <template>
   <button
     type="button"
-    class="flex items-center w-full gap-3 row-pad text-left transition-colors bg-cw-solid hover:bg-cw-surface outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cw-primary"
+    class="flex items-center w-full gap-3 row-pad text-left transition-colors hover:bg-cw-surface outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cw-primary"
+    :class="flat ? 'rounded-token-sm' : 'bg-cw-solid'"
   >
     <span class="flex-1 min-w-0">
       <span class="block text-sm font-520 text-cw-text truncate">

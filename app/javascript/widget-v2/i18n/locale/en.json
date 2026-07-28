@@ -12,7 +12,13 @@
     "SEARCH_ARTICLES": "Search help articles",
     "POPULAR_ARTICLES": "Popular articles",
     "LATEST_POSTS": "Latest updates",
-    "CONTACT": "Get in touch"
+    "CONTACT": "Get in touch",
+    "ASK_PLACEHOLDER": "What can we help with?",
+    "WHO_ANSWERS": "Who should answer",
+    "ANSWER_AI": "Ask AI",
+    "ANSWER_TEAM": "Team",
+    "SUGGESTED": "Suggested for you",
+    "BROWSE_ARTICLES": "Browse all articles"
   },
   "TABS": {
     "HOME": "Home",
@@ -37,13 +43,20 @@
   "CONVERSATION": {
     "PLACEHOLDER": "Type your message…",
     "SEND": "Send message",
-    "ATTACH": "Attach a file",
+    "ATTACH": "File",
     "RESOLVE": "End conversation",
     "RESOLVED_NOTICE": "This conversation has ended. Send a message to start again.",
     "TYPING": "Typing…",
     "LOAD_EARLIER": "Load earlier messages",
     "UPLOAD_FAILED": "The file could not be uploaded. Try again.",
-    "SEND_FAILED": "The message could not be sent. Try again."
+    "SEND_FAILED": "The message could not be sent. Try again.",
+    "ADD": "Add to your message",
+    "ADD_EMOJI": "Emoji"
+  },
+  "EMOJI": {
+    "SEARCH": "Search emoji",
+    "FREQUENTLY_USED": "Frequently used",
+    "NO_RESULTS": "No emoji match your search"
   },
   "AVAILABILITY": {
     "ONLINE": "Online",

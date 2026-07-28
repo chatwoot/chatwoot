@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { isWebUrl } from 'widget-v2/helpers/urlHelpers';
+import HomeSection from 'widget-v2/components/HomeSection.vue';
 
 const props = defineProps({
   posts: { type: Array, required: true },
@@ -12,17 +13,14 @@ const validPosts = computed(() =>
 </script>
 
 <template>
-  <section v-if="validPosts.length" class="surface-card overflow-hidden">
-    <h2 class="px-4 pt-4 pb-1 type-overline text-cw-text-faint">
-      {{ $t('HOME.LATEST_POSTS') }}
-    </h2>
+  <HomeSection v-if="validPosts.length" :label="$t('HOME.LATEST_POSTS')">
     <a
       v-for="post in validPosts"
       :key="post.url"
       :href="post.url"
       target="_blank"
       rel="noreferrer noopener"
-      class="group flex items-center gap-3 row-pad transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
+      class="group flex items-center gap-3 row-pad rounded-token-sm transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
     >
       <img
         v-if="isWebUrl(post.image)"
@@ -51,5 +49,5 @@ const validPosts = computed(() =>
         class="i-ph-arrow-square-out shrink-0 text-cw-text-faint transition-transform group-hover:translate-x-0.5"
       />
     </a>
-  </section>
+  </HomeSection>
 </template>

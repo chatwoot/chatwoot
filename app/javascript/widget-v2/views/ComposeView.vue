@@ -20,7 +20,9 @@ const isValidEmail = value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const section = computed(() => (route.meta.section === 'ai' ? 'ai' : 'human'));
 const isAi = computed(() => section.value === 'ai');
 
-const message = ref('');
+// Home hands over whatever the visitor already typed, so the pre-chat form
+// never makes them write it twice.
+const message = ref(route.query.draft || '');
 const submitting = ref(false);
 const values = reactive({});
 const errors = reactive({});
