@@ -37,6 +37,9 @@ class Account < ApplicationRecord
     flag_query_mode: :bit_operator,
     check_for_column: false
   }.freeze
+  SUSPENSION_CATEGORIES = %w[spam non_payment other].freeze
+
+  attr_accessor :suspension_category, :suspension_reason
 
   validates :name, presence: true
   # `domain` is the inbound email domain used to construct reply addresses
@@ -155,6 +158,10 @@ class Account < ApplicationRecord
       id: id,
       name: name
     }
+  end
+
+  def suspension_history
+    internal_attributes['suspensions'] || []
   end
 
   def inbound_email_domain
