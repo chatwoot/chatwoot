@@ -1,4 +1,4 @@
-import { getPreset } from 'widget-v2/themes';
+import { getTheme } from 'widget-v2/themes';
 
 const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -78,16 +78,21 @@ const loadFontStylesheet = url => {
   document.head.appendChild(link);
 };
 
-// Order of precedence: widget-v2.scss defaults → kit preset → explicit tokens.
+// A theme is either a name ('tetris') or an object ({ name, ...overrides }).
+// Precedence: widget-v2.scss defaults → named theme → explicit overrides.
 export const applyTheme = (theme = {}) => {
   const root = document.documentElement;
-  const resolved = {
-    ...(getPreset(theme.preset) || {}),
-    ...theme.tokens,
-    ...theme,
-  };
+  const config = typeof theme === 'string' ? { name: theme } : theme || {};
+  const resolved = { ...getTheme(config.name), ...config };
 
-  root.classList.toggle('frosted', resolved.surface === 'frosted');
+  root.classList.toggle('frosted', resolved.material === 'frosted');
+
+  // Themes replace rather than accumulate: clear anything a previous theme set
+  // so its tokens can't leak into the next one.
+  Object.values(TOKEN_VARS).forEach(cssVar =>
+    root.style.removeProperty(cssVar)
+  );
+  root.style.removeProperty('--cw-font-sans');
 
   Object.entries(TOKEN_VARS).forEach(([token, cssVar]) => {
     const value = resolved[token];

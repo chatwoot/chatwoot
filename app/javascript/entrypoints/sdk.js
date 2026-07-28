@@ -197,10 +197,15 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       });
     },
 
-    // Merges into the current theme, so callers can change a single token
-    // (e.g. { surface: 'glass' }) without restating the rest.
+    // Accepts a theme name ('tetris') or an object of token overrides, which
+    // merge into the current theme so a single token can be changed alone.
     setTheme(theme = {}) {
-      window.$chatwoot.theme = { ...window.$chatwoot.theme, ...theme };
+      const next = typeof theme === 'string' ? { name: theme } : theme;
+      const current =
+        typeof window.$chatwoot.theme === 'string'
+          ? { name: window.$chatwoot.theme }
+          : window.$chatwoot.theme;
+      window.$chatwoot.theme = { ...current, ...next };
       IFrameHelper.sendMessage('set-theme', { theme: window.$chatwoot.theme });
     },
 

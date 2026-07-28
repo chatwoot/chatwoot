@@ -155,16 +155,12 @@
 
       <fieldset>
         <legend>Theme (v2) &mdash; applies live</legend>
-        <label>Styling kit</label>
-        <select data-theme-key="preset">
-          <option value="">none (default tokens)</option>
+        <label>Theme</label>
+        <select data-theme-key="name">
+          <option value="standard">standard</option>
+          <option value="frosted">frosted</option>
           <option value="tetris">tetris</option>
           <option value="editorial">editorial</option>
-        </select>
-        <label>Surface style</label>
-        <select data-theme-key="surface">
-          <option value="">solid (default)</option>
-          <option value="frosted">frosted (translucent)</option>
         </select>
         <label>Primary color</label>
         <input type="color" data-theme-key="primary" value="#2781f6" />
@@ -226,8 +222,9 @@
           <button onclick="setIdentifiedUser()">setUser (HMAC)</button>
           <button onclick="window.$chatwoot.setLocale(document.querySelector('[data-key=locale]').value || 'en')">setLocale (live)</button>
           <button onclick="window.$chatwoot.setColorScheme(document.querySelector('[data-key=darkMode]').value)">setColorScheme (live)</button>
-          <button onclick="window.$chatwoot.setTheme({ preset: 'tetris' })">Kit: tetris</button>
-          <button onclick="window.$chatwoot.setTheme({ preset: 'editorial' })">Kit: editorial</button>
+          <button onclick="window.$chatwoot.setTheme('tetris')">Theme: tetris</button>
+          <button onclick="window.$chatwoot.setTheme('editorial')">Theme: editorial</button>
+          <button onclick="window.$chatwoot.setTheme('standard')">Theme: standard</button>
           <button onclick="window.$chatwoot.setCustomAttributes({ plan: 'enterprise', signed_up_at: '2024-01-01' })">setCustomAttributes</button>
           <button onclick="window.$chatwoot.setLabel('support')">setLabel</button>
           <button onclick="window.$chatwoot.popoutChatWindow()">Popout</button>
@@ -301,9 +298,7 @@
   function applyThemeLive() {
     if (!window.$chatwoot || !window.$chatwoot.setTheme) return;
     var theme = readForm().theme;
-    // An empty surface means "solid"; send it explicitly so glass turns off.
-    theme.surface =
-      document.querySelector('[data-theme-key="surface"]').value || 'solid';
+    theme.name = document.querySelector('[data-theme-key="name"]').value;
     window.$chatwoot.setTheme(theme);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(readForm()));
     logEvent('setTheme', theme);

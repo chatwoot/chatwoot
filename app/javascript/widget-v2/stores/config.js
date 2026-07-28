@@ -22,12 +22,17 @@ export const useConfigStore = defineStore('config', () => {
   const announcements = computed(() => config.value?.announcements || []);
 
   const applyCurrentTheme = () => {
+    // The host may pass a bare theme name or an object of overrides.
+    const host =
+      typeof hostTheme.value === 'string'
+        ? { name: hostTheme.value }
+        : hostTheme.value || {};
     applyTheme({
       primary:
         channel.value.widget_color || window.chatwootWebChannel?.widgetColor,
-      ...(hostTheme.value || {}),
+      ...host,
     });
-    applyDarkMode(hostTheme.value?.darkMode || darkMode.value);
+    applyDarkMode(host.darkMode || darkMode.value);
   };
 
   const load = async () => {
