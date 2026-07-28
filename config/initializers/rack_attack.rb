@@ -171,35 +171,30 @@ class Rack::Attack
   ###-----------Widget API Throttling---------------###
   ###-----------------------------------------------###
 
-  # Rack attack on widget APIs can be disabled entirely by setting ENABLE_RACK_ATTACK_WIDGET_API to false
-  # (for clients embedding the widget in specific conditions like inside an iframe).
-  # Each throttle below also has its own ENABLE_* kill switch and RATE_LIMIT_* override so a single
-  # endpoint can be relaxed without turning off the whole block.
+  # Set ENABLE_RACK_ATTACK_WIDGET_API to false to disable all widget throttles (e.g. iframe embeds).
+  # Each throttle also has its own ENABLE_*/RATE_LIMIT_* override.
   # TODO: Deprecate the blanket ENABLE_RACK_ATTACK_WIDGET_API switch after finding a better solution
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_API', true))
-    ## Burst protection on widget conversation creation. Keyed on (IP, website_token)
-    ## so distinct widgets behind a shared NAT IP get separate buckets.
+    ## Conversation creation, keyed on (IP, website_token) so widgets behind a shared NAT get separate buckets.
     if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_CONVERSATIONS', true))
       throttle('api/v1/widget/conversations',
                limit: ENV.fetch('RATE_LIMIT_WIDGET_CONVERSATIONS', '30').to_i,
                period: 1.minute) do |req|
         next unless req.path_without_extensions == '/api/v1/widget/conversations' && req.post?
 
-        # Read the token with the controller's precedence (query wins) so a body token can't fork the bucket.
+        # ActionDispatch precedence (query wins) matches the controller, so a body token can't fork the bucket.
         token = ActionDispatch::Request.new(req.env).params['website_token'].presence
         "#{req.ip}:#{token}" if token
       end
     end
 
-    ## Burst protection on widget message creation. Keyed on (IP, website_token),
-    ## same as conversation creation, to cap single-conversation message floods.
+    ## Message creation, keyed the same way, to cap single-conversation floods.
     if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_MESSAGES', true))
       throttle('api/v1/widget/messages',
                limit: ENV.fetch('RATE_LIMIT_WIDGET_MESSAGES', '60').to_i,
                period: 1.minute) do |req|
         next unless req.path_without_extensions == '/api/v1/widget/messages' && req.post?
 
-        # Read the token with the controller's precedence (query wins) so a body token can't fork the bucket.
         token = ActionDispatch::Request.new(req.env).params['website_token'].presence
         "#{req.ip}:#{token}" if token
       end
