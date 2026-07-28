@@ -3,6 +3,7 @@ class Api::V2::Widget::ConfigsController < Api::V2::Widget::BaseController
 
   def show
     @ai_agent = ai_agent_config
+    @announcements = inbox.widget_announcements.active.order(created_at: :desc)
   end
 
   private

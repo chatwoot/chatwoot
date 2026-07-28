@@ -27,20 +27,22 @@ const label = computed(() => {
 </script>
 
 <template>
-  <div
-    class="flex items-center justify-center gap-1.5 px-4 py-1.5 text-xs border-b"
-    :class="
-      aiState === 'ai'
-        ? 'bg-cw-primary-soft text-cw-primary border-transparent'
-        : 'bg-cw-surface text-cw-text-muted border-cw-border'
-    "
-  >
+  <div class="flex justify-center pt-3">
     <span
-      v-if="aiState === 'ai'"
-      class="w-1.5 h-1.5 rounded-full bg-cw-primary animate-loader-pulse"
-    />
-    <span v-else-if="aiState === 'human'" class="i-lucide-user-round" />
-    <span v-else class="i-lucide-check" />
-    {{ label }}
+      class="inline-flex items-center gap-1.5 px-3 h-6 text-xs font-medium rounded-full"
+      :class="
+        aiState === 'ai'
+          ? 'bg-cw-primary-soft text-cw-primary'
+          : 'bg-cw-muted text-cw-text-muted'
+      "
+    >
+      <span
+        v-if="aiState === 'ai'"
+        class="w-1.5 h-1.5 rounded-full bg-cw-primary animate-loader-pulse"
+      />
+      <span v-else-if="aiState === 'human'" class="i-ph-user" />
+      <span v-else class="i-ph-check" />
+      {{ label }}
+    </span>
   </div>
 </template>

@@ -16,9 +16,21 @@ const emptySection = () => ({
   loading: false,
 });
 
+// Client-side sections map to API queries; the human list is split into
+// active and resolved ("older") conversations.
+const SECTION_QUERY = {
+  human: { section: 'human', status: 'active' },
+  resolved: { section: 'human', status: 'resolved' },
+  ai: { section: 'ai' },
+};
+
 export const useConversationsStore = defineStore('conversations', () => {
   const byId = ref({});
-  const sections = reactive({ human: emptySection(), ai: emptySection() });
+  const sections = reactive({
+    human: emptySection(),
+    resolved: emptySection(),
+    ai: emptySection(),
+  });
   const typingIn = ref({}); // display_id -> true
 
   const upsert = conversation => {
@@ -57,15 +69,29 @@ export const useConversationsStore = defineStore('conversations', () => {
     trackInSection(conversation);
   };
 
-  const sectionConversations = section =>
-    computed(() =>
-      sections[section].ids
+  const sectionConversations = (section, statusFilter) =>
+    computed(() => {
+      // Status changes arrive live over the cable, so a conversation moves
+      // between the active and resolved lists the moment its status flips.
+      const ids =
+        statusFilter === 'resolved'
+          ? [...new Set([...sections.human.ids, ...sections.resolved.ids])]
+          : sections[section].ids;
+      return ids
         .map(id => byId.value[id])
         .filter(Boolean)
-        .sort((a, b) => (b.last_activity_at || 0) - (a.last_activity_at || 0))
-    );
+        .filter(conversation => {
+          if (statusFilter === 'resolved')
+            return conversation.status === 'resolved';
+          if (statusFilter === 'active')
+            return conversation.status !== 'resolved';
+          return true;
+        })
+        .sort((a, b) => (b.last_activity_at || 0) - (a.last_activity_at || 0));
+    });
 
-  const humanConversations = sectionConversations('human');
+  const humanConversations = sectionConversations('human', 'active');
+  const resolvedConversations = sectionConversations('resolved', 'resolved');
   const aiConversations = sectionConversations('ai');
   const totalUnread = computed(() =>
     Object.values(byId.value).reduce(
@@ -80,7 +106,7 @@ export const useConversationsStore = defineStore('conversations', () => {
     state.loading = true;
     try {
       const { payload, meta } = await fetchConversations({
-        section,
+        ...SECTION_QUERY[section],
         page: state.page + 1,
       });
       payload.forEach(conversation => {
@@ -145,6 +171,7 @@ export const useConversationsStore = defineStore('conversations', () => {
     sections,
     typingIn,
     humanConversations,
+    resolvedConversations,
     aiConversations,
     totalUnread,
     upsert,

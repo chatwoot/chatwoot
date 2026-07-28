@@ -1,0 +1,9 @@
+json.id widget_announcement.id
+json.title widget_announcement.title
+json.message widget_announcement.message
+json.level widget_announcement.level
+json.action_url widget_announcement.action_url
+json.starts_at widget_announcement.starts_at
+json.ends_at widget_announcement.ends_at
+json.enabled widget_announcement.enabled
+json.created_at widget_announcement.created_at

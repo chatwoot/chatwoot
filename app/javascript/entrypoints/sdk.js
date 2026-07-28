@@ -81,6 +81,9 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     enableEndConversation: chatwootSettings.enableEndConversation ?? true,
     widgetVersion: chatwootSettings.widgetVersion === 'v2' ? 'v2' : 'v1',
     theme: chatwootSettings.theme || null,
+    brand: chatwootSettings.brand || null,
+    notice: chatwootSettings.notice || null,
+    posts: chatwootSettings.posts || null,
 
     toggle(state) {
       IFrameHelper.events.toggleBubble(state);

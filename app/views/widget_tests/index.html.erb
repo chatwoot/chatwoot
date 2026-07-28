@@ -1,6 +1,5 @@
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-<body>
-</body>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Widget Builder</title>
 
 <%
   user_id = 1
@@ -9,73 +8,338 @@
     @web_widget.hmac_token,
     user_id.to_s
   )
-
 %>
-<script>
 
-window.chatwootSettings = {
-  hideMessageBubble: false,
-  // showUnreadMessagesDialog: false,
-  // baseDomain: '.loca.lt',
-  position: '<%= @widget_position %>',
-  locale: 'en',
-  useBrowserLanguage: true,
-  type: '<%= @widget_type %>',
-  // showPopoutButton: true,
-  widgetStyle: '<%= @widget_style %>',
-  darkMode: '<%= @dark_mode %>',
-  widgetVersion: '<%= @widget_version %>',
-  // theme: { primary: '#7C3AED', radius: '14px' },
-};
-
-(function(d,t) {
-  var BASE_URL = '';
-  var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-  g.src= BASE_URL + "/packs/js/sdk.js";
-  g.async = true;
-  s.parentNode.insertBefore(g,s);
-  g.onload=function(){
-    window.chatwootSDK.run({
-      websiteToken: '<%= @web_widget.website_token %>',
-      baseUrl: BASE_URL
-    })
+<style>
+  /* Dev-only playground page; not part of the app's asset pipeline. */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, -apple-system, system-ui, sans-serif;
+    font-size: 14px;
+    color: #1c2024;
+    background: #f7f7f7;
   }
-})(document,"script");
+  .playground {
+    width: 66.666%;
+    min-height: 100vh;
+    padding: 24px 32px 64px;
+    overflow-y: auto;
+  }
+  body[data-position="right"] .playground { margin-right: 33.333%; }
+  body[data-position="left"] .playground { margin-left: 33.333%; }
+  .widget-zone {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 33.333%;
+    border-left: 1px dashed #d9d9de;
+    background: repeating-linear-gradient(45deg, #fbfbfb, #fbfbfb 12px, #f4f4f5 12px, #f4f4f5 24px);
+  }
+  body[data-position="right"] .widget-zone { right: 0; }
+  body[data-position="left"] .widget-zone { left: 0; border-left: none; border-right: 1px dashed #d9d9de; }
+  .widget-zone span {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #8b8d98;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .sub { color: #60646c; margin: 0 0 24px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; align-items: start; }
+  fieldset {
+    border: 1px solid #e8e8ec;
+    border-radius: 12px;
+    background: #fff;
+    padding: 16px;
+    margin: 0;
+  }
+  legend { font-weight: 600; padding: 0 6px; }
+  label { display: block; margin: 10px 0 4px; font-size: 12px; font-weight: 500; color: #60646c; }
+  input[type="text"], input[type="url"], input[type="color"], select, textarea {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #d9d9de;
+    border-radius: 8px;
+    font: inherit;
+    background: #fff;
+  }
+  input[type="color"] { padding: 2px; height: 36px; }
+  textarea { font-family: ui-monospace, Menlo, monospace; font-size: 12px; min-height: 72px; }
+  .check { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; font-weight: 400; color: #1c2024; }
+  .check input { width: auto; }
+  .actions { position: sticky; bottom: 0; background: #f7f7f7; padding: 16px 0 0; margin-top: 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+  button {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid #d9d9de;
+    background: #fff;
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  button.primary { background: #2781f6; border-color: #2781f6; color: #fff; }
+  #event-log {
+    background: #1c2024;
+    color: #b9bbc6;
+    border-radius: 12px;
+    padding: 12px;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 12px;
+    height: 160px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+  }
+</style>
 
-window.addEventListener('chatwoot:ready', function() {
-  console.log('chatwoot:ready', window.$chatwoot);
-  if (window.location.search.includes('setUser')) {
+<body>
+  <div class="widget-zone"><span>Widget area</span></div>
+
+  <div class="playground">
+    <h1>Widget Builder</h1>
+    <p class="sub">
+      Configure every widget option, hit <b>Apply &amp; reload</b> for boot options,
+      or use runtime actions instantly. Settings persist in localStorage.
+    </p>
+
+    <div class="grid">
+      <fieldset>
+        <legend>Boot options</legend>
+        <label>Version</label>
+        <select data-key="widgetVersion">
+          <option value="v1">v1 (legacy)</option>
+          <option value="v2">v2</option>
+        </select>
+        <label>Position</label>
+        <select data-key="position">
+          <option value="right">right</option>
+          <option value="left">left</option>
+        </select>
+        <label>Launcher type</label>
+        <select data-key="type">
+          <option value="standard">standard</option>
+          <option value="expanded_bubble">expanded_bubble</option>
+        </select>
+        <label>Widget style</label>
+        <select data-key="widgetStyle">
+          <option value="standard">standard</option>
+          <option value="flat">flat</option>
+        </select>
+        <label>Dark mode</label>
+        <select data-key="darkMode">
+          <option value="light">light</option>
+          <option value="dark">dark</option>
+          <option value="auto">auto</option>
+        </select>
+        <label>Locale</label>
+        <input type="text" data-key="locale" placeholder="en" />
+        <label>Launcher title (expanded bubble)</label>
+        <input type="text" data-key="launcherTitle" placeholder="Chat with us" />
+        <div class="check"><input type="checkbox" data-key="hideMessageBubble" id="f-hide" /><label for="f-hide">hideMessageBubble</label></div>
+        <div class="check"><input type="checkbox" data-key="showPopoutButton" id="f-popout" /><label for="f-popout">showPopoutButton</label></div>
+        <div class="check"><input type="checkbox" data-key="showUnreadMessagesDialog" id="f-unread" checked /><label for="f-unread">showUnreadMessagesDialog</label></div>
+        <div class="check"><input type="checkbox" data-key="useBrowserLanguage" id="f-lang" /><label for="f-lang">useBrowserLanguage</label></div>
+        <div class="check"><input type="checkbox" data-key="enableFileUpload" id="f-upload" checked /><label for="f-upload">enableFileUpload</label></div>
+        <div class="check"><input type="checkbox" data-key="enableEmojiPicker" id="f-emoji" checked /><label for="f-emoji">enableEmojiPicker</label></div>
+        <div class="check"><input type="checkbox" data-key="enableEndConversation" id="f-end" checked /><label for="f-end">enableEndConversation</label></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Theme (v2)</legend>
+        <label>Primary color</label>
+        <input type="color" data-theme-key="primary" value="#2781f6" />
+        <label>Radius (e.g. 14px)</label>
+        <input type="text" data-theme-key="radius" placeholder="14px" />
+        <label>Font family</label>
+        <input type="text" data-theme-key="font" placeholder="Sofia Sans" />
+        <label>Font stylesheet URL (https)</label>
+        <input type="url" data-theme-key="fontUrl" placeholder="https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@100..900&display=swap" />
+      </fieldset>
+
+      <fieldset>
+        <legend>Brand (v2)</legend>
+        <label>Cover color</label>
+        <input type="color" data-brand-key="coverColor" value="#0f172a" />
+        <label>Cover image URL</label>
+        <input type="url" data-brand-key="coverImage" placeholder="https://example.com/cover.jpg" />
+        <label>Logo URL</label>
+        <input type="url" data-brand-key="logo" placeholder="https://example.com/logo.png" />
+        <label>Email</label>
+        <input type="text" data-brand-key="email" placeholder="support@example.com" />
+        <label>Phone</label>
+        <input type="text" data-brand-key="phone" placeholder="+1 555 010 0123" />
+        <label>Links (JSON array of {label, url})</label>
+        <textarea data-brand-key="links">[{ "label": "Status page", "url": "https://status.example.com" }]</textarea>
+        <label>Social (JSON object network → url)</label>
+        <textarea data-brand-key="social">{ "x": "https://x.com/chatwoot", "github": "https://github.com/chatwoot" }</textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend>Notice (v2, embed-time alert)</legend>
+        <label>Level</label>
+        <select data-notice-key="level">
+          <option value="">none</option>
+          <option value="info">info</option>
+          <option value="warning">warning</option>
+          <option value="critical">critical</option>
+        </select>
+        <label>Title</label>
+        <input type="text" data-notice-key="title" placeholder="Scheduled maintenance" />
+        <label>Message</label>
+        <input type="text" data-notice-key="message" placeholder="Replies may be slower between 2-4 AM UTC." />
+        <label>Link URL</label>
+        <input type="url" data-notice-key="url" placeholder="https://status.example.com" />
+      </fieldset>
+
+      <fieldset>
+        <legend>Blog posts (v2)</legend>
+        <label>Posts (JSON array of {title, description, url, image})</label>
+        <textarea data-key="posts" style="min-height: 120px;">[
+  { "title": "Announcing our new AI agent", "description": "Instant answers, human handoff when it matters.", "url": "https://www.chatwoot.com/blog" }
+]</textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend>Runtime actions</legend>
+        <div class="actions" style="position: static; background: none; padding: 0; margin: 0;">
+          <button onclick="window.$chatwoot.toggle()">Toggle widget</button>
+          <button onclick="setIdentifiedUser()">setUser (HMAC)</button>
+          <button onclick="window.$chatwoot.setLocale(document.querySelector('[data-key=locale]').value || 'en')">setLocale (live)</button>
+          <button onclick="window.$chatwoot.setColorScheme(document.querySelector('[data-key=darkMode]').value)">setColorScheme (live)</button>
+          <button onclick="window.$chatwoot.setCustomAttributes({ plan: 'enterprise', signed_up_at: '2024-01-01' })">setCustomAttributes</button>
+          <button onclick="window.$chatwoot.setLabel('support')">setLabel</button>
+          <button onclick="window.$chatwoot.popoutChatWindow()">Popout</button>
+          <button onclick="window.$chatwoot.reset()">Reset session</button>
+        </div>
+        <label style="margin-top: 16px;">Event log</label>
+        <div id="event-log"></div>
+      </fieldset>
+    </div>
+
+    <div class="actions">
+      <button class="primary" onclick="applyAndReload()">Apply &amp; reload</button>
+      <button onclick="resetBuilder()">Reset builder to defaults</button>
+    </div>
+  </div>
+</body>
+
+<script>
+  var STORAGE_KEY = 'cwWidgetBuilder';
+
+  function readForm() {
+    var config = { theme: {}, brand: {}, notice: {} };
+    document.querySelectorAll('[data-key]').forEach(function (el) {
+      var value = el.type === 'checkbox' ? el.checked : el.value;
+      if (el.dataset.key === 'posts') {
+        try { value = JSON.parse(el.value); } catch (e) { value = null; }
+      }
+      config[el.dataset.key] = value;
+    });
+    document.querySelectorAll('[data-theme-key]').forEach(function (el) {
+      if (el.value) config.theme[el.dataset.themeKey] = el.value;
+    });
+    document.querySelectorAll('[data-brand-key]').forEach(function (el) {
+      var value = el.value;
+      if (['links', 'social'].includes(el.dataset.brandKey)) {
+        try { value = JSON.parse(el.value); } catch (e) { value = null; }
+      }
+      if (value) config.brand[el.dataset.brandKey] = value;
+    });
+    document.querySelectorAll('[data-notice-key]').forEach(function (el) {
+      if (el.value) config.notice[el.dataset.noticeKey] = el.value;
+    });
+    if (!config.notice.level) config.notice = null;
+    return config;
+  }
+
+  function populateForm(config) {
+    document.querySelectorAll('[data-key]').forEach(function (el) {
+      var value = config[el.dataset.key];
+      if (value === undefined) return;
+      if (el.type === 'checkbox') el.checked = Boolean(value);
+      else if (el.dataset.key === 'posts') el.value = JSON.stringify(value, null, 2);
+      else el.value = value;
+    });
+    ['theme', 'brand', 'notice'].forEach(function (group) {
+      var stored = config[group] || {};
+      document.querySelectorAll('[data-' + group + '-key]').forEach(function (el) {
+        var key = el.dataset[group + 'Key'];
+        if (stored[key] === undefined) return;
+        el.value = typeof stored[key] === 'object' ? JSON.stringify(stored[key], null, 2) : stored[key];
+      });
+    });
+  }
+
+  function applyAndReload() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(readForm()));
+    location.reload();
+  }
+
+  function resetBuilder() {
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  }
+
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch (e) { saved = {}; }
+  // ?version=v2 keeps working as a shortcut for a fresh builder.
+  if (!saved.widgetVersion && window.location.search.includes('version=v2')) {
+    saved.widgetVersion = 'v2';
+  }
+  populateForm(saved);
+  document.body.dataset.position = saved.position === 'left' ? 'left' : 'right';
+
+  window.chatwootSettings = Object.assign(
+    {
+      hideMessageBubble: false,
+      position: 'right',
+      locale: 'en',
+      type: 'standard',
+      widgetStyle: 'standard',
+      darkMode: 'light',
+    },
+    saved
+  );
+
+  function logEvent(name, detail) {
+    var log = document.getElementById('event-log');
+    var line = new Date().toLocaleTimeString() + '  ' + name +
+      (detail ? '  ' + JSON.stringify(detail) : '');
+    log.textContent = line + '\n' + log.textContent;
+  }
+
+  function setIdentifiedUser() {
     window.$chatwoot.setUser('<%= user_id %>', {
       identifier_hash: '<%= user_hash %>',
       email: 'jane@example.com',
       name: 'Jane Doe',
       phone_number: ''
     });
+    logEvent('setUser called');
   }
-})
 
-window.addEventListener('chatwoot:error', function(e) {
-  console.log('chatwoot:error', e.detail)
-})
+  (function (d, t) {
+    var BASE_URL = '';
+    var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+    g.src = BASE_URL + '/packs/js/sdk.js';
+    g.async = true;
+    s.parentNode.insertBefore(g, s);
+    g.onload = function () {
+      window.chatwootSDK.run({
+        websiteToken: '<%= @web_widget.website_token %>',
+        baseUrl: BASE_URL
+      });
+    };
+  })(document, 'script');
 
-
-window.addEventListener('chatwoot:on-message', function(e) {
-  console.log('chatwoot:on-message', e.detail)
-})
-
-window.addEventListener('chatwoot:postback', function(e) {
-  console.log('chatwoot:postback', e.detail)
-})
-
-window.addEventListener('chatwoot:opened', function() {
-  console.log('chatwoot:opened')
-})
-
-window.addEventListener('chatwoot:closed', function() {
-  console.log('chatwoot:closed')
-})
-
-window.addEventListener('chatwoot:on-start-conversation', function(e) {
-  console.log('chatwoot:on-start-conversation', e.detail)
-})
+  [
+    'chatwoot:ready', 'chatwoot:error', 'chatwoot:opened', 'chatwoot:closed',
+    'chatwoot:on-message', 'chatwoot:postback', 'chatwoot:on-start-conversation'
+  ].forEach(function (name) {
+    window.addEventListener(name, function (e) { logEvent(name, e && e.detail); });
+  });
 </script>

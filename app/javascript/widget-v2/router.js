@@ -1,11 +1,13 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import HomeView from 'widget-v2/views/HomeView.vue';
 import ConversationsView from 'widget-v2/views/ConversationsView.vue';
+import ResolvedConversationsView from 'widget-v2/views/ResolvedConversationsView.vue';
 import ConversationView from 'widget-v2/views/ConversationView.vue';
 import ComposeView from 'widget-v2/views/ComposeView.vue';
 import AiView from 'widget-v2/views/AiView.vue';
 import ArticlesView from 'widget-v2/views/ArticlesView.vue';
 import ArticleView from 'widget-v2/views/ArticleView.vue';
+import CategoryView from 'widget-v2/views/CategoryView.vue';
 
 export default createRouter({
   history: createWebHashHistory(),
@@ -24,6 +26,11 @@ export default createRouter({
       meta: { section: 'human' },
     },
     {
+      path: '/conversations/resolved',
+      name: 'conversations-resolved',
+      component: ResolvedConversationsView,
+    },
+    {
       path: '/conversations/:id',
       name: 'conversation-detail',
       component: ConversationView,
@@ -40,6 +47,11 @@ export default createRouter({
       name: 'help',
       component: ArticlesView,
       meta: { tabBar: true },
+    },
+    {
+      path: '/help/c/:categorySlug',
+      name: 'help-category',
+      component: CategoryView,
     },
     { path: '/help/:slug', name: 'help-article', component: ArticleView },
   ],

@@ -1,6 +1,6 @@
 <script setup>
 defineProps({
-  icon: { type: String, default: 'i-lucide-inbox' },
+  icon: { type: String, default: 'i-ph-tray' },
   title: { type: String, required: true },
   description: { type: String, default: '' },
 });
@@ -15,7 +15,7 @@ defineProps({
     >
       <span :class="icon" class="text-2xl" />
     </span>
-    <h2 class="text-sm font-semibold text-cw-text">{{ title }}</h2>
+    <h2 class="text-base font-520 text-cw-text">{{ title }}</h2>
     <p v-if="description" class="text-xs text-cw-text-muted max-w-56">
       {{ description }}
     </p>

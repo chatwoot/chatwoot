@@ -298,6 +298,8 @@ Rails.application.routes.draw do
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do
               post :analyze, on: :collection
             end
+
+            resources :widget_announcements, only: [:index, :create, :update, :destroy], module: :inboxes
           end
 
           resources :inbox_members, only: [:create, :show], param: :inbox_id do

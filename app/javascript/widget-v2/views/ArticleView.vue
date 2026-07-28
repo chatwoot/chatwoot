@@ -30,17 +30,17 @@ onMounted(() => articlesStore.open(route.params.slug));
 </script>
 
 <template>
-  <div class="flex flex-col h-full bg-cw-background">
+  <div class="flex flex-col h-full bg-cw-solid">
     <WidgetHeader :title="article?.title || $t('HELP.TITLE')" show-back>
       <template #actions>
         <a
           :href="externalUrl"
           target="_blank"
           rel="noreferrer noopener"
-          class="flex items-center justify-center w-8 h-8 rounded-full text-cw-text-muted hover:bg-cw-muted outline-none focus-visible:ring-2 focus-visible:ring-cw-primary"
+          class="flex items-center justify-center w-8 h-8 rounded-full text-cw-text-muted hover:bg-cw-muted outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
           :aria-label="$t('HELP.OPEN_IN_NEW_TAB')"
         >
-          <span class="i-lucide-external-link" />
+          <span class="i-ph-arrow-square-out" />
         </a>
       </template>
     </WidgetHeader>
@@ -50,7 +50,7 @@ onMounted(() => articlesStore.open(route.params.slug));
         <BaseSpinner />
       </div>
       <article v-else-if="article">
-        <h1 class="text-lg font-semibold text-cw-text font-interDisplay mb-3">
+        <h1 class="text-lg font-620 text-cw-text type-display mb-3">
           {{ article.title }}
         </h1>
         <div

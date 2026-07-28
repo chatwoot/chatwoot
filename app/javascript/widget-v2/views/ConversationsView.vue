@@ -17,16 +17,16 @@ const section = conversationsStore.sections.human;
 </script>
 
 <template>
-  <div class="flex flex-col h-full bg-cw-background">
+  <div class="flex flex-col h-full bg-cw-solid">
     <WidgetHeader :title="$t('CONVERSATIONS.TITLE')">
       <template #actions>
         <button
           type="button"
-          class="flex items-center justify-center w-8 h-8 rounded-full text-cw-primary hover:bg-cw-primary-soft outline-none focus-visible:ring-2 focus-visible:ring-cw-primary"
+          class="flex items-center justify-center w-8 h-8 rounded-full text-cw-primary hover:bg-cw-primary-soft outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
           :aria-label="$t('CONVERSATIONS.NEW')"
           @click="router.push({ name: 'compose' })"
         >
-          <span class="i-lucide-square-pen text-lg" />
+          <span class="i-ph-note-pencil text-lg" />
         </button>
       </template>
     </WidgetHeader>
@@ -34,7 +34,7 @@ const section = conversationsStore.sections.human;
     <div class="flex-1 overflow-y-auto scrollbar-thin">
       <EmptyState
         v-if="!section.loading && !conversationsStore.humanConversations.length"
-        icon="i-lucide-message-circle"
+        icon="i-ph-chat-circle"
         :title="$t('CONVERSATIONS.EMPTY_TITLE')"
         :description="$t('CONVERSATIONS.EMPTY_DESCRIPTION')"
       >
@@ -52,7 +52,7 @@ const section = conversationsStore.sections.human;
           v-for="conversation in conversationsStore.humanConversations"
           :key="conversation.id"
           :conversation="conversation"
-          class="border-b border-cw-border last:border-b-0"
+          class="border-b border-cw-hairline last:border-b-0"
           @click="
             router.push({
               name: 'conversation-detail',
@@ -68,12 +68,21 @@ const section = conversationsStore.sections.human;
             section.hasNextPage && conversationsStore.humanConversations.length
           "
           type="button"
-          class="w-full py-3 text-xs font-medium text-cw-text-muted hover:text-cw-text outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cw-primary"
+          class="w-full py-3 text-xs font-medium text-cw-text-muted hover:text-cw-text outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
           @click="conversationsStore.loadSection('human')"
         >
           {{ $t('CONVERSATIONS.LOAD_MORE') }}
         </button>
       </template>
+
+      <button
+        type="button"
+        class="group flex items-center justify-center w-full gap-1.5 py-3.5 text-sm font-medium text-cw-text-muted border-t border-cw-hairline transition-colors hover:text-cw-text hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
+        @click="router.push({ name: 'conversations-resolved' })"
+      >
+        <span class="i-ph-clock-counter-clockwise" />
+        {{ $t('CONVERSATIONS.SHOW_OLDER') }}
+      </button>
     </div>
   </div>
 </template>

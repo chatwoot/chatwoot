@@ -1,58 +1,104 @@
-@import 'shared/assets/fonts/widget_fonts';
+// Single family: the dashboard's variable Inter (weight axis 100-900).
+@import 'shared/assets/fonts/inter';
+@import 'dashboard/assets/scss/next-colors';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  // Semantic tokens mapped onto the dashboard's next color variables
+  // (_next-colors.scss). The slate/solid/border vars flip in .dark there,
+  // so most tokens need no dark override here. --cw-primary stays a plain
+  // value so host themes can replace it at runtime.
   :root {
-    --cw-background: #ffffff;
-    --cw-border: #e4e4e7;
-    --cw-border-strong: #d4d4d8;
-    --cw-font-sans: 'InterDisplay', 'Inter', -apple-system, system-ui,
-      BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --cw-muted: #f4f4f5;
-    --cw-primary: #2781f6;
+    --cw-background: rgb(var(--solid-1));
+    --cw-border: rgb(var(--slate-4));
+    --cw-border-strong: rgb(var(--slate-6));
+    --cw-font-sans: 'Inter', -apple-system, system-ui, BlinkMacSystemFont,
+      'Segoe UI', Roboto, 'Helvetica Neue', Tahoma, Arial, sans-serif;
+    --cw-hairline: rgba(var(--black-alpha-2));
+    --cw-muted: rgb(var(--slate-3));
+    --cw-primary: rgb(var(--blue-9));
     --cw-primary-foreground: #ffffff;
     --cw-primary-soft: color-mix(in srgb, var(--cw-primary), transparent 92%);
-    --cw-primary-strong: color-mix(in srgb, var(--cw-primary), #000 15%);
-    --cw-radius: 12px;
-    --cw-surface: #fafafa;
-    --cw-text: #09090b;
-    --cw-text-faint: #a1a1aa;
-    --cw-text-muted: #52525b;
+    --cw-primary-strong: color-mix(in srgb, var(--cw-primary), #000 16%);
+    --cw-radius: 14px;
+    --cw-ring: color-mix(in srgb, var(--cw-primary), transparent 50%);
+    --cw-shadow-card: 0 1px 2px rgba(9, 9, 11, 0.04);
+    --cw-solid: rgb(var(--solid-1));
+    --cw-surface: rgb(var(--slate-2));
+    --cw-text: rgb(var(--slate-12));
+    --cw-text-faint: rgb(var(--slate-9));
+    --cw-text-muted: rgb(var(--slate-11));
   }
 
   .dark {
-    --cw-background: #0c0c0e;
-    --cw-border: #26262b;
-    --cw-border-strong: #3f3f46;
-    --cw-muted: #202024;
-    --cw-primary-soft: color-mix(in srgb, var(--cw-primary), transparent 85%);
-    --cw-primary-strong: color-mix(in srgb, var(--cw-primary), #fff 15%);
-    --cw-surface: #131316;
-    --cw-text: #fafafa;
-    --cw-text-faint: #71717a;
-    --cw-text-muted: #a1a1aa;
+    --cw-hairline: rgba(255, 255, 255, 0.08);
+    --cw-primary-soft: color-mix(in srgb, var(--cw-primary), transparent 84%);
+    --cw-primary-strong: color-mix(in srgb, var(--cw-primary), #fff 16%);
   }
 
   html,
   body {
     font-family: var(--cw-font-sans);
+    -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     height: 100%;
     margin: 0;
     text-rendering: optimizeLegibility;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer utilities {
+  // Display treatment: same Inter, tracked tight like shadcn headings.
+  .type-display {
+    letter-spacing: -0.025em;
+  }
+
+  // Overline labels for section headings.
+  .type-overline {
+    font-size: 0.6875rem;
+    font-weight: 520;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .tabular-time {
+    font-feature-settings: 'tnum';
+  }
+
   .rounded-token {
     border-radius: var(--cw-radius);
   }
 
+  // shadcn-style derived radius: controls sit ~6px tighter than cards.
   .rounded-token-sm {
-    border-radius: calc(var(--cw-radius) * 0.66);
+    border-radius: calc(var(--cw-radius) - 6px);
+  }
+
+  // shadcn-style card: white surface, visible border, whisper of shadow.
+  .surface-card {
+    background: var(--cw-solid);
+    border: 1px solid var(--cw-border);
+    border-radius: var(--cw-radius);
+    box-shadow: var(--cw-shadow-card);
+  }
+
+  // Frosted bar for tab navigation; content scrolls beneath it.
+  .bar-blur {
+    backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--cw-solid), transparent 14%);
   }
 
   .scrollbar-thin {

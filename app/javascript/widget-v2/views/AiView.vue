@@ -26,20 +26,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full bg-cw-background">
+  <div class="flex flex-col h-full bg-cw-solid">
     <WidgetHeader :title="$t('AI.TITLE')" />
 
     <div class="flex-1 overflow-y-auto scrollbar-thin">
       <div class="flex flex-col items-center px-6 pt-8 pb-6 text-center">
         <BaseAvatar :src="aiAgent?.avatar_url" :name="aiName" :size="56" />
-        <h2 class="mt-3 text-base font-semibold text-cw-text font-interDisplay">
+        <h2 class="mt-3 text-base font-620 text-cw-text type-display">
           {{ aiName }}
         </h2>
         <p class="mt-1 text-sm text-cw-text-muted max-w-64">
           {{ aiAgent?.description || $t('AI.DESCRIPTION', { name: aiName }) }}
         </p>
         <BaseButton class="mt-4" @click="router.push({ name: 'ai-compose' })">
-          <span class="i-lucide-sparkles" />
+          <span class="i-ph-sparkle" />
           {{ $t('AI.NEW_CHAT') }}
         </BaseButton>
       </div>
@@ -54,7 +54,7 @@ onMounted(() => {
           v-for="conversation in conversationsStore.aiConversations"
           :key="conversation.id"
           :conversation="conversation"
-          class="border-b border-cw-border last:border-b-0"
+          class="border-b border-cw-hairline last:border-b-0"
           @click="
             router.push({
               name: 'conversation-detail',
@@ -65,7 +65,7 @@ onMounted(() => {
       </template>
       <EmptyState
         v-else-if="!conversationsStore.sections.ai.loading"
-        icon="i-lucide-sparkles"
+        icon="i-ph-sparkle"
         :title="$t('AI.EMPTY_TITLE')"
         :description="$t('AI.EMPTY_DESCRIPTION')"
       />

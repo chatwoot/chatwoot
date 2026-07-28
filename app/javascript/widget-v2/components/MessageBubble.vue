@@ -27,25 +27,25 @@ const isFailed = computed(() => props.message.status === 'failed');
 
 <template>
   <div
-    class="flex gap-2 px-4"
+    class="flex gap-2 px-5"
     :class="isVisitor ? 'justify-end' : 'justify-start'"
   >
     <BaseAvatar
       v-if="!isVisitor && showMeta"
       :src="message.sender?.avatar_url"
       :name="senderName"
-      :size="24"
-      class="mt-auto mb-5"
+      :size="26"
+      class="mt-auto mb-6"
     />
-    <div v-else-if="!isVisitor" class="w-6 shrink-0" />
+    <div v-else-if="!isVisitor" class="w-[26px] shrink-0" />
 
-    <div class="max-w-[80%] min-w-0">
+    <div class="max-w-[78%] min-w-0">
       <div
-        class="px-3.5 py-2.5 text-sm leading-relaxed break-words rounded-token"
+        class="px-4 py-2.5 text-sm leading-relaxed break-words rounded-[18px]"
         :class="
           isVisitor
-            ? 'bg-cw-primary text-cw-primary-foreground rounded-br-md'
-            : 'bg-cw-muted text-cw-text rounded-bl-md'
+            ? 'bg-cw-primary text-cw-primary-foreground rounded-br-[6px]'
+            : 'bg-cw-muted text-cw-text rounded-bl-[6px]'
         "
       >
         <div
@@ -73,7 +73,7 @@ const isFailed = computed(() => props.message.status === 'failed');
             rel="noreferrer noopener"
             class="inline-flex items-center gap-1.5 underline"
           >
-            <span class="i-lucide-paperclip" />
+            <span class="i-ph-paperclip" />
             {{ attachment.data_url?.split('/').pop() }}
           </a>
         </div>
@@ -87,20 +87,20 @@ const isFailed = computed(() => props.message.status === 'failed');
 
       <div
         v-if="showMeta"
-        class="flex items-center gap-1.5 mt-1 text-xxs text-cw-text-faint"
+        class="flex items-center gap-1.5 mt-1.5 px-1 text-xs text-cw-text-faint tabular-time"
         :class="isVisitor ? 'justify-end' : 'justify-start'"
       >
         <span
           v-if="isFromAi"
           class="inline-flex items-center gap-0.5 font-medium text-cw-primary"
         >
-          <span class="i-lucide-sparkles" />
+          <span class="i-ph-sparkle" />
           {{ $t('AI_STATE.AI_DEFAULT_NAME') }}
         </span>
         <span v-else-if="!isVisitor && senderName" class="font-medium">
           {{ senderName }}
         </span>
-        <span v-if="isFailed" class="text-red-500">
+        <span v-if="isFailed" class="text-n-ruby-11">
           {{ $t('CONVERSATION.SEND_FAILED') }}
         </span>
         <span v-else>{{ formatTime(message.created_at) }}</span>

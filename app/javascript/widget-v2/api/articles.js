@@ -12,3 +12,8 @@ export const fetchArticle = ({ slug, articleSlug }) =>
   axios
     .get(`/hc/${slug}/articles/${articleSlug}.json`)
     .then(response => response.data);
+
+export const fetchCategories = ({ slug, locale }) =>
+  axios
+    .get(`/hc/${slug}/${locale}/categories.json`)
+    .then(response => response.data);

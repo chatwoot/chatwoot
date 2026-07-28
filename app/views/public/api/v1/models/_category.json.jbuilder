@@ -1,4 +1,5 @@
 json.name category.name
+json.icon category.icon
 json.slug category.slug
 json.locale category.locale
 json.description category.description

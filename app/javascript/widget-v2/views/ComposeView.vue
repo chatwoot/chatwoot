@@ -68,7 +68,7 @@ const submit = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full bg-cw-background">
+  <div class="flex flex-col h-full bg-cw-solid">
     <WidgetHeader :title="headerTitle" show-back />
 
     <div class="flex-1 overflow-y-auto scrollbar-thin px-5 py-5">
@@ -111,7 +111,7 @@ const submit = async () => {
             :placeholder="
               isAi ? $t('AI.NEW_CHAT') : $t('PRE_CHAT.MESSAGE_PLACEHOLDER')
             "
-            class="w-full px-3 py-2.5 text-sm rounded-token-sm bg-cw-background text-cw-text placeholder:text-cw-text-faint border border-cw-border outline-none resize-none transition-shadow focus-visible:ring-2 focus-visible:ring-cw-primary focus-visible:border-transparent"
+            class="w-full px-3 py-2.5 text-base rounded-token-sm bg-cw-solid text-cw-text placeholder:text-cw-text-faint border border-cw-border outline-none resize-none transition-shadow focus-visible:ring-[3px] focus-visible:ring-cw-ring focus-visible:border-transparent"
           />
         </label>
 
@@ -120,7 +120,7 @@ const submit = async () => {
           :disabled="!message.trim() || submitting"
           @click="submit"
         >
-          <span v-if="isAi" class="i-lucide-sparkles" />
+          <span v-if="isAi" class="i-ph-sparkle" />
           {{ isAi ? $t('AI.NEW_CHAT') : $t('PRE_CHAT.START') }}
         </BaseButton>
       </form>

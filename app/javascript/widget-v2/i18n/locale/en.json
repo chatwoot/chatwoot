@@ -10,7 +10,9 @@
     "RECENT_CONVERSATIONS": "Recent conversations",
     "VIEW_ALL": "View all",
     "SEARCH_ARTICLES": "Search help articles",
-    "POPULAR_ARTICLES": "Popular articles"
+    "POPULAR_ARTICLES": "Popular articles",
+    "LATEST_POSTS": "Latest updates",
+    "CONTACT": "Get in touch"
   },
   "TABS": {
     "HOME": "Home",
@@ -26,7 +28,11 @@
     "YOU": "You",
     "BOT": "Bot",
     "RESOLVED": "Resolved",
-    "LOAD_MORE": "Load older conversations"
+    "LOAD_MORE": "Load more",
+    "SHOW_OLDER": "Show older conversations",
+    "RESOLVED_TITLE": "Older conversations",
+    "RESOLVED_EMPTY_TITLE": "No older conversations",
+    "RESOLVED_EMPTY_DESCRIPTION": "Conversations that have ended will show up here."
   },
   "CONVERSATION": {
     "PLACEHOLDER": "Type your message…",
@@ -38,6 +44,11 @@
     "LOAD_EARLIER": "Load earlier messages",
     "UPLOAD_FAILED": "The file could not be uploaded. Try again.",
     "SEND_FAILED": "The message could not be sent. Try again."
+  },
+  "AVAILABILITY": {
+    "ONLINE": "Online",
+    "AWAY": "Away",
+    "TEAM_AWAY": "We're away right now — leave a message"
   },
   "AI_STATE": {
     "AI": "{name} is handling this conversation",
@@ -59,7 +70,9 @@
   "HELP": {
     "TITLE": "Help center",
     "SEARCH_PLACEHOLDER": "Search articles",
+    "ARTICLE_COUNT": "{n} article | {n} articles",
     "NO_RESULTS_TITLE": "No articles found",
+    "OTHER_ARTICLES": "Other articles",
     "NO_RESULTS_DESCRIPTION": "Try a different search term.",
     "OPEN_IN_NEW_TAB": "Open in a new tab",
     "BACK": "All articles"

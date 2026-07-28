@@ -6,6 +6,7 @@ import { useConfigStore } from 'widget-v2/stores/config';
 import { useConversationsStore } from 'widget-v2/stores/conversations';
 import { useMessagesStore } from 'widget-v2/stores/messages';
 import { getAiState } from 'widget-v2/helpers/conversationHelpers';
+import { useAvailability } from 'widget-v2/composables/useAvailability';
 import WidgetHeader from 'widget-v2/components/WidgetHeader.vue';
 import AiStateBanner from 'widget-v2/components/AiStateBanner.vue';
 import MessageBubble from 'widget-v2/components/MessageBubble.vue';
@@ -40,6 +41,13 @@ const headerTitle = computed(() => {
   return (
     conversation.value?.assignee?.name || configStore.channel.website_name || ''
   );
+});
+
+const { isOnline } = useAvailability();
+
+const headerSubtitle = computed(() => {
+  if (aiState.value === 'ai') return t('AVAILABILITY.ONLINE');
+  return isOnline.value ? t('AVAILABILITY.ONLINE') : t('AVAILABILITY.AWAY');
 });
 
 const isAgentTyping = computed(() =>
@@ -107,8 +115,8 @@ const onTyping = status =>
 </script>
 
 <template>
-  <div class="flex flex-col h-full bg-cw-background">
-    <WidgetHeader :title="headerTitle" show-back />
+  <div class="flex flex-col h-full bg-cw-solid">
+    <WidgetHeader :title="headerTitle" :subtitle="headerSubtitle" show-back />
     <AiStateBanner
       v-if="conversation"
       :ai-state="aiState"
@@ -129,7 +137,7 @@ const onTyping = status =>
       <button
         v-if="!thread?.allFetched && messages.length && !thread?.loading"
         type="button"
-        class="self-center text-xs font-medium text-cw-text-muted hover:text-cw-text py-1 px-3 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-cw-primary"
+        class="self-center text-xs font-medium text-cw-text-muted hover:text-cw-text py-1 px-3 rounded-full outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
         @click="loadEarlier"
       >
         {{ $t('CONVERSATION.LOAD_EARLIER') }}
@@ -150,7 +158,7 @@ const onTyping = status =>
 
     <p
       v-if="conversation?.status === 'resolved' && !composerDisabled"
-      class="px-4 py-2 text-xs text-center text-cw-text-muted bg-cw-surface border-t border-cw-border"
+      class="px-4 py-2 text-xs text-center text-cw-text-muted bg-cw-surface border-t border-cw-hairline"
     >
       {{ $t('CONVERSATION.RESOLVED_NOTICE') }}
     </p>

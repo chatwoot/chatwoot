@@ -37,6 +37,14 @@ end
 
 json.ai_agent @ai_agent
 
+json.announcements @announcements do |announcement|
+  json.id announcement.id
+  json.title announcement.title
+  json.message announcement.message
+  json.level announcement.level
+  json.action_url announcement.action_url
+end
+
 json.contact do
   json.email @contact.email
   json.id @contact.id

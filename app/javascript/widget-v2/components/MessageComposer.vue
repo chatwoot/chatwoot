@@ -54,18 +54,18 @@ const onFileChange = event => {
 </script>
 
 <template>
-  <div class="px-4 pb-4 pt-2 bg-cw-background border-t border-cw-border">
+  <div class="px-4 pb-4 pt-2 bg-cw-solid">
     <div
-      class="flex items-end gap-1 p-1.5 rounded-token border border-cw-border bg-cw-background transition-shadow focus-within:ring-2 focus-within:ring-cw-primary focus-within:border-transparent"
+      class="flex items-end gap-1 p-1.5 rounded-token border border-cw-border bg-cw-solid shadow-sm transition-shadow focus-within:ring-[3px] focus-within:ring-cw-ring focus-within:border-transparent"
     >
       <button
         v-if="allowAttachments"
         type="button"
-        class="flex items-center justify-center w-8 h-8 shrink-0 rounded-full text-cw-text-faint hover:text-cw-text-muted hover:bg-cw-muted outline-none focus-visible:ring-2 focus-visible:ring-cw-primary"
+        class="flex items-center justify-center w-8 h-8 shrink-0 rounded-full text-cw-text-faint hover:text-cw-text-muted hover:bg-cw-muted outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
         :aria-label="$t('CONVERSATION.ATTACH')"
         @click="fileInputRef.click()"
       >
-        <span class="i-lucide-plus text-lg" />
+        <span class="i-ph-plus text-lg" />
       </button>
       <input
         ref="fileInputRef"
@@ -80,7 +80,7 @@ const onFileChange = event => {
         rows="1"
         :placeholder="placeholder || $t('CONVERSATION.PLACEHOLDER')"
         :disabled="disabled"
-        class="flex-1 max-h-32 py-1.5 px-1 text-sm bg-transparent text-cw-text placeholder:text-cw-text-faint resize-none outline-none border-none"
+        class="flex-1 max-h-32 py-1.5 px-1 text-base bg-transparent text-cw-text placeholder:text-cw-text-faint resize-none outline-none border-none"
         @input="onInput"
         @keydown="onKeydown"
         @blur="emit('typingOff')"
@@ -88,7 +88,7 @@ const onFileChange = event => {
 
       <button
         type="button"
-        class="flex items-center justify-center w-8 h-8 shrink-0 rounded-full transition-colors outline-none focus-visible:ring-2 focus-visible:ring-cw-primary"
+        class="flex items-center justify-center w-8 h-8 shrink-0 rounded-full transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
         :class="
           content.trim()
             ? 'bg-cw-primary text-cw-primary-foreground hover:bg-cw-primary-strong'
@@ -98,7 +98,7 @@ const onFileChange = event => {
         :aria-label="$t('CONVERSATION.SEND')"
         @click="send"
       >
-        <span class="i-lucide-arrow-up text-lg" />
+        <span class="i-ph-arrow-up text-lg" />
       </button>
     </div>
   </div>

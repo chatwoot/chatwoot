@@ -645,7 +645,36 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT",
       "VOICE": "Voice",
-      "CALLS": "Calls"
+      "CALLS": "Calls",
+      "ANNOUNCEMENTS": "Announcements"
+    },
+    "ANNOUNCEMENTS": {
+      "TITLE": "Widget announcements",
+      "DESCRIPTION": "Show news and alerts — like incidents or scheduled maintenance — on the live chat widget home screen. Announcements appear only within their scheduled window.",
+      "FORM": {
+        "TITLE_LABEL": "Title",
+        "TITLE_PLACEHOLDER": "Scheduled maintenance",
+        "MESSAGE_LABEL": "Message",
+        "MESSAGE_PLACEHOLDER": "Replies may be slower between 2-4 AM UTC.",
+        "LEVEL_LABEL": "Severity",
+        "LEVEL_INFO": "Info",
+        "LEVEL_WARNING": "Warning",
+        "LEVEL_CRITICAL": "Critical",
+        "URL_LABEL": "Link (optional)",
+        "STARTS_AT_LABEL": "Show from",
+        "ENDS_AT_LABEL": "Show until",
+        "SUBMIT": "Add announcement"
+      },
+      "LIST": {
+        "TITLE": "Scheduled announcements",
+        "EMPTY": "No announcements yet. Add one above to show it on the widget.",
+        "ALWAYS": "Always visible"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Announcement saved",
+        "DELETE_SUCCESS_MESSAGE": "Announcement deleted",
+        "ERROR_MESSAGE": "Could not save the announcement. Try again."
+      }
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {

@@ -7,6 +7,9 @@ export const useConfigStore = defineStore('config', () => {
   const config = ref(null);
   const status = ref('idle'); // idle | loading | ready | error
   const hostTheme = ref(null);
+  const hostBrand = ref(null);
+  const hostNotice = ref(null);
+  const hostPosts = ref(null);
   const darkMode = ref('light'); // light | dark | auto
   const locale = ref(window.chatwootWebChannel?.locale || 'en');
 
@@ -16,6 +19,7 @@ export const useConfigStore = defineStore('config', () => {
   const contact = computed(() => config.value?.contact || {});
   const globalConfig = computed(() => config.value?.global_config || {});
   const hasAiAgent = computed(() => Boolean(aiAgent.value));
+  const announcements = computed(() => config.value?.announcements || []);
 
   const applyCurrentTheme = () => {
     applyTheme({
@@ -47,6 +51,18 @@ export const useConfigStore = defineStore('config', () => {
     applyCurrentTheme();
   };
 
+  const setHostBrand = brand => {
+    hostBrand.value = brand;
+  };
+
+  const setHostNotice = notice => {
+    hostNotice.value = notice;
+  };
+
+  const setHostPosts = posts => {
+    hostPosts.value = Array.isArray(posts) ? posts : null;
+  };
+
   return {
     config,
     status,
@@ -55,11 +71,18 @@ export const useConfigStore = defineStore('config', () => {
     channel,
     aiAgent,
     hasAiAgent,
+    announcements,
     portal,
     contact,
     globalConfig,
+    hostBrand,
+    hostNotice,
+    hostPosts,
     load,
     setHostTheme,
+    setHostBrand,
+    setHostNotice,
+    setHostPosts,
     setDarkMode,
     applyCurrentTheme,
   };

@@ -13,11 +13,11 @@
 #
 # Indexes
 #
-#  index_contact_inboxes_on_contact_id              (contact_id)
-#  index_contact_inboxes_on_inbox_id                (inbox_id)
-#  index_contact_inboxes_on_inbox_id_and_source_id  (inbox_id,source_id) UNIQUE
-#  index_contact_inboxes_on_pubsub_token            (pubsub_token) UNIQUE
-#  index_contact_inboxes_on_source_id               (source_id)
+#  contact_inboxes2_contact_id_idx          (contact_id)
+#  contact_inboxes2_inbox_id_idx            (inbox_id)
+#  contact_inboxes2_inbox_id_source_id_idx  (inbox_id,source_id) UNIQUE
+#  contact_inboxes2_pubsub_token_idx        (pubsub_token) UNIQUE
+#  contact_inboxes2_source_id_idx           (source_id)
 #
 
 class ContactInbox < ApplicationRecord

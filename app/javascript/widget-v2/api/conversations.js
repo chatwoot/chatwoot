@@ -1,8 +1,8 @@
 import { client } from './client';
 
-export const fetchConversations = ({ section, page = 1 }) =>
+export const fetchConversations = ({ section, status, page = 1 }) =>
   client
-    .get('/api/v2/widget/conversations', { params: { section, page } })
+    .get('/api/v2/widget/conversations', { params: { section, status, page } })
     .then(response => response.data);
 
 export const fetchConversation = displayId =>

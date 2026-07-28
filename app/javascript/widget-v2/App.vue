@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useConfigStore } from 'widget-v2/stores/config';
 import { useConversationsStore } from 'widget-v2/stores/conversations';
+import { useAgentsStore } from 'widget-v2/stores/agents';
 import { useUiStore } from 'widget-v2/stores/ui';
 import { onHostMessage, sendToHost } from 'widget-v2/helpers/bridge';
 import { watchSystemDarkMode } from 'widget-v2/helpers/theme';
@@ -53,6 +54,9 @@ const hostEvents = {
     if (message.locale) setLocale(message.locale);
     if (message.darkMode) configStore.setDarkMode(message.darkMode);
     if (message.theme) configStore.setHostTheme(message.theme);
+    if (message.brand) configStore.setHostBrand(message.brand);
+    if (message.notice) configStore.setHostNotice(message.notice);
+    if (message.posts) configStore.setHostPosts(message.posts);
   },
   'toggle-open': ({ isOpen }) => uiStore.setOpen(isOpen),
   'widget-visible': () => uiStore.setOpen(true),
@@ -77,6 +81,9 @@ onMounted(async () => {
   watchSystemDarkMode(() => configStore.darkMode);
   setLocale(window.chatwootWebChannel?.locale);
   await configStore.load();
+  useAgentsStore()
+    .load()
+    .catch(() => {});
 });
 
 watch(
@@ -87,11 +94,11 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col h-full bg-cw-background text-cw-text antialiased">
+  <div class="flex flex-col h-full bg-cw-solid text-cw-text antialiased">
     <EmptyState
       v-if="configStore.status === 'error'"
       class="my-auto"
-      icon="i-lucide-plug-zap"
+      icon="i-ph-plugs"
       :title="$t('COMMON.ERROR_TITLE')"
       :description="$t('COMMON.ERROR_DESCRIPTION')"
     />

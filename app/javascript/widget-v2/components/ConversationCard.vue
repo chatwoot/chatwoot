@@ -55,23 +55,23 @@ const unread = computed(() => props.conversation.unread_count || 0);
 <template>
   <button
     type="button"
-    class="flex items-center w-full gap-3 px-4 py-3 text-left transition-colors bg-cw-background hover:bg-cw-surface outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cw-primary"
+    class="flex items-center w-full gap-3 px-4 py-3.5 text-left transition-colors bg-cw-solid hover:bg-cw-surface outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cw-primary"
   >
     <BaseAvatar :src="avatarUrl" :name="displayName" :size="40" />
 
     <span class="flex-1 min-w-0">
       <span class="flex items-center gap-2">
-        <span class="text-sm font-medium text-cw-text truncate">
+        <span class="text-sm font-520 text-cw-text truncate">
           {{ displayName }}
         </span>
         <span
           v-if="aiState === 'ai'"
           class="inline-flex items-center gap-0.5 shrink-0 text-xxs font-medium text-cw-primary bg-cw-primary-soft px-1.5 py-0.5 rounded-full"
         >
-          <span class="i-lucide-sparkles" />
+          <span class="i-ph-sparkle" />
           {{ $t('COMMON.AI_BADGE') }}
         </span>
-        <span class="ml-auto shrink-0 text-xxs text-cw-text-faint">
+        <span class="ml-auto shrink-0 text-xs text-cw-text-faint">
           {{ timestamp }}
         </span>
       </span>

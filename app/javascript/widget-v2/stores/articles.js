@@ -1,10 +1,15 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import { fetchArticles, fetchArticle } from 'widget-v2/api/articles';
+import { computed, ref } from 'vue';
+import {
+  fetchArticles,
+  fetchArticle,
+  fetchCategories,
+} from 'widget-v2/api/articles';
 import { useConfigStore } from './config';
 
 export const useArticlesStore = defineStore('articles', () => {
   const articles = ref([]);
+  const categories = ref([]);
   const popularArticles = ref([]);
   const activeArticle = ref(null);
   const loading = ref(false);
@@ -19,6 +24,26 @@ export const useArticlesStore = defineStore('articles', () => {
     };
   };
 
+  // Category payloads carry no id; slugs are the join key with articles.
+  const groupedArticles = computed(() => {
+    const bySlug = {};
+    articles.value.forEach(article => {
+      const slug = article.category?.slug || 'uncategorized';
+      bySlug[slug] = bySlug[slug] || [];
+      bySlug[slug].push(article);
+    });
+
+    const sections = [...categories.value]
+      .sort((a, b) => (a.position || 0) - (b.position || 0))
+      .map(category => ({ category, articles: bySlug[category.slug] || [] }))
+      .filter(section => section.articles.length);
+
+    if (bySlug.uncategorized?.length) {
+      sections.push({ category: null, articles: bySlug.uncategorized });
+    }
+    return sections;
+  });
+
   const search = async query => {
     const portal = portalParams();
     if (!portal) return;
@@ -30,6 +55,13 @@ export const useArticlesStore = defineStore('articles', () => {
     } finally {
       loading.value = false;
     }
+  };
+
+  const loadCategories = async () => {
+    const portal = portalParams();
+    if (!portal || categories.value.length) return;
+    const { payload } = await fetchCategories(portal);
+    categories.value = payload;
   };
 
   const loadPopular = async () => {
@@ -57,11 +89,14 @@ export const useArticlesStore = defineStore('articles', () => {
 
   return {
     articles,
+    categories,
+    groupedArticles,
     popularArticles,
     activeArticle,
     loading,
     searchQuery,
     search,
+    loadCategories,
     loadPopular,
     open,
   };

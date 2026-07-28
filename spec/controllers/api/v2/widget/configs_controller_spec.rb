@@ -25,6 +25,22 @@ RSpec.describe '/api/v2/widget/config', type: :request do
       expect(json_response['portal']).to be_nil
     end
 
+    it 'returns only announcements active within their schedule' do
+      active = create(:widget_announcement, account: account, inbox: web_widget.inbox)
+      create(:widget_announcement, account: account, inbox: web_widget.inbox, enabled: false)
+      create(:widget_announcement, account: account, inbox: web_widget.inbox, starts_at: 1.day.from_now)
+      create(:widget_announcement, account: account, inbox: web_widget.inbox, ends_at: 1.day.ago)
+
+      get '/api/v2/widget/config',
+          headers: { 'X-Auth-Token' => token },
+          params: { website_token: web_widget.website_token },
+          as: :json
+
+      announcements = response.parsed_body['announcements']
+      expect(announcements.pluck('id')).to eq([active.id])
+      expect(announcements.first['level']).to eq('warning')
+    end
+
     it 'returns the portal config when the inbox has one' do
       portal = create(:portal, account: account)
       web_widget.inbox.update!(portal: portal)

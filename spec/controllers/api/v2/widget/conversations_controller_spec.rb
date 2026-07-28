@@ -35,6 +35,23 @@ RSpec.describe '/api/v2/widget/conversations', type: :request do
       expect(json_response['meta']['has_next_page']).to be(false)
     end
 
+    it 'splits active and resolved conversations by the status filter' do
+      resolved = create(:conversation, contact: contact, account: account, inbox: web_widget.inbox,
+                                       contact_inbox: contact_inbox, status: :resolved)
+
+      get '/api/v2/widget/conversations',
+          headers: headers,
+          params: { website_token: web_widget.website_token, status: 'active' },
+          as: :json
+      expect(response.parsed_body['payload'].pluck('id')).to eq([conversation.display_id])
+
+      get '/api/v2/widget/conversations',
+          headers: headers,
+          params: { website_token: web_widget.website_token, status: 'resolved' },
+          as: :json
+      expect(response.parsed_body['payload'].pluck('id')).to eq([resolved.display_id])
+    end
+
     it 'returns AI conversations when section is ai' do
       get '/api/v2/widget/conversations',
           headers: headers,

@@ -11,6 +11,7 @@ class Api::V2::Widget::ConversationsController < Api::V2::Widget::BaseController
              else
                conversations.where("COALESCE(additional_attributes ->> 'widget_section', 'human') <> 'ai'")
              end
+    scoped = filter_by_status(scoped)
     @conversations_page = scoped.includes(:assignee, :inbox).order(last_activity_at: :desc).page(permitted_params[:page]).per(RESULTS_PER_PAGE)
     @unread_counts = unread_counts_for(@conversations_page)
   end
@@ -55,6 +56,14 @@ class Api::V2::Widget::ConversationsController < Api::V2::Widget::BaseController
 
   def section
     SECTIONS.include?(permitted_params[:section]) ? permitted_params[:section] : 'human'
+  end
+
+  def filter_by_status(scoped)
+    case permitted_params[:status]
+    when 'resolved' then scoped.resolved
+    when 'active' then scoped.where.not(status: :resolved)
+    else scoped
+    end
   end
 
   def render_ai_unavailable
@@ -107,7 +116,7 @@ class Api::V2::Widget::ConversationsController < Api::V2::Widget::BaseController
   end
 
   def permitted_params
-    params.permit(:website_token, :display_id, :page, :section, :typing_status,
+    params.permit(:website_token, :display_id, :page, :section, :status, :typing_status,
                   contact: [:name, :email, :phone_number, { custom_attributes: {} }],
                   message: [:content, :referer_url, :timestamp, :echo_id, :reply_to],
                   custom_attributes: {})

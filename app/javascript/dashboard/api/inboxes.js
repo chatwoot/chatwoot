@@ -66,6 +66,29 @@ class Inboxes extends CacheEnabledApiClient {
       inbound_calls_enabled: enabled,
     });
   }
+
+  getWidgetAnnouncements(inboxId) {
+    return axios.get(`${this.url}/${inboxId}/widget_announcements`);
+  }
+
+  createWidgetAnnouncement(inboxId, announcement) {
+    return axios.post(`${this.url}/${inboxId}/widget_announcements`, {
+      widget_announcement: announcement,
+    });
+  }
+
+  updateWidgetAnnouncement(inboxId, announcementId, announcement) {
+    return axios.patch(
+      `${this.url}/${inboxId}/widget_announcements/${announcementId}`,
+      { widget_announcement: announcement }
+    );
+  }
+
+  deleteWidgetAnnouncement(inboxId, announcementId) {
+    return axios.delete(
+      `${this.url}/${inboxId}/widget_announcements/${announcementId}`
+    );
+  }
 }
 
 export default new Inboxes();

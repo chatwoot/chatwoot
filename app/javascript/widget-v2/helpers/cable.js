@@ -1,6 +1,7 @@
 import { createConsumer } from '@rails/actioncable';
 import { useConversationsStore } from 'widget-v2/stores/conversations';
 import { useMessagesStore } from 'widget-v2/stores/messages';
+import { useAgentsStore } from 'widget-v2/stores/agents';
 
 const PRESENCE_INTERVAL = 60000;
 
@@ -9,6 +10,7 @@ const PRESENCE_INTERVAL = 60000;
 export const connectCable = pubsubToken => {
   const conversations = useConversationsStore();
   const messages = useMessagesStore();
+  const agents = useAgentsStore();
 
   const events = {
     'message.created': data => {
@@ -35,6 +37,7 @@ export const connectCable = pubsubToken => {
       conversations.setTyping(conversation.id, true),
     'conversation.typing_off': ({ conversation }) =>
       conversations.setTyping(conversation.id, false),
+    'presence.update': data => agents.updatePresence(data.users),
   };
 
   const consumer = createConsumer();

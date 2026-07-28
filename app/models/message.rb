@@ -24,18 +24,19 @@
 #
 # Indexes
 #
-#  idx_messages_account_content_created                 (account_id,content_type,created_at)
-#  index_messages_on_account_created_type               (account_id,created_at,message_type)
-#  index_messages_on_account_id                         (account_id)
-#  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)
-#  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
-#  index_messages_on_content                            (content) USING gin
-#  index_messages_on_conversation_account_type_created  (conversation_id,account_id,message_type,created_at)
-#  index_messages_on_conversation_id                    (conversation_id)
-#  index_messages_on_created_at                         (created_at)
-#  index_messages_on_inbox_id                           (inbox_id)
-#  index_messages_on_sender_and_created                 (sender_type,sender_id,created_at)
-#  index_messages_on_source_id                          (source_id)
+#  idx_messages_account_content_created                             (account_id,content_type,created_at)
+#  index_messages_on_account_created_type                           (account_id,created_at,message_type)
+#  index_messages_on_sender_and_created                             (sender_type,sender_id,created_at)
+#  messages2_account_id_idx                                         (account_id)
+#  messages2_account_id_inbox_id_idx                                (account_id,inbox_id)
+#  messages2_content_idx                                            (content) USING gin
+#  messages2_conversation_id_account_id_message_type_created_a_idx  (conversation_id,account_id,message_type,created_at)
+#  messages2_conversation_id_idx                                    (conversation_id)
+#  messages2_created_at_idx                                         (created_at)
+#  messages2_expr_idx                                               (((additional_attributes -> 'campaign_id'::text))) USING gin
+#  messages2_inbox_id_idx                                           (inbox_id)
+#  messages2_sender_type_sender_id_idx                              (sender_type,sender_id)
+#  messages2_source_id_idx                                          (source_id)
 #
 
 class Message < ApplicationRecord

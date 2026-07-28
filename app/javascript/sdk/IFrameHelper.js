@@ -183,6 +183,9 @@ export const IFrameHelper = {
         enableEmojiPicker: window.$chatwoot.enableEmojiPicker,
         enableEndConversation: window.$chatwoot.enableEndConversation,
         theme: window.$chatwoot.theme,
+        brand: window.$chatwoot.brand,
+        notice: window.$chatwoot.notice,
+        posts: window.$chatwoot.posts,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
@@ -323,6 +326,11 @@ export const IFrameHelper = {
     if (isFlatWidgetStyle(window.$chatwoot.widgetStyle)) {
       className += ' woot-widget-bubble--flat';
       closeBtnClassName += ' woot-widget-bubble--flat';
+    }
+
+    if (window.$chatwoot.widgetVersion === 'v2') {
+      className += ' woot-widget-bubble--v2';
+      closeBtnClassName += ' woot-widget-bubble--v2';
     }
 
     if (isWidgetColorLighter(widgetColor)) {

@@ -24,6 +24,7 @@ import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
 import VoiceConfigurationPage from './settingsPage/VoiceConfigurationPage.vue';
 import WhatsappCallingPage from './settingsPage/WhatsappCallingPage.vue';
 import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vue';
+import AnnouncementsPage from './settingsPage/AnnouncementsPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
@@ -53,6 +54,7 @@ export default {
     VoiceConfigurationPage,
     WhatsappCallingPage,
     CustomerSatisfactionPage,
+    AnnouncementsPage,
     FacebookReauthorize,
     GreetingsEditor,
     PreChatFormSettings,
@@ -196,6 +198,10 @@ export default {
           {
             key: 'pre-chat-form',
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
+          },
+          {
+            key: 'announcements',
+            name: this.$t('INBOX_MGMT.TABS.ANNOUNCEMENTS'),
           },
         ];
       }
@@ -1380,6 +1386,9 @@ export default {
         </div>
         <div v-if="selectedTabKey === 'csat'">
           <CustomerSatisfactionPage :inbox="inbox" />
+        </div>
+        <div v-if="selectedTabKey === 'announcements'">
+          <AnnouncementsPage :inbox="inbox" />
         </div>
         <div v-if="selectedTabKey === 'pre-chat-form'">
           <PreChatFormSettings :inbox="inbox" />
