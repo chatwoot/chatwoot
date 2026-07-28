@@ -69,7 +69,7 @@ class Whatsapp::HealthService
     phone_health = format_phone_health_response(fetch_graph_data(@channel.provider_config['phone_number_id'], phone_health_fields))
     business_health = format_business_account_response(fetch_graph_data(@channel.provider_config['business_account_id'], business_account_fields))
     [phone_health.merge(business_health), nil]
-  rescue ApiError => e
+  rescue StandardError => e
     return [phone_health, e] if phone_health
 
     raise
