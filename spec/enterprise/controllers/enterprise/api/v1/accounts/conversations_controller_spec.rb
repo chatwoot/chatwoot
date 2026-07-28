@@ -51,5 +51,27 @@ RSpec.describe 'Enterprise Conversations API', type: :request do
           .to eq('Sla policy cannot be assigned to conversations with blocked contacts')
       end
     end
+
+    context 'when the sla feature is disabled' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:existing_sla_policy) { create(:sla_policy, account: account) }
+
+      before do
+        account.enable_features!('sla')
+        conversation.update!(sla_policy: existing_sla_policy)
+        account.disable_features!('sla')
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'ignores the sla assignment and keeps the existing policy' do
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: params,
+              headers: agent.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.sla_policy_id).to eq(existing_sla_policy.id)
+      end
+    end
   end
 end

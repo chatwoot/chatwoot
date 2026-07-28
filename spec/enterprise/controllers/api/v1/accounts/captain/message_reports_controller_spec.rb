@@ -10,7 +10,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::MessageReports', type: :request do
     create(:message, account: account, conversation: conversation, message_type: :outgoing, sender: assistant)
   end
 
-  before { create(:inbox_member, user: agent, inbox: inbox) }
+  before do
+    account.enable_features!('captain_integration')
+    create(:inbox_member, user: agent, inbox: inbox)
+  end
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)
