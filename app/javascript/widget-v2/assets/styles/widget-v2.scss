@@ -12,6 +12,10 @@
   // so most tokens need no dark override here. --cw-primary stays a plain
   // value so host themes can replace it at runtime.
   :root {
+    // The assistant's identity colour; follows the brand accent unless a
+    // theme gives the AI its own.
+    --cw-ai-accent: var(--cw-primary);
+    --cw-ai-accent-soft: color-mix(in srgb, var(--cw-ai-accent), transparent 92%);
     // Avatars: circular by default, squared off by blockier kits.
     --cw-avatar-radius: 9999px;
     --cw-background: rgb(var(--solid-1));
@@ -162,6 +166,15 @@
 
   .avatar-shape {
     border-radius: var(--cw-avatar-radius);
+  }
+
+  .ai-accent {
+    color: var(--cw-ai-accent);
+  }
+
+  .ai-accent-well {
+    background: var(--cw-ai-accent-soft);
+    color: var(--cw-ai-accent);
   }
 
   .tabular-time {

@@ -182,7 +182,7 @@ const openConversation = id =>
           @click="router.push({ name: 'ai-compose' })"
         >
           <span
-            class="flex items-center justify-center w-9 h-9 rounded-full bg-cw-primary-soft text-cw-primary"
+            class="ai-accent-well flex items-center justify-center w-9 h-9 rounded-full"
           >
             <span class="i-ph-sparkle-fill text-sm" />
           </span>

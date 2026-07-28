@@ -92,7 +92,7 @@ const isFailed = computed(() => props.message.status === 'failed');
       >
         <span
           v-if="isFromAi"
-          class="inline-flex items-center gap-0.5 font-medium text-cw-primary"
+          class="ai-accent inline-flex items-center gap-0.5 font-medium"
         >
           <span class="i-ph-sparkle" />
           {{ $t('AI_STATE.AI_DEFAULT_NAME') }}

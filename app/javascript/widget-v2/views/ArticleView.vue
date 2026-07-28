@@ -53,9 +53,11 @@ onMounted(() => articlesStore.open(route.params.slug));
         <h1 class="text-lg font-620 text-cw-text type-display mb-3 sm:text-2xl">
           {{ article.title }}
         </h1>
+        <!-- Same prose treatment as the help center portal renders articles
+             with, so an article reads identically in both places. -->
         <div
           v-dompurify-html="contentHtml"
-          class="prose prose-bubble max-w-none text-sm text-cw-text [&_a]:text-cw-primary [&_img]:rounded-token-sm [&_img]:max-w-full"
+          class="prose max-w-none break-words text-cw-text prose-headings:font-620 prose-headings:text-cw-text prose-p:font-420 prose-li:font-420 prose-blockquote:font-420 prose-p:text-cw-text prose-li:text-cw-text prose-strong:text-cw-text prose-a:text-cw-primary prose-a:underline [&_li>p]:m-0 [&_img]:rounded-token-sm [&_img]:max-w-full [&_.tableWrapper]:overflow-x-auto [&_pre]:overflow-x-auto"
         />
       </article>
     </div>

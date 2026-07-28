@@ -31,14 +31,12 @@ const label = computed(() => {
     <span
       class="inline-flex items-center gap-1.5 px-3 h-6 text-xs font-medium rounded-full"
       :class="
-        aiState === 'ai'
-          ? 'bg-cw-primary-soft text-cw-primary'
-          : 'bg-cw-muted text-cw-text-muted'
+        aiState === 'ai' ? 'ai-accent-well' : 'bg-cw-muted text-cw-text-muted'
       "
     >
       <span
         v-if="aiState === 'ai'"
-        class="w-1.5 h-1.5 rounded-full bg-cw-primary animate-loader-pulse"
+        class="w-1.5 h-1.5 rounded-full bg-current animate-loader-pulse"
       />
       <span v-else-if="aiState === 'human'" class="i-ph-user" />
       <span v-else class="i-ph-check" />

@@ -7,7 +7,7 @@ import { useConversationsStore } from 'widget-v2/stores/conversations';
 import WidgetHeader from 'widget-v2/components/WidgetHeader.vue';
 import PreChatFields from 'widget-v2/components/PreChatFields.vue';
 import BaseButton from 'widget-v2/components/base/BaseButton.vue';
-import BaseAvatar from 'widget-v2/components/base/BaseAvatar.vue';
+import AiAvatar from 'widget-v2/components/AiAvatar.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -114,11 +114,7 @@ const submit = async () => {
 
     <div class="flex-1 overflow-y-auto scrollbar-thin px-5 py-5">
       <div v-if="isAi" class="flex flex-col items-center text-center mb-6">
-        <BaseAvatar
-          :src="configStore.aiAgent?.avatar_url"
-          :name="configStore.aiAgent?.name || 'AI'"
-          :size="48"
-        />
+        <AiAvatar :size="48" />
         <p class="mt-3 text-sm text-cw-text-muted max-w-64">
           {{
             configStore.aiAgent?.welcome_message || $t('AI.WELCOME_FALLBACK')

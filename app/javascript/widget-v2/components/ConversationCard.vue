@@ -66,7 +66,7 @@ const unread = computed(() => props.conversation.unread_count || 0);
         </span>
         <span
           v-if="aiState === 'ai'"
-          class="inline-flex items-center gap-0.5 shrink-0 text-xxs font-medium text-cw-primary bg-cw-primary-soft px-1.5 py-0.5 rounded-full"
+          class="ai-accent-well inline-flex items-center gap-0.5 shrink-0 text-xxs font-medium px-1.5 py-0.5 rounded-full"
         >
           <span class="i-ph-sparkle" />
           {{ $t('COMMON.AI_BADGE') }}

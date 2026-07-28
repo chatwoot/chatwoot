@@ -8,7 +8,7 @@ import WidgetHeader from 'widget-v2/components/WidgetHeader.vue';
 import ConversationCard from 'widget-v2/components/ConversationCard.vue';
 import EmptyState from 'widget-v2/components/EmptyState.vue';
 import BaseButton from 'widget-v2/components/base/BaseButton.vue';
-import BaseAvatar from 'widget-v2/components/base/BaseAvatar.vue';
+import AiAvatar from 'widget-v2/components/AiAvatar.vue';
 
 const router = useRouter();
 const { t } = useI18n();
@@ -31,7 +31,7 @@ onMounted(() => {
 
     <div class="flex-1 overflow-y-auto scrollbar-thin pb-20">
       <div class="flex flex-col items-center px-6 pt-8 pb-6 text-center">
-        <BaseAvatar :src="aiAgent?.avatar_url" :name="aiName" :size="56" />
+        <AiAvatar :size="56" />
         <h2 class="mt-3 text-base font-620 text-cw-text type-display">
           {{ aiName }}
         </h2>
@@ -39,7 +39,7 @@ onMounted(() => {
           {{ aiAgent?.description || $t('AI.DESCRIPTION', { name: aiName }) }}
         </p>
         <BaseButton class="mt-4" @click="router.push({ name: 'ai-compose' })">
-          <span class="i-ph-sparkle" />
+          <span class="i-ph-sparkle ai-accent" />
           {{ $t('AI.NEW_CHAT') }}
         </BaseButton>
       </div>
