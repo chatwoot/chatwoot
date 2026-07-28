@@ -7,6 +7,8 @@ import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
@@ -57,7 +59,9 @@ const availableProviders = computed(() => [
   {
     key: PROVIDER_TYPES.WHATSAPP,
     title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD'),
-    description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD_DESC'),
+    description: isWhatsappEmbeddedSignupDisabled.value
+      ? t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD_MANUAL_SETUP_DESC')
+      : t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD_DESC'),
     icon: 'i-woot-whatsapp',
   },
   {
@@ -69,10 +73,16 @@ const availableProviders = computed(() => [
 ]);
 
 const selectProvider = providerValue => {
+  const targetProvider =
+    providerValue === PROVIDER_TYPES.WHATSAPP &&
+    isWhatsappEmbeddedSignupDisabled.value
+      ? PROVIDER_TYPES.WHATSAPP_MANUAL
+      : providerValue;
+
   router.push({
     name: route.name,
     params: route.params,
-    query: { provider: providerValue },
+    query: { provider: targetProvider },
   });
 };
 
@@ -147,7 +157,37 @@ const handleManualLinkClick = () => {
         </div>
 
         <!-- Show manual setup -->
-        <CloudWhatsapp v-else-if="shouldShowCloudWhatsapp(selectedProvider)" />
+        <div v-else-if="shouldShowCloudWhatsapp(selectedProvider)">
+          <Banner
+            v-if="
+              isWhatsappEmbeddedSignupDisabled &&
+              selectedProvider === PROVIDER_TYPES.WHATSAPP_MANUAL
+            "
+            color="amber"
+            class="w-full mb-6"
+          >
+            <div class="flex items-start gap-3 text-start">
+              <Icon
+                icon="i-lucide-triangle-alert"
+                class="flex-shrink-0 size-4 mt-0.5"
+              />
+              <span>
+                {{
+                  $t('INBOX_MGMT.ADD.WHATSAPP.API.MANUAL_RESTRICTION_WARNING')
+                }}
+                <a
+                  :href="META_RESTRICTION_STATUS_URL"
+                  class="link underline"
+                  rel="noopener noreferrer nofollow"
+                  target="_blank"
+                >
+                  {{ $t('INBOX_MGMT.ADD.WHATSAPP.API.STATUS_LINK') }}
+                </a>
+              </span>
+            </div>
+          </Banner>
+          <CloudWhatsapp />
+        </div>
 
         <!-- Other providers -->
         <Twilio
