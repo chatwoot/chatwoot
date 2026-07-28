@@ -178,6 +178,20 @@ const formErrors = computed(() => ({
   inactivityThresholdMinutes: getErrorMessage('inactivityThresholdMinutes'),
 }));
 
+const handleInactivityResolutionUpdate = async () => {
+  const isInactivityThresholdValid =
+    await v$.value.inactivityThresholdMinutes.$validate();
+  if (!isInactivityThresholdValid) return;
+
+  emit('submit', {
+    config: {
+      ...props.assistant.config,
+      auto_resolve_mode: state.autoResolveMode,
+      auto_resolve_after: state.inactivityThresholdMinutes,
+    },
+  });
+};
+
 const updateStateFromAssistant = assistant => {
   const { config = {} } = assistant;
   state.handoffMessage = config.handoff_message;
@@ -193,9 +207,7 @@ const handleSystemMessagesUpdate = async () => {
     v$.value.resolutionMessage.$validate(),
   ];
 
-  if (isCaptainV2Enabled.value) {
-    validations.push(v$.value.inactivityThresholdMinutes.$validate());
-  } else {
+  if (!isCaptainV2Enabled.value) {
     validations.push(v$.value.instructions.$validate());
   }
 
@@ -212,10 +224,7 @@ const handleSystemMessagesUpdate = async () => {
     },
   };
 
-  if (isCaptainV2Enabled.value) {
-    payload.config.auto_resolve_mode = state.autoResolveMode;
-    payload.config.auto_resolve_after = state.inactivityThresholdMinutes;
-  } else {
+  if (!isCaptainV2Enabled.value) {
     payload.config.instructions = state.instructions;
   }
 
@@ -325,6 +334,13 @@ watch(
             {{ formErrors.inactivityThresholdMinutes }}
           </p>
         </div>
+
+        <div>
+          <Button
+            :label="t('CAPTAIN.ASSISTANTS.FORM.SAVE_INACTIVITY_SETTINGS')"
+            @click="handleInactivityResolutionUpdate"
+          />
+        </div>
       </div>
     </div>
 
@@ -359,7 +375,11 @@ watch(
 
     <div>
       <Button
-        :label="t('CAPTAIN.ASSISTANTS.FORM.UPDATE')"
+        :label="
+          isCaptainV2Enabled
+            ? t('CAPTAIN.ASSISTANTS.FORM.SAVE_MESSAGES')
+            : t('CAPTAIN.ASSISTANTS.FORM.UPDATE')
+        "
         @click="handleSystemMessagesUpdate"
       />
     </div>

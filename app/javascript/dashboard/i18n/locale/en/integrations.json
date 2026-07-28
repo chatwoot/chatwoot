@@ -565,6 +565,8 @@
       },
       "FORM": {
         "UPDATE": "Update",
+        "SAVE_INACTIVITY_SETTINGS": "Save inactive conversation settings",
+        "SAVE_MESSAGES": "Save messages",
         "SECTIONS": {
           "BASIC_INFO": "Basic Information",
           "SYSTEM_MESSAGES": "System Messages",
