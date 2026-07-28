@@ -217,7 +217,7 @@ class Rack::Attack
     ## Prevent Conversation Bombing through repeated widget loads
     if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_LOAD', true))
       throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}',
-               limit: ENV.fetch('RATE_LIMIT_WIDGET_LOAD', '60').to_i,
+               limit: ENV.fetch('RATE_LIMIT_WIDGET_LOAD', '200').to_i,
                period: 1.hour) do |req|
         req.ip if req.path_without_extensions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
       end
