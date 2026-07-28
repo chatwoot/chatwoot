@@ -604,7 +604,7 @@
           "DESCRIPTION": "Let Captain review pending conversations after they have been inactive.",
           "TOGGLE_LABEL": "Review inactive conversations",
           "TOGGLE_HELP_WHEN_ENABLED": "Captain resolves completed conversations and hands off conversations that still need attention.",
-          "TOGGLE_HELP_WHEN_DISABLED": "Inactive conversations stay pending until an agent or another workflow changes their status.",
+          "TOGGLE_HELP_WHEN_DISABLED": "Captain does not review inactive conversations. They stay pending until an agent or another workflow changes their status.",
           "DURATION_LABEL": "Review after",
           "DURATION_HOURS_LABEL": "Hours",
           "DURATION_MINUTES_LABEL": "Minutes",
