@@ -5,11 +5,10 @@ import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minLength, minValue, required } from '@vuelidate/validators';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 
 import Button from 'dashboard/components-next/button/Button.vue';
-import DurationInput from 'dashboard/components-next/input/DurationInput.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import Select from 'dashboard/components-next/select/Select.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 
 const props = defineProps({
@@ -37,22 +36,55 @@ const initialState = {
 };
 
 const state = reactive({ ...initialState });
-const inactivityThresholdUnit = ref(DURATION_UNITS.HOURS);
 const isInactivityResolutionSettingsExpanded = ref(false);
 
-const setInactivityThresholdUnit = unit => {
-  const minimumThresholdMinutes = {
-    [DURATION_UNITS.MINUTES]: 5,
-    [DURATION_UNITS.HOURS]: 60,
-    [DURATION_UNITS.DAYS]: 24 * 60,
-  }[unit];
+const inactivityDurationGroups = computed(() => {
+  const minuteOptions = Array.from({ length: 11 }, (_, index) => {
+    const minutes = (index + 1) * 5;
+    return {
+      value: minutes,
+      label: t(
+        'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES',
+        { count: minutes }
+      ),
+    };
+  });
 
-  inactivityThresholdUnit.value = unit;
-  state.inactivityThresholdMinutes = Math.max(
-    state.inactivityThresholdMinutes,
-    minimumThresholdMinutes
-  );
-};
+  const hourOptions = Array.from({ length: 24 }, (_, index) => {
+    const hours = index + 1;
+    return {
+      value: hours * 60,
+      label:
+        hours === 1
+          ? t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_ONE_HOUR')
+          : t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HOURS', {
+              count: hours,
+            }),
+    };
+  });
+
+  hourOptions.splice(1, 0, {
+    value: 90,
+    label: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_NINETY_MINUTES'
+    ),
+  });
+
+  return [
+    {
+      label: t(
+        'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_GROUP_MINUTES'
+      ),
+      options: minuteOptions,
+    },
+    {
+      label: t(
+        'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_GROUP_HOURS'
+      ),
+      options: hourOptions,
+    },
+  ];
+});
 
 const validationRules = {
   handoffMessage: { minLength: minLength(1) },
@@ -85,14 +117,6 @@ const updateStateFromAssistant = assistant => {
   state.instructions = config.instructions;
   state.resolveInactiveConversations = config.auto_resolve_enabled ?? true;
   state.inactivityThresholdMinutes = config.auto_resolve_after ?? 60;
-
-  if (state.inactivityThresholdMinutes % (24 * 60) === 0) {
-    inactivityThresholdUnit.value = DURATION_UNITS.DAYS;
-  } else if (state.inactivityThresholdMinutes % 60 === 0) {
-    inactivityThresholdUnit.value = DURATION_UNITS.HOURS;
-  } else {
-    inactivityThresholdUnit.value = DURATION_UNITS.MINUTES;
-  }
 };
 
 const handleSystemMessagesUpdate = async () => {
@@ -141,15 +165,6 @@ watch(
 
 <template>
   <div class="flex flex-col gap-6">
-    <Editor
-      v-model="state.handoffMessage"
-      :label="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.LABEL')"
-      :placeholder="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.PLACEHOLDER')"
-      :message="formErrors.handoffMessage"
-      :message-type="formErrors.handoffMessage ? 'error' : 'info'"
-      class="z-0"
-    />
-
     <div
       v-if="isCaptainV2Enabled"
       class="overflow-hidden rounded-xl border border-n-weak bg-n-solid-1"
@@ -215,16 +230,12 @@ watch(
               t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_LABEL')
             }}
           </label>
-          <div class="grid w-full grid-cols-[3fr_1fr] gap-2">
-            <DurationInput
-              v-model="state.inactivityThresholdMinutes"
-              :unit="inactivityThresholdUnit"
-              :min="5"
-              :max="24 * 60"
-              class="w-full"
-              @update:unit="setInactivityThresholdUnit"
-            />
-          </div>
+          <Select
+            v-model="state.inactivityThresholdMinutes"
+            :groups="inactivityDurationGroups"
+            :error="formErrors.inactivityThresholdMinutes"
+            class="!w-full [&>select]:w-full"
+          />
           <p
             class="text-xs"
             :class="
@@ -241,6 +252,15 @@ watch(
         </div>
       </div>
     </div>
+
+    <Editor
+      v-model="state.handoffMessage"
+      :label="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.LABEL')"
+      :placeholder="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.PLACEHOLDER')"
+      :message="formErrors.handoffMessage"
+      :message-type="formErrors.handoffMessage ? 'error' : 'info'"
+      class="z-0"
+    />
 
     <Editor
       v-model="state.resolutionMessage"

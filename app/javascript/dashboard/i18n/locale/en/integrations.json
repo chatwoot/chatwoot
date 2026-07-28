@@ -601,11 +601,17 @@
         },
         "INACTIVITY_RESOLUTION": {
           "TITLE": "Inactive conversations",
-          "DESCRIPTION": "Choose when Captain resolves pending conversations after inactivity.",
-          "TOGGLE_LABEL": "Resolve inactive conversations",
-          "TOGGLE_HELP": "Turn this off to leave inactive conversations pending.",
-          "DURATION_LABEL": "Resolve after",
-          "DURATION_HELP": "From 5 minutes to 1 day. Captain checks every 5 minutes.",
+          "DESCRIPTION": "Let Captain review pending conversations after they have been inactive.",
+          "TOGGLE_LABEL": "Review inactive conversations",
+          "TOGGLE_HELP": "Captain resolves completed conversations and hands off conversations that still need attention.",
+          "DURATION_LABEL": "Review after",
+          "DURATION_HELP": "Captain checks every 5 minutes, so the review can start up to 5 minutes later.",
+          "DURATION_GROUP_MINUTES": "Minutes",
+          "DURATION_GROUP_HOURS": "Hours",
+          "DURATION_MINUTES": "{count} minutes",
+          "DURATION_ONE_HOUR": "1 hour",
+          "DURATION_NINETY_MINUTES": "1 hour 30 minutes",
+          "DURATION_HOURS": "{count} hours",
           "ON": "On",
           "OFF": "Off"
         },
@@ -635,7 +641,8 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
+          "DESCRIPTION_V2": "Choose how Captain handles inactive conversations and what it says when resolving or handing off."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",

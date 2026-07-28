@@ -21,6 +21,11 @@ const { isCloudFeatureEnabled } = useAccount();
 const isCaptainV2Enabled = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_V2)
 );
+const systemSettingsDescription = computed(() =>
+  isCaptainV2Enabled.value
+    ? t('CAPTAIN.ASSISTANTS.SETTINGS.SYSTEM_SETTINGS.DESCRIPTION_V2')
+    : t('CAPTAIN.ASSISTANTS.SETTINGS.SYSTEM_SETTINGS.DESCRIPTION')
+);
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
@@ -134,9 +139,7 @@ const handleDeleteSuccess = () => {
           <div class="flex flex-col gap-6">
             <SettingsHeader
               :heading="t('CAPTAIN.ASSISTANTS.SETTINGS.SYSTEM_SETTINGS.TITLE')"
-              :description="
-                t('CAPTAIN.ASSISTANTS.SETTINGS.SYSTEM_SETTINGS.DESCRIPTION')
-              "
+              :description="systemSettingsDescription"
             />
             <AssistantSystemSettingsForm
               :assistant="assistant"
