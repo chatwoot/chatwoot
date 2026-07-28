@@ -23,7 +23,7 @@ const showImage = computed(() => props.src && !imageFailed.value);
 
 <template>
   <span
-    class="inline-flex items-center justify-center shrink-0 overflow-hidden rounded-full bg-cw-muted text-cw-text-muted font-medium"
+    class="avatar-shape inline-flex items-center justify-center shrink-0 overflow-hidden bg-cw-muted text-cw-text-muted font-medium"
     :style="{
       width: `${size}px`,
       height: `${size}px`,

@@ -1,10 +1,56 @@
+import { getPreset } from 'widget-v2/themes';
+
 const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
 const HEX_PATTERN = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
-const SIZE_PATTERN = /^\d+(\.\d+)?(px|rem|em)$/;
 
-// White text on light brand colors is illegible; pick the foreground by
-// relative luminance of the brand color.
+// Every token a styling kit (or a host) may set, mapped to its CSS variable.
+const TOKEN_VARS = {
+  avatarRadius: '--cw-avatar-radius',
+  background: '--cw-background',
+  border: '--cw-border',
+  borderWidth: '--cw-border-width',
+  bubbleAgentBg: '--cw-bubble-agent-bg',
+  bubbleAgentText: '--cw-bubble-agent-text',
+  bubbleRadius: '--cw-bubble-radius',
+  bubbleTailRadius: '--cw-bubble-tail-radius',
+  bubbleVisitorBg: '--cw-bubble-visitor-bg',
+  bubbleVisitorText: '--cw-bubble-visitor-text',
+  buttonRadius: '--cw-button-radius',
+  canvasImage: '--cw-canvas-image',
+  cardGap: '--cw-card-gap',
+  fontSizeRoot: '--cw-font-size-root',
+  headerHeight: '--cw-header-height',
+  iconSize: '--cw-icon-size',
+  fontWeightStrong: '--cw-font-weight-strong',
+  muted: '--cw-muted',
+  overlineTransform: '--cw-overline-transform',
+  primary: '--cw-primary',
+  primaryForeground: '--cw-primary-foreground',
+  radius: '--cw-radius',
+  ringWidth: '--cw-ring-width',
+  rowPaddingX: '--cw-row-padding-x',
+  rowPaddingY: '--cw-row-padding-y',
+  shadowCard: '--cw-shadow-card',
+  solid: '--cw-solid',
+  surface: '--cw-surface',
+  tabHeight: '--cw-tab-height',
+  text: '--cw-text',
+  textMuted: '--cw-text-muted',
+  trackingDisplay: '--cw-tracking-display',
+  transitionDuration: '--cw-transition-duration',
+};
+
+// Values land in CSS custom properties, so reject anything that could close a
+// declaration or pull in remote resources.
+const isSafeValue = value =>
+  typeof value === 'string' &&
+  value.length < 500 &&
+  !/[;{}]|@import|javascript:|expression\(/i.test(value) &&
+  !/url\(/i.test(value);
+
+// White text on a light brand colour is illegible; pick the foreground by
+// relative luminance of the brand colour.
 const foregroundFor = hex => {
   let value = hex.slice(1);
   if (value.length === 3) {
@@ -32,29 +78,35 @@ const loadFontStylesheet = url => {
   document.head.appendChild(link);
 };
 
-// Allowlisted brand tokens; anything else in the theme object is ignored.
-// Order of precedence: defaults in widget-v2.scss → inbox widget_color → host theme.
+// Order of precedence: widget-v2.scss defaults → kit preset → explicit tokens.
 export const applyTheme = (theme = {}) => {
   const root = document.documentElement;
+  const resolved = {
+    ...(getPreset(theme.preset) || {}),
+    ...theme.tokens,
+    ...theme,
+  };
 
-  if (HEX_PATTERN.test(theme.primary || '')) {
-    root.style.setProperty('--cw-primary', theme.primary);
+  root.classList.toggle('frosted', resolved.surface === 'frosted');
+
+  Object.entries(TOKEN_VARS).forEach(([token, cssVar]) => {
+    const value = resolved[token];
+    if (value === undefined || !isSafeValue(String(value))) return;
+    root.style.setProperty(cssVar, value);
+  });
+
+  if (HEX_PATTERN.test(resolved.primary || '') && !resolved.primaryForeground) {
     root.style.setProperty(
       '--cw-primary-foreground',
-      foregroundFor(theme.primary)
+      foregroundFor(resolved.primary)
     );
   }
-  if (SIZE_PATTERN.test(theme.radius || '')) {
-    root.style.setProperty('--cw-radius', theme.radius);
-  }
-  // Opt-in translucent surfaces; anything else keeps the opaque default.
-  root.classList.toggle('glass', theme.surface === 'glass');
 
-  if (theme.fontUrl) loadFontStylesheet(theme.fontUrl);
-  if (typeof theme.font === 'string' && theme.font.length < 200) {
+  if (resolved.fontUrl) loadFontStylesheet(resolved.fontUrl);
+  if (isSafeValue(resolved.font || '')) {
     root.style.setProperty(
       '--cw-font-sans',
-      `${theme.font}, Inter, -apple-system, system-ui, sans-serif`
+      `${resolved.font}, Inter, -apple-system, system-ui, sans-serif`
     );
   }
 };

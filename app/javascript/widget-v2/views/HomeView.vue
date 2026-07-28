@@ -120,7 +120,7 @@ const openConversation = id =>
       </div>
     </header>
 
-    <div class="flex flex-col gap-4 px-4 pb-24">
+    <div class="flex flex-col stack-gap px-4 pb-24">
       <NoticeBanner
         v-for="announcement in configStore.announcements"
         :key="announcement.id"
@@ -145,7 +145,7 @@ const openConversation = id =>
         />
         <button
           type="button"
-          class="group flex items-center w-full gap-3.5 px-4 py-4 text-left transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
+          class="group flex items-center w-full gap-3.5 row-pad text-left transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
           :class="{ 'border-t border-cw-hairline': recentConversation }"
           @click="router.push({ name: 'compose' })"
         >
@@ -178,7 +178,7 @@ const openConversation = id =>
       >
         <button
           type="button"
-          class="group flex items-center w-full gap-3.5 px-4 py-4 text-left transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
+          class="group flex items-center w-full gap-3.5 row-pad text-left transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
           @click="router.push({ name: 'ai-compose' })"
         >
           <span

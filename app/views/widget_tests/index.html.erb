@@ -155,10 +155,16 @@
 
       <fieldset>
         <legend>Theme (v2) &mdash; applies live</legend>
+        <label>Styling kit</label>
+        <select data-theme-key="preset">
+          <option value="">none (default tokens)</option>
+          <option value="tetris">tetris</option>
+          <option value="editorial">editorial</option>
+        </select>
         <label>Surface style</label>
         <select data-theme-key="surface">
           <option value="">solid (default)</option>
-          <option value="glass">glass (translucent)</option>
+          <option value="frosted">frosted (translucent)</option>
         </select>
         <label>Primary color</label>
         <input type="color" data-theme-key="primary" value="#2781f6" />
@@ -220,7 +226,8 @@
           <button onclick="setIdentifiedUser()">setUser (HMAC)</button>
           <button onclick="window.$chatwoot.setLocale(document.querySelector('[data-key=locale]').value || 'en')">setLocale (live)</button>
           <button onclick="window.$chatwoot.setColorScheme(document.querySelector('[data-key=darkMode]').value)">setColorScheme (live)</button>
-          <button onclick="window.$chatwoot.setTheme({ surface: document.querySelector('[data-theme-key=surface]').value === 'glass' ? 'solid' : 'glass' }); document.querySelector('[data-theme-key=surface]').value = document.querySelector('[data-theme-key=surface]').value === 'glass' ? '' : 'glass'">Toggle glass/solid</button>
+          <button onclick="window.$chatwoot.setTheme({ preset: 'tetris' })">Kit: tetris</button>
+          <button onclick="window.$chatwoot.setTheme({ preset: 'editorial' })">Kit: editorial</button>
           <button onclick="window.$chatwoot.setCustomAttributes({ plan: 'enterprise', signed_up_at: '2024-01-01' })">setCustomAttributes</button>
           <button onclick="window.$chatwoot.setLabel('support')">setLabel</button>
           <button onclick="window.$chatwoot.popoutChatWindow()">Popout</button>

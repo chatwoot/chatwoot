@@ -53,17 +53,17 @@ const unreadCount = computed(() => conversationsStore.totalUnread);
   <!-- Floating pill: content scrolls beneath it, so the panel keeps its full
        height and the widget loses the docked-tab-bar silhouette. -->
   <nav
-    class="absolute inset-x-0 bottom-0 z-10 flex justify-center px-3 pb-3 pointer-events-none"
+    class="scroll-edge absolute inset-x-0 bottom-0 z-10 flex justify-center px-3 pb-3 pointer-events-none"
     :aria-label="$t('TABS.HOME')"
   >
     <div
-      class="surface-card flex items-stretch w-full gap-1 p-1 pointer-events-auto"
+      class="glass-layer surface-card relative flex items-stretch w-full gap-1 p-1 pointer-events-auto"
     >
       <button
         v-for="tab in tabs"
         :key="tab.name"
         type="button"
-        class="relative flex flex-col items-center justify-center flex-1 gap-1 h-12 rounded-token-sm transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
+        class="relative flex flex-col items-center justify-center flex-1 gap-1 tab-height rounded-button transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring"
         :class="
           isActive(tab.name)
             ? 'bg-cw-primary-soft text-cw-primary'
@@ -74,7 +74,7 @@ const unreadCount = computed(() => conversationsStore.totalUnread);
         <span class="relative flex items-center justify-center">
           <span
             :class="isActive(tab.name) ? tab.activeIcon : tab.icon"
-            class="text-lg"
+            class="icon-size"
           />
           <span
             v-if="tab.name === 'conversations' && unreadCount"

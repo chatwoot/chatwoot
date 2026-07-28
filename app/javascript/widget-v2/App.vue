@@ -103,7 +103,7 @@ watch(
 
 <template>
   <div
-    class="relative flex flex-col h-full bg-cw-solid text-cw-text antialiased"
+    class="app-shell canvas-image relative flex flex-col h-full bg-cw-background text-cw-text antialiased"
   >
     <EmptyState
       v-if="configStore.status === 'error'"

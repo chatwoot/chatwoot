@@ -14,7 +14,7 @@ const uiStore = useUiStore();
 
 <template>
   <header
-    class="glass-layer flex items-center gap-2 px-4 h-16 shrink-0 bg-cw-solid border-b border-cw-hairline"
+    class="glass-layer flex items-center gap-2 chrome-height px-4 shrink-0 bg-cw-solid border-b border-cw-hairline"
   >
     <button
       v-if="showBack"
@@ -23,7 +23,7 @@ const uiStore = useUiStore();
       :aria-label="$t('COMMON.BACK')"
       @click="router.back()"
     >
-      <span class="i-ph-arrow-left text-lg" />
+      <span class="i-ph-arrow-left icon-size" />
     </button>
 
     <slot name="leading" />
@@ -50,7 +50,7 @@ const uiStore = useUiStore();
       :aria-label="$t('COMMON.CLOSE')"
       @click="uiStore.close()"
     >
-      <span class="i-ph-x text-lg" />
+      <span class="i-ph-x icon-size" />
     </button>
   </header>
 </template>

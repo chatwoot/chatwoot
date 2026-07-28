@@ -40,7 +40,7 @@ const sizeClasses = computed(
 <template>
   <button
     type="button"
-    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-520 rounded-token-sm transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring disabled:opacity-50 disabled:pointer-events-none select-none"
+    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-520 rounded-button transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-cw-ring disabled:opacity-50 disabled:pointer-events-none select-none"
     :class="[variantClasses, sizeClasses]"
     :disabled="disabled"
   >

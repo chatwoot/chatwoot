@@ -97,7 +97,7 @@ const openCategory = category =>
           v-for="category in categories"
           :key="category.slug"
           type="button"
-          class="group flex items-center w-full gap-3.5 px-4 py-4 text-left transition-colors bg-cw-solid hover:bg-cw-surface border-b border-cw-hairline last:border-b-0 outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
+          class="group flex items-center w-full gap-3.5 row-pad text-left transition-colors bg-cw-solid hover:bg-cw-surface border-b border-cw-hairline last:border-b-0 outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
           @click="openCategory(category)"
         >
           <span

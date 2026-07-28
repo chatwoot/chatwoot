@@ -72,7 +72,7 @@ const rows = computed(() => {
       :href="row.href"
       :target="row.external ? '_blank' : undefined"
       :rel="row.external ? 'noreferrer noopener' : undefined"
-      class="group flex items-center gap-3 px-4 py-3 transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
+      class="group flex items-center gap-3 row-pad transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
     >
       <span
         class="flex items-center justify-center w-8 h-8 rounded-full bg-cw-muted text-cw-text-muted"

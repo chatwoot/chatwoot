@@ -12,25 +12,53 @@
   // so most tokens need no dark override here. --cw-primary stays a plain
   // value so host themes can replace it at runtime.
   :root {
+    // Avatars: circular by default, squared off by blockier kits.
+    --cw-avatar-radius: 9999px;
     --cw-background: rgb(var(--solid-1));
     --cw-border: rgb(var(--slate-4));
     --cw-border-strong: rgb(var(--slate-6));
+    --cw-border-width: 1px;
+    --cw-bubble-agent-bg: var(--cw-muted);
+    --cw-bubble-agent-text: var(--cw-text);
+    // Chat bubbles: a large radius with a tight "tail" corner.
+    --cw-bubble-radius: 18px;
+    --cw-bubble-tail-radius: 6px;
+    --cw-bubble-visitor-bg: var(--cw-primary);
+    --cw-bubble-visitor-text: var(--cw-primary-foreground);
+    --cw-button-radius: calc(var(--cw-radius) - 6px);
+    --cw-canvas-image: none;
+    --cw-card-gap: 1rem;
     --cw-font-sans: 'Inter', -apple-system, system-ui, BlinkMacSystemFont,
       'Segoe UI', Roboto, 'Helvetica Neue', Tahoma, Arial, sans-serif;
+    // Tailwind's type and spacing are rem-based, so this one token scales the
+    // entire interface — smaller reads dense, larger reads airy.
+    --cw-font-size-root: 16px;
+    --cw-font-weight-strong: 620;
     --cw-hairline: rgba(var(--black-alpha-2));
+    --cw-header-height: 4rem;
+    --cw-icon-size: 1.125rem;
     --cw-muted: rgb(var(--slate-3));
+    --cw-overline-transform: uppercase;
+    --cw-panel: rgb(var(--solid-1));
     --cw-primary: rgb(var(--blue-9));
     --cw-primary-foreground: #ffffff;
     --cw-primary-soft: color-mix(in srgb, var(--cw-primary), transparent 92%);
     --cw-primary-strong: color-mix(in srgb, var(--cw-primary), #000 16%);
     --cw-radius: 14px;
     --cw-ring: color-mix(in srgb, var(--cw-primary), transparent 50%);
+    --cw-ring-width: 3px;
+    --cw-row-padding-x: 1rem;
+    --cw-row-padding-y: 1rem;
+    --cw-scroll-edge: rgb(var(--solid-1));
     --cw-shadow-card: 0 1px 2px rgba(9, 9, 11, 0.04);
     --cw-solid: rgb(var(--solid-1));
     --cw-surface: rgb(var(--slate-2));
+    --cw-tab-height: 3rem;
     --cw-text: rgb(var(--slate-12));
     --cw-text-faint: rgb(var(--slate-9));
     --cw-text-muted: rgb(var(--slate-11));
+    --cw-tracking-display: -0.025em;
+    --cw-transition-duration: 150ms;
   }
 
   .dark {
@@ -39,50 +67,61 @@
     --cw-primary-strong: color-mix(in srgb, var(--cw-primary), #fff 16%);
   }
 
-  // Glass surface option: translucent layers that pick up the host page
-  // behind the iframe, with light borders standing in for the specular edge.
-  .glass {
+  // Frosted surface option: translucent layers that pick up the host page
+  // behind the iframe. This is vibrancy-style frosted glass, not Apple's
+  // Liquid Glass, which additionally refracts content at the rim.
+  .frosted {
     --cw-background: transparent;
     --cw-border: rgba(255, 255, 255, 0.5);
     --cw-hairline: rgba(255, 255, 255, 0.3);
     --cw-muted: rgba(255, 255, 255, 0.35);
+    --cw-panel: rgba(255, 255, 255, 0.55);
+    --cw-scroll-edge: rgba(255, 255, 255, 0.9);
     --cw-shadow-card: 0 1px 1px rgba(9, 9, 11, 0.04),
       0 8px 24px rgba(9, 9, 11, 0.1);
-    --cw-solid: rgba(255, 255, 255, 0.62);
-    // Bright top edge standing in for Liquid Glass's specular highlight.
+    --cw-solid: rgba(255, 255, 255, 0.88);
+    // Bright top edge suggesting a lit rim.
     --cw-specular: rgba(255, 255, 255, 0.45);
     --cw-specular-fade: rgba(255, 255, 255, 0);
     --cw-surface: rgba(255, 255, 255, 0.4);
   }
 
-  .glass.dark {
+  .frosted.dark {
     --cw-border: rgba(255, 255, 255, 0.14);
     --cw-hairline: rgba(255, 255, 255, 0.1);
     --cw-muted: rgba(255, 255, 255, 0.1);
+    --cw-panel: rgba(22, 23, 26, 0.55);
+    --cw-scroll-edge: rgba(22, 23, 26, 0.9);
     --cw-shadow-card: 0 1px 1px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.4);
-    --cw-solid: rgba(22, 23, 26, 0.62);
+    --cw-solid: rgba(22, 23, 26, 0.88);
     --cw-specular: rgba(255, 255, 255, 0.1);
     --cw-surface: rgba(255, 255, 255, 0.06);
   }
 
   // The host page can only show through if the widget document is see-through.
-  .glass,
-  .glass body {
+  .frosted,
+  .frosted body {
     background: transparent;
   }
 
   // Apple's material honours Reduced Transparency; fall back to opaque.
   @media (prefers-reduced-transparency: reduce) {
-    .glass {
+    .frosted {
       --cw-muted: rgb(var(--slate-3));
+      --cw-panel: rgb(var(--solid-1));
+      --cw-scroll-edge: rgb(var(--solid-1));
       --cw-solid: rgb(var(--solid-1));
       --cw-surface: rgb(var(--slate-2));
     }
 
-    .glass,
-    .glass body {
+    .frosted,
+    .frosted body {
       background: rgb(var(--solid-1));
     }
+  }
+
+  html {
+    font-size: var(--cw-font-size-root);
   }
 
   html,
@@ -107,9 +146,10 @@
 }
 
 @layer utilities {
-  // Display treatment: same Inter, tracked tight like shadcn headings.
+  // Display treatment: kits control tracking and heading weight.
   .type-display {
-    letter-spacing: -0.025em;
+    font-weight: var(--cw-font-weight-strong);
+    letter-spacing: var(--cw-tracking-display);
   }
 
   // Overline labels for section headings.
@@ -117,7 +157,11 @@
     font-size: 0.6875rem;
     font-weight: 520;
     letter-spacing: 0.06em;
-    text-transform: uppercase;
+    text-transform: var(--cw-overline-transform);
+  }
+
+  .avatar-shape {
+    border-radius: var(--cw-avatar-radius);
   }
 
   .tabular-time {
@@ -136,15 +180,15 @@
   // shadcn-style card: white surface, visible border, whisper of shadow.
   .surface-card {
     background: var(--cw-solid);
-    border: 1px solid var(--cw-border);
+    border: var(--cw-border-width) solid var(--cw-border);
     border-radius: var(--cw-radius);
     box-shadow: var(--cw-shadow-card);
   }
 
-  // In glass mode every surface refracts what is behind it, and carries a
-  // bright top edge standing in for Liquid Glass's specular highlight.
-  .glass .surface-card,
-  .glass .glass-layer {
+  // Apple restricts this material to the controls/navigation layer and warns
+  // against layering it on itself, so only chrome frosts — content cards stay
+  // solid on top of the frosted panel.
+  .frosted .glass-layer {
     backdrop-filter: blur(24px) saturate(180%);
     background-image: linear-gradient(
       to bottom,
@@ -153,12 +197,89 @@
     );
   }
 
+  // The panel itself is the glass the host page shows through.
+  .frosted .app-shell {
+    backdrop-filter: blur(24px) saturate(180%);
+    background: var(--cw-panel);
+  }
+
+  // Apple's scroll edge effect: keep floating controls legible when content
+  // scrolls beneath them.
+  .scroll-edge::before {
+    background: linear-gradient(to top, var(--cw-scroll-edge), transparent);
+    bottom: 0;
+    content: '';
+    height: 3rem;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+  }
+
   @media (prefers-reduced-transparency: reduce) {
-    .glass .surface-card,
-    .glass .glass-layer {
+    .frosted .glass-layer,
+    .frosted .app-shell {
       backdrop-filter: none;
       background-image: none;
     }
+  }
+
+  // Chat bubbles; themes can square these off or round them fully.
+  .rounded-bubble {
+    border-radius: var(--cw-bubble-radius);
+  }
+
+  .rounded-bubble-tail-end {
+    border-bottom-right-radius: var(--cw-bubble-tail-radius);
+  }
+
+  .rounded-bubble-tail-start {
+    border-bottom-left-radius: var(--cw-bubble-tail-radius);
+  }
+
+  // Optional themed backdrop behind the whole panel.
+  .canvas-image {
+    background-image: var(--cw-canvas-image);
+  }
+
+  // Geometry every kit can retune.
+  .row-pad {
+    padding: var(--cw-row-padding-y) var(--cw-row-padding-x);
+  }
+
+  .chrome-height {
+    height: var(--cw-header-height);
+  }
+
+  .tab-height {
+    height: var(--cw-tab-height);
+  }
+
+  .stack-gap {
+    gap: var(--cw-card-gap);
+  }
+
+  .rounded-button {
+    border-radius: var(--cw-button-radius);
+  }
+
+  .icon-size {
+    font-size: var(--cw-icon-size);
+  }
+
+  .focus-ring:focus-visible {
+    outline: var(--cw-ring-width) solid var(--cw-ring);
+    outline-offset: 0;
+  }
+
+  .bubble-visitor {
+    background: var(--cw-bubble-visitor-bg);
+    color: var(--cw-bubble-visitor-text);
+  }
+
+  .bubble-agent {
+    background: var(--cw-bubble-agent-bg);
+    color: var(--cw-bubble-agent-text);
   }
 
   .scrollbar-thin {

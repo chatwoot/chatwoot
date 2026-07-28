@@ -41,11 +41,11 @@ const isFailed = computed(() => props.message.status === 'failed');
 
     <div class="max-w-[78%] min-w-0">
       <div
-        class="px-4 py-2.5 text-sm leading-relaxed break-words rounded-[18px]"
+        class="px-4 py-2.5 text-sm leading-relaxed break-words rounded-bubble"
         :class="
           isVisitor
-            ? 'bg-cw-primary text-cw-primary-foreground rounded-br-[6px]'
-            : 'bg-cw-muted text-cw-text rounded-bl-[6px]'
+            ? 'bubble-visitor rounded-bubble-tail-end'
+            : 'bubble-agent rounded-bubble-tail-start'
         "
       >
         <div

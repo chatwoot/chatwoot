@@ -22,7 +22,7 @@ const validPosts = computed(() =>
       :href="post.url"
       target="_blank"
       rel="noreferrer noopener"
-      class="group flex items-center gap-3 px-4 py-3 transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
+      class="group flex items-center gap-3 row-pad transition-colors hover:bg-cw-surface outline-none focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-cw-ring"
     >
       <img
         v-if="isWebUrl(post.image)"
