@@ -52,7 +52,7 @@ const openCategory = category =>
 
 <template>
   <div class="flex flex-col h-full bg-cw-solid">
-    <WidgetHeader :title="$t('HELP.TITLE')" show-back />
+    <WidgetHeader :title="$t('HELP.TITLE')" />
 
     <div class="px-4 py-3 border-b border-cw-hairline">
       <label

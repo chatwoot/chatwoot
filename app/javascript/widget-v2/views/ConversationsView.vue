@@ -19,7 +19,7 @@ const section = conversationsStore.sections.human;
 
 <template>
   <div class="flex flex-col h-full bg-cw-solid">
-    <WidgetHeader :title="$t('CONVERSATIONS.TITLE')" show-back>
+    <WidgetHeader :title="$t('CONVERSATIONS.TITLE')">
       <template #actions>
         <button
           type="button"

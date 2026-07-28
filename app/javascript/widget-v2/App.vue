@@ -1,6 +1,6 @@
 <script setup>
-import { onMounted, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useConfigStore } from 'widget-v2/stores/config';
 import { useConversationsStore } from 'widget-v2/stores/conversations';
@@ -11,35 +11,22 @@ import { watchSystemDarkMode } from 'widget-v2/helpers/theme';
 import { setUser } from 'widget-v2/api/contacts';
 import { setAuthToken } from 'widget-v2/api/client';
 import { loadLocale } from 'widget-v2/i18n';
+import TabBar from 'widget-v2/components/TabBar.vue';
 import EmptyState from 'widget-v2/components/EmptyState.vue';
 
 const route = useRoute();
-const router = useRouter();
 const i18n = useI18n();
 const configStore = useConfigStore();
 const conversationsStore = useConversationsStore();
 const uiStore = useUiStore();
 
-// Reading-heavy screens (the article view) ask the host to widen the panel.
+const showTabBar = computed(() => route.meta.tabBar);
+
+// Reading-heavy screens (the help center) ask the host to widen the panel.
 watch(
   () => Boolean(route.meta.expanded),
   expanded => sendToHost('setExpandedLayout', { expanded }),
   { immediate: true }
-);
-
-// Hub-and-stack navigation has no persistent nav bar, so returning visitors
-// resume exactly where they left off instead of re-navigating from Home.
-const LAST_ROUTE_KEY = 'cw-v2-last-route';
-
-watch(
-  () => route.fullPath,
-  fullPath => {
-    try {
-      sessionStorage.setItem(LAST_ROUTE_KEY, fullPath);
-    } catch {
-      // Private browsing modes can reject sessionStorage writes.
-    }
-  }
 );
 
 const setLocale = async locale => {
@@ -85,18 +72,7 @@ const hostEvents = {
   'set-color-scheme': ({ darkMode }) => configStore.setDarkMode(darkMode),
 };
 
-const restoreLastRoute = () => {
-  try {
-    const lastRoute = sessionStorage.getItem(LAST_ROUTE_KEY);
-    if (lastRoute && lastRoute !== '/') router.replace(lastRoute);
-  } catch {
-    // Ignore unreadable storage; the visitor simply starts at Home.
-  }
-};
-
 onMounted(async () => {
-  restoreLastRoute();
-
   onHostMessage(message => {
     const handler = hostEvents[message.event];
     if (handler) handler(message);
@@ -138,6 +114,7 @@ watch(
       <router-view v-slot="{ Component }">
         <component :is="Component" class="flex-1 min-h-0" />
       </router-view>
+      <TabBar v-if="showTabBar" />
     </template>
   </div>
 </template>

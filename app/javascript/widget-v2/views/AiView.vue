@@ -27,7 +27,7 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col h-full bg-cw-solid">
-    <WidgetHeader :title="$t('AI.TITLE')" show-back />
+    <WidgetHeader :title="$t('AI.TITLE')" />
 
     <div class="flex-1 overflow-y-auto scrollbar-thin">
       <div class="flex flex-col items-center px-6 pt-8 pb-6 text-center">
