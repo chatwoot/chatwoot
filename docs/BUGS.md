@@ -3,7 +3,9 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** hotfix `B-NEW-39` skip outbound si ventana Meta/WA
+**Última actualización:** hotfix `B-NEW-41` franja Panel IA pegada con humano
+(2026-07-27). Antes: hotfix `B-NEW-40` WA templates findComponentByType
+(2026-07-27). Antes: hotfix `B-NEW-39` skip outbound si ventana Meta/WA
 cerrada (2026-07-27). Antes: feature `B-NEW-38` automation audit private note
 (2026-07-27). Antes: hotfix `B-NEW-37` select fecha/datetime en
 time automation schedule (2026-07-27). Antes: hotfix `B-NEW-36` exigir agente humano + selector
@@ -108,6 +110,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-38 | Feature | No | ✅ Automation siempre deja nota privada corta de auditoría |
 | B-NEW-39 | Bug | No | ✅ Automation no envía outbound si `can_reply?` false (ventana 24h) |
 | B-NEW-40 | 🔴 P0 prod | Sí | ✅ WA templates: `findComponentByType is not defined` → sin inputs + crash al enviar |
+| B-NEW-41 | Bug UX | No | ✅ Franja Panel IA se oculta con assignee humano; limpia `panel_ia_*` + leyenda Bots/Flows |
 
 ---
 
@@ -1010,6 +1013,31 @@ crash en init (params vacíos) y en send (snapshot).
 
 **Cómo probar:** abrir `ventas_seguimiento` → input `contact_name`; rellenar y
 enviar. Plantilla sin vars → Enviar sin error en consola.
+
+### B-NEW-41 — Franja Panel IA queda pegada tras asignar humano
+
+**Severidad:** Bug UX — listado muestra rojo/`solicita_ayuda` aunque un agente
+humano ya atiende.
+
+**Síntoma:** tras handoff, `custom_attributes.panel_ia_estado` queda en
+`solicita_ayuda`. Al asignar un User la franja lateral sigue visible porque
+`usePanelIaState` priorizaba el attr aunque `isBotHandled` fuera false.
+
+**Nota:** `panel_ia_*` no es Custom Attribute Definition (Settings); es JSON
+interno en `conversation.custom_attributes` (Panel AI / Flows).
+
+**Fix:**
+- FE: si `isHumanAssigneeMeta` → sin indicador.
+- Rails: al asignar User en `Conversations::AssignmentService`, borrar
+  `panel_ia_estado` / `_label` / `_updated_at` (no al asignar AgentBot).
+- Leyenda de colores en Settings → Bots y Settings → Flows.
+
+**Archivos:** `usePanelIaState.js`, `assignment_service.rb`,
+`PanelIaStateLegend.vue`, `agentBots/Index.vue`, `flows/Index.vue`,
+`en/conversation.json`.
+
+**Cómo probar:** conv con franja roja → asignar humano → franja desaparece;
+reasignar bot → vuelve según estado. Settings Bots/Flows muestran leyenda.
 
 ---
 

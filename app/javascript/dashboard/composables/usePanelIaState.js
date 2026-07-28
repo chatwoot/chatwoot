@@ -1,6 +1,9 @@
 import { computed, unref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { isBotHandledConversation } from 'dashboard/helper/assigneeHelper';
+import {
+  isBotHandledConversation,
+  isHumanAssigneeMeta,
+} from 'dashboard/helper/assigneeHelper';
 
 const STATE_CONFIG = {
   activo: {
@@ -25,6 +28,10 @@ const STATE_CONFIG = {
 export function usePanelIaState(chatRef) {
   const { t } = useI18n();
 
+  const isHumanAssigned = computed(() =>
+    isHumanAssigneeMeta(unref(chatRef)?.meta)
+  );
+
   const isBotHandled = computed(() => isBotHandledConversation(unref(chatRef)));
 
   const hasFlowState = computed(() => {
@@ -37,6 +44,8 @@ export function usePanelIaState(chatRef) {
   });
 
   const state = computed(() => {
+    if (isHumanAssigned.value) return '';
+
     const chat = unref(chatRef);
     const estado = chat?.custom_attributes?.panel_ia_estado;
     if (estado) return estado;
@@ -53,6 +62,7 @@ export function usePanelIaState(chatRef) {
 
   const showIndicator = computed(
     () =>
+      !isHumanAssigned.value &&
       (isBotHandled.value || hasFlowState.value) &&
       Boolean(STATE_CONFIG[state.value])
   );

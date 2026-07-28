@@ -22,8 +22,17 @@ class Conversations::AssignmentService
 
     conversation.assignee = assignee
     conversation.assignee_agent_bot = nil
+    clear_panel_ia_state_attrs if assignee.present?
     conversation.save!
     assignee
+  end
+
+  def clear_panel_ia_state_attrs
+    attrs = (conversation.custom_attributes || {}).dup
+    attrs.delete(Flows::StateSyncService::ATTR_ESTADO)
+    attrs.delete(Flows::StateSyncService::ATTR_LABEL)
+    attrs.delete(Flows::StateSyncService::ATTR_UPDATED)
+    conversation.custom_attributes = attrs
   end
 
   def cleared_assignee?

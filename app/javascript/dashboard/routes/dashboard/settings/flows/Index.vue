@@ -8,6 +8,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
+import PanelIaStateLegend from 'dashboard/components-next/PanelIa/PanelIaStateLegend.vue';
 import { BaseTable } from 'dashboard/components-next/table';
 
 const getters = useStoreGetters();
@@ -92,6 +93,7 @@ const tableHeaders = computed(() => [
           </router-link>
         </template>
       </BaseSettingsHeader>
+      <PanelIaStateLegend class="mt-3" />
     </template>
     <template #body>
       <div

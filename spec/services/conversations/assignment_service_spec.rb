@@ -39,7 +39,16 @@ describe Conversations::AssignmentService do
 
     context 'when assigning a user' do
       before do
-        conversation.update!(assignee_agent_bot: agent_bot, assignee: nil)
+        conversation.update!(
+          assignee_agent_bot: agent_bot,
+          assignee: nil,
+          custom_attributes: {
+            'panel_ia_estado' => 'solicita_ayuda',
+            'panel_ia_estado_label' => 'Needs help',
+            'panel_ia_updated_at' => Time.current.iso8601,
+            'other_attr' => 'keep'
+          }
+        )
       end
 
       it 'sets the agent and clears agent bot' do
@@ -49,6 +58,16 @@ describe Conversations::AssignmentService do
         expect(result).to eq(agent)
         expect(conversation.assignee_id).to eq(agent.id)
         expect(conversation.assignee_agent_bot_id).to be_nil
+      end
+
+      it 'clears panel_ia state attributes and keeps other custom attributes' do
+        described_class.new(conversation: conversation, assignee_id: agent.id).perform
+
+        conversation.reload
+        expect(conversation.custom_attributes).not_to have_key('panel_ia_estado')
+        expect(conversation.custom_attributes).not_to have_key('panel_ia_estado_label')
+        expect(conversation.custom_attributes).not_to have_key('panel_ia_updated_at')
+        expect(conversation.custom_attributes['other_attr']).to eq('keep')
       end
     end
 
@@ -63,17 +82,31 @@ describe Conversations::AssignmentService do
 
       before do
         create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: agent_bot)
+        conversation.update!(
+          assignee: agent,
+          assignee_agent_bot: nil,
+          custom_attributes: {
+            'panel_ia_estado' => 'activo',
+            'panel_ia_estado_label' => 'AI responding'
+          }
+        )
       end
 
       it 'sets the agent bot and clears human assignee' do
-        conversation.update!(assignee: agent, assignee_agent_bot: nil)
-
         result = service.perform
 
         conversation.reload
         expect(result).to eq(agent_bot)
         expect(conversation.assignee_agent_bot_id).to eq(agent_bot.id)
         expect(conversation.assignee_id).to be_nil
+      end
+
+      it 'does not clear panel_ia state attributes' do
+        service.perform
+
+        conversation.reload
+        expect(conversation.custom_attributes['panel_ia_estado']).to eq('activo')
+        expect(conversation.custom_attributes['panel_ia_estado_label']).to eq('AI responding')
       end
 
       it 'does not assign an inactive inbox bot' do

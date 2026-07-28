@@ -9,6 +9,7 @@ import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import PanelIaStateLegend from 'dashboard/components-next/PanelIa/PanelIaStateLegend.vue';
 import AgentBotModal from './components/AgentBotModal.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import {
@@ -120,6 +121,7 @@ onMounted(() => {
           />
         </template>
       </BaseSettingsHeader>
+      <PanelIaStateLegend class="mt-3" />
     </template>
     <template #body>
       <BaseTable
