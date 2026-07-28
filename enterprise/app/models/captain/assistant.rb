@@ -18,6 +18,9 @@
 #
 class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
+  DEFAULT_INACTIVITY_THRESHOLD_MINUTES = 60
+  MINIMUM_INACTIVITY_THRESHOLD_MINUTES = 5
+  MAXIMUM_INACTIVITY_THRESHOLD_MINUTES = 1.day.in_minutes.to_i
 
   include Avatarable
   include Concerns::CaptainToolsHelpers
@@ -40,11 +43,19 @@ class Captain::Assistant < ApplicationRecord
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
   has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
 
-  store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name
+  store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
+                 :auto_resolve_enabled, :auto_resolve_after
 
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
+  validates :scheduled_inactivity_resolution_enabled, inclusion: { in: [true, false] }
+  validates :inactivity_threshold_minutes,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: MINIMUM_INACTIVITY_THRESHOLD_MINUTES,
+              less_than_or_equal_to: MAXIMUM_INACTIVITY_THRESHOLD_MINUTES
+            }
 
   scope :ordered, -> { order(created_at: :desc) }
 
@@ -52,6 +63,18 @@ class Captain::Assistant < ApplicationRecord
 
   def available_name
     name
+  end
+
+  def scheduled_inactivity_resolution_enabled
+    config.fetch('auto_resolve_enabled', true)
+  end
+
+  def scheduled_inactivity_resolution_enabled?
+    scheduled_inactivity_resolution_enabled
+  end
+
+  def inactivity_threshold_minutes
+    config.fetch('auto_resolve_after', DEFAULT_INACTIVITY_THRESHOLD_MINUTES)
   end
 
   def available_agent_tools

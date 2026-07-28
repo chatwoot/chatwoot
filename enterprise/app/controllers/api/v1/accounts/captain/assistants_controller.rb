@@ -119,13 +119,15 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def assistant_params
+    assistant_config_attributes = [
+      :product_name, :feature_faq, :feature_memory, :feature_citation,
+      :feature_contact_attributes, :welcome_message, :handoff_message,
+      :resolution_message, :instructions, :temperature
+    ]
+    assistant_config_attributes += [:auto_resolve_enabled, :auto_resolve_after] if Current.account.feature_enabled?('captain_integration_v2')
+
     permitted = params.require(:assistant).permit(:name, :description,
-                                                  config: [
-                                                    :product_name, :feature_faq, :feature_memory, :feature_citation,
-                                                    :feature_contact_attributes,
-                                                    :welcome_message, :handoff_message, :resolution_message,
-                                                    :instructions, :temperature
-                                                  ])
+                                                  config: assistant_config_attributes)
 
     # Handle array parameters separately to allow partial updates
     permitted[:response_guidelines] = params[:assistant][:response_guidelines] if params[:assistant].key?(:response_guidelines)

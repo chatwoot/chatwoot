@@ -599,6 +599,16 @@
           "LABEL": "Resolution Message",
           "PLACEHOLDER": "Enter resolution message"
         },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "Inactive conversations",
+          "DESCRIPTION": "Choose when Captain resolves pending conversations after inactivity.",
+          "TOGGLE_LABEL": "Resolve inactive conversations",
+          "TOGGLE_HELP": "Turn this off to leave inactive conversations pending.",
+          "DURATION_LABEL": "Resolve after",
+          "DURATION_HELP": "From 5 minutes to 1 day. Captain checks every 5 minutes.",
+          "ON": "On",
+          "OFF": "Off"
+        },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
           "PLACEHOLDER": "Enter instructions for the assistant"

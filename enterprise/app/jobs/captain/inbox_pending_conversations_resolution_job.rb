@@ -7,6 +7,11 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   def perform(inbox)
     return if inbox.account.captain_auto_resolve_disabled?
 
+    captain_assistant = inbox.captain_assistant
+    return unless captain_assistant.scheduled_inactivity_resolution_enabled?
+
+    @inactivity_cutoff_time = Time.now.utc - captain_assistant.inactivity_threshold_minutes.minutes
+
     if evaluate_conversation_completion?(inbox.account)
       perform_with_evaluation(inbox)
     else
@@ -17,6 +22,8 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   private
+
+  attr_reader :inactivity_cutoff_time
 
   def evaluate_conversation_completion?(account)
     account.feature_enabled?('captain_tasks') && account.captain_auto_resolve_evaluated?
@@ -55,19 +62,15 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   def resolvable_pending_conversations(inbox)
     inbox.conversations.pending
-         .where('last_activity_at < ?', auto_resolve_cutoff_time)
+         .where('last_activity_at < ?', inactivity_cutoff_time)
          .limit(Limits::BULK_ACTIONS_LIMIT)
   end
 
   def still_resolvable_after_evaluation?(conversation)
     conversation.reload
-    conversation.pending? && conversation.last_activity_at < auto_resolve_cutoff_time
+    conversation.pending? && conversation.last_activity_at < inactivity_cutoff_time
   rescue ActiveRecord::RecordNotFound
     false
-  end
-
-  def auto_resolve_cutoff_time
-    Time.now.utc - 1.hour
   end
 
   def resolve_conversation(conversation, inbox, reason)
