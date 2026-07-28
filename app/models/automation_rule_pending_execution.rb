@@ -43,10 +43,11 @@ class AutomationRulePendingExecution < ApplicationRecord
   # are customer-facing (messages, emails, webhooks) and repeating them is worse than dropping them.
   enum status: { pending: 0, processing: 1, executed: 2, skipped: 3, executing: 4 }
 
+  # Processing rows whose worker died: the claim renews updated_at, so a lock past the timeout is abandoned.
+  scope :stale_processing, -> { processing.where(updated_at: ...STALE_PROCESSING_TIMEOUT.ago) }
+
   # Rows a sweep should hand to a worker: due pending rows, plus processing rows whose lock went stale.
-  scope :sweepable, lambda {
-    pending.where(due_at: ..Time.current).or(processing.where(updated_at: ...STALE_PROCESSING_TIMEOUT.ago))
-  }
+  scope :sweepable, -> { pending.where(due_at: ..Time.current).or(stale_processing) }
 
   # Rows whose worker died mid-action. Nothing reclaims them; the sweep only counts them so a
   # crash that strands customer-facing actions is visible instead of silent.
@@ -158,9 +159,11 @@ class AutomationRulePendingExecution < ApplicationRecord
   # Rows that came due while an account had delayed automations paused would expire the moment
   # the sweep reaches them on resume. Reset their clock so pause/resume replays them (still
   # subject to the fire-time episode/condition re-checks) instead of silently dropping them.
+  # Stale processing rows go back to pending too (their worker is gone); resetting due_at alone would
+  # renew the lock and hold them out of the sweep for another timeout. A live worker keeps its row.
   def self.reschedule_paused(account)
-    overdue = pending.where(account_id: account.id, due_at: ...DUE_WINDOW.ago)
-    overdue.find_each { |row| row.update!(due_at: Time.current) }
+    overdue = pending.or(stale_processing).where(account_id: account.id, due_at: ...DUE_WINDOW.ago)
+    overdue.find_each { |row| row.update!(status: :pending, due_at: Time.current) }
   end
 
   # Atomic claim: only one worker can move a row into processing, so a row re-enqueued by an

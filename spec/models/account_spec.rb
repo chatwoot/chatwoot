@@ -112,6 +112,21 @@ RSpec.describe Account do
     end
   end
 
+  describe 'resuming delayed automations' do
+    let(:account) { create(:account) }
+
+    it 'enqueues the resume job when delayed_automations is turned back on' do
+      expect { account.enable_features!('delayed_automations') }
+        .to have_enqueued_job(AutomationRules::ResumePausedExecutionsJob).with(account)
+    end
+
+    it 'does not enqueue the resume job when the flag is turned off' do
+      account.enable_features!('delayed_automations')
+      expect { account.disable_features!('delayed_automations') }
+        .not_to have_enqueued_job(AutomationRules::ResumePausedExecutionsJob)
+    end
+  end
+
   describe 'feature flag columns' do
     let(:account) { described_class.new(name: 'Test Account') }
 
@@ -122,7 +137,8 @@ RSpec.describe Account do
         feature_data_import: 1 << 1,
         feature_api_and_webhooks: 1 << 2,
         feature_whatsapp_reconfigure: 1 << 3,
-        feature_whatsapp_embedded_signup_inbox_creation: 1 << 4
+        feature_whatsapp_embedded_signup_inbox_creation: 1 << 4,
+        feature_delayed_automations: 1 << 5
       )
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
