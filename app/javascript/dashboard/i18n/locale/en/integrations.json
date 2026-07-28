@@ -601,19 +601,19 @@
         },
         "INACTIVITY_RESOLUTION": {
           "TITLE": "Inactive conversations",
-          "DESCRIPTION": "Choose what Captain does when a pending conversation has been inactive.",
+          "DESCRIPTION": "Pending conversations are waiting for the customer to reply. Choose what Captain does if the customer does not respond.",
           "MODES": {
             "DISABLED": {
-              "LABEL": "Leave conversations pending",
-              "DESCRIPTION": "Captain does not change inactive conversations."
+              "LABEL": "Keep conversations pending",
+              "DESCRIPTION": "Inactive conversations remain pending. Captain does not resolve them or send them to a human."
             },
             "LEGACY": {
-              "LABEL": "Resolve inactive conversations",
-              "DESCRIPTION": "Captain resolves inactive conversations after the selected time."
+              "LABEL": "Resolve without checking",
+              "DESCRIPTION": "Captain resolves every inactive conversation after the selected time without checking whether it is complete."
             },
             "EVALUATED": {
               "LABEL": "Check before resolving",
-              "DESCRIPTION": "Captain resolves completed conversations and sends conversations that still need attention to a human."
+              "DESCRIPTION": "Captain checks whether each inactive conversation is complete. It resolves completed conversations and sends the rest to a human."
             }
           },
           "DURATION_LABEL": "Take action after",
