@@ -49,8 +49,8 @@ onMounted(() => articlesStore.open(route.params.slug));
       <div v-if="articlesStore.loading" class="flex justify-center py-8">
         <BaseSpinner />
       </div>
-      <article v-else-if="article">
-        <h1 class="text-lg font-620 text-cw-text type-display mb-3">
+      <article v-else-if="article" class="mx-auto max-w-2xl">
+        <h1 class="text-lg font-620 text-cw-text type-display mb-3 sm:text-2xl">
           {{ article.title }}
         </h1>
         <div

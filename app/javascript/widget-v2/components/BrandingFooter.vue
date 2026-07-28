@@ -19,7 +19,7 @@ const brandUrl = computed(
     :href="brandUrl"
     target="_blank"
     rel="noreferrer noopener"
-    class="flex items-center justify-center gap-1 py-1.5 text-xxs text-cw-text-faint hover:text-cw-text-muted"
+    class="flex items-center justify-center gap-1 py-4 text-xs text-cw-text-faint hover:text-cw-text-muted"
   >
     {{ $t('COMMON.POWERED_BY') }} {{ brandName }}
   </a>

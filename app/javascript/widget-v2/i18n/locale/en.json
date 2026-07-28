@@ -86,7 +86,8 @@
     "MESSAGE_LABEL": "Message",
     "MESSAGE_PLACEHOLDER": "How can we help?",
     "START": "Start conversation",
-    "EMAIL_INVALID": "Enter a valid email address"
+    "EMAIL_INVALID": "Enter a valid email address",
+    "FIELD_REQUIRED": "This field is required"
   },
   "COMMON": {
     "AI_BADGE": "AI",

@@ -14,12 +14,14 @@ export const createConversation = ({
   section,
   content,
   contact,
+  customAttributes,
   referrerUrl,
 }) =>
   client
     .post('/api/v2/widget/conversations', {
       section,
       contact,
+      custom_attributes: customAttributes,
       message: {
         content,
         referer_url: referrerUrl,

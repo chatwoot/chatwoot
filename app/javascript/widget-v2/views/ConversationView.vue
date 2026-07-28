@@ -12,7 +12,6 @@ import AiStateBanner from 'widget-v2/components/AiStateBanner.vue';
 import MessageBubble from 'widget-v2/components/MessageBubble.vue';
 import MessageComposer from 'widget-v2/components/MessageComposer.vue';
 import TypingIndicator from 'widget-v2/components/TypingIndicator.vue';
-import BrandingFooter from 'widget-v2/components/BrandingFooter.vue';
 import BaseSpinner from 'widget-v2/components/base/BaseSpinner.vue';
 
 const route = useRoute();
@@ -171,6 +170,5 @@ const onTyping = status =>
       @typing-on="onTyping('on')"
       @typing-off="onTyping('off')"
     />
-    <BrandingFooter />
   </div>
 </template>

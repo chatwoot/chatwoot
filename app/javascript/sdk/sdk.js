@@ -315,6 +315,12 @@ export const SDK_CSS = `
     max-height: 640px !important;
     min-height: 250px !important;
     width: 400px !important;
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s linear, transform 0.25s linear;
+ }
+
+  .woot-widget-holder.woot-widget-holder--expanded {
+    max-height: 720px !important;
+    width: min(720px, calc(100vw - 40px)) !important;
  }
 }
 

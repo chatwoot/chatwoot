@@ -22,6 +22,13 @@ const uiStore = useUiStore();
 
 const showTabBar = computed(() => route.meta.tabBar);
 
+// Reading-heavy screens (the help center) ask the host to widen the panel.
+watch(
+  () => Boolean(route.meta.expanded),
+  expanded => sendToHost('setExpandedLayout', { expanded }),
+  { immediate: true }
+);
+
 const setLocale = async locale => {
   if (!locale) return;
   const normalized = locale.replace('-', '_');

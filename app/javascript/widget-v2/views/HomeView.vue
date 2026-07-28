@@ -13,6 +13,7 @@ import NoticeBanner from 'widget-v2/components/NoticeBanner.vue';
 import BrandLinks from 'widget-v2/components/BrandLinks.vue';
 import BlogPosts from 'widget-v2/components/BlogPosts.vue';
 import BaseAvatar from 'widget-v2/components/base/BaseAvatar.vue';
+import BrandingFooter from 'widget-v2/components/BrandingFooter.vue';
 
 const router = useRouter();
 const configStore = useConfigStore();
@@ -222,6 +223,8 @@ const openConversation = id =>
       <BlogPosts v-if="configStore.hostPosts" :posts="configStore.hostPosts" />
 
       <BrandLinks v-if="configStore.hostBrand" :brand="configStore.hostBrand" />
+
+      <BrandingFooter />
     </div>
   </div>
 </template>

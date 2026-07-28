@@ -53,6 +53,11 @@ export default createRouter({
       name: 'help-category',
       component: CategoryView,
     },
-    { path: '/help/:slug', name: 'help-article', component: ArticleView },
+    {
+      path: '/help/:slug',
+      name: 'help-article',
+      component: ArticleView,
+      meta: { expanded: true },
+    },
   ],
 });

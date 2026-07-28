@@ -128,11 +128,12 @@ export const useConversationsStore = defineStore('conversations', () => {
     return conversation;
   };
 
-  const create = async ({ section, content, contact }) => {
+  const create = async ({ section, content, contact, customAttributes }) => {
     const conversation = await createConversation({
       section,
       content,
       contact,
+      customAttributes,
       referrerUrl: window.referrerURL || '',
     });
     upsert(conversation);

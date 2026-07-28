@@ -7,6 +7,7 @@ import ConversationCard from 'widget-v2/components/ConversationCard.vue';
 import EmptyState from 'widget-v2/components/EmptyState.vue';
 import BaseButton from 'widget-v2/components/base/BaseButton.vue';
 import BaseSpinner from 'widget-v2/components/base/BaseSpinner.vue';
+import BrandingFooter from 'widget-v2/components/BrandingFooter.vue';
 
 const router = useRouter();
 const conversationsStore = useConversationsStore();
@@ -83,6 +84,8 @@ const section = conversationsStore.sections.human;
         <span class="i-ph-clock-counter-clockwise" />
         {{ $t('CONVERSATIONS.SHOW_OLDER') }}
       </button>
+
+      <BrandingFooter />
     </div>
   </div>
 </template>

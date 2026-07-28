@@ -1,11 +1,11 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useConfigStore } from 'widget-v2/stores/config';
 import { useConversationsStore } from 'widget-v2/stores/conversations';
 import WidgetHeader from 'widget-v2/components/WidgetHeader.vue';
-import BaseInput from 'widget-v2/components/base/BaseInput.vue';
+import PreChatFields from 'widget-v2/components/PreChatFields.vue';
 import BaseButton from 'widget-v2/components/base/BaseButton.vue';
 import BaseAvatar from 'widget-v2/components/base/BaseAvatar.vue';
 
@@ -20,19 +20,22 @@ const isValidEmail = value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const section = computed(() => (route.meta.section === 'ai' ? 'ai' : 'human'));
 const isAi = computed(() => section.value === 'ai');
 
-const name = ref('');
-const email = ref('');
 const message = ref('');
-const emailError = ref('');
 const submitting = ref(false);
+const values = reactive({});
+const errors = reactive({});
 
-// Pre-chat fields apply to human conversations for still-anonymous contacts.
-const showContactFields = computed(
-  () =>
-    !isAi.value &&
-    configStore.channel.pre_chat_form_enabled &&
-    !configStore.contact.email
+const preChatOptions = computed(
+  () => configStore.channel.pre_chat_form_options || {}
 );
+
+// The pre-chat form gates human conversations only; AI chats skip it.
+const preChatFields = computed(() => {
+  if (isAi.value || !configStore.channel.pre_chat_form_enabled) return [];
+  return (preChatOptions.value.pre_chat_fields || []).filter(
+    field => field.enabled
+  );
+});
 
 const headerTitle = computed(() =>
   isAi.value
@@ -40,22 +43,60 @@ const headerTitle = computed(() =>
     : t('HOME.START_CONVERSATION')
 );
 
+const validate = () => {
+  Object.keys(errors).forEach(key => delete errors[key]);
+  preChatFields.value.forEach(field => {
+    const value = values[field.name];
+    const isEmpty =
+      field.type === 'checkbox' ? !value : !String(value || '').trim();
+    if (field.required && isEmpty) {
+      errors[field.name] = t('PRE_CHAT.FIELD_REQUIRED');
+    } else if (field.type === 'email' && value && !isValidEmail(value)) {
+      errors[field.name] = t('PRE_CHAT.EMAIL_INVALID');
+    }
+  });
+  return Object.keys(errors).length === 0;
+};
+
+// Standard fields map onto contact columns; the rest are custom attributes,
+// split by whether they belong to the contact or the conversation.
+const buildPayload = () => {
+  const contact = {};
+  const contactCustomAttributes = {};
+  const conversationCustomAttributes = {};
+
+  preChatFields.value.forEach(field => {
+    const value = values[field.name];
+    if (value === undefined || value === '') return;
+
+    if (field.name === 'emailAddress') contact.email = value;
+    else if (field.name === 'fullName') contact.name = value;
+    else if (field.name === 'phoneNumber') contact.phone_number = value;
+    else if (field.field_type === 'conversation_attribute') {
+      conversationCustomAttributes[field.name] = value;
+    } else {
+      contactCustomAttributes[field.name] = value;
+    }
+  });
+
+  if (Object.keys(contactCustomAttributes).length) {
+    contact.custom_attributes = contactCustomAttributes;
+  }
+  return { contact, conversationCustomAttributes };
+};
+
 const submit = async () => {
   if (!message.value.trim() || submitting.value) return;
-  emailError.value = '';
-  if (showContactFields.value && email.value && !isValidEmail(email.value)) {
-    emailError.value = t('PRE_CHAT.EMAIL_INVALID');
-    return;
-  }
+  if (!validate()) return;
 
   submitting.value = true;
   try {
+    const { contact, conversationCustomAttributes } = buildPayload();
     const conversation = await conversationsStore.create({
       section: section.value,
       content: message.value.trim(),
-      contact: showContactFields.value
-        ? { name: name.value || undefined, email: email.value || undefined }
-        : undefined,
+      contact: Object.keys(contact).length ? contact : undefined,
+      customAttributes: conversationCustomAttributes,
     });
     router.replace({
       name: 'conversation-detail',
@@ -85,21 +126,20 @@ const submit = async () => {
         </p>
       </div>
 
+      <p
+        v-else-if="preChatOptions.pre_chat_message && preChatFields.length"
+        class="mb-5 text-sm leading-relaxed text-cw-text-muted"
+      >
+        {{ preChatOptions.pre_chat_message }}
+      </p>
+
       <form class="flex flex-col gap-4" @submit.prevent="submit">
-        <template v-if="showContactFields">
-          <BaseInput
-            v-model="name"
-            :label="$t('PRE_CHAT.NAME_LABEL')"
-            :placeholder="$t('PRE_CHAT.NAME_PLACEHOLDER')"
-          />
-          <BaseInput
-            v-model="email"
-            type="email"
-            :label="$t('PRE_CHAT.EMAIL_LABEL')"
-            :placeholder="$t('PRE_CHAT.EMAIL_PLACEHOLDER')"
-            :error="emailError"
-          />
-        </template>
+        <PreChatFields
+          v-if="preChatFields.length"
+          v-model="values"
+          :fields="preChatFields"
+          :errors="errors"
+        />
 
         <label class="block">
           <span class="block mb-1.5 text-xs font-medium text-cw-text-muted">
@@ -111,7 +151,7 @@ const submit = async () => {
             :placeholder="
               isAi ? $t('AI.NEW_CHAT') : $t('PRE_CHAT.MESSAGE_PLACEHOLDER')
             "
-            class="w-full px-3 py-2.5 text-base rounded-token-sm bg-cw-solid text-cw-text placeholder:text-cw-text-faint border border-cw-border outline-none resize-none transition-shadow focus-visible:ring-[3px] focus-visible:ring-cw-ring focus-visible:border-transparent"
+            class="w-full px-3 py-2.5 text-base rounded-token-sm bg-cw-solid text-cw-text placeholder:text-cw-text-faint border border-cw-border outline-none resize-none transition-shadow focus-visible:ring-[3px] focus-visible:ring-cw-ring"
           />
         </label>
 

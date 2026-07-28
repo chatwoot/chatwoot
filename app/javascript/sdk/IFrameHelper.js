@@ -281,6 +281,17 @@ export const IFrameHelper = {
     },
 
     resetUnreadMode: () => removeUnreadClass(),
+
+    // v2 widens the panel for reading-heavy screens like the help center.
+    setExpandedLayout: ({ expanded }) => {
+      const holderEl = document.querySelector('.woot-widget-holder');
+      if (expanded) {
+        addClasses(holderEl, 'woot-widget-holder--expanded');
+      } else {
+        removeClasses(holderEl, 'woot-widget-holder--expanded');
+      }
+    },
+
     handleNotificationDot: event => {
       if (window.$chatwoot.hideMessageBubble) {
         return;
