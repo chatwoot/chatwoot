@@ -601,15 +601,24 @@
         },
         "INACTIVITY_RESOLUTION": {
           "TITLE": "Inactive conversations",
-          "DESCRIPTION": "Let Captain review pending conversations after they have been inactive.",
-          "TOGGLE_LABEL": "Review inactive conversations",
-          "TOGGLE_HELP_WHEN_ENABLED": "Captain resolves completed conversations and hands off conversations that still need attention.",
-          "TOGGLE_HELP_WHEN_DISABLED": "Captain does not review inactive conversations. They stay pending until an agent or another workflow changes their status.",
-          "DURATION_LABEL": "Review after",
+          "DESCRIPTION": "Choose what Captain does when a pending conversation has been inactive.",
+          "MODES": {
+            "DISABLED": {
+              "LABEL": "Leave conversations pending",
+              "DESCRIPTION": "Captain does not change inactive conversations."
+            },
+            "LEGACY": {
+              "LABEL": "Resolve inactive conversations",
+              "DESCRIPTION": "Captain resolves inactive conversations after the selected time."
+            },
+            "EVALUATED": {
+              "LABEL": "Check before resolving",
+              "DESCRIPTION": "Captain resolves completed conversations and sends conversations that still need attention to a human."
+            }
+          },
+          "DURATION_LABEL": "Take action after",
           "DURATION_HOURS_LABEL": "Hours",
-          "DURATION_MINUTES_LABEL": "Minutes",
-          "ON": "On",
-          "OFF": "Off"
+          "DURATION_MINUTES_LABEL": "Minutes"
         },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
@@ -638,7 +647,7 @@
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
-          "DESCRIPTION_V2": "Choose how Captain handles inactive conversations and what it says when resolving or handing off."
+          "DESCRIPTION_V2": "Choose what Captain does with inactive conversations and set its handoff and resolution messages."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",

@@ -18,6 +18,7 @@
 #
 class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
+  AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze
   DEFAULT_INACTIVITY_THRESHOLD_MINUTES = 60
   MINIMUM_INACTIVITY_THRESHOLD_MINUTES = 5
   MAXIMUM_INACTIVITY_THRESHOLD_MINUTES = 1.day.in_minutes.to_i
@@ -44,12 +45,12 @@ class Captain::Assistant < ApplicationRecord
   has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
 
   store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
-                 :auto_resolve_enabled, :auto_resolve_after
+                 :auto_resolve_mode, :auto_resolve_after
 
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
-  validates :scheduled_inactivity_resolution_enabled, inclusion: { in: [true, false] }
+  validates :auto_resolve_mode, inclusion: { in: AUTO_RESOLVE_MODES }
   validates :inactivity_threshold_minutes,
             numericality: {
               only_integer: true,
@@ -65,16 +66,20 @@ class Captain::Assistant < ApplicationRecord
     name
   end
 
-  def scheduled_inactivity_resolution_enabled
-    config.fetch('auto_resolve_enabled', true)
+  def auto_resolve_mode
+    config.fetch('auto_resolve_mode') { account&.captain_auto_resolve_mode || 'evaluated' }
   end
 
-  def scheduled_inactivity_resolution_enabled?
-    scheduled_inactivity_resolution_enabled
+  def inactive_conversation_resolution_disabled?
+    auto_resolve_mode == 'disabled'
+  end
+
+  def evaluate_inactive_conversations_before_resolving?
+    auto_resolve_mode == 'evaluated'
   end
 
   def inactivity_threshold_minutes
-    config.fetch('auto_resolve_after', DEFAULT_INACTIVITY_THRESHOLD_MINUTES)
+    config.fetch('auto_resolve_after', DEFAULT_INACTIVITY_THRESHOLD_MINUTES).to_i
   end
 
   def available_agent_tools

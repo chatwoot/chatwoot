@@ -8,8 +8,8 @@ import { useAccount } from 'dashboard/composables/useAccount';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
-import Switch from 'dashboard/components-next/switch/Switch.vue';
 
 const props = defineProps({
   assistant: {
@@ -31,12 +31,52 @@ const initialState = {
   handoffMessage: '',
   resolutionMessage: '',
   instructions: '',
-  resolveInactiveConversations: true,
+  autoResolveMode: 'evaluated',
   inactivityThresholdMinutes: 60,
 };
 
 const state = reactive({ ...initialState });
 const isInactivityResolutionSettingsExpanded = ref(false);
+
+const autoResolveOptions = computed(() => [
+  {
+    value: 'disabled',
+    label: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.DISABLED.LABEL'
+    ),
+    description: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.DISABLED.DESCRIPTION'
+    ),
+  },
+  {
+    value: 'legacy',
+    label: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.LEGACY.LABEL'
+    ),
+    description: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.LEGACY.DESCRIPTION'
+    ),
+  },
+  {
+    value: 'evaluated',
+    label: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.EVALUATED.LABEL'
+    ),
+    description: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.EVALUATED.DESCRIPTION'
+    ),
+  },
+]);
+
+const selectedAutoResolveModeLabel = computed(() => {
+  return autoResolveOptions.value.find(
+    option => option.value === state.autoResolveMode
+  )?.label;
+});
+
+const shouldShowInactivityDuration = computed(
+  () => state.autoResolveMode !== 'disabled'
+);
 
 const inactivityHourOptions = Array.from({ length: 25 }, (_, hours) => ({
   value: hours,
@@ -81,16 +121,6 @@ const inactivityMinuteOptions = computed(() => {
   });
 });
 
-const inactivityResolutionHelp = computed(() =>
-  state.resolveInactiveConversations
-    ? t(
-        'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TOGGLE_HELP_WHEN_ENABLED'
-      )
-    : t(
-        'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TOGGLE_HELP_WHEN_DISABLED'
-      )
-);
-
 const validationRules = {
   handoffMessage: { minLength: minLength(1) },
   resolutionMessage: { minLength: minLength(1) },
@@ -120,7 +150,7 @@ const updateStateFromAssistant = assistant => {
   state.handoffMessage = config.handoff_message;
   state.resolutionMessage = config.resolution_message;
   state.instructions = config.instructions;
-  state.resolveInactiveConversations = config.auto_resolve_enabled ?? true;
+  state.autoResolveMode = config.auto_resolve_mode ?? 'evaluated';
   state.inactivityThresholdMinutes = config.auto_resolve_after ?? 60;
 };
 
@@ -150,7 +180,7 @@ const handleSystemMessagesUpdate = async () => {
   };
 
   if (isCaptainV2Enabled.value) {
-    payload.config.auto_resolve_enabled = state.resolveInactiveConversations;
+    payload.config.auto_resolve_mode = state.autoResolveMode;
     payload.config.auto_resolve_after = state.inactivityThresholdMinutes;
   } else {
     payload.config.instructions = state.instructions;
@@ -192,12 +222,8 @@ watch(
           </p>
         </div>
         <div class="flex shrink-0 items-center gap-3">
-          <span class="text-xs font-medium text-n-slate-11">
-            {{
-              state.resolveInactiveConversations
-                ? t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.ON')
-                : t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.OFF')
-            }}
+          <span class="hidden text-xs font-medium text-n-slate-11 xl:inline">
+            {{ selectedAutoResolveModeLabel }}
           </span>
           <span
             class="i-lucide-chevron-down size-4 text-n-slate-11 transition-transform"
@@ -210,24 +236,19 @@ watch(
         v-if="isInactivityResolutionSettingsExpanded"
         class="flex flex-col gap-4 border-t border-n-weak p-4"
       >
-        <div class="flex items-start justify-between gap-4">
-          <div class="flex flex-col gap-1">
-            <p class="text-sm font-medium text-n-slate-12">
-              {{
-                t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TOGGLE_LABEL')
-              }}
-            </p>
-            <p class="text-sm text-n-slate-11">
-              {{ inactivityResolutionHelp }}
-            </p>
-          </div>
-          <Switch v-model="state.resolveInactiveConversations" class="mt-1" />
+        <div class="flex flex-col gap-3">
+          <RadioCard
+            v-for="option in autoResolveOptions"
+            :id="`auto-resolve-${option.value}`"
+            :key="option.value"
+            :label="option.label"
+            :description="option.description"
+            :is-active="state.autoResolveMode === option.value"
+            @select="state.autoResolveMode = option.value"
+          />
         </div>
 
-        <div
-          v-if="state.resolveInactiveConversations"
-          class="flex flex-col gap-2"
-        >
+        <div v-if="shouldShowInactivityDuration" class="flex flex-col gap-2">
           <p class="text-sm font-medium text-n-slate-12">
             {{
               t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_LABEL')
