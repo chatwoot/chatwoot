@@ -8,6 +8,21 @@ If something fails, check [error-log/](./error-log/README.md) **first** —
 `rg -i "<error snippet>" docs/fork/error-log/` — most first-run failures are
 already documented there with a fix.
 
+> **This guide brings up the fork alone.** That is useful for fork work, but it
+> is *not* a working platform: the dashboard, API, tenant routing, and the
+> Chatwoot Platform App / SSO lockdown all live in the sibling repo. If your
+> goal is a running product, follow
+> [`../../../agentic-str/docs/SETUP.md`](../../../agentic-str/docs/SETUP.md)
+> instead — it covers this fork as its §3–§5 and continues from there. Verify
+> either path with `agentic-str/scripts/setup/doctor.sh`.
+>
+> **Clone this repo into a directory named `mesh-crm`.** The commands below use
+> bare `docker compose`, so the project name — and therefore every container
+> name — comes from the directory. The platform guide's `-p mesh-crm` commands
+> and `doctor.sh`'s live Chatwoot checks both resolve `mesh-crm-*`; a different
+> directory name silently points them at containers that do not exist. If you
+> must rename it, export `MESH_CRM_PROJECT=<name>` and `MESH_CRM_DIR=<path>`.
+
 ---
 
 ## 0. What you need

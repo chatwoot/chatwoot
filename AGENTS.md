@@ -1,5 +1,21 @@
 # Chatwoot Development Guidelines
 
+> **⚠️ Fork note — read before running anything below.**
+>
+> This is `mesh-crm`, the inbox/handoff layer of the meta-saas platform, not
+> stock Chatwoot. **This file is upstream's guidance, and its "Run Dev" commands
+> do not apply here.** Nothing runs on the host: there is no local Ruby, Node, or
+> Postgres. Every Rails/RSpec command runs inside a container, and the stack
+> comes up via Docker Compose.
+>
+> - Running the stack → [`docs/fork/DEV_SETUP.md`](./docs/fork/DEV_SETUP.md)
+> - Whole platform from a fresh clone → [`../agentic-str/docs/SETUP.md`](../agentic-str/docs/SETUP.md)
+> - Fork-specific architecture and rules → [`docs/fork/README.md`](./docs/fork/README.md)
+> - Platform-wide contract → [`../agentic-str/CLAUDE.md`](../agentic-str/CLAUDE.md)
+>
+> Treat the rest of this file as upstream reference for **code conventions**
+> (linting, specs, style) — not as setup or run instructions.
+
 ## Build / Test / Lint
 
 - **Setup**: `bundle install && pnpm install`
