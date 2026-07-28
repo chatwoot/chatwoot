@@ -16,8 +16,17 @@ const FE_SAFE_OPERATORS = new Set([
   'does_not_contain',
 ]);
 
+// ConditionRow stores SingleSelect/Input as a scalar; MultiSelect as array.
+const asArray = value => {
+  if (Array.isArray(value)) return value;
+  if (value == null || value === '') return [];
+  return [value];
+};
+
 const resolveCategoryKeys = (attributes, categoryNames = []) => {
-  const categories = new Set((categoryNames || []).map(String).filter(Boolean));
+  const categories = new Set(
+    asArray(categoryNames).map(String).filter(Boolean)
+  );
   if (!categories.size) return [];
   return (attributes || [])
     .filter(attr => !attr.formula)
@@ -27,7 +36,7 @@ const resolveCategoryKeys = (attributes, categoryNames = []) => {
 };
 
 const conditionValueMatches = (actual, operator, expectedValues) => {
-  const values = (expectedValues || []).map(String);
+  const values = asArray(expectedValues).map(String);
   if (operator === 'is_present') {
     return !(
       actual == null ||
@@ -100,11 +109,7 @@ export const evaluateConditionsClientSide = (conditions, conversation) => {
     }
     const key = condition.attribute_key || condition.attributeKey;
     const actual = readConversationField(conversation, key);
-    const match = conditionValueMatches(
-      actual,
-      operator,
-      condition.values || []
-    );
+    const match = conditionValueMatches(actual, operator, condition.values);
     if (match === null) return null;
 
     if (result === null) result = match;
@@ -161,12 +166,14 @@ export function useBusinessRulesStatusGuard() {
     };
 
     if (type === 'require_attributes_on_status') {
-      (config.attribute_keys || []).forEach(key => add(key, 'conversation'));
+      asArray(config.attribute_keys).forEach(key => add(key, 'conversation'));
       resolveCategoryKeys(
         conversationAttributes.value,
         config.attribute_category_keys
       ).forEach(key => add(key, 'conversation'));
-      (config.contact_attribute_keys || []).forEach(key => add(key, 'contact'));
+      asArray(config.contact_attribute_keys).forEach(key =>
+        add(key, 'contact')
+      );
       resolveCategoryKeys(
         contactAttributes.value,
         config.contact_attribute_category_keys
@@ -174,14 +181,14 @@ export function useBusinessRulesStatusGuard() {
     }
 
     if (type === 'if_attribute_then_require') {
-      (config.require_attribute_keys || []).forEach(key =>
+      asArray(config.require_attribute_keys).forEach(key =>
         add(key, 'conversation')
       );
       resolveCategoryKeys(
         conversationAttributes.value,
         config.require_attribute_category_keys
       ).forEach(key => add(key, 'conversation'));
-      (config.require_contact_attribute_keys || []).forEach(key =>
+      asArray(config.require_contact_attribute_keys).forEach(key =>
         add(key, 'contact')
       );
       resolveCategoryKeys(
@@ -294,7 +301,7 @@ export function useBusinessRulesStatusGuard() {
         }
 
         if (rule.type === 'require_reason_on_status') {
-          const statuses = (config.statuses || []).map(String);
+          const statuses = asArray(config.statuses).map(String);
           if (!statuses.includes(String(targetStatus))) return;
           if (config.reason_attribute_key) {
             if (
