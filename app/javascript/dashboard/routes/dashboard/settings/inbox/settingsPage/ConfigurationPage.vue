@@ -519,7 +519,11 @@ export default {
         </SettingsFieldSection>
       </template>
       <SettingsFieldSection
-        v-if="isOnChatwootCloud && inbox.provider === 'whatsapp_cloud'"
+        v-if="
+          isOnChatwootCloud &&
+          inbox.provider === 'whatsapp_cloud' &&
+          isEmbeddedSignupWhatsApp
+        "
         :label="
           $t(
             'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_TITLE'

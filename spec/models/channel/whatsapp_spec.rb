@@ -17,10 +17,11 @@ RSpec.describe Channel::Whatsapp do
       build(
         :channel_whatsapp,
         provider: 'whatsapp_cloud',
-        provider_config: { 'api_key' => 'api-key' },
+        provider_config: { 'api_key' => 'api-key', 'source' => source },
         business_management_token: business_management_token
       )
     end
+    let(:source) { 'embedded_signup' }
 
     context 'when running on Chatwoot Cloud' do
       before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true) }
@@ -37,6 +38,15 @@ RSpec.describe Channel::Whatsapp do
         let(:business_management_token) { nil }
 
         it 'uses the provider API key' do
+          expect(channel.template_access_token).to eq('api-key')
+        end
+      end
+
+      context 'with a manually configured inbox' do
+        let(:business_management_token) { 'business-token' }
+        let(:source) { nil }
+
+        it 'ignores the business management token' do
           expect(channel.template_access_token).to eq('api-key')
         end
       end

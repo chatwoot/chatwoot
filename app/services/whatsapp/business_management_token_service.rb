@@ -24,6 +24,8 @@ class Whatsapp::BusinessManagementTokenService
 
   def validate_channel!
     raise ArgumentError, 'Business management token is only available on Chatwoot Cloud' unless ChatwootApp.chatwoot_cloud?
-    raise ArgumentError, 'Business management token is only supported for WhatsApp Cloud inboxes' unless @channel.provider == 'whatsapp_cloud'
+    return if @channel.provider == 'whatsapp_cloud' && @channel.provider_config['source'] == 'embedded_signup'
+
+    raise ArgumentError, 'Business management token is only supported for WhatsApp Embedded Signup inboxes'
   end
 end

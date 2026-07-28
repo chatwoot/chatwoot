@@ -77,7 +77,7 @@ class Channel::Whatsapp < ApplicationRecord
   end
 
   def template_access_token
-    return provider_config['api_key'] unless ChatwootApp.chatwoot_cloud?
+    return provider_config['api_key'] unless ChatwootApp.chatwoot_cloud? && provider_config['source'] == 'embedded_signup'
 
     business_management_token.presence || provider_config['api_key']
   end

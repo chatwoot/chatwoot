@@ -55,4 +55,12 @@ RSpec.describe Whatsapp::BusinessManagementTokenService do
       .to raise_error(ArgumentError, 'Business management token is only available on Chatwoot Cloud')
     expect(validation_service).not_to have_received(:perform)
   end
+
+  it 'rejects updates for manually configured WhatsApp Cloud inboxes' do
+    channel.provider_config.delete('source')
+
+    expect { service.update!('business-token') }
+      .to raise_error(ArgumentError, 'Business management token is only supported for WhatsApp Embedded Signup inboxes')
+    expect(validation_service).not_to have_received(:perform)
+  end
 end
