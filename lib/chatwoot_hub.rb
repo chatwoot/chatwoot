@@ -6,20 +6,8 @@ class ChatwootHub
     DEFAULT_BASE_URL
   end
 
-  def self.ping_url
-    "#{base_url}/ping"
-  end
-
-  def self.registration_url
-    "#{base_url}/instances"
-  end
-
   def self.push_notification_url
     "#{base_url}/send_push"
-  end
-
-  def self.events_url
-    "#{base_url}/events"
   end
 
   def self.billing_base_url
@@ -66,44 +54,15 @@ class ChatwootHub
     }
   end
 
-  def self.instance_metrics
-    {
-      accounts_count: fetch_count(Account),
-      users_count: fetch_count(User),
-      inboxes_count: fetch_count(Inbox),
-      conversations_count: fetch_count(Conversation),
-      incoming_messages_count: fetch_count(Message.incoming),
-      outgoing_messages_count: fetch_count(Message.outgoing),
-      additional_information: {}
-    }
-  end
-
-  def self.fetch_count(model)
-    model.last&.id || 0
-  end
-
+  # This installation is private and must never phone home to hub.2.chatwoot.com
+  # (version ping, instance metrics, onboarding registration). Push notifications
+  # (#send_push) are unaffected — they're a functional relay for the mobile app,
+  # not telemetry.
   def self.sync_with_hub
-    begin
-      info = instance_config
-      info = info.merge(instance_metrics) unless ENV['DISABLE_TELEMETRY']
-      response = RestClient.post(ping_url, info.to_json, { content_type: :json, accept: :json })
-      parsed_response = JSON.parse(response)
-    rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-      Rails.logger.error "Exception: #{e.message}"
-    rescue StandardError => e
-      ChatwootExceptionTracker.new(e).capture_exception
-    end
-    parsed_response
+    {}
   end
 
-  def self.register_instance(company_name, owner_name, owner_email)
-    info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
-    RestClient.post(registration_url, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-    Rails.logger.error "Exception: #{e.message}"
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
-  end
+  def self.register_instance(_company_name, _owner_name, _owner_email); end
 
   def self.send_push(fcm_options)
     send_push_with_response(fcm_options)
@@ -118,16 +77,7 @@ class ChatwootHub
     RestClient.post(push_notification_url, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   end
 
-  def self.emit_event(event_name, event_data)
-    return if ENV['DISABLE_TELEMETRY']
-
-    info = { event_name: event_name, event_data: event_data }
-    RestClient.post(events_url, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
-    Rails.logger.error "Exception: #{e.message}"
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
-  end
+  def self.emit_event(_event_name, _event_data); end
 end
 
 ChatwootHub.singleton_class.prepend_mod_with('ChatwootHub')
