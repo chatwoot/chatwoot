@@ -54,9 +54,9 @@ export const SDK_CSS = `
 }
 
 .woot-widget-bubble:focus-visible {
-  outline: 2px solid AccentColor;
-  outline: 2px solid -webkit-focus-ring-color;
-  outline-offset: 2px;
+  outline: 2px solid AccentColor !important;
+  outline: 2px solid -webkit-focus-ring-color !important;
+  outline-offset: 2px !important;
 }
 
 .woot-widget-bubble.woot-widget-bubble--flat {
