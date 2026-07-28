@@ -4,6 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import { useWhatsappEmbeddedSignup } from 'dashboard/composables/useWhatsappEmbeddedSignup';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import whatsappChannel from 'dashboard/api/channel/whatsappChannel';
+import InboxesAPI from 'dashboard/api/inboxes';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
@@ -42,6 +43,8 @@ export default {
       hmacMandatory: false,
       allowMobileWebview: false,
       whatsAppInboxAPIKey: '',
+      whatsAppBusinessManagementToken: '',
+      isUpdatingWhatsAppBusinessManagementToken: false,
       isSyncingTemplates: false,
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
@@ -51,6 +54,7 @@ export default {
   },
   validations: {
     whatsAppInboxAPIKey: { required },
+    whatsAppBusinessManagementToken: { required },
   },
   computed: {
     ...mapGetters({
@@ -180,6 +184,30 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+    async updateWhatsAppBusinessManagementToken() {
+      this.isUpdatingWhatsAppBusinessManagementToken = true;
+      try {
+        await InboxesAPI.updateWhatsappBusinessManagementToken(
+          this.inbox.id,
+          this.whatsAppBusinessManagementToken
+        );
+        this.whatsAppBusinessManagementToken = '';
+        useAlert(
+          this.$t(
+            'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS'
+          )
+        );
+      } catch (error) {
+        useAlert(
+          error.response?.data?.message ||
+            this.$t(
+              'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR'
+            )
+        );
+      } finally {
+        this.isUpdatingWhatsAppBusinessManagementToken = false;
       }
     },
     async reconfigureWhatsApp() {
@@ -469,6 +497,44 @@ export default {
           </div>
         </SettingsFieldSection>
       </template>
+      <SettingsFieldSection
+        v-if="isOnChatwootCloud"
+        :label="
+          $t(
+            'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_TITLE'
+          )
+        "
+        :help-text="
+          $t(
+            'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER'
+          )
+        "
+      >
+        <div
+          class="flex flex-1 justify-between items-center whatsapp-settings--content"
+        >
+          <woot-input
+            v-model="whatsAppBusinessManagementToken"
+            type="password"
+            class="flex-1 mr-2 [&>input]:!mb-0"
+            :placeholder="
+              $t(
+                'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER'
+              )
+            "
+          />
+          <NextButton
+            :disabled="
+              v$.whatsAppBusinessManagementToken.$invalid ||
+              isUpdatingWhatsAppBusinessManagementToken
+            "
+            :is-loading="isUpdatingWhatsAppBusinessManagementToken"
+            @click="updateWhatsAppBusinessManagementToken"
+          >
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
+          </NextButton>
+        </div>
+      </SettingsFieldSection>
       <SettingsFieldSection
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
         :help-text="

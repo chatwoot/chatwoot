@@ -4,7 +4,16 @@ describe Whatsapp::Providers::WhatsappCloudService do
   subject(:service) { described_class.new(whatsapp_channel: whatsapp_channel) }
 
   let(:conversation) { create(:conversation, inbox: whatsapp_channel.inbox) }
-  let(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false) }
+  let(:business_management_token) { nil }
+  let(:whatsapp_channel) do
+    create(
+      :channel_whatsapp,
+      provider: 'whatsapp_cloud',
+      business_management_token: business_management_token,
+      validate_provider_config: false,
+      sync_templates: false
+    )
+  end
 
   let(:message) do
     create(:message, conversation: conversation, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox, source_id: 'external_id')
@@ -282,6 +291,55 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
   describe '#sync_templates' do
     context 'when called' do
+      context 'with a business management token' do
+        let(:business_management_token) { 'business-token' }
+
+        before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true) }
+
+        it 'uses it instead of the provider API key' do
+          request = stub_request(
+            :get,
+            'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=business-token'
+          ).to_return(status: 200, headers: response_headers, body: { data: [] }.to_json)
+
+          subject.sync_templates
+
+          expect(request).to have_been_requested
+        end
+      end
+
+      context 'without a business management token' do
+        before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true) }
+
+        it 'uses the provider API key' do
+          request = stub_request(
+            :get,
+            'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key'
+          ).to_return(status: 200, headers: response_headers, body: { data: [] }.to_json)
+
+          subject.sync_templates
+
+          expect(request).to have_been_requested
+        end
+      end
+
+      context 'with a stored business management token outside Chatwoot Cloud' do
+        let(:business_management_token) { 'business-token' }
+
+        before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false) }
+
+        it 'uses the provider API key' do
+          request = stub_request(
+            :get,
+            'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key'
+          ).to_return(status: 200, headers: response_headers, body: { data: [] }.to_json)
+
+          subject.sync_templates
+
+          expect(request).to have_been_requested
+        end
+      end
+
       it 'updated the message templates' do
         stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
           .to_return(
