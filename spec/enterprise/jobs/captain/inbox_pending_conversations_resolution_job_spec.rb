@@ -2,9 +2,15 @@ require 'rails_helper'
 
 RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   let!(:inbox) { create(:inbox) }
-  let!(:resolvable_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 2.hours.ago, status: :pending) }
-  let!(:recent_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 1.minute.ago, status: :pending) }
-  let!(:open_conversation) { create(:conversation, inbox: inbox, last_activity_at: 1.hour.ago, status: :open) }
+  let!(:resolvable_pending_conversation) do
+    create(:conversation, inbox: inbox, account: inbox.account, last_activity_at: 2.hours.ago, status: :pending)
+  end
+  let!(:recent_pending_conversation) do
+    create(:conversation, inbox: inbox, account: inbox.account, last_activity_at: 1.minute.ago, status: :pending)
+  end
+  let!(:open_conversation) do
+    create(:conversation, inbox: inbox, account: inbox.account, last_activity_at: 1.hour.ago, status: :open)
+  end
   let!(:captain_assistant) { create(:captain_assistant, account: inbox.account) }
 
   before do
@@ -195,6 +201,24 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
 
       private_note = resolvable_pending_conversation.messages.where(private: true).last
       expect(private_note.content).to eq("Auto-handoff: #{handoff_reason}")
+    end
+
+    it 'records pending clarification as the handoff category for an existing V2 outcome' do
+      outcome = create(
+        :captain_conversation_outcome,
+        account: inbox.account,
+        assistant: captain_assistant,
+        conversation: resolvable_pending_conversation,
+        inbox: inbox,
+        eligible_at: 2.hours.ago
+      )
+
+      described_class.perform_now(inbox)
+
+      expect(outcome.reload).to have_attributes(
+        handoff_reason_category: 'pending_clarification',
+        handoff_at: be_present
+      )
     end
 
     it 'creates handoff message with configured content' do

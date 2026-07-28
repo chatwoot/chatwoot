@@ -23,6 +23,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       expect(tool.parameters[:reason].type).to eq('string')
       expect(tool.parameters[:reason].description).to eq('The reason why handoff is needed (optional)')
       expect(tool.parameters[:reason].required).to be false
+      expect(tool.parameters[:reason_category].required).to be true
     end
   end
 

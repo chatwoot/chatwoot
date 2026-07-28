@@ -4,7 +4,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   param :reason_category,
         type: 'string',
         desc: 'Reporting category: customer_request, missing_knowledge, unsupported_request, policy_restriction, or tool_failure',
-        required: false
+        required: true
 
   def perform(tool_context, reason: nil, reason_category: nil)
     conversation = find_conversation(tool_context.state)

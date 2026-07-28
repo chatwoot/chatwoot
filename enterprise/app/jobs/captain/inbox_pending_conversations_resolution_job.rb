@@ -87,6 +87,8 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       reason: CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON,
       reason_type: :inference
     ) { conversation.bot_handoff! }
+    Captain::ConversationOutcomeTracker.new(conversation: conversation, assistant: inbox.captain_assistant)
+                                       .record_handoff(at: Time.current, reason_category: :pending_clarification)
     conversation.dispatch_captain_inference_handoff_event
     send_out_of_office_message_if_applicable(conversation.reload)
   end

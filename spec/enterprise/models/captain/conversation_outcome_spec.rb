@@ -10,6 +10,13 @@ RSpec.describe Captain::ConversationOutcome, type: :model do
 
   describe 'enums' do
     it { is_expected.to define_enum_for(:resolution_type).with_values(autonomous: 0, assisted: 1).with_prefix(:resolution) }
+
+    it {
+      expect(subject).to define_enum_for(:handoff_reason_category)
+        .with_values(described_class::HANDOFF_REASON_CATEGORIES.index_by(&:itself))
+        .backed_by_column_of_type(:string)
+        .with_prefix(:handoff_reason)
+    }
   end
 
   describe 'validations' do
@@ -19,6 +26,13 @@ RSpec.describe Captain::ConversationOutcome, type: :model do
     it { is_expected.to validate_numericality_of(:captain_reply_count).only_integer.is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:reopen_count).only_integer.is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_inclusion_of(:csat_rating).in_range(1..5).allow_nil }
+
+    it 'requires a reason category when a handoff is recorded' do
+      outcome.handoff_at = Time.current
+
+      expect(outcome).not_to be_valid
+      expect(outcome.errors[:handoff_reason_category]).to be_present
+    end
 
     it 'requires unique conversations per assistant and account' do
       existing = create(:captain_conversation_outcome)

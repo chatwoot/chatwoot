@@ -49,6 +49,26 @@ describe CaptainListener do
         listener.conversation_resolved(event)
       end
     end
+
+    it 'records an existing V2 outcome before running post-resolution features' do
+      assistant.update!(config: {})
+      outcome = create(
+        :captain_conversation_outcome,
+        account: account,
+        assistant: assistant,
+        conversation: conversation,
+        inbox: inbox,
+        eligible_at: 5.minutes.ago
+      )
+      event.data[:performed_by] = assistant
+
+      listener.conversation_resolved(event)
+
+      expect(outcome.reload).to have_attributes(
+        resolution_type: 'autonomous',
+        resolved_at: event.timestamp
+      )
+    end
   end
 
   describe '#message_created' do
@@ -101,6 +121,90 @@ describe CaptainListener do
       expect do
         listener.message_created(event)
       end.not_to change(Captain::ConversationOutcome, :count)
+    end
+
+    it 'records public human replies on the existing outcome' do
+      message = create(
+        :message,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        sender: user,
+        message_type: :outgoing
+      )
+      event = Events::Base.new(:message_created, message.created_at, message: message)
+
+      listener.message_created(event)
+
+      expect(Captain::ConversationOutcome.last.first_human_reply_at).to eq(message.created_at)
+    end
+  end
+
+  describe '#conversation_opened' do
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :open) }
+    let!(:outcome) do
+      create(
+        :captain_conversation_outcome,
+        account: account,
+        assistant: assistant,
+        conversation: conversation,
+        inbox: inbox,
+        eligible_at: 5.minutes.ago,
+        resolved_at: 2.minutes.ago,
+        resolution_type: :autonomous
+      )
+    end
+
+    it 'records a reopening after a Captain outcome was resolved' do
+      event = Events::Base.new(:conversation_opened, Time.current, conversation: conversation)
+
+      listener.conversation_opened(event)
+
+      expect(outcome.reload).to have_attributes(
+        reopen_count: 1,
+        first_reopened_at: event.timestamp
+      )
+    end
+  end
+
+  describe '#message_updated' do
+    let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+    let!(:outcome) do
+      create(
+        :captain_conversation_outcome,
+        account: account,
+        assistant: assistant,
+        conversation: conversation,
+        inbox: inbox,
+        eligible_at: 5.minutes.ago
+      )
+    end
+
+    it 'records a submitted CSAT response' do
+      message = create(
+        :message,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        content_type: :input_csat,
+        message_type: :outgoing
+      )
+      response = create(
+        :csat_survey_response,
+        account: account,
+        conversation: conversation,
+        contact: conversation.contact,
+        message: message,
+        rating: 5
+      )
+      event = Events::Base.new(:message_updated, Time.current, message: message)
+
+      listener.message_updated(event)
+
+      expect(outcome.reload).to have_attributes(
+        csat_rating: 5,
+        csat_received_at: response.created_at
+      )
     end
   end
 end

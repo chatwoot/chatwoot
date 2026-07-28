@@ -111,6 +111,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       )
       create_handoff_message
       @conversation.bot_handoff!
+      record_failed_v2_handoff if captain_v2_enabled?
       report_v1_handoff_not_executed if conversation_pending?
       send_out_of_office_message_if_applicable
     end
@@ -122,6 +123,11 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     I18n.with_locale(@assistant.account.locale) do
       create_handoff_message(preserve_waiting_since: true)
     end
+  end
+
+  def record_failed_v2_handoff
+    Captain::ConversationOutcomeTracker.new(conversation: @conversation, assistant: @assistant)
+                                       .record_handoff(at: Time.current, reason_category: :tool_failure)
   end
 
   def send_out_of_office_message_if_applicable

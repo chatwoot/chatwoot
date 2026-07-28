@@ -8,6 +8,7 @@ module Enterprise::Concerns::Inbox
             class_name: 'Captain::Assistant'
     has_many :inbox_capacity_limits, dependent: :destroy
     has_many :calls, dependent: :destroy_async
+    has_many :captain_conversation_outcomes, class_name: 'Captain::ConversationOutcome', dependent: :destroy_async
 
     before_create :ensure_create_permitted
   end

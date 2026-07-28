@@ -70,6 +70,8 @@ module Enterprise::MessageTemplates::HookExecutionService
       content: 'Transferring to another agent for further assistance.'
     )
     conversation.bot_handoff!
+    Captain::ConversationOutcomeTracker.new(conversation: conversation, assistant: inbox.captain_assistant)
+                                       .record_handoff(at: Time.current, reason_category: :usage_limit)
     send_out_of_office_message_after_handoff
   end
 

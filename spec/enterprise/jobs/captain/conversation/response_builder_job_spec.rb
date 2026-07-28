@@ -482,6 +482,14 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'falls back to a full V1 handoff when HandoffTool fired but failed to commit' do
+        outcome = create(
+          :captain_conversation_outcome,
+          account: account,
+          assistant: assistant,
+          conversation: conversation,
+          inbox: inbox,
+          eligible_at: 5.minutes.ago
+        )
         allow(mock_agent_runner_service).to receive(:generate_response).and_return({
                                                                                      'response' => 'I tried to hand off',
                                                                                      'handoff_tool_called' => true
@@ -494,6 +502,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         public_messages = conversation.messages.outgoing.where(private: false)
         expect(public_messages.count).to eq(1)
         expect(public_messages.last.content).to eq(I18n.t('conversations.captain.handoff'))
+        expect(outcome.reload.handoff_reason_category).to eq('tool_failure')
       end
     end
 
