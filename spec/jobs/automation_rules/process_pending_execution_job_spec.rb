@@ -16,6 +16,18 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     # The sweep only enqueues due rows, so make it due before the job runs.
     AutomationRulePendingExecution.last.tap { |row| row.update!(due_at: 1.minute.ago) }
   end
+  # A reply-chase rule whose action is customer-facing, so a replay is visible as a duplicate message.
+  let(:follow_up_rule) do
+    create(:automation_rule, account: account, event_name: 'message_created', execution_delay: 60,
+                             conditions: [{ 'values' => ['outgoing'], 'attribute_key' => 'message_type',
+                                            'query_operator' => nil, 'filter_operator' => 'equal_to' }],
+                             actions: [{ 'action_name' => 'send_message', 'action_params' => ['Just checking in'] }])
+  end
+  let(:agent_reply) { create(:message, conversation: conversation, account: account, message_type: :outgoing) }
+  let(:follow_up_execution) do
+    AutomationRulePendingExecution.schedule(rule: follow_up_rule, conversation: conversation, message: agent_reply)
+    AutomationRulePendingExecution.last.tap { |row| row.update!(due_at: 1.minute.ago) }
+  end
 
   before do
     GlobalConfig.clear_cache
@@ -121,26 +133,35 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     expect(ChatwootExceptionTracker).to have_received(:new)
   end
 
-  it 'leaves the row processing when it dies before the actions, so a later sweep retries it' do
+  it 'retries a row that died before the actions and still sends the follow-up exactly once' do
+    row = follow_up_execution
     allow(AutomationRules::ConditionsFilterService).to receive(:new).and_raise(StandardError, 'boom')
 
-    job.perform(pending_execution.reload)
+    job.perform(row.reload)
 
-    expect(pending_execution.reload).to be_processing
-    expect(conversation.reload.label_list).to be_empty
-    travel_to(20.minutes.from_now) { expect(AutomationRulePendingExecution.sweepable).to include(pending_execution) }
+    expect(row.reload).to be_processing
+    expect(conversation.messages.outgoing.pluck(:content)).not_to include('Just checking in')
+
+    allow(AutomationRules::ConditionsFilterService).to receive(:new).and_call_original
+    travel_to(20.minutes.from_now) do
+      expect(AutomationRulePendingExecution.sweepable).to include(row)
+      described_class.new.perform(AutomationRulePendingExecution.find(row.id))
+    end
+
+    expect(row.reload).to be_executed
+    expect(conversation.messages.outgoing.where(content: 'Just checking in').count).to eq(1)
   end
 
-  it 'never replays the actions when the row dies after they ran' do
-    row = pending_execution.reload
+  it 'never sends the follow-up twice when the row dies after the action ran but before it was marked executed' do
+    row = follow_up_execution.reload
     allow(row).to receive(:update!).and_call_original
     allow(row).to receive(:update!).with(status: :executed).and_raise(ActiveRecord::StatementInvalid, 'connection lost')
-    allow(AutomationRules::ActionService).to receive(:new).and_call_original
 
     job.perform(row)
 
+    # The row is left `executing`, which no sweep reclaims, so the stale retry cannot re-send.
     expect(row.reload).to be_executing
-    expect(conversation.reload.label_list).to include('stale')
+    expect(conversation.messages.outgoing.where(content: 'Just checking in').count).to eq(1)
 
     travel_to(20.minutes.from_now) do
       expect(AutomationRulePendingExecution.sweepable).not_to include(row)
@@ -148,33 +169,19 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
       described_class.new.perform(AutomationRulePendingExecution.find(row.id))
     end
 
-    expect(AutomationRules::ActionService).to have_received(:new).once
+    expect(row.reload).to be_executing
+    expect(conversation.messages.outgoing.where(content: 'Just checking in').count).to eq(1)
   end
 
   it 'sends the follow-up exactly once for the reply-chase story' do
-    message_rule = create(:automation_rule, account: account, event_name: 'message_created', execution_delay: 60,
-                                            conditions: [{ 'values' => ['outgoing'], 'attribute_key' => 'message_type',
-                                                           'query_operator' => nil, 'filter_operator' => 'equal_to' }],
-                                            actions: [{ 'action_name' => 'send_message', 'action_params' => ['Just checking in'] }])
-    agent_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
-    AutomationRulePendingExecution.schedule(rule: message_rule, conversation: conversation, message: agent_reply)
-    row = AutomationRulePendingExecution.last.tap { |r| r.update!(due_at: 1.minute.ago) }
+    job.perform(follow_up_execution.reload)
 
-    job.perform(row.reload)
-
-    expect(row.reload).to be_executed
+    expect(follow_up_execution.reload).to be_executed
     expect(conversation.messages.outgoing.where(content: 'Just checking in').count).to eq(1)
   end
 
   it 'cancels the follow-up when the customer replied before it was due' do
-    message_rule = create(:automation_rule, account: account, event_name: 'message_created', execution_delay: 60,
-                                            conditions: [{ 'values' => ['outgoing'], 'attribute_key' => 'message_type',
-                                                           'query_operator' => nil, 'filter_operator' => 'equal_to' }],
-                                            actions: [{ 'action_name' => 'send_message', 'action_params' => ['Just checking in'] }])
-    agent_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
-    AutomationRulePendingExecution.schedule(rule: message_rule, conversation: conversation, message: agent_reply)
-    row = AutomationRulePendingExecution.last.tap { |r| r.update!(due_at: 1.minute.ago) }
-
+    row = follow_up_execution
     create(:message, conversation: conversation, account: account, message_type: :incoming)
     job.perform(row.reload)
 
