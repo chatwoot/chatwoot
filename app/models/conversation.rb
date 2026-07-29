@@ -93,6 +93,23 @@ class Conversation < ApplicationRecord
   scope :sort_on_unread, lambda { |_direction|
     order(unread_messages_count_arel.desc).sort_on_last_activity_at('desc')
   }
+  scope :sort_on_last_message_from, lambda { |direction|
+    dir = direction.to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
+    activity_type = Message.message_types[:activity]
+    last_msgs = Message.except(:order)
+                       .where.not(message_type: activity_type)
+                       .select('DISTINCT ON (conversation_id) conversation_id, message_type')
+                       .order('conversation_id, created_at DESC')
+    joins(
+      "LEFT JOIN (#{last_msgs.to_sql}) AS last_msgs ON last_msgs.conversation_id = conversations.id"
+    ).order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "(last_msgs.message_type IS NULL), last_msgs.message_type #{dir}, conversations.last_activity_at DESC"
+        )
+      )
+    )
+  }
   scope :order_on_custom_attribute, lambda { |attribute_key, direction, numeric: false|
     # attribute_key is whitelisted by Conversations::Sort before calling this scope.
     quoted_key = connection.quote(attribute_key)

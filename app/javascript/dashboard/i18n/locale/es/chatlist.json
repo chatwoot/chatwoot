@@ -113,6 +113,12 @@
       "waiting_since_desc": {
         "TEXT": "Respuesta pendiente: la más corta primero"
       },
+      "last_message_from_asc": {
+        "TEXT": "Último mensaje de: Contacto primero"
+      },
+      "last_message_from_desc": {
+        "TEXT": "Último mensaje de: Agente primero"
+      },
       "priority_desc_created_at_asc": {
         "TEXT": "Prioridad: más alta primero, Creado: más antiguo primero"
       },

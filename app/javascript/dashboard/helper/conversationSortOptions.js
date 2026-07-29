@@ -11,6 +11,8 @@ export const STANDARD_CONVERSATION_SORT_KEYS = [
   'priority_desc_created_at_asc',
   'waiting_since_asc',
   'waiting_since_desc',
+  'last_message_from_asc',
+  'last_message_from_desc',
 ];
 
 /**
@@ -78,9 +80,13 @@ export const toConversationSortParam = (sortKey, ordering = '') => {
   // Standard keys already include direction suffix except when used as column keys
   const direction = ordering === '-' ? 'desc' : 'asc';
   if (
-    ['last_activity_at', 'created_at', 'priority', 'waiting_since'].includes(
-      sortKey
-    )
+    [
+      'last_activity_at',
+      'created_at',
+      'priority',
+      'waiting_since',
+      'last_message_from',
+    ].includes(sortKey)
   ) {
     return `${sortKey}_${direction}`;
   }

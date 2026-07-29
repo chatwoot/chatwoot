@@ -11,6 +11,8 @@ module Conversations
       'waiting_since_desc' => %w[sort_on_waiting_since desc],
       'priority_desc_created_at_asc' => %w[sort_on_priority_created_at desc],
       'unread' => %w[sort_on_unread desc],
+      'last_message_from_asc' => %w[sort_on_last_message_from asc],
+      'last_message_from_desc' => %w[sort_on_last_message_from desc],
 
       # Legacy aliases
       'latest' => %w[sort_on_last_activity_at desc],

@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** fix `B-NEW-48` contact search doble encode + ILIKE
+**Última actualización:** fix `B-NEW-49` KPIs contacto open/resolved (enum group keys)
+(2026-07-29). Antes: fix `B-NEW-48` contact search doble encode + ILIKE
 (2026-07-28, branch `feat/contact-ui-overhaul`). Antes: hotfix `B-NEW-47` modal resolve precarga + * + rojo
 (2026-07-28). Antes: hotfix `B-NEW-46` cadena de business rules en modal resolve
 (2026-07-28). Antes: hotfix `B-NEW-45` resolve `.map` business rules
@@ -125,6 +126,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-46 | Bug UX | No | ✅ Modal resolve encadena reglas al cambiar attrs (ej. tipo=Venta → pide Y/Z) |
 | B-NEW-47 | Bug UX | No | ✅ Modal resolve precarga valores, `*` obligatorio, faltante en rojo al abrir |
 | B-NEW-48 | Bug UX | No | ✅ Contact search: sin doble encode; ILIKE id/doc; company_name |
+| B-NEW-49 | Bug UX | No | ✅ KPIs contacto: normalizar keys de `group(:status)` (open/resolved) |
 
 ---
 
@@ -1097,6 +1099,24 @@ document_number y no buscaba company.
 
 **Cómo probar:** buscar nombre con espacio/tilde, cédula en mayúsculas/minúsculas,
 y company_name → deben aparecer resultados.
+
+### B-NEW-49 — KPIs de contacto: Abiertas/Resueltas en 0, todo en Otras
+
+**Síntoma:** ficha de contacto muestra Total correcto (ej. 7) pero Abiertas=0,
+Resueltas=0 y Otras=Total, aunque el historial lista opens/resolved (p. ej.
+“Vendida” = label de `resolved`).
+
+**Causa:** `group(:status).count` devolvía claves string (`"open"`, `"resolved"`)
+y el código indexaba con enteros del enum (`Conversation.statuses[:open]` → `0`).
+
+**Fix:** normalizar cada clave a nombre de status (int → `statuses.key`, string
+tal cual) y sumar `open`+`pending` / `resolved` por nombre.
+
+**Archivos:** `contacts_controller.rb` (`set_contact_conversation_metrics`),
+`docs/BUGS.md`.
+
+**Cómo probar:** contacto con 1 open + N resolved → chips Total=N+1, Abiertas=1,
+Resueltas=N, Otras=0 (snoozed van a Otras).
 
 ### B-NEW-39 — Automation: no enviar si ventana Meta/WhatsApp cerrada
 

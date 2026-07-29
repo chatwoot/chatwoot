@@ -3,6 +3,7 @@ import {
   isAgentBotAssigneeMeta,
   isHumanAssigneeMeta,
 } from 'dashboard/helper/assigneeHelper';
+import { lastMessageFromRank } from 'dashboard/helper/contactConversationTableColumns';
 
 export const findPendingMessageIndex = (chat, message) => {
   const { echo_id: tempMessageId } = message;
@@ -135,6 +136,8 @@ const SORT_OPTIONS = {
   waiting_since_asc: ['sortOnWaitingSince', 'asc'],
   waiting_since_desc: ['sortOnWaitingSince', 'desc'],
   priority_desc_created_at_asc: ['sortOnPriorityCreatedAt', 'desc'],
+  last_message_from_asc: ['sortOnLastMessageFrom', 'asc'],
+  last_message_from_desc: ['sortOnLastMessageFrom', 'desc'],
 };
 
 const CUSTOM_SORT_REGEX = /^(-?)custom:(.+)$/;
@@ -226,6 +229,12 @@ const sortConfig = {
 
     return sortFunc(a.waiting_since, b.waiting_since);
   },
+
+  sortOnLastMessageFrom: (a, b, sortDirection) =>
+    getSortOrderFunction(sortDirection)(
+      lastMessageFromRank(a),
+      lastMessageFromRank(b)
+    ),
 };
 
 export const sortComparator = (a, b, sortKey) => {

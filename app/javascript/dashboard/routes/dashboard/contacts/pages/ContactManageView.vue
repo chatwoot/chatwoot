@@ -134,9 +134,9 @@ onMounted(() => {
             {{ t('CONTACTS_LAYOUT.SIDEBAR.TABS.HISTORY') }}
           </h4>
           <div
-            class="rounded-xl border border-n-weak bg-n-alpha-1 dark:bg-n-solid-2 overflow-hidden flex flex-col min-h-[16rem]"
+            class="rounded-xl border border-n-weak bg-n-alpha-1 dark:bg-n-solid-2 overflow-visible flex flex-col min-h-[16rem]"
           >
-            <div class="flex-1 min-h-0 overflow-y-auto px-2 py-3">
+            <div class="flex-1 min-h-0 px-2 py-3">
               <ContactHistory />
             </div>
           </div>

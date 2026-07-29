@@ -631,9 +631,25 @@
           "INBOX": "Inbox",
           "ASSIGNEE": "Assignee",
           "PRIORITY": "Priority",
+          "LAST_MESSAGE_FROM": "Last by (contact/agent)",
+          "LAST_MESSAGE": "Last message",
+          "WAITING_SINCE": "Waiting since",
+          "UNREAD": "Unread",
           "LAST_ACTIVITY": "Last activity",
           "CREATED_AT": "Created"
-        }
+        },
+        "COLUMNS_MENU": {
+          "LABEL": "Columns",
+          "ORDER_HINT": "Drag to reorder. ID stays first.",
+          "VISIBLE_COUNT": "{count} visible"
+        },
+        "LAST_MESSAGE_FROM": {
+          "CONTACT": "Contact",
+          "AGENT": "Agent",
+          "BOT": "Bot",
+          "TEMPLATE": "Template"
+        },
+        "LAST_MESSAGE_ATTACHMENT": "Attachment"
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Search for attributes",

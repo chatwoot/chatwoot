@@ -623,7 +623,32 @@
       },
       "HISTORY": {
         "TITLE": "Historial de conversaciones",
-        "EMPTY_STATE": "No hay conversaciones previas asociadas a este contacto"
+        "EMPTY_STATE": "No hay conversaciones previas asociadas a este contacto",
+        "COLUMNS": {
+          "ID": "ID",
+          "STATUS": "Estado",
+          "INBOX": "Bandeja",
+          "ASSIGNEE": "Asignado",
+          "PRIORITY": "Prioridad",
+          "LAST_MESSAGE_FROM": "Último de (contacto/agente)",
+          "LAST_MESSAGE": "Último mensaje",
+          "WAITING_SINCE": "Esperando desde",
+          "UNREAD": "No leídos",
+          "LAST_ACTIVITY": "Última actividad",
+          "CREATED_AT": "Creada"
+        },
+        "COLUMNS_MENU": {
+          "LABEL": "Columnas",
+          "ORDER_HINT": "Arrastra para reordenar. El ID se queda primero.",
+          "VISIBLE_COUNT": "{count} visibles"
+        },
+        "LAST_MESSAGE_FROM": {
+          "CONTACT": "Contacto",
+          "AGENT": "Agente",
+          "BOT": "Bot",
+          "TEMPLATE": "Plantilla"
+        },
+        "LAST_MESSAGE_ATTACHMENT": "Adjunto"
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Buscar atributos",
