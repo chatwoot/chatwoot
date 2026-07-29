@@ -4,6 +4,7 @@ import { nextTick, ref } from 'vue';
 import ProviderIndex from '../ProviderIndex.vue';
 import ShopifyBilling from '../ShopifyBilling.vue';
 import StripeBilling from '../Index.vue';
+import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
 
 const currentAccount = ref({});
 const isCloudFeatureEnabled = vi.fn();
@@ -15,11 +16,37 @@ vi.mock('dashboard/composables/useAccount', () => ({
   }),
 }));
 
+vi.mock('shared/composables/useBranding', () => ({
+  useBranding: () => ({
+    replaceInstallationName: text => text.replace(/chatwoot/gi, 'Acme'),
+  }),
+}));
+
 const mountComponent = () =>
   shallowMount(ProviderIndex, {
     global: {
       mocks: {
-        $t: key => key,
+        $t: key =>
+          key === 'BILLING_SETTINGS.SHOPIFY.DESCRIPTION'
+            ? 'Your Chatwoot subscription is billed through Shopify.'
+            : key,
+      },
+      stubs: {
+        SettingsLayout: {
+          name: 'SettingsLayout',
+          props: {
+            isLoading: Boolean,
+            loadingMessage: String,
+            noRecordsFound: Boolean,
+            noRecordsMessage: String,
+          },
+          template: '<main><slot name="header" /><slot /></main>',
+        },
+        BaseSettingsHeader: {
+          name: 'BaseSettingsHeader',
+          props: ['title', 'description'],
+          template: '<header>{{ title }} {{ description }}</header>',
+        },
       },
     },
   });
@@ -73,6 +100,9 @@ describe('Billing settings provider dispatcher', () => {
 
     expect(wrapper.findComponent(ShopifyBilling).exists()).toBe(false);
     expect(wrapper.findComponent(StripeBilling).exists()).toBe(false);
+    expect(wrapper.findComponent(BaseSettingsHeader).props('description')).toBe(
+      'Your Acme subscription is billed through Shopify.'
+    );
     expect(wrapper.findComponent({ name: 'SettingsLayout' }).props()).toEqual(
       expect.objectContaining({
         noRecordsFound: true,

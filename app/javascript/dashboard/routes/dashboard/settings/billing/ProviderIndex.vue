@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useBranding } from 'shared/composables/useBranding';
 
 import ShopifyBilling from './ShopifyBilling.vue';
 import StripeBilling from './Index.vue';
@@ -9,6 +10,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 
 const { currentAccount, isCloudFeatureEnabled } = useAccount();
+const { replaceInstallationName } = useBranding();
 
 const isAccountLoaded = computed(() => Boolean(currentAccount.value?.id));
 const isShopifyBilling = computed(
@@ -34,7 +36,9 @@ const isShopifyEnabled = computed(
     <template #header>
       <BaseSettingsHeader
         :title="$t('BILLING_SETTINGS.SHOPIFY.TITLE')"
-        :description="$t('BILLING_SETTINGS.SHOPIFY.DESCRIPTION')"
+        :description="
+          replaceInstallationName($t('BILLING_SETTINGS.SHOPIFY.DESCRIPTION'))
+        "
       />
     </template>
   </SettingsLayout>

@@ -7,7 +7,16 @@ const mocks = vi.hoisted(() => ({
   route: { query: {} },
   replace: vi.fn(),
   dispatch: vi.fn(),
-  translate: (key, params) => (params?.price ? `${key}: ${params.price}` : key),
+  translate: (key, params) => {
+    const translations = {
+      'BILLING_SETTINGS.SHOPIFY.DESCRIPTION':
+        'Your Chatwoot subscription is billed through Shopify.',
+      'BILLING_SETTINGS.SHOPIFY.PLAN_DESCRIPTION':
+        'Manage your Chatwoot plan in Shopify.',
+    };
+    if (params?.price) return `${key}: ${params.price}`;
+    return translations[key] || key;
+  },
 }));
 
 vi.mock('vue-router', async importOriginal => {
@@ -37,12 +46,19 @@ vi.mock('dashboard/api/enterprise/account', () => ({
   },
 }));
 
+vi.mock('shared/composables/useBranding', () => ({
+  useBranding: () => ({
+    replaceInstallationName: text => text.replace(/chatwoot/gi, 'Acme'),
+  }),
+}));
+
 const summary = {
   provider: 'shopify',
   state: 'active',
   plan: { name: 'Shopify Growth', handle: 'growth' },
   amount: '49.00',
   currency: 'USD',
+  billing_period: 'EVERY_30_DAYS',
   trial_ends_at: null,
   current_period_end: '2026-08-29T00:00:00Z',
   allowed_actions: {
@@ -110,7 +126,29 @@ describe('ShopifyBilling', () => {
     expect(wrapper.text()).toContain('Shopify Growth');
     expect(wrapper.text()).toContain('BILLING_SETTINGS.SHOPIFY.STATUS.ACTIVE');
     expect(wrapper.text()).toContain('$49.00');
+    expect(wrapper.text()).toContain(
+      'BILLING_SETTINGS.SHOPIFY.PER_MONTH: $49.00'
+    );
+    expect(wrapper.findComponent(BillingCardStub).props('description')).toBe(
+      'Manage your Acme plan in Shopify.'
+    );
     expect(wrapper.text()).toContain('BILLING_SETTINGS.SHOPIFY.RENEWS_ON');
+  });
+
+  it('labels annual prices with their actual billing period', async () => {
+    EnterpriseAccountAPI.billingSummary.mockResolvedValue({
+      data: { ...summary, billing_period: 'ANNUAL' },
+    });
+
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    expect(wrapper.text()).toContain(
+      'BILLING_SETTINGS.SHOPIFY.PER_YEAR: $49.00'
+    );
+    expect(wrapper.text()).not.toContain(
+      'BILLING_SETTINGS.SHOPIFY.PER_MONTH: $49.00'
+    );
   });
 
   it('opens Shopify-hosted App Pricing through the provider-aware checkout', async () => {
