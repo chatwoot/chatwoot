@@ -15,12 +15,17 @@ import {
   BaseTableCell,
 } from 'dashboard/components-next/table';
 import BusinessRuleForm from 'dashboard/components-next/ConversationWorkflow/BusinessRuleForm.vue';
+import BusinessRulesDryRunDialog from 'dashboard/components-next/ConversationWorkflow/BusinessRulesDryRunDialog.vue';
 import {
   BUSINESS_RULE_PRESETS,
   emptyConfigForType,
   newRuleId,
   summarizeRule,
 } from 'dashboard/components-next/ConversationWorkflow/businessRulesConstants';
+import {
+  findImpossibleAndErrors,
+  formatBusinessRuleLintErrors,
+} from 'dashboard/helper/businessRulesLint';
 
 const { t } = useI18n();
 const store = useStore();
@@ -31,10 +36,13 @@ const rules = ref([]);
 const dialogRef = ref(null);
 const formRule = ref(null);
 const dialogMode = ref('create');
+const showDryRun = ref(false);
+const rulesPaused = ref(false);
 
 onMounted(() => {
   store.dispatch('attributes/get');
   store.dispatch('labels/get');
+  store.dispatch('inboxes/get');
 });
 
 watch(
@@ -43,6 +51,7 @@ watch(
     rules.value = JSON.parse(
       JSON.stringify(account?.settings?.business_rules || [])
     );
+    rulesPaused.value = Boolean(account?.settings?.business_rules_paused);
   },
   { immediate: true, deep: true }
 );
@@ -67,16 +76,60 @@ const hasLegacyRequiredAttributes = computed(() => {
   return Array.isArray(legacy) && legacy.length > 0;
 });
 
+const hasEnabledRules = computed(() =>
+  rules.value.some(rule => rule.enabled !== false)
+);
+
 const typeLabel = type => t(`BUSINESS_RULES.TYPES.${type}`);
 
+const alertLintErrors = (errors, nextRules) => {
+  const message =
+    formatBusinessRuleLintErrors(errors, t, nextRules) ||
+    t('BUSINESS_RULES.SAVE_ERROR');
+  useAlert(message);
+};
+
 const persist = async nextRules => {
+  const clientErrors = findImpossibleAndErrors(nextRules);
+  if (clientErrors.length) {
+    alertLintErrors(clientErrors, nextRules);
+    return false;
+  }
+
   saving.value = true;
   try {
     await updateAccount({ business_rules: nextRules }, { silent: true });
     rules.value = JSON.parse(JSON.stringify(nextRules));
     useAlert(t('BUSINESS_RULES.SAVE_SUCCESS'));
+    return true;
   } catch (e) {
+    const apiErrors = e?.response?.data?.business_rule_errors;
+    if (apiErrors?.length) {
+      alertLintErrors(apiErrors, nextRules);
+    } else {
+      useAlert(t('BUSINESS_RULES.SAVE_ERROR'));
+    }
+    return false;
+  } finally {
+    saving.value = false;
+  }
+};
+
+const persistPaused = async paused => {
+  saving.value = true;
+  try {
+    await updateAccount({ business_rules_paused: paused }, { silent: true });
+    rulesPaused.value = paused;
+    useAlert(
+      paused
+        ? t('BUSINESS_RULES.PAUSE.ON_SUCCESS')
+        : t('BUSINESS_RULES.PAUSE.OFF_SUCCESS')
+    );
+  } catch {
     useAlert(t('BUSINESS_RULES.SAVE_ERROR'));
+    rulesPaused.value = Boolean(
+      currentAccount.value?.settings?.business_rules_paused
+    );
   } finally {
     saving.value = false;
   }
@@ -88,7 +141,7 @@ const openCreate = () => {
     id: newRuleId(),
     name: '',
     type: 'require_attributes_on_status',
-    enabled: true,
+    enabled: false,
     preset_id: null,
     conditions: [],
     config: emptyConfigForType('require_attributes_on_status'),
@@ -126,8 +179,8 @@ const saveFromDialog = async () => {
   } else {
     next = [...rules.value, payload];
   }
-  await persist(next);
-  closeDialog();
+  const ok = await persist(next);
+  if (ok) closeDialog();
 };
 
 const activatePreset = async preset => {
@@ -136,6 +189,7 @@ const activatePreset = async preset => {
     preset_id: preset.id,
     name: t(preset.nameKey),
     ...JSON.parse(JSON.stringify(preset.defaults)),
+    enabled: false,
   };
   if (!rule.config) rule.config = emptyConfigForType(rule.type);
   if (!Array.isArray(rule.conditions)) rule.conditions = [];
@@ -146,7 +200,13 @@ const toggleEnabled = async (rule, enabled) => {
   const next = rules.value.map(item =>
     item.id === rule.id ? { ...item, enabled } : item
   );
-  await persist(next);
+  const ok = await persist(next);
+  if (!ok) {
+    // Force switch back via account watch / local reset
+    rules.value = JSON.parse(
+      JSON.stringify(currentAccount.value?.settings?.business_rules || [])
+    );
+  }
 };
 
 const removeRule = async rule => {
@@ -170,6 +230,13 @@ const dialogTitle = computed(() =>
       >
         <template #actions>
           <Button
+            :label="$t('BUSINESS_RULES.DRY_RUN.OPEN')"
+            size="sm"
+            faded
+            slate
+            @click="showDryRun = true"
+          />
+          <Button
             :label="$t('BUSINESS_RULES.CREATE_CUSTOM')"
             size="sm"
             @click="openCreate"
@@ -179,6 +246,31 @@ const dialogTitle = computed(() =>
     </template>
 
     <template #body>
+      <div
+        class="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-n-weak bg-n-solid-2 p-3"
+      >
+        <div>
+          <p class="m-0 text-sm font-medium text-n-slate-12">
+            {{ $t('BUSINESS_RULES.PAUSE.LABEL') }}
+          </p>
+          <p class="mb-0 mt-1 text-xs text-n-slate-11">
+            {{ $t('BUSINESS_RULES.PAUSE.HELP') }}
+          </p>
+        </div>
+        <Switch
+          :model-value="rulesPaused"
+          :disabled="saving"
+          @update:model-value="persistPaused"
+        />
+      </div>
+
+      <div
+        v-if="hasEnabledRules && !rulesPaused"
+        class="mb-4 rounded-lg border border-n-amber-5 bg-n-amber-2/40 p-3 text-sm text-n-slate-12"
+      >
+        {{ $t('BUSINESS_RULES.ENABLED_WARNING') }}
+      </div>
+
       <div
         v-if="hasLegacyRequiredAttributes"
         class="mb-4 rounded-lg border border-n-amber-5 bg-n-amber-2/40 p-3 text-sm text-n-slate-12"
@@ -249,6 +341,7 @@ const dialogTitle = computed(() =>
               <BaseTableCell>
                 <Switch
                   :model-value="rule.enabled !== false"
+                  :disabled="saving"
                   @update:model-value="toggleEnabled(rule, $event)"
                 />
               </BaseTableCell>
@@ -291,5 +384,7 @@ const dialogTitle = computed(() =>
     >
       <BusinessRuleForm v-if="formRule" v-model="formRule" />
     </Dialog>
+
+    <BusinessRulesDryRunDialog v-model="showDryRun" />
   </SettingsLayout>
 </template>

@@ -574,6 +574,8 @@ es:
     activity_actor: 'automatización «%{name}»'
     audit_note: 'Automatización «%{name}» ejecutada.'
     message_skipped_messaging_window: 'Automatización «%{name}» no envió mensaje al cliente (ventana de mensajería cerrada).'
+  business_rules:
+    lint_failed: 'Las reglas de negocio no pasaron validación. Corrige o desactiva las reglas inválidas activas.'
   crm:
     no_message: 'No messages in conversation'
     attachment: '[Attachment: %{type}]'

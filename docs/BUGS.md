@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** fix `B-NEW-49` KPIs contacto open/resolved (enum group keys)
+**Última actualización:** feature `B-NEW-50` business rules lint + dry-run + kill switch
+(2026-07-29). Antes: fix `B-NEW-49` KPIs contacto open/resolved (enum group keys)
 (2026-07-29). Antes: fix `B-NEW-48` contact search doble encode + ILIKE
 (2026-07-28, branch `feat/contact-ui-overhaul`). Antes: hotfix `B-NEW-47` modal resolve precarga + * + rojo
 (2026-07-28). Antes: hotfix `B-NEW-46` cadena de business rules en modal resolve
@@ -127,6 +128,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-47 | Bug UX | No | ✅ Modal resolve precarga valores, `*` obligatorio, faltante en rojo al abrir |
 | B-NEW-48 | Bug UX | No | ✅ Contact search: sin doble encode; ILIKE id/doc; company_name |
 | B-NEW-49 | Bug UX | No | ✅ KPIs contacto: normalizar keys de `group(:status)` (open/resolved) |
+| B-NEW-50 | Feature | No | ✅ BR safety: lint al activar, dry-run FE, `business_rules_paused`, enabled default false |
 
 ---
 
@@ -1099,6 +1101,26 @@ document_number y no buscaba company.
 
 **Cómo probar:** buscar nombre con espacio/tilde, cédula en mayúsculas/minúsculas,
 y company_name → deben aparecer resultados.
+
+### B-NEW-50 — Business rules safety: lint + dry-run + kill switch
+
+**Problema:** reglas mal configuradas (AND imposible, categorías vacías, keys
+muertas) se activaban y hacían parecer “roto” Resolve.
+
+**Fix (MVP, sin árbol primary/secondary):**
+- `BusinessRules::LintService` bloquea **activar** reglas inválidas (422 +
+  `business_rule_errors`); disabled inválidas sí se guardan.
+- Sanitize: `enabled` default false; normaliza `values` `{id,name}` → `["id"]`.
+- Kill switch `business_rules_paused` (Guard + FE guard skip).
+- Index: banner, pause toggle, dry-run vía `checkStatusChange`, create/presets
+  disabled.
+
+**Archivos:** `lint_service.rb`, `condition_values.rb`, `accounts_controller.rb`,
+`business_rules_guard.rb`, `businessRules/Index.vue`,
+`BusinessRulesDryRunDialog.vue`, `businessRulesLint.js`, i18n EN/ES, specs.
+
+**Cómo probar:** AND imposible → no se puede enable; OR + categoría real → OK;
+Simular Venta muestra campos; Pause → resolve sin attrs.
 
 ### B-NEW-49 — KPIs de contacto: Abiertas/Resueltas en 0, todo en Otras
 

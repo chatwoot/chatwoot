@@ -304,6 +304,23 @@ RSpec.describe Conversations::BusinessRulesGuard do
       Current.reset
     end
 
+    it 'skips guards when business_rules_paused is set' do
+      set_rules([
+                  {
+                    'id' => 'r1',
+                    'type' => 'require_attributes_on_status',
+                    'enabled' => true,
+                    'config' => { 'status' => 'resolved', 'attribute_keys' => ['deal_stage'] }
+                  }
+                ])
+      account.update!(settings: account.settings.merge('business_rules_paused' => true))
+
+      result = described_class.new(conversation: conversation, new_status: 'resolved').perform
+
+      expect(result.ok?).to be(true)
+      expect(result.errors).to be_empty
+    end
+
     it 'still blocks agents when require_reason_on_status is missing data' do
       set_rules([
                   {

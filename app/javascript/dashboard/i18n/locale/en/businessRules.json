@@ -6,7 +6,7 @@
     "FORM_HELP": "Configure optional filter conditions (When), then the blocking effect (Then). Only selected attributes or categories are required.",
     "PRESETS_TITLE": "Quick presets",
     "PRESETS_HELP": "One click adds a ready-made rule. Edit it to choose which fields and conditions apply.",
-    "ACTIVATE_PRESET": "Activate",
+    "ACTIVATE_PRESET": "Add preset",
     "EMPTY": "No guardrails yet. Create a custom rule or activate a preset.",
     "CREATE_CUSTOM": "Create rule",
     "CREATE_CUSTOM_TITLE": "New business rule",
@@ -121,6 +121,37 @@
       "TITLE_SNOOZED": "Complete required fields to snooze",
       "TITLE_OPEN": "Complete required fields to open",
       "PRIVATE_NOTE_HINT": "Add a private note in the conversation, then try again."
+    },
+    "ENABLED_WARNING": "Enabled rules can block Resolve/Snooze/Open until required fields are filled. Test with Dry run before turning rules on.",
+    "PAUSE": {
+      "LABEL": "Pause all business rules",
+      "HELP": "Escape hatch: agents can change status without guardrails until you turn this off.",
+      "ON_SUCCESS": "Business rules paused",
+      "OFF_SUCCESS": "Business rules active again"
+    },
+    "DRY_RUN": {
+      "OPEN": "Dry run",
+      "TITLE": "Dry-run business rules",
+      "HELP": "Preview which fields would be required for a status change with sample attributes. Does not save or change chats.",
+      "TARGET_STATUS": "Target status",
+      "INBOX": "Inbox filter",
+      "INBOX_ANY": "Any / none",
+      "DRAFT_ATTRS": "Sample conversation attributes",
+      "ATTR_EMPTY": "— empty —",
+      "RUN": "Run simulation",
+      "WOULD_BLOCK": "Would block the status change",
+      "WOULD_PASS": "Would allow the status change",
+      "REQUIRED": "Required fields",
+      "MISSING": "Still missing",
+      "FORBIDDEN": "Forbidden labels"
+    },
+    "LINT": {
+      "IMPOSSIBLE_AND": "Impossible AND on the same attribute (use OR for alternate values).",
+      "EMPTY_REQUIRE_SET": "Enabled rule requires no fields (empty keys/categories).",
+      "UNKNOWN_ATTRIBUTE_KEY": "Unknown attribute key: {attribute_key}",
+      "UNKNOWN_CATEGORY": "Unknown or empty category: {category}",
+      "MISSING_TRIGGER": "If-then rule needs conditions or a when-attribute.",
+      "FORBID_CONFLICTS_REQUIRE": "Forbid status \"{status}\" conflicts with another require rule ({other_rule_name})."
     }
   }
 }

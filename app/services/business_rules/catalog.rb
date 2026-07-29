@@ -21,7 +21,7 @@ module BusinessRules
             'description_key' => 'BUSINESS_RULES.PRESETS.REQUIRE_ON_RESOLVE_DESC',
             'defaults' => {
               'type' => 'require_attributes_on_status',
-              'enabled' => true,
+              'enabled' => false,
               'config' => {
               'status' => 'resolved',
               'attribute_keys' => [],
@@ -37,7 +37,7 @@ module BusinessRules
             'description_key' => 'BUSINESS_RULES.PRESETS.IF_X_REQUIRE_YZ_DESC',
             'defaults' => {
               'type' => 'if_attribute_then_require',
-              'enabled' => true,
+              'enabled' => false,
               'config' => {
                 'when_attribute' => '',
                 'when_values' => [],
@@ -55,7 +55,7 @@ module BusinessRules
             'description_key' => 'BUSINESS_RULES.PRESETS.MOTIVO_POSPONER_DESC',
             'defaults' => {
               'type' => 'require_reason_on_status',
-              'enabled' => true,
+              'enabled' => false,
               'config' => {
                 'statuses' => %w[pending snoozed],
                 'require_private_note' => true,

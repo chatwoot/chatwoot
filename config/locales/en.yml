@@ -623,6 +623,8 @@ en:
     activity_actor: 'automation «%{name}»'
     audit_note: 'Automation "%{name}" ran.'
     message_skipped_messaging_window: 'Automation "%{name}" did not send an outbound message (messaging window closed).'
+  business_rules:
+    lint_failed: 'Business rules failed validation. Fix or disable invalid enabled rules.'
   crm:
     no_message: 'No messages in conversation'
     attachment: '[Attachment: %{type}]'

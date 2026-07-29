@@ -21,6 +21,7 @@ module AccountSettingsSchema
           'type': %w[array null],
           'items': { 'type': 'string' }
         },
+        'business_rules_paused': { 'type': %w[boolean null] },
         'business_rules': {
           'type': %w[array null],
           'items': {
