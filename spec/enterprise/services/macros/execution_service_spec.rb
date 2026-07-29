@@ -49,6 +49,33 @@ describe Macros::ExecutionService, type: :service do
     expect(conversation.reload.status).to eq('resolved')
   end
 
+  context 'when the macro uses a change_status action' do
+    let(:macro) do
+      create(:macro, account: account, created_by: user, updated_by: user,
+                     actions: [{ 'action_name' => 'change_status', 'action_params' => [status] }])
+    end
+
+    context 'with a resolved status' do
+      let(:status) { 'resolved' }
+
+      it 'skips the action when a required attribute is missing' do
+        described_class.new(macro, conversation, user).perform
+
+        expect(conversation.reload.status).to eq('open')
+      end
+    end
+
+    context 'with a status other than resolved' do
+      let(:status) { 'pending' }
+
+      it 'applies the status even when a required attribute is missing' do
+        described_class.new(macro, conversation, user).perform
+
+        expect(conversation.reload.status).to eq('pending')
+      end
+    end
+  end
+
   it 'treats a false checkbox value as filled' do
     conversation.update!(custom_attributes: { 'priority_level' => false })
 

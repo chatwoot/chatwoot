@@ -75,8 +75,14 @@ const customAttributes = computed(
   () => conversationById.value(props.conversationId)?.custom_attributes || {}
 );
 
+// change_status is not offered by the macro builder, but the API accepts it and
+// it resolves the conversation just like resolve_conversation does.
 const resolvesConversation = macro =>
-  macro.actions.some(action => action.action_name === 'resolve_conversation');
+  macro.actions.some(
+    ({ action_name: name, action_params: params }) =>
+      name === 'resolve_conversation' ||
+      (name === 'change_status' && params?.[0] === 'resolved')
+  );
 
 const runMacro = async (macro, skippedResolve = false) => {
   try {
@@ -120,10 +126,16 @@ const onAttributesSubmit = async ({ attributes }) => {
   const macro = pendingMacro.value;
   pendingMacro.value = null;
 
-  await store.dispatch('updateCustomAttributes', {
-    conversationId: props.conversationId,
-    customAttributes: { ...customAttributes.value, ...attributes },
-  });
+  try {
+    await store.dispatch('updateCustomAttributes', {
+      conversationId: props.conversationId,
+      customAttributes: { ...customAttributes.value, ...attributes },
+    });
+  } catch (error) {
+    useAlert(t('CUSTOM_ATTRIBUTES.FORM.UPDATE.ERROR'));
+    return;
+  }
+
   runMacro(macro);
 };
 

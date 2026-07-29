@@ -5,6 +5,12 @@ module Enterprise::Macros::ExecutionService
     super
   end
 
+  def change_status(status)
+    return if status.first.to_s == 'resolved' && required_attributes_missing?
+
+    super
+  end
+
   private
 
   def required_attributes_missing?
