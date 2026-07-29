@@ -124,8 +124,17 @@ RSpec.describe 'Enterprise Billing Provider APIs', type: :request do
           'verified_at' => '2026-07-29T11:00:00Z'
         )
       )
-      sync_service = instance_double(Enterprise::Billing::ShopifySubscriptionSyncService, perform: refreshed_snapshot)
+      sync_service = instance_double(Enterprise::Billing::ShopifySubscriptionSyncService)
       allow(Enterprise::Billing::ShopifySubscriptionSyncService).to receive(:new).with(account: shopify_account).and_return(sync_service)
+      allow(sync_service).to receive(:perform) do
+        shopify_account.update!(
+          custom_attributes: shopify_account.custom_attributes.merge(
+            'shopify_subscription_snapshot' => refreshed_snapshot.to_h,
+            'subscription_status' => refreshed_snapshot.state
+          )
+        )
+        refreshed_snapshot
+      end
 
       get "/enterprise/api/v1/accounts/#{shopify_account.id}/billing_summary",
           headers: shopify_admin.create_new_auth_token,
@@ -139,6 +148,43 @@ RSpec.describe 'Enterprise Billing Provider APIs', type: :request do
         'last_verified_at' => '2026-07-29T11:00:00Z'
       )
       expect(sync_service).to have_received(:perform)
+    end
+
+    it 'returns the newest persisted snapshot when concurrent refreshes overlap' do
+      refreshed_snapshot = Shopify::SubscriptionSnapshot.from_h(
+        shopify_snapshot.merge(
+          'state' => 'active',
+          'verified_at' => '2026-07-29T11:00:00Z'
+        )
+      )
+      newer_snapshot = Shopify::SubscriptionSnapshot.from_h(
+        shopify_snapshot.merge(
+          'state' => 'cancelled',
+          'verified_at' => '2026-07-29T12:00:00Z'
+        )
+      )
+      sync_service = instance_double(Enterprise::Billing::ShopifySubscriptionSyncService)
+      allow(Enterprise::Billing::ShopifySubscriptionSyncService).to receive(:new).with(account: shopify_account).and_return(sync_service)
+      allow(sync_service).to receive(:perform) do
+        shopify_account.update!(
+          custom_attributes: shopify_account.custom_attributes.merge(
+            'shopify_subscription_snapshot' => newer_snapshot.to_h,
+            'subscription_status' => newer_snapshot.state
+          )
+        )
+        refreshed_snapshot
+      end
+
+      get "/enterprise/api/v1/accounts/#{shopify_account.id}/billing_summary",
+          headers: shopify_admin.create_new_auth_token,
+          params: { refresh: true },
+          as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to include(
+        'state' => 'cancelled',
+        'last_verified_at' => '2026-07-29T12:00:00Z'
+      )
     end
 
     it 'returns service unavailable when Shopify verification fails' do
