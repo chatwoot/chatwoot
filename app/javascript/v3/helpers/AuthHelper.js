@@ -33,6 +33,25 @@ export const getShopifyInstallAccount = ({ accounts, accountId }) => {
     : accounts.find(canManageShopify);
 };
 
+const SHOPIFY_ENTITLED_STATES = ['active', 'trialing', 'cancelled'];
+
+export const requiresShopifyBilling = account =>
+  account?.billing_provider === 'shopify' &&
+  account.shopify_integration === true &&
+  !SHOPIFY_ENTITLED_STATES.includes(account.subscription_status);
+
+const getTargetAccount = ({ ssoAccountId, user }) => {
+  const { accounts = [], account_id: accountId = null } = user || {};
+  const ssoAccount = accounts.find(
+    account => account.id === Number(ssoAccountId)
+  );
+  return (
+    ssoAccount ||
+    accounts.find(account => account.id === Number(accountId)) ||
+    accounts[0]
+  );
+};
+
 const getSSOAccountPath = ({ ssoAccountId, user }) => {
   const { accounts = [], account_id = null } = user || {};
   const ssoAccount = accounts.find(
@@ -70,6 +89,10 @@ export const getLoginRedirectURL = ({
   redirectUrl,
   user,
 }) => {
+  const targetAccount = getTargetAccount({ ssoAccountId, user });
+  if (requiresShopifyBilling(targetAccount)) {
+    return frontendURL(`accounts/${targetAccount.id}/settings/billing`);
+  }
   if (redirectUrl) {
     const { accounts = [], account_id = null } = user || {};
     const targetAccount = isShopifyInstallRedirect(redirectUrl)

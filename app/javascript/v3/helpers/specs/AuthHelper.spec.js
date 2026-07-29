@@ -2,6 +2,7 @@ import {
   getLoginRedirectURL,
   getCredentialsFromEmail,
   getSignupRoute,
+  requiresShopifyBilling,
 } from '../AuthHelper';
 
 describe('#URL Helpers', () => {
@@ -42,6 +43,42 @@ describe('#URL Helpers', () => {
         })
       ).toBe('/app/accounts/7501/dashboard');
       expect(getLoginRedirectURL('7500', null)).toBe('/app/');
+    });
+
+    it('sends a pending feature-enabled Shopify account to billing', () => {
+      const user = {
+        account_id: 7500,
+        accounts: [
+          {
+            id: 7500,
+            billing_provider: 'shopify',
+            shopify_integration: true,
+            subscription_status: 'pending',
+          },
+        ],
+      };
+
+      expect(getLoginRedirectURL({ user })).toBe(
+        '/app/accounts/7500/settings/billing'
+      );
+    });
+
+    it('preserves the regular redirect when the Shopify feature is disabled', () => {
+      const user = {
+        account_id: 7500,
+        accounts: [
+          {
+            id: 7500,
+            billing_provider: 'shopify',
+            shopify_integration: false,
+            subscription_status: 'pending',
+          },
+        ],
+      };
+
+      expect(getLoginRedirectURL({ user })).toBe(
+        '/app/accounts/7500/dashboard'
+      );
     });
 
     it('selects an active administrator for a pending Shopify install', () => {
@@ -89,6 +126,34 @@ describe('#URL Helpers', () => {
         query: { shopify_pending_install: token },
       });
     });
+  });
+
+  describe('requiresShopifyBilling', () => {
+    it.each(['active', 'trialing', 'cancelled'])(
+      'allows the entitled %s state into the product',
+      subscriptionStatus => {
+        expect(
+          requiresShopifyBilling({
+            billing_provider: 'shopify',
+            shopify_integration: true,
+            subscription_status: subscriptionStatus,
+          })
+        ).toBe(false);
+      }
+    );
+
+    it.each(['pending', 'missing', 'expired'])(
+      'requires billing for the %s state',
+      subscriptionStatus => {
+        expect(
+          requiresShopifyBilling({
+            billing_provider: 'shopify',
+            shopify_integration: true,
+            subscription_status: subscriptionStatus,
+          })
+        ).toBe(true);
+      }
+    );
   });
 
   describe('getCredentialsFromEmail', () => {

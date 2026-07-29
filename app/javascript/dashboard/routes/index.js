@@ -8,6 +8,7 @@ import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import {
   getShopifyInstallAccount,
   isShopifyInstallRedirect,
+  requiresShopifyBilling,
 } from 'v3/helpers/AuthHelper';
 import AnalyticsHelper from '../helper/AnalyticsHelper';
 
@@ -40,12 +41,16 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   const userAccount = accounts.find(a => a.id === routeAccountId);
   const isAdmin = userAccount?.role === 'administrator';
   const isActive = userAccount?.status === 'active';
+  const needsShopifyBilling = isAdmin && requiresShopifyBilling(userAccount);
   const needsOnboarding =
     ONBOARDING_STEPS.includes(userAccount?.onboarding_step) &&
     isAdmin &&
     isActive;
 
   if (to.name === 'no_accounts' || !to.name) {
+    if (needsShopifyBilling) {
+      return next(frontendURL(`accounts/${routeAccountId}/settings/billing`));
+    }
     const { redirect_url: redirectUrl } = to.query || {};
     if (redirectUrl) {
       if (!isShopifyInstallRedirect(redirectUrl)) {
@@ -67,6 +72,10 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
       ? onboardingPath(userAccount?.onboarding_step)
       : 'dashboard';
     return next(frontendURL(`accounts/${routeAccountId}/${target}`));
+  }
+
+  if (needsShopifyBilling && to.name !== 'billing_settings_index') {
+    return next(frontendURL(`accounts/${routeAccountId}/settings/billing`));
   }
 
   if (needsOnboarding && !isOnOnboardingView(to)) {

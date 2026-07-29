@@ -1,5 +1,6 @@
 import wootAPI from '../apiClient';
-import { register } from '../auth';
+import { register, verifyPasswordToken } from '../auth';
+import { setAuthCredentials } from 'dashboard/store/utils/api';
 
 vi.mock('../apiClient', () => ({
   default: {
@@ -8,6 +9,7 @@ vi.mock('../apiClient', () => ({
 }));
 
 vi.mock('dashboard/store/utils/api', () => ({
+  setAuthCredentials: vi.fn(),
   throwErrorMessage: vi.fn(),
   clearLocalStorageOnLogout: vi.fn(),
   parseAPIErrorResponse: vi.fn(),
@@ -52,5 +54,15 @@ describe('auth API', () => {
         shopify_pending_install_token: 'pending-install-token',
       })
     );
+  });
+  it('returns the authenticated user after email confirmation', async () => {
+    const user = { id: 1, accounts: [{ id: 2 }] };
+    const response = { data: { data: user } };
+    wootAPI.post.mockResolvedValue(response);
+
+    await expect(
+      verifyPasswordToken({ confirmationToken: 'confirmation-token' })
+    ).resolves.toEqual(user);
+    expect(setAuthCredentials).toHaveBeenCalledWith(response);
   });
 });

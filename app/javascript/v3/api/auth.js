@@ -94,9 +94,11 @@ export const verifyPasswordToken = async ({ confirmationToken }) => {
       confirmation_token: confirmationToken,
     });
     setAuthCredentials(response);
+    return response.data.data;
   } catch (error) {
     throwErrorMessage(error);
   }
+  return null;
 };
 
 export const setNewPassword = async ({
