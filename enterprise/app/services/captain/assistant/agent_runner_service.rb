@@ -98,12 +98,13 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def rewrite_oversized_response(result)
-    runner.run(
-      "Your previous response was #{response_text(result).length} characters, but this channel allows a maximum of " \
-      "#{message_length_limit} characters. Rewrite it within the limit while preserving the essential information. " \
-      'Do not call tools or perform new actions.',
-      context: result.context,
-      max_turns: 10
+    response_rewriter.rewrite(result, response: response_text(result), limit: message_length_limit)
+  end
+
+  def response_rewriter
+    @response_rewriter ||= Captain::Assistant::ResponseRewriter.new(
+      assistant: @assistant,
+      attribute_provider: Captain::Assistant::InstrumentationAttributeProvider.new(self)
     )
   end
 

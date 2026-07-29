@@ -4,7 +4,7 @@ class Captain::MessageLengthLimit
   CHANNEL_LIMITS = {
     'Channel::FacebookPage' => 2_000,
     'Channel::Instagram' => 1_000,
-    'Channel::Line' => 2_000,
+    'Channel::Line' => 5_000,
     'Channel::Sms' => 320,
     'Channel::Telegram' => 4_096,
     'Channel::Tiktok' => 6_000,
