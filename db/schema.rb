@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_24_000100) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_28_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -676,6 +676,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_24_000100) do
 
   create_table "channel_whatsapp", force: :cascade do |t|
     t.integer "account_id", null: false
+    t.text "business_management_token"
     t.string "phone_number", null: false
     t.string "provider", default: "default"
     t.jsonb "provider_config", default: {}
