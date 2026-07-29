@@ -11,6 +11,7 @@ import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Pay
 import RangeSelector from 'dashboard/components-next/captain/pageComponents/overview/RangeSelector.vue';
 import WelcomeCard from 'dashboard/components-next/captain/pageComponents/overview/WelcomeCard.vue';
 import MetricCard from 'dashboard/components-next/captain/pageComponents/overview/MetricCard.vue';
+import HandoffReasonsCard from 'dashboard/components-next/captain/pageComponents/overview/HandoffReasonsCard.vue';
 import AssistantDrilldownDrawer from 'dashboard/components-next/captain/pageComponents/overview/AssistantDrilldownDrawer.vue';
 import KnowledgeCard from 'dashboard/components-next/captain/pageComponents/overview/KnowledgeCard.vue';
 import QuickLinks from 'dashboard/components-next/captain/pageComponents/overview/QuickLinks.vue';
@@ -27,14 +28,18 @@ const selectedRange = ref('7');
 
 const assistantId = computed(() => route.params.assistantId);
 const metricStats = ref(null);
+const outcomeStats = ref(null);
 const faqStats = ref(null);
 const isFetchingMetrics = ref(false);
+const isFetchingOutcomes = ref(false);
 
 // Increments on every fetch so a response (or retry) from a superseded
 // range/assistant can't clobber the latest request's state.
 let metricsFetchToken = 0;
+let outcomesFetchToken = 0;
 let faqStatsFetchToken = 0;
 let metricsAbortController = null;
+let outcomesAbortController = null;
 let faqStatsAbortController = null;
 
 const fetchMetrics = async () => {
@@ -71,6 +76,40 @@ const fetchMetrics = async () => {
   isFetchingMetrics.value = false;
 };
 
+const fetchOutcomeMetrics = async () => {
+  outcomesFetchToken += 1;
+  const token = outcomesFetchToken;
+  outcomesAbortController?.abort();
+  outcomesAbortController = new AbortController();
+  const { signal } = outcomesAbortController;
+  outcomeStats.value = null;
+  isFetchingOutcomes.value = true;
+
+  const requestOutcomes = () =>
+    CaptainAssistant.getOutcomeMetrics({
+      assistantId: assistantId.value,
+      range: selectedRange.value,
+      signal,
+    });
+
+  let data = null;
+  try {
+    ({ data } = await requestOutcomes());
+  } catch {
+    // One silent retry before giving up, unless the request was aborted.
+    try {
+      if (token === outcomesFetchToken && !signal.aborted)
+        ({ data } = await requestOutcomes());
+    } catch {
+      data = null;
+    }
+  }
+
+  if (token !== outcomesFetchToken || signal.aborted) return;
+  outcomeStats.value = data;
+  isFetchingOutcomes.value = false;
+};
+
 const fetchFaqStats = async () => {
   faqStatsFetchToken += 1;
   const token = faqStatsFetchToken;
@@ -98,10 +137,18 @@ const summaryStats = computed(() => {
 
 onUnmounted(() => {
   metricsAbortController?.abort();
+  outcomesAbortController?.abort();
   faqStatsAbortController?.abort();
 });
 
-watch([selectedRange, assistantId], fetchMetrics, { immediate: true });
+watch(
+  [selectedRange, assistantId],
+  () => {
+    fetchMetrics();
+    fetchOutcomeMetrics();
+  },
+  { immediate: true }
+);
 watch(assistantId, fetchFaqStats, { immediate: true });
 
 // `direction` says whether a rising trend is good ('up'), bad ('down'), or
@@ -121,8 +168,15 @@ const TREND_SUFFIX = { percent: '%', point: ' pts', absolute: '' };
 const formatDuration = hours =>
   hours >= 100 ? `${Math.round(hours / 24)}d` : `${hours}h`;
 
-const metricFor = (statKey, formatValue, direction, trendKind = 'percent') => {
-  const data = metricStats.value?.[statKey];
+// Durations arrive as seconds; switch units so the card stays legible.
+const formatSeconds = seconds => {
+  if (seconds < 60) return `${Math.round(seconds)}s`;
+  if (seconds < 3600) return `${Math.round(seconds / 60)}m`;
+  return `${(seconds / 3600).toFixed(1)}h`;
+};
+
+const metricFor = (source, statKey, formatValue, direction, trendKind) => {
+  const data = source?.[statKey];
   if (!data) return { value: '—', trend: '', trendGood: null };
 
   const sign = data.trend > 0 ? '+' : '';
@@ -133,51 +187,161 @@ const metricFor = (statKey, formatValue, direction, trendKind = 'percent') => {
   };
 };
 
-const metrics = computed(() => [
+const overviewMetric = (
+  statKey,
+  formatValue,
+  direction,
+  trendKind = 'percent'
+) => ({
+  loading: isFetchingMetrics.value,
+  ...metricFor(metricStats.value, statKey, formatValue, direction, trendKind),
+});
+
+const outcomeMetric = (
+  statKey,
+  formatValue,
+  direction,
+  trendKind = 'percent'
+) => ({
+  loading: isFetchingOutcomes.value,
+  ...metricFor(outcomeStats.value, statKey, formatValue, direction, trendKind),
+});
+
+// Reach: how much of the account's support demand Captain touches.
+const reachMetrics = computed(() => [
   {
     key: 'handled',
     metric: 'conversations_handled',
     label: t('CAPTAIN.OVERVIEW.METRICS.HANDLED.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HANDLED.HINT'),
-    ...metricFor('conversations_handled', v => v.toLocaleString(), 'up'),
+    ...overviewMetric('conversations_handled', v => v.toLocaleString(), 'up'),
   },
   {
-    key: 'autoResolution',
-    metric: 'auto_resolution_rate',
-    label: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.HINT'),
-    ...metricFor('auto_resolution_rate', v => `${v}%`, 'up', 'point'),
+    key: 'coverage',
+    label: t('CAPTAIN.OVERVIEW.METRICS.COVERAGE.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.COVERAGE.HINT'),
+    ...outcomeMetric('coverage_rate', v => `${v}%`, 'up', 'point'),
+  },
+  {
+    key: 'eligible',
+    label: t('CAPTAIN.OVERVIEW.METRICS.ELIGIBLE.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.ELIGIBLE.HINT'),
+    ...outcomeMetric(
+      'eligible_conversations',
+      v => v.toLocaleString(),
+      'neutral'
+    ),
   },
   {
     key: 'handoff',
     metric: 'handoff_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.HANDOFF.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HANDOFF.HINT'),
-    ...metricFor('handoff_rate', v => `${v}%`, 'down', 'point'),
+    ...overviewMetric('handoff_rate', v => `${v}%`, 'down', 'point'),
+  },
+  {
+    key: 'hoursSaved',
+    label: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
+    ...overviewMetric('hours_saved', formatDuration, 'up'),
+  },
+]);
+
+// Resolution: does Captain finish the job, and does it stick.
+const resolutionMetrics = computed(() => [
+  {
+    key: 'autoResolution',
+    metric: 'auto_resolution_rate',
+    label: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.HINT'),
+    ...overviewMetric('auto_resolution_rate', v => `${v}%`, 'up', 'point'),
+  },
+  {
+    key: 'autonomous',
+    label: t('CAPTAIN.OVERVIEW.METRICS.AUTONOMOUS.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.AUTONOMOUS.HINT'),
+    ...outcomeMetric('autonomous_resolutions', v => v.toLocaleString(), 'up'),
+  },
+  {
+    key: 'assisted',
+    label: t('CAPTAIN.OVERVIEW.METRICS.ASSISTED.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.ASSISTED.HINT'),
+    ...outcomeMetric('assisted_resolutions', v => v.toLocaleString(), 'up'),
+  },
+  {
+    key: 'durable',
+    label: t('CAPTAIN.OVERVIEW.METRICS.DURABLE.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.DURABLE.HINT'),
+    ...outcomeMetric('durable_resolution_rate', v => `${v}%`, 'up', 'point'),
   },
   {
     key: 'reopen',
     metric: 'reopen_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.HINT'),
-    ...metricFor('reopen_rate', v => `${v}%`, 'down', 'point'),
+    ...overviewMetric('reopen_rate', v => `${v}%`, 'down', 'point'),
+  },
+]);
+
+const csatBaseline = computed(() => {
+  const score = outcomeStats.value?.human_only_csat_score?.current;
+  if (!score) return '';
+  return t('CAPTAIN.OVERVIEW.METRICS.CSAT.BASELINE', { score });
+});
+
+// Experience: is the support Captain delivers fast and satisfying.
+const experienceMetrics = computed(() => [
+  {
+    key: 'csat',
+    label: t('CAPTAIN.OVERVIEW.METRICS.CSAT.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.CSAT.HINT'),
+    secondary: csatBaseline.value,
+    ...outcomeMetric(
+      'csat_score',
+      v => (v ? v.toFixed(1) : '—'),
+      'up',
+      'absolute'
+    ),
   },
   {
-    key: 'hoursSaved',
-    label: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
-    ...metricFor('hours_saved', formatDuration, 'up'),
+    key: 'resolutionTime',
+    label: t('CAPTAIN.OVERVIEW.METRICS.RESOLUTION_TIME.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.RESOLUTION_TIME.HINT'),
+    ...outcomeMetric(
+      'median_resolution_seconds',
+      v => (v ? formatSeconds(v) : '—'),
+      'down',
+      'absolute'
+    ),
   },
   {
     key: 'depth',
     label: t('CAPTAIN.OVERVIEW.METRICS.DEPTH.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.DEPTH.HINT'),
-    ...metricFor(
+    ...overviewMetric(
       'conversation_depth',
       v => v.toFixed(1),
       'neutral',
       'absolute'
     ),
+  },
+]);
+
+const sections = computed(() => [
+  {
+    key: 'reach',
+    title: t('CAPTAIN.OVERVIEW.SECTIONS.REACH'),
+    metrics: reachMetrics.value,
+  },
+  {
+    key: 'resolution',
+    title: t('CAPTAIN.OVERVIEW.SECTIONS.RESOLUTION'),
+    metrics: resolutionMetrics.value,
+  },
+  {
+    key: 'experience',
+    title: t('CAPTAIN.OVERVIEW.SECTIONS.EXPERIENCE'),
+    metrics: experienceMetrics.value,
   },
 ]);
 
@@ -220,24 +384,40 @@ const closeDrilldown = () => {
 
         <WelcomeCard :range="selectedRange" :stats="summaryStats" />
 
-        <div
-          class="grid grid-cols-1 gap-px overflow-hidden border rounded-xl sm:grid-cols-2 lg:grid-cols-3 bg-n-weak border-n-weak"
+        <section
+          v-for="section in sections"
+          :key="section.key"
+          class="flex flex-col gap-3"
         >
-          <MetricCard
-            v-for="metric in metrics"
-            :key="metric.key"
-            :label="metric.label"
-            :value="metric.value"
-            :trend="metric.trend"
-            :hint="metric.hint"
-            :trend-good="metric.trendGood"
-            :loading="isFetchingMetrics"
-            :clickable="
-              canDrilldown && Boolean(metric.metric) && !isFetchingMetrics
-            "
-            @click="openDrilldown(metric)"
+          <h3 class="text-sm font-medium text-n-slate-12">
+            {{ section.title }}
+          </h3>
+          <div
+            class="grid grid-cols-1 gap-px overflow-hidden border rounded-xl sm:grid-cols-2 lg:grid-cols-3 bg-n-weak border-n-weak"
+          >
+            <MetricCard
+              v-for="metric in section.metrics"
+              :key="metric.key"
+              :label="metric.label"
+              :value="metric.value"
+              :trend="metric.trend"
+              :hint="metric.hint"
+              :secondary="metric.secondary"
+              :trend-good="metric.trendGood"
+              :loading="metric.loading"
+              :clickable="
+                canDrilldown && Boolean(metric.metric) && !metric.loading
+              "
+              @click="openDrilldown(metric)"
+            />
+          </div>
+
+          <HandoffReasonsCard
+            v-if="section.key === 'reach'"
+            :reasons="outcomeStats?.handoff_reasons"
+            :loading="isFetchingOutcomes"
           />
-        </div>
+        </section>
 
         <KnowledgeCard :knowledge="faqStats ?? undefined" />
 

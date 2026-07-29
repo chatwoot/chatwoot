@@ -444,6 +444,54 @@
         "DEPTH": {
           "LABEL": "Messages / conversation",
           "HINT": "Average replies the assistant sends per conversation."
+        },
+        "ELIGIBLE": {
+          "LABEL": "Eligible conversations",
+          "HINT": "Customer conversations that started in inboxes connected to this assistant."
+        },
+        "COVERAGE": {
+          "LABEL": "Coverage rate",
+          "HINT": "Share of eligible conversations Captain participated in. The gap is demand routed to humans or blocked by usage limits."
+        },
+        "AUTONOMOUS": {
+          "LABEL": "Autonomous resolutions",
+          "HINT": "Conversations Captain resolved with no handoff and no human reply."
+        },
+        "ASSISTED": {
+          "LABEL": "Assisted resolutions",
+          "HINT": "Resolved conversations where Captain participated before a human completed them."
+        },
+        "DURABLE": {
+          "LABEL": "Durable resolution rate",
+          "HINT": "Autonomous resolutions older than 7 days that stayed closed."
+        },
+        "CSAT": {
+          "LABEL": "Captain CSAT",
+          "HINT": "Average customer rating on conversations Captain participated in.",
+          "BASELINE": "Human-only: {score}"
+        },
+        "RESOLUTION_TIME": {
+          "LABEL": "Median resolution time",
+          "HINT": "Typical time from the customer's first message to resolution for Captain-involved conversations."
+        }
+      },
+      "SECTIONS": {
+        "REACH": "Reach",
+        "RESOLUTION": "Resolution",
+        "EXPERIENCE": "Experience"
+      },
+      "HANDOFF_REASONS": {
+        "TITLE": "Handoff reasons",
+        "HINT": "Why Captain handed conversations to your team in this period.",
+        "EMPTY": "No handoffs in this period.",
+        "CATEGORIES": {
+          "customer_request": "Customer requested a human",
+          "missing_knowledge": "Missing knowledge",
+          "unsupported_request": "Unsupported request",
+          "policy_restriction": "Policy restriction",
+          "tool_failure": "Tool failure",
+          "pending_clarification": "Pending customer clarification",
+          "usage_limit": "Usage limit reached"
         }
       },
       "DRILLDOWN": {

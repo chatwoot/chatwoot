@@ -6,6 +6,8 @@ const props = defineProps({
   value: { type: String, required: true },
   trend: { type: String, default: '' },
   hint: { type: String, default: '' },
+  // Small comparison line under the value, e.g. the human-only CSAT baseline.
+  secondary: { type: String, default: '' },
   // null = neutral, true = good direction, false = bad direction
   trendGood: { type: Boolean, default: null },
   clickable: { type: Boolean, default: false },
@@ -50,14 +52,19 @@ const onActivate = () => {
       <div class="w-20 rounded h-9 bg-n-slate-3 animate-pulse" />
       <div class="w-10 h-5 rounded bg-n-slate-3 animate-pulse" />
     </div>
-    <div v-else class="flex items-end justify-between gap-2">
-      <span
-        class="text-3xl font-semibold tracking-tight tabular-nums text-n-slate-12"
-      >
-        {{ value }}
-      </span>
-      <span class="text-sm font-medium tabular-nums" :class="trendClass">
-        {{ trend }}
+    <div v-else class="flex flex-col gap-1">
+      <div class="flex items-end justify-between gap-2">
+        <span
+          class="text-3xl font-semibold tracking-tight tabular-nums text-n-slate-12"
+        >
+          {{ value }}
+        </span>
+        <span class="text-sm font-medium tabular-nums" :class="trendClass">
+          {{ trend }}
+        </span>
+      </div>
+      <span v-if="secondary" class="text-xs tabular-nums text-n-slate-10">
+        {{ secondary }}
       </span>
     </div>
   </div>
