@@ -31,7 +31,11 @@ class Conversations::BusinessRulesGuard
   end
 
   def system_status_change?
-    Current.executed_by.instance_of?(AutomationRule)
+    return true if Current.executed_by.instance_of?(AutomationRule)
+    # Widget / public inbox: contact ends the chat and cannot fill agent candados.
+    return true if Current.contact.present? && !Current.user.is_a?(User)
+
+    false
   end
 
   def legacy_required_on_resolve
