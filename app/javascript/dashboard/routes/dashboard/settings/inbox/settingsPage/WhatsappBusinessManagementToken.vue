@@ -50,16 +50,20 @@ watch(
   () => {
     businessManagementToken.value = '';
     tokenUpdated.value = false;
+    isUpdating.value = false;
   }
 );
 
 const updateToken = async () => {
+  const inboxId = props.inbox.id;
   isUpdating.value = true;
   try {
     await InboxesAPI.updateWhatsappBusinessManagementToken(
-      props.inbox.id,
+      inboxId,
       businessManagementToken.value
     );
+    if (props.inbox.id !== inboxId) return;
+
     businessManagementToken.value = '';
     tokenUpdated.value = true;
     useAlert(
@@ -68,6 +72,8 @@ const updateToken = async () => {
       )
     );
   } catch (error) {
+    if (props.inbox.id !== inboxId) return;
+
     useAlert(
       error.response?.data?.message ||
         t(
@@ -75,7 +81,9 @@ const updateToken = async () => {
         )
     );
   } finally {
-    isUpdating.value = false;
+    if (props.inbox.id === inboxId) {
+      isUpdating.value = false;
+    }
   }
 };
 </script>
