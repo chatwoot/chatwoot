@@ -74,11 +74,15 @@ RSpec.describe Shopify::UninstallationService do
 
   it 'deletes a redacted hook inside the uninstall lifecycle' do
     hook
-    allow(sync_service).to receive(:perform)
+    redaction_snapshot = nil
+    allow(sync_service).to receive(:perform) do |snapshot:|
+      redaction_snapshot = snapshot
+    end
 
     expect do
       described_class.new(hook: hook, occurred_at: occurred_at, delete_hook: true).perform
     end.to change(Integrations::Hook, :count).by(-1)
+    expect(redaction_snapshot.to_h).not_to include('shop_id', 'shop_domain')
   end
 
   it 'still revokes credentials when billing reconciliation fails' do
