@@ -106,6 +106,8 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
       let(:inbox) { create(:inbox, account: account) }
       let(:conversation) { create(:conversation, account: account, inbox: inbox) }
 
+      before { create(:inbox_member, user: user, inbox: inbox) }
+
       it 'returns the conversation in llm text format' do
         result = service.execute(conversation_id: conversation.display_id)
         expect(result).to eq(conversation.to_llm_text)
@@ -142,6 +144,43 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
         it 'returns not found message' do
           expect(service.execute(conversation_id: other_conversation.display_id)).to eq('Conversation not found')
         end
+      end
+    end
+
+    context 'when conversation is in an inbox the user does not belong to' do
+      let(:other_inbox) { create(:inbox, account: account) }
+      let(:conversation) { create(:conversation, account: account, inbox: other_inbox) }
+
+      it 'returns not found message' do
+        expect(service.execute(conversation_id: conversation.display_id)).to eq('Conversation not found')
+      end
+
+      context 'when user is an administrator' do
+        let(:user) { create(:user, :administrator, account: account) }
+
+        it 'returns the conversation in llm text format' do
+          expect(service.execute(conversation_id: conversation.display_id)).to eq(conversation.to_llm_text)
+        end
+      end
+    end
+
+    context 'when user only has conversation_participating_manage permission' do
+      let(:inbox) { create(:inbox, account: account) }
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_participating_manage']) }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+
+      before do
+        create(:inbox_member, user: user, inbox: inbox)
+        AccountUser.find_by(user: user, account: account).update(role: :agent, custom_role: custom_role)
+      end
+
+      it 'returns not found message for a conversation they neither own nor participate in' do
+        expect(service.execute(conversation_id: conversation.display_id)).to eq('Conversation not found')
+      end
+
+      it 'returns the conversation when it is assigned to them' do
+        conversation.update(assignee: user)
+        expect(service.execute(conversation_id: conversation.display_id)).to eq(conversation.to_llm_text)
       end
     end
   end

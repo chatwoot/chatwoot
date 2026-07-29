@@ -165,13 +165,28 @@ RSpec.describe Captain::Copilot::ChatService do
     end
 
     it 'includes current viewing history when conversation_id is present' do
-      service = described_class.new(assistant, { conversation_id: conversation.display_id })
+      create(:inbox_member, user: user, inbox: inbox)
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
       messages = service.messages
 
       viewing_history = messages.find { |m| m[:content].include?('You are currently viewing the conversation') }
       expect(viewing_history).not_to be_nil
       expect(viewing_history[:content]).to include(conversation.display_id.to_s)
       expect(viewing_history[:content]).to include(contact.id.to_s)
+    end
+
+    it 'omits current viewing history when the user cannot access the conversation' do
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
+      messages = service.messages
+
+      expect(messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
+    end
+
+    it 'omits current viewing history when no user is set' do
+      service = described_class.new(assistant, { conversation_id: conversation.display_id })
+      messages = service.messages
+
+      expect(messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
     end
   end
 
