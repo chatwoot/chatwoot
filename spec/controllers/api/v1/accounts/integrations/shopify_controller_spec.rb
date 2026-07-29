@@ -239,6 +239,24 @@ RSpec.describe 'Shopify Integration API', type: :request do
       expect(response.parsed_body['error']).to eq('Install token claim has expired')
     end
 
+    it 'rolls back the hook when claim finalization raises an infrastructure error' do
+      allow(Shopify::PendingInstallation).to receive(:claim)
+        .with(token: pending_install_token, account_id: account.id)
+        .and_return(pending_installation)
+      allow(pending_installation).to receive(:consume!).and_raise(Redis::CannotConnectError, 'Redis unavailable')
+      allow(pending_installation).to receive(:release!)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
+             params: { pending_install_token: pending_install_token },
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.not_to change(Integrations::Hook, :count)
+
+      expect(pending_installation).to have_received(:release!)
+      expect(response).to have_http_status(:internal_server_error)
+    end
+
     it 'releases the pending install when hook creation fails' do
       create(:integrations_hook, :shopify, account: account)
       allow(Shopify::PendingInstallation).to receive(:claim).and_return(pending_installation)
