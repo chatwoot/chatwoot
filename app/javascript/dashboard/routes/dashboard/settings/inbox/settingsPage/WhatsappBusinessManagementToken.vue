@@ -14,6 +14,7 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+const WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_URL = 'https://chwt.app/zM7G2yU';
 const businessManagementToken = ref('');
 const savedBusinessManagementToken = ref(
   props.inbox.business_management_token || ''
@@ -99,7 +100,7 @@ const updateToken = async () => {
         </NextButton>
       </div>
       <a
-        href="https://www.chatwoot.com/hc/user-guide/articles/1785260890-whatsapp-business-token"
+        :href="WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_URL"
         target="_blank"
         rel="noopener noreferrer"
         class="text-label-small text-n-blue-11 hover:underline"
