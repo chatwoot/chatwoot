@@ -173,7 +173,9 @@ RSpec.describe 'Shopify Integration API', type: :request do
       allow(Shopify::PendingInstallation).to receive(:claim)
         .with(token: pending_install_token, account_id: account.id)
         .and_return(pending_installation)
-      allow(pending_installation).to receive(:consume!)
+      allow(pending_installation).to receive(:consume!) do
+        expect(account.hooks.exists?(app_id: 'shopify')).to be(true)
+      end
 
       expect do
         post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
@@ -241,6 +243,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
       create(:integrations_hook, :shopify, account: account)
       allow(Shopify::PendingInstallation).to receive(:claim).and_return(pending_installation)
       allow(pending_installation).to receive(:release!)
+      expect(pending_installation).not_to receive(:consume!)
 
       post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
            params: { pending_install_token: pending_install_token },

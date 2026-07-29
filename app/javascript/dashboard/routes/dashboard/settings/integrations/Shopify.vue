@@ -61,10 +61,9 @@ const completePendingInstall = async token => {
     await shopifyAPI.completeInstall(token);
     await store.dispatch('integrations/get', 'shopify');
     useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.SUCCESS'));
+    router.replace({ query: {} });
   } catch {
     useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.ERROR'));
-  } finally {
-    router.replace({ query: {} });
   }
 };
 

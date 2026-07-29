@@ -42,16 +42,17 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
 
   def install_pending_shopify_hook(pending_installation)
     data = pending_installation.data
-    ActiveRecord::Base.transaction do
-      Current.account.hooks.create!(
-        app_id: 'shopify',
-        access_token: data['access_token'],
-        status: 'enabled',
-        reference_id: data['shop'],
-        settings: { scope: data['scope'] }
-      )
-      pending_installation.consume!
-    end
+    hook = Current.account.hooks.create!(
+      app_id: 'shopify',
+      access_token: data['access_token'],
+      status: 'enabled',
+      reference_id: data['shop'],
+      settings: { scope: data['scope'] }
+    )
+    pending_installation.consume!
+  rescue Shopify::PendingInstallation::Error
+    hook&.destroy!
+    raise
   end
 
   def ensure_shopify_enabled
