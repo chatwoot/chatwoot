@@ -1,7 +1,9 @@
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useWhatsappEmbeddedSignup } from 'dashboard/composables/useWhatsappEmbeddedSignup';
+import { IS_META_INBOX_CREATION_DISABLED } from 'dashboard/constants/globals';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import googleClient from 'dashboard/api/channel/googleClient';
 import microsoftClient from 'dashboard/api/channel/microsoftClient';
@@ -22,11 +24,19 @@ const OAUTH_CLIENTS = {
 export function useChannelConnect() {
   const { t } = useI18n();
   const store = useStore();
+  const { isOnChatwootCloud } = useAccount();
   const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
+  const isMetaInboxCreationDisabled = () =>
+    isOnChatwootCloud.value && IS_META_INBOX_CREATION_DISABLED;
 
   const connectViaOAuth = async provider => {
     const client = OAUTH_CLIENTS[provider];
     if (!client) return;
+
+    if (provider === 'instagram' && isMetaInboxCreationDisabled()) {
+      useAlert(t('ONBOARDING_INBOX_SETUP.META_RESTRICTION.MESSAGE'));
+      return;
+    }
 
     try {
       const {
@@ -43,6 +53,11 @@ export function useChannelConnect() {
   // inbox, and surface the result inline — then refetch so the connected state
   // reflects the freshly created inbox (and renders its real channel icon).
   const connectWhatsapp = async () => {
+    if (isMetaInboxCreationDisabled()) {
+      useAlert(t('ONBOARDING_INBOX_SETUP.META_RESTRICTION.MESSAGE'));
+      return;
+    }
+
     let credentials;
     try {
       credentials = await runEmbeddedSignup();
