@@ -18,12 +18,12 @@ module Enterprise::Shopify::UninstallationService
   def uninstall_snapshot
     verified_at = Time.current.utc.iso8601(6)
     previous_snapshot = account.custom_attributes.fetch('shopify_subscription_snapshot', {})
+    identity = delete_hook ? {} : previous_snapshot.slice('shop_id', 'shop_domain').merge('shop_domain' => hook.reference_id)
 
     Shopify::SubscriptionSnapshot.from_h(
-      previous_snapshot.slice('shop_id', 'shop_domain').merge(
+      identity.merge(
         'state' => 'expired',
         'plan_handles' => [],
-        'shop_domain' => hook.reference_id,
         'latest_event' => {
           'state' => 'RELATIONSHIP_UNINSTALLED',
           'occurred_at' => occurred_at&.utc&.iso8601(6) || verified_at
