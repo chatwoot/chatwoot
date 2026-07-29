@@ -12,9 +12,7 @@ if api_key.present?
       }
     }
   )
-end
-
-if access_key_id.present? && secret_access_key.present?
+elsif access_key_id.present? && secret_access_key.present?
   region = ENV.fetch('OPENSEARCH_AWS_REGION', 'us-east-1')
 
   Searchkick.aws_credentials = {
