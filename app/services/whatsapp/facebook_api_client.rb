@@ -52,6 +52,17 @@ class Whatsapp::FacebookApiClient
     handle_response(response, 'Phone registration failed')
   end
 
+  # Releases the number from this app so it can be re-added under another app/BSP. Without this,
+  # after an inbox is deleted the number stays registered and Meta reports "already in a partner app".
+  def deregister_phone_number(phone_number_id)
+    response = HTTParty.post(
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}/deregister",
+      headers: request_headers
+    )
+
+    handle_response(response, 'Phone deregistration failed')
+  end
+
   def phone_number_verified?(phone_number_id)
     response = HTTParty.get(
       "#{BASE_URI}/#{@api_version}/#{phone_number_id}",
