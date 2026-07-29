@@ -252,6 +252,33 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/captain/assistants/{id}/outcome_metrics' do
+    let(:assistant) { create(:captain_assistant, account: account) }
+    let(:inbox) { create(:inbox, account: account) }
+
+    it 'returns the outcome metrics for the assistant' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      create(
+        :captain_conversation_outcome,
+        account: account,
+        assistant: assistant,
+        conversation: conversation,
+        inbox: inbox,
+        first_captain_reply_at: 1.day.ago,
+        resolved_at: 1.day.ago
+      )
+
+      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/outcome_metrics",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response[:eligible_conversations]).to include(current: 1)
+      expect(json_response[:coverage_rate]).to include(current: 100.0)
+      expect(json_response).to have_key(:handoff_reasons)
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/captain/assistants/{id}/faq_stats' do
     let(:assistant) { create(:captain_assistant, account: account) }
 

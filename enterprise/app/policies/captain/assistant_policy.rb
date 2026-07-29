@@ -11,6 +11,10 @@ class Captain::AssistantPolicy < ApplicationPolicy
     true
   end
 
+  def outcome_metrics?
+    true
+  end
+
   def faq_stats?
     true
   end
