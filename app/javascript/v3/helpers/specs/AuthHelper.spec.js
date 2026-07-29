@@ -1,4 +1,5 @@
 import {
+  getShopifyBillingRedirect,
   getLoginRedirectURL,
   getCredentialsFromEmail,
   getSignupRoute,
@@ -6,6 +7,24 @@ import {
 } from '../AuthHelper';
 
 describe('#URL Helpers', () => {
+  describe('getShopifyBillingRedirect', () => {
+    it('preserves Shopify App Pricing return parameters', () => {
+      expect(
+        getShopifyBillingRedirect({
+          plan_handle: 'growth',
+          shop: 'store.myshopify.com',
+        })
+      ).toBe('settings/billing?plan_handle=growth&shop=store.myshopify.com');
+      expect(getShopifyBillingRedirect({ shop: 'store.myshopify.com' })).toBe(
+        'settings/billing?shop=store.myshopify.com'
+      );
+    });
+
+    it('ignores unrelated login parameters', () => {
+      expect(getShopifyBillingRedirect({ email: 'user@example.com' })).toBe('');
+    });
+  });
+
   describe('getSignupRoute', () => {
     it('carries a pending Shopify install token into signup', () => {
       expect(
