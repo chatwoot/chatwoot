@@ -35,12 +35,14 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def sync_templates
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
-    templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.template_access_token}")
+    templates = fetch_whatsapp_templates("#{business_account_path}/message_templates")
+    # rubocop:disable Rails/SkipsModelValidations
     whatsapp_channel.update_columns(message_templates: templates, message_templates_last_updated: Time.current) if templates.present?
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def fetch_whatsapp_templates(url)
-    response = HTTParty.get(url)
+    response = HTTParty.get(url, headers: { 'Authorization' => "Bearer #{whatsapp_channel.template_access_token}" })
     unless response.success?
       Rails.logger.warn "[WHATSAPP] Template sync failed for account #{whatsapp_channel.account_id} " \
                         "inbox #{whatsapp_channel.inbox&.id}: #{response.code} #{error_message(response)}"
@@ -55,7 +57,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def next_url(response)
-    response['paging'] ? response['paging']['next'] : ''
+    response.dig('paging', 'next').to_s.gsub(/([?&])access_token=[^&]*&?/, '\1').delete_suffix('?').delete_suffix('&')
   end
 
   def validate_provider_config?

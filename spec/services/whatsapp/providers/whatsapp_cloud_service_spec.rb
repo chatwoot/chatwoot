@@ -299,7 +299,9 @@ describe Whatsapp::Providers::WhatsappCloudService do
         it 'uses it instead of the provider API key' do
           request = stub_request(
             :get,
-            'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=business-token'
+            'https://graph.facebook.com/v14.0/123456789/message_templates'
+          ).with(
+            headers: { 'Authorization' => 'Bearer business-token' }
           ).to_return(status: 200, headers: response_headers, body: { data: [] }.to_json)
 
           subject.sync_templates
@@ -314,7 +316,9 @@ describe Whatsapp::Providers::WhatsappCloudService do
         it 'uses the provider API key' do
           request = stub_request(
             :get,
-            'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key'
+            'https://graph.facebook.com/v14.0/123456789/message_templates'
+          ).with(
+            headers: { 'Authorization' => 'Bearer test_key' }
           ).to_return(status: 200, headers: response_headers, body: { data: [] }.to_json)
 
           subject.sync_templates
@@ -331,7 +335,9 @@ describe Whatsapp::Providers::WhatsappCloudService do
         it 'uses the provider API key' do
           request = stub_request(
             :get,
-            'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key'
+            'https://graph.facebook.com/v14.0/123456789/message_templates'
+          ).with(
+            headers: { 'Authorization' => 'Bearer test_key' }
           ).to_return(status: 200, headers: response_headers, body: { data: [] }.to_json)
 
           subject.sync_templates
@@ -341,20 +347,37 @@ describe Whatsapp::Providers::WhatsappCloudService do
       end
 
       it 'updated the message templates' do
-        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
+        request_headers = { 'Authorization' => 'Bearer test_key' }
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates')
+          .with(headers: request_headers)
           .to_return(
-            { status: 200, headers: response_headers,
-              body: { data: [
-                { id: '123456789', name: 'test_template' }
-              ], paging: { next: 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key' } }.to_json },
-            { status: 200, headers: response_headers,
-              body: { data: [
-                { id: '123456789', name: 'next_template' }
-              ], paging: { next: 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key' } }.to_json },
-            { status: 200, headers: response_headers,
-              body: { data: [
-                { id: '123456789', name: 'last_template' }
-              ], paging: { prev: 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key' } }.to_json }
+            status: 200,
+            headers: response_headers,
+            body: {
+              data: [{ id: '123456789', name: 'test_template' }],
+              paging: {
+                next: 'https://graph.facebook.com/v14.0/123456789/message_templates?after=cursor-1&access_token=test_key'
+              }
+            }.to_json
+          )
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?after=cursor-1')
+          .with(headers: request_headers)
+          .to_return(
+            status: 200,
+            headers: response_headers,
+            body: {
+              data: [{ id: '123456789', name: 'next_template' }],
+              paging: {
+                next: 'https://graph.facebook.com/v14.0/123456789/message_templates?after=cursor-2&access_token=test_key'
+              }
+            }.to_json
+          )
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?after=cursor-2')
+          .with(headers: request_headers)
+          .to_return(
+            status: 200,
+            headers: response_headers,
+            body: { data: [{ id: '123456789', name: 'last_template' }] }.to_json
           )
 
         timstamp = whatsapp_channel.reload.message_templates_last_updated
@@ -366,7 +389,8 @@ describe Whatsapp::Providers::WhatsappCloudService do
       end
 
       it 'updates message_templates_last_updated even when template request fails' do
-        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates')
+          .with(headers: { 'Authorization' => 'Bearer test_key' })
           .to_return(status: 401)
 
         timstamp = whatsapp_channel.reload.message_templates_last_updated

@@ -16,9 +16,6 @@ const props = defineProps({
 const { t } = useI18n();
 const WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_URL = 'https://chwt.app/zM7G2yU';
 const businessManagementToken = ref('');
-const savedBusinessManagementToken = ref(
-  props.inbox.business_management_token || ''
-);
 const isUpdating = ref(false);
 const isUpdateDisabled = computed(
   () => !businessManagementToken.value || isUpdating.value
@@ -31,7 +28,6 @@ const updateToken = async () => {
       props.inbox.id,
       businessManagementToken.value
     );
-    savedBusinessManagementToken.value = businessManagementToken.value;
     businessManagementToken.value = '';
     useAlert(
       t(
@@ -53,19 +49,6 @@ const updateToken = async () => {
 
 <template>
   <SettingsFieldSection
-    v-if="savedBusinessManagementToken"
-    :label="
-      t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_TITLE')
-    "
-    :help-text="
-      t(
-        'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_SUBHEADER'
-      )
-    "
-  >
-    <woot-code :script="savedBusinessManagementToken" />
-  </SettingsFieldSection>
-  <SettingsFieldSection
     :label="
       t(
         'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_TITLE'
@@ -83,7 +66,7 @@ const updateToken = async () => {
       >
         <woot-input
           v-model="businessManagementToken"
-          type="text"
+          type="password"
           class="flex-1 mr-2 [&>input]:!mb-0"
           :placeholder="
             t(
