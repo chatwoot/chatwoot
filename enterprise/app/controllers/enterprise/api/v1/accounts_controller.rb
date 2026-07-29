@@ -196,8 +196,8 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def create_shopify_billing_session
-    render_redirect_url(Shopify::AppPricingUrl.new(account: @account).perform)
-  rescue Shopify::AppPricingUrl::ConfigurationError, Shopify::AppPricingUrl::NotEligible, ActiveRecord::RecordNotFound
+    render_redirect_url(Enterprise::Billing::ShopifyAppPricingUrl.new(account: @account).perform)
+  rescue Enterprise::Billing::ShopifyAppPricingUrl::Error, ActiveRecord::RecordNotFound
     render_could_not_create_error(I18n.t('errors.billing.shopify_pricing_unavailable'))
   end
 
