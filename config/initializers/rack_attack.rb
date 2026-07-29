@@ -221,7 +221,7 @@ class Rack::Attack
     ## Prevent Transcript Bombing on Widget API ###
     if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_TRANSCRIPT', true))
       throttle('api/v1/widget/conversations/transcript',
-               limit: ENV.fetch('RATE_LIMIT_WIDGET_TRANSCRIPT', '20').to_i,
+               limit: ENV.fetch('RATE_LIMIT_WIDGET_TRANSCRIPT', '5').to_i,
                period: 1.hour) do |req|
         req.ip if req.path_without_extensions == '/api/v1/widget/conversations/transcript' && req.post?
       end
