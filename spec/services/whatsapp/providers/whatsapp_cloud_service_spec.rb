@@ -362,6 +362,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
             body: {
               data: [{ id: '123456789', name: 'test_template' }],
               paging: {
+                cursors: { after: 'cursor-1' },
                 next: 'https://graph.facebook.com/v14.0/123456789/message_templates?after=cursor-1&access_token=test_key'
               }
             }.to_json
@@ -374,6 +375,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
             body: {
               data: [{ id: '123456789', name: 'next_template' }],
               paging: {
+                cursors: { after: 'cursor-2' },
                 next: 'https://graph.facebook.com/v14.0/123456789/message_templates?after=cursor-2&access_token=test_key'
               }
             }.to_json

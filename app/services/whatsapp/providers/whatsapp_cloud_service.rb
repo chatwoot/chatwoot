@@ -35,29 +35,27 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def sync_templates
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
-    templates = fetch_whatsapp_templates("#{business_account_path}/message_templates")
+    templates = fetch_whatsapp_templates
     # rubocop:disable Rails/SkipsModelValidations
     whatsapp_channel.update_columns(message_templates: templates, message_templates_last_updated: Time.current) if templates.present?
     # rubocop:enable Rails/SkipsModelValidations
   end
 
-  def fetch_whatsapp_templates(url)
-    response = HTTParty.get(url, headers: { 'Authorization' => "Bearer #{whatsapp_channel.template_access_token}" })
+  def fetch_whatsapp_templates(after: nil)
+    options = { headers: { 'Authorization' => "Bearer #{whatsapp_channel.template_access_token}" } }
+    options[:query] = { after: after } if after.present?
+    response = HTTParty.get("#{business_account_path}/message_templates", options)
     unless response.success?
       Rails.logger.warn "[WHATSAPP] Template sync failed for account #{whatsapp_channel.account_id} " \
                         "inbox #{whatsapp_channel.inbox&.id}: #{response.code} #{error_message(response)}"
       return []
     end
 
-    next_url = next_url(response)
+    next_cursor = response.dig('paging', 'cursors', 'after')
 
-    return response['data'] + fetch_whatsapp_templates(next_url) if next_url.present?
+    return response['data'] + fetch_whatsapp_templates(after: next_cursor) if next_cursor.present?
 
     response['data']
-  end
-
-  def next_url(response)
-    response.dig('paging', 'next').to_s.gsub(/([?&])access_token=[^&]*&?/, '\1').delete_suffix('?').delete_suffix('&')
   end
 
   def validate_provider_config?
