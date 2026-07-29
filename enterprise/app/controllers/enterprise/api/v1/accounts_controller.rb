@@ -28,7 +28,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def limits
-    limits = if default_plan?(@account)
+    limits = if @account.billing_provider == Account::DEFAULT_BILLING_PROVIDER && default_plan?(@account)
                {
                  'conversation' => {
                    'allowed' => 500,

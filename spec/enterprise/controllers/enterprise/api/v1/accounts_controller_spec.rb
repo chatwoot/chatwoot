@@ -317,6 +317,39 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           expect(JSON.parse(response.body)).to eq(expected_response)
         end
       end
+
+      context 'when the account is billed through Shopify' do
+        let(:account) do
+          create(
+            :account,
+            internal_attributes: { 'billing_provider' => 'shopify' },
+            custom_attributes: { 'plan_name' => nil }
+          )
+        end
+
+        it 'uses the Shopify catalog when resolving the provider default plan' do
+          create(
+            :installation_config,
+            name: 'CHATWOOT_SHOPIFY_PLANS',
+            value: [
+              {
+                'name' => 'Shopify Basic',
+                'handle' => 'shopify-basic',
+                'features' => [],
+                'limits' => { 'agents' => 5, 'inboxes' => 10 }
+              }
+            ],
+            locked: true
+          )
+
+          get "/enterprise/api/v1/accounts/#{account.id}/limits",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(response.parsed_body.dig('limits', 'agents', 'allowed')).to eq(0)
+        end
+      end
     end
   end
 
