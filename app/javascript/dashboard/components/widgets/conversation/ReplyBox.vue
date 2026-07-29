@@ -137,6 +137,8 @@ export default {
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
       copilotAcceptedMessages: {},
+      replyTypeBeforeConversationSwitch: null,
+      skipNextReplyTypeDraftSync: false,
     };
   },
   computed: {
@@ -464,7 +466,11 @@ export default {
   watch: {
     currentChat(conversation, oldConversation) {
       const { can_reply: canReply } = conversation;
-      if (oldConversation && oldConversation.id !== conversation.id) {
+      const isConversationSwitch =
+        oldConversation && oldConversation.id !== conversation.id;
+
+      if (isConversationSwitch) {
+        this.replyTypeBeforeConversationSwitch = this.replyType;
         // Only update email fields when switching to a completely different conversation (by ID)
         // This prevents overwriting user input (e.g., CC/BCC fields) when performing actions
         // like self-assign or other updates that do not actually change the conversation context
@@ -478,6 +484,12 @@ export default {
       }
 
       if (this.isPendingConversation) {
+        if (
+          isConversationSwitch &&
+          this.replyType !== REPLY_EDITOR_MODES.NOTE
+        ) {
+          this.skipNextReplyTypeDraftSync = true;
+        }
         this.replyType = REPLY_EDITOR_MODES.NOTE;
         return;
       }
@@ -504,7 +516,11 @@ export default {
     },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
-        this.setToDraft(oldConversationId, this.replyType);
+        this.setToDraft(
+          oldConversationId,
+          this.replyTypeBeforeConversationSwitch || this.replyType
+        );
+        this.replyTypeBeforeConversationSwitch = null;
         this.getFromDraft();
         this.resetRecorderAndClearAttachments();
       }
@@ -514,6 +530,10 @@ export default {
       this.doAutoSaveDraft();
     },
     replyType(updatedReplyType, oldReplyType) {
+      if (this.skipNextReplyTypeDraftSync) {
+        this.skipNextReplyTypeDraftSync = false;
+        return;
+      }
       this.setToDraft(this.conversationIdByRoute, oldReplyType);
       this.getFromDraft();
     },
