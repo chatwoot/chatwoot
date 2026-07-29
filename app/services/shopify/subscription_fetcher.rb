@@ -12,7 +12,10 @@ class Shopify::SubscriptionFetcher
     cached_snapshot = Rails.cache.read(cache_key) unless force
     return Shopify::SubscriptionSnapshot.from_h(cached_snapshot) if cached_snapshot.present?
 
-    snapshot = Shopify::PartnerClient.new.subscription_snapshot(shop_id: Shopify::ShopIdentity.new(hook: hook).shop_id)
+    snapshot = Shopify::PartnerClient.new.subscription_snapshot(
+      shop_id: Shopify::ShopIdentity.new(hook: hook).shop_id,
+      verified_at: Time.current
+    )
     Rails.cache.write(cache_key, snapshot.to_h, expires_in: CACHE_TTL)
     snapshot
   end

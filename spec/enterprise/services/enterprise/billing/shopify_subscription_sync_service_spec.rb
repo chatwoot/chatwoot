@@ -105,8 +105,33 @@ RSpec.describe Enterprise::Billing::ShopifySubscriptionSyncService do
     expect(account.reload.suspension_history.size).to eq(1)
   end
 
+  it 'does not let an older verification restore stale entitlements' do
+    newer_inactive_snapshot = Shopify::SubscriptionSnapshot.from_h(
+      inactive_snapshot.to_h.merge('verified_at' => '2026-07-29T10:01:00Z')
+    )
+    older_active_snapshot = Shopify::SubscriptionSnapshot.from_h(
+      active_snapshot.to_h.merge('verified_at' => '2026-07-29T10:00:00Z')
+    )
+    allow(fetcher).to receive(:perform).with(force: true).and_return(newer_inactive_snapshot, older_active_snapshot)
+
+    described_class.new(account: account).perform
+    result = described_class.new(account: account).perform
+
+    expect(result.to_h).to eq(newer_inactive_snapshot.to_h)
+    expect(account.reload).to be_suspended
+    expect(account.custom_attributes).to include(
+      'plan_name' => nil,
+      'subscription_status' => 'expired',
+      'shopify_subscription_verified_at' => '2026-07-29T10:01:00Z'
+    )
+    expect(account).not_to be_feature_enabled('saml')
+  end
+
   it 'restores access after a Shopify-owned billing suspension becomes active' do
-    allow(fetcher).to receive(:perform).with(force: true).and_return(inactive_snapshot, active_snapshot)
+    reactivated_snapshot = Shopify::SubscriptionSnapshot.from_h(
+      active_snapshot.to_h.merge('verified_at' => '2026-07-29T10:01:00Z')
+    )
+    allow(fetcher).to receive(:perform).with(force: true).and_return(inactive_snapshot, reactivated_snapshot)
 
     described_class.new(account: account).perform
     described_class.new(account: account).perform
@@ -127,7 +152,10 @@ RSpec.describe Enterprise::Billing::ShopifySubscriptionSyncService do
   end
 
   it 'does not reactivate an account manually suspended after a Shopify billing suspension' do
-    allow(fetcher).to receive(:perform).with(force: true).and_return(inactive_snapshot, active_snapshot)
+    reactivated_snapshot = Shopify::SubscriptionSnapshot.from_h(
+      active_snapshot.to_h.merge('verified_at' => '2026-07-29T10:01:00Z')
+    )
+    allow(fetcher).to receive(:perform).with(force: true).and_return(inactive_snapshot, reactivated_snapshot)
     described_class.new(account: account).perform
 
     manual_suspension = {

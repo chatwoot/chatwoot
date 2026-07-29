@@ -14,16 +14,9 @@ class Enterprise::Billing::ShopifySubscriptionSyncService
     return unless eligible?
 
     snapshot = Shopify::SubscriptionFetcher.new(account: account).perform(force: true)
-    plan = configured_plan(snapshot) if snapshot.entitled?
-
-    reconciled = account.with_lock do
-      next false unless eligible?
-
-      snapshot.entitled? ? apply_entitlements(snapshot, plan) : remove_entitlements(snapshot)
-      Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
-      true
-    end
-    return unless reconciled
+    reconciled = reconcile_snapshot(snapshot)
+    return persisted_snapshot if reconciled == :stale
+    return unless reconciled == :applied
 
     log_sync(snapshot)
     snapshot
@@ -50,6 +43,31 @@ class Enterprise::Billing::ShopifySubscriptionSyncService
 
     Enterprise::Billing::PlanConfiguration.find_shopify_plan_by_handle(handles.first) ||
       raise(InvalidSubscription, 'Shopify subscription has an unknown plan handle')
+  end
+
+  def reconcile_snapshot(snapshot)
+    account.with_lock do
+      next false unless eligible?
+      next :stale if stale_snapshot?(snapshot)
+
+      plan = configured_plan(snapshot) if snapshot.entitled?
+      snapshot.entitled? ? apply_entitlements(snapshot, plan) : remove_entitlements(snapshot)
+      Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+      :applied
+    end
+  end
+
+  def stale_snapshot?(snapshot)
+    persisted_verified_at = account.custom_attributes[VERIFIED_AT_KEY]
+    return false if persisted_verified_at.blank?
+
+    Time.iso8601(snapshot.to_h.fetch('verified_at')) <= Time.iso8601(persisted_verified_at)
+  rescue ArgumentError
+    raise InvalidSubscription, 'Shopify subscription has an invalid verification timestamp'
+  end
+
+  def persisted_snapshot
+    Shopify::SubscriptionSnapshot.from_h(account.custom_attributes.fetch(SNAPSHOT_KEY))
   end
 
   def apply_entitlements(snapshot, plan)

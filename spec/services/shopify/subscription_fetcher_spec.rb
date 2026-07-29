@@ -23,10 +23,16 @@ RSpec.describe Shopify::SubscriptionFetcher do
   end
 
   it 'caches a normalized snapshot for page loads' do
+    verified_at = Time.zone.parse('2026-07-29T10:00:00Z')
+    allow(Time).to receive(:current).and_return(verified_at)
+
     result = described_class.new(account: account).perform
 
     expect(result.to_h).to eq(snapshot.to_h)
-    expect(client).to have_received(:subscription_snapshot).with(shop_id: 'gid://shopify/Shop/5678')
+    expect(client).to have_received(:subscription_snapshot).with(
+      shop_id: 'gid://shopify/Shop/5678',
+      verified_at: verified_at
+    )
     expect(Rails.cache).to have_received(:write).with(
       "shopify:subscription_snapshot:account:#{account.id}",
       snapshot.to_h,
@@ -49,7 +55,10 @@ RSpec.describe Shopify::SubscriptionFetcher do
     described_class.new(account: account).perform(force: true)
 
     expect(Rails.cache).not_to have_received(:read)
-    expect(client).to have_received(:subscription_snapshot)
+    expect(client).to have_received(:subscription_snapshot).with(
+      shop_id: 'gid://shopify/Shop/5678',
+      verified_at: instance_of(ActiveSupport::TimeWithZone)
+    )
   end
 
   it 'does not call Shopify when the feature gate is disabled' do
