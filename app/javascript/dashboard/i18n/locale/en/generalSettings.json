@@ -164,6 +164,7 @@
       "conversation_assignment": "Conversation Assigned",
       "assigned_conversation_new_message": "New Message",
       "participating_conversation_new_message": "New Message",
+      "all_conversations_new_message": "New Message",
       "conversation_mention": "Mention",
       "sla_missed_first_response": "SLA Missed",
       "sla_missed_next_response": "SLA Missed",
