@@ -202,25 +202,19 @@ RSpec.describe AccountBuilder do
       it 'returns and finalizes a signup when a commit callback raises' do
         callback_error = StandardError.new('Commit callback failed')
         exception_tracker = instance_double(ChatwootExceptionTracker, capture_exception: nil)
-        original_transaction = ActiveRecord::Base.method(:transaction)
-        transaction_depth = 0
-        allow(ActiveRecord::Base).to receive(:transaction) do |*args, **kwargs, &block|
-          transaction_depth += 1
-          result = original_transaction.call(*args, **kwargs, &block)
-          transaction_depth -= 1
-          raise callback_error if transaction_depth.zero?
-
-          result
-        end
+        allow(Rails.configuration.dispatcher).to receive(:dispatch).and_call_original
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          .with(Events::Types::ACCOUNT_CREATED, anything, account: instance_of(Account))
+          .and_raise(callback_error)
         allow(ChatwootExceptionTracker).to receive(:new)
           .with(callback_error, account: instance_of(Account))
           .and_return(exception_tracker)
 
         user, account = shopify_account_builder.perform
 
-        expect(user).to be_persisted
-        expect(account).to be_persisted
+        expect([user, account]).to all(be_persisted)
         expect(account.account_users.find_by(user: user)).to be_present
+        expect(user.notification_settings.find_by(account: account)).to be_present
         expect(account.hooks.find_by(app_id: 'shopify')).to be_present
         expect(exception_tracker).to have_received(:capture_exception)
         expect(pending_installation).to have_received(:consume!)

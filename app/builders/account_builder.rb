@@ -152,6 +152,7 @@ class AccountBuilder
 
     Account.exists?(@account.id) &&
       AccountUser.exists?(account_id: @account.id, user_id: @user.id) &&
+      NotificationSetting.exists?(account_id: @account.id, user_id: @user.id) &&
       Integrations::Hook.exists?(account_id: @account.id, app_id: 'shopify')
   end
 
