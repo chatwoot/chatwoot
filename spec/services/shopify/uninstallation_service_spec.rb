@@ -42,6 +42,20 @@ RSpec.describe Shopify::UninstallationService do
     )
   end
 
+  it 'reloads the installation generation while holding the hook lock' do
+    replacement_connected_at = connected_at + 2.minutes
+    Integrations::Hook.find(hook.id).update!(
+      settings: hook.settings.merge('connected_at' => replacement_connected_at.iso8601(6))
+    )
+
+    described_class.new(hook: hook, occurred_at: connected_at + 1.minute).perform
+
+    expect(hook.reload).to have_attributes(
+      status: 'enabled',
+      access_token: 'shopify-access-token'
+    )
+  end
+
   it 'supports lifecycle calls without an occurrence timestamp' do
     hook
 
@@ -50,15 +64,12 @@ RSpec.describe Shopify::UninstallationService do
     end.to change(Integrations::Hook, :count).by(-1)
   end
 
-  it 'does not mutate anything when the account feature is disabled' do
+  it 'still cleans up when the account feature is disabled' do
     hook
     account.disable_features!('shopify_integration')
 
-    described_class.new(hook: hook, occurred_at: connected_at + 1.minute).perform
-
-    expect(hook.reload).to have_attributes(
-      status: 'enabled',
-      access_token: 'shopify-access-token'
-    )
+    expect do
+      described_class.new(hook: hook, occurred_at: connected_at + 1.minute).perform
+    end.to change(Integrations::Hook, :count).by(-1)
   end
 end
