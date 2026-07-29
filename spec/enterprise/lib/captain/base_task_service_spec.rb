@@ -72,11 +72,11 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       before do
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
         allow(account).to receive(:usage_limits).and_return(available_usage_limits)
-        allow(account).to receive(:reserve_response_usage).and_return(true)
+        allow(account).to receive(:reserve_response_usage).and_return('reservation-id')
       end
 
       it 'keeps the reservation for a successful result' do
-        expect(account).to receive(:commit_response_usage)
+        expect(account).to receive(:commit_response_usage).with('reservation-id')
         expect(account).not_to receive(:increment_response_usage)
         expect(account).not_to receive(:release_response_usage)
 
@@ -87,7 +87,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
         let(:perform_result) { { error: 'API Error' } }
 
         it 'releases the reservation' do
-          expect(account).to receive(:release_response_usage)
+          expect(account).to receive(:release_response_usage).with('reservation-id')
 
           service.perform
         end
@@ -104,7 +104,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
         end
 
         it 'releases the reservation' do
-          expect(account).to receive(:release_response_usage)
+          expect(account).to receive(:release_response_usage).with('reservation-id')
 
           expect { service.perform }.to raise_error('Task failed')
         end

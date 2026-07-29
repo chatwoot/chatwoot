@@ -1,14 +1,14 @@
 module Enterprise::Captain::BaseTaskService
   def perform
-    usage_reserved = reserve_usage
-    return { error: I18n.t('captain.copilot_limit'), error_code: 429 } if usage_reserved == false
-    return disabled_result(usage_reserved) unless captain_tasks_enabled?
+    usage_reservation = reserve_usage
+    return { error: I18n.t('captain.copilot_limit'), error_code: 429 } if usage_reservation == false
+    return disabled_result(usage_reservation) unless captain_tasks_enabled?
 
     result = super
-    finalize_usage(result, usage_reserved)
+    finalize_usage(result, usage_reservation)
     result
   rescue StandardError
-    release_usage if usage_reserved
+    release_usage(usage_reservation) if usage_reservation
     raise
   end
 
@@ -22,15 +22,15 @@ module Enterprise::Captain::BaseTaskService
     account.reserve_response_usage
   end
 
-  def disabled_result(usage_reserved)
-    release_usage if usage_reserved
+  def disabled_result(usage_reservation)
+    release_usage(usage_reservation) if usage_reservation
     error_key = ChatwootApp.chatwoot_cloud? ? 'captain.upgrade' : 'captain.disabled'
     { error: I18n.t(error_key) }
   end
 
-  def finalize_usage(result, usage_reserved)
+  def finalize_usage(result, usage_reservation)
     successful = successful_result?(result)
-    return successful ? commit_usage : release_usage if usage_reserved
+    return successful ? commit_usage(usage_reservation) : release_usage(usage_reservation) if usage_reservation
 
     increment_usage if counts_toward_usage? && successful
   end
@@ -48,13 +48,13 @@ module Enterprise::Captain::BaseTaskService
     account.increment_response_usage
   end
 
-  def release_usage
+  def release_usage(usage_reservation)
     Rails.logger.info("[CAPTAIN][#{self.class.name}] Releasing response usage for account #{account.id}")
-    account.release_response_usage
+    account.release_response_usage(usage_reservation)
   end
 
-  def commit_usage
+  def commit_usage(usage_reservation)
     Rails.logger.info("[CAPTAIN][#{self.class.name}] Committing response usage for account #{account.id}")
-    account.commit_response_usage
+    account.commit_response_usage(usage_reservation)
   end
 end

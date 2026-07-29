@@ -2,7 +2,8 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
   CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
   CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
-  CAPTAIN_RESPONSES_RESERVED = 'captain_responses_reserved'.freeze
+  CAPTAIN_RESPONSE_RESERVATIONS = 'captain_response_reservations'.freeze
+  CAPTAIN_RESPONSE_RESERVATION_TTL = 1.hour
   CAPTAIN_DOCUMENTS_USAGE = 'captain_documents_usage'.freeze
 
   def usage_limits
@@ -25,46 +26,37 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     response_limit = captain_monthly_limit[:responses].to_i
     return false unless response_limit.positive?
 
-    updated_count = Account.where(id: id)
-                           .where(
-                             'COALESCE((custom_attributes ->> :usage_key)::int, 0) + ' \
-                             'COALESCE((custom_attributes ->> :reserved_key)::int, 0) < :limit',
-                             usage_key: CAPTAIN_RESPONSES_USAGE,
-                             reserved_key: CAPTAIN_RESPONSES_RESERVED,
-                             limit: response_limit
-                           )
-                           .update_all(response_reservation_increment)
-    return false unless updated_count == 1
+    reservation_id = SecureRandom.uuid
+    with_lock do
+      reservations = active_response_reservations
+      next false if custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i + reservations.size >= response_limit
 
-    custom_attributes[CAPTAIN_RESPONSES_RESERVED] = custom_attributes[CAPTAIN_RESPONSES_RESERVED].to_i + 1
-    true
+      reservations[reservation_id] = CAPTAIN_RESPONSE_RESERVATION_TTL.from_now.to_i
+      update_custom_attribute(CAPTAIN_RESPONSE_RESERVATIONS, reservations)
+      reservation_id
+    end
   end
 
-  def release_response_usage
-    updated_count = Account.where(id: id)
-                           .where(
-                             'COALESCE((custom_attributes ->> :key)::int, 0) > 0',
-                             key: CAPTAIN_RESPONSES_RESERVED
-                           )
-                           .update_all(response_reservation_decrement)
-    return false unless updated_count == 1
-
-    custom_attributes[CAPTAIN_RESPONSES_RESERVED] = [custom_attributes[CAPTAIN_RESPONSES_RESERVED].to_i - 1, 0].max
-    true
+  def release_response_usage(reservation_id)
+    with_lock do
+      reservations = active_response_reservations
+      released = reservations.delete(reservation_id).present?
+      update_custom_attribute(CAPTAIN_RESPONSE_RESERVATIONS, reservations)
+      released
+    end
   end
 
-  def commit_response_usage
-    updated_count = Account.where(id: id)
-                           .where(
-                             'COALESCE((custom_attributes ->> :key)::int, 0) > 0',
-                             key: CAPTAIN_RESPONSES_RESERVED
-                           )
-                           .update_all(response_reservation_commit)
-    return false unless updated_count == 1
+  def commit_response_usage(reservation_id)
+    with_lock do
+      reservations = active_response_reservations
+      next false unless reservations.delete(reservation_id)
 
-    custom_attributes[CAPTAIN_RESPONSES_RESERVED] = [custom_attributes[CAPTAIN_RESPONSES_RESERVED].to_i - 1, 0].max
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i + 1
-    true
+      Account.where(id: id).update_all(response_reservation_commit(reservations))
+      custom_attributes[CAPTAIN_RESPONSE_RESERVATIONS] = reservations
+      custom_attributes[CAPTAIN_RESPONSES_USAGE] = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i + 1
+      clear_attribute_changes([:custom_attributes])
+      true
+    end
   end
 
   def reset_response_usage
@@ -226,6 +218,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
                                        { key: key, value: value.to_json }
                                      ])
     custom_attributes[key] = value
+    clear_attribute_changes([:custom_attributes])
   end
 
   def increment_custom_attribute(key)
@@ -235,32 +228,25 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
                                        { key: key }
                                      ])
     custom_attributes[key] = custom_attributes[key].to_i + 1
+    clear_attribute_changes([:custom_attributes])
   end
 
-  def response_reservation_increment
-    [
-      "custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:key], " \
-      '(COALESCE((custom_attributes ->> :key)::int, 0) + 1)::text::jsonb)',
-      { key: CAPTAIN_RESPONSES_RESERVED }
-    ]
+  def active_response_reservations
+    reservations = custom_attributes[CAPTAIN_RESPONSE_RESERVATIONS]
+    return {} unless reservations.is_a?(Hash)
+
+    reservations.select { |_reservation_id, expires_at| expires_at.to_i > Time.current.to_i }
   end
 
-  def response_reservation_decrement
-    [
-      "custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:key], " \
-      '(GREATEST(COALESCE((custom_attributes ->> :key)::int, 0) - 1, 0))::text::jsonb)',
-      { key: CAPTAIN_RESPONSES_RESERVED }
-    ]
-  end
-
-  def response_reservation_commit
+  def response_reservation_commit(reservations)
     [
       "custom_attributes = jsonb_set(jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:usage_key], " \
-      '(COALESCE((custom_attributes ->> :usage_key)::int, 0) + 1)::text::jsonb), ARRAY[:reserved_key], ' \
-      '(GREATEST(COALESCE((custom_attributes ->> :reserved_key)::int, 0) - 1, 0))::text::jsonb)',
+      '(COALESCE((custom_attributes ->> :usage_key)::int, 0) + 1)::text::jsonb), ARRAY[:reservations_key], ' \
+      ':reservations::jsonb)',
       {
         usage_key: CAPTAIN_RESPONSES_USAGE,
-        reserved_key: CAPTAIN_RESPONSES_RESERVED
+        reservations_key: CAPTAIN_RESPONSE_RESERVATIONS,
+        reservations: reservations.to_json
       }
     ]
   end

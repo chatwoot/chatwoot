@@ -153,54 +153,65 @@ RSpec.describe Account, type: :model do
         first_request = described_class.find(account.id)
         second_request = described_class.find(account.id)
 
-        expect(first_request.reserve_response_usage).to be(true)
+        reservation_id = first_request.reserve_response_usage
+
+        expect(reservation_id).to be_present
         expect(second_request.reserve_response_usage).to be(false)
-        expect(account.reload.custom_attributes).to include(
-          'captain_responses_usage' => 0,
-          'captain_responses_reserved' => 1
-        )
+        account.reload
+        expect(account.custom_attributes['captain_responses_usage']).to eq(0)
+        expect(account.custom_attributes['captain_response_reservations'].keys).to contain_exactly(reservation_id)
       end
 
-      it 'releases a reserved response without going below zero' do
+      it 'releases only the requested response reservation' do
+        account.update!(limits: { captain_responses: 2 })
+        account.reset_response_usage
+        first_reservation = account.reserve_response_usage
+        second_reservation = account.reserve_response_usage
+
+        expect(account.release_response_usage(first_reservation)).to be(true)
+        expect(account.release_response_usage(first_reservation)).to be(false)
+        expect(account.reload.custom_attributes['captain_response_reservations'].keys).to contain_exactly(second_reservation)
+      end
+
+      it 'expires reservations left by interrupted tasks' do
         account.update!(limits: { captain_responses: 1 })
         account.reset_response_usage
+        account.custom_attributes['captain_response_reservations'] = { 'interrupted-request' => 1.minute.ago.to_i }
+        account.save!
 
-        expect(account.reserve_response_usage).to be(true)
-        expect(account.release_response_usage).to be(true)
-        expect(account.release_response_usage).to be(false)
-        expect(account.reload.custom_attributes).to include(
-          'captain_responses_usage' => 0,
-          'captain_responses_reserved' => 0
-        )
+        reservation_id = account.reserve_response_usage
+
+        expect(reservation_id).to be_present
+        expect(account.reload.custom_attributes['captain_response_reservations'].keys).to contain_exactly(reservation_id)
       end
 
       it 'commits a reserved response after a quota reset' do
         account.update!(limits: { captain_responses: 2 })
         account.increment_response_usage
-        expect(account.reserve_response_usage).to be(true)
+        reservation_id = account.reserve_response_usage
+        expect(reservation_id).to be_present
 
         account.reset_response_usage
 
-        expect(account.commit_response_usage).to be(true)
-        expect(account.reload.custom_attributes).to include(
-          'captain_responses_usage' => 1,
-          'captain_responses_reserved' => 0
-        )
+        expect(account.commit_response_usage(reservation_id)).to be(true)
+        account.reload
+        expect(account.custom_attributes['captain_responses_usage']).to eq(1)
+        expect(account.custom_attributes['captain_response_reservations']).to be_empty
       end
 
       it 'releases only its reservation after a quota reset' do
         account.update!(limits: { captain_responses: 2 })
         account.increment_response_usage
-        expect(account.reserve_response_usage).to be(true)
+        reservation_id = account.reserve_response_usage
+        expect(reservation_id).to be_present
 
         account.reset_response_usage
         account.increment_response_usage
 
-        expect(account.release_response_usage).to be(true)
-        expect(account.reload.custom_attributes).to include(
-          'captain_responses_usage' => 1,
-          'captain_responses_reserved' => 0
-        )
+        expect(account.release_response_usage(reservation_id)).to be(true)
+        account.reload
+        expect(account.custom_attributes['captain_responses_usage']).to eq(1)
+        expect(account.custom_attributes['captain_response_reservations']).to be_empty
       end
 
       it 'reseting responses limits updates usage_limits' do
