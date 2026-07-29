@@ -47,8 +47,8 @@ module Captain::Conversation::V1FalsePromiseHandler
   end
 
   def inspect_v1_response_after_false_promise_repair(message_history)
-    classify_v1_response_action(message_history) if conversation_pending?
-    return unless conversation_pending?
+    classify_v1_response_action(message_history) if captain_handling_conversation?
+    return unless captain_handling_conversation?
     return if v1_handoff_requested?
 
     verify_v1_false_promise_repair(message_history)

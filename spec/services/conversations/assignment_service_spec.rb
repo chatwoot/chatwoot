@@ -81,6 +81,24 @@ describe Conversations::AssignmentService do
         expect(conversation.assignee_id).to be_nil
         expect(conversation.status).to eq('pending')
       end
+
+      it 'marks a resolved conversation pending' do
+        conversation.update!(status: :resolved)
+
+        service.perform
+
+        expect(conversation.reload.status).to eq('pending')
+      end
+
+      it 'marks a snoozed conversation pending and clears the snooze timestamp' do
+        conversation.update!(status: :snoozed, snoozed_until: 1.day.from_now)
+
+        service.perform
+
+        conversation.reload
+        expect(conversation.status).to eq('pending')
+        expect(conversation.snoozed_until).to be_nil
+      end
     end
   end
 end

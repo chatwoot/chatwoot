@@ -185,6 +185,10 @@ describe NotificationListener do
     let(:event_name) { :'conversation.bot_handoff' }
 
     context 'when conversation is bot handoff' do
+      before do
+        conversation.update!(assignee: nil)
+      end
+
       it 'creates notifications for inbox members who have notifications turned on' do
         notification_setting = first_agent.notification_settings.first
         notification_setting.selected_email_flags = [:email_conversation_creation]
@@ -207,6 +211,22 @@ describe NotificationListener do
         notification_setting.save!
 
         create(:inbox_member, user: agent_with_out_notification, inbox: inbox)
+        conversation.reload
+
+        event = Events::Base.new(event_name, Time.zone.now, conversation: conversation)
+
+        listener.conversation_bot_handoff(event)
+        expect(notification_setting.user.notifications.count).to eq(0)
+      end
+
+      it 'does not broadcast conversation creation notifications when a human is already assigned' do
+        notification_setting = first_agent.notification_settings.first
+        notification_setting.selected_email_flags = [:email_conversation_creation]
+        notification_setting.selected_push_flags = []
+        notification_setting.save!
+
+        conversation.update!(assignee: user)
+        create(:inbox_member, user: first_agent, inbox: inbox)
         conversation.reload
 
         event = Events::Base.new(event_name, Time.zone.now, conversation: conversation)

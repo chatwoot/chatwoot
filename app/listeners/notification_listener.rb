@@ -2,6 +2,7 @@ class NotificationListener < BaseListener
   def conversation_bot_handoff(event)
     conversation, account = extract_conversation_and_account(event)
     return if conversation.pending?
+    return if conversation.assignee_id.present?
 
     conversation.inbox.members.each do |agent|
       NotificationBuilder.new(
