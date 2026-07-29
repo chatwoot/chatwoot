@@ -172,15 +172,21 @@ export default {
     showContentTemplates() {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
-    isPrivate() {
-      if (
-        this.currentChat.can_reply ||
+    // WhatsApp and API inboxes keep public replies available even after the
+    // messaging window closes, because a template can still re-engage the
+    // contact. An agent bot owning a pending conversation closes every
+    // customer-facing path until the conversation is taken over.
+    canSendPublicReply() {
+      if (this.isBotOwnedPendingConversation) return false;
+
+      return !!(
+        this.currentChat?.can_reply ||
         this.isAWhatsAppChannel ||
         this.isAPIInbox
-      ) {
-        return this.isOnPrivateNote;
-      }
-      return true;
+      );
+    },
+    isPrivate() {
+      return this.canSendPublicReply ? this.isOnPrivateNote : true;
     },
     hasMeaningfulEditorContent() {
       const body = this.message || '';
@@ -198,10 +204,7 @@ export default {
       return !!stripped.trim();
     },
     isReplyRestricted() {
-      return (
-        !this.currentChat?.can_reply &&
-        !(this.isAWhatsAppChannel || this.isAPIInbox)
-      );
+      return !this.canSendPublicReply;
     },
     isBotOwnedPendingConversation() {
       return (
@@ -454,16 +457,14 @@ export default {
     },
     isEditorDisabled() {
       return (
+        (this.isAWhatsAppChannel || this.isAPIInbox) &&
         !this.isOnPrivateNote &&
-        (this.isBotOwnedPendingConversation ||
-          ((this.isAWhatsAppChannel || this.isAPIInbox) &&
-            !this.currentChat.can_reply))
+        !this.currentChat.can_reply
       );
     },
   },
   watch: {
     currentChat(conversation, oldConversation) {
-      const { can_reply: canReply } = conversation;
       if (oldConversation && oldConversation.id !== conversation.id) {
         // Only update email fields when switching to a completely different conversation (by ID)
         // This prevents overwriting user input (e.g., CC/BCC fields) when performing actions
@@ -477,11 +478,9 @@ export default {
         return;
       }
 
-      if (canReply || this.isAWhatsAppChannel || this.isAPIInbox) {
-        this.replyType = REPLY_EDITOR_MODES.REPLY;
-      } else {
-        this.replyType = REPLY_EDITOR_MODES.NOTE;
-      }
+      this.replyType = this.canSendPublicReply
+        ? REPLY_EDITOR_MODES.REPLY
+        : REPLY_EDITOR_MODES.NOTE;
 
       this.fetchAndSetReplyTo();
     },
@@ -509,12 +508,18 @@ export default {
       this.doAutoSaveDraft();
     },
     replyType(updatedReplyType, oldReplyType) {
+      this.$store.dispatch('draftMessages/setReplyEditorMode', {
+        mode: updatedReplyType,
+      });
       this.setToDraft(this.conversationIdByRoute, oldReplyType);
       this.getFromDraft();
     },
   },
 
   mounted() {
+    this.$store.dispatch('draftMessages/setReplyEditorMode', {
+      mode: this.replyType,
+    });
     this.getFromDraft();
     // Don't use the keyboard listener mixin here as the events here are supposed to be
     // working even if the editor is focussed.
@@ -940,12 +945,7 @@ export default {
       // This is to prevent from breaking the upload rules
       if (this.attachedFiles.length > 0) this.attachedFiles = [];
 
-      const { can_reply: canReply } = this.currentChat;
-      this.$store.dispatch('draftMessages/setReplyEditorMode', {
-        mode,
-      });
-      if (canReply || this.isAWhatsAppChannel || this.isAPIInbox)
-        this.replyType = mode;
+      if (this.canSendPublicReply) this.replyType = mode;
       if (this.isRecordingAudio) {
         this.toggleAudioRecorder();
       }
