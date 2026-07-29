@@ -21,19 +21,10 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
       token: params[:pending_install_token],
       account_id: Current.account.id
     )
-    data = pending_installation.data
-
-    Current.account.hooks.create!(
-      app_id: 'shopify',
-      access_token: data['access_token'],
-      status: 'enabled',
-      reference_id: data['shop'],
-      settings: { scope: data['scope'] }
-    )
-
-    pending_installation.consume!
+    install_pending_shopify_hook(pending_installation)
     head :ok
   rescue Shopify::PendingInstallation::Error => e
+    pending_installation&.release!
     render json: { error: e.message }, status: :unprocessable_entity
   rescue StandardError
     pending_installation&.release!
@@ -48,6 +39,20 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   private
+
+  def install_pending_shopify_hook(pending_installation)
+    data = pending_installation.data
+    ActiveRecord::Base.transaction do
+      Current.account.hooks.create!(
+        app_id: 'shopify',
+        access_token: data['access_token'],
+        status: 'enabled',
+        reference_id: data['shop'],
+        settings: { scope: data['scope'] }
+      )
+      pending_installation.consume!
+    end
+  end
 
   def ensure_shopify_enabled
     head :not_found unless Shopify::FeatureGate.enabled?(account: Current.account)
