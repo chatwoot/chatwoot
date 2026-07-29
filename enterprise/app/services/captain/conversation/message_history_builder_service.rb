@@ -49,9 +49,11 @@ class Captain::Conversation::MessageHistoryBuilderService
 
   def prepare_multimodal_message_content(message)
     if message.outgoing? && message.sender_type == 'Captain::Assistant'
-      attributes = message.additional_attributes.to_h
-      response_parts_key = Captain::Assistant::ResponseParts::ADDITIONAL_ATTRIBUTES_KEY
-      return Captain::Assistant::ResponseParts.new(attributes[response_parts_key]).plain_text.presence if attributes.key?(response_parts_key)
+      message_attributes = message.additional_attributes.to_h
+      response_parts_attribute = Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY
+      if message_attributes.key?(response_parts_attribute)
+        return Captain::Assistant::ResponseParts.new(message_attributes[response_parts_attribute]).plain_text.presence
+      end
     end
 
     Captain::OpenAiMessageBuilderService.new(message: message).generate_content

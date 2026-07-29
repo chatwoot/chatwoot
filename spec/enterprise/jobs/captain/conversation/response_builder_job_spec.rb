@@ -383,7 +383,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           content: 'Earlier answer [[1](https://help.example.com/private-from-model)]',
           message_type: :outgoing,
           additional_attributes: {
-            Captain::Assistant::ResponseParts::ADDITIONAL_ATTRIBUTES_KEY => [
+            Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY => [
               { 'text' => 'Earlier answer', 'citation_indexes' => [1] }
             ]
           },
@@ -427,7 +427,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(conversation.messages.outgoing.count).to eq(1)
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain V2')
         expect(
-          conversation.messages.last.additional_attributes[Captain::Assistant::ResponseParts::ADDITIONAL_ATTRIBUTES_KEY]
+          conversation.messages.last.additional_attributes[Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY]
         ).to eq(v2_response_parts)
       end
 
@@ -552,7 +552,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
           message = conversation.messages.outgoing.last
           expect(message.content).to eq("**Steps**\n\n- Open settings\n\nSave the change.")
-          expect(message.additional_attributes[Captain::Assistant::ResponseParts::ADDITIONAL_ATTRIBUTES_KEY]).to eq(
+          expect(message.additional_attributes[Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY]).to eq(
             [
               { 'text' => "**Steps**\n\n- Open settings", 'citation_indexes' => [] },
               { 'text' => 'Save the change.', 'citation_indexes' => [] }

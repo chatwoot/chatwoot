@@ -4,7 +4,7 @@ require 'agents/instrumentation'
 class Captain::Assistant::AgentRunnerService
   include Integrations::LlmInstrumentationConstants
   include Captain::Assistant::RunnerCallbacksHelper
-  include Captain::Assistant::RunnerResponseHelper
+  include Captain::Assistant::AgentRunResponse
   include Captain::Assistant::TracePayloadHelper
   include Captain::Assistant::RunnerStateHelper
 

@@ -300,6 +300,68 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       end
     end
 
+    context 'when a structured response exceeds the channel limit' do
+      let(:channel_limit_rewrite) do
+        original_model_output = {
+          'response_parts' => [
+            { 'text' => 'The first answer has more detail than this channel can accept.', 'citation_indexes' => [2] },
+            { 'text' => 'The second answer also has more detail than this channel can accept.', 'citation_indexes' => [1] }
+          ],
+          'reasoning' => 'Used two FAQ results'
+        }
+        rewritten_model_output = {
+          'response_parts' => [
+            { 'text' => 'Short first answer.', 'citation_indexes' => [99] },
+            { 'text' => 'Short second answer.', 'citation_indexes' => [] }
+          ],
+          'reasoning' => 'Shortened both parts'
+        }
+        runner_context = {
+          session_id: "#{account.id}_#{conversation.display_id}",
+          state: { captain_v2_citation_sources: { 1 => 101, 2 => 202 } },
+          conversation_history: [{ role: :assistant, content: original_model_output }]
+        }
+        runner_messages = [{ role: :assistant, content: original_model_output }]
+
+        {
+          original_run_result: Agents::RunResult.new(output: original_model_output, messages: runner_messages, context: runner_context),
+          rewrite_run_result: Agents::RunResult.new(output: rewritten_model_output, messages: [], context: {}),
+          runner_context: runner_context,
+          runner_messages: runner_messages
+        }
+      end
+      let(:mock_result) { channel_limit_rewrite[:original_run_result] }
+
+      before do
+        allow(assistant).to receive(:config).and_return('feature_citation' => true)
+        allow(Captain::MessageLengthLimit).to receive(:for).with(conversation).and_return(80)
+        allow(mock_runner).to receive(:run).and_return(mock_result, channel_limit_rewrite[:rewrite_run_result])
+      end
+
+      it 'shortens ordered parts and restores their original citation indexes' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response_parts']).to eq(
+          [
+            { 'text' => 'Short first answer.', 'citation_indexes' => [2] },
+            { 'text' => 'Short second answer.', 'citation_indexes' => [1] }
+          ]
+        )
+        expect(mock_result.output['response_parts']).to eq(result['response_parts'])
+        expect(channel_limit_rewrite[:runner_context][:conversation_history].last[:content]['response_parts']).to eq(result['response_parts'])
+        expect(channel_limit_rewrite[:runner_messages].last[:content]['response_parts']).to eq(result['response_parts'])
+        expect(mock_runner).to have_received(:run).with(
+          include(
+            'Keep the same number and order of response parts',
+            '"citation_indexes":[2]',
+            '"citation_indexes":[1]'
+          ),
+          context: hash_including(state: channel_limit_rewrite[:runner_context][:state]),
+          max_turns: 1
+        )
+      end
+    end
+
     context 'when an error occurs' do
       let(:error) { StandardError.new('Test error') }
 

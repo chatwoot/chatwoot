@@ -1,17 +1,19 @@
 class Captain::Assistant::ResponseParts
-  ADDITIONAL_ATTRIBUTES_KEY = 'captain_v2_response_parts'.freeze
+  MESSAGE_ATTRIBUTE_KEY = 'captain_v2_response_parts'.freeze
 
   attr_reader :parts
 
   def self.from_response(response)
+    return new([{ text: response.to_s, citation_indexes: [] }]) unless response.is_a?(Hash)
+
     response = response.with_indifferent_access
     return new(response[:response_parts]) if response.key?(:response_parts)
 
     new([{ text: response[:response], citation_indexes: [] }])
   end
 
-  def initialize(raw_parts)
-    @parts = Array(raw_parts).filter_map { |part| normalize_part(part) }
+  def initialize(response_parts)
+    @parts = Array(response_parts).filter_map { |part| normalize_part(part) }
   end
 
   def plain_text
@@ -22,7 +24,7 @@ class Captain::Assistant::ResponseParts
     self.class.new(parts.map { |part| part.merge('citation_indexes' => []) })
   end
 
-  def render(citation_urls: {})
+  def customer_message_content(citation_urls: {})
     display_numbers = {}
 
     parts.map do |part|
@@ -56,7 +58,9 @@ class Captain::Assistant::ResponseParts
 
     {
       'text' => text,
-      'citation_indexes' => Array(part[:citation_indexes]).select { |index| index.is_a?(Integer) && index.positive? }.uniq
+      'citation_indexes' => Array(part[:citation_indexes]).select do |citation_index|
+        citation_index.is_a?(Integer) && citation_index.positive?
+      end.uniq
     }
   end
 end

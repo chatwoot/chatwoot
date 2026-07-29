@@ -56,12 +56,12 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
   end
 
   def citation_index(tool_context, response)
-    sources = tool_context.state[:captain_v2_citation_sources] ||= {}
-    existing_index = sources.find { |_index, response_id| response_id == response.id }&.first
+    citation_source_ids = tool_context.state[:captain_v2_citation_sources] ||= {}
+    existing_index = citation_source_ids.find { |_index, response_id| response_id == response.id }&.first
     return existing_index if existing_index.present?
 
-    index = sources.size + 1
-    sources[index] = response.id
-    index
+    next_citation_index = citation_source_ids.size + 1
+    citation_source_ids[next_citation_index] = response.id
+    next_citation_index
   end
 end
