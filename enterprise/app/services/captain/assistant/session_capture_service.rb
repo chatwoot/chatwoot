@@ -74,8 +74,8 @@ class Captain::Assistant::SessionCaptureService
   # (assistant replies, tool calls/results, handoff hops).
   def current_turn_history
     history = Array(context[:conversation_history])
-    last_user_index = history.rindex { |message| message[:role].to_s == 'user' }
-    current_turn = last_user_index ? history[last_user_index..] : history
+    turn_start_index = context[:captain_v2_turn_start_index] || history.rindex { |message| message[:role].to_s == 'user' } || 0
+    current_turn = history[turn_start_index..]
 
     current_turn.map do |message|
       content = message[:content]
