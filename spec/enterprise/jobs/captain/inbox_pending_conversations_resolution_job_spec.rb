@@ -3,6 +3,15 @@ require 'rails_helper'
 RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   let!(:inbox) { create(:inbox) }
   let!(:resolvable_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 2.hours.ago, status: :pending) }
+  let!(:agent_bot_owned_pending_conversation) do
+    create(
+      :conversation,
+      inbox: inbox,
+      last_activity_at: 2.hours.ago,
+      status: :pending,
+      assignee_agent_bot: create(:agent_bot, account: inbox.account)
+    )
+  end
   let!(:recent_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 1.minute.ago, status: :pending) }
   let!(:open_conversation) { create(:conversation, inbox: inbox, last_activity_at: 1.hour.ago, status: :open) }
   let!(:captain_assistant) { create(:captain_assistant, account: inbox.account) }
@@ -29,6 +38,12 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       described_class.perform_now(inbox)
 
       expect(recent_pending_conversation.reload.status).to eq('pending')
+    end
+
+    it 'does not resolve agent bot-owned pending conversations' do
+      described_class.perform_now(inbox)
+
+      expect(agent_bot_owned_pending_conversation.reload.status).to eq('pending')
     end
 
     it 'does not affect open conversations' do
