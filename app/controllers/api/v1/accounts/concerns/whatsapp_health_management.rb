@@ -17,8 +17,19 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   end
 
   def health
-    health_data = Whatsapp::HealthService.new(@inbox.channel).fetch_health_status
+    health_data = Whatsapp::HealthService.new(@inbox.channel).sync_health_status!
     render json: health_data
+  rescue Whatsapp::HealthService::ApiError => e
+    Rails.logger.error "[INBOX HEALTH] Error fetching health data: #{e.message}"
+    render json: {
+      error: {
+        type: e.authorization_error? ? 'authorization' : 'api',
+        message: e.message,
+        http_status: e.http_status,
+        code: e.code,
+        subcode: e.subcode
+      }.compact
+    }, status: :unprocessable_entity
   rescue StandardError => e
     Rails.logger.error "[INBOX HEALTH] Error fetching health data: #{e.message}"
     render json: { error: e.message }, status: :unprocessable_entity

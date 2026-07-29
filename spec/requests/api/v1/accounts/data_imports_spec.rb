@@ -209,6 +209,63 @@ RSpec.describe 'Data Imports API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/:account_id/data_imports/:id/retry' do
+    let(:data_import) { create(:data_import, :intercom, account: account, status: :processing, started_at: 2.hours.ago) }
+
+    it 'resumes a stalled import with a new run identifier while preserving progress', :aggregate_failures do
+      started_at = data_import.started_at
+      data_import.update!(
+        cursor: { 'conversations' => { 'starting_after' => 'cursor-1' } },
+        stats: { 'conversations' => { 'imported' => 20 } },
+        source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'previous-run' },
+        updated_at: 16.minutes.ago
+      )
+
+      expect do
+        post retry_api_v1_account_data_import_url(account_id: account.id, id: data_import.id),
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.to have_enqueued_job(DataImports::Intercom::ImportJob).with(data_import, a_kind_of(String))
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to include('status' => 'pending', 'stalled' => false)
+      expect(data_import.reload.started_at).to eq(started_at)
+      expect(data_import.cursor.dig('conversations', 'starting_after')).to eq('cursor-1')
+      expect(data_import.stats.dig('conversations', 'imported')).to eq(20)
+      expect(data_import.active_intercom_import_run_id).not_to eq('previous-run')
+    end
+
+    it 'rejects duplicate retries after the import becomes active again' do
+      data_import.update!(updated_at: 16.minutes.ago)
+      post retry_api_v1_account_data_import_url(account_id: account.id, id: data_import.id),
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect do
+        post retry_api_v1_account_data_import_url(account_id: account.id, id: data_import.id),
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.not_to have_enqueued_job(DataImports::Intercom::ImportJob)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('This Intercom import is no longer stalled.')
+    end
+
+    it 'rejects retry while another Intercom import is active' do
+      data_import.update!(updated_at: 16.minutes.ago)
+      create(:data_import, :intercom, account: account, status: :processing)
+
+      expect do
+        post retry_api_v1_account_data_import_url(account_id: account.id, id: data_import.id),
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.not_to have_enqueued_job(DataImports::Intercom::ImportJob)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('Another Intercom import is already in progress.')
+    end
+  end
+
   describe 'POST /api/v1/accounts/:account_id/data_imports/:id/abandon' do
     let(:data_import) { create(:data_import, :intercom, account: account) }
 
@@ -283,6 +340,7 @@ RSpec.describe 'Data Imports API', type: :request do
         'id' => data_import.id,
         'name' => 'July Intercom migration',
         'source_provider' => 'intercom',
+        'stalled' => false,
         'import_errors_count' => 1,
         'skip_logs_count' => 1
       )
