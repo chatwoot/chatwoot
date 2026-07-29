@@ -85,4 +85,17 @@ RSpec.describe Shopify::UninstallationService do
       settings: {}
     )
   end
+
+  it 'revokes credentials when the account feature is disabled' do
+    account.disable_features!('shopify_integration')
+    allow(sync_service).to receive(:perform)
+
+    described_class.new(hook: hook, occurred_at: occurred_at).perform
+
+    expect(hook.reload).to have_attributes(
+      status: 'disabled',
+      access_token: nil,
+      settings: {}
+    )
+  end
 end

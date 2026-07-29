@@ -7,16 +7,20 @@ class Shopify::UninstallationService
 
   def perform
     failure = nil
+    outcome = :stale
     hook.with_lock do
       next if stale_event?
 
       begin
         uninstall
+        outcome = :uninstalled
       rescue StandardError => e
         failure = e
       end
     end
     raise failure if failure
+
+    outcome
   end
 
   private
