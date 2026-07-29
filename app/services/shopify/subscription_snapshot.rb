@@ -44,7 +44,7 @@ class Shopify::SubscriptionSnapshot
       primary_item = active_items.one? ? active_items.first : nil
 
       {
-        'state' => subscription_state(active_subscription, latest_event),
+        'state' => subscription_state(active_subscription, latest_event, verified_at),
         'plan_handles' => active_items.pluck('handle').compact,
         'plan_name' => primary_item&.fetch('description', nil),
         'amount' => primary_item&.dig('price', 'amount'),
@@ -61,15 +61,20 @@ class Shopify::SubscriptionSnapshot
       }
     end
 
-    def subscription_state(active_subscription, latest_event)
+    def subscription_state(active_subscription, latest_event, verified_at)
       if active_subscription.present?
-        return 'trialing' if active_subscription['trialEndsAt'].present?
+        return 'trialing' if active_trial?(active_subscription, verified_at)
         return 'cancelled' if active_subscription['cancelAtEndOfCycle'] == true
 
         return 'active'
       end
 
       %w[CANCELED FROZEN].include?(latest_event&.fetch('state', nil)) ? 'expired' : 'missing'
+    end
+
+    def active_trial?(active_subscription, verified_at)
+      trial_ends_at = active_subscription['trialEndsAt']
+      trial_ends_at.present? && Time.iso8601(trial_ends_at) > verified_at
     end
 
     def normalize_event(latest_event)
