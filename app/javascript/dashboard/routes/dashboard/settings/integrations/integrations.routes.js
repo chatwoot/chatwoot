@@ -15,7 +15,7 @@ export const redirectShopifyIfUnavailable = async (to, _from, next) => {
   const accountId = Number(to.params.accountId);
   const account = store.getters['accounts/getAccount'](accountId);
   if (!account.id) {
-    await store.dispatch('accounts/get', { silent: true });
+    await store.dispatch('accounts/get', { accountId, silent: true });
   }
 
   const isShopifyEnabled = store.getters['accounts/isFeatureEnabledonAccount'](

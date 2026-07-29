@@ -93,6 +93,7 @@ describe('integration settings routes', () => {
     );
 
     expect(mocks.dispatch).toHaveBeenCalledWith('accounts/get', {
+      accountId: 1,
       silent: true,
     });
     expect(next).toHaveBeenCalledWith(undefined);
