@@ -347,6 +347,15 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           described_class.perform_now(conversation, assistant)
         end.not_to(change { conversation.messages.outgoing.count })
       end
+
+      it 'does not send a response when an agent bot owns the pending conversation' do
+        conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
+
+        expect(mock_llm_chat_service).not_to receive(:generate_response)
+        expect do
+          described_class.perform_now(conversation, assistant)
+        end.not_to(change { conversation.messages.outgoing.count })
+      end
     end
 
     context 'when captain_v2 is enabled' do

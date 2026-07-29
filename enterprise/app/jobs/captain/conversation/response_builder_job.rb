@@ -178,7 +178,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def conversation_pending?
-    status = Conversation.uncached { Conversation.where(id: @conversation.id).pick(:status) }
-    status == 'pending' || status == Conversation.statuses[:pending]
+    status, assignee_agent_bot_id = Conversation.uncached { Conversation.where(id: @conversation.id).pick(:status, :assignee_agent_bot_id) }
+    assignee_agent_bot_id.blank? && (status == 'pending' || status == Conversation.statuses[:pending])
   end
 end

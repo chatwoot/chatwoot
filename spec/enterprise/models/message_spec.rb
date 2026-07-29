@@ -87,5 +87,14 @@ RSpec.describe Message do
 
       expect(conversation.reload.pending?).to be true
     end
+
+    it 'does not mark agent bot owned conversations open for human outgoing messages' do
+      conversation.update!(assignee_agent_bot: create(:agent_bot, account: conversation.account))
+
+      expect do
+        create(:message, message_type: :outgoing, conversation: conversation)
+      end.not_to have_enqueued_job(Conversations::ActivityMessageJob)
+      expect(conversation.reload.pending?).to be true
+    end
   end
 end
