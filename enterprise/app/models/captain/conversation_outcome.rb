@@ -42,6 +42,29 @@ class Captain::ConversationOutcome < ApplicationRecord
     usage_limit
   ].freeze
 
+  # Query-time classification predicates: the table stores only facts, and every
+  # judgment is derived from them. Shared by the stats and drilldown builders so
+  # a stat card and its drilldown always count the same rows.
+  #
+  # Involved: Captain replied publicly, or handed off for a real reason. A
+  # usage-limit handoff is blocked demand, not participation.
+  INVOLVED_SQL = "(first_captain_reply_at IS NOT NULL OR (handoff_at IS NOT NULL AND handoff_reason_category != 'usage_limit'))".freeze
+  # Autonomous: resolved by Captain alone, with no handoff and no public human
+  # reply before the resolution that stuck.
+  AUTONOMOUS_SQL = '(resolved_at IS NOT NULL AND first_captain_reply_at IS NOT NULL AND handoff_at IS NULL ' \
+                   'AND (first_human_reply_at IS NULL OR first_human_reply_at > resolved_at))'.freeze
+  # Assisted: resolved with Captain participation and a human in the loop.
+  ASSISTED_SQL = "(resolved_at IS NOT NULL AND #{INVOLVED_SQL} AND NOT #{AUTONOMOUS_SQL})".freeze
+  # The tracker only records reopens that happen after the current resolution,
+  # so a reopen timestamp at or before resolved_at belongs to an earlier,
+  # superseded resolution.
+  NOT_REOPENED_SQL = '(last_reopened_at IS NULL OR last_reopened_at <= resolved_at)'.freeze
+
+  scope :involved, -> { where(INVOLVED_SQL) }
+  scope :autonomous_resolved, -> { where(AUTONOMOUS_SQL) }
+  scope :assisted_resolved, -> { where(ASSISTED_SQL) }
+  scope :reopened, -> { where('reopen_count > 0') }
+
   self.table_name = 'captain_conversation_outcomes'
 
   belongs_to :account

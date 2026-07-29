@@ -13,22 +13,12 @@ class Captain::AssistantOutcomeStatsBuilder
   # rather than counted as durable-so-far.
   DURABLE_RESOLUTION_WINDOW = 7.days
 
-  # Captain participated: replied publicly, or handed off for a real reason.
-  # A usage-limit handoff is blocked demand, not participation.
-  INVOLVED_SQL = "(first_captain_reply_at IS NOT NULL OR (handoff_at IS NOT NULL AND handoff_reason_category != 'usage_limit'))".freeze
-
-  # Resolved by Captain alone: no handoff and no public human reply before the
-  # resolution that stuck.
-  AUTONOMOUS_SQL = '(resolved_at IS NOT NULL AND first_captain_reply_at IS NOT NULL AND handoff_at IS NULL ' \
-                   'AND (first_human_reply_at IS NULL OR first_human_reply_at > resolved_at))'.freeze
-
-  # Resolved with Captain participation but a human in the loop.
-  ASSISTED_SQL = "(resolved_at IS NOT NULL AND #{INVOLVED_SQL} AND NOT #{AUTONOMOUS_SQL})".freeze
-
-  # The tracker only records reopens that happen after the current resolution,
-  # so a reopen timestamp at or before resolved_at belongs to an earlier,
-  # superseded resolution.
-  NOT_REOPENED_SQL = '(last_reopened_at IS NULL OR last_reopened_at <= resolved_at)'.freeze
+  # Classification predicates live on the model so every builder counts the
+  # same rows (see Captain::ConversationOutcome).
+  INVOLVED_SQL = Captain::ConversationOutcome::INVOLVED_SQL
+  AUTONOMOUS_SQL = Captain::ConversationOutcome::AUTONOMOUS_SQL
+  ASSISTED_SQL = Captain::ConversationOutcome::ASSISTED_SQL
+  NOT_REOPENED_SQL = Captain::ConversationOutcome::NOT_REOPENED_SQL
 
   attr_reader :assistant, :account
 
