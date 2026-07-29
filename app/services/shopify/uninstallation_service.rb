@@ -1,47 +1,31 @@
 class Shopify::UninstallationService
-  def initialize(hook:)
+  def initialize(hook:, occurred_at: nil)
     @hook = hook
     @account = hook.account
+    @occurred_at = occurred_at
   end
 
   def perform
     return unless Shopify::FeatureGate.enabled?(account: account)
-    return hook.destroy! unless shopify_billed_account?
+    return if stale_event?
 
-    begin
-      Enterprise::Billing::ShopifySubscriptionSyncService.new(account: account).perform(snapshot: uninstall_snapshot)
-    ensure
-      revoke_credentials
-    end
+    uninstall
   end
 
   private
 
-  attr_reader :account, :hook
+  attr_reader :account, :hook, :occurred_at
 
-  def shopify_billed_account?
-    account.billing_provider == 'shopify' && account.signup_source == 'shopify'
+  def stale_event?
+    connected_at = hook.settings['connected_at']
+    return false if occurred_at.blank? || connected_at.blank?
+
+    occurred_at < Time.iso8601(connected_at)
   end
 
-  def uninstall_snapshot
-    verified_at = Time.current.iso8601
-    previous_snapshot = account.custom_attributes.fetch('shopify_subscription_snapshot', {})
-
-    Shopify::SubscriptionSnapshot.from_h(
-      previous_snapshot.slice('shop_id', 'shop_domain').merge(
-        'state' => 'expired',
-        'plan_handles' => [],
-        'shop_domain' => hook.reference_id,
-        'latest_event' => {
-          'state' => 'RELATIONSHIP_UNINSTALLED',
-          'occurred_at' => verified_at
-        },
-        'verified_at' => verified_at
-      )
-    )
-  end
-
-  def revoke_credentials
-    hook.update!(status: :disabled, access_token: nil, settings: {})
+  def uninstall
+    hook.destroy!
   end
 end
+
+Shopify::UninstallationService.prepend_mod_with('Shopify::UninstallationService')

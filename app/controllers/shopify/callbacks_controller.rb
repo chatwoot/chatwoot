@@ -74,7 +74,7 @@ class Shopify::CallbacksController < ApplicationController
       access_token: parsed_body['access_token'],
       status: 'enabled',
       reference_id: params[:shop],
-      settings: { scope: parsed_body['scope'] }
+      settings: shopify_hook_settings
     )
   end
 
@@ -84,8 +84,16 @@ class Shopify::CallbacksController < ApplicationController
       access_token: parsed_body['access_token'],
       status: :enabled,
       reference_id: params[:shop],
-      settings: { scope: parsed_body['scope'] }
+      settings: shopify_hook_settings
     )
+  end
+
+  def shopify_hook_settings
+    {
+      scope: parsed_body['scope'],
+      connected_at: Time.current.utc.iso8601(6),
+      installation_id: SecureRandom.uuid
+    }
   end
 
   def existing_shopify_account

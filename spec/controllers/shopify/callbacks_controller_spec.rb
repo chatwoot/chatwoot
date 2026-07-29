@@ -81,8 +81,10 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         expect(hook.app_id).to eq('shopify')
         expect(hook.status).to eq('enabled')
         expect(hook.reference_id).to eq(shop)
-        expect(hook.settings).to eq(
-          'scope' => 'read_products,write_products'
+        expect(hook.settings).to include(
+          'scope' => 'read_products,write_products',
+          'connected_at' => be_present,
+          'installation_id' => match(/\A[0-9a-f-]{36}\z/)
         )
         expect(response).to redirect_to(shopify_redirect_uri)
       end
@@ -239,6 +241,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
       end
 
       it 'reactivates a retained hook and redirects to billing' do
+        previous_installation_id = SecureRandom.uuid
         hook = create(
           :integrations_hook,
           :shopify,
@@ -246,7 +249,10 @@ RSpec.describe Shopify::CallbacksController, type: :request do
           reference_id: shop,
           status: :disabled,
           access_token: nil,
-          settings: {}
+          settings: {
+            'connected_at' => 1.day.ago.utc.iso8601(6),
+            'installation_id' => previous_installation_id
+          }
         )
         params = { code: code, state: state, shop: shop }
         params[:hmac] = compute_hmac(params, client_secret)
@@ -257,9 +263,14 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
         expect(hook.reload).to have_attributes(
           status: 'enabled',
-          access_token: access_token,
-          settings: { 'scope' => 'read_products,write_products' }
+          access_token: access_token
         )
+        expect(hook.settings).to include(
+          'scope' => 'read_products,write_products',
+          'connected_at' => be_present,
+          'installation_id' => match(/\A[0-9a-f-]{36}\z/)
+        )
+        expect(hook.settings['installation_id']).not_to eq(previous_installation_id)
         expect(response).to redirect_to(
           "#{frontend_url}/app/accounts/#{shopify_account.id}/settings/billing?shop=#{shop}"
         )
@@ -273,10 +284,16 @@ RSpec.describe Shopify::CallbacksController, type: :request do
           get shopify_callback_path, params: params
         end.to change { shopify_account.hooks.where(app_id: 'shopify').count }.by(1)
 
-        expect(shopify_account.hooks.find_by!(app_id: 'shopify')).to have_attributes(
+        recreated_hook = shopify_account.hooks.find_by!(app_id: 'shopify')
+        expect(recreated_hook).to have_attributes(
           status: 'enabled',
           access_token: access_token,
           reference_id: shop
+        )
+        expect(recreated_hook.settings).to include(
+          'scope' => 'read_products,write_products',
+          'connected_at' => be_present,
+          'installation_id' => match(/\A[0-9a-f-]{36}\z/)
         )
         expect(response).to redirect_to(
           "#{frontend_url}/app/accounts/#{shopify_account.id}/settings/billing?shop=#{shop}"

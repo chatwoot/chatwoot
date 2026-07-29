@@ -114,6 +114,18 @@ RSpec.describe 'Shopify Integration API', type: :request do
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['orders']).to eq([])
       end
+
+      it 'rejects a disabled retained hook before calling Shopify' do
+        account.hooks.find_by!(app_id: 'shopify').update!(status: :disabled, access_token: nil)
+
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: contact.id },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(shopify_client).not_to have_received(:get)
+      end
       # rubocop:enable RSpec/AnyInstance
     end
 

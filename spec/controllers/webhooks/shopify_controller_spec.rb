@@ -7,11 +7,13 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
   let(:client_secret) { 'shopify-client-secret' }
   let(:payload) { { shop_domain: shop_domain } }
   let(:topic) { 'shop/redact' }
+  let(:triggered_at) { '2026-07-29T10:01:00.123456789Z' }
   let(:body) { payload.to_json }
   let(:headers) do
     {
       'CONTENT_TYPE' => 'application/json',
       'X-Shopify-Topic' => topic,
+      'X-Shopify-Triggered-At' => triggered_at,
       'X-Shopify-Hmac-SHA256' => Base64.strict_encode64(OpenSSL::HMAC.digest('SHA256', client_secret, body))
     }
   end
@@ -124,7 +126,7 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
     it 'delegates the matching hook to the uninstallation lifecycle' do
       hook
       allow(Shopify::UninstallationService).to receive(:new)
-        .with(hook: hook)
+        .with(hook: hook, occurred_at: Time.iso8601(triggered_at))
         .and_return(uninstallation_service)
 
       post '/webhooks/shopify', params: body, headers: headers
