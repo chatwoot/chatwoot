@@ -12,15 +12,7 @@ class Shopify::SubscriptionFetcher
     cached_snapshot = Rails.cache.read(cache_key) unless force
     return Shopify::SubscriptionSnapshot.from_h(cached_snapshot) if cached_snapshot.present?
 
-    hook.with_lock do
-      verified_at = Time.current
-      snapshot = Shopify::PartnerClient.new.subscription_snapshot(
-        shop_id: Shopify::ShopIdentity.new(hook: hook).shop_id,
-        verified_at: verified_at
-      )
-      Rails.cache.write(cache_key, snapshot.to_h, expires_in: CACHE_TTL)
-      snapshot
-    end
+    fetch_current_snapshot
   end
 
   private
@@ -36,6 +28,25 @@ class Shopify::SubscriptionFetcher
 
   def hook
     @hook ||= account.hooks.find_by!(app_id: 'shopify', status: 'enabled')
+  end
+
+  def fetch_current_snapshot
+    hook.with_lock do
+      ensure_hook_enabled!
+      verified_at = Time.current
+      snapshot = Shopify::PartnerClient.new.subscription_snapshot(
+        shop_id: Shopify::ShopIdentity.new(hook: hook).shop_id,
+        verified_at: verified_at
+      )
+      Rails.cache.write(cache_key, snapshot.to_h, expires_in: CACHE_TTL)
+      snapshot
+    end
+  end
+
+  def ensure_hook_enabled!
+    return if hook.enabled? && hook.access_token.present?
+
+    raise ActiveRecord::RecordNotFound, 'Shopify integration credentials are unavailable'
   end
 
   def cache_key

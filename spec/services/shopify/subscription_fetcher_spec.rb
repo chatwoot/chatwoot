@@ -14,8 +14,11 @@ RSpec.describe Shopify::SubscriptionFetcher do
   let(:client) { instance_double(Shopify::PartnerClient) }
   let(:shop_identity) { instance_double(Shopify::ShopIdentity, shop_id: 'gid://shopify/Shop/5678') }
 
-  before do
+  let!(:hook) do
     create(:integrations_hook, :shopify, account: account, settings: { 'shop_id' => 'gid://shopify/Shop/5678' })
+  end
+
+  before do
     allow(Shopify::FeatureGate).to receive(:enabled?).with(account: account).and_return(true)
     allow(Shopify::PartnerClient).to receive(:new).and_return(client)
     allow(Shopify::ShopIdentity).to receive(:new).and_return(shop_identity)
@@ -61,6 +64,30 @@ RSpec.describe Shopify::SubscriptionFetcher do
       shop_id: 'gid://shopify/Shop/5678',
       verified_at: verified_at
     )
+  end
+
+  it 'serializes provider verification with integration lifecycle changes' do
+    association = account.hooks
+    allow(association).to receive(:find_by!).and_return(hook)
+    allow(hook).to receive(:with_lock).and_call_original
+
+    described_class.new(account: account).perform(force: true)
+
+    expect(hook).to have_received(:with_lock)
+  end
+
+  it 'does not verify a subscription after credentials are revoked while waiting for the hook lock' do
+    association = account.hooks
+    allow(association).to receive(:find_by!).and_return(hook)
+    allow(hook).to receive(:with_lock) do |&block|
+      hook.assign_attributes(status: :disabled, access_token: nil)
+      block.call
+    end
+
+    expect do
+      described_class.new(account: account).perform(force: true)
+    end.to raise_error(ActiveRecord::RecordNotFound, 'Shopify integration credentials are unavailable')
+    expect(client).not_to have_received(:subscription_snapshot)
   end
 
   it 'returns a cached normalized snapshot without calling Shopify' do
