@@ -1,4 +1,5 @@
 class Webhooks::ShopifyController < ActionController::API
+  before_action :ensure_shopify_enabled
   before_action :verify_hmac!
 
   def events
@@ -11,6 +12,10 @@ class Webhooks::ShopifyController < ActionController::API
   end
 
   private
+
+  def ensure_shopify_enabled
+    head :not_found unless Shopify::FeatureGate.enabled?
+  end
 
   def verify_hmac!
     secret = GlobalConfigService.load('SHOPIFY_CLIENT_SECRET', nil)
@@ -30,6 +35,8 @@ class Webhooks::ShopifyController < ActionController::API
     shop_domain = params[:shop_domain]
     return if shop_domain.blank?
 
-    Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain).destroy_all
+    Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain).find_each do |hook|
+      hook.destroy! if Shopify::FeatureGate.enabled?(account: hook.account)
+    end
   end
 end

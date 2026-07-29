@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Integrations::BaseController
   include Shopify::IntegrationHelper
+  before_action :ensure_shopify_enabled
   before_action :setup_shopify_context, only: [:orders]
   before_action :fetch_hook, except: [:complete_install]
   before_action :check_authorization, only: [:destroy]
@@ -40,6 +41,10 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   private
+
+  def ensure_shopify_enabled
+    head :not_found unless Shopify::FeatureGate.enabled?(account: Current.account)
+  end
 
   def contact
     @contact ||= Current.account.contacts.find_by(id: params[:contact_id])

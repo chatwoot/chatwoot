@@ -83,7 +83,7 @@ export default {
           name: 'settings_integrations_shopify',
           component: Shopify,
           meta: {
-            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            featureFlag: FEATURE_FLAGS.SHOPIFY,
             permissions: ['administrator'],
           },
           props: route => ({ error: route.query.error }),
