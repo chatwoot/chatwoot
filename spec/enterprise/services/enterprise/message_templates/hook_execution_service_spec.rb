@@ -21,14 +21,50 @@ RSpec.describe MessageTemplates::HookExecutionService do
         )
       end
 
-      it 'schedules captain response job for incoming messages on pending conversations' do
-        allow(account).to receive(:feature_enabled?).and_call_original
-        allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(true)
+      it 'keeps the legacy job arguments when burst protection is disabled' do
+        account.enable_features!(:captain_integration_v2)
+        allow(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later)
+
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
+
+        expect(Captain::Conversation::ResponseBuilderJob).to have_received(:perform_later).with(conversation, assistant)
+      end
+
+      it 'passes the responding message id when burst protection is enabled' do
+        account.enable_features!(:captain_message_burst_protection)
         allow(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later)
 
         message = create(:message, conversation: conversation, message_type: :incoming, account: account)
 
         expect(Captain::Conversation::ResponseBuilderJob).to have_received(:perform_later).with(conversation, assistant, message.id)
+      end
+    end
+
+    context 'when calculating attachment wait time' do
+      let(:configured_job) { instance_double(ActiveJob::ConfiguredJob, perform_later: true) }
+
+      before do
+        allow(Captain::Conversation::ResponseBuilderJob).to receive(:set).and_return(configured_job)
+      end
+
+      it 'uses only the current message attachments when burst protection is disabled' do
+        account.enable_features!(:captain_integration_v2)
+
+        create(:message, :with_attachment, conversation: conversation, message_type: :incoming, account: account)
+        create(:message, :with_attachment, conversation: conversation, message_type: :incoming, account: account)
+
+        expect(Captain::Conversation::ResponseBuilderJob).to have_received(:set).with(wait: 2.seconds).twice
+        expect(Captain::Conversation::ResponseBuilderJob).not_to have_received(:set).with(wait: 3.seconds)
+      end
+
+      it 'recalculates the wait from recent burst attachments when protection is enabled' do
+        account.enable_features!(:captain_message_burst_protection)
+
+        create(:message, :with_attachment, conversation: conversation, message_type: :incoming, account: account)
+        create(:message, :with_attachment, conversation: conversation, message_type: :incoming, account: account)
+
+        expect(Captain::Conversation::ResponseBuilderJob).to have_received(:set).with(wait: 2.seconds).once
+        expect(Captain::Conversation::ResponseBuilderJob).to have_received(:set).with(wait: 3.seconds).once
       end
     end
 

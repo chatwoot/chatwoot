@@ -11,19 +11,17 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @conversation = conversation
     @inbox = conversation.inbox
     @assistant = assistant
-    @responding_to_message_id = responding_to_message_id if captain_v2_enabled?
+    @message_burst_protection_enabled = account.captain_message_burst_protection_enabled?
+    @responding_to_message_id = responding_to_message_id if message_burst_protection_enabled?
 
     return unless conversation_pending?
 
     Current.executed_by = @assistant
 
-    if captain_v2_enabled?
-      return if newer_customer_message_arrived?
+    return generate_and_process_response unless captain_v2_enabled?
+    return if message_burst_protection_enabled? && newer_customer_message_arrived?
 
-      generate_response_with_v2
-    else
-      generate_and_process_response
-    end
+    generate_response_with_v2
   rescue ActiveStorage::FileNotFoundError, Faraday::BadRequestError => e
     handle_error(e)
     raise e
@@ -48,36 +46,28 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def generate_response_with_v2
-    runner_service = Captain::Assistant::AgentRunnerService.new(
-      assistant: @assistant,
-      conversation: @conversation,
-      responding_to_message_id: @responding_to_message_id
-    )
+    runner_service = v2_runner_service
     message_history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
     @response = runner_service.generate_response(message_history: message_history)
     @run_result = runner_service.last_run_result
+    return process_response unless message_burst_protection_enabled?
+
     @v2_handoff_tool_completed = runner_service.handoff_completed?
-
-    if v2_handoff_tool_completed?
-      process_response
-      return
-    end
-
-    return if runner_service.response_discarded?
-    return if newer_customer_message_arrived?
+    return process_response if v2_handoff_tool_completed?
+    return if runner_service.response_discarded? || newer_customer_message_arrived?
 
     process_response
   end
 
-  def process_response
-    if v2_handoff_tool_completed?
-      process_v2_handoff
-      capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
-    elsif v2_handoff_tool_fired?
-      return unless conversation_pending?
+  def v2_runner_service
+    runner_args = { assistant: @assistant, conversation: @conversation }
+    runner_args[:responding_to_message_id] = @responding_to_message_id if message_burst_protection_enabled?
+    Captain::Assistant::AgentRunnerService.new(**runner_args)
+  end
 
-      process_v1_handoff
-      capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
+  def process_response
+    if v2_handoff_tool_fired?
+      process_v2_handoff_response
     elsif v1_handoff_requested?
       # V1 only signals via the response string — no state has been touched yet. If
       # the conversation isn't pending anymore, a human took over mid-run; bail out
@@ -93,7 +83,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def process_standard_response
     message = nil
     ActiveRecord::Base.transaction do
-      next if newer_customer_message_arrived?
+      next if message_burst_protection_enabled? && newer_customer_message_arrived?
 
       message = create_messages
       Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
@@ -102,6 +92,20 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return unless message
 
     capture_assistant_session(result_message: message, credits_consumed: 1.0)
+  end
+
+  def process_v2_handoff_response
+    # The legacy path infers completion from status. Burst protection uses the
+    # completion marker set inside the locked handoff.
+    if message_burst_protection_enabled?
+      return unless v2_handoff_tool_completed? || conversation_pending?
+
+      v2_handoff_tool_completed? ? process_v2_handoff : process_v1_handoff
+    else
+      conversation_pending? ? process_v1_handoff : process_v2_handoff
+    end
+
+    capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
   end
 
   def v1_handoff_requested?
@@ -173,7 +177,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response ||= {}
     @response['action_source'] ||= 'error'
     @response['action_reason'] ||= error_action_reason(error)
-    process_v1_handoff if conversation_pending? && (!captain_v2_enabled? || !newer_customer_message_arrived?)
+    process_v1_handoff if conversation_pending? && (!message_burst_protection_enabled? || !newer_customer_message_arrived?)
     true
   end
 
@@ -187,6 +191,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def captain_v2_enabled?
     account.feature_enabled?('captain_integration_v2')
+  end
+
+  def message_burst_protection_enabled?
+    @message_burst_protection_enabled == true
   end
 
   def report_v1_handoff_not_executed

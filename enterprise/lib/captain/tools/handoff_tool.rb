@@ -5,7 +5,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   def perform(tool_context, reason: nil)
     conversation = find_conversation(tool_context.state)
     return 'Conversation not found' unless conversation
-    return 'Handoff skipped because a newer customer message arrived' if newer_customer_message_arrived?(tool_context.state)
+    return 'Handoff skipped because a newer customer message arrived' if stale_customer_message?(tool_context.state)
 
     # Log the handoff with reason
     log_tool_usage('tool_handoff', {
@@ -24,7 +24,13 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
   private
 
+  def stale_customer_message?(state)
+    message_burst_protection_enabled? && newer_customer_message_arrived?(state)
+  end
+
   def trigger_handoff(tool_context, conversation, reason)
+    return trigger_legacy_handoff(tool_context, conversation, reason) unless message_burst_protection_enabled?
+
     note = nil
     handoff_completed = conversation.with_lock do
       next false unless conversation.pending?
@@ -47,16 +53,29 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
     # generation path on the handoff reason instead of the canned follow-up message.
     # A reason-less note has no content and never renders in the dashboard, so
     # leave it unrecorded and let capture fall back to the follow-up message.
-    if reason.present?
-      metadata = tool_context.state[:cw_metadata] ||= {}
-      metadata[:handoff_note_id] = note.id
-    end
+    record_handoff_note(tool_context, note) if reason.present?
 
     tool_context.state[:captain_v2_handoff_tool_completed] = true
 
     # Send out of office message if applicable (since template messages were suppressed while Captain was handling)
     send_out_of_office_message_if_applicable(conversation)
     true
+  end
+
+  def trigger_legacy_handoff(tool_context, conversation, reason)
+    note = conversation.messages.create!(
+      message_type: :outgoing, private: true, sender: @assistant,
+      account: conversation.account, inbox: conversation.inbox, content: reason
+    )
+    record_handoff_note(tool_context, note) if reason.present?
+    conversation.bot_handoff!
+    send_out_of_office_message_if_applicable(conversation)
+    true
+  end
+
+  def record_handoff_note(tool_context, note)
+    metadata = tool_context.state[:cw_metadata] ||= {}
+    metadata[:handoff_note_id] = note.id
   end
 
   def send_out_of_office_message_if_applicable(conversation)

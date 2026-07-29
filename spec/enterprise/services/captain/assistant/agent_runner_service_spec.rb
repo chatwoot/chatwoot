@@ -464,6 +464,18 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       attributes = provider.generation_attributes(nil, nil, message)
 
       expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('final_response')
+      expect(attributes).not_to have_key('langfuse.observation.metadata.discarded')
+    end
+
+    it 'marks a protected generation as not discarded when no newer message has arrived' do
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      runner_service = described_class.new(assistant: assistant, conversation: conversation,
+                                           responding_to_message_id: responding_to_message.id)
+      attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
+      message = instance_double(RubyLLM::Message, tool_calls: {})
+
+      attributes = attribute_provider.generation_attributes(nil, nil, message)
+
       expect(attributes['langfuse.observation.metadata.discarded']).to eq('false')
     end
 
@@ -606,7 +618,6 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       tool_complete_callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'ok', context_wrapper)
 
-      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.discarded', 'false')
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
       run_complete_callback.call('assistant', nil, context_wrapper)
     end
@@ -654,6 +665,17 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(service.response_discarded?).to be true
     end
 
+    it 'does not register a run callback when OTEL and burst protection are disabled' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      runner = instance_double(Agents::AgentRunner)
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      expect(runner).not_to receive(:on_run_complete)
+
+      service.send(:add_usage_metadata_callback, runner)
+    end
+
     it 'sets credit_used=true when handoff tool is not used' do
       service = described_class.new(assistant: assistant, conversation: conversation)
       runner = instance_double(Agents::AgentRunner)
@@ -673,7 +695,6 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       service.send(:add_usage_metadata_callback, runner)
 
-      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.discarded', 'false')
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'true')
       run_complete_callback.call('assistant', nil, context_wrapper)
     end

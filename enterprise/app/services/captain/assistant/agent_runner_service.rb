@@ -33,13 +33,9 @@ class Captain::Assistant::AgentRunnerService
     error_response(e.message)
   end
 
-  def response_discarded?
-    @response_discarded == true
-  end
+  def response_discarded? = @response_discarded == true
 
-  def handoff_completed?
-    @handoff_tool_completed == true
-  end
+  def handoff_completed? = @handoff_tool_completed == true
 
   private
 
@@ -161,9 +157,15 @@ class Captain::Assistant::AgentRunnerService
       track_handoff_usage(tool_name, handoff_tool_name, context_wrapper)
     end
 
-    runner.on_run_complete do |_agent_name, _result, context_wrapper|
-      @response_discarded = newer_customer_message_arrived?
-      write_run_metadata(context_wrapper) if ChatwootApp.otel_enabled?
+    if message_burst_protection_active?
+      runner.on_run_complete do |_agent_name, _result, context_wrapper|
+        @response_discarded = newer_customer_message_arrived?
+        write_run_metadata(context_wrapper) if ChatwootApp.otel_enabled?
+      end
+    elsif ChatwootApp.otel_enabled?
+      runner.on_run_complete do |_agent_name, _result, context_wrapper|
+        write_credits_used_metadata(context_wrapper)
+      end
     end
     runner
   end
@@ -189,6 +191,15 @@ class Captain::Assistant::AgentRunnerService
     root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'discarded'), response_discarded?.to_s)
     root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), (!@handoff_tool_called && !response_discarded?).to_s)
   end
+
+  def write_credits_used_metadata(context_wrapper)
+    root_span = context_wrapper&.context&.dig(:__otel_tracing, :root_span)
+    return unless root_span
+
+    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), @handoff_tool_called ? 'false' : 'true')
+  end
+
+  def message_burst_protection_active? = @responding_to_message_id.present?
 
   def newer_customer_message_arrived?
     return false if @responding_to_message_id.blank? || @conversation.blank?

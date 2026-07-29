@@ -7,6 +7,7 @@ class Captain::Tools::BasePublicTool < Agents::Tool
   end
 
   def execute(tool_context, **params)
+    return super unless message_burst_protection_enabled?
     return super if safe_to_run_after_new_customer_message?
     return 'Tool skipped because a newer customer message arrived' if newer_customer_message_arrived?(tool_context.state)
 
@@ -46,6 +47,10 @@ class Captain::Tools::BasePublicTool < Agents::Tool
 
   def safe_to_run_after_new_customer_message?
     false
+  end
+
+  def message_burst_protection_enabled?
+    @assistant.account.captain_message_burst_protection_enabled?
   end
 
   def newer_customer_message_arrived?(state)
