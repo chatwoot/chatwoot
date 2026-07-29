@@ -93,6 +93,23 @@ class Conversation < ApplicationRecord
   scope :sort_on_unread, lambda { |_direction|
     order(unread_messages_count_arel.desc).sort_on_last_activity_at('desc')
   }
+  scope :order_on_custom_attribute, lambda { |attribute_key, direction, numeric: false|
+    # attribute_key is whitelisted by Conversations::Sort before calling this scope.
+    quoted_key = connection.quote(attribute_key)
+    expression = if numeric
+                   raw = "NULLIF(BTRIM(\"conversations\".\"custom_attributes\"->>#{quoted_key}), '')"
+                   cleaned = "NULLIF(regexp_replace(#{raw}, '[^0-9.\\-]+', '', 'g'), '')"
+                   "CASE WHEN #{cleaned} ~ '^-?[0-9]+(\\.[0-9]+)?$' THEN (#{cleaned})::numeric ELSE NULL END"
+                 else
+                   "\"conversations\".\"custom_attributes\"->>#{quoted_key}"
+                 end
+
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("#{expression} #{direction} NULLS LAST")
+      )
+    )
+  }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
   scope :resolvable_not_waiting, lambda { |auto_resolve_after|
     return none if auto_resolve_after.to_i.zero?

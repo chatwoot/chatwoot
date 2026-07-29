@@ -624,11 +624,21 @@
       },
       "HISTORY": {
         "TITLE": "Conversation history",
-        "EMPTY_STATE": "There are no previous conversations associated to this contact"
+        "EMPTY_STATE": "There are no previous conversations associated to this contact",
+        "COLUMNS": {
+          "ID": "ID",
+          "STATUS": "Status",
+          "INBOX": "Inbox",
+          "ASSIGNEE": "Assignee",
+          "PRIORITY": "Priority",
+          "LAST_ACTIVITY": "Last activity",
+          "CREATED_AT": "Created"
+        }
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Search for attributes",
         "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+        "CATEGORY_COUNT": "{title} ({count})",
         "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
         "YES": "Yes",
         "NO": "No",

@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** hotfix `B-NEW-47` modal resolve precarga + * + rojo
+**Última actualización:** fix `B-NEW-48` contact search doble encode + ILIKE
+(2026-07-28, branch `feat/contact-ui-overhaul`). Antes: hotfix `B-NEW-47` modal resolve precarga + * + rojo
 (2026-07-28). Antes: hotfix `B-NEW-46` cadena de business rules en modal resolve
 (2026-07-28). Antes: hotfix `B-NEW-45` resolve `.map` business rules
 (2026-07-28). Antes: feature `B-NEW-44` automation timeline tuerca + actividades
@@ -123,6 +124,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-45 | 🔴 Bug UX | No | ✅ Resolve crash: `condition.values` scalar → `.map is not a function` |
 | B-NEW-46 | Bug UX | No | ✅ Modal resolve encadena reglas al cambiar attrs (ej. tipo=Venta → pide Y/Z) |
 | B-NEW-47 | Bug UX | No | ✅ Modal resolve precarga valores, `*` obligatorio, faltante en rojo al abrir |
+| B-NEW-48 | Bug UX | No | ✅ Contact search: sin doble encode; ILIKE id/doc; company_name |
 
 ---
 
@@ -1076,6 +1078,25 @@ rojo hasta interactuar.
 **Cómo probar:** conversación con venta casi completa, borrar un campo (o
 dejar uno vacío) → Resolver → form muestra los valores existentes, `*` en
 labels, el vacío en rojo.
+
+### B-NEW-48 — Contact search: doble encode + campos limitados
+
+**Síntoma:** buscar contactos con espacios, tildes o `+` no encontraba;
+identifier/document case-sensitive; company no entraba en search.
+
+**Causa:** `ContactsIndex` hacía `encodeURIComponent` y `buildContactParams`
+volvía a encodear (`%20` → `%2520`). Backend usaba `LIKE` en identifier/
+document_number y no buscaba company.
+
+**Fix:**
+1. Pasar `search` crudo desde `ContactsIndex` (encode solo en API).
+2. `ILIKE` en identifier y document_number.
+3. Incluir `additional_attributes->>'company_name' ILIKE`.
+
+**Archivos:** `ContactsIndex.vue`, `contacts_controller.rb`, `docs/BUGS.md`.
+
+**Cómo probar:** buscar nombre con espacio/tilde, cédula en mayúsculas/minúsculas,
+y company_name → deben aparecer resultados.
 
 ### B-NEW-39 — Automation: no enviar si ventana Meta/WhatsApp cerrada
 

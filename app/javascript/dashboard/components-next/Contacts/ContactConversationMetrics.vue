@@ -7,6 +7,11 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  /** Inline chips beside contact name (no section title / hints) */
+  compact: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const { t } = useI18n();
@@ -52,7 +57,26 @@ const metrics = computed(() => {
 </script>
 
 <template>
-  <section class="flex flex-col gap-2">
+  <div
+    v-if="compact"
+    class="flex flex-wrap items-center gap-1.5"
+    role="group"
+    :aria-label="t('CONTACTS_LAYOUT.METRICS.TITLE')"
+  >
+    <div
+      v-for="metric in metrics"
+      :key="metric.key"
+      v-tooltip.top="metric.hint"
+      class="inline-flex items-center gap-1 rounded-md border border-n-weak px-2 py-0.5 min-w-0"
+      :class="metric.tone"
+    >
+      <span class="text-[10px] font-medium uppercase tracking-wide opacity-80">
+        {{ metric.label }}
+      </span>
+      <span class="text-sm font-semibold tabular-nums">{{ metric.value }}</span>
+    </div>
+  </div>
+  <section v-else class="flex flex-col gap-2">
     <h4 class="text-sm font-medium text-n-slate-12 px-1">
       {{ t('CONTACTS_LAYOUT.METRICS.TITLE') }}
     </h4>
@@ -63,7 +87,9 @@ const metrics = computed(() => {
         class="rounded-xl border border-n-weak p-3 min-w-0"
         :class="metric.tone"
       >
-        <p class="text-xs font-medium truncate opacity-80">{{ metric.label }}</p>
+        <p class="text-xs font-medium truncate opacity-80">
+          {{ metric.label }}
+        </p>
         <p class="mt-1 text-2xl font-semibold tabular-nums tracking-tight">
           {{ metric.value }}
         </p>

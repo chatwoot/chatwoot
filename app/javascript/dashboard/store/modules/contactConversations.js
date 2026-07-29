@@ -112,12 +112,23 @@ export const actions = {
       });
     }
   },
-  get: async ({ commit }, contactId) => {
+  get: async ({ commit }, payload) => {
+    const contactId =
+      typeof payload === 'object' && payload !== null
+        ? payload.contactId
+        : payload;
+    const sortBy =
+      typeof payload === 'object' && payload !== null
+        ? payload.sortBy
+        : undefined;
+
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isFetching: true,
     });
     try {
-      const response = await ContactAPI.getConversations(contactId);
+      const response = await ContactAPI.getConversations(contactId, {
+        sortBy,
+      });
       commit(types.default.SET_CONTACT_CONVERSATIONS, {
         id: contactId,
         data: response.data.payload,

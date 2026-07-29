@@ -108,16 +108,22 @@
         "TEXT": "Priority: Lowest first"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "Waiting for reply: Longest first"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "Waiting for reply: Shortest first"
       },
       "priority_desc_created_at_asc": {
         "TEXT": "Priority: Highest first, Created: Oldest first"
       },
       "unread": {
         "TEXT": "Unread Count: Highest first"
+      },
+      "custom_asc": {
+        "TEXT": "{attribute}: Ascending"
+      },
+      "custom_desc": {
+        "TEXT": "{attribute}: Descending"
       }
     },
     "ATTACHMENTS": {

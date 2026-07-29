@@ -286,7 +286,7 @@ const searchContacts = debounce(
     updatePageParam(page, value);
     await store.dispatch('contacts/search', {
       ...getCommonFetchParams(page),
-      search: encodeURIComponent(value),
+      search: value,
       append,
     });
     searchPageNumber.value = page;
@@ -302,7 +302,7 @@ const loadMoreSearchResults = async () => {
 
   await store.dispatch('contacts/search', {
     ...getCommonFetchParams(nextPage),
-    search: encodeURIComponent(searchValue.value),
+    search: searchValue.value,
     append: true,
   });
 
@@ -352,6 +352,13 @@ const fetchContactsBasedOnContext = async (page, options = {}) => {
 
 const onPageChange = page =>
   fetchContactsBasedOnContext(page, { clearSelection: false });
+
+const scheduleContactsRefetchAfterBulk = () => {
+  fetchContactsBasedOnContext(pageNumber.value);
+  // Bulk label jobs are async; refetch again so chips catch up after Sidekiq.
+  setTimeout(() => fetchContactsBasedOnContext(pageNumber.value), 1500);
+  setTimeout(() => fetchContactsBasedOnContext(pageNumber.value), 3000);
+};
 
 const assignLabels = async labels => {
   if (!labels.length || !selectedContactIds.value.length) {
@@ -478,13 +485,6 @@ const createContact = async contact => {
 
 const onContactCreated = () => {
   fetchContactsBasedOnContext(pageNumber.value);
-};
-
-const scheduleContactsRefetchAfterBulk = () => {
-  fetchContactsBasedOnContext(pageNumber.value);
-  // Bulk label jobs are async; refetch again so chips catch up after Sidekiq.
-  setTimeout(() => fetchContactsBasedOnContext(pageNumber.value), 1500);
-  setTimeout(() => fetchContactsBasedOnContext(pageNumber.value), 3000);
 };
 
 watch(hasSelection, value => {

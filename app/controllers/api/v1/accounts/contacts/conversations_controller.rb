@@ -12,6 +12,10 @@ class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::
       Current.account
     ).perform
 
-    @conversations = conversations.order(last_activity_at: :desc).limit(20)
+    @conversations = Conversations::Sort.apply(
+      conversations,
+      params[:sort_by],
+      account: Current.account
+    ).limit(50)
   end
 end
