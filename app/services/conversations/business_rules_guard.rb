@@ -15,6 +15,7 @@ class Conversations::BusinessRulesGuard
     # Automations change status without a human filling reason/attrs.
     # Candados apply to agents; system actors skip the guard.
     return Result.new(ok?: true, errors: []) if system_status_change?
+    return Result.new(ok?: true, errors: []) if business_rules_paused?
 
     rules = Array(@account.settings&.dig('business_rules')).select { |r| r['enabled'] }
     legacy_errors = legacy_required_on_resolve
@@ -24,6 +25,10 @@ class Conversations::BusinessRulesGuard
   end
 
   private
+
+  def business_rules_paused?
+    ActiveModel::Type::Boolean.new.cast(@account.settings&.dig('business_rules_paused'))
+  end
 
   def system_status_change?
     Current.executed_by.instance_of?(AutomationRule)

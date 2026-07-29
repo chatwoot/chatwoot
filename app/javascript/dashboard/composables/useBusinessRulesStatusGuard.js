@@ -212,6 +212,19 @@ export function useBusinessRulesStatusGuard() {
   };
 
   const checkStatusChange = (conversation, targetStatus = 'resolved') => {
+    if (currentAccount.value?.settings?.business_rules_paused) {
+      return {
+        blocked: false,
+        deferredToApi: false,
+        requiredAttributes: [],
+        missingAttributes: [],
+        needsPrivateNote: false,
+        needsReasonKey: null,
+        forbiddenLabels: [],
+        needsAssignee: false,
+      };
+    }
+
     const convAttrs = conversation?.custom_attributes || {};
     const contactAttrs = conversation?.meta?.sender?.custom_attributes || {};
     const labels = (conversation?.labels || []).map(l =>

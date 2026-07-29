@@ -6,7 +6,7 @@
     "FORM_HELP": "Configura condiciones de filtro opcionales (Cuando) y luego el efecto que bloquea (Entonces). Solo los atributos o categorías elegidos son obligatorios.",
     "PRESETS_TITLE": "Presets rápidos",
     "PRESETS_HELP": "Un clic añade una regla lista. Edítala para elegir campos y condiciones.",
-    "ACTIVATE_PRESET": "Activar",
+    "ACTIVATE_PRESET": "Añadir preset",
     "EMPTY": "Aún no hay restricciones. Crea una regla propia o activa un preset.",
     "CREATE_CUSTOM": "Crear regla",
     "CREATE_CUSTOM_TITLE": "Nueva regla de negocio",
@@ -121,6 +121,37 @@
       "TITLE_SNOOZED": "Completa los campos obligatorios para posponer",
       "TITLE_OPEN": "Completa los campos obligatorios para abrir",
       "PRIVATE_NOTE_HINT": "Añade una nota privada en la conversación e inténtalo de nuevo."
+    },
+    "ENABLED_WARNING": "Las reglas activas pueden bloquear Resolver/Posponer/Abrir hasta completar campos. Prueba con Simular antes de activarlas.",
+    "PAUSE": {
+      "LABEL": "Pausar todas las reglas de negocio",
+      "HELP": "Escape: los agentes pueden cambiar estado sin candados hasta que lo desactives.",
+      "ON_SUCCESS": "Reglas de negocio pausadas",
+      "OFF_SUCCESS": "Reglas de negocio activas de nuevo"
+    },
+    "DRY_RUN": {
+      "OPEN": "Simular",
+      "TITLE": "Simular reglas de negocio",
+      "HELP": "Vista previa de campos requeridos para un cambio de estado con atributos de ejemplo. No guarda ni modifica chats.",
+      "TARGET_STATUS": "Estado destino",
+      "INBOX": "Filtro de inbox",
+      "INBOX_ANY": "Cualquiera / ninguno",
+      "DRAFT_ATTRS": "Atributos de conversación de ejemplo",
+      "ATTR_EMPTY": "— vacío —",
+      "RUN": "Ejecutar simulación",
+      "WOULD_BLOCK": "Bloquearía el cambio de estado",
+      "WOULD_PASS": "Permitiría el cambio de estado",
+      "REQUIRED": "Campos requeridos",
+      "MISSING": "Aún faltan",
+      "FORBIDDEN": "Etiquetas prohibidas"
+    },
+    "LINT": {
+      "IMPOSSIBLE_AND": "AND imposible sobre el mismo atributo (usa OR para valores alternos).",
+      "EMPTY_REQUIRE_SET": "La regla activa no exige ningún campo (claves/categorías vacías).",
+      "UNKNOWN_ATTRIBUTE_KEY": "Clave de atributo desconocida: {attribute_key}",
+      "UNKNOWN_CATEGORY": "Categoría desconocida o vacía: {category}",
+      "MISSING_TRIGGER": "La regla si-entonces necesita condiciones o un atributo when.",
+      "FORBID_CONFLICTS_REQUIRE": "Prohibir estado \"{status}\" choca con otra regla de exigencia ({other_rule_name})."
     }
   }
 }

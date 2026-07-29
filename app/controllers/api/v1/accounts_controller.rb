@@ -56,9 +56,22 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def update
+    settings = settings_params
+    if settings.key?(:business_rules)
+      lint = BusinessRules::LintService.new(account: @account, rules: settings[:business_rules]).perform
+      unless lint.ok?
+        return render json: {
+          error: I18n.t('business_rules.lint_failed', default: 'Business rules failed validation'),
+          business_rule_errors: lint.errors.map { |e|
+            { rule_id: e.rule_id, code: e.code, message_key: e.message_key, meta: e.meta }
+          }
+        }, status: :unprocessable_entity
+      end
+    end
+
     @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email))
     @account.custom_attributes.merge!(custom_attributes_params)
-    @account.settings.merge!(settings_params)
+    @account.settings.merge!(settings)
     @account.custom_attributes['onboarding_step'] = 'invite_team' if @account.custom_attributes['onboarding_step'] == 'account_update'
     @account.save!
   end
@@ -136,13 +149,15 @@ class Api::V1::AccountsController < Api::BaseController
       conditions = Array(h[:conditions]).filter_map do |condition|
         next unless condition.respond_to?(:to_h)
 
-        condition.to_h.deep_stringify_keys
+        c = condition.to_h.deep_stringify_keys
+        c['values'] = BusinessRules::ConditionValues.normalize(c['values'])
+        c
       end
       payload = {
         'id' => h[:id].to_s.presence || "br_#{SecureRandom.hex(4)}",
         'preset_id' => h[:preset_id].presence,
         'type' => h[:type].to_s,
-        'enabled' => ActiveModel::Type::Boolean.new.cast(h.fetch(:enabled, true)),
+        'enabled' => ActiveModel::Type::Boolean.new.cast(h.fetch(:enabled, false)),
         'name' => h[:name].to_s,
         'config' => config.deep_stringify_keys,
         'conditions' => conditions
@@ -153,7 +168,7 @@ class Api::V1::AccountsController < Api::BaseController
 
   def permitted_settings_attributes
     [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label,
-     :resolved_label_key, {
+     :resolved_label_key, :business_rules_paused, {
        business_rules: [:id, :preset_id, :type, :enabled, :name, { config: {} },
                         { conditions: [:attribute_key, :filter_operator, :query_operator, :custom_attribute_type,
                                        { values: [] }] }]

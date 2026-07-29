@@ -59,7 +59,7 @@ export const BUSINESS_RULE_PRESETS = [
     descriptionKey: 'BUSINESS_RULES.PRESETS.REQUIRE_ON_RESOLVE_DESC',
     defaults: {
       type: 'require_attributes_on_status',
-      enabled: true,
+      enabled: false,
       conditions: [],
       config: {
         status: 'resolved',
@@ -78,7 +78,7 @@ export const BUSINESS_RULE_PRESETS = [
     descriptionKey: 'BUSINESS_RULES.PRESETS.IF_X_REQUIRE_YZ_DESC',
     defaults: {
       type: 'if_attribute_then_require',
-      enabled: true,
+      enabled: false,
       conditions: [],
       config: {
         when_attribute: '',
@@ -100,7 +100,7 @@ export const BUSINESS_RULE_PRESETS = [
     descriptionKey: 'BUSINESS_RULES.PRESETS.MOTIVO_POSPONER_DESC',
     defaults: {
       type: 'require_reason_on_status',
-      enabled: true,
+      enabled: false,
       conditions: [],
       config: {
         statuses: ['pending', 'snoozed'],
@@ -117,7 +117,7 @@ export const BUSINESS_RULE_PRESETS = [
     descriptionKey: 'BUSINESS_RULES.PRESETS.FORBID_RESOLVE_LABEL_DESC',
     defaults: {
       type: 'forbid_status_if',
-      enabled: true,
+      enabled: false,
       conditions: [],
       config: { status: 'resolved', label: '' },
     },
@@ -130,7 +130,7 @@ export const BUSINESS_RULE_PRESETS = [
     descriptionKey: 'BUSINESS_RULES.PRESETS.REQUIRE_ASSIGNEE_ON_OPEN_DESC',
     defaults: {
       type: 'require_assignee_on_status',
-      enabled: true,
+      enabled: false,
       conditions: [],
       config: { status: 'open', require_team_or_agent: true },
     },
