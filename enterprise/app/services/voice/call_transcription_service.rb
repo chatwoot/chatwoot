@@ -8,12 +8,22 @@ class Voice::CallTranscriptionService
     return if transcript.blank?
 
     call.update!(transcript: transcript)
-    # Rebroadcast the message so connected clients pick up the embedded Call
-    # payload (now with transcript) without a refetch.
-    call.message&.reload&.send_update_event
+    publish(call.message)
   end
 
   private
+
+  def publish(message)
+    return if message.blank?
+
+    # Rebroadcast the message so connected clients pick up the embedded Call
+    # payload (now with transcript) without a refetch.
+    message.reload.send_update_event
+
+    return unless ChatwootApp.advanced_search_allowed?
+
+    message.reindex
+  end
 
   def transcribable?
     return false if call.transcript.present?
