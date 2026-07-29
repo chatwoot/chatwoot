@@ -6,6 +6,7 @@ import { dynamicTime } from 'shared/helpers/timeHelper';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import ContactLabels from 'dashboard/components-next/Contacts/ContactLabels/ContactLabels.vue';
 import ContactAssigneeSelector from 'dashboard/components-next/Contacts/ContactAssigneeSelector.vue';
+import ContactConversationMetrics from 'dashboard/components-next/Contacts/ContactConversationMetrics.vue';
 
 const props = defineProps({
   selectedContact: {
@@ -28,9 +29,7 @@ const displayName = computed(() => {
   const name = props.selectedContact?.name?.toString().trim();
   if (name && name !== '.') return name;
   return (
-    props.selectedContact?.phoneNumber ||
-    props.selectedContact?.email ||
-    '—'
+    props.selectedContact?.phoneNumber || props.selectedContact?.email || '—'
   );
 });
 
@@ -77,10 +76,19 @@ const handleAvatarDelete = () => {
         />
 
         <div class="flex flex-col gap-3 min-w-0 flex-1">
-          <div class="flex flex-col gap-1 min-w-0">
-            <h3 class="text-lg font-medium text-n-slate-12 truncate">
-              {{ displayName }}
-            </h3>
+          <div class="flex flex-col gap-1.5 min-w-0">
+            <div
+              class="flex flex-col gap-2 min-w-0 sm:flex-row sm:items-center sm:justify-between sm:gap-3"
+            >
+              <h3 class="text-lg font-medium text-n-slate-12 truncate">
+                {{ displayName }}
+              </h3>
+              <ContactConversationMetrics
+                :selected-contact="selectedContact"
+                compact
+                class="shrink-0"
+              />
+            </div>
             <p class="text-xs text-n-slate-10">
               {{ t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
               <span class="mx-1" aria-hidden="true">{{

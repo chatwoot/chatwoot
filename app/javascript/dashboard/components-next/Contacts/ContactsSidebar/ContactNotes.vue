@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
@@ -8,15 +8,15 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ContactNoteItem from './components/ContactNoteItem.vue';
 
 const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
 
-const state = reactive({
-  message: '',
-});
+const noteContent = ref('');
+const dialogRef = ref(null);
 
 const currentUser = useMapGetter('getCurrentUser');
 const notesByContact = useMapGetter('contactNotes/getAllNotesByContactId');
@@ -32,11 +32,25 @@ const getWrittenBy = note => {
     : note?.user?.name || 'Bot';
 };
 
-const onAdd = content => {
-  if (!content) return;
+const openCreateModal = () => {
+  noteContent.value = '';
+  dialogRef.value?.open();
+};
+
+const closeCreateModal = () => {
+  noteContent.value = '';
+  dialogRef.value?.close();
+};
+
+const onAdd = async () => {
+  if (!noteContent.value || isCreatingNote.value) return;
   const { contactId } = route.params;
-  store.dispatch('contactNotes/create', { content, contactId });
-  state.message = '';
+  await store.dispatch('contactNotes/create', {
+    content: noteContent.value,
+    contactId,
+  });
+  noteContent.value = '';
+  closeCreateModal();
 };
 
 const onDelete = noteId => {
@@ -47,7 +61,7 @@ const onDelete = noteId => {
 
 const keyboardEvents = {
   '$mod+Enter': {
-    action: () => onAdd(state.message),
+    action: onAdd,
     allowOnFocusedInput: true,
   },
 };
@@ -55,28 +69,17 @@ useKeyboardEvents(keyboardEvents);
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
-    <Editor
-      v-model="state.message"
-      :placeholder="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.PLACEHOLDER')"
-      focus-on-mount
-      class="[&>div]:!border-transparent [&>div]:px-4 [&>div]:py-4 px-6"
-    >
-      <template #actions>
-        <div class="flex items-center gap-3">
-          <Button
-            variant="link"
-            color="blue"
-            size="sm"
-            :label="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.SAVE')"
-            class="hover:no-underline"
-            :is-loading="isCreatingNote"
-            :disabled="!state.message || isCreatingNote"
-            @click="onAdd(state.message)"
-          />
-        </div>
-      </template>
-    </Editor>
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center justify-between px-6">
+      <Button
+        size="sm"
+        icon="i-lucide-plus"
+        :label="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.ADD_NOTE')"
+        :disabled="isFetchingNotes"
+        @click="openCreateModal"
+      />
+    </div>
+
     <div
       v-if="isFetchingNotes"
       class="flex items-center justify-center py-10 text-n-slate-11"
@@ -97,5 +100,24 @@ useKeyboardEvents(keyboardEvents);
     <p v-else class="px-6 py-6 text-sm leading-6 text-center text-n-slate-11">
       {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.EMPTY_STATE') }}
     </p>
+
+    <Dialog
+      ref="dialogRef"
+      type="edit"
+      width="lg"
+      :title="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.ADD_NOTE')"
+      :confirm-button-label="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.SAVE')"
+      :disable-confirm-button="!noteContent || isCreatingNote"
+      :is-loading="isCreatingNote"
+      @confirm="onAdd"
+      @close="noteContent = ''"
+    >
+      <Editor
+        v-model="noteContent"
+        focus-on-mount
+        :placeholder="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.PLACEHOLDER')"
+        class="[&>div]:!border-transparent [&>div]:px-3 [&>div]:py-2"
+      />
+    </Dialog>
   </div>
 </template>

@@ -33,7 +33,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
     contacts = Current.account.contacts.where(
-      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search OR contacts.document_number LIKE :search',
+      "name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier ILIKE :search OR contacts.document_number ILIKE :search OR additional_attributes->>'company_name' ILIKE :search",
       search: "%#{params[:q].strip}%"
     )
     @contacts = fetch_contacts_with_has_more(contacts)
@@ -305,14 +305,17 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       Current.account
     ).perform
 
-    status_counts = conversations.reorder(nil).group(:status).count
-    open_statuses = [Conversation.statuses[:open], Conversation.statuses[:pending]]
-    open_count = open_statuses.sum { |status| status_counts[status].to_i }
+    # group(:status).count may key by enum integer or string name depending on Rails/PG
+    status_counts = Hash.new(0)
+    conversations.reorder(nil).group(:status).count.each do |key, count|
+      status_name = key.is_a?(Integer) ? Conversation.statuses.key(key) : key.to_s
+      status_counts[status_name] += count if status_name.present?
+    end
 
     @contact_conversation_metrics = {
       conversations_count: status_counts.values.sum,
-      open_conversations_count: open_count,
-      resolved_conversations_count: status_counts[Conversation.statuses[:resolved]].to_i
+      open_conversations_count: status_counts['open'] + status_counts['pending'],
+      resolved_conversations_count: status_counts['resolved']
     }
   end
 end

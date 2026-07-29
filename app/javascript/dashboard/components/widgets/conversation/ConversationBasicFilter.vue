@@ -7,6 +7,7 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useStatusLabel } from 'dashboard/composables/useStatusLabel';
 import wootConstants from 'dashboard/constants/globals';
+import { buildConversationSortOptions } from 'dashboard/helper/conversationSortOptions';
 import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -27,6 +28,7 @@ const { updateUISettings } = useUISettings();
 
 const chatStatusFilter = useMapGetter('getChatStatusFilter');
 const chatSortFilter = useMapGetter('getChatSortFilter');
+const getAttributesByModel = useMapGetter('attributes/getAttributesByModel');
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
 
@@ -63,48 +65,16 @@ const chatStatusOptions = computed(() => [
   },
 ]);
 
-const chatSortOptions = computed(() => [
-  {
-    label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_activity_at_asc.TEXT'),
-    value: 'last_activity_at_asc',
-  },
-  {
-    label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_activity_at_desc.TEXT'),
-    value: 'last_activity_at_desc',
-  },
-  {
-    label: t('CHAT_LIST.SORT_ORDER_ITEMS.created_at_desc.TEXT'),
-    value: 'created_at_desc',
-  },
-  {
-    label: t('CHAT_LIST.SORT_ORDER_ITEMS.created_at_asc.TEXT'),
-    value: 'created_at_asc',
-  },
-  {
-    label: t('CHAT_LIST.SORT_ORDER_ITEMS.unread.TEXT'),
-    value: 'unread',
-  },
-  {
-    label: t('CHAT_LIST.SORT_ORDER_ITEMS.priority_desc.TEXT'),
-    value: 'priority_desc',
-  },
-  {
-    label: t('CHAT_LIST.SORT_ORDER_ITEMS.priority_asc.TEXT'),
-    value: 'priority_asc',
-  },
-  {
-    label: t('CHAT_LIST.SORT_ORDER_ITEMS.priority_desc_created_at_asc.TEXT'),
-    value: 'priority_desc_created_at_asc',
-  },
-  {
-    label: t('CHAT_LIST.SORT_ORDER_ITEMS.waiting_since_asc.TEXT'),
-    value: 'waiting_since_asc',
-  },
-  {
-    label: t('CHAT_LIST.SORT_ORDER_ITEMS.waiting_since_desc.TEXT'),
-    value: 'waiting_since_desc',
-  },
-]);
+const conversationAttributeDefs = computed(() => {
+  const getter = getAttributesByModel.value;
+  return typeof getter === 'function'
+    ? getter('conversation_attribute') || []
+    : [];
+});
+
+const chatSortOptions = computed(() =>
+  buildConversationSortOptions(t, conversationAttributeDefs.value)
+);
 
 const activeChatStatusLabel = computed(
   () =>

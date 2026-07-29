@@ -23,6 +23,7 @@ class ContactAPI extends ApiClient {
     super('contacts', { accountScoped: true });
   }
 
+  // eslint-disable-next-line default-param-last
   get(page, sortAttr = 'name', label = '', perPage) {
     const requestURL = `${this.url}?${buildContactParams(
       page,
@@ -42,8 +43,10 @@ class ContactAPI extends ApiClient {
     return axios.patch(`${this.url}/${id}?include_contact_inboxes=false`, data);
   }
 
-  getConversations(contactId, { inboxId } = {}) {
-    const params = inboxId ? { inbox_id: inboxId } : {};
+  getConversations(contactId, { inboxId, sortBy } = {}) {
+    const params = {};
+    if (inboxId) params.inbox_id = inboxId;
+    if (sortBy) params.sort_by = sortBy;
     return axios.get(`${this.url}/${contactId}/conversations`, { params });
   }
 
@@ -83,6 +86,7 @@ class ContactAPI extends ApiClient {
     return axios.get(requestURL, { signal: options.signal });
   }
 
+  // eslint-disable-next-line default-param-last
   active(page = 1, sortAttr = 'name', perPage) {
     const requestURL = `${this.url}/active?${buildContactParams(
       page,

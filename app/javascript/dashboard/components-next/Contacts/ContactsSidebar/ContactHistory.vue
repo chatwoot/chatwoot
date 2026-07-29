@@ -1,58 +1,70 @@
 <script setup>
-import { computed } from 'vue';
-import { useMapGetter } from 'dashboard/composables/store';
+import { computed, ref, watch } from 'vue';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { toConversationSortParam } from 'dashboard/helper/conversationSortOptions';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import ConversationCard from 'dashboard/components-next/Conversation/ConversationCard/ConversationCard.vue';
+import ContactConversationsTable from './ContactConversationsTable.vue';
 
 const { t } = useI18n();
 const route = useRoute();
+const store = useStore();
 
 const conversations = useMapGetter(
   'contactConversations/getAllConversationsByContactId'
 );
-const contactsById = useMapGetter('contacts/getContactById');
-const stateInbox = useMapGetter('inboxes/getInboxById');
-const accountLabels = useMapGetter('labels/getLabels');
-
-const accountLabelsValue = computed(() => accountLabels.value);
-
 const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const isFetching = computed(() => uiFlags.value.isFetching);
 
+const sortState = ref({
+  activeSort: 'last_activity_at',
+  activeOrdering: '-',
+});
+
 const contactConversations = computed(() =>
   conversations.value(route.params.contactId)
+);
+
+const fetchConversations = (contactId = route.params.contactId) => {
+  if (!contactId) return;
+  const sortBy = toConversationSortParam(
+    sortState.value.activeSort,
+    sortState.value.activeOrdering
+  );
+  store.dispatch('contactConversations/get', { contactId, sortBy });
+};
+
+const handleSort = ({ sort, order }) => {
+  sortState.value = { activeSort: sort, activeOrdering: order };
+  fetchConversations();
+};
+
+watch(
+  () => route.params.contactId,
+  contactId => {
+    if (contactId) fetchConversations(contactId);
+  },
+  { immediate: true }
 );
 </script>
 
 <template>
   <div class="flex flex-col gap-3">
-    <h4 class="px-4 text-sm font-medium text-n-slate-12">
-      {{ t('CONTACTS_LAYOUT.SIDEBAR.HISTORY.TITLE') }}
-    </h4>
-
     <div
       v-if="isFetching"
       class="flex items-center justify-center py-8 text-n-slate-11"
     >
       <Spinner />
     </div>
-    <div
+    <ContactConversationsTable
       v-else-if="contactConversations.length > 0"
-      class="px-2 divide-y divide-n-strong [&>*:hover]:!border-y-transparent [&>*:hover+*]:!border-t-transparent"
-    >
-      <ConversationCard
-        v-for="conversation in contactConversations"
-        :key="conversation.id"
-        :conversation="conversation"
-        :contact="contactsById(conversation.meta.sender.id)"
-        :state-inbox="stateInbox(conversation.inboxId)"
-        :account-labels="accountLabelsValue"
-        class="rounded-none hover:rounded-xl hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3"
-      />
-    </div>
+      :conversations="contactConversations"
+      :active-sort="sortState.activeSort"
+      :active-ordering="sortState.activeOrdering"
+      @update:sort="handleSort"
+    />
     <p v-else class="px-4 py-8 text-sm leading-6 text-center text-n-slate-11">
       {{ t('CONTACTS_LAYOUT.SIDEBAR.HISTORY.EMPTY_STATE') }}
     </p>

@@ -3,6 +3,7 @@ import {
   isAgentBotAssigneeMeta,
   isHumanAssigneeMeta,
 } from 'dashboard/helper/assigneeHelper';
+import { lastMessageFromRank } from 'dashboard/helper/contactConversationTableColumns';
 
 export const findPendingMessageIndex = (chat, message) => {
   const { echo_id: tempMessageId } = message;
@@ -36,10 +37,7 @@ export const matchesUnassignedTab = (conversation, { inboxBotId } = {}) => {
   const { assignee } = conversation.meta || {};
 
   if (inboxBotId) {
-    return (
-      !assignee ||
-      isAgentBotAssigneeMeta(conversation.meta, inboxBotId)
-    );
+    return !assignee || isAgentBotAssigneeMeta(conversation.meta, inboxBotId);
   }
 
   return !isHumanAssigneeMeta(conversation.meta);
@@ -138,12 +136,63 @@ const SORT_OPTIONS = {
   waiting_since_asc: ['sortOnWaitingSince', 'asc'],
   waiting_since_desc: ['sortOnWaitingSince', 'desc'],
   priority_desc_created_at_asc: ['sortOnPriorityCreatedAt', 'desc'],
+  last_message_from_asc: ['sortOnLastMessageFrom', 'asc'],
+  last_message_from_desc: ['sortOnLastMessageFrom', 'desc'],
 };
+
+const CUSTOM_SORT_REGEX = /^(-?)custom:(.+)$/;
+
+export const parseCustomConversationSort = sortKey => {
+  const match = String(sortKey || '').match(CUSTOM_SORT_REGEX);
+  if (!match) return null;
+  return {
+    direction: match[1] === '-' ? 'desc' : 'asc',
+    attributeKey: match[2],
+  };
+};
+
+export const isValidConversationSortKey = sortKey => {
+  if (!sortKey) return false;
+  if (SORT_OPTIONS[sortKey] || sortKey === 'unread') return true;
+  return !!parseCustomConversationSort(sortKey);
+};
+
 const sortAscending = (valueA, valueB) => valueA - valueB;
 const sortDescending = (valueA, valueB) => valueB - valueA;
 
 const getSortOrderFunction = sortOrder =>
   sortOrder === 'asc' ? sortAscending : sortDescending;
+
+const getCustomAttributeValue = (conversation, attributeKey) => {
+  const attrs =
+    conversation.custom_attributes || conversation.customAttributes || {};
+  return attrs[attributeKey];
+};
+
+const compareCustomAttribute = (a, b, attributeKey, direction) => {
+  const rawA = getCustomAttributeValue(a, attributeKey);
+  const rawB = getCustomAttributeValue(b, attributeKey);
+  const emptyA = rawA == null || rawA === '';
+  const emptyB = rawB == null || rawB === '';
+
+  if (emptyA && emptyB) {
+    return getSortOrderFunction(direction)(a.created_at, b.created_at);
+  }
+  if (emptyA) return 1;
+  if (emptyB) return -1;
+
+  const numA = Number(String(rawA).replace(/[^0-9.-]+/g, ''));
+  const numB = Number(String(rawB).replace(/[^0-9.-]+/g, ''));
+  if (!Number.isNaN(numA) && !Number.isNaN(numB) && String(rawA).match(/\d/)) {
+    return getSortOrderFunction(direction)(numA, numB);
+  }
+
+  const strA = String(rawA).toLowerCase();
+  const strB = String(rawB).toLowerCase();
+  if (strA < strB) return direction === 'asc' ? -1 : 1;
+  if (strA > strB) return direction === 'asc' ? 1 : -1;
+  return 0;
+};
 
 const sortConfig = {
   sortOnLastActivityAt: (a, b, sortDirection) =>
@@ -180,9 +229,20 @@ const sortConfig = {
 
     return sortFunc(a.waiting_since, b.waiting_since);
   },
+
+  sortOnLastMessageFrom: (a, b, sortDirection) =>
+    getSortOrderFunction(sortDirection)(
+      lastMessageFromRank(a),
+      lastMessageFromRank(b)
+    ),
 };
 
 export const sortComparator = (a, b, sortKey) => {
+  const custom = parseCustomConversationSort(sortKey);
+  if (custom) {
+    return compareCustomAttribute(a, b, custom.attributeKey, custom.direction);
+  }
+
   const [sortMethod, sortDirection] =
     SORT_OPTIONS[sortKey] || SORT_OPTIONS.last_activity_at_desc;
   return sortConfig[sortMethod](a, b, sortDirection);

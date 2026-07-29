@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { groupAttributesByCategory } from 'dashboard/helper/attributeCategoryGroups';
 
 import ContactCustomAttributeItem from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributeItem.vue';
 
@@ -15,7 +16,8 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-const { uiSettings } = useUISettings();
+const { uiSettings, isContactSidebarItemOpen, toggleSidebarUIState } =
+  useUISettings();
 
 const searchQuery = ref('');
 
@@ -56,18 +58,12 @@ const sortAttributesOrder = computed(
 );
 
 const sortByUISettings = attributes => {
-  // Get saved order from UI settings
-  // Same as conversation panel contact attribute order
   const order = sortAttributesOrder.value;
-
-  // If no order defined, return original array
   if (!order?.length) return attributes;
 
   const orderMap = new Map(order.map((key, index) => [key, index]));
 
-  // Sort attributes based on their position in saved order
   return [...attributes].sort((a, b) => {
-    // Get positions, use Infinity if not found in order (pushes to end)
     const aPos = orderMap.get(a.attributeKey) ?? Infinity;
     const bPos = orderMap.get(b.attributeKey) ?? Infinity;
     return aPos - bPos;
@@ -102,6 +98,32 @@ const filteredUnusedAttributes = computed(() => {
   );
 });
 
+const categoryOpenKey = slug => `contact_attr_category_open_${slug}`;
+
+const isCategoryOpen = slug => {
+  const key = categoryOpenKey(slug);
+  if (uiSettings.value[key] === undefined) return true;
+  return isContactSidebarItemOpen(key);
+};
+
+const toggleCategoryOpen = slug => toggleSidebarUIState(categoryOpenKey(slug));
+
+const usedCategoryGroups = computed(() =>
+  groupAttributesByCategory(usedAttributes.value, {
+    uncategorizedLabel: t('CUSTOM_ATTRIBUTES.UNCATEGORIZED'),
+  })
+);
+
+const unusedCategoryGroups = computed(() =>
+  groupAttributesByCategory(filteredUnusedAttributes.value, {
+    uncategorizedLabel: t('CUSTOM_ATTRIBUTES.UNCATEGORIZED'),
+  })
+);
+
+const showUsedCategoryFolders = computed(
+  () => usedCategoryGroups.value.length > 1
+);
+
 const unusedAttributesCount = computed(() => unusedAttributes.value?.length);
 const hasNoUnusedAttributes = computed(() => unusedAttributesCount.value === 0);
 const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
@@ -110,12 +132,51 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
 <template>
   <div v-if="hasContactAttributes" class="flex flex-col gap-6 px-6">
     <div v-if="!hasNoUsedAttributes" class="flex flex-col gap-2">
-      <ContactCustomAttributeItem
-        v-for="attribute in usedAttributes"
-        :key="attribute.id"
-        is-editing-view
-        :attribute="attribute"
-      />
+      <template v-if="showUsedCategoryFolders">
+        <div
+          v-for="group in usedCategoryGroups"
+          :key="group.key"
+          class="flex flex-col gap-1"
+        >
+          <button
+            type="button"
+            class="flex w-full items-center gap-1.5 px-1 py-1.5 rounded-md text-start hover:bg-n-alpha-2"
+            @click="toggleCategoryOpen(group.slug)"
+          >
+            <span
+              class="i-lucide-chevron-down size-3.5 text-n-slate-11 transition-transform shrink-0"
+              :class="{ '-rotate-90': !isCategoryOpen(group.slug) }"
+            />
+            <span class="text-sm font-medium text-n-slate-11 truncate">
+              {{
+                t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.CATEGORY_COUNT', {
+                  title: group.title,
+                  count: group.attributes.length,
+                })
+              }}
+            </span>
+          </button>
+          <div
+            v-show="isCategoryOpen(group.slug)"
+            class="flex flex-col gap-2 ps-1"
+          >
+            <ContactCustomAttributeItem
+              v-for="attribute in group.attributes"
+              :key="attribute.id"
+              is-editing-view
+              :attribute="attribute"
+            />
+          </div>
+        </div>
+      </template>
+      <template v-else>
+        <ContactCustomAttributeItem
+          v-for="attribute in usedAttributes"
+          :key="attribute.id"
+          is-editing-view
+          :attribute="attribute"
+        />
+      </template>
     </div>
     <div v-if="!hasNoUnusedAttributes" class="flex items-center gap-3">
       <div class="flex-1 h-[1px] bg-n-slate-5" />
@@ -147,11 +208,23 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
         </p>
       </div>
       <div v-if="!hasNoUnusedAttributes" class="flex flex-col gap-2">
-        <ContactCustomAttributeItem
-          v-for="attribute in filteredUnusedAttributes"
-          :key="attribute.id"
-          :attribute="attribute"
-        />
+        <div
+          v-for="group in unusedCategoryGroups"
+          :key="`unused-${group.key}`"
+          class="flex flex-col gap-1"
+        >
+          <p
+            v-if="unusedCategoryGroups.length > 1"
+            class="text-xs font-medium text-n-slate-10 px-1"
+          >
+            {{ group.title }}
+          </p>
+          <ContactCustomAttributeItem
+            v-for="attribute in group.attributes"
+            :key="attribute.id"
+            :attribute="attribute"
+          />
+        </div>
       </div>
     </div>
   </div>

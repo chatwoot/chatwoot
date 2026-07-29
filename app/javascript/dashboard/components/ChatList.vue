@@ -53,7 +53,10 @@ import {
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
 import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
-import { matchesUnassignedTab } from '../store/modules/conversations/helpers';
+import {
+  matchesUnassignedTab,
+  isValidConversationSortKey,
+} from '../store/modules/conversations/helpers';
 import {
   getInboxBotAgent,
   isCurrentUserAssigneeMeta,
@@ -433,9 +436,7 @@ function setFiltersFromUISettings() {
   const { conversations_filter_by: filterBy = {} } = uiSettings.value;
   const { status, order_by: orderBy } = filterBy;
   activeStatus.value = status || wootConstants.STATUS_TYPE.OPEN;
-  activeSortBy.value = Object.values(wootConstants.SORT_BY_TYPE).includes(
-    orderBy
-  )
+  activeSortBy.value = isValidConversationSortKey(orderBy)
     ? orderBy
     : wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC;
 }
