@@ -19,6 +19,37 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     increment_custom_attribute(CAPTAIN_RESPONSES_USAGE)
   end
 
+  # rubocop:disable Rails/SkipsModelValidations
+  def reserve_response_usage
+    response_limit = captain_monthly_limit[:responses].to_i
+    return false unless response_limit.positive?
+
+    updated_count = Account.where(id: id)
+                           .where(
+                             'COALESCE((custom_attributes ->> :key)::int, 0) < :limit',
+                             key: CAPTAIN_RESPONSES_USAGE,
+                             limit: response_limit
+                           )
+                           .update_all(response_usage_increment)
+    return false unless updated_count == 1
+
+    custom_attributes[CAPTAIN_RESPONSES_USAGE] = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i + 1
+    true
+  end
+
+  def release_response_usage
+    updated_count = Account.where(id: id)
+                           .where(
+                             'COALESCE((custom_attributes ->> :key)::int, 0) > 0',
+                             key: CAPTAIN_RESPONSES_USAGE
+                           )
+                           .update_all(response_usage_decrement)
+    return false unless updated_count == 1
+
+    custom_attributes[CAPTAIN_RESPONSES_USAGE] = [custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i - 1, 0].max
+    true
+  end
+
   def reset_response_usage
     update_custom_attribute(CAPTAIN_RESPONSES_USAGE, 0)
   end
@@ -172,7 +203,6 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
 
   # Atomic jsonb_set to avoid clobbering concurrent writes to other custom_attributes keys.
   # Goes through Account relation (rather than raw connection) so shard routing is respected.
-  # rubocop:disable Rails/SkipsModelValidations
   def update_custom_attribute(key, value)
     Account.where(id: id).update_all([
                                        "custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:key], :value::jsonb)",
@@ -188,6 +218,22 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
                                        { key: key }
                                      ])
     custom_attributes[key] = custom_attributes[key].to_i + 1
+  end
+
+  def response_usage_increment
+    [
+      "custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:key], " \
+      '(COALESCE((custom_attributes ->> :key)::int, 0) + 1)::text::jsonb)',
+      { key: CAPTAIN_RESPONSES_USAGE }
+    ]
+  end
+
+  def response_usage_decrement
+    [
+      "custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:key], " \
+      '(GREATEST(COALESCE((custom_attributes ->> :key)::int, 0) - 1, 0))::text::jsonb)',
+      { key: CAPTAIN_RESPONSES_USAGE }
+    ]
   end
   # rubocop:enable Rails/SkipsModelValidations
 

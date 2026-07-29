@@ -147,6 +147,27 @@ RSpec.describe Account, type: :model do
         expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses] - 1
       end
 
+      it 'atomically reserves the final available response' do
+        account.update!(limits: { captain_responses: 1 })
+        account.reset_response_usage
+        first_request = described_class.find(account.id)
+        second_request = described_class.find(account.id)
+
+        expect(first_request.reserve_response_usage).to be(true)
+        expect(second_request.reserve_response_usage).to be(false)
+        expect(account.reload.custom_attributes['captain_responses_usage']).to eq(1)
+      end
+
+      it 'releases a reserved response without going below zero' do
+        account.update!(limits: { captain_responses: 1 })
+        account.reset_response_usage
+
+        expect(account.reserve_response_usage).to be(true)
+        expect(account.release_response_usage).to be(true)
+        expect(account.release_response_usage).to be(false)
+        expect(account.reload.custom_attributes['captain_responses_usage']).to eq(0)
+      end
+
       it 'reseting responses limits updates usage_limits' do
         account.custom_attributes['captain_responses_usage'] = 30
         account.save!
