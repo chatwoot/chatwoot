@@ -40,6 +40,16 @@ export const requiresShopifyBilling = account =>
   account.shopify_integration === true &&
   !SHOPIFY_ENTITLED_STATES.includes(account.subscription_status);
 
+export const getShopifyBillingRedirect = query => {
+  const { plan_handle: planHandle, shop } = query || {};
+  if (!planHandle && !shop) return '';
+
+  const params = new URLSearchParams();
+  if (planHandle) params.set('plan_handle', planHandle);
+  if (shop) params.set('shop', shop);
+  return `settings/billing?${params.toString()}`;
+};
+
 const getTargetAccount = ({ ssoAccountId, user }) => {
   const { accounts = [], account_id: accountId = null } = user || {};
   const ssoAccount = accounts.find(

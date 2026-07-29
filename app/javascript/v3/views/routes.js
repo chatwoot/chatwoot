@@ -7,6 +7,7 @@ import ResetPassword from './auth/reset/password/Index.vue';
 import Confirmation from './auth/confirmation/Index.vue';
 import VerifyEmail from './auth/verify-email/Index.vue';
 import PasswordEdit from './auth/password/Edit.vue';
+import { getShopifyBillingRedirect } from './helpers/AuthHelper';
 
 export default [
   {
@@ -20,7 +21,8 @@ export default [
       ssoAccountId: route.query.sso_account_id,
       ssoConversationId: route.query.sso_conversation_id,
       authError: route.query.error,
-      redirectUrl: route.query.redirect_url,
+      redirectUrl:
+        route.query.redirect_url || getShopifyBillingRedirect(route.query),
     }),
   },
   {
