@@ -6,20 +6,34 @@ export const hasAuthCookie = () => {
   return !!Cookies.get('cw_d_session_info');
 };
 
-const getSSOAccountPath = ({ ssoAccountId, user }) => {
-  const { accounts = [], account_id = null } = user || {};
+const SHOPIFY_ENTITLED_STATES = ['active', 'trialing', 'cancelled'];
+
+export const requiresShopifyBilling = account =>
+  account?.billing_provider === 'shopify' &&
+  account.shopify_integration === true &&
+  !SHOPIFY_ENTITLED_STATES.includes(account.subscription_status);
+
+const getTargetAccount = ({ ssoAccountId, user }) => {
+  const { accounts = [], account_id: accountId = null } = user || {};
   const ssoAccount = accounts.find(
     account => account.id === Number(ssoAccountId)
   );
-  let accountPath = '';
+  return (
+    ssoAccount ||
+    accounts.find(account => account.id === Number(accountId)) ||
+    accounts[0]
+  );
+};
+
+const getSSOAccountPath = ({ ssoAccountId, user }) => {
+  const { accounts = [], account_id: accountId = null } = user || {};
+  const ssoAccount = accounts.find(
+    account => account.id === Number(ssoAccountId)
+  );
   if (ssoAccount) {
-    accountPath = `accounts/${ssoAccountId}`;
-  } else if (accounts.length) {
-    // If the account id is not found, redirect to the first account
-    const accountId = account_id || accounts[0].id;
-    accountPath = `accounts/${accountId}`;
+    return `accounts/${ssoAccountId}`;
   }
-  return accountPath;
+  return accounts.length ? `accounts/${accountId || accounts[0].id}` : '';
 };
 
 const capitalize = str =>
@@ -43,11 +57,15 @@ export const getLoginRedirectURL = ({
   redirectUrl,
   user,
 }) => {
+  const targetAccount = getTargetAccount({ ssoAccountId, user });
+  if (requiresShopifyBilling(targetAccount)) {
+    return frontendURL(`accounts/${targetAccount.id}/settings/billing`);
+  }
   if (redirectUrl) {
-    const { accounts = [], account_id = null } = user || {};
-    const accountId = account_id || accounts[0]?.id;
-    if (accountId) {
-      return frontendURL(`accounts/${accountId}/${redirectUrl}`);
+    const { accounts = [], account_id: accountId = null } = user || {};
+    const redirectAccountId = accountId || accounts[0]?.id;
+    if (redirectAccountId) {
+      return frontendURL(`accounts/${redirectAccountId}/${redirectUrl}`);
     }
   }
   const accountPath = getSSOAccountPath({ ssoAccountId, user });

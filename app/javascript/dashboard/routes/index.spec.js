@@ -103,6 +103,25 @@ describe('#validateAuthenticateRoutePermission', () => {
 
         expect(next).toHaveBeenCalledWith();
       });
+
+      it('redirects a pending Shopify account to billing before onboarding', async () => {
+        store.getters.getCurrentUser.accounts[0] = {
+          ...store.getters.getCurrentUser.accounts[0],
+          onboarding_step: 'account_details',
+          billing_provider: 'shopify',
+          shopify_integration: true,
+          subscription_status: 'pending',
+        };
+        const to = {
+          name: 'general_settings_index',
+          params: { accountId: 1 },
+          meta: { permissions: ['administrator'] },
+        };
+
+        await validateAuthenticateRoutePermission(to, next);
+
+        expect(next).toHaveBeenCalledWith('/app/accounts/1/settings/billing');
+      });
     });
   });
 });
