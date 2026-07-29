@@ -209,6 +209,26 @@ RSpec.describe 'Accounts API', type: :request do
         expect(response.parsed_body['latest_chatwoot_version']).to eq('4.16.1')
       end
 
+      it 'exposes Stripe as the default billing provider' do
+        get "/api/v1/accounts/#{account.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response.parsed_body['billing_provider']).to eq('stripe')
+      end
+
+      it 'exposes the Shopify billing provider' do
+        shopify_account = create(:account, internal_attributes: { 'billing_provider' => 'shopify', 'signup_source' => 'shopify' })
+        shopify_admin = create(:user, account: shopify_account, role: :administrator)
+
+        get "/api/v1/accounts/#{shopify_account.id}",
+            headers: shopify_admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['billing_provider']).to eq('shopify')
+      end
+
       it 'exposes the Shopify account feature when the installation switch is enabled' do
         account.enable_features!('shopify_integration')
         allow(GlobalConfigService).to receive(:load).and_call_original

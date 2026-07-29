@@ -31,6 +31,7 @@ class Account < ApplicationRecord
   include CacheKeys
   include CaptainFeaturable
   include AccountEmailRateLimitable
+  include AccountBillingIdentity
   include AccountSettingsSchema
 
   DEFAULT_QUERY_SETTING = {

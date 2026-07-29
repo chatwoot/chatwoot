@@ -11,6 +11,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     channel_facebook
     channel_email
     channel_instagram
+    channel_tiktok
     captain_integration
     captain_document_auto_sync
     advanced_search_indexing
@@ -19,7 +20,6 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     channel_voice
     whatsapp_embedded_signup_inbox_creation
     api_and_webhooks
-    data_import
   ].freeze
 
   BUSINESS_PLAN_FEATURES = %w[
@@ -37,10 +37,12 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   pattr_initialize [:account!]
 
   def perform
-    account.disable_features(*PREMIUM_PLAN_FEATURES)
-    account.disable_features('captain_integration_v2')
+    return if shopify_billing? && !Shopify::FeatureGate.enabled?(account: account)
+
+    account.disable_features(*managed_plan_features)
+    account.disable_features('captain_integration_v2') if default_plan?
     account.enable_features(*current_plan_features)
-    account.enable_features('captain_integration_v2') unless default_plan?
+    account.enable_features('captain_integration_v2') if captain_v2_default_eligible?
     account.enable_features(*manually_managed_features)
     account.save!
   end
@@ -49,6 +51,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
 
   def current_plan_features
     return [] if default_plan?
+    return Enterprise::Billing::PlanConfiguration.current_plan!(account).fetch('features') if shopify_billing?
 
     case account.custom_attributes['plan_name']
     when 'Startups' then STARTUP_PLAN_FEATURES
@@ -59,6 +62,8 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   end
 
   def default_plan?
+    return account.custom_attributes['plan_name'].blank? if shopify_billing?
+
     default_plan_name = cloud_plans.first&.dig('name')
     return false if default_plan_name.blank?
 
@@ -70,7 +75,22 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     @cloud_plans ||= InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
   end
 
+  def managed_plan_features
+    return PREMIUM_PLAN_FEATURES unless shopify_billing?
+
+    shopify_features = Enterprise::Billing::PlanConfiguration.plans_for(account).flat_map { |plan| plan.fetch('features') }
+    (PREMIUM_PLAN_FEATURES + ['captain_integration_v2'] + shopify_features).uniq
+  end
+
+  def shopify_billing?
+    account.billing_provider == 'shopify'
+  end
+
   def manually_managed_features
     @manually_managed_features ||= Internal::Accounts::InternalAttributesService.new(account).manually_managed_features
+  end
+
+  def captain_v2_default_eligible?
+    !shopify_billing? && !default_plan? && account.internal_attributes[Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE] == true
   end
 end
