@@ -102,7 +102,7 @@ RSpec.describe Shopify::PendingInstallation do
   end
 
   it 'does not consume the payload when the claim is no longer owned' do
-    pending_installation = described_class.claim(token: token, account_id: account_id)
+    pending_installation = described_class.claim(token: token)
     Redis::Alfred.set(claim_key, 'newer-claim', ex: described_class::CLAIM_TTL.to_i)
 
     expect do
@@ -154,6 +154,14 @@ RSpec.describe Shopify::PendingInstallation do
 
     expect do
       described_class.create(access_token: access_token, shop: 'example.com', scope: scope)
+    end.to raise_error(described_class::InvalidToken, 'Invalid shop domain')
+  end
+
+  it 'rejects a trailing hyphen in the shop label before storing credentials' do
+    expect(Redis::SecureStorage).not_to receive(:set)
+
+    expect do
+      described_class.create(access_token: access_token, shop: 'bad-.myshopify.com', scope: scope)
     end.to raise_error(described_class::InvalidToken, 'Invalid shop domain')
   end
 
