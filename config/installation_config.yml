@@ -443,6 +443,12 @@
 ## ------ End of Configs added for Slack ------ ##
 
 # ------- Shopify Integration Config ------- #
+- name: ENABLE_SHOPIFY_INTEGRATION
+  display_title: 'Enable Shopify Integration'
+  value: false
+  description: 'Enable Shopify OAuth, account integration APIs, webhooks, and dashboard surfaces'
+  locked: false
+  type: boolean
 - name: SHOPIFY_CLIENT_ID
   display_title: 'Shopify Client ID'
   description: 'The Client ID (API Key) from your Shopify Partner account'

@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Integrations::BaseController
   include Shopify::IntegrationHelper
+  before_action :ensure_shopify_enabled
   before_action :setup_shopify_context, only: [:orders]
   before_action :fetch_hook, except: [:complete_install]
   before_action :authorize_hook_creation, only: [:complete_install]
@@ -61,6 +62,10 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   rescue StandardError
     hook&.destroy!
     raise
+  end
+
+  def ensure_shopify_enabled
+    head :not_found unless Shopify::FeatureGate.enabled?(account: Current.account)
   end
 
   def contact
