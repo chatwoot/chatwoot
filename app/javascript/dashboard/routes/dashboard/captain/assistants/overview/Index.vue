@@ -11,6 +11,7 @@ import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Pay
 import RangeSelector from 'dashboard/components-next/captain/pageComponents/overview/RangeSelector.vue';
 import WelcomeCard from 'dashboard/components-next/captain/pageComponents/overview/WelcomeCard.vue';
 import MetricCard from 'dashboard/components-next/captain/pageComponents/overview/MetricCard.vue';
+import ResolutionCard from 'dashboard/components-next/captain/pageComponents/overview/ResolutionCard.vue';
 import HandoffReasonsCard from 'dashboard/components-next/captain/pageComponents/overview/HandoffReasonsCard.vue';
 import AssistantDrilldownDrawer from 'dashboard/components-next/captain/pageComponents/overview/AssistantDrilldownDrawer.vue';
 import KnowledgeCard from 'dashboard/components-next/captain/pageComponents/overview/KnowledgeCard.vue';
@@ -217,22 +218,6 @@ const reachMetrics = computed(() => [
     ...overviewMetric('conversations_handled', v => v.toLocaleString(), 'up'),
   },
   {
-    key: 'coverage',
-    label: t('CAPTAIN.OVERVIEW.METRICS.COVERAGE.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.COVERAGE.HINT'),
-    ...outcomeMetric('coverage_rate', v => `${v}%`, 'up', 'point'),
-  },
-  {
-    key: 'eligible',
-    label: t('CAPTAIN.OVERVIEW.METRICS.ELIGIBLE.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.ELIGIBLE.HINT'),
-    ...outcomeMetric(
-      'eligible_conversations',
-      v => v.toLocaleString(),
-      'neutral'
-    ),
-  },
-  {
     key: 'handoff',
     metric: 'handoff_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.HANDOFF.LABEL'),
@@ -247,38 +232,49 @@ const reachMetrics = computed(() => [
   },
 ]);
 
-// Resolution: does Captain finish the job, and does it stick.
-const resolutionMetrics = computed(() => [
+// The autonomous count with the handled denominator as a muted suffix,
+// e.g. "124 of 200": same numerator as the rate beside it, so a separate
+// card would just repeat it.
+const autonomousCount = computed(() => {
+  const count = outcomeStats.value?.autonomous_resolutions?.current;
+  const total = metricStats.value?.conversations_handled?.current;
+
+  return {
+    value: count ? count.toLocaleString() : '—',
+    suffix:
+      count && total
+        ? t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.DENOMINATOR', {
+            total: total.toLocaleString(),
+          })
+        : '',
+  };
+});
+
+// Resolution: one card — four headline stats over the flow diagram.
+const resolutionStats = computed(() => [
   {
     key: 'autoResolution',
     metric: 'auto_resolution_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.HINT'),
     ...overviewMetric('auto_resolution_rate', v => `${v}%`, 'up', 'point'),
   },
   {
-    key: 'autonomous',
-    label: t('CAPTAIN.OVERVIEW.METRICS.AUTONOMOUS.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.AUTONOMOUS.HINT'),
-    ...outcomeMetric('autonomous_resolutions', v => v.toLocaleString(), 'up'),
-  },
-  {
-    key: 'assisted',
-    label: t('CAPTAIN.OVERVIEW.METRICS.ASSISTED.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.ASSISTED.HINT'),
-    ...outcomeMetric('assisted_resolutions', v => v.toLocaleString(), 'up'),
+    key: 'autonomousCount',
+    label: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.COUNT_LABEL'),
+    value: autonomousCount.value.value,
+    suffix: autonomousCount.value.suffix,
+    trend: '',
+    trendGood: null,
   },
   {
     key: 'durable',
     label: t('CAPTAIN.OVERVIEW.METRICS.DURABLE.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.DURABLE.HINT'),
     ...outcomeMetric('durable_resolution_rate', v => `${v}%`, 'up', 'point'),
   },
   {
     key: 'reopen',
     metric: 'reopen_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.HINT'),
     ...overviewMetric('reopen_rate', v => `${v}%`, 'down', 'point'),
   },
 ]);
@@ -327,16 +323,11 @@ const experienceMetrics = computed(() => [
   },
 ]);
 
-const sections = computed(() => [
+const cardSections = computed(() => [
   {
     key: 'reach',
     title: t('CAPTAIN.OVERVIEW.SECTIONS.REACH'),
     metrics: reachMetrics.value,
-  },
-  {
-    key: 'resolution',
-    title: t('CAPTAIN.OVERVIEW.SECTIONS.RESOLUTION'),
-    metrics: resolutionMetrics.value,
   },
   {
     key: 'experience',
@@ -384,42 +375,53 @@ const closeDrilldown = () => {
 
         <WelcomeCard :range="selectedRange" :stats="summaryStats" />
 
-        <section
-          v-for="section in sections"
-          :key="section.key"
-          class="flex flex-col gap-3"
-        >
-          <h3 class="text-sm font-medium text-n-slate-12">
-            {{ section.title }}
-          </h3>
-          <div
-            class="grid grid-cols-1 gap-px overflow-hidden border rounded-xl sm:grid-cols-2 lg:grid-cols-3 bg-n-weak border-n-weak"
-          >
-            <MetricCard
-              v-for="metric in section.metrics"
-              :key="metric.key"
-              :label="metric.label"
-              :value="metric.value"
-              :trend="metric.trend"
-              :hint="metric.hint"
-              :secondary="metric.secondary"
-              :trend-good="metric.trendGood"
-              :loading="metric.loading"
-              :clickable="
-                canDrilldown && Boolean(metric.metric) && !metric.loading
-              "
-              @click="openDrilldown(metric)"
-            />
-          </div>
+        <template v-for="section in cardSections" :key="section.key">
+          <section class="flex flex-col gap-3">
+            <h3 class="text-sm font-medium text-n-slate-12">
+              {{ section.title }}
+            </h3>
+            <div
+              class="grid grid-cols-1 gap-px overflow-hidden border rounded-xl sm:grid-cols-2 lg:grid-cols-3 bg-n-weak border-n-weak"
+            >
+              <MetricCard
+                v-for="metric in section.metrics"
+                :key="metric.key"
+                :label="metric.label"
+                :value="metric.value"
+                :trend="metric.trend"
+                :hint="metric.hint"
+                :secondary="metric.secondary"
+                :trend-good="metric.trendGood"
+                :loading="metric.loading"
+                :clickable="
+                  canDrilldown && Boolean(metric.metric) && !metric.loading
+                "
+                @click="openDrilldown(metric)"
+              />
+            </div>
+          </section>
 
+          <section v-if="section.key === 'reach'" class="flex flex-col gap-3">
+            <h3 class="text-sm font-medium text-n-slate-12">
+              {{ $t('CAPTAIN.OVERVIEW.SECTIONS.RESOLUTION') }}
+            </h3>
+            <ResolutionCard
+              :stats="resolutionStats"
+              :flow="outcomeStats?.flow ?? null"
+              :loading="isFetchingMetrics || isFetchingOutcomes"
+              :clickable="canDrilldown"
+              @drilldown="openDrilldown"
+            />
+          </section>
+        </template>
+
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <KnowledgeCard :knowledge="faqStats ?? undefined" />
           <HandoffReasonsCard
-            v-if="section.key === 'reach'"
             :reasons="outcomeStats?.handoff_reasons"
             :loading="isFetchingOutcomes"
           />
-        </section>
-
-        <KnowledgeCard :knowledge="faqStats ?? undefined" />
+        </div>
 
         <QuickLinks />
       </div>

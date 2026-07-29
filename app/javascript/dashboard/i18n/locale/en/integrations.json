@@ -427,7 +427,9 @@
         },
         "AUTO_RESOLUTION": {
           "LABEL": "Auto-resolution rate",
-          "HINT": "Share of handled conversations closed without a human reply."
+          "HINT": "Share of handled conversations closed without a human reply.",
+          "DENOMINATOR": "of {total}",
+          "COUNT_LABEL": "Resolved by Captain"
         },
         "HANDOFF": {
           "LABEL": "Handoff rate",
@@ -444,22 +446,6 @@
         "DEPTH": {
           "LABEL": "Messages / conversation",
           "HINT": "Average replies the assistant sends per conversation."
-        },
-        "ELIGIBLE": {
-          "LABEL": "Eligible conversations",
-          "HINT": "Customer conversations that started in inboxes connected to this assistant."
-        },
-        "COVERAGE": {
-          "LABEL": "Coverage rate",
-          "HINT": "Share of eligible conversations Captain participated in. The gap is demand routed to humans or blocked by usage limits."
-        },
-        "AUTONOMOUS": {
-          "LABEL": "Autonomous resolutions",
-          "HINT": "Conversations Captain resolved with no handoff and no human reply."
-        },
-        "ASSISTED": {
-          "LABEL": "Assisted resolutions",
-          "HINT": "Resolved conversations where Captain participated before a human completed them."
         },
         "DURABLE": {
           "LABEL": "Durable resolution rate",
@@ -480,12 +466,25 @@
         "RESOLUTION": "Resolution",
         "EXPERIENCE": "Experience"
       },
+      "RESOLUTION_FLOW": {
+        "EMPTY": "No conversations worked in this period yet.",
+        "NODES": {
+          "HANDLED": "Handled",
+          "CAPTAIN": "Resolved by Captain",
+          "HANDED": "Handed to team",
+          "TEAM": "Closed with your team",
+          "OPEN": "Still open",
+          "STAYED": "Stayed closed",
+          "REOPENED": "Reopened",
+          "OTHER": "Other reasons"
+        }
+      },
       "HANDOFF_REASONS": {
         "TITLE": "Handoff reasons",
         "HINT": "Why Captain handed conversations to your team in this period.",
         "EMPTY": "No handoffs in this period.",
         "CATEGORIES": {
-          "customer_request": "Customer requested a human",
+          "customer_request": "Customer requested",
           "missing_knowledge": "Missing knowledge",
           "unsupported_request": "Unsupported request",
           "policy_restriction": "Policy restriction",
