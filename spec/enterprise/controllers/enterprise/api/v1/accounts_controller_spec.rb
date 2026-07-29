@@ -105,6 +105,30 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           )
           expect(shopify_account.reload.custom_attributes).not_to have_key('is_creating_customer')
         end
+
+        it 'rejects Stripe checkout for a Shopify account with residual customer metadata' do
+          shopify_account = create(
+            :account,
+            internal_attributes: {
+              'billing_provider' => 'shopify',
+              'signup_source' => 'shopify'
+            },
+            custom_attributes: { 'stripe_customer_id' => 'cus_from_previous_billing' }
+          )
+          shopify_admin = create(:user, account: shopify_account, role: :administrator)
+          shopify_account.enable_features!('shopify_integration')
+          allow(GlobalConfigService).to receive(:load)
+            .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+            .and_return(true)
+
+          expect(Enterprise::Billing::CreateSessionService).not_to receive(:new)
+
+          post "/enterprise/api/v1/accounts/#{shopify_account.id}/checkout",
+               headers: shopify_admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
       end
     end
   end

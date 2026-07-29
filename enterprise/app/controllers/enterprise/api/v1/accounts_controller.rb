@@ -1,6 +1,6 @@
 class Enterprise::Api::V1::AccountsController < Api::BaseController
   include BillingHelper
-  STRIPE_ONLY_BILLING_ACTIONS = %i[subscription select_billing_currency topup_checkout topup_options].freeze
+  STRIPE_ONLY_BILLING_ACTIONS = %i[checkout subscription select_billing_currency topup_checkout topup_options].freeze
 
   before_action :fetch_account
   before_action :validate_token_api_access, if: :authenticate_by_access_token?
