@@ -152,6 +152,22 @@ RSpec.describe 'Integration Apps API', type: :request do
         expect(app['name']).to eql('Slack')
       end
 
+      it 'returns not found for Shopify when the client ID is missing' do
+        account.enable_features('shopify_integration')
+        allow(GlobalConfigService).to receive(:load)
+          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+          .and_return(true)
+        allow(GlobalConfigService).to receive(:load)
+          .with('SHOPIFY_CLIENT_ID', nil)
+          .and_return(nil)
+
+        get api_v1_account_integrations_app_url(account_id: account.id, id: 'shopify'),
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+
       it 'will not return sensitive information for openai app for agents' do
         openai = create(:integrations_hook, :openai, account: account)
         get api_v1_account_integrations_app_url(account_id: account.id, id: openai.app.id),

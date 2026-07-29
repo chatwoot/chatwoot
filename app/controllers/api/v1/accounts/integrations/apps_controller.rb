@@ -17,6 +17,6 @@ class Api::V1::Accounts::Integrations::AppsController < Api::V1::Accounts::BaseC
     @app = Integrations::App.find(id: params[:id])
     return unless @app&.id == 'shopify'
 
-    raise ActiveRecord::RecordNotFound unless Shopify::FeatureGate.enabled?(account: Current.account)
+    raise ActiveRecord::RecordNotFound unless @app.active?(Current.account)
   end
 end

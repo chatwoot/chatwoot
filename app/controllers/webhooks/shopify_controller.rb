@@ -1,5 +1,5 @@
 class Webhooks::ShopifyController < ActionController::API
-  before_action :ensure_shopify_enabled
+  before_action :ensure_shopify_enabled, unless: :redaction_event?
   before_action :verify_hmac!
 
   def events
@@ -15,6 +15,10 @@ class Webhooks::ShopifyController < ActionController::API
 
   def ensure_shopify_enabled
     head :not_found unless Shopify::FeatureGate.enabled?
+  end
+
+  def redaction_event?
+    request.headers['X-Shopify-Topic'] == 'shop/redact'
   end
 
   def verify_hmac!
@@ -35,8 +39,6 @@ class Webhooks::ShopifyController < ActionController::API
     shop_domain = params[:shop_domain]
     return if shop_domain.blank?
 
-    Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain).find_each do |hook|
-      hook.destroy! if Shopify::FeatureGate.enabled?(account: hook.account)
-    end
+    Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain).find_each(&:destroy!)
   end
 end

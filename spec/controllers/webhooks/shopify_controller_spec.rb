@@ -36,7 +36,7 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
     expect(response).to have_http_status(:ok)
   end
 
-  it 'returns not found before HMAC verification when the installation switch is disabled' do
+  it 'processes redaction when the installation switch is disabled' do
     hook
     allow(GlobalConfigService).to receive(:load)
       .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
@@ -44,20 +44,31 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
 
     expect do
       post '/webhooks/shopify', params: body, headers: headers
-    end.not_to change(Integrations::Hook, :count)
+    end.to change(Integrations::Hook, :count).by(-1)
 
-    expect(response).to have_http_status(:not_found)
+    expect(response).to have_http_status(:ok)
   end
 
-  it 'keeps account data when the account feature is disabled' do
+  it 'processes redaction when the account feature is disabled' do
     hook
     account.disable_features!('shopify_integration')
 
     expect do
       post '/webhooks/shopify', params: body, headers: headers
-    end.not_to change(Integrations::Hook, :count)
+    end.to change(Integrations::Hook, :count).by(-1)
 
     expect(response).to have_http_status(:ok)
+  end
+
+  it 'does not process normal events when the installation switch is disabled' do
+    headers['X-Shopify-Topic'] = 'app/uninstalled'
+    allow(GlobalConfigService).to receive(:load)
+      .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+      .and_return(false)
+
+    post '/webhooks/shopify', params: body, headers: headers
+
+    expect(response).to have_http_status(:not_found)
   end
 
   it 'rejects an invalid HMAC without changing account data' do
