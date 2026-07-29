@@ -57,23 +57,23 @@ class Whatsapp::TemplateProcessorService
   end
 
   def build_header_params(header_data, template)
-    header_params = []
-    header_data.each do |key, value|
-      next if value.blank?
+    header_component = template['components']&.find { |component| component['type'] == 'HEADER' }
+    return build_text_header_params(header_data, template) if header_component&.dig('format') == 'TEXT'
 
-      if media_url_with_type?(key, header_data)
-        media_name = header_data['media_name']
-        media_param = parameter_builder.build_media_parameter(value, header_data['media_type'], media_name)
-        header_params << media_param if media_param
-      elsif key != 'media_type' && key != 'media_name'
-        header_params << build_text_parameter(key, value, template)
-      end
-    end
-    header_params
+    build_media_header_params(header_data)
   end
 
-  def media_url_with_type?(key, header_data)
-    key == 'media_url' && header_data['media_type'].present?
+  def build_text_header_params(header_data, template)
+    header_data.filter_map do |key, value|
+      build_text_parameter(key, value, template) if value.present?
+    end
+  end
+
+  def build_media_header_params(header_data)
+    return [] if header_data['media_url'].blank? || header_data['media_type'].blank?
+
+    media_param = parameter_builder.build_media_parameter(header_data['media_url'], header_data['media_type'], header_data['media_name'])
+    media_param ? [media_param] : []
   end
 
   def process_body_components(processed_params, template)
