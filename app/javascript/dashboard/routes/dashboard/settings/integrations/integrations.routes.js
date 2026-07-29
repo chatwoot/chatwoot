@@ -12,10 +12,10 @@ import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
 
 export const redirectShopifyIfUnavailable = (to, _from, next) => {
-  const account = store.getters.getCurrentUser.accounts.find(
-    item => Number(item.id) === Number(to.params.accountId)
+  const isShopifyEnabled = store.getters['accounts/isFeatureEnabledonAccount'](
+    Number(to.params.accountId),
+    FEATURE_FLAGS.SHOPIFY
   );
-  const isShopifyEnabled = account?.features?.includes(FEATURE_FLAGS.SHOPIFY);
 
   next(
     isShopifyEnabled
