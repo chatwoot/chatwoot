@@ -168,6 +168,19 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     expect(conversation.messages.outgoing.where(content: 'Just checking in').count).to eq(1)
   end
 
+  it 'cancels the follow-up when the customer replied before the arming job ran' do
+    agent_reply
+    create(:message, conversation: conversation, account: account, message_type: :incoming)
+    # Only now does the queued MESSAGE_CREATED job arm the row for the agent's reply.
+    row = follow_up_execution
+
+    job.perform(row.reload)
+
+    expect(row.reload).to be_skipped
+    expect(row.skip_reason).to eq('episode_moved')
+    expect(conversation.messages.outgoing.pluck(:content)).not_to include('Just checking in')
+  end
+
   it 'cancels the follow-up when the customer replied before it was due' do
     row = follow_up_execution
     create(:message, conversation: conversation, account: account, message_type: :incoming)

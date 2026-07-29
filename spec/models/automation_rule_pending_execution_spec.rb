@@ -106,6 +106,20 @@ RSpec.describe AutomationRulePendingExecution do
       end
     end
 
+    it 'ignores a customer reply that landed while the arming job was still queued' do
+      create(:message, conversation: conversation, account: account, message_type: :incoming)
+      agent_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+      # MESSAGE_CREATED dispatches asynchronously, so the customer can answer before the row is armed.
+      late_reply = create(:message, conversation: conversation, account: account, message_type: :incoming)
+
+      described_class.schedule(rule: rule, conversation: conversation, message: agent_reply)
+
+      row = described_class.last
+      expect(row.episode_key).not_to eq("reply_chase:#{late_reply.id}")
+      # The episode is already over, so the fire-time re-check cancels the row instead of chasing.
+      expect(row.episode_current?).to be(false)
+    end
+
     it 'does not let a late older reply move the reply_chase clock backwards' do
       older_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
       newer_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
