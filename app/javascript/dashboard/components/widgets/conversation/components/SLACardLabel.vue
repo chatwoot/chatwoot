@@ -1,10 +1,7 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import {
-  evaluateSLAStatus,
-  shouldRefreshSLAStatus,
-} from 'dashboard/helper/slaHelper';
+import { useSlaStatus } from 'dashboard/composables/useSlaStatus';
 import SLAPopoverCard from './SLAPopoverCard.vue';
 
 const props = defineProps({
@@ -22,19 +19,16 @@ const props = defineProps({
   },
 });
 
-const REFRESH_INTERVAL = 60000;
 const { t } = useI18n();
 
-const timer = ref(null);
-const slaStatus = ref({
-  threshold: null,
-  isSlaMissed: false,
-  type: null,
-  icon: null,
+const chat = computed(() => props.chat);
+const appliedSLA = computed(() => chat.value?.applied_sla);
+const slaEvents = computed(() => chat.value?.sla_events);
+const { slaStatus } = useSlaStatus({
+  appliedSla: appliedSLA,
+  chat,
+  slaEvents,
 });
-
-const appliedSLA = computed(() => props.chat?.applied_sla);
-const slaEvents = computed(() => props.chat?.sla_events);
 const hasSlaThreshold = computed(() => slaStatus.value?.type);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
 const slaTextStyles = computed(() =>
@@ -72,59 +66,10 @@ const groupClass = computed(() => {
     : 'rounded h-5  border border-n-strong';
 });
 
-const updateSlaStatus = () => {
-  slaStatus.value = evaluateSLAStatus({
-    appliedSla: appliedSLA.value,
-    chat: props.chat,
-    slaEvents: slaEvents.value || [],
-  });
-};
-
-const clearTimer = () => {
-  if (timer.value) {
-    clearTimeout(timer.value);
-    timer.value = null;
-  }
-};
-
-const createTimer = () => {
-  clearTimer();
-  if (
-    !shouldRefreshSLAStatus({
-      appliedSla: appliedSLA.value,
-      chat: props.chat,
-    })
-  ) {
-    return;
-  }
-
-  timer.value = setTimeout(() => {
-    updateSlaStatus();
-    createTimer();
-  }, REFRESH_INTERVAL);
-};
-
-watch(
-  () => props.chat,
-  () => {
-    updateSlaStatus();
-    createTimer();
-  }
-);
-
 const slaPopoverClass = computed(() => {
   return props.showExtendedInfo
     ? 'ltr:pr-1.5 rtl:pl-1.5 ltr:border-r rtl:border-l border-n-strong'
     : '';
-});
-
-onMounted(() => {
-  updateSlaStatus();
-  createTimer();
-});
-
-onUnmounted(() => {
-  clearTimer();
 });
 </script>
 
