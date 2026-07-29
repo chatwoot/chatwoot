@@ -84,7 +84,7 @@ const formattedRecurringPrice = computed(() => {
 });
 
 const billingDate = computed(() => {
-  if (summary.value?.trial_ends_at) {
+  if (summary.value?.state === 'trialing' && summary.value?.trial_ends_at) {
     return {
       label: t('BILLING_SETTINGS.SHOPIFY.TRIAL_ENDS_ON'),
       value: formatDate(summary.value.trial_ends_at),

@@ -230,4 +230,22 @@ describe('ShopifyBilling', () => {
     );
     expect(wrapper.text()).toContain('BILLING_SETTINGS.SHOPIFY.ACCESS_UNTIL');
   });
+
+  it('ignores a historical trial date after the trial ends', async () => {
+    EnterpriseAccountAPI.billingSummary.mockResolvedValue({
+      data: {
+        ...summary,
+        state: 'active',
+        trial_ends_at: '2026-07-01T00:00:00Z',
+      },
+    });
+
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('BILLING_SETTINGS.SHOPIFY.RENEWS_ON');
+    expect(wrapper.text()).not.toContain(
+      'BILLING_SETTINGS.SHOPIFY.TRIAL_ENDS_ON'
+    );
+  });
 });
