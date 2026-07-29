@@ -157,13 +157,86 @@ RSpec.describe 'Shopify Integration API', type: :request do
 
   describe 'POST /api/v1/accounts/:account_id/integrations/shopify/complete_install' do
     let(:admin) { create(:user, account: account, role: :administrator) }
+    let(:pending_install_token) { SecureRandom.hex(16) }
+    let(:pending_installation) do
+      instance_double(
+        Shopify::PendingInstallation,
+        data: {
+          'access_token' => 'shopify-access-token',
+          'shop' => 'my-store.myshopify.com',
+          'scope' => 'read_customers,read_orders'
+        }
+      )
+    end
+
+    it 'creates the Shopify hook and consumes the pending install' do
+      allow(Shopify::PendingInstallation).to receive(:claim)
+        .with(token: pending_install_token, account_id: account.id)
+        .and_return(pending_installation)
+      allow(pending_installation).to receive(:consume!)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
+             params: { pending_install_token: pending_install_token },
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.to change(Integrations::Hook, :count).by(1)
+
+      hook = account.hooks.find_by!(app_id: 'shopify')
+      expect(hook).to have_attributes(
+        access_token: 'shopify-access-token',
+        reference_id: 'my-store.myshopify.com',
+        status: 'enabled',
+        settings: { 'scope' => 'read_customers,read_orders' }
+      )
+      expect(pending_installation).to have_received(:consume!)
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'rejects agents before claiming the pending install' do
+      expect(Shopify::PendingInstallation).not_to receive(:claim)
+
+      post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
+           params: { pending_install_token: pending_install_token },
+           headers: agent.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns an error when the pending install cannot be claimed' do
+      allow(Shopify::PendingInstallation).to receive(:claim)
+        .and_raise(Shopify::PendingInstallation::InvalidToken, 'Invalid or expired install token')
+
+      post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
+           params: { pending_install_token: pending_install_token },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq('Invalid or expired install token')
+    end
+
+    it 'releases the pending install when hook creation fails' do
+      create(:integrations_hook, :shopify, account: account)
+      allow(Shopify::PendingInstallation).to receive(:claim).and_return(pending_installation)
+      allow(pending_installation).to receive(:release!)
+
+      post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
+           params: { pending_install_token: pending_install_token },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(pending_installation).to have_received(:release!)
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
 
     it 'does not read a pending install when Shopify is disabled' do
       allow(GlobalConfigService).to receive(:load)
         .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
         .and_return(false)
 
-      expect(Redis::SecureStorage).not_to receive(:get)
+      expect(Shopify::PendingInstallation).not_to receive(:claim)
 
       post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
            params: { pending_install_token: SecureRandom.hex(16) },
