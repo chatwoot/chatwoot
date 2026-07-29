@@ -399,6 +399,42 @@ describe('#SLA Helpers', () => {
         });
       });
 
+      it('freezes an overdue FRT while SLA event processing is pending', () => {
+        const appliedSla = {
+          sla_status: 'active',
+          sla_completed_at: currentTimestamp - 3600,
+          sla_frt_due_at: currentTimestamp - 7200,
+        };
+        const chat = {
+          status: 'resolved',
+          first_reply_created_at: null,
+        };
+
+        const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result).toMatchObject({
+          type: 'FRT',
+          threshold: '1h',
+          isSlaMissed: true,
+        });
+      });
+
+      it('does not mark FRT missed when completion precedes its due time', () => {
+        const appliedSla = {
+          sla_status: 'active',
+          sla_completed_at: currentTimestamp - 7200,
+          sla_frt_due_at: currentTimestamp - 3600,
+        };
+        const chat = {
+          status: 'resolved',
+          first_reply_created_at: null,
+        };
+
+        const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result.type).toBe('');
+      });
+
       it('freezes a recorded NRT miss at the SLA completion time', () => {
         const appliedSla = {
           sla_status: 'missed',

@@ -47,12 +47,12 @@ const toUnixTimestamp = value => {
     : Math.floor(parsedTimestamp / 1000);
 };
 
-const isSLACompleted = (sla, conversation) => {
-  const terminalStatuses = ['hit', 'missed'];
+const isTerminalSLAStatus = status => ['hit', 'missed'].includes(status);
 
+const isSLACompleted = (sla, conversation) => {
   return Boolean(
     sla.slaCompletedAt ||
-      terminalStatuses.includes(sla.slaStatus) ||
+      isTerminalSLAStatus(sla.slaStatus) ||
       conversation.status === 'resolved'
   );
 };
@@ -92,6 +92,9 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
     RT: sla.slaRtDueAt,
   };
   const slaTypes = ['FRT', 'NRT', 'RT'];
+  const firstReplyCreatedAt = toUnixTimestamp(conversation.firstReplyCreatedAt);
+  const shouldCheckFirstResponse =
+    !firstReplyCreatedAt || firstReplyCreatedAt > sla.slaFrtDueAt;
 
   events.forEach(event => {
     const type = event.eventType?.toUpperCase();
@@ -109,24 +112,37 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
     });
   });
 
+  const hasRecordedFirstResponseMiss = events.some(
+    event => event.eventType?.toUpperCase() === 'FRT'
+  );
+  const completedFirstResponseEvaluationTime =
+    completionTime &&
+    !isTerminalSLAStatus(sla.slaStatus) &&
+    !hasRecordedFirstResponseMiss &&
+    sla.slaFrtDueAt <= completionTime
+      ? completionTime
+      : null;
+  const firstResponseEvaluationTime = isCompleted
+    ? completedFirstResponseEvaluationTime
+    : currentTime;
+
+  // Check FRT until the first reply is made on time. When resolution reaches
+  // the client before SLA processing, use completion time to preserve the miss.
+  if (
+    sla.slaFrtDueAt &&
+    shouldCheckFirstResponse &&
+    firstResponseEvaluationTime
+  ) {
+    const threshold = sla.slaFrtDueAt - firstResponseEvaluationTime;
+    slaStatuses.push({
+      type: 'FRT',
+      threshold,
+      icon: threshold <= 0 ? 'flame' : 'alarm',
+      isSlaMissed: threshold <= 0,
+    });
+  }
+
   if (!isCompleted) {
-    const firstReplyCreatedAt = toUnixTimestamp(
-      conversation.firstReplyCreatedAt
-    );
-    const shouldCheckFirstResponse =
-      !firstReplyCreatedAt || firstReplyCreatedAt > sla.slaFrtDueAt;
-
-    // Check FRT - until first reply is made on time
-    if (sla.slaFrtDueAt && shouldCheckFirstResponse) {
-      const threshold = sla.slaFrtDueAt - currentTime;
-      slaStatuses.push({
-        type: 'FRT',
-        threshold,
-        icon: threshold <= 0 ? 'flame' : 'alarm',
-        isSlaMissed: threshold <= 0,
-      });
-    }
-
     // Check NRT - only if first reply made and waiting for response
     if (sla.slaNrtDueAt && firstReplyCreatedAt && conversation.waitingSince) {
       const threshold = sla.slaNrtDueAt - currentTime;
