@@ -103,6 +103,9 @@ RSpec.describe Channel::Whatsapp do
                    }] }.to_json)
       stub_request(:get, 'https://graph.facebook.com/v14.0//phone_numbers?fields=id&limit=100&access_token=test_key')
         .to_return(status: 200, body: { data: [{ id: 'random_id' }] }.to_json, headers: { 'Content-Type' => 'application/json' })
+      stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates')
+        .with(headers: { 'Authorization' => 'Bearer test_key' })
+        .to_return(status: 200, body: { data: [] }.to_json, headers: { 'Content-Type' => 'application/json' })
       expect(channel.save).to be(true)
     end
 
