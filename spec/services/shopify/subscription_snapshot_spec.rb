@@ -60,6 +60,19 @@ RSpec.describe Shopify::SubscriptionSnapshot do
     expect(snapshot).to have_attributes(state: 'trialing', entitled?: true)
   end
 
+  it 'normalizes an elapsed trial as active' do
+    subscription = active_subscription.merge('trialEndsAt' => '2026-07-28T00:00:00Z')
+    snapshot = described_class.from_partner_response(
+      {
+        'activeSubscription' => subscription,
+        'events' => { 'edges' => [] }
+      },
+      verified_at: verified_at
+    )
+
+    expect(snapshot).to have_attributes(state: 'active', entitled?: true)
+  end
+
   it 'keeps a subscription entitled while cancellation is scheduled' do
     subscription = active_subscription.merge('cancelAtEndOfCycle' => true)
     snapshot = described_class.from_partner_response(
