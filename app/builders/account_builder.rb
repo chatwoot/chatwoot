@@ -32,7 +32,9 @@ class AccountBuilder
 
     finalize_shopify_installation
     [@user, @account]
-  rescue StandardError
+  rescue StandardError => e
+    return recover_committed_shopify_signup(e) if committed_shopify_signup?
+
     @pending_installation&.release!
     raise
   end
@@ -143,6 +145,24 @@ class AccountBuilder
     @pending_installation&.consume!
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @account).capture_exception
+  end
+
+  def committed_shopify_signup?
+    return false unless committed_shopify_record_ids?
+
+    Account.exists?(@account.id) &&
+      AccountUser.exists?(account_id: @account.id, user_id: @user.id) &&
+      Integrations::Hook.exists?(account_id: @account.id, app_id: 'shopify')
+  end
+
+  def committed_shopify_record_ids?
+    @pending_installation && @account&.id && @user&.id
+  end
+
+  def recover_committed_shopify_signup(error)
+    ChatwootExceptionTracker.new(error, account: @account).capture_exception
+    finalize_shopify_installation
+    [@user, @account]
   end
 
   def shopify_signup?
