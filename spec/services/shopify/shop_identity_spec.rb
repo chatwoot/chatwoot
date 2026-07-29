@@ -29,17 +29,16 @@ RSpec.describe Shopify::ShopIdentity do
     allow(client).to receive(:query).and_return(response)
   end
 
-  it 'resolves and stores the Shopify shop GID' do
+  it 'resolves the Shopify shop GID from the authenticated shop' do
     shop_id = described_class.new(hook: hook).shop_id
 
     expect(shop_id).to eq('gid://shopify/Shop/5678')
-    expect(hook.reload.settings).to include('shop_id' => 'gid://shopify/Shop/5678')
   end
 
-  it 'reuses the stored shop GID without another provider call' do
-    hook.update!(settings: hook.settings.merge('shop_id' => 'gid://shopify/Shop/5678'))
+  it 'does not trust an account-editable shop GID in hook settings' do
+    hook.update!(settings: hook.settings.merge('shop_id' => 'gid://shopify/Shop/9999'))
 
-    expect(client).not_to receive(:query)
+    expect(client).to receive(:query).and_return(response)
     expect(described_class.new(hook: hook).shop_id).to eq('gid://shopify/Shop/5678')
   end
 

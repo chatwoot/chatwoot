@@ -16,12 +16,9 @@ class Shopify::ShopIdentity
   end
 
   def shop_id
-    return hook.settings['shop_id'] if hook.settings['shop_id'].present?
-
     shop = fetch_shop
     raise ProviderError, 'Shopify Admin API returned a different shop' unless matching_shop?(shop)
 
-    hook.update!(settings: hook.settings.merge('shop_id' => shop.fetch('id')))
     shop.fetch('id')
   rescue ProviderError
     raise
