@@ -20,6 +20,10 @@ class Captain::Assistant::AgentRunnerService
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)
     @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
+    record_turn_start(@last_run_result)
+    @last_run_result = rewrite_oversized_response(@last_run_result) if response_too_long?(@last_run_result)
+
+    raise "Captain response exceeds the channel limit of #{message_length_limit} characters" if response_too_long?(@last_run_result)
 
     process_agent_result(@last_run_result)
   rescue StandardError => e
@@ -98,6 +102,35 @@ class Captain::Assistant::AgentRunnerService
     response['agent_name'] = result.context&.dig(:current_agent)
     response['handoff_tool_called'] = result.context&.dig(:captain_v2_handoff_tool_called) || false
     response
+  end
+
+  def rewrite_oversized_response(result)
+    response_rewriter.rewrite(result, response: response_text(result), limit: message_length_limit)
+  end
+
+  def response_rewriter
+    @response_rewriter ||= Captain::Assistant::ResponseRewriter.new(
+      assistant: @assistant,
+      attribute_provider: Captain::Assistant::InstrumentationAttributeProvider.new(self)
+    )
+  end
+
+  def record_turn_start(result)
+    history = Array(result.context&.dig(:conversation_history))
+    turn_start_index = history.rindex { |message| message[:role].to_s == 'user' }
+    result.context[:captain_v2_turn_start_index] = turn_start_index if turn_start_index
+  end
+
+  def response_too_long?(result)
+    message_length_limit && response_text(result).length > message_length_limit
+  end
+
+  def response_text(result)
+    extract_text_from_content(result.output).to_s
+  end
+
+  def message_length_limit
+    @message_length_limit ||= Captain::MessageLengthLimit.for(@conversation)
   end
 
   def error_response(error_message)
