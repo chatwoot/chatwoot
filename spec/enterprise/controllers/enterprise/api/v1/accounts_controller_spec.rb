@@ -78,6 +78,33 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
                  as: :json
           end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob).with(account)
         end
+
+        it 'rejects Stripe setup for a Shopify account before creating customer state' do
+          shopify_account = create(
+            :account,
+            internal_attributes: {
+              'billing_provider' => 'shopify',
+              'signup_source' => 'shopify'
+            }
+          )
+          shopify_admin = create(:user, account: shopify_account, role: :administrator)
+          shopify_account.enable_features!('shopify_integration')
+          allow(GlobalConfigService).to receive(:load)
+            .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+            .and_return(true)
+
+          expect do
+            post "/enterprise/api/v1/accounts/#{shopify_account.id}/subscription",
+                 headers: shopify_admin.create_new_auth_token,
+                 as: :json
+          end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq(
+            'This billing action is not available for Shopify-billed accounts'
+          )
+          expect(shopify_account.reload.custom_attributes).not_to have_key('is_creating_customer')
+        end
       end
     end
   end
