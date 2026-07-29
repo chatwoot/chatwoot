@@ -3,11 +3,13 @@
 # window, plus a derived trend.
 #
 # Handled, resolution, handoff, and reopen metrics come from
-# captain_conversation_outcomes: the cohort for a window is the demand that
-# entered it (rows created inside the window), and classifications are the
-# model's query-time predicates. The reply-derived metrics (hours saved, depth)
-# stay on the messages table, which is the only per-message activity ledger.
-# Both sources compute the two windows in a single scan via FILTER aggregation.
+# captain_conversation_outcomes, each anchored on its own event timestamp
+# (reply span, resolved_at, handoff_at, last_reopened_at) so completed windows
+# stay frozen and the current window isn't dragged down by conversations that
+# haven't finished yet. Classifications are the model's query-time predicates.
+# The reply-derived metrics (hours saved, depth) stay on the messages table,
+# which is the only per-message activity ledger. Both sources compute the two
+# windows in a single scan via FILTER aggregation.
 class Captain::AssistantStatsBuilder
   # Assumed agent effort displaced by each public assistant reply. Reporting data
   # only captures reply latency (customer wait time), not handling effort, so hours
@@ -94,11 +96,11 @@ class Captain::AssistantStatsBuilder
     }
   end
 
-  # One scan over the assistant's outcome rows counts the involved cohort and its
-  # resolution states for both windows.
+  # One scan over the assistant's outcome rows computes all four counts for both
+  # windows, each anchored on its own event timestamp.
   def outcome_window_metrics
-    per_window = [current_range, previous_range].flat_map { |range| outcome_aggregates(window_clause(range)) }
-    row = assistant.conversation_outcomes.where(created_at: full_span).reorder(nil).pick(*per_window.map { |sql| Arel.sql(sql) })
+    per_window = [current_range, previous_range].flat_map { |range| outcome_aggregates(range) }
+    row = assistant.conversation_outcomes.reorder(nil).pick(*per_window.map { |sql| Arel.sql(sql) })
 
     {
       current: { handled: row[0], autonomous: row[1], handoff: row[2], reopened: row[3] },
@@ -106,15 +108,20 @@ class Captain::AssistantStatsBuilder
     }
   end
 
-  def outcome_aggregates(clause)
-    involved = Captain::ConversationOutcome::INVOLVED_SQL
+  def outcome_aggregates(range)
     autonomous = Captain::ConversationOutcome::AUTONOMOUS_SQL
+    # Handled: Captain's reply activity overlapped the window. Resolutions,
+    # handoffs, and reopens count where the event itself landed; usage-limit
+    # handoffs are blocked demand, not Captain activity, so they stay out of
+    # both the handled set (no replies) and the handoff numerator.
+    handled = "first_captain_reply_at <= #{quote(range.last)} AND last_captain_reply_at >= #{quote(range.first)}"
+    resolved = between('resolved_at', range)
 
     [
-      "COUNT(*) FILTER (WHERE #{clause} AND #{involved})",
-      "COUNT(*) FILTER (WHERE #{clause} AND #{autonomous})",
-      "COUNT(*) FILTER (WHERE #{clause} AND #{involved} AND handoff_at IS NOT NULL)",
-      "COUNT(*) FILTER (WHERE #{clause} AND #{autonomous} AND reopen_count > 0)"
+      "COUNT(*) FILTER (WHERE #{handled})",
+      "COUNT(*) FILTER (WHERE #{resolved} AND #{autonomous})",
+      "COUNT(*) FILTER (WHERE #{between('handoff_at', range)} AND handoff_reason_category != 'usage_limit')",
+      "COUNT(*) FILTER (WHERE #{resolved} AND #{autonomous} AND #{between('last_reopened_at', range)})"
     ]
   end
 
@@ -122,8 +129,8 @@ class Captain::AssistantStatsBuilder
   # depth-conversation count for both windows via conditional aggregation.
   def message_window_metrics
     public_clause = "message_type = #{Message.message_types[:outgoing]} AND private = false"
-    cur = window_clause(current_range)
-    prev = window_clause(previous_range)
+    cur = between('created_at', current_range)
+    prev = between('created_at', previous_range)
 
     row = assistant_messages(full_span).reorder(nil).pick(
       Arel.sql("COUNT(*) FILTER (WHERE #{cur} AND #{public_clause})"),
@@ -147,8 +154,8 @@ class Captain::AssistantStatsBuilder
     [current_range.first, previous_range.first].min..current_range.last
   end
 
-  def window_clause(range)
-    "created_at >= #{quote(range.first)} AND created_at <= #{quote(range.last)}"
+  def between(column, range)
+    "#{column} >= #{quote(range.first)} AND #{column} <= #{quote(range.last)}"
   end
 
   def quote(value)

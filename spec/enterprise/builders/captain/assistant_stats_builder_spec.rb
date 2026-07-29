@@ -21,22 +21,29 @@ RSpec.describe Captain::AssistantStatsBuilder do
   end
 
   describe '#metrics' do
-    # Two conversations handled in the current 30-day window, one in the previous.
-    # convo_a resolved autonomously; convo_b was handed off.
+    # Two conversations with Captain reply activity in the current 30-day
+    # window, one in the previous. convo_a resolved autonomously; convo_b was
+    # handed off.
     let!(:current_outcome_a) do
-      create_outcome(created_at: 5.days.ago, first_captain_reply_at: 5.days.ago, resolved_at: 4.days.ago)
+      create_outcome(
+        created_at: 5.days.ago,
+        first_captain_reply_at: 5.days.ago,
+        last_captain_reply_at: 5.days.ago,
+        resolved_at: 4.days.ago
+      )
     end
     let!(:current_outcome_b) do
       create_outcome(
         created_at: 5.days.ago,
         first_captain_reply_at: 5.days.ago,
+        last_captain_reply_at: 5.days.ago,
         handoff_at: 5.days.ago,
         handoff_reason_category: 'missing_knowledge'
       )
     end
 
     before do
-      create_outcome(created_at: 45.days.ago, first_captain_reply_at: 45.days.ago)
+      create_outcome(created_at: 45.days.ago, first_captain_reply_at: 45.days.ago, last_captain_reply_at: 45.days.ago)
 
       [current_outcome_a, current_outcome_b].each do |outcome|
         create(:message, account: account, inbox: inbox, conversation: outcome.conversation,
@@ -54,7 +61,7 @@ RSpec.describe Captain::AssistantStatsBuilder do
       expect(metrics[:conversations_handled]).to include(:current, :previous, :trend)
     end
 
-    it 'counts involved conversations per window and the percent trend' do
+    it 'counts conversations with reply activity per window and the percent trend' do
       handled = described_class.new(assistant, '30').metrics[:conversations_handled]
 
       expect(handled[:current]).to eq(2)
@@ -69,11 +76,14 @@ RSpec.describe Captain::AssistantStatsBuilder do
       expect(metrics[:handoff_rate][:current]).to eq(50.0)
     end
 
-    it 'does not count untouched or usage-limit-blocked demand as handled' do
+    it 'does not count untouched or usage-limit-blocked demand as handled or handed off' do
       create_outcome(created_at: 4.days.ago)
       create_outcome(created_at: 4.days.ago, handoff_at: 4.days.ago, handoff_reason_category: 'usage_limit')
 
-      expect(described_class.new(assistant, '30').metrics[:conversations_handled][:current]).to eq(2)
+      metrics = described_class.new(assistant, '30').metrics
+
+      expect(metrics[:conversations_handled][:current]).to eq(2)
+      expect(metrics[:handoff_rate][:current]).to eq(50.0)
     end
 
     it 'does not count a resolution as autonomous when a human replied before it' do
@@ -82,9 +92,15 @@ RSpec.describe Captain::AssistantStatsBuilder do
       expect(described_class.new(assistant, '30').metrics[:auto_resolution_rate][:current]).to eq(0.0)
     end
 
-    it 'excludes demand that entered outside the current window' do
-      expect(described_class.new(assistant, '7').metrics[:conversations_handled][:current]).to eq(2)
-      expect(described_class.new(assistant, '7').metrics[:conversations_handled][:previous]).to eq(0)
+    it 'counts a resolution that lands in the window even when the demand started earlier' do
+      create_outcome(
+        created_at: 40.days.ago,
+        first_captain_reply_at: 40.days.ago,
+        last_captain_reply_at: 40.days.ago,
+        resolved_at: 3.days.ago
+      )
+
+      expect(described_class.new(assistant, '7').metrics[:auto_resolution_rate][:current]).to eq(100.0)
     end
 
     it 'computes conversation depth as public replies per handled conversation' do
@@ -119,24 +135,31 @@ RSpec.describe Captain::AssistantStatsBuilder do
   end
 
   describe '#metrics reopen_rate' do
-    it 'counts autonomously resolved conversations that reopened afterwards' do
+    it 'counts autonomously resolved conversations that reopened in the window' do
       create_outcome(
         created_at: 8.days.ago,
         first_captain_reply_at: 8.days.ago,
+        last_captain_reply_at: 8.days.ago,
         resolved_at: 6.days.ago,
         last_reopened_at: 4.days.ago,
         reopen_count: 1
       )
-      create_outcome(created_at: 8.days.ago, first_captain_reply_at: 8.days.ago, resolved_at: 6.days.ago)
+      create_outcome(
+        created_at: 8.days.ago,
+        first_captain_reply_at: 8.days.ago,
+        last_captain_reply_at: 8.days.ago,
+        resolved_at: 6.days.ago
+      )
 
       expect(described_class.new(assistant, '30').metrics[:reopen_rate][:current]).to eq(50.0)
     end
 
     it 'scopes the denominator to autonomous resolutions' do
-      # Handed off then resolved: assisted, so it joins neither side of the rate.
+      # Handed off then resolved: not autonomous, so it joins neither side of the rate.
       create_outcome(
         created_at: 8.days.ago,
         first_captain_reply_at: 8.days.ago,
+        last_captain_reply_at: 8.days.ago,
         handoff_at: 7.days.ago,
         handoff_reason_category: 'customer_request',
         resolved_at: 6.days.ago,
@@ -145,6 +168,19 @@ RSpec.describe Captain::AssistantStatsBuilder do
       )
 
       expect(described_class.new(assistant, '30').metrics[:reopen_rate][:current]).to eq(0)
+    end
+
+    it 'ignores reopens whose resolution happened outside the window' do
+      create_outcome(
+        created_at: 20.days.ago,
+        first_captain_reply_at: 20.days.ago,
+        last_captain_reply_at: 20.days.ago,
+        resolved_at: 10.days.ago,
+        last_reopened_at: 2.days.ago,
+        reopen_count: 1
+      )
+
+      expect(described_class.new(assistant, '7').metrics[:reopen_rate][:current]).to eq(0)
     end
   end
 

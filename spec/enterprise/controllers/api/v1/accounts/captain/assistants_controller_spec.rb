@@ -273,8 +273,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           as: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response[:eligible_conversations]).to include(current: 1)
-      expect(json_response[:coverage_rate]).to include(current: 100.0)
+      expect(json_response[:autonomous_resolutions]).to include(current: 1)
       expect(json_response).to have_key(:handoff_reasons)
     end
   end

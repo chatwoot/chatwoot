@@ -54,22 +54,24 @@ class Captain::AssistantDrilldownBuilder
     conversations_for(metric_outcomes.select(:conversation_id))
   end
 
-  # Outcome rows behind the requested stat card, mirroring the cohort and
-  # classification AssistantStatsBuilder counted for the same window.
+  # Outcome rows behind the requested stat card, mirroring the event anchors
+  # and classifications AssistantStatsBuilder counted for the same window
+  # (reply span for handled, resolved_at, handoff_at, last_reopened_at).
   def metric_outcomes
+    outcomes = assistant.conversation_outcomes
+
     case metric
-    when 'conversations_handled' then window_outcomes.involved
-    when 'auto_resolution_rate' then window_outcomes.autonomous_resolved
-    when 'handoff_rate' then window_outcomes.involved.where.not(handoff_at: nil)
-    when 'reopen_rate' then window_outcomes.autonomous_resolved.reopened
+    when 'conversations_handled'
+      outcomes.where('first_captain_reply_at <= ? AND last_captain_reply_at >= ?', range.last, range.first)
+    when 'auto_resolution_rate'
+      outcomes.autonomous_resolved.where(resolved_at: range)
+    when 'handoff_rate'
+      outcomes.where(handoff_at: range).where.not(handoff_reason_category: 'usage_limit')
+    when 'reopen_rate'
+      outcomes.autonomous_resolved.where(resolved_at: range, last_reopened_at: range)
     else
       raise ArgumentError, "Unsupported assistant drilldown metric: #{metric}"
     end
-  end
-
-  # The demand cohort that entered the window (see AssistantStatsBuilder).
-  def window_outcomes
-    assistant.conversation_outcomes.where(created_at: range)
   end
 
   def conversations_for(conversation_ids)
