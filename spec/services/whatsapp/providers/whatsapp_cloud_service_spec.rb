@@ -327,6 +327,12 @@ describe Whatsapp::Providers::WhatsappCloudService do
         end
       end
 
+      it 'rejects a non-numeric business account ID' do
+        whatsapp_channel.provider_config = whatsapp_channel.provider_config.merge('business_account_id' => '123/../../internal')
+
+        expect { subject.sync_templates }.to raise_error(ArgumentError)
+      end
+
       context 'with a stored business management token outside Chatwoot Cloud' do
         let(:business_management_token) { 'business-token' }
 
