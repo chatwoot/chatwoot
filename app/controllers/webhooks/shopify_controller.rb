@@ -47,8 +47,10 @@ class Webhooks::ShopifyController < ActionController::API
   end
 
   def handle_app_uninstalled
+    triggered_at = Time.iso8601(request.headers.fetch('X-Shopify-Triggered-At'))
+
     shopify_hooks(params[:myshopify_domain]).find_each do |hook|
-      Shopify::UninstallationService.new(hook: hook).perform
+      Shopify::UninstallationService.new(hook: hook, occurred_at: triggered_at).perform
     end
   end
 

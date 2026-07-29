@@ -118,19 +118,25 @@ RSpec.describe Enterprise::Billing::ShopifySubscriptionSyncService do
     expect(account.reload.suspension_history.size).to eq(1)
   end
 
-  it 'does not let an older verification restore stale entitlements' do
-    newer_inactive_snapshot = Shopify::SubscriptionSnapshot.from_h(
-      inactive_snapshot.to_h.merge('verified_at' => '2026-07-29T10:01:00Z')
+  it 'does not let an in-flight active verification restore entitlements after uninstall' do
+    uninstall_snapshot = Shopify::SubscriptionSnapshot.from_h(
+      inactive_snapshot.to_h.merge(
+        'verified_at' => '2026-07-29T10:01:00Z',
+        'latest_event' => {
+          'state' => 'RELATIONSHIP_UNINSTALLED',
+          'occurred_at' => '2026-07-29T10:00:30Z'
+        }
+      )
     )
     older_active_snapshot = Shopify::SubscriptionSnapshot.from_h(
       active_snapshot.to_h.merge('verified_at' => '2026-07-29T10:00:00Z')
     )
-    allow(fetcher).to receive(:perform).with(force: true).and_return(newer_inactive_snapshot, older_active_snapshot)
+    expect(fetcher).not_to receive(:perform)
 
-    described_class.new(account: account).perform
-    result = described_class.new(account: account).perform
+    described_class.new(account: account).perform(snapshot: uninstall_snapshot)
+    result = described_class.new(account: account).perform(snapshot: older_active_snapshot)
 
-    expect(result.to_h).to eq(newer_inactive_snapshot.to_h)
+    expect(result.to_h).to eq(uninstall_snapshot.to_h)
     expect(account.reload).to be_suspended
     expect(account.custom_attributes).to include(
       'plan_name' => nil,
