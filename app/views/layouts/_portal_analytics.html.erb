@@ -70,7 +70,9 @@
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '<%= j @portal.meta_pixel_id %>');
-    fbq('track', 'PageView');
+    // Turbo swaps pages without re-running this script, so bind PageView to
+    // turbo:load (fires on the initial load and on every Turbo navigation).
+    document.addEventListener('turbo:load', function () { fbq('track', 'PageView'); });
   </script>
   <!-- End Meta Pixel -->
 <% end %>

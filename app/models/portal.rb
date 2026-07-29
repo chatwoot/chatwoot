@@ -70,7 +70,8 @@ class Portal < ApplicationRecord
                         locale_translations popular_content analytics].freeze
 
   def analytics
-    config_value('analytics') || {}
+    value = config_value('analytics')
+    value.is_a?(Hash) ? value : {}
   end
 
   # Reader per analytics id (e.g. portal.ga4_measurement_id) so the snippet partials stay simple.
