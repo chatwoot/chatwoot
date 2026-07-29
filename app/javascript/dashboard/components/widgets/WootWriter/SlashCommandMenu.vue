@@ -67,6 +67,12 @@ const EDITOR_ACTIONS = [
     menuKey: 'imageUpload',
   },
   {
+    value: 'video',
+    labelKey: 'SLASH_COMMANDS.VIDEO',
+    icon: 'i-lucide-video',
+    menuKey: 'video',
+  },
+  {
     value: 'strike',
     labelKey: 'SLASH_COMMANDS.STRIKETHROUGH',
     icon: 'i-lucide-strikethrough',
