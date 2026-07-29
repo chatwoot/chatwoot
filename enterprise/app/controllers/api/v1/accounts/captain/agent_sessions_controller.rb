@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Captain::AgentSessionsController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Captain::AgentSessionsController < Api::V1::Accounts::Captain::BaseController
   before_action :set_message
   before_action :authorize_conversation
 

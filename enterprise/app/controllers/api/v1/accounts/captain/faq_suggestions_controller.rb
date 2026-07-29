@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::Captain::BaseController
   before_action :current_account
   before_action -> { check_authorization(Captain::FaqSuggestion) }
   before_action :set_accessible_suggestions

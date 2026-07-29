@@ -6,6 +6,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotMessagesController', type: :r
   let(:copilot_thread) { create(:captain_copilot_thread, account: account, user: user) }
   let!(:copilot_message) { create(:captain_copilot_message, copilot_thread: copilot_thread, account: account) }
 
+  before { account.enable_features!('captain_integration') }
+
   describe 'GET /api/v1/accounts/{account.id}/captain/copilot_threads/{thread.id}/copilot_messages' do
     context 'when it is an authenticated user' do
       it 'returns all messages' do

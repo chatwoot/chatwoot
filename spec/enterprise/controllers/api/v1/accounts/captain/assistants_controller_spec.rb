@@ -5,6 +5,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
+  before { account.enable_features!('captain_integration') }
+
   def json_response
     JSON.parse(response.body, symbolize_names: true)
   end

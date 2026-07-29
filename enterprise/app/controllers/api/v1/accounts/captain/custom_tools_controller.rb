@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Captain::BaseController
   before_action :ensure_custom_tools_enabled
   before_action -> { check_authorization(Captain::CustomTool) }
   before_action :set_custom_tool, only: [:show, :update, :destroy]

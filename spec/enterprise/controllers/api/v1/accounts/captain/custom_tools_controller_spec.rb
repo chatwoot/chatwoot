@@ -5,7 +5,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
-  before { account.enable_features!('custom_tools') }
+  before { account.enable_features!('custom_tools', 'captain_integration') }
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)
