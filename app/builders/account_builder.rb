@@ -22,12 +22,15 @@ class AccountBuilder
     end
     claim_shopify_installation
 
-    ActiveRecord::Base.transaction do
+    transaction_succeeded = ActiveRecord::Base.transaction do
       @account = create_account
       bind_shopify_installation
       @user = create_and_link_user
+      true
     end
-    @pending_installation&.consume!
+    raise ActiveRecord::Rollback unless transaction_succeeded
+
+    finalize_shopify_installation
     [@user, @account]
   rescue StandardError
     @pending_installation&.release!
@@ -114,7 +117,11 @@ class AccountBuilder
       access_token: data['access_token'],
       status: 'enabled',
       reference_id: data['shop'],
-      settings: { scope: data['scope'] }
+      settings: {
+        scope: data['scope'],
+        connected_at: Time.current.utc.iso8601,
+        installation_id: SecureRandom.uuid
+      }
     )
   rescue ActiveRecord::RecordNotUnique
     raise_duplicate_shop!
@@ -130,6 +137,12 @@ class AccountBuilder
 
   def raise_duplicate_shop!
     raise Shopify::PendingInstallation::DuplicateShop, 'This Shopify store is already connected'
+  end
+
+  def finalize_shopify_installation
+    @pending_installation&.consume!
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: @account).capture_exception
   end
 
   def shopify_signup?

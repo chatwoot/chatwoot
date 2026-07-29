@@ -106,7 +106,11 @@ RSpec.describe AccountBuilder do
           access_token: 'shopify-access-token',
           reference_id: 'my-store.myshopify.com',
           status: 'enabled',
-          settings: { 'scope' => 'read_customers,read_orders' }
+          settings: include(
+            'scope' => 'read_customers,read_orders',
+            'connected_at' => be_present,
+            'installation_id' => match(/\A[0-9a-f-]{36}\z/)
+          )
         )
         expect(pending_installation).to have_received(:consume!)
         expect(pending_installation).not_to have_received(:release!)
@@ -162,6 +166,37 @@ RSpec.describe AccountBuilder do
 
         expect(pending_installation).to have_received(:release!)
         expect(pending_installation).not_to have_received(:consume!)
+      end
+
+      it 'releases the claim without consuming it when the transaction rolls back' do
+        allow(shopify_account_builder).to receive(:create_shopify_hook).and_raise(ActiveRecord::Rollback)
+
+        expect do
+          shopify_account_builder.perform
+        end.to raise_error(ActiveRecord::Rollback)
+          .and not_change(Account, :count)
+          .and not_change(User, :count)
+          .and not_change(Integrations::Hook, :count)
+
+        expect(pending_installation).to have_received(:release!)
+        expect(pending_installation).not_to have_received(:consume!)
+      end
+
+      it 'returns the committed signup when pending installation cleanup fails' do
+        cleanup_error = StandardError.new('Redis unavailable')
+        exception_tracker = instance_double(ChatwootExceptionTracker, capture_exception: nil)
+        allow(pending_installation).to receive(:consume!).and_raise(cleanup_error)
+        allow(ChatwootExceptionTracker).to receive(:new)
+          .with(cleanup_error, account: instance_of(Account))
+          .and_return(exception_tracker)
+
+        user, account = shopify_account_builder.perform
+
+        expect(user).to be_persisted
+        expect(account).to be_persisted
+        expect(account.hooks.find_by(app_id: 'shopify')).to be_present
+        expect(exception_tracker).to have_received(:capture_exception)
+        expect(pending_installation).not_to have_received(:release!)
       end
 
       it 'rejects an existing authenticated user before claiming the install' do
