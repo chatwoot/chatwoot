@@ -60,13 +60,13 @@ const isPendingConversation = computed(
   () => currentChat.value?.status === wootConstants.STATUS_TYPE.PENDING
 );
 
-const showBotHandoffBanner = computed(() => {
-  return isPendingConversation.value;
-});
-
 const isAgentBotOwned = computed(
   () => currentChat.value?.meta?.assignee_type === 'AgentBot'
 );
+
+const showBotHandoffBanner = computed(() => {
+  return isPendingConversation.value && isAgentBotOwned.value;
+});
 
 const botAssigneeName = computed(() => {
   if (isAgentBotOwned.value && assignedAgent.value?.name) {
@@ -103,9 +103,12 @@ const reopenConversation = async () => {
 
 const onClickBotHandoff = async () => {
   try {
+    const shouldAssignToCurrentUser =
+      isAgentBotOwned.value || needsAssignmentToCurrentUser.value;
+
     await reopenConversation();
 
-    if (isPendingConversation.value || needsAssignmentToCurrentUser.value) {
+    if (shouldAssignToCurrentUser) {
       await selfAssignConversation();
     }
 

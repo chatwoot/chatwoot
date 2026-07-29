@@ -175,7 +175,7 @@ export default {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
     isPrivate() {
-      if (this.isPendingConversation) {
+      if (this.isBotOwnedPendingConversation) {
         return true;
       }
       if (
@@ -204,13 +204,19 @@ export default {
     },
     isReplyRestricted() {
       return (
-        this.isPendingConversation ||
+        this.isBotOwnedPendingConversation ||
         (!this.currentChat?.can_reply &&
           !(this.isAWhatsAppChannel || this.isAPIInbox))
       );
     },
     isPendingConversation() {
       return this.currentChat?.status === wootConstants.STATUS_TYPE.PENDING;
+    },
+    isAgentBotOwned() {
+      return this.currentChat?.meta?.assignee_type === 'AgentBot';
+    },
+    isBotOwnedPendingConversation() {
+      return this.isPendingConversation && this.isAgentBotOwned;
     },
     inboxId() {
       return this.currentChat.inbox_id;
@@ -468,6 +474,9 @@ export default {
       const { can_reply: canReply } = conversation;
       const isConversationSwitch =
         oldConversation && oldConversation.id !== conversation.id;
+      const wasBotOwnedPendingConversation =
+        oldConversation?.status === wootConstants.STATUS_TYPE.PENDING &&
+        oldConversation?.meta?.assignee_type === 'AgentBot';
 
       if (isConversationSwitch) {
         this.replyTypeBeforeConversationSwitch = this.replyType;
@@ -479,11 +488,7 @@ export default {
         this.copilot.reset();
       }
 
-      if (this.isOnPrivateNote) {
-        return;
-      }
-
-      if (this.isPendingConversation) {
+      if (this.isBotOwnedPendingConversation) {
         if (
           isConversationSwitch &&
           this.replyType !== REPLY_EDITOR_MODES.NOTE
@@ -491,6 +496,10 @@ export default {
           this.skipNextReplyTypeDraftSync = true;
         }
         this.replyType = REPLY_EDITOR_MODES.NOTE;
+        return;
+      }
+
+      if (this.isOnPrivateNote && !wasBotOwnedPendingConversation) {
         return;
       }
 
@@ -964,7 +973,10 @@ export default {
       this.hideContentTemplatesModal();
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
-      if (this.isPendingConversation && mode === REPLY_EDITOR_MODES.REPLY) {
+      if (
+        this.isBotOwnedPendingConversation &&
+        mode === REPLY_EDITOR_MODES.REPLY
+      ) {
         return;
       }
       // Clear attachments when switching between private note and reply modes
