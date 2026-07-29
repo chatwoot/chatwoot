@@ -15,8 +15,10 @@ const props = defineProps({
 
 const { t } = useI18n();
 const businessManagementToken = ref('');
+const savedBusinessManagementToken = ref(
+  props.inbox.business_management_token || ''
+);
 const isUpdating = ref(false);
-const isRemoving = ref(false);
 const isUpdateDisabled = computed(
   () => !businessManagementToken.value || isUpdating.value
 );
@@ -28,6 +30,7 @@ const updateToken = async () => {
       props.inbox.id,
       businessManagementToken.value
     );
+    savedBusinessManagementToken.value = businessManagementToken.value;
     businessManagementToken.value = '';
     useAlert(
       t(
@@ -45,30 +48,22 @@ const updateToken = async () => {
     isUpdating.value = false;
   }
 };
-
-const removeToken = async () => {
-  isRemoving.value = true;
-  try {
-    await InboxesAPI.removeWhatsappBusinessManagementToken(props.inbox.id);
-    useAlert(
-      t(
-        'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REMOVE_SUCCESS'
-      )
-    );
-  } catch (error) {
-    useAlert(
-      error.response?.data?.message ||
-        t(
-          'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REMOVE_ERROR'
-        )
-    );
-  } finally {
-    isRemoving.value = false;
-  }
-};
 </script>
 
 <template>
+  <SettingsFieldSection
+    v-if="savedBusinessManagementToken"
+    :label="
+      t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_TITLE')
+    "
+    :help-text="
+      t(
+        'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_SUBHEADER'
+      )
+    "
+  >
+    <woot-code :script="savedBusinessManagementToken" />
+  </SettingsFieldSection>
   <SettingsFieldSection
     :label="
       t(
@@ -87,7 +82,7 @@ const removeToken = async () => {
       >
         <woot-input
           v-model="businessManagementToken"
-          type="password"
+          type="text"
           class="flex-1 mr-2 [&>input]:!mb-0"
           :placeholder="
             t(
@@ -101,20 +96,6 @@ const removeToken = async () => {
           @click="updateToken"
         >
           {{ t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
-        </NextButton>
-        <NextButton
-          color-scheme="alert"
-          variant="outline"
-          class="ml-2"
-          :is-loading="isRemoving"
-          :disabled="isUpdating"
-          @click="removeToken"
-        >
-          {{
-            t(
-              'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REMOVE_BUTTON'
-            )
-          }}
         </NextButton>
       </div>
       <a

@@ -16,13 +16,6 @@ class Whatsapp::BusinessManagementTokenService
     @channel.save!(validate: false)
   end
 
-  def remove!
-    validate_channel!
-
-    @channel.business_management_token = nil
-    @channel.save!(validate: false)
-  end
-
   private
 
   def validate_channel!

@@ -45,8 +45,7 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   end
 
   def whatsapp_business_management_token
-    service = Whatsapp::BusinessManagementTokenService.new(whatsapp_channel)
-    request.delete? ? service.remove! : service.update!(params.require(:business_management_token))
+    Whatsapp::BusinessManagementTokenService.new(whatsapp_channel).update!(params.require(:business_management_token))
 
     head :no_content
   rescue ArgumentError, ActiveRecord::RecordInvalid => e

@@ -283,7 +283,7 @@ Rails.application.routes.draw do
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
             post :sync_templates, on: :member
-            match :whatsapp_business_management_token, via: %i[put delete], on: :member
+            put :whatsapp_business_management_token, on: :member
             get :health, on: :member
             post :register_webhook, on: :member
             post :reset_secret, on: :member

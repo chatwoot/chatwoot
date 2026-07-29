@@ -42,12 +42,6 @@ class Inboxes extends CacheEnabledApiClient {
     );
   }
 
-  removeWhatsappBusinessManagementToken(inboxId) {
-    return axios.delete(
-      `${this.url}/${inboxId}/whatsapp_business_management_token`
-    );
-  }
-
   createCSATTemplate(inboxId, template) {
     return axios.post(`${this.url}/${inboxId}/csat_template`, {
       template,

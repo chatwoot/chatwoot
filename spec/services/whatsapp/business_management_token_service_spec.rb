@@ -40,16 +40,6 @@ RSpec.describe Whatsapp::BusinessManagementTokenService do
     service.update!('business-token')
   end
 
-  it 'removes the token so template synchronization falls back to the API key' do
-    channel.business_management_token = 'business-token'
-    channel.save!(validate: false)
-
-    service.remove!
-
-    expect(channel.reload.business_management_token).to be_nil
-    expect(channel.template_access_token).to eq(channel.provider_config['api_key'])
-  end
-
   it 'rejects updates outside Chatwoot Cloud' do
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
 
