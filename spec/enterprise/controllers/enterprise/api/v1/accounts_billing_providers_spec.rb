@@ -22,6 +22,7 @@ RSpec.describe 'Enterprise Billing Provider APIs', type: :request do
       'plan_name' => 'Shopify Basic',
       'amount' => '29.00',
       'currency' => 'USD',
+      'billing_period' => 'ANNUAL',
       'trial_ends_at' => '2026-08-05T10:00:00Z',
       'current_period_end' => '2026-08-29T10:00:00Z',
       'verified_at' => '2026-07-29T10:00:00Z'
@@ -64,6 +65,7 @@ RSpec.describe 'Enterprise Billing Provider APIs', type: :request do
         'plan' => { 'name' => 'Business' },
         'amount' => nil,
         'currency' => 'USD',
+        'billing_period' => nil,
         'trial_ends_at' => nil,
         'current_period_end' => '2026-08-29T10:00:00Z',
         'allowed_actions' => {
@@ -74,6 +76,19 @@ RSpec.describe 'Enterprise Billing Provider APIs', type: :request do
         },
         'last_verified_at' => nil
       )
+    end
+
+    it 'returns the resolved Stripe currency when no currency attribute is stored' do
+      stripe_account.update!(
+        custom_attributes: stripe_account.custom_attributes.except('billing_currency')
+      )
+
+      get "/enterprise/api/v1/accounts/#{stripe_account.id}/billing_summary",
+          headers: stripe_admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['currency']).to eq('USD')
     end
 
     it 'returns a normalized Shopify summary from the last verified snapshot' do
@@ -88,6 +103,7 @@ RSpec.describe 'Enterprise Billing Provider APIs', type: :request do
         'plan' => { 'name' => 'Shopify Basic', 'handle' => 'shopify-basic' },
         'amount' => '29.00',
         'currency' => 'USD',
+        'billing_period' => 'ANNUAL',
         'trial_ends_at' => '2026-08-05T10:00:00Z',
         'current_period_end' => '2026-08-29T10:00:00Z',
         'allowed_actions' => {
