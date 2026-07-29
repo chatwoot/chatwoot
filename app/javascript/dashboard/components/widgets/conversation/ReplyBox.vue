@@ -137,8 +137,6 @@ export default {
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
       copilotAcceptedMessages: {},
-      replyTypeBeforeConversationSwitch: null,
-      skipNextReplyTypeDraftSync: false,
     };
   },
   computed: {
@@ -175,9 +173,6 @@ export default {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
     isPrivate() {
-      if (this.isBotOwnedPendingConversation) {
-        return true;
-      }
       if (
         this.currentChat.can_reply ||
         this.isAWhatsAppChannel ||
@@ -204,19 +199,15 @@ export default {
     },
     isReplyRestricted() {
       return (
-        this.isBotOwnedPendingConversation ||
-        (!this.currentChat?.can_reply &&
-          !(this.isAWhatsAppChannel || this.isAPIInbox))
+        !this.currentChat?.can_reply &&
+        !(this.isAWhatsAppChannel || this.isAPIInbox)
       );
     },
-    isPendingConversation() {
-      return this.currentChat?.status === wootConstants.STATUS_TYPE.PENDING;
-    },
-    isAgentBotOwned() {
-      return this.currentChat?.meta?.assignee_type === 'AgentBot';
-    },
     isBotOwnedPendingConversation() {
-      return this.isPendingConversation && this.isAgentBotOwned;
+      return (
+        this.currentChat?.status === wootConstants.STATUS_TYPE.PENDING &&
+        this.currentChat?.meta?.assignee_type === 'AgentBot'
+      );
     },
     inboxId() {
       return this.currentChat.inbox_id;
@@ -463,23 +454,17 @@ export default {
     },
     isEditorDisabled() {
       return (
-        (this.isAWhatsAppChannel || this.isAPIInbox) &&
         !this.isOnPrivateNote &&
-        !this.currentChat.can_reply
+        (this.isBotOwnedPendingConversation ||
+          ((this.isAWhatsAppChannel || this.isAPIInbox) &&
+            !this.currentChat.can_reply))
       );
     },
   },
   watch: {
     currentChat(conversation, oldConversation) {
       const { can_reply: canReply } = conversation;
-      const isConversationSwitch =
-        oldConversation && oldConversation.id !== conversation.id;
-      const wasBotOwnedPendingConversation =
-        oldConversation?.status === wootConstants.STATUS_TYPE.PENDING &&
-        oldConversation?.meta?.assignee_type === 'AgentBot';
-
-      if (isConversationSwitch) {
-        this.replyTypeBeforeConversationSwitch = this.replyType;
+      if (oldConversation && oldConversation.id !== conversation.id) {
         // Only update email fields when switching to a completely different conversation (by ID)
         // This prevents overwriting user input (e.g., CC/BCC fields) when performing actions
         // like self-assign or other updates that do not actually change the conversation context
@@ -488,18 +473,7 @@ export default {
         this.copilot.reset();
       }
 
-      if (this.isBotOwnedPendingConversation) {
-        if (
-          isConversationSwitch &&
-          this.replyType !== REPLY_EDITOR_MODES.NOTE
-        ) {
-          this.skipNextReplyTypeDraftSync = true;
-        }
-        this.replyType = REPLY_EDITOR_MODES.NOTE;
-        return;
-      }
-
-      if (this.isOnPrivateNote && !wasBotOwnedPendingConversation) {
+      if (this.isOnPrivateNote) {
         return;
       }
 
@@ -525,11 +499,7 @@ export default {
     },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
-        this.setToDraft(
-          oldConversationId,
-          this.replyTypeBeforeConversationSwitch || this.replyType
-        );
-        this.replyTypeBeforeConversationSwitch = null;
+        this.setToDraft(oldConversationId, this.replyType);
         this.getFromDraft();
         this.resetRecorderAndClearAttachments();
       }
@@ -539,10 +509,6 @@ export default {
       this.doAutoSaveDraft();
     },
     replyType(updatedReplyType, oldReplyType) {
-      if (this.skipNextReplyTypeDraftSync) {
-        this.skipNextReplyTypeDraftSync = false;
-        return;
-      }
       this.setToDraft(this.conversationIdByRoute, oldReplyType);
       this.getFromDraft();
     },
@@ -550,9 +516,6 @@ export default {
 
   mounted() {
     this.getFromDraft();
-    if (this.isPendingConversation) {
-      this.replyType = REPLY_EDITOR_MODES.NOTE;
-    }
     // Don't use the keyboard listener mixin here as the events here are supposed to be
     // working even if the editor is focussed.
     document.addEventListener('paste', this.onPaste);
@@ -973,12 +936,6 @@ export default {
       this.hideContentTemplatesModal();
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
-      if (
-        this.isBotOwnedPendingConversation &&
-        mode === REPLY_EDITOR_MODES.REPLY
-      ) {
-        return;
-      }
       // Clear attachments when switching between private note and reply modes
       // This is to prevent from breaking the upload rules
       if (this.attachedFiles.length > 0) this.attachedFiles = [];
