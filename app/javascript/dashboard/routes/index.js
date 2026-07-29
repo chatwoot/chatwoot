@@ -10,6 +10,7 @@ import {
   getShopifyShopFromRedirect,
   getTargetAccount,
   isShopifyInstallRedirect,
+  isShopifyBillingAccount,
   requiresShopifyBilling,
 } from 'v3/helpers/AuthHelper';
 import AnalyticsHelper from '../helper/AnalyticsHelper';
@@ -20,13 +21,25 @@ const routes = [...dashboard.routes];
 const onboardingPath = step =>
   step === 'inbox_setup' ? 'onboarding/inbox-setup' : 'onboarding';
 
+const shopifyPricingRedirect = query => {
+  const { plan_handle: planHandle, shop } = query || {};
+  if (!planHandle || !shop) return '';
+
+  const params = new URLSearchParams({ plan_handle: planHandle, shop });
+  return `settings/billing?${params.toString()}`;
+};
+
 export const router = createRouter({ history: createWebHistory(), routes });
 
 export const validateAuthenticateRoutePermission = async (to, next) => {
   const { isLoggedIn, getCurrentUser: user } = store.getters;
 
   if (!isLoggedIn) {
-    window.location.assign('/app/login');
+    const pricingRedirect = shopifyPricingRedirect(to.query);
+    const loginUrl = pricingRedirect
+      ? `/app/login?redirect_url=${encodeURIComponent(pricingRedirect)}`
+      : '/app/login';
+    window.location.assign(loginUrl);
     return '';
   }
 
@@ -39,11 +52,16 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     return next(frontendURL('no-accounts'));
   }
 
-  const redirectUrl = to.query?.redirect_url;
-  const redirectAccount = getTargetAccount({ redirectUrl, user });
+  const requestedRedirectUrl = to.query?.redirect_url;
+  const pricingRedirectUrl = shopifyPricingRedirect(to.query);
+  const targetRedirectUrl = requestedRedirectUrl || pricingRedirectUrl;
+  const redirectAccount = getTargetAccount({
+    redirectUrl: targetRedirectUrl,
+    user,
+  });
   if (
     !to.params?.accountId &&
-    getShopifyShopFromRedirect(redirectUrl) &&
+    getShopifyShopFromRedirect(targetRedirectUrl) &&
     !redirectAccount
   ) {
     return next(frontendURL(`accounts/${accountId}/dashboard`));
@@ -56,6 +74,10 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   const isAdmin = userAccount?.role === 'administrator';
   const isActive = userAccount?.status === 'active';
   const needsShopifyBilling = isAdmin && requiresShopifyBilling(userAccount);
+  const pricingRedirect =
+    isAdmin && isShopifyBillingAccount(userAccount)
+      ? shopifyPricingRedirect(to.query)
+      : '';
   const needsOnboarding =
     ONBOARDING_STEPS.includes(userAccount?.onboarding_step) &&
     isAdmin &&
@@ -63,9 +85,14 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     !needsShopifyBilling;
 
   if (to.name === 'no_accounts' || !to.name) {
-    if (redirectUrl) {
-      if (!isShopifyInstallRedirect(redirectUrl)) {
-        return next(frontendURL(`accounts/${routeAccountId}/${redirectUrl}`));
+    if (pricingRedirect) {
+      return next(frontendURL(`accounts/${routeAccountId}/${pricingRedirect}`));
+    }
+    if (requestedRedirectUrl) {
+      if (!isShopifyInstallRedirect(requestedRedirectUrl)) {
+        return next(
+          frontendURL(`accounts/${routeAccountId}/${requestedRedirectUrl}`)
+        );
       }
 
       const installAccount = getShopifyInstallAccount({
@@ -75,7 +102,7 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
 
       if (installAccount) {
         return next(
-          frontendURL(`accounts/${installAccount.id}/${redirectUrl}`)
+          frontendURL(`accounts/${installAccount.id}/${requestedRedirectUrl}`)
         );
       }
     }

@@ -133,21 +133,21 @@ const loadSummary = async () => {
     return;
   }
 
-  if (isShopifyReturn.value) {
-    isRefreshing.value = true;
-    try {
-      summary.value = await fetchSummary({ refresh: true });
-      await store.dispatch('setUser');
-      await store.dispatch('accounts/get', {
-        accountId: route.params.accountId,
-      });
+  isRefreshing.value = true;
+  try {
+    summary.value = await fetchSummary({ refresh: true });
+    await store.dispatch('setUser');
+    await store.dispatch('accounts/get', {
+      accountId: route.params.accountId,
+    });
+    if (isShopifyReturn.value) {
       await clearShopifyReturnParams();
-    } catch {
-      hasError.value = true;
-      isStale.value = true;
-    } finally {
-      isRefreshing.value = false;
     }
+  } catch {
+    hasError.value = true;
+    isStale.value = true;
+  } finally {
+    isRefreshing.value = false;
   }
 
   isLoading.value = false;

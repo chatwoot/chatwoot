@@ -10,6 +10,7 @@ import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useBranding } from 'shared/composables/useBranding';
+import { isShopifyBillingAccount } from 'v3/helpers/AuthHelper';
 import Integration from './Integration.vue';
 import shopifyAPI from 'dashboard/api/integrations/shopify';
 
@@ -32,6 +33,10 @@ const { formatMessage } = useMessageFormatter();
 const { replaceInstallationName } = useBranding();
 const integration = useFunctionGetter('integrations/getIntegration', 'shopify');
 const uiFlags = useMapGetter('integrations/getUIFlags');
+const currentAccount = useMapGetter('getCurrentAccount');
+const isShopifyBillingManaged = computed(() =>
+  isShopifyBillingAccount(currentAccount.value)
+);
 
 const integrationAction = computed(() => {
   if (integration.value.enabled) {
@@ -118,6 +123,7 @@ onMounted(() => {
           :integration-description="integration.description"
           :integration-enabled="integration.enabled"
           :integration-action="integrationAction"
+          :hide-enabled-action="isShopifyBillingManaged"
           :delete-confirmation-text="{
             title: t('INTEGRATION_SETTINGS.SHOPIFY.DELETE.TITLE'),
             message: t('INTEGRATION_SETTINGS.SHOPIFY.DELETE.MESSAGE'),

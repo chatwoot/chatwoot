@@ -10,10 +10,10 @@ class Enterprise::Billing::ShopifySubscriptionSyncService
     @account = account
   end
 
-  def perform
+  def perform(snapshot: nil)
     return unless eligible?
 
-    snapshot = Shopify::SubscriptionFetcher.new(account: account).perform(force: true)
+    snapshot = resolved_snapshot(snapshot)
     reconciled = reconcile_snapshot(snapshot)
     return persisted_snapshot if reconciled == :stale
     return unless reconciled == :applied
@@ -30,6 +30,14 @@ class Enterprise::Billing::ShopifySubscriptionSyncService
   private
 
   attr_reader :account
+
+  def resolved_snapshot(snapshot)
+    snapshot || Shopify::SubscriptionFetcher.new(account: account).perform(force: true)
+  end
+
+  def resolved_plan(snapshot)
+    configured_plan(snapshot) if snapshot.entitled?
+  end
 
   def eligible?
     account.billing_provider == 'shopify' &&

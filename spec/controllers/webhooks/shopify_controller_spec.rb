@@ -6,11 +6,12 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
   let(:shop_domain) { 'feature-gated-shop.myshopify.com' }
   let(:client_secret) { 'shopify-client-secret' }
   let(:payload) { { shop_domain: shop_domain } }
+  let(:topic) { 'shop/redact' }
   let(:body) { payload.to_json }
   let(:headers) do
     {
       'CONTENT_TYPE' => 'application/json',
-      'X-Shopify-Topic' => 'shop/redact',
+      'X-Shopify-Topic' => topic,
       'X-Shopify-Hmac-SHA256' => Base64.strict_encode64(OpenSSL::HMAC.digest('SHA256', client_secret, body))
     }
   end
@@ -113,5 +114,38 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
     end.not_to change(Integrations::Hook, :count)
 
     expect(response).to have_http_status(:unauthorized)
+  end
+
+  context 'with an app/uninstalled webhook' do
+    let(:topic) { 'app/uninstalled' }
+    let(:payload) { { myshopify_domain: shop_domain.upcase } }
+    let(:uninstallation_service) { instance_double(Shopify::UninstallationService, perform: nil) }
+
+    it 'delegates the matching hook to the uninstallation lifecycle' do
+      hook
+      allow(Shopify::UninstallationService).to receive(:new)
+        .with(hook: hook)
+        .and_return(uninstallation_service)
+
+      post '/webhooks/shopify', params: body, headers: headers
+
+      expect(uninstallation_service).to have_received(:perform)
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'ignores an invalid shop domain' do
+      allow(Shopify::UninstallationService).to receive(:new)
+      invalid_payload = { myshopify_domain: 'not-a-shop.example.com' }.to_json
+      invalid_headers = headers.merge(
+        'X-Shopify-Hmac-SHA256' => Base64.strict_encode64(
+          OpenSSL::HMAC.digest('SHA256', client_secret, invalid_payload)
+        )
+      )
+
+      post '/webhooks/shopify', params: invalid_payload, headers: invalid_headers
+
+      expect(Shopify::UninstallationService).not_to have_received(:new)
+      expect(response).to have_http_status(:ok)
+    end
   end
 end
