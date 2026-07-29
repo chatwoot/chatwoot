@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { format } from 'date-fns';
 import { useStore } from 'dashboard/composables/store';
 import EnterpriseAccountAPI from 'dashboard/api/enterprise/account';
+import { useBranding } from 'shared/composables/useBranding';
 
 import BillingCard from './components/BillingCard.vue';
 import DetailItem from './components/DetailItem.vue';
@@ -16,6 +17,7 @@ const route = useRoute();
 const router = useRouter();
 const store = useStore();
 const { t } = useI18n();
+const { replaceInstallationName } = useBranding();
 
 const summary = ref(null);
 const isLoading = ref(true);
@@ -62,6 +64,23 @@ const formattedPrice = computed(() => {
     style: 'currency',
     currency: summary.value.currency,
   }).format(Number(summary.value.amount));
+});
+
+const formattedRecurringPrice = computed(() => {
+  if (!formattedPrice.value) return '';
+
+  if (summary.value?.billing_period?.toUpperCase() === 'ANNUAL') {
+    return t('BILLING_SETTINGS.SHOPIFY.PER_YEAR', {
+      price: formattedPrice.value,
+    });
+  }
+  if (summary.value?.billing_period?.toUpperCase() === 'EVERY_30_DAYS') {
+    return t('BILLING_SETTINGS.SHOPIFY.PER_MONTH', {
+      price: formattedPrice.value,
+    });
+  }
+
+  return formattedPrice.value;
 });
 
 const billingDate = computed(() => {
@@ -146,7 +165,9 @@ onMounted(loadSummary);
     <template #header>
       <BaseSettingsHeader
         :title="$t('BILLING_SETTINGS.SHOPIFY.TITLE')"
-        :description="$t('BILLING_SETTINGS.SHOPIFY.DESCRIPTION')"
+        :description="
+          replaceInstallationName($t('BILLING_SETTINGS.SHOPIFY.DESCRIPTION'))
+        "
       />
     </template>
     <template #body>
@@ -181,7 +202,11 @@ onMounted(loadSummary);
         <BillingCard
           v-else-if="summary"
           :title="$t('BILLING_SETTINGS.SHOPIFY.PLAN_TITLE')"
-          :description="$t('BILLING_SETTINGS.SHOPIFY.PLAN_DESCRIPTION')"
+          :description="
+            replaceInstallationName(
+              $t('BILLING_SETTINGS.SHOPIFY.PLAN_DESCRIPTION')
+            )
+          "
         >
           <template #action>
             <ButtonV4
@@ -209,13 +234,9 @@ onMounted(loadSummary);
               :value="statusLabel"
             />
             <DetailItem
-              v-if="formattedPrice"
+              v-if="formattedRecurringPrice"
               :label="$t('BILLING_SETTINGS.SHOPIFY.PRICE')"
-              :value="
-                $t('BILLING_SETTINGS.SHOPIFY.PER_MONTH', {
-                  price: formattedPrice,
-                })
-              "
+              :value="formattedRecurringPrice"
             />
             <DetailItem
               v-if="billingDate"

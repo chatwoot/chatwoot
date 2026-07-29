@@ -618,6 +618,7 @@
       "SUBSCRIPTION_STATUS": "Status",
       "PRICE": "Price",
       "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
       "TRIAL_ENDS_ON": "Trial ends on",
       "RENEWS_ON": "Renews on",
       "ACCESS_UNTIL": "Access until",
