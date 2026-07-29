@@ -76,6 +76,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       end
 
       it 'keeps the reservation for a successful result' do
+        expect(account).to receive(:commit_response_usage)
         expect(account).not_to receive(:increment_response_usage)
         expect(account).not_to receive(:release_response_usage)
 

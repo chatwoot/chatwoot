@@ -155,7 +155,10 @@ RSpec.describe Account, type: :model do
 
         expect(first_request.reserve_response_usage).to be(true)
         expect(second_request.reserve_response_usage).to be(false)
-        expect(account.reload.custom_attributes['captain_responses_usage']).to eq(1)
+        expect(account.reload.custom_attributes).to include(
+          'captain_responses_usage' => 0,
+          'captain_responses_reserved' => 1
+        )
       end
 
       it 'releases a reserved response without going below zero' do
@@ -165,7 +168,39 @@ RSpec.describe Account, type: :model do
         expect(account.reserve_response_usage).to be(true)
         expect(account.release_response_usage).to be(true)
         expect(account.release_response_usage).to be(false)
-        expect(account.reload.custom_attributes['captain_responses_usage']).to eq(0)
+        expect(account.reload.custom_attributes).to include(
+          'captain_responses_usage' => 0,
+          'captain_responses_reserved' => 0
+        )
+      end
+
+      it 'commits a reserved response after a quota reset' do
+        account.update!(limits: { captain_responses: 2 })
+        account.increment_response_usage
+        expect(account.reserve_response_usage).to be(true)
+
+        account.reset_response_usage
+
+        expect(account.commit_response_usage).to be(true)
+        expect(account.reload.custom_attributes).to include(
+          'captain_responses_usage' => 1,
+          'captain_responses_reserved' => 0
+        )
+      end
+
+      it 'releases only its reservation after a quota reset' do
+        account.update!(limits: { captain_responses: 2 })
+        account.increment_response_usage
+        expect(account.reserve_response_usage).to be(true)
+
+        account.reset_response_usage
+        account.increment_response_usage
+
+        expect(account.release_response_usage).to be(true)
+        expect(account.reload.custom_attributes).to include(
+          'captain_responses_usage' => 1,
+          'captain_responses_reserved' => 0
+        )
       end
 
       it 'reseting responses limits updates usage_limits' do

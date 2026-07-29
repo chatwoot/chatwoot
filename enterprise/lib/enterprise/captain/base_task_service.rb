@@ -30,8 +30,9 @@ module Enterprise::Captain::BaseTaskService
 
   def finalize_usage(result, usage_reserved)
     successful = successful_result?(result)
-    return release_usage if usage_reserved && !successful
-    return increment_usage if usage_reserved.nil? && counts_toward_usage? && successful
+    return successful ? commit_usage : release_usage if usage_reserved
+
+    increment_usage if counts_toward_usage? && successful
   end
 
   def responses_available?
@@ -50,5 +51,10 @@ module Enterprise::Captain::BaseTaskService
   def release_usage
     Rails.logger.info("[CAPTAIN][#{self.class.name}] Releasing response usage for account #{account.id}")
     account.release_response_usage
+  end
+
+  def commit_usage
+    Rails.logger.info("[CAPTAIN][#{self.class.name}] Committing response usage for account #{account.id}")
+    account.commit_response_usage
   end
 end

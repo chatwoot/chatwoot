@@ -2,6 +2,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
   CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
   CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
+  CAPTAIN_RESPONSES_RESERVED = 'captain_responses_reserved'.freeze
   CAPTAIN_DOCUMENTS_USAGE = 'captain_documents_usage'.freeze
 
   def usage_limits
@@ -26,14 +27,16 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
 
     updated_count = Account.where(id: id)
                            .where(
-                             'COALESCE((custom_attributes ->> :key)::int, 0) < :limit',
-                             key: CAPTAIN_RESPONSES_USAGE,
+                             'COALESCE((custom_attributes ->> :usage_key)::int, 0) + ' \
+                             'COALESCE((custom_attributes ->> :reserved_key)::int, 0) < :limit',
+                             usage_key: CAPTAIN_RESPONSES_USAGE,
+                             reserved_key: CAPTAIN_RESPONSES_RESERVED,
                              limit: response_limit
                            )
-                           .update_all(response_usage_increment)
+                           .update_all(response_reservation_increment)
     return false unless updated_count == 1
 
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i + 1
+    custom_attributes[CAPTAIN_RESPONSES_RESERVED] = custom_attributes[CAPTAIN_RESPONSES_RESERVED].to_i + 1
     true
   end
 
@@ -41,12 +44,26 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     updated_count = Account.where(id: id)
                            .where(
                              'COALESCE((custom_attributes ->> :key)::int, 0) > 0',
-                             key: CAPTAIN_RESPONSES_USAGE
+                             key: CAPTAIN_RESPONSES_RESERVED
                            )
-                           .update_all(response_usage_decrement)
+                           .update_all(response_reservation_decrement)
     return false unless updated_count == 1
 
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = [custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i - 1, 0].max
+    custom_attributes[CAPTAIN_RESPONSES_RESERVED] = [custom_attributes[CAPTAIN_RESPONSES_RESERVED].to_i - 1, 0].max
+    true
+  end
+
+  def commit_response_usage
+    updated_count = Account.where(id: id)
+                           .where(
+                             'COALESCE((custom_attributes ->> :key)::int, 0) > 0',
+                             key: CAPTAIN_RESPONSES_RESERVED
+                           )
+                           .update_all(response_reservation_commit)
+    return false unless updated_count == 1
+
+    custom_attributes[CAPTAIN_RESPONSES_RESERVED] = [custom_attributes[CAPTAIN_RESPONSES_RESERVED].to_i - 1, 0].max
+    custom_attributes[CAPTAIN_RESPONSES_USAGE] = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i + 1
     true
   end
 
@@ -220,19 +237,31 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     custom_attributes[key] = custom_attributes[key].to_i + 1
   end
 
-  def response_usage_increment
+  def response_reservation_increment
     [
       "custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:key], " \
       '(COALESCE((custom_attributes ->> :key)::int, 0) + 1)::text::jsonb)',
-      { key: CAPTAIN_RESPONSES_USAGE }
+      { key: CAPTAIN_RESPONSES_RESERVED }
     ]
   end
 
-  def response_usage_decrement
+  def response_reservation_decrement
     [
       "custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:key], " \
       '(GREATEST(COALESCE((custom_attributes ->> :key)::int, 0) - 1, 0))::text::jsonb)',
-      { key: CAPTAIN_RESPONSES_USAGE }
+      { key: CAPTAIN_RESPONSES_RESERVED }
+    ]
+  end
+
+  def response_reservation_commit
+    [
+      "custom_attributes = jsonb_set(jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:usage_key], " \
+      '(COALESCE((custom_attributes ->> :usage_key)::int, 0) + 1)::text::jsonb), ARRAY[:reserved_key], ' \
+      '(GREATEST(COALESCE((custom_attributes ->> :reserved_key)::int, 0) - 1, 0))::text::jsonb)',
+      {
+        usage_key: CAPTAIN_RESPONSES_USAGE,
+        reserved_key: CAPTAIN_RESPONSES_RESERVED
+      }
     ]
   end
   # rubocop:enable Rails/SkipsModelValidations
