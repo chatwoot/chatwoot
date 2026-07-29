@@ -53,6 +53,18 @@ RSpec.describe Conversation, type: :model do
       expect(applied_sla.reload.completed_at).to eq(completion_time)
     end
 
+    it 'records the completion time when SLA evaluation finishes during resolution' do
+      completion_time = Time.zone.parse('2026-07-15 10:00:00')
+      allow(conversation).to receive(:update_applied_sla_completion).and_wrap_original do |method|
+        applied_sla.update!(sla_status: :missed)
+        method.call
+      end
+
+      travel_to(completion_time) { conversation.update!(status: :resolved) }
+
+      expect(applied_sla.reload).to have_attributes(sla_status: 'missed', completed_at: completion_time)
+    end
+
     it 'clears the completion time when a nonterminal SLA is reopened' do
       conversation.update!(status: :resolved)
 

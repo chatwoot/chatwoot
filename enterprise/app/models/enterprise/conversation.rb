@@ -40,9 +40,14 @@ module Enterprise::Conversation
 
   def update_applied_sla_completion
     return unless saved_change_to_status?
-    return if applied_sla.blank? || applied_sla.hit? || applied_sla.missed?
 
-    applied_sla.update!(completed_at: resolved? ? Time.current : nil)
+    current_applied_sla = applied_sla
+    return if current_applied_sla.blank?
+
+    terminal_sla = current_applied_sla.sla_status.in?(%w[hit missed])
+    return if terminal_sla && (!resolved? || current_applied_sla.completed_at.present?)
+
+    current_applied_sla.update!(completed_at: resolved? ? Time.current : nil)
   end
 
   def dispatch_captain_inference_event(event_name)
