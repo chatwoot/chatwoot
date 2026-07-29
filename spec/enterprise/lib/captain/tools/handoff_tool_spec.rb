@@ -30,19 +30,18 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
     context 'when conversation exists' do
       context 'when Captain is responding to a customer message' do
         let(:responding_to_message) do
-          create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming, created_at: same_second)
+          create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
         end
-        let(:same_second) { Time.current.change(usec: 0) }
         let(:tool_context) do
           Struct.new(:state).new({ conversation: { id: conversation.id }, responding_to_message_id: responding_to_message.id })
         end
 
         before do
-          account.enable_features!(:captain_message_burst_protection)
+          account.enable_features!(:captain_integration_v2)
+          responding_to_message
         end
 
         it 'hands off when no newer customer message has arrived' do
-          responding_to_message
           found_conversation = Conversation.find(conversation.id)
           scoped_conversations = Conversation.where(account_id: assistant.account_id)
           allow(Conversation).to receive(:where).with(account_id: assistant.account_id).and_return(scoped_conversations)
@@ -56,10 +55,37 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           expect(tool_context.state[:captain_v2_handoff_tool_completed]).to be true
         end
 
+        it 'dispatches the handoff event after leaving the lock transaction' do
+          found_conversation = Conversation.find(conversation.id)
+          scoped_conversations = Conversation.where(account_id: assistant.account_id)
+          allow(Conversation).to receive(:where).with(account_id: assistant.account_id).and_return(scoped_conversations)
+          allow(scoped_conversations).to receive(:find_by).with(id: conversation.id).and_return(found_conversation)
+          open_transactions_before_handoff = ActiveRecord::Base.connection.open_transactions
+
+          expect(found_conversation).to receive(:dispatch_bot_handoff_event) do
+            expect(ActiveRecord::Base.connection.open_transactions).to eq(open_transactions_before_handoff)
+          end
+
+          tool.perform(tool_context, reason: 'Customer needs specialized support')
+        end
+
+        it 'notifies inbox members after the committed handoff' do
+          create(:inbox_member, user: user, inbox: inbox)
+          notification_setting = user.notification_settings.find_by!(account: account)
+          notification_setting.selected_email_flags = [:email_conversation_creation]
+          notification_setting.selected_push_flags = []
+          notification_setting.save!
+
+          perform_enqueued_jobs do
+            tool.perform(tool_context, reason: 'Customer needs specialized support')
+          end
+
+          expect(user.notifications.find_by(primary_actor: conversation, notification_type: :conversation_creation)).to be_present
+        end
+
         it 'skips the handoff when a newer message has arrived' do
-          responding_to_message
           conversation.update!(status: :pending)
-          create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming, created_at: same_second)
+          create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
 
           expect do
             result = tool.perform(tool_context, reason: 'Customer needs specialized support')
@@ -69,12 +95,12 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
         end
       end
 
-      context 'when burst protection is disabled' do
-        let(:responding_to_message) do
-          create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
-        end
+      context 'with Captain V1' do
         let(:tool_context) do
           Struct.new(:state).new({ conversation: { id: conversation.id }, responding_to_message_id: responding_to_message.id })
+        end
+        let(:responding_to_message) do
+          create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
         end
 
         it 'uses the legacy handoff without a lock or stale-message guard' do

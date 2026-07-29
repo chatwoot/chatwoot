@@ -268,8 +268,3 @@
   display_name: WhatsApp Embedded Signup Flow
   enabled: false
   column: feature_flags_ext_1
-- name: captain_message_burst_protection
-  display_name: Captain Message Burst Protection
-  enabled: false
-  premium: true
-  column: feature_flags_ext_1

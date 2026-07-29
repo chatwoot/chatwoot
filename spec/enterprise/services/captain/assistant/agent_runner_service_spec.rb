@@ -105,7 +105,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       service.generate_response(message_history: message_history)
     end
 
-    it 'adds the customer message id to the runner state' do
+    it 'adds the responding message id to the runner state' do
       service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: 123)
 
       expect(mock_runner).to receive(:run).with(

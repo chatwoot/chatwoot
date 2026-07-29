@@ -5,7 +5,6 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   def perform(tool_context, reason: nil)
     conversation = find_conversation(tool_context.state)
     return 'Conversation not found' unless conversation
-    return 'Handoff skipped because a newer customer message arrived' if stale_customer_message?(tool_context.state)
 
     # Log the handoff with reason
     log_tool_usage('tool_handoff', {
@@ -14,7 +13,9 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
                    })
 
     # Use existing handoff mechanism from ResponseBuilderJob
-    return 'Handoff skipped because the conversation changed' unless trigger_handoff(tool_context, conversation, reason)
+    handoff_result = trigger_handoff(tool_context, conversation, reason)
+    return 'Handoff skipped because a newer customer message arrived' if handoff_result == :stale
+    return 'Handoff skipped because the conversation changed' unless handoff_result == :completed
 
     "Conversation handed off to human support team#{" (Reason: #{reason})" if reason}"
   rescue StandardError => e
@@ -24,17 +25,13 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
   private
 
-  def stale_customer_message?(state)
-    message_burst_protection_enabled? && newer_customer_message_arrived?(state)
-  end
-
   def trigger_handoff(tool_context, conversation, reason)
-    return trigger_legacy_handoff(tool_context, conversation, reason) unless message_burst_protection_enabled?
+    return trigger_legacy_handoff(tool_context, conversation, reason) unless captain_v2_enabled?
 
     note = nil
-    handoff_completed = conversation.with_lock do
-      next false unless conversation.pending?
-      next false if newer_customer_message_arrived?(tool_context.state)
+    handoff_result = conversation.with_lock do
+      next :changed unless conversation.pending?
+      next :stale if newer_customer_message_arrived?(tool_context.state)
 
       # post the reason as a private note
       note = conversation.messages.create!(
@@ -42,12 +39,11 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
         account: conversation.account, inbox: conversation.inbox, content: reason
       )
 
-      # Trigger the bot handoff (sets status to open + dispatches events)
-      conversation.bot_handoff!
-      true
+      conversation.bot_handoff!(dispatch_event: false)
+      :completed
     end
 
-    return false unless handoff_completed
+    return handoff_result unless handoff_result == :completed
 
     # Session capture attributes the run to this note so agents can inspect the
     # generation path on the handoff reason instead of the canned follow-up message.
@@ -56,10 +52,12 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
     record_handoff_note(tool_context, note) if reason.present?
 
     tool_context.state[:captain_v2_handoff_tool_completed] = true
+    # Queue the event after the state change commits so notification jobs always see the open conversation.
+    conversation.dispatch_bot_handoff_event
 
     # Send out of office message if applicable (since template messages were suppressed while Captain was handling)
     send_out_of_office_message_if_applicable(conversation)
-    true
+    :completed
   end
 
   def trigger_legacy_handoff(tool_context, conversation, reason)
@@ -70,7 +68,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
     record_handoff_note(tool_context, note) if reason.present?
     conversation.bot_handoff!
     send_out_of_office_message_if_applicable(conversation)
-    true
+    :completed
   end
 
   def record_handoff_note(tool_context, note)

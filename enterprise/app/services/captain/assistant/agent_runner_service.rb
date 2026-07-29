@@ -204,11 +204,11 @@ class Captain::Assistant::AgentRunnerService
   def newer_customer_message_arrived?
     return false if @responding_to_message_id.blank? || @conversation.blank?
 
-    latest_incoming_message_id = Conversation.uncached do
-      @conversation.messages.incoming.maximum(:id)
+    Conversation.uncached do
+      @conversation.messages
+                   .captain_response_triggering
+                   .exists?(['messages.id > ?', @responding_to_message_id])
     end
-
-    latest_incoming_message_id != @responding_to_message_id
   end
 
   def runner

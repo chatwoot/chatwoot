@@ -31,9 +31,9 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def schedule_captain_response
     job_args = [conversation, conversation.inbox.captain_assistant]
-    burst_protection_enabled = conversation.account.captain_message_burst_protection_enabled?
-    job_args << message.id if burst_protection_enabled
-    wait_time = attachment_wait_time(burst_protection_enabled)
+    captain_v2_enabled = conversation.account.feature_enabled?('captain_integration_v2')
+    job_args << message.id if captain_v2_enabled
+    wait_time = attachment_wait_time(captain_v2_enabled)
 
     if wait_time.zero?
       Captain::Conversation::ResponseBuilderJob.perform_later(*job_args)
@@ -42,8 +42,8 @@ module Enterprise::MessageTemplates::HookExecutionService
     end
   end
 
-  def attachment_wait_time(burst_protection_enabled)
-    attachment_count = burst_protection_enabled ? recent_attachment_count : message.attachments.size
+  def attachment_wait_time(captain_v2_enabled)
+    attachment_count = captain_v2_enabled ? recent_attachment_count : message.attachments.size
     return 0.seconds if attachment_count.zero?
 
     calculate_attachment_wait_time(attachment_count)
@@ -67,7 +67,7 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
-    conversation.pending? && message.incoming? && inbox.captain_assistant.present?
+    conversation.pending? && message.captain_response_triggering? && inbox.captain_assistant.present?
   end
 
   def perform_handoff

@@ -358,35 +358,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(true)
       end
 
-      it 'uses Captain::Assistant::AgentRunnerService without the responding message id when burst protection is disabled' do
-        expect(Captain::Assistant::AgentRunnerService).to receive(:new).with(
-          assistant: assistant,
-          conversation: conversation
-        )
-        expect(Captain::Llm::AssistantChatService).not_to receive(:new)
-
-        described_class.perform_now(conversation, assistant, responding_to_message.id)
-        expect(conversation.messages.last.content).to eq('Hey, welcome to Captain V2')
-      end
-
-      it 'keeps the legacy response when a newer message arrives and burst protection is disabled' do
-        allow(mock_agent_runner_service).to receive(:generate_response) do
-          create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
-          { 'response' => 'Stale response', 'handoff_tool_called' => false }
-        end
-        expect(mock_agent_runner_service).not_to receive(:response_discarded?)
-
-        described_class.perform_now(conversation, assistant, responding_to_message.id)
-
-        expect(conversation.messages.outgoing.last.content).to eq('Stale response')
-        expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(1)
-      end
-
-      context 'when burst protection is enabled' do
-        before do
-          allow(account).to receive(:feature_enabled?).with('captain_message_burst_protection').and_return(true)
-        end
-
+      context 'with message burst protection' do
         it 'passes the responding message id to the runner' do
           expect(Captain::Assistant::AgentRunnerService).to receive(:new).with(
             assistant: assistant,
@@ -397,7 +369,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           described_class.perform_now(conversation, assistant, responding_to_message.id)
         end
 
-        it 'discards a response when a newer message arrives during generation' do
+        it 'discards a response when the runner sees a newer customer message' do
           allow(mock_agent_runner_service).to receive(:generate_response) do
             create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
             { 'response' => 'Stale response', 'handoff_tool_called' => false }
@@ -408,6 +380,34 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
           expect(conversation.messages.outgoing.count).to eq(0)
           expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+        end
+
+        it 'checks freshness itself after generation' do
+          allow(mock_agent_runner_service).to receive(:generate_response) do
+            create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
+            { 'response' => 'Stale response', 'handoff_tool_called' => false }
+          end
+          allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(false)
+
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
+
+          expect(conversation.messages.outgoing.count).to eq(0)
+          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+        end
+
+        it 'keeps the pending response fresh when an email auto reply arrives' do
+          create(
+            :message,
+            conversation: conversation,
+            message_type: :incoming,
+            content_type: :incoming_email,
+            content_attributes: { email: { auto_reply: true } }
+          )
+
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
+
+          expect(conversation.messages.outgoing.last.content).to eq('Hey, welcome to Captain V2')
+          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(1)
         end
       end
 
@@ -462,7 +462,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       before do
         allow(account).to receive(:feature_enabled?).and_return(false)
         allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(true)
-        allow(account).to receive(:feature_enabled?).with('captain_message_burst_protection').and_return(true)
         allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(true)
       end
 

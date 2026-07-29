@@ -69,10 +69,6 @@ module Enterprise::Account
     interval_hours.hours
   end
 
-  def captain_message_burst_protection_enabled?
-    feature_enabled?('captain_message_burst_protection')
-  end
-
   def saml_enabled?
     saml_settings&.saml_enabled? || false
   end

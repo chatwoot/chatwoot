@@ -11,15 +11,14 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @conversation = conversation
     @inbox = conversation.inbox
     @assistant = assistant
-    @message_burst_protection_enabled = account.captain_message_burst_protection_enabled?
-    @responding_to_message_id = responding_to_message_id if message_burst_protection_enabled?
+    @responding_to_message_id = responding_to_message_id if captain_v2_enabled?
 
     return unless conversation_pending?
 
     Current.executed_by = @assistant
 
     return generate_and_process_response unless captain_v2_enabled?
-    return if message_burst_protection_enabled? && newer_customer_message_arrived?
+    return if newer_customer_message_arrived?
 
     generate_response_with_v2
   rescue ActiveStorage::FileNotFoundError, Faraday::BadRequestError => e
@@ -50,7 +49,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     message_history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
     @response = runner_service.generate_response(message_history: message_history)
     @run_result = runner_service.last_run_result
-    return process_response unless message_burst_protection_enabled?
 
     @v2_handoff_tool_completed = runner_service.handoff_completed?
     return process_response if v2_handoff_tool_completed?
@@ -61,7 +59,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def v2_runner_service
     runner_args = { assistant: @assistant, conversation: @conversation }
-    runner_args[:responding_to_message_id] = @responding_to_message_id if message_burst_protection_enabled?
+    runner_args[:responding_to_message_id] = @responding_to_message_id if @responding_to_message_id.present?
     Captain::Assistant::AgentRunnerService.new(**runner_args)
   end
 
@@ -83,7 +81,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def process_standard_response
     message = nil
     ActiveRecord::Base.transaction do
-      next if message_burst_protection_enabled? && newer_customer_message_arrived?
+      next if captain_v2_enabled? && newer_customer_message_arrived?
 
       message = create_messages
       Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
@@ -95,9 +93,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_v2_handoff_response
-    # The legacy path infers completion from status. Burst protection uses the
-    # completion marker set inside the locked handoff.
-    if message_burst_protection_enabled?
+    # Captain V1 infers completion from status. Captain V2 uses the completion
+    # marker set inside the locked handoff.
+    if captain_v2_enabled?
       return unless v2_handoff_tool_completed? || conversation_pending?
 
       v2_handoff_tool_completed? ? process_v2_handoff : process_v1_handoff
@@ -124,9 +122,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response['handoff_tool_called']
   end
 
-  def v2_handoff_tool_completed?
-    @v2_handoff_tool_completed == true
-  end
+  def v2_handoff_tool_completed? = @v2_handoff_tool_completed == true
 
   def process_v1_handoff
     I18n.with_locale(@assistant.account.locale) do
@@ -177,7 +173,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response ||= {}
     @response['action_source'] ||= 'error'
     @response['action_reason'] ||= error_action_reason(error)
-    process_v1_handoff if conversation_pending? && (!message_burst_protection_enabled? || !newer_customer_message_arrived?)
+    process_v1_handoff if conversation_pending? && (!captain_v2_enabled? || !newer_customer_message_arrived?)
     true
   end
 
@@ -191,10 +187,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def captain_v2_enabled?
     account.feature_enabled?('captain_integration_v2')
-  end
-
-  def message_burst_protection_enabled?
-    @message_burst_protection_enabled == true
   end
 
   def report_v1_handoff_not_executed
@@ -214,10 +206,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def newer_customer_message_arrived?
     return false if @responding_to_message_id.blank?
 
-    latest_incoming_message_id = Conversation.uncached do
-      @conversation.messages.incoming.maximum(:id)
+    Conversation.uncached do
+      @conversation.messages
+                   .captain_response_triggering
+                   .exists?(['messages.id > ?', @responding_to_message_id])
     end
-
-    latest_incoming_message_id != @responding_to_message_id
   end
 end
