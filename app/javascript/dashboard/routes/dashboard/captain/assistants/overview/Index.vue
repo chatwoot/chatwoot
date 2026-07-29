@@ -376,8 +376,10 @@ const closeDrilldown = () => {
         <WelcomeCard :range="selectedRange" :stats="summaryStats" />
 
         <template v-for="section in cardSections" :key="section.key">
-          <section class="flex flex-col gap-3">
-            <h3 class="text-sm font-medium text-n-slate-12">
+          <section class="flex flex-col">
+            <h3
+              class="self-start px-2 pt-1 pb-[3px] ml-4 text-[11px] leading-[11px] font-semibold tracking-wider uppercase rounded-t-md bg-n-slate-4 text-n-slate-11"
+            >
               {{ section.title }}
             </h3>
             <div
@@ -401,8 +403,10 @@ const closeDrilldown = () => {
             </div>
           </section>
 
-          <section v-if="section.key === 'reach'" class="flex flex-col gap-3">
-            <h3 class="text-sm font-medium text-n-slate-12">
+          <section v-if="section.key === 'reach'" class="flex flex-col">
+            <h3
+              class="self-start px-2 pt-1 pb-[3px] ml-4 text-[11px] leading-[11px] font-semibold tracking-wider uppercase rounded-t-md bg-n-slate-4 text-n-slate-11"
+            >
               {{ $t('CAPTAIN.OVERVIEW.SECTIONS.RESOLUTION') }}
             </h3>
             <ResolutionCard
