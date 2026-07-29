@@ -1,4 +1,15 @@
 class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
+  SHOPIFY_CONFIGS = %w[
+    ENABLE_SHOPIFY_INTEGRATION
+    SHOPIFY_CLIENT_ID
+    SHOPIFY_CLIENT_SECRET
+    SHOPIFY_APP_STORE_URL
+    SHOPIFY_PARTNER_ORGANIZATION_ID
+    SHOPIFY_PARTNER_APP_ID
+    SHOPIFY_PARTNER_ACCESS_TOKEN
+    SHOPIFY_PARTNER_API_VERSION
+  ].freeze
+
   before_action :set_config
   before_action :allowed_configs
   def show
@@ -40,7 +51,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   def allowed_configs
     mapping = {
       'facebook' => %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT],
-      'shopify' => %w[ENABLE_SHOPIFY_INTEGRATION SHOPIFY_CLIENT_ID SHOPIFY_CLIENT_SECRET SHOPIFY_APP_STORE_URL],
+      'shopify' => SHOPIFY_CONFIGS,
       'microsoft' => %w[AZURE_APP_ID AZURE_APP_SECRET],
       'email' => %w[MAILER_INBOUND_EMAIL_DOMAIN ACCOUNT_EMAILS_LIMIT ACCOUNT_EMAILS_PLAN_LIMITS],
       'linear' => %w[LINEAR_CLIENT_ID LINEAR_CLIENT_SECRET],
