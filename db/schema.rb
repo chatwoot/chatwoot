@@ -178,6 +178,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_28_000001) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "sla_status", default: 0
+    t.datetime "completed_at"
     t.index ["account_id", "sla_policy_id", "conversation_id"], name: "index_applied_slas_on_account_sla_policy_conversation", unique: true
     t.index ["account_id"], name: "index_applied_slas_on_account_id"
     t.index ["conversation_id"], name: "index_applied_slas_on_conversation_id"
