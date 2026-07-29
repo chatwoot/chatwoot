@@ -2,12 +2,16 @@ import { describe, expect, it, vi } from 'vitest';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const mocks = vi.hoisted(() => ({
+  dispatch: vi.fn(),
+  getAccount: vi.fn(),
   isFeatureEnabled: vi.fn(),
 }));
 
 vi.mock('dashboard/store', () => ({
   default: {
+    dispatch: mocks.dispatch,
     getters: {
+      'accounts/getAccount': mocks.getAccount,
       'accounts/isFeatureEnabledonAccount': mocks.isFeatureEnabled,
     },
   },
@@ -29,6 +33,8 @@ vi.mock('../Shopify.vue', () => ({ default: {} }));
 
 describe('integration settings routes', () => {
   beforeEach(() => {
+    mocks.dispatch.mockReset();
+    mocks.getAccount.mockReset().mockReturnValue({ id: 1 });
     mocks.isFeatureEnabled.mockReset();
   });
 
@@ -41,11 +47,11 @@ describe('integration settings routes', () => {
     expect(shopifyRoute.beforeEnter).toBe(redirectShopifyIfUnavailable);
   });
 
-  it('redirects direct navigation when Shopify is disabled', () => {
+  it('redirects direct navigation when Shopify is disabled', async () => {
     mocks.isFeatureEnabled.mockReturnValue(false);
     const next = vi.fn();
 
-    redirectShopifyIfUnavailable(
+    await redirectShopifyIfUnavailable(
       { params: { accountId: '1' } },
       undefined,
       next
@@ -61,16 +67,34 @@ describe('integration settings routes', () => {
     );
   });
 
-  it('allows direct navigation when Shopify is enabled', () => {
+  it('allows direct navigation when Shopify is enabled', async () => {
     mocks.isFeatureEnabled.mockReturnValue(true);
     const next = vi.fn();
 
-    redirectShopifyIfUnavailable(
+    await redirectShopifyIfUnavailable(
       { params: { accountId: '1' } },
       undefined,
       next
     );
 
+    expect(next).toHaveBeenCalledWith(undefined);
+  });
+
+  it('loads a missing account before evaluating its feature gate', async () => {
+    mocks.getAccount.mockReturnValue({});
+    mocks.dispatch.mockResolvedValue();
+    mocks.isFeatureEnabled.mockReturnValue(true);
+    const next = vi.fn();
+
+    await redirectShopifyIfUnavailable(
+      { params: { accountId: '1' } },
+      undefined,
+      next
+    );
+
+    expect(mocks.dispatch).toHaveBeenCalledWith('accounts/get', {
+      silent: true,
+    });
     expect(next).toHaveBeenCalledWith(undefined);
   });
 });
