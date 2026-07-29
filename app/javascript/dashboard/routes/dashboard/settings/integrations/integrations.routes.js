@@ -11,9 +11,15 @@ import Linear from './Linear.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
 
-export const redirectShopifyIfUnavailable = (to, _from, next) => {
+export const redirectShopifyIfUnavailable = async (to, _from, next) => {
+  const accountId = Number(to.params.accountId);
+  const account = store.getters['accounts/getAccount'](accountId);
+  if (!account.id) {
+    await store.dispatch('accounts/get', { silent: true });
+  }
+
   const isShopifyEnabled = store.getters['accounts/isFeatureEnabledonAccount'](
-    Number(to.params.accountId),
+    accountId,
     FEATURE_FLAGS.SHOPIFY
   );
 
