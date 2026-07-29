@@ -40,8 +40,20 @@ class Shopify::PendingInstallation
   end
 
   def consume!
-    Redis::SecureStorage.delete(format(PAYLOAD_KEY, token: @token))
-    release!
+    consumed = false
+
+    ::Redis::Alfred.with do |connection|
+      connection.watch(@claim_key) do
+        next unless connection.get(@claim_key) == @claim_token
+
+        consumed = connection.multi do |transaction|
+          transaction.del(format(PAYLOAD_KEY, token: @token))
+          transaction.del(@claim_key)
+        end.present?
+      end
+    end
+
+    raise AlreadyClaimed, 'Install token claim has expired' unless consumed
   end
 
   def release!

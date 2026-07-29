@@ -77,9 +77,24 @@ RSpec.describe Shopify::PendingInstallation do
     pending_installation = described_class.claim(token: token, account_id: account_id)
     pending_installation.consume!
 
+    expect(Redis::Alfred.get(payload_key)).to be_nil
+    expect(Redis::Alfred.get(claim_key)).to be_nil
+
     expect do
       described_class.claim(token: token, account_id: account_id)
     end.to raise_error(described_class::InvalidToken, 'Invalid or expired install token')
+  end
+
+  it 'does not consume the payload when the claim is no longer owned' do
+    pending_installation = described_class.claim(token: token, account_id: account_id)
+    Redis::Alfred.set(claim_key, 'newer-claim', ex: described_class::CLAIM_TTL.to_i)
+
+    expect do
+      pending_installation.consume!
+    end.to raise_error(described_class::AlreadyClaimed, 'Install token claim has expired')
+
+    expect(Redis::SecureStorage.get(payload_key)).to be_present
+    expect(Redis::Alfred.get(claim_key)).to eq('newer-claim')
   end
 
   it 'rejects malformed tokens before accessing Redis' do
