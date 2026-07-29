@@ -504,21 +504,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(public_messages.count).to eq(1)
         expect(public_messages.last.content).to eq(I18n.t('conversations.captain.handoff'))
       end
-
-      it 'does not post a handoff follow-up when an agent bot takes over mid-run' do
-        agent_bot = create(:agent_bot, account: account)
-        allow(mock_agent_runner_service).to receive(:generate_response) do
-          conversation.update!(assignee_agent_bot: agent_bot)
-          { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
-        end
-
-        described_class.perform_now(conversation, assistant)
-
-        conversation.reload
-        expect(conversation.assignee_agent_bot).to eq(agent_bot)
-        expect(conversation.status).to eq('pending')
-        expect(conversation.messages.outgoing.where(private: false).count).to eq(0)
-      end
     end
 
     context 'when capturing assistant sessions' do

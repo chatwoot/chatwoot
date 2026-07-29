@@ -12,7 +12,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @inbox = conversation.inbox
     @assistant = assistant
 
-    return unless captain_handling_conversation?
+    return unless conversation_pending?
 
     Current.executed_by = @assistant
 
@@ -39,8 +39,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response = Captain::Llm::AssistantChatService.new(assistant: @assistant, conversation: @conversation).generate_response(
       message_history: message_history
     )
-    classify_v1_response_action(message_history) if captain_handling_conversation?
-    repair_v1_false_promise_response(message_history) if captain_handling_conversation?
+    classify_v1_response_action(message_history) if conversation_pending?
+    repair_v1_false_promise_response(message_history) if conversation_pending?
     process_response
   end
 
@@ -54,18 +54,29 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_response
-    return if agent_bot_assigned?
-
+    # Check V2 before V1: error_response can set both signals at once when HandoffTool
+    # fired before the runner errored. V2 must win — running V1 on top would duplicate
+    # OOO and re-dispatch the bot_handoff event.
     if v2_handoff_tool_fired?
-      process_v2_handoff_response
+      if conversation_pending?
+        # HandoffTool flipped the flag without committing — its perform returned a
+        # failure string (e.g. "Conversation not found") before bot_handoff! ran. Fall
+        # back to a full V1 handoff so the customer still ends up with a human.
+        process_v1_handoff
+      else
+        # HandoffTool already opened the conversation inside the agent loop. All that's
+        # left is the customer-facing follow-up message.
+        process_v2_handoff
+      end
+      capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
     elsif v1_handoff_requested?
       # V1 only signals via the response string — no state has been touched yet. If
       # the conversation isn't pending anymore, a human took over mid-run; bail out
       # rather than posting a stale handoff message on top of their reply.
-      return unless captain_handling_conversation?
+      return unless conversation_pending?
 
       process_v1_handoff
-    elsif captain_handling_conversation?
+    elsif conversation_pending?
       message = nil
       ActiveRecord::Base.transaction do
         message = create_messages
@@ -74,23 +85,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       end
       capture_assistant_session(result_message: message, credits_consumed: 1.0)
     end
-  end
-
-  def process_v2_handoff_response
-    # Check V2 before V1: error_response can set both signals at once when HandoffTool
-    # fired before the runner errored. V2 must win — running V1 on top would duplicate
-    # OOO and re-dispatch the bot_handoff event.
-    if captain_handling_conversation?
-      # HandoffTool flipped the flag without committing — its perform returned a
-      # failure string (e.g. "Conversation not found") before bot_handoff! ran. Fall
-      # back to a full V1 handoff so the customer still ends up with a human.
-      process_v1_handoff
-    else
-      # HandoffTool already opened the conversation inside the agent loop. All that's
-      # left is the customer-facing follow-up message.
-      process_v2_handoff
-    end
-    capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
   end
 
   def v1_handoff_requested?
@@ -117,7 +111,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       )
       create_handoff_message
       @conversation.bot_handoff!
-      report_v1_handoff_not_executed if captain_handling_conversation?
+      report_v1_handoff_not_executed if conversation_pending?
       send_out_of_office_message_if_applicable
     end
   end
@@ -158,7 +152,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response ||= {}
     @response['action_source'] ||= 'error'
     @response['action_reason'] ||= error_action_reason(error)
-    process_v1_handoff if captain_handling_conversation?
+    process_v1_handoff if conversation_pending?
     true
   end
 
@@ -183,18 +177,12 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     )
   end
 
-  def captain_handling_conversation?
+  def conversation_pending?
     status, assignee_agent_bot_id = Conversation.uncached do
       Conversation.where(id: @conversation.id).pick(:status, :assignee_agent_bot_id)
     end
     return false if assignee_agent_bot_id.present?
 
     status == 'pending' || status == Conversation.statuses[:pending]
-  end
-
-  def agent_bot_assigned?
-    Conversation.uncached do
-      Conversation.where(id: @conversation.id).where.not(assignee_agent_bot_id: nil).exists?
-    end
   end
 end
