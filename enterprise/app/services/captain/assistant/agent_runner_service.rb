@@ -76,7 +76,10 @@ class Captain::Assistant::AgentRunnerService
 
   def extract_text_from_content(content)
     # Handle structured output from agents
-    return content[:response] || content['response'] || content.to_s if content.is_a?(Hash)
+    if content.is_a?(Hash)
+      response_text = Captain::Assistant::ResponseParts.from_response(content).plain_text
+      return response_text.presence || content.to_s
+    end
 
     return content unless content.is_a?(Array)
 
@@ -88,6 +91,10 @@ class Captain::Assistant::AgentRunnerService
     Rails.logger.info "[Captain V2] Agent result: #{result.inspect}"
     output = result.output
     response = output.is_a?(Hash) ? output.with_indifferent_access : { 'response' => output.to_s, 'reasoning' => 'Processed by agent' }
+    response_parts = Captain::Assistant::ResponseParts.from_response(response)
+    response_parts = response_parts.without_citations unless @assistant.config['feature_citation']
+    response['response_parts'] = response_parts.to_a
+    response['response'] = response_parts.plain_text
     response['agent_name'] = result.context&.dig(:current_agent)
     response['handoff_tool_called'] = result.context&.dig(:captain_v2_handoff_tool_called) || false
     response
@@ -96,6 +103,7 @@ class Captain::Assistant::AgentRunnerService
   def error_response(error_message)
     {
       'response' => 'conversation_handoff',
+      'response_parts' => [{ 'text' => 'conversation_handoff', 'citation_indexes' => [] }],
       'reasoning' => "Error occurred: #{error_message}",
       'handoff_tool_called' => @handoff_tool_called
     }

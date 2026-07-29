@@ -1,6 +1,5 @@
 class Captain::Conversation::MessageHistoryBuilderService
   RESOLUTION_MARKER = '<conversation_boundary status="resolved" />'.freeze
-  RESOLVED_CITATION_PATTERN = /\[\[\d+\]\([^\n]*?\)\]/
 
   pattr_initialize [:conversation!]
 
@@ -49,20 +48,12 @@ class Captain::Conversation::MessageHistoryBuilderService
   end
 
   def prepare_multimodal_message_content(message)
-    content = Captain::OpenAiMessageBuilderService.new(message: message).generate_content
-    return content unless message.outgoing? && message.sender_type == 'Captain::Assistant'
+    if message.outgoing? && message.sender_type == 'Captain::Assistant'
+      attributes = message.additional_attributes.to_h
+      response_parts_key = Captain::Assistant::ResponseParts::ADDITIONAL_ATTRIBUTES_KEY
+      return Captain::Assistant::ResponseParts.new(attributes[response_parts_key]).plain_text.presence if attributes.key?(response_parts_key)
+    end
 
-    remove_resolved_citations(content)
-  end
-
-  def remove_resolved_citations(content)
-    return content.gsub(RESOLVED_CITATION_PATTERN, '').presence if content.is_a?(String)
-
-    content.filter_map do |part|
-      next part unless part[:type] == 'text'
-
-      text = part[:text].gsub(RESOLVED_CITATION_PATTERN, '')
-      part.merge(text: text) if text.present?
-    end.presence
+    Captain::OpenAiMessageBuilderService.new(message: message).generate_content
   end
 end

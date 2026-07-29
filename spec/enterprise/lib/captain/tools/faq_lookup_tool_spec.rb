@@ -64,10 +64,10 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         expect(result).to include('Answer: Click on forgot password link')
         expect(result).to include('Question: How to change email?')
         expect(result).to include('Answer: Go to settings and update email')
-        expect(result).not_to include('Citation marker:')
+        expect(result).not_to include('Citation index:')
       end
 
-      it 'assigns citation markers only to customer-visible document links' do
+      it 'does not assign indexes to attachments or storage links' do
         assistant.update!(config: assistant.config.merge('feature_citation' => true))
         document.pdf_file.attach(
           io: StringIO.new('PDF content'),
@@ -77,19 +77,37 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
 
         pdf_result = tool.perform(tool_context, query: 'private document')
 
-        expect(pdf_result).not_to include('Citation marker:')
+        expect(pdf_result).not_to include('Citation index:')
         expect(tool_context.state[:captain_v2_citation_sources]).to be_nil
 
         document.pdf_file.detach
+        document.update!(external_link: 's3://private-bucket/password')
+
+        storage_result = tool.perform(tool_context, query: 'private storage document')
+
+        expect(storage_result).not_to include('Citation index:')
+        expect(tool_context.state[:captain_v2_citation_sources]).to be_nil
+
+        document.update!(external_link: 'https://storage.example.com/private-file.pdf?token=secret')
+
+        pdf_url_result = tool.perform(tool_context, query: 'private PDF URL')
+
+        expect(pdf_url_result).not_to include('Citation index:')
+        expect(tool_context.state[:captain_v2_citation_sources]).to be_nil
+      end
+
+      it 'assigns stable numeric indexes to customer-visible document links' do
+        assistant.update!(config: assistant.config.merge('feature_citation' => true))
         document.update!(external_link: 'https://help.example.com/password')
 
         result = tool.perform(tool_context, query: 'password')
         repeated_result = tool.perform(tool_context, query: 'password again')
 
-        expect(result).to include('Citation marker: [[faq:1]]')
-        expect(repeated_result).to include('Citation marker: [[faq:1]]')
+        expect(result).to include('Citation index: 1')
+        expect(repeated_result).to include('Citation index: 1')
         expect(result).not_to include('https://help.example.com/password')
-        expect(tool_context.state[:captain_v2_citation_sources]).to eq('1' => response1.id)
+        expect(result.scan('Citation index:').size).to eq(1)
+        expect(tool_context.state[:captain_v2_citation_sources]).to eq(1 => response1.id)
       end
 
       it 'logs tool usage for search' do

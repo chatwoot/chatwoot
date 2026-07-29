@@ -1,0 +1,62 @@
+class Captain::Assistant::ResponseParts
+  ADDITIONAL_ATTRIBUTES_KEY = 'captain_v2_response_parts'.freeze
+
+  attr_reader :parts
+
+  def self.from_response(response)
+    response = response.with_indifferent_access
+    return new(response[:response_parts]) if response.key?(:response_parts)
+
+    new([{ text: response[:response], citation_indexes: [] }])
+  end
+
+  def initialize(raw_parts)
+    @parts = Array(raw_parts).filter_map { |part| normalize_part(part) }
+  end
+
+  def plain_text
+    parts.pluck('text').join("\n\n")
+  end
+
+  def without_citations
+    self.class.new(parts.map { |part| part.merge('citation_indexes' => []) })
+  end
+
+  def render(citation_urls: {})
+    display_numbers = {}
+
+    parts.map do |part|
+      links = part['citation_indexes'].filter_map do |citation_index|
+        url = citation_urls[citation_index]
+        next if url.blank?
+
+        # Number trusted sources by first appearance and reuse that number for later references.
+        display_number = display_numbers[citation_index] ||= display_numbers.size + 1
+        "[[#{display_number}](#{url})]"
+      end
+
+      [part['text'], links.join(' ')].compact_blank.join(' ')
+    end.join("\n\n")
+  end
+
+  def to_a
+    parts
+  end
+
+  private
+
+  def normalize_part(part)
+    return unless part.is_a?(Hash)
+
+    part = part.with_indifferent_access
+    return unless part[:text].is_a?(String)
+
+    text = part[:text].strip
+    return if text.blank?
+
+    {
+      'text' => text,
+      'citation_indexes' => Array(part[:citation_indexes]).select { |index| index.is_a?(Integer) && index.positive? }.uniq
+    }
+  end
+end

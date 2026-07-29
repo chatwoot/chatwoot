@@ -13,7 +13,16 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
   let(:mock_runner) { instance_double(Agents::AgentRunner) }
   let(:mock_agent) { instance_double(Agents::Agent) }
   let(:mock_scenario_agent) { instance_double(Agents::Agent) }
-  let(:mock_result) { instance_double(Agents::RunResult, output: { 'response' => 'Test response' }, context: nil) }
+  let(:mock_result) do
+    instance_double(
+      Agents::RunResult,
+      output: {
+        'response_parts' => [{ 'text' => 'Test response', 'citation_indexes' => [] }],
+        'reasoning' => 'Test reasoning'
+      },
+      context: nil
+    )
+  end
 
   let(:message_history) do
     [
@@ -167,7 +176,13 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     it 'processes and formats agent result' do
       result = service.generate_response(message_history: message_history)
 
-      expect(result).to eq({ 'response' => 'Test response', 'agent_name' => nil, 'handoff_tool_called' => false })
+      expect(result).to eq({
+                             'response_parts' => [{ 'text' => 'Test response', 'citation_indexes' => [] }],
+                             'response' => 'Test response',
+                             'reasoning' => 'Test reasoning',
+                             'agent_name' => nil,
+                             'handoff_tool_called' => false
+                           })
     end
 
     it 'exposes the raw run result via last_run_result' do
@@ -179,7 +194,14 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     context 'when handoff tool was called during agent execution' do
       let(:runner_context) { { captain_v2_handoff_tool_called: true } }
       let(:mock_result) do
-        instance_double(Agents::RunResult, output: { 'response' => 'Let me connect you' }, context: runner_context)
+        instance_double(
+          Agents::RunResult,
+          output: {
+            'response_parts' => [{ 'text' => 'Let me connect you', 'citation_indexes' => [] }],
+            'reasoning' => 'A human is needed'
+          },
+          context: runner_context
+        )
       end
 
       it 'includes handoff_tool_called flag in response' do
@@ -187,6 +209,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
         expect(result).to eq({
                                'response' => 'Let me connect you',
+                               'response_parts' => [{ 'text' => 'Let me connect you', 'citation_indexes' => [] }],
+                               'reasoning' => 'A human is needed',
                                'agent_name' => nil,
                                'handoff_tool_called' => true
                              })
@@ -216,10 +240,63 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
         expect(result).to eq({
                                'response' => 'Simple string response',
+                               'response_parts' => [{ 'text' => 'Simple string response', 'citation_indexes' => [] }],
                                'reasoning' => 'Processed by agent',
                                'agent_name' => nil,
                                'handoff_tool_called' => false
                              })
+      end
+    end
+
+    context 'when structured response parts contain invalid values' do
+      let(:assistant) { create(:captain_assistant, account: account, config: { 'feature_citation' => true }) }
+      let(:mock_result) do
+        instance_double(
+          Agents::RunResult,
+          output: {
+            'response_parts' => [
+              { 'text' => '  First part  ', 'citation_indexes' => [2, 2, 0, '1', 'https://model.example/source'] },
+              { 'text' => '   ', 'citation_indexes' => [1] },
+              'invalid',
+              { 'text' => 'Second part', 'citation_indexes' => [1] }
+            ],
+            'reasoning' => 'Test reasoning'
+          },
+          context: nil
+        )
+      end
+
+      it 'keeps valid ordered parts and derives the compatibility response string' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response_parts']).to eq(
+          [
+            { 'text' => 'First part', 'citation_indexes' => [2] },
+            { 'text' => 'Second part', 'citation_indexes' => [1] }
+          ]
+        )
+        expect(result['response']).to eq("First part\n\nSecond part")
+      end
+    end
+
+    context 'when citations are disabled' do
+      let(:mock_result) do
+        instance_double(
+          Agents::RunResult,
+          output: {
+            'response_parts' => [{ 'text' => 'FAQ-backed response', 'citation_indexes' => [1] }],
+            'reasoning' => 'Test reasoning'
+          },
+          context: nil
+        )
+      end
+
+      it 'discards model-provided citation indexes' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response_parts']).to eq(
+          [{ 'text' => 'FAQ-backed response', 'citation_indexes' => [] }]
+        )
       end
     end
 
@@ -240,6 +317,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
         expect(result).to eq({
                                'response' => 'conversation_handoff',
+                               'response_parts' => [{ 'text' => 'conversation_handoff', 'citation_indexes' => [] }],
                                'reasoning' => 'Error occurred: Test error',
                                'handoff_tool_called' => false
                              })
@@ -268,6 +346,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
           expect(result).to eq({
                                  'response' => 'conversation_handoff',
+                                 'response_parts' => [{ 'text' => 'conversation_handoff', 'citation_indexes' => [] }],
                                  'reasoning' => 'Error occurred: Test error',
                                  'handoff_tool_called' => false
                                })
@@ -292,6 +371,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
           expect(result).to eq({
                                  'response' => 'conversation_handoff',
+                                 'response_parts' => [{ 'text' => 'conversation_handoff', 'citation_indexes' => [] }],
                                  'reasoning' => 'Error occurred: Test error',
                                  'handoff_tool_called' => true
                                })
@@ -380,6 +460,18 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       result = service.send(:extract_text_from_content, content)
 
       expect(result).to eq('Hash response')
+    end
+
+    it 'joins structured response parts from hash content' do
+      content = {
+        'response_parts' => [
+          { 'text' => 'First response part', 'citation_indexes' => [1] },
+          { 'text' => 'Second response part', 'citation_indexes' => [] }
+        ]
+      }
+      result = service.send(:extract_text_from_content, content)
+
+      expect(result).to eq("First response part\n\nSecond response part")
     end
 
     it 'extracts text from multimodal array content' do

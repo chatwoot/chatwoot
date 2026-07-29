@@ -40,7 +40,7 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
         "
     if citation_enabled? && response.customer_visible_source_url.present?
       formatted_response += "
-          Citation marker: [[faq:#{citation_index(tool_context, response)}]]
+          Citation index: #{citation_index(tool_context, response)}
           "
     end
     formatted_response += "
@@ -60,7 +60,7 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
     existing_index = sources.find { |_index, response_id| response_id == response.id }&.first
     return existing_index if existing_index.present?
 
-    index = (sources.size + 1).to_s
+    index = sources.size + 1
     sources[index] = response.id
     index
   end

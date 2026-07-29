@@ -1,6 +1,4 @@
 module Captain::Conversation::MessageBuilder
-  MODEL_CITATION_PATTERN = /\[\[faq:(\d+)\]\]/
-
   private
 
   def collect_previous_messages
@@ -30,39 +28,38 @@ module Captain::Conversation::MessageBuilder
   end
 
   def create_messages
-    message_content = resolve_v2_citations(@response['response'])
+    return create_v1_message unless captain_v2_enabled?
+
+    response_parts = Captain::Assistant::ResponseParts.from_response(@response)
+    citation_urls = @assistant.config['feature_citation'] ? trusted_citation_urls : {}
+    message_content = response_parts.render(citation_urls: citation_urls)
     validate_message_content!(message_content)
-    create_outgoing_message(message_content, agent_name: @response['agent_name'])
+    create_outgoing_message(message_content, agent_name: @response['agent_name'], response_parts: response_parts.to_a)
   end
 
-  def resolve_v2_citations(content)
-    return content unless captain_v2_enabled? && @assistant.config['feature_citation']
-    return content if content.blank?
-
-    citation_urls = trusted_citation_urls
-    content.gsub(MODEL_CITATION_PATTERN) do
-      index = Regexp.last_match(1)
-      url = citation_urls[index]
-      url.present? ? "[[#{index}](#{url})]" : ''
-    end
+  def create_v1_message
+    validate_message_content!(@response['response'])
+    create_outgoing_message(@response['response'], agent_name: @response['agent_name'])
   end
 
   def trusted_citation_urls
     sources = @run_result&.context&.dig(:state, :captain_v2_citation_sources) || {}
     responses = @assistant.responses.where(id: sources.values).includes(:documentable).index_by(&:id)
 
-    sources.transform_values do |response_id|
+    citation_urls = sources.transform_values do |response_id|
       responses[response_id.to_i]&.customer_visible_source_url
-    end.compact.transform_keys(&:to_s)
+    end
+    citation_urls.compact.transform_keys(&:to_i)
   end
 
   def validate_message_content!(content)
     raise ArgumentError, 'Message content cannot be blank' if content.blank?
   end
 
-  def create_outgoing_message(message_content, agent_name: nil, preserve_waiting_since: false)
+  def create_outgoing_message(message_content, agent_name: nil, response_parts: nil, preserve_waiting_since: false)
     additional_attrs = {}
     additional_attrs[:agent_name] = agent_name if agent_name.present?
+    additional_attrs[Captain::Assistant::ResponseParts::ADDITIONAL_ATTRIBUTES_KEY] = response_parts unless response_parts.nil?
 
     @conversation.messages.create!(
       message_type: :outgoing,
