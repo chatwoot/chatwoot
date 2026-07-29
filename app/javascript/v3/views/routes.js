@@ -7,7 +7,7 @@ import ResetPassword from './auth/reset/password/Index.vue';
 import Confirmation from './auth/confirmation/Index.vue';
 import VerifyEmail from './auth/verify-email/Index.vue';
 import PasswordEdit from './auth/password/Edit.vue';
-import { getShopifyBillingRedirect } from './helpers/AuthHelper';
+import { getShopifyBillingRedirect } from '../helpers/AuthHelper';
 
 export default [
   {
