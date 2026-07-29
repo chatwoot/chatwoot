@@ -23,6 +23,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       expect(tool.parameters[:reason].type).to eq('string')
       expect(tool.parameters[:reason].description).to eq('The reason why handoff is needed (optional)')
       expect(tool.parameters[:reason].required).to be false
+      expect(tool.parameters[:reason_category].required).to be true
     end
   end
 
@@ -63,11 +64,33 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           tool.perform(tool_context, reason: 'Test reason')
         end
 
-        it 'emits a captain handoff event with the tool source' do
+        it 'emits a captain handoff event with the tool source and reason category' do
           expect(Captain::ConversationEvents).to receive(:handed_off)
-            .with(conversation: conversation, assistant: assistant, source: 'tool', at: kind_of(Time))
+            .with(conversation: conversation, assistant: assistant, source: 'tool', reason_category: 'unsupported_request', at: kind_of(Time))
 
-          tool.perform(tool_context, reason: 'Test reason')
+          tool.perform(tool_context, reason: 'Test reason', reason_category: 'unsupported_request')
+        end
+
+        it 'records the handoff on an existing V2 outcome' do
+          account.enable_features!('captain_integration_v2')
+          create(
+            :captain_conversation_outcome,
+            account: account,
+            assistant: assistant,
+            conversation: conversation,
+            inbox: inbox
+          )
+
+          tool.perform(
+            tool_context,
+            reason: 'Customer needs specialized support',
+            reason_category: 'unsupported_request'
+          )
+
+          expect(Captain::ConversationOutcome.last).to have_attributes(
+            handoff_reason_category: 'unsupported_request',
+            handoff_at: be_present
+          )
         end
 
         it 'creates a conversation_bot_handoff reporting event' do

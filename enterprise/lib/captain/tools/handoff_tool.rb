@@ -1,8 +1,12 @@
 class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   description 'Hand off the conversation to a human agent when unable to assist further'
   param :reason, type: 'string', desc: 'The reason why handoff is needed (optional)', required: false
+  param :reason_category,
+        type: 'string',
+        desc: 'Reporting category: customer_request, missing_knowledge, unsupported_request, policy_restriction, or tool_failure',
+        required: true
 
-  def perform(tool_context, reason: nil)
+  def perform(tool_context, reason: nil, reason_category: nil)
     conversation = find_conversation(tool_context.state)
     return 'Conversation not found' unless conversation
 
@@ -13,7 +17,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
                    })
 
     # Use existing handoff mechanism from ResponseBuilderJob
-    trigger_handoff(tool_context, conversation, reason)
+    trigger_handoff(tool_context, conversation, reason, reason_category)
 
     "Conversation handed off to human support team#{" (Reason: #{reason})" if reason}"
   rescue StandardError => e
@@ -23,7 +27,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
   private
 
-  def trigger_handoff(tool_context, conversation, reason)
+  def trigger_handoff(tool_context, conversation, reason, reason_category)
     # post the reason as a private note
     note = conversation.messages.create!(
       message_type: :outgoing,
@@ -45,7 +49,8 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
     # Trigger the bot handoff (sets status to open + dispatches events)
     conversation.bot_handoff!
-    Captain::ConversationEvents.handed_off(conversation: conversation, assistant: @assistant, source: 'tool', at: Time.current)
+    Captain::ConversationEvents.handed_off(conversation: conversation, assistant: @assistant, source: 'tool', reason_category: reason_category,
+                                           at: Time.current)
 
     # Send out of office message if applicable (since template messages were suppressed while Captain was handling)
     send_out_of_office_message_if_applicable(conversation)
