@@ -125,8 +125,10 @@ class AutomationRule < ApplicationRecord
     errors.add(:execution_delay, 'only supports status and inbox conditions for conversation-level events.')
   end
 
+  # Deactivating counts: without it a rule turned off and back on before its due time would still
+  # run the actions the admin turned it off to stop.
   def execution_config_changed?
-    saved_change_to_execution_delay? || saved_change_to_event_name? ||
+    saved_change_to_active? || saved_change_to_execution_delay? || saved_change_to_event_name? ||
       saved_change_to_conditions? || saved_change_to_actions?
   end
 

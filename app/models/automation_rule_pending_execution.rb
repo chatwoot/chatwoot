@@ -16,6 +16,7 @@
 #
 # Indexes
 #
+#  index_automation_pending_executions_on_status_and_updated_at    (status,updated_at)
 #  index_automation_rule_pending_executions_on_account_id          (account_id)
 #  index_automation_rule_pending_executions_on_automation_rule_id  (automation_rule_id)
 #  index_automation_rule_pending_executions_on_conversation_id     (conversation_id)

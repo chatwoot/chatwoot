@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_18_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_29_051500) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -293,6 +293,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_18_000000) do
     t.index ["automation_rule_id"], name: "index_automation_rule_pending_executions_on_automation_rule_id"
     t.index ["conversation_id"], name: "index_automation_rule_pending_executions_on_conversation_id"
     t.index ["status", "due_at"], name: "index_automation_rule_pending_executions_on_status_and_due_at"
+    t.index ["status", "updated_at"], name: "index_automation_pending_executions_on_status_and_updated_at"
   end
 
   create_table "automation_rules", force: :cascade do |t|

@@ -115,15 +115,28 @@ RSpec.describe Account do
   describe 'resuming delayed automations' do
     let(:account) { create(:account) }
 
-    it 'enqueues the resume job when delayed_automations is turned back on' do
-      expect { account.enable_features!('delayed_automations') }
-        .to have_enqueued_job(AutomationRules::ResumePausedExecutionsJob).with(account)
+    it 'reschedules the overdue backlog in the same transaction that re-enables the flag' do
+      row = create(:automation_rule_pending_execution, account: account, due_at: 5.days.ago)
+
+      ActiveRecord::Base.transaction(requires_new: true) do
+        account.enable_features!('delayed_automations')
+        # Still uncommitted: no sweep can see the flag yet, and the backlog is already re-clocked,
+        # so there is no window where the account is sweepable on a stale due_at.
+        expect(row.reload.due_at).to be_within(5.seconds).of(Time.current)
+        raise ActiveRecord::Rollback
+      end
+
+      expect(account.reload.feature_delayed_automations?).to be(false)
+      expect(row.reload.due_at).to be_within(5.seconds).of(5.days.ago)
     end
 
-    it 'does not enqueue the resume job when the flag is turned off' do
+    it 'leaves the backlog alone when the flag is turned off' do
       account.enable_features!('delayed_automations')
-      expect { account.disable_features!('delayed_automations') }
-        .not_to have_enqueued_job(AutomationRules::ResumePausedExecutionsJob)
+      row = create(:automation_rule_pending_execution, account: account, due_at: 5.days.ago)
+
+      account.disable_features!('delayed_automations')
+
+      expect(row.reload.due_at).to be_within(5.seconds).of(5.days.ago)
     end
   end
 
