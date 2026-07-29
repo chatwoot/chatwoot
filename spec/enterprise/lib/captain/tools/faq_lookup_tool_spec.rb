@@ -67,8 +67,20 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         expect(result).not_to include('Citation marker:')
       end
 
-      it 'includes a citation marker instead of the document link' do
+      it 'assigns citation markers only to customer-visible document links' do
         assistant.update!(config: assistant.config.merge('feature_citation' => true))
+        document.pdf_file.attach(
+          io: StringIO.new('PDF content'),
+          filename: 'private-file.pdf',
+          content_type: 'application/pdf'
+        )
+
+        pdf_result = tool.perform(tool_context, query: 'private document')
+
+        expect(pdf_result).not_to include('Citation marker:')
+        expect(tool_context.state[:captain_v2_citation_sources]).to be_nil
+
+        document.pdf_file.detach
         document.update!(external_link: 'https://help.example.com/password')
 
         result = tool.perform(tool_context, query: 'password')

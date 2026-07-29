@@ -51,6 +51,13 @@ class Captain::AssistantResponse < ApplicationRecord
     nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(5)
   end
 
+  def customer_visible_source_url
+    return unless documentable.is_a?(Captain::Document)
+    return if documentable.pdf_document?
+
+    documentable.external_link.presence
+  end
+
   private
 
   def ensure_status

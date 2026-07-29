@@ -372,6 +372,15 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         create(
           :message,
           conversation: conversation,
+          sender: assistant,
+          content: 'Earlier answer [[1](https://help.example.com/private-from-model)]',
+          message_type: :outgoing,
+          created_at: same_second,
+          updated_at: same_second
+        )
+        create(
+          :message,
+          conversation: conversation,
           message_type: :activity,
           content: 'Conversation was marked resolved by Alice',
           content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } },
@@ -385,6 +394,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
         expected_messages = [
           { content: 'Hello', role: 'user' },
+          { content: 'Earlier answer ', role: 'assistant' },
           {
             content: Captain::Conversation::MessageHistoryBuilderService::RESOLUTION_MARKER,
             role: 'assistant'

@@ -6,7 +6,7 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
     log_tool_usage('searching', { query: query })
 
     # Use existing vector search on approved responses
-    responses = @assistant.responses.approved.search(query).to_a
+    responses = @assistant.responses.approved.search(query).includes(:documentable).to_a
     record_retrieved_sources(tool_context, responses)
 
     if responses.empty?
@@ -38,7 +38,7 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
     formatted_response = "
         FAQ result:
         "
-    if citation_enabled? && response.documentable_type == 'Captain::Document'
+    if citation_enabled? && response.customer_visible_source_url.present?
       formatted_response += "
           Citation marker: [[faq:#{citation_index(tool_context, response)}]]
           "

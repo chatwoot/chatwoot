@@ -52,16 +52,8 @@ module Captain::Conversation::MessageBuilder
     responses = @assistant.responses.where(id: sources.values).includes(:documentable).index_by(&:id)
 
     sources.transform_values do |response_id|
-      customer_visible_source_url(responses[response_id.to_i])
+      responses[response_id.to_i]&.customer_visible_source_url
     end.compact.transform_keys(&:to_s)
-  end
-
-  def customer_visible_source_url(response)
-    document = response&.documentable
-    return unless document.is_a?(Captain::Document)
-    return if document.pdf_document?
-
-    document.external_link.presence
   end
 
   def validate_message_content!(content)
