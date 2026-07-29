@@ -106,11 +106,11 @@ export default {
     showSignupLink() {
       return window.chatwootConfig.signupEnabled === 'true';
     },
-    showSamlLogin() {
-      return this.allowedLoginMethods.includes('saml');
-    },
     signupRoute() {
       return getSignupRoute(this.redirectUrl);
+    },
+    showSamlLogin() {
+      return this.allowedLoginMethods.includes('saml');
     },
   },
   created() {
