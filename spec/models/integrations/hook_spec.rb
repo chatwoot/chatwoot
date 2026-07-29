@@ -31,6 +31,71 @@ RSpec.describe Integrations::Hook do
     end
   end
 
+  describe 'Shopify shop identity' do
+    let(:account) { create(:account) }
+
+    before do
+      allow(GlobalConfigService).to receive(:load)
+        .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+        .and_return(true)
+      account.enable_features!('shopify_integration')
+    end
+
+    it 'normalizes the shop domain before validation' do
+      hook = create(:integrations_hook, :shopify, account: account, reference_id: 'My-Store.MyShopify.Com')
+
+      expect(hook.reference_id).to eq('my-store.myshopify.com')
+    end
+
+    it 'rejects invalid shop domains' do
+      hook = build(:integrations_hook, :shopify, account: account, reference_id: 'example.com')
+
+      expect(hook).not_to be_valid
+      expect(hook.errors[:reference_id]).to be_present
+    end
+
+    it 'enforces global case-insensitive shop uniqueness across accounts' do
+      create(:integrations_hook, :shopify, account: account, reference_id: 'my-store.myshopify.com')
+      second_account = create(:account)
+      second_account.enable_features!('shopify_integration')
+
+      duplicate_hook = build(
+        :integrations_hook,
+        :shopify,
+        account: second_account,
+        reference_id: 'MY-STORE.MYSHOPIFY.COM'
+      )
+
+      expect(duplicate_hook).not_to be_valid
+      expect(duplicate_hook.errors[:reference_id]).to include('has already been taken')
+    end
+
+    it 'enforces shop uniqueness at the database layer' do
+      create(:integrations_hook, :shopify, account: account, reference_id: 'my-store.myshopify.com')
+      second_account = create(:account)
+      second_account.enable_features!('shopify_integration')
+      duplicate_hook = build(
+        :integrations_hook,
+        :shopify,
+        account: second_account,
+        reference_id: 'my-store.myshopify.com'
+      )
+
+      expect do
+        duplicate_hook.save!(validate: false)
+      end.to raise_error(ActiveRecord::RecordNotUnique)
+    end
+
+    it 'enforces one Shopify installation per account at the database layer' do
+      create(:integrations_hook, :shopify, account: account, reference_id: 'first-store.myshopify.com')
+      second_hook = build(:integrations_hook, :shopify, account: account, reference_id: 'second-store.myshopify.com')
+
+      expect do
+        second_hook.save!(validate: false)
+      end.to raise_error(ActiveRecord::RecordNotUnique)
+    end
+  end
+
   describe 'scopes' do
     let(:account) { create(:account) }
     let(:inbox) { create(:inbox, account: account) }

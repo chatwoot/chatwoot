@@ -18,8 +18,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
 
   def complete_install
     pending_installation = Shopify::PendingInstallation.claim(
-      token: params[:pending_install_token],
-      account_id: Current.account.id
+      token: params[:pending_install_token]
     )
     install_pending_shopify_hook(pending_installation)
     head :ok

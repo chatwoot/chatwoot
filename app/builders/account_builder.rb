@@ -2,21 +2,36 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:account_name, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale]
+  pattr_initialize [
+    :account_name,
+    :email!,
+    :confirmed,
+    :user,
+    :user_full_name,
+    :user_password,
+    :super_admin,
+    :locale,
+    :shopify_pending_install_token
+  ]
 
   def perform
+    reject_existing_user_for_shopify_signup
     if @user.nil?
       validate_email
       validate_user
     end
+    claim_shopify_installation
+
     ActiveRecord::Base.transaction do
       @account = create_account
+      bind_shopify_installation
       @user = create_and_link_user
     end
+    @pending_installation&.consume!
     [@user, @account]
-  rescue StandardError => e
-    Rails.logger.debug e.inspect
-    raise e
+  rescue StandardError
+    @pending_installation&.release!
+    raise
   end
 
   private
@@ -43,13 +58,82 @@ class AccountBuilder
     end
   end
 
+  def reject_existing_user_for_shopify_signup
+    return unless @user.present? && shopify_signup?
+
+    raise UserExists.new(email: @user.email)
+  end
+
   def create_account
-    @account = Account.create!(
+    attributes = {
       name: account_name,
       locale: I18n.locale,
-      custom_attributes: { 'onboarding_step' => 'account_details' }
-    )
+      custom_attributes: account_custom_attributes
+    }
+    attributes[:internal_attributes] = shopify_billing_identity if shopify_signup?
+
+    @account = Account.create!(attributes)
     Current.account = @account
+  end
+
+  def account_custom_attributes
+    attributes = { 'onboarding_step' => 'account_details' }
+    attributes['subscription_status'] = 'pending' if shopify_signup?
+    attributes
+  end
+
+  def shopify_billing_identity
+    {
+      'billing_provider' => 'shopify',
+      'signup_source' => 'shopify'
+    }
+  end
+
+  def claim_shopify_installation
+    return unless shopify_signup?
+    raise Shopify::PendingInstallation::FeatureDisabled, 'Shopify signup is unavailable' unless Shopify::FeatureGate.enabled?
+
+    @pending_installation = Shopify::PendingInstallation.claim(token: @shopify_pending_install_token)
+  end
+
+  def bind_shopify_installation
+    return unless @pending_installation
+    raise Shopify::PendingInstallation::FeatureDisabled, 'Shopify signup is unavailable' unless Shopify::FeatureGate.globally_enabled?
+
+    @account.enable_features(Shopify::FeatureGate::ACCOUNT_FEATURE)
+    @account.save!
+    create_shopify_hook
+  end
+
+  def create_shopify_hook
+    data = @pending_installation.data
+    raise_duplicate_shop! if shopify_shop_exists?(data['shop'])
+
+    @account.hooks.create!(
+      app_id: 'shopify',
+      access_token: data['access_token'],
+      status: 'enabled',
+      reference_id: data['shop'],
+      settings: { scope: data['scope'] }
+    )
+  rescue ActiveRecord::RecordNotUnique
+    raise_duplicate_shop!
+  rescue ActiveRecord::RecordInvalid => e
+    raise unless e.record.is_a?(Integrations::Hook) && e.record.errors.added?(:reference_id, :taken)
+
+    raise_duplicate_shop!
+  end
+
+  def shopify_shop_exists?(shop)
+    Integrations::Hook.where(app_id: 'shopify').exists?(['LOWER(reference_id) = ?', shop.downcase])
+  end
+
+  def raise_duplicate_shop!
+    raise Shopify::PendingInstallation::DuplicateShop, 'This Shopify store is already connected'
+  end
+
+  def shopify_signup?
+    @shopify_pending_install_token.present?
   end
 
   def create_and_link_user

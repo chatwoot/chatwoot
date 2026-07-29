@@ -171,7 +171,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
 
     it 'creates the Shopify hook and consumes the pending install' do
       allow(Shopify::PendingInstallation).to receive(:claim)
-        .with(token: pending_install_token, account_id: account.id)
+        .with(token: pending_install_token)
         .and_return(pending_installation)
       allow(pending_installation).to receive(:consume!) do
         expect(account.hooks.exists?(app_id: 'shopify')).to be(true)
