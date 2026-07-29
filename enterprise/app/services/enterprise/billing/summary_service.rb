@@ -63,11 +63,11 @@ class Enterprise::Billing::SummaryService
   def shopify_snapshot(refresh:)
     return account.custom_attributes.fetch(SHOPIFY_SNAPSHOT_KEY, {}) unless refresh
 
-    snapshot = Enterprise::Billing::ShopifySubscriptionSyncService.new(account: account).perform
-    raise RefreshError, 'Shopify billing refresh is unavailable' if snapshot.blank?
+    refreshed_snapshot = Enterprise::Billing::ShopifySubscriptionSyncService.new(account: account).perform
+    raise RefreshError, 'Shopify billing refresh is unavailable' if refreshed_snapshot.blank?
 
     account.reload
-    snapshot.to_h
+    account.custom_attributes.fetch(SHOPIFY_SNAPSHOT_KEY, {})
   rescue *SHOPIFY_REFRESH_ERRORS => e
     raise RefreshError, 'Shopify billing refresh failed', cause: e
   end
