@@ -1,7 +1,7 @@
 <script setup>
 import { computed, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useBranding } from 'shared/composables/useBranding';
 
@@ -19,6 +19,7 @@ const emit = defineEmits(['updatePortalConfiguration']);
 
 const { t } = useI18n();
 const store = useStore();
+const uiFlagsIn = useMapGetter('portals/uiFlagsIn');
 const { isAdmin } = useAdmin();
 const { replaceInstallationName } = useBranding();
 
@@ -70,6 +71,13 @@ const ANALYTICS_PROVIDERS = [
 ];
 
 const portalConfig = computed(() => props.activePortal?.config || {});
+
+const isUpdatingPortal = computed(() => {
+  const slug = props.activePortal?.slug;
+  if (slug) return uiFlagsIn.value(slug)?.isUpdating;
+
+  return false;
+});
 
 const liveChatWidgets = computed(() => {
   const widgetOptions = store.getters['inboxes/getInboxes']
@@ -216,7 +224,13 @@ const handleSave = () => {
     <div class="flex justify-end">
       <Button
         :label="t('HELP_CENTER.PORTAL_SETTINGS.INTEGRATIONS.SAVE')"
-        :disabled="!hasChanges || invalidAnalyticsKeys.length > 0 || isFetching"
+        :disabled="
+          !hasChanges ||
+          invalidAnalyticsKeys.length > 0 ||
+          isFetching ||
+          isUpdatingPortal
+        "
+        :is-loading="isUpdatingPortal"
         @click="handleSave"
       />
     </div>
