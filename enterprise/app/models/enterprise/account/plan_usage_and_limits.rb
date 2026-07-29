@@ -28,7 +28,9 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def email_transcript_enabled?
-    default_plan = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')&.value&.first
+    return current_billing_plan.present? if shopify_billing?
+
+    default_plan = Enterprise::Billing::PlanConfiguration.default_plan
     return true if default_plan.blank?
 
     plan_name.present? && plan_name != default_plan['name']
@@ -39,6 +41,8 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def subscribed_features
+    return current_billing_plan&.fetch('features', []) || [] if shopify_billing?
+
     plan_features = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLAN_FEATURES')&.value
     return [] if plan_features.blank?
 
@@ -75,6 +79,8 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def plan_email_limit
+    return shopify_plan_limits.fetch('emails', 0) if shopify_billing?
+
     base_limit = plan_base_email_limit
     return nil if base_limit.nil?
     return base_limit if free_plan?
@@ -93,11 +99,17 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def free_plan?
-    default_plan = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')&.value&.first
+    return false if shopify_billing?
+
+    default_plan = Enterprise::Billing::PlanConfiguration.default_plan
     default_plan.present? && plan_name&.downcase == default_plan['name']&.downcase
   end
 
   def default_captain_limits
+    shopify_billing? ? shopify_captain_limits : stripe_captain_limits
+  end
+
+  def stripe_captain_limits
     max_limits = { documents: ChatwootApp.max_limit, responses: ChatwootApp.max_limit }.with_indifferent_access
     zero_limits = { documents: 0, responses: 0 }.with_indifferent_access
     plan_quota = InstallationConfig.find_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')&.value
@@ -120,22 +132,42 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     end
   end
 
+  def shopify_captain_limits
+    {
+      documents: shopify_plan_limits.fetch('captain_documents', 0),
+      responses: shopify_plan_limits.fetch('captain_responses', 0)
+    }.with_indifferent_access
+  end
+
   def plan_name
     custom_attributes['plan_name']
   end
 
   def agent_limits
-    subscribed_quantity = custom_attributes['subscribed_quantity']
+    subscribed_quantity = custom_attributes['subscribed_quantity'] unless shopify_billing?
     subscribed_quantity || get_limits(:agents)
   end
 
   def get_limits(limit_name)
     config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
     return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
+    return shopify_plan_limits.fetch(limit_name.to_s, 0) if shopify_billing?
 
     return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
 
     ChatwootApp.max_limit
+  end
+
+  def shopify_billing?
+    billing_provider == 'shopify'
+  end
+
+  def current_billing_plan
+    Enterprise::Billing::PlanConfiguration.current_plan(self)
+  end
+
+  def shopify_plan_limits
+    current_billing_plan&.fetch('limits', {}) || {}
   end
 
   # Atomic jsonb_set to avoid clobbering concurrent writes to other custom_attributes keys.

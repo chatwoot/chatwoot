@@ -25,6 +25,7 @@ if resource.custom_attributes.present?
   end
 end
 json.domain @account.domain
+json.billing_provider resource.billing_provider
 features = @account.enabled_features
 features.delete(Shopify::FeatureGate::ACCOUNT_FEATURE) unless Shopify::FeatureGate.enabled?(account: @account)
 json.features features

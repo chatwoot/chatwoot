@@ -30,6 +30,32 @@ RSpec.describe Account, type: :model do
       expect(account).not_to be_feature_assignment_v2
       expect(account).not_to be_feature_advanced_assignment
     end
+
+    it 'uses Shopify plan features when preserving advanced assignment' do
+      create(
+        :installation_config,
+        name: 'CHATWOOT_SHOPIFY_PLANS',
+        value: [
+          {
+            'name' => 'Shopify Pro',
+            'handle' => 'shopify-pro',
+            'features' => %w[advanced_assignment],
+            'limits' => { 'agents' => 10, 'inboxes' => 20 }
+          }
+        ],
+        locked: true
+      )
+      account = build(
+        :account,
+        internal_attributes: { 'billing_provider' => 'shopify' },
+        custom_attributes: { 'plan_name' => 'Shopify Pro' }
+      )
+
+      account.selected_feature_flags = [:feature_assignment_v2]
+
+      expect(account).to be_feature_assignment_v2
+      expect(account).to be_feature_advanced_assignment
+    end
   end
 
   describe '#api_and_webhooks_enabled?' do
@@ -221,6 +247,71 @@ RSpec.describe Account, type: :model do
       InstallationConfig.where(name: 'ACCOUNT_AGENTS_LIMIT').update(value: '')
 
       expect(account.usage_limits[:agents]).to eq(ChatwootApp.max_limit)
+    end
+  end
+
+  context 'with Shopify plan entitlements' do
+    let(:account) do
+      create(
+        :account,
+        internal_attributes: { 'billing_provider' => 'shopify' },
+        custom_attributes: {
+          'plan_name' => 'Shopify Basic',
+          'subscribed_quantity' => 100,
+          'captain_documents_usage' => 5,
+          'captain_responses_usage' => 10
+        }
+      )
+    end
+    let(:shopify_plan) do
+      {
+        'name' => 'Shopify Basic',
+        'handle' => 'shopify-basic',
+        'features' => %w[help_center campaigns],
+        'limits' => {
+          'agents' => 5,
+          'inboxes' => 10,
+          'emails' => 500,
+          'captain_documents' => 25,
+          'captain_responses' => 100
+        }
+      }
+    end
+
+    before do
+      create(:installation_config, name: 'CHATWOOT_SHOPIFY_PLANS', value: [shopify_plan], locked: true)
+    end
+
+    it 'uses fixed Shopify limits instead of Stripe subscription quantity or global limits' do
+      usage_limits = account.usage_limits
+
+      expect(usage_limits[:agents]).to eq(5)
+      expect(usage_limits[:inboxes]).to eq(10)
+      expect(usage_limits.dig(:captain, :documents)).to eq(
+        total_count: 25,
+        current_available: 20,
+        consumed: 5
+      )
+      expect(usage_limits.dig(:captain, :responses)).to eq(
+        total_count: 100,
+        current_available: 90,
+        consumed: 10
+      )
+      expect(account.email_rate_limit).to eq(500)
+    end
+
+    it 'reads subscribed features from the Shopify plan catalog' do
+      expect(account.subscribed_features).to eq(%w[help_center campaigns])
+      expect(account.email_transcript_enabled?).to be(true)
+    end
+
+    it 'fails closed when the stored Shopify plan is unknown' do
+      account.update!(custom_attributes: { 'plan_name' => 'Unknown' })
+
+      expect(account.usage_limits[:agents]).to eq(0)
+      expect(account.usage_limits[:inboxes]).to eq(0)
+      expect(account.subscribed_features).to eq([])
+      expect(account.email_transcript_enabled?).to be(false)
     end
   end
 
