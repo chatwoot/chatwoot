@@ -60,6 +60,23 @@ describe('#validateAuthenticateRoutePermission', () => {
         '/app/login?redirect_url=settings%2Fbilling%3Fplan_handle%3Dgrowth%26shop%3Dstore.myshopify.com'
       );
     });
+
+    it('preserves the target account for a Shopify reinstall through login', () => {
+      const to = {
+        params: { accountId: 42 },
+        query: { shop: 'store.myshopify.com' },
+      };
+      store.getters.isLoggedIn = false;
+      const mockAssign = vi.fn();
+      delete window.location;
+      window.location = { assign: mockAssign };
+
+      validateAuthenticateRoutePermission(to, next);
+
+      expect(mockAssign).toHaveBeenCalledWith(
+        '/app/login?sso_account_id=42&redirect_url=settings%2Fbilling%3Fshop%3Dstore.myshopify.com'
+      );
+    });
   });
 
   describe('when user is logged in', () => {

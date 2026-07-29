@@ -19,11 +19,13 @@ const routes = [...dashboard.routes];
 const onboardingPath = step =>
   step === 'inbox_setup' ? 'onboarding/inbox-setup' : 'onboarding';
 
-const shopifyPricingRedirect = query => {
+const shopifyBillingRedirect = query => {
   const { plan_handle: planHandle, shop } = query || {};
-  if (!planHandle || !shop) return '';
+  if (!shop) return '';
 
-  const params = new URLSearchParams({ plan_handle: planHandle, shop });
+  const params = new URLSearchParams();
+  if (planHandle) params.set('plan_handle', planHandle);
+  params.set('shop', shop);
   return `settings/billing?${params.toString()}`;
 };
 
@@ -33,9 +35,16 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   const { isLoggedIn, getCurrentUser: user } = store.getters;
 
   if (!isLoggedIn) {
-    const pricingRedirect = shopifyPricingRedirect(to.query);
-    const loginUrl = pricingRedirect
-      ? `/app/login?redirect_url=${encodeURIComponent(pricingRedirect)}`
+    const billingRedirect = shopifyBillingRedirect(to.query);
+    const loginParams = new URLSearchParams();
+    if (billingRedirect) {
+      if (to.params?.accountId) {
+        loginParams.set('sso_account_id', to.params.accountId);
+      }
+      loginParams.set('redirect_url', billingRedirect);
+    }
+    const loginUrl = loginParams.size
+      ? `/app/login?${loginParams.toString()}`
       : '/app/login';
     window.location.assign(loginUrl);
     return '';
@@ -51,7 +60,7 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   }
 
   const requestedRedirectUrl = to.query?.redirect_url;
-  const pricingRedirectUrl = shopifyPricingRedirect(to.query);
+  const pricingRedirectUrl = shopifyBillingRedirect(to.query);
   const targetRedirectUrl = requestedRedirectUrl || pricingRedirectUrl;
   const redirectAccount = getTargetAccount({
     redirectUrl: targetRedirectUrl,
@@ -72,9 +81,9 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   const isAdmin = userAccount?.role === 'administrator';
   const isActive = userAccount?.status === 'active';
   const needsShopifyBilling = isAdmin && requiresShopifyBilling(userAccount);
-  const pricingRedirect =
+  const billingRedirect =
     isAdmin && isShopifyBillingAccount(userAccount)
-      ? shopifyPricingRedirect(to.query)
+      ? shopifyBillingRedirect(to.query)
       : '';
   const needsOnboarding =
     ONBOARDING_STEPS.includes(userAccount?.onboarding_step) &&
@@ -83,8 +92,8 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     !needsShopifyBilling;
 
   if (to.name === 'no_accounts' || !to.name) {
-    if (pricingRedirect) {
-      return next(frontendURL(`accounts/${routeAccountId}/${pricingRedirect}`));
+    if (billingRedirect) {
+      return next(frontendURL(`accounts/${routeAccountId}/${billingRedirect}`));
     }
     if (requestedRedirectUrl) {
       return next(
