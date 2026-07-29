@@ -1,5 +1,6 @@
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
+import store from 'dashboard/store';
 import SettingsWrapper from '../SettingsWrapper.vue';
 import IntegrationHooks from './IntegrationHooks.vue';
 import Index from './Index.vue';
@@ -9,6 +10,22 @@ import Slack from './Slack.vue';
 import Linear from './Linear.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
+
+export const redirectShopifyIfUnavailable = (to, _from, next) => {
+  const account = store.getters.getCurrentUser.accounts.find(
+    item => Number(item.id) === Number(to.params.accountId)
+  );
+  const isShopifyEnabled = account?.features?.includes(FEATURE_FLAGS.SHOPIFY);
+
+  next(
+    isShopifyEnabled
+      ? undefined
+      : {
+          name: 'settings_applications',
+          params: { accountId: to.params.accountId },
+        }
+  );
+};
 
 export default {
   routes: [
@@ -86,6 +103,7 @@ export default {
             featureFlag: FEATURE_FLAGS.SHOPIFY,
             permissions: ['administrator'],
           },
+          beforeEnter: redirectShopifyIfUnavailable,
           props: route => ({ error: route.query.error }),
         },
         {

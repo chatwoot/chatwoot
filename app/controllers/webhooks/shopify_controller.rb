@@ -1,5 +1,7 @@
 class Webhooks::ShopifyController < ActionController::API
-  before_action :ensure_shopify_enabled, unless: :redaction_event?
+  COMPLIANCE_TOPICS = %w[customers/data_request customers/redact shop/redact].freeze
+
+  before_action :ensure_shopify_enabled, unless: :compliance_event?
   before_action :verify_hmac!
 
   def events
@@ -17,8 +19,8 @@ class Webhooks::ShopifyController < ActionController::API
     head :not_found unless Shopify::FeatureGate.enabled?
   end
 
-  def redaction_event?
-    request.headers['X-Shopify-Topic'] == 'shop/redact'
+  def compliance_event?
+    COMPLIANCE_TOPICS.include?(request.headers['X-Shopify-Topic'])
   end
 
   def verify_hmac!

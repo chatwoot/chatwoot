@@ -49,6 +49,20 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
     expect(response).to have_http_status(:ok)
   end
 
+  it 'authenticates and acknowledges every compliance topic when the installation switch is disabled' do
+    allow(GlobalConfigService).to receive(:load)
+      .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+      .and_return(false)
+
+    Webhooks::ShopifyController::COMPLIANCE_TOPICS.each do |topic|
+      headers['X-Shopify-Topic'] = topic
+
+      post '/webhooks/shopify', params: body, headers: headers
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   it 'processes redaction when the account feature is disabled' do
     hook
     account.disable_features!('shopify_integration')
