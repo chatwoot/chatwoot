@@ -94,14 +94,14 @@ class Seeders::Reports::ReportDataSeeder
     @account.reporting_events.destroy_all
   end
 
-  # Delete Captain records directly (assistant associations are destroy_async, which
-  # would leave rows around mid-reseed); order respects foreign keys.
+  # Delete Captain activity records directly (the associations are destroy_async,
+  # which would leave rows around mid-reseed). Assistants and their knowledge are
+  # preserved so an account's existing Captain setup is reused across reseeds;
+  # inbox bindings are cleared because the inboxes themselves get recreated.
   def clear_assistant_data
     assistant_ids = Captain::Assistant.for_account(@account.id).select(:id)
-    Captain::AssistantResponse.by_account(@account.id).delete_all
-    Captain::Document.for_account(@account.id).delete_all
+    Captain::ConversationOutcome.where(account_id: @account.id).delete_all
     CaptainInbox.where(captain_assistant_id: assistant_ids).delete_all
-    Captain::Assistant.for_account(@account.id).delete_all
   end
 
   def create_teams
@@ -232,20 +232,28 @@ class Seeders::Reports::ReportDataSeeder
     print "\n"
   end
 
-  # One assistant, bound to a single web inbox (the first one), as the overview page expects.
+  # One assistant, bound to a single web inbox (the first one), as the overview
+  # page expects. An account's existing assistant is reused (keeping its name and
+  # knowledge); one is only created when the account has none.
   def create_assistant
     @account.enable_features!('captain_integration', 'captain_integration_v2')
     @assistant_inbox = @inboxes.first
-    @assistant = Captain::Assistant.create!(
-      account: @account,
-      name: "#{Faker::Company.name} Copilot",
-      description: 'Captain assistant handling website support conversations.',
-      config: { feature_faq: true, feature_memory: true, product_name: @account.name }
-    )
-    CaptainInbox.create!(captain_assistant: @assistant, inbox: @assistant_inbox)
-    create_assistant_knowledge
+    @assistant = Captain::Assistant.for_account(@account.id).first
 
-    puts "Created assistant '#{@assistant.name}' for inbox '#{@assistant_inbox.name}'"
+    if @assistant
+      puts "Reusing assistant '#{@assistant.name}' for inbox '#{@assistant_inbox.name}'"
+    else
+      @assistant = Captain::Assistant.create!(
+        account: @account,
+        name: "#{Faker::Company.name} Copilot",
+        description: 'Captain assistant handling website support conversations.',
+        config: { feature_faq: true, feature_memory: true, product_name: @account.name }
+      )
+      create_assistant_knowledge
+      puts "Created assistant '#{@assistant.name}' for inbox '#{@assistant_inbox.name}'"
+    end
+
+    CaptainInbox.create!(captain_assistant: @assistant, inbox: @assistant_inbox)
   end
 
   def create_assistant_knowledge
