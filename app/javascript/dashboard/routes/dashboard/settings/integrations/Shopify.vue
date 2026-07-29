@@ -59,9 +59,9 @@ const formattedHelpText = computed(() => {
 const completePendingInstall = async token => {
   try {
     await shopifyAPI.completeInstall(token);
+    await router.replace({ query: {} });
     await store.dispatch('integrations/get', 'shopify');
     useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.SUCCESS'));
-    router.replace({ query: {} });
   } catch {
     useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.ERROR'));
   }

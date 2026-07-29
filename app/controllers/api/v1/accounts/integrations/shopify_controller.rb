@@ -50,7 +50,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
       settings: { scope: data['scope'] }
     )
     pending_installation.consume!
-  rescue Shopify::PendingInstallation::Error
+  rescue StandardError
     hook&.destroy!
     raise
   end
