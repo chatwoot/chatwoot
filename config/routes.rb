@@ -67,6 +67,7 @@ Rails.application.routes.draw do
               member do
                 post :playground
                 get :metrics
+                get :outcome_metrics
                 get :faq_stats
                 get :summary
                 get :drilldown
