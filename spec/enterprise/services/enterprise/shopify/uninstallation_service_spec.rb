@@ -72,6 +72,15 @@ RSpec.describe Shopify::UninstallationService do
     )
   end
 
+  it 'deletes a redacted hook inside the uninstall lifecycle' do
+    hook
+    allow(sync_service).to receive(:perform)
+
+    expect do
+      described_class.new(hook: hook, occurred_at: occurred_at, delete_hook: true).perform
+    end.to change(Integrations::Hook, :count).by(-1)
+  end
+
   it 'still revokes credentials when billing reconciliation fails' do
     allow(sync_service).to receive(:perform).and_raise(StandardError, 'sync failed')
 

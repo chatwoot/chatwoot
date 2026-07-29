@@ -43,8 +43,7 @@ class Webhooks::ShopifyController < ActionController::API
   def handle_shop_redact
     hooks = shopify_hooks(params[:shop_domain])
     hooks.find_each do |hook|
-      result = Shopify::UninstallationService.new(hook: hook, occurred_at: webhook_triggered_at).perform
-      hook.destroy! if result == :uninstalled && hook.persisted?
+      Shopify::UninstallationService.new(hook: hook, occurred_at: webhook_triggered_at, delete_hook: true).perform
     end
     raise CleanupIncomplete, 'Shopify shop redaction is incomplete' if hooks.any? { |hook| redaction_required?(hook) }
   end

@@ -1,8 +1,9 @@
 class Shopify::UninstallationService
-  def initialize(hook:, occurred_at: nil)
+  def initialize(hook:, occurred_at: nil, delete_hook: false)
     @hook = hook
     @account = hook.account
     @occurred_at = occurred_at
+    @delete_hook = delete_hook
   end
 
   def perform
@@ -13,6 +14,7 @@ class Shopify::UninstallationService
 
       begin
         uninstall
+        hook.destroy! if delete_hook && hook.persisted?
         outcome = :uninstalled
       rescue StandardError => e
         failure = e
@@ -25,7 +27,7 @@ class Shopify::UninstallationService
 
   private
 
-  attr_reader :account, :hook, :occurred_at
+  attr_reader :account, :hook, :occurred_at, :delete_hook
 
   def stale_event?
     connected_at = hook.settings['connected_at']

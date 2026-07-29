@@ -111,6 +111,21 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
     expect(response).to have_http_status(:ok)
   end
 
+  it 'delegates redaction deletion to the locked lifecycle' do
+    hook
+    uninstallation_service = instance_double(Shopify::UninstallationService, perform: :uninstalled)
+    allow(Shopify::UninstallationService).to receive(:new)
+      .with(hook: hook, occurred_at: Time.iso8601(triggered_at), delete_hook: true)
+      .and_return(uninstallation_service)
+
+    expect do
+      post '/webhooks/shopify', params: body, headers: headers
+    end.not_to change(Integrations::Hook, :count)
+
+    expect(uninstallation_service).to have_received(:perform)
+    expect(response).to have_http_status(:ok)
+  end
+
   it 'does not process normal events when the installation switch is disabled' do
     headers['X-Shopify-Topic'] = 'app/uninstalled'
     allow(GlobalConfigService).to receive(:load)
