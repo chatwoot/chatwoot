@@ -119,7 +119,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def business_account_path
-    "#{api_base_path}/v14.0/#{Integer(whatsapp_channel.provider_config['business_account_id'], 10)}"
+    "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
   end
 
   def send_text_message(phone_number, message)
