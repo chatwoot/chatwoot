@@ -12,11 +12,13 @@ RSpec.describe Shopify::SubscriptionFetcher do
     )
   end
   let(:client) { instance_double(Shopify::PartnerClient) }
+  let(:shop_identity) { instance_double(Shopify::ShopIdentity, shop_id: 'gid://shopify/Shop/5678') }
 
   before do
     create(:integrations_hook, :shopify, account: account, settings: { 'shop_id' => 'gid://shopify/Shop/5678' })
     allow(Shopify::FeatureGate).to receive(:enabled?).with(account: account).and_return(true)
     allow(Shopify::PartnerClient).to receive(:new).and_return(client)
+    allow(Shopify::ShopIdentity).to receive(:new).and_return(shop_identity)
     allow(client).to receive(:subscription_snapshot).and_return(snapshot)
     allow(Rails.cache).to receive(:read)
     allow(Rails.cache).to receive(:write)
@@ -37,6 +39,27 @@ RSpec.describe Shopify::SubscriptionFetcher do
       "shopify:subscription_snapshot:account:#{account.id}",
       snapshot.to_h,
       expires_in: 2.minutes
+    )
+  end
+
+  it 'timestamps the verification before provider identity lookup starts' do
+    verified_at = Time.zone.parse('2026-07-29T10:00:00Z')
+    call_order = []
+    allow(Time).to receive(:current) do
+      call_order << :timestamp
+      verified_at
+    end
+    allow(shop_identity).to receive(:shop_id) do
+      call_order << :identity_lookup
+      'gid://shopify/Shop/5678'
+    end
+
+    described_class.new(account: account).perform(force: true)
+
+    expect(call_order).to eq(%i[timestamp identity_lookup])
+    expect(client).to have_received(:subscription_snapshot).with(
+      shop_id: 'gid://shopify/Shop/5678',
+      verified_at: verified_at
     )
   end
 
