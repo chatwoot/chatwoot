@@ -39,7 +39,6 @@ module Enterprise::Message
 
   def captain_pending_conversation?
     return false unless conversation.pending?
-    return false if conversation.assignee_agent_bot_id.present?
 
     ::CaptainInbox.exists?(inbox_id: conversation.inbox_id)
   end

@@ -50,11 +50,11 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
-    message.incoming? && captain_handling_conversation?
+    conversation.pending? && message.incoming? && inbox.captain_assistant.present?
   end
 
   def perform_handoff
-    return unless captain_handling_conversation?
+    return unless conversation.pending?
 
     Rails.logger.info("Captain limit exceeded, performing handoff mid-conversation for conversation: #{conversation.id}")
     conversation.messages.create!(
@@ -76,9 +76,6 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def captain_handling_conversation?
-    return false unless conversation.pending?
-    return false if conversation.assignee_agent_bot_id.present?
-
-    inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present?
+    conversation.pending? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present?
   end
 end

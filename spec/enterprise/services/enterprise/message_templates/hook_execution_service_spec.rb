@@ -26,14 +26,6 @@ RSpec.describe MessageTemplates::HookExecutionService do
 
         create(:message, conversation: conversation, message_type: :incoming, account: account)
       end
-
-      it 'does not schedule captain response for pending conversations assigned to an agent bot' do
-        conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
-
-        expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
-
-        create(:message, conversation: conversation, message_type: :incoming, account: account)
-      end
     end
 
     context 'when outside business hours' do
