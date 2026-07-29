@@ -13,6 +13,21 @@ export const requiresShopifyBilling = account =>
   account.shopify_integration === true &&
   !SHOPIFY_ENTITLED_STATES.includes(account.subscription_status);
 
+export const getSignupRoute = redirectUrl => {
+  const query = redirectUrl?.split('?')[1];
+  const pendingInstallToken = new URLSearchParams(query).get(
+    'shopify_pending_install'
+  );
+  const signupRoute = { name: 'auth_signup' };
+
+  return pendingInstallToken
+    ? {
+        ...signupRoute,
+        query: { shopify_pending_install: pendingInstallToken },
+      }
+    : signupRoute;
+};
+
 const getTargetAccount = ({ ssoAccountId, user }) => {
   const { accounts = [], account_id: accountId = null } = user || {};
   const ssoAccount = accounts.find(

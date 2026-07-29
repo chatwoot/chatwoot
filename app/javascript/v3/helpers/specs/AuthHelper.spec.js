@@ -1,10 +1,32 @@
 import {
   getLoginRedirectURL,
   getCredentialsFromEmail,
+  getSignupRoute,
   requiresShopifyBilling,
 } from '../AuthHelper';
 
 describe('#URL Helpers', () => {
+  describe('getSignupRoute', () => {
+    it('carries a pending Shopify install token into signup', () => {
+      expect(
+        getSignupRoute(
+          'settings/integrations/shopify?shopify_pending_install=0123456789abcdef0123456789abcdef'
+        )
+      ).toEqual({
+        name: 'auth_signup',
+        query: {
+          shopify_pending_install: '0123456789abcdef0123456789abcdef',
+        },
+      });
+    });
+
+    it('uses the regular signup route for other login redirects', () => {
+      expect(getSignupRoute('accounts/1/dashboard')).toEqual({
+        name: 'auth_signup',
+      });
+    });
+  });
+
   describe('getLoginRedirectURL', () => {
     it('should return correct Account URL if account id is present', () => {
       expect(

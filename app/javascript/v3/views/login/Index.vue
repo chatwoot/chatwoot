@@ -10,6 +10,7 @@ import SessionStorage from 'shared/helpers/sessionStorage';
 import { useBranding } from 'shared/composables/useBranding';
 import AnalyticsHelper from 'dashboard/helper/AnalyticsHelper';
 import { SESSION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { getSignupRoute } from 'v3/helpers/AuthHelper';
 
 // components
 import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
@@ -103,6 +104,9 @@ export default {
     },
     showSignupLink() {
       return window.chatwootConfig.signupEnabled === 'true';
+    },
+    signupRoute() {
+      return getSignupRoute(this.redirectUrl);
     },
     showSamlLogin() {
       return this.allowedLoginMethods.includes('saml');
@@ -311,7 +315,7 @@ export default {
       </h2>
       <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
         {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="lowercase text-link text-n-brand">
+        <router-link :to="signupRoute" class="lowercase text-link text-n-brand">
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
