@@ -1,12 +1,30 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import BarChart from 'shared/components/charts/BarChart.vue';
-const props = defineProps({
-  componentData: {
-    type: Object,
-    default: () => ({}),
-  },
+
+const stats = ref(null);
+const failed = ref(false);
+
+const loading = computed(() => !stats.value && !failed.value);
+
+onMounted(async () => {
+  try {
+    const response = await fetch(window.location.pathname, {
+      headers: { Accept: 'application/json' },
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    stats.value = await response.json();
+  } catch {
+    failed.value = true;
+  }
 });
+
+const metrics = computed(() => [
+  { label: 'Accounts', value: stats.value?.accountsCount },
+  { label: 'Users', value: stats.value?.usersCount },
+  { label: 'Inboxes', value: stats.value?.inboxesCount },
+  { label: 'Conversations', value: stats.value?.conversationsCount },
+]);
 
 const prepareData = sourceData => {
   var labels = [];
@@ -30,11 +48,8 @@ const prepareData = sourceData => {
 };
 
 const chartData = computed(() => {
-  return prepareData(props.componentData.chartData);
+  return prepareData(stats.value?.chartData || []);
 });
-
-const { accountsCount, usersCount, inboxesCount, conversationsCount } =
-  props.componentData;
 </script>
 
 <template>
@@ -47,26 +62,25 @@ const { accountsCount, usersCount, inboxesCount, conversationsCount } =
 
     <section class="main-content__body main-content__body--flush">
       <div class="report--list">
-        <div class="report-card">
-          <div class="metric">{{ accountsCount }}</div>
-          <div>{{ 'Accounts' }}</div>
-        </div>
-        <div class="report-card">
-          <div class="metric">{{ usersCount }}</div>
-          <div>{{ 'Users' }}</div>
-        </div>
-        <div class="report-card">
-          <div class="metric">{{ inboxesCount }}</div>
-          <div>{{ 'Inboxes' }}</div>
-        </div>
-        <div class="report-card">
-          <div class="metric">{{ conversationsCount }}</div>
-          <div>{{ 'Conversations' }}</div>
+        <div v-for="item in metrics" :key="item.label" class="report-card">
+          <div class="metric">
+            <span
+              v-if="loading"
+              class="inline-block w-20 h-8 rounded bg-woot-100 animate-pulse"
+            />
+            <template v-else>{{ item.value || 'N/A' }}</template>
+          </div>
+          <div>{{ item.label }}</div>
         </div>
       </div>
     </section>
     <!-- eslint-disable vue/no-static-inline-styles -->
+    <div
+      v-if="loading"
+      class="p-8 mx-8 h-64 rounded bg-woot-100 animate-pulse"
+    />
     <BarChart
+      v-else-if="!failed"
       class="p-8 w-full"
       :collection="chartData"
       style="max-height: 500px"

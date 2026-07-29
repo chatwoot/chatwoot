@@ -134,6 +134,11 @@ json.bot_name resource.channel.try(:bot_name) if resource.telegram?
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
+  if Current.account_user&.administrator? &&
+     ChatwootApp.chatwoot_cloud? &&
+     (resource.channel.try(:provider_config) || {}).to_h['source'] == 'embedded_signup'
+    json.business_management_token_configured resource.channel.try(:business_management_token).present?
+  end
   # Only show reauthorization for embedded signup; manual flow uses API keys, not OAuth
   json.reauthorization_required(
     (resource.channel.try(:provider_config) || {}).to_h['source'] == 'embedded_signup' &&
