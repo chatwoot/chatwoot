@@ -1,8 +1,9 @@
-class Shopify::AppPricingUrl
+class Enterprise::Billing::ShopifyAppPricingUrl
   APP_HANDLE_FORMAT = /\A[a-z0-9][a-z0-9-]*\z/
 
-  class ConfigurationError < StandardError; end
-  class NotEligible < StandardError; end
+  class Error < StandardError; end
+  class ConfigurationError < Error; end
+  class NotEligible < Error; end
 
   def initialize(account:)
     @account = account
