@@ -63,8 +63,8 @@ class Shopify::SubscriptionSnapshot
 
     def subscription_state(active_subscription, latest_event, verified_at)
       if active_subscription.present?
-        return 'trialing' if active_trial?(active_subscription, verified_at)
         return 'cancelled' if active_subscription['cancelAtEndOfCycle'] == true
+        return 'trialing' if active_trial?(active_subscription, verified_at)
 
         return 'active'
       end
