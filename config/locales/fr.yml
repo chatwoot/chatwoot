@@ -33,8 +33,33 @@ fr:
     login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Votre demande de suppression de la boîte de réception sera traitée dans un certain délai.
+  data_imports:
+    intercom:
+      activities:
+        assignment: '%{actor} assigned the conversation'
+        assignment_with_target: '%{actor} assigned the conversation to %{target}'
+        assign_and_reopen: '%{actor} assigned and reopened the conversation'
+        assign_and_reopen_with_target: '%{actor} assigned the conversation to %{target} and reopened it'
+        open: '%{actor} opened the conversation'
+        close: '%{actor} closed the conversation'
+        snoozed: '%{actor} snoozed the conversation'
+        participant_added: '%{actor} added a participant'
+        participant_added_with_target: '%{actor} added %{target} as a participant'
+        participant_removed: '%{actor} removed a participant'
+        participant_removed_with_target: '%{actor} removed %{target} as a participant'
+        conversation_attribute_updated: '%{actor} updated conversation attributes'
+        ticket_attribute_updated: '%{actor} updated ticket attributes'
+        ticket_state_updated: '%{actor} updated the ticket state'
+        custom_action_started: '%{actor} started a custom action'
+        custom_action_finished: '%{actor} finished a custom action'
+        quick_reply: '%{actor} used a quick reply'
+        generic: '%{actor} recorded %{event}'
+  profile_settings:
+    sessions:
+      cannot_revoke_current: You cannot revoke the current session.
   errors:
     account:
+      not_authorized: You are not authorized to access this account
       reporting_timezone:
         invalid: is not a valid timezone
       support_email:
@@ -51,7 +76,7 @@ fr:
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: L'inscription a échoué
     voice:
-      call_already_accepted: '%{agent_name} is already handling the call.'
+      call_already_accepted: '%{agent_name} traite déjà l''appel.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
@@ -64,9 +89,14 @@ fr:
       file_too_large: 'File exceeds the maximum allowed size'
       unsupported_content_type: 'File type not supported (only images and videos are allowed)'
       unexpected: 'An unexpected error occurred'
+    database:
+      query_canceled: 'The request took too long to complete. Please try again.'
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
+    conversations:
+      unread_counts:
+        feature_not_enabled: La fonctionnalité de comptage des conversations non lues n'est pas activée pour ce compte
     data_import:
       data_type:
         invalid: Type de données incorrect
@@ -92,6 +122,15 @@ fr:
         unique: Doit être unique dans la catégorie et le portail
     dyte:
       invalid_message_type: 'Type de message invalide. Action non autorisée'
+      realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
+    cloudflare:
+      realtimekit:
+        invalid_credentials: 'Cloudflare RealtimeKit credentials are invalid. Please check the Account ID, RealtimeKit App ID, and API token permissions.'
+        missing_credentials: 'Cloudflare Account ID, RealtimeKit App ID, and API token are required.'
+        invalid_api_token: 'Cloudflare API token is invalid or inactive. Please create a new token with Realtime Admin permissions.'
+        invalid_account_or_permissions: 'Cloudflare Account ID is invalid, or the API token does not have Realtime Admin access to this account.'
+        app_not_found: 'RealtimeKit App ID was not found in this Cloudflare account. Please check the app you selected.'
+        verification_failed: 'Could not verify Cloudflare RealtimeKit credentials right now. Please try again.'
     slack:
       invalid_channel_id: 'Canal Slack invalide. Veuillez réessayer'
     whatsapp:
@@ -104,13 +143,14 @@ fr:
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
       calls:
         not_enabled: 'Calling is not enabled for this inbox'
+        already_ended: 'This call has already ended'
         no_recording: 'No recording file provided'
         no_message: 'Call has no associated message'
-        sdp_offer_required: 'sdp_offer is required'
-        contact_phone_required: 'Contact phone number is required'
-        permission_request_failed: 'Failed to send call permission request'
+        sdp_offer_required: 'sdp_offer est requis'
+        contact_phone_required: 'Le numéro de téléphone du contact est requis'
+        permission_request_failed: 'Échec de l''envoi de la demande d''autorisation d''appel'
     openai:
-      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
+      invalid_api_key: 'La clé API OpenAI est invalide ou révoquée. Veuillez vérifier votre clé dans votre tableau de bord OpenAI.'
     inboxes:
       imap:
         socket_error: Veuillez vérifier la connexion, l'adresse IMAP et réessayez.
@@ -142,6 +182,9 @@ fr:
       invalid_token: Invalid or expired MFA token
       invalid_credentials: Invalid credentials or verification code
       feature_unavailable: MFA feature is not available. Please configure encryption keys.
+    billing:
+      invalid_currency: Invalid billing currency
+      currency_locked: Billing currency cannot be changed after billing has been set up
     topup:
       credits_required: Credits amount is required
       invalid_credits: Invalid credits amount
@@ -241,9 +284,10 @@ fr:
       whatsapp:
         list_button_label: 'Choose an item'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
       voice_call:
-        twilio: 'Voice Call'
-        whatsapp: 'WhatsApp Call'
+        twilio: 'Appel vocal'
+        whatsapp: 'Appel WhatsApp'
       delivery_status:
         error_code: 'Code d''erreur : %{error_code}'
     activity:
@@ -289,8 +333,8 @@ fr:
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       whatsapp_call:
-        permission_requested: 'Sent a call permission request to %{contact_name}.'
-        permission_granted: '%{contact_name} accepted the call permission request.'
+        permission_requested: 'A envoyé une demande d''autorisation d''appel à %{contact_name}.'
+        permission_granted: '%{contact_name} a accepté la demande d''autorisation d''appel.'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       auto_resolve:
@@ -355,7 +399,7 @@ fr:
       name: 'Linear'
       short_description: 'Create and link Linear issues directly from conversations.'
       description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
-      attachment_link_title: 'Conversation (#%{conversation_id}) with %{name}'
+      attachment_link_title: 'Conversation (#%{conversation_id}) avec %{name}'
     notion:
       name: 'Notion'
       short_description: 'Integrate databases, documents and pages directly with Captain.'
@@ -386,7 +430,7 @@ fr:
       pdf_size_error: 'must be less than 10MB'
       sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
       sync_only_available_documents: 'Sync is only available for processed documents'
-      sync_already_in_progress: 'Document sync is already in progress'
+      sync_already_in_progress: 'La synchronisation du document est déjà en cours'
       pdf_upload_failed: 'Failed to upload PDF to OpenAI'
       pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
       pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
@@ -412,9 +456,16 @@ fr:
       empty_placeholder: Aucun résultat trouvé.
       loading_placeholder: Recherche en cours...
       results_title: Résultats de recherche
+      results: Résultats de recherche
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Rechercher
     toc_header: 'Sur cette page'
     sidebar:
-      help_center: "Centre d'aide"
+      help_center: Centre d'aide
       categories: Catégories
       language: Langue
       theme: Thème
@@ -426,7 +477,10 @@ fr:
       browse_by_topic_subtitle: Trouvez des guides, des tutoriels et des réponses organisés par catégorie.
       popular_articles: Articles populaires
       popular_articles_subtitle: Ce que les autres lisent en ce moment.
+      recommended: Recommended articles
+      recommended_subtitle: Hand-picked articles to get you started.
       popular_label: 'Sujets populaires :'
+      recommended_label: 'Recommended topics:'
       authors_others: "%{names} et %{count} autres"
       primary_nav: Navigation principale
     hero:
@@ -443,6 +497,8 @@ fr:
       others: autres
       by: Par
       no_articles: Il n'y a pas d'articles ici
+      previous: Précédent
+      next: Suivant
     article_actions:
       label: Ouvrir dans
       view_markdown: Voir en Markdown
@@ -455,10 +511,12 @@ fr:
       go_to_homepage: Site internet
       visit_website: Visit website
       appearance:
+        title: Apparence
         system: Système
         light: Clair
         dark: Sombre
       featured_articles: Articles à la une
+      recommended: Recommended articles
       uncategorized: Non catégorisé
     404:
       title: Page introuvable
@@ -521,9 +579,9 @@ fr:
     articles:
       captain_not_available: 'Translation requires Captain to be enabled for this account'
       locale_not_available: 'Locale not available in this portal'
-      category_not_found: 'Category not found in this portal'
-      no_articles_found: 'No articles found to process'
-      invalid_status: 'Invalid status value'
+      category_not_found: 'Catégorie introuvable dans ce portail'
+      no_articles_found: 'Aucun article à traiter'
+      invalid_status: 'Valeur de statut invalide'
     send_instructions:
       email_required: 'L''e-mail est requis'
       invalid_email_format: 'Invalid email format'
@@ -533,8 +591,31 @@ fr:
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
   super_admin:
+    captain_model_overrides:
+      form:
+        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        use_default: 'Use default: %{model} (%{model_id})'
+      show:
+        summary: 'View model routing'
+        provider: 'Provider'
+        model: 'Modèle'
+      sources:
+        account_override: 'Account override'
+        default: 'Par défaut'
+      features:
+        editor: 'Editor'
+        assistant: 'Assistant IA'
+        copilot: 'Copilot'
+        label_suggestion: 'Label suggestion'
+        document_faq_generation: 'Document FAQ generation'
+        conversation_faq_generation: 'Conversation FAQ generation'
+        help_center_article_generation: 'Help center article generation'
+        onboarding_content_generation: 'Onboarding content generation'
+        help_center_query_translation: 'Help center query translation'
+        audio_transcription: 'Audio transcription'
+        help_center_search: 'Help center search'
     push_diagnostics:
-      user_not_found: 'User not found.'
+      user_not_found: 'Utilisateur introuvable.'
       no_subscriptions_to_test: 'Select at least one subscription to test.'
       no_subscriptions_to_delete: 'Select at least one subscription to delete.'
       subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."

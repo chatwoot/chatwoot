@@ -143,7 +143,7 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         )
       end
 
-      it 'ends the conference for the resolved call' do
+      it 'ends the conference and marks a pre-pickup hangup as rejected' do
         delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
                headers: agent.create_new_auth_token,
                params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
@@ -151,6 +151,9 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['id']).to eq(conversation.display_id)
         expect(conference_service).to have_received(:end_conference)
+        call = Call.find_by(provider_call_id: 'CALL123')
+        expect(call.status).to eq('rejected')
+        expect(call.end_reason).to eq('agent_rejected')
       end
 
       it 'does not allow ending conferences for calls from inboxes without access' do

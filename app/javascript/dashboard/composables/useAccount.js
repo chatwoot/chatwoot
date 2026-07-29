@@ -52,6 +52,10 @@ export function useAccount() {
     });
   };
 
+  const finishOnboarding = async data => {
+    await store.dispatch('accounts/finishOnboarding', data);
+  };
+
   return {
     accountId,
     route,
@@ -61,5 +65,6 @@ export function useAccount() {
     isCloudFeatureEnabled,
     isOnChatwootCloud,
     updateAccount,
+    finishOnboarding,
   };
 }

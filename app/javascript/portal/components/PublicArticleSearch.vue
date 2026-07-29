@@ -138,21 +138,40 @@ export default {
         this.isLoading = false;
       }
     },
+    handleSubmit() {
+      const query = this.normalizedSearchTerm;
+      if (!query) return;
+
+      const searchParams = new URLSearchParams({ query });
+      const { theme, isPlainLayoutEnabled } = window.portalConfig;
+
+      if (theme) searchParams.set('theme', theme);
+      if (isPlainLayoutEnabled === 'true') {
+        searchParams.set('show_plain_layout', 'true');
+      }
+
+      window.location.href = `/hc/${this.portalSlug}/${this.localeCode}/search?${searchParams.toString()}`;
+    },
   },
 };
 </script>
 
 <template>
   <div v-on-clickaway="closeSearch" class="relative w-full max-w-5xl my-4">
-    <PublicSearchInput
-      ref="searchInput"
-      :search-term="searchTerm"
-      :search-placeholder="searchTranslations.searchPlaceholder"
-      :size="size"
-      :kbd="kbdLabel"
-      @update:search-term="onUpdateSearchTerm"
-      @focus="openSearch"
-    />
+    <form @submit.prevent="handleSubmit">
+      <PublicSearchInput
+        ref="searchInput"
+        :search-term="searchTerm"
+        :search-placeholder="searchTranslations.searchPlaceholder"
+        :size="size"
+        :kbd="kbdLabel"
+        @update:search-term="onUpdateSearchTerm"
+        @focus="openSearch"
+      />
+      <button type="submit" class="sr-only">
+        {{ searchTranslations.submit }}
+      </button>
+    </form>
     <div
       v-if="shouldShowSearchBox"
       class="absolute w-full top-14"

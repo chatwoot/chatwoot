@@ -11,6 +11,8 @@ class Instagram::CallbacksController < ApplicationController
     end
 
     process_successful_authorization
+  rescue CustomExceptions::Inbox::LimitExceeded => e
+    handle_limit_error(e)
   rescue StandardError => e
     handle_error(e)
   end
@@ -28,6 +30,8 @@ class Instagram::CallbacksController < ApplicationController
     @long_lived_token_response = exchange_for_long_lived_token(@response.token)
     inbox, already_exists = find_or_create_inbox
 
+    return redirect_to app_onboarding_inbox_setup_url(account_id: account_id) if return_to == 'onboarding'
+
     if already_exists
       redirect_to app_instagram_inbox_settings_url(account_id: account_id, inbox_id: inbox.id)
     else
@@ -43,6 +47,14 @@ class Instagram::CallbacksController < ApplicationController
 
     error_info = extract_error_info(error)
     redirect_to_error_page(error_info)
+  end
+
+  def handle_limit_error(error)
+    redirect_to_error_page(
+      'error_type' => error.class.name,
+      'code' => Rack::Utils.status_code(error.http_status),
+      'error_message' => error.message
+    )
   end
 
   # Extract error details from the exception
@@ -147,6 +159,10 @@ class Instagram::CallbacksController < ApplicationController
     return unless params[:state]
 
     verify_instagram_token(params[:state])
+  end
+
+  def return_to
+    instagram_token_return_to(params[:state])
   end
 
   def oauth_code

@@ -15,6 +15,7 @@ const props = defineProps({
   id: { type: Number, required: true },
   name: { type: String, default: '' },
   email: { type: String, default: '' },
+  companyId: { type: [Number, String], default: '' },
   additionalAttributes: { type: Object, default: () => ({}) },
   countryCode: { type: String, default: '' },
   phoneNumber: { type: String, default: '' },
@@ -42,6 +43,7 @@ const getInitialContactData = () => ({
   id: props.id,
   name: props.name,
   email: props.email,
+  companyId: props.companyId,
   phoneNumber: props.phoneNumber,
   countryCode: props.countryCode,
   additionalAttributes: props.additionalAttributes,
@@ -127,10 +129,9 @@ const handleAvatarHover = isHovered => {
           <Avatar
             :name="name"
             :src="thumbnail"
-            :size="48"
+            :size="42"
             :status="availabilityStatus"
             hide-offline-status
-            rounded-full
           >
             <template v-if="selectable" #overlay="{ size }">
               <label

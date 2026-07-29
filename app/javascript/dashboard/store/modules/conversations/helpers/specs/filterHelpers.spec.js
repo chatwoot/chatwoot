@@ -244,6 +244,32 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(false);
     });
 
+    it('should match conversation with equal_to operator for contact_id', () => {
+      const conversation = { meta: { sender: { id: 42 } } };
+      const filters = [
+        {
+          attribute_key: 'contact_id',
+          filter_operator: 'equal_to',
+          values: { id: 42, name: 'Jane Doe' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should match conversation with saved contact_id filter values', () => {
+      const conversation = { meta: { sender: { id: 42 } } };
+      const filters = [
+        {
+          attribute_key: 'contact_id',
+          filter_operator: 'equal_to',
+          values: [42],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
     // Standard attribute tests - priority
     it('should match conversation with equal_to operator for priority', () => {
       const conversation = { priority: 'urgent' };

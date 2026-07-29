@@ -5,20 +5,10 @@ class Captain::Assistant::AgentRunnerService
   include Integrations::LlmInstrumentationConstants
   include Captain::Assistant::RunnerCallbacksHelper
   include Captain::Assistant::TracePayloadHelper
+  include Captain::Assistant::RunnerStateHelper
 
-  CONVERSATION_STATE_ATTRIBUTES = %i[
-    id display_id inbox_id contact_id status priority
-    label_list custom_attributes additional_attributes
-  ].freeze
+  attr_reader :last_run_result
 
-  CONTACT_STATE_ATTRIBUTES = %i[
-    id name email phone_number identifier contact_type
-    custom_attributes additional_attributes
-  ].freeze
-
-  CONTACT_INBOX_STATE_ATTRIBUTES = %i[id hmac_verified].freeze
-
-  CAMPAIGN_STATE_ATTRIBUTES = %i[id title message campaign_type description].freeze
   def initialize(assistant:, conversation: nil, callbacks: {}, source: nil)
     @assistant = assistant
     @conversation = conversation
@@ -29,9 +19,9 @@ class Captain::Assistant::AgentRunnerService
 
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)
-    result = runner.run(message_to_process, context: context, max_turns: 100)
+    @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
 
-    process_agent_result(result)
+    process_agent_result(@last_run_result)
   rescue StandardError => e
     # In rake/local runs, conversation may not be present, so account is optional here.
     ChatwootExceptionTracker.new(e, account: @conversation&.account).capture_exception
@@ -111,30 +101,6 @@ class Captain::Assistant::AgentRunnerService
     }
   end
 
-  def build_state
-    state = {
-      account_id: @assistant.account_id,
-      assistant_id: @assistant.id,
-      assistant_config: @assistant.config
-    }
-    state[:source] = @source if @source.present?
-
-    build_conversation_state(state) if @conversation
-    state
-  end
-
-  def build_conversation_state(state)
-    state[:conversation] = slice_attrs(@conversation, CONVERSATION_STATE_ATTRIBUTES)
-    state[:channel_type] = @conversation.inbox&.channel_type
-    state[:contact] = slice_attrs(@conversation.contact, CONTACT_STATE_ATTRIBUTES) if @conversation.contact
-    state[:campaign] = slice_attrs(@conversation.campaign, CAMPAIGN_STATE_ATTRIBUTES) if @conversation.campaign
-    state[:contact_inbox] = slice_attrs(@conversation.contact_inbox, CONTACT_INBOX_STATE_ATTRIBUTES) if @conversation.contact_inbox
-  end
-
-  def slice_attrs(record, keys)
-    record.attributes.symbolize_keys.slice(*keys)
-  end
-
   def build_and_wire_agents
     assistant_agent = @assistant.agent
     scenario_agents = @assistant.scenarios.enabled.map(&:agent)
@@ -155,7 +121,7 @@ class Captain::Assistant::AgentRunnerService
       span_attributes: {
         ATTR_LANGFUSE_TAGS => ['captain_v2'].to_json
       },
-      attribute_provider: ->(context_wrapper) { dynamic_trace_attributes(context_wrapper) }
+      attribute_provider: Captain::Assistant::InstrumentationAttributeProvider.new(self)
     )
     register_trace_input_callback(runner)
   end
@@ -168,7 +134,6 @@ class Captain::Assistant::AgentRunnerService
     {
       ATTR_LANGFUSE_USER_ID => state[:account_id],
       format(ATTR_LANGFUSE_METADATA, 'assistant_id') => state[:assistant_id],
-      format(ATTR_LANGFUSE_METADATA, 'conversation_id') => conversation[:id],
       format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation[:display_id],
       format(ATTR_LANGFUSE_METADATA, 'channel_type') => state[:channel_type],
       format(ATTR_LANGFUSE_METADATA, 'source') => state[:source],

@@ -10,12 +10,14 @@ module Captain::ToolInstrumentation
 
     response = nil
     executed = false
-    tracer.in_span(params[:span_name]) do |span|
-      set_tool_session_attributes(span, params)
-      response = yield
-      executed = true
-      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, response[:message] || response.to_json)
-      set_tool_session_error_attributes(span, response) if response.is_a?(Hash)
+    with_propagated_langfuse_attributes(params) do
+      tracer.in_span(params[:span_name]) do |span|
+        set_tool_session_attributes(span, params)
+        response = yield
+        executed = true
+        span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, response[:message] || response.to_json)
+        set_tool_session_error_attributes(span, response) if response.is_a?(Hash)
+      end
     end
     response
   rescue StandardError => e
@@ -24,9 +26,7 @@ module Captain::ToolInstrumentation
   end
 
   def set_tool_session_attributes(span, params)
-    span.set_attribute(ATTR_LANGFUSE_USER_ID, params[:account_id].to_s) if params[:account_id]
-    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, "#{params[:account_id]}_#{params[:conversation_id]}") if params[:conversation_id].present?
-    span.set_attribute(ATTR_LANGFUSE_TAGS, [params[:feature_name]].to_json)
+    set_metadata_attributes(span, params)
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:messages].to_json)
   end
 
@@ -43,6 +43,7 @@ module Captain::ToolInstrumentation
     return unless message.respond_to?(:role) && message.role.to_s == 'assistant'
 
     tracer.in_span("llm.#{event_name}.generation") do |span|
+      apply_current_langfuse_attributes(span)
       span.set_attribute(ATTR_GEN_AI_PROVIDER, 'openai')
       span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, model)
       span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, message.input_tokens)

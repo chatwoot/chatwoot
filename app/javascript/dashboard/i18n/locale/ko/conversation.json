@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "다음 사유로 인해 템플릿 메시지로만 이 대화에 답장할 수 있습니다",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24시간 메시지 창 제한",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "이 Instagram 계정은 새 Instagram 채널 받은 메시지함으로 마이그레이션되었습니다. 모든 새 메시지는 해당 받은 메시지함에 표시됩니다. 이 대화에서는 더 이상 메시지를 보낼 수 없습니다.",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "회신할 대상:",
     "REMOVE_SELECTION": "선택 항목 제거",
     "DOWNLOAD": "다운로드",
@@ -62,6 +64,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "이 메시지는 지원되지 않습니다. Facebook Messenger 앱에서 이 메시지를 확인할 수 있습니다.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "이 메시지는 지원되지 않습니다. Instagram 앱에서 이 메시지를 확인할 수 있습니다.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "이 메시지는 지원되지 않습니다. TikTok 앱에서 이 메시지를 확인할 수 있습니다.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "메시지가 성공적으로 삭제되었습니다",
     "FAIL_DELETE_MESSSAGE": "메시지를 삭제할 수 없습니다! 다시 시도해 주십시오.",
     "NO_RESPONSE": "응답 없음",
@@ -79,13 +82,22 @@
       "OUTGOING_CALL": "발신 전화",
       "CALL_IN_PROGRESS": "통화 중",
       "NO_ANSWER": "응답 없음",
+      "NO_ANSWER_OUTBOUND_LABEL": "응답 없음",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "부재중 전화",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "통화 종료",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "아직 응답하지 않았습니다",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "상대방이 응답했습니다",
       "YOU_ANSWERED": "귀하가 응답했습니다",
       "AGENT_ANSWERED": "{agentName} answered",
-      "JOIN_CALL": "통화 참가"
+      "JOIN_CALL": "통화 참가",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "해결함",
@@ -100,6 +112,12 @@
       "SNOOZED_UNTIL_TOMORROW": "내일까지 일시 중지",
       "SNOOZED_UNTIL_NEXT_WEEK": "다음 주까지 일시 중지",
       "SNOOZED_UNTIL_NEXT_REPLY": "다음 답장까지 일시 중지",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -215,7 +233,9 @@
       "TIP_AUDIORECORDER_ICON": "오디오 녹음",
       "TIP_AUDIORECORDER_PERMISSION": "오디오 접근 허용",
       "TIP_AUDIORECORDER_ERROR": "오디오를 열 수 없습니다",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "여기에 드래그 앤 드롭하여 첨부하십시오",
+      "IMAGE_UPLOAD_SUCCESS": "이미지가 성공적으로 업로드되었습니다",
       "START_AUDIO_RECORDING": "오디오 녹음 시작",
       "STOP_AUDIO_RECORDING": "오디오 녹음 중지",
       "COPILOT_THINKING": "Copilot이 생각하고 있습니다",
@@ -286,6 +306,25 @@
         "MESSAGE": "이 작업은 취소할 수 없습니다",
         "DELETE": "삭제",
         "CANCEL": "취소"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "설명",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -299,8 +338,13 @@
       "NOT_ANSWERED_YET": "아직 응답하지 않았습니다",
       "HANDLED_IN_ANOTHER_TAB": "다른 탭에서 처리 중입니다",
       "REJECT_CALL": "거부",
+      "DISMISS_CALL": "닫기",
       "JOIN_CALL": "통화 참가",
-      "END_CALL": "통화 종료"
+      "END_CALL": "통화 종료",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -378,7 +422,8 @@
       "VIEW_ALL": "모두 보기",
       "SHOW_LESS": "Show less",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Untitled file",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "주문 #{id}",

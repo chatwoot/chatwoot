@@ -12,7 +12,10 @@ RSpec.describe Onboarding::HelpCenterArticleBuilder do
 
       expect(Firecrawl::Configuration).not_to receive(:client)
       expect { builder.perform }
-        .to raise_error(Onboarding::HelpCenterErrors::ArticleBuildFailed, /no source urls/)
+        .to raise_error(StandardError) { |error|
+          expect(error.class.name).to eq('Onboarding::HelpCenterErrors::ArticleBuildFailed')
+          expect(error.message).to include('no source urls')
+        }
     end
   end
 end

@@ -63,7 +63,7 @@ class Contact < ApplicationRecord
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
-  before_validation :prepare_contact_attributes
+  before_validation :prepare_email_attribute, :prepare_jsonb_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
@@ -149,7 +149,7 @@ class Contact < ApplicationRecord
   end
 
   def push_event_data
-    {
+    data = {
       additional_attributes: additional_attributes,
       custom_attributes: custom_attributes,
       email: email,
@@ -161,6 +161,8 @@ class Contact < ApplicationRecord
       blocked: blocked,
       type: 'contact'
     }
+    data[:company_id] = company_id if account.feature_enabled?('companies')
+    data
   end
 
   def webhook_data
@@ -212,11 +214,6 @@ class Contact < ApplicationRecord
     return if email.blank?
 
     self.email = email_was unless email.match(Devise.email_regexp)
-  end
-
-  def prepare_contact_attributes
-    prepare_email_attribute
-    prepare_jsonb_attributes
   end
 
   def prepare_email_attribute

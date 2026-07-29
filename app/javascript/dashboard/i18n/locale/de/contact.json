@@ -20,6 +20,8 @@
     "CALL": "Anruf",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Spracheingang wählen"
@@ -323,7 +325,7 @@
           "LABEL": "CSV-Datei:",
           "CHOOSE_FILE": "Datei auswählen",
           "CHANGE": "Ändern",
-          "CANCEL": "Stornieren",
+          "CANCEL": "Abbrechen",
           "IMPORT": "Importieren",
           "SUCCESS_MESSAGE": "Sie werden per E-Mail benachrichtigt, wenn der Import abgeschlossen ist.",
           "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
@@ -508,6 +510,7 @@
         "ATTRIBUTES": "Attribute",
         "HISTORY": "Verlauf",
         "NOTES": "Notizen",
+        "MEDIA": "Media",
         "MERGE": "Zusammenführen"
       },
       "HISTORY": {
@@ -583,8 +586,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Labels zuweisen",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Labels erfolgreich zugewiesen.",
     "ASSIGN_LABELS_FAILED": "Fehler beim Zuweisen der Labels",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Wählen Sie die Labels aus, die zu den ausgewählten Kontakten hinzugefügt werden sollen.",
     "NO_LABELS_FOUND": "Noch keine Labels vorhanden.",
     "SELECTED_COUNT": "{count} selected",
