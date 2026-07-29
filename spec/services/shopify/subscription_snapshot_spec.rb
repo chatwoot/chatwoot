@@ -43,7 +43,7 @@ RSpec.describe Shopify::SubscriptionSnapshot do
       'plan_name' => 'Shopify Basic',
       'amount' => '29.00',
       'currency' => 'USD',
-      'verified_at' => '2026-07-29T10:00:00Z'
+      'verified_at' => '2026-07-29T10:00:00.000000Z'
     )
   end
 

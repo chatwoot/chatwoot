@@ -57,7 +57,7 @@ class Shopify::SubscriptionSnapshot
         'shop_id' => active_subscription&.dig('shop', 'id'),
         'shop_domain' => active_subscription&.dig('shop', 'myshopifyDomain'),
         'latest_event' => normalize_event(latest_event),
-        'verified_at' => verified_at.iso8601
+        'verified_at' => verified_at.iso8601(6)
       }
     end
 
