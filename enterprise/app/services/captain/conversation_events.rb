@@ -1,8 +1,8 @@
 class Captain::ConversationEvents
   class << self
-    def engaged(conversation:, assistant:, at:)
+    def eligible(conversation:, assistant:, at:)
       dispatch(
-        Events::Types::CAPTAIN_CONVERSATION_ENGAGED,
+        Events::Types::CAPTAIN_CONVERSATION_ELIGIBLE,
         at: at,
         conversation: conversation,
         assistant: assistant
