@@ -221,7 +221,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
 
     it 'rolls back the hook when claim consumption fails' do
       allow(Shopify::PendingInstallation).to receive(:claim)
-        .with(token: pending_install_token, account_id: account.id)
+        .with(token: pending_install_token)
         .and_return(pending_installation)
       allow(pending_installation).to receive(:consume!)
         .and_raise(Shopify::PendingInstallation::AlreadyClaimed, 'Install token claim has expired')
