@@ -1,5 +1,6 @@
 class Enterprise::Billing::ReconcilePlanFeaturesService
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
+  SHOPIFY_MANAGED_FEATURES = 'shopify_managed_features'.freeze
 
   # Plan hierarchy: Hacker (default) -> Startups -> Business -> Enterprise
   # Each higher tier includes all features from the lower tiers
@@ -43,6 +44,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     account.enable_features(*current_plan_features)
     account.enable_features('captain_integration_v2') if captain_v2_default_eligible?
     account.enable_features(*manually_managed_features)
+    update_shopify_managed_features
     account.save!
   end
 
@@ -77,8 +79,24 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   def managed_plan_features
     return PREMIUM_PLAN_FEATURES unless shopify_billing?
 
-    shopify_features = Enterprise::Billing::PlanConfiguration.plans_for(account).flat_map { |plan| plan.fetch('features') }
-    (PREMIUM_PLAN_FEATURES + ['captain_integration_v2'] + shopify_features).uniq
+    (previously_managed_shopify_features + current_shopify_catalog_features).uniq
+  end
+
+  def previously_managed_shopify_features
+    Array(account.internal_attributes[SHOPIFY_MANAGED_FEATURES])
+  end
+
+  def current_shopify_catalog_features
+    return @current_shopify_catalog_features if defined?(@current_shopify_catalog_features)
+
+    plans = Enterprise::Billing::PlanConfiguration.plans_for(account)
+    @current_shopify_catalog_features = plans.flat_map { |plan| plan.fetch('features') }.uniq
+  end
+
+  def update_shopify_managed_features
+    return unless shopify_billing?
+
+    account.internal_attributes[SHOPIFY_MANAGED_FEATURES] = current_shopify_catalog_features
   end
 
   def shopify_billing?

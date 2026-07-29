@@ -74,9 +74,11 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
           }
         ]
       end
+      let!(:shopify_config) do
+        create(:installation_config, name: 'CHATWOOT_SHOPIFY_PLANS', value: shopify_plans, locked: true)
+      end
 
       before do
-        create(:installation_config, name: 'CHATWOOT_SHOPIFY_PLANS', value: shopify_plans, locked: true)
         allow(GlobalConfigService).to receive(:load).and_call_original
         allow(GlobalConfigService).to receive(:load)
           .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
@@ -103,6 +105,32 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
 
         expect(account.reload).not_to be_feature_enabled('saml')
         expect(account).to be_feature_enabled('audit_logs')
+      end
+
+      it 'removes a feature that was deleted from the Shopify catalog' do
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('saml')
+
+        shopify_config.update!(value: [shopify_plans.first])
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Basic' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('saml')
+        expect(account.internal_attributes['shopify_managed_features']).to contain_exactly('audit_logs')
+      end
+
+      it 'preserves a manually managed feature after it is deleted from the Shopify catalog' do
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
+        Internal::Accounts::InternalAttributesService.new(account).manually_managed_features = ['saml']
+        described_class.new(account: account).perform
+
+        shopify_config.update!(value: [shopify_plans.first])
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Basic' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('saml')
+        expect(account.internal_attributes['shopify_managed_features']).to contain_exactly('audit_logs')
       end
 
       it 'rejects an unknown Shopify plan instead of guessing entitlements' do

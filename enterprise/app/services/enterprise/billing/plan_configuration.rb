@@ -15,7 +15,11 @@ module Enterprise::Billing::PlanConfiguration
     config_name = PROVIDER_CONFIGS.fetch(provider.to_s) do
       raise ArgumentError, "Unsupported billing provider: #{provider}"
     end
-    configured_plans = InstallationConfig.find_by(name: config_name)&.value || []
+    configured_plans = if provider.to_s == 'shopify'
+                         InstallationConfig.find_by!(name: config_name).value
+                       else
+                         InstallationConfig.find_by(name: config_name)&.value || []
+                       end
 
     provider.to_s == 'shopify' ? Enterprise::Billing::ShopifyPlanConfiguration.normalize(configured_plans) : configured_plans
   end
