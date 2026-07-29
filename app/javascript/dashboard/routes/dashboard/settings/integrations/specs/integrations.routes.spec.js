@@ -1,6 +1,23 @@
 import { describe, expect, it, vi } from 'vitest';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import integrationsRoutes from '../integrations.routes';
+
+const mocks = vi.hoisted(() => ({
+  currentUser: {
+    accounts: [],
+  },
+}));
+
+vi.mock('dashboard/store', () => ({
+  default: {
+    getters: {
+      getCurrentUser: mocks.currentUser,
+    },
+  },
+}));
+
+import integrationsRoutes, {
+  redirectShopifyIfUnavailable,
+} from '../integrations.routes';
 
 vi.mock('../../SettingsWrapper.vue', () => ({ default: {} }));
 vi.mock('../IntegrationHooks.vue', () => ({ default: {} }));
@@ -19,5 +36,35 @@ describe('integration settings routes', () => {
       .find(route => route.name === 'settings_integrations_shopify');
 
     expect(shopifyRoute.meta.featureFlag).toBe(FEATURE_FLAGS.SHOPIFY);
+    expect(shopifyRoute.beforeEnter).toBe(redirectShopifyIfUnavailable);
+  });
+
+  it('redirects direct navigation when Shopify is disabled', () => {
+    mocks.currentUser.accounts = [{ id: 1, features: [] }];
+    const next = vi.fn();
+
+    redirectShopifyIfUnavailable(
+      { params: { accountId: '1' } },
+      undefined,
+      next
+    );
+
+    expect(next).toHaveBeenCalledWith({
+      name: 'settings_applications',
+      params: { accountId: '1' },
+    });
+  });
+
+  it('allows direct navigation when Shopify is enabled', () => {
+    mocks.currentUser.accounts = [{ id: 1, features: [FEATURE_FLAGS.SHOPIFY] }];
+    const next = vi.fn();
+
+    redirectShopifyIfUnavailable(
+      { params: { accountId: '1' } },
+      undefined,
+      next
+    );
+
+    expect(next).toHaveBeenCalledWith(undefined);
   });
 });
