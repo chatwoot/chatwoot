@@ -41,7 +41,8 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   const needsOnboarding =
     ONBOARDING_STEPS.includes(userAccount?.onboarding_step) &&
     isAdmin &&
-    isActive;
+    isActive &&
+    !needsShopifyBilling;
 
   if (to.name === 'no_accounts' || !to.name) {
     if (needsShopifyBilling) {
