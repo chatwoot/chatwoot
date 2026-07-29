@@ -381,6 +381,13 @@
   post:
     $ref: ./application/conversation/custom_attributes.yml
 
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/destroy_custom_attributes:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/destroy_custom_attributes.yml
+
 # Conversations Assignments
 
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/assignments:
