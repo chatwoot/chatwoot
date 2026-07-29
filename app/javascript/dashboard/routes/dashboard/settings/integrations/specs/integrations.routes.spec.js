@@ -2,15 +2,13 @@ import { describe, expect, it, vi } from 'vitest';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const mocks = vi.hoisted(() => ({
-  currentUser: {
-    accounts: [],
-  },
+  isFeatureEnabled: vi.fn(),
 }));
 
 vi.mock('dashboard/store', () => ({
   default: {
     getters: {
-      getCurrentUser: mocks.currentUser,
+      'accounts/isFeatureEnabledonAccount': mocks.isFeatureEnabled,
     },
   },
 }));
@@ -30,6 +28,10 @@ vi.mock('../Notion.vue', () => ({ default: {} }));
 vi.mock('../Shopify.vue', () => ({ default: {} }));
 
 describe('integration settings routes', () => {
+  beforeEach(() => {
+    mocks.isFeatureEnabled.mockReset();
+  });
+
   it('protects the Shopify route with the Shopify feature flag', () => {
     const shopifyRoute = integrationsRoutes.routes
       .flatMap(route => route.children || [])
@@ -40,7 +42,7 @@ describe('integration settings routes', () => {
   });
 
   it('redirects direct navigation when Shopify is disabled', () => {
-    mocks.currentUser.accounts = [{ id: 1, features: [] }];
+    mocks.isFeatureEnabled.mockReturnValue(false);
     const next = vi.fn();
 
     redirectShopifyIfUnavailable(
@@ -53,10 +55,14 @@ describe('integration settings routes', () => {
       name: 'settings_applications',
       params: { accountId: '1' },
     });
+    expect(mocks.isFeatureEnabled).toHaveBeenCalledWith(
+      1,
+      FEATURE_FLAGS.SHOPIFY
+    );
   });
 
   it('allows direct navigation when Shopify is enabled', () => {
-    mocks.currentUser.accounts = [{ id: 1, features: [FEATURE_FLAGS.SHOPIFY] }];
+    mocks.isFeatureEnabled.mockReturnValue(true);
     const next = vi.fn();
 
     redirectShopifyIfUnavailable(
