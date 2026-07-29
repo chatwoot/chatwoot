@@ -74,6 +74,14 @@ export default {
     activeCampaign() {
       this.setCampaignView();
     },
+    // Keep the notification dot in sync with the unread count. The SDK ignores
+    // dot updates while the bubble is hidden, so refresh it when it is back.
+    unreadMessageCount() {
+      this.handleUnreadNotificationDot();
+    },
+    hideMessageBubble() {
+      this.handleUnreadNotificationDot();
+    },
     isRTL: {
       immediate: true,
       handler(value) {
@@ -217,25 +225,26 @@ export default {
     },
     setUnreadView() {
       const { unreadMessageCount } = this;
-      if (!this.showUnreadMessagesDialog) {
-        this.handleUnreadNotificationDot();
-      } else if (
-        this.isIFrame &&
-        unreadMessageCount > 0 &&
-        !this.isWidgetOpen
-      ) {
+      if (!this.showUnreadMessagesDialog || !this.isIFrame) return;
+
+      // The unread view marks the widget as open, so only the route tells us it
+      // is already on screen. Resize it, else the new message gets cut off.
+      if (this.$route.name === 'unread-messages') {
+        this.setIframeHeight(true);
+        return;
+      }
+
+      if (unreadMessageCount > 0 && !this.isWidgetOpen) {
         this.router.replace({ name: 'unread-messages' }).then(() => {
           this.setIframeHeight(true);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });
         });
-        this.handleUnreadNotificationDot();
       }
     },
     unsetUnreadView() {
       if (this.isIFrame) {
         IFrameHelper.sendMessage({ event: 'resetUnreadMode' });
         this.setIframeHeight(false);
-        this.handleUnreadNotificationDot();
       }
     },
     handleUnreadNotificationDot() {
