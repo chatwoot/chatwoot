@@ -96,6 +96,21 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
     expect(inserted_hook).to be_persisted
   end
 
+  it 'ignores a delayed redaction from before the current installation' do
+    hook.update!(
+      settings: hook.settings.merge(
+        'connected_at' => (Time.iso8601(triggered_at) + 1.minute).iso8601(6)
+      )
+    )
+
+    expect do
+      post '/webhooks/shopify', params: body, headers: headers
+    end.not_to change(Integrations::Hook, :count)
+
+    expect(hook.reload).to be_enabled
+    expect(response).to have_http_status(:ok)
+  end
+
   it 'does not process normal events when the installation switch is disabled' do
     headers['X-Shopify-Topic'] = 'app/uninstalled'
     allow(GlobalConfigService).to receive(:load)

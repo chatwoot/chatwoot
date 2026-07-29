@@ -34,8 +34,9 @@ RSpec.describe Shopify::UninstallationService do
   end
 
   it 'ignores an uninstall event from before the current installation' do
-    described_class.new(hook: hook, occurred_at: connected_at - 1.minute).perform
+    result = described_class.new(hook: hook, occurred_at: connected_at - 1.minute).perform
 
+    expect(result).to eq(:stale)
     expect(hook.reload).to have_attributes(
       status: 'enabled',
       access_token: 'shopify-access-token'
@@ -48,8 +49,9 @@ RSpec.describe Shopify::UninstallationService do
       settings: hook.settings.merge('connected_at' => replacement_connected_at.iso8601(6))
     )
 
-    described_class.new(hook: hook, occurred_at: connected_at + 1.minute).perform
+    result = described_class.new(hook: hook, occurred_at: connected_at + 1.minute).perform
 
+    expect(result).to eq(:stale)
     expect(hook.reload).to have_attributes(
       status: 'enabled',
       access_token: 'shopify-access-token'

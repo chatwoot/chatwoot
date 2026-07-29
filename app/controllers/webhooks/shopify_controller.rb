@@ -43,18 +43,25 @@ class Webhooks::ShopifyController < ActionController::API
   def handle_shop_redact
     hooks = shopify_hooks(params[:shop_domain])
     hooks.find_each do |hook|
-      Shopify::UninstallationService.new(hook: hook).perform
-      hook.destroy! if hook.persisted?
+      result = Shopify::UninstallationService.new(hook: hook, occurred_at: webhook_triggered_at).perform
+      hook.destroy! if result == :uninstalled && hook.persisted?
     end
-    raise CleanupIncomplete, 'Shopify shop redaction is incomplete' if hooks.exists?
+    raise CleanupIncomplete, 'Shopify shop redaction is incomplete' if hooks.any? { |hook| redaction_required?(hook) }
   end
 
   def handle_app_uninstalled
-    triggered_at = Time.iso8601(request.headers.fetch('X-Shopify-Triggered-At'))
-
     shopify_hooks(params[:myshopify_domain]).find_each do |hook|
-      Shopify::UninstallationService.new(hook: hook, occurred_at: triggered_at).perform
+      Shopify::UninstallationService.new(hook: hook, occurred_at: webhook_triggered_at).perform
     end
+  end
+
+  def webhook_triggered_at
+    @webhook_triggered_at ||= Time.iso8601(request.headers.fetch('X-Shopify-Triggered-At'))
+  end
+
+  def redaction_required?(hook)
+    connected_at = hook.settings['connected_at']
+    connected_at.blank? || Time.iso8601(connected_at) <= webhook_triggered_at
   end
 
   def shopify_hooks(shop_domain)
