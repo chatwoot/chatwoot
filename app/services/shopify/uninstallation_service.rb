@@ -6,10 +6,17 @@ class Shopify::UninstallationService
   end
 
   def perform
-    return unless Shopify::FeatureGate.enabled?(account: account)
-    return if stale_event?
+    failure = nil
+    hook.with_lock do
+      next if stale_event?
 
-    uninstall
+      begin
+        uninstall
+      rescue StandardError => e
+        failure = e
+      end
+    end
+    raise failure if failure
   end
 
   private
