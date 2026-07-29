@@ -23,6 +23,10 @@ class AccountPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def billing_summary?
+    @account_user.administrator?
+  end
+
   def select_billing_currency?
     @account_user.administrator?
   end
