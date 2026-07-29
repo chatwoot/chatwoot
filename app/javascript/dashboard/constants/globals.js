@@ -80,4 +80,4 @@ export default {
 export const DEFAULT_REDIRECT_URL = '/app/';
 export const IS_META_INBOX_CREATION_DISABLED = true;
 export const META_RESTRICTION_STATUS_URL =
-  'https://status.chatwoot.com/incident/976975';
+  'https://status.chatwoot.com/incidents';
