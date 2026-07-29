@@ -279,6 +279,29 @@ RSpec.describe 'Shopify Integration API', type: :request do
 
         expect(response).to have_http_status(:ok)
       end
+
+      context 'when the account is billed through Shopify' do
+        let(:account) do
+          create(
+            :account,
+            internal_attributes: {
+              'billing_provider' => 'shopify',
+              'signup_source' => 'shopify'
+            }
+          )
+        end
+
+        it 'keeps the integration because Shopify owns its lifecycle' do
+          expect do
+            delete "/api/v1/accounts/#{account.id}/integrations/shopify",
+                   headers: admin.create_new_auth_token,
+                   as: :json
+          end.not_to(change { account.hooks.count })
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('Shopify-billed integrations must be managed in Shopify')
+        end
+      end
     end
 
     context 'when it is an agent' do

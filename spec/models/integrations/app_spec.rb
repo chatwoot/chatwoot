@@ -186,5 +186,23 @@ RSpec.describe Integrations::App do
         expect(app.enabled?(account)).to be true
       end
     end
+
+    context 'when the app is shopify' do
+      let(:app_name) { 'shopify' }
+
+      before { account.enable_features!('shopify_integration') }
+
+      it 'returns true when the Shopify hook is enabled' do
+        create(:integrations_hook, :shopify, account: account, status: :enabled)
+
+        expect(app.enabled?(account)).to be true
+      end
+
+      it 'returns false when the retained Shopify hook is disabled' do
+        create(:integrations_hook, :shopify, account: account, status: :disabled)
+
+        expect(app.enabled?(account)).to be false
+      end
+    end
   end
 end

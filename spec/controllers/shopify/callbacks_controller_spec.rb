@@ -200,8 +200,102 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         ).and_return(pending_install_token)
 
         get shopify_callback_path, params: params
-        expect(response).to redirect_to(%r{#{Regexp.escape(frontend_url)}/app/auth/signup\?shopify_pending_install=})
-        expect(CGI.unescape(response.location)).to include("shopify_pending_install=#{pending_install_token}")
+        expect(response).to redirect_to(
+          "#{frontend_url}/app/auth/signup?shopify_pending_install=#{pending_install_token}"
+        )
+      end
+    end
+
+    context 'when a Shopify-billed account is reinstalled' do
+      let(:shopify_account) do
+        create(
+          :account,
+          internal_attributes: {
+            'billing_provider' => 'shopify',
+            'signup_source' => 'shopify'
+          },
+          custom_attributes: {
+            'subscription_status' => 'expired',
+            'shopify_subscription_snapshot' => {
+              'state' => 'expired',
+              'plan_handles' => [],
+              'shop_domain' => shop
+            }
+          }
+        )
+      end
+
+      before do
+        shopify_account.enable_features!('shopify_integration')
+        allow(described_class).to receive(:new).and_wrap_original do |original, *args|
+          controller = original.call(*args)
+          allow(controller).to receive(:verify_shopify_token).and_return(nil)
+          allow(controller).to receive(:oauth_client).and_return(oauth_client)
+          allow(controller).to receive(:client_secret).and_return(client_secret)
+          controller
+        end
+        allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
+        allow(auth_code_strategy).to receive(:get_token).and_return(token_response)
+      end
+
+      it 'reactivates a retained hook and redirects to billing' do
+        hook = create(
+          :integrations_hook,
+          :shopify,
+          account: shopify_account,
+          reference_id: shop,
+          status: :disabled,
+          access_token: nil,
+          settings: {}
+        )
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        expect(Shopify::PendingInstallation).not_to receive(:create)
+
+        get shopify_callback_path, params: params
+
+        expect(hook.reload).to have_attributes(
+          status: 'enabled',
+          access_token: access_token,
+          settings: { 'scope' => 'read_products,write_products' }
+        )
+        expect(response).to redirect_to(
+          "#{frontend_url}/app/accounts/#{shopify_account.id}/settings/billing?shop=#{shop}"
+        )
+      end
+
+      it 'recreates the hook from the retained billing snapshot after privacy cleanup' do
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        expect do
+          get shopify_callback_path, params: params
+        end.to change { shopify_account.hooks.where(app_id: 'shopify').count }.by(1)
+
+        expect(shopify_account.hooks.find_by!(app_id: 'shopify')).to have_attributes(
+          status: 'enabled',
+          access_token: access_token,
+          reference_id: shop
+        )
+        expect(response).to redirect_to(
+          "#{frontend_url}/app/accounts/#{shopify_account.id}/settings/billing?shop=#{shop}"
+        )
+      end
+
+      it 'does not exchange the OAuth code when the account feature is disabled' do
+        create(:integrations_hook, :shopify, account: shopify_account, reference_id: shop)
+        shopify_account.disable_features!('shopify_integration')
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        expect(auth_code_strategy).not_to receive(:get_token)
+
+        get shopify_callback_path, params: params
+
+        expect(response).to redirect_to(
+          "#{frontend_url}/app/accounts/#{shopify_account.id}/settings/integrations/shopify?error=true"
+        )
       end
     end
   end

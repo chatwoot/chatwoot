@@ -25,7 +25,7 @@ class Shopify::CallbacksController < ApplicationController
     ensure_shopify_enabled!(account: account)
     raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
 
-    @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
+    exchange_access_token
     create_hook
     redirect_to shopify_integration_url
   end
@@ -35,10 +35,17 @@ class Shopify::CallbacksController < ApplicationController
     raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
     raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
 
+    load_existing_shopify_account
+
     # Security: HMAC validation ensures params (including shop) haven't been tampered with.
     # Additionally, the OAuth code is cryptographically bound to the shop that issued it.
     # Shopify will reject any attempt to exchange a code at a different shop's endpoint.
-    @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
+    exchange_access_token
+
+    if @account
+      reconnect_existing_shopify_account
+      return redirect_to existing_account_redirect_url
+    end
 
     token_key = Shopify::PendingInstallation.create(
       access_token: parsed_body['access_token'],
@@ -49,6 +56,18 @@ class Shopify::CallbacksController < ApplicationController
     redirect_to "#{frontend_url}/app/auth/signup?shopify_pending_install=#{CGI.escape(token_key)}", allow_other_host: true
   end
 
+  def exchange_access_token
+    @response = oauth_client.auth_code.get_token(params[:code], redirect_uri: redirect_callback_uri)
+  end
+
+  def load_existing_shopify_account
+    @account = existing_shopify_account
+    return unless @account
+
+    @account_id = account.id
+    ensure_shopify_enabled!(account: account)
+  end
+
   def create_hook
     account.hooks.create!(
       app_id: 'shopify',
@@ -57,6 +76,39 @@ class Shopify::CallbacksController < ApplicationController
       reference_id: params[:shop],
       settings: { scope: parsed_body['scope'] }
     )
+  end
+
+  def reconnect_existing_shopify_account
+    hook = existing_shopify_hook || account.hooks.build(app_id: 'shopify')
+    hook.update!(
+      access_token: parsed_body['access_token'],
+      status: :enabled,
+      reference_id: params[:shop],
+      settings: { scope: parsed_body['scope'] }
+    )
+  end
+
+  def existing_shopify_account
+    existing_shopify_hook&.account || shopify_billed_account_by_snapshot
+  end
+
+  def existing_shopify_hook
+    @existing_shopify_hook ||=
+      Integrations::Hook.where(app_id: 'shopify').find_by('LOWER(reference_id) = ?', Shopify::ShopDomain.normalize(params[:shop]))
+  end
+
+  def shopify_billed_account_by_snapshot
+    Account
+      .where("internal_attributes ->> 'billing_provider' = ?", 'shopify')
+      .where("internal_attributes ->> 'signup_source' = ?", 'shopify')
+      .find_by("custom_attributes #>> '{shopify_subscription_snapshot,shop_domain}' = ?",
+               Shopify::ShopDomain.normalize(params[:shop]))
+  end
+
+  def existing_account_redirect_url
+    return shopify_billing_url if account.billing_provider == 'shopify' && account.signup_source == 'shopify'
+
+    shopify_integration_url
   end
 
   def parsed_body
@@ -100,6 +152,10 @@ class Shopify::CallbacksController < ApplicationController
 
   def shopify_integration_url
     "#{frontend_url}/app/accounts/#{account.id}/settings/integrations/shopify"
+  end
+
+  def shopify_billing_url
+    "#{frontend_url}/app/accounts/#{account.id}/settings/billing?shop=#{CGI.escape(params[:shop])}"
   end
 
   def error_redirect_url

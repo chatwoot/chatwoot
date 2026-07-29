@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import {
   useFunctionGetter,
   useMapGetter,
@@ -8,11 +7,9 @@ import {
 } from 'dashboard/composables/store';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useI18n } from 'vue-i18n';
-import { useAlert } from 'dashboard/composables';
+import { isShopifyBillingAccount } from 'v3/helpers/AuthHelper';
 import Integration from './Integration.vue';
-import shopifyAPI from 'dashboard/api/integrations/shopify';
 
-import Button from 'dashboard/components-next/button/Button.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 
@@ -25,18 +22,20 @@ defineProps({
 
 const store = useStore();
 const integrationLoaded = ref(false);
-const route = useRoute();
-const router = useRouter();
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
 const integration = useFunctionGetter('integrations/getIntegration', 'shopify');
 const uiFlags = useMapGetter('integrations/getUIFlags');
+const currentAccount = useMapGetter('getCurrentAccount');
+const isShopifyBillingManaged = computed(() =>
+  isShopifyBillingAccount(currentAccount.value)
+);
 
 const integrationAction = computed(() => {
   if (integration.value.enabled) {
     return 'disconnect';
   }
-  return 'connect';
+  return integration.value.action;
 });
 
 const hook = computed(() => {
@@ -56,39 +55,9 @@ const formattedHelpText = computed(() => {
   );
 });
 
-const clearPendingInstallQuery = async () => {
-  const query = { ...route.query };
-  delete query.shopify_pending_install;
-
-  try {
-    await router.replace({ query });
-  } catch {
-    const url = new URL(window.location.href);
-    url.searchParams.delete('shopify_pending_install');
-    window.history.replaceState({}, document.title, url.toString());
-  }
-};
-
-const completePendingInstall = async token => {
-  try {
-    await shopifyAPI.completeInstall(token);
-    await store.dispatch('integrations/get', 'shopify');
-    useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.SUCCESS'));
-  } catch {
-    useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.ERROR'));
-  } finally {
-    await clearPendingInstallQuery();
-  }
-};
-
 const initializeShopifyIntegration = async () => {
   await store.dispatch('integrations/get', 'shopify');
   integrationLoaded.value = true;
-
-  const pendingInstallToken = route.query.shopify_pending_install;
-  if (pendingInstallToken) {
-    await completePendingInstall(pendingInstallToken);
-  }
 };
 
 onMounted(() => {
@@ -115,19 +84,12 @@ onMounted(() => {
           :integration-description="integration.description"
           :integration-enabled="integration.enabled"
           :integration-action="integrationAction"
+          :hide-enabled-action="isShopifyBillingManaged"
           :delete-confirmation-text="{
             title: t('INTEGRATION_SETTINGS.SHOPIFY.DELETE.TITLE'),
             message: t('INTEGRATION_SETTINGS.SHOPIFY.DELETE.MESSAGE'),
           }"
-        >
-          <template #action>
-            <Button
-              teal
-              :label="t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT')"
-              @click="openStoreUrlDialog"
-            />
-          </template>
-        </Integration>
+        />
 
         <div
           v-if="integration.enabled"

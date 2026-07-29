@@ -33,6 +33,10 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   def destroy
+    if Current.account.billing_provider == 'shopify' && Current.account.signup_source == 'shopify'
+      return render json: { error: 'Shopify-billed integrations must be managed in Shopify' }, status: :unprocessable_entity
+    end
+
     @hook.destroy!
     head :ok
   rescue StandardError => e

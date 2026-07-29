@@ -12,12 +12,6 @@ class ShopifyAPI extends ApiClient {
       params: { contact_id: contactId },
     });
   }
-
-  completeInstall(pendingInstallToken) {
-    return axios.post(`${this.url}/complete_install`, {
-      pending_install_token: pendingInstallToken,
-    });
-  }
 }
 
 export default new ShopifyAPI();
