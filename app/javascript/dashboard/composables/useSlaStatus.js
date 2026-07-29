@@ -52,9 +52,32 @@ export const useSlaStatus = ({ appliedSla, chat, slaEvents }) => {
     createTimer();
   };
 
+  const getRefreshDependencies = () => {
+    const currentChat = unref(chat) || {};
+    const currentAppliedSla = unref(appliedSla) || {};
+    const currentSlaEvents = unref(slaEvents) || [];
+
+    return [
+      currentChat.status,
+      currentChat.firstReplyCreatedAt ?? currentChat.first_reply_created_at,
+      currentChat.waitingSince ?? currentChat.waiting_since,
+      currentAppliedSla.slaStatus ?? currentAppliedSla.sla_status,
+      currentAppliedSla.slaCompletedAt ?? currentAppliedSla.sla_completed_at,
+      currentAppliedSla.slaFrtDueAt ?? currentAppliedSla.sla_frt_due_at,
+      currentAppliedSla.slaNrtDueAt ?? currentAppliedSla.sla_nrt_due_at,
+      currentAppliedSla.slaRtDueAt ?? currentAppliedSla.sla_rt_due_at,
+      currentSlaEvents
+        .map(
+          event =>
+            `${event.eventType ?? event.event_type}:${event.createdAt ?? event.created_at}`
+        )
+        .join('|'),
+    ];
+  };
+
   onMounted(refreshSlaStatus);
   onUnmounted(clearTimer);
-  watch(() => unref(chat), refreshSlaStatus);
+  watch(getRefreshDependencies, refreshSlaStatus);
 
   return {
     slaStatus,

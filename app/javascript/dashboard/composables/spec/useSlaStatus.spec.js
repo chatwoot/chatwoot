@@ -66,6 +66,31 @@ describe('useSlaStatus', () => {
     wrapper.unmount();
   });
 
+  it('restarts the timer when a resolved chat is reopened in place', async () => {
+    const appliedSla = ref({
+      sla_frt_due_at: currentTimestamp + 120,
+    });
+    const chat = ref({
+      first_reply_created_at: null,
+      status: 'open',
+    });
+
+    const { slaStatus, wrapper } = mountComposable({ appliedSla, chat });
+
+    chat.value.status = 'resolved';
+    await nextTick();
+
+    expect(slaStatus.value.type).toBe('');
+    expect(vi.getTimerCount()).toBe(0);
+
+    chat.value.status = 'open';
+    await nextTick();
+
+    expect(slaStatus.value.type).toBe('FRT');
+    expect(vi.getTimerCount()).toBe(1);
+    wrapper.unmount();
+  });
+
   it('clears the timer when its component unmounts', () => {
     const appliedSla = ref({
       sla_frt_due_at: currentTimestamp + 120,
