@@ -50,10 +50,8 @@ const toUnixTimestamp = value => {
 const isTerminalSLAStatus = status => ['hit', 'missed'].includes(status);
 
 const isSLACompleted = (sla, conversation) => {
-  return Boolean(
-    sla.slaCompletedAt ||
-      isTerminalSLAStatus(sla.slaStatus) ||
-      conversation.status === 'resolved'
+  return (
+    isTerminalSLAStatus(sla.slaStatus) || conversation.status === 'resolved'
   );
 };
 
@@ -82,8 +80,10 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
   const conversation = useCamelCase(chat);
   const events = useCamelCase(slaEvents || []);
   const currentTime = Math.floor(Date.now() / 1000);
-  const completionTime = toUnixTimestamp(sla.slaCompletedAt);
   const isCompleted = isSLACompleted(sla, conversation);
+  const completionTime = isCompleted
+    ? toUnixTimestamp(sla.slaCompletedAt)
+    : null;
   const evaluationTime = completionTime || (isCompleted ? null : currentTime);
   const slaStatuses = [];
 

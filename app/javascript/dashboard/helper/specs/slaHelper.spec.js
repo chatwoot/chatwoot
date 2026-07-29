@@ -515,6 +515,27 @@ describe('#SLA Helpers', () => {
           })
         ).toBe(false);
       });
+
+      it('ignores a stale completion time on a reopened nonterminal SLA', () => {
+        const appliedSla = {
+          sla_status: 'active_with_misses',
+          sla_completed_at: currentTimestamp - 3600,
+          sla_frt_due_at: currentTimestamp - 7200,
+        };
+        const chat = { status: 'open' };
+        const slaEvents = [
+          { event_type: 'frt', created_at: currentTimestamp - 7000 },
+        ];
+
+        expect(shouldRefreshSLAStatus({ appliedSla, chat })).toBe(true);
+        expect(
+          evaluateSLAStatus({ appliedSla, chat, slaEvents })
+        ).toMatchObject({
+          type: 'FRT',
+          threshold: '2h',
+          isSlaMissed: true,
+        });
+      });
     });
 
     describe('time formatting', () => {

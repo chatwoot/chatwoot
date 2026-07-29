@@ -78,6 +78,7 @@ describe('useSlaStatus', () => {
     const { slaStatus, wrapper } = mountComposable({ appliedSla, chat });
 
     chat.value.status = 'resolved';
+    appliedSla.value.sla_completed_at = currentTimestamp;
     await nextTick();
 
     expect(slaStatus.value.type).toBe('');
