@@ -102,20 +102,33 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       @conversation.bot_handoff!
     elsif params[:status].present?
       set_conversation_status
+      # retain_bot opens are system/bot plumbing — do not create
+      # "reabierta por <admin>" activity from the API token owner.
+      previous_user = Current.user
+      Current.user = nil if retain_bot_assignee?
       @status = @conversation.save!
+      Current.user = previous_user if retain_bot_assignee?
     else
       # Use assign + save! so business-rule validations surface as RecordInvalid
       @conversation.status = @conversation.open? ? :resolved : :open
       @conversation.status = :open if @conversation.pending? || @conversation.snoozed?
       @status = @conversation.save!
     end
-    handle_human_open if @conversation.open? && Current.user.is_a?(User)
+    # retain_bot: Panel IA opens pending→open so the AgentBot can keep answering.
+    # Do not treat that as a human takeover (which clears assignee_agent_bot).
+    handle_human_open if @conversation.open? && Current.user.is_a?(User) && !retain_bot_assignee?
   end
 
   def bot_handoff?
     return false unless Current.user.is_a?(AgentBot)
+    # Panel IA: open for bot reply without clearing assignee_agent_bot.
+    return false if retain_bot_assignee?
 
     @conversation.status == 'pending' && params[:status] == 'open'
+  end
+
+  def retain_bot_assignee?
+    ActiveModel::Type::Boolean.new.cast(params[:retain_bot])
   end
 
   def toggle_priority

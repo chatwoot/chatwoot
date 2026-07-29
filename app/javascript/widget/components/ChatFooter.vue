@@ -136,7 +136,7 @@ export default {
 <template>
   <footer
     v-if="!hideReplyBox"
-    class="relative z-50 mb-1"
+    class="relative z-50 mb-2"
     :class="{
       'rounded-lg': !isWidgetStyleFlat,
       'pt-2.5 shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.05)] dark:shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.15)] rounded-t-none':

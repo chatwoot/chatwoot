@@ -72,4 +72,6 @@ export default {
       </span>
     </a>
   </div>
+  <!-- White-label: keep bottom breathing room when "Powered by" is hidden -->
+  <div v-else class="shrink-0 h-8" aria-hidden="true" />
 </template>

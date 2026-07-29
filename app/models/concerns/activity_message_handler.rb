@@ -19,6 +19,10 @@ module ActivityMessageHandler
   end
 
   def determine_user_name
+    # AgentBot status changes (pending→open for bot reply) must not attribute
+    # "reabierta por …" to a human/admin API token or to the bot display name.
+    return if Current.user.is_a?(AgentBot)
+
     Current.user&.name
   end
 
