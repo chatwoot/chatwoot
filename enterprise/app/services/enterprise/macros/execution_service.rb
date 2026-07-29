@@ -10,7 +10,8 @@ module Enterprise::Macros::ExecutionService
   def required_attributes_missing?
     return false unless @account.feature_enabled?('conversation_required_attributes')
 
-    required_keys = @account.conversation_required_attributes
+    defined_keys = @account.custom_attribute_definitions.conversation_attribute.pluck(:attribute_key)
+    required_keys = @account.conversation_required_attributes.to_a & defined_keys
     return false if required_keys.blank?
 
     custom_attributes = @conversation.custom_attributes || {}

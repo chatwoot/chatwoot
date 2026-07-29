@@ -12,6 +12,8 @@ describe Macros::ExecutionService, type: :service do
 
   before do
     create(:inbox_member, user: user, inbox: inbox)
+    create(:custom_attribute_definition, account: account, attribute_key: 'priority_level',
+                                         attribute_model: 'conversation_attribute')
     account.enable_features('conversation_required_attributes')
     account.update!(conversation_required_attributes: ['priority_level'])
   end
@@ -32,6 +34,15 @@ describe Macros::ExecutionService, type: :service do
 
   it 'resolves when the feature is disabled' do
     account.disable_features('conversation_required_attributes')
+
+    described_class.new(macro, conversation, user).perform
+
+    expect(conversation.reload.status).to eq('resolved')
+  end
+
+  it 'ignores required keys whose attribute definition no longer exists' do
+    account.update!(conversation_required_attributes: %w[priority_level deleted_key])
+    conversation.update!(custom_attributes: { 'priority_level' => 'high' })
 
     described_class.new(macro, conversation, user).perform
 
