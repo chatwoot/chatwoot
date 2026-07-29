@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { relativeDayTimestamp } from 'shared/helpers/timeHelper';
+import { getInboxVoiceIcon } from 'dashboard/helper/inbox';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import AudioPlayer from 'dashboard/components-next/audio/AudioPlayer.vue';
@@ -60,7 +61,7 @@ const resultLabel = computed(() => {
 });
 
 const providerIcon = computed(() =>
-  props.call.provider === 'whatsapp' ? 'i-woot-whatsapp' : 'i-lucide-phone'
+  getInboxVoiceIcon(props.call.inbox.channelType, props.call.inbox.medium)
 );
 
 const createdAtLabel = computed(() =>
@@ -150,7 +151,7 @@ const conversationRoute = computed(() => ({
   <div
     class="hidden items-center gap-x-1.5 gap-y-2.5 border-b border-n-weak lg:flex lg:items-center lg:gap-1.5"
   >
-    <div class="flex items-center gap-2.5 min-w-0 w-40 shrink-0 py-3.5">
+    <div class="flex items-center gap-2.5 min-w-0 w-52 shrink-0 py-3.5">
       <Avatar
         :src="call.contact.avatar"
         :name="contactName"
@@ -169,9 +170,12 @@ const conversationRoute = computed(() => ({
     >
       <div class="flex items-center gap-x-2 min-w-0 lg:contents py-3.5">
         <CallStatusBadge :kind="kind" class="shrink-0" />
-        <template v-if="agentActionLabel">
+        <div
+          v-if="agentActionLabel"
+          class="gap-x-1.5 min-w-0 flex items-center"
+        >
           <span
-            class="text-label-small text-n-slate-10 truncate min-w-0 shrink min-w-8"
+            class="text-label-small text-n-slate-10 truncate shrink min-w-8 xl:min-w-14"
           >
             {{ agentActionLabel }}
           </span>
@@ -192,7 +196,7 @@ const conversationRoute = computed(() => ({
               {{ call.agent.name }}
             </span>
           </span>
-        </template>
+        </div>
         <span
           v-else-if="resultLabel"
           class="text-body-main truncate text-n-slate-10 min-w-0 shrink-[20]"
@@ -212,10 +216,10 @@ const conversationRoute = computed(() => ({
         content: call.inbox.name,
         delay: { show: 500, hide: 0 },
       }"
-      class="flex items-center gap-1.5 justify-start min-w-14 shrink-[100] py-3.5"
+      class="flex items-center gap-1 justify-end w-40 min-w-4 shrink-[100] py-3.5"
     >
       <Icon :icon="providerIcon" class="size-4 text-n-slate-11 shrink-0" />
-      <span class="text-body-main truncate text-n-slate-11">
+      <span class="text-body-main truncate text-n-slate-11 min-w-0">
         {{ call.inbox.name }}
       </span>
     </div>
@@ -232,7 +236,7 @@ const conversationRoute = computed(() => ({
         content: createdAtLabel,
         delay: { show: 500, hide: 0 },
       }"
-      class="text-label-small text-end text-n-slate-11 truncate py-3.5 tabular-nums justify-self-end w-16 shrink-0"
+      class="text-label-small text-end text-n-slate-11 truncate py-3.5 tabular-nums justify-self-end min-w-16 max-w-20 shrink-0"
     >
       {{ createdAtLabel }}
     </span>

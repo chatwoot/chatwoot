@@ -46,7 +46,10 @@ import SelectInput from 'dashboard/components-next/select/Select.vue';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
-import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
+import {
+  IS_META_INBOX_CREATION_DISABLED,
+  META_RESTRICTION_STATUS_URL,
+} from 'dashboard/constants/globals';
 
 export default {
   components: {
@@ -286,8 +289,12 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     inboxIcon() {
-      const { medium, channel_type: type } = this.inbox;
-      return getInboxIconByType(type, medium, 'line');
+      const {
+        medium,
+        channel_type: type,
+        voice_enabled: voiceEnabled,
+      } = this.inbox;
+      return getInboxIconByType(type, medium, 'line', voiceEnabled);
     },
     bannerMaxWidth() {
       const narrowTabs = ['collaborators', 'bot-configuration'];
@@ -349,7 +356,11 @@ export default {
       return this.isAnInstagramChannel && this.inbox.reauthorization_required;
     },
     showInstagramRestrictionSettingsBanner() {
-      return this.isOnChatwootCloud && this.isAnInstagramChannel;
+      return (
+        this.isOnChatwootCloud &&
+        IS_META_INBOX_CREATION_DISABLED &&
+        this.isAnInstagramChannel
+      );
     },
     metaRestrictionStatusUrl() {
       return META_RESTRICTION_STATUS_URL;
@@ -416,6 +427,7 @@ export default {
       return (
         this.isAWhatsAppCloudChannel &&
         this.isEmbeddedSignupWhatsApp &&
+        this.healthError?.type !== 'authorization' &&
         this.isFeatureEnabledonAccount(
           this.accountId,
           FEATURE_FLAGS.WHATSAPP_MANUAL_TRANSFER
@@ -585,9 +597,24 @@ export default {
         const response = await InboxHealthAPI.getHealthStatus(this.inbox.id);
         this.healthData = response.data;
       } catch (error) {
-        this.healthError = error.message || 'Failed to fetch health data';
+        const apiError = error.response?.data?.error;
+        this.healthError =
+          typeof apiError === 'object'
+            ? apiError
+            : {
+                type: 'generic',
+                message: apiError || error.message,
+              };
       } finally {
         this.isLoadingHealth = false;
+      }
+    },
+    goToWhatsAppConfiguration() {
+      const configurationTabIndex = this.tabs.findIndex(
+        tab => tab.key === 'configuration'
+      );
+      if (configurationTabIndex !== -1) {
+        this.onTabChange(configurationTabIndex);
       }
     },
     async registerWebhook() {
@@ -814,12 +841,6 @@ export default {
           class="mx-6 mb-4"
           :class="bannerMaxWidth"
         />
-        <WhatsappManualMigrationBanner
-          v-if="showWhatsAppManualMigration"
-          class="mx-6 mb-6"
-          :class="bannerMaxWidth"
-          @start="openWhatsAppManualMigrationDialog"
-        />
         <Banner
           v-if="showInstagramRestrictionSettingsBanner"
           color="amber"
@@ -843,6 +864,12 @@ export default {
             </span>
           </div>
         </Banner>
+        <WhatsappManualMigrationBanner
+          v-if="showWhatsAppManualMigration"
+          class="mx-6 mb-6"
+          :class="bannerMaxWidth"
+          @start="openWhatsAppManualMigrationDialog"
+        />
 
         <div
           v-if="selectedTabKey === 'inbox-settings'"
@@ -1407,8 +1434,11 @@ export default {
         <div v-if="selectedTabKey === 'whatsapp-health'">
           <AccountHealth
             :health-data="healthData"
+            :health-error="healthError"
+            :is-embedded-signup="isEmbeddedSignupWhatsApp"
             :is-registering-webhook="isRegisteringWebhook"
             @register-webhook="registerWebhook"
+            @go-to-configuration="goToWhatsAppConfiguration"
           />
         </div>
         <WhatsappManualMigrationDialog
