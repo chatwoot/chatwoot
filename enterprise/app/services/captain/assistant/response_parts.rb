@@ -34,9 +34,9 @@ class Captain::Assistant::ResponseParts
         next if url.blank?
 
         # Number trusted sources by first appearance and reuse that number for later references.
-        display_number = display_numbers[citation_index] ||= display_numbers.size + 1
+        display_number = display_numbers[url] ||= display_numbers.size + 1
         "[[#{display_number}](#{url})]"
-      end
+      end.uniq
 
       final_text_line = part['text'].lines.last.to_s.strip
       citation_separator = final_text_line.match?(CLOSING_CODE_FENCE_LINE) ? "\n" : ' '

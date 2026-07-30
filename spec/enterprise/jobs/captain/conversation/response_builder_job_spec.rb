@@ -443,9 +443,18 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           second_document = create(:captain_document, assistant: assistant, external_link: 'https://help.example.com/email')
           first_faq = create(:captain_assistant_response, assistant: assistant, documentable: first_document)
           second_faq = create(:captain_assistant_response, assistant: assistant, documentable: second_document)
+          another_first_document_faq = create(:captain_assistant_response, assistant: assistant, documentable: first_document)
           run_result = Agents::RunResult.new(
             output: { 'response_parts' => v2_response_parts, 'reasoning' => 'Used the FAQ results' },
-            context: { state: { captain_v2_citation_sources: { 1 => first_faq.id, 2 => second_faq.id } } }
+            context: {
+              state: {
+                captain_v2_citation_sources: {
+                  1 => first_faq.id,
+                  2 => second_faq.id,
+                  3 => another_first_document_faq.id
+                }
+              }
+            }
           )
           allow(mock_agent_runner_service).to receive(:last_run_result).and_return(run_result)
           assistant.update!(config: assistant.config.merge('feature_citation' => true))
@@ -520,6 +529,16 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           expect(conversation.messages.outgoing.last.content).to eq(
             "Use the reset link. [[1](https://help.example.com/password)]\n\n" \
             'The same page has the next steps. [[1](https://help.example.com/password)]'
+          )
+        end
+
+        it 'renders one link when different FAQs cite the same document' do
+          v2_response_parts.first['citation_indexes'] = [1, 3]
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.messages.outgoing.last.content).to eq(
+            'Hey, welcome to Captain V2 [[1](https://help.example.com/password)]'
           )
         end
 
