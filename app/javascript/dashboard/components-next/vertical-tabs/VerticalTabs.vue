@@ -41,7 +41,15 @@ const activeTab = defineModel({ type: String, required: true });
     </nav>
 
     <div class="flex flex-col flex-1 w-full min-w-0" :class="contentClass">
-      <slot :name="activeTab" />
+      <!-- Keep every panel mounted and toggle visibility so unsaved drafts survive tab switches. -->
+      <div
+        v-for="tab in tabs"
+        v-show="activeTab === tab.id"
+        :key="tab.id"
+        class="flex flex-col w-full min-w-0"
+      >
+        <slot :name="tab.id" />
+      </div>
     </div>
   </div>
 </template>
