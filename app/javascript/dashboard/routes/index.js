@@ -45,12 +45,12 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     !needsShopifyBilling;
 
   if (to.name === 'no_accounts' || !to.name) {
-    if (needsShopifyBilling) {
-      return next(frontendURL(`accounts/${routeAccountId}/settings/billing`));
-    }
     const { redirect_url: redirectUrl } = to.query || {};
     if (redirectUrl) {
       return next(frontendURL(`accounts/${routeAccountId}/${redirectUrl}`));
+    }
+    if (needsShopifyBilling) {
+      return next(frontendURL(`accounts/${routeAccountId}/settings/billing`));
     }
     const target = needsOnboarding
       ? onboardingPath(userAccount?.onboarding_step)
