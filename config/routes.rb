@@ -240,6 +240,7 @@ Rails.application.routes.draw do
           resources :reporting_events, only: [:index] if ChatwootApp.enterprise?
 
           if ChatwootApp.enterprise?
+            resources :calls, only: [:index]
             resources :whatsapp_calls, only: [:show] do
               member do
                 post :accept

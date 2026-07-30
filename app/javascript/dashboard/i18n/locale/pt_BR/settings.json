@@ -501,7 +501,7 @@
       "SSO_URL": {
         "LABEL": "SSO URL",
         "HELP": "A URL para onde as solicitações de autenticação SAML serão enviadas",
-        "PLACEHOLDER": "https://your-idp.com/saml/sso"
+        "PLACEHOLDER": "https://sso.example.com/saml/sso"
       },
       "CERTIFICATE": {
         "LABEL": "Certificado de assinatura no formato PEM",
@@ -521,7 +521,7 @@
       "IDP_ENTITY_ID": {
         "LABEL": "ID da Entidade do Provedor de Identidade",
         "HELP": "Identificador exclusivo do seu provedor de identidade (geralmente encontrado na configuração do IdP)",
-        "PLACEHOLDER": "https://seu-idp.com/saml"
+        "PLACEHOLDER": "https://sso.example.com/saml"
       },
       "UPDATE_BUTTON": "Atualizar configurações de SAML",
       "API": {

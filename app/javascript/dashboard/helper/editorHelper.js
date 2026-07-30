@@ -9,6 +9,7 @@ import * as Sentry from '@sentry/vue';
 import camelcaseKeys from 'camelcase-keys';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
 import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
+import { InputRule, inputRules } from 'prosemirror-inputrules';
 
 /**
  * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
@@ -428,6 +429,55 @@ export function stripUnsupportedFormatting(content, schema) {
  * - emoji
  */
 
+// Liquid delimiters ({{ }} / {% %}) the backend evaluates on send.
+const LIQUID_SYNTAX = /\{\{|\{%/;
+
+// Value when set (and not itself Liquid), else the {{placeholder}} for the backend.
+export const resolveVariableText = (key, variables) => {
+  const value = String(variables?.[key] ?? '');
+  return value && !LIQUID_SYNTAX.test(value) ? value : `{{${key}}}`;
+};
+
+// Name variables normalized like the backend drops (UserDrop/ContactDrop):
+// name split on whitespace, each word Ruby-capitalized (rest downcased).
+const getNameVariables = (prefix, name) => {
+  const names = (name || '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  return {
+    [`${prefix}.name`]: names.join(' '),
+    [`${prefix}.first_name`]: names[0] || '',
+    [`${prefix}.last_name`]: names.length > 1 ? names[names.length - 1] : '',
+  };
+};
+
+// {{agent.*}} values for the message sender.
+export const getAgentVariables = user => ({
+  ...getNameVariables('agent', user.name),
+  'agent.email': user.email,
+});
+
+// {{contact.*}} name values.
+export const getContactVariables = contact =>
+  getNameVariables('contact', contact?.name);
+
+// Resolves a manually typed {{variable}} to its value on the closing braces.
+// Leaves the placeholder when there's no value, the value is Liquid, or it's a private note.
+export const createVariableInputRule = ({ isPrivate, getVariables }) => {
+  const rule = new InputRule(
+    /\{\{([^{}]+)\}\}$/,
+    (editorState, match, from, to) => {
+      if (isPrivate()) return null;
+      const [, key] = match;
+      const text = resolveVariableText(key, getVariables());
+      if (text === `{{${key}}}`) return null;
+      return editorState.tr.insertText(text, from, to);
+    }
+  );
+  return inputRules({ rules: [rule] });
+};
+
 /**
  * Centralized node creation function that handles the creation of different types of nodes based on the specified type.
  * @param {Object} editorView - The editor view instance.
@@ -462,7 +512,7 @@ const createNode = (editorView, nodeType, content) => {
       );
     }
     case 'variable':
-      return state.schema.text(`{{${content}}}`);
+      return state.schema.text(content);
     case 'emoji':
       return state.schema.text(content);
     case 'tool': {
@@ -497,8 +547,12 @@ const nodeCreators = {
       to,
     };
   },
-  variable: (editorView, content, from, to) => ({
-    node: createNode(editorView, 'variable', content),
+  variable: (editorView, content, from, to, variables) => ({
+    node: createNode(
+      editorView,
+      'variable',
+      resolveVariableText(content, variables)
+    ),
     from,
     to,
   }),

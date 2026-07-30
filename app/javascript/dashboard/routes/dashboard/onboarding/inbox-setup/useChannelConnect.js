@@ -1,6 +1,7 @@
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useWhatsappEmbeddedSignup } from 'dashboard/composables/useWhatsappEmbeddedSignup';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import googleClient from 'dashboard/api/channel/googleClient';
@@ -23,10 +24,16 @@ export function useChannelConnect() {
   const { t } = useI18n();
   const store = useStore();
   const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
+  const { isOnChatwootCloud } = useAccount();
 
   const connectViaOAuth = async provider => {
     const client = OAUTH_CLIENTS[provider];
     if (!client) return;
+
+    if (provider === 'instagram' && isOnChatwootCloud.value) {
+      useAlert(t('INBOX_MGMT.ADD.INSTAGRAM.RESTRICTED_WARNING'));
+      return;
+    }
 
     try {
       const {

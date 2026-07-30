@@ -11,6 +11,27 @@ RSpec.describe Account, type: :model do
     it { is_expected.to have_many(:custom_roles).dependent(:destroy_async) }
   end
 
+  describe '#selected_feature_flags=' do
+    it 'keeps advanced assignment enabled when assignment v2 is selected for a business account' do
+      account = build(:account, custom_attributes: { 'plan_name' => 'Business' })
+
+      account.selected_feature_flags = [:feature_assignment_v2]
+
+      expect(account).to be_feature_assignment_v2
+      expect(account).to be_feature_advanced_assignment
+    end
+
+    it 'disables advanced assignment when assignment v2 is not selected' do
+      account = build(:account, custom_attributes: { 'plan_name' => 'Business' })
+      account.enable_features(:assignment_v2, :advanced_assignment)
+
+      account.selected_feature_flags = []
+
+      expect(account).not_to be_feature_assignment_v2
+      expect(account).not_to be_feature_advanced_assignment
+    end
+  end
+
   describe 'sla_policies' do
     let!(:account) { create(:account) }
     let!(:sla_policy) { create(:sla_policy, account: account) }

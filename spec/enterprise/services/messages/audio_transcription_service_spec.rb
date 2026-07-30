@@ -12,7 +12,13 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
     InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_MODEL') { |config| config.value = 'gpt-4o-mini' }
 
     # Mock usage limits for transcription to be available
-    allow(account).to receive(:usage_limits).and_return({ captain: { responses: { current_available: 100 } } })
+    allow(account).to receive(:usage_limits).and_return(
+      {
+        agents: ChatwootApp.max_limit,
+        inboxes: ChatwootApp.max_limit,
+        captain: { responses: { current_available: 100 } }
+      }
+    )
   end
 
   describe '#perform' do

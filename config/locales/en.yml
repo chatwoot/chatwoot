@@ -597,6 +597,7 @@ en:
         copilot: 'Copilot'
         label_suggestion: 'Label suggestion'
         document_faq_generation: 'Document FAQ generation'
+        conversation_faq_generation: 'Conversation FAQ generation'
         help_center_article_generation: 'Help center article generation'
         onboarding_content_generation: 'Onboarding content generation'
         help_center_query_translation: 'Help center query translation'

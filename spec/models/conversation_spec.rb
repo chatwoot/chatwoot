@@ -117,12 +117,17 @@ RSpec.describe Conversation do
     end
     let(:assignment_mailer) { instance_double(AssignmentMailer, deliver: true) }
     let(:label) { create(:label, account: account) }
+    let(:filtered_store) { Conversations::UnreadCounts::FilteredCountStore }
 
     before do
       create(:inbox_member, user: old_assignee, inbox: conversation.inbox)
       create(:inbox_member, user: new_assignee, inbox: conversation.inbox)
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
       Current.user = old_assignee
+    end
+
+    after do
+      Redis::Alfred.delete(filtered_store.conversation_version_key(account.id))
     end
 
     it 'sends conversation updated event if labels are updated' do
@@ -137,6 +142,33 @@ RSpec.describe Conversation do
           changed_attributes: changed_attributes,
           performed_by: nil
         )
+    end
+
+    it 'invalidates filtered counts without sending conversation updated event if last activity time is updated' do
+      account.enable_features!(:unread_count_for_filters)
+
+      expect do
+        conversation.update!(last_activity_at: 1.hour.from_now)
+      end.to change { filtered_store.conversation_version(account.id) }.by(1)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(
+        described_class::CONVERSATION_UPDATED,
+        kind_of(Time),
+        anything
+      )
+    end
+
+    it 'invalidates filtered counts without sending conversation updated event if campaign assignment is updated' do
+      account.enable_features!(:unread_count_for_filters)
+      campaign = create(:campaign, account: account, inbox: conversation.inbox)
+
+      expect do
+        conversation.update!(campaign: campaign)
+      end.to change { filtered_store.conversation_version(account.id) }.by(1)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(
+        described_class::CONVERSATION_UPDATED,
+        kind_of(Time),
+        anything
+      )
     end
 
     it 'runs after_update callbacks' do
@@ -174,20 +206,47 @@ RSpec.describe Conversation do
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
     end
 
-    it 'will run conversation_updated event for conversation_language in additional_attributes' do
-      conversation.additional_attributes[:conversation_language] = 'es'
-      conversation.save!
+    it 'will run conversation_updated event for conversation language changes' do
+      conversation.update!(additional_attributes: { 'conversation_language' => 'es' })
       changed_attributes = conversation.previous_changes
+
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
                                                                     changed_attributes: changed_attributes, performed_by: nil)
     end
 
-    it 'will not run conversation_updated event for bowser_language in additional_attributes' do
-      conversation.additional_attributes[:browser_language] = 'es'
+    it 'invalidates filtered counts without sending conversation_updated for filtered-only additional_attributes' do
+      account.enable_features!(:unread_count_for_filters)
+
+      expect do
+        conversation.update!(additional_attributes: { 'browser_language' => 'es' })
+      end.to change { filtered_store.conversation_version(account.id) }.by(1)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(
+        described_class::CONVERSATION_UPDATED,
+        kind_of(Time),
+        anything
+      )
+    end
+
+    it 'invalidates filtered counts when filterable additional_attributes are removed' do
+      account.enable_features!(:unread_count_for_filters)
+      conversation.update!(additional_attributes: { 'referer' => 'https://www.chatwoot.com/' })
+
+      expect do
+        conversation.update!(additional_attributes: {})
+      end.to change { filtered_store.conversation_version(account.id) }.by(1)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(
+        described_class::CONVERSATION_UPDATED,
+        kind_of(Time),
+        anything
+      )
+    end
+
+    it 'will not run conversation_updated event for non-filterable additional_attributes' do
+      conversation.additional_attributes[:source_id] = 'es'
       conversation.save!
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
-        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: true)
+        .with(described_class::CONVERSATION_UPDATED, kind_of(Time), anything)
     end
 
     it 'creates conversation activities' do

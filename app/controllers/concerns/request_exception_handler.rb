@@ -9,6 +9,7 @@ module RequestExceptionHandler
 
   included do
     rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
+    rescue_from CustomExceptions::Inbox::LimitExceeded, with: :render_error_response
   end
 
   private
@@ -40,8 +41,8 @@ module RequestExceptionHandler
     render json: { error: message }, status: :not_found
   end
 
-  def render_could_not_create_error(message)
-    render json: { error: sanitized_error_message(message) }, status: :unprocessable_entity
+  def render_could_not_create_error(error)
+    render json: { error: sanitized_error_message(error) }, status: :unprocessable_entity
   end
 
   def render_payment_required(message)

@@ -231,6 +231,24 @@ describe Conversations::FilterService do
         expect(result[:count][:all_count]).to be 2
       end
 
+      it 'filters conversations by display_id substring' do
+        conversation = create(:conversation, account: account, inbox: inbox, assignee: user_1)
+        create(:conversation, account: account, inbox: inbox, assignee: user_1)
+
+        params[:payload] = [{
+          attribute_key: 'display_id',
+          filter_operator: 'contains',
+          values: [conversation.display_id.to_s],
+          query_operator: nil,
+          custom_attribute_type: ''
+        }.with_indifferent_access]
+
+        result = filter_service.new(params, user_1, account).perform
+
+        expect(result[:count][:all_count]).to eq(1)
+        expect(result[:conversations].pluck(:id)).to contain_exactly(conversation.id)
+      end
+
       it 'filters items with does not contain filter operator with values being an array' do
         params[:payload] = [{
           attribute_key: 'browser_language',

@@ -8,8 +8,10 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
     validate_embedded_signup_params!
     channel = process_embedded_signup
     render_success_response(channel.inbox)
-  rescue StandardError => e
+  rescue CustomExceptions::Inbox::LimitExceeded => e
     render_error_response(e)
+  rescue StandardError => e
+    render_embedded_signup_error(e)
   end
 
   private
@@ -55,7 +57,7 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
     render json: response
   end
 
-  def render_error_response(error)
+  def render_embedded_signup_error(error)
     Rails.logger.error "[WHATSAPP AUTHORIZATION] Embedded signup error: #{error.message}"
     Rails.logger.error error.backtrace.join("\n")
     render json: {
