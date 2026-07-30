@@ -566,7 +566,7 @@
       "FORM": {
         "UPDATE": "Update",
         "SAVE_INACTIVITY_SETTINGS": "Save inactive conversation settings",
-        "SAVE_MESSAGES": "Save messages",
+        "SAVE_HANDOFF_MESSAGE": "Save handoff message",
         "SECTIONS": {
           "BASIC_INFO": "Basic Information",
           "SYSTEM_MESSAGES": "System Messages",
@@ -608,6 +608,11 @@
           "CURRENT_MODE_AFTER": "Current setting: {mode} after {duration}",
           "DURATION_HOURS": "{count} hour | {count} hours",
           "DURATION_MINUTES": "{count} minute | {count} minutes",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Send a resolution message",
+            "DESCRIPTION": "Captain sends this message before resolving an inactive conversation.",
+            "DISABLED_SUMMARY": "Captain will not send a resolution message."
+          },
           "MODES": {
             "DISABLED": {
               "LABEL": "Keep conversations pending",
@@ -653,7 +658,7 @@
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
-          "DESCRIPTION_V2": "Set the messages Captain sends when it hands off or resolves a conversation."
+          "DESCRIPTION_V2": "Manage inactive conversations and Captain's handoff message."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",

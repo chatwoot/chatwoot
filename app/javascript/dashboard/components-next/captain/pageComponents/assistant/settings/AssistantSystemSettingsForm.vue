@@ -10,6 +10,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
+import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 
 const props = defineProps({
   assistant: {
@@ -33,6 +34,7 @@ const initialState = {
   instructions: '',
   autoResolveMode: 'evaluated',
   inactivityThresholdMinutes: 60,
+  sendInactivityResolutionMessage: true,
 };
 
 const state = reactive({ ...initialState });
@@ -101,10 +103,19 @@ const selectedInactivityResolutionSummary = computed(() => {
     });
   }
 
-  return t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.CURRENT_MODE_AFTER', {
-    mode: selectedAutoResolveModeLabel.value,
-    duration: inactivityThresholdLabel.value,
-  });
+  const resolutionSummary = t(
+    'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.CURRENT_MODE_AFTER',
+    {
+      mode: selectedAutoResolveModeLabel.value,
+      duration: inactivityThresholdLabel.value,
+    }
+  );
+
+  if (state.sendInactivityResolutionMessage) return resolutionSummary;
+
+  return `${resolutionSummary} ${t(
+    'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.DISABLED_SUMMARY'
+  )}`;
 });
 
 const shouldShowInactivityDuration = computed(
@@ -179,15 +190,22 @@ const formErrors = computed(() => ({
 }));
 
 const handleInactivityResolutionUpdate = async () => {
-  const isInactivityThresholdValid =
-    await v$.value.inactivityThresholdMinutes.$validate();
-  if (!isInactivityThresholdValid) return;
+  const validations = [
+    v$.value.inactivityThresholdMinutes.$validate(),
+    v$.value.resolutionMessage.$validate(),
+  ];
+  const result = await Promise.all(validations).then(results =>
+    results.every(Boolean)
+  );
+  if (!result) return;
 
   emit('submit', {
     config: {
       ...props.assistant.config,
       auto_resolve_mode: state.autoResolveMode,
       auto_resolve_after: state.inactivityThresholdMinutes,
+      send_inactivity_resolution_message: state.sendInactivityResolutionMessage,
+      resolution_message: state.resolutionMessage,
     },
   });
 };
@@ -199,16 +217,18 @@ const updateStateFromAssistant = assistant => {
   state.instructions = config.instructions;
   state.autoResolveMode = config.auto_resolve_mode ?? 'evaluated';
   state.inactivityThresholdMinutes = config.auto_resolve_after ?? 60;
+  state.sendInactivityResolutionMessage =
+    config.send_inactivity_resolution_message ?? true;
 };
 
 const handleSystemMessagesUpdate = async () => {
-  const validations = [
-    v$.value.handoffMessage.$validate(),
-    v$.value.resolutionMessage.$validate(),
-  ];
+  const validations = [v$.value.handoffMessage.$validate()];
 
   if (!isCaptainV2Enabled.value) {
-    validations.push(v$.value.instructions.$validate());
+    validations.push(
+      v$.value.resolutionMessage.$validate(),
+      v$.value.instructions.$validate()
+    );
   }
 
   const result = await Promise.all(validations).then(results =>
@@ -220,11 +240,11 @@ const handleSystemMessagesUpdate = async () => {
     config: {
       ...props.assistant.config,
       handoff_message: state.handoffMessage,
-      resolution_message: state.resolutionMessage,
     },
   };
 
   if (!isCaptainV2Enabled.value) {
+    payload.config.resolution_message = state.resolutionMessage;
     payload.config.instructions = state.instructions;
   }
 
@@ -335,6 +355,33 @@ watch(
           </p>
         </div>
 
+        <SettingsToggleSection
+          v-if="shouldShowInactivityDuration"
+          v-model="state.sendInactivityResolutionMessage"
+          :header="
+            t(
+              'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.TITLE'
+            )
+          "
+          :description="
+            t(
+              'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.DESCRIPTION'
+            )
+          "
+        >
+          <template v-if="state.sendInactivityResolutionMessage" #editor>
+            <Editor
+              v-model="state.resolutionMessage"
+              :placeholder="
+                t('CAPTAIN.ASSISTANTS.FORM.RESOLUTION_MESSAGE.PLACEHOLDER')
+              "
+              :message="formErrors.resolutionMessage"
+              :message-type="formErrors.resolutionMessage ? 'error' : 'info'"
+              class="z-0"
+            />
+          </template>
+        </SettingsToggleSection>
+
         <div>
           <Button
             :label="t('CAPTAIN.ASSISTANTS.FORM.SAVE_INACTIVITY_SETTINGS')"
@@ -354,6 +401,7 @@ watch(
     />
 
     <Editor
+      v-if="!isCaptainV2Enabled"
       v-model="state.resolutionMessage"
       :label="t('CAPTAIN.ASSISTANTS.FORM.RESOLUTION_MESSAGE.LABEL')"
       :placeholder="t('CAPTAIN.ASSISTANTS.FORM.RESOLUTION_MESSAGE.PLACEHOLDER')"
@@ -377,7 +425,7 @@ watch(
       <Button
         :label="
           isCaptainV2Enabled
-            ? t('CAPTAIN.ASSISTANTS.FORM.SAVE_MESSAGES')
+            ? t('CAPTAIN.ASSISTANTS.FORM.SAVE_HANDOFF_MESSAGE')
             : t('CAPTAIN.ASSISTANTS.FORM.UPDATE')
         "
         @click="handleSystemMessagesUpdate"

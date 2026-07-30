@@ -45,12 +45,13 @@ class Captain::Assistant < ApplicationRecord
   has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
 
   store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
-                 :auto_resolve_mode, :auto_resolve_after
+                 :auto_resolve_mode, :auto_resolve_after, :send_inactivity_resolution_message
 
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
   validates :auto_resolve_mode, inclusion: { in: AUTO_RESOLVE_MODES }
+  validates :send_inactivity_resolution_message, inclusion: { in: [true, false] }
   validates :inactivity_threshold_minutes,
             numericality: {
               only_integer: true,
@@ -80,6 +81,14 @@ class Captain::Assistant < ApplicationRecord
 
   def inactivity_threshold_minutes
     config.fetch('auto_resolve_after', DEFAULT_INACTIVITY_THRESHOLD_MINUTES).to_i
+  end
+
+  def send_inactivity_resolution_message
+    config.fetch('send_inactivity_resolution_message', true)
+  end
+
+  def send_inactivity_resolution_message?
+    send_inactivity_resolution_message
   end
 
   def available_agent_tools
