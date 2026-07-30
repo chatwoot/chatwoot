@@ -103,6 +103,30 @@ describe('#URL Helpers', () => {
       );
     });
 
+    it('preserves a Shopify pricing redirect for a pending account after login', () => {
+      const user = {
+        account_id: 7500,
+        accounts: [
+          {
+            id: 7500,
+            billing_provider: 'shopify',
+            shopify_integration: true,
+            subscription_status: 'pending',
+          },
+        ],
+      };
+
+      expect(
+        getLoginRedirectURL({
+          redirectUrl:
+            'settings/billing?plan_handle=growth&shop=store.myshopify.com',
+          user,
+        })
+      ).toBe(
+        '/app/accounts/7500/settings/billing?plan_handle=growth&shop=store.myshopify.com'
+      );
+    });
+
     it('preserves the regular redirect when the Shopify feature is disabled', () => {
       const user = {
         account_id: 7500,

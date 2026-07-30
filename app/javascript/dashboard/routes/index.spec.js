@@ -123,6 +123,27 @@ describe('#validateAuthenticateRoutePermission', () => {
         expect(next).toHaveBeenCalledWith('/app/accounts/1/settings/billing');
       });
 
+      it('preserves a Shopify pricing redirect for a pending account', async () => {
+        store.getters.getCurrentUser.accounts[0] = {
+          ...store.getters.getCurrentUser.accounts[0],
+          billing_provider: 'shopify',
+          shopify_integration: true,
+          subscription_status: 'pending',
+        };
+        const to = {
+          query: {
+            redirect_url:
+              'settings/billing?plan_handle=growth&shop=store.myshopify.com',
+          },
+        };
+
+        await validateAuthenticateRoutePermission(to, next);
+
+        expect(next).toHaveBeenCalledWith(
+          '/app/accounts/1/settings/billing?plan_handle=growth&shop=store.myshopify.com'
+        );
+      });
+
       it('allows a pending Shopify account to stay on billing', async () => {
         store.getters.getCurrentUser.accounts[0] = {
           ...store.getters.getCurrentUser.accounts[0],

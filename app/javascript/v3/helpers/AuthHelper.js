@@ -100,18 +100,17 @@ export const getLoginRedirectURL = ({
   user,
 }) => {
   const targetAccount = getTargetAccount({ ssoAccountId, user });
-  if (requiresShopifyBilling(targetAccount)) {
-    return frontendURL(`accounts/${targetAccount.id}/settings/billing`);
-  }
   if (redirectUrl) {
     const { accounts = [], account_id = null } = user || {};
-    const targetAccount = isShopifyInstallRedirect(redirectUrl)
+    const redirectAccount = isShopifyInstallRedirect(redirectUrl)
       ? getShopifyInstallAccount({ accounts, accountId: account_id })
-      : accounts.find(account => account.id === Number(account_id)) ||
-        accounts[0];
-    if (targetAccount) {
-      return frontendURL(`accounts/${targetAccount.id}/${redirectUrl}`);
+      : targetAccount;
+    if (redirectAccount) {
+      return frontendURL(`accounts/${redirectAccount.id}/${redirectUrl}`);
     }
+  }
+  if (requiresShopifyBilling(targetAccount)) {
+    return frontendURL(`accounts/${targetAccount.id}/settings/billing`);
   }
   const accountPath = getSSOAccountPath({ ssoAccountId, user });
   if (accountPath) {
