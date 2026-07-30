@@ -234,6 +234,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('home'),
         },
         {
+          name: 'Unread',
+          label: t('SIDEBAR.UNREAD_CONVERSATIONS'),
+          activeOn: ['conversation_through_unread'],
+          to: accountScopedRoute('conversation_unread'),
+        },
+        {
           name: 'Mentions',
           label: t('SIDEBAR.MENTIONED_CONVERSATIONS'),
           activeOn: ['conversation_through_mentions'],

@@ -27,8 +27,29 @@ class BulkActionsJob < ApplicationJob
     records.each do |conversation|
       bulk_add_labels(conversation)
       bulk_snoozed_until(conversation)
+      bulk_update_read_status(conversation)
       conversation.update(params) if params
     end
+  end
+
+  def bulk_update_read_status(conversation)
+    case @params[:read_status]
+    when 'read'
+      mark_conversation_read(conversation)
+    when 'unread'
+      mark_conversation_unread(conversation)
+    end
+  end
+
+  def mark_conversation_read(conversation)
+    Notification::MarkConversationReadService.new(user: @user, account: @account, conversation: conversation).perform
+    conversation.update(agent_last_seen_at: DateTime.now.utc, assignee_last_seen_at: DateTime.now.utc)
+  end
+
+  def mark_conversation_unread(conversation)
+    last_incoming_message = conversation.messages.incoming.last
+    last_seen_at = last_incoming_message.created_at - 1.second if last_incoming_message.present?
+    conversation.update(agent_last_seen_at: last_seen_at, assignee_last_seen_at: last_seen_at)
   end
 
   def bulk_remove_labels

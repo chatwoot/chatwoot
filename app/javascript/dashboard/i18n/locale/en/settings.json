@@ -302,6 +302,7 @@
     "CONVERSATIONS": "Conversations",
     "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "All Conversations",
+    "UNREAD_CONVERSATIONS": "Unread",
     "MENTIONED_CONVERSATIONS": "Mentions",
     "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",

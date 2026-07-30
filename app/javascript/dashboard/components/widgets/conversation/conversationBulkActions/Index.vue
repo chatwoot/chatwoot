@@ -17,6 +17,7 @@ import BulkAgentActions from './BulkAgentActions.vue';
 import BulkUpdateActions from './BulkUpdateActions.vue';
 import BulkLabelActions from './BulkLabelActions.vue';
 import BulkTeamActions from './BulkTeamActions.vue';
+import BulkReadStatusActions from './BulkReadStatusActions.vue';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 
 const props = defineProps({
@@ -59,6 +60,7 @@ const {
   onAssignLabels,
   onAssignTeamsForBulk: onAssignTeam,
   onUpdateConversations,
+  onUpdateReadStatus,
 } = useBulkActions();
 
 const showCustomTimeSnoozeModal = ref(false);
@@ -161,6 +163,7 @@ onUnmounted(() => {
         </div>
         <div class="flex items-center gap-2">
           <BulkLabelActions @assign="onAssignLabels" />
+          <BulkReadStatusActions @update="onUpdateReadStatus" />
           <BulkUpdateActions
             :show-resolve="!showResolvedAction"
             :show-reopen="!showOpenAction"

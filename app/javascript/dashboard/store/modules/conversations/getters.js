@@ -80,7 +80,11 @@ const getters = {
     return _state.allConversations.filter(conversation => {
       const { assignee } = conversation.meta;
       const isAssignedToMe = assignee && assignee.id === currentUserID;
-      const shouldFilter = applyPageFilters(conversation, activeFilters);
+      const shouldFilter = applyPageFilters(
+        conversation,
+        activeFilters,
+        _state.selectedChatId
+      );
       const isChatMine = isAssignedToMe && shouldFilter;
 
       return isChatMine;
@@ -100,7 +104,11 @@ const getters = {
   getUnAssignedChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {
       const isUnAssigned = !conversation.meta.assignee;
-      const shouldFilter = applyPageFilters(conversation, activeFilters);
+      const shouldFilter = applyPageFilters(
+        conversation,
+        activeFilters,
+        _state.selectedChatId
+      );
       return isUnAssigned && shouldFilter;
     });
   },
@@ -114,7 +122,7 @@ const getters = {
       if (watchers && !watchers.some(w => w.id === currentUserId)) {
         return false;
       }
-      return applyPageFilters(conversation, activeFilters);
+      return applyPageFilters(conversation, activeFilters, _state.selectedChatId);
     });
   },
   getAllStatusChats: (_state, _, __, rootGetters) => activeFilters => {
@@ -126,7 +134,11 @@ const getters = {
     const userRole = getUserRole(currentUser, currentAccountId);
 
     return _state.allConversations.filter(conversation => {
-      const shouldFilter = applyPageFilters(conversation, activeFilters);
+      const shouldFilter = applyPageFilters(
+        conversation,
+        activeFilters,
+        _state.selectedChatId
+      );
       const allowedForRole = applyRoleFilter(
         conversation,
         userRole,

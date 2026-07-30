@@ -5,6 +5,7 @@ import {
   filterByTeam,
   filterByLabel,
   filterByUnattended,
+  filterByUnread,
 } from '../../conversations/helpers';
 
 const conversationList = [
@@ -170,5 +171,34 @@ describe('#filterByUnattended', () => {
   });
   it('returns true if conversation type is unattended and has first reply', () => {
     expect(filterByUnattended(true, 'mentions', 123)).toEqual(true);
+  });
+});
+
+describe('#filterByUnread', () => {
+  it('returns true if conversation type is unread and has unread messages', () => {
+    expect(filterByUnread(true, 'unread', 2, false)).toEqual(true);
+  });
+  it('returns false if conversation type is unread and has no unread messages', () => {
+    expect(filterByUnread(true, 'unread', 0, false)).toEqual(false);
+  });
+  it('returns true if conversation type is unread, has no unread messages, but is the selected chat', () => {
+    expect(filterByUnread(true, 'unread', 0, true)).toEqual(true);
+  });
+  it('returns unchanged shouldFilter if conversation type is not unread', () => {
+    expect(filterByUnread(true, 'mentions', 0, false)).toEqual(true);
+    expect(filterByUnread(false, 'mentions', 0, false)).toEqual(false);
+  });
+});
+
+describe('#applyPageFilters with selectedChatId', () => {
+  it('keeps the selected conversation visible on the unread view even after it is read', () => {
+    const conversation = { id: 1, status: 'open', meta: {}, unread_count: 0 };
+    const filters = { status: 'open', conversationType: 'unread' };
+    expect(applyPageFilters(conversation, filters, 1)).toEqual(true);
+  });
+  it('filters out a read conversation on the unread view if it is not selected', () => {
+    const conversation = { id: 1, status: 'open', meta: {}, unread_count: 0 };
+    const filters = { status: 'open', conversationType: 'unread' };
+    expect(applyPageFilters(conversation, filters, 2)).toEqual(false);
   });
 });

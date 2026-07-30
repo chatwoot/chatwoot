@@ -31,6 +31,14 @@
       "ASSIGN_SUCCESFUL": "Labels assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again."
     },
+    "READ_STATUS": {
+      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ_SUCCESSFUL": "Conversations marked as read successfully.",
+      "MARK_AS_READ_FAILED": "Failed to mark conversations as read. Please try again.",
+      "MARK_AS_UNREAD_SUCCESSFUL": "Conversations marked as unread successfully.",
+      "MARK_AS_UNREAD_FAILED": "Failed to mark conversations as unread. Please try again."
+    },
     "TEAMS": {
       "NONE": "None",
       "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",

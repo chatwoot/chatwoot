@@ -38,6 +38,14 @@
       "ASSIGN_SUCCESFUL": "Rótulos atribuídos com sucesso.",
       "ASSIGN_FAILED": "Falha ao atribuir etiquetas. Por favor, tente novamente."
     },
+    "READ_STATUS": {
+      "MARK_AS_READ": "Marcar como lida",
+      "MARK_AS_UNREAD": "Marcar como não lida",
+      "MARK_AS_READ_SUCCESSFUL": "Conversas marcadas como lidas com sucesso.",
+      "MARK_AS_READ_FAILED": "Falha ao marcar conversas como lidas. Por favor, tente novamente.",
+      "MARK_AS_UNREAD_SUCCESSFUL": "Conversas marcadas como não lidas com sucesso.",
+      "MARK_AS_UNREAD_FAILED": "Falha ao marcar conversas como não lidas. Por favor, tente novamente."
+    },
     "TEAMS": {
       "TEAM_SELECT_LABEL": "Selecionar time",
       "NONE": "Nenhum",

@@ -78,6 +78,40 @@ RSpec.describe BulkActionsJob do
       expect(conversation_3.reload.snoozed_until).to be_present
     end
 
+    it 'bulk marks conversations as read' do
+      message_time = 2.hours.ago
+      [conversation_1, conversation_2, conversation_3].each do |conversation|
+        conversation.update!(agent_last_seen_at: nil)
+        create(:message, account: account, inbox: conversation.inbox, conversation: conversation,
+                          message_type: :incoming, created_at: message_time)
+      end
+
+      params = { type: 'Conversation', read_status: 'read', ids: conversation_ids }
+
+      described_class.perform_now(account: account, params: params, user: agent)
+
+      expect(conversation_1.reload.agent_last_seen_at).to be_present
+      expect(conversation_1.unread_incoming_messages.count).to eq(0)
+      expect(conversation_2.reload.agent_last_seen_at).to be_present
+      expect(conversation_3.reload.agent_last_seen_at).to be_present
+    end
+
+    it 'bulk marks conversations as unread' do
+      [conversation_1, conversation_2, conversation_3].each do |conversation|
+        conversation.update!(agent_last_seen_at: Time.current)
+        create(:message, account: account, inbox: conversation.inbox, conversation: conversation,
+                          message_type: :incoming, created_at: Time.current)
+      end
+
+      params = { type: 'Conversation', read_status: 'unread', ids: conversation_ids }
+
+      described_class.perform_now(account: account, params: params, user: agent)
+
+      expect(conversation_1.reload.unread_incoming_messages.count).to eq(1)
+      expect(conversation_2.reload.unread_incoming_messages.count).to eq(1)
+      expect(conversation_3.reload.unread_incoming_messages.count).to eq(1)
+    end
+
     it 'skips conversations whose inbox the agent does not belong to' do
       forbidden_conversation = create(:conversation, account_id: account.id, status: :open)
       params = {

@@ -79,6 +79,16 @@ class Conversation < ApplicationRecord
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
+  scope :unread, lambda {
+    where(
+      "EXISTS (
+        SELECT 1 FROM messages
+        WHERE messages.conversation_id = conversations.id
+        AND messages.message_type = ?
+        AND (conversations.agent_last_seen_at IS NULL OR messages.created_at > conversations.agent_last_seen_at)
+      )", Message.message_types[:incoming]
+    )
+  }
   scope :resolvable_not_waiting, lambda { |auto_resolve_after|
     return none if auto_resolve_after.to_i.zero?
 
@@ -278,7 +288,7 @@ class Conversation < ApplicationRecord
 
   def list_of_keys
     %w[team_id assignee_id assignee_agent_bot_id status snoozed_until custom_attributes label_list waiting_since
-       first_reply_created_at priority]
+       first_reply_created_at priority agent_last_seen_at]
   end
 
   def allowed_keys?

@@ -211,6 +211,29 @@ export default {
       }),
     },
     {
+      path: frontendURL('accounts/:accountId/unread/conversations'),
+      name: 'conversation_unread',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: () => ({ conversationType: 'unread' }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/unread/conversations/:conversationId'
+      ),
+      name: 'conversation_through_unread',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversationId,
+        conversationType: 'unread',
+      }),
+    },
+    {
       path: frontendURL('accounts/:accountId/participating/conversations'),
       name: 'conversation_participating',
       meta: {

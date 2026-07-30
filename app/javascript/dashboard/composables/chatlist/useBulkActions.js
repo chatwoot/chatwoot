@@ -130,6 +130,34 @@ export function useBulkActions() {
     }
   }
 
+  async function onUpdateReadStatus(readStatus) {
+    if (selectedConversations.value.length === 0) return;
+
+    try {
+      await store.dispatch('bulkActions/process', {
+        type: 'Conversation',
+        ids: selectedConversations.value,
+        read_status: readStatus,
+      });
+      store.dispatch('bulkActions/clearSelectedConversationIds');
+      useAlert(
+        t(
+          readStatus === 'read'
+            ? 'BULK_ACTION.READ_STATUS.MARK_AS_READ_SUCCESSFUL'
+            : 'BULK_ACTION.READ_STATUS.MARK_AS_UNREAD_SUCCESSFUL'
+        )
+      );
+    } catch (err) {
+      useAlert(
+        t(
+          readStatus === 'read'
+            ? 'BULK_ACTION.READ_STATUS.MARK_AS_READ_FAILED'
+            : 'BULK_ACTION.READ_STATUS.MARK_AS_UNREAD_FAILED'
+        )
+      );
+    }
+  }
+
   async function onAssignTeamsForBulk(team) {
     try {
       await store.dispatch('bulkActions/process', {
@@ -222,5 +250,6 @@ export function useBulkActions() {
     onRemoveLabels,
     onAssignTeamsForBulk,
     onUpdateConversations,
+    onUpdateReadStatus,
   };
 }

@@ -35,15 +35,28 @@ export const filterByUnattended = (
     : shouldFilter;
 };
 
-export const applyPageFilters = (conversation, filters) => {
+export const filterByUnread = (
+  shouldFilter,
+  conversationType,
+  unreadCount,
+  isSelectedChat
+) => {
+  return conversationType === 'unread'
+    ? (!!unreadCount || isSelectedChat) && shouldFilter
+    : shouldFilter;
+};
+
+export const applyPageFilters = (conversation, filters, selectedChatId) => {
   const { inboxId, status, labels = [], teamId, conversationType } = filters;
   const {
+    id: chatId,
     status: chatStatus,
     inbox_id: chatInboxId,
     labels: chatLabels = [],
     meta = {},
     first_reply_created_at: firstReplyOn,
     waiting_since: waitingSince,
+    unread_count: unreadCount,
   } = conversation;
   const team = meta.team || {};
   const { id: chatTeamId } = team;
@@ -57,6 +70,12 @@ export const applyPageFilters = (conversation, filters) => {
     conversationType,
     firstReplyOn,
     waitingSince
+  );
+  shouldFilter = filterByUnread(
+    shouldFilter,
+    conversationType,
+    unreadCount,
+    chatId === selectedChatId
   );
 
   return shouldFilter;
