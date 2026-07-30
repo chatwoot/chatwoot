@@ -163,6 +163,27 @@ shared_examples_for 'liqudable' do
           expect(message.content).to eq "Hello #{conversation.contact.name}."
         end
 
+        it 'does not evaluate rendered body parameter values twice' do
+          conversation.contact.update!(name: '{{contact.email}}')
+          message.content = 'Hello {{1}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'processed_params' => {
+                'body' => {
+                  '1' => '{{contact.name}}'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Hello {{contact.email}}.'
+          expect(message.additional_attributes.dig('template_params', 'processed_params', 'body', '1')).to eq '{{contact.email}}'
+        end
+
         it 'replaces placeholders from legacy flat parameters' do
           message.content = 'Hello {{1}}, {{2}} is your contact.'
           message.additional_attributes = {

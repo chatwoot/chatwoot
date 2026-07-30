@@ -25,10 +25,14 @@ module Liquidable
   def process_liquid_in_content
     return unless liquid_processable_message?
 
-    content_to_render = whatsapp_template_message? ? whatsapp_template_content : content
+    content_to_render, additional_drops = if whatsapp_template_message?
+                                            whatsapp_template_content
+                                          else
+                                            [content, {}]
+                                          end
 
     template = Liquid::Template.parse(modified_liquid_content(content_to_render))
-    self.content = template.render(message_drops)
+    self.content = template.render(message_drops.merge(additional_drops))
   rescue Liquid::Error
     # If there is an error in the liquid syntax, we don't want to process it
   end
@@ -70,18 +74,22 @@ module Liquidable
 
   def whatsapp_template_content
     body_params = whatsapp_template_body_params
+    rendered_params = {}
 
-    content.gsub(/{{\s*([^}]+?)\s*}}/) do |placeholder|
+    content_to_render = content.gsub(/{{\s*([^}]+?)\s*}}/) do |placeholder|
       key = Regexp.last_match(1)
 
       if body_params.key?(key)
-        process_liquid_value(body_params[key]).to_s
+        rendered_params[rendered_params.length.to_s] = process_liquid_value(body_params[key]).to_s
+        "{{ __whatsapp_template_params['#{rendered_params.length - 1}'] }}"
       elsif key.match?(/\A(?:\d+|[a-z][a-z0-9_]*)\z/)
         "{% raw %}#{placeholder}{% endraw %}"
       else
         placeholder
       end
     end
+
+    [content_to_render, { '__whatsapp_template_params' => rendered_params }]
   end
 
   def whatsapp_template_body_params
