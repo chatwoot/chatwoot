@@ -88,6 +88,35 @@ RSpec.describe Enterprise::Billing::ShopifySubscriptionSyncService do
     )
   end
 
+  it 'applies an inactive lifecycle snapshot when the Shopify account feature is disabled' do
+    account.enable_features!('audit_logs', 'saml')
+    account.disable_features!('shopify_integration')
+    expect(fetcher).not_to receive(:perform)
+
+    described_class.new(account: account).perform(snapshot: inactive_snapshot)
+
+    expect(account.reload).to be_suspended
+    expect(account.custom_attributes).to include(
+      'plan_name' => nil,
+      'subscription_status' => 'expired',
+      'shopify_subscription_verified_at' => verified_at
+    )
+    expect(account).not_to be_feature_enabled('audit_logs')
+    expect(account).not_to be_feature_enabled('saml')
+    expect(account).not_to be_feature_enabled('shopify_integration')
+  end
+
+  it 'does not apply an entitled snapshot when the Shopify account feature is disabled' do
+    account.disable_features!('shopify_integration')
+    expect(fetcher).not_to receive(:perform)
+    previous_attributes = account.custom_attributes.deep_dup
+
+    expect(described_class.new(account: account).perform(snapshot: active_snapshot)).to be_nil
+
+    expect(account.reload.custom_attributes).to eq(previous_attributes)
+    expect(account).to be_active
+  end
+
   it 'suspends a verified inactive account and removes plan entitlements' do
     account.enable_features!('audit_logs', 'saml')
     allow(fetcher).to receive(:perform).with(force: true).and_return(inactive_snapshot)

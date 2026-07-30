@@ -180,6 +180,18 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
 
         expect(account.reload).to be_feature_enabled('saml')
       end
+
+      it 'removes managed entitlements during lifecycle cleanup when the account Shopify flag is disabled' do
+        account.enable_features!('audit_logs', 'saml')
+        account.disable_features!('shopify_integration')
+        account.update!(custom_attributes: { 'plan_name' => nil })
+
+        described_class.new(account: account, shopify_lifecycle_cleanup: true).perform
+
+        expect(account.reload).not_to be_feature_enabled('audit_logs')
+        expect(account).not_to be_feature_enabled('saml')
+        expect(account).not_to be_feature_enabled('shopify_integration')
+      end
     end
   end
 end

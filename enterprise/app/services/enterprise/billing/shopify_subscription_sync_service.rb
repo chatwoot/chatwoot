@@ -11,7 +11,7 @@ class Enterprise::Billing::ShopifySubscriptionSyncService
   end
 
   def perform(snapshot: nil)
-    return unless eligible?
+    return unless eligible?(snapshot)
 
     snapshot = resolved_snapshot(snapshot)
     reconciled = reconcile_snapshot(snapshot)
@@ -39,10 +39,14 @@ class Enterprise::Billing::ShopifySubscriptionSyncService
     configured_plan(snapshot) if snapshot.entitled?
   end
 
-  def eligible?
+  def eligible?(snapshot = nil)
     account.billing_provider == 'shopify' &&
       account.signup_source == 'shopify' &&
-      Shopify::FeatureGate.enabled?(account: account)
+      (Shopify::FeatureGate.enabled?(account: account) || non_entitled_snapshot?(snapshot))
+  end
+
+  def non_entitled_snapshot?(snapshot)
+    snapshot.present? && !snapshot.entitled?
   end
 
   def configured_plan(snapshot)
@@ -55,12 +59,15 @@ class Enterprise::Billing::ShopifySubscriptionSyncService
 
   def reconcile_snapshot(snapshot)
     account.with_lock do
-      next false unless eligible?
+      next false unless eligible?(snapshot)
       next :stale if stale_snapshot?(snapshot)
 
       plan = configured_plan(snapshot) if snapshot.entitled?
       snapshot.entitled? ? apply_entitlements(snapshot, plan) : remove_entitlements(snapshot)
-      Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+      Enterprise::Billing::ReconcilePlanFeaturesService.new(
+        account: account,
+        shopify_lifecycle_cleanup: non_entitled_snapshot?(snapshot)
+      ).perform
       :applied
     end
   end

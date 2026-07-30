@@ -21,6 +21,16 @@ RSpec.describe Shopify::UninstallationService do
     )
   end
   let(:occurred_at) { Time.iso8601('2026-07-29T10:01:00.123456Z') }
+  let(:shopify_plans) do
+    [
+      {
+        'name' => 'Shopify Basic',
+        'handle' => 'shopify-basic',
+        'features' => %w[audit_logs saml],
+        'limits' => { 'agents' => 5, 'inboxes' => 10 }
+      }
+    ]
+  end
   let(:hook) do
     create(
       :integrations_hook,
@@ -72,17 +82,27 @@ RSpec.describe Shopify::UninstallationService do
     )
   end
 
-  it 'deletes a redacted hook inside the uninstall lifecycle' do
+  it 'expires billing and deletes a redacted hook when the account feature is disabled' do
+    create(:installation_config, name: 'CHATWOOT_SHOPIFY_PLANS', value: shopify_plans, locked: true)
+    account.enable_features!('audit_logs', 'saml')
+    account.disable_features!('shopify_integration')
+    allow(Enterprise::Billing::ShopifySubscriptionSyncService).to receive(:new)
+      .with(account: account)
+      .and_call_original
     hook
-    redaction_snapshot = nil
-    allow(sync_service).to receive(:perform) do |snapshot:|
-      redaction_snapshot = snapshot
-    end
 
     expect do
       described_class.new(hook: hook, occurred_at: occurred_at, delete_hook: true).perform
     end.to change(Integrations::Hook, :count).by(-1)
-    expect(redaction_snapshot.to_h).not_to include('shop_id', 'shop_domain')
+    expect(account.reload).to be_suspended
+    expect(account.custom_attributes).to include(
+      'plan_name' => nil,
+      'subscription_status' => 'expired'
+    )
+    expect(account.custom_attributes['shopify_subscription_snapshot']).not_to include('shop_id', 'shop_domain')
+    expect(account).not_to be_feature_enabled('audit_logs')
+    expect(account).not_to be_feature_enabled('saml')
+    expect(account).not_to be_feature_enabled('shopify_integration')
   end
 
   it 'still revokes credentials when billing reconciliation fails' do
@@ -99,12 +119,24 @@ RSpec.describe Shopify::UninstallationService do
     )
   end
 
-  it 'revokes credentials when the account feature is disabled' do
+  it 'expires billing and revokes credentials when the account feature is disabled' do
+    create(:installation_config, name: 'CHATWOOT_SHOPIFY_PLANS', value: shopify_plans, locked: true)
+    account.enable_features!('audit_logs', 'saml')
     account.disable_features!('shopify_integration')
-    allow(sync_service).to receive(:perform)
+    allow(Enterprise::Billing::ShopifySubscriptionSyncService).to receive(:new)
+      .with(account: account)
+      .and_call_original
 
     described_class.new(hook: hook, occurred_at: occurred_at).perform
 
+    expect(account.reload).to be_suspended
+    expect(account.custom_attributes).to include(
+      'plan_name' => nil,
+      'subscription_status' => 'expired'
+    )
+    expect(account).not_to be_feature_enabled('audit_logs')
+    expect(account).not_to be_feature_enabled('saml')
+    expect(account).not_to be_feature_enabled('shopify_integration')
     expect(hook.reload).to have_attributes(
       status: 'disabled',
       access_token: nil,
