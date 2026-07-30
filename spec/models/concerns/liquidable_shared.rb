@@ -215,6 +215,25 @@ shared_examples_for 'liqudable' do
           expect(message.content).to eq 'Total $10.00 on July 30, 2026.'
         end
 
+        it 'replaces body parameters inside code formatting' do
+          message.content = 'Use `{{1}}`.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'verification_code',
+              'language' => 'en',
+              'processed_params' => {
+                'body' => {
+                  '1' => '123456'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Use `123456`.'
+        end
+
         it 'replaces placeholders from legacy flat parameters' do
           message.content = 'Hello {{1}}, {{2}} is your contact.'
           message.additional_attributes = {

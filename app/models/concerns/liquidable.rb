@@ -25,14 +25,13 @@ module Liquidable
   def process_liquid_in_content
     return unless liquid_processable_message?
 
-    content_to_render, additional_drops = if whatsapp_template_message?
-                                            whatsapp_template_content
-                                          else
-                                            [content, {}]
-                                          end
+    content_to_render, template_replacements = whatsapp_template_message? ? whatsapp_template_content : [content, {}]
 
     template = Liquid::Template.parse(modified_liquid_content(content_to_render))
-    self.content = template.render(message_drops.merge(additional_drops))
+    rendered_content = template.render(message_drops)
+    self.content = template_replacements.reduce(rendered_content) do |result, (placeholder, value)|
+      result.gsub(placeholder) { value }
+    end
   rescue Liquid::Error
     # If there is an error in the liquid syntax, we don't want to process it
   end
@@ -82,8 +81,9 @@ module Liquidable
       if body_params.key?(key)
         rendered_value = process_liquid_value(body_params[key])
         structured_value = rendered_value.is_a?(Hash) && %w[currency date_time].include?(rendered_value['type'])
-        rendered_params[rendered_params.length.to_s] = structured_value ? rendered_value['fallback_value'].to_s : rendered_value.to_s
-        "{{ __whatsapp_template_params['#{rendered_params.length - 1}'] }}"
+        replacement_key = "__chatwoot_whatsapp_template_param_#{SecureRandom.hex(8)}__"
+        rendered_params[replacement_key] = structured_value ? rendered_value['fallback_value'].to_s : rendered_value.to_s
+        replacement_key
       elsif key.match?(/\A(?:\d+|[a-z][a-z0-9_]*)\z/)
         "{% raw %}#{placeholder}{% endraw %}"
       else
@@ -91,7 +91,7 @@ module Liquidable
       end
     end
 
-    [content_to_render, { '__whatsapp_template_params' => rendered_params }]
+    [content_to_render, rendered_params]
   end
 
   def whatsapp_template_body_params
