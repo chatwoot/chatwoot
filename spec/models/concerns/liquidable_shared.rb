@@ -79,6 +79,55 @@ shared_examples_for 'liqudable' do
     context 'when message is outgoing with template_params' do
       let(:message) { build(:message, conversation: conversation, message_type: 'outgoing') }
 
+      context 'when sending a WhatsApp template message' do
+        let(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false, validate_provider_config: false) }
+        let(:whatsapp_inbox) { whatsapp_channel.reload.inbox }
+        let(:conversation) { create(:conversation, account: whatsapp_channel.account, inbox: whatsapp_inbox) }
+        let(:message) do
+          build(:message, account: whatsapp_channel.account, inbox: whatsapp_inbox, conversation: conversation, message_type: 'outgoing')
+        end
+
+        it 'replaces positional placeholders in the saved content' do
+          message.content = 'Hello {{1}}, {{2}} is your contact.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'processed_params' => {
+                'body' => {
+                  '1' => 'Ahmad',
+                  '2' => 'Furqan'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Hello Ahmad, Furqan is your contact.'
+        end
+
+        it 'replaces named placeholders in the saved content' do
+          message.content = 'Hello {{customer_name}}, {{agent_name}} is your contact.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'processed_params' => {
+                'body' => {
+                  'customer_name' => 'Ahmad',
+                  'agent_name' => 'Furqan'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Hello Ahmad, Furqan is your contact.'
+        end
+      end
+
       it 'replaces liquid variables in template_params body' do
         message.additional_attributes = {
           'template_params' => {
