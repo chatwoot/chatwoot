@@ -148,7 +148,7 @@ const sendMessage = () => {
   const { name, category, language, namespace } = props.template;
 
   const payload = {
-    message: renderedTemplate.value,
+    message: bodyText.value,
     templateParams: {
       name,
       category,
