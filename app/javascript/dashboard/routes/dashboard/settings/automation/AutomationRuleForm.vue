@@ -94,6 +94,7 @@ const allowsDelayedExecution = computed(() =>
 // The wait lives here rather than in the wait section so that switching between the two run
 // types doesn't discard a duration the user already typed in.
 const isDelayed = ref(false);
+const isSavedWait = ref(false);
 const delayMinutes = ref(DEFAULT_DELAY_MINUTES);
 const delayUnit = ref(DURATION_UNITS.HOURS);
 // Bumped on every open() so the wait section remounts and re-reads the rule it is given.
@@ -117,6 +118,7 @@ const inboxOptions = computed(
 // rather than read from `automation`, whose model prop only settles a tick later.
 const syncDelayState = executionDelay => {
   isDelayed.value = Boolean(executionDelay);
+  isSavedWait.value = isEditMode.value && Boolean(executionDelay);
   const minutes = executionDelay || DEFAULT_DELAY_MINUTES;
   if (minutes % 1440 === 0) delayUnit.value = DURATION_UNITS.DAYS;
   else if (minutes % 60 === 0) delayUnit.value = DURATION_UNITS.HOURS;
@@ -126,6 +128,9 @@ const syncDelayState = executionDelay => {
 };
 
 watch([isDelayed, delayMinutes], () => {
+  // Switching to "run instantly" hands the conditions back to the instant editor.
+  if (!isDelayed.value) isSavedWait.value = false;
+
   if (!automation.value || !allowsDelayedExecution.value) return;
   automation.value.execution_delay = isDelayed.value
     ? delayMinutes.value
@@ -321,6 +326,7 @@ defineExpose({ open, close });
         v-model:unit="delayUnit"
         :status-options="statusOptions"
         :inbox-options="inboxOptions"
+        :is-saved-wait="isSavedWait"
         :has-error="Boolean(errors.execution_delay)"
       />
       <AutomationInstantTrigger

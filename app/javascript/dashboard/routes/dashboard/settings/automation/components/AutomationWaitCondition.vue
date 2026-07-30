@@ -27,6 +27,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isSavedWait: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const eventName = defineModel('eventName', { type: String, required: true });
@@ -58,6 +62,12 @@ const MINUTES_PER_UNIT = {
   [DURATION_UNITS.DAYS]: 24 * 60,
 };
 
+// The input only shows whole units, so the wait has to be at least one of them: without this,
+// switching 4 hours to days shows 0 days while the rule keeps the 10 minute minimum.
+const minDelay = computed(() =>
+  Math.max(MIN_DELAY_MINUTES, MINUTES_PER_UNIT[unit.value])
+);
+
 // "4 hours" in the unit the inputs above are using, so the explanation reads the same.
 const durationLabel = computed(() => {
   const count = Math.floor((delay.value || 0) / MINUTES_PER_UNIT[unit.value]);
@@ -87,8 +97,8 @@ const rawConditionValue = condition => {
 const conditionFor = key =>
   conditions.value.find(condition => condition.attribute_key === key);
 
-// Read the rule back into the controls. Returns false when the rule doesn't describe a wait yet
-// (a new rule, or one switched over from "run instantly"), so it can be given the defaults.
+// Read the rule into the controls, so an existing wait opens on its own trigger, status and
+// inboxes instead of the defaults.
 const hydrateFromRule = () => {
   const inboxIds = (conditionFor('inbox_id')?.values || []).map(value =>
     value && typeof value === 'object' ? value.id : value
@@ -103,17 +113,14 @@ const hydrateFromRule = () => {
       selectedTrigger.value = 'agent_unresponsive';
     else if (messageType === 'outgoing')
       selectedTrigger.value = 'customer_unresponsive';
-    return Boolean(messageType);
+    return;
   }
 
   if (eventName.value === 'conversation_updated') {
     selectedTrigger.value = 'conversation_status';
     triggerStatus.value =
       rawConditionValue(conditionFor('status')) || DEFAULT_TRIGGER_STATUS;
-    return true;
   }
-
-  return false;
 };
 
 const buildCondition = (attributeKey, values) => ({
@@ -150,12 +157,13 @@ const applyTrigger = () => {
   conditions.value = nextConditions;
 };
 
-const describesAWait = hydrateFromRule();
+hydrateFromRule();
 
-// A rule that isn't a wait yet has to be brought in line with the controls it is now showing.
+// A rule that wasn't saved as a wait still carries the instant editor's conditions, which can't be
+// shown here: a leftover private note filter would arm the wait on internal notes.
 // Deferred to mount because writing the models during setup would mutate the rule mid-render.
 onMounted(() => {
-  if (!describesAWait) applyTrigger();
+  if (!props.isSavedWait) applyTrigger();
 });
 
 watch([selectedTrigger, triggerStatus, triggerInboxes], applyTrigger);
@@ -195,7 +203,7 @@ watch([selectedTrigger, triggerStatus, triggerInboxes], applyTrigger);
             <DurationInput
               v-model="delay"
               v-model:unit="unit"
-              :min="MIN_DELAY_MINUTES"
+              :min="minDelay"
               :max="MAX_DELAY_MINUTES"
             />
           </div>
