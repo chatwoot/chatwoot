@@ -7,7 +7,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds
   retry_on Faraday::BadRequestError, attempts: 3, wait: 2.seconds
 
-  def perform(conversation, assistant)
+  def perform(conversation, assistant, responding_to_message_id = nil) # rubocop:disable Lint/UnusedMethodArgument
     @conversation = conversation
     @inbox = conversation.inbox
     @assistant = assistant

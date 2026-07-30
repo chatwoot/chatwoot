@@ -25,6 +25,23 @@ module Enterprise::Conversation
 
   private
 
+  def handle_resolved_status_change
+    super
+    update_applied_sla_completion
+  end
+
+  def update_applied_sla_completion
+    return unless saved_change_to_status?
+
+    current_applied_sla = applied_sla
+    return if current_applied_sla.blank?
+
+    terminal_sla = current_applied_sla.sla_status.in?(%w[hit missed])
+    return if terminal_sla && (!resolved? || current_applied_sla.completed_at.present?)
+
+    current_applied_sla.update!(completed_at: resolved? ? Time.current : nil)
+  end
+
   def call_attributes_changed?
     return false if previous_changes['additional_attributes'].blank?
 
