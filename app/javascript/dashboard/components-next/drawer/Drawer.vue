@@ -110,7 +110,7 @@ onBeforeUnmount(() => {
       <aside
         v-if="open"
         ref="drawerRef"
-        class="fixed inset-y-3 end-3 z-50 flex w-full flex-col overflow-hidden rounded-xl bg-n-solid-1 shadow-lg outline outline-1 outline-n-container"
+        class="fixed inset-y-3 end-3 z-50 flex w-[calc(100%-1.5rem)] flex-col overflow-hidden rounded-xl bg-n-solid-1 shadow-lg outline outline-1 outline-n-container"
         :class="maxWidthClass"
         role="dialog"
         aria-modal="true"
