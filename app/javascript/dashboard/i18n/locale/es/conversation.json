@@ -42,9 +42,17 @@
     "BOT_HANDOFF_SUCCESS": "La conversación te ha sido asignada",
     "BOT_HANDOFF_ERROR": "No se pudo tomar la conversación. Por favor, inténtalo de nuevo.",
     "PANEL_IA_STATE_ACTIVE": "IA contestando",
-    "PANEL_IA_STATE_WAITING": "IA esperando",
+    "PANEL_IA_STATE_WAITING": "IA esperando al contacto",
     "PANEL_IA_STATE_HELP": "IA solicita ayuda",
     "PANEL_IA_STATE_INACTIVITY_CLOSED": "Cerrado por inactividad",
+    "PANEL_IA_STATE_LEGEND": {
+      "TITLE": "Franja de color en la lista de conversaciones",
+      "ACTIVE": "Verde — IA contestando o procesando",
+      "WAITING": "Ámbar — IA esperando respuesta del contacto",
+      "HELP": "Rojo — IA pide ayuda humana",
+      "INACTIVITY_CLOSED": "Gris — cerrado por inactividad (bot)",
+      "HUMAN_NOTE": "Si hay un agente humano asignado, la franja desaparece."
+    },
     "PANEL_IA_HANDOFF_BANNER": "Panel IA escaló esta conversación. Revisá las notas privadas en el hilo (icono candado) para ver el resumen y el contexto.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",

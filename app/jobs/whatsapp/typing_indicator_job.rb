@@ -5,6 +5,7 @@ class Whatsapp::TypingIndicatorJob < ApplicationJob
     conversation = Conversation.find_by(id: conversation_id)
     return if conversation.blank?
 
-    Whatsapp::MarkReadTypingService.new(conversation: conversation).perform
+    # force: skip Redis throttle so agent/bot typing always marks the latest inbound as read
+    Whatsapp::MarkReadTypingService.new(conversation: conversation, force: true).perform
   end
 end

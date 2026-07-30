@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** feature `B-NEW-50` business rules lint + dry-run + kill switch
+**Última actualización:** feature `B-NEW-51` `contacts.chat_bot` + Panel reclaim AgentBot
+(2026-07-29). Antes: feature `B-NEW-50` business rules lint + dry-run + kill switch
 (2026-07-29). Antes: fix `B-NEW-49` KPIs contacto open/resolved (enum group keys)
 (2026-07-29). Antes: fix `B-NEW-48` contact search doble encode + ILIKE
 (2026-07-28, branch `feat/contact-ui-overhaul`). Antes: hotfix `B-NEW-47` modal resolve precarga + * + rojo
@@ -1101,6 +1102,29 @@ document_number y no buscaba company.
 
 **Cómo probar:** buscar nombre con espacio/tilde, cédula en mayúsculas/minúsculas,
 y company_name → deben aparecer resultados.
+
+### B-NEW-51 — `contacts.chat_bot` + bot vs assignee pasivo (inbox Dueño del contacto)
+
+**Síntoma:** con auto-assign “Dueño del contacto”, el 1.er mensaje lo contesta el
+bot y el 2.º queda en silencio porque Panel veía `has_human_agent`.
+
+**Fix (Chatwoot + Panel, local):**
+- Columna `contacts.chat_bot` default `true` + API + toggle UI (ficha contacto).
+- Panel: gate `chat_bot` primero; reclaim AgentBot (`force`) mientras atiende;
+  no callar por assignee humano pasivo; typing/visto post-buffer.
+- Handoff: dueño del contacto siempre si existe; destination = solo sin dueño.
+- `TypingIndicatorJob` usa `MarkReadTypingService(force: true)`.
+
+**Archivos CW:** migración `20260729200000`, `contact.rb`, `_contact.json.jbuilder`,
+`contacts_controller.rb`, `ContactChatBotToggle.vue`, `ContactInfo.vue`,
+`typing_indicator_job.rb`.
+
+**Archivos Panel:** `assignment.py`, `router.py`, `chatwoot_inbound.py`,
+`handoff_policy.py`, `human_handoff.py`, `handoff-destination-picker.tsx`.
+
+**Cómo probar (local):** inbox con Dueño del contacto + contacto con agente +
+`chat_bot` ON → msgs 1–2 bot OK y assignee conversación ≈ AgentBot; handoff →
+dueño; `chat_bot` OFF → silencio. Requiere migrate `chat_bot`.
 
 ### B-NEW-50 — Business rules safety: lint + dry-run + kill switch
 

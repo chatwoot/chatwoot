@@ -242,6 +242,7 @@ class Contact < ApplicationRecord
       type: 'contact',
       assigned_agent_id: assigned_agent_id,
       assigned_agent: assigned_agent&.push_event_data,
+      chat_bot: chat_bot,
       labels: label_list.to_a
     }
     data[:company_id] = company_id if account.feature_enabled?('companies')
@@ -263,7 +264,8 @@ class Contact < ApplicationRecord
       thumbnail: avatar_url,
       blocked: blocked,
       assigned_agent_id: assigned_agent_id,
-      assigned_agent: assigned_agent&.webhook_data
+      assigned_agent: assigned_agent&.webhook_data,
+      chat_bot: chat_bot
     }
   end
 

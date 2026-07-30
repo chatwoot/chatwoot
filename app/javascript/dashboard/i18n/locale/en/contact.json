@@ -579,6 +579,14 @@
         "UPDATE_SUCCESS": "Contact assigned agent updated successfully",
         "UPDATE_ERROR": "Could not update the contact assigned agent. Please try again later."
       },
+      "CHAT_BOT": {
+        "LABEL": "Chat bot",
+        "DESCRIPTION": "When off, Panel AI will not reply to this contact",
+        "ON": "Bot can reply",
+        "OFF": "Bot off",
+        "UPDATE_SUCCESS": "Chat bot setting updated",
+        "UPDATE_ERROR": "Could not update chat bot setting. Please try again later."
+      },
       "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
       "DELETE_CONTACT": "Delete contact",
       "DELETE_DIALOG": {
