@@ -27,5 +27,5 @@ test:
 production:
   <<: *default
   database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_production') %>"
-  username: "<%= ENV.fetch('POSTGRES_USERNAME') %>"
-  password: "<%= ENV.fetch('POSTGRES_PASSWORD') %>"
+  username: "<%= ENV['RAILS_ENV'] == 'production' ? ENV.fetch('POSTGRES_USERNAME') : ENV['POSTGRES_USERNAME'] %>"
+  password: "<%= ENV['RAILS_ENV'] == 'production' ? ENV.fetch('POSTGRES_PASSWORD') : ENV['POSTGRES_PASSWORD'] %>"
