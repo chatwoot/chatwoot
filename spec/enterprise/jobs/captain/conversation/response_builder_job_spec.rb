@@ -401,6 +401,33 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
         end
 
+        it 'does not emit a response completed event for a stale response' do
+          allow(mock_agent_runner_service).to receive(:generate_response) do
+            create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
+            { 'response' => 'Stale response', 'handoff_tool_called' => false }
+          end
+
+          expect(Captain::ConversationEvents).not_to receive(:response_completed)
+
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
+        end
+
+        it 'emits only the response failed event when generation raises after a newer message arrived' do
+          allow(mock_agent_runner_service).to receive(:generate_response) do
+            create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
+            raise StandardError, 'llm down'
+          end
+
+          expect(Captain::ConversationEvents).to receive(:response_failed)
+            .with(conversation: conversation, assistant: assistant, reason: 'standard_error', at: kind_of(Time))
+          expect(Captain::ConversationEvents).not_to receive(:handed_off)
+
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
+
+          expect(conversation.messages.outgoing.count).to eq(0)
+          expect(conversation.reload.status).to eq('pending')
+        end
+
         it 'keeps the pending response fresh when an email auto reply arrives' do
           create(
             :message,
