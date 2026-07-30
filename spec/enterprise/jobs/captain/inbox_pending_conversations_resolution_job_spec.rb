@@ -160,6 +160,13 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
         )
     end
 
+    it 'emits a captain resolved event with the inference source' do
+      expect(Captain::ConversationEvents).to receive(:resolved)
+        .with(conversation: resolvable_pending_conversation, assistant: captain_assistant, source: 'inference', at: kind_of(Time))
+
+      described_class.perform_now(inbox)
+    end
+
     it 'creates a captain inference resolved reporting event' do
       perform_enqueued_jobs do
         described_class.perform_now(inbox)
@@ -257,6 +264,14 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
             content_attributes: { activity: { type: 'conversation_status_changed', status: 'open' } }
           }
         )
+    end
+
+    it 'emits a captain handoff event with the inference source' do
+      expect(Captain::ConversationEvents).to receive(:handed_off)
+        .with(conversation: resolvable_pending_conversation, assistant: captain_assistant, source: 'inference',
+              reason_category: :pending_clarification, at: kind_of(Time))
+
+      described_class.perform_now(inbox)
     end
 
     it 'creates a captain inference handoff reporting event' do
