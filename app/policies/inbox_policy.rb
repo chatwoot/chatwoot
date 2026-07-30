@@ -62,6 +62,10 @@ class InboxPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def whatsapp_business_management_token?
+    @account_user.administrator?
+  end
+
   def health?
     @account_user.administrator?
   end
