@@ -5,7 +5,7 @@ import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.v
 import MultiSelect from 'dashboard/components-next/filter/inputs/MultiSelect.vue';
 import DurationInput from 'dashboard/components-next/input/DurationInput.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
+import { MINUTES_PER_UNIT } from 'dashboard/components-next/input/constants';
 import {
   DELAYED_TRIGGERS,
   DEFAULT_TRIGGER,
@@ -51,12 +51,6 @@ const triggerOptions = computed(() =>
     label: t(`AUTOMATION.ADD.FORM.WAIT.OPTIONS.${trigger.key.toUpperCase()}`),
   }))
 );
-
-const MINUTES_PER_UNIT = {
-  [DURATION_UNITS.MINUTES]: 1,
-  [DURATION_UNITS.HOURS]: 60,
-  [DURATION_UNITS.DAYS]: 24 * 60,
-};
 
 // "4 hours" in the unit the inputs above are using, so the explanation reads the same.
 const durationLabel = computed(() => {
