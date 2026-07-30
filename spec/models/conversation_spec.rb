@@ -1257,4 +1257,28 @@ RSpec.describe Conversation do
       end
     end
   end
+
+  describe '#status_changed_at' do
+    let(:conversation) { create(:conversation) }
+
+    it 'is set on create' do
+      expect(conversation.status_changed_at).to be_present
+    end
+
+    it 'is updated on every status transition' do
+      original = conversation.status_changed_at
+
+      travel_to(1.hour.from_now) { conversation.update!(status: :resolved) }
+
+      expect(conversation.reload.status_changed_at).to be > original
+    end
+
+    it 'is untouched by non-status saves' do
+      original = conversation.status_changed_at
+
+      travel_to(1.hour.from_now) { conversation.update!(priority: :high) }
+
+      expect(conversation.reload.status_changed_at).to be_within(1.second).of(original)
+    end
+  end
 end
