@@ -25,7 +25,7 @@ class Captain::OverviewSummaryService < Captain::BaseTaskService
   end
 
   def prompt_variables
-    stat_variables.merge(period_variables)
+    stat_variables.merge(knowledge_variables, period_variables)
   end
 
   def stat_variables
@@ -41,6 +41,14 @@ class Captain::OverviewSummaryService < Captain::BaseTaskService
       'handoff_trend' => trend(:handoff_rate),
       'reopen_rate' => current(:reopen_rate),
       'reopen_trend' => trend(:reopen_rate),
+      'durable_resolution_rate' => current(:durable_resolution_rate),
+      'csat_score' => current(:csat_score),
+      'human_only_csat' => current(:human_only_csat_score)
+    }
+  end
+
+  def knowledge_variables
+    {
       'knowledge_coverage' => stats.dig(:knowledge, :coverage).to_s,
       'knowledge_approved' => stats.dig(:knowledge, :approved).to_s,
       'knowledge_documents' => stats.dig(:knowledge, :documents).to_s

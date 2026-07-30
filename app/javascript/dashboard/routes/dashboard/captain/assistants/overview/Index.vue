@@ -130,12 +130,6 @@ const fetchFaqStats = async () => {
   }
 };
 
-const summaryStats = computed(() => {
-  if (!metricStats.value || !faqStats.value) return null;
-
-  return { ...metricStats.value, knowledge: faqStats.value };
-});
-
 onUnmounted(() => {
   metricsAbortController?.abort();
   outcomesAbortController?.abort();
@@ -373,7 +367,7 @@ const closeDrilldown = () => {
 
         <CoverageBanner :knowledge="faqStats ?? undefined" />
 
-        <WelcomeCard :range="selectedRange" :stats="summaryStats" />
+        <WelcomeCard :range="selectedRange" />
 
         <template v-for="section in cardSections" :key="section.key">
           <section class="flex flex-col">

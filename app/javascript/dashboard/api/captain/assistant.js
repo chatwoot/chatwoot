@@ -54,9 +54,9 @@ class CaptainAssistant extends ApiClient {
     return axios.get(`${this.url}/${assistantId}/faq_stats`, requestConfig);
   }
 
-  getSummary({ assistantId, range, stats }) {
+  getSummary({ assistantId, range }) {
     return axios.get(`${this.url}/${assistantId}/summary`, {
-      params: { range, timezone_offset: getTimezoneOffset(), stats },
+      params: { range, timezone_offset: getTimezoneOffset() },
     });
   }
 
