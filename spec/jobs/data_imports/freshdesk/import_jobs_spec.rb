@@ -16,6 +16,17 @@ RSpec.describe DataImports::Freshdesk::ImportJob do
     it 'checks rate limit retry before the generic client retry' do
       expect(described_class.rescue_handlers.last.first).to eq('DataImports::Freshdesk::Client::RateLimitError')
     end
+
+    it 'schedules a rate-limit retry using the Freshdesk Retry-After header' do
+      error = DataImports::Freshdesk::Client::RateLimitError.new('Rate limited', retry_after: '42')
+      allow(importer).to receive(:start!).and_raise(error)
+
+      travel_to(Time.zone.parse('2026-07-30 12:00:00 UTC')) do
+        expect do
+          DataImports::Freshdesk::ImportJob.perform_now(data_import, run_id)
+        end.to have_enqueued_job(DataImports::Freshdesk::ImportJob).at(42.seconds.from_now)
+      end
+    end
   end
 
   describe DataImports::Freshdesk::ImportJob do
