@@ -74,6 +74,6 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   end
 
   def captain_v2_default_eligible?
-    !default_plan? && account.internal_attributes[Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE] == true
+    !default_plan? && account.internal_attributes[Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE] != false
   end
 end
