@@ -126,6 +126,60 @@ shared_examples_for 'liqudable' do
 
           expect(message.content).to eq 'Hello Ahmad, Furqan is your contact.'
         end
+
+        it 'preserves placeholders when body parameters are empty' do
+          message.content = 'Hello {{1}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'processed_params' => {
+                'body' => {}
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Hello {{1}}.'
+        end
+
+        it 'renders liquid variables used as body parameter values' do
+          message.content = 'Hello {{1}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'processed_params' => {
+                'body' => {
+                  '1' => '{{contact.name}}'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq "Hello #{conversation.contact.name}."
+        end
+
+        it 'replaces placeholders from legacy flat parameters' do
+          message.content = 'Hello {{1}}, {{2}} is your contact.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'processed_params' => {
+                '1' => 'Ahmad',
+                '2' => 'Furqan'
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Hello Ahmad, Furqan is your contact.'
+        end
       end
 
       it 'replaces liquid variables in template_params body' do

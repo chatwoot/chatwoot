@@ -25,25 +25,18 @@ module Liquidable
   def process_liquid_in_content
     return unless liquid_processable_message?
 
-    body_params = whatsapp_template_body_params
-    if body_params.present?
-      self.content = content.gsub(/{{\s*([^}]+?)\s*}}/) do |placeholder|
-        key = Regexp.last_match(1)
-        body_params.key?(key) ? process_liquid_value(body_params[key]).to_s : placeholder
-      end
-      return
-    end
+    content_to_render = whatsapp_template_message? ? whatsapp_template_content : content
 
-    template = Liquid::Template.parse(modified_liquid_content)
+    template = Liquid::Template.parse(modified_liquid_content(content_to_render))
     self.content = template.render(message_drops)
   rescue Liquid::Error
     # If there is an error in the liquid syntax, we don't want to process it
   end
 
-  def modified_liquid_content
+  def modified_liquid_content(message_content)
     # This regex is used to match the code blocks in the content
     # We don't want to process liquid in code blocks
-    content.gsub(/`(.*?)`/m, '{% raw %}`\\1`{% endraw %}')
+    message_content.gsub(/`(.*?)`/m, '{% raw %}`\\1`{% endraw %}')
   end
 
   def process_liquid_in_template_params
@@ -71,11 +64,29 @@ module Liquidable
     additional_attributes['template_params']
   end
 
-  def whatsapp_template_body_params
-    return {} unless inbox.channel_type == 'Channel::Whatsapp'
+  def whatsapp_template_message?
+    inbox.channel_type == 'Channel::Whatsapp' && additional_attributes&.dig('template_params').is_a?(Hash)
+  end
 
-    body_params = additional_attributes&.dig('template_params', 'processed_params', 'body')
-    body_params.is_a?(Hash) ? body_params : {}
+  def whatsapp_template_content
+    body_params = whatsapp_template_body_params
+
+    content.gsub(/{{\s*([^}]+?)\s*}}/) do |placeholder|
+      key = Regexp.last_match(1)
+
+      if body_params.key?(key)
+        process_liquid_value(body_params[key]).to_s
+      elsif key.match?(/\A(?:\d+|[a-z][a-z0-9_]*)\z/)
+        "{% raw %}#{placeholder}{% endraw %}"
+      else
+        placeholder
+      end
+    end
+  end
+
+  def whatsapp_template_body_params
+    normalized_params = Whatsapp::TemplateParameterConverterService.new(template_params_data.deep_dup, nil).normalize_to_enhanced
+    normalized_params.dig('processed_params', 'body') || {}
   end
 
   def process_liquid_in_hash(hash)
