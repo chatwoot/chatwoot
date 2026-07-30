@@ -21,9 +21,6 @@
       "CONFIRM": "Confirm"
     }
   },
-  "DRAWER": {
-    "CLOSE": "Close drawer"
-  },
   "PHONE_INPUT": {
     "SEARCH_PLACEHOLDER": "Search country",
     "ERROR": "Phone number should be empty or in E.164 format",

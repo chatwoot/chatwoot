@@ -12,7 +12,7 @@ import {
   getDocumentDisplayPath,
 } from 'shared/helpers/documentHelper';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import Drawer from 'dashboard/components-next/drawer/Drawer.vue';
+import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
@@ -33,9 +33,9 @@ const TAB_KEYS = {
 const RESPONSES_PER_PAGE = 25;
 const { t } = useI18n();
 const store = useStore();
-// The parent mounts this component with v-if, so the drawer opens on mount and
+// The parent mounts this component with v-if, so the panel opens on mount and
 // the parent unmounts it only after the slide-out finishes (afterLeave).
-const isOpen = ref(false);
+const panelRef = ref(null);
 const documentDetails = computed(() => props.captainDocument);
 const showRawContent = ref(false);
 const activeTabIndex = ref(0);
@@ -132,10 +132,6 @@ const documentTitle = computed(
   () => documentDetails.value.name || documentDetails.value.external_link
 );
 
-const handleClose = () => {
-  isOpen.value = false;
-};
-
 const handleCopyContent = async () => {
   try {
     await copyTextToClipboard(documentContent.value);
@@ -162,243 +158,215 @@ const handlePageChange = page => {
 };
 
 onMounted(() => {
-  isOpen.value = true;
+  panelRef.value.open();
   fetchResponses();
 });
 </script>
 
 <template>
-  <Drawer
-    :open="isOpen"
+  <SidePanel
+    ref="panelRef"
     :title="documentTitle"
-    width="3xl"
-    @close="handleClose"
+    :description="t('CAPTAIN.DOCUMENTS.DETAILS.DESCRIPTION')"
+    width="lg"
     @after-leave="emit('close')"
   >
-    <template #default="{ close }">
-      <header
-        class="flex items-start justify-between gap-4 border-b border-n-weak px-6 py-5"
-      >
-        <div class="min-w-0">
-          <h2 class="truncate text-base font-medium text-n-slate-12">
-            {{ documentTitle }}
-          </h2>
-          <p class="mt-1 mb-0 text-sm text-n-slate-11">
-            {{ t('CAPTAIN.DOCUMENTS.DETAILS.DESCRIPTION') }}
-          </p>
-        </div>
-        <Button
-          ghost
-          slate
-          size="sm"
-          icon="i-ph-x"
-          :aria-label="$t('DRAWER.CLOSE')"
-          @click="close"
-        />
-      </header>
-
-      <div class="min-h-0 flex-1 overflow-y-auto px-6 py-4">
-        <div
-          v-if="isFetching"
-          class="flex items-center justify-center py-10 text-n-slate-11"
-        >
-          <Spinner />
-        </div>
-        <div v-else class="flex flex-col gap-6 min-h-48">
-          <section class="flex flex-col gap-3">
-            <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
-              <div class="flex flex-col gap-1">
-                <span class="text-xs font-medium uppercase text-n-slate-10">
-                  {{ t('CAPTAIN.DOCUMENTS.DETAILS.SOURCE') }}
-                </span>
-                <a
-                  v-if="hasSafeLink"
-                  :href="sourceHref"
-                  :title="sourceHref"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center min-w-0 gap-1 text-sm text-n-slate-12 hover:underline"
-                >
-                  <Icon icon="i-lucide-external-link" class="size-3 shrink-0" />
-                  <span class="truncate">{{ displayLink }}</span>
-                </a>
-                <span v-else class="text-sm truncate text-n-slate-12">
-                  {{ displayLink }}
-                </span>
-              </div>
-              <div class="flex flex-col gap-1">
-                <span class="text-xs font-medium uppercase text-n-slate-10">
-                  {{ t('CAPTAIN.DOCUMENTS.DETAILS.GENERATED_FAQS') }}
-                </span>
-                <span class="text-sm text-n-slate-12">
-                  {{ totalCount }}
-                </span>
-              </div>
-              <div class="flex flex-col gap-1">
-                <span class="text-xs font-medium uppercase text-n-slate-10">
-                  {{ t('CAPTAIN.DOCUMENTS.DETAILS.LAST_UPDATED') }}
-                </span>
-                <span class="text-sm text-n-slate-12">
-                  {{
-                    syncedAtLabel ||
-                    updatedAtLabel ||
-                    t('CAPTAIN.DOCUMENTS.DETAILS.NOT_AVAILABLE')
-                  }}
-                </span>
-              </div>
-            </div>
-          </section>
-
-          <TabBar
-            :tabs="tabs"
-            :initial-active-tab="activeTabIndex"
-            @tab-changed="handleTabChanged"
-          />
-
-          <div>
-            <section
-              v-if="activeTabKey === TAB_KEYS.CONTENT"
-              class="flex flex-col gap-3"
+    <div
+      v-if="isFetching"
+      class="flex items-center justify-center py-10 text-n-slate-11"
+    >
+      <Spinner />
+    </div>
+    <div v-else class="flex flex-col gap-6 min-h-48">
+      <section class="flex flex-col gap-3">
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-medium uppercase text-n-slate-10">
+              {{ t('CAPTAIN.DOCUMENTS.DETAILS.SOURCE') }}
+            </span>
+            <a
+              v-if="hasSafeLink"
+              :href="sourceHref"
+              :title="sourceHref"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center min-w-0 gap-1 text-sm text-n-slate-12 hover:underline"
             >
-              <div class="flex flex-wrap items-start justify-between gap-3">
-                <div class="flex flex-col gap-1">
-                  <h4 class="text-sm font-medium text-n-slate-12">
-                    {{
-                      isPdf
-                        ? t('CAPTAIN.DOCUMENTS.DETAILS.PDF_TITLE')
-                        : t('CAPTAIN.DOCUMENTS.DETAILS.CONTENT_TITLE')
-                    }}
-                  </h4>
-                  <span
-                    v-if="documentContent && !isPdf"
-                    class="text-xs text-n-slate-10"
-                  >
-                    {{
-                      t('CAPTAIN.DOCUMENTS.DETAILS.CHARACTER_COUNT', {
-                        count: documentContentLength.toLocaleString(),
-                      })
-                    }}
-                  </span>
-                </div>
-                <div
-                  v-if="documentContent && !isPdf"
-                  class="flex flex-wrap items-center justify-end gap-4"
-                >
-                  <Button
-                    :label="
-                      showRawContent
-                        ? t('CAPTAIN.DOCUMENTS.DETAILS.VIEW_PREVIEW')
-                        : t('CAPTAIN.DOCUMENTS.DETAILS.VIEW_RAW')
-                    "
-                    sm
-                    slate
-                    link
-                    @click="showRawContent = !showRawContent"
-                  />
-                  <Button
-                    :label="t('CAPTAIN.DOCUMENTS.DETAILS.COPY_CONTENT')"
-                    icon="i-lucide-copy"
-                    sm
-                    slate
-                    link
-                    @click="handleCopyContent"
-                  />
-                </div>
-              </div>
-              <div
-                v-if="isPdf"
-                class="rounded-lg border border-n-weak bg-n-alpha-1 p-4 text-sm text-n-slate-11"
-              >
-                <p class="mb-3">
-                  {{ t('CAPTAIN.DOCUMENTS.DETAILS.PDF_DESCRIPTION') }}
-                </p>
-                <a
-                  v-if="hasSafeLink"
-                  :href="sourceHref"
-                  :title="sourceHref"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1 font-medium text-n-blue-11 hover:underline"
-                >
-                  <Icon icon="i-ph-file-pdf" class="size-4" />
-                  {{ displayLink }}
-                  <Icon icon="i-lucide-external-link" class="size-3" />
-                </a>
-                <span
-                  v-else
-                  class="inline-flex items-center gap-1 text-n-slate-12"
-                >
-                  <Icon icon="i-ph-file-pdf" class="size-4" />
-                  {{ displayLink }}
-                </span>
-              </div>
-              <template v-else-if="documentContent">
-                <div
-                  v-if="isUnreadableContent && !showRawContent"
-                  class="rounded-lg border border-dashed border-n-weak p-4 text-sm text-n-slate-11"
-                >
-                  {{ t('CAPTAIN.DOCUMENTS.DETAILS.UNREADABLE_CONTENT') }}
-                </div>
-                <div
-                  v-else
-                  class="rounded-lg border border-n-weak bg-n-alpha-1 p-4"
-                >
-                  <pre
-                    v-if="showRawContent || isUnreadableContent"
-                    class="m-0 whitespace-pre-wrap break-words text-xs leading-5 text-n-slate-12"
-                  ><code>{{ documentContent }}</code></pre>
-                  <div
-                    v-else
-                    v-dompurify-html="formattedDocumentContent"
-                    class="prose prose-sm max-w-none break-words text-n-slate-12 prose-p:my-2 prose-headings:mb-2 prose-headings:mt-4 prose-a:text-n-blue-11 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-img:hidden"
-                  />
-                </div>
-              </template>
-              <div
-                v-else
-                class="rounded-lg border border-dashed border-n-weak p-4 text-sm text-n-slate-11"
-              >
-                {{ t('CAPTAIN.DOCUMENTS.DETAILS.EMPTY_CONTENT') }}
-              </div>
-            </section>
-
-            <section
-              v-if="activeTabKey === TAB_KEYS.FAQS"
-              class="flex flex-col gap-3"
-            >
-              <div v-if="responses.length" class="flex flex-col gap-3">
-                <ResponseCard
-                  v-for="response in responses"
-                  :id="response.id"
-                  :key="response.id"
-                  :question="response.question"
-                  :status="response.status"
-                  :answer="response.answer"
-                  :assistant="response.assistant"
-                  :created-at="response.created_at"
-                  :updated-at="response.updated_at"
-                  compact
-                />
-              </div>
-              <div
-                v-else
-                class="rounded-lg border border-dashed border-n-weak p-4 text-sm text-n-slate-11"
-              >
-                {{ t('CAPTAIN.DOCUMENTS.RELATED_RESPONSES.EMPTY') }}
-              </div>
-              <footer v-if="showPaginationFooter" class="sticky bottom-0 z-10">
-                <PaginationFooter
-                  :current-page="currentPage"
-                  :total-items="totalCount"
-                  :items-per-page="RESPONSES_PER_PAGE"
-                  class="!px-0"
-                  @update:current-page="handlePageChange"
-                />
-              </footer>
-            </section>
+              <Icon icon="i-lucide-external-link" class="size-3 shrink-0" />
+              <span class="truncate">{{ displayLink }}</span>
+            </a>
+            <span v-else class="text-sm truncate text-n-slate-12">
+              {{ displayLink }}
+            </span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-medium uppercase text-n-slate-10">
+              {{ t('CAPTAIN.DOCUMENTS.DETAILS.GENERATED_FAQS') }}
+            </span>
+            <span class="text-sm text-n-slate-12">
+              {{ totalCount }}
+            </span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-medium uppercase text-n-slate-10">
+              {{ t('CAPTAIN.DOCUMENTS.DETAILS.LAST_UPDATED') }}
+            </span>
+            <span class="text-sm text-n-slate-12">
+              {{
+                syncedAtLabel ||
+                updatedAtLabel ||
+                t('CAPTAIN.DOCUMENTS.DETAILS.NOT_AVAILABLE')
+              }}
+            </span>
           </div>
         </div>
+      </section>
+
+      <TabBar
+        :tabs="tabs"
+        :initial-active-tab="activeTabIndex"
+        @tab-changed="handleTabChanged"
+      />
+
+      <div>
+        <section
+          v-if="activeTabKey === TAB_KEYS.CONTENT"
+          class="flex flex-col gap-3"
+        >
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div class="flex flex-col gap-1">
+              <h4 class="text-sm font-medium text-n-slate-12">
+                {{
+                  isPdf
+                    ? t('CAPTAIN.DOCUMENTS.DETAILS.PDF_TITLE')
+                    : t('CAPTAIN.DOCUMENTS.DETAILS.CONTENT_TITLE')
+                }}
+              </h4>
+              <span
+                v-if="documentContent && !isPdf"
+                class="text-xs text-n-slate-10"
+              >
+                {{
+                  t('CAPTAIN.DOCUMENTS.DETAILS.CHARACTER_COUNT', {
+                    count: documentContentLength.toLocaleString(),
+                  })
+                }}
+              </span>
+            </div>
+            <div
+              v-if="documentContent && !isPdf"
+              class="flex flex-wrap items-center justify-end gap-4"
+            >
+              <Button
+                :label="
+                  showRawContent
+                    ? t('CAPTAIN.DOCUMENTS.DETAILS.VIEW_PREVIEW')
+                    : t('CAPTAIN.DOCUMENTS.DETAILS.VIEW_RAW')
+                "
+                sm
+                slate
+                link
+                @click="showRawContent = !showRawContent"
+              />
+              <Button
+                :label="t('CAPTAIN.DOCUMENTS.DETAILS.COPY_CONTENT')"
+                icon="i-lucide-copy"
+                sm
+                slate
+                link
+                @click="handleCopyContent"
+              />
+            </div>
+          </div>
+          <div
+            v-if="isPdf"
+            class="rounded-lg border border-n-weak bg-n-alpha-1 p-4 text-sm text-n-slate-11"
+          >
+            <p class="mb-3">
+              {{ t('CAPTAIN.DOCUMENTS.DETAILS.PDF_DESCRIPTION') }}
+            </p>
+            <a
+              v-if="hasSafeLink"
+              :href="sourceHref"
+              :title="sourceHref"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1 font-medium text-n-blue-11 hover:underline"
+            >
+              <Icon icon="i-ph-file-pdf" class="size-4" />
+              {{ displayLink }}
+              <Icon icon="i-lucide-external-link" class="size-3" />
+            </a>
+            <span v-else class="inline-flex items-center gap-1 text-n-slate-12">
+              <Icon icon="i-ph-file-pdf" class="size-4" />
+              {{ displayLink }}
+            </span>
+          </div>
+          <template v-else-if="documentContent">
+            <div
+              v-if="isUnreadableContent && !showRawContent"
+              class="rounded-lg border border-dashed border-n-weak p-4 text-sm text-n-slate-11"
+            >
+              {{ t('CAPTAIN.DOCUMENTS.DETAILS.UNREADABLE_CONTENT') }}
+            </div>
+            <div
+              v-else
+              class="rounded-lg border border-n-weak bg-n-alpha-1 p-4"
+            >
+              <pre
+                v-if="showRawContent || isUnreadableContent"
+                class="m-0 whitespace-pre-wrap break-words text-xs leading-5 text-n-slate-12"
+              ><code>{{ documentContent }}</code></pre>
+              <div
+                v-else
+                v-dompurify-html="formattedDocumentContent"
+                class="prose prose-sm max-w-none break-words text-n-slate-12 prose-p:my-2 prose-headings:mb-2 prose-headings:mt-4 prose-a:text-n-blue-11 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-img:hidden"
+              />
+            </div>
+          </template>
+          <div
+            v-else
+            class="rounded-lg border border-dashed border-n-weak p-4 text-sm text-n-slate-11"
+          >
+            {{ t('CAPTAIN.DOCUMENTS.DETAILS.EMPTY_CONTENT') }}
+          </div>
+        </section>
+
+        <section
+          v-if="activeTabKey === TAB_KEYS.FAQS"
+          class="flex flex-col gap-3"
+        >
+          <div v-if="responses.length" class="flex flex-col gap-3">
+            <ResponseCard
+              v-for="response in responses"
+              :id="response.id"
+              :key="response.id"
+              :question="response.question"
+              :status="response.status"
+              :answer="response.answer"
+              :assistant="response.assistant"
+              :created-at="response.created_at"
+              :updated-at="response.updated_at"
+              compact
+            />
+          </div>
+          <div
+            v-else
+            class="rounded-lg border border-dashed border-n-weak p-4 text-sm text-n-slate-11"
+          >
+            {{ t('CAPTAIN.DOCUMENTS.RELATED_RESPONSES.EMPTY') }}
+          </div>
+          <footer v-if="showPaginationFooter" class="sticky bottom-0 z-10">
+            <PaginationFooter
+              :current-page="currentPage"
+              :total-items="totalCount"
+              :items-per-page="RESPONSES_PER_PAGE"
+              class="!px-0"
+              @update:current-page="handlePageChange"
+            />
+          </footer>
+        </section>
       </div>
-    </template>
-  </Drawer>
+    </div>
+  </SidePanel>
 </template>

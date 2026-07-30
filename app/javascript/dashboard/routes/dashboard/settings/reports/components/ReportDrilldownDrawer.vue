@@ -1,11 +1,11 @@
 <script setup>
-import { computed, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { formatTime } from '@chatwoot/utils';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import Drawer from 'dashboard/components-next/drawer/Drawer.vue';
+import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import { useReportDrilldown } from '../composables/useReportDrilldown';
 import ReportDrilldownCard from './ReportDrilldownCard.vue';
 
@@ -29,6 +29,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'navigate']);
 
+const panelRef = ref(null);
 const { t } = useI18n();
 const {
   records,
@@ -136,13 +137,14 @@ watch(
   () => props.open,
   isDrawerOpen => {
     if (!isDrawerOpen) {
+      panelRef.value?.close();
       close();
       return;
     }
 
+    panelRef.value?.open();
     fetchDrilldown();
-  },
-  { immediate: true }
+  }
 );
 
 watch(
@@ -154,101 +156,86 @@ watch(
 </script>
 
 <template>
-  <Drawer :open="open" :title="title" @close="emit('close')">
-    <template #default="{ close }">
-      <header
-        class="flex items-start justify-between gap-4 border-b border-n-weak px-6 py-5"
-      >
-        <div class="min-w-0">
-          <h2 class="truncate text-base font-medium text-n-slate-12">
-            {{ title }}
-          </h2>
-          <p
-            v-if="bucketValue"
-            class="mt-1 text-xl font-semibold text-n-slate-12"
-          >
-            {{ bucketValue }}
-          </p>
-          <div
-            class="text-sm text-n-slate-11"
-            :class="{
-              'mt-2': bucketValue,
-              'mt-1': !bucketValue,
-            }"
-          >
-            {{ subtitle }}
-          </div>
-        </div>
-        <div class="flex shrink-0 items-center gap-1">
-          <Button
-            ghost
-            slate
-            size="sm"
-            icon="i-ph-caret-left"
-            class="rtl:rotate-180"
-            :disabled="!canPrev"
-            :aria-label="$t('REPORT.DRILLDOWN.PREVIOUS_BUCKET')"
-            @click="navigate(-1)"
-          />
-          <Button
-            ghost
-            slate
-            size="sm"
-            icon="i-ph-caret-right"
-            class="rtl:rotate-180"
-            :disabled="!canNext"
-            :aria-label="$t('REPORT.DRILLDOWN.NEXT_BUCKET')"
-            @click="navigate(1)"
-          />
-          <Button
-            ghost
-            slate
-            size="sm"
-            icon="i-ph-x"
-            :aria-label="$t('DRAWER.CLOSE')"
-            @click="close"
-          />
-        </div>
-      </header>
-
-      <div class="min-h-0 flex-1 overflow-y-auto px-5 py-3">
-        <div v-if="isFetching" class="flex h-40 items-center justify-center">
-          <Spinner />
-        </div>
-
-        <div
-          v-else-if="hasError"
-          class="flex h-40 items-center justify-center text-sm text-n-ruby-11"
+  <SidePanel ref="panelRef" :title="title" width="md" @close="emit('close')">
+    <template #header>
+      <div class="min-w-0">
+        <h3 class="truncate text-base font-medium text-n-slate-12">
+          {{ title }}
+        </h3>
+        <p
+          v-if="bucketValue"
+          class="mt-1 text-xl font-semibold text-n-slate-12"
         >
-          {{ $t('REPORT.DRILLDOWN.ERROR') }}
-        </div>
-
+          {{ bucketValue }}
+        </p>
         <div
-          v-else-if="!hasRecords"
-          class="flex h-40 items-center justify-center text-sm text-n-slate-10"
+          class="text-sm text-n-slate-11"
+          :class="{
+            'mt-2': bucketValue,
+            'mt-1': !bucketValue,
+          }"
         >
-          {{ $t('REPORT.DRILLDOWN.EMPTY') }}
-        </div>
-
-        <div v-else class="flex flex-col gap-2">
-          <ReportDrilldownCard
-            v-for="record in records"
-            :key="recordKey(record)"
-            :record="record"
-          />
-
-          <Button
-            v-if="hasMore"
-            faded
-            slate
-            size="sm"
-            class="mx-auto mt-2"
-            :label="$t('REPORT.DRILLDOWN.LOAD_MORE')"
-            :is-loading="isFetchingMore"
-            @click="loadMore"
-          />
+          {{ subtitle }}
         </div>
       </div>
     </template>
-  </Drawer>
+    <template #header-actions>
+      <Button
+        ghost
+        slate
+        size="sm"
+        icon="i-ph-caret-left"
+        class="rtl:rotate-180"
+        :disabled="!canPrev"
+        :aria-label="$t('REPORT.DRILLDOWN.PREVIOUS_BUCKET')"
+        @click="navigate(-1)"
+      />
+      <Button
+        ghost
+        slate
+        size="sm"
+        icon="i-ph-caret-right"
+        class="rtl:rotate-180"
+        :disabled="!canNext"
+        :aria-label="$t('REPORT.DRILLDOWN.NEXT_BUCKET')"
+        @click="navigate(1)"
+      />
+    </template>
+    <div v-if="isFetching" class="flex h-40 items-center justify-center">
+      <Spinner />
+    </div>
+
+    <div
+      v-else-if="hasError"
+      class="flex h-40 items-center justify-center text-sm text-n-ruby-11"
+    >
+      {{ $t('REPORT.DRILLDOWN.ERROR') }}
+    </div>
+
+    <div
+      v-else-if="!hasRecords"
+      class="flex h-40 items-center justify-center text-sm text-n-slate-10"
+    >
+      {{ $t('REPORT.DRILLDOWN.EMPTY') }}
+    </div>
+
+    <div v-else class="flex flex-col gap-2">
+      <ReportDrilldownCard
+        v-for="record in records"
+        :key="recordKey(record)"
+        :record="record"
+      />
+
+      <Button
+        v-if="hasMore"
+        faded
+        slate
+        size="sm"
+        class="mx-auto mt-2"
+        :label="$t('REPORT.DRILLDOWN.LOAD_MORE')"
+        :is-loading="isFetchingMore"
+        @click="loadMore"
+      />
+    </div>
+  </SidePanel>
 </template>

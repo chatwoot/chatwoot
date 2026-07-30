@@ -30,10 +30,10 @@ const captainDocument = {
   pdf_document: false,
 };
 
-const DrawerStub = {
-  name: 'Drawer',
-  methods: { close() {} },
-  template: '<div><slot :close="close" /></div>',
+const SidePanelStub = {
+  name: 'SidePanel',
+  methods: { open() {}, close() {} },
+  template: '<div><slot /></div>',
 };
 
 const TabBarStub = {
@@ -59,9 +59,8 @@ describe('DocumentDetails', () => {
       props: { captainDocument },
       global: {
         directives: { dompurifyHtml: {} },
-        mocks: { $t: key => key },
         stubs: {
-          Drawer: DrawerStub,
+          SidePanel: SidePanelStub,
           TabBar: TabBarStub,
           PaginationFooter: PaginationFooterStub,
         },
