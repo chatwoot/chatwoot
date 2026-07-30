@@ -486,6 +486,9 @@ Rails.application.routes.draw do
         resources :webhooks, only: [:create]
       end
 
+      # Panel AI SSO exchange (shared secret). Used by ainbox after Chatwoot generates sso_auth_token.
+      post 'panel_ai/sso/exchange', to: 'panel_ai_sso_exchanges#create'
+
       # Frontend API endpoint to trigger SAML authentication flow
       post 'auth/saml_login', to: 'auth#saml_login'
 
@@ -506,6 +509,7 @@ Rails.application.routes.draw do
             post :backup_codes
           end
           resources :sessions, only: [:index, :destroy]
+          resource :panel_ai_sso, only: [:create], controller: 'panel_ai_sso'
         end
       end
 

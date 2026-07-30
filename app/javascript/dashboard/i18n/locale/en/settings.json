@@ -251,6 +251,8 @@
     "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
     "APPEARANCE": "Change appearance",
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "PANEL_AI": "Open Panel AI",
+    "PANEL_AI_ERROR": "Could not open Panel AI. Check PANEL_AI_PUBLIC_URL or try again.",
     "DOCS": "Read documentation",
     "CHANGELOG": "Changelog",
     "LOGOUT": "Log out"
