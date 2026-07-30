@@ -30,7 +30,7 @@ class Team < ApplicationRecord
             uniqueness: { scope: :account_id }
 
   before_validation do
-    self.name = name.downcase if attribute_present?('name')
+    self.name = name.gsub(/[[:cntrl:]]/, '').strip.downcase if attribute_present?('name')
   end
 
   # Adds multiple members to the team
