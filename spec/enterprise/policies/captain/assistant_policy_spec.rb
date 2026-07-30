@@ -12,7 +12,7 @@ RSpec.describe Captain::AssistantPolicy, type: :policy do
   let(:administrator_context) { { user: administrator, account: account, account_user: account.account_users.first } }
   let(:agent_context) { { user: agent, account: account, account_user: account.account_users.first } }
 
-  permissions :index?, :show?, :playground? do
+  permissions :index?, :show?, :playground?, :metrics?, :faq_stats? do
     context 'when administrator' do
       it { expect(assistant_policy).to permit(administrator_context, assistant) }
     end

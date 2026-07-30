@@ -451,4 +451,81 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
       end
     end
   end
+
+  describe 'execution_delay handling' do
+    let(:delayed_rule_params) do
+      {
+        name: 'Delayed rule',
+        event_name: 'conversation_updated',
+        execution_delay: 240,
+        conditions: [{ attribute_key: 'status', filter_operator: 'equal_to', values: ['pending'], query_operator: nil }],
+        actions: [{ action_name: 'add_label', action_params: ['stale'] }]
+      }
+    end
+
+    context 'when the delayed_automations feature is enabled' do
+      before { account.enable_features!('delayed_automations') }
+
+      it 'persists and serializes execution_delay' do
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: delayed_rule_params
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:execution_delay]).to eq(240)
+        expect(account.automation_rules.last.execution_delay).to eq(240)
+      end
+
+      it 'copies execution_delay on clone' do
+        automation_rule = create(:automation_rule, account: account, execution_delay: 240)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/clone",
+             headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.last.execution_delay).to eq(240)
+      end
+    end
+
+    context 'when the delayed_automations feature is disabled' do
+      it 'rejects a payload carrying execution_delay with 422' do
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: delayed_rule_params
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.automation_rules.count).to eq(0)
+      end
+
+      it 'still accepts payloads without execution_delay' do
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: delayed_rule_params.except(:execution_delay)
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.last.execution_delay).to be_nil
+      end
+
+      it 'rejects cloning an existing delayed rule instead of turning it into an instant one' do
+        automation_rule = create(:automation_rule, account: account, execution_delay: 240)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/clone",
+             headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.automation_rules.count).to eq(1)
+      end
+
+      it 'still clones a rule that carries no delay' do
+        automation_rule = create(:automation_rule, account: account)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/clone",
+             headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.count).to eq(2)
+      end
+    end
+  end
 end
