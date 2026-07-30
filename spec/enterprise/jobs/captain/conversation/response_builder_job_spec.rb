@@ -13,6 +13,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     let(:mock_action_classifier_service) { instance_double(Captain::Llm::AssistantActionClassifierService) }
     let(:mock_false_promise_service) { instance_double(Captain::Llm::AssistantFalsePromiseService) }
     let(:assistant_model) { Llm::Models.default_model_for('assistant') }
+    let(:responding_to_message) { conversation.messages.find_by!(content: 'Hello') }
 
     before do
       create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
@@ -23,6 +24,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(Captain::Assistant::AgentRunnerService).to receive(:new).and_return(mock_agent_runner_service)
       allow(mock_agent_runner_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain V2' })
       allow(mock_agent_runner_service).to receive(:last_run_result).and_return(nil)
+      allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(false)
+      allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(false)
       allow(Captain::Llm::AssistantActionClassifierService).to receive(:new).and_return(mock_action_classifier_service)
       allow(mock_action_classifier_service).to receive(:classify).and_return({ 'action' => 'continue' })
       allow(Captain::Llm::AssistantFalsePromiseService).to receive(:new).and_return(mock_false_promise_service)
@@ -361,15 +364,57 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(true)
       end
 
-      it 'uses Captain::Assistant::AgentRunnerService' do
-        expect(Captain::Assistant::AgentRunnerService).to receive(:new).with(
-          assistant: assistant,
-          conversation: conversation
-        )
-        expect(Captain::Llm::AssistantChatService).not_to receive(:new)
+      context 'with message burst protection' do
+        it 'passes the responding message id to the runner' do
+          expect(Captain::Assistant::AgentRunnerService).to receive(:new).with(
+            assistant: assistant,
+            conversation: conversation,
+            responding_to_message_id: responding_to_message.id
+          )
 
-        described_class.perform_now(conversation, assistant)
-        expect(conversation.messages.last.content).to eq('Hey, welcome to Captain V2')
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
+        end
+
+        it 'discards a response when the runner sees a newer customer message' do
+          allow(mock_agent_runner_service).to receive(:generate_response) do
+            create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
+            { 'response' => 'Stale response', 'handoff_tool_called' => false }
+          end
+          allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(true)
+
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
+
+          expect(conversation.messages.outgoing.count).to eq(0)
+          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+        end
+
+        it 'checks freshness itself after generation' do
+          allow(mock_agent_runner_service).to receive(:generate_response) do
+            create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
+            { 'response' => 'Stale response', 'handoff_tool_called' => false }
+          end
+          allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(false)
+
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
+
+          expect(conversation.messages.outgoing.count).to eq(0)
+          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+        end
+
+        it 'keeps the pending response fresh when an email auto reply arrives' do
+          create(
+            :message,
+            conversation: conversation,
+            message_type: :incoming,
+            content_type: :incoming_email,
+            content_attributes: { email: { auto_reply: true } }
+          )
+
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
+
+          expect(conversation.messages.outgoing.last.content).to eq('Hey, welcome to Captain V2')
+          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(1)
+        end
       end
 
       it 'passes message history with resolution markers to agent runner service' do
@@ -455,9 +500,11 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       before do
         allow(account).to receive(:feature_enabled?).and_return(false)
         allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(true)
+        allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(true)
       end
 
-      it 'creates a public handoff message visible to the customer' do
+      it 'creates a public handoff message after the generated response is discarded' do
+        allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(true)
         allow(mock_agent_runner_service).to receive(:generate_response) do
           conversation.update!(status: :open)
           { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
@@ -507,6 +554,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'does not hand off when handoff_tool_called is false' do
+        allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(false)
         allow(mock_agent_runner_service).to receive(:generate_response).and_return({
                                                                                      'response' => 'Hi! How can I help you?',
                                                                                      'handoff_tool_called' => false
@@ -520,6 +568,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'falls back to a full V1 handoff when HandoffTool fired but failed to commit' do
+        allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(false)
         allow(mock_agent_runner_service).to receive(:generate_response).and_return({
                                                                                      'response' => 'I tried to hand off',
                                                                                      'handoff_tool_called' => true
@@ -586,6 +635,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'creates a zero-credit session when the handoff tool fired' do
+        allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(true)
         allow(mock_agent_runner_service).to receive(:generate_response) do
           conversation.update!(status: :open)
           { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
@@ -600,6 +650,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'attributes the handoff session to the private reason note when the tool recorded one' do
+        allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(true)
         handoff_note = create(:message, conversation: conversation, account: account, message_type: :outgoing,
                                         private: true, sender: assistant, content: 'Needs a human')
         run_context[:state][:cw_metadata][:handoff_note_id] = handoff_note.id

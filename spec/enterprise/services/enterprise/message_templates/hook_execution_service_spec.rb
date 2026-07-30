@@ -21,10 +21,68 @@ RSpec.describe MessageTemplates::HookExecutionService do
         )
       end
 
-      it 'schedules captain response job for incoming messages on pending conversations' do
-        expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
+      it 'keeps the legacy job arguments for Captain V1' do
+        allow(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later)
 
         create(:message, conversation: conversation, message_type: :incoming, account: account)
+
+        expect(Captain::Conversation::ResponseBuilderJob).to have_received(:perform_later).with(conversation, assistant)
+      end
+
+      it 'passes the responding message id for Captain V2' do
+        account.enable_features!(:captain_integration_v2)
+        allow(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later)
+
+        message = create(:message, conversation: conversation, message_type: :incoming, account: account)
+
+        expect(Captain::Conversation::ResponseBuilderJob).to have_received(:perform_later).with(conversation, assistant, message.id)
+      end
+
+      it 'does not lock or schedule a job for an email auto reply' do
+        account.enable_features!(:captain_integration_v2)
+        allow(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later)
+
+        customer_message = create(:message, conversation: conversation, message_type: :incoming, account: account)
+        auto_reply = build(
+          :message,
+          conversation: conversation,
+          message_type: :incoming,
+          content_type: :incoming_email,
+          content_attributes: { email: { auto_reply: true } },
+          account: account
+        )
+        auto_reply.save!
+
+        expect(Captain::Conversation::ResponseBuilderJob).to have_received(:perform_later).once
+        expect(Captain::Conversation::ResponseBuilderJob).to have_received(:perform_later).with(conversation, assistant, customer_message.id)
+        expect(conversation.messages.captain_response_triggering).to contain_exactly(customer_message)
+        expect(conversation.messages.captain_response_triggering).not_to include(auto_reply)
+      end
+    end
+
+    context 'when calculating attachment wait time' do
+      let(:configured_job) { instance_double(ActiveJob::ConfiguredJob, perform_later: true) }
+
+      before do
+        allow(Captain::Conversation::ResponseBuilderJob).to receive(:set).and_return(configured_job)
+      end
+
+      it 'uses only the current message attachments for Captain V1' do
+        create(:message, :with_attachment, conversation: conversation, message_type: :incoming, account: account)
+        create(:message, :with_attachment, conversation: conversation, message_type: :incoming, account: account)
+
+        expect(Captain::Conversation::ResponseBuilderJob).to have_received(:set).with(wait: 2.seconds).twice
+        expect(Captain::Conversation::ResponseBuilderJob).not_to have_received(:set).with(wait: 3.seconds)
+      end
+
+      it 'recalculates the wait from recent burst attachments for Captain V2' do
+        account.enable_features!(:captain_integration_v2)
+
+        create(:message, :with_attachment, conversation: conversation, message_type: :incoming, account: account)
+        create(:message, :with_attachment, conversation: conversation, message_type: :incoming, account: account)
+
+        expect(Captain::Conversation::ResponseBuilderJob).to have_received(:set).with(wait: 2.seconds).once
+        expect(Captain::Conversation::ResponseBuilderJob).to have_received(:set).with(wait: 3.seconds).once
       end
     end
 
