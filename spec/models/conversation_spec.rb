@@ -1105,6 +1105,10 @@ RSpec.describe Conversation do
   describe 'reply time calculation flows' do
     include ActiveJob::TestHelper
 
+    around do |example|
+      freeze_time { example.run }
+    end
+
     let(:account) { create(:account) }
     let(:inbox) { create(:inbox, account: account) }
     let(:contact) { create(:contact, account: account) }
