@@ -37,6 +37,22 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(open_conversation.reload.status).to eq('open')
     end
 
+    it 'emits a captain resolved event with the time_based source' do
+      expect(Captain::ConversationEvents).to receive(:resolved)
+        .with(conversation: resolvable_pending_conversation, assistant: captain_assistant, source: 'time_based', at: kind_of(Time))
+
+      described_class.perform_now(inbox)
+    end
+
+    it 'does not create a captain inference reporting event' do
+      perform_enqueued_jobs do
+        described_class.perform_now(inbox)
+      end
+
+      expect(ReportingEvent.exists?(conversation_id: resolvable_pending_conversation.id,
+                                    name: 'conversation_captain_inference_resolved')).to be(false)
+    end
+
     it 'does not call ConversationCompletionService' do
       allow(Captain::ConversationCompletionService).to receive(:new)
 

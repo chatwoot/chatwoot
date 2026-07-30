@@ -28,6 +28,12 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     resolvable_pending_conversations(inbox).each do |conversation|
       create_resolution_message(conversation, inbox)
       conversation.resolved!
+      Captain::ConversationEvents.resolved(
+        conversation: conversation,
+        assistant: inbox.captain_assistant,
+        source: 'time_based',
+        at: Time.current
+      )
     end
   end
 
