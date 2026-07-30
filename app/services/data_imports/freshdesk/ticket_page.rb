@@ -5,8 +5,11 @@ class DataImports::Freshdesk::TicketPage
 
   def initialize(client:, starting_after:, per_page:)
     @client = client
+    @per_page = per_page
     @cursor = normalize_cursor(starting_after)
     @tickets, next_page = ticket_page(per_page)
+    @page_limit_reached = page_limit_reached?
+    next_page = nil if @page_limit_reached
     @current_cursor = @cursor.merge('tickets' => @tickets, 'next_page' => next_page)
   end
 
@@ -22,6 +25,10 @@ class DataImports::Freshdesk::TicketPage
     return checkpoints.last if chunk.present?
 
     cursor_after(0)
+  end
+
+  def limit_reached?
+    @page_limit_reached && next_cursor.nil?
   end
 
   private
@@ -47,5 +54,9 @@ class DataImports::Freshdesk::TicketPage
     return { 'page' => current_cursor['next_page'], 'offset' => 0 } if current_cursor['next_page'].present?
 
     nil
+  end
+
+  def page_limit_reached?
+    @cursor['page'].to_i >= DataImports::Freshdesk::Client::MAX_TICKET_PAGES && @tickets.size >= @per_page
   end
 end

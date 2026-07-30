@@ -14,7 +14,9 @@ RSpec.describe DataImports::Freshdesk::ImportJob do
 
   describe DataImports::Freshdesk::BaseJob do
     it 'checks rate limit retry before the generic client retry' do
-      expect(described_class.rescue_handlers.last.first).to eq('DataImports::Freshdesk::Client::RateLimitError')
+      handlers = described_class.rescue_handlers.map(&:first)
+
+      expect(handlers.index('DataImports::Freshdesk::Client::RateLimitError')).to be > handlers.index('DataImports::Freshdesk::Client::Error')
     end
 
     it 'schedules a rate-limit retry using the Freshdesk Retry-After header' do
@@ -26,6 +28,18 @@ RSpec.describe DataImports::Freshdesk::ImportJob do
           DataImports::Freshdesk::ImportJob.perform_now(data_import, run_id)
         end.to have_enqueued_job(DataImports::Freshdesk::ImportJob).at(42.seconds.from_now)
       end
+    end
+
+    it 'discards a terminal ticket-limit error after recording the failed import' do
+      error = DataImports::Freshdesk::TicketLimitError.new
+      allow(importer).to receive_messages(conversations_completed?: false, fail!: true)
+      allow(importer).to receive(:import_conversations_page).with(starting_after: nil).and_raise(error)
+
+      expect do
+        DataImports::Freshdesk::ConversationsPageJob.perform_now(data_import, nil, run_id)
+      end.not_to have_enqueued_job
+
+      expect(importer).to have_received(:fail!).with(error)
     end
   end
 

@@ -81,7 +81,8 @@ class DataImports::Freshdesk::Source
       'pages' => {
         'current' => { 'starting_after' => page.current_cursor },
         'next' => page.next_cursor.present? ? { 'starting_after' => page.next_cursor } : nil,
-        'checkpoints' => page.checkpoints
+        'checkpoints' => page.checkpoints,
+        'limit_reached' => page.limit_reached?
       }
     }
   end
