@@ -80,7 +80,9 @@ module Liquidable
       key = Regexp.last_match(1)
 
       if body_params.key?(key)
-        rendered_params[rendered_params.length.to_s] = process_liquid_value(body_params[key]).to_s
+        rendered_value = process_liquid_value(body_params[key])
+        structured_value = rendered_value.is_a?(Hash) && %w[currency date_time].include?(rendered_value['type'])
+        rendered_params[rendered_params.length.to_s] = structured_value ? rendered_value['fallback_value'].to_s : rendered_value.to_s
         "{{ __whatsapp_template_params['#{rendered_params.length - 1}'] }}"
       elsif key.match?(/\A(?:\d+|[a-z][a-z0-9_]*)\z/)
         "{% raw %}#{placeholder}{% endraw %}"

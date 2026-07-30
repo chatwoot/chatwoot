@@ -184,6 +184,37 @@ shared_examples_for 'liqudable' do
           expect(message.additional_attributes.dig('template_params', 'processed_params', 'body', '1')).to eq '{{contact.email}}'
         end
 
+        it 'uses fallback text for structured body parameters' do
+          message.content = 'Total {{1}} on {{2}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'receipt',
+              'language' => 'en',
+              'processed_params' => {
+                'body' => {
+                  '1' => {
+                    'type' => 'currency',
+                    'fallback_value' => '$10.00',
+                    'code' => 'USD',
+                    'amount_1000' => 10_000
+                  },
+                  '2' => {
+                    'type' => 'date_time',
+                    'fallback_value' => 'July 30, 2026',
+                    'day_of_month' => 30,
+                    'month' => 7,
+                    'year' => 2026
+                  }
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Total $10.00 on July 30, 2026.'
+        end
+
         it 'replaces placeholders from legacy flat parameters' do
           message.content = 'Hello {{1}}, {{2}} is your contact.'
           message.additional_attributes = {
