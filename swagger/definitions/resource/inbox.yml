@@ -122,6 +122,11 @@ properties:
       - string
       - 'null'
     description: Business name associated with the inbox
+  branded_email_layout:
+    type:
+      - string
+      - 'null'
+    description: Liquid HTML layout for branded email replies. Available to administrators for Email inbox show/update responses.
   hmac_mandatory:
     type: boolean
     description: Whether HMAC verification is mandatory

@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "გამოწერილი მოვლენები",
       "LEARN_MORE": "გაიგეთ მეტი webhook-ების შესახებ",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "საიდუმლო",
         "COPY": "საიდუმლოს კოპირება კლიპბორდზე",
@@ -392,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "კაპიტანი",
     "HEADER_KNOW_MORE": "გაიგე მეტი",
+    "OVERVIEW": {
+      "HEADER": "მიმოხილვა",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review FAQs",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "PENDING": "მოლოდინში FAQ-ები",
+        "DOCUMENTS": "დოკუმენტები"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "სათამაშო მოედანი",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "გადახდები",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "მხარდაჭერები",
       "SWITCH_ASSISTANT": "გაართეთ მხარდაჭერებს შორის",
@@ -493,10 +576,6 @@
           "LABEL": "სახელი",
           "PLACEHOLDER": "ჩაწერეთ ასისტენტის სახელი",
           "ERROR": "სახელი აუცილებელია"
-        },
-        "TEMPERATURE": {
-          "LABEL": "პასუხის ტემპერატურა",
-          "DESCRIPTION": "დაარეგულირეთ, თუ რამდენად კრეატიული ან შეზღუდული უნდა იყოს ასისტენტის პასუხები. დაბალი მნიშვნელობები იძლევა უფრო ფოკუსირებულ და დეტერმინისტულ პასუხებს, ხოლო მაღალი მნიშვნელობები საშუალებას აძლევს უფრო კრეატიულ და მრავალფეროვან პასუხებს."
         },
         "DESCRIPTION": {
           "LABEL": "აღწერა",
@@ -739,6 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "დოკუმენტები",
       "ADD_NEW": "ახალი დოკუმენტის შექმნა",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} არჩეული",
       "SELECT_ALL": "ყველას არჩევა ({count})",
       "UNSELECT_ALL": "ყველას არჩევის გაუქმება ({count})",
@@ -798,7 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "მიმართებული ხშირად დასმული კითხვები",
-        "DESCRIPTION": "ეს ხშირად დასმული კითხვები პირდაპირ დოკუმენტიდან არის გენერირებული."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "მიუწვდომელია",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "კოპირება",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "შეიყვანეთ დოკუმენტის URL, რომ დაამატოთ იგი ცოდნის წყაროდ და აირჩიეთ ასისტენტი, რომელთანაც დაკავშირება გსურთ.",
       "CREATE": {
@@ -838,7 +938,7 @@
         "ERROR_MESSAGE": "დოკუმენტის წაშლისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "იხილეთ დაკავშირებული პასუხები",
+        "VIEW_DETAILS": "View details",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "დოკუმენტის წაშლა"

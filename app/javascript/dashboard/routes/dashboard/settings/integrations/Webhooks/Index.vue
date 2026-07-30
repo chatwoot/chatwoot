@@ -5,9 +5,11 @@ import { useBranding } from 'shared/composables/useBranding';
 import { picoSearch } from '@scmmishra/pico-search';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { BaseTable } from 'dashboard/components-next/table';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
 import WebhookRow from './WebhookRow.vue';
+import WebhookPaywall from './WebhookPaywall.vue';
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../../SettingsLayout.vue';
 
@@ -20,6 +22,7 @@ export default {
     NewWebhook,
     EditWebhook,
     WebhookRow,
+    WebhookPaywall,
   },
   setup() {
     const { replaceInstallationName } = useBranding();
@@ -39,7 +42,19 @@ export default {
     ...mapGetters({
       records: 'webhooks/getWebhooks',
       uiFlags: 'webhooks/getUIFlags',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
+    apiAndWebhooksEnabled() {
+      return (
+        !this.isOnChatwootCloud ||
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.API_AND_WEBHOOKS
+        )
+      );
+    },
     integration() {
       return this.$store.getters['integrations/getIntegration']('webhook');
     },
@@ -57,9 +72,16 @@ export default {
       ];
     },
   },
+  watch: {
+    apiAndWebhooksEnabled: {
+      immediate: true,
+      handler(enabled) {
+        if (enabled) this.$store.dispatch('webhooks/get');
+      },
+    },
+  },
   mounted() {
     this.$store.dispatch('integrations/get', 'webhook');
-    this.$store.dispatch('webhooks/get');
   },
   methods: {
     openAddPopup() {
@@ -105,10 +127,10 @@ export default {
 
 <template>
   <SettingsLayout
-    :is-loading="uiFlags.fetchingList"
+    :is-loading="apiAndWebhooksEnabled && uiFlags.fetchingList"
     :loading-message="$t('INTEGRATION_SETTINGS.WEBHOOK.LOADING')"
     :no-records-message="$t('INTEGRATION_SETTINGS.WEBHOOK.LIST.404')"
-    :no-records-found="!records.length"
+    :no-records-found="apiAndWebhooksEnabled && !records.length"
   >
     <template #header>
       <BaseSettingsHeader
@@ -118,19 +140,21 @@ export default {
         :description="replaceInstallationName(integration.description)"
         :link-text="$t('INTEGRATION_SETTINGS.WEBHOOK.LEARN_MORE')"
         :search-placeholder="
-          $t('INTEGRATION_SETTINGS.WEBHOOK.SEARCH_PLACEHOLDER')
+          apiAndWebhooksEnabled
+            ? $t('INTEGRATION_SETTINGS.WEBHOOK.SEARCH_PLACEHOLDER')
+            : ''
         "
         feature-name="webhook"
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       >
-        <template v-if="records?.length" #count>
+        <template v-if="apiAndWebhooksEnabled && records?.length" #count>
           <span class="text-body-main text-n-slate-11">
             {{
               $t('INTEGRATION_SETTINGS.WEBHOOK.COUNT', { n: records.length })
             }}
           </span>
         </template>
-        <template #actions>
+        <template v-if="apiAndWebhooksEnabled" #actions>
           <NextButton
             blue
             :label="$t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT')"
@@ -141,7 +165,9 @@ export default {
       </BaseSettingsHeader>
     </template>
     <template #body>
+      <WebhookPaywall v-if="!apiAndWebhooksEnabled" />
       <BaseTable
+        v-else
         :headers="tableHeaders"
         :items="filteredRecords"
         :no-data-message="
@@ -160,11 +186,19 @@ export default {
         </template>
       </BaseTable>
     </template>
-    <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
+    <woot-modal
+      v-if="apiAndWebhooksEnabled"
+      v-model:show="showAddPopup"
+      :on-close="hideAddPopup"
+    >
       <NewWebhook v-if="showAddPopup" :on-close="hideAddPopup" />
     </woot-modal>
 
-    <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
+    <woot-modal
+      v-if="apiAndWebhooksEnabled"
+      v-model:show="showEditPopup"
+      :on-close="hideEditPopup"
+    >
       <EditWebhook
         v-if="showEditPopup"
         :id="selectedWebHook.id"
@@ -173,6 +207,7 @@ export default {
       />
     </woot-modal>
     <woot-delete-modal
+      v-if="apiAndWebhooksEnabled"
       v-model:show="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"

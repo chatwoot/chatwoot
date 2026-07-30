@@ -26,16 +26,40 @@ class CaptainAssistant extends ApiClient {
     });
   }
 
-  getStats({ assistantId, range }) {
-    return axios.get(`${this.url}/${assistantId}/stats`, {
+  getMetrics({ assistantId, range, signal }) {
+    const requestConfig = {
       params: { range, timezone_offset: getTimezoneOffset() },
+    };
+    if (signal) requestConfig.signal = signal;
+
+    return axios.get(`${this.url}/${assistantId}/metrics`, requestConfig);
+  }
+
+  getFaqStats({ assistantId, signal }) {
+    const requestConfig = {};
+    if (signal) requestConfig.signal = signal;
+
+    return axios.get(`${this.url}/${assistantId}/faq_stats`, requestConfig);
+  }
+
+  getSummary({ assistantId, range, stats }) {
+    return axios.get(`${this.url}/${assistantId}/summary`, {
+      params: { range, timezone_offset: getTimezoneOffset(), stats },
     });
   }
 
-  getSummary({ assistantId, range }) {
-    return axios.get(`${this.url}/${assistantId}/summary`, {
-      params: { range, timezone_offset: getTimezoneOffset() },
-    });
+  getDrilldown({ assistantId, metric, range, page, signal }) {
+    const requestConfig = {
+      params: {
+        metric,
+        range,
+        timezone_offset: getTimezoneOffset(),
+        page,
+      },
+    };
+    if (signal) requestConfig.signal = signal;
+
+    return axios.get(`${this.url}/${assistantId}/drilldown`, requestConfig);
   }
 }
 

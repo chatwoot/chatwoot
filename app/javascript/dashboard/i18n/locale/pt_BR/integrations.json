@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
       "LEARN_MORE": "Saiba mais sobre webhooks",
+      "PAYWALL": {
+        "TITLE": "Webhooks estão disponíveis nos planos pagos",
+        "AVAILABLE_ON": "Use webhooks para receber eventos em tempo real de sua conta Chatwoot.",
+        "UPGRADE_PROMPT": "Atualize para Startups, Business ou Enterprise plano para usar webhooks.",
+        "UPGRADE_NOW": "Atualizar agora",
+        "CANCEL_ANYTIME": "Altere ou cancele seu plano a qualquer momento."
+      },
       "SECRET": {
         "LABEL": "Segredo",
         "COPY": "Copiar segredo para a área de transferência",
@@ -392,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "Capitão",
     "HEADER_KNOW_MORE": "Saiba mais",
+    "OVERVIEW": {
+      "HEADER": "Visão geral",
+      "WELCOME": {
+        "LABEL": "Resumo do Capitão",
+        "LOADING": "Gerando resumo…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "Este assistente ainda não está conectado a nenhuma caixa de entrada, então ele não responderá a conversas.",
+        "ACTION": "Conectar caixa de entrada",
+        "DISMISS": "Recusar"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "Perguntas Frequentes {count} estão pendentes, mantendo a cobertura em {coverage}%. Aprove-os para que seu assistente possa resolver mais por conta própria.",
+        "ACTION": "Revisar FAQs",
+        "DISMISS": "Recusar"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Últimos {count} dias",
+        "THIS_MONTH": "Este mês",
+        "LAST_MONTH": "Último mês"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Manipulação de conversas",
+          "HINT": "Conversas distintas em que este assistente respondeu."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Taxa de resolução automática",
+          "HINT": "Compartilhamento de conversas manipuladas fechadas sem uma resposta humana."
+        },
+        "HANDOFF": {
+          "LABEL": "Taxa de entrega",
+          "HINT": "Compartilhamento de conversas manipuladas escalado para um agente humano."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Tempo economizado",
+          "HINT": "Estimativa: Capitão responde a cerca de 2 minutos de esforço assumido de agente por resposta. Direcional, não medida de trabalho."
+        },
+        "REOPEN": {
+          "LABEL": "Reabrir tarifa",
+          "HINT": "Conversas resolvidas automaticamente que foram reabertas depois."
+        },
+        "DEPTH": {
+          "LABEL": "Mensagens / conversa",
+          "HINT": "Média de respostas que o assistente envia por conversa."
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "Detalhes do fechamento",
+        "EMPTY": "Não foram encontrados registros para essa métrica.",
+        "ERROR": "Não foi possível carregar os registros. Por favor, tente novamente.",
+        "LOAD_MORE": "Carregar mais",
+        "RESULT_COUNT_CONVERSATION": "Conversa {count} + Conversas {count}"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Cobertura de conhecimento",
+        "COVERAGE": "{pct}% aprovado",
+        "APPROVED": "FAQs Aprovadas",
+        "PENDING": "FAQs pendentes",
+        "DOCUMENTS": "Documentos"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Documentação do capitão",
+          "DESCRIPTION": "Guias e guias para o Capitão"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Área de testes",
+          "DESCRIPTION": "Testar respostas deste assistente"
+        },
+        "BILLING": {
+          "TITLE": "Cobrança",
+          "DESCRIPTION": "Gerenciar créditos e plano"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Assistentes",
       "SWITCH_ASSISTANT": "Alternar entre assistentes",
@@ -493,10 +576,6 @@
           "LABEL": "Nome",
           "PLACEHOLDER": "Digite o nome do assistente",
           "ERROR": "O nome é obrigatório"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Temperatura da resposta",
-          "DESCRIPTION": "Ajuste o quão criativo ou restritivo as respostas do assistente devem ser. Valores mais baixos produzem respostas mais focadas e deterministas, enquanto valores mais altos permitem resultados mais criativos e variados."
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",
@@ -739,6 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "Documentos",
       "ADD_NEW": "Criar um novo documento",
+      "FAQ_COUNT": "Perguntas Frequentes (F{n} ) {n} FAQs",
       "SELECTED": "{count} selecionado",
       "SELECT_ALL": "Selecionar todos ({count})",
       "UNSELECT_ALL": "Desmarcar todos ({count})",
@@ -798,7 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "FAQs Relacionadas",
-        "DESCRIPTION": "Estes FAQs são gerados diretamente a partir do documento."
+        "EMPTY": "Nenhuma FAQs foi gerada a partir deste documento ainda."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Revise o conteúdo raswled e as FAQs geradas a partir desta fonte.",
+        "SOURCE": "fonte",
+        "GENERATED_FAQS": "FAQs Geradas",
+        "LAST_UPDATED": "Última atualização",
+        "NOT_AVAILABLE": "Indisponível",
+        "CONTENT_TAB": "Conteúdo Rastejado",
+        "PDF_TAB": "Detalhes do PDF",
+        "CONTENT_TITLE": "Conteúdo Rastejado",
+        "PDF_TITLE": "Arquivo PDF",
+        "PDF_DESCRIPTION": "Revise a fonte PDF original.",
+        "CHARACTER_COUNT": "{count} caracteres extraídos",
+        "COPY_CONTENT": "Copiar",
+        "COPY_SUCCESS": "Conteúdo copiado para a área de transferência",
+        "COPY_ERROR": "Não foi possível copiar o conteúdo rastreador",
+        "VIEW_RAW": "Ver raw",
+        "VIEW_PREVIEW": "Visualizar visualização",
+        "UNREADABLE_CONTENT": "O conteúdo legível não pôde ser extraído deste documento. Você pode visualizar o conteúdo extraído em bruto.",
+        "EMPTY_CONTENT": "Nenhum conteúdo rastreador está disponível para este documento ainda."
       },
       "FORM_DESCRIPTION": "Digite o URL do documento para adicioná-lo como fonte de conhecimento e escolha o assistente para associá-lo.",
       "CREATE": {
@@ -838,7 +938,7 @@
         "ERROR_MESSAGE": "Ocorreu um erro ao excluir o documento, por favor, tente novamente."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "Visualizar Respostas relacionadas",
+        "VIEW_DETAILS": "Ver detalhes",
         "SYNC_NOW": "Atualizar agora",
         "RETRY_SYNC": "Tentar atualizar novamente",
         "DELETE_DOCUMENT": "Excluir Documento"
