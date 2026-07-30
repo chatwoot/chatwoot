@@ -6,6 +6,7 @@ import { dynamicTime } from 'shared/helpers/timeHelper';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import ContactLabels from 'dashboard/components-next/Contacts/ContactLabels/ContactLabels.vue';
 import ContactAssigneeSelector from 'dashboard/components-next/Contacts/ContactAssigneeSelector.vue';
+import ContactChatBotToggle from 'dashboard/components-next/Contacts/ContactChatBotToggle.vue';
 import ContactConversationMetrics from 'dashboard/components-next/Contacts/ContactConversationMetrics.vue';
 
 const props = defineProps({
@@ -108,6 +109,10 @@ const handleAvatarDelete = () => {
 
       <div class="flex flex-col gap-2 min-w-0 sm:items-end sm:min-w-[12rem]">
         <ContactAssigneeSelector
+          :contact="selectedContact"
+          @update="emit('update', $event)"
+        />
+        <ContactChatBotToggle
           :contact="selectedContact"
           @update="emit('update', $event)"
         />

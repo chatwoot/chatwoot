@@ -12,6 +12,7 @@ json.thumbnail resource.avatar_url
 json.custom_attributes resource.custom_attributes
 json.assigned_agent_id resource.assigned_agent_id
 json.assigned_agent resource.assigned_agent&.push_event_data
+json.chat_bot resource.chat_bot
 json.labels @contact_labels_by_id.fetch(resource.id, []) if @contact_labels_by_id
 json.last_activity_at resource.last_activity_at.to_i if resource[:last_activity_at].present?
 json.created_at resource.created_at.to_i if resource[:created_at].present?

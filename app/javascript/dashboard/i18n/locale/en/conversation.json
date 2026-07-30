@@ -42,13 +42,13 @@
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
     "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "PANEL_IA_STATE_ACTIVE": "AI responding",
-    "PANEL_IA_STATE_WAITING": "AI waiting",
+    "PANEL_IA_STATE_WAITING": "AI waiting for contact",
     "PANEL_IA_STATE_HELP": "AI requests help",
     "PANEL_IA_STATE_INACTIVITY_CLOSED": "Closed due to inactivity",
     "PANEL_IA_STATE_LEGEND": {
       "TITLE": "Conversation list color stripe",
-      "ACTIVE": "Teal — AI or flow is actively responding",
-      "WAITING": "Amber — AI or flow is waiting for input",
+      "ACTIVE": "Teal — AI is responding or processing",
+      "WAITING": "Amber — AI is waiting for the contact to reply",
       "HELP": "Red — AI or flow needs human help",
       "INACTIVITY_CLOSED": "Gray — closed while bot-handled (inactivity)",
       "HUMAN_NOTE": "When a human agent is assigned, the stripe disappears."

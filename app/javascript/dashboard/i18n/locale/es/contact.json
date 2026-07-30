@@ -578,6 +578,14 @@
         "UPDATE_SUCCESS": "Agente asignado al contacto actualizado correctamente",
         "UPDATE_ERROR": "No se pudo actualizar el agente asignado al contacto. Inténtalo de nuevo más tarde."
       },
+      "CHAT_BOT": {
+        "LABEL": "Chat bot",
+        "DESCRIPTION": "Si está apagado, Panel IA no responderá a este contacto",
+        "ON": "El bot puede responder",
+        "OFF": "Bot apagado",
+        "UPDATE_SUCCESS": "Configuración de chat bot actualizada",
+        "UPDATE_ERROR": "No se pudo actualizar el chat bot. Inténtalo de nuevo más tarde."
+      },
       "DELETE_CONTACT_DESCRIPTION": "Eliminar permanentemente este contacto. Esta acción es irreversible",
       "DELETE_CONTACT": "Eliminar contacto",
       "DELETE_DIALOG": {
