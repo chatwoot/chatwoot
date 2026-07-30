@@ -89,7 +89,7 @@ watch(
 </script>
 
 <template>
-  <SidePanel ref="panelRef" :title="title" width="md" @close="emit('close')">
+  <SidePanel ref="panelRef" :title="title" width="xl" @close="emit('close')">
     <template #header>
       <div class="min-w-0">
         <h3 class="truncate text-base font-medium text-n-slate-12">

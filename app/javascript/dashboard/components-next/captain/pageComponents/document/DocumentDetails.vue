@@ -168,7 +168,7 @@ onMounted(() => {
     ref="panelRef"
     :title="documentTitle"
     :description="t('CAPTAIN.DOCUMENTS.DETAILS.DESCRIPTION')"
-    width="lg"
+    width="3xl"
     @after-leave="emit('close')"
   >
     <div
