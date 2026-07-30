@@ -42,9 +42,9 @@
   <!-- End Plausible -->
 <% end %>
 <% if @portal.amplitude_api_key.present? %>
-  <!-- Amplitude -->
-  <script src="https://cdn.amplitude.com/script/<%= @portal.amplitude_api_key %>.js"></script>
-  <script>window.amplitude && window.amplitude.init('<%= j @portal.amplitude_api_key %>');</script>
+  <!-- Amplitude (analytics-only SDK, not the unified loader) -->
+  <script src="https://cdn.amplitude.com/libs/analytics-browser-2.45.5-min.js.gz"></script>
+  <script>window.amplitude.init('<%= j @portal.amplitude_api_key %>');</script>
   <!-- End Amplitude -->
 <% end %>
 <% if @portal.clarity_project_id.present? %>
@@ -70,8 +70,7 @@
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '<%= j @portal.meta_pixel_id %>');
-    // Turbo swaps pages without re-running this script, so bind PageView to
-    // turbo:load (fires on the initial load and on every Turbo navigation).
+    // Bind to turbo:load so PageView re-fires on Turbo navigations, not just initial load.
     document.addEventListener('turbo:load', function () { fbq('track', 'PageView'); });
   </script>
   <!-- End Meta Pixel -->

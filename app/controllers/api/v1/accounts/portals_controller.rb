@@ -23,6 +23,9 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def update
     ActiveRecord::Base.transaction do
+      # Lock the row so concurrent saves merge onto the latest committed config
+      # instead of a stale snapshot, which would drop the other save's keys.
+      @portal.lock!
       @portal.update!(portal_params.merge(live_chat_widget_params)) if params[:portal].present?
       # @portal.custom_domain = parsed_custom_domain
       process_attached_logo if params[:blob_id].present?
