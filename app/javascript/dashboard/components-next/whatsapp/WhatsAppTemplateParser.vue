@@ -36,6 +36,10 @@ const props = defineProps({
       return true;
     },
   },
+  sendRenderedContent: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['sendMessage', 'resetTemplate', 'back']);
@@ -148,7 +152,9 @@ const sendMessage = () => {
   const { name, category, language, namespace } = props.template;
 
   const payload = {
-    message: bodyText.value,
+    message: props.sendRenderedContent
+      ? renderedTemplate.value
+      : bodyText.value,
     templateParams: {
       name,
       category,

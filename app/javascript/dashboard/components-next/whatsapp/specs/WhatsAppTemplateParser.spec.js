@@ -24,8 +24,10 @@ const template = {
 };
 
 describe('WhatsAppTemplateParser', () => {
-  it('sends the original template body instead of the rendered preview', async () => {
-    const wrapper = shallowMount(WhatsAppTemplateParser, {
+  let wrapper;
+
+  beforeEach(async () => {
+    wrapper = shallowMount(WhatsAppTemplateParser, {
       props: { template },
       global: {
         mocks: {
@@ -37,7 +39,9 @@ describe('WhatsAppTemplateParser', () => {
     wrapper.vm.processedParams.body['1'] = '{{2}}';
     wrapper.vm.processedParams.body['2'] = 'Bob';
     await nextTick();
+  });
 
+  it('sends the original template body instead of the rendered preview', () => {
     expect(wrapper.vm.renderedTemplate).toBe('{{2}} / Bob');
 
     wrapper.vm.sendMessage();
@@ -53,5 +57,13 @@ describe('WhatsAppTemplateParser', () => {
         },
       },
     });
+  });
+
+  it('sends rendered content when requested for an API inbox template', async () => {
+    await wrapper.setProps({ sendRenderedContent: true });
+
+    wrapper.vm.sendMessage();
+
+    expect(wrapper.emitted('sendMessage')[0][0].message).toBe('{{2}} / Bob');
   });
 });
