@@ -115,8 +115,6 @@ class Account < ApplicationRecord
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
   after_update_commit :clear_unread_conversation_counts_cache, if: :saved_change_to_feature_conversation_unread_counts?
-  # Not after_commit: the backlog has to be re-clocked in the same transaction that flips the flag,
-  # or a sweep can see the account first and expire the very rows the resume was meant to save.
   after_update :resume_delayed_automations, if: -> { saved_change_to_feature_delayed_automations? && feature_delayed_automations? }
   after_destroy :remove_account_sequences
 
