@@ -172,21 +172,32 @@ export default {
     showContentTemplates() {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
-    // WhatsApp and API inboxes keep public replies available even after the
-    // messaging window closes, because a template can still re-engage the
-    // contact. An agent bot owning a pending conversation closes every
-    // customer-facing path until the conversation is taken over.
-    canSendPublicReply() {
-      if (this.isBotOwnedPendingConversation) return false;
-
+    isWithinMessagingWindow() {
       return !!(
         this.currentChat?.can_reply ||
         this.isAWhatsAppChannel ||
         this.isAPIInbox
       );
     },
+    canSendPublicReply() {
+      return (
+        this.isWithinMessagingWindow && !this.isBotOwnedPendingConversation
+      );
+    },
     isPrivate() {
-      return this.canSendPublicReply ? this.isOnPrivateNote : true;
+      return (
+        !this.canSendPublicReply || this.replyType === REPLY_EDITOR_MODES.NOTE
+      );
+    },
+    isOnPrivateNote() {
+      return this.isBotOwnedPendingConversation
+        ? this.isPrivate
+        : this.replyType === REPLY_EDITOR_MODES.NOTE;
+    },
+    effectiveReplyMode() {
+      return this.isOnPrivateNote
+        ? REPLY_EDITOR_MODES.NOTE
+        : REPLY_EDITOR_MODES.REPLY;
     },
     hasMeaningfulEditorContent() {
       const body = this.message || '';
@@ -202,9 +213,6 @@ export default {
         getEffectiveChannelType(this.channelType, this.inbox?.medium || '')
       );
       return !!stripped.trim();
-    },
-    isReplyRestricted() {
-      return !this.canSendPublicReply;
     },
     isBotOwnedPendingConversation() {
       return (
@@ -339,9 +347,6 @@ export default {
     showAudioRecorderEditor() {
       return this.showAudioRecorder && this.isRecordingAudio;
     },
-    isOnPrivateNote() {
-      return this.replyType === REPLY_EDITOR_MODES.NOTE;
-    },
     isOnExpandedLayout() {
       const {
         LAYOUT_TYPES: { CONDENSED },
@@ -384,7 +389,7 @@ export default {
       return this.conversationId;
     },
     editorStateId() {
-      return `draft-${this.conversationIdByRoute}-${this.replyType}`;
+      return `draft-${this.conversationIdByRoute}-${this.effectiveReplyMode}`;
     },
     audioRecordFormat() {
       if (this.isAWhatsAppCloudChannel) {
@@ -478,7 +483,7 @@ export default {
         return;
       }
 
-      this.replyType = this.canSendPublicReply
+      this.replyType = this.isWithinMessagingWindow
         ? REPLY_EDITOR_MODES.REPLY
         : REPLY_EDITOR_MODES.NOTE;
 
@@ -498,7 +503,7 @@ export default {
     },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
-        this.setToDraft(oldConversationId, this.replyType);
+        this.setToDraft(oldConversationId, this.effectiveReplyMode);
         this.getFromDraft();
         this.resetRecorderAndClearAttachments();
       }
@@ -507,7 +512,13 @@ export default {
       // Autosave the current message draft.
       this.doAutoSaveDraft();
     },
-    replyType(updatedReplyType, oldReplyType) {
+    showWhatsappTemplates(isAvailable) {
+      if (!isAvailable) this.hideWhatsappTemplatesModal();
+    },
+    showContentTemplates(isAvailable) {
+      if (!isAvailable) this.hideContentTemplatesModal();
+    },
+    effectiveReplyMode(updatedReplyType, oldReplyType) {
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode: updatedReplyType,
       });
@@ -518,7 +529,7 @@ export default {
 
   mounted() {
     this.$store.dispatch('draftMessages/setReplyEditorMode', {
-      mode: this.replyType,
+      mode: this.effectiveReplyMode,
     });
     this.getFromDraft();
     // Don't use the keyboard listener mixin here as the events here are supposed to be
@@ -528,7 +539,7 @@ export default {
     this.setCCAndToEmailsFromLastChat();
     this.doAutoSaveDraft = debounce(
       () => {
-        this.saveDraft(this.conversationIdByRoute, this.replyType);
+        this.saveDraft(this.conversationIdByRoute, this.effectiveReplyMode);
       },
       500,
       true
@@ -561,22 +572,22 @@ export default {
   methods: {
     getDraftKey(
       conversationId = this.conversationIdByRoute,
-      replyType = this.replyType
+      replyType = this.effectiveReplyMode
     ) {
       return `draft-${conversationId}-${replyType}`;
     },
-    getCopilotAcceptedMessage(replyType = this.replyType) {
+    getCopilotAcceptedMessage(replyType = this.effectiveReplyMode) {
       const key = this.getDraftKey(this.conversationIdByRoute, replyType);
       return this.copilotAcceptedMessages[key] || '';
     },
-    setCopilotAcceptedMessage(message, replyType = this.replyType) {
+    setCopilotAcceptedMessage(message, replyType = this.effectiveReplyMode) {
       const key = this.getDraftKey(this.conversationIdByRoute, replyType);
       this.copilotAcceptedMessages[key] = trimContent(
         message || '',
         this.maxLength
       );
     },
-    clearCopilotAcceptedMessage(replyType = this.replyType) {
+    clearCopilotAcceptedMessage(replyType = this.effectiveReplyMode) {
       const key = this.getDraftKey(this.conversationIdByRoute, replyType);
       delete this.copilotAcceptedMessages[key];
     },
@@ -945,6 +956,7 @@ export default {
       // This is to prevent from breaking the upload rules
       if (this.attachedFiles.length > 0) this.attachedFiles = [];
 
+      this.$store.dispatch('draftMessages/setReplyEditorMode', { mode });
       if (this.canSendPublicReply) this.replyType = mode;
       if (this.isRecordingAudio) {
         this.toggleAudioRecorder();
@@ -1016,7 +1028,7 @@ export default {
     },
     onBlur() {
       this.isFocused = false;
-      this.saveDraft(this.conversationIdByRoute, this.replyType);
+      this.saveDraft(this.conversationIdByRoute, this.effectiveReplyMode);
     },
     onFocus() {
       this.isFocused = true;
@@ -1264,7 +1276,7 @@ export default {
     <ReplyTopPanel
       :mode="replyType"
       :conversation-id="conversationId"
-      :is-reply-restricted="isReplyRestricted"
+      :is-reply-restricted="!canSendPublicReply"
       :disabled="
         (copilot.isActive.value && copilot.isButtonDisabled.value) ||
         showAudioRecorderEditor
