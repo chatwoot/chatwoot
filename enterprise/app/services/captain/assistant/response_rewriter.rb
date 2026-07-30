@@ -49,6 +49,12 @@ class Captain::Assistant::ResponseRewriter
     rewritten_parts = rewritten_response_parts.to_a
     raise 'Captain response rewrite changed the number of response parts' unless rewritten_parts.size == original_parts.size
 
+    original_citation_indexes = original_parts.pluck('citation_indexes')
+    rewritten_citation_indexes = rewritten_parts.pluck('citation_indexes')
+    if @assistant.config['feature_citation'] && rewritten_citation_indexes != original_citation_indexes
+      raise 'Captain response rewrite changed the response part citation order'
+    end
+
     rewritten_model_output['response_parts'] = rewritten_parts.zip(original_parts).map do |rewritten_part, original_part|
       rewritten_part.merge('citation_indexes' => original_part['citation_indexes'])
     end

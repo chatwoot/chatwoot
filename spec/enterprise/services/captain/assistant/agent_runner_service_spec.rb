@@ -311,8 +311,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         }
         rewritten_model_output = {
           'response_parts' => [
-            { 'text' => 'Short first answer.', 'citation_indexes' => [99] },
-            { 'text' => 'Short second answer.', 'citation_indexes' => [] }
+            { 'text' => 'Short first answer.', 'citation_indexes' => [2] },
+            { 'text' => 'Short second answer.', 'citation_indexes' => [1] }
           ],
           'reasoning' => 'Shortened both parts'
         }
@@ -376,6 +376,18 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           max_turns: 1
         )
         expect(mock_runner).not_to have_received(:run).with(include('help.example.com'), any_args)
+      end
+
+      it 'rejects a rewrite that changes the response part citation order' do
+        channel_limit_rewrite[:rewrite_run_result].output['response_parts'].reverse!
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(
+          instance_double(ChatwootExceptionTracker, capture_exception: true)
+        )
+
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response']).to eq('conversation_handoff')
+        expect(result['reasoning']).to eq('Error occurred: Captain response rewrite changed the response part citation order')
       end
     end
 

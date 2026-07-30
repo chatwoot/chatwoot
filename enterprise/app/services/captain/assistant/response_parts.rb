@@ -1,5 +1,6 @@
 class Captain::Assistant::ResponseParts
   MESSAGE_ATTRIBUTE_KEY = 'captain_v2_response_parts'.freeze
+  CLOSING_CODE_FENCE_LINE = /\A(?:`{3,}|~{3,})\z/
 
   attr_reader :parts
 
@@ -37,7 +38,9 @@ class Captain::Assistant::ResponseParts
         "[[#{display_number}](#{url})]"
       end
 
-      [part['text'], links.join(' ')].compact_blank.join(' ')
+      final_text_line = part['text'].lines.last.to_s.strip
+      citation_separator = final_text_line.match?(CLOSING_CODE_FENCE_LINE) ? "\n" : ' '
+      [part['text'], links.join(' ')].compact_blank.join(citation_separator)
     end.join("\n\n")
   end
 

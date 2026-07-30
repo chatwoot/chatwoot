@@ -470,6 +470,27 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           )
         end
 
+        it 'renders a citation after a closing code fence' do
+          v2_response_parts.replace(
+            [
+              { 'text' => "```ruby\nputs 'hello'\n```", 'citation_indexes' => [1] },
+              { 'text' => 'Continue with the next step.', 'citation_indexes' => [2] }
+            ]
+          )
+
+          described_class.perform_now(conversation, assistant)
+
+          content = conversation.messages.outgoing.last.content
+          expect(content).to eq(
+            "```ruby\nputs 'hello'\n```\n[[1](https://help.example.com/password)]\n\n" \
+            'Continue with the next step. [[2](https://help.example.com/email)]'
+          )
+
+          rendered_content = ChatwootMarkdownRenderer.new(content).render_message.to_s
+          expect(rendered_content).to include("</code></pre>\n<p>[<a href=\"https://help.example.com/password\">1</a>]</p>")
+          expect(rendered_content).to include('<p>Continue with the next step.')
+        end
+
         it 'preserves response part order and numbers trusted sources by first appearance' do
           v2_response_parts.replace(
             [
