@@ -1,5 +1,6 @@
 import {
   isActiveElementTypeable,
+  isAltGraphEvent,
   isEscape,
   keysToModifyInQWERTZ,
   LAYOUT_QWERTZ,
@@ -35,6 +36,9 @@ const shouldIgnoreEvent = (e, handler) => {
  */
 const keydownWrapper = handler => {
   return e => {
+    // Drop AltGr-generated events (e.g. Polish ą/ę): Windows reports AltGr as
+    // Ctrl+Alt, which would otherwise match the $mod+Alt+<letter> keybindings.
+    if (isAltGraphEvent(e)) return;
     if (shouldIgnoreEvent(e, handler)) return;
     //  extract the action to perform from the handler
 
@@ -79,7 +83,15 @@ export async function useKeyboardEvents(keyboardEvents) {
     const wrappedEvents = await wrapEventsInKeybindingsHandler(keyboardEvents);
     const keydownHandler = createKeybindingsHandler(wrappedEvents);
 
-    document.addEventListener('keydown', keydownHandler, {
+    // AltGr guard runs before tinykeys does any matching, so an AltGr keystroke
+    // can never be treated as an Alt+<letter> shortcut regardless of how the
+    // platform reports the modifiers.
+    const altGraphAwareKeydownHandler = event => {
+      if (isAltGraphEvent(event)) return;
+      keydownHandler(event);
+    };
+
+    document.addEventListener('keydown', altGraphAwareKeydownHandler, {
       signal: abortController.signal,
     });
   });
