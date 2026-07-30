@@ -24,7 +24,9 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close']);
+// `afterLeave` fires once the slide-out transition finishes, so consumers
+// mounted with v-if can wait for it before unmounting the panel.
+const emit = defineEmits(['close', 'afterLeave']);
 
 const MAX_WIDTH_CLASSES = {
   sm: 'max-w-md',
@@ -103,10 +105,11 @@ defineExpose({ open, close });
     </Transition>
     <Transition
       enter-active-class="transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
-      enter-from-class="translate-x-full rtl:-translate-x-full"
+      enter-from-class="translate-x-[calc(100%+12px)] rtl:translate-x-[calc(-100%-12px)]"
       leave-active-class="transition-transform duration-200 ease-in"
-      leave-to-class="translate-x-full rtl:-translate-x-full"
+      leave-to-class="translate-x-[calc(100%+12px)] rtl:translate-x-[calc(-100%-12px)]"
       @after-enter="onAfterEnter"
+      @after-leave="emit('afterLeave')"
     >
       <aside
         v-if="isOpen"
@@ -115,29 +118,34 @@ defineExpose({ open, close });
         aria-modal="true"
         :aria-label="title"
         tabindex="-1"
-        class="fixed z-50 flex flex-col w-full shadow-xl outline-none inset-y-0 end-0 bg-n-solid-1 will-change-transform"
+        class="fixed z-50 flex flex-col w-[calc(100%-1.5rem)] overflow-hidden rounded-xl shadow-lg outline outline-1 outline-n-container inset-y-3 end-3 bg-n-solid-1 will-change-transform"
         :class="maxWidthClass"
       >
         <header
-          class="flex items-center justify-between flex-shrink-0 gap-4 px-6 py-5 border-b border-n-weak"
+          class="flex justify-between flex-shrink-0 gap-4 px-6 py-5 border-b border-n-weak"
+          :class="$slots.header ? 'items-start' : 'items-center'"
         >
-          <div class="min-w-0">
-            <h3 class="text-base font-medium truncate text-n-slate-12">
-              {{ title }}
-            </h3>
-            <p v-if="description" class="mt-1 mb-0 text-sm text-n-slate-11">
-              {{ description }}
-            </p>
+          <slot name="header">
+            <div class="min-w-0">
+              <h3 class="text-base font-medium truncate text-n-slate-12">
+                {{ title }}
+              </h3>
+              <p v-if="description" class="mt-1 mb-0 text-sm text-n-slate-11">
+                {{ description }}
+              </p>
+            </div>
+          </slot>
+          <div class="flex items-center gap-1 shrink-0 -me-2">
+            <slot name="header-actions" />
+            <Button
+              ghost
+              slate
+              sm
+              icon="i-lucide-x"
+              :aria-label="$t('GENERAL.CLOSE')"
+              @click="close"
+            />
           </div>
-          <Button
-            ghost
-            slate
-            sm
-            icon="i-lucide-x"
-            class="-me-2"
-            :aria-label="$t('GENERAL.CLOSE')"
-            @click="close"
-          />
         </header>
         <div class="flex-1 min-h-0 px-6 py-5 overflow-y-auto">
           <slot />
