@@ -2,7 +2,7 @@
 import { computed, watch } from 'vue';
 import Input from './Input.vue';
 import { useI18n } from 'vue-i18n';
-import { DURATION_UNITS, MINUTES_PER_UNIT } from './constants';
+import { DURATION_UNITS } from './constants';
 
 const props = defineProps({
   min: { type: Number, default: 0 },
@@ -20,44 +20,47 @@ const unit = defineModel('unit', {
   },
 });
 
-const minutesPerUnit = computed(() => MINUTES_PER_UNIT[unit.value]);
-
-// The input only ever shows whole units, so the duration has to be a whole number of them too --
-// otherwise the field displays one value (floored) while a different one is saved. `min` is in
-// minutes, so express it in the selected unit and round up: 10 minutes is at least one day.
-const toWholeUnits = unitValue => {
-  const floor = Math.ceil(props.min / minutesPerUnit.value);
-  const ceiling = Math.floor(props.max / minutesPerUnit.value);
-  return Math.min(Math.max(Math.floor(unitValue), floor), ceiling);
+const convertToMinutes = newValue => {
+  if (unit.value === DURATION_UNITS.MINUTES) {
+    return Math.floor(newValue);
+  }
+  if (unit.value === DURATION_UNITS.HOURS) {
+    return Math.floor(newValue) * 60;
+  }
+  return Math.floor(newValue) * 24 * 60;
 };
 
 const transformedValue = computed({
   get() {
     if (duration.value == null) return null;
+    if (unit.value === DURATION_UNITS.MINUTES) return duration.value;
+    if (unit.value === DURATION_UNITS.HOURS)
+      return Math.floor(duration.value / 60);
+    if (unit.value === DURATION_UNITS.DAYS)
+      return Math.floor(duration.value / 24 / 60);
 
-    return Math.floor(duration.value / minutesPerUnit.value);
+    return 0;
   },
   set(newValue) {
     if (newValue == null || newValue === '') {
       duration.value = null;
       return;
     }
+    let minuteValue = convertToMinutes(newValue);
 
-    duration.value = toWholeUnits(newValue) * minutesPerUnit.value;
+    duration.value = Math.min(Math.max(minuteValue, props.min), props.max);
   },
 });
 
-// Switching units re-expresses the same duration rather than truncating it: 4 hours becomes 1 day,
-// not 0 days silently clamped back to `min` minutes.
+// when unit is changed set the nearest value to that unit
+// so if the minute is set to 900, and the user changes the unit to "days"
+// the transformed value will show 0, but the real value will still be 900
+// this might create some confusion, especially when saving
+// this watcher fixes it by rounding the duration basically, to the nearest unit value
 watch(unit, () => {
   if (duration.value == null) return;
-
-  // At least one whole unit: rounding 4 hours down to 0 days would throw the duration away.
-  const rounded = Math.max(
-    Math.round(duration.value / minutesPerUnit.value),
-    1
-  );
-  duration.value = toWholeUnits(rounded) * minutesPerUnit.value;
+  let adjustedValue = convertToMinutes(transformedValue.value);
+  duration.value = Math.min(Math.max(adjustedValue, props.min), props.max);
 });
 </script>
 
