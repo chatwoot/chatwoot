@@ -54,6 +54,20 @@ class Whatsapp::Providers::BaseService
     message.save!
   end
 
+  # WhatsApp coexistence / username migration: a contact may become addressable only by a Business-Scoped
+  # User ID (BSUID, e.g. "BR.123..."), with no phone number available. The Cloud API requires a BSUID to be
+  # passed in the `recipient` field (with recipient_type: individual), NOT in `to`. Passing a BSUID in `to`
+  # returns HTTP 200 with a message id but the message is silently dropped: the "CC." prefix is stripped and
+  # the remainder is treated as a phone number (wa_id), which never resolves. Phone numbers keep using `to`.
+  # See: https://developers.facebook.com/documentation/business-messaging/whatsapp/business-scoped-user-ids/
+  def recipient_params(identifier)
+    if identifier.to_s.match?(RegexHelper::WHATSAPP_BSUID_REGEX)
+      { recipient_type: 'individual', recipient: identifier }
+    else
+      { to: identifier }
+    end
+  end
+
   def create_buttons(items)
     buttons = []
     items.each do |item|
