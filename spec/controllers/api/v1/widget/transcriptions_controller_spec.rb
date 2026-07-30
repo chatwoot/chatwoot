@@ -37,6 +37,19 @@ RSpec.describe '/api/v1/widget/transcription', type: :request do
       end
     end
 
+    context 'when the voice recorder feature is disabled for the account' do
+      before do
+        web_widget.update!(voice_recorder: true)
+        account.disable_features!(:voice_recorder)
+        allow(Widget::AudioTranscriptionConfig).to receive(:configured?).and_return(true)
+      end
+
+      it 'returns forbidden' do
+        post_transcription(audio: audio_file)
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
     context 'when the voice recorder feature is enabled and configured' do
       let(:transcription_service) { instance_double(Messages::WidgetAudioTranscriptionService) }
 

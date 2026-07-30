@@ -1,6 +1,6 @@
 class Api::V1::Widget::TranscriptionsController < Api::V1::Widget::BaseController
   def create
-    return render_unavailable unless transcription_available?
+    return render_unavailable unless @web_widget.audio_transcription_enabled?
     return render_error('No audio provided', :unprocessable_entity) if params[:audio].blank?
 
     result = Messages::WidgetAudioTranscriptionService.new(params[:audio]).perform
@@ -16,10 +16,6 @@ class Api::V1::Widget::TranscriptionsController < Api::V1::Widget::BaseControlle
   end
 
   private
-
-  def transcription_available?
-    @web_widget.voice_recorder? && Widget::AudioTranscriptionConfig.configured?
-  end
 
   def render_unavailable
     render_error('Audio transcription is not enabled', :forbidden)

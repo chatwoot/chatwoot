@@ -139,6 +139,12 @@ export default {
         FEATURE_FLAGS.INBOUND_EMAILS
       );
     },
+    isVoiceRecorderEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.VOICE_RECORDER
+      );
+    },
     showContinuityToggle() {
       if (this.isInboundEmailEnabled) return true;
       return this.isOnChatwootCloud;
@@ -1275,7 +1281,7 @@ export default {
                       {{ $t('INBOX_MGMT.FEATURES.USE_INBOX_AVATAR_FOR_BOT') }}
                     </label>
                   </div>
-                  <div class="flex gap-2 py-0.5">
+                  <div v-if="isVoiceRecorderEnabled" class="flex gap-2 py-0.5">
                     <input
                       v-model="selectedFeatureFlags"
                       type="checkbox"

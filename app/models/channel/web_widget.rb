@@ -62,6 +62,10 @@ class Channel::WebWidget < ApplicationRecord
     'Website'
   end
 
+  def audio_transcription_enabled?
+    voice_recorder? && account.feature_enabled?('voice_recorder') && Widget::AudioTranscriptionConfig.configured?
+  end
+
   def web_widget_script
     "
     <script>
