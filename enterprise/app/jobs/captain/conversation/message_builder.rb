@@ -44,12 +44,7 @@ module Captain::Conversation::MessageBuilder
 
   def trusted_citation_urls
     citation_source_ids = @run_result&.context&.dig(:state, :captain_v2_citation_sources) || {}
-    faq_responses = @assistant.responses.where(id: citation_source_ids.values).includes(:documentable).index_by(&:id)
-
-    citation_urls = citation_source_ids.transform_values do |response_id|
-      faq_responses[response_id.to_i]&.customer_visible_source_url
-    end
-    citation_urls.compact.transform_keys(&:to_i)
+    @assistant.customer_visible_citation_urls(citation_source_ids)
   end
 
   def validate_message_content!(content)

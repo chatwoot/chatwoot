@@ -12,8 +12,8 @@ class Captain::Assistant::ResponseRewriter
     @attribute_provider = attribute_provider
   end
 
-  def rewrite(run_result, response_parts:, character_limit:)
-    rewrite_prompt = build_rewrite_prompt(response_parts, character_limit)
+  def rewrite(run_result, response_parts:, response_text_limit:)
+    rewrite_prompt = build_rewrite_prompt(response_parts, response_text_limit)
     rewrite_context = {
       session_id: run_result.context[:session_id],
       state: run_result.context[:state],
@@ -31,10 +31,11 @@ class Captain::Assistant::ResponseRewriter
 
   private
 
-  def build_rewrite_prompt(response_parts, character_limit)
-    customer_message = response_parts.plain_text
+  def build_rewrite_prompt(response_parts, response_text_limit)
+    response_text = response_parts.plain_text
 
-    "The customer message below is #{customer_message.length} characters, but this channel allows a maximum of #{character_limit}. " \
+    "The response text below is #{response_text.length} characters, but it must be at most #{response_text_limit} characters " \
+      'so the complete customer message fits this channel. ' \
       'Shorten the text in each response part so the joined customer message fits the limit. ' \
       'Keep the same number and order of response parts. Change only each text field. ' \
       'Preserve names, numbers, dates, links, warnings, and completed actions. Keep Markdown valid within each text field. Do not add facts. ' \

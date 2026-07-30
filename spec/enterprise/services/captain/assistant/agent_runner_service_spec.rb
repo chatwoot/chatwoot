@@ -326,19 +326,31 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         {
           original_run_result: Agents::RunResult.new(output: original_model_output, messages: runner_messages, context: runner_context),
           rewrite_run_result: Agents::RunResult.new(output: rewritten_model_output, messages: [], context: {}),
-          runner_context: runner_context,
-          runner_messages: runner_messages
+          citation_urls: {
+            1 => 'https://help.example.com/first',
+            2 => 'https://help.example.com/second'
+          },
+          runner_context: runner_context
         }
       end
       let(:mock_result) { channel_limit_rewrite[:original_run_result] }
 
       before do
         allow(assistant).to receive(:config).and_return('feature_citation' => true)
-        allow(Captain::MessageLengthLimit).to receive(:for).with(conversation).and_return(80)
+        allow(assistant).to receive(:customer_visible_citation_urls).and_return(channel_limit_rewrite[:citation_urls])
+        allow(Captain::MessageLengthLimit).to receive(:for).with(conversation).and_return(140)
         allow(mock_runner).to receive(:run).and_return(mock_result, channel_limit_rewrite[:rewrite_run_result])
       end
 
-      it 'shortens ordered parts and restores their original citation indexes' do
+      it 'reserves space for rendered citations and restores their original indexes' do
+        original_response_parts = Captain::Assistant::ResponseParts.from_response(mock_result.output)
+        original_customer_message = original_response_parts.customer_message_content(citation_urls: channel_limit_rewrite[:citation_urls])
+        citation_markup_length = original_customer_message.length - original_response_parts.plain_text.length
+        response_text_limit = 140 - citation_markup_length
+
+        expect(original_response_parts.plain_text.length).to be < 140
+        expect(original_customer_message.length).to be > 140
+
         result = service.generate_response(message_history: message_history)
 
         expect(result['response_parts']).to eq(
@@ -347,11 +359,15 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
             { 'text' => 'Short second answer.', 'citation_indexes' => [1] }
           ]
         )
-        expect(mock_result.output['response_parts']).to eq(result['response_parts'])
         expect(channel_limit_rewrite[:runner_context][:conversation_history].last[:content]['response_parts']).to eq(result['response_parts'])
-        expect(channel_limit_rewrite[:runner_messages].last[:content]['response_parts']).to eq(result['response_parts'])
+        expect(
+          Captain::Assistant::ResponseParts.from_response(result).customer_message_content(
+            citation_urls: channel_limit_rewrite[:citation_urls]
+          ).length
+        ).to be <= 140
         expect(mock_runner).to have_received(:run).with(
           include(
+            "must be at most #{response_text_limit} characters",
             'Keep the same number and order of response parts',
             '"citation_indexes":[2]',
             '"citation_indexes":[1]'
@@ -359,6 +375,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           context: hash_including(state: channel_limit_rewrite[:runner_context][:state]),
           max_turns: 1
         )
+        expect(mock_runner).not_to have_received(:run).with(include('help.example.com'), any_args)
       end
     end
 

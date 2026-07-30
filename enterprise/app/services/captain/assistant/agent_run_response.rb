@@ -20,7 +20,12 @@ module Captain::Assistant::AgentRunResponse
 
   def rewrite_oversized_response(run_result)
     response_parts = Captain::Assistant::ResponseParts.from_response(run_result.output)
-    response_rewriter.rewrite(run_result, response_parts: response_parts, character_limit: message_length_limit)
+    rendered_customer_message = customer_message_content(run_result)
+    citation_markup_length = rendered_customer_message.length - response_parts.plain_text.length
+    response_text_limit = message_length_limit - citation_markup_length
+    raise 'Captain citation links exceed the channel limit' unless response_text_limit.positive?
+
+    response_rewriter.rewrite(run_result, response_parts: response_parts, response_text_limit: response_text_limit)
   end
 
   def response_rewriter
@@ -37,11 +42,19 @@ module Captain::Assistant::AgentRunResponse
   end
 
   def response_too_long?(run_result)
-    message_length_limit && response_text(run_result).length > message_length_limit
+    message_length_limit && customer_message_content(run_result).length > message_length_limit
   end
 
-  def response_text(run_result)
-    extract_text_from_content(run_result.output).to_s
+  def customer_message_content(run_result)
+    response_parts = Captain::Assistant::ResponseParts.from_response(run_result.output)
+    response_parts.customer_message_content(citation_urls: trusted_citation_urls(run_result))
+  end
+
+  def trusted_citation_urls(run_result)
+    return {} unless @assistant.config['feature_citation']
+
+    citation_source_ids = run_result.context&.dig(:state, :captain_v2_citation_sources) || {}
+    @assistant.customer_visible_citation_urls(citation_source_ids)
   end
 
   def message_length_limit
