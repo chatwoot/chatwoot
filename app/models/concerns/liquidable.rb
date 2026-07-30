@@ -25,6 +25,15 @@ module Liquidable
   def process_liquid_in_content
     return unless liquid_processable_message?
 
+    body_params = whatsapp_template_body_params
+    if body_params.present?
+      self.content = content.gsub(/{{\s*([^}]+?)\s*}}/) do |placeholder|
+        key = Regexp.last_match(1)
+        body_params.key?(key) ? process_liquid_value(body_params[key]).to_s : placeholder
+      end
+      return
+    end
+
     template = Liquid::Template.parse(modified_liquid_content)
     self.content = template.render(message_drops)
   rescue Liquid::Error
@@ -60,6 +69,13 @@ module Liquidable
 
   def template_params_data
     additional_attributes['template_params']
+  end
+
+  def whatsapp_template_body_params
+    return {} unless inbox.channel_type == 'Channel::Whatsapp'
+
+    body_params = additional_attributes&.dig('template_params', 'processed_params', 'body')
+    body_params.is_a?(Hash) ? body_params : {}
   end
 
   def process_liquid_in_hash(hash)
