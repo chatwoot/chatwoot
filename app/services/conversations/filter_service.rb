@@ -31,7 +31,8 @@ class Conversations::FilterService < FilterService
     Conversations::PermissionFilterService.new(
       conversations,
       @user,
-      @account
+      @account,
+      plan_hint_selective_filter: label_filter_present?
     ).perform
   end
 
@@ -48,5 +49,11 @@ class Conversations::FilterService < FilterService
 
   def conversations
     @conversations.sort_on_last_activity_at.page(current_page)
+  end
+
+  private
+
+  def label_filter_present?
+    @params[:payload].to_a.any? { |query_hash| query_hash[:attribute_key] == 'labels' }
   end
 end

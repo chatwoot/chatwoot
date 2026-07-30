@@ -306,6 +306,21 @@ describe Conversations::FilterService do
         expect(result[:count][:all_count]).to be 1
       end
 
+      it 'applies the planner hint to permission scoping only for label filters' do
+        label_payload = [
+          { attribute_key: 'labels', filter_operator: 'equal_to', values: ['support'], query_operator: nil }.with_indifferent_access
+        ]
+        status_payload = [
+          { attribute_key: 'status', filter_operator: 'equal_to', values: ['open'], query_operator: nil }.with_indifferent_access
+        ]
+
+        params[:payload] = label_payload
+        expect(filter_service.new(params, user_1, account).perform[:conversations].to_sql).to include('conversations.inbox_id + 0')
+
+        params[:payload] = status_payload
+        expect(filter_service.new(params, user_1, account).perform[:conversations].to_sql).not_to include('inbox_id + 0')
+      end
+
       it 'filter conversations by is_present filter_operator' do
         params[:payload] = [
           {
