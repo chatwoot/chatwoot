@@ -172,10 +172,14 @@ class Conversation < ApplicationRecord
     save
   end
 
-  def bot_handoff!
+  def bot_handoff!(dispatch_event: true)
     update(waiting_since: Time.current) if waiting_since.blank?
     self.assignee_agent_bot = nil
     open!
+    dispatch_bot_handoff_event if dispatch_event
+  end
+
+  def dispatch_bot_handoff_event
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
   end
 
