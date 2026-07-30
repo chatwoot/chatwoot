@@ -27,6 +27,7 @@ import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import SlashCommandMenu from './SlashCommandMenu.vue';
+import VideoEmbedInput from './VideoEmbedInput.vue';
 
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const SLASH_MENU_OFFSET = 4;
@@ -55,7 +56,7 @@ let editorView = null;
 let state;
 
 export default {
-  components: { SlashCommandMenu },
+  components: { SlashCommandMenu, VideoEmbedInput },
   mixins: [keyboardEventListenerMixins],
   props: {
     modelValue: { type: String, default: '' },
@@ -89,6 +90,8 @@ export default {
       slashSearchTerm: '',
       slashRange: null,
       slashMenuPosition: null,
+      showVideoInput: false,
+      videoInputPosition: null,
     };
   },
   watch: {
@@ -178,6 +181,11 @@ export default {
     executeSlashCommand(actionKey) {
       if (!editorView) return;
 
+      if (actionKey === 'video') {
+        this.openVideoInput();
+        return;
+      }
+
       this.removeSlashTriggerText();
 
       const { schema } = editorView.state;
@@ -246,6 +254,34 @@ export default {
         this.emitOnChange();
         editorView.focus();
       }
+    },
+    openVideoInput() {
+      // Capture the caret position before removing the trigger clears it.
+      this.videoInputPosition = this.slashMenuPosition;
+      this.removeSlashTriggerText();
+      this.showVideoInput = true;
+    },
+    insertVideoEmbed(url) {
+      this.showVideoInput = false;
+      this.videoInputPosition = null;
+      if (!editorView) return;
+
+      const { schema } = editorView.state;
+      const linkMark = schema.marks.link.create({ href: url });
+      const paragraph = schema.nodes.paragraph.create(
+        null,
+        schema.text(url, [linkMark])
+      );
+      const tr = editorView.state.tr.replaceSelectionWith(paragraph);
+      editorView.dispatch(tr.scrollIntoView());
+      state = editorView.state;
+      this.emitOnChange();
+      editorView.focus();
+    },
+    cancelVideoInput() {
+      this.showVideoInput = false;
+      this.videoInputPosition = null;
+      editorView?.focus();
     },
     contentFromEditor() {
       if (editorView) {
@@ -468,6 +504,12 @@ export default {
         :enabled-menu-options="enabledMenuOptions"
         :position="slashMenuPosition"
         @select-action="executeSlashCommand"
+      />
+      <VideoEmbedInput
+        v-if="showVideoInput"
+        :position="videoInputPosition"
+        @submit="insertVideoEmbed"
+        @cancel="cancelVideoInput"
       />
       <input
         ref="imageUploadInput"

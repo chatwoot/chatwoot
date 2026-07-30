@@ -16,6 +16,7 @@ class Whatsapp::HealthService
 
   BASE_URI = 'https://graph.facebook.com'.freeze
   MINIMUM_HEALTH_API_VERSION = 24.0
+  BUSINESS_HEALTH_FIELDS = %i[business_account_id business_account_name business_portfolio_id business_portfolio_name].freeze
   PERSISTED_FIELDS = %i[
     id
     display_phone_number
@@ -46,21 +47,15 @@ class Whatsapp::HealthService
     @api_version = "v#{[configured_api_version, MINIMUM_HEALTH_API_VERSION].max}"
   end
 
-  def fetch_health_status
-    validate_channel!
-
-    phone_health_data = fetch_graph_data(@channel.provider_config['phone_number_id'], phone_health_fields)
-    business_account_data = fetch_graph_data(@channel.provider_config['business_account_id'], business_account_fields)
-
-    format_phone_health_response(phone_health_data).merge(format_business_account_response(business_account_data))
-  end
+  def fetch_health_status = fetch_health_status_with_error.first
 
   def sync_health_status!
     attempted_at = Time.current
     previous_health = @channel.phone_number_health
-    health_status = fetch_health_status
+    health_status, error = fetch_health_status_with_error
+    health_status = previous_health.symbolize_keys.slice(*BUSINESS_HEALTH_FIELDS).merge(health_status) if error
 
-    log_risky_transition(previous_health, health_status) if persist_health_status(health_status, attempted_at)
+    log_risky_transition(previous_health, health_status) if persist_health_status(health_status, attempted_at, error)
 
     health_status.merge(health_checked_at: attempted_at)
   rescue StandardError => e
@@ -69,6 +64,18 @@ class Whatsapp::HealthService
   end
 
   private
+
+  def fetch_health_status_with_error
+    validate_channel!
+
+    phone_health = format_phone_health_response(fetch_graph_data(@channel.provider_config['phone_number_id'], phone_health_fields))
+    business_health = format_business_account_response(fetch_graph_data(@channel.provider_config['business_account_id'], business_account_fields))
+    [phone_health.merge(business_health), nil]
+  rescue StandardError => e
+    return [phone_health, e] if phone_health
+
+    raise
+  end
 
   def validate_channel!
     raise ArgumentError, 'Channel is required' if @channel.blank?
@@ -173,13 +180,13 @@ class Whatsapp::HealthService
     "#{frontend_url}/webhooks/whatsapp/#{@channel.phone_number}"
   end
 
-  def persist_health_status(health_status, attempted_at)
+  def persist_health_status(health_status, attempted_at, error)
     # Health polling must bypass credential validation, timestamps, inbox touches, and audit callbacks.
     # rubocop:disable Rails/SkipsModelValidations
     updated_rows = health_attempt_scope(attempted_at).update_all(
       phone_number_health: health_status.slice(*PERSISTED_FIELDS),
       phone_number_health_checked_at: attempted_at,
-      phone_number_health_error: nil
+      phone_number_health_error: error&.message&.truncate(500)
     )
     # rubocop:enable Rails/SkipsModelValidations
 
@@ -215,11 +222,7 @@ class Whatsapp::HealthService
     )
   end
 
-  def risky_health?(health_status)
-    RISKY_QUALITY_RATINGS.include?(health_status[:quality_rating]) || RISKY_STATUSES.include?(health_status[:status])
-  end
+  def risky_health?(health_status) = RISKY_QUALITY_RATINGS.include?(health_status[:quality_rating]) || RISKY_STATUSES.include?(health_status[:status])
 
-  def risk_signature(health_status)
-    health_status.to_h.with_indifferent_access.values_at(:quality_rating, :status)
-  end
+  def risk_signature(health_status) = health_status.to_h.with_indifferent_access.values_at(:quality_rating, :status)
 end
