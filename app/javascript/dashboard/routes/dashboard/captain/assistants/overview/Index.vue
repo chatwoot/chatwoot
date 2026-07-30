@@ -222,6 +222,7 @@ const reachMetrics = computed(() => [
     key: 'hoursSaved',
     label: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
+    hintNote: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.NOTE'),
     ...overviewMetric('hours_saved', formatDuration, 'up'),
   },
 ]);
@@ -250,11 +251,13 @@ const resolutionStats = computed(() => [
     key: 'autoResolution',
     metric: 'auto_resolution_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.HINT'),
     ...overviewMetric('auto_resolution_rate', v => `${v}%`, 'up', 'point'),
   },
   {
     key: 'autonomousCount',
     label: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.COUNT_LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.COUNT_HINT'),
     value: autonomousCount.value.value,
     suffix: autonomousCount.value.suffix,
     trend: '',
@@ -263,12 +266,15 @@ const resolutionStats = computed(() => [
   {
     key: 'durable',
     label: t('CAPTAIN.OVERVIEW.METRICS.DURABLE.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.DURABLE.HINT'),
+    note: t('CAPTAIN.OVERVIEW.METRICS.DURABLE.NOTE'),
     ...outcomeMetric('durable_resolution_rate', v => `${v}%`, 'up', 'point'),
   },
   {
     key: 'reopen',
     metric: 'reopen_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.HINT'),
     ...overviewMetric('reopen_rate', v => `${v}%`, 'down', 'point'),
   },
 ]);
@@ -386,6 +392,7 @@ const closeDrilldown = () => {
                 :value="metric.value"
                 :trend="metric.trend"
                 :hint="metric.hint"
+                :hint-note="metric.hintNote"
                 :secondary="metric.secondary"
                 :trend-good="metric.trendGood"
                 :loading="metric.loading"

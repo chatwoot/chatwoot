@@ -1,11 +1,14 @@
 <script setup>
 import { computed } from 'vue';
+import MetricHint from 'dashboard/components-next/captain/pageComponents/overview/MetricHint.vue';
 
 const props = defineProps({
   label: { type: String, required: true },
   value: { type: String, required: true },
   trend: { type: String, default: '' },
   hint: { type: String, default: '' },
+  // Muted caveat line in the hint popover (estimates, measurement windows).
+  hintNote: { type: String, default: '' },
   // Muted companion figure rendered beside the value at half its size, e.g.
   // "124 of 200" next to a rate, or the human-only CSAT baseline.
   secondary: { type: String, default: '' },
@@ -43,10 +46,11 @@ const onActivate = () => {
   >
     <div class="flex items-center gap-1.5">
       <span class="text-sm font-medium text-n-slate-11">{{ label }}</span>
-      <span
+      <MetricHint
         v-if="hint"
-        v-tooltip="hint"
-        class="transition-opacity opacity-0 cursor-help i-lucide-info size-3.5 text-n-slate-10 group-hover:opacity-100"
+        :title="label"
+        :description="hint"
+        :note="hintNote"
       />
     </div>
     <div v-if="loading" class="flex items-end justify-between gap-2">

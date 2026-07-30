@@ -429,7 +429,8 @@
           "LABEL": "Auto-resolution rate",
           "HINT": "Share of handled conversations closed without a human reply.",
           "DENOMINATOR": "of {total}",
-          "COUNT_LABEL": "Resolved by Captain"
+          "COUNT_LABEL": "Resolved by Captain",
+          "COUNT_HINT": "Conversations Captain resolved with no handoff and no human reply, out of the conversations it handled."
         },
         "HANDOFF": {
           "LABEL": "Handoff rate",
@@ -437,7 +438,8 @@
         },
         "HOURS_SAVED": {
           "LABEL": "Time saved",
-          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+          "HINT": "A rough sense of the agent effort Captain absorbed this period, estimated from the replies it sent. Every public Captain reply counts as about two minutes an agent did not have to spend reading the conversation, writing a response, and switching context.",
+          "NOTE": "Directional estimate, not measured labor. Actual effort varies by conversation."
         },
         "REOPEN": {
           "LABEL": "Reopen rate",
@@ -449,7 +451,8 @@
         },
         "DURABLE": {
           "LABEL": "Durable resolution rate",
-          "HINT": "Autonomous resolutions older than 7 days that stayed closed."
+          "HINT": "Of the conversations Captain resolved on its own, the share that stayed closed after the customer had a full week to come back. This is the strongest signal that Captain's answers actually settle the issue rather than just closing the ticket.",
+          "NOTE": "Resolutions younger than 7 days are not judged yet, so very recent wins are excluded from this rate instead of being counted as durable-so-far."
         },
         "CSAT": {
           "LABEL": "Captain CSAT",

@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import MetricHint from 'dashboard/components-next/captain/pageComponents/overview/MetricHint.vue';
 
 const props = defineProps({
   // Map of reason category -> handoff count for the current window.
@@ -42,9 +43,9 @@ const rows = computed(() => {
       <span class="text-sm font-medium text-n-slate-11">
         {{ $t('CAPTAIN.OVERVIEW.HANDOFF_REASONS.TITLE') }}
       </span>
-      <span
-        v-tooltip="$t('CAPTAIN.OVERVIEW.HANDOFF_REASONS.HINT')"
-        class="transition-opacity opacity-0 cursor-help i-lucide-info size-3.5 text-n-slate-10 group-hover:opacity-100"
+      <MetricHint
+        :title="$t('CAPTAIN.OVERVIEW.HANDOFF_REASONS.TITLE')"
+        :description="$t('CAPTAIN.OVERVIEW.HANDOFF_REASONS.HINT')"
       />
     </div>
 

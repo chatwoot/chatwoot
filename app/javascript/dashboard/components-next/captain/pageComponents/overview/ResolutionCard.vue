@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import MetricHint from 'dashboard/components-next/captain/pageComponents/overview/MetricHint.vue';
 
 const props = defineProps({
   // Four header stats: { key, label, value, trend, trendGood, metric? }.
@@ -202,7 +203,7 @@ const onStatClick = stat => {
       <div
         v-for="stat in stats"
         :key="stat.key"
-        class="flex flex-col gap-1 rounded-lg"
+        class="flex flex-col gap-1 rounded-lg group"
         :class="
           clickable && stat.metric
             ? 'cursor-pointer transition-colors hover:bg-n-slate-2/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand'
@@ -214,9 +215,17 @@ const onStatClick = stat => {
         @keydown.enter.self.prevent="onStatClick(stat)"
         @keydown.space.self.prevent="onStatClick(stat)"
       >
-        <span class="text-sm font-medium text-n-slate-11">{{
-          stat.label
-        }}</span>
+        <div class="flex items-center gap-1.5">
+          <span class="text-sm font-medium text-n-slate-11">{{
+            stat.label
+          }}</span>
+          <MetricHint
+            v-if="stat.hint"
+            :title="stat.label"
+            :description="stat.hint"
+            :note="stat.note"
+          />
+        </div>
         <div
           v-if="loading"
           class="w-16 h-7 rounded bg-n-slate-3 animate-pulse"
