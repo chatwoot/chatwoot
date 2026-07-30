@@ -13,6 +13,30 @@ describe ActionCableListener do
     Current.account = nil
   end
 
+  describe '#account_cache_invalidated' do
+    let!(:event) do
+      Events::Base.new(
+        :'account.cache_invalidated',
+        Time.zone.now,
+        account: account,
+        cache_keys: account.cache_keys
+      )
+    end
+
+    it 'sends cache invalidation to account agents and admins' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token),
+        'account.cache_invalidated',
+        {
+          cache_keys: account.cache_keys,
+          account_id: account.id
+        }
+      )
+
+      listener.account_cache_invalidated(event)
+    end
+  end
+
   describe '#message_created' do
     let(:event_name) { :'message.created' }
     let!(:message) do

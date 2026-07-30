@@ -389,11 +389,12 @@ describe('#actions', () => {
       });
       await actions.assignAgent(
         { dispatch },
-        { conversationId: 1, agentId: 1 }
+        { conversationId: 1, agentId: 1, assigneeType: 'AgentBot' }
       );
       expect(dispatch).toHaveBeenCalledWith('setCurrentChatAssignee', {
         conversationId: 1,
         assignee: { id: 1, name: 'User' },
+        assigneeType: 'AgentBot',
       });
     });
   });
@@ -403,6 +404,7 @@ describe('#actions', () => {
       const payload = {
         conversationId: 1,
         assignee: { id: 1, name: 'User' },
+        assigneeType: 'AgentBot',
       };
       await actions.setCurrentChatAssignee({ commit }, payload);
       expect(commit).toHaveBeenCalledTimes(1);

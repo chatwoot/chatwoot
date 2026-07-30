@@ -30,5 +30,59 @@
     "VALIDATION_ERROR": "Por favor, preencha todos os campos obrigatórios",
     "SUCCESS": "Detalhes salvos com sucesso",
     "ERROR": "Não foi possível salvar os detalhes. Por favor, tente novamente."
+  },
+  "ONBOARDING_INBOX_SETUP": {
+    "GREETING": "Vamos montar algumas coisas",
+    "SUBTITLE": "Isto lhe dará início em sua área de trabalho",
+    "CONTINUE": "Continuar",
+    "SKIP": "Pular",
+    "ERROR": "Algo deu errado. Por favor, tente novamente.",
+    "WHATSAPP_CONNECTED": "WhatsApp conectado com sucesso",
+    "FACEBOOK_CONNECTED": "Facebook conectado com sucesso",
+    "CREATED_FOR_YOU": {
+      "TITLE": "Criamos o seguinte para você",
+      "LIVE_CHAT": "Widget de bate-papo ao vivo",
+      "LIVE_CHAT_DESCRIPTION": "Mensageiro instantâneo para seu site",
+      "LIVE_CHAT_STATUS": "Quase terminado…",
+      "LIVE_CHAT_READY": "Pronto",
+      "HELP_CENTER": "Centro de Ajuda",
+      "HELP_CENTER_DESCRIPTION": "Sua enciclopédia digital",
+      "HELP_CENTER_GENERATING": "Criando seu centro de ajuda…",
+      "HELP_CENTER_ANALYZING_WEBSITE": "Analisando seu site…",
+      "HELP_CENTER_SETTING_UP_CATEGORIES": "Configurando categorias…",
+      "HELP_CENTER_CURATING_ARTICLES": "Curando artigos…",
+      "HELP_CENTER_ARTICLES": "Artigo {count} criado com {count} artigos",
+      "HELP_CENTER_CATEGORIES": "categoria {count} | {count} categorias",
+      "HELP_CENTER_SUMMARY": "Artigo {count} criado com {categories} (200) {count} artigos criados com {categories}"
+    },
+    "CHANNELS": {
+      "TITLE": "Conectar todos os seus canais de conversa",
+      "HEADER": "Encontramos alguns canais que você pode conectar",
+      "CONNECT": "Conectar",
+      "CONNECTED": "Conectado",
+      "MORE_CHANNELS_NOTE": "Configure canais {email} e {voice} mais tarde dentro do aplicativo",
+      "MORE_CHANNELS_EMAIL": "E-mail",
+      "MORE_CHANNELS_VOICE": "Voz",
+      "VIEW_ALL": "Visualizar tudo",
+      "GMAIL": "Gmail",
+      "OUTLOOK": "Perspectiva",
+      "OTHER_EMAIL": "Outros provedores de e-mail"
+    },
+    "CHANNELS_DIALOG": {
+      "TITLE": "Conecte todos os seus canais instantaneamente",
+      "SUBTITLE": "Gerencie todos eles a partir de um painel. Você também pode configurar e editar caixas de entrada mais tarde dentro do aplicativo.",
+      "NOTE": "SMS, API, Voz e outros provedores de e-mail podem ser configurados posteriormente a partir do seu painel.",
+      "CONNECT_TITLE": "Conecte a sua conta {name}",
+      "CONNECT_SUBTITLE": "Preencha estes detalhes rápidos",
+      "CONNECT": "Conectar",
+      "BACK": "Anterior",
+      "SETUP_LATER": "Configurar mais tarde no aplicativo",
+      "FACEBOOK_SUBTITLE": "Autorizar acesso e escolher uma página para conectar.",
+      "FACEBOOK_LAUNCH": "Continue com o Facebook",
+      "FACEBOOK_SELECT_PAGE": "Selecione uma página para conectar",
+      "FACEBOOK_LOADING": "Carregando suas Páginas do Facebook…",
+      "FACEBOOK_NO_PAGES": "Nenhuma página conectável encontrada. Todas as suas páginas já estão conectadas.",
+      "FACEBOOK_ERROR": "Não foi possível conectar-se ao Facebook. Por favor, tente novamente."
+    }
   }
 }

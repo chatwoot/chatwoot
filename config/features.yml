@@ -1,11 +1,19 @@
 # DO NOT change the order of features EVER
 ############################################
-# name: the name to be used internally in the code
-# display_name: the name to be used in the UI
-# enabled: whether the feature is enabled by default
-# help_url: the url to the help center article
-# chatwoot_internal: whether the feature is internal to Chatwoot and should not be shown in the UI for other self hosted installations
-# deprecated: purpose of feature flag is done, no need to show it in the UI anymore
+# name:               the name to be used internally in the code
+# display_name:       the name to be used in the UI
+# enabled:            whether the feature is enabled by default
+# column:             the account bitset column used to store the flag. Defaults to feature_flags. 
+#                     Use feature_flags_ext_1 for extension flags. Each bigint column supports 63 flags.
+# help_url:           the url to the help center article
+# chatwoot_internal:  whether the feature is internal to Chatwoot and should not be shown in the UI for other self hosted installations
+# deprecated:         purpose of feature flag is done, no need to show it in the UI anymore
+#
+# ADDING A NEW FEATURE FLAG:
+#   - The `feature_flags` column is FULL (63/63 slots used). Do NOT add to it.
+#   - New flags MUST set `column: feature_flags_ext_1` and be appended at the end.
+#   - Bit positions are persisted per column; never reorder or remove existing
+#     entries, and never change an existing feature's `column` after release.
 - name: inbound_emails
   display_name: Inbound Emails
   enabled: true
@@ -112,10 +120,9 @@
   display_name: Message Reply To
   enabled: false
   deprecated: true
-- name: insert_article_in_reply
-  display_name: Insert Article in Reply
+- name: branded_email_templates
+  display_name: Branded Email Templates
   enabled: false
-  deprecated: true
 - name: inbox_view
   display_name: Inbox View
   enabled: false
@@ -215,10 +222,10 @@
   display_name: Reply Mailer Migration
   enabled: false
   chatwoot_internal: true
-- name: quoted_email_reply
-  display_name: Quoted Email Reply
+- name: unread_count_for_filters
+  display_name: Unread Count For Filters
   enabled: false
-  deprecated: true
+  chatwoot_internal: true
 - name: companies
   display_name: Companies
   enabled: false
@@ -241,3 +248,23 @@
   display_name: Advanced Assignment
   enabled: false
   premium: true
+- name: whatsapp_manual_transfer
+  display_name: WhatsApp Manual Transfer
+  enabled: false
+  column: feature_flags_ext_1
+- name: data_import
+  display_name: Data Import
+  enabled: false
+  column: feature_flags_ext_1
+- name: api_and_webhooks
+  display_name: API and Webhooks
+  enabled: true
+  column: feature_flags_ext_1
+- name: whatsapp_reconfigure
+  display_name: WhatsApp Reconfigure
+  enabled: false
+  column: feature_flags_ext_1
+- name: whatsapp_embedded_signup_inbox_creation
+  display_name: WhatsApp Embedded Signup Flow
+  enabled: false
+  column: feature_flags_ext_1

@@ -8,6 +8,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  disableDrag: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['click', 'action', 'reorder']);
@@ -15,7 +19,7 @@ const emit = defineEmits(['click', 'action', 'reorder']);
 const localCategories = ref(props.categories);
 
 const dragEnabled = computed(() => {
-  return localCategories.value?.length > 1;
+  return !props.disableDrag && localCategories.value?.length > 1;
 });
 
 const handleClick = slug => {

@@ -31,6 +31,14 @@ class UserSessionTrackingService
   private
 
   def session_attributes
+    client_headers = mobile_client_headers
+    if client_headers
+      return client_headers.merge(
+        ip_address: @request.remote_ip,
+        user_agent: @request.user_agent
+      )
+    end
+
     browser = Browser.new(@request.user_agent)
 
     attrs = {
@@ -44,6 +52,30 @@ class UserSessionTrackingService
     }
 
     patch_for_legacy_mobile(attrs)
+  end
+
+  def mobile_client_headers
+    name = @request.headers['X-Chatwoot-Client-Name']
+    return nil if name.blank?
+
+    platform = @request.headers['X-Chatwoot-Platform']
+    model = @request.headers['X-Chatwoot-Device-Model']
+
+    {
+      browser_name: name,
+      browser_version: @request.headers['X-Chatwoot-Client-Version'],
+      device_name: device_name_for_icon(platform, model),
+      platform_name: model,
+      platform_version: @request.headers['X-Chatwoot-Platform-Version']
+    }
+  end
+
+  def device_name_for_icon(platform, model)
+    normalized_platform = platform.to_s.downcase
+    return 'iPad' if normalized_platform == 'ios' && model.to_s.include?('iPad')
+    return 'iPhone' if normalized_platform == 'ios'
+
+    'Android'
   end
 
   def patch_for_legacy_mobile(attrs)
