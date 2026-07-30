@@ -20,6 +20,10 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
 
   private
 
+  def safe_to_run_after_new_customer_message?
+    true
+  end
+
   def record_retrieved_sources(tool_context, responses)
     return if responses.empty?
 
