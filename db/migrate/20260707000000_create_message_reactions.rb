@@ -19,6 +19,12 @@ class CreateMessageReactions < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
+    add_message_reaction_indexes
+  end
+
+  private
+
+  def add_message_reaction_indexes
     add_index :message_reactions, :source_id, unique: true, where: 'source_id IS NOT NULL'
     add_index :message_reactions,
               [:message_id, :direction, :external_message_id, :actor_external_id],
