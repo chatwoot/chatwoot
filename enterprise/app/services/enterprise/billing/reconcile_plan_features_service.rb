@@ -36,10 +36,10 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   PREMIUM_PLAN_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES + ENTERPRISE_PLAN_FEATURES).freeze
   SHOPIFY_BASE_MANAGED_FEATURES = (PREMIUM_PLAN_FEATURES + %w[captain_integration_v2]).freeze
 
-  pattr_initialize [:account!]
+  pattr_initialize [:account!, { shopify_lifecycle_cleanup: false }]
 
   def perform
-    return if shopify_billing? && !Shopify::FeatureGate.enabled?(account: account)
+    return if shopify_billing? && !shopify_lifecycle_cleanup && !Shopify::FeatureGate.enabled?(account: account)
 
     account.disable_features(*managed_plan_features)
     account.disable_features('captain_integration_v2') if default_plan?
