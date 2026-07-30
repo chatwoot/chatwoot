@@ -627,7 +627,8 @@ export default {
         await this.fetchHealthData();
       } catch (error) {
         useAlert(
-          error.message ||
+          error.response?.data?.error ||
+            error.message ||
             this.$t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_ERROR')
         );
       } finally {
