@@ -251,6 +251,8 @@
     "KEYBOARD_SHORTCUTS": "Atajos de teclado",
     "APPEARANCE": "Cambiar apariencia",
     "SUPER_ADMIN_CONSOLE": "Consola SuperAdmin",
+    "PANEL_AI": "Abrir Panel IA",
+    "PANEL_AI_ERROR": "No se pudo abrir Panel IA. Revisá PANEL_AI_PUBLIC_URL o reintentá.",
     "DOCS": "Leer la documentación",
     "CHANGELOG": "Notas de versión",
     "LOGOUT": "Cerrar sesión"
