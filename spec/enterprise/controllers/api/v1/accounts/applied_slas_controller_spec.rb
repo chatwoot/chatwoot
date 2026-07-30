@@ -148,6 +148,20 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(conversation_ids).to contain_exactly(conversation1.display_id, conversation2.display_id)
       end
 
+      it 'neutralizes formulas in the exported values' do
+        formula = '=HYPERLINK("http://attacker.example","click me")'
+        sla_policy1.update!(name: formula)
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
+
+        get "/api/v1/accounts/#{account.id}/applied_slas/download",
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        csv_data = CSV.parse(response.body)
+        csv_data.reject! { |row| row.all?(&:nil?) }
+        expect(csv_data[1][1]).to eq("'#{formula}")
+      end
+
       it 'excludes conversations with blocked contacts from the CSV file' do
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, sla_status: 'missed')

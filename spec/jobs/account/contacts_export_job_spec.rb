@@ -121,6 +121,18 @@ RSpec.describe Account::ContactsExportJob do
       ActiveSupport::Notifications.unsubscribe(subscriber) if subscriber
     end
 
+    it 'neutralizes formulas in exported contact attributes' do
+      formula = '=HYPERLINK("http://attacker.example","click me")'
+      create(:contact, account: account, name: formula, email: 'formula@text.example')
+
+      described_class.perform_now(account.id, user.id, %w[id name email], {})
+
+      csv_content = account.contacts_export.download.force_encoding('UTF-8').delete_prefix("\xEF\xBB\xBF")
+      row = CSV.parse(csv_content, headers: true).find { |r| r['email'] == 'formula@text.example' }
+
+      expect(row['name']).to eq("'#{formula}")
+    end
+
     it 'prepends UTF-8 BOM to the exported CSV for spreadsheet compatibility' do
       described_class.perform_now(account.id, user.id, [], {})
 
