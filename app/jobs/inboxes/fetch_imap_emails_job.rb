@@ -32,19 +32,22 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   end
 
   def fetch_mails_with_lock(channel, interval)
-    key = format(::Redis::Alfred::EMAIL_MESSAGE_MUTEX, inbox_id: channel.inbox.id)
+    inbox_id = channel.inbox.id
+    key = format(::Redis::Alfred::EMAIL_MESSAGE_MUTEX, inbox_id: inbox_id)
     success = false
+    started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
-    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Attempting lock for inbox #{channel.inbox.id}"
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Attempting lock for inbox #{inbox_id}"
     with_lock(key, 5.minutes) do
-      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Lock acquired for inbox #{channel.inbox.id}"
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Lock acquired for inbox #{inbox_id}"
       success = process_email_for_channel(channel, interval)
     end
 
+    duration = (Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at).round(1)
     if success
-      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Job completed for inbox #{channel.inbox.id}"
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Job completed for inbox #{inbox_id} in #{duration}s"
     else
-      Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Job completed with authorization error for inbox #{channel.inbox.id}"
+      Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Job completed with authorization error for inbox #{inbox_id} in #{duration}s"
     end
   end
 
