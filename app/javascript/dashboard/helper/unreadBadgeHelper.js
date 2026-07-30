@@ -19,8 +19,12 @@ const baseImages = {};
 let unreadCount = 0;
 let showDot = false;
 let renderedSignature = null;
+// Rendering a badge waits on an image load, so a newer state can win the race
+// while an older one is still pending.
+let renderToken = 0;
 
-const faviconLinks = () => Array.from(document.querySelectorAll('link.favicon'));
+const faviconLinks = () =>
+  Array.from(document.querySelectorAll('link.favicon'));
 
 const sizeOfLink = link => {
   const size = parseInt(link.getAttribute('sizes') || '', 10);
@@ -30,9 +34,9 @@ const sizeOfLink = link => {
 const countLabel = count => (count > MAX_COUNT ? `${MAX_COUNT}+` : `${count}`);
 
 /**
- * Loads (and caches) the favicon shipped with the app. The link `href` itself is
- * replaced by a data URL once a badge is drawn, so the original path is the only
- * safe source to draw from.
+ * Loads (and caches) the favicon shipped with the app. The link `href` is
+ * replaced by a data URL once a badge is drawn, so the original path is the
+ * only safe source to draw from.
  */
 const loadBaseImage = size =>
   new Promise((resolve, reject) => {
@@ -55,9 +59,10 @@ const drawBadge = (context, size, count) => {
   const height = withNumber ? size * 0.6 : size * 0.5;
   const radius = height / 2;
   // `99+` needs a smaller face to stay inside the icon.
-  const fontScale = label.length > 2 ? 0.6 : 0.78;
+  const fontSize = Math.round(height * (label.length > 2 ? 0.6 : 0.78));
+  const fontStack = '-apple-system, "Helvetica Neue", Arial, sans-serif';
 
-  context.font = `bold ${Math.round(height * fontScale)}px -apple-system, "Helvetica Neue", Arial, sans-serif`;
+  context.font = `bold ${fontSize}px ${fontStack}`;
   context.textAlign = 'center';
   context.textBaseline = 'middle';
 
@@ -94,20 +99,24 @@ const drawBadge = (context, size, count) => {
   context.fillText(label, left + width / 2, centerY + height * 0.04);
 };
 
-const renderLink = async link => {
+const renderLink = async (link, token) => {
   const size = sizeOfLink(link);
   const hasBadge = unreadCount > 0 || showDot;
+  const count = unreadCount;
 
   try {
     const baseImage = await loadBaseImage(size);
+    if (token !== renderToken) return;
+
     const canvas = document.createElement('canvas');
     canvas.width = size;
     canvas.height = size;
     const context = canvas.getContext('2d');
     context.drawImage(baseImage, 0, 0, size, size);
-    if (hasBadge) drawBadge(context, size, unreadCount);
+    if (hasBadge) drawBadge(context, size, count);
     link.href = canvas.toDataURL('image/png');
   } catch {
+    if (token !== renderToken) return;
     // Canvas unavailable or the icon failed to load: fall back to the static
     // badged favicons shipped with the app.
     link.href = hasBadge
@@ -117,7 +126,9 @@ const renderLink = async link => {
 };
 
 const renderFavicons = () => {
-  faviconLinks().forEach(renderLink);
+  renderToken += 1;
+  const token = renderToken;
+  faviconLinks().forEach(link => renderLink(link, token));
 };
 
 const renderTitle = () => {
@@ -128,7 +139,12 @@ const renderTitle = () => {
 const render = () => {
   const signature = `${unreadCount}|${showDot}`;
   if (signature === renderedSignature) return;
+
+  // Nothing to badge yet: leave the static favicons the layout shipped with.
+  const isUntouchedAndClean =
+    renderedSignature === null && unreadCount === 0 && !showDot;
   renderedSignature = signature;
+  if (isUntouchedAndClean) return;
 
   renderTitle();
   renderFavicons();
@@ -162,5 +178,3 @@ export const clearDotOnFavicon = () => {
   showDot = false;
   render();
 };
-
-export const getTabBadgeState = () => ({ unreadCount, showDot, baseTitle });

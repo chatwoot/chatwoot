@@ -44,6 +44,10 @@ class Notification < ApplicationRecord
     sla_missed_first_response: 6,
     sla_missed_next_response: 7,
     sla_missed_resolution: 8,
+    # MUToday addition. The value doubles as a FlagShihTzu bit on
+    # notification_settings, so it has to stay a small sequential number —
+    # when rebasing onto an upstream release that added its own type 9,
+    # renumber ours and migrate the existing rows and flag bits.
     all_conversations_new_message: 9
   }.freeze
 
