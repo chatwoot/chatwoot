@@ -45,3 +45,15 @@ describe('login retries', () => {
     );
   });
 });
+
+describe('SAML login', () => {
+  it('carries the Shopify pricing redirect to the SSO route', () => {
+    const redirectUrl =
+      'settings/billing?plan_handle=growth&shop=store.myshopify.com';
+
+    expect(Login.computed.samlLoginRoute.call({ redirectUrl })).toEqual({
+      name: 'sso_login',
+      query: { redirect_url: redirectUrl },
+    });
+  });
+});

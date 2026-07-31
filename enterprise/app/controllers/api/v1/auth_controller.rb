@@ -10,9 +10,9 @@ class Api::V1::AuthController < Api::BaseController
 
     return if @account.nil?
 
-    relay_state = params[:target] || 'web'
+    relay_state = params[:redirect_url].presence || params[:target] || 'web'
 
-    saml_initiation_url = "/auth/saml?account_id=#{@account.id}&RelayState=#{relay_state}"
+    saml_initiation_url = "/auth/saml?#{URI.encode_www_form(account_id: @account.id, RelayState: relay_state)}"
     redirect_to saml_initiation_url, status: :temporary_redirect
   end
 
@@ -57,7 +57,7 @@ class Api::V1::AuthController < Api::BaseController
       mobile_deep_link_base = GlobalConfigService.load('MOBILE_DEEP_LINK_BASE', 'chatwootapp')
       redirect_to "#{mobile_deep_link_base}://auth/saml?error=#{ERB::Util.url_encode(error)}", allow_other_host: true
     else
-      redirect_to sso_login_page_url(error: error)
+      redirect_to sso_login_page_url(error: error, redirect_url: params[:redirect_url])
     end
   end
 
@@ -65,9 +65,9 @@ class Api::V1::AuthController < Api::BaseController
     params[:target]&.casecmp('mobile')&.zero?
   end
 
-  def sso_login_page_url(error: nil)
+  def sso_login_page_url(error: nil, redirect_url: nil)
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
-    params = { error: error }.compact
+    params = { error: error, redirect_url: redirect_url }.compact
 
     query = params.to_query
     query_fragment = query.present? ? "?#{query}" : ''

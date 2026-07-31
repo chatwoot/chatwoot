@@ -111,6 +111,12 @@ export default {
     showSamlLogin() {
       return this.allowedLoginMethods.includes('saml');
     },
+    samlLoginRoute() {
+      const route = { name: 'sso_login' };
+      return this.redirectUrl
+        ? { ...route, query: { redirect_url: this.redirectUrl } }
+        : route;
+    },
   },
   created() {
     if (this.ssoAuthToken) {
@@ -360,7 +366,7 @@ export default {
           <GoogleOAuthButton v-if="showGoogleOAuth" />
           <div v-if="showSamlLogin" class="text-center">
             <router-link
-              to="/app/login/sso"
+              :to="samlLoginRoute"
               class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
             >
               <Icon

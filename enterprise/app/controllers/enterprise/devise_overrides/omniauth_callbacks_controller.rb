@@ -23,7 +23,7 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     if for_mobile?(relay_state)
       redirect_to_mobile_error(error)
     else
-      redirect_to login_page_url(error: "saml-#{error}")
+      redirect_to login_page_url(error: "saml-#{error}", redirect_url: saml_redirect_url(relay_state))
     end
   end
 
@@ -76,13 +76,17 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
   def sign_in_saml_user(relay_state)
     return sign_in_user_on_mobile if for_mobile?(relay_state)
 
-    sign_in_user
+    sign_in_user(redirect_url: saml_redirect_url(relay_state))
   end
 
   def handle_saml_auth_error(relay_state, error)
     return redirect_to_mobile_error(error) if for_mobile?(relay_state)
 
-    redirect_to login_page_url(error: error)
+    redirect_to login_page_url(error: error, redirect_url: saml_redirect_url(relay_state))
+  end
+
+  def saml_redirect_url(relay_state)
+    relay_state unless relay_state.blank? || relay_state == 'web'
   end
 
   def redirect_to_mobile_error(error)
