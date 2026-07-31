@@ -363,7 +363,10 @@ export default {
     >
       <div v-if="!email">
         <div class="flex flex-col gap-4">
-          <GoogleOAuthButton v-if="showGoogleOAuth" />
+          <GoogleOAuthButton
+            v-if="showGoogleOAuth"
+            :redirect-url="redirectUrl"
+          />
           <div v-if="showSamlLogin" class="text-center">
             <router-link
               :to="samlLoginRoute"

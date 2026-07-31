@@ -4,10 +4,12 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   def omniauth_success
     get_resource_from_auth_hash
 
-    @resource.present? ? sign_in_user : sign_up_user
+    @resource.present? ? sign_in_user(redirect_url: oauth_redirect_url) : sign_up_user
   end
 
   private
+
+  def oauth_redirect_url; end
 
   def sign_in_user(redirect_url: nil)
     # Capture before skip_confirmation! sets confirmed_at, which would
