@@ -29,6 +29,26 @@ describe GlobalConfigService do
         end
       end
 
+      it 'replaces a seeded false value with the environment value' do
+        config = InstallationConfig.find_or_initialize_by(name: 'ENABLE_ACCOUNT_SIGNUP')
+        config.update!(value: false, locked: false)
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          expect(described_class.load('ENABLE_ACCOUNT_SIGNUP', 'false')).to eq('true')
+          expect(config.reload.value).to eq('true')
+        end
+      end
+
+      it 'keeps a non-blank database value' do
+        config = InstallationConfig.find_or_initialize_by(name: 'ENABLE_ACCOUNT_SIGNUP')
+        config.update!(value: 'true', locked: false)
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
+          expect(described_class.load('ENABLE_ACCOUNT_SIGNUP', 'false')).to be(true)
+          expect(config.reload.value).to eq('true')
+        end
+      end
+
       # it 'get value from DB if found' do
       #   # Set a value in db first and make sure this value
       #   # is not respected even when load() method is called with

@@ -1,5 +1,6 @@
 class Webhooks::ShopifyController < ActionController::API
   COMPLIANCE_TOPICS = %w[customers/data_request customers/redact shop/redact].freeze
+  class CleanupIncomplete < StandardError; end
 
   before_action :ensure_shopify_enabled, unless: :compliance_event?
   before_action :verify_hmac!
@@ -41,6 +42,8 @@ class Webhooks::ShopifyController < ActionController::API
     shop_domain = params[:shop_domain]
     return if shop_domain.blank?
 
-    Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain).find_each(&:destroy!)
+    hooks = Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain)
+    hooks.find_each(&:destroy!)
+    raise CleanupIncomplete, 'Shopify shop redaction is incomplete' if hooks.exists?
   end
 end

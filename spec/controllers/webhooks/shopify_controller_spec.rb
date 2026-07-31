@@ -74,6 +74,25 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
     expect(response).to have_http_status(:ok)
   end
 
+  it 'raises a retryable failure when a matching hook appears during cleanup' do
+    hook
+    inserted_hook = nil
+    hooks = Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain)
+
+    allow(Integrations::Hook).to receive(:where)
+      .with(app_id: 'shopify', reference_id: shop_domain)
+      .and_return(hooks)
+    allow(hooks).to receive(:find_each) do |&block|
+      block.call(hook)
+      inserted_hook ||= create(:integrations_hook, :shopify, account: create(:account), reference_id: shop_domain)
+    end
+
+    post '/webhooks/shopify', params: body, headers: headers
+
+    expect(response).to have_http_status(:internal_server_error)
+    expect(inserted_hook).to be_persisted
+  end
+
   it 'does not process normal events when the installation switch is disabled' do
     headers['X-Shopify-Topic'] = 'app/uninstalled'
     allow(GlobalConfigService).to receive(:load)
