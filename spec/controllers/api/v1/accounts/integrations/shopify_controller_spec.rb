@@ -190,7 +190,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
       )
       expect(hook.settings).to include(
         'scope' => 'read_customers,read_orders',
-        'connected_at' => be_present,
+        'connected_at' => match(/\.\d{6}Z\z/),
         'installation_id' => be_present
       )
       expect(pending_installation).to have_received(:consume!)
@@ -225,6 +225,27 @@ RSpec.describe 'Shopify Integration API', type: :request do
 
       expect(pending_installation).to have_received(:release!)
       expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it 'returns a duplicate-store error and releases the retained claim' do
+      other_account = create(:account)
+      other_account.enable_features!('shopify_integration')
+      create(:integrations_hook, :shopify, account: other_account, reference_id: 'my-store.myshopify.com')
+      allow(Shopify::PendingInstallation).to receive(:claim)
+        .with(token: pending_install_token)
+        .and_return(pending_installation)
+      allow(pending_installation).to receive(:release!)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
+             params: { pending_install_token: pending_install_token },
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.not_to change(Integrations::Hook, :count)
+
+      expect(pending_installation).to have_received(:release!)
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq('This Shopify store is already connected')
     end
 
     it 'does not claim an install while Shopify is disabled' do

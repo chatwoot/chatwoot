@@ -108,7 +108,7 @@ RSpec.describe AccountBuilder do
           status: 'enabled',
           settings: include(
             'scope' => 'read_customers,read_orders',
-            'connected_at' => be_present,
+            'connected_at' => match(/\.\d{6}Z\z/),
             'installation_id' => match(/\A[0-9a-f-]{36}\z/)
           )
         )

@@ -33,7 +33,7 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
       redirect_url: requestedRedirectUrl,
       shopify_pending_install: pendingInstallToken,
     } = to.query || {};
-    if (pendingInstallToken) {
+    if (to.name === 'auth_signup' && pendingInstallToken) {
       clearBrowserSessionCookies();
       next();
       return;
