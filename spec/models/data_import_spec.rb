@@ -64,4 +64,36 @@ RSpec.describe DataImport do
       expect(data_import.abandoned_at).to be_nil
     end
   end
+
+  describe '#stalled?' do
+    let(:account) { create(:account) }
+
+    it 'identifies active Intercom imports without updates for fifteen minutes', :aggregate_failures do
+      freeze_time do
+        processing_import = create(:data_import, :intercom, account: account, status: :processing)
+        pending_import = create(:data_import, :intercom, account: account, status: :pending)
+        processing_import.update!(updated_at: 15.minutes.ago)
+        pending_import.update!(updated_at: 15.minutes.ago)
+
+        expect(processing_import.reload).to be_stalled
+        expect(pending_import.reload).to be_stalled
+      end
+    end
+
+    it 'does not identify recent or terminal Intercom imports as stalled', :aggregate_failures do
+      recent_import = create(:data_import, :intercom, account: account, status: :processing)
+      completed_import = create(:data_import, :intercom, account: account, status: :completed)
+      completed_import.update!(updated_at: 1.hour.ago)
+
+      expect(recent_import).not_to be_stalled
+      expect(completed_import.reload).not_to be_stalled
+    end
+
+    it 'does not identify legacy imports as stalled' do
+      legacy_import = create(:data_import, account: account, status: :processing)
+      legacy_import.update!(updated_at: 1.hour.ago)
+
+      expect(legacy_import.reload).not_to be_stalled
+    end
+  end
 end

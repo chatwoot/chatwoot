@@ -17,7 +17,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     request_body = {
       messaging_product: 'whatsapp',
       recipient_type: 'individual', # Only individual messages supported (not group messages)
-      to: phone_number,
+      # BSUID -> `recipient`; phone number -> `to` (see recipient_params in the base provider).
+      **recipient_params(phone_number),
       type: 'template',
       template: template_body
     }
@@ -34,27 +35,27 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def sync_templates
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
-    templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
-    whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc) if templates.present?
+    templates = fetch_whatsapp_templates
+    # rubocop:disable Rails/SkipsModelValidations
+    whatsapp_channel.update_columns(message_templates: templates, message_templates_last_updated: Time.current) if templates.present?
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
-  def fetch_whatsapp_templates(url)
-    response = HTTParty.get(url)
+  def fetch_whatsapp_templates(after: nil)
+    options = { headers: { 'Authorization' => "Bearer #{whatsapp_channel.template_access_token}" } }
+    options[:query] = { after: after } if after.present?
+    response = HTTParty.get("#{business_account_path}/message_templates", options)
     unless response.success?
       Rails.logger.warn "[WHATSAPP] Template sync failed for account #{whatsapp_channel.account_id} " \
                         "inbox #{whatsapp_channel.inbox&.id}: #{response.code} #{error_message(response)}"
       return []
     end
 
-    next_url = next_url(response)
+    next_cursor = response.dig('paging', 'cursors', 'after')
 
-    return response['data'] + fetch_whatsapp_templates(next_url) if next_url.present?
+    return response['data'] + fetch_whatsapp_templates(after: next_cursor) if next_cursor.present?
 
     response['data']
-  end
-
-  def next_url(response)
-    response['paging'] ? response['paging']['next'] : ''
   end
 
   def validate_provider_config?
@@ -128,7 +129,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       body: {
         messaging_product: 'whatsapp',
         context: whatsapp_reply_context(message),
-        to: phone_number,
+        **recipient_params(phone_number),
         text: { body: message.outgoing_content },
         type: 'text'
       }.to_json
@@ -148,7 +149,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       body: {
         :messaging_product => 'whatsapp',
         :context => whatsapp_reply_context(message),
-        'to' => phone_number,
+        **recipient_params(phone_number),
         'type' => type,
         type.to_s => type_content
       }.to_json
@@ -243,7 +244,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',
-        to: phone_number,
+        **recipient_params(phone_number),
         interactive: payload,
         type: 'interactive'
       }.to_json
