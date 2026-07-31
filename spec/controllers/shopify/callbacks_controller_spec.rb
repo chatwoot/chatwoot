@@ -41,7 +41,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
     before do
       allow(Redis::SecureStorage).to receive(:ensure_encryption_configured!)
       stub_const('ENV', ENV.to_hash.merge('FRONTEND_URL' => frontend_url))
-      account.enable_features('shopify_integration')
+      account.enable_features!('shopify_integration')
       allow(GlobalConfigService).to receive(:load)
         .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
         .and_return(true)
@@ -436,6 +436,34 @@ RSpec.describe Shopify::CallbacksController, type: :request do
           state: generated_state
         )
         expect(JSON.parse(Redis::SecureStorage.get("shopify_oauth_state:#{generated_state}"))).to eq('shop' => shop)
+      end
+    end
+
+    context 'when cleanup completes during the OAuth exchange' do
+      before do
+        allow(described_class).to receive(:new).and_wrap_original do |original, *args|
+          controller = original.call(*args)
+          allow(controller).to receive(:verify_shopify_token).and_return(nil)
+          allow(controller).to receive(:oauth_client).and_return(oauth_client)
+          allow(controller).to receive(:client_secret).and_return(client_secret)
+          controller
+        end
+        allow(oauth_client).to receive(:auth_code).and_return(auth_code_strategy)
+      end
+
+      it 'does not restore the hook from the older callback' do
+        hook = create(:integrations_hook, :shopify, account: account, reference_id: shop)
+        allow(auth_code_strategy).to receive(:get_token) do
+          Shopify::UninstallationService.new(hook: hook, occurred_at: Time.current).perform
+          token_response
+        end
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
+
+        expect(account.hooks.where(app_id: 'shopify')).to be_empty
+        expect(response).to redirect_to("#{shopify_redirect_uri}?error=true")
       end
     end
   end

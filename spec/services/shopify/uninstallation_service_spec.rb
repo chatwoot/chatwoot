@@ -31,6 +31,8 @@ RSpec.describe Shopify::UninstallationService do
     expect do
       described_class.new(hook: hook, occurred_at: connected_at + 1.minute).perform
     end.to change(Integrations::Hook, :count).by(-1)
+
+    expect(account.reload.internal_attributes[Shopify::InstallationGeneration::KEY]).to eq(1)
   end
 
   it 'ignores an uninstall event from before the current installation' do
@@ -41,6 +43,7 @@ RSpec.describe Shopify::UninstallationService do
       status: 'enabled',
       access_token: 'shopify-access-token'
     )
+    expect(account.reload.internal_attributes[Shopify::InstallationGeneration::KEY]).to be_nil
   end
 
   it 'reloads the installation generation while holding the hook lock' do
