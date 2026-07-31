@@ -257,6 +257,24 @@ RSpec.describe 'Shopify Integration API', type: :request do
       expect(response).to have_http_status(:internal_server_error)
     end
 
+    it 'preserves the hook when claim finalization has an unknown commit outcome' do
+      allow(Shopify::PendingInstallation).to receive(:claim)
+        .with(token: pending_install_token, account_id: account.id)
+        .and_return(pending_installation)
+      allow(pending_installation).to receive(:consume!)
+        .and_raise(Shopify::PendingInstallation::CommitOutcomeUnknown, 'Install token consumption outcome is unknown')
+      expect(pending_installation).not_to receive(:release!)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/integrations/shopify/complete_install",
+             params: { pending_install_token: pending_install_token },
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.to change(Integrations::Hook, :count).by(1)
+
+      expect(response).to have_http_status(:internal_server_error)
+    end
+
     it 'releases the pending install when hook creation fails' do
       create(:integrations_hook, :shopify, account: account)
       allow(Shopify::PendingInstallation).to receive(:claim).and_return(pending_installation)

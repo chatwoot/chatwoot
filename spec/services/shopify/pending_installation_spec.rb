@@ -36,6 +36,16 @@ RSpec.describe Shopify::PendingInstallation do
     retried_installation.release!
   end
 
+  it 'accepts a lost transaction reply when both keys were consumed' do
+    pending_installation = described_class.claim(token: token, account_id: account_id)
+    Redis::Alfred.delete(payload_key)
+    Redis::Alfred.delete(claim_key)
+    allow(Redis::Alfred).to receive(:with).and_raise(Redis::CannotConnectError, 'connection lost')
+    allow(pending_installation).to receive(:consume_state).and_return(:consumed)
+
+    expect { pending_installation.consume! }.not_to raise_error
+  end
+
   it 'does not consume the payload when the claim is no longer owned' do
     installation = described_class.claim(token: token, account_id: 1)
     Redis::Alfred.set(claim_key, 'newer-claim', ex: described_class::CLAIM_TTL.to_i)
