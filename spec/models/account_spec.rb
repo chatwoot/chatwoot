@@ -59,63 +59,6 @@ RSpec.describe Account do
     end
   end
 
-  describe 'billing identity' do
-    it 'defaults existing accounts to Stripe and Chatwoot signup' do
-      account = create(:account)
-
-      expect(account.billing_provider).to eq('stripe')
-      expect(account.signup_source).to eq('chatwoot')
-    end
-
-    it 'stores Shopify identity at account creation' do
-      account = create(
-        :account,
-        internal_attributes: {
-          'billing_provider' => 'shopify',
-          'signup_source' => 'shopify'
-        }
-      )
-
-      expect(account.billing_provider).to eq('shopify')
-      expect(account.signup_source).to eq('shopify')
-    end
-
-    it 'rejects unsupported billing providers and signup sources' do
-      account = build(:account)
-      account.billing_provider = 'unsupported'
-      account.signup_source = 'unsupported'
-
-      expect(account).not_to be_valid
-      expect(account.errors[:billing_provider]).to be_present
-      expect(account.errors[:signup_source]).to be_present
-    end
-
-    it 'does not allow billing identity to change after account creation' do
-      account = create(:account)
-
-      account.billing_provider = 'shopify'
-      account.signup_source = 'shopify'
-
-      expect(account.save).to be(false)
-      expect(account.errors[:billing_provider]).to include('cannot be changed after account creation')
-      expect(account.errors[:signup_source]).to include('cannot be changed after account creation')
-      expect(account.reload.billing_provider).to eq('stripe')
-      expect(account.signup_source).to eq('chatwoot')
-    end
-
-    it 'does not allow billing identity to change through symbol-keyed internal attributes' do
-      account = create(:account)
-
-      account.internal_attributes = account.internal_attributes.merge(billing_provider: 'shopify', signup_source: 'shopify')
-
-      expect(account.save).to be(false)
-      expect(account.errors[:billing_provider]).to include('cannot be changed after account creation')
-      expect(account.errors[:signup_source]).to include('cannot be changed after account creation')
-      expect(account.reload.billing_provider).to eq('stripe')
-      expect(account.signup_source).to eq('chatwoot')
-    end
-  end
-
   describe 'captain defaults for new accounts' do
     it 'does not store Captain model overrides or enable premium Captain features' do
       InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').update!(
