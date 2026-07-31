@@ -33,9 +33,13 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
       redirect_url: requestedRedirectUrl,
       shopify_pending_install: pendingInstallToken,
     } = to.query || {};
-    const redirectUrl = pendingInstallToken
-      ? `settings/integrations/shopify?shopify_pending_install=${encodeURIComponent(pendingInstallToken)}`
-      : requestedRedirectUrl;
+    if (pendingInstallToken) {
+      clearBrowserSessionCookies();
+      next();
+      return;
+    }
+
+    const redirectUrl = requestedRedirectUrl;
     const redirectTarget = redirectUrl
       ? `${DEFAULT_REDIRECT_URL}?redirect_url=${encodeURIComponent(redirectUrl)}`
       : DEFAULT_REDIRECT_URL;

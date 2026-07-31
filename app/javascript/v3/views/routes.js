@@ -38,6 +38,9 @@ export default [
     name: 'auth_signup',
     component: Signup,
     meta: { requireSignupEnabled: true },
+    props: route => ({
+      shopifyPendingInstall: route.query.shopify_pending_install,
+    }),
   },
   {
     path: frontendURL('auth/confirmation'),

@@ -15,6 +15,13 @@ import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue'
 import { register } from '../../../../../api/auth';
 import * as CompanyEmailValidator from 'company-email-validator';
 
+const props = defineProps({
+  shopifyPendingInstall: {
+    type: String,
+    default: '',
+  },
+});
+
 const MIN_PASSWORD_LENGTH = 6;
 
 const store = useStore();
@@ -67,6 +74,7 @@ const allowedLoginMethods = computed(
 
 const showGoogleOAuth = computed(
   () =>
+    !props.shopifyPendingInstall &&
     allowedLoginMethods.value.includes('google_oauth') &&
     Boolean(window.chatwootConfig.googleOAuthClientId)
 );
@@ -76,7 +84,10 @@ const isFormValid = computed(() => !v$.value.$invalid);
 const performRegistration = async () => {
   isSignupInProgress.value = true;
   try {
-    await register(credentials);
+    await register({
+      ...credentials,
+      shopifyPendingInstallToken: props.shopifyPendingInstall,
+    });
     router.push({
       name: 'auth_verify_email',
       state: { email: credentials.email },

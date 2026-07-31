@@ -6,6 +6,13 @@ import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import signupBg from 'assets/images/auth/signup-bg.jpg';
 
+const props = defineProps({
+  shopifyPendingInstall: {
+    type: String,
+    default: '',
+  },
+});
+
 const store = useStore();
 
 const isLoading = ref(false);
@@ -13,6 +20,7 @@ const globalConfig = computed(() => store.getters['globalConfig/get']);
 const isAChatwootInstance = computed(
   () => globalConfig.value.installationName === 'Chatwoot'
 );
+const isShopifySignup = computed(() => Boolean(props.shopifyPendingInstall));
 
 onBeforeMount(() => {
   isLoading.value = isAChatwootInstance.value;
@@ -52,12 +60,17 @@ const resizeContainers = () => {
             />
             <h2 class="mt-6 text-2xl font-semibold text-n-slate-12">
               {{
-                isAChatwootInstance
-                  ? $t('REGISTER.GET_STARTED')
-                  : $t('REGISTER.TRY_WOOT')
+                isShopifySignup
+                  ? $t('REGISTER.SHOPIFY.TITLE')
+                  : isAChatwootInstance
+                    ? $t('REGISTER.GET_STARTED')
+                    : $t('REGISTER.TRY_WOOT')
               }}
             </h2>
-            <p class="mt-2 text-sm text-n-slate-11">
+            <p v-if="isShopifySignup" class="mt-2 text-sm text-n-slate-11">
+              {{ $t('REGISTER.SHOPIFY.DESCRIPTION') }}
+            </p>
+            <p v-else class="mt-2 text-sm text-n-slate-11">
               {{ $t('REGISTER.HAVE_AN_ACCOUNT') }}{{ ' '
               }}<router-link
                 class="text-n-blue-10 font-medium hover:text-n-blue-11"
@@ -67,7 +80,7 @@ const resizeContainers = () => {
               </router-link>
             </p>
           </div>
-          <SignupForm />
+          <SignupForm :shopify-pending-install="shopifyPendingInstall" />
         </div>
       </div>
       <Testimonials
