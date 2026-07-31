@@ -28,8 +28,9 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
 
     reservation_id = SecureRandom.uuid
     with_lock do
-      reservations = active_response_reservations
-      next false if custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i + reservations.size >= response_limit
+      reservations = response_reservations
+      active_reservations = active_response_reservations(reservations)
+      next false if custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i + active_reservations.size >= response_limit
 
       reservations[reservation_id] = CAPTAIN_RESPONSE_RESERVATION_TTL.from_now.to_i
       update_custom_attribute(CAPTAIN_RESPONSE_RESERVATIONS, reservations)
@@ -39,7 +40,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
 
   def release_response_usage(reservation_id)
     with_lock do
-      reservations = active_response_reservations
+      reservations = response_reservations
       released = reservations.delete(reservation_id).present?
       update_custom_attribute(CAPTAIN_RESPONSE_RESERVATIONS, reservations)
       released
@@ -232,8 +233,8 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     clear_attribute_changes([:custom_attributes])
   end
 
-  def active_response_reservations
-    response_reservations.select { |_reservation_id, expires_at| expires_at.to_i > Time.current.to_i }
+  def active_response_reservations(reservations = response_reservations)
+    reservations.select { |_reservation_id, expires_at| expires_at.to_i > Time.current.to_i }
   end
 
   def response_reservations
