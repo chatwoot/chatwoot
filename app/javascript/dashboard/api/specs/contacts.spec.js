@@ -38,6 +38,13 @@ describe('#ContactsAPI', () => {
       );
     });
 
+    it('#get with pageSize', () => {
+      contactAPI.get(1, 'name', 'customer-support', 50);
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/contacts?include_contact_inboxes=false&page=1&sort=name&labels[]=customer-support&page_size=50'
+      );
+    });
+
     it('#getConversations', () => {
       contactAPI.getConversations(1);
       expect(axiosMock.get).toHaveBeenCalledWith(
@@ -85,6 +92,14 @@ describe('#ContactsAPI', () => {
       );
     });
 
+    it('#search with pageSize', () => {
+      contactAPI.search('leads', 1, 'date', 'customer-support', {}, 100);
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/contacts/search?include_contact_inboxes=false&page=1&sort=date&q=leads&labels[]=customer-support&page_size=100',
+        { signal: undefined }
+      );
+    });
+
     it('#destroyCustomAttributes', () => {
       contactAPI.destroyCustomAttributes(1, ['cloudCustomer']);
       expect(axiosMock.post).toHaveBeenCalledWith(
@@ -125,6 +140,15 @@ describe('#ContactsAPI', () => {
       );
     });
 
+    it('#filter with pageSize', () => {
+      const queryPayload = { payload: [] };
+      contactAPI.filter(1, 'name', queryPayload, 250);
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/contacts/filter?include_contact_inboxes=false&page=1&sort=name&page_size=250',
+        queryPayload
+      );
+    });
+
     it('#destroyAvatar', () => {
       contactAPI.destroyAvatar(1);
       expect(axiosMock.delete).toHaveBeenCalledWith(
@@ -135,17 +159,39 @@ describe('#ContactsAPI', () => {
 });
 
 describe('#buildContactParams', () => {
-  it('returns correct string', () => {
+  it('returns correct string without optional params', () => {
     expect(buildContactParams(1, 'name', '', '')).toBe(
       'include_contact_inboxes=false&page=1&sort=name'
     );
+  });
+
+  it('includes label when provided', () => {
     expect(buildContactParams(1, 'name', 'customer-support', '')).toBe(
       'include_contact_inboxes=false&page=1&sort=name&labels[]=customer-support'
     );
+  });
+
+  it('includes search query and label when both provided', () => {
     expect(
       buildContactParams(1, 'name', 'customer-support', 'message-content')
     ).toBe(
       'include_contact_inboxes=false&page=1&sort=name&q=message-content&labels[]=customer-support'
+    );
+  });
+
+  it('appends page_size when provided', () => {
+    expect(buildContactParams(1, 'name', '', '', 50)).toBe(
+      'include_contact_inboxes=false&page=1&sort=name&page_size=50'
+    );
+  });
+
+  it('omits page_size when not provided', () => {
+    expect(buildContactParams(1, 'name', '', '')).not.toContain('page_size');
+  });
+
+  it('includes all params together', () => {
+    expect(buildContactParams(2, '-created_at', 'vip', 'john', 100)).toBe(
+      'include_contact_inboxes=false&page=2&sort=-created_at&q=john&labels[]=vip&page_size=100'
     );
   });
 });

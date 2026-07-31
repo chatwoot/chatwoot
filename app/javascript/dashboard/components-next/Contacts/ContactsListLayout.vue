@@ -27,6 +27,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   'update:currentPage',
+  'update:itemsPerPage',
   'update:sort',
   'search',
   'applyFilter',
@@ -122,7 +123,9 @@ const showPagination = computed(() => {
           :total-items="totalItems"
           class="max-w-[67rem]"
           :items-per-page="itemsPerPage"
+          show-page-size-selector
           @update:current-page="updateCurrentPage"
+          @update:items-per-page="emit('update:itemsPerPage', $event)"
         />
       </footer>
     </div>
