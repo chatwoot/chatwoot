@@ -14,13 +14,21 @@ vi.mock('vuex', () => ({
     },
   }),
 }));
+vi.mock('shared/composables/useBranding', () => ({
+  useBranding: () => ({
+    replaceInstallationName: value => value.replace('Chatwoot', 'Acme'),
+  }),
+}));
 
 const mountComponent = props =>
   shallowMount(Signup, {
     props,
     global: {
       mocks: {
-        $t: key => key,
+        $t: key =>
+          key === 'REGISTER.SHOPIFY.TITLE'
+            ? 'Set up Chatwoot for your Shopify store'
+            : key,
       },
       stubs: {
         RouterLink: {
@@ -39,7 +47,7 @@ describe('Shopify signup', () => {
     expect(
       wrapper.findComponent(SignupForm).props('shopifyPendingInstall')
     ).toBe('pending-install-token');
-    expect(wrapper.text()).toContain('REGISTER.SHOPIFY.TITLE');
+    expect(wrapper.text()).toContain('Set up Acme for your Shopify store');
     expect(wrapper.find('a').exists()).toBe(false);
   });
 
