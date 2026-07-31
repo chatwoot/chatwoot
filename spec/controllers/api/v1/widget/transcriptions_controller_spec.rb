@@ -55,6 +55,7 @@ RSpec.describe '/api/v1/widget/transcription', type: :request do
 
       before do
         web_widget.update!(voice_recorder: true)
+        account.enable_features!(:voice_recorder)
         allow(Widget::AudioTranscriptionConfig).to receive(:configured?).and_return(true)
         allow(Messages::WidgetAudioTranscriptionService).to receive(:new).and_return(transcription_service)
       end

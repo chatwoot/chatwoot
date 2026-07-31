@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Widget::AudioTranscriptionConfig do
   before do
-    InstallationConfig.find_by!(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'captain-api-key')
-    InstallationConfig.find_by!(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://captain.example.com')
+    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'captain-api-key')
+    create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://captain.example.com')
   end
 
   it 'uses the Captain key and endpoint together as fallback configuration' do
