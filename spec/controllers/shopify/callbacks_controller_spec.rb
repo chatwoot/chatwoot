@@ -330,6 +330,44 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         )
       end
 
+      it 'recreates a hook deleted while the reconnect lock is being acquired' do
+        hook = create(
+          :integrations_hook,
+          :shopify,
+          account: shopify_account,
+          reference_id: shop,
+          status: :disabled,
+          access_token: nil
+        )
+        deleted = false
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(Integrations::Hook).to receive(:with_lock).and_wrap_original do |original, *args, &block|
+          if original.receiver.id == hook.id && !deleted
+            deleted = true
+            hook.delete
+            raise ActiveRecord::RecordNotFound
+          end
+
+          original.call(*args, &block)
+        end
+        # rubocop:enable RSpec/AnyInstance
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
+
+        replacement_hook = shopify_account.hooks.find_by!(app_id: 'shopify')
+        expect(replacement_hook.id).not_to eq(hook.id)
+        expect(replacement_hook).to have_attributes(
+          status: 'enabled',
+          access_token: access_token,
+          reference_id: shop
+        )
+        expect(response).to redirect_to(
+          "#{frontend_url}/app/accounts/#{shopify_account.id}/settings/billing?shop=#{shop}"
+        )
+      end
+
       it 'does not exchange the OAuth code when the account feature is disabled' do
         create(:integrations_hook, :shopify, account: shopify_account, reference_id: shop)
         shopify_account.disable_features!('shopify_integration')

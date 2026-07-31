@@ -69,23 +69,31 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def create_hook
-    account.hooks.create!(
+    account.hooks.create!(shopify_hook_attributes)
+  end
+
+  def reconnect_existing_shopify_account
+    loop do
+      hook = account.hooks.find_by(app_id: 'shopify')
+      return account.hooks.create!(shopify_hook_attributes) unless hook
+
+      begin
+        hook.with_lock { hook.update!(shopify_hook_attributes) }
+        return
+      rescue ActiveRecord::RecordNotFound
+        next
+      end
+    end
+  end
+
+  def shopify_hook_attributes
+    {
       app_id: 'shopify',
       access_token: parsed_body['access_token'],
       status: 'enabled',
       reference_id: params[:shop],
       settings: shopify_hook_settings
-    )
-  end
-
-  def reconnect_existing_shopify_account
-    hook = account.hooks.find_or_initialize_by(app_id: 'shopify')
-    hook.update!(
-      access_token: parsed_body['access_token'],
-      status: :enabled,
-      reference_id: params[:shop],
-      settings: shopify_hook_settings
-    )
+    }
   end
 
   def shopify_hook_settings
