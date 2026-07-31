@@ -6,7 +6,6 @@ import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import { useBranding } from 'shared/composables/useBranding';
 import signupBg from 'assets/images/auth/signup-bg.jpg';
-import { useBranding } from 'shared/composables/useBranding';
 
 const props = defineProps({
   shopifyPendingInstall: {
