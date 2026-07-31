@@ -244,7 +244,8 @@ describe Enterprise::Billing::HandleStripeEventService do
         expect(account.reload).to be_feature_enabled('captain_integration_v2')
       end
 
-      it 'keeps Captain V2 disabled for accounts explicitly held on V1' do
+      it 'disables Captain V2 for accounts explicitly held on V1' do
+        account.enable_features!('captain_integration_v2')
         account.update!(
           internal_attributes: account.internal_attributes.merge(
             Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE => false
