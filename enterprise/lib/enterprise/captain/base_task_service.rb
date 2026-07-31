@@ -4,15 +4,48 @@ module Enterprise::Captain::BaseTaskService
     return { error: I18n.t('captain.copilot_limit'), error_code: 429 } if usage_reservation == false
     return disabled_result(usage_reservation) unless captain_tasks_enabled?
 
+    usage_heartbeat = start_usage_heartbeat(usage_reservation)
     result = super
     finalize_usage(result, usage_reservation)
     result
   rescue StandardError
     release_usage(usage_reservation) if usage_reservation
     raise
+  ensure
+    stop_usage_heartbeat(usage_heartbeat)
   end
 
   private
+
+  def start_usage_heartbeat(usage_reservation)
+    return unless usage_reservation
+
+    account_id = account.id
+    stop_signal = Queue.new
+    thread = Thread.new do
+      loop do
+        break if stop_signal.pop(timeout: Enterprise::Account::PlanUsageAndLimits::CAPTAIN_RESPONSE_RESERVATION_TTL / 3)
+
+        renewed = Rails.application.executor.wrap do
+          Account.find_by(id: account_id)&.renew_response_usage(usage_reservation)
+        end
+        break unless renewed
+      rescue ThreadError
+        next
+      rescue StandardError => e
+        ChatwootExceptionTracker.new(e).capture_exception
+      end
+    end
+
+    { stop_signal: stop_signal, thread: thread }
+  end
+
+  def stop_usage_heartbeat(heartbeat)
+    return unless heartbeat
+
+    heartbeat[:stop_signal] << true
+    heartbeat[:thread].join
+  end
 
   def reserve_usage
     return unless counts_toward_usage? && ChatwootApp.chatwoot_cloud?

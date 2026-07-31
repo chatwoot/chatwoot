@@ -76,6 +76,9 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       end
 
       it 'keeps the reservation for a successful result' do
+        heartbeat = { thread: instance_double(Thread), stop_signal: instance_double(Queue) }
+        allow(service).to receive(:start_usage_heartbeat).with('reservation-id').and_return(heartbeat)
+        expect(service).to receive(:stop_usage_heartbeat).with(heartbeat)
         expect(account).to receive(:commit_response_usage).with('reservation-id')
         expect(account).not_to receive(:increment_response_usage)
         expect(account).not_to receive(:release_response_usage)
