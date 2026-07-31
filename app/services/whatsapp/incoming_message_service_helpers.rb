@@ -69,6 +69,18 @@ module Whatsapp::IncomingMessageServiceHelpers
 
   def process_in_reply_to(message)
     @in_reply_to_external_id = message['context']&.[]('id')
+    return if @in_reply_to_external_id.blank?
+
+    @in_reply_to_message_id = Whatsapp::InReplyToMessageFinder.new(
+      conversation: @conversation,
+      source_id: @in_reply_to_external_id
+    ).perform&.id
+  end
+
+  def referral_attributes(message)
+    return {} if outgoing_echo
+
+    message[:referral]&.to_h&.deep_stringify_keys || {}
   end
 
   def find_message_by_source_id(source_id)

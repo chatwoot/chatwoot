@@ -44,6 +44,8 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "আপনি শুধুমাত্র টেমপ্লেট বার্তা ব্যবহার করে এই আলাপে উত্তর দিতে পারবেন কারণ",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "২৪ ঘণ্টার বার্তা সীমাবদ্ধতা",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "এই Instagram অ্যাকাউন্টটি নতুন Instagram চ্যানেল ইনবক্সে স্থানান্তরিত হয়েছে। সব নতুন বার্তা সেখানে দেখা যাবে। আপনি আর এই কথোপকথন থেকে বার্তা পাঠাতে পারবেন না।",
+    "INSTAGRAM_RESTRICTION_BANNER": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status update",
     "REPLYING_TO": "আপনি যাকে উত্তর দিচ্ছেন:",
     "REMOVE_SELECTION": "নির্বাচন সরান",
     "DOWNLOAD": "ডাউনলোড",
@@ -62,6 +64,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "এই বার্তাটি সমর্থিত নয়। আপনি Facebook Messenger অ্যাপে এই বার্তাটি দেখতে পারেন।",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "এই বার্তাটি সমর্থিত নয়। আপনি Instagram অ্যাপে এই বার্তাটি দেখতে পারেন।",
     "UNSUPPORTED_MESSAGE_TIKTOK": "এই বার্তাটি সমর্থিত নয়। TikTok অ্যাপে এই বার্তাটি দেখতে পারেন।",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "বার্তা সফলভাবে মুছে ফেলা হয়েছে",
     "FAIL_DELETE_MESSSAGE": "বার্তা মুছে ফেলা যায়নি! আবার চেষ্টা করুন",
     "NO_RESPONSE": "কোনো উত্তর নেই",
@@ -79,13 +82,22 @@
       "OUTGOING_CALL": "আউটগোয়িং কল",
       "CALL_IN_PROGRESS": "কল চলছে",
       "NO_ANSWER": "উত্তর নেই",
+      "NO_ANSWER_OUTBOUND_LABEL": "উত্তর নেই",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "মিসড কল",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "কল শেষ হয়েছে",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "এখনও উত্তর পাওয়া যায়নি",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "তারা উত্তর দিয়েছে",
       "YOU_ANSWERED": "আপনি উত্তর দিয়েছেন",
       "AGENT_ANSWERED": "{agentName} answered",
-      "JOIN_CALL": "কলে যোগ দিন"
+      "JOIN_CALL": "কলে যোগ দিন",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "সমাধান করুন",
@@ -100,6 +112,12 @@
       "SNOOZED_UNTIL_TOMORROW": "আগামীকাল পর্যন্ত স্থগিত",
       "SNOOZED_UNTIL_NEXT_WEEK": "পরবর্তী সপ্তাহ পর্যন্ত স্থগিত",
       "SNOOZED_UNTIL_NEXT_REPLY": "পরবর্তী উত্তর পর্যন্ত স্থগিত",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -215,7 +233,9 @@
       "TIP_AUDIORECORDER_ICON": "অডিও রেকর্ড করুন",
       "TIP_AUDIORECORDER_PERMISSION": "অডিও অ্যাক্সেসের অনুমতি দিন",
       "TIP_AUDIORECORDER_ERROR": "অডিও খোলা যায়নি",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "সংযুক্ত করতে এখানে ড্র্যাগ ও ড্রপ করুন",
+      "IMAGE_UPLOAD_SUCCESS": "ছবি সফলভাবে আপলোড হয়েছে",
       "START_AUDIO_RECORDING": "অডিও রেকর্ডিং শুরু করুন",
       "STOP_AUDIO_RECORDING": "অডিও রেকর্ডিং বন্ধ করুন",
       "COPILOT_THINKING": "Copilot ভাবছে",
@@ -286,6 +306,25 @@
         "MESSAGE": "এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না",
         "DELETE": "মুছে ফেলুন",
         "CANCEL": "বাতিল করুন"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -299,8 +338,13 @@
       "NOT_ANSWERED_YET": "এখনও উত্তর পাওয়া যায়নি",
       "HANDLED_IN_ANOTHER_TAB": "অন্য ট্যাবে পরিচালিত হচ্ছে",
       "REJECT_CALL": "প্রত্যাখ্যান করুন",
+      "DISMISS_CALL": "Dismiss",
       "JOIN_CALL": "কলে যোগ দিন",
-      "END_CALL": "কল শেষ করুন"
+      "END_CALL": "কল শেষ করুন",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -378,7 +422,8 @@
       "VIEW_ALL": "সব দেখুন",
       "SHOW_LESS": "Show less",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Untitled file",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

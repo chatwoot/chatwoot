@@ -9,7 +9,7 @@ class Whatsapp::CallService
     call.with_lock do
       transition_to_in_progress!
       update_message_status('in_progress')
-      update_conversation_call_status(call.display_status)
+      claim_conversation_and_set_call_status
       broadcast(:accepted, accepted_by_agent_id: agent.id)
     end
     call
@@ -21,7 +21,7 @@ class Whatsapp::CallService
 
       invoke_provider!(:reject_call)
       call.update!(accepted_by_agent_id: agent.id) if call.accepted_by_agent_id.nil?
-      finalize_call('failed', end_reason: 'agent_rejected')
+      finalize_call('rejected', end_reason: 'agent_rejected')
     end
     call
   end
@@ -48,15 +48,15 @@ class Whatsapp::CallService
   private
 
   def transition_to_in_progress!
-    # Order matters: in_progress and terminal both make ringing? false, so we have to
-    # branch on in_progress? first to surface the distinct AlreadyAccepted state.
+    # in_progress and terminal both make ringing? false; branch in order to surface the
+    # distinct AlreadyAccepted / CallAlreadyEnded states (caller can hang up mid-ring).
     raise Voice::CallErrors::AlreadyAccepted, 'Call already accepted by another agent' if call.in_progress?
+    raise Voice::CallErrors::CallAlreadyEnded, 'Call already ended' if call.terminal?
     raise Voice::CallErrors::NotRinging, 'Call is not in ringing state' unless call.ringing?
 
     forward_answer_to_meta!
     call.update!(status: 'in_progress', accepted_by_agent_id: agent.id, started_at: Time.current,
                  meta: (call.meta || {}).merge('sdp_answer' => sdp_answer))
-    claim_conversation_for_agent
   end
 
   def forward_answer_to_meta!
@@ -64,9 +64,13 @@ class Whatsapp::CallService
     invoke_provider!(:accept_call, sdp_answer)
   end
 
-  # Take ownership of the conversation if no one holds it; leave assignee alone otherwise (transfer via UI).
-  def claim_conversation_for_agent
-    call.conversation.update!(assignee: agent) if call.conversation.assignee_id.blank?
+  # Claim an unheld conversation and set call_status in one save so previous_changes carries both the
+  # assignee change (activity message + ASSIGNEE_CHANGED) and the call_status change (conversation.updated webhook).
+  def claim_conversation_and_set_call_status
+    conversation = call.conversation
+    attrs = { additional_attributes: (conversation.additional_attributes || {}).merge('call_status' => call.display_status) }
+    attrs[:assignee] = agent if conversation.assignee_id.blank?
+    conversation.update!(attrs)
   end
 
   # Raise on Meta failure (bool false or transport error) so callers bail before

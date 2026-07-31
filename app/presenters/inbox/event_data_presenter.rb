@@ -32,4 +32,8 @@ class Inbox::EventDataPresenter < SimpleDelegator
       channel: channel
     }
   end
+
+  def webhook_data
+    push_data.merge(account: account.webhook_data)
+  end
 end

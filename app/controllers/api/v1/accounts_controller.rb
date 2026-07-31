@@ -8,6 +8,7 @@ class Api::V1::AccountsController < Api::BaseController
   before_action :ensure_account_name, only: [:create]
   before_action :validate_captcha, only: [:create]
   before_action :fetch_account, except: [:create]
+  before_action :validate_token_api_access, if: :authenticate_by_access_token?, except: [:create]
   before_action :check_authorization, except: [:create]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
@@ -17,7 +18,7 @@ class Api::V1::AccountsController < Api::BaseController
               with: :render_error_response
 
   def show
-    @latest_chatwoot_version = ::Redis::Alfred.get(::Redis::Alfred::LATEST_CHATWOOT_VERSION)
+    @latest_chatwoot_version = latest_chatwoot_version
     render 'api/v1/accounts/show', format: :json
   end
 
@@ -58,7 +59,6 @@ class Api::V1::AccountsController < Api::BaseController
     @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email))
     @account.custom_attributes.merge!(custom_attributes_params)
     @account.settings.merge!(settings_params)
-    @account.custom_attributes.delete('onboarding_step') if @account.custom_attributes['onboarding_step'] == 'account_details'
     @account.custom_attributes['onboarding_step'] = 'invite_team' if @account.custom_attributes['onboarding_step'] == 'account_update'
     @account.save!
   end
@@ -70,6 +70,10 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   private
+
+  def latest_chatwoot_version
+    Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)
+  end
 
   def enqueue_branding_enrichment
     email = account_params[:email].presence || @user&.email
@@ -104,6 +108,12 @@ class Api::V1::AccountsController < Api::BaseController
   def fetch_account
     @account = current_user.accounts.find(params[:id])
     @current_account_user = @account.account_users.find_by(user_id: current_user.id)
+  end
+
+  def validate_token_api_access
+    return if @account.api_and_webhooks_enabled?
+
+    render json: { error: 'API access is not enabled for this account' }, status: :forbidden
   end
 
   def account_params

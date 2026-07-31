@@ -1,11 +1,6 @@
 {
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "{conversationCount}개의 대화가 선택되었습니다",
-    "AGENT_SELECT_LABEL": "에이전트 선택",
-    "ASSIGN_CONFIRMATION_LABEL": "{conversationCount}개의 {conversationLabel}을(를) 배정하시겠습니까?",
-    "UNASSIGN_CONFIRMATION_LABEL": "{conversationCount}개의 {conversationLabel} 배정을 해제하시겠습니까?",
-    "GO_BACK_LABEL": "뒤로 가기",
-    "ASSIGN_LABEL": "배정",
     "NONE": "없음",
     "CLEAR_SELECTION": "초기화",
     "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
@@ -20,7 +15,6 @@
     "RESOLVE_SUCCESFUL": "대화가 성공적으로 해결되었습니다.",
     "RESOLVE_FAILED": "대화 해결에 실패했습니다. 다시 시도하십시오.",
     "ALL_CONVERSATIONS_SELECTED_ALERT": "이 페이지에 표시된 대화만 선택되었습니다.",
-    "AGENT_LIST_LOADING": "에이전트 로딩 중",
     "UPDATE": {
       "CHANGE_STATUS": "상태 변경",
       "SNOOZE_UNTIL": "일시 중지",
@@ -33,16 +27,16 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "라벨 배정",
-      "NO_LABELS_FOUND": "라벨을 찾을 수 없습니다",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "선택한 라벨 배정",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "라벨이 성공적으로 배정되었습니다.",
-      "ASSIGN_FAILED": "라벨 배정에 실패했습니다. 다시 시도하십시오."
+      "ASSIGN_FAILED": "라벨 배정에 실패했습니다. 다시 시도하십시오.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
-      "TEAM_SELECT_LABEL": "팀 선택",
       "NONE": "없음",
-      "NO_TEAMS_AVAILABLE": "이 계정에 추가된 팀이 없습니다.",
-      "ASSIGN_SELECTED_TEAMS": "선택한 팀 배정",
       "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
       "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "팀이 성공적으로 배정되었습니다.",

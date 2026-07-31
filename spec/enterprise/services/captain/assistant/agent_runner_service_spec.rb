@@ -52,6 +52,12 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(service.instance_variable_get(:@callbacks)).to eq(callbacks)
     end
+
+    it 'accepts the message id it is responding to' do
+      service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: 123)
+
+      expect(service.instance_variable_get(:@responding_to_message_id)).to eq(123)
+    end
   end
 
   describe '#generate_response' do
@@ -93,7 +99,19 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(mock_runner).to receive(:run).with(
         'I need help with my account',
         context: expected_context,
-        max_turns: 100
+        max_turns: 10
+      )
+
+      service.generate_response(message_history: message_history)
+    end
+
+    it 'adds the responding message id to the runner state' do
+      service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: 123)
+
+      expect(mock_runner).to receive(:run).with(
+        'I need help with my account',
+        context: hash_including(state: hash_including(responding_to_message_id: 123)),
+        max_turns: 10
       )
 
       service.generate_response(message_history: message_history)
@@ -119,7 +137,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           expect(input.text).to eq('What does this error mean?')
           expect(input.attachments.first.source.to_s).to eq('https://example.com/error.png')
           expect(context[:conversation_history]).to eq([{ role: :assistant, content: 'Please share a screenshot', agent_name: nil }])
-          expect(max_turns).to eq(100)
+          expect(max_turns).to eq(10)
         end
 
         service.generate_response(message_history: multimodal_message_history)
@@ -147,7 +165,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
             { type: 'text', text: 'Here is my error screenshot' },
             { type: 'image_url', image_url: { url: 'https://example.com/error.png' } }
           )
-          expect(max_turns).to eq(100)
+          expect(max_turns).to eq(10)
         end
 
         service.generate_response(message_history: history_with_prior_image)
@@ -157,7 +175,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(mock_runner).to receive(:run) do |_input, context:, max_turns:|
           expect(context[:captain_v2_trace_input]).to include('image_url')
           expect(context[:captain_v2_trace_current_input]).to include('image_url')
-          expect(max_turns).to eq(100)
+          expect(max_turns).to eq(10)
         end
 
         service.generate_response(message_history: multimodal_message_history)
@@ -168,6 +186,12 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       result = service.generate_response(message_history: message_history)
 
       expect(result).to eq({ 'response' => 'Test response', 'agent_name' => nil, 'handoff_tool_called' => false })
+    end
+
+    it 'exposes the raw run result via last_run_result' do
+      service.generate_response(message_history: message_history)
+
+      expect(service.last_run_result).to eq(mock_result)
     end
 
     context 'when handoff tool was called during agent execution' do
@@ -244,6 +268,12 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(Rails.logger).to receive(:error).with(kind_of(String))
 
         service.generate_response(message_history: message_history)
+      end
+
+      it 'leaves last_run_result nil' do
+        service.generate_response(message_history: message_history)
+
+        expect(service.last_run_result).to be_nil
       end
 
       context 'when conversation is nil' do
@@ -405,6 +435,73 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
   end
 
+  describe 'InstrumentationAttributeProvider' do
+    subject(:provider) { Captain::Assistant::InstrumentationAttributeProvider.new(service) }
+
+    let(:service) { described_class.new(assistant: assistant, conversation: conversation) }
+
+    it 'delegates root trace attributes to the service' do
+      context = {
+        state: {
+          account_id: account.id,
+          assistant_id: assistant.id,
+          conversation: { id: conversation.id, display_id: conversation.display_id }
+        }
+      }
+      context_wrapper = Struct.new(:context).new(context)
+
+      attributes = provider.call(context_wrapper)
+
+      expect(attributes).to include(
+        'langfuse.user.id' => account.id.to_s,
+        'langfuse.trace.metadata.assistant_id' => assistant.id.to_s
+      )
+    end
+
+    it 'marks final response generations for observation-level evaluators' do
+      message = instance_double(RubyLLM::Message, tool_calls: {})
+
+      attributes = provider.generation_attributes(nil, nil, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('final_response')
+      expect(attributes).not_to have_key('langfuse.observation.metadata.discarded')
+    end
+
+    it 'marks a protected generation as not discarded when no newer message has arrived' do
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      runner_service = described_class.new(assistant: assistant, conversation: conversation,
+                                           responding_to_message_id: responding_to_message.id)
+      attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
+      message = instance_double(RubyLLM::Message, tool_calls: {})
+
+      attributes = attribute_provider.generation_attributes(nil, nil, message)
+
+      expect(attributes['langfuse.observation.metadata.discarded']).to eq('false')
+    end
+
+    it 'marks tool call generations separately from final responses' do
+      tool_call = instance_double(RubyLLM::ToolCall)
+      message = instance_double(RubyLLM::Message, tool_calls: { 'call_1' => tool_call })
+
+      attributes = provider.generation_attributes(nil, nil, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('tool_call')
+    end
+
+    it 'marks a generation as discarded when a newer message has arrived' do
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      runner_service = described_class.new(assistant: assistant, conversation: conversation,
+                                           responding_to_message_id: responding_to_message.id)
+      attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
+      message = instance_double(RubyLLM::Message, tool_calls: {})
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      attributes = attribute_provider.generation_attributes(nil, nil, message)
+
+      expect(attributes['langfuse.observation.metadata.discarded']).to eq('true')
+    end
+  end
+
   describe '#build_state' do
     subject(:service) { described_class.new(assistant: assistant, conversation: conversation) }
 
@@ -535,18 +632,40 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         tool_complete_callback = block
         runner
       end
+      allow(runner).to receive(:on_run_complete).and_return(runner)
 
       service.send(:add_usage_metadata_callback, runner)
 
-      context_wrapper = Struct.new(:context).new({})
+      context_wrapper = Struct.new(:context).new({ state: { captain_v2_handoff_tool_completed: true } })
 
       expect(tool_complete_callback).not_to be_nil
       tool_complete_callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'ok', context_wrapper)
 
       expect(context_wrapper.context[:captain_v2_handoff_tool_called]).to be true
+      expect(service.handoff_completed?).to be true
     end
 
-    it 'does not register OTEL run callback when OTEL is disabled' do
+    it 'tracks discarded responses when OTEL is disabled' do
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: responding_to_message.id)
+      runner = instance_double(Agents::AgentRunner)
+      run_complete_callback = nil
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      allow(runner).to receive(:on_run_complete) do |&block|
+        run_complete_callback = block
+        runner
+      end
+
+      service.send(:add_usage_metadata_callback, runner)
+      create(:message, conversation: conversation, message_type: :incoming)
+      run_complete_callback.call('assistant', nil, Struct.new(:context).new({}))
+
+      expect(service.response_discarded?).to be true
+    end
+
+    it 'does not register a run callback when OTEL and burst protection are disabled' do
       service = described_class.new(assistant: assistant, conversation: conversation)
       runner = instance_double(Agents::AgentRunner)
 
@@ -578,6 +697,34 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'true')
       run_complete_callback.call('assistant', nil, context_wrapper)
+    end
+
+    it 'marks the trace discarded and does not use credit when a newer message arrived' do
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: responding_to_message.id)
+      runner = instance_double(Agents::AgentRunner)
+      run_complete_callback = nil
+      span_class = Class.new do
+        def set_attribute(*); end
+      end
+      root_span = instance_double(span_class)
+      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      allow(runner).to receive(:on_run_complete) do |&block|
+        run_complete_callback = block
+        runner
+      end
+
+      service.send(:add_usage_metadata_callback, runner)
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.discarded', 'true')
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
+      run_complete_callback.call('assistant', nil, context_wrapper)
+
+      expect(service.response_discarded?).to be true
     end
   end
 

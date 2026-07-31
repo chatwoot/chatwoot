@@ -58,14 +58,17 @@
         "ERROR_MESSAGE": "Nagkaroon ng error sa pagkonekta sa Instagram, pakisubukang muli",
         "ERROR_AUTH": "Nagkaroon ng error sa pagkonekta sa Instagram, pakisubukang muli",
         "NEW_INBOX_SUGGESTION": "Ang Instagram account na ito ay dating naka-link sa ibang inbox at ngayon ay nailipat dito. Lahat ng bagong mensahe ay lalabas dito. Ang lumang inbox ay hindi na makakapagpadala o makatanggap ng mga mensahe para sa account na ito.",
-        "DUPLICATE_INBOX_BANNER": "Ang Instagram account na ito ay nailipat sa bagong Instagram channel inbox. Hindi ka na makakapagpadala o makatanggap ng mga mensahe sa Instagram mula sa inbox na ito."
+        "DUPLICATE_INBOX_BANNER": "Ang Instagram account na ito ay nailipat sa bagong Instagram channel inbox. Hindi ka na makakapagpadala o makatanggap ng mga mensahe sa Instagram mula sa inbox na ito.",
+        "SETTINGS_RESTRICTED_WARNING": "Instagram is currently restricted. Some messages or actions may be delayed or unavailable while we restore full support.",
+        "STATUS_LINK": "View status update"
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Magpatuloy gamit ang TikTok",
         "CONNECT_YOUR_TIKTOK_PROFILE": "Ikonekta ang iyong TikTok Profile",
         "HELP": "Upang maidagdag ang iyong TikTok profile bilang channel, kailangan mong i-authenticate ang iyong TikTok Profile sa pamamagitan ng pag-click sa 'Magpatuloy gamit ang TikTok' ",
         "ERROR_MESSAGE": "Nagkaroon ng error sa pagkonekta sa TikTok, pakisubukang muli",
-        "ERROR_AUTH": "Nagkaroon ng error sa pagkonekta sa TikTok, pakisubukang muli"
+        "ERROR_AUTH": "Nagkaroon ng error sa pagkonekta sa TikTok, pakisubukang muli",
+        "NORTH_AMERICA_WARNING": "TikTok connections for North American accounts are temporarily unavailable while we wait for an update from the TikTok team."
       },
       "TWITTER": {
         "HELP": "Para idagdag ang iyong Twitter profile bilang channel, kailangan mong i-authenticate ang iyong Twitter Profile sa pamamagitan ng pag-click sa 'Sign in with Twitter' ",
@@ -308,6 +311,7 @@
           "AUTH_PROCESSING": "Nag-a-authenticate sa Meta",
           "WAITING_FOR_BUSINESS_INFO": "Pakipunan ang setup ng negosyo sa Meta window...",
           "PROCESSING": "Isinasagawa ang pagsasaayos ng iyong WhatsApp Business Account",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Naglo-load ng Facebook SDK...",
           "CANCELLED": "Kinansela ang WhatsApp Signup",
           "SUCCESS_TITLE": "Nakakonekta na ang WhatsApp Business Account!",
@@ -317,7 +321,8 @@
           "AUTH_NOT_COMPLETED": "Hindi natapos ang authentication. Pakisubukang muli ang proseso.",
           "SUCCESS_FALLBACK": "Matagumpay na na-configure ang WhatsApp Business Account",
           "MANUAL_FALLBACK": "Kung ang iyong numero ay konektado na sa WhatsApp Business Platform (API), o kung ikaw ay isang tech provider na nag-o-onboard ng sarili mong numero, mangyaring gamitin ang {link} flow",
-          "MANUAL_LINK_TEXT": "manwal na setup flow"
+          "MANUAL_LINK_TEXT": "manwal na setup flow",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "Hindi namin naisave ang WhatsApp channel"
@@ -464,6 +469,10 @@
           "WHATSAPP": {
             "TITLE": "WhatsApp",
             "DESCRIPTION": "Suportahan ang iyong mga customer sa WhatsApp"
+          },
+          "WHATSAPP_CALL": {
+            "TITLE": "WhatsApp Call",
+            "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
             "TITLE": "Email",
@@ -637,7 +646,8 @@
       "BOT_CONFIGURATION": "Pag-configure ng Bot",
       "ACCOUNT_HEALTH": "Kalusugan ng Account",
       "CSAT": "CSAT",
-      "VOICE": "Boses"
+      "VOICE": "Boses",
+      "CALLS": "Calls"
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {
@@ -646,6 +656,30 @@
       },
       "CREDENTIALS": {
         "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      },
+      "INBOUND": {
+        "LABEL": "Allow incoming calls",
+        "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "LABEL": "Enable WhatsApp Calling",
+        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+      },
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "PHONE_NUMBER": {
+        "LABEL": "Business phone number",
+        "HELP_TEXT": "WhatsApp number that customers will call."
+      },
+      "HOW_IT_WORKS": {
+        "LABEL": "How it works",
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "LABEL": "Call permission request message",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "PLACEHOLDER": "We would like to call you regarding your conversation."
       }
     },
     "CHANNEL_PREFERENCES": "Mga Kagustuhan sa Channel",
@@ -783,6 +817,15 @@
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Ang inbox na ito ay nakakonekta sa pamamagitan ng WhatsApp embedded signup.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "Maaari mong i-reconfigure ang inbox na ito upang i-update ang iyong mga setting sa WhatsApp Business.",
       "WHATSAPP_RECONFIGURE_BUTTON": "I-reconfigure",
+      "WHATSAPP_MANUAL_TRANSFER_TITLE": "Switch to Manual Setup",
+      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "This inbox was connected through WhatsApp embedded signup, which is no longer supported. Enter the WhatsApp Cloud API credentials from your own Meta app to switch this inbox to a manual setup. Configure the webhook in your Meta app using the verification token above before switching.",
+      "WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL": "Phone Number ID",
+      "WHATSAPP_MANUAL_TRANSFER_BUSINESS_ACCOUNT_ID_LABEL": "Business Account ID",
+      "WHATSAPP_MANUAL_TRANSFER_API_KEY_LABEL": "API Key",
+      "WHATSAPP_MANUAL_TRANSFER_API_KEY_PLACEHOLDER": "Enter a permanent access token from your Meta app",
+      "WHATSAPP_MANUAL_TRANSFER_BUTTON": "Switch to Manual Setup",
+      "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "Inbox switched to manual setup successfully.",
+      "WHATSAPP_MANUAL_TRANSFER_ERROR": "Could not switch to manual setup. Please verify the credentials and try again.",
       "WHATSAPP_CONNECT_TITLE": "Ikonekta sa WhatsApp Business",
       "WHATSAPP_CONNECT_SUBHEADER": "Mag-upgrade sa WhatsApp embedded signup para sa mas madaling pamamahala.",
       "WHATSAPP_CONNECT_DESCRIPTION": "Ikonekta ang inbox na ito sa WhatsApp Business para sa mas pinahusay na mga tampok at mas madaling pamamahala.",
@@ -800,6 +843,74 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manu-manong i-sync ang mga message template mula sa WhatsApp upang i-update ang iyong mga available na template.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "I-sync ang Mga Template",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Matagumpay na sinimulan ang pag-sync ng mga template. Maaaring tumagal ng ilang minuto bago ma-update.",
+      "WHATSAPP_MANUAL_MIGRATION": {
+        "BANNER": {
+          "TITLE": "Manual setup recommended",
+          "DESCRIPTION": "This inbox connects through the shared Meta app used for embedded signup, which recent Meta restrictions have affected. To avoid similar issues in the future, we recommend reconnecting it with your own Meta app.",
+          "START": "Start manual migration",
+          "GUIDE": "View guide"
+        },
+        "DIALOG": {
+          "EYEBROW": "WhatsApp manual migration",
+          "TITLE": "Reconnect WhatsApp inbox",
+          "CLOSE": "Isara",
+          "ACTION_REQUIRED_TITLE": "Reconnect with your own Meta app",
+          "ACTION_REQUIRED_DESCRIPTION": "Inboxes connected through your own Meta app are not affected by restrictions on the shared embedded signup app. This guided flow updates the WhatsApp API connection without creating a new inbox.",
+          "GUIDE_LINK": "Open the manual setup guide",
+          "PRESERVED_TITLE": "Preserved",
+          "PRESERVED_DESCRIPTION": "Conversations, contacts, collaborators, routing, business hours, and inbox settings.",
+          "UPDATED_TITLE": "Updated",
+          "UPDATED_DESCRIPTION": "WABA ID, phone number ID, access token, and webhook configuration.",
+          "WABA_ID": "WABA ID",
+          "WABA_PLACEHOLDER": "Enter WABA ID",
+          "WABA_HELP": "The WhatsApp Business Account that owns this phone number.",
+          "PHONE_NUMBER_ID": "Phone Number ID",
+          "PHONE_NUMBER_PLACEHOLDER": "Enter Phone Number ID",
+          "PHONE_NUMBER_HELP": "Meta's unique ID for the WhatsApp number connected to this inbox.",
+          "DISPLAY_PHONE_NUMBER": "Ipakitang numero ng telepono",
+          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Enter display phone number",
+          "DISPLAY_PHONE_NUMBER_HELP": "The customer-facing WhatsApp number. This cannot be changed during migration.",
+          "ACCESS_TOKEN": "Permanent access token or system user token",
+          "ACCESS_TOKEN_PLACEHOLDER": "Paste access token",
+          "TOKEN_HELP_PREFIX": "The token must include",
+          "TOKEN_HELP_MIDDLE": "Add",
+          "TOKEN_HELP_SUFFIX": "for template sync and template management.",
+          "MESSAGING_PERMISSION": "whatsapp_business_messaging.",
+          "MANAGEMENT_PERMISSION": "whatsapp_business_management",
+          "REVIEW_TITLE": "Review before reconnecting",
+          "INBOX": "Inbox",
+          "PHONE_NUMBER": "Numero ng Telepono",
+          "NOT_ENTERED": "Not entered",
+          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
+          "BACK": "Back",
+          "CANCEL": "Cancel",
+          "CONTINUE": "Magpatuloy",
+          "REVIEW_MIGRATION": "Review migration",
+          "RECONNECT": "Reconnect WhatsApp inbox"
+        },
+        "STEPS": {
+          "BEFORE_YOU_START": {
+            "TITLE": "Before you start",
+            "DESCRIPTION": "This reconnects the WhatsApp API details for this inbox. Conversations, collaborators, routing, business hours, CSAT, and bot settings will be preserved."
+          },
+          "BUSINESS_DETAILS": {
+            "TITLE": "Business details",
+            "DESCRIPTION": "Enter the WhatsApp assets from the customer Meta Business account."
+          },
+          "ACCESS_TOKEN": {
+            "TITLE": "Access token",
+            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions."
+          },
+          "REVIEW_MIGRATION": {
+            "TITLE": "Review migration",
+            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+          }
+        }
+      },
+      "WHATSAPP_CALLING_ENABLED": {
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "I-update ang Mga Setting ng Pre Chat Form"
     },
     "HELP_CENTER": {

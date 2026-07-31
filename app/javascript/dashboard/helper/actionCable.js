@@ -17,6 +17,13 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const { isImpersonating } = useImpersonation();
 const UNREAD_COUNTS_REFETCH_THROTTLE_MS = 5000;
+const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS = 30000;
+const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS = 15000;
+const MENTION_UNREAD_COUNTS_REFETCH_DELAY_MS =
+  UNREAD_COUNTS_REFETCH_THROTTLE_MS;
+const getFilteredUnreadCountsRefreshRetryDelay = () =>
+  FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS +
+  Math.random() * FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS;
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -25,6 +32,9 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.CancelTyping = [];
     this.lastUnreadCountsFetchAt = null;
     this.unreadCountsFetchTimer = null;
+    this.mentionUnreadCountsFetchTimer = null;
+    this.mentionUnreadCountsRetryTimer = null;
+    this.filteredUnreadCountsRetryTimer = null;
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
@@ -140,7 +150,12 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationUnreadCountChanged = () => {
+    this.refreshConversationUnreadCountsWithFilteredRetry();
+  };
+
+  refreshConversationUnreadCountsWithFilteredRetry = () => {
     this.throttledFetchConversationUnreadCounts();
+    this.scheduleFilteredUnreadCountsRetry();
   };
 
   throttledFetchConversationUnreadCounts = () => {
@@ -171,6 +186,51 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.unreadCountsFetchTimer = null;
   };
 
+  scheduleMentionUnreadCountsFetch = () => {
+    if (!this.isFilteredUnreadCountsEnabled()) return;
+
+    // Mention invalidation runs through the async dispatcher, and stale snapshots
+    // can be served until the filtered-count backend refresh window opens.
+    this.scheduleUnreadCountsFetchAfter(
+      'mentionUnreadCountsFetchTimer',
+      MENTION_UNREAD_COUNTS_REFETCH_DELAY_MS
+    );
+    this.scheduleUnreadCountsFetchAfter(
+      'mentionUnreadCountsRetryTimer',
+      getFilteredUnreadCountsRefreshRetryDelay(),
+      { reset: true }
+    );
+  };
+
+  scheduleFilteredUnreadCountsRetry = () => {
+    if (!this.isFilteredUnreadCountsEnabled()) return;
+
+    // Filtered snapshots can intentionally stay stale until the backend
+    // refresh window opens.
+    this.scheduleUnreadCountsFetchAfter(
+      'filteredUnreadCountsRetryTimer',
+      getFilteredUnreadCountsRefreshRetryDelay(),
+      { reset: true }
+    );
+  };
+
+  scheduleUnreadCountsFetchAfter = (
+    timerName,
+    delay,
+    { reset = false } = {}
+  ) => {
+    if (this[timerName]) {
+      if (!reset) return;
+
+      clearTimeout(this[timerName]);
+    }
+
+    this[timerName] = setTimeout(() => {
+      this[timerName] = null;
+      this.throttledFetchConversationUnreadCounts();
+    }, delay);
+  };
+
   fetchConversationUnreadCounts = () => {
     if (!this.isConversationUnreadCountsEnabled()) return;
 
@@ -186,6 +246,17 @@ class ActionCableConnector extends BaseActionCableConnector {
     return isFeatureEnabled?.(
       accountId,
       FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS
+    );
+  };
+
+  isFilteredUnreadCountsEnabled = () => {
+    const accountId = this.app.$store.getters.getCurrentAccountId;
+    const isFeatureEnabled =
+      this.app.$store.getters['accounts/isFeatureEnabledonAccount'];
+
+    return (
+      isFeatureEnabled?.(accountId, FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS) &&
+      isFeatureEnabled?.(accountId, FEATURE_FLAGS.UNREAD_COUNT_FOR_FILTERS)
     );
   };
 
@@ -212,6 +283,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onConversationMentioned = data => {
     this.app.$store.dispatch('addMentions', data);
+    this.scheduleMentionUnreadCountsFetch();
   };
 
   clearTimer = conversationId => {
@@ -273,6 +345,12 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('labels/revalidate', { newKey: keys.label });
     this.app.$store.dispatch('inboxes/revalidate', { newKey: keys.inbox });
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
+
+    if (this.isFilteredUnreadCountsEnabled()) {
+      // Inbox/team/label visibility changes can change the accessible set used
+      // by filtered unread counts even when no conversation row changes.
+      this.refreshConversationUnreadCountsWithFilteredRetry();
+    }
   };
 
   onVoiceCallIncoming = data => {
