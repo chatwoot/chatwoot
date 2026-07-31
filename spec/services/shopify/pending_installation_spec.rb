@@ -52,6 +52,11 @@ RSpec.describe Shopify::PendingInstallation do
     pending_installation&.release!
   end
 
+  it 'identifies an available pending installation token' do
+    expect(described_class.pending?(token: token)).to be(true)
+    expect(described_class.pending?(token: 'invalid-token')).to be(false)
+  end
+
   it 'allows only one active claim' do
     pending_installation = described_class.claim(token: token)
 
