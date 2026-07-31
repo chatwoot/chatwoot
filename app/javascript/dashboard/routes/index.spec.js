@@ -111,6 +111,7 @@ describe('#validateAuthenticateRoutePermission', () => {
           billing_provider: 'shopify',
           shopify_integration: true,
           subscription_status: 'pending',
+          shopify_shop_domain: 'store.myshopify.com',
         };
         const to = {
           name: 'general_settings_index',
@@ -129,6 +130,7 @@ describe('#validateAuthenticateRoutePermission', () => {
           billing_provider: 'shopify',
           shopify_integration: true,
           subscription_status: 'pending',
+          shopify_shop_domain: 'store.myshopify.com',
         };
         const to = {
           query: {
@@ -142,6 +144,48 @@ describe('#validateAuthenticateRoutePermission', () => {
         expect(next).toHaveBeenCalledWith(
           '/app/accounts/1/settings/billing?plan_handle=growth&shop=store.myshopify.com'
         );
+      });
+
+      it('routes a Shopify pricing redirect to the account connected to that shop', async () => {
+        store.getters.getCurrentUser.accounts.push({
+          id: 2,
+          role: 'administrator',
+          permissions: ['administrator'],
+          status: 'active',
+          billing_provider: 'shopify',
+          shopify_integration: true,
+          subscription_status: 'pending',
+          shopify_shop_domain: 'second-store.myshopify.com',
+        });
+        const to = {
+          query: {
+            redirect_url:
+              'settings/billing?plan_handle=growth&shop=second-store.myshopify.com',
+          },
+        };
+
+        await validateAuthenticateRoutePermission(to, next);
+
+        expect(next).toHaveBeenCalledWith(
+          '/app/accounts/2/settings/billing?plan_handle=growth&shop=second-store.myshopify.com'
+        );
+      });
+
+      it('does not route an unknown Shopify shop to the active account', async () => {
+        store.getters.getCurrentUser.accounts[0] = {
+          ...store.getters.getCurrentUser.accounts[0],
+          shopify_shop_domain: 'first-store.myshopify.com',
+        };
+        const to = {
+          query: {
+            redirect_url:
+              'settings/billing?plan_handle=growth&shop=unknown-store.myshopify.com',
+          },
+        };
+
+        await validateAuthenticateRoutePermission(to, next);
+
+        expect(next).toHaveBeenCalledWith('/app/accounts/1/dashboard');
       });
 
       it('allows a pending Shopify account to stay on billing', async () => {

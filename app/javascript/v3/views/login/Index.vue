@@ -31,7 +31,6 @@ const ERROR_MESSAGES = {
 
 const IMPERSONATION_URL_SEARCH_KEY = 'impersonation';
 const USER_NOT_CONFIRMED_ERROR_CODE = 'user_not_confirmed';
-const AUTH_ERROR_TOAST_DURATION = 6000;
 
 export default {
   components: {
@@ -121,7 +120,7 @@ export default {
       const messageKey = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
       // Use a method to get the translated text to avoid dynamic key warning
       const translatedMessage = this.getTranslatedMessage(messageKey);
-      useAlert(translatedMessage, { duration: AUTH_ERROR_TOAST_DURATION });
+      useAlert(translatedMessage);
       // wait for idle state
       this.requestIdleCallbackPolyfill(() => {
         // Remove the error query param from the url
@@ -235,14 +234,14 @@ export default {
 
       this.submitLogin();
     },
-    handleMfaVerified(responseData) {
+    handleMfaVerified(user) {
       // MFA verification successful, continue with login
       this.handleImpersonation();
       window.location = getLoginRedirectURL({
         ssoAccountId: this.ssoAccountId,
         ssoConversationId: this.ssoConversationId,
         redirectUrl: this.redirectUrl,
-        user: responseData?.data,
+        user,
       });
     },
     handleMfaCancel() {
@@ -358,10 +357,7 @@ export default {
     >
       <div v-if="!email">
         <div class="flex flex-col gap-4">
-          <GoogleOAuthButton
-            v-if="showGoogleOAuth"
-            :redirect-url="redirectUrl"
-          />
+          <GoogleOAuthButton v-if="showGoogleOAuth" />
           <div v-if="showSamlLogin" class="text-center">
             <router-link
               to="/app/login/sso"

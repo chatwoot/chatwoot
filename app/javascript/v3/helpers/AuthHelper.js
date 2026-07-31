@@ -50,8 +50,20 @@ export const getShopifyBillingRedirect = query => {
   return `settings/billing?${params.toString()}`;
 };
 
-const getTargetAccount = ({ ssoAccountId, user }) => {
+export const getShopifyShopFromRedirect = redirectUrl => {
+  const query = redirectUrl?.split('?')[1];
+  return new URLSearchParams(query).get('shop')?.trim().toLowerCase() || '';
+};
+
+export const getTargetAccount = ({ ssoAccountId, redirectUrl, user }) => {
   const { accounts = [], account_id: accountId = null } = user || {};
+  const shop = getShopifyShopFromRedirect(redirectUrl);
+  if (shop) {
+    return accounts.find(
+      account => account.shopify_shop_domain?.toLowerCase() === shop
+    );
+  }
+
   const ssoAccount = accounts.find(
     account => account.id === Number(ssoAccountId)
   );
@@ -99,7 +111,10 @@ export const getLoginRedirectURL = ({
   redirectUrl,
   user,
 }) => {
-  const targetAccount = getTargetAccount({ ssoAccountId, user });
+  const targetAccount = getTargetAccount({ ssoAccountId, redirectUrl, user });
+  if (getShopifyShopFromRedirect(redirectUrl) && !targetAccount) {
+    return DEFAULT_REDIRECT_URL;
+  }
   if (redirectUrl) {
     const { accounts = [], account_id = null } = user || {};
     const redirectAccount = isShopifyInstallRedirect(redirectUrl)

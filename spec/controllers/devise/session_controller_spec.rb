@@ -81,6 +81,12 @@ RSpec.describe 'Session', type: :request do
           }
         )
         shopify_account.enable_features!('shopify_integration')
+        create(
+          :integrations_hook,
+          :shopify,
+          account: shopify_account,
+          reference_id: 'billing-test-store.myshopify.com'
+        )
         shopify_user = create(:user, password: 'Password1!', account: shopify_account)
         allow(Shopify::FeatureGate).to receive(:enabled?).with(account: shopify_account).and_return(true)
 
@@ -92,7 +98,8 @@ RSpec.describe 'Session', type: :request do
         expect(account_payload).to include(
           'billing_provider' => 'shopify',
           'subscription_status' => 'pending',
-          'shopify_integration' => true
+          'shopify_integration' => true,
+          'shopify_shop_domain' => 'billing-test-store.myshopify.com'
         )
       end
     end
