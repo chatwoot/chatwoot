@@ -136,6 +136,21 @@ RSpec.describe MessageTemplates::HookExecutionService do
 
         create(:message, conversation: conversation, message_type: :incoming, account: account)
       end
+
+      it 'emits the engagement event when captain V2 is enabled' do
+        account.enable_features!('captain_integration_v2')
+
+        expect(Captain::ConversationEvents).to receive(:engaged)
+          .with(conversation: conversation, assistant: assistant, at: kind_of(Time))
+
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
+      end
+
+      it 'does not emit the engagement event when captain V2 is disabled' do
+        expect(Captain::ConversationEvents).not_to receive(:engaged)
+
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
+      end
     end
 
     context 'when captain quota is exceeded within business hours' do
@@ -156,6 +171,21 @@ RSpec.describe MessageTemplates::HookExecutionService do
         create(:message, conversation: conversation, message_type: :incoming, account: account)
 
         expect(conversation.reload.status).to eq('open')
+      end
+
+      it 'emits a usage limit handoff event when captain V2 is enabled' do
+        account.enable_features!('captain_integration_v2')
+
+        expect(Captain::ConversationEvents).to receive(:handed_off)
+          .with(conversation: conversation, assistant: assistant, source: 'usage_limit', reason_category: :usage_limit, at: kind_of(Time))
+
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
+      end
+
+      it 'does not emit a handoff event when captain V2 is disabled' do
+        expect(Captain::ConversationEvents).not_to receive(:handed_off)
+
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
       end
     end
   end

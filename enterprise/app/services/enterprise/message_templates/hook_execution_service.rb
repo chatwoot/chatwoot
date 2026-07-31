@@ -6,6 +6,7 @@ module Enterprise::MessageTemplates::HookExecutionService
     return unless should_process_captain_response?
     return perform_handoff unless inbox.captain_active?
 
+    track_captain_engagement
     schedule_captain_response
   end
 
@@ -28,6 +29,20 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   private
+
+  def track_captain_engagement
+    return unless captain_v2_enabled?
+
+    Captain::ConversationEvents.engaged(
+      conversation: conversation,
+      assistant: inbox.captain_assistant,
+      at: message.created_at
+    )
+  end
+
+  def captain_v2_enabled?
+    conversation.account.feature_enabled?('captain_integration_v2')
+  end
 
   def schedule_captain_response
     job_args = [conversation, conversation.inbox.captain_assistant]
@@ -81,6 +96,15 @@ module Enterprise::MessageTemplates::HookExecutionService
       content: 'Transferring to another agent for further assistance.'
     )
     conversation.bot_handoff!
+    if captain_v2_enabled?
+      Captain::ConversationEvents.handed_off(
+        conversation: conversation,
+        assistant: inbox.captain_assistant,
+        source: Captain::ConversationEvents::Sources::USAGE_LIMIT,
+        reason_category: :usage_limit,
+        at: Time.current
+      )
+    end
     send_out_of_office_message_after_handoff
   end
 
