@@ -38,6 +38,7 @@ class Shopify::PartnerClient
       }
       events(
         first: 1
+        orderBy: OCCURRED_AT_DESC
         filter: {
           eventTypes: [#{SUBSCRIPTION_EVENT_TYPES.join(', ')}]
           occurredAtMin: $occurredAtMin
