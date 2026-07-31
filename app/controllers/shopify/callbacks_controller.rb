@@ -25,6 +25,7 @@ class Shopify::CallbacksController < ApplicationController
     ensure_shopify_enabled!(account: account)
     raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
 
+    @shopify_installation_generation = Shopify::InstallationGeneration.current(account)
     exchange_access_token
     create_hook
     redirect_to shopify_integration_url
@@ -66,22 +67,30 @@ class Shopify::CallbacksController < ApplicationController
 
     @account_id = account.id
     ensure_shopify_enabled!(account: account)
+    @shopify_installation_generation = Shopify::InstallationGeneration.current(account)
   end
 
   def create_hook
-    account.hooks.create!(shopify_hook_attributes)
+    Shopify::InstallationGeneration.with_current!(account, @shopify_installation_generation) do
+      account.hooks.create!(shopify_hook_attributes)
+    end
   end
 
   def reconnect_existing_shopify_account
-    loop do
-      hook = account.hooks.find_by(app_id: 'shopify')
-      return account.hooks.create!(shopify_hook_attributes) unless hook
+    Shopify::InstallationGeneration.with_current!(account, @shopify_installation_generation) do
+      loop do
+        hook = account.hooks.find_by(app_id: 'shopify')
+        unless hook
+          account.hooks.create!(shopify_hook_attributes)
+          break
+        end
 
-      begin
-        hook.with_lock { hook.update!(shopify_hook_attributes) }
-        return
-      rescue ActiveRecord::RecordNotFound
-        next
+        begin
+          hook.with_lock { hook.update!(shopify_hook_attributes) }
+          break
+        rescue ActiveRecord::RecordNotFound
+          next
+        end
       end
     end
   end

@@ -9,15 +9,18 @@ class Shopify::UninstallationService
   def perform
     failure = nil
     outcome = :stale
-    hook.with_lock do
-      next if stale_event?
+    account.with_lock do
+      hook.with_lock do
+        next if stale_event?
 
-      begin
-        uninstall
-        hook.destroy! if delete_hook && hook.persisted?
-        outcome = :uninstalled
-      rescue StandardError => e
-        failure = e
+        begin
+          Shopify::InstallationGeneration.advance!(account)
+          uninstall
+          hook.destroy! if delete_hook && hook.persisted?
+          outcome = :uninstalled
+        rescue StandardError => e
+          failure = e
+        end
       end
     end
     raise failure if failure
