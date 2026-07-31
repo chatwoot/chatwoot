@@ -37,6 +37,28 @@ RSpec.describe Captain::AudienceMatcher do
         expect(matches?(leaf('plan_tier', 'not_equal_to', 'free'))).to be(true)
       end
 
+      it 'compares numeric JSON values with UI strings' do
+        contact.update!(custom_attributes: contact.custom_attributes.merge('annual_spend' => 120.5))
+
+        expect(matches?(leaf('annual_spend', 'equal_to', '120.5'))).to be(true)
+        expect(matches?(leaf('annual_spend', 'equal_to', '120.6'))).to be(false)
+      end
+
+      it 'does not include missing standard and additional attributes in negative matches' do
+        contact.update!(email: 'person@chatwoot.com', identifier: nil,
+                        additional_attributes: contact.additional_attributes.except('country_code'))
+
+        expect(matches?(leaf('identifier', 'not_equal_to', 'known'))).to be(false)
+        expect(matches?(leaf('country_code', 'not_equal_to', 'US'))).to be(false)
+        expect(matches?(leaf('email', 'does_not_contain', 'example.com'))).to be(true)
+        expect(matches?(leaf('identifier', 'does_not_contain', 'known'))).to be(false)
+      end
+
+      it 'preserves custom attribute null semantics from contact filters' do
+        expect(matches?(leaf('missing_custom_attribute', 'not_equal_to', 'known'))).to be(true)
+        expect(matches?(leaf('missing_custom_attribute', 'does_not_contain', 'known'))).to be(false)
+      end
+
       it 'matches checkbox custom attributes' do
         contact.update!(custom_attributes: contact.custom_attributes.merge('newsletter_opt_in' => true))
         expect(matches?(leaf('newsletter_opt_in', 'equal_to', 'true'))).to be(true)

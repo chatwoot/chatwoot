@@ -48,7 +48,7 @@ class Captain::AudienceMatcher
     when 'is_present'     then actual.present?
     when 'is_not_present' then actual.blank?
     when 'equal_to'       then values.any? { |expected| value_equal?(key, actual, expected) }
-    when 'not_equal_to'   then values.none? { |expected| value_equal?(key, actual, expected) }
+    when 'not_equal_to'   then negative_equality_match?(key, actual, values)
     else matches_text_or_range?(leaf[:filter_operator], actual, values.first)
     end
   end
@@ -73,8 +73,26 @@ class Captain::AudienceMatcher
   def value_equal?(key, actual, expected)
     return Array(actual).include?(expected) if key == 'labels'
     return ActiveModel::Type::Boolean.new.cast(expected) == (actual == true) if boolean_condition?(actual, expected)
+    return numeric_equal?(actual, expected) if actual.is_a?(Numeric)
 
     normalize(key, actual) == normalize(key, expected)
+  end
+
+  def numeric_equal?(actual, expected)
+    BigDecimal(actual.to_s) == BigDecimal(expected.to_s)
+  rescue ArgumentError, TypeError
+    false
+  end
+
+  def negative_equality_match?(key, actual, values)
+    return custom_attribute?(key) if actual.nil?
+
+    values.none? { |expected| value_equal?(key, actual, expected) }
+  end
+
+  def custom_attribute?(key)
+    CONTACT_STANDARD.exclude?(key) && CONTACT_ADDITIONAL.exclude?(key) && CONVERSATION_ADDITIONAL.exclude?(key) &&
+      %w[labels hmac_verified].exclude?(key)
   end
 
   # An unset checkbox attribute counts as false; the expected value identifies
@@ -93,13 +111,17 @@ class Captain::AudienceMatcher
   def matches_text_or_range?(operator, actual, expected)
     case operator
     when 'contains'         then actual.to_s.downcase.include?(expected.to_s.downcase)
-    when 'does_not_contain' then actual.to_s.downcase.exclude?(expected.to_s.downcase)
+    when 'does_not_contain' then excludes_text?(actual, expected)
     when 'starts_with'      then actual.to_s.downcase.start_with?(expected.to_s.downcase)
     when 'is_greater_than'  then compare(actual, expected) == 1
     when 'is_less_than'     then compare(actual, expected) == -1
     when 'days_before'      then older_than_days?(actual, expected)
     else false
     end
+  end
+
+  def excludes_text?(actual, expected)
+    !actual.nil? && actual.to_s.downcase.exclude?(expected.to_s.downcase)
   end
 
   # -1/0/1 like <=>, or nil when blank or unparseable (never matches).
