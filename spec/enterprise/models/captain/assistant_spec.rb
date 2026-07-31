@@ -133,6 +133,21 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(assistant).not_to be_valid
     end
 
+    it 'rejects an unknown group operator' do
+      assistant.config['audience'] = { 'operator' => 'xor', 'conditions' => [leaf] }
+      expect(assistant).not_to be_valid
+    end
+
+    it 'rejects a value-taking leaf without values' do
+      assistant.config['audience'] = { 'attribute_key' => 'email', 'filter_operator' => 'contains' }
+      expect(assistant).not_to be_valid
+    end
+
+    it 'accepts a presence leaf without values' do
+      assistant.config['audience'] = { 'attribute_key' => 'email', 'filter_operator' => 'is_present' }
+      expect(assistant).to be_valid
+    end
+
     it 'rejects conditions that is not an array' do
       assistant.config['audience'] = { 'operator' => 'and', 'conditions' => leaf }
       expect(assistant).not_to be_valid

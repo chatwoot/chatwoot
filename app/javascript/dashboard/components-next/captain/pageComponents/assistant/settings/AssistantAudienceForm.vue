@@ -31,6 +31,7 @@ const defaultRoot = () => ({ id: nextId(), operator: 'and', conditions: [] });
 
 const root = ref(defaultRoot());
 const mode = ref('everyone');
+const showEmptyAudienceError = ref(false);
 
 const findOption = (filterType, value) =>
   filterType?.options?.find(option => String(option.id) === String(value));
@@ -109,6 +110,12 @@ const groupRef = useTemplateRef('groupRef');
 
 const handleSubmit = () => {
   const isSpecific = mode.value === 'specific';
+  if (isSpecific && !root.value.conditions.length) {
+    showEmptyAudienceError.value = true;
+    return;
+  }
+
+  showEmptyAudienceError.value = false;
   if (isSpecific && !groupRef.value.validate()) return;
 
   const audience =
@@ -133,6 +140,13 @@ watch(
     mode.value = audience ? 'specific' : 'everyone';
   },
   { immediate: true }
+);
+
+watch(
+  () => root.value.conditions.length,
+  () => {
+    showEmptyAudienceError.value = false;
+  }
 );
 </script>
 
@@ -161,6 +175,9 @@ watch(
           class="w-full mt-2"
           :filter-types="filterTypes"
         />
+        <p v-if="showEmptyAudienceError" class="mt-2 text-sm text-n-ruby-11">
+          {{ t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.EMPTY_ERROR') }}
+        </p>
       </RadioCard>
     </div>
     <div>

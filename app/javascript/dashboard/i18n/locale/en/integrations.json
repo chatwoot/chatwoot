@@ -622,6 +622,7 @@
           "ADD_GROUP": "Add condition group",
           "EMPTY_TITLE": "No conditions yet",
           "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
+          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
           "MATCH_PREFIX": "Match",
           "MATCH_SUFFIX": "of the following",
           "MATCH_ALL": "all",
