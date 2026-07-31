@@ -95,7 +95,7 @@ RSpec.describe Shopify::PendingInstallation do
   end
 
   it 'classifies a surviving payload as not consumed after the claim expires' do
-    pending_installation = described_class.claim(token: token, account_id: account_id)
+    pending_installation = described_class.claim(token: token)
     Redis::Alfred.delete(claim_key)
 
     expect(pending_installation.send(:consume_state)).to eq(:not_consumed)
