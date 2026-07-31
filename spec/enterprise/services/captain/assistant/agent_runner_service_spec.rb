@@ -259,6 +259,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(result).to eq({
                                'response' => 'conversation_handoff',
                                'reasoning' => 'Error occurred: Test error',
+                               'error' => true,
+                               'error_reason' => 'standard_error',
                                'handoff_tool_called' => false
                              })
       end
@@ -287,6 +289,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           expect(result).to eq({
                                  'response' => 'conversation_handoff',
                                  'reasoning' => 'Error occurred: Test error',
+                                 'error' => true,
+                                 'error_reason' => 'standard_error',
                                  'handoff_tool_called' => false
                                })
         end
@@ -311,6 +315,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           expect(result).to eq({
                                  'response' => 'conversation_handoff',
                                  'reasoning' => 'Error occurred: Test error',
+                                 'error' => true,
+                                 'error_reason' => 'standard_error',
                                  'handoff_tool_called' => true
                                })
         end
