@@ -15,6 +15,7 @@
 #  priority               :integer
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
+#  status_changed_at      :datetime
 #  uuid                   :uuid             not null
 #  waiting_since          :datetime
 #  created_at             :datetime         not null
@@ -125,8 +126,10 @@ class Conversation < ApplicationRecord
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
   has_many :reporting_events, dependent: :destroy_async
+  has_many :automation_rule_pending_executions, dependent: :delete_all
 
   before_save :ensure_snooze_until_reset
+  before_save :set_status_changed_at
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
 
@@ -172,10 +175,14 @@ class Conversation < ApplicationRecord
     save
   end
 
-  def bot_handoff!
+  def bot_handoff!(dispatch_event: true)
     update(waiting_since: Time.current) if waiting_since.blank?
     self.assignee_agent_bot = nil
     open!
+    dispatch_bot_handoff_event if dispatch_event
+  end
+
+  def dispatch_bot_handoff_event
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
   end
 
@@ -272,6 +279,10 @@ class Conversation < ApplicationRecord
 
   def ensure_snooze_until_reset
     self.snoozed_until = nil unless snoozed?
+  end
+
+  def set_status_changed_at
+    self.status_changed_at = Time.current if new_record? || status_changed?
   end
 
   def ensure_waiting_since
