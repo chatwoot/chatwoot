@@ -3,6 +3,7 @@ import {
   getLoginRedirectURL,
   getCredentialsFromEmail,
   getSignupRoute,
+  getTargetAccount,
   requiresShopifyBilling,
 } from '../AuthHelper';
 
@@ -94,6 +95,7 @@ describe('#URL Helpers', () => {
             billing_provider: 'shopify',
             shopify_integration: true,
             subscription_status: 'pending',
+            shopify_shop_domain: 'store.myshopify.com',
           },
         ],
       };
@@ -112,6 +114,7 @@ describe('#URL Helpers', () => {
             billing_provider: 'shopify',
             shopify_integration: true,
             subscription_status: 'pending',
+            shopify_shop_domain: 'store.myshopify.com',
           },
         ],
       };
@@ -125,6 +128,52 @@ describe('#URL Helpers', () => {
       ).toBe(
         '/app/accounts/7500/settings/billing?plan_handle=growth&shop=store.myshopify.com'
       );
+    });
+
+    it('routes a Shopify pricing return to the account connected to that shop', () => {
+      const user = {
+        account_id: 7500,
+        accounts: [
+          {
+            id: 7500,
+            shopify_shop_domain: 'first-store.myshopify.com',
+          },
+          {
+            id: 7501,
+            shopify_shop_domain: 'second-store.myshopify.com',
+          },
+        ],
+      };
+
+      expect(
+        getLoginRedirectURL({
+          redirectUrl:
+            'settings/billing?plan_handle=growth&shop=second-store.myshopify.com',
+          user,
+        })
+      ).toBe(
+        '/app/accounts/7501/settings/billing?plan_handle=growth&shop=second-store.myshopify.com'
+      );
+    });
+
+    it('does not route a Shopify pricing return to an unrelated account', () => {
+      const user = {
+        account_id: 7500,
+        accounts: [
+          {
+            id: 7500,
+            shopify_shop_domain: 'first-store.myshopify.com',
+          },
+        ],
+      };
+
+      expect(
+        getLoginRedirectURL({
+          redirectUrl:
+            'settings/billing?plan_handle=growth&shop=unknown-store.myshopify.com',
+          user,
+        })
+      ).toBe('/app/');
     });
 
     it('preserves the regular redirect when the Shopify feature is disabled', () => {
@@ -172,6 +221,22 @@ describe('#URL Helpers', () => {
         ).toBe(true);
       }
     );
+  });
+
+  describe('getTargetAccount', () => {
+    it('matches Shopify shop domains case-insensitively', () => {
+      const shopifyAccount = {
+        id: 7501,
+        shopify_shop_domain: 'store.myshopify.com',
+      };
+
+      expect(
+        getTargetAccount({
+          redirectUrl: 'settings/billing?shop=Store.MyShopify.Com',
+          user: { accounts: [{ id: 7500 }, shopifyAccount] },
+        })
+      ).toBe(shopifyAccount);
+    });
   });
 
   describe('getCredentialsFromEmail', () => {

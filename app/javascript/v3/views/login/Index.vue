@@ -10,7 +10,7 @@ import SessionStorage from 'shared/helpers/sessionStorage';
 import { useBranding } from 'shared/composables/useBranding';
 import AnalyticsHelper from 'dashboard/helper/AnalyticsHelper';
 import { SESSION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import { getSignupRoute } from 'v3/helpers/AuthHelper';
+import { getLoginRedirectURL, getSignupRoute } from 'v3/helpers/AuthHelper';
 
 // components
 import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
@@ -234,10 +234,15 @@ export default {
 
       this.submitLogin();
     },
-    handleMfaVerified() {
+    handleMfaVerified(user) {
       // MFA verification successful, continue with login
       this.handleImpersonation();
-      window.location = '/app';
+      window.location = getLoginRedirectURL({
+        ssoAccountId: this.ssoAccountId,
+        ssoConversationId: this.ssoConversationId,
+        redirectUrl: this.redirectUrl,
+        user,
+      });
     },
     handleMfaCancel() {
       // User cancelled MFA, reset state
@@ -254,6 +259,7 @@ export default {
         sso_auth_token: this.ssoAuthToken,
         ssoAccountId: this.ssoAccountId,
         ssoConversationId: this.ssoConversationId,
+        redirectUrl: this.redirectUrl,
         ...extraParams,
       };
 

@@ -5,7 +5,11 @@ import dashboard from './dashboard/dashboard.routes';
 import store from 'dashboard/store';
 import { validateLoggedInRoutes } from '../helper/routeHelpers';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
-import { requiresShopifyBilling } from 'v3/helpers/AuthHelper';
+import {
+  getShopifyShopFromRedirect,
+  getTargetAccount,
+  requiresShopifyBilling,
+} from 'v3/helpers/AuthHelper';
 import AnalyticsHelper from '../helper/AnalyticsHelper';
 
 const ONBOARDING_STEPS = ['account_details', 'enrichment', 'inbox_setup'];
@@ -33,7 +37,19 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     return next(frontendURL('no-accounts'));
   }
 
-  const routeAccountId = Number(to.params?.accountId || accountId);
+  const redirectUrl = to.query?.redirect_url;
+  const redirectAccount = getTargetAccount({ redirectUrl, user });
+  if (
+    !to.params?.accountId &&
+    getShopifyShopFromRedirect(redirectUrl) &&
+    !redirectAccount
+  ) {
+    return next(frontendURL(`accounts/${accountId}/dashboard`));
+  }
+
+  const routeAccountId = Number(
+    to.params?.accountId || redirectAccount?.id || accountId
+  );
   const userAccount = accounts.find(a => a.id === routeAccountId);
   const isAdmin = userAccount?.role === 'administrator';
   const isActive = userAccount?.status === 'active';
@@ -45,7 +61,6 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     !needsShopifyBilling;
 
   if (to.name === 'no_accounts' || !to.name) {
-    const { redirect_url: redirectUrl } = to.query || {};
     if (redirectUrl) {
       return next(frontendURL(`accounts/${routeAccountId}/${redirectUrl}`));
     }
