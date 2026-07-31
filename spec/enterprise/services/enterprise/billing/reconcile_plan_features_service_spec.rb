@@ -104,6 +104,15 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         expect(account).to be_feature_enabled('audit_logs')
       end
 
+      it 'clears Captain V2 when it is omitted from every Shopify plan' do
+        account.enable_features!('captain_integration_v2')
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('captain_integration_v2')
+        expect(account).to be_feature_enabled('audit_logs')
+      end
+
       it 'removes features that are not present after a Shopify plan change' do
         account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
         described_class.new(account: account).perform

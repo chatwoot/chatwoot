@@ -33,6 +33,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   ].freeze
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
   PREMIUM_PLAN_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES + ENTERPRISE_PLAN_FEATURES).freeze
+  SHOPIFY_BASE_MANAGED_FEATURES = (PREMIUM_PLAN_FEATURES + %w[captain_integration_v2]).freeze
 
   pattr_initialize [:account!]
 
@@ -79,7 +80,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   def managed_plan_features
     return PREMIUM_PLAN_FEATURES unless shopify_billing?
 
-    (PREMIUM_PLAN_FEATURES + previously_managed_shopify_features + current_shopify_catalog_features).uniq
+    (SHOPIFY_BASE_MANAGED_FEATURES + previously_managed_shopify_features + current_shopify_catalog_features).uniq
   end
 
   def previously_managed_shopify_features
