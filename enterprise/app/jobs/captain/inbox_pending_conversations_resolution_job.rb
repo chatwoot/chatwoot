@@ -28,6 +28,12 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     resolvable_pending_conversations(inbox).each do |conversation|
       create_resolution_message(conversation, inbox)
       conversation.resolved!
+      Captain::ConversationEvents.resolved(
+        conversation: conversation,
+        assistant: inbox.captain_assistant,
+        source: Captain::ConversationEvents::Sources::TIME_BASED,
+        at: Time.current
+      )
     end
   end
 
@@ -80,7 +86,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     Captain::ConversationEvents.resolved(
       conversation: conversation,
       assistant: inbox.captain_assistant,
-      source: 'inference',
+      source: Captain::ConversationEvents::Sources::INFERENCE,
       at: Time.current
     )
   end
@@ -95,7 +101,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     Captain::ConversationEvents.handed_off(
       conversation: conversation,
       assistant: inbox.captain_assistant,
-      source: 'inference',
+      source: Captain::ConversationEvents::Sources::INFERENCE,
       reason_category: :pending_clarification,
       at: Time.current
     )
