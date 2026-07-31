@@ -31,7 +31,8 @@ RSpec.describe Webhooks::TelnyxSmsEventsJob do
   it 'passes finalized messages to the delivery status service' do
     payload = {
       'id' => 'telnyx-message-id',
-      'to' => [{ 'phone_number' => channel.phone_number, 'status' => 'delivered' }]
+      'from' => { 'phone_number' => channel.phone_number },
+      'to' => [{ 'phone_number' => '+15555550123', 'status' => 'delivered' }]
     }
     params = { 'data' => { 'event_type' => 'message.finalized', 'payload' => payload } }
     service = instance_double(Sms::TelnyxDeliveryStatusService, perform: nil)

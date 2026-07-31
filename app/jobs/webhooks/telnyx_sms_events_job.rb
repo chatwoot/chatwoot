@@ -27,8 +27,8 @@ class Webhooks::TelnyxSmsEventsJob < ApplicationJob
   end
 
   def handle_delivery_status(payload)
-    to_number = payload.dig('to', 0, 'phone_number') || payload['to']
-    channel = Channel::TelnyxSms.find_by(phone_number: to_number)
+    from_number = payload.dig('from', 'phone_number')
+    channel = Channel::TelnyxSms.find_by(phone_number: from_number)
     return unless channel
 
     Sms::TelnyxDeliveryStatusService.new(

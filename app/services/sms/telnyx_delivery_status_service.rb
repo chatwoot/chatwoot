@@ -1,4 +1,6 @@
 class Sms::TelnyxDeliveryStatusService
+  FAILED_STATUSES = %w[failed gw_timeout sending_failed delivery_failed delivery_unconfirmed].freeze
+
   pattr_initialize [:inbox!, :params!]
 
   def perform
@@ -13,8 +15,7 @@ class Sms::TelnyxDeliveryStatusService
 
   def delivery_status
     to_status = params.dig('to', 0, 'status')
-    failed_statuses = %w[failed gw_timeout]
-    failed_statuses.include?(to_status) ? 'failed' : 'delivered'
+    FAILED_STATUSES.include?(to_status) ? 'failed' : 'delivered'
   end
 
   def failed?
