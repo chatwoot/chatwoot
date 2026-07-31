@@ -23,4 +23,14 @@ RSpec.describe 'Enterprise Super Admin Application Config API', type: :request d
     expect(response).to redirect_to(super_admin_settings_path)
     expect(GlobalConfig.get('SHOPIFY_APP_HANDLE')['SHOPIFY_APP_HANDLE']).to eq('chatwoot')
   end
+
+  it 'rejects an invalid Shopify app handle configuration' do
+    expect do
+      post '/super_admin/app_config?config=shopify',
+           params: { app_config: { SHOPIFY_APP_HANDLE: 'Chatwoot App' } }
+    end.not_to(change { InstallationConfig.find_by(name: 'SHOPIFY_APP_HANDLE')&.value })
+
+    expect(response).to redirect_to(super_admin_app_config_path(config: 'shopify'))
+    expect(flash[:alert]).to include('SHOPIFY_APP_HANDLE must contain only lowercase letters, numbers, and hyphens')
+  end
 end
