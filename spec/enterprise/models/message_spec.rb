@@ -108,5 +108,13 @@ RSpec.describe Message do
       expect(conversation.reload.pending?).to be true
       expect(conversation.assignee_agent_bot_id).to eq(agent_bot.id)
     end
+
+    it 'does not lock conversations that are not Captain-pending' do
+      conversation.open!
+
+      expect(conversation).not_to receive(:with_lock)
+
+      create(:message, message_type: :outgoing, conversation: conversation)
+    end
   end
 end
