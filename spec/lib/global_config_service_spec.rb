@@ -49,6 +49,16 @@ describe GlobalConfigService do
         end
       end
 
+      it 'preserves an intentionally blank database value without an environment override' do
+        config = InstallationConfig.find_or_initialize_by(name: 'SLACK_CLIENT_ID')
+        config.update!(value: '', locked: false)
+
+        with_modified_env SLACK_CLIENT_ID: nil do
+          expect(described_class.load('SLACK_CLIENT_ID', 'TEST_CLIENT_ID')).to eq('')
+          expect(config.reload.value).to eq('')
+        end
+      end
+
       it 'keeps a non-blank database value' do
         config = InstallationConfig.find_or_initialize_by(name: 'ENABLE_ACCOUNT_SIGNUP')
         config.update!(value: 'true', locked: false)
