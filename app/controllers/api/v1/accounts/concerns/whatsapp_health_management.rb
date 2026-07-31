@@ -2,7 +2,7 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   extend ActiveSupport::Concern
 
   included do
-    skip_before_action :check_authorization, only: [:health, :register_webhook]
+    skip_before_action :check_authorization, only: [:health, :register_webhook, :message_templates]
     before_action :check_admin_authorization?, only: [:register_webhook]
     before_action :validate_whatsapp_cloud_channel, only: [:health, :register_webhook]
   end
@@ -14,6 +14,15 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
     render status: :ok, json: { message: 'Template sync initiated successfully' }
   rescue StandardError => e
     render status: :internal_server_error, json: { error: e.message }
+  end
+
+  def message_templates
+    return render status: :unprocessable_entity, json: { error: 'Message templates are only available for WhatsApp channels' } unless @inbox.whatsapp?
+
+    templates = @inbox.channel.message_templates.presence || []
+    templates = templates.select { |template| template['name'] == params[:name] } if params[:name].present?
+
+    render json: { payload: templates }
   end
 
   def health
