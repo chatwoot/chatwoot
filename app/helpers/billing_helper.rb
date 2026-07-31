@@ -2,6 +2,8 @@ module BillingHelper
   private
 
   def default_plan?(account)
+    return false unless account.billing_provider == Account::DEFAULT_BILLING_PROVIDER
+
     installation_config = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')
     default_plan = installation_config&.value&.first
 
