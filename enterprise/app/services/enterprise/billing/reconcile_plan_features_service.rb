@@ -79,7 +79,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   def managed_plan_features
     return PREMIUM_PLAN_FEATURES unless shopify_billing?
 
-    (previously_managed_shopify_features + current_shopify_catalog_features).uniq
+    (PREMIUM_PLAN_FEATURES + previously_managed_shopify_features + current_shopify_catalog_features).uniq
   end
 
   def previously_managed_shopify_features

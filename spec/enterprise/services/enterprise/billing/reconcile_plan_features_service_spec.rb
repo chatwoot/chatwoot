@@ -95,6 +95,15 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         expect(account).to be_feature_enabled('shopify_integration')
       end
 
+      it 'clears default plan entitlements omitted from every Shopify plan' do
+        account.enable_features!('api_and_webhooks')
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('api_and_webhooks')
+        expect(account).to be_feature_enabled('audit_logs')
+      end
+
       it 'removes features that are not present after a Shopify plan change' do
         account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
         described_class.new(account: account).perform
