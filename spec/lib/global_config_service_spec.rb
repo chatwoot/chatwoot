@@ -59,13 +59,13 @@ describe GlobalConfigService do
         end
       end
 
-      it 'keeps a non-blank database value' do
+      it 'replaces a non-blank database value with the environment value' do
         config = InstallationConfig.find_or_initialize_by(name: 'ENABLE_ACCOUNT_SIGNUP')
         config.update!(value: 'true', locked: false)
 
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
-          expect(described_class.load('ENABLE_ACCOUNT_SIGNUP', 'false')).to be(true)
-          expect(config.reload.value).to eq('true')
+          expect(described_class.load('ENABLE_ACCOUNT_SIGNUP', 'false')).to eq('false')
+          expect(config.reload.value).to eq('false')
         end
       end
 
