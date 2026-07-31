@@ -31,4 +31,10 @@ RSpec.describe Shopify::PartnerConfiguration do
       described_class.validate_for_save!(SHOPIFY_PARTNER_API_VERSION: 'latest')
     end.to raise_error(Shopify::PartnerClient::ConfigurationError, 'SHOPIFY_PARTNER_API_VERSION must use YYYY-MM format')
   end
+
+  it 'rejects an API version with an impossible month' do
+    expect do
+      described_class.validate_for_save!(SHOPIFY_PARTNER_API_VERSION: '2026-13')
+    end.to raise_error(Shopify::PartnerClient::ConfigurationError, 'SHOPIFY_PARTNER_API_VERSION must use YYYY-MM format')
+  end
 end

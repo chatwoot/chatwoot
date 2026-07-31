@@ -56,7 +56,7 @@ class Shopify::PartnerConfiguration
   private
 
   def validate_api_version!
-    return if api_version.match?(/\A\d{4}-\d{2}\z/)
+    return if api_version.match?(/\A\d{4}-(0[1-9]|1[0-2])\z/)
 
     raise Shopify::PartnerClient::ConfigurationError, 'SHOPIFY_PARTNER_API_VERSION must use YYYY-MM format'
   end
