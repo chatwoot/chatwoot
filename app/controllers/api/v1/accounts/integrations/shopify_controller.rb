@@ -23,6 +23,8 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
     )
     install_pending_shopify_hook(pending_installation)
     head :ok
+  rescue Shopify::PendingInstallation::CommitOutcomeUnknown
+    raise
   rescue Shopify::PendingInstallation::Error => e
     pending_installation&.release!
     render json: { error: e.message }, status: :unprocessable_entity
@@ -50,6 +52,8 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
       settings: { scope: data['scope'] }
     )
     pending_installation.consume!
+  rescue Shopify::PendingInstallation::CommitOutcomeUnknown
+    raise
   rescue StandardError
     hook&.destroy!
     raise

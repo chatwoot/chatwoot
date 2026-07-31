@@ -2,6 +2,7 @@ class Shopify::PendingInstallation
   class Error < StandardError; end
   class InvalidToken < Error; end
   class AlreadyClaimed < Error; end
+  class CommitOutcomeUnknown < Error; end
 
   PAYLOAD_TTL = 10.minutes
   CLAIM_TTL = 1.minute
@@ -54,6 +55,14 @@ class Shopify::PendingInstallation
     end
 
     raise AlreadyClaimed, 'Install token claim has expired' unless consumed
+  rescue AlreadyClaimed
+    raise
+  rescue StandardError => e
+    state = consume_state
+    return if state == :consumed
+    raise e if state == :not_consumed
+
+    raise CommitOutcomeUnknown, 'Install token consumption outcome is unknown', cause: e
   end
 
   def release!
@@ -73,6 +82,18 @@ class Shopify::PendingInstallation
   end
 
   private
+
+  def consume_state
+    payload, claim = ::Redis::Alfred.with do |connection|
+      connection.mget(format(PAYLOAD_KEY, token: @token), @claim_key)
+    end
+    return :consumed if payload.nil? && claim.nil?
+    return :not_consumed if payload.present? && claim == @claim_token
+
+    :unknown
+  rescue StandardError
+    :unknown
+  end
 
   def load_data
     json_data = Redis::SecureStorage.get(format(PAYLOAD_KEY, token: @token))
