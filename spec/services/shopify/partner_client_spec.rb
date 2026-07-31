@@ -55,6 +55,7 @@ RSpec.describe Shopify::PartnerClient do
     expect(snapshot).to have_attributes(state: 'active', plan_handles: ['shopify-basic'])
     expect(request).to have_been_requested.once
     body = JSON.parse(request_body)
+    expect(body['query']).to include('orderBy: OCCURRED_AT_DESC')
     expect(body['variables']).to include(
       'appId' => 'gid://shopify/App/456',
       'shopId' => shop_id
