@@ -5,6 +5,8 @@ class NotificationListener < BaseListener
     return if event.data[:changed_attributes].present?
 
     conversation.inbox.members.each do |agent|
+      next if conversation.notifications.exists?(user: agent, notification_type: :conversation_creation)
+
       NotificationBuilder.new(
         notification_type: 'conversation_creation',
         user: agent,
