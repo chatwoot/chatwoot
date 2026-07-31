@@ -342,6 +342,25 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
       end
 
+      context 'when a newer outgoing message exists in the conversation' do
+        let!(:message) do
+          create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Looping in the vendor',
+                           content_attributes: { to_emails: ['customer@example.com'], cc_emails: ['vendor@example.com'],
+                                                 bcc_emails: ['audit@example.com'] })
+        end
+
+        it 'sends to the recipients of the message being delivered' do
+          # a private note added right after the reply carries empty recipient lists
+          create(:message, conversation: conversation, account: account, message_type: 'outgoing', private: true,
+                           content: 'Vendor has been looped in',
+                           content_attributes: { to_emails: [], cc_emails: [], bcc_emails: [] })
+
+          expect(mail.to).to eq(message.content_attributes[:to_emails])
+          expect(mail.cc).to eq(message.content_attributes[:cc_emails])
+          expect(mail.bcc).to eq(message.content_attributes[:bcc_emails])
+        end
+      end
+
       context 'when message is a CSAT survey' do
         let(:csat_message) do
           create(:message, conversation: conversation, account: account, message_type: 'template',
