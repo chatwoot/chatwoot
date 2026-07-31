@@ -9,18 +9,23 @@ class AutoAssignment::AgentAssignmentService
   end
 
   def perform
-    new_assignee = find_assignee
-    return unless new_assignee
+    # This runs from Conversation's own after_save callback (AutoAssignmentHandler), so
+    # conversation is often still mid-way through its own save. Locking a fresh, separate
+    # instance (rather than conversation.with_lock, which would reload conversation itself)
+    # avoids wiping previous_changes that later after_commit callbacks on it still depend on.
+    Conversation.transaction do
+      locked = Conversation.lock.find_by(id: conversation.id)
+      next unless locked && reassignment_still_needed?(locked)
 
-    conversation.with_lock do
-      conversation.update(assignee: new_assignee) if reassignment_still_needed?
+      new_assignee = find_assignee
+      locked.update(assignee: new_assignee) if new_assignee
     end
   end
 
   private
 
-  def reassignment_still_needed?
-    conversation.assignee.blank? || conversation.inbox.members.exclude?(conversation.assignee)
+  def reassignment_still_needed?(locked_conversation)
+    locked_conversation.assignee.blank? || locked_conversation.inbox.members.exclude?(locked_conversation.assignee)
   end
 
   def online_agent_ids
