@@ -57,3 +57,28 @@ describe('SAML login', () => {
     });
   });
 });
+
+describe('Shopify signup and password recovery', () => {
+  const redirectUrl =
+    'settings/billing?plan_handle=growth&shop=store.myshopify.com';
+
+  it('shows signup for a pending Shopify installation when public signup is disabled', () => {
+    window.chatwootConfig = { signupEnabled: 'false' };
+
+    expect(
+      Login.computed.showSignupLink.call({
+        signupRoute: {
+          name: 'auth_signup',
+          query: { shopify_pending_install: 'pending-token' },
+        },
+      })
+    ).toBe(true);
+  });
+
+  it('carries the Shopify billing redirect to password recovery', () => {
+    expect(Login.computed.resetPasswordRoute.call({ redirectUrl })).toEqual({
+      name: 'auth_reset_password',
+      query: { redirect_url: redirectUrl },
+    });
+  });
+});

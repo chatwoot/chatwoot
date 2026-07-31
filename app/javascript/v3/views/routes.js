@@ -80,5 +80,8 @@ export default [
     path: frontendURL('auth/reset/password'),
     name: 'auth_reset_password',
     component: ResetPassword,
+    props: route => ({
+      redirectUrl: route.query.redirect_url,
+    }),
   },
 ];

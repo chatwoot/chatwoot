@@ -103,10 +103,19 @@ export default {
       );
     },
     showSignupLink() {
-      return window.chatwootConfig.signupEnabled === 'true';
+      return (
+        window.chatwootConfig.signupEnabled === 'true' ||
+        Boolean(this.signupRoute.query?.shopify_pending_install)
+      );
     },
     signupRoute() {
       return getSignupRoute(this.redirectUrl);
+    },
+    resetPasswordRoute() {
+      const route = { name: 'auth_reset_password' };
+      return this.redirectUrl
+        ? { ...route, query: { redirect_url: this.redirectUrl } }
+        : route;
     },
     showSamlLogin() {
       return this.allowedLoginMethods.includes('saml');
@@ -414,7 +423,7 @@ export default {
           >
             <p v-if="!globalConfig.disableUserProfileUpdate">
               <router-link
-                to="auth/reset/password"
+                :to="resetPasswordRoute"
                 class="text-sm text-link"
                 tabindex="4"
               >
