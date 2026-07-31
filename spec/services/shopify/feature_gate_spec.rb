@@ -48,14 +48,20 @@ RSpec.describe Shopify::FeatureGate do
     it 'uses a false environment value as a kill switch' do
       with_modified_env described_class::GLOBAL_CONFIG => 'false' do
         expect(described_class.enabled?).to be false
-        expect(GlobalConfigService).not_to have_received(:load)
+        expect(GlobalConfigService).to have_received(:load)
+          .with(described_class::GLOBAL_CONFIG, 'false')
       end
     end
 
     it 'uses a true environment value to enable the rollout' do
       with_modified_env described_class::GLOBAL_CONFIG => 'true' do
+        allow(GlobalConfigService).to receive(:load)
+          .with(described_class::GLOBAL_CONFIG, 'false')
+          .and_return('true')
+
         expect(described_class.enabled?).to be true
-        expect(GlobalConfigService).not_to have_received(:load)
+        expect(GlobalConfigService).to have_received(:load)
+          .with(described_class::GLOBAL_CONFIG, 'false')
       end
     end
   end

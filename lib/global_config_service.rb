@@ -22,7 +22,7 @@ class GlobalConfigService
   end
 
   def self.configured_value?(config, config_key)
-    config.present? || (config == false && !ENV.key?(config_key))
+    !ENV.key?(config_key) && !config.nil?
   end
   private_class_method :configured_value?
 
