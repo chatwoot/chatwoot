@@ -31,7 +31,7 @@ RSpec.describe DataImports::Freshdesk::ImportJob do
     end
 
     it 'discards a terminal ticket-limit error after recording the failed import' do
-      error = DataImports::Freshdesk::TicketLimitError.new
+      error = CustomExceptions::DataImport::FreshdeskTicketLimitError.new
       allow(importer).to receive_messages(conversations_completed?: false, fail!: true)
       allow(importer).to receive(:import_conversations_page).with(starting_after: nil).and_raise(error)
 

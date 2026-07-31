@@ -282,20 +282,20 @@ RSpec.describe DataImports::Freshdesk::Importer do
 
     expect do
       importer.import_conversations_page(starting_after: { 'page' => 300, 'offset' => 90 })
-    end.to raise_error(DataImports::Freshdesk::TicketLimitError) { |error| limit_error = error }
+    end.to raise_error(CustomExceptions::DataImport::FreshdeskTicketLimitError) { |error| limit_error = error }
     importer.fail!(limit_error)
 
     expect(processed_ticket_ids).to eq((91..100).map(&:to_s))
     expect(data_import.reload).to be_failed
     expect(data_import.cursor.dig('conversations', 'starting_after')).to include('page' => 300, 'offset' => 99)
     expect(data_import.import_errors.last).to have_attributes(
-      error_code: 'DataImports::Freshdesk::TicketLimitError',
+      error_code: 'CustomExceptions::DataImport::FreshdeskTicketLimitError',
       message: limit_error.message
     )
     expect(data_import.import_errors.last.details).to include(
       'kind' => 'run_error',
       'source_provider' => 'freshdesk',
-      'error_class' => 'DataImports::Freshdesk::TicketLimitError'
+      'error_class' => 'CustomExceptions::DataImport::FreshdeskTicketLimitError'
     )
   end
 end

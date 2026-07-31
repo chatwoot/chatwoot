@@ -9,7 +9,7 @@ class DataImports::Freshdesk::BaseJob < DataImports::BaseJob
     job.fail_import!(error)
   end
 
-  discard_on DataImports::Freshdesk::TicketLimitError
+  discard_on CustomExceptions::DataImport::FreshdeskTicketLimitError
 
   def retry_job(options = {})
     error = options[:error]
