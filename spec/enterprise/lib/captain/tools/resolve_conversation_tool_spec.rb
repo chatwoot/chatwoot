@@ -29,6 +29,16 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
       )
     end
 
+    it 'skips resolving when an agent bot owns the conversation' do
+      conversation.update!(assignee_agent_bot: create(:agent_bot, account: account), status: :pending)
+
+      result = tool.perform(tool_context, reason: 'Possible spam')
+
+      expect(result).to eq('Resolve skipped because the conversation changed')
+      expect(conversation.reload).to be_pending
+      expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
+    end
+
     it 'creates a conversation_resolved reporting event' do
       create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
 

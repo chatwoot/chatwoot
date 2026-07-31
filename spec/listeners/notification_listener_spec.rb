@@ -246,6 +246,7 @@ describe NotificationListener do
 
         event = Events::Base.new(event_name, Time.zone.now, conversation: conversation)
 
+        expect(conversation).to receive(:with_lock).twice.and_call_original
         listener.conversation_bot_handoff(event)
         listener.conversation_bot_handoff(event)
         expect(notification_setting.user.notifications.count).to eq(1)
