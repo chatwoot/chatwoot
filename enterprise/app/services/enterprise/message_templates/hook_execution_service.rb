@@ -72,16 +72,22 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def perform_handoff
     conversation.reload
-    return unless captain_handling_conversation?
+    handoff_performed = conversation.with_lock do
+      next false unless captain_handling_conversation?
 
-    Rails.logger.info("Captain limit exceeded, performing handoff mid-conversation for conversation: #{conversation.id}")
-    conversation.messages.create!(
-      message_type: :outgoing,
-      account_id: conversation.account.id,
-      inbox_id: conversation.inbox.id,
-      content: 'Transferring to another agent for further assistance.'
-    )
-    conversation.bot_handoff!
+      Rails.logger.info("Captain limit exceeded, performing handoff mid-conversation for conversation: #{conversation.id}")
+      conversation.messages.create!(
+        message_type: :outgoing,
+        account_id: conversation.account.id,
+        inbox_id: conversation.inbox.id,
+        content: 'Transferring to another agent for further assistance.'
+      )
+      conversation.bot_handoff!(dispatch_event: false)
+      true
+    end
+    return unless handoff_performed
+
+    conversation.dispatch_bot_handoff_event
     send_out_of_office_message_after_handoff
   end
 

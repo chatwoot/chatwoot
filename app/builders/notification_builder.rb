@@ -1,5 +1,5 @@
 class NotificationBuilder
-  pattr_initialize [:notification_type!, :user!, :account!, :primary_actor!, :secondary_actor]
+  pattr_initialize [:notification_type!, :user!, :account!, :primary_actor!, :secondary_actor, { meta: {} }]
 
   def perform
     build_notification
@@ -35,7 +35,8 @@ class NotificationBuilder
       account: account,
       primary_actor: primary_actor,
       # secondary_actor is secondary_actor if present, else current_user
-      secondary_actor: secondary_actor || current_user
+      secondary_actor: secondary_actor || current_user,
+      meta: meta
     )
   end
 

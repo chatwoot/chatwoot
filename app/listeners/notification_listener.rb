@@ -4,14 +4,18 @@ class NotificationListener < BaseListener
     return if conversation.pending?
     return if event.data[:changed_attributes].present?
 
+    handoff_event_id = event.timestamp.iso8601(6)
     conversation.inbox.members.each do |agent|
-      next if conversation.notifications.exists?(user: agent, notification_type: :conversation_creation)
+      next if conversation.notifications
+                          .where(user: agent, notification_type: :conversation_creation)
+                          .exists?(["meta ->> 'bot_handoff_event_id' = ?", handoff_event_id])
 
       NotificationBuilder.new(
         notification_type: 'conversation_creation',
         user: agent,
         account: account,
-        primary_actor: conversation
+        primary_actor: conversation,
+        meta: { bot_handoff_event_id: handoff_event_id }
       ).perform
     end
   end

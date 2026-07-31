@@ -177,6 +177,19 @@ RSpec.describe MessageTemplates::HookExecutionService do
         end.not_to(change { Message.where(conversation_id: conversation.id).count })
         expect(conversation.reload.status).to eq('open')
       end
+
+      it 'does not perform handoff when an agent bot owns the pending conversation before handoff runs' do
+        agent_bot = create(:agent_bot, account: account)
+        stale_conversation = Conversation.find(conversation.id)
+        message = build(:message, conversation: stale_conversation, message_type: :incoming, account: account, inbox: inbox)
+        conversation.update!(assignee_agent_bot: agent_bot, status: :pending)
+
+        expect do
+          described_class.new(message: message).send(:perform_handoff)
+        end.not_to(change { Message.where(conversation_id: conversation.id).count })
+        expect(conversation.reload).to be_pending
+        expect(conversation.assignee_agent_bot).to eq(agent_bot)
+      end
     end
   end
 

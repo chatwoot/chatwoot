@@ -251,6 +251,21 @@ describe NotificationListener do
         expect(notification_setting.user.notifications.count).to eq(1)
       end
 
+      it 'creates notifications for distinct direct handoff events' do
+        notification_setting = first_agent.notification_settings.first
+        notification_setting.selected_email_flags = [:email_conversation_creation]
+        notification_setting.selected_push_flags = []
+        notification_setting.save!
+
+        create(:inbox_member, user: first_agent, inbox: inbox)
+        conversation.reload
+
+        listener.conversation_bot_handoff(Events::Base.new(event_name, 1.minute.ago, conversation: conversation))
+        listener.conversation_bot_handoff(Events::Base.new(event_name, Time.zone.now, conversation: conversation))
+
+        expect(notification_setting.user.notifications.count).to eq(2)
+      end
+
       it 'does not create notifications for assignment-driven handoffs' do
         notification_setting = first_agent.notification_settings.first
         notification_setting.selected_email_flags = [:email_conversation_creation]

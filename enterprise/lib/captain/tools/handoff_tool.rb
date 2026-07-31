@@ -30,7 +30,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
     note = nil
     handoff_result = conversation.with_lock do
-      next :changed unless conversation.pending?
+      next :changed unless conversation.pending? && conversation.assignee_agent_bot_id.blank?
       next :stale if newer_customer_message_arrived?(tool_context.state)
 
       # post the reason as a private note
