@@ -281,7 +281,7 @@ describe NotificationListener do
           event_name,
           Time.zone.now,
           conversation: conversation,
-          changed_attributes: { 'status' => %w[pending open] }
+          changed_attributes: %w[pending open]
         )
 
         listener.conversation_bot_handoff(event)

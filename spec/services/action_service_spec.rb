@@ -70,7 +70,8 @@ describe ActionService do
         expect(conversation.assignee_agent_bot).to be_nil
         expect(conversation.status).to eq('open')
         expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-          .with(Events::Types::CONVERSATION_BOT_HANDOFF, kind_of(Time), hash_including(conversation: conversation))
+          .with(Events::Types::CONVERSATION_BOT_HANDOFF, kind_of(Time),
+                hash_including(conversation: conversation, changed_attributes: %w[pending open]))
       end
 
       it 'dispatches bot handoff once when the same conversation is saved again' do

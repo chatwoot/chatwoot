@@ -384,8 +384,14 @@ class Conversation < ApplicationRecord
       CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
     }.each do |event, condition|
-      condition.call && dispatcher_dispatch(event, status_change)
+      condition.call && dispatcher_dispatch(event, bot_handoff_status_change(event))
     end
+  end
+
+  def bot_handoff_status_change(event)
+    return saved_change_to_status if event == CONVERSATION_BOT_HANDOFF
+
+    status_change
   end
 
   def agent_bot_takeover_by_assignee?
