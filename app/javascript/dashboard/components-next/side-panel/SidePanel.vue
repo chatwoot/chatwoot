@@ -106,9 +106,9 @@ defineExpose({ open, close });
     </Transition>
     <Transition
       enter-active-class="transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
-      enter-from-class="translate-x-[calc(100%+12px)] rtl:translate-x-[calc(-100%-12px)]"
+      enter-from-class="translate-x-[calc(100%+0.75rem)] rtl:translate-x-[calc(-100%-0.75rem)]"
       leave-active-class="transition-transform duration-200 ease-in"
-      leave-to-class="translate-x-[calc(100%+12px)] rtl:translate-x-[calc(-100%-12px)]"
+      leave-to-class="translate-x-[calc(100%+0.75rem)] rtl:translate-x-[calc(-100%-0.75rem)]"
       @after-enter="onAfterEnter"
       @after-leave="emit('afterLeave')"
     >
