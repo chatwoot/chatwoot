@@ -33,6 +33,12 @@ RSpec.describe Agents::DestroyJob do
       expect(user.assigned_conversations.where(account: account).length).to eq 0
     end
 
+    it 'serializes the membership guard and cleanup with agent additions' do
+      expect(account).to receive(:with_lock).and_call_original
+
+      described_class.new.perform(account, user)
+    end
+
     it 'invalidates saved filter snapshots when assigned conversations are unassigned' do
       account.enable_features!(:unread_count_for_filters)
 
