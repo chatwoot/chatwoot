@@ -9,12 +9,8 @@ class AutoAssignment::AgentAssignmentService
   end
 
   def perform
-    # conversation is usually still mid-save (this fires from its own after_save), and
-    # already registered for this transaction's callbacks -- writing through a separate
-    # locked instance would silently skip its after_commit callbacks (Rails only runs
-    # them for the first instance of a row registered per transaction). So: lock a
-    # separate instance just to decide, then sync conversation's baseline and write
-    # through conversation itself so its callbacks fire correctly.
+    # Lock a separate instance only to decide; write through conversation itself so its
+    # already-registered after_commit callbacks actually fire.
     Conversation.transaction do
       locked = Conversation.lock.find_by(id: conversation.id)
       next unless locked && reassignment_still_needed?(locked)
