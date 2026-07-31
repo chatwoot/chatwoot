@@ -411,7 +411,6 @@ Rails.application.routes.draw do
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
                 get :orders
-                post :complete_install
               end
             end
             resource :linear, controller: 'linear', only: [] do

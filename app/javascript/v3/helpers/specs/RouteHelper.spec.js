@@ -51,7 +51,7 @@ describe('#validateRouteAccess', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
-  it('preserves a pending Shopify install for an authenticated user', () => {
+  it('starts a new Shopify signup when a prior session cookie is present', () => {
     vi.spyOn(Cookies, 'get').mockReturnValueOnce(true);
 
     validateRouteAccess(
@@ -62,10 +62,9 @@ describe('#validateRouteAccess', () => {
       next
     );
 
-    expect(replaceRouteWithReload).toHaveBeenCalledWith(
-      '/app/?redirect_url=settings%2Fintegrations%2Fshopify%3Fshopify_pending_install%3Dpending-token'
-    );
-    expect(next).not.toHaveBeenCalled();
+    expect(clearBrowserSessionCookies).toHaveBeenCalledTimes(1);
+    expect(replaceRouteWithReload).not.toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith();
   });
 
   it('redirects to login if route is empty', () => {

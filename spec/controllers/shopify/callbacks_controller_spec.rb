@@ -200,7 +200,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
 
       after { Redis::SecureStorage.delete("shopify_oauth_state:#{state}") }
 
-      it 'exchanges the code and redirects to login with a pending install token' do
+      it 'exchanges the code and redirects to signup with a pending install token' do
         params = { code: code, host: host, state: state, shop: shop }
         params[:hmac] = compute_hmac(params, client_secret)
         pending_install_token = SecureRandom.hex(16)
@@ -212,7 +212,7 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         ).and_return(pending_install_token)
 
         get shopify_callback_path, params: params
-        expect(response).to redirect_to(%r{#{Regexp.escape(frontend_url)}/app/login\?redirect_url=})
+        expect(response).to redirect_to(%r{#{Regexp.escape(frontend_url)}/app/auth/signup\?shopify_pending_install=})
         expect(CGI.unescape(response.location)).to include("shopify_pending_install=#{pending_install_token}")
       end
 
