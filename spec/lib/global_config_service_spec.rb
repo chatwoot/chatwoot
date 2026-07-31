@@ -39,6 +39,16 @@ describe GlobalConfigService do
         end
       end
 
+      it 'preserves an explicitly false database value without an environment override' do
+        config = InstallationConfig.find_or_initialize_by(name: 'ENABLE_ACCOUNT_SIGNUP')
+        config.update!(value: false, locked: false)
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: nil do
+          expect(described_class.load('ENABLE_ACCOUNT_SIGNUP', 'true')).to be(false)
+          expect(config.reload.value).to be(false)
+        end
+      end
+
       it 'keeps a non-blank database value' do
         config = InstallationConfig.find_or_initialize_by(name: 'ENABLE_ACCOUNT_SIGNUP')
         config.update!(value: 'true', locked: false)

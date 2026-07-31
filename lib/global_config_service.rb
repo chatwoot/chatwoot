@@ -1,7 +1,7 @@
 class GlobalConfigService
   def self.load(config_key, default_value)
     config = GlobalConfig.get(config_key)[config_key]
-    return config if config.present?
+    return config if config.present? || (config == false && !ENV.key?(config_key))
 
     # To support migrating existing instance relying on env variables
     # TODO: deprecate this later down the line
