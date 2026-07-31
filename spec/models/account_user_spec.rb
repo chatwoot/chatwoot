@@ -56,6 +56,15 @@ RSpec.describe AccountUser do
 
       expect(user.assigned_conversations.count).to eq(0)
     end
+
+    it 'does not enqueue account cleanup when the removal is rolled back' do
+      expect do
+        described_class.transaction do
+          account_user.destroy!
+          raise ActiveRecord::Rollback
+        end
+      end.not_to have_enqueued_job(Agents::DestroyJob)
+    end
   end
 
   describe 'filtered unread count invalidation' do
