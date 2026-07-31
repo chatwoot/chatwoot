@@ -25,6 +25,9 @@ RSpec.describe Shopify::ShopIdentity do
   end
 
   before do
+    allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_ID', nil).and_return('shopify-client-id')
+    allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_SECRET', nil).and_return('shopify-client-secret')
+    allow(ShopifyAPI::Context).to receive(:setup)
     allow(ShopifyAPI::Clients::Graphql::Admin).to receive(:new).and_return(client)
     allow(client).to receive(:query).and_return(response)
   end
@@ -33,6 +36,14 @@ RSpec.describe Shopify::ShopIdentity do
     shop_id = described_class.new(hook: hook).shop_id
 
     expect(shop_id).to eq('gid://shopify/Shop/5678')
+    expect(ShopifyAPI::Context).to have_received(:setup).with(
+      api_key: 'shopify-client-id',
+      api_secret_key: 'shopify-client-secret',
+      api_version: '2026-07',
+      scope: 'read_customers,read_orders,read_fulfillments',
+      is_embedded: true,
+      is_private: false
+    )
   end
 
   it 'does not trust an account-editable shop GID in hook settings' do
