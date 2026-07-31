@@ -121,7 +121,7 @@ class AccountBuilder
       reference_id: data['shop'],
       settings: {
         scope: data['scope'],
-        connected_at: Time.current.utc.iso8601,
+        connected_at: Time.current.utc.iso8601(6),
         installation_id: SecureRandom.uuid
       }
     )

@@ -43,23 +43,43 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
 
   def install_pending_shopify_hook(pending_installation)
     data = pending_installation.data
-    hook = Current.account.hooks.create!(
+    raise_duplicate_shop! if shopify_shop_exists?(data['shop'])
+
+    hook = create_shopify_hook(data)
+    pending_installation.consume!
+  rescue Shopify::PendingInstallation::CommitOutcomeUnknown
+    raise
+  rescue ActiveRecord::RecordNotUnique
+    raise_duplicate_shop!
+  rescue ActiveRecord::RecordInvalid => e
+    raise unless e.record.is_a?(Integrations::Hook) && e.record.errors.added?(:reference_id, :taken)
+
+    raise_duplicate_shop!
+  rescue StandardError
+    hook&.destroy!
+    raise
+  end
+
+  def create_shopify_hook(data)
+    Current.account.hooks.create!(
       app_id: 'shopify',
       access_token: data['access_token'],
       status: 'enabled',
       reference_id: data['shop'],
       settings: {
         scope: data['scope'],
-        connected_at: Time.current.utc.iso8601,
+        connected_at: Time.current.utc.iso8601(6),
         installation_id: SecureRandom.uuid
       }
     )
-    pending_installation.consume!
-  rescue Shopify::PendingInstallation::CommitOutcomeUnknown
-    raise
-  rescue StandardError
-    hook&.destroy!
-    raise
+  end
+
+  def shopify_shop_exists?(shop)
+    Integrations::Hook.where(app_id: 'shopify').exists?(['LOWER(reference_id) = ?', shop.downcase])
+  end
+
+  def raise_duplicate_shop!
+    raise Shopify::PendingInstallation::DuplicateShop, 'This Shopify store is already connected'
   end
 
   def ensure_shopify_enabled

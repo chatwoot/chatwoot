@@ -67,6 +67,22 @@ describe('#validateRouteAccess', () => {
     expect(next).toHaveBeenCalledWith();
   });
 
+  it('does not clear a session for Shopify tokens on other routes', () => {
+    vi.spyOn(Cookies, 'get').mockReturnValueOnce(true);
+
+    validateRouteAccess(
+      {
+        name: 'login',
+        query: { shopify_pending_install: 'untrusted-token' },
+      },
+      next
+    );
+
+    expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
+    expect(replaceRouteWithReload).toHaveBeenCalledWith('/app/');
+    expect(next).not.toHaveBeenCalled();
+  });
+
   it('redirects to login if route is empty', () => {
     validateRouteAccess({}, next);
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
