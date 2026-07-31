@@ -6,6 +6,7 @@ class Captain::MessageLengthLimit
     'Channel::Instagram' => 1_000,
     'Channel::Line' => 5_000,
     'Channel::Sms' => 320,
+    'Channel::TelnyxSms' => 320,
     'Channel::Telegram' => 4_096,
     'Channel::Tiktok' => 6_000,
     'Channel::Whatsapp' => 4_096

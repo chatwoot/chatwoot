@@ -6,10 +6,9 @@ import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { required } from '@vuelidate/validators';
+import { isPhoneE164 } from 'shared/helpers/Validators';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
-
-const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
 
 const { t } = useI18n();
 const router = useRouter();
@@ -25,7 +24,7 @@ const state = reactive({
 
 const validationRules = {
   inboxName: { required },
-  phoneNumber: { required, shouldStartWithPlusSign },
+  phoneNumber: { required, isPhoneE164 },
   apiKey: { required },
   messagingProfileId: { required },
 };
