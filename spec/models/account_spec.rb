@@ -102,6 +102,18 @@ RSpec.describe Account do
       expect(account.reload.billing_provider).to eq('stripe')
       expect(account.signup_source).to eq('chatwoot')
     end
+
+    it 'does not allow billing identity to change through symbol-keyed internal attributes' do
+      account = create(:account)
+
+      account.internal_attributes = account.internal_attributes.merge(billing_provider: 'shopify', signup_source: 'shopify')
+
+      expect(account.save).to be(false)
+      expect(account.errors[:billing_provider]).to include('cannot be changed after account creation')
+      expect(account.errors[:signup_source]).to include('cannot be changed after account creation')
+      expect(account.reload.billing_provider).to eq('stripe')
+      expect(account.signup_source).to eq('chatwoot')
+    end
   end
 
   describe 'captain defaults for new accounts' do
