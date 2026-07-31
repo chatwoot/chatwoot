@@ -22,7 +22,8 @@ class Shopify::ShopIdentity
     shop.fetch('id')
   rescue ProviderError
     raise
-  rescue ShopifyAPI::Errors::HttpResponseError, ShopifyAPI::Errors::MaxHttpRetriesExceededError,
+  rescue Shopify::ApiContext::ConfigurationError,
+         ShopifyAPI::Errors::HttpResponseError, ShopifyAPI::Errors::MaxHttpRetriesExceededError,
          Net::OpenTimeout, Net::ReadTimeout, SocketError, Errno::ECONNRESET, Errno::ECONNREFUSED,
          JSON::ParserError, KeyError, NoMethodError, TypeError => e
     raise ProviderError, "Shopify Admin API shop lookup failed (#{e.class.name})"
@@ -41,6 +42,7 @@ class Shopify::ShopIdentity
   end
 
   def client
+    Shopify::ApiContext.setup!
     session = ShopifyAPI::Auth::Session.new(shop: hook.reference_id, access_token: hook.access_token)
     ShopifyAPI::Clients::Graphql::Admin.new(session: session, api_version: API_VERSION)
   end
