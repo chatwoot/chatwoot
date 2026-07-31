@@ -410,6 +410,7 @@ Rails.application.routes.draw do
             end
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
+                post :complete_install
                 get :orders
               end
             end
