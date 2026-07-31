@@ -1,8 +1,9 @@
 class Webhooks::ShopifyController < ActionController::API
   COMPLIANCE_TOPICS = %w[customers/data_request customers/redact shop/redact].freeze
+  MANDATORY_CLEANUP_TOPICS = (COMPLIANCE_TOPICS + %w[app/uninstalled]).freeze
   class CleanupIncomplete < StandardError; end
 
-  before_action :ensure_shopify_enabled, unless: :compliance_event?
+  before_action :ensure_shopify_enabled, unless: :mandatory_cleanup_event?
   before_action :verify_hmac!
 
   def events
@@ -22,8 +23,8 @@ class Webhooks::ShopifyController < ActionController::API
     head :not_found unless Shopify::FeatureGate.enabled?
   end
 
-  def compliance_event?
-    COMPLIANCE_TOPICS.include?(request.headers['X-Shopify-Topic'])
+  def mandatory_cleanup_event?
+    MANDATORY_CLEANUP_TOPICS.include?(request.headers['X-Shopify-Topic'])
   end
 
   def verify_hmac!

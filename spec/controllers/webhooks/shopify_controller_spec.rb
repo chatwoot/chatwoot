@@ -135,7 +135,7 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
   end
 
   it 'does not process normal events when the installation switch is disabled' do
-    headers['X-Shopify-Topic'] = 'app/uninstalled'
+    headers['X-Shopify-Topic'] = 'orders/create'
     allow(GlobalConfigService).to receive(:load)
       .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
       .and_return(false)
@@ -163,6 +163,21 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
 
     it 'delegates the matching hook to the uninstallation lifecycle' do
       hook
+      allow(Shopify::UninstallationService).to receive(:new)
+        .with(hook: hook, occurred_at: Time.iso8601(triggered_at))
+        .and_return(uninstallation_service)
+
+      post '/webhooks/shopify', params: body, headers: headers
+
+      expect(uninstallation_service).to have_received(:perform)
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'delegates uninstall cleanup when the installation switch is disabled' do
+      hook
+      allow(GlobalConfigService).to receive(:load)
+        .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
+        .and_return(false)
       allow(Shopify::UninstallationService).to receive(:new)
         .with(hook: hook, occurred_at: Time.iso8601(triggered_at))
         .and_return(uninstallation_service)
