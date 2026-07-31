@@ -119,6 +119,15 @@ RSpec.describe Shopify::UninstallationService do
     )
   end
 
+  it 'does not reconcile billing when credential revocation fails' do
+    allow(hook).to receive(:update!).and_raise(ActiveRecord::RecordNotSaved, 'credential revocation failed')
+    expect(sync_service).not_to receive(:perform)
+
+    expect do
+      described_class.new(hook: hook, occurred_at: occurred_at).perform
+    end.to raise_error(ActiveRecord::RecordNotSaved, 'credential revocation failed')
+  end
+
   it 'expires billing and revokes credentials when the account feature is disabled' do
     create(:installation_config, name: 'CHATWOOT_SHOPIFY_PLANS', value: shopify_plans, locked: true)
     account.enable_features!('audit_logs', 'saml')

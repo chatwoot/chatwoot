@@ -80,10 +80,14 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
   it 'raises a retryable failure when a matching hook appears during cleanup' do
     hook
     inserted_hook = nil
-    hooks = Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain)
+    app_hooks = Integrations::Hook.where(app_id: 'shopify')
+    hooks = app_hooks.where('LOWER(reference_id) = ?', shop_domain)
 
     allow(Integrations::Hook).to receive(:where)
-      .with(app_id: 'shopify', reference_id: shop_domain)
+      .with(app_id: 'shopify')
+      .and_return(app_hooks)
+    allow(app_hooks).to receive(:where)
+      .with('LOWER(reference_id) = ?', shop_domain)
       .and_return(hooks)
     allow(hooks).to receive(:find_each) do |&block|
       block.call(hook)
@@ -113,14 +117,18 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
 
   it 'delegates redaction deletion to the locked lifecycle' do
     hook
-    uninstallation_service = instance_double(Shopify::UninstallationService, perform: :uninstalled)
+    uninstallation_service = instance_double(Shopify::UninstallationService)
+    allow(uninstallation_service).to receive(:perform) do
+      hook.destroy!
+      :uninstalled
+    end
     allow(Shopify::UninstallationService).to receive(:new)
       .with(hook: hook, occurred_at: Time.iso8601(triggered_at), delete_hook: true)
       .and_return(uninstallation_service)
 
     expect do
       post '/webhooks/shopify', params: body, headers: headers
-    end.not_to change(Integrations::Hook, :count)
+    end.to change(Integrations::Hook, :count).by(-1)
 
     expect(uninstallation_service).to have_received(:perform)
     expect(response).to have_http_status(:ok)

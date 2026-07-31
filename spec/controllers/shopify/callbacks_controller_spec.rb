@@ -300,6 +300,36 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         )
       end
 
+      it 'recreates a hook deleted while the OAuth code is being exchanged' do
+        hook = create(
+          :integrations_hook,
+          :shopify,
+          account: shopify_account,
+          reference_id: shop,
+          status: :disabled,
+          access_token: nil
+        )
+        allow(auth_code_strategy).to receive(:get_token) do
+          hook.destroy!
+          token_response
+        end
+        params = { code: code, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
+
+        replacement_hook = shopify_account.hooks.find_by!(app_id: 'shopify')
+        expect(replacement_hook.id).not_to eq(hook.id)
+        expect(replacement_hook).to have_attributes(
+          status: 'enabled',
+          access_token: access_token,
+          reference_id: shop
+        )
+        expect(response).to redirect_to(
+          "#{frontend_url}/app/accounts/#{shopify_account.id}/settings/billing?shop=#{shop}"
+        )
+      end
+
       it 'does not exchange the OAuth code when the account feature is disabled' do
         create(:integrations_hook, :shopify, account: shopify_account, reference_id: shop)
         shopify_account.disable_features!('shopify_integration')

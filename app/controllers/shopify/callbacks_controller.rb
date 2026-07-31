@@ -79,7 +79,7 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def reconnect_existing_shopify_account
-    hook = existing_shopify_hook || account.hooks.build(app_id: 'shopify')
+    hook = account.hooks.find_or_initialize_by(app_id: 'shopify')
     hook.update!(
       access_token: parsed_body['access_token'],
       status: :enabled,
