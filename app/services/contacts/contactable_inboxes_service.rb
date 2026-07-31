@@ -14,7 +14,7 @@ class Contacts::ContactableInboxesService
       twilio_contactable_inbox(inbox)
     when 'Channel::Whatsapp'
       whatsapp_contactable_inbox(inbox)
-    when 'Channel::Sms'
+    when 'Channel::Sms', 'Channel::TelnyxSms'
       sms_contactable_inbox(inbox)
     when 'Channel::Email'
       email_contactable_inbox(inbox)

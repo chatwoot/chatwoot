@@ -7,9 +7,10 @@ const CHANNEL_PRIORITY = {
   'Channel::Email': 1,
   'Channel::Whatsapp': 2,
   'Channel::Sms': 3,
-  'Channel::TwilioSms': 4,
-  'Channel::WebWidget': 5,
-  'Channel::Api': 6,
+  'Channel::TelnyxSms': 4,
+  'Channel::TwilioSms': 5,
+  'Channel::WebWidget': 6,
+  'Channel::Api': 7,
 };
 
 export const generateLabelForContactableInboxesList = ({
@@ -23,6 +24,7 @@ export const generateLabelForContactableInboxesList = ({
   }
   if (
     channelType === INBOX_TYPES.TWILIO ||
+    channelType === INBOX_TYPES.TELNYX_SMS ||
     channelType === INBOX_TYPES.WHATSAPP
   ) {
     return phoneNumber ? `${name} (${phoneNumber})` : name;

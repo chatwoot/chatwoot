@@ -83,10 +83,7 @@ class Sms::IncomingMessageService
       # we don't need to process this files since chatwoot doesn't support it
       next if media_url.end_with?('.smil', '.xml')
 
-      attachment_file = Down.download(
-        media_url,
-        http_basic_authentication: [channel.provider_config['api_key'], channel.provider_config['api_secret']]
-      )
+      attachment_file = Down.download(media_url, **attachment_download_options)
 
       @message.attachments.new(
         account_id: @message.account_id,
@@ -98,5 +95,16 @@ class Sms::IncomingMessageService
         }
       )
     end
+  end
+
+  def attachment_download_options
+    return {} if channel.is_a?(Channel::TelnyxSms)
+
+    {
+      http_basic_authentication: [
+        channel.provider_config['api_key'],
+        channel.provider_config['api_secret']
+      ]
+    }
   end
 end

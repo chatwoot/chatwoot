@@ -1,6 +1,7 @@
 <script>
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import BandwidthSms from './BandwidthSms.vue';
+import TelnyxSms from './TelnyxSms.vue';
 import Twilio from './Twilio.vue';
 
 export default {
@@ -8,6 +9,7 @@ export default {
     PageHeader,
     Twilio,
     BandwidthSms,
+    TelnyxSms,
   },
   data() {
     return {
@@ -33,10 +35,14 @@ export default {
           <option value="360dialog">
             {{ $t('INBOX_MGMT.ADD.SMS.PROVIDERS.BANDWIDTH') }}
           </option>
+          <option value="telnyx">
+            {{ $t('INBOX_MGMT.ADD.SMS.PROVIDERS.TELNYX') }}
+          </option>
         </select>
       </label>
     </div>
     <Twilio v-if="provider === 'twilio'" type="sms" />
+    <TelnyxSms v-else-if="provider === 'telnyx'" />
     <BandwidthSms v-else />
   </div>
 </template>

@@ -197,7 +197,8 @@
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "Bandwidth",
+          "TELNYX": "Telnyx"
         },
         "API": {
           "ERROR_MESSAGE": "We were not able to save the SMS channel"
@@ -240,6 +241,33 @@
           "API_CALLBACK": {
             "TITLE": "Callback URL",
             "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        },
+        "TELNYX": {
+          "INBOX_NAME": {
+            "LABEL": "Inbox Name",
+            "PLACEHOLDER": "Enter your Inbox Name",
+            "ERROR": "Inbox Name is required"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Phone Number",
+            "PLACEHOLDER": "Enter your Phone Number to determine the sender of message",
+            "ERROR": "Phone Number is required and must starts with a `+` sign and does not contain any spaces."
+          },
+          "API_KEY": {
+            "LABEL": "API Key",
+            "PLACEHOLDER": "Enter your Telnyx API Key",
+            "ERROR": "API Key is required"
+          },
+          "MESSAGING_PROFILE_ID": {
+            "LABEL": "Messaging Profile ID",
+            "PLACEHOLDER": "Enter your Telnyx Messaging Profile ID",
+            "ERROR": "Messaging Profile ID is required"
+          },
+          "SUBMIT_BUTTON": "Create Telnyx Channel",
+          "API_CALLBACK": {
+            "TITLE": "Callback URL",
+            "SUBTITLE": "You have to configure the message webhook URL in Telnyx with the URL mentioned here."
           }
         }
       },
@@ -1368,6 +1396,7 @@
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
       "SMS": "SMS",
+      "TELNYX_SMS": "Telnyx SMS",
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",

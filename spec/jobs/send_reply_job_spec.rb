@@ -78,6 +78,12 @@ RSpec.describe SendReplyJob do
       expect_mapped_service_to_perform(message, 'Sms::SendOnSmsService')
     end
 
+    it 'calls ::Sms::SendOnTelnyxService when its Telnyx SMS message' do
+      telnyx_channel = create(:channel_telnyx_sms)
+      message = create(:message, conversation: create(:conversation, inbox: telnyx_channel.inbox))
+      expect_mapped_service_to_perform(message, 'Sms::SendOnTelnyxService')
+    end
+
     it 'calls ::Instagram::Direct::SendOnInstagramService when its instagram message' do
       instagram_channel = create(:channel_instagram)
       message = create(:message, conversation: create(:conversation, inbox: instagram_channel.inbox))

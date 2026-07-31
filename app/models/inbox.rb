@@ -119,9 +119,7 @@ class Inbox < ApplicationRecord
     sanitize_raw_name(business_name) || sanitized_name
   end
 
-  def sms?
-    channel_type == 'Channel::Sms'
-  end
+  def sms? = channel_type.in?(%w[Channel::Sms Channel::TelnyxSms])
 
   def facebook?
     channel_type == 'Channel::FacebookPage'
@@ -192,6 +190,8 @@ class Inbox < ApplicationRecord
       "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/callback"
     when 'Channel::Sms'
       "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/sms/#{channel.phone_number.delete_prefix('+')}"
+    when 'Channel::TelnyxSms'
+      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/telnyx_sms/#{channel.phone_number}"
     when 'Channel::Line'
       "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/line/#{channel.line_channel_id}"
     when 'Channel::Whatsapp'
