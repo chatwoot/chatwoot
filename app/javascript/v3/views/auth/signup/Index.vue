@@ -5,6 +5,7 @@ import SignupForm from './components/Signup/Form.vue';
 import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import signupBg from 'assets/images/auth/signup-bg.jpg';
+import { useBranding } from 'shared/composables/useBranding';
 
 const props = defineProps({
   shopifyPendingInstall: {
@@ -14,6 +15,7 @@ const props = defineProps({
 });
 
 const store = useStore();
+const { replaceInstallationName } = useBranding();
 
 const isLoading = ref(false);
 const globalConfig = computed(() => store.getters['globalConfig/get']);
@@ -61,7 +63,7 @@ const resizeContainers = () => {
             <h2 class="mt-6 text-2xl font-semibold text-n-slate-12">
               {{
                 isShopifySignup
-                  ? $t('REGISTER.SHOPIFY.TITLE')
+                  ? replaceInstallationName($t('REGISTER.SHOPIFY.TITLE'))
                   : isAChatwootInstance
                     ? $t('REGISTER.GET_STARTED')
                     : $t('REGISTER.TRY_WOOT')
