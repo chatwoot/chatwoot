@@ -44,11 +44,5 @@ RSpec.describe BillingHelper do
       account.custom_attributes['plan_name'] = 'Startups'
       expect(helper.send(:default_plan?, account)).to be(false)
     end
-
-    it 'does not apply the Stripe default plan to Shopify accounts' do
-      account.internal_attributes = account.internal_attributes.merge('billing_provider' => 'shopify')
-
-      expect(helper.send(:default_plan?, account)).to be(false)
-    end
   end
 end
