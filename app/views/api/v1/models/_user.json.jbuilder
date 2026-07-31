@@ -24,13 +24,7 @@ json.accounts do
     json.name account.name
     json.status account.status
     json.onboarding_step account.onboarding_step
-    json.billing_provider account.billing_provider
-    json.subscription_status account.custom_attributes['subscription_status']
-    shopify_integration = Shopify::FeatureGate.enabled?(account: account)
-    json.shopify_integration shopify_integration
-    if shopify_integration && account.billing_provider == 'shopify'
-      json.shopify_shop_domain account.hooks.find_by(app_id: 'shopify', status: 'enabled')&.reference_id
-    end
+    json.partial! 'enterprise/api/v1/models/account_billing', account: account if ChatwootApp.enterprise?
     json.active_at account_user.active_at
     json.role account_user.role
     json.permissions account_user.permissions

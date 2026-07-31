@@ -69,38 +69,15 @@ RSpec.describe 'Session', type: :request do
         expect(response.parsed_body['data']['accounts'].first['permissions']).to eq(['agent'])
       end
 
-      it 'returns the Shopify billing route state for feature-enabled accounts' do
-        shopify_account = create(
-          :account,
-          internal_attributes: {
-            'billing_provider' => 'shopify',
-            'signup_source' => 'shopify'
-          },
-          custom_attributes: {
-            'subscription_status' => 'pending'
-          }
-        )
-        shopify_account.enable_features!('shopify_integration')
-        create(
-          :integrations_hook,
-          :shopify,
-          account: shopify_account,
-          reference_id: 'billing-test-store.myshopify.com'
-        )
-        shopify_user = create(:user, password: 'Password1!', account: shopify_account)
-        allow(Shopify::FeatureGate).to receive(:enabled?).with(account: shopify_account).and_return(true)
-
+      it 'omits Enterprise billing route state in Community Edition' do
+        allow(ChatwootApp).to receive(:enterprise?).and_return(false)
         post new_user_session_url,
-             params: { email: shopify_user.email, password: 'Password1!' },
+             params: { email: user.email, password: 'Password1!' },
              as: :json
 
         account_payload = response.parsed_body['data']['accounts'].first
-        expect(account_payload).to include(
-          'billing_provider' => 'shopify',
-          'subscription_status' => 'pending',
-          'shopify_integration' => true,
-          'shopify_shop_domain' => 'billing-test-store.myshopify.com'
-        )
+        expect(response).to have_http_status(:success)
+        expect(account_payload).not_to include('billing_provider', 'subscription_status', 'shopify_integration', 'shopify_shop_domain')
       end
     end
 
