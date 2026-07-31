@@ -1,6 +1,7 @@
 class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Integrations::BaseController
   before_action :fetch_hook, except: [:create]
   before_action :check_authorization
+  before_action :ensure_shopify_enabled, if: :shopify_hook?
 
   def create
     @hook = Current.account.hooks.create!(permitted_params)
@@ -37,5 +38,13 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Inte
 
   def permitted_params
     params.require(:hook).permit(:app_id, :inbox_id, :status, settings: {})
+  end
+
+  def shopify_hook?
+    action_name == 'create' ? permitted_params[:app_id] == 'shopify' : @hook.app_id == 'shopify'
+  end
+
+  def ensure_shopify_enabled
+    head :not_found unless Shopify::FeatureGate.enabled?(account: Current.account)
   end
 end
