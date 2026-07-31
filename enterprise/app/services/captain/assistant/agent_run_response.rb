@@ -61,11 +61,13 @@ module Captain::Assistant::AgentRunResponse
     @message_length_limit ||= Captain::MessageLengthLimit.for(@conversation)
   end
 
-  def error_response(error_message)
+  def error_response(error)
     {
       'response' => 'conversation_handoff',
       'response_parts' => [{ 'text' => 'conversation_handoff', 'citation_indexes' => [] }],
-      'reasoning' => "Error occurred: #{error_message}",
+      'reasoning' => "Error occurred: #{error.message}",
+      'error' => true,
+      'error_reason' => error.class.name.underscore.tr('/', '_'),
       'handoff_tool_called' => @handoff_tool_called
     }
   end

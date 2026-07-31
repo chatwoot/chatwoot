@@ -93,6 +93,21 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           end.not_to change(Message, :count)
           expect(conversation.reload.status).to eq('pending')
         end
+
+        it 'emits a captain handoff event with the tool source after the locked handoff completes' do
+          expect(Captain::ConversationEvents).to receive(:handed_off)
+            .with(conversation: conversation, assistant: assistant, source: 'tool', at: kind_of(Time))
+
+          tool.perform(tool_context, reason: 'Customer needs specialized support')
+        end
+
+        it 'does not emit a captain handoff event when the handoff is skipped as stale' do
+          create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
+
+          expect(Captain::ConversationEvents).not_to receive(:handed_off)
+
+          tool.perform(tool_context, reason: 'Customer needs specialized support')
+        end
       end
 
       context 'with Captain V1' do
@@ -151,6 +166,13 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           allow(Conversation).to receive(:where).with(account_id: assistant.account_id).and_return(scoped_conversations)
           allow(scoped_conversations).to receive(:find_by).with(id: conversation.id).and_return(found_conversation)
           expect(found_conversation).to receive(:bot_handoff!)
+
+          tool.perform(tool_context, reason: 'Test reason')
+        end
+
+        it 'emits a captain handoff event with the tool source' do
+          expect(Captain::ConversationEvents).to receive(:handed_off)
+            .with(conversation: conversation, assistant: assistant, source: 'tool', at: kind_of(Time))
 
           tool.perform(tool_context, reason: 'Test reason')
         end

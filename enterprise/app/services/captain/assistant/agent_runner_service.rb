@@ -35,7 +35,7 @@ class Captain::Assistant::AgentRunnerService
     Rails.logger.error "[Captain V2] AgentRunnerService error: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
 
-    error_response(e.message)
+    error_response(e)
   end
 
   def response_discarded? = @response_discarded == true

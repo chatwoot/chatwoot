@@ -58,6 +58,12 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
       end
 
+      it 'does not emit captain lifecycle events' do
+        expect(Captain::ConversationEvents).not_to receive(:response_completed)
+
+        described_class.perform_now(conversation, assistant)
+      end
+
       it 'keeps the default message history limited to public chat messages' do
         create(
           :message,
@@ -403,6 +409,35 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
         end
 
+        it 'does not emit a response completed event for a stale response' do
+          responding_to_message_id = conversation.messages.find_by!(content: 'Hello').id
+          allow(mock_agent_runner_service).to receive(:generate_response) do
+            create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
+            { 'response' => 'Stale response', 'handoff_tool_called' => false }
+          end
+
+          expect(Captain::ConversationEvents).not_to receive(:response_completed)
+
+          described_class.perform_now(conversation, assistant, responding_to_message_id)
+        end
+
+        it 'emits only the response failed event when generation raises after a newer message arrived' do
+          responding_to_message_id = conversation.messages.find_by!(content: 'Hello').id
+          allow(mock_agent_runner_service).to receive(:generate_response) do
+            create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
+            raise StandardError, 'llm down'
+          end
+
+          expect(Captain::ConversationEvents).to receive(:response_failed)
+            .with(conversation: conversation, assistant: assistant, reason: 'standard_error', at: kind_of(Time))
+          expect(Captain::ConversationEvents).not_to receive(:handed_off)
+
+          described_class.perform_now(conversation, assistant, responding_to_message_id)
+
+          expect(conversation.messages.outgoing.count).to eq(0)
+          expect(conversation.reload.status).to eq('pending')
+        end
+
         it 'keeps the pending response fresh when an email auto reply arrives' do
           responding_to_message_id = conversation.messages.find_by!(content: 'Hello').id
           create(
@@ -646,6 +681,38 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
             ]
           )
         end
+      end
+
+      it 'emits a response completed event' do
+        expect(Captain::ConversationEvents).to receive(:response_completed)
+          .with(conversation: conversation, assistant: assistant, message: kind_of(Message), at: kind_of(Time))
+
+        described_class.perform_now(conversation, assistant)
+      end
+
+      it 'emits response failed and generation failure handoff events when the runner returns an error response' do
+        allow(mock_agent_runner_service).to receive(:generate_response).and_return(
+          { 'response' => 'conversation_handoff', 'reasoning' => 'Error occurred: llm down', 'error' => true,
+            'error_reason' => 'standard_error', 'handoff_tool_called' => false }
+        )
+
+        expect(Captain::ConversationEvents).to receive(:response_failed)
+          .with(conversation: conversation, assistant: assistant, reason: 'standard_error', at: kind_of(Time))
+        expect(Captain::ConversationEvents).to receive(:handed_off)
+          .with(conversation: conversation, assistant: assistant, source: 'generation_failure', reason_category: :tool_failure, at: kind_of(Time))
+
+        described_class.perform_now(conversation, assistant)
+      end
+
+      it 'emits response failed and generation failure handoff events when generation raises' do
+        allow(mock_agent_runner_service).to receive(:generate_response).and_raise(StandardError, 'llm down')
+
+        expect(Captain::ConversationEvents).to receive(:response_failed)
+          .with(conversation: conversation, assistant: assistant, reason: 'standard_error', at: kind_of(Time))
+        expect(Captain::ConversationEvents).to receive(:handed_off)
+          .with(conversation: conversation, assistant: assistant, source: 'generation_failure', reason_category: :tool_failure, at: kind_of(Time))
+
+        described_class.perform_now(conversation, assistant)
       end
     end
 
