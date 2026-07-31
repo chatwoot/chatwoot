@@ -22,7 +22,7 @@ module Captain::Conversation::V2LifecycleEvents
     Captain::ConversationEvents.handed_off(
       conversation: @conversation,
       assistant: @assistant,
-      source: 'generation_failure',
+      source: Captain::ConversationEvents::Sources::GENERATION_FAILURE,
       reason_category: :tool_failure,
       at: Time.current
     )

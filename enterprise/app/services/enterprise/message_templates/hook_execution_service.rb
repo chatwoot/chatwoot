@@ -100,7 +100,7 @@ module Enterprise::MessageTemplates::HookExecutionService
       Captain::ConversationEvents.handed_off(
         conversation: conversation,
         assistant: inbox.captain_assistant,
-        source: 'usage_limit',
+        source: Captain::ConversationEvents::Sources::USAGE_LIMIT,
         reason_category: :usage_limit,
         at: Time.current
       )

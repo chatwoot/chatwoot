@@ -31,7 +31,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       Captain::ConversationEvents.resolved(
         conversation: conversation,
         assistant: inbox.captain_assistant,
-        source: 'time_based',
+        source: Captain::ConversationEvents::Sources::TIME_BASED,
         at: Time.current
       )
     end
@@ -86,7 +86,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     Captain::ConversationEvents.resolved(
       conversation: conversation,
       assistant: inbox.captain_assistant,
-      source: 'inference',
+      source: Captain::ConversationEvents::Sources::INFERENCE,
       at: Time.current
     )
   end
@@ -101,7 +101,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     Captain::ConversationEvents.handed_off(
       conversation: conversation,
       assistant: inbox.captain_assistant,
-      source: 'inference',
+      source: Captain::ConversationEvents::Sources::INFERENCE,
       reason_category: :pending_clarification,
       at: Time.current
     )
