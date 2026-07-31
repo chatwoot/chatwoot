@@ -235,6 +235,27 @@ RSpec.describe AccountBuilder do
         expect(pending_installation).not_to have_received(:release!)
       end
 
+      it 'returns the committed signup when confirmation delivery fails', :aggregate_failures do
+        delivery_error = StandardError.new('Mail delivery unavailable')
+        exception_tracker = instance_double(ChatwootExceptionTracker, capture_exception: nil)
+        allow(User).to receive(:new).and_wrap_original do |method, *args|
+          method.call(*args).tap do |user|
+            allow(user).to receive(:send_confirmation_instructions).and_raise(delivery_error)
+          end
+        end
+        allow(ChatwootExceptionTracker).to receive(:new)
+          .with(delivery_error, account: instance_of(Account))
+          .and_return(exception_tracker)
+
+        user, account = unconfirmed_shopify_account_builder.perform
+
+        expect([user, account]).to all(be_persisted)
+        expect(account.hooks.find_by(app_id: 'shopify')).to be_present
+        expect(exception_tracker).to have_received(:capture_exception)
+        expect(pending_installation).to have_received(:consume!)
+        expect(pending_installation).not_to have_received(:release!)
+      end
+
       it 'rejects an existing authenticated user before claiming the install' do
         existing_user = create(:user)
         builder = described_class.new(
