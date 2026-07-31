@@ -13,22 +13,26 @@ module AccountBillingIdentity
   end
 
   def billing_provider
-    internal_attributes['billing_provider'].presence || DEFAULT_BILLING_PROVIDER
+    normalized_internal_attributes['billing_provider'].presence || DEFAULT_BILLING_PROVIDER
   end
 
   def billing_provider=(provider)
-    self.internal_attributes = internal_attributes.merge('billing_provider' => provider.to_s)
+    self.internal_attributes = normalized_internal_attributes.merge('billing_provider' => provider.to_s)
   end
 
   def signup_source
-    internal_attributes['signup_source'].presence || DEFAULT_SIGNUP_SOURCE
+    normalized_internal_attributes['signup_source'].presence || DEFAULT_SIGNUP_SOURCE
   end
 
   def signup_source=(source)
-    self.internal_attributes = internal_attributes.merge('signup_source' => source.to_s)
+    self.internal_attributes = normalized_internal_attributes.merge('signup_source' => source.to_s)
   end
 
   private
+
+  def normalized_internal_attributes
+    (internal_attributes || {}).stringify_keys
+  end
 
   def validate_billing_identity_immutability
     return unless will_save_change_to_internal_attributes?
@@ -38,7 +42,7 @@ module AccountBillingIdentity
   end
 
   def validate_immutable_identity(attribute, default)
-    stored_attributes = attribute_in_database('internal_attributes') || {}
+    stored_attributes = (attribute_in_database('internal_attributes') || {}).stringify_keys
     stored_value = stored_attributes[attribute.to_s].presence || default
     errors.add(attribute, 'cannot be changed after account creation') if public_send(attribute) != stored_value
   end

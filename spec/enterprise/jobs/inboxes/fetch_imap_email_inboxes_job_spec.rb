@@ -30,7 +30,16 @@ RSpec.describe Inboxes::FetchImapEmailInboxesJob do
       described_class.perform_now
     end
 
-    it 'processes Shopify inboxes whose plan name matches the Stripe default' do
+    it 'skips Shopify inboxes without the inbound email entitlement' do
+      shopify_account.disable_features!('inbound_emails')
+
+      expect(Inboxes::FetchImapEmailsJob).not_to receive(:perform_later).with(shopify_imap_channel)
+      described_class.perform_now
+    end
+
+    it 'processes Shopify inboxes with the inbound email entitlement' do
+      shopify_account.enable_features!('inbound_emails')
+
       expect(Inboxes::FetchImapEmailsJob).to receive(:perform_later).with(shopify_imap_channel)
       described_class.perform_now
     end
