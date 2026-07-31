@@ -10,10 +10,18 @@ class AutoAssignment::AgentAssignmentService
 
   def perform
     new_assignee = find_assignee
-    conversation.update(assignee: new_assignee) if new_assignee
+    return unless new_assignee
+
+    conversation.with_lock do
+      conversation.update(assignee: new_assignee) if reassignment_still_needed?
+    end
   end
 
   private
+
+  def reassignment_still_needed?
+    conversation.assignee.blank? || conversation.inbox.members.exclude?(conversation.assignee)
+  end
 
   def online_agent_ids
     online_agents = OnlineStatusTracker.get_available_users(conversation.account_id)
