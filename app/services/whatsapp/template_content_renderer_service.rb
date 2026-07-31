@@ -28,18 +28,12 @@ class Whatsapp::TemplateContentRendererService
   end
 
   def replace_placeholder(placeholder, key, replacement_prefix, replacements)
-    return unresolved_placeholder(placeholder, key) unless @body_params.key?(key)
+    parameter_present = @body_params.key?(key)
+    return placeholder unless parameter_present || key.match?(/\A(?:\d+|[a-z][a-z0-9_]*)\z/)
 
-    rendered_value = @value_renderer.call(@body_params[key])
     replacement_key = "#{replacement_prefix}#{replacements.length}__"
-    replacements[replacement_key] = display_value(rendered_value)
+    replacements[replacement_key] = parameter_present ? display_value(@value_renderer.call(@body_params[key])) : placeholder
     replacement_key
-  end
-
-  def unresolved_placeholder(placeholder, key)
-    return "{% raw %}#{placeholder}{% endraw %}" if key.match?(/\A(?:\d+|[a-z][a-z0-9_]*)\z/)
-
-    placeholder
   end
 
   def display_value(rendered_value)

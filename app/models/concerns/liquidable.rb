@@ -48,14 +48,17 @@ module Liquidable
   end
 
   def mark_whatsapp_template_content_rendered
-    self.additional_attributes = additional_attributes.merge(
-      'template_params' => template_params_data.merge('content_mode' => 'rendered')
-    )
+    self.additional_attributes = additional_attributes.merge('template_params' => template_params_data.merge('content_mode' => 'rendered'))
   end
 
   def raw_whatsapp_template_content?
-    inbox&.channel_type == 'Channel::Whatsapp' &&
-      additional_attributes&.dig('template_params', 'content_mode') == 'raw_template'
+    return false unless inbox&.channel_type == 'Channel::Whatsapp' && additional_attributes.is_a?(Hash)
+
+    template_params = additional_attributes['template_params']
+    return false unless template_params.is_a?(Hash)
+
+    template_params['content_mode'] == 'raw_template' &&
+      (template_params['processed_params'].nil? || template_params['processed_params'].is_a?(Hash))
   end
 
   def modified_liquid_content(message_content)

@@ -243,6 +243,49 @@ shared_examples_for 'liqudable' do
           expect(message.content).to eq 'Use `123456`.'
         end
 
+        it 'preserves missing placeholders inside code formatting while replacing available parameters' do
+          message.content = 'Use `{{1}}` and {{2}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'verification_code',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {
+                  '2' => 'Bob'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq 'Use `{{1}}` and Bob.'
+          expect(message.additional_attributes.dig('template_params', 'content_mode')).to eq 'rendered'
+        end
+
+        it 'validates non-object template parameters before rendering' do
+          message.content = 'Hello {{1}}.'
+          message.additional_attributes = { 'template_params' => [] }
+
+          expect(message).not_to be_valid
+          expect(message.errors[:template_params]).to include('must be of type hash')
+        end
+
+        it 'validates non-object processed parameters before rendering' do
+          message.content = 'Hello {{1}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'content_mode' => 'raw_template',
+              'processed_params' => 'Ahmad'
+            }
+          }
+
+          expect(message).not_to be_valid
+          expect(message.errors[:'template_params/processed_params']).to include('must be of type hash')
+        end
+
         it 'replaces placeholders from legacy flat parameters' do
           message.content = 'Hello {{1}}, {{2}} is your contact.'
           message.additional_attributes = {
