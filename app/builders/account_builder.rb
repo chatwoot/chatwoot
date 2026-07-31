@@ -30,7 +30,7 @@ class AccountBuilder
     end
     raise ActiveRecord::Rollback unless transaction_succeeded
 
-    finalize_shopify_installation
+    finalize_shopify_signup
     [@user, @account]
   rescue StandardError => e
     return recover_committed_shopify_signup(e) if committed_shopify_signup?
@@ -162,8 +162,19 @@ class AccountBuilder
 
   def recover_committed_shopify_signup(error)
     ChatwootExceptionTracker.new(error, account: @account).capture_exception
-    finalize_shopify_installation
+    finalize_shopify_signup
     [@user, @account]
+  end
+
+  def finalize_shopify_signup
+    send_shopify_confirmation_instructions
+    finalize_shopify_installation
+  end
+
+  def send_shopify_confirmation_instructions
+    return unless @pending_installation && @user && !@user.confirmed?
+
+    @user.send_confirmation_instructions
   end
 
   def shopify_signup?
@@ -194,6 +205,7 @@ class AccountBuilder
                      name: user_full_name)
     @user.type = 'SuperAdmin' if @super_admin
     @user.confirm if @confirmed
+    @user.skip_confirmation_notification! if shopify_signup?
     @user.save!
   end
 end
