@@ -43,11 +43,26 @@ class Api::V1::AuthController < Api::BaseController
   end
 
   def find_account_with_saml(user)
-    user.account_users
-        .joins(account: :saml_settings)
-        .where.not(saml_settings: { sso_url: [nil, ''] })
-        .where.not(saml_settings: { certificate: [nil, ''] })
-        .find { |account_user| account_user.account.feature_enabled?('saml') }
+    account_users = user.account_users
+                        .joins(account: :saml_settings)
+                        .where.not(saml_settings: { sso_url: [nil, ''] })
+                        .where.not(saml_settings: { certificate: [nil, ''] })
+                        .select { |account_user| account_user.account.feature_enabled?('saml') }
+
+    shop_domain = shopify_billing_shop_domain
+    return account_users.first if shop_domain.blank?
+
+    account_users.find do |account_user|
+      account_user.account.hooks.exists?(app_id: 'shopify', reference_id: shop_domain)
+    end || account_users.first
+  end
+
+  def shopify_billing_shop_domain
+    path, query = params[:redirect_url].to_s.split('?', 2)
+    return unless path == 'settings/billing'
+
+    shop_domain = Rack::Utils.parse_nested_query(query.to_s)['shop']
+    Shopify::ShopDomain.normalize(shop_domain) if Shopify::ShopDomain.valid?(shop_domain)
   end
 
   def render_saml_error
