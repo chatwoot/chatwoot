@@ -39,7 +39,7 @@ RSpec.describe Shopify::ShopIdentity do
     expect(ShopifyAPI::Context).to have_received(:setup).with(
       api_key: 'shopify-client-id',
       api_secret_key: 'shopify-client-secret',
-      api_version: '2026-07',
+      api_version: ShopifyAPI::LATEST_SUPPORTED_ADMIN_VERSION,
       scope: 'read_customers,read_orders,read_fulfillments',
       is_embedded: true,
       is_private: false

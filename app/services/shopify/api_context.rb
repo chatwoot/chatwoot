@@ -1,5 +1,5 @@
 class Shopify::ApiContext
-  API_VERSION = '2026-07'.freeze
+  API_VERSION = ShopifyAPI::LATEST_SUPPORTED_ADMIN_VERSION
   class ConfigurationError < StandardError; end
 
   def self.setup!

@@ -1,5 +1,4 @@
 class Shopify::ShopIdentity
-  API_VERSION = '2026-07'.freeze
   QUERY = <<~GRAPHQL.freeze
     query ShopIdentity {
       shop {
@@ -44,7 +43,7 @@ class Shopify::ShopIdentity
   def client
     Shopify::ApiContext.setup!
     session = ShopifyAPI::Auth::Session.new(shop: hook.reference_id, access_token: hook.access_token)
-    ShopifyAPI::Clients::Graphql::Admin.new(session: session, api_version: API_VERSION)
+    ShopifyAPI::Clients::Graphql::Admin.new(session: session, api_version: Shopify::ApiContext::API_VERSION)
   end
 
   def matching_shop?(shop)

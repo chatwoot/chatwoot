@@ -14,11 +14,15 @@ RSpec.describe Shopify::ApiContext do
     expect(ShopifyAPI::Context).to have_received(:setup).with(
       api_key: 'shopify-client-id',
       api_secret_key: 'shopify-client-secret',
-      api_version: '2026-07',
+      api_version: ShopifyAPI::LATEST_SUPPORTED_ADMIN_VERSION,
       scope: 'read_customers,read_orders,read_fulfillments',
       is_embedded: true,
       is_private: false
     )
+  end
+
+  it 'uses an Admin API version supported by the pinned client' do
+    expect(ShopifyAPI::AdminVersions::SUPPORTED_ADMIN_VERSIONS).to include(described_class::API_VERSION)
   end
 
   it 'fails before constructing a client when credentials are unavailable' do
