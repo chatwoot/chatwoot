@@ -156,7 +156,14 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def check_signup_enabled
-    raise ActionController::RoutingError, 'Not Found' unless GlobalConfigService.account_signup_enabled?
+    return if GlobalConfigService.account_signup_enabled? || pending_shopify_signup?
+
+    raise ActionController::RoutingError, 'Not Found'
+  end
+
+  def pending_shopify_signup?
+    token = account_params[:shopify_pending_install_token]
+    Shopify::FeatureGate.enabled? && Shopify::PendingInstallation.pending?(token: token)
   end
 
   def api_only_signup?

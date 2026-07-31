@@ -38,6 +38,12 @@ class Shopify::PendingInstallation
     raise
   end
 
+  def self.pending?(token:)
+    return false unless token.is_a?(String) && token.match?(TOKEN_FORMAT)
+
+    Redis::SecureStorage.get(payload_key(token)).present?
+  end
+
   def initialize(token:, claim_key:, claim_token:)
     @token = token
     @claim_key = claim_key

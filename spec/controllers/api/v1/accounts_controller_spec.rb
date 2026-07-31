@@ -93,6 +93,9 @@ RSpec.describe 'Accounts API', type: :request do
       before do
         allow(Shopify::FeatureGate).to receive(:enabled?).and_return(true)
         allow(Shopify::FeatureGate).to receive(:globally_enabled?).and_return(true)
+        allow(Shopify::PendingInstallation).to receive(:pending?)
+          .with(token: pending_install_token)
+          .and_return(true)
         allow(Shopify::PendingInstallation).to receive(:claim)
           .with(token: pending_install_token)
           .and_return(pending_installation)
@@ -114,6 +117,27 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account).to be_feature_enabled('shopify_integration')
         expect(account.hooks.find_by!(app_id: 'shopify').reference_id).to eq('my-store.myshopify.com')
         expect(pending_installation).to have_received(:consume!)
+      end
+
+      it 'creates a Shopify-billed account when general account signup is disabled' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
+          post api_v1_accounts_url, params: params, as: :json
+        end
+
+        expect(response).to have_http_status(:success)
+        expect(Account.order(:id).last).to have_attributes(billing_provider: 'shopify', signup_source: 'shopify')
+      end
+
+      it 'does not bypass disabled account signup for an invalid pending token' do
+        allow(Shopify::PendingInstallation).to receive(:pending?).and_return(false)
+
+        expect do
+          with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
+            post api_v1_accounts_url, params: params, as: :json
+          end
+        end.not_to change(Account, :count)
+
+        expect(response).to have_http_status(:not_found)
       end
 
       it 'returns a clear error for an invalid or expired token' do

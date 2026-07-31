@@ -97,6 +97,21 @@ describe('#validateRouteAccess', () => {
     expect(next).toHaveBeenCalledWith('/app/login');
   });
 
+  it('continues to a pending Shopify signup when general signup is disabled', () => {
+    validateRouteAccess(
+      {
+        name: 'auth_signup',
+        query: { shopify_pending_install: 'pending-token' },
+        meta: { requireSignupEnabled: true },
+      },
+      next,
+      { signupEnabled: 'false' }
+    );
+
+    expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith();
+  });
+
   it('continues to the route in every other case', () => {
     validateRouteAccess({ name: 'reset_password' }, next);
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
