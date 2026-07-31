@@ -8,13 +8,14 @@ RSpec.describe 'Conversations API', type: :request do
     it 'returns SLA data for the conversation if the feature is enabled' do
       account.enable_features!('sla')
       conversation = create(:conversation, account: account)
-      applied_sla = create(:applied_sla, conversation: conversation)
+      applied_sla = create(:applied_sla, conversation: conversation, completed_at: 1.hour.ago)
       sla_event = create(:sla_event, conversation: conversation, applied_sla: applied_sla)
 
       get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: administrator.create_new_auth_token
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body['applied_sla']['id']).to eq(applied_sla.id)
+      expect(response.parsed_body['applied_sla']['sla_completed_at']).to eq(applied_sla.completed_at.to_i)
       expect(response.parsed_body['sla_events'].first['id']).to eq(sla_event.id)
     end
 
