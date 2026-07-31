@@ -30,6 +30,12 @@ module Enterprise::Conversation
     return unless pending?
 
     assistant = inbox.captain_assistant
+
+    if assistant&.awaiting_conversation_language?(self)
+      additional_attributes[Captain::Assistant::LANGUAGE_ELIGIBILITY_PENDING_KEY] = true
+      return
+    end
+
     self.status = :open if assistant.present? && !assistant.engages?(contact, self)
   end
 

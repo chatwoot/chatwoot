@@ -20,6 +20,19 @@ describe Integrations::GoogleTranslate::DetectLanguageService do
       expect(message.conversation.reload.additional_attributes['conversation_language']).to eq('es')
     end
 
+    it 'dispatches a language detected event with the triggering message' do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      described_class.new(hook: hook, message: message).perform
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        Events::Types::CONVERSATION_LANGUAGE_DETECTED,
+        kind_of(Time),
+        conversation: message.conversation,
+        message: message
+      )
+    end
+
     it 'will not update the conversation language if it is already present' do
       message.conversation.update!(additional_attributes: { conversation_language: 'en' })
       described_class.new(hook: hook, message: message).perform
