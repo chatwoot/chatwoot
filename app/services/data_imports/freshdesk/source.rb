@@ -144,6 +144,7 @@ class DataImports::Freshdesk::Source
   def conversation_custom_attributes(conversation)
     {
       freshdesk_ticket_id: conversation['id'],
+      freshdesk_subject: conversation['subject'],
       freshdesk_status: conversation['status'],
       freshdesk_priority: conversation['priority']
     }.compact

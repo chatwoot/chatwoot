@@ -7,6 +7,9 @@ RSpec.describe DataImports::Freshdesk::Normalizer do
   let(:ticket_fixture) do
     JSON.parse(Rails.root.join('spec/fixtures/data_import/freshdesk/ticket_with_conversations.json').read)
   end
+  let(:web_chat_fixture) do
+    JSON.parse(Rails.root.join('spec/fixtures/data_import/freshdesk/web_chat_ticket_with_conversations.json').read)
+  end
 
   it 'normalizes Freshdesk contacts into the shared importer contract', :aggregate_failures do
     contact = described_class.new.contact(contact_payload)
@@ -52,5 +55,28 @@ RSpec.describe DataImports::Freshdesk::Normalizer do
 
     expect(ticket.dig('source', 'type')).to eq('outbound_email')
     expect(ticket.dig('source', 'author', 'type')).to eq('admin')
+  end
+
+  it 'uses Web Chat conversation events as the complete message history', :aggregate_failures do
+    ticket = described_class.new.ticket(web_chat_fixture.fetch('ticket'), web_chat_fixture.fetch('conversations'))
+    parts = ticket.dig('conversation_parts', 'conversation_parts')
+
+    expect(ticket).to include(
+      'id' => '2101',
+      'subject' => 'FD-IMPORT-WEBCHAT-002 — Brew temperature drops',
+      'status' => 2,
+      'priority' => 1
+    )
+    expect(ticket.dig('source', 'type')).to eq('web_chat')
+    expect(ticket.fetch('source')).not_to include('subject', 'body')
+    expect(DataImports::Freshdesk::MessageBatchBuilder.source_message_importable?(ticket.fetch('source'))).to be(false)
+    expect(parts.pluck('id')).to eq(%w[3101 3102 3103 3104 3105 3106])
+    expect(parts.map { |part| part.dig('author', 'type') }).to eq(%w[admin contact contact admin contact admin])
+    expect(parts.count { |part| part['body'].include?('FD-IMPORT-WEBCHAT-002') }).to eq(1)
+    expect(parts.last['attachments'].first).to include(
+      'name' => 'freshdesk-validation-diagnostic.txt',
+      'content_type' => 'text/plain',
+      'size' => 188
+    )
   end
 end

@@ -20,6 +20,7 @@ class DataImports::Freshdesk::Metadata
   def conversation_source(conversation)
     {
       ticket_id: conversation['id'],
+      subject: conversation['subject'],
       status: conversation['status'],
       priority: conversation['priority'],
       requester_id: conversation['requester_id'],

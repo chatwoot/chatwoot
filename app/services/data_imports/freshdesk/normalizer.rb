@@ -1,4 +1,6 @@
 class DataImports::Freshdesk::Normalizer
+  WEB_CHAT_SOURCE = 15
+
   def contact(contact)
     {
       'id' => contact['id']&.to_s,
@@ -29,7 +31,7 @@ class DataImports::Freshdesk::Normalizer
   private
 
   def ticket_source(ticket)
-    {
+    source = {
       'id' => ticket['id'].to_s,
       'type' => DataImports::Freshdesk::SourceBucket.source_type(ticket['source']),
       'subject' => ticket['subject'],
@@ -37,6 +39,9 @@ class DataImports::Freshdesk::Normalizer
       'attachments' => ticket['attachments'],
       'author' => source_author(ticket)
     }.compact
+
+    source.except!('subject', 'body') if ticket['source'].to_i == WEB_CHAT_SOURCE
+    source
   end
 
   def source_author(ticket)
@@ -62,6 +67,7 @@ class DataImports::Freshdesk::Normalizer
 
   def ticket_metadata(ticket)
     {
+      'subject' => ticket['subject'],
       'status' => ticket['status'],
       'priority' => ticket['priority'],
       'requester_id' => ticket['requester_id'],
