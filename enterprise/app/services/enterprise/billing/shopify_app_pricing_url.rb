@@ -41,6 +41,6 @@ class Enterprise::Billing::ShopifyAppPricingUrl
   end
 
   def shopify_hook
-    @shopify_hook ||= account.hooks.find_by!(app_id: 'shopify', status: 'enabled')
+    @shopify_hook ||= account.hooks.find_by!(app_id: 'shopify')
   end
 end

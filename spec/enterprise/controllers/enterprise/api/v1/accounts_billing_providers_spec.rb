@@ -246,6 +246,20 @@ RSpec.describe 'Enterprise Billing Provider APIs', type: :request do
       )
     end
 
+    it 'uses the retained shop domain to reopen pricing after uninstall' do
+      shopify_account.hooks.find_by!(app_id: 'shopify').update!(status: :disabled, access_token: nil, settings: {})
+      allow(GlobalConfigService).to receive(:load).with('SHOPIFY_APP_HANDLE', nil).and_return('chatwoot')
+
+      post "/enterprise/api/v1/accounts/#{shopify_account.id}/checkout",
+           headers: shopify_admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to eq(
+        'redirect_url' => 'https://admin.shopify.com/store/billing-test-store/charges/chatwoot/pricing_plans'
+      )
+    end
+
     it 'does not fall through to Stripe when the Shopify feature gate is disabled' do
       allow(Shopify::FeatureGate).to receive(:enabled?).with(account: shopify_account).and_return(false)
       expect(Enterprise::Billing::CreateSessionService).not_to receive(:new)
