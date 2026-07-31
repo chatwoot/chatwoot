@@ -44,7 +44,22 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
+  def whatsapp_business_management_token
+    Whatsapp::BusinessManagementTokenService.new(whatsapp_channel).update!(params.require(:business_management_token))
+
+    head :no_content
+  rescue ArgumentError, ActiveRecord::RecordInvalid => e
+    render json: { error: e.message, message: e.message }, status: :unprocessable_entity
+  end
+
   private
+
+  def whatsapp_channel
+    channel = @inbox.channel
+    raise ActiveRecord::RecordNotFound unless channel.is_a?(Channel::Whatsapp)
+
+    channel
+  end
 
   def validate_whatsapp_cloud_channel
     return if @inbox.channel.is_a?(Channel::Whatsapp) && @inbox.channel.provider == 'whatsapp_cloud'
