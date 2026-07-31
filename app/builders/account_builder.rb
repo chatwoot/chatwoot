@@ -175,6 +175,8 @@ class AccountBuilder
     return unless @pending_installation && @user && !@user.confirmed?
 
     @user.send_confirmation_instructions
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: @account).capture_exception
   end
 
   def shopify_signup?
