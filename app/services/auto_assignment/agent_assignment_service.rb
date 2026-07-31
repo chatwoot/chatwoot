@@ -9,16 +9,22 @@ class AutoAssignment::AgentAssignmentService
   end
 
   def perform
-    # This runs from Conversation's own after_save callback (AutoAssignmentHandler), so
-    # conversation is often still mid-way through its own save. Locking a fresh, separate
-    # instance (rather than conversation.with_lock, which would reload conversation itself)
-    # avoids wiping previous_changes that later after_commit callbacks on it still depend on.
+    # conversation is usually still mid-save (this fires from its own after_save), and
+    # already registered for this transaction's callbacks -- writing through a separate
+    # locked instance would silently skip its after_commit callbacks (Rails only runs
+    # them for the first instance of a row registered per transaction). So: lock a
+    # separate instance just to decide, then sync conversation's baseline and write
+    # through conversation itself so its callbacks fire correctly.
     Conversation.transaction do
       locked = Conversation.lock.find_by(id: conversation.id)
       next unless locked && reassignment_still_needed?(locked)
 
       new_assignee = find_assignee
-      locked.update(assignee: new_assignee) if new_assignee
+      next unless new_assignee
+
+      conversation.assignee_id = locked.assignee_id
+      conversation.clear_attribute_changes([:assignee_id])
+      conversation.update(assignee: new_assignee)
     end
   end
 
