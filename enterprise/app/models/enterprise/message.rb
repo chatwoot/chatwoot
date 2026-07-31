@@ -30,7 +30,6 @@ module Enterprise::Message
   private
 
   def mark_pending_conversation_as_open_for_human_response
-    return unless captain_pending_conversation?
     return unless human_response?
     return if private?
     return if template_bootstrap_message?
@@ -41,13 +40,22 @@ module Enterprise::Message
     Current.executed_by = nil
 
     begin
-      conversation.open!
-      return unless conversation.saved_change_to_status?
+      return unless open_captain_pending_conversation
 
       create_captain_auto_open_activity_message
     ensure
       Current.user = previous_user
       Current.executed_by = previous_executed_by
+    end
+  end
+
+  def open_captain_pending_conversation
+    conversation.reload
+    conversation.with_lock do
+      next false unless captain_pending_conversation?
+
+      conversation.open!
+      conversation.saved_change_to_status?
     end
   end
 

@@ -96,5 +96,17 @@ RSpec.describe Message do
       end.not_to have_enqueued_job(Conversations::ActivityMessageJob)
       expect(conversation.reload.pending?).to be true
     end
+
+    it 'does not mark a stale agent bot-owned conversation open for human outgoing messages' do
+      message = build(:message, message_type: :outgoing, conversation: conversation)
+      agent_bot = create(:agent_bot, account: conversation.account)
+      Conversation.find(conversation.id).update!(assignee_agent_bot: agent_bot, status: :pending)
+
+      expect do
+        message.save!
+      end.not_to have_enqueued_job(Conversations::ActivityMessageJob)
+      expect(conversation.reload.pending?).to be true
+      expect(conversation.assignee_agent_bot_id).to eq(agent_bot.id)
+    end
   end
 end

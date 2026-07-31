@@ -100,6 +100,38 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(resolvable_pending_conversation.messages.outgoing).to be_empty
     end
 
+    it 'skips resolving if an agent bot takes over after evaluation' do
+      agent_bot = create(:agent_bot, account: inbox.account)
+      mock_service = instance_double(Captain::ConversationCompletionService)
+      allow(mock_service).to receive(:perform) do
+        Conversation.find(resolvable_pending_conversation.id).update!(assignee_agent_bot: agent_bot, status: :pending)
+        { complete: true, reason: 'Customer question was answered' }
+      end
+      allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
+
+      expect do
+        described_class.perform_now(inbox)
+      end.not_to(change { resolvable_pending_conversation.messages.count })
+      expect(resolvable_pending_conversation.reload).to be_pending
+      expect(resolvable_pending_conversation.assignee_agent_bot_id).to eq(agent_bot.id)
+    end
+
+    it 'skips handoff if an agent bot takes over after evaluation' do
+      agent_bot = create(:agent_bot, account: inbox.account)
+      mock_service = instance_double(Captain::ConversationCompletionService)
+      allow(mock_service).to receive(:perform) do
+        Conversation.find(resolvable_pending_conversation.id).update!(assignee_agent_bot: agent_bot, status: :pending)
+        { complete: false, reason: 'Customer has not responded' }
+      end
+      allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
+
+      expect do
+        described_class.perform_now(inbox)
+      end.not_to(change { resolvable_pending_conversation.messages.count })
+      expect(resolvable_pending_conversation.reload).to be_pending
+      expect(resolvable_pending_conversation.assignee_agent_bot_id).to eq(agent_bot.id)
+    end
+
     it 'falls back to legacy time-based resolve when legacy auto-resolve is forced' do
       inbox.account.update!(captain_auto_resolve_mode: 'legacy')
       allow(Captain::ConversationCompletionService).to receive(:new)
