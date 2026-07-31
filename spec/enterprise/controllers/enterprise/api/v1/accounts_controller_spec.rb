@@ -50,6 +50,50 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
       end
 
       context 'when it is an admin' do
+        %w[spam other].each do |category|
+          it "returns forbidden for a suspended #{category} account" do
+            account.update!(
+              status: :suspended,
+              internal_attributes: { 'suspensions' => [{ 'category' => category }] }
+            )
+
+            expect do
+              post "/enterprise/api/v1/accounts/#{account.id}/subscription",
+                   headers: admin.create_new_auth_token,
+                   as: :json
+            end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob)
+
+            expect(response).to have_http_status(:forbidden)
+          end
+        end
+
+        it 'allows a suspended non-payment account' do
+          account.update!(
+            status: :suspended,
+            internal_attributes: { 'suspensions' => [{ 'category' => 'non_payment' }] }
+          )
+
+          expect do
+            post "/enterprise/api/v1/accounts/#{account.id}/subscription",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+          end.to have_enqueued_job(Enterprise::CreateStripeCustomerJob).with(account)
+
+          expect(response).to have_http_status(:no_content)
+        end
+
+        it 'allows a legacy suspended account without suspension history' do
+          account.update!(status: :suspended)
+
+          expect do
+            post "/enterprise/api/v1/accounts/#{account.id}/subscription",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+          end.to have_enqueued_job(Enterprise::CreateStripeCustomerJob).with(account)
+
+          expect(response).to have_http_status(:no_content)
+        end
+
         it 'enqueues a job' do
           expect do
             post "/enterprise/api/v1/accounts/#{account.id}/subscription",
@@ -79,6 +123,25 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob).with(account)
         end
       end
+    end
+  end
+
+  describe 'POST /enterprise/api/v1/accounts/{account.id}/select_billing_currency' do
+    it 'returns forbidden for a suspended spam account' do
+      account.update!(
+        status: :suspended,
+        internal_attributes: { 'suspensions' => [{ 'category' => 'spam' }] }
+      )
+
+      expect do
+        post "/enterprise/api/v1/accounts/#{account.id}/select_billing_currency",
+             headers: admin.create_new_auth_token,
+             params: { currency: 'usd' },
+             as: :json
+      end.not_to have_enqueued_job(Enterprise::CreateStripeCustomerJob)
+
+      expect(response).to have_http_status(:forbidden)
+      expect(account.reload.custom_attributes['billing_currency']).to be_nil
     end
   end
 
@@ -115,6 +178,24 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
       end
 
       context 'when it is an admin and the stripe customer is present' do
+        %w[spam other].each do |category|
+          it "returns forbidden for a suspended #{category} account" do
+            account.update!(
+              status: :suspended,
+              internal_attributes: { 'suspensions' => [{ 'category' => category }] },
+              custom_attributes: { 'stripe_customer_id' => 'cus_random_string' }
+            )
+
+            expect(Enterprise::Billing::CreateSessionService).not_to receive(:new)
+
+            post "/enterprise/api/v1/accounts/#{account.id}/checkout",
+                 headers: admin.create_new_auth_token,
+                 as: :json
+
+            expect(response).to have_http_status(:forbidden)
+          end
+        end
+
         it 'calls create session' do
           account.update!(custom_attributes: { 'stripe_customer_id': 'cus_random_string' })
 

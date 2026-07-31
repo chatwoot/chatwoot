@@ -6,23 +6,10 @@ import { useI18n } from 'vue-i18n';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useMapGetter } from 'dashboard/composables/store';
 
-const { t } = useI18n();
+const { t, te } = useI18n();
 const { isAdmin } = useAdmin();
 const currentAccount = useMapGetter('getCurrentAccount');
 const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
-
-const suspensionMessage = computed(() => {
-  switch (currentAccount.value?.suspension_category) {
-    case 'spam':
-      return t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.SPAM');
-    case 'non_payment':
-      return t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.NON_PAYMENT');
-    case 'other':
-      return t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.OTHER');
-    default:
-      return t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.DEFAULT');
-  }
-});
 
 const showBillingLink = computed(
   () =>
@@ -32,6 +19,40 @@ const showBillingLink = computed(
       currentAccount.value?.suspension_category
     )
 );
+
+const fallbackSuspensionMessage = () =>
+  t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGE');
+
+const suspensionMessage = computed(() => {
+  switch (currentAccount.value?.suspension_category) {
+    case 'spam':
+      return te('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.SPAM')
+        ? t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.SPAM')
+        : fallbackSuspensionMessage();
+    case 'non_payment':
+      if (showBillingLink.value) {
+        return te('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.NON_PAYMENT')
+          ? t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.NON_PAYMENT')
+          : fallbackSuspensionMessage();
+      }
+      return te('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.NON_PAYMENT_SUPPORT')
+        ? t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.NON_PAYMENT_SUPPORT')
+        : fallbackSuspensionMessage();
+    case 'other':
+      return te('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.OTHER')
+        ? t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.OTHER')
+        : fallbackSuspensionMessage();
+    default:
+      if (showBillingLink.value) {
+        return te('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.DEFAULT')
+          ? t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.DEFAULT')
+          : fallbackSuspensionMessage();
+      }
+      return te('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.DEFAULT_SUPPORT')
+        ? t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGES.DEFAULT_SUPPORT')
+        : fallbackSuspensionMessage();
+  }
+});
 
 const toggleSupportWidgetVisibility = () => {
   if (window.$chatwoot) {

@@ -267,8 +267,10 @@
       "MESSAGES": {
         "SPAM": "Your account has been suspended because activity associated with it was identified as spam. If you believe this is a mistake, please contact our support team.",
         "NON_PAYMENT": "Your account has been suspended because of an outstanding payment. Manage your billing to settle the payment.",
+        "NON_PAYMENT_SUPPORT": "Your account has been suspended because of an outstanding payment. Please contact our support team for assistance.",
         "OTHER": "Your account has been suspended. Please contact our support team for more information and assistance.",
-        "DEFAULT": "Your account has been suspended. Manage your billing or contact our support team for assistance."
+        "DEFAULT": "Your account has been suspended. Manage your billing or contact our support team for assistance.",
+        "DEFAULT_SUPPORT": "Your account has been suspended. Please contact our support team for assistance."
       },
       "MANAGE_BILLING": "Manage billing"
     },
