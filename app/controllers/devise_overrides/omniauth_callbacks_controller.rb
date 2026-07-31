@@ -11,6 +11,8 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   private
 
+  def oauth_redirect_url; end
+
   def sign_in_user(redirect_url: nil)
     # Capture before skip_confirmation! sets confirmed_at, which would
     # make oauth_user_needs_password_reset? return false and skip the
