@@ -29,6 +29,13 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
       )
     end
 
+    it 'emits a captain resolution event with the tool source' do
+      expect(Captain::ConversationEvents).to receive(:resolved)
+        .with(conversation: conversation, assistant: assistant, source: 'tool', at: kind_of(Time))
+
+      tool.perform(tool_context, reason: 'Possible spam')
+    end
+
     it 'creates a conversation_resolved reporting event' do
       create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
 
@@ -64,6 +71,12 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
 
   describe 'resolving an already resolved conversation' do
     let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :resolved) }
+
+    it 'does not emit a captain resolution event' do
+      expect(Captain::ConversationEvents).not_to receive(:resolved)
+
+      tool.perform(tool_context, reason: 'Possible spam')
+    end
 
     it 'does not re-resolve and returns an already resolved message' do
       queue_adapter = ActiveJob::Base.queue_adapter
