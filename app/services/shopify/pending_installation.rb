@@ -88,7 +88,7 @@ class Shopify::PendingInstallation
       connection.mget(format(PAYLOAD_KEY, token: @token), @claim_key)
     end
     return :consumed if payload.nil? && claim.nil?
-    return :not_consumed if payload.present? && claim == @claim_token
+    return :not_consumed if payload.present?
 
     :unknown
   rescue StandardError
