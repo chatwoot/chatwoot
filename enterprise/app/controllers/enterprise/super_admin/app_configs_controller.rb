@@ -1,4 +1,15 @@
 module Enterprise::SuperAdmin::AppConfigsController
+  SHOPIFY_APP_HANDLE_CONFIG = {
+    'display_title' => 'Shopify App Handle',
+    'description' => 'The app handle used in Shopify Admin App Pricing URLs',
+    'locked' => false
+  }.freeze
+
+  def show
+    super
+    @installation_configs['SHOPIFY_APP_HANDLE'] = SHOPIFY_APP_HANDLE_CONFIG
+  end
+
   private
 
   def allowed_configs
@@ -13,6 +24,8 @@ module Enterprise::SuperAdmin::AppConfigsController
       @allowed_configs = captain_config_options
     when 'saml'
       @allowed_configs = saml_config_options
+    when 'shopify'
+      @allowed_configs = super + %w[SHOPIFY_APP_HANDLE]
     else
       super
     end
