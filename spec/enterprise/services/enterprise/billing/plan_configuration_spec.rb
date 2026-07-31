@@ -51,6 +51,14 @@ RSpec.describe Enterprise::Billing::PlanConfiguration do
     end.to raise_error(ActiveRecord::RecordNotFound)
   end
 
+  it 'raises when the locked Shopify plan catalog is empty' do
+    InstallationConfig.find_by!(name: 'CHATWOOT_SHOPIFY_PLANS').update!(value: [])
+
+    expect do
+      described_class.plans(provider: 'shopify')
+    end.to raise_error(described_class::InvalidConfiguration, 'CHATWOOT_SHOPIFY_PLANS must contain at least one plan')
+  end
+
   it 'finds the current Shopify plan by its Chatwoot plan name' do
     account = create(
       :account,

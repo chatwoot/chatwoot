@@ -19,6 +19,8 @@ module Enterprise::Billing::ShopifyPlanConfiguration
   end
 
   def validate!(plans)
+    raise_invalid!("#{CONFIG_NAME} must contain at least one plan") if plans.empty?
+
     plans.each.with_index { |plan, index| validate_plan!(plan, index) }
     validate_unique_field!(plans, 'name')
     validate_unique_field!(plans, 'handle')
