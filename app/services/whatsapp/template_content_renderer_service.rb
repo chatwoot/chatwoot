@@ -4,6 +4,7 @@ class Whatsapp::TemplateContentRendererService
     @body_params = body_params
     @value_renderer = value_renderer
     @message_drops = message_drops
+    @parameter_builder = Whatsapp::PopulateTemplateParametersService.new
   end
 
   def perform
@@ -37,8 +38,10 @@ class Whatsapp::TemplateContentRendererService
   end
 
   def display_value(rendered_value)
-    structured_value = rendered_value.is_a?(Hash) && %w[currency date_time].include?(rendered_value['type'])
-    structured_value ? rendered_value['fallback_value'].to_s : rendered_value.to_s
+    parameter = @parameter_builder.build_parameter(rendered_value)
+    return parameter[:text] if parameter[:type] == 'text'
+
+    parameter.dig(parameter[:type].to_sym, :fallback_value).to_s
   end
 
   def modified_liquid_content(content)

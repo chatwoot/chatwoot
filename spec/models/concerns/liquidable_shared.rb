@@ -131,6 +131,26 @@ shared_examples_for 'liqudable' do
           expect(message.content).to eq 'Hello Ahmad, Furqan is your contact.'
         end
 
+        it 'uses provider-normalized text values in the saved content' do
+          message.content = 'Hello {{1}}.'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'welcome',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {
+                  '1' => " <\"#{'a' * 1_005}\"> "
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq "Hello #{'a' * 1_000}."
+        end
+
         it 'preserves placeholders when body parameters are empty' do
           message.content = 'Hello {{1}}.'
           message.additional_attributes = {
@@ -306,7 +326,7 @@ shared_examples_for 'liqudable' do
         end
 
         it 'rejects raw template content that exceeds the content limit after rendering' do
-          message.content = '{{1}}'
+          message.content = "#{'a' * 149_995}{{1}}"
           message.additional_attributes = {
             'template_params' => {
               'name' => 'oversized',
@@ -314,7 +334,7 @@ shared_examples_for 'liqudable' do
               'content_mode' => 'raw_template',
               'processed_params' => {
                 'body' => {
-                  '1' => 'a' * 150_001
+                  '1' => 'b' * 10
                 }
               }
             }
