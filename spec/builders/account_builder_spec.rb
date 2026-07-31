@@ -81,6 +81,15 @@ RSpec.describe AccountBuilder do
           shopify_pending_install_token: pending_install_token
         )
       end
+      let(:unconfirmed_shopify_account_builder) do
+        described_class.new(
+          account_name: account_name,
+          email: email,
+          user_full_name: user_full_name,
+          user_password: user_password,
+          shopify_pending_install_token: pending_install_token
+        )
+      end
 
       before do
         allow(Shopify::FeatureGate).to receive(:enabled?).and_return(true)
@@ -199,7 +208,7 @@ RSpec.describe AccountBuilder do
         expect(pending_installation).not_to have_received(:release!)
       end
 
-      it 'returns and finalizes a signup when a commit callback raises' do
+      it 'returns and finalizes a signup when a commit callback raises', :aggregate_failures do
         callback_error = StandardError.new('Commit callback failed')
         exception_tracker = instance_double(ChatwootExceptionTracker, capture_exception: nil)
         allow(Rails.configuration.dispatcher).to receive(:dispatch).and_call_original
@@ -210,9 +219,14 @@ RSpec.describe AccountBuilder do
           .with(callback_error, account: instance_of(Account))
           .and_return(exception_tracker)
 
-        user, account = shopify_account_builder.perform
+        result = nil
+        expect do
+          result = unconfirmed_shopify_account_builder.perform
+        end.to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
+        user, account = result
 
         expect([user, account]).to all(be_persisted)
+        expect(user).not_to be_confirmed
         expect(account.account_users.find_by(user: user)).to be_present
         expect(user.notification_settings.find_by(account: account)).to be_present
         expect(account.hooks.find_by(app_id: 'shopify')).to be_present
