@@ -3,6 +3,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   before_action :fetch_portal, except: [:index, :create]
   before_action :check_authorization
+  before_action :validate_analytics_params, only: [:create, :update]
   before_action :set_current_page, only: [:index]
 
   def index
@@ -76,6 +77,18 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def permitted_params
     params.permit(:id, :email)
+  end
+
+  def validate_analytics_params
+    analytics = params.dig(:portal, :config, :analytics)
+    return if analytics.blank?
+
+    valid = analytics.respond_to?(:each_pair) &&
+            analytics.keys.all? { |key| Portal::ANALYTICS_CONFIG_FORMATS.key?(key.to_s) } &&
+            analytics.values.all?(String)
+    return if valid
+
+    render json: { error: I18n.t('portals.analytics.invalid_configuration') }, status: :unprocessable_entity
   end
 
   def portal_params
