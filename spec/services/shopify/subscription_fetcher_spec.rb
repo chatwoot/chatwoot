@@ -84,6 +84,21 @@ RSpec.describe Shopify::SubscriptionFetcher do
     )
   end
 
+  it 'serializes provider refreshes on the Shopify hook' do
+    fetcher = described_class.new(account: account)
+    shopify_hook = account.hooks.find_by!(app_id: 'shopify')
+    allow(fetcher).to receive(:hook).and_return(shopify_hook)
+    expect(shopify_hook).to receive(:with_lock).and_yield
+
+    fetcher.perform(force: true)
+
+    expect(Rails.cache).to have_received(:write).with(
+      "shopify:subscription_snapshot:account:#{account.id}",
+      snapshot.to_h,
+      expires_in: 2.minutes
+    )
+  end
+
   it 'does not call Shopify when the feature gate is disabled' do
     allow(Shopify::FeatureGate).to receive(:enabled?).with(account: account).and_return(false)
 
