@@ -48,7 +48,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
 
   def commit_response_usage(reservation_id)
     with_lock do
-      reservations = active_response_reservations
+      reservations = response_reservations
       next false unless reservations.delete(reservation_id)
 
       Account.where(id: id).update_all(response_reservation_commit(reservations))
@@ -110,10 +110,11 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
                end
 
     consumed = 0 if consumed.negative?
+    reserved = type == :responses ? active_response_reservations.size : 0
 
     {
       total_count: total_count,
-      current_available: (total_count - consumed).clamp(0, total_count),
+      current_available: (total_count - consumed - reserved).clamp(0, total_count),
       consumed: consumed
     }
   end
@@ -232,10 +233,14 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def active_response_reservations
+    response_reservations.select { |_reservation_id, expires_at| expires_at.to_i > Time.current.to_i }
+  end
+
+  def response_reservations
     reservations = custom_attributes[CAPTAIN_RESPONSE_RESERVATIONS]
     return {} unless reservations.is_a?(Hash)
 
-    reservations.select { |_reservation_id, expires_at| expires_at.to_i > Time.current.to_i }
+    reservations.dup
   end
 
   def response_reservation_commit(reservations)

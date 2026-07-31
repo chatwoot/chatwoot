@@ -80,6 +80,63 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  describe 'billing identity' do
+    it 'defaults existing accounts to Stripe and Chatwoot signup' do
+      account = create(:account)
+
+      expect(account.billing_provider).to eq('stripe')
+      expect(account.signup_source).to eq('chatwoot')
+    end
+
+    it 'stores Shopify identity at account creation' do
+      account = create(
+        :account,
+        internal_attributes: {
+          'billing_provider' => 'shopify',
+          'signup_source' => 'shopify'
+        }
+      )
+
+      expect(account.billing_provider).to eq('shopify')
+      expect(account.signup_source).to eq('shopify')
+    end
+
+    it 'rejects unsupported billing providers and signup sources' do
+      account = build(:account)
+      account.billing_provider = 'unsupported'
+      account.signup_source = 'unsupported'
+
+      expect(account).not_to be_valid
+      expect(account.errors[:billing_provider]).to be_present
+      expect(account.errors[:signup_source]).to be_present
+    end
+
+    it 'does not allow billing identity to change after account creation' do
+      account = create(:account)
+
+      account.billing_provider = 'shopify'
+      account.signup_source = 'shopify'
+
+      expect(account.save).to be(false)
+      expect(account.errors[:billing_provider]).to include('cannot be changed after account creation')
+      expect(account.errors[:signup_source]).to include('cannot be changed after account creation')
+      expect(account.reload.billing_provider).to eq('stripe')
+      expect(account.signup_source).to eq('chatwoot')
+    end
+
+    it 'does not allow billing identity to change through symbol-keyed internal attributes' do
+      account = create(:account)
+
+      account.internal_attributes = account.internal_attributes.merge(billing_provider: 'shopify', signup_source: 'shopify')
+
+      expect(account.save).to be(false)
+      expect(account.errors[:billing_provider]).to include('cannot be changed after account creation')
+      expect(account.errors[:signup_source]).to include('cannot be changed after account creation')
+      expect(account.reload.billing_provider).to eq('stripe')
+      expect(account.signup_source).to eq('chatwoot')
+    end
+  end
+
   describe 'sla_policies' do
     let!(:account) { create(:account) }
     let!(:sla_policy) { create(:sla_policy, account: account) }
@@ -162,6 +219,17 @@ RSpec.describe Account, type: :model do
         expect(account.custom_attributes['captain_response_reservations'].keys).to contain_exactly(reservation_id)
       end
 
+      it 'subtracts active response reservations from current availability' do
+        account.update!(limits: { captain_responses: 1 })
+        account.reset_response_usage
+
+        expect(account.reserve_response_usage).to be_present
+
+        response_limits = account.reload.usage_limits[:captain][:responses]
+        expect(response_limits[:consumed]).to eq(0)
+        expect(response_limits[:current_available]).to eq(0)
+      end
+
       it 'releases only the requested response reservation' do
         account.update!(limits: { captain_responses: 2 })
         account.reset_response_usage
@@ -192,6 +260,19 @@ RSpec.describe Account, type: :model do
         expect(reservation_id).to be_present
 
         account.reset_response_usage
+
+        expect(account.commit_response_usage(reservation_id)).to be(true)
+        account.reload
+        expect(account.custom_attributes['captain_responses_usage']).to eq(1)
+        expect(account.custom_attributes['captain_response_reservations']).to be_empty
+      end
+
+      it 'commits an owned response reservation after its lease expires' do
+        account.update!(limits: { captain_responses: 1 })
+        account.reset_response_usage
+        reservation_id = account.reserve_response_usage
+        account.custom_attributes['captain_response_reservations'][reservation_id] = 1.minute.ago.to_i
+        account.save!
 
         expect(account.commit_response_usage(reservation_id)).to be(true)
         account.reload

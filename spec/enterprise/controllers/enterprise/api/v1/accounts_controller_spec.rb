@@ -5,6 +5,28 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let!(:agent) { create(:user, account: account, role: :agent) }
 
+  describe 'GET /api/v1/accounts/{account.id}' do
+    it 'exposes Stripe as the default billing provider' do
+      get "/api/v1/accounts/#{account.id}",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response.parsed_body['billing_provider']).to eq('stripe')
+    end
+
+    it 'exposes the Shopify billing provider' do
+      shopify_account = create(:account, internal_attributes: { 'billing_provider' => 'shopify', 'signup_source' => 'shopify' })
+      shopify_admin = create(:user, account: shopify_account, role: :administrator)
+
+      get "/api/v1/accounts/#{shopify_account.id}",
+          headers: shopify_admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['billing_provider']).to eq('shopify')
+    end
+  end
+
   describe 'API token access' do
     before do
       allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)

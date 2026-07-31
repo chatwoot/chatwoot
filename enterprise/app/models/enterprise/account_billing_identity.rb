@@ -1,4 +1,4 @@
-module AccountBillingIdentity
+module Enterprise::AccountBillingIdentity
   extend ActiveSupport::Concern
 
   BILLING_PROVIDERS = %w[stripe shopify].freeze
