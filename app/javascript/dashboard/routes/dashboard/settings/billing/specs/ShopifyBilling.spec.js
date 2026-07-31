@@ -4,7 +4,7 @@ import ShopifyBilling from '../ShopifyBilling.vue';
 import EnterpriseAccountAPI from 'dashboard/api/enterprise/account';
 
 const mocks = vi.hoisted(() => ({
-  route: { query: {} },
+  route: { query: {}, params: { accountId: 1 } },
   replace: vi.fn(),
   dispatch: vi.fn(),
   translate: (key, params) => {
@@ -181,6 +181,9 @@ describe('ShopifyBilling', () => {
       refresh: true,
     });
     expect(mocks.dispatch).toHaveBeenCalledWith('setUser');
+    expect(mocks.dispatch).toHaveBeenCalledWith('accounts/get', {
+      accountId: 1,
+    });
     expect(mocks.replace).toHaveBeenCalledWith({
       query: { source: 'billing' },
     });

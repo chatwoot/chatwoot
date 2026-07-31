@@ -138,6 +138,9 @@ const loadSummary = async () => {
     try {
       summary.value = await fetchSummary({ refresh: true });
       await store.dispatch('setUser');
+      await store.dispatch('accounts/get', {
+        accountId: route.params.accountId,
+      });
       await clearShopifyReturnParams();
     } catch {
       hasError.value = true;
