@@ -79,6 +79,18 @@ RSpec.describe Email::FromBuilder do
 
           expect(result).to include('care@example.com')
         end
+
+        it 'quotes a display name containing a comma so the mailbox parses to a single clean address' do
+          inbox.update!(name: 'Atención al Paciente, Medicina y Cirugía', sender_name_type: :professional)
+
+          builder = described_class.new(inbox: inbox, message: current_message)
+          result = builder.build
+
+          expect(result).to eq('"Atención al Paciente, Medicina y Cirugía" <care@example.com>')
+
+          mail = Mail.new(from: result)
+          expect(mail.smtp_envelope_from).to eq('care@example.com')
+        end
       end
 
       context 'with Microsoft OAuth configuration' do
