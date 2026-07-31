@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Integrations::BaseController
   include Shopify::IntegrationHelper
   before_action :ensure_shopify_enabled
-  before_action :setup_shopify_context, only: [:orders]
+  before_action -> { Shopify::ApiContext.setup! }, only: [:orders]
   before_action :fetch_hook, except: [:complete_install]
   before_action :check_authorization, only: [:complete_install, :destroy]
   before_action :validate_contact, only: [:orders]
@@ -123,25 +123,15 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
     end
   end
 
-  def setup_shopify_context
-    return if client_id.blank? || client_secret.blank?
-
-    ShopifyAPI::Context.setup(
-      api_key: client_id,
-      api_secret_key: client_secret,
-      api_version: '2025-01'.freeze,
-      scope: REQUIRED_SCOPES.join(','),
-      is_embedded: true,
-      is_private: false
-    )
-  end
-
   def shopify_session
     ShopifyAPI::Auth::Session.new(shop: @hook.reference_id, access_token: @hook.access_token)
   end
 
   def shopify_client
-    @shopify_client ||= ShopifyAPI::Clients::Rest::Admin.new(session: shopify_session)
+    @shopify_client ||= ShopifyAPI::Clients::Rest::Admin.new(
+      session: shopify_session,
+      api_version: Shopify::ApiContext::API_VERSION
+    )
   end
 
   def validate_contact
