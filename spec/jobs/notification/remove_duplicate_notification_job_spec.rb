@@ -19,4 +19,28 @@ RSpec.describe Notification::RemoveDuplicateNotificationJob do
     described_class.perform_now(duplicate_notification)
     expect(Notification.count).to eq(1)
   end
+
+  it 'preserves bot handoff event ids on the retained notification' do
+    event_id = Time.zone.now.iso8601(6)
+    create(
+      :notification,
+      user: user,
+      notification_type: 'conversation_creation',
+      primary_actor: conversation,
+      created_at: 1.minute.ago,
+      meta: { 'bot_handoff_event_ids' => [event_id] }
+    )
+    duplicate_notification = create(
+      :notification,
+      user: user,
+      notification_type: 'conversation_assignment',
+      primary_actor: conversation,
+      created_at: Time.current
+    )
+
+    described_class.perform_now(duplicate_notification)
+
+    expect(Notification.count).to eq(1)
+    expect(duplicate_notification.reload.meta['bot_handoff_event_ids']).to contain_exactly(event_id)
+  end
 end
