@@ -1,5 +1,5 @@
 class Shopify::PartnerClient
-  DEFAULT_API_VERSION = '2026-07'.freeze
+  DEFAULT_API_VERSION = Shopify::PartnerConfiguration::DEFAULT_API_VERSION
   REQUEST_TIMEOUT = 5
   SUBSCRIPTION_EVENT_TYPES = %w[
     SUBSCRIPTION_CANCELED
@@ -97,35 +97,23 @@ class Shopify::PartnerClient
   end
 
   def organization_id
-    value = required_config('SHOPIFY_PARTNER_ORGANIZATION_ID')
-    raise ConfigurationError, 'SHOPIFY_PARTNER_ORGANIZATION_ID must be numeric' unless value.match?(/\A\d+\z/)
-
-    value
+    configuration.organization_id
   end
 
   def app_id
-    value = required_config('SHOPIFY_PARTNER_APP_ID')
-    raise ConfigurationError, 'SHOPIFY_PARTNER_APP_ID must be a Shopify App GID' unless value.match?(%r{\Agid://shopify/App/\d+\z})
-
-    value
+    configuration.app_id
   end
 
   def access_token
-    required_config('SHOPIFY_PARTNER_ACCESS_TOKEN')
+    configuration.access_token
   end
 
   def api_version
-    value = GlobalConfigService.load('SHOPIFY_PARTNER_API_VERSION', DEFAULT_API_VERSION).to_s
-    raise ConfigurationError, 'SHOPIFY_PARTNER_API_VERSION must use YYYY-MM format' unless value.match?(/\A\d{4}-\d{2}\z/)
-
-    value
+    configuration.api_version
   end
 
-  def required_config(name)
-    value = GlobalConfigService.load(name, nil).to_s
-    raise ConfigurationError, "#{name} is required" if value.blank?
-
-    value
+  def configuration
+    @configuration ||= Shopify::PartnerConfiguration.current
   end
 
   def validate_response!(response)

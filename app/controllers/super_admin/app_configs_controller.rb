@@ -26,8 +26,9 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   end
 
   def create
-    errors = []
+    errors = shopify_partner_config_errors
     params['app_config'].each do |key, value|
+      break if errors.any?
       next unless @allowed_configs.include?(key)
 
       i = InstallationConfig.where(name: key).first_or_create(value: value, locked: false)
@@ -68,6 +69,19 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       @config,
       %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE WIDGET_TOKEN_EXPIRY]
     )
+  end
+
+  def shopify_partner_config_errors
+    return [] unless @config == 'shopify'
+
+    saved_values = InstallationConfig.where(name: Shopify::PartnerConfiguration::KEYS).each_with_object({}) do |config, values|
+      values[config.name] = config.value
+    end
+    submitted_values = params.fetch('app_config', {}).permit(*SHOPIFY_CONFIGS).to_h
+    Shopify::PartnerConfiguration.validate_for_save!(saved_values.merge(submitted_values))
+    []
+  rescue Shopify::PartnerClient::ConfigurationError => e
+    [e.message]
   end
 
   def success_notice
