@@ -48,7 +48,9 @@ describe('WhatsAppTemplateParser', () => {
 
     expect(wrapper.emitted('sendMessage')[0][0]).toMatchObject({
       message: '{{1}} / {{2}}',
+      pendingMessageContent: '{{2}} / Bob',
       templateParams: {
+        content_mode: 'raw_template',
         processed_params: {
           body: {
             1: '{{2}}',
@@ -64,6 +66,12 @@ describe('WhatsAppTemplateParser', () => {
 
     wrapper.vm.sendMessage();
 
-    expect(wrapper.emitted('sendMessage')[0][0].message).toBe('{{2}} / Bob');
+    expect(wrapper.emitted('sendMessage')[0][0]).toMatchObject({
+      message: '{{2}} / Bob',
+      pendingMessageContent: '{{2}} / Bob',
+      templateParams: {
+        content_mode: 'rendered',
+      },
+    });
   });
 });

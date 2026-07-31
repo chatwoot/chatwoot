@@ -93,6 +93,7 @@ shared_examples_for 'liqudable' do
             'template_params' => {
               'name' => 'welcome',
               'language' => 'en',
+              'content_mode' => 'raw_template',
               'processed_params' => {
                 'body' => {
                   '1' => 'Ahmad',
@@ -105,6 +106,8 @@ shared_examples_for 'liqudable' do
           message.save!
 
           expect(message.content).to eq 'Hello Ahmad, Furqan is your contact.'
+          expect(message.processed_message_content).to eq 'Hello Ahmad, Furqan is your contact.'
+          expect(message.additional_attributes.dig('template_params', 'content_mode')).to eq 'rendered'
         end
 
         it 'replaces named placeholders in the saved content' do
@@ -113,6 +116,7 @@ shared_examples_for 'liqudable' do
             'template_params' => {
               'name' => 'welcome',
               'language' => 'en',
+              'content_mode' => 'raw_template',
               'processed_params' => {
                 'body' => {
                   'customer_name' => 'Ahmad',
@@ -133,6 +137,7 @@ shared_examples_for 'liqudable' do
             'template_params' => {
               'name' => 'welcome',
               'language' => 'en',
+              'content_mode' => 'raw_template',
               'processed_params' => {
                 'body' => {}
               }
@@ -150,6 +155,7 @@ shared_examples_for 'liqudable' do
             'template_params' => {
               'name' => 'welcome',
               'language' => 'en',
+              'content_mode' => 'raw_template',
               'processed_params' => {
                 'body' => {
                   '1' => '{{contact.name}}'
@@ -170,6 +176,7 @@ shared_examples_for 'liqudable' do
             'template_params' => {
               'name' => 'welcome',
               'language' => 'en',
+              'content_mode' => 'raw_template',
               'processed_params' => {
                 'body' => {
                   '1' => '{{contact.name}}'
@@ -190,6 +197,7 @@ shared_examples_for 'liqudable' do
             'template_params' => {
               'name' => 'receipt',
               'language' => 'en',
+              'content_mode' => 'raw_template',
               'processed_params' => {
                 'body' => {
                   '1' => {
@@ -221,6 +229,7 @@ shared_examples_for 'liqudable' do
             'template_params' => {
               'name' => 'verification_code',
               'language' => 'en',
+              'content_mode' => 'raw_template',
               'processed_params' => {
                 'body' => {
                   '1' => '123456'
@@ -240,6 +249,7 @@ shared_examples_for 'liqudable' do
             'template_params' => {
               'name' => 'welcome',
               'language' => 'en',
+              'content_mode' => 'raw_template',
               'processed_params' => {
                 '1' => 'Ahmad',
                 '2' => 'Furqan'
@@ -250,6 +260,46 @@ shared_examples_for 'liqudable' do
           message.save!
 
           expect(message.content).to eq 'Hello Ahmad, Furqan is your contact.'
+        end
+
+        it 'rejects raw template content that exceeds the content limit after rendering' do
+          message.content = '{{1}}'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'oversized',
+              'language' => 'en',
+              'content_mode' => 'raw_template',
+              'processed_params' => {
+                'body' => {
+                  '1' => 'a' * 150_001
+                }
+              }
+            }
+          }
+
+          expect(message).not_to be_valid
+          expect(message.errors[:content]).to include('is too long (maximum is 150000 characters)')
+        end
+
+        it 'preserves rendered content from clients that do not opt into raw template rendering' do
+          message.content = '{{2}} / Bob'
+          message.additional_attributes = {
+            'template_params' => {
+              'name' => 'token_values',
+              'language' => 'en',
+              'processed_params' => {
+                'body' => {
+                  '1' => '{{2}}',
+                  '2' => 'Bob'
+                }
+              }
+            }
+          }
+
+          message.save!
+
+          expect(message.content).to eq '2 / Bob'
+          expect(message.additional_attributes.dig('template_params', 'processed_params', 'body', '1')).to eq '2'
         end
       end
 

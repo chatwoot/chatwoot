@@ -2,7 +2,8 @@ module Liquidable
   extend ActiveSupport::Concern
 
   included do
-    before_create :process_liquid_in_content
+    before_validation :process_liquid_in_content, on: :create, if: :raw_whatsapp_template_content?
+    before_create :process_liquid_in_content, unless: :liquid_content_processed?
     before_create :process_liquid_in_template_params
   end
 
@@ -25,15 +26,36 @@ module Liquidable
   def process_liquid_in_content
     return unless liquid_processable_message?
 
-    content_to_render, template_replacements = whatsapp_template_message? ? whatsapp_template_content : [content, {}]
-
-    template = Liquid::Template.parse(modified_liquid_content(content_to_render))
-    rendered_content = template.render(message_drops)
-    self.content = template_replacements.reduce(rendered_content) do |result, (placeholder, value)|
-      result.gsub(placeholder) { value }
-    end
+    raw_whatsapp_template_content = raw_whatsapp_template_content?
+    self.content = if raw_whatsapp_template_content
+                     Whatsapp::TemplateContentRendererService.new(
+                       content: content,
+                       body_params: whatsapp_template_body_params,
+                       value_renderer: method(:process_liquid_value),
+                       message_drops: message_drops
+                     ).perform
+                   else
+                     Liquid::Template.parse(modified_liquid_content(content)).render(message_drops)
+                   end
+    mark_whatsapp_template_content_rendered if raw_whatsapp_template_content
+    @liquid_content_processed = true
   rescue Liquid::Error
     # If there is an error in the liquid syntax, we don't want to process it
+  end
+
+  def liquid_content_processed?
+    @liquid_content_processed
+  end
+
+  def mark_whatsapp_template_content_rendered
+    self.additional_attributes = additional_attributes.merge(
+      'template_params' => template_params_data.merge('content_mode' => 'rendered')
+    )
+  end
+
+  def raw_whatsapp_template_content?
+    inbox&.channel_type == 'Channel::Whatsapp' &&
+      additional_attributes&.dig('template_params', 'content_mode') == 'raw_template'
   end
 
   def modified_liquid_content(message_content)
@@ -65,33 +87,6 @@ module Liquidable
 
   def template_params_data
     additional_attributes['template_params']
-  end
-
-  def whatsapp_template_message?
-    inbox.channel_type == 'Channel::Whatsapp' && additional_attributes&.dig('template_params').is_a?(Hash)
-  end
-
-  def whatsapp_template_content
-    body_params = whatsapp_template_body_params
-    rendered_params = {}
-
-    content_to_render = content.gsub(/{{\s*([^}]+?)\s*}}/) do |placeholder|
-      key = Regexp.last_match(1)
-
-      if body_params.key?(key)
-        rendered_value = process_liquid_value(body_params[key])
-        structured_value = rendered_value.is_a?(Hash) && %w[currency date_time].include?(rendered_value['type'])
-        replacement_key = "__chatwoot_whatsapp_template_param_#{SecureRandom.hex(8)}__"
-        rendered_params[replacement_key] = structured_value ? rendered_value['fallback_value'].to_s : rendered_value.to_s
-        replacement_key
-      elsif key.match?(/\A(?:\d+|[a-z][a-z0-9_]*)\z/)
-        "{% raw %}#{placeholder}{% endraw %}"
-      else
-        placeholder
-      end
-    end
-
-    [content_to_render, rendered_params]
   end
 
   def whatsapp_template_body_params
