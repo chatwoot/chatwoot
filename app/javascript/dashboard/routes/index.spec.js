@@ -249,6 +249,7 @@ describe('#validateAuthenticateRoutePermission', () => {
           billing_provider: 'shopify',
           shopify_integration: true,
           subscription_status: 'active',
+          shopify_shop_domain: 'store.myshopify.com',
         };
         const to = {
           params: {},
@@ -262,6 +263,32 @@ describe('#validateAuthenticateRoutePermission', () => {
 
         expect(next).toHaveBeenCalledWith(
           '/app/accounts/1/settings/billing?plan_handle=growth&shop=store.myshopify.com'
+        );
+      });
+
+      it('routes raw Shopify return parameters to the matching account', async () => {
+        store.getters.getCurrentUser.accounts.push({
+          id: 2,
+          role: 'administrator',
+          permissions: ['administrator'],
+          status: 'active',
+          billing_provider: 'shopify',
+          shopify_integration: true,
+          subscription_status: 'active',
+          shopify_shop_domain: 'second-store.myshopify.com',
+        });
+        const to = {
+          params: {},
+          query: {
+            plan_handle: 'growth',
+            shop: 'second-store.myshopify.com',
+          },
+        };
+
+        await validateAuthenticateRoutePermission(to, next);
+
+        expect(next).toHaveBeenCalledWith(
+          '/app/accounts/2/settings/billing?plan_handle=growth&shop=second-store.myshopify.com'
         );
       });
 

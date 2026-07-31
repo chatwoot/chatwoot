@@ -4,11 +4,8 @@ module Enterprise::Shopify::UninstallationService
   def uninstall
     return super unless shopify_billed_account?
 
-    begin
-      Enterprise::Billing::ShopifySubscriptionSyncService.new(account: account).perform(snapshot: uninstall_snapshot)
-    ensure
-      revoke_credentials
-    end
+    revoke_credentials
+    Enterprise::Billing::ShopifySubscriptionSyncService.new(account: account).perform(snapshot: uninstall_snapshot)
   end
 
   def shopify_billed_account?
