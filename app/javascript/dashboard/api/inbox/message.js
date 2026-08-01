@@ -6,6 +6,7 @@ export const buildCreatePayload = ({
   message,
   isPrivate,
   contentAttributes,
+  contentType,
   echoId,
   files,
   ccEmails = '',
@@ -34,6 +35,9 @@ export const buildCreatePayload = ({
     if (contentAttributes) {
       payload.append('content_attributes', JSON.stringify(contentAttributes));
     }
+    if (contentType) {
+      payload.append('content_type', contentType);
+    }
     if (isVoiceMessage) {
       payload.append('is_voice_message', true);
     }
@@ -43,6 +47,7 @@ export const buildCreatePayload = ({
       private: isPrivate,
       echo_id: echoId,
       content_attributes: contentAttributes,
+      content_type: contentType,
       cc_emails: ccEmails,
       bcc_emails: bccEmails,
       to_emails: toEmails,
@@ -62,6 +67,7 @@ class MessageApi extends ApiClient {
     message,
     private: isPrivate,
     contentAttributes,
+    contentType,
     echo_id: echoId,
     files,
     ccEmails = '',
@@ -77,6 +83,7 @@ class MessageApi extends ApiClient {
         message,
         isPrivate,
         contentAttributes,
+        contentType,
         echoId,
         files,
         ccEmails,

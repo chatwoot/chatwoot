@@ -92,6 +92,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    enableInteractiveMessages: {
+      type: Boolean,
+      default: false,
+    },
     conversationId: {
       type: Number,
       required: true,
@@ -130,6 +134,7 @@ export default {
     'toggleInsertArticle',
     'selectWhatsappTemplate',
     'selectContentTemplate',
+    'selectInteractiveMessage',
     'toggleQuotedReply',
   ],
   setup(props) {
@@ -366,6 +371,15 @@ export default {
         faded
         sm
         @click="$emit('selectContentTemplate')"
+      />
+      <NextButton
+        v-if="enableInteractiveMessages"
+        v-tooltip.top-end="$t('CONVERSATION.FOOTER.INTERACTIVE_MESSAGES')"
+        icon="i-lucide-layout-list"
+        slate
+        faded
+        sm
+        @click="$emit('selectInteractiveMessage')"
       />
       <VideoCallButton
         v-if="

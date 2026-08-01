@@ -4,6 +4,9 @@ import ChatCard from 'shared/components/ChatCard.vue';
 import ChatForm from 'shared/components/ChatForm.vue';
 import ChatOptions from 'shared/components/ChatOptions.vue';
 import ChatArticle from './template/Article.vue';
+import InteractiveCtaUrl from './template/InteractiveCtaUrl.vue';
+import InteractiveButtonsMessage from './template/InteractiveButtonsMessage.vue';
+import InteractiveListMessage from './template/InteractiveListMessage.vue';
 import EmailInput from './template/EmailInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 import IntegrationCard from './template/IntegrationCard.vue';
@@ -15,6 +18,9 @@ export default {
     ChatCard,
     ChatForm,
     ChatOptions,
+    InteractiveCtaUrl,
+    InteractiveButtonsMessage,
+    InteractiveListMessage,
     EmailInput,
     CustomerSatisfaction,
     IntegrationCard,
@@ -51,6 +57,15 @@ export default {
     },
     isOptions() {
       return this.contentType === 'input_select';
+    },
+    isCtaUrl() {
+      return this.contentType === 'cta_url';
+    },
+    isInteractiveButtons() {
+      return this.contentType === 'interactive_buttons';
+    },
+    isInteractiveList() {
+      return this.contentType === 'interactive_list';
     },
     isForm() {
       return this.contentType === 'form';
@@ -93,7 +108,15 @@ export default {
   <div class="chat-bubble-wrap">
     <div
       v-if="
-        !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
+        !isCards &&
+        !isOptions &&
+        !isCtaUrl &&
+        !isInteractiveButtons &&
+        !isInteractiveList &&
+        !isForm &&
+        !isArticle &&
+        !isCards &&
+        !isCSAT
       "
       class="chat-bubble agent bg-n-background dark:bg-n-solid-3 text-n-slate-12"
     >
@@ -121,6 +144,21 @@ export default {
         @option-select="onOptionSelect"
       />
     </div>
+    <InteractiveCtaUrl
+      v-if="isCtaUrl"
+      :message="message"
+      :message-content-attributes="messageContentAttributes"
+    />
+    <InteractiveButtonsMessage
+      v-if="isInteractiveButtons"
+      :message="message"
+      :message-content-attributes="messageContentAttributes"
+    />
+    <InteractiveListMessage
+      v-if="isInteractiveList"
+      :message="message"
+      :message-content-attributes="messageContentAttributes"
+    />
     <ChatForm
       v-if="isForm && !messageContentAttributes.submitted_values"
       :items="messageContentAttributes.items"
@@ -129,6 +167,15 @@ export default {
       @submit="onFormSubmit"
     />
     <div v-if="isCards">
+      <div
+        v-if="message"
+        class="chat-bubble agent bg-n-background dark:bg-n-solid-3 text-n-slate-12 mb-2"
+      >
+        <div
+          v-dompurify-html="formatMessage(message, false)"
+          class="message-content text-n-slate-12"
+        />
+      </div>
       <ChatCard
         v-for="item in messageContentAttributes.items"
         :key="item.title"

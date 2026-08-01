@@ -40,6 +40,10 @@ import DyteBubble from './bubbles/Dyte.vue';
 import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
+import CardsBubble from './bubbles/Cards.vue';
+import CtaUrlBubble from './bubbles/CtaUrl.vue';
+import InteractiveListBubble from './bubbles/InteractiveList.vue';
+import InteractiveButtonsBubble from './bubbles/InteractiveButtons.vue';
 import VoiceCallBubble from './bubbles/VoiceCall.vue';
 
 import MessageError from './MessageError.vue';
@@ -304,6 +308,22 @@ const componentToRender = computed(() => {
     [CONTENT_TYPES.INPUT_SELECT, CONTENT_TYPES.FORM].includes(props.contentType)
   ) {
     return FormBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.CARDS) {
+    return CardsBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.CTA_URL) {
+    return CtaUrlBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.INTERACTIVE_LIST) {
+    return InteractiveListBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.INTERACTIVE_BUTTONS) {
+    return InteractiveButtonsBubble;
   }
 
   if (props.contentType === CONTENT_TYPES.VOICE_CALL) {

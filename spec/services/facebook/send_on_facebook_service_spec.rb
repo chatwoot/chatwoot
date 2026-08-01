@@ -7,6 +7,9 @@ describe Facebook::SendOnFacebookService do
     allow(Facebook::Messenger::Subscriptions).to receive(:subscribe).and_return(true)
     allow(bot).to receive(:deliver).and_return({ recipient_id: '1008372609250235', message_id: 'mid.1456970487936:c34767dfe57ee6e339' }.to_json)
     create(:message, message_type: :incoming, inbox: facebook_inbox, account: account, conversation: conversation)
+    config = InstallationConfig.find_or_initialize_by(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
+    config.value = false
+    config.save!
     GlobalConfig.clear_cache
   end
 
@@ -100,14 +103,17 @@ describe Facebook::SendOnFacebookService do
       end
 
       it 'sends with HUMAN_AGENT tag when ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT is enabled' do
-        with_modified_env ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT: 'true' do
-          message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
-          described_class.new(message: message).perform
-          expect(bot).to have_received(:deliver).with(
-            hash_including(messaging_type: 'MESSAGE_TAG', tag: 'HUMAN_AGENT'),
-            { page_id: facebook_channel.page_id }
-          )
-        end
+        config = InstallationConfig.find_or_initialize_by(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
+        config.value = true
+        config.save!
+        GlobalConfig.clear_cache
+
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
+        described_class.new(message: message).perform
+        expect(bot).to have_received(:deliver).with(
+          hash_including(messaging_type: 'MESSAGE_TAG', tag: 'HUMAN_AGENT'),
+          { page_id: facebook_channel.page_id }
+        )
       end
 
       it 'if message is sent with multiple attachments' do
@@ -211,6 +217,91 @@ describe Facebook::SendOnFacebookService do
                                                       },
                                                       messaging_type: 'RESPONSE'
                                                     }, { page_id: facebook_channel.page_id })
+      end
+    end
+
+    context 'with cards (generic template)' do
+      it 'sends generic template message for cards content type' do
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation,
+                                   content_type: 'cards',
+                                   content_attributes: {
+                                     'items' => [
+                                       {
+                                         'title' => 'Card 1',
+                                         'description' => 'Description 1',
+                                         'media_url' => 'https://example.com/img1.jpg',
+                                         'actions' => [
+                                           { 'type' => 'url', 'text' => 'Visit', 'uri' => 'https://example.com' }
+                                         ]
+                                       }
+                                     ]
+                                   })
+
+        described_class.new(message: message).perform
+        expect(bot).to have_received(:deliver).with(
+          hash_including(
+            message: hash_including(
+              attachment: hash_including(
+                type: 'template',
+                payload: hash_including(template_type: 'generic')
+              )
+            )
+          ),
+          { page_id: facebook_channel.page_id }
+        )
+      end
+    end
+
+    context 'with interactive_buttons' do
+      it 'sends button template message for interactive_buttons content type' do
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation,
+                                   content_type: 'interactive_buttons',
+                                   content: 'Choose an option',
+                                   content_attributes: {
+                                     'body_text' => 'Please select:',
+                                     'buttons' => [
+                                       { 'id' => 'btn_1', 'text' => 'Option A', 'type' => 'reply' },
+                                       { 'id' => 'btn_2', 'text' => 'Option B', 'type' => 'reply' }
+                                     ]
+                                   })
+
+        described_class.new(message: message).perform
+        expect(bot).to have_received(:deliver).with(
+          hash_including(
+            message: hash_including(
+              attachment: hash_including(
+                type: 'template',
+                payload: hash_including(template_type: 'generic')
+              )
+            )
+          ),
+          { page_id: facebook_channel.page_id }
+        )
+      end
+    end
+
+    context 'with cta_url' do
+      it 'sends CTA URL generic template message for cta_url content type' do
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation,
+                                   content_type: 'cta_url',
+                                   content: 'Visit our site',
+                                   content_attributes: {
+                                     'body_text' => 'Check our website',
+                                     'action' => { 'text' => 'Visit Now', 'uri' => 'https://example.com' }
+                                   })
+
+        described_class.new(message: message).perform
+        expect(bot).to have_received(:deliver).with(
+          hash_including(
+            message: hash_including(
+              attachment: hash_including(
+                type: 'template',
+                payload: hash_including(template_type: 'generic')
+              )
+            )
+          ),
+          { page_id: facebook_channel.page_id }
+        )
       end
     end
   end

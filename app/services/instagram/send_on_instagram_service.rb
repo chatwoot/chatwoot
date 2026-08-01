@@ -11,10 +11,14 @@ class Instagram::SendOnInstagramService < Instagram::BaseSendService
     access_token = channel.access_token
     query = { access_token: access_token }
     instagram_id = channel.instagram_id.presence || 'me'
+    request_body = message_content.to_json
+
+    Rails.logger.info("Instagram request to #{instagram_id}/messages: #{request_body}")
 
     response = HTTParty.post(
       "https://graph.instagram.com/v22.0/#{instagram_id}/messages",
-      body: message_content,
+      body: request_body,
+      headers: { 'Content-Type' => 'application/json' },
       query: query
     )
 

@@ -36,6 +36,26 @@ const isEmpty = computed(() => {
   return !content.value && !attachments.value?.length;
 });
 
+const selectedReply = computed(
+  () => contentAttributes.value?.selected_reply || {}
+);
+
+const selectedReplyCardTitle = computed(
+  () => selectedReply.value?.card_title || ''
+);
+
+const selectedReplyCardDescription = computed(
+  () => selectedReply.value?.card_description || ''
+);
+
+const selectedReplySectionTitle = computed(
+  () => selectedReply.value?.section_title || ''
+);
+
+const hasSelectedReplyContext = computed(() => {
+  return !!(selectedReplyCardTitle.value || selectedReplySectionTitle.value);
+});
+
 const handleSeeOriginal = () => {
   renderOriginal.value = !renderOriginal.value;
 };
@@ -48,6 +68,34 @@ const handleSeeOriginal = () => {
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
       <FormattedContent v-if="renderContent" :content="renderContent" />
+      <div
+        v-if="hasSelectedReplyContext"
+        class="px-3 py-2 rounded-lg bg-n-alpha-2 flex flex-col gap-1 text-sm"
+      >
+        <p v-if="selectedReplyCardTitle" class="text-n-slate-12 font-medium">
+          {{
+            $t('CONVERSATION.SELECTED_REPLY_CONTEXT.ITEM', {
+              title: selectedReplyCardTitle,
+            })
+          }}
+        </p>
+        <p
+          v-if="selectedReplyCardDescription"
+          class="text-n-slate-11 whitespace-pre-wrap break-words"
+        >
+          {{ selectedReplyCardDescription }}
+        </p>
+        <p
+          v-if="selectedReplySectionTitle"
+          class="text-n-slate-11 whitespace-pre-wrap break-words"
+        >
+          {{
+            $t('CONVERSATION.SELECTED_REPLY_CONTEXT.SECTION', {
+              title: selectedReplySectionTitle,
+            })
+          }}
+        </p>
+      </div>
       <TranslationToggle
         v-if="hasTranslations"
         class="-mt-3"

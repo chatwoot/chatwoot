@@ -11,7 +11,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   retry_on_lock_conflict wait: ->(executions) { executions.seconds }, attempts: 3, on_exhaustion: :process_without_lock
 
   # @return [Array] We will support further events like reaction or seen in future
-  SUPPORTED_EVENTS = [:message, :read].freeze
+  SUPPORTED_EVENTS = [:message, :read, :postback].freeze
 
   def perform(entries)
     @entries = entries
@@ -40,12 +40,45 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   private
 
   def process_single_entry(entry)
-    if test_event?(entry)
+    if entry[:changes].present?
+      handled = process_changes(entry[:changes])
+      return if handled
+
       process_test_event(entry)
       return
     end
 
     process_messages(entry)
+  end
+
+  # Some webhook events (e.g. postback / quick-reply clicks) arrive via the
+  # "changes" array shape instead of the familiar "messaging" array, even in
+  # production (not just Meta's test payloads). Route the fields we know
+  # about here; anything else falls through to process_test_event as before.
+  def process_changes(changes)
+    postback_changes = changes.select { |change| change[:field] == 'messaging_postbacks' }
+    postback_changes.each { |change| process_postback_change(change) }
+    postback_changes.present?
+  end
+
+  def process_postback_change(change)
+    value = change[:value]&.with_indifferent_access
+    return if value.blank?
+
+    channel = find_channel(value.dig(:recipient, :id))
+    if channel.blank?
+      Rails.logger.info("[IG Webhook] skip postback: no channel for recipient #{value.dig(:recipient, :id)}")
+      return
+    end
+
+    messaging = {
+      sender: value[:sender],
+      recipient: value[:recipient],
+      timestamp: value[:timestamp],
+      postback: value[:postback]
+    }.with_indifferent_access
+
+    postback(messaging, channel)
   end
 
   def process_messages(entry)
@@ -140,6 +173,16 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   def read(messaging, channel)
     # Use a single service to handle read status for both channel types since the params are same
     ::Instagram::ReadStatusService.new(params: messaging, channel: channel).perform
+  end
+
+  # Quick reply / interactive button clicks
+  # https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_postbacks
+  def postback(messaging, channel)
+    if channel.is_a?(Channel::Instagram)
+      ::Instagram::PostbackEvent.new(messaging, channel).perform
+    else
+      ::Instagram::Messenger::PostbackEvent.new(messaging, channel).perform
+    end
   end
 
   def messages(entry)

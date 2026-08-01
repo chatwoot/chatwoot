@@ -29,6 +29,7 @@ import {
 } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import ContentTemplates from './ContentTemplates/ContentTemplatesModal.vue';
+import InteractiveMessages from './InteractiveMessages/Modal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
@@ -77,6 +78,7 @@ export default {
     ReplyTopPanel,
     ContentTemplates,
     WhatsappTemplates,
+    InteractiveMessages,
     WootMessageEditor,
     QuotedEmailPreview,
     CopilotEditorSection,
@@ -127,6 +129,7 @@ export default {
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       showContentTemplatesModal: false,
+      showInteractiveMessagesModal: false,
       updateEditorSelectionWith: '',
       undefinedVariableMessage: '',
       showMentions: false,
@@ -171,6 +174,20 @@ export default {
     },
     showContentTemplates() {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
+    },
+    isANativeWhatsAppChannel() {
+      return this.isAWhatsAppChannel && !this.isATwilioWhatsAppChannel;
+    },
+    showInteractiveMessages() {
+      // Unlike WhatsApp templates, these are regular session messages,
+      // so they require the messaging window to be open.
+      return (
+        (this.isANativeWhatsAppChannel ||
+          this.isAFacebookInbox ||
+          this.isAnInstagramChannel) &&
+        !this.isPrivate &&
+        !this.isEditorDisabled
+      );
     },
     isWithinMessagingWindow() {
       return !!(
@@ -796,6 +813,12 @@ export default {
     hideContentTemplatesModal() {
       this.showContentTemplatesModal = false;
     },
+    openInteractiveMessagesModal() {
+      this.showInteractiveMessagesModal = true;
+    },
+    hideInteractiveMessagesModal() {
+      this.showInteractiveMessagesModal = false;
+    },
     confirmOnSendReply() {
       if (this.isReplyButtonDisabled) {
         return;
@@ -950,6 +973,13 @@ export default {
         ...messagePayload,
       });
       this.hideContentTemplatesModal();
+    },
+    async onSendInteractiveMessage(messagePayload) {
+      this.sendMessage({
+        conversationId: this.currentChat.id,
+        ...messagePayload,
+      });
+      this.hideInteractiveMessagesModal();
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       // Clear attachments when switching between private note and reply modes
@@ -1433,6 +1463,7 @@ export default {
         :enable-multiple-file-upload="enableMultipleFileUpload"
         :enable-whats-app-templates="showWhatsappTemplates"
         :enable-content-templates="showContentTemplates"
+        :enable-interactive-messages="showInteractiveMessages"
         :inbox="inbox"
         :is-on-private-note="isOnPrivateNote"
         :is-recording-audio="isRecordingAudio"
@@ -1458,6 +1489,7 @@ export default {
         :new-conversation-modal-active="newConversationModalActive"
         @select-whatsapp-template="openWhatsappTemplateModal"
         @select-content-template="openContentTemplateModal"
+        @select-interactive-message="openInteractiveMessagesModal"
         @toggle-insert-article="toggleInsertArticle"
         @toggle-quoted-reply="toggleQuotedReply"
       />
@@ -1477,6 +1509,15 @@ export default {
       @close="hideContentTemplatesModal"
       @on-send="onSendContentTemplateReply"
       @cancel="hideContentTemplatesModal"
+    />
+
+    <InteractiveMessages
+      :show="showInteractiveMessagesModal"
+      :allow-list-type="isANativeWhatsAppChannel"
+      :is-instagram="isAnInstagramChannel"
+      @close="hideInteractiveMessagesModal"
+      @on-send="onSendInteractiveMessage"
+      @cancel="hideInteractiveMessagesModal"
     />
 
     <woot-confirm-modal

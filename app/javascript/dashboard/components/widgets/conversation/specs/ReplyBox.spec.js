@@ -4,6 +4,7 @@ import { nextTick } from 'vue';
 import { createStore } from 'vuex';
 import ReplyBox from '../ReplyBox.vue';
 import WhatsappTemplates from '../WhatsappTemplates/Modal.vue';
+import InteractiveMessages from '../InteractiveMessages/Modal.vue';
 
 const CHANNELS = [
   { name: 'WhatsApp Cloud', inbox: { channel_type: 'Channel::Whatsapp' } },
@@ -259,6 +260,16 @@ describe('ReplyBox', () => {
     });
 
     expect(bottomPanel(wrapper).enableContentTemplates).toBe(true);
+  });
+
+  it('passes the Instagram channel to the interactive messages modal', () => {
+    const { wrapper } = mountWith({
+      inbox: { channel_type: 'Channel::Instagram' },
+    });
+
+    expect(wrapper.findComponent(InteractiveMessages).props('isInstagram')).toBe(
+      true
+    );
   });
 
   describe('on selecting a conversation', () => {

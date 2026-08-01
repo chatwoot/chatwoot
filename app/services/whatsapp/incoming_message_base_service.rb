@@ -170,15 +170,16 @@ class Whatsapp::IncomingMessageBaseService
       status: outgoing_echo ? :delivered : :sent,
       sender: outgoing_echo ? nil : @contact,
       source_id: (source_id || message[:id]).to_s,
-      content_attributes: message_content_attributes(content_attributes_source)
+      content_attributes: message_content_attributes(content_attributes_source, message)
     )
   end
 
-  def message_content_attributes(message)
+  def message_content_attributes(content_attributes_source, message = content_attributes_source)
     content_attrs = outgoing_echo ? { external_echo: true } : {}
     content_attrs[:in_reply_to] = @in_reply_to_message_id if @in_reply_to_message_id.present?
     content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
-    referral_content_attrs = referral_attributes(message)
+    content_attrs.merge!(interactive_reply_attributes(message))
+    referral_content_attrs = referral_attributes(content_attributes_source)
     content_attrs[:referral] = referral_content_attrs if referral_content_attrs.present?
     content_attrs
   end

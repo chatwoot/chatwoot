@@ -153,14 +153,19 @@ describe Whatsapp::Providers::WhatsappCloudService do
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', to: '+123456789',
+              messaging_product: 'whatsapp', context: nil, to: '+123456789',
               interactive: {
                 type: 'button',
                 body: {
                   text: 'test'
                 },
-                action: '{"buttons":[{"type":"reply","reply":{"id":"Burito","title":"Burito"}},{"type":"reply",' \
-                        '"reply":{"id":"Pasta","title":"Pasta"}},{"type":"reply","reply":{"id":"Sushi","title":"Sushi"}}]}'
+                action: {
+                  buttons: [
+                    { type: 'reply', reply: { id: 'Burito', title: 'Burito' } },
+                    { type: 'reply', reply: { id: 'Pasta', title: 'Pasta' } },
+                    { type: 'reply', reply: { id: 'Sushi', title: 'Sushi' } }
+                  ]
+                }
               }, type: 'interactive'
             }.to_json
           ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
@@ -175,12 +180,12 @@ describe Whatsapp::Providers::WhatsappCloudService do
         expected_action = {
           button: I18n.t('conversations.messages.whatsapp.list_button_label'),
           sections: [{ rows: %w[Burito Pasta Sushi Salad].map { |i| { id: i, title: i } } }]
-        }.to_json
+        }
 
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
             body: {
-              messaging_product: 'whatsapp', to: '+123456789',
+              messaging_product: 'whatsapp', context: nil, to: '+123456789',
               interactive: {
                 type: 'list',
                 body: {
@@ -191,6 +196,135 @@ describe Whatsapp::Providers::WhatsappCloudService do
               type: 'interactive'
             }.to_json
           ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+    end
+  end
+
+  describe '#send_interactive_buttons_message' do
+    context 'when called with interactive_buttons content type' do
+      it 'sends interactive buttons message to WhatsApp API' do
+        message = create(:message, message_type: :outgoing, content: 'Choose',
+                                   inbox: whatsapp_channel.inbox, content_type: 'interactive_buttons',
+                                   content_attributes: {
+                                     body_text: 'Select an option:',
+                                     header: { type: 'image', media_url: 'https://example.com/img.jpg' },
+                                     footer_text: 'Footer text',
+                                     buttons: [
+                                       { id: 'btn_1', text: 'Option A', type: 'reply' },
+                                       { id: 'btn_2', text: 'Option B', type: 'reply' }
+                                     ]
+                                   })
+
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: hash_including({
+                                   messaging_product: 'whatsapp',
+                                   context: nil,
+                                   to: '+123456789',
+                                   type: 'interactive'
+                                 })
+          )
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+    end
+  end
+
+  describe '#send_interactive_list_message' do
+    context 'when called with interactive_list content type' do
+      it 'sends interactive list message to WhatsApp API' do
+        message = create(:message, message_type: :outgoing, content: 'Choose',
+                                   inbox: whatsapp_channel.inbox, content_type: 'interactive_list',
+                                   content_attributes: {
+                                     body_text: 'Select from list:',
+                                     action: { button_text: 'View options' },
+                                     sections: [
+                                       {
+                                         title: 'Section 1',
+                                         rows: [
+                                           { id: 'row_1', title: 'Row A', description: 'First' },
+                                           { id: 'row_2', title: 'Row B', description: 'Second' }
+                                         ]
+                                       }
+                                     ]
+                                   })
+
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: hash_including({
+                                   messaging_product: 'whatsapp',
+                                   context: nil,
+                                   to: '+123456789',
+                                   type: 'interactive'
+                                 })
+          )
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+    end
+  end
+
+  describe '#send_interactive_cta_url_message' do
+    context 'when called with cta_url content type' do
+      it 'sends CTA URL message to WhatsApp API' do
+        message = create(:message, message_type: :outgoing, content: 'Visit',
+                                   inbox: whatsapp_channel.inbox, content_type: 'cta_url',
+                                   content_attributes: {
+                                     body_text: 'Check our website',
+                                     action: { text: 'Visit Now', uri: 'https://example.com' }
+                                   })
+
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: hash_including({
+                                   messaging_product: 'whatsapp',
+                                   context: nil,
+                                   to: '+123456789',
+                                   type: 'interactive'
+                                 })
+          )
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+    end
+  end
+
+  describe '#send_interactive_carousel_message' do
+    context 'when called with cards content type containing url/reply actions' do
+      it 'sends carousel message to WhatsApp API' do
+        message = create(:message, message_type: :outgoing, content: 'Browse',
+                                   inbox: whatsapp_channel.inbox, content_type: 'cards',
+                                   content_attributes: {
+                                     body_text: 'Check these products',
+                                     items: [
+                                       {
+                                         title: 'Product 1',
+                                         media_url: 'https://example.com/1.jpg',
+                                         actions: [{ type: 'url', text: 'Buy', uri: 'https://example.com/1' }]
+                                       },
+                                       {
+                                         title: 'Product 2',
+                                         media_url: 'https://example.com/2.jpg',
+                                         actions: [{ type: 'url', text: 'Buy', uri: 'https://example.com/2' }]
+                                       }
+                                     ]
+                                   })
+
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(
+            body: hash_including({
+                                   messaging_product: 'whatsapp',
+                                   context: nil,
+                                   to: '+123456789',
+                                   type: 'interactive'
+                                 })
+          )
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
         expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
     end

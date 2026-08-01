@@ -10,6 +10,7 @@
 
 class Whatsapp::Providers::BaseService
   pattr_initialize [:whatsapp_channel!]
+  WHATSAPP_BUTTON_TITLE_MAX_LENGTH = 20
 
   def send_message(_phone_number, _message)
     raise 'Overwrite this method in child class'
@@ -71,7 +72,13 @@ class Whatsapp::Providers::BaseService
   def create_buttons(items)
     buttons = []
     items.each do |item|
-      button = { :type => 'reply', 'reply' => { 'id' => item['value'], 'title' => item['title'] } }
+      button = {
+        :type => 'reply',
+        'reply' => {
+          'id' => item['value'],
+          'title' => normalize_whatsapp_button_title(item['title'])
+        }
+      }
       buttons << button
     end
     buttons
@@ -107,7 +114,7 @@ class Whatsapp::Providers::BaseService
   def create_button_payload(message)
     buttons = create_buttons(message.content_attributes['items'])
     json_hash = { 'buttons' => buttons }
-    create_payload('button', message.outgoing_content, JSON.generate(json_hash))
+    create_payload('button', message.outgoing_content, json_hash)
   end
 
   def create_list_payload(message)
@@ -115,6 +122,48 @@ class Whatsapp::Providers::BaseService
     section1 = { 'rows' => rows }
     sections = [section1]
     json_hash = { :button => I18n.t('conversations.messages.whatsapp.list_button_label'), 'sections' => sections }
-    create_payload('list', message.outgoing_content, JSON.generate(json_hash))
+    create_payload('list', message.outgoing_content, json_hash)
+  end
+
+  def create_carousel_payload(message)
+    Whatsapp::CarouselPayloadBuilder.new(message).perform
+  end
+
+  def create_cta_url_payload(message)
+    Whatsapp::CtaUrlPayloadBuilder.new(message).perform
+  end
+
+  def create_interactive_buttons_payload(message)
+    Whatsapp::InteractiveButtonsPayloadBuilder.new(message).perform
+  end
+
+  def create_interactive_list_payload(message)
+    Whatsapp::InteractiveListPayloadBuilder.new(message).perform
+  end
+
+  def interactive_buttons_message?(message)
+    message.content_type == 'interactive_buttons'
+  end
+
+  def interactive_list_message?(message)
+    message.content_type == 'interactive_list'
+  end
+
+  def interactive_cta_url_message?(message)
+    message.content_type == 'cta_url'
+  end
+
+  def interactive_carousel_message?(message)
+    return false unless message.content_type == 'cards'
+
+    Array(message.content_attributes['items']).flat_map do |item|
+      Array(item['actions'] || item[:actions]).filter_map do |action|
+        action['type'] || action[:type]
+      end
+    end.intersect?(%w[url reply])
+  end
+
+  def normalize_whatsapp_button_title(title)
+    title.to_s.strip.first(WHATSAPP_BUTTON_TITLE_MAX_LENGTH)
   end
 end

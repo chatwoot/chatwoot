@@ -183,6 +183,79 @@ describe Instagram::SendOnInstagramService do
           expect(instagram_channel.reload).to be_reauthorization_required
         end
       end
+
+      context 'with cards (generic template)' do
+        it 'sends generic template message for cards content type' do
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation,
+                                     content_type: 'cards',
+                                     content_attributes: {
+                                       'items' => [
+                                         {
+                                           'title' => 'Card 1',
+                                           'description' => 'Description 1',
+                                           'media_url' => 'https://example.com/img1.jpg',
+                                           'actions' => [
+                                             { 'type' => 'url', 'text' => 'Visit', 'uri' => 'https://example.com' }
+                                           ]
+                                         }
+                                       ]
+                                     })
+
+          described_class.new(message: message).perform
+          expect(HTTParty).to have_received(:post).with(
+            anything,
+            hash_including(
+              body: a_string_including('"template_type":"generic"'),
+              headers: { 'Content-Type' => 'application/json' }
+            )
+          )
+        end
+      end
+
+      context 'with interactive_buttons' do
+        it 'sends button template message for interactive_buttons content type' do
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation,
+                                     content_type: 'interactive_buttons',
+                                     content: 'Choose an option',
+                                     content_attributes: {
+                                       'body_text' => 'Please select:',
+                                       'buttons' => [
+                                         { 'id' => 'btn_1', 'text' => 'Option A', 'type' => 'reply' },
+                                         { 'id' => 'btn_2', 'text' => 'Option B', 'type' => 'reply' }
+                                       ]
+                                     })
+
+          described_class.new(message: message).perform
+          expect(HTTParty).to have_received(:post).with(
+            anything,
+            hash_including(
+              body: a_string_including('"template_type":"button"'),
+              headers: { 'Content-Type' => 'application/json' }
+            )
+          )
+        end
+      end
+
+      context 'with cta_url' do
+        it 'sends CTA URL generic template message for cta_url content type' do
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation,
+                                     content_type: 'cta_url',
+                                     content: 'Visit our site',
+                                     content_attributes: {
+                                       'body_text' => 'Check our website',
+                                       'action' => { 'text' => 'Visit Now', 'uri' => 'https://example.com' }
+                                     })
+
+          described_class.new(message: message).perform
+          expect(HTTParty).to have_received(:post).with(
+            anything,
+            hash_including(
+              body: a_string_including('"template_type":"generic"'),
+              headers: { 'Content-Type' => 'application/json' }
+            )
+          )
+        end
+      end
     end
   end
 end

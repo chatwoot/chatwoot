@@ -6,15 +6,22 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def perform_reply
-    send_message_to_facebook fb_text_message_params if message.content.present?
+    if generic_template_message?
+      send_generic_template_message
+    elsif cta_url_message?
+      send_cta_url_generic_template_message
+    elsif button_template_message?
+      send_button_generic_template_message
+    else
+      send_message_to_facebook fb_text_message_params if message.content.present?
 
-    if message.attachments.present?
-      message.attachments.each do |attachment|
-        send_message_to_facebook fb_attachment_message_params(attachment)
+      if message.attachments.present?
+        message.attachments.each do |attachment|
+          send_message_to_facebook fb_attachment_message_params(attachment)
+        end
       end
     end
   rescue Facebook::Messenger::FacebookError => e
-    # TODO : handle specific errors or else page will get disconnected
     handle_facebook_error(e)
     Messages::StatusUpdateService.new(message, 'failed', e.message).perform
   end
@@ -45,12 +52,25 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def fb_text_message_params
-    params = {
+    {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: fb_text_message_payload
-    }
+    }.merge(messaging_type_params)
+  end
 
-    merge_human_agent_tag(params)
+  def fb_generic_template_message_params
+    {
+      recipient: { id: contact.get_source_id(inbox.id) },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: fb_generic_template_elements
+          }
+        }
+      }
+    }.merge(messaging_type_params)
   end
 
   def fb_text_message_payload
@@ -70,8 +90,192 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     end
   end
 
+  def send_generic_template_message
+    send_message_to_facebook(fb_text_message_params) if generic_template_intro_text.present?
+    send_message_to_facebook(fb_generic_template_message_params)
+  end
+
+  def send_button_generic_template_message
+    send_message_to_facebook(fb_button_generic_template_message_params)
+  end
+
+  def send_cta_url_generic_template_message
+    send_message_to_facebook(fb_cta_url_generic_template_message_params)
+  end
+
+  def fb_generic_template_elements
+    Array(message.content_attributes['items']).map do |item|
+      item = item.with_indifferent_access
+
+      {
+        title: item[:title],
+        subtitle: item[:description],
+        image_url: item[:media_url],
+        buttons: fb_generic_template_buttons(item[:actions])
+      }.compact
+    end
+  end
+
+  def fb_generic_template_buttons(actions)
+    Array(actions).filter_map do |action|
+      action = action.with_indifferent_access
+
+      case action[:type]
+      when 'reply', 'postback'
+        {
+          type: 'postback',
+          title: action[:text],
+          payload: action[:payload]
+        }
+      when 'url', 'link'
+        {
+          type: 'web_url',
+          title: action[:text],
+          url: action[:uri] || action[:url]
+        }
+      end
+    end
+  end
+
+  def fb_button_generic_template_message_params
+    {
+      recipient: { id: contact.get_source_id(inbox.id) },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [fb_button_generic_template_element]
+          }
+        }
+      }
+    }.merge(messaging_type_params)
+  end
+
+  def fb_cta_url_generic_template_message_params
+    {
+      recipient: { id: contact.get_source_id(inbox.id) },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [fb_cta_url_generic_template_element]
+          }
+        }
+      }
+    }.merge(messaging_type_params)
+  end
+
+  def fb_button_generic_template_element
+    {
+      title: button_generic_template_title,
+      subtitle: button_generic_template_subtitle,
+      image_url: button_generic_template_image_url,
+      buttons: fb_button_generic_template_buttons
+    }.compact
+  end
+
+  def fb_button_generic_template_buttons
+    Array(message.content_attributes['buttons']).filter_map do |button|
+      button = button.with_indifferent_access
+      action_type = button[:type].presence || 'reply'
+
+      case action_type
+      when 'reply', 'postback'
+        {
+          type: 'postback',
+          title: button[:text],
+          payload: button[:id]
+        }
+      when 'url', 'link'
+        {
+          type: 'web_url',
+          title: button[:text],
+          url: button[:uri] || button[:url]
+        }
+      end
+    end
+  end
+
+  def fb_cta_url_generic_template_element
+    {
+      title: cta_url_template_text,
+      subtitle: cta_url_template_footer,
+      image_url: cta_url_template_image_url,
+      default_action: fb_cta_url_default_action,
+      buttons: [fb_cta_url_button]
+    }.compact
+  end
+
+  def fb_cta_url_default_action
+    {
+      type: 'web_url',
+      url: cta_url_button_url
+    }
+  end
+
+  def fb_cta_url_button
+    {
+      type: 'web_url',
+      title: cta_url_button_text,
+      url: cta_url_button_url
+    }
+  end
+
+  def generic_template_message?
+    message.content_type == 'cards'
+  end
+
+  def cta_url_message?
+    message.content_type == 'cta_url'
+  end
+
+  def button_template_message?
+    message.content_type == 'interactive_buttons'
+  end
+
+  def generic_template_intro_text
+    @generic_template_intro_text ||= message.outgoing_content.presence
+  end
+
+  def button_template_text
+    message.outgoing_content.presence || message.content_attributes['body_text']
+  end
+
+  def button_generic_template_title
+    button_template_text
+  end
+
+  def button_generic_template_subtitle
+    message.content_attributes['footer_text'].presence
+  end
+
+  def button_generic_template_image_url
+    message.content_attributes.dig('header', 'media_url').presence
+  end
+
+  def cta_url_template_text
+    message.outgoing_content.presence || message.content_attributes['body_text']
+  end
+
+  def cta_url_template_footer
+    message.content_attributes['footer_text'].presence
+  end
+
+  def cta_url_template_image_url
+    message.content_attributes.dig('header', 'media_url').presence
+  end
+
+  def cta_url_button_text
+    message.content_attributes.dig('action', 'text')
+  end
+
+  def cta_url_button_url
+    message.content_attributes.dig('action', 'uri')
+  end
+
   def external_error(response)
-    # https://developers.facebook.com/docs/graph-api/guides/error-handling/
     error_message = response['error']['message']
     error_code = response['error']['code']
 
@@ -79,7 +283,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def fb_attachment_message_params(attachment)
-    params = {
+    {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         attachment: {
@@ -89,20 +293,22 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
           }
         }
       }
-    }
-
-    merge_human_agent_tag(params)
+    }.merge(messaging_type_params)
   end
 
-  def merge_human_agent_tag(params)
-    unless GlobalConfigService.load('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT', nil)
-      params[:messaging_type] = 'RESPONSE'
-      return params
+  def messaging_type_params
+    if within_24_hour_window?
+      { messaging_type: 'RESPONSE' }
+    elsif GlobalConfigService.load('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT', nil)
+      { messaging_type: 'MESSAGE_TAG', tag: 'HUMAN_AGENT' }
+    else
+      { messaging_type: 'RESPONSE' }
     end
+  end
 
-    params[:messaging_type] = 'MESSAGE_TAG'
-    params[:tag] = 'HUMAN_AGENT'
-    params
+  def within_24_hour_window?
+    last_incoming = conversation.messages.where(account_id: conversation.account_id).incoming.last
+    last_incoming.present? && Time.current < last_incoming.created_at + 24.hours
   end
 
   def attachment_type(attachment)
@@ -112,7 +318,6 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def handle_facebook_error(exception)
-    # Refer: https://github.com/jgorset/facebook-messenger/blob/64fe1f5cef4c1e3fca295b205037f64dfebdbcab/lib/facebook/messenger/error.rb
     return unless exception.to_s.include?('The session has been invalidated') || exception.to_s.include?('Error validating access token')
 
     channel.authorization_error!
