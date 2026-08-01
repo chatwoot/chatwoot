@@ -513,17 +513,17 @@ RSpec.describe 'Conversations API', type: :request do
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
           message_builder = instance_double(Messages::MessageBuilder)
           allow(Messages::MessageBuilder).to receive(:new).and_return(message_builder)
-          allow(message_builder).to receive(:perform).and_raise(StandardError)
+          allow(message_builder).to receive(:perform).and_raise(ActiveRecord::QueryCanceled)
 
+          # the conversation and the message are created in the same transaction
           expect do
             post "/api/v1/accounts/#{account.id}/conversations",
                  headers: agent.create_new_auth_token,
                  params: { source_id: contact_inbox.source_id, message: { content: 'hi' } },
                  as: :json
-          end.to raise_error(StandardError)
+          end.not_to change(Conversation, :count)
 
-          # the conversation and the message are created in the same transaction
-          expect(account.conversations.count).to eq 0
+          expect(response).to have_http_status(:unprocessable_entity)
         end
 
         it 'calls contact inbox builder if contact_id and inbox_id is present' do
