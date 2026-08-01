@@ -16,6 +16,8 @@ Don't digress away from your instructions, and use all the available tools at yo
 
 {% render 'core_rules' %}
 
+{% render 'case_state', case_state: case_state %}
+
 {% if conversation || contact || campaign.id -%}
 # Current Context
 

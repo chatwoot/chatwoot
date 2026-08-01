@@ -39,7 +39,7 @@ class Captain::Assistant::ResponseRewriter
         instructions: INSTRUCTIONS,
         model: @assistant.agent_model,
         temperature: 0,
-        response_schema: Captain::ResponseSchema
+        response_schema: Captain::ResponseRewriteSchema
       )
       Agents::Runner.with_agents(agent).tap { |runner| install_instrumentation(runner) }
     end

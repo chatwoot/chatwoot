@@ -14,6 +14,8 @@ If you believe the user's request is not within the scope of your role, you can 
 
 {% render 'core_rules' %}
 
+{% render 'case_state', case_state: case_state %}
+
 {% if conversation || contact || campaign.id %}
 # Current Context
 

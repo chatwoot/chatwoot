@@ -16,19 +16,8 @@ module Concerns::Agentable
 
   def agent_instructions(context = nil)
     enhanced_context = prompt_context
-    state = {}
-
-    if context
-      state = context.context[:state] || {}
-      config = state[:assistant_config] || {}
-      enhanced_context = enhanced_context.merge(
-        current_time: format_current_time(state[:timezone]),
-        conversation: state[:conversation] || {},
-        contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
-        campaign: state[:campaign] || {},
-        message_length_limit: state[:message_length_limit]
-      )
-    end
+    state = context&.context&.dig(:state) || {}
+    enhanced_context = enhanced_context.merge(runtime_prompt_context(state)) if context
     enhanced_context[:knowledge_map] = knowledge_map_prompt_context(state)
 
     Captain::PromptRenderer.render(template_name, enhanced_context.with_indifferent_access)
@@ -61,6 +50,18 @@ module Concerns::Agentable
 
   def agent_response_schema
     Captain::ResponseSchema
+  end
+
+  def runtime_prompt_context(state)
+    config = state[:assistant_config] || {}
+    {
+      current_time: format_current_time(state[:timezone]),
+      conversation: state[:conversation] || {},
+      case_state: JSON.generate(state[:case_state] || {}),
+      contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
+      campaign: state[:campaign] || {},
+      message_length_limit: state[:message_length_limit]
+    }
   end
 
   def format_current_time(timezone)
