@@ -40,6 +40,16 @@ Rails.application.routes.draw do
 
   get '/health', to: 'health#show'
   get '/api', to: 'api#index'
+
+  # InboxHub legal pages (TikTok / Meta app review) — also mirrored on ainbox.paluhub.com
+  scope '/:locale', constraints: { locale: /en|es/ } do
+    get 'privacy', to: 'legal#show', defaults: { doc: 'privacy' }
+    get 'terms', to: 'legal#show', defaults: { doc: 'terms' }
+    get 'data-deletion', to: 'legal#show', defaults: { doc: 'data-deletion' }
+  end
+  get '/privacy', to: redirect('/en/privacy')
+  get '/terms', to: redirect('/en/terms')
+  get '/data-deletion', to: redirect('/en/data-deletion')
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       # ----------------------------------
