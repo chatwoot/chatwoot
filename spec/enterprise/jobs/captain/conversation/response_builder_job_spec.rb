@@ -20,6 +20,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         'reasoning' => 'A friendly greeting'
       }
     end
+
     before do
       create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
 
