@@ -12452,7 +12452,7 @@
               },
               "source_id": {
                 "type": "string",
-                "description": "The external id of the message on the provider's side. Useful to correlate the message with the id returned by the channel provider.",
+                "description": "The external id of the message on the provider's side, used to correlate the message with the id assigned by the channel provider. Set it only on incoming or imported messages. An outgoing message that carries a source_id is treated as having originated from the channel and is not delivered.",
                 "example": "wamid.HBgMNTU5OTk5OTk5OTk5"
               },
               "external_created_at": {

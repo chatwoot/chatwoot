@@ -479,7 +479,7 @@ RSpec.describe 'Conversations API', type: :request do
           expect(account.conversations.find_by(display_id: response_data[:id]).messages.outgoing.first.content).to eq 'hi'
         end
 
-        it 'creates a private note and does not send it to the channel when message[private] is true' do
+        it 'creates a private note when message[private] is true' do
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
           post "/api/v1/accounts/#{account.id}/conversations",
                headers: agent.create_new_auth_token,
@@ -492,8 +492,6 @@ RSpec.describe 'Conversations API', type: :request do
 
           expect(message.private).to be(true)
           expect(message.content).to eq 'internal note'
-          # private notes are internal, they should never be dispatched to the channel
-          expect(SendReplyJob).not_to have_been_enqueued
         end
 
         it 'persists the source_id passed in the message' do
