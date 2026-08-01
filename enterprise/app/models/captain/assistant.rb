@@ -71,11 +71,11 @@ class Captain::Assistant < ApplicationRecord
   end
 
   def knowledge_map_for_prompt(query: nil, previous_user_message: nil)
-    Captain::KnowledgeMapPrunerService.new(
-      assistant: self,
-      query: query,
-      previous_user_message: previous_user_message
-    ).perform
+    knowledge_map_pruner(query: query, previous_user_message: previous_user_message).perform
+  end
+
+  def retrieval_faq_ids(query:, previous_user_message: nil)
+    knowledge_map_pruner(query: query, previous_user_message: previous_user_message).retrieval_faq_ids
   end
 
   def push_event_data
@@ -139,6 +139,14 @@ class Captain::Assistant < ApplicationRecord
         query: state[:knowledge_map_query],
         previous_user_message: state[:knowledge_map_previous_user_message]
       )
+    )
+  end
+
+  def knowledge_map_pruner(query:, previous_user_message:)
+    Captain::KnowledgeMapPrunerService.new(
+      assistant: self,
+      query: query,
+      previous_user_message: previous_user_message
     )
   end
 

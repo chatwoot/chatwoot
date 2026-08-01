@@ -15,6 +15,16 @@ class Captain::KnowledgeMapPrunerService
     build_pruned_payload(selected_topics)
   end
 
+  def retrieval_faq_ids
+    return [] if knowledge_map.blank? || @query.blank?
+
+    ranked_topic_names
+      .first(Captain::KnowledgeMapLexicalRanker::RELEVANCE_TOPIC_COUNT)
+      .filter_map { |name| topics_by_name[name] }
+      .flat_map { |topic| Array(topic['faq_ids']) }
+      .uniq
+  end
+
   private
 
   def knowledge_map = (@knowledge_map ||= @assistant.knowledge_map)

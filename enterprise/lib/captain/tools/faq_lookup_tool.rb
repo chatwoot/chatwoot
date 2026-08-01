@@ -5,8 +5,13 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
   def perform(tool_context, query:)
     log_tool_usage('searching', { query: query })
 
-    # Use existing vector search on approved responses
-    responses = @assistant.responses.approved.search(query).to_a
+    responses = @assistant.responses.approved.search_relevant(
+      query,
+      topic_faq_ids: @assistant.retrieval_faq_ids(
+        query: query,
+        previous_user_message: tool_context.state[:knowledge_map_previous_user_message]
+      )
+    )
     record_retrieved_sources(tool_context, responses)
 
     if responses.empty?

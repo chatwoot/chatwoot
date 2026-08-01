@@ -24,6 +24,11 @@
 #  vector_idx_knowledge_entries_embedding             (embedding) USING ivfflat
 #
 class Captain::AssistantResponse < ApplicationRecord
+  CANDIDATE_LIMIT = 10
+  RESULT_LIMIT = 5
+  MAX_RELEVANT_DISTANCE = 0.45
+  TOPIC_DISTANCE_BOOST = 0.05
+
   self.table_name = 'captain_assistant_responses'
 
   belongs_to :assistant, class_name: 'Captain::Assistant'
@@ -49,8 +54,42 @@ class Captain::AssistantResponse < ApplicationRecord
 
   def self.search(query, account_id: nil)
     embedding = Captain::Llm::EmbeddingService.new(account_id: account_id).get_embedding(query)
-    nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(5)
+    nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(RESULT_LIMIT)
   end
+
+  def self.search_relevant(query, account_id: nil, topic_faq_ids: [])
+    embedding = Captain::Llm::EmbeddingService.new(account_id: account_id).get_embedding(query)
+    global_candidates = nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(CANDIDATE_LIMIT).to_a
+    topic_candidates = topic_candidates_for(embedding, topic_faq_ids)
+
+    (global_candidates + topic_candidates)
+      .uniq(&:id)
+      .select { |response| relevant_match?(response) }
+      .sort_by { |response| relevance_score(response, topic_faq_ids) }
+      .first(RESULT_LIMIT)
+  end
+
+  def self.topic_candidates_for(embedding, topic_faq_ids)
+    return [] if topic_faq_ids.blank?
+
+    where(id: topic_faq_ids)
+      .nearest_neighbors(:embedding, embedding, distance: 'cosine')
+      .limit(RESULT_LIMIT)
+      .to_a
+  end
+  private_class_method :topic_candidates_for
+
+  def self.relevant_match?(response)
+    distance = response.try(:neighbor_distance)
+    distance.nil? || distance <= MAX_RELEVANT_DISTANCE
+  end
+  private_class_method :relevant_match?
+
+  def self.relevance_score(response, topic_faq_ids)
+    distance = response.try(:neighbor_distance).to_f
+    topic_faq_ids.include?(response.id) ? distance - TOPIC_DISTANCE_BOOST : distance
+  end
+  private_class_method :relevance_score
 
   private
 
