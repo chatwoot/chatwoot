@@ -1,0 +1,19 @@
+<p class="muted"><%= @locale == 'en' ? 'Last updated' : 'Última actualización' %>: <%= @doc[:last_updated] %></p>
+<h1><%= @doc[:title] %></h1>
+<p><%= @doc[:intro] %></p>
+
+<% @doc[:sections].each do |section| %>
+  <section>
+    <h2><%= section[:heading] %></h2>
+    <% section[:paragraphs].each do |paragraph| %>
+      <p><%= paragraph %></p>
+    <% end %>
+    <% if section[:bullets].present? %>
+      <ul>
+        <% section[:bullets].each do |item| %>
+          <li><%= item %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </section>
+<% end %>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="<%= @locale %>">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= @doc[:title] %> · InboxHub</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; line-height: 1.55; background: #fafafa; color: #111; }
+    @media (prefers-color-scheme: dark) {
+      body { background: #0b0b0c; color: #f3f3f3; }
+      header, footer { border-color: #2a2a2e; background: #121214; }
+      a { color: #9ec1ff; }
+      .muted { color: #a1a1aa; }
+      nav a.active { color: #fff; }
+    }
+    header, footer { border-bottom: 1px solid #e5e5e5; background: #fff; }
+    footer { border-top: 1px solid #e5e5e5; border-bottom: 0; margin-top: 3rem; }
+    .wrap { max-width: 42rem; margin: 0 auto; padding: 1rem 1.25rem; }
+    .brand { display: flex; align-items: center; gap: .5rem; text-decoration: none; color: inherit; font-weight: 600; }
+    .brand span { font-weight: 400; font-size: .75rem; color: #71717a; }
+    .top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; align-items: center; }
+    .lang a { margin-left: .35rem; padding: .2rem .45rem; border-radius: .35rem; text-decoration: none; font-size: .75rem; color: #52525b; }
+    .lang a.on { background: #f4f4f5; color: #111; font-weight: 600; }
+    nav { display: flex; flex-wrap: wrap; gap: 1rem; padding: 0 1.25rem 0.85rem; max-width: 42rem; margin: 0 auto; font-size: .875rem; }
+    nav a { color: #71717a; text-decoration: none; }
+    nav a.active { color: #111; font-weight: 600; }
+    h1 { font-size: 1.75rem; margin: 0 0 1rem; letter-spacing: -0.02em; }
+    h2 { font-size: 1.1rem; margin: 1.75rem 0 .65rem; }
+    p { margin: 0 0 .75rem; }
+    ul { margin: 0 0 1rem; padding-left: 1.2rem; }
+    li { margin-bottom: .4rem; }
+    .muted { color: #71717a; font-size: .8rem; }
+    footer a { margin-right: 1rem; font-size: .75rem; color: #71717a; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap top">
+      <a class="brand" href="/app">InboxHub <span>by PaluHub</span></a>
+      <div class="lang">
+        <a class="<%= @locale == 'en' ? 'on' : '' %>" href="<%= InboxHub::LegalDocuments.path_for('en', @doc_id) %>">EN</a>
+        <a class="<%= @locale == 'es' ? 'on' : '' %>" href="<%= InboxHub::LegalDocuments.path_for('es', @doc_id) %>">ES</a>
+      </div>
+    </div>
+    <nav>
+      <% InboxHub::LegalDocuments::DOCS.each do |id| %>
+        <a class="<%= id == @doc_id ? 'active' : '' %>" href="<%= InboxHub::LegalDocuments.path_for(@locale, id) %>"><%= @nav[id] %></a>
+      <% end %>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <%= yield %>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <% InboxHub::LegalDocuments::DOCS.each do |id| %>
+        <a href="<%= InboxHub::LegalDocuments.path_for(@locale, id) %>"><%= @nav[id] %></a>
+      <% end %>
+      <a href="https://ainbox.paluhub.com/<%= @locale %>/<%= @doc_id %>">Panel AI mirror</a>
+    </div>
+  </footer>
+</body>
+</html>
