@@ -479,6 +479,55 @@ RSpec.describe 'Conversations API', type: :request do
           expect(account.conversations.find_by(display_id: response_data[:id]).messages.outgoing.first.content).to eq 'hi'
         end
 
+        it 'creates a private note and does not send it to the channel when message[private] is true' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: agent.create_new_auth_token,
+               params: { source_id: contact_inbox.source_id, message: { content: 'internal note', private: true } },
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
+          message = account.conversations.find_by(display_id: response_data[:id]).messages.last
+
+          expect(message.private).to be(true)
+          expect(message.content).to eq 'internal note'
+          # private notes are internal, they should never be dispatched to the channel
+          expect(SendReplyJob).not_to have_been_enqueued
+        end
+
+        it 'persists the source_id passed in the message' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: agent.create_new_auth_token,
+               params: { source_id: contact_inbox.source_id,
+                         message: { content: 'hi', source_id: 'external-message-id' } },
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
+          message = account.conversations.find_by(display_id: response_data[:id]).messages.last
+
+          expect(message.source_id).to eq 'external-message-id'
+        end
+
+        it 'does not create the conversation when the message creation fails' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          message_builder = instance_double(Messages::MessageBuilder)
+          allow(Messages::MessageBuilder).to receive(:new).and_return(message_builder)
+          allow(message_builder).to receive(:perform).and_raise(StandardError)
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/conversations",
+                 headers: agent.create_new_auth_token,
+                 params: { source_id: contact_inbox.source_id, message: { content: 'hi' } },
+                 as: :json
+          end.to raise_error(StandardError)
+
+          # the conversation and the message are created in the same transaction
+          expect(account.conversations.count).to eq 0
+        end
+
         it 'calls contact inbox builder if contact_id and inbox_id is present' do
           builder = double
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
