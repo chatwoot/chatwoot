@@ -1,18 +1,18 @@
 <script setup>
-import { computed, onActivated, ref, watch } from 'vue';
+import { computed, onActivated, ref } from 'vue';
 import { picoSearch } from '@scmmishra/pico-search';
 import { useI18n } from 'vue-i18n';
+import { vOnClickOutside } from '@vueuse/components';
 
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
 import InboxesAPI from 'dashboard/api/inboxes';
 import Button from 'dashboard/components-next/button/Button.vue';
+import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import Input from 'dashboard/components-next/input/Input.vue';
-import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
-import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
 import { PLATFORMS } from 'dashboard/services/TemplateConstants';
+import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import TemplateCard from './TemplateCard.vue';
 import TemplatePreviewDrawer from './TemplatePreviewDrawer.vue';
@@ -24,7 +24,6 @@ const TWILIO_TEMPLATE_MANAGER_URL =
   'https://console.twilio.com/us1/develop/sms/content-editor';
 const META_TEMPLATE_LEARN_MORE_URL =
   'https://developers.facebook.com/documentation/business-messaging/whatsapp/templates/overview/';
-const ITEMS_PER_PAGE = 5;
 
 const store = useStore();
 const { t } = useI18n();
@@ -35,8 +34,9 @@ const isLoading = ref(false);
 const searchQuery = ref('');
 const selectedInboxId = ref('all');
 const selectedLanguage = ref('all');
-const currentPage = ref(1);
 const selectedTemplate = ref(null);
+const openFilterMenu = ref(null);
+const previewPanelRef = ref(null);
 
 const whatsappInboxes = computed(() =>
   inboxes.value.filter(
@@ -74,18 +74,21 @@ const newTemplateUrl = computed(() => {
 const inboxOptions = computed(() => [
   {
     value: 'all',
-    label: t('WHATSAPP_TEMPLATE_MGMT.FILTERS.CHANNEL'),
+    label: t('WHATSAPP_TEMPLATE_MGMT.FILTERS.ALL_INBOXES'),
+    icon: 'i-lucide-inbox',
   },
   ...whatsappInboxes.value.map(inbox => ({
     value: String(inbox.id),
     label: inbox.name,
+    icon: 'i-lucide-inbox',
   })),
 ]);
 
 const languageOptions = computed(() => [
   {
     value: 'all',
-    label: t('WHATSAPP_TEMPLATE_MGMT.FILTERS.LANGUAGE'),
+    label: t('WHATSAPP_TEMPLATE_MGMT.FILTERS.ALL_LANGUAGES'),
+    icon: 'i-lucide-languages',
   },
   ...[...new Set(templates.value.map(template => template.language))]
     .filter(Boolean)
@@ -93,21 +96,55 @@ const languageOptions = computed(() => [
     .map(language => ({
       value: language,
       label: formatTemplateLanguage(language),
+      icon: 'i-lucide-languages',
     })),
 ]);
 
-const selectedInboxLabel = computed(
-  () =>
-    inboxOptions.value.find(option => option.value === selectedInboxId.value)
-      ?.label || t('WHATSAPP_TEMPLATE_MGMT.FILTERS.CHANNEL')
+const filterMenus = computed(() =>
+  [
+    {
+      key: 'inbox',
+      options: inboxOptions.value,
+      active: selectedInboxId.value,
+    },
+    {
+      key: 'language',
+      options: languageOptions.value,
+      active: selectedLanguage.value,
+    },
+  ].map(menu => {
+    const items = menu.options.map(option => ({
+      ...option,
+      action: menu.key,
+      isSelected: option.value === menu.active,
+    }));
+
+    return {
+      ...menu,
+      items,
+      selected: items.find(item => item.isSelected) || items[0],
+    };
+  })
 );
 
-const selectedLanguageLabel = computed(
-  () =>
-    languageOptions.value.find(
-      option => option.value === selectedLanguage.value
-    )?.label || t('WHATSAPP_TEMPLATE_MGMT.FILTERS.LANGUAGE')
-);
+const closeFilterMenu = () => {
+  openFilterMenu.value = null;
+};
+
+const toggleFilterMenu = key => {
+  openFilterMenu.value = openFilterMenu.value === key ? null : key;
+};
+
+const openPreview = template => {
+  selectedTemplate.value = template;
+  previewPanelRef.value?.open();
+};
+
+const handleFilterAction = ({ action, value }) => {
+  closeFilterMenu();
+  if (action === 'inbox') selectedInboxId.value = value;
+  else selectedLanguage.value = value;
+};
 
 const filteredTemplates = computed(() => {
   let records = templates.value;
@@ -143,11 +180,6 @@ const filteredTemplates = computed(() => {
     'inboxNames',
     'searchableContent',
   ]);
-});
-
-const paginatedTemplates = computed(() => {
-  const start = (currentPage.value - 1) * ITEMS_PER_PAGE;
-  return filteredTemplates.value.slice(start, start + ITEMS_PER_PAGE);
 });
 
 const groupTemplates = templateRecords => {
@@ -230,10 +262,6 @@ const fetchTemplates = async () => {
   }
 };
 
-watch([searchQuery, selectedInboxId, selectedLanguage], () => {
-  currentPage.value = 1;
-});
-
 onActivated(fetchTemplates);
 </script>
 
@@ -243,108 +271,95 @@ onActivated(fetchTemplates);
     :loading-message="$t('WHATSAPP_TEMPLATE_MGMT.LOADING')"
     :no-records-found="!templates.length"
     :no-records-message="$t('WHATSAPP_TEMPLATE_MGMT.EMPTY')"
-    class="mx-auto max-w-[56.25rem] !gap-14 pt-2"
   >
     <template #header>
-      <div class="flex h-10 w-full items-center justify-between gap-8">
-        <div class="flex min-w-0 items-center gap-4">
-          <h1 class="text-xl font-medium leading-7 text-n-slate-12">
-            {{ $t('WHATSAPP_TEMPLATE_MGMT.TITLE') }}
-          </h1>
-          <span class="h-4 w-0.5 shrink-0 rounded-full bg-n-weak" />
+      <BaseSettingsHeader
+        v-model:search-query="searchQuery"
+        :title="$t('WHATSAPP_TEMPLATE_MGMT.TITLE')"
+        :search-placeholder="$t('WHATSAPP_TEMPLATE_MGMT.SEARCH_PLACEHOLDER')"
+      >
+        <template #description>
+          {{ $t('WHATSAPP_TEMPLATE_MGMT.DESCRIPTION') }}
           <a
             :href="META_TEMPLATE_LEARN_MORE_URL"
-            class="text-sm font-medium text-n-slate-11 hover:text-n-slate-12"
+            class="text-sm font-medium text-n-blue-11 hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
             {{ $t('WHATSAPP_TEMPLATE_MGMT.KNOW_MORE') }}
           </a>
-        </div>
-
-        <a
-          v-if="newTemplateUrl"
-          :href="newTemplateUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Button
-            class="!rounded-[0.625rem]"
-            :label="$t('WHATSAPP_TEMPLATE_MGMT.NEW_TEMPLATE')"
-            icon="i-lucide-plus"
-          />
-        </a>
-      </div>
+        </template>
+        <template #tabs>
+          <div
+            v-on-click-outside="closeFilterMenu"
+            class="flex items-center gap-2"
+          >
+            <div v-for="menu in filterMenus" :key="menu.key" class="relative">
+              <Button
+                :icon="menu.selected.icon"
+                color="slate"
+                size="sm"
+                :class="{ 'bg-n-slate-9/10': openFilterMenu === menu.key }"
+                @click="toggleFilterMenu(menu.key)"
+              >
+                <span class="min-w-0 truncate">{{ menu.selected.label }}</span>
+                <Icon icon="i-lucide-chevron-down" class="shrink-0 size-4" />
+              </Button>
+              <DropdownMenu
+                v-if="openFilterMenu === menu.key"
+                :menu-items="menu.items"
+                class="mt-2 min-w-52 top-full ltr:left-0 rtl:right-0"
+                @action="handleFilterAction"
+              />
+            </div>
+          </div>
+        </template>
+        <template v-if="filteredTemplates.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{
+              $t('WHATSAPP_TEMPLATE_MGMT.COUNT', {
+                n: filteredTemplates.length,
+              })
+            }}
+          </span>
+        </template>
+        <template #actions>
+          <a
+            v-if="newTemplateUrl"
+            :href="newTemplateUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button
+              :label="$t('WHATSAPP_TEMPLATE_MGMT.NEW_TEMPLATE')"
+              icon="i-lucide-plus"
+              size="sm"
+            />
+          </a>
+        </template>
+      </BaseSettingsHeader>
     </template>
 
     <template #body>
-      <div class="flex min-h-[calc(100vh-7.5rem)] flex-col">
-        <div
-          class="mb-4 flex flex-wrap items-center justify-between gap-4 lg:flex-nowrap"
-        >
-          <div class="flex flex-wrap items-center gap-3">
-            <SelectMenu
-              v-model="selectedInboxId"
-              :options="inboxOptions"
-              :label="selectedInboxLabel"
-              sub-menu-position="bottom"
-            />
-            <SelectMenu
-              v-model="selectedLanguage"
-              :options="languageOptions"
-              :label="selectedLanguageLabel"
-              sub-menu-position="bottom"
-            />
-          </div>
-          <Input
-            v-model="searchQuery"
-            type="search"
-            class="group w-full sm:w-[18.75rem] [&>input]:!rounded-[0.625rem] [&>input]:!bg-n-alpha-2 [&>input]:!outline-0 [&>input]:ltr:!pl-9 [&>input]:rtl:!pr-9 dark:[&>input]:!bg-n-solid-2"
-            :placeholder="$t('WHATSAPP_TEMPLATE_MGMT.SEARCH_PLACEHOLDER')"
-          >
-            <template #prefix>
-              <Icon
-                icon="i-lucide-search"
-                class="absolute top-1/2 size-4 -translate-y-1/2 text-n-slate-11 ltr:left-3 rtl:right-3"
-              />
-            </template>
-          </Input>
-        </div>
-
-        <div
-          v-if="!filteredTemplates.length"
-          class="flex min-h-48 items-center justify-center rounded-2xl bg-n-alpha-2 text-sm text-n-slate-11 dark:bg-n-solid-2"
-        >
+      <div
+        v-if="!filteredTemplates.length"
+        class="flex items-center justify-center p-8"
+      >
+        <span class="text-base text-n-slate-11">
           {{ $t('WHATSAPP_TEMPLATE_MGMT.NO_RESULTS') }}
-        </div>
+        </span>
+      </div>
 
-        <div v-else class="flex flex-col gap-4">
-          <TemplateCard
-            v-for="template in paginatedTemplates"
-            :key="template.key"
-            :template="template"
-            @preview="selectedTemplate = template"
-          />
-        </div>
-
-        <div
-          v-if="filteredTemplates.length"
-          class="mt-auto flex h-20 items-center"
-        >
-          <PaginationFooter
-            class="!h-12 !rounded-xl !border-0 !bg-n-alpha-2 !px-5 !py-2 before:hidden dark:!bg-n-solid-2"
-            :current-page="currentPage"
-            :total-items="filteredTemplates.length"
-            :items-per-page="ITEMS_PER_PAGE"
-            @update:current-page="currentPage = $event"
-          />
-        </div>
+      <div v-else class="flex flex-col gap-4">
+        <TemplateCard
+          v-for="template in filteredTemplates"
+          :key="template.key"
+          :template="template"
+          @preview="openPreview(template)"
+        />
       </div>
     </template>
 
-    <TemplatePreviewDrawer
-      :template="selectedTemplate"
-      @close="selectedTemplate = null"
-    />
+    <TemplatePreviewDrawer ref="previewPanelRef" :template="selectedTemplate" />
   </SettingsLayout>
 </template>

@@ -15,9 +15,6 @@
     "LAST_SYNCED": "Last synced on {date}",
     "MORE_INBOXES": "+{n}",
     "FILTERS": {
-      "CHANNEL": "Channel",
-      "INBOX": "Filter by inbox",
-      "LANGUAGE": "Language",
       "ALL_INBOXES": "All inboxes",
       "ALL_LANGUAGES": "All languages"
     },
@@ -38,6 +35,7 @@
       "OPEN": "Preview {name}",
       "CLOSE": "Close preview",
       "DETAILS": "Template details",
+      "STATUS": "Status",
       "TYPE": "Content type",
       "CATEGORY": "Category",
       "LANGUAGE": "Language",
