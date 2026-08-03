@@ -1,37 +1,57 @@
 class Captain::ConversationOutcomeTracker
-  pattr_initialize [:conversation!, :assistant!]
+  include Captain::ConversationOutcomeAttribution
+
+  pattr_initialize [:conversation!, :assistant]
+
+  STREAM_LOCK_NAMESPACE = 894_512_337
+
+  # --- Boundaries -----------------------------------------------------------
 
   def record_eligibility(at:)
     safely_track(:eligibility) do
       next unless account.feature_enabled?('captain_integration_v2')
 
-      find_or_create_outcome(at)
+      initial = episodes.trigger_initial.take
+      initial ? lower_initial_anchor(initial, at) : create_initial_episode(at)
     end
   end
+
+  # Runs inside Captain::ConversationOutcomeBoundaryJob. Unlike facts, a lost
+  # boundary strands every later fact in the wrong episode, so this write must
+  # raise on failure and let the job retry instead of failing open.
+  def record_reopen(at:)
+    return if episodes.none?
+
+    with_stream_lock do
+      next if episodes.exists?(started_at: at)
+
+      insert_boundary(at)
+    end
+  end
+
+  # --- Facts ----------------------------------------------------------------
 
   def record_captain_reply(message:)
     return unless public_captain_reply?(message)
 
-    track_existing_outcome(:captain_reply) do |outcome|
-      outcome.with_lock do
-        outcome.first_captain_reply_at = earliest(outcome.first_captain_reply_at, message.created_at)
-        outcome.last_captain_reply_at = latest(outcome.last_captain_reply_at, message.created_at)
-        outcome.captain_reply_count = public_captain_replies.count
-        outcome.save!
+    track_fact(:captain_reply, at: message.created_at) do |episode|
+      episode.with_lock do
+        recount_captain_replies(episode)
+        episode.save!
       end
     end
   end
 
   def record_handoff(at:, reason_category:)
-    track_existing_outcome(:handoff) do |outcome|
-      outcome.with_lock do
-        # First handoff wins: re-delivered or later handoff events must not
-        # overwrite the reason the conversation originally left Captain.
-        next outcome if outcome.handoff_at.present? && outcome.handoff_at <= at
+    track_fact(:handoff, at: at) do |episode|
+      episode.with_lock do
+        # First handoff wins within the episode: re-delivered or later handoff
+        # events must not overwrite the reason the episode left Captain.
+        next episode if episode.handoff_at.present? && episode.handoff_at <= at
 
-        outcome.handoff_at = at
-        outcome.handoff_reason_category = reason_category
-        outcome.save!
+        episode.handoff_at = at
+        episode.handoff_reason_category = reason_category
+        episode.save!
       end
     end
   end
@@ -39,47 +59,37 @@ class Captain::ConversationOutcomeTracker
   def record_human_reply(message:)
     return unless public_human_reply?(message)
 
-    track_existing_outcome(:human_reply) do |outcome|
-      outcome.with_lock do
-        outcome.first_human_reply_at = earliest(outcome.first_human_reply_at, message.created_at)
-        outcome.save! if outcome.changed?
+    track_fact(:human_reply, at: message.created_at) do |episode|
+      episode.with_lock do
+        episode.first_human_reply_at = earliest(episode.first_human_reply_at, message.created_at)
+        episode.save! if episode.changed?
       end
     end
   end
 
   def record_resolution(at:)
-    track_existing_outcome(:resolution) do |outcome|
-      outcome.with_lock do
-        # Latest resolution wins: after a reopen the final resolution is the one
-        # that counts, and out-of-order events must not roll it back.
-        next outcome if outcome.resolved_at.present? && at < outcome.resolved_at
+    track_fact(:resolution, at: at) do |episode|
+      episode.with_lock do
+        # Latest resolution wins within the episode; out-of-order events must
+        # not roll it back.
+        next episode if episode.resolved_at.present? && at < episode.resolved_at
 
-        outcome.resolved_at = at
-        outcome.save!
-      end
-    end
-  end
-
-  def record_reopen(at:)
-    track_existing_outcome(:reopen) do |outcome|
-      outcome.with_lock do
-        # The caller classifies the reopen from the status transition, so no
-        # resolved_at check here: it would drop legitimate reopens whenever the
-        # resolution event is delivered late. Re-delivered events must not
-        # double count, hence the last_reopened_at guard.
-        next outcome if outcome.last_reopened_at.present? && at <= outcome.last_reopened_at
-
-        outcome.last_reopened_at = at
-        outcome.reopen_count += 1
-        outcome.save!
+        episode.resolved_at = at
+        episode.save!
       end
     end
   end
 
   def record_csat(response:)
-    track_existing_outcome(:csat) do |outcome|
-      outcome.with_lock do
-        outcome.update!(csat_rating: response.rating, csat_received_at: response.created_at)
+    # The response is attributed through the survey message that solicited it,
+    # so a late submission lands on the episode that sent the survey, not on
+    # whichever episode is open when the customer answers.
+    survey_at = response.message&.created_at
+    return if survey_at.blank?
+
+    track_fact(:csat, at: survey_at) do |episode|
+      episode.with_lock do
+        episode.update!(csat_rating: response.rating, csat_received_at: response.created_at)
       end
     end
   end
@@ -90,87 +100,100 @@ class Captain::ConversationOutcomeTracker
     conversation.account
   end
 
-  def conversation_outcome
-    ConversationOutcome.find_by(
-      account: account,
-      assistant: assistant,
-      conversation: conversation
-    )
+  def episodes
+    ConversationOutcome.where(account_id: conversation.account_id, conversation_id: conversation.id)
   end
 
-  def find_or_create_outcome(at)
-    outcome = conversation_outcome || create_outcome(at)
-    return outcome unless at < outcome.created_at
+  # --- Initial episode ------------------------------------------------------
 
-    # Earliest eligibility wins: when provider-timestamped messages are
-    # delivered out of order, a late-arriving older message must pull the
-    # demand anchor back to the true demand start.
-    outcome.with_lock do
-      outcome.created_at = earliest(outcome.created_at, at)
-      outcome.save! if outcome.changed?
+  def lower_initial_anchor(initial, at)
+    return initial unless at < initial.started_at
+
+    # The initial anchor is demand-time and mutable (earliest wins). Boundary
+    # anchors are immutable identities and are never lowered.
+    initial.with_lock do
+      initial.update!(started_at: earliest(initial.started_at, at)) if at < initial.started_at
     end
-    outcome
+    initial
   end
 
-  def create_outcome(at)
-    # created_at is the demand-start anchor for reporting windows, so it must
-    # reflect the eligible message's time, not row insertion time — channels
-    # like TikTok backdate message timestamps to the provider's clock.
+  def create_initial_episode(at)
+    earliest_boundary = episodes.chronological.first
+    # An initial episode must precede every boundary. When the stream already
+    # has a boundary episode and this demand falls inside its window, the
+    # true initial start is still unknown; wait for an earlier eligible event.
+    return if earliest_boundary && at >= earliest_boundary.started_at
+
     ConversationOutcome.create!(
       account: account,
       assistant: assistant,
       conversation: conversation,
       inbox: conversation.inbox,
-      created_at: at
+      episode_trigger: 'initial',
+      started_at: at,
+      ended_at: earliest_boundary&.started_at
     )
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
-    conversation_outcome || raise
+    episodes.trigger_initial.take || raise
   end
 
-  def public_captain_reply?(message)
-    message.conversation_id == conversation.id &&
-      message.sender == assistant &&
-      message.outgoing? &&
-      !message.private?
-  end
+  # --- Boundary insertion ---------------------------------------------------
 
-  def public_human_reply?(message)
-    return false unless message.conversation_id == conversation.id && message.outgoing? && !message.private?
-    return false if message.content_attributes['automation_rule_id'].present?
-    return false if message.additional_attributes['campaign_id'].present?
+  def insert_boundary(at)
+    predecessor = episodes.where(started_at: ...at).chronological.last
+    successor = episodes.where('started_at > ?', at).chronological.first
 
-    message.sender.is_a?(User) || message.content_attributes['external_echo'].present?
-  end
-
-  def public_captain_replies
-    conversation.messages.where(
-      sender_type: 'Captain::Assistant',
-      sender_id: assistant.id,
-      message_type: :outgoing,
-      private: false
+    # The predecessor closes before the insert: the open-episode partial
+    # unique index permits only one open row, and partial indexes are not
+    # deferrable. The surrounding transaction rolls the close back if the
+    # insert fails.
+    predecessor&.update!(ended_at: at)
+    episode = ConversationOutcome.create!(
+      account: account,
+      assistant: boundary_assistant,
+      conversation: conversation,
+      inbox: conversation.inbox,
+      episode_trigger: 'reopen',
+      started_at: at,
+      ended_at: successor&.started_at
     )
+    repair_attribution(predecessor, episode)
   end
 
-  def earliest(existing, candidate)
-    [existing, candidate].compact.min
+  def boundary_assistant
+    conversation.inbox.captain_assistant || episodes.chronological.last&.assistant
   end
 
-  def latest(existing, candidate)
-    [existing, candidate].compact.max
-  end
-
-  def track_existing_outcome(action)
-    safely_track(action) do
-      outcome = conversation_outcome
-      next unless outcome
-
-      yield outcome
-      outcome
+  def with_stream_lock(&)
+    ApplicationRecord.transaction do
+      ApplicationRecord.connection.select_value(
+        "SELECT pg_advisory_xact_lock(#{STREAM_LOCK_NAMESPACE}, #{conversation.id.to_i % (2**31)})"
+      )
+      yield
     end
   end
 
-  # Outcome tracking is reporting, not product behavior: a tracking bug must
-  # never break message delivery or conversation state transitions.
+  # --- Fact attribution -----------------------------------------------------
+
+  def track_fact(action, at:)
+    safely_track(action) do
+      episode = attributed_episode(at)
+      next unless episode
+
+      yield episode
+      episode
+    end
+  end
+
+  def attributed_episode(at)
+    # Clamp rule: a fact timestamped before the stream's first episode
+    # attributes to that first episode.
+    episodes.covering(at).chronological.last || episodes.chronological.first
+  end
+
+  # Fact tracking is reporting, not product behavior: a tracking bug must
+  # never break message delivery or conversation state transitions. Boundary
+  # writes (record_reopen) are deliberately not routed through this.
   def safely_track(action)
     yield
   rescue StandardError => e
