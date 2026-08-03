@@ -152,7 +152,7 @@ class Seeders::Reports::AssistantConversationCreator
     mark_resolved(conversation, resolved_at)
     travel_to(resolved_at) do
       trigger_event('conversation_resolved', conversation)
-      trigger_event('conversation_captain_inference_resolved', conversation)
+      trigger_captain_event(Events::Types::CAPTAIN_CONVERSATION_RESOLVED, conversation)
     end
     travel_back
   end
@@ -178,7 +178,7 @@ class Seeders::Reports::AssistantConversationCreator
   end
 
   def handoff_to_human(conversation)
-    trigger_event('conversation_captain_inference_handoff', conversation)
+    trigger_captain_event(Events::Types::CAPTAIN_CONVERSATION_HANDED_OFF, conversation)
   end
 
   def mark_resolved(conversation, resolved_at)
@@ -192,6 +192,11 @@ class Seeders::Reports::AssistantConversationCreator
     ReportingEventListener.instance.public_send(
       name, Events::Base.new(name, Time.current, { conversation: conversation })
     )
+  end
+
+  def trigger_captain_event(name, conversation)
+    event = Events::Base.new(name, Time.current, { conversation: conversation, source: 'inference' })
+    Captain::ReportingEventListener.instance.public_send(event.method_name, event)
   end
 
   def trigger_reply_time(message, waiting_since)
