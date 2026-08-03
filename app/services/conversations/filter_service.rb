@@ -53,7 +53,13 @@ class Conversations::FilterService < FilterService
 
   private
 
+  # The planner hint only pays off when the label condition positively narrows the
+  # result set: `equal_to` joined by AND. Negative/presence operators or an OR in the
+  # payload leave the result broad, where the inbox index is the better driver.
   def label_filter_present?
-    @params[:payload].to_a.any? { |query_hash| query_hash[:attribute_key] == 'labels' }
+    payload = @params[:payload].to_a
+    return false if payload.any? { |query_hash| query_hash[:query_operator].to_s.casecmp('or').zero? }
+
+    payload.any? { |query_hash| query_hash[:attribute_key] == 'labels' && query_hash[:filter_operator] == 'equal_to' }
   end
 end
