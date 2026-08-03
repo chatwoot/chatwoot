@@ -103,6 +103,22 @@ class Captain::Document < ApplicationRecord
     end
   end
 
+  def customer_visible_source_url
+    return unless customer_visible_source?
+
+    url = external_link.presence
+    return unless url
+
+    uri = URI.parse(url)
+    return unless uri.is_a?(URI::HTTP)
+    return if uri.host.blank?
+    return if File.extname(uri.path).casecmp('.pdf').zero?
+
+    uri.to_s
+  rescue URI::InvalidURIError
+    nil
+  end
+
   def to_llm_metadata
     { document_id: id, assistant_id: assistant_id, external_link: external_link }
   end
@@ -120,6 +136,10 @@ class Captain::Document < ApplicationRecord
   end
 
   private
+
+  def customer_visible_source?
+    !pdf_document? && !pdf_file.attached?
+  end
 
   def enqueue_crawl_job
     return if status != 'in_progress'

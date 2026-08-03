@@ -47,6 +47,7 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
                assistant: assistant,
                question: 'How to change email?',
                answer: 'Go to settings and update email',
+               documentable: document,
                status: 'approved')
       end
 
@@ -106,8 +107,9 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         expect(result).to include('Citation index: 1')
         expect(repeated_result).to include('Citation index: 1')
         expect(result).not_to include('https://help.example.com/password')
-        expect(result.scan('Citation index:').size).to eq(1)
-        expect(tool_context.state[:captain_v2_citation_sources]).to eq(1 => response1.id)
+        expect(result.scan('Citation index: 1').size).to eq(2)
+        expect(result).not_to include('Citation index: 2')
+        expect(tool_context.state[:captain_v2_citation_sources]).to eq(1 => document.id)
       end
 
       it 'logs tool usage for search' do

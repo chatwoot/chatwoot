@@ -52,26 +52,10 @@ class Captain::AssistantResponse < ApplicationRecord
   end
 
   def customer_visible_source_url
-    return unless customer_visible_document?
-
-    url = documentable.external_link.presence
-    return unless url
-
-    uri = URI.parse(url)
-    return unless uri.is_a?(URI::HTTP)
-    return if uri.host.blank?
-    return if File.extname(uri.path).casecmp('.pdf').zero?
-
-    uri.to_s
-  rescue URI::InvalidURIError
-    nil
+    documentable.customer_visible_source_url if documentable.is_a?(Captain::Document)
   end
 
   private
-
-  def customer_visible_document?
-    documentable.is_a?(Captain::Document) && !documentable.pdf_document? && !documentable.pdf_file.attached?
-  end
 
   def ensure_status
     self.status ||= :approved

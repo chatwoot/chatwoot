@@ -89,10 +89,10 @@ class Captain::Assistant < ApplicationRecord
     }
   end
 
-  def customer_visible_citation_urls(citation_source_ids)
-    faq_responses = responses.where(id: citation_source_ids.values).includes(:documentable).index_by(&:id)
-    citation_urls = citation_source_ids.transform_values do |response_id|
-      faq_responses[response_id.to_i]&.customer_visible_source_url
+  def customer_visible_citation_urls(citation_document_ids)
+    citation_documents = documents.where(id: citation_document_ids.values).index_by(&:id)
+    citation_urls = citation_document_ids.transform_values do |document_id|
+      citation_documents[document_id.to_i]&.customer_visible_source_url
     end
     citation_urls.compact.transform_keys(&:to_i)
   end

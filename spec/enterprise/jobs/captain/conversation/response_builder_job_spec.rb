@@ -524,17 +524,13 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         before do
           first_document = create(:captain_document, assistant: assistant, external_link: 'https://help.example.com/password')
           second_document = create(:captain_document, assistant: assistant, external_link: 'https://help.example.com/email')
-          first_faq = create(:captain_assistant_response, assistant: assistant, documentable: first_document)
-          second_faq = create(:captain_assistant_response, assistant: assistant, documentable: second_document)
-          another_first_document_faq = create(:captain_assistant_response, assistant: assistant, documentable: first_document)
           run_result = Agents::RunResult.new(
             output: { 'response_parts' => v2_response_parts, 'reasoning' => 'Used the FAQ results' },
             context: {
               state: {
                 captain_v2_citation_sources: {
-                  1 => first_faq.id,
-                  2 => second_faq.id,
-                  3 => another_first_document_faq.id
+                  1 => first_document.id,
+                  2 => second_document.id
                 }
               }
             }
@@ -552,7 +548,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           expect(conversation.messages.outgoing.last.content).to eq('Hey, welcome to Captain V2')
         end
 
-        it 'renders one cited FAQ from the trusted run mapping' do
+        it 'renders one cited document from the trusted run mapping' do
           v2_response_parts.first['citation_indexes'] = [1]
 
           described_class.perform_now(conversation, assistant)
@@ -615,16 +611,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           )
         end
 
-        it 'renders one link when different FAQs cite the same document' do
-          v2_response_parts.first['citation_indexes'] = [1, 3]
-
-          described_class.perform_now(conversation, assistant)
-
-          expect(conversation.messages.outgoing.last.content).to eq(
-            'Hey, welcome to Captain V2 [[1](https://help.example.com/password)]'
-          )
-        end
-
         it 'ignores unknown indexes and non-numeric citation values' do
           v2_response_parts.first['citation_indexes'] = [99, 'https://model.example/source']
 
@@ -649,11 +635,9 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
             assistant: assistant,
             external_link: 'https://storage.example.com/private-file.pdf?token=secret'
           )
-          pdf_faq = create(:captain_assistant_response, assistant: assistant, documentable: pdf_document)
-          non_public_faq = create(:captain_assistant_response, assistant: assistant)
           citation_sources = mock_agent_runner_service.last_run_result.context[:state][:captain_v2_citation_sources]
-          citation_sources[3] = pdf_faq.id
-          citation_sources[4] = non_public_faq.id
+          citation_sources[3] = pdf_document.id
+          citation_sources[4] = 0
           v2_response_parts.first['citation_indexes'] = [3, 4]
 
           described_class.perform_now(conversation, assistant)
