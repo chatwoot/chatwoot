@@ -23,6 +23,7 @@
 #
 # Indexes
 #
+#  idx_conversation_outcomes_on_assistant_created_at   (account_id,assistant_id,created_at)
 #  idx_conversation_outcomes_on_assistant_handoff_at   (account_id,assistant_id,handoff_at)
 #  idx_conversation_outcomes_on_assistant_resolved_at  (account_id,assistant_id,resolved_at)
 #  idx_conversation_outcomes_unique_conversation       (account_id,assistant_id,conversation_id) UNIQUE

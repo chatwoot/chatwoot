@@ -36,5 +36,7 @@ class CreateConversationOutcomes < ActiveRecord::Migration[7.1]
               name: 'idx_conversation_outcomes_on_assistant_resolved_at'
     add_index :conversation_outcomes, [:account_id, :assistant_id, :handoff_at],
               name: 'idx_conversation_outcomes_on_assistant_handoff_at'
+    add_index :conversation_outcomes, [:account_id, :assistant_id, :created_at],
+              name: 'idx_conversation_outcomes_on_assistant_created_at'
   end
 end

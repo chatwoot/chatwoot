@@ -794,6 +794,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_31_140853) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id", "assistant_id", "conversation_id"], name: "idx_conversation_outcomes_unique_conversation", unique: true
+    t.index ["account_id", "assistant_id", "created_at"], name: "idx_conversation_outcomes_on_assistant_created_at"
     t.index ["account_id", "assistant_id", "handoff_at"], name: "idx_conversation_outcomes_on_assistant_handoff_at"
     t.index ["account_id", "assistant_id", "resolved_at"], name: "idx_conversation_outcomes_on_assistant_resolved_at"
     t.index ["account_id"], name: "index_conversation_outcomes_on_account_id"
