@@ -24,13 +24,15 @@ class DataImports::PlaceholderInboxBuilder
   end
 
   def create_placeholder_inbox(bucket)
-    channel = create_placeholder_channel(bucket)
-    now = Time.current
-    result = Inbox.insert_all!( # rubocop:disable Rails/SkipsModelValidations
-      [placeholder_inbox_attributes(channel, bucket, now)],
-      returning: %w[id]
-    )
-    Inbox.find(result.rows.first.first)
+    Inbox.transaction do
+      channel = create_placeholder_channel(bucket)
+      now = Time.current
+      result = Inbox.insert_all!( # rubocop:disable Rails/SkipsModelValidations
+        [placeholder_inbox_attributes(channel, bucket, now)],
+        returning: %w[id]
+      )
+      Inbox.find(result.rows.first.first).tap { |inbox| create_default_working_hours(inbox) }
+    end
   end
 
   def create_placeholder_channel(bucket)
@@ -55,5 +57,9 @@ class DataImports::PlaceholderInboxBuilder
       created_at: timestamp,
       updated_at: timestamp
     }
+  end
+
+  def create_default_working_hours(inbox)
+    OutOfOffisable::DEFAULT_WORKING_HOURS.each { |attributes| inbox.working_hours.create!(attributes) }
   end
 end
