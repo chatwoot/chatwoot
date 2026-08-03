@@ -102,6 +102,20 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           tool.perform(tool_context, reason: 'Customer needs specialized support', reason_category: 'customer_request')
         end
 
+        it 'emits an unclassified handoff when the model supplies an unknown reason category' do
+          expect(Captain::ConversationEvents).to receive(:handed_off)
+            .with(conversation: conversation, assistant: assistant, source: 'tool', reason_category: nil, at: kind_of(Time))
+
+          tool.perform(tool_context, reason: 'Customer needs specialized support', reason_category: 'hallucinated_category')
+        end
+
+        it 'normalizes casing and whitespace in the reason category' do
+          expect(Captain::ConversationEvents).to receive(:handed_off)
+            .with(conversation: conversation, assistant: assistant, source: 'tool', reason_category: 'tool_failure', at: kind_of(Time))
+
+          tool.perform(tool_context, reason: 'Customer needs specialized support', reason_category: ' Tool_Failure ')
+        end
+
         it 'does not emit a captain handoff event when the handoff is skipped as stale' do
           create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
 

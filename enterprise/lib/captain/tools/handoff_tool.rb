@@ -1,9 +1,11 @@
 class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
+  REASON_CATEGORIES = %w[customer_request missing_knowledge unsupported_request policy_restriction tool_failure].freeze
+
   description 'Hand off the conversation to a human agent when unable to assist further'
   param :reason, type: 'string', desc: 'The reason why handoff is needed (optional)', required: false
   param :reason_category,
         type: 'string',
-        desc: 'Reporting category: customer_request, missing_knowledge, unsupported_request, policy_restriction, or tool_failure',
+        desc: "Reporting category, one of: #{REASON_CATEGORIES.join(', ')}",
         required: true
 
   def perform(tool_context, reason: nil, reason_category: nil)
@@ -79,8 +81,17 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
   def emit_tool_handoff_event(conversation, reason_category)
     Captain::ConversationEvents.handed_off(conversation: conversation, assistant: @assistant,
-                                           source: Captain::ConversationEvents::Sources::TOOL, reason_category: reason_category,
+                                           source: Captain::ConversationEvents::Sources::TOOL,
+                                           reason_category: normalize_reason_category(reason_category),
                                            at: Time.current)
+  end
+
+  # The tool schema cannot constrain the value to the documented list, and an
+  # unknown category would fail the outcome's validated enum after the handoff
+  # already happened — record those handoffs as unclassified instead.
+  def normalize_reason_category(reason_category)
+    category = reason_category.to_s.strip.downcase
+    category if REASON_CATEGORIES.include?(category)
   end
 
   def record_handoff_note(tool_context, note)
