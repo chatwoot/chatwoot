@@ -233,4 +233,38 @@ RSpec.describe DataImports::Freshdesk::Importer do
     expect(data_import.reload.cursor['conversations']).to include('starting_after' => nil, 'completed' => true)
     expect(client).to have_received(:list_tickets).once
   end
+
+  it 'stops a delayed worker when a newer per-ticket checkpoint is observed', :aggregate_failures do
+    current_cursor = { 'page' => 1, 'offset' => 0, 'tickets' => [], 'next_page' => 2 }
+    newer_cursor = current_cursor.merge('offset' => 3)
+    summaries = Array.new(3) { |index| { 'id' => (index + 2001).to_s } }
+    response = {
+      'data' => summaries,
+      'pages' => {
+        'current' => { 'starting_after' => current_cursor },
+        'next' => { 'starting_after' => { 'page' => 2, 'offset' => 0 } },
+        'checkpoints' => Array.new(3) { |index| current_cursor.merge('offset' => index + 1) }
+      }
+    }
+    importer = described_class.new(data_import: DataImport.find(data_import.id))
+    processed_ticket_ids = []
+    allow(importer).to receive(:conversations_page).and_return(response)
+    allow(importer).to receive(:import_conversation_from_summary) do |summary|
+      processed_ticket_ids << summary['id']
+      next unless summary['id'] == '2001'
+
+      concurrent_import = DataImport.find(data_import.id)
+      concurrent_import.update!(
+        cursor: concurrent_import.cursor.to_h.deep_merge(
+          'conversations' => { 'starting_after' => newer_cursor, 'completed' => false }
+        )
+      )
+    end
+
+    result = importer.import_conversations_page(starting_after: current_cursor)
+
+    expect(processed_ticket_ids).to eq(%w[2001])
+    expect(result.next_cursor).to eq(newer_cursor)
+    expect(data_import.reload.cursor.dig('conversations', 'starting_after')).to eq(newer_cursor)
+  end
 end

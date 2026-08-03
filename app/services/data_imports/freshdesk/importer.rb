@@ -6,14 +6,15 @@ class DataImports::Freshdesk::Importer < DataImports::Importer
 
   def import_conversations_page(starting_after: cursor_for('conversations'))
     response = conversations_page(starting_after)
-    checkpoint_ticket_page(response)
+    return PageResult.new(next_cursor: cursor_for('conversations')) unless checkpoint_ticket_page(response)
+
     update_stat_total('conversations', response['total_count']) if response['total_count'].present?
-    import_conversation_summaries(response)
+    return PageResult.new(next_cursor: cursor_for('conversations')) unless import_conversation_summaries(response)
     return PageResult.new(next_cursor: nil) if import_stopped?
 
     reconcile_dirty_stats
     next_cursor = response.dig('pages', 'next', 'starting_after')
-    update_cursor('conversations', next_cursor)
+    next_cursor = update_cursor('conversations', next_cursor)
     PageResult.new(next_cursor: next_cursor)
   end
 
@@ -21,7 +22,9 @@ class DataImports::Freshdesk::Importer < DataImports::Importer
 
   def checkpoint_ticket_page(response)
     current_cursor = response.dig('pages', 'current', 'starting_after')
-    update_cursor('conversations', current_cursor) unless current_cursor == cursor_for('conversations')
+    return true if current_cursor == cursor_for('conversations')
+
+    update_cursor('conversations', current_cursor) == current_cursor
   end
 
   def conversations_page(starting_after)
@@ -41,7 +44,11 @@ class DataImports::Freshdesk::Importer < DataImports::Importer
       import_conversation_from_summary(conversation_summary)
       break if import_stopped?
 
-      update_cursor('conversations', checkpoints.fetch(index)) if index < summaries.length - 1
+      next if index == summaries.length - 1
+
+      checkpoint = checkpoints.fetch(index)
+      return false unless update_cursor('conversations', checkpoint) == checkpoint
     end
+    true
   end
 end
