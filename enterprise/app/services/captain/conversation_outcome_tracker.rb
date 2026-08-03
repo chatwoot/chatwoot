@@ -99,10 +99,24 @@ class Captain::ConversationOutcomeTracker
   end
 
   def find_or_create_outcome(at)
+    outcome = conversation_outcome || create_outcome(at)
+    return outcome unless at < outcome.created_at
+
+    # Earliest eligibility wins: when provider-timestamped messages are
+    # delivered out of order, a late-arriving older message must pull the
+    # demand anchor back to the true demand start.
+    outcome.with_lock do
+      outcome.created_at = earliest(outcome.created_at, at)
+      outcome.save! if outcome.changed?
+    end
+    outcome
+  end
+
+  def create_outcome(at)
     # created_at is the demand-start anchor for reporting windows, so it must
     # reflect the eligible message's time, not row insertion time — channels
     # like TikTok backdate message timestamps to the provider's clock.
-    conversation_outcome || ConversationOutcome.create!(
+    ConversationOutcome.create!(
       account: account,
       assistant: assistant,
       conversation: conversation,

@@ -35,6 +35,15 @@ RSpec.describe Captain::ConversationOutcomeTracker do
       end.not_to change(ConversationOutcome, :count)
     end
 
+    it 'pulls the demand anchor back when an earlier eligible message arrives late' do
+      outcome = tracker.record_eligibility(at: Time.current)
+
+      earlier_eligible_at = 2.minutes.ago
+      tracker.record_eligibility(at: earlier_eligible_at)
+
+      expect(outcome.reload.created_at).to eq(earlier_eligible_at)
+    end
+
     it 'does not create outcomes for Captain V1' do
       account.disable_features!('captain_integration_v2')
 
