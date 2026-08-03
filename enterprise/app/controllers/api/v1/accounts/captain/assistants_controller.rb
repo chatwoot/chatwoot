@@ -14,10 +14,12 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def update
-    permitted_params = assistant_params
-    permitted_params[:config] = @assistant.config.merge(permitted_params[:config].to_h) if permitted_params[:config]
+    @assistant.with_lock do
+      permitted_params = assistant_params
+      permitted_params[:config] = @assistant.config.merge(permitted_params[:config].to_h) if permitted_params[:config]
 
-    @assistant.update!(permitted_params)
+      @assistant.update!(permitted_params)
+    end
   end
 
   def destroy
