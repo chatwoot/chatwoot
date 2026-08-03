@@ -447,7 +447,6 @@
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Close details",
         "EMPTY": "No records found for this metric.",
         "ERROR": "Could not load records. Please try again.",
         "LOAD_MORE": "Load more",

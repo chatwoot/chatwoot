@@ -28,6 +28,12 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     resolvable_pending_conversations(inbox).each do |conversation|
       create_resolution_message(conversation, inbox)
       conversation.resolved!
+      Captain::ConversationEvents.resolved(
+        conversation: conversation,
+        assistant: inbox.captain_assistant,
+        source: Captain::ConversationEvents::Sources::TIME_BASED,
+        at: Time.current
+      )
     end
   end
 
@@ -77,7 +83,12 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       reason: CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON,
       reason_type: :inference
     ) { conversation.resolved! }
-    conversation.dispatch_captain_inference_resolved_event
+    Captain::ConversationEvents.resolved(
+      conversation: conversation,
+      assistant: inbox.captain_assistant,
+      source: Captain::ConversationEvents::Sources::INFERENCE,
+      at: Time.current
+    )
   end
 
   def handoff_conversation(conversation, inbox, reason)
@@ -87,7 +98,13 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       reason: CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON,
       reason_type: :inference
     ) { conversation.bot_handoff! }
-    conversation.dispatch_captain_inference_handoff_event
+    Captain::ConversationEvents.handed_off(
+      conversation: conversation,
+      assistant: inbox.captain_assistant,
+      source: Captain::ConversationEvents::Sources::INFERENCE,
+      reason_category: :pending_clarification,
+      at: Time.current
+    )
     send_out_of_office_message_if_applicable(conversation.reload)
   end
 
