@@ -1,5 +1,6 @@
 <script setup>
 import OnboardingFeatureCard from './OnboardingFeatureCard.vue';
+import OnboardingIllustration from './OnboardingIllustration.vue';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters } from 'dashboard/composables/store';
@@ -51,36 +52,36 @@ const greetingMessage = computed(() => {
       </p>
     </div>
     <OnboardingFeatureCard
-      image-src="/dashboard/images/onboarding/omnichannel-inbox.png"
-      image-alt="Omnichannel"
       to="settings_inbox_new"
       :title="$t('ONBOARDING.ALL_CONVERSATION.TITLE')"
       :description="$t('ONBOARDING.ALL_CONVERSATION.DESCRIPTION')"
       :link-text="$t('ONBOARDING.ALL_CONVERSATION.NEW_LINK')"
-    />
+    >
+      <OnboardingIllustration name="omnichannel" />
+    </OnboardingFeatureCard>
     <OnboardingFeatureCard
-      image-src="/dashboard/images/onboarding/teams.png"
-      image-alt="Teams"
       to="settings_teams_new"
       :title="$t('ONBOARDING.TEAM_MEMBERS.TITLE')"
       :description="$t('ONBOARDING.TEAM_MEMBERS.DESCRIPTION')"
       :link-text="$t('ONBOARDING.TEAM_MEMBERS.NEW_LINK')"
-    />
+    >
+      <OnboardingIllustration name="teams" />
+    </OnboardingFeatureCard>
     <OnboardingFeatureCard
-      image-src="/dashboard/images/onboarding/canned-responses.png"
-      image-alt="Canned responses"
       to="canned_list"
       :title="$t('ONBOARDING.CANNED_RESPONSES.TITLE')"
       :description="$t('ONBOARDING.CANNED_RESPONSES.DESCRIPTION')"
       :link-text="$t('ONBOARDING.CANNED_RESPONSES.NEW_LINK')"
-    />
+    >
+      <OnboardingIllustration name="cannedResponses" />
+    </OnboardingFeatureCard>
     <OnboardingFeatureCard
-      image-src="/dashboard/images/onboarding/labels.png"
-      image-alt="Labels"
       to="labels_list"
       :title="$t('ONBOARDING.LABELS.TITLE')"
       :description="$t('ONBOARDING.LABELS.DESCRIPTION')"
       :link-text="$t('ONBOARDING.LABELS.NEW_LINK')"
-    />
+    >
+      <OnboardingIllustration name="labels" />
+    </OnboardingFeatureCard>
   </div>
 </template>

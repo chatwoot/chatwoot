@@ -1,13 +1,5 @@
 <script setup>
 defineProps({
-  imageSrc: {
-    type: String,
-    default: '',
-  },
-  imageAlt: {
-    type: String,
-    default: '',
-  },
   title: {
     type: String,
     default: '',
@@ -31,12 +23,8 @@ defineProps({
   <div
     class="h-full w-full bg-n-surface-2 border border-n-weak rounded-lg p-4 flex flex-col"
   >
-    <div class="flex-1 flex items-center justify-center">
-      <img
-        :src="imageSrc"
-        :alt="imageAlt"
-        class="h-36 w-auto max-w-full object-contain mx-auto"
-      />
+    <div class="flex-1 flex items-center justify-center py-2">
+      <slot />
     </div>
     <div class="mt-auto">
       <p
