@@ -2,9 +2,14 @@ import { flushPromises, mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createStore } from 'vuex';
 import { Selection } from '@chatwoot/prosemirror-schema';
+import { withFullI18n } from 'test-i18n';
 import { emitter } from 'shared/helpers/mitt';
 import { ARTICLE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import FullEditor from './FullEditor.vue';
+
+// The slash menu specs assert on translated labels, so this spec needs the
+// real message catalogue instead of the empty global i18n instance.
+withFullI18n();
 
 let view = null;
 
