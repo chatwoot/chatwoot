@@ -61,7 +61,10 @@ export default {
         });
         useAlert(this.$t('AGENT_BOTS.BOT_CONFIGURATION.SUCCESS_MESSAGE'));
       } catch (error) {
-        useAlert(this.$t('AGENT_BOTS.BOT_CONFIGURATION.ERROR_MESSAGE'));
+        useAlert(
+          error?.message ||
+            this.$t('AGENT_BOTS.BOT_CONFIGURATION.ERROR_MESSAGE')
+        );
       }
     },
     async disconnectBot() {

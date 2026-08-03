@@ -1211,6 +1211,7 @@
         "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
       },
       "FORM": {
+        "AGENT_BOT_UNAVAILABLE": "Inboxes with an active AgentBot are not available.",
         "INBOX": {
           "LABEL": "Inbox",
           "PLACEHOLDER": "Choose the inbox to deploy the assistant.",

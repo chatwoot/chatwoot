@@ -39,12 +39,18 @@ const inboxList = computed(() => {
   const captainInboxIds = formState.captainInboxes.value.map(inbox => inbox.id);
 
   return formState.inboxes.value
-    .filter(inbox => !captainInboxIds.includes(inbox.id))
+    .filter(
+      inbox => !captainInboxIds.includes(inbox.id) && !inbox.agent_bot_connected
+    )
     .map(inbox => ({
       value: inbox.id,
       label: inbox.name,
     }));
 });
+
+const hasAgentBotInboxes = computed(() =>
+  formState.inboxes.value.some(inbox => inbox.agent_bot_connected)
+);
 
 const v$ = useVuelidate(validationRules, state);
 
@@ -92,6 +98,9 @@ const handleSubmit = async () => {
         class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
         :message="formErrors.inboxId"
       />
+      <p v-if="hasAgentBotInboxes" class="mb-0 text-xs text-n-slate-11">
+        {{ t('CAPTAIN.INBOXES.FORM.AGENT_BOT_UNAVAILABLE') }}
+      </p>
     </div>
 
     <div class="flex items-center justify-between w-full gap-3">

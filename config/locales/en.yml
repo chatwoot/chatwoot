@@ -74,6 +74,8 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    inbox:
+      captain_agent_bot_conflict: Captain and AgentBot cannot be connected to the same inbox.
     account:
       not_authorized: You are not authorized to access this account
       email_limit_exceeded: The daily email limit for this account has been reached

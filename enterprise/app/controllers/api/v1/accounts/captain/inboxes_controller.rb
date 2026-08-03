@@ -8,6 +8,8 @@ class Api::V1::Accounts::Captain::InboxesController < Api::V1::Accounts::BaseCon
 
   def create
     inbox = Current.account.inboxes.find(assistant_params[:inbox_id])
+    return render_could_not_create_error(I18n.t('errors.inbox.captain_agent_bot_conflict')) if inbox.agent_bot_inbox&.active?
+
     @captain_inbox = @assistant.captain_inboxes.build(inbox: inbox)
     @captain_inbox.save!
   end

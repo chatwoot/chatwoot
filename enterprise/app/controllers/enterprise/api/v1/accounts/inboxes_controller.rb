@@ -41,6 +41,12 @@ module Enterprise::Api::V1::Accounts::InboxesController
     render_could_not_create_error(e.message)
   end
 
+  def set_agent_bot
+    return render_could_not_create_error(I18n.t('errors.inbox.captain_agent_bot_conflict')) if @agent_bot.present? && @inbox.captain_inbox.present?
+
+    super
+  end
+
   def ee_inbox_attributes
     [auto_assignment_config: [:max_assignment_limit]]
   end
