@@ -217,14 +217,53 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(json_response[:config][:feature_citation]).to be(false)
       end
 
-      it 'updates inactive conversation settings for Captain v2' do
+      it 'keeps timer and follow-up settings behind Captain V2' do
+        assistant.update!(
+          config: {
+            'auto_resolve_mode' => 'evaluated',
+            'auto_resolve_after' => 60,
+            'follow_up_before_resolving' => false,
+            'follow_up_resolve_after' => 60,
+            'send_inactivity_resolution_message' => true
+          }
+        )
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: {
+                assistant: {
+                  config: {
+                    auto_resolve_mode: 'disabled',
+                    auto_resolve_after: 120,
+                    follow_up_before_resolving: true,
+                    follow_up_resolve_after: 45,
+                    send_inactivity_resolution_message: false
+                  }
+                }
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(assistant.reload.config).to include(
+          'auto_resolve_mode' => 'disabled',
+          'auto_resolve_after' => 60,
+          'follow_up_before_resolving' => false,
+          'follow_up_resolve_after' => 60,
+          'send_inactivity_resolution_message' => true
+        )
+      end
+
+      it 'stores and returns the inactivity follow-up policy for Captain V2' do
         account.enable_features('captain_integration_v2')
 
         patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
               params: {
                 assistant: {
                   config: {
-                    auto_resolve_after: 90,
+                    auto_resolve_mode: 'evaluated',
+                    auto_resolve_after: 120,
+                    follow_up_before_resolving: true,
+                    follow_up_resolve_after: 45,
                     send_inactivity_resolution_message: false,
                     resolution_message: 'Saved closing message'
                   }
@@ -235,7 +274,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(json_response[:config]).to include(
-          auto_resolve_after: 90,
+          auto_resolve_mode: 'evaluated',
+          auto_resolve_after: 120,
+          follow_up_before_resolving: true,
+          follow_up_resolve_after: 45,
           send_inactivity_resolution_message: false,
           resolution_message: 'Saved closing message'
         )

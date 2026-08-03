@@ -1,12 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Captain::Assistant do
-  describe 'inactive conversation settings' do
-    let(:assistant) { build(:captain_assistant, config: {}) }
+  describe 'inactivity policy settings' do
+    let(:assistant) { create(:captain_assistant, config: {}) }
 
     it 'uses safe defaults when settings have not been saved' do
       expect(assistant.inactivity_threshold_minutes).to eq(60)
-      expect(assistant.send_inactivity_resolution_message?).to be(true)
+      expect(assistant.send_inactivity_resolution_message?).to be true
+      expect(assistant.follow_up_before_resolving?).to be false
+      expect(assistant.follow_up_resolution_threshold_minutes).to eq(60)
     end
 
     it 'validates the inactivity timer range' do
@@ -14,6 +16,18 @@ RSpec.describe Captain::Assistant do
 
       expect(assistant).not_to be_valid
       expect(assistant.errors[:auto_resolve_after]).to be_present
+    end
+
+    it 'reads the saved follow-up policy' do
+      assistant.update!(
+        config: assistant.config.merge(
+          'follow_up_before_resolving' => true,
+          'follow_up_resolve_after' => 90
+        )
+      )
+
+      expect(assistant.follow_up_before_resolving?).to be true
+      expect(assistant.follow_up_resolution_threshold_minutes).to eq(90)
     end
   end
 

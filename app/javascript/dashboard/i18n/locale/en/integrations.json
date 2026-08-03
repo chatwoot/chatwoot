@@ -602,16 +602,44 @@
         },
         "INACTIVITY_RESOLUTION": {
           "TITLE": "Inactive conversations",
-          "DESCRIPTION": "Choose when Captain should act on conversations that are waiting for the customer.",
-          "CURRENT_SETTING": "Captain acts after {duration} of inactivity.",
+          "DESCRIPTION": "Choose what Captain should do when the customer stops replying.",
           "DURATION_HOURS": "{count} hour | {count} hours",
           "DURATION_MINUTES": "{count} minute | {count} minutes",
-          "RESOLUTION_MESSAGE": {
-            "TITLE": "Send a resolution message",
-            "DESCRIPTION": "Captain sends this message before resolving an inactive conversation.",
-            "DISABLED_SUMMARY": "Captain will not send a resolution message."
+          "REVIEW_AFTER": "Review after",
+          "RESOLVE_AFTER": "Resolve after",
+          "ALWAYS_WARNING": "Captain will resolve every inactive conversation without reviewing it. Some conversations that still need help may be closed.",
+          "PENDING_INFO": "Captain won't close the conversation because it has been inactive.",
+          "SUMMARY": {
+            "REVIEW": "Captain reviews the conversation after {duration}.",
+            "ALWAYS_RESOLVE": "Captain resolves the conversation after {duration} without reviewing it.",
+            "PENDING": "Captain waits for the customer and continues when they reply.",
+            "FOLLOW_UP": "If Captain follows up, it waits another {duration} before resolving."
           },
-          "DURATION_LABEL": "Inactivity timer",
+          "FOLLOW_UP": {
+            "TITLE": "Follow up before resolving",
+            "DESCRIPTION": "Captain sends a follow-up based on the conversation."
+          },
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Send a message when resolving",
+            "DESCRIPTION": "Send this closing message after Captain decides to resolve.",
+            "DISABLED_SUMMARY": "Captain will not send a resolution message.",
+            "RETAINED": "The saved resolution message is kept and will return if messages are turned on again."
+          },
+          "MODES": {
+            "DISABLED": {
+              "LABEL": "Captain will handle it",
+              "DESCRIPTION": "Captain waits for the customer and continues the conversation when they reply."
+            },
+            "LEGACY": {
+              "LABEL": "Always resolve",
+              "DESCRIPTION": "Skip Captain's review and resolve every inactive conversation after the selected time."
+            },
+            "EVALUATED": {
+              "LABEL": "Let Captain review it (recommended)",
+              "DESCRIPTION": "Captain decides whether to resolve, follow up, or hand off."
+            }
+          },
+          "DURATION_LABEL": "Take action after",
           "DURATION_HOURS_LABEL": "Hours",
           "DURATION_MINUTES_LABEL": "Minutes"
         },

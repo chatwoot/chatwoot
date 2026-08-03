@@ -9,7 +9,7 @@ RSpec.describe Captain::ConversationCompletionService do
   let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'test-key')
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
     allow(mock_chat).to receive(:with_instructions)
     allow(mock_chat).to receive(:with_schema).and_return(mock_chat)
@@ -23,7 +23,7 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
+          content: { 'action' => 'resolve', 'reason' => 'Customer question was fully answered', 'follow_up_message' => '' },
           input_tokens: 100,
           output_tokens: 20
         )
@@ -36,10 +36,10 @@ RSpec.describe Captain::ConversationCompletionService do
         allow(mock_chat).to receive(:ask).and_return(mock_response)
       end
 
-      it 'returns complete: true with reason' do
+      it 'returns the resolve action with reason' do
         result = service.perform
 
-        expect(result[:complete]).to be true
+        expect(result[:action]).to eq('resolve')
         expect(result[:reason]).to eq('Customer question was fully answered')
       end
     end
@@ -48,7 +48,11 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: { 'complete' => false, 'reason' => 'Assistant asked for order number but customer did not respond' },
+          content: {
+            'action' => 'follow_up',
+            'reason' => 'Assistant asked for order number but customer did not respond',
+            'follow_up_message' => 'Could you share your order number?'
+          },
           input_tokens: 100,
           output_tokens: 20
         )
@@ -60,11 +64,12 @@ RSpec.describe Captain::ConversationCompletionService do
         allow(mock_chat).to receive(:ask).and_return(mock_response)
       end
 
-      it 'returns complete: false with reason' do
+      it 'returns a generated follow-up grounded in the conversation' do
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:action]).to eq('follow_up')
         expect(result[:reason]).to eq('Assistant asked for order number but customer did not respond')
+        expect(result[:follow_up_message]).to eq('Could you share your order number?')
       end
     end
 
@@ -73,7 +78,7 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: { 'complete' => false, 'reason' => 'Human follow-up is still pending' },
+          content: { 'action' => 'handoff', 'reason' => 'Human follow-up is still pending', 'follow_up_message' => '' },
           input_tokens: 100,
           output_tokens: 20
         )
@@ -105,7 +110,7 @@ RSpec.describe Captain::ConversationCompletionService do
 
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:action]).to eq('handoff')
       end
 
       it 'includes pending captain handoff evidence in the transcript' do
@@ -132,7 +137,7 @@ RSpec.describe Captain::ConversationCompletionService do
 
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:action]).to eq('handoff')
       end
 
       it 'reuses computed message content while formatting the transcript' do
@@ -176,7 +181,7 @@ RSpec.describe Captain::ConversationCompletionService do
       it 'returns incomplete with appropriate reason' do
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:action]).to eq('handoff')
         expect(result[:reason]).to eq('No messages found')
       end
     end
@@ -199,7 +204,7 @@ RSpec.describe Captain::ConversationCompletionService do
       it 'returns incomplete as safe default' do
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:action]).to eq('handoff')
         expect(result[:reason]).to eq('Invalid response format')
       end
     end
@@ -210,10 +215,10 @@ RSpec.describe Captain::ConversationCompletionService do
         allow(mock_chat).to receive(:ask).and_raise(StandardError.new('API Error'))
       end
 
-      it 'returns incomplete with error message' do
+      it 'hands off with the error message' do
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:action]).to eq('handoff')
         expect(result[:reason]).to eq('API Error')
       end
     end
@@ -227,7 +232,7 @@ RSpec.describe Captain::ConversationCompletionService do
       it 'does not evaluate the conversation as complete' do
         result = service.perform
 
-        expect(result[:complete]).not_to be true
+        expect(result[:action]).not_to eq('resolve')
       end
     end
 
@@ -240,7 +245,12 @@ RSpec.describe Captain::ConversationCompletionService do
       it 'uses the system API key instead of the account hook key' do
         expect(Llm::Config).to receive(:with_api_key).with('test-key', api_base: anything).and_yield(mock_context)
         allow(mock_chat).to receive(:ask).and_return(
-          instance_double(RubyLLM::Message, content: { 'complete' => true, 'reason' => 'Done' }, input_tokens: 10, output_tokens: 5)
+          instance_double(
+            RubyLLM::Message,
+            content: { 'action' => 'resolve', 'reason' => 'Done', 'follow_up_message' => '' },
+            input_tokens: 10,
+            output_tokens: 5
+          )
         )
 
         service.perform
@@ -253,7 +263,7 @@ RSpec.describe Captain::ConversationCompletionService do
 
         result = service.perform
 
-        expect(result[:complete]).to be false
+        expect(result[:action]).to eq('handoff')
         expect(result[:reason]).to eq(I18n.t('captain.api_key_missing'))
       end
     end
@@ -262,7 +272,7 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
+          content: { 'action' => 'resolve', 'reason' => 'Customer question was fully answered', 'follow_up_message' => '' },
           input_tokens: 100,
           output_tokens: 20
         )
@@ -286,7 +296,7 @@ RSpec.describe Captain::ConversationCompletionService do
         result = service.perform
 
         expect(result[:error]).to be_nil
-        expect(result[:complete]).to be true
+        expect(result[:action]).to eq('resolve')
         expect(result[:reason]).to eq('Customer question was fully answered')
       end
 
