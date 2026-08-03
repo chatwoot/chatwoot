@@ -128,7 +128,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:dis
         {
           type: 'postback',
           title: action[:text],
-          payload: action[:payload]
+          payload: Messages::PostbackPayloadCodec.encode(message.id, action[:payload])
         }
       when 'url', 'link'
         {
@@ -189,7 +189,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:dis
         {
           type: 'postback',
           title: button[:text],
-          payload: button[:id]
+          payload: Messages::PostbackPayloadCodec.encode(message.id, button[:id])
         }
       when 'url', 'link'
         {

@@ -280,6 +280,32 @@ describe Facebook::SendOnFacebookService do
       end
     end
 
+    context 'with interactive_buttons postback payload' do
+      it 'encodes the source message id into the button postback payload' do
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation,
+                                   content_type: 'interactive_buttons',
+                                   content: 'Choose an option',
+                                   content_attributes: {
+                                     'body_text' => 'Please select:',
+                                     'buttons' => [{ 'id' => 'btn_1', 'text' => 'Option A', 'type' => 'reply' }]
+                                   })
+
+        described_class.new(message: message).perform
+        expect(bot).to have_received(:deliver).with(
+          hash_including(
+            message: hash_including(
+              attachment: hash_including(
+                payload: hash_including(
+                  elements: [hash_including(buttons: [hash_including(payload: "#{message.id}::cw_msg::btn_1")])]
+                )
+              )
+            )
+          ),
+          { page_id: facebook_channel.page_id }
+        )
+      end
+    end
+
     context 'with cta_url' do
       it 'sends CTA URL generic template message for cta_url content type' do
         message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation,

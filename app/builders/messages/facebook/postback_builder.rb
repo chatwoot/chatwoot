@@ -1,5 +1,5 @@
 # Builder to create incoming messages from Facebook Messenger postback button clicks.
-class Messages::Facebook::PostbackBuilder
+class Messages::Facebook::PostbackBuilder # rubocop:disable Metrics/ClassLength
   attr_reader :messaging, :inbox
 
   def initialize(messaging, inbox)
@@ -29,7 +29,15 @@ class Messages::Facebook::PostbackBuilder
   end
 
   def postback_payload
+    decoded_source&.last || raw_postback_payload
+  end
+
+  def raw_postback_payload
     postback[:payload]
+  end
+
+  def decoded_source
+    @decoded_source ||= Messages::PostbackPayloadCodec.decode(raw_postback_payload)
   end
 
   def postback_mid
@@ -142,6 +150,20 @@ class Messages::Facebook::PostbackBuilder
   end
 
   def matching_source_message
+    return matching_source_message_by_id if decoded_source
+
+    matching_source_message_by_scan
+  end
+
+  def matching_source_message_by_id
+    source_message = conversation.messages.outgoing.find_by(id: decoded_source.first)
+    return [nil, nil, nil] if source_message.blank?
+
+    card, button = find_matching_card_and_button(source_message)
+    [source_message, card, button]
+  end
+
+  def matching_source_message_by_scan
     source_message = conversation.messages.outgoing
                                  .where(content_type: %w[cards interactive_buttons])
                                  .reorder(created_at: :desc)
