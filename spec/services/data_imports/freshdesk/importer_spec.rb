@@ -86,4 +86,48 @@ RSpec.describe DataImports::Freshdesk::Importer do
     expect(data_import.processed_records).to eq(6)
     expect(data_import.mappings.count).to eq(6)
   end
+
+  it 'preserves newer progress when a delayed worker persists a stale snapshot', :aggregate_failures do
+    data_import.update!(
+      status: :processing,
+      cursor: { 'contacts' => { 'starting_after' => 'cursor-1', 'completed' => false } },
+      stats: {
+        'contacts' => { 'total' => 4, 'imported' => 1, 'skipped' => 0 },
+        'conversations' => { 'imported' => 0, 'skipped' => 0 },
+        'messages' => { 'imported' => 0, 'skipped' => 0 },
+        'errors' => { 'count' => 0 }
+      },
+      processed_records: 1
+    )
+    data_import.items.create!(
+      source_provider: 'freshdesk', source_object_type: 'contact', source_object_id: '1001', status: :imported
+    )
+    delayed_importer = described_class.new(data_import: DataImport.find(data_import.id))
+
+    data_import.items.create!(
+      source_provider: 'freshdesk', source_object_type: 'contact', source_object_id: '1002', status: :imported
+    )
+    data_import.reload.update!(
+      cursor: { 'contacts' => { 'starting_after' => 'cursor-2', 'completed' => false } },
+      stats: data_import.stats.deep_merge('contacts' => { 'imported' => 2 }),
+      processed_records: 2
+    )
+
+    expect(delayed_importer.send(:update_cursor, 'contacts', 'cursor-1')).to eq('cursor-2')
+    delayed_importer.send(:persist_stats)
+
+    expect(data_import.reload.cursor.dig('contacts', 'starting_after')).to eq('cursor-2')
+    expect(data_import.stats.dig('contacts', 'imported')).to eq(2)
+    expect(data_import.processed_records).to eq(2)
+  end
+
+  it 'recognizes a structured cursor after JSON persistence' do
+    importer = described_class.new(data_import: data_import)
+
+    importer.send(:update_cursor, 'conversations', { page: 1, offset: 2 })
+    data_import.reload
+    importer.send(:update_cursor, 'conversations', nil)
+
+    expect(data_import.reload.cursor['conversations']).to include('starting_after' => nil, 'completed' => true)
+  end
 end

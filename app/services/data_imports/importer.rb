@@ -34,6 +34,8 @@ class DataImports::Importer
     @source = source || DataImports::Source.for(data_import)
     @placeholder_inboxes = @source.placeholder_inbox_builder(account: @account)
     @stats = default_stats.deep_merge(data_import.stats || {})
+    @persisted_cursor = data_import.cursor.to_h.deep_stringify_keys
+    @persisted_stats = @stats.deep_dup
     @dirty_stat_groups = {}
   end
 
@@ -92,7 +94,7 @@ class DataImports::Importer
 
     reconcile_dirty_stats
     next_cursor = response.dig('pages', 'next', 'starting_after')
-    update_cursor('contacts', next_cursor)
+    next_cursor = update_cursor('contacts', next_cursor)
     PageResult.new(next_cursor: next_cursor)
   end
 
@@ -108,7 +110,7 @@ class DataImports::Importer
 
     reconcile_dirty_stats
     next_cursor = response.dig('pages', 'next', 'starting_after')
-    update_cursor('conversations', next_cursor)
+    next_cursor = update_cursor('conversations', next_cursor)
     PageResult.new(next_cursor: next_cursor)
   end
 
@@ -1175,10 +1177,20 @@ class DataImports::Importer
   end
 
   def update_cursor(key, cursor)
-    @data_import.cursor = @data_import.cursor.to_h.merge(
-      key => { starting_after: cursor, completed: cursor.blank?, updated_at: Time.current.iso8601 }
-    )
-    @data_import.save!
+    @data_import.with_lock do
+      current_cursor = @data_import.cursor.to_h.deep_stringify_keys
+      if current_cursor != @persisted_cursor
+        @persisted_cursor = current_cursor.deep_dup
+        next current_cursor.dig(key, 'starting_after')
+      end
+
+      updated_cursor = current_cursor.merge(
+        key => { starting_after: cursor, completed: cursor.blank?, updated_at: Time.current.iso8601 }
+      ).deep_stringify_keys
+      @data_import.update!(cursor: updated_cursor)
+      @persisted_cursor = updated_cursor.deep_dup
+      cursor
+    end
   end
 
   def stage_completed?(key)
@@ -1261,7 +1273,28 @@ class DataImports::Importer
   end
 
   def persist_stats
-    @data_import.update_columns(stats: @stats, updated_at: Time.current)
+    @data_import.with_lock do
+      current_stats = default_stats.deep_merge(@data_import.stats || {})
+      reconcile_concurrent_stats(current_stats) if current_stats != @persisted_stats || @data_import.cursor.to_h != @persisted_cursor
+
+      @data_import.update_columns(stats: @stats, updated_at: Time.current)
+      @persisted_cursor = @data_import.cursor.to_h.deep_stringify_keys
+      @persisted_stats = @stats.deep_dup
+    end
+  end
+
+  def reconcile_concurrent_stats(current_stats)
+    local_stats = @stats
+    @stats = current_stats.deep_merge(local_stats)
+    %w[contacts conversations messages].each do |group|
+      totals = [current_stats.dig(group, 'total'), local_stats.dig(group, 'total')].compact
+      @stats[group]['total'] = totals.map(&:to_i).max if totals.any?
+    end
+
+    reconcile_item_stats('contact')
+    reconcile_item_stats('conversation')
+    reconcile_message_stats
+    @stats['errors']['count'] = @data_import.import_errors.non_skip_logs.count + @data_import.import_errors.failed.count
   end
 
   def default_stats
