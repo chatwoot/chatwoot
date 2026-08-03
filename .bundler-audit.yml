@@ -21,3 +21,6 @@ ignore:
   - CVE-2026-33176
   - CVE-2026-33195
   - CVE-2026-33202
+  # No Rails 7.1 patch for this Active Storage advisory; mitigated locally.
+  # Remove once on Rails 7.2.3.1+.
+  - CVE-2026-66066

@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "സബ്സ്ക്രൈബ് ചെയ്ത ഇവന്റുകൾ",
       "LEARN_MORE": "വെബ്‌ഹുക്കുകൾക്കുറിച്ച് കൂടുതൽ അറിയുക",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "രഹസ്യം",
         "COPY": "രഹസ്യം ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക",
@@ -392,6 +399,82 @@
   "CAPTAIN": {
     "NAME": "ക്യാപ്റ്റൻ",
     "HEADER_KNOW_MORE": "കൂടുതൽ അറിയുക",
+    "OVERVIEW": {
+      "HEADER": "അവലോകനം",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review FAQs",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "PENDING": "പെൻഡിംഗ് എഫ്എക്യുസുകൾ",
+        "DOCUMENTS": "ഡോക്യുമെന്റുകൾ"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "പ്ലേഗ്രൗണ്ട്",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "ബില്ലിംഗ്",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "സഹായികൾ",
       "SWITCH_ASSISTANT": "അസിസ്റ്റന്റുകൾ തമ്മിൽ മാറുക",
@@ -493,10 +576,6 @@
           "LABEL": "പേര്",
           "PLACEHOLDER": "അസിസ്റ്റന്റിന്റെ പേര് നൽകുക",
           "ERROR": "പേര് ആവശ്യമാണ്"
-        },
-        "TEMPERATURE": {
-          "LABEL": "പ്രതികരണ താപനില",
-          "DESCRIPTION": "അസിസ്റ്റന്റിന്റെ പ്രതികരണങ്ങൾ എത്ര സൃഷ്ടിപരമായോ നിയന്ത്രിതമായോ ആയിരിക്കണമെന്ന് ക്രമീകരിക്കുക. കുറഞ്ഞ മൂല്യങ്ങൾ കൂടുതൽ കേന്ദ്രീകൃതവും നിർണായകവുമായ പ്രതികരണങ്ങൾ നൽകും, ഉയർന്ന മൂല്യങ്ങൾ കൂടുതൽ സൃഷ്ടിപരവും വ്യത്യസ്തവുമായ ഔട്ട്പുട്ടുകൾ അനുവദിക്കും."
         },
         "DESCRIPTION": {
           "LABEL": "വിവരണം",
@@ -739,6 +818,7 @@
     "DOCUMENTS": {
       "HEADER": "ഡോക്യുമെന്റുകൾ",
       "ADD_NEW": "ഒരു പുതിയ ഡോക്യുമെന്റ് സൃഷ്ടിക്കുക",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} തിരഞ്ഞെടുക്കപ്പെട്ടത്",
       "SELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കുക ({count})",
       "UNSELECT_ALL": "എല്ലാം തിരഞ്ഞെടുക്കൽ ഒഴിവാക്കുക ({count})",
@@ -798,7 +878,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "ബന്ധപ്പെട്ട സാധാരണ ചോദിക്കപ്പെടുന്ന ചോദ്യങ്ങൾ",
-        "DESCRIPTION": "ഈ സാധാരണ ചോദിക്കപ്പെടുന്ന ചോദ്യങ്ങൾ രേഖയിൽ നിന്നു നേരിട്ട് സൃഷ്ടിച്ചവയാണ്."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "പകർത്തുക",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "ഡോക്യുമെന്റിന്റെ URL നൽകുക, അതിനെ ഒരു നോളജ് സോഴ്സ് ആയി ചേർക്കാൻ, കൂടാതെ അത് ബന്ധിപ്പിക്കാനുള്ള അസിസ്റ്റന്റിനെ തിരഞ്ഞെടുക്കുക.",
       "CREATE": {
@@ -838,7 +938,7 @@
         "ERROR_MESSAGE": "ഡോക്യുമെന്റ് ഇല്ലാതാക്കുന്നതിൽ പിശക് സംഭവിച്ചു, ദയവായി വീണ്ടും ശ്രമിക്കുക."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "ബന്ധപ്പെട്ട പ്രതികരണങ്ങൾ കാണുക",
+        "VIEW_DETAILS": "വിശദാംശങ്ങൾ കാണുക",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "ഡോക്യുമെന്റ് ഇല്ലാതാക്കുക"

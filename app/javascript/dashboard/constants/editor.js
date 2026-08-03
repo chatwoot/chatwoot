@@ -186,6 +186,8 @@ export const ARTICLE_EDITOR_MENU_OPTIONS = [
   'imageUpload',
   'code',
   'insertTable',
+  'video',
+  'horizontalRule',
 ];
 
 // [text](url) -> "text: url" (drop label if it equals the URL). Keep serializer

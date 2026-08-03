@@ -37,6 +37,22 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(open_conversation.reload.status).to eq('open')
     end
 
+    it 'emits a captain resolved event with the time_based source' do
+      expect(Captain::ConversationEvents).to receive(:resolved)
+        .with(conversation: resolvable_pending_conversation, assistant: captain_assistant, source: 'time_based', at: kind_of(Time))
+
+      described_class.perform_now(inbox)
+    end
+
+    it 'does not create a captain inference reporting event' do
+      perform_enqueued_jobs do
+        described_class.perform_now(inbox)
+      end
+
+      expect(ReportingEvent.exists?(conversation_id: resolvable_pending_conversation.id,
+                                    name: 'conversation_captain_inference_resolved')).to be(false)
+    end
+
     it 'does not call ConversationCompletionService' do
       allow(Captain::ConversationCompletionService).to receive(:new)
 
@@ -154,9 +170,17 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
             account_id: resolvable_pending_conversation.account_id,
             inbox_id: resolvable_pending_conversation.inbox_id,
             message_type: :activity,
-            content: expected_content
+            content: expected_content,
+            content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
           }
         )
+    end
+
+    it 'emits a captain resolved event with the inference source' do
+      expect(Captain::ConversationEvents).to receive(:resolved)
+        .with(conversation: resolvable_pending_conversation, assistant: captain_assistant, source: 'inference', at: kind_of(Time))
+
+      described_class.perform_now(inbox)
     end
 
     it 'creates a captain inference resolved reporting event' do
@@ -252,9 +276,18 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
             account_id: resolvable_pending_conversation.account_id,
             inbox_id: resolvable_pending_conversation.inbox_id,
             message_type: :activity,
-            content: expected_content
+            content: expected_content,
+            content_attributes: { activity: { type: 'conversation_status_changed', status: 'open' } }
           }
         )
+    end
+
+    it 'emits a captain handoff event with the inference source' do
+      expect(Captain::ConversationEvents).to receive(:handed_off)
+        .with(conversation: resolvable_pending_conversation, assistant: captain_assistant, source: 'inference',
+              reason_category: :pending_clarification, at: kind_of(Time))
+
+      described_class.perform_now(inbox)
     end
 
     it 'creates a captain inference handoff reporting event' do
