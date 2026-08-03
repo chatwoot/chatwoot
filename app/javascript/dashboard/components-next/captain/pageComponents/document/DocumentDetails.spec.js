@@ -30,8 +30,9 @@ const captainDocument = {
   pdf_document: false,
 };
 
-const DialogStub = {
-  name: 'Dialog',
+const SidePanelStub = {
+  name: 'SidePanel',
+  methods: { open() {}, close() {} },
   template: '<div><slot /></div>',
 };
 
@@ -59,7 +60,7 @@ describe('DocumentDetails', () => {
       global: {
         directives: { dompurifyHtml: {} },
         stubs: {
-          Dialog: DialogStub,
+          SidePanel: SidePanelStub,
           TabBar: TabBarStub,
           PaginationFooter: PaginationFooterStub,
         },
