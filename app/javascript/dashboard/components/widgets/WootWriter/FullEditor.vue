@@ -244,6 +244,17 @@ export default {
           const tr = editorView.state.tr.replaceSelectionWith(tableNode);
           editorView.dispatch(tr.scrollIntoView());
         },
+        horizontalRule: () => {
+          editorView.dispatch(
+            editorView.state.tr
+              .replaceSelectionWith(schema.nodes.horizontal_rule.create())
+              .scrollIntoView()
+          );
+          const { doc, selection, tr } = editorView.state;
+          editorView.dispatch(
+            tr.setSelection(Selection.near(doc.resolve(selection.to), 1))
+          );
+        },
         imageUpload: () => this.openFileBrowser(),
       };
 

@@ -73,6 +73,12 @@ const EDITOR_ACTIONS = [
     menuKey: 'video',
   },
   {
+    value: 'horizontalRule',
+    labelKey: 'SLASH_COMMANDS.DIVIDER',
+    icon: 'i-lucide-minus',
+    menuKey: 'horizontalRule',
+  },
+  {
     value: 'strike',
     labelKey: 'SLASH_COMMANDS.STRIKETHROUGH',
     icon: 'i-lucide-strikethrough',
