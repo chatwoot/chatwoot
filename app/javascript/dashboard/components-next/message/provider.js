@@ -66,6 +66,7 @@ const MessageControl = Symbol('MessageControl');
  * @property {EmailContent} [email] - Email content and metadata
  * @property {string|null} [ccEmail] - CC email addresses
  * @property {string|null} [bccEmail] - BCC email addresses
+ * @property {{type: 'request', state: 'pending'|'shared'|'identity_conflict'}} [whatsappContactInfo] - WhatsApp contact information request state
  */
 
 /**

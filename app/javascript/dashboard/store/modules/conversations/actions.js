@@ -328,6 +328,12 @@ const actions = {
     }
   },
 
+  requestContactInfo: async ({ commit }, conversationId) => {
+    const { data } = await ConversationApi.requestContactInfo(conversationId);
+    commit(types.ADD_MESSAGE, data);
+    return data;
+  },
+
   addMessage({ commit, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
     if (message.message_type === MESSAGE_TYPE.INCOMING) {

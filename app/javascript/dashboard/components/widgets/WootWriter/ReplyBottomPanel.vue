@@ -125,12 +125,29 @@ export default {
       type: Boolean,
       default: false,
     },
+    showRequestContactInfo: {
+      type: Boolean,
+      default: false,
+    },
+    isRequestContactInfoDisabled: {
+      type: Boolean,
+      default: false,
+    },
+    isRequestingContactInfo: {
+      type: Boolean,
+      default: false,
+    },
+    requestContactInfoTooltip: {
+      type: String,
+      default: '',
+    },
   },
   emits: [
     'toggleInsertArticle',
     'selectWhatsappTemplate',
     'selectContentTemplate',
     'toggleQuotedReply',
+    'requestContactInfo',
   ],
   setup(props) {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
@@ -357,6 +374,17 @@ export default {
         faded
         sm
         @click="$emit('selectWhatsappTemplate')"
+      />
+      <NextButton
+        v-if="showRequestContactInfo"
+        v-tooltip.top-end="requestContactInfoTooltip"
+        icon="i-ph-address-book"
+        slate
+        faded
+        sm
+        :disabled="isRequestContactInfoDisabled"
+        :is-loading="isRequestingContactInfo"
+        @click="$emit('requestContactInfo')"
       />
       <NextButton
         v-if="enableContentTemplates"

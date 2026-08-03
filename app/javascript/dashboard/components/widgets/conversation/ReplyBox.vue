@@ -137,6 +137,7 @@ export default {
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
       copilotAcceptedMessages: {},
+      isRequestingContactInfo: false,
     };
   },
   computed: {
@@ -151,6 +152,39 @@ export default {
       const senderId = this.currentChat?.meta?.sender?.id;
       if (!senderId) return {};
       return this.$store.getters['contacts/getContact'](senderId);
+    },
+    hasContactPhoneNumber() {
+      return !!(
+        this.currentContact?.phone_number ||
+        this.currentChat?.meta?.sender?.phone_number
+      );
+    },
+    hasPendingContactInfoRequest() {
+      return (this.currentChat?.messages || []).some(message => {
+        const contactInfo =
+          message.content_attributes?.whatsapp_contact_info || {};
+        return (
+          contactInfo.type === 'request' &&
+          contactInfo.state === 'pending' &&
+          message.status !== 'failed'
+        );
+      });
+    },
+    showRequestContactInfo() {
+      return (
+        this.isAWhatsAppCloudChannel &&
+        !this.hasContactPhoneNumber &&
+        this.currentChat.can_reply &&
+        !this.isOnPrivateNote
+      );
+    },
+    isRequestContactInfoDisabled() {
+      return this.isRequestingContactInfo || this.hasPendingContactInfoRequest;
+    },
+    requestContactInfoTooltip() {
+      return this.hasPendingContactInfoRequest
+        ? this.$t('CONVERSATION.REQUEST_CONTACT_INFO.PENDING_ACTION')
+        : this.$t('CONVERSATION.REQUEST_CONTACT_INFO.ACTION');
     },
     shouldShowReplyToMessage() {
       return (
@@ -570,6 +604,19 @@ export default {
     emitter.off(CMD_AI_ASSIST, this.executeCopilotAction);
   },
   methods: {
+    async requestContactInfo() {
+      this.isRequestingContactInfo = true;
+      try {
+        await this.$store.dispatch('requestContactInfo', this.currentChat.id);
+        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+      } catch (error) {
+        const errorMessage =
+          error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
+        useAlert(errorMessage);
+      } finally {
+        this.isRequestingContactInfo = false;
+      }
+    },
     getDraftKey(
       conversationId = this.conversationIdByRoute,
       replyType = this.effectiveReplyMode
@@ -1439,6 +1486,10 @@ export default {
         :is-send-disabled="isReplyButtonDisabled"
         :is-note="isPrivate"
         :is-editor-disabled="isEditorDisabled"
+        :show-request-contact-info="showRequestContactInfo"
+        :is-request-contact-info-disabled="isRequestContactInfoDisabled"
+        :is-requesting-contact-info="isRequestingContactInfo"
+        :request-contact-info-tooltip="requestContactInfoTooltip"
         :on-file-upload="onFileUpload"
         :on-send="onSendReply"
         :conversation-type="conversationType"
@@ -1460,6 +1511,7 @@ export default {
         @select-content-template="openContentTemplateModal"
         @toggle-insert-article="toggleInsertArticle"
         @toggle-quoted-reply="toggleQuotedReply"
+        @request-contact-info="requestContactInfo"
       />
     </Transition>
 

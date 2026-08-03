@@ -89,6 +89,9 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def create_contact_messages(message)
+    Whatsapp::ContactInfoResponseService.new(conversation: @conversation, inbox: @inbox, contact: @contact, contact_inbox: @contact_inbox,
+                                             message_payload: message).perform
+
     message['contacts'].each do |contact|
       # Pass source_id from parent message since contact objects don't have :id
       create_message(contact, source_id: message[:id], content_attributes_source: message)
