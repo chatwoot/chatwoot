@@ -271,7 +271,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       body: {
         messaging_product: 'whatsapp',
         context: whatsapp_reply_context(message),
-        to: phone_number,
+        **recipient_params(phone_number),
         interactive: payload,
         type: 'interactive'
       }.to_json
@@ -294,7 +294,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       body: {
         messaging_product: 'whatsapp',
         context: whatsapp_reply_context(message),
-        to: phone_number,
+        **recipient_params(phone_number),
         interactive: payload,
         type: 'interactive'
       }.to_json
@@ -317,7 +317,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       body: {
         messaging_product: 'whatsapp',
         context: whatsapp_reply_context(message),
-        to: phone_number,
+        **recipient_params(phone_number),
         interactive: payload,
         type: 'interactive'
       }.to_json
@@ -340,7 +340,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       body: {
         messaging_product: 'whatsapp',
         context: whatsapp_reply_context(message),
-        to: phone_number,
+        **recipient_params(phone_number),
         interactive: payload,
         type: 'interactive'
       }.to_json
