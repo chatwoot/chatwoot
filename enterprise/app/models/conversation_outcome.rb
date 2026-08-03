@@ -53,7 +53,6 @@ class ConversationOutcome < ApplicationRecord
        validate: { allow_nil: true }
 
   validates :conversation_id, uniqueness: { scope: [:account_id, :assistant_id] }
-  validates :handoff_reason_category, presence: true, if: :handoff_at?
   validate :associations_must_belong_to_account
 
   private

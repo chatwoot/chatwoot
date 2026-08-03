@@ -18,11 +18,10 @@ RSpec.describe ConversationOutcome, type: :model do
   end
 
   describe 'validations' do
-    it 'requires a reason category when a handoff is recorded' do
+    it 'allows a handoff without a reason category for unclassified handoffs' do
       outcome = build(:conversation_outcome, handoff_at: Time.current)
 
-      expect(outcome).not_to be_valid
-      expect(outcome.errors[:handoff_reason_category]).to be_present
+      expect(outcome).to be_valid
     end
 
     it 'rejects an assistant from another account' do
