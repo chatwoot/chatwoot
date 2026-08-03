@@ -306,6 +306,30 @@ describe Conversations::FilterService do
         expect(result[:count][:all_count]).to be 1
       end
 
+      it 'applies the planner hint to permission scoping only for selective label filters' do
+        hinted_sql = lambda do |payload|
+          params[:payload] = payload.map(&:with_indifferent_access)
+          filter_service.new(params, user_1, account).perform[:conversations].to_sql
+        end
+
+        expect(hinted_sql.call([{ attribute_key: 'labels', filter_operator: 'equal_to', values: ['support'], query_operator: nil }]))
+          .to include('conversations.inbox_id + 0')
+
+        # no labels condition
+        expect(hinted_sql.call([{ attribute_key: 'status', filter_operator: 'equal_to', values: ['open'], query_operator: nil }]))
+          .not_to include('inbox_id + 0')
+
+        # negative label operator does not narrow the result set
+        expect(hinted_sql.call([{ attribute_key: 'labels', filter_operator: 'not_equal_to', values: ['support'], query_operator: nil }]))
+          .not_to include('inbox_id + 0')
+
+        # OR payloads leave the result broad even with an equal_to label condition
+        expect(hinted_sql.call([
+                                 { attribute_key: 'status', filter_operator: 'equal_to', values: ['open'], query_operator: 'OR' },
+                                 { attribute_key: 'labels', filter_operator: 'equal_to', values: ['support'], query_operator: nil }
+                               ])).not_to include('inbox_id + 0')
+      end
+
       it 'filter conversations by is_present filter_operator' do
         params[:payload] = [
           {
