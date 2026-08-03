@@ -13,7 +13,7 @@ RSpec.describe Captain::Assistant do
       assistant.auto_resolve_after = 4
 
       expect(assistant).not_to be_valid
-      expect(assistant.errors[:inactivity_threshold_minutes]).to be_present
+      expect(assistant.errors[:auto_resolve_after]).to be_present
     end
   end
 

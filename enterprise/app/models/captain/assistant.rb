@@ -50,12 +50,13 @@ class Captain::Assistant < ApplicationRecord
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
   validates :send_inactivity_resolution_message, inclusion: { in: [true, false] }
-  validates :inactivity_threshold_minutes,
+  validates :auto_resolve_after,
             numericality: {
               only_integer: true,
               greater_than_or_equal_to: MINIMUM_INACTIVITY_THRESHOLD_MINUTES,
               less_than_or_equal_to: MAXIMUM_INACTIVITY_THRESHOLD_MINUTES
-            }
+            },
+            allow_nil: true
 
   scope :ordered, -> { order(created_at: :desc) }
 
