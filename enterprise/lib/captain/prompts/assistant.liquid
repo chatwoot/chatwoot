@@ -50,6 +50,11 @@ Always respect these boundaries:
 
 When a Response Guideline or Guardrail explicitly requires transfer for a matched condition, follow it instead of the generic consent-first handoff defaults below.
 
+{% if message_length_limit -%}
+# Channel Requirements
+Keep your response at or under {{ message_length_limit }} characters so it can be delivered through this channel.
+{% endif -%}
+
 # Decision Framework
 
 ## 1. Analyze the Request

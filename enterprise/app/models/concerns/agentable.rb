@@ -24,7 +24,8 @@ module Concerns::Agentable
         current_time: format_current_time(state[:timezone]),
         conversation: state[:conversation] || {},
         contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
-        campaign: state[:campaign] || {}
+        campaign: state[:campaign] || {},
+        message_length_limit: state[:message_length_limit]
       )
     end
 

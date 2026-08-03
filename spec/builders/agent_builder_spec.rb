@@ -30,6 +30,8 @@ RSpec.describe AgentBuilder, type: :model do
     end
 
     context 'when user does not exist' do
+      before { clear_enqueued_jobs }
+
       it 'creates a new user' do
         expect { agent_builder.perform }.to change(User, :count).by(1)
       end
@@ -40,6 +42,28 @@ RSpec.describe AgentBuilder, type: :model do
 
       it 'returns a user' do
         expect(agent_builder.perform).to be_a(User)
+      end
+
+      it 'reserves email capacity and enqueues the invitation' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+
+        expect { agent_builder.perform }.to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
+        expect(account.emails_sent_today).to eq(1)
+      end
+
+      context 'when the account email limit is exhausted' do
+        before do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+          account.update!(limits: { 'emails' => 0 })
+        end
+
+        it 'does not create the user or enqueue an invitation' do
+          expect { agent_builder.perform }.to raise_error(CustomExceptions::Account::EmailLimitExceeded)
+          expect(User.from_email(email)).to be_nil
+          expect(AccountUser.find_by(account: account, user: User.from_email(email))).to be_nil
+          mail_jobs = enqueued_jobs.select { |job| job[:job].to_s == 'ActionMailer::MailDeliveryJob' }
+          expect(mail_jobs).to be_empty
+        end
       end
     end
 
@@ -54,6 +78,13 @@ RSpec.describe AgentBuilder, type: :model do
 
       it 'creates a new account user' do
         expect { agent_builder.perform }.to change(AccountUser, :count).by(1)
+      end
+
+      it 'does not consume email capacity or enqueue another invitation' do
+        clear_enqueued_jobs
+
+        expect { agent_builder.perform }.not_to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
+        expect(account.emails_sent_today).to eq(0)
       end
     end
 
