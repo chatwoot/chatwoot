@@ -117,6 +117,12 @@ Chatwoot now supports 1-Click deployment to DigitalOcean as a kubernetes app.
   <img width="200" alt="Deploy to DO" src="https://www.deploytodo.com/do-btn-blue.svg"/>
 </a>
 
+### Zenith managed hosting
+
+One-click managed Chatwoot: storage, backups, email and a free subdomain included. A share of every subscription goes back to Chatwoot.
+
+[![Deploy with Zenith](https://cdn.zenith.hosting/buttons/deploy-with-zenith.svg)](https://zenith.hosting/host/chatwoot)
+
 ### Other deployment options
 
 For other supported options, checkout our [deployment page](https://chatwoot.com/deploy).
