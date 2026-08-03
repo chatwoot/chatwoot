@@ -44,8 +44,20 @@ class Messages::Facebook::PostbackBuilder # rubocop:disable Metrics/ClassLength
     postback[:mid]
   end
 
+  def timestamp
+    @messaging[:timestamp]
+  end
+
   def sender_id
     @messaging.dig(:sender, :id)
+  end
+
+  # Meta reports postback[:mid] as the id of the outgoing message that
+  # contained the clicked button, not a click-specific id, and it is reused
+  # for every click on that message. Build a synthetic key so a genuine
+  # duplicate webhook delivery is deduped without dropping every ordinary click.
+  def click_source_id
+    "postback:#{sender_id}:#{postback_mid}:#{raw_postback_payload}:#{timestamp}"
   end
 
   def contact
@@ -99,7 +111,7 @@ class Messages::Facebook::PostbackBuilder # rubocop:disable Metrics/ClassLength
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: :incoming,
-      source_id: postback_mid,
+      source_id: click_source_id,
       content: message_content,
       sender: contact,
       content_attributes: {
@@ -117,7 +129,7 @@ class Messages::Facebook::PostbackBuilder # rubocop:disable Metrics/ClassLength
   def postback_already_exists?
     return false if postback_mid.blank?
 
-    Message.exists?(source_id: postback_mid)
+    Message.exists?(source_id: click_source_id)
   end
 
   def selected_reply_attributes
