@@ -564,6 +564,8 @@
       },
       "FORM": {
         "UPDATE": "Update",
+        "SAVE_INACTIVITY_SETTINGS": "Save inactive conversation settings",
+        "SAVE_HANDOFF_MESSAGE": "Save handoff message",
         "SECTIONS": {
           "BASIC_INFO": "Basic Information",
           "SYSTEM_MESSAGES": "System Messages",
@@ -598,6 +600,21 @@
           "LABEL": "Resolution Message",
           "PLACEHOLDER": "Enter resolution message"
         },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "Inactive conversations",
+          "DESCRIPTION": "Choose when Captain should act on conversations that are waiting for the customer.",
+          "CURRENT_SETTING": "Captain acts after {duration} of inactivity.",
+          "DURATION_HOURS": "{count} hour | {count} hours",
+          "DURATION_MINUTES": "{count} minute | {count} minutes",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Send a resolution message",
+            "DESCRIPTION": "Captain sends this message before resolving an inactive conversation.",
+            "DISABLED_SUMMARY": "Captain will not send a resolution message."
+          },
+          "DURATION_LABEL": "Inactivity timer",
+          "DURATION_HOURS_LABEL": "Hours",
+          "DURATION_MINUTES_LABEL": "Minutes"
+        },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
           "PLACEHOLDER": "Enter instructions for the assistant"
@@ -624,7 +641,8 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
+          "DESCRIPTION_V2": "Manage inactive conversations and Captain's handoff message."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
