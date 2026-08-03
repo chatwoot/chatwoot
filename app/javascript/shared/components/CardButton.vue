@@ -19,7 +19,7 @@ export default {
       return getContrastingTextColor(this.widgetColor);
     },
     isLink() {
-      return this.action.type === 'link';
+      return ['url', 'link'].includes(this.action.type);
     },
   },
   methods: {
