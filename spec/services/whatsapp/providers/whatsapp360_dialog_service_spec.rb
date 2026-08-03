@@ -42,8 +42,13 @@ describe Whatsapp::Providers::Whatsapp360DialogService do
                 body: {
                   text: 'test'
                 },
-                action: '{"buttons":[{"type":"reply","reply":{"id":"Burito","title":"Burito"}},{"type":"reply",' \
-                        '"reply":{"id":"Pasta","title":"Pasta"}},{"type":"reply","reply":{"id":"Sushi","title":"Sushi"}}]}'
+                action: {
+                  buttons: [
+                    { type: 'reply', reply: { id: 'Burito', title: 'Burito' } },
+                    { type: 'reply', reply: { id: 'Pasta', title: 'Pasta' } },
+                    { type: 'reply', reply: { id: 'Sushi', title: 'Sushi' } }
+                  ]
+                }
               }, type: 'interactive'
             }.to_json
           ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
@@ -58,7 +63,7 @@ describe Whatsapp::Providers::Whatsapp360DialogService do
         expected_action = {
           button: I18n.t('conversations.messages.whatsapp.list_button_label'),
           sections: [{ rows: %w[Burito Pasta Sushi Salad].map { |i| { id: i, title: i } } }]
-        }.to_json
+        }
 
         stub_request(:post, 'https://waba.360dialog.io/v1/messages')
           .with(
