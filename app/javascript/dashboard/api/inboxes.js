@@ -33,6 +33,10 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.post(`${this.url}/${inboxId}/sync_templates`);
   }
 
+  getMessageTemplates(inboxId, params = {}) {
+    return axios.get(`${this.url}/${inboxId}/message_templates`, { params });
+  }
+
   updateWhatsappBusinessManagementToken(inboxId, businessManagementToken) {
     return axios.put(
       `${this.url}/${inboxId}/whatsapp_business_management_token`,
