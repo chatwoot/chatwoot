@@ -6,11 +6,11 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   def perform(inbox)
     captain_assistant = inbox.captain_assistant
-    return if captain_assistant.inactive_conversation_resolution_disabled?
+    return if inbox.account.captain_auto_resolve_disabled?
 
     @inactivity_cutoff_time = Time.now.utc - captain_assistant.inactivity_threshold_minutes.minutes
 
-    if captain_assistant.evaluate_inactive_conversations_before_resolving?
+    if evaluate_conversation_completion?(inbox.account)
       perform_with_evaluation(inbox)
     else
       perform_time_based(inbox)
@@ -22,6 +22,10 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   private
 
   attr_reader :inactivity_cutoff_time
+
+  def evaluate_conversation_completion?(account)
+    account.feature_enabled?('captain_tasks') && account.captain_auto_resolve_evaluated?
+  end
 
   def perform_time_based(inbox)
     Current.executed_by = inbox.captain_assistant

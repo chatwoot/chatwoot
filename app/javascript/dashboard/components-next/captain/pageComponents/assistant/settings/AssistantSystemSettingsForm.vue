@@ -8,7 +8,6 @@ import { useAccount } from 'dashboard/composables/useAccount';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
-import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 
@@ -32,49 +31,12 @@ const initialState = {
   handoffMessage: '',
   resolutionMessage: '',
   instructions: '',
-  autoResolveMode: 'evaluated',
   inactivityThresholdMinutes: 60,
   sendInactivityResolutionMessage: true,
 };
 
 const state = reactive({ ...initialState });
 const isInactivityResolutionSettingsExpanded = ref(false);
-
-const autoResolveOptions = computed(() => [
-  {
-    value: 'disabled',
-    label: t(
-      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.DISABLED.LABEL'
-    ),
-    description: t(
-      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.DISABLED.DESCRIPTION'
-    ),
-  },
-  {
-    value: 'legacy',
-    label: t(
-      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.LEGACY.LABEL'
-    ),
-    description: t(
-      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.LEGACY.DESCRIPTION'
-    ),
-  },
-  {
-    value: 'evaluated',
-    label: t(
-      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.EVALUATED.LABEL'
-    ),
-    description: t(
-      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.EVALUATED.DESCRIPTION'
-    ),
-  },
-]);
-
-const selectedAutoResolveModeLabel = computed(() => {
-  return autoResolveOptions.value.find(
-    option => option.value === state.autoResolveMode
-  )?.label;
-});
 
 const inactivityThresholdLabel = computed(() => {
   const hours = Math.floor(state.inactivityThresholdMinutes / 60);
@@ -97,16 +59,9 @@ const inactivityThresholdLabel = computed(() => {
 });
 
 const selectedInactivityResolutionSummary = computed(() => {
-  if (state.autoResolveMode === 'disabled') {
-    return t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.CURRENT_MODE', {
-      mode: selectedAutoResolveModeLabel.value,
-    });
-  }
-
   const resolutionSummary = t(
-    'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.CURRENT_MODE_AFTER',
+    'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.CURRENT_SETTING',
     {
-      mode: selectedAutoResolveModeLabel.value,
       duration: inactivityThresholdLabel.value,
     }
   );
@@ -117,10 +72,6 @@ const selectedInactivityResolutionSummary = computed(() => {
     'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.DISABLED_SUMMARY'
   )}`;
 });
-
-const shouldShowInactivityDuration = computed(
-  () => state.autoResolveMode !== 'disabled'
-);
 
 const inactivityHourOptions = Array.from({ length: 25 }, (_, hours) => ({
   value: hours,
@@ -190,10 +141,10 @@ const formErrors = computed(() => ({
 }));
 
 const handleInactivityResolutionUpdate = async () => {
-  const validations = [
-    v$.value.inactivityThresholdMinutes.$validate(),
-    v$.value.resolutionMessage.$validate(),
-  ];
+  const validations = [v$.value.inactivityThresholdMinutes.$validate()];
+  if (state.sendInactivityResolutionMessage) {
+    validations.push(v$.value.resolutionMessage.$validate());
+  }
   const result = await Promise.all(validations).then(results =>
     results.every(Boolean)
   );
@@ -202,7 +153,6 @@ const handleInactivityResolutionUpdate = async () => {
   emit('submit', {
     config: {
       ...props.assistant.config,
-      auto_resolve_mode: state.autoResolveMode,
       auto_resolve_after: state.inactivityThresholdMinutes,
       send_inactivity_resolution_message: state.sendInactivityResolutionMessage,
       resolution_message: state.resolutionMessage,
@@ -215,7 +165,6 @@ const updateStateFromAssistant = assistant => {
   state.handoffMessage = config.handoff_message;
   state.resolutionMessage = config.resolution_message;
   state.instructions = config.instructions;
-  state.autoResolveMode = config.auto_resolve_mode ?? 'evaluated';
   state.inactivityThresholdMinutes = config.auto_resolve_after ?? 60;
   state.sendInactivityResolutionMessage =
     config.send_inactivity_resolution_message ?? true;
@@ -301,19 +250,7 @@ watch(
         v-if="isInactivityResolutionSettingsExpanded"
         class="flex flex-col gap-4 border-t border-n-weak p-4"
       >
-        <div class="flex flex-col gap-3">
-          <RadioCard
-            v-for="option in autoResolveOptions"
-            :id="`auto-resolve-${option.value}`"
-            :key="option.value"
-            :label="option.label"
-            :description="option.description"
-            :is-active="state.autoResolveMode === option.value"
-            @select="state.autoResolveMode = option.value"
-          />
-        </div>
-
-        <div v-if="shouldShowInactivityDuration" class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2">
           <p class="text-sm font-medium text-n-slate-12">
             {{
               t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_LABEL')
@@ -356,7 +293,6 @@ watch(
         </div>
 
         <SettingsToggleSection
-          v-if="shouldShowInactivityDuration"
           v-model="state.sendInactivityResolutionMessage"
           :header="
             t(

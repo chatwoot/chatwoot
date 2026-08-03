@@ -603,9 +603,8 @@
         },
         "INACTIVITY_RESOLUTION": {
           "TITLE": "Inactive conversations",
-          "DESCRIPTION": "Pending conversations are waiting for the customer to reply.",
-          "CURRENT_MODE": "Current setting: {mode}",
-          "CURRENT_MODE_AFTER": "Current setting: {mode} after {duration}",
+          "DESCRIPTION": "Choose when Captain should act on conversations that are waiting for the customer.",
+          "CURRENT_SETTING": "Captain acts after {duration} of inactivity.",
           "DURATION_HOURS": "{count} hour | {count} hours",
           "DURATION_MINUTES": "{count} minute | {count} minutes",
           "RESOLUTION_MESSAGE": {
@@ -613,21 +612,7 @@
             "DESCRIPTION": "Captain sends this message before resolving an inactive conversation.",
             "DISABLED_SUMMARY": "Captain will not send a resolution message."
           },
-          "MODES": {
-            "DISABLED": {
-              "LABEL": "Keep conversations pending",
-              "DESCRIPTION": "Inactive conversations remain pending. Captain does not resolve them or send them to a human."
-            },
-            "LEGACY": {
-              "LABEL": "Resolve without checking",
-              "DESCRIPTION": "Captain resolves every inactive conversation after the selected time without checking whether it is complete."
-            },
-            "EVALUATED": {
-              "LABEL": "Check before resolving",
-              "DESCRIPTION": "Captain checks whether each inactive conversation is complete. It resolves completed conversations and sends the rest to a human."
-            }
-          },
-          "DURATION_LABEL": "Take action after",
+          "DURATION_LABEL": "Inactivity timer",
           "DURATION_HOURS_LABEL": "Hours",
           "DURATION_MINUTES_LABEL": "Minutes"
         },
