@@ -12,7 +12,7 @@ import {
   getDocumentDisplayPath,
 } from 'shared/helpers/documentHelper';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
@@ -33,7 +33,9 @@ const TAB_KEYS = {
 const RESPONSES_PER_PAGE = 25;
 const { t } = useI18n();
 const store = useStore();
-const dialogRef = ref(null);
+// The parent mounts this component with v-if, so the panel opens on mount and
+// the parent unmounts it only after the slide-out finishes (afterLeave).
+const panelRef = ref(null);
 const documentDetails = computed(() => props.captainDocument);
 const showRawContent = ref(false);
 const activeTabIndex = ref(0);
@@ -126,9 +128,9 @@ const syncedAtLabel = computed(() => {
   );
 });
 
-const handleClose = () => {
-  emit('close');
-};
+const documentTitle = computed(
+  () => documentDetails.value.name || documentDetails.value.external_link
+);
 
 const handleCopyContent = async () => {
   try {
@@ -156,22 +158,18 @@ const handlePageChange = page => {
 };
 
 onMounted(() => {
+  panelRef.value.open();
   fetchResponses();
 });
-defineExpose({ dialogRef });
 </script>
 
 <template>
-  <Dialog
-    ref="dialogRef"
-    type="edit"
-    :title="documentDetails.name || documentDetails.external_link"
+  <SidePanel
+    ref="panelRef"
+    :title="documentTitle"
     :description="t('CAPTAIN.DOCUMENTS.DETAILS.DESCRIPTION')"
-    :show-cancel-button="false"
-    :show-confirm-button="false"
-    overflow-y-auto
     width="3xl"
-    @close="handleClose"
+    @after-leave="emit('close')"
   >
     <div
       v-if="isFetching"
@@ -230,7 +228,7 @@ defineExpose({ dialogRef });
         @tab-changed="handleTabChanged"
       />
 
-      <div class="h-[32rem] overflow-y-auto">
+      <div>
         <section
           v-if="activeTabKey === TAB_KEYS.CONTENT"
           class="flex flex-col gap-3"
@@ -313,7 +311,7 @@ defineExpose({ dialogRef });
             </div>
             <div
               v-else
-              class="h-[26rem] overflow-y-auto rounded-lg border border-n-weak bg-n-alpha-1 p-4"
+              class="rounded-lg border border-n-weak bg-n-alpha-1 p-4"
             >
               <pre
                 v-if="showRawContent || isUnreadableContent"
@@ -370,5 +368,5 @@ defineExpose({ dialogRef });
         </section>
       </div>
     </div>
-  </Dialog>
+  </SidePanel>
 </template>
