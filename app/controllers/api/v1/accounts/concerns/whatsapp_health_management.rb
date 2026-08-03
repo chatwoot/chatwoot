@@ -16,6 +16,15 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
     render status: :internal_server_error, json: { error: e.message }
   end
 
+  def message_templates
+    return render status: :unprocessable_entity, json: { error: 'Message templates are only available for WhatsApp channels' } unless @inbox.whatsapp?
+
+    templates = @inbox.channel.message_templates.presence || []
+    templates = templates.select { |template| template['name'] == params[:name] } if params[:name].present?
+
+    render json: { payload: templates }
+  end
+
   def health
     health_data = Whatsapp::HealthService.new(@inbox.channel).sync_health_status!
     render json: health_data
