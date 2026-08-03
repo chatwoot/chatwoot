@@ -53,7 +53,7 @@ describe CaptainListener do
     it 'records the resolution on an existing V2 outcome' do
       assistant.update!(config: {})
       outcome = create(
-        :captain_conversation_outcome,
+        :conversation_outcome,
         account: account,
         assistant: assistant,
         conversation: conversation,
@@ -73,7 +73,7 @@ describe CaptainListener do
       account.enable_features!('captain_integration_v2')
       create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
       create(
-        :captain_conversation_outcome,
+        :conversation_outcome,
         account: account,
         assistant: assistant,
         conversation: conversation,
@@ -94,14 +94,14 @@ describe CaptainListener do
 
       listener.message_created(event)
 
-      expect(Captain::ConversationOutcome.last).to have_attributes(
+      expect(ConversationOutcome.last).to have_attributes(
         first_captain_reply_at: message.created_at,
         captain_reply_count: 1
       )
     end
 
     it 'ignores Captain messages without an existing V2 outcome' do
-      Captain::ConversationOutcome.delete_all
+      ConversationOutcome.delete_all
       message = create(
         :message,
         account: account,
@@ -114,7 +114,7 @@ describe CaptainListener do
 
       expect do
         listener.message_created(event)
-      end.not_to change(Captain::ConversationOutcome, :count)
+      end.not_to change(ConversationOutcome, :count)
     end
 
     it 'records public human replies on the existing outcome' do
@@ -130,7 +130,7 @@ describe CaptainListener do
 
       listener.message_created(event)
 
-      expect(Captain::ConversationOutcome.last.first_human_reply_at).to eq(message.created_at)
+      expect(ConversationOutcome.last.first_human_reply_at).to eq(message.created_at)
     end
   end
 
@@ -138,7 +138,7 @@ describe CaptainListener do
     let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :open) }
     let!(:outcome) do
       create(
-        :captain_conversation_outcome,
+        :conversation_outcome,
         account: account,
         assistant: assistant,
         conversation: conversation,
@@ -163,7 +163,7 @@ describe CaptainListener do
     let(:conversation) { create(:conversation, account: account, inbox: inbox) }
     let!(:outcome) do
       create(
-        :captain_conversation_outcome,
+        :conversation_outcome,
         account: account,
         assistant: assistant,
         conversation: conversation,

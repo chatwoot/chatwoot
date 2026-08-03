@@ -1,6 +1,6 @@
-class CreateCaptainConversationOutcomes < ActiveRecord::Migration[7.1]
+class CreateConversationOutcomes < ActiveRecord::Migration[7.1]
   def change
-    create_table :captain_conversation_outcomes do |t|
+    create_table :conversation_outcomes do |t|
       t.references :account, null: false
       t.references :assistant, null: false
       t.references :conversation, null: false
@@ -30,11 +30,11 @@ class CreateCaptainConversationOutcomes < ActiveRecord::Migration[7.1]
   private
 
   def add_reporting_indexes
-    add_index :captain_conversation_outcomes, [:account_id, :assistant_id, :conversation_id],
-              unique: true, name: 'idx_captain_outcomes_unique_conversation'
-    add_index :captain_conversation_outcomes, [:account_id, :assistant_id, :resolved_at],
-              name: 'idx_captain_outcomes_on_assistant_resolved_at'
-    add_index :captain_conversation_outcomes, [:account_id, :assistant_id, :handoff_at],
-              name: 'idx_captain_outcomes_on_assistant_handoff_at'
+    add_index :conversation_outcomes, [:account_id, :assistant_id, :conversation_id],
+              unique: true, name: 'idx_conversation_outcomes_unique_conversation'
+    add_index :conversation_outcomes, [:account_id, :assistant_id, :resolved_at],
+              name: 'idx_conversation_outcomes_on_assistant_resolved_at'
+    add_index :conversation_outcomes, [:account_id, :assistant_id, :handoff_at],
+              name: 'idx_conversation_outcomes_on_assistant_handoff_at'
   end
 end

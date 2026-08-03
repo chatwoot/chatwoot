@@ -47,17 +47,34 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def schedule_captain_response
     job_args = [conversation, conversation.inbox.captain_assistant]
+    captain_v2_enabled = conversation.account.feature_enabled?('captain_integration_v2')
+    job_args << message.id if captain_v2_enabled
+    wait_time = attachment_wait_time(captain_v2_enabled)
 
-    if message.attachments.blank?
+    if wait_time.zero?
       Captain::Conversation::ResponseBuilderJob.perform_later(*job_args)
     else
-      wait_time = calculate_attachment_wait_time
       Captain::Conversation::ResponseBuilderJob.set(wait: wait_time).perform_later(*job_args)
     end
   end
 
-  def calculate_attachment_wait_time
-    attachment_count = message.attachments.size
+  def attachment_wait_time(captain_v2_enabled)
+    attachment_count = captain_v2_enabled ? recent_attachment_count : message.attachments.size
+    return 0.seconds if attachment_count.zero?
+
+    calculate_attachment_wait_time(attachment_count)
+  end
+
+  def recent_attachment_count
+    maximum_wait = (MAX_ATTACHMENT_WAIT_SECONDS + 1).seconds
+
+    conversation.messages.incoming
+                .joins(:attachments)
+                .where(attachments: { created_at: maximum_wait.ago.. })
+                .count
+  end
+
+  def calculate_attachment_wait_time(attachment_count)
     base_wait = 1.second
 
     # Wait longer for more attachments or larger files
@@ -66,7 +83,7 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def captain_conversation_message?
-    message.incoming? && inbox.captain_assistant.present?
+    message.captain_response_triggering? && inbox.captain_assistant.present?
   end
 
   def perform_handoff
@@ -83,7 +100,7 @@ module Enterprise::MessageTemplates::HookExecutionService
     Captain::ConversationEvents.handed_off(
       conversation: conversation,
       assistant: inbox.captain_assistant,
-      source: 'usage_limit',
+      source: Captain::ConversationEvents::Sources::USAGE_LIMIT,
       reason_category: :usage_limit,
       at: Time.current
     )

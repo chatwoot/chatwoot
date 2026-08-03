@@ -29,7 +29,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
 
       expect do
         tracker.record_eligibility
-      end.not_to change(Captain::ConversationOutcome, :count)
+      end.not_to change(ConversationOutcome, :count)
     end
 
     it 'does not create outcomes for Captain V1' do
@@ -37,7 +37,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
 
       expect do
         tracker.record_eligibility
-      end.not_to change(Captain::ConversationOutcome, :count)
+      end.not_to change(ConversationOutcome, :count)
     end
   end
 

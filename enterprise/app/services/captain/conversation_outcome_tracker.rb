@@ -88,7 +88,7 @@ class Captain::ConversationOutcomeTracker
   end
 
   def conversation_outcome
-    Captain::ConversationOutcome.find_by(
+    ConversationOutcome.find_by(
       account: account,
       assistant: assistant,
       conversation: conversation
@@ -96,7 +96,7 @@ class Captain::ConversationOutcomeTracker
   end
 
   def find_or_create_outcome
-    conversation_outcome || Captain::ConversationOutcome.create!(
+    conversation_outcome || ConversationOutcome.create!(
       account: account,
       assistant: assistant,
       conversation: conversation,

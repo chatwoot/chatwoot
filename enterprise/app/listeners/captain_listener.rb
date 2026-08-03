@@ -43,7 +43,7 @@ class CaptainListener < BaseListener
   private
 
   def outcome_trackers(conversation)
-    Captain::ConversationOutcome.where(
+    ConversationOutcome.where(
       account_id: conversation.account_id,
       conversation_id: conversation.id
     ).includes(:assistant).map do |outcome|

@@ -1,4 +1,12 @@
 class Captain::ConversationEvents
+  module Sources
+    TOOL = 'tool'.freeze
+    GENERATION_FAILURE = 'generation_failure'.freeze
+    TIME_BASED = 'time_based'.freeze
+    INFERENCE = 'inference'.freeze
+    USAGE_LIMIT = 'usage_limit'.freeze
+  end
+
   class << self
     def eligible(conversation:, assistant:, at:)
       dispatch(

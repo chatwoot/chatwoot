@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :captain_conversation_outcome, class: 'Captain::ConversationOutcome' do
+  factory :conversation_outcome do
     account { create(:account) }
 
     after(:build) do |outcome|

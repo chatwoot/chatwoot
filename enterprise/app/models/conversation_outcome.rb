@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: captain_conversation_outcomes
+# Table name: conversation_outcomes
 #
 #  id                      :bigint           not null, primary key
 #  captain_reply_count     :integer          default(0), not null
@@ -23,15 +23,15 @@
 #
 # Indexes
 #
-#  idx_captain_outcomes_on_assistant_handoff_at            (account_id,assistant_id,handoff_at)
-#  idx_captain_outcomes_on_assistant_resolved_at           (account_id,assistant_id,resolved_at)
-#  idx_captain_outcomes_unique_conversation                (account_id,assistant_id,conversation_id) UNIQUE
-#  index_captain_conversation_outcomes_on_account_id       (account_id)
-#  index_captain_conversation_outcomes_on_assistant_id     (assistant_id)
-#  index_captain_conversation_outcomes_on_conversation_id  (conversation_id)
-#  index_captain_conversation_outcomes_on_inbox_id         (inbox_id)
+#  idx_conversation_outcomes_on_assistant_handoff_at   (account_id,assistant_id,handoff_at)
+#  idx_conversation_outcomes_on_assistant_resolved_at  (account_id,assistant_id,resolved_at)
+#  idx_conversation_outcomes_unique_conversation       (account_id,assistant_id,conversation_id) UNIQUE
+#  index_conversation_outcomes_on_account_id           (account_id)
+#  index_conversation_outcomes_on_assistant_id         (assistant_id)
+#  index_conversation_outcomes_on_conversation_id      (conversation_id)
+#  index_conversation_outcomes_on_inbox_id             (inbox_id)
 #
-class Captain::ConversationOutcome < ApplicationRecord
+class ConversationOutcome < ApplicationRecord
   HANDOFF_REASON_CATEGORIES = %w[
     customer_request
     missing_knowledge
@@ -41,8 +41,6 @@ class Captain::ConversationOutcome < ApplicationRecord
     pending_clarification
     usage_limit
   ].freeze
-
-  self.table_name = 'captain_conversation_outcomes'
 
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
@@ -55,5 +53,14 @@ class Captain::ConversationOutcome < ApplicationRecord
        validate: { allow_nil: true }
 
   validates :conversation_id, uniqueness: { scope: [:account_id, :assistant_id] }
-  validates :handoff_reason_category, presence: true, if: :handoff_at?
+  validate :associations_must_belong_to_account
+
+  private
+
+  def associations_must_belong_to_account
+    [:assistant, :conversation, :inbox].each do |association|
+      record = public_send(association)
+      errors.add(association, 'must belong to the same account') if record && record.account_id != account_id
+    end
+  end
 end
