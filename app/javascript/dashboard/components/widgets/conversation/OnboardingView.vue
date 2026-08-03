@@ -27,8 +27,14 @@ const greetingMessage = computed(() => {
 </script>
 
 <template>
+  <!--
+    Columns follow the panel's own width, not the viewport: this view sits
+    between the sidebar and the conversation list, so `md:`/`lg:` breakpoints
+    would still squash the cards on a wide screen with a narrow panel.
+    `auto-fit` drops to a single column once a track can no longer hold 18rem.
+  -->
   <div
-    class="min-h-screen lg:max-w-5xl max-w-4xl mx-auto grid grid-cols-2 grid-rows-[auto_1fr_1fr] auto-rows-min gap-4 p-8 w-full font-inter overflow-auto"
+    class="min-h-full lg:max-w-5xl max-w-4xl mx-auto grid grid-cols-[repeat(auto-fit,minmax(min(18rem,100%),1fr))] grid-rows-[auto] auto-rows-fr gap-4 p-8 w-full font-inter"
   >
     <div class="col-span-full self-start">
       <p
