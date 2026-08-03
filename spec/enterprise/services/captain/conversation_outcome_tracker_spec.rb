@@ -13,8 +13,10 @@ RSpec.describe Captain::ConversationOutcomeTracker do
   end
 
   describe '#record_eligibility' do
-    it 'creates the V2 conversation outcome' do
-      outcome = tracker.record_eligibility
+    it 'creates the V2 conversation outcome anchored to the eligible time' do
+      eligible_at = 2.minutes.ago
+
+      outcome = tracker.record_eligibility(at: eligible_at)
 
       expect(outcome).to have_attributes(
         account: account,
@@ -22,13 +24,14 @@ RSpec.describe Captain::ConversationOutcomeTracker do
         conversation: conversation,
         inbox: inbox
       )
+      expect(outcome.reload.created_at).to eq(eligible_at)
     end
 
     it 'is idempotent' do
-      tracker.record_eligibility
+      tracker.record_eligibility(at: Time.current)
 
       expect do
-        tracker.record_eligibility
+        tracker.record_eligibility(at: Time.current)
       end.not_to change(ConversationOutcome, :count)
     end
 
@@ -36,13 +39,13 @@ RSpec.describe Captain::ConversationOutcomeTracker do
       account.disable_features!('captain_integration_v2')
 
       expect do
-        tracker.record_eligibility
+        tracker.record_eligibility(at: Time.current)
       end.not_to change(ConversationOutcome, :count)
     end
   end
 
   describe '#record_captain_reply' do
-    let!(:outcome) { tracker.record_eligibility }
+    let!(:outcome) { tracker.record_eligibility(at: Time.current) }
 
     it 'records the reply timestamps and the public reply count' do
       message = create(
@@ -113,7 +116,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
   end
 
   describe '#record_handoff' do
-    let!(:outcome) { tracker.record_eligibility }
+    let!(:outcome) { tracker.record_eligibility(at: Time.current) }
 
     it 'records the handoff details' do
       handed_off_at = Time.current
@@ -140,7 +143,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
   end
 
   describe '#record_human_reply' do
-    let!(:outcome) { tracker.record_eligibility }
+    let!(:outcome) { tracker.record_eligibility(at: Time.current) }
 
     it 'records the first public human reply' do
       agent = create(:user, account: account)
@@ -178,7 +181,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
   end
 
   describe '#record_resolution' do
-    let!(:outcome) { tracker.record_eligibility }
+    let!(:outcome) { tracker.record_eligibility(at: Time.current) }
 
     it 'records the resolution time' do
       resolved_at = Time.current
@@ -199,7 +202,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
   end
 
   describe '#record_reopen' do
-    let!(:outcome) { tracker.record_eligibility }
+    let!(:outcome) { tracker.record_eligibility(at: Time.current) }
 
     before do
       tracker.record_resolution(at: 2.minutes.ago)
@@ -233,7 +236,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
   end
 
   describe '#record_csat' do
-    let!(:outcome) { tracker.record_eligibility }
+    let!(:outcome) { tracker.record_eligibility(at: Time.current) }
 
     it 'records the latest CSAT response' do
       message = create(:message, account: account, inbox: inbox, conversation: conversation)

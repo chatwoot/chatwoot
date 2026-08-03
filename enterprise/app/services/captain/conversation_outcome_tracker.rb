@@ -1,11 +1,11 @@
 class Captain::ConversationOutcomeTracker
   pattr_initialize [:conversation!, :assistant!]
 
-  def record_eligibility
+  def record_eligibility(at:)
     safely_track(:eligibility) do
       next unless account.feature_enabled?('captain_integration_v2')
 
-      find_or_create_outcome
+      find_or_create_outcome(at)
     end
   end
 
@@ -95,12 +95,16 @@ class Captain::ConversationOutcomeTracker
     )
   end
 
-  def find_or_create_outcome
+  def find_or_create_outcome(at)
+    # created_at is the demand-start anchor for reporting windows, so it must
+    # reflect the eligible message's time, not row insertion time — channels
+    # like TikTok backdate message timestamps to the provider's clock.
     conversation_outcome || ConversationOutcome.create!(
       account: account,
       assistant: assistant,
       conversation: conversation,
-      inbox: conversation.inbox
+      inbox: conversation.inbox,
+      created_at: at
     )
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
     conversation_outcome || raise
