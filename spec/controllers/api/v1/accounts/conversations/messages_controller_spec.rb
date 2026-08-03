@@ -299,6 +299,28 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(message.reload.status).to eq('sent')
         expect(message.reload.content_attributes['external_error']).to be_nil
       end
+
+      it 'preserves interactive content attributes needed to resend the message' do
+        interactive_message = create(:message, account: account, conversation: message.conversation, message_type: :outgoing,
+                                               content_type: 'interactive_buttons', status: :failed,
+                                               content_attributes: {
+                                                 external_error: 'error',
+                                                 body_text: 'Pick one',
+                                                 buttons: [{ id: 'btn_1', text: 'Option A', type: 'reply' }]
+                                               })
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{interactive_message.conversation.display_id}/messages/#{interactive_message.id}/retry",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        interactive_message.reload
+        expect(interactive_message.content_attributes['external_error']).to be_nil
+        expect(interactive_message.content_attributes['body_text']).to eq('Pick one')
+        expect(interactive_message.content_attributes['buttons']).to eq(
+          [{ 'id' => 'btn_1', 'text' => 'Option A', 'type' => 'reply' }]
+        )
+      end
     end
 
     context 'when the message id is invalid' do
