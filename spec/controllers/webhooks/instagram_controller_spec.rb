@@ -89,6 +89,52 @@ RSpec.describe 'Webhooks::InstagramController', type: :request do
       expect(Webhooks::InstagramEventsJob).not_to have_received(:perform_later)
     end
 
+    context 'when the payload is a messaging_postbacks change (no messaging/standby array)' do
+      let!(:instagram_channel) { create(:channel_instagram, instagram_id: 'recipient-ig-id') }
+      let(:channel_secret) { 'channel-specific-secret' }
+      let(:postback_body) do
+        {
+          object: 'instagram',
+          entry: [
+            {
+              id: '0',
+              time: '2021-09-08T06:34:04+0000',
+              changes: [
+                {
+                  field: 'messaging_postbacks',
+                  value: {
+                    sender: { id: 'sender-id' },
+                    recipient: { id: 'recipient-ig-id' },
+                    postback: { title: 'Option A', payload: 'btn_1', mid: 'mid.1' }
+                  }
+                }
+              ]
+            }
+          ]
+        }.to_json
+      end
+
+      before do
+        secret = channel_secret
+        instagram_channel.define_singleton_method(:app_secret) { secret }
+        allow(Channel::Instagram).to receive(:find_by).and_call_original
+        allow(Channel::Instagram).to receive(:find_by).with(instagram_id: 'recipient-ig-id').and_return(instagram_channel)
+      end
+
+      it 'resolves the recipient channel secret and accepts the signed request' do
+        allow(Webhooks::InstagramEventsJob).to receive(:perform_later)
+
+        post_instagram_webhook(
+          postback_body,
+          signature: signature_for(postback_body, channel_secret),
+          env: {}
+        )
+
+        expect(response).to have_http_status(:success)
+        expect(Webhooks::InstagramEventsJob).to have_received(:perform_later)
+      end
+    end
+
     context 'when processing echo events' do
       let!(:echo_params) { build(:instagram_story_mention_event_with_echo).with_indifferent_access }
       let(:echo_body) { echo_params.merge(object: 'instagram').to_json }
