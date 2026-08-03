@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { CONTENT_TYPES } from 'dashboard/components-next/message/constants';
 import { isValidURL } from 'dashboard/helper/URLHelper';
@@ -62,6 +62,22 @@ const typeOptions = computed(() =>
 );
 
 const selectedType = ref(CONTENT_TYPES.CTA_URL);
+
+// The modal instance persists across conversations. If an agent selects the
+// list type on a WhatsApp conversation and then switches to a channel that
+// doesn't support it, the list tab disappears from typeOptions but the form
+// and onSend path would otherwise remain on interactive_list.
+watch(
+  () => props.allowListType,
+  allowListType => {
+    if (
+      !allowListType &&
+      selectedType.value === CONTENT_TYPES.INTERACTIVE_LIST
+    ) {
+      selectedType.value = CONTENT_TYPES.CTA_URL;
+    }
+  }
+);
 
 const ctaUrlForm = ref({
   bodyText: '',
@@ -131,7 +147,9 @@ const isButtonsValid = computed(
     buttonsForm.value.buttons.every(
       button => !!button.text && button.text.length <= BUTTON_TITLE_MAX_LENGTH
     ) &&
-    (!props.isInstagram || isButtonsHeaderImageValid.value)
+    // Header image is only shown (and sent) for non-Instagram channels, so
+    // only gate on its validity there.
+    (props.isInstagram || isButtonsHeaderImageValid.value)
 );
 
 const isListValid = computed(
