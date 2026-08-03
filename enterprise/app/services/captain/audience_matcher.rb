@@ -85,7 +85,7 @@ class Captain::AudienceMatcher
   # ignore the "+" prefix, and text compares case-insensitively.
   def value_equal?(key, actual, expected)
     return Array(actual).include?(expected) if key == 'labels'
-    return ActiveModel::Type::Boolean.new.cast(expected) == (actual == true) if boolean_condition?(actual, expected)
+    return ActiveModel::Type::Boolean.new.cast(expected) == (actual == true) if boolean_condition?(key, actual, expected)
     return numeric_equal?(actual, expected) if actual.is_a?(Numeric)
 
     normalize(key, actual) == normalize(key, expected)
@@ -108,10 +108,15 @@ class Captain::AudienceMatcher
       %w[labels hmac_verified].exclude?(key)
   end
 
-  # An unset checkbox attribute counts as false; the expected value identifies
-  # the condition as boolean when the attribute is missing.
-  def boolean_condition?(actual, expected)
-    [true, false].include?(actual) || (actual.nil? && %w[true false].include?(expected.to_s))
+  # An unset checkbox attribute counts as false.
+  def boolean_condition?(key, actual, expected)
+    [true, false].include?(actual) ||
+      (actual.nil? && %w[true false].include?(expected.to_s) && checkbox_attribute?(key))
+  end
+
+  def checkbox_attribute?(key)
+    @checkbox_attribute_keys ||= @contact.account.custom_attribute_definitions.contact_attribute.checkbox.pluck(:attribute_key)
+    @checkbox_attribute_keys.include?(key)
   end
 
   def normalize(key, value)

@@ -66,6 +66,9 @@ RSpec.describe Captain::AudienceMatcher do
       end
 
       it 'treats a missing checkbox attribute as false' do
+        create(:custom_attribute_definition, account: account, attribute_key: 'newsletter_opt_in',
+                                             attribute_model: 'contact_attribute', attribute_display_type: 'checkbox')
+
         expect(matches?(leaf('newsletter_opt_in', 'equal_to', 'false'))).to be(true)
         expect(matches?(leaf('newsletter_opt_in', 'equal_to', 'true'))).to be(false)
         expect(matches?(leaf('newsletter_opt_in', 'not_equal_to', 'true'))).to be(true)
