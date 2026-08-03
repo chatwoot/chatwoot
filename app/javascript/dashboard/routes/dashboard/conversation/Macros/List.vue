@@ -75,12 +75,15 @@ const customAttributesFor = conversationId =>
   conversationById.value(conversationId)?.custom_attributes || {};
 
 // change_status is not offered by the macro builder, but the API accepts it and
-// it resolves the conversation just like resolve_conversation does.
+// it resolves the conversation just like resolve_conversation does. Its param is
+// stored as raw JSON, so the status can be the enum name or its integer value.
+const RESOLVED_STATUSES = ['resolved', 1];
+
 const resolvesConversation = macro =>
   macro.actions.some(
     ({ action_name: name, action_params: params }) =>
       name === 'resolve_conversation' ||
-      (name === 'change_status' && params?.[0] === 'resolved')
+      (name === 'change_status' && RESOLVED_STATUSES.includes(params?.[0]))
   );
 
 const runMacro = async ({ macro, conversationId }, skippedResolve = false) => {

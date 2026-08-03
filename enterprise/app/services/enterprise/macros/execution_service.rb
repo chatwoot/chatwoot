@@ -6,12 +6,18 @@ module Enterprise::Macros::ExecutionService
   end
 
   def change_status(status)
-    return if status.first.to_s == 'resolved' && required_attributes_missing?
+    return if resolved_status?(status.first) && required_attributes_missing?
 
     super
   end
 
   private
+
+  # Action params are stored as raw JSON, so the status arrives either as the enum
+  # name or as its integer value depending on how the macro was created.
+  def resolved_status?(status)
+    ['resolved', Conversation.statuses['resolved']].include?(status)
+  end
 
   def required_attributes_missing?
     return false unless @account.feature_enabled?('conversation_required_attributes')

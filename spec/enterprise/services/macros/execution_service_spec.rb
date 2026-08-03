@@ -65,6 +65,16 @@ describe Macros::ExecutionService, type: :service do
       end
     end
 
+    context 'with the resolved enum value' do
+      let(:status) { Conversation.statuses['resolved'] }
+
+      it 'skips the action when a required attribute is missing' do
+        described_class.new(macro, conversation, user).perform
+
+        expect(conversation.reload.status).to eq('open')
+      end
+    end
+
     context 'with a status other than resolved' do
       let(:status) { 'pending' }
 
