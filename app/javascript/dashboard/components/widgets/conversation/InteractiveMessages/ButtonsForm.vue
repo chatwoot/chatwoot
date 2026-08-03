@@ -37,11 +37,23 @@ const updateButton = (index, value) => {
   updateField('buttons', buttons);
 };
 
+// Button ids double as the reply payload sent back on click, so they must
+// stay unique for the lifetime of the form. Deriving them from the current
+// array length breaks that guarantee once a button is removed and a new one
+// is added (the length-based id can collide with a surviving button).
+let nextButtonNumber =
+  props.modelValue.buttons.reduce((max, button) => {
+    const match = /^btn_(\d+)$/.exec(button.id);
+    return match ? Math.max(max, Number(match[1])) : max;
+  }, 0) + 1;
+
 const addButton = () => {
   if (props.modelValue.buttons.length >= MAX_BUTTONS) return;
+  const buttonId = `btn_${nextButtonNumber}`;
+  nextButtonNumber += 1;
   updateField('buttons', [
     ...props.modelValue.buttons,
-    { id: `btn_${props.modelValue.buttons.length + 1}`, text: '' },
+    { id: buttonId, text: '' },
   ]);
 };
 
