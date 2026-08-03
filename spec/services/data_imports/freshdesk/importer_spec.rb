@@ -247,12 +247,13 @@ RSpec.describe DataImports::Freshdesk::Importer do
       }
     }
     importer = described_class.new(data_import: DataImport.find(data_import.id))
-    processed_ticket_ids = []
     allow(importer).to receive(:conversations_page).and_return(response)
-    allow(importer).to receive(:import_conversation_from_summary) do |summary|
-      processed_ticket_ids << summary['id']
-      next unless summary['id'] == '2001'
+    cursor_advanced = false
+    allow(importer).to receive(:persist_stats).and_wrap_original do |method, *args|
+      method.call(*args)
+      next if cursor_advanced
 
+      cursor_advanced = true
       concurrent_import = DataImport.find(data_import.id)
       concurrent_import.update!(
         cursor: concurrent_import.cursor.to_h.deep_merge(
@@ -263,7 +264,8 @@ RSpec.describe DataImports::Freshdesk::Importer do
 
     result = importer.import_conversations_page(starting_after: current_cursor)
 
-    expect(processed_ticket_ids).to eq(%w[2001])
+    expect(account.conversations.where(identifier: 'freshdesk:2001').count).to eq(1)
+    expect(client).not_to have_received(:retrieve_ticket).with('2002')
     expect(result.next_cursor).to eq(newer_cursor)
     expect(data_import.reload.cursor.dig('conversations', 'starting_after')).to eq(newer_cursor)
   end
