@@ -280,6 +280,34 @@ describe Facebook::SendOnFacebookService do
       end
     end
 
+    context 'with interactive_buttons body text longer than the Messenger title limit' do
+      it 'truncates the generic-template title and subtitle to 80 characters' do
+        long_body = 'B' * 200
+        long_footer = 'F' * 200
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation,
+                                   content_type: 'interactive_buttons', content: long_body,
+                                   content_attributes: {
+                                     'body_text' => long_body,
+                                     'footer_text' => long_footer,
+                                     'buttons' => [{ 'id' => 'btn_1', 'text' => 'Option A', 'type' => 'reply' }]
+                                   })
+
+        described_class.new(message: message).perform
+        expect(bot).to have_received(:deliver).with(
+          hash_including(
+            message: hash_including(
+              attachment: hash_including(
+                payload: hash_including(
+                  elements: [hash_including(title: 'B' * 80, subtitle: 'F' * 80)]
+                )
+              )
+            )
+          ),
+          { page_id: facebook_channel.page_id }
+        )
+      end
+    end
+
     context 'with interactive_buttons postback payload' do
       it 'encodes the source message id into the button postback payload' do
         message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation,
@@ -297,6 +325,32 @@ describe Facebook::SendOnFacebookService do
               attachment: hash_including(
                 payload: hash_including(
                   elements: [hash_including(buttons: [hash_including(payload: "#{message.id}::cw_msg::btn_1")])]
+                )
+              )
+            )
+          ),
+          { page_id: facebook_channel.page_id }
+        )
+      end
+    end
+
+    context 'with cta_url body text longer than the Messenger title limit' do
+      it 'truncates the generic-template title to 80 characters' do
+        long_body = 'B' * 200
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation,
+                                   content_type: 'cta_url', content: long_body,
+                                   content_attributes: {
+                                     'body_text' => long_body,
+                                     'action' => { 'text' => 'Visit Now', 'uri' => 'https://example.com' }
+                                   })
+
+        described_class.new(message: message).perform
+        expect(bot).to have_received(:deliver).with(
+          hash_including(
+            message: hash_including(
+              attachment: hash_including(
+                payload: hash_including(
+                  elements: [hash_including(title: 'B' * 80)]
                 )
               )
             )

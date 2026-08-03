@@ -212,6 +212,32 @@ describe Instagram::SendOnInstagramService do
         end
       end
 
+      context 'with cards body text longer than the Messenger title limit' do
+        it 'truncates the generic-template title and subtitle to 80 characters' do
+          long_title = 'T' * 200
+          long_description = 'D' * 200
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation,
+                                     content_type: 'cards',
+                                     content_attributes: {
+                                       'items' => [
+                                         {
+                                           'title' => long_title,
+                                           'description' => long_description,
+                                           'actions' => [{ 'type' => 'url', 'text' => 'Visit', 'uri' => 'https://example.com' }]
+                                         }
+                                       ]
+                                     })
+
+          described_class.new(message: message).perform
+          expect(HTTParty).to have_received(:post).with(
+            anything,
+            hash_including(
+              body: a_string_including("\"title\":\"#{'T' * 80}\"", "\"subtitle\":\"#{'D' * 80}\"")
+            )
+          )
+        end
+      end
+
       context 'with interactive_buttons' do
         it 'sends button template message for interactive_buttons content type' do
           message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation,
@@ -231,6 +257,26 @@ describe Instagram::SendOnInstagramService do
             hash_including(
               body: a_string_including('"template_type":"button"'),
               headers: { 'Content-Type' => 'application/json' }
+            )
+          )
+        end
+      end
+
+      context 'with cta_url body text longer than the Messenger title limit' do
+        it 'truncates the generic-template title to 80 characters' do
+          long_body = 'B' * 200
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation,
+                                     content_type: 'cta_url', content: long_body,
+                                     content_attributes: {
+                                       'body_text' => long_body,
+                                       'action' => { 'text' => 'Visit Now', 'uri' => 'https://example.com' }
+                                     })
+
+          described_class.new(message: message).perform
+          expect(HTTParty).to have_received(:post).with(
+            anything,
+            hash_including(
+              body: a_string_including("\"title\":\"#{'B' * 80}\"")
             )
           )
         end

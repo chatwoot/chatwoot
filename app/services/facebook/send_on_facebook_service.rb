@@ -1,4 +1,8 @@
 class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:disable Metrics/ClassLength
+  # Messenger's generic template limits both title and subtitle to 80 characters;
+  # our forms allow much longer body/footer text (e.g. up to 1024 characters).
+  GENERIC_TEMPLATE_TEXT_MAX_LENGTH = 80
+
   private
 
   def channel_class
@@ -111,12 +115,16 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:dis
       item = item.with_indifferent_access
 
       {
-        title: item[:title],
-        subtitle: item[:description],
+        title: truncate_for_generic_template(item[:title]),
+        subtitle: truncate_for_generic_template(item[:description]),
         image_url: item[:media_url],
         buttons: fb_generic_template_buttons(item[:actions])
       }.compact
     end
+  end
+
+  def truncate_for_generic_template(text)
+    text.to_s.strip.first(GENERIC_TEMPLATE_TEXT_MAX_LENGTH).presence
   end
 
   def fb_generic_template_buttons(actions)
@@ -247,11 +255,11 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:dis
   end
 
   def button_generic_template_title
-    button_template_text
+    truncate_for_generic_template(button_template_text)
   end
 
   def button_generic_template_subtitle
-    message.content_attributes['footer_text'].presence
+    truncate_for_generic_template(message.content_attributes['footer_text'])
   end
 
   def button_generic_template_image_url
@@ -259,11 +267,11 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:dis
   end
 
   def cta_url_template_text
-    message.outgoing_content.presence || message.content_attributes['body_text']
+    truncate_for_generic_template(message.outgoing_content.presence || message.content_attributes['body_text'])
   end
 
   def cta_url_template_footer
-    message.content_attributes['footer_text'].presence
+    truncate_for_generic_template(message.content_attributes['footer_text'])
   end
 
   def cta_url_template_image_url

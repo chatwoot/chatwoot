@@ -2,6 +2,9 @@ class Instagram::BaseSendService < Base::SendOnChannelService # rubocop:disable 
   pattr_initialize [:message!]
 
   URL_ACTION_TYPES = %w[url link].freeze
+  # Messenger's generic template limits both title and subtitle to 80 characters;
+  # our forms allow much longer body/footer text (e.g. up to 1024 characters).
+  GENERIC_TEMPLATE_TEXT_MAX_LENGTH = 80
 
   private
 
@@ -123,13 +126,17 @@ class Instagram::BaseSendService < Base::SendOnChannelService # rubocop:disable 
       item = item.with_indifferent_access
 
       {
-        title: item[:title],
-        subtitle: item[:description],
+        title: truncate_for_generic_template(item[:title]),
+        subtitle: truncate_for_generic_template(item[:description]),
         image_url: item[:media_url],
         default_action: generic_template_default_action(item[:actions]),
         buttons: generic_template_buttons(item[:actions])
       }.compact
     end
+  end
+
+  def truncate_for_generic_template(text)
+    text.to_s.strip.first(GENERIC_TEMPLATE_TEXT_MAX_LENGTH).presence
   end
 
   def generic_template_default_action(actions)
@@ -236,11 +243,11 @@ class Instagram::BaseSendService < Base::SendOnChannelService # rubocop:disable 
   end
 
   def cta_url_template_title
-    message.outgoing_content.presence || message.content_attributes['body_text']
+    truncate_for_generic_template(message.outgoing_content.presence || message.content_attributes['body_text'])
   end
 
   def cta_url_template_subtitle
-    message.content_attributes['footer_text'].presence
+    truncate_for_generic_template(message.content_attributes['footer_text'])
   end
 
   def cta_url_template_image_url
