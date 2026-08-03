@@ -18,6 +18,7 @@
 #
 class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
+  AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze
 
   include Avatarable
   include Concerns::CaptainToolsHelpers
@@ -40,11 +41,13 @@ class Captain::Assistant < ApplicationRecord
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
   has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
 
-  store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name
+  store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
+                 :auto_resolve_mode
 
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
+  validates :auto_resolve_mode, inclusion: { in: AUTO_RESOLVE_MODES }
 
   scope :ordered, -> { order(created_at: :desc) }
 
@@ -52,6 +55,18 @@ class Captain::Assistant < ApplicationRecord
 
   def available_name
     name
+  end
+
+  def auto_resolve_mode
+    config.fetch('auto_resolve_mode') { account&.captain_auto_resolve_mode || 'evaluated' }
+  end
+
+  def inactive_conversation_resolution_disabled?
+    auto_resolve_mode == 'disabled'
+  end
+
+  def evaluate_inactive_conversations_before_resolving?
+    auto_resolve_mode == 'evaluated'
   end
 
   def available_agent_tools

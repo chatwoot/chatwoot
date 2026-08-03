@@ -30,12 +30,12 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
       end
     end
 
-    context 'when account has captain auto resolve disabled' do
+    context 'when assistant has captain auto resolve disabled' do
       let!(:regular_inbox) { create(:inbox, account: account) }
 
       before do
         create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
-        account.update!(captain_auto_resolve_mode: 'disabled')
+        assistant.update!(auto_resolve_mode: 'disabled')
       end
 
       it 'does not enqueue resolution jobs' do
