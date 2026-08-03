@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Captain::ConversationOutcome, type: :model do
+RSpec.describe ConversationOutcome, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:assistant).class_name('Captain::Assistant') }
@@ -19,16 +19,16 @@ RSpec.describe Captain::ConversationOutcome, type: :model do
 
   describe 'validations' do
     it 'requires a reason category when a handoff is recorded' do
-      outcome = build(:captain_conversation_outcome, handoff_at: Time.current)
+      outcome = build(:conversation_outcome, handoff_at: Time.current)
 
       expect(outcome).not_to be_valid
       expect(outcome.errors[:handoff_reason_category]).to be_present
     end
 
     it 'requires unique conversations per assistant and account' do
-      existing = create(:captain_conversation_outcome)
+      existing = create(:conversation_outcome)
       duplicate = build(
-        :captain_conversation_outcome,
+        :conversation_outcome,
         account: existing.account,
         assistant: existing.assistant,
         conversation: existing.conversation,
@@ -41,6 +41,6 @@ RSpec.describe Captain::ConversationOutcome, type: :model do
   end
 
   it 'builds a valid outcome' do
-    expect(build(:captain_conversation_outcome)).to be_valid
+    expect(build(:conversation_outcome)).to be_valid
   end
 end

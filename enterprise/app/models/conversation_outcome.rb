@@ -31,7 +31,7 @@
 #  index_conversation_outcomes_on_conversation_id      (conversation_id)
 #  index_conversation_outcomes_on_inbox_id             (inbox_id)
 #
-class Captain::ConversationOutcome < ApplicationRecord
+class ConversationOutcome < ApplicationRecord
   HANDOFF_REASON_CATEGORIES = %w[
     customer_request
     missing_knowledge
@@ -41,8 +41,6 @@ class Captain::ConversationOutcome < ApplicationRecord
     pending_clarification
     usage_limit
   ].freeze
-
-  self.table_name = 'conversation_outcomes'
 
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
