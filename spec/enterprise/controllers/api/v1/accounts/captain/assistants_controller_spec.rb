@@ -224,6 +224,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
               params: {
                 assistant: {
                   config: {
+                    auto_resolve_mode: 'legacy',
                     auto_resolve_after: 90,
                     send_inactivity_resolution_message: false,
                     resolution_message: 'Saved closing message'
@@ -235,6 +236,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(json_response[:config]).to include(
+          auto_resolve_mode: 'legacy',
           auto_resolve_after: 90,
           send_inactivity_resolution_message: false,
           resolution_message: 'Saved closing message'
