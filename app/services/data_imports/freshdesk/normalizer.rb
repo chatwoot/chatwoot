@@ -23,7 +23,7 @@ class DataImports::Freshdesk::Normalizer
       'created_at' => unix_timestamp(ticket['created_at']),
       'updated_at' => unix_timestamp(ticket['updated_at']),
       'source' => ticket_source(ticket),
-      'contacts' => { 'contacts' => [requester(ticket)] },
+      'contacts' => { 'contacts' => conversation_contacts(ticket, conversations) },
       'conversation_parts' => conversation_parts(conversations)
     }.merge(ticket_metadata(ticket)).compact
   end
@@ -58,11 +58,30 @@ class DataImports::Freshdesk::Normalizer
   end
 
   def conversation_parts(conversations)
-    sorted_conversations = conversations.sort_by { |conversation| conversation['created_at'].to_s }
+    sorted_conversations = conversations.each_with_index.sort_by do |conversation, index|
+      [conversation['created_at'].to_s, index]
+    end.map(&:first)
     {
       'conversation_parts' => sorted_conversations.map { |conversation| message(conversation) },
       'total_count' => conversations.size
     }
+  end
+
+  def conversation_contacts(ticket, conversations)
+    contacts = [requester(ticket)]
+    contacts.concat(conversations.filter_map { |conversation| conversation_contact(conversation) })
+    contacts.uniq { |contact_payload| contact_payload['id'].presence || contact_payload['email'].to_s.downcase.presence }
+  end
+
+  def conversation_contact(conversation)
+    return unless conversation['incoming']
+    return if conversation['user_id'].blank? && conversation['from_email'].blank?
+
+    {
+      'id' => conversation['user_id']&.to_s,
+      'name' => conversation['from_email'],
+      'email' => conversation['from_email']
+    }.compact
   end
 
   def ticket_metadata(ticket)
@@ -106,7 +125,8 @@ class DataImports::Freshdesk::Normalizer
     {
       'id' => conversation['user_id']&.to_s,
       'type' => conversation['incoming'] ? 'contact' : 'admin',
-      'name' => conversation['from_email']
+      'name' => conversation['from_email'],
+      'email' => conversation['from_email']
     }.compact
   end
 

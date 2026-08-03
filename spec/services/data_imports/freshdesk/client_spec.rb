@@ -44,6 +44,19 @@ RSpec.describe DataImports::Freshdesk::Client do
       expect(page.data).to eq([{ 'id' => 2001 }])
       expect(page.next_page).to eq(3)
     end
+
+    it 'accepts only forward pages from relative or same-domain links', :aggregate_failures do
+      client = described_class.new(domain: 'acme', api_key: 'secret')
+
+      expect(client.send(:next_page, '</api/v2/tickets?page=3>; rel="next"', current_page: 2)).to eq(3)
+      expect(client.send(:next_page, '<https://acme.freshdesk.com/api/v2/tickets?page=4>; rel="next"', current_page: 3)).to eq(4)
+      expect(client.send(:next_page, '<https://other.freshdesk.com/api/v2/tickets?page=4>; rel="next"', current_page: 3)).to be_nil
+      expect(client.send(:next_page, '</api/v2/tickets?page=abc>; rel="next"', current_page: 2)).to be_nil
+      expect(client.send(:next_page, '</api/v2/tickets?page=0>; rel="next"', current_page: 2)).to be_nil
+      expect(client.send(:next_page, '</api/v2/tickets?page=2>; rel="next"', current_page: 2)).to be_nil
+      expect(client.send(:next_page, '</api/v2/tickets?page=1>; rel="next"', current_page: 2)).to be_nil
+      expect(client.send(:next_page, '<%%%>; rel="next"', current_page: 2)).to be_nil
+    end
   end
 
   describe 'errors' do

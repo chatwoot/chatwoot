@@ -48,6 +48,30 @@ RSpec.describe DataImports::Freshdesk::Normalizer do
     expect(parts.second['attachments'].first).to include('name' => 'browser-log.txt')
   end
 
+  it 'preserves provider order for messages with equal timestamps' do
+    conversations = ticket_fixture.fetch('conversations').map(&:deep_dup)
+    conversations[0]['created_at'] = conversations[1]['created_at']
+
+    ticket = described_class.new.ticket(ticket_fixture.fetch('ticket'), conversations)
+
+    expect(ticket.dig('conversation_parts', 'conversation_parts').pluck('id')).to eq(%w[3003 3001 3002])
+  end
+
+  it 'includes incoming reply authors as conversation contacts' do
+    conversations = ticket_fixture.fetch('conversations').map(&:deep_dup)
+    conversations.first.merge!('user_id' => 1002, 'from_email' => 'cc@example.com')
+
+    ticket = described_class.new.ticket(ticket_fixture.fetch('ticket'), conversations)
+
+    expect(ticket.dig('contacts', 'contacts')).to include(
+      include('id' => '1001', 'email' => 'customer@example.com'),
+      include('id' => '1002', 'email' => 'cc@example.com')
+    )
+    expect(ticket.dig('conversation_parts', 'conversation_parts').last['author']).to include(
+      'id' => '1002', 'email' => 'cc@example.com'
+    )
+  end
+
   it 'marks outbound email ticket descriptions as outgoing source messages' do
     outbound_ticket = ticket_fixture.fetch('ticket').merge('source' => 10)
 

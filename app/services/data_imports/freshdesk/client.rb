@@ -77,7 +77,10 @@ class DataImports::Freshdesk::Client
 
   def get_page(path, query: {})
     response = request(path, query: query)
-    Page.new(data: parsed_body(response), next_page: next_page(response.headers['link']))
+    Page.new(
+      data: parsed_body(response),
+      next_page: next_page(response.headers['link'], current_page: query[:page] || query['page'])
+    )
   end
 
   def get(path, query: {})
@@ -134,14 +137,23 @@ class DataImports::Freshdesk::Client
     first_error_message.presence || description.presence || "Freshdesk API request failed with status #{response.code}"
   end
 
-  def next_page(link_header)
+  def next_page(link_header, current_page:)
     next_link = link_header.to_s.split(',').find { |link| link.include?('rel="next"') }
     return if next_link.blank?
 
     url = next_link[/<([^>]+)>/, 1]
-    query = URI.decode_www_form(URI.parse(url).query.to_s).to_h
-    query['page']&.to_i
-  rescue URI::InvalidURIError
+    return if url.blank?
+
+    parse_next_page(url, current_page)
+  rescue ArgumentError, URI::InvalidURIError
     nil
+  end
+
+  def parse_next_page(url, current_page)
+    uri = URI.parse(url)
+    page = URI.decode_www_form(uri.query.to_s).to_h['page']
+    same_domain = uri.host.blank? || uri.host.casecmp?(@domain)
+    positive_page = page&.match?(/\A[1-9]\d*\z/)
+    page.to_i if same_domain && positive_page && page.to_i > current_page.to_i
   end
 end

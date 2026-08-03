@@ -88,6 +88,21 @@ RSpec.describe DataImports::Freshdesk::Importer do
     expect(data_import.mappings.count).to eq(6)
   end
 
+  it 'preserves the contact that authored an incoming reply' do
+    conversations = ticket_fixture.fetch('conversations').map(&:deep_dup)
+    conversations.first.merge!('user_id' => 1002, 'from_email' => 'cc@example.com')
+    allow(client).to receive(:list_conversations).with('2001', page: 1, per_page: 100).and_return(
+      DataImports::Freshdesk::Client::Page.new(data: conversations, next_page: nil)
+    )
+    data_import.update!(import_types: ['conversations'])
+
+    described_class.new(data_import: data_import).perform
+
+    reply = account.conversations.find_by!(identifier: 'freshdesk:2001').messages.find_by!(content: 'The issue still happens in a private window.')
+    expect(reply.sender).to have_attributes(email: 'cc@example.com')
+    expect(reply.sender_id).not_to eq(reply.conversation.contact_id)
+  end
+
   it 'preserves newer progress when a delayed worker persists a stale snapshot', :aggregate_failures do
     data_import.update!(
       status: :processing,
@@ -114,12 +129,32 @@ RSpec.describe DataImports::Freshdesk::Importer do
       processed_records: 2
     )
 
-    expect(delayed_importer.send(:update_cursor, 'contacts', 'cursor-1')).to eq('cursor-2')
     delayed_importer.send(:persist_stats)
+    expect(delayed_importer.send(:update_cursor, 'contacts', 'cursor-1')).to eq('cursor-2')
 
     expect(data_import.reload.cursor.dig('contacts', 'starting_after')).to eq('cursor-2')
     expect(data_import.stats.dig('contacts', 'imported')).to eq(2)
     expect(data_import.processed_records).to eq(2)
+  end
+
+  it 'does not let an old import run overwrite its replacement cursor', :aggregate_failures do
+    data_import.update!(
+      status: :processing,
+      source_metadata: data_import.source_metadata.merge('active_import_run_id' => 'run-1'),
+      cursor: { 'conversations' => { 'starting_after' => { 'page' => 1, 'offset' => 0 }, 'completed' => false } }
+    )
+    delayed_importer = described_class.new(data_import: DataImport.find(data_import.id), run_id: 'run-1')
+    replacement_cursor = { 'page' => 1, 'offset' => 3 }
+    data_import.reload.update!(
+      source_metadata: data_import.source_metadata.merge('active_import_run_id' => 'run-2'),
+      cursor: { 'conversations' => { 'starting_after' => replacement_cursor, 'completed' => false } }
+    )
+
+    result = delayed_importer.send(:update_cursor, 'conversations', { 'page' => 1, 'offset' => 1 })
+
+    expect(result).to eq(replacement_cursor)
+    expect(data_import.reload.cursor.dig('conversations', 'starting_after')).to eq(replacement_cursor)
+    expect(delayed_importer.send(:import_stopped?)).to be(true)
   end
 
   it 'serializes overlapping workers importing the same conversation', :aggregate_failures do

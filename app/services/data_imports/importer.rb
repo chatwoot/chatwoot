@@ -177,7 +177,9 @@ class DataImports::Importer
     mapping = find_mapping('conversation', source_id)
     update_message_total(item, conversation)
 
-    contact = import_contact(primary_conversation_contact(conversation), required_for_conversation: true)
+    contact_payloads = conversation_contacts(conversation)
+    contact = import_contact(contact_payloads.first, required_for_conversation: true)
+    contact_payloads.drop(1).each { |contact_payload| import_contact(contact_payload) }
     source_type = conversation_source_type(conversation, conversation_summary)
     inbox = @placeholder_inboxes.inbox_for(source_type)
     contact_inbox = contact_inbox_for(contact, inbox)
@@ -746,6 +748,7 @@ class DataImports::Importer
 
   def message_attributes(conversation, contact, part, message_source_id, content)
     message_type = message_type_for(part)
+    sender = message_sender_for(part, contact, message_type)
     created_at = timestamp_for(part['created_at'])
     {
       account_id: @account.id,
@@ -757,8 +760,8 @@ class DataImports::Importer
       processed_message_content: content,
       private: message_type != 'activity' && part['part_type'] == 'note',
       status: Message.statuses['sent'],
-      sender_type: message_type == 'incoming' ? 'Contact' : nil,
-      sender_id: message_type == 'incoming' ? contact.id : nil,
+      sender_type: sender.present? ? 'Contact' : nil,
+      sender_id: sender&.id,
       source_id: "#{@source.provider}:#{message_source_id}",
       external_source_ids: { @source.provider => message_source_id },
       content_attributes: {},
@@ -814,9 +817,18 @@ class DataImports::Importer
     end
   end
 
-  def primary_conversation_contact(conversation)
-    contacts = conversation.dig('contacts', 'contacts') || []
-    contacts.first || conversation.dig('source', 'author') || {}
+  def conversation_contacts(conversation)
+    contacts = Array(conversation.dig('contacts', 'contacts'))
+    contacts.presence || [conversation.dig('source', 'author') || {}]
+  end
+
+  def message_sender_for(part, primary_contact, message_type)
+    return unless message_type == 'incoming'
+
+    author = part['author'].to_h
+    source_id = source_id_for(author)
+    mapped_contact = find_mapping('contact', source_id)&.chatwoot_record if source_id.present?
+    mapped_contact || find_existing_contact(author) || primary_contact
   end
 
   def conversation_source_type(conversation, conversation_summary)
@@ -1190,6 +1202,11 @@ class DataImports::Importer
   def update_cursor(key, cursor)
     @data_import.with_lock do
       current_cursor = @data_import.cursor.to_h.deep_stringify_keys
+      if inactive_import_run?
+        @import_stopped = true
+        next current_cursor.dig(key, 'starting_after')
+      end
+
       if current_cursor != @persisted_cursor
         @persisted_cursor = current_cursor.deep_dup
         next current_cursor.dig(key, 'starting_after')
@@ -1289,7 +1306,6 @@ class DataImports::Importer
       reconcile_concurrent_stats(current_stats) if current_stats != @persisted_stats || @data_import.cursor.to_h != @persisted_cursor
 
       @data_import.update_columns(stats: @stats, updated_at: Time.current)
-      @persisted_cursor = @data_import.cursor.to_h.deep_stringify_keys
       @persisted_stats = @stats.deep_dup
     end
   end
