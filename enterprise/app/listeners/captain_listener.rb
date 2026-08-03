@@ -6,10 +6,9 @@ class CaptainListener < BaseListener
     return unless message.outgoing? && !message.private?
 
     if message.sender_type == 'Captain::Assistant'
-      Captain::ConversationOutcomeTracker.new(conversation: message.conversation, assistant: message.sender)
-                                         .record_captain_reply(message: message)
+      tracker(message.conversation).record_captain_reply(message: message)
     else
-      outcome_trackers(message.conversation).each { |tracker| tracker.record_human_reply(message: message) }
+      tracker(message.conversation).record_human_reply(message: message)
     end
   end
 
@@ -20,12 +19,12 @@ class CaptainListener < BaseListener
     response = CsatSurveyResponse.find_by(message: message)
     return unless response
 
-    outcome_trackers(message.conversation).each { |tracker| tracker.record_csat(response: response) }
+    tracker(message.conversation).record_csat(response: response)
   end
 
   def conversation_resolved(event)
     conversation = extract_conversation_and_account(event)[0]
-    outcome_trackers(conversation).each { |tracker| tracker.record_resolution(at: event.timestamp) }
+    tracker(conversation).record_resolution(at: event.timestamp)
 
     assistant = conversation.inbox.captain_assistant
 
@@ -39,10 +38,16 @@ class CaptainListener < BaseListener
     return unless reopened_from_resolved?(event)
 
     conversation = extract_conversation_and_account(event)[0]
-    outcome_trackers(conversation).each { |tracker| tracker.record_reopen(at: event.timestamp) }
+    return unless ConversationOutcome.exists?(account_id: conversation.account_id, conversation_id: conversation.id)
+
+    Captain::ConversationOutcomeBoundaryJob.perform_later(conversation, event.timestamp)
   end
 
   private
+
+  def tracker(conversation)
+    Captain::ConversationOutcomeTracker.new(conversation: conversation)
+  end
 
   # conversation_opened cannot classify reopens: it never fires for the main
   # Captain reopen path (an inbound message moves a resolved bot conversation
@@ -51,14 +56,5 @@ class CaptainListener < BaseListener
   # independent of event delivery order.
   def reopened_from_resolved?(event)
     event.data[:changed_attributes]&.dig('status', 0) == 'resolved'
-  end
-
-  def outcome_trackers(conversation)
-    ConversationOutcome.where(
-      account_id: conversation.account_id,
-      conversation_id: conversation.id
-    ).includes(:assistant).map do |outcome|
-      Captain::ConversationOutcomeTracker.new(conversation: conversation, assistant: outcome.assistant)
-    end
   end
 end

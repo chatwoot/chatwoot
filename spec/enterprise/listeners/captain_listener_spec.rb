@@ -136,45 +136,54 @@ describe CaptainListener do
 
   describe '#conversation_updated' do
     let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :open) }
-    let!(:outcome) do
+
+    before do
       create(
         :conversation_outcome,
         account: account,
         assistant: assistant,
         conversation: conversation,
         inbox: inbox,
+        started_at: 1.hour.ago,
         resolved_at: 2.minutes.ago
       )
     end
 
-    it 'records a reopening when the conversation leaves the resolved state' do
+    it 'enqueues a boundary when the conversation leaves the resolved state' do
       event = Events::Base.new(:conversation_updated, Time.current,
                                conversation: conversation, changed_attributes: { 'status' => %w[resolved pending] })
 
-      listener.conversation_updated(event)
-
-      expect(outcome.reload).to have_attributes(
-        reopen_count: 1,
-        last_reopened_at: event.timestamp
-      )
+      expect do
+        listener.conversation_updated(event)
+      end.to have_enqueued_job(Captain::ConversationOutcomeBoundaryJob).with(conversation, event.timestamp)
     end
 
     it 'ignores status transitions that do not leave the resolved state' do
       event = Events::Base.new(:conversation_updated, Time.current,
                                conversation: conversation, changed_attributes: { 'status' => %w[snoozed open] })
 
-      listener.conversation_updated(event)
-
-      expect(outcome.reload.reopen_count).to eq(0)
+      expect do
+        listener.conversation_updated(event)
+      end.not_to have_enqueued_job(Captain::ConversationOutcomeBoundaryJob)
     end
 
     it 'ignores updates without a status change' do
       event = Events::Base.new(:conversation_updated, Time.current,
                                conversation: conversation, changed_attributes: { 'priority' => [nil, 'high'] })
 
-      listener.conversation_updated(event)
+      expect do
+        listener.conversation_updated(event)
+      end.not_to have_enqueued_job(Captain::ConversationOutcomeBoundaryJob)
+    end
 
-      expect(outcome.reload.reopen_count).to eq(0)
+    it 'ignores conversations without Captain history' do
+      ConversationOutcome.delete_all
+      event = Events::Base.new(:conversation_updated, Time.current,
+                               conversation: conversation, changed_attributes: { 'status' => %w[resolved open] })
+
+      expect do
+        listener.conversation_updated(event)
+      end.not_to have_enqueued_job(Captain::ConversationOutcomeBoundaryJob)
     end
   end
 
