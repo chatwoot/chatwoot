@@ -114,9 +114,11 @@ const handleSelectedContact = async ({ value, action, ...rest }) => {
       isCreatingContact.value = false;
     } catch (error) {
       isCreatingContact.value = false;
+      const message = parseAPIErrorResponse(error);
       useAlert(
-        parseAPIErrorResponse(error) ||
-          t('COMPOSE_NEW_CONVERSATION.CONTACT_CREATE.ERROR_MESSAGE')
+        typeof message === 'string'
+          ? message
+          : t('COMPOSE_NEW_CONVERSATION.CONTACT_CREATE.ERROR_MESSAGE')
       );
       return;
     }
