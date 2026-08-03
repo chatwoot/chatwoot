@@ -61,6 +61,10 @@ watch(
   () => props.modelValue,
   url => {
     status.value = url ? 'checking' : 'idle';
+    // Mark invalid/pending immediately so the parent can't submit a
+    // syntactically invalid or unloadable image while checkImage is still
+    // debounced; validity is restored once the image actually loads.
+    emit('update:valid', !url);
     debouncedCheckImage(url);
   },
   { immediate: true }
