@@ -16,14 +16,19 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
     end
   end
 
-  describe '#parameters' do
-    it 'returns the correct parameters' do
-      expect(tool.parameters).to have_key(:reason)
-      expect(tool.parameters[:reason].name).to eq(:reason)
-      expect(tool.parameters[:reason].type).to eq('string')
-      expect(tool.parameters[:reason].description).to eq('The reason why handoff is needed (optional)')
-      expect(tool.parameters[:reason].required).to be false
-      expect(tool.parameters[:reason_category].required).to be true
+  describe '#params_schema' do
+    it 'constrains the reason category to the supported values and keeps the reason optional' do
+      schema = tool.params_schema
+
+      expect(schema['properties']['reason']['type']).to eq('string')
+      expect(schema['properties']['reason_category']['enum']).to eq(described_class::REASON_CATEGORIES)
+      expect(schema['required']).to eq(['reason_category'])
+    end
+
+    it 'survives Agents::ToolWrapper reading the class params at wrap time' do
+      described_class.params
+
+      expect(described_class.new(assistant).params_schema['properties'].keys).to contain_exactly('reason', 'reason_category')
     end
   end
 

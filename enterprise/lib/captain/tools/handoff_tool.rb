@@ -2,11 +2,10 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   REASON_CATEGORIES = %w[customer_request missing_knowledge unsupported_request policy_restriction tool_failure].freeze
 
   description 'Hand off the conversation to a human agent when unable to assist further'
-  param :reason, type: 'string', desc: 'The reason why handoff is needed (optional)', required: false
-  param :reason_category,
-        type: 'string',
-        desc: "Reporting category, one of: #{REASON_CATEGORIES.join(', ')}",
-        required: true
+  params do
+    string :reason, description: 'The reason why handoff is needed (optional)', required: false
+    string :reason_category, enum: REASON_CATEGORIES, description: 'Reporting category for why the handoff is needed'
+  end
 
   def perform(tool_context, reason: nil, reason_category: nil)
     conversation = find_conversation(tool_context.state)
