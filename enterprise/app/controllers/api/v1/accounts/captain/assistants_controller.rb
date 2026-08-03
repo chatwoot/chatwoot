@@ -127,10 +127,10 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     assistant_config_attributes = [
       :product_name, :feature_faq, :feature_memory, :feature_citation,
       :feature_contact_attributes, :welcome_message, :handoff_message,
-      :resolution_message, :instructions, :temperature
+      :resolution_message, :instructions, :temperature, :auto_resolve_mode
     ]
     if Current.account.feature_enabled?('captain_integration_v2')
-      assistant_config_attributes += [:auto_resolve_mode, :auto_resolve_after, :send_inactivity_resolution_message]
+      assistant_config_attributes += [:auto_resolve_after, :send_inactivity_resolution_message]
     end
 
     permitted = params.require(:assistant).permit(:name, :description,
