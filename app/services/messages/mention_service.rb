@@ -25,7 +25,8 @@ class Messages::MentionService
     # where the URL is just the numeric user ID (e.g. " @[Name](1) ") instead
     # of the mention:// scheme used by the web app. Extract IDs from both
     # patterns so mention notifications fire regardless of the source client.
-    mobile_user_mentions = message.content.scan(/@\[[^\]]+\]\((\d+)\)/).map(&:first)
+    # The non-greedy label match allows display names to contain "]".
+    mobile_user_mentions = message.content.scan(/@\[.+?\]\((\d+)\)/).map(&:first)
 
     expanded_user_ids = expand_team_mentions_to_users(team_mentions)
 

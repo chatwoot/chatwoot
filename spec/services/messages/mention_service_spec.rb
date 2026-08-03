@@ -382,6 +382,28 @@ describe Messages::MentionService do
         )
       end
     end
+
+    context 'when the mobile mention label contains a bracket character' do
+      it 'still resolves the mentioned user ID' do
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hi @[QA] Lead](#{first_agent.id})",
+          private: true
+        )
+
+        described_class.new(message: message).perform
+
+        expect(NotificationBuilder).to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: first_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
+      end
+    end
   end
 
   describe 'team mentions' do
