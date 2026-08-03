@@ -202,6 +202,32 @@ describe Webhooks::InstagramEventsJob do
         instagram_webhook.perform_now(messaging_seen_event[:entry])
       end
 
+      it 'processes each messaging event in a batch by its own type, not the first one seen' do
+        dm_event = build(:instagram_message_create_event).with_indifferent_access
+        sender_id = dm_event[:entry][0][:messaging][0][:sender][:id]
+
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          return_object_for(sender_id).with_indifferent_access
+        )
+
+        read_messaging = {
+          sender: { id: sender_id },
+          recipient: { id: 'chatwoot-app-user-id-1' },
+          timestamp: '2021-09-08T06:34:05+0000',
+          read: { mid: 'message-id-1' }
+        }.with_indifferent_access
+        batched_entry = dm_event[:entry][0].deep_dup
+        batched_entry[:messaging] << read_messaging
+
+        expect(Instagram::ReadStatusService).to receive(:new).with(params: read_messaging,
+                                                                   channel: instagram_messenger_inbox.channel).and_call_original
+
+        instagram_webhook.perform_now([batched_entry])
+
+        expect(instagram_messenger_inbox.messages.count).to be 1
+      end
+
       it 'handles unsupported message' do
         unsupported_event = build(:instagram_message_unsupported_event).with_indifferent_access
         sender_id = unsupported_event[:entry][0][:messaging][0][:sender][:id]

@@ -159,7 +159,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def event_name(messaging)
-    @event_name ||= SUPPORTED_EVENTS.find { |key| messaging.key?(key) }
+    SUPPORTED_EVENTS.find { |key| messaging.key?(key) }
   end
 
   def message(messaging, channel)
