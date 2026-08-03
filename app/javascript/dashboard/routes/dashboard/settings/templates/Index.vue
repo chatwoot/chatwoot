@@ -38,6 +38,8 @@ const selectedTemplate = ref(null);
 const openFilterMenu = ref(null);
 const previewPanelRef = ref(null);
 
+const hasTemplates = computed(() => templates.value.length > 0);
+
 const whatsappInboxes = computed(() =>
   inboxes.value.filter(
     inbox =>
@@ -75,12 +77,10 @@ const inboxOptions = computed(() => [
   {
     value: 'all',
     label: t('WHATSAPP_TEMPLATE_MGMT.FILTERS.ALL_INBOXES'),
-    icon: 'i-lucide-inbox',
   },
   ...whatsappInboxes.value.map(inbox => ({
     value: String(inbox.id),
     label: inbox.name,
-    icon: 'i-lucide-inbox',
   })),
 ]);
 
@@ -88,7 +88,6 @@ const languageOptions = computed(() => [
   {
     value: 'all',
     label: t('WHATSAPP_TEMPLATE_MGMT.FILTERS.ALL_LANGUAGES'),
-    icon: 'i-lucide-languages',
   },
   ...[...new Set(templates.value.map(template => template.language))]
     .filter(Boolean)
@@ -96,7 +95,6 @@ const languageOptions = computed(() => [
     .map(language => ({
       value: language,
       label: formatTemplateLanguage(language),
-      icon: 'i-lucide-languages',
     })),
 ]);
 
@@ -104,11 +102,13 @@ const filterMenus = computed(() =>
   [
     {
       key: 'inbox',
+      icon: 'i-lucide-inbox',
       options: inboxOptions.value,
       active: selectedInboxId.value,
     },
     {
       key: 'language',
+      icon: 'i-lucide-languages',
       options: languageOptions.value,
       active: selectedLanguage.value,
     },
@@ -181,6 +181,10 @@ const filteredTemplates = computed(() => {
     'searchableContent',
   ]);
 });
+
+const showSearch = computed(() =>
+  Boolean(filteredTemplates.value.length || searchQuery.value)
+);
 
 const groupTemplates = templateRecords => {
   const groupedTemplates = new Map();
@@ -276,7 +280,9 @@ onActivated(fetchTemplates);
       <BaseSettingsHeader
         v-model:search-query="searchQuery"
         :title="$t('WHATSAPP_TEMPLATE_MGMT.TITLE')"
-        :search-placeholder="$t('WHATSAPP_TEMPLATE_MGMT.SEARCH_PLACEHOLDER')"
+        :search-placeholder="
+          showSearch ? $t('WHATSAPP_TEMPLATE_MGMT.SEARCH_PLACEHOLDER') : ''
+        "
       >
         <template #description>
           {{ $t('WHATSAPP_TEMPLATE_MGMT.DESCRIPTION') }}
@@ -291,12 +297,13 @@ onActivated(fetchTemplates);
         </template>
         <template #tabs>
           <div
+            v-if="hasTemplates"
             v-on-click-outside="closeFilterMenu"
             class="flex items-center gap-2"
           >
             <div v-for="menu in filterMenus" :key="menu.key" class="relative">
               <Button
-                :icon="menu.selected.icon"
+                :icon="menu.icon"
                 color="slate"
                 size="sm"
                 :class="{ 'bg-n-slate-9/10': openFilterMenu === menu.key }"
@@ -350,7 +357,7 @@ onActivated(fetchTemplates);
         </span>
       </div>
 
-      <div v-else class="flex flex-col gap-4">
+      <div v-else class="border-t divide-y divide-n-weak border-n-weak">
         <TemplateCard
           v-for="template in filteredTemplates"
           :key="template.key"
