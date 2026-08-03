@@ -149,7 +149,8 @@ class Captain::AudienceMatcher
     actual = Time.zone.parse(actual) if iso_date_string?(actual)
 
     if actual.is_a?(Date) || actual.acts_like?(:time)
-      actual.to_time <=> Time.zone.parse(expected.to_s)
+      expected_date = to_date(expected)
+      actual.to_date <=> expected_date if expected_date
     else
       BigDecimal(actual.to_s) <=> BigDecimal(expected.to_s)
     end
