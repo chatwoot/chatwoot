@@ -4,7 +4,7 @@ ruby '3.4.4'
 
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '~> 7.1'
+gem 'rails', '~> 7.2', '>= 7.2.3.2'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -59,7 +59,7 @@ gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 
 ##-- for actionmailbox --##
-gem 'aws-actionmailbox-ses', '~> 0'
+gem 'aws-actionmailbox-ses', '~> 0', '>= 0.1.1'
 
 ##-- gems for database --#
 gem 'groupdate'
@@ -84,7 +84,7 @@ gem 'barnes'
 ##--- gems for authentication & authorization ---##
 gem 'devise', '>= 4.9.4'
 gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
-gem 'devise_token_auth', '>= 1.2.3'
+gem 'devise_token_auth', '>= 1.2.6'
 gem 'rails-i18n', '~> 7.0'
 # two-factor authentication
 gem 'devise-two-factor', '>= 5.0.0'
@@ -94,8 +94,8 @@ gem 'pundit'
 
 # super admin
 gem 'administrate', '>= 0.20.1'
-gem 'administrate-field-active_storage', '>= 1.0.3'
-gem 'administrate-field-belongs_to_search', '>= 0.9.0'
+gem 'administrate-field-active_storage', '>= 1.0.4'
+gem 'administrate-field-belongs_to_search', '>= 0.10.0'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
@@ -238,7 +238,7 @@ group :development do
   # Should install the associated chrome extension to view query logs
   gem 'meta_request', '>= 0.8.3'
 
-  gem 'tidewave'
+  gem 'tidewave', '>= 0.3.0'
 end
 
 group :test do
