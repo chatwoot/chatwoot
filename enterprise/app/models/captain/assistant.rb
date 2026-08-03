@@ -20,6 +20,7 @@ class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
   AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze
   DEFAULT_INACTIVITY_THRESHOLD_MINUTES = 60
+  DEFAULT_FOLLOW_UP_RESOLUTION_THRESHOLD_MINUTES = 60
   MINIMUM_INACTIVITY_THRESHOLD_MINUTES = 5
   MAXIMUM_INACTIVITY_THRESHOLD_MINUTES = 1.day.in_minutes.to_i
 
@@ -45,14 +46,23 @@ class Captain::Assistant < ApplicationRecord
   has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
 
   store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
-                 :auto_resolve_mode, :auto_resolve_after, :send_inactivity_resolution_message
+                 :auto_resolve_mode, :auto_resolve_after, :send_inactivity_resolution_message,
+                 :follow_up_before_resolving, :follow_up_resolve_after
 
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
   validates :auto_resolve_mode, inclusion: { in: AUTO_RESOLVE_MODES }
   validates :send_inactivity_resolution_message, inclusion: { in: [true, false] }
+  validates :follow_up_before_resolving, inclusion: { in: [true, false] }
   validates :auto_resolve_after,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: MINIMUM_INACTIVITY_THRESHOLD_MINUTES,
+              less_than_or_equal_to: MAXIMUM_INACTIVITY_THRESHOLD_MINUTES
+            },
+            allow_nil: true
+  validates :follow_up_resolve_after,
             numericality: {
               only_integer: true,
               greater_than_or_equal_to: MINIMUM_INACTIVITY_THRESHOLD_MINUTES,
@@ -90,6 +100,18 @@ class Captain::Assistant < ApplicationRecord
 
   def send_inactivity_resolution_message?
     send_inactivity_resolution_message
+  end
+
+  def follow_up_before_resolving
+    config.fetch('follow_up_before_resolving', false)
+  end
+
+  def follow_up_before_resolving?
+    follow_up_before_resolving
+  end
+
+  def follow_up_resolution_threshold_minutes
+    config.fetch('follow_up_resolve_after', DEFAULT_FOLLOW_UP_RESOLUTION_THRESHOLD_MINUTES).to_i
   end
 
   def available_agent_tools

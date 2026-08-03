@@ -46,6 +46,22 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
       end
     end
 
+    context 'when the assistant inactivity policy is disabled' do
+      let!(:regular_inbox) { create(:inbox, account: account) }
+
+      before do
+        create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
+        assistant.update!(config: assistant.config.merge('auto_resolve_mode' => 'disabled'))
+      end
+
+      it 'does not enqueue resolution jobs' do
+        expect do
+          described_class.perform_now
+        end.not_to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob)
+          .with(regular_inbox)
+      end
+    end
+
     context 'when account uses legacy disabled settings key' do
       let!(:regular_inbox) { create(:inbox, account: account) }
 

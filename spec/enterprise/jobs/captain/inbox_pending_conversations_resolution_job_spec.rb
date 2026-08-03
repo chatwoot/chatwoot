@@ -132,6 +132,116 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(Captain::ConversationCompletionService).not_to have_received(:new)
       expect(resolvable_pending_conversation.reload.status).to eq('resolved')
     end
+
+    it 'uses the assistant always-resolve policy instead of the account policy' do
+      captain_assistant.update!(config: captain_assistant.config.merge('auto_resolve_mode' => 'legacy'))
+      allow(Captain::ConversationCompletionService).to receive(:new)
+
+      described_class.perform_now(inbox)
+
+      expect(Captain::ConversationCompletionService).not_to have_received(:new)
+      expect(resolvable_pending_conversation.reload.status).to eq('resolved')
+    end
+  end
+
+  context 'when Captain chooses to follow up' do
+    let(:follow_up_message) { 'Could you share the order number so I can help?' }
+
+    before do
+      captain_assistant.update!(
+        config: captain_assistant.config.merge(
+          'follow_up_before_resolving' => true,
+          'follow_up_resolve_after' => 30,
+          'resolution_message' => 'I will close this for now.'
+        )
+      )
+      mock_service = instance_double(Captain::ConversationCompletionService)
+      allow(mock_service).to receive(:perform).and_return(
+        {
+          action: 'follow_up',
+          reason: 'Captain is waiting for the customer order number',
+          follow_up_message: follow_up_message
+        }
+      )
+      allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
+    end
+
+    it 'sends the generated follow-up and keeps the conversation pending' do
+      described_class.perform_now(inbox)
+
+      generated_message = resolvable_pending_conversation.messages.outgoing.where(private: false).last
+      expect(generated_message.content).to eq(follow_up_message)
+      expect(generated_message.additional_attributes['captain_inactivity_follow_up']).to be true
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    end
+
+    it 'does not send the same follow-up twice when the job runs again' do
+      described_class.perform_now(inbox)
+
+      expect do
+        described_class.perform_now(inbox)
+      end.not_to(change do
+        resolvable_pending_conversation.messages.outgoing
+                                       .where('additional_attributes @> ?', { captain_inactivity_follow_up: true }.to_json)
+                                       .count
+      end)
+    end
+
+    it 'resolves after the second duration without another customer reply' do
+      described_class.perform_now(inbox)
+
+      travel 31.minutes do
+        described_class.perform_now(inbox)
+      end
+
+      public_messages = resolvable_pending_conversation.messages.outgoing.where(private: false).pluck(:content)
+      expect(public_messages).to include(follow_up_message, 'I will close this for now.')
+      expect(resolvable_pending_conversation.reload.status).to eq('resolved')
+    end
+
+    it 'cancels the second-stage resolution when the customer replies' do
+      described_class.perform_now(inbox)
+
+      travel 1.minute do
+        create(
+          :message,
+          conversation: resolvable_pending_conversation,
+          inbox: inbox,
+          account: inbox.account,
+          message_type: :incoming,
+          content: 'My order number is 1234'
+        )
+      end
+
+      travel 32.minutes do
+        described_class.perform_now(inbox)
+      end
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+      expect(resolvable_pending_conversation.messages.outgoing.where(private: false).pluck(:content))
+        .to contain_exactly(follow_up_message)
+    end
+  end
+
+  context 'when Captain recommends a follow-up but the setting is disabled' do
+    before do
+      mock_service = instance_double(Captain::ConversationCompletionService)
+      allow(mock_service).to receive(:perform).and_return(
+        {
+          action: 'follow_up',
+          reason: 'Captain is waiting for the customer',
+          follow_up_message: 'Are you still there?'
+        }
+      )
+      allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
+    end
+
+    it 'hands off instead of sending a follow-up' do
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('open')
+      expect(resolvable_pending_conversation.messages.outgoing.where(private: false)).to be_empty
+    end
   end
 
   context 'when LLM evaluation returns complete' do
@@ -388,6 +498,17 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
 
   it 'does not resolve conversations when auto-resolve is disabled at execution time' do
     captain_assistant.update!(auto_resolve_mode: 'disabled')
+
+    expect do
+      described_class.perform_now(inbox)
+    end.not_to(change { resolvable_pending_conversation.reload.status })
+
+    expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    expect(resolvable_pending_conversation.messages.outgoing).to be_empty
+  end
+
+  it 'does not resolve conversations when the assistant policy is disabled at execution time' do
+    captain_assistant.update!(config: captain_assistant.config.merge('auto_resolve_mode' => 'disabled'))
 
     expect do
       described_class.perform_now(inbox)
