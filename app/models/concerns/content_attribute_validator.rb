@@ -1,4 +1,4 @@
-class ContentAttributeValidator < ActiveModel::Validator
+class ContentAttributeValidator < ActiveModel::Validator # rubocop:disable Metrics/ClassLength
   ALLOWED_SELECT_ITEM_KEYS = [:title, :value].freeze
   ALLOWED_CARD_ITEM_KEYS = [:title, :description, :media_url, :actions].freeze
   ALLOWED_CARD_ITEM_ACTION_KEYS = [:text, :type, :payload, :uri].freeze
@@ -21,33 +21,46 @@ class ContentAttributeValidator < ActiveModel::Validator
   INTERACTIVE_LIST_HEADER_TYPE = 'text'.freeze
   ALLOWED_FORM_ITEM_KEYS = [:type, :placeholder, :label, :name, :options, :default, :required, :pattern, :title, :pattern_error].freeze
   ALLOWED_ARTICLE_KEYS = [:title, :description, :link].freeze
+  SUPPORTED_CARD_ACTION_TYPES = [URL_ACTION_TYPE, REPLY_ACTION_TYPE, 'link', 'postback'].freeze
+
+  VALIDATIONS_BY_CONTENT_TYPE = {
+    'input_select' => :validate_input_select!,
+    'cards' => :validate_cards!,
+    'cta_url' => :validate_cta_url_attributes!,
+    'interactive_buttons' => :validate_interactive_buttons_attributes!,
+    'interactive_list' => :validate_interactive_list_attributes!,
+    'form' => :validate_form!,
+    'article' => :validate_article!
+  }.freeze
 
   def validate(record)
-    case record.content_type
-    when 'input_select'
-      validate_items!(record)
-      validate_item_attributes!(record, ALLOWED_SELECT_ITEM_KEYS)
-    when 'cards'
-      validate_items!(record)
-      validate_item_attributes!(record, ALLOWED_CARD_ITEM_KEYS)
-      validate_item_actions!(record)
-      validate_interactive_card_actions!(record)
-    when 'cta_url'
-      validate_cta_url_attributes!(record)
-    when 'interactive_buttons'
-      validate_interactive_buttons_attributes!(record)
-    when 'interactive_list'
-      validate_interactive_list_attributes!(record)
-    when 'form'
-      validate_items!(record)
-      validate_item_attributes!(record, ALLOWED_FORM_ITEM_KEYS)
-    when 'article'
-      validate_items!(record)
-      validate_item_attributes!(record, ALLOWED_ARTICLE_KEYS)
-    end
+    validation = VALIDATIONS_BY_CONTENT_TYPE[record.content_type]
+    send(validation, record) if validation
   end
 
   private
+
+  def validate_input_select!(record)
+    validate_items!(record)
+    validate_item_attributes!(record, ALLOWED_SELECT_ITEM_KEYS)
+  end
+
+  def validate_cards!(record)
+    validate_items!(record)
+    validate_item_attributes!(record, ALLOWED_CARD_ITEM_KEYS)
+    validate_item_actions!(record)
+    validate_interactive_card_actions!(record)
+  end
+
+  def validate_form!(record)
+    validate_items!(record)
+    validate_item_attributes!(record, ALLOWED_FORM_ITEM_KEYS)
+  end
+
+  def validate_article!(record)
+    validate_items!(record)
+    validate_item_attributes!(record, ALLOWED_ARTICLE_KEYS)
+  end
 
   def validate_items!(record)
     if record.items.blank?
@@ -58,7 +71,7 @@ class ContentAttributeValidator < ActiveModel::Validator
   end
 
   def validate_item_attributes!(record, valid_keys)
-    item_keys = normalized_items(record).collect(&:keys).flatten.filter_map(&:to_sym)
+    item_keys = Array(record.items).select { |item| item.is_a?(Hash) }.flat_map(&:keys).filter_map(&:to_sym)
     invalid_keys = item_keys - valid_keys
     record.errors.add(:content_attributes, "contains invalid keys for items : #{invalid_keys}") if invalid_keys.present?
   end
@@ -78,39 +91,42 @@ class ContentAttributeValidator < ActiveModel::Validator
   end
 
   def validate_interactive_card_actions!(record)
-    normalized_items(record).each do |item|
-      next if item[:actions].blank?
+    normalized_items(record).each { |item| validate_interactive_card_item!(record, item) }
+  end
 
-      action_types = item[:actions].pluck(:type).compact.uniq
-      next if action_types.blank?
+  def validate_interactive_card_item!(record, item)
+    return if item[:actions].blank?
 
-      unsupported_action_types = action_types - [URL_ACTION_TYPE, REPLY_ACTION_TYPE, 'link', 'postback']
-      if unsupported_action_types.present?
-        record.errors.add(:content_attributes, "contains unsupported card action type: #{unsupported_action_types.first}")
-        next
-      end
+    action_types = item[:actions].pluck(:type).compact.uniq
+    return if action_types.blank?
+    return if reject_unsupported_card_action_types!(record, action_types)
 
-      if whatsapp_interactive_carousel_target?(record)
-        validate_interactive_carousel_item_count!(record)
-        validate_whatsapp_interactive_card_actions!(record, item[:actions], action_types)
-        next
-      end
+    route_interactive_card_action_validation!(record, item[:actions], action_types)
+  end
 
-      if instagram_generic_template_target?(record)
-        validate_instagram_interactive_card_actions!(record, item[:actions])
-        next
-      end
+  def reject_unsupported_card_action_types!(record, action_types)
+    unsupported_action_types = action_types - SUPPORTED_CARD_ACTION_TYPES
+    return false if unsupported_action_types.blank?
 
-      if messenger_generic_template_target?(record)
-        validate_instagram_interactive_card_actions!(record, item[:actions])
-        next
-      end
+    record.errors.add(:content_attributes, "contains unsupported card action type: #{unsupported_action_types.first}")
+    true
+  end
 
-      action_type = action_types.first
-      next unless [URL_ACTION_TYPE, REPLY_ACTION_TYPE].include?(action_type)
-
-      validate_interactive_card_action_shape!(record, item[:actions], action_type)
+  def route_interactive_card_action_validation!(record, actions, action_types)
+    if whatsapp_interactive_carousel_target?(record)
+      validate_interactive_carousel_item_count!(record)
+      validate_whatsapp_interactive_card_actions!(record, actions, action_types)
+    elsif instagram_generic_template_target?(record) || messenger_generic_template_target?(record)
+      validate_instagram_interactive_card_actions!(record, actions)
+    else
+      validate_generic_interactive_card_action!(record, actions, action_types.first)
     end
+  end
+
+  def validate_generic_interactive_card_action!(record, actions, action_type)
+    return unless [URL_ACTION_TYPE, REPLY_ACTION_TYPE].include?(action_type)
+
+    validate_interactive_card_action_shape!(record, actions, action_type)
   end
 
   def validate_interactive_carousel_item_count!(record)
@@ -137,26 +153,34 @@ class ContentAttributeValidator < ActiveModel::Validator
 
   def validate_instagram_interactive_card_actions!(record, actions)
     record.errors.add(:content_attributes, 'contains card actions missing text') if actions.any? { |action| action[:text].blank? }
+    record.errors.add(:content_attributes, 'contains URL actions missing uri') if instagram_url_action_missing_uri?(actions)
+    record.errors.add(:content_attributes, 'contains reply actions missing payload') if instagram_reply_action_missing_payload?(actions)
+  end
 
-    if actions.any? { |action| [URL_ACTION_TYPE, 'link'].include?(action[:type]) && action[:uri].blank? }
-      record.errors.add(:content_attributes, 'contains URL actions missing uri')
-    end
+  def instagram_url_action_missing_uri?(actions)
+    actions.any? { |action| [URL_ACTION_TYPE, 'link'].include?(action[:type]) && action[:uri].blank? }
+  end
 
-    return unless actions.any? { |action| [REPLY_ACTION_TYPE, 'postback'].include?(action[:type]) && action[:payload].blank? }
-
-    record.errors.add(:content_attributes, 'contains reply actions missing payload')
+  def instagram_reply_action_missing_payload?(actions)
+    actions.any? { |action| [REPLY_ACTION_TYPE, 'postback'].include?(action[:type]) && action[:payload].blank? }
   end
 
   def validate_interactive_card_action_shape!(record, actions, action_type)
     case action_type
-    when URL_ACTION_TYPE
-      record.errors.add(:content_attributes, 'contains carousel cards with more than one URL action') if actions.size != 1
-      record.errors.add(:content_attributes, 'contains carousel URL actions missing uri') if actions.any? { |action| action[:uri].blank? }
-    when REPLY_ACTION_TYPE
-      record.errors.add(:content_attributes, 'contains carousel reply actions missing payload') if actions.any? { |action| action[:payload].blank? }
+    when URL_ACTION_TYPE then validate_carousel_url_actions!(record, actions)
+    when REPLY_ACTION_TYPE then validate_carousel_reply_actions!(record, actions)
     end
 
     record.errors.add(:content_attributes, 'contains card actions missing text') if actions.any? { |action| action[:text].blank? }
+  end
+
+  def validate_carousel_url_actions!(record, actions)
+    record.errors.add(:content_attributes, 'contains carousel cards with more than one URL action') if actions.size != 1
+    record.errors.add(:content_attributes, 'contains carousel URL actions missing uri') if actions.any? { |action| action[:uri].blank? }
+  end
+
+  def validate_carousel_reply_actions!(record, actions)
+    record.errors.add(:content_attributes, 'contains carousel reply actions missing payload') if actions.any? { |action| action[:payload].blank? }
   end
 
   def validate_cta_url_attributes!(record)
@@ -263,25 +287,41 @@ class ContentAttributeValidator < ActiveModel::Validator
   end
 
   def validate_interactive_buttons_button!(record, button)
-    invalid_keys = button.keys.map(&:to_sym) - ALLOWED_INTERACTIVE_BUTTONS_BUTTON_KEYS
-    record.errors.add(:content_attributes, "contains invalid keys for interactive_buttons button: #{invalid_keys}") if invalid_keys.present?
+    validate_interactive_buttons_button_keys!(record, button)
     record.errors.add(:content_attributes, 'interactive_buttons button text is required') if button[:text].to_s.strip.blank?
 
     action_type = button[:type].presence || REPLY_ACTION_TYPE
-    unless [REPLY_ACTION_TYPE, URL_ACTION_TYPE].include?(action_type)
-      record.errors.add(:content_attributes, "contains unsupported interactive_buttons button type: #{action_type}")
-      return
+    return if reject_unsupported_button_type!(record, action_type)
+    return if reject_non_reply_whatsapp_button!(record, action_type)
+
+    validate_interactive_buttons_button_target!(record, button, action_type)
+  end
+
+  def validate_interactive_buttons_button_keys!(record, button)
+    invalid_keys = button.keys.map(&:to_sym) - ALLOWED_INTERACTIVE_BUTTONS_BUTTON_KEYS
+    record.errors.add(:content_attributes, "contains invalid keys for interactive_buttons button: #{invalid_keys}") if invalid_keys.present?
+  end
+
+  def reject_unsupported_button_type!(record, action_type)
+    return false if [REPLY_ACTION_TYPE, URL_ACTION_TYPE].include?(action_type)
+
+    record.errors.add(:content_attributes, "contains unsupported interactive_buttons button type: #{action_type}")
+    true
+  end
+
+  def reject_non_reply_whatsapp_button!(record, action_type)
+    return false unless whatsapp_interactive_buttons_target?(record) && action_type != REPLY_ACTION_TYPE
+
+    record.errors.add(:content_attributes, 'interactive_buttons only supports reply buttons for WhatsApp')
+    true
+  end
+
+  def validate_interactive_buttons_button_target!(record, button, action_type)
+    if action_type == REPLY_ACTION_TYPE
+      record.errors.add(:content_attributes, 'interactive_buttons button id is required') if button[:id].blank?
+    elsif button[:uri].blank?
+      record.errors.add(:content_attributes, 'interactive_buttons button uri is required')
     end
-
-    if whatsapp_interactive_buttons_target?(record) && action_type != REPLY_ACTION_TYPE
-      record.errors.add(:content_attributes, 'interactive_buttons only supports reply buttons for WhatsApp')
-      return
-    end
-
-    record.errors.add(:content_attributes, 'interactive_buttons button id is required') if action_type == REPLY_ACTION_TYPE && button[:id].blank?
-    return unless action_type == URL_ACTION_TYPE && button[:uri].blank?
-
-    record.errors.add(:content_attributes, 'interactive_buttons button uri is required')
   end
 
   def validate_interactive_list_header!(record, header)

@@ -7,7 +7,7 @@ describe Whatsapp::IncomingMessageServiceHelpers do
 
       attr_accessor :inbox, :params, :conversation, :contact, :contact_inbox, :outgoing_echo
 
-      def initialize(inbox:, params: {}, conversation: nil, contact: nil, contact_inbox: nil, outgoing_echo: false)
+      def initialize(inbox:, params: {}, conversation: nil, contact: nil, contact_inbox: nil, outgoing_echo: false) # rubocop:disable Metrics/ParameterLists
         @inbox = inbox
         @params = params
         @conversation = conversation
@@ -34,6 +34,7 @@ describe Whatsapp::IncomingMessageServiceHelpers do
                          message_type: :outgoing, content_type: :interactive_buttons,
                          source_id: 'wamid.source_123',
                          content_attributes: {
+                           body_text: 'Pick an option',
                            buttons: [
                              { id: 'btn_1', text: 'Option A', type: 'reply' },
                              { id: 'btn_2', text: 'Option B', type: 'reply' }
@@ -70,6 +71,8 @@ describe Whatsapp::IncomingMessageServiceHelpers do
                          message_type: :outgoing, content_type: :interactive_list,
                          source_id: 'wamid.source_456',
                          content_attributes: {
+                           body_text: 'Pick from the list',
+                           action: { button_text: 'View options' },
                            sections: [
                              {
                                title: 'Section 1',
@@ -117,6 +120,11 @@ describe Whatsapp::IncomingMessageServiceHelpers do
                                title: 'Card 1',
                                description: 'First card',
                                actions: [{ type: 'reply', text: 'Select', payload: 'card_1_select' }]
+                             },
+                             {
+                               title: 'Card 2',
+                               description: 'Second card',
+                               actions: [{ type: 'reply', text: 'Choose', payload: 'card_2_select' }]
                              }
                            ]
                          })
@@ -167,9 +175,9 @@ describe Whatsapp::IncomingMessageServiceHelpers do
       expect(service.unprocessable_message_type?('request_welcome')).to be true
     end
 
-    it 'returns false for reaction messages (now handled separately)' do
+    it 'returns true for reaction messages' do
       service = test_class.new(inbox: inbox)
-      expect(service.unprocessable_message_type?('reaction')).to be false
+      expect(service.unprocessable_message_type?('reaction')).to be true
     end
 
     it 'returns false for text messages' do
