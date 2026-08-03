@@ -29,7 +29,7 @@ const { checkMissingAttributes } = useConversationRequiredAttributes();
 
 const dragging = ref(false);
 const executingMacroId = ref(null);
-const pendingMacro = ref(null);
+const pendingExecution = ref(null);
 const resolveAttributesModalRef = ref(null);
 
 const macros = useMapGetter('macros/getMacros');
@@ -71,9 +71,8 @@ const onDragEnd = () => {
   dragging.value = false;
 };
 
-const customAttributes = computed(
-  () => conversationById.value(props.conversationId)?.custom_attributes || {}
-);
+const customAttributesFor = conversationId =>
+  conversationById.value(conversationId)?.custom_attributes || {};
 
 // change_status is not offered by the macro builder, but the API accepts it and
 // it resolves the conversation just like resolve_conversation does.
@@ -84,12 +83,12 @@ const resolvesConversation = macro =>
       (name === 'change_status' && params?.[0] === 'resolved')
   );
 
-const runMacro = async (macro, skippedResolve = false) => {
+const runMacro = async ({ macro, conversationId }, skippedResolve = false) => {
   try {
     executingMacroId.value = macro.id;
     await store.dispatch('macros/execute', {
       macroId: macro.id,
-      conversationIds: [props.conversationId],
+      conversationIds: [conversationId],
     });
     useTrack(CONVERSATION_EVENTS.EXECUTED_A_MACRO);
     useAlert(
@@ -105,47 +104,51 @@ const runMacro = async (macro, skippedResolve = false) => {
 };
 
 const onExecuteMacro = macro => {
+  const execution = { macro, conversationId: props.conversationId };
+
   if (!resolvesConversation(macro)) {
-    runMacro(macro);
+    runMacro(execution);
     return;
   }
 
-  const { hasMissing, missing } = checkMissingAttributes(
-    customAttributes.value
-  );
+  const customAttributes = customAttributesFor(execution.conversationId);
+  const { hasMissing, missing } = checkMissingAttributes(customAttributes);
   if (!hasMissing) {
-    runMacro(macro);
+    runMacro(execution);
     return;
   }
 
-  pendingMacro.value = macro;
-  resolveAttributesModalRef.value?.open(missing, customAttributes.value);
+  pendingExecution.value = execution;
+  resolveAttributesModalRef.value?.open(missing, customAttributes);
 };
 
 const onAttributesSubmit = async ({ attributes }) => {
-  const macro = pendingMacro.value;
-  pendingMacro.value = null;
+  const execution = pendingExecution.value;
+  pendingExecution.value = null;
 
   try {
     await store.dispatch('updateCustomAttributes', {
-      conversationId: props.conversationId,
-      customAttributes: { ...customAttributes.value, ...attributes },
+      conversationId: execution.conversationId,
+      customAttributes: {
+        ...customAttributesFor(execution.conversationId),
+        ...attributes,
+      },
     });
   } catch (error) {
     useAlert(t('CUSTOM_ATTRIBUTES.FORM.UPDATE.ERROR'));
     return;
   }
 
-  runMacro(macro);
+  runMacro(execution);
 };
 
 // Dismissing the modal still runs the macro, the backend leaves the
 // conversation unresolved while the required attributes are empty.
 const onAttributesClose = () => {
-  if (!pendingMacro.value) return;
+  if (!pendingExecution.value) return;
 
-  runMacro(pendingMacro.value, true);
-  pendingMacro.value = null;
+  runMacro(pendingExecution.value, true);
+  pendingExecution.value = null;
 };
 
 onMounted(() => {
