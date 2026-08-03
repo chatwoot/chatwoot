@@ -490,5 +490,15 @@ export const icons = {
     width: 14,
     height: 14,
   },
+  plausible: {
+    body: `<linearGradient id="SVGcy95AgrO" x1="189.056" x2="296.848" y1="470.428" y2="659.063" gradientTransform="translate(0 -278.024)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#909cf7"/><stop offset="1" stop-color="#4b38d8"/></linearGradient><path fill="url(#SVGcy95AgrO)" d="M448.6 192.9c-9.3 89.2-87.3 155.5-177 155.5H237v81.7c0 45.2-36.7 81.9-81.9 81.9h-64c-15.8 0-28.7-12.8-28.7-28.7V315.2l43-60.3c7.8-10.9 22.1-15 34.4-9.8l24.5 10.2c12.3 5.2 26.6 1.1 34.3-9.8l57.3-80.4c7.7-10.9 22-14.9 34.3-9.7l47.1 19.8c12.3 5.2 26.6 1.1 34.3-9.8l55.1-77.3c17.4 30.4 25.9 66.5 21.9 104.8"/><linearGradient id="SVGjYVYSdaH" x1="130.554" x2="241.634" y1="266.456" y2="460.846" gradientTransform="translate(0 -278.024)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#909cf7"/><stop offset="1" stop-color="#4b38d8"/></linearGradient><path fill="url(#SVGjYVYSdaH)" d="M90.6 246.4c7-9.9 17.2-17.4 29.1-19.7c9.3-1.8 18.4-.8 26.9 2.7l24.4 10.2c1.4.6 2.9.9 4.4.9c3.7 0 7.2-1.8 9.4-4.8l56.3-78.9c7-9.8 17.2-17.4 29.1-19.7c9.2-1.8 18.3-.8 26.7 2.7l47.1 19.8c1.4.6 2.9.9 4.4.9c3.7 0 7.2-1.8 9.4-4.8l59-82.8C385.3 28.7 333.7 0 275.3 0H91.1C75.3 0 62.5 12.8 62.5 28.7v257.1z"/>`,
+    width: 512,
+    height: 512,
+  },
+  'microsoft-clarity': {
+    body: `<path fill="#50B5F0" d="M24 5 6 42 24 34Z"/><path fill="#2178C9" d="M24 5 24 34 42 42Z"/><path fill="#14548F" d="M6 42 24 34 42 42Z"/>`,
+    width: 48,
+    height: 48,
+  },
   /** Ends */
 };

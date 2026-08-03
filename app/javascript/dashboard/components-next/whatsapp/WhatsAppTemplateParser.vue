@@ -36,6 +36,10 @@ const props = defineProps({
       return true;
     },
   },
+  sendRenderedContent: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['sendMessage', 'resetTemplate', 'back']);
@@ -148,12 +152,16 @@ const sendMessage = () => {
   const { name, category, language, namespace } = props.template;
 
   const payload = {
-    message: renderedTemplate.value,
+    message: props.sendRenderedContent
+      ? renderedTemplate.value
+      : bodyText.value,
+    pendingMessageContent: renderedTemplate.value,
     templateParams: {
       name,
       category,
       language,
       namespace,
+      content_mode: props.sendRenderedContent ? 'rendered' : 'raw_template',
       processed_params: processedParams.value,
     },
   };
