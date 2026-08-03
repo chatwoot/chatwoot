@@ -169,6 +169,11 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
         'response_parts' => [{ 'text' => 'Reset your password from settings.', 'citation_indexes' => [1] }],
         'reasoning' => 'Used the password FAQ'
       }
+      result_message.update!(
+        additional_attributes: {
+          Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY => run_result.output['response_parts']
+        }
+      )
 
       session = service.capture!
 
