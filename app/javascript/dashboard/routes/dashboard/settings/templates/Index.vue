@@ -37,6 +37,7 @@ const selectedLanguage = ref('all');
 const selectedTemplate = ref(null);
 const openFilterMenu = ref(null);
 const previewPanelRef = ref(null);
+let latestFetchRequestId = 0;
 
 const hasTemplates = computed(() => templates.value.length > 0);
 
@@ -243,13 +244,20 @@ const groupTemplates = templateRecords => {
 };
 
 const fetchTemplates = async () => {
+  latestFetchRequestId += 1;
+  const requestId = latestFetchRequestId;
   isLoading.value = true;
 
   try {
     await store.dispatch('inboxes/get');
-    const responses = await Promise.all(
+    const responses = await Promise.allSettled(
       whatsappInboxes.value.map(async inbox => {
         const { data } = await InboxesAPI.getMessageTemplates(inbox.id);
+
+        if (!Array.isArray(data.payload)) {
+          throw new TypeError();
+        }
+
         return data.payload.map(template => ({
           template,
           inbox,
@@ -258,11 +266,32 @@ const fetchTemplates = async () => {
       })
     );
 
-    templates.value = groupTemplates(responses.flat());
+    if (requestId !== latestFetchRequestId) return;
+
+    const successfulResponses = responses.filter(
+      response => response.status === 'fulfilled'
+    );
+
+    if (successfulResponses.length || !responses.length) {
+      templates.value = groupTemplates(
+        successfulResponses.flatMap(response => response.value)
+      );
+    }
+
+    if (responses.some(response => response.status === 'rejected')) {
+      const errorMessage = successfulResponses.length
+        ? t('WHATSAPP_TEMPLATE_MGMT.PARTIAL_FETCH_ERROR')
+        : t('WHATSAPP_TEMPLATE_MGMT.FETCH_ERROR');
+      useAlert(errorMessage);
+    }
   } catch {
-    useAlert(t('WHATSAPP_TEMPLATE_MGMT.FETCH_ERROR'));
+    if (requestId === latestFetchRequestId) {
+      useAlert(t('WHATSAPP_TEMPLATE_MGMT.FETCH_ERROR'));
+    }
   } finally {
-    isLoading.value = false;
+    if (requestId === latestFetchRequestId) {
+      isLoading.value = false;
+    }
   }
 };
 
