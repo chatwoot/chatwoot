@@ -27,6 +27,9 @@ const props = defineProps({
 const emit = defineEmits(['onSend', 'cancel', 'update:show']);
 
 const BUTTON_TITLE_MAX_LENGTH = 20;
+const LIST_HEADER_TEXT_MAX_LENGTH = 60;
+const LIST_FOOTER_TEXT_MAX_LENGTH = 60;
+const LIST_SECTION_TITLE_MAX_LENGTH = 24;
 const MIN_CARDS = 2;
 
 const { t } = useI18n();
@@ -156,10 +159,14 @@ const isListValid = computed(
   () =>
     !!listForm.value.bodyText &&
     !!listForm.value.listButtonText &&
+    listForm.value.headerText.length <= LIST_HEADER_TEXT_MAX_LENGTH &&
+    listForm.value.footerText.length <= LIST_FOOTER_TEXT_MAX_LENGTH &&
     listForm.value.sections.length > 0 &&
     listForm.value.sections.every(
       section =>
-        section.rows.length > 0 && section.rows.every(row => !!row.title)
+        section.title.length <= LIST_SECTION_TITLE_MAX_LENGTH &&
+        section.rows.length > 0 &&
+        section.rows.every(row => !!row.title)
     )
 );
 

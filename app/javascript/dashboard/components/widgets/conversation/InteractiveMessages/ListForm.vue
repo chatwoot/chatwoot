@@ -13,7 +13,10 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue']);
 const BODY_TEXT_MAX_LENGTH = 1024;
+const HEADER_TEXT_MAX_LENGTH = 60;
+const FOOTER_TEXT_MAX_LENGTH = 60;
 const LIST_BUTTON_TEXT_MAX_LENGTH = 20;
+const SECTION_TITLE_MAX_LENGTH = 24;
 const ROW_TITLE_MAX_LENGTH = 24;
 const ROW_DESCRIPTION_MAX_LENGTH = 72;
 const MAX_SECTIONS = 10;
@@ -107,12 +110,14 @@ const updateRow = (sectionIndex, rowIndex, field, value) => {
       :model-value="modelValue.headerText"
       :label="t('INTERACTIVE_MESSAGES.FIELDS.HEADER_TEXT')"
       :placeholder="t('INTERACTIVE_MESSAGES.FIELDS.HEADER_TEXT_PLACEHOLDER')"
+      :maxlength="HEADER_TEXT_MAX_LENGTH"
       @update:model-value="value => updateField('headerText', value)"
     />
     <Input
       :model-value="modelValue.footerText"
       :label="t('INTERACTIVE_MESSAGES.FIELDS.FOOTER_TEXT')"
       :placeholder="t('INTERACTIVE_MESSAGES.FIELDS.FOOTER_TEXT_PLACEHOLDER')"
+      :maxlength="FOOTER_TEXT_MAX_LENGTH"
       @update:model-value="value => updateField('footerText', value)"
     />
     <Input
@@ -139,6 +144,7 @@ const updateRow = (sectionIndex, rowIndex, field, value) => {
             :placeholder="
               t('INTERACTIVE_MESSAGES.FIELDS.SECTION_TITLE_PLACEHOLDER')
             "
+            :maxlength="SECTION_TITLE_MAX_LENGTH"
             @update:model-value="
               value => updateSection(sectionIndex, { ...section, title: value })
             "

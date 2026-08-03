@@ -82,6 +82,50 @@ describe('InteractiveMessagesModal', () => {
     expect(wrapper.emitted('onSend')).toHaveLength(1);
   });
 
+  it('blocks sending a list with a section title over the WhatsApp limit', async () => {
+    const wrapper = mountComponent(false, true);
+    wrapper.vm.selectedType = CONTENT_TYPES.INTERACTIVE_LIST;
+    wrapper.vm.listForm = {
+      bodyText: 'Pick an item',
+      headerText: '',
+      footerText: '',
+      listButtonText: 'View options',
+      sections: [
+        {
+          title: 'T'.repeat(25),
+          rows: [{ title: 'Row A', description: '' }],
+        },
+      ],
+    };
+    await nextTick();
+
+    wrapper.vm.onSend();
+
+    expect(wrapper.emitted('onSend')).toBeUndefined();
+  });
+
+  it('allows sending a list with a section title within the WhatsApp limit', async () => {
+    const wrapper = mountComponent(false, true);
+    wrapper.vm.selectedType = CONTENT_TYPES.INTERACTIVE_LIST;
+    wrapper.vm.listForm = {
+      bodyText: 'Pick an item',
+      headerText: '',
+      footerText: '',
+      listButtonText: 'View options',
+      sections: [
+        {
+          title: 'T'.repeat(24),
+          rows: [{ title: 'Row A', description: '' }],
+        },
+      ],
+    };
+    await nextTick();
+
+    wrapper.vm.onSend();
+
+    expect(wrapper.emitted('onSend')).toHaveLength(1);
+  });
+
   it('resets away from interactive_list when the channel stops allowing it', async () => {
     const wrapper = mountComponent(false, true);
     wrapper.vm.selectedType = CONTENT_TYPES.INTERACTIVE_LIST;
