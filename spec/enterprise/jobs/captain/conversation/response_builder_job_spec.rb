@@ -572,6 +572,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           expect(conversation.messages.outgoing.last.content).to eq(
             'Hey, welcome to Captain V2 [[1](https://help.example.com/password)]'
           )
+          cited_document_id = mock_agent_runner_service.last_run_result.context[:state][:captain_v2_citation_sources][1]
+          expect(Captain::AgentSession.last.cited_document_ids).to eq([cited_document_id])
         end
 
         it 'encodes Markdown delimiters in citation URLs' do
@@ -866,6 +868,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           llm_model: 'openai-gpt-5.2',
           credits_consumed: 1.0,
           faq_ids: [7, 9],
+          cited_document_ids: [],
           document_ids: [3],
           scenario_ids: [],
           user_id: nil

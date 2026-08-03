@@ -31,6 +31,7 @@ class Captain::Assistant::SessionCaptureService
       llm_model: "#{Llm::Models.provider_for(model)}-#{model}",
       credits_consumed: @credits_consumed,
       faq_ids: metadata[:faq_ids] || [],
+      cited_document_ids: cited_document_ids,
       document_ids: metadata[:document_ids] || [],
       scenario_ids: scenario_ids,
       run_context: current_turn_history
@@ -45,6 +46,17 @@ class Captain::Assistant::SessionCaptureService
 
   def metadata
     @metadata ||= context.dig(:state, :cw_metadata) || {}
+  end
+
+  def cited_document_ids
+    return [] unless @assistant.config['feature_citation']
+
+    citation_document_ids = (context.dig(:state, :captain_v2_citation_sources) || {}).transform_keys(&:to_i)
+    visible_citation_indexes = @assistant.customer_visible_citation_urls(citation_document_ids).keys
+    response_parts = Captain::Assistant::ResponseParts.from_response(@run_result.output)
+    selected_citation_indexes = response_parts.to_a.flat_map { |part| part['citation_indexes'] }.uniq
+
+    (selected_citation_indexes & visible_citation_indexes).filter_map { |index| citation_document_ids[index] }.uniq
   end
 
   # On handoff, HandoffTool records the private reason note it created; the session

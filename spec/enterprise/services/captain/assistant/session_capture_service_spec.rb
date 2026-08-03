@@ -98,6 +98,7 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
         llm_model: 'openai-gpt-5.2',
         credits_consumed: 1.0,
         faq_ids: [11, 12],
+        cited_document_ids: [],
         document_ids: [5],
         scenario_ids: [],
         user_id: nil
@@ -149,8 +150,41 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
 
       expect(session.result).to eq(result_message)
       expect(session.faq_ids).to eq([])
+      expect(session.cited_document_ids).to eq([])
       expect(session.document_ids).to eq([])
       expect(session.run_context).to eq([])
+    end
+
+    it 'stores only selected customer-visible document citations' do
+      cited_document = create(:captain_document, assistant: assistant, external_link: 'https://help.example.com/reset-password')
+      cited_faq = create(:captain_assistant_response, assistant: assistant, documentable: cited_document)
+      retrieved_document = create(:captain_document, assistant: assistant, external_link: 'https://help.example.com/change-email')
+      retrieved_faq = create(:captain_assistant_response, assistant: assistant, documentable: retrieved_document)
+      assistant.update!(config: assistant.config.merge('feature_citation' => true))
+      run_context[:state] = {
+        cw_metadata: { faq_ids: [cited_faq.id, retrieved_faq.id], document_ids: [cited_document.id, retrieved_document.id] },
+        captain_v2_citation_sources: { 1 => cited_document.id, 2 => retrieved_document.id }
+      }
+      run_result.output = {
+        'response_parts' => [{ 'text' => 'Reset your password from settings.', 'citation_indexes' => [1] }],
+        'reasoning' => 'Used the password FAQ'
+      }
+
+      session = service.capture!
+
+      expect(session.faq_ids).to contain_exactly(cited_faq.id, retrieved_faq.id)
+      expect(session.cited_document_ids).to eq([cited_document.id])
+    end
+
+    it 'does not store citations when citations are disabled' do
+      document = create(:captain_document, assistant: assistant, external_link: 'https://help.example.com/reset-password')
+      run_context[:state][:captain_v2_citation_sources] = { 1 => document.id }
+      run_result.output = {
+        'response_parts' => [{ 'text' => 'Reset your password from settings.', 'citation_indexes' => [1] }],
+        'reasoning' => 'Used the password FAQ'
+      }
+
+      expect(service.capture!.cited_document_ids).to eq([])
     end
 
     it 'extracts every scenario that authored a message in the current turn' do
