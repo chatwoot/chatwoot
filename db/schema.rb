@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_31_140853) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_03_130000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -381,10 +381,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_31_140853) do
     t.integer "status", default: 1, null: false
     t.string "documentable_type"
     t.boolean "edited", default: false, null: false
+    t.bigint "knowledge_unit_id"
     t.index ["account_id"], name: "index_captain_assistant_responses_on_account_id"
     t.index ["assistant_id"], name: "index_captain_assistant_responses_on_assistant_id"
     t.index ["documentable_id", "documentable_type"], name: "idx_cap_asst_resp_on_documentable"
     t.index ["embedding"], name: "vector_idx_knowledge_entries_embedding", using: :ivfflat
+    t.index ["knowledge_unit_id"], name: "index_captain_assistant_responses_on_knowledge_unit_id"
     t.index ["status"], name: "index_captain_assistant_responses_on_status"
   end
 
@@ -397,6 +399,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_31_140853) do
     t.jsonb "config", default: {}, null: false
     t.jsonb "response_guidelines", default: []
     t.jsonb "guardrails", default: []
+    t.jsonb "knowledge_map", default: {}, null: false
+    t.string "knowledge_map_source_digest"
+    t.datetime "knowledge_map_built_at"
     t.index ["account_id"], name: "index_captain_assistants_on_account_id"
   end
 
@@ -467,8 +472,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_31_140853) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_captain_faq_suggestions_on_account_id"
     t.index ["account_id", "assistant_id", "status", "language"], name: "idx_cap_faq_suggestions_on_account_assistant_status_language"
+    t.index ["account_id"], name: "index_captain_faq_suggestions_on_account_id"
     t.index ["assistant_id"], name: "index_captain_faq_suggestions_on_assistant_id"
     t.index ["embedding"], name: "vector_idx_captain_faq_suggestions_embedding", opclass: :vector_cosine_ops, using: :ivfflat
   end
@@ -481,6 +486,28 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_31_140853) do
     t.index ["captain_assistant_id", "inbox_id"], name: "index_captain_inboxes_on_captain_assistant_id_and_inbox_id", unique: true
     t.index ["captain_assistant_id"], name: "index_captain_inboxes_on_captain_assistant_id"
     t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
+  end
+
+  create_table "captain_knowledge_units", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.string "source_type"
+    t.bigint "source_id"
+    t.string "title", null: false
+    t.text "content", null: false
+    t.integer "unit_type", default: 2, null: false
+    t.integer "status", default: 0, null: false
+    t.string "content_fingerprint", null: false
+    t.vector "embedding", limit: 1536
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "assistant_id", "status", "unit_type"], name: "idx_captain_knowledge_units_on_scope_and_kind"
+    t.index ["account_id"], name: "index_captain_knowledge_units_on_account_id"
+    t.index ["assistant_id", "content_fingerprint"], name: "idx_captain_knowledge_units_on_assistant_and_fingerprint"
+    t.index ["assistant_id"], name: "index_captain_knowledge_units_on_assistant_id"
+    t.index ["embedding"], name: "vector_idx_captain_knowledge_units_embedding", opclass: :vector_cosine_ops, using: :ivfflat
+    t.index ["source_type", "source_id"], name: "index_captain_knowledge_units_on_source"
   end
 
   create_table "captain_message_reports", force: :cascade do |t|
@@ -697,7 +724,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_31_140853) do
 
   create_table "channel_whatsapp", force: :cascade do |t|
     t.integer "account_id", null: false
-    t.text "business_management_token"
     t.string "phone_number", null: false
     t.string "provider", default: "default"
     t.jsonb "provider_config", default: {}
@@ -708,8 +734,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_31_140853) do
     t.jsonb "phone_number_health", default: {}, null: false
     t.datetime "phone_number_health_checked_at"
     t.string "phone_number_health_error", limit: 500
-    t.index ["phone_number_health_checked_at"], name: "index_channel_whatsapp_on_phone_number_health_checked_at"
+    t.text "business_management_token"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
+    t.index ["phone_number_health_checked_at"], name: "index_channel_whatsapp_on_phone_number_health_checked_at"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -787,20 +814,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_31_140853) do
     t.datetime "handoff_at"
     t.string "handoff_reason_category"
     t.datetime "resolved_at"
-    t.datetime "last_reopened_at"
-    t.integer "reopen_count", default: 0, null: false
     t.integer "csat_rating"
     t.datetime "csat_received_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id", "assistant_id", "conversation_id"], name: "idx_conversation_outcomes_unique_conversation", unique: true
-    t.index ["account_id", "assistant_id", "created_at"], name: "idx_conversation_outcomes_on_assistant_created_at"
+    t.string "episode_trigger", default: "initial", null: false
+    t.datetime "started_at", null: false
+    t.datetime "ended_at"
     t.index ["account_id", "assistant_id", "handoff_at"], name: "idx_conversation_outcomes_on_assistant_handoff_at"
     t.index ["account_id", "assistant_id", "resolved_at"], name: "idx_conversation_outcomes_on_assistant_resolved_at"
-    t.index ["account_id"], name: "index_conversation_outcomes_on_account_id"
-    t.index ["assistant_id"], name: "index_conversation_outcomes_on_assistant_id"
-    t.index ["conversation_id"], name: "index_conversation_outcomes_on_conversation_id"
-    t.index ["inbox_id"], name: "index_conversation_outcomes_on_inbox_id"
+    t.index ["account_id", "assistant_id", "started_at"], name: "idx_conversation_outcomes_on_assistant_started_at"
+    t.index ["account_id", "conversation_id", "started_at"], name: "idx_conversation_outcomes_unique_boundary", unique: true
+    t.index ["account_id", "conversation_id"], name: "idx_conversation_outcomes_initial_episode", unique: true, where: "((episode_trigger)::text = 'initial'::text)"
+    t.index ["account_id", "conversation_id"], name: "idx_conversation_outcomes_open_episode", unique: true, where: "(ended_at IS NULL)"
   end
 
   create_table "conversation_participants", force: :cascade do |t|
@@ -1044,10 +1070,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_31_140853) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "inbox_id"
-    t.index ["account_id", "name", "template_type", "locale"], name: "index_email_templates_on_account_scope", unique: true, where: "(account_id IS NOT NULL) AND (inbox_id IS NULL)"
+    t.index ["account_id", "name", "template_type", "locale"], name: "index_email_templates_on_account_scope", unique: true, where: "((account_id IS NOT NULL) AND (inbox_id IS NULL))"
     t.index ["inbox_id", "name", "template_type", "locale"], name: "index_email_templates_on_inbox_scope", unique: true, where: "(inbox_id IS NOT NULL)"
     t.index ["inbox_id"], name: "index_email_templates_on_inbox_id"
-    t.index ["name", "template_type", "locale"], name: "index_email_templates_on_installation_scope", unique: true, where: "(account_id IS NULL) AND (inbox_id IS NULL)"
+    t.index ["name", "template_type", "locale"], name: "index_email_templates_on_installation_scope", unique: true, where: "((account_id IS NULL) AND (inbox_id IS NULL))"
   end
 
   create_table "folders", force: :cascade do |t|
