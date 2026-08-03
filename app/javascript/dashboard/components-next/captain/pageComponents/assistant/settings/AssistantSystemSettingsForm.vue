@@ -8,6 +8,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 
@@ -31,16 +32,49 @@ const initialState = {
   handoffMessage: '',
   resolutionMessage: '',
   instructions: '',
+  autoResolveMode: 'evaluated',
   inactivityThresholdMinutes: 60,
+  followUpBeforeResolving: false,
+  followUpResolveAfterMinutes: 60,
   sendInactivityResolutionMessage: true,
 };
 
 const state = reactive({ ...initialState });
 const isInactivityResolutionSettingsExpanded = ref(false);
 
-const inactivityThresholdLabel = computed(() => {
-  const hours = Math.floor(state.inactivityThresholdMinutes / 60);
-  const minutes = state.inactivityThresholdMinutes % 60;
+const autoResolveOptions = computed(() => [
+  {
+    value: 'evaluated',
+    label: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.EVALUATED.LABEL'
+    ),
+    description: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.EVALUATED.DESCRIPTION'
+    ),
+  },
+  {
+    value: 'legacy',
+    label: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.LEGACY.LABEL'
+    ),
+    description: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.LEGACY.DESCRIPTION'
+    ),
+  },
+  {
+    value: 'disabled',
+    label: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.DISABLED.LABEL'
+    ),
+    description: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODES.DISABLED.DESCRIPTION'
+    ),
+  },
+]);
+
+const formatDuration = durationMinutes => {
+  const hours = Math.floor(durationMinutes / 60);
+  const minutes = durationMinutes % 60;
 
   return [
     hours
@@ -56,15 +90,41 @@ const inactivityThresholdLabel = computed(() => {
   ]
     .filter(Boolean)
     .join(' ');
-});
+};
+
+const inactivityThresholdLabel = computed(() =>
+  formatDuration(state.inactivityThresholdMinutes)
+);
+const followUpResolutionThresholdLabel = computed(() =>
+  formatDuration(state.followUpResolveAfterMinutes)
+);
+const initialActionTimingLabel = computed(() =>
+  state.autoResolveMode === 'evaluated'
+    ? t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.REVIEW_AFTER')
+    : t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLVE_AFTER')
+);
 
 const selectedInactivityResolutionSummary = computed(() => {
-  const resolutionSummary = t(
-    'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.CURRENT_SETTING',
-    {
-      duration: inactivityThresholdLabel.value,
-    }
-  );
+  if (state.autoResolveMode === 'disabled') {
+    return t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.SUMMARY.PENDING');
+  }
+
+  let resolutionSummary =
+    state.autoResolveMode === 'evaluated'
+      ? t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.SUMMARY.REVIEW', {
+          duration: inactivityThresholdLabel.value,
+        })
+      : t(
+          'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.SUMMARY.ALWAYS_RESOLVE',
+          { duration: inactivityThresholdLabel.value }
+        );
+
+  if (state.autoResolveMode === 'evaluated' && state.followUpBeforeResolving) {
+    resolutionSummary = `${resolutionSummary} ${t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.SUMMARY.FOLLOW_UP',
+      { duration: followUpResolutionThresholdLabel.value }
+    )}`;
+  }
 
   if (state.sendInactivityResolutionMessage) return resolutionSummary;
 
@@ -73,6 +133,12 @@ const selectedInactivityResolutionSummary = computed(() => {
   )}`;
 });
 
+const shouldShowInactivityDuration = computed(
+  () => state.autoResolveMode !== 'disabled'
+);
+const shouldShowFollowUpSettings = computed(
+  () => state.autoResolveMode === 'evaluated'
+);
 const inactivityHourOptions = Array.from({ length: 25 }, (_, hours) => ({
   value: hours,
   label: String(hours),
@@ -116,11 +182,54 @@ const inactivityMinuteOptions = computed(() => {
   });
 });
 
+const followUpResolutionThresholdHours = computed({
+  get: () => Math.floor(state.followUpResolveAfterMinutes / 60),
+  set: hours => {
+    const remainingMinutes = state.followUpResolveAfterMinutes % 60;
+    const requestedMinutes = Number(hours) * 60 + remainingMinutes;
+    state.followUpResolveAfterMinutes = Math.min(
+      Math.max(requestedMinutes, 5),
+      24 * 60
+    );
+  },
+});
+
+const followUpResolutionThresholdRemainingMinutes = computed({
+  get: () => state.followUpResolveAfterMinutes % 60,
+  set: minutes => {
+    const completeHours = Math.floor(state.followUpResolveAfterMinutes / 60);
+    const requestedMinutes = completeHours * 60 + Number(minutes);
+    state.followUpResolveAfterMinutes = Math.min(
+      Math.max(requestedMinutes, 5),
+      24 * 60
+    );
+  },
+});
+
+const followUpResolutionMinuteOptions = computed(() => {
+  return Array.from({ length: 12 }, (_, index) => {
+    const minutes = index * 5;
+    const hours = followUpResolutionThresholdHours.value;
+
+    return {
+      value: minutes,
+      label: String(minutes).padStart(2, '0'),
+      disabled:
+        (hours === 0 && minutes === 0) || (hours === 24 && minutes !== 0),
+    };
+  });
+});
+
 const validationRules = {
   handoffMessage: { minLength: minLength(1) },
   resolutionMessage: { minLength: minLength(1) },
   instructions: { minLength: minLength(1) },
   inactivityThresholdMinutes: {
+    required,
+    minValue: minValue(5),
+    maxValue: maxValue(24 * 60),
+  },
+  followUpResolveAfterMinutes: {
     required,
     minValue: minValue(5),
     maxValue: maxValue(24 * 60),
@@ -138,11 +247,18 @@ const formErrors = computed(() => ({
   resolutionMessage: getErrorMessage('resolutionMessage'),
   instructions: getErrorMessage('instructions'),
   inactivityThresholdMinutes: getErrorMessage('inactivityThresholdMinutes'),
+  followUpResolveAfterMinutes: getErrorMessage('followUpResolveAfterMinutes'),
 }));
 
 const handleInactivityResolutionUpdate = async () => {
   const validations = [v$.value.inactivityThresholdMinutes.$validate()];
-  if (state.sendInactivityResolutionMessage) {
+  if (state.autoResolveMode === 'evaluated' && state.followUpBeforeResolving) {
+    validations.push(v$.value.followUpResolveAfterMinutes.$validate());
+  }
+  if (
+    shouldShowInactivityDuration.value &&
+    state.sendInactivityResolutionMessage
+  ) {
     validations.push(v$.value.resolutionMessage.$validate());
   }
   const result = await Promise.all(validations).then(results =>
@@ -153,7 +269,10 @@ const handleInactivityResolutionUpdate = async () => {
   emit('submit', {
     config: {
       ...props.assistant.config,
+      auto_resolve_mode: state.autoResolveMode,
       auto_resolve_after: state.inactivityThresholdMinutes,
+      follow_up_before_resolving: state.followUpBeforeResolving,
+      follow_up_resolve_after: state.followUpResolveAfterMinutes,
       send_inactivity_resolution_message: state.sendInactivityResolutionMessage,
       resolution_message: state.resolutionMessage,
     },
@@ -165,7 +284,10 @@ const updateStateFromAssistant = assistant => {
   state.handoffMessage = config.handoff_message;
   state.resolutionMessage = config.resolution_message;
   state.instructions = config.instructions;
+  state.autoResolveMode = config.auto_resolve_mode ?? 'evaluated';
   state.inactivityThresholdMinutes = config.auto_resolve_after ?? 60;
+  state.followUpBeforeResolving = config.follow_up_before_resolving ?? false;
+  state.followUpResolveAfterMinutes = config.follow_up_resolve_after ?? 60;
   state.sendInactivityResolutionMessage =
     config.send_inactivity_resolution_message ?? true;
 };
@@ -213,11 +335,11 @@ watch(
   <div class="flex flex-col gap-6">
     <div
       v-if="isCaptainV2Enabled"
-      class="overflow-hidden rounded-xl border border-n-weak bg-n-solid-1"
+      class="flex flex-col border-b border-n-weak pb-6"
     >
       <button
         type="button"
-        class="flex w-full items-center justify-between gap-4 p-4 text-left"
+        class="flex w-full items-center justify-between gap-4 text-left"
         :aria-expanded="isInactivityResolutionSettingsExpanded"
         @click="
           isInactivityResolutionSettingsExpanded =
@@ -248,13 +370,23 @@ watch(
 
       <div
         v-if="isInactivityResolutionSettingsExpanded"
-        class="flex flex-col gap-4 border-t border-n-weak p-4"
+        class="flex flex-col gap-4 pt-4"
       >
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-3">
+          <RadioCard
+            v-for="option in autoResolveOptions"
+            :id="`auto-resolve-${option.value}`"
+            :key="option.value"
+            :label="option.label"
+            :description="option.description"
+            :is-active="state.autoResolveMode === option.value"
+            @select="state.autoResolveMode = option.value"
+          />
+        </div>
+
+        <div v-if="shouldShowInactivityDuration" class="flex flex-col gap-2">
           <p class="text-sm font-medium text-n-slate-12">
-            {{
-              t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_LABEL')
-            }}
+            {{ initialActionTimingLabel }}
           </p>
           <div class="grid grid-cols-2 gap-3">
             <label class="flex flex-col gap-1.5 text-xs text-n-slate-11">
@@ -292,7 +424,90 @@ watch(
           </p>
         </div>
 
+        <div
+          v-if="state.autoResolveMode === 'legacy'"
+          class="flex items-start gap-2 rounded-lg bg-n-amber-3 p-3 text-sm text-n-amber-12"
+        >
+          <span class="i-lucide-triangle-alert mt-0.5 size-4 shrink-0" />
+          <p>
+            {{
+              t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.ALWAYS_WARNING')
+            }}
+          </p>
+        </div>
+
+        <div
+          v-if="state.autoResolveMode === 'disabled'"
+          class="flex items-start gap-2 rounded-lg bg-n-blue-3 p-3 text-sm text-n-blue-12"
+        >
+          <span class="i-lucide-info mt-0.5 size-4 shrink-0" />
+          <p>
+            {{
+              t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.PENDING_INFO')
+            }}
+          </p>
+        </div>
+
         <SettingsToggleSection
+          v-if="shouldShowFollowUpSettings"
+          v-model="state.followUpBeforeResolving"
+          :header="
+            t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.FOLLOW_UP.TITLE')
+          "
+          :description="
+            t(
+              'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.FOLLOW_UP.DESCRIPTION'
+            )
+          "
+        />
+
+        <div
+          v-if="shouldShowFollowUpSettings && state.followUpBeforeResolving"
+          class="flex flex-col gap-2"
+        >
+          <p class="text-sm font-medium text-n-slate-12">
+            {{
+              t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLVE_AFTER')
+            }}
+          </p>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="flex flex-col gap-1.5 text-xs text-n-slate-11">
+              {{
+                t(
+                  'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HOURS_LABEL'
+                )
+              }}
+              <Select
+                v-model="followUpResolutionThresholdHours"
+                :options="inactivityHourOptions"
+                :error="formErrors.followUpResolveAfterMinutes"
+                class="!w-full [&>select]:w-full"
+              />
+            </label>
+            <label class="flex flex-col gap-1.5 text-xs text-n-slate-11">
+              {{
+                t(
+                  'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES_LABEL'
+                )
+              }}
+              <Select
+                v-model="followUpResolutionThresholdRemainingMinutes"
+                :options="followUpResolutionMinuteOptions"
+                :error="formErrors.followUpResolveAfterMinutes"
+                class="!w-full [&>select]:w-full"
+              />
+            </label>
+          </div>
+          <p
+            v-if="formErrors.followUpResolveAfterMinutes"
+            class="text-xs text-n-ruby-9"
+          >
+            {{ formErrors.followUpResolveAfterMinutes }}
+          </p>
+        </div>
+
+        <SettingsToggleSection
+          v-if="shouldShowInactivityDuration"
           v-model="state.sendInactivityResolutionMessage"
           :header="
             t(
@@ -305,8 +520,9 @@ watch(
             )
           "
         >
-          <template v-if="state.sendInactivityResolutionMessage" #editor>
+          <template #editor>
             <Editor
+              v-if="state.sendInactivityResolutionMessage"
               v-model="state.resolutionMessage"
               :placeholder="
                 t('CAPTAIN.ASSISTANTS.FORM.RESOLUTION_MESSAGE.PLACEHOLDER')
@@ -315,6 +531,13 @@ watch(
               :message-type="formErrors.resolutionMessage ? 'error' : 'info'"
               class="z-0"
             />
+            <p v-else class="text-xs text-n-slate-11">
+              {{
+                t(
+                  'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.RETAINED'
+                )
+              }}
+            </p>
           </template>
         </SettingsToggleSection>
 
