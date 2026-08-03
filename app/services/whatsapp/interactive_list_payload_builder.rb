@@ -31,8 +31,15 @@ class Whatsapp::InteractiveListPayloadBuilder
     raise StandardError, 'Interactive list body text is required' if body_text.blank?
     raise StandardError, 'Interactive list action button_text is required' if action[:button_text].blank?
     raise StandardError, 'Interactive list sections are required' if sections.blank?
-    raise StandardError, 'Interactive list header type must be text' if header.present? && header[:type] != HEADER_TYPE
-    raise StandardError, 'Interactive list header text is required' if header.present? && header[:text].blank?
+
+    validate_header!
+  end
+
+  def validate_header!
+    return if header.blank?
+
+    raise StandardError, 'Interactive list header type must be text' if header[:type] != HEADER_TYPE
+    raise StandardError, 'Interactive list header text is required' if header[:text].blank?
   end
 
   def body_text

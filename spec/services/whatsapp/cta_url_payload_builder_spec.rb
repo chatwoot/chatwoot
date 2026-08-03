@@ -25,7 +25,7 @@ describe Whatsapp::CtaUrlPayloadBuilder do
                })
       end
 
-      it 'returns correct payload structure' do
+      it 'returns correct payload structure', :aggregate_failures do
         payload = described_class.new(message).perform
 
         expect(payload[:type]).to eq('cta_url')

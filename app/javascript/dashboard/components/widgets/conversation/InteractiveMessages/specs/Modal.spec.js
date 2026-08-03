@@ -25,7 +25,9 @@ describe('InteractiveMessagesModal', () => {
 
     wrapper.vm.onSend();
 
-    expect(wrapper.emitted('onSend')[0][0].contentAttributes.header).toBeUndefined();
+    expect(
+      wrapper.emitted('onSend')[0][0].contentAttributes.header
+    ).toBeUndefined();
   });
 
   it('keeps the header image in Instagram CTA URL payloads', () => {

@@ -31,8 +31,15 @@ class Whatsapp::InteractiveButtonsPayloadBuilder
     raise StandardError, 'Interactive buttons body text is required' if body_text.blank?
     raise StandardError, 'Interactive buttons are required' if buttons.blank?
     raise StandardError, 'Interactive buttons supports at most 3 buttons' if buttons.size > 3
-    raise StandardError, 'Interactive buttons header type must be image' if header.present? && header[:type] != HEADER_TYPE
-    raise StandardError, 'Interactive buttons header media_url is required' if header.present? && header[:media_url].blank?
+
+    validate_header!
+  end
+
+  def validate_header!
+    return if header.blank?
+
+    raise StandardError, 'Interactive buttons header type must be image' if header[:type] != HEADER_TYPE
+    raise StandardError, 'Interactive buttons header media_url is required' if header[:media_url].blank?
   end
 
   def body_text

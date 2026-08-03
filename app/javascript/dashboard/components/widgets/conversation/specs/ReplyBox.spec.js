@@ -267,9 +267,9 @@ describe('ReplyBox', () => {
       inbox: { channel_type: 'Channel::Instagram' },
     });
 
-    expect(wrapper.findComponent(InteractiveMessages).props('isInstagram')).toBe(
-      true
-    );
+    expect(
+      wrapper.findComponent(InteractiveMessages).props('isInstagram')
+    ).toBe(true);
   });
 
   describe('on selecting a conversation', () => {

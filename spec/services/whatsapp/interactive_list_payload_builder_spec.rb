@@ -34,7 +34,7 @@ describe Whatsapp::InteractiveListPayloadBuilder do
                })
       end
 
-      it 'returns correct payload structure' do
+      it 'returns correct payload structure', :aggregate_failures do
         payload = described_class.new(message).perform
 
         expect(payload[:type]).to eq('list')

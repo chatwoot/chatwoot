@@ -1,5 +1,7 @@
-class Instagram::BaseSendService < Base::SendOnChannelService
+class Instagram::BaseSendService < Base::SendOnChannelService # rubocop:disable Metrics/ClassLength
   pattr_initialize [:message!]
+
+  URL_ACTION_TYPES = %w[url link].freeze
 
   private
 
@@ -133,7 +135,7 @@ class Instagram::BaseSendService < Base::SendOnChannelService
   def generic_template_default_action(actions)
     url_action = Array(actions).find do |action|
       action = action.with_indifferent_access
-      %w[url link].include?(action[:type]) && (action[:uri] || action[:url]).present?
+      URL_ACTION_TYPES.include?(action[:type]) && (action[:uri] || action[:url]).present?
     end
 
     return if url_action.blank?

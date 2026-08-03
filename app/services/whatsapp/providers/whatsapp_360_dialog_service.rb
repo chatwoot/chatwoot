@@ -1,21 +1,14 @@
 class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
     @message = message
-    if message.attachments.present?
-      send_attachment_message(phone_number, message)
-    elsif interactive_buttons_message?(message)
-      send_interactive_buttons_message(phone_number, message)
-    elsif interactive_list_message?(message)
-      send_interactive_list_message(phone_number, message)
-    elsif interactive_cta_url_message?(message)
-      send_interactive_cta_url_message(phone_number, message)
-    elsif interactive_carousel_message?(message)
-      send_interactive_carousel_message(phone_number, message)
-    elsif message.content_type == 'input_select'
-      send_interactive_text_message(phone_number, message)
-    else
-      send_text_message(phone_number, message)
-    end
+
+    return send_attachment_message(phone_number, message) if message.attachments.present?
+
+    builder = interactive_payload_builder(message)
+    return send_interactive_message(phone_number, message, builder) if builder
+    return send_interactive_text_message(phone_number, message) if message.content_type == 'input_select'
+
+    send_text_message(phone_number, message)
   end
 
   def send_template(phone_number, template_info, message)
@@ -134,71 +127,8 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     process_response(response, message)
   end
 
-  def send_interactive_buttons_message(phone_number, message)
-    payload = create_interactive_buttons_payload(message)
-
-    response = HTTParty.post(
-      "#{api_base_path}/messages",
-      headers: api_headers,
-      body: {
-        to: phone_number,
-        interactive: payload,
-        type: 'interactive'
-      }.to_json
-    )
-
-    process_response(response, message)
-  rescue StandardError => e
-    message.external_error = e.message
-    message.status = :failed
-    message.save!
-    nil
-  end
-
-  def send_interactive_list_message(phone_number, message)
-    payload = create_interactive_list_payload(message)
-
-    response = HTTParty.post(
-      "#{api_base_path}/messages",
-      headers: api_headers,
-      body: {
-        to: phone_number,
-        interactive: payload,
-        type: 'interactive'
-      }.to_json
-    )
-
-    process_response(response, message)
-  rescue StandardError => e
-    message.external_error = e.message
-    message.status = :failed
-    message.save!
-    nil
-  end
-
-  def send_interactive_cta_url_message(phone_number, message)
-    payload = create_cta_url_payload(message)
-
-    response = HTTParty.post(
-      "#{api_base_path}/messages",
-      headers: api_headers,
-      body: {
-        to: phone_number,
-        interactive: payload,
-        type: 'interactive'
-      }.to_json
-    )
-
-    process_response(response, message)
-  rescue StandardError => e
-    message.external_error = e.message
-    message.status = :failed
-    message.save!
-    nil
-  end
-
-  def send_interactive_carousel_message(phone_number, message)
-    payload = create_carousel_payload(message)
+  def send_interactive_message(phone_number, message, builder)
+    payload = send(builder, message)
 
     response = HTTParty.post(
       "#{api_base_path}/messages",

@@ -1,4 +1,4 @@
-class Facebook::SendOnFacebookService < Base::SendOnChannelService
+class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:disable Metrics/ClassLength
   private
 
   def channel_class
@@ -13,17 +13,20 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     elsif button_template_message?
       send_button_generic_template_message
     else
-      send_message_to_facebook fb_text_message_params if message.content.present?
-
-      if message.attachments.present?
-        message.attachments.each do |attachment|
-          send_message_to_facebook fb_attachment_message_params(attachment)
-        end
-      end
+      send_content_and_attachments
     end
   rescue Facebook::Messenger::FacebookError => e
     handle_facebook_error(e)
     Messages::StatusUpdateService.new(message, 'failed', e.message).perform
+  end
+
+  def send_content_and_attachments
+    send_message_to_facebook fb_text_message_params if message.content.present?
+    return if message.attachments.blank?
+
+    message.attachments.each do |attachment|
+      send_message_to_facebook fb_attachment_message_params(attachment)
+    end
   end
 
   def send_message_to_facebook(delivery_params)
@@ -297,9 +300,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def messaging_type_params
-    if within_24_hour_window?
-      { messaging_type: 'RESPONSE' }
-    elsif GlobalConfigService.load('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT', nil)
+    if !within_24_hour_window? && GlobalConfigService.load('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT', nil)
       { messaging_type: 'MESSAGE_TAG', tag: 'HUMAN_AGENT' }
     else
       { messaging_type: 'RESPONSE' }

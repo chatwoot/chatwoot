@@ -36,7 +36,7 @@ describe Whatsapp::CarouselPayloadBuilder do
                })
       end
 
-      it 'returns correct carousel payload' do
+      it 'returns correct carousel payload', :aggregate_failures do
         payload = described_class.new(message).perform
 
         expect(payload[:type]).to eq('carousel')

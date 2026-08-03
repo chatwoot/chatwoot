@@ -34,6 +34,11 @@ class Whatsapp::CtaUrlPayloadBuilder
     raise StandardError, 'CTA URL body text is required' if body_text.blank?
     raise StandardError, 'CTA URL action text is required' if action[:text].blank?
     raise StandardError, 'CTA URL action uri is required' if action[:uri].blank?
+
+    validate_header!
+  end
+
+  def validate_header!
     return if header.blank?
 
     raise StandardError, 'CTA URL header type must be image' if header[:type] != HEADER_TYPE

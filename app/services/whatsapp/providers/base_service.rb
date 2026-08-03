@@ -166,4 +166,14 @@ class Whatsapp::Providers::BaseService
   def normalize_whatsapp_button_title(title)
     title.to_s.strip.first(WHATSAPP_BUTTON_TITLE_MAX_LENGTH)
   end
+
+  # Returns the payload-builder method name for the message's interactive content type, or nil.
+  def interactive_payload_builder(message)
+    return :create_interactive_buttons_payload if interactive_buttons_message?(message)
+    return :create_interactive_list_payload if interactive_list_message?(message)
+    return :create_cta_url_payload if interactive_cta_url_message?(message)
+    return :create_carousel_payload if interactive_carousel_message?(message)
+
+    nil
+  end
 end
