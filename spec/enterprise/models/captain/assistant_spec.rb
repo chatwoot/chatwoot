@@ -1,6 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe Captain::Assistant do
+  describe 'inactive conversation settings' do
+    let(:assistant) { build(:captain_assistant, config: {}) }
+
+    it 'uses safe defaults when settings have not been saved' do
+      expect(assistant.inactivity_threshold_minutes).to eq(60)
+      expect(assistant.send_inactivity_resolution_message?).to be(true)
+    end
+
+    it 'validates the inactivity timer range' do
+      assistant.auto_resolve_after = 4
+
+      expect(assistant).not_to be_valid
+      expect(assistant.errors[:auto_resolve_after]).to be_present
+    end
+  end
+
   describe '#auto_resolve_mode' do
     let(:account) { create(:account, captain_auto_resolve_mode: 'legacy') }
 

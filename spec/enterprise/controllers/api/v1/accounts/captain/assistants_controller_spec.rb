@@ -216,6 +216,30 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response[:config][:feature_citation]).to be(false)
       end
+
+      it 'updates inactive conversation settings for Captain v2' do
+        account.enable_features('captain_integration_v2')
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: {
+                assistant: {
+                  config: {
+                    auto_resolve_after: 90,
+                    send_inactivity_resolution_message: false,
+                    resolution_message: 'Saved closing message'
+                  }
+                }
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:config]).to include(
+          auto_resolve_after: 90,
+          send_inactivity_resolution_message: false,
+          resolution_message: 'Saved closing message'
+        )
+      end
     end
   end
 
