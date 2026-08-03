@@ -185,10 +185,11 @@ const buildButtonsAttributes = () => {
   const { bodyText, footerText, headerMediaUrl, buttons } = buttonsForm.value;
   return {
     body_text: bodyText,
-    footer_text: footerText || undefined,
-    header: !props.isInstagram && headerMediaUrl
-      ? { type: 'image', media_url: headerMediaUrl }
-      : undefined,
+    footer_text: !props.isInstagram && footerText ? footerText : undefined,
+    header:
+      !props.isInstagram && headerMediaUrl
+        ? { type: 'image', media_url: headerMediaUrl }
+        : undefined,
     buttons: buttons.map((button, index) => ({
       id: button.id || `btn_${index + 1}`,
       text: button.text,
@@ -249,7 +250,10 @@ const currentBodyText = computed(() => {
 const previewHeaderMediaUrl = computed(() => {
   if (selectedType.value === CONTENT_TYPES.CTA_URL)
     return ctaUrlForm.value.headerMediaUrl;
-  if (selectedType.value === CONTENT_TYPES.INTERACTIVE_BUTTONS && !props.isInstagram)
+  if (
+    selectedType.value === CONTENT_TYPES.INTERACTIVE_BUTTONS &&
+    !props.isInstagram
+  )
     return buttonsForm.value.headerMediaUrl;
   return '';
 });
@@ -264,7 +268,7 @@ const previewFooterText = computed(() => {
   if (selectedType.value === CONTENT_TYPES.CTA_URL)
     return ctaUrlForm.value.footerText;
   if (selectedType.value === CONTENT_TYPES.INTERACTIVE_BUTTONS)
-    return buttonsForm.value.footerText;
+    return props.isInstagram ? '' : buttonsForm.value.footerText;
   return listForm.value.footerText;
 });
 
@@ -330,6 +334,7 @@ const onClose = () => {
             v-else-if="selectedType === CONTENT_TYPES.INTERACTIVE_BUTTONS"
             v-model="buttonsForm"
             :show-header-image="!isInstagram"
+            :show-footer-text="!isInstagram"
             @update:header-image-valid="
               value => (isButtonsHeaderImageValid = value)
             "

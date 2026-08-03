@@ -14,6 +14,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  showFooterText: {
+    type: Boolean,
+    default: true,
+  },
 });
 const emit = defineEmits(['update:modelValue', 'update:headerImageValid']);
 const MAX_BUTTONS = 3;
@@ -61,6 +65,7 @@ const removeButton = index => {
       @update:model-value="value => updateField('bodyText', value)"
     />
     <Input
+      v-if="showFooterText"
       :model-value="modelValue.footerText"
       :label="t('INTERACTIVE_MESSAGES.FIELDS.FOOTER_TEXT')"
       :placeholder="t('INTERACTIVE_MESSAGES.FIELDS.FOOTER_TEXT_PLACEHOLDER')"
