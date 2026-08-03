@@ -59,5 +59,15 @@ describe('whatsappFlowResponse', () => {
         },
       ]);
     });
+
+    it('displays a raw response as a single readable entry', () => {
+      expect(buildFlowResponseEntries('{invalid-json')).toEqual([
+        {
+          key: 'response',
+          label: 'Response',
+          value: '{invalid-json',
+        },
+      ]);
+    });
   });
 });

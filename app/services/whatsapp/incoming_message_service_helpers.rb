@@ -35,6 +35,13 @@ module Whatsapp::IncomingMessageServiceHelpers
       message.dig(:name, :formatted_name)
   end
 
+  def parse_flow_response_json(response_json)
+    parsed_response = JSON.parse(response_json)
+    parsed_response.is_a?(Hash) ? parsed_response : response_json
+  rescue JSON::ParserError, TypeError
+    response_json
+  end
+
   def file_content_type(file_type)
     return :image if %w[image sticker].include?(file_type)
     return :audio if %w[audio voice].include?(file_type)

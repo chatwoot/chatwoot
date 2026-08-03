@@ -11,11 +11,17 @@ export const formatFlowResponseValue = value => {
   return String(value);
 };
 
-export const buildFlowResponseEntries = response =>
-  Object.entries(response)
+export const buildFlowResponseEntries = response => {
+  const entries =
+    response && typeof response === 'object' && !Array.isArray(response)
+      ? Object.entries(response)
+      : [['response', response]];
+
+  return entries
     .filter(([key]) => key !== 'flow_token')
     .map(([key, value]) => ({
       key,
       label: formatFlowResponseLabel(key),
       value: formatFlowResponseValue(value),
     }));
+};

@@ -67,7 +67,7 @@ const MessageControl = Symbol('MessageControl');
  * @property {string|null} [ccEmail] - CC email addresses
  * @property {string|null} [bccEmail] - BCC email addresses
  * @property {Object} [whatsappFlowResponse] - WhatsApp Flow response metadata
- * @property {Object} whatsappFlowResponse.responseJson - Structured fields submitted by the contact
+ * @property {Record<string, unknown>|string} [whatsappFlowResponse.responseJson] - Structured fields or the raw response submitted by the contact
  */
 
 /**

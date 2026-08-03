@@ -95,6 +95,15 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
     end
 
     context 'when a contact submits a WhatsApp Flow response' do
+      let(:response_json) do
+        {
+          flow_token: 'flow-correlation-token',
+          rating: 'excellent',
+          comments: 'Great support',
+          appointment: { day: 'Monday', windows: %w[morning afternoon] }
+        }.to_json
+      end
+
       let(:flow_response_params) do
         {
           phone_number: whatsapp_channel.phone_number,
@@ -114,12 +123,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
                     nfm_reply: {
                       name: 'flow',
                       body: 'Sent',
-                      response_json: {
-                        flow_token: 'flow-correlation-token',
-                        rating: 'excellent',
-                        comments: 'Great support',
-                        appointment: { day: 'Monday', windows: %w[morning afternoon] }
-                      }.to_json
+                      response_json: response_json
                     }
                   }
                 }]
@@ -152,6 +156,36 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           }
         )
         expect(message.webhook_data[:content_attributes]['whatsapp_flow_response']).to eq(flow_response)
+      end
+
+      context 'when response_json contains invalid JSON' do
+        let(:response_json) { '{invalid-json' }
+
+        it 'stores the raw response without dropping the message' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: flow_response_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+
+          expect(message.content).to eq('Submitted a flow response')
+          expect(message.content_attributes.dig('whatsapp_flow_response', 'response_json')).to eq('{invalid-json')
+          expect(message.webhook_data[:content_attributes].dig('whatsapp_flow_response', 'response_json')).to eq('{invalid-json')
+        end
+      end
+
+      context 'when response_json is missing' do
+        let(:response_json) { nil }
+
+        it 'stores the flow metadata without dropping the message' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: flow_response_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+
+          expect(message.content).to eq('Submitted a flow response')
+          expect(message.content_attributes['whatsapp_flow_response']).to eq(
+            'name' => 'flow',
+            'body' => 'Sent'
+          )
+        end
       end
     end
 

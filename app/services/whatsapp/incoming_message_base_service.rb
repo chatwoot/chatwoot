@@ -186,7 +186,7 @@ class Whatsapp::IncomingMessageBaseService
       content_attrs[:whatsapp_flow_response] = {
         name: flow_response[:name],
         body: flow_response[:body],
-        response_json: JSON.parse(flow_response[:response_json])
+        response_json: parse_flow_response_json(flow_response[:response_json])
       }.compact
     end
 
