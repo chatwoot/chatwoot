@@ -160,10 +160,19 @@ class Captain::ConversationOutcomeTracker
   def safely_track(action)
     yield
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: account).capture_exception
+    report_tracking_failure(action, e)
+    nil
+  end
+
+  # Reporting the failure must itself fail open: the account read can hit the
+  # database again during the same outage that broke tracking, and a secondary
+  # error here would otherwise escape into the customer action.
+  def report_tracking_failure(action, error)
+    ChatwootExceptionTracker.new(error, account: account).capture_exception
     Rails.logger.error(
-      "[CAPTAIN][ConversationOutcomeTracker] Failed to record #{action} for conversation=#{conversation.display_id}: #{e.message}"
+      "[CAPTAIN][ConversationOutcomeTracker] Failed to record #{action} for conversation=#{conversation.display_id}: #{error.message}"
     )
+  rescue StandardError
     nil
   end
 end
