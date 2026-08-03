@@ -110,8 +110,7 @@ class Captain::Document < ApplicationRecord
     return unless url
 
     uri = URI.parse(url)
-    return unless uri.is_a?(URI::HTTP)
-    return if uri.host.blank?
+    return unless customer_visible_uri?(uri)
     return if File.extname(uri.path).casecmp('.pdf').zero?
 
     uri.to_s
@@ -139,6 +138,10 @@ class Captain::Document < ApplicationRecord
 
   def customer_visible_source?
     !pdf_document? && !pdf_file.attached?
+  end
+
+  def customer_visible_uri?(uri)
+    uri.is_a?(URI::HTTP) && uri.host.present? && uri.userinfo.blank?
   end
 
   def enqueue_crawl_job

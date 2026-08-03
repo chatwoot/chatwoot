@@ -112,6 +112,16 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         expect(tool_context.state[:captain_v2_citation_sources]).to eq(1 => document.id)
       end
 
+      it 'does not cite document URLs containing credentials' do
+        assistant.update!(config: assistant.config.merge('feature_citation' => true))
+        document.update!(external_link: 'https://user:pass@help.example.com/password')
+
+        result = tool.perform(tool_context, query: 'password')
+
+        expect(result).not_to include('Citation index:')
+        expect(tool_context.state[:captain_v2_citation_sources]).to be_nil
+      end
+
       it 'logs tool usage for search' do
         expect(tool).to receive(:log_tool_usage).with('searching', { query: 'password reset' })
         expect(tool).to receive(:log_tool_usage).with('found_results', { query: 'password reset', count: 2 })
