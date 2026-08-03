@@ -63,10 +63,13 @@ class Captain::ConversationOutcomeTracker
   def record_reopen(at:)
     track_existing_outcome(:reopen) do |outcome|
       outcome.with_lock do
-        next outcome if outcome.resolved_at.blank? || at <= outcome.resolved_at
-        next outcome if outcome.last_reopened_at == at
+        # The caller classifies the reopen from the status transition, so no
+        # resolved_at check here: it would drop legitimate reopens whenever the
+        # resolution event is delivered late. Re-delivered events must not
+        # double count, hence the last_reopened_at guard.
+        next outcome if outcome.last_reopened_at.present? && at <= outcome.last_reopened_at
 
-        outcome.last_reopened_at = latest(outcome.last_reopened_at, at)
+        outcome.last_reopened_at = at
         outcome.reopen_count += 1
         outcome.save!
       end

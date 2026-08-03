@@ -204,11 +204,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
   describe '#record_reopen' do
     let!(:outcome) { tracker.record_eligibility(at: Time.current) }
 
-    before do
-      tracker.record_resolution(at: 2.minutes.ago)
-    end
-
-    it 'records reopenings after the latest resolution once' do
+    it 'records re-delivered reopen events once' do
       reopened_at = Time.current
 
       tracker.record_reopen(at: reopened_at)
@@ -220,18 +216,18 @@ RSpec.describe Captain::ConversationOutcomeTracker do
       )
     end
 
-    it 'ignores an opening that predates the latest resolution' do
+    it 'ignores a reopen that predates the last recorded reopen' do
+      tracker.record_reopen(at: 1.minute.ago)
+
       expect do
         tracker.record_reopen(at: 3.minutes.ago)
       end.not_to(change { outcome.reload.reopen_count })
     end
 
-    it 'ignores openings on an unresolved outcome' do
-      outcome.reload.update!(resolved_at: nil)
-
+    it 'records a reopen even when the resolution event has not arrived yet' do
       expect do
         tracker.record_reopen(at: Time.current)
-      end.not_to(change { outcome.reload.reopen_count })
+      end.to(change { outcome.reload.reopen_count }.from(0).to(1))
     end
   end
 

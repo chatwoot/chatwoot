@@ -35,12 +35,23 @@ class CaptainListener < BaseListener
     Captain::Llm::ConversationFaqJob.perform_later(conversation, assistant) if assistant.config['feature_faq'].present?
   end
 
-  def conversation_opened(event)
+  def conversation_updated(event)
+    return unless reopened_from_resolved?(event)
+
     conversation = extract_conversation_and_account(event)[0]
     outcome_trackers(conversation).each { |tracker| tracker.record_reopen(at: event.timestamp) }
   end
 
   private
+
+  # conversation_opened cannot classify reopens: it never fires for the main
+  # Captain reopen path (an inbound message moves a resolved bot conversation
+  # to pending), but does fire for snooze wake-ups and handoffs. The status
+  # transition carried by conversation_updated identifies a reopen on its own,
+  # independent of event delivery order.
+  def reopened_from_resolved?(event)
+    event.data[:changed_attributes]&.dig('status', 0) == 'resolved'
+  end
 
   def outcome_trackers(conversation)
     ConversationOutcome.where(

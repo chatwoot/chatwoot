@@ -134,7 +134,7 @@ describe CaptainListener do
     end
   end
 
-  describe '#conversation_opened' do
+  describe '#conversation_updated' do
     let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :open) }
     let!(:outcome) do
       create(
@@ -147,15 +147,34 @@ describe CaptainListener do
       )
     end
 
-    it 'records a reopening after a Captain outcome was resolved' do
-      event = Events::Base.new(:conversation_opened, Time.current, conversation: conversation)
+    it 'records a reopening when the conversation leaves the resolved state' do
+      event = Events::Base.new(:conversation_updated, Time.current,
+                               conversation: conversation, changed_attributes: { 'status' => %w[resolved pending] })
 
-      listener.conversation_opened(event)
+      listener.conversation_updated(event)
 
       expect(outcome.reload).to have_attributes(
         reopen_count: 1,
         last_reopened_at: event.timestamp
       )
+    end
+
+    it 'ignores status transitions that do not leave the resolved state' do
+      event = Events::Base.new(:conversation_updated, Time.current,
+                               conversation: conversation, changed_attributes: { 'status' => %w[snoozed open] })
+
+      listener.conversation_updated(event)
+
+      expect(outcome.reload.reopen_count).to eq(0)
+    end
+
+    it 'ignores updates without a status change' do
+      event = Events::Base.new(:conversation_updated, Time.current,
+                               conversation: conversation, changed_attributes: { 'priority' => [nil, 'high'] })
+
+      listener.conversation_updated(event)
+
+      expect(outcome.reload.reopen_count).to eq(0)
     end
   end
 
