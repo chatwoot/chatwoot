@@ -9,8 +9,7 @@ import wootConstants from 'dashboard/constants/globals';
 export function useBulkActions() {
   const store = useStore();
   const { t } = useI18n();
-  const { checkMissingAttributes, ensureAttributesLoaded } =
-    useConversationRequiredAttributes();
+  const { checkMissingAttributes } = useConversationRequiredAttributes();
 
   const selectedConversations = useMapGetter(
     'bulkActions/getSelectedConversationIds'
@@ -165,8 +164,6 @@ export function useBulkActions() {
 
     // If resolving, check for required attributes
     if (status === wootConstants.STATUS_TYPE.RESOLVED) {
-      await ensureAttributesLoaded();
-
       const { validIds, skippedIds } = selectedConversations.value.reduce(
         (acc, id) => {
           const conversation = store.getters.getConversationById(id);

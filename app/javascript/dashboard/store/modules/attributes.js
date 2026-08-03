@@ -7,7 +7,6 @@ export const state = {
   records: [],
   uiFlags: {
     isFetching: false,
-    isFetched: false,
     isCreating: false,
     isUpdating: false,
     isDeleting: false,
@@ -49,7 +48,6 @@ export const actions = {
     try {
       const response = await AttributeAPI.getAttributesByModel();
       commit(types.SET_CUSTOM_ATTRIBUTE, response.data);
-      commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetched: true });
     } catch (error) {
       // Ignore error
     } finally {

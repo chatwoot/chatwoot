@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { ATTRIBUTE_TYPES } from 'dashboard/components-next/ConversationWorkflow/constants';
@@ -11,7 +11,6 @@ import { ATTRIBUTE_TYPES } from 'dashboard/components-next/ConversationWorkflow/
  * custom attributes filled before they can be resolved.
  */
 export function useConversationRequiredAttributes() {
-  const store = useStore();
   const { currentAccount, accountId } = useAccount();
   const isFeatureEnabledonAccount = useMapGetter(
     'accounts/isFeatureEnabledonAccount'
@@ -19,7 +18,6 @@ export function useConversationRequiredAttributes() {
   const conversationAttributes = useMapGetter(
     'attributes/getConversationAttributes'
   );
-  const attributeUIFlags = useMapGetter('attributes/getUIFlags');
 
   const isFeatureEnabled = computed(() =>
     isFeatureEnabledonAccount.value(
@@ -91,21 +89,9 @@ export function useConversationRequiredAttributes() {
     };
   };
 
-  /**
-   * Definitions are fetched asynchronously and the fetch swallows its errors, so
-   * a required attribute looks absent while the store is still empty. Callers
-   * gating a resolve must await this before calling checkMissingAttributes.
-   */
-  const ensureAttributesLoaded = async () => {
-    if (attributeUIFlags.value.isFetched) return;
-
-    await store.dispatch('attributes/get');
-  };
-
   return {
     requiredAttributeKeys,
     requiredAttributes,
     checkMissingAttributes,
-    ensureAttributesLoaded,
   };
 }

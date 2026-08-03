@@ -25,8 +25,7 @@ const store = useStore();
 const { t } = useI18n();
 const { accountScopedUrl } = useAccount();
 const { uiSettings, updateUISettings } = useUISettings();
-const { checkMissingAttributes, ensureAttributesLoaded } =
-  useConversationRequiredAttributes();
+const { checkMissingAttributes } = useConversationRequiredAttributes();
 
 const dragging = ref(false);
 const executingMacroId = ref(null);
@@ -107,15 +106,13 @@ const runMacro = async ({ macro, conversationId }, skippedResolve = false) => {
   }
 };
 
-const onExecuteMacro = async macro => {
+const onExecuteMacro = macro => {
   const execution = { macro, conversationId: props.conversationId };
 
   if (!resolvesConversation(macro)) {
     runMacro(execution);
     return;
   }
-
-  await ensureAttributesLoaded();
 
   const customAttributes = customAttributesFor(execution.conversationId);
   const { hasMissing, missing } = checkMissingAttributes(customAttributes);
