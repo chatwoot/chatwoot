@@ -158,13 +158,23 @@ class DataImports::Importer
 
   def import_conversation_from_summary(conversation_summary)
     source_id = source_id_for(conversation_summary)
-    already_handled = item_handled?('conversation', source_id)
-    item = import_item('conversation', source_id, conversation_summary)
-    mapping = find_mapping('conversation', source_id)
-
+    item, already_handled = prepare_import_item('conversation', source_id, conversation_summary)
     conversation = @source.retrieve_conversation(source_id)
     return if import_stopped?
 
+    with_import_item_lock(item, already_handled: already_handled) do |locked_item, item_already_handled|
+      import_conversation_item(locked_item, conversation_summary, conversation, source_id, item_already_handled)
+    end
+  rescue StandardError => e
+    raise if @source.client_error?(e)
+
+    fail_item(item, e)
+  ensure
+    persist_stats unless @import_stopped
+  end
+
+  def import_conversation_item(item, conversation_summary, conversation, source_id, already_handled)
+    mapping = find_mapping('conversation', source_id)
     update_message_total(item, conversation)
 
     contact = import_contact(primary_conversation_contact(conversation), required_for_conversation: true)
@@ -196,12 +206,6 @@ class DataImports::Importer
     return unless import_conversation_messages(conversation, chatwoot_conversation, contact)
 
     update_conversation_activity(chatwoot_conversation)
-  rescue StandardError => e
-    raise if @source.client_error?(e)
-
-    fail_item(item, e)
-  ensure
-    persist_stats unless @import_stopped
   end
 
   def import_stopped?
@@ -228,31 +232,14 @@ class DataImports::Importer
     item = nil
     with_query_timeout_retry do
       source_id = source_id_for(contact_payload)
-      if source_id.present? && (mapping = find_mapping('contact', source_id)) && (mapped_contact = mapping.chatwoot_record)
-        return reuse_mapped_contact(contact_payload, source_id, mapping, mapped_contact)
-      end
-
-      contact_payload = retrieve_contact_payload(contact_payload)
+      mapping = find_mapping('contact', source_id) if source_id.present?
+      contact_payload = retrieve_contact_payload(contact_payload) unless mapping&.chatwoot_record
       source_id = source_id_for(contact_payload)
-      already_handled = item_handled?('contact', source_id)
-      item = import_item('contact', source_id, contact_payload)
-      mapping = find_mapping('contact', source_id)
+      item, already_handled = prepare_import_item('contact', source_id, contact_payload)
 
-      mapped_contact = mapping&.chatwoot_record
-      if mapped_contact && mapping.data_import_id != @data_import.id
-        skip_already_imported_item(item, mapping, already_handled: already_handled)
-        return mapped_contact
+      with_import_item_lock(item, already_handled: already_handled) do |locked_item, item_already_handled|
+        import_contact_item(locked_item, contact_payload, source_id, item_already_handled)
       end
-
-      contact = Contact.transaction do
-        imported_contact = mapped_contact || find_existing_contact(contact_payload) || create_contact(contact_payload)
-        update_existing_contact(imported_contact, contact_payload)
-        record_mapping('contact', source_id, imported_contact, metadata: contact_metadata(contact_payload))
-        item.update!(status: :imported, chatwoot_record_type: 'Contact', chatwoot_record_id: imported_contact.id)
-        imported_contact
-      end
-      increment_stat('contacts', 'imported') unless already_handled
-      contact
     end
   rescue StandardError => e
     raise if @source.client_error?(e)
@@ -261,6 +248,22 @@ class DataImports::Importer
     raise if required_for_conversation
   ensure
     persist_stats
+  end
+
+  def import_contact_item(item, contact_payload, source_id, already_handled)
+    mapping = find_mapping('contact', source_id)
+    mapped_contact = mapping&.chatwoot_record
+    return reuse_mapped_contact(item, mapping, mapped_contact, already_handled: already_handled) if mapped_contact
+
+    contact = Contact.transaction do
+      imported_contact = find_existing_contact(contact_payload) || create_contact(contact_payload)
+      update_existing_contact(imported_contact, contact_payload)
+      record_mapping('contact', source_id, imported_contact, metadata: contact_metadata(contact_payload))
+      item.update!(status: :imported, chatwoot_record_type: 'Contact', chatwoot_record_id: imported_contact.id)
+      imported_contact
+    end
+    increment_stat('contacts', 'imported') unless already_handled
+    contact
   end
 
   def retrieve_contact_payload(contact_payload)
@@ -284,14 +287,12 @@ class DataImports::Importer
     find_existing_contact(contact_payload)
   end
 
-  def reuse_mapped_contact(contact_payload, source_id, mapping, mapped_contact)
+  def reuse_mapped_contact(item, mapping, mapped_contact, already_handled:)
     if mapping.data_import_id == @data_import.id
-      reconcile_current_run_contact(contact_payload, source_id, mapped_contact)
+      reconcile_current_run_contact(item, mapped_contact)
       return mapped_contact
     end
 
-    already_handled = item_handled?('contact', source_id)
-    item = import_item('contact', source_id, contact_payload)
     skip_already_imported_item(item, mapping, already_handled: already_handled)
     mapped_contact
   end
@@ -855,25 +856,41 @@ class DataImports::Importer
     "#{@source.provider}:#{source_id_for(conversation)}"
   end
 
-  def import_item(object_type, source_id, metadata)
-    @data_import.items.find_or_initialize_by(
+  def find_or_create_import_item(object_type, source_id)
+    attributes = {
       source_provider: @source.provider,
       source_object_type: object_type,
       source_object_id: source_id
-    ).tap do |item|
+    }
+    @data_import.items.find_by(attributes) || @data_import.items.create!(attributes)
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
+    @data_import.items.find_by(attributes) || raise(e)
+  end
+
+  def prepare_import_item(object_type, source_id, metadata)
+    item = find_or_create_import_item(object_type, source_id)
+    already_handled = item.with_lock do
+      already_handled = item.imported? || item.skipped?
       item.status = :processing
       item.attempt_count += 1
       item.metadata = item.metadata.to_h.merge(metadata.to_h)
       item.save!
+      already_handled
     end
+    [item, already_handled]
   end
 
-  def item_handled?(object_type, source_id)
-    @data_import.items.where(status: [:imported, :skipped]).exists?(
-      source_provider: @source.provider,
-      source_object_type: object_type,
-      source_object_id: source_id
-    )
+  def with_import_item_lock(item, already_handled:)
+    ApplicationRecord.connection_pool.with_connection do |connection|
+      lock_id = -item.id
+      connection.execute("SELECT pg_advisory_lock(#{lock_id})")
+      begin
+        item.reload
+        yield item, already_handled || item.imported? || item.skipped?
+      ensure
+        connection.execute("SELECT pg_advisory_unlock(#{lock_id})")
+      end
+    end
   end
 
   def find_mapping(object_type, source_id)
@@ -900,13 +917,7 @@ class DataImports::Importer
     end
   end
 
-  def reconcile_current_run_contact(contact_payload, source_id, mapped_contact)
-    item = @data_import.items.find_by(
-      source_provider: @source.provider,
-      source_object_type: 'contact',
-      source_object_id: source_id
-    )
-    item = import_item('contact', source_id, contact_payload) unless item&.imported?
+  def reconcile_current_run_contact(item, mapped_contact)
     item.update!(status: :imported, chatwoot_record_type: 'Contact', chatwoot_record_id: mapped_contact.id)
     mark_stat_group_dirty('contacts')
   end

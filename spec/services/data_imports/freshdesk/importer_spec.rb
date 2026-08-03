@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'timeout'
 
 RSpec.describe DataImports::Freshdesk::Importer do
   let(:account) { create(:account) }
@@ -119,6 +120,42 @@ RSpec.describe DataImports::Freshdesk::Importer do
     expect(data_import.reload.cursor.dig('contacts', 'starting_after')).to eq('cursor-2')
     expect(data_import.stats.dig('contacts', 'imported')).to eq(2)
     expect(data_import.processed_records).to eq(2)
+  end
+
+  it 'serializes overlapping workers importing the same conversation', :aggregate_failures do
+    started_requests = Queue.new
+    release_requests = Queue.new
+    allow(client).to receive(:retrieve_ticket).with('2001') do
+      started_requests << true
+      release_requests.pop
+      ticket_fixture.fetch('ticket')
+    end
+    importers = Array.new(2) { described_class.new(data_import: DataImport.find(data_import.id)) }
+    errors = Concurrent::Array.new
+    conversation_summary = { 'id' => '2001', 'source' => { 'type' => 'email' } }
+    threads = importers.map do |importer|
+      Thread.new do
+        importer.send(:import_conversation_from_summary, conversation_summary)
+      rescue StandardError => e
+        errors << e
+      end
+    end
+
+    begin
+      2.times { Timeout.timeout(5) { started_requests.pop } }
+    ensure
+      2.times { release_requests << true }
+      threads.each { |thread| thread.join(10) }
+    end
+
+    expect(threads).to all(satisfy { |thread| !thread.alive? })
+    expect(errors).to be_empty
+    expect(account.conversations.where(identifier: 'freshdesk:2001').count).to eq(1)
+    expect(account.messages.count).to eq(4)
+    expect(data_import.mappings.count).to eq(6)
+    expect(data_import.items.find_by!(source_object_type: 'conversation', source_object_id: '2001')).to have_attributes(
+      status: 'imported', attempt_count: 2
+    )
   end
 
   it 'recognizes a structured cursor after JSON persistence' do
