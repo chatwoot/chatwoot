@@ -280,9 +280,10 @@ RSpec.describe DataImports::Freshdesk::Importer do
     allow(importer).to receive(:import_conversation_from_summary) { |summary| processed_ticket_ids << summary['id'] }
     limit_error = nil
 
-    expect do
-      importer.import_conversations_page(starting_after: { 'page' => 300, 'offset' => 90 })
-    end.to raise_error(CustomExceptions::DataImport::FreshdeskTicketLimitError) { |error| limit_error = error }
+    expect { importer.import_conversations_page(starting_after: { 'page' => 300, 'offset' => 90 }) }.to raise_error do |error|
+      expect(error.class.name).to eq('CustomExceptions::DataImport::FreshdeskTicketLimitError')
+      limit_error = error
+    end
     importer.fail!(limit_error)
 
     expect(processed_ticket_ids).to eq((91..100).map(&:to_s))
