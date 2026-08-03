@@ -24,16 +24,6 @@ const isAssistantActive = assistant => {
 
 const fetchDataForRoute = async (routeName, assistantId) => {
   const dataFetchMap = {
-    captain_assistants_responses_index: async () => {
-      await store.dispatch('captainResponses/get', { assistantId });
-      await store.dispatch('captainResponses/fetchPendingCount', assistantId);
-    },
-    captain_assistants_responses_pending: async () => {
-      await store.dispatch('captainResponses/get', {
-        assistantId,
-        status: 'pending',
-      });
-    },
     captain_assistants_documents_index: async () => {
       await store.dispatch('captainDocuments/get', { assistantId });
     },

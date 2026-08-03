@@ -9,8 +9,10 @@ module RequestExceptionHandler
 
   included do
     rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
-    rescue_from CustomExceptions::InboxDisabled, with: :render_inbox_disabled_error
-    rescue_from CustomExceptions::Inbox::LimitExceeded, with: :render_error_response
+    rescue_from CustomExceptions::Inbox::LimitExceeded,
+                CustomExceptions::Account::EmailLimitExceeded,
+                CustomExceptions::InboxDisabled
+                with: :render_error_response
   end
 
   private

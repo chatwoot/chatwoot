@@ -252,6 +252,61 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/captain/assistants/{id}/faq_stats' do
+    let(:assistant) { create(:captain_assistant, account: account) }
+
+    it 'returns approved FAQ, open suggestion, document counts and coverage' do
+      create_list(:captain_assistant_response, 3, assistant: assistant, account: account, status: :approved)
+      assistant.faq_suggestions.create!(question: 'How do I enable the feature?', answer: 'Turn it on in settings.')
+      create_list(:captain_document, 2, assistant: assistant, account: account)
+
+      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/faq_stats",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response).to eq(approved: 3, suggestions: 1, documents: 2, coverage: 75)
+    end
+
+    it 'returns zero coverage when there are no FAQs or suggestions' do
+      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/faq_stats",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response).to include(approved: 0, suggestions: 0, coverage: 0)
+    end
+
+    it 'counts only suggestions backed by conversations the agent can access' do
+      accessible_inbox = create(:inbox, account: account)
+      hidden_inbox = create(:inbox, account: account)
+      create(:inbox_member, user: agent, inbox: accessible_inbox)
+      create(:captain_assistant_response, assistant: assistant, account: account, status: :approved)
+
+      accessible_suggestion = assistant.faq_suggestions.create!(question: 'Visible question', answer: 'Visible answer')
+      accessible_suggestion.observations.create!(
+        conversation: create(:conversation, account: account, inbox: accessible_inbox),
+        generated_question: accessible_suggestion.question,
+        generated_answer: accessible_suggestion.answer,
+        language: accessible_suggestion.language
+      )
+      hidden_suggestion = assistant.faq_suggestions.create!(question: 'Hidden question', answer: 'Hidden answer')
+      hidden_suggestion.observations.create!(
+        conversation: create(:conversation, account: account, inbox: hidden_inbox),
+        generated_question: hidden_suggestion.question,
+        generated_answer: hidden_suggestion.answer,
+        language: hidden_suggestion.language
+      )
+
+      get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/faq_stats",
+          headers: agent.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response).to include(approved: 1, suggestions: 1, coverage: 50)
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/captain/assistants/{id}/summary' do
     let(:assistant) { create(:captain_assistant, account: account) }
     let(:alice) { create(:user, account: account, role: :administrator, name: 'Alice Adams') }
