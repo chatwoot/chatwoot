@@ -47,16 +47,21 @@ class Whatsapp::CarouselPayloadBuilder
 
   def build_card(item, index)
     item = item.with_indifferent_access
+    action_type = card_action_type(item)
 
     {
       card_index: index,
-      type: 'cta_url',
+      type: action_type == CTA_URL_TYPE ? 'cta_url' : 'button',
       header: build_header(item),
       body: {
         text: format_card_body(item)
       },
-      action: build_card_action(item)
+      action: build_card_action(item, action_type)
     }.compact
+  end
+
+  def card_action_type(item)
+    Array(item[:actions]).first&.with_indifferent_access&.[](:type)
   end
 
   def build_header(item)
@@ -74,9 +79,8 @@ class Whatsapp::CarouselPayloadBuilder
     [item[:title].presence, item[:description].presence].compact.join("\n\n")
   end
 
-  def build_card_action(item)
+  def build_card_action(item, action_type)
     actions = Array(item[:actions]).map(&:with_indifferent_access)
-    action_type = actions.first[:type]
 
     if action_type == CTA_URL_TYPE
       build_cta_url_action(actions.first)

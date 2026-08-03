@@ -78,10 +78,11 @@ describe Whatsapp::CarouselPayloadBuilder do
                })
       end
 
-      it 'builds quick reply buttons in cards' do
+      it 'builds quick reply buttons in cards', :aggregate_failures do
         payload = described_class.new(message).perform
 
         first_card = payload[:action][:cards].first
+        expect(first_card[:type]).to eq('button')
         expect(first_card[:action][:buttons].first[:type]).to eq('quick_reply')
         expect(first_card[:action][:buttons].first[:quick_reply][:id]).to eq('opt_a')
       end
