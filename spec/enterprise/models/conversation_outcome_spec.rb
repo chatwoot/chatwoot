@@ -25,6 +25,30 @@ RSpec.describe ConversationOutcome, type: :model do
       expect(outcome.errors[:handoff_reason_category]).to be_present
     end
 
+    it 'rejects an assistant from another account' do
+      outcome = build(:conversation_outcome)
+      outcome.assistant = create(:captain_assistant, account: create(:account))
+
+      expect(outcome).not_to be_valid
+      expect(outcome.errors[:assistant]).to be_present
+    end
+
+    it 'rejects a conversation from another account' do
+      outcome = build(:conversation_outcome)
+      outcome.conversation = create(:conversation, account: create(:account))
+
+      expect(outcome).not_to be_valid
+      expect(outcome.errors[:conversation]).to be_present
+    end
+
+    it 'rejects an inbox from another account' do
+      outcome = build(:conversation_outcome)
+      outcome.inbox = create(:inbox, account: create(:account))
+
+      expect(outcome).not_to be_valid
+      expect(outcome.errors[:inbox]).to be_present
+    end
+
     it 'requires unique conversations per assistant and account' do
       existing = create(:conversation_outcome)
       duplicate = build(

@@ -54,4 +54,14 @@ class ConversationOutcome < ApplicationRecord
 
   validates :conversation_id, uniqueness: { scope: [:account_id, :assistant_id] }
   validates :handoff_reason_category, presence: true, if: :handoff_at?
+  validate :associations_must_belong_to_account
+
+  private
+
+  def associations_must_belong_to_account
+    [:assistant, :conversation, :inbox].each do |association|
+      record = public_send(association)
+      errors.add(association, 'must belong to the same account') if record && record.account_id != account_id
+    end
+  end
 end
