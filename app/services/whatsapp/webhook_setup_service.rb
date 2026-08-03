@@ -11,9 +11,8 @@ class Whatsapp::WebhookSetupService
   def perform
     validate_parameters!
 
-    # Register phone number if either condition is met:
-    # 1. Phone number is not verified (code_verification_status != 'VERIFIED')
-    # 2. Phone number needs registration (pending provisioning state)
+    # Register the number only when it is neither connected nor ownership-verified,
+    # or when Meta still reports a pending provisioning state.
     register_phone_number if !phone_number_verified? || phone_number_needs_registration?
 
     setup_webhook
@@ -101,10 +100,10 @@ class Whatsapp::WebhookSetupService
   def phone_number_verified?
     phone_number_id = @channel.provider_config['phone_number_id']
 
-    # Check with WhatsApp API if the phone number code verification is complete
-    # This checks code_verification_status == 'VERIFIED'
+    # A connected number is already registered even if its one-time code verification has expired.
+    # Otherwise, ownership verification makes it eligible for registration.
     verified = @api_client.phone_number_verified?(phone_number_id)
-    Rails.logger.info("[WHATSAPP] Phone number #{phone_number_id} code verification status: #{verified}")
+    Rails.logger.info("[WHATSAPP] Phone number #{phone_number_id} is ready for setup: #{verified}")
 
     verified
   rescue StandardError => e
@@ -115,7 +114,7 @@ class Whatsapp::WebhookSetupService
 
   def phone_number_needs_registration?
     # Check if phone is in pending provisioning state based on health data
-    # This is a separate check from phone_number_verified? which only checks code verification
+    # This is separate from the connected/ownership-verification check above.
 
     phone_number_in_pending_state?
 

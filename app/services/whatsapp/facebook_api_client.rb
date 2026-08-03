@@ -69,6 +69,15 @@ class Whatsapp::FacebookApiClient
     handle_response(response, 'WhatsApp business profile fetch failed')
   end
 
+  def fetch_permissions
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/me/permissions",
+      headers: request_headers
+    )
+
+    handle_response(response, 'Token permissions fetch failed')
+  end
+
   def fetch_subscribed_apps(waba_id)
     response = HTTParty.get(
       "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
@@ -124,11 +133,12 @@ class Whatsapp::FacebookApiClient
   def phone_number_verified?(phone_number_id)
     response = HTTParty.get(
       "#{BASE_URI}/#{@api_version}/#{phone_number_id}",
-      headers: request_headers
+      headers: request_headers,
+      query: { fields: 'status,code_verification_status' }
     )
 
     data = handle_response(response, 'Phone status check failed')
-    data['code_verification_status'] == 'VERIFIED'
+    data['status'] == 'CONNECTED' || data['code_verification_status'] == 'VERIFIED'
   end
 
   def subscribe_phone_number_webhook(waba_id, phone_number_id, callback_url, verify_token, subscribed_fields: nil)

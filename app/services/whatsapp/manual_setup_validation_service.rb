@@ -1,5 +1,6 @@
 class Whatsapp::ManualSetupValidationService
   LOG_PREFIX = '[WHATSAPP MANUAL SETUP]'.freeze
+  MESSAGING_PERMISSION = 'whatsapp_business_messaging'.freeze
 
   def initialize(waba_id:, phone_number_id:, access_token:)
     @waba_id = waba_id
@@ -12,7 +13,14 @@ class Whatsapp::ManualSetupValidationService
     validate_parameters!
     Rails.logger.info "#{LOG_PREFIX} Validation started waba_id=#{@waba_id} phone_number_id=#{@phone_number_id}"
 
-    phone_data = find_phone_data!
+    phone_data = find_phone_data!.merge(
+      @api_client.fetch_phone_number(@phone_number_id, fields: 'status,code_verification_status')
+    )
+    Rails.logger.info "#{LOG_PREFIX} Matched phone_number_id=#{@phone_number_id} fields=#{phone_data.keys.sort.join(',')} " \
+                      "status=#{phone_data['status'].inspect} " \
+                      "code_verification_status=#{phone_data['code_verification_status'].inspect} " \
+                      "name_status=#{phone_data['name_status'].inspect}"
+    verify_phone_number_ready!(phone_data)
     verify_uniqueness!(phone_data)
     verify_template_access!
     verify_messaging_access!
@@ -37,11 +45,13 @@ class Whatsapp::ManualSetupValidationService
     phone_data = phone_numbers.find { |phone| phone['id'].to_s == @phone_number_id.to_s }
     raise ArgumentError, 'This Phone Number ID does not belong to the WABA ID you entered.' if phone_data.blank?
 
-    Rails.logger.info "#{LOG_PREFIX} Matched phone_number_id=#{@phone_number_id} fields=#{phone_data.keys.sort.join(',')} " \
-                      "code_verification_status=#{phone_data['code_verification_status'].inspect} " \
-                      "name_status=#{phone_data['name_status'].inspect}"
-
     phone_data
+  end
+
+  def verify_phone_number_ready!(phone_data)
+    return if phone_data['status'] == 'CONNECTED' || phone_data['code_verification_status'] == 'VERIFIED'
+
+    raise ArgumentError, 'Complete phone number verification in Meta before continuing.'
   end
 
   def verify_uniqueness!(phone_data)
@@ -60,7 +70,14 @@ class Whatsapp::ManualSetupValidationService
   end
 
   def verify_messaging_access!
-    @api_client.fetch_business_profile(@phone_number_id)
+    permissions = @api_client.fetch_permissions.fetch('data', [])
+    permission_granted = Array(permissions).any? do |permission|
+      permission.is_a?(Hash) && permission['permission'] == MESSAGING_PERMISSION && permission['status'] == 'granted'
+    end
+
+    return if permission_granted
+
+    raise ArgumentError
   rescue StandardError
     raise ArgumentError,
           'The token cannot access WhatsApp messaging. Generate a token with whatsapp_business_messaging permission.'
