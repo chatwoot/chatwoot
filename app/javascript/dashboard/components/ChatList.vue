@@ -132,7 +132,8 @@ const {
   attributeModel: 'conversation_attribute',
 });
 
-const { checkMissingAttributes } = useConversationRequiredAttributes();
+const { checkMissingAttributes, ensureAttributesLoaded } =
+  useConversationRequiredAttributes();
 
 // computed
 
@@ -744,11 +745,13 @@ function toggleConversationStatus(
   });
 }
 
-function handleResolveConversation(conversationId, status, snoozedUntil) {
+async function handleResolveConversation(conversationId, status, snoozedUntil) {
   if (status !== wootConstants.STATUS_TYPE.RESOLVED) {
     toggleConversationStatus(conversationId, status, snoozedUntil);
     return;
   }
+
+  await ensureAttributesLoaded();
 
   // Check for required attributes before resolving
   const conversation = getConversationById.value(conversationId);

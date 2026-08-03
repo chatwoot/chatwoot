@@ -23,7 +23,8 @@ import ConversationResolveAttributesModal from 'dashboard/components-next/Conver
 const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
-const { checkMissingAttributes } = useConversationRequiredAttributes();
+const { checkMissingAttributes, ensureAttributesLoaded } =
+  useConversationRequiredAttributes();
 
 const arrowDownButtonRef = ref(null);
 const isLoading = ref(false);
@@ -117,7 +118,9 @@ const onCmdOpenConversation = () => {
   toggleStatus(wootConstants.STATUS_TYPE.OPEN);
 };
 
-const onCmdResolveConversation = () => {
+const onCmdResolveConversation = async () => {
+  await ensureAttributesLoaded();
+
   const currentCustomAttributes = currentChat.value.custom_attributes || {};
   const { hasMissing, missing } = checkMissingAttributes(
     currentCustomAttributes

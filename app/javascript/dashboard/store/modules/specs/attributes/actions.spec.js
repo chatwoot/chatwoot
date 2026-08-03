@@ -15,6 +15,7 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: true }],
         [types.default.SET_CUSTOM_ATTRIBUTE, attributesList],
+        [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetched: true }],
         [types.default.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: false }],
       ]);
     });
