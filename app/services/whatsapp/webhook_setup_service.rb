@@ -131,9 +131,9 @@ class Whatsapp::WebhookSetupService
     # Check if phone number is in "not provisioned" state based on health indicators
     # These conditions indicate the number is pending and needs registration:
     # - platform_type: "NOT_APPLICABLE" means not fully set up
-    # - throughput.level: "NOT_APPLICABLE" means no messaging capacity assigned
+    # - throughput_level: "NOT_APPLICABLE" means no messaging capacity assigned
     health_data[:platform_type] == 'NOT_APPLICABLE' ||
-      health_data.dig(:throughput, :level) == 'NOT_APPLICABLE'
+      health_data[:throughput_level] == 'NOT_APPLICABLE'
 
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Health status check failed: #{e.message}")
