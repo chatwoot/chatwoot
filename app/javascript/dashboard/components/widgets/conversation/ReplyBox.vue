@@ -150,6 +150,11 @@ export default {
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
     }),
+    // inboxMixin's isAnInstagramChannel reads additional_attributes off `chat`
+    // to detect Instagram DMs routed through a Facebook Page channel.
+    chat() {
+      return this.currentChat;
+    },
     currentContact() {
       const senderId = this.currentChat?.meta?.sender?.id;
       if (!senderId) return {};

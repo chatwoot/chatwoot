@@ -150,6 +150,37 @@ describe('inboxMixin', () => {
     expect(wrapper.vm.isTwitterInboxTweet).toBe(true);
   });
 
+  describe('isAnInstagramChannel', () => {
+    it('returns true if channel type is Instagram', () => {
+      const Component = getComponentConfigForInbox('Channel::Instagram');
+      const wrapper = shallowMount(Component);
+      expect(wrapper.vm.isAnInstagramChannel).toBe(true);
+    });
+
+    it('returns true for a Facebook Page channel handling an Instagram DM', () => {
+      const Component = {
+        render() {},
+        mixins: [inboxMixin],
+        data() {
+          return {
+            inbox: { channel_type: 'Channel::FacebookPage' },
+            chat: {
+              additional_attributes: { type: 'instagram_direct_message' },
+            },
+          };
+        },
+      };
+      const wrapper = shallowMount(Component);
+      expect(wrapper.vm.isAnInstagramChannel).toBe(true);
+    });
+
+    it('returns false for a Facebook Page channel handling a regular Messenger chat', () => {
+      const Component = getComponentConfigForInbox('Channel::FacebookPage');
+      const wrapper = shallowMount(Component);
+      expect(wrapper.vm.isAnInstagramChannel).toBe(false);
+    });
+  });
+
   it('twilioBadge returns string sms if channel type is Twilio and medium is sms', () => {
     const Component = getComponentConfigForInbox('Channel::TwilioSms', {
       medium: 'sms',

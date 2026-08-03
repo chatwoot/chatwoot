@@ -129,7 +129,11 @@ export default {
       );
     },
     isAnInstagramChannel() {
-      return this.channelType === INBOX_TYPES.INSTAGRAM;
+      return (
+        this.channelType === INBOX_TYPES.INSTAGRAM ||
+        (this.channelType === INBOX_TYPES.FB &&
+          this.chatAdditionalAttributes.type === 'instagram_direct_message')
+      );
     },
     isATiktokChannel() {
       return this.channelType === INBOX_TYPES.TIKTOK;
