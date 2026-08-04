@@ -639,6 +639,23 @@ describe Conversations::FilterService do
           result = filter_service.new(params, user_1, account).perform
           expect(result[:conversations].length).to eq expected_count
         end
+
+        it 'filter by last_activity_at days_before when payload is ActionController::Parameters' do
+          params[:payload] = [
+            ActionController::Parameters.new(
+              attribute_key: 'last_activity_at',
+              filter_operator: 'days_before',
+              values: [3],
+              query_operator: nil,
+              custom_attribute_type: ''
+            ).permit!
+          ]
+
+          expected_count = account.conversations.where('last_activity_at < ?', (Time.zone.today - 3.days)).count
+
+          result = filter_service.new(params, user_1, account).perform
+          expect(result[:conversations].length).to eq expected_count
+        end
       end
     end
   end

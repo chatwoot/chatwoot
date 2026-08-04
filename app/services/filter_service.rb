@@ -99,7 +99,7 @@ class FilterService
 
   def days_before_filter_query(query_hash, current_index)
     date = Time.zone.today - query_hash['values'][0].to_i.days
-    updated_query_hash = query_hash.with_indifferent_access.merge(
+    updated_query_hash = query_hash.to_h.with_indifferent_access.merge(
       values: [date.strftime],
       filter_operator: 'is_less_than'
     )
