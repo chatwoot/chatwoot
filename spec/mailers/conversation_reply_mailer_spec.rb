@@ -6,12 +6,12 @@ RSpec.describe ConversationReplyMailer do
   describe 'reply' do
     let!(:account) { create(:account) }
     let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+    let(:class_instance) { described_class.new }
     let(:email_channel) { create(:channel_email, account: account) }
 
-    around do |example|
-      with_modified_env SMTP_ADDRESS: 'smtp.example.test' do
-        example.run
-      end
+    before do
+      allow(described_class).to receive(:new).and_return(class_instance)
+      allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(true)
     end
 
     context 'with summary' do
@@ -138,7 +138,6 @@ RSpec.describe ConversationReplyMailer do
     end
 
     context 'without summary for a non-email inbox' do
-      let!(:account) { create(:account).tap { |record| record.enable_features!(:branded_email_templates) } }
       let(:inbox) { create(:inbox, account: account, channel: create(:channel_widget, account: account)) }
       let(:conversation) { create(:conversation, assignee: agent, account: account, inbox: inbox) }
       let!(:incoming_email_message) do
@@ -150,6 +149,7 @@ RSpec.describe ConversationReplyMailer do
       let(:mail) { described_class.reply_without_summary(conversation, incoming_email_message.id).deliver_now }
 
       it 'applies the account branded email layout' do
+        account.enable_features!(:branded_email_templates)
         create(:email_template, :layout, account: account, body: '<html><body>Account Brand {{ content_for_layout }}</body></html>')
 
         expect(mail.decoded).to include('Account Brand')
@@ -157,6 +157,7 @@ RSpec.describe ConversationReplyMailer do
       end
 
       it 'does not apply an installation layout without an account override' do
+        account.enable_features!(:branded_email_templates)
         create(:email_template, :layout, body: '<html><body>Installation Brand {{ content_for_layout }}</body></html>')
 
         expect(mail.decoded).not_to include('Installation Brand')
@@ -726,9 +727,9 @@ RSpec.describe ConversationReplyMailer do
       end
 
       it 'uses inbox oauth smtp when global smtp config is unavailable' do
-        mail = with_modified_env SMTP_ADDRESS: nil do
-          described_class.email_reply(message)
-        end
+        allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(false)
+
+        mail = described_class.email_reply(message)
 
         expect(mail).not_to be_nil
         expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
@@ -744,9 +745,9 @@ RSpec.describe ConversationReplyMailer do
       let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
 
       it 'does not build the mail without global smtp' do
-        with_modified_env SMTP_ADDRESS: nil do
-          expect(described_class.email_reply(message).deliver_now).to be_nil
-        end
+        allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(false)
+
+        expect(described_class.email_reply(message).deliver_now).to be_nil
       end
     end
 

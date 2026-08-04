@@ -67,27 +67,20 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
-    conversation.pending? && conversation.assignee_agent_bot_id.blank? && message.captain_response_triggering? && inbox.captain_assistant.present?
+    conversation.pending? && message.captain_response_triggering? && inbox.captain_assistant.present?
   end
 
   def perform_handoff
-    conversation.reload
-    handoff_performed = conversation.with_lock do
-      next false unless captain_handling_conversation?
+    return unless conversation.pending?
 
-      Rails.logger.info("Captain limit exceeded, performing handoff mid-conversation for conversation: #{conversation.id}")
-      conversation.messages.create!(
-        message_type: :outgoing,
-        account_id: conversation.account.id,
-        inbox_id: conversation.inbox.id,
-        content: 'Transferring to another agent for further assistance.'
-      )
-      conversation.bot_handoff!(dispatch_event: false)
-      true
-    end
-    return unless handoff_performed
-
-    conversation.dispatch_bot_handoff_event
+    Rails.logger.info("Captain limit exceeded, performing handoff mid-conversation for conversation: #{conversation.id}")
+    conversation.messages.create!(
+      message_type: :outgoing,
+      account_id: conversation.account.id,
+      inbox_id: conversation.inbox.id,
+      content: 'Transferring to another agent for further assistance.'
+    )
+    conversation.bot_handoff!
     send_out_of_office_message_after_handoff
   end
 
@@ -100,6 +93,6 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def captain_handling_conversation?
-    conversation.pending? && conversation.assignee_agent_bot_id.blank? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present?
+    conversation.pending? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present?
   end
 end

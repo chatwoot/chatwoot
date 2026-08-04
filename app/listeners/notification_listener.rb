@@ -1,26 +1,15 @@
 class NotificationListener < BaseListener
-  BOT_HANDOFF_EVENT_IDS_META_KEY = 'bot_handoff_event_ids'.freeze
-  private_constant :BOT_HANDOFF_EVENT_IDS_META_KEY
-
   def conversation_bot_handoff(event)
     conversation, account = extract_conversation_and_account(event)
-    return if event.data[:changed_attributes].present?
+    return if conversation.pending?
 
-    handoff_event_id = event.timestamp.iso8601(6)
-    conversation.with_lock do
-      next if conversation.pending?
-
-      conversation.inbox.members.each do |agent|
-        next if bot_handoff_notification_sent?(conversation, agent, handoff_event_id)
-
-        NotificationBuilder.new(
-          notification_type: 'conversation_creation',
-          user: agent,
-          account: account,
-          primary_actor: conversation,
-          meta: { BOT_HANDOFF_EVENT_IDS_META_KEY => [handoff_event_id] }
-        ).perform
-      end
+    conversation.inbox.members.each do |agent|
+      NotificationBuilder.new(
+        notification_type: 'conversation_creation',
+        user: agent,
+        account: account,
+        primary_actor: conversation
+      ).perform
     end
   end
 
@@ -63,13 +52,5 @@ class NotificationListener < BaseListener
 
     Messages::MentionService.new(message: message).perform
     Messages::NewMessageNotificationService.new(message: message).perform
-  end
-
-  private
-
-  def bot_handoff_notification_sent?(conversation, agent, handoff_event_id)
-    conversation.notifications
-                .where(user: agent)
-                .exists?(['meta @> ?', { BOT_HANDOFF_EVENT_IDS_META_KEY => [handoff_event_id] }.to_json])
   end
 end

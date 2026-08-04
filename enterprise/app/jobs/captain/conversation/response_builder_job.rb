@@ -80,7 +80,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def process_standard_response
     message = nil
-    with_captain_write_lock do
+    ActiveRecord::Base.transaction do
+      next if captain_v2_enabled? && newer_customer_message_arrived?
+
       message = create_messages
       Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
       account.increment_response_usage
@@ -101,38 +103,36 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       conversation_pending? ? process_v1_handoff : process_v2_handoff
     end
 
-    capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0) if @handoff_message
+    capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
   end
 
   def v1_handoff_requested?
     legacy_v1_handoff_token? || classifier_v1_handoff_requested?
   end
 
-  def classifier_v1_handoff_requested? = @response['action'] == 'handoff'
+  def classifier_v1_handoff_requested?
+    @response['action'] == 'handoff'
+  end
 
-  def legacy_v1_handoff_token? = @response['response'] == 'conversation_handoff'
+  def legacy_v1_handoff_token?
+    @response['response'] == 'conversation_handoff'
+  end
 
-  def v2_handoff_tool_fired? = @response['handoff_tool_called']
+  def v2_handoff_tool_fired?
+    @response['handoff_tool_called']
+  end
 
   def v2_handoff_tool_completed? = @v2_handoff_tool_completed == true
 
   def process_v1_handoff
     I18n.with_locale(@assistant.account.locale) do
-      handoff_performed = false
-      with_captain_write_lock(check_freshness: false) do
-        Rails.logger.info(
-          "[CAPTAIN][ResponseBuilderJob] V1 handoff requested for account=#{account.id} conversation=#{@conversation.display_id} " \
-          "source=#{@response&.dig('action_source') || 'legacy'} reason=#{@response&.dig('action_reason')}"
-        )
-        create_handoff_message(preserve_waiting_since: true)
-        @conversation.waiting_since = nil
-        @conversation.bot_handoff!(dispatch_event: false)
-        handoff_performed = true
-        report_v1_handoff_not_executed if conversation_pending?
-      end
-      return unless handoff_performed
-
-      @conversation.dispatch_bot_handoff_event
+      Rails.logger.info(
+        "[CAPTAIN][ResponseBuilderJob] V1 handoff requested for account=#{account.id} conversation=#{@conversation.display_id} " \
+        "source=#{@response&.dig('action_source') || 'legacy'} reason=#{@response&.dig('action_reason')}"
+      )
+      create_handoff_message
+      @conversation.bot_handoff!
+      report_v1_handoff_not_executed if conversation_pending?
       send_out_of_office_message_if_applicable
     end
   end
@@ -141,9 +141,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     # HandoffTool already ran bot_handoff! + OOO inside the agent loop. Preserve
     # waiting_since so this message doesn't clear the timestamp it left in place.
     I18n.with_locale(@assistant.account.locale) do
-      with_captain_write_lock(require_pending: false, check_freshness: false) do
-        create_handoff_message(preserve_waiting_since: true)
-      end
+      create_handoff_message(preserve_waiting_since: true)
     end
   end
 
@@ -201,19 +199,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def conversation_pending?
-    status, assignee_agent_bot_id = Conversation.uncached { Conversation.where(id: @conversation.id).pick(:status, :assignee_agent_bot_id) }
-    assignee_agent_bot_id.blank? && (status == 'pending' || status == Conversation.statuses[:pending])
-  end
-
-  def with_captain_write_lock(require_pending: true, check_freshness: captain_v2_enabled?)
-    @conversation.reload
-    @conversation.with_lock do
-      next if @conversation.assignee_agent_bot_id.present?
-      next if require_pending && !@conversation.pending?
-      next if check_freshness && newer_customer_message_arrived?
-
-      yield
-    end
+    status = Conversation.uncached { Conversation.where(id: @conversation.id).pick(:status) }
+    status == 'pending' || status == Conversation.statuses[:pending]
   end
 
   def newer_customer_message_arrived?

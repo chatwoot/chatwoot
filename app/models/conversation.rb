@@ -76,6 +76,7 @@ class Conversation < ApplicationRecord
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
   before_validation :validate_additional_attributes
+  before_validation :reset_agent_bot_when_assignee_present
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
@@ -127,7 +128,6 @@ class Conversation < ApplicationRecord
   has_many :reporting_events, dependent: :destroy_async
   has_many :automation_rule_pending_executions, dependent: :delete_all
 
-  before_save :handle_agent_bot_takeover_by_assignee
   before_save :ensure_snooze_until_reset
   before_save :set_status_changed_at
   before_create :determine_conversation_status
@@ -176,9 +176,9 @@ class Conversation < ApplicationRecord
   end
 
   def bot_handoff!(dispatch_event: true)
-    mark_bot_handoff
+    update(waiting_since: Time.current) if waiting_since.blank?
     self.assignee_agent_bot = nil
-    save!
+    open!
     dispatch_bot_handoff_event if dispatch_event
   end
 
@@ -293,16 +293,10 @@ class Conversation < ApplicationRecord
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
 
-  def handle_agent_bot_takeover_by_assignee
-    return if assignee_id.blank? || assignee_agent_bot_id.blank?
+  def reset_agent_bot_when_assignee_present
+    return if assignee_id.blank?
 
-    mark_bot_handoff if pending?
     self.assignee_agent_bot_id = nil
-  end
-
-  def mark_bot_handoff
-    self.waiting_since ||= Time.current
-    self.status = :open
   end
 
   def determine_conversation_status
@@ -380,25 +374,11 @@ class Conversation < ApplicationRecord
       CONVERSATION_OPENED => -> { saved_change_to_status? && open? },
       CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? },
       CONVERSATION_STATUS_CHANGED => -> { saved_change_to_status? },
-      CONVERSATION_BOT_HANDOFF => -> { agent_bot_takeover_by_assignee? },
       CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
     }.each do |event, condition|
-      condition.call && dispatcher_dispatch(event, bot_handoff_status_change(event))
+      condition.call && dispatcher_dispatch(event, status_change)
     end
-  end
-
-  def bot_handoff_status_change(event)
-    return saved_change_to_status if event == CONVERSATION_BOT_HANDOFF
-
-    status_change
-  end
-
-  def agent_bot_takeover_by_assignee?
-    assignee_id.present? &&
-      saved_change_to_status?(from: 'pending', to: 'open') &&
-      saved_change_to_assignee_agent_bot_id? &&
-      assignee_agent_bot_id.blank?
   end
 
   def dispatcher_dispatch(event_name, changed_attributes = nil)

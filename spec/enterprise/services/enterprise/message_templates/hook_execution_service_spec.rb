@@ -136,14 +136,6 @@ RSpec.describe MessageTemplates::HookExecutionService do
 
         create(:message, conversation: conversation, message_type: :incoming, account: account)
       end
-
-      it 'does not schedule captain response job for agent bot-owned conversations' do
-        conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
-
-        expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
-
-        create(:message, conversation: conversation, message_type: :incoming, account: account)
-      end
     end
 
     context 'when captain quota is exceeded within business hours' do
@@ -164,31 +156,6 @@ RSpec.describe MessageTemplates::HookExecutionService do
         create(:message, conversation: conversation, message_type: :incoming, account: account)
 
         expect(conversation.reload.status).to eq('open')
-      end
-
-      it 'does not perform handoff when the conversation was assigned before handoff runs' do
-        agent = create(:user, account: account, role: :agent)
-        stale_conversation = Conversation.find(conversation.id)
-        message = build(:message, conversation: stale_conversation, message_type: :incoming, account: account, inbox: inbox)
-        conversation.update!(assignee: agent, status: :open)
-
-        expect do
-          described_class.new(message: message).send(:perform_handoff)
-        end.not_to(change { Message.where(conversation_id: conversation.id).count })
-        expect(conversation.reload.status).to eq('open')
-      end
-
-      it 'does not perform handoff when an agent bot owns the pending conversation before handoff runs' do
-        agent_bot = create(:agent_bot, account: account)
-        stale_conversation = Conversation.find(conversation.id)
-        message = build(:message, conversation: stale_conversation, message_type: :incoming, account: account, inbox: inbox)
-        conversation.update!(assignee_agent_bot: agent_bot, status: :pending)
-
-        expect do
-          described_class.new(message: message).send(:perform_handoff)
-        end.not_to(change { Message.where(conversation_id: conversation.id).count })
-        expect(conversation.reload).to be_pending
-        expect(conversation.assignee_agent_bot).to eq(agent_bot)
       end
     end
   end

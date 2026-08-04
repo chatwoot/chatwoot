@@ -350,15 +350,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           described_class.perform_now(conversation, assistant)
         end.not_to(change { conversation.messages.outgoing.count })
       end
-
-      it 'does not send a response when an agent bot owns the pending conversation' do
-        conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
-
-        expect(mock_llm_chat_service).not_to receive(:generate_response)
-        expect do
-          described_class.perform_now(conversation, assistant)
-        end.not_to(change { conversation.messages.outgoing.count })
-      end
     end
 
     context 'when captain_v2 is enabled' do
@@ -458,19 +449,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(conversation.messages.count).to eq(2)
         expect(conversation.messages.outgoing.count).to eq(1)
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain V2')
-      end
-
-      it 'does not write a response when an agent bot owns the conversation before delivery' do
-        conversation.update!(assignee_agent_bot: create(:agent_bot, account: account), status: :pending)
-        job = described_class.new
-        job.instance_variable_set(:@conversation, conversation)
-        job.instance_variable_set(:@assistant, assistant)
-        job.instance_variable_set(:@response, { 'response' => 'Stale Captain response' })
-
-        expect do
-          job.send(:process_standard_response)
-        end.not_to(change { conversation.messages.outgoing.count })
-        expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
       end
 
       it 'increments usage response' do
@@ -715,19 +693,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         create(:message, conversation: conversation, message_type: :outgoing,
                          sender: agent, account: account, inbox: inbox)
         expect(conversation.reload.waiting_since).to be_nil
-      end
-
-      it 'does not hand off when an agent bot owns the conversation before delivery' do
-        conversation.update!(assignee_agent_bot: create(:agent_bot, account: account), status: :pending)
-        job = described_class.new
-        job.instance_variable_set(:@conversation, conversation)
-        job.instance_variable_set(:@assistant, assistant)
-        job.instance_variable_set(:@response, { 'response' => 'conversation_handoff' })
-
-        expect do
-          job.send(:process_v1_handoff)
-        end.not_to(change { conversation.messages.outgoing.count })
-        expect(conversation.reload).to be_pending
       end
     end
 

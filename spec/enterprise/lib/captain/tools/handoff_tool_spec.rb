@@ -93,18 +93,6 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           end.not_to change(Message, :count)
           expect(conversation.reload.status).to eq('pending')
         end
-
-        it 'skips the handoff when an agent bot owns the pending conversation' do
-          agent_bot = create(:agent_bot, account: account)
-          conversation.update!(assignee_agent_bot: agent_bot, status: :pending)
-
-          expect do
-            result = tool.perform(tool_context, reason: 'Customer needs specialized support')
-            expect(result).to eq('Handoff skipped because the conversation changed')
-          end.not_to change(Message, :count)
-          expect(conversation.reload).to be_pending
-          expect(conversation.assignee_agent_bot).to eq(agent_bot)
-        end
       end
 
       context 'with Captain V1' do

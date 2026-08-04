@@ -57,34 +57,6 @@ describe ActionService do
         action_service.assign_agent([agent.id])
         expect(conversation.reload.assignee).to eq(agent)
       end
-
-      it 'opens bot-owned pending conversations when assigning the agent' do
-        inbox_member
-        conversation.update!(assignee: nil, assignee_agent_bot: create(:agent_bot, account: account), status: :pending)
-        allow(Rails.configuration.dispatcher).to receive(:dispatch)
-
-        action_service.assign_agent([agent.id])
-
-        conversation.reload
-        expect(conversation.assignee).to eq(agent)
-        expect(conversation.assignee_agent_bot).to be_nil
-        expect(conversation.status).to eq('open')
-        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-          .with(Events::Types::CONVERSATION_BOT_HANDOFF, kind_of(Time),
-                hash_including(conversation: conversation, changed_attributes: %w[pending open]))
-      end
-
-      it 'dispatches bot handoff once when the same conversation is saved again' do
-        inbox_member
-        conversation.update!(assignee: nil, assignee_agent_bot: create(:agent_bot, account: account), status: :pending)
-        allow(Rails.configuration.dispatcher).to receive(:dispatch)
-
-        action_service.assign_agent([agent.id])
-        conversation.update!(priority: :urgent)
-
-        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-          .with(Events::Types::CONVERSATION_BOT_HANDOFF, kind_of(Time), hash_including(conversation: conversation)).once
-      end
     end
 
     context 'when agent is unconfirmed' do
