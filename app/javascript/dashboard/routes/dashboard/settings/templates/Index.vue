@@ -301,6 +301,17 @@ const fetchTemplates = async () => {
       [...templateRecordsByInboxId.values()].flat()
     );
 
+    if (
+      !inboxOptions.value.some(({ value }) => value === selectedInboxId.value)
+    )
+      selectedInboxId.value = 'all';
+    if (
+      !languageOptions.value.some(
+        ({ value }) => value === selectedLanguage.value
+      )
+    )
+      selectedLanguage.value = 'all';
+
     if (responses.some(response => response.status === 'rejected')) {
       const errorMessage = successfulResponses.length
         ? t('WHATSAPP_TEMPLATE_MGMT.PARTIAL_FETCH_ERROR')
