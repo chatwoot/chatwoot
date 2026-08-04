@@ -145,7 +145,7 @@ class Captain::Document < ApplicationRecord
 
     addresses = SsrfFilter::DEFAULT_RESOLVER.call(uri.host)
     addresses.present? && addresses.all? { |ip| publicly_routable_address?(ip) }
-  rescue Resolv::ResolvError, IPAddr::InvalidAddressError
+  rescue Resolv::ResolvError, Resolv::ResolvTimeout, IPAddr::InvalidAddressError
     false
   end
 
