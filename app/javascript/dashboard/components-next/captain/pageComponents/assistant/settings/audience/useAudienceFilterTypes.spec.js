@@ -51,7 +51,6 @@ describe('useAudienceFilterTypes', () => {
       '__group_conversation',
       'hmac_verified',
       'browser_language',
-      'conversation_language',
       '__group_custom',
       'signed_up_on',
     ]);

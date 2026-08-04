@@ -89,11 +89,6 @@ export function useAudienceFilterTypes() {
       t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.BROWSER_LANGUAGE'),
       languages
     ),
-    conversationOption(
-      'conversation_language',
-      t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.CONVERSATION_LANGUAGE'),
-      languages
-    ),
   ]);
 
   const standardTypes = computed(() =>
