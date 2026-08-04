@@ -538,6 +538,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
       context 'with structured citations' do
         before do
+          allow(Resolv).to receive(:getaddresses).and_return(['93.184.216.34'])
+
           first_document = create(:captain_document, assistant: assistant, external_link: 'https://help.example.com/password')
           second_document = create(:captain_document, assistant: assistant, external_link: 'https://help.example.com/email')
           run_result = Agents::RunResult.new(

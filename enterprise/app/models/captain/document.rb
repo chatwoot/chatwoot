@@ -141,7 +141,16 @@ class Captain::Document < ApplicationRecord
   end
 
   def customer_visible_uri?(uri)
-    uri.is_a?(URI::HTTP) && uri.host.present? && uri.userinfo.blank?
+    return false unless uri.is_a?(URI::HTTP) && uri.host.present? && uri.userinfo.blank?
+
+    addresses = SsrfFilter::DEFAULT_RESOLVER.call(uri.host)
+    addresses.present? && addresses.all? { |ip| publicly_routable_address?(ip) }
+  rescue Resolv::ResolvError, IPAddr::InvalidAddressError
+    false
+  end
+
+  def publicly_routable_address?(ip)
+    !ip.private? && !ip.loopback? && !ip.link_local?
   end
 
   def enqueue_crawl_job

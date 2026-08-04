@@ -52,6 +52,8 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
       end
 
       before do
+        allow(Resolv).to receive(:getaddresses).and_return(['93.184.216.34'])
+
         # Mock nearest_neighbors to return our test responses
         allow(Captain::AssistantResponse).to receive(:nearest_neighbors).and_return(
           Captain::AssistantResponse.where(id: [response1.id, response2.id])

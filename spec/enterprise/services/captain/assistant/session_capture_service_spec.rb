@@ -49,6 +49,7 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
 
   before do
     allow(assistant).to receive(:agent_model).and_return('gpt-5.2')
+    allow(Resolv).to receive(:getaddresses).and_return(['93.184.216.34'])
   end
 
   describe '#capture' do
