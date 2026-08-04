@@ -31,7 +31,7 @@ module Captain::Conversation::MessageBuilder
     return create_v1_message unless captain_v2_enabled?
 
     response_parts = Captain::Assistant::ResponseParts.from_response(@response)
-    citation_urls = @assistant.config['feature_citation'] ? trusted_citation_urls : {}
+    citation_urls = @assistant.trusted_citation_urls(@run_result)
     message_content = response_parts.customer_message_content(citation_urls: citation_urls)
     validate_message_content!(message_content)
     create_outgoing_message(message_content, agent_name: @response['agent_name'], response_parts: response_parts.to_a)
@@ -40,11 +40,6 @@ module Captain::Conversation::MessageBuilder
   def create_v1_message
     validate_message_content!(@response['response'])
     create_outgoing_message(@response['response'], agent_name: @response['agent_name'])
-  end
-
-  def trusted_citation_urls
-    citation_source_ids = @run_result&.context&.dig(:state, :captain_v2_citation_sources) || {}
-    @assistant.customer_visible_citation_urls(citation_source_ids)
   end
 
   def validate_message_content!(content)

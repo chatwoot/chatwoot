@@ -79,7 +79,7 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         pdf_result = tool.perform(tool_context, query: 'private document')
 
         expect(pdf_result).not_to include('Citation index:')
-        expect(tool_context.state[:captain_v2_citation_sources]).to be_nil
+        expect(tool_context.state[Captain::Assistant::CITATION_DOCUMENT_IDS_STATE_KEY]).to be_nil
 
         document.pdf_file.detach
         document.update!(external_link: 's3://private-bucket/password')
@@ -87,14 +87,14 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         storage_result = tool.perform(tool_context, query: 'private storage document')
 
         expect(storage_result).not_to include('Citation index:')
-        expect(tool_context.state[:captain_v2_citation_sources]).to be_nil
+        expect(tool_context.state[Captain::Assistant::CITATION_DOCUMENT_IDS_STATE_KEY]).to be_nil
 
         document.update!(external_link: 'https://storage.example.com/private-file.pdf?token=secret')
 
         pdf_url_result = tool.perform(tool_context, query: 'private PDF URL')
 
         expect(pdf_url_result).not_to include('Citation index:')
-        expect(tool_context.state[:captain_v2_citation_sources]).to be_nil
+        expect(tool_context.state[Captain::Assistant::CITATION_DOCUMENT_IDS_STATE_KEY]).to be_nil
       end
 
       it 'assigns stable numeric indexes to customer-visible document links' do
@@ -109,7 +109,7 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         expect(result).not_to include('https://help.example.com/password')
         expect(result.scan('Citation index: 1').size).to eq(2)
         expect(result).not_to include('Citation index: 2')
-        expect(tool_context.state[:captain_v2_citation_sources]).to eq(1 => document.id)
+        expect(tool_context.state[Captain::Assistant::CITATION_DOCUMENT_IDS_STATE_KEY]).to eq(1 => document.id)
       end
 
       it 'does not cite document URLs containing credentials' do
@@ -119,7 +119,7 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
         result = tool.perform(tool_context, query: 'password')
 
         expect(result).not_to include('Citation index:')
-        expect(tool_context.state[:captain_v2_citation_sources]).to be_nil
+        expect(tool_context.state[Captain::Assistant::CITATION_DOCUMENT_IDS_STATE_KEY]).to be_nil
       end
 
       it 'logs tool usage for search' do

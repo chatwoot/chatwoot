@@ -10,7 +10,7 @@ module Captain::Assistant::AgentRunResponse
                             { 'response' => model_output.to_s, 'reasoning' => 'Processed by agent' }
                           end
     response_parts = Captain::Assistant::ResponseParts.from_response(structured_response)
-    response_parts = response_parts.without_citations unless @assistant.config['feature_citation']
+    response_parts = response_parts.without_citations unless @assistant.citations_enabled?
     structured_response['response_parts'] = response_parts.to_a
     structured_response['response'] = response_parts.plain_text
     structured_response['agent_name'] = run_result.context&.dig(:current_agent)
@@ -47,14 +47,7 @@ module Captain::Assistant::AgentRunResponse
 
   def customer_message_content(run_result)
     response_parts = Captain::Assistant::ResponseParts.from_response(run_result.output)
-    response_parts.customer_message_content(citation_urls: trusted_citation_urls(run_result))
-  end
-
-  def trusted_citation_urls(run_result)
-    return {} unless @assistant.config['feature_citation']
-
-    citation_source_ids = run_result.context&.dig(:state, :captain_v2_citation_sources) || {}
-    @assistant.customer_visible_citation_urls(citation_source_ids)
+    response_parts.customer_message_content(citation_urls: @assistant.trusted_citation_urls(run_result))
   end
 
   def message_length_limit

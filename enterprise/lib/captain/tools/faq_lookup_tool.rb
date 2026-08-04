@@ -42,7 +42,7 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
     formatted_response = "
         FAQ result:
         "
-    if citation_enabled? && response.customer_visible_source_url.present?
+    if @assistant.citations_enabled? && response.customer_visible_source_url.present?
       formatted_response += "
           Citation index: #{citation_index(tool_context, response)}
           "
@@ -55,17 +55,13 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
     formatted_response
   end
 
-  def citation_enabled?
-    @assistant.config['feature_citation']
-  end
-
   def citation_index(tool_context, response)
-    citation_source_ids = tool_context.state[:captain_v2_citation_sources] ||= {}
-    existing_index = citation_source_ids.find { |_index, document_id| document_id == response.documentable_id }&.first
+    citation_document_ids = tool_context.state[Captain::Assistant::CITATION_DOCUMENT_IDS_STATE_KEY] ||= {}
+    existing_index = citation_document_ids.find { |_index, document_id| document_id == response.documentable_id }&.first
     return existing_index if existing_index.present?
 
-    next_citation_index = citation_source_ids.size + 1
-    citation_source_ids[next_citation_index] = response.documentable_id
+    next_citation_index = citation_document_ids.size + 1
+    citation_document_ids[next_citation_index] = response.documentable_id
     next_citation_index
   end
 end

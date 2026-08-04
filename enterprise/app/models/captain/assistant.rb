@@ -18,6 +18,7 @@
 #
 class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
+  CITATION_DOCUMENT_IDS_STATE_KEY = :captain_v2_citation_document_ids
 
   include Avatarable
   include Concerns::CaptainToolsHelpers
@@ -97,6 +98,17 @@ class Captain::Assistant < ApplicationRecord
     citation_urls.compact.transform_keys(&:to_i)
   end
 
+  def citations_enabled?
+    config['feature_citation']
+  end
+
+  def trusted_citation_urls(run_result)
+    return {} unless citations_enabled?
+
+    citation_document_ids = run_result&.context&.dig(:state, CITATION_DOCUMENT_IDS_STATE_KEY) || {}
+    customer_visible_citation_urls(citation_document_ids)
+  end
+
   private
 
   def agent_name
@@ -116,7 +128,7 @@ class Captain::Assistant < ApplicationRecord
       name: name,
       description: description,
       product_name: config['product_name'] || 'this product',
-      citation_enabled: config['feature_citation'],
+      citation_enabled: citations_enabled?,
       scenarios: scenarios.enabled.map do |scenario|
         {
           title: scenario.title,

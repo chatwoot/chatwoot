@@ -51,7 +51,7 @@ class Captain::Assistant::ResponseRewriter
 
     original_citation_indexes = original_parts.pluck('citation_indexes')
     rewritten_citation_indexes = rewritten_parts.pluck('citation_indexes')
-    if @assistant.config['feature_citation'] && rewritten_citation_indexes != original_citation_indexes
+    if @assistant.citations_enabled? && rewritten_citation_indexes != original_citation_indexes
       raise 'Captain response rewrite changed the response part citation order'
     end
 

@@ -336,7 +336,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         }
         runner_context = {
           session_id: "#{account.id}_#{conversation.display_id}",
-          state: { captain_v2_citation_sources: { 1 => 101, 2 => 202 } },
+          state: { Captain::Assistant::CITATION_DOCUMENT_IDS_STATE_KEY => { 1 => 101, 2 => 202 } },
           conversation_history: [{ role: :assistant, content: original_model_output }]
         }
         runner_messages = [{ role: :assistant, content: original_model_output }]
