@@ -631,7 +631,7 @@
           "GROUP_CONVERSATION": "Conversation",
           "GROUP_CUSTOM": "Custom attributes",
           "BROWSER_LANGUAGE": "Browser language",
-          "CONVERSATION_LANGUAGE": "Conversation language",
+          "CONVERSATION_LANGUAGE": "First message language",
           "LOGGED_IN": "Logged-in user",
           "LOGGED_IN_TRUE": "Yes",
           "LOGGED_IN_FALSE": "No"
