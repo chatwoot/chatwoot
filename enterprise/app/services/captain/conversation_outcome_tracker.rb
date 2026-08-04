@@ -164,6 +164,14 @@ class Captain::ConversationOutcomeTracker
     conversation.inbox.captain_assistant || episodes.chronological.last&.assistant
   end
 
+  # Serializes boundary insertion per conversation across all workers.
+  # Unique indexes alone cannot protect the mid-stream case: a late boundary
+  # inserts a closed row, so two concurrent inserts into the same gap could
+  # close the predecessor twice and produce overlapping windows. That race is
+  # rare (it needs a retried boundary job colliding with a fresh one), but no
+  # constraint catches it and no retry heals it, so the corruption is silent.
+  # The transaction-scoped advisory lock releases itself on commit/rollback.
+  # https://www.postgresql.org/docs/current/explicit-locking.html#ADVISORY-LOCKS
   def with_stream_lock(&)
     ApplicationRecord.transaction do
       ApplicationRecord.connection.select_value(
