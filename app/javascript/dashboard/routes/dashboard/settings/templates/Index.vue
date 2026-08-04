@@ -273,7 +273,7 @@ const fetchTemplates = async () => {
             records: data.payload.map(template => ({
               template,
               inbox,
-              lastUpdatedAt: data.meta?.last_updated_at,
+              lastUpdatedAt: data.meta?.last_sync_attempt_at,
             })),
           };
         })

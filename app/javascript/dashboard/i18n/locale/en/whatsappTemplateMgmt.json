@@ -13,7 +13,7 @@
     "NO_RESULTS": "No templates match your filters.",
     "FETCH_ERROR": "Unable to load WhatsApp templates. Please try again.",
     "PARTIAL_FETCH_ERROR": "Some WhatsApp templates could not be loaded. Please try again.",
-    "LAST_SYNCED": "Last synced on {date}",
+    "LAST_SYNC_ATTEMPT": "Last sync attempt on {date}",
     "MORE_INBOXES": "+{n}",
     "FILTERS": {
       "ALL_INBOXES": "All inboxes",
@@ -41,7 +41,7 @@
       "CATEGORY": "Category",
       "LANGUAGE": "Language",
       "INBOXES": "Inboxes",
-      "LAST_SYNCED": "Last synced"
+      "LAST_SYNC_ATTEMPT": "Last sync attempt"
     }
   }
 }

@@ -120,7 +120,7 @@ defineExpose({ open, close });
           </dt>
           <dd class="text-n-slate-12">{{ template.inboxNames }}</dd>
           <dt class="text-n-slate-10">
-            {{ $t('WHATSAPP_TEMPLATE_MGMT.PREVIEW.LAST_SYNCED') }}
+            {{ $t('WHATSAPP_TEMPLATE_MGMT.PREVIEW.LAST_SYNC_ATTEMPT') }}
           </dt>
           <dd class="text-n-slate-12">
             {{ formatTemplateDate(template.lastUpdatedAt) }}

@@ -71,7 +71,7 @@ const showStatus = computed(
           <div class="w-px h-3 rounded-lg bg-n-strong" />
           <span class="whitespace-nowrap">
             {{
-              $t('WHATSAPP_TEMPLATE_MGMT.LAST_SYNCED', {
+              $t('WHATSAPP_TEMPLATE_MGMT.LAST_SYNC_ATTEMPT', {
                 date: formatTemplateDate(template.lastUpdatedAt),
               })
             }}
