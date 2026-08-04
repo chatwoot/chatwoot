@@ -150,7 +150,10 @@ class Captain::Document < ApplicationRecord
   end
 
   def publicly_routable_address?(ip)
-    !ip.private? && !ip.loopback? && !ip.link_local?
+    return false if ip.ipv6? && SsrfFilter::NAT64_LOCAL_PREFIX.dup.include?(ip)
+
+    blocked_ranges = ip.ipv4? ? SsrfFilter::IPV4_BLACKLIST : SsrfFilter::IPV6_BLACKLIST
+    blocked_ranges.none? { |range| range.include?(ip) }
   end
 
   def enqueue_crawl_job
