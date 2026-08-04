@@ -1275,6 +1275,7 @@ RSpec.describe 'Inboxes API', type: :request do
   end
 
   describe 'GET /api/v1/accounts/{account.id}/inboxes/:id/message_templates' do
+    let(:last_sync_attempt_at) { 1.hour.ago.change(usec: 0) }
     let(:message_templates) do
       [
         { 'name' => 'shipping_update', 'language' => 'en_US' },
@@ -1287,6 +1288,7 @@ RSpec.describe 'Inboxes API', type: :request do
         :channel_whatsapp,
         account: account,
         message_templates: message_templates,
+        message_templates_last_updated: last_sync_attempt_at,
         sync_templates: false,
         validate_provider_config: false
       )
@@ -1319,6 +1321,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['payload']).to eq(message_templates)
+        expect(Time.zone.parse(response.parsed_body.dig('meta', 'last_sync_attempt_at'))).to eq(last_sync_attempt_at)
       end
     end
 

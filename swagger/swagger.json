@@ -6149,13 +6149,13 @@
                     "meta": {
                       "type": "object",
                       "properties": {
-                        "last_updated_at": {
+                        "last_sync_attempt_at": {
                           "type": [
                             "string",
                             "null"
                           ],
                           "format": "date-time",
-                          "description": "Time when the cached templates were last refreshed"
+                          "description": "Time when template synchronization was last attempted"
                         }
                       }
                     }
