@@ -90,6 +90,7 @@ export default {
       slashSearchTerm: '',
       slashRange: null,
       slashMenuPosition: null,
+      isSlashMenuInTable: false,
       showVideoInput: false,
       videoInputPosition: null,
     };
@@ -137,6 +138,7 @@ export default {
           this.showSlashMenu = true;
           this.slashRange = args.range;
           this.slashSearchTerm = args.text || '';
+          this.isSlashMenuInTable = this.isSelectionInsideTable();
           this.updateSlashMenuPosition(args.range.from);
           return false;
         },
@@ -151,14 +153,17 @@ export default {
           this.slashMenuPosition = null;
           return false;
         },
-        onKeyDown: ({ event }) => {
-          return (
-            event.keyCode === 13 &&
-            this.showSlashMenu &&
-            this.$refs.slashMenu?.hasItems
-          );
-        },
+        onKeyDown: ({ event }) =>
+          this.$refs.slashMenu?.handleKeyDown(event) ?? false,
       });
+    },
+    isSelectionInsideTable() {
+      const { $from } = editorView.state.selection;
+      const { table } = editorView.state.schema.nodes;
+      for (let depth = $from.depth; depth > 0; depth -= 1) {
+        if ($from.node(depth).type === table) return true;
+      }
+      return false;
     },
     updateSlashMenuPosition(pos) {
       if (!editorView) return;
@@ -514,6 +519,7 @@ export default {
         :search-key="slashSearchTerm"
         :enabled-menu-options="enabledMenuOptions"
         :position="slashMenuPosition"
+        :is-in-table="isSlashMenuInTable"
         @select-action="executeSlashCommand"
       />
       <VideoEmbedInput

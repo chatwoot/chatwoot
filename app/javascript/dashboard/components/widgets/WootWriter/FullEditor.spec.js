@@ -102,6 +102,12 @@ const markNames = () => {
   return [...names];
 };
 
+const nodeNames = () => {
+  const names = new Set();
+  view.state.doc.descendants(node => names.add(node.type.name));
+  return [...names];
+};
+
 const menuLabels = () => wrapper.findAll('button').map(button => button.text());
 
 const highlightedLabel = () =>
@@ -128,6 +134,13 @@ const clickToolbar = title =>
     new MouseEvent('mousedown', { bubbles: true })
   );
 
+const swallowedByEditor = (key, modifiers = {}) =>
+  Boolean(
+    view.someProp('handleKeyDown', handler =>
+      handler(view, new KeyboardEvent('keydown', { key, ...modifiers }))
+    )
+  );
+
 const pressInEditor = (key, modifiers = {}) =>
   view.dom.dispatchEvent(
     new KeyboardEvent('keydown', {
@@ -139,12 +152,6 @@ const pressInEditor = (key, modifiers = {}) =>
   );
 
 const pressEscape = () => pressInEditor('Escape');
-
-// The slash menu binds its arrow keys on document through tinykeys.
-const pressInMenu = key =>
-  document.dispatchEvent(
-    new KeyboardEvent('keydown', { key, code: key, bubbles: true })
-  );
 
 const fileOfSize = sizeInMb => {
   const file = new File(['x'], 'photo.png', { type: 'image/png' });
@@ -267,6 +274,28 @@ describe('FullEditor', () => {
       expect(menuLabels()).toEqual([]);
     });
 
+    it('lists every enabled command', async () => {
+      mountEditor();
+      type('/');
+      await wrapper.vm.$nextTick();
+
+      expect(menuLabels()).toEqual([
+        'Heading 1',
+        'Heading 2',
+        'Heading 3',
+        'Bold',
+        'Italic',
+        'Table',
+        'Image',
+        'Video',
+        'Divider',
+        'Strikethrough',
+        'Code',
+        'Bullet List',
+        'Ordered List',
+      ]);
+    });
+
     it('lists only the enabled options', async () => {
       mountEditor({ enabledMenuOptions: ['h1', 'horizontalRule'] });
       type('/');
@@ -305,49 +334,6 @@ describe('FullEditor', () => {
       expect(lastEmittedValue()).toContain('---');
     });
 
-    it('moves the highlight with the arrow keys', async () => {
-      mountEditor({ enabledMenuOptions: ['h1', 'h2', 'horizontalRule'] });
-      type('/');
-      await wrapper.vm.$nextTick();
-      await flushPromises();
-
-      expect(highlightedLabel()).toBe('Heading 1');
-
-      pressInMenu('ArrowDown');
-      await wrapper.vm.$nextTick();
-      expect(highlightedLabel()).toBe('Heading 2');
-
-      pressInMenu('ArrowUp');
-      await wrapper.vm.$nextTick();
-      expect(highlightedLabel()).toBe('Heading 1');
-    });
-
-    it('runs the highlighted command on enter', async () => {
-      mountEditor({ enabledMenuOptions: ['h1', 'horizontalRule'] });
-      type('/');
-      await wrapper.vm.$nextTick();
-      await flushPromises();
-      pressInMenu('ArrowDown');
-      await wrapper.vm.$nextTick();
-      pressInMenu('Enter');
-      await wrapper.vm.$nextTick();
-
-      expect(lastEmittedValue()).toContain('---');
-      expect(wrapper.vm.showSlashMenu).toBe(false);
-    });
-
-    it('keeps enter from reaching the document while it is open', async () => {
-      mountEditor();
-      type('/');
-      await wrapper.vm.$nextTick();
-
-      const swallowed = view.someProp('handleKeyDown', handler =>
-        handler(view, new KeyboardEvent('keydown', { keyCode: 13 }))
-      );
-
-      expect(swallowed).toBe(true);
-    });
-
     it('anchors to the right edge in a right-to-left article', async () => {
       const computedStyle = window.getComputedStyle;
       vi.spyOn(window, 'getComputedStyle').mockImplementation(element => ({
@@ -359,6 +345,163 @@ describe('FullEditor', () => {
       await wrapper.vm.$nextTick();
 
       expect(wrapper.vm.slashMenuPosition).toEqual({ top: 4, right: 0 });
+    });
+  });
+
+  describe('slash menu keyboard', () => {
+    it.each([
+      ['arrow keys', 'ArrowDown', 'ArrowUp', {}],
+      ['control n and p', 'n', 'p', { ctrlKey: true }],
+    ])(
+      'moves the highlight with the %s',
+      async (_name, forward, backward, modifiers) => {
+        mountEditor({ enabledMenuOptions: ['h1', 'h2', 'horizontalRule'] });
+        type('/');
+        await wrapper.vm.$nextTick();
+
+        expect(highlightedLabel()).toBe('Heading 1');
+
+        pressInEditor(forward, modifiers);
+        await wrapper.vm.$nextTick();
+        expect(highlightedLabel()).toBe('Heading 2');
+
+        pressInEditor(backward, modifiers);
+        await wrapper.vm.$nextTick();
+        expect(highlightedLabel()).toBe('Heading 1');
+      }
+    );
+
+    it('wraps the highlight around both ends', async () => {
+      mountEditor({ enabledMenuOptions: ['h1', 'h2'] });
+      type('/');
+      await wrapper.vm.$nextTick();
+
+      pressInEditor('ArrowUp');
+      await wrapper.vm.$nextTick();
+      expect(highlightedLabel()).toBe('Heading 2');
+
+      pressInEditor('ArrowDown');
+      await wrapper.vm.$nextTick();
+      expect(highlightedLabel()).toBe('Heading 1');
+    });
+
+    it('runs the highlighted command on enter', async () => {
+      mountEditor({ enabledMenuOptions: ['h1', 'horizontalRule'] });
+      type('/');
+      await wrapper.vm.$nextTick();
+      pressInEditor('ArrowDown');
+      await wrapper.vm.$nextTick();
+      pressInEditor('Enter');
+      await wrapper.vm.$nextTick();
+
+      expect(lastEmittedValue()).toContain('---');
+      expect(wrapper.vm.showSlashMenu).toBe(false);
+    });
+
+    it.each([
+      ['Enter', {}],
+      ['ArrowUp', {}],
+      ['ArrowDown', {}],
+      ['n', { ctrlKey: true }],
+      ['p', { ctrlKey: true }],
+    ])('keeps %s from the editor while it is open', async (key, modifiers) => {
+      mountEditor();
+      type('/');
+      await wrapper.vm.$nextTick();
+
+      expect(swallowedByEditor(key, modifiers)).toBe(true);
+    });
+
+    it.each([
+      ['ArrowDown', { shiftKey: true }],
+      ['ArrowDown', { metaKey: true }],
+      ['ArrowUp', { altKey: true }],
+      ['Enter', { altKey: true }],
+    ])('leaves modified %s to the editor', async (key, modifiers) => {
+      mountEditor();
+      type('/');
+      await wrapper.vm.$nextTick();
+
+      expect(swallowedByEditor(key, modifiers)).toBe(false);
+    });
+
+    it('still breaks the line on shift enter while it is open', async () => {
+      mountEditor();
+      type('/');
+      await wrapper.vm.$nextTick();
+      pressInEditor('Enter', { shiftKey: true });
+      await wrapper.vm.$nextTick();
+
+      expect(nodeNames()).toContain('hard_break');
+    });
+
+    it.each([
+      [
+        'nothing matches the term',
+        async () => {
+          type('/zzz');
+        },
+      ],
+      [
+        'it is closed',
+        async () => {
+          type('/');
+          await wrapper.vm.$nextTick();
+          pressEscape();
+        },
+      ],
+    ])('leaves the arrow keys to the editor when %s', async (_name, open) => {
+      mountEditor();
+      await open();
+      await wrapper.vm.$nextTick();
+
+      expect(swallowedByEditor('ArrowDown')).toBe(false);
+    });
+  });
+
+  describe('slash menu inside a table', () => {
+    const openInFirstCell = async () => {
+      wrapper.vm.executeSlashCommand('insertTable');
+      await wrapper.vm.$nextTick();
+      placeCursor(4);
+      type('/');
+      await wrapper.vm.$nextTick();
+    };
+
+    it('omits the commands a cell cannot store', async () => {
+      mountEditor();
+      await openInFirstCell();
+
+      expect(menuLabels()).toEqual(['Bold', 'Italic', 'Strikethrough', 'Code']);
+    });
+
+    it('still filters the remaining commands by the typed term', async () => {
+      mountEditor();
+      await openInFirstCell();
+      type('i');
+      await wrapper.vm.$nextTick();
+
+      expect(menuLabels()).toEqual(['Italic', 'Strikethrough']);
+    });
+
+    it('closes the menu when nothing is left to offer', async () => {
+      mountEditor({ enabledMenuOptions: ['insertTable', 'horizontalRule'] });
+      await openInFirstCell();
+
+      expect(menuLabels()).toEqual([]);
+    });
+
+    it('offers the hidden commands again outside the table', async () => {
+      mountEditor();
+      await openInFirstCell();
+      pressEscape();
+      await wrapper.vm.$nextTick();
+
+      placeCursor(view.state.doc.content.size);
+      type('/div');
+      await wrapper.vm.$nextTick();
+
+      expect(menuLabels()).toEqual(['Divider']);
     });
   });
 
