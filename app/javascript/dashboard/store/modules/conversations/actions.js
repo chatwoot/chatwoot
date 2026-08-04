@@ -495,7 +495,7 @@ const actions = {
         customAttributes: custom_attributes,
       });
     } catch (error) {
-      // Handle error
+      throw new Error(error);
     }
   },
 
