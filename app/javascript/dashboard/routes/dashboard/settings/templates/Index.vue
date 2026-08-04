@@ -31,9 +31,8 @@ const META_TEMPLATE_MANAGER_URL =
   'https://business.facebook.com/latest/whatsapp_manager/message_templates';
 const TWILIO_TEMPLATE_MANAGER_URL =
   'https://console.twilio.com/us1/develop/sms/content-editor';
-const META_TEMPLATE_LEARN_MORE_URL =
-  'https://developers.facebook.com/documentation/business-messaging/whatsapp/templates/overview/';
-const TWILIO_TEMPLATE_LEARN_MORE_URL = 'https://www.twilio.com/docs/content';
+const TEMPLATE_LEARN_MORE_URL =
+  'https://www.chatwoot.com/hc/user-guide/articles/1754940076-whatsapp-templates';
 
 const store = useStore();
 const { t } = useI18n();
@@ -110,36 +109,6 @@ const newTemplateUrl = computed(() => {
     !hasUnsupportedWhatsappInboxes.value
     ? TWILIO_TEMPLATE_MANAGER_URL
     : null;
-});
-
-const learnMoreUrl = computed(() => {
-  if (selectedInbox.value) {
-    if (selectedInbox.value.channel_type === INBOX_TYPES.TWILIO) {
-      return TWILIO_TEMPLATE_LEARN_MORE_URL;
-    }
-
-    return selectedInbox.value.provider === 'whatsapp_cloud'
-      ? META_TEMPLATE_LEARN_MORE_URL
-      : null;
-  }
-
-  if (
-    canManageInMeta.value &&
-    !hasTwilioInboxes.value &&
-    !hasUnsupportedWhatsappInboxes.value
-  ) {
-    return META_TEMPLATE_LEARN_MORE_URL;
-  }
-
-  if (
-    hasTwilioInboxes.value &&
-    !canManageInMeta.value &&
-    !hasUnsupportedWhatsappInboxes.value
-  ) {
-    return TWILIO_TEMPLATE_LEARN_MORE_URL;
-  }
-
-  return null;
 });
 
 const inboxOptions = computed(() => [
@@ -346,8 +315,7 @@ onDeactivated(abortTemplateRequest);
         <template #description>
           {{ $t('WHATSAPP_TEMPLATE_MGMT.DESCRIPTION') }}
           <a
-            v-if="learnMoreUrl"
-            :href="learnMoreUrl"
+            :href="TEMPLATE_LEARN_MORE_URL"
             class="text-sm font-medium text-n-blue-11 hover:underline"
             target="_blank"
             rel="noopener noreferrer"
