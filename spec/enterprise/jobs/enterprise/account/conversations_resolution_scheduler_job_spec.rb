@@ -46,6 +46,26 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
       end
     end
 
+    context 'when an assistant has been deleted before its inbox link is cleaned up' do
+      let!(:orphaned_inbox) { create(:inbox, account: account) }
+      let!(:regular_inbox) { create(:inbox, account: account) }
+      let!(:active_assistant) { create(:captain_assistant, account: account) }
+
+      before do
+        create(:captain_inbox, captain_assistant: assistant, inbox: orphaned_inbox)
+        create(:captain_inbox, captain_assistant: active_assistant, inbox: regular_inbox)
+        assistant.destroy!
+      end
+
+      it 'skips the missing assistant and schedules later valid inboxes' do
+        expect do
+          described_class.perform_now
+        end.to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob)
+          .with(regular_inbox)
+          .exactly(:once)
+      end
+    end
+
     context 'when inbox has no captain enabled' do
       let!(:inbox_without_captain) { create(:inbox, account: create(:account)) }
 

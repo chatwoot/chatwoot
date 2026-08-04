@@ -18,6 +18,19 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       .to have_enqueued_job.on_queue('low')
   end
 
+  context 'when the assistant is deleted before the queued job runs' do
+    before do
+      captain_assistant.destroy!
+      inbox.reload
+    end
+
+    it 'leaves pending conversations unchanged' do
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    end
+  end
+
   context 'when captain_tasks is disabled' do
     before do
       allow(inbox.account).to receive(:feature_enabled?).and_call_original
