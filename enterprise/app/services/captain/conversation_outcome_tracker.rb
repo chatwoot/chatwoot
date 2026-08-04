@@ -185,11 +185,13 @@ class Captain::ConversationOutcomeTracker
 
   def track_fact(action, at:)
     safely_track(action) do
-      episode = attributed_episode(at)
-      next unless episode
+      with_stream_lock do
+        episode = attributed_episode(at)
+        next unless episode
 
-      yield episode
-      episode
+        yield episode
+        episode
+      end
     end
   end
 
