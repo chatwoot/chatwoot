@@ -141,7 +141,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     )
 
     process_response(response, message)
-  rescue StandardError => e
+  rescue CustomExceptions::Whatsapp::InvalidInteractivePayload => e
     message.external_error = e.message
     message.status = :failed
     message.save!

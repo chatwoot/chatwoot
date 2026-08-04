@@ -30,10 +30,13 @@ class Whatsapp::CtaUrlPayloadBuilder
   attr_reader :message
 
   def validate_message!
-    raise StandardError, 'Interactive CTA URL messages are only supported for WhatsApp inboxes' unless message.inbox.whatsapp?
-    raise StandardError, 'CTA URL body text is required' if body_text.blank?
-    raise StandardError, 'CTA URL action text is required' if action[:text].blank?
-    raise StandardError, 'CTA URL action uri is required' if action[:uri].blank?
+    unless message.inbox.whatsapp?
+      raise CustomExceptions::Whatsapp::InvalidInteractivePayload,
+            'Interactive CTA URL messages are only supported for WhatsApp inboxes'
+    end
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'CTA URL body text is required' if body_text.blank?
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'CTA URL action text is required' if action[:text].blank?
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'CTA URL action uri is required' if action[:uri].blank?
 
     validate_header!
   end
@@ -41,8 +44,8 @@ class Whatsapp::CtaUrlPayloadBuilder
   def validate_header!
     return if header.blank?
 
-    raise StandardError, 'CTA URL header type must be image' if header[:type] != HEADER_TYPE
-    raise StandardError, 'CTA URL header media_url is required' if header[:media_url].blank?
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'CTA URL header type must be image' if header[:type] != HEADER_TYPE
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'CTA URL header media_url is required' if header[:media_url].blank?
   end
 
   def header_payload

@@ -291,6 +291,21 @@ describe Whatsapp::Providers::WhatsappCloudService do
         expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
     end
+
+    context 'when the payload builder raises an unexpected programming error' do
+      it 'propagates the error instead of silently marking the message as failed' do
+        message = create(:message, message_type: :outgoing, content: 'Visit',
+                                   inbox: whatsapp_channel.inbox, content_type: 'cta_url',
+                                   content_attributes: {
+                                     body_text: 'Check our website',
+                                     action: { text: 'Visit Now', uri: 'https://example.com' }
+                                   })
+        allow(Whatsapp::CtaUrlPayloadBuilder).to receive(:new).and_raise(NoMethodError, 'boom')
+
+        expect { service.send_message('+123456789', message) }.to raise_error(NoMethodError, 'boom')
+        expect(message.reload.status).not_to eq 'failed'
+      end
+    end
   end
 
   describe '#send_interactive_carousel_message' do

@@ -270,7 +270,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response, message)
-  rescue StandardError => e
+  rescue CustomExceptions::Whatsapp::InvalidInteractivePayload => e
     message.external_error = e.message
     message.status = :failed
     message.save!

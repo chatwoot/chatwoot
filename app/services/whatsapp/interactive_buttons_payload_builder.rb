@@ -27,10 +27,13 @@ class Whatsapp::InteractiveButtonsPayloadBuilder
   attr_reader :message
 
   def validate_message!
-    raise StandardError, 'Interactive buttons messages are only supported for WhatsApp inboxes' unless message.inbox.whatsapp?
-    raise StandardError, 'Interactive buttons body text is required' if body_text.blank?
-    raise StandardError, 'Interactive buttons are required' if buttons.blank?
-    raise StandardError, 'Interactive buttons supports at most 3 buttons' if buttons.size > 3
+    unless message.inbox.whatsapp?
+      raise CustomExceptions::Whatsapp::InvalidInteractivePayload,
+            'Interactive buttons messages are only supported for WhatsApp inboxes'
+    end
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'Interactive buttons body text is required' if body_text.blank?
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'Interactive buttons are required' if buttons.blank?
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'Interactive buttons supports at most 3 buttons' if buttons.size > 3
 
     validate_header!
   end
@@ -38,8 +41,8 @@ class Whatsapp::InteractiveButtonsPayloadBuilder
   def validate_header!
     return if header.blank?
 
-    raise StandardError, 'Interactive buttons header type must be image' if header[:type] != HEADER_TYPE
-    raise StandardError, 'Interactive buttons header media_url is required' if header[:media_url].blank?
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'Interactive buttons header type must be image' if header[:type] != HEADER_TYPE
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'Interactive buttons header media_url is required' if header[:media_url].blank?
   end
 
   def body_text

@@ -25,10 +25,13 @@ class Whatsapp::CarouselPayloadBuilder
   attr_reader :message
 
   def validate_message!
-    raise StandardError, 'Interactive carousel messages are only supported for WhatsApp inboxes' unless message.inbox.whatsapp?
-    raise StandardError, 'Carousel body text is required' if body_text.blank?
-    raise StandardError, 'Carousel items are required' if items.blank?
-    raise StandardError, 'Interactive carousel messages require at least 2 cards' if items.size < 2
+    unless message.inbox.whatsapp?
+      raise CustomExceptions::Whatsapp::InvalidInteractivePayload,
+            'Interactive carousel messages are only supported for WhatsApp inboxes'
+    end
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'Carousel body text is required' if body_text.blank?
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'Carousel items are required' if items.blank?
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'Interactive carousel messages require at least 2 cards' if items.size < 2
   end
 
   def body_text
