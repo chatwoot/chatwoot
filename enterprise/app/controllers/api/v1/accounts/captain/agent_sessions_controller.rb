@@ -7,6 +7,10 @@ class Api::V1::Accounts::Captain::AgentSessionsController < Api::V1::Accounts::B
     return head :not_found if @agent_session.blank?
 
     @citations = Current.account.captain_documents.where(id: @agent_session.cited_document_ids)
+    @used_faqs = Current.account.captain_assistant_responses.approved.where(
+      id: @agent_session.used_faq_ids,
+      documentable_type: 'User'
+    )
     @scenario_titles = Captain::Scenario.where(account_id: Current.account.id, id: @agent_session.scenario_ids)
                                         .pluck(:id, :title).to_h
   end

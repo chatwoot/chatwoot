@@ -132,7 +132,15 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
       it 'records retrieved faq ids and document ids into Chatwoot metadata' do
         tool.perform(tool_context, query: 'password reset')
 
-        expect(tool_context.state.dig(:cw_metadata, :faq_ids)).to contain_exactly(response1.id, response2.id)
+        user = create(:user, account: account)
+        user_faq = create(:captain_assistant_response, assistant: assistant, documentable: user, status: :approved)
+        allow(Captain::AssistantResponse).to receive(:nearest_neighbors).and_return(
+          Captain::AssistantResponse.where(id: user_faq.id)
+        )
+        tool.perform(tool_context, query: 'user faq')
+
+        expect(tool_context.state.dig(:cw_metadata, :faq_ids)).to contain_exactly(response1.id, response2.id, user_faq.id)
+        expect(tool_context.state.dig(:cw_metadata, :used_faq_ids)).to contain_exactly(user_faq.id)
         expect(tool_context.state.dig(:cw_metadata, :document_ids)).to contain_exactly(document.id)
       end
 

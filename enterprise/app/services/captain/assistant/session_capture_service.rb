@@ -31,6 +31,7 @@ class Captain::Assistant::SessionCaptureService
       llm_model: "#{Llm::Models.provider_for(model)}-#{model}",
       credits_consumed: @credits_consumed,
       faq_ids: metadata[:faq_ids] || [],
+      used_faq_ids: metadata[:used_faq_ids] || [],
       cited_document_ids: cited_document_ids,
       document_ids: metadata[:document_ids] || [],
       scenario_ids: scenario_ids,

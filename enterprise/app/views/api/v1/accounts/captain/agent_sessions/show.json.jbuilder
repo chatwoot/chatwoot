@@ -12,6 +12,10 @@ json.citations @citations do |citation|
   link = citation.display_url
   json.link link&.match?(%r{\Ahttps?://}) ? link : nil
 end
+json.used_faqs @used_faqs do |faq|
+  json.id faq.id
+  json.title faq.question
+end
 json.scenarios @scenario_titles do |id, title|
   json.id id
   json.title title

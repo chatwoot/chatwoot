@@ -13,6 +13,7 @@
 #  scenario_ids       :jsonb
 #  session_type       :integer          not null
 #  subject_type       :string           not null
+#  used_faq_ids       :jsonb            not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  account_id         :bigint           not null
@@ -29,6 +30,7 @@
 #  index_agent_sessions_on_account_id                    (account_id)
 #  index_agent_sessions_on_assistant_id                  (assistant_id)
 #  index_agent_sessions_on_cited_document_ids            (cited_document_ids) USING gin
+#  index_agent_sessions_on_used_faq_ids                  (used_faq_ids) USING gin
 #  index_agent_sessions_on_user_id                       (user_id)
 #
 class Captain::AgentSession < ApplicationRecord

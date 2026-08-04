@@ -31,6 +31,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::AgentSessions', type: :request do
         create(:captain_assistant_response, account: account, assistant: assistant,
                                             question: 'How do I reset my password?', documentable: document)
       end
+      let(:used_faq) do
+        create(:captain_assistant_response, account: account, assistant: assistant,
+                                            question: 'How long do refunds take?', documentable: agent, status: :approved)
+      end
       let(:scenario) { create(:captain_scenario, account: account, assistant: assistant, title: 'Refund flow') }
       let(:run_context) do
         [
@@ -46,6 +50,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::AgentSessions', type: :request do
                                        subject: conversation, result: message,
                                        llm_model: 'openai-gpt-5.2', credits_consumed: 1.0,
                                        faq_ids: [documented_faq.id],
+                                       used_faq_ids: [used_faq.id],
                                        document_ids: [document.id],
                                        cited_document_ids: [document.id],
                                        scenario_ids: [scenario.id],
@@ -69,6 +74,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::AgentSessions', type: :request do
           expect(citations.keys).to contain_exactly(document.id)
           expect(citations[document.id][:title]).to eq('Password reset guide')
           expect(citations[document.id][:link]).to eq(document.external_link)
+
+          expect(json_response[:used_faqs]).to eq([{ id: used_faq.id, title: 'How long do refunds take?' }])
 
           expect(json_response[:scenarios]).to eq([{ id: scenario.id, title: 'Refund flow' }])
         end
