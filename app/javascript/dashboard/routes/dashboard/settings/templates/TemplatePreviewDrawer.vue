@@ -39,28 +39,22 @@ const normalizedTemplate = computed(() =>
     : null
 );
 const variables = computed(() => normalizedTemplate.value?.variables || {});
-const managementUrl = computed(() =>
-  platform.value === PLATFORMS.TWILIO
-    ? TWILIO_TEMPLATE_MANAGER_URL
-    : META_TEMPLATE_MANAGER_URL
-);
+const managementUrl = computed(() => {
+  if (platform.value === PLATFORMS.TWILIO) {
+    return TWILIO_TEMPLATE_MANAGER_URL;
+  }
+
+  return props.template?.inboxes?.some(
+    inbox => inbox.provider === 'whatsapp_cloud'
+  )
+    ? META_TEMPLATE_MANAGER_URL
+    : null;
+});
 const managementLabel = computed(() =>
   platform.value === PLATFORMS.TWILIO
     ? t('WHATSAPP_TEMPLATE_MGMT.MANAGE_IN_TWILIO')
     : t('WHATSAPP_TEMPLATE_MGMT.MANAGE_IN_META')
 );
-const typeLabels = computed(() => ({
-  TEXT: t('WHATSAPP_TEMPLATE_MGMT.TYPES.TEXT'),
-  IMAGE: t('WHATSAPP_TEMPLATE_MGMT.TYPES.IMAGE'),
-  VIDEO: t('WHATSAPP_TEMPLATE_MGMT.TYPES.VIDEO'),
-  DOCUMENT: t('WHATSAPP_TEMPLATE_MGMT.TYPES.DOCUMENT'),
-  MEDIA: t('WHATSAPP_TEMPLATE_MGMT.TYPES.MEDIA'),
-  QUICK_REPLY: t('WHATSAPP_TEMPLATE_MGMT.TYPES.QUICK_REPLY'),
-  CALL_TO_ACTION: t('WHATSAPP_TEMPLATE_MGMT.TYPES.CALL_TO_ACTION'),
-  CATALOG: t('WHATSAPP_TEMPLATE_MGMT.TYPES.CATALOG'),
-  COPY_CODE: t('WHATSAPP_TEMPLATE_MGMT.TYPES.COPY_CODE'),
-}));
-
 const open = () => panelRef.value?.open();
 const close = () => panelRef.value?.close();
 
@@ -105,7 +99,9 @@ defineExpose({ open, close });
             {{ $t('WHATSAPP_TEMPLATE_MGMT.PREVIEW.TYPE') }}
           </dt>
           <dd class="text-n-slate-12">
-            {{ typeLabels[templateTypeKey(template)] }}
+            {{
+              $t(`WHATSAPP_TEMPLATE_MGMT.TYPES.${templateTypeKey(template)}`)
+            }}
           </dd>
           <dt class="text-n-slate-10">
             {{ $t('WHATSAPP_TEMPLATE_MGMT.PREVIEW.CATEGORY') }}
@@ -133,7 +129,7 @@ defineExpose({ open, close });
       </div>
     </div>
 
-    <template #footer>
+    <template v-if="managementUrl" #footer>
       <a :href="managementUrl" target="_blank" rel="noopener noreferrer">
         <Button
           class="w-full"

@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
@@ -21,22 +20,6 @@ const props = defineProps({
 
 const emit = defineEmits(['preview']);
 
-const { t } = useI18n();
-
-const typeLabels = computed(() => ({
-  TEXT: t('WHATSAPP_TEMPLATE_MGMT.TYPES.TEXT'),
-  IMAGE: t('WHATSAPP_TEMPLATE_MGMT.TYPES.IMAGE'),
-  VIDEO: t('WHATSAPP_TEMPLATE_MGMT.TYPES.VIDEO'),
-  DOCUMENT: t('WHATSAPP_TEMPLATE_MGMT.TYPES.DOCUMENT'),
-  MEDIA: t('WHATSAPP_TEMPLATE_MGMT.TYPES.MEDIA'),
-  QUICK_REPLY: t('WHATSAPP_TEMPLATE_MGMT.TYPES.QUICK_REPLY'),
-  CALL_TO_ACTION: t('WHATSAPP_TEMPLATE_MGMT.TYPES.CALL_TO_ACTION'),
-  CATALOG: t('WHATSAPP_TEMPLATE_MGMT.TYPES.CATALOG'),
-  COPY_CODE: t('WHATSAPP_TEMPLATE_MGMT.TYPES.COPY_CODE'),
-}));
-const typeLabel = computed(
-  () => typeLabels.value[templateTypeKey(props.template)]
-);
 const showStatus = computed(
   () => props.template.status?.toLowerCase() !== 'approved'
 );
@@ -76,7 +59,11 @@ const showStatus = computed(
         <div
           class="flex flex-wrap items-center gap-2 text-body-main text-n-slate-11"
         >
-          <span>{{ typeLabel }}</span>
+          <span>
+            {{
+              $t(`WHATSAPP_TEMPLATE_MGMT.TYPES.${templateTypeKey(template)}`)
+            }}
+          </span>
           <div class="w-px h-3 rounded-lg bg-n-strong" />
           <span>{{ formatTemplateLanguage(template.language) }}</span>
           <div class="w-px h-3 rounded-lg bg-n-strong" />

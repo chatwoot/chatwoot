@@ -1,22 +1,31 @@
 <script setup>
-import { computed, onActivated, ref } from 'vue';
+import { computed, onActivated, onDeactivated, ref } from 'vue';
 import { picoSearch } from '@scmmishra/pico-search';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
 import InboxesAPI from 'dashboard/api/inboxes';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import { PLATFORMS } from 'dashboard/services/TemplateConstants';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import TemplateCard from './TemplateCard.vue';
 import TemplatePreviewDrawer from './TemplatePreviewDrawer.vue';
-import { formatTemplateLanguage } from './templateUtils';
+import { formatTemplateLanguage, groupTemplates } from './templateUtils';
+
+const FUZZY_SEARCH_KEYS = [
+  { name: 'name', weight: 4 },
+  'category',
+  'language',
+  'status',
+  'inboxNames',
+  'searchableContent',
+];
 
 const META_TEMPLATE_MANAGER_URL =
   'https://business.facebook.com/latest/whatsapp_manager/message_templates';
@@ -31,7 +40,6 @@ const { t } = useI18n();
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 const templates = ref([]);
-const isLoading = ref(false);
 const searchQuery = ref('');
 const selectedInboxId = ref('all');
 const selectedLanguage = ref('all');
@@ -39,7 +47,11 @@ const selectedTemplate = ref(null);
 const openFilterMenu = ref(null);
 const previewPanelRef = ref(null);
 const templateRecordsByInboxId = new Map();
-let latestFetchRequestId = 0;
+const {
+  run: runTemplateRequest,
+  abort: abortTemplateRequest,
+  isPending: isLoading,
+} = useAbortableRequest();
 
 const hasTemplates = computed(() => templates.value.length > 0);
 
@@ -60,6 +72,14 @@ const hasTwilioInboxes = computed(() =>
   whatsappInboxes.value.some(inbox => inbox.channel_type === INBOX_TYPES.TWILIO)
 );
 
+const hasUnsupportedWhatsappInboxes = computed(() =>
+  whatsappInboxes.value.some(
+    inbox =>
+      inbox.channel_type === INBOX_TYPES.WHATSAPP &&
+      inbox.provider !== 'whatsapp_cloud'
+  )
+);
+
 const selectedInbox = computed(() =>
   whatsappInboxes.value.find(
     inbox => String(inbox.id) === selectedInboxId.value
@@ -67,31 +87,55 @@ const selectedInbox = computed(() =>
 );
 
 const newTemplateUrl = computed(() => {
-  if (selectedInbox.value?.channel_type === INBOX_TYPES.TWILIO) {
-    return TWILIO_TEMPLATE_MANAGER_URL;
+  if (selectedInbox.value) {
+    if (selectedInbox.value.channel_type === INBOX_TYPES.TWILIO) {
+      return TWILIO_TEMPLATE_MANAGER_URL;
+    }
+
+    return selectedInbox.value.provider === 'whatsapp_cloud'
+      ? META_TEMPLATE_MANAGER_URL
+      : null;
   }
 
-  if (canManageInMeta.value) return META_TEMPLATE_MANAGER_URL;
+  if (
+    canManageInMeta.value &&
+    !hasTwilioInboxes.value &&
+    !hasUnsupportedWhatsappInboxes.value
+  ) {
+    return META_TEMPLATE_MANAGER_URL;
+  }
 
-  return whatsappInboxes.value.some(
-    inbox => inbox.channel_type === INBOX_TYPES.TWILIO
-  )
+  return hasTwilioInboxes.value &&
+    !canManageInMeta.value &&
+    !hasUnsupportedWhatsappInboxes.value
     ? TWILIO_TEMPLATE_MANAGER_URL
     : null;
 });
 
 const learnMoreUrl = computed(() => {
   if (selectedInbox.value) {
-    return selectedInbox.value.channel_type === INBOX_TYPES.TWILIO
-      ? TWILIO_TEMPLATE_LEARN_MORE_URL
-      : META_TEMPLATE_LEARN_MORE_URL;
+    if (selectedInbox.value.channel_type === INBOX_TYPES.TWILIO) {
+      return TWILIO_TEMPLATE_LEARN_MORE_URL;
+    }
+
+    return selectedInbox.value.provider === 'whatsapp_cloud'
+      ? META_TEMPLATE_LEARN_MORE_URL
+      : null;
   }
 
-  if (canManageInMeta.value && !hasTwilioInboxes.value) {
+  if (
+    canManageInMeta.value &&
+    !hasTwilioInboxes.value &&
+    !hasUnsupportedWhatsappInboxes.value
+  ) {
     return META_TEMPLATE_LEARN_MORE_URL;
   }
 
-  if (hasTwilioInboxes.value && !canManageInMeta.value) {
+  if (
+    hasTwilioInboxes.value &&
+    !canManageInMeta.value &&
+    !hasUnsupportedWhatsappInboxes.value
+  ) {
     return TWILIO_TEMPLATE_LEARN_MORE_URL;
   }
 
@@ -197,118 +241,54 @@ const filteredTemplates = computed(() => {
   );
   if (contentMatches.length) return contentMatches;
 
-  return picoSearch(records, query, [
-    { name: 'name', weight: 4 },
-    'category',
-    'language',
-    'status',
-    'inboxNames',
-    'searchableContent',
-  ]);
+  return picoSearch(records, query, FUZZY_SEARCH_KEYS);
 });
 
 const showSearch = computed(() =>
   Boolean(filteredTemplates.value.length || searchQuery.value)
 );
 
-const groupTemplates = templateRecords => {
-  const groupedTemplates = new Map();
-
-  templateRecords.forEach(({ template, inbox, lastUpdatedAt }) => {
-    const platform =
-      inbox.channel_type === INBOX_TYPES.TWILIO
-        ? PLATFORMS.TWILIO
-        : PLATFORMS.WHATSAPP;
-    const providerAccountId =
-      inbox.provider_config?.business_account_id ||
-      inbox.account_sid ||
-      inbox.id;
-    const name = template.name || template.friendly_name;
-    const providerTemplateIdentifier = template.id || template.content_sid;
-    const templateIdentifier = providerTemplateIdentifier || name;
-    const key = JSON.stringify(
-      providerTemplateIdentifier
-        ? [
-            platform,
-            providerAccountId,
-            providerTemplateIdentifier,
-            template.language,
-          ]
-        : [platform, inbox.id, name, template.language, template]
-    );
-    const existingTemplate = groupedTemplates.get(key);
-
-    if (existingTemplate) {
-      existingTemplate.inboxes.push(inbox);
-      existingTemplate.inboxNames = existingTemplate.inboxes
-        .map(item => item.name)
-        .join(', ');
-      if (
-        lastUpdatedAt &&
-        (!existingTemplate.lastUpdatedAt ||
-          new Date(lastUpdatedAt) > new Date(existingTemplate.lastUpdatedAt))
-      ) {
-        existingTemplate.lastUpdatedAt = lastUpdatedAt;
-      }
-      return;
-    }
-
-    const searchableContent = JSON.stringify(
-      template.components || template.types || template.body || []
-    );
-
-    groupedTemplates.set(key, {
-      ...template,
-      id: templateIdentifier,
-      name,
-      platform,
-      key,
-      inboxes: [inbox],
-      inboxNames: inbox.name,
-      lastUpdatedAt,
-      searchableContent,
-    });
-  });
-
-  return [...groupedTemplates.values()].sort((first, second) =>
-    first.name.localeCompare(second.name)
-  );
-};
-
 const fetchTemplates = async () => {
-  latestFetchRequestId += 1;
-  const requestId = latestFetchRequestId;
-  isLoading.value = true;
-
   try {
-    await store.dispatch('inboxes/get');
-    const responses = await Promise.allSettled(
-      whatsappInboxes.value.map(async inbox => {
-        const { data } = await InboxesAPI.getMessageTemplates(inbox.id);
+    const fetchResult = await runTemplateRequest(async signal => {
+      await store.dispatch('inboxes/get');
+      if (signal.aborted) return null;
 
-        if (!Array.isArray(data.payload)) {
-          throw new TypeError();
-        }
+      const inboxesToFetch = [...whatsappInboxes.value];
+      const responses = await Promise.allSettled(
+        inboxesToFetch.map(async inbox => {
+          const { data } = await InboxesAPI.getMessageTemplates(
+            inbox.id,
+            {},
+            { signal }
+          );
 
-        return {
-          inboxId: inbox.id,
-          records: data.payload.map(template => ({
-            template,
-            inbox,
-            lastUpdatedAt: data.meta?.last_updated_at,
-          })),
-        };
-      })
-    );
+          if (!Array.isArray(data.payload)) {
+            throw new TypeError();
+          }
 
-    if (requestId !== latestFetchRequestId) return;
+          return {
+            inboxId: inbox.id,
+            records: data.payload.map(template => ({
+              template,
+              inbox,
+              lastUpdatedAt: data.meta?.last_updated_at,
+            })),
+          };
+        })
+      );
+
+      return signal.aborted ? null : { inboxesToFetch, responses };
+    });
+
+    if (!fetchResult) return;
+
+    const { inboxesToFetch, responses } = fetchResult;
 
     const successfulResponses = responses.filter(
       response => response.status === 'fulfilled'
     );
-    const activeInboxIds = new Set(
-      whatsappInboxes.value.map(inbox => inbox.id)
-    );
+    const activeInboxIds = new Set(inboxesToFetch.map(inbox => inbox.id));
 
     templateRecordsByInboxId.forEach((_, inboxId) => {
       if (!activeInboxIds.has(inboxId))
@@ -328,17 +308,12 @@ const fetchTemplates = async () => {
       useAlert(errorMessage);
     }
   } catch {
-    if (requestId === latestFetchRequestId) {
-      useAlert(t('WHATSAPP_TEMPLATE_MGMT.FETCH_ERROR'));
-    }
-  } finally {
-    if (requestId === latestFetchRequestId) {
-      isLoading.value = false;
-    }
+    useAlert(t('WHATSAPP_TEMPLATE_MGMT.FETCH_ERROR'));
   }
 };
 
 onActivated(fetchTemplates);
+onDeactivated(abortTemplateRequest);
 </script>
 
 <template>

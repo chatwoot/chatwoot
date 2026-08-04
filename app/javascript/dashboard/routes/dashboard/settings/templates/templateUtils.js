@@ -1,4 +1,5 @@
 import { TemplateTypeDetector } from 'dashboard/services/TemplateTypeDetector';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import {
   PLATFORMS,
   TEMPLATE_TYPES,
@@ -17,6 +18,73 @@ const TEMPLATE_TYPE_KEYS = {
   [TEMPLATE_TYPES.TWILIO_QUICK_REPLY]: 'QUICK_REPLY',
   [TEMPLATE_TYPES.TWILIO_CALL_TO_ACTION]: 'CALL_TO_ACTION',
   [TEMPLATE_TYPES.TWILIO_CARD]: 'CATALOG',
+};
+
+export const groupTemplates = templateRecords => {
+  const groupedTemplates = new Map();
+
+  templateRecords.forEach(({ template, inbox, lastUpdatedAt }) => {
+    const platform =
+      inbox.channel_type === INBOX_TYPES.TWILIO
+        ? PLATFORMS.TWILIO
+        : PLATFORMS.WHATSAPP;
+    const providerAccountId =
+      inbox.provider_config?.business_account_id ||
+      inbox.account_sid ||
+      inbox.id;
+    const name = template.name || template.friendly_name;
+    const providerTemplateIdentifier = template.id || template.content_sid;
+    const templateIdentifier = providerTemplateIdentifier || name;
+    const key = JSON.stringify(
+      providerTemplateIdentifier
+        ? [
+            platform,
+            providerAccountId,
+            providerTemplateIdentifier,
+            template.language,
+          ]
+        : [platform, inbox.id, name, template.language, template]
+    );
+    const searchableContent = JSON.stringify(
+      template.components || template.types || template.body || []
+    );
+    const normalizedTemplate = {
+      ...template,
+      id: templateIdentifier,
+      name,
+      platform,
+      key,
+      inboxes: [inbox],
+      inboxNames: inbox.name,
+      lastUpdatedAt,
+      searchableContent,
+    };
+    const existingTemplate = groupedTemplates.get(key);
+
+    if (existingTemplate) {
+      const inboxes = [...existingTemplate.inboxes, inbox];
+      const incomingIsNewer =
+        lastUpdatedAt &&
+        (!existingTemplate.lastUpdatedAt ||
+          new Date(lastUpdatedAt) > new Date(existingTemplate.lastUpdatedAt));
+
+      groupedTemplates.set(key, {
+        ...(incomingIsNewer ? normalizedTemplate : existingTemplate),
+        inboxes,
+        inboxNames: inboxes.map(item => item.name).join(', '),
+        lastUpdatedAt: incomingIsNewer
+          ? lastUpdatedAt
+          : existingTemplate.lastUpdatedAt,
+      });
+      return;
+    }
+
+    groupedTemplates.set(key, normalizedTemplate);
+  });
+
+  return [...groupedTemplates.values()].sort((first, second) =>
+    first.name.localeCompare(second.name)
+  );
 };
 
 export const formatTemplateLabel = value => {
