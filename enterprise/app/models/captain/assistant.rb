@@ -44,6 +44,8 @@ class Captain::Assistant < ApplicationRecord
   store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
                  :auto_resolve_mode
 
+  before_validation :set_default_auto_resolve_mode, on: :create
+
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
@@ -105,6 +107,12 @@ class Captain::Assistant < ApplicationRecord
   end
 
   private
+
+  def set_default_auto_resolve_mode
+    return if config.key?('auto_resolve_mode')
+
+    self.auto_resolve_mode = account&.captain_auto_resolve_mode || 'evaluated'
+  end
 
   def agent_name
     name.parameterize(separator: '_')
