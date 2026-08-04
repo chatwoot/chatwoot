@@ -251,7 +251,8 @@ const showSearch = computed(() =>
 const fetchTemplates = async () => {
   try {
     const fetchResult = await runTemplateRequest(async signal => {
-      await store.dispatch('inboxes/get');
+      const didFetchInboxes = await store.dispatch('inboxes/get');
+      if (!didFetchInboxes) throw new Error();
       if (signal.aborted) return null;
 
       const inboxesToFetch = [...whatsappInboxes.value];
