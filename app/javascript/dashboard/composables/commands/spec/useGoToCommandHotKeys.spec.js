@@ -20,6 +20,14 @@ const ROUTE_META = {
     featureFlag: MOCK_FEATURE_FLAGS.HELP_CENTER,
     permissions: ['administrator', 'knowledge_base_manage'],
   },
+  portals_articles_index: {
+    featureFlag: MOCK_FEATURE_FLAGS.HELP_CENTER,
+    permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+  },
+  agent_reports_index: {
+    featureFlag: MOCK_FEATURE_FLAGS.REPORTS,
+    permissions: ['administrator', 'report_manage'],
+  },
   contacts_dashboard_index: {
     featureFlag: MOCK_FEATURE_FLAGS.CRM,
     permissions: ['administrator', 'agent', 'contact_manage'],
@@ -102,6 +110,9 @@ describe('useGoToCommandHotKeys', () => {
         params,
         meta: ROUTE_META[name] || DEFAULT_META,
       })),
+      getRoutes: vi.fn(() =>
+        Object.entries(ROUTE_META).map(([name, meta]) => ({ name, meta }))
+      ),
     });
     usePolicy.mockReturnValue({
       isFeatureFlagEnabled: vi.fn(
@@ -166,6 +177,24 @@ describe('useGoToCommandHotKeys', () => {
     expect(
       goToCommandHotKeys.value.find(cmd => cmd.id.includes('agent_settings'))
     ).toBeUndefined();
+  });
+
+  it('should gate a navigationPath command on the page it opens', () => {
+    userPermissions = ['agent'];
+    const { goToCommandHotKeys } = useGoToCommandHotKeys();
+
+    expect(goToCommandHotKeys.value.map(cmd => cmd.id)).toContain(
+      'goto_help_center'
+    );
+  });
+
+  it('should drop report commands when the reports feature is disabled', () => {
+    disabledFeatures = [MOCK_FEATURE_FLAGS.REPORTS];
+    const { goToCommandHotKeys } = useGoToCommandHotKeys();
+
+    const ids = goToCommandHotKeys.value.map(cmd => cmd.id);
+    expect(ids).not.toContain('open_reports_overview');
+    expect(ids).not.toContain('open_agent_reports');
   });
 
   it('should drop commands whose route is not available on the installation', () => {
