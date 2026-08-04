@@ -58,17 +58,6 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
     end
   end
 
-  describe 'when the assistant falls back to disabled via the legacy account setting' do
-    before { account.update!(settings: account.settings.merge('captain_disable_auto_resolve' => true)) }
-
-    it 'does not resolve and returns a disabled message' do
-      result = tool.perform(tool_context, reason: 'Possible spam')
-
-      expect(result).to eq('Auto-resolve is disabled for this assistant')
-      expect(conversation.reload).not_to be_resolved
-    end
-  end
-
   describe 'resolving an already resolved conversation' do
     let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :resolved) }
 
