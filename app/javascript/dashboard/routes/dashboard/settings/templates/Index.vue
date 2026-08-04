@@ -354,13 +354,8 @@ onDeactivated(abortTemplateRequest);
             }}
           </span>
         </template>
-        <template #actions>
-          <a
-            v-if="newTemplateUrl"
-            :href="newTemplateUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+        <template v-if="newTemplateUrl" #actions>
+          <a :href="newTemplateUrl" target="_blank" rel="noopener noreferrer">
             <Button
               :label="$t('WHATSAPP_TEMPLATE_MGMT.NEW_TEMPLATE')"
               icon="i-lucide-plus"
