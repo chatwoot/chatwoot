@@ -6,15 +6,15 @@ RSpec.describe Captain::ConversationEvents do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:timestamp) { Time.zone.now }
 
-  describe '.engaged' do
-    it 'dispatches the engagement event with normalized context' do
+  describe '.eligible' do
+    it 'dispatches the eligibility event with normalized context' do
       expect(Rails.configuration.dispatcher).to receive(:dispatch).with(
-        Events::Types::CAPTAIN_CONVERSATION_ENGAGED,
+        Events::Types::CAPTAIN_CONVERSATION_ELIGIBLE,
         timestamp,
         { conversation: conversation, assistant: assistant }
       )
 
-      described_class.engaged(conversation: conversation, assistant: assistant, at: timestamp)
+      described_class.eligible(conversation: conversation, assistant: assistant, at: timestamp)
     end
   end
 
@@ -69,7 +69,7 @@ RSpec.describe Captain::ConversationEvents do
         .and_return(instance_double(ChatwootExceptionTracker, capture_exception: true))
 
       expect do
-        described_class.engaged(conversation: conversation, assistant: assistant, at: timestamp)
+        described_class.eligible(conversation: conversation, assistant: assistant, at: timestamp)
       end.not_to raise_error
     end
   end
