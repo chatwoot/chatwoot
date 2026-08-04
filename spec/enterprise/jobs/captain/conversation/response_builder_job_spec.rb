@@ -528,7 +528,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
             output: { 'response_parts' => v2_response_parts, 'reasoning' => 'Used the FAQ results' },
             context: {
               state: {
-                Captain::Assistant::CITATION_DOCUMENT_IDS_STATE_KEY => {
+                Captain::Assistant::CITATION_SOURCES_STATE_KEY => {
                   1 => first_document.id,
                   2 => second_document.id
                 }
@@ -635,7 +635,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
             assistant: assistant,
             external_link: 'https://storage.example.com/private-file.pdf?token=secret'
           )
-          citation_sources = mock_agent_runner_service.last_run_result.context[:state][Captain::Assistant::CITATION_DOCUMENT_IDS_STATE_KEY]
+          citation_sources = mock_agent_runner_service.last_run_result.context[:state][Captain::Assistant::CITATION_SOURCES_STATE_KEY]
           citation_sources[3] = pdf_document.id
           citation_sources[4] = 0
           v2_response_parts.first['citation_indexes'] = [3, 4]

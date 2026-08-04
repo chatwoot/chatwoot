@@ -18,7 +18,7 @@
 #
 class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
-  CITATION_DOCUMENT_IDS_STATE_KEY = :captain_v2_citation_document_ids
+  CITATION_SOURCES_STATE_KEY = :captain_v2_citation_sources
 
   include Avatarable
   include Concerns::CaptainToolsHelpers
@@ -105,7 +105,7 @@ class Captain::Assistant < ApplicationRecord
   def trusted_citation_urls(run_result)
     return {} unless citations_enabled?
 
-    citation_document_ids = run_result&.context&.dig(:state, CITATION_DOCUMENT_IDS_STATE_KEY) || {}
+    citation_document_ids = run_result&.context&.dig(:state, CITATION_SOURCES_STATE_KEY) || {}
     customer_visible_citation_urls(citation_document_ids)
   end
 

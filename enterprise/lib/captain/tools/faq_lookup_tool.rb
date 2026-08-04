@@ -56,7 +56,7 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
   end
 
   def citation_index(tool_context, response)
-    citation_document_ids = tool_context.state[Captain::Assistant::CITATION_DOCUMENT_IDS_STATE_KEY] ||= {}
+    citation_document_ids = tool_context.state[Captain::Assistant::CITATION_SOURCES_STATE_KEY] ||= {}
     existing_index = citation_document_ids.find { |_index, document_id| document_id == response.documentable_id }&.first
     return existing_index if existing_index.present?
 
