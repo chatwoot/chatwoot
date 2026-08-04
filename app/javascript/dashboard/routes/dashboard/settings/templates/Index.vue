@@ -219,10 +219,10 @@ const showSearch = computed(() =>
 
 const fetchTemplates = async () => {
   try {
-    const fetchResult = await runTemplateRequest(async signal => {
+    await runTemplateRequest(async signal => {
       const didFetchInboxes = await store.dispatch('inboxes/get');
       if (!didFetchInboxes) throw new Error();
-      if (signal.aborted) return null;
+      if (signal.aborted) return;
 
       const inboxesToFetch = [...whatsappInboxes.value];
       const responses = await Promise.allSettled(
@@ -248,46 +248,42 @@ const fetchTemplates = async () => {
         })
       );
 
-      return signal.aborted ? null : { inboxesToFetch, responses };
-    });
+      if (signal.aborted) return;
 
-    if (!fetchResult) return;
+      const successfulResponses = responses.filter(
+        response => response.status === 'fulfilled'
+      );
+      const activeInboxIds = new Set(inboxesToFetch.map(inbox => inbox.id));
 
-    const { inboxesToFetch, responses } = fetchResult;
+      templateRecordsByInboxId.forEach((_, inboxId) => {
+        if (!activeInboxIds.has(inboxId))
+          templateRecordsByInboxId.delete(inboxId);
+      });
+      successfulResponses.forEach(({ value }) => {
+        templateRecordsByInboxId.set(value.inboxId, value.records);
+      });
+      templates.value = groupTemplates(
+        [...templateRecordsByInboxId.values()].flat()
+      );
 
-    const successfulResponses = responses.filter(
-      response => response.status === 'fulfilled'
-    );
-    const activeInboxIds = new Set(inboxesToFetch.map(inbox => inbox.id));
-
-    templateRecordsByInboxId.forEach((_, inboxId) => {
-      if (!activeInboxIds.has(inboxId))
-        templateRecordsByInboxId.delete(inboxId);
-    });
-    successfulResponses.forEach(({ value }) => {
-      templateRecordsByInboxId.set(value.inboxId, value.records);
-    });
-    templates.value = groupTemplates(
-      [...templateRecordsByInboxId.values()].flat()
-    );
-
-    if (
-      !inboxOptions.value.some(({ value }) => value === selectedInboxId.value)
-    )
-      selectedInboxId.value = 'all';
-    if (
-      !languageOptions.value.some(
-        ({ value }) => value === selectedLanguage.value
+      if (
+        !inboxOptions.value.some(({ value }) => value === selectedInboxId.value)
       )
-    )
-      selectedLanguage.value = 'all';
+        selectedInboxId.value = 'all';
+      if (
+        !languageOptions.value.some(
+          ({ value }) => value === selectedLanguage.value
+        )
+      )
+        selectedLanguage.value = 'all';
 
-    if (responses.some(response => response.status === 'rejected')) {
-      const errorMessage = successfulResponses.length
-        ? t('WHATSAPP_TEMPLATE_MGMT.PARTIAL_FETCH_ERROR')
-        : t('WHATSAPP_TEMPLATE_MGMT.FETCH_ERROR');
-      useAlert(errorMessage);
-    }
+      if (responses.some(response => response.status === 'rejected')) {
+        const errorMessage = successfulResponses.length
+          ? t('WHATSAPP_TEMPLATE_MGMT.PARTIAL_FETCH_ERROR')
+          : t('WHATSAPP_TEMPLATE_MGMT.FETCH_ERROR');
+        useAlert(errorMessage);
+      }
+    });
   } catch {
     useAlert(t('WHATSAPP_TEMPLATE_MGMT.FETCH_ERROR'));
   }
