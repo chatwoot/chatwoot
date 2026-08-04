@@ -30,12 +30,12 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
       end
     end
 
-    context 'when account has captain auto resolve disabled' do
+    context 'when assistant has captain auto resolve disabled' do
       let!(:regular_inbox) { create(:inbox, account: account) }
 
       before do
         create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
-        account.update!(captain_auto_resolve_mode: 'disabled')
+        assistant.update!(auto_resolve_mode: 'disabled')
       end
 
       it 'does not enqueue resolution jobs' do
@@ -46,19 +46,23 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
       end
     end
 
-    context 'when account uses legacy disabled settings key' do
+    context 'when an assistant has been deleted before its inbox link is cleaned up' do
+      let!(:orphaned_inbox) { create(:inbox, account: account) }
       let!(:regular_inbox) { create(:inbox, account: account) }
+      let!(:active_assistant) { create(:captain_assistant, account: account) }
 
       before do
-        create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
-        account.update!(settings: account.settings.merge('captain_disable_auto_resolve' => true))
+        create(:captain_inbox, captain_assistant: assistant, inbox: orphaned_inbox)
+        create(:captain_inbox, captain_assistant: active_assistant, inbox: regular_inbox)
+        assistant.destroy!
       end
 
-      it 'does not enqueue resolution jobs' do
+      it 'skips the missing assistant and schedules later valid inboxes' do
         expect do
           described_class.perform_now
-        end.not_to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob)
+        end.to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob)
           .with(regular_inbox)
+          .exactly(:once)
       end
     end
 

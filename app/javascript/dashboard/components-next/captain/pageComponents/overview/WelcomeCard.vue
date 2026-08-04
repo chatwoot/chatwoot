@@ -7,7 +7,7 @@ import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 const props = defineProps({
   range: {
     type: String,
-    default: '30',
+    default: '7',
   },
   stats: {
     type: Object,

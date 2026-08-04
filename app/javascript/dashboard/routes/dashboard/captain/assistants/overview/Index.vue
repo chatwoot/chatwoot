@@ -23,7 +23,7 @@ const route = useRoute();
 const { checkPermissions } = usePolicy();
 const canDrilldown = computed(() => checkPermissions(['administrator']));
 
-const selectedRange = ref('this_month');
+const selectedRange = ref('7');
 
 const assistantId = computed(() => route.params.assistantId);
 const metricStats = ref(null);
