@@ -118,6 +118,32 @@ const editor = wrapper =>
   wrapper.findComponent({ name: 'WootMessageEditor' }).props();
 
 describe('ReplyBox', () => {
+  describe('Instagram incident restriction', () => {
+    it('opens in note mode and restores only the private-note draft', async () => {
+      const { wrapper, store } = mountWith({
+        inbox: { channel_type: 'Channel::Instagram' },
+        isMetaMessageSendingDisabled: true,
+        drafts: {
+          'draft-1-REPLY': 'unsent public reply',
+          'draft-1-NOTE': 'incident note',
+        },
+      });
+      await nextTick();
+
+      expect(topPanel(wrapper).mode).toBe(REPLY_EDITOR_MODES.NOTE);
+      expect(topPanel(wrapper).isReplyRestricted).toBe(true);
+      expect(bottomPanel(wrapper).isOnPrivateNote).toBe(true);
+      expect(editor(wrapper).editorId).toBe('draft-1-NOTE');
+      expect(wrapper.vm.message).toBe('incident note');
+      expect(store.getters['draftMessages/getReplyEditorMode']).toBe(
+        REPLY_EDITOR_MODES.NOTE
+      );
+      expect(store.getters['draftMessages/get']('draft-1-REPLY')).toBe(
+        'unsent public reply'
+      );
+    });
+  });
+
   describe.each(CHANNELS)('$name', ({ name, inbox }) => {
     it('locks the composer and hides template sends when a bot owns a pending conversation', () => {
       const { wrapper } = mountWith({

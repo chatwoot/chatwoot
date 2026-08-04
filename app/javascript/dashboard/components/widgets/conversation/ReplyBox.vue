@@ -196,6 +196,10 @@ export default {
       );
     },
     isOnPrivateNote() {
+      if (this.isInstagramReplyRestricted) {
+        return true;
+      }
+
       return this.isBotOwnedPendingConversation
         ? this.isPrivate
         : this.replyType === REPLY_EDITOR_MODES.NOTE;
@@ -485,17 +489,18 @@ export default {
         this.copilot.reset();
       }
 
+      if (this.isInstagramReplyRestricted) {
+        this.replyType = REPLY_EDITOR_MODES.NOTE;
+        return;
+      }
+
       if (this.isOnPrivateNote) {
         return;
       }
 
-      if (this.isInstagramReplyRestricted) {
-        this.replyType = REPLY_EDITOR_MODES.NOTE;
-      } else {
-        this.replyType = this.isWithinMessagingWindow
-          ? REPLY_EDITOR_MODES.REPLY
-          : REPLY_EDITOR_MODES.NOTE;
-      }
+      this.replyType = this.isWithinMessagingWindow
+        ? REPLY_EDITOR_MODES.REPLY
+        : REPLY_EDITOR_MODES.NOTE;
 
       this.fetchAndSetReplyTo();
     },
@@ -538,6 +543,10 @@ export default {
   },
 
   mounted() {
+    if (this.isInstagramReplyRestricted) {
+      this.replyType = REPLY_EDITOR_MODES.NOTE;
+    }
+
     this.$store.dispatch('draftMessages/setReplyEditorMode', {
       mode: this.effectiveReplyMode,
     });
