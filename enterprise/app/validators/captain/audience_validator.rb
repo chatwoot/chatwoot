@@ -31,6 +31,6 @@ class Captain::AudienceValidator < ActiveModel::Validator
     return false unless node[:attribute_key].present? && Captain::AudienceMatcher::OPERATORS.include?(node[:filter_operator])
     return true if VALUELESS_OPERATORS.include?(node[:filter_operator])
 
-    node[:values].is_a?(Array) && node[:values].present?
+    node[:values].is_a?(Array) && node[:values].present? && node[:values].all? { |value| value.to_s.present? }
   end
 end
