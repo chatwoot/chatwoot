@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_31_140853) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_03_130000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -787,16 +787,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_31_140853) do
     t.datetime "handoff_at"
     t.string "handoff_reason_category"
     t.datetime "resolved_at"
-    t.datetime "last_reopened_at"
-    t.integer "reopen_count", default: 0, null: false
     t.integer "csat_rating"
     t.datetime "csat_received_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id", "assistant_id", "conversation_id"], name: "idx_conversation_outcomes_unique_conversation", unique: true
-    t.index ["account_id", "assistant_id", "created_at"], name: "idx_conversation_outcomes_on_assistant_created_at"
+    t.string "episode_trigger", default: "initial", null: false
+    t.datetime "started_at", null: false
+    t.datetime "ended_at"
     t.index ["account_id", "assistant_id", "handoff_at"], name: "idx_conversation_outcomes_on_assistant_handoff_at"
     t.index ["account_id", "assistant_id", "resolved_at"], name: "idx_conversation_outcomes_on_assistant_resolved_at"
+    t.index ["account_id", "assistant_id", "started_at"], name: "idx_conversation_outcomes_on_assistant_started_at"
+    t.index ["account_id", "conversation_id", "started_at"], name: "idx_conversation_outcomes_unique_boundary", unique: true
+    t.index ["account_id", "conversation_id"], name: "idx_conversation_outcomes_initial_episode", unique: true, where: "((episode_trigger)::text = 'initial'::text)"
+    t.index ["account_id", "conversation_id"], name: "idx_conversation_outcomes_open_episode", unique: true, where: "(ended_at IS NULL)"
     t.index ["account_id"], name: "index_conversation_outcomes_on_account_id"
     t.index ["assistant_id"], name: "index_conversation_outcomes_on_assistant_id"
     t.index ["conversation_id"], name: "index_conversation_outcomes_on_conversation_id"
