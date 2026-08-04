@@ -13,6 +13,7 @@ describe('#InboxesAPI', () => {
     expect(inboxesAPI).toHaveProperty('getAgentBot');
     expect(inboxesAPI).toHaveProperty('setAgentBot');
     expect(inboxesAPI).toHaveProperty('syncTemplates');
+    expect(inboxesAPI).toHaveProperty('getMessageTemplates');
   });
 
   describe('API calls', () => {
@@ -47,6 +48,24 @@ describe('#InboxesAPI', () => {
       inboxesAPI.syncTemplates(2);
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/inboxes/2/sync_templates'
+      );
+    });
+
+    it('#getMessageTemplates', () => {
+      const controller = new AbortController();
+
+      inboxesAPI.getMessageTemplates(
+        2,
+        { name: 'welcome' },
+        { signal: controller.signal }
+      );
+
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/message_templates',
+        {
+          signal: controller.signal,
+          params: { name: 'welcome' },
+        }
       );
     });
 
