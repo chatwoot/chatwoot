@@ -19,6 +19,18 @@ RSpec.describe Captain::ConversationCompletionService do
   end
 
   describe '#perform' do
+    it 'uses the internal GPT-4.1 route instead of installation or assistant model settings' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5.1')
+      account.enable_features!('captain_integration_v2')
+      create(:message, conversation: conversation, message_type: :incoming, content: 'Hello')
+      allow(mock_context).to receive(:chat).with(model: 'gpt-4.1').and_return(mock_chat)
+      allow(mock_chat).to receive(:ask).and_return(
+        instance_double(RubyLLM::Message, content: { 'complete' => true, 'reason' => 'Done' }, input_tokens: 10, output_tokens: 5)
+      )
+
+      expect(service.perform).to include(complete: true)
+    end
+
     context 'when conversation is complete' do
       let(:mock_response) do
         instance_double(
