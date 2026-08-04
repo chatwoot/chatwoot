@@ -49,5 +49,181 @@ describe CaptainListener do
         listener.conversation_resolved(event)
       end
     end
+
+    it 'records the resolution on an existing V2 outcome' do
+      assistant.update!(config: {})
+      outcome = create(
+        :conversation_outcome,
+        account: account,
+        assistant: assistant,
+        conversation: conversation,
+        inbox: inbox
+      )
+
+      listener.conversation_resolved(event)
+
+      expect(outcome.reload.resolved_at).to eq(event.timestamp)
+    end
+  end
+
+  describe '#message_created' do
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :pending) }
+
+    before do
+      account.enable_features!('captain_integration_v2')
+      create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+      create(
+        :conversation_outcome,
+        account: account,
+        assistant: assistant,
+        conversation: conversation,
+        inbox: inbox
+      )
+    end
+
+    it 'records public Captain replies' do
+      message = create(
+        :message,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        sender: assistant,
+        message_type: :outgoing
+      )
+      event = Events::Base.new(:message_created, message.created_at, message: message)
+
+      listener.message_created(event)
+
+      expect(ConversationOutcome.last).to have_attributes(
+        first_captain_reply_at: message.created_at,
+        captain_reply_count: 1
+      )
+    end
+
+    it 'ignores Captain messages without an existing V2 outcome' do
+      ConversationOutcome.delete_all
+      message = create(
+        :message,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        sender: assistant,
+        message_type: :outgoing
+      )
+      event = Events::Base.new(:message_created, message.created_at, message: message)
+
+      expect do
+        listener.message_created(event)
+      end.not_to change(ConversationOutcome, :count)
+    end
+
+    it 'records public human replies on the existing outcome' do
+      message = create(
+        :message,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        sender: user,
+        message_type: :outgoing
+      )
+      event = Events::Base.new(:message_created, message.created_at, message: message)
+
+      listener.message_created(event)
+
+      expect(ConversationOutcome.last.first_human_reply_at).to eq(message.created_at)
+    end
+  end
+
+  describe '#conversation_updated' do
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :open) }
+
+    before do
+      create(
+        :conversation_outcome,
+        account: account,
+        assistant: assistant,
+        conversation: conversation,
+        inbox: inbox,
+        started_at: 1.hour.ago,
+        resolved_at: 2.minutes.ago
+      )
+    end
+
+    it 'enqueues a boundary when the conversation leaves the resolved state' do
+      event = Events::Base.new(:conversation_updated, Time.current,
+                               conversation: conversation, changed_attributes: { 'status' => %w[resolved pending] })
+
+      expect do
+        listener.conversation_updated(event)
+      end.to have_enqueued_job(Captain::ConversationOutcomeBoundaryJob).with(conversation, event.timestamp)
+    end
+
+    it 'ignores status transitions that do not leave the resolved state' do
+      event = Events::Base.new(:conversation_updated, Time.current,
+                               conversation: conversation, changed_attributes: { 'status' => %w[snoozed open] })
+
+      expect do
+        listener.conversation_updated(event)
+      end.not_to have_enqueued_job(Captain::ConversationOutcomeBoundaryJob)
+    end
+
+    it 'ignores updates without a status change' do
+      event = Events::Base.new(:conversation_updated, Time.current,
+                               conversation: conversation, changed_attributes: { 'priority' => [nil, 'high'] })
+
+      expect do
+        listener.conversation_updated(event)
+      end.not_to have_enqueued_job(Captain::ConversationOutcomeBoundaryJob)
+    end
+
+    it 'ignores conversations without Captain history' do
+      ConversationOutcome.delete_all
+      event = Events::Base.new(:conversation_updated, Time.current,
+                               conversation: conversation, changed_attributes: { 'status' => %w[resolved open] })
+
+      expect do
+        listener.conversation_updated(event)
+      end.not_to have_enqueued_job(Captain::ConversationOutcomeBoundaryJob)
+    end
+  end
+
+  describe '#message_updated' do
+    let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+    let!(:outcome) do
+      create(
+        :conversation_outcome,
+        account: account,
+        assistant: assistant,
+        conversation: conversation,
+        inbox: inbox
+      )
+    end
+
+    it 'records a submitted CSAT response' do
+      message = create(
+        :message,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        content_type: :input_csat,
+        message_type: :outgoing
+      )
+      response = create(
+        :csat_survey_response,
+        account: account,
+        conversation: conversation,
+        contact: conversation.contact,
+        message: message,
+        rating: 5
+      )
+      event = Events::Base.new(:message_updated, Time.current, message: message)
+
+      listener.message_updated(event)
+
+      expect(outcome.reload).to have_attributes(
+        csat_rating: 5,
+        csat_received_at: response.created_at
+      )
+    end
   end
 end

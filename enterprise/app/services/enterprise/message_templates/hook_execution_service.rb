@@ -3,10 +3,17 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def trigger_templates
     super
-    return unless should_process_captain_response?
+    return unless captain_conversation_message?
+
+    # Eligibility is demand-level: every inbound customer message in a
+    # Captain-connected inbox counts, including conversations a human grabbed
+    # first or that arrive while the account is over its usage limit —
+    # otherwise the coverage denominator only ever contains conversations
+    # Captain was already about to answer.
+    track_captain_eligibility
+    return unless conversation.pending?
     return perform_handoff unless inbox.captain_active?
 
-    track_captain_engagement
     schedule_captain_response
   end
 
@@ -30,18 +37,12 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   private
 
-  def track_captain_engagement
-    return unless captain_v2_enabled?
-
-    Captain::ConversationEvents.engaged(
+  def track_captain_eligibility
+    Captain::ConversationEvents.eligible(
       conversation: conversation,
       assistant: inbox.captain_assistant,
       at: message.created_at
     )
-  end
-
-  def captain_v2_enabled?
-    conversation.account.feature_enabled?('captain_integration_v2')
   end
 
   def schedule_captain_response
@@ -81,8 +82,8 @@ module Enterprise::MessageTemplates::HookExecutionService
     base_wait + additional_wait
   end
 
-  def should_process_captain_response?
-    conversation.pending? && message.captain_response_triggering? && inbox.captain_assistant.present?
+  def captain_conversation_message?
+    message.captain_response_triggering? && inbox.captain_assistant.present?
   end
 
   def perform_handoff
@@ -96,15 +97,13 @@ module Enterprise::MessageTemplates::HookExecutionService
       content: 'Transferring to another agent for further assistance.'
     )
     conversation.bot_handoff!
-    if captain_v2_enabled?
-      Captain::ConversationEvents.handed_off(
-        conversation: conversation,
-        assistant: inbox.captain_assistant,
-        source: Captain::ConversationEvents::Sources::USAGE_LIMIT,
-        reason_category: :usage_limit,
-        at: Time.current
-      )
-    end
+    Captain::ConversationEvents.handed_off(
+      conversation: conversation,
+      assistant: inbox.captain_assistant,
+      source: Captain::ConversationEvents::Sources::USAGE_LIMIT,
+      reason_category: :usage_limit,
+      at: Time.current
+    )
     send_out_of_office_message_after_handoff
   end
 
