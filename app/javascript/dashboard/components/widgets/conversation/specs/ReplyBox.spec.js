@@ -33,7 +33,13 @@ const REPLIABLE = {
   messages: [],
 };
 
-const buildStore = ({ inbox, chat, templates, drafts = {} }) =>
+const buildStore = ({
+  inbox,
+  chat,
+  templates,
+  drafts = {},
+  isMetaMessageSendingDisabled = false,
+}) =>
   createStore({
     state: {
       chat: { ...REPLIABLE, ...chat },
@@ -64,6 +70,8 @@ const buildStore = ({ inbox, chat, templates, drafts = {} }) =>
       getUISettings: () => ({}),
       getLastEmailInSelectedChat: () => null,
       'globalConfig/get': () => ({}),
+      'globalConfig/isMetaMessageSendingDisabled': () =>
+        isMetaMessageSendingDisabled,
       'inboxes/getInbox': () => () => ({ id: 1, ...inbox }),
       'inboxes/getWhatsAppTemplates': () => () => templates,
       'contacts/getContact': () => () => ({}),
@@ -81,8 +89,15 @@ const mountWith = ({
   chat,
   templates = [{ name: 'greeting' }],
   drafts,
+  isMetaMessageSendingDisabled,
 }) => {
-  const store = buildStore({ inbox, chat, templates, drafts });
+  const store = buildStore({
+    inbox,
+    chat,
+    templates,
+    drafts,
+    isMetaMessageSendingDisabled,
+  });
   const wrapper = shallowMount(ReplyBox, {
     global: {
       plugins: [store],

@@ -146,6 +146,7 @@ export default {
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
+      isMetaMessageSendingDisabled: 'globalConfig/isMetaMessageSendingDisabled',
     }),
     currentContact() {
       const senderId = this.currentChat?.meta?.sender?.id;
@@ -181,8 +182,13 @@ export default {
     },
     canSendPublicReply() {
       return (
-        this.isWithinMessagingWindow && !this.isBotOwnedPendingConversation
+        this.isWithinMessagingWindow &&
+        !this.isBotOwnedPendingConversation &&
+        !this.isInstagramReplyRestricted
       );
+    },
+    isInstagramReplyRestricted() {
+      return this.isMetaMessageSendingDisabled && this.isAnInstagramChannel;
     },
     isPrivate() {
       return (
@@ -483,9 +489,13 @@ export default {
         return;
       }
 
-      this.replyType = this.isWithinMessagingWindow
-        ? REPLY_EDITOR_MODES.REPLY
-        : REPLY_EDITOR_MODES.NOTE;
+      if (this.isInstagramReplyRestricted) {
+        this.replyType = REPLY_EDITOR_MODES.NOTE;
+      } else {
+        this.replyType = this.isWithinMessagingWindow
+          ? REPLY_EDITOR_MODES.REPLY
+          : REPLY_EDITOR_MODES.NOTE;
+      }
 
       this.fetchAndSetReplyTo();
     },
