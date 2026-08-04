@@ -41,7 +41,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
 
   def process_single_entry(entry)
     if entry[:changes].present?
-      handled = process_changes(entry[:changes])
+      handled = process_changes(entry[:changes], entry)
       return if handled
 
       process_test_event(entry)
@@ -55,13 +55,13 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   # "changes" array shape instead of the familiar "messaging" array, even in
   # production (not just Meta's test payloads). Route the fields we know
   # about here; anything else falls through to process_test_event as before.
-  def process_changes(changes)
+  def process_changes(changes, entry)
     postback_changes = changes.select { |change| change[:field] == 'messaging_postbacks' }
-    postback_changes.each { |change| process_postback_change(change) }
+    postback_changes.each { |change| process_postback_change(change, entry) }
     postback_changes.present?
   end
 
-  def process_postback_change(change)
+  def process_postback_change(change, entry)
     value = change[:value]&.with_indifferent_access
     return if value.blank?
 
@@ -74,7 +74,11 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     messaging = {
       sender: value[:sender],
       recipient: value[:recipient],
-      timestamp: value[:timestamp],
+      # The "changes" postback payload does not carry its own timestamp; only
+      # the containing entry does. Falling back to value[:timestamp] alone
+      # left every click on a "changes"-shaped postback with a nil timestamp,
+      # making the dedup key identical across genuinely distinct clicks.
+      timestamp: value[:timestamp] || entry[:time],
       postback: value[:postback]
     }.with_indifferent_access
 

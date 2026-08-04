@@ -409,5 +409,47 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
       end
     end
+
+    context 'when handling messaging_postbacks changes without a value-level timestamp' do
+      let!(:instagram_channel) { create(:channel_instagram, account: account, instagram_id: 'chatwoot-app-user-id-1') }
+      let!(:instagram_inbox) { instagram_channel.inbox }
+      let!(:contact) { create(:contact, account: account) }
+      let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: instagram_inbox, source_id: 'sender_1') }
+      let!(:conversation) { create(:conversation, account: account, contact: contact, inbox: instagram_inbox, contact_inbox: contact_inbox) }
+
+      # Real Meta "changes"-shaped postback deliveries carry `time` only on the
+      # containing entry, not on `value` itself. Two genuinely distinct clicks
+      # share the same sender/mid/payload, so only the (entry) time tells them apart.
+      def postback_entry(time)
+        {
+          id: 'chatwoot-app-user-id-1',
+          time: time,
+          changes: [
+            {
+              field: 'messaging_postbacks',
+              value: {
+                sender: { id: 'sender_1' },
+                recipient: { id: 'chatwoot-app-user-id-1' },
+                postback: { title: 'Option A', payload: 'btn_1', mid: 'mid.original_send' }
+              }
+            }
+          ]
+        }
+      end
+
+      it 'creates a separate reply for each distinct click instead of dropping later ones' do
+        instagram_webhook.perform_now([postback_entry(1_700_000_000)])
+        instagram_webhook.perform_now([postback_entry(1_700_000_005)])
+
+        expect(conversation.messages.incoming.count).to eq 2
+      end
+
+      it 'still dedupes a genuine duplicate delivery of the same click' do
+        instagram_webhook.perform_now([postback_entry(1_700_000_000)])
+        instagram_webhook.perform_now([postback_entry(1_700_000_000)])
+
+        expect(conversation.messages.incoming.count).to eq 1
+      end
+    end
   end
 end
