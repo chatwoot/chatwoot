@@ -11,15 +11,16 @@ import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import {
-  IS_META_INBOX_CREATION_DISABLED,
-  META_RESTRICTION_STATUS_URL,
-} from 'dashboard/constants/globals';
+import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const { isCloudFeatureEnabled, isOnChatwootCloud } = useAccount();
+const {
+  isCloudFeatureEnabled,
+  isOnChatwootCloud,
+  isMetaInboxCreationDisabled,
+} = useAccount();
 
 const PROVIDER_TYPES = {
   WHATSAPP: 'whatsapp',
@@ -43,7 +44,7 @@ const showProviderSelection = computed(() => !selectedProvider.value);
 
 const showConfiguration = computed(() => Boolean(selectedProvider.value));
 const isWhatsappEmbeddedSignupDisabled = computed(
-  () => isOnChatwootCloud.value && IS_META_INBOX_CREATION_DISABLED
+  () => isMetaInboxCreationDisabled.value
 );
 
 const shouldShowWhatsappEmbeddedSignup = computed(() => {
