@@ -1,4 +1,6 @@
 class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
+  # LLM-selectable reasons are a subset of the outcome enum. System lifecycle
+  # paths emit the remaining categories, such as usage limits and pending clarification.
   REASON_CATEGORIES = %w[customer_request missing_knowledge unsupported_request policy_restriction tool_failure].freeze
 
   description 'Hand off the conversation to a human agent when unable to assist further'

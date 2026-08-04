@@ -25,6 +25,10 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       expect(schema['required']).to eq(['reason_category'])
     end
 
+    it 'uses only reason categories supported by conversation outcomes' do
+      expect(ConversationOutcome::HANDOFF_REASON_CATEGORIES).to include(*described_class::REASON_CATEGORIES)
+    end
+
     it 'survives Agents::ToolWrapper reading the class params at wrap time' do
       described_class.params
 
