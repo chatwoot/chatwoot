@@ -401,7 +401,8 @@ function fetchFilteredConversations(payload) {
       queryData: filterQueryGenerator(payload),
       page,
     })
-    .then(emitConversationLoaded);
+    .then(emitConversationLoaded)
+    .catch(() => useAlert(t('CHAT_LIST.FETCH_ERROR')));
 
   showAdvancedFilters.value = false;
 }
@@ -414,7 +415,8 @@ function fetchSavedFilteredConversations(payload) {
       queryData: payload,
       page,
     })
-    .then(emitConversationLoaded);
+    .then(emitConversationLoaded)
+    .catch(() => useAlert(t('CHAT_LIST.FETCH_ERROR')));
 }
 
 function onApplyFilter(payload) {
