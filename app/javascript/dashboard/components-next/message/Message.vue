@@ -431,6 +431,15 @@ const shouldRenderMessage = computed(() => {
     props.contentType === CONTENT_TYPES.INTEGRATIONS;
   const isFailedMessage = props.status === MESSAGE_STATUS.FAILED;
   const hasExternalError = !!props.contentAttributes?.externalError;
+  const interactiveContentTypes = [
+    CONTENT_TYPES.CARDS,
+    CONTENT_TYPES.CTA_URL,
+    CONTENT_TYPES.INTERACTIVE_LIST,
+    CONTENT_TYPES.INTERACTIVE_BUTTONS,
+  ];
+  const isInteractiveContentType = interactiveContentTypes.includes(
+    props.contentType
+  );
 
   return (
     hasAttachments ||
@@ -439,7 +448,8 @@ const shouldRenderMessage = computed(() => {
     isUnsupported ||
     isAnIntegrationMessage ||
     isFailedMessage ||
-    hasExternalError
+    hasExternalError ||
+    isInteractiveContentType
   );
 });
 
