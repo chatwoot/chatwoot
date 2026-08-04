@@ -14,6 +14,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue', 'update:headerImageValid']);
 const BODY_TEXT_MAX_LENGTH = 1024;
+const FOOTER_TEXT_MAX_LENGTH = 60;
 const BUTTON_TEXT_MAX_LENGTH = 20;
 
 const { t } = useI18n();
@@ -45,6 +46,7 @@ const buttonUrlError = computed(() => {
       :model-value="modelValue.footerText"
       :label="t('INTERACTIVE_MESSAGES.FIELDS.FOOTER_TEXT')"
       :placeholder="t('INTERACTIVE_MESSAGES.FIELDS.FOOTER_TEXT_PLACEHOLDER')"
+      :maxlength="FOOTER_TEXT_MAX_LENGTH"
       @update:model-value="value => updateField('footerText', value)"
     />
     <HeaderImageInput

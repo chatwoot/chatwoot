@@ -23,6 +23,7 @@ const emit = defineEmits(['update:modelValue', 'update:headerImageValid']);
 const MAX_BUTTONS = 3;
 const BUTTON_TITLE_MAX_LENGTH = 20;
 const BODY_TEXT_MAX_LENGTH = 1024;
+const FOOTER_TEXT_MAX_LENGTH = 60;
 
 const { t } = useI18n();
 
@@ -81,6 +82,7 @@ const removeButton = index => {
       :model-value="modelValue.footerText"
       :label="t('INTERACTIVE_MESSAGES.FIELDS.FOOTER_TEXT')"
       :placeholder="t('INTERACTIVE_MESSAGES.FIELDS.FOOTER_TEXT_PLACEHOLDER')"
+      :maxlength="FOOTER_TEXT_MAX_LENGTH"
       @update:model-value="value => updateField('footerText', value)"
     />
     <HeaderImageInput

@@ -126,6 +126,39 @@ describe('InteractiveMessagesModal', () => {
     expect(wrapper.emitted('onSend')).toHaveLength(1);
   });
 
+  it('blocks sending a CTA URL message with a footer over the WhatsApp limit', async () => {
+    const wrapper = mountComponent(false);
+    wrapper.vm.ctaUrlForm = {
+      bodyText: 'Visit our site',
+      footerText: 'F'.repeat(61),
+      headerMediaUrl: '',
+      buttonText: 'Visit',
+      buttonUrl: 'https://example.com',
+    };
+    await nextTick();
+
+    wrapper.vm.onSend();
+
+    expect(wrapper.emitted('onSend')).toBeUndefined();
+  });
+
+  it('blocks sending buttons with a footer over the WhatsApp limit', async () => {
+    const wrapper = mountComponent(false);
+    wrapper.vm.selectedType = CONTENT_TYPES.INTERACTIVE_BUTTONS;
+    wrapper.vm.buttonsForm = {
+      bodyText: 'Choose an option',
+      footerText: 'F'.repeat(61),
+      headerMediaUrl: '',
+      buttons: [{ id: 'btn_1', text: 'Option A' }],
+    };
+    wrapper.vm.isButtonsHeaderImageValid = true;
+    await nextTick();
+
+    wrapper.vm.onSend();
+
+    expect(wrapper.emitted('onSend')).toBeUndefined();
+  });
+
   it('resets away from interactive_list when the channel stops allowing it', async () => {
     const wrapper = mountComponent(false, true);
     wrapper.vm.selectedType = CONTENT_TYPES.INTERACTIVE_LIST;

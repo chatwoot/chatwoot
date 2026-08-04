@@ -27,6 +27,7 @@ const props = defineProps({
 const emit = defineEmits(['onSend', 'cancel', 'update:show']);
 
 const BUTTON_TITLE_MAX_LENGTH = 20;
+const FOOTER_TEXT_MAX_LENGTH = 60;
 const LIST_HEADER_TEXT_MAX_LENGTH = 60;
 const LIST_FOOTER_TEXT_MAX_LENGTH = 60;
 const LIST_SECTION_TITLE_MAX_LENGTH = 24;
@@ -139,6 +140,7 @@ const isCtaUrlValid = computed(
   () =>
     !!ctaUrlForm.value.bodyText &&
     !!ctaUrlForm.value.buttonText &&
+    ctaUrlForm.value.footerText.length <= FOOTER_TEXT_MAX_LENGTH &&
     isValidURL(ctaUrlForm.value.buttonUrl) &&
     isCtaHeaderImageValid.value
 );
@@ -146,6 +148,7 @@ const isCtaUrlValid = computed(
 const isButtonsValid = computed(
   () =>
     !!buttonsForm.value.bodyText &&
+    buttonsForm.value.footerText.length <= FOOTER_TEXT_MAX_LENGTH &&
     buttonsForm.value.buttons.length > 0 &&
     buttonsForm.value.buttons.every(
       button => !!button.text && button.text.length <= BUTTON_TITLE_MAX_LENGTH
