@@ -19,6 +19,8 @@
 class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
   LANGUAGE_ELIGIBILITY_PENDING_KEY = 'captain_language_eligibility_pending'.freeze
+  AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze
+  RESPONSE_WINDOWS = %w[always business_hours outside_business_hours].freeze
 
   include Avatarable
   include Concerns::CaptainToolsHelpers
@@ -40,16 +42,19 @@ class Captain::Assistant < ApplicationRecord
   has_many :copilot_threads, dependent: :destroy_async
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
   has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
+  has_many :conversation_outcomes, dependent: :destroy_async
 
-  store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name, :response_window
+  store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
+                 :auto_resolve_mode, :response_window
 
-  RESPONSE_WINDOWS = %w[always business_hours outside_business_hours].freeze
+  before_validation :set_default_auto_resolve_mode, on: :create
 
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
   validates_with Captain::AudienceValidator
   validate :validate_response_window
+  validates :auto_resolve_mode, inclusion: { in: AUTO_RESOLVE_MODES }
 
   scope :ordered, -> { order(created_at: :desc) }
 
@@ -89,6 +94,18 @@ class Captain::Assistant < ApplicationRecord
     return true unless inbox.working_hours_enabled?
 
     response_window == 'business_hours' ? !inbox.out_of_office? : inbox.out_of_office?
+  end
+
+  def auto_resolve_mode
+    config.fetch('auto_resolve_mode') { account&.captain_auto_resolve_mode || 'evaluated' }
+  end
+
+  def inactive_conversation_resolution_disabled?
+    auto_resolve_mode == 'disabled'
+  end
+
+  def evaluate_inactive_conversations_before_resolving?
+    auto_resolve_mode == 'evaluated'
   end
 
   def available_agent_tools
@@ -133,6 +150,12 @@ class Captain::Assistant < ApplicationRecord
     return if response_window.blank?
 
     errors.add(:config, 'invalid response_window') unless RESPONSE_WINDOWS.include?(response_window)
+  end
+
+  def set_default_auto_resolve_mode
+    return if config.key?('auto_resolve_mode')
+
+    self.auto_resolve_mode = account&.captain_auto_resolve_mode || 'evaluated'
   end
 
   def agent_name
