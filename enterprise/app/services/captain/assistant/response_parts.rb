@@ -35,7 +35,8 @@ class Captain::Assistant::ResponseParts
 
         # Number trusted sources by first appearance and reuse that number for later references.
         display_number = display_numbers[url] ||= display_numbers.size + 1
-        "[[#{display_number}](#{url})]"
+        markdown_safe_url = url.gsub('(', '%28').gsub(')', '%29')
+        "[[#{display_number}](#{markdown_safe_url})]"
       end.uniq
 
       final_text_line = part['text'].lines.last.to_s.strip

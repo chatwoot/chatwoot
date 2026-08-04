@@ -12,23 +12,19 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     let(:mock_action_classifier_service) { instance_double(Captain::Llm::AssistantActionClassifierService) }
     let(:mock_false_promise_service) { instance_double(Captain::Llm::AssistantFalsePromiseService) }
     let(:assistant_model) { Llm::Models.default_model_for('assistant') }
+    let!(:responding_to_message) { create(:message, conversation: conversation, content: 'Hello', message_type: :incoming) }
     let(:v2_response_parts) { [{ 'text' => 'Hey, welcome to Captain V2', 'citation_indexes' => [] }] }
-    let(:v2_response) do
-      {
-        'response_parts' => v2_response_parts,
-        'response' => 'Hey, welcome to Captain V2',
-        'reasoning' => 'A friendly greeting'
-      }
-    end
 
     before do
-      create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
-
       allow(inbox).to receive(:captain_active?).and_return(true)
       allow(Captain::Llm::AssistantChatService).to receive(:new).and_return(mock_llm_chat_service)
       allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
       allow(Captain::Assistant::AgentRunnerService).to receive(:new).and_return(mock_agent_runner_service)
-      allow(mock_agent_runner_service).to receive(:generate_response).and_return(v2_response)
+      allow(mock_agent_runner_service).to receive(:generate_response).and_return({
+                                                                                   'response_parts' => v2_response_parts,
+                                                                                   'response' => 'Hey, welcome to Captain V2',
+                                                                                   'reasoning' => 'A friendly greeting'
+                                                                                 })
       allow(mock_agent_runner_service).to receive(:last_run_result).and_return(nil)
       allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(false)
       allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(false)
@@ -372,46 +368,42 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
       context 'with message burst protection' do
         it 'passes the responding message id to the runner' do
-          responding_to_message_id = conversation.messages.find_by!(content: 'Hello').id
           expect(Captain::Assistant::AgentRunnerService).to receive(:new).with(
             assistant: assistant,
             conversation: conversation,
-            responding_to_message_id: responding_to_message_id
+            responding_to_message_id: responding_to_message.id
           )
 
-          described_class.perform_now(conversation, assistant, responding_to_message_id)
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
         end
 
         it 'discards a response when the runner sees a newer customer message' do
-          responding_to_message_id = conversation.messages.find_by!(content: 'Hello').id
           allow(mock_agent_runner_service).to receive(:generate_response) do
             create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
             { 'response' => 'Stale response', 'handoff_tool_called' => false }
           end
           allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(true)
 
-          described_class.perform_now(conversation, assistant, responding_to_message_id)
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
 
           expect(conversation.messages.outgoing.count).to eq(0)
           expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
         end
 
         it 'checks freshness itself after generation' do
-          responding_to_message_id = conversation.messages.find_by!(content: 'Hello').id
           allow(mock_agent_runner_service).to receive(:generate_response) do
             create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
             { 'response' => 'Stale response', 'handoff_tool_called' => false }
           end
           allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(false)
 
-          described_class.perform_now(conversation, assistant, responding_to_message_id)
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
 
           expect(conversation.messages.outgoing.count).to eq(0)
           expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
         end
 
         it 'does not emit a response completed event for a stale response' do
-          responding_to_message_id = conversation.messages.find_by!(content: 'Hello').id
           allow(mock_agent_runner_service).to receive(:generate_response) do
             create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
             { 'response' => 'Stale response', 'handoff_tool_called' => false }
@@ -419,11 +411,10 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
           expect(Captain::ConversationEvents).not_to receive(:response_completed)
 
-          described_class.perform_now(conversation, assistant, responding_to_message_id)
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
         end
 
         it 'emits only the response failed event when generation raises after a newer message arrived' do
-          responding_to_message_id = conversation.messages.find_by!(content: 'Hello').id
           allow(mock_agent_runner_service).to receive(:generate_response) do
             create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
             raise StandardError, 'llm down'
@@ -433,14 +424,13 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
             .with(conversation: conversation, assistant: assistant, reason: 'standard_error', at: kind_of(Time))
           expect(Captain::ConversationEvents).not_to receive(:handed_off)
 
-          described_class.perform_now(conversation, assistant, responding_to_message_id)
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
 
           expect(conversation.messages.outgoing.count).to eq(0)
           expect(conversation.reload.status).to eq('pending')
         end
 
         it 'keeps the pending response fresh when an email auto reply arrives' do
-          responding_to_message_id = conversation.messages.find_by!(content: 'Hello').id
           create(
             :message,
             conversation: conversation,
@@ -449,7 +439,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
             content_attributes: { email: { auto_reply: true } }
           )
 
-          described_class.perform_now(conversation, assistant, responding_to_message_id)
+          described_class.perform_now(conversation, assistant, responding_to_message.id)
 
           expect(conversation.messages.outgoing.last.content).to eq('Hey, welcome to Captain V2')
           expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(1)
@@ -458,7 +448,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
       it 'passes message history with resolution markers to agent runner service' do
         same_second = Time.current.change(usec: 0)
-        conversation.messages.find_by!(content: 'Hello').update!(created_at: same_second, updated_at: same_second)
+        responding_to_message.update!(created_at: same_second, updated_at: same_second)
         create(
           :message,
           conversation: conversation,
@@ -499,6 +489,32 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
         expect(mock_agent_runner_service).to receive(:generate_response).with(
           message_history: expected_messages
+        )
+
+        described_class.perform_now(conversation, assistant)
+      end
+
+      it 'does not restore deleted Captain response parts into message history' do
+        deleted_content = I18n.t('conversations.messages.deleted')
+        create(
+          :message,
+          conversation: conversation,
+          sender: assistant,
+          content: deleted_content,
+          content_attributes: { deleted: true },
+          message_type: :outgoing,
+          additional_attributes: {
+            Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY => [
+              { 'text' => 'Sensitive deleted answer', 'citation_indexes' => [] }
+            ]
+          }
+        )
+
+        expect(mock_agent_runner_service).to receive(:generate_response).with(
+          message_history: [
+            { content: 'Hello', role: 'user' },
+            { content: deleted_content, role: 'assistant' }
+          ]
         )
 
         described_class.perform_now(conversation, assistant)
@@ -555,6 +571,25 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
           expect(conversation.messages.outgoing.last.content).to eq(
             'Hey, welcome to Captain V2 [[1](https://help.example.com/password)]'
+          )
+        end
+
+        it 'encodes Markdown delimiters in citation URLs' do
+          document = create(
+            :captain_document,
+            assistant: assistant,
+            external_link: 'https://help.example.com/guides/reset_(new)'
+          )
+          citation_sources = mock_agent_runner_service.last_run_result.context[:state][Captain::Assistant::CITATION_SOURCES_STATE_KEY]
+          citation_sources[3] = document.id
+          v2_response_parts.first['citation_indexes'] = [3]
+
+          described_class.perform_now(conversation, assistant)
+
+          content = conversation.messages.outgoing.last.content
+          expect(content).to eq('Hey, welcome to Captain V2 [[1](https://help.example.com/guides/reset_%28new%29)]')
+          expect(ChatwootMarkdownRenderer.new(content).render_message.to_s).to include(
+            '<a href="https://help.example.com/guides/reset_%28new%29">1</a>'
           )
         end
 

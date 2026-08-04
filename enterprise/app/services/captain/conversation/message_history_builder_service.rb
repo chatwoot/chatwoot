@@ -48,7 +48,7 @@ class Captain::Conversation::MessageHistoryBuilderService
   end
 
   def prepare_multimodal_message_content(message)
-    if message.outgoing? && message.sender_type == 'Captain::Assistant'
+    if message.outgoing? && message.sender_type == 'Captain::Assistant' && !message.deleted
       message_attributes = message.additional_attributes.to_h
       response_parts_attribute = Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY
       if message_attributes.key?(response_parts_attribute)
