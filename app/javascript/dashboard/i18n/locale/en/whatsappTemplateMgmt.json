@@ -1,7 +1,7 @@
 {
   "WHATSAPP_TEMPLATE_MGMT": {
     "TITLE": "Templates",
-    "DESCRIPTION": "View the message templates synced from your WhatsApp Business accounts. To create or edit a template, manage it in Meta.",
+    "DESCRIPTION": "View the message templates synced from your WhatsApp inboxes. To create or edit a template, manage it with your provider.",
     "COUNT": "{n} template | {n} templates",
     "KNOW_MORE": "Know more",
     "NEW_TEMPLATE": "New template",

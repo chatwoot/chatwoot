@@ -24,6 +24,7 @@ const TWILIO_TEMPLATE_MANAGER_URL =
   'https://console.twilio.com/us1/develop/sms/content-editor';
 const META_TEMPLATE_LEARN_MORE_URL =
   'https://developers.facebook.com/documentation/business-messaging/whatsapp/templates/overview/';
+const TWILIO_TEMPLATE_LEARN_MORE_URL = 'https://www.twilio.com/docs/content';
 
 const store = useStore();
 const { t } = useI18n();
@@ -37,6 +38,7 @@ const selectedLanguage = ref('all');
 const selectedTemplate = ref(null);
 const openFilterMenu = ref(null);
 const previewPanelRef = ref(null);
+const templateRecordsByInboxId = new Map();
 let latestFetchRequestId = 0;
 
 const hasTemplates = computed(() => templates.value.length > 0);
@@ -52,6 +54,10 @@ const whatsappInboxes = computed(() =>
 
 const canManageInMeta = computed(() =>
   whatsappInboxes.value.some(inbox => inbox.provider === 'whatsapp_cloud')
+);
+
+const hasTwilioInboxes = computed(() =>
+  whatsappInboxes.value.some(inbox => inbox.channel_type === INBOX_TYPES.TWILIO)
 );
 
 const selectedInbox = computed(() =>
@@ -72,6 +78,24 @@ const newTemplateUrl = computed(() => {
   )
     ? TWILIO_TEMPLATE_MANAGER_URL
     : null;
+});
+
+const learnMoreUrl = computed(() => {
+  if (selectedInbox.value) {
+    return selectedInbox.value.channel_type === INBOX_TYPES.TWILIO
+      ? TWILIO_TEMPLATE_LEARN_MORE_URL
+      : META_TEMPLATE_LEARN_MORE_URL;
+  }
+
+  if (canManageInMeta.value && !hasTwilioInboxes.value) {
+    return META_TEMPLATE_LEARN_MORE_URL;
+  }
+
+  if (hasTwilioInboxes.value && !canManageInMeta.value) {
+    return TWILIO_TEMPLATE_LEARN_MORE_URL;
+  }
+
+  return null;
 });
 
 const inboxOptions = computed(() => [
@@ -195,15 +219,23 @@ const groupTemplates = templateRecords => {
       inbox.channel_type === INBOX_TYPES.TWILIO
         ? PLATFORMS.TWILIO
         : PLATFORMS.WHATSAPP;
-    const businessAccountId = inbox.provider_config?.business_account_id;
+    const providerAccountId =
+      inbox.provider_config?.business_account_id ||
+      inbox.account_sid ||
+      inbox.id;
     const name = template.name || template.friendly_name;
-    const templateIdentifier = template.id || template.content_sid || name;
-    const key = [
-      platform,
-      businessAccountId || inbox.id,
-      templateIdentifier,
-      template.language,
-    ].join(':');
+    const providerTemplateIdentifier = template.id || template.content_sid;
+    const templateIdentifier = providerTemplateIdentifier || name;
+    const key = JSON.stringify(
+      providerTemplateIdentifier
+        ? [
+            platform,
+            providerAccountId,
+            providerTemplateIdentifier,
+            template.language,
+          ]
+        : [platform, inbox.id, name, template.language, template]
+    );
     const existingTemplate = groupedTemplates.get(key);
 
     if (existingTemplate) {
@@ -258,11 +290,14 @@ const fetchTemplates = async () => {
           throw new TypeError();
         }
 
-        return data.payload.map(template => ({
-          template,
-          inbox,
-          lastUpdatedAt: data.meta?.last_updated_at,
-        }));
+        return {
+          inboxId: inbox.id,
+          records: data.payload.map(template => ({
+            template,
+            inbox,
+            lastUpdatedAt: data.meta?.last_updated_at,
+          })),
+        };
       })
     );
 
@@ -271,12 +306,20 @@ const fetchTemplates = async () => {
     const successfulResponses = responses.filter(
       response => response.status === 'fulfilled'
     );
+    const activeInboxIds = new Set(
+      whatsappInboxes.value.map(inbox => inbox.id)
+    );
 
-    if (successfulResponses.length || !responses.length) {
-      templates.value = groupTemplates(
-        successfulResponses.flatMap(response => response.value)
-      );
-    }
+    templateRecordsByInboxId.forEach((_, inboxId) => {
+      if (!activeInboxIds.has(inboxId))
+        templateRecordsByInboxId.delete(inboxId);
+    });
+    successfulResponses.forEach(({ value }) => {
+      templateRecordsByInboxId.set(value.inboxId, value.records);
+    });
+    templates.value = groupTemplates(
+      [...templateRecordsByInboxId.values()].flat()
+    );
 
     if (responses.some(response => response.status === 'rejected')) {
       const errorMessage = successfulResponses.length
@@ -316,7 +359,8 @@ onActivated(fetchTemplates);
         <template #description>
           {{ $t('WHATSAPP_TEMPLATE_MGMT.DESCRIPTION') }}
           <a
-            :href="META_TEMPLATE_LEARN_MORE_URL"
+            v-if="learnMoreUrl"
+            :href="learnMoreUrl"
             class="text-sm font-medium text-n-blue-11 hover:underline"
             target="_blank"
             rel="noopener noreferrer"
