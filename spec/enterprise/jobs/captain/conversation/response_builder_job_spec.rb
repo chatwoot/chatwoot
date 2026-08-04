@@ -572,7 +572,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           expect(conversation.messages.outgoing.last.content).to eq(
             'Hey, welcome to Captain V2 [[1](https://help.example.com/password)]'
           )
-          cited_document_id = mock_agent_runner_service.last_run_result.context[:state][:captain_v2_citation_sources][1]
+          cited_document_id = mock_agent_runner_service.last_run_result.context[:state][Captain::Assistant::CITATION_SOURCES_STATE_KEY][1]
           expect(Captain::AgentSession.last.cited_document_ids).to eq([cited_document_id])
         end
 

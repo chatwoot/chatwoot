@@ -166,12 +166,12 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
       used_faq = create(:captain_assistant_response, assistant: assistant, documentable: user, status: :approved)
       assistant.update!(config: assistant.config.merge('feature_citation' => true))
       run_context[:state] = {
-        cw_metadata: {
+        :cw_metadata => {
           faq_ids: [cited_faq.id, retrieved_faq.id, used_faq.id],
           used_faq_ids: [used_faq.id],
           document_ids: [cited_document.id, retrieved_document.id]
         },
-        captain_v2_citation_sources: { 1 => cited_document.id, 2 => retrieved_document.id }
+        Captain::Assistant::CITATION_SOURCES_STATE_KEY => { 1 => cited_document.id, 2 => retrieved_document.id }
       }
       run_result.output = {
         'response_parts' => [{ 'text' => 'Reset your password from settings.', 'citation_indexes' => [1] }],
@@ -192,7 +192,7 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
 
     it 'does not store citations when citations are disabled' do
       document = create(:captain_document, assistant: assistant, external_link: 'https://help.example.com/reset-password')
-      run_context[:state][:captain_v2_citation_sources] = { 1 => document.id }
+      run_context[:state][Captain::Assistant::CITATION_SOURCES_STATE_KEY] = { 1 => document.id }
       run_result.output = {
         'response_parts' => [{ 'text' => 'Reset your password from settings.', 'citation_indexes' => [1] }],
         'reasoning' => 'Used the password FAQ'

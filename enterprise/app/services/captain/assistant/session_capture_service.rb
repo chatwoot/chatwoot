@@ -52,7 +52,7 @@ class Captain::Assistant::SessionCaptureService
   def cited_document_ids
     return [] unless @assistant.config['feature_citation']
 
-    citation_document_ids = (context.dig(:state, :captain_v2_citation_sources) || {}).transform_keys(&:to_i)
+    citation_document_ids = (context.dig(:state, Captain::Assistant::CITATION_SOURCES_STATE_KEY) || {}).transform_keys(&:to_i)
     visible_citation_indexes = @assistant.customer_visible_citation_urls(citation_document_ids).keys
     stored_response_parts = result_message.additional_attributes.to_h[Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY]
     response_parts = Captain::Assistant::ResponseParts.new(stored_response_parts)
