@@ -134,7 +134,8 @@ class Captain::ConversationOutcomeTracker
       ended_at: earliest_boundary&.started_at
     )
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
-    episodes.trigger_initial.take || raise
+    initial = episodes.trigger_initial.take || raise
+    lower_initial_anchor(initial, at)
   end
 
   # --- Boundary insertion ---------------------------------------------------
