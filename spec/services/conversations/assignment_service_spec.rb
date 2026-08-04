@@ -44,6 +44,16 @@ describe Conversations::AssignmentService do
         expect(conversation.status).to eq('open')
       end
 
+      it 'starts the waiting clock when opening a bot-owned pending conversation' do
+        conversation.update!(waiting_since: nil)
+
+        freeze_time do
+          described_class.new(conversation: conversation, assignee_id: agent.id).perform
+
+          expect(conversation.reload.waiting_since).to eq(Time.current)
+        end
+      end
+
       it 'preserves status for ordinary human assignment changes' do
         conversation.update!(assignee_agent_bot: nil, status: :resolved)
 
