@@ -6,7 +6,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   def perform(inbox)
     captain_assistant = inbox.captain_assistant
-    return if captain_assistant.blank? || captain_assistant.inactive_conversation_resolution_disabled?
+    return if captain_assistant.blank? || captain_assistant.inactive_conversation_resolution_disabled? || inbox.external_bot_active?
 
     if evaluate_conversation_completion?(captain_assistant, inbox.account)
       perform_with_evaluation(inbox)
@@ -29,6 +29,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     resolvable_pending_conversations(inbox).each do |conversation|
       create_resolution_message(conversation, inbox)
       conversation.resolved!
+
       Captain::ConversationEvents.resolved(
         conversation: conversation,
         assistant: inbox.captain_assistant,
@@ -43,7 +44,6 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
     resolvable_pending_conversations(inbox).each do |conversation|
       evaluation = evaluate_conversation(conversation, inbox)
-      next unless still_resolvable_after_evaluation?(conversation)
 
       if evaluation[:complete]
         resolve_conversation(conversation, inbox, evaluation[:reason])
@@ -62,13 +62,14 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   def resolvable_pending_conversations(inbox)
     inbox.conversations.pending
+         .where(assignee_agent_bot_id: nil)
          .where('last_activity_at < ?', auto_resolve_cutoff_time)
          .limit(Limits::BULK_ACTIONS_LIMIT)
   end
 
   def still_resolvable_after_evaluation?(conversation)
     conversation.reload
-    conversation.pending? && conversation.last_activity_at < auto_resolve_cutoff_time
+    conversation.captain_handled? && conversation.last_activity_at < auto_resolve_cutoff_time
   rescue ActiveRecord::RecordNotFound
     false
   end
@@ -78,12 +79,15 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   def resolve_conversation(conversation, inbox, reason)
+    return unless still_resolvable_after_evaluation?(conversation)
+
     create_private_note(conversation, inbox, "Auto-resolved: #{reason}")
     create_resolution_message(conversation, inbox)
     conversation.with_captain_activity_context(
       reason: CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON,
       reason_type: :inference
     ) { conversation.resolved! }
+
     Captain::ConversationEvents.resolved(
       conversation: conversation,
       assistant: inbox.captain_assistant,
@@ -93,6 +97,8 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   def handoff_conversation(conversation, inbox, reason)
+    return unless still_resolvable_after_evaluation?(conversation)
+
     create_private_note(conversation, inbox, "Auto-handoff: #{reason}")
     create_handoff_message(conversation, inbox)
     conversation.with_captain_activity_context(

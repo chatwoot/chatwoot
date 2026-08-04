@@ -10,6 +10,10 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
   let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, status: :pending) }
   let(:tool_context) { Struct.new(:state).new({ conversation: { id: conversation.id } }) }
 
+  before do
+    create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+  end
+
   describe '#description' do
     it 'returns the correct description' do
       expect(tool.description).to eq('Hand off the conversation to a human agent when unable to assist further')
@@ -51,7 +55,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           expect do
             result = tool.perform(tool_context, reason: 'Customer needs specialized support')
             expect(result).to include('Conversation handed off')
-          end.to change(Message, :count).by(1)
+          end.to change { conversation.messages.outgoing.where(private: true).count }.by(1)
           expect(tool_context.state[:captain_v2_handoff_tool_completed]).to be true
         end
 
@@ -118,14 +122,14 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
         end
 
-        it 'uses the legacy handoff without a lock or stale-message guard' do
+        it 'uses the legacy handoff without a stale-message guard' do
           responding_to_message
           create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
           found_conversation = Conversation.find(conversation.id)
           scoped_conversations = Conversation.where(account_id: assistant.account_id)
           allow(Conversation).to receive(:where).with(account_id: assistant.account_id).and_return(scoped_conversations)
           allow(scoped_conversations).to receive(:find_by).with(id: conversation.id).and_return(found_conversation)
-          expect(found_conversation).not_to receive(:with_lock)
+          expect(found_conversation).to receive(:with_lock).and_call_original
 
           result = tool.perform(tool_context, reason: 'Customer needs specialized support')
 
@@ -165,7 +169,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           scoped_conversations = Conversation.where(account_id: assistant.account_id)
           allow(Conversation).to receive(:where).with(account_id: assistant.account_id).and_return(scoped_conversations)
           allow(scoped_conversations).to receive(:find_by).with(id: conversation.id).and_return(found_conversation)
-          expect(found_conversation).to receive(:bot_handoff!)
+          expect(found_conversation).to receive(:bot_handoff!).with(dispatch_event: false)
 
           tool.perform(tool_context, reason: 'Test reason')
         end
@@ -178,7 +182,6 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
         end
 
         it 'creates a conversation_bot_handoff reporting event' do
-          create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
           Current.executed_by = assistant
 
           perform_enqueued_jobs do
@@ -260,6 +263,20 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           expect(exception_tracker).to receive(:capture_exception)
 
           tool.perform(tool_context, reason: 'Test')
+        end
+      end
+
+      context 'when an AgentBot owns the conversation' do
+        before do
+          conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
+        end
+
+        it 'does not hand off the conversation' do
+          expect do
+            expect(tool.perform(tool_context, reason: 'Test')).to eq('Handoff skipped because the conversation changed')
+          end.not_to change(Message, :count)
+
+          expect(conversation.reload).to be_pending
         end
       end
     end

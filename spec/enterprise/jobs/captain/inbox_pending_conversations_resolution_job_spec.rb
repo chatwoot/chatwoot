@@ -5,6 +5,10 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   let!(:resolvable_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 2.hours.ago, status: :pending) }
   let!(:recent_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 1.minute.ago, status: :pending) }
   let!(:open_conversation) { create(:conversation, inbox: inbox, last_activity_at: 1.hour.ago, status: :open) }
+  let!(:agent_bot_conversation) do
+    create(:conversation, inbox: inbox, last_activity_at: 2.hours.ago, status: :pending,
+                          assignee_agent_bot: create(:agent_bot, account: inbox.account))
+  end
   let!(:captain_assistant) { create(:captain_assistant, account: inbox.account, config: { 'auto_resolve_mode' => 'evaluated' }) }
 
   before do
@@ -55,6 +59,12 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(open_conversation.reload.status).to eq('open')
     end
 
+    it 'does not resolve AgentBot-owned conversations' do
+      described_class.perform_now(inbox)
+
+      expect(agent_bot_conversation.reload).to be_pending
+    end
+
     it 'emits a captain resolved event with the time_based source' do
       expect(Captain::ConversationEvents).to receive(:resolved)
         .with(conversation: resolvable_pending_conversation, assistant: captain_assistant, source: 'time_based', at: kind_of(Time))
@@ -77,6 +87,18 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       described_class.perform_now(inbox)
 
       expect(Captain::ConversationCompletionService).not_to have_received(:new)
+    end
+  end
+
+  context 'when another bot is connected to the inbox' do
+    before do
+      create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: inbox.account))
+    end
+
+    it 'leaves pending conversations unchanged' do
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload).to be_pending
     end
   end
 

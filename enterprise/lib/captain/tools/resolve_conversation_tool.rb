@@ -8,9 +8,11 @@ class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
     return "Conversation ##{conversation.display_id} is already resolved" if conversation.resolved?
     return 'Auto-resolve is disabled for this assistant' if @assistant.inactive_conversation_resolution_disabled?
 
-    log_tool_usage('resolve_conversation', { conversation_id: conversation.id, reason: reason })
+    result = resolve_conversation(conversation, reason)
 
-    conversation.with_captain_activity_context(reason: reason, reason_type: :tool) { conversation.resolved! }
+    return "Conversation ##{conversation.display_id} is already resolved" if result == :resolved
+    return 'Resolve skipped because the conversation changed' unless result == :completed
+
     Captain::ConversationEvents.resolved(conversation: conversation, assistant: @assistant,
                                          source: Captain::ConversationEvents::Sources::TOOL, at: Time.current)
 
@@ -18,6 +20,20 @@ class Captain::Tools::ResolveConversationTool < Captain::Tools::BasePublicTool
   end
 
   private
+
+  def resolve_conversation(conversation, reason)
+    conversation.reload
+    conversation.with_captain_activity_context(reason: reason, reason_type: :tool) do
+      conversation.with_lock do
+        next :resolved if conversation.resolved?
+        next :changed unless conversation.captain_handled?
+
+        log_tool_usage('resolve_conversation', { conversation_id: conversation.id, reason: reason })
+        conversation.resolved!
+        :completed
+      end
+    end
+  end
 
   def permissions
     %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]

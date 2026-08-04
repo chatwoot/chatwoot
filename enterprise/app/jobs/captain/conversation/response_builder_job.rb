@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   include Captain::Conversation::V1ActionClassifier
   include Captain::Conversation::V1FalsePromiseHandler
@@ -12,6 +13,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @conversation = conversation
     @inbox = conversation.inbox
     @assistant = assistant
+    @captain_v2_enabled = account.feature_enabled?('captain_integration_v2')
     @responding_to_message_id = responding_to_message_id if captain_v2_enabled?
 
     return unless conversation_pending?
@@ -91,9 +93,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def process_standard_response
     message = nil
-    ActiveRecord::Base.transaction do
-      next if captain_v2_enabled? && newer_customer_message_arrived?
-
+    with_captain_write_lock do
       message = create_messages
       Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
       account.increment_response_usage
@@ -142,13 +142,20 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def process_v1_handoff
     I18n.with_locale(@assistant.account.locale) do
-      Rails.logger.info(
-        "[CAPTAIN][ResponseBuilderJob] V1 handoff requested for account=#{account.id} conversation=#{@conversation.display_id} " \
-        "source=#{@response&.dig('action_source') || 'legacy'} reason=#{@response&.dig('action_reason')}"
-      )
-      create_handoff_message
-      @conversation.bot_handoff!
-      report_v1_handoff_not_executed if conversation_pending?
+      handoff_performed = with_captain_write_lock(check_freshness: false) do
+        Rails.logger.info(
+          "[CAPTAIN][ResponseBuilderJob] V1 handoff requested for account=#{account.id} conversation=#{@conversation.display_id} " \
+          "source=#{@response&.dig('action_source') || 'legacy'} reason=#{@response&.dig('action_reason')}"
+        )
+        create_handoff_message(preserve_waiting_since: true)
+        @conversation.waiting_since = nil
+        @conversation.bot_handoff!(dispatch_event: false)
+        report_v1_handoff_not_executed if conversation_pending?
+        true
+      end
+      return unless handoff_performed
+
+      @conversation.dispatch_bot_handoff_event
       send_out_of_office_message_if_applicable
     end
   end
@@ -157,8 +164,17 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     # HandoffTool already ran bot_handoff! + OOO inside the agent loop. Preserve
     # waiting_since so this message doesn't clear the timestamp it left in place.
     I18n.with_locale(@assistant.account.locale) do
-      create_handoff_message(preserve_waiting_since: true)
+      with_captain_write_lock(require_pending: false, check_freshness: false) do
+        create_handoff_message(preserve_waiting_since: true)
+      end
     end
+  end
+
+  def create_handoff_message(preserve_waiting_since: false)
+    @handoff_message = create_outgoing_message(
+      @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'),
+      preserve_waiting_since: preserve_waiting_since
+    )
   end
 
   def send_out_of_office_message_if_applicable
@@ -167,13 +183,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return if @conversation.campaign.present?
 
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(@conversation)
-  end
-
-  def create_handoff_message(preserve_waiting_since: false)
-    @handoff_message = create_outgoing_message(
-      @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'),
-      preserve_waiting_since: preserve_waiting_since
-    )
   end
 
   # Capture runs outside the delivery transaction and never raises (the service
@@ -211,7 +220,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def captain_v2_enabled?
-    account.feature_enabled?('captain_integration_v2')
+    @captain_v2_enabled
   end
 
   def report_v1_handoff_not_executed
@@ -224,8 +233,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def conversation_pending?
-    status = Conversation.uncached { Conversation.where(id: @conversation.id).pick(:status) }
-    status == 'pending' || status == Conversation.statuses[:pending]
+    Conversation.uncached { Conversation.find_by(id: @conversation.id)&.captain_handled? }
   end
 
   def newer_customer_message_arrived?
@@ -238,3 +246,4 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

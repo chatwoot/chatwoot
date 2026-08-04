@@ -6,6 +6,10 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:captain_inbox_association) { create(:captain_inbox, captain_assistant: assistant, inbox: inbox) }
 
+  before do
+    captain_inbox_association
+  end
+
   describe '#perform' do
     let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
     let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
@@ -30,6 +34,21 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(mock_action_classifier_service).to receive(:classify).and_return({ 'action' => 'continue' })
       allow(Captain::Llm::AssistantFalsePromiseService).to receive(:new).and_return(mock_false_promise_service)
       allow(mock_false_promise_service).to receive(:detect).and_return({ 'decision' => 'safe', 'reason' => 'safe_response' })
+    end
+
+    context 'when an AgentBot takes over before the queued job runs' do
+      before do
+        conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
+      end
+
+      it 'does not generate a Captain response' do
+        expect(Captain::Llm::AssistantChatService).not_to receive(:new)
+        expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(conversation.messages.outgoing).to be_empty
+      end
     end
 
     context 'when captain_v2 is disabled' do

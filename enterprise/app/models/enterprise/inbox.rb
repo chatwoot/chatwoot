@@ -13,7 +13,7 @@ module Enterprise::Inbox
   end
 
   def captain_active?
-    captain_assistant.present? && more_responses?
+    !external_bot_active? && captain_assistant.present? && more_responses?
   end
 
   private

@@ -41,8 +41,7 @@ module Enterprise::Message
     Current.executed_by = nil
 
     begin
-      conversation.open!
-      return unless conversation.saved_change_to_status?
+      return unless open_captain_pending_conversation
 
       create_captain_auto_open_activity_message
     ensure
@@ -51,10 +50,18 @@ module Enterprise::Message
     end
   end
 
-  def captain_pending_conversation?
-    return false unless conversation.pending?
+  def open_captain_pending_conversation
+    conversation.reload
+    conversation.with_lock do
+      next false unless captain_pending_conversation?
 
-    ::CaptainInbox.exists?(inbox_id: conversation.inbox_id)
+      conversation.open!
+      conversation.saved_change_to_status?
+    end
+  end
+
+  def captain_pending_conversation?
+    conversation.captain_handled?
   end
 
   def template_bootstrap_message?

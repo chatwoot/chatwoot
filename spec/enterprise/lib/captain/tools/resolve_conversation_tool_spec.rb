@@ -4,11 +4,12 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
-  let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :open) }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :pending) }
   let(:tool) { described_class.new(assistant) }
   let(:tool_context) { Struct.new(:state).new({ conversation: { id: conversation.id } }) }
 
   before do
+    create(:captain_inbox, captain_assistant: assistant, inbox: inbox) unless conversation.resolved?
     Current.executed_by = assistant
   end
 
@@ -37,8 +38,6 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
     end
 
     it 'creates a conversation_resolved reporting event' do
-      create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
-
       expect do
         perform_enqueued_jobs do
           tool.perform(tool_context, reason: 'Possible spam')
@@ -55,6 +54,19 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
 
       expect(result).to eq('Auto-resolve is disabled for this assistant')
       expect(conversation.reload).not_to be_resolved
+    end
+  end
+
+  describe 'when an AgentBot owns the conversation' do
+    before do
+      conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
+    end
+
+    it 'does not resolve the conversation' do
+      result = tool.perform(tool_context, reason: 'Possible spam')
+
+      expect(result).to eq('Resolve skipped because the conversation changed')
+      expect(conversation.reload).to be_pending
     end
   end
 

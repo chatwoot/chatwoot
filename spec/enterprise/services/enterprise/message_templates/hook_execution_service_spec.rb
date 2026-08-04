@@ -202,6 +202,30 @@ RSpec.describe MessageTemplates::HookExecutionService do
     end
   end
 
+  context 'when an AgentBot is connected' do
+    before do
+      create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: account))
+    end
+
+    it 'does not schedule a Captain response' do
+      expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+    end
+  end
+
+  context 'when Dialogflow is connected' do
+    before do
+      create(:integrations_hook, :dialogflow, inbox: inbox, account: account)
+    end
+
+    it 'does not schedule a Captain response' do
+      expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+    end
+  end
+
   context 'when conversation is not pending' do
     before do
       conversation.update!(status: :open)
