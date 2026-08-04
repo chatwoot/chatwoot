@@ -21,12 +21,12 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
       return render status: :unprocessable_entity, json: { error: 'Message templates are only available for WhatsApp channels' }
     end
 
-    templates, last_updated_at, name_key = message_template_data
+    templates, last_sync_attempt_at, name_key = message_template_data
     templates = templates.select { |template| template[name_key] == params[:name] } if params[:name].present?
 
     render json: {
       payload: templates,
-      meta: { last_updated_at: last_updated_at }
+      meta: { last_sync_attempt_at: last_sync_attempt_at }
     }
   end
 
