@@ -38,6 +38,7 @@ const buildStore = ({
   chat,
   templates,
   drafts = {},
+  inboxes,
   isMetaMessageSendingDisabled = false,
 }) =>
   createStore({
@@ -72,7 +73,10 @@ const buildStore = ({
       'globalConfig/get': () => ({}),
       'globalConfig/isMetaMessageSendingDisabled': () =>
         isMetaMessageSendingDisabled,
-      'inboxes/getInbox': () => () => ({ id: 1, ...inbox }),
+      'inboxes/getInbox': () => inboxId => ({
+        id: inboxId,
+        ...(inboxes?.[inboxId] || inbox),
+      }),
       'inboxes/getWhatsAppTemplates': () => () => templates,
       'contacts/getContact': () => () => ({}),
       'draftMessages/get': s => key => s.drafts[key] || '',
@@ -89,6 +93,7 @@ const mountWith = ({
   chat,
   templates = [{ name: 'greeting' }],
   drafts,
+  inboxes,
   isMetaMessageSendingDisabled,
 }) => {
   const store = buildStore({
@@ -96,6 +101,7 @@ const mountWith = ({
     chat,
     templates,
     drafts,
+    inboxes,
     isMetaMessageSendingDisabled,
   });
   const wrapper = shallowMount(ReplyBox, {
@@ -141,6 +147,36 @@ describe('ReplyBox', () => {
       expect(store.getters['draftMessages/get']('draft-1-REPLY')).toBe(
         'unsent public reply'
       );
+    });
+
+    it('preserves draft ownership when switching to a restricted conversation', async () => {
+      const drafts = {
+        'draft-1-REPLY': 'conversation A reply',
+        'draft-1-NOTE': 'conversation A note',
+        'draft-2-REPLY': 'conversation B reply',
+        'draft-2-NOTE': 'conversation B note',
+      };
+      const { wrapper, store } = mountWith({
+        inbox: { channel_type: 'Channel::WebWidget' },
+        inboxes: {
+          1: { channel_type: 'Channel::WebWidget' },
+          2: { channel_type: 'Channel::Instagram' },
+        },
+        drafts,
+        isMetaMessageSendingDisabled: true,
+      });
+      await nextTick();
+
+      store.commit('selectChat', { ...REPLIABLE, id: 2, inbox_id: 2 });
+      await nextTick();
+
+      expect(editor(wrapper)).toMatchObject({
+        editorId: 'draft-2-NOTE',
+        modelValue: 'conversation B note',
+      });
+      Object.entries(drafts).forEach(([key, message]) => {
+        expect(store.getters['draftMessages/get'](key)).toBe(message);
+      });
     });
   });
 
