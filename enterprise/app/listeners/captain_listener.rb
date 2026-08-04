@@ -9,7 +9,7 @@ class CaptainListener < BaseListener
     return unless initial_language_eligibility_pending?(conversation, assistant)
 
     updated_additional_attributes = conversation.additional_attributes.except(Captain::Assistant::LANGUAGE_ELIGIBILITY_PENDING_KEY)
-    return handoff_unavailable_captain(conversation, updated_additional_attributes) unless conversation.inbox.captain_active?
+    return handoff_unavailable_captain(conversation, updated_additional_attributes, message) unless conversation.inbox.captain_active?
 
     # Language detection completes the initial audience decision asynchronously.
     # Later messages in an already handled conversation do not re-run eligibility.
@@ -18,6 +18,7 @@ class CaptainListener < BaseListener
       Captain::Conversation::ResponseSchedulerService.new(message: message).perform
     else
       conversation.update!(status: :open, additional_attributes: updated_additional_attributes)
+      run_human_templates(message)
     end
   end
 
@@ -40,8 +41,13 @@ class CaptainListener < BaseListener
       conversation.assignee_agent_bot.blank?
   end
 
-  def handoff_unavailable_captain(conversation, additional_attributes)
+  def handoff_unavailable_captain(conversation, additional_attributes, message)
     conversation.bot_handoff!
     conversation.update!(additional_attributes: additional_attributes)
+    run_human_templates(message)
+  end
+
+  def run_human_templates(message)
+    ::MessageTemplates::HookExecutionService.new(message: message).perform
   end
 end

@@ -33,7 +33,7 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def schedule_language_eligibility_fallback
-    Captain::Conversation::LanguageEligibilityFallbackJob.set(wait: 30.seconds).perform_later(conversation)
+    Captain::Conversation::LanguageEligibilityFallbackJob.set(wait: 30.seconds).perform_later(conversation, message)
   end
 
   def should_process_captain_response?

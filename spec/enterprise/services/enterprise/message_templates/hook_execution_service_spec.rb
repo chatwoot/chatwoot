@@ -218,7 +218,7 @@ RSpec.describe MessageTemplates::HookExecutionService do
 
       create(:message, conversation: conversation, message_type: :incoming, account: account)
 
-      expect(configured_job).to have_received(:perform_later).with(conversation)
+      expect(configured_job).to have_received(:perform_later).with(conversation, kind_of(Message))
     end
   end
 
