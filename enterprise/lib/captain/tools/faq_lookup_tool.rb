@@ -6,7 +6,15 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
     log_tool_usage('searching', { query: query })
 
     # Use existing vector search on approved responses
-    responses = @assistant.responses.approved.search(query).to_a
+    responses = @assistant.responses.approved.search(
+      query,
+      account_id: @assistant.account_id,
+      embedding_source: 'faq_lookup',
+      embedding_metadata: {
+        assistant_id: @assistant.id,
+        conversation_id: tool_context.state&.dig(:conversation, :display_id)
+      }.compact
+    ).to_a
     record_retrieved_sources(tool_context, responses)
 
     if responses.empty?

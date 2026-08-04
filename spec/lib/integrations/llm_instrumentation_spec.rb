@@ -307,7 +307,12 @@ RSpec.describe Integrations::LlmInstrumentation do
             account_id: 123,
             feature_name: 'embedding',
             model: 'text-embedding-3-small',
-            input: 'search result'
+            input: 'search result',
+            metadata: {
+              embedding_purpose: 'search',
+              embedding_source: 'faq_lookup',
+              assistant_id: 789
+            }
           }
           allow(root_span).to receive(:set_attribute)
           allow(embedding_span).to receive(:set_attribute)
@@ -324,6 +329,9 @@ RSpec.describe Integrations::LlmInstrumentation do
           expect(embedding_span).to have_received(:set_attribute).with('langfuse.trace.tags', ['embedding'])
           expect(embedding_span).to have_received(:set_attribute).with('langfuse.observation.metadata.session_id', '123_456')
           expect(embedding_span).to have_received(:set_attribute).with('langfuse.observation.metadata.feature_name', 'embedding')
+          expect(embedding_span).to have_received(:set_attribute).with('langfuse.observation.metadata.embedding_purpose', 'search')
+          expect(embedding_span).to have_received(:set_attribute).with('langfuse.observation.metadata.embedding_source', 'faq_lookup')
+          expect(embedding_span).to have_received(:set_attribute).with('langfuse.observation.metadata.assistant_id', '789')
         end
 
         # Regression test for Langfuse double-counting bug.

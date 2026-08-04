@@ -13,7 +13,12 @@ class Captain::Tools::SearchDocumentationService < Captain::Tools::BaseTool
                        .new(account: assistant.account)
                        .translate(query, target_language: assistant.account.locale_english_name)
 
-    responses = assistant.responses.approved.search(translated_query)
+    responses = assistant.responses.approved.search(
+      translated_query,
+      account_id: assistant.account_id,
+      embedding_source: 'search_documentation',
+      embedding_metadata: { assistant_id: assistant.id }
+    )
 
     return 'No FAQs found for the given query' if responses.empty?
 

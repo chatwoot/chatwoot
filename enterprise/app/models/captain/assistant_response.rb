@@ -46,8 +46,13 @@ class Captain::AssistantResponse < ApplicationRecord
 
   enum status: { approved: 1 }
 
-  def self.search(query, account_id: nil)
-    embedding = Captain::Llm::EmbeddingService.new(account_id: account_id).get_embedding(query)
+  def self.search(query, embedding_source:, account_id: nil, embedding_metadata: {})
+    embedding = Captain::Llm::EmbeddingService.new(account_id: account_id).get_embedding(
+      query,
+      purpose: 'search',
+      source: embedding_source,
+      metadata: embedding_metadata
+    )
     nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(5)
   end
 
