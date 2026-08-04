@@ -4,6 +4,7 @@
     <%= render 'layouts/portal_head' %>
   </head>
   <body class="font-default bg-white dark:bg-slate-900">
+    <%= render 'layouts/portal_analytics_noscript' %>
     <div id="portal" class="antialiased">
       <main class="flex flex-col min-h-screen main-content" role="main">
         <%= render 'public/api/v1/portals/header', portal: @portal %>
