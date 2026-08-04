@@ -670,6 +670,66 @@ describe Conversations::FilterService do
     end
   end
 
+  describe 'result counts' do
+    let!(:params) { { payload: [], page: 1 } }
+    let(:payload) do
+      [
+        {
+          attribute_key: 'status',
+          filter_operator: 'not_equal_to',
+          values: %w[resolved],
+          query_operator: nil,
+          custom_attribute_type: ''
+        }.with_indifferent_access
+      ]
+    end
+
+    before do
+      create(:conversation, account: account, inbox: inbox)
+    end
+
+    it 'returns mine, assigned, unassigned and all counts for the filtered set' do
+      params[:payload] = payload
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:count]).to eq(
+        mine_count: 3,
+        assigned_count: 4,
+        unassigned_count: 1,
+        all_count: 5
+      )
+    end
+
+    it 'returns zero counts when the permission scope resolves to no conversations' do
+      params[:payload] = payload
+      permission_filter = instance_double(Conversations::PermissionFilterService, perform: Conversation.none)
+      allow(Conversations::PermissionFilterService).to receive(:new).and_return(permission_filter)
+
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:count]).to eq(
+        mine_count: 0,
+        assigned_count: 0,
+        unassigned_count: 0,
+        all_count: 0
+      )
+    end
+
+    it 'computes all counts in a single query' do
+      params[:payload] = payload
+
+      count_queries = []
+      subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |_name, _started, _finished, _unique_id, event|
+        count_queries << event[:sql] if event[:sql].match?(/COUNT\(/i) && !event[:cached]
+      end
+
+      filter_service.new(params, user_1, account).perform
+      expect(count_queries.size).to eq(1)
+    ensure
+      ActiveSupport::Notifications.unsubscribe(subscriber) if subscriber
+    end
+  end
+
   describe '#base_relation' do
     let!(:account) { create(:account) }
     let!(:user_1) { create(:user, account: account, role: :agent) }
