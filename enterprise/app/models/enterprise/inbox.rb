@@ -8,12 +8,8 @@ module Enterprise::Inbox
     super - overloaded_agent_ids
   end
 
-  def active_bot?(include_captain: true)
-    super() || (include_captain && captain_active?)
-  end
-
-  def external_bot_active?
-    active_bot?(include_captain: false)
+  def active_bot?
+    super || captain_active?
   end
 
   def captain_active?
