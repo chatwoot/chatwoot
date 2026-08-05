@@ -9,6 +9,8 @@ class DataImports::Freshdesk::BaseJob < DataImports::BaseJob
     job.fail_import!(error)
   end
 
+  discard_on CustomExceptions::DataImport::FreshdeskTicketLimitError
+
   def retry_job(options = {})
     error = options[:error]
     options = options.merge(wait: rate_limit_wait(error)) if error.is_a?(DataImports::Freshdesk::Client::RateLimitError)

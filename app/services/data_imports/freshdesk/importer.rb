@@ -13,6 +13,7 @@ class DataImports::Freshdesk::Importer < DataImports::Importer
     return PageResult.new(next_cursor: nil) if import_stopped?
 
     reconcile_dirty_stats
+    verify_ticket_history_complete!(response)
     next_cursor = response.dig('pages', 'next', 'starting_after')
     next_cursor = update_cursor('conversations', next_cursor)
     PageResult.new(next_cursor: next_cursor)
@@ -32,6 +33,10 @@ class DataImports::Freshdesk::Importer < DataImports::Importer
       starting_after: cursor_for('conversations').presence || starting_after,
       per_page: @source.conversations_per_page
     )
+  end
+
+  def verify_ticket_history_complete!(response)
+    raise CustomExceptions::DataImport::FreshdeskTicketLimitError if response.dig('pages', 'limit_reached')
   end
 
   def import_conversation_summaries(response)

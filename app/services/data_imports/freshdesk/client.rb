@@ -25,6 +25,7 @@ class DataImports::Freshdesk::Client
   Page = Struct.new(:data, :next_page, keyword_init: true)
 
   DEFAULT_PER_PAGE = 100
+  MAX_TICKET_PAGES = 300
   EARLIEST_TICKET_TIMESTAMP = '1970-01-01T00:00:00Z'.freeze
   FRESHDESK_DOMAIN_REGEX = /\A[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.freshdesk\.com\z/i
 
