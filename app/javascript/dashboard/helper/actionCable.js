@@ -61,6 +61,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'account.enrichment_completed': this.onEnrichmentCompleted,
       'copilot.message.created': this.onCopilotMessageCreated,
       'voice_call.incoming': this.onVoiceCallIncoming,
+      'voice_call.accepted': this.onVoiceCallAccepted,
       'voice_call.outbound_connected': this.onVoiceCallOutboundConnected,
       'voice_call.outbound_accepted': this.onVoiceCallOutboundAccepted,
       'voice_call.ended': this.onVoiceCallEnded,
@@ -372,6 +373,19 @@ class ActionCableConnector extends BaseActionCableConnector {
       iceServers: data.ice_servers,
       caller: data.caller,
     });
+  };
+
+  // Inbound call accepted (in this tab or a sibling tab/window on the same
+  // account). Broadcast is account-wide, so drop the ringing card everywhere
+  // except the tab that actually owns the now-active call — removing an
+  // active call here would tear down its live WebRTC session. Check
+  // isLocalWhatsappCall (set synchronously before the accept API call) rather
+  // than the store's isActive flag, which this tab may not have set yet.
+  // eslint-disable-next-line class-methods-use-this
+  onVoiceCallAccepted = data => {
+    if (data?.provider !== VOICE_CALL_PROVIDERS.WHATSAPP) return;
+    if (isLocalWhatsappCall(data.id)) return;
+    useCallsStore().removeCall(data.call_id);
   };
 
   // `connect` is the WebRTC tunnel-ready signal (fires ~20s before pickup
