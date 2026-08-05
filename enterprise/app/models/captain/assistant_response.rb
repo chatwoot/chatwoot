@@ -44,11 +44,15 @@ class Captain::AssistantResponse < ApplicationRecord
   scope :by_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
   scope :with_document, ->(document_id) { where(document_id: document_id) }
 
-  enum status: { pending: 0, approved: 1 }
+  enum status: { approved: 1 }
 
   def self.search(query, account_id: nil)
     embedding = Captain::Llm::EmbeddingService.new(account_id: account_id).get_embedding(query)
     nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(5)
+  end
+
+  def customer_visible_source_url
+    documentable.customer_visible_source_url if documentable.is_a?(Captain::Document)
   end
 
   private

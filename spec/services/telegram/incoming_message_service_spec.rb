@@ -299,7 +299,29 @@ describe Telegram::IncomingMessageService do
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
-        expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('file')
+        attachment = telegram_channel.inbox.messages.first.attachments.first
+        expect(attachment.file_type).to eq('file')
+        # Retain the original filename from the payload instead of Telegram's internal download name
+        expect(attachment.file.filename.to_s).to eq('Screenshot 2021-09-27 at 2.01.14 PM.png')
+      end
+    end
+
+    context 'when attachment params have no file_name' do
+      it 'falls back to the downloaded file name' do
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.png')
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'photo' => [{
+              'file_id' => 'AgACAgUAAxkBAAODYV3aGZlD6vhzKsE2WNmblsr6zKwAAi-tMRvCoeBWNQ1ENVBzJdwBAAMCAANzAAMhBA',
+              'file_unique_id' => 'AQADL60xG8Kh4FZ4', 'file_size' => 1883, 'width' => 90, 'height' => 67
+            }]
+          }.merge(message_params)
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        attachment = telegram_channel.inbox.messages.first.attachments.first
+        expect(attachment.file_type).to eq('image')
+        expect(attachment.file.filename.to_s).to eq('sample.png')
       end
     end
 
