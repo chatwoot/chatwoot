@@ -53,6 +53,19 @@ class ContentAttributeValidator < ActiveModel::Validator # rubocop:disable Metri
     validate_card_titles!(record)
     validate_item_actions!(record)
     validate_interactive_card_actions!(record)
+    validate_whatsapp_carousel_action_type_consistency!(record)
+  end
+
+  # validate_whatsapp_interactive_card_actions! only rejects mixed action types
+  # within a single card. WhatsApp requires the button type/count to match
+  # across every card in the carousel, so also check across cards here.
+  def validate_whatsapp_carousel_action_type_consistency!(record)
+    return unless whatsapp_interactive_carousel_target?(record)
+
+    card_action_types = normalized_items(record).filter_map { |item| item[:actions].pluck(:type).compact.first }.uniq
+    return if card_action_types.size <= 1
+
+    record.errors.add(:content_attributes, 'contains carousel cards with mixed action types across cards')
   end
 
   # Meta requires every generic-template element to have a title; without this

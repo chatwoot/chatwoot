@@ -36,6 +36,33 @@ describe ContentAttributeValidator do
     end
   end
 
+  context 'when a WhatsApp carousel mixes url and reply cards across cards' do
+    it 'is invalid' do
+      message = build_card_message(
+        [
+          { title: 'Card 1', actions: [{ type: 'url', text: 'Visit', uri: 'https://example.com' }] },
+          { title: 'Card 2', actions: [{ type: 'reply', text: 'Select', payload: 'p2' }] }
+        ]
+      )
+
+      expect(message).to be_invalid
+      expect(message.errors[:content_attributes]).to include('contains carousel cards with mixed action types across cards')
+    end
+  end
+
+  context 'when a WhatsApp carousel uses the same action type across all cards' do
+    it 'is valid' do
+      message = build_card_message(
+        [
+          { title: 'Card 1', actions: [{ type: 'url', text: 'Visit', uri: 'https://example.com/1' }] },
+          { title: 'Card 2', actions: [{ type: 'url', text: 'Visit', uri: 'https://example.com/2' }] }
+        ]
+      )
+
+      expect(message).to be_valid
+    end
+  end
+
   def build_list_message(sections)
     build(:message, conversation: conversation, account: account, inbox: whatsapp_inbox,
                     message_type: :outgoing, content_type: 'interactive_list',
