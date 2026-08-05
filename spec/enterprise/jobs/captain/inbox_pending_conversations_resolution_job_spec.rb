@@ -18,6 +18,19 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       .to have_enqueued_job.on_queue('low')
   end
 
+  context 'when the assistant is deleted before the queued job runs' do
+    before do
+      captain_assistant.destroy!
+      inbox.reload
+    end
+
+    it 'leaves pending conversations unchanged' do
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    end
+  end
+
   context 'when captain_tasks is disabled' do
     before do
       allow(inbox.account).to receive(:feature_enabled?).and_call_original
@@ -67,6 +80,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
 
     it 'uses the assistant inactivity timer' do
+      captain_assistant.account.enable_features!('captain_integration_v2')
       captain_assistant.update!(config: captain_assistant.config.merge('auto_resolve_after' => 180))
 
       described_class.perform_now(inbox)
@@ -75,6 +89,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
 
     it 'resolves silently when the resolution message is disabled' do
+      captain_assistant.account.enable_features!('captain_integration_v2')
       captain_assistant.update!(config: captain_assistant.config.merge('send_inactivity_resolution_message' => false))
 
       described_class.perform_now(inbox)
@@ -148,6 +163,8 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     let(:follow_up_message) { 'Could you share the order number so I can help?' }
 
     before do
+      allow(inbox.account).to receive(:feature_enabled?).and_call_original
+      allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
       captain_assistant.update!(
         config: captain_assistant.config.merge(
           'follow_up_before_resolving' => true,
@@ -225,6 +242,8 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
 
   context 'when Captain recommends a follow-up but the setting is disabled' do
     before do
+      allow(inbox.account).to receive(:feature_enabled?).and_call_original
+      allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
       mock_service = instance_double(Captain::ConversationCompletionService)
       allow(mock_service).to receive(:perform).and_return(
         {

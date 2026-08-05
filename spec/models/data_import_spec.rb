@@ -9,6 +9,13 @@ RSpec.describe DataImport do
     it 'returns false for invalid data type' do
       expect(build(:data_import, data_type: 'Xyc').valid?).to be false
     end
+
+    it 'requires an integration provider to match its data type' do
+      data_import = build(:data_import, :freshdesk, source_provider: 'intercom')
+
+      expect(data_import).not_to be_valid
+      expect(data_import.errors[:source_provider]).to include('must match the integration data type')
+    end
   end
 
   describe 'access token encryption' do
@@ -78,6 +85,13 @@ RSpec.describe DataImport do
         expect(processing_import.reload).to be_stalled
         expect(pending_import.reload).to be_stalled
       end
+    end
+
+    it 'identifies stalled Freshdesk imports' do
+      freshdesk_import = create(:data_import, :freshdesk, account: account, status: :processing)
+      freshdesk_import.update!(updated_at: 15.minutes.ago)
+
+      expect(freshdesk_import.reload).to be_stalled
     end
 
     it 'does not identify recent or terminal Intercom imports as stalled', :aggregate_failures do

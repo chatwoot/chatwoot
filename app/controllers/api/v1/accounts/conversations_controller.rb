@@ -176,9 +176,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def handle_human_open
-    @conversation.assignee_agent_bot = nil
-    @conversation.assignee = Current.user if Current.user.agent?
-    @conversation.save!
+    @conversation.with_lock do
+      @conversation.assignee_agent_bot = nil
+      @conversation.assignee = Current.user if Current.user.agent?
+      @conversation.save!
+    end
   end
 
   def conversation

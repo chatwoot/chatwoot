@@ -125,6 +125,32 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(json_response[:config][:feature_citation]).to be(false)
         expect(response).to have_http_status(:success)
       end
+
+      it 'stores evaluated mode on the assistant when captain_tasks is enabled' do
+        account.enable_features!('captain_tasks')
+
+        post "/api/v1/accounts/#{account.id}/captain/assistants",
+             params: valid_attributes,
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        assistant = Captain::Assistant.find(json_response[:id])
+        expect(assistant.config['auto_resolve_mode']).to eq('evaluated')
+        expect(account.reload.settings).not_to have_key('captain_auto_resolve_mode')
+      end
+
+      it 'stores legacy mode on the assistant when captain_tasks is disabled' do
+        account.disable_features!('captain_tasks')
+
+        post "/api/v1/accounts/#{account.id}/captain/assistants",
+             params: valid_attributes,
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        assistant = Captain::Assistant.find(json_response[:id])
+        expect(assistant.config['auto_resolve_mode']).to eq('legacy')
+        expect(account.reload.settings).not_to have_key('captain_auto_resolve_mode')
+      end
     end
   end
 
@@ -206,7 +232,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
 
       it 'updates feature_citation config' do
-        assistant.update!(config: { 'feature_citation' => true })
+        assistant.update!(config: { 'feature_citation' => true, 'auto_resolve_mode' => 'disabled' })
 
         patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
               params: { assistant: { config: { feature_citation: false } } },
@@ -214,7 +240,19 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        expect(json_response[:config][:feature_citation]).to be(false)
+        expect(assistant.reload.config).to include('feature_citation' => false, 'auto_resolve_mode' => 'disabled')
+      end
+
+      it 'updates auto_resolve_mode without replacing other config' do
+        assistant.update!(config: { 'product_name' => 'Chatwoot', 'auto_resolve_mode' => 'legacy' })
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: { assistant: { config: { auto_resolve_mode: 'disabled' } } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(assistant.reload.config).to include('product_name' => 'Chatwoot', 'auto_resolve_mode' => 'disabled')
       end
 
       it 'keeps inactivity timer settings behind Captain V2' do
@@ -277,14 +315,14 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
 
       it 'stores and returns the inactivity follow-up policy for Captain V2' do
-        account.enable_features('captain_integration_v2')
+        account.enable_features!('captain_integration_v2')
 
         patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
               params: {
                 assistant: {
                   config: {
                     auto_resolve_mode: 'evaluated',
-                    auto_resolve_after: 120,
+                    auto_resolve_after: 121,
                     follow_up_before_resolving: true,
                     follow_up_resolve_after: 45,
                     send_inactivity_resolution_message: false,
@@ -528,7 +566,12 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           assistant: assistant,
           source: 'playground'
         ).and_return(agent_runner_service)
-        allow(agent_runner_service).to receive(:generate_response).and_return({ response: 'Assistant response' })
+        allow(agent_runner_service).to receive(:generate_response).and_return(
+          {
+            response: 'Assistant response',
+            response_parts: [{ text: 'Assistant response', citation_indexes: [] }]
+          }
+        )
         expect(Captain::Llm::AssistantChatService).not_to receive(:new)
 
         post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
@@ -541,6 +584,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           message_history: valid_params[:message_history] + [{ role: 'user', content: valid_params[:message_content] }]
         )
         expect(json_response[:response]).to eq('Assistant response')
+        expect(json_response[:response_parts]).to eq([{ text: 'Assistant response', citation_indexes: [] }])
       end
 
       it 'does not duplicate the latest user message if it is already in history' do

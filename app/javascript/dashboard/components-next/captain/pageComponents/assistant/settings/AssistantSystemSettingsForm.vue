@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, ref, watch } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minLength, minValue, required } from '@vuelidate/validators';
@@ -9,7 +9,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
-import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 
 const props = defineProps({
   assistant: {
@@ -36,47 +36,16 @@ const initialState = {
 };
 
 const state = reactive({ ...initialState });
-const isInactivityResolutionSettingsExpanded = ref(false);
 
-const inactivityThresholdLabel = computed(() => {
-  const hours = Math.floor(state.inactivityThresholdMinutes / 60);
-  const minutes = state.inactivityThresholdMinutes % 60;
-
-  return [
-    hours
-      ? t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HOURS', {
-          count: hours,
-        })
-      : '',
-    minutes
-      ? t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES', {
-          count: minutes,
-        })
-      : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
-});
-
-const selectedInactivityResolutionSummary = computed(() => {
-  const resolutionSummary = t(
-    'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.CURRENT_SETTING',
-    {
-      duration: inactivityThresholdLabel.value,
-    }
-  );
-
-  if (state.sendInactivityResolutionMessage) return resolutionSummary;
-
-  return `${resolutionSummary} ${t(
-    'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.DISABLED_SUMMARY'
-  )}`;
-});
-
-const inactivityHourOptions = Array.from({ length: 25 }, (_, hours) => ({
-  value: hours,
-  label: String(hours),
-}));
+const inactivityHourOptions = computed(() =>
+  Array.from({ length: 25 }, (_, hours) => ({
+    value: hours,
+    label: t(
+      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HOURS_SHORT',
+      { count: hours }
+    ),
+  }))
+);
 
 const inactivityThresholdHours = computed({
   get: () => Math.floor(state.inactivityThresholdMinutes / 60),
@@ -109,7 +78,10 @@ const inactivityMinuteOptions = computed(() => {
 
     return {
       value: minutes,
-      label: String(minutes).padStart(2, '0'),
+      label: t(
+        'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES_SHORT',
+        { count: minutes }
+      ),
       disabled:
         (hours === 0 && minutes === 0) || (hours === 24 && minutes !== 0),
     };
@@ -140,26 +112,6 @@ const formErrors = computed(() => ({
   inactivityThresholdMinutes: getErrorMessage('inactivityThresholdMinutes'),
 }));
 
-const handleInactivityResolutionUpdate = async () => {
-  const validations = [v$.value.inactivityThresholdMinutes.$validate()];
-  if (state.sendInactivityResolutionMessage) {
-    validations.push(v$.value.resolutionMessage.$validate());
-  }
-  const result = await Promise.all(validations).then(results =>
-    results.every(Boolean)
-  );
-  if (!result) return;
-
-  emit('submit', {
-    config: {
-      ...props.assistant.config,
-      auto_resolve_after: state.inactivityThresholdMinutes,
-      send_inactivity_resolution_message: state.sendInactivityResolutionMessage,
-      resolution_message: state.resolutionMessage,
-    },
-  });
-};
-
 const updateStateFromAssistant = assistant => {
   const { config = {} } = assistant;
   state.handoffMessage = config.handoff_message;
@@ -173,7 +125,12 @@ const updateStateFromAssistant = assistant => {
 const handleSystemMessagesUpdate = async () => {
   const validations = [v$.value.handoffMessage.$validate()];
 
-  if (!isCaptainV2Enabled.value) {
+  if (isCaptainV2Enabled.value) {
+    validations.push(v$.value.inactivityThresholdMinutes.$validate());
+    if (state.sendInactivityResolutionMessage) {
+      validations.push(v$.value.resolutionMessage.$validate());
+    }
+  } else {
     validations.push(
       v$.value.resolutionMessage.$validate(),
       v$.value.instructions.$validate()
@@ -192,7 +149,13 @@ const handleSystemMessagesUpdate = async () => {
     },
   };
 
-  if (!isCaptainV2Enabled.value) {
+  if (isCaptainV2Enabled.value) {
+    Object.assign(payload.config, {
+      auto_resolve_after: state.inactivityThresholdMinutes,
+      send_inactivity_resolution_message: state.sendInactivityResolutionMessage,
+      resolution_message: state.resolutionMessage,
+    });
+  } else {
     payload.config.resolution_message = state.resolutionMessage;
     payload.config.instructions = state.instructions;
   }
@@ -213,117 +176,69 @@ watch(
   <div class="flex flex-col gap-6">
     <div
       v-if="isCaptainV2Enabled"
-      class="overflow-hidden rounded-xl border border-n-weak bg-n-solid-1"
+      class="flex w-full flex-col overflow-hidden rounded-xl bg-n-solid-2 outline outline-1 outline-n-container has-[.editor-wrapper.border-n-brand]:outline-n-brand has-[.editor-wrapper.border-n-ruby-8]:outline-n-ruby-8"
     >
-      <button
-        type="button"
-        class="flex w-full items-center justify-between gap-4 p-4 text-left"
-        :aria-expanded="isInactivityResolutionSettingsExpanded"
-        @click="
-          isInactivityResolutionSettingsExpanded =
-            !isInactivityResolutionSettingsExpanded
-        "
-      >
-        <div class="flex flex-col gap-1">
-          <h4 class="text-sm font-medium text-n-slate-12">
-            {{ t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TITLE') }}
-          </h4>
-          <p class="text-sm text-n-slate-11">
-            {{ t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DESCRIPTION') }}
-          </p>
-          <p
-            v-if="!isInactivityResolutionSettingsExpanded"
-            class="text-xs font-medium text-n-slate-12"
-          >
-            {{ selectedInactivityResolutionSummary }}
-          </p>
-        </div>
-        <div class="flex shrink-0 items-center">
-          <span
-            class="i-lucide-chevron-down size-4 text-n-slate-11 transition-transform"
-            :class="{ 'rotate-180': isInactivityResolutionSettingsExpanded }"
-          />
-        </div>
-      </button>
+      <div class="flex flex-col gap-5 px-5 py-4">
+        <h3 class="text-heading-2 text-n-slate-12">
+          {{ t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TITLE') }}
+        </h3>
 
-      <div
-        v-if="isInactivityResolutionSettingsExpanded"
-        class="flex flex-col gap-4 border-t border-n-weak p-4"
-      >
-        <div class="flex flex-col gap-2">
-          <p class="text-sm font-medium text-n-slate-12">
+        <div
+          class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <span class="text-heading-3 text-n-slate-12">
             {{
               t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_LABEL')
             }}
-          </p>
-          <div class="grid grid-cols-2 gap-3">
-            <label class="flex flex-col gap-1.5 text-xs text-n-slate-11">
-              {{
-                t(
-                  'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HOURS_LABEL'
-                )
-              }}
-              <Select
-                v-model="inactivityThresholdHours"
-                :options="inactivityHourOptions"
-                :error="formErrors.inactivityThresholdMinutes"
-                class="!w-full [&>select]:w-full"
-              />
-            </label>
-            <label class="flex flex-col gap-1.5 text-xs text-n-slate-11">
-              {{
-                t(
-                  'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES_LABEL'
-                )
-              }}
-              <Select
-                v-model="inactivityThresholdRemainingMinutes"
-                :options="inactivityMinuteOptions"
-                :error="formErrors.inactivityThresholdMinutes"
-                class="!w-full [&>select]:w-full"
-              />
-            </label>
-          </div>
-          <p
-            v-if="formErrors.inactivityThresholdMinutes"
-            class="text-xs text-n-ruby-9"
-          >
-            {{ formErrors.inactivityThresholdMinutes }}
-          </p>
-        </div>
-
-        <SettingsToggleSection
-          v-model="state.sendInactivityResolutionMessage"
-          :header="
-            t(
-              'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.TITLE'
-            )
-          "
-          :description="
-            t(
-              'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.DESCRIPTION'
-            )
-          "
-        >
-          <template v-if="state.sendInactivityResolutionMessage" #editor>
-            <Editor
-              v-model="state.resolutionMessage"
-              :placeholder="
-                t('CAPTAIN.ASSISTANTS.FORM.RESOLUTION_MESSAGE.PLACEHOLDER')
-              "
-              :message="formErrors.resolutionMessage"
-              :message-type="formErrors.resolutionMessage ? 'error' : 'info'"
-              class="z-0"
+          </span>
+          <div class="flex shrink-0 gap-2">
+            <Select
+              v-model="inactivityThresholdHours"
+              :options="inactivityHourOptions"
+              :error="formErrors.inactivityThresholdMinutes"
+              class="[&>select]:min-w-24"
             />
-          </template>
-        </SettingsToggleSection>
-
-        <div>
-          <Button
-            :label="t('CAPTAIN.ASSISTANTS.FORM.SAVE_INACTIVITY_SETTINGS')"
-            @click="handleInactivityResolutionUpdate"
-          />
+            <Select
+              v-model="inactivityThresholdRemainingMinutes"
+              :options="inactivityMinuteOptions"
+              :error="formErrors.inactivityThresholdMinutes"
+              class="[&>select]:min-w-28"
+            />
+          </div>
         </div>
+
+        <p
+          v-if="formErrors.inactivityThresholdMinutes"
+          class="text-xs text-n-ruby-9"
+        >
+          {{ formErrors.inactivityThresholdMinutes }}
+        </p>
+
+        <div class="flex items-center justify-between gap-3">
+          <span class="text-heading-3 text-n-slate-12">
+            {{
+              t(
+                'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.TITLE'
+              )
+            }}
+          </span>
+          <Switch v-model="state.sendInactivityResolutionMessage" />
+        </div>
+      </div>
+
+      <div
+        v-if="state.sendInactivityResolutionMessage"
+        class="border-t border-n-weak"
+      >
+        <Editor
+          v-model="state.resolutionMessage"
+          :placeholder="
+            t('CAPTAIN.ASSISTANTS.FORM.RESOLUTION_MESSAGE.PLACEHOLDER')
+          "
+          :message="formErrors.resolutionMessage"
+          :message-type="formErrors.resolutionMessage ? 'error' : 'info'"
+          class="z-0 [&_.editor-wrapper]:!min-h-48 [&_.editor-wrapper]:!rounded-none [&_.editor-wrapper]:!border-0 [&_.editor-wrapper]:!px-5 [&_.editor-wrapper]:!py-4 [&>p]:px-5 [&>p]:pb-3"
+        />
       </div>
     </div>
 
@@ -359,11 +274,7 @@ watch(
 
     <div>
       <Button
-        :label="
-          isCaptainV2Enabled
-            ? t('CAPTAIN.ASSISTANTS.FORM.SAVE_HANDOFF_MESSAGE')
-            : t('CAPTAIN.ASSISTANTS.FORM.UPDATE')
-        "
+        :label="t('CAPTAIN.ASSISTANTS.FORM.UPDATE')"
         @click="handleSystemMessagesUpdate"
       />
     </div>

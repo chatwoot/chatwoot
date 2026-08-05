@@ -119,8 +119,8 @@ const handleDeleteSuccess = () => {
   >
     <template #body>
       <div
-        class="gap-6 lg:gap-16 pb-8"
-        :class="{ 'grid grid-cols-2': isCaptainV2Enabled }"
+        class="gap-8 pb-8 lg:gap-16"
+        :class="{ 'grid grid-cols-1 lg:grid-cols-2': isCaptainV2Enabled }"
       >
         <div class="flex flex-col gap-6">
           <div class="flex flex-col gap-6">
@@ -177,7 +177,7 @@ const handleDeleteSuccess = () => {
               t('CAPTAIN.ASSISTANTS.SETTINGS.CONTROL_ITEMS.DESCRIPTION')
             "
           />
-          <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-4">
             <AssistantControlItems
               v-for="item in controlItems"
               :key="item.name"

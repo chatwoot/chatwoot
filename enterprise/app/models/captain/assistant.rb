@@ -18,11 +18,13 @@
 #
 class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
+  CITATION_SOURCES_STATE_KEY = :captain_v2_citation_sources
   AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze
   DEFAULT_INACTIVITY_THRESHOLD_MINUTES = 60
   DEFAULT_FOLLOW_UP_RESOLUTION_THRESHOLD_MINUTES = 60
   MINIMUM_INACTIVITY_THRESHOLD_MINUTES = 5
   MAXIMUM_INACTIVITY_THRESHOLD_MINUTES = 1.day.in_minutes.to_i
+  INACTIVITY_THRESHOLD_STEP_MINUTES = 5
 
   include Avatarable
   include Concerns::CaptainToolsHelpers
@@ -44,10 +46,14 @@ class Captain::Assistant < ApplicationRecord
   has_many :copilot_threads, dependent: :destroy_async
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
   has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
+  has_many :conversation_outcomes, dependent: :destroy_async
 
   store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
                  :auto_resolve_mode, :auto_resolve_after, :send_inactivity_resolution_message,
                  :follow_up_before_resolving, :follow_up_resolve_after
+
+  before_validation :set_default_auto_resolve_mode, on: :create
+  before_validation :normalize_auto_resolve_after
 
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
@@ -91,10 +97,14 @@ class Captain::Assistant < ApplicationRecord
   end
 
   def inactivity_threshold_minutes
-    config.fetch('auto_resolve_after', DEFAULT_INACTIVITY_THRESHOLD_MINUTES).to_i
+    return DEFAULT_INACTIVITY_THRESHOLD_MINUTES unless account.feature_enabled?('captain_integration_v2')
+
+    (config['auto_resolve_after'] || DEFAULT_INACTIVITY_THRESHOLD_MINUTES).to_i
   end
 
   def send_inactivity_resolution_message
+    return true unless account.feature_enabled?('captain_integration_v2')
+
     config.fetch('send_inactivity_resolution_message', true)
   end
 
@@ -149,7 +159,40 @@ class Captain::Assistant < ApplicationRecord
     }
   end
 
+  def customer_visible_citation_urls(citation_document_ids)
+    citation_documents = documents.where(id: citation_document_ids.values).index_by(&:id)
+    citation_urls = citation_document_ids.transform_values do |document_id|
+      citation_documents[document_id.to_i]&.customer_visible_source_url
+    end
+    citation_urls.compact.transform_keys(&:to_i)
+  end
+
+  def citations_enabled?
+    config['feature_citation']
+  end
+
+  def trusted_citation_urls(run_result)
+    return {} unless citations_enabled?
+
+    citation_document_ids = run_result&.context&.dig(:state, CITATION_SOURCES_STATE_KEY) || {}
+    customer_visible_citation_urls(citation_document_ids)
+  end
+
   private
+
+  def normalize_auto_resolve_after
+    threshold = Integer(auto_resolve_after.to_s, exception: false)
+    return unless threshold&.between?(MINIMUM_INACTIVITY_THRESHOLD_MINUTES, MAXIMUM_INACTIVITY_THRESHOLD_MINUTES)
+
+    # Keep API values aligned with the five minute options available in the settings UI.
+    self.auto_resolve_after = (threshold.fdiv(INACTIVITY_THRESHOLD_STEP_MINUTES).round * INACTIVITY_THRESHOLD_STEP_MINUTES)
+  end
+
+  def set_default_auto_resolve_mode
+    return if config.key?('auto_resolve_mode')
+
+    self.auto_resolve_mode = account&.captain_auto_resolve_mode || 'evaluated'
+  end
 
   def agent_name
     name.parameterize(separator: '_')
@@ -168,6 +211,7 @@ class Captain::Assistant < ApplicationRecord
       name: name,
       description: description,
       product_name: config['product_name'] || 'this product',
+      citation_enabled: citations_enabled?,
       scenarios: scenarios.enabled.map do |scenario|
         {
           title: scenario.title,
