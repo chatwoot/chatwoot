@@ -123,6 +123,11 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(assistant).not_to be_valid
     end
 
+    it 'rejects an operator unsupported by a standard attribute' do
+      assistant.config['audience'] = leaf.merge('attribute_key' => 'blocked', 'filter_operator' => 'is_not_present', 'values' => [])
+      expect(assistant).not_to be_valid
+    end
+
     it 'rejects a leaf missing attribute_key' do
       assistant.config['audience'] = { 'filter_operator' => 'equal_to', 'values' => ['US'] }
       expect(assistant).not_to be_valid
@@ -134,6 +139,24 @@ RSpec.describe Captain::Assistant, type: :model do
       }
 
       expect(assistant).not_to be_valid
+    end
+
+    it 'rejects an unknown custom attribute' do
+      assistant.config['audience'] = {
+        'attribute_key' => 'missing_attribute', 'filter_operator' => 'not_equal_to', 'values' => ['known']
+      }
+
+      expect(assistant).not_to be_valid
+    end
+
+    it 'accepts an operator supported by a defined custom attribute' do
+      create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute,
+                                           attribute_display_type: :date, attribute_key: 'signed_up_on')
+      assistant.config['audience'] = {
+        'attribute_key' => 'signed_up_on', 'filter_operator' => 'is_present', 'values' => []
+      }
+
+      expect(assistant).to be_valid
     end
 
     it 'rejects a group without conditions' do
@@ -151,9 +174,9 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(assistant).not_to be_valid
     end
 
-    it 'accepts a presence leaf without values' do
+    it 'rejects a valueless operator when the attribute does not support it' do
       assistant.config['audience'] = { 'attribute_key' => 'email', 'filter_operator' => 'is_present' }
-      expect(assistant).to be_valid
+      expect(assistant).not_to be_valid
     end
 
     it 'rejects conditions that is not an array' do

@@ -73,7 +73,7 @@ class Captain::AudienceMatcher
   def value_equal?(key, actual, expected)
     return Array(actual).include?(expected) if key == 'labels'
     return ActiveModel::Type::Boolean.new.cast(expected) == (actual == true) if boolean_condition?(key, actual, expected)
-    return numeric_equal?(actual, expected) if actual.is_a?(Numeric)
+    return numeric_equal?(actual, expected) if actual.is_a?(Numeric) || numeric_attribute?(key)
 
     normalize(key, actual) == normalize(key, expected)
   end
@@ -102,8 +102,17 @@ class Captain::AudienceMatcher
   end
 
   def checkbox_attribute?(key)
-    @checkbox_attribute_keys ||= @contact.account.custom_attribute_definitions.contact_attribute.checkbox.pluck(:attribute_key)
-    @checkbox_attribute_keys.include?(key)
+    custom_attribute_types[key] == 'checkbox'
+  end
+
+  def numeric_attribute?(key)
+    %w[number currency percent].include?(custom_attribute_types[key])
+  end
+
+  def custom_attribute_types
+    @custom_attribute_types ||= @contact.account.custom_attribute_definitions.contact_attribute.each_with_object({}) do |definition, types|
+      types[definition.attribute_key] = definition.attribute_display_type
+    end
   end
 
   def normalize(key, value)

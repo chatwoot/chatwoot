@@ -37,11 +37,18 @@ RSpec.describe Captain::AudienceMatcher do
         expect(matches?(leaf('plan_tier', 'not_equal_to', 'free'))).to be(true)
       end
 
-      it 'compares numeric JSON values with UI strings' do
+      it 'compares numeric custom attribute values with UI strings' do
+        create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute,
+                                             attribute_display_type: :number, attribute_key: 'annual_spend')
         contact.update!(custom_attributes: contact.custom_attributes.merge('annual_spend' => 120.5))
 
         expect(matches?(leaf('annual_spend', 'equal_to', '120.5'))).to be(true)
         expect(matches?(leaf('annual_spend', 'equal_to', '120.6'))).to be(false)
+
+        contact.update!(custom_attributes: contact.custom_attributes.merge('annual_spend' => '120.50'))
+
+        expect(matches?(leaf('annual_spend', 'equal_to', '120.5'))).to be(true)
+        expect(matches?(leaf('annual_spend', 'not_equal_to', '120.5'))).to be(false)
       end
 
       it 'does not include missing standard and additional attributes in negative matches' do
@@ -55,6 +62,8 @@ RSpec.describe Captain::AudienceMatcher do
       end
 
       it 'preserves custom attribute null semantics from contact filters' do
+        create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute,
+                                             attribute_display_type: :text, attribute_key: 'missing_custom_attribute')
         expect(matches?(leaf('missing_custom_attribute', 'not_equal_to', 'known'))).to be(true)
         expect(matches?(leaf('missing_custom_attribute', 'does_not_contain', 'known'))).to be(false)
       end
