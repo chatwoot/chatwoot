@@ -9,7 +9,7 @@ RSpec.describe Captain::AudienceMatcher do
   end
   let(:conversation) do
     create(:conversation, account: account, contact: contact,
-                          additional_attributes: { 'browser_language' => 'en', 'conversation_language' => 'fr' })
+                          additional_attributes: { 'browser_language' => 'en' })
   end
 
   def leaf(attribute_key, filter_operator, values = nil)
@@ -126,10 +126,9 @@ RSpec.describe Captain::AudienceMatcher do
       end
     end
 
-    context 'with conversation language fields' do
-      it 'resolves browser_language and conversation_language from the conversation' do
+    context 'with browser language' do
+      it 'resolves browser_language from the conversation' do
         expect(matches?(leaf('browser_language', 'equal_to', 'en'))).to be(true)
-        expect(matches?(leaf('conversation_language', 'equal_to', 'fr'))).to be(true)
       end
     end
 
@@ -180,22 +179,6 @@ RSpec.describe Captain::AudienceMatcher do
         ]
         expect(matches?(audience)).to be(false)
       end
-    end
-  end
-
-  describe '#uses_attribute?' do
-    it 'finds an attribute inside a nested group' do
-      audience = {
-        'operator' => 'and',
-        'conditions' => [
-          leaf('email', 'contains', 'example.com'),
-          { 'operator' => 'or', 'conditions' => [leaf('conversation_language', 'equal_to', 'en')] }
-        ]
-      }
-
-      matcher = described_class.new(audience)
-      expect(matcher.uses_attribute?('conversation_language')).to be(true)
-      expect(matcher.uses_attribute?('browser_language')).to be(false)
     end
   end
 end

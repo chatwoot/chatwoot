@@ -19,7 +19,6 @@ const STANDARD_ICONS = {
   labels: 'i-lucide-tags',
   hmac_verified: 'i-lucide-user-check',
   browser_language: 'i-lucide-globe',
-  conversation_language: 'i-lucide-languages',
 };
 
 const CUSTOM_TYPE_ICONS = {

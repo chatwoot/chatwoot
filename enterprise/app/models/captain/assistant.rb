@@ -18,7 +18,6 @@
 #
 class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
-  LANGUAGE_ELIGIBILITY_PENDING_KEY = 'captain_language_eligibility_pending'.freeze
   AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze
   RESPONSE_WINDOWS = %w[always business_hours outside_business_hours].freeze
 
@@ -72,18 +71,6 @@ class Captain::Assistant < ApplicationRecord
     return true if config['audience'].blank?
 
     Captain::AudienceMatcher.new(config['audience']).matches?(contact, conversation)
-  end
-
-  def uses_conversation_language?
-    Captain::AudienceMatcher.new(config['audience']).uses_attribute?('conversation_language')
-  end
-
-  def awaiting_conversation_language?(conversation)
-    return false unless uses_conversation_language?
-    return false if conversation.additional_attributes['conversation_language'].present?
-    return false if responds_to_audience?(conversation.contact, conversation)
-
-    account.hooks.enabled.exists?(app_id: 'google_translate')
   end
 
   def available_now?(conversation)

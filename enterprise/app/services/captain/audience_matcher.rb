@@ -5,7 +5,7 @@
 class Captain::AudienceMatcher
   CONTACT_STANDARD = %w[name email phone_number identifier blocked created_at last_activity_at].freeze
   CONTACT_ADDITIONAL = %w[country_code city company_name].freeze
-  CONVERSATION_ADDITIONAL = %w[browser_language conversation_language].freeze
+  CONVERSATION_ADDITIONAL = %w[browser_language].freeze
   OPERATORS = %w[equal_to not_equal_to contains does_not_contain is_present is_not_present starts_with
                  is_greater_than is_less_than days_before].freeze
   # Root group -> sub-group -> leaves.
@@ -23,24 +23,11 @@ class Captain::AudienceMatcher
     matches_node?(@root)
   end
 
-  def uses_attribute?(attribute_key)
-    node_uses_attribute?(@root, attribute_key)
-  end
-
   private
 
   def matches_node?(node)
     node = node.with_indifferent_access
     node.key?(:conditions) ? matches_group?(node) : matches_leaf?(node)
-  end
-
-  def node_uses_attribute?(node, attribute_key)
-    return false unless node.is_a?(Hash)
-
-    node = node.with_indifferent_access
-    return node[:attribute_key] == attribute_key unless node.key?(:conditions)
-
-    Array(node[:conditions]).any? { |child| node_uses_attribute?(child, attribute_key) }
   end
 
   def matches_group?(group)

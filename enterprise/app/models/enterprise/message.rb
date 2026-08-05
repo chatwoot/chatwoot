@@ -33,14 +33,6 @@ module Enterprise::Message
     assistant = conversation.inbox.captain_assistant
 
     return super if assistant.blank?
-
-    if assistant.awaiting_conversation_language?(conversation)
-      conversation.update!(
-        additional_attributes: conversation.additional_attributes.merge(Captain::Assistant::LANGUAGE_ELIGIBILITY_PENDING_KEY => true)
-      )
-      return super
-    end
-
     return conversation.open! unless assistant.engages?(conversation.contact, conversation)
 
     super

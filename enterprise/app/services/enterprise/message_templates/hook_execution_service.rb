@@ -3,7 +3,6 @@ module Enterprise::MessageTemplates::HookExecutionService
     super
     return unless should_process_captain_response?
     return perform_handoff unless inbox.captain_active?
-    return schedule_language_eligibility_fallback if conversation.additional_attributes[Captain::Assistant::LANGUAGE_ELIGIBILITY_PENDING_KEY]
 
     Captain::Conversation::ResponseSchedulerService.new(message: message).perform
   end
@@ -30,10 +29,6 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def captain_v2_enabled?
     conversation.account.feature_enabled?('captain_integration_v2')
-  end
-
-  def schedule_language_eligibility_fallback
-    Captain::Conversation::LanguageEligibilityFallbackJob.set(wait: 30.seconds).perform_later(conversation, message)
   end
 
   def should_process_captain_response?

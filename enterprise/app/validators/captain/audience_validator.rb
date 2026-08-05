@@ -1,6 +1,7 @@
 class Captain::AudienceValidator < ActiveModel::Validator
   GROUP_OPERATORS = %w[and or].freeze
   VALUELESS_OPERATORS = %w[is_present is_not_present].freeze
+  UNSUPPORTED_ATTRIBUTES = %w[conversation_language].freeze
 
   def validate(record)
     audience = record.config['audience']
@@ -28,9 +29,14 @@ class Captain::AudienceValidator < ActiveModel::Validator
   end
 
   def valid_leaf?(node)
-    return false unless node[:attribute_key].present? && Captain::AudienceMatcher::OPERATORS.include?(node[:filter_operator])
+    return false unless supported_attribute?(node[:attribute_key])
+    return false unless Captain::AudienceMatcher::OPERATORS.include?(node[:filter_operator])
     return true if VALUELESS_OPERATORS.include?(node[:filter_operator])
 
     node[:values].is_a?(Array) && node[:values].present? && node[:values].all? { |value| value.to_s.present? }
+  end
+
+  def supported_attribute?(attribute_key)
+    attribute_key.present? && UNSUPPORTED_ATTRIBUTES.exclude?(attribute_key)
   end
 end

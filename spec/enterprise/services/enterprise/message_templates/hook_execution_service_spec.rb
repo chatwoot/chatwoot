@@ -202,26 +202,6 @@ RSpec.describe MessageTemplates::HookExecutionService do
     end
   end
 
-  context 'when initial eligibility is waiting for conversation language' do
-    before do
-      create(:integrations_hook, :google_translate, account: account)
-      assistant.update!(config: assistant.config.merge('audience' => {
-                                                         'attribute_key' => 'conversation_language', 'filter_operator' => 'equal_to',
-                                                         'values' => ['en']
-                                                       }))
-    end
-
-    it 'does not schedule Captain before language detection finishes' do
-      expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
-      configured_job = instance_double(ActiveJob::ConfiguredJob, perform_later: true)
-      expect(Captain::Conversation::LanguageEligibilityFallbackJob).to receive(:set).with(wait: 30.seconds).and_return(configured_job)
-
-      create(:message, conversation: conversation, message_type: :incoming, account: account)
-
-      expect(configured_job).to have_received(:perform_later).with(conversation, kind_of(Message))
-    end
-  end
-
   context 'when conversation is not pending' do
     before do
       conversation.update!(status: :open)

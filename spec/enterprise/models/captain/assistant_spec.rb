@@ -26,20 +26,6 @@ RSpec.describe Captain::Assistant, type: :model do
     end
   end
 
-  describe '#uses_conversation_language?' do
-    it 'returns true when a nested audience uses conversation language' do
-      assistant.update!(config: assistant.config.merge('audience' => {
-                                                         'operator' => 'and',
-                                                         'conditions' => [
-                                                           { 'attribute_key' => 'conversation_language', 'filter_operator' => 'equal_to',
-                                                             'values' => ['en'] }
-                                                         ]
-                                                       }))
-
-      expect(assistant.uses_conversation_language?).to be(true)
-    end
-  end
-
   describe '#available_now?' do
     let(:inbox) { create(:inbox, account: account) }
     let(:scheduled_conversation) { create(:conversation, account: account, inbox: inbox, contact: contact) }
@@ -139,6 +125,14 @@ RSpec.describe Captain::Assistant, type: :model do
 
     it 'rejects a leaf missing attribute_key' do
       assistant.config['audience'] = { 'filter_operator' => 'equal_to', 'values' => ['US'] }
+      expect(assistant).not_to be_valid
+    end
+
+    it 'rejects conversation language conditions' do
+      assistant.config['audience'] = {
+        'attribute_key' => 'conversation_language', 'filter_operator' => 'equal_to', 'values' => ['en']
+      }
+
       expect(assistant).not_to be_valid
     end
 

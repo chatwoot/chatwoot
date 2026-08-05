@@ -24,18 +24,5 @@ RSpec.describe Conversation, type: :model do
       conversation = create(:conversation, account: account, inbox: inbox, contact: ca_contact)
       expect(conversation.status).to eq('open')
     end
-
-    it 'waits for initial language detection when the audience depends on it' do
-      create(:integrations_hook, :google_translate, account: account)
-      assistant.update!(config: assistant.config.merge('audience' => {
-                                                         'attribute_key' => 'conversation_language', 'filter_operator' => 'equal_to',
-                                                         'values' => ['en']
-                                                       }))
-
-      conversation = create(:conversation, account: account, inbox: inbox, contact: us_contact)
-
-      expect(conversation.status).to eq('pending')
-      expect(conversation.additional_attributes[Captain::Assistant::LANGUAGE_ELIGIBILITY_PENDING_KEY]).to be(true)
-    end
   end
 end
