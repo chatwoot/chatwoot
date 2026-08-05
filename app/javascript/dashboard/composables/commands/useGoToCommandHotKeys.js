@@ -287,17 +287,8 @@ export function useGoToCommandHotKeys(isPaywalled = ref(false)) {
       params: { accountId: currentAccountId.value, ...command.params },
     });
 
-  // A wrapper route only hosts the page named by navigationPath, so that page's
-  // meta is what decides access, as the sidebar provider does too.
-  const accessMeta = (command, route) => {
-    const { navigationPath } = command.params ?? {};
-    if (!navigationPath) return route.meta;
-
-    return router.getRoutes().find(({ name }) => name === navigationPath)?.meta;
-  };
-
-  const isAvailable = (command, route) => {
-    const meta = accessMeta(command, route);
+  const isAvailable = route => {
+    const { meta } = route;
 
     if (!isFeatureFlagEnabled(meta?.featureFlag)) return false;
     if (!checkPermissions(meta?.permissions)) return false;
@@ -309,7 +300,7 @@ export function useGoToCommandHotKeys(isPaywalled = ref(false)) {
   const goToCommandHotKeys = computed(() =>
     GO_TO_COMMANDS.flatMap(command => {
       const route = resolveRoute(command);
-      if (!isAvailable(command, route)) return [];
+      if (!isAvailable(route)) return [];
 
       return {
         id: command.id,

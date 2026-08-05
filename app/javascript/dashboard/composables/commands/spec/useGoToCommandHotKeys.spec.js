@@ -20,10 +20,6 @@ const ROUTE_META = {
     featureFlag: MOCK_FEATURE_FLAGS.HELP_CENTER,
     permissions: ['administrator', 'knowledge_base_manage'],
   },
-  portals_articles_index: {
-    featureFlag: MOCK_FEATURE_FLAGS.HELP_CENTER,
-    permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-  },
   agent_reports_index: {
     featureFlag: MOCK_FEATURE_FLAGS.REPORTS,
     permissions: ['administrator', 'report_manage'],
@@ -110,9 +106,6 @@ describe('useGoToCommandHotKeys', () => {
         params,
         meta: ROUTE_META[name] || DEFAULT_META,
       })),
-      getRoutes: vi.fn(() =>
-        Object.entries(ROUTE_META).map(([name, meta]) => ({ name, meta }))
-      ),
     });
     usePolicy.mockReturnValue({
       isFeatureFlagEnabled: vi.fn(
@@ -179,8 +172,17 @@ describe('useGoToCommandHotKeys', () => {
     ).toBeUndefined();
   });
 
-  it('should gate a navigationPath command on the page it opens', () => {
+  it('should hide the help center from agents, who cannot open it', () => {
     userPermissions = ['agent'];
+    const { goToCommandHotKeys } = useGoToCommandHotKeys();
+
+    expect(goToCommandHotKeys.value.map(cmd => cmd.id)).not.toContain(
+      'goto_help_center'
+    );
+  });
+
+  it('should offer the help center to a knowledge base manager', () => {
+    userPermissions = ['custom_role', 'knowledge_base_manage'];
     const { goToCommandHotKeys } = useGoToCommandHotKeys();
 
     expect(goToCommandHotKeys.value.map(cmd => cmd.id)).toContain(
