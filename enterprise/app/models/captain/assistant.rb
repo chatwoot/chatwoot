@@ -18,6 +18,7 @@
 #
 class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
+  CITATION_SOURCES_STATE_KEY = :captain_v2_citation_sources
   AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze
   RESPONSE_WINDOWS = %w[always business_hours outside_business_hours].freeze
 
@@ -130,6 +131,25 @@ class Captain::Assistant < ApplicationRecord
     }
   end
 
+  def customer_visible_citation_urls(citation_document_ids)
+    citation_documents = documents.where(id: citation_document_ids.values).index_by(&:id)
+    citation_urls = citation_document_ids.transform_values do |document_id|
+      citation_documents[document_id.to_i]&.customer_visible_source_url
+    end
+    citation_urls.compact.transform_keys(&:to_i)
+  end
+
+  def citations_enabled?
+    config['feature_citation']
+  end
+
+  def trusted_citation_urls(run_result)
+    return {} unless citations_enabled?
+
+    citation_document_ids = run_result&.context&.dig(:state, CITATION_SOURCES_STATE_KEY) || {}
+    customer_visible_citation_urls(citation_document_ids)
+  end
+
   private
 
   def validate_response_window
@@ -162,6 +182,7 @@ class Captain::Assistant < ApplicationRecord
       name: name,
       description: description,
       product_name: config['product_name'] || 'this product',
+      citation_enabled: citations_enabled?,
       scenarios: scenarios.enabled.map do |scenario|
         {
           title: scenario.title,

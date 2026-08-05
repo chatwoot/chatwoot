@@ -32,7 +32,7 @@ module Enterprise::Message
   def reopen_resolved_conversation
     assistant = conversation.inbox.captain_assistant
 
-    return super if assistant.blank?
+    return super if assistant.blank? || conversation.inbox.external_bot_active?
     return conversation.open! unless assistant.engages?(conversation.contact, conversation)
 
     super

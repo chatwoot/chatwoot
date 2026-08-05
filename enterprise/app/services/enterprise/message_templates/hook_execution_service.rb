@@ -34,7 +34,7 @@ module Enterprise::MessageTemplates::HookExecutionService
   def should_process_captain_response?
     # Audience and schedule are decided when Captain first takes or reopens a conversation.
     # Do not re-evaluate an existing pending conversation for each new message.
-    conversation.pending? && message.captain_response_triggering? && captain_assistant_configured?
+    conversation.pending? && message.captain_response_triggering? && captain_assistant_configured? && !inbox.external_bot_active?
   end
 
   def perform_handoff

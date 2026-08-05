@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { picoSearch } from '@scmmishra/pico-search';
@@ -68,6 +68,11 @@ const closeSuggestedRules = () => {
 // Bulk selection & hover state
 const bulkSelectedIds = ref(new Set());
 const hoveredCard = ref(null);
+
+watch(assistantId, () => {
+  bulkSelectedIds.value = new Set();
+  hoveredCard.value = null;
+});
 
 const handleRuleSelect = id => {
   const selected = new Set(bulkSelectedIds.value);

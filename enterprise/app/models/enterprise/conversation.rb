@@ -28,6 +28,7 @@ module Enterprise::Conversation
   def determine_conversation_status
     super
     return unless pending?
+    return if inbox.external_bot_active?
 
     assistant = inbox.captain_assistant
     self.status = :open if assistant.present? && !assistant.engages?(contact, self)
