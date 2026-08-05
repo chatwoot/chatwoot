@@ -1,5 +1,28 @@
 {
   "INTEGRATION_SETTINGS": {
+    "PATHORS": {
+      "HEADER": "Pathors AI",
+      "STATUS": {
+        "CONNECTED": "Connected",
+        "NOT_CONNECTED": "Not connected"
+      },
+      "MANAGE_BUTTON_TEXT": "Manage in Pathors",
+      "NOT_CONNECTED": {
+        "TITLE": "This account is not connected to Pathors yet",
+        "DESCRIPTION": "Connect this account from the Pathors platform. Once a project is linked, the AI agent shows up here and you can choose the inboxes it replies in. There is nothing to configure on this page.",
+        "BUTTON_TEXT": "Open Pathors"
+      },
+      "INBOXES": {
+        "TITLE": "AI coverage",
+        "DESCRIPTION": "Choose the inboxes the Pathors AI agent replies in.",
+        "EMPTY": "There are no inboxes in this account yet.",
+        "VOICE_LOCKED": "Handled by the Pathors voice agent",
+        "TOGGLE_LABEL": "AI handles this inbox",
+        "ENABLED_SUCCESS": "The Pathors AI agent now handles this inbox.",
+        "DISABLED_SUCCESS": "The Pathors AI agent no longer handles this inbox.",
+        "ERROR": "The inbox could not be updated, please try again."
+      }
+    },
     "SHOPIFY": {
       "HEADER": "Shopify",
       "DELETE": {

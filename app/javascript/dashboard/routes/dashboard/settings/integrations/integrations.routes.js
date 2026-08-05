@@ -5,6 +5,7 @@ import IntegrationHooks from './IntegrationHooks.vue';
 import Index from './Index.vue';
 import Webhook from './Webhooks/Index.vue';
 import DashboardApps from './DashboardApps/Index.vue';
+import Pathors from './Pathors.vue';
 import Slack from './Slack.vue';
 import Linear from './Linear.vue';
 import Notion from './Notion.vue';
@@ -50,6 +51,16 @@ export default {
       path: frontendURL('accounts/:accountId/settings/integrations'),
       component: SettingsWrapper,
       children: [
+        // Bespoke pages must stay above the `:integration_id` catch-all below.
+        {
+          path: 'pathors',
+          name: 'settings_applications_pathors',
+          component: Pathors,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+        },
         {
           path: 'slack',
           name: 'settings_integrations_slack',

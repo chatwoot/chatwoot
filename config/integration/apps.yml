@@ -10,6 +10,18 @@
 # settings_json_schema: the json schema used to validate the settings hash (https://json-schema.org/)
 # settings_form_schema: the formulate schema used in frontend to render settings form (https://vueformulate.com/)
 ########################################################
+# Pathors leads the catalog. It has no configurable settings: the connection is
+# provisioned from the Pathors platform (an agent bot pointing at the Pathors
+# chatwoot callback), and the bespoke frontend page only surfaces derived state.
+pathors:
+  id: pathors
+  logo: pathors.png
+  i18n_key: pathors
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema: { 'type': 'object', 'properties': {}, 'additionalProperties': false }
+  settings_form_schema: []
+  visible_properties: []
 webhooks:
   id: webhook
   logo: webhooks.png

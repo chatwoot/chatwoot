@@ -368,6 +368,10 @@ zh_TW:
       delete: '%{contact_name} 目前在線上，請稍後再試'
   integration_apps:
     #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
+    pathors:
+      name: 'Pathors AI'
+      short_description: '讓 Pathors AI 助理在您的收件匣中回覆對話。'
+      description: 'Pathors AI 會自動回覆您的客戶，並在需要時將對話轉交給真人客服。連接收件匣即可決定 AI 助理在哪些管道回覆；其餘設定都在 Pathors 平台上完成。'
     dashboard_apps:
       name: '儀表板應用程式'
       description: '儀表板應用程式可讓您建立並嵌入顯示使用者資訊、訂單或付款紀錄的應用程式，為您的客服人員提供更多背景資訊。'

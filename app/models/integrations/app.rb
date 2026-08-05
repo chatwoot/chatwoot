@@ -9,6 +9,11 @@ class Integrations::App
   # configure it.
   PATHORS_WITHHELD_APPS = %w[openai dialogflow google_translate].freeze
 
+  # Pathors provisioning creates an agent bot whose outgoing_url points at
+  # `{PATHORS_BACKEND}/project/{project_id}/integration/chatwoot/callback`.
+  # The presence of such a bot is what "connected to Pathors" means.
+  PATHORS_CALLBACK_URL_FRAGMENT = '/integration/chatwoot/callback'.freeze
+
   attr_accessor :params
 
   def initialize(params)
@@ -82,6 +87,8 @@ class Integrations::App
     when 'notion'
       notion_enabled?(account)
     else
+      # `pathors` deliberately falls through here: the card is the entry point to
+      # the Pathors platform and is always listed, connected or not.
       true
     end
   end
@@ -105,6 +112,8 @@ class Integrations::App
       account.webhooks.exists?
     when 'dashboard_apps'
       account.dashboard_apps.exists?
+    when 'pathors'
+      pathors_bot_connected?(account)
     else
       account.hooks.exists?(app_id: id)
     end
@@ -146,5 +155,9 @@ class Integrations::App
 
   def notion_enabled?(account)
     account.feature_enabled?('notion_integration') && GlobalConfigService.load('NOTION_CLIENT_ID', nil).present?
+  end
+
+  def pathors_bot_connected?(account)
+    account.agent_bots.exists?(['outgoing_url LIKE ?', "%#{PATHORS_CALLBACK_URL_FRAGMENT}%"])
   end
 end

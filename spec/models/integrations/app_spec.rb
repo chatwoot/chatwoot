@@ -108,6 +108,19 @@ RSpec.describe Integrations::App do
       end
     end
 
+    context 'when the app is pathors' do
+      let(:app_name) { 'pathors' }
+
+      it 'returns true even when the account has no pathors agent bot' do
+        expect(app.active?(account)).to be true
+      end
+
+      it 'returns true when the account has a pathors agent bot' do
+        create(:agent_bot, account: account, outgoing_url: 'https://api.pathors.com/project/abc-123/integration/chatwoot/callback')
+        expect(app.active?(account)).to be true
+      end
+    end
+
     context 'when other apps are queried' do
       let(:app_name) { 'webhook' }
 
@@ -128,6 +141,30 @@ RSpec.describe Integrations::App do
       it 'returns true if the account has webhooks' do
         create(:webhook, account: account)
         expect(app.enabled?(account)).to be true
+      end
+    end
+
+    context 'when the app is pathors' do
+      let(:app_name) { 'pathors' }
+
+      it 'returns false if the account has no agent bots' do
+        expect(app.enabled?(account)).to be false
+      end
+
+      it 'returns false if the account has agent bots that are not pathors bots' do
+        create(:agent_bot, account: account, outgoing_url: 'https://example.com/bot/callback')
+        expect(app.enabled?(account)).to be false
+      end
+
+      it 'returns true if the account has an agent bot pointing at the pathors callback' do
+        create(:agent_bot, account: account, outgoing_url: 'https://api.pathors.com/project/abc-123/integration/chatwoot/callback')
+        expect(app.enabled?(account)).to be true
+      end
+
+      it 'ignores pathors bots that belong to another account' do
+        create(:agent_bot, account: create(:account),
+                           outgoing_url: 'https://api.pathors.com/project/abc-123/integration/chatwoot/callback')
+        expect(app.enabled?(account)).to be false
       end
     end
 

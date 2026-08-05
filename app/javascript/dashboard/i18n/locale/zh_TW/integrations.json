@@ -1,5 +1,28 @@
 {
   "INTEGRATION_SETTINGS": {
+    "PATHORS": {
+      "HEADER": "Pathors AI",
+      "STATUS": {
+        "CONNECTED": "已連接",
+        "NOT_CONNECTED": "尚未連接"
+      },
+      "MANAGE_BUTTON_TEXT": "在 Pathors 中管理",
+      "NOT_CONNECTED": {
+        "TITLE": "此帳號尚未連接 Pathors",
+        "DESCRIPTION": "請在 Pathors 平台上連接此帳號。專案連結完成後，AI 助理就會出現在這裡，您即可選擇要讓它回覆哪些收件匣。本頁面不需要任何設定。",
+        "BUTTON_TEXT": "開啟 Pathors"
+      },
+      "INBOXES": {
+        "TITLE": "AI 負責範圍",
+        "DESCRIPTION": "選擇 Pathors AI 助理要回覆的收件匣。",
+        "EMPTY": "此帳號尚未建立任何收件匣。",
+        "VOICE_LOCKED": "由 Pathors 語音助理負責",
+        "TOGGLE_LABEL": "由 AI 負責此收件匣",
+        "ENABLED_SUCCESS": "Pathors AI 助理已開始負責此收件匣。",
+        "DISABLED_SUCCESS": "Pathors AI 助理已停止負責此收件匣。",
+        "ERROR": "無法更新此收件匣，請重試。"
+      }
+    },
     "SHOPIFY": {
       "HEADER": "Shopify",
       "DELETE": {

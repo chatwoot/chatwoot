@@ -387,6 +387,10 @@ en:
       delete: '%{contact_name} is Online, please try again later'
   integration_apps:
     # Note: webhooks and dashboard_apps don't need short_description as they use different modal components
+    pathors:
+      name: 'Pathors AI'
+      short_description: 'Let the Pathors AI agent answer conversations in your inboxes.'
+      description: 'Pathors AI answers your customers automatically and hands the conversation over to a human whenever it should. Connect an inbox to choose where the AI agent replies; everything else is configured in the Pathors platform.'
     dashboard_apps:
       name: 'Dashboard Apps'
       description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
