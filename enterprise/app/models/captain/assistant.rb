@@ -21,9 +21,9 @@ class Captain::Assistant < ApplicationRecord
   CITATION_SOURCES_STATE_KEY = :captain_v2_citation_sources
   AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze
   DEFAULT_INACTIVITY_THRESHOLD_MINUTES = 60
-  MINIMUM_INACTIVITY_THRESHOLD_MINUTES = 15
+  MINIMUM_INACTIVITY_THRESHOLD_MINUTES = 5
   MAXIMUM_INACTIVITY_THRESHOLD_MINUTES = 1.day.in_minutes.to_i
-  INACTIVITY_THRESHOLD_STEP_MINUTES = 15
+  INACTIVITY_THRESHOLD_STEP_MINUTES = 5
 
   include Avatarable
   include Concerns::CaptainToolsHelpers
@@ -162,7 +162,7 @@ class Captain::Assistant < ApplicationRecord
     threshold = Integer(auto_resolve_after.to_s, exception: false)
     return unless threshold&.between?(MINIMUM_INACTIVITY_THRESHOLD_MINUTES, MAXIMUM_INACTIVITY_THRESHOLD_MINUTES)
 
-    # Keep API values aligned with the 15 minute options available in the settings UI.
+    # Keep API values aligned with the five minute options available in the settings UI.
     self.auto_resolve_after = (threshold.fdiv(INACTIVITY_THRESHOLD_STEP_MINUTES).round * INACTIVITY_THRESHOLD_STEP_MINUTES)
   end
 

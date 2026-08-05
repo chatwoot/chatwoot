@@ -98,7 +98,7 @@ const inactivityThresholdHours = computed({
     const remainingMinutes = state.inactivityThresholdMinutes % 60;
     const requestedMinutes = Number(hours) * 60 + remainingMinutes;
     state.inactivityThresholdMinutes = Math.min(
-      Math.max(requestedMinutes, 15),
+      Math.max(requestedMinutes, 5),
       24 * 60
     );
   },
@@ -110,15 +110,15 @@ const inactivityThresholdRemainingMinutes = computed({
     const completeHours = Math.floor(state.inactivityThresholdMinutes / 60);
     const requestedMinutes = completeHours * 60 + Number(minutes);
     state.inactivityThresholdMinutes = Math.min(
-      Math.max(requestedMinutes, 15),
+      Math.max(requestedMinutes, 5),
       24 * 60
     );
   },
 });
 
 const inactivityMinuteOptions = computed(() => {
-  return Array.from({ length: 4 }, (_, index) => {
-    const minutes = index * 15;
+  return Array.from({ length: 12 }, (_, index) => {
+    const minutes = index * 5;
     const hours = inactivityThresholdHours.value;
 
     return {
@@ -136,7 +136,7 @@ const validationRules = {
   instructions: { minLength: minLength(1) },
   inactivityThresholdMinutes: {
     required,
-    minValue: minValue(15),
+    minValue: minValue(5),
     maxValue: maxValue(24 * 60),
   },
 };

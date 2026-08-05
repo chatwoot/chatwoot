@@ -293,7 +293,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
               params: {
                 assistant: {
                   config: {
-                    auto_resolve_after: 68,
+                    auto_resolve_after: 61,
                     send_inactivity_resolution_message: false,
                     resolution_message: 'Saved closing message'
                   }
@@ -304,7 +304,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(json_response[:config]).to include(
-          auto_resolve_after: 75,
+          auto_resolve_after: 60,
           send_inactivity_resolution_message: false,
           resolution_message: 'Saved closing message'
         )

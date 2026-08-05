@@ -10,7 +10,7 @@ RSpec.describe Captain::Assistant do
 
       expect(assistant.inactivity_threshold_minutes).to eq(60)
 
-      assistant.auto_resolve_after = 15
+      assistant.auto_resolve_after = 5
       assistant.send_inactivity_resolution_message = false
       assistant.account.disable_features('captain_integration_v2')
 
@@ -19,7 +19,7 @@ RSpec.describe Captain::Assistant do
     end
 
     it 'validates the inactivity timer range' do
-      assistant.auto_resolve_after = 14
+      assistant.auto_resolve_after = 4
 
       expect(assistant).not_to be_valid
       expect(assistant.errors[:auto_resolve_after]).to be_present
@@ -30,17 +30,17 @@ RSpec.describe Captain::Assistant do
       expect(assistant.errors[:auto_resolve_after]).to be_present
     end
 
-    it 'rounds the inactivity timer to the nearest 15 minutes' do
+    it 'rounds the inactivity timer to the nearest five minutes' do
       assistant.auto_resolve_after = 61
 
       assistant.validate
 
       expect(assistant.auto_resolve_after).to eq(60)
 
-      assistant.auto_resolve_after = 68
+      assistant.auto_resolve_after = 63
       assistant.validate
 
-      expect(assistant.auto_resolve_after).to eq(75)
+      expect(assistant.auto_resolve_after).to eq(65)
     end
   end
 
