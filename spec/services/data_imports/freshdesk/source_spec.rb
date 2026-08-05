@@ -43,6 +43,70 @@ RSpec.describe DataImports::Freshdesk::Source do
     end
   end
 
+  describe '#list_conversations' do
+    it 'returns a resumable ticket chunk with a cursor after every ticket', :aggregate_failures do
+      tickets = Array.new(25) { |index| { 'id' => index + 1, 'source' => 1 } }
+      allow(client).to receive(:list_tickets).with(page: 2, per_page: 100).and_return(
+        DataImports::Freshdesk::Client::Page.new(data: tickets, next_page: 3)
+      )
+
+      response = source.list_conversations(
+        starting_after: { 'page' => 2, 'offset' => 10 },
+        per_page: 100
+      )
+
+      expect(response['data'].pluck('id')).to eq((11..20).map(&:to_s))
+      expect(response.dig('pages', 'checkpoints').first).to include('page' => 2, 'offset' => 11, 'next_page' => 3)
+      expect(response.dig('pages', 'checkpoints').last).to include('page' => 2, 'offset' => 20, 'next_page' => 3)
+      expect(response.dig('pages', 'next', 'starting_after')).to include('page' => 2, 'offset' => 20, 'next_page' => 3)
+    end
+
+    it 'reuses the cached ticket page before advancing to the next Freshdesk page', :aggregate_failures do
+      tickets = Array.new(25) { |index| { 'id' => index + 1, 'source' => 1 } }
+      expect(client).to receive(:list_tickets).with(page: 2, per_page: 100).once.and_return(
+        DataImports::Freshdesk::Client::Page.new(data: tickets, next_page: 3)
+      )
+
+      first_chunk = source.list_conversations(
+        starting_after: { 'page' => 2, 'offset' => 10 },
+        per_page: 100
+      )
+      response = source.list_conversations(starting_after: first_chunk.dig('pages', 'next', 'starting_after'), per_page: 100)
+
+      expect(response['data'].pluck('id')).to eq((21..25).map(&:to_s))
+      expect(response.dig('pages', 'checkpoints').last).to eq('page' => 3, 'offset' => 0)
+      expect(response.dig('pages', 'next', 'starting_after')).to eq('page' => 3, 'offset' => 0)
+    end
+
+    it 'reports the REST ticket limit only after the final chunk of a full page 300', :aggregate_failures do
+      tickets = Array.new(100) { |index| { 'id' => index + 1, 'source' => 1 } }
+      expect(client).to receive(:list_tickets).with(page: 300, per_page: 100).once.and_return(
+        DataImports::Freshdesk::Client::Page.new(data: tickets, next_page: nil)
+      )
+
+      first_chunk = source.list_conversations(starting_after: { 'page' => 300, 'offset' => 0 }, per_page: 100)
+      final_cursor = first_chunk.dig('pages', 'current', 'starting_after').merge('offset' => 90)
+      final_chunk = source.list_conversations(starting_after: final_cursor, per_page: 100)
+
+      expect(first_chunk.dig('pages', 'limit_reached')).to be(false)
+      expect(final_chunk['data'].pluck('id')).to eq((91..100).map(&:to_s))
+      expect(final_chunk.dig('pages', 'next')).to be_nil
+      expect(final_chunk.dig('pages', 'limit_reached')).to be(true)
+    end
+
+    it 'completes a partial page 300 without reporting the ticket limit' do
+      tickets = Array.new(99) { |index| { 'id' => index + 1, 'source' => 1 } }
+      allow(client).to receive(:list_tickets).with(page: 300, per_page: 100).and_return(
+        DataImports::Freshdesk::Client::Page.new(data: tickets, next_page: nil)
+      )
+
+      response = source.list_conversations(starting_after: { 'page' => 300, 'offset' => 90 }, per_page: 100)
+
+      expect(response.dig('pages', 'next')).to be_nil
+      expect(response.dig('pages', 'limit_reached')).to be(false)
+    end
+  end
+
   describe '#retrieve_conversation' do
     it 'retrieves every conversation page and normalizes the ticket', :aggregate_failures do
       conversations = ticket_fixture.fetch('conversations')

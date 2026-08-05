@@ -69,14 +69,22 @@ class DataImports::Freshdesk::Source
   end
 
   def list_conversations(starting_after:, per_page:)
-    page = @client.list_tickets(page: starting_after.presence || 1, per_page: per_page)
-    tickets = Array(page.data).map do |ticket|
+    page = DataImports::Freshdesk::TicketPage.new(client: @client, starting_after: starting_after, per_page: per_page)
+    summaries = page.chunk.map do |ticket|
       {
         'id' => ticket['id'].to_s,
         'source' => { 'type' => DataImports::Freshdesk::SourceBucket.source_type(ticket['source']) }
       }
     end
-    paginated_response(page, tickets)
+    {
+      'data' => summaries,
+      'pages' => {
+        'current' => { 'starting_after' => page.current_cursor },
+        'next' => page.next_cursor.present? ? { 'starting_after' => page.next_cursor } : nil,
+        'checkpoints' => page.checkpoints,
+        'limit_reached' => page.limit_reached?
+      }
+    }
   end
 
   def retrieve_conversation(id)

@@ -202,4 +202,101 @@ RSpec.describe DataImports::Freshdesk::Importer do
 
     expect(data_import.reload.cursor['conversations']).to include('starting_after' => nil, 'completed' => true)
   end
+
+  it 'resumes a rate-limited ticket chunk from the last persisted checkpoint', :aggregate_failures do
+    tickets = Array.new(3) { |index| { 'id' => index + 2001, 'source' => 1 } }
+    allow(client).to receive(:list_tickets).with(page: 1, per_page: 100).and_return(
+      DataImports::Freshdesk::Client::Page.new(data: tickets, next_page: nil)
+    )
+    importer = described_class.new(data_import: data_import)
+    processed_ticket_ids = []
+    rate_limited = true
+    allow(importer).to receive(:import_conversation_from_summary) do |summary|
+      processed_ticket_ids << summary['id']
+      if summary['id'] == '2003' && rate_limited
+        rate_limited = false
+        raise DataImports::Freshdesk::Client::RateLimitError.new('Rate limited', retry_after: '42')
+      end
+    end
+
+    expect do
+      importer.import_conversations_page(starting_after: { 'page' => 1, 'offset' => 0 })
+    end.to raise_error(DataImports::Freshdesk::Client::RateLimitError)
+    expect(processed_ticket_ids).to eq(%w[2001 2002 2003])
+    expect(data_import.reload.cursor.dig('conversations', 'starting_after')).to include('page' => 1, 'offset' => 2)
+
+    processed_ticket_ids.clear
+    result = importer.import_conversations_page(starting_after: { 'page' => 1, 'offset' => 0 })
+
+    expect(processed_ticket_ids).to eq(%w[2003])
+    expect(result).to be_done
+    expect(data_import.reload.cursor['conversations']).to include('starting_after' => nil, 'completed' => true)
+    expect(client).to have_received(:list_tickets).once
+  end
+
+  it 'stops a delayed worker when a newer per-ticket checkpoint is observed', :aggregate_failures do
+    current_cursor = { 'page' => 1, 'offset' => 0, 'tickets' => [], 'next_page' => 2 }
+    newer_cursor = current_cursor.merge('offset' => 3)
+    summaries = Array.new(3) { |index| { 'id' => (index + 2001).to_s } }
+    response = {
+      'data' => summaries,
+      'pages' => {
+        'current' => { 'starting_after' => current_cursor },
+        'next' => { 'starting_after' => { 'page' => 2, 'offset' => 0 } },
+        'checkpoints' => Array.new(3) { |index| current_cursor.merge('offset' => index + 1) }
+      }
+    }
+    importer = described_class.new(data_import: DataImport.find(data_import.id))
+    allow(importer).to receive(:conversations_page).and_return(response)
+    cursor_advanced = false
+    allow(importer).to receive(:persist_stats).and_wrap_original do |method, *args|
+      method.call(*args)
+      next if cursor_advanced
+
+      cursor_advanced = true
+      concurrent_import = DataImport.find(data_import.id)
+      concurrent_import.update!(
+        cursor: concurrent_import.cursor.to_h.deep_merge(
+          'conversations' => { 'starting_after' => newer_cursor, 'completed' => false }
+        )
+      )
+    end
+
+    result = importer.import_conversations_page(starting_after: current_cursor)
+
+    expect(account.conversations.where(identifier: 'freshdesk:2001').count).to eq(1)
+    expect(client).not_to have_received(:retrieve_ticket).with('2002')
+    expect(result.next_cursor).to eq(newer_cursor)
+    expect(data_import.reload.cursor.dig('conversations', 'starting_after')).to eq(newer_cursor)
+  end
+
+  it 'fails with an actionable error instead of completing at the REST ticket limit', :aggregate_failures do
+    tickets = Array.new(100) { |index| { 'id' => index + 1, 'source' => 1 } }
+    allow(client).to receive(:list_tickets).with(page: 300, per_page: 100).and_return(
+      DataImports::Freshdesk::Client::Page.new(data: tickets, next_page: nil)
+    )
+    importer = described_class.new(data_import: data_import)
+    processed_ticket_ids = []
+    allow(importer).to receive(:import_conversation_from_summary) { |summary| processed_ticket_ids << summary['id'] }
+    limit_error = nil
+
+    expect { importer.import_conversations_page(starting_after: { 'page' => 300, 'offset' => 90 }) }.to raise_error do |error|
+      expect(error.class.name).to eq('CustomExceptions::DataImport::FreshdeskTicketLimitError')
+      limit_error = error
+    end
+    importer.fail!(limit_error)
+
+    expect(processed_ticket_ids).to eq((91..100).map(&:to_s))
+    expect(data_import.reload).to be_failed
+    expect(data_import.cursor.dig('conversations', 'starting_after')).to include('page' => 300, 'offset' => 99)
+    expect(data_import.import_errors.last).to have_attributes(
+      error_code: 'CustomExceptions::DataImport::FreshdeskTicketLimitError',
+      message: limit_error.message
+    )
+    expect(data_import.import_errors.last.details).to include(
+      'kind' => 'run_error',
+      'source_provider' => 'freshdesk',
+      'error_class' => 'CustomExceptions::DataImport::FreshdeskTicketLimitError'
+    )
+  end
 end
