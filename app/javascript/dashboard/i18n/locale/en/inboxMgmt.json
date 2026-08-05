@@ -937,7 +937,7 @@
       "WHATSAPP_MANUAL_MIGRATION": {
         "BANNER": {
           "TITLE": "Manual setup recommended",
-          "DESCRIPTION": "This inbox uses WhatsApp Embedded Signup without WhatsApp Business app Coexistence. You can reconnect it with your own Meta app to manage the WhatsApp API connection directly.",
+          "DESCRIPTION": "This inbox connects through the shared Meta app used for embedded signup, which recent Meta restrictions have affected. To avoid similar issues in the future, we recommend reconnecting it with your own Meta app.",
           "START": "Start manual migration",
           "GUIDE": "View guide"
         },
