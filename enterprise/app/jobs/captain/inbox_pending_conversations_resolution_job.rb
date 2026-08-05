@@ -109,18 +109,10 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     return false unless follow_up_message
     return true unless follow_up_message.created_at < follow_up_resolution_cutoff_time
 
-    conversation.reload
-    follow_up_message = follow_up_service(conversation).active_message
-    return true unless conversation.pending? && follow_up_message
-    return true unless follow_up_message.created_at < follow_up_resolution_cutoff_time
-
-    create_private_note(conversation, 'Auto-resolved after follow-up: Customer did not reply')
-    create_resolution_message(conversation, inbox)
-    conversation.with_captain_activity_context(
-      reason: CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON,
-      reason_type: :inference
-    ) { conversation.resolved! }
-    record_inference_resolution(conversation)
+    resolved = with_inference_activity_context(conversation, CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON) do
+      resolve_pending_follow_up(conversation, inbox)
+    end
+    record_inference_resolution(conversation) if resolved
     true
   rescue ActiveRecord::RecordNotFound
     true
@@ -149,16 +141,14 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   def resolve_conversation(conversation, inbox, reason)
-    conversation.reload
-    return unless conversation.pending? && inactive_for_initial_action?(conversation)
-
-    create_private_note(conversation, "Auto-resolved: #{reason}")
-    create_resolution_message(conversation, inbox)
-    conversation.with_captain_activity_context(
-      reason: CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON,
-      reason_type: :inference
-    ) { conversation.resolved! }
-    record_inference_resolution(conversation)
+    resolved = with_inference_activity_context(conversation, CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON) do
+      perform_locked_transition(conversation) do
+        conversation.resolved!
+        create_private_note(conversation, "Auto-resolved: #{reason}")
+        create_resolution_message(conversation, inbox)
+      end
+    end
+    record_inference_resolution(conversation) if resolved
   rescue ActiveRecord::RecordNotFound
     nil
   end
@@ -185,15 +175,16 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   def handoff_conversation(conversation, reason)
-    conversation.reload
-    return unless conversation.pending? && inactive_for_initial_action?(conversation)
+    handed_off = with_inference_activity_context(conversation, CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON) do
+      perform_locked_transition(conversation) do
+        conversation.bot_handoff!(dispatch_event: false)
+        create_private_note(conversation, "Auto-handoff: #{reason}")
+        create_handoff_message(conversation)
+      end
+    end
+    return unless handed_off
 
-    create_private_note(conversation, "Auto-handoff: #{reason}")
-    create_handoff_message(conversation)
-    conversation.with_captain_activity_context(
-      reason: CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON,
-      reason_type: :inference
-    ) { conversation.bot_handoff! }
+    conversation.dispatch_bot_handoff_event
     Captain::ConversationEvents.handed_off(
       conversation: conversation,
       assistant: captain_assistant,
@@ -204,6 +195,34 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     send_out_of_office_message_if_applicable(conversation.reload)
   rescue ActiveRecord::RecordNotFound
     nil
+  end
+
+  def resolve_pending_follow_up(conversation, inbox)
+    conversation.with_lock do
+      conversation.reload
+      follow_up_message = follow_up_service(conversation).active_message
+      next false unless conversation.pending? && follow_up_message
+      next false unless follow_up_message.created_at < follow_up_resolution_cutoff_time
+
+      conversation.resolved!
+      create_private_note(conversation, 'Auto-resolved after follow-up: Customer did not reply')
+      create_resolution_message(conversation, inbox)
+      true
+    end
+  end
+
+  def perform_locked_transition(conversation)
+    conversation.with_lock do
+      conversation.reload
+      next false unless conversation.pending? && inactive_for_initial_action?(conversation)
+
+      yield
+      true
+    end
+  end
+
+  def with_inference_activity_context(conversation, reason, &)
+    conversation.with_captain_activity_context(reason: reason, reason_type: :inference, &)
   end
 
   def send_out_of_office_message_if_applicable(conversation)

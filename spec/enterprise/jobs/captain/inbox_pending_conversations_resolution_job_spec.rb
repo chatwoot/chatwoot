@@ -515,6 +515,76 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
   end
 
+  describe 'evaluated action transaction safety' do
+    let(:job) { described_class.new }
+    let(:conversation) { resolvable_pending_conversation.reload }
+
+    before do
+      job.instance_variable_set(:@captain_assistant, captain_assistant)
+      job.instance_variable_set(:@inactivity_cutoff_time, 1.hour.ago)
+      job.instance_variable_set(:@follow_up_resolution_cutoff_time, 30.minutes.ago)
+    end
+
+    it 'rolls back resolution messages when the status transition fails' do
+      expect(conversation).to receive(:with_lock).and_call_original
+      allow(conversation).to receive(:resolved!).and_raise(StandardError, 'transition failed')
+
+      expect do
+        job.send(:resolve_conversation, conversation, inbox, 'Customer question was answered')
+      end.to raise_error(StandardError, 'transition failed')
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.messages.outgoing).to be_empty
+    end
+
+    it 'rolls back handoff messages when the status transition fails' do
+      captain_assistant.update!(config: captain_assistant.config.merge('handoff_message' => 'Connecting you to an agent.'))
+      expect(conversation).to receive(:with_lock).and_call_original
+      allow(conversation).to receive(:bot_handoff!).and_raise(StandardError, 'transition failed')
+
+      expect do
+        job.send(:handoff_conversation, conversation, 'Customer needs an agent')
+      end.to raise_error(StandardError, 'transition failed')
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.messages.outgoing).to be_empty
+    end
+
+    it 'dispatches the bot handoff event after leaving the lock transaction' do
+      open_transactions_before_handoff = ActiveRecord::Base.connection.open_transactions
+      expect(conversation).to receive(:bot_handoff!).with(dispatch_event: false).and_call_original
+      expect(conversation).to receive(:dispatch_bot_handoff_event) do
+        expect(ActiveRecord::Base.connection.open_transactions).to eq(open_transactions_before_handoff)
+      end
+
+      job.send(:handoff_conversation, conversation, 'Customer needs an agent')
+    end
+
+    it 'rolls back second-stage resolution messages when the status transition fails' do
+      follow_up_message = create(
+        :message,
+        conversation: conversation,
+        inbox: inbox,
+        account: inbox.account,
+        sender: captain_assistant,
+        message_type: :outgoing,
+        content: 'Could you share your order number?',
+        additional_attributes: { 'captain_inactivity_follow_up' => true },
+        created_at: 31.minutes.ago
+      )
+      allow(conversation).to receive(:resolved!).and_raise(StandardError, 'transition failed')
+      expect(conversation).to receive(:with_lock).and_call_original
+
+      expect do
+        job.send(:process_pending_follow_up, conversation, inbox)
+      end.to raise_error(StandardError, 'transition failed')
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.messages.outgoing.pluck(:id)).to contain_exactly(follow_up_message.id)
+      expect(conversation.messages.where(private: true)).to be_empty
+    end
+  end
+
   it 'does not resolve conversations when auto-resolve is disabled at execution time' do
     captain_assistant.update!(auto_resolve_mode: 'disabled')
 
