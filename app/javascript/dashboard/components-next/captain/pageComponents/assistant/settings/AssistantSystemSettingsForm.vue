@@ -98,7 +98,7 @@ const inactivityThresholdHours = computed({
     const remainingMinutes = state.inactivityThresholdMinutes % 60;
     const requestedMinutes = Number(hours) * 60 + remainingMinutes;
     state.inactivityThresholdMinutes = Math.min(
-      Math.max(requestedMinutes, 5),
+      Math.max(requestedMinutes, 15),
       24 * 60
     );
   },
@@ -110,15 +110,15 @@ const inactivityThresholdRemainingMinutes = computed({
     const completeHours = Math.floor(state.inactivityThresholdMinutes / 60);
     const requestedMinutes = completeHours * 60 + Number(minutes);
     state.inactivityThresholdMinutes = Math.min(
-      Math.max(requestedMinutes, 5),
+      Math.max(requestedMinutes, 15),
       24 * 60
     );
   },
 });
 
 const inactivityMinuteOptions = computed(() => {
-  return Array.from({ length: 12 }, (_, index) => {
-    const minutes = index * 5;
+  return Array.from({ length: 4 }, (_, index) => {
+    const minutes = index * 15;
     const hours = inactivityThresholdHours.value;
 
     return {
@@ -136,7 +136,7 @@ const validationRules = {
   instructions: { minLength: minLength(1) },
   inactivityThresholdMinutes: {
     required,
-    minValue: minValue(5),
+    minValue: minValue(15),
     maxValue: maxValue(24 * 60),
   },
 };
@@ -227,11 +227,11 @@ watch(
   <div class="flex flex-col gap-6">
     <div
       v-if="isCaptainV2Enabled"
-      class="overflow-hidden rounded-xl border border-n-weak bg-n-solid-1"
+      class="flex flex-col border-b border-n-weak pb-6"
     >
       <button
         type="button"
-        class="flex w-full items-center justify-between gap-4 p-4 text-left"
+        class="flex w-full items-center justify-between gap-4 text-left"
         :aria-expanded="isInactivityResolutionSettingsExpanded"
         @click="
           isInactivityResolutionSettingsExpanded =
@@ -262,7 +262,7 @@ watch(
 
       <div
         v-if="isInactivityResolutionSettingsExpanded"
-        class="flex flex-col gap-4 border-t border-n-weak p-4"
+        class="flex flex-col gap-4 pt-4"
       >
         <div class="flex flex-col gap-2">
           <p class="text-sm font-medium text-n-slate-12">
