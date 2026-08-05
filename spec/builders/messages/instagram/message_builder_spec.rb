@@ -75,6 +75,28 @@ describe Messages::Instagram::MessageBuilder do
       expect(instagram_inbox.messages.count).to be 1
     end
 
+    it 'discards echo whose mid only survives as an additional_source_id (multi-part card send)' do
+      messaging = dm_params[:entry][0]['messaging'][0]
+      # The recipient in a chatwoot-authored echo is the contact, so it needs
+      # its own contact_inbox for the echo's conversation/contact lookup to
+      # succeed (mirrors the recipient id fixed in the factory payload).
+      contact = create_instagram_contact_for_sender(messaging['recipient']['id'], instagram_inbox)
+      conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id, contact_id: contact.id)
+      create(:message, account_id: account.id, inbox_id: instagram_inbox.id, conversation_id: conversation.id, message_type: 'outgoing',
+                       source_id: 'mid_generic',
+                       content_attributes: { additional_source_ids: ['mid_intro'] })
+
+      expect(instagram_inbox.conversations.count).to be 1
+      expect(instagram_inbox.messages.count).to be 1
+
+      messaging[:message][:mid] = 'mid_intro'
+      described_class.new(messaging, instagram_inbox, outgoing_echo: true).perform
+
+      instagram_inbox.reload
+
+      expect(instagram_inbox.messages.count).to be 1
+    end
+
     it 'discards duplicate messages from webhook events with the same message_id' do
       messaging = dm_params[:entry][0]['messaging'][0]
       create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)

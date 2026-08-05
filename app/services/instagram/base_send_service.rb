@@ -281,6 +281,7 @@ class Instagram::BaseSendService < Base::SendOnChannelService # rubocop:disable 
   def process_response(response, message_content)
     parsed_response = response.parsed_response
     if response.success? && parsed_response['error'].blank?
+      track_additional_source_id
       message.update!(source_id: parsed_response['message_id'])
       parsed_response
     else
@@ -289,6 +290,17 @@ class Instagram::BaseSendService < Base::SendOnChannelService # rubocop:disable 
       Messages::StatusUpdateService.new(message, 'failed', external_error).perform
       nil
     end
+  end
+
+  # A multi-part card send (intro text + generic template) issues two provider
+  # sends for the same Chatwoot message, and each success overwrites source_id,
+  # so the first send's MID would otherwise be lost. Keep it around so the
+  # inbound webhook echo for that MID can still be matched and deduped.
+  def track_additional_source_id
+    return if message.source_id.blank?
+
+    additional_source_ids = Array(message.content_attributes['additional_source_ids'])
+    message.content_attributes['additional_source_ids'] = (additional_source_ids + [message.source_id]).uniq
   end
 
   def external_error(response)

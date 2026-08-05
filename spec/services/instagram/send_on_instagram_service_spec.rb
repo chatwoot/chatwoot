@@ -212,6 +212,34 @@ describe Instagram::SendOnInstagramService do
         end
       end
 
+      context 'with cards intro text (multi-part send)' do
+        it 'preserves the intro text MID so its inbound echo is not duplicated' do
+          allow(HTTParty).to receive(:post).and_return(
+            instance_double(HTTParty::Response, success?: true, body: { message_id: 'mid_intro' }.to_json,
+                                                parsed_response: { 'message_id' => 'mid_intro' }),
+            instance_double(HTTParty::Response, success?: true, body: { message_id: 'mid_generic' }.to_json,
+                                                parsed_response: { 'message_id' => 'mid_generic' })
+          )
+
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation,
+                                     content: 'Check these out',
+                                     content_type: 'cards',
+                                     content_attributes: {
+                                       'items' => [
+                                         {
+                                           'title' => 'Card 1',
+                                           'actions' => [{ 'type' => 'url', 'text' => 'Visit', 'uri' => 'https://example.com' }]
+                                         }
+                                       ]
+                                     })
+
+          described_class.new(message: message).perform
+
+          expect(message.reload.source_id).to eq('mid_generic')
+          expect(message.content_attributes['additional_source_ids']).to eq(['mid_intro'])
+        end
+      end
+
       context 'with cards body text longer than the Messenger title limit' do
         it 'truncates the generic-template title and subtitle to 80 characters' do
           long_title = 'T' * 200
