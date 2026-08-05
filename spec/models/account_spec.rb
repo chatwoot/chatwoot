@@ -112,6 +112,34 @@ RSpec.describe Account do
     end
   end
 
+  describe 'resuming delayed automations' do
+    let(:account) { create(:account) }
+
+    it 'reschedules the overdue backlog in the same transaction that re-enables the flag' do
+      row = create(:automation_rule_pending_execution, account: account, due_at: 5.days.ago)
+
+      ActiveRecord::Base.transaction(requires_new: true) do
+        account.enable_features!('delayed_automations')
+        # Still uncommitted: no sweep can see the flag yet, and the backlog is already re-clocked,
+        # so there is no window where the account is sweepable on a stale due_at.
+        expect(row.reload.due_at).to be_within(5.seconds).of(Time.current)
+        raise ActiveRecord::Rollback
+      end
+
+      expect(account.reload.feature_delayed_automations?).to be(false)
+      expect(row.reload.due_at).to be_within(5.seconds).of(5.days.ago)
+    end
+
+    it 'leaves the backlog alone when the flag is turned off' do
+      account.enable_features!('delayed_automations')
+      row = create(:automation_rule_pending_execution, account: account, due_at: 5.days.ago)
+
+      account.disable_features!('delayed_automations')
+
+      expect(row.reload.due_at).to be_within(5.seconds).of(5.days.ago)
+    end
+  end
+
   describe 'feature flag columns' do
     let(:account) { described_class.new(name: 'Test Account') }
 
@@ -122,7 +150,8 @@ RSpec.describe Account do
         feature_data_import: 1 << 1,
         feature_api_and_webhooks: 1 << 2,
         feature_whatsapp_reconfigure: 1 << 3,
-        feature_whatsapp_embedded_signup_inbox_creation: 1 << 4
+        feature_whatsapp_embedded_signup_inbox_creation: 1 << 4,
+        feature_delayed_automations: 1 << 5
       )
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
