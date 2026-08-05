@@ -6,6 +6,7 @@ RSpec.describe 'Enterprise SLA API', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
 
   before do
+    account.enable_features!('sla')
     create(:sla_policy, account: account, name: 'SLA 1')
   end
 

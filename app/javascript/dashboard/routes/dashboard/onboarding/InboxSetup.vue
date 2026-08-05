@@ -20,16 +20,17 @@ import { useChannelConnect } from './inbox-setup/useChannelConnect';
 import { useDetectedChannels } from './inbox-setup/useDetectedChannels';
 import { DIALOG_CHANNELS } from './inbox-setup/constants';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
-import {
-  IS_META_INBOX_CREATION_DISABLED,
-  META_RESTRICTION_STATUS_URL,
-} from 'dashboard/constants/globals';
+import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 
 const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
-const { accountId, currentAccount, finishOnboarding, isOnChatwootCloud } =
-  useAccount();
+const {
+  accountId,
+  currentAccount,
+  finishOnboarding,
+  isMetaInboxCreationDisabled,
+} = useAccount();
 const { isEnterprise } = useConfig();
 const { connectViaOAuth, connectWhatsapp } = useChannelConnect();
 
@@ -50,7 +51,7 @@ const {
 
 const channelsDialogRef = ref(null);
 const showMetaRestrictionBanner = computed(
-  () => isOnChatwootCloud.value && IS_META_INBOX_CREATION_DISABLED
+  () => isMetaInboxCreationDisabled.value
 );
 
 // The initial inboxes fetch happens in WebWidgetCreationStatus, which polls
