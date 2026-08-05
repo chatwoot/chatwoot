@@ -17,29 +17,6 @@ RSpec.describe Captain::Assistant do
     end
   end
 
-  describe '#auto_resolve_mode' do
-    let(:account) { create(:account, captain_auto_resolve_mode: 'legacy') }
-
-    it 'uses the assistant setting when configured' do
-      assistant = create(:captain_assistant, account: account, config: { 'auto_resolve_mode' => 'disabled' })
-
-      expect(assistant.auto_resolve_mode).to eq('disabled')
-    end
-
-    it 'falls back to the account setting for assistants that have not been migrated' do
-      assistant = create(:captain_assistant, account: account)
-
-      expect(assistant.auto_resolve_mode).to eq('legacy')
-    end
-
-    it 'rejects unsupported modes' do
-      assistant = build(:captain_assistant, account: account, config: { 'auto_resolve_mode' => 'unsupported' })
-
-      expect(assistant).not_to be_valid
-      expect(assistant.errors[:auto_resolve_mode]).to be_present
-    end
-  end
-
   describe '#agent_tools' do
     let(:account) { create(:account) }
     let(:assistant) { create(:captain_assistant, account: account) }

@@ -6,10 +6,9 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   def perform(inbox)
     captain_assistant = inbox.captain_assistant
-    return if captain_assistant.inactive_conversation_resolution_disabled?
+    return if captain_assistant.blank? || captain_assistant.inactive_conversation_resolution_disabled?
 
     @inactivity_cutoff_time = Time.now.utc - captain_assistant.inactivity_threshold_minutes.minutes
-
     if evaluate_conversation_completion?(captain_assistant, inbox.account)
       perform_with_evaluation(inbox)
     else

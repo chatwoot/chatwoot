@@ -4,6 +4,7 @@ RSpec.describe Migration::CopyCaptainAutoResolveModeToAssistantsJob, type: :job 
   it 'copies the account mode to assistants without an assistant setting' do
     account = create(:account, captain_auto_resolve_mode: 'legacy')
     assistant = create(:captain_assistant, account: account)
+    assistant.update_columns(config: assistant.config.except('auto_resolve_mode')) # rubocop:disable Rails/SkipsModelValidations
 
     described_class.perform_now
 
