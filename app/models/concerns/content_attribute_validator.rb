@@ -14,6 +14,8 @@ class ContentAttributeValidator < ActiveModel::Validator # rubocop:disable Metri
   ALLOWED_INTERACTIVE_LIST_ACTION_KEYS = [:button_text].freeze
   ALLOWED_INTERACTIVE_LIST_SECTION_KEYS = [:title, :rows].freeze
   ALLOWED_INTERACTIVE_LIST_ROW_KEYS = [:id, :title, :description].freeze
+  # WhatsApp caps the combined row count across all sections at 10, not per section.
+  MAX_INTERACTIVE_LIST_TOTAL_ROWS = 10
   URL_ACTION_TYPE = 'url'.freeze
   REPLY_ACTION_TYPE = 'reply'.freeze
   CTA_URL_HEADER_TYPE = 'image'.freeze
@@ -380,6 +382,15 @@ class ContentAttributeValidator < ActiveModel::Validator # rubocop:disable Metri
 
       validate_interactive_list_section!(record, section.with_indifferent_access)
     end
+
+    validate_interactive_list_total_rows!(record, sections)
+  end
+
+  def validate_interactive_list_total_rows!(record, sections)
+    total_rows = sections.sum { |section| section.is_a?(Hash) ? Array(section.with_indifferent_access[:rows]).size : 0 }
+    return if total_rows <= MAX_INTERACTIVE_LIST_TOTAL_ROWS
+
+    record.errors.add(:content_attributes, "interactive_list supports at most #{MAX_INTERACTIVE_LIST_TOTAL_ROWS} rows across all sections")
   end
 
   def validate_interactive_list_section!(record, section)

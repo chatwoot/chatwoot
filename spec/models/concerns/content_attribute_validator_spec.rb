@@ -35,4 +35,33 @@ describe ContentAttributeValidator do
       expect(message).to be_valid
     end
   end
+
+  def build_list_message(sections)
+    build(:message, conversation: conversation, account: account, inbox: whatsapp_inbox,
+                    message_type: :outgoing, content_type: 'interactive_list',
+                    content_attributes: {
+                      body_text: 'Pick an item',
+                      action: { button_text: 'View options' },
+                      sections: sections
+                    })
+  end
+
+  context 'when an interactive_list has more than 10 rows across all sections' do
+    it 'is invalid' do
+      sections = (1..11).map { |i| { title: "Section #{i}", rows: [{ id: "row_#{i}", title: "Row #{i}" }] } }
+      message = build_list_message(sections)
+
+      expect(message).to be_invalid
+      expect(message.errors[:content_attributes]).to include('interactive_list supports at most 10 rows across all sections')
+    end
+  end
+
+  context 'when an interactive_list has exactly 10 rows across all sections' do
+    it 'is valid' do
+      sections = (1..10).map { |i| { title: "Section #{i}", rows: [{ id: "row_#{i}", title: "Row #{i}" }] } }
+      message = build_list_message(sections)
+
+      expect(message).to be_valid
+    end
+  end
 end
