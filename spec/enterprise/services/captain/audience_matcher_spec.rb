@@ -81,6 +81,7 @@ RSpec.describe Captain::AudienceMatcher do
         expect(matches?(leaf('newsletter_opt_in', 'equal_to', 'false'))).to be(true)
         expect(matches?(leaf('newsletter_opt_in', 'equal_to', 'true'))).to be(false)
         expect(matches?(leaf('newsletter_opt_in', 'not_equal_to', 'true'))).to be(true)
+        expect(matches?(leaf('newsletter_opt_in', 'not_equal_to', 'false'))).to be(false)
       end
 
       it 'supports contains / starts_with on text' do

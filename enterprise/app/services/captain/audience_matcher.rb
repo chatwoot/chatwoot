@@ -85,7 +85,10 @@ class Captain::AudienceMatcher
   end
 
   def negative_equality_match?(key, actual, values)
-    return custom_attribute?(key) if actual.nil?
+    if actual.nil?
+      custom_attribute = custom_attribute?(key)
+      return custom_attribute unless custom_attribute && checkbox_attribute?(key)
+    end
 
     values.none? { |expected| value_equal?(key, actual, expected) }
   end
