@@ -99,7 +99,7 @@ class FilterService
 
   def days_before_filter_query(query_hash, current_index)
     date = Time.zone.today - query_hash['values'][0].to_i.days
-    updated_query_hash = query_hash.with_indifferent_access.merge(
+    updated_query_hash = query_hash.to_h.with_indifferent_access.merge(
       values: [date.strftime],
       filter_operator: 'is_less_than'
     )
@@ -107,12 +107,16 @@ class FilterService
     lt_gt_filter_query(updated_query_hash, current_index)
   end
 
+  # Computes mine/unassigned/all counts in one scan of the filtered set instead of
+  # three separate COUNT queries.
   def set_count_for_all_conversations
-    [
-      @conversations.assigned_to(@user).count,
-      @conversations.unassigned.count,
-      @conversations.count
-    ]
+    counts = @conversations.except(:includes, :order).pick(
+      Arel.sql(ActiveRecord::Base.sanitize_sql_array(['COUNT(*) FILTER (WHERE assignee_id = ?)', @user.id])),
+      Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL)'),
+      Arel.sql('COUNT(*)')
+    )
+    # pick short-circuits to nil on a none relation (e.g. permission scope with no access)
+    counts ? counts.map(&:to_i) : [0, 0, 0]
   end
 
   def tag_filter_query(query_hash, current_index)
