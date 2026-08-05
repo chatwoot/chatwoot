@@ -202,23 +202,14 @@ RSpec.describe MessageTemplates::HookExecutionService do
     end
   end
 
-  context 'when another bot handles the conversation' do
-    it 'does not schedule Captain for an AgentBot-owned conversation' do
-      expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
-      conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
+  it 'does not schedule Captain for inbox bot integrations' do
+    expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+    agent_bot_inbox = create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: account))
+    create(:message, conversation: conversation, message_type: :incoming, account: account)
 
-      create(:message, conversation: conversation, message_type: :incoming, account: account)
-    end
-
-    it 'does not schedule Captain for inbox bot integrations' do
-      expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
-      agent_bot_inbox = create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: account))
-      create(:message, conversation: conversation, message_type: :incoming, account: account)
-
-      agent_bot_inbox.destroy!
-      create(:integrations_hook, :dialogflow, inbox: inbox, account: account)
-      create(:message, conversation: conversation, message_type: :incoming, account: account)
-    end
+    agent_bot_inbox.destroy!
+    create(:integrations_hook, :dialogflow, inbox: inbox, account: account)
+    create(:message, conversation: conversation, message_type: :incoming, account: account)
   end
 
   context 'when conversation is not pending' do

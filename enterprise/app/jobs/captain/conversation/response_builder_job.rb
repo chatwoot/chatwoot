@@ -14,7 +14,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @assistant = assistant
     @responding_to_message_id = responding_to_message_id if captain_v2_enabled?
 
-    return unless @conversation.captain_processing_allowed?
+    return unless conversation_pending?
 
     Current.executed_by = @assistant
 
@@ -83,7 +83,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     # V1 only signals via the response string — no state has been touched yet. If
     # the conversation isn't pending anymore, a human took over mid-run; bail out
     # rather than posting a stale handoff message on top of their reply.
-    return unless @conversation.reload.captain_processing_allowed?
+    return unless conversation_pending?
 
     process_v1_handoff
     record_v2_failure_handoff if v2_generation_errored?
@@ -92,7 +92,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def process_standard_response
     message = nil
     ActiveRecord::Base.transaction do
-      next if !@conversation.reload.captain_processing_allowed? || (captain_v2_enabled? && newer_customer_message_arrived?)
+      next if captain_v2_enabled? && newer_customer_message_arrived?
 
       message = create_messages
       Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
@@ -195,7 +195,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_error_handoff
-    return unless @conversation.reload.captain_processing_allowed?
+    return unless conversation_pending?
     return if captain_v2_enabled? && newer_customer_message_arrived?
 
     process_v1_handoff

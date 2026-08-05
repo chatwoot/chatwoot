@@ -23,10 +23,6 @@ module Enterprise::Conversation
     self.captain_activity_reason_type = previous_reason_type
   end
 
-  def captain_processing_allowed?
-    pending? && assignee_agent_bot_id.blank? && !inbox.external_bot_active?
-  end
-
   private
 
   def handle_resolved_status_change

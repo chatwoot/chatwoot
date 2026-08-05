@@ -7,7 +7,6 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   def perform(inbox)
     captain_assistant = inbox.captain_assistant
     return if captain_assistant.blank? || captain_assistant.inactive_conversation_resolution_disabled?
-    return if inbox.external_bot_active?
 
     if evaluate_conversation_completion?(captain_assistant, inbox.account)
       perform_with_evaluation(inbox)
@@ -28,8 +27,6 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     Current.executed_by = inbox.captain_assistant
 
     resolvable_pending_conversations(inbox).each do |conversation|
-      next unless conversation.reload.captain_processing_allowed?
-
       create_resolution_message(conversation, inbox)
       conversation.resolved!
       Captain::ConversationEvents.resolved(
@@ -64,14 +61,14 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   def resolvable_pending_conversations(inbox)
-    inbox.conversations.pending.where(assignee_agent_bot_id: nil)
+    inbox.conversations.pending
          .where('last_activity_at < ?', auto_resolve_cutoff_time)
          .limit(Limits::BULK_ACTIONS_LIMIT)
   end
 
   def still_resolvable_after_evaluation?(conversation)
     conversation.reload
-    conversation.captain_processing_allowed? && conversation.last_activity_at < auto_resolve_cutoff_time
+    conversation.pending? && conversation.last_activity_at < auto_resolve_cutoff_time
   rescue ActiveRecord::RecordNotFound
     false
   end

@@ -31,26 +31,6 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
   end
 
-  context 'when another bot takes over before the job runs' do
-    it 'leaves AgentBot-owned conversations pending' do
-      resolvable_pending_conversation.update!(assignee_agent_bot: create(:agent_bot, account: inbox.account))
-      job = described_class.new
-      allow(job).to receive(:resolvable_pending_conversations).and_return([resolvable_pending_conversation])
-
-      job.perform(inbox)
-
-      expect(resolvable_pending_conversation.reload.status).to eq('pending')
-    end
-
-    it 'leaves conversations pending when an external bot is enabled for the inbox' do
-      create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: inbox.account))
-
-      described_class.perform_now(inbox)
-
-      expect(resolvable_pending_conversation.reload.status).to eq('pending')
-    end
-  end
-
   context 'when captain_tasks is disabled' do
     before do
       allow(inbox.account).to receive(:feature_enabled?).and_call_original
@@ -129,20 +109,6 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       mock_service = instance_double(Captain::ConversationCompletionService)
       allow(mock_service).to receive(:perform) do
         resolvable_pending_conversation.update!(last_activity_at: Time.current)
-        { complete: true, reason: 'Customer question was answered' }
-      end
-      allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
-
-      described_class.perform_now(inbox)
-
-      expect(resolvable_pending_conversation.reload.status).to eq('pending')
-      expect(resolvable_pending_conversation.messages.outgoing).to be_empty
-    end
-
-    it 'skips auto-action if an AgentBot takes over during evaluation' do
-      mock_service = instance_double(Captain::ConversationCompletionService)
-      allow(mock_service).to receive(:perform) do
-        resolvable_pending_conversation.update!(assignee_agent_bot: create(:agent_bot, account: inbox.account))
         { complete: true, reason: 'Customer question was answered' }
       end
       allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)

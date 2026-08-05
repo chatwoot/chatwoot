@@ -32,22 +32,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(mock_false_promise_service).to receive(:detect).and_return({ 'decision' => 'safe', 'reason' => 'safe_response' })
     end
 
-    it 'does not respond after the conversation is assigned to an AgentBot' do
-      conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
-
-      expect(Captain::Llm::AssistantChatService).not_to receive(:new)
-
-      described_class.perform_now(conversation, assistant)
-    end
-
-    it 'does not respond after an external bot is enabled for the inbox' do
-      create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: account))
-
-      expect(Captain::Llm::AssistantChatService).not_to receive(:new)
-
-      described_class.perform_now(conversation, assistant)
-    end
-
     context 'when captain_v2 is disabled' do
       before do
         allow(account).to receive(:feature_enabled?).and_return(false)
@@ -67,17 +51,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(conversation.messages.count).to eq(2)
         expect(conversation.messages.outgoing.count).to eq(1)
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
-      end
-
-      it 'does not write a response if an AgentBot takes over during generation' do
-        allow(mock_llm_chat_service).to receive(:generate_response) do
-          conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
-          { 'response' => 'Hey, welcome to Captain Specs' }
-        end
-
-        described_class.perform_now(conversation, assistant)
-
-        expect(conversation.messages.outgoing).to be_empty
       end
 
       it 'does not emit captain lifecycle events' do
