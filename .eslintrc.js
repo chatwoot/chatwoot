@@ -1,5 +1,4 @@
 module.exports = {
-  root: true,
   extends: [
     'airbnb-base/legacy',
     'prettier',
