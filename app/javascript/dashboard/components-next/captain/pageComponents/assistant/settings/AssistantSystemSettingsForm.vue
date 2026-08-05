@@ -227,51 +227,54 @@ watch(
   <div class="flex flex-col gap-6">
     <div
       v-if="isCaptainV2Enabled"
-      class="flex flex-col border-b border-n-weak pb-6"
+      class="flex flex-col overflow-hidden rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
     >
       <button
         type="button"
-        class="flex w-full items-center justify-between gap-4 text-left"
+        class="flex w-full items-start justify-between gap-4 px-4 py-3 text-left"
         :aria-expanded="isInactivityResolutionSettingsExpanded"
         @click="
           isInactivityResolutionSettingsExpanded =
             !isInactivityResolutionSettingsExpanded
         "
       >
-        <div class="flex flex-col gap-1">
-          <h4 class="text-sm font-medium text-n-slate-12">
+        <div class="flex min-w-0 flex-1 flex-col gap-1">
+          <h4 class="text-heading-3 text-n-slate-12">
             {{ t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TITLE') }}
           </h4>
-          <p class="text-sm text-n-slate-11">
+          <p class="text-body-main text-n-slate-11">
             {{ inactivityResolutionDescription }}
           </p>
           <p
             v-if="!isInactivityResolutionSettingsExpanded"
-            class="text-xs font-medium text-n-slate-12"
+            class="pt-1 text-label-small font-medium text-n-slate-12"
           >
             {{ selectedInactivityResolutionSummary }}
           </p>
         </div>
-        <div class="flex shrink-0 items-center">
+        <div class="mt-0.5 flex shrink-0 items-center">
           <span
             class="i-lucide-chevron-down size-4 text-n-slate-11 transition-transform"
             :class="{ 'rotate-180': isInactivityResolutionSettingsExpanded }"
+            aria-hidden="true"
           />
         </div>
       </button>
 
       <div
         v-if="isInactivityResolutionSettingsExpanded"
-        class="flex flex-col gap-4 pt-4"
+        class="flex flex-col gap-4 border-t border-n-weak px-4 pb-4 pt-4"
       >
         <div class="flex flex-col gap-2">
-          <p class="text-sm font-medium text-n-slate-12">
+          <p class="text-heading-3 text-n-slate-12">
             {{
               t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_LABEL')
             }}
           </p>
-          <div class="grid grid-cols-2 gap-3">
-            <label class="flex flex-col gap-1.5 text-xs text-n-slate-11">
+          <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
+            <label
+              class="flex flex-col gap-1.5 text-label-small text-n-slate-11"
+            >
               {{
                 t(
                   'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HOURS_LABEL'
@@ -284,7 +287,9 @@ watch(
                 class="!w-full [&>select]:w-full"
               />
             </label>
-            <label class="flex flex-col gap-1.5 text-xs text-n-slate-11">
+            <label
+              class="flex flex-col gap-1.5 text-label-small text-n-slate-11"
+            >
               {{
                 t(
                   'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES_LABEL'
