@@ -1,5 +1,5 @@
 json.account_id resource.account_id
-json.config resource.config
+json.config resource.config.merge('auto_resolve_mode' => resource.auto_resolve_mode)
 json.created_at resource.created_at.to_i
 json.description resource.description
 json.guardrails resource.guardrails

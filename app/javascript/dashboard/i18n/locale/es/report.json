@@ -121,6 +121,26 @@
       "CLEAR_FILTER": "Limpiar filtros",
       "EMPTY_LIST": "No se encontraron resultados"
     },
+    "DRILLDOWN": {
+      "TITLE": "Detalles de {metric}",
+      "RESULT_COUNT_CONVERSATION": "Conversación {count} | Conversaciones {count}",
+      "RESULT_COUNT_MESSAGE": "Mensaje {count} | Mensajes {count}",
+      "EMPTY": "No se encontraron registros para esta barra.",
+      "ERROR": "No se pudo cargar los registros. Por favor, inténtelo de nuevo.",
+      "ADMIN_ONLY": "Sólo los administradores pueden perforar en registros de reporte.",
+      "LOAD_MORE": "Cargar más",
+      "CLOSE": "Cerrar detalles",
+      "PREVIOUS_BUCKET": "Barra anterior",
+      "NEXT_BUCKET": "Barra siguiente",
+      "UNKNOWN_CONTACT": "Contacto desconocido",
+      "UNKNOWN_INBOX": "Bandeja de entrada desconocida",
+      "UNASSIGNED_AGENT": "Sin asignar",
+      "NO_MESSAGE_CONTENT": "Sin contenido de mensaje",
+      "MESSAGE_CREATED_AT": "Mensaje creado a la {time}",
+      "EVENT_OCCURRED_AT": "El evento se produjo en {time}",
+      "INCOMING_MESSAGE": "Mensaje entrante",
+      "OUTGOING_MESSAGE": "Mensaje saliente"
+    },
     "PAGINATION": {
       "RESULTS": "Mostrando {start} a {end} de {total} resultados",
       "PER_PAGE_TEMPLATE": "{size} / page"
