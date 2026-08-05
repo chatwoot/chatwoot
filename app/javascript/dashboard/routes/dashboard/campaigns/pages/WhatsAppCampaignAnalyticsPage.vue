@@ -1,39 +1,65 @@
 <script setup>
-import { computed, onMounted, reactive, watch } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-import { useStore, useStoreGetters } from 'dashboard/composables/store';
-
-import Button from 'dashboard/components-next/button/Button.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
+import { useMapGetter } from 'dashboard/composables/store';
+import { getInboxIconByType } from 'dashboard/helper/inbox';
+import { messageStamp } from 'shared/helpers/timeHelper';
 import CampaignsAPI from 'dashboard/api/campaigns';
+
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
+import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
+import CampaignAnalyticsLayout from 'dashboard/components-next/Campaigns/CampaignAnalyticsLayout.vue';
+import CampaignMetricCard from 'dashboard/components-next/Campaigns/Pages/CampaignAnalyticsPage/CampaignMetricCard.vue';
+import CampaignDeliveryBreakdown from 'dashboard/components-next/Campaigns/Pages/CampaignAnalyticsPage/CampaignDeliveryBreakdown.vue';
+import CampaignDeliveryTable from 'dashboard/components-next/Campaigns/Pages/CampaignAnalyticsPage/CampaignDeliveryTable.vue';
+
+const DELIVERIES_PER_PAGE = 25;
+const STATUS_FILTERS = [
+  'all',
+  'sent',
+  'delivered',
+  'read',
+  'failed',
+  'skipped',
+];
 
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const store = useStore();
-const getters = useStoreGetters();
 
 const state = reactive({
   metrics: null,
-  contacts: [],
+  deliveries: [],
   meta: {},
   status: 'all',
   page: 1,
-  isFetchingMetrics: false,
-  isFetchingContacts: false,
+  isFetchingMetrics: true,
+  isFetchingDeliveries: true,
 });
+
+const campaigns = useMapGetter('campaigns/getAllCampaigns');
 
 const campaignId = computed(() => Number(route.params.campaignId));
 const campaign = computed(() =>
-  getters['campaigns/getAllCampaigns'].value.find(
-    record => Number(record.id) === campaignId.value
-  )
+  campaigns.value.find(record => Number(record.id) === campaignId.value)
 );
 const campaignTitle = computed(
   () => campaign.value?.title || `#${campaignId.value}`
 );
+
+const inboxIcon = computed(() => {
+  const inbox = campaign.value?.inbox;
+  if (!inbox) return '';
+
+  return getInboxIconByType(
+    inbox.channel_type,
+    inbox.medium,
+    'fill',
+    inbox.voice_enabled
+  );
+});
 
 const breadcrumbItems = computed(() => [
   { label: t('CAMPAIGN.WHATSAPP.ANALYTICS.BREADCRUMB.CAMPAIGNS') },
@@ -41,346 +67,186 @@ const breadcrumbItems = computed(() => [
   { label: campaignTitle.value },
 ]);
 
-const statusOptions = computed(() => [
-  { key: 'all', label: t('CAMPAIGN.WHATSAPP.ANALYTICS.FILTERS.ALL') },
-  { key: 'sent', label: t('CAMPAIGN.WHATSAPP.ANALYTICS.METRICS.SENT') },
-  {
-    key: 'delivered',
-    label: t('CAMPAIGN.WHATSAPP.ANALYTICS.METRICS.DELIVERED'),
-  },
-  { key: 'read', label: t('CAMPAIGN.WHATSAPP.ANALYTICS.METRICS.READ') },
-  { key: 'failed', label: t('CAMPAIGN.WHATSAPP.ANALYTICS.METRICS.FAILED') },
-  { key: 'skipped', label: t('CAMPAIGN.WHATSAPP.ANALYTICS.METRICS.SKIPPED') },
-]);
+const metricCount = key => Number(state.metrics?.[key] || 0);
+const audience = computed(() => metricCount('audience'));
 
-const metricItems = computed(() => [
-  {
-    key: 'audience',
-    label: t('CAMPAIGN.WHATSAPP.ANALYTICS.METRICS.AUDIENCE'),
-    showRate: false,
-  },
-  {
-    key: 'sent',
-    label: t('CAMPAIGN.WHATSAPP.ANALYTICS.METRICS.SENT'),
-    showRate: true,
-  },
-  {
-    key: 'delivered',
-    label: t('CAMPAIGN.WHATSAPP.ANALYTICS.METRICS.DELIVERED'),
-    showRate: true,
-  },
-  {
-    key: 'read',
-    label: t('CAMPAIGN.WHATSAPP.ANALYTICS.METRICS.READ'),
-    showRate: true,
-  },
-  {
-    key: 'failed',
-    label: t('CAMPAIGN.WHATSAPP.ANALYTICS.METRICS.FAILED'),
-    showRate: true,
-  },
-  {
-    key: 'skipped',
-    label: t('CAMPAIGN.WHATSAPP.ANALYTICS.METRICS.SKIPPED'),
-    showRate: true,
-  },
-]);
+const metricRate = key => {
+  if (!audience.value) return '';
 
-const hasNextPage = computed(() => state.page < Number(state.meta.total_pages));
-const hasPreviousPage = computed(() => state.page > 1);
-const audienceCount = computed(() => Number(state.metrics?.audience || 0));
+  return t('CAMPAIGN.WHATSAPP.ANALYTICS.RATE', {
+    value: Math.round((metricCount(key) / audience.value) * 100),
+  });
+};
 
-const insightSummary = computed(() =>
-  t('CAMPAIGN.WHATSAPP.ANALYTICS.SUMMARY', {
-    delivered: state.metrics?.delivered || 0,
-    audience: audienceCount.value,
-    skipped: state.metrics?.skipped || 0,
-    failed: state.metrics?.failed || 0,
+const metrics = computed(() =>
+  ['audience', 'sent', 'delivered', 'read', 'failed', 'skipped'].map(key => {
+    const scope = `CAMPAIGN.WHATSAPP.ANALYTICS.METRICS.${key.toUpperCase()}`;
+
+    return {
+      key,
+      label: t(`${scope}.LABEL`),
+      hint: t(`${scope}.HINT`),
+      value: metricCount(key),
+      rate: key === 'audience' ? '' : metricRate(key),
+    };
   })
 );
 
-const filterLabel = option => {
-  const count =
-    option.key === 'all'
-      ? audienceCount.value
-      : Number(state.metrics?.[option.key] || 0);
+const statusTabs = computed(() =>
+  STATUS_FILTERS.map(key => ({
+    key,
+    label: t(
+      key === 'all'
+        ? 'CAMPAIGN.WHATSAPP.ANALYTICS.FILTERS.ALL'
+        : `CAMPAIGN.WHATSAPP.ANALYTICS.STATUS.${key.toUpperCase()}`
+    ),
+    count:
+      key === 'all'
+        ? audience.value
+        : Number(state.metrics?.status_counts?.[key] || 0),
+  }))
+);
 
-  return `${option.label} ${count}`;
-};
+const activeTabIndex = computed(() => STATUS_FILTERS.indexOf(state.status));
 
-const metricRate = key => {
-  if (!audienceCount.value) return '0%';
+const totalDeliveries = computed(() => Number(state.meta.total_count || 0));
 
-  return `${Math.round((Number(state.metrics?.[key] || 0) / audienceCount.value) * 100)}%`;
-};
+const noDataMessage = computed(() => {
+  if (state.status === 'all') return t('CAMPAIGN.WHATSAPP.ANALYTICS.EMPTY');
+
+  return t('CAMPAIGN.WHATSAPP.ANALYTICS.EMPTY_FILTER', {
+    status: t(
+      `CAMPAIGN.WHATSAPP.ANALYTICS.STATUS.${state.status.toUpperCase()}`
+    ).toLowerCase(),
+  });
+});
 
 const fetchMetrics = async () => {
   state.isFetchingMetrics = true;
   try {
-    const response = await CampaignsAPI.analyticsMetrics(campaignId.value);
-    state.metrics = response.data;
+    const { data } = await CampaignsAPI.analyticsMetrics(campaignId.value);
+    state.metrics = data;
   } finally {
     state.isFetchingMetrics = false;
   }
 };
 
-const fetchContacts = async () => {
-  state.isFetchingContacts = true;
+const fetchDeliveries = async () => {
+  state.isFetchingDeliveries = true;
   try {
-    const response = await CampaignsAPI.analyticsContacts(campaignId.value, {
+    const { data } = await CampaignsAPI.analyticsContacts(campaignId.value, {
       status: state.status === 'all' ? undefined : state.status,
       page: state.page,
     });
-    state.contacts = response.data.payload;
-    state.meta = response.data.meta;
+    state.deliveries = data.payload;
+    state.meta = data.meta;
   } finally {
-    state.isFetchingContacts = false;
+    state.isFetchingDeliveries = false;
   }
 };
 
-const setStatus = status => {
-  state.status = status;
+const handleTabChange = tab => {
+  if (tab.key === state.status) return;
+
+  state.status = tab.key;
   state.page = 1;
 };
 
-const goToPreviousPage = () => {
-  if (!hasPreviousPage.value) return;
-  state.page -= 1;
+const handlePageChange = page => {
+  state.page = page;
 };
 
-const goToNextPage = () => {
-  if (!hasNextPage.value) return;
-  state.page += 1;
-};
-
-const statusLabel = status =>
-  statusOptions.value.find(option => option.key === status)?.label || status;
-
-const errorReason = delivery =>
-  delivery.error_message || delivery.error_title || delivery.error_code || '-';
-
-const messageContent = delivery => {
-  if (delivery.message_content) return delivery.message_content;
-  if (delivery.status === 'skipped') {
-    return t('CAMPAIGN.WHATSAPP.ANALYTICS.TABLE.MESSAGE_NOT_GENERATED');
-  }
-
-  return '-';
-};
-
-const emptyStateMessage = computed(() => {
-  if (state.status === 'all') return t('CAMPAIGN.WHATSAPP.ANALYTICS.EMPTY');
-
-  return t('CAMPAIGN.WHATSAPP.ANALYTICS.EMPTY_FILTER', {
-    status: statusLabel(state.status).toLowerCase(),
-  });
-});
-
-const statusBadgeClass = status =>
-  ({
-    sent: 'bg-n-blue-3 text-n-blue-11',
-    delivered: 'bg-n-teal-3 text-n-teal-11',
-    read: 'bg-n-iris-3 text-n-iris-11',
-    failed: 'bg-n-ruby-3 text-n-ruby-11',
-    skipped: 'bg-n-amber-3 text-n-amber-11',
-  })[status] || 'bg-n-slate-3 text-n-slate-11';
-
-const goBack = () => {
+const goToCampaigns = () => {
   router.push({ name: 'campaigns_whatsapp_index' });
 };
 
-const handleBreadcrumbClick = () => {
-  goBack();
-};
-
-onMounted(() => {
-  store.dispatch('campaigns/get');
-  fetchMetrics();
-  fetchContacts();
-});
+// The page is kept alive by the campaigns route view, so the campaign id is the
+// trigger for a full refresh rather than the mount hook.
+watch(
+  campaignId,
+  () => {
+    state.status = 'all';
+    state.page = 1;
+    fetchMetrics();
+    fetchDeliveries();
+  },
+  { immediate: true }
+);
 
 watch(
   () => [state.status, state.page],
-  () => fetchContacts()
+  () => fetchDeliveries()
 );
 </script>
 
 <template>
-  <section class="flex h-full flex-col overflow-hidden bg-n-surface-1">
-    <header class="sticky top-0 z-10 px-6">
-      <div class="mx-auto w-full max-w-7xl">
-        <div class="flex w-full items-center py-7">
-          <Breadcrumb :items="breadcrumbItems" @click="handleBreadcrumbClick" />
-        </div>
-      </div>
-    </header>
-
-    <main class="flex-1 overflow-y-auto px-6">
-      <div class="mx-auto w-full max-w-7xl py-4">
-        <div class="mb-6 min-w-0">
-          <h1 class="text-heading-1 text-n-slate-12">
-            {{ t('CAMPAIGN.WHATSAPP.ANALYTICS.TITLE') }}
-          </h1>
-          <p class="mt-1 truncate text-sm text-n-slate-11">
-            {{ campaignTitle }}
-            <span
-              v-if="campaign?.inbox?.name"
-              class="before:mx-1 before:text-n-slate-10 before:content-['·']"
-            >
-              {{ campaign.inbox.name }}
-            </span>
-          </p>
-        </div>
-
-        <div
-          v-if="state.isFetchingMetrics"
-          class="flex h-24 items-center justify-center text-n-slate-11"
-        >
-          <Spinner />
-        </div>
-        <div v-else class="grid grid-cols-2 gap-3 md:grid-cols-6">
-          <div
-            v-for="item in metricItems"
-            :key="item.key"
-            class="rounded-lg border border-n-weak bg-n-alpha-2 p-4"
-          >
-            <div class="text-sm font-medium text-n-slate-11">
-              {{ item.label }}
-            </div>
-            <div class="mt-3 text-2xl font-semibold text-n-slate-12">
-              {{ state.metrics?.[item.key] || 0 }}
-            </div>
-            <div
-              v-if="item.showRate"
-              class="mt-1 text-xs font-medium text-n-slate-10"
-            >
-              {{
-                t('CAMPAIGN.WHATSAPP.ANALYTICS.RATE', {
-                  value: metricRate(item.key),
-                })
-              }}
-            </div>
-          </div>
-        </div>
-
-        <div
-          v-if="state.metrics"
-          class="mt-4 rounded-lg border border-n-weak bg-n-alpha-1 px-4 py-3 text-sm text-n-slate-11"
-        >
-          {{ insightSummary }}
-        </div>
-
-        <div class="mt-6 flex flex-wrap gap-2">
-          <Button
-            v-for="option in statusOptions"
-            :key="option.key"
-            size="sm"
-            :variant="state.status === option.key ? 'solid' : 'faded'"
-            :color="state.status === option.key ? 'blue' : 'slate'"
-            :label="filterLabel(option)"
-            @click="setStatus(option.key)"
-          />
-        </div>
-
-        <div class="mt-4 overflow-hidden rounded-lg border border-n-weak">
-          <table class="w-full table-fixed text-left text-sm">
-            <thead class="bg-n-alpha-2 text-xs font-medium text-n-slate-11">
-              <tr>
-                <th class="w-[15%] px-4 py-3">
-                  {{ t('CAMPAIGN.WHATSAPP.ANALYTICS.TABLE.CONTACT') }}
-                </th>
-                <th class="w-[14%] px-4 py-3">
-                  {{ t('CAMPAIGN.WHATSAPP.ANALYTICS.TABLE.PHONE_NUMBER') }}
-                </th>
-                <th class="w-[10%] px-4 py-3">
-                  {{ t('CAMPAIGN.WHATSAPP.ANALYTICS.TABLE.STATUS') }}
-                </th>
-                <th class="w-[43%] px-4 py-3">
-                  {{ t('CAMPAIGN.WHATSAPP.ANALYTICS.TABLE.MESSAGE') }}
-                </th>
-                <th class="w-[18%] px-4 py-3">
-                  {{ t('CAMPAIGN.WHATSAPP.ANALYTICS.TABLE.ERROR_REASON') }}
-                </th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-n-weak text-n-slate-12">
-              <tr v-if="state.isFetchingContacts">
-                <td colspan="5" class="h-24 text-center text-n-slate-11">
-                  <Spinner />
-                </td>
-              </tr>
-              <tr v-else-if="state.contacts.length === 0">
-                <td colspan="5" class="px-4 py-8 text-center text-n-slate-11">
-                  {{ emptyStateMessage }}
-                </td>
-              </tr>
-              <template v-else>
-                <tr
-                  v-for="delivery in state.contacts"
-                  :key="delivery.contact.id"
-                >
-                  <td class="break-words px-4 py-4 align-top">
-                    {{ delivery.contact.name || '-' }}
-                  </td>
-                  <td class="break-words px-4 py-4 align-top">
-                    {{ delivery.contact.phone_number || '-' }}
-                  </td>
-                  <td class="px-4 py-4 align-top">
-                    <span
-                      class="inline-flex h-6 items-center rounded-md px-2 text-xs font-medium capitalize"
-                      :class="statusBadgeClass(delivery.status)"
-                    >
-                      {{ statusLabel(delivery.status) }}
-                    </span>
-                  </td>
-                  <td
-                    class="whitespace-pre-wrap break-words px-4 py-4 align-top text-n-slate-11"
-                    :class="{
-                      'italic text-n-slate-10': !delivery.message_content,
-                    }"
-                  >
-                    {{ messageContent(delivery) }}
-                  </td>
-                  <td
-                    class="whitespace-pre-wrap break-words px-4 py-4 align-top text-n-slate-11"
-                  >
-                    {{ errorReason(delivery) }}
-                  </td>
-                </tr>
-              </template>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="mt-4 flex items-center justify-between gap-3">
-          <span class="text-sm text-n-slate-11">
-            {{
-              t('CAMPAIGN.WHATSAPP.ANALYTICS.PAGE_INFO', {
-                current: state.meta.current_page || 1,
-                total: state.meta.total_pages || 1,
-              })
-            }}
+  <CampaignAnalyticsLayout
+    :breadcrumb-items="breadcrumbItems"
+    @breadcrumb-click="goToCampaigns"
+  >
+    <div class="flex flex-col gap-6 pb-8">
+      <div
+        v-if="campaign?.inbox"
+        class="flex flex-wrap items-center text-sm gap-x-3 gap-y-2 text-n-slate-11"
+      >
+        <div class="flex items-center gap-1.5 min-w-0">
+          <Icon :icon="inboxIcon" class="shrink-0 size-3.5 text-n-slate-12" />
+          <span class="font-medium truncate text-n-slate-12">
+            {{ campaign.inbox.name }}
           </span>
-          <div class="flex gap-2">
-            <Button
-              size="sm"
-              color="slate"
-              variant="faded"
-              icon="i-lucide-chevron-left"
-              :disabled="!hasPreviousPage"
-              @click="goToPreviousPage"
-            />
-            <Button
-              size="sm"
-              color="slate"
-              variant="faded"
-              icon="i-lucide-chevron-right"
-              :disabled="!hasNextPage"
-              @click="goToNextPage"
-            />
-          </div>
         </div>
+        <span class="w-px h-3 rounded bg-n-strong" />
+        <span class="whitespace-nowrap">
+          {{
+            t('CAMPAIGN.WHATSAPP.ANALYTICS.SENT_ON', {
+              date: messageStamp(campaign.scheduled_at, 'LLL d, h:mm a'),
+            })
+          }}
+        </span>
       </div>
-    </main>
-  </section>
+
+      <div
+        class="grid grid-cols-1 gap-px overflow-hidden border rounded-xl sm:grid-cols-2 lg:grid-cols-3 bg-n-weak border-n-weak"
+      >
+        <CampaignMetricCard
+          v-for="metric in metrics"
+          :key="metric.key"
+          :label="metric.label"
+          :hint="metric.hint"
+          :value="metric.value"
+          :rate="metric.rate"
+          :loading="state.isFetchingMetrics"
+        />
+      </div>
+
+      <CampaignDeliveryBreakdown
+        :metrics="state.metrics ?? undefined"
+        :loading="state.isFetchingMetrics"
+      />
+
+      <CampaignDeliveryTable
+        :deliveries="state.deliveries"
+        :loading="state.isFetchingDeliveries"
+        :no-data-message="noDataMessage"
+      >
+        <template #filters>
+          <TabBar
+            :tabs="statusTabs"
+            :initial-active-tab="activeTabIndex"
+            @tab-changed="handleTabChange"
+          />
+        </template>
+        <template v-if="totalDeliveries > DELIVERIES_PER_PAGE" #footer>
+          <PaginationFooter
+            :current-page="state.page"
+            :total-items="totalDeliveries"
+            :items-per-page="DELIVERIES_PER_PAGE"
+            current-page-info="CAMPAIGN.WHATSAPP.ANALYTICS.PAGE_INFO"
+            class="!bg-transparent !px-5 rounded-b-xl before:hidden"
+            @update:current-page="handlePageChange"
+          />
+        </template>
+      </CampaignDeliveryTable>
+    </div>
+  </CampaignAnalyticsLayout>
 </template>

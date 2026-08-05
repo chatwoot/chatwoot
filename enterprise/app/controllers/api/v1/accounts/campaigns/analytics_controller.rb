@@ -48,7 +48,8 @@ class Api::V1::Accounts::Campaigns::AnalyticsController < Api::V1::Accounts::Bas
       delivered: counts['delivered'].to_i + counts['read'].to_i,
       read: counts['read'].to_i,
       failed: counts['failed'].to_i,
-      skipped: counts['skipped'].to_i
+      skipped: counts['skipped'].to_i,
+      status_counts: CampaignDelivery.statuses.keys.index_with { |status| counts[status].to_i }
     }
   end
 

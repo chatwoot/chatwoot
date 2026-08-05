@@ -204,13 +204,11 @@
         }
       },
       "ANALYTICS": {
-        "TITLE": "Campaign analytics",
-        "BACK": "Back to WhatsApp campaigns",
         "EMPTY": "No delivery records found.",
         "EMPTY_FILTER": "No {status} delivery records found.",
-        "SUMMARY": "{delivered} of {audience} contacts received this campaign. {skipped} skipped and {failed} failed.",
-        "RATE": "{value} of audience",
-        "PAGE_INFO": "Page {current} of {total}",
+        "RATE": "{value}% of audience",
+        "SENT_ON": "Sent on {date}",
+        "PAGE_INFO": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts",
         "BREADCRUMB": {
           "CAMPAIGNS": "Campaigns",
           "WHATSAPP": "WhatsApp"
@@ -219,20 +217,58 @@
           "ALL": "All"
         },
         "METRICS": {
-          "AUDIENCE": "Audience",
+          "AUDIENCE": {
+            "LABEL": "Audience",
+            "HINT": "Contacts included in this campaign."
+          },
+          "SENT": {
+            "LABEL": "Sent",
+            "HINT": "Messages accepted by WhatsApp for delivery."
+          },
+          "DELIVERED": {
+            "LABEL": "Delivered",
+            "HINT": "Messages that reached the contact's device. Read messages are included."
+          },
+          "READ": {
+            "LABEL": "Read",
+            "HINT": "Messages opened by the contact."
+          },
+          "FAILED": {
+            "LABEL": "Failed",
+            "HINT": "Messages WhatsApp could not deliver."
+          },
+          "SKIPPED": {
+            "LABEL": "Skipped",
+            "HINT": "Contacts skipped before sending, usually because of a missing or invalid phone number."
+          }
+        },
+        "STATUS": {
+          "QUEUED": "Queued",
           "SENT": "Sent",
           "DELIVERED": "Delivered",
           "READ": "Read",
           "FAILED": "Failed",
           "SKIPPED": "Skipped"
         },
+        "BREAKDOWN": {
+          "TITLE": "Delivery breakdown",
+          "DELIVERY_RATE": "{value}% delivered",
+          "LEGEND": {
+            "READ": "Read",
+            "DELIVERED": "Delivered",
+            "FAILED": "Failed",
+            "SKIPPED": "Skipped",
+            "PENDING": "Pending"
+          }
+        },
         "TABLE": {
+          "TITLE": "Deliveries",
           "CONTACT": "Contact",
-          "PHONE_NUMBER": "Phone number",
           "STATUS": "Status",
           "MESSAGE": "Message",
           "MESSAGE_NOT_GENERATED": "Not generated",
-          "ERROR_REASON": "Reason"
+          "REASON": "Reason",
+          "ERROR_CODE": "Code {code}"
         }
       }
     },

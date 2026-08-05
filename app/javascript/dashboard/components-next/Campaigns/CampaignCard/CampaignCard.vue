@@ -131,7 +131,7 @@ const inboxIcon = computed(() => {
         />
       </div>
     </div>
-    <div class="flex items-center justify-end w-28 gap-2">
+    <div class="flex items-center justify-end w-20 gap-2">
       <Button
         v-if="showAnalytics"
         v-tooltip.top="t('CAMPAIGN.WHATSAPP.CARD.ANALYTICS')"
