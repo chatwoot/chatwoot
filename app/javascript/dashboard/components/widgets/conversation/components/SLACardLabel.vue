@@ -67,9 +67,7 @@ const groupClass = computed(() => {
 });
 
 const slaPopoverClass = computed(() => {
-  return props.showExtendedInfo
-    ? 'pe-1.5 border-e border-n-strong'
-    : '';
+  return props.showExtendedInfo ? 'pe-1.5 border-e border-n-strong' : '';
 });
 </script>
 
