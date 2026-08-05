@@ -85,10 +85,14 @@ class Captain::Assistant < ApplicationRecord
   end
 
   def inactivity_threshold_minutes
-    config.fetch('auto_resolve_after', DEFAULT_INACTIVITY_THRESHOLD_MINUTES).to_i
+    return DEFAULT_INACTIVITY_THRESHOLD_MINUTES unless account.feature_enabled?('captain_integration_v2')
+
+    (config['auto_resolve_after'] || DEFAULT_INACTIVITY_THRESHOLD_MINUTES).to_i
   end
 
   def send_inactivity_resolution_message
+    return true unless account.feature_enabled?('captain_integration_v2')
+
     config.fetch('send_inactivity_resolution_message', true)
   end
 
