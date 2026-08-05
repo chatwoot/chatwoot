@@ -859,6 +859,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('attributes_list'),
         },
         {
+          name: 'Settings Sender Lists',
+          label: t('SIDEBAR.SENDER_LISTS'),
+          icon: 'i-lucide-mail-check',
+          to: accountScopedRoute('sender_lists_index'),
+        },
+        {
           name: 'Settings Automation',
           label: t('SIDEBAR.AUTOMATION'),
           icon: 'i-lucide-repeat',

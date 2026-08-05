@@ -4,10 +4,12 @@ module Enterprise::Message
       has_one :call, class_name: 'Call', foreign_key: :message_id, dependent: :nullify, inverse_of: :message
 
       scope :with_call, -> { includes(call: [:contact, { inbox: :channel }]) }
-      # Scheduling and freshness checks must share this scope so an email auto reply cannot cancel a pending response.
+      # Scheduling and freshness checks must share this scope so an email auto reply or newsletter
+      # cannot cancel a pending response.
       scope :captain_response_triggering, lambda {
         incoming.joins(:inbox).where(
-          "((messages.content_attributes #>> '{}')::jsonb -> 'email' ->> 'auto_reply') IS DISTINCT FROM 'true' OR " \
+          "(((messages.content_attributes #>> '{}')::jsonb -> 'email' ->> 'auto_reply') IS DISTINCT FROM 'true' AND " \
+          "((messages.content_attributes #>> '{}')::jsonb -> 'email' ->> 'newsletter') IS DISTINCT FROM 'true') OR " \
           "(messages.content_type != :incoming_email AND inboxes.channel_type != 'Channel::Email')",
           incoming_email: content_types[:incoming_email]
         )
@@ -22,7 +24,7 @@ module Enterprise::Message
   end
 
   def captain_response_triggering?
-    return incoming? && !auto_reply_email? unless persisted?
+    return incoming? && !auto_reply_email? && !newsletter_email? unless persisted?
 
     self.class.captain_response_triggering.exists?(id: id)
   end

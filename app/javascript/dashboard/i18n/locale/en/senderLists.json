@@ -1,0 +1,46 @@
+{
+  "SENDER_LISTS": {
+    "HEADER": "Sender lists",
+    "DESCRIPTION": "Decide how incoming email is triaged. Add full addresses like name@example.com or whole domains like example.com.",
+    "LOADING": "Fetching sender lists",
+    "EMPTY": "No senders added yet.",
+    "LISTS": {
+      "VIP": {
+        "TITLE": "VIP",
+        "DESCRIPTION": "Conversations from these senders are marked high priority and labelled vip."
+      },
+      "BLOCKED": {
+        "TITLE": "Blocked",
+        "DESCRIPTION": "Email from these senders is resolved on arrival and labelled filtered."
+      },
+      "ALLOWED": {
+        "TITLE": "Allowed",
+        "DESCRIPTION": "Email from these senders is never filtered, even when it looks like a newsletter."
+      }
+    },
+    "FORM": {
+      "PLACEHOLDER": "name@example.com, example.com",
+      "ARIA_LABEL": "Add senders to the {list} list",
+      "ADD": "Add",
+      "REMOVE": "Remove",
+      "ERROR": "{value}: {message}"
+    },
+    "API": {
+      "CREATE_ERROR": "Could not add these senders. Please try again.",
+      "DELETE_ERROR": "Could not remove this sender. Please try again."
+    },
+    "CONTACT": {
+      "TITLE": "Sender list",
+      "NOT_LISTED": "Not listed",
+      "ON_LIST_EMAIL": "On {list} list",
+      "ON_LIST_DOMAIN": "On {list} list via {value}",
+      "MANAGE": "Manage",
+      "EMAIL_SECTION": "This address",
+      "DOMAIN_SECTION": "Everyone at {domain}",
+      "ADD_TO_VIP": "Add to VIP",
+      "ADD_TO_BLOCKED": "Add to Blocked",
+      "ADD_TO_ALLOWED": "Add to Allowed",
+      "REMOVE": "Remove from {list}"
+    }
+  }
+}

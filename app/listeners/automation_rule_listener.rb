@@ -38,9 +38,7 @@ class AutomationRuleListener < BaseListener
 
   def process_conversation_event(event, event_name)
     return if performed_by_automation?(event)
-
-    auto_reply_skip_events = %w[conversation_created conversation_opened]
-    return if auto_reply_skip_events.include?(event_name) && ignore_auto_reply_event?(event)
+    return if skip_conversation_event?(event, event_name)
 
     conversation = event.data[:conversation]
     account = conversation.account
@@ -97,13 +95,17 @@ class AutomationRuleListener < BaseListener
     event.data[:performed_by].present? && event.data[:performed_by].instance_of?(AutomationRule)
   end
 
-  def ignore_auto_reply_event?(event)
+  # Auto replies must not arm creation/open rules. Filtered conversations (newsletters, blocklisted
+  # senders) drive no automation at all, not even the conversation_updated their own triage label raises.
+  def skip_conversation_event?(event, event_name)
     conversation = event.data[:conversation]
-    conversation.additional_attributes['auto_reply'].present?
+    return true if conversation.sender_filtered?
+
+    %w[conversation_created conversation_opened].include?(event_name) && conversation.additional_attributes['auto_reply'].present?
   end
 
   def ignore_message_created_event?(event)
     message = event.data[:message]
-    performed_by_automation?(event) || message.activity? || message.auto_reply_email?
+    performed_by_automation?(event) || message.activity? || message.auto_reply_email? || message.conversation.sender_filtered?
   end
 end

@@ -80,6 +80,7 @@ if resource.email?
   ## Email Channel Attributes
   json.email resource.channel.try(:email)
   json.forwarding_enabled ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', '').present?
+  json.newsletter_filter_enabled resource.channel.try(:newsletter_filter_enabled)
   json.forward_to_email resource.channel.try(:forward_to_email) if ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', '').present?
   if Current.account_user&.administrator? && defined?(with_branded_email_layout) && with_branded_email_layout.present? &&
      Current.account.feature_enabled?(:branded_email_templates)

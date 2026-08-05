@@ -42,6 +42,7 @@ import macros from './modules/macros';
 import notifications from './modules/notifications';
 import portals from './modules/helpCenterPortals';
 import reports from './modules/reports';
+import senderListEntries from './modules/senderListEntries';
 import sla from './modules/sla';
 import slaReports from './modules/SLAReports';
 import sidebarSortPreferences from './modules/sidebarSortPreferences';
@@ -109,6 +110,7 @@ export default createStore({
     notifications,
     portals,
     reports,
+    senderListEntries,
     sla,
     slaReports,
     sidebarSortPreferences,

@@ -64,6 +64,13 @@ class Conversation < ApplicationRecord
   include PushDataHelper
   include ConversationMuteHelpers
 
+  # Labels applied automatically to email conversations classified by Email::SenderTriageService.
+  SENDER_TRIAGE_LABELS = {
+    'vip' => { title: 'vip', color: '#8F6EF2' },
+    'newsletter' => { title: 'newsletter', color: '#6FD4EF' },
+    'blocklist' => { title: 'filtered', color: '#A53326' }
+  }.freeze
+
   CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language].freeze
   FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS = %w[browser_language conversation_language mail_subject referer].freeze
   FILTERED_UNREAD_COUNT_UPDATE_KEYS = %w[
@@ -132,6 +139,8 @@ class Conversation < ApplicationRecord
   before_save :set_status_changed_at
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
+  before_create :prioritize_vip_sender
+  before_create :apply_sender_triage_labels
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
@@ -147,6 +156,12 @@ class Conversation < ApplicationRecord
 
   def language
     additional_attributes&.dig('conversation_language')
+  end
+
+  # True for email conversations parked by Email::SenderTriageService (blocklisted sender or newsletter).
+  # These stay resolved and silent: no notifications, automations, templates or reopens.
+  def sender_filtered?
+    additional_attributes&.dig('filtered').present?
   end
 
   # Be aware: The precision of created_at and last_activity_at may differ from Ruby's Time precision.
@@ -300,11 +315,41 @@ class Conversation < ApplicationRecord
   end
 
   def determine_conversation_status
-    self.status = :resolved and return if contact.blocked?
+    self.status = :resolved and return if contact.blocked? || sender_filtered?
 
     return handle_campaign_status if campaign.present?
 
     set_active_bot_conversation if inbox.active_bot?
+  end
+
+  def prioritize_vip_sender
+    return if priority.present?
+    return unless additional_attributes&.dig('sender_list') == 'vip'
+
+    self.priority = :high
+  end
+
+  # Assigned before create so the labels are persisted along with the conversation. Labelling after
+  # creation would dispatch a CONVERSATION_UPDATED event, which conversation rules assume creation never does.
+  def apply_sender_triage_labels
+    lanes = [('vip' if additional_attributes['sender_list'] == 'vip'), additional_attributes['filtered']].compact
+    return if lanes.blank?
+
+    self.label_list = SENDER_TRIAGE_LABELS.values_at(*lanes).compact.map { |label| ensure_label(label).title }
+  end
+
+  # The create runs in a savepoint so that a concurrent delivery losing the race against the unique
+  # index on (title, account_id) can fall back to the winner's label instead of aborting the conversation.
+  def ensure_label(label)
+    account.labels.find_by(title: label[:title]) || create_triage_label(label)
+  end
+
+  def create_triage_label(label)
+    Label.transaction(requires_new: true) do
+      account.labels.create!(title: label[:title], color: label[:color], show_on_sidebar: true)
+    end
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+    account.labels.find_by!(title: label[:title])
   end
 
   def handle_campaign_status

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_06_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -579,6 +579,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.string "provider"
     t.string "imap_authentication", default: "plain"
     t.boolean "verified_for_sending", default: false, null: false
+    t.boolean "newsletter_filter_enabled", default: true, null: false
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
@@ -1389,6 +1390,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.index ["account_id", "metric", "date"], name: "index_rollup_timeseries"
   end
 
+  create_table "sender_list_entries", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.integer "list_type", null: false
+    t.string "value", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "value"], name: "index_sender_list_entries_on_account_id_and_value", unique: true
+    t.index ["account_id"], name: "index_sender_list_entries_on_account_id"
+  end
+
   create_table "sla_events", force: :cascade do |t|
     t.bigint "applied_sla_id", null: false
     t.bigint "conversation_id", null: false
@@ -1560,6 +1571,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "sender_list_entries", "accounts"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

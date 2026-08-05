@@ -25,8 +25,8 @@ class NotificationBuilder
   def build_notification
     # Create conversation_creation notification only if user is subscribed to it
     return if notification_type == 'conversation_creation' && !user_subscribed_to_notification?
-    # skip notifications for blocked conversations except for user mentions
-    return if primary_actor.contact.blocked? && notification_type != 'conversation_mention'
+    # skip notifications for silenced conversations except for user mentions
+    return if silenced_conversation? && notification_type != 'conversation_mention'
     # respect conversation access (inbox/team membership and custom-role permissions)
     return unless user_can_access_conversation?
 
@@ -39,8 +39,16 @@ class NotificationBuilder
     )
   end
 
+  def conversation
+    @conversation ||= primary_actor.is_a?(Conversation) ? primary_actor : primary_actor.try(:conversation)
+  end
+
+  # blocked contacts, and conversations filtered as newsletters or from blocklisted senders
+  def silenced_conversation?
+    primary_actor.contact.blocked? || conversation&.sender_filtered?
+  end
+
   def user_can_access_conversation?
-    conversation = primary_actor.is_a?(Conversation) ? primary_actor : primary_actor.try(:conversation)
     return true if conversation.blank?
 
     account_user = AccountUser.find_by(account_id: account.id, user_id: user.id)

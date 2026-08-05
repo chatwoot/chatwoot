@@ -51,7 +51,8 @@ RSpec.describe MailPresenter do
                                 :subject,
                                 :text_content,
                                 :to,
-                                :auto_reply
+                                :auto_reply,
+                                :newsletter
                               ])
       expect(data[:content_type]).to include('multipart/alternative')
       expect(data[:date].to_s).to eq('2020-04-20T04:20:20-04:00')

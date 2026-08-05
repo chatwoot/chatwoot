@@ -233,6 +233,12 @@ class Message < ApplicationRecord
     content_attributes.dig(:email, :auto_reply) == true
   end
 
+  def newsletter_email?
+    return false unless incoming_email? || inbox.email?
+
+    content_attributes.dig(:email, :newsletter) == true
+  end
+
   def valid_first_reply?
     return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
@@ -414,6 +420,7 @@ class Message < ApplicationRecord
 
   def reopen_conversation
     return if conversation.muted?
+    return if conversation.sender_filtered?
     return unless incoming?
 
     conversation.open! if conversation.snoozed?

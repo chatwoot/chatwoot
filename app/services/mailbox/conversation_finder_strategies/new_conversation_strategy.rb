@@ -67,8 +67,17 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
         initiated_at: {
           timestamp: Time.now.utc
         }
-      }
+      }.merge(sender_triage_attributes)
     )
+  end
+
+  def sender_triage_attributes
+    ::Email::SenderTriageService.new(
+      account: @account,
+      channel: @channel,
+      processed_mail: @processed_mail,
+      sender_email: original_sender_email
+    ).perform
   end
 
   def in_reply_to

@@ -8,6 +8,7 @@ import { dynamicTime } from 'shared/helpers/timeHelper';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ContactLabels from 'dashboard/components-next/Contacts/ContactLabels/ContactLabels.vue';
+import ContactSenderList from 'dashboard/components-next/Contacts/ContactSenderList/ContactSenderList.vue';
 import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
 import ConfirmContactDeleteDialog from 'dashboard/components-next/Contacts/ContactsForm/ConfirmContactDeleteDialog.vue';
 import Policy from 'dashboard/components/policy.vue';
@@ -159,6 +160,9 @@ const handleAvatarDelete = async () => {
         </div>
       </div>
       <ContactLabels :contact-id="selectedContact?.id" />
+      <Policy v-if="selectedContact?.email" :permissions="['administrator']">
+        <ContactSenderList :email="selectedContact.email" />
+      </Policy>
     </div>
     <div class="flex flex-col items-start gap-6">
       <ContactsForm

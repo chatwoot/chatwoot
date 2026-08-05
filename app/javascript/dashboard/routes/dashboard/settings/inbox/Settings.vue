@@ -102,6 +102,7 @@ export default {
       locktoSingleConversation: false,
       allowMessagesAfterResolved: true,
       continuityViaEmail: true,
+      newsletterFilterEnabled: false,
       selectedInboxName: '',
       channelWebsiteUrl: '',
       webhookUrl: '',
@@ -555,6 +556,8 @@ export default {
       this.allowMessagesAfterResolved =
         this.inbox.allow_messages_after_resolved;
       this.continuityViaEmail = this.inbox.continuity_via_email;
+      this.newsletterFilterEnabled =
+        this.inbox.newsletter_filter_enabled || false;
       this.channelWebsiteUrl = this.inbox.website_url;
       this.channelWelcomeTitle = this.inbox.welcome_title;
       this.channelWelcomeTagline = this.inbox.welcome_tagline || '';
@@ -703,6 +706,9 @@ export default {
             reply_time: this.replyTime || 'in_a_few_minutes',
             continuity_via_email:
               this.isInboundEmailEnabled && this.continuityViaEmail,
+            ...(this.isAnEmailChannel
+              ? { newsletter_filter_enabled: this.newsletterFilterEnabled }
+              : {}),
           },
         };
         if (this.avatarFile) {
@@ -1332,6 +1338,15 @@ export default {
                   $t(
                     'INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT'
                   )
+                "
+              />
+
+              <SettingsToggleSection
+                v-if="isAnEmailChannel"
+                v-model="newsletterFilterEnabled"
+                :header="$t('INBOX_MGMT.SETTINGS_POPUP.NEWSLETTER_FILTER')"
+                :description="
+                  $t('INBOX_MGMT.SETTINGS_POPUP.NEWSLETTER_FILTER_SUB_TEXT')
                 "
               />
 
