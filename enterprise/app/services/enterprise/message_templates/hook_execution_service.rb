@@ -82,8 +82,7 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
-    conversation.pending? && conversation.assignee_agent_bot_id.blank? && message.captain_response_triggering? &&
-      inbox.captain_assistant.present? && !inbox.active_bot?(include_captain: false)
+    conversation.captain_response_allowed? && message.captain_response_triggering? && inbox.captain_assistant.present?
   end
 
   def perform_handoff

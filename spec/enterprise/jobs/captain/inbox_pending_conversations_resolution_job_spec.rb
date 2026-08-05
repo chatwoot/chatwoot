@@ -31,6 +31,24 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
   end
 
+  context 'when another bot takes over before the job runs' do
+    it 'leaves AgentBot-owned conversations pending' do
+      resolvable_pending_conversation.update!(assignee_agent_bot: create(:agent_bot, account: inbox.account))
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    end
+
+    it 'leaves conversations pending when an external bot is enabled for the inbox' do
+      create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: inbox.account))
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    end
+  end
+
   context 'when captain_tasks is disabled' do
     before do
       allow(inbox.account).to receive(:feature_enabled?).and_call_original
