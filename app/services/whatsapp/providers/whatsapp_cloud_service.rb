@@ -35,10 +35,12 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def sync_templates
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
-    templates = fetch_whatsapp_templates
+    return if (templates = fetch_whatsapp_templates).blank?
+
     # rubocop:disable Rails/SkipsModelValidations
-    whatsapp_channel.update_columns(message_templates: templates, message_templates_last_updated: Time.current) if templates.present?
+    whatsapp_channel.update_columns(message_templates: templates, message_templates_last_updated: Time.current)
     # rubocop:enable Rails/SkipsModelValidations
+    whatsapp_channel.account.update_cache_key('inbox') # update_columns skips the touch that would invalidate the frontend's inbox cache
   end
 
   def fetch_whatsapp_templates(after: nil)
