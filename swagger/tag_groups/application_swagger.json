@@ -4649,7 +4649,7 @@
             "userApiKey": []
           }
         ],
-        "description": "List the cached message templates available for a WhatsApp inbox",
+        "description": "List the cached message templates available for a native or Twilio WhatsApp inbox",
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -4660,7 +4660,7 @@
             "schema": {
               "type": "number"
             },
-            "description": "ID of the WhatsApp inbox",
+            "description": "ID of the native or Twilio WhatsApp inbox",
             "required": true
           },
           {
@@ -4683,10 +4683,23 @@
                   "properties": {
                     "payload": {
                       "type": "array",
-                      "description": "WhatsApp message templates available for the inbox",
+                      "description": "Native or Twilio WhatsApp message templates available for the inbox",
                       "items": {
                         "type": "object",
                         "additionalProperties": true
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "last_sync_attempt_at": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time",
+                          "description": "Time when template synchronization was last attempted"
+                        }
                       }
                     }
                   }
