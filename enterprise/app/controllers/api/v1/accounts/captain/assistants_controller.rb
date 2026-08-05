@@ -14,7 +14,12 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def update
-    @assistant.update!(assistant_params)
+    @assistant.with_lock do
+      permitted_params = assistant_params
+      permitted_params[:config] = @assistant.config.merge(permitted_params[:config].to_h) if permitted_params[:config]
+
+      @assistant.update!(permitted_params)
+    end
   end
 
   def destroy
@@ -119,13 +124,14 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def assistant_params
+    assistant_config_attributes = [
+      :product_name, :feature_faq, :feature_memory, :feature_citation,
+      :feature_contact_attributes, :welcome_message, :handoff_message,
+      :resolution_message, :instructions, :temperature, :auto_resolve_mode
+    ]
+
     permitted = params.require(:assistant).permit(:name, :description,
-                                                  config: [
-                                                    :product_name, :feature_faq, :feature_memory, :feature_citation,
-                                                    :feature_contact_attributes,
-                                                    :welcome_message, :handoff_message, :resolution_message,
-                                                    :instructions, :temperature
-                                                  ])
+                                                  config: assistant_config_attributes)
 
     # Handle array parameters separately to allow partial updates
     permitted[:response_guidelines] = params[:assistant][:response_guidelines] if params[:assistant].key?(:response_guidelines)
