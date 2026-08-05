@@ -83,9 +83,20 @@ const STATUS_CLASSES = computed(() => ({
 
 const showDefaultAvatar = computed(() => !props.src && !props.name);
 
+// Check if string looks like a phone number (e.g., "+44 7123456789", "+1234567890")
+const isPhoneNumber = str => /^\+[\d\s-]+$/.test(str.trim());
+
 const initials = computed(() => {
   if (!props.name) return '';
-  const words = removeEmoji(props.name).split(/\s+/);
+  const cleanName = removeEmoji(props.name);
+
+  // For phone numbers, use last 2 digits to avoid confusing initials like "+7"
+  if (isPhoneNumber(cleanName)) {
+    const digits = cleanName.replace(/\D/g, '');
+    return digits.slice(-2) || '#';
+  }
+
+  const words = cleanName.split(/\s+/);
   return words.length === 1
     ? words[0].charAt(0).toUpperCase()
     : words
