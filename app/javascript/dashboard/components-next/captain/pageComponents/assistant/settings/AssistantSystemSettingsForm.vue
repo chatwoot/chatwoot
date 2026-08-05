@@ -112,26 +112,6 @@ const formErrors = computed(() => ({
   inactivityThresholdMinutes: getErrorMessage('inactivityThresholdMinutes'),
 }));
 
-const handleInactivityResolutionUpdate = async () => {
-  const validations = [v$.value.inactivityThresholdMinutes.$validate()];
-  if (state.sendInactivityResolutionMessage) {
-    validations.push(v$.value.resolutionMessage.$validate());
-  }
-  const result = await Promise.all(validations).then(results =>
-    results.every(Boolean)
-  );
-  if (!result) return;
-
-  emit('submit', {
-    config: {
-      ...props.assistant.config,
-      auto_resolve_after: state.inactivityThresholdMinutes,
-      send_inactivity_resolution_message: state.sendInactivityResolutionMessage,
-      resolution_message: state.resolutionMessage,
-    },
-  });
-};
-
 const updateStateFromAssistant = assistant => {
   const { config = {} } = assistant;
   state.handoffMessage = config.handoff_message;
@@ -145,7 +125,12 @@ const updateStateFromAssistant = assistant => {
 const handleSystemMessagesUpdate = async () => {
   const validations = [v$.value.handoffMessage.$validate()];
 
-  if (!isCaptainV2Enabled.value) {
+  if (isCaptainV2Enabled.value) {
+    validations.push(v$.value.inactivityThresholdMinutes.$validate());
+    if (state.sendInactivityResolutionMessage) {
+      validations.push(v$.value.resolutionMessage.$validate());
+    }
+  } else {
     validations.push(
       v$.value.resolutionMessage.$validate(),
       v$.value.instructions.$validate()
@@ -164,7 +149,13 @@ const handleSystemMessagesUpdate = async () => {
     },
   };
 
-  if (!isCaptainV2Enabled.value) {
+  if (isCaptainV2Enabled.value) {
+    Object.assign(payload.config, {
+      auto_resolve_after: state.inactivityThresholdMinutes,
+      send_inactivity_resolution_message: state.sendInactivityResolutionMessage,
+      resolution_message: state.resolutionMessage,
+    });
+  } else {
     payload.config.resolution_message = state.resolutionMessage;
     payload.config.instructions = state.instructions;
   }
@@ -185,7 +176,7 @@ watch(
   <div class="flex flex-col gap-6">
     <div
       v-if="isCaptainV2Enabled"
-      class="flex w-full flex-col overflow-hidden rounded-xl bg-n-solid-2 outline outline-1 outline-n-container"
+      class="flex w-full flex-col overflow-hidden rounded-xl bg-n-solid-2 outline outline-1 outline-n-container has-[.editor-wrapper.border-n-brand]:outline-n-brand has-[.editor-wrapper.border-n-ruby-8]:outline-n-ruby-8"
     >
       <div class="flex flex-col gap-5 px-5 py-4">
         <h3 class="text-heading-2 text-n-slate-12">
@@ -246,19 +237,9 @@ watch(
           "
           :message="formErrors.resolutionMessage"
           :message-type="formErrors.resolutionMessage ? 'error' : 'info'"
-          class="z-0 ring-inset focus-within:ring-1 focus-within:ring-n-brand [&_.editor-wrapper]:!min-h-48 [&_.editor-wrapper]:!rounded-none [&_.editor-wrapper]:!border-0 [&_.editor-wrapper]:!bg-transparent [&_.editor-wrapper]:!px-5 [&_.editor-wrapper]:!py-4 [&>p]:px-5 [&>p]:pb-3"
-          :class="{
-            'ring-1 ring-n-ruby-8': formErrors.resolutionMessage,
-          }"
+          class="z-0 [&_.editor-wrapper]:!min-h-48 [&_.editor-wrapper]:!rounded-none [&_.editor-wrapper]:!border-0 [&_.editor-wrapper]:!px-5 [&_.editor-wrapper]:!py-4 [&>p]:px-5 [&>p]:pb-3"
         />
       </div>
-    </div>
-
-    <div v-if="isCaptainV2Enabled">
-      <Button
-        :label="t('CAPTAIN.ASSISTANTS.FORM.SAVE_INACTIVITY_SETTINGS')"
-        @click="handleInactivityResolutionUpdate"
-      />
     </div>
 
     <Editor
@@ -293,11 +274,7 @@ watch(
 
     <div>
       <Button
-        :label="
-          isCaptainV2Enabled
-            ? t('CAPTAIN.ASSISTANTS.FORM.SAVE_HANDOFF_MESSAGE')
-            : t('CAPTAIN.ASSISTANTS.FORM.UPDATE')
-        "
+        :label="t('CAPTAIN.ASSISTANTS.FORM.UPDATE')"
         @click="handleSystemMessagesUpdate"
       />
     </div>

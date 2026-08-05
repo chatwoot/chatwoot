@@ -564,8 +564,6 @@
       },
       "FORM": {
         "UPDATE": "Update",
-        "SAVE_INACTIVITY_SETTINGS": "Save inactive conversation settings",
-        "SAVE_HANDOFF_MESSAGE": "Save handoff message",
         "SECTIONS": {
           "BASIC_INFO": "Basic Information",
           "SYSTEM_MESSAGES": "System Messages",
