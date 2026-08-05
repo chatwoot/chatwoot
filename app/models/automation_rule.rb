@@ -2,16 +2,17 @@
 #
 # Table name: automation_rules
 #
-#  id          :bigint           not null, primary key
-#  actions     :jsonb            not null
-#  active      :boolean          default(TRUE), not null
-#  conditions  :jsonb            not null
-#  description :text
-#  event_name  :string           not null
-#  name        :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :bigint           not null
+#  id              :bigint           not null, primary key
+#  actions         :jsonb            not null
+#  active          :boolean          default(TRUE), not null
+#  conditions      :jsonb            not null
+#  description     :text
+#  event_name      :string           not null
+#  execution_delay :integer
+#  name            :string           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  account_id      :bigint           not null
 #
 # Indexes
 #
@@ -21,7 +22,13 @@ class AutomationRule < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Reauthorizable
 
+  EXECUTION_DELAY_RANGE = (10..43_200) # minutes: 10 min to 30 days
+  # Conversation-level delayed rules key their episode on status; only status and attributes
+  # that never change after the delay (inbox) are safe to also filter on.
+  DELAYED_CONVERSATION_ATTRIBUTES = %w[status inbox_id].freeze
+
   belongs_to :account
+  has_many :pending_executions, class_name: 'AutomationRulePendingExecution', dependent: :delete_all
   has_many_attached :files
 
   validate :json_conditions_format
@@ -29,8 +36,13 @@ class AutomationRule < ApplicationRecord
   validate :query_operator_presence
   validate :query_operator_value
   validates :account_id, presence: true
+  validates :execution_delay, numericality: { only_integer: true, in: EXECUTION_DELAY_RANGE }, allow_nil: true
+  validate :execution_delay_supported_conditions
+  validate :execution_delay_supported_event
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
+  # Discard rows armed under the old definition; they re-arm on the next matching event.
+  after_update :discard_stale_pending_executions, if: :execution_config_changed?
 
   scope :active, -> { where(active: true) }
 
@@ -93,6 +105,37 @@ class AutomationRule < ApplicationRecord
     conditions.each do |obj|
       validate_single_condition(obj)
     end
+  end
+
+  # The fire-time re-check cannot reconstruct changed_attributes, so delayed rules
+  # cannot use attribute_changed conditions.
+  def execution_delay_supported_conditions
+    return if execution_delay.blank? || conditions.blank?
+    return if conditions.none? { |obj| obj['filter_operator'] == 'attribute_changed' }
+
+    errors.add(:execution_delay, 'cannot be used with attribute_changed conditions.')
+  end
+
+  # Conversation-level episodes key on status_changed_at alone. Mutable attributes would collapse
+  # distinct periods into one episode, so only status and immutable filters (inbox) are allowed.
+  def execution_delay_supported_event
+    return if execution_delay.blank? || conditions.blank? || event_name == 'message_created'
+    return if conditions.all? { |obj| DELAYED_CONVERSATION_ATTRIBUTES.include?(obj['attribute_key']) }
+
+    errors.add(:execution_delay, 'only supports status and inbox conditions for conversation-level events.')
+  end
+
+  # Deactivating counts: without it a rule turned off and back on before its due time would still
+  # run the actions the admin turned it off to stop.
+  def execution_config_changed?
+    saved_change_to_active? || saved_change_to_execution_delay? || saved_change_to_event_name? ||
+      saved_change_to_conditions? || saved_change_to_actions?
+  end
+
+  def discard_stale_pending_executions
+    # armed = pending + processing, the rows the sweep would otherwise still run. Rows already
+    # executing are left alone: their actions are in flight and cannot be called back.
+    pending_executions.armed.delete_all
   end
 
   def validate_single_condition(condition)
