@@ -136,7 +136,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
 
     # Handle both messaging and standby arrays
     messaging = (entry[:messaging].presence || entry[:standby] || []).first
-    return nil unless messaging
+    return contact_instagram_id_from_changes(entry) unless messaging
 
     # For echo messages (outgoing from our account), use recipient's ID (the contact)
     # For incoming messages (from contact), use sender's ID (the contact)
@@ -145,6 +145,14 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     else
       messaging.dig(:sender, :id)
     end
+  end
+
+  # The "changes" postback shape has no messaging/standby array, so the lock
+  # key would otherwise fall back to nil and every changes-shaped postback
+  # for the account would contend on one account-wide lock instead of a
+  # sender-specific one.
+  def contact_instagram_id_from_changes(entry)
+    entry[:changes]&.first&.dig(:value, :sender, :id)
   end
 
   def sender_id

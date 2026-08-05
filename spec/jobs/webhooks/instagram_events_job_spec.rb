@@ -450,6 +450,13 @@ describe Webhooks::InstagramEventsJob do
 
         expect(conversation.messages.incoming.count).to eq 1
       end
+
+      it 'derives a sender-specific mutex key instead of locking on the whole account' do
+        job = described_class.new
+        job.instance_variable_set(:@entries, [postback_entry(1_700_000_000)])
+
+        expect(job.send(:contact_instagram_id)).to eq 'sender_1'
+      end
     end
   end
 end
