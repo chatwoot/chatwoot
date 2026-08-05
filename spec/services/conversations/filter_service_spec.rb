@@ -628,7 +628,7 @@ describe Conversations::FilterService do
             {
               attribute_key: 'last_activity_at',
               filter_operator: 'days_before',
-              values: [3],
+              values: [2],
               query_operator: nil,
               custom_attribute_type: ''
             }.with_indifferent_access
@@ -638,6 +638,40 @@ describe Conversations::FilterService do
 
           result = filter_service.new(params, user_1, account).perform
           expect(result[:conversations].length).to eq expected_count
+        end
+
+        it 'parses string days_before values as base 10' do
+          params[:payload] = [
+            {
+              attribute_key: 'last_activity_at',
+              filter_operator: 'days_before',
+              values: ['02'],
+              query_operator: nil,
+              custom_attribute_type: ''
+            }.with_indifferent_access
+          ]
+
+          expected_count = account.conversations.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
+
+          result = filter_service.new(params, user_1, account).perform
+          expect(result[:conversations].length).to eq expected_count
+        end
+
+        it 'raises InvalidValue for negative and non-numeric days_before values' do
+          [-1, 'abc', 0, 999].each do |invalid_value|
+            params[:payload] = [
+              {
+                attribute_key: 'last_activity_at',
+                filter_operator: 'days_before',
+                values: [invalid_value],
+                query_operator: nil,
+                custom_attribute_type: ''
+              }.with_indifferent_access
+            ]
+
+            expect { filter_service.new(params, user_1, account).perform }
+              .to raise_error(CustomExceptions::CustomFilter::InvalidValue)
+          end
         end
 
         it 'filter by last_activity_at days_before when payload is ActionController::Parameters' do

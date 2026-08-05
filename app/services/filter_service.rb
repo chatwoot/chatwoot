@@ -98,7 +98,12 @@ class FilterService
   end
 
   def days_before_filter_query(query_hash, current_index)
-    date = Time.zone.today - query_hash['values'][0].to_i.days
+    days = Integer(query_hash['values'][0].to_s, 10, exception: false)
+    # UI supports 1..998 days; anything else would silently coerce into an
+    # unintended cutoff (negative => future date matching everything)
+    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key']) unless days&.between?(1, 998)
+
+    date = Time.zone.today - days.days
     updated_query_hash = query_hash.to_h.with_indifferent_access.merge(
       values: [date.strftime],
       filter_operator: 'is_less_than'
