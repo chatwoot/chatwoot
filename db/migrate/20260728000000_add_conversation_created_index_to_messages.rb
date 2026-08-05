@@ -37,7 +37,7 @@ class AddConversationCreatedIndexToMessages < ActiveRecord::Migration[7.1]
   INDEX_NAME = 'index_messages_on_conversation_id_and_created_at'.freeze
 
   def drop_invalid_index_if_present
-    result = execute(<<~SQL)
+    result = execute(<<~SQL.squish)
       SELECT indisvalid
       FROM pg_class
       JOIN pg_index ON pg_index.indexrelid = pg_class.oid
