@@ -4,7 +4,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
   let(:account) { create(:account, custom_attributes: { plan_name: 'startups' }) }
   let(:inbox) { create(:inbox, account: account) }
   let(:assistant) { create(:captain_assistant, account: account) }
-  let(:captain_inbox_association) { create(:captain_inbox, captain_assistant: assistant, inbox: inbox) }
 
   describe '#perform' do
     let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
@@ -13,16 +12,19 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     let(:mock_action_classifier_service) { instance_double(Captain::Llm::AssistantActionClassifierService) }
     let(:mock_false_promise_service) { instance_double(Captain::Llm::AssistantFalsePromiseService) }
     let(:assistant_model) { Llm::Models.default_model_for('assistant') }
-    let(:responding_to_message) { conversation.messages.find_by!(content: 'Hello') }
+    let!(:responding_to_message) { create(:message, conversation: conversation, content: 'Hello', message_type: :incoming) }
+    let(:v2_response_parts) { [{ 'text' => 'Hey, welcome to Captain V2', 'citation_indexes' => [] }] }
 
     before do
-      create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
-
       allow(inbox).to receive(:captain_active?).and_return(true)
       allow(Captain::Llm::AssistantChatService).to receive(:new).and_return(mock_llm_chat_service)
       allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
       allow(Captain::Assistant::AgentRunnerService).to receive(:new).and_return(mock_agent_runner_service)
-      allow(mock_agent_runner_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain V2' })
+      allow(mock_agent_runner_service).to receive(:generate_response).and_return({
+                                                                                   'response_parts' => v2_response_parts,
+                                                                                   'response' => 'Hey, welcome to Captain V2',
+                                                                                   'reasoning' => 'A friendly greeting'
+                                                                                 })
       allow(mock_agent_runner_service).to receive(:last_run_result).and_return(nil)
       allow(mock_agent_runner_service).to receive(:response_discarded?).and_return(false)
       allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(false)
@@ -446,7 +448,21 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
       it 'passes message history with resolution markers to agent runner service' do
         same_second = Time.current.change(usec: 0)
-        conversation.messages.find_by!(content: 'Hello').update!(created_at: same_second, updated_at: same_second)
+        responding_to_message.update!(created_at: same_second, updated_at: same_second)
+        create(
+          :message,
+          conversation: conversation,
+          sender: assistant,
+          content: 'Earlier answer [[1](https://help.example.com/private-from-model)]',
+          message_type: :outgoing,
+          additional_attributes: {
+            Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY => [
+              { 'text' => 'Earlier answer', 'citation_indexes' => [1] }
+            ]
+          },
+          created_at: same_second,
+          updated_at: same_second
+        )
         create(
           :message,
           conversation: conversation,
@@ -463,6 +479,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
         expected_messages = [
           { content: 'Hello', role: 'user' },
+          { content: 'Earlier answer', role: 'assistant' },
           {
             content: Captain::Conversation::MessageHistoryBuilderService::RESOLUTION_MARKER,
             role: 'assistant'
@@ -477,17 +494,217 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
       end
 
+      it 'does not restore deleted Captain response parts into message history' do
+        deleted_content = I18n.t('conversations.messages.deleted')
+        create(
+          :message,
+          conversation: conversation,
+          sender: assistant,
+          content: deleted_content,
+          content_attributes: { deleted: true },
+          message_type: :outgoing,
+          additional_attributes: {
+            Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY => [
+              { 'text' => 'Sensitive deleted answer', 'citation_indexes' => [] }
+            ]
+          }
+        )
+
+        expect(mock_agent_runner_service).to receive(:generate_response).with(
+          message_history: [
+            { content: 'Hello', role: 'user' },
+            { content: deleted_content, role: 'assistant' }
+          ]
+        )
+
+        described_class.perform_now(conversation, assistant)
+      end
+
       it 'generates and processes response' do
         described_class.perform_now(conversation, assistant)
         expect(conversation.messages.count).to eq(2)
         expect(conversation.messages.outgoing.count).to eq(1)
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain V2')
+        expect(
+          conversation.messages.last.additional_attributes[Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY]
+        ).to eq(v2_response_parts)
       end
 
       it 'increments usage response' do
         described_class.perform_now(conversation, assistant)
         account.reload
         expect(account.usage_limits[:captain][:responses][:consumed]).to eq(1)
+      end
+
+      context 'with structured citations' do
+        before do
+          allow(Resolv).to receive(:getaddresses).and_return(['93.184.216.34'])
+
+          first_document = create(:captain_document, assistant: assistant, external_link: 'https://help.example.com/password')
+          second_document = create(:captain_document, assistant: assistant, external_link: 'https://help.example.com/email')
+          run_result = Agents::RunResult.new(
+            output: { 'response_parts' => v2_response_parts, 'reasoning' => 'Used the FAQ results' },
+            context: {
+              state: {
+                Captain::Assistant::CITATION_SOURCES_STATE_KEY => {
+                  1 => first_document.id,
+                  2 => second_document.id
+                }
+              }
+            }
+          )
+          allow(mock_agent_runner_service).to receive(:last_run_result).and_return(run_result)
+          assistant.update!(config: assistant.config.merge('feature_citation' => true))
+        end
+
+        it 'does not render links when citations are disabled' do
+          assistant.update!(config: assistant.config.merge('feature_citation' => false))
+          v2_response_parts.first['citation_indexes'] = [1]
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.messages.outgoing.last.content).to eq('Hey, welcome to Captain V2')
+        end
+
+        it 'renders one cited document from the trusted run mapping' do
+          v2_response_parts.first['citation_indexes'] = [1]
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.messages.outgoing.last.content).to eq(
+            'Hey, welcome to Captain V2 [[1](https://help.example.com/password)]'
+          )
+          cited_document_id = mock_agent_runner_service.last_run_result.context[:state][Captain::Assistant::CITATION_SOURCES_STATE_KEY][1]
+          expect(Captain::AgentSession.last.cited_document_ids).to eq([cited_document_id])
+        end
+
+        it 'encodes Markdown delimiters in citation URLs' do
+          document = create(
+            :captain_document,
+            assistant: assistant,
+            external_link: 'https://help.example.com/guides/reset_(new)'
+          )
+          citation_sources = mock_agent_runner_service.last_run_result.context[:state][Captain::Assistant::CITATION_SOURCES_STATE_KEY]
+          citation_sources[3] = document.id
+          v2_response_parts.first['citation_indexes'] = [3]
+
+          described_class.perform_now(conversation, assistant)
+
+          content = conversation.messages.outgoing.last.content
+          expect(content).to eq('Hey, welcome to Captain V2 [[1](https://help.example.com/guides/reset_%28new%29)]')
+          expect(ChatwootMarkdownRenderer.new(content).render_message.to_s).to include(
+            '<a href="https://help.example.com/guides/reset_%28new%29">1</a>'
+          )
+        end
+
+        it 'renders a citation after a closing code fence' do
+          v2_response_parts.replace(
+            [
+              { 'text' => "```ruby\nputs 'hello'\n```", 'citation_indexes' => [1] },
+              { 'text' => 'Continue with the next step.', 'citation_indexes' => [2] }
+            ]
+          )
+
+          described_class.perform_now(conversation, assistant)
+
+          content = conversation.messages.outgoing.last.content
+          expect(content).to eq(
+            "```ruby\nputs 'hello'\n```\n[[1](https://help.example.com/password)]\n\n" \
+            'Continue with the next step. [[2](https://help.example.com/email)]'
+          )
+
+          rendered_content = ChatwootMarkdownRenderer.new(content).render_message.to_s
+          expect(rendered_content).to include("</code></pre>\n<p>[<a href=\"https://help.example.com/password\">1</a>]</p>")
+          expect(rendered_content).to include('<p>Continue with the next step.')
+        end
+
+        it 'preserves response part order and numbers trusted sources by first appearance' do
+          v2_response_parts.replace(
+            [
+              { 'text' => 'Email changes are in settings.', 'citation_indexes' => [2] },
+              { 'text' => 'Password resets use the reset link.', 'citation_indexes' => [1] }
+            ]
+          )
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.messages.outgoing.last.content).to eq(
+            "Email changes are in settings. [[1](https://help.example.com/email)]\n\n" \
+            'Password resets use the reset link. [[2](https://help.example.com/password)]'
+          )
+        end
+
+        it 'reuses a display number when a response cites the same source more than once' do
+          v2_response_parts.replace(
+            [
+              { 'text' => 'Use the reset link.', 'citation_indexes' => [1, 1] },
+              { 'text' => 'The same page has the next steps.', 'citation_indexes' => [1] }
+            ]
+          )
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.messages.outgoing.last.content).to eq(
+            "Use the reset link. [[1](https://help.example.com/password)]\n\n" \
+            'The same page has the next steps. [[1](https://help.example.com/password)]'
+          )
+        end
+
+        it 'ignores unknown indexes and non-numeric citation values' do
+          v2_response_parts.first['citation_indexes'] = [99, 'https://model.example/source']
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.messages.outgoing.last.content).to eq('Hey, welcome to Captain V2')
+        end
+
+        it 'renders a wrong but valid index only through its trusted source mapping' do
+          v2_response_parts.first['citation_indexes'] = [2, 'https://model.example/source']
+
+          described_class.perform_now(conversation, assistant)
+
+          content = conversation.messages.outgoing.last.content
+          expect(content).to eq('Hey, welcome to Captain V2 [[1](https://help.example.com/email)]')
+          expect(content).not_to include('model.example')
+        end
+
+        it 'does not render mapped PDF or non-public sources' do
+          pdf_document = create(
+            :captain_document,
+            assistant: assistant,
+            external_link: 'https://storage.example.com/private-file.pdf?token=secret'
+          )
+          citation_sources = mock_agent_runner_service.last_run_result.context[:state][Captain::Assistant::CITATION_SOURCES_STATE_KEY]
+          citation_sources[3] = pdf_document.id
+          citation_sources[4] = 0
+          v2_response_parts.first['citation_indexes'] = [3, 4]
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.messages.outgoing.last.content).to eq('Hey, welcome to Captain V2')
+        end
+
+        it 'joins valid markdown parts and drops blank or invalid parts' do
+          v2_response_parts.replace(
+            [
+              { 'text' => "  **Steps**\n\n- Open settings  ", 'citation_indexes' => [] },
+              { 'text' => '   ', 'citation_indexes' => [1] },
+              'invalid',
+              { 'text' => 'Save the change.', 'citation_indexes' => ['1'] }
+            ]
+          )
+
+          described_class.perform_now(conversation, assistant)
+
+          message = conversation.messages.outgoing.last
+          expect(message.content).to eq("**Steps**\n\n- Open settings\n\nSave the change.")
+          expect(message.additional_attributes[Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY]).to eq(
+            [
+              { 'text' => "**Steps**\n\n- Open settings", 'citation_indexes' => [] },
+              { 'text' => 'Save the change.', 'citation_indexes' => [] }
+            ]
+          )
+        end
       end
 
       it 'emits a response completed event' do
@@ -653,6 +870,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           llm_model: 'openai-gpt-5.2',
           credits_consumed: 1.0,
           faq_ids: [7, 9],
+          cited_document_ids: [],
           document_ids: [3],
           scenario_ids: [],
           user_id: nil

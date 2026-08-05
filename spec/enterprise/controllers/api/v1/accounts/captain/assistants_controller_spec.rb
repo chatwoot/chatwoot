@@ -477,7 +477,12 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           assistant: assistant,
           source: 'playground'
         ).and_return(agent_runner_service)
-        allow(agent_runner_service).to receive(:generate_response).and_return({ response: 'Assistant response' })
+        allow(agent_runner_service).to receive(:generate_response).and_return(
+          {
+            response: 'Assistant response',
+            response_parts: [{ text: 'Assistant response', citation_indexes: [] }]
+          }
+        )
         expect(Captain::Llm::AssistantChatService).not_to receive(:new)
 
         post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
@@ -490,6 +495,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           message_history: valid_params[:message_history] + [{ role: 'user', content: valid_params[:message_content] }]
         )
         expect(json_response[:response]).to eq('Assistant response')
+        expect(json_response[:response_parts]).to eq([{ text: 'Assistant response', citation_indexes: [] }])
       end
 
       it 'does not duplicate the latest user message if it is already in history' do
