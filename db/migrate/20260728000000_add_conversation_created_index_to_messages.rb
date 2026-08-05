@@ -10,13 +10,21 @@ class AddConversationCreatedIndexToMessages < ActiveRecord::Migration[7.1]
   # existing index_messages_on_conversation_account_type_created can't serve the
   # ORDER BY because account_id / message_type sit between the two columns.
   def up
+    # CREATE INDEX CONCURRENTLY on a large table can take minutes; disable the
+    # session statement_timeout so the build is not cancelled mid-run.
+    execute 'SET statement_timeout TO 0'
     add_index :messages, [:conversation_id, :created_at],
               name: 'index_messages_on_conversation_id_and_created_at',
               algorithm: :concurrently, if_not_exists: true
+  ensure
+    execute 'RESET statement_timeout'
   end
 
   def down
+    execute 'SET statement_timeout TO 0'
     remove_index :messages, name: 'index_messages_on_conversation_id_and_created_at',
                             algorithm: :concurrently, if_exists: true
+  ensure
+    execute 'RESET statement_timeout'
   end
 end
