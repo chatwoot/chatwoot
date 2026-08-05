@@ -24,6 +24,7 @@ const routePromptMap = {
     {
       label: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL',
       prompt: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.CONTENT',
+      requestType: 'reply_suggestion',
     },
     {
       label: 'CAPTAIN.COPILOT.PROMPTS.RATE.LABEL',
@@ -55,7 +56,11 @@ const promptOptions = computed(() => {
 });
 
 const handleSuggestion = opt => {
-  emit('useSuggestion', t(opt.prompt));
+  const message = t(opt.prompt);
+  emit(
+    'useSuggestion',
+    opt.requestType ? { message, requestType: opt.requestType } : message
+  );
 };
 </script>
 

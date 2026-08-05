@@ -31,7 +31,11 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
 
   def build_copilot_response(copilot_message)
     if Current.account.usage_limits[:captain][:responses][:current_available].positive?
-      copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id], Current.user.id)
+      copilot_message.enqueue_response_job(
+        copilot_thread_params[:conversation_id],
+        Current.user.id,
+        request_type: copilot_thread_params[:request_type]
+      )
     else
       copilot_message.copilot_thread.copilot_messages.create!(
         message_type: :assistant,
@@ -49,7 +53,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   end
 
   def copilot_thread_params
-    params.permit(:message, :assistant_id, :conversation_id)
+    params.permit(:message, :assistant_id, :conversation_id, :request_type)
   end
 
   def permitted_params

@@ -182,7 +182,7 @@ RSpec.describe Captain::Copilot::ChatService do
         config: assistant.config.merge('instructions' => 'Legacy instructions must not be used.')
       )
 
-      system_prompt = described_class.new(assistant, {}).messages.first[:content]
+      system_prompt = described_class.new(assistant, { request_type: 'reply_suggestion' }).messages.first[:content]
 
       expect(system_prompt).to include(
         '[Selected Assistant Behavior]',
@@ -196,6 +196,23 @@ RSpec.describe Captain::Copilot::ChatService do
         '- Do not promise actions that have not happened.'
       )
       expect(system_prompt).not_to include('Legacy instructions must not be used.')
+    end
+
+    it 'does not change the prompt for other Copilot requests' do
+      assistant.update!(
+        description: 'Help event planners manage their guest communication.',
+        response_guidelines: ['Use a warm tone.'],
+        guardrails: ['Do not promise actions that have not happened.']
+      )
+
+      system_prompt = described_class.new(assistant, {}).messages.first[:content]
+
+      expect(system_prompt).not_to include(
+        '[Selected Assistant Behavior]',
+        'Help event planners manage their guest communication.',
+        'Use a warm tone.',
+        'Do not promise actions that have not happened.'
+      )
     end
   end
 

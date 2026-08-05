@@ -100,7 +100,11 @@ const handleReset = () => {
   selectedCopilotThreadId.value = null;
 };
 
-const sendMessage = async message => {
+const sendMessage = async payload => {
+  const message = typeof payload === 'string' ? payload : payload.message;
+  const requestType =
+    typeof payload === 'string' ? undefined : payload.requestType;
+
   try {
     if (selectedCopilotThreadId.value) {
       await store.dispatch('copilotMessages/create', {
@@ -114,6 +118,7 @@ const sendMessage = async message => {
         assistant_id: activeAssistant.value.id,
         conversation_id: currentChat.value?.id,
         message,
+        ...(requestType && { request_type: requestType }),
       });
       selectedCopilotThreadId.value = response.id;
     }

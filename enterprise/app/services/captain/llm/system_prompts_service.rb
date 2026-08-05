@@ -195,15 +195,13 @@ class Captain::Llm::SystemPromptsService
                               ''
                             end
 
-      <<~SYSTEM_PROMPT_MESSAGE
+      prompt = <<~SYSTEM_PROMPT_MESSAGE
         [Identity]
         You are Captain, a helpful and friendly copilot assistant for support agents using the product #{product_name}. Your primary role is to assist support agents by retrieving information, compiling accurate responses, and guiding them through customer interactions.
         You should only provide information related to #{product_name} and must not address queries about other products or external events.
 
         [Context]
         Identify unresolved queries, and ensure responses are relevant and consistent with previous interactions. Always maintain a coherent and professional tone throughout the conversation.
-
-        #{build_copilot_assistant_behavior(assistant_behavior)}
 
         [Response Guidelines]
         - Use natural, polite, and conversational language that is clear and easy to follow. Keep sentences short and use simple words.
@@ -246,6 +244,11 @@ class Captain::Llm::SystemPromptsService
         - rate_conversation: Rate the conversation
         #{available_tools}
       SYSTEM_PROMPT_MESSAGE
+
+      assistant_behavior_prompt = build_copilot_assistant_behavior(assistant_behavior)
+      return prompt if assistant_behavior_prompt.blank?
+
+      prompt.sub('[Response Guidelines]', "#{assistant_behavior_prompt}\n\n[Response Guidelines]")
     end
     # rubocop:enable Metrics/MethodLength
 

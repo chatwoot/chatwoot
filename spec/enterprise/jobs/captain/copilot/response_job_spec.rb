@@ -41,5 +41,23 @@ RSpec.describe Captain::Copilot::ResponseJob, type: :job do
         message: message
       )
     end
+
+    it 'passes the reply suggestion request type to ChatService' do
+      expect(Captain::Copilot::ChatService).to receive(:new).with(
+        assistant,
+        user_id: user.id,
+        copilot_thread_id: copilot_thread.id,
+        conversation_id: conversation_id,
+        request_type: 'reply_suggestion'
+      ).and_return(chat_service)
+
+      described_class.perform_now(
+        assistant: assistant,
+        conversation_id: conversation_id,
+        user_id: user.id,
+        copilot_thread_id: copilot_thread.id,
+        message: message.merge('request_type' => 'reply_suggestion')
+      )
+    end
   end
 end

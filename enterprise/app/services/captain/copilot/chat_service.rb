@@ -17,6 +17,7 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
     setup_user(config)
     setup_message_history(config)
     @tools = build_tools
+    @reply_suggestion = config[:request_type] == 'reply_suggestion'
     @messages = build_messages(config)
   end
 
@@ -78,17 +79,22 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
   def system_message
     {
       role: 'system',
-      content: Captain::Llm::SystemPromptsService.copilot_response_generator(
-        @assistant.config['product_name'],
-        tools_summary,
-        @assistant.config,
-        assistant_behavior: {
-          description: @assistant.description,
-          response_guidelines: @assistant.response_guidelines,
-          guardrails: @assistant.guardrails
-        }
-      )
+      content: copilot_prompt
     }
+  end
+
+  def copilot_prompt
+    prompt_arguments = [@assistant.config['product_name'], tools_summary, @assistant.config]
+    return Captain::Llm::SystemPromptsService.copilot_response_generator(*prompt_arguments) unless @reply_suggestion
+
+    Captain::Llm::SystemPromptsService.copilot_response_generator(
+      *prompt_arguments,
+      assistant_behavior: {
+        description: @assistant.description,
+        response_guidelines: @assistant.response_guidelines,
+        guardrails: @assistant.guardrails
+      }
+    )
   end
 
   def tools_summary
