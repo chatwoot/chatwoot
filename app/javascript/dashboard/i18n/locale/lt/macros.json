@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "Ištrinant makrokomandą įvyko klaida. Pabandykite dar kartą vėliau"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "Redaguoti makrokomandą",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "Makrokomandos matomumas",
         "GLOBAL": {
           "LABEL": "Viešas",
-          "DESCRIPTION": "Ši makrokomanda yra viešai prieinama visiems šios paskyros agentams."
+          "DESCRIPTION": "Ši makrokomanda yra viešai prieinama visiems šios paskyros agentams.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "Privatus",

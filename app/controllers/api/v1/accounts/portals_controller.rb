@@ -3,6 +3,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   before_action :fetch_portal, except: [:index, :create]
   before_action :check_authorization
+  before_action :validate_analytics_params, only: [:create, :update]
   before_action :set_current_page, only: [:index]
 
   def index
@@ -18,11 +19,14 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portal = Current.account.portals.build(portal_params.merge(live_chat_widget_params))
     @portal.custom_domain = parsed_custom_domain
     @portal.save!
-    process_attached_logo
+    process_attached_logo if params[:blob_id].present?
   end
 
   def update
     ActiveRecord::Base.transaction do
+      # Lock the row so concurrent saves merge onto the latest committed config
+      # instead of a stale snapshot, which would drop the other save's keys.
+      @portal.lock!
       @portal.update!(portal_params.merge(live_chat_widget_params)) if params[:portal].present?
       # @portal.custom_domain = parsed_custom_domain
       process_attached_logo if params[:blob_id].present?
@@ -61,9 +65,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def process_attached_logo
-    blob_id = params[:blob_id]
-    blob = ActiveStorage::Blob.find_signed(blob_id)
-    @portal.logo.attach(blob)
+    blob = ActiveStorage::Blob.find_signed(params[:blob_id].to_s)
+    @portal.logo.attach(blob) if blob
   end
 
   private
@@ -76,11 +79,43 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     params.permit(:id, :email)
   end
 
+  def validate_analytics_params
+    analytics = params.dig(:portal, :config, :analytics)
+    return if analytics.blank?
+
+    valid = analytics.respond_to?(:each_pair) &&
+            analytics.keys.all? { |key| Portal::ANALYTICS_CONFIG_FORMATS.key?(key.to_s) } &&
+            analytics.values.all?(String)
+    return if valid
+
+    render json: { error: I18n.t('portals.analytics.invalid_configuration') }, status: :unprocessable_entity
+  end
+
   def portal_params
     params.require(:portal).permit(
       :id, :color, :custom_domain, :header_text, :homepage_link,
-      :name, :page_title, :slug, :archived, { config: [:default_locale, { allowed_locales: [] }, { draft_locales: [] }] }
+      :name, :page_title, :slug, :archived,
+      { config: config_param_keys }
     )
+  end
+
+  def config_param_keys
+    keys = [:default_locale, :layout, { allowed_locales: [] }, { draft_locales: [] },
+            { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] },
+            { locale_translations: locale_translation_keys.index_with { %i[name page_title header_text] } },
+            { popular_content: popular_content_keys.index_with { { category_ids: [], article_ids: [] } } }]
+    # Analytics injects tracking scripts into every public page, so keep it admin-only even though
+    # Enterprise lets knowledge_base_manage roles edit other portal settings.
+    keys << { analytics: Portal::ANALYTICS_CONFIG_FORMATS.keys.map(&:to_sym) } if Current.account_user&.administrator?
+    keys
+  end
+
+  def locale_translation_keys
+    params.dig(:portal, :config, :locale_translations)&.keys || []
+  end
+
+  def popular_content_keys
+    params.dig(:portal, :config, :popular_content)&.keys || []
   end
 
   def live_chat_widget_params
@@ -88,7 +123,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     return {} unless permitted_params.key?(:inbox_id)
     return { channel_web_widget_id: nil } if permitted_params[:inbox_id].blank?
 
-    inbox = Inbox.find(permitted_params[:inbox_id])
+    inbox = Current.account.inboxes.find(permitted_params[:inbox_id])
     return {} unless inbox.web_widget?
 
     { channel_web_widget_id: inbox.channel.id }
@@ -99,6 +134,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def parsed_custom_domain
+    return @portal.custom_domain if @portal.custom_domain.blank?
+
     domain = URI.parse(@portal.custom_domain)
     domain.is_a?(URI::HTTP) ? domain.host : @portal.custom_domain
   end

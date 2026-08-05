@@ -33,8 +33,33 @@ pt_BR:
     login_saml_user: Esta conta usa autenticação SAML. Por favor, faça login através do provedor SAML da sua organização.
     saml_not_available: A autenticação SAML não está disponível nesta instalação.
     inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado dentro de algum tempo.
+  data_imports:
+    intercom:
+      activities:
+        assignment: '%{actor} atribuiu a conversa'
+        assignment_with_target: '%{actor} atribuiu a conversa a %{target}'
+        assign_and_reopen: '%{actor} atribuiu e reabriu a conversa'
+        assign_and_reopen_with_target: '%{actor} atribuiu a conversa a %{target} e a reabriu'
+        open: '%{actor} abriu a conversa'
+        close: '%{actor} fechou a conversa'
+        snoozed: '%{actor} adiou a conversa'
+        participant_added: '%{actor} adicionou um participante'
+        participant_added_with_target: '%{actor} adicionou %{target} como participante'
+        participant_removed: '%{actor} removeu um usuário'
+        participant_removed_with_target: '%{actor} removeu %{target} como participante'
+        conversation_attribute_updated: '%{actor} atualizou atributos de conversa'
+        ticket_attribute_updated: '%{actor} atributos atualizados do ticket'
+        ticket_state_updated: '%{actor} atualizou o estado do ticket'
+        custom_action_started: '%{actor} iniciou uma ação personalizada'
+        custom_action_finished: '%{actor} finalizou uma ação personalizada'
+        quick_reply: '%{actor} usou uma resposta rápida'
+        generic: '%{actor} gravou %{event}'
+  profile_settings:
+    sessions:
+      cannot_revoke_current: Você não pode revogar a sessão atual.
   errors:
     account:
+      not_authorized: Você não está autorizado a acessar esta conta
       reporting_timezone:
         invalid: não é um fuso horário válido
       support_email:
@@ -50,6 +75,8 @@ pt_BR:
       email_already_exists: 'Você já se cadastrou para uma conta com %{email}'
       invalid_params: 'Inválido, por favor, verifique os parâmetros de inscrição e tente novamente'
       failed: Registro falhou
+    voice:
+      call_already_accepted: '%{agent_name} já está atendendo a chamada.'
     assignment_policy:
       not_found: Política de atribuição não encontrada
     attachments:
@@ -62,9 +89,14 @@ pt_BR:
       file_too_large: 'O arquivo excede o tamanho máximo permitido'
       unsupported_content_type: 'Tipo de arquivo não suportado (apenas imagens e vídeos são permitidos)'
       unexpected: 'Ocorreu um erro inesperado'
+    database:
+      query_canceled: 'A solicitação demorou muito para ser concluída. Tente novamente.'
     saml:
       feature_not_enabled: SAML não está habilitado para esta conta
       sso_not_enabled: O SSO via SAML não está habilitado para esta instalação
+    conversations:
+      unread_counts:
+        feature_not_enabled: O recurso de contagem de conversas não lidas não está habilitado para esta conta
     data_import:
       data_type:
         invalid: Tipo de dado inválido
@@ -90,6 +122,15 @@ pt_BR:
         unique: deve ser único na categoria e no portal
     dyte:
       invalid_message_type: 'Tipo de mensagem inválido. Ação não permitida'
+      realtimekit_credentials_required: 'Credenciais do Cloudflare RealtimeKit são necessárias. Exclua a integração de Dyte existente e crie-a novamente com Cloudflare RealtimeKit credenciais.'
+    cloudflare:
+      realtimekit:
+        invalid_credentials: 'As credenciais do Cloudflare RealtimeKit são inválidas. Verifique o ID da conta, RealtimeKit App ID e as permissões do token de API.'
+        missing_credentials: 'ID da conta Cloudflare, ID do App RealtimeKit e token API são necessários.'
+        invalid_api_token: 'O token API do Cloudflare está inválido ou inativo. Por favor, crie um novo token com permissões de administrador em tempo real.'
+        invalid_account_or_permissions: 'O ID da conta Cloudflare é inválido, ou o token de API não tem acesso de Administrador em tempo real a esta conta.'
+        app_not_found: 'RealtimeKit App ID não foi encontrado nesta conta Cloudflare. Por favor, verifique o app selecionado.'
+        verification_failed: 'Não foi possível verificar as credenciais do Cloudflare RealtimeKit agora. Tente novamente.'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, tente novamente'
     whatsapp:
@@ -100,6 +141,16 @@ pt_BR:
       reauthorization:
         generic: 'Falha ao reautenticar o WhatsApp. Por favor, tente novamente.'
         not_supported: 'Reautenticação não é suportado por este tipo de canal WhatsApp.'
+      calls:
+        not_enabled: 'As chamadas não estão habilitadas para esta caixa de entrada'
+        already_ended: 'Esta chamada já terminou'
+        no_recording: 'Nenhum arquivo de gravação fornecido'
+        no_message: 'A chamada não possui mensagem associada'
+        sdp_offer_required: 'sdp_offer é obrigatório'
+        contact_phone_required: 'Número de telefone do contato é obrigatório'
+        permission_request_failed: 'Falha ao enviar solicitação de permissão de chamada'
+    openai:
+      invalid_api_key: 'A chave da API da OpenAI é inválida ou revogada. Por favor, verifique sua chave no seu painel da OpenAI.'
     inboxes:
       imap:
         socket_error: Por favor, verifique a conexão de rede, endereço IMAP e tente novamente.
@@ -131,6 +182,9 @@ pt_BR:
       invalid_token: Token MFA inválido ou expirado
       invalid_credentials: Credenciais ou código de verificação inválidos
       feature_unavailable: O recurso MFA não está disponível. Por favor, configure as chaves de criptografia.
+    billing:
+      invalid_currency: Moeda de cobrança inválida
+      currency_locked: Moeda de faturamento não pode ser alterada após o faturamento ter sido configurado
     topup:
       credits_required: A quantidade de créditos é obrigatória
       invalid_credits: Quantidade de créditos inválida
@@ -229,6 +283,11 @@ pt_BR:
       deleted: Esta mensagem foi excluída
       whatsapp:
         list_button_label: 'Escolha um item'
+        call_permission_request_body: 'Gostaríamos de ligar para você em relação à sua conversa.'
+        unsupported_message: 'Esta mensagem não está disponível.'
+      voice_call:
+        twilio: 'Chamada de Voz'
+        whatsapp: 'Chamada do WhatsApp'
       delivery_status:
         error_code: 'Código de erro: %{error_code}'
     activity:
@@ -273,6 +332,9 @@ pt_BR:
         issue_created: 'Problema linear %{issue_id} foi criado por %{user_name}'
         issue_linked: 'Problema linear %{issue_id} foi vinculado por %{user_name}'
         issue_unlinked: 'Problema linear %{issue_id} foi desvinculado por %{user_name}'
+      whatsapp_call:
+        permission_requested: 'Solicitação de permissão de chamada enviada para %{contact_name}.'
+        permission_granted: '%{contact_name} aceitou a solicitação de permissão de chamada.'
       csat:
         not_sent_due_to_messaging_window: 'Pesquisa CSAT não foi enviada devido a restrições de envio de mensagens'
       auto_resolve:
@@ -337,6 +399,7 @@ pt_BR:
       name: 'Linear'
       short_description: 'Crie e vincule issues do Linear diretamente de conversas.'
       description: 'Crie issues em Linear diretamente da sua janela de conversa. Alternativamente, vincule as issues lineares existentes para um processo de rastreamento de problemas mais simples e eficiente.'
+      attachment_link_title: 'Conversa (#%{conversation_id}) com %{name}'
     notion:
       name: 'Notion'
       short_description: 'Integre banco de dados, documentos e páginas diretamente com o Capitão.'
@@ -365,6 +428,9 @@ pt_BR:
       limit_exceeded: 'Limite de documento excedido'
       pdf_format_error: 'Deve ser um arquivo PDF'
       pdf_size_error: 'Deve ser menor que 10 MB'
+      sync_not_supported_for_pdf: 'A sincronização não é suportada para documentos PDF'
+      sync_only_available_documents: 'A sincronização só está disponível para documentos processados'
+      sync_already_in_progress: 'Sincronização de documentos já está em andamento'
       pdf_upload_failed: 'Falha ao enviar PDF para OpenAI'
       pdf_upload_success: 'PDF enviado com sucesso com file_id: %{file_id}'
       pdf_processing_failed: 'Falha ao processar o documento PDF %{document_id}: %{error}'
@@ -390,7 +456,33 @@ pt_BR:
       empty_placeholder: Nenhum resultado encontrado.
       loading_placeholder: Procurando...
       results_title: Resultados de pesquisa
+      results: Resultados da Pesquisa
+      results_for: "Resultados da pesquisa para '%{query}'"
+      no_results: "Nenhum resultado encontrado para '%{query}'"
+      found_results:
+        one: Um resultado encontrado
+        other: 'Encontrados %{count} resultados'
+      submit: Pesquisar
     toc_header: 'Nesta página'
+    sidebar:
+      help_center: Central de Ajuda
+      categories: Categorias
+      language: Idioma
+      theme: Tema
+      open_sidebar: Abrir barra lateral
+      close_sidebar: Fechar barra lateral
+      browse: Navegar
+      back_to_category: Voltar para %{name}
+      browse_by_topic: Navegar por tópico
+      browse_by_topic_subtitle: Encontre guias, tutoriais e respostas organizados por categoria.
+      popular_articles: Artigos populares
+      popular_articles_subtitle: O que outras pessoas estão lendo agora.
+      recommended: Artigos recomendados
+      recommended_subtitle: Artigos escolhidos para você começar.
+      popular_label: 'Tópicos populares:'
+      recommended_label: 'Tópicos recomendados:'
+      authors_others: "%{names} e %{count} outros"
+      primary_nav: Primário
     hero:
       sub_title: Pesquise os artigos aqui ou navegue pelas categorias abaixo.
     common:
@@ -405,16 +497,26 @@ pt_BR:
       others: outros
       by: Por
       no_articles: Não há artigos aqui
+      previous: Anterior
+      next: Próximo
+    article_actions:
+      label: Abrir em
+      view_markdown: Ver como Markdown
+      open_in_chatgpt: Abrir no ChatGPT
+      open_in_claude: Abrir no Claude
+      llm_prompt: "Leia o seguinte artigo e me ajude a entendê-lo: %{url}"
     footer:
       made_with: Criado com
     header:
       go_to_homepage: Site
       visit_website: Visite o site
       appearance:
+        title: Tema
         system: Sistema
         light: Claro
         dark: Escuro
       featured_articles: Artigos em Destaque
+      recommended: Artigos recomendados
       uncategorized: Não categorizado
     404:
       title: Página não encontrada
@@ -474,6 +576,12 @@ pt_BR:
   agent_capacity_policy:
     inbox_already_assigned: 'A caixa de entrada já foi atribuída a esta política'
   portals:
+    articles:
+      captain_not_available: 'A tradução requer que o Capitão esteja ativado para esta conta'
+      locale_not_available: 'Localidade não disponível neste portal'
+      category_not_found: 'Categoria não encontrada neste portal'
+      no_articles_found: 'Nenhum artigo encontrado para processar'
+      invalid_status: 'Valor de status inválido'
     send_instructions:
       email_required: 'E-mail é obrigatório'
       invalid_email_format: 'Formato inválido de e-mail'
@@ -482,3 +590,32 @@ pt_BR:
       subject: 'Termine de configurar %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Domínio personalizado não está configurado'
+  super_admin:
+    captain_model_overrides:
+      form:
+        helper_text: 'Deixe um modelo em branco para usar o padrão YAML para esse recurso AI.'
+        use_default: 'Usar padrão: %{model} (%{model_id})'
+      show:
+        summary: 'Ver roteamento de modelo'
+        provider: 'Fornecedor'
+        model: 'Modelo'
+      sources:
+        account_override: 'Substituição de cliente'
+        default: 'Padrão'
+      features:
+        editor: 'Editores'
+        assistant: 'Assistente'
+        copilot: 'Copiloto'
+        label_suggestion: 'Sugestão de etiqueta'
+        document_faq_generation: 'Documentar geração de FAQ'
+        conversation_faq_generation: 'Conversação de geração FAQ'
+        help_center_article_generation: 'Ajuda da geração de artigo central'
+        onboarding_content_generation: 'Integração de geração de conteúdo'
+        help_center_query_translation: 'Tradução da consulta central de ajuda'
+        audio_transcription: 'Transcrição de áudio'
+        help_center_search: 'Pesquisa central de ajuda'
+    push_diagnostics:
+      user_not_found: 'Usuário não encontrado.'
+      no_subscriptions_to_test: 'Selecione pelo menos uma assinatura para teste.'
+      no_subscriptions_to_delete: 'Selecione pelo menos uma assinatura para excluir.'
+      subscriptions_deleted: "Excluída(s) %{count} inscrição(ões). O(s) dispositivo(s) do usuário será(ão) registrado(s) novamente na próxima inicialização do aplicativo."

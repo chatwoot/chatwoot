@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Hiç",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Sohbet Oluşturuldu",
       "CONVERSATION_UPDATED": "Sohbet Güncellendi",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "Tarayıcı Dili",
       "MAIL_SUBJECT": "E-posta Konusu",
       "COUNTRY_NAME": "Ülke",
+      "COMPANY_NAME": "Şirket",
       "REFERER_LINK": "Yönlendiren Bağlantı",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Ekip",

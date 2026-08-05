@@ -56,7 +56,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
+    ...mapGetters({
+      uiFlags: 'contacts/getUIFlags',
+      currentChat: 'getSelectedChat',
+    }),
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
     },
@@ -185,7 +188,6 @@ export default {
           :status="contact.availability_status"
           :size="48"
           hide-offline-status
-          rounded-full
         />
       </div>
 
@@ -305,11 +307,12 @@ export default {
         <VoiceCallButton
           :phone="contact.phone_number"
           :contact-id="contact.id"
-          icon="i-ri-phone-fill"
-          size="sm"
-          :tooltip-label="$t('CONTACT_PANEL.CALL')"
-          slate
+          :conversation-id="currentChat?.id"
+          icon="i-lucide-phone"
+          sm
           faded
+          slate
+          :tooltip-label="$t('CONTACT_PANEL.CALL')"
         />
         <NextButton
           v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"

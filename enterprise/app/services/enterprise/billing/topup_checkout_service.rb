@@ -3,14 +3,14 @@ class Enterprise::Billing::TopupCheckoutService
 
   class Error < StandardError; end
 
-  TOPUP_OPTIONS = [
-    { credits: 1000, amount: 20.0, currency: 'usd' },
-    { credits: 2500, amount: 50.0, currency: 'usd' },
-    { credits: 6000, amount: 100.0, currency: 'usd' },
-    { credits: 12_000, amount: 200.0, currency: 'usd' }
-  ].freeze
+  TOPUP_OPTIONS_CONFIG = 'CAPTAIN_TOPUP_OPTIONS'.freeze
 
   pattr_initialize [:account!]
+
+  # Topup packages for the account's billing currency (used by the controller).
+  def available_options
+    topup_options
+  end
 
   def create_checkout_session(credits:)
     topup_option = validate_and_find_topup_option(credits)
@@ -79,7 +79,12 @@ class Enterprise::Billing::TopupCheckoutService
   def finalize_and_pay(invoice_id)
     Stripe::Invoice.finalize_invoice(invoice_id, { auto_advance: false })
     invoice = Stripe::Invoice.retrieve(invoice_id)
-    Stripe::Invoice.pay(invoice_id) unless invoice.status == 'paid'
+    return if invoice.status == 'paid'
+
+    Stripe::Invoice.pay(invoice_id)
+  rescue Stripe::CardError
+    Stripe::Invoice.void_invoice(invoice_id)
+    raise
   end
 
   def fulfill_credits(credits, topup_option)
@@ -95,6 +100,20 @@ class Enterprise::Billing::TopupCheckoutService
   end
 
   def find_topup_option(credits)
-    TOPUP_OPTIONS.find { |opt| opt[:credits] == credits.to_i }
+    topup_options.find { |opt| opt[:credits] == credits.to_i }
+  end
+
+  def topup_options
+    # Label rows with the currency they were configured under, so a DEFAULT fallback can't relabel USD amounts and undercharge.
+    options = configured_options
+    currency = options[account.billing_currency].present? ? account.billing_currency : Enterprise::Billing::Currencies::DEFAULT
+    rows = options[currency].presence || []
+    rows.map { |opt| { credits: opt['credits'].to_i, amount: opt['amount'].to_f, currency: currency } }
+  end
+
+  def configured_options
+    config = InstallationConfig.find_by(name: TOPUP_OPTIONS_CONFIG)&.value
+    config = JSON.parse(config) if config.is_a?(String)
+    config || {}
   end
 end

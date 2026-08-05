@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "گفتگو",
-      "CONTACT": "مخاطب"
+      "CONTACT": "مخاطب",
+      "COMPANY": "شرکت"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "متن",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "ویژگی‌های سفارشی",
       "CONVERSATION": "گفتگو",
-      "CONTACT": "مخاطب"
+      "CONTACT": "مخاطب",
+      "COMPANY": "شرکت"
     },
     "LIST": {
       "TABLE_HEADER": {

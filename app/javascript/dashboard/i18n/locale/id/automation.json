@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Tidak ada",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Percakapan Dibuat",
       "CONVERSATION_UPDATED": "Percakapan Diperbarui",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "Bahasa Browser",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "Negara",
+      "COMPANY_NAME": "Perusahaan",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Tim",

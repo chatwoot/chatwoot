@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Nincs",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Beszélgetés létrehozva",
       "CONVERSATION_UPDATED": "Beszélgetés frissítve",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "Böngésző nyelve",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "Ország",
+      "COMPANY_NAME": "Cég",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Csapat",

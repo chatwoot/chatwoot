@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n';
 import { useElementSize, useWindowSize } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
-import { useCaptain } from 'dashboard/composables/useCaptain';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 
@@ -19,9 +18,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  editorContent: {
-    type: String,
-    default: undefined,
+  // Signature-aware emptiness is computed by the parent (which has access to
+  // the signature + channel context) and passed in as a boolean.
+  hasContent: {
+    type: Boolean,
+    default: false,
   },
   conversationId: {
     type: Number,
@@ -33,16 +34,7 @@ const emit = defineEmits(['executeCopilotAction']);
 
 const { t } = useI18n();
 
-const { draftMessage } = useCaptain();
-
 const replyMode = useMapGetter('draftMessages/getReplyEditorMode');
-
-// When editorContent prop is passed, use it exclusively (even if empty)
-// This ensures each editor instance shows menu items based on its own content
-// Falls back to global draftMessage only when editorContent is not provided
-const effectiveContent = computed(() =>
-  props.editorContent !== undefined ? props.editorContent : draftMessage.value
-);
 
 // Selection-based menu items (when text is selected)
 const menuItems = computed(() => {
@@ -63,7 +55,7 @@ const menuItems = computed(() => {
   } else if (
     props.conversationId &&
     replyMode.value === REPLY_EDITOR_MODES.REPLY &&
-    effectiveContent.value
+    props.hasContent
   ) {
     items.push({
       label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.IMPROVE_REPLY'),
@@ -72,7 +64,7 @@ const menuItems = computed(() => {
     });
   }
 
-  if (effectiveContent.value) {
+  if (props.hasContent) {
     items.push(
       {
         label: t(

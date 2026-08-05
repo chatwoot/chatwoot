@@ -1,0 +1,88 @@
+{
+  "ONBOARDING_NEXT": {
+    "GREETING": "Hello {name}!",
+    "SUBTITLE": "Please review the following details",
+    "YOUR_DETAILS": "Your details",
+    "COMPANY_DETAILS": "Company details",
+    "FIELDS": {
+      "EMAIL": "Email",
+      "YOUR_ROLE": "Your Role",
+      "WEBSITE": "Website",
+      "LANGUAGE": "Language",
+      "TIMEZONE": "Timezone",
+      "COMPANY_SIZE": "Company Size",
+      "INDUSTRY": "Industry",
+      "REFERRAL_SOURCE": "Where did you find us?"
+    },
+    "PLACEHOLDERS": {
+      "SELECT_ROLE": "Select your role",
+      "ENTER_WEBSITE": "www.example.com",
+      "SELECT_LANGUAGE": "Select language",
+      "SELECT_TIMEZONE": "Select timezone",
+      "SELECT_COMPANY_SIZE": "Select company size",
+      "SELECT_INDUSTRY": "Select industry",
+      "SELECT_REFERRAL_SOURCE": "Select source"
+    },
+    "EMAIL_VERIFIED": "Email verified",
+    "SETTING_UP": "Setting up your account...",
+    "CONTINUE": "Continue",
+    "SAVING": "Saving...",
+    "VALIDATION_ERROR": "Please fill in all required fields",
+    "SUCCESS": "Details saved successfully",
+    "ERROR": "Could not save details. Please try again."
+  },
+  "ONBOARDING_INBOX_SETUP": {
+    "GREETING": "Let's set up a few things",
+    "SUBTITLE": "This will give you head-start in your workspace",
+    "CONTINUE": "Continue",
+    "SKIP": "Skip",
+    "ERROR": "Something went wrong. Please try again.",
+    "WHATSAPP_CONNECTED": "WhatsApp connected successfully",
+    "FACEBOOK_CONNECTED": "Facebook connected successfully",
+    "CREATED_FOR_YOU": {
+      "TITLE": "We've created the following for you",
+      "LIVE_CHAT": "Live Chat widget",
+      "LIVE_CHAT_DESCRIPTION": "Instant messenger for your website",
+      "LIVE_CHAT_STATUS": "Almost done…",
+      "LIVE_CHAT_READY": "Ready",
+      "HELP_CENTER": "Help Center",
+      "HELP_CENTER_DESCRIPTION": "Your digital encyclopedia",
+      "HELP_CENTER_GENERATING": "Creating your help center…",
+      "HELP_CENTER_ANALYZING_WEBSITE": "Analyzing your website…",
+      "HELP_CENTER_SETTING_UP_CATEGORIES": "Setting up categories…",
+      "HELP_CENTER_CURATING_ARTICLES": "Curating articles…",
+      "HELP_CENTER_ARTICLES": "Created {count} article | Created {count} articles",
+      "HELP_CENTER_CATEGORIES": "{count} category | {count} categories",
+      "HELP_CENTER_SUMMARY": "Created {count} article across {categories} | Created {count} articles across {categories}"
+    },
+    "CHANNELS": {
+      "TITLE": "Connect all your conversation channels",
+      "HEADER": "We found a few channels you can connect",
+      "CONNECT": "Connect",
+      "CONNECTED": "Connected",
+      "MORE_CHANNELS_NOTE": "Set up {email} and {voice} channels later inside the app",
+      "MORE_CHANNELS_EMAIL": "Email",
+      "MORE_CHANNELS_VOICE": "Voice",
+      "VIEW_ALL": "View all",
+      "GMAIL": "Gmail",
+      "OUTLOOK": "Outlook",
+      "OTHER_EMAIL": "Other Email Providers"
+    },
+    "CHANNELS_DIALOG": {
+      "TITLE": "Connect all your channels instantly",
+      "SUBTITLE": "Manage all of them from one dashboard. You can also set up and edit inboxes later inside the app.",
+      "NOTE": "SMS, API, Voice, and other email providers can be set up later from your dashboard.",
+      "CONNECT_TITLE": "Connect your {name} account",
+      "CONNECT_SUBTITLE": "Fill out these quick details",
+      "CONNECT": "Connect",
+      "BACK": "Back",
+      "SETUP_LATER": "Setup later in app",
+      "FACEBOOK_SUBTITLE": "Authorize access and choose a Page to connect.",
+      "FACEBOOK_LAUNCH": "Continue with Facebook",
+      "FACEBOOK_SELECT_PAGE": "Select a Page to connect",
+      "FACEBOOK_LOADING": "Loading your Facebook Pages…",
+      "FACEBOOK_NO_PAGES": "No connectable Pages found. All your Pages are already connected.",
+      "FACEBOOK_ERROR": "Couldn't connect to Facebook. Please try again."
+    }
+  }
+}

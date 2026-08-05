@@ -65,6 +65,7 @@ RSpec.describe Linear::IntegrationHelper do
 
     context 'when client secret is not configured' do
       let(:client_secret) { nil }
+      let(:valid_token) { 'any-token' }
 
       it 'returns nil' do
         expect(verify_linear_token(valid_token)).to be_nil

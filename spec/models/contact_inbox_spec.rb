@@ -56,16 +56,20 @@ RSpec.describe ContactInbox do
         whatsapp_inbox = create(:channel_whatsapp, sync_templates: false, validate_provider_config: false).inbox
         contact = create(:contact)
         valid_source_id = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: '1234567890')
+        valid_bsuid_source_id = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.2081978709342942')
+        valid_parent_bsuid_source_id = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'IN.ENT.9081726354')
         ci_character_in_source_id = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: '1234567890aaa')
         ci_plus_in_source_id = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: '+1234567890')
         expect(valid_source_id.valid?).to be(true)
+        expect(valid_bsuid_source_id.valid?).to be(true)
+        expect(valid_parent_bsuid_source_id.valid?).to be(true)
         expect(ci_character_in_source_id.valid?).to be(false)
         expect(ci_character_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^\\d{1,15}\\z)']
+          ["Source invalid source id for whatsapp inbox. valid Regex #{RegexHelper::WHATSAPP_CHANNEL_REGEX}"]
         )
         expect(ci_plus_in_source_id.valid?).to be(false)
         expect(ci_plus_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for whatsapp inbox. valid Regex (?-mix:^\\d{1,15}\\z)']
+          ["Source invalid source id for whatsapp inbox. valid Regex #{RegexHelper::WHATSAPP_CHANNEL_REGEX}"]
         )
       end
 
@@ -78,11 +82,11 @@ RSpec.describe ContactInbox do
         expect(valid_source_id.valid?).to be(true)
         expect(ci_character_in_source_id.valid?).to be(false)
         expect(ci_character_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for twilio sms inbox. valid Regex (?-mix:^\\+\\d{1,15}\\z)']
+          ["Source invalid source id for twilio sms inbox. valid Regex #{RegexHelper::TWILIO_CHANNEL_SMS_REGEX}"]
         )
         expect(ci_without_plus_in_source_id.valid?).to be(false)
         expect(ci_without_plus_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for twilio sms inbox. valid Regex (?-mix:^\\+\\d{1,15}\\z)']
+          ["Source invalid source id for twilio sms inbox. valid Regex #{RegexHelper::TWILIO_CHANNEL_SMS_REGEX}"]
         )
       end
 
@@ -90,17 +94,38 @@ RSpec.describe ContactInbox do
         twilio_whatsapp_inbox = create(:channel_twilio_sms, medium: :whatsapp).inbox
         contact = create(:contact)
         valid_source_id = build(:contact_inbox, contact: contact, inbox: twilio_whatsapp_inbox, source_id: 'whatsapp:+1234567890')
+        valid_bsuid_source_id = build(:contact_inbox, contact: contact, inbox: twilio_whatsapp_inbox, source_id: 'whatsapp:IN.2081978709342942')
+        valid_parent_bsuid_source_id = build(:contact_inbox, contact: contact, inbox: twilio_whatsapp_inbox, source_id: 'whatsapp:IN.ENT.9081726354')
         ci_character_in_source_id = build(:contact_inbox, contact: contact, inbox: twilio_whatsapp_inbox, source_id: 'whatsapp:+1234567890aaa')
         ci_without_plus_in_source_id = build(:contact_inbox, contact: contact, inbox: twilio_whatsapp_inbox, source_id: 'whatsapp:1234567890')
         expect(valid_source_id.valid?).to be(true)
+        expect(valid_bsuid_source_id.valid?).to be(true)
+        expect(valid_parent_bsuid_source_id.valid?).to be(true)
         expect(ci_character_in_source_id.valid?).to be(false)
         expect(ci_character_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for twilio whatsapp inbox. valid Regex (?-mix:^whatsapp:\\+\\d{1,15}\\z)']
+          ["Source invalid source id for twilio whatsapp inbox. valid Regex #{RegexHelper::TWILIO_CHANNEL_WHATSAPP_REGEX}"]
         )
         expect(ci_without_plus_in_source_id.valid?).to be(false)
         expect(ci_without_plus_in_source_id.errors.full_messages).to eq(
-          ['Source invalid source id for twilio whatsapp inbox. valid Regex (?-mix:^whatsapp:\\+\\d{1,15}\\z)']
+          ["Source invalid source id for twilio whatsapp inbox. valid Regex #{RegexHelper::TWILIO_CHANNEL_WHATSAPP_REGEX}"]
         )
+      end
+
+      it 'rejects whatsapp BSUID source_id values longer than 128 alphanumeric characters' do
+        whatsapp_inbox = create(:channel_whatsapp, sync_templates: false, validate_provider_config: false).inbox
+        contact = create(:contact)
+        contact_inbox = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: "IN.#{'1' * 129}")
+
+        expect(contact_inbox.valid?).to be(false)
+      end
+
+      it 'rejects twilio whatsapp parent BSUID source_id values longer than 128 alphanumeric characters' do
+        twilio_whatsapp_inbox = create(:channel_twilio_sms, medium: :whatsapp).inbox
+        contact = create(:contact)
+        contact_inbox = build(:contact_inbox, contact: contact, inbox: twilio_whatsapp_inbox,
+                                              source_id: "whatsapp:IN.ENT.#{'1' * 129}")
+
+        expect(contact_inbox.valid?).to be(false)
       end
     end
   end

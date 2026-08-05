@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "การสนทนา",
-      "CONTACT": "ผู้ติดต่อ"
+      "CONTACT": "ผู้ติดต่อ",
+      "COMPANY": "บริษัท"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "ข้อความ",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "แอตทริบิวต์ที่กำหนดเอง",
       "CONVERSATION": "การสนทนา",
-      "CONTACT": "รายชื่อผู้ติดต่อ"
+      "CONTACT": "รายชื่อผู้ติดต่อ",
+      "COMPANY": "บริษัท"
     },
     "LIST": {
       "TABLE_HEADER": {

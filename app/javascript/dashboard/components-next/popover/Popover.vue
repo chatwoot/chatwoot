@@ -1,7 +1,11 @@
 <script setup>
 import { ref, computed, watch, nextTick } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
-import { useBreakpoints, breakpointsTailwind } from '@vueuse/core';
+import {
+  useBreakpoints,
+  breakpointsTailwind,
+  useEventListener,
+} from '@vueuse/core';
 import { useDropdownPosition } from 'dashboard/composables/useDropdownPosition';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
@@ -11,6 +15,18 @@ const props = defineProps({
     type: String,
     default: 'end',
     validator: v => ['start', 'end'].includes(v),
+  },
+  disableMobileView: {
+    type: Boolean,
+    default: false,
+  },
+  closeOnScroll: {
+    type: Boolean,
+    default: true,
+  },
+  showContentBorder: {
+    type: Boolean,
+    default: true,
   },
 });
 
@@ -22,7 +38,8 @@ const popoverRef = ref(null);
 const mobileContentRef = ref(null);
 
 const breakpoints = useBreakpoints(breakpointsTailwind);
-const isMobile = breakpoints.smaller('md');
+const belowMd = breakpoints.smaller('md');
+const isMobile = computed(() => !props.disableMobileView && belowMd.value);
 const showPopover = computed(() => isActive.value && !isMobile.value);
 
 const { fixedPosition, updatePosition } = useDropdownPosition(
@@ -32,8 +49,12 @@ const { fixedPosition, updatePosition } = useDropdownPosition(
   { align: props.align }
 );
 
+const SCROLL_CLOSE_THRESHOLD = 24;
+const triggerTopAtOpen = ref(0);
+
 const show = async () => {
   isActive.value = true;
+  triggerTopAtOpen.value = triggerRef.value?.getBoundingClientRect().top ?? 0;
   if (!isMobile.value) {
     await nextTick();
     updatePosition();
@@ -46,6 +67,22 @@ const hide = () => {
   isActive.value = false;
   emit('hide');
 };
+
+// The teleported popover tracks its trigger while ancestors scroll; allow
+// small drift (trackpad inertia), but close once the trigger moves further.
+useEventListener(
+  window,
+  'scroll',
+  event => {
+    if (!props.closeOnScroll || !showPopover.value) return;
+    if (popoverRef.value?.contains(event.target)) return;
+    const top = triggerRef.value?.getBoundingClientRect().top ?? 0;
+    if (Math.abs(top - triggerTopAtOpen.value) > SCROLL_CLOSE_THRESHOLD) {
+      hide();
+    }
+  },
+  { capture: true, passive: true }
+);
 
 const toggle = async () => {
   if (isActive.value) hide();
@@ -99,9 +136,13 @@ defineExpose({ show, hide, toggle });
           { ignore: clickOutsideIgnore },
         ]"
         data-popover-content
-        class="relative w-full max-w-lg max-h-[calc(100vh-4rem)] mx-4 overflow-y-auto bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
+        class="relative flex flex-col w-full max-w-lg max-h-[calc(100vh-4rem)] mx-4 bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
       >
-        <slot name="content" :hide="hide" />
+        <div
+          class="flex-1 min-h-0 overflow-y-auto overscroll-contain rounded-xl"
+        >
+          <slot name="content" :hide="hide" />
+        </div>
       </div>
     </div>
 
@@ -113,9 +154,14 @@ defineExpose({ show, hide, toggle });
       data-popover-content
       :class="fixedPosition.class"
       :style="fixedPosition.style"
-      class="bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl overflow-y-auto max-h-[calc(100vh-2rem)]"
+      class="flex flex-col bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
     >
-      <slot name="content" :hide="hide" />
+      <div
+        class="flex-1 min-h-0 overflow-y-auto overscroll-contain rounded-xl"
+        :class="{ 'border border-n-strong': showContentBorder }"
+      >
+        <slot name="content" :hide="hide" />
+      </div>
     </div>
   </TeleportWithDirection>
 </template>

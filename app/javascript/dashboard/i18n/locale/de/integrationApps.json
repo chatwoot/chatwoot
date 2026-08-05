@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Posteingang auswählen"
         },
         "SUBMIT": "Erstellen",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Abbrechen"
       },
       "API": {

@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "マクロを削除する際にエラーが発生しました。後でもう一度お試しください。"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "マクロを編集",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "マクロの可視性",
         "GLOBAL": {
           "LABEL": "公開",
-          "DESCRIPTION": "このマクロは、このアカウント内のすべての担当者に公開されます。"
+          "DESCRIPTION": "このマクロは、このアカウント内のすべての担当者に公開されます。",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "非公開",

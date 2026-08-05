@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Không có",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Cuộc trò chuyện đã được tạo",
       "CONVERSATION_UPDATED": "Cuộc trò chuyện đã được cập nhật",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "Ngôn ngữ của Trình duyệt",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "Quốc gia",
+      "COMPANY_NAME": "Công ty",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Nhóm",

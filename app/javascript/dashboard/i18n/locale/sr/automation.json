@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Niko",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Razgovor je napravljen",
       "CONVERSATION_UPDATED": "Razgovor je izmenjen",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "Jezik pregledača",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "Država",
+      "COMPANY_NAME": "Firma",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Tim",

@@ -8,6 +8,7 @@ import { MACRO_ACTION_TYPES } from './constants';
 import { useAlert } from 'dashboard/composables';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
 import { useMacros } from 'dashboard/composables/useMacros';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 const store = useStore();
 const getters = useStoreGetters();
@@ -18,6 +19,7 @@ const router = useRouter();
 const { t } = useI18n();
 
 const { getMacroDropdownValues } = useMacros();
+const { isAdmin } = useAdmin();
 
 const macro = ref(null);
 const mode = ref('CREATE');
@@ -33,6 +35,9 @@ provide('macroActionTypes', macroActionTypes);
 
 const uiFlags = computed(() => getters['macros/getUIFlags'].value);
 const macroId = computed(() => route.params.macroId);
+const isPublicMacroReadOnly = computed(
+  () => macro.value?.visibility === 'global' && !isAdmin.value
+);
 
 const fetchDropdownData = () => {
   store.dispatch('agents/get');
@@ -92,7 +97,7 @@ const initNewMacro = () => {
         action_params: [],
       },
     ],
-    visibility: 'global',
+    visibility: isAdmin.value ? 'global' : 'personal',
   };
 };
 
@@ -110,6 +115,8 @@ watch(
 );
 
 const saveMacro = async macroData => {
+  if (isPublicMacroReadOnly.value) return;
+
   try {
     const action = mode.value === 'EDIT' ? 'macros/update' : 'macros/create';
     const successMessage =
@@ -136,6 +143,8 @@ const saveMacro = async macroData => {
     <MacroForm
       v-if="macro && !uiFlags.isFetchingItem"
       :macro-data="macro"
+      :can-manage-public-macros="isAdmin"
+      :read-only="isPublicMacroReadOnly"
       @update:macro-data="macro = $event"
       @submit="saveMacro"
     />

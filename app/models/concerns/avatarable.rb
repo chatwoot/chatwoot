@@ -4,6 +4,8 @@ module Avatarable
   extend ActiveSupport::Concern
   include Rails.application.routes.url_helpers
 
+  ALLOWED_AVATAR_CONTENT_TYPES = %w[image/jpeg image/png image/gif image/webp].freeze
+
   included do
     has_one_attached :avatar
     validate :acceptable_avatar, if: -> { avatar.changed? }
@@ -30,7 +32,6 @@ module Avatarable
 
     errors.add(:avatar, 'is too big') if avatar.byte_size > 15.megabytes
 
-    acceptable_types = ['image/jpeg', 'image/png', 'image/gif'].freeze
-    errors.add(:avatar, 'filetype not supported') unless acceptable_types.include?(avatar.content_type)
+    errors.add(:avatar, 'filetype not supported') unless ALLOWED_AVATAR_CONTENT_TYPES.include?(avatar.content_type)
   end
 end

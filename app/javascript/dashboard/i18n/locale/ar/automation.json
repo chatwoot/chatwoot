@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "إجراء واحد على الأقل مطلوب"
     },
     "NONE_OPTION": "لا شيء",
+    "LAST_RESPONDING_AGENT": "آخر وكيل قام بالرد",
     "EVENTS": {
       "CONVERSATION_CREATED": "تم إنشاء المحادثة",
       "CONVERSATION_UPDATED": "تم تحديث المحادثة",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "لغة المتصفح",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "الدولة",
+      "COMPANY_NAME": "المنشأة",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "المكلَّف",
       "TEAM_NAME": "الفريق",

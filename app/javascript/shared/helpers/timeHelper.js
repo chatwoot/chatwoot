@@ -1,6 +1,9 @@
 import {
   format,
   isSameYear,
+  isThisYear,
+  isToday,
+  isYesterday,
   fromUnixTime,
   formatDistanceToNow,
   differenceInDays,
@@ -31,6 +34,22 @@ export const messageTimestamp = (time, dateFormat = 'MMM d, yyyy') => {
     return format(messageTime, 'LLL d y, h:mm a');
   }
   return messageDate;
+};
+
+/**
+ * Formats a Unix timestamp relative to today: the time for today, a caller-
+ * supplied label for yesterday, and a date otherwise. The yesterday label is
+ * passed in so the caller keeps ownership of translation.
+ * @param {number} time - Unix timestamp.
+ * @param {string} yesterdayLabel - Localized label shown for yesterday.
+ * @returns {string} Formatted timestamp string.
+ */
+export const relativeDayTimestamp = (time, yesterdayLabel) => {
+  const date = fromUnixTime(time);
+  if (isToday(date)) return format(date, 'h:mm a');
+  if (isYesterday(date)) return yesterdayLabel;
+  if (isThisYear(date)) return format(date, 'MMM d');
+  return format(date, 'MMM d, yyyy');
 };
 
 /**
@@ -92,6 +111,29 @@ export const shortTimestamp = (time, withAgo = false) => {
     .replace(' year ago', `y${suffix}`)
     .replace(' years ago', `y${suffix}`);
   return convertToShortTime;
+};
+
+/**
+ * Formats a duration in seconds into mm:ss or hh:mm:ss.
+ * @param {number|string} durationInSeconds - Duration in seconds.
+ * @returns {string} Formatted duration string. Empty string for invalid input.
+ */
+export const formatDuration = durationInSeconds => {
+  if (durationInSeconds === null || durationInSeconds === undefined) return '';
+
+  const totalSeconds = Number(durationInSeconds);
+  if (Number.isNaN(totalSeconds) || totalSeconds < 0) return '';
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  const mm = minutes.toString().padStart(2, '0');
+  const ss = seconds.toString().padStart(2, '0');
+  if (hours > 0) {
+    return `${hours.toString().padStart(2, '0')}:${mm}:${ss}`;
+  }
+  return `${mm}:${ss}`;
 };
 
 /**

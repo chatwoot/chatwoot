@@ -88,6 +88,7 @@
       },
       "CARD": {
         "STATUS": {
+          "PROCESSING": "প্রক্রিয়াধীন",
           "COMPLETED": "Completed",
           "SCHEDULED": "Scheduled"
         },
@@ -146,6 +147,7 @@
       },
       "CARD": {
         "STATUS": {
+          "PROCESSING": "প্রক্রিয়াধীন",
           "COMPLETED": "Completed",
           "SCHEDULED": "Scheduled"
         },

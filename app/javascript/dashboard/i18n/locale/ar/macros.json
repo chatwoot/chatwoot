@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "حدث خطأ أثناء حذف الماكرو. الرجاء المحاولة مرة أخرى في وقت لاحق"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "تعديل الماكرو",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "الرؤية الخاصة بالماكرو",
         "GLOBAL": {
           "LABEL": "عامة",
-          "DESCRIPTION": "هذا الماكرو متاح بشكل عام لجميع الوكلاء في هذا الحساب."
+          "DESCRIPTION": "هذا الماكرو متاح بشكل عام لجميع الوكلاء في هذا الحساب.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "خاص",

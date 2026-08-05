@@ -8,6 +8,7 @@ class Api::V1::AccountsController < Api::BaseController
   before_action :ensure_account_name, only: [:create]
   before_action :validate_captcha, only: [:create]
   before_action :fetch_account, except: [:create]
+  before_action :validate_token_api_access, if: :authenticate_by_access_token?, except: [:create]
   before_action :check_authorization, except: [:create]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
@@ -17,7 +18,7 @@ class Api::V1::AccountsController < Api::BaseController
               with: :render_error_response
 
   def show
-    @latest_chatwoot_version = ::Redis::Alfred.get(::Redis::Alfred::LATEST_CHATWOOT_VERSION)
+    @latest_chatwoot_version = latest_chatwoot_version
     render 'api/v1/accounts/show', format: :json
   end
 
@@ -70,10 +71,15 @@ class Api::V1::AccountsController < Api::BaseController
 
   private
 
-  def enqueue_branding_enrichment
-    return if account_params[:email].blank?
+  def latest_chatwoot_version
+    Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)
+  end
 
-    Account::BrandingEnrichmentJob.perform_later(@account.id, account_params[:email])
+  def enqueue_branding_enrichment
+    email = account_params[:email].presence || @user&.email
+    return if email.blank?
+
+    Account::BrandingEnrichmentJob.perform_later(@account.id, email)
     Redis::Alfred.set(format(Redis::Alfred::ACCOUNT_ONBOARDING_ENRICHMENT, account_id: @account.id), '1', ex: 30)
   rescue StandardError => e
     # Enrichment is optional — never let queue/Redis failures abort signup
@@ -104,12 +110,18 @@ class Api::V1::AccountsController < Api::BaseController
     @current_account_user = @account.account_users.find_by(user_id: current_user.id)
   end
 
+  def validate_token_api_access
+    return if @account.api_and_webhooks_enabled?
+
+    render json: { error: 'API access is not enabled for this account' }, status: :forbidden
+  end
+
   def account_params
     params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :user_full_name)
   end
 
   def custom_attributes_params
-    params.permit(:industry, :company_size, :timezone)
+    params.permit(:industry, :company_size, :timezone, :referral_source, :user_role, :website)
   end
 
   def settings_params

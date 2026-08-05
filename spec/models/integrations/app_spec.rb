@@ -5,6 +5,8 @@ RSpec.describe Integrations::App do
   let(:app) { apps.find(id: app_name) }
   let(:account) { create(:account) }
 
+  before { allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true) }
+
   describe '#name' do
     let(:app_name) { 'slack' }
 
@@ -21,6 +23,24 @@ RSpec.describe Integrations::App do
     end
   end
 
+  describe '#visible_properties' do
+    context 'when the app has visible properties' do
+      let(:app_name) { 'dialogflow' }
+
+      it 'returns the configured property names as strings' do
+        expect(app.visible_properties).to contain_exactly('project_id', 'region', 'language_code')
+      end
+    end
+
+    context 'when the app has no visible properties configured' do
+      let(:app_name) { 'webhook' }
+
+      it 'defaults to an empty list' do
+        expect(app.visible_properties).to eq([])
+      end
+    end
+  end
+
   describe '#action' do
     let(:app_name) { 'slack' }
 
@@ -30,12 +50,13 @@ RSpec.describe Integrations::App do
 
     context 'when the app is slack' do
       it 'returns the action URL with client_id and redirect_uri' do
-        with_modified_env SLACK_CLIENT_ID: 'dummy_client_id' do
-          expect(app.action).to include('client_id=dummy_client_id')
-          expect(app.action).to include(
-            "/app/accounts/#{account.id}/settings/integrations/slack"
-          )
-        end
+        allow(GlobalConfigService).to receive(:load).and_call_original
+        allow(GlobalConfigService).to receive(:load).with('SLACK_CLIENT_ID', nil).and_return('dummy_client_id')
+
+        expect(app.action).to include('client_id=dummy_client_id')
+        expect(app.action).to include(
+          "/app/accounts/#{account.id}/settings/integrations/slack"
+        )
       end
     end
   end
@@ -45,9 +66,9 @@ RSpec.describe Integrations::App do
 
     context 'when the app is slack' do
       it 'returns true if SLACK_CLIENT_SECRET is present' do
-        with_modified_env SLACK_CLIENT_SECRET: 'random_secret' do
-          expect(app.active?(account)).to be true
-        end
+        allow(GlobalConfigService).to receive(:load).with('SLACK_CLIENT_SECRET', nil).and_return('random_secret')
+
+        expect(app.active?(account)).to be true
       end
     end
 

@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "Beim Löschen des Makros ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "Makro bearbeiten",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "Makrosichtbarkeit",
         "GLOBAL": {
           "LABEL": "Öffentlich",
-          "DESCRIPTION": "Dieses Makro ist öffentlich für alle Agenten in diesem Konto verfügbar."
+          "DESCRIPTION": "Dieses Makro ist öffentlich für alle Agenten in diesem Konto verfügbar.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "Privat",

@@ -26,13 +26,15 @@ module Enterprise::Concerns::Article
       # if using add the filter block to the below query
       # .filter { |ae| ae.neighbor_distance <= distance_threshold }
 
-      article_ids = ArticleEmbedding.where(article_id: filtered_article_ids)
-                                    .nearest_neighbors(:embedding, embedding, distance: 'cosine')
-                                    .limit(5)
-                                    .pluck(:article_id)
+      limit = params.key?(:limit) ? params[:limit] : 5
+
+      article_embeddings = ArticleEmbedding.where(article_id: filtered_article_ids)
+                                           .nearest_neighbors(:embedding, embedding, distance: 'cosine')
+      article_embeddings = article_embeddings.limit(limit) if limit.present?
+      article_ids = article_embeddings.pluck(:article_id)
 
       # Fetch the articles by the IDs obtained from the nearest neighbors search
-      where(id: article_ids)
+      where(id: article_ids).in_order_of(:id, article_ids)
     end
   end
 
@@ -65,7 +67,7 @@ module Enterprise::Concerns::Article
       { role: 'system', content: article_to_search_terms_prompt },
       { role: 'user', content: "title: #{title} \n description: #{description} \n content: #{content}" }
     ]
-    headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{ENV.fetch('OPENAI_API_KEY', nil)}" }
+    headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{openai_api_key}" }
     body = { model: 'gpt-4o', messages: messages, response_format: { type: 'json_object' } }.to_json
     Rails.logger.info "Requesting Chat GPT with body: #{body}"
     response = HTTParty.post(openai_api_url, headers: headers, body: body)
@@ -75,8 +77,12 @@ module Enterprise::Concerns::Article
 
   private
 
+  def openai_api_key
+    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value.presence || raise(I18n.t('captain.api_key_missing'))
+  end
+
   def openai_api_url
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || 'https://api.openai.com/'
+    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence || 'https://api.openai.com/'
     endpoint = endpoint.chomp('/')
     "#{endpoint}/v1/chat/completions"
   end
