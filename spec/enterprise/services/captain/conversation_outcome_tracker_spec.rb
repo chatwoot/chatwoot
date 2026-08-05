@@ -18,7 +18,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
 
   describe '#record_eligibility' do
     it 'creates the initial episode anchored to the demand time' do
-      eligible_at = 2.minutes.ago
+      eligible_at = 2.minutes.ago.change(usec: 0)
 
       episode = tracker.record_eligibility(at: eligible_at)
 
@@ -44,21 +44,21 @@ RSpec.describe Captain::ConversationOutcomeTracker do
     it 'lowers the initial anchor when an earlier eligible message arrives late' do
       episode = tracker.record_eligibility(at: Time.current)
 
-      earlier_eligible_at = 2.minutes.ago
+      earlier_eligible_at = 2.minutes.ago.change(usec: 0)
       tracker.record_eligibility(at: earlier_eligible_at)
 
       expect(episode.reload.started_at).to eq(earlier_eligible_at)
     end
 
     it 'inserts a missing initial episode before an existing reopen boundary' do
-      boundary_at = 1.minute.ago
+      boundary_at = 1.minute.ago.change(usec: 0)
       reopen_episode = create(
         :conversation_outcome,
         account: account, assistant: assistant, conversation: conversation, inbox: inbox,
         episode_trigger: 'reopen', started_at: boundary_at
       )
 
-      eligible_at = 10.minutes.ago
+      eligible_at = 10.minutes.ago.change(usec: 0)
       tracker.record_eligibility(at: eligible_at)
 
       initial = episodes.first
@@ -76,11 +76,11 @@ RSpec.describe Captain::ConversationOutcomeTracker do
   end
 
   describe '#record_reopen' do
-    let(:initial_at) { 30.minutes.ago }
+    let(:initial_at) { 30.minutes.ago.change(usec: 0) }
     let!(:initial) { tracker.record_eligibility(at: initial_at) }
 
     it 'closes the open episode and opens a reopen episode' do
-      boundary_at = 5.minutes.ago
+      boundary_at = 5.minutes.ago.change(usec: 0)
 
       tracker.record_reopen(at: boundary_at)
 
@@ -103,8 +103,8 @@ RSpec.describe Captain::ConversationOutcomeTracker do
     end
 
     it 'slots boundaries delivered in reverse order into chronological windows' do
-      later_at = 5.minutes.ago
-      earlier_at = 15.minutes.ago
+      later_at = 5.minutes.ago.change(usec: 0)
+      earlier_at = 15.minutes.ago.change(usec: 0)
 
       tracker.record_reopen(at: later_at)
       tracker.record_reopen(at: earlier_at)
@@ -132,7 +132,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
     end
 
     it 'moves a resolution recorded before a late boundary into the covering episode' do
-      resolved_at = 2.minutes.ago
+      resolved_at = 2.minutes.ago.change(usec: 0)
       tracker.record_resolution(at: resolved_at)
 
       tracker.record_reopen(at: 10.minutes.ago)
@@ -164,7 +164,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
       message = create(
         :message,
         account: account, inbox: inbox, conversation: conversation,
-        sender: assistant, message_type: :outgoing, created_at: 20.minutes.ago
+        sender: assistant, message_type: :outgoing, created_at: 20.minutes.ago.change(usec: 0)
       )
 
       tracker.record_captain_reply(message: message)
@@ -207,7 +207,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
     let!(:initial) { tracker.record_eligibility(at: 30.minutes.ago) }
 
     it 'preserves the first handoff and its reason category within the episode' do
-      first_handoff_at = 2.minutes.ago
+      first_handoff_at = 2.minutes.ago.change(usec: 0)
       tracker.record_handoff(at: first_handoff_at, reason_category: 'missing_knowledge')
 
       tracker.record_handoff(at: Time.current, reason_category: 'unsupported_request')
@@ -219,7 +219,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
     end
 
     it 'converges to the earliest handoff when events arrive out of order' do
-      earliest_handoff_at = 5.minutes.ago
+      earliest_handoff_at = 5.minutes.ago.change(usec: 0)
       tracker.record_handoff(at: 2.minutes.ago, reason_category: 'unsupported_request')
 
       tracker.record_handoff(at: earliest_handoff_at, reason_category: 'missing_knowledge')
@@ -239,7 +239,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
       message = create(
         :message,
         account: account, inbox: inbox, conversation: conversation,
-        sender: agent, message_type: :outgoing, created_at: 5.minutes.ago
+        sender: agent, message_type: :outgoing, created_at: 5.minutes.ago.change(usec: 0)
       )
 
       tracker.record_human_reply(message: message)
@@ -254,7 +254,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
     it 'attributes a delayed resolution to the episode active at its event time' do
       tracker.record_reopen(at: 10.minutes.ago)
 
-      resolved_at = 20.minutes.ago
+      resolved_at = 20.minutes.ago.change(usec: 0)
       tracker.record_resolution(at: resolved_at)
 
       expect(initial.reload.resolved_at).to eq(resolved_at)
@@ -262,7 +262,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
     end
 
     it 'preserves the latest resolution within an episode' do
-      latest_resolution_at = Time.current
+      latest_resolution_at = Time.current.change(usec: 0)
       tracker.record_resolution(at: latest_resolution_at)
 
       tracker.record_resolution(at: 1.minute.ago)
