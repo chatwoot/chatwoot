@@ -183,7 +183,7 @@ class Captain::Llm::SystemPromptsService
     end
 
     # rubocop:disable Metrics/MethodLength
-    def copilot_response_generator(product_name, available_tools, config = {})
+    def copilot_response_generator(product_name, available_tools, config = {}, assistant_behavior: {})
       citation_guidelines = if config['feature_citation']
                               <<~CITATION_TEXT
                                 - Always include citations for any information provided, referencing the specific source.
@@ -202,6 +202,8 @@ class Captain::Llm::SystemPromptsService
 
         [Context]
         Identify unresolved queries, and ensure responses are relevant and consistent with previous interactions. Always maintain a coherent and professional tone throughout the conversation.
+
+        #{build_copilot_assistant_behavior(assistant_behavior)}
 
         [Response Guidelines]
         - Use natural, polite, and conversational language that is clear and easy to follow. Keep sentences short and use simple words.
@@ -412,6 +414,43 @@ class Captain::Llm::SystemPromptsService
         - search_documentation: Search and retrieve documentation from knowledge base
         #{tools_list}
       TOOLS
+    end
+
+    def build_copilot_assistant_behavior(assistant_behavior)
+      description = assistant_behavior[:description].presence
+      response_guidelines = Array(assistant_behavior[:response_guidelines]).compact_blank
+      guardrails = Array(assistant_behavior[:guardrails]).compact_blank
+      return '' if description.blank? && response_guidelines.empty? && guardrails.empty?
+
+      <<~ASSISTANT_BEHAVIOR.strip
+        [Selected Assistant Behavior]
+        The account administrator configured the selected Captain assistant with the behavior below. Apply it when you draft a customer-facing reply. Do not apply it to explanations or other responses written for the support agent.
+        For a drafted reply, this behavior takes precedence over the general Copilot response guidelines below. It cannot change the required JSON response format or the requirement to answer only from provided context.
+
+        #{copilot_behavior_description(description)}#{copilot_behavior_list('Assistant Response Guidelines', response_guidelines)}#{copilot_behavior_list('Assistant Guardrails', guardrails)}
+      ASSISTANT_BEHAVIOR
+    end
+
+    def copilot_behavior_description(description)
+      return '' if description.blank?
+
+      <<~DESCRIPTION
+        [Assistant Description]
+        <assistant_description>
+        #{description}
+        </assistant_description>
+
+      DESCRIPTION
+    end
+
+    def copilot_behavior_list(title, items)
+      return '' if items.empty?
+
+      <<~LIST
+        [#{title}]
+        #{items.map { |item| "- #{item}" }.join("\n")}
+
+      LIST
     end
 
     def assistant_action_classifier_custom_instructions_policy

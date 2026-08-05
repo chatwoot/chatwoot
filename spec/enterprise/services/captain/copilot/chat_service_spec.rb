@@ -173,6 +173,30 @@ RSpec.describe Captain::Copilot::ChatService do
       expect(viewing_history[:content]).to include(conversation.display_id.to_s)
       expect(viewing_history[:content]).to include(contact.id.to_s)
     end
+
+    it 'includes V2 assistant behavior for customer reply drafts' do
+      assistant.update!(
+        description: 'Help event planners manage their guest communication.',
+        response_guidelines: ['Use a warm tone.', 'Keep replies concise.'],
+        guardrails: ['Do not promise actions that have not happened.'],
+        config: assistant.config.merge('instructions' => 'Legacy instructions must not be used.')
+      )
+
+      system_prompt = described_class.new(assistant, {}).messages.first[:content]
+
+      expect(system_prompt).to include(
+        '[Selected Assistant Behavior]',
+        'Apply it when you draft a customer-facing reply.',
+        'this behavior takes precedence over the general Copilot response guidelines',
+        'Help event planners manage their guest communication.',
+        '[Assistant Response Guidelines]',
+        '- Use a warm tone.',
+        '- Keep replies concise.',
+        '[Assistant Guardrails]',
+        '- Do not promise actions that have not happened.'
+      )
+      expect(system_prompt).not_to include('Legacy instructions must not be used.')
+    end
   end
 
   describe 'message persistence behavior' do
