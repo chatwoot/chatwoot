@@ -3,6 +3,24 @@ class Captain::Conversation::InactivityFollowUpService
 
   pattr_initialize [:conversation!, :assistant!, :inactivity_cutoff_time!]
 
+  def self.expired_conversation_ids(inbox:, cutoff_time:)
+    Message.outgoing
+           .where(inbox_id: inbox.id)
+           .where('messages.additional_attributes @> ?', { MESSAGE_ATTRIBUTE => true }.to_json)
+           .where('messages.created_at < ?', cutoff_time)
+           .where(<<~SQL.squish, Message.message_types[:incoming])
+             NOT EXISTS (
+               SELECT 1
+               FROM messages AS newer_incoming_messages
+               WHERE newer_incoming_messages.conversation_id = messages.conversation_id
+                 AND newer_incoming_messages.message_type = ?
+                 AND newer_incoming_messages.id > messages.id
+             )
+           SQL
+           .reorder(nil)
+           .select(:conversation_id)
+  end
+
   def active_message
     follow_up_message = conversation.messages.outgoing
                                     .where('additional_attributes @> ?', { MESSAGE_ATTRIBUTE => true }.to_json)

@@ -84,15 +84,22 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   def candidate_pending_conversations(inbox)
-    cutoff_time = if captain_assistant.follow_up_before_resolving?
-                    [inactivity_cutoff_time, follow_up_resolution_cutoff_time].max
-                  else
-                    inactivity_cutoff_time
-                  end
+    pending_conversations = inbox.conversations.pending
+    initial_candidates = pending_conversations.where('conversations.last_activity_at < ?', inactivity_cutoff_time)
+    return initial_candidates.limit(Limits::BULK_ACTIONS_LIMIT) unless captain_assistant.follow_up_before_resolving?
 
-    inbox.conversations.pending
-         .where('last_activity_at < ?', cutoff_time)
-         .limit(Limits::BULK_ACTIONS_LIMIT)
+    expired_follow_up_candidates = pending_conversations
+                                   .where('conversations.last_activity_at < ?', follow_up_resolution_cutoff_time)
+                                   .where(id: expired_follow_up_conversation_ids(inbox))
+
+    initial_candidates.or(expired_follow_up_candidates).limit(Limits::BULK_ACTIONS_LIMIT)
+  end
+
+  def expired_follow_up_conversation_ids(inbox)
+    Captain::Conversation::InactivityFollowUpService.expired_conversation_ids(
+      inbox: inbox,
+      cutoff_time: follow_up_resolution_cutoff_time
+    )
   end
 
   def inactive_for_initial_action?(conversation) = conversation.last_activity_at < inactivity_cutoff_time
