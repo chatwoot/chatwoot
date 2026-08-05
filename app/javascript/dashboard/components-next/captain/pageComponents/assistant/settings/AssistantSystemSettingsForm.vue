@@ -27,6 +27,10 @@ const isCaptainV2Enabled = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_V2)
 );
 
+const isInactivityResolutionDisabled = computed(
+  () => props.assistant.config?.auto_resolve_mode === 'disabled'
+);
+
 const initialState = {
   handoffMessage: '',
   resolutionMessage: '',
@@ -59,6 +63,10 @@ const inactivityThresholdLabel = computed(() => {
 });
 
 const selectedInactivityResolutionSummary = computed(() => {
+  if (isInactivityResolutionDisabled.value) {
+    return t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DISABLED_SUMMARY');
+  }
+
   const resolutionSummary = t(
     'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.CURRENT_SETTING',
     {
@@ -71,6 +79,12 @@ const selectedInactivityResolutionSummary = computed(() => {
   return `${resolutionSummary} ${t(
     'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.DISABLED_SUMMARY'
   )}`;
+});
+
+const inactivityResolutionDescription = computed(() => {
+  return isInactivityResolutionDisabled.value
+    ? t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DISABLED_DESCRIPTION')
+    : t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DESCRIPTION');
 });
 
 const inactivityHourOptions = Array.from({ length: 25 }, (_, hours) => ({
@@ -229,7 +243,7 @@ watch(
             {{ t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TITLE') }}
           </h4>
           <p class="text-sm text-n-slate-11">
-            {{ t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DESCRIPTION') }}
+            {{ inactivityResolutionDescription }}
           </p>
           <p
             v-if="!isInactivityResolutionSettingsExpanded"

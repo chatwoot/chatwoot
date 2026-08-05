@@ -603,6 +603,8 @@
         "INACTIVITY_RESOLUTION": {
           "TITLE": "Inactive conversations",
           "DESCRIPTION": "Choose when Captain should act on conversations that are waiting for the customer.",
+          "DISABLED_DESCRIPTION": "Automatic resolution is turned off. The inactivity settings will apply when it is turned on.",
+          "DISABLED_SUMMARY": "Captain will not resolve inactive conversations.",
           "CURRENT_SETTING": "Captain acts after {duration} of inactivity.",
           "DURATION_HOURS": "{count} hour | {count} hours",
           "DURATION_MINUTES": "{count} minute | {count} minutes",
