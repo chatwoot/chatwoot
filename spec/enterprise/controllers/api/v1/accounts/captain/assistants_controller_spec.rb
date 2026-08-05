@@ -287,7 +287,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
 
       it 'updates inactive conversation settings for Captain v2' do
-        account.enable_features('captain_integration_v2')
+        account.enable_features!('captain_integration_v2')
 
         patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
               params: {
