@@ -69,6 +69,17 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
       end
 
+      it 'does not write a response if an AgentBot takes over during generation' do
+        allow(mock_llm_chat_service).to receive(:generate_response) do
+          conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
+          { 'response' => 'Hey, welcome to Captain Specs' }
+        end
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(conversation.messages.outgoing).to be_empty
+      end
+
       it 'does not emit captain lifecycle events' do
         expect(Captain::ConversationEvents).not_to receive(:response_completed)
 

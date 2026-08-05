@@ -30,7 +30,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
     note = nil
     handoff_result = conversation.with_lock do
-      next :changed unless conversation.pending?
+      next :changed unless conversation.captain_processing_allowed?
       next :stale if newer_customer_message_arrived?(tool_context.state)
 
       # post the reason as a private note
@@ -62,6 +62,8 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   end
 
   def trigger_legacy_handoff(tool_context, conversation, reason)
+    return :changed unless conversation.reload.captain_processing_allowed?
+
     note = conversation.messages.create!(
       message_type: :outgoing, private: true, sender: @assistant,
       account: conversation.account, inbox: conversation.inbox, content: reason

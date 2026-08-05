@@ -94,6 +94,16 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           expect(conversation.reload.status).to eq('pending')
         end
 
+        it 'skips the handoff when an AgentBot takes over' do
+          conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
+
+          expect do
+            result = tool.perform(tool_context, reason: 'Customer needs specialized support')
+            expect(result).to eq('Handoff skipped because the conversation changed')
+          end.not_to change(Message, :count)
+          expect(conversation.reload.status).to eq('pending')
+        end
+
         it 'emits a captain handoff event with the tool source after the locked handoff completes' do
           expect(Captain::ConversationEvents).to receive(:handed_off)
             .with(conversation: conversation, assistant: assistant, source: 'tool', at: kind_of(Time))
