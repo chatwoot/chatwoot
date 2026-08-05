@@ -75,7 +75,11 @@ defineExpose({ validate });
 <template>
   <div
     class="flex flex-col gap-4 group/audience-group"
-    :class="{ 'p-3 border border-n-weak bg-n-alpha-1 rounded-lg': !isRoot }"
+    :class="
+      isRoot
+        ? 'p-4 border border-n-weak rounded-xl'
+        : 'p-3 border border-n-weak bg-n-alpha-1 rounded-lg'
+    "
   >
     <div class="flex items-center gap-2">
       <div class="flex items-center gap-1.5 text-sm text-n-slate-11">
