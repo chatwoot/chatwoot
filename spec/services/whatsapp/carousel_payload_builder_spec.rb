@@ -106,5 +106,35 @@ describe Whatsapp::CarouselPayloadBuilder do
         expect { described_class.new(message).perform }.to raise_error(StandardError, /at least 2 cards/)
       end
     end
+
+    context 'with a card missing media_url' do
+      let(:message) do
+        create(:message,
+               conversation: conversation,
+               inbox: inbox,
+               account: account,
+               content_type: :cards,
+               content: 'Browse products',
+               content_attributes: {
+                 body_text: 'Check these out',
+                 items: [
+                   {
+                     title: 'Product 1',
+                     media_url: '',
+                     actions: [{ type: 'url', text: 'Buy Now', uri: 'https://example.com/buy/1' }]
+                   },
+                   {
+                     title: 'Product 2',
+                     media_url: 'https://example.com/img2.jpg',
+                     actions: [{ type: 'url', text: 'Buy Now', uri: 'https://example.com/buy/2' }]
+                   }
+                 ]
+               })
+      end
+
+      it 'raises error instead of silently dropping the header' do
+        expect { described_class.new(message).perform }.to raise_error(StandardError, /media_url/)
+      end
+    end
   end
 end

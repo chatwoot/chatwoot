@@ -32,6 +32,17 @@ class Whatsapp::CarouselPayloadBuilder
     raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'Carousel body text is required' if body_text.blank?
     raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'Carousel items are required' if items.blank?
     raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'Interactive carousel messages require at least 2 cards' if items.size < 2
+
+    validate_card_media!
+  end
+
+  # WhatsApp interactive media carousels require every card to include an
+  # image/video header; a blank media_url is otherwise silently dropped by
+  # build_header's .compact, letting Chatwoot accept a payload the provider rejects.
+  def validate_card_media!
+    return if items.all? { |item| item.with_indifferent_access[:media_url].present? }
+
+    raise CustomExceptions::Whatsapp::InvalidInteractivePayload, 'Carousel cards require a media_url'
   end
 
   def body_text
