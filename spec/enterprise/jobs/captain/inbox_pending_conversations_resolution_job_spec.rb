@@ -34,8 +34,10 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   context 'when another bot takes over before the job runs' do
     it 'leaves AgentBot-owned conversations pending' do
       resolvable_pending_conversation.update!(assignee_agent_bot: create(:agent_bot, account: inbox.account))
+      job = described_class.new
+      allow(job).to receive(:resolvable_pending_conversations).and_return([resolvable_pending_conversation])
 
-      described_class.perform_now(inbox)
+      job.perform(inbox)
 
       expect(resolvable_pending_conversation.reload.status).to eq('pending')
     end

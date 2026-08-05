@@ -28,6 +28,8 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     Current.executed_by = inbox.captain_assistant
 
     resolvable_pending_conversations(inbox).each do |conversation|
+      next unless conversation.reload.captain_processing_allowed?
+
       create_resolution_message(conversation, inbox)
       conversation.resolved!
       Captain::ConversationEvents.resolved(
