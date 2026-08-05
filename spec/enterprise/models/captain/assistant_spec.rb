@@ -23,6 +23,24 @@ RSpec.describe Captain::Assistant do
 
       expect(assistant).not_to be_valid
       expect(assistant.errors[:auto_resolve_after]).to be_present
+
+      assistant.auto_resolve_after = 61.5
+
+      expect(assistant).not_to be_valid
+      expect(assistant.errors[:auto_resolve_after]).to be_present
+    end
+
+    it 'rounds the inactivity timer to the nearest five minutes' do
+      assistant.auto_resolve_after = 61
+
+      assistant.validate
+
+      expect(assistant.auto_resolve_after).to eq(60)
+
+      assistant.auto_resolve_after = 63
+      assistant.validate
+
+      expect(assistant.auto_resolve_after).to eq(65)
     end
   end
 

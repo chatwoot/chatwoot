@@ -23,6 +23,7 @@ class Captain::Assistant < ApplicationRecord
   DEFAULT_INACTIVITY_THRESHOLD_MINUTES = 60
   MINIMUM_INACTIVITY_THRESHOLD_MINUTES = 5
   MAXIMUM_INACTIVITY_THRESHOLD_MINUTES = 1.day.in_minutes.to_i
+  INACTIVITY_THRESHOLD_STEP_MINUTES = 5
 
   include Avatarable
   include Concerns::CaptainToolsHelpers
@@ -50,6 +51,7 @@ class Captain::Assistant < ApplicationRecord
                  :auto_resolve_mode, :auto_resolve_after, :send_inactivity_resolution_message
 
   before_validation :set_default_auto_resolve_mode, on: :create
+  before_validation :normalize_auto_resolve_after
 
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
@@ -155,6 +157,14 @@ class Captain::Assistant < ApplicationRecord
   end
 
   private
+
+  def normalize_auto_resolve_after
+    threshold = Integer(auto_resolve_after.to_s, exception: false)
+    return unless threshold&.between?(MINIMUM_INACTIVITY_THRESHOLD_MINUTES, MAXIMUM_INACTIVITY_THRESHOLD_MINUTES)
+
+    # Keep API values aligned with the five-minute steps available in the settings UI.
+    self.auto_resolve_after = (threshold.fdiv(INACTIVITY_THRESHOLD_STEP_MINUTES).round * INACTIVITY_THRESHOLD_STEP_MINUTES)
+  end
 
   def set_default_auto_resolve_mode
     return if config.key?('auto_resolve_mode')
