@@ -11,7 +11,7 @@ describe CaptainListener do
     let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
 
     let(:event_name) { :conversation_resolved }
-    let(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
+    let(:event) { Events::Base.new(event_name, Time.zone.now.change(usec: 0), conversation: conversation) }
 
     before do
       create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
@@ -77,7 +77,8 @@ describe CaptainListener do
         account: account,
         assistant: assistant,
         conversation: conversation,
-        inbox: inbox
+        inbox: inbox,
+        started_at: 1.hour.ago
       )
     end
 
@@ -88,7 +89,8 @@ describe CaptainListener do
         inbox: inbox,
         conversation: conversation,
         sender: assistant,
-        message_type: :outgoing
+        message_type: :outgoing,
+        created_at: 5.minutes.ago.change(usec: 0)
       )
       event = Events::Base.new(:message_created, message.created_at, message: message)
 
@@ -124,7 +126,8 @@ describe CaptainListener do
         inbox: inbox,
         conversation: conversation,
         sender: user,
-        message_type: :outgoing
+        message_type: :outgoing,
+        created_at: 5.minutes.ago.change(usec: 0)
       )
       event = Events::Base.new(:message_created, message.created_at, message: message)
 
