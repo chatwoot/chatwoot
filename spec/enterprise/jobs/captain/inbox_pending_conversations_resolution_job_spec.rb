@@ -137,6 +137,20 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(resolvable_pending_conversation.messages.outgoing).to be_empty
     end
 
+    it 'skips auto-action if an AgentBot takes over during evaluation' do
+      mock_service = instance_double(Captain::ConversationCompletionService)
+      allow(mock_service).to receive(:perform) do
+        resolvable_pending_conversation.update!(assignee_agent_bot: create(:agent_bot, account: inbox.account))
+        { complete: true, reason: 'Customer question was answered' }
+      end
+      allow(Captain::ConversationCompletionService).to receive(:new).and_return(mock_service)
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+      expect(resolvable_pending_conversation.messages.outgoing).to be_empty
+    end
+
     it 'uses legacy time-based resolve when configured on the assistant' do
       captain_assistant.update!(auto_resolve_mode: 'legacy')
       allow(Captain::ConversationCompletionService).to receive(:new)

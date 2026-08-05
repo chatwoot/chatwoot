@@ -82,7 +82,7 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
-    conversation.captain_response_allowed? && message.captain_response_triggering? && inbox.captain_assistant.present?
+    conversation.captain_processing_allowed? && message.captain_response_triggering? && inbox.captain_assistant.present?
   end
 
   def perform_handoff

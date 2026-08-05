@@ -12,6 +12,10 @@ module Enterprise::Inbox
     super() || (include_captain && captain_active?)
   end
 
+  def external_bot_active?
+    active_bot?(include_captain: false)
+  end
+
   def captain_active?
     captain_assistant.present? && more_responses?
   end

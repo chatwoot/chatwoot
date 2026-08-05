@@ -7,7 +7,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   def perform(inbox)
     captain_assistant = inbox.captain_assistant
     return if captain_assistant.blank? || captain_assistant.inactive_conversation_resolution_disabled?
-    return if inbox.active_bot?(include_captain: false)
+    return if inbox.external_bot_active?
 
     if evaluate_conversation_completion?(captain_assistant, inbox.account)
       perform_with_evaluation(inbox)
@@ -69,7 +69,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   def still_resolvable_after_evaluation?(conversation)
     conversation.reload
-    conversation.pending? && conversation.last_activity_at < auto_resolve_cutoff_time
+    conversation.captain_processing_allowed? && conversation.last_activity_at < auto_resolve_cutoff_time
   rescue ActiveRecord::RecordNotFound
     false
   end

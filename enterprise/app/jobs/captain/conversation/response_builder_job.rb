@@ -14,7 +14,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @assistant = assistant
     @responding_to_message_id = responding_to_message_id if captain_v2_enabled?
 
-    return unless @conversation.captain_response_allowed?
+    return unless @conversation.captain_processing_allowed?
 
     Current.executed_by = @assistant
 
