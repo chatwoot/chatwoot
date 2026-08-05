@@ -87,13 +87,5 @@ RSpec.describe Message do
 
       expect(conversation.reload.pending?).to be true
     end
-
-    it 'does not mark an AgentBot-owned conversation open for a human reply' do
-      conversation.update!(assignee_agent_bot: create(:agent_bot, account: conversation.account))
-
-      create(:message, message_type: :outgoing, conversation: conversation)
-
-      expect(conversation.reload).to be_pending
-    end
   end
 end

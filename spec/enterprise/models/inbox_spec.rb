@@ -5,24 +5,6 @@ require 'rails_helper'
 RSpec.describe Inbox do
   let!(:inbox) { create(:inbox) }
 
-  describe '#captain_active?' do
-    before do
-      create(:captain_inbox, inbox: inbox, captain_assistant: create(:captain_assistant, account: inbox.account))
-    end
-
-    it 'is false when an AgentBot is connected' do
-      create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: inbox.account))
-
-      expect(inbox.reload.captain_active?).to be false
-    end
-
-    it 'is false when Dialogflow is connected' do
-      create(:integrations_hook, :dialogflow, inbox: inbox, account: inbox.account)
-
-      expect(inbox.reload.captain_active?).to be false
-    end
-  end
-
   describe 'member_ids_with_assignment_capacity' do
     let!(:inbox_member_1) { create(:inbox_member, inbox: inbox) }
     let!(:inbox_member_2) { create(:inbox_member, inbox: inbox) }

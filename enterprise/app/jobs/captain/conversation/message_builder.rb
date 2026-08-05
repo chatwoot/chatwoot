@@ -50,16 +50,4 @@ module Captain::Conversation::MessageBuilder
       preserve_waiting_since: preserve_waiting_since
     )
   end
-
-  def with_captain_write_lock(require_pending: true, check_freshness: captain_v2_enabled?)
-    @conversation.reload
-    @conversation.with_lock do
-      next if @conversation.assignee_agent_bot_id.present?
-      next if @conversation.inbox.reload.external_bot_active?
-      next if require_pending && !@conversation.pending?
-      next if check_freshness && newer_customer_message_arrived?
-
-      yield
-    end
-  end
 end
