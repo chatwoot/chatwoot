@@ -437,11 +437,30 @@ describe('#actions', () => {
       axios.post.mockResolvedValue({
         data: dataReceived,
       });
-      await actions.fetchFilteredConversations({ commit }, dataToSend);
-      expect(commit).toHaveBeenCalledTimes(2);
+      await actions.fetchFilteredConversations(
+        { commit, dispatch },
+        dataToSend
+      );
+      expect(commit).toHaveBeenCalledTimes(4);
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
         ['SET_ALL_CONVERSATION', dataReceived.payload],
+        ['CLEAR_LIST_LOADING_STATUS'],
+        [
+          `contacts/${types.SET_CONTACTS}`,
+          dataReceived.payload.map(chat => chat.meta.sender),
+        ],
+      ]);
+    });
+
+    it('clears the loading state and rethrows if the request fails', async () => {
+      axios.post.mockRejectedValue(new Error('Request failed'));
+      await expect(
+        actions.fetchFilteredConversations({ commit }, dataToSend)
+      ).rejects.toThrow('Request failed');
+      expect(commit.mock.calls).toEqual([
+        ['SET_LIST_LOADING_STATUS'],
+        ['CLEAR_LIST_LOADING_STATUS'],
       ]);
     });
   });
