@@ -75,11 +75,7 @@ defineExpose({ validate });
 <template>
   <div
     class="flex flex-col gap-4 group/audience-group"
-    :class="
-      isRoot
-        ? 'p-4 border border-n-weak rounded-xl'
-        : 'p-3 border border-n-weak bg-n-alpha-1 rounded-lg'
-    "
+    :class="{ 'p-3 border border-n-weak bg-n-alpha-1 rounded-lg': !isRoot }"
   >
     <div class="flex items-center gap-2">
       <div class="flex items-center gap-1.5 text-sm text-n-slate-11">
@@ -131,7 +127,7 @@ defineExpose({ validate });
 
     <div
       v-if="isRoot && !node.conditions.length"
-      class="flex flex-col items-center gap-1.5 px-4 py-8 text-center border border-dashed rounded-lg border-n-weak"
+      class="flex flex-col items-center gap-1.5 px-4 py-8 text-center border border-dashed rounded-lg border-n-strong"
     >
       <span class="text-2xl i-lucide-users-round text-n-slate-10" />
       <p class="text-sm font-medium text-n-slate-12">

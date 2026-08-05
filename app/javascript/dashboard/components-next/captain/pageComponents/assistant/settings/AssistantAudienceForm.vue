@@ -18,6 +18,11 @@ const emit = defineEmits(['submit']);
 const { t } = useI18n();
 const { filterTypes } = useAudienceFilterTypes();
 
+const MODE = {
+  EVERYONE: 'everyone',
+  SPECIFIC: 'specific',
+};
+
 let uid = 0;
 const nextId = () => {
   uid += 1;
@@ -30,7 +35,7 @@ const hasConditions = node =>
 const defaultRoot = () => ({ id: nextId(), operator: 'and', conditions: [] });
 
 const root = ref(defaultRoot());
-const mode = ref('everyone');
+const mode = ref(MODE.EVERYONE);
 const showEmptyAudienceError = ref(false);
 
 const findOption = (filterType, value) =>
@@ -109,7 +114,7 @@ const serializeNode = node => {
 const groupRef = useTemplateRef('groupRef');
 
 const handleSubmit = () => {
-  const isSpecific = mode.value === 'specific';
+  const isSpecific = mode.value === MODE.SPECIFIC;
   if (isSpecific && !root.value.conditions.length) {
     showEmptyAudienceError.value = true;
     return;
@@ -137,7 +142,7 @@ watch(
     if (!newAssistant) return;
     const audience = newAssistant.config?.audience;
     root.value = hydrateRoot(audience);
-    mode.value = audience ? 'specific' : 'everyone';
+    mode.value = audience ? MODE.SPECIFIC : MODE.EVERYONE;
   },
   { immediate: true }
 );
@@ -154,21 +159,21 @@ watch(
   <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-3">
       <RadioCard
-        id="everyone"
+        :id="MODE.EVERYONE"
         :label="t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.EVERYONE.LABEL')"
         :description="t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.EVERYONE.DESC')"
-        :is-active="mode === 'everyone'"
-        @select="mode = 'everyone'"
+        :is-active="mode === MODE.EVERYONE"
+        @select="mode = MODE.EVERYONE"
       />
       <RadioCard
-        id="specific"
+        :id="MODE.SPECIFIC"
         :label="t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.SPECIFIC.LABEL')"
         :description="t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.SPECIFIC.DESC')"
-        :is-active="mode === 'specific'"
-        @select="mode = 'specific'"
+        :is-active="mode === MODE.SPECIFIC"
+        @select="mode = MODE.SPECIFIC"
       >
         <AudienceGroup
-          v-if="mode === 'specific'"
+          v-if="mode === MODE.SPECIFIC"
           ref="groupRef"
           v-model="root"
           is-root

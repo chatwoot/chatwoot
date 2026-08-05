@@ -2,7 +2,7 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import { useStore } from 'dashboard/composables/store';
+import { useStore, useFunctionGetter } from 'dashboard/composables/store';
 
 export function useAssistantSettings() {
   const { t } = useI18n();
@@ -10,8 +10,9 @@ export function useAssistantSettings() {
   const store = useStore();
 
   const assistantId = computed(() => Number(route.params.assistantId));
-  const assistant = computed(() =>
-    store.getters['captainAssistants/getRecord'](assistantId.value)
+  const assistant = useFunctionGetter(
+    'captainAssistants/getRecord',
+    assistantId
   );
 
   const updateAssistant = async updatedAssistant => {

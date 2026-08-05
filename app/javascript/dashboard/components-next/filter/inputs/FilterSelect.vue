@@ -43,6 +43,8 @@ const selected = defineModel({
   required: true,
 });
 
+const vFocus = { mounted: el => el.focus() };
+
 const { t } = useI18n();
 
 const searchQuery = ref('');

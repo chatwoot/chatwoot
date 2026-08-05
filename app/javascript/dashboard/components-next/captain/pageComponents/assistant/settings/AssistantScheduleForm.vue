@@ -15,9 +15,15 @@ const emit = defineEmits(['submit']);
 
 const { t } = useI18n();
 
-const OPTIONS = ['always', 'business_hours', 'outside_business_hours'];
+const RESPONSE_WINDOW = {
+  ALWAYS: 'always',
+  BUSINESS_HOURS: 'business_hours',
+  OUTSIDE_BUSINESS_HOURS: 'outside_business_hours',
+};
 
-const selected = ref('always');
+const OPTIONS = Object.values(RESPONSE_WINDOW);
+
+const selected = ref(RESPONSE_WINDOW.ALWAYS);
 
 const handleSubmit = () => {
   emit('submit', {
@@ -29,7 +35,8 @@ watch(
   () => props.assistant,
   newAssistant => {
     if (newAssistant) {
-      selected.value = newAssistant.config?.response_window || 'always';
+      selected.value =
+        newAssistant.config?.response_window || RESPONSE_WINDOW.ALWAYS;
     }
   },
   { immediate: true }

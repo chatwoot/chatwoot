@@ -93,6 +93,7 @@ const activeTab = computed({
 
 <template>
   <PageLayout
+    :header-title="t('CAPTAIN.ASSISTANTS.SETTINGS.HEADER')"
     :is-fetching="isFetching"
     :show-know-more="false"
     :show-pagination-footer="false"
