@@ -59,7 +59,7 @@ module ActiveStorageBareDirectUploadGuard
   private
 
   def reject_bare_direct_upload
-    head :not_found if instance_of?(ActiveStorage::DirectUploadsController)
+    head :forbidden if instance_of?(ActiveStorage::DirectUploadsController)
   end
 end
 

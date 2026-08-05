@@ -21,7 +21,7 @@ RSpec.describe '/rails/active_storage/direct_uploads', type: :request do
         post rails_direct_uploads_url, params: params
       end.not_to change(ActiveStorage::Blob, :count)
 
-      expect(response).to have_http_status(:not_found)
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end
