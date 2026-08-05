@@ -8,5 +8,11 @@ FactoryBot.define do
     direction { :incoming }
     status { 'ringing' }
     sequence(:provider_call_id) { |n| "CA#{SecureRandom.hex(15)}#{n}" }
+
+    trait :pathors do
+      provider { :pathors }
+      status { 'in_progress' }
+      provider_call_id { "pathors-#{SecureRandom.uuid}" }
+    end
   end
 end
