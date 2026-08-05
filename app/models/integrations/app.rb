@@ -1,5 +1,14 @@
 class Integrations::App
   include Linear::IntegrationHelper
+
+  # Pathors: never offered in the catalog. Each of these asks the customer to
+  # paste a third-party AI credential — an OpenAI key, or a Google
+  # service-account JSON — and then runs a second AI in parallel with the
+  # Pathors agent, on the customer's own bill. The Pathors agent is the only AI
+  # in this product, and we provision it for them rather than have them
+  # configure it.
+  PATHORS_WITHHELD_APPS = %w[openai dialogflow google_translate].freeze
+
   attr_accessor :params
 
   def initialize(params)
@@ -53,6 +62,14 @@ class Integrations::App
   end
 
   def active?(account)
+    return false if PATHORS_WITHHELD_APPS.include?(params[:id])
+
+    credentials_available?(account)
+  end
+
+  # Whether the instance/account has what this app needs to be usable at all —
+  # an OAuth client on the instance, a feature flag on the account, or both.
+  def credentials_available?(account)
     case params[:id]
     when 'slack'
       GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?

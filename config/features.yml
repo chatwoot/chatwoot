@@ -239,7 +239,11 @@
   premium: true
 - name: captain_tasks
   display_name: Captain Tasks
-  enabled: true
+  # Pathors: off by default. These buttons (rewrite / summarize / suggest reply)
+  # resolve their LLM credential from the `openai` integration hook, i.e. a key
+  # the customer pastes in themselves — a second, parallel AI running on the
+  # customer's own bill. The Pathors agent is the only AI in this product.
+  enabled: false
 - name: conversation_required_attributes
   display_name: Required Conversation Attributes
   enabled: false
