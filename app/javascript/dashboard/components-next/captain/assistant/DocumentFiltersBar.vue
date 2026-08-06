@@ -73,6 +73,11 @@ const MENU_CONFIG = [
         value: 'recently_created',
         icon: 'i-lucide-clock',
       },
+      {
+        labelKey: 'SORT.MOST_USED',
+        value: 'most_used',
+        icon: 'i-lucide-messages-square',
+      },
     ],
   },
 ];

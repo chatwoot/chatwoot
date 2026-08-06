@@ -5,6 +5,17 @@ class Captain::DocumentDrilldownBuilder
   DEFAULT_PAGE = 1
   DEFAULT_PER_PAGE = 25
   MAX_PER_PAGE = 100
+  CONVERSATION_USAGE_COUNT_SQL = <<~SQL.squish.freeze
+    (
+      SELECT COUNT(DISTINCT usage_sessions.subject_id)
+      FROM agent_sessions AS usage_sessions
+      WHERE usage_sessions.account_id = captain_documents.account_id
+        AND usage_sessions.assistant_id = captain_documents.assistant_id
+        AND usage_sessions.session_type = #{Captain::AgentSession.session_types.fetch('assistant')}
+        AND usage_sessions.subject_type = 'Conversation'
+        AND usage_sessions.document_ids @> jsonb_build_array(captain_documents.id)
+    )
+  SQL
 
   pattr_initialize :document, :params
 
@@ -16,14 +27,23 @@ class Captain::DocumentDrilldownBuilder
       usage_count_rows(documents).to_h
     end
 
+    def order_by_conversation_count(documents)
+      documents.reorder(
+        Arel.sql(
+          "#{CONVERSATION_USAGE_COUNT_SQL} DESC, " \
+          'captain_documents.updated_at DESC, captain_documents.id DESC'
+        )
+      )
+    end
+
     private
 
     def usage_count_rows(documents)
       usage_sessions(documents)
-        .where(document_usage: { document_id: documents.map { |document| document.id.to_s } })
-        .group('document_usage.document_id')
+        .where(usage_documents: { id: documents.map(&:id) })
+        .group('usage_documents.id')
         .pluck(
-          Arel.sql('document_usage.document_id::bigint'),
+          Arel.sql('usage_documents.id'),
           Arel.sql('COUNT(DISTINCT agent_sessions.subject_id)')
         )
     end
@@ -40,6 +60,11 @@ class Captain::DocumentDrilldownBuilder
           'CROSS JOIN LATERAL ' \
           'jsonb_array_elements_text(agent_sessions.document_ids) ' \
           'AS document_usage(document_id)'
+        )
+        .joins(
+          'INNER JOIN captain_documents AS usage_documents ' \
+          'ON usage_documents.id = document_usage.document_id::bigint ' \
+          'AND usage_documents.assistant_id = agent_sessions.assistant_id'
         )
     end
   end

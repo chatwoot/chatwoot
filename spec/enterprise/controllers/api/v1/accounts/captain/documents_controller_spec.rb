@@ -140,12 +140,40 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
                                        subject: second_conversation, document_ids: [document.id])
         create(:captain_agent_session, account: account, assistant: assistant,
                                        subject: second_conversation, document_ids: [other_document.id])
+        create(:captain_agent_session, account: account, assistant: assistant2,
+                                       subject: second_conversation, document_ids: [document.id])
 
         get "/api/v1/accounts/#{account.id}/captain/documents",
             headers: admin.create_new_auth_token, as: :json
 
         matching_document = json_response[:payload].find { |item| item[:id] == document.id }
         expect(matching_document[:used_in_conversations_count]).to eq(2)
+      end
+
+      it 'sorts documents by the number of distinct conversations that used them' do
+        most_used_document = create(:captain_document, assistant: assistant, account: account)
+        less_used_document = create(:captain_document, assistant: assistant, account: account)
+        unused_document = create(:captain_document, assistant: assistant, account: account)
+        first_conversation = create(:conversation, account: account)
+        second_conversation = create(:conversation, account: account)
+
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: first_conversation, document_ids: [most_used_document.id])
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: first_conversation, document_ids: [most_used_document.id])
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: second_conversation, document_ids: [most_used_document.id])
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: second_conversation, document_ids: [less_used_document.id])
+
+        get "/api/v1/accounts/#{account.id}/captain/documents",
+            params: { assistant_id: assistant.id, sort: 'most_used' },
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:ok)
+        expected_document_ids = [most_used_document.id, less_used_document.id, unused_document.id]
+        expect(json_response[:payload].pluck(:id)).to eq(expected_document_ids)
+        expect(json_response[:payload].pluck(:used_in_conversations_count)).to eq([2, 1, 0])
       end
     end
   end

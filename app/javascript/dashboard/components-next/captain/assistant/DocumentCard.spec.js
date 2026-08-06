@@ -82,6 +82,14 @@ describe('DocumentCard', () => {
     expect(wrapper.emitted('viewConversations')).toEqual([[42]]);
   });
 
+  it('shows zero usage as disabled metadata', () => {
+    const wrapper = mountCard({ usedInConversationsCount: 0 });
+    const usageButton = wrapper.get('[aria-label="Used in 0 conversations"]');
+
+    expect(usageButton.text()).toBe('0');
+    expect(usageButton.attributes('disabled')).toBeDefined();
+  });
+
   it('keeps the source URL flexible and the metadata row on one line', () => {
     const wrapper = mountCard();
     const sourceLink = wrapper.get('a[href^="https://example.com"]');

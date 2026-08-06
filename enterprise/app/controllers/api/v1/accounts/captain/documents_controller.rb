@@ -124,6 +124,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   def apply_sort(scope, sort)
     case sort
     when 'recently_created' then scope.order(created_at: :desc)
+    when 'most_used' then Captain::DocumentDrilldownBuilder.order_by_conversation_count(scope)
     else scope.order(updated_at: :desc)
     end
   end

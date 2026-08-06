@@ -159,6 +159,9 @@ const usedInConversationsLabel = computed(() =>
     n: props.usedInConversationsCount,
   })
 );
+const usedInConversationsCountText = computed(() =>
+  String(props.usedInConversationsCount)
+);
 
 const displayLink = computed(() =>
   isPdf.value
@@ -264,7 +267,7 @@ const handleViewConversations = () => {
       <Button
         v-if="canManage"
         v-tooltip.top="usedInConversationsLabel"
-        :label="usedInConversationsCount"
+        :label="usedInConversationsCountText"
         :aria-label="usedInConversationsLabel"
         :disabled="!usedInConversationsCount"
         icon="i-lucide-messages-square"

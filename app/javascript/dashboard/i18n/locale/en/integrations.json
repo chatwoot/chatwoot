@@ -857,7 +857,8 @@
         },
         "SORT": {
           "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created"
+          "RECENTLY_CREATED": "Recently created",
+          "MOST_USED": "Most used in conversations"
         },
         "SEARCH_PLACEHOLDER": "Search..."
       },
