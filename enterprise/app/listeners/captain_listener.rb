@@ -40,6 +40,8 @@ class CaptainListener < BaseListener
     conversation = extract_conversation_and_account(event)[0]
     return unless ConversationOutcome.exists?(account_id: conversation.account_id, conversation_id: conversation.id)
 
+    # The sync outcome listener inserts the common-path boundary before later facts. Always enqueue the
+    # idempotent job as durable delivery too, so a failed synchronous write is retried without blocking the reopen.
     Captain::ConversationOutcomeBoundaryJob.perform_later(conversation, event.timestamp)
   end
 

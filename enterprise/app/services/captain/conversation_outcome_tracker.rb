@@ -16,9 +16,9 @@ class Captain::ConversationOutcomeTracker
     end
   end
 
-  # Runs inside Captain::ConversationOutcomeBoundaryJob. Unlike facts, a lost
-  # boundary strands every later fact in the wrong episode, so this write must
-  # raise on failure and let the job retry instead of failing open.
+  # Runs synchronously on reopen so later facts see the correct episode, then
+  # again inside ConversationOutcomeBoundaryJob for durable delivery. Unlike
+  # facts, this must raise so the job can retry a failed boundary write.
   def record_reopen(at:)
     return if episodes.none?
 
