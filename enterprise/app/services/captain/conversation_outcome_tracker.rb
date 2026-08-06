@@ -1,11 +1,5 @@
 class Captain::ConversationOutcomeTracker
-  include Captain::ConversationOutcomeAttribution
-
   pattr_initialize [:conversation!, :assistant]
-
-  STREAM_LOCK_NAMESPACE = 894_512_337
-
-  # --- Boundaries -----------------------------------------------------------
 
   def record_eligibility(at:)
     safely_track(:eligibility, at: at) do
@@ -20,58 +14,49 @@ class Captain::ConversationOutcomeTracker
     safely_track(:reopen, at: at) do
       next if episodes.none?
 
-      with_stream_lock do
+      ApplicationRecord.transaction do
         next if episodes.exists?(started_at: at)
 
-        insert_boundary(at)
+        predecessor = episodes.find_by!(ended_at: nil)
+        predecessor.update!(ended_at: at)
+        ConversationOutcome.create!(
+          account: account,
+          assistant: conversation.inbox.captain_assistant || predecessor.assistant,
+          conversation: conversation,
+          inbox: conversation.inbox,
+          episode_trigger: 'reopen',
+          started_at: at
+        )
       end
     end
   end
 
-  # --- Facts ----------------------------------------------------------------
-
-  def record_captain_reply(message:)
-    track_fact(:captain_reply, at: message.created_at) do |episode|
-      recount_captain_replies(episode)
-      episode.save!
-    end
-  end
-
   def record_handoff(at:, reason_category:)
-    track_fact(:handoff, at: at) do |episode|
-      # First handoff wins within the episode: re-delivered or later handoff
-      # events must not overwrite the reason the episode left Captain.
-      next episode if episode.handoff_at.present? && episode.handoff_at <= at
+    snapshot_episode(:handoff, at: at) do |episode|
+      next false if episode.handoff_at.present? && episode.handoff_at <= at
 
-      episode.update!(handoff_at: at, handoff_reason_category: reason_category)
-    end
-  end
-
-  def record_human_reply(message:)
-    return unless public_human_reply?(message)
-
-    track_fact(:human_reply, at: message.created_at) do |episode|
-      episode.first_human_reply_at = earliest(episode.first_human_reply_at, message.created_at)
-      episode.save! if episode.changed?
+      episode.handoff_at = at
+      episode.handoff_reason_category = reason_category
+      true
     end
   end
 
   def record_resolution(at:)
-    track_fact(:resolution, at: at) do |episode|
-      # Latest resolution wins within the episode; out-of-order events must
-      # not roll it back.
-      next episode if episode.resolved_at.present? && at < episode.resolved_at
+    snapshot_episode(:resolution, at: at) do |episode|
+      next false if episode.resolved_at.present? && at < episode.resolved_at
 
-      episode.update!(resolved_at: at)
+      episode.resolved_at = at
+      true
     end
   end
 
   def record_csat(response:)
-    # The response is attributed through the survey message that solicited it,
-    # so a late submission lands on the episode that sent the survey, not on
-    # whichever episode is open when the customer answers.
-    track_fact(:csat, at: response.message.created_at) do |episode|
+    safely_track(:csat, at: response.message.created_at) do
+      episode = attributed_episode(response.message.created_at)
+      next unless episode
+
       episode.update!(csat_rating: response.rating, csat_received_at: response.created_at)
+      episode
     end
   end
 
@@ -85,13 +70,9 @@ class Captain::ConversationOutcomeTracker
     ConversationOutcome.where(account_id: conversation.account_id, conversation_id: conversation.id)
   end
 
-  # --- Initial episode ------------------------------------------------------
-
   def lower_initial_anchor(initial, at)
     return initial unless at < initial.started_at
 
-    # The initial anchor is demand-time and mutable (earliest wins). Boundary
-    # anchors are immutable identities and are never lowered.
     initial.with_lock do
       initial.update!(started_at: at) if at < initial.started_at
     end
@@ -112,86 +93,50 @@ class Captain::ConversationOutcomeTracker
     lower_initial_anchor(initial, at)
   end
 
-  # --- Boundary insertion ---------------------------------------------------
-
-  def insert_boundary(at)
-    predecessor = episodes.where(started_at: ...at).chronological.last!
-    successor = episodes.where('started_at > ?', at).chronological.first
-
-    # The predecessor closes before the insert: the open-episode partial
-    # unique index permits only one open row, and partial indexes are not
-    # deferrable. The surrounding transaction rolls the close back if the
-    # insert fails.
-    predecessor.update!(ended_at: at)
-    episode = ConversationOutcome.create!(
-      account: account,
-      assistant: boundary_assistant,
-      conversation: conversation,
-      inbox: conversation.inbox,
-      episode_trigger: 'reopen',
-      started_at: at,
-      ended_at: successor&.started_at
-    )
-    repair_attribution(predecessor, episode)
-  end
-
-  def boundary_assistant
-    conversation.inbox.captain_assistant || episodes.chronological.last.assistant
-  end
-
-  # Serializes boundary insertion per conversation across all workers.
-  # Unique indexes alone cannot protect concurrent mid-stream inserts because
-  # closed rows can overlap without violating a constraint.
-  # The transaction-scoped advisory lock releases itself on commit/rollback.
-  # https://www.postgresql.org/docs/current/explicit-locking.html#ADVISORY-LOCKS
-  def with_stream_lock
-    ApplicationRecord.transaction do
-      ApplicationRecord.connection.select_value(
-        "SELECT pg_advisory_xact_lock(#{STREAM_LOCK_NAMESPACE}, #{conversation.id})"
-      )
-      yield
-    end
-  end
-
-  # --- Fact attribution -----------------------------------------------------
-
-  def track_fact(action, at:)
+  def snapshot_episode(action, at:)
     safely_track(action, at: at) do
-      with_stream_lock do
-        episode = attributed_episode(at)
-        next unless episode
+      episode = attributed_episode(at)
+      next unless episode
+      next episode unless yield episode
 
-        yield episode
-        episode
-      end
+      snapshot_message_facts(episode, through: at)
+      episode.save! if episode.changed?
+      episode
     end
   end
 
   def attributed_episode(at)
-    # Clamp rule: a fact timestamped before the stream's first episode
-    # attributes to that first episode.
     episodes.covering(at).chronological.last || episodes.chronological.first
   end
 
-  # Outcome tracking is reporting, not product behavior: a tracking bug must
-  # never break message delivery or conversation state transitions.
+  def snapshot_message_facts(episode, through:)
+    messages = conversation.messages.where(created_at: episode.started_at..through)
+    replies = messages.where(sender_type: 'Captain::Assistant', message_type: :outgoing, private: false)
+
+    episode.captain_reply_count = replies.count
+    episode.first_captain_reply_at = replies.minimum(:created_at)
+    episode.last_captain_reply_at = replies.maximum(:created_at)
+    episode.first_human_reply_at = messages.where(message_type: :outgoing, private: false)
+                                           .order(:created_at)
+                                           .detect { |message| public_human_reply?(message) }
+                                           &.created_at
+  end
+
+  def public_human_reply?(message)
+    return false if message.content_attributes['automation_rule_id'].present?
+    return false if message.additional_attributes['campaign_id'].present?
+
+    message.sender.is_a?(User) || message.content_attributes['external_echo'].present?
+  end
+
   def safely_track(action, at:)
     yield
   rescue StandardError => e
-    report_tracking_failure(action, e, at: at)
-    nil
-  end
-
-  # Reporting the failure must itself fail open: the account read can hit the
-  # database again during the same outage that broke tracking, and a secondary
-  # error here would otherwise escape into the customer action.
-  def report_tracking_failure(action, error, at:)
-    ChatwootExceptionTracker.new(error, account: account).capture_exception
+    ChatwootExceptionTracker.new(e, account: account).capture_exception
     Rails.logger.error(
       "[CAPTAIN][ConversationOutcomeTracker] Failed to record #{action} for conversation=#{conversation.display_id} " \
-      "at=#{at.iso8601(6)}: #{error.message}"
+      "at=#{at.iso8601(6)}: #{e.message}"
     )
-  rescue StandardError
     nil
   end
 end

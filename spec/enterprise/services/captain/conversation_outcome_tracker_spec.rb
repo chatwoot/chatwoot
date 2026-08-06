@@ -86,18 +86,6 @@ RSpec.describe Captain::ConversationOutcomeTracker do
       end.not_to change(ConversationOutcome, :count)
     end
 
-    it 'slots boundaries delivered in reverse order into chronological windows' do
-      later_at = 5.minutes.ago.change(usec: 0)
-      earlier_at = 15.minutes.ago.change(usec: 0)
-
-      tracker.record_reopen(at: later_at)
-      tracker.record_reopen(at: earlier_at)
-
-      expect(episodes.map { |episode| [episode.started_at, episode.ended_at] }).to eq(
-        [[initial_at, earlier_at], [earlier_at, later_at], [later_at, nil]]
-      )
-    end
-
     it 'creates exactly one episode per boundary regardless of history' do
       tracker.record_reopen(at: 20.minutes.ago)
       tracker.record_reopen(at: 10.minutes.ago)
@@ -126,123 +114,88 @@ RSpec.describe Captain::ConversationOutcomeTracker do
         tracker.record_reopen(at: Time.current)
       end.not_to raise_error
     end
-
-    it 'moves a resolution recorded before a late boundary into the covering episode' do
-      resolved_at = 2.minutes.ago.change(usec: 0)
-      tracker.record_resolution(at: resolved_at)
-
-      tracker.record_reopen(at: 10.minutes.ago)
-
-      expect(initial.reload.resolved_at).to be_nil
-      expect(episodes.last.resolved_at).to eq(resolved_at)
-    end
-
-    it 'recounts captain replies per window when a late boundary splits them' do
-      create(:message, account: account, inbox: inbox, conversation: conversation,
-                       sender: assistant, message_type: :outgoing, created_at: 20.minutes.ago)
-      create(:message, account: account, inbox: inbox, conversation: conversation,
-                       sender: assistant, message_type: :outgoing, created_at: 2.minutes.ago)
-      described_class.new(conversation: conversation).record_captain_reply(
-        message: conversation.messages.last
-      )
-
-      tracker.record_reopen(at: 10.minutes.ago)
-
-      expect(initial.reload.captain_reply_count).to eq(1)
-      expect(episodes.last.captain_reply_count).to eq(1)
-    end
-  end
-
-  describe '#record_captain_reply' do
-    let!(:initial) { tracker.record_eligibility(at: 30.minutes.ago) }
-
-    it 'recounts replies within the attributed episode window' do
-      message = create(
-        :message,
-        account: account, inbox: inbox, conversation: conversation,
-        sender: assistant, message_type: :outgoing, created_at: 20.minutes.ago.change(usec: 0)
-      )
-
-      tracker.record_captain_reply(message: message)
-
-      expect(initial.reload).to have_attributes(
-        captain_reply_count: 1,
-        first_captain_reply_at: message.created_at,
-        last_captain_reply_at: message.created_at
-      )
-    end
-
-    it 'updates a closed episode when the reply is delivered late' do
-      tracker.record_reopen(at: 10.minutes.ago)
-      message = create(
-        :message,
-        account: account, inbox: inbox, conversation: conversation,
-        sender: assistant, message_type: :outgoing, created_at: 20.minutes.ago
-      )
-
-      tracker.record_captain_reply(message: message)
-
-      expect(initial.reload.captain_reply_count).to eq(1)
-      expect(episodes.last.captain_reply_count).to eq(0)
-    end
   end
 
   describe '#record_handoff' do
     let!(:initial) { tracker.record_eligibility(at: 30.minutes.ago) }
 
-    it 'preserves the first handoff and its reason category within the episode' do
-      first_handoff_at = 2.minutes.ago.change(usec: 0)
+    it 'snapshots message facts and preserves the first handoff reason' do
+      first_reply = create(
+        :message,
+        account: account, inbox: inbox, conversation: conversation,
+        sender: assistant, message_type: :outgoing, created_at: 20.minutes.ago.change(usec: 0)
+      )
+      last_reply = create(
+        :message,
+        account: account, inbox: inbox, conversation: conversation,
+        sender: assistant, message_type: :outgoing, created_at: 10.minutes.ago.change(usec: 0)
+      )
+      first_handoff_at = 5.minutes.ago.change(usec: 0)
       tracker.record_handoff(at: first_handoff_at, reason_category: 'missing_knowledge')
 
       tracker.record_handoff(at: Time.current, reason_category: 'unsupported_request')
 
       expect(initial.reload).to have_attributes(
+        captain_reply_count: 2,
+        first_captain_reply_at: first_reply.created_at,
+        last_captain_reply_at: last_reply.created_at,
         handoff_at: first_handoff_at,
         handoff_reason_category: 'missing_knowledge'
       )
-    end
-
-    it 'converges to the earliest handoff when events arrive out of order' do
-      earliest_handoff_at = 5.minutes.ago.change(usec: 0)
-      tracker.record_handoff(at: 2.minutes.ago, reason_category: 'unsupported_request')
-
-      tracker.record_handoff(at: earliest_handoff_at, reason_category: 'missing_knowledge')
-
-      expect(initial.reload).to have_attributes(
-        handoff_at: earliest_handoff_at,
-        handoff_reason_category: 'missing_knowledge'
-      )
-    end
-  end
-
-  describe '#record_human_reply' do
-    let!(:initial) { tracker.record_eligibility(at: 30.minutes.ago) }
-
-    it 'records the first public human reply' do
-      agent = create(:user, account: account)
-      message = create(
-        :message,
-        account: account, inbox: inbox, conversation: conversation,
-        sender: agent, message_type: :outgoing, created_at: 5.minutes.ago.change(usec: 0)
-      )
-
-      tracker.record_human_reply(message: message)
-
-      expect(initial.reload.first_human_reply_at).to eq(message.created_at)
     end
   end
 
   describe '#record_resolution' do
     let!(:initial) { tracker.record_eligibility(at: 30.minutes.ago) }
 
-    it 'attributes a delayed resolution to the episode active at its event time' do
-      tracker.record_reopen(at: 10.minutes.ago)
+    it 'snapshots the episode active at the resolution event time' do
+      captain_reply = create(
+        :message,
+        account: account, inbox: inbox, conversation: conversation,
+        sender: assistant, message_type: :outgoing, created_at: 20.minutes.ago.change(usec: 0)
+      )
+      resolved_at = 15.minutes.ago.change(usec: 0)
+      tracker.record_reopen(at: 10.minutes.ago.change(usec: 0))
 
-      resolved_at = 20.minutes.ago.change(usec: 0)
       tracker.record_resolution(at: resolved_at)
 
-      expect(initial.reload.resolved_at).to eq(resolved_at)
+      expect(initial.reload).to have_attributes(
+        captain_reply_count: 1,
+        first_captain_reply_at: captain_reply.created_at,
+        resolved_at: resolved_at
+      )
       expect(episodes.last.resolved_at).to be_nil
+    end
+
+    it 'snapshots Captain and human replies through resolution' do
+      captain_reply = create(
+        :message,
+        account: account, inbox: inbox, conversation: conversation,
+        sender: assistant, message_type: :outgoing, created_at: 20.minutes.ago.change(usec: 0)
+      )
+      agent = create(:user, account: account)
+      create(
+        :message,
+        account: account, inbox: inbox, conversation: conversation,
+        sender: agent, message_type: :outgoing, created_at: 15.minutes.ago,
+        content_attributes: { automation_rule_id: 1 }
+      )
+      human_reply = create(
+        :message,
+        account: account, inbox: inbox, conversation: conversation,
+        sender: agent, message_type: :outgoing, created_at: 10.minutes.ago.change(usec: 0)
+      )
+      resolved_at = 5.minutes.ago.change(usec: 0)
+
+      tracker.record_resolution(at: resolved_at)
+
+      expect(initial.reload).to have_attributes(
+        captain_reply_count: 1,
+        first_captain_reply_at: captain_reply.created_at,
+        last_captain_reply_at: captain_reply.created_at,
+        first_human_reply_at: human_reply.created_at,
+        resolved_at: resolved_at
+      )
     end
 
     it 'preserves the latest resolution within an episode' do

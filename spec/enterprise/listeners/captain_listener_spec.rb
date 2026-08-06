@@ -57,83 +57,26 @@ describe CaptainListener do
         account: account,
         assistant: assistant,
         conversation: conversation,
-        inbox: inbox
+        inbox: inbox,
+        started_at: 10.minutes.ago
+      )
+      captain_reply = create(
+        :message,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        sender: assistant,
+        message_type: :outgoing,
+        created_at: 5.minutes.ago.change(usec: 0)
       )
 
       listener.conversation_resolved(event)
 
-      expect(outcome.reload.resolved_at).to eq(event.timestamp)
-    end
-  end
-
-  describe '#message_created' do
-    let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :pending) }
-
-    before do
-      account.enable_features!('captain_integration_v2')
-      create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
-      create(
-        :conversation_outcome,
-        account: account,
-        assistant: assistant,
-        conversation: conversation,
-        inbox: inbox,
-        started_at: 1.hour.ago
+      expect(outcome.reload).to have_attributes(
+        captain_reply_count: 1,
+        first_captain_reply_at: captain_reply.created_at,
+        resolved_at: event.timestamp
       )
-    end
-
-    it 'records public Captain replies' do
-      message = create(
-        :message,
-        account: account,
-        inbox: inbox,
-        conversation: conversation,
-        sender: assistant,
-        message_type: :outgoing,
-        created_at: 5.minutes.ago.change(usec: 0)
-      )
-      event = Events::Base.new(:message_created, message.created_at, message: message)
-
-      listener.message_created(event)
-
-      expect(ConversationOutcome.last).to have_attributes(
-        first_captain_reply_at: message.created_at,
-        captain_reply_count: 1
-      )
-    end
-
-    it 'ignores Captain messages without an existing V2 outcome' do
-      ConversationOutcome.delete_all
-      message = create(
-        :message,
-        account: account,
-        inbox: inbox,
-        conversation: conversation,
-        sender: assistant,
-        message_type: :outgoing
-      )
-      event = Events::Base.new(:message_created, message.created_at, message: message)
-
-      expect do
-        listener.message_created(event)
-      end.not_to change(ConversationOutcome, :count)
-    end
-
-    it 'records public human replies on the existing outcome' do
-      message = create(
-        :message,
-        account: account,
-        inbox: inbox,
-        conversation: conversation,
-        sender: user,
-        message_type: :outgoing,
-        created_at: 5.minutes.ago.change(usec: 0)
-      )
-      event = Events::Base.new(:message_created, message.created_at, message: message)
-
-      listener.message_created(event)
-
-      expect(ConversationOutcome.last.first_human_reply_at).to eq(message.created_at)
     end
   end
 

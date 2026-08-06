@@ -1,17 +1,6 @@
 class CaptainListener < BaseListener
   include ::Events::Types
 
-  def message_created(event)
-    message = event.data[:message]
-    return unless message.outgoing? && !message.private?
-
-    if message.sender_type == 'Captain::Assistant'
-      tracker(message.conversation).record_captain_reply(message: message)
-    else
-      tracker(message.conversation).record_human_reply(message: message)
-    end
-  end
-
   def message_updated(event)
     message = event.data[:message]
     return unless message.input_csat?
