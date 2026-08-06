@@ -34,8 +34,11 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
   end
 
   def set_team
-    @team = Current.account.teams.find_by(id: params[:team_id])
-    @conversation.update!(team: @team)
+    team_id = params[:team_id].to_i
+    @team = team_id.positive? ? Current.account.teams.find(team_id) : nil
+    @conversation.with_lock do
+      @conversation.update!(team: @team)
+    end
     render json: @team
   end
 

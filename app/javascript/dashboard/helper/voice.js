@@ -17,6 +17,16 @@ export const TERMINAL_STATUSES = [
   'ended',
 ];
 
+// A message.created for a ringing call is queued through ActionCableBroadcastJob and can
+// be delivered after the call has already been accepted/ended via a synchronous broadcast.
+// Track dismissed call sids at module scope so that late, stale "ringing" snapshot doesn't
+// resurrect a card every caller of handleVoiceCallCreated (hydration and real-time alike)
+// has already cleared.
+const dismissedCallSids = new Set();
+export const markCallDismissed = callSid => {
+  if (callSid) dismissedCallSids.add(callSid);
+};
+
 export const isInbound = direction => direction === 'inbound';
 
 const isVoiceCallMessage = message => {
@@ -112,6 +122,8 @@ export function handleVoiceCallCreated(
     senderId,
   } = extractCallData(message);
 
+  if (callSid && dismissedCallSids.has(callSid)) return;
+
   // A voice_call message can be created already terminal when the caller hangs
   // up before connect. Only ring while the call is actually ringing; mirrors the
   // guard in seedCallsFromHydratedMessages.
@@ -164,6 +176,10 @@ export function handleVoiceCallUpdated(
   } = extractCallData(message);
 
   const callsStore = useCallsStore();
+
+  // Guard against a still-queued ringing message.created arriving after this
+  // terminal update, same as the accepted/ended broadcast handlers.
+  if (TERMINAL_STATUSES.includes(status)) markCallDismissed(callSid);
 
   callsStore.handleCallStatusChanged({ callSid, status, conversationId });
 

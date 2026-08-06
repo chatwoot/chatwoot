@@ -153,6 +153,15 @@ After`;
       expect(formatter.formattedMessage).not.toContain('cw-colwidths');
       expect(formatter.plainText).not.toContain('cw-colwidths');
     });
+
+    it('strips a blockquote-prefixed marker so the quoted table still renders', () => {
+      const message =
+        '> <!--cw-colwidths:120,200-->\n> | A | B |\n> | --- | --- |\n> | 1 | 2 |';
+      const { formattedMessage } = new MessageFormatter(message);
+      expect(formattedMessage).not.toContain('cw-colwidths');
+      expect(formattedMessage).toContain('<blockquote>');
+      expect(formattedMessage).toContain('<table>');
+    });
   });
 
   describe('#sanitize', () => {

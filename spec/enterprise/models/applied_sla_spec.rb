@@ -17,6 +17,7 @@ RSpec.describe AppliedSla, type: :model do
           sla_status: applied_sla.sla_status,
           created_at: applied_sla.created_at.to_i,
           updated_at: applied_sla.updated_at.to_i,
+          sla_completed_at: nil,
           sla_description: applied_sla.sla_policy.description,
           sla_name: applied_sla.sla_policy.name,
           sla_first_response_time_threshold: applied_sla.sla_policy.first_response_time_threshold,
@@ -79,8 +80,10 @@ RSpec.describe AppliedSla, type: :model do
       blocked_applied_sla.conversation.contact.update!(blocked: true)
       missing_contact_applied_sla.conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
 
-      expect(described_class.with_sla_applicable_conversation).to include(applied_sla, missing_contact_applied_sla)
-      expect(described_class.with_sla_applicable_conversation).not_to include(blocked_applied_sla)
+      applicable_sla_ids = described_class.with_sla_applicable_conversation.ids
+
+      expect(applicable_sla_ids).to include(applied_sla.id, missing_contact_applied_sla.id)
+      expect(applicable_sla_ids).not_to include(blocked_applied_sla.id)
     end
   end
 
