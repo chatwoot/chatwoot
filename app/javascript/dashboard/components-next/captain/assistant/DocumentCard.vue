@@ -70,6 +70,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  usedInConversationsCount: {
+    type: Number,
+    default: 0,
+  },
   isSelected: {
     type: Boolean,
     default: false,
@@ -88,7 +92,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['action', 'select', 'hover']);
+const emit = defineEmits(['action', 'select', 'hover', 'viewConversations']);
 const { checkPermissions } = usePolicy();
 
 const { t } = useI18n();
@@ -150,6 +154,11 @@ const createdAtLabel = computed(() => dynamicTime(props.createdAt));
 const responsesCountLabel = computed(() =>
   t('CAPTAIN.DOCUMENTS.FAQ_COUNT', { n: props.responsesCount })
 );
+const usedInConversationsLabel = computed(() =>
+  t('CAPTAIN.DOCUMENTS.USED_IN_CONVERSATIONS', {
+    n: props.usedInConversationsCount,
+  })
+);
 
 const displayLink = computed(() =>
   isPdf.value
@@ -171,6 +180,12 @@ const handleViewDetails = () => {
 
 const handleRetry = () => {
   emit('action', { action: 'sync', id: props.id });
+};
+
+const handleViewConversations = () => {
+  if (!props.usedInConversationsCount) return;
+
+  emit('viewConversations', props.id);
 };
 </script>
 
@@ -246,6 +261,19 @@ const handleRetry = () => {
       <span class="text-sm shrink-0 text-n-slate-11">
         {{ responsesCountLabel }}
       </span>
+      <Button
+        v-if="canManage"
+        v-tooltip.top="usedInConversationsLabel"
+        :label="usedInConversationsCount"
+        :aria-label="usedInConversationsLabel"
+        :disabled="!usedInConversationsCount"
+        icon="i-lucide-messages-square"
+        size="xs"
+        slate
+        link
+        class="shrink-0"
+        @click.stop="handleViewConversations"
+      />
       <DocumentSyncStatus
         v-if="showSyncStatus"
         :status="syncStatus"

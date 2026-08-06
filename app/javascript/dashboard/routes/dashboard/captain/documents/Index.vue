@@ -18,6 +18,7 @@ import Policy from 'dashboard/components/policy.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import DocumentDetails from 'dashboard/components-next/captain/pageComponents/document/DocumentDetails.vue';
+import DocumentUsageDrawer from 'dashboard/components-next/captain/pageComponents/document/DocumentUsageDrawer.vue';
 import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
 import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
@@ -52,6 +53,8 @@ const handleDelete = () => {
 };
 
 const showDocumentDetails = ref(false);
+const showDocumentUsage = ref(false);
+const usageDocument = ref(null);
 const showCreateDialog = ref(false);
 const createDocumentDialog = ref(null);
 
@@ -65,6 +68,15 @@ const handleCreateDocument = () => {
 
 const handleDocumentDetailsClose = () => {
   showDocumentDetails.value = false;
+};
+
+const handleShowDocumentUsage = id => {
+  usageDocument.value = documents.value.find(doc => doc.id === id) || null;
+  showDocumentUsage.value = Boolean(usageDocument.value);
+};
+
+const handleDocumentUsageClose = () => {
+  showDocumentUsage.value = false;
 };
 
 const handleCreateDialogClose = () => {
@@ -243,6 +255,8 @@ const handleAction = ({ action, id }) => {
 
 const onPageChange = page => {
   const hadSelection = bulkSelectedIds.value.size > 0;
+  showDocumentUsage.value = false;
+  usageDocument.value = null;
   fetchDocuments(page);
 
   if (hadSelection) {
@@ -303,6 +317,8 @@ watch(
     documentFilter.value?.reset();
     searchQuery.value = '';
     bulkSelectedIds.value = new Set();
+    showDocumentUsage.value = false;
+    usageDocument.value = null;
     syncIntervalHours.value = null;
     stopSyncPolling();
     await fetchDocuments(1);
@@ -415,6 +431,7 @@ onUnmounted(() => {
           :sync-in-progress="doc.sync_in_progress"
           :sync-stale-after-hours="syncIntervalHours"
           :responses-count="doc.responses_count"
+          :used-in-conversations-count="doc.used_in_conversations_count"
           :is-selected="canManageDocuments && bulkSelectedIds.has(doc.id)"
           :selectable="canManageDocuments"
           :show-selection-control="shouldShowSelectionControl(doc.id)"
@@ -422,6 +439,7 @@ onUnmounted(() => {
           @action="handleAction"
           @select="handleCardSelect"
           @hover="isHovered => handleCardHover(isHovered, doc.id)"
+          @view-conversations="handleShowDocumentUsage"
         />
       </div>
     </template>
@@ -430,6 +448,11 @@ onUnmounted(() => {
       v-if="showDocumentDetails"
       :captain-document="selectedDocument"
       @close="handleDocumentDetailsClose"
+    />
+    <DocumentUsageDrawer
+      :open="showDocumentUsage"
+      :document="usageDocument"
+      @close="handleDocumentUsageClose"
     />
     <CreateDocumentDialog
       v-if="showCreateDialog"

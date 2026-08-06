@@ -125,6 +125,29 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         end
       end
     end
+
+    context 'when it is an admin' do
+      it 'returns the distinct conversation usage count for each document' do
+        first_conversation = create(:conversation, account: account)
+        second_conversation = create(:conversation, account: account)
+        other_document = create(:captain_document, assistant: assistant, account: account)
+
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: first_conversation, document_ids: [document.id])
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: first_conversation, document_ids: [document.id])
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: second_conversation, document_ids: [document.id])
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: second_conversation, document_ids: [other_document.id])
+
+        get "/api/v1/accounts/#{account.id}/captain/documents",
+            headers: admin.create_new_auth_token, as: :json
+
+        matching_document = json_response[:payload].find { |item| item[:id] == document.id }
+        expect(matching_document[:used_in_conversations_count]).to eq(2)
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/:account_id/captain/documents/:id' do
@@ -178,6 +201,58 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         expect(json_response[:sync_status]).to eq('failed')
         expect(json_response[:last_synced_at]).to be_nil
       end
+    end
+  end
+
+  describe 'GET /api/v1/accounts/:account_id/captain/documents/:id/drilldown' do
+    let!(:older_conversation) do
+      create(:conversation, account: account, last_activity_at: 2.days.ago)
+    end
+    let!(:newer_conversation) do
+      create(:conversation, account: account, last_activity_at: 1.day.ago)
+    end
+
+    before do
+      create(:captain_agent_session, account: account, assistant: assistant,
+                                     subject: older_conversation, document_ids: [document.id])
+      create(:captain_agent_session, account: account, assistant: assistant,
+                                     subject: newer_conversation, document_ids: [document.id])
+      create(:captain_agent_session, account: account, assistant: assistant,
+                                     subject: newer_conversation, document_ids: [document.id])
+    end
+
+    it 'returns unauthorized for an agent' do
+      get "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/drilldown",
+          headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns distinct conversations through the shared drilldown contract for an admin' do
+      get "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/drilldown",
+          params: { per_page: 1 }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(json_response[:meta]).to include(
+        current_page: 1,
+        per_page: 1,
+        total_count: 2,
+        conversation_count: 2
+      )
+      expect(json_response[:payload].length).to eq(1)
+      expect(json_response.dig(:payload, 0, :record_type)).to eq('conversation')
+      expect(json_response.dig(:payload, 0, :conversation, :id)).to eq(newer_conversation.id)
+    end
+
+    it 'does not return sessions from another document' do
+      other_document = create(:captain_document, assistant: assistant, account: account)
+
+      get "/api/v1/accounts/#{account.id}/captain/documents/#{other_document.id}/drilldown",
+          headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(json_response[:meta][:total_count]).to eq(0)
+      expect(json_response[:payload]).to be_empty
     end
   end
 

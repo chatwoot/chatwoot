@@ -3,7 +3,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
 
   before_action :set_current_page, only: [:index]
   before_action :set_documents, except: [:create]
-  before_action :set_document, only: [:show, :destroy, :sync]
+  before_action :set_document, only: [:show, :destroy, :sync, :drilldown]
   before_action :set_assistant, only: [:create]
   RESULTS_PER_PAGE = 25
 
@@ -12,6 +12,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
     @documents_count = @documents.count
     @sync_interval_hours = current_sync_interval&.in_hours&.to_i
     @documents = with_responses_count(@documents).page(@current_page).per(RESULTS_PER_PAGE)
+    @document_usage_counts = Captain::DocumentDrilldownBuilder.conversation_counts(@documents) if can_view_drilldown?
   end
 
   def show; end
@@ -39,6 +40,10 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
     )
     Captain::Documents::PerformSyncJob.perform_later(@document)
     head :accepted
+  end
+
+  def drilldown
+    render json: Captain::DocumentDrilldownBuilder.new(@document, drilldown_params).build
   end
 
   def destroy
@@ -81,6 +86,14 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
 
   def permitted_params
     params.permit(:assistant_id, :page, :id, :account_id, :filter, :source, :sort, :search_key)
+  end
+
+  def drilldown_params
+    params.permit(:page, :per_page)
+  end
+
+  def can_view_drilldown?
+    policy(Captain::Assistant).drilldown?
   end
 
   def apply_source_filter(scope, source)
