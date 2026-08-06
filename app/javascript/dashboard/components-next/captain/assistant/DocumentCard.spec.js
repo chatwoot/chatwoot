@@ -16,6 +16,9 @@ vi.mock('vue-i18n', () => ({
       if (key === 'CAPTAIN.DOCUMENTS.USED_IN_CONVERSATIONS') {
         return `Used in ${n} conversations`;
       }
+      if (key === 'CAPTAIN.DOCUMENTS.OPTIONS.VIEW_DETAILS') {
+        return 'View details';
+      }
       return key;
     },
   }),
@@ -74,5 +77,19 @@ describe('DocumentCard', () => {
     const wrapper = mountCard();
 
     expect(wrapper.find('[aria-label^="Used in"]').exists()).toBe(false);
+  });
+
+  it('opens details from the visible view details action', async () => {
+    const wrapper = mountCard();
+    const viewDetailsButton = wrapper
+      .findAll('button')
+      .find(button => button.text() === 'View details');
+
+    expect(viewDetailsButton).toBeDefined();
+    await viewDetailsButton.trigger('click');
+
+    expect(wrapper.emitted('action')).toEqual([
+      [{ action: 'viewDetails', id: 42 }],
+    ]);
   });
 });

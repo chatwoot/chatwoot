@@ -114,14 +114,7 @@ const isRetryableSync = computed(
 const showSyncStatus = computed(() => !isPdf.value);
 
 const menuItems = computed(() => {
-  const allOptions = [
-    {
-      label: t('CAPTAIN.DOCUMENTS.OPTIONS.VIEW_DETAILS'),
-      value: 'viewDetails',
-      action: 'viewDetails',
-      icon: 'i-lucide-eye',
-    },
-  ];
+  const allOptions = [];
 
   if (canSync.value) {
     allOptions.push({
@@ -195,7 +188,17 @@ const handleRetry = () => {
         {{ name }}
       </button>
       <div v-if="showMenu" class="flex gap-2 items-center">
+        <Button
+          :label="t('CAPTAIN.DOCUMENTS.OPTIONS.VIEW_DETAILS')"
+          icon="i-lucide-eye"
+          size="xs"
+          slate
+          link
+          class="shrink-0"
+          @click.stop="handleViewDetails"
+        />
         <div
+          v-if="menuItems.length"
           v-on-clickaway="() => toggleDropdown(false)"
           class="flex relative items-center group"
         >
