@@ -644,6 +644,12 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -661,6 +667,14 @@ export const AUTOMATIONS = {
       {
         key: 'remove_assigned_team',
         name: 'REMOVE_ASSIGNED_TEAM',
+      },
+      {
+        key: 'add_label',
+        name: 'ADD_LABEL',
+      },
+      {
+        key: 'remove_label',
+        name: 'REMOVE_LABEL',
       },
       {
         key: 'send_email_to_team',
