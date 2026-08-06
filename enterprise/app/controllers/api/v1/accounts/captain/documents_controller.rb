@@ -12,7 +12,9 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
     @documents_count = @documents.count
     @sync_interval_hours = current_sync_interval&.in_hours&.to_i
     @documents = with_responses_count(@documents).page(@current_page).per(RESULTS_PER_PAGE)
-    @document_usage_counts = Captain::DocumentDrilldownBuilder.conversation_counts(@documents) if can_view_drilldown?
+    return unless can_view_drilldown?
+
+    @document_usage_counts = Captain::ConversationUsageBuilder.conversation_counts(@documents, usage_column: :document_ids)
   end
 
   def show; end
@@ -43,7 +45,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   end
 
   def drilldown
-    render json: Captain::DocumentDrilldownBuilder.new(@document, drilldown_params).build
+    render json: Captain::ConversationUsageBuilder.new(@document, drilldown_params, usage_column: :document_ids).build
   end
 
   def destroy
@@ -124,7 +126,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   def apply_sort(scope, sort)
     case sort
     when 'recently_created' then scope.order(created_at: :desc)
-    when 'most_used' then Captain::DocumentDrilldownBuilder.order_by_conversation_count(scope)
+    when 'most_used' then Captain::ConversationUsageBuilder.order_documents_by_conversation_count(scope)
     else scope.order(updated_at: :desc)
     end
   end

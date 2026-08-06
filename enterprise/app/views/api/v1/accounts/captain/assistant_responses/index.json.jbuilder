@@ -1,6 +1,9 @@
 json.payload do
   json.array! @responses do |response|
     json.partial! 'api/v1/models/captain/assistant_response', formats: [:json], resource: response
+    if response.documentable_type == 'User' && @response_usage_counts
+      json.used_in_conversations_count @response_usage_counts.fetch(response.id, 0)
+    end
   end
 end
 

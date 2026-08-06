@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import CaptainDocumentAPI from 'dashboard/api/captain/document';
 import { useReportDrilldown } from 'dashboard/routes/dashboard/settings/reports/composables/useReportDrilldown';
 import ReportDrilldownCard from 'dashboard/routes/dashboard/settings/reports/components/ReportDrilldownCard.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -10,7 +9,11 @@ import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 
 const props = defineProps({
   open: { type: Boolean, default: false },
-  document: { type: Object, default: null },
+  resourceId: { type: [Number, String], default: null },
+  title: { type: String, default: '' },
+  conversationCount: { type: Number, default: 0 },
+  fetcher: { type: Function, required: true },
+  emptyStateKey: { type: String, required: true },
 });
 
 const emit = defineEmits(['close']);
@@ -28,22 +31,15 @@ const {
   open: openDrilldown,
   close,
   loadMore,
-} = useReportDrilldown(params => CaptainDocumentAPI.getDrilldown(params));
+} = useReportDrilldown(params => props.fetcher(params));
 
-const title = computed(
-  () => props.document?.name || props.document?.external_link || ''
-);
-
-const conversationCount = computed(
-  () =>
-    meta.value.conversation_count ??
-    props.document?.used_in_conversations_count ??
-    0
+const resolvedConversationCount = computed(
+  () => meta.value.conversation_count ?? props.conversationCount
 );
 
 const subtitle = computed(() =>
   t('CAPTAIN.DOCUMENTS.USED_IN_CONVERSATIONS', {
-    n: conversationCount.value,
+    n: resolvedConversationCount.value,
   })
 );
 
@@ -53,9 +49,9 @@ const recordKey = record =>
   }`;
 
 const fetchDrilldown = () => {
-  if (!props.document?.id) return;
+  if (!props.resourceId) return;
 
-  openDrilldown({ documentId: props.document.id });
+  openDrilldown({ resourceId: props.resourceId });
 };
 
 watch(
@@ -73,7 +69,7 @@ watch(
 );
 
 watch(
-  () => props.document?.id,
+  () => props.resourceId,
   () => {
     if (props.open) fetchDrilldown();
   }
@@ -108,7 +104,7 @@ watch(
       v-else-if="!hasRecords"
       class="flex h-40 items-center justify-center text-sm text-n-slate-10"
     >
-      {{ $t('CAPTAIN.DOCUMENTS.NO_USED_CONVERSATIONS') }}
+      {{ $t(emptyStateKey) }}
     </div>
 
     <div v-else class="flex flex-col gap-2">

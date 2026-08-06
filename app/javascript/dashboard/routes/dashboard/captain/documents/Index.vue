@@ -18,7 +18,7 @@ import Policy from 'dashboard/components/policy.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import DocumentDetails from 'dashboard/components-next/captain/pageComponents/document/DocumentDetails.vue';
-import DocumentUsageDrawer from 'dashboard/components-next/captain/pageComponents/document/DocumentUsageDrawer.vue';
+import ConversationUsageDrawer from 'dashboard/components-next/captain/pageComponents/ConversationUsageDrawer.vue';
 import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
 import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
@@ -78,6 +78,9 @@ const handleShowDocumentUsage = id => {
 const handleDocumentUsageClose = () => {
   showDocumentUsage.value = false;
 };
+
+const fetchDocumentUsage = ({ resourceId, ...params }) =>
+  CaptainDocumentAPI.getDrilldown({ documentId: resourceId, ...params });
 
 const handleCreateDialogClose = () => {
   showCreateDialog.value = false;
@@ -449,9 +452,13 @@ onUnmounted(() => {
       :captain-document="selectedDocument"
       @close="handleDocumentDetailsClose"
     />
-    <DocumentUsageDrawer
+    <ConversationUsageDrawer
       :open="showDocumentUsage"
-      :document="usageDocument"
+      :resource-id="usageDocument?.id"
+      :title="usageDocument?.name || usageDocument?.external_link || ''"
+      :conversation-count="usageDocument?.used_in_conversations_count || 0"
+      :fetcher="fetchDocumentUsage"
+      empty-state-key="CAPTAIN.DOCUMENTS.NO_USED_CONVERSATIONS"
       @close="handleDocumentUsageClose"
     />
     <CreateDocumentDialog

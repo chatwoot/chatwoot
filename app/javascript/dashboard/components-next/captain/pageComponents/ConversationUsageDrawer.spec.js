@@ -1,12 +1,5 @@
 import { flushPromises, mount } from '@vue/test-utils';
-import CaptainDocumentAPI from 'dashboard/api/captain/document';
-import DocumentUsageDrawer from './DocumentUsageDrawer.vue';
-
-vi.mock('dashboard/api/captain/document', () => ({
-  default: {
-    getDrilldown: vi.fn(),
-  },
-}));
+import ConversationUsageDrawer from './ConversationUsageDrawer.vue';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({
@@ -36,15 +29,15 @@ const SidePanelStub = {
     '<section><slot name="header" /><slot /><button data-test="close" @click="$emit(\'close\')" /></section>',
 };
 
-const mountDrawer = async () => {
-  const wrapper = mount(DocumentUsageDrawer, {
+const mountDrawer = async fetcher => {
+  const wrapper = mount(ConversationUsageDrawer, {
     props: {
       open: false,
-      document: {
-        id: 7,
-        name: 'Returns and refunds',
-        used_in_conversations_count: 1,
-      },
+      resourceId: 7,
+      title: 'Returns and refunds',
+      conversationCount: 1,
+      fetcher,
+      emptyStateKey: 'CAPTAIN.RESPONSES.NO_USED_CONVERSATIONS',
     },
     global: {
       stubs: {
@@ -67,26 +60,19 @@ const mountDrawer = async () => {
   return wrapper;
 };
 
-describe('DocumentUsageDrawer', () => {
-  beforeEach(() => {
-    CaptainDocumentAPI.getDrilldown.mockResolvedValue({
+describe('ConversationUsageDrawer', () => {
+  it('loads conversations through the supplied shared drilldown fetcher', async () => {
+    const fetcher = vi.fn().mockResolvedValue({
       data: {
         meta: { current_page: 1, total_count: 1, conversation_count: 1 },
         payload,
       },
     });
-  });
-
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('loads the document conversations through the shared drilldown contract', async () => {
-    const wrapper = await mountDrawer();
+    const wrapper = await mountDrawer(fetcher);
     await flushPromises();
 
-    expect(CaptainDocumentAPI.getDrilldown).toHaveBeenCalledWith(
-      expect.objectContaining({ documentId: 7, page: 1 })
+    expect(fetcher).toHaveBeenCalledWith(
+      expect.objectContaining({ resourceId: 7, page: 1 })
     );
     expect(wrapper.text()).toContain('Returns and refunds');
     expect(wrapper.text()).toContain('Used in 1 conversation');
@@ -94,7 +80,10 @@ describe('DocumentUsageDrawer', () => {
   });
 
   it('emits close when the shared side panel closes', async () => {
-    const wrapper = await mountDrawer();
+    const fetcher = vi
+      .fn()
+      .mockResolvedValue({ data: { meta: {}, payload: [] } });
+    const wrapper = await mountDrawer(fetcher);
     await flushPromises();
 
     await wrapper.get('[data-test="close"]').trigger('click');
