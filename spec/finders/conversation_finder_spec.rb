@@ -80,10 +80,14 @@ describe ConversationFinder do
 
     context 'with assignee_type unassigned' do
       let(:params) { { assignee_type: 'unassigned' } }
+      let!(:agent_bot_conversation) do
+        create(:conversation, account: account, inbox: inbox, assignee_agent_bot: create(:agent_bot, account: account))
+      end
 
       it 'filter conversations by assignee type unassigned' do
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 1
+        expect(result[:conversations]).not_to include(agent_bot_conversation)
       end
     end
 
@@ -159,19 +163,23 @@ describe ConversationFinder do
 
     context 'with assignee_type assigned' do
       let(:params) { { assignee_type: 'assigned' } }
+      let!(:agent_bot_conversation) do
+        create(:conversation, account: account, inbox: inbox, assignee_agent_bot: create(:agent_bot, account: account))
+      end
 
       it 'filter conversations by assignee type assigned' do
         result = conversation_finder.perform
-        expect(result[:conversations].length).to be 3
+        expect(result[:conversations].length).to be 4
+        expect(result[:conversations]).to include(agent_bot_conversation)
       end
 
       it 'returns the correct meta' do
         result = conversation_finder.perform
         expect(result[:count]).to eq({
                                        mine_count: 2,
-                                       assigned_count: 3,
+                                       assigned_count: 4,
                                        unassigned_count: 1,
-                                       all_count: 4
+                                       all_count: 5
                                      })
       end
     end

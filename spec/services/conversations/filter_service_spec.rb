@@ -751,6 +751,20 @@ describe Conversations::FilterService do
       )
     end
 
+    it 'counts conversations owned by an agent bot as assigned' do
+      create(:conversation, account: account, inbox: inbox, assignee_agent_bot: create(:agent_bot, account: account))
+      params[:payload] = payload
+
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:count]).to eq(
+        mine_count: 3,
+        assigned_count: 5,
+        unassigned_count: 1,
+        all_count: 6
+      )
+    end
+
     it 'returns zero counts when the permission scope resolves to no conversations' do
       params[:payload] = payload
       permission_filter = instance_double(Conversations::PermissionFilterService, perform: Conversation.none)
