@@ -12,8 +12,7 @@ class ArticleKeyConverter
 
   def convert_key(id)
     verifier_name = 'ActiveStorage'
-    secret_key_base = Rails.application.credentials.secret_key_base ||
-                      Rails.application.secrets.secret_key_base
+    secret_key_base = Rails.application.secret_key_base
     key_generator = ActiveSupport::KeyGenerator.new(secret_key_base,
                                                     iterations: 1000,
                                                     hash_digest_class: OpenSSL::Digest::SHA1)
