@@ -188,6 +188,16 @@ RSpec.describe Captain::Copilot::ChatService do
 
       expect(messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
     end
+
+    it 'omits current viewing history when an administrator has a limited custom role' do
+      create(:inbox_member, user: user, inbox: inbox)
+      custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
+      AccountUser.find_by(user: user, account: account).update!(role: :administrator, custom_role: custom_role)
+
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
+
+      expect(service.messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
+    end
   end
 
   describe 'message persistence behavior' do

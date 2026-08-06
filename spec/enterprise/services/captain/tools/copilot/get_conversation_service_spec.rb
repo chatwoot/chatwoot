@@ -183,5 +183,22 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
         expect(service.execute(conversation_id: conversation.display_id)).to eq(conversation.to_llm_text)
       end
     end
+
+    context 'when an administrator has a limited custom role' do
+      let(:user) { create(:user, :administrator, account: account) }
+      let(:inbox) { create(:inbox, account: account) }
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_participating_manage']) }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+
+      before do
+        create(:inbox_member, user: user, inbox: inbox)
+        AccountUser.find_by(user: user, account: account).update!(custom_role: custom_role)
+        create(:message, conversation: conversation, private: true, content: 'Restricted private note')
+      end
+
+      it 'does not return an unrelated conversation or its private messages' do
+        expect(service.execute(conversation_id: conversation.display_id)).to eq('Conversation not found')
+      end
+    end
   end
 end
