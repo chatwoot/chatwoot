@@ -11,9 +11,11 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     fetch_mails_with_lock(channel, interval)
   rescue *ExceptionList::IMAP_EXCEPTIONS => e
     Rails.logger.error "Authorization error for email channel - #{channel.inbox.id} : #{e.message}"
+    channel.imap_fetch_error!
   rescue IOError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError, Net::IMAP::BadResponseError, Net::IMAP::InvalidResponseError,
          Net::IMAP::ResponseParseError, Net::IMAP::ResponseReadError, Net::IMAP::ResponseTooLargeError => e
     Rails.logger.error "Error for email channel - #{channel.inbox.id} : #{e.message}"
+    channel.imap_fetch_error!
   rescue LockAcquisitionError
     Rails.logger.error "Lock failed for #{channel.inbox.id}"
   rescue StandardError => e
@@ -29,6 +31,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   def handle_unexpected_error(error, channel)
     Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Unexpected error for inbox #{channel.inbox.id} : #{error.class} - #{error.message}"
     ChatwootExceptionTracker.new(error, account: channel.account).capture_exception
+    channel.imap_fetch_error! if error.is_a?(SystemCallError) || error.is_a?(SocketError)
   end
 
   def fetch_mails_with_lock(channel, interval)
@@ -45,6 +48,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
 
     duration = (Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at).round(1)
     if success
+      channel.clear_imap_fetch_backoff!
       Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Job completed for inbox #{inbox_id} in #{duration}s"
     else
       Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Job completed with authorization error for inbox #{inbox_id} in #{duration}s"
