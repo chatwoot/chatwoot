@@ -27,4 +27,14 @@ module Captain::Conversation::V2LifecycleEvents
       at: Time.current
     )
   end
+
+  def record_v2_tool_failure_handoff
+    Captain::ConversationEvents.handed_off(
+      conversation: @conversation,
+      assistant: @assistant,
+      source: Captain::ConversationEvents::Sources::TOOL,
+      reason_category: :tool_failure,
+      at: Time.current
+    )
+  end
 end
