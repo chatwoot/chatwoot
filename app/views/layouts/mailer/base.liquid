@@ -129,6 +129,14 @@
                 </td>
               </tr>
             {% endif %}
+            {% if notification_settings_url != nil and notification_settings_url != '' %}
+              <tr style="margin: 0;">
+                <td class="footer" style="padding: 8px 8px 0; text-align: center; color: #64748B; font-size: 13px; line-height: 21px;">
+                  You're receiving this email because email notifications are enabled for your account.
+                  <a href="{{ notification_settings_url }}" style="color: #2781F6; font-weight: 600; text-decoration: none;">Manage notification preferences</a>.
+                </td>
+              </tr>
+            {% endif %}
           </table>
         </td>
       </tr>

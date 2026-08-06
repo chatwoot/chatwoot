@@ -9,11 +9,26 @@ class AutoAssignment::AgentAssignmentService
   end
 
   def perform
-    new_assignee = find_assignee
-    conversation.update(assignee: new_assignee) if new_assignee
+    # Lock a separate instance only to decide; write through conversation itself so its
+    # already-registered after_commit callbacks actually fire.
+    Conversation.transaction do
+      locked = Conversation.lock.find_by(id: conversation.id)
+      next unless locked && reassignment_still_needed?(locked)
+
+      new_assignee = find_assignee
+      next unless new_assignee
+
+      conversation.assignee_id = locked.assignee_id
+      conversation.clear_attribute_changes([:assignee_id])
+      conversation.update(assignee: new_assignee)
+    end
   end
 
   private
+
+  def reassignment_still_needed?(locked_conversation)
+    locked_conversation.assignee.blank? || locked_conversation.inbox.members.exclude?(locked_conversation.assignee)
+  end
 
   def online_agent_ids
     online_agents = OnlineStatusTracker.get_available_users(conversation.account_id)
