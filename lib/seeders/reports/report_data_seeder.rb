@@ -43,7 +43,7 @@ class Seeders::Reports::ReportDataSeeder
   # Captain assistant conversations, split across the outcomes the overview page reports on.
   TOTAL_ASSISTANT_CONVERSATIONS = 120
   ASSISTANT_KNOWLEDGE_APPROVED = 14
-  ASSISTANT_FAQ_SUGGESTIONS = 6
+  ASSISTANT_KNOWLEDGE_PENDING = 6
   ASSISTANT_DOCUMENTS = 4
   START_DATE = 3.months.ago # rubocop:disable Rails/RelativeDateConstant
   END_DATE = Time.current
@@ -98,8 +98,6 @@ class Seeders::Reports::ReportDataSeeder
   # would leave rows around mid-reseed); order respects foreign keys.
   def clear_assistant_data
     assistant_ids = Captain::Assistant.for_account(@account.id).select(:id)
-    Captain::FaqObservation.where(account_id: @account.id).delete_all
-    Captain::FaqSuggestion.where(account_id: @account.id).delete_all
     Captain::AssistantResponse.by_account(@account.id).delete_all
     Captain::Document.for_account(@account.id).delete_all
     CaptainInbox.where(captain_assistant_id: assistant_ids).delete_all
@@ -251,8 +249,8 @@ class Seeders::Reports::ReportDataSeeder
   end
 
   def create_assistant_knowledge
-    ASSISTANT_KNOWLEDGE_APPROVED.times { create_assistant_response }
-    ASSISTANT_FAQ_SUGGESTIONS.times { create_faq_suggestion }
+    ASSISTANT_KNOWLEDGE_APPROVED.times { create_assistant_response(:approved) }
+    ASSISTANT_KNOWLEDGE_PENDING.times { create_assistant_response(:pending) }
 
     ASSISTANT_DOCUMENTS.times do
       Captain::Document.create!(
@@ -267,24 +265,13 @@ class Seeders::Reports::ReportDataSeeder
     end
   end
 
-  def create_assistant_response
+  def create_assistant_response(status)
     Captain::AssistantResponse.create!(
       account: @account,
       assistant: @assistant,
       question: "#{Faker::Lorem.sentence(word_count: rand(4..8)).chomp('.')}?",
       answer: Faker::Lorem.paragraph(sentence_count: rand(2..4)),
-      status: :approved
-    )
-  end
-
-  def create_faq_suggestion
-    Captain::FaqSuggestion.create!(
-      account: @account,
-      assistant: @assistant,
-      question: "#{Faker::Lorem.sentence(word_count: rand(4..8)).chomp('.')}?",
-      answer: Faker::Lorem.paragraph(sentence_count: rand(2..4)),
-      status: :open,
-      source_count: rand(1..8)
+      status: status
     )
   end
 
