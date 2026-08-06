@@ -25,8 +25,10 @@ class Channel::Whatsapp < ApplicationRecord
   EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
 
   # default at the moment is 360dialog lets change later.
-  # CUSTOMIZAÇÃO_SYNAPSEOS: adicionamos Hyperflow (BSP Brasil) e Avisa API (não oficial).
-  PROVIDERS = %w[default whatsapp_cloud hyperflow avisa].freeze
+  # CUSTOMIZAÇÃO_SYNAPSEOS: adicionamos Hyperflow (BSP Brasil), Avisa API (não
+  # oficial) e d360_cloud (Cloud API hospedada na 360dialog, waba-v2 — o
+  # provider 'default' é a API v1 LEGADA da 360dialog, outra coisa).
+  PROVIDERS = %w[default whatsapp_cloud hyperflow avisa d360_cloud].freeze
   before_validation :ensure_webhook_verify_token
 
   validates :provider, inclusion: { in: PROVIDERS }
@@ -61,6 +63,9 @@ class Channel::Whatsapp < ApplicationRecord
     when 'avisa'
       # CUSTOMIZAÇÃO_SYNAPSEOS
       Whatsapp::Providers::AvisaService.new(whatsapp_channel: self)
+    when 'd360_cloud'
+      # CUSTOMIZAÇÃO_SYNAPSEOS
+      Whatsapp::Providers::WhatsappD360CloudService.new(whatsapp_channel: self)
     else
       Whatsapp::Providers::Whatsapp360DialogService.new(whatsapp_channel: self)
     end
@@ -76,6 +81,7 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :send_template, to: :provider_service
   delegate :sync_templates, to: :provider_service
   delegate :media_url, to: :provider_service
+  delegate :media_download_url, to: :provider_service
   delegate :api_headers, to: :provider_service
 
   def setup_webhooks

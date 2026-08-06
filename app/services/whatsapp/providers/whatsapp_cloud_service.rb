@@ -79,6 +79,13 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     "#{api_base_path}/v13.0/#{media_id}"
   end
 
+  # CUSTOMIZAÇÃO_SYNAPSEOS: hook pro download do binário de mídia — a URL que o
+  # GET /{media_id} devolve é usada como veio na Meta direta; BSPs proxy
+  # (d360_cloud) sobrescrevem pra reapontar o host.
+  def media_download_url(url)
+    url
+  end
+
   private
 
   def csat_template_service

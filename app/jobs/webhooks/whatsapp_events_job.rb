@@ -60,7 +60,9 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
 
   def handle_message_events(channel, params)
     case channel.provider
-    when 'whatsapp_cloud'
+    when 'whatsapp_cloud', 'd360_cloud'
+      # CUSTOMIZAÇÃO_SYNAPSEOS: d360_cloud entrega webhooks no MESMO formato da
+      # Cloud API (entry/changes/value) — mesmo parser inbound.
       Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params).perform
     else
       Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
