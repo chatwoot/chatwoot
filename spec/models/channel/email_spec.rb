@@ -74,6 +74,12 @@ RSpec.describe Channel::Email do
         expect(channel.reload.imap_fetch_paused_till).to be_within(10.seconds).of(15.minutes.from_now)
       end
 
+      it 'does not run update callbacks for backoff bookkeeping' do
+        expect(channel).not_to receive(:create_audit_log_entry)
+
+        expect { channel.imap_fetch_error! }.not_to(change { channel.reload.updated_at })
+      end
+
       it 'caps the pause at 60 minutes from the fifth failure onwards' do
         7.times { channel.imap_fetch_error! }
 

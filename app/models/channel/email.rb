@@ -70,15 +70,16 @@ class Channel::Email < ApplicationRecord
     imap_fetch_paused_till.present? && imap_fetch_paused_till.future?
   end
 
+  # update_columns keeps internal retry bookkeeping out of audit logs
   def imap_fetch_error!
     count = imap_fetch_error_count + 1
-    update!(imap_fetch_error_count: count, imap_fetch_paused_till: imap_fetch_backoff_period(count)&.from_now)
+    update_columns(imap_fetch_error_count: count, imap_fetch_paused_till: imap_fetch_backoff_period(count)&.from_now) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def clear_imap_fetch_backoff!
     return if imap_fetch_error_count.zero? && imap_fetch_paused_till.nil?
 
-    update!(imap_fetch_error_count: 0, imap_fetch_paused_till: nil)
+    update_columns(imap_fetch_error_count: 0, imap_fetch_paused_till: nil) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def microsoft?
