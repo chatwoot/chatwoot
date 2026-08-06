@@ -54,7 +54,8 @@ class Channel::Email < ApplicationRecord
                     :smtp_enabled, :smtp_login, :smtp_password, :smtp_address, :smtp_port, :smtp_domain, :smtp_enable_starttls_auto,
                     :smtp_enable_ssl_tls, :smtp_openssl_verify_mode, :smtp_authentication, :provider, :verified_for_sending].freeze
 
-  IMAP_SETTINGS_ATTRS = %w[imap_enabled imap_address imap_port imap_login imap_password imap_enable_ssl imap_authentication].freeze
+  IMAP_SETTINGS_ATTRS = %w[imap_enabled imap_address imap_port imap_login imap_password imap_enable_ssl imap_authentication
+                           provider provider_config].freeze
 
   validates :email, uniqueness: true
   validates :forward_to_email, uniqueness: true
@@ -72,7 +73,8 @@ class Channel::Email < ApplicationRecord
 
   # update_columns keeps internal retry bookkeeping out of audit logs
   def imap_fetch_error!
-    count = imap_fetch_error_count + 1
+    # read the persisted count, the in-memory value can be stale on long-running jobs
+    count = self.class.where(id: id).pick(:imap_fetch_error_count).to_i + 1
     update_columns(imap_fetch_error_count: count, imap_fetch_paused_till: imap_fetch_backoff_period(count)&.from_now) # rubocop:disable Rails/SkipsModelValidations
   end
 

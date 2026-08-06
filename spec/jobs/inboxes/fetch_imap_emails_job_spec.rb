@@ -85,6 +85,19 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
 
         described_class.perform_now(microsoft_imap_email_channel)
       end
+
+      it 'records a fetch error' do
+        error_response = double
+        oauth_error = OAuth2::Error.new(error_response)
+
+        allow(Imap::MicrosoftFetchEmailService).to receive(:new)
+          .with(channel: microsoft_imap_email_channel, interval: 1)
+          .and_raise(oauth_error)
+
+        expect do
+          described_class.perform_now(microsoft_imap_email_channel)
+        end.to change { microsoft_imap_email_channel.reload.imap_fetch_error_count }.by(1)
+      end
     end
 
     context 'when the channel is paused for fetch backoff' do
@@ -108,6 +121,15 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
 
       it 'records a fetch error on SSL errors' do
         allow(Imap::FetchEmailService).to receive(:new).and_raise(OpenSSL::SSL::SSLError)
+
+        expect do
+          described_class.perform_now(imap_email_channel)
+        end.to change { imap_email_channel.reload.imap_fetch_error_count }.by(1)
+      end
+
+      it 'records a fetch error on read timeouts' do
+        allow(Imap::FetchEmailService).to receive(:new).and_raise(Net::ReadTimeout)
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(instance_double(ChatwootExceptionTracker, capture_exception: true))
 
         expect do
           described_class.perform_now(imap_email_channel)

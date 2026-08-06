@@ -74,6 +74,14 @@ RSpec.describe Channel::Email do
         expect(channel.reload.imap_fetch_paused_till).to be_within(10.seconds).of(15.minutes.from_now)
       end
 
+      it 'increments from the persisted count when the in-memory value is stale' do
+        stale_channel = described_class.find(channel.id)
+        channel.imap_fetch_error!
+        stale_channel.imap_fetch_error!
+
+        expect(channel.reload.imap_fetch_error_count).to eq(2)
+      end
+
       it 'does not run update callbacks for backoff bookkeeping' do
         expect(channel).not_to receive(:create_audit_log_entry)
 
@@ -104,6 +112,13 @@ RSpec.describe Channel::Email do
 
       it 'resets backoff when imap settings are updated' do
         channel.update!(imap_address: 'imap.example.com')
+
+        expect(channel.reload.imap_fetch_error_count).to eq(0)
+        expect(channel.imap_fetch_paused_till).to be_nil
+      end
+
+      it 'resets backoff when provider_config is updated' do
+        channel.update!(provider_config: { access_token: 'new-token' })
 
         expect(channel.reload.imap_fetch_error_count).to eq(0)
         expect(channel.imap_fetch_paused_till).to be_nil

@@ -10,7 +10,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
 
     fetch_mails_with_lock(channel, interval)
   rescue *ExceptionList::IMAP_EXCEPTIONS => e
-    Rails.logger.error "Authorization error for email channel - #{channel.inbox.id} : #{e.message}"
+    Rails.logger.error "Fetch error (network/protocol) for email channel - #{channel.inbox.id} : #{e.message}"
     channel.imap_fetch_error!
   rescue IOError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError, Net::IMAP::BadResponseError, Net::IMAP::InvalidResponseError,
          Net::IMAP::ResponseParseError, Net::IMAP::ResponseReadError, Net::IMAP::ResponseTooLargeError => e
@@ -31,7 +31,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   def handle_unexpected_error(error, channel)
     Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Unexpected error for inbox #{channel.inbox.id} : #{error.class} - #{error.message}"
     ChatwootExceptionTracker.new(error, account: channel.account).capture_exception
-    channel.imap_fetch_error! if error.is_a?(SystemCallError) || error.is_a?(SocketError)
+    channel.imap_fetch_error! if error.is_a?(SystemCallError) || error.is_a?(Timeout::Error)
   end
 
   def fetch_mails_with_lock(channel, interval)
@@ -79,9 +79,14 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Finished processing fetched emails for inbox #{channel.inbox.id}"
     true
   rescue OAuth2::Error => e
-    Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] OAuth error for inbox #{channel.inbox.id} : #{e.message}"
-    channel.authorization_error!
+    handle_oauth_error(e, channel)
     false
+  end
+
+  def handle_oauth_error(error, channel)
+    Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] OAuth error for inbox #{channel.inbox.id} : #{error.message}"
+    channel.authorization_error!
+    channel.imap_fetch_error!
   end
 
   def should_skip_email?(message_id)
