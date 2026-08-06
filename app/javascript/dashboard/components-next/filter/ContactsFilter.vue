@@ -128,6 +128,7 @@ const outsideClickHandler = [
           v-model:filter-operator="filter.filterOperator"
           v-model:values="filter.values"
           :filter-types="filterTypes"
+          filter-i18n-key="CONTACTS_FILTER"
           :show-query-operator="false"
           @remove="removeFilter(index)"
         />
@@ -141,6 +142,7 @@ const outsideClickHandler = [
           v-model:values="filter.values"
           show-query-operator
           :filter-types="filterTypes"
+          filter-i18n-key="CONTACTS_FILTER"
           @remove="removeFilter(index)"
         />
       </template>

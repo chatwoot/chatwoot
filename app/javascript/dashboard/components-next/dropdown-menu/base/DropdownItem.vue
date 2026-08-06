@@ -46,7 +46,7 @@ const triggerClick = () => {
       v-bind="$attrs"
       class="flex text-left rtl:text-right items-center p-2 reset-base text-sm text-n-slate-12 w-full border-0"
       :class="{
-        'hover:bg-n-alpha-2 rounded-lg w-full gap-3': !$slots.default,
+        'hover:bg-n-alpha-2 rounded-lg w-full gap-2': !$slots.default,
       }"
       :href="componentIs === 'a' ? props.link : null"
       :to="componentIs === 'router-link' ? props.link : null"

@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { picoSearch } from '@scmmishra/pico-search';
+import { DROPDOWN_SEARCH_THRESHOLD } from '../helper/filterHelper';
 import Icon from 'next/icon/Icon.vue';
 import Button from 'next/button/Button.vue';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
@@ -24,8 +25,6 @@ const { options, maxChips, dropdownMaxHeight } = defineProps({
   },
 });
 
-const SEARCH_THRESHOLD = 8;
-
 const vFocus = { mounted: el => el.focus() };
 
 const { t } = useI18n();
@@ -36,7 +35,7 @@ const selected = defineModel({
 
 const searchTerm = ref('');
 
-const showSearch = computed(() => options.length > SEARCH_THRESHOLD);
+const showSearch = computed(() => options.length > DROPDOWN_SEARCH_THRESHOLD);
 
 const searchResults = computed(() =>
   picoSearch(options, searchTerm.value, ['name'])
@@ -144,7 +143,7 @@ const toggleOption = option => {
         <span class="text-n-slate-11">{{ t('COMBOBOX.PLACEHOLDER') }}</span>
       </Button>
     </template>
-    <DropdownBody class="top-0 min-w-56 z-50" strong>
+    <DropdownBody class="top-0 min-w-48 z-50" strong>
       <div v-if="showSearch" class="relative">
         <Icon class="absolute size-4 left-2 top-2" icon="i-lucide-search" />
         <input

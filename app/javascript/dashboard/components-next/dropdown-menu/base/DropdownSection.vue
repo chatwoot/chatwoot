@@ -20,7 +20,7 @@ defineProps({
       {{ title }}
     </div>
     <ul
-      class="gap-2 grid reset-base list-none px-2 overflow-y-auto"
+      class="gap-1.5 grid reset-base list-none px-2 pb-2 overflow-y-auto"
       :class="height"
     >
       <slot />
