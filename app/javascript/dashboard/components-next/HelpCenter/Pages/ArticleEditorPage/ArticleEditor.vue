@@ -53,7 +53,7 @@ const hasPendingChanges = computed(
 const localTitle = ref(effectiveTitle());
 const localContent = ref(effectiveContent());
 
-const isDiffPanelOpen = ref(false);
+const diffPanelRef = ref(null);
 
 // Autosave 500ms after the last edit. It sends both title and content so an
 // edit to one never drops a recent edit to the other. `stop` cancels a queued
@@ -84,7 +84,7 @@ watch(
   [() => props.article?.id, hasPendingChanges],
   ([id, pending], [prevId, prevPending]) => {
     if ((id && id !== prevId) || (prevPending && !pending)) syncLocalState();
-    if (prevPending && !pending) isDiffPanelOpen.value = false;
+    if (prevPending && !pending) diffPanelRef.value?.close();
   }
 );
 
@@ -156,9 +156,9 @@ const handleCreateArticle = event => {
         :is-saving="isSaving"
         @go-back="onClickGoBack"
         @preview-article="previewArticle"
-        @show-diff="isDiffPanelOpen = !isDiffPanelOpen"
+        @show-diff="diffPanelRef?.open()"
       />
-      <ArticleDiffPanel v-model="isDiffPanelOpen" :article="article" />
+      <ArticleDiffPanel ref="diffPanelRef" :article="article" />
     </template>
     <template #content>
       <div class="flex flex-col gap-3 pl-4 mb-3 rtl:pr-3 rtl:pl-0">
