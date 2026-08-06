@@ -50,22 +50,6 @@ RSpec.describe Captain::ConversationOutcomeTracker do
       expect(episode.reload.started_at).to eq(earlier_eligible_at)
     end
 
-    it 'inserts a missing initial episode before an existing reopen boundary' do
-      boundary_at = 1.minute.ago.change(usec: 0)
-      reopen_episode = create(
-        :conversation_outcome,
-        account: account, assistant: assistant, conversation: conversation, inbox: inbox,
-        episode_trigger: 'reopen', started_at: boundary_at
-      )
-
-      eligible_at = 10.minutes.ago.change(usec: 0)
-      tracker.record_eligibility(at: eligible_at)
-
-      initial = episodes.first
-      expect(initial).to have_attributes(episode_trigger: 'initial', started_at: eligible_at, ended_at: boundary_at)
-      expect(reopen_episode.reload.started_at).to eq(boundary_at)
-    end
-
     it 'does not create episodes for Captain V1' do
       account.disable_features!('captain_integration_v2')
 
@@ -188,18 +172,6 @@ RSpec.describe Captain::ConversationOutcomeTracker do
 
       expect(initial.reload.captain_reply_count).to eq(1)
       expect(episodes.last.captain_reply_count).to eq(0)
-    end
-
-    it 'ignores private captain notes' do
-      message = create(
-        :message,
-        account: account, inbox: inbox, conversation: conversation,
-        sender: assistant, message_type: :outgoing, private: true
-      )
-
-      tracker.record_captain_reply(message: message)
-
-      expect(initial.reload.captain_reply_count).to eq(0)
     end
   end
 

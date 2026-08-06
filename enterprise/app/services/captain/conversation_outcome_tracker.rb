@@ -34,27 +34,19 @@ class Captain::ConversationOutcomeTracker
   # --- Facts ----------------------------------------------------------------
 
   def record_captain_reply(message:)
-    return unless public_captain_reply?(message)
-
     track_fact(:captain_reply, at: message.created_at) do |episode|
-      episode.with_lock do
-        recount_captain_replies(episode)
-        episode.save!
-      end
+      recount_captain_replies(episode)
+      episode.save!
     end
   end
 
   def record_handoff(at:, reason_category:)
     track_fact(:handoff, at: at) do |episode|
-      episode.with_lock do
-        # First handoff wins within the episode: re-delivered or later handoff
-        # events must not overwrite the reason the episode left Captain.
-        next episode if episode.handoff_at.present? && episode.handoff_at <= at
+      # First handoff wins within the episode: re-delivered or later handoff
+      # events must not overwrite the reason the episode left Captain.
+      next episode if episode.handoff_at.present? && episode.handoff_at <= at
 
-        episode.handoff_at = at
-        episode.handoff_reason_category = reason_category
-        episode.save!
-      end
+      episode.update!(handoff_at: at, handoff_reason_category: reason_category)
     end
   end
 
@@ -62,23 +54,18 @@ class Captain::ConversationOutcomeTracker
     return unless public_human_reply?(message)
 
     track_fact(:human_reply, at: message.created_at) do |episode|
-      episode.with_lock do
-        episode.first_human_reply_at = earliest(episode.first_human_reply_at, message.created_at)
-        episode.save! if episode.changed?
-      end
+      episode.first_human_reply_at = earliest(episode.first_human_reply_at, message.created_at)
+      episode.save! if episode.changed?
     end
   end
 
   def record_resolution(at:)
     track_fact(:resolution, at: at) do |episode|
-      episode.with_lock do
-        # Latest resolution wins within the episode; out-of-order events must
-        # not roll it back.
-        next episode if episode.resolved_at.present? && at < episode.resolved_at
+      # Latest resolution wins within the episode; out-of-order events must
+      # not roll it back.
+      next episode if episode.resolved_at.present? && at < episode.resolved_at
 
-        episode.resolved_at = at
-        episode.save!
-      end
+      episode.update!(resolved_at: at)
     end
   end
 
@@ -86,13 +73,8 @@ class Captain::ConversationOutcomeTracker
     # The response is attributed through the survey message that solicited it,
     # so a late submission lands on the episode that sent the survey, not on
     # whichever episode is open when the customer answers.
-    survey_at = response.message&.created_at
-    return if survey_at.blank?
-
-    track_fact(:csat, at: survey_at) do |episode|
-      episode.with_lock do
-        episode.update!(csat_rating: response.rating, csat_received_at: response.created_at)
-      end
+    track_fact(:csat, at: response.message.created_at) do |episode|
+      episode.update!(csat_rating: response.rating, csat_received_at: response.created_at)
     end
   end
 
@@ -114,26 +96,19 @@ class Captain::ConversationOutcomeTracker
     # The initial anchor is demand-time and mutable (earliest wins). Boundary
     # anchors are immutable identities and are never lowered.
     initial.with_lock do
-      initial.update!(started_at: earliest(initial.started_at, at)) if at < initial.started_at
+      initial.update!(started_at: at) if at < initial.started_at
     end
     initial
   end
 
   def create_initial_episode(at)
-    earliest_boundary = episodes.chronological.first
-    # An initial episode must precede every boundary. When the stream already
-    # has a boundary episode and this demand falls inside its window, the
-    # true initial start is still unknown; wait for an earlier eligible event.
-    return if earliest_boundary && at >= earliest_boundary.started_at
-
     ConversationOutcome.create!(
       account: account,
       assistant: assistant,
       conversation: conversation,
       inbox: conversation.inbox,
       episode_trigger: 'initial',
-      started_at: at,
-      ended_at: earliest_boundary&.started_at
+      started_at: at
     )
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
     initial = episodes.trigger_initial.take || raise
@@ -143,14 +118,14 @@ class Captain::ConversationOutcomeTracker
   # --- Boundary insertion ---------------------------------------------------
 
   def insert_boundary(at)
-    predecessor = episodes.where(started_at: ...at).chronological.last
+    predecessor = episodes.where(started_at: ...at).chronological.last!
     successor = episodes.where('started_at > ?', at).chronological.first
 
     # The predecessor closes before the insert: the open-episode partial
     # unique index permits only one open row, and partial indexes are not
     # deferrable. The surrounding transaction rolls the close back if the
     # insert fails.
-    predecessor&.update!(ended_at: at)
+    predecessor.update!(ended_at: at)
     episode = ConversationOutcome.create!(
       account: account,
       assistant: boundary_assistant,
@@ -164,7 +139,7 @@ class Captain::ConversationOutcomeTracker
   end
 
   def boundary_assistant
-    conversation.inbox.captain_assistant || episodes.chronological.last&.assistant
+    conversation.inbox.captain_assistant || episodes.chronological.last.assistant
   end
 
   # Serializes boundary insertion per conversation across all workers.
@@ -175,10 +150,10 @@ class Captain::ConversationOutcomeTracker
   # constraint catches it and no retry heals it, so the corruption is silent.
   # The transaction-scoped advisory lock releases itself on commit/rollback.
   # https://www.postgresql.org/docs/current/explicit-locking.html#ADVISORY-LOCKS
-  def with_stream_lock(&)
+  def with_stream_lock
     ApplicationRecord.transaction do
       ApplicationRecord.connection.select_value(
-        "SELECT pg_advisory_xact_lock(#{STREAM_LOCK_NAMESPACE}, #{conversation.id.to_i % (2**31)})"
+        "SELECT pg_advisory_xact_lock(#{STREAM_LOCK_NAMESPACE}, #{conversation.id})"
       )
       yield
     end
