@@ -16,7 +16,7 @@ RSpec.describe Captain::ConversationOutcomeBoundaryJob do
       account: account, assistant: assistant, conversation: conversation, inbox: inbox,
       started_at: 1.hour.ago
     )
-    boundary_at = 5.minutes.ago
+    boundary_at = 5.minutes.ago.change(usec: 0)
 
     described_class.perform_now(conversation, boundary_at)
 
