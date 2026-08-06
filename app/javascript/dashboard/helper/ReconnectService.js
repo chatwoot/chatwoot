@@ -63,10 +63,14 @@ class ReconnectService {
   };
 
   fetchFilteredOrSavedConversations = async queryData => {
-    await this.store.dispatch('fetchFilteredConversations', {
-      queryData,
-      page: 1,
-    });
+    try {
+      await this.store.dispatch('fetchFilteredConversations', {
+        queryData,
+        page: 1,
+      });
+    } catch (error) {
+      // Ignore error, reconnect flow should continue
+    }
   };
 
   fetchConversationsOnReconnect = async () => {

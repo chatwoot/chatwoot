@@ -46,6 +46,17 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
       end
     end
 
+    it 'does not enqueue resolution jobs for inboxes with an external bot' do
+      regular_inbox = create(:inbox, account: account)
+      create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
+      create(:agent_bot_inbox, inbox: regular_inbox, agent_bot: create(:agent_bot, account: account))
+
+      expect do
+        described_class.perform_now
+      end.not_to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob)
+        .with(regular_inbox)
+    end
+
     context 'when an assistant has been deleted before its inbox link is cleaned up' do
       let!(:orphaned_inbox) { create(:inbox, account: account) }
       let!(:regular_inbox) { create(:inbox, account: account) }

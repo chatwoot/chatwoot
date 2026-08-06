@@ -421,6 +421,7 @@ export default {
       return (
         this.isAWhatsAppCloudChannel &&
         this.isEmbeddedSignupWhatsApp &&
+        this.healthData?.is_on_biz_app === false &&
         this.healthError?.type !== 'authorization' &&
         this.isFeatureEnabledonAccount(
           this.accountId,
