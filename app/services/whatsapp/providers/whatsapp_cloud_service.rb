@@ -37,10 +37,15 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     whatsapp_channel.mark_message_templates_updated
     return if (templates = fetch_whatsapp_templates).blank?
 
+    templates_changed = templates != whatsapp_channel.message_templates
+
     # rubocop:disable Rails/SkipsModelValidations
     whatsapp_channel.update_columns(message_templates: templates, message_templates_last_updated: Time.current)
     # rubocop:enable Rails/SkipsModelValidations
-    whatsapp_channel.account.update_cache_key('inbox') # update_columns skips the touch that would invalidate the frontend's inbox cache
+    # update_columns skips the touch that would invalidate the frontend's inbox cache, so bump it
+    # ourselves -- but only when templates actually changed, to avoid broadcasting a websocket
+    # refresh to every connected agent on every routine, unchanged scheduled sync.
+    whatsapp_channel.account.update_cache_key('inbox') if templates_changed
   end
 
   def fetch_whatsapp_templates(after: nil)
