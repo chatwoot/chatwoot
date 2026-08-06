@@ -1,8 +1,9 @@
 import { flushPromises, shallowMount } from '@vue/test-utils';
 import DocumentDetails from './DocumentDetails.vue';
 
-const { dispatch, getterValues } = vi.hoisted(() => ({
+const { dispatch, getDrilldown, getterValues } = vi.hoisted(() => ({
   dispatch: vi.fn(),
+  getDrilldown: vi.fn(),
   getterValues: {
     'captainResponses/getUIFlags': { value: { fetchingList: false } },
     'captainResponses/getRecords': { value: [] },
@@ -22,6 +23,9 @@ vi.mock('dashboard/composables/store', () => ({
 vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
 vi.mock('dashboard/composables/usePolicy', () => ({
   usePolicy: () => ({ checkPermissions }),
+}));
+vi.mock('dashboard/api/captain/document', () => ({
+  default: { getDrilldown },
 }));
 
 vi.mock('vue-i18n', () => ({
@@ -53,8 +57,17 @@ const SidePanelStub = {
 
 const TabBarStub = {
   name: 'TabBar',
-  template:
-    '<button data-test="faq-tab" @click="$emit(\'tabChanged\', { key: \'faqs\' })" />',
+  props: ['tabs'],
+  template: `
+    <div>
+      <button data-test="faq-tab" @click="$emit('tabChanged', { key: 'faqs' })" />
+      <button
+        v-if="tabs.some(tab => tab.key === 'usage')"
+        data-test="usage-tab"
+        @click="$emit('tabChanged', { key: 'usage' })"
+      />
+    </div>
+  `,
 };
 
 const PaginationFooterStub = {
@@ -75,6 +88,19 @@ describe('DocumentDetails', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     dispatch.mockResolvedValue([]);
+    getDrilldown.mockResolvedValue({
+      data: {
+        meta: { current_page: 1, total_count: 1, conversation_count: 1 },
+        payload: [
+          {
+            record_type: 'conversation',
+            conversation: { id: 10, display_id: 77 },
+            message: null,
+            occurred_at: 1_700_000_000,
+          },
+        ],
+      },
+    });
     checkPermissions.mockReturnValue(true);
   });
 
@@ -88,6 +114,11 @@ describe('DocumentDetails', () => {
           TabBar: TabBarStub,
           PaginationFooter: PaginationFooterStub,
           Button: ButtonStub,
+          ReportDrilldownCard: {
+            props: ['record'],
+            template:
+              '<div data-test="conversation-card">#{{ record.conversation.display_id }}</div>',
+          },
         },
       },
     });
@@ -110,7 +141,7 @@ describe('DocumentDetails', () => {
     });
   });
 
-  it('shows document usage in the details metadata and opens its conversations', async () => {
+  it('loads document usage in the third details tab', async () => {
     const wrapper = shallowMount(DocumentDetails, {
       props: { captainDocument },
       global: {
@@ -120,19 +151,43 @@ describe('DocumentDetails', () => {
           TabBar: TabBarStub,
           PaginationFooter: PaginationFooterStub,
           Button: ButtonStub,
+          ReportDrilldownCard: {
+            props: ['record'],
+            template:
+              '<div data-test="conversation-card">#{{ record.conversation.display_id }}</div>',
+          },
         },
       },
     });
 
-    const usageButton = wrapper.get('[aria-label="Used in 8 conversations"]');
-    expect(usageButton.text()).toBe('8');
+    expect(wrapper.getComponent(TabBarStub).props('tabs')).toEqual([
+      {
+        key: 'content',
+        label: 'CAPTAIN.DOCUMENTS.DETAILS.CONTENT_TAB',
+      },
+      {
+        key: 'faqs',
+        label: 'CAPTAIN.DOCUMENTS.RELATED_RESPONSES.TITLE',
+        count: 26,
+      },
+      {
+        key: 'usage',
+        label: 'CAPTAIN.DOCUMENTS.DETAILS.USED_IN_CONVERSATIONS',
+        count: 8,
+      },
+    ]);
 
-    await usageButton.trigger('click');
+    await wrapper.get('[data-test="usage-tab"]').trigger('click');
+    await flushPromises();
 
-    expect(wrapper.emitted('viewConversations')).toEqual([[42]]);
+    expect(getDrilldown).toHaveBeenCalledWith(
+      expect.objectContaining({ documentId: 42, page: 1 })
+    );
+    expect(wrapper.get('[data-test="conversation-card"]').text()).toBe('#77');
+    expect(wrapper.emitted('viewConversations')).toBeUndefined();
   });
 
-  it('hides document usage from users who cannot manage the assistant', () => {
+  it('hides the document usage tab from users who cannot manage the assistant', () => {
     checkPermissions.mockReturnValue(false);
 
     const wrapper = shallowMount(DocumentDetails, {
@@ -144,10 +199,11 @@ describe('DocumentDetails', () => {
           TabBar: TabBarStub,
           PaginationFooter: PaginationFooterStub,
           Button: ButtonStub,
+          ReportDrilldownCard: true,
         },
       },
     });
 
-    expect(wrapper.find('[aria-label^="Used in"]').exists()).toBe(false);
+    expect(wrapper.find('[data-test="usage-tab"]').exists()).toBe(false);
   });
 });

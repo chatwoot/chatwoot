@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { useAlert } from 'dashboard/composables';
@@ -18,6 +18,9 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
+import CaptainDocumentAPI from 'dashboard/api/captain/document';
+import { useReportDrilldown } from 'dashboard/routes/dashboard/settings/reports/composables/useReportDrilldown';
+import ReportDrilldownCard from 'dashboard/routes/dashboard/settings/reports/components/ReportDrilldownCard.vue';
 import ResponseCard from '../../assistant/ResponseCard.vue';
 
 const props = defineProps({
@@ -26,10 +29,11 @@ const props = defineProps({
     required: true,
   },
 });
-const emit = defineEmits(['close', 'viewConversations']);
+const emit = defineEmits(['close']);
 const TAB_KEYS = {
   CONTENT: 'content',
   FAQS: 'faqs',
+  USAGE: 'usage',
 };
 const RESPONSES_PER_PAGE = 25;
 const { t } = useI18n();
@@ -70,14 +74,29 @@ const contentTabLabel = computed(() =>
     ? t('CAPTAIN.DOCUMENTS.DETAILS.PDF_TAB')
     : t('CAPTAIN.DOCUMENTS.DETAILS.CONTENT_TAB')
 );
-const tabs = computed(() => [
-  { key: TAB_KEYS.CONTENT, label: contentTabLabel.value },
-  {
-    key: TAB_KEYS.FAQS,
-    label: t('CAPTAIN.DOCUMENTS.RELATED_RESPONSES.TITLE'),
-    count: totalCount.value,
-  },
-]);
+const usedInConversationsCount = computed(
+  () => documentDetails.value.used_in_conversations_count || 0
+);
+const tabs = computed(() => {
+  const documentTabs = [
+    { key: TAB_KEYS.CONTENT, label: contentTabLabel.value },
+    {
+      key: TAB_KEYS.FAQS,
+      label: t('CAPTAIN.DOCUMENTS.RELATED_RESPONSES.TITLE'),
+      count: totalCount.value,
+    },
+  ];
+
+  if (canManage.value) {
+    documentTabs.push({
+      key: TAB_KEYS.USAGE,
+      label: t('CAPTAIN.DOCUMENTS.DETAILS.USED_IN_CONVERSATIONS'),
+      count: usedInConversationsCount.value,
+    });
+  }
+
+  return documentTabs;
+});
 const activeTabKey = computed(() => tabs.value[activeTabIndex.value]?.key);
 const isUnreadableContent = computed(() => {
   if (!documentContent.value) return false;
@@ -134,14 +153,24 @@ const syncedAtLabel = computed(() => {
 const documentTitle = computed(
   () => documentDetails.value.name || documentDetails.value.external_link
 );
-const usedInConversationsCount = computed(
-  () => documentDetails.value.used_in_conversations_count || 0
-);
-const usedInConversationsLabel = computed(() =>
-  t('CAPTAIN.DOCUMENTS.USED_IN_CONVERSATIONS', {
-    n: usedInConversationsCount.value,
-  })
-);
+
+const fetchDocumentUsage = ({ resourceId, ...params }) =>
+  CaptainDocumentAPI.getDrilldown({ documentId: resourceId, ...params });
+
+const {
+  records: usageRecords,
+  isFetching: isUsageFetching,
+  isFetchingMore: isUsageFetchingMore,
+  hasError: hasUsageError,
+  hasRecords: hasUsageRecords,
+  hasMore: hasMoreUsage,
+  open: openUsage,
+  close: closeUsage,
+  loadMore: loadMoreUsage,
+} = useReportDrilldown(fetchDocumentUsage);
+
+const usageRecordKey = record =>
+  `${record.record_type}-${record.message?.id || record.conversation?.id}-${record.occurred_at}`;
 
 const handleCopyContent = async () => {
   try {
@@ -154,6 +183,10 @@ const handleCopyContent = async () => {
 
 const handleTabChanged = tab => {
   activeTabIndex.value = tabs.value.findIndex(item => item.key === tab.key);
+
+  if (tab.key === TAB_KEYS.USAGE) {
+    openUsage({ resourceId: documentDetails.value.id });
+  }
 };
 
 const fetchResponses = (page = 1) => {
@@ -168,17 +201,12 @@ const handlePageChange = page => {
   fetchResponses(page);
 };
 
-const handleViewConversations = () => {
-  if (!usedInConversationsCount.value) return;
-
-  panelRef.value.close();
-  emit('viewConversations', documentDetails.value.id);
-};
-
 onMounted(() => {
   panelRef.value.open();
   fetchResponses();
 });
+
+onUnmounted(closeUsage);
 </script>
 
 <template>
@@ -197,12 +225,7 @@ onMounted(() => {
     </div>
     <div v-else class="flex flex-col gap-6 min-h-48">
       <section class="flex flex-col gap-3">
-        <div
-          class="grid grid-cols-1 gap-3"
-          :class="
-            canManage ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-3'
-          "
-        >
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div class="flex flex-col gap-1">
             <span class="text-xs font-medium uppercase text-n-slate-10">
               {{ t('CAPTAIN.DOCUMENTS.DETAILS.SOURCE') }}
@@ -229,23 +252,6 @@ onMounted(() => {
             <span class="text-sm text-n-slate-12">
               {{ totalCount }}
             </span>
-          </div>
-          <div v-if="canManage" class="flex flex-col gap-1">
-            <span class="text-xs font-medium uppercase text-n-slate-10">
-              {{ t('CAPTAIN.DOCUMENTS.DETAILS.USED_IN_CONVERSATIONS') }}
-            </span>
-            <Button
-              v-tooltip.top="usedInConversationsLabel"
-              :label="String(usedInConversationsCount)"
-              :aria-label="usedInConversationsLabel"
-              :disabled="!usedInConversationsCount"
-              icon="i-lucide-messages-square"
-              size="xs"
-              slate
-              link
-              class="self-start"
-              @click="handleViewConversations"
-            />
           </div>
           <div class="flex flex-col gap-1">
             <span class="text-xs font-medium uppercase text-n-slate-10">
@@ -405,6 +411,46 @@ onMounted(() => {
               @update:current-page="handlePageChange"
             />
           </footer>
+        </section>
+
+        <section
+          v-if="activeTabKey === TAB_KEYS.USAGE"
+          class="flex flex-col gap-3"
+        >
+          <div
+            v-if="isUsageFetching"
+            class="flex items-center justify-center py-10 text-n-slate-11"
+          >
+            <Spinner />
+          </div>
+          <div
+            v-else-if="hasUsageError"
+            class="rounded-lg border border-dashed border-n-weak p-4 text-sm text-n-slate-11"
+          >
+            {{ t('CAPTAIN.OVERVIEW.DRILLDOWN.ERROR') }}
+          </div>
+          <div
+            v-else-if="!hasUsageRecords"
+            class="rounded-lg border border-dashed border-n-weak p-4 text-sm text-n-slate-11"
+          >
+            {{ t('CAPTAIN.DOCUMENTS.NO_USED_CONVERSATIONS') }}
+          </div>
+          <div v-else class="flex flex-col gap-2">
+            <ReportDrilldownCard
+              v-for="record in usageRecords"
+              :key="usageRecordKey(record)"
+              :record="record"
+            />
+            <Button
+              v-if="hasMoreUsage"
+              :label="t('CAPTAIN.OVERVIEW.DRILLDOWN.LOAD_MORE')"
+              :is-loading="isUsageFetchingMore"
+              slate
+              outline
+              class="self-center mt-2"
+              @click="loadMoreUsage"
+            />
+          </div>
         </section>
       </div>
     </div>

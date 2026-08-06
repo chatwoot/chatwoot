@@ -18,7 +18,6 @@ import Policy from 'dashboard/components/policy.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import DocumentDetails from 'dashboard/components-next/captain/pageComponents/document/DocumentDetails.vue';
-import ConversationUsageDrawer from 'dashboard/components-next/captain/pageComponents/ConversationUsageDrawer.vue';
 import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
 import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
@@ -53,8 +52,6 @@ const handleDelete = () => {
 };
 
 const showDocumentDetails = ref(false);
-const showDocumentUsage = ref(false);
-const usageDocument = ref(null);
 const showCreateDialog = ref(false);
 const createDocumentDialog = ref(null);
 
@@ -69,18 +66,6 @@ const handleCreateDocument = () => {
 const handleDocumentDetailsClose = () => {
   showDocumentDetails.value = false;
 };
-
-const handleShowDocumentUsage = id => {
-  usageDocument.value = documents.value.find(doc => doc.id === id) || null;
-  showDocumentUsage.value = Boolean(usageDocument.value);
-};
-
-const handleDocumentUsageClose = () => {
-  showDocumentUsage.value = false;
-};
-
-const fetchDocumentUsage = ({ resourceId, ...params }) =>
-  CaptainDocumentAPI.getDrilldown({ documentId: resourceId, ...params });
 
 const handleCreateDialogClose = () => {
   showCreateDialog.value = false;
@@ -258,8 +243,6 @@ const handleAction = ({ action, id }) => {
 
 const onPageChange = page => {
   const hadSelection = bulkSelectedIds.value.size > 0;
-  showDocumentUsage.value = false;
-  usageDocument.value = null;
   fetchDocuments(page);
 
   if (hadSelection) {
@@ -320,8 +303,6 @@ watch(
     documentFilter.value?.reset();
     searchQuery.value = '';
     bulkSelectedIds.value = new Set();
-    showDocumentUsage.value = false;
-    usageDocument.value = null;
     syncIntervalHours.value = null;
     stopSyncPolling();
     await fetchDocuments(1);
@@ -449,16 +430,6 @@ onUnmounted(() => {
       v-if="showDocumentDetails"
       :captain-document="selectedDocument"
       @close="handleDocumentDetailsClose"
-      @view-conversations="handleShowDocumentUsage"
-    />
-    <ConversationUsageDrawer
-      :open="showDocumentUsage"
-      :resource-id="usageDocument?.id"
-      :title="usageDocument?.name || usageDocument?.external_link || ''"
-      :conversation-count="usageDocument?.used_in_conversations_count || 0"
-      :fetcher="fetchDocumentUsage"
-      empty-state-key="CAPTAIN.DOCUMENTS.NO_USED_CONVERSATIONS"
-      @close="handleDocumentUsageClose"
     />
     <CreateDocumentDialog
       v-if="showCreateDialog"
