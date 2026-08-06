@@ -87,6 +87,16 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       end
     end
 
+    context 'when the channel is paused for fetch backoff' do
+      it 'does not fetch emails' do
+        imap_email_channel.update!(imap_fetch_paused_till: 5.minutes.from_now)
+
+        expect(Imap::FetchEmailService).not_to receive(:new)
+
+        described_class.perform_now(imap_email_channel)
+      end
+    end
+
     context 'when the IMAP fetch fails' do
       it 'records a fetch error on connection errors' do
         allow(Imap::FetchEmailService).to receive(:new).and_raise(Errno::ECONNREFUSED)

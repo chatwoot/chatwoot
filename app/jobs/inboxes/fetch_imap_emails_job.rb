@@ -25,7 +25,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   private
 
   def should_fetch_email?(channel)
-    channel.imap_enabled? && !channel.reauthorization_required?
+    channel.imap_enabled? && !channel.reauthorization_required? && !channel.imap_fetch_paused?
   end
 
   def handle_unexpected_error(error, channel)
@@ -57,7 +57,8 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
 
   def log_skipped_fetch(channel)
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Skipping fetch for #{channel.inbox.id} : " \
-                      "imap_enabled: #{channel.imap_enabled?}, reauthorization_required: #{channel.reauthorization_required?}"
+                      "imap_enabled: #{channel.imap_enabled?}, reauthorization_required: #{channel.reauthorization_required?}, " \
+                      "imap_fetch_paused: #{channel.imap_fetch_paused?}"
   end
 
   def process_email_for_channel(channel, interval)
