@@ -17,16 +17,18 @@ class Captain::ConversationOutcomeTracker
   end
 
   # Runs synchronously on reopen so later facts see the correct episode, then
-  # again inside ConversationOutcomeBoundaryJob for durable delivery. Unlike
-  # facts, this must raise so the job can retry a failed boundary write.
+  # again inside ConversationOutcomeBoundaryJob for durable delivery. Returns
+  # whether the stream existed so async delivery cannot mistake a new initial
+  # row for pre-reopen history. This must raise so the job can retry failures.
   def record_reopen(at:)
-    return if episodes.none?
+    return false if episodes.none?
 
     with_stream_lock do
       next if episodes.exists?(started_at: at)
 
       insert_boundary(at)
     end
+    true
   end
 
   # --- Facts ----------------------------------------------------------------

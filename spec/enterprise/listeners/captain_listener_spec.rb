@@ -188,6 +188,25 @@ describe CaptainListener do
         listener.conversation_updated(event)
       end.not_to have_enqueued_job(Captain::ConversationOutcomeBoundaryJob)
     end
+
+    it 'does not enqueue a boundary when the first eligible message creates the initial episode after the reopen' do
+      ConversationOutcome.delete_all
+      account.enable_features!('captain_integration_v2')
+      create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+      boundary_at = Time.current.change(usec: 0)
+      reopen_event = Events::Base.new(:conversation_updated, boundary_at,
+                                      conversation: conversation, changed_attributes: { 'status' => %w[resolved pending] })
+
+      Captain::ConversationOutcomeEventListener.instance.conversation_updated(reopen_event)
+      Captain::ConversationOutcomeEventListener.instance.captain_conversation_eligible(
+        Events::Base.new(:captain_conversation_eligible, 1.second.before(boundary_at), conversation: conversation, assistant: assistant)
+      )
+
+      expect do
+        listener.conversation_updated(reopen_event)
+      end.not_to have_enqueued_job(Captain::ConversationOutcomeBoundaryJob)
+      expect(ConversationOutcome.last.episode_trigger).to eq('initial')
+    end
   end
 
   describe '#message_updated' do

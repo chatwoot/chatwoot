@@ -38,7 +38,11 @@ class CaptainListener < BaseListener
     return unless reopened_from_resolved?(event)
 
     conversation = extract_conversation_and_account(event)[0]
-    return unless ConversationOutcome.exists?(account_id: conversation.account_id, conversation_id: conversation.id)
+    boundary_required = event.data.fetch(:captain_outcome_boundary_required) do
+      # Events queued before this field was deployed still need the previous history check.
+      ConversationOutcome.exists?(account_id: conversation.account_id, conversation_id: conversation.id)
+    end
+    return unless boundary_required
 
     # The sync outcome listener inserts the common-path boundary before later facts. Always enqueue the
     # idempotent job as durable delivery too, so a failed synchronous write is retried without blocking the reopen.
