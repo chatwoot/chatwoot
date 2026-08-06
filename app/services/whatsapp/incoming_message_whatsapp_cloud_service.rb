@@ -15,6 +15,8 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
     )
     # This url response will be failure if the access token has expired.
     inbox.channel.authorization_error! if url_response.unauthorized?
-    Down.download(url_response.parsed_response['url'], headers: inbox.channel.api_headers) if url_response.success?
+    # CUSTOMIZAÇÃO_SYNAPSEOS: media_download_url reaponta o host em BSPs proxy
+    # (d360_cloud); na Meta direta é identidade.
+    Down.download(inbox.channel.media_download_url(url_response.parsed_response['url']), headers: inbox.channel.api_headers) if url_response.success?
   end
 end
