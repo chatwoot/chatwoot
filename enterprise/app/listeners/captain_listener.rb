@@ -34,33 +34,9 @@ class CaptainListener < BaseListener
     Captain::Llm::ConversationFaqJob.perform_later(conversation, assistant) if assistant.config['feature_faq'].present?
   end
 
-  def conversation_updated(event)
-    return unless reopened_from_resolved?(event)
-
-    conversation = extract_conversation_and_account(event)[0]
-    boundary_required = event.data.fetch(:captain_outcome_boundary_required) do
-      # Events queued before this field was deployed still need the previous history check.
-      ConversationOutcome.exists?(account_id: conversation.account_id, conversation_id: conversation.id)
-    end
-    return unless boundary_required
-
-    # The sync outcome listener inserts the common-path boundary before later facts. Always enqueue the
-    # idempotent job as durable delivery too, so a failed synchronous write is retried without blocking the reopen.
-    Captain::ConversationOutcomeBoundaryJob.perform_later(conversation, event.timestamp)
-  end
-
   private
 
   def tracker(conversation)
     Captain::ConversationOutcomeTracker.new(conversation: conversation)
-  end
-
-  # conversation_opened cannot classify reopens: it never fires for the main
-  # Captain reopen path (an inbound message moves a resolved bot conversation
-  # to pending), but does fire for snooze wake-ups and handoffs. The status
-  # transition carried by conversation_updated identifies a reopen on its own,
-  # independent of event delivery order.
-  def reopened_from_resolved?(event)
-    event.data[:changed_attributes]&.dig('status', 0) == 'resolved'
   end
 end

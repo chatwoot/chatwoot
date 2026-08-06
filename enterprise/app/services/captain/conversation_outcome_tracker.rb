@@ -8,7 +8,7 @@ class Captain::ConversationOutcomeTracker
   # --- Boundaries -----------------------------------------------------------
 
   def record_eligibility(at:)
-    safely_track(:eligibility) do
+    safely_track(:eligibility, at: at) do
       next unless account.feature_enabled?('captain_integration_v2')
 
       initial = episodes.trigger_initial.take
@@ -16,19 +16,16 @@ class Captain::ConversationOutcomeTracker
     end
   end
 
-  # Runs synchronously on reopen so later facts see the correct episode, then
-  # again inside ConversationOutcomeBoundaryJob for durable delivery. Returns
-  # whether the stream existed so async delivery cannot mistake a new initial
-  # row for pre-reopen history. This must raise so the job can retry failures.
   def record_reopen(at:)
-    return false if episodes.none?
+    safely_track(:reopen, at: at) do
+      next if episodes.none?
 
-    with_stream_lock do
-      next if episodes.exists?(started_at: at)
+      with_stream_lock do
+        next if episodes.exists?(started_at: at)
 
-      insert_boundary(at)
+        insert_boundary(at)
+      end
     end
-    true
   end
 
   # --- Facts ----------------------------------------------------------------
@@ -143,11 +140,8 @@ class Captain::ConversationOutcomeTracker
   end
 
   # Serializes boundary insertion per conversation across all workers.
-  # Unique indexes alone cannot protect the mid-stream case: a late boundary
-  # inserts a closed row, so two concurrent inserts into the same gap could
-  # close the predecessor twice and produce overlapping windows. That race is
-  # rare (it needs a retried boundary job colliding with a fresh one), but no
-  # constraint catches it and no retry heals it, so the corruption is silent.
+  # Unique indexes alone cannot protect concurrent mid-stream inserts because
+  # closed rows can overlap without violating a constraint.
   # The transaction-scoped advisory lock releases itself on commit/rollback.
   # https://www.postgresql.org/docs/current/explicit-locking.html#ADVISORY-LOCKS
   def with_stream_lock
@@ -162,7 +156,7 @@ class Captain::ConversationOutcomeTracker
   # --- Fact attribution -----------------------------------------------------
 
   def track_fact(action, at:)
-    safely_track(action) do
+    safely_track(action, at: at) do
       with_stream_lock do
         episode = attributed_episode(at)
         next unless episode
@@ -179,23 +173,23 @@ class Captain::ConversationOutcomeTracker
     episodes.covering(at).chronological.last || episodes.chronological.first
   end
 
-  # Fact tracking is reporting, not product behavior: a tracking bug must
-  # never break message delivery or conversation state transitions. Boundary
-  # writes (record_reopen) are deliberately not routed through this.
-  def safely_track(action)
+  # Outcome tracking is reporting, not product behavior: a tracking bug must
+  # never break message delivery or conversation state transitions.
+  def safely_track(action, at:)
     yield
   rescue StandardError => e
-    report_tracking_failure(action, e)
+    report_tracking_failure(action, e, at: at)
     nil
   end
 
   # Reporting the failure must itself fail open: the account read can hit the
   # database again during the same outage that broke tracking, and a secondary
   # error here would otherwise escape into the customer action.
-  def report_tracking_failure(action, error)
+  def report_tracking_failure(action, error, at:)
     ChatwootExceptionTracker.new(error, account: account).capture_exception
     Rails.logger.error(
-      "[CAPTAIN][ConversationOutcomeTracker] Failed to record #{action} for conversation=#{conversation.display_id}: #{error.message}"
+      "[CAPTAIN][ConversationOutcomeTracker] Failed to record #{action} for conversation=#{conversation.display_id} " \
+      "at=#{at.iso8601(6)}: #{error.message}"
     )
   rescue StandardError
     nil

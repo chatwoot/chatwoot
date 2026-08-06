@@ -115,6 +115,18 @@ RSpec.describe Captain::ConversationOutcomeTracker do
       end.not_to change(ConversationOutcome, :count)
     end
 
+    it 'captures boundary failures without raising' do
+      error = ActiveRecord::StatementInvalid.new('database unavailable')
+      exception_tracker = instance_double(ChatwootExceptionTracker)
+      allow(ConversationOutcome).to receive(:create!).and_raise(error)
+      expect(ChatwootExceptionTracker).to receive(:new).with(error, account: account).and_return(exception_tracker)
+      expect(exception_tracker).to receive(:capture_exception)
+
+      expect do
+        tracker.record_reopen(at: Time.current)
+      end.not_to raise_error
+    end
+
     it 'moves a resolution recorded before a late boundary into the covering episode' do
       resolved_at = 2.minutes.ago.change(usec: 0)
       tracker.record_resolution(at: resolved_at)
