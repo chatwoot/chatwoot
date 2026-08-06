@@ -54,8 +54,8 @@ class Channel::Email < ApplicationRecord
                     :smtp_enabled, :smtp_login, :smtp_password, :smtp_address, :smtp_port, :smtp_domain, :smtp_enable_starttls_auto,
                     :smtp_enable_ssl_tls, :smtp_openssl_verify_mode, :smtp_authentication, :provider, :verified_for_sending].freeze
 
-  IMAP_SETTINGS_ATTRS = %w[imap_enabled imap_address imap_port imap_login imap_password imap_enable_ssl imap_authentication
-                           provider provider_config].freeze
+  # provider_config is deliberately excluded, routine OAuth token refreshes update it
+  IMAP_SETTINGS_ATTRS = %w[imap_enabled imap_address imap_port imap_login imap_password imap_enable_ssl imap_authentication provider].freeze
 
   validates :email, uniqueness: true
   validates :forward_to_email, uniqueness: true
@@ -82,6 +82,11 @@ class Channel::Email < ApplicationRecord
     return if imap_fetch_error_count.zero? && imap_fetch_paused_till.nil?
 
     update_columns(imap_fetch_error_count: 0, imap_fetch_paused_till: nil) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def reauthorized!
+    clear_imap_fetch_backoff!
+    super
   end
 
   def microsoft?

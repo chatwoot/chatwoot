@@ -117,11 +117,17 @@ RSpec.describe Channel::Email do
         expect(channel.imap_fetch_paused_till).to be_nil
       end
 
-      it 'resets backoff when provider_config is updated' do
-        channel.update!(provider_config: { access_token: 'new-token' })
+      it 'resets backoff on reauthorization' do
+        channel.reauthorized!
 
         expect(channel.reload.imap_fetch_error_count).to eq(0)
         expect(channel.imap_fetch_paused_till).to be_nil
+      end
+
+      it 'does not reset backoff on routine provider_config token refreshes' do
+        channel.update!(provider_config: { access_token: 'new-token' })
+
+        expect(channel.reload.imap_fetch_error_count).to eq(5)
       end
 
       it 'does not reset backoff when unrelated attributes are updated' do
