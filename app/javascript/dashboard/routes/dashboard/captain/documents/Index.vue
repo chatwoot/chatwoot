@@ -434,7 +434,6 @@ onUnmounted(() => {
           :sync-in-progress="doc.sync_in_progress"
           :sync-stale-after-hours="syncIntervalHours"
           :responses-count="doc.responses_count"
-          :used-in-conversations-count="doc.used_in_conversations_count"
           :is-selected="canManageDocuments && bulkSelectedIds.has(doc.id)"
           :selectable="canManageDocuments"
           :show-selection-control="shouldShowSelectionControl(doc.id)"
@@ -442,7 +441,6 @@ onUnmounted(() => {
           @action="handleAction"
           @select="handleCardSelect"
           @hover="isHovered => handleCardHover(isHovered, doc.id)"
-          @view-conversations="handleShowDocumentUsage"
         />
       </div>
     </template>
@@ -451,6 +449,7 @@ onUnmounted(() => {
       v-if="showDocumentDetails"
       :captain-document="selectedDocument"
       @close="handleDocumentDetailsClose"
+      @view-conversations="handleShowDocumentUsage"
     />
     <ConversationUsageDrawer
       :open="showDocumentUsage"

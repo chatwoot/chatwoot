@@ -886,6 +886,7 @@
         "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
         "SOURCE": "Source",
         "GENERATED_FAQS": "Generated FAQs",
+        "USED_IN_CONVERSATIONS": "Used in conversations",
         "LAST_UPDATED": "Last updated",
         "NOT_AVAILABLE": "Not available",
         "CONTENT_TAB": "Crawled content",

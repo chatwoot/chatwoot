@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
@@ -25,7 +26,7 @@ const props = defineProps({
     required: true,
   },
 });
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'viewConversations']);
 const TAB_KEYS = {
   CONTENT: 'content',
   FAQS: 'faqs',
@@ -33,12 +34,14 @@ const TAB_KEYS = {
 const RESPONSES_PER_PAGE = 25;
 const { t } = useI18n();
 const store = useStore();
+const { checkPermissions } = usePolicy();
 // The parent mounts this component with v-if, so the panel opens on mount and
 // the parent unmounts it only after the slide-out finishes (afterLeave).
 const panelRef = ref(null);
 const documentDetails = computed(() => props.captainDocument);
 const showRawContent = ref(false);
 const activeTabIndex = ref(0);
+const canManage = computed(() => checkPermissions(['administrator']));
 
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
 const responses = useMapGetter('captainResponses/getRecords');
@@ -131,6 +134,14 @@ const syncedAtLabel = computed(() => {
 const documentTitle = computed(
   () => documentDetails.value.name || documentDetails.value.external_link
 );
+const usedInConversationsCount = computed(
+  () => documentDetails.value.used_in_conversations_count || 0
+);
+const usedInConversationsLabel = computed(() =>
+  t('CAPTAIN.DOCUMENTS.USED_IN_CONVERSATIONS', {
+    n: usedInConversationsCount.value,
+  })
+);
 
 const handleCopyContent = async () => {
   try {
@@ -157,6 +168,13 @@ const handlePageChange = page => {
   fetchResponses(page);
 };
 
+const handleViewConversations = () => {
+  if (!usedInConversationsCount.value) return;
+
+  panelRef.value.close();
+  emit('viewConversations', documentDetails.value.id);
+};
+
 onMounted(() => {
   panelRef.value.open();
   fetchResponses();
@@ -179,7 +197,12 @@ onMounted(() => {
     </div>
     <div v-else class="flex flex-col gap-6 min-h-48">
       <section class="flex flex-col gap-3">
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div
+          class="grid grid-cols-1 gap-3"
+          :class="
+            canManage ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-3'
+          "
+        >
           <div class="flex flex-col gap-1">
             <span class="text-xs font-medium uppercase text-n-slate-10">
               {{ t('CAPTAIN.DOCUMENTS.DETAILS.SOURCE') }}
@@ -206,6 +229,23 @@ onMounted(() => {
             <span class="text-sm text-n-slate-12">
               {{ totalCount }}
             </span>
+          </div>
+          <div v-if="canManage" class="flex flex-col gap-1">
+            <span class="text-xs font-medium uppercase text-n-slate-10">
+              {{ t('CAPTAIN.DOCUMENTS.DETAILS.USED_IN_CONVERSATIONS') }}
+            </span>
+            <Button
+              v-tooltip.top="usedInConversationsLabel"
+              :label="String(usedInConversationsCount)"
+              :aria-label="usedInConversationsLabel"
+              :disabled="!usedInConversationsCount"
+              icon="i-lucide-messages-square"
+              size="xs"
+              slate
+              link
+              class="self-start"
+              @click="handleViewConversations"
+            />
           </div>
           <div class="flex flex-col gap-1">
             <span class="text-xs font-medium uppercase text-n-slate-10">
