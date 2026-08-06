@@ -88,7 +88,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return unless conversation_pending?
 
     process_v1_handoff
-    record_v2_failure_handoff if v2_generation_errored?
+    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE) if v2_generation_errored?
   end
 
   def process_standard_response
@@ -113,7 +113,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       return unless v2_handoff_tool_completed? || conversation_pending?
 
       v2_handoff_tool_completed? ? process_v2_handoff : process_v1_handoff
-      record_v2_tool_failure_handoff unless v2_handoff_tool_completed?
+      record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::TOOL) unless v2_handoff_tool_completed?
     else
       conversation_pending? ? process_v1_handoff : process_v2_handoff
     end
@@ -195,7 +195,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return if captain_v2_enabled? && newer_customer_message_arrived?
 
     process_v1_handoff
-    record_v2_failure_handoff if captain_v2_enabled?
+    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE) if captain_v2_enabled?
   end
 
   def log_error(error)

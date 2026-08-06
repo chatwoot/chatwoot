@@ -40,23 +40,6 @@ RSpec.describe Captain::ConversationOutcomeTracker do
         tracker.record_eligibility(at: Time.current)
       end.not_to change(ConversationOutcome, :count)
     end
-
-    it 'lowers the initial anchor when an earlier eligible message arrives late' do
-      episode = tracker.record_eligibility(at: Time.current)
-
-      earlier_eligible_at = 2.minutes.ago.change(usec: 0)
-      tracker.record_eligibility(at: earlier_eligible_at)
-
-      expect(episode.reload.started_at).to eq(earlier_eligible_at)
-    end
-
-    it 'does not create episodes for Captain V1' do
-      account.disable_features!('captain_integration_v2')
-
-      expect do
-        tracker.record_eligibility(at: Time.current)
-      end.not_to change(ConversationOutcome, :count)
-    end
   end
 
   describe '#record_reopen' do
@@ -75,15 +58,6 @@ RSpec.describe Captain::ConversationOutcomeTracker do
         started_at: boundary_at,
         ended_at: nil
       )
-    end
-
-    it 'ignores a redelivered boundary' do
-      boundary_at = 5.minutes.ago
-      tracker.record_reopen(at: boundary_at)
-
-      expect do
-        tracker.record_reopen(at: boundary_at)
-      end.not_to change(ConversationOutcome, :count)
     end
 
     it 'creates exactly one episode per boundary regardless of history' do
@@ -119,7 +93,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
   describe '#record_handoff' do
     let!(:initial) { tracker.record_eligibility(at: 30.minutes.ago) }
 
-    it 'snapshots message facts and preserves the first handoff reason' do
+    it 'snapshots message facts and records the handoff reason' do
       first_reply = create(
         :message,
         account: account, inbox: inbox, conversation: conversation,
@@ -130,16 +104,14 @@ RSpec.describe Captain::ConversationOutcomeTracker do
         account: account, inbox: inbox, conversation: conversation,
         sender: assistant, message_type: :outgoing, created_at: 10.minutes.ago.change(usec: 0)
       )
-      first_handoff_at = 5.minutes.ago.change(usec: 0)
-      tracker.record_handoff(at: first_handoff_at, reason_category: 'missing_knowledge')
-
-      tracker.record_handoff(at: Time.current, reason_category: 'unsupported_request')
+      handoff_at = 5.minutes.ago.change(usec: 0)
+      tracker.record_handoff(at: handoff_at, reason_category: 'missing_knowledge')
 
       expect(initial.reload).to have_attributes(
         captain_reply_count: 2,
         first_captain_reply_at: first_reply.created_at,
         last_captain_reply_at: last_reply.created_at,
-        handoff_at: first_handoff_at,
+        handoff_at: handoff_at,
         handoff_reason_category: 'missing_knowledge'
       )
     end
@@ -196,15 +168,6 @@ RSpec.describe Captain::ConversationOutcomeTracker do
         first_human_reply_at: human_reply.created_at,
         resolved_at: resolved_at
       )
-    end
-
-    it 'preserves the latest resolution within an episode' do
-      latest_resolution_at = Time.current.change(usec: 0)
-      tracker.record_resolution(at: latest_resolution_at)
-
-      tracker.record_resolution(at: 1.minute.ago)
-
-      expect(initial.reload.resolved_at).to eq(latest_resolution_at)
     end
   end
 

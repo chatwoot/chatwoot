@@ -137,13 +137,6 @@ RSpec.describe MessageTemplates::HookExecutionService do
         create(:message, conversation: conversation, message_type: :incoming, account: account)
       end
 
-      it 'emits the eligibility event for inbound messages' do
-        expect(Captain::ConversationEvents).to receive(:eligible)
-          .with(conversation: conversation, assistant: assistant, at: kind_of(Time))
-
-        create(:message, conversation: conversation, message_type: :incoming, account: account)
-      end
-
       it 'records a conversation outcome when captain V2 is enabled' do
         account.enable_features!('captain_integration_v2')
 

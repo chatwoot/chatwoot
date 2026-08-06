@@ -3,10 +3,7 @@ class Captain::ConversationOutcomeTracker
 
   def record_eligibility(at:)
     safely_track(:eligibility, at: at) do
-      next unless account.feature_enabled?('captain_integration_v2')
-
-      initial = episodes.trigger_initial.take
-      initial ? lower_initial_anchor(initial, at) : create_initial_episode(at)
+      episodes.trigger_initial.take || create_initial_episode(at)
     end
   end
 
@@ -15,8 +12,6 @@ class Captain::ConversationOutcomeTracker
       next if episodes.none?
 
       ApplicationRecord.transaction do
-        next if episodes.exists?(started_at: at)
-
         predecessor = episodes.find_by!(ended_at: nil)
         predecessor.update!(ended_at: at)
         ConversationOutcome.create!(
@@ -33,20 +28,14 @@ class Captain::ConversationOutcomeTracker
 
   def record_handoff(at:, reason_category:)
     snapshot_episode(:handoff, at: at) do |episode|
-      next false if episode.handoff_at.present? && episode.handoff_at <= at
-
       episode.handoff_at = at
       episode.handoff_reason_category = reason_category
-      true
     end
   end
 
   def record_resolution(at:)
     snapshot_episode(:resolution, at: at) do |episode|
-      next false if episode.resolved_at.present? && at < episode.resolved_at
-
       episode.resolved_at = at
-      true
     end
   end
 
@@ -70,15 +59,6 @@ class Captain::ConversationOutcomeTracker
     ConversationOutcome.where(account_id: conversation.account_id, conversation_id: conversation.id)
   end
 
-  def lower_initial_anchor(initial, at)
-    return initial unless at < initial.started_at
-
-    initial.with_lock do
-      initial.update!(started_at: at) if at < initial.started_at
-    end
-    initial
-  end
-
   def create_initial_episode(at)
     ConversationOutcome.create!(
       account: account,
@@ -88,17 +68,14 @@ class Captain::ConversationOutcomeTracker
       episode_trigger: 'initial',
       started_at: at
     )
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
-    initial = episodes.trigger_initial.take || raise
-    lower_initial_anchor(initial, at)
   end
 
   def snapshot_episode(action, at:)
     safely_track(action, at: at) do
       episode = attributed_episode(at)
       next unless episode
-      next episode unless yield episode
 
+      yield episode
       snapshot_message_facts(episode, through: at)
       episode.save! if episode.changed?
       episode
@@ -106,7 +83,7 @@ class Captain::ConversationOutcomeTracker
   end
 
   def attributed_episode(at)
-    episodes.covering(at).chronological.last || episodes.chronological.first
+    episodes.covering(at).chronological.last
   end
 
   def snapshot_message_facts(episode, through:)

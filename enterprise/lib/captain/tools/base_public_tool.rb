@@ -1,16 +1,6 @@
 require 'agents'
 
 class Captain::Tools::BasePublicTool < Agents::Tool
-  # Agents::ToolWrapper calls `tool.class.params` as a no-arg reader, but
-  # ruby_llm defines `params` as a setter that resets the stored schema
-  # definition when called without arguments — wiping any `params` DSL schema
-  # at wrap time. Restore reader semantics for the no-arg call.
-  def self.params(schema = nil, &)
-    return params_schema_definition if schema.nil? && !block_given?
-
-    super
-  end
-
   def initialize(assistant)
     @assistant = assistant
     super()

@@ -1,8 +1,4 @@
 class Captain::ConversationOutcomeEventListener < BaseListener
-  def captain_conversation_eligible(event)
-    tracker(event).record_eligibility(at: event.timestamp)
-  end
-
   def captain_conversation_handed_off(event)
     tracker(event).record_handoff(at: event.timestamp, reason_category: event.data[:reason_category])
   end

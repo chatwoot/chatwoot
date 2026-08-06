@@ -9,6 +9,15 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
     string :reason_category, enum: REASON_CATEGORIES, description: 'Reporting category for why the handoff is needed'
   end
 
+  # Agents::ToolWrapper reads `tool.class.params`, while ruby_llm treats a
+  # no-argument call as a schema reset. Keep the compatibility fix local to the
+  # only tool that uses ruby_llm's block schema DSL.
+  def self.params(schema = nil, &)
+    return params_schema_definition if schema.nil? && !block_given?
+
+    super
+  end
+
   def perform(tool_context, reason: nil, reason_category: nil)
     conversation = find_conversation(tool_context.state)
     return 'Conversation not found' unless conversation
@@ -87,11 +96,11 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
                                            at: Time.current)
   end
 
-  # The tool schema cannot constrain the value to the documented list, and an
-  # unknown category would fail the outcome's validated enum after the handoff
-  # already happened — record those handoffs as unclassified instead.
+  # Tool execution does not enforce the schema enum, and an unknown category
+  # would fail the outcome's validated enum after the handoff already happened.
+  # Record those handoffs as unclassified instead.
   def normalize_reason_category(reason_category)
-    category = reason_category.to_s.strip.downcase
+    category = reason_category.to_s
     category if REASON_CATEGORIES.include?(category)
   end
 

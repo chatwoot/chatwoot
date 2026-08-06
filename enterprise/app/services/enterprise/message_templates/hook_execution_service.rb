@@ -40,11 +40,12 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def track_captain_eligibility
-    Captain::ConversationEvents.eligible(
+    return unless conversation.account.feature_enabled?('captain_integration_v2')
+
+    Captain::ConversationOutcomeTracker.new(
       conversation: conversation,
-      assistant: inbox.captain_assistant,
-      at: message.created_at
-    )
+      assistant: inbox.captain_assistant
+    ).record_eligibility(at: message.created_at)
   end
 
   def captain_conversation_message?
