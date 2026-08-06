@@ -39,6 +39,19 @@ class Captain::ConversationOutcomeTracker
     end
   end
 
+  def record_human_reply(message:)
+    return unless public_human_reply?(message)
+
+    safely_track(:human_reply, at: message.created_at) do
+      episode = attributed_episode(message.created_at)
+      next unless episode
+      next episode if episode.first_human_reply_at.present?
+
+      episode.update!(first_human_reply_at: message.created_at)
+      episode
+    end
+  end
+
   def record_csat(response:)
     safely_track(:csat, at: response.message.created_at) do
       episode = attributed_episode(response.message.created_at)
@@ -93,13 +106,10 @@ class Captain::ConversationOutcomeTracker
     episode.captain_reply_count = replies.count
     episode.first_captain_reply_at = replies.minimum(:created_at)
     episode.last_captain_reply_at = replies.maximum(:created_at)
-    episode.first_human_reply_at = messages.where(message_type: :outgoing, private: false)
-                                           .order(:created_at)
-                                           .detect { |message| public_human_reply?(message) }
-                                           &.created_at
   end
 
   def public_human_reply?(message)
+    return false unless message.outgoing? && !message.private?
     return false if message.content_attributes['automation_rule_id'].present?
     return false if message.additional_attributes['campaign_id'].present?
 
