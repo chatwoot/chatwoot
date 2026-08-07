@@ -254,6 +254,47 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(response).to have_http_status(:success)
         expect(assistant.reload.config).to include('product_name' => 'Chatwoot', 'auto_resolve_mode' => 'disabled')
       end
+
+      it 'persists the nested audience condition tree' do
+        create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute,
+                                             attribute_display_type: :text, attribute_key: 'plan_tier')
+        audience = {
+          operator: 'and',
+          conditions: [
+            { attribute_key: 'country_code', filter_operator: 'equal_to', values: ['US'] },
+            { operator: 'or', conditions: [
+              { attribute_key: 'plan_tier', filter_operator: 'equal_to', values: ['paid'] }
+            ] }
+          ]
+        }
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: { assistant: { config: { audience: audience } } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        stored = assistant.reload.config['audience']
+        expect(stored['operator']).to eq('and')
+        expect(stored['conditions'].first['attribute_key']).to eq('country_code')
+        expect(stored['conditions'].last['conditions'].first['values']).to eq(['paid'])
+      end
+
+      it 'rejects invalid audience attributes and operators' do
+        invalid_audiences = [
+          { attribute_key: 'missing_attribute', filter_operator: 'not_equal_to', values: ['known'] },
+          { attribute_key: 'blocked', filter_operator: 'is_not_present', values: [] }
+        ]
+
+        invalid_audiences.each do |audience|
+          patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+                params: { assistant: { config: { audience: audience } } },
+                headers: admin.create_new_auth_token,
+                as: :json
+
+          expect(response).to have_http_status(:unprocessable_content)
+        end
+      end
     end
   end
 
