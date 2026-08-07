@@ -335,6 +335,8 @@
     "NOTIFICATIONS": "Notificações",
     "CANNED_RESPONSES": "Respostas Prontas",
     "INTEGRATIONS": "Integrações",
+    "WHATSAPP_CONNECTION": "Conexão WhatsApp",
+    "MONTHLY_REPORTS": "Relatórios Mensais",
     "PROFILE_SETTINGS": "Configurações do Perfil",
     "ACCOUNT_SETTINGS": "Conta",
     "APPLICATIONS": "Aplicações",
@@ -926,5 +928,33 @@
       "CONFIRM_BUTTON_LABEL": "Excluir",
       "CANCEL_BUTTON_LABEL": "Cancelar"
     }
+  },
+  "WHATSAPP_CONNECTION": {
+    "HEADER": "Conexão WhatsApp",
+    "DESCRIPTION": "Verifica se a instância do WhatsApp (Avisa) está conectada. Roda automaticamente 3× por dia (09:00, 14:00, 17:00) e avisa os admins se cair.",
+    "LOADING": "Carregando status da conexão…",
+    "CHECK_NOW": "Verificar agora",
+    "LAST_CHECK": "Último check",
+    "NEVER": "Nunca verificado",
+    "EMPTY": "Nenhum inbox WhatsApp (Avisa) encontrado nesta conta.",
+    "LOAD_ERROR": "Não foi possível carregar o status da conexão.",
+    "CHECK_ERROR": "Não foi possível rodar a verificação.",
+    "RESULT_OK": "Instância conectada.",
+    "RESULT_DISCONNECTED": "Instância desconectada — reconecte no painel da Avisa.",
+    "STATUS": {
+      "CONNECTED": "Conectada",
+      "DISCONNECTED": "Desconectada",
+      "UNKNOWN": "Indeterminado"
+    }
+  },
+  "MONTHLY_REPORTS": {
+    "HEADER": "Relatórios Mensais",
+    "DESCRIPTION": "Relatório mensal de performance da Elisa, gerado automaticamente todo dia 1º. Baixe o HTML para compartilhar ou apresentar.",
+    "LOADING": "Carregando relatórios…",
+    "EMPTY": "Nenhum relatório gerado ainda. O primeiro aparece no dia 1º do mês.",
+    "GENERATED_AT": "Gerado em",
+    "DOWNLOAD": "Baixar",
+    "LOAD_ERROR": "Não foi possível carregar os relatórios.",
+    "DOWNLOAD_ERROR": "Não foi possível baixar o relatório."
   }
 }
