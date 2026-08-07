@@ -628,13 +628,64 @@ describe Conversations::FilterService do
             {
               attribute_key: 'last_activity_at',
               filter_operator: 'days_before',
-              values: [3],
+              values: [2],
               query_operator: nil,
               custom_attribute_type: ''
             }.with_indifferent_access
           ]
 
           expected_count = account.conversations.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
+
+          result = filter_service.new(params, user_1, account).perform
+          expect(result[:conversations].length).to eq expected_count
+        end
+
+        it 'parses string days_before values as base 10' do
+          params[:payload] = [
+            {
+              attribute_key: 'last_activity_at',
+              filter_operator: 'days_before',
+              values: ['02'],
+              query_operator: nil,
+              custom_attribute_type: ''
+            }.with_indifferent_access
+          ]
+
+          expected_count = account.conversations.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
+
+          result = filter_service.new(params, user_1, account).perform
+          expect(result[:conversations].length).to eq expected_count
+        end
+
+        it 'raises InvalidValue for negative and non-numeric days_before values' do
+          [-1, 'abc', 0, 999].each do |invalid_value|
+            params[:payload] = [
+              {
+                attribute_key: 'last_activity_at',
+                filter_operator: 'days_before',
+                values: [invalid_value],
+                query_operator: nil,
+                custom_attribute_type: ''
+              }.with_indifferent_access
+            ]
+
+            expect { filter_service.new(params, user_1, account).perform }
+              .to raise_error(CustomExceptions::CustomFilter::InvalidValue)
+          end
+        end
+
+        it 'filter by last_activity_at days_before when payload is ActionController::Parameters' do
+          params[:payload] = [
+            ActionController::Parameters.new(
+              attribute_key: 'last_activity_at',
+              filter_operator: 'days_before',
+              values: [3],
+              query_operator: nil,
+              custom_attribute_type: ''
+            ).permit!
+          ]
+
+          expected_count = account.conversations.where('last_activity_at < ?', (Time.zone.today - 3.days)).count
 
           result = filter_service.new(params, user_1, account).perform
           expect(result[:conversations].length).to eq expected_count
@@ -667,6 +718,66 @@ describe Conversations::FilterService do
         expect(Current.account).to be_nil
         expect(result[:conversations].length).to eq expected_count
       end
+    end
+  end
+
+  describe 'result counts' do
+    let!(:params) { { payload: [], page: 1 } }
+    let(:payload) do
+      [
+        {
+          attribute_key: 'status',
+          filter_operator: 'not_equal_to',
+          values: %w[resolved],
+          query_operator: nil,
+          custom_attribute_type: ''
+        }.with_indifferent_access
+      ]
+    end
+
+    before do
+      create(:conversation, account: account, inbox: inbox)
+    end
+
+    it 'returns mine, assigned, unassigned and all counts for the filtered set' do
+      params[:payload] = payload
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:count]).to eq(
+        mine_count: 3,
+        assigned_count: 4,
+        unassigned_count: 1,
+        all_count: 5
+      )
+    end
+
+    it 'returns zero counts when the permission scope resolves to no conversations' do
+      params[:payload] = payload
+      permission_filter = instance_double(Conversations::PermissionFilterService, perform: Conversation.none)
+      allow(Conversations::PermissionFilterService).to receive(:new).and_return(permission_filter)
+
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:count]).to eq(
+        mine_count: 0,
+        assigned_count: 0,
+        unassigned_count: 0,
+        all_count: 0
+      )
+    end
+
+    it 'computes all counts in a single query' do
+      params[:payload] = payload
+
+      count_queries = []
+      subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |_name, _started, _finished, _unique_id, event|
+        count_queries << event[:sql] if event[:sql].match?(/COUNT\(/i) && !event[:cached]
+      end
+
+      filter_service.new(params, user_1, account).perform
+      expect(count_queries.size).to eq(1)
+    ensure
+      ActiveSupport::Notifications.unsubscribe(subscriber) if subscriber
     end
   end
 

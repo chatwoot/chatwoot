@@ -181,6 +181,16 @@ class Whatsapp::IncomingMessageBaseService
     content_attrs.merge!(interactive_reply_attributes(message))
     referral_content_attrs = referral_attributes(content_attributes_source)
     content_attrs[:referral] = referral_content_attrs if referral_content_attrs.present?
+
+    flow_response = message.dig(:interactive, :nfm_reply)
+    if flow_response.present?
+      content_attrs[:whatsapp_flow_response] = {
+        name: flow_response[:name],
+        body: flow_response[:body],
+        response_json: parse_flow_response_json(flow_response[:response_json])
+      }.compact
+    end
+
     content_attrs
   end
 
