@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_07_133100) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -340,7 +340,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.index ["provider", "provider_call_id"], name: "index_calls_on_provider_and_provider_call_id", unique: true
   end
 
-  create_table "campaign_deliveries", force: :cascade do |t|
+  create_table "campaign_recipients", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "campaign_id", null: false
     t.bigint "contact_id", null: false
@@ -357,14 +357,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.datetime "failed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id", "campaign_id"], name: "index_campaign_deliveries_on_account_id_and_campaign_id"
-    t.index ["account_id"], name: "index_campaign_deliveries_on_account_id"
-    t.index ["campaign_id", "contact_id"], name: "index_campaign_deliveries_on_campaign_id_and_contact_id", unique: true
-    t.index ["campaign_id", "status"], name: "index_campaign_deliveries_on_campaign_id_and_status"
-    t.index ["campaign_id"], name: "index_campaign_deliveries_on_campaign_id"
-    t.index ["contact_id"], name: "index_campaign_deliveries_on_contact_id"
-    t.index ["inbox_id"], name: "index_campaign_deliveries_on_inbox_id"
-    t.index ["source_id"], name: "index_campaign_deliveries_on_source_id", unique: true, where: "(source_id IS NOT NULL)"
+    t.index ["account_id", "campaign_id"], name: "index_campaign_recipients_on_account_id_and_campaign_id"
+    t.index ["account_id"], name: "index_campaign_recipients_on_account_id"
+    t.index ["campaign_id", "contact_id"], name: "index_campaign_recipients_on_campaign_id_and_contact_id", unique: true
+    t.index ["campaign_id", "status"], name: "index_campaign_recipients_on_campaign_id_and_status"
+    t.index ["campaign_id"], name: "index_campaign_recipients_on_campaign_id"
+    t.index ["contact_id"], name: "index_campaign_recipients_on_contact_id"
+    t.index ["inbox_id"], name: "index_campaign_recipients_on_inbox_id"
+    t.index ["source_id"], name: "index_campaign_recipients_on_source_id", unique: true, where: "(source_id IS NOT NULL)"
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -385,6 +385,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.datetime "scheduled_at", precision: nil
     t.boolean "trigger_only_during_business_hours", default: false
     t.jsonb "template_params"
+    t.datetime "started_at"
+    t.datetime "completed_at"
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"
@@ -498,8 +500,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_captain_faq_suggestions_on_account_id"
     t.index ["account_id", "assistant_id", "status", "language"], name: "idx_cap_faq_suggestions_on_account_assistant_status_language"
+    t.index ["account_id"], name: "index_captain_faq_suggestions_on_account_id"
     t.index ["assistant_id"], name: "index_captain_faq_suggestions_on_assistant_id"
     t.index ["embedding"], name: "vector_idx_captain_faq_suggestions_embedding", opclass: :vector_cosine_ops, using: :ivfflat
   end
@@ -739,8 +741,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.jsonb "phone_number_health", default: {}, null: false
     t.datetime "phone_number_health_checked_at"
     t.string "phone_number_health_error", limit: 500
-    t.index ["phone_number_health_checked_at"], name: "index_channel_whatsapp_on_phone_number_health_checked_at"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
+    t.index ["phone_number_health_checked_at"], name: "index_channel_whatsapp_on_phone_number_health_checked_at"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -1078,10 +1080,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "inbox_id"
-    t.index ["account_id", "name", "template_type", "locale"], name: "index_email_templates_on_account_scope", unique: true, where: "(account_id IS NOT NULL) AND (inbox_id IS NULL)"
+    t.index ["account_id", "name", "template_type", "locale"], name: "index_email_templates_on_account_scope", unique: true, where: "((account_id IS NOT NULL) AND (inbox_id IS NULL))"
     t.index ["inbox_id", "name", "template_type", "locale"], name: "index_email_templates_on_inbox_scope", unique: true, where: "(inbox_id IS NOT NULL)"
     t.index ["inbox_id"], name: "index_email_templates_on_inbox_id"
-    t.index ["name", "template_type", "locale"], name: "index_email_templates_on_installation_scope", unique: true, where: "(account_id IS NULL) AND (inbox_id IS NULL)"
+    t.index ["name", "template_type", "locale"], name: "index_email_templates_on_installation_scope", unique: true, where: "((account_id IS NULL) AND (inbox_id IS NULL))"
   end
 
   create_table "folders", force: :cascade do |t|
@@ -1586,10 +1588,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "campaign_deliveries", "accounts"
-  add_foreign_key "campaign_deliveries", "campaigns"
-  add_foreign_key "campaign_deliveries", "contacts"
-  add_foreign_key "campaign_deliveries", "inboxes"
+  add_foreign_key "campaign_recipients", "accounts"
+  add_foreign_key "campaign_recipients", "campaigns"
+  add_foreign_key "campaign_recipients", "contacts"
+  add_foreign_key "campaign_recipients", "inboxes"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

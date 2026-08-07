@@ -3,7 +3,7 @@ module Enterprise::Whatsapp::IncomingMessageBaseService
 
   def process_statuses
     status = @processed_params[:statuses].first
-    CampaignDelivery.find_by(source_id: status[:id])&.update_from_whatsapp_status!(status)
+    CampaignRecipient.find_by(source_id: status[:id])&.update_from_whatsapp_status!(status)
 
     super
   end

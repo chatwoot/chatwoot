@@ -1,4 +1,4 @@
-class CampaignDelivery < ApplicationRecord
+class CampaignRecipient < ApplicationRecord
   belongs_to :account
   belongs_to :campaign
   belongs_to :contact

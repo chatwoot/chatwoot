@@ -1,13 +1,13 @@
-class CreateCampaignDeliveries < ActiveRecord::Migration[7.1]
+class CreateCampaignRecipients < ActiveRecord::Migration[7.1]
   def change
-    create_campaign_deliveries
-    add_campaign_delivery_indexes
+    create_campaign_recipients
+    add_campaign_recipient_indexes
   end
 
   private
 
-  def create_campaign_deliveries
-    create_table :campaign_deliveries do |t|
+  def create_campaign_recipients
+    create_table :campaign_recipients do |t|
       t.references :account, null: false, foreign_key: true
       t.references :campaign, null: false, foreign_key: true
       t.references :contact, null: false, foreign_key: true
@@ -27,10 +27,10 @@ class CreateCampaignDeliveries < ActiveRecord::Migration[7.1]
     end
   end
 
-  def add_campaign_delivery_indexes
-    add_index :campaign_deliveries, [:account_id, :campaign_id]
-    add_index :campaign_deliveries, [:campaign_id, :status]
-    add_index :campaign_deliveries, [:campaign_id, :contact_id], unique: true
-    add_index :campaign_deliveries, :source_id, unique: true, where: 'source_id IS NOT NULL'
+  def add_campaign_recipient_indexes
+    add_index :campaign_recipients, [:account_id, :campaign_id]
+    add_index :campaign_recipients, [:campaign_id, :status]
+    add_index :campaign_recipients, [:campaign_id, :contact_id], unique: true
+    add_index :campaign_recipients, :source_id, unique: true, where: 'source_id IS NOT NULL'
   end
 end

@@ -10,14 +10,14 @@ class Api::V1::Accounts::Campaigns::AnalyticsController < Api::V1::Accounts::Bas
   end
 
   def contacts
-    deliveries = filtered_deliveries.includes(:contact).page(current_page).per(RESULTS_PER_PAGE)
+    recipients = filtered_recipients.includes(:contact).page(current_page).per(RESULTS_PER_PAGE)
 
     render json: {
-      payload: deliveries.map { |delivery| delivery_payload(delivery) },
+      payload: recipients.map { |recipient| recipient_payload(recipient) },
       meta: {
-        current_page: deliveries.current_page,
-        total_pages: deliveries.total_pages,
-        total_count: deliveries.total_count
+        current_page: recipients.current_page,
+        total_pages: recipients.total_pages,
+        total_count: recipients.total_count
       }
     }
   end
@@ -39,42 +39,42 @@ class Api::V1::Accounts::Campaigns::AnalyticsController < Api::V1::Accounts::Bas
   end
 
   def delivery_metrics
-    metric_deliveries = @campaign.campaign_deliveries
-    counts = metric_deliveries.group(:status).count
+    recipients = @campaign.campaign_recipients
+    counts = recipients.group(:status).count
 
     {
-      audience: metric_deliveries.count,
-      sent: metric_deliveries.where.not(source_id: nil).count,
+      audience: recipients.count,
+      sent: recipients.where.not(source_id: nil).count,
       delivered: counts['delivered'].to_i + counts['read'].to_i,
       read: counts['read'].to_i,
       failed: counts['failed'].to_i,
       skipped: counts['skipped'].to_i,
-      status_counts: CampaignDelivery.statuses.keys.index_with { |status| counts[status].to_i }
+      status_counts: CampaignRecipient.statuses.keys.index_with { |status| counts[status].to_i }
     }
   end
 
-  def filtered_deliveries
-    return deliveries unless CampaignDelivery.statuses.key?(params[:status])
+  def filtered_recipients
+    return recipients unless CampaignRecipient.statuses.key?(params[:status])
 
-    deliveries.where(status: params[:status])
+    recipients.where(status: params[:status])
   end
 
-  def deliveries
-    @deliveries ||= @campaign.campaign_deliveries.order(created_at: :desc)
+  def recipients
+    @recipients ||= @campaign.campaign_recipients.order(created_at: :desc)
   end
 
-  def delivery_payload(delivery)
+  def recipient_payload(recipient)
     {
       contact: {
-        id: delivery.contact.id,
-        name: delivery.contact.name,
-        phone_number: delivery.contact.phone_number
+        id: recipient.contact.id,
+        name: recipient.contact.name,
+        phone_number: recipient.contact.phone_number
       },
-      status: delivery.status,
-      message_content: delivery.message_content,
-      error_code: delivery.error_code,
-      error_title: delivery.error_title,
-      error_message: delivery.error_message
+      status: recipient.status,
+      message_content: recipient.message_content,
+      error_code: recipient.error_code,
+      error_title: recipient.error_title,
+      error_message: recipient.error_message
     }
   end
 
