@@ -89,6 +89,16 @@ module Filters::FilterHelper
   end
 
   def default_filter(query_hash, filter_operator_value)
+    # Assignee ownership can live in either column until it is standardized as a polymorphic association.
+    if query_hash[:attribute_key] == 'assignee_id' && query_hash[:filter_operator] == 'is_present'
+      return "(#{filter_config[:table_name]}.assignee_id IS NOT NULL OR " \
+             "#{filter_config[:table_name]}.assignee_agent_bot_id IS NOT NULL) #{query_hash[:query_operator]}"
+    end
+    if query_hash[:attribute_key] == 'assignee_id' && query_hash[:filter_operator] == 'is_not_present'
+      return "(#{filter_config[:table_name]}.assignee_id IS NULL AND " \
+             "#{filter_config[:table_name]}.assignee_agent_bot_id IS NULL) #{query_hash[:query_operator]}"
+    end
+
     "#{filter_config[:table_name]}.#{query_hash[:attribute_key]} #{filter_operator_value} #{query_hash[:query_operator]}"
   end
 
