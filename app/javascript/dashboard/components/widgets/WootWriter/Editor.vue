@@ -194,7 +194,6 @@ const showCannedMenu = ref(false);
 const showVariables = ref(false);
 const showEmojiMenu = ref(false);
 const showToolsMenu = ref(false);
-const cannedDismissed = ref(false);
 const mentionSearchKey = ref('');
 const toolSearchKey = ref('');
 const variableSearchTerm = ref('');
@@ -212,9 +211,10 @@ const editor = useTemplateRef('editor');
 // line being typed on. Offsets are relative to the editor so the picker can sit on that
 // line and track it from there.
 const cannedCaretRect = computed(() => {
-  if (!showCannedMenu.value || !editorView || !range.value) return null;
-
-  const { top, bottom } = editorView.coordsAtPos(range.value.from);
+  if (!showCannedMenu.value || !editorView || !range.value || !editorRoot.value)
+    return null;
+  const from = Math.min(range.value.from, editorView.state.doc.content.size);
+  const { top, bottom } = editorView.coordsAtPos(from);
   const editorTop = editorRoot.value.getBoundingClientRect().top;
   return { top: top - editorTop, height: bottom - top };
 });
@@ -249,15 +249,12 @@ const shouldShowVariables = computed(() => {
 
 const shouldShowCannedResponses = computed(() => {
   return (
-    props.enableCannedResponses &&
-    showCannedMenu.value &&
-    !cannedDismissed.value &&
-    !props.isPrivate
+    props.enableCannedResponses && showCannedMenu.value && !props.isPrivate
   );
 });
 
 const dismissCannedResponses = () => {
-  cannedDismissed.value = true;
+  showCannedMenu.value = false;
   editorView?.focus();
 };
 
@@ -274,10 +271,10 @@ function createSuggestionPlugin({
     suggestionClass: '',
     onEnter: args => {
       if (!isAllowed()) return false;
-      showMenu.value = true;
       range.value = args.range;
       editorView = args.view;
       if (searchTerm) searchTerm.value = args.text || '';
+      showMenu.value = true;
       return false;
     },
     onChange: args => {
@@ -358,9 +355,8 @@ const sendWithSignature = computed(() => {
 watch(showUserMentions, updatedValue => {
   emit('toggleUserMention', props.isPrivate && updatedValue);
 });
-watch(showCannedMenu, updatedValue => {
-  if (!updatedValue) cannedDismissed.value = false;
-  emit('toggleCannedMenu', !props.isPrivate && updatedValue);
+watch(shouldShowCannedResponses, updatedValue => {
+  emit('toggleCannedMenu', updatedValue);
 });
 watch(showVariables, updatedValue => {
   emit('toggleVariablesMenu', !props.isPrivate && updatedValue);
@@ -905,6 +901,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     <CannedResponse
       v-if="shouldShowCannedResponses"
       :caret-rect="cannedCaretRect"
+      :variables="variables"
       @close="dismissCannedResponses"
       @replace="content => insertSpecialContent('cannedResponse', content)"
     />

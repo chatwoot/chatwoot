@@ -7,7 +7,7 @@ import {
   useWindowSize,
 } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
-import { debounce } from '@chatwoot/utils';
+import { debounce, replaceVariablesInMessage } from '@chatwoot/utils';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
@@ -20,6 +20,10 @@ const props = defineProps({
   caretRect: {
     type: Object,
     default: null,
+  },
+  variables: {
+    type: Object,
+    default: () => ({}),
   },
 });
 
@@ -106,19 +110,27 @@ const buildSnippet = text => {
   return `…${text.slice(index - SNIPPET_LEAD)}`;
 };
 
+const resolveVariables = message =>
+  replaceVariablesInMessage({ message, variables: props.variables });
+
 const records = computed(() =>
-  cannedResponses.value.map(({ id, short_code: shortCode, content }) => ({
-    id,
-    content,
-    shortCode,
-    plainText: getPlainText(content).replace(/\s+/g, ' ').trim(),
-  }))
+  cannedResponses.value.map(({ id, short_code: shortCode, content }) => {
+    const resolved = resolveVariables(content);
+    return {
+      id,
+      content,
+      resolved,
+      shortCode,
+      plainText: getPlainText(resolved).replace(/\s+/g, ' ').trim(),
+    };
+  })
 );
 
 const items = computed(() =>
   records.value.map(record => ({
     id: record.id,
     content: record.content,
+    resolved: record.resolved,
     label: `/${record.shortCode}`,
     title: highlightMatches(`/${record.shortCode}`),
     subtitle: highlightMatches(buildSnippet(record.plainText)),
@@ -128,7 +140,7 @@ const items = computed(() =>
 const selectedItem = computed(() => items.value[selectedIndex.value]);
 
 const previewContent = computed(() =>
-  formatMessage(selectedItem.value?.content || '')
+  formatMessage(selectedItem.value?.resolved || '')
 );
 
 const adjustScroll = () => pickerRef.value?.scrollSelectedIntoView();
@@ -210,6 +222,7 @@ onMounted(fetchCannedResponses);
       :preview-title="selectedItem?.label"
       :preview-content="previewContent"
       :show-preview="showPreview"
+      data-popover-content
       class="fixed z-[9999]"
       :style="cardStyle"
       @select="onListItemSelection"

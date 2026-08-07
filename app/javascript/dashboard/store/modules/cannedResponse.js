@@ -1,5 +1,4 @@
 import { throwErrorMessage } from 'dashboard/store/utils/api';
-import { isAbortError } from 'dashboard/composables/useAbortableRequest';
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import CannedResponseAPI from '../../api/cannedResponse';
@@ -44,8 +43,6 @@ const actions = {
       commit(types.default.SET_CANNED, response.data);
       commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: false });
     } catch (error) {
-      // A superseded request leaves the flag to the one that replaced it
-      if (isAbortError(error)) throw error;
       commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: false });
     }
   },
