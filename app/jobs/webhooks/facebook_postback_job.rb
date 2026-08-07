@@ -8,12 +8,15 @@ class Webhooks::FacebookPostbackJob < MutexApplicationJob
     recipient_id = payload.dig(:recipient, :id)
     return if sender_id.blank? || recipient_id.blank?
 
-    facebook_channel = Channel::FacebookPage.find_by(page_id: recipient_id)
-    return if facebook_channel.blank? || facebook_channel.inbox.blank?
-
     key = format(::Redis::Alfred::FACEBOOK_MESSAGE_MUTEX, sender_id: sender_id, recipient_id: recipient_id)
     with_lock(key) do
-      Messages::Facebook::PostbackBuilder.new(payload, facebook_channel.inbox).perform
+      # The same Facebook page can be connected to more than one Chatwoot account,
+      # so fan out to every matching page/inbox rather than an arbitrary single one.
+      Channel::FacebookPage.where(page_id: recipient_id).find_each do |facebook_channel|
+        next if facebook_channel.inbox.blank?
+
+        Messages::Facebook::PostbackBuilder.new(payload, facebook_channel.inbox).perform
+      end
     end
   end
 

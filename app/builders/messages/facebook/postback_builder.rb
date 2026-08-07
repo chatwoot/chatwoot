@@ -56,8 +56,11 @@ class Messages::Facebook::PostbackBuilder # rubocop:disable Metrics/ClassLength
   # contained the clicked button, not a click-specific id, and it is reused
   # for every click on that message. Build a synthetic key so a genuine
   # duplicate webhook delivery is deduped without dropping every ordinary click.
+  # Scoped by inbox: the same Facebook page can be connected to more than one
+  # Chatwoot inbox, in which case the fanned-out webhook is byte-identical
+  # (same sender/mid/payload/timestamp) across inboxes and must not collide.
   def click_source_id
-    "postback:#{sender_id}:#{postback_mid}:#{raw_postback_payload}:#{timestamp}"
+    "postback:#{inbox.id}:#{sender_id}:#{postback_mid}:#{raw_postback_payload}:#{timestamp}"
   end
 
   def contact
