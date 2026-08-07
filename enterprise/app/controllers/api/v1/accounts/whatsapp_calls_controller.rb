@@ -8,9 +8,9 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   before_action :ensure_call_message, only: :upload_recording
 
   rescue_from Voice::CallErrors::NotRinging,
-              Voice::CallErrors::AlreadyAccepted,
               Voice::CallErrors::CallFailed,
               with: :render_call_error
+  rescue_from Voice::CallErrors::AlreadyAccepted, with: :render_call_already_accepted
   rescue_from Voice::CallErrors::CallAlreadyEnded, with: :render_call_ended
   rescue_from Voice::CallErrors::NoCallPermission, with: :render_permission_request
 
@@ -176,5 +176,12 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   # 409 (not 422) so the FE can tell "already ended" from a generic failure and dismiss the ringing UI.
   def render_call_ended
     render json: { error: I18n.t('errors.whatsapp.calls.already_ended') }, status: :conflict
+  end
+
+  # 409 (not 422) so a losing tab in an accept race dismisses its own ringing UI via the
+  # same path as render_call_ended, instead of waiting on the winner's broadcast — which
+  # this tab's own optimistic local state can cause it to mistake for its own accept.
+  def render_call_already_accepted
+    render json: { error: I18n.t('errors.whatsapp.calls.already_accepted') }, status: :conflict
   end
 end
