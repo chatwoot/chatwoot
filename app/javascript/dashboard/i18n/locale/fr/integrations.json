@@ -673,7 +673,7 @@
             "TITLE": "Exemple de rails de garde",
             "ADD": "Ajouter tout",
             "ADD_SINGLE": "Ajouter ceci",
-            "SAVE": "Ajouter et enregistrer (<unk> )",
+            "SAVE": "Ajouter et enregistrer (↵)",
             "PLACEHOLDER": "Tapez un autre rail de garde..."
           },
           "NEW": {
@@ -718,7 +718,7 @@
             "TITLE": "Exemple de directives de réponse",
             "ADD": "Ajouter tout",
             "ADD_SINGLE": "Ajouter ceci",
-            "SAVE": "Ajouter et enregistrer (<unk> )",
+            "SAVE": "Ajouter et enregistrer (↵)",
             "PLACEHOLDER": "Tapez une autre directive de réponse..."
           },
           "NEW": {
