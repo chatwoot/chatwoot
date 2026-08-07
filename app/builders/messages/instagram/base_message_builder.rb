@@ -179,13 +179,18 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   def find_message_by_source_id(source_id)
     return unless source_id
 
-    @message = Message.find_by(source_id: source_id) || find_message_by_additional_source_id(source_id)
+    @message = Message.find_by(source_id: source_id)
+    @message ||= find_message_by_additional_source_id(source_id) if @outgoing_echo
+    @message
   end
 
   # A multi-part card send (intro text + generic template) shares one Chatwoot
   # message across two provider sends, only the last of which survives as
   # source_id. Earlier MIDs are preserved in additional_source_ids so their
   # inbound echo doesn't slip past this check and create a duplicate message.
+  # Only outgoing echoes can hit this: additional_source_ids is only ever set
+  # on our own outgoing sends, so gating here avoids an unindexed JSON scan of
+  # the messages table on every ordinary inbound message.
   def find_message_by_additional_source_id(source_id)
     # content_attributes is double JSON-encoded on this json column (ActiveRecord::Store
     # atop a native json type), so a plain ::jsonb cast yields a string scalar, not an

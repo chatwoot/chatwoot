@@ -97,6 +97,15 @@ describe Messages::Instagram::MessageBuilder do
       expect(instagram_inbox.messages.count).to be 1
     end
 
+    it 'does not scan additional_source_ids for ordinary inbound messages' do
+      messaging = dm_params[:entry][0]['messaging'][0]
+      create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+
+      expect(Message).not_to receive(:where).with(a_string_matching(/additional_source_ids/), anything)
+
+      described_class.new(messaging, instagram_inbox).perform
+    end
+
     it 'discards duplicate messages from webhook events with the same message_id' do
       messaging = dm_params[:entry][0]['messaging'][0]
       create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
