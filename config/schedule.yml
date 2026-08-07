@@ -76,3 +76,10 @@ synapseos_lead_reconciliation_job:
   cron: '0 3 * * *'
   class: 'Synapseos::LeadReconciliationJob'
   queue: scheduled_jobs
+
+# CUSTOMIZAÇÃO_SYNAPSEOS — checa a conexão da instância Avisa 3x/dia e avisa os
+# admins (toast) se a instância caiu. 09:00 / 14:00 / 17:00 BRT = 12/17/20 UTC.
+avisa_connection_check_job:
+  cron: '0 12,17,20 * * *'
+  class: 'Whatsapp::AvisaConnectionCheckJob'
+  queue: scheduled_jobs

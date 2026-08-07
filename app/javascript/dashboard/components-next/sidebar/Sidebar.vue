@@ -449,6 +449,18 @@ const menuItems = computed(() => {
                 icon: 'i-lucide-blocks',
                 to: accountScopedRoute('settings_applications'),
               },
+              {
+                name: 'Settings WhatsApp Connection',
+                label: t('SIDEBAR.WHATSAPP_CONNECTION'),
+                icon: 'i-lucide-plug-zap',
+                to: accountScopedRoute('whatsapp_connection_index'),
+              },
+              {
+                name: 'Settings Monthly Reports',
+                label: t('SIDEBAR.MONTHLY_REPORTS'),
+                icon: 'i-lucide-file-bar-chart',
+                to: accountScopedRoute('monthly_reports_index'),
+              },
             ]
           : []),
         {
