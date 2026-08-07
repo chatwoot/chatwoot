@@ -1,7 +1,7 @@
 # Mostly modeled after the intial implementation of the service based on 360 Dialog
 # https://docs.360dialog.com/whatsapp-api/whatsapp-api/media
 # https://developers.facebook.com/docs/whatsapp/api/media/
-class Whatsapp::IncomingMessageBaseService
+class Whatsapp::IncomingMessageBaseService # rubocop:disable Metrics/ClassLength
   include ::Whatsapp::IncomingMessageServiceHelpers
   include ::Whatsapp::IncomingMessageIdentifierHelper
 
