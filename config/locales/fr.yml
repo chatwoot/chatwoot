@@ -128,8 +128,8 @@ fr:
       realtimekit:
         invalid_credentials: 'Les identifiants Cloudflare RealtimeKit ne sont pas valides. Veuillez vérifier l''ID du compte, l''ID de l''application RealtimeKit et les autorisations de jeton d''API.'
         missing_credentials: 'L''ID du compte Cloudflare, l''ID de l''application RealtimeKit et le jeton de l''API sont requis.'
-        invalid_api_token: 'Le jeton de l''API Cloudflare est invalide ou inactif. Veuillez créer un nouveau jeton avec les autorisations d''administrateur en temps réel.'
-        invalid_account_or_permissions: 'L''ID du compte Cloudflare n''est pas valide, ou le jeton de l''API n''a pas accès à ce compte en temps réel.'
+        invalid_api_token: 'Le jeton de l''API Cloudflare est invalide ou inactif. Veuillez créer un nouveau jeton avec les autorisations Realtime Admin.'
+        invalid_account_or_permissions: 'L''ID du compte Cloudflare n''est pas valide, ou le jeton de l''API ne dispose pas de l''autorisation Realtime Admin pour ce compte.'
         app_not_found: 'L''ID de l''application RealtimeKit n''a pas été trouvé dans ce compte Cloudflare. Veuillez vérifier l''application que vous avez sélectionnée.'
         verification_failed: 'Impossible de vérifier les informations d''identification de Cloudflare RealtimeKit pour le moment. Veuillez réessayer.'
     slack:
@@ -175,7 +175,7 @@ fr:
       invalid_query_operator: L'opérateur de requête doit être "AND" ou "OR".
       invalid_value: Valeur invalide. Les valeurs fournies pour %{attribute_name} ne sont pas valides
     custom_attribute_definition:
-      attribute_key_format: ne doit contenir que des lettres, des chiffres, des tirets, des tirets et des points
+      attribute_key_format: ne doit contenir que des lettres, des chiffres, des traits de soulignement, des tirets et des points
       key_conflict: La clé fournie n'est pas autorisée car elle peut entrer en conflit avec les attributs par défaut.
     mfa:
       already_enabled: MFA est déjà activé
