@@ -902,6 +902,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       v-if="shouldShowCannedResponses"
       :caret-rect="cannedCaretRect"
       :variables="variables"
+      :schema="editorSchema"
       @close="dismissCannedResponses"
       @replace="content => insertSpecialContent('cannedResponse', content)"
     />

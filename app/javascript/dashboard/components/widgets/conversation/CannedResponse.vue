@@ -4,14 +4,16 @@ import { useI18n } from 'vue-i18n';
 import {
   useElementBounding,
   useResizeObserver,
+  useTimeoutFn,
   useWindowSize,
 } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
-import { debounce, replaceVariablesInMessage } from '@chatwoot/utils';
+import { replaceVariablesInMessage } from '@chatwoot/utils';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
+import { stripUnsupportedFormatting } from 'dashboard/helper/editorHelper';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 import PreviewPicker from 'dashboard/components-next/preview-picker/PreviewPicker.vue';
@@ -24,6 +26,10 @@ const props = defineProps({
   variables: {
     type: Object,
     default: () => ({}),
+  },
+  schema: {
+    type: Object,
+    default: null,
   },
 });
 
@@ -110,12 +116,18 @@ const buildSnippet = text => {
   return `…${text.slice(index - SNIPPET_LEAD)}`;
 };
 
-const resolveVariables = message =>
-  replaceVariablesInMessage({ message, variables: props.variables });
+// Both steps mirror what insertion does: variables are substituted, then formatting the
+// channel's schema cannot carry is stripped. Previewing the raw content would advertise
+// styling the message never ends up with.
+const resolveContent = message =>
+  stripUnsupportedFormatting(
+    replaceVariablesInMessage({ message, variables: props.variables }),
+    props.schema
+  );
 
 const records = computed(() =>
   cannedResponses.value.map(({ id, short_code: shortCode, content }) => {
-    const resolved = resolveVariables(content);
+    const resolved = resolveContent(content);
     return {
       id,
       content,
@@ -186,9 +198,13 @@ const fetchCannedResponses = () => {
   );
 };
 
-const debouncedFetch = debounce(fetchCannedResponses, SEARCH_DEBOUNCE);
+const { start: scheduleFetch } = useTimeoutFn(
+  fetchCannedResponses,
+  SEARCH_DEBOUNCE,
+  { immediate: false }
+);
 
-watch(searchTerm, debouncedFetch);
+watch(searchTerm, scheduleFetch);
 
 watch(items, newItems => {
   if (selectedIndex.value > newItems.length - 1) {
