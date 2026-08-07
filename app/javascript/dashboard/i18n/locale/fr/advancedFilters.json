@@ -20,7 +20,7 @@
     },
     "INPUT_PLACEHOLDER": "Entrez une valeur",
     "CONTACT_SEARCH_PLACEHOLDER": "Rechercher des contacts",
-    "CONTACT_FALLBACK": "Contacter #{id}",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "Égal à",
       "not_equal_to": "Pas égal à",
@@ -51,7 +51,7 @@
       "ASSIGNEE_NAME": "Nom du responsable",
       "INBOX_NAME": "Nom de la boîte de réception",
       "TEAM_NAME": "Nom de l'équipe",
-      "CONTACT": "Contacter",
+      "CONTACT": "Contact",
       "CONVERSATION_IDENTIFIER": "Identifiant de la conversation",
       "CAMPAIGN_NAME": "Nom de la campagne",
       "LABELS": "Étiquettes",

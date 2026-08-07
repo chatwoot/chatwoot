@@ -473,7 +473,7 @@
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contacter",
+        "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Agent",
         "RATING": "Note",
         "FEEDBACK_TEXT": "Commentaire sur la rétroaction",

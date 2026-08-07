@@ -10,7 +10,7 @@
     "NO_RESULTS": "Aucun attribut correspondant à votre recherche",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Conversation",
-      "CONTACT": "Contacter",
+      "CONTACT": "Contact",
       "COMPANY": "Société"
     },
     "ATTRIBUTE_TYPES": {
@@ -109,7 +109,7 @@
     "TABS": {
       "HEADER": "Attributs personnalisés",
       "CONVERSATION": "Conversation",
-      "CONTACT": "Contacter",
+      "CONTACT": "Contact",
       "COMPANY": "Société"
     },
     "LIST": {

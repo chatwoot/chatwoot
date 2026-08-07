@@ -88,7 +88,7 @@
             "CONFIRM_TITLE": "Lier le contact",
             "CONFIRM_DESCRIPTION": "Confirmez la société et contactez avant de les lier.",
             "COMPANY_LABEL": "Société",
-            "CONTACT_LABEL": "Contacter",
+            "CONTACT_LABEL": "Contact",
             "CURRENT_COMPANY": "Actuellement lié à {companyName}",
             "ADD": "Lier le contact",
             "CANCEL": "Annuler"
