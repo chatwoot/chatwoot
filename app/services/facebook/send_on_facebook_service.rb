@@ -33,7 +33,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:dis
     end
   end
 
-  def send_message_to_facebook(delivery_params)
+  def send_message_to_facebook(delivery_params, update_source_id: true)
     parsed_result = deliver_message(delivery_params)
     return if parsed_result.nil?
 
@@ -42,7 +42,9 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:dis
       Rails.logger.info "Facebook::SendOnFacebookService: Error sending message to Facebook : Page - #{channel.page_id} : #{parsed_result}"
     end
 
-    message.update!(source_id: parsed_result['message_id']) if parsed_result['message_id'].present?
+    return if parsed_result['message_id'].blank? || !update_source_id
+
+    message.update!(source_id: parsed_result['message_id'])
   end
 
   def deliver_message(delivery_params)
@@ -97,9 +99,28 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:dis
     end
   end
 
+  # A cards message with intro text is two independent provider requests for one
+  # Chatwoot message. If one half succeeds and the other fails, a Retry must not
+  # replay the half that already reached the recipient, so track each part's
+  # completion in content_attributes and skip parts already sent.
   def send_generic_template_message
-    send_message_to_facebook(fb_text_message_params) if generic_template_intro_text.present?
+    if generic_template_intro_text.present? && message.content_attributes['generic_template_intro_sent'].blank?
+      # Don't let the intro-text half set source_id: the base service treats a
+      # present source_id as "already sent by this channel" and would silently
+      # skip a Retry before the cards half ever got a chance to complete.
+      send_message_to_facebook(fb_text_message_params, update_source_id: false)
+      mark_generic_template_part_sent('generic_template_intro_sent') unless message.status == 'failed'
+    end
+
+    return if message.content_attributes['generic_template_cards_sent'].present?
+
     send_message_to_facebook(fb_generic_template_message_params)
+    mark_generic_template_part_sent('generic_template_cards_sent') unless message.status == 'failed'
+  end
+
+  def mark_generic_template_part_sent(key)
+    message.content_attributes[key] = true
+    message.save!
   end
 
   def send_button_generic_template_message

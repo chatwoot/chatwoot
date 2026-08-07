@@ -252,6 +252,33 @@ describe Facebook::SendOnFacebookService do
       end
     end
 
+    context 'with cards intro text where the cards template send fails and is retried' do
+      it 'does not resend the intro text that already succeeded' do
+        success_json = { recipient_id: '1008372609250235', message_id: 'mid.intro' }.to_json
+        error_json = { error: { message: 'Temporary error', code: 1 } }.to_json
+        allow(bot).to receive(:deliver).and_return(success_json, error_json, success_json)
+
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation,
+                                   content: 'Check these out', content_type: 'cards',
+                                   content_attributes: {
+                                     'items' => [
+                                       {
+                                         'title' => 'Card 1',
+                                         'actions' => [{ 'type' => 'url', 'text' => 'Visit', 'uri' => 'https://example.com' }]
+                                       }
+                                     ]
+                                   })
+
+        described_class.new(message: message).perform
+        expect(bot).to have_received(:deliver).twice
+        expect(message.reload.status).to eq('failed')
+
+        described_class.new(message: message).perform
+
+        expect(bot).to have_received(:deliver).exactly(3).times
+      end
+    end
+
     context 'with interactive_buttons' do
       it 'sends button template message for interactive_buttons content type' do
         message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation,

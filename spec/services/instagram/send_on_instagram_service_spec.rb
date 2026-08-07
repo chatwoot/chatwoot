@@ -240,6 +240,42 @@ describe Instagram::SendOnInstagramService do
         end
       end
 
+      context 'with cards intro text where the cards template send fails and is retried' do
+        it 'does not resend the intro text that already succeeded' do
+          allow(HTTParty).to receive(:post).and_return(
+            instance_double(HTTParty::Response, success?: true, body: { message_id: 'mid_intro' }.to_json,
+                                                parsed_response: { 'message_id' => 'mid_intro' }),
+            instance_double(HTTParty::Response, success?: true,
+                                                body: { error: { message: 'Temporary error', code: 1 } }.to_json,
+                                                parsed_response: { 'error' => { 'message' => 'Temporary error', 'code' => 1 } }),
+            instance_double(HTTParty::Response, success?: true, body: { message_id: 'mid_generic' }.to_json,
+                                                parsed_response: { 'message_id' => 'mid_generic' })
+          )
+
+          message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation,
+                                     content: 'Check these out',
+                                     content_type: 'cards',
+                                     content_attributes: {
+                                       'items' => [
+                                         {
+                                           'title' => 'Card 1',
+                                           'actions' => [{ 'type' => 'url', 'text' => 'Visit', 'uri' => 'https://example.com' }]
+                                         }
+                                       ]
+                                     })
+
+          described_class.new(message: message).perform
+          expect(HTTParty).to have_received(:post).twice
+          expect(message.reload.status).to eq('failed')
+          expect(message.source_id).to be_nil
+
+          described_class.new(message: message).perform
+
+          expect(HTTParty).to have_received(:post).exactly(3).times
+          expect(message.reload.source_id).to eq('mid_generic')
+        end
+      end
+
       context 'with cards body text longer than the Messenger title limit' do
         it 'truncates the generic-template title and subtitle to 80 characters' do
           long_title = 'T' * 200

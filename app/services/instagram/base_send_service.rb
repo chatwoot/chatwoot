@@ -35,9 +35,28 @@ class Instagram::BaseSendService < Base::SendOnChannelService # rubocop:disable 
     send_message(message_params)
   end
 
+  # A cards message with intro text is two independent provider requests for one
+  # Chatwoot message. If one half succeeds and the other fails, a Retry must not
+  # replay the half that already reached the recipient, so track each part's
+  # completion in content_attributes and skip parts already sent.
   def send_generic_template_message
-    send_message(text_message_params) if generic_template_intro_text.present?
+    if generic_template_intro_text.present? && message.content_attributes['generic_template_intro_sent'].blank?
+      # Don't let the intro-text half set source_id: the base service treats a
+      # present source_id as "already sent by this channel" and would silently
+      # skip a Retry before the cards half ever got a chance to complete.
+      send_message(text_message_params, update_source_id: false)
+      mark_generic_template_part_sent('generic_template_intro_sent') unless message.status == 'failed'
+    end
+
+    return if message.content_attributes['generic_template_cards_sent'].present?
+
     send_message(generic_template_message_params)
+    mark_generic_template_part_sent('generic_template_cards_sent') unless message.status == 'failed'
+  end
+
+  def mark_generic_template_part_sent(key)
+    message.content_attributes[key] = true
+    message.save!
   end
 
   def send_button_template_message
@@ -278,11 +297,19 @@ class Instagram::BaseSendService < Base::SendOnChannelService # rubocop:disable 
     merge_human_agent_tag(params)
   end
 
-  def process_response(response, message_content)
+  def process_response(response, message_content, update_source_id: true)
     parsed_response = response.parsed_response
     if response.success? && parsed_response['error'].blank?
-      track_additional_source_id
-      message.update!(source_id: parsed_response['message_id'])
+      if update_source_id
+        track_additional_source_id
+        message.update!(source_id: parsed_response['message_id'])
+      else
+        # The intro-text half of a multi-part send must not become source_id (see
+        # send_generic_template_message), but its MID still needs to be remembered
+        # so the inbound webhook echo for it can be matched and deduped.
+        remember_additional_source_id(parsed_response['message_id'])
+        message.save!
+      end
       parsed_response
     else
       external_error = external_error(parsed_response)
@@ -297,10 +324,14 @@ class Instagram::BaseSendService < Base::SendOnChannelService # rubocop:disable 
   # so the first send's MID would otherwise be lost. Keep it around so the
   # inbound webhook echo for that MID can still be matched and deduped.
   def track_additional_source_id
-    return if message.source_id.blank?
+    remember_additional_source_id(message.source_id)
+  end
+
+  def remember_additional_source_id(source_id)
+    return if source_id.blank?
 
     additional_source_ids = Array(message.content_attributes['additional_source_ids'])
-    message.content_attributes['additional_source_ids'] = (additional_source_ids + [message.source_id]).uniq
+    message.content_attributes['additional_source_ids'] = (additional_source_ids + [source_id]).uniq
   end
 
   def external_error(response)
@@ -318,7 +349,7 @@ class Instagram::BaseSendService < Base::SendOnChannelService # rubocop:disable 
     'file'
   end
 
-  def send_message(message_content)
+  def send_message(message_content, update_source_id: true)
     raise NotImplementedError, 'Subclasses must implement send_message'
   end
 

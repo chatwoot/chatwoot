@@ -7,7 +7,7 @@ class Instagram::SendOnInstagramService < Instagram::BaseSendService
 
   # Deliver a message with the given payload.
   # https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api
-  def send_message(message_content)
+  def send_message(message_content, update_source_id: true)
     access_token = channel.access_token
     query = { access_token: access_token }
     instagram_id = channel.instagram_id.presence || 'me'
@@ -22,7 +22,7 @@ class Instagram::SendOnInstagramService < Instagram::BaseSendService
       query: query
     )
 
-    process_response(response, message_content)
+    process_response(response, message_content, update_source_id: update_source_id)
   end
 
   def merge_human_agent_tag(params)
