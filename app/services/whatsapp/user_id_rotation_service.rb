@@ -7,8 +7,10 @@ class Whatsapp::UserIdRotationService
   pattr_initialize [:inbox!, :payload!]
 
   def perform
-    rotate(payload.dig(:user_id, :previous), payload.dig(:user_id, :current))
+    # The parent identifier is rotated first so that, when both change, the conversations end up
+    # anchored to the regular one, which is the identifier that resolves the incoming messages.
     rotate(payload.dig(:parent_user_id, :previous), payload.dig(:parent_user_id, :current))
+    rotate(payload.dig(:user_id, :previous), payload.dig(:user_id, :current))
   end
 
   private
@@ -25,9 +27,23 @@ class Whatsapp::UserIdRotationService
     return if inbox.contact_inboxes.exists?(source_id: current_source_id)
 
     contact_inbox.update!(source_id: current_source_id)
+    anchor_conversations(contact_inbox)
   rescue ActiveRecord::RecordNotUnique
     # The row was created between the check above and the update. Nothing to do,
     # the identifier is already present in the inbox.
     Rails.logger.info("[WHATSAPP] source_id #{current_source_id} already taken in inbox #{inbox.id}")
+  end
+
+  # A conversation is anchored to whichever contact inbox resolved its first message, and
+  # `Whatsapp::SendOnWhatsappService` replies through that source id. A contact that has both
+  # identifiers is resolved by the phone one first, so replies would keep going to the number
+  # the user just left. Anchor them to the business scoped user id instead, which is the
+  # identifier that survived the change and which the Cloud API accepts as a `recipient`.
+  def anchor_conversations(contact_inbox)
+    contact_inbox.contact
+                 .conversations
+                 .where(inbox_id: inbox.id)
+                 .where.not(contact_inbox_id: contact_inbox.id)
+                 .find_each { |conversation| conversation.update!(contact_inbox: contact_inbox) }
   end
 end

@@ -527,6 +527,18 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           .not_to change(ContactInbox, :count)
       end
 
+      it 'anchors the conversations to the business scoped user id so replies reach the new number' do
+        bsuid_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+        phone_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: bsuid_inbox.contact, source_id: '2423423243')
+        conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: phone_inbox,
+                                             contact: bsuid_inbox.contact, account: whatsapp_channel.inbox.account)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
+
+        expect(conversation.reload.contact_inbox).to eq(bsuid_inbox)
+        expect(bsuid_inbox.reload.source_id).to eq('IN.CURRENTBSUID')
+      end
+
       it 're-points the contact inbox when only the parent business scoped user id rotates' do
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.ENT.PREVIOUSBSUID')
         parent_params = user_id_update_params.deep_dup
