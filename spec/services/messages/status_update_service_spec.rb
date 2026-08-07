@@ -41,6 +41,12 @@ describe Messages::StatusUpdateService do
         expect(service.perform).to be false
         expect(message.reload.status).to eq('read')
       end
+
+      it 'does not allow setting deferred (foundation only, enabled by a follow-up)' do
+        service = described_class.new(message, 'deferred')
+        expect(service.perform).to be false
+        expect(message.reload.status).not_to eq('deferred')
+      end
     end
   end
 end

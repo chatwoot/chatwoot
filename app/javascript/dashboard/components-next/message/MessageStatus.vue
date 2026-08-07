@@ -49,6 +49,7 @@ const statusIcon = computed(() => {
     [MESSAGE_STATUS.SENT]: 'i-lucide-check',
     [MESSAGE_STATUS.DELIVERED]: 'i-lucide-check-check',
     [MESSAGE_STATUS.READ]: 'i-lucide-check-check',
+    [MESSAGE_STATUS.DEFERRED]: 'i-lucide-history',
   };
 
   return statusIconMap[status];
@@ -59,6 +60,7 @@ const statusColor = computed(() => {
     [MESSAGE_STATUS.SENT]: 'text-n-slate-10',
     [MESSAGE_STATUS.DELIVERED]: 'text-n-slate-10',
     [MESSAGE_STATUS.READ]: 'text-[#7EB6FF]',
+    [MESSAGE_STATUS.DEFERRED]: 'text-n-slate-10',
   };
 
   return statusIconMap[status];
@@ -69,6 +71,7 @@ const tooltipText = computed(() => {
     [MESSAGE_STATUS.SENT]: t('CHAT_LIST.SENT'),
     [MESSAGE_STATUS.DELIVERED]: t('CHAT_LIST.DELIVERED'),
     [MESSAGE_STATUS.READ]: t('CHAT_LIST.MESSAGE_READ'),
+    [MESSAGE_STATUS.DEFERRED]: t('CHAT_LIST.DEFERRED'),
     [MESSAGE_STATUS.PROGRESS]: t('CHAT_LIST.SENDING'),
   };
 
