@@ -194,9 +194,9 @@ const showCannedMenu = ref(false);
 const showVariables = ref(false);
 const showEmojiMenu = ref(false);
 const showToolsMenu = ref(false);
+const cannedDismissed = ref(false);
 const mentionSearchKey = ref('');
 const toolSearchKey = ref('');
-const cannedSearchTerm = ref('');
 const variableSearchTerm = ref('');
 const emojiSearchTerm = ref('');
 const range = ref(null);
@@ -207,6 +207,17 @@ const showSelectionMenu = ref(false);
 const editorRoot = useTemplateRef('editorRoot');
 const imageUpload = useTemplateRef('imageUpload');
 const editor = useTemplateRef('editor');
+
+// Anchors the picker to the trigger character, since editors can be much taller than the
+// line being typed on. Offsets are relative to the editor so the picker can sit on that
+// line and track it from there.
+const cannedCaretRect = computed(() => {
+  if (!showCannedMenu.value || !editorView || !range.value) return null;
+
+  const { top, bottom } = editorView.coordsAtPos(range.value.from);
+  const editorTop = editorRoot.value.getBoundingClientRect().top;
+  return { top: top - editorTop, height: bottom - top };
+});
 
 const isEditorMenuPopover = computed(
   () =>
@@ -238,9 +249,17 @@ const shouldShowVariables = computed(() => {
 
 const shouldShowCannedResponses = computed(() => {
   return (
-    props.enableCannedResponses && showCannedMenu.value && !props.isPrivate
+    props.enableCannedResponses &&
+    showCannedMenu.value &&
+    !cannedDismissed.value &&
+    !props.isPrivate
   );
 });
+
+const dismissCannedResponses = () => {
+  cannedDismissed.value = true;
+  editorView?.focus();
+};
 
 function createSuggestionPlugin({
   trigger,
@@ -248,6 +267,7 @@ function createSuggestionPlugin({
   showMenu,
   searchTerm,
   isAllowed = () => true,
+  interceptEnter = true,
 }) {
   return suggestionsPlugin({
     matcher: triggerCharacters(trigger, minChars),
@@ -272,7 +292,7 @@ function createSuggestionPlugin({
       return false;
     },
     onKeyDown: ({ event }) => {
-      return event.keyCode === 13 && showMenu.value;
+      return event.keyCode === 13 && showMenu.value && interceptEnter;
     },
   });
 }
@@ -298,8 +318,8 @@ const plugins = computed(() => {
     createSuggestionPlugin({
       trigger: '/',
       showMenu: showCannedMenu,
-      searchTerm: cannedSearchTerm,
       isAllowed: () => !props.isPrivate,
+      interceptEnter: false,
     }),
     createSuggestionPlugin({
       trigger: '{{',
@@ -339,6 +359,7 @@ watch(showUserMentions, updatedValue => {
   emit('toggleUserMention', props.isPrivate && updatedValue);
 });
 watch(showCannedMenu, updatedValue => {
+  if (!updatedValue) cannedDismissed.value = false;
   emit('toggleCannedMenu', !props.isPrivate && updatedValue);
 });
 watch(showVariables, updatedValue => {
@@ -799,7 +820,6 @@ watch(
     showCannedMenu.value = false;
     showEmojiMenu.value = false;
     showVariables.value = false;
-    cannedSearchTerm.value = '';
     reloadState(props.modelValue);
   }
 );
@@ -884,7 +904,8 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     />
     <CannedResponse
       v-if="shouldShowCannedResponses"
-      :search-key="cannedSearchTerm"
+      :caret-rect="cannedCaretRect"
+      @close="dismissCannedResponses"
       @replace="content => insertSpecialContent('cannedResponse', content)"
     />
     <VariableList
