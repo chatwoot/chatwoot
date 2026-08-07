@@ -71,10 +71,19 @@ class ContentAttributeValidator < ActiveModel::Validator # rubocop:disable Metri
   # Meta requires every generic-template element to have a title; without this
   # check a card with valid actions but a blank title passes here and is only
   # rejected by Facebook/Instagram once it's already been accepted by Chatwoot.
+  # Non-Meta cards (e.g. agent bot/API cards sent to website/API inboxes) have
+  # no such requirement, so only enforce this for an actual Meta template target.
   def validate_card_titles!(record)
+    return unless meta_generic_template_target?(record)
     return if normalized_items(record).none? { |item| item[:title].blank? }
 
     record.errors.add(:content_attributes, 'contains items missing title')
+  end
+
+  def meta_generic_template_target?(record)
+    whatsapp_interactive_carousel_target?(record) ||
+      instagram_generic_template_target?(record) ||
+      messenger_generic_template_target?(record)
   end
 
   def validate_form!(record)

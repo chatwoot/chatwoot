@@ -63,6 +63,25 @@ describe ContentAttributeValidator do
     end
   end
 
+  context 'when a non-Meta cards message item has no title' do
+    it 'is valid' do
+      widget_channel = create(:channel_widget, account: account)
+      widget_inbox = create(:inbox, channel: widget_channel, account: account)
+      widget_conversation = create(:conversation, account: account, inbox: widget_inbox)
+
+      message = build(:message, conversation: widget_conversation, account: account, inbox: widget_inbox,
+                                message_type: :outgoing, content_type: 'cards',
+                                content_attributes: {
+                                  items: [{
+                                    description: 'desc', media_url: 'https://example.com/img.jpg',
+                                    actions: [{ type: 'reply', text: 'Go', payload: 'p1' }]
+                                  }]
+                                })
+
+      expect(message).to be_valid
+    end
+  end
+
   def build_list_message(sections)
     build(:message, conversation: conversation, account: account, inbox: whatsapp_inbox,
                     message_type: :outgoing, content_type: 'interactive_list',
