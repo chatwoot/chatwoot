@@ -21,10 +21,9 @@ class Whatsapp::UserIdRotationService
 
     contact_inbox = inbox.contact_inboxes.find_by(source_id: previous_source_id)
     return if contact_inbox.blank?
-    # The current identifier already belongs to a contact inbox, so the update was
-    # either replayed or the user reached us through it in the meantime. Merging
-    # the two contact inboxes is a separate concern.
-    return if inbox.contact_inboxes.exists?(source_id: current_source_id)
+
+    current_contact_inbox = inbox.contact_inboxes.find_by(source_id: current_source_id)
+    return complete_rotation(contact_inbox, current_contact_inbox) if current_contact_inbox.present?
 
     # One transaction, so a worker that dies midway leaves nothing half migrated: a retry
     # either finds the previous identifier and redoes the whole move, or finds the current
@@ -38,6 +37,17 @@ class Whatsapp::UserIdRotationService
     # The row was created between the check above and the update. Nothing to do,
     # the identifier is already present in the inbox.
     Rails.logger.info("[WHATSAPP] source_id #{current_source_id} already taken in inbox #{inbox.id}")
+  end
+
+  # The current identifier is already known. On the same contact it means the user reached
+  # us through it before the update arrived, most often because an unchanged parent id
+  # resolved them, so the rows are already right and only the anchor is missing. On another
+  # contact the two identities have to be merged, which is a separate concern, so the rows
+  # are left exactly as they are.
+  def complete_rotation(contact_inbox, current_contact_inbox)
+    return if current_contact_inbox.contact_id != contact_inbox.contact_id
+
+    anchor_conversations(current_contact_inbox)
   end
 
   # A conversation is anchored to whichever contact inbox resolved its first message, and

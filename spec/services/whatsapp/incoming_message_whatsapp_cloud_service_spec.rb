@@ -512,14 +512,29 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(whatsapp_channel.inbox.contact_inboxes.count).to eq(1)
       end
 
-      it 'does nothing when the new identifier is already known' do
-        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+      it 'leaves both rows in place when the new identifier belongs to another contact' do
+        previous_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+        conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: previous_inbox,
+                                             contact: previous_inbox.contact, account: whatsapp_channel.inbox.account)
         create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.CURRENTBSUID')
 
         described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
 
         expect(whatsapp_channel.inbox.contact_inboxes.pluck(:source_id))
           .to contain_exactly('IN.PREVIOUSBSUID', 'IN.CURRENTBSUID')
+        expect(conversation.reload.contact_inbox).to eq(previous_inbox)
+      end
+
+      it 'anchors the conversations when the new identifier already sits on the same contact' do
+        previous_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+        current_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: previous_inbox.contact,
+                                               source_id: 'IN.CURRENTBSUID')
+        conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: previous_inbox,
+                                             contact: previous_inbox.contact, account: whatsapp_channel.inbox.account)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
+
+        expect(conversation.reload.contact_inbox).to eq(current_inbox)
       end
 
       it 'does nothing when the previous identifier is unknown' do
