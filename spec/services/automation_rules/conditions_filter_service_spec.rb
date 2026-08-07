@@ -63,6 +63,26 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       end
     end
 
+    context 'when conditions check assignee presence' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+
+      before do
+        conversation.update!(assignee_agent_bot: agent_bot)
+      end
+
+      it 'treats AgentBot ownership as present' do
+        rule.update!(conditions: [{ 'values': [], 'attribute_key': 'assignee_id', 'query_operator': nil, 'filter_operator': 'is_present' }])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+
+      it 'does not treat AgentBot ownership as absent' do
+        rule.update!(conditions: [{ 'values': [], 'attribute_key': 'assignee_id', 'query_operator': nil, 'filter_operator': 'is_not_present' }])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+      end
+    end
+
     context 'when conditions based on messages attributes' do
       context 'when filter_operator is equal_to' do
         before do
