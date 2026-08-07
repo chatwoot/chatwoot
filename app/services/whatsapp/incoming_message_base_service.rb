@@ -14,6 +14,8 @@ class Whatsapp::IncomingMessageBaseService
       process_statuses
     elsif messages_data.present?
       process_messages
+    elsif processed_params.try(:[], :user_id_update).present?
+      process_user_id_updates
     end
   end
 

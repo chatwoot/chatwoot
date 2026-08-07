@@ -469,6 +469,64 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         end
       end
     end
+
+    context 'when a user_id_update webhook is received' do
+      let(:user_id_update_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              field: 'user_id_update',
+              value: {
+                messaging_product: 'whatsapp',
+                contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: '2423423243' }],
+                user_id_update: [{
+                  wa_id: '2423423243',
+                  detail: 'User id for Sojan Jose has been updated.',
+                  user_id: { previous: 'IN.PREVIOUS_BSUID', current: 'IN.CURRENT_BSUID' },
+                  timestamp: '1664799904'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 're-points the contact inbox to the new business scoped user id' do
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUS_BSUID')
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
+
+        expect(contact_inbox.reload.source_id).to eq('IN.CURRENT_BSUID')
+      end
+
+      it 'keeps the contact and its conversations' do
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUS_BSUID')
+        conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox,
+                                             contact: contact_inbox.contact, account: whatsapp_channel.inbox.account)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
+
+        expect(conversation.reload.contact_inbox_id).to eq(contact_inbox.id)
+        expect(whatsapp_channel.inbox.contact_inboxes.count).to eq(1)
+      end
+
+      it 'does nothing when the new identifier is already known' do
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUS_BSUID')
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.CURRENT_BSUID')
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
+
+        expect(whatsapp_channel.inbox.contact_inboxes.pluck(:source_id))
+          .to contain_exactly('IN.PREVIOUS_BSUID', 'IN.CURRENT_BSUID')
+      end
+
+      it 'does nothing when the previous identifier is unknown' do
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform }
+          .not_to change(ContactInbox, :count)
+      end
+    end
   end
 
   # Métodos auxiliares para reduzir o tamanho do exemplo
