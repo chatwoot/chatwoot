@@ -172,7 +172,7 @@ fr:
       number_of_records: Limite atteinte. Le nombre maximum de filtres personnalisés autorisés pour un utilisateur par compte est de 1000.
       invalid_attribute: Clé d'attribut invalide - [%{key}]. La clé doit être l'une des [%{allowed_keys}] ou un attribut personnalisé défini dans le compte.
       invalid_operator: Opérateur invalide. Les opérateurs autorisés pour %{attribute_name} sont [%{allowed_keys}].
-      invalid_query_operator: L'opérateur de requête doit être "ET" ou "OU".
+      invalid_query_operator: L'opérateur de requête doit être "AND" ou "OR".
       invalid_value: Valeur invalide. Les valeurs fournies pour %{attribute_name} ne sont pas valides
     custom_attribute_definition:
       attribute_key_format: ne doit contenir que des lettres, des chiffres, des tirets, des tirets et des points
@@ -333,9 +333,9 @@ fr:
         added: '%{user_name} a ajouté la politique de SLA %{sla_name}'
         removed: '%{user_name} a supprimé la politique de SLA %{sla_name}'
       linear:
-        issue_created: 'Le ticket linéaire %{issue_id} a été créé par %{user_name}'
-        issue_linked: 'Le ticket linéaire %{issue_id} a été lié par %{user_name}'
-        issue_unlinked: 'Le ticket linéaire %{issue_id} a été dissocié par %{user_name}'
+        issue_created: 'Le ticket Linear %{issue_id} a été créé par %{user_name}'
+        issue_linked: 'Le ticket Linear %{issue_id} a été lié par %{user_name}'
+        issue_unlinked: 'Le ticket Linear %{issue_id} a été dissocié par %{user_name}'
       whatsapp_call:
         permission_requested: 'A envoyé une demande d''autorisation d''appel à %{contact_name}.'
         permission_granted: '%{contact_name} a accepté la demande d''autorisation d''appel.'
@@ -388,7 +388,7 @@ fr:
       name: 'Webhooks'
       description: 'Les événements de webhook fournissent des mises à jour en temps réel sur les activités de votre compte Chatwoot. Vous pouvez vous abonner aux événements de votre choix, et Chatwoot vous enverra des rappels HTTP contenant les mises à jour.'
     dialogflow:
-      name: 'Flux de dialogue'
+      name: 'Dialogflow'
       short_description: 'Construire des chatbots pour gérer les requêtes initiales avant de les transférer aux agents.'
       description: 'Construisez des chatbots avec Dialogflow et intégrez-les facilement dans votre boîte de réception. Ces robots peuvent gérer les requêtes initiales avant de les transférer à un agent de service client.'
     google_translate:
@@ -400,9 +400,9 @@ fr:
       short_description: 'Suggestions de réponse, récapitulation et amélioration des messages.'
       description: 'Tirez parti de la puissance des grands modèles de langage d''OpenAI avec les fonctionnalités telles que les suggestions de réponse, le résumé, la reformulation des messages, la vérification orthographique et la classification des étiquettes.'
     linear:
-      name: 'Linéaire'
-      short_description: 'Créer et lier des tickets linéaires directement à partir de conversations.'
-      description: 'Créez des tickets en linéaire directement à partir de votre fenêtre de conversation. Ou liez des tickets linéaires existants pour un processus de suivi des problèmes plus rationalisé et plus efficace.'
+      name: 'Linear'
+      short_description: 'Créer et lier des tickets Linear directement à partir de conversations.'
+      description: 'Créez des tickets dans Linear directement à partir de votre fenêtre de conversation. Ou liez des tickets Linear existants pour un processus de suivi des problèmes plus rationalisé et plus efficace.'
       attachment_link_title: 'Conversation (#%{conversation_id}) avec %{name}'
     notion:
       name: 'Notion'
@@ -413,7 +413,7 @@ fr:
       short_description: 'Accédez aux détails de la commande et aux données client de votre boutique Shopify.'
       description: 'Connectez votre boutique Shopify pour accéder aux détails de la commande, informations sur le client. et les données des produits directement dans vos conversations et aide votre équipe de support à fournir une assistance plus rapide et plus contextuelle à vos clients.'
     leadsquared:
-      name: 'Dirigeable'
+      name: 'LeadSquared'
       short_description: 'Synchronisez vos contacts et conversations avec LeadSquared CRM.'
       description: 'Synchronisez vos contacts et conversations avec LeadSquared CRM. Cette intégration crée automatiquement des prospects dans LeadSquared lorsque de nouveaux contacts sont ajoutés, et enregistre l''activité des conversations pour fournir à votre équipe de vente un contexte complet.'
   captain:
