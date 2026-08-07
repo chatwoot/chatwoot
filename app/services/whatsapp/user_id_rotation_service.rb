@@ -26,8 +26,14 @@ class Whatsapp::UserIdRotationService
     # the two contact inboxes is a separate concern.
     return if inbox.contact_inboxes.exists?(source_id: current_source_id)
 
-    contact_inbox.update!(source_id: current_source_id)
-    anchor_conversations(contact_inbox)
+    # One transaction, so a worker that dies midway leaves nothing half migrated: a retry
+    # either finds the previous identifier and redoes the whole move, or finds the current
+    # one and stops. A partial move would strand the conversations on the obsolete inbox
+    # with no row left for the retry to recognise.
+    ActiveRecord::Base.transaction do
+      contact_inbox.update!(source_id: current_source_id)
+      anchor_conversations(contact_inbox)
+    end
   rescue ActiveRecord::RecordNotUnique
     # The row was created between the check above and the update. Nothing to do,
     # the identifier is already present in the inbox.
