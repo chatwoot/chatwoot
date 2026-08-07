@@ -30,7 +30,7 @@
             "CONTENT": "إرسال الرسائل بالضغط على مفتاح (Enter) بدلاً من النقر على زر الإرسال."
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (<unk> + <unk> )",
+            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
             "CONTENT": "إرسال الرسائل بالضغط على Cmd/Ctrl + إدخال المفتاح بدلاً من النقر على زر الإرسال."
           }
         }

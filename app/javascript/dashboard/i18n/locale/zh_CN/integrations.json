@@ -673,7 +673,7 @@
             "TITLE": "Example guardrails",
             "ADD": "添加全部",
             "ADD_SINGLE": "Add this",
-            "SAVE": "添加并保存",
+            "SAVE": "添加并保存 (↵)",
             "PLACEHOLDER": "Type in another guardrail..."
           },
           "NEW": {
@@ -718,7 +718,7 @@
             "TITLE": "Example response guidelines",
             "ADD": "添加全部",
             "ADD_SINGLE": "Add this",
-            "SAVE": "添加并保存",
+            "SAVE": "添加并保存 (↵)",
             "PLACEHOLDER": "Type in another response guideline..."
           },
           "NEW": {

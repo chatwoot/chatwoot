@@ -26,12 +26,12 @@
         "UPDATE_SUCCESS": "Votre profil a été mis à jour avec succès",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Entrer (<unk> )",
+            "HEADING": "Entrée (↵)",
             "CONTENT": "Envoyez des messages en appuyant sur la touche Entrée au lieu de cliquer sur le bouton d'envoi."
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Entrée (<unk> + <unk> )",
-            "CONTENT": "Envoyez des messages en appuyant sur la touche Cmd/Ctrl + Entrée (<unk> + <unk>) au lieu de cliquer sur le bouton d'envoi."
+            "HEADING": "Cmd/Ctrl + Entrée (⌘ + ↵)",
+            "CONTENT": "Envoyez des messages en appuyant sur les touches Cmd/Ctrl + Entrée au lieu de cliquer sur le bouton d'envoi."
           }
         }
       },
