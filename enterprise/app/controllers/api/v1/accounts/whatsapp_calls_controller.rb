@@ -130,7 +130,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   def create_outbound_call
     # A reused thread unassigned at click time is claimed for the caller (wins over auto-assignment); a
     # fresh thread (@conversation nil until the dial succeeds) is created already assigned to the caller.
-    claim_for_caller = @conversation.present? && @conversation.assignee_id.nil?
+    claim_for_caller = @conversation.present? && @conversation.assigned_entity.nil?
 
     result = provider_service.initiate_call(@contact.phone_number.delete('+'), params[:sdp_offer])
     provider_call_id = result.dig('calls', 0, 'id') || result['call_id']
