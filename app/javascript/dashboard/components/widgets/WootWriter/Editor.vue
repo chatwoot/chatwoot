@@ -194,10 +194,11 @@ const showCannedMenu = ref(false);
 const showVariables = ref(false);
 const showEmojiMenu = ref(false);
 const showToolsMenu = ref(false);
-const mentionSearchKey = ref('');
 const toolSearchKey = ref('');
-const variableSearchTerm = ref('');
-const emojiSearchTerm = ref('');
+const mentionSearchKey = ref('');
+const cannedSearchKey = ref('');
+const variableSearchKey = ref('');
+const emojiSearchKey = ref('');
 const range = ref(null);
 const isTextSelected = ref(false); // Tracks text selection and prevents unnecessary re-renders on mouse selection
 const showSelectionMenu = ref(false);
@@ -210,9 +211,8 @@ const editor = useTemplateRef('editor');
 // Anchors the picker to the trigger character, since editors can be much taller than the
 // line being typed on. Offsets are relative to the editor so the picker can sit on that
 // line and track it from there.
-const cannedCaretRect = computed(() => {
-  if (!showCannedMenu.value || !editorView || !range.value || !editorRoot.value)
-    return null;
+const caretPosition = computed(() => {
+  if (!editorView || !range.value || !editorRoot.value) return null;
   const from = Math.min(range.value.from, editorView.state.doc.content.size);
   const { top, bottom } = editorView.coordsAtPos(from);
   const editorTop = editorRoot.value.getBoundingClientRect().top;
@@ -253,10 +253,22 @@ const shouldShowCannedResponses = computed(() => {
   );
 });
 
-const dismissCannedResponses = () => {
-  showCannedMenu.value = false;
+const shouldShowUserMentions = computed(() => {
+  return showUserMentions.value && props.isPrivate;
+});
+
+// The picker owns the search field, so it takes focus while open. Dismissing it hands
+// focus back; selecting one does so through the insert itself. The suggestion stays
+// active in the document, so the picker only reopens once the trigger is typed afresh.
+const dismissPicker = showMenu => {
+  showMenu.value = false;
   editorView?.focus();
 };
+
+const dismissUserMentions = () => dismissPicker(showUserMentions);
+const dismissCannedResponses = () => dismissPicker(showCannedMenu);
+const dismissVariables = () => dismissPicker(showVariables);
+const dismissEmojiMenu = () => dismissPicker(showEmojiMenu);
 
 function createSuggestionPlugin({
   trigger,
@@ -264,7 +276,7 @@ function createSuggestionPlugin({
   showMenu,
   searchTerm,
   isAllowed = () => true,
-  interceptEnter = true,
+  interceptEnter = false,
 }) {
   return suggestionsPlugin({
     matcher: triggerCharacters(trigger, minChars),
@@ -305,6 +317,7 @@ const plugins = computed(() => {
       showMenu: showToolsMenu,
       searchTerm: toolSearchKey,
       isAllowed: () => props.enableCaptainTools,
+      interceptEnter: true,
     }),
     createSuggestionPlugin({
       trigger: '@',
@@ -315,13 +328,13 @@ const plugins = computed(() => {
     createSuggestionPlugin({
       trigger: '/',
       showMenu: showCannedMenu,
+      searchTerm: cannedSearchKey,
       isAllowed: () => !props.isPrivate,
-      interceptEnter: false,
     }),
     createSuggestionPlugin({
       trigger: '{{',
       showMenu: showVariables,
-      searchTerm: variableSearchTerm,
+      searchTerm: variableSearchKey,
       isAllowed: () => !props.isPrivate,
     }),
     createVariableInputRule({
@@ -332,7 +345,7 @@ const plugins = computed(() => {
       trigger: ':',
       minChars: 2,
       showMenu: showEmojiMenu,
-      searchTerm: emojiSearchTerm,
+      searchTerm: emojiSearchKey,
     }),
   ];
 });
@@ -352,14 +365,14 @@ const sendWithSignature = computed(() => {
   return false;
 });
 
-watch(showUserMentions, updatedValue => {
-  emit('toggleUserMention', props.isPrivate && updatedValue);
+watch(shouldShowUserMentions, updatedValue => {
+  emit('toggleUserMention', updatedValue);
 });
 watch(shouldShowCannedResponses, updatedValue => {
   emit('toggleCannedMenu', updatedValue);
 });
-watch(showVariables, updatedValue => {
-  emit('toggleVariablesMenu', !props.isPrivate && updatedValue);
+watch(shouldShowVariables, updatedValue => {
+  emit('toggleVariablesMenu', updatedValue);
 });
 watch(showToolsMenu, updatedValue => {
   emit('toggleToolsMenu', props.enableCaptainTools && updatedValue);
@@ -894,13 +907,16 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     }"
   >
     <TagAgents
-      v-if="showUserMentions && isPrivate"
+      v-if="shouldShowUserMentions"
+      :caret-position="caretPosition"
       :search-key="mentionSearchKey"
+      @close="dismissUserMentions"
       @select-agent="content => insertSpecialContent('mention', content)"
     />
     <CannedResponse
       v-if="shouldShowCannedResponses"
-      :caret-rect="cannedCaretRect"
+      :caret-position="caretPosition"
+      :search-key="cannedSearchKey"
       :variables="variables"
       :schema="editorSchema"
       @close="dismissCannedResponses"
@@ -908,12 +924,17 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     />
     <VariableList
       v-if="shouldShowVariables"
-      :search-key="variableSearchTerm"
+      :caret-position="caretPosition"
+      :search-key="variableSearchKey"
+      :variables="variables"
+      @close="dismissVariables"
       @select-variable="content => insertSpecialContent('variable', content)"
     />
     <KeyboardEmojiSelector
       v-if="showEmojiMenu"
-      :search-key="emojiSearchTerm"
+      :caret-position="caretPosition"
+      :search-key="emojiSearchKey"
+      @close="dismissEmojiMenu"
       @select-emoji="emoji => insertSpecialContent('emoji', emoji)"
     />
     <TagTools
