@@ -34,13 +34,27 @@ class ContentAttributeValidator < ActiveModel::Validator # rubocop:disable Metri
     'form' => :validate_form!,
     'article' => :validate_article!
   }.freeze
+  # WhatsApp providers send attachments and interactive payloads as mutually
+  # exclusive requests; when both are present the attachment is sent first and
+  # the provider call short-circuits, so the interactive payload never reaches
+  # the recipient even though Chatwoot stored and rendered it.
+  INTERACTIVE_CONTENT_TYPES = %w[cards cta_url interactive_buttons interactive_list].freeze
 
   def validate(record)
+    reject_attachments_on_interactive_message!(record)
+
     validation = VALIDATIONS_BY_CONTENT_TYPE[record.content_type]
     send(validation, record) if validation
   end
 
   private
+
+  def reject_attachments_on_interactive_message!(record)
+    return unless INTERACTIVE_CONTENT_TYPES.include?(record.content_type)
+    return if record.attachments.blank?
+
+    record.errors.add(:content_attributes, "#{record.content_type} messages do not support attachments")
+  end
 
   def validate_input_select!(record)
     validate_items!(record)

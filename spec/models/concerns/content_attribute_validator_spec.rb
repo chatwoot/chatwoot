@@ -82,6 +82,22 @@ describe ContentAttributeValidator do
     end
   end
 
+  context 'when a cta_url message has an attachment' do
+    it 'is invalid' do
+      message = build(:message, conversation: conversation, account: account, inbox: whatsapp_inbox,
+                                message_type: :outgoing, content_type: 'cta_url',
+                                content_attributes: {
+                                  body_text: 'Check our website',
+                                  action: { text: 'Visit', uri: 'https://example.com' }
+                                })
+      attachment = message.attachments.new(account_id: account.id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+      expect(message).to be_invalid
+      expect(message.errors[:content_attributes]).to include('cta_url messages do not support attachments')
+    end
+  end
+
   def build_list_message(sections)
     build(:message, conversation: conversation, account: account, inbox: whatsapp_inbox,
                     message_type: :outgoing, content_type: 'interactive_list',
