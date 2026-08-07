@@ -60,11 +60,7 @@ import jsonLogic from 'json-logic-js';
  * 2. Properties in conversation.additional_attributes (browser_language, referer, etc.)
  * 3. Properties in conversation.custom_attributes (conversation_type, etc.)
  */
-const getValueFromConversation = (
-  conversation,
-  attributeKey,
-  filterOperator
-) => {
+const getValueFromConversation = (conversation, attributeKey) => {
   switch (attributeKey) {
     case 'status':
     case 'priority':
@@ -76,10 +72,6 @@ const getValueFromConversation = (
       // Frontend uses 'id' but backend expects 'display_id'
       return conversation.display_id || conversation.id;
     case 'assignee_id':
-      if (['is_present', 'is_not_present'].includes(filterOperator)) {
-        return conversation.meta?.assignee?.id;
-      }
-      if (conversation.meta?.assignee_type === 'AgentBot') return null;
       return conversation.meta?.assignee?.id;
     case 'contact_id':
       return (
@@ -256,6 +248,24 @@ const matchesCondition = (conversationValue, filter) => {
   }
 };
 
+const matchesConversationCondition = (conversation, filter) => {
+  const isHumanAssigneeFilter =
+    filter.attribute_key === 'assignee_id' &&
+    ['equal_to', 'not_equal_to'].includes(filter.filter_operator);
+
+  if (
+    isHumanAssigneeFilter &&
+    conversation.meta?.assignee_type === 'AgentBot'
+  ) {
+    return false;
+  }
+
+  return matchesCondition(
+    getValueFromConversation(conversation, filter.attribute_key),
+    filter
+  );
+};
+
 /**
  * Converts an array of evaluated filters into a JSON Logic rule
  * that respects SQL-like operator precedence (AND before OR)
@@ -359,12 +369,7 @@ const buildJsonLogicRule = evaluatedFilters => {
  */
 const evaluateFilters = (conversation, filters) => {
   return filters.map((filter, index) => {
-    const value = getValueFromConversation(
-      conversation,
-      filter.attribute_key,
-      filter.filter_operator
-    );
-    const result = matchesCondition(value, filter);
+    const result = matchesConversationCondition(conversation, filter);
 
     // This part determines the logical operator that connects this filter to the next one:
     // - If this is not the last filter (index < filters.length - 1), use the filter's query_operator
@@ -391,13 +396,7 @@ export const matchesFilters = (conversation, filters) => {
 
   // Handle single filter case
   if (filters.length === 1) {
-    const value = getValueFromConversation(
-      conversation,
-      filters[0].attribute_key,
-      filters[0].filter_operator
-    );
-
-    return matchesCondition(value, filters[0]);
+    return matchesConversationCondition(conversation, filters[0]);
   }
 
   // Evaluate all conditions and prepare for jsonLogic
