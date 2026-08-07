@@ -40,7 +40,7 @@ module Enterprise::MessageTemplates::HookExecutionService
   def perform_handoff
     return unless conversation.pending?
 
-    Rails.logger.info("Captain limit exceeded, performing handoff mid-conversation for conversation: #{conversation.id}")
+    log_captain_usage_limit_handoff
     conversation.messages.create!(
       message_type: :outgoing,
       account_id: conversation.account.id,
@@ -74,5 +74,18 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def captain_assistant_configured?
     inbox.captain_assistant.present?
+  end
+
+  def log_captain_usage_limit_handoff
+    Captain::Conversation::ResponseLifecycleLogger.info(
+      :usage_limit_handoff,
+      account_id: conversation.account_id,
+      conversation_id: conversation.id,
+      conversation_display_id: conversation.display_id,
+      inbox_id: inbox.id,
+      assistant_id: inbox.captain_assistant&.id,
+      message_id: message.id,
+      conversation_status: conversation.status
+    )
   end
 end

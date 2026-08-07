@@ -9,14 +9,34 @@ class Captain::Conversation::ResponseSchedulerService
 
   def perform
     track_captain_engagement
-
-    wait_time = attachment_wait_time
-    return Captain::Conversation::ResponseBuilderJob.perform_later(*job_args) if wait_time.zero?
-
-    Captain::Conversation::ResponseBuilderJob.set(wait: wait_time).perform_later(*job_args)
+    enqueue_response(attachment_wait_time)
   end
 
   private
+
+  def enqueue_response(wait_time)
+    return Captain::Conversation::ResponseBuilderJob.perform_later(*job_args) if wait_time.zero?
+
+    Captain::Conversation::ResponseBuilderJob.set(wait: wait_time).perform_later(*job_args)
+  rescue StandardError => e
+    log_lifecycle(:enqueue_failed, level: :error, wait_seconds: wait_time&.to_f, error_class: e.class.name)
+    raise
+  end
+
+  def log_lifecycle(event, level: :info, **attributes)
+    Captain::Conversation::ResponseLifecycleLogger.public_send(
+      level,
+      event,
+      account_id: @conversation.account_id,
+      conversation_id: @conversation.id,
+      conversation_display_id: @conversation.display_id,
+      inbox_id: @conversation.inbox_id,
+      assistant_id: @assistant&.id,
+      message_id: @message.id,
+      conversation_status: @conversation.status,
+      **attributes
+    )
+  end
 
   def job_args
     args = [@conversation, @assistant]
