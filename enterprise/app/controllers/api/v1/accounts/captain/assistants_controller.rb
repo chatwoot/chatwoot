@@ -127,7 +127,8 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     assistant_config_attributes = [
       :product_name, :feature_faq, :feature_memory, :feature_citation,
       :feature_contact_attributes, :welcome_message, :handoff_message,
-      :resolution_message, :instructions, :temperature, :auto_resolve_mode
+      :resolution_message, :instructions, :temperature, :auto_resolve_mode,
+      :response_window
     ]
 
     permitted = params.require(:assistant).permit(:name, :description,
@@ -138,7 +139,19 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
     permitted[:guardrails] = params[:assistant][:guardrails] if params[:assistant].key?(:guardrails)
 
+    permit_audience_config(permitted)
+
     permitted
+  end
+
+  # The audience is a recursive condition tree that strong params can't whitelist by shape;
+  # pass it through raw and let Captain::AudienceValidator enforce validity.
+  def permit_audience_config(permitted)
+    config = params[:assistant][:config]
+    return unless config.try(:key?, :audience)
+
+    audience = config[:audience]
+    permitted[:config][:audience] = audience.respond_to?(:permit!) ? audience.permit!.to_h : audience
   end
 
   def playground_params
