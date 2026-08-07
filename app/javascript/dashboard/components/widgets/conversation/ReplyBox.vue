@@ -556,6 +556,9 @@ export default {
     showContentTemplates(isAvailable) {
       if (!isAvailable) this.hideContentTemplatesModal();
     },
+    showInteractiveMessages(isAvailable) {
+      if (!isAvailable) this.hideInteractiveMessagesModal();
+    },
     effectiveReplyMode(updatedReplyType) {
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode: updatedReplyType,

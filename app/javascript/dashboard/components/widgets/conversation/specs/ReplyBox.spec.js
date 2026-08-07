@@ -399,6 +399,28 @@ describe('ReplyBox', () => {
       );
     });
 
+    it('closes an open interactive messages modal when the inbox becomes ineligible', async () => {
+      const { wrapper, store } = mountWith({
+        inbox: { channel_type: 'Channel::Whatsapp' },
+        inboxes: {
+          1: { channel_type: 'Channel::Whatsapp' },
+          2: { channel_type: 'Channel::Email' },
+        },
+      });
+      wrapper.vm.openInteractiveMessagesModal();
+      await nextTick();
+      expect(wrapper.findComponent(InteractiveMessages).props('show')).toBe(
+        true
+      );
+
+      store.commit('selectChat', { ...REPLIABLE, id: 2, inbox_id: 2 });
+      await nextTick();
+
+      expect(wrapper.findComponent(InteractiveMessages).props('show')).toBe(
+        false
+      );
+    });
+
     it('returns to reply mode once the agent takes over', async () => {
       const { wrapper, store } = await selectChat({
         status: 'pending',
