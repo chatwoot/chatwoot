@@ -92,8 +92,18 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   def contact_sender_id(params)
     value = params.dig(:entry, 0, :changes, 0, :value) || params
     return contact_sender_id_from_message_echoes(value[:message_echoes]) if value[:message_echoes].present?
+    return contact_sender_id_from_user_id_update(value[:user_id_update]) if value[:user_id_update].present?
 
     contact_sender_id_from_messages(value[:messages], value[:contacts])
+  end
+
+  # An id rotation races with the first message that arrives under the new identifier,
+  # so it locks on the current values to serialize with it.
+  def contact_sender_id_from_user_id_update(user_id_update)
+    update = user_id_update&.first
+    return if update.blank?
+
+    [update.dig(:parent_user_id, :current), update.dig(:user_id, :current), update[:wa_id]].compact_blank.first
   end
 
   # Echo payloads are outbound messages from the WhatsApp Business app, so `to`

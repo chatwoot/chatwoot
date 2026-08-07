@@ -484,7 +484,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
                 user_id_update: [{
                   wa_id: '2423423243',
                   detail: 'User id for Sojan Jose has been updated.',
-                  user_id: { previous: 'IN.PREVIOUS_BSUID', current: 'IN.CURRENT_BSUID' },
+                  user_id: { previous: 'IN.PREVIOUSBSUID', current: 'IN.CURRENTBSUID' },
                   timestamp: '1664799904'
                 }]
               }
@@ -494,15 +494,15 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
 
       it 're-points the contact inbox to the new business scoped user id' do
-        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUS_BSUID')
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
 
         described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
 
-        expect(contact_inbox.reload.source_id).to eq('IN.CURRENT_BSUID')
+        expect(contact_inbox.reload.source_id).to eq('IN.CURRENTBSUID')
       end
 
       it 'keeps the contact and its conversations' do
-        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUS_BSUID')
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
         conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox,
                                              contact: contact_inbox.contact, account: whatsapp_channel.inbox.account)
 
@@ -513,18 +513,31 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
 
       it 'does nothing when the new identifier is already known' do
-        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUS_BSUID')
-        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.CURRENT_BSUID')
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.CURRENTBSUID')
 
         described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
 
         expect(whatsapp_channel.inbox.contact_inboxes.pluck(:source_id))
-          .to contain_exactly('IN.PREVIOUS_BSUID', 'IN.CURRENT_BSUID')
+          .to contain_exactly('IN.PREVIOUSBSUID', 'IN.CURRENTBSUID')
       end
 
       it 'does nothing when the previous identifier is unknown' do
         expect { described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform }
           .not_to change(ContactInbox, :count)
+      end
+
+      it 're-points the contact inbox when only the parent business scoped user id rotates' do
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.ENT.PREVIOUSBSUID')
+        parent_params = user_id_update_params.deep_dup
+        parent_params[:entry].first[:changes].first[:value][:user_id_update].first.merge!(
+          user_id: nil,
+          parent_user_id: { previous: 'IN.ENT.PREVIOUSBSUID', current: 'IN.ENT.CURRENTBSUID' }
+        )
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: parent_params).perform
+
+        expect(contact_inbox.reload.source_id).to eq('IN.ENT.CURRENTBSUID')
       end
     end
   end

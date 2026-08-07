@@ -95,29 +95,10 @@ module Whatsapp::IncomingMessageIdentifierHelper
     )
   end
 
-  # A user's BSUID is regenerated when they change their phone number. The
-  # `user_id_update` webhook is the only link between the previous identifier
-  # and the new one, so the contact inbox is re-pointed to keep the existing
-  # contact and its history instead of starting a new one on the next message.
   def process_user_id_updates
-    processed_params[:user_id_update].each do |update|
-      migrate_whatsapp_source_id(update.dig(:user_id, :previous), update.dig(:user_id, :current))
-      migrate_whatsapp_source_id(update.dig(:parent_user_id, :previous), update.dig(:parent_user_id, :current))
+    processed_params[:user_id_update].each do |payload|
+      Whatsapp::UserIdRotationService.new(inbox: inbox, payload: payload).perform
     end
-  end
-
-  def migrate_whatsapp_source_id(previous_source_id, current_source_id)
-    return if previous_source_id.blank? || current_source_id.blank?
-    return if previous_source_id == current_source_id
-
-    contact_inbox = inbox.contact_inboxes.find_by(source_id: previous_source_id)
-    return if contact_inbox.blank?
-    # The new identifier is already known, the update was either replayed or the
-    # contact reached us through it in the meantime. Merging the two contact
-    # inboxes is out of scope here, so the existing row is left untouched.
-    return if inbox.contact_inboxes.exists?(source_id: current_source_id)
-
-    contact_inbox.update!(source_id: current_source_id)
   end
 
   def status_source_ids(status)

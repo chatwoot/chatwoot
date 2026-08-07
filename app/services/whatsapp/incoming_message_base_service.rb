@@ -10,13 +10,10 @@ class Whatsapp::IncomingMessageBaseService
   def perform
     processed_params
 
-    if processed_params.try(:[], :statuses).present?
-      process_statuses
-    elsif messages_data.present?
-      process_messages
-    elsif processed_params.try(:[], :user_id_update).present?
-      process_user_id_updates
-    end
+    return process_statuses if processed_params.try(:[], :statuses).present?
+    return process_messages if messages_data.present?
+
+    process_user_id_updates if processed_params.try(:[], :user_id_update).present?
   end
 
   # Returns messages array for both regular messages and echo events

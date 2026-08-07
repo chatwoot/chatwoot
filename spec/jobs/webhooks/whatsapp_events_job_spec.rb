@@ -225,6 +225,24 @@ RSpec.describe Webhooks::WhatsappEventsJob do
 
       job_instance.perform(wb_params)
     end
+
+    it 'uses the current identifier as the mutex sender for user id updates' do
+      previous_bsuid = 'IN.2081978709342942'
+      current_bsuid = 'IN.7391028465738291'
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:field] = 'user_id_update'
+      wb_params[:entry].first[:changes].first[:value].delete(:messages)
+      wb_params[:entry].first[:changes].first[:value][:user_id_update] = [
+        { wa_id: '919745786257', user_id: { previous: previous_bsuid, current: current_bsuid } }
+      ]
+      job_instance = described_class.new
+      mutex_key = format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: current_bsuid)
+
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(job_instance).to receive(:with_lock).with(mutex_key, 30.seconds).and_yield
+
+      job_instance.perform(wb_params)
+    end
   end
 
   context 'when default provider' do
