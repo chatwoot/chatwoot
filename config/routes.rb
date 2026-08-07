@@ -70,10 +70,6 @@ Rails.application.routes.draw do
             end
             resources :deals, only: [:index, :show, :create, :update]
             resources :crm_events, only: [:index, :create]
-            # CUSTOMIZAÇÃO_SYNAPSEOS — relatório mensal da Elisa (gerado pelo n8n dia 1, download admin)
-            resources :monthly_reports, only: [:index, :create] do
-              member { get :download }
-            end
             resources :pipeline_stages do
               collection do
                 post :reorder
@@ -159,10 +155,6 @@ Rails.application.routes.draw do
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
-          end
-          # CUSTOMIZAÇÃO_SYNAPSEOS — check de conexão da instância Avisa (Configurações, admin-only)
-          namespace :whatsapp do
-            resource :connection_check, only: [:show, :create]
           end
           resources :conversations, only: [:index, :create, :show, :update, :destroy] do
             collection do

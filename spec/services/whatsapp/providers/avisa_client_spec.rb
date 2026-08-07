@@ -76,48 +76,4 @@ RSpec.describe Whatsapp::Providers::AvisaClient do
       expect(result('data' => { 'data' => { 'Jid' => '5534@s.whatsapp.net', 'code' => 200 } })[:id]).to be_nil
     end
   end
-
-  # CUSTOMIZAÇÃO_SYNAPSEOS: heurística de "conectado" do /instance/status
-  # (porta do monitor n8n audi instance_watch). true|false|nil (indeterminado).
-  describe '#interpret_connected' do
-    def connected(code, body)
-      client.send(:interpret_connected, code, body)
-    end
-
-    it 'nil quando indeterminado (5xx) ou sem code (timeout)' do
-      expect(connected(500, {})).to be_nil
-      expect(connected(nil, { 'error' => 'timeout' })).to be_nil
-    end
-
-    it 'false em 4xx' do
-      expect(connected(401, {})).to be(false)
-      expect(connected(404, {})).to be(false)
-    end
-
-    it 'true/false por flag booleana explícita' do
-      expect(connected(200, { 'connected' => true })).to be(true)
-      expect(connected(200, { 'loggedIn' => true })).to be(true)
-      expect(connected(200, { 'connected' => false })).to be(false)
-    end
-
-    it 'true por state/status conectado' do
-      expect(connected(200, { 'state' => 'open' })).to be(true)
-      expect(connected(200, { 'status' => 'connected' })).to be(true)
-      expect(connected(200, { 'data' => { 'state' => 'online' } })).to be(true)
-    end
-
-    it 'false por state/status desconectado' do
-      expect(connected(200, { 'state' => 'close' })).to be(false)
-      expect(connected(200, { 'status' => 'qrcode' })).to be(false)
-      expect(connected(200, { 'instance' => { 'state' => 'unpaired' } })).to be(false)
-    end
-
-    it 'false quando o corpo cheira a desconexão (fallback textual)' do
-      expect(connected(200, { 'message' => 'device logged out' })).to be(false)
-    end
-
-    it 'true como fallback em 2xx sem sinal de queda' do
-      expect(connected(200, { 'foo' => 'bar' })).to be(true)
-    end
-  end
 end

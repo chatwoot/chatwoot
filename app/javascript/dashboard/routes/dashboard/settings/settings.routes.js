@@ -26,8 +26,6 @@ import profile from './profile/profile.routes';
 import security from './security/security.routes';
 import conversationWorkflow from './conversationWorkflow/conversationWorkflow.routes';
 import captain from './captain/captain.routes';
-import whatsappConnection from './whatsappConnection/whatsappConnection.routes';
-import monthlyReports from './monthlyReports/monthlyReports.routes';
 
 export default {
   routes: [
@@ -69,7 +67,5 @@ export default {
     ...security.routes,
     ...conversationWorkflow.routes,
     ...captain.routes,
-    ...whatsappConnection.routes,
-    ...monthlyReports.routes,
   ],
 };

@@ -335,8 +335,6 @@
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrations",
-    "WHATSAPP_CONNECTION": "WhatsApp Connection",
-    "MONTHLY_REPORTS": "Monthly Reports",
     "PROFILE_SETTINGS": "Profile Settings",
     "ACCOUNT_SETTINGS": "Account Settings",
     "APPLICATIONS": "Applications",
@@ -928,33 +926,5 @@
       "CONFIRM_BUTTON_LABEL": "Delete",
       "CANCEL_BUTTON_LABEL": "Cancel"
     }
-  },
-  "WHATSAPP_CONNECTION": {
-    "HEADER": "WhatsApp Connection",
-    "DESCRIPTION": "Check whether the WhatsApp (Avisa) instance is connected. Runs automatically 3× a day (09:00, 14:00, 17:00) and alerts admins if it goes down.",
-    "LOADING": "Loading connection status…",
-    "CHECK_NOW": "Check now",
-    "LAST_CHECK": "Last check",
-    "NEVER": "Never checked",
-    "EMPTY": "No WhatsApp (Avisa) inbox found in this account.",
-    "LOAD_ERROR": "Could not load the connection status.",
-    "CHECK_ERROR": "Could not run the connection check.",
-    "RESULT_OK": "Instance connected.",
-    "RESULT_DISCONNECTED": "Instance disconnected — reconnect it in the Avisa panel.",
-    "STATUS": {
-      "CONNECTED": "Connected",
-      "DISCONNECTED": "Disconnected",
-      "UNKNOWN": "Undetermined"
-    }
-  },
-  "MONTHLY_REPORTS": {
-    "HEADER": "Monthly Reports",
-    "DESCRIPTION": "Elisa's monthly performance report, generated automatically on the 1st of each month. Download the HTML to share or present.",
-    "LOADING": "Loading reports…",
-    "EMPTY": "No report generated yet. The first one will appear on the 1st of the month.",
-    "GENERATED_AT": "Generated at",
-    "DOWNLOAD": "Download",
-    "LOAD_ERROR": "Could not load the reports.",
-    "DOWNLOAD_ERROR": "Could not download the report."
   }
 }

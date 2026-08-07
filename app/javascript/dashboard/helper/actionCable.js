@@ -3,7 +3,6 @@ import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnec
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
-import { useAlert } from 'dashboard/composables';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
 
 const { isImpersonating } = useImpersonation();
@@ -35,7 +34,6 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
       'copilot.message.created': this.onCopilotMessageCreated,
-      'whatsapp.instance_disconnected': this.onWhatsappInstanceDisconnected,
     };
   }
 
@@ -194,14 +192,6 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onCopilotMessageCreated = data => {
     this.app.$store.dispatch('copilotMessages/upsert', data);
-  };
-
-  // CUSTOMIZAÇÃO_SYNAPSEOS — instância WhatsApp (Avisa) caiu: toast pros admins.
-  // Broadcast isolado do check agendado (não passa pelo pipeline de Notification).
-  onWhatsappInstanceDisconnected = data => {
-    if (!this.isAValidEvent(data)) return;
-    const inbox = data.inbox_name || 'WhatsApp';
-    useAlert(`⚠️ Instância desconectada: ${inbox}. Disparos e follow-ups não saem até reconectar no painel Avisa.`);
   };
 
   onCacheInvalidate = data => {

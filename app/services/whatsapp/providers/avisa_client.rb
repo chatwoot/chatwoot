@@ -118,54 +118,7 @@ class Whatsapp::Providers::AvisaClient
     nil
   end
 
-  # GET /instance/status — a instância do WhatsApp está conectada?
-  # Retorna { connected: true|false|nil, http:, raw: }. connected=nil = indeterminado
-  # (5xx/timeout — não dá pra afirmar). Porta a heurística do monitor n8n
-  # (audi instance_watch): connected/loggedIn boolean; senão state/status
-  # ∈ {open,connected,online} = ok, {close,disconnected,qrcode,unpaired,...} = caiu.
-  # RESSALVA: /instance/status responde "conectado" MESMO quando o envio a frio está
-  # travado (erro 463 reachout-lock) — pega desconexão REAL da instância, não o lock.
-  def instance_status
-    resp = get('/instance/status')
-    { connected: interpret_connected(resp[:code], resp[:body]), http: resp[:code], raw: resp[:body] }
-  end
-
   private
-
-  # GET best-effort — NÃO levanta em 4xx/5xx (o caller interpreta o code).
-  def get(path)
-    response = HTTParty.get(
-      "#{@base_url}#{path}",
-      headers: { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{@api_key}" },
-      timeout: 15
-    )
-    { code: response.code, body: (response.parsed_response.is_a?(Hash) ? response.parsed_response : {}) }
-  rescue StandardError => e
-    Rails.logger.warn("[AVISA] GET #{path} falhou: #{e.message}")
-    { code: nil, body: { 'error' => e.message } }
-  end
-
-  # Interpreta a resposta do /instance/status. true|false|nil (indeterminado).
-  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-  def interpret_connected(code, body)
-    return nil if code.nil? || code >= 500
-    return false if code >= 400
-
-    b = body.is_a?(Hash) ? body : {}
-    data = b['data'].is_a?(Hash) ? b['data'] : {}
-    inst = b['instance'].is_a?(Hash) ? b['instance'] : {}
-
-    return true if [b['connected'], b['loggedIn'], b['LoggedIn']].include?(true)
-    return false if [b['connected'], b['loggedIn'], b['LoggedIn']].include?(false)
-
-    state = (b['state'] || b['status'] || data['state'] || data['status'] || inst['state']).to_s.downcase
-    return true if %w[open connected online conectado].include?(state)
-    return false if %w[close closed disconnected offline connecting qrcode unpaired timeout desconectado].include?(state)
-    return false if b.to_json.downcase.match?(/desconect|disconnect|qrcode|logged.?out|not.?logged|unpaired/)
-
-    code.between?(200, 299) ? true : nil
-  end
-  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   # Extrai { id:, timestamp: } da resposta de um /actions/send*. ROBUSTO ao
   # shape: a Avisa mudou o envelope (~jun/2026) de `data.response.data` para
