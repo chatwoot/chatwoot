@@ -11,6 +11,7 @@ module AssignmentHandler
 
   def ensure_assignee_is_from_team
     return unless team_id_changed?
+    return if assignee_agent_bot_id.present?
 
     validate_current_assignee_team
     self.assignee ||= find_assignee_from_team
