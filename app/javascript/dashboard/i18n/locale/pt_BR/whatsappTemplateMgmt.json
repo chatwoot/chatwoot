@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATE_MGMT": {
+    "TITLE": "Modelos",
+    "DESCRIPTION": "Visualize os modelos de mensagens sincronizados das suas caixas de entrada do WhatsApp. Para criar ou editar um modelo, gerencie-o com seu provedor.",
+    "COUNT": "{n} modelo | {n} modelos",
+    "KNOW_MORE": "Saiba mais",
+    "NEW_TEMPLATE": "Novo modelo",
+    "SEARCH_PLACEHOLDER": "Pesquisar por conteúdo ou nome...",
+    "MANAGE_IN_META": "Gerenciar na Meta",
+    "MANAGE_IN_TWILIO": "Gerenciar no Twilio",
+    "LOADING": "Carregando modelos do WhatsApp...",
+    "EMPTY": "Nenhum modelo do WhatsApp encontrado.",
+    "NO_RESULTS": "Nenhum modelo corresponde aos seus filtros.",
+    "FETCH_ERROR": "Não foi possível carregar os modelos do WhatsApp. Por favor, tente novamente.",
+    "PARTIAL_FETCH_ERROR": "Alguns modelos do WhatsApp não puderam ser carregados. Por favor, tente novamente.",
+    "LAST_SYNC_ATTEMPT": "Última tentativa de sincronização em {date}",
+    "MORE_INBOXES": "+{n}",
+    "FILTERS": {
+      "ALL_INBOXES": "Todas as caixas de entrada",
+      "ALL_LANGUAGES": "Todos os idiomas"
+    },
+    "TYPES": {
+      "TEXT": "Texto",
+      "IMAGE": "Imagem",
+      "VIDEO": "Vídeo",
+      "DOCUMENT": "Documento",
+      "MEDIA": "Mídia",
+      "QUICK_REPLY": "Resposta rápida",
+      "CALL_TO_ACTION": "Chamada para ação",
+      "CATALOG": "Catálogo",
+      "COPY_CODE": "Copiar código"
+    },
+    "PREVIEW": {
+      "TITLE": "Pré-visualização do modelo",
+      "DESCRIPTION": "Veja como este modelo aparece no WhatsApp.",
+      "OPEN": "Pré-visualizar {name}",
+      "CLOSE": "Fechar pré-visualização",
+      "DETAILS": "Detalhes do modelo",
+      "STATUS": "Status",
+      "TYPE": "Tipo de conteúdo",
+      "CATEGORY": "Categoria",
+      "LANGUAGE": "Idioma",
+      "INBOXES": "Caixas de Entrada",
+      "LAST_SYNC_ATTEMPT": "Última tentativa de sincronização"
+    }
+  }
+}
