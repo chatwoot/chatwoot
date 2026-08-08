@@ -18,7 +18,7 @@
     "CREATED_AT_LABEL": "Créé",
     "NEW_MESSAGE": "Nouveau message",
     "CALL": "Appel",
-    "CALL_INITIATED": "Appel du contact…",
+    "CALL_INITIATED": "Appel en cours…",
     "CALL_FAILED": "Impossible de démarrer l'appel. Veuillez réessayer.",
     "WHATSAPP_CALL_PERMISSION_REQUESTED": "Une demande d’autorisation d’appel a été envoyée au contact. Réessayez après son acceptation.",
     "WHATSAPP_CALL_PERMISSION_PENDING": "La demande de permission d'appel a déjà été envoyée récemment. Réessayez une fois que le contact a accepté.",

@@ -369,7 +369,7 @@
     "DRAFT_ARTICLE": {
       "API": {
         "ERROR": "Erreur lors de la rédaction de l'article",
-        "SUCCESS": "Article brouillé avec succès"
+        "SUCCESS": "Article enregistré comme brouillon"
       }
     },
     "DELETE_ARTICLE": {

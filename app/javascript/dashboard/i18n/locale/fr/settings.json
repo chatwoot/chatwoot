@@ -836,7 +836,7 @@
           "CREATE_POLICY": "Nouvelle politique"
         },
         "CARD": {
-          "ORDER": "Commandes",
+          "ORDER": "Ordre",
           "PRIORITY": "Priorité",
           "ACTIVE": "Actif",
           "INACTIVE": "Inactif",
