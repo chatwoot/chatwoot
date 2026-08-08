@@ -76,7 +76,7 @@
     "REPLY_MESSAGE_NOT_FOUND": "Mensagem não disponível",
     "CAPTAIN_GENERATION": {
       "TITLE": "Como esta resposta foi gerada?",
-      "GENERATED_BY": "Gerado pelo Capitão",
+      "GENERATED_BY": "Gerado pelo Captain",
       "LOADING": "Carregando detalhes…",
       "EMPTY": "Não há detalhes de geração disponíveis para esta mensagem.",
       "TIMELINE": "Etapas da geração",

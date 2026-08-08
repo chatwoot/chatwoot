@@ -502,11 +502,11 @@
             "DESCRIPTION": "Créer un canal personnalisé en utilisant notre API"
           },
           "TELEGRAM": {
-            "TITLE": "Télégramme",
+            "TITLE": "Telegram",
             "DESCRIPTION": "Configurer le canal Telegram en utilisant le jeton Bot"
           },
           "LINE": {
-            "TITLE": "Lignes",
+            "TITLE": "LINE",
             "DESCRIPTION": "Intégrez votre canal de ligne"
           },
           "INSTAGRAM": {
@@ -783,7 +783,7 @@
         },
         "BUSINESS_PORTFOLIO_ID": {
           "LABEL": "ID du portefeuille d'entreprise",
-          "TOOLTIP": "Identifiant de méta pour le portefeuille professionnel propriétaire du compte WhatsApp Business"
+          "TOOLTIP": "Identifiant Meta pour le portefeuille professionnel propriétaire du compte WhatsApp Business"
         }
       },
       "VALUES": {
@@ -1368,8 +1368,8 @@
       "WHATSAPP": "WhatsApp",
       "SMS": "SMS",
       "EMAIL": "Courriel",
-      "TELEGRAM": "Télégramme",
-      "LINE": "Lignes",
+      "TELEGRAM": "Telegram",
+      "LINE": "LINE",
       "API": "Canal API",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
