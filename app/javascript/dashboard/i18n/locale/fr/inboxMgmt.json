@@ -1030,7 +1030,7 @@
       "DEFAULT_RULES_TITLE": "Règles d'affectation par défaut",
       "DEFAULT_RULES_DESCRIPTION": "Utiliser le comportement par défaut de l'affectation pour toutes les conversations",
       "DEFAULT_RULE_1": "Conversations créées plus tôt en premier",
-      "DEFAULT_RULE_2": "Distribution ronde de robin",
+      "DEFAULT_RULE_2": "Distribution à tour de rôle",
       "CUSTOMIZE_WITH_POLICY": "Personnaliser avec la politique d'affectation",
       "USING_POLICY": "Utiliser une politique d'affectation personnalisée pour cette boîte de réception",
       "CUSTOMIZE_POLICY": "Personnaliser avec la politique d'affectation",
@@ -1158,7 +1158,7 @@
       "SURVEY_RULE": {
         "LABEL": "Règle d'enquête",
         "DESCRIPTION_PREFIX": "Envoyer l'enquête si la conversation",
-        "DESCRIPTION_SUFFIX": "toutes les étiquettes",
+        "DESCRIPTION_SUFFIX": "l’une des étiquettes",
         "OPERATOR": {
           "CONTAINS": "contient",
           "DOES_NOT_CONTAINS": "ne contient pas"
@@ -1311,7 +1311,7 @@
         },
         "WIDGET_VIEW_OPTION": {
           "PREVIEW": "Prévisualiser",
-          "SCRIPT": "Écriture"
+          "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
           "LEFT": "Gauche",
