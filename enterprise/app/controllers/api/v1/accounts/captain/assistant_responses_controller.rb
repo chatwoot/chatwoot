@@ -43,8 +43,6 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
       )
     end
 
-    base_query = base_query.where(status: permitted_params[:status]) if permitted_params[:status].present?
-
     if permitted_params[:search].present?
       search_term = "%#{permitted_params[:search]}%"
       base_query = base_query.where(
@@ -73,15 +71,14 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
   end
 
   def permitted_params
-    params.permit(:id, :assistant_id, :page, :document_id, :account_id, :status, :search)
+    params.permit(:id, :assistant_id, :page, :document_id, :account_id, :search)
   end
 
   def response_params
     params.require(:assistant_response).permit(
       :question,
       :answer,
-      :assistant_id,
-      :status
+      :assistant_id
     )
   end
 end

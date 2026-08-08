@@ -18,6 +18,9 @@
 #
 class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
+  CITATION_SOURCES_STATE_KEY = :captain_v2_citation_sources
+  AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze
+  RESPONSE_WINDOWS = %w[always business_hours outside_business_hours].freeze
 
   include Avatarable
   include Concerns::CaptainToolsHelpers
@@ -39,12 +42,19 @@ class Captain::Assistant < ApplicationRecord
   has_many :copilot_threads, dependent: :destroy_async
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
   has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
+  has_many :conversation_outcomes, dependent: :destroy_async
 
-  store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name
+  store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
+                 :auto_resolve_mode, :response_window
+
+  before_validation :set_default_auto_resolve_mode, on: :create
 
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
+  validates_with Captain::AudienceValidator
+  validate :validate_response_window
+  validates :auto_resolve_mode, inclusion: { in: AUTO_RESOLVE_MODES }
 
   scope :ordered, -> { order(created_at: :desc) }
 
@@ -52,6 +62,38 @@ class Captain::Assistant < ApplicationRecord
 
   def available_name
     name
+  end
+
+  def engages?(contact, conversation)
+    responds_to_audience?(contact, conversation) && available_now?(conversation)
+  end
+
+  def responds_to_audience?(contact, conversation)
+    return true if config['audience'].blank?
+
+    Captain::AudienceMatcher.new(config['audience']).matches?(contact, conversation)
+  end
+
+  def available_now?(conversation)
+    response_window = config['response_window']
+    return true if response_window.blank? || response_window == 'always'
+
+    inbox = conversation.inbox
+    return true unless inbox.working_hours_enabled?
+
+    response_window == 'business_hours' ? !inbox.out_of_office? : inbox.out_of_office?
+  end
+
+  def auto_resolve_mode
+    config.fetch('auto_resolve_mode') { account&.captain_auto_resolve_mode || 'evaluated' }
+  end
+
+  def inactive_conversation_resolution_disabled?
+    auto_resolve_mode == 'disabled'
+  end
+
+  def evaluate_inactive_conversations_before_resolving?
+    auto_resolve_mode == 'evaluated'
   end
 
   def available_agent_tools
@@ -89,7 +131,39 @@ class Captain::Assistant < ApplicationRecord
     }
   end
 
+  def customer_visible_citation_urls(citation_document_ids)
+    citation_documents = documents.where(id: citation_document_ids.values).index_by(&:id)
+    citation_urls = citation_document_ids.transform_values do |document_id|
+      citation_documents[document_id.to_i]&.customer_visible_source_url
+    end
+    citation_urls.compact.transform_keys(&:to_i)
+  end
+
+  def citations_enabled?
+    config['feature_citation']
+  end
+
+  def trusted_citation_urls(run_result)
+    return {} unless citations_enabled?
+
+    citation_document_ids = run_result&.context&.dig(:state, CITATION_SOURCES_STATE_KEY) || {}
+    customer_visible_citation_urls(citation_document_ids)
+  end
+
   private
+
+  def validate_response_window
+    response_window = config['response_window']
+    return if response_window.blank?
+
+    errors.add(:config, 'invalid response_window') unless RESPONSE_WINDOWS.include?(response_window)
+  end
+
+  def set_default_auto_resolve_mode
+    return if config.key?('auto_resolve_mode')
+
+    self.auto_resolve_mode = account&.captain_auto_resolve_mode || 'evaluated'
+  end
 
   def agent_name
     name.parameterize(separator: '_')
@@ -108,6 +182,7 @@ class Captain::Assistant < ApplicationRecord
       name: name,
       description: description,
       product_name: config['product_name'] || 'this product',
+      citation_enabled: citations_enabled?,
       scenarios: scenarios.enabled.map do |scenario|
         {
           title: scenario.title,

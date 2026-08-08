@@ -1,12 +1,15 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue';
+import { computed, onUnmounted, ref, nextTick, watch } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAssetUrl } from 'shared/composables/useAssetUrl';
+import CaptainResponseAPI from 'dashboard/api/captain/response';
 
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -43,7 +46,7 @@ const createDialog = ref(null);
 
 const selectedAssistantId = computed(() => Number(route.params.assistantId));
 
-const pendingCount = useMapGetter('captainResponses/getPendingCount');
+const suggestionCount = useMapGetter('captainFaqSuggestions/getOpenCount');
 
 const handleDelete = () => {
   deleteDialog.value.dialogRef.open();
@@ -97,8 +100,10 @@ const updateURLWithFilters = (page, search) => {
   router.replace({ query });
 };
 
-const fetchResponses = (page = 1) => {
-  const filterParams = { page, status: 'approved' };
+const { run: runListRequest, abort: abortListRequest } = useAbortableRequest();
+
+const fetchResponses = async (page = 1) => {
+  const filterParams = { page };
 
   if (selectedAssistantId.value) {
     filterParams.assistantId = selectedAssistantId.value;
@@ -110,7 +115,24 @@ const fetchResponses = (page = 1) => {
   // Update URL with current filters
   updateURLWithFilters(page, searchQuery.value);
 
-  store.dispatch('captainResponses/get', filterParams);
+  store.dispatch('captainResponses/setFetchingList', true);
+
+  try {
+    const response = await runListRequest(signal =>
+      CaptainResponseAPI.get({ ...filterParams, signal })
+    );
+
+    if (!response) return;
+
+    store.dispatch('captainResponses/setRecords', {
+      records: response.data.payload,
+      meta: response.data.meta,
+    });
+    store.dispatch('captainResponses/setFetchingList', false);
+  } catch (error) {
+    useAlert(error?.message || t('CAPTAIN.RESPONSES.ERRORS.LOAD'));
+    store.dispatch('captainResponses/setFetchingList', false);
+  }
 };
 
 // Bulk action
@@ -183,24 +205,47 @@ const debouncedSearch = debounce(async () => {
   fetchResponses(1);
 }, 500);
 
+const handleSearchInput = () => {
+  abortListRequest();
+  debouncedSearch();
+};
+
 const initializeFromURL = () => {
-  if (route.query.search) {
-    searchQuery.value = route.query.search;
-  }
+  searchQuery.value = route.query.search || '';
   const pageFromURL = parseInt(route.query.page, 10) || 1;
   fetchResponses(pageFromURL);
 };
 
-const navigateToPendingFAQs = () => {
-  router.push({ name: 'captain_assistants_responses_pending' });
+const navigateToFaqSuggestions = () => {
+  router.push({
+    name: 'captain_assistants_faq_suggestions',
+    params: {
+      accountId: route.params.accountId,
+      assistantId: selectedAssistantId.value,
+    },
+  });
 };
 
-onMounted(() => {
-  initializeFromURL();
-  store.dispatch(
-    'captainResponses/fetchPendingCount',
-    selectedAssistantId.value
-  );
+watch(
+  selectedAssistantId,
+  () => {
+    selectedResponse.value = null;
+    bulkSelectedIds.value = new Set();
+    store.dispatch('captainResponses/setRecords', {
+      records: [],
+      meta: { page: 1, total_count: 0 },
+    });
+    initializeFromURL();
+    store.dispatch(
+      'captainFaqSuggestions/fetchOpenCount',
+      selectedAssistantId.value
+    );
+  },
+  { immediate: true }
+);
+
+onUnmounted(() => {
+  store.dispatch('captainResponses/setFetchingList', false);
 });
 </script>
 
@@ -246,7 +291,7 @@ onMounted(() => {
           size="sm"
           type="search"
           autofocus
-          @input="debouncedSearch"
+          @input="handleSearchInput"
         />
       </div>
     </template>
@@ -277,13 +322,13 @@ onMounted(() => {
     <template #body>
       <LimitBanner class="mb-5" />
       <Banner
-        v-if="pendingCount > 0"
+        v-if="suggestionCount > 0"
         color="blue"
         class="mb-4 -mt-3"
-        :action-label="$t('CAPTAIN.RESPONSES.PENDING_BANNER.ACTION')"
-        @action="navigateToPendingFAQs"
+        :action-label="$t('CAPTAIN.RESPONSES.SUGGESTIONS_BANNER.ACTION')"
+        @action="navigateToFaqSuggestions"
       >
-        {{ $t('CAPTAIN.RESPONSES.PENDING_BANNER.TITLE') }}
+        {{ $t('CAPTAIN.RESPONSES.SUGGESTIONS_BANNER.TITLE') }}
       </Banner>
 
       <div class="flex flex-col gap-4">
