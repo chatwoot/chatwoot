@@ -831,7 +831,7 @@
         "ERROR_MESSAGE": "Une erreur s'est produite lors de la suppression des documents, veuillez réessayer."
       },
       "BULK_SYNC": {
-        "SUCCESS_MESSAGE_ONE": "Rafraîchir la file d'attente pour 1 document",
+        "SUCCESS_MESSAGE_ONE": "Actualisation mise en file d’attente pour 1 document",
         "SUCCESS_MESSAGE": "Rafraîchissement en file d'attente pour les documents {count}",
         "ZERO_MESSAGE": "Aucun document marqué pour être actualisé.",
         "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour, veuillez réessayer."

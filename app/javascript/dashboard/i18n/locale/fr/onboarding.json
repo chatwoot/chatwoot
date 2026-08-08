@@ -61,7 +61,7 @@
     },
     "CHANNELS": {
       "TITLE": "Connectez tous vos canaux de conversation",
-      "HEADER": "Nous avons trouvé quelques chaînes que vous pouvez connecter",
+      "HEADER": "Nous avons trouvé quelques canaux que vous pouvez connecter",
       "CONNECT": "Connecter",
       "CONNECTED": "Connecté",
       "MORE_CHANNELS_NOTE": "Configurez les canaux {email} et {voice} plus tard dans l'application",
@@ -73,7 +73,7 @@
       "OTHER_EMAIL": "Autres fournisseurs de messagerie"
     },
     "CHANNELS_DIALOG": {
-      "TITLE": "Connectez toutes vos chaînes instantanément",
+      "TITLE": "Connectez tous vos canaux instantanément",
       "SUBTITLE": "Gérez toutes les boîtes à partir d'un tableau de bord. Vous pouvez également configurer et modifier les boîtes de réception plus tard dans l'application.",
       "NOTE": "Les SMS, API, Voix et autres fournisseurs de messagerie peuvent être configurés plus tard depuis votre tableau de bord.",
       "CONNECT_TITLE": "Connectez votre compte {name}",
