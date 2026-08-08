@@ -11,7 +11,7 @@
     "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête.",
     "PAYWALL": {
       "TITLE": "Mettez à niveau pour créer des rôles personnalisés",
-      "AVAILABLE_ON": "La fonction de rôle personnalisé n'est disponible que dans les plans Entreprise et Entreprise.",
+      "AVAILABLE_ON": "La fonctionnalité des rôles personnalisés n'est disponible qu'avec les forfaits Business et Enterprise.",
       "UPGRADE_PROMPT": "Mettez à niveau votre plan pour avoir accès à des fonctionnalités avancées telles que la gestion d'équipe, les automatisations, les attributs personnalisés et plus encore.",
       "UPGRADE_NOW": "Mettre à niveau maintenant",
       "CANCEL_ANYTIME": "Vous pouvez modifier ou annuler votre forfait à tout moment"

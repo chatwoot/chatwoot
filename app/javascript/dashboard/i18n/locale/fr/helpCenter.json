@@ -982,7 +982,7 @@
           "NONE_OPTION": "Aucun widget"
         },
         "GTM": {
-          "TITLE": "Gestionnaire de tags Google",
+          "TITLE": "Google Tag Manager",
           "DESCRIPTION": "Ajoutez des balises d'analyse et de marketing en connectant votre conteneur Tag Manager.",
           "PLACEHOLDER": "GTM-XXXXX",
           "HELP": "Trouvez ceci dans votre espace de travail Google Tag Manager. Laissez vide pour le désactiver.",
