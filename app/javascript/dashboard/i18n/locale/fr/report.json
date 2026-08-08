@@ -480,7 +480,7 @@
         "CONVERSATION": "Conversation",
         "CUSTOMER": "Client",
         "RESPONSE": "Réponse",
-        "HANDLED_BY": "Manipulé par"
+        "HANDLED_BY": "Pris en charge par"
       },
       "UNKNOWN_CUSTOMER": "Client inconnu"
     },

@@ -57,7 +57,7 @@
       "HELP_CENTER_CURATING_ARTICLES": "Conservation des articles…",
       "HELP_CENTER_ARTICLES": "{count} article créé | {count} articles créés",
       "HELP_CENTER_CATEGORIES": "Catégorie {count} | Catégories {count}",
-      "HELP_CENTER_SUMMARY": "Création d'un article {count} sur {categories} | Créé un article {count} sur {categories}"
+      "HELP_CENTER_SUMMARY": "{count} article créé dans {categories} | {count} articles créés dans {categories}"
     },
     "CHANNELS": {
       "TITLE": "Connectez tous vos canaux de conversation",

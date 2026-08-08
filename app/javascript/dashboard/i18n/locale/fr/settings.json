@@ -917,7 +917,7 @@
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "Priorité du devoir",
+          "LABEL": "Priorité d’affectation",
           "EARLIEST_CREATED": {
             "LABEL": "Créé plus tôt",
             "DESCRIPTION": "La conversation qui a été créée est d'abord assignée."
