@@ -858,7 +858,7 @@
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Modifier la politique de devoirs"
+          "TITLE": "Modifier la politique d’affectation"
         },
         "EDIT_BUTTON": "Mettre à jour la politique",
         "CONFIRM_ADD_INBOX_DIALOG": {

@@ -1047,7 +1047,7 @@
         "LONGEST_WAITING": "Attente la plus longue"
       },
       "METHOD": {
-        "ROUND_ROBIN": "Rond robin",
+        "ROUND_ROBIN": "À tour de rôle",
         "BALANCED": "Affectation équilibrée"
       },
       "UPGRADE_PROMPT": "Les politiques d'affectation personnalisée sont disponibles avec le forfait Business",
