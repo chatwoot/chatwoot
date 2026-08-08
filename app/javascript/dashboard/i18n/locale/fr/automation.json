@@ -3,7 +3,7 @@
     "HEADER": "Automatisations",
     "DESCRIPTION": "L'automatisation peut remplacer et rationaliser les processus existants qui nécessitent des efforts manuels, comme l'ajout d'étiquettes et l'attribution de conversations à l'agent le plus approprié. Cela permet à l'équipe de se concentrer sur ses forces tout en réduisant le temps passé à des tâches de routine.",
     "LEARN_MORE": "En savoir plus sur l'automatisation",
-    "COUNT": "Automatisation {n} | Automatisation {n}",
+    "COUNT": "{n} automatisation | {n} automatisations",
     "HEADER_BTN_TXT": "Créer une automatisation",
     "LOADING": "Récupération des règles d'automatisation",
     "SEARCH_PLACEHOLDER": "Rechercher des règles d'automatisation...",

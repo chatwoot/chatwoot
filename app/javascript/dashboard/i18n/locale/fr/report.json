@@ -634,7 +634,7 @@
     "WITH": "avec",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Taux de clics",
+        "LABEL": "Taux de respect des SLA",
         "TOOLTIP": "Pourcentage de SLA respectés"
       },
       "NO_OF_MISSES": {

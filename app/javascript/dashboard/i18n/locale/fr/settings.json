@@ -650,7 +650,7 @@
     "SAML_DISABLED_MESSAGE": "SAML SSO est actuellement désactivé. Veuillez contacter votre administrateur pour activer cette fonctionnalité.",
     "SAML": {
       "TITLE": "SSO SAML",
-      "NOTE": "Configurer la seule connexion SAML pour votre compte. Les utilisateurs s'authentifieront par l'intermédiaire de votre fournisseur d'identité au lieu d'utiliser un email/mot de passe.",
+      "NOTE": "Configurez l’authentification unique SAML pour votre compte. Les utilisateurs s’authentifieront par l’intermédiaire de votre fournisseur d’identité au lieu d’utiliser un email et un mot de passe.",
       "ACS_URL": {
         "LABEL": "URL ACS",
         "TOOLTIP": "URL du service consommateur d’assertions — Configurez cette URL dans votre IdP comme destination des réponses SAML"
@@ -906,7 +906,7 @@
         "ASSIGNMENT_ORDER": {
           "LABEL": "Ordre d'affectation",
           "ROUND_ROBIN": {
-            "LABEL": "Rond robin",
+            "LABEL": "À tour de rôle",
             "DESCRIPTION": "Assigner les conversations équitablement entre les agents."
           },
           "BALANCED": {
