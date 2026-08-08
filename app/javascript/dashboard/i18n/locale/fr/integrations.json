@@ -1041,7 +1041,7 @@
           "PASSWORD": "Mot de passe",
           "PASSWORD_PLACEHOLDER": "Entrez le mot de passe",
           "API_KEY": "Nom de l'en-tête",
-          "API_KEY_PLACEHOLDER": "Clé X-API",
+          "API_KEY_PLACEHOLDER": "X-API-Key",
           "API_VALUE": "Valeur de l'en-tête",
           "API_VALUE_PLACEHOLDER": "Entrez la valeur de la clé API"
         },

@@ -129,7 +129,7 @@
             "ITEMS": {
               "NAME": "Nom",
               "DOMAIN": "Domaine personnalisé",
-              "SLUG": "Limace",
+              "SLUG": "Slug",
               "TITLE": "Titre du portail",
               "THEME": "Couleur du thème",
               "SUB_TEXT": "Sous texte du portail"
@@ -248,7 +248,7 @@
           "ERROR": "Le nom est requis"
         },
         "SLUG": {
-          "LABEL": "Limace",
+          "LABEL": "Slug",
           "PLACEHOLDER": "Identifiant du portail pour les URL",
           "ERROR": "Slug est requis"
         },
@@ -423,7 +423,7 @@
           "ERROR": "Le nom est requis"
         },
         "SLUG": {
-          "LABEL": "Limace",
+          "LABEL": "Slug",
           "PLACEHOLDER": "Slug de catégorie pour les URL",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/fr-FR/categories/my-slug",
           "ERROR": "Le Slug est requis"
@@ -454,7 +454,7 @@
           "ERROR": "Le nom est requis"
         },
         "SLUG": {
-          "LABEL": "Limace",
+          "LABEL": "Slug",
           "PLACEHOLDER": "Slug de catégorie pour les URL",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/fr-FR/categories/my-slug",
           "ERROR": "Le Slug est requis"
@@ -690,7 +690,7 @@
             "ERROR": "Le nom est requis"
           },
           "SLUG": {
-            "LABEL": "Limace",
+            "LABEL": "Slug",
             "PLACEHOLDER": "Slug de catégorie pour les URL",
             "ERROR": "Le Slug est requis",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
@@ -858,8 +858,8 @@
         "ERROR": "Le nom est requis"
       },
       "SLUG": {
-        "LABEL": "Limace",
-        "PLACEHOLDER": "guide de l'utilisateur",
+        "LABEL": "Slug",
+        "PLACEHOLDER": "guide-utilisateur",
         "ERROR": "Le Slug est requis",
         "FORMAT_ERROR": "Veuillez saisir un identifiant valide, par exemple : guide-utilisateur"
       }
@@ -893,7 +893,7 @@
           "ERROR": "Entrez une URL valide. Le lien de la page d'accueil doit commencer par 'http://' ou 'https://'."
         },
         "SLUG": {
-          "LABEL": "Limace",
+          "LABEL": "Slug",
           "PLACEHOLDER": "Identifiant du portail"
         },
         "BRAND_COLOR": {
