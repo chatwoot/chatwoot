@@ -55,11 +55,37 @@ class Whatsapp::UserIdRotationService
   # identifiers is resolved by the phone one first, so replies would keep going to the number
   # the user just left. Anchor them to the business scoped user id instead, which is the
   # identifier that survived the change and which the Cloud API accepts as a `recipient`.
+  #
+  # Only the identifiers this event names count as the same identity. A contact merged from
+  # the dashboard can hold contact inboxes for two genuinely different phone numbers, and
+  # moving those would address their replies to the wrong destination.
   def anchor_conversations(contact_inbox)
     contact_inbox.contact
                  .conversations
-                 .where(inbox_id: inbox.id)
+                 .where(inbox_id: inbox.id, contact_inbox_id: rotating_identity_contact_inbox_ids)
                  .where.not(contact_inbox_id: contact_inbox.id)
                  .find_each { |conversation| conversation.update!(contact_inbox: contact_inbox) }
+  end
+
+  def rotating_identity_contact_inbox_ids
+    @rotating_identity_contact_inbox_ids ||= inbox.contact_inboxes.where(source_id: rotating_identity_source_ids).ids
+  end
+
+  # Both sides of each rotation, so the set stays the same before and after the update.
+  def rotating_identity_source_ids
+    [
+      payload.dig(:user_id, :previous),
+      payload.dig(:user_id, :current),
+      payload.dig(:parent_user_id, :previous),
+      payload.dig(:parent_user_id, :current),
+      phone_source_id
+    ].compact_blank.uniq
+  end
+
+  def phone_source_id
+    identifier = payload[:wa_id].to_s
+    return unless identifier.match?(/\A\d{1,15}\z/)
+
+    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(identifier, :cloud)
   end
 end

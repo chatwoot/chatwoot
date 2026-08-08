@@ -554,6 +554,19 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(bsuid_inbox.reload.source_id).to eq('IN.CURRENTBSUID')
       end
 
+      it 'leaves the conversations of another merged identity where they are' do
+        rotating_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+        other_identity_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: rotating_inbox.contact,
+                                                      source_id: '16505550000')
+        other_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: other_identity_inbox,
+                                                   contact: rotating_inbox.contact, account: whatsapp_channel.inbox.account)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
+
+        expect(rotating_inbox.reload.source_id).to eq('IN.CURRENTBSUID')
+        expect(other_conversation.reload.contact_inbox).to eq(other_identity_inbox)
+      end
+
       it 're-points the contact inbox when only the parent business scoped user id rotates' do
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.ENT.PREVIOUSBSUID')
         parent_params = user_id_update_params.deep_dup
