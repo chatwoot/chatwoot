@@ -61,7 +61,7 @@
     },
     "UPLOADING_ATTACHMENTS": "Envoi des pièces jointes...",
     "REPLIED_TO_STORY": "A répondu à votre histoire",
-    "UNSUPPORTED_MESSAGE": "Ce type de message n’est pas pris en charge. Vous pouvez consulter ce message dans l’application Facebook ou Instagram.",
+    "UNSUPPORTED_MESSAGE": "Ce type de message n’est pas pris en charge. Pour le consulter, ouvrez-le sur la plateforme d’origine.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application TikTok.",
@@ -333,7 +333,7 @@
         "PROBLEM_TYPE_PLACEHOLDER": "Sélectionnez un type de problème",
         "DESCRIPTION_LABEL": "Description",
         "DESCRIPTION_PLACEHOLDER": "Décrire le problème en détail",
-        "SUBMIT": "Rapporter",
+        "SUBMIT": "Signaler",
         "SUCCESS": "Merci pour votre rapport. Notre équipe va y jeter un œil.",
         "ERROR": "Impossible de signaler ce message. Veuillez réessayer.",
         "REASONS": {

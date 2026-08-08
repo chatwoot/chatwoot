@@ -3,7 +3,7 @@
     "HEADER": "Réponses standardisées",
     "LEARN_MORE": "En savoir plus sur les réponses préenregistrées",
     "DESCRIPTION": "Les réponses préenregistrées sont des modèles qui permettent de répondre rapidement à une conversation. Les agents peuvent saisir le caractère « / » suivi du raccourci pour insérer une réponse préenregistrée dans une conversation.",
-    "COUNT": "Réponse préenregistrée {n} | Réponses préenregistrées {n}",
+    "COUNT": "{n} réponse préenregistrée | {n} réponses préenregistrées",
     "HEADER_BTN_TXT": "Ajouter une réponse prédéfinie",
     "LOADING": "Récupération des réponses prédéfinies...",
     "SEARCH_PLACEHOLDER": "Rechercher les réponses préenregistrées...",

@@ -118,7 +118,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Activer l'accueil du canal",
-          "HELP_TEXT": "Envoyer automatiquement un message d’accueil lorsqu’une nouvelle conversation est créée.",
+          "HELP_TEXT": "Envoyer automatiquement des messages d’accueil lorsque les clients démarrent une conversation et envoient leur premier message.",
           "ENABLED": "Activé",
           "DISABLED": "Désactivé"
         },
@@ -910,7 +910,7 @@
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS": "Jeton de gestion WhatsApp mis à jour avec succès.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "Impossible de mettre à jour le jeton de gestion d'entreprise. Vérifiez son autorisation WhatsApp Business Management et l'accès au compte, puis réessayez.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK": "Apprenez à générer un jeton WhatsApp Business Management",
-      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "Inscription intégrée à WhatsApp",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Cette boîte de réception est connectée via l'inscription intégrée WhatsApp.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "Tu peux reconfigurer cette boîte de réception pour mettre à jour tes paramètres WhatsApp Business.",
       "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigurer",

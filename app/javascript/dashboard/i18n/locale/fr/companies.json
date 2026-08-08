@@ -21,7 +21,7 @@
     "SEARCH_PLACEHOLDER": "Rechercher des entreprises...",
     "LOADING": "Chargement des entreprises...",
     "UNNAMED": "Entreprise sans nom",
-    "CONTACTS_COUNT": "Contact {n} | Contacts {n}",
+    "CONTACTS_COUNT": "{n} contact | {n} contacts",
     "ACTIONS": {
       "CREATE": "Ajouter une entreprise"
     },

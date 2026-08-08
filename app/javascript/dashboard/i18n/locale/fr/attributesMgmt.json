@@ -5,7 +5,7 @@
     "LOADING": "Récupération des attributs personnalisés",
     "DESCRIPTION": "Un attribut personnalisé permet de suivre des informations supplémentaires sur vos contacts, entreprises ou conversations, comme leur formule d’abonnement ou la date de leur premier achat. Vous pouvez ajouter différents types d’attributs personnalisés, tels que du texte, des listes ou des nombres, afin de recueillir les informations dont vous avez besoin.",
     "LEARN_MORE": "En savoir plus sur les attributs personnalisés",
-    "COUNT": "Attribut {n} | Attributs {n}",
+    "COUNT": "{n} attribut | {n} attributs",
     "SEARCH_PLACEHOLDER": "Rechercher des attributs...",
     "NO_RESULTS": "Aucun attribut correspondant à votre recherche",
     "ATTRIBUTE_MODELS": {

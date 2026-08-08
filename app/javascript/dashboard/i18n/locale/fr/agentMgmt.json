@@ -9,7 +9,7 @@
       "ADMINISTRATOR": "Administrateur",
       "AGENT": "Agent"
     },
-    "COUNT": "Agent {n} | Agents {n}",
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "Il n'y a aucun agent associé à ce compte",
       "TITLE": "Gérer les agents de votre équipe",

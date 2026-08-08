@@ -7,7 +7,7 @@
     "SETUP": {
       "TITLE": "Passer et recevoir des appels en un seul endroit",
       "SUBTITLE": "Configurez un canal vocal pour commencer à traiter les appels avec votre équipe. Chaque appel, ainsi que son enregistrement, apparaîtra ici.",
-      "ACTION": "Configurer un salon vocal"
+      "ACTION": "Configurer un canal vocal"
     },
     "FILTERS": {
       "MISSED": "Manqué",
