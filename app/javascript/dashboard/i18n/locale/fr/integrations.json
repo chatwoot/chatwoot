@@ -182,7 +182,7 @@
           "OPTIONS": {
             "PROFESSIONAL": "Professionnel",
             "CASUAL": "Décontracté",
-            "STRAIGHTFORWARD": "Avant-droit",
+            "STRAIGHTFORWARD": "Direct",
             "CONFIDENT": "Confiant",
             "FRIENDLY": "Amical"
           }
@@ -885,14 +885,14 @@
         "GENERATED_FAQS": "FAQ générées",
         "LAST_UPDATED": "Dernière mise à jour",
         "NOT_AVAILABLE": "Non disponible",
-        "CONTENT_TAB": "Contenu ramassé",
+        "CONTENT_TAB": "Contenu exploré",
         "PDF_TAB": "Détails du PDF",
-        "CONTENT_TITLE": "Contenu ramassé",
+        "CONTENT_TITLE": "Contenu exploré",
         "PDF_TITLE": "Fichier PDF",
         "PDF_DESCRIPTION": "Revoir la source originale du PDF.",
         "CHARACTER_COUNT": "{count} caractères extraits",
         "COPY_CONTENT": "Copier",
-        "COPY_SUCCESS": "Contenu fabriqué copié dans le presse-papiers",
+        "COPY_SUCCESS": "Contenu exploré copié dans le presse-papiers",
         "COPY_ERROR": "Impossible de copier le contenu exploré",
         "VIEW_RAW": "Voir le brut",
         "VIEW_PREVIEW": "Voir l'aperçu",

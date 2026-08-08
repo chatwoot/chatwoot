@@ -63,7 +63,7 @@
             "CUSTOMER_UNRESPONSIVE": "L'horloge commence quand un coéquipier répond. Si le client n'a pas réécrit {duration} plus tard, les actions ci-dessous sont exécutées. S'il répond, rien ne se passe, et la prochaine réponse d'un coéquipier relance l'horloge.",
             "AGENT_UNRESPONSIVE": "L'horloge démarre lorsqu'un client envoie un message. Si aucun coéquipier n'a répondu à {duration} plus tard, les actions ci-dessous sont exécutées. Si quelqu'un répond avant cela, rien ne se passe."
           },
-          "FOOTNOTE": "Seule une nouvelle activité commence une horloge. Les conversations déjà présentes dans cet état sont ramassées la prochaine fois que quelque chose se passe dessus."
+          "FOOTNOTE": "Seule une nouvelle activité déclenche le minuteur. Les conversations déjà dans cet état seront prises en compte lors de leur prochaine activité."
         },
         "CONDITIONS": {
           "LABEL": "Condition"

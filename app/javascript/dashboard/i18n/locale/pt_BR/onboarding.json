@@ -16,7 +16,7 @@
     },
     "PLACEHOLDERS": {
       "SELECT_ROLE": "Selecione sua função",
-      "ENTER_WEBSITE": "www.exemplo.com",
+      "ENTER_WEBSITE": "www.example.com",
       "SELECT_LANGUAGE": "Selecione o idioma",
       "SELECT_TIMEZONE": "Selecionar fuso horário",
       "SELECT_COMPANY_SIZE": "Selecione tamanho da empresa",

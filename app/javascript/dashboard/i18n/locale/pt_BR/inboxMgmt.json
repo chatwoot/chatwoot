@@ -850,7 +850,7 @@
       "ALLOWED_DOMAINS": {
         "TITLE": "Domínios permitidos",
         "DESCRIPTION": "Restrinja quais sites podem incorporar seu widget de chat. Por segurança, adicione apenas domínios que você possui e confia. Adicione um ou mais domínios separados por vírgulas. Deixe em branco para permitir todos os domínios (não recomendado para produção).",
-        "PLACEHOLDER": "exemplo.com, www.exemplo.com, app.exemplo.com"
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "ALLOW_MOBILE_WEBVIEW": {
         "LABEL": "Ativar widget em aplicativos móveis",

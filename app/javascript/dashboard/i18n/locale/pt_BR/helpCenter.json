@@ -1005,9 +1005,9 @@
         "PLAUSIBLE": {
           "TITLE": "Plausible",
           "DESCRIPTION": "Acompanhe o tráfego da sua central de ajuda com o Plausible Analytics, que prioriza a privacidade.",
-          "PLACEHOLDER": "exemplo.com",
+          "PLACEHOLDER": "example.com",
           "HELP": "Insira o domínio configurado nas definições do seu site no Plausible. Deixe em branco para desativar.",
-          "INVALID": "Insira um domínio válido, por exemplo exemplo.com."
+          "INVALID": "Insira um domínio válido, por exemplo example.com."
         },
         "AMPLITUDE": {
           "TITLE": "Amplitude",
