@@ -105,10 +105,6 @@ RSpec.describe MessageTemplates::HookExecutionService do
       end
 
       it 'performs captain handoff when quota is exceeded (OOO template will kick in after handoff)' do
-        lifecycle_events = []
-        allow(Captain::Conversation::ResponseLifecycleLogger).to receive(:info) do |event, **attributes|
-          lifecycle_events << [event, attributes]
-        end
         account.update!(
           limits: { 'captain_responses' => 100 },
           custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 100)
@@ -117,9 +113,6 @@ RSpec.describe MessageTemplates::HookExecutionService do
         create(:message, conversation: conversation, message_type: :incoming, account: account)
 
         expect(conversation.reload.status).to eq('open')
-        expect(lifecycle_events).to include(
-          [:usage_limit_handoff, hash_including(message_id: kind_of(Integer))]
-        )
       end
 
       it 'does not send out of office message when Captain is handling' do

@@ -1,39 +1,24 @@
 module Captain::Conversation::ResponseLifecycleLogging
   private
 
-  def initialize_response_lifecycle(conversation, assistant, responding_to_message_id)
-    @conversation = conversation
-    @inbox = conversation.inbox
-    @assistant = assistant
-    @responding_to_message_id = responding_to_message_id if captain_v2_enabled?
-    log_lifecycle(:job_started, conversation_status: @conversation.status)
+  def conversation_pending?
+    @observed_conversation_status = Conversation.uncached { Conversation.where(id: @conversation.id).pick(:status) }
+    @observed_conversation_status == 'pending' || @observed_conversation_status == Conversation.statuses[:pending]
   end
 
-  def log_skip(reason)
-    log_lifecycle(:job_skipped, reason: reason, conversation_status: @observed_conversation_status)
-  end
+  def log_non_pending
+    return if @responding_to_message_id.nil?
 
-  def log_discard(reason)
-    log_lifecycle(
-      :response_discarded,
-      reason: reason,
-      responding_to_message_id: @responding_to_message_id
+    Rails.logger.info(
+      "[CAPTAIN][ResponseLifecycle] event=job_skipped reason=conversation_not_pending conversation_id=#{@conversation.id} " \
+      "responding_to_message_id=#{@responding_to_message_id} conversation_status=#{@observed_conversation_status}"
     )
   end
 
-  def log_lifecycle(event, level: :info, **attributes)
-    Captain::Conversation::ResponseLifecycleLogger.public_send(
-      level,
-      event,
-      account_id: @conversation.account_id,
-      conversation_id: @conversation.id,
-      conversation_display_id: @conversation.display_id,
-      inbox_id: @conversation.inbox_id,
-      assistant_id: @assistant.id,
-      responding_to_message_id: @responding_to_message_id,
-      active_job_id: job_id,
-      provider_job_id: provider_job_id,
-      **attributes
+  def log_pre_generation_discard
+    Rails.logger.info(
+      '[CAPTAIN][ResponseLifecycle] event=response_discarded reason=newer_customer_message_before_generation ' \
+      "conversation_id=#{@conversation.id} responding_to_message_id=#{@responding_to_message_id}"
     )
   end
 end

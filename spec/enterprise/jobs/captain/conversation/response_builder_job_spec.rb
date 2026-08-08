@@ -32,26 +32,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(mock_action_classifier_service).to receive(:classify).and_return({ 'action' => 'continue' })
       allow(Captain::Llm::AssistantFalsePromiseService).to receive(:new).and_return(mock_false_promise_service)
       allow(mock_false_promise_service).to receive(:detect).and_return({ 'decision' => 'safe', 'reason' => 'safe_response' })
-      allow(Captain::Conversation::ResponseLifecycleLogger).to receive(:info)
-      allow(Captain::Conversation::ResponseLifecycleLogger).to receive(:error)
-    end
-
-    it 'logs the job start with identifiers and status' do
-      lifecycle_events = []
-      allow(Captain::Conversation::ResponseLifecycleLogger).to receive(:info) do |event, **attributes|
-        lifecycle_events << [event, attributes]
-      end
-
-      described_class.perform_now(conversation, assistant, responding_to_message.id)
-
-      expect(lifecycle_events).to include(
-        [:job_started, hash_including(
-          account_id: account.id,
-          conversation_id: conversation.id,
-          assistant_id: assistant.id,
-          conversation_status: 'pending'
-        )]
-      )
     end
 
     context 'when captain_v2 is disabled' do
@@ -371,19 +351,12 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'does not send a response when the conversation is no longer pending' do
-        lifecycle_events = []
-        allow(Captain::Conversation::ResponseLifecycleLogger).to receive(:info) do |event, **attributes|
-          lifecycle_events << [event, attributes]
-        end
         conversation.open!
 
         expect(mock_llm_chat_service).not_to receive(:generate_response)
         expect do
           described_class.perform_now(conversation, assistant)
         end.not_to(change { conversation.messages.outgoing.count })
-        expect(lifecycle_events).to include(
-          [:job_skipped, hash_including(reason: :conversation_not_pending, conversation_status: 'open')]
-        )
       end
     end
 
@@ -405,10 +378,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         end
 
         it 'discards a response when the runner sees a newer customer message' do
-          lifecycle_events = []
-          allow(Captain::Conversation::ResponseLifecycleLogger).to receive(:info) do |event, **attributes|
-            lifecycle_events << [event, attributes]
-          end
           allow(mock_agent_runner_service).to receive(:generate_response) do
             create(:message, conversation: conversation, content: 'New context', message_type: :incoming)
             { 'response' => 'Stale response', 'handoff_tool_called' => false }
@@ -419,9 +388,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
           expect(conversation.messages.outgoing.count).to eq(0)
           expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
-          expect(lifecycle_events).to include(
-            [:response_discarded, hash_including(reason: :runner_discarded_response)]
-          )
         end
 
         it 'checks freshness itself after generation' do

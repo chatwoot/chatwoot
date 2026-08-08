@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/ClassLength
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   include Captain::Conversation::V1ActionClassifier
   include Captain::Conversation::V1FalsePromiseHandler
@@ -11,8 +10,20 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   retry_on Faraday::BadRequestError, attempts: 3, wait: 2.seconds
 
   def perform(conversation, assistant, responding_to_message_id = nil)
-    initialize_response_lifecycle(conversation, assistant, responding_to_message_id)
-    perform_response
+    @conversation = conversation
+    @inbox = conversation.inbox
+    @assistant = assistant
+    @responding_to_message_id = responding_to_message_id if captain_v2_enabled?
+
+    return log_non_pending unless conversation_pending?
+
+    Current.executed_by = @assistant
+
+    return generate_and_process_response unless captain_v2_enabled?
+
+    return log_pre_generation_discard if newer_customer_message_arrived?
+
+    generate_response_with_v2
   rescue ActiveStorage::FileNotFoundError, Faraday::BadRequestError => e
     handle_error(e)
     raise e
@@ -25,24 +36,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   private
 
   delegate :account, :inbox, to: :@conversation
-
-  def perform_response
-    unless conversation_pending?
-      log_skip(:conversation_not_pending)
-      return
-    end
-
-    Current.executed_by = @assistant
-
-    return generate_and_process_response unless captain_v2_enabled?
-
-    if newer_customer_message_arrived?
-      log_discard(:newer_customer_message_before_generation)
-      return
-    end
-
-    generate_response_with_v2
-  end
 
   def generate_and_process_response
     message_history = collect_previous_messages
@@ -61,17 +54,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @run_result = runner_service.last_run_result
 
     @v2_handoff_tool_completed = runner_service.handoff_completed?
-    runner_discarded = runner_service.response_discarded?
     return process_response if v2_handoff_tool_completed?
-
-    if runner_discarded
-      log_discard(:runner_discarded_response)
-      return
-    end
-    if newer_customer_message_arrived?
-      log_discard(:newer_customer_message_after_generation)
-      return
-    end
+    return if runner_service.response_discarded? || newer_customer_message_arrived?
 
     process_response
   end
@@ -94,8 +78,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       process_v1_handoff_request
     elsif conversation_pending?
       process_standard_response
-    else
-      log_skip(:conversation_not_pending_after_generation)
     end
   end
 
@@ -103,10 +85,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     # V1 only signals via the response string — no state has been touched yet. If
     # the conversation isn't pending anymore, a human took over mid-run; bail out
     # rather than posting a stale handoff message on top of their reply.
-    unless conversation_pending?
-      log_skip(:handoff_conversation_not_pending)
-      return
-    end
+    return unless conversation_pending?
 
     process_v1_handoff
     record_v2_failure_handoff if v2_generation_errored?
@@ -115,10 +94,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def process_standard_response
     message = nil
     ActiveRecord::Base.transaction do
-      if captain_v2_enabled? && newer_customer_message_arrived?
-        log_discard(:newer_customer_message_before_persist)
-        next
-      end
+      next if captain_v2_enabled? && newer_customer_message_arrived?
 
       message = create_messages
       Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
@@ -134,10 +110,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     # Captain V1 infers completion from status. Captain V2 uses the completion
     # marker set inside the locked handoff.
     if captain_v2_enabled?
-      unless v2_handoff_tool_completed? || conversation_pending?
-        log_skip(:handoff_conversation_not_pending)
-        return
-      end
+      return unless v2_handoff_tool_completed? || conversation_pending?
 
       # Known gap, accepted for now: the fallback V1 handoff (tool fired but never
       # completed) emits no captain.conversation.handed_off event — the tool emits
@@ -214,7 +187,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def handle_error(error)
-    log_lifecycle(:error_caught, level: :error, error_class: error.class.name)
     log_error(error)
     @response ||= {}
     @response['action_source'] ||= 'error'
@@ -225,21 +197,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_error_handoff
-    unless conversation_pending?
-      log_lifecycle(
-        :error_handoff_skipped,
-        reason: :conversation_not_pending,
-        conversation_status: @observed_conversation_status
-      )
-      return
-    end
-    if captain_v2_enabled? && newer_customer_message_arrived?
-      log_lifecycle(
-        :error_handoff_skipped,
-        reason: :newer_customer_message
-      )
-      return
-    end
+    return unless conversation_pending?
+    return if captain_v2_enabled? && newer_customer_message_arrived?
 
     process_v1_handoff
     record_v2_failure_handoff if captain_v2_enabled?
@@ -266,11 +225,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     )
   end
 
-  def conversation_pending?
-    @observed_conversation_status = current_conversation_status
-    @observed_conversation_status == 'pending' || @observed_conversation_status == Conversation.statuses[:pending]
-  end
-
   def newer_customer_message_arrived?
     return false if @responding_to_message_id.blank?
 
@@ -280,9 +234,4 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
                    .exists?(['messages.id > ?', @responding_to_message_id])
     end
   end
-
-  def current_conversation_status
-    Conversation.uncached { Conversation.where(id: @conversation.id).pick(:status) }
-  end
 end
-# rubocop:enable Metrics/ClassLength
