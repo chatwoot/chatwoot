@@ -32,7 +32,7 @@
       "REQUIREMENTS_LENGTH": "Au moins 6 caractères",
       "REQUIREMENTS_UPPERCASE": "Au moins une lettre majuscule",
       "REQUIREMENTS_LOWERCASE": "Au moins une lettre minuscule",
-      "REQUIREMENTS_NUMBER": "Au moins un numéro",
+      "REQUIREMENTS_NUMBER": "Au moins un chiffre",
       "REQUIREMENTS_SPECIAL": "Au moins un caractère spécial"
     },
     "CONFIRM_PASSWORD": {

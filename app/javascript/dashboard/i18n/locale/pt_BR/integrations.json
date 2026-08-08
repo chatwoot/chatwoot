@@ -435,7 +435,7 @@
         },
         "HOURS_SAVED": {
           "LABEL": "Tempo economizado",
-          "HINT": "Estimativa: cada resposta do Capitão equivale a aproximadamente 2 minutos do tempo que um atendente levaria para responder. Este é um valor estimado, não uma medição do tempo real de trabalho."
+          "HINT": "Estimativa: cada resposta do Captain equivale a aproximadamente 2 minutos do tempo que um atendente levaria para responder. Este é um valor estimado, não uma medição do tempo real de trabalho."
         },
         "REOPEN": {
           "LABEL": "Taxa de reabertura",
@@ -461,8 +461,8 @@
       },
       "LINKS": {
         "DOCS": {
-          "TITLE": "Documentos do capitão",
-          "DESCRIPTION": "Guias e tutoriais para o Capitão"
+          "TITLE": "Documentos do Captain",
+          "DESCRIPTION": "Guias e tutoriais para o Captain"
         },
         "PLAYGROUND": {
           "TITLE": "Área de testes",
@@ -1111,7 +1111,7 @@
         "ERROR_MESSAGE": "Ocorreu um erro ao excluir a FAQ, por favor tente novamente."
       },
       "SUGGESTIONS_BANNER": {
-        "TITLE": "O Capitão agrupou as perguntas recorrentes dos clientes em sugestões de FAQ.",
+        "TITLE": "O Captain agrupou as perguntas recorrentes dos clientes em sugestões de FAQ.",
         "ACTION": "Revisar sugestões"
       },
       "FORM_DESCRIPTION": "Adicione uma pergunta e sua resposta correspondente à base de conhecimento e selecione o assistente ao qual deve estar associado.",
@@ -1166,7 +1166,7 @@
       "SAVE": "Salvar Alterações",
       "DETAILS": {
         "TITLE": "Revisar sugestão de FAQ",
-        "DESCRIPTION": "O Capitão agrupou {count} conversa nesta sugestão. Revise as evidências e refine a FAQ antes de aprová-la. | O Capitão agrupou {count} conversas nesta sugestão. Revise as evidências e refine a FAQ antes de aprová-la.",
+        "DESCRIPTION": "O Captain agrupou {count} conversa nesta sugestão. Revise as evidências e refine a FAQ antes de aprová-la. | O Captain agrupou {count} conversas nesta sugestão. Revise as evidências e refine a FAQ antes de aprová-la.",
         "SOURCES": "Conversas de origem",
         "SOURCE_PROGRESS": "{visible} de {total}",
         "NO_SOURCES": "Nenhuma conversa de origem acessível foi encontrada.",
@@ -1178,7 +1178,7 @@
         "CLEAR_SEARCH": "Limpar busca"
       },
       "SUCCESS": {
-        "APPROVED": "FAQ aprovada e adicionada à base de conhecimento do Capitão.",
+        "APPROVED": "FAQ aprovada e adicionada à base de conhecimento do Captain.",
         "DISMISSED": "Sugestão descartada.",
         "SAVED": "Sugestão atualizada."
       },

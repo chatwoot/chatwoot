@@ -694,13 +694,13 @@
         "IDP_ENTITY_ID_ERROR": "L'identifiant de l'entité du fournisseur d'identité est requis"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "La fonctionnalité SAML SSO n'est disponible que dans les plans Entreprise.",
+        "AVAILABLE_ON": "La fonctionnalité SAML SSO n'est disponible que dans les plans Enterprise.",
         "UPGRADE_PROMPT": "Passez à un forfait Enterprise pour accéder à l’authentification unique SAML et à d’autres fonctionnalités de sécurité avancées.",
         "ASK_ADMIN": "Veuillez contacter votre administrateur pour la mise à niveau."
       },
       "PAYWALL": {
         "TITLE": "Mettre à niveau pour activer SAML SSO",
-        "AVAILABLE_ON": "La fonctionnalité SAML SSO n'est disponible que dans les plans Entreprise.",
+        "AVAILABLE_ON": "La fonctionnalité SAML SSO n'est disponible que dans les plans Enterprise.",
         "UPGRADE_PROMPT": "Mettez à niveau votre forfait pour avoir accès à SAML unique et à d'autres fonctionnalités avancées.",
         "UPGRADE_NOW": "Mettre à niveau maintenant",
         "CANCEL_ANYTIME": "Vous pouvez modifier ou annuler votre forfait à tout moment"
