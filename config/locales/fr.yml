@@ -626,7 +626,7 @@ fr:
       features:
         editor: 'Éditeur'
         assistant: 'Assistant'
-        copilot: 'Copilote'
+        copilot: 'Copilot'
         label_suggestion: 'Suggestion d''étiquette'
         document_faq_generation: 'Génération de la FAQ du document'
         conversation_faq_generation: 'Génération de la FAQ Conversation'
