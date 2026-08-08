@@ -60,7 +60,7 @@
           },
           "EXPLANATION": {
             "CONVERSATION_STATUS": "L'horloge commence lorsqu'une conversation se déplace dans ce statut. Si elle est toujours là {duration} plus tard, les actions ci-dessous s'exécutent. Si le statut change avant, rien ne se passe.",
-            "CUSTOMER_UNRESPONSIVE": "L'horloge commence quand un coéquipier répond. Si le client n'a pas réécrit {duration} plus tard, les actions ci-dessous sont exécutées. S'ils ne répondent pas, rien ne se passe, et le prochain coéquipier de la réponse recommence l'horloge.",
+            "CUSTOMER_UNRESPONSIVE": "L'horloge commence quand un coéquipier répond. Si le client n'a pas réécrit {duration} plus tard, les actions ci-dessous sont exécutées. S'il répond, rien ne se passe, et la prochaine réponse d'un coéquipier relance l'horloge.",
             "AGENT_UNRESPONSIVE": "L'horloge démarre lorsqu'un client envoie un message. Si aucun coéquipier n'a répondu à {duration} plus tard, les actions ci-dessous sont exécutées. Si quelqu'un répond avant cela, rien ne se passe."
           },
           "FOOTNOTE": "Seule une nouvelle activité commence une horloge. Les conversations déjà présentes dans cet état sont ramassées la prochaine fois que quelque chose se passe dessus."

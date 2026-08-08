@@ -406,8 +406,8 @@ fr:
       attachment_link_title: 'Conversation (#%{conversation_id}) avec %{name}'
     notion:
       name: 'Notion'
-      short_description: 'Intégrer les bases de données, les documents et les pages directement avec le Capitaine.'
-      description: 'Connectez votre espace de travail Notion pour permettre au Capitaine d''accéder et de générer des réponses intelligentes en utilisant le contenu de vos bases de données, des documents et des pages pour fournir un support client plus contextuel.'
+      short_description: 'Intégrer les bases de données, les documents et les pages directement avec Captain.'
+      description: 'Connectez votre espace de travail Notion pour permettre à Captain d''accéder et de générer des réponses intelligentes en utilisant le contenu de vos bases de données, des documents et des pages pour fournir un support client plus contextuel.'
     shopify:
       name: 'Shopify'
       short_description: 'Accédez aux détails de la commande et aux données client de votre boutique Shopify.'
@@ -583,7 +583,7 @@ fr:
     analytics:
       invalid_configuration: 'Configuration analytique invalide'
     articles:
-      captain_not_available: 'La traduction nécessite que le Capitaine soit activé pour ce compte'
+      captain_not_available: 'La traduction nécessite que Captain soit activé pour ce compte'
       locale_not_available: 'Locale non disponible dans ce portail'
       category_not_found: 'Catégorie introuvable dans ce portail'
       no_articles_found: 'Aucun article à traiter'
