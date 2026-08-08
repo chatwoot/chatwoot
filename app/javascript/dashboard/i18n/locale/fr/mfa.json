@@ -56,7 +56,7 @@
     },
     "DISABLE": {
       "TITLE": "Désactiver l'authentification à deux facteurs",
-      "DESCRIPTION": "Vous devrez saisir votre mot de passe et un code de vérification pour désactiver l’authentification à deux facteurs.",
+      "DESCRIPTION": "Vous devrez saisir votre mot de passe et soit un code de vérification de votre application d’authentification, soit un code de sauvegarde pour désactiver l’authentification à deux facteurs.",
       "PASSWORD": "Mot de passe",
       "OTP_CODE": "Code de vérification",
       "OTP_CODE_PLACEHOLDER": "000000",
