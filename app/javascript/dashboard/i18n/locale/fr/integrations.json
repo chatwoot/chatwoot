@@ -427,11 +427,11 @@
         },
         "AUTO_RESOLUTION": {
           "LABEL": "Taux de résolution automatique",
-          "HINT": "Le partage de conversations gérées est clos sans réponse humaine."
+          "HINT": "Part des conversations gérées clôturées sans réponse humaine."
         },
         "HANDOFF": {
           "LABEL": "Taux de transfert à un agent",
-          "HINT": "Le partage de conversations gérées s'est intensifié vers un agent humain."
+          "HINT": "Part des conversations gérées transférées à un agent humain."
         },
         "HOURS_SAVED": {
           "LABEL": "Temps gagné",

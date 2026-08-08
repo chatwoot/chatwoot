@@ -345,7 +345,7 @@ fr:
         not_sent_due_to_messaging_window: 'Message de résolution automatique non envoyé en raison des restrictions de messages sortants'
       muted: '%{user_name} a mis la conversation en sourdine'
       unmuted: '%{user_name} a rétabli le son de la conversation'
-      auto_resolution_message: 'Résoudre la conversation car elle est inactive depuis un certain temps. Veuillez démarrer une nouvelle conversation si vous avez besoin d''aide.'
+      auto_resolution_message: 'Cette conversation est en cours de résolution, car elle est inactive depuis un certain temps. Veuillez démarrer une nouvelle conversation si vous avez besoin d''aide.'
     templates:
       greeting_message_body: '%{account_name} répond généralement en quelques heures.'
       ways_to_reach_you_message_body: 'Donnez à l''équipe un moyen de vous recontacter.'
