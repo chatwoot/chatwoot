@@ -197,7 +197,7 @@
         "PROVIDERS": {
           "LABEL": "Fournisseur d’API",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bande passante"
+          "BANDWIDTH": "Bandwidth"
         },
         "API": {
           "ERROR_MESSAGE": "Nous n'avons pas pu enregistrer le canal SMS"
@@ -205,22 +205,22 @@
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "ID du compte client",
-            "PLACEHOLDER": "Veuillez entrer votre ID de compte de bande passante",
+            "PLACEHOLDER": "Veuillez entrer l'ID de votre compte Bandwidth",
             "ERROR": "Ce champ est requis"
           },
           "API_KEY": {
             "LABEL": "Clé de l'API",
-            "PLACEHOLDER": "Veuillez entrer votre clé API de bande passante",
+            "PLACEHOLDER": "Veuillez entrer votre clé API Bandwidth",
             "ERROR": "Ce champ est requis"
           },
           "API_SECRET": {
             "LABEL": "Secret API",
-            "PLACEHOLDER": "Veuillez entrer votre secret API de bande passante",
+            "PLACEHOLDER": "Veuillez entrer votre secret API Bandwidth",
             "ERROR": "Ce champ est requis"
           },
           "APPLICATION_ID": {
             "LABEL": "ID de l'application",
-            "PLACEHOLDER": "Veuillez entrer votre ID d'application de bande passante",
+            "PLACEHOLDER": "Veuillez entrer votre ID d'application Bandwidth",
             "ERROR": "Ce champ est requis"
           },
           "INBOX_NAME": {
@@ -233,13 +233,13 @@
             "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
             "ERROR": "Veuillez fournir un numéro de téléphone valide qui commence par un signe `+` et ne contient aucun espace."
           },
-          "SUBMIT_BUTTON": "Créer un canal de bande passante",
+          "SUBMIT_BUTTON": "Créer un canal Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "Nous n'avons pas pu authentifier les identifiants de bande passante, veuillez réessayer"
+            "ERROR_MESSAGE": "Nous n'avons pas pu authentifier les identifiants Bandwidth, veuillez réessayer"
           },
           "API_CALLBACK": {
             "TITLE": "URL de rappel (callback)",
-            "SUBTITLE": "Vous devez configurer l'URL de rappel du message en bande passante avec l'URL mentionnée ici."
+            "SUBTITLE": "Vous devez configurer l'URL de rappel du message dans Bandwidth avec l'URL mentionnée ici."
           }
         }
       },
@@ -495,7 +495,7 @@
           },
           "SMS": {
             "TITLE": "SMS",
-            "DESCRIPTION": "Intégrer le canal SMS avec Twilio ou la bande passante"
+            "DESCRIPTION": "Intégrer le canal SMS avec Twilio ou Bandwidth"
           },
           "API": {
             "TITLE": "API",

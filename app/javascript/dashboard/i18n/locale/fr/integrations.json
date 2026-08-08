@@ -844,7 +844,7 @@
         "SOURCE": {
           "ALL": "Toutes les sources",
           "WEB": "Pages Web",
-          "PDF": "FPS"
+          "PDF": "PDFs"
         },
         "STATUS": {
           "ANY": "N'importe quel statut",
