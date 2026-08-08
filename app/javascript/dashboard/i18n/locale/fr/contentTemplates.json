@@ -42,7 +42,7 @@
       "FORM_ERROR_MESSAGE": "Veuillez remplir toutes les variables avant d'envoyer",
       "MEDIA_HEADER_LABEL": "En-tête {type}",
       "MEDIA_URL_LABEL": "Saisissez l'URL complète du média",
-      "MEDIA_URL_PLACEHOLDER": "https://exemple.com/image.jpg"
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
     },
     "FORM": {
       "BACK_BUTTON": "Précédent",

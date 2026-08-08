@@ -800,7 +800,7 @@
         "PUBLISH_CHANGES": "Publier les modifications",
         "PUBLISH_CHANGES_SUCCESS": "Changements publiés avec succès",
         "PUBLISH_CHANGES_ERROR": "Impossible de publier les modifications",
-        "SAVE_IN_PROGRESS": "Sauvegarde toujours tes dernières modifications — veuillez réessayer dans un instant.",
+        "SAVE_IN_PROGRESS": "Enregistrement de vos dernières modifications en cours — veuillez réessayer dans un instant.",
         "DISCARD_CHANGES": "Annuler les modifications",
         "DISCARD_CHANGES_SUCCESS": "Changements annulés",
         "DISCARD_CHANGES_ERROR": "Impossible d'annuler les modifications",
@@ -965,8 +965,8 @@
         },
         "SOCIAL_LINKS": {
           "HEADER": "Liens sociaux",
-          "DESCRIPTION": "Ajoutez la poignée pour chaque réseau et votre centre d'aide construit le lien complet. Affiché dans le pied de page de la mise en page de la documentation.",
-          "PLACEHOLDER": "poignée",
+          "DESCRIPTION": "Ajoutez l'identifiant de chaque réseau ; votre centre d'aide créera le lien complet. Il s'affichera dans le pied de page de la mise en page Documentation.",
+          "PLACEHOLDER": "identifiant",
           "ADD": "Ajouter un lien social",
           "REMOVE": "Supprimer"
         },
@@ -1005,7 +1005,7 @@
         "PLAUSIBLE": {
           "TITLE": "Plausible",
           "DESCRIPTION": "Suivez le trafic du centre d'aide avec Plausible Analytics, respectueux de la vie privée.",
-          "PLACEHOLDER": "exemple.com",
+          "PLACEHOLDER": "example.com",
           "HELP": "Entrez le domaine configuré dans les paramètres de votre site Plausible. Laissez vide pour le désactiver.",
           "INVALID": "Entrez un domaine valide, par exemple example.com."
         },

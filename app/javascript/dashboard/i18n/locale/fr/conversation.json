@@ -106,7 +106,7 @@
       "CALL_ENDED": "Appel terminé",
       "HANDLED_BY": "Pris en charge par {agentName}",
       "NOT_ANSWERED_YET": "Pas encore répondu",
-      "CALLING": "Appel de…",
+      "CALLING": "Appel en cours…",
       "THEY_ANSWERED": "Il a répondu",
       "YOU_ANSWERED": "Vous avez répondu",
       "AGENT_ANSWERED": "{agentName} a répondu",
