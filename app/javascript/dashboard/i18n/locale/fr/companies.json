@@ -12,7 +12,7 @@
       }
     },
     "ORDER": {
-      "LABEL": "Commandes",
+      "LABEL": "Ordre de tri",
       "OPTIONS": {
         "ASCENDING": "Ascendant",
         "DESCENDING": "Décroissant"

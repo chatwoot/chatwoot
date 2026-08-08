@@ -28,7 +28,7 @@
       "OUTGOING": "Ausgehend",
       "MISSED": "Verpasst",
       "NO_REPLY": "Keine Antwort",
-      "FAILED": "Failed"
+      "FAILED": "Fehlgeschlagen"
     },
     "ROW": {
       "PICKED_BY": "Angenommen von",
