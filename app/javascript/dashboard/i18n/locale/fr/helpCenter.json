@@ -709,7 +709,7 @@
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "Aucune locale disponible | locale {n} | locales {n} locales",
+      "LOCALES_COUNT": "Aucune locale disponible | {n} locale | {n} locales",
       "NEW_LOCALE_BUTTON_TEXT": "Nouvelle locale",
       "SEARCH_PLACEHOLDER": "Rechercher dans les locales...",
       "SEARCH_EMPTY_STATE": {
@@ -1004,7 +1004,7 @@
         },
         "PLAUSIBLE": {
           "TITLE": "Plausible",
-          "DESCRIPTION": "Suivez le trafic d'aide avec des analyses plausibles et respectueuses de la vie privée.",
+          "DESCRIPTION": "Suivez le trafic du centre d'aide avec Plausible Analytics, respectueux de la vie privée.",
           "PLACEHOLDER": "exemple.com",
           "HELP": "Entrez le domaine configuré dans les paramètres de votre site Plausible. Laissez vide pour le désactiver.",
           "INVALID": "Entrez un domaine valide, par exemple example.com."

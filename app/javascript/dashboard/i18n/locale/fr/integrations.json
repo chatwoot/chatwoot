@@ -380,7 +380,7 @@
         "CANCEL": "Annuler"
       },
       "CTA": {
-        "TITLE": "Se connecter à la ligne",
+        "TITLE": "Se connecter à Linear",
         "AGENT_DESCRIPTION": "L’espace de travail Linear n’est pas connecté. Demandez à votre administrateur de connecter un espace de travail pour utiliser cette intégration.",
         "DESCRIPTION": "L’espace de travail Linear n’est pas connecté. Cliquez ci-dessous pour le connecter et utiliser cette intégration.",
         "BUTTON_TEXT": "Connecter l’espace de travail Linear"
