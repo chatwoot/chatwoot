@@ -392,7 +392,7 @@ fr:
       short_description: 'Construire des chatbots pour gérer les requêtes initiales avant de les transférer aux agents.'
       description: 'Construisez des chatbots avec Dialogflow et intégrez-les facilement dans votre boîte de réception. Ces robots peuvent gérer les requêtes initiales avant de les transférer à un agent de service client.'
     google_translate:
-      name: 'Traduire Google'
+      name: 'Google Translate'
       short_description: 'Traduire automatiquement les messages clients pour les agents.'
       description: "Intégrez Google Translate pour aider les agents à traduire facilement les messages clients. Cette intégration détecte automatiquement la langue et la convertit en la langue préférée de l'agent ou de l'administrateur."
     openai:

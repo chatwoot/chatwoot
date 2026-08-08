@@ -382,7 +382,7 @@
     "CUSTOM_ROLES": "Rôles personnalisés",
     "BETA": "Bêta",
     "REPORTS_OVERVIEW": "Vue d'ensemble",
-    "REAUTHORIZE": "Votre connexion à votre boîte de réception a expiré, veuillez vous reconnecter à\n pour continuer à recevoir et envoyer des messages",
+    "REAUTHORIZE": "Votre connexion à votre boîte de réception a expiré. Veuillez vous reconnecter pour continuer à recevoir et envoyer des messages",
     "HELP_CENTER": {
       "TITLE": "Centre d'aide",
       "ARTICLES": "Articles",
@@ -870,7 +870,7 @@
         "INBOX_LINK_PROMPT": {
           "TITLE": "Lier la boîte de réception à la politique",
           "DESCRIPTION": "Voulez-vous lier cette boîte de réception à la politique d'affectation ?",
-          "LINK_BUTTON": "Boîte de réception du lien",
+          "LINK_BUTTON": "Lier la boîte de réception",
           "CANCEL_BUTTON": "Ignorer"
         },
         "API": {
