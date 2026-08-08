@@ -864,14 +864,14 @@
         "CONFIRM_ADD_INBOX_DIALOG": {
           "TITLE": "Add inbox",
           "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CONFIRM_BUTTON_LABEL": "Weiter",
           "CANCEL_BUTTON_LABEL": "Stornieren"
         },
         "INBOX_LINK_PROMPT": {
           "TITLE": "Link inbox to policy",
           "DESCRIPTION": "Would you like to link this inbox to the assignment policy?",
           "LINK_BUTTON": "Link inbox",
-          "CANCEL_BUTTON": "Skip"
+          "CANCEL_BUTTON": "Überspringen"
         },
         "API": {
           "SUCCESS_MESSAGE": "Assignment policy updated successfully",
@@ -987,7 +987,7 @@
         "CONFIRM_ADD_AGENT_DIALOG": {
           "TITLE": "Add agent",
           "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CONFIRM_BUTTON_LABEL": "Weiter",
           "CANCEL_BUTTON_LABEL": "Stornieren"
         },
         "API": {

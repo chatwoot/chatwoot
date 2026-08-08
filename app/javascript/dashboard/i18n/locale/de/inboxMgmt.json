@@ -700,10 +700,10 @@
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
-      "TITLE": "Manage your WhatsApp account",
+      "TITLE": "WhatsApp-Konto verwalten",
       "DESCRIPTION": "Prüfe den Status deiner WhatsApp-Telefonnummer, die Nachrichtenkapazität und die verknüpften Meta-Unternehmensdetails.",
-      "GO_TO_SETTINGS": "Go to Meta Business Manager",
-      "NO_DATA": "Health data is not available",
+      "GO_TO_SETTINGS": "Zum Meta Business Manager",
+      "NO_DATA": "Statusdaten sind nicht verfügbar",
       "ERRORS": {
         "AUTHORIZATION": {
           "EMBEDDED_TITLE": "Die WhatsApp-Verbindung muss aktualisiert werden",
@@ -981,7 +981,7 @@
           "VERIFY_NOTICE": "Chatwoot überprüft diese Anmeldedaten bei Meta, bevor Änderungen übernommen werden. Schlägt die Überprüfung fehl, bleibt die aktuelle Konfiguration unverändert.",
           "BACK": "Zurück",
           "CANCEL": "Abbrechen",
-          "CONTINUE": "Continue",
+          "CONTINUE": "Weiter",
           "REVIEW_MIGRATION": "Migration prüfen",
           "RECONNECT": "WhatsApp-Posteingang neu verbinden"
         },
