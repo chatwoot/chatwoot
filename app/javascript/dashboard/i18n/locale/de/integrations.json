@@ -1163,7 +1163,7 @@
       "APPROVE": "Freigeben",
       "APPROVE_FAQ": "FAQ freigeben",
       "DISMISS": "Verwerfen",
-      "SAVE": "Save changes",
+      "SAVE": "Änderungen speichern",
       "DETAILS": {
         "TITLE": "FAQ-Vorschlag prüfen",
         "DESCRIPTION": "Captain hat {count} Unterhaltung zu diesem Vorschlag zusammengefasst. Prüfe die Belege und überarbeite die FAQ vor der Freigabe. | Captain hat {count} Unterhaltungen zu diesem Vorschlag zusammengefasst. Prüfe die Belege und überarbeite die FAQ vor der Freigabe.",

@@ -300,7 +300,7 @@
         },
         "SUBMIT_BUTTON": "WhatsApp-Kanal erstellen",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick setup with Meta",
+          "TITLE": "Schnelleinrichtung mit Meta",
           "DESC": "Nutze die Schnelleinrichtung mit Meta, um eine neue Nummer oder eine bestehende Nummer aus der WhatsApp Business app zu verbinden. Du wirst zu Meta weitergeleitet, um dich bei deinem WhatsApp Business Account anzumelden. Mit Administratorzugriff lässt sich die Einrichtung reibungslos und einfach durchführen.",
           "BENEFITS": {
             "TITLE": "Benefits of Embedded Signup:",
@@ -328,7 +328,7 @@
           "MANUAL_FALLBACK": "Wenn Ihre Nummer bereits mit der WhatsApp Business Plattform (API) verbunden ist, oder wenn Sie als Technologieanbieter Ihre eigene Nummer an Bord haben, verwenden Sie bitte den {link} Flow",
           "MANUAL_LINK_TEXT": "Manueller Einrichtungsablauf",
           "ACCESS_REQUEST": {
-            "TITLE": "Quick setup with Meta",
+            "TITLE": "Schnelleinrichtung mit Meta",
             "DESCRIPTION": "Verbinde ohne manuelle Konfiguration eine neue Nummer oder eine bestehende Nummer aus der WhatsApp Business app. Um diese Option anzufordern, teile unserem Team mit, was dein Unternehmen macht, wie du WhatsApp nutzen wirst und welches Chatwoot-Konto Zugriff benötigt.",
             "FOOTNOTE": "Wir prüfen deine Anfrage und teilen dir mit, ob diese Option aktiviert werden kann. Du kannst unten auch mit der manuellen Einrichtung fortfahren.",
             "BUTTON": "Zugriff anfordern"
