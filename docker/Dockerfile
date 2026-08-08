@@ -86,8 +86,8 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   && rm -rf spec node_modules tmp/cache; \
   fi
 
-# Generate .git_sha file with current commit hash
-RUN git rev-parse HEAD > /app/.git_sha
+# Generate .git_sha file with current commit hash when .git is available.
+RUN git rev-parse HEAD > /app/.git_sha 2>/dev/null || echo "${SOURCE_VERSION:-unknown}" > /app/.git_sha
 
 # Remove unnecessary files
 RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \
@@ -153,3 +153,9 @@ COPY --from=pre-builder /app/.git_sha /app/.git_sha
 WORKDIR /app
 
 EXPOSE 3000
+
+RUN chmod +x docker/entrypoints/rails.sh
+
+ENTRYPOINT ["docker/entrypoints/rails.sh"]
+
+CMD ["sh", "-lc", "case \"$CHATWOOT_ROLE\" in migrate) POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rails db:chatwoot_prepare ;; worker) bundle exec sidekiq -C config/sidekiq.yml ;; *) bin/rails server -b 0.0.0.0 -p ${PORT:-3000} -e $RAILS_ENV ;; esac"]
