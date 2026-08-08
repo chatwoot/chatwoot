@@ -34,9 +34,11 @@ class Whatsapp::UserIdRotationService
       anchor_conversations(contact_inbox)
     end
   rescue ActiveRecord::RecordNotUnique
-    # The row was created between the check above and the update. Nothing to do,
-    # the identifier is already present in the inbox.
+    # The row was created between the check above and the update, so it already carries the
+    # current identifier and the transaction rolled back. The rotation is still unfinished
+    # though, and the same-contact case is exactly the one that can be completed.
     Rails.logger.info("[WHATSAPP] source_id #{current_source_id} already taken in inbox #{inbox.id}")
+    complete_rotation(contact_inbox, inbox.contact_inboxes.find_by(source_id: current_source_id))
   end
 
   # The current identifier is already known. On the same contact it means the user reached
@@ -45,6 +47,7 @@ class Whatsapp::UserIdRotationService
   # contact the two identities have to be merged, which is a separate concern, so the rows
   # are left exactly as they are.
   def complete_rotation(contact_inbox, current_contact_inbox)
+    return if current_contact_inbox.blank?
     return if current_contact_inbox.contact_id != contact_inbox.contact_id
 
     anchor_conversations(current_contact_inbox)
