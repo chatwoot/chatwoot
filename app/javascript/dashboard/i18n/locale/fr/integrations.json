@@ -229,7 +229,7 @@
         "GENERATING": "Génération en cours...",
         "CANCEL": "Annuler"
       },
-      "GENERATE_ERROR": "Une erreur s’est produite lors du traitement du contenu. Veuillez réessayer."
+      "GENERATE_ERROR": "Une erreur s’est produite lors du traitement du contenu. Veuillez vérifier votre clé API OpenAI et réessayer"
     },
     "DELETE": {
       "BUTTON_TEXT": "Supprimer",

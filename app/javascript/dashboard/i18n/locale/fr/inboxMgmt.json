@@ -1050,8 +1050,8 @@
         "ROUND_ROBIN": "Rond robin",
         "BALANCED": "Affectation équilibrée"
       },
-      "UPGRADE_PROMPT": "Des politiques d'affectation personnalisée sont disponibles sur le plan d'affaires",
-      "UPGRADE_TO_BUSINESS": "Mettre à niveau vers une entreprise",
+      "UPGRADE_PROMPT": "Les politiques d'affectation personnalisée sont disponibles avec le forfait Business",
+      "UPGRADE_TO_BUSINESS": "Passer au forfait Business",
       "DEFAULT_POLICY_LINKED": "Politique par défaut liée",
       "DEFAULT_POLICY_DESCRIPTION": "Lier une politique d'affectation personnalisée pour personnaliser la façon dont les conversations sont assignées aux agents dans cette boîte de réception.",
       "LINK_EXISTING_POLICY": "Lier la politique existante",
