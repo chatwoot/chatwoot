@@ -9,7 +9,7 @@
       "STORE_URL": {
         "TITLE": "Connecter la boutique Shopify",
         "LABEL": "URL de la boutique",
-        "PLACEHOLDER": "votre-magasin.myshopify.com",
+        "PLACEHOLDER": "your-store.myshopify.com",
         "HELP": "Entrez l'URL myshopify.com de votre boutique Shopify",
         "CANCEL": "Annuler",
         "SUBMIT": "Connecter le magasin"
