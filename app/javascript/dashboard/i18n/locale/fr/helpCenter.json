@@ -736,7 +736,7 @@
         "SEARCH": "Recherche...",
         "EMPTY": "Aucun résultat correspondant",
         "ADD_ANOTHER": "Ajouter un autre...",
-        "SLOTS_LEFT": "Emplacements {count} restants",
+        "SLOTS_LEFT": "{count} emplacement restant | {count} emplacements restants",
         "OVERRIDING_DEFAULTS": "Remplacer les valeurs par défaut pour cette locale",
         "CONFIRM": "Enregistrer les recommandations",
         "CATEGORIES": {

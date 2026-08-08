@@ -450,7 +450,7 @@
         "EMPTY": "Aucun enregistrement trouvé pour cette métrique.",
         "ERROR": "Impossible de charger les enregistrements. Veuillez réessayer.",
         "LOAD_MORE": "Charger plus",
-        "RESULT_COUNT_CONVERSATION": "Conversation {count} | Conversations {count}"
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
       },
       "KNOWLEDGE": {
         "TITLE": "Couverture de la connaissance",

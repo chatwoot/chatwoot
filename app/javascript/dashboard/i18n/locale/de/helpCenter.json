@@ -1030,7 +1030,7 @@
           "HELP": "Du findest die Pixel-ID im Meta Events Manager. Lass das Feld leer, um die Integration zu deaktivieren.",
           "INVALID": "Gib eine numerische Pixel-ID ein."
         },
-        "SAVE": "Save changes"
+        "SAVE": "Änderungen speichern"
       },
       "NAV": {
         "GENERAL": "Generell",

@@ -344,7 +344,7 @@
         }
       },
       "VOICE": {
-        "TITLE": "Salon vocal",
+        "TITLE": "Canal vocal",
         "DESC": "Intégrez Twilio Voice pour commencer à assister vos clients par téléphone.",
         "PHONE_NUMBER": {
           "LABEL": "Numéro de téléphone",
@@ -374,14 +374,14 @@
           }
         },
         "CONFIGURATION": {
-          "TWILIO_VOICE_URL_TITLE": "URL de la voix Twilio",
+          "TWILIO_VOICE_URL_TITLE": "URL Twilio Voice",
           "TWILIO_VOICE_URL_SUBTITLE": "Configurez cette URL comme URL Voice pour votre numéro de téléphone Twilio et votre TwiML App.",
           "TWILIO_STATUS_URL_TITLE": "URL de rappel d’état Twilio",
           "TWILIO_STATUS_URL_SUBTITLE": "Configurez cette URL comme l’URL de rappel de statut sur votre numéro de téléphone Twilio."
         },
-        "SUBMIT_BUTTON": "Créer un salon vocal",
+        "SUBMIT_BUTTON": "Créer un canal vocal",
         "API": {
-          "ERROR_MESSAGE": "Nous n'avons pas pu créer le salon vocal"
+          "ERROR_MESSAGE": "Nous n'avons pas pu créer le canal vocal"
         }
       },
       "API_CHANNEL": {

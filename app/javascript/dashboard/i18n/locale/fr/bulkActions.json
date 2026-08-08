@@ -3,7 +3,7 @@
     "CONVERSATIONS_SELECTED": "{conversationCount} sélectionné",
     "NONE": "Aucun",
     "CLEAR_SELECTION": "Nettoyer",
-    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir assigner une conversation {n} à {agentName}? | Êtes-vous sûr de vouloir assigner {n} conversations à {agentName}?",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir assigner {n} conversation à {agentName}? | Êtes-vous sûr de vouloir assigner {n} conversations à {agentName}?",
     "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir retirer l'affectation de {n} conversation ? | Êtes-vous sûr de vouloir retirer l'affectation de {n} conversations ?",
     "YES": "Oui",
     "CANCEL": "Annuler",
@@ -37,7 +37,7 @@
     },
     "TEAMS": {
       "NONE": "Aucun",
-      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir assigner une conversation {n} à {teamName}? | Êtes-vous sûr de vouloir assigner {n} conversations à {teamName}?",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir assigner {n} conversation à {teamName}? | Êtes-vous sûr de vouloir assigner {n} conversations à {teamName}?",
       "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir retirer l'affectation de {n} conversation ? | Êtes-vous sûr de vouloir retirer l'affectation de {n} conversations ?",
       "ASSIGN_SUCCESFUL": "Équipes assignées avec succès.",
       "ASSIGN_FAILED": "Impossible d'assigner l'équipe, veuillez réessayer."
