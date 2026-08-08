@@ -309,7 +309,7 @@
             "AUTO_CONFIG": "Configuration automatique du webhook et du numéro de téléphone"
           },
           "LEARN_MORE": {
-            "TEXT": "Pour en savoir plus sur la mise en place, la tarification et les limitations rapides, visitez {link}.",
+            "TEXT": "Pour en savoir plus sur la configuration rapide, la tarification et les limitations, visitez {link}.",
             "LINK_TEXT": "ce lien"
           },
           "SUBMIT_BUTTON": "Se connecter avec WhatsApp Business",

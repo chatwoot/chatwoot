@@ -1,6 +1,6 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "{conversationCount} sélectionné",
+    "CONVERSATIONS_SELECTED": "{conversationCount} conversations sélectionnées",
     "NONE": "Aucun",
     "CLEAR_SELECTION": "Nettoyer",
     "ASSIGN_AGENT_CONFIRMATION_LABEL": "Êtes-vous sûr de vouloir assigner {n} conversation à {agentName}? | Êtes-vous sûr de vouloir assigner {n} conversations à {agentName}?",
