@@ -470,7 +470,7 @@
       "IMPORTED_COUNT": "{count} importé",
       "VIEW": "Voir l'import",
       "NAME": "Nom",
-      "TYPE": "Type de texte",
+        "TYPE": "Type",
       "STATUS": "État",
       "IMPORTED": "Importé",
       "CREATED": "Créé",

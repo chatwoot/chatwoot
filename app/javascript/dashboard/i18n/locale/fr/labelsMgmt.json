@@ -15,7 +15,7 @@
       "DESC": "Les étiquettes vous permettent de grouper les conversations ensemble.",
       "TABLE_HEADER": {
         "NAME": "Nom",
-        "DESCRIPTION": "Libellé",
+        "DESCRIPTION": "Description",
         "COLOR": "Couleur",
         "ACTION": "Actions"
       }
@@ -29,7 +29,7 @@
         "VALID_ERROR": "Seuls les caractères alphabétiques, les chiffres, les traits d'union et les tirets bas sont autorisés"
       },
       "DESCRIPTION": {
-        "LABEL": "Libellé",
+        "LABEL": "Description",
         "PLACEHOLDER": "Description de l'étiquette"
       },
       "COLOR": {

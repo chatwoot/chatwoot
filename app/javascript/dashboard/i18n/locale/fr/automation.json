@@ -19,7 +19,7 @@
           "ERROR": "Le nom est requis"
         },
         "DESC": {
-          "LABEL": "Libellé",
+          "LABEL": "Description",
           "PLACEHOLDER": "Entrez la description de la règle",
           "ERROR": "La description est requise"
         },

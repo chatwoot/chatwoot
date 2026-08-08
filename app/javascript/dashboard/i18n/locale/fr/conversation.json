@@ -331,7 +331,7 @@
         "DESCRIPTION": "Vous avez repéré un problème dans cette réponse générée par l’IA ? Expliquez-nous ce qui s’est passé afin que notre équipe puisse l’examiner et améliorer la précision de Captain.",
         "PROBLEM_TYPE": "Type de problème",
         "PROBLEM_TYPE_PLACEHOLDER": "Sélectionnez un type de problème",
-        "DESCRIPTION_LABEL": "Libellé",
+        "DESCRIPTION_LABEL": "Description",
         "DESCRIPTION_PLACEHOLDER": "Décrire le problème en détail",
         "SUBMIT": "Rapporter",
         "SUCCESS": "Merci pour votre rapport. Notre équipe va y jeter un œil.",
@@ -347,7 +347,7 @@
     },
     "SIDEBAR": {
       "CONTACT": "Contact",
-      "COPILOT": "Copilote"
+      "COPILOT": "Copilot"
     },
     "VOICE_WIDGET": {
       "INCOMING_CALL": "Appel entrant",

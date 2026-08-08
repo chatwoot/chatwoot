@@ -32,7 +32,7 @@
           "ERROR": "Le nom est requis"
         },
         "DESC": {
-          "LABEL": "Libellé",
+          "LABEL": "Description",
           "PLACEHOLDER": "Entrez la description de l'attribut personnalisé",
           "ERROR": "La description est requise"
         },
@@ -42,7 +42,7 @@
           "ERROR": "Le modèle est requis"
         },
         "TYPE": {
-          "LABEL": "Type de texte",
+          "LABEL": "Type",
           "PLACEHOLDER": "Veuillez sélectionner un type",
           "ERROR": "Le type est requis",
           "LIST": {
@@ -115,8 +115,8 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nom",
-        "DESCRIPTION": "Libellé",
-        "TYPE": "Type de texte",
+        "DESCRIPTION": "Description",
+        "TYPE": "Type",
         "KEY": "Clé"
       },
       "BUTTONS": {

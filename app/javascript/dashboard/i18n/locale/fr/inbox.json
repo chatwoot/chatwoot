@@ -47,7 +47,7 @@
       "DELETE": "Supprimer",
       "MARK_ALL_READ": "Tout marquer comme lu",
       "DELETE_ALL": "Tout supprimer",
-      "DELETE_ALL_READ": "Supprimer toutes les lectures"
+      "DELETE_ALL_READ": "Supprimer toutes les notifications lues"
     },
     "DISPLAY_MENU": {
       "SORT": "Trier",
@@ -80,7 +80,7 @@
       "LOADING_FACEBOOK": "Chargement du SDK Facebook...",
       "SUCCESS": "WhatsApp s'est reconnecté avec succès",
       "ERROR": "Échec de la reconnexion de WhatsApp. Veuillez réessayer.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp ID n'est pas configuré. Veuillez contacter votre administrateur.",
+      "WHATSAPP_APP_ID_MISSING": "L'ID de l'application WhatsApp n'est pas configuré. Veuillez contacter votre administrateur.",
       "WHATSAPP_CONFIG_ID_MISSING": "L'ID de configuration WhatsApp n'est pas configuré. Veuillez contacter votre administrateur.",
       "CONFIGURATION_ERROR": "Une erreur de configuration s'est produite lors de la réautorisation.",
       "FACEBOOK_LOAD_ERROR": "Impossible de charger le SDK Facebook. Veuillez réessayer.",

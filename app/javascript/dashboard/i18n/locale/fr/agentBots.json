@@ -90,7 +90,7 @@
         "REQUIRED": "Le nom du bot est requis"
       },
       "DESCRIPTION": {
-        "LABEL": "Libellé",
+        "LABEL": "Description",
         "PLACEHOLDER": "Que fait ce bot ?"
       },
       "WEBHOOK_URL": {

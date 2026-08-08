@@ -318,7 +318,7 @@
             "REQUIRED_ERROR": "Le titre est requis"
           },
           "DESCRIPTION": {
-            "LABEL": "Libellé",
+            "LABEL": "Description",
             "PLACEHOLDER": "Entrez la description"
           },
           "TEAM": {
@@ -481,7 +481,7 @@
       "EMPTY_LIST": "Aucun assistant trouvé, veuillez en créer un pour commencer"
     },
     "COPILOT": {
-      "TITLE": "Copilote",
+      "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Essayez ces instructions",
       "PANEL_TITLE": "Commencez avec Copilot",
       "KICK_OFF_MESSAGE": "Besoin d’un résumé rapide, de consulter les conversations passées ou de rédiger une meilleure réponse ? Copilot est là pour accélérer les choses.",
@@ -577,7 +577,7 @@
           "ERROR": "Le nom est requis"
         },
         "DESCRIPTION": {
-          "LABEL": "Libellé",
+          "LABEL": "Description",
           "PLACEHOLDER": "Entrez la description de l'assistant",
           "ERROR": "La description est requise"
         },
@@ -775,7 +775,7 @@
                 "ERROR": "Le nom du scénario est requis"
               },
               "DESCRIPTION": {
-                "LABEL": "Libellé",
+                "LABEL": "Description",
                 "PLACEHOLDER": "Décrivez comment et où sera utilisé ce scénario",
                 "ERROR": "La description du scénario est requise"
               },
@@ -1013,7 +1013,7 @@
           "MAX_LENGTH_ERROR": "Le nom de l’outil doit comporter au maximum {max} caractères"
         },
         "DESCRIPTION": {
-          "LABEL": "Libellé",
+          "LABEL": "Description",
           "PLACEHOLDER": "Recherche les détails de la commande par ID de la commande"
         },
         "HTTP_METHOD": {
@@ -1054,7 +1054,7 @@
           "PLACEHOLDER": "Nom du paramètre (par exemple, order_id)"
         },
         "PARAM_TYPE": {
-          "PLACEHOLDER": "Type de texte"
+          "PLACEHOLDER": "Type"
         },
         "PARAM_TYPES": {
           "STRING": "Chaîne de caractères",

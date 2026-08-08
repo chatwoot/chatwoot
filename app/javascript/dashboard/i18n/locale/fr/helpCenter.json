@@ -186,7 +186,7 @@
           "NEW_CATEGORY": "Nouvelle catégorie",
           "TABLE": {
             "NAME": "Nom",
-            "DESCRIPTION": "Libellé",
+            "DESCRIPTION": "Description",
             "LOCALE": "Langue",
             "ARTICLE_COUNT": "Nb d'articles",
             "ACTION_BUTTON": {
@@ -429,7 +429,7 @@
           "ERROR": "Le Slug est requis"
         },
         "DESCRIPTION": {
-          "LABEL": "Libellé",
+          "LABEL": "Description",
           "PLACEHOLDER": "Donner une courte description de la catégorie.",
           "ERROR": "La description est requise"
         },
@@ -460,7 +460,7 @@
           "ERROR": "Le Slug est requis"
         },
         "DESCRIPTION": {
-          "LABEL": "Libellé",
+          "LABEL": "Description",
           "PLACEHOLDER": "Donner une courte description de la catégorie.",
           "ERROR": "La description est requise"
         },
@@ -696,7 +696,7 @@
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
-            "LABEL": "Libellé",
+            "LABEL": "Description",
             "PLACEHOLDER": "Donner une courte description de la catégorie.",
             "ERROR": "La description est requise"
           }

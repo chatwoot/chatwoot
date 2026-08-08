@@ -27,7 +27,7 @@
       "DESC": "Les rôles personnalisés sont des rôles qui sont créés par le propriétaire ou l'administrateur du compte. Ces rôles peuvent être assignés aux agents pour définir leur accès et leurs autorisations dans le compte. Des rôles personnalisés peuvent être créés avec des autorisations et des niveaux d'accès spécifiques pour répondre aux exigences de l'organisation.",
       "TABLE_HEADER": {
         "NAME": "Nom",
-        "DESCRIPTION": "Libellé",
+        "DESCRIPTION": "Description",
         "PERMISSIONS": "Permissions",
         "ACTIONS": "Actions"
       }
@@ -47,7 +47,7 @@
         "ERROR": "Le nom est requis."
       },
       "DESCRIPTION": {
-        "LABEL": "Libellé",
+        "LABEL": "Description",
         "PLACEHOLDER": "Veuillez saisir une description.",
         "ERROR": "La description est requise."
       },

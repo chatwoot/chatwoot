@@ -1084,7 +1084,7 @@
         "LABEL": "Étiquettes",
         "PLACE_HOLDER": "Espace réservé",
         "KEY": "Clé",
-        "TYPE": "Type de texte",
+          "TYPE": "Type",
         "REQUIRED": "Obligatoire"
       },
       "ENABLE": {
