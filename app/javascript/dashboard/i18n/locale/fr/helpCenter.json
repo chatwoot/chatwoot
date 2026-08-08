@@ -984,14 +984,14 @@
         "GTM": {
           "TITLE": "Google Tag Manager",
           "DESCRIPTION": "Ajoutez des balises d'analyse et de marketing en connectant votre conteneur Tag Manager.",
-          "PLACEHOLDER": "GTM-XXXXX",
+          "PLACEHOLDER": "GTM-XXXXXXX",
           "HELP": "Trouvez ceci dans votre espace de travail Google Tag Manager. Laissez vide pour le désactiver.",
           "INVALID": "Entrez un identifiant de conteneur valide, par exemple GTM-XXXXXXX."
         },
         "GA4": {
           "TITLE": "Google Analytics 4",
           "DESCRIPTION": "Mesurez le trafic et le comportement des visiteurs dans votre centre d'aide avec Google Analytics.",
-          "PLACEHOLDER": "G-XXXXXXXX",
+          "PLACEHOLDER": "G-XXXXXXXXXX",
           "HELP": "Trouvez l'ID de mesure sous Admin → Flux de données dans Google Analytics. Laissez vide pour désactiver.",
           "INVALID": "Entrez un ID de mesure valide, par exemple G-XXXXXXXXXXXX."
         },

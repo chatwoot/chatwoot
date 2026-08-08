@@ -1146,7 +1146,7 @@
         "HELPER_NOTE": "Vérifiez ce message avant de le soumettre afin d’améliorer son adéquation à la catégorie Utilitaire. Le système crée un modèle CSAT dédié avec des boutons de signalement et le soumet dans cette catégorie ; Meta peut toutefois le reclasser en Marketing selon son contenu.",
         "RESULT_LABEL": "Prédiction de la catégorie Meta",
         "GUIDANCE_NOTE": "Ce contrôle est fourni à titre indicatif et ne garantit pas l’approbation de Meta.",
-        "SUGGESTION_LABEL": "Réécriture suggérée de la sécurité des utilitaires",
+        "SUGGESTION_LABEL": "Réécriture suggérée compatible avec la catégorie Utilitaire",
         "APPLY": "Utiliser cette réécriture",
         "ERROR_MESSAGE": "Impossible d'analyser le message. Veuillez réessayer.",
         "CLASSIFICATION": {

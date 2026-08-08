@@ -648,7 +648,7 @@
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Politique de confidentialité",
+        "POLICY": "Politique SLA",
         "CONVERSATION": "Conversation",
         "AGENT": "Agent"
       },
