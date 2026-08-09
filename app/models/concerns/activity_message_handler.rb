@@ -119,7 +119,7 @@ module ActivityMessageHandler
   def create_mute_change_activity(change_type)
     return unless Current.user
 
-    content = I18n.t("conversations.activity.#{change_type}", user_name: Current.user.name)
+    content = I18n.with_locale(account.locale) { I18n.t("conversations.activity.#{change_type}", user_name: Current.user.name) }
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 end
