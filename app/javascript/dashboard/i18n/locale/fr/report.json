@@ -299,7 +299,7 @@
     "DOWNLOAD_INBOX_REPORTS": "Télécharger les rapports de la boîte de réception",
     "FILTER_DROPDOWN_LABEL": "Sélectionner la boîte de réception",
     "ALL_INBOXES": "Toutes les boîtes de réception",
-    "SEARCH_INBOX": "Rechercher dans la boîte de réception",
+    "SEARCH_INBOX": "Rechercher une boîte de réception",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
         "INBOXES": "Rechercher dans les boîtes de réception"

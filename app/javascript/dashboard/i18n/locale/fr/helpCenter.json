@@ -812,7 +812,7 @@
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Modifications non publiées",
-        "DESCRIPTION": "Cet article a des ébauches de modifications qui ne sont pas encore en cours. Les appliquer avant de changer le statut, ou les supprimer ?",
+        "DESCRIPTION": "Cet article contient des modifications de brouillon qui ne sont pas encore publiées. Les appliquer avant de changer le statut, ou les annuler ?",
         "APPLY": "Appliquer les modifications",
         "DISCARD": "Annuler les modifications"
       },
