@@ -86,7 +86,7 @@
       "SOURCES": "Wissensdatenbank",
       "SOURCES_SUMMARY": "{count} Ergebnis | {count} Ergebnisse",
       "MODEL": "Mit {model} erstellt",
-      "CREDITS": "Credits: {credits}"
+      "CREDITS": "Guthaben: {credits}"
     },
     "CARD": {
       "SHOW_LABELS": "Labels anzeigen",
