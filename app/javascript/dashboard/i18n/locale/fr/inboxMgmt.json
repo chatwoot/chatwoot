@@ -943,7 +943,7 @@
       "WHATSAPP_MANUAL_MIGRATION": {
         "BANNER": {
           "TITLE": "Configuration manuelle recommandée",
-          "DESCRIPTION": "Cette boîte de réception utilise l’application Meta partagée servant à l’inscription intégrée, qui est concernée par les récentes restrictions de Meta. Pour éviter des problèmes similaires à l’avenir, nous vous recommandons de la reconnecter avec votre propre application Meta.",
+          "DESCRIPTION": "Cette boîte de réception utilise l’application Meta partagée pour WhatsApp Embedded Signup, qui est concernée par les récentes restrictions de Meta. Pour éviter des problèmes similaires à l’avenir, nous vous recommandons de la reconnecter avec votre propre application Meta.",
           "START": "Démarrer la migration manuelle",
           "GUIDE": "Voir le guide"
         },

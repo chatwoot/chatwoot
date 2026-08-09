@@ -40,7 +40,7 @@
       "TYPE": "Tipo de contenido",
       "CATEGORY": "Categoría",
       "LANGUAGE": "Idioma",
-      "INBOXES": "Entradas",
+      "INBOXES": "Bandejas de entrada",
       "LAST_SYNC_ATTEMPT": "Último intento de sincronización"
     }
   }
