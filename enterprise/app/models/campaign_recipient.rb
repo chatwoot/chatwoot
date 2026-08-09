@@ -74,7 +74,7 @@ class CampaignRecipient < ApplicationRecord
     {
       code: error[:code],
       title: error[:title],
-      message: error[:message] || error[:error_data]&.dig(:details),
+      message: error[:error_user_msg].presence || error[:error_data]&.dig(:details).presence || error[:message].presence,
       timestamp: status[:timestamp]
     }
   end

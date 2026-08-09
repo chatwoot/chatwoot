@@ -23,5 +23,34 @@ RSpec.describe CampaignRecipient do
         read_at: read_at
       )
     end
+
+    it 'stores nested provider details when the user-facing error message is blank' do
+      recipient = described_class.create!(account: account, campaign: campaign, inbox: inbox, contact: contact,
+                                          status: :sent, source_id: 'wamid.failed')
+
+      recipient.update_from_whatsapp_status!(
+        status: 'failed',
+        timestamp: 1_700_000_800,
+        errors: [{ code: 131_044, error_user_msg: '', message: 'Generic error',
+                   error_data: { details: 'Business eligibility check failed' } }]
+      )
+
+      expect(recipient.reload).to have_attributes(
+        status: 'failed',
+        error_message: 'Business eligibility check failed'
+      )
+    end
+
+    it 'does not store a blank provider error message' do
+      recipient = described_class.create!(account: account, campaign: campaign, inbox: inbox, contact: contact,
+                                          status: :sent, source_id: 'wamid.blank-error')
+
+      recipient.update_from_whatsapp_status!(
+        status: 'failed',
+        errors: [{ error_user_msg: '', message: '', error_data: { details: '' } }]
+      )
+
+      expect(recipient.reload).to have_attributes(status: 'failed', error_message: nil)
+    end
   end
 end
