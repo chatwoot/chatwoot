@@ -44,14 +44,16 @@ class CampaignRecipient < ApplicationRecord
   def update_from_whatsapp_status!(status)
     normalized_status = status[:status].to_s
     return unless %w[delivered read failed].include?(normalized_status)
-    return if status_downgrade?(normalized_status)
 
-    return mark_failed!(whatsapp_error(status)) if normalized_status == 'failed'
+    with_lock do
+      next if status_downgrade?(normalized_status)
+      next mark_failed!(whatsapp_error(status)) if normalized_status == 'failed'
 
-    update!(
-      status: normalized_status,
-      "#{normalized_status}_at": event_time(status[:timestamp])
-    )
+      update!(
+        status: normalized_status,
+        "#{normalized_status}_at": event_time(status[:timestamp])
+      )
+    end
   end
 
   private
