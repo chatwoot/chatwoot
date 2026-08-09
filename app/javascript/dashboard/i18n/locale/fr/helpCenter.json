@@ -595,7 +595,7 @@
         }
       },
       "BULK_TRANSLATE": {
-        "TITLE": "Traduire l'article | Traduire les articles {count}",
+        "TITLE": "Traduire l'article | Traduire {count} articles",
         "DESCRIPTION": "Traduire l'article sélectionné dans une autre langue. | Traduire les articles sélectionnés dans une autre langue.",
         "LOCALE_LABEL": "Langue cible",
         "LOCALE_PLACEHOLDER": "Sélectionnez une langue",
@@ -608,7 +608,7 @@
         "CLEAR_SELECTION": "Effacer la sélection",
         "TRANSLATE_BUTTON": "Traduire",
         "CONFIRM_OVERWRITE": "Écraser et traduire",
-        "DUPLICATE_WARNING": "Une traduction existe déjà pour cet article dans la langue sélectionnée. | Des traductions existent déjà pour les articles {count} dans la langue sélectionnée.",
+        "DUPLICATE_WARNING": "Une traduction existe déjà pour cet article dans la langue sélectionnée. | Des traductions existent déjà pour {count} articles dans la langue sélectionnée.",
         "DUPLICATE_CONFIRM_HINT": "Cliquez à nouveau sur traduire pour écraser la traduction existante.",
         "API": {
           "SUCCESS_MESSAGE": "Traduction en cours. L'article apparaîtra comme un brouillon une fois prêt.",
