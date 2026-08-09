@@ -303,7 +303,7 @@
           "TITLE": "Schnelleinrichtung mit Meta",
           "DESC": "Nutze die Schnelleinrichtung mit Meta, um eine neue Nummer oder eine bestehende Nummer aus der WhatsApp Business app zu verbinden. Du wirst zu Meta weitergeleitet, um dich bei deinem WhatsApp Business Account anzumelden. Mit Administratorzugriff lässt sich die Einrichtung reibungslos und einfach durchführen.",
           "BENEFITS": {
-            "TITLE": "Benefits of Embedded Signup:",
+            "TITLE": "Vorteile von WhatsApp Embedded Signup:",
             "EASY_SETUP": "No manual configuration required",
             "SECURE_AUTH": "Secure OAuth based authentication",
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
@@ -707,7 +707,7 @@
       "ERRORS": {
         "AUTHORIZATION": {
           "EMBEDDED_TITLE": "Die WhatsApp-Verbindung muss aktualisiert werden",
-          "EMBEDDED_DESCRIPTION": "Meta konnte die Verbindung für diesen Posteingang nicht validieren. Gehe zu „Konfiguration“, um sie über Embedded Signup neu zu konfigurieren.",
+          "EMBEDDED_DESCRIPTION": "Meta konnte die Verbindung für diesen Posteingang nicht validieren. Gehe zu „Konfiguration“, um sie über WhatsApp Embedded Signup neu zu konfigurieren.",
           "MANUAL_TITLE": "Das WhatsApp-Zugriffstoken muss überprüft werden",
           "MANUAL_DESCRIPTION": "Meta konnte das Zugriffstoken für diesen Posteingang nicht validieren. Gehe zu „Konfiguration“, um es zu überprüfen oder zu ersetzen."
         },
@@ -911,7 +911,7 @@
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "Das Business Management Token konnte nicht aktualisiert werden. Überprüfe seine WhatsApp Business Management-Berechtigung und den Kontozugriff und versuche es erneut.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK": "So erzeugst du ein WhatsApp Business Management Token",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Dieser Posteingang ist über WhatsApp Embedded Signup verbunden.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
       "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
       "WHATSAPP_MANUAL_TRANSFER_TITLE": "Zur manuellen Einrichtung wechseln",
@@ -924,7 +924,7 @@
       "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "Der Posteingang wurde erfolgreich auf die manuelle Einrichtung umgestellt.",
       "WHATSAPP_MANUAL_TRANSFER_ERROR": "Der Wechsel zur manuellen Einrichtung ist fehlgeschlagen. Überprüfe die Anmeldedaten und versuche es erneut.",
       "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
-      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_SUBHEADER": "Wechsle zu WhatsApp Embedded Signup, um die Verwaltung zu vereinfachen.",
       "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
       "WHATSAPP_CONNECT_BUTTON": "Verbinden",
       "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
@@ -943,7 +943,7 @@
       "WHATSAPP_MANUAL_MIGRATION": {
         "BANNER": {
           "TITLE": "Manuelle Einrichtung empfohlen",
-          "DESCRIPTION": "Dieser Posteingang ist über die gemeinsam genutzte Meta-App für Embedded Signup verbunden, die von den jüngsten Einschränkungen seitens Meta betroffen ist. Um ähnliche Probleme künftig zu vermeiden, empfehlen wir, ihn mit deiner eigenen Meta-App neu zu verbinden.",
+          "DESCRIPTION": "Dieser Posteingang ist über die gemeinsam genutzte Meta-App für WhatsApp Embedded Signup verbunden, die von den jüngsten Einschränkungen seitens Meta betroffen ist. Um ähnliche Probleme künftig zu vermeiden, empfehlen wir, ihn mit deiner eigenen Meta-App neu zu verbinden.",
           "START": "Manuelle Migration starten",
           "GUIDE": "Anleitung ansehen"
         },
@@ -952,7 +952,7 @@
           "TITLE": "WhatsApp-Posteingang neu verbinden",
           "CLOSE": "Schließen",
           "ACTION_REQUIRED_TITLE": "Mit deiner eigenen Meta-App neu verbinden",
-          "ACTION_REQUIRED_DESCRIPTION": "Posteingänge, die über deine eigene Meta-App verbunden sind, werden durch Einschränkungen der gemeinsam genutzten Embedded-Signup-App nicht beeinträchtigt. Dieser geführte Ablauf aktualisiert die WhatsApp API-Verbindung, ohne einen neuen Posteingang zu erstellen.",
+          "ACTION_REQUIRED_DESCRIPTION": "Posteingänge, die über deine eigene Meta-App verbunden sind, werden durch Einschränkungen der gemeinsam genutzten App für WhatsApp Embedded Signup nicht beeinträchtigt. Dieser geführte Ablauf aktualisiert die WhatsApp API-Verbindung, ohne einen neuen Posteingang zu erstellen.",
           "GUIDE_LINK": "Anleitung zur manuellen Einrichtung öffnen",
           "PRESERVED_TITLE": "Bleibt erhalten",
           "PRESERVED_DESCRIPTION": "Unterhaltungen, Kontakte, Mitwirkende, Routing, Geschäftszeiten und Posteingangseinstellungen.",
@@ -1006,7 +1006,7 @@
       },
       "WHATSAPP_CALLING_ENABLED": {
         "LABEL": "Sprachanrufe aktivieren",
-        "DESCRIPTION": "Erlaube Agenten, über diesen Posteingang WhatsApp-Sprachanrufe zu starten und anzunehmen. Nur für WhatsApp Cloud-Kanäle verfügbar, die per Embedded Signup verbunden wurden und von Meta die Anrufberechtigung erhalten haben."
+        "DESCRIPTION": "Erlaube Agenten, über diesen Posteingang WhatsApp-Sprachanrufe zu starten und anzunehmen. Nur für WhatsApp Cloud-Kanäle verfügbar, die per WhatsApp Embedded Signup verbunden wurden und von Meta die Anrufberechtigung erhalten haben."
       },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Pre Chat Einstellungen aktualisieren"
     },

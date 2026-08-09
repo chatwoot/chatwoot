@@ -514,7 +514,7 @@
       "PAYWALL": {
         "TITLE": "Mettre à niveau pour ajouter des notes de révision",
         "AVAILABLE_ON": "Les notes de révision ne sont disponibles que dans les plans Business et Enterprise.",
-        "UPGRADE_PROMPT": "Ajoutez un contexte interne à chaque réponse CSAT avec des notes de revue. Capturez ce qui s'est réellement passé, repérez les patrons plus rapidement et prenez de meilleures décisions à partir de vos commentaires.",
+        "UPGRADE_PROMPT": "Ajoutez un contexte interne à chaque réponse CSAT avec des notes de revue. Capturez ce qui s'est réellement passé, repérez les tendances plus rapidement et prenez de meilleures décisions à partir de vos commentaires.",
         "UPGRADE_NOW": "Mettre à niveau maintenant",
         "CANCEL_ANYTIME": "Vous pouvez modifier ou annuler votre forfait à tout moment"
       }
