@@ -46,6 +46,11 @@ class CampaignRecipient < ApplicationRecord
     return unless %w[delivered read failed].include?(normalized_status)
 
     with_lock do
+      if normalized_status == 'delivered' && read?
+        update!(delivered_at: event_time(status[:timestamp])) if delivered_at.blank?
+        next
+      end
+
       next if status_downgrade?(normalized_status)
       next mark_failed!(whatsapp_error(status)) if normalized_status == 'failed'
 
