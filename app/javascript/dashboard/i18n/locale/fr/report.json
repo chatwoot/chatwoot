@@ -536,7 +536,7 @@
         "TOOLTIP": "Nombre total de conversations résolues par le bot / nombre total de conversations gérées par le bot * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Taux de remise en main",
+        "LABEL": "Taux de transfert aux agents",
         "TOOLTIP": "Nombre total de conversations transmises aux agents / Nombre total de conversations gérées par le bot * 100"
       }
     }

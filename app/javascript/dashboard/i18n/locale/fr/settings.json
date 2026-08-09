@@ -701,7 +701,7 @@
       "PAYWALL": {
         "TITLE": "Mettre à niveau pour activer SAML SSO",
         "AVAILABLE_ON": "La fonctionnalité SAML SSO n'est disponible que dans les plans Enterprise.",
-        "UPGRADE_PROMPT": "Mettez à niveau votre forfait pour avoir accès à SAML unique et à d'autres fonctionnalités avancées.",
+        "UPGRADE_PROMPT": "Mettez à niveau votre forfait pour avoir accès à l’authentification unique SAML et à d’autres fonctionnalités avancées.",
         "UPGRADE_NOW": "Mettre à niveau maintenant",
         "CANCEL_ANYTIME": "Vous pouvez modifier ou annuler votre forfait à tout moment"
       },
