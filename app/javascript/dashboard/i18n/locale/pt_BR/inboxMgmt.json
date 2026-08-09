@@ -303,7 +303,7 @@
           "TITLE": "Configuração rápida com a Meta",
           "DESC": "Use a configuração rápida com a Meta para conectar um novo número ou um número existente do aplicativo WhatsApp Business. Você será redirecionado para a Meta para acessar sua conta do WhatsApp Business. Ter acesso de administrador ajudará a tornar a configuração mais simples e rápida.",
           "BENEFITS": {
-            "TITLE": "Benefícios do Cadastro Incorporado:",
+            "TITLE": "Benefícios do WhatsApp Embedded Signup:",
             "EASY_SETUP": "Nenhuma configuração manual é necessária",
             "SECURE_AUTH": "Autenticação segura baseada em OAuth",
             "AUTO_CONFIG": "Configuração automática de webhook e número de telefone"
@@ -910,12 +910,12 @@
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS": "Token de gerenciamento de negócios do WhatsApp atualizado com sucesso.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "Não foi possível atualizar o token de gerenciamento de negócios. Verifique se ele possui a permissão WhatsApp Business Management e acesso à conta do WhatsApp Business e tente novamente.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK": "Saiba como gerar um token de gerenciamento do WhatsApp Business",
-      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "Inscrição incorporada do WhatsApp",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Esta caixa de entrada está conectada através da inscrição incorporada do WhatsApp.",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Esta caixa de entrada está conectada por meio do WhatsApp Embedded Signup.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "Você pode reconfigurar esta caixa de entrada para atualizar suas configurações do WhatsApp Business.",
       "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigurar",
       "WHATSAPP_MANUAL_TRANSFER_TITLE": "Alternar para Configuração Manual",
-      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "Esta caixa de entrada foi conectada por meio do cadastro incorporado do WhatsApp, que não é mais compatível. Informe as credenciais da API do WhatsApp Cloud da sua própria aplicação da Meta para migrar esta caixa de entrada para uma configuração manual. Antes de realizar a migração, configure o webhook na sua aplicação da Meta utilizando o token de verificação acima.",
+      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "Esta caixa de entrada foi conectada por meio do WhatsApp Embedded Signup, que não é mais compatível. Informe as credenciais da API do WhatsApp Cloud da sua própria aplicação da Meta para migrar esta caixa de entrada para uma configuração manual. Antes de realizar a migração, configure o webhook na sua aplicação da Meta utilizando o token de verificação acima.",
       "WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL": "ID do Número de Telefone",
       "WHATSAPP_MANUAL_TRANSFER_BUSINESS_ACCOUNT_ID_LABEL": "ID da conta do WhatsApp Business",
       "WHATSAPP_MANUAL_TRANSFER_API_KEY_LABEL": "Chave API",
@@ -924,7 +924,7 @@
       "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "Caixa de entrada migrada para configuração manual com sucesso.",
       "WHATSAPP_MANUAL_TRANSFER_ERROR": "Não foi possível migrar para a configuração manual. Verifique as credenciais e tente novamente.",
       "WHATSAPP_CONNECT_TITLE": "Conectar ao WhatsApp Business",
-      "WHATSAPP_CONNECT_SUBHEADER": "Atualize para o cadastro integrado do WhatsApp para um gerenciamento mais fácil.",
+      "WHATSAPP_CONNECT_SUBHEADER": "Atualize para o WhatsApp Embedded Signup para facilitar o gerenciamento.",
       "WHATSAPP_CONNECT_DESCRIPTION": "Conecte esta caixa de entrada ao WhatsApp Business para ter recursos aprimorados e um gerenciamento mais fácil.",
       "WHATSAPP_CONNECT_BUTTON": "Conectar",
       "WHATSAPP_CONNECT_SUCCESS": "Conectado com sucesso ao WhatsApp Business!",
@@ -943,7 +943,7 @@
       "WHATSAPP_MANUAL_MIGRATION": {
         "BANNER": {
           "TITLE": "Configuração manual recomendada",
-          "DESCRIPTION": "Esta caixa de entrada está conectada por meio da aplicação compartilhada da Meta utilizada no cadastro incorporado, que foi afetada por restrições recentes da Meta. Para evitar problemas semelhantes no futuro, recomendamos reconectá-la utilizando sua própria aplicação da Meta.",
+          "DESCRIPTION": "Esta caixa de entrada está conectada por meio da aplicação compartilhada da Meta utilizada pelo WhatsApp Embedded Signup, que foi afetada por restrições recentes da Meta. Para evitar problemas semelhantes no futuro, recomendamos reconectá-la utilizando sua própria aplicação da Meta.",
           "START": "Iniciar migração manual",
           "GUIDE": "Ver guia"
         },
@@ -952,7 +952,7 @@
           "TITLE": "Reconectar caixa de entrada do WhatsApp",
           "CLOSE": "Fechar",
           "ACTION_REQUIRED_TITLE": "Reconectar com sua própria aplicação da Meta",
-          "ACTION_REQUIRED_DESCRIPTION": "As caixas de entrada conectadas por meio da sua própria aplicação da Meta não são afetadas pelas restrições da aplicação compartilhada utilizada no cadastro incorporado. Este fluxo guiado atualiza a conexão com a API do WhatsApp sem criar uma nova caixa de entrada.",
+          "ACTION_REQUIRED_DESCRIPTION": "As caixas de entrada conectadas por meio da sua própria aplicação da Meta não são afetadas pelas restrições da aplicação compartilhada do WhatsApp Embedded Signup. Este fluxo guiado atualiza a conexão com a API do WhatsApp sem criar uma nova caixa de entrada.",
           "GUIDE_LINK": "Abrir o guia de configuração manual",
           "PRESERVED_TITLE": "Preservado",
           "PRESERVED_DESCRIPTION": "Conversas, contatos, colaboradores, roteamento, horário de atendimento e configurações da caixa de entrada.",
@@ -1006,7 +1006,7 @@
       },
       "WHATSAPP_CALLING_ENABLED": {
         "LABEL": "Ativar chamadas de voz",
-        "DESCRIPTION": "Permita que os atendentes iniciem e recebam chamadas de voz do WhatsApp nesta caixa de entrada. Disponível apenas para canais do WhatsApp Cloud com cadastro incorporado e permissão de chamadas concedida pela Meta."
+        "DESCRIPTION": "Permita que os atendentes iniciem e recebam chamadas de voz do WhatsApp nesta caixa de entrada. Disponível apenas para canais do WhatsApp Cloud configurados por meio do WhatsApp Embedded Signup e com permissão de chamadas concedida pela Meta."
       },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat"
     },

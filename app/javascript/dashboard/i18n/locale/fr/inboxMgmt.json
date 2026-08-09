@@ -303,7 +303,7 @@
           "TITLE": "Configuration rapide avec Meta",
           "DESC": "Utilisez la configuration rapide avec Meta pour connecter un nouveau numéro ou un numéro existant de l’application WhatsApp Business. Vous serez redirigé vers Meta pour vous connecter à votre compte WhatsApp Business. Un accès administrateur facilitera la configuration.",
           "BENEFITS": {
-            "TITLE": "Avantages de l'inscription intégrée :",
+            "TITLE": "Avantages de WhatsApp Embedded Signup :",
             "EASY_SETUP": "Aucune configuration manuelle requise",
             "SECURE_AUTH": "Authentification sécurisée basée sur OAuth",
             "AUTO_CONFIG": "Configuration automatique du webhook et du numéro de téléphone"
@@ -1006,7 +1006,7 @@
       },
       "WHATSAPP_CALLING_ENABLED": {
         "LABEL": "Activer les appels vocaux",
-        "DESCRIPTION": "Autorisez les agents à passer et recevoir des appels vocaux WhatsApp dans cette boîte de réception. Disponible uniquement pour les canaux WhatsApp Cloud configurés par inscription intégrée et auxquels Meta a accordé l’autorisation d’appel."
+        "DESCRIPTION": "Autorisez les agents à passer et recevoir des appels vocaux WhatsApp dans cette boîte de réception. Disponible uniquement pour les canaux WhatsApp Cloud configurés via WhatsApp Embedded Signup et auxquels Meta a accordé l’autorisation d’appel."
       },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Mettre à jour les paramètres du formulaire de pré-chat"
     },

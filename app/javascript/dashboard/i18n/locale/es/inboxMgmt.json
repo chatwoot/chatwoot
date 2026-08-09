@@ -303,7 +303,7 @@
           "TITLE": "Configuración rápida con Meta",
           "DESC": "Usa la configuración rápida con Meta para conectar un número nuevo o uno existente de la aplicación WhatsApp Business. Se te redirigirá a Meta para iniciar sesión en tu cuenta de WhatsApp Business. Disponer de acceso de administrador facilitará la configuración.",
           "BENEFITS": {
-            "TITLE": "Benefits of Embedded Signup:",
+            "TITLE": "Ventajas de WhatsApp Embedded Signup:",
             "EASY_SETUP": "No manual configuration required",
             "SECURE_AUTH": "Secure OAuth based authentication",
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
@@ -943,7 +943,7 @@
       "WHATSAPP_MANUAL_MIGRATION": {
         "BANNER": {
           "TITLE": "Configuración manual recomendada",
-          "DESCRIPTION": "Esta bandeja de entrada se conecta a través de la aplicación Meta compartida utilizada para el registro incrustado, que las recientes restricciones Meta han afectado. Para evitar problemas similares en el futuro, recomendamos volver a conectarlo con tu propia aplicación Meta.",
+          "DESCRIPTION": "Esta bandeja de entrada se conecta a través de la aplicación Meta compartida utilizada para WhatsApp Embedded Signup, que se ha visto afectada por las recientes restricciones de Meta. Para evitar problemas similares en el futuro, recomendamos volver a conectarla con tu propia aplicación Meta.",
           "START": "Iniciar migración manual",
           "GUIDE": "Ver guía"
         },
@@ -952,7 +952,7 @@
           "TITLE": "Volver a conectar la bandeja de entrada de WhatsApp",
           "CLOSE": "Cerrar",
           "ACTION_REQUIRED_TITLE": "Volver a conectar con tu propia aplicación Meta",
-          "ACTION_REQUIRED_DESCRIPTION": "Las bandejas conectadas a través de tu propia aplicación Meta, no se ven afectadas por restricciones en la aplicación de registro compartida. Este flujo guiado actualiza la conexión API de WhatsApp sin crear una nueva bandeja de entrada.",
+          "ACTION_REQUIRED_DESCRIPTION": "Las bandejas conectadas a través de tu propia aplicación Meta no se ven afectadas por las restricciones de la aplicación compartida de WhatsApp Embedded Signup. Este flujo guiado actualiza la conexión API de WhatsApp sin crear una nueva bandeja de entrada.",
           "GUIDE_LINK": "Abrir la guía de configuración manual",
           "PRESERVED_TITLE": "Preservado",
           "PRESERVED_DESCRIPTION": "Conversaciones, contactos, colaboradores, enrutamiento, horas de trabajo y ajustes de bandeja de entrada.",
@@ -1006,7 +1006,7 @@
       },
       "WHATSAPP_CALLING_ENABLED": {
         "LABEL": "Habilitar llamadas de voz",
-        "DESCRIPTION": "Permitir a los agentes iniciar y recibir llamadas de voz de WhatsApp en esta bandeja de entrada. Disponible sólo en canales de registro embebido de WhatsApp Cloud con permiso de llamada concedido por Meta."
+        "DESCRIPTION": "Permitir a los agentes iniciar y recibir llamadas de voz de WhatsApp en esta bandeja de entrada. Disponible solo para canales de WhatsApp Cloud configurados mediante WhatsApp Embedded Signup y con permiso de llamada concedido por Meta."
       },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Actualizar configuración de Formulario de Chat"
     },
