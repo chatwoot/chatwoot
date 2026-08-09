@@ -10,10 +10,10 @@ class CreateCampaignRecipients < ActiveRecord::Migration[7.1]
 
   def create_campaign_recipients
     create_table :campaign_recipients do |t|
-      t.references :account, null: false, foreign_key: true
-      t.references :campaign, null: false, foreign_key: true
-      t.references :contact, null: false, foreign_key: true
-      t.references :inbox, null: false, foreign_key: true
+      t.references :account, null: false, foreign_key: { on_delete: :cascade }
+      t.references :campaign, null: false, foreign_key: { on_delete: :cascade }
+      t.references :contact, null: false, foreign_key: { on_delete: :cascade }
+      t.references :inbox, null: false, foreign_key: { on_delete: :cascade }
       t.string :source_id
       t.integer :status, null: false, default: 0
       t.string :error_code

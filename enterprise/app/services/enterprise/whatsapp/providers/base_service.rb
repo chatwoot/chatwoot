@@ -18,7 +18,7 @@ module Enterprise::Whatsapp::Providers::BaseService
     error = parsed_response.is_a?(Hash) ? parsed_response['error'] || {} : {}
     {
       code: error['code'],
-      title: error['title'],
+      title: error['error_user_title'].presence || error['title'],
       message: error['error_user_msg'] || error.dig('error_data', 'details') || error['message']
     }
   end

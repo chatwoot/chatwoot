@@ -1588,10 +1588,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_07_133000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "campaign_recipients", "accounts"
-  add_foreign_key "campaign_recipients", "campaigns"
-  add_foreign_key "campaign_recipients", "contacts"
-  add_foreign_key "campaign_recipients", "inboxes"
+  add_foreign_key "campaign_recipients", "accounts", on_delete: :cascade
+  add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
+  add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
+  add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
