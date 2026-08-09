@@ -722,7 +722,7 @@
       },
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
-          "LABEL": "Afficher le numéro de téléphone",
+          "LABEL": "Numéro de téléphone affiché",
           "TOOLTIP": "Numéro de téléphone affiché aux clients"
         },
         "VERIFIED_NAME": {
@@ -964,8 +964,8 @@
           "PHONE_NUMBER_ID": "ID du numéro de téléphone",
           "PHONE_NUMBER_PLACEHOLDER": "Entrez l'ID du numéro de téléphone",
           "PHONE_NUMBER_HELP": "L'ID unique de Meta pour le numéro WhatsApp connecté à cette boîte de réception.",
-          "DISPLAY_PHONE_NUMBER": "Afficher le numéro de téléphone",
-          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Entrez le numéro de téléphone de l'écran",
+          "DISPLAY_PHONE_NUMBER": "Numéro de téléphone affiché",
+          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Saisissez le numéro de téléphone affiché",
           "DISPLAY_PHONE_NUMBER_HELP": "Le numéro WhatsApp face au client. Cela ne peut pas être modifié pendant la migration.",
           "ACCESS_TOKEN": "Jeton d'accès permanent ou jeton utilisateur système",
           "ACCESS_TOKEN_PLACEHOLDER": "Coller le jeton d'accès",
@@ -1361,7 +1361,7 @@
       }
     },
     "CHANNELS": {
-      "MESSENGER": "Messager",
+      "MESSENGER": "Messenger",
       "WEB_WIDGET": "Site internet",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
