@@ -339,7 +339,7 @@
         },
         "API": {
           "ERROR_MESSAGE": "Nous n'avons pas pu enregistrer le canal WhatsApp",
-          "MANUAL_RESTRICTION_WARNING": "L’inscription intégrée WhatsApp est temporairement indisponible en raison d’un problème au niveau de l’API de Meta, et non de Chatwoot. La configuration manuelle fonctionne uniquement pour les numéros déjà connectés à l’API WhatsApp Cloud. Les numéros utilisant la coexistence avec l’application WhatsApp Business ne sont pas encore pris en charge dans ce parcours. Nous travaillons étroitement avec Meta pour résoudre le problème au plus vite. Merci de votre patience.",
+          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup est temporairement indisponible en raison d’un problème au niveau de l’API de Meta, et non de Chatwoot. La configuration manuelle fonctionne uniquement pour les numéros déjà connectés à l’API WhatsApp Cloud. Les numéros utilisant la coexistence avec l’application WhatsApp Business ne sont pas encore pris en charge dans ce parcours. Nous travaillons étroitement avec Meta pour résoudre le problème au plus vite. Merci de votre patience.",
           "STATUS_LINK": "Voir les mises à jour de statut"
         }
       },
@@ -886,7 +886,7 @@
       "HMAC_DESCRIPTION": "Pour valider l’identité de l’utilisateur, vous pouvez transmettre un `identifier_hash` pour chaque utilisateur. Vous pouvez générer un hachage HMAC SHA-256 à partir de l’`identifier` avec la clé affichée ici.",
       "HMAC_LINK_TO_DOCS": "Vous pouvez en lire plus ici.",
       "HMAC_MANDATORY_VERIFICATION": "Forcer la validation de l'identité de l'utilisateur",
-      "HMAC_MANDATORY_DESCRIPTION": "Si cette option est activée, les requêtes sans `identifier_hash` seront rejetées.",
+      "HMAC_MANDATORY_DESCRIPTION": "Si cette option est activée, les requêtes qui ne peuvent pas être vérifiées seront rejetées.",
       "INBOX_IDENTIFIER": "Identificateur de la boîte de réception",
       "INBOX_IDENTIFIER_SUB_TEXT": "Utilisez le jeton `inbox_identifier` affiché ici pour authentifier vos clients API.",
       "FORWARD_EMAIL_TITLE": "Transférer par e-mail",

@@ -886,7 +886,7 @@
       "HMAC_DESCRIPTION": "Um die Identität des Benutzers zu validieren, können Sie für jeden Benutzer einen `identifier_hash` übergeben. Sie können einen HMAC sha256-Hash generieren, indem Sie den 'Bezeichner' mit dem hier gezeigten Schlüssel verwenden.",
       "HMAC_LINK_TO_DOCS": "Lesen Sie hier mehr.",
       "HMAC_MANDATORY_VERIFICATION": "Erzwinge Benutzer-Identitätsüberprüfung",
-      "HMAC_MANDATORY_DESCRIPTION": "Wenn aktiviert, werden Anfragen, denen der `identifier_hash` fehlt, abgelehnt.",
+      "HMAC_MANDATORY_DESCRIPTION": "Wenn diese Option aktiviert ist, werden Anfragen, die nicht verifiziert werden können, abgelehnt.",
       "INBOX_IDENTIFIER": "Identifizierung für Posteingang",
       "INBOX_IDENTIFIER_SUB_TEXT": "Verwenden Sie den hier angezeigten `inbox_identifier`-Token zur Authentifizierung Ihrer API-Clients.",
       "FORWARD_EMAIL_TITLE": "Weiterleitung an E-Mail",
