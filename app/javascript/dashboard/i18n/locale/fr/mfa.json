@@ -39,7 +39,7 @@
       "COPY_ALL": "Tout copier",
       "CONFIRM": "J'ai enregistré mes codes de sauvegarde dans un endroit sécurisé et je comprends que je ne pourrai pas les revoir",
       "COMPLETE_SETUP": "Terminer la configuration",
-      "CODES_COPIED": "Code de sauvegarde copié dans le presse-papiers"
+      "CODES_COPIED": "Codes de sauvegarde copiés dans le presse-papiers"
     },
     "MANAGEMENT": {
       "BACKUP_CODES": "Codes de sauvegarde",

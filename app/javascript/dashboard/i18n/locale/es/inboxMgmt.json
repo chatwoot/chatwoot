@@ -707,7 +707,7 @@
       "ERRORS": {
         "AUTHORIZATION": {
           "EMBEDDED_TITLE": "Es necesario actualizar la conexión de WhatsApp",
-          "EMBEDDED_DESCRIPTION": "Meta no pudo validar la conexión de esta bandeja de entrada. Ve a Configuración para volver a configurarla mediante el registro integrado.",
+          "EMBEDDED_DESCRIPTION": "Meta no pudo validar la conexión de esta bandeja de entrada. Ve a Configuración para volver a configurarla mediante WhatsApp Embedded Signup.",
           "MANUAL_TITLE": "El token de acceso de WhatsApp requiere atención",
           "MANUAL_DESCRIPTION": "Meta no pudo validar el token de acceso de esta bandeja de entrada. Ve a Configuración para verificarlo o sustituirlo."
         },

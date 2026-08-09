@@ -707,7 +707,7 @@
       "ERRORS": {
         "AUTHORIZATION": {
           "EMBEDDED_TITLE": "La connexion WhatsApp doit être actualisée",
-          "EMBEDDED_DESCRIPTION": "Meta n’a pas pu valider la connexion de cette boîte de réception. Accédez à Configuration pour la reconfigurer à l’aide de l’inscription intégrée.",
+          "EMBEDDED_DESCRIPTION": "Meta n’a pas pu valider la connexion de cette boîte de réception. Accédez à Configuration pour la reconfigurer via WhatsApp Embedded Signup.",
           "MANUAL_TITLE": "Le jeton d'accès WhatsApp a besoin d'attention",
           "MANUAL_DESCRIPTION": "Meta n'a pas pu valider le jeton d'accès pour cette boîte de réception. Allez dans Configuration pour le vérifier ou le remplacer."
         },
