@@ -59,7 +59,7 @@ class CampaignRecipient < ApplicationRecord
   private
 
   def status_downgrade?(new_status)
-    return false if new_status == 'failed'
+    return delivered? || read? if new_status == 'failed'
 
     self.class.statuses[new_status] < self.class.statuses[status]
   end
