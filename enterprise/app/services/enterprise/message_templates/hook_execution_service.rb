@@ -1,12 +1,10 @@
 module Enterprise::MessageTemplates::HookExecutionService
-  MAX_ATTACHMENT_WAIT_SECONDS = 4
-
   def trigger_templates
     super
     return unless should_process_captain_response?
     return perform_handoff unless inbox.captain_active?
 
-    schedule_captain_response
+    Captain::Conversation::ResponseSchedulerService.new(message: message).perform
   end
 
   def should_send_greeting?
@@ -29,28 +27,14 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   private
 
-  def schedule_captain_response
-    job_args = [conversation, conversation.inbox.captain_assistant]
-
-    if message.attachments.blank?
-      Captain::Conversation::ResponseBuilderJob.perform_later(*job_args)
-    else
-      wait_time = calculate_attachment_wait_time
-      Captain::Conversation::ResponseBuilderJob.set(wait: wait_time).perform_later(*job_args)
-    end
-  end
-
-  def calculate_attachment_wait_time
-    attachment_count = message.attachments.size
-    base_wait = 1.second
-
-    # Wait longer for more attachments or larger files
-    additional_wait = [attachment_count * 1, MAX_ATTACHMENT_WAIT_SECONDS].min.seconds
-    base_wait + additional_wait
+  def captain_v2_enabled?
+    conversation.account.feature_enabled?('captain_integration_v2')
   end
 
   def should_process_captain_response?
-    conversation.pending? && message.incoming? && inbox.captain_assistant.present?
+    # Audience and schedule are decided when Captain first takes or reopens a conversation.
+    # Do not re-evaluate an existing pending conversation for each new message.
+    conversation.pending? && message.captain_response_triggering? && captain_assistant_configured? && !inbox.external_bot_active?
   end
 
   def perform_handoff
@@ -64,6 +48,15 @@ module Enterprise::MessageTemplates::HookExecutionService
       content: 'Transferring to another agent for further assistance.'
     )
     conversation.bot_handoff!
+    if captain_v2_enabled?
+      Captain::ConversationEvents.handed_off(
+        conversation: conversation,
+        assistant: inbox.captain_assistant,
+        source: Captain::ConversationEvents::Sources::USAGE_LIMIT,
+        reason_category: :usage_limit,
+        at: Time.current
+      )
+    end
     send_out_of_office_message_after_handoff
   end
 
@@ -76,6 +69,10 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def captain_handling_conversation?
-    conversation.pending? && inbox.respond_to?(:captain_assistant) && inbox.captain_assistant.present?
+    conversation.pending? && captain_assistant_configured?
+  end
+
+  def captain_assistant_configured?
+    inbox.captain_assistant.present?
   end
 end

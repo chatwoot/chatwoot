@@ -19,6 +19,8 @@
       "OR": "OR"
     },
     "INPUT_PLACEHOLDER": "Enter value",
+    "SEARCH_PLACEHOLDER": "Search…",
+    "NO_RESULTS": "No matches",
     "CONTACT_SEARCH_PLACEHOLDER": "Search contacts",
     "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {

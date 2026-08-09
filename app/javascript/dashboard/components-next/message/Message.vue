@@ -41,6 +41,7 @@ import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
 import VoiceCallBubble from './bubbles/VoiceCall.vue';
+import WhatsappFlowResponseBubble from './bubbles/WhatsappFlowResponse.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -296,6 +297,10 @@ const componentToRender = computed(() => {
     if (emailInboxTypes.includes(props.messageType)) return EmailBubble;
   }
 
+  if (props.contentAttributes?.whatsappFlowResponse) {
+    return WhatsappFlowResponseBubble;
+  }
+
   if (props.contentType === CONTENT_TYPES.INPUT_CSAT) {
     return CSATBubble;
   }
@@ -409,6 +414,8 @@ const shouldRenderMessage = computed(() => {
   const isUnsupported = props.contentAttributes?.isUnsupported;
   const isAnIntegrationMessage =
     props.contentType === CONTENT_TYPES.INTEGRATIONS;
+  const hasWhatsappFlowResponse =
+    !!props.contentAttributes?.whatsappFlowResponse;
   const isFailedMessage = props.status === MESSAGE_STATUS.FAILED;
   const hasExternalError = !!props.contentAttributes?.externalError;
 
@@ -418,6 +425,7 @@ const shouldRenderMessage = computed(() => {
     isEmailContentType ||
     isUnsupported ||
     isAnIntegrationMessage ||
+    hasWhatsappFlowResponse ||
     isFailedMessage ||
     hasExternalError
   );
@@ -457,10 +465,11 @@ function handleReplyTo() {
 
 const avatarInfo = computed(() => {
   if (props.contentAttributes?.externalEcho) {
-    const { name, avatar_url, channel_type, medium } = inbox.value;
+    const { name, avatar_url, channel_type, medium, voice_enabled } =
+      inbox.value;
     const iconName = avatar_url
       ? null
-      : getInboxIconByType(channel_type, medium);
+      : getInboxIconByType(channel_type, medium, 'fill', voice_enabled);
     return {
       name: iconName ? '' : name || t('CONVERSATION.NATIVE_APP'),
       src: avatar_url || '',

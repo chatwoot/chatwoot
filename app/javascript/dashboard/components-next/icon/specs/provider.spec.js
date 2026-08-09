@@ -19,13 +19,32 @@ describe('useChannelIcon', () => {
     expect(icon).toBe('i-woot-whatsapp');
   });
 
-  it('returns correct icon for voice-enabled Twilio channel', () => {
+  it('returns the voice-call glyph for a voice-enabled Twilio channel', () => {
     const inbox = {
       channel_type: 'Channel::TwilioSms',
       voice_enabled: true,
     };
     const { value: icon } = useChannelIcon(inbox);
-    expect(icon).toBe('i-woot-voice');
+    expect(icon).toBe('i-woot-voice-call');
+  });
+
+  it('returns the WhatsApp voice glyph for a voice-enabled WhatsApp channel', () => {
+    const inbox = {
+      channel_type: 'Channel::Whatsapp',
+      voice_enabled: true,
+    };
+    const { value: icon } = useChannelIcon(inbox);
+    expect(icon).toBe('i-woot-whatsapp-voice');
+  });
+
+  it('returns the WhatsApp voice glyph for a voice-enabled Twilio WhatsApp channel', () => {
+    const inbox = {
+      channel_type: 'Channel::TwilioSms',
+      medium: 'whatsapp',
+      voice_enabled: true,
+    };
+    const { value: icon } = useChannelIcon(inbox);
+    expect(icon).toBe('i-woot-whatsapp-voice');
   });
 
   it('returns correct icon for Line channel', () => {
