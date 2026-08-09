@@ -5,7 +5,7 @@
     "LOADING": "Récupération des étiquettes",
     "DESCRIPTION": "Les étiquettes vous aident à catégoriser et à prioriser les conversations et les prospects. Vous pouvez assigner une étiquette à une conversation ou un contact à l'aide du panneau latéral.",
     "LEARN_MORE": "En savoir plus sur les étiquettes",
-    "COUNT": "Étiquette {n} | Étiquettes {n}",
+    "COUNT": "{n} étiquette | {n} étiquettes",
     "SEARCH_PLACEHOLDER": "Rechercher des étiquettes...",
     "NO_RESULTS": "Aucune étiquette trouvée correspondant à votre recherche",
     "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",

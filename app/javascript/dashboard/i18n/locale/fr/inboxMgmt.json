@@ -333,7 +333,7 @@
             "FOOTNOTE": "Nous examinerons votre demande et vous informerons si cette option peut être activée. Vous pouvez également poursuivre la configuration manuelle ci-dessous.",
             "BUTTON": "Demander l'accès"
           },
-          "RESTRICTED_WARNING": "L’inscription intégrée WhatsApp est temporairement indisponible en raison d’un problème lié à l’API chez Meta, et non à Chatwoot. Vous pouvez utiliser la configuration manuelle pour les numéros admissibles à l’API WhatsApp Cloud. Nous travaillons en étroite collaboration avec Meta pour résoudre ce problème au plus vite.",
+          "RESTRICTED_WARNING": "WhatsApp Embedded Signup est temporairement indisponible en raison d’un problème lié à l’API chez Meta, et non à Chatwoot. Vous pouvez utiliser la configuration manuelle pour les numéros admissibles à l’API WhatsApp Cloud. Nous travaillons en étroite collaboration avec Meta pour résoudre ce problème au plus vite.",
           "STATUS_LINK": "Voir les mises à jour de statut",
           "CALLING_ENABLE_FAILED": "Votre boîte de réception WhatsApp est prête, mais les appels vocaux n’ont pas pu être activés : ce numéro n’est pas encore inscrit à l’API WhatsApp Business Calling. Contactez Meta ou votre fournisseur de solutions WhatsApp Business pour l’inscrire, puis activez les appels dans les paramètres de la boîte de réception."
         },
