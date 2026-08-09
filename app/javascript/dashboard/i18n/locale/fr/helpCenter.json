@@ -624,7 +624,7 @@
         "DELETE": "Supprimer",
         "STATUS_SUCCESS": "Articles mis à jour avec succès",
         "STATUS_ERROR": "Impossible de mettre à jour les articles",
-        "STATUS_SKIPPED": "1 article avec des modifications non publiées a été ignoré — ouvrez-le pour publier ou jeter. | Les articles {count} avec des modifications non publiées ont été ignorés - ouvrez-les pour publier ou jeter.",
+        "STATUS_SKIPPED": "1 article avec des modifications non publiées a été ignoré — ouvrez-le pour publier ou jeter. | {count} articles avec des modifications non publiées ont été ignorés — ouvrez-les pour publier ou jeter.",
         "STATUS_SKIPPED_ALL": "Ces articles ont des modifications non publiées — ouvrez chacun pour publier ou jeter.",
         "CATEGORY_SUCCESS": "Articles déplacés avec succès",
         "CATEGORY_ERROR": "Impossible de déplacer les articles",
@@ -717,8 +717,8 @@
         "SUBTITLE": "Nous n'avons trouvé aucune locale correspondant à votre recherche. Essayez un autre terme."
       },
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "Article {count} | articles {count}",
-        "CATEGORIES_COUNT": "Catégorie {count} | Catégories {count}",
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} catégorie | {count} catégories",
         "DEFAULT": "Par défaut",
         "DRAFT": "Brouillon",
         "DROPDOWN_MENU": {
