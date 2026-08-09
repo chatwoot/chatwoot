@@ -604,7 +604,7 @@
         "OPTIONAL": "(optionnel)",
         "CONFIRM": "Traduire",
         "SELECT_ALL": "Tout sélectionner ({count})",
-        "SELECTED_COUNT": "{count} sélectionné",
+        "SELECTED_COUNT": "{count} sélectionné | {count} sélectionnés",
         "CLEAR_SELECTION": "Effacer la sélection",
         "TRANSLATE_BUTTON": "Traduire",
         "CONFIRM_OVERWRITE": "Écraser et traduire",

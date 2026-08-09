@@ -920,11 +920,11 @@
           "LABEL": "Priorité d’affectation",
           "EARLIEST_CREATED": {
             "LABEL": "Créé plus tôt",
-            "DESCRIPTION": "La conversation qui a été créée est d'abord assignée."
+            "DESCRIPTION": "La conversation créée le plus tôt est assignée en premier."
           },
           "LONGEST_WAITING": {
             "LABEL": "Attente la plus longue",
-            "DESCRIPTION": "La conversation en attente de la plus longue est assignée en premier."
+            "DESCRIPTION": "La conversation qui attend depuis le plus longtemps est assignée en premier."
           }
         },
         "FAIR_DISTRIBUTION": {

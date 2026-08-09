@@ -593,7 +593,7 @@
     "REMOVE_LABELS_FAILED": "Impossible de supprimer les étiquettes",
     "DESCRIPTION": "Sélectionnez les étiquettes que vous souhaitez ajouter aux contacts sélectionnés.",
     "NO_LABELS_FOUND": "Aucune étiquette disponible pour le moment.",
-    "SELECTED_COUNT": "{count} sélectionné",
+    "SELECTED_COUNT": "{count} sélectionné | {count} sélectionnés",
     "CLEAR_SELECTION": "Effacer la sélection",
     "SELECT_ALL": "Tout sélectionner ({count})",
     "DELETE_CONTACTS": "Supprimer",

@@ -631,7 +631,7 @@
           "DESCRIPTION": "Ajoutez davantage de contrôle à l’assistant : définissez des garde-fous pour les requêtes, configurez des scénarios et adaptez les réponses produites.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Rails de garde",
+              "TITLE": "Garde-fous",
               "DESCRIPTION": "Garde les choses sur la bonne voie – seuls les types de questions auxquelles vous voulez que votre assistant réponde, rien de hors limites ou hors-sujet."
             },
             "RESPONSE_GUIDELINES": {
@@ -660,7 +660,7 @@
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Rails de garde",
+        "TITLE": "Garde-fous",
         "DESCRIPTION": "Garde les choses sur la bonne voie – seuls les types de questions auxquelles vous voulez que votre assistant réponde, rien de hors limites ou hors-sujet.",
         "BULK_ACTION": {
           "SELECTED": "{count} élément sélectionné | {count} éléments sélectionnés",
@@ -670,37 +670,37 @@
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Exemple de rails de garde",
+            "TITLE": "Exemple de garde-fou",
             "ADD": "Ajouter tout",
             "ADD_SINGLE": "Ajouter ceci",
             "SAVE": "Ajouter et enregistrer (↵)",
-            "PLACEHOLDER": "Tapez un autre rail de garde..."
+            "PLACEHOLDER": "Tapez un autre garde-fou..."
           },
           "NEW": {
-            "TITLE": "Ajouter un rail de garde",
+            "TITLE": "Ajouter un garde-fou",
             "CREATE": "Créer",
             "CANCEL": "Annuler",
-            "PLACEHOLDER": "Tapez un autre rail de garde...",
+            "PLACEHOLDER": "Tapez un autre garde-fou...",
             "TEST_ALL": "Tester tout"
           }
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Recherche..."
         },
-        "EMPTY_MESSAGE": "Aucun rail de garde trouvé. Créez ou ajoutez des exemples pour commencer.",
-        "SEARCH_EMPTY_MESSAGE": "Aucun rail de garde trouvé pour cette recherche.",
+        "EMPTY_MESSAGE": "Aucun garde-fou trouvé. Créez ou ajoutez des exemples pour commencer.",
+        "SEARCH_EMPTY_MESSAGE": "Aucun garde-fou trouvé pour cette recherche.",
         "API": {
           "ADD": {
-            "SUCCESS": "Rails de garde ajoutés avec succès",
-            "ERROR": "Une erreur s'est produite lors de l'ajout de rails, veuillez réessayer."
+            "SUCCESS": "Garde-fous ajoutés avec succès",
+            "ERROR": "Une erreur s'est produite lors de l'ajout de garde-fous, veuillez réessayer."
           },
           "UPDATE": {
-            "SUCCESS": "Rails de garde mis à jour avec succès",
-            "ERROR": "Une erreur s'est produite lors de la mise à jour des rails, veuillez réessayer."
+            "SUCCESS": "Garde-fous mis à jour avec succès",
+            "ERROR": "Une erreur s'est produite lors de la mise à jour des garde-fous, veuillez réessayer."
           },
           "DELETE": {
-            "SUCCESS": "Rails de garde supprimés avec succès",
-            "ERROR": "Une erreur s'est produite lors de la suppression des rails, veuillez réessayer."
+            "SUCCESS": "Garde-fous supprimés avec succès",
+            "ERROR": "Une erreur s'est produite lors de la suppression des garde-fous, veuillez réessayer."
           }
         }
       },

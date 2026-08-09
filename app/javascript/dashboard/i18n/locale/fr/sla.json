@@ -3,7 +3,7 @@
     "HEADER": "Accords de niveau de service",
     "ADD_ACTION": "Ajouter SLA",
     "ADD_ACTION_LONG": "Créer une nouvelle politique de SLA",
-    "DESCRIPTION": "Les ententes de niveau de service (APS) sont des contrats qui définissent des attentes claires entre votre équipe et vos clients. Ils établissent des normes pour les temps de réponse et de résolution, créant un cadre de responsabilisation et garantissant une expérience cohérente et de haute qualité.",
+    "DESCRIPTION": "Les accords de niveau de service (SLA) sont des contrats qui définissent des attentes claires entre votre équipe et vos clients. Ils établissent des normes pour les temps de réponse et de résolution, créant un cadre de responsabilisation et garantissant une expérience cohérente et de haute qualité.",
     "LEARN_MORE": "En savoir plus sur le SLA",
     "COUNT": "{n} SLA | {n} SLA",
     "LOADING": "Chargement des SLA",
