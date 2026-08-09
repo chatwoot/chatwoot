@@ -851,7 +851,7 @@
           "UPDATED": "Actualizado",
           "NEEDS_UPDATE": "Necesita actualización",
           "UPDATING": "Actualizando",
-          "FAILED": "Failed"
+          "FAILED": "Error"
         },
         "SORT": {
           "RECENTLY_UPDATED": "Actualizado recientemente",
@@ -1163,7 +1163,7 @@
       "APPROVE": "Aprobar",
       "APPROVE_FAQ": "Aprobar FAQ",
       "DISMISS": "Descartar",
-      "SAVE": "Save changes",
+      "SAVE": "Guardar cambios",
       "DETAILS": {
         "TITLE": "Revisar sugerencia de FAQ",
         "DESCRIPTION": "Captain agrupó {count} conversación en esta sugerencia. Revisa las pruebas y perfecciona la FAQ antes de aprobarla. | Captain agrupó {count} conversaciones en esta sugerencia. Revisa las pruebas y perfecciona la FAQ antes de aprobarla.",

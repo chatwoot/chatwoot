@@ -333,13 +333,13 @@
             "FOOTNOTE": "Revisaremos tu solicitud y te informaremos si podemos habilitar esta opción. También puedes continuar con la configuración manual que aparece a continuación.",
             "BUTTON": "Solicitar acceso"
           },
-          "RESTRICTED_WARNING": "El registro integrado de WhatsApp no está disponible temporalmente debido a un problema en la API de Meta, no de Chatwoot. Puedes usar la configuración manual para los números compatibles con la API de Cloud. Estamos colaborando estrechamente con Meta para resolverlo cuanto antes.",
+          "RESTRICTED_WARNING": "WhatsApp Embedded Signup no está disponible temporalmente debido a un problema en la API de Meta, no de Chatwoot. Puedes usar la configuración manual para los números compatibles con la API de Cloud. Estamos colaborando estrechamente con Meta para resolverlo cuanto antes.",
           "STATUS_LINK": "Ver actualizaciones de estado",
           "CALLING_ENABLE_FAILED": "Tu bandeja de entrada de WhatsApp está lista, pero las llamadas de voz no se pudieron activar — este número aún no está inscrito en la API de llamadas empresariales de WhatsApp. Llega a Meta o a tu proveedor de soluciones empresariales de WhatsApp a bordo, luego enciende la llamada desde la configuración de las llamadas de la bandeja de entrada."
         },
         "API": {
           "ERROR_MESSAGE": "No pudimos guardar el canal de WhatsApp",
-          "MANUAL_RESTRICTION_WARNING": "El registro integrado de WhatsApp no está disponible temporalmente debido a un problema en la API de Meta, no de Chatwoot. La configuración manual solo funciona con números que ya estén conectados a la API de WhatsApp Cloud. Los números que usan la coexistencia con la aplicación WhatsApp Business todavía no son compatibles con este proceso. Estamos colaborando estrechamente con Meta para resolver el problema cuanto antes. Gracias por tu paciencia.",
+          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup no está disponible temporalmente debido a un problema en la API de Meta, no de Chatwoot. La configuración manual solo funciona con números que ya estén conectados a la API de WhatsApp Cloud. Los números que usan la coexistencia con la aplicación WhatsApp Business todavía no son compatibles con este proceso. Estamos colaborando estrechamente con Meta para resolver el problema cuanto antes. Gracias por tu paciencia.",
           "STATUS_LINK": "Ver actualizaciones de estado"
         }
       },

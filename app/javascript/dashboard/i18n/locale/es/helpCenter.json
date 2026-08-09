@@ -899,7 +899,7 @@
         "BRAND_COLOR": {
           "LABEL": "Brand color"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "Guardar cambios"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
@@ -1030,7 +1030,7 @@
           "HELP": "Encuentra el ID del píxel en el administrador de eventos de Meta. Déjalo vacío para desactivarlo.",
           "INVALID": "Introduce un ID numérico de píxel."
         },
-        "SAVE": "Save changes"
+        "SAVE": "Guardar cambios"
       },
       "NAV": {
         "GENERAL": "General",
@@ -1073,14 +1073,14 @@
       "GENERATING": "Generando...",
       "CONFIRM_DELETE": "¿Está seguro que desea borrar {filename}?",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "Aún no hay documentos PDF",
+        "DESCRIPTION": "Sube documentos PDF para generar preguntas frecuentes automáticamente con IA"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
+        "UPLOADED": "Listo",
+        "PROCESSING": "Procesando",
         "PROCESSED": "Completado",
-        "FAILED": "Failed"
+        "FAILED": "Fallido"
       }
     },
     "CONTENT_GENERATION": {

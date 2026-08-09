@@ -28,7 +28,7 @@
       "OUTGOING": "Saliente",
       "MISSED": "Perdida",
       "NO_REPLY": "Sin respuesta",
-      "FAILED": "Failed"
+      "FAILED": "Fallida"
     },
     "ROW": {
       "PICKED_BY": "Atendida por",
