@@ -1010,7 +1010,7 @@
             "ERROR_MESSAGE": "Impossible d'ajouter la limite de la boîte de réception"
           },
           "UPDATE": {
-            "SUCCESS_MESSAGE": "Limite de réception mise à jour avec succès",
+            "SUCCESS_MESSAGE": "Limite de boîte de réception mise à jour avec succès",
             "ERROR_MESSAGE": "Impossible de mettre à jour la limite de la boîte de réception"
           },
           "DELETE": {

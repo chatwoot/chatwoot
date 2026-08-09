@@ -3,7 +3,7 @@
     "HEADER": "Boîtes de réception",
     "DESCRIPTION": "Un canal est le mode de communication que votre client choisit pour interagir avec vous. Une boîte de réception est l'endroit où vous gérez les interactions pour un canal spécifique. Il peut inclure des communications provenant de diverses sources telles que les e-mails, le chat en direct et les réseaux sociaux.",
     "LEARN_MORE": "En savoir plus sur les boîtes de réception",
-    "COUNT": "Boîte de réception {n} | Boîte de réception {n}",
+    "COUNT": "{n} boîte de réception | {n} boîtes de réception",
     "SEARCH_PLACEHOLDER": "Rechercher dans les boîtes de réception...",
     "NO_RESULTS": "Aucune boîte de réception trouvée correspondant à votre recherche",
     "RECONNECTION_REQUIRED": "Votre boîte de réception est déconnectée. Vous ne recevrez pas de nouveaux messages tant que vous ne l'autoriserez pas à nouveau.",

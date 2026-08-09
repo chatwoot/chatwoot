@@ -993,7 +993,7 @@
           "DESCRIPTION": "Mesurez le trafic et le comportement des visiteurs dans votre centre d'aide avec Google Analytics.",
           "PLACEHOLDER": "G-XXXXXXXXXX",
           "HELP": "Trouvez l'ID de mesure sous Admin → Flux de données dans Google Analytics. Laissez vide pour désactiver.",
-          "INVALID": "Entrez un ID de mesure valide, par exemple G-XXXXXXXXXXXX."
+          "INVALID": "Entrez un ID de mesure valide, par exemple G-XXXXXXXXXX."
         },
         "HOTJAR": {
           "TITLE": "Hotjar",
