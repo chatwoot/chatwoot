@@ -457,9 +457,9 @@
         "VOIDED": "Annulé"
       },
       "FULFILLMENT_STATUS": {
-        "FULFILLED": "Accompli",
-        "PARTIALLY_FULFILLED": "Partiellement complété",
-        "UNFULFILLED": "Non rempli"
+        "FULFILLED": "Traitée",
+        "PARTIALLY_FULFILLED": "Partiellement traitée",
+        "UNFULFILLED": "Non traitée"
       }
     }
   },
