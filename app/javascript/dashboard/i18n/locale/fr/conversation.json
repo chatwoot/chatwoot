@@ -84,7 +84,7 @@
       "STEP_HANDOFF": "Remise à {name}",
       "REASONING": "Raisonnement",
       "SOURCES": "Base de connaissances",
-      "SOURCES_SUMMARY": "Résultat {count} | Résultats {count}",
+      "SOURCES_SUMMARY": "{count} résultat | {count} résultats",
       "MODEL": "Généré avec {model}",
       "CREDITS": "Crédits : {credits}"
     },
