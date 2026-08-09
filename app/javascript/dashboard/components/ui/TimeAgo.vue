@@ -8,7 +8,6 @@ import {
   dateFormat,
   shortTimestamp,
 } from 'shared/helpers/timeHelper';
-import { useLocale } from 'shared/composables/useLocale';
 
 export default {
   name: 'TimeAgo',
@@ -30,10 +29,6 @@ export default {
       default: '',
     },
   },
-  setup() {
-    const { resolvedLocale } = useLocale();
-    return { resolvedLocale };
-  },
   data() {
     return {
       lastActivityAtTimeAgo: dynamicTime(this.lastActivityTimestamp),
@@ -43,7 +38,7 @@ export default {
   },
   computed: {
     currentLocale() {
-      return this.resolvedLocale;
+      return this.$i18n?.locale?.replace(/_/g, '-') || 'en';
     },
     lastActivityTime() {
       return shortTimestamp(
