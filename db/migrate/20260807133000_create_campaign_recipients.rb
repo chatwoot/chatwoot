@@ -2,6 +2,8 @@ class CreateCampaignRecipients < ActiveRecord::Migration[7.1]
   def change
     create_campaign_recipients
     add_campaign_recipient_indexes
+    add_column :campaigns, :started_at, :datetime
+    add_column :campaigns, :completed_at, :datetime
   end
 
   private
