@@ -529,7 +529,7 @@ fr:
     not_active:
       title: Centre d'aide indisponible
       description: Veuillez contacter l'administrateur du site pour plus d'informations.
-      action: Si vous êtes l'administrateur, veuillez mettre à jour votre plan pour restaurer l'accès.
+      action: Si vous êtes l'administrateur, veuillez passer à un forfait supérieur pour restaurer l'accès.
   slack_unfurl:
     fields:
       name: Nom
