@@ -19,7 +19,7 @@ module Enterprise::Whatsapp::Providers::BaseService
     {
       code: error['code'],
       title: error['error_user_title'].presence || error['title'],
-      message: error['error_user_msg'] || error.dig('error_data', 'details') || error['message']
+      message: error['error_user_msg'].presence || error.dig('error_data', 'details').presence || error['message'].presence
     }.compact_blank.presence
   end
 end
