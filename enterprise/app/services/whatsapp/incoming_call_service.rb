@@ -95,28 +95,21 @@ class Whatsapp::IncomingCallService
   # commit) already terminal, never `ringing` — agents aren't rung for a dead call.
   def build_inbound_call(payload, sdp_offer)
     ActiveRecord::Base.transaction do
-      call = Voice::InboundCallBuilder.perform!(inbox: inbox, from_number: "+#{payload[:from]}", call_sid: payload[:id],
-                                                provider: :whatsapp, extra_meta: inbound_extra_meta(payload, sdp_offer))
+      identity = Whatsapp::InboundCallIdentityBuilder.new(inbox: inbox, params: params).perform(payload)
+      extra_meta = { 'sdp_offer' => sdp_offer, 'ice_servers' => Call.default_ice_servers }
+      call = Voice::InboundCallBuilder.perform!(inbox: inbox, call_sid: payload[:id],
+                                                provider: :whatsapp, extra_meta: extra_meta, caller: identity)
+      sync_caller_identifiers(call, identity)
       tombstone = consume_terminate_tombstone(payload[:id])
       finalize_terminate(call, tombstone['duration'], tombstone['terminate_reason']) if tombstone
       call
     end
   end
 
-  def inbound_extra_meta(payload, sdp_offer)
-    extra_meta = { 'sdp_offer' => sdp_offer, 'ice_servers' => Call.default_ice_servers }
-    name = caller_profile_name(payload)
-    extra_meta['contact_name'] = name if name.present?
-    extra_meta
-  end
-
-  # Match strictly on wa_id (== calls[].from): in a batched payload missing this
-  # call's contact entry, borrowing another caller's name would corrupt this
-  # contact, so fall back to the phone number (nil here) instead of contacts.first.
-  def caller_profile_name(payload)
-    contacts = Array(params[:contacts]).map(&:with_indifferent_access)
-    match = contacts.find { |c| c[:wa_id].to_s == payload[:from].to_s }
-    match&.dig(:profile, :name).presence
+  # Backfill every caller alias (the builder only stores the first) so a later event keyed on any one lands on this thread.
+  def sync_caller_identifiers(call, identity)
+    Whatsapp::IdentifierSyncService.new(contact_inbox: call.conversation.contact_inbox, contact: call.contact)
+                                   .perform(source_ids: identity[:source_ids], phone_number: identity.dig(:contact_attributes, :phone_number))
   end
 
   # `connect` is the WebRTC tunnel-ready signal, not the pickup signal. Apply
