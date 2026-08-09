@@ -333,13 +333,13 @@
             "FOOTNOTE": "Analisaremos sua solicitação e informaremos se essa opção pode ser habilitada. Você também pode continuar com a configuração manual abaixo.",
             "BUTTON": "Solicitar acesso"
           },
-          "RESTRICTED_WARNING": "O cadastro integrado do WhatsApp está temporariamente indisponível devido a um problema na API da Meta, e não por uma falha no Chatwoot. Você pode utilizar a configuração manual para números compatíveis com a Cloud API. Estamos trabalhando em conjunto com a Meta para resolver a situação o mais rápido possível.",
+          "RESTRICTED_WARNING": "O WhatsApp Embedded Signup está temporariamente indisponível devido a um problema na API da Meta, e não por uma falha no Chatwoot. Você pode utilizar a configuração manual para números compatíveis com a Cloud API. Estamos trabalhando em conjunto com a Meta para resolver a situação o mais rápido possível.",
           "STATUS_LINK": "Ver atualizações de status",
           "CALLING_ENABLE_FAILED": "Sua caixa de entrada do WhatsApp está pronta, mas as chamadas de voz não puderam ser ativadas — este número ainda não está cadastrado na API de Chamadas do WhatsApp Business. Entre em contato com a Meta ou com seu provedor de soluções WhatsApp Business para realizar o cadastro e, depois, ative as chamadas nas configurações de Chamadas da caixa de entrada."
         },
         "API": {
           "ERROR_MESSAGE": "Não foi possível salvar o canal do WhatsApp",
-          "MANUAL_RESTRICTION_WARNING": "O cadastro integrado do WhatsApp está temporariamente indisponível devido a um problema na API da Meta, e não por uma falha no Chatwoot. A configuração manual funciona apenas para números que já estão conectados à WhatsApp Cloud API. Números que utilizam a coexistência com o aplicativo WhatsApp Business ainda não são compatíveis com esse fluxo. Estamos trabalhando em conjunto com a Meta para resolver o problema o mais rápido possível. Agradecemos pela sua paciência.",
+          "MANUAL_RESTRICTION_WARNING": "O WhatsApp Embedded Signup está temporariamente indisponível devido a um problema na API da Meta, e não por uma falha no Chatwoot. A configuração manual funciona apenas para números que já estão conectados à WhatsApp Cloud API. Números que utilizam a coexistência com o aplicativo WhatsApp Business ainda não são compatíveis com esse fluxo. Estamos trabalhando em conjunto com a Meta para resolver o problema o mais rápido possível. Agradecemos pela sua paciência.",
           "STATUS_LINK": "Ver atualizações de status"
         }
       },
