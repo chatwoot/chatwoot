@@ -86,7 +86,7 @@
             "INITIAL": "Commencez à taper pour rechercher des contacts.",
             "EMPTY": "Aucun contact trouvé.",
             "CONFIRM_TITLE": "Lier le contact",
-            "CONFIRM_DESCRIPTION": "Confirmez la société et contactez avant de les lier.",
+            "CONFIRM_DESCRIPTION": "Confirmez la société et le contact avant de les lier.",
             "COMPANY_LABEL": "Société",
             "CONTACT_LABEL": "Contact",
             "CURRENT_COMPANY": "Actuellement lié à {companyName}",
@@ -147,7 +147,7 @@
   },
   "COMPANIES_LAYOUT": {
     "PAGINATION_FOOTER": {
-      "SHOWING": "Affichage {startItem} - {endItem} de la société {totalItems} | Affichage {startItem} - {endItem} des sociétés {totalItems}"
+      "SHOWING": "Affichage {startItem} - {endItem} sur {totalItems} société | Affichage {startItem} - {endItem} sur {totalItems} sociétés"
     }
   }
 }

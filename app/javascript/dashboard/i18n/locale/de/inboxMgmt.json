@@ -809,7 +809,7 @@
           "RESTRICTED": "Eingeschränkt",
           "BANNED": "Gesperrt",
           "DISCONNECTED": "Getrennt",
-          "UNKNOWN": "Not available",
+          "UNKNOWN": "Nicht verfügbar",
           "PENDING_REVIEW": "Pending Review",
           "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
           "REJECTED": "Rejected",
