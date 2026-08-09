@@ -518,7 +518,7 @@
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Rechercher des attributs",
-        "UNUSED_ATTRIBUTES": "Attribut {count} utilisé | {count} Attributs inutilisés",
+        "UNUSED_ATTRIBUTES": "{count} attribut utilisé | {count} attributs inutilisés",
         "EMPTY_STATE": "Il n'y a pas d'attributs personnalisés de contact disponibles dans ce compte. Vous pouvez créer un attribut personnalisé dans les paramètres.",
         "YES": "Oui",
         "NO": "Non",

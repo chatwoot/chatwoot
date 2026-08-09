@@ -555,15 +555,15 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Trafic des conversations",
       "NO_CONVERSATIONS": "Aucune conversation",
-      "CONVERSATION": "Conversation {count}",
-      "CONVERSATIONS": "Conversations {count}",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Télécharger le rapport"
     },
     "RESOLUTION_HEATMAP": {
       "HEADER": "Résolutions",
       "NO_CONVERSATIONS": "Aucune conversation",
-      "CONVERSATION": "Conversation {count}",
-      "CONVERSATIONS": "Conversations {count}",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Télécharger le rapport"
     },
     "AGENT_CONVERSATIONS": {

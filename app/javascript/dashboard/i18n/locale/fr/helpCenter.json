@@ -526,7 +526,7 @@
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "Vue {count} | {count} vues",
+          "VIEWS": "{count} vue | {count} vues",
           "DROPDOWN_MENU": {
             "PUBLISH": "Publier",
             "DRAFT": "Brouillon",
@@ -628,7 +628,7 @@
         "STATUS_SKIPPED_ALL": "Ces articles ont des modifications non publiées — ouvrez chacun pour publier ou jeter.",
         "CATEGORY_SUCCESS": "Articles déplacés avec succès",
         "CATEGORY_ERROR": "Impossible de déplacer les articles",
-        "DELETE_CONFIRM_TITLE": "Supprimer l'article | Supprimer les articles {count}",
+        "DELETE_CONFIRM_TITLE": "Supprimer l'article | Supprimer {count} articles",
         "DELETE_CONFIRM_DESCRIPTION": "Cette action supprimera définitivement l’article sélectionné et ne peut pas être annulée. | Cette action supprimera définitivement {count} articles sélectionnés et ne peut pas être annulée.",
         "DELETE_CONFIRM": "Supprimer",
         "DELETE_SUCCESS": "Articles supprimés avec succès",
@@ -640,7 +640,7 @@
         "NEW_CATEGORY": "Nouvelle catégorie",
         "EDIT_CATEGORY": "Modifier la catégorie",
         "SEARCH_PLACEHOLDER": "Rechercher dans les catégories...",
-        "CATEGORIES_COUNT": "Catégorie {n} | Catégories {n}",
+        "CATEGORIES_COUNT": "{n} catégorie | {n} catégories",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Catégories ({localeCode})",
           "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
@@ -655,7 +655,7 @@
         "SUBTITLE": "Nous n'avons trouvé aucune catégorie correspondant à votre recherche. Essayez un autre terme."
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "Article {count} | articles {count}"
+        "ARTICLES_COUNT": "{count} article | {count} articles"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
@@ -741,7 +741,7 @@
         "CONFIRM": "Enregistrer les recommandations",
         "CATEGORIES": {
           "LABEL": "Catégories recommandées",
-          "ARTICLES_COUNT": "Aucun article | Article {count} | Articles {count}"
+          "ARTICLES_COUNT": "Aucun article | {count} article | {count} articles"
         },
         "ARTICLES": {
           "LABEL": "Articles recommandés",

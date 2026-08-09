@@ -111,7 +111,7 @@
       "NRT": "Temps de réponse suivant",
       "RT": "Temps de résolution",
       "SHOW_MORE": "{count} de plus",
-      "HIDE": "Cacher les lignes {count}"
+      "HIDE": "Masquer {count} lignes"
     }
   }
 }

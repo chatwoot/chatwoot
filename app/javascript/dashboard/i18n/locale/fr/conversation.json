@@ -91,7 +91,7 @@
     "CARD": {
       "SHOW_LABELS": "Afficher les étiquettes",
       "HIDE_LABELS": "Masquer les étiquettes",
-      "LABELS_COUNT": "Libellés {count}"
+      "LABELS_COUNT": "{count} libellés"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Appel entrant",

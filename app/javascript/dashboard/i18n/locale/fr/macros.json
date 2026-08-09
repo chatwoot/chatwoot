@@ -3,7 +3,7 @@
     "HEADER": "Macros",
     "DESCRIPTION": "Une macro est un ensemble d'actions enregistrées qui aident les agents du service client à compléter facilement les tâches. Les agents peuvent définir un ensemble d'actions comme le marquage d'une conversation avec une étiquette, l'envoi d'une transcription d'e-mail, la mise à jour d'un attribut personnalisé, etc. et ils peuvent exécuter ces actions en un seul clic.",
     "LEARN_MORE": "En savoir plus sur les macros",
-    "COUNT": "Macro {n} | macros {n}",
+    "COUNT": "{n} macro | {n} macros",
     "HEADER_BTN_TXT": "Ajouter une macro",
     "HEADER_BTN_TXT_SAVE": "Enregistrer une macro",
     "LOADING": "Récupération des macros",
