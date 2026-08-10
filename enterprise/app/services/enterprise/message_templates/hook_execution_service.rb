@@ -35,10 +35,6 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   private
 
-  def captain_v2_enabled?
-    conversation.account.feature_enabled?('captain_integration_v2')
-  end
-
   def track_captain_eligibility
     return unless conversation.account.feature_enabled?('captain_integration_v2')
 
