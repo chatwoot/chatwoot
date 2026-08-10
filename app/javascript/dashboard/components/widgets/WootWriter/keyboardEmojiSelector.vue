@@ -23,13 +23,19 @@ const allEmojis = shallowRef([]);
 
 const searchQuery = ref(props.searchKey);
 
-const searchTerm = computed(() => searchQuery.value.trim().toLowerCase());
+// Names are spaced and shortcodes are underscored, so both sides drop the separators
+// and `grinning face`, `grinningface` and `grinning_face` all reach the same emoji.
+const stripSeparators = value => value.toLowerCase().replace(/[\s_-]+/g, '');
+
+const searchTerm = computed(() => searchQuery.value.trim());
+
+const normalizedTerm = computed(() => stripSeparators(searchTerm.value));
 
 const items = computed(() => {
-  if (!searchTerm.value) return [];
+  if (!normalizedTerm.value) return [];
 
   return allEmojis.value
-    .filter(emoji => emoji.searchString.includes(searchTerm.value))
+    .filter(emoji => emoji.searchString.includes(normalizedTerm.value))
     .map(({ emoji, name, slug, category }) => ({
       id: slug,
       emoji,
@@ -47,7 +53,7 @@ onMounted(() => {
       name,
       slug,
       category,
-      searchString: `${name.replace(/\s+/g, '')} ${slug}`.toLowerCase(),
+      searchString: `${stripSeparators(name)} ${stripSeparators(slug)}`,
     }))
   );
 });
