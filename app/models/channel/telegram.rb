@@ -2,12 +2,15 @@
 #
 # Table name: channel_telegram
 #
-#  id         :bigint           not null, primary key
-#  bot_name   :string
-#  bot_token  :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  account_id :integer          not null
+#  id                         :bigint           not null, primary key
+#  bot_name                   :string
+#  bot_token                  :string           not null
+#  business_config            :jsonb            not null
+#  business_config_checked_at :datetime
+#  business_config_error      :string(500)
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  account_id                 :integer          not null
 #
 # Indexes
 #
@@ -84,12 +87,19 @@ class Channel::Telegram < ApplicationRecord
 
   def ensure_valid_bot_token
     response = HTTParty.get("#{telegram_api_url}/getMe")
-    unless response.success?
+    payload = response.parsed_response
+    unless response.success? && payload['ok'] == true
       errors.add(:bot_token, 'invalid token')
       return
     end
 
-    self.bot_name = response.parsed_response['result']['username']
+    self.bot_name = payload['result']['username']
+    self.business_config = business_config.merge(
+      'can_connect_to_business' => payload['result']['can_connect_to_business'] == true,
+      'connections' => business_config.fetch('connections', {})
+    )
+    self.business_config_checked_at = Time.current
+    self.business_config_error = nil
   end
 
   def setup_telegram_webhook
