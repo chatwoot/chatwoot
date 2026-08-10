@@ -209,12 +209,22 @@ watch(
               v-model="inactivityThresholdHours"
               :options="inactivityHourOptions"
               :error="formErrors.inactivityThresholdMinutes"
+              :aria-label="
+                t(
+                  'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HOURS_ARIA_LABEL'
+                )
+              "
               class="[&>select]:min-w-24"
             />
             <Select
               v-model="inactivityThresholdRemainingMinutes"
               :options="inactivityMinuteOptions"
               :error="formErrors.inactivityThresholdMinutes"
+              :aria-label="
+                t(
+                  'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES_ARIA_LABEL'
+                )
+              "
               class="[&>select]:min-w-28"
             />
           </div>
@@ -235,7 +245,14 @@ watch(
               )
             }}
           </span>
-          <Switch v-model="state.sendInactivityResolutionMessage" />
+          <Switch
+            v-model="state.sendInactivityResolutionMessage"
+            :aria-label="
+              t(
+                'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.TITLE'
+              )
+            "
+          />
         </div>
       </div>
       <template v-if="state.sendInactivityResolutionMessage" #editor>
