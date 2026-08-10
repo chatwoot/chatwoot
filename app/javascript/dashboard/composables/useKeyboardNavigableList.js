@@ -92,6 +92,8 @@ export function useKeyboardNavigableList({
   selectedIndex,
 }) {
   const moveSelection = direction => {
+    if (!items.value?.length) return;
+
     selectedIndex.value = updateSelectionIndex(
       selectedIndex.value,
       items.value.length,
