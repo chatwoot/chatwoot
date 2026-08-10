@@ -356,6 +356,47 @@ describe Conversations::FilterService do
         expect(result[:conversations].pluck(:campaign_id).sort).to eq [campaign_2.id, campaign_1.id].sort
       end
 
+      it 'treats AgentBot-owned conversations as having an assignee' do
+        account.conversations.destroy_all
+        agent_bot = create(:agent_bot, account: account)
+        bot_owned_conversation = create(:conversation, account: account, inbox: inbox, assignee_agent_bot: agent_bot)
+        human_owned_conversation = create(:conversation, account: account, inbox: inbox, assignee: user_1)
+        create(:conversation, account: account, inbox: inbox)
+
+        params[:payload] = [{
+          attribute_key: 'assignee_id',
+          filter_operator: 'is_present',
+          values: [],
+          query_operator: nil,
+          custom_attribute_type: ''
+        }.with_indifferent_access]
+
+        result = filter_service.new(params, user_1, account).perform
+
+        expect(result[:conversations].pluck(:id)).to contain_exactly(bot_owned_conversation.id, human_owned_conversation.id)
+        expect(result[:count]).to include(assigned_count: 2, unassigned_count: 0, all_count: 2)
+      end
+
+      it 'excludes AgentBot-owned conversations from assignee is not present' do
+        account.conversations.destroy_all
+        agent_bot = create(:agent_bot, account: account)
+        create(:conversation, account: account, inbox: inbox, assignee_agent_bot: agent_bot)
+        unassigned_conversation = create(:conversation, account: account, inbox: inbox)
+
+        params[:payload] = [{
+          attribute_key: 'assignee_id',
+          filter_operator: 'is_not_present',
+          values: [],
+          query_operator: nil,
+          custom_attribute_type: ''
+        }.with_indifferent_access]
+
+        result = filter_service.new(params, user_1, account).perform
+
+        expect(result[:conversations].pluck(:id)).to contain_exactly(unassigned_conversation.id)
+        expect(result[:count]).to include(assigned_count: 0, unassigned_count: 1, all_count: 1)
+      end
+
       it 'handles invalid query conditions' do
         params[:payload] = [
           {
@@ -748,6 +789,20 @@ describe Conversations::FilterService do
         assigned_count: 4,
         unassigned_count: 1,
         all_count: 5
+      )
+    end
+
+    it 'counts conversations owned by an agent bot as assigned' do
+      create(:conversation, account: account, inbox: inbox, assignee_agent_bot: create(:agent_bot, account: account))
+      params[:payload] = payload
+
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:count]).to eq(
+        mine_count: 3,
+        assigned_count: 5,
+        unassigned_count: 1,
+        all_count: 6
       )
     end
 
