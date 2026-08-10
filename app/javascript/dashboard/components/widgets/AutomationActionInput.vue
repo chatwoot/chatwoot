@@ -7,6 +7,8 @@ import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.v
 import MultiSelect from 'dashboard/components-next/filter/inputs/MultiSelect.vue';
 import NextInput from 'dashboard/components-next/input/Input.vue';
 
+const CONTACT_EMAIL_TOKEN = '{{contact.email}}';
+
 export default {
   components: {
     AutomationActionTeamMessageInput,
@@ -118,6 +120,16 @@ export default {
       this.actionNameAsSelectModel = value;
       this.resetAction();
     },
+    insertContactEmailToken() {
+      const existingEmails = (this.castMessageVmodel || '')
+        .split(',')
+        .map(email => email.trim())
+        .filter(Boolean);
+
+      if (existingEmails.includes(CONTACT_EMAIL_TOKEN)) return;
+
+      this.action_params = [[...existingEmails, CONTACT_EMAIL_TOKEN].join(',')];
+    },
   },
 };
 </script>
@@ -150,13 +162,26 @@ export default {
             :options="dropdownValues"
             :dropdown-max-height="dropdownMaxHeight"
           />
-          <NextInput
+          <div
             v-else-if="inputType === 'email'"
-            v-model="action_params"
-            type="email"
-            size="sm"
-            :placeholder="$t('AUTOMATION.ACTION.EMAIL_INPUT_PLACEHOLDER')"
-          />
+            class="flex items-center w-full gap-2"
+          >
+            <NextInput
+              v-model="action_params"
+              type="text"
+              size="sm"
+              class="w-full"
+              :placeholder="$t('AUTOMATION.ACTION.EMAIL_INPUT_PLACEHOLDER')"
+            />
+            <NextButton
+              sm
+              link
+              slate
+              class="flex-shrink-0 whitespace-nowrap"
+              :label="$t('AUTOMATION.ACTION.INSERT_CONTACT_EMAIL')"
+              @click="insertContactEmailToken"
+            />
+          </div>
           <NextInput
             v-else-if="inputType === 'url'"
             v-model="action_params"
