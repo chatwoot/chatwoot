@@ -77,7 +77,7 @@ class AgentBotListener < BaseListener
   end
 
   def process_message_event(method_name, agent_bot, message, _event)
-    return if message.private? && !agent_bot.bot_config['include_private_notes']
+    return if message.private? && !include_private_notes?(agent_bot.bot_config)
 
     # Only webhook bots are supported
     payload = message.webhook_data.merge(event: method_name)

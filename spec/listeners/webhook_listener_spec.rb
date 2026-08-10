@@ -172,6 +172,28 @@ describe WebhookListener do
           ).once
           listener.message_created(api_event)
         end
+
+        it 'triggers the webhook when additional_attributes stores the opt-in as a string, as multipart form submissions do' do
+          channel_api = create(:channel_api, account: account, additional_attributes: { 'include_private_notes' => 'true' })
+          api_inbox = channel_api.inbox
+          api_conversation = create(:conversation, account: account, inbox: api_inbox, assignee: user)
+          api_message = create(:message, message_type: 'outgoing', private: true,
+                                         account: account, inbox: api_inbox, conversation: api_conversation)
+          api_event = Events::Base.new(event_name, Time.zone.now, message: api_message)
+          expect(WebhookJob).to receive(:perform_later).once
+          listener.message_created(api_event)
+        end
+
+        it 'does not trigger the webhook when additional_attributes stores the opt-in as the string "false"' do
+          channel_api = create(:channel_api, account: account, additional_attributes: { 'include_private_notes' => 'false' })
+          api_inbox = channel_api.inbox
+          api_conversation = create(:conversation, account: account, inbox: api_inbox, assignee: user)
+          api_message = create(:message, message_type: 'outgoing', private: true,
+                                         account: account, inbox: api_inbox, conversation: api_conversation)
+          api_event = Events::Base.new(event_name, Time.zone.now, message: api_message)
+          expect(WebhookJob).not_to receive(:perform_later)
+          listener.message_created(api_event)
+        end
       end
     end
   end

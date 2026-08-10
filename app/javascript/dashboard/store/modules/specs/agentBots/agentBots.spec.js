@@ -51,6 +51,17 @@ describe('#actions', () => {
         [types.SET_AGENT_BOT_UI_FLAG, { isCreating: false }],
       ]);
     });
+
+    it('includes bot_config fields in the request', async () => {
+      axios.post.mockResolvedValue({ data: agentBotRecords[0] });
+      await actions.create(
+        { commit },
+        { ...agentBotData, bot_config: { include_private_notes: true } }
+      );
+
+      const formDataArg = axios.post.mock.calls[0][1];
+      expect(formDataArg.get('bot_config[include_private_notes]')).toBe('true');
+    });
   });
 
   describe('#update', () => {

@@ -61,6 +61,20 @@ describe AgentBotListener do
           ).once
           listener.message_created(private_event)
         end
+
+        it 'sends the message when bot_config stores the opt-in as a string, as multipart form submissions do' do
+          bot = create(:agent_bot, bot_config: { 'include_private_notes' => 'true' })
+          create(:agent_bot_inbox, inbox: inbox, agent_bot: bot)
+          expect(AgentBots::WebhookJob).to receive(:perform_later).once
+          listener.message_created(private_event)
+        end
+
+        it 'does not send the message when bot_config stores the opt-in as the string "false"' do
+          bot = create(:agent_bot, bot_config: { 'include_private_notes' => 'false' })
+          create(:agent_bot_inbox, inbox: inbox, agent_bot: bot)
+          expect(AgentBots::WebhookJob).not_to receive(:perform_later)
+          listener.message_created(private_event)
+        end
       end
 
       context 'when conversation has a different assignee agent bot' do

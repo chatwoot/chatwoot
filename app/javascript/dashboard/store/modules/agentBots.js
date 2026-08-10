@@ -37,6 +37,13 @@ export const getters = {
   },
 };
 
+const appendBotConfig = (formData, botConfig) => {
+  if (!botConfig) return;
+  Object.keys(botConfig).forEach(key => {
+    formData.append(`bot_config[${key}]`, botConfig[key]);
+  });
+};
+
 export const actions = {
   get: async ({ commit }) => {
     commit(types.SET_AGENT_BOT_UI_FLAG, { isFetching: true });
@@ -59,6 +66,7 @@ export const actions = {
       formData.append('description', botData.description);
       formData.append('bot_type', botData.bot_type || 'webhook');
       formData.append('outgoing_url', botData.outgoing_url);
+      appendBotConfig(formData, botData.bot_config);
 
       // Add avatar file if available
       if (botData.avatar) {
@@ -85,6 +93,7 @@ export const actions = {
       formData.append('description', data.description);
       formData.append('bot_type', data.bot_type || 'webhook');
       formData.append('outgoing_url', data.outgoing_url);
+      appendBotConfig(formData, data.bot_config);
 
       if (data.avatar) {
         formData.append('avatar', data.avatar);

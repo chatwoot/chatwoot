@@ -36,4 +36,10 @@ class BaseListener
 
     changed_attributes.map { |k, v| { k => { previous_value: v[0], current_value: v[1] } } }
   end
+
+  # jsonb-backed config (bot_config, additional_attributes) stores whatever was submitted,
+  # including the string "true"/"false" that multipart form submissions send.
+  def include_private_notes?(config)
+    ActiveModel::Type::Boolean.new.cast(config['include_private_notes'])
+  end
 end
