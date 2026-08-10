@@ -591,12 +591,23 @@
           "PLACEHOLDER": "Enter welcome message"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
+          "LABEL": "Handoff message",
           "PLACEHOLDER": "Enter handoff message"
         },
         "RESOLUTION_MESSAGE": {
           "LABEL": "Resolution Message",
           "PLACEHOLDER": "Enter resolution message"
+        },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "Captain behavior on inactive conversations",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Resolution message"
+          },
+          "DURATION_LABEL": "Inactivity period before Captain acts",
+          "DURATION_HOURS_ARIA_LABEL": "Inactivity period hours",
+          "DURATION_MINUTES_ARIA_LABEL": "Inactivity period minutes",
+          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_MINUTES_SHORT": "{count} min"
         },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
@@ -666,7 +677,8 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
+          "DESCRIPTION_V2": "Manage inactive conversations and Captain's handoff message."
         },
         "AUDIENCE": {
           "TITLE": "Audience",
