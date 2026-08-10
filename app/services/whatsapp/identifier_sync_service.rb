@@ -52,13 +52,20 @@ class Whatsapp::IdentifierSyncService
   # to, usually the phone one. Mirror it as well so integrations can resolve the contact
   # without a follow-up request.
   def update_contact_bsuid(source_ids)
-    bsuids = source_ids.compact_blank.select { |source_id| source_id.to_s.match?(RegexHelper::WHATSAPP_BSUID_REGEX) }
+    bsuids = source_ids.filter_map { |source_id| whatsapp_bsuid(source_id) }
     return if bsuids.blank?
 
     attributes = synced_contact.additional_attributes.deep_dup.merge(bsuid_attributes(bsuids))
     return if attributes == synced_contact.additional_attributes
 
     synced_contact.update!(additional_attributes: attributes)
+  end
+
+  # Twilio prefixes its source ids with the channel name, so the identifier is matched and
+  # reported without it, in the bare form the Cloud API and the Meta payloads use.
+  def whatsapp_bsuid(source_id)
+    identifier = source_id.to_s.delete_prefix('whatsapp:')
+    identifier if identifier.match?(RegexHelper::WHATSAPP_BSUID_REGEX)
   end
 
   # A parent identifier carries the `ENT` segment and groups a user across the business
