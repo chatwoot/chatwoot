@@ -4,7 +4,10 @@ import { useI18n } from 'vue-i18n';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
 import { useLocale } from 'shared/composables/useLocale';
-import { snoozedReopenTimeToTimestamp } from 'dashboard/helper/snoozeHelpers';
+import {
+  snoozedReopenTimeToTimestamp,
+  shortenSnoozeTime,
+} from 'dashboard/helper/snoozeHelpers';
 import { NOTIFICATION_TYPES_MAPPING } from 'dashboard/routes/dashboard/inbox/helpers/InboxViewHelpers';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -115,15 +118,13 @@ const snoozedUntilTime = computed(() => {
 const hasLastSnoozed = computed(() => props.inboxItem?.meta?.lastSnoozedAt);
 
 const snoozedText = computed(() => {
-  return !hasLastSnoozed.value
-    ? t('INBOX.TYPES_NEXT.SNOOZED_UNTIL', {
-        time: shortTimestamp(
-          snoozedUntilTime.value,
-          false,
-          resolvedLocale.value
-        ),
-      })
-    : t('INBOX.TYPES_NEXT.SNOOZED_ENDS');
+  if (hasLastSnoozed.value) return t('INBOX.TYPES_NEXT.SNOOZED_ENDS');
+
+  const formattedTime = resolvedLocale.value.toLowerCase().startsWith('en')
+    ? shortenSnoozeTime(snoozedUntilTime.value)
+    : shortTimestamp(snoozedUntilTime.value, false, resolvedLocale.value);
+
+  return t('INBOX.TYPES_NEXT.SNOOZED_UNTIL', { time: formattedTime });
 });
 
 const contextMenuActions = {
