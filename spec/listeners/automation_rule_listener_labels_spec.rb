@@ -171,7 +171,7 @@ describe AutomationRuleListener do
                conditions: [
                  {
                    attribute_key: 'labels',
-                   filter_operator: 'equal_to',
+                   filter_operator: 'contains',
                    values: ['urgent'],
                    query_operator: nil
                  }

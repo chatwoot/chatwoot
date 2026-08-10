@@ -1,5 +1,5 @@
 import { AUTOMATIONS } from './constants';
-import { OPERATOR_TYPES_3 } from './operators';
+import { LABEL_OPERATOR_TYPES } from './operators';
 
 describe('automation constants', () => {
   describe('conversation_resolved', () => {
@@ -10,7 +10,7 @@ describe('automation constants', () => {
         key: 'labels',
         name: 'LABELS',
         inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_3,
+        filterOperators: LABEL_OPERATOR_TYPES,
       });
     });
   });

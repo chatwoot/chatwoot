@@ -306,6 +306,22 @@ describe Conversations::FilterService do
         expect(result[:count][:all_count]).to be 1
       end
 
+      it 'filters conversations by label containment' do
+        user_2_assigned_conversation.update_labels('support')
+
+        params[:payload] = [
+          { attribute_key: 'labels', filter_operator: 'contains', values: ['support'], query_operator: nil }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1, account).perform
+        expect(result[:count][:all_count]).to eq(1)
+
+        params[:payload] = [
+          { attribute_key: 'labels', filter_operator: 'does_not_contain', values: ['support'], query_operator: nil }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1, account).perform
+        expect(result[:count][:all_count]).to eq(account.conversations.count - 1)
+      end
+
       it 'applies the planner hint to permission scoping only for selective label filters' do
         hinted_sql = lambda do |payload|
           params[:payload] = payload.map(&:with_indifferent_access)
@@ -314,6 +330,8 @@ describe Conversations::FilterService do
 
         expect(hinted_sql.call([{ attribute_key: 'labels', filter_operator: 'equal_to', values: ['support'], query_operator: nil }]))
           .to include('conversations.inbox_id + 0')
+        expect(hinted_sql.call([{ attribute_key: 'labels', filter_operator: 'contains', values: ['support'], query_operator: nil }]))
+          .to include('conversations.inbox_id + 0')
 
         # no labels condition
         expect(hinted_sql.call([{ attribute_key: 'status', filter_operator: 'equal_to', values: ['open'], query_operator: nil }]))
@@ -321,6 +339,8 @@ describe Conversations::FilterService do
 
         # negative label operator does not narrow the result set
         expect(hinted_sql.call([{ attribute_key: 'labels', filter_operator: 'not_equal_to', values: ['support'], query_operator: nil }]))
+          .not_to include('inbox_id + 0')
+        expect(hinted_sql.call([{ attribute_key: 'labels', filter_operator: 'does_not_contain', values: ['support'], query_operator: nil }]))
           .not_to include('inbox_id + 0')
 
         # OR payloads leave the result broad even with an equal_to label condition

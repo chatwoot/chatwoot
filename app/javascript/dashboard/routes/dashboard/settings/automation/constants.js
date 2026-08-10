@@ -3,6 +3,7 @@ import {
   OPERATOR_TYPES_2,
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_6,
+  LABEL_OPERATOR_TYPES,
 } from './operators';
 
 export const AUTOMATIONS = {
@@ -84,7 +85,7 @@ export const AUTOMATIONS = {
         key: 'labels',
         name: 'LABELS',
         inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_3,
+        filterOperators: LABEL_OPERATOR_TYPES,
       },
     ],
     actions: [
@@ -226,7 +227,7 @@ export const AUTOMATIONS = {
         key: 'labels',
         name: 'LABELS',
         inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_3,
+        filterOperators: LABEL_OPERATOR_TYPES,
       },
     ],
     actions: [
@@ -372,7 +373,7 @@ export const AUTOMATIONS = {
         key: 'labels',
         name: 'LABELS',
         inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_3,
+        filterOperators: LABEL_OPERATOR_TYPES,
       },
     ],
     actions: [
@@ -512,7 +513,7 @@ export const AUTOMATIONS = {
         key: 'labels',
         name: 'LABELS',
         inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_3,
+        filterOperators: LABEL_OPERATOR_TYPES,
       },
     ],
     actions: [
@@ -648,7 +649,7 @@ export const AUTOMATIONS = {
         key: 'labels',
         name: 'LABELS',
         inputType: 'multi_select',
-        filterOperators: OPERATOR_TYPES_3,
+        filterOperators: LABEL_OPERATOR_TYPES,
       },
     ],
     actions: [
