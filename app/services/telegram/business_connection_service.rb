@@ -8,9 +8,14 @@ class Telegram::BusinessConnectionService
     can_transfer_and_upgrade_gifts can_transfer_stars can_manage_stories
   ].freeze
 
-  pattr_initialize [:channel!]
+  attr_reader :channel, :expected_bot_token
 
-  def process(connection_params, update_id: nil, expected_bot_token: channel.bot_token, expected_update_id: nil)
+  def initialize(channel:)
+    @channel = channel
+    @expected_bot_token = channel.bot_token
+  end
+
+  def process(connection_params, update_id: nil, expected_bot_token: self.expected_bot_token, expected_update_id: nil)
     connection = normalize_connection(connection_params)
     return persist_error('Invalid Telegram Business connection payload', expected_bot_token: expected_bot_token) if connection['id'].blank?
 
@@ -18,7 +23,7 @@ class Telegram::BusinessConnectionService
   end
 
   def sync(connection_id, update_id: nil)
-    request_bot_token = channel.bot_token
+    request_bot_token = expected_bot_token
     return if connection_id.blank? || known_enabled_connection?(connection_id)
 
     expected_update_id = channel.business_config.dig('connections', connection_id, 'update_id')
@@ -41,6 +46,8 @@ class Telegram::BusinessConnectionService
     return if update_id.blank?
 
     channel.with_lock do
+      next false unless channel.bot_token == expected_bot_token
+
       config = channel.business_config.deep_dup
       next false if config.fetch('connections', {}).empty? || !record_update(config, update_id)
 
@@ -108,7 +115,7 @@ class Telegram::BusinessConnectionService
   end
 
   def stale_observed_update?(config, update_id)
-    config['last_update_id'].present? && !update_ids_expired?(config) && update_id < config['last_update_id']
+    config['last_update_id'].present? && !update_ids_expired?(config) && update_id <= config['last_update_id']
   end
 
   def update_ids_expired?(config)
@@ -128,7 +135,7 @@ class Telegram::BusinessConnectionService
     config.fetch('connections', {}).count { |_id, connection| connection['is_enabled'] == true }
   end
 
-  def persist_error(error, expected_bot_token: channel.bot_token, connection_id: nil, expected_update_id: nil)
+  def persist_error(error, expected_bot_token: self.expected_bot_token, connection_id: nil, expected_update_id: nil)
     channel.with_lock do
       next false unless channel.bot_token == expected_bot_token
       next false if connection_id.present? && connection_update_id(channel.business_config, connection_id) != expected_update_id

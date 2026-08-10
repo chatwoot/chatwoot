@@ -38,6 +38,12 @@ RSpec.describe Telegram::BusinessConnectionService do
       service.process({ id: 'connection-1', is_enabled: false }, update_id: 201)
       expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => false, 'update_id' => 201)
 
+      update_id_received_at = channel.business_config['last_update_id_received_at']
+      travel_to(1.day.from_now) do
+        service.observe_update(201)
+        expect(channel.reload.business_config['last_update_id_received_at']).to eq(update_id_received_at)
+      end
+
       service.observe_update(250)
       service.process({ id: 'connection-1', is_enabled: true }, update_id: 202)
       expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => true, 'update_id' => 202)
@@ -87,12 +93,20 @@ RSpec.describe Telegram::BusinessConnectionService do
       service = described_class.new(channel: channel)
       # Simulate the channel record changing after the webhook job resolved the old token.
       # rubocop:disable Rails/SkipsModelValidations
-      Channel::Telegram.find(channel.id).update_columns(bot_token: 'replacement-token')
+      Channel::Telegram.find(channel.id).update_columns(
+        bot_token: 'replacement-token',
+        business_config: {
+          'can_connect_to_business' => true,
+          'connections' => { 'replacement-connection' => { 'id' => 'replacement-connection', 'is_enabled' => true } }
+        }
+      )
       # rubocop:enable Rails/SkipsModelValidations
 
       service.process({ id: 'old-bot-connection', is_enabled: true }, update_id: 200)
+      service.observe_update(200)
 
-      expect(channel.reload.business_config['connections']).to be_empty
+      expect(channel.reload.business_config['connections'].keys).to contain_exactly('replacement-connection')
+      expect(channel.business_config['last_update_id']).to be_nil
     end
 
     it 'does not apply a lookup response after a newer lifecycle update is stored' do
