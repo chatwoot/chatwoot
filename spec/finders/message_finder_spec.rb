@@ -48,6 +48,14 @@ describe MessageFinder do
       end
     end
 
+    context 'with a before attribute above the message id range' do
+      let(:params) { { before: 4_611_686_018_427_387_903 } }
+
+      it 'returns the latest messages without overflowing the database column' do
+        expect(message_finder.perform.count).to be 6
+      end
+    end
+
     context 'with after attribute' do
       let(:params) { { after: conversation.messages.first.id } }
 
@@ -56,6 +64,14 @@ describe MessageFinder do
         expect(result.count).to be 5
         expect(result.first.id).to be conversation.messages.second.id
         expect(result.last.message_type).to eq 'outgoing'
+      end
+    end
+
+    context 'with an after attribute above the message id range' do
+      let(:params) { { after: 881_965_304_328 } }
+
+      it 'returns no messages without overflowing the database column' do
+        expect(message_finder.perform).to be_empty
       end
     end
 

@@ -1,4 +1,6 @@
 class MessageFinder
+  MESSAGE_ID_MAX = 2_147_483_647
+
   def initialize(conversation, params)
     @conversation = conversation
     @params = params
@@ -22,11 +24,11 @@ class MessageFinder
 
   def current_messages
     if @params[:after].present? && @params[:before].present?
-      messages_between(@params[:after].to_i, @params[:before].to_i)
+      messages_between(normalized_message_id(@params[:after]), normalized_message_id(@params[:before]))
     elsif @params[:before].present?
-      messages_before(@params[:before].to_i)
+      messages_before(normalized_message_id(@params[:before]))
     elsif @params[:after].present?
-      messages_after(@params[:after].to_i)
+      messages_after(normalized_message_id(@params[:after]))
     else
       messages_latest
     end
@@ -46,6 +48,10 @@ class MessageFinder
 
   def messages_latest
     messages.reorder('created_at desc').limit(20).reverse
+  end
+
+  def normalized_message_id(value)
+    value.to_i.clamp(0, MESSAGE_ID_MAX)
   end
 end
 
