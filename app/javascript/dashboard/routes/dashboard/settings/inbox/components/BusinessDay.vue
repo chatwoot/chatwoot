@@ -6,9 +6,11 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextSelect from 'dashboard/components-next/select/Select.vue';
 
 const timeSlots = generateTimeSlots(30);
+const timeReferenceDate = new Date(2000, 0, 1);
+const parseTime = time => parse(time, 'hh:mm a', timeReferenceDate);
 
 const formatTime = (time, locale) => {
-  const date = parse(time, 'hh:mm a', new Date());
+  const date = parseTime(time);
   return new Intl.DateTimeFormat(locale.replace(/_/g, '-'), {
     hour: '2-digit',
     minute: '2-digit',
@@ -83,7 +85,7 @@ export default {
         return this.timeSlot.from;
       },
       set(value) {
-        const fromDate = parse(value, 'hh:mm a', new Date());
+        const fromDate = parseTime(value);
         const valid = differenceInMinutes(this.toDate, fromDate) / 60 > 0;
         this.$emit('update', {
           ...this.timeSlot,
@@ -97,7 +99,7 @@ export default {
         return this.timeSlot.to;
       },
       set(value) {
-        const toDate = parse(value, 'hh:mm a', new Date());
+        const toDate = parseTime(value);
         if (value === '12:00 AM') {
           this.$emit('update', {
             ...this.timeSlot,
@@ -115,10 +117,10 @@ export default {
       },
     },
     fromDate() {
-      return parse(this.fromTime, 'hh:mm a', new Date());
+      return parseTime(this.fromTime);
     },
     toDate() {
-      return parse(this.toTime, 'hh:mm a', new Date());
+      return parseTime(this.toTime);
     },
     totalHours() {
       if (this.timeSlot.openAllDay) return '24h';
