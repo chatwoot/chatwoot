@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import Avatar from 'next/avatar/Avatar.vue';
 import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import CaretAnchoredPicker from 'dashboard/components-next/preview-picker/CaretAnchoredPicker.vue';
@@ -24,6 +25,7 @@ const getters = useStoreGetters();
 
 const agents = computed(() => getters['agents/getVerifiedAgents'].value);
 const teams = useMapGetter('teams/getTeams');
+const isRTL = useMapGetter('accounts/isRTL');
 
 const searchQuery = ref(props.searchKey);
 
@@ -37,7 +39,6 @@ const agentItems = computed(() =>
     .map(agent => ({
       id: `user-${agent.id}`,
       record: { ...agent, type: 'user', displayName: agent.name },
-      group: t('CONVERSATION.MENTION.AGENTS'),
       label: agent.name,
       title: agent.name,
       subtitle: agent.email,
@@ -50,14 +51,62 @@ const teamItems = computed(() =>
     .map(team => ({
       id: `team-${team.id}`,
       record: { ...team, type: 'team', displayName: team.name },
-      group: t('CONVERSATION.MENTION.TEAMS'),
       label: team.name,
       title: team.name,
       subtitle: team.description,
     }))
 );
 
-const items = computed(() => [...agentItems.value, ...teamItems.value]);
+const activeFilter = ref('all');
+
+const tabs = computed(() => [
+  { label: t('CONVERSATION.PICKER.MENTION.FILTER.ALL'), value: 'all' },
+  {
+    label: t('CONVERSATION.MENTION.AGENTS'),
+    value: 'agents',
+    count: agentItems.value.length,
+  },
+  {
+    label: t('CONVERSATION.MENTION.TEAMS'),
+    value: 'teams',
+    count: teamItems.value.length,
+  },
+]);
+
+const items = computed(() => {
+  if (activeFilter.value === 'agents') return agentItems.value;
+  if (activeFilter.value === 'teams') return teamItems.value;
+
+  return [
+    ...agentItems.value.map(item => ({
+      ...item,
+      group: t('CONVERSATION.MENTION.AGENTS'),
+    })),
+    ...teamItems.value.map(item => ({
+      ...item,
+      group: t('CONVERSATION.MENTION.TEAMS'),
+    })),
+  ];
+});
+
+// The arrows belong to the caret once there is a query to move through. RTL reverses the
+// row, so the arrow that moves forward flips with it.
+const navigateFilters = event => {
+  if (searchQuery.value) return;
+
+  const step = (event.key === 'ArrowRight') !== isRTL.value ? 1 : -1;
+  const index = tabs.value.findIndex(tab => tab.value === activeFilter.value);
+  const next = tabs.value[index + step];
+  if (!next) return;
+
+  event.preventDefault();
+  activeFilter.value = next.value;
+};
+
+useKeyboardEvents({
+  ArrowLeft: { action: navigateFilters, allowOnFocusedInput: true },
+  ArrowRight: { action: navigateFilters, allowOnFocusedInput: true },
+});
 
 const availabilityLabels = computed(() => ({
   online: t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.ONLINE'),
@@ -81,6 +130,29 @@ const onSelect = item => emit('selectAgent', item.record);
     @close="emit('close')"
     @remove-trigger="emit('removeTrigger')"
   >
+    <template #filters>
+      <div role="tablist" class="flex items-center min-w-0 gap-1">
+        <button
+          v-for="tab in tabs"
+          :key="tab.value"
+          type="button"
+          role="tab"
+          :aria-selected="activeFilter === tab.value"
+          class="flex items-center min-w-0 gap-1 px-2 py-1 text-xs font-medium transition-colors rounded-md"
+          :class="
+            activeFilter === tab.value
+              ? 'bg-n-alpha-1 dark:bg-n-alpha-2 text-n-slate-12'
+              : 'text-n-slate-11 hover:bg-n-alpha-1'
+          "
+          @click="activeFilter = tab.value"
+        >
+          <span class="truncate">{{ tab.label }}</span>
+          <span v-if="tab.count !== undefined" class="text-n-slate-10">
+            {{ tab.count }}
+          </span>
+        </button>
+      </div>
+    </template>
     <template #leading="{ item }">
       <EmojiIcon
         v-if="item.record.type === 'team' && item.record.icon"

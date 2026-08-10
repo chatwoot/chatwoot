@@ -169,6 +169,9 @@
       },
       "MENTION": {
         "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "All"
+        },
         "AVAILABILITY": "Availability",
         "ROLE": "Role",
         "AUTO_ASSIGN": "Auto assign",

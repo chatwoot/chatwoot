@@ -36,10 +36,9 @@ const items = computed(() => {
 
   return allEmojis.value
     .filter(emoji => emoji.searchString.includes(normalizedTerm.value))
-    .map(({ emoji, name, slug, category }) => ({
+    .map(({ emoji, name, slug }) => ({
       id: slug,
       emoji,
-      category,
       label: name,
       title: name,
       subtitle: `:${slug}:`,
@@ -47,12 +46,11 @@ const items = computed(() => {
 });
 
 onMounted(() => {
-  allEmojis.value = emojiGroups.flatMap(({ name: category, emojis }) =>
+  allEmojis.value = emojiGroups.flatMap(({ emojis }) =>
     emojis.map(({ name, slug, ...rest }) => ({
       ...rest,
       name,
       slug,
-      category,
       searchString: `${stripSeparators(name)} ${stripSeparators(slug)}`,
     }))
   );
@@ -78,20 +76,6 @@ const onSelect = item => emit('selectEmoji', item.emoji);
   >
     <template #leading="{ item }">
       <span class="text-base leading-none">{{ item.emoji }}</span>
-    </template>
-    <template #preview="{ item }">
-      <div v-if="item" class="flex items-start gap-3 px-4 py-3">
-        <span class="text-4xl leading-none">{{ item.emoji }}</span>
-        <div class="flex flex-col min-w-0 gap-1">
-          <span class="text-sm font-medium capitalize text-n-slate-12">
-            {{ item.label }}
-          </span>
-          <span class="text-xs break-all text-n-slate-11">
-            {{ item.subtitle }}
-          </span>
-          <span class="text-xs text-n-slate-10">{{ item.category }}</span>
-        </div>
-      </div>
     </template>
   </CaretAnchoredPicker>
 </template>
