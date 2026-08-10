@@ -411,7 +411,7 @@ fr:
     shopify:
       name: 'Shopify'
       short_description: 'Accédez aux détails de la commande et aux données client de votre boutique Shopify.'
-      description: 'Connectez votre boutique Shopify pour accéder aux détails de la commande, informations sur le client. et les données des produits directement dans vos conversations et aide votre équipe de support à fournir une assistance plus rapide et plus contextuelle à vos clients.'
+      description: 'Connectez votre boutique Shopify pour accéder aux détails des commandes, aux informations sur les clients et aux données des produits directement dans vos conversations, afin d''aider votre équipe de support à fournir une assistance plus rapide et plus contextuelle à vos clients.'
     leadsquared:
       name: 'LeadSquared'
       short_description: 'Synchronisez vos contacts et conversations avec LeadSquared CRM.'
@@ -453,7 +453,7 @@ fr:
       page_processing_error: 'Erreur de traitement des pages %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Impossible de générer un slug unique après 5 tentatives'
-      limit_exceeded: 'Vous pouvez créer un maximum d''outils personnalisés %{limit} par compte'
+      limit_exceeded: 'Vous pouvez créer un maximum de %{limit} outils personnalisés par compte'
   public_portal:
     search:
       search_placeholder: Rechercher un article par titre ou contenu...
@@ -640,4 +640,6 @@ fr:
       user_not_found: 'Utilisateur introuvable.'
       no_subscriptions_to_test: 'Sélectionnez au moins un abonnement à tester.'
       no_subscriptions_to_delete: 'Sélectionnez au moins un abonnement à supprimer.'
-      subscriptions_deleted: "Abonnements %{count} supprimés. Le(s) appareil(s) de l'utilisateur se réinscrira lors du prochain lancement de l'application."
+      subscriptions_deleted:
+        one: "%{count} abonnement supprimé. L'appareil de l'utilisateur se réinscrira lors du prochain lancement de l'application."
+        other: "%{count} abonnements supprimés. Les appareils de l'utilisateur se réinscriront lors du prochain lancement de l'application."
