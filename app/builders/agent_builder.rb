@@ -32,6 +32,7 @@ class AgentBuilder
       end
     end
     @user.send_confirmation_instructions if user_needs_confirmation?
+    notify_existing_user_added_to_account unless new_user?
     @user
   end
 
@@ -40,6 +41,10 @@ class AgentBuilder
   end
 
   private
+
+  def notify_existing_user_added_to_account
+    AdministratorNotifications::AccountNotificationMailer.with(account: account).added_as_agent(@user, account).deliver_later
+  end
 
   def can_add_agent?
     account.usage_limits[:agents] > account.account_users.count

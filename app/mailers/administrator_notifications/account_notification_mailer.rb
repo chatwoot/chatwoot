@@ -58,6 +58,14 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
     send_notification(subject, action_url: action_url, meta: meta)
   end
 
+  def added_as_agent(user, account)
+    subject = "You've been added to #{account.name} on Chatwoot"
+    action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/dashboard"
+    meta = { 'account_name' => account.name }
+
+    send_notification(subject, to: user.email, action_url: action_url, meta: meta)
+  end
+
   private
 
   def format_deletion_date(deletion_date_str)

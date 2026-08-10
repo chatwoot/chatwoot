@@ -51,6 +51,10 @@ RSpec.describe AgentBuilder, type: :model do
         expect(account.emails_sent_today).to eq(1)
       end
 
+      it 'does not notify about being added to an existing account' do
+        expect { agent_builder.perform }.not_to have_enqueued_mail(AdministratorNotifications::AccountNotificationMailer, :added_as_agent)
+      end
+
       context 'when the account email limit is exhausted' do
         before do
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
@@ -85,6 +89,10 @@ RSpec.describe AgentBuilder, type: :model do
 
         expect { agent_builder.perform }.not_to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
         expect(account.emails_sent_today).to eq(0)
+      end
+
+      it 'notifies the user that they were added to a new account' do
+        expect { agent_builder.perform }.to have_enqueued_mail(AdministratorNotifications::AccountNotificationMailer, :added_as_agent)
       end
     end
 
