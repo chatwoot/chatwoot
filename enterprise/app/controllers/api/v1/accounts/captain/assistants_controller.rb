@@ -130,6 +130,9 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
       :resolution_message, :instructions, :temperature, :auto_resolve_mode,
       :response_window
     ]
+    if Current.account.feature_enabled?('captain_integration_v2')
+      assistant_config_attributes += [:auto_resolve_after, :send_inactivity_resolution_message]
+    end
 
     permitted = params.require(:assistant).permit(:name, :description,
                                                   config: assistant_config_attributes)

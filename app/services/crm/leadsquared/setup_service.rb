@@ -82,7 +82,7 @@ class Crm::Leadsquared::SetupService
   end
 
   def update_hook_settings(params)
-    @hook.settings = @hook.settings.merge(params)
+    @hook.settings = @hook.settings.merge(params.stringify_keys)
     @hook.save!
   end
 
