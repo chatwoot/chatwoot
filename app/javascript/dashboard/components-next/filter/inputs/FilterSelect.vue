@@ -122,7 +122,7 @@ const toggleDropdown = toggle => {
           v-model="searchTerm"
           v-focus
           class="w-full p-1.5 pl-8 rounded-lg text-n-slate-11 bg-n-alpha-1"
-          :placeholder="t('COMBOBOX.SEARCH_PLACEHOLDER')"
+          :placeholder="t('FILTER.SEARCH_PLACEHOLDER')"
         />
       </div>
       <DropdownSection class="[&>ul]:max-h-72">
@@ -141,11 +141,7 @@ const toggleDropdown = toggle => {
           />
         </template>
         <DropdownItem v-if="!searchResults.length" disabled>
-          {{
-            searchTerm
-              ? t('COMBOBOX.EMPTY_SEARCH_RESULTS', { searchTerm })
-              : t('COMBOBOX.EMPTY_STATE')
-          }}
+          {{ t('FILTER.NO_RESULTS') }}
         </DropdownItem>
       </DropdownSection>
     </DropdownBody>

@@ -3,11 +3,16 @@ import { useAudienceFilterTypes } from './useAudienceFilterTypes';
 
 const state = vi.hoisted(() => ({
   contactFilterTypes: [],
+  contactAttributes: [],
   equalityOperators: [{ value: 'equal_to' }, { value: 'not_equal_to' }],
 }));
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
+}));
+
+vi.mock('dashboard/composables/store.js', () => ({
+  useMapGetter: () => ({ value: state.contactAttributes }),
 }));
 
 vi.mock('dashboard/components-next/filter/contactProvider.js', () => ({
@@ -26,13 +31,12 @@ describe('useAudienceFilterTypes', () => {
   beforeEach(() => {
     state.contactFilterTypes = [
       { attributeKey: 'email', attributeModel: 'standard' },
-      { attributeKey: 'country_code', attributeModel: 'additional' },
       { attributeKey: 'mystery', attributeModel: 'standard' },
-      {
-        attributeKey: 'signed_up_on',
-        attributeModel: 'customAttributes',
-        attributeDisplayType: 'date',
-      },
+      { attributeKey: 'signed_up_on', attributeModel: 'customAttributes' },
+      { attributeKey: 'company_size', attributeModel: 'customAttributes' },
+    ];
+    state.contactAttributes = [
+      { attributeKey: 'signed_up_on', attributeDisplayType: 'date' },
     ];
   });
 
@@ -43,7 +47,6 @@ describe('useAudienceFilterTypes', () => {
     expect(keys).toEqual([
       '__group_contact',
       'email',
-      'country_code',
       'mystery',
       '__group_conversation',
       'hmac_verified',
@@ -59,10 +62,13 @@ describe('useAudienceFilterTypes', () => {
     expect(headers.every(header => header.disabled)).toBe(true);
   });
 
+  it('excludes custom attributes that are not contact-model attributes', () => {
+    const keys = build().map(item => item.attributeKey);
+    expect(keys).not.toContain('company_size');
+  });
+
   it('omits the custom section when there are no contact custom attributes', () => {
-    state.contactFilterTypes = state.contactFilterTypes.filter(
-      type => type.attributeModel !== 'customAttributes'
-    );
+    state.contactAttributes = [];
     const values = build().map(item => item.attributeKey ?? item.value);
     expect(values).not.toContain('__group_custom');
     expect(values).not.toContain('signed_up_on');

@@ -149,7 +149,7 @@ const toggleOption = option => {
         <input
           v-model="searchTerm"
           v-focus
-          class="w-full p-1.5 pl-8 rounded-lg text-n-slate-11 bg-n-alpha-1"
+          class="p-1.5 pl-8 text-n-slate-11 bg-n-alpha-1 rounded-lg w-full"
           :placeholder="t('COMBOBOX.SEARCH_PLACEHOLDER')"
         />
       </div>
@@ -172,13 +172,16 @@ const toggleOption = option => {
             </template>
           </DropdownItem>
         </template>
-        <DropdownItem v-else disabled>
-          {{
-            searchTerm
-              ? t('COMBOBOX.EMPTY_SEARCH_RESULTS', { searchTerm })
-              : t('COMBOBOX.EMPTY_STATE')
-          }}
-        </DropdownItem>
+        <template v-else-if="searchTerm">
+          <DropdownItem disabled>
+            {{ t('COMBOBOX.EMPTY_SEARCH_RESULTS', { searchTerm }) }}
+          </DropdownItem>
+        </template>
+        <template v-else>
+          <DropdownItem disabled>
+            {{ t('COMBOBOX.EMPTY_STATE') }}
+          </DropdownItem>
+        </template>
       </DropdownSection>
     </DropdownBody>
   </DropdownContainer>
