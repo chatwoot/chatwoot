@@ -595,6 +595,24 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(api_channel.reload.webhook_url).to eq('webhook.test')
       end
 
+      it 'merges additional_attributes instead of replacing them, preserving existing key types' do
+        api_channel = create(:channel_api, account: account,
+                                           additional_attributes: { 'import_placeholder' => true, 'source_provider' => 'zendesk' })
+        api_inbox = create(:inbox, channel: api_channel, account: account)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{api_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { channel: { additional_attributes: { 'include_private_notes' => 'true' } } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(api_channel.reload.additional_attributes).to eq(
+          'import_placeholder' => true,
+          'source_provider' => 'zendesk',
+          'include_private_notes' => 'true'
+        )
+      end
+
       it 'updates whatsapp inbox when administrator' do
         stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook').to_return(status: 200, body: '', headers: {})
         stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates').to_return(status: 200, body: '', headers: {})

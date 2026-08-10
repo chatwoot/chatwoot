@@ -35,6 +35,12 @@ class Channel::Api < ApplicationRecord
     'API'
   end
 
+  # Merge, don't replace: callers (e.g. the inbox settings form) only ever intend to update
+  # specific keys, and a blind replace would drop unrelated ones already stored here.
+  def additional_attributes=(value)
+    super(additional_attributes.merge(value.to_h))
+  end
+
   private
 
   def ensure_valid_agent_reply_time_window

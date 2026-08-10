@@ -705,7 +705,6 @@ export default {
             website_url: this.channelWebsiteUrl,
             webhook_url: this.webhookUrl,
             additional_attributes: {
-              ...(this.inbox.additional_attributes || {}),
               include_private_notes: this.includePrivateNotes,
             },
             welcome_title: this.channelWelcomeTitle || '',

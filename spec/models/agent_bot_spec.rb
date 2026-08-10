@@ -66,4 +66,17 @@ RSpec.describe AgentBot do
       end
     end
   end
+
+  describe '#bot_config=' do
+    it 'merges into existing config instead of replacing it' do
+      agent_bot = create(:agent_bot, bot_config: { 'webhook_url' => 'https://example.com/hook' })
+
+      agent_bot.update!(bot_config: { 'include_private_notes' => 'true' })
+
+      expect(agent_bot.reload.bot_config).to eq(
+        'webhook_url' => 'https://example.com/hook',
+        'include_private_notes' => 'true'
+      )
+    end
+  end
 end

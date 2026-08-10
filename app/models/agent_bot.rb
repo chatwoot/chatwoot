@@ -66,6 +66,12 @@ class AgentBot < ApplicationRecord
   def system_bot?
     account.nil?
   end
+
+  # Merge, don't replace: callers (e.g. the agent bot settings form) only ever intend to update
+  # specific keys, and a blind replace would drop unrelated ones already stored here.
+  def bot_config=(value)
+    super(bot_config.merge(value.to_h))
+  end
 end
 
 AgentBot.include_mod_with('Audit::AgentBot')

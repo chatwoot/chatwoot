@@ -20,4 +20,18 @@ RSpec.describe Channel::Api do
       end
     end
   end
+
+  describe '#additional_attributes=' do
+    it 'merges into existing attributes instead of replacing them' do
+      channel_api = create(:channel_api, additional_attributes: { 'import_placeholder' => true, 'source_provider' => 'zendesk' })
+
+      channel_api.update!(additional_attributes: { 'include_private_notes' => 'true' })
+
+      expect(channel_api.reload.additional_attributes).to eq(
+        'import_placeholder' => true,
+        'source_provider' => 'zendesk',
+        'include_private_notes' => 'true'
+      )
+    end
+  end
 end

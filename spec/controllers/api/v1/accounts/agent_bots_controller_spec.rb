@@ -225,6 +225,21 @@ RSpec.describe 'Agent Bot API', type: :request do
         expect(response).to have_http_status(:success)
         expect(Avatar::AvatarFromUrlJob).to have_been_enqueued.with(agent_bot, 'http://example.com/avatar.png')
       end
+
+      it 'merges bot_config instead of replacing it, preserving existing keys' do
+        agent_bot.update!(bot_config: { 'webhook_url' => 'https://example.com/hook' })
+
+        patch "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}",
+              headers: admin.create_new_auth_token,
+              params: valid_params.merge(bot_config: { include_private_notes: 'true' }),
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent_bot.reload.bot_config).to eq(
+          'webhook_url' => 'https://example.com/hook',
+          'include_private_notes' => 'true'
+        )
+      end
     end
   end
 

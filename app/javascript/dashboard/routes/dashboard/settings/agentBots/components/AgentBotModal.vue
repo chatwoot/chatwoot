@@ -165,10 +165,7 @@ const handleSubmit = async () => {
     outgoing_url: formState.botUrl,
     bot_type: 'webhook',
     avatar: formState.botAvatar,
-    bot_config: {
-      ...(props.selectedBot?.bot_config || {}),
-      include_private_notes: formState.includePrivateNotes,
-    },
+    bot_config: { include_private_notes: formState.includePrivateNotes },
   };
 
   const isCreate = props.type === MODAL_TYPES.CREATE;
