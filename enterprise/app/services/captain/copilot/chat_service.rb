@@ -1,5 +1,6 @@
 class Captain::Copilot::ChatService < Llm::BaseAiService
   include Captain::ChatHelper
+  include Captain::Copilot::ConversationAccess
 
   attr_reader :assistant, :account, :user, :copilot_thread, :previous_history, :messages
 
@@ -43,16 +44,8 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
   def setup_conversation(config)
     return if @user.blank? || config[:conversation_id].blank?
 
-    @conversation = permissible_conversations.find_by(display_id: config[:conversation_id])
+    @conversation = accessible_conversation(account: @account, user: @user, display_id: config[:conversation_id])
     @conversation_id = @conversation&.display_id
-  end
-
-  def permissible_conversations
-    Conversations::PermissionFilterService.new(
-      @account.conversations,
-      @user,
-      @account
-    ).perform
   end
 
   def build_messages

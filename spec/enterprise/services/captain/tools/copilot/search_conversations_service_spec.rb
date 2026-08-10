@@ -156,5 +156,91 @@ RSpec.describe Captain::Tools::Copilot::SearchConversationsService do
         expect(result).not_to include(resolved_conversation.to_llm_text(include_contact_details: true))
       end
     end
+
+    context 'when the user has team access without inbox access' do
+      let(:user) { create(:user, account: account, role: :agent) }
+      let(:team) { create(:team, account: account) }
+      let!(:team_conversation) { create(:conversation, :with_team, account: account, team: team) }
+
+      before { create(:team_member, team: team, user: user) }
+
+      it 'returns and counts the team conversation' do
+        result = service.execute
+
+        expect(result).to include('Total number of conversations: 1')
+        expect(result).to include("Conversation ID: ##{team_conversation.display_id}")
+      end
+    end
+
+    context 'when an administrator has a limited custom role' do
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_participating_manage']) }
+
+      before do
+        AccountUser.find_by!(user: user, account: account).update!(custom_role: custom_role)
+        create(:message, conversation: open_conversation, private: true, content: 'Restricted private note')
+      end
+
+      it 'does not return or count unrelated conversations' do
+        result = service.execute
+
+        expect(result).to eq('No conversations found')
+        expect(result).not_to include('Restricted private note')
+      end
+
+      it 'returns and counts an assigned conversation outside their inboxes' do
+        assigned_conversation = create(:conversation, account: account, assignee: user)
+
+        result = service.execute
+
+        expect(result).to include('Total number of conversations: 1')
+        expect(result).to include("Conversation ID: ##{assigned_conversation.display_id}")
+        expect(result).not_to include('Restricted private note')
+      end
+
+      it 'returns and counts a participating conversation outside their inboxes' do
+        participating_conversation = create(:conversation, account: account)
+        create(:conversation_participant, account: account, conversation: participating_conversation, user: user)
+
+        result = service.execute
+
+        expect(result).to include('Total number of conversations: 1')
+        expect(result).to include("Conversation ID: ##{participating_conversation.display_id}")
+        expect(result).not_to include('Restricted private note')
+      end
+    end
+
+    context 'when a custom role combines unassigned and participating permissions' do
+      let(:custom_role) do
+        create(:custom_role, account: account, permissions: %w[conversation_unassigned_manage conversation_participating_manage])
+      end
+
+      before do
+        AccountUser.find_by!(user: user, account: account).update!(custom_role: custom_role)
+        resolved_conversation.update!(assignee: create(:user, account: account))
+        create(:conversation_participant, account: account, conversation: resolved_conversation, user: user)
+      end
+
+      it 'returns the union of both permissions without duplicate counts' do
+        result = service.execute
+
+        expect(result).to include('Total number of conversations: 2')
+        expect(result).to include("Conversation ID: ##{open_conversation.display_id}")
+        expect(result).to include("Conversation ID: ##{resolved_conversation.display_id}")
+      end
+    end
+
+    context 'when an administrator has a conversation_manage custom role' do
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_manage']) }
+
+      before { AccountUser.find_by!(user: user, account: account).update!(custom_role: custom_role) }
+
+      it 'returns conversations outside their inboxes' do
+        result = service.execute
+
+        expect(result).to include('Total number of conversations: 2')
+        expect(result).to include("Conversation ID: ##{open_conversation.display_id}")
+        expect(result).to include("Conversation ID: ##{resolved_conversation.display_id}")
+      end
+    end
   end
 end

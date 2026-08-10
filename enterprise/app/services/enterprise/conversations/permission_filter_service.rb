@@ -8,7 +8,7 @@ module Enterprise::Conversations::PermissionFilterService
   private
 
   def user_has_custom_role?
-    account_user&.custom_role_id.present?
+    user_role == 'agent' && account_user&.custom_role_id.present?
   end
 
   def permissions

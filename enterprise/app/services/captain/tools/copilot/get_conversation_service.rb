@@ -1,4 +1,6 @@
 class Captain::Tools::Copilot::GetConversationService < Captain::Tools::BaseTool
+  include Captain::Copilot::ConversationAccess
+
   def self.name
     'get_conversation'
   end
@@ -7,7 +9,7 @@ class Captain::Tools::Copilot::GetConversationService < Captain::Tools::BaseTool
   param :conversation_id, type: :integer, desc: 'ID of the conversation to retrieve', required: true
 
   def execute(conversation_id:)
-    conversation = permissible_conversations.find_by(display_id: conversation_id)
+    conversation = accessible_conversation(account: @assistant.account, user: @user, display_id: conversation_id)
     return 'Conversation not found' if conversation.blank?
 
     conversation.to_llm_text(include_private_messages: true)
@@ -17,15 +19,5 @@ class Captain::Tools::Copilot::GetConversationService < Captain::Tools::BaseTool
     user_has_permission('conversation_manage') ||
       user_has_permission('conversation_unassigned_manage') ||
       user_has_permission('conversation_participating_manage')
-  end
-
-  private
-
-  def permissible_conversations
-    Conversations::PermissionFilterService.new(
-      @assistant.account.conversations,
-      @user,
-      @assistant.account
-    ).perform
   end
 end

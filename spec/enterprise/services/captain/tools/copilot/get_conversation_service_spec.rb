@@ -164,6 +164,17 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
       end
     end
 
+    context 'when conversation is accessible through team membership' do
+      let(:team) { create(:team, account: account) }
+      let(:conversation) { create(:conversation, :with_team, account: account, team: team) }
+
+      before { create(:team_member, team: team, user: user) }
+
+      it 'returns the conversation in llm text format' do
+        expect(service.execute(conversation_id: conversation.display_id)).to eq(conversation.to_llm_text)
+      end
+    end
+
     context 'when user only has conversation_participating_manage permission' do
       let(:inbox) { create(:inbox, account: account) }
       let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_participating_manage']) }
@@ -198,6 +209,24 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
 
       it 'does not return an unrelated conversation or its private messages' do
         expect(service.execute(conversation_id: conversation.display_id)).to eq('Conversation not found')
+      end
+
+      it 'returns a conversation assigned to the user outside their inboxes' do
+        assigned_conversation = create(:conversation, account: account, assignee: user)
+
+        expect(service.execute(conversation_id: assigned_conversation.display_id)).to eq(assigned_conversation.to_llm_text)
+      end
+    end
+
+    context 'when an administrator has a conversation_manage custom role' do
+      let(:user) { create(:user, :administrator, account: account) }
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_manage']) }
+      let(:conversation) { create(:conversation, account: account) }
+
+      before { AccountUser.find_by(user: user, account: account).update!(custom_role: custom_role) }
+
+      it 'returns a conversation outside their inboxes' do
+        expect(service.execute(conversation_id: conversation.display_id)).to eq(conversation.to_llm_text)
       end
     end
   end

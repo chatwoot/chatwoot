@@ -189,6 +189,15 @@ RSpec.describe Captain::Copilot::ChatService do
       expect(messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
     end
 
+    it 'omits current viewing history for a conversation in another account' do
+      other_account = create(:account)
+      other_conversation = create(:conversation, account: other_account)
+
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: other_conversation.display_id })
+
+      expect(service.messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
+    end
+
     it 'omits current viewing history when an administrator has a limited custom role' do
       create(:inbox_member, user: user, inbox: inbox)
       custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
@@ -197,6 +206,35 @@ RSpec.describe Captain::Copilot::ChatService do
       service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
 
       expect(service.messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
+    end
+
+    it 'includes current viewing history when the user has team access' do
+      team = create(:team, account: account)
+      create(:team_member, team: team, user: user)
+      conversation.update!(team: team)
+
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
+
+      expect(service.messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be true
+    end
+
+    it 'includes current viewing history for a mixed-role administrator assigned outside their inboxes' do
+      custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
+      AccountUser.find_by(user: user, account: account).update!(role: :administrator, custom_role: custom_role)
+      conversation.update!(assignee: user)
+
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
+
+      expect(service.messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be true
+    end
+
+    it 'includes current viewing history for an administrator with a conversation_manage custom role' do
+      custom_role = create(:custom_role, account: account, permissions: ['conversation_manage'])
+      AccountUser.find_by(user: user, account: account).update!(role: :administrator, custom_role: custom_role)
+
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
+
+      expect(service.messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be true
     end
   end
 
