@@ -204,7 +204,7 @@ onMounted(() => {
 
 <template>
   <div class="resizable-editor-body flex flex-col gap-2 mb-3">
-    <div class="flex-1 min-h-0 overflow-y-auto">
+    <div class="copilot-suggestion flex-1 min-h-0 overflow-y-auto">
       <p
         v-dompurify-html="formatMessage(generatedContent, false)"
         class="text-n-iris-12 text-sm prose-sm font-normal"
@@ -227,6 +227,10 @@ onMounted(() => {
 
 <style lang="scss">
 @import '@chatwoot/prosemirror-schema/src/styles/base.scss';
+
+.copilot-suggestion:not(:where(.resizable-editor-wrapper *)) {
+  @apply max-h-56;
+}
 
 .editor--copilot {
   @apply bg-n-iris-5 rounded;
