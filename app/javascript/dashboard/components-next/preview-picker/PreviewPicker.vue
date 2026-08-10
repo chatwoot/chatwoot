@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, onMounted, useTemplateRef } from 'vue';
+import { computed, nextTick, onMounted, useId, useTemplateRef } from 'vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
@@ -32,6 +32,9 @@ const search = defineModel('search', { type: String, default: '' });
 
 const listRef = useTemplateRef('listRef');
 const searchRef = useTemplateRef('searchRef');
+
+const listboxId = useId();
+const optionId = index => `${listboxId}-${index}`;
 
 const selectedItem = computed(() => props.items[selectedIndex.value]);
 
@@ -95,24 +98,34 @@ defineExpose({ scrollSelectedIntoView });
           ref="searchRef"
           v-model="search"
           type="text"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded="true"
+          :aria-controls="listboxId"
+          :aria-activedescendant="items.length ? optionId(selectedIndex) : null"
+          :aria-label="searchPlaceholder"
           class="w-full h-full px-2 text-sm bg-transparent outline-none text-n-slate-12 placeholder:text-n-slate-10 reset-base"
           :placeholder="searchPlaceholder"
         />
       </div>
-      <ul ref="listRef" class="flex-1 p-1 m-0 overflow-y-auto list-none">
-        <template v-for="(item, index) in items" :key="item.id">
-          <li
-            v-if="groupFor(index)"
-            class="px-2 pt-2 pb-1 text-xs font-medium text-n-slate-10"
-          >
-            {{ groupFor(index) }}
-          </li>
-          <li>
-            <button
+      <div ref="listRef" class="flex-1 p-1 overflow-y-auto">
+        <ul :id="listboxId" role="listbox" class="m-0 list-none">
+          <template v-for="(item, index) in items" :key="item.id">
+            <li
+              v-if="groupFor(index)"
+              role="presentation"
+              class="px-2 pt-2 pb-1 text-xs font-medium text-n-slate-10"
+            >
+              {{ groupFor(index) }}
+            </li>
+            <li
+              :id="optionId(index)"
               :data-index="index"
-              class="flex items-center w-full gap-2 px-2 py-1 overflow-hidden text-left rounded-lg cursor-pointer"
+              role="option"
+              :aria-selected="index === selectedIndex"
+              class="flex items-center w-full gap-2 px-2 py-1 overflow-hidden rounded-lg cursor-pointer text-start"
               :class="index === selectedIndex ? 'bg-n-alpha-black2' : ''"
-              @mouseover="selectedIndex = index"
+              @mousemove="selectedIndex = index"
               @click="emit('select', index)"
             >
               <slot
@@ -131,13 +144,17 @@ defineExpose({ scrollSelectedIntoView });
                   class="max-w-full min-w-0 text-xs truncate text-n-slate-11"
                 />
               </span>
-            </button>
-          </li>
-        </template>
-        <li v-if="!items.length" class="px-2 py-1.5 text-sm text-n-slate-11">
+            </li>
+          </template>
+        </ul>
+        <div
+          v-if="!items.length"
+          role="status"
+          class="px-2 py-1.5 text-sm text-n-slate-11"
+        >
           {{ emptyLabel }}
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
     <div v-if="hasPreview" class="flex flex-col min-w-0" :class="previewClass">
       <div

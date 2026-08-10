@@ -6,6 +6,7 @@ import {
   useWindowSize,
 } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
@@ -48,6 +49,7 @@ const selectedIndex = ref(0);
 
 const caretAnchor = useElementBounding(caretAnchorRef);
 const { width: windowWidth, height: windowHeight } = useWindowSize();
+const isRTL = useMapGetter('accounts/isRTL');
 
 const items = computed(() => props.items);
 
@@ -73,24 +75,39 @@ const placement = computed(() => {
   };
 });
 
+const width = computed(() =>
+  Math.min(
+    caretAnchor.width.value,
+    MAX_WIDTH,
+    windowWidth.value - VIEWPORT_MARGIN * 2
+  )
+);
+
 const previewLayout = computed(() => {
-  if (caretAnchor.width.value >= SIDE_PREVIEW_MIN_WIDTH) return 'side';
+  if (width.value >= SIDE_PREVIEW_MIN_WIDTH) return 'side';
   if (placement.value.height >= STACKED_PREVIEW_MIN_HEIGHT) return 'stacked';
   return 'none';
 });
 
+// Measured from the editor's inline start, which is its right edge in RTL. The teleported
+// card carries `dir`, so `inset-inline-start` resolves to the matching physical side.
+const inlineStart = computed(() =>
+  isRTL.value
+    ? windowWidth.value - caretAnchor.right.value
+    : caretAnchor.left.value
+);
+
 const pickerStyle = computed(() => {
   const { placeAbove, height } = placement.value;
   const showsPreview = previewLayout.value !== 'none';
-  const width = Math.min(caretAnchor.width.value, MAX_WIDTH);
-  const left = Math.min(
-    caretAnchor.left.value,
-    windowWidth.value - width - VIEWPORT_MARGIN
+  const start = Math.min(
+    inlineStart.value,
+    windowWidth.value - width.value - VIEWPORT_MARGIN
   );
 
   return {
-    left: `${Math.max(VIEWPORT_MARGIN, left)}px`,
-    width: `${width}px`,
+    insetInlineStart: `${Math.max(VIEWPORT_MARGIN, start)}px`,
+    width: `${width.value}px`,
     maxHeight: `${height}px`,
     minHeight: showsPreview ? `${Math.min(MIN_HEIGHT, height)}px` : null,
     ...(placeAbove
