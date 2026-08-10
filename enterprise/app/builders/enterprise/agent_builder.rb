@@ -8,7 +8,8 @@ module Enterprise::AgentBuilder
 
   private
 
+  # uid stays pending until their first real SAML login binds it.
   def convert_to_saml_provider(user)
-    user.update!(provider: 'saml') unless user.provider == 'saml'
+    user.update!(provider: 'saml', uid: user.pending_saml_uid) unless user.provider == 'saml'
   end
 end

@@ -35,7 +35,7 @@ RSpec.describe SamlUserBuilder do
         expect(user.name).to eq('SAML User')
         expect(user.display_name).to eq('SAML')
         expect(user.provider).to eq('saml')
-        expect(user.uid).to eq(email) # User model sets uid to email in before_validation callback
+        expect(user.uid).to eq('saml-uid-123') # the real SAML NameID, not clobbered to email
         expect(user.confirmed_at).to be_present
       end
 
@@ -73,8 +73,8 @@ RSpec.describe SamlUserBuilder do
       end
     end
 
-    context 'when user already exists with SAML provider' do
-      let!(:existing_user) { create(:user, email: email, account: account, provider: 'saml') }
+    context 'when user already exists with a matching SAML uid' do
+      let!(:existing_user) { create(:user, email: email, account: account, provider: 'saml', uid: 'saml-uid-123') }
 
       it 'does not create a new user' do
         expect { builder.perform }.not_to change(User, :count)
@@ -119,9 +119,36 @@ RSpec.describe SamlUserBuilder do
       end
     end
 
+    context 'when user already exists with SAML provider but a mismatched uid' do
+      let!(:existing_user) { create(:user, email: email, account: account, provider: 'saml', uid: 'a-different-uid') }
+
+      it 'raises an authentication failure instead of logging the user in' do
+        expect { builder.perform }.to raise_error do |error|
+          expect(error.class.name).to eq('SamlUserBuilder::AuthenticationFailed')
+          expect(error.message).to eq(I18n.t('auth.saml.authentication_failed'))
+        end
+        expect(existing_user.reload.uid).to eq('a-different-uid')
+      end
+    end
+
+    context 'when user already exists with SAML provider but no uid bound yet' do
+      let!(:existing_user) do
+        user = create(:user, email: email, account: account, provider: 'saml')
+        user.update!(uid: user.pending_saml_uid) # simulate a preemptive invite-time conversion
+        user
+      end
+
+      it 'logs the user in and binds the uid from this login' do
+        user = builder.perform
+
+        expect(user).to eq(existing_user)
+        expect(existing_user.reload.uid).to eq('saml-uid-123')
+      end
+    end
+
     context 'when the user does not belong to the target account' do
       let!(:other_account) { create(:account) }
-      let!(:existing_user) { create(:user, email: email, account: other_account, provider: 'saml') }
+      let!(:existing_user) { create(:user, email: email, account: other_account, provider: 'saml', uid: 'saml-uid-123') }
 
       it 'raises an authentication failure' do
         expect { builder.perform }.to raise_error do |error|
@@ -169,7 +196,7 @@ RSpec.describe SamlUserBuilder do
       end
       let(:unconfirmed_builder) { described_class.new(unconfirmed_auth_hash, account.id) }
       let!(:existing_user) do
-        user = build(:user, email: unconfirmed_email, account: account, provider: 'saml')
+        user = build(:user, email: unconfirmed_email, account: account, provider: 'saml', uid: 'saml-uid-123')
         user.confirmed_at = nil
         user.save!(validate: false)
         user
@@ -185,7 +212,7 @@ RSpec.describe SamlUserBuilder do
     end
 
     context 'when user is already confirmed' do
-      let!(:existing_user) { create(:user, email: email, account: account, provider: 'saml', confirmed_at: Time.current) }
+      let!(:existing_user) { create(:user, email: email, account: account, provider: 'saml', uid: 'saml-uid-123', confirmed_at: Time.current) }
 
       it 'keeps already confirmed user confirmed' do
         expect(existing_user.confirmed?).to be true

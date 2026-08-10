@@ -25,12 +25,14 @@ class SamlUserBuilder
   end
 
   # Never bind a bare assertion to a user established via another provider.
+  # A pending uid means no real login has bound this user yet, so this one is trusted.
   def eligible_existing_user?(user)
-    user.provider == 'saml' && user_belongs_to_account?(user)
+    user.provider == 'saml' && (user.pending_saml_uid? || user.uid == uid) && user_belongs_to_account?(user)
   end
 
   def existing_user_for_account(user)
     confirm_user_if_required(user)
+    user.update!(uid: uid) if user.pending_saml_uid?
     user
   end
 

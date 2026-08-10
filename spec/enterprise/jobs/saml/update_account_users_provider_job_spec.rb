@@ -8,12 +8,25 @@ RSpec.describe Saml::UpdateAccountUsersProviderJob, type: :job do
 
   describe '#perform' do
     context 'when setting provider to saml' do
-      it 'updates all account users to saml provider' do
+      it 'updates all account users to saml provider with a pending uid' do
         described_class.new.perform(account.id, 'saml')
 
         expect(user1.reload.provider).to eq('saml')
+        expect(user1.pending_saml_uid?).to be true
         expect(user2.reload.provider).to eq('saml')
+        expect(user2.pending_saml_uid?).to be true
         expect(user3.reload.provider).to eq('saml')
+        expect(user3.pending_saml_uid?).to be true
+      end
+
+      context 'when a user is already using saml with a bound uid' do
+        before { user1.update!(provider: 'saml', uid: 'real-idp-uid-123') }
+
+        it 'does not overwrite their uid' do
+          described_class.new.perform(account.id, 'saml')
+
+          expect(user1.reload.uid).to eq('real-idp-uid-123')
+        end
       end
     end
 

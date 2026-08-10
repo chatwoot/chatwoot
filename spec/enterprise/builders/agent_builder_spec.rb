@@ -38,6 +38,11 @@ RSpec.describe AgentBuilder do
         expect(user.encrypted_password).to be_present
       end
 
+      it 'leaves uid as a pending placeholder until a real SAML login binds it' do
+        user = builder.perform
+        expect(user.pending_saml_uid?).to be true
+      end
+
       it 'adds user to the account with correct role' do
         user = builder.perform
         account_user = AccountUser.find_by(user: user, account: account)

@@ -132,7 +132,18 @@ class User < ApplicationRecord
   end
 
   def set_password_and_uid
-    self.uid = email
+    self.uid = email if uid.blank?
+  end
+
+  # Marks a user as saml-provisioned before their real NameID is known (e.g. invited
+  # ahead of their first real login). Per-user, so it can't collide with the
+  # (uid, provider) uniqueness constraint the way a shared blank value would.
+  def pending_saml_uid
+    "pending-saml-uid:#{id}"
+  end
+
+  def pending_saml_uid?
+    uid == pending_saml_uid
   end
 
   def assigned_inboxes

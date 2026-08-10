@@ -9,7 +9,11 @@ class Saml::UpdateAccountUsersProviderJob < ApplicationJob
       next unless should_update_user_provider?(user, provider)
 
       # rubocop:disable Rails/SkipsModelValidations
-      user.update_column(:provider, provider)
+      if provider == 'saml' && user.provider != 'saml'
+        user.update_columns(provider: provider, uid: user.pending_saml_uid)
+      else
+        user.update_column(:provider, provider)
+      end
       # rubocop:enable Rails/SkipsModelValidations
     end
   end
