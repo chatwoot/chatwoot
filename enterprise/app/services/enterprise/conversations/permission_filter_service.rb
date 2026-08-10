@@ -39,6 +39,7 @@ module Enterprise::Conversations::PermissionFilterService
   end
 
   def filter_unassigned_and_mine
-    accessible_conversations.where(assignee_id: [nil, user.id])
+    conversations = accessible_conversations
+    conversations.unassigned.or(conversations.assigned_to(user))
   end
 end
