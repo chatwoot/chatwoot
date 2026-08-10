@@ -77,6 +77,9 @@
           "PLACEHOLDER": "Example: {webhookExampleURL}",
           "ERROR": "Please enter a valid URL"
         },
+        "PRIVATE_NOTES": {
+          "LABEL": "Include private notes in message events"
+        },
         "EDIT_SUBMIT": "Update webhook",
         "ADD_SUBMIT": "Create webhook"
       },

@@ -415,6 +415,17 @@ RSpec.describe Message do
 
       expect(message.webhook_data[:content]).to include('survey/responses/')
     end
+
+    it 'embeds the private message itself in conversation.messages, not the last public message' do
+      conversation = create(:conversation)
+      create(:message, conversation: conversation, message_type: :outgoing, private: false, content: 'Public message')
+      private_message = create(:message, conversation: conversation, message_type: :outgoing, private: true, content: 'Private note')
+
+      webhook_data = private_message.webhook_data
+
+      expect(webhook_data[:content]).to eq('Private note')
+      expect(webhook_data[:conversation][:messages].first[:content]).to eq('Private note')
+    end
   end
 
   context 'when message is created' do

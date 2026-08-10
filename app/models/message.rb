@@ -185,7 +185,7 @@ class Message < ApplicationRecord
       content_attributes: content_attributes,
       content_type: content_type,
       content: webhook_content,
-      conversation: conversation.webhook_data,
+      conversation: conversation.webhook_data.merge(messages: [webhook_push_event_data]),
       created_at: created_at,
       id: id,
       inbox: inbox.webhook_data,

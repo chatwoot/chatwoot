@@ -112,6 +112,7 @@ class WebhookListener < BaseListener
 
     account.webhooks.account_type.each do |webhook|
       next unless webhook.subscriptions.include?(payload[:event])
+      next if payload[:private] && !webhook.include_private_notes?
 
       WebhookJob.perform_later(webhook.url, payload, :account_webhook,
                                secret: webhook.secret,

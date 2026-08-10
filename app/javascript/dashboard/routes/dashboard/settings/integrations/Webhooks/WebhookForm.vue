@@ -61,6 +61,7 @@ export default {
       url: this.value.url || '',
       name: this.value.name || '',
       subscriptions: this.value.subscriptions || [],
+      includePrivateNotes: this.value.include_private_notes || false,
       secretVisible: false,
       supportedWebhookEvents: inboxEventsEnabled
         ? [...SUPPORTED_WEBHOOK_EVENTS, 'inbox_updated']
@@ -89,6 +90,7 @@ export default {
         url: this.url,
         name: this.name,
         subscriptions: this.subscriptions,
+        include_private_notes: this.includePrivateNotes,
       });
     },
     async copySecret() {
@@ -182,6 +184,18 @@ export default {
             }}
           </label>
         </div>
+      </div>
+      <div class="flex items-center mb-4">
+        <input
+          id="includePrivateNotes"
+          v-model="includePrivateNotes"
+          type="checkbox"
+          name="includePrivateNotes"
+          class="mr-2"
+        />
+        <label for="includePrivateNotes" class="text-sm">
+          {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.PRIVATE_NOTES.LABEL') }}
+        </label>
       </div>
     </div>
 

@@ -44,6 +44,29 @@ describe WebhookListener do
       end
     end
 
+    context 'when the message is private' do
+      let!(:private_message) do
+        create(:message, message_type: 'outgoing', private: true,
+                         account: account, inbox: inbox, conversation: conversation)
+      end
+      let(:private_message_created_event) { Events::Base.new(event_name, Time.zone.now, message: private_message) }
+
+      it 'does not trigger the webhook by default' do
+        create(:webhook, inbox: inbox, account: account)
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.message_created(private_message_created_event)
+      end
+
+      it 'triggers the webhook when it opts in to private notes' do
+        webhook = create(:webhook, inbox: inbox, account: account, include_private_notes: true)
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, private_message.webhook_data.merge(event: 'message_created'), :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+        listener.message_created(private_message_created_event)
+      end
+    end
+
     context 'when API and webhook access is disabled for the account' do
       before do
         allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
