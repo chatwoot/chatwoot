@@ -36,10 +36,11 @@ RSpec.describe Webhooks::TelegramEventsJob do
 
     it 'processes a business connection update from a symbol-keyed payload' do
       connection = { id: 'connection-1', is_enabled: true }
-      business_connection_service = instance_double(Telegram::BusinessConnectionService, process: nil)
+      business_connection_service = instance_double(Telegram::BusinessConnectionService, observe_update: nil, process: nil)
       business_params = { bot_token: telegram_channel.bot_token, telegram: { update_id: 42, business_connection: connection } }
 
       allow(Telegram::BusinessConnectionService).to receive(:new).with(channel: telegram_channel).and_return(business_connection_service)
+      expect(business_connection_service).to receive(:observe_update).with(42).ordered
       expect(business_connection_service).to receive(:process).with(connection.with_indifferent_access, update_id: 42)
       expect(Telegram::IncomingMessageService).not_to receive(:new)
 
@@ -47,7 +48,7 @@ RSpec.describe Webhooks::TelegramEventsJob do
     end
 
     it 'syncs a business connection before processing a business message' do
-      business_connection_service = instance_double(Telegram::BusinessConnectionService, sync: nil)
+      business_connection_service = instance_double(Telegram::BusinessConnectionService, observe_update: nil, sync: nil)
       incoming_message_service = instance_double(Telegram::IncomingMessageService, perform: nil)
       telegram_params = { update_id: 42, business_message: { business_connection_id: 'connection-1' } }
       business_params = { bot_token: telegram_channel.bot_token }
@@ -58,6 +59,7 @@ RSpec.describe Webhooks::TelegramEventsJob do
         .with(inbox: telegram_channel.inbox, params: telegram_params.with_indifferent_access)
         .and_return(incoming_message_service)
 
+      expect(business_connection_service).to receive(:observe_update).with(42).ordered
       expect(business_connection_service).to receive(:sync).with('connection-1', update_id: 42).ordered
       expect(incoming_message_service).to receive(:perform).ordered
 

@@ -37,6 +37,18 @@ class Telegram::BusinessConnectionService
     persist_sync_error(e.message, connection_id, request_bot_token, expected_update_id)
   end
 
+  def observe_update(update_id)
+    return if update_id.blank?
+
+    channel.with_lock do
+      config = channel.business_config.deep_dup
+      next false if config.fetch('connections', {}).empty? || stale_update?(config, update_id)
+
+      record_update(config, update_id)
+      update_channel(business_config: config)
+    end
+  end
+
   private
 
   def persist_connection(connection, update_id:, expected_bot_token:, expected_update_id:)
@@ -45,10 +57,11 @@ class Telegram::BusinessConnectionService
       config['can_connect_to_business'] = true
       config['connections'] ||= {}
       next false unless applicable_update?(config, connection['id'], update_id, expected_bot_token, expected_update_id)
-      next if stale_update?(config, connection['id'], update_id)
+      next if stale_update?(config, update_id)
 
-      apply_update_ordering(connection, config.dig('connections', connection['id']), update_id, expected_update_id)
+      apply_update_ordering(connection, update_id, expected_update_id)
       config['connections'][connection['id']] = connection
+      record_update(config, update_id)
 
       persist_config(config)
     end
@@ -73,20 +86,25 @@ class Telegram::BusinessConnectionService
     channel.business_config.dig('connections', connection_id, 'is_enabled') == true
   end
 
-  def stale_update?(config, connection_id, update_id)
-    previous_connection = config.dig('connections', connection_id) || {}
-    return false if update_id.blank? || previous_connection['update_id'].blank?
-    return false if previous_connection['update_id_received_at'].to_i <= 1.week.ago.to_i
+  def stale_update?(config, update_id)
+    return false if update_id.blank? || config['last_update_id'].blank?
+    return false if config['last_update_id_received_at'].to_i <= 1.week.ago.to_i
 
-    update_id <= previous_connection['update_id']
+    update_id < config['last_update_id']
   end
 
-  def apply_update_ordering(connection, previous_connection, update_id, expected_update_id)
+  def apply_update_ordering(connection, update_id, expected_update_id)
     ordering_update_id = update_id.presence || expected_update_id
     return if ordering_update_id.blank?
 
     connection['update_id'] = ordering_update_id
-    connection['update_id_received_at'] = update_id.present? ? Time.current.to_i : previous_connection&.dig('update_id_received_at')
+  end
+
+  def record_update(config, update_id)
+    return if update_id.blank?
+
+    config['last_update_id'] = update_id
+    config['last_update_id_received_at'] = Time.current.to_i
   end
 
   def persist_config(config)

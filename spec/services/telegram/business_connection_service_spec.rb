@@ -23,10 +23,10 @@ RSpec.describe Telegram::BusinessConnectionService do
         :channel_telegram,
         business_config: {
           'can_connect_to_business' => true,
+          'last_update_id' => 200,
+          'last_update_id_received_at' => Time.current.to_i,
           'connections' => {
-            'connection-1' => {
-              'id' => 'connection-1', 'is_enabled' => true, 'update_id' => 200, 'update_id_received_at' => Time.current.to_i
-            }
+            'connection-1' => { 'id' => 'connection-1', 'is_enabled' => true, 'update_id' => 200 }
           }
         }
       )
@@ -39,6 +39,12 @@ RSpec.describe Telegram::BusinessConnectionService do
       expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => false, 'update_id' => 201)
 
       travel_to(1.week.from_now) do
+        service.observe_update(250)
+        service.process({ id: 'connection-1', is_enabled: true }, update_id: 50)
+        expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => false, 'update_id' => 201)
+      end
+
+      travel_to(2.weeks.from_now) do
         service.process({ id: 'connection-1', is_enabled: true }, update_id: 50)
         expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => true, 'update_id' => 50)
       end
@@ -49,10 +55,10 @@ RSpec.describe Telegram::BusinessConnectionService do
         :channel_telegram,
         business_config: {
           'can_connect_to_business' => true,
+          'last_update_id' => 200,
+          'last_update_id_received_at' => Time.current.to_i,
           'connections' => {
-            'connection-1' => {
-              'id' => 'connection-1', 'is_enabled' => false, 'update_id' => 200, 'update_id_received_at' => Time.current.to_i
-            }
+            'connection-1' => { 'id' => 'connection-1', 'is_enabled' => false, 'update_id' => 200 }
           }
         }
       )
