@@ -95,7 +95,7 @@ export default {
       return this.actionTypes.map(a => ({ id: a.key, name: a.label }));
     },
     isVerticalLayout() {
-      return ['team_message', 'textarea'].includes(this.inputType);
+      return ['team_message', 'textarea', 'email'].includes(this.inputType);
     },
     castMessageVmodel: {
       get() {
@@ -126,7 +126,10 @@ export default {
         .map(email => email.trim())
         .filter(Boolean);
 
-      if (existingEmails.includes(CONTACT_EMAIL_TOKEN)) return;
+      const hasContactEmail = existingEmails.some(
+        email => email.replace(/\s+/g, '') === CONTACT_EMAIL_TOKEN
+      );
+      if (hasContactEmail) return;
 
       this.action_params = [[...existingEmails, CONTACT_EMAIL_TOKEN].join(',')];
     },
@@ -162,26 +165,6 @@ export default {
             :options="dropdownValues"
             :dropdown-max-height="dropdownMaxHeight"
           />
-          <div
-            v-else-if="inputType === 'email'"
-            class="flex items-center w-full gap-2"
-          >
-            <NextInput
-              v-model="action_params"
-              type="text"
-              size="sm"
-              class="w-full"
-              :placeholder="$t('AUTOMATION.ACTION.EMAIL_INPUT_PLACEHOLDER')"
-            />
-            <NextButton
-              sm
-              link
-              slate
-              class="flex-shrink-0 whitespace-nowrap"
-              :label="$t('AUTOMATION.ACTION.INSERT_CONTACT_EMAIL')"
-              @click="insertContactEmailToken"
-            />
-          </div>
           <NextInput
             v-else-if="inputType === 'url'"
             v-model="action_params"
@@ -205,14 +188,31 @@ export default {
           @click="removeAction"
         />
       </div>
+      <div v-if="inputType === 'email'" class="flex items-center w-full gap-2">
+        <NextInput
+          v-model="action_params"
+          type="text"
+          size="sm"
+          class="flex-1"
+          :placeholder="$t('AUTOMATION.ACTION.EMAIL_INPUT_PLACEHOLDER')"
+        />
+        <NextButton
+          sm
+          faded
+          slate
+          class="flex-shrink-0 whitespace-nowrap"
+          :label="$t('AUTOMATION.ACTION.INSERT_CONTACT_EMAIL')"
+          @click="insertContactEmailToken"
+        />
+      </div>
       <AutomationActionTeamMessageInput
-        v-if="inputType === 'team_message'"
+        v-else-if="inputType === 'team_message'"
         v-model="action_params"
         :teams="dropdownValues"
         :dropdown-max-height="dropdownMaxHeight"
       />
       <WootMessageEditor
-        v-if="inputType === 'textarea'"
+        v-else-if="inputType === 'textarea'"
         v-model="castMessageVmodel"
         rows="4"
         enable-variables
