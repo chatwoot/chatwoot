@@ -9,8 +9,9 @@
       "MANAGE_BUTTON_TEXT": "Manage in Pathors",
       "NOT_CONNECTED": {
         "TITLE": "This account is not connected to Pathors yet",
-        "DESCRIPTION": "Connect this account from the Pathors platform. Once a project is linked, the AI agent shows up here and you can choose the inboxes it replies in. There is nothing to configure on this page.",
-        "BUTTON_TEXT": "Open Pathors"
+        "DESCRIPTION": "Connect this account to a Pathors project. You will pick the project on the Pathors authorization page; once connected, the AI agent shows up here and you can choose the inboxes it replies in.",
+        "BUTTON_TEXT": "Open Pathors",
+        "CONNECT_BUTTON_TEXT": "Connect to Pathors"
       },
       "INBOXES": {
         "TITLE": "AI coverage",
@@ -959,7 +960,6 @@
         "SUCCESS_MESSAGE": "The document has been successfully deleted",
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
       },
-
       "OPTIONS": {
         "VIEW_DETAILS": "View details",
         "SYNC_NOW": "Refresh now",

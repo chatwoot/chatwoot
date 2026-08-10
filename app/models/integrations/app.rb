@@ -1,5 +1,6 @@
 class Integrations::App
   include Linear::IntegrationHelper
+  include Pathors::IntegrationHelper
 
   # Pathors: never offered in the catalog. Each of these asks the customer to
   # paste a third-party AI credential — an OpenAI key, or a Google
@@ -61,6 +62,8 @@ class Integrations::App
       "#{params[:action]}&client_id=#{client_id}&redirect_uri=#{self.class.slack_integration_url}"
     when 'linear'
       build_linear_action
+    when 'pathors'
+      build_pathors_action
     else
       params[:action]
     end
@@ -129,6 +132,33 @@ class Integrations::App
 
   def self.linear_integration_url
     "#{ENV.fetch('FRONTEND_URL', nil)}/linear/callback"
+  end
+
+  # OAuth connect against the Pathors authorization server (fork feature).
+  #
+  # Empty when the OAuth client or the connect secret is not configured — the
+  # card then falls back to its plain "open Pathors" link instead of sending
+  # the user into an authorize request that can only fail.
+  def build_pathors_action
+    client_id = GlobalConfigService.load('PATHORS_OAUTH_CLIENT_ID', nil)
+    connect_token = generate_pathors_token(Current.account)
+    return if client_id.blank? || connect_token.blank?
+
+    api_url = GlobalConfigService.load('PATHORS_API_URL', 'https://api.pathors.com')
+    [
+      "#{api_url}/oauth/authorize?response_type=code",
+      "client_id=#{client_id}",
+      "redirect_uri=#{CGI.escape(self.class.pathors_integration_url)}",
+      'scope=chatwoot%3Aconnect',
+      # The signed token proves which account this is about; it doubles as
+      # `state` so the callback can recover the account statelessly.
+      "connect_token=#{connect_token}",
+      "state=#{connect_token}"
+    ].join('&')
+  end
+
+  def self.pathors_integration_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/pathors/callback"
   end
 
   class << self

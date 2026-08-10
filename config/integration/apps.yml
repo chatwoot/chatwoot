@@ -19,9 +19,26 @@ pathors:
   i18n_key: pathors
   hook_type: account
   allow_multiple_hooks: false
-  settings_json_schema: { 'type': 'object', 'properties': {}, 'additionalProperties': false }
+  # Written by Pathors::CallbacksController after the OAuth exchange — never
+  # by a user-facing form (settings_form_schema stays empty). project_id is
+  # the Pathors project this account is bound to; the token trio mirrors what
+  # the Linear hook stores.
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'project_id': { 'type': 'string' },
+          'refresh_token': { 'type': 'string' },
+          'token_type': { 'type': 'string' },
+          'expires_in': { 'type': 'number' },
+          'expires_on': { 'type': 'string' },
+          'scope': { 'type': 'string' },
+        },
+      'additionalProperties': false,
+    }
   settings_form_schema: []
-  visible_properties: []
+  visible_properties: ['project_id']
 webhooks:
   id: webhook
   logo: webhooks.png

@@ -670,6 +670,10 @@ Rails.application.routes.draw do
     resource :callback, only: [:show]
   end
 
+  namespace :pathors do
+    resource :callback, only: [:show]
+  end
+
   namespace :shopify do
     resource :callback, only: [:show]
   end

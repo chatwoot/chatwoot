@@ -66,6 +66,11 @@ const statusLabel = computed(() =>
     : t('INTEGRATION_SETTINGS.PATHORS.STATUS.NOT_CONNECTED')
 );
 
+// OAuth connect URL, minted server-side (signed per-account token) and only
+// serialized for administrators. Absent when the deployment has no Pathors
+// OAuth client configured — the card then falls back to a plain link.
+const connectUrl = computed(() => pathorsApp.value?.action || null);
+
 const isVoiceInbox = inbox => inbox.name === VOICE_INBOX_NAME;
 
 const managedInboxes = computed(() =>
@@ -186,7 +191,23 @@ onMounted(() => {
           <p class="max-w-2xl text-n-slate-11 text-body-main">
             {{ $t('INTEGRATION_SETTINGS.PATHORS.NOT_CONNECTED.DESCRIPTION') }}
           </p>
-          <a :href="PATHORS_APP_URL" target="_blank" rel="noopener noreferrer">
+          <a v-if="connectUrl" :href="connectUrl">
+            <Button
+              :label="
+                $t(
+                  'INTEGRATION_SETTINGS.PATHORS.NOT_CONNECTED.CONNECT_BUTTON_TEXT'
+                )
+              "
+              icon="i-lucide-plug"
+              trailing-icon
+            />
+          </a>
+          <a
+            v-else
+            :href="PATHORS_APP_URL"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Button
               :label="
                 $t('INTEGRATION_SETTINGS.PATHORS.NOT_CONNECTED.BUTTON_TEXT')

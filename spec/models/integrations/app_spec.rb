@@ -59,6 +59,49 @@ RSpec.describe Integrations::App do
         )
       end
     end
+
+    context 'when the app is pathors' do
+      let(:app_name) { 'pathors' }
+      let(:connect_secret) { 'test_connect_secret' }
+
+      before do
+        allow(GlobalConfigService).to receive(:load).and_call_original
+        allow(GlobalConfigService).to receive(:load).with('PATHORS_OAUTH_CLIENT_ID', nil).and_return('pathors_client')
+        allow(GlobalConfigService).to receive(:load).with('PATHORS_CONNECT_STATE_SECRET', nil).and_return(connect_secret)
+        allow(GlobalConfigService).to receive(:load).with('PATHORS_API_URL', 'https://api.pathors.com').and_return('https://api.pathors.test')
+      end
+
+      it 'builds an authorize URL with a signed connect token', :aggregate_failures do
+        action = app.action
+
+        expect(action).to start_with('https://api.pathors.test/oauth/authorize?response_type=code')
+        expect(action).to include('client_id=pathors_client')
+        expect(action).to include('scope=chatwoot%3Aconnect')
+        expect(action).to include(CGI.escape("#{ENV.fetch('FRONTEND_URL', nil)}/pathors/callback"))
+
+        connect_token = CGI.parse(URI.parse(action).query)['connect_token'].first
+        payload = JWT.decode(connect_token, connect_secret, true, algorithm: 'HS256').first
+        expect(payload['account_id']).to eq(account.id)
+        expect(payload['account_name']).to eq(account.name)
+        expect(payload['exp']).to be > Time.current.to_i
+
+        # state carries the same signed token so the callback can recover the
+        # account without session storage
+        expect(CGI.parse(URI.parse(action).query)['state'].first).to eq(connect_token)
+      end
+
+      it 'returns no action when the OAuth client is not configured' do
+        allow(GlobalConfigService).to receive(:load).with('PATHORS_OAUTH_CLIENT_ID', nil).and_return(nil)
+
+        expect(app.action).to be_nil
+      end
+
+      it 'returns no action when the connect secret is not configured' do
+        allow(GlobalConfigService).to receive(:load).with('PATHORS_CONNECT_STATE_SECRET', nil).and_return(nil)
+
+        expect(app.action).to be_nil
+      end
+    end
   end
 
   describe '#active?' do
