@@ -30,7 +30,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['replace', 'close']);
+const emit = defineEmits(['replace', 'close', 'removeTrigger']);
 
 // Characters kept before the match when a snippet has to skip ahead
 const SNIPPET_LEAD = 24;
@@ -134,6 +134,7 @@ onMounted(fetchCannedResponses);
     "
     @select="onSelect"
     @close="emit('close')"
+    @remove-trigger="emit('removeTrigger')"
   >
     <template #preview="{ item }">
       <div

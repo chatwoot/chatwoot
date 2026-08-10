@@ -261,6 +261,16 @@ const dismissCannedResponses = () => {
   editorView?.focus();
 };
 
+// Deleting the trigger drops the suggestion, so the plugin closes the picker through
+// `onExit` on its own.
+const removeSuggestionTrigger = () => {
+  if (!editorView || !range.value) return;
+  const { from, to } = range.value;
+  const end = Math.min(to, editorView.state.doc.content.size);
+  editorView.dispatch(editorView.state.tr.delete(from, end));
+  editorView.focus();
+};
+
 function createSuggestionPlugin({
   trigger,
   minChars = 0,
@@ -909,6 +919,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       :variables="variables"
       :schema="editorSchema"
       @close="dismissCannedResponses"
+      @remove-trigger="removeSuggestionTrigger"
       @replace="content => insertSpecialContent('cannedResponse', content)"
     />
     <VariableList

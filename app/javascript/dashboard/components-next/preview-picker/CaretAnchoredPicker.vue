@@ -31,7 +31,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['select', 'close']);
+const emit = defineEmits(['select', 'close', 'removeTrigger']);
 
 const search = defineModel('search', { type: String, default: '' });
 
@@ -142,6 +142,14 @@ useKeyboardEvents({
   Tab: withPicker(moveSelectionDown),
   'Shift+Tab': withPicker(moveSelectionUp),
   Escape: withPicker(() => emit('close')),
+  Backspace: {
+    action: event => {
+      if (search.value) return;
+      event.preventDefault();
+      emit('removeTrigger');
+    },
+    allowOnFocusedInput: true,
+  },
 });
 
 const onListItemSelection = index => {
