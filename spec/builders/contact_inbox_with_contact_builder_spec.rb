@@ -112,7 +112,7 @@ describe ContactInboxWithContactBuilder do
     end
 
     it 'enqueues the avatar job with a delay so it runs after any outer transaction commits' do
-      expect(Avatar::AvatarFromUrlJob).to receive(:set).with(wait: 30.seconds).and_call_original
+      expect(Avatar::AvatarFromUrlJob).to receive(:set).with(wait: 10.seconds).and_call_original
 
       contact_inbox = described_class.new(
         source_id: '123456',
