@@ -37,10 +37,10 @@ RSpec.describe Webhooks::TelegramEventsJob do
     it 'processes a business connection update from a symbol-keyed payload' do
       connection = { id: 'connection-1', is_enabled: true }
       business_connection_service = instance_double(Telegram::BusinessConnectionService, process: nil)
-      business_params = { bot_token: telegram_channel.bot_token, telegram: { business_connection: connection } }
+      business_params = { bot_token: telegram_channel.bot_token, telegram: { update_id: 42, business_connection: connection } }
 
       allow(Telegram::BusinessConnectionService).to receive(:new).with(channel: telegram_channel).and_return(business_connection_service)
-      expect(business_connection_service).to receive(:process).with(connection.with_indifferent_access)
+      expect(business_connection_service).to receive(:process).with(connection.with_indifferent_access, update_id: 42)
       expect(Telegram::IncomingMessageService).not_to receive(:new)
 
       described_class.perform_now(business_params)

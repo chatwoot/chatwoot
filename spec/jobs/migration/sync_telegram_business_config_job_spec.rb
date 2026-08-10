@@ -15,8 +15,8 @@ RSpec.describe Migration::SyncTelegramBusinessConfigJob do
     allow(scope).to receive(:order).with(:id).and_return(scope)
     allow(scope).to receive(:limit).with(3).and_return(scope)
     allow(scope).to receive(:to_a).and_return([first_channel, second_channel, remaining_channel])
-    allow(first_channel).to receive(:refresh_business_config!)
-    allow(second_channel).to receive(:refresh_business_config!)
+    allow(first_channel).to receive(:refresh_business_config!).and_return(true)
+    allow(second_channel).to receive(:refresh_business_config!).and_return(true)
     allow(remaining_channel).to receive(:refresh_business_config!)
 
     expect { described_class.perform_now }
@@ -38,5 +38,19 @@ RSpec.describe Migration::SyncTelegramBusinessConfigJob do
 
     expect { described_class.perform_now(after_id: 20) }.not_to have_enqueued_job(described_class)
     expect(channel).to have_received(:refresh_business_config!)
+  end
+
+  it 'raises so the current batch is retried when a channel refresh fails' do
+    channel = instance_double(Channel::Telegram, id: 30, refresh_business_config!: false)
+    scope = double
+
+    allow(Channel::Telegram).to receive(:where).with('id > ?', 20).and_return(scope)
+    allow(scope).to receive(:order).with(:id).and_return(scope)
+    allow(scope).to receive(:limit).with(3).and_return(scope)
+    allow(scope).to receive(:to_a).and_return([channel])
+
+    expect { described_class.perform_now(after_id: 20) }
+      .to raise_error(described_class::RefreshFailed, 'Telegram Business config refresh failed for channel IDs: 30')
+    expect(described_class).not_to have_been_enqueued
   end
 end

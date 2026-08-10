@@ -25,6 +25,7 @@ class Channel::Telegram < ApplicationRecord
 
   self.table_name = 'channel_telegram'
   EDITABLE_ATTRS = [:bot_token].freeze
+  MULTIPLE_ACTIVE_CONNECTIONS_ERROR = 'Multiple active Telegram Business connections detected'.freeze
 
   before_validation :ensure_valid_bot_token, if: :will_save_change_to_bot_token?
   validates :bot_token, presence: true, uniqueness: true
@@ -80,18 +81,21 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def refresh_business_config!
-    response = HTTParty.get("#{telegram_api_url}/getMe")
+    request_bot_token = bot_token
+    response = HTTParty.get("https://api.telegram.org/bot#{request_bot_token}/getMe")
     payload = response.parsed_response
 
     unless response.success? && payload['ok'] == true
-      persist_business_config_error(payload['description'].presence || 'Unable to fetch Telegram bot information')
+      persist_business_config_error(
+        payload['description'].presence || 'Unable to fetch Telegram bot information',
+        request_bot_token
+      )
       return false
     end
 
-    persist_refreshed_business_config(payload)
-    true
+    persist_refreshed_business_config(payload, request_bot_token)
   rescue StandardError => e
-    persist_business_config_error(e.message)
+    persist_business_config_error(e.message, request_bot_token)
     false
   end
 
@@ -101,18 +105,23 @@ class Channel::Telegram < ApplicationRecord
 
   private
 
-  def persist_refreshed_business_config(payload)
+  def persist_refreshed_business_config(payload, request_bot_token)
     with_lock do
+      next false unless bot_token == request_bot_token
+
       config = business_config.deep_dup
       config['can_connect_to_business'] = payload['result']['can_connect_to_business'] == true
       config['connections'] ||= {}
+      active_connection_count = config['connections'].count { |_id, connection| connection['is_enabled'] == true }
+      error = MULTIPLE_ACTIVE_CONNECTIONS_ERROR if active_connection_count > 1
 
       update_business_config_columns(
         bot_name: payload['result']['username'],
         business_config: config,
         business_config_checked_at: Time.current,
-        business_config_error: nil
+        business_config_error: error
       )
+      true
     end
   end
 
@@ -133,11 +142,15 @@ class Channel::Telegram < ApplicationRecord
     self.business_config_error = nil
   end
 
-  def persist_business_config_error(error)
-    update_business_config_columns(
-      business_config_checked_at: Time.current,
-      business_config_error: error.to_s.truncate(500)
-    )
+  def persist_business_config_error(error, request_bot_token)
+    with_lock do
+      next false unless bot_token == request_bot_token
+
+      update_business_config_columns(
+        business_config_checked_at: Time.current,
+        business_config_error: error.to_s.truncate(500)
+      )
+    end
   end
 
   def update_business_config_columns(attributes)

@@ -10,7 +10,7 @@ class Telegram::BusinessConnectionService
 
   pattr_initialize [:channel!]
 
-  def process(connection_params)
+  def process(connection_params, update_id: nil)
     connection = normalize_connection(connection_params)
     return persist_error('Invalid Telegram Business connection payload') if connection['id'].blank?
 
@@ -18,6 +18,9 @@ class Telegram::BusinessConnectionService
       config = channel.business_config.deep_dup
       config['can_connect_to_business'] = true
       config['connections'] ||= {}
+      next if stale_update?(config, connection['id'], update_id)
+
+      connection['update_id'] = update_id if update_id.present?
       config['connections'][connection['id']] = connection
 
       persist_config(config)
@@ -53,8 +56,13 @@ class Telegram::BusinessConnectionService
     channel.business_config.dig('connections', connection_id, 'is_enabled') == true
   end
 
+  def stale_update?(config, connection_id, update_id)
+    previous_update_id = config.dig('connections', connection_id, 'update_id')
+    update_id.present? && previous_update_id.present? && update_id <= previous_update_id
+  end
+
   def persist_config(config)
-    error = 'Multiple active Telegram Business connections detected' if active_connection_count(config) > 1
+    error = Channel::Telegram::MULTIPLE_ACTIVE_CONNECTIONS_ERROR if active_connection_count(config) > 1
     update_channel(
       business_config: config,
       business_config_checked_at: Time.current,

@@ -64,6 +64,56 @@ RSpec.describe Channel::Telegram do
         expect(channel.business_config_error).to eq('Unauthorized')
       end
     end
+
+    it 'does not apply a response fetched with a token that has since changed' do
+      checked_at = 1.day.ago
+      channel = create(
+        :channel_telegram,
+        bot_name: 'current_bot',
+        business_config: { 'can_connect_to_business' => false, 'connections' => {} },
+        business_config_checked_at: checked_at
+      )
+      channel = described_class.find(channel.id)
+      stub_request(:get, "https://api.telegram.org/bot#{channel.bot_token}/getMe").to_return do
+        # Simulate a completed token rotation while the old getMe request is in flight.
+        # rubocop:disable Rails/SkipsModelValidations
+        described_class.find(channel.id).update_columns(bot_token: 'replacement-token', bot_name: 'replacement_bot')
+        # rubocop:enable Rails/SkipsModelValidations
+        {
+          status: 200,
+          body: { ok: true, result: { username: 'stale_bot', can_connect_to_business: true } }.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        }
+      end
+
+      expect(channel.refresh_business_config!).to be(false)
+      expect(channel.reload.bot_name).to eq('replacement_bot')
+      expect(channel.business_config).to eq('can_connect_to_business' => false, 'connections' => {})
+      expect(channel.business_config_checked_at).to be_within(1.second).of(checked_at)
+    end
+
+    it 'preserves the error when multiple active connections remain after refresh' do
+      channel = create(
+        :channel_telegram,
+        business_config: {
+          'can_connect_to_business' => true,
+          'connections' => {
+            'connection-1' => { 'is_enabled' => true },
+            'connection-2' => { 'is_enabled' => true }
+          }
+        },
+        business_config_error: described_class::MULTIPLE_ACTIVE_CONNECTIONS_ERROR
+      )
+      channel = described_class.find(channel.id)
+      stub_request(:get, "https://api.telegram.org/bot#{channel.bot_token}/getMe").to_return(
+        status: 200,
+        body: { ok: true, result: { username: 'business_bot', can_connect_to_business: true } }.to_json,
+        headers: { 'Content-Type' => 'application/json' }
+      )
+
+      expect(channel.refresh_business_config!).to be(true)
+      expect(channel.business_config_error).to eq(described_class::MULTIPLE_ACTIVE_CONNECTIONS_ERROR)
+    end
   end
 
   describe '#convert_markdown_to_telegram_html' do
