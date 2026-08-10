@@ -42,6 +42,7 @@ const modelValue = defineModel({ type: Boolean, default: false });
       <span v-if="description" class="text-body-main text-n-slate-11">
         {{ description }}
       </span>
+      <slot />
     </div>
     <div
       v-if="$slots.editor"
