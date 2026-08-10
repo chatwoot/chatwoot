@@ -111,6 +111,7 @@ en:
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
+      multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
     conversations:
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
