@@ -420,6 +420,20 @@ describe Conversations::FilterService do
 
         expect { filter_service.new(params, user_1, account).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidQueryOperator)
       end
+
+      it 'rejects a query operator on the final condition' do
+        params[:payload] = [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['open'],
+            query_operator: 'AND',
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(params, user_1, account).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidQueryOperator)
+      end
     end
   end
 

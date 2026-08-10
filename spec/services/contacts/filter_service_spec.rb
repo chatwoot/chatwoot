@@ -460,6 +460,18 @@ describe Contacts::FilterService do
         expect(result[:contacts].pluck(:id)).to eq([cs_contact.id])
       end
 
+      it 'rejects blank custom numeric values' do
+        params[:payload] = [
+          {
+            attribute_key: 'lifetime_value',
+            values: [''],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(account, first_user, params).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidValue)
+      end
+
       it 'rejects invalid custom date comparison values' do
         malicious_value = "2024-01-01'::date OR (SELECT pg_sleep(5)) IS NOT NULL --"
         params[:payload] = [
