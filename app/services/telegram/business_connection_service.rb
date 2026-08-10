@@ -10,17 +10,46 @@ class Telegram::BusinessConnectionService
 
   pattr_initialize [:channel!]
 
-  def process(connection_params, update_id: nil)
+  def process(connection_params, update_id: nil, expected_bot_token: channel.bot_token, expected_update_id: nil)
     connection = normalize_connection(connection_params)
-    return persist_error('Invalid Telegram Business connection payload') if connection['id'].blank?
+    return persist_error('Invalid Telegram Business connection payload', expected_bot_token: expected_bot_token) if connection['id'].blank?
 
+    persist_connection(connection, update_id: update_id, expected_bot_token: expected_bot_token, expected_update_id: expected_update_id)
+  end
+
+  def sync(connection_id)
+    request_bot_token = channel.bot_token
+    return if connection_id.blank? || known_enabled_connection?(connection_id)
+
+    expected_update_id = channel.business_config.dig('connections', connection_id, 'update_id')
+    response = HTTParty.get(
+      "https://api.telegram.org/bot#{request_bot_token}/getBusinessConnection",
+      query: { business_connection_id: connection_id }
+    )
+    payload = response.parsed_response
+    if response.success? && payload['ok'] == true
+      return process(payload['result'], expected_bot_token: request_bot_token, expected_update_id: expected_update_id)
+    end
+
+    persist_error(
+      payload['description'].presence || 'Unable to fetch Telegram Business connection',
+      expected_bot_token: request_bot_token
+    )
+  rescue StandardError => e
+    persist_error(e.message, expected_bot_token: request_bot_token)
+  end
+
+  private
+
+  def persist_connection(connection, update_id:, expected_bot_token:, expected_update_id:)
     channel.with_lock do
       config = channel.business_config.deep_dup
       config['can_connect_to_business'] = true
       config['connections'] ||= {}
+      next false unless applicable_update?(config, connection['id'], update_id, expected_bot_token, expected_update_id)
       next if stale_update?(config, connection['id'], update_id)
 
-      ordering_update_id = update_id.presence || config.dig('connections', connection['id'], 'update_id')
+      ordering_update_id = update_id.presence || expected_update_id
       connection['update_id'] = ordering_update_id if ordering_update_id.present?
       config['connections'][connection['id']] = connection
 
@@ -28,22 +57,12 @@ class Telegram::BusinessConnectionService
     end
   end
 
-  def sync(connection_id)
-    return if connection_id.blank? || known_enabled_connection?(connection_id)
+  def applicable_update?(config, connection_id, update_id, expected_bot_token, expected_update_id)
+    return false unless channel.bot_token == expected_bot_token
+    return true if update_id.present?
 
-    response = HTTParty.get(
-      "#{channel.telegram_api_url}/getBusinessConnection",
-      query: { business_connection_id: connection_id }
-    )
-    payload = response.parsed_response
-    return process(payload['result']) if response.success? && payload['ok'] == true
-
-    persist_error(payload['description'].presence || 'Unable to fetch Telegram Business connection')
-  rescue StandardError => e
-    persist_error(e.message)
+    config.dig('connections', connection_id, 'update_id') == expected_update_id
   end
-
-  private
 
   def normalize_connection(connection_params)
     params = connection_params.to_h.with_indifferent_access
@@ -75,11 +94,15 @@ class Telegram::BusinessConnectionService
     config.fetch('connections', {}).count { |_id, connection| connection['is_enabled'] == true }
   end
 
-  def persist_error(error)
-    update_channel(
-      business_config_checked_at: Time.current,
-      business_config_error: error.to_s.truncate(500)
-    )
+  def persist_error(error, expected_bot_token: channel.bot_token)
+    channel.with_lock do
+      next false unless channel.bot_token == expected_bot_token
+
+      update_channel(
+        business_config_checked_at: Time.current,
+        business_config_error: error.to_s.truncate(500)
+      )
+    end
   end
 
   def update_channel(attributes)

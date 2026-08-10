@@ -7,7 +7,7 @@ RSpec.describe Migration::SyncTelegramBusinessConfigChannelJob do
     allow(Channel::Telegram).to receive(:find_by).with(id: 30).and_return(channel)
 
     expect { described_class.perform_now(30) }
-      .to raise_error(described_class::RefreshFailed, 'Telegram Business config refresh failed for channel ID: 30')
+      .to raise_error(CustomExceptions::TelegramBusinessConfigRefreshFailed, 'Telegram Business config refresh failed for channel ID: 30')
   end
 
   it 'finishes when the channel refresh succeeds' do

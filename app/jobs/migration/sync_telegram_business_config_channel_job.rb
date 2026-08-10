@@ -1,6 +1,4 @@
 class Migration::SyncTelegramBusinessConfigChannelJob < ApplicationJob
-  class RefreshFailed < StandardError; end
-
   queue_as :async_database_migration
 
   def perform(channel_id)
@@ -8,6 +6,6 @@ class Migration::SyncTelegramBusinessConfigChannelJob < ApplicationJob
     return unless channel
     return if channel.refresh_business_config!
 
-    raise RefreshFailed, "Telegram Business config refresh failed for channel ID: #{channel_id}"
+    raise CustomExceptions::TelegramBusinessConfigRefreshFailed, "Telegram Business config refresh failed for channel ID: #{channel_id}"
   end
 end

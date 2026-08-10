@@ -62,5 +62,46 @@ RSpec.describe Telegram::BusinessConnectionService do
       service.process({ id: 'connection-1', is_enabled: false }, update_id: 199)
       expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => true, 'update_id' => 200)
     end
+
+    it 'does not apply a connection update after the channel bot token changes' do
+      channel = create(:channel_telegram, business_config: { 'can_connect_to_business' => true, 'connections' => {} })
+      service = described_class.new(channel: channel)
+      # Simulate the channel record changing after the webhook job resolved the old token.
+      # rubocop:disable Rails/SkipsModelValidations
+      Channel::Telegram.find(channel.id).update_columns(bot_token: 'replacement-token')
+      # rubocop:enable Rails/SkipsModelValidations
+
+      service.process({ id: 'old-bot-connection', is_enabled: true }, update_id: 200)
+
+      expect(channel.reload.business_config['connections']).to be_empty
+    end
+
+    it 'does not apply a lookup response after a newer lifecycle update is stored' do
+      channel = create(
+        :channel_telegram,
+        business_config: {
+          'can_connect_to_business' => true,
+          'connections' => {
+            'connection-1' => { 'id' => 'connection-1', 'is_enabled' => false, 'update_id' => 200 }
+          }
+        }
+      )
+      service = described_class.new(channel: channel)
+      stub_request(:get, "#{channel.telegram_api_url}/getBusinessConnection")
+        .with(query: { business_connection_id: 'connection-1' })
+        .to_return do
+          current_channel = Channel::Telegram.find(channel.id)
+          described_class.new(channel: current_channel).process({ id: 'connection-1', is_enabled: true }, update_id: 201)
+          {
+            status: 200,
+            body: { ok: true, result: { id: 'connection-1', is_enabled: false } }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          }
+        end
+
+      service.sync('connection-1')
+
+      expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => true, 'update_id' => 201)
+    end
   end
 end
