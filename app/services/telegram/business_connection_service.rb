@@ -47,8 +47,7 @@ class Telegram::BusinessConnectionService
       next false unless applicable_update?(config, connection['id'], update_id, expected_bot_token, expected_update_id)
       next if stale_update?(config, connection['id'], update_id)
 
-      ordering_update_id = update_id.presence || expected_update_id
-      connection['update_id'] = ordering_update_id if ordering_update_id.present?
+      apply_update_ordering(connection, config.dig('connections', connection['id']), update_id, expected_update_id)
       config['connections'][connection['id']] = connection
 
       persist_config(config)
@@ -75,8 +74,19 @@ class Telegram::BusinessConnectionService
   end
 
   def stale_update?(config, connection_id, update_id)
-    previous_update_id = config.dig('connections', connection_id, 'update_id')
-    update_id.present? && previous_update_id.present? && update_id <= previous_update_id
+    previous_connection = config.dig('connections', connection_id) || {}
+    return false if update_id.blank? || previous_connection['update_id'].blank?
+    return false if previous_connection['update_id_received_at'].to_i <= 1.week.ago.to_i
+
+    update_id <= previous_connection['update_id']
+  end
+
+  def apply_update_ordering(connection, previous_connection, update_id, expected_update_id)
+    ordering_update_id = update_id.presence || expected_update_id
+    return if ordering_update_id.blank?
+
+    connection['update_id'] = ordering_update_id
+    connection['update_id_received_at'] = update_id.present? ? Time.current.to_i : previous_connection&.dig('update_id_received_at')
   end
 
   def persist_config(config)
