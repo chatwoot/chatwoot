@@ -2,10 +2,12 @@
 import { computed, ref, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useTimeoutFn } from '@vueuse/core';
-import { replaceVariablesInMessage } from '@chatwoot/utils';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
-import { stripUnsupportedFormatting } from 'dashboard/helper/editorHelper';
+import {
+  resolveVariablesInMessage,
+  stripUnsupportedFormatting,
+} from 'dashboard/helper/editorHelper';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import CaretAnchoredPicker from 'dashboard/components-next/preview-picker/CaretAnchoredPicker.vue';
 
@@ -67,7 +69,7 @@ const buildSnippet = text => {
 // styling the message never ends up with.
 const resolveContent = message =>
   stripUnsupportedFormatting(
-    replaceVariablesInMessage({ message, variables: props.variables }),
+    resolveVariablesInMessage(message, props.variables),
     props.schema
   );
 
