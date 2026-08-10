@@ -196,6 +196,7 @@ const showEmojiMenu = ref(false);
 const showToolsMenu = ref(false);
 const mentionSearchKey = ref('');
 const toolSearchKey = ref('');
+const cannedSearchKey = ref('');
 const variableSearchTerm = ref('');
 const emojiSearchTerm = ref('');
 const range = ref(null);
@@ -210,9 +211,8 @@ const editor = useTemplateRef('editor');
 // Anchors the picker to the trigger character, since editors can be much taller than the
 // line being typed on. Offsets are relative to the editor so the picker can sit on that
 // line and track it from there.
-const cannedCaretRect = computed(() => {
-  if (!showCannedMenu.value || !editorView || !range.value || !editorRoot.value)
-    return null;
+const caretPosition = computed(() => {
+  if (!editorView || !range.value || !editorRoot.value) return null;
   const from = Math.min(range.value.from, editorView.state.doc.content.size);
   const { top, bottom } = editorView.coordsAtPos(from);
   const editorTop = editorRoot.value.getBoundingClientRect().top;
@@ -253,6 +253,9 @@ const shouldShowCannedResponses = computed(() => {
   );
 });
 
+// The picker owns the search field, so it takes focus while open. Dismissing it hands
+// focus back; selecting one does so through the insert itself. The suggestion stays
+// active in the document, so the picker only reopens once the trigger is typed afresh.
 const dismissCannedResponses = () => {
   showCannedMenu.value = false;
   editorView?.focus();
@@ -315,6 +318,7 @@ const plugins = computed(() => {
     createSuggestionPlugin({
       trigger: '/',
       showMenu: showCannedMenu,
+      searchTerm: cannedSearchKey,
       isAllowed: () => !props.isPrivate,
       interceptEnter: false,
     }),
@@ -900,7 +904,8 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     />
     <CannedResponse
       v-if="shouldShowCannedResponses"
-      :caret-rect="cannedCaretRect"
+      :caret-position="caretPosition"
+      :search-key="cannedSearchKey"
       :variables="variables"
       :schema="editorSchema"
       @close="dismissCannedResponses"

@@ -1,8 +1,8 @@
 <script setup>
-import { nextTick, onMounted, useTemplateRef } from 'vue';
+import { computed, nextTick, onMounted, useTemplateRef } from 'vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 
-defineProps({
+const props = defineProps({
   items: {
     type: Array,
     required: true,
@@ -12,14 +12,6 @@ defineProps({
     default: '',
   },
   emptyLabel: {
-    type: String,
-    default: '',
-  },
-  previewTitle: {
-    type: String,
-    default: '',
-  },
-  previewContent: {
     type: String,
     default: '',
   },
@@ -40,14 +32,21 @@ const search = defineModel('search', { type: String, default: '' });
 const listRef = useTemplateRef('listRef');
 const searchRef = useTemplateRef('searchRef');
 
-const focusSearch = () => searchRef.value?.focus();
+const selectedItem = computed(() => props.items[selectedIndex.value]);
+
+const hasPreview = computed(() => props.showPreview && props.items.length > 0);
+
+const groupFor = index => {
+  const { group } = props.items[index];
+  return group && group !== props.items[index - 1]?.group ? group : null;
+};
 
 // Scrolls the list itself. `scrollIntoView` would also scroll clipped ancestors, which
 // shifts the card under a stationary cursor and leaves `mouseover` flickering between rows.
 const scrollSelectedIntoView = () => {
   nextTick(() => {
     const list = listRef.value;
-    const item = list?.children[selectedIndex.value];
+    const item = list?.querySelector(`[data-index="${selectedIndex.value}"]`);
     if (!item) return;
 
     const listRect = list.getBoundingClientRect();
@@ -61,7 +60,7 @@ const scrollSelectedIntoView = () => {
   });
 };
 
-onMounted(focusSearch);
+onMounted(() => searchRef.value?.focus());
 
 defineExpose({ scrollSelectedIntoView });
 </script>
@@ -73,13 +72,13 @@ defineExpose({ scrollSelectedIntoView });
     <div
       class="flex flex-col min-h-0"
       :class="
-        showPreview && items.length
+        hasPreview
           ? 'w-2/5 flex-shrink-0 border-r rtl:border-r-0 rtl:border-l border-n-weak'
           : 'w-full'
       "
     >
       <div
-        class="relative flex items-center flex-shrink-0 h-12 px-3 border-b border-n-weak"
+        class="relative flex items-center flex-shrink-0 h-11 px-3 border-b border-n-weak"
       >
         <Icon icon="i-lucide-search" class="size-4 text-n-slate-10" />
         <input
@@ -91,42 +90,57 @@ defineExpose({ scrollSelectedIntoView });
         />
       </div>
       <ul ref="listRef" class="flex-1 p-1 m-0 overflow-y-auto list-none">
-        <li v-for="(item, index) in items" :key="item.id">
-          <button
-            class="flex flex-col items-start w-full gap-0.5 px-2 py-1.5 overflow-hidden text-left rounded-lg cursor-pointer"
-            :class="index === selectedIndex ? 'bg-n-alpha-black2' : ''"
-            @mouseover="selectedIndex = index"
-            @click="emit('select', index)"
+        <template v-for="(item, index) in items" :key="item.id">
+          <li
+            v-if="groupFor(index)"
+            class="px-2 pt-2 pb-1 text-xs font-medium text-n-slate-10"
           >
-            <span
-              v-dompurify-html="item.title"
-              class="max-w-full min-w-0 text-sm font-medium truncate text-n-slate-12"
-            />
-            <span
-              v-dompurify-html="item.subtitle"
-              class="max-w-full min-w-0 text-xs truncate text-n-slate-11"
-            />
-          </button>
-        </li>
+            {{ groupFor(index) }}
+          </li>
+          <li>
+            <button
+              :data-index="index"
+              class="flex items-center w-full gap-2 px-2 py-1 overflow-hidden text-left rounded-lg cursor-pointer"
+              :class="index === selectedIndex ? 'bg-n-alpha-black2' : ''"
+              @mouseover="selectedIndex = index"
+              @click="emit('select', index)"
+            >
+              <slot
+                name="leading"
+                :item="item"
+                :selected="index === selectedIndex"
+              />
+              <span class="flex flex-col min-w-0 gap-0.5">
+                <span
+                  v-dompurify-html="item.title"
+                  class="max-w-full min-w-0 text-sm font-medium truncate text-n-slate-12"
+                />
+                <span
+                  v-if="item.subtitle"
+                  v-dompurify-html="item.subtitle"
+                  class="max-w-full min-w-0 text-xs truncate text-n-slate-11"
+                />
+              </span>
+            </button>
+          </li>
+        </template>
         <li v-if="!items.length" class="px-2 py-1.5 text-sm text-n-slate-11">
           {{ emptyLabel }}
         </li>
       </ul>
     </div>
-    <div
-      v-if="showPreview && items.length"
-      class="flex flex-col flex-1 min-w-0"
-    >
-      <span
-        class="flex items-center flex-shrink-0 h-12 px-4 text-xs font-medium truncate border-b text-n-slate-11 border-n-weak"
+    <div v-if="hasPreview" class="flex flex-col flex-1 min-w-0">
+      <div
+        class="flex items-center flex-shrink-0 h-11 px-4 border-b border-n-weak"
       >
-        {{ previewTitle }}
-      </span>
+        <span class="min-w-0 text-xs font-medium truncate text-n-slate-11">
+          {{ selectedItem?.label }}
+        </span>
+      </div>
       <div class="relative flex-1 min-h-0">
-        <div
-          v-dompurify-html="previewContent"
-          class="absolute inset-0 px-4 py-3 overflow-y-auto text-sm break-words prose-sm prose-p:text-sm prose-p:leading-relaxed prose-p:mb-1 prose-p:mt-0 prose-ul:mb-1 prose-ul:mt-0 text-n-slate-12"
-        />
+        <div class="absolute inset-0 overflow-y-auto">
+          <slot name="preview" :item="selectedItem" />
+        </div>
       </div>
     </div>
   </div>
