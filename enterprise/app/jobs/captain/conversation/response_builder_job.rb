@@ -15,6 +15,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @assistant = assistant
     @responding_to_message_id = responding_to_message_id if captain_v2_enabled?
 
+    return if @conversation.contact.blocked?
     return log_non_pending unless conversation_pending?
 
     Current.executed_by = @assistant

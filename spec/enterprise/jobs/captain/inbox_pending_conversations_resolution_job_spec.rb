@@ -31,6 +31,36 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
   end
 
+  context 'when an inactive pending conversation belongs to a blocked contact' do
+    let!(:blocked_pending_conversation) do
+      create(:conversation, inbox: inbox, last_activity_at: 2.hours.ago, status: :pending).tap do |conversation|
+        conversation.contact.update_columns(blocked: true) # rubocop:disable Rails/SkipsModelValidations
+      end
+    end
+
+    it 'does not resolve the conversation in time-based mode' do
+      allow(inbox.account).to receive(:feature_enabled?).and_call_original
+      allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(false)
+
+      described_class.perform_now(inbox)
+
+      expect(blocked_pending_conversation.reload.status).to eq('pending')
+      expect(blocked_pending_conversation.messages.outgoing).to be_empty
+    end
+
+    it 'does not evaluate or hand off the conversation in evaluated mode' do
+      allow(inbox.account).to receive(:feature_enabled?).and_call_original
+      allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
+      mock_service = instance_double(Captain::ConversationCompletionService, perform: { complete: false, reason: 'Needs clarification' })
+      expect(Captain::ConversationCompletionService).to receive(:new).once.and_return(mock_service)
+
+      described_class.perform_now(inbox)
+
+      expect(blocked_pending_conversation.reload.status).to eq('pending')
+      expect(blocked_pending_conversation.messages.outgoing).to be_empty
+    end
+  end
+
   context 'when captain_tasks is disabled' do
     before do
       allow(inbox.account).to receive(:feature_enabled?).and_call_original

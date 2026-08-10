@@ -12,6 +12,19 @@ RSpec.describe MessageTemplates::HookExecutionService do
   end
 
   context 'when captain assistant is configured' do
+    context 'when the contact is blocked while the conversation is pending' do
+      before do
+        contact.update_columns(blocked: true) # rubocop:disable Rails/SkipsModelValidations
+        conversation.reload
+      end
+
+      it 'does not schedule a Captain response' do
+        expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
+      end
+    end
+
     context 'when within business hours' do
       before do
         inbox.update!(working_hours_enabled: true)

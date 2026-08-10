@@ -65,6 +65,8 @@ class Captain::Assistant < ApplicationRecord
   end
 
   def engages?(contact, conversation)
+    return false if contact.blocked?
+
     responds_to_audience?(contact, conversation) && available_now?(conversation)
   end
 

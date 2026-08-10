@@ -6,6 +6,14 @@ RSpec.describe Captain::Assistant, type: :model do
   let(:contact) { create(:contact, account: account, additional_attributes: { 'country_code' => 'US' }) }
   let(:conversation) { create(:conversation, account: account, contact: contact) }
 
+  describe '#engages?' do
+    it 'returns false when the contact is blocked' do
+      contact.update!(blocked: true)
+
+      expect(assistant.engages?(contact, conversation)).to be(false)
+    end
+  end
+
   describe '#responds_to_audience?' do
     it 'returns true when no audience is configured' do
       expect(assistant.responds_to_audience?(contact, conversation)).to be(true)

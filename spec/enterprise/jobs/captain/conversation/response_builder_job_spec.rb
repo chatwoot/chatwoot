@@ -34,6 +34,23 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(mock_false_promise_service).to receive(:detect).and_return({ 'decision' => 'safe', 'reason' => 'safe_response' })
     end
 
+    context 'when the contact is blocked after the job is queued' do
+      before do
+        conversation.contact.update_columns(blocked: true) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it 'does not generate a response or consume usage' do
+        expect(Captain::Llm::AssistantChatService).not_to receive(:new)
+        expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
+
+        expect do
+          described_class.perform_now(conversation, assistant)
+        end.not_to(change { account.reload.usage_limits[:captain][:responses][:consumed] })
+
+        expect(conversation.messages.outgoing).to be_empty
+      end
+    end
+
     context 'when captain_v2 is disabled' do
       before do
         allow(account).to receive(:feature_enabled?).and_return(false)
