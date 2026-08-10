@@ -47,6 +47,7 @@ import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { isTruthyFlag } from 'shared/helpers/booleanFlag';
 import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 
 export default {
@@ -550,8 +551,9 @@ export default {
       this.avatarUrl = this.inbox.avatar_url;
       this.selectedInboxName = this.inbox.name;
       this.webhookUrl = this.inbox.webhook_url;
-      this.includePrivateNotes =
-        this.inbox.additional_attributes?.include_private_notes || false;
+      this.includePrivateNotes = isTruthyFlag(
+        this.inbox.additional_attributes?.include_private_notes
+      );
       this.greetingEnabled = this.inbox.greeting_enabled || false;
       this.greetingMessage = this.inbox.greeting_message || '';
       this.emailCollectEnabled = this.inbox.enable_email_collect;

@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { required, helpers, url } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { isTruthyFlag } from 'shared/helpers/booleanFlag';
 import { useToggle } from '@vueuse/core';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
@@ -232,7 +233,9 @@ const initializeForm = () => {
     formState.botDescription = description || '';
     formState.botUrl = botUrl || botConfig?.webhook_url || '';
     formState.botAvatarUrl = thumbnail || '';
-    formState.includePrivateNotes = botConfig?.include_private_notes || false;
+    formState.includePrivateNotes = isTruthyFlag(
+      botConfig?.include_private_notes
+    );
 
     if (props.type === MODAL_TYPES.EDIT) {
       if (botAccessToken) accessToken.value = botAccessToken;
