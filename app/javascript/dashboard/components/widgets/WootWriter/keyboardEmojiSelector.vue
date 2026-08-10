@@ -1,70 +1,91 @@
 <script setup>
-import { shallowRef, computed, onMounted } from 'vue';
+import { computed, ref, shallowRef, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import emojiGroups from 'shared/components/emoji/emojisGroup.json';
-import MentionBox from '../mentions/MentionBox.vue';
+import CaretAnchoredPicker from 'dashboard/components-next/preview-picker/CaretAnchoredPicker.vue';
 
 const props = defineProps({
+  caretPosition: {
+    type: Object,
+    default: null,
+  },
   searchKey: {
     type: String,
     default: '',
   },
 });
 
-const emit = defineEmits(['selectEmoji']);
+const emit = defineEmits(['selectEmoji', 'close', 'removeTrigger']);
+
+const { t } = useI18n();
 
 const allEmojis = shallowRef([]);
 
+const searchQuery = ref(props.searchKey);
+
+const searchTerm = computed(() => searchQuery.value.trim().toLowerCase());
+
 const items = computed(() => {
-  if (!props.searchKey) return [];
-  const searchTerm = props.searchKey.toLowerCase();
-  return allEmojis.value.filter(emoji =>
-    emoji.searchString.includes(searchTerm)
-  );
+  if (!searchTerm.value) return [];
+
+  return allEmojis.value
+    .filter(emoji => emoji.searchString.includes(searchTerm.value))
+    .map(({ emoji, name, slug, category }) => ({
+      id: slug,
+      emoji,
+      category,
+      label: name,
+      title: name,
+      subtitle: `:${slug}:`,
+    }));
 });
 
-function loadEmojis() {
-  allEmojis.value = emojiGroups.flatMap(({ emojis }) =>
+onMounted(() => {
+  allEmojis.value = emojiGroups.flatMap(({ name: category, emojis }) =>
     emojis.map(({ name, slug, ...rest }) => ({
       ...rest,
       name,
       slug,
-      searchString: `${name.replace(/\s+/g, '')} ${slug}`.toLowerCase(), // Remove all whitespace and convert to lowercase
+      category,
+      searchString: `${name.replace(/\s+/g, '')} ${slug}`.toLowerCase(),
     }))
   );
-}
-
-function handleMentionClick(item = {}) {
-  emit('selectEmoji', item.emoji);
-}
-
-onMounted(() => {
-  loadEmojis();
 });
+
+const onSelect = item => emit('selectEmoji', item.emoji);
 </script>
 
-<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
-  <MentionBox
-    v-if="items.length"
-    type="emoji"
+  <CaretAnchoredPicker
+    v-model:search="searchQuery"
+    :caret-position="caretPosition"
     :items="items"
-    @mention-select="handleMentionClick"
+    :search-placeholder="t('CONVERSATION.PICKER.EMOJI.SEARCH_PLACEHOLDER')"
+    :empty-label="
+      searchTerm
+        ? t('COMBOBOX.EMPTY_SEARCH_RESULTS', { searchTerm })
+        : t('CONVERSATION.PICKER.EMOJI.EMPTY_STATE')
+    "
+    @select="onSelect"
+    @close="emit('close')"
+    @remove-trigger="emit('removeTrigger')"
   >
-    <template #default="{ item, selected }">
-      <span
-        class="max-w-full inline-flex items-center gap-0.5 min-w-0 mb-0 text-sm font-medium text-n-slate-12 group-hover:text-n-brand truncate"
-      >
-        {{ item.emoji }}
-        <p
-          class="relative mb-0 truncate bottom-px"
-          :class="{
-            'text-n-brand': selected,
-            'font-normal': !selected,
-          }"
-        >
-          :{{ item.name }}
-        </p>
-      </span>
+    <template #leading="{ item }">
+      <span class="text-base leading-none">{{ item.emoji }}</span>
     </template>
-  </MentionBox>
+    <template #preview="{ item }">
+      <div v-if="item" class="flex items-start gap-3 px-4 py-3">
+        <span class="text-4xl leading-none">{{ item.emoji }}</span>
+        <div class="flex flex-col min-w-0 gap-1">
+          <span class="text-sm font-medium capitalize text-n-slate-12">
+            {{ item.label }}
+          </span>
+          <span class="text-xs break-all text-n-slate-11">
+            {{ item.subtitle }}
+          </span>
+          <span class="text-xs text-n-slate-10">{{ item.category }}</span>
+        </div>
+      </div>
+    </template>
+  </CaretAnchoredPicker>
 </template>
