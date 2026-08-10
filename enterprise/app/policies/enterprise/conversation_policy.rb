@@ -1,13 +1,12 @@
 module Enterprise::ConversationPolicy
   def show?
-    return false unless super
-    return true unless custom_role_permissions?
+    return super unless custom_role_permissions?
 
     permissions = custom_role_permissions
     return true if manage_all_conversations?(permissions)
     return true if permits_unassigned_manage?(permissions)
 
-    permits_participating?(permissions)
+    permits_participating?(permissions) || super
   end
 
   private
