@@ -26,6 +26,7 @@ describe('useAudienceFilterTypes', () => {
   beforeEach(() => {
     state.contactFilterTypes = [
       { attributeKey: 'email', attributeModel: 'standard' },
+      { attributeKey: 'country_code', attributeModel: 'additional' },
       { attributeKey: 'mystery', attributeModel: 'standard' },
       {
         attributeKey: 'signed_up_on',
@@ -40,13 +41,14 @@ describe('useAudienceFilterTypes', () => {
   it('assembles grouped sections in order', () => {
     const keys = build().map(item => item.attributeKey ?? item.value);
     expect(keys).toEqual([
-      '__group_standard',
+      '__group_contact',
       'email',
+      'country_code',
       'mystery',
-      '__group_additional',
+      '__group_conversation',
       'hmac_verified',
       'browser_language',
-      '__group_customAttributes',
+      '__group_custom',
       'signed_up_on',
     ]);
   });
@@ -62,7 +64,8 @@ describe('useAudienceFilterTypes', () => {
       type => type.attributeModel !== 'customAttributes'
     );
     const values = build().map(item => item.attributeKey ?? item.value);
-    expect(values).not.toContain('__group_customAttributes');
+    expect(values).not.toContain('__group_custom');
+    expect(values).not.toContain('signed_up_on');
   });
 
   it('assigns icons by attribute key with a default fallback', () => {

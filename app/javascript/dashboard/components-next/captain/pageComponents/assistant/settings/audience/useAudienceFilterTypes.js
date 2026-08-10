@@ -1,7 +1,10 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useContactFilterContext } from 'dashboard/components-next/filter/contactProvider.js';
-import { groupFilterTypes } from 'dashboard/components-next/filter/helper/filterAttributeIcons.js';
+import {
+  sectionHeader,
+  withAttributeIcons,
+} from 'dashboard/components-next/filter/helper/filterAttributeIcons.js';
 import { useOperators } from 'dashboard/components-next/filter/operators.js';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 
@@ -36,15 +39,32 @@ export function useAudienceFilterTypes() {
     ),
   ]);
 
-  // Contact attributes carry attributeModel 'standard' / 'customAttributes', so grouping them
-  // alongside the conversation options lands them under the audience section titles.
-  const filterTypes = computed(() =>
-    groupFilterTypes(
-      [...contactFilterTypes.value, ...conversationTypes.value],
-      t,
-      I18N_KEY
+  // The audience picker sections by where an attribute comes from, not by attributeModel, so
+  // every contact attribute stays together regardless of how the contact filter groups it.
+  const contactTypes = computed(() =>
+    contactFilterTypes.value.filter(
+      type => type.attributeModel !== 'customAttributes'
     )
   );
+
+  const customTypes = computed(() =>
+    contactFilterTypes.value.filter(
+      type => type.attributeModel === 'customAttributes'
+    )
+  );
+
+  const filterTypes = computed(() => [
+    sectionHeader('contact', t(`${I18N_KEY}.GROUP_CONTACT`)),
+    ...withAttributeIcons(contactTypes.value),
+    sectionHeader('conversation', t(`${I18N_KEY}.GROUP_CONVERSATION`)),
+    ...withAttributeIcons(conversationTypes.value),
+    ...(customTypes.value.length
+      ? [
+          sectionHeader('custom', t(`${I18N_KEY}.GROUP_CUSTOM`)),
+          ...withAttributeIcons(customTypes.value),
+        ]
+      : []),
+  ]);
 
   return { filterTypes };
 }

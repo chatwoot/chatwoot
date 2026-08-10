@@ -638,11 +638,9 @@
           "MATCH_SUFFIX": "of the following",
           "MATCH_ALL": "all",
           "MATCH_ANY": "any",
-          "GROUPS": {
-            "STANDARD_FILTERS": "Contact attributes",
-            "ADDITIONAL_FILTERS": "Conversation",
-            "CUSTOM_ATTRIBUTES": "Custom attributes"
-          },
+          "GROUP_CONTACT": "Contact attributes",
+          "GROUP_CONVERSATION": "Conversation",
+          "GROUP_CUSTOM": "Custom attributes",
           "BROWSER_LANGUAGE": "Browser language",
           "CONVERSATION_LANGUAGE": "First message language",
           "LOGGED_IN": "Logged-in user",

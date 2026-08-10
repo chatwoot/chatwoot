@@ -65,8 +65,31 @@ export const getAttributeIcon = type => {
   return ATTRIBUTE_ICONS[type.attributeKey] || DEFAULT_ICON;
 };
 
+/**
+ * Attach the leading icon to each filter type, leaving an icon the builder already set alone.
+ * @param {Object[]} filterTypes - FilterType entries.
+ * @returns {Object[]} The same entries, each carrying an icon.
+ */
+export const withAttributeIcons = filterTypes =>
+  filterTypes.map(type => ({
+    ...type,
+    icon: type.icon || getAttributeIcon(type),
+  }));
+
+/**
+ * A non-clickable section title, which FilterSelect renders from the disabled flag.
+ * @param {string} id - Unique suffix for the header's option value.
+ * @param {string} label - Translated section title.
+ * @returns {Object} A disabled option entry.
+ */
+export const sectionHeader = (id, label) => ({
+  value: `__group_${id}`,
+  label,
+  disabled: true,
+});
+
 // The order groups appear in, keyed by attributeModel. Labels resolve against the caller's i18n
-// namespace so each filter names its own sections.
+// namespace so the conversation and contact filters can name their own sections.
 const GROUPS = [
   { model: 'standard', labelKey: 'STANDARD_FILTERS' },
   { model: 'additional', labelKey: 'ADDITIONAL_FILTERS' },
@@ -76,30 +99,22 @@ const GROUPS = [
 const KNOWN_MODELS = GROUPS.map(({ model }) => model);
 
 /**
- * Attach a leading icon to each filter type and split them into sections separated by disabled
- * header entries, which FilterSelect renders as non-clickable section titles.
+ * Split filter types into sections by attributeModel, each introduced by a header.
+ * Surfaces that group along a different axis compose withAttributeIcons and sectionHeader instead.
  * @param {Object[]} filterTypes - Flat list of FilterType entries.
  * @param {Function} t - vue-i18n translate function.
  * @param {string} [i18nKey] - Namespace holding the GROUPS labels.
  * @returns {Object[]} Grouped list of header and icon-enriched entries.
  */
 export const groupFilterTypes = (filterTypes, t, i18nKey = 'FILTER') => {
-  const withIcon = type => ({
-    ...type,
-    icon: type.icon || getAttributeIcon(type),
-  });
   const modelOf = type => type.attributeModel || 'standard';
 
   const grouped = GROUPS.flatMap(({ model, labelKey }) => {
     const group = filterTypes.filter(type => modelOf(type) === model);
     if (!group.length) return [];
     return [
-      {
-        value: `__group_${model}`,
-        label: t(`${i18nKey}.GROUPS.${labelKey}`),
-        disabled: true,
-      },
-      ...group.map(withIcon),
+      sectionHeader(model, t(`${i18nKey}.GROUPS.${labelKey}`)),
+      ...withAttributeIcons(group),
     ];
   });
 
@@ -108,5 +123,5 @@ export const groupFilterTypes = (filterTypes, t, i18nKey = 'FILTER') => {
     type => !KNOWN_MODELS.includes(modelOf(type))
   );
 
-  return [...grouped, ...ungrouped.map(withIcon)];
+  return [...grouped, ...withAttributeIcons(ungrouped)];
 };
