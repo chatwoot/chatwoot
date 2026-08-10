@@ -1173,7 +1173,7 @@
         "RETRY": "Réessayer"
       },
       "EMPTY_STATE": {
-        "TITLE": "La file d'attente des avis est effacée",
+        "TITLE": "La file d’attente de révision est vide",
         "SUBTITLE": "De nouvelles suggestions de FAQ apparaîtront ici quand elles seront prêtes à être revues.",
         "CLEAR_SEARCH": "Effacer la recherche"
       },
