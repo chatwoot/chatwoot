@@ -1802,7 +1802,7 @@ describe('filterHelpers', () => {
   // These expectations hold in every timezone. Run the suite under
   // TZ=Asia/Kolkata and TZ=America/Los_Angeles to cover browsers ahead of and
   // behind UTC, where the boundary used to shift and hide rows.
-  describe('date-only filter values are compared against UTC midnight', () => {
+  describe('date-only filter values are compared as whole UTC days', () => {
     const buildFilter = (filterOperator, value) => [
       {
         attribute_key: 'last_activity_at',
@@ -1815,21 +1815,42 @@ describe('filterHelpers', () => {
     const lateInDay = { last_activity_at: 1786132800 }; // 2026-08-07 20:00 UTC
     const earlyInDay = { last_activity_at: 1786075200 }; // 2026-08-07 04:00 UTC
 
-    it('includes a conversation late in the day for is_less_than', () => {
+    it('includes both ends of the day for is_less_than', () => {
       expect(
         matchesFilters(lateInDay, buildFilter('is_less_than', '2026-08-08'))
       ).toBe(true);
+      expect(
+        matchesFilters(earlyInDay, buildFilter('is_less_than', '2026-08-08'))
+      ).toBe(true);
     });
 
-    it('includes a conversation early in the day for is_greater_than', () => {
+    it('includes both ends of the day for is_greater_than', () => {
+      expect(
+        matchesFilters(lateInDay, buildFilter('is_greater_than', '2026-08-06'))
+      ).toBe(true);
+      expect(
+        matchesFilters(earlyInDay, buildFilter('is_greater_than', '2026-08-06'))
+      ).toBe(true);
+    });
+
+    it('excludes the whole day named by the bound', () => {
+      expect(
+        matchesFilters(lateInDay, buildFilter('is_greater_than', '2026-08-07'))
+      ).toBe(false);
       expect(
         matchesFilters(earlyInDay, buildFilter('is_greater_than', '2026-08-07'))
-      ).toBe(true);
+      ).toBe(false);
+      expect(
+        matchesFilters(lateInDay, buildFilter('is_less_than', '2026-08-07'))
+      ).toBe(false);
+      expect(
+        matchesFilters(earlyInDay, buildFilter('is_less_than', '2026-08-07'))
+      ).toBe(false);
     });
 
     it('still excludes conversations outside the range', () => {
       expect(
-        matchesFilters(lateInDay, buildFilter('is_less_than', '2026-08-07'))
+        matchesFilters(lateInDay, buildFilter('is_less_than', '2026-08-06'))
       ).toBe(false);
       expect(
         matchesFilters(earlyInDay, buildFilter('is_greater_than', '2026-08-08'))
