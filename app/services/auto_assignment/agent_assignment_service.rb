@@ -27,6 +27,8 @@ class AutoAssignment::AgentAssignmentService
   private
 
   def reassignment_still_needed?(locked_conversation)
+    return false if locked_conversation.assignee_agent_bot_id.present?
+
     locked_conversation.assignee.blank? || locked_conversation.inbox.members.exclude?(locked_conversation.assignee)
   end
 

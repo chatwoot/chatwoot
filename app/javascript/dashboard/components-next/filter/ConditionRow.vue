@@ -12,10 +12,9 @@ import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { validateSingleFilter } from 'dashboard/helper/validations.js';
 
 // filterTypes: import('vue').ComputedRef<FilterType[]>
-const { filterTypes, filterI18nKey } = defineProps({
+const { filterTypes } = defineProps({
   showQueryOperator: { type: Boolean, default: false },
   filterTypes: { type: Array, required: true },
-  filterI18nKey: { type: String, default: 'FILTER' },
 });
 
 const emit = defineEmits(['remove']);
@@ -50,30 +49,6 @@ const getFilterFromFilterTypes = key =>
 const currentFilter = computed(() =>
   getFilterFromFilterTypes(attributeKey.value)
 );
-
-const attributeOptions = computed(() => {
-  const customAttributes = filterTypes.filter(
-    filter => filter.attributeModel === 'customAttributes'
-  );
-  if (!customAttributes.length) return filterTypes;
-
-  return [
-    {
-      label: t(`${filterI18nKey}.GROUPS.STANDARD_FILTERS`),
-      value: '__standard_group__',
-      disabled: true,
-    },
-    ...filterTypes.filter(
-      filter => filter.attributeModel !== 'customAttributes'
-    ),
-    {
-      label: t(`${filterI18nKey}.GROUPS.CUSTOM_ATTRIBUTES`),
-      value: '__custom_attributes_group__',
-      disabled: true,
-    },
-    ...customAttributes,
-  ];
-});
 
 const getOperator = (filter, selectedOperator) => {
   const operatorFromOptions = filter?.filterOperators?.find(
@@ -223,7 +198,7 @@ defineExpose({ validate, resetValidation });
       <FilterSelect
         v-model="attributeKey"
         variant="faded"
-        :options="attributeOptions"
+        :options="filterTypes"
         @update:model-value="resetModelOnAttributeKeyChange"
       />
       <FilterSelect

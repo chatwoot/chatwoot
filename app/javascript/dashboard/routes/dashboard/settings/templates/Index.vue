@@ -16,7 +16,12 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import TemplateCard from './TemplateCard.vue';
 import TemplatePreviewDrawer from './TemplatePreviewDrawer.vue';
-import { formatTemplateLanguage, groupTemplates } from './templateUtils';
+import {
+  formatTemplateDate,
+  formatTemplateLanguage,
+  groupTemplates,
+  templateTypeKey,
+} from './templateUtils';
 
 const FUZZY_SEARCH_KEYS = [
   { name: 'name', weight: 4 },
@@ -27,10 +32,6 @@ const FUZZY_SEARCH_KEYS = [
   'searchableContent',
 ];
 
-const META_TEMPLATE_MANAGER_URL =
-  'https://business.facebook.com/latest/whatsapp_manager/message_templates';
-const TWILIO_TEMPLATE_MANAGER_URL =
-  'https://console.twilio.com/us1/develop/sms/content-editor';
 const TEMPLATE_LEARN_MORE_URL =
   'https://www.chatwoot.com/hc/user-guide/articles/1754940076-whatsapp-templates';
 
@@ -42,10 +43,13 @@ const templates = ref([]);
 const searchQuery = ref('');
 const selectedInboxId = ref('all');
 const selectedLanguage = ref('all');
+const selectedType = ref('all');
 const selectedTemplate = ref(null);
 const openFilterMenu = ref(null);
 const previewPanelRef = ref(null);
 const templateRecordsByInboxId = new Map();
+const lastSyncAttemptsByInboxId = ref({});
+const isSyncing = ref(false);
 const {
   run: runTemplateRequest,
   abort: abortTemplateRequest,
@@ -53,6 +57,27 @@ const {
 } = useAbortableRequest();
 
 const hasTemplates = computed(() => templates.value.length > 0);
+
+const lastSyncAttemptAt = computed(() => {
+  const timestamps = Object.values(lastSyncAttemptsByInboxId.value)
+    .filter(Boolean)
+    .map(value => new Date(value).getTime())
+    .filter(Number.isFinite);
+
+  return timestamps.length ? new Date(Math.max(...timestamps)) : null;
+});
+
+const typeLabels = computed(() => ({
+  TEXT: t('WHATSAPP_TEMPLATE_MGMT.TYPES.TEXT'),
+  IMAGE: t('WHATSAPP_TEMPLATE_MGMT.TYPES.IMAGE'),
+  VIDEO: t('WHATSAPP_TEMPLATE_MGMT.TYPES.VIDEO'),
+  DOCUMENT: t('WHATSAPP_TEMPLATE_MGMT.TYPES.DOCUMENT'),
+  MEDIA: t('WHATSAPP_TEMPLATE_MGMT.TYPES.MEDIA'),
+  QUICK_REPLY: t('WHATSAPP_TEMPLATE_MGMT.TYPES.QUICK_REPLY'),
+  CALL_TO_ACTION: t('WHATSAPP_TEMPLATE_MGMT.TYPES.CALL_TO_ACTION'),
+  CATALOG: t('WHATSAPP_TEMPLATE_MGMT.TYPES.CATALOG'),
+  COPY_CODE: t('WHATSAPP_TEMPLATE_MGMT.TYPES.COPY_CODE'),
+}));
 
 const whatsappInboxes = computed(() =>
   inboxes.value.filter(
@@ -62,54 +87,6 @@ const whatsappInboxes = computed(() =>
         inbox.medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP)
   )
 );
-
-const canManageInMeta = computed(() =>
-  whatsappInboxes.value.some(inbox => inbox.provider === 'whatsapp_cloud')
-);
-
-const hasTwilioInboxes = computed(() =>
-  whatsappInboxes.value.some(inbox => inbox.channel_type === INBOX_TYPES.TWILIO)
-);
-
-const hasUnsupportedWhatsappInboxes = computed(() =>
-  whatsappInboxes.value.some(
-    inbox =>
-      inbox.channel_type === INBOX_TYPES.WHATSAPP &&
-      inbox.provider !== 'whatsapp_cloud'
-  )
-);
-
-const selectedInbox = computed(() =>
-  whatsappInboxes.value.find(
-    inbox => String(inbox.id) === selectedInboxId.value
-  )
-);
-
-const newTemplateUrl = computed(() => {
-  if (selectedInbox.value) {
-    if (selectedInbox.value.channel_type === INBOX_TYPES.TWILIO) {
-      return TWILIO_TEMPLATE_MANAGER_URL;
-    }
-
-    return selectedInbox.value.provider === 'whatsapp_cloud'
-      ? META_TEMPLATE_MANAGER_URL
-      : null;
-  }
-
-  if (
-    canManageInMeta.value &&
-    !hasTwilioInboxes.value &&
-    !hasUnsupportedWhatsappInboxes.value
-  ) {
-    return META_TEMPLATE_MANAGER_URL;
-  }
-
-  return hasTwilioInboxes.value &&
-    !canManageInMeta.value &&
-    !hasUnsupportedWhatsappInboxes.value
-    ? TWILIO_TEMPLATE_MANAGER_URL
-    : null;
-});
 
 const inboxOptions = computed(() => [
   {
@@ -136,6 +113,19 @@ const languageOptions = computed(() => [
     })),
 ]);
 
+const typeOptions = computed(() => [
+  {
+    value: 'all',
+    label: t('WHATSAPP_TEMPLATE_MGMT.FILTERS.ALL_TYPES'),
+  },
+  ...[...new Set(templates.value.map(templateTypeKey))]
+    .map(type => ({
+      value: type,
+      label: typeLabels.value[type],
+    }))
+    .sort((first, second) => first.label.localeCompare(second.label)),
+]);
+
 const filterMenus = computed(() =>
   [
     {
@@ -149,6 +139,12 @@ const filterMenus = computed(() =>
       icon: 'i-lucide-languages',
       options: languageOptions.value,
       active: selectedLanguage.value,
+    },
+    {
+      key: 'type',
+      icon: 'i-lucide-layout-template',
+      options: typeOptions.value,
+      active: selectedType.value,
     },
   ].map(menu => {
     const items = menu.options.map(option => ({
@@ -181,7 +177,8 @@ const openPreview = template => {
 const handleFilterAction = ({ action, value }) => {
   closeFilterMenu();
   if (action === 'inbox') selectedInboxId.value = value;
-  else selectedLanguage.value = value;
+  else if (action === 'language') selectedLanguage.value = value;
+  else selectedType.value = value;
 };
 
 const filteredTemplates = computed(() => {
@@ -196,6 +193,12 @@ const filteredTemplates = computed(() => {
   if (selectedLanguage.value !== 'all') {
     records = records.filter(
       template => template.language === selectedLanguage.value
+    );
+  }
+
+  if (selectedType.value !== 'all') {
+    records = records.filter(
+      template => templateTypeKey(template) === selectedType.value
     );
   }
 
@@ -239,6 +242,7 @@ const fetchTemplates = async () => {
 
           return {
             inboxId: inbox.id,
+            lastSyncAttemptAt: data.meta?.last_sync_attempt_at,
             records: data.payload.map(template => ({
               template,
               inbox,
@@ -254,14 +258,21 @@ const fetchTemplates = async () => {
         response => response.status === 'fulfilled'
       );
       const activeInboxIds = new Set(inboxesToFetch.map(inbox => inbox.id));
+      const nextLastSyncAttempts = {
+        ...lastSyncAttemptsByInboxId.value,
+      };
 
       templateRecordsByInboxId.forEach((_, inboxId) => {
-        if (!activeInboxIds.has(inboxId))
+        if (!activeInboxIds.has(inboxId)) {
           templateRecordsByInboxId.delete(inboxId);
+          delete nextLastSyncAttempts[inboxId];
+        }
       });
       successfulResponses.forEach(({ value }) => {
         templateRecordsByInboxId.set(value.inboxId, value.records);
+        nextLastSyncAttempts[value.inboxId] = value.lastSyncAttemptAt;
       });
+      lastSyncAttemptsByInboxId.value = nextLastSyncAttempts;
       templates.value = groupTemplates(
         [...templateRecordsByInboxId.values()].flat()
       );
@@ -276,6 +287,8 @@ const fetchTemplates = async () => {
         )
       )
         selectedLanguage.value = 'all';
+      if (!typeOptions.value.some(({ value }) => value === selectedType.value))
+        selectedType.value = 'all';
 
       if (responses.some(response => response.status === 'rejected')) {
         const errorMessage = successfulResponses.length
@@ -287,6 +300,31 @@ const fetchTemplates = async () => {
   } catch {
     useAlert(t('WHATSAPP_TEMPLATE_MGMT.FETCH_ERROR'));
   }
+};
+
+const syncTemplates = async () => {
+  if (isSyncing.value) return;
+
+  isSyncing.value = true;
+
+  const responses = await Promise.allSettled(
+    whatsappInboxes.value.map(inbox =>
+      store.dispatch('inboxes/syncTemplates', inbox.id)
+    )
+  );
+  const failedCount = responses.filter(
+    response => response.status === 'rejected'
+  ).length;
+
+  if (!failedCount) {
+    useAlert(t('WHATSAPP_TEMPLATE_MGMT.SYNC_SUCCESS'));
+  } else if (failedCount < responses.length) {
+    useAlert(t('WHATSAPP_TEMPLATE_MGMT.PARTIAL_SYNC_ERROR'));
+  } else {
+    useAlert(t('WHATSAPP_TEMPLATE_MGMT.SYNC_ERROR'));
+  }
+
+  isSyncing.value = false;
 };
 
 onActivated(fetchTemplates);
@@ -318,6 +356,16 @@ onDeactivated(abortTemplateRequest);
           >
             {{ $t('WHATSAPP_TEMPLATE_MGMT.KNOW_MORE') }}
           </a>
+          <span
+            v-if="lastSyncAttemptAt"
+            class="block mt-1 text-xs text-n-slate-10"
+          >
+            {{
+              $t('WHATSAPP_TEMPLATE_MGMT.LAST_SYNC_ATTEMPT', {
+                date: formatTemplateDate(lastSyncAttemptAt),
+              })
+            }}
+          </span>
         </template>
         <template #tabs>
           <div
@@ -354,14 +402,16 @@ onDeactivated(abortTemplateRequest);
             }}
           </span>
         </template>
-        <template v-if="newTemplateUrl" #actions>
-          <a :href="newTemplateUrl" target="_blank" rel="noopener noreferrer">
-            <Button
-              :label="$t('WHATSAPP_TEMPLATE_MGMT.NEW_TEMPLATE')"
-              icon="i-lucide-plus"
-              size="sm"
-            />
-          </a>
+        <template #actions>
+          <Button
+            :label="$t('WHATSAPP_TEMPLATE_MGMT.SYNC_TEMPLATES')"
+            icon="i-lucide-refresh-cw"
+            color="slate"
+            size="sm"
+            :is-loading="isSyncing"
+            :disabled="!whatsappInboxes.length || isSyncing"
+            @click="syncTemplates"
+          />
         </template>
       </BaseSettingsHeader>
     </template>

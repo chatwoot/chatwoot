@@ -14,9 +14,10 @@ import Icon from 'next/icon/Icon.vue';
 
 // [{label, icon, value}]
 const props = defineProps({
+  // Empty while an attribute the saved filter refers to no longer exists.
   options: {
     type: Array,
-    required: true,
+    default: () => [],
   },
   hideLabel: {
     type: Boolean,
@@ -42,11 +43,11 @@ const selected = defineModel({
   required: true,
 });
 
+const vFocus = { mounted: el => el.focus() };
+
 const triggerRef = ref(null);
 const dropdownRef = ref(null);
 const searchTerm = ref('');
-
-const vFocus = { mounted: el => el.focus() };
 
 const showSearch = computed(
   () => props.options.length > DROPDOWN_SEARCH_THRESHOLD
@@ -54,6 +55,7 @@ const showSearch = computed(
 
 const searchResults = computed(() => {
   if (!searchTerm.value) return props.options;
+  // Section headers are not selectable, so they are dropped once a query narrows the list.
   const selectableOptions = props.options.filter(option => !option.disabled);
   return picoSearch(selectableOptions, searchTerm.value, ['label']);
 });
@@ -63,7 +65,7 @@ const { height } = useWindowSize();
 const { height: dropdownHeight } = useElementBounding(dropdownRef);
 
 const selectedOption = computed(() => {
-  return props.options?.find(o => o.value === selected.value) || {};
+  return props.options.find(o => o.value === selected.value) || {};
 });
 
 const iconToRender = computed(() => {
@@ -119,7 +121,7 @@ const toggleDropdown = toggle => {
         <input
           v-model="searchTerm"
           v-focus
-          class="p-1.5 pl-8 text-n-slate-11 bg-n-alpha-1 rounded-lg w-full"
+          class="w-full p-1.5 pl-8 rounded-lg text-n-slate-11 bg-n-alpha-1"
           :placeholder="t('COMBOBOX.SEARCH_PLACEHOLDER')"
         />
       </div>
@@ -138,8 +140,12 @@ const toggleDropdown = toggle => {
             @click="updateSelected(option.value)"
           />
         </template>
-        <DropdownItem v-if="searchTerm && !searchResults.length" disabled>
-          {{ t('COMBOBOX.EMPTY_SEARCH_RESULTS', { searchTerm }) }}
+        <DropdownItem v-if="!searchResults.length" disabled>
+          {{
+            searchTerm
+              ? t('COMBOBOX.EMPTY_SEARCH_RESULTS', { searchTerm })
+              : t('COMBOBOX.EMPTY_STATE')
+          }}
         </DropdownItem>
       </DropdownSection>
     </DropdownBody>

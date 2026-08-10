@@ -3,6 +3,7 @@ import { ref, computed, h, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useOperators } from 'dashboard/components-next/filter/operators';
+import { getAttributeIcon } from 'dashboard/components-next/filter/helper/filterAttributeIcons';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import {
@@ -193,6 +194,7 @@ const filterTypes = computed(() => {
       };
     });
 
+    const attributeModel = attr.customAttributeType || 'standard';
     return {
       attributeKey: attr.key,
       value: attr.key,
@@ -202,7 +204,8 @@ const filterTypes = computed(() => {
       options,
       filterOperators,
       dataType: 'text',
-      attributeModel: attr.customAttributeType || 'standard',
+      attributeModel,
+      icon: getAttributeIcon({ attributeKey: attr.key, attributeModel }),
     };
   });
 });
