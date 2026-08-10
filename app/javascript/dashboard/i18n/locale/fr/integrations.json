@@ -837,8 +837,8 @@
         "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour, veuillez réessayer."
       },
       "SYNC": {
-        "QUEUED_MESSAGE": "Rafraîchissement de la file d'attente. Nous mettrons à jour le document sous peu.",
-        "ERROR_MESSAGE": "Impossible d'actualiser la file d'attente, veuillez réessayer."
+        "QUEUED_MESSAGE": "Actualisation mise en file d’attente. Nous mettrons à jour le document sous peu.",
+        "ERROR_MESSAGE": "Impossible de mettre l’actualisation en file d’attente, veuillez réessayer."
       },
       "FILTERS": {
         "SOURCE": {

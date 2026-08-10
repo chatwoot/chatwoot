@@ -45,7 +45,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Temps d'attente du client",
-        "TOOLTIP_TEXT": "L'heure d'attente est {metricValue} (basé sur les réponses {conversationCount})",
+        "TOOLTIP_TEXT": "Le temps d'attente est {metricValue} (basé sur {conversationCount} réponses)",
         "DESC": ""
       }
     },
