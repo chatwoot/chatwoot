@@ -1,3 +1,4 @@
+```ruby
 require 'rails_helper'
 
 RSpec.describe ConversationPolicy, type: :policy do
@@ -6,8 +7,22 @@ RSpec.describe ConversationPolicy, type: :policy do
   let(:account) { create(:account) }
   let(:administrator) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let(:administrator_context) { { user: administrator, account: account, account_user: administrator.account_users.find_by(account: account) } }
-  let(:agent_context) { { user: agent, account: account, account_user: agent.account_users.find_by(account: account) } }
+
+  let(:administrator_context) do
+    {
+      user: administrator,
+      account: account,
+      account_user: administrator.account_users.find_by(account: account)
+    }
+  end
+
+  let(:agent_context) do
+    {
+      user: agent,
+      account: account,
+      account_user: agent.account_users.find_by(account: account)
+    }
+  end
 
   let(:conversation) { create(:conversation, account: account) }
 
@@ -40,25 +55,19 @@ RSpec.describe ConversationPolicy, type: :policy do
       end
     end
 
-    context 'when agent has inbox access' do
-      let(:inbox) { create(:inbox, account: account) }
-      let(:conversation) { create(:conversation, account: account, inbox: inbox) }
-
-      before { create(:inbox_member, user: agent, inbox: inbox) }
+    context 'when agent is assigned to the conversation' do
+      let(:conversation) { create(:conversation, account: account, assignee: agent) }
 
       it 'allows access' do
         expect(subject).to permit(agent_context, conversation)
       end
     end
 
-    context 'when agent has team access' do
-      let(:team) { create(:team, account: account) }
-      let(:conversation) { create(:conversation, :with_team, account: account, team: team) }
+    context 'when agent is not assigned to the conversation' do
+      let(:conversation) { create(:conversation, account: account) }
 
-      before { create(:team_member, team: team, user: agent) }
-
-      it 'allows access' do
-        expect(subject).to permit(agent_context, conversation)
+      it 'denies access' do
+        expect(subject).not_to permit(agent_context, conversation)
       end
     end
 
@@ -71,3 +80,4 @@ RSpec.describe ConversationPolicy, type: :policy do
     end
   end
 end
+```
