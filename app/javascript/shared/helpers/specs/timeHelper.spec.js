@@ -33,6 +33,12 @@ describe('#messageStamp', () => {
       '2月10日 下午3:35'
     );
   });
+
+  it('keeps LLL month names abbreviated for English locales', () => {
+    expect(messageStamp(1612971343, 'LLL d, h:mm a', 'en-US')).toEqual(
+      'Feb 10, 3:35 PM'
+    );
+  });
 });
 
 describe('#messageTimestamp', () => {

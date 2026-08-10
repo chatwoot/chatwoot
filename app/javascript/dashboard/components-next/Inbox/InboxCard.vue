@@ -4,10 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
 import { useLocale } from 'shared/composables/useLocale';
-import {
-  snoozedReopenTimeToTimestamp,
-  shortenSnoozeTime,
-} from 'dashboard/helper/snoozeHelpers';
+import { snoozedReopenTimeToTimestamp } from 'dashboard/helper/snoozeHelpers';
 import { NOTIFICATION_TYPES_MAPPING } from 'dashboard/routes/dashboard/inbox/helpers/InboxViewHelpers';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -112,9 +109,7 @@ const notificationDetails = computed(() => {
 const snoozedUntilTime = computed(() => {
   const { snoozedUntil } = props.inboxItem;
   if (!snoozedUntil) return null;
-  return shortenSnoozeTime(
-    dynamicTime(snoozedReopenTimeToTimestamp(snoozedUntil))
-  );
+  return dynamicTime(snoozedReopenTimeToTimestamp(snoozedUntil));
 });
 
 const hasLastSnoozed = computed(() => props.inboxItem?.meta?.lastSnoozedAt);

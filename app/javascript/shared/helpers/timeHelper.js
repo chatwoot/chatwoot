@@ -17,7 +17,7 @@ const getLocalizedDateOptions = dateFormat => {
       hour12: true,
     },
     'LLL d, h:mm a': {
-      month: 'long',
+      month: 'short',
       day: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
@@ -25,7 +25,7 @@ const getLocalizedDateOptions = dateFormat => {
     },
     'LLL d y, h:mm a': {
       year: 'numeric',
-      month: 'long',
+      month: 'short',
       day: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
@@ -33,7 +33,7 @@ const getLocalizedDateOptions = dateFormat => {
     },
     'LLL d yyyy, h:mm a': {
       year: 'numeric',
-      month: 'long',
+      month: 'short',
       day: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
@@ -46,7 +46,7 @@ const getLocalizedDateOptions = dateFormat => {
     },
     'LLL d, yyyy': {
       year: 'numeric',
-      month: 'long',
+      month: 'short',
       day: 'numeric',
     },
   };
