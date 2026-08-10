@@ -39,7 +39,8 @@ const MAX_HEIGHT = 300;
 const MAX_WIDTH = 768;
 const VIEWPORT_MARGIN = 16;
 const GAP = 8;
-const PREVIEW_MIN_WIDTH = 480;
+const SIDE_PREVIEW_MIN_WIDTH = 480;
+const STACKED_PREVIEW_MIN_HEIGHT = 260;
 
 const caretAnchorRef = useTemplateRef('caretAnchorRef');
 const pickerRef = useTemplateRef('pickerRef');
@@ -49,10 +50,6 @@ const caretAnchor = useElementBounding(caretAnchorRef);
 const { width: windowWidth, height: windowHeight } = useWindowSize();
 
 const items = computed(() => props.items);
-
-const showPreview = computed(
-  () => caretAnchor.width.value >= PREVIEW_MIN_WIDTH
-);
 
 const caretAnchorStyle = computed(() => ({
   top: `${props.caretPosition?.top ?? 0}px`,
@@ -64,16 +61,27 @@ useResizeObserver(
   caretAnchor.update
 );
 
-// Placement is decided from the anchor alone. `useDropdownPosition` picks its side from
-// the card's measured height, which here is derived from the side it picked — a loop that
-// pins the card to whichever side it happened to fit on while the list was still empty.
-const pickerStyle = computed(() => {
+const placement = computed(() => {
   const above = caretAnchor.top.value - VIEWPORT_MARGIN - GAP;
   const below =
     windowHeight.value - caretAnchor.bottom.value - VIEWPORT_MARGIN - GAP;
   const placeAbove = above > below;
 
-  const height = Math.min(MAX_HEIGHT, Math.max(placeAbove ? above : below, 0));
+  return {
+    placeAbove,
+    height: Math.min(MAX_HEIGHT, Math.max(placeAbove ? above : below, 0)),
+  };
+});
+
+const previewLayout = computed(() => {
+  if (caretAnchor.width.value >= SIDE_PREVIEW_MIN_WIDTH) return 'side';
+  if (placement.value.height >= STACKED_PREVIEW_MIN_HEIGHT) return 'stacked';
+  return 'none';
+});
+
+const pickerStyle = computed(() => {
+  const { placeAbove, height } = placement.value;
+  const showsPreview = previewLayout.value !== 'none';
   const width = Math.min(caretAnchor.width.value, MAX_WIDTH);
   const left = Math.min(
     caretAnchor.left.value,
@@ -84,7 +92,7 @@ const pickerStyle = computed(() => {
     left: `${Math.max(VIEWPORT_MARGIN, left)}px`,
     width: `${width}px`,
     maxHeight: `${height}px`,
-    minHeight: showPreview.value ? `${Math.min(MIN_HEIGHT, height)}px` : null,
+    minHeight: showsPreview ? `${Math.min(MIN_HEIGHT, height)}px` : null,
     ...(placeAbove
       ? { bottom: `${windowHeight.value - caretAnchor.top.value + GAP}px` }
       : { top: `${caretAnchor.bottom.value + GAP}px` }),
@@ -145,7 +153,7 @@ watch(items, () => {
       :items="items"
       :search-placeholder="searchPlaceholder"
       :empty-label="emptyLabel"
-      :show-preview="showPreview"
+      :preview-layout="previewLayout"
       data-popover-content
       class="fixed z-[9999]"
       :style="pickerStyle"

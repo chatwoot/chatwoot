@@ -15,9 +15,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  showPreview: {
-    type: Boolean,
-    default: true,
+  previewLayout: {
+    type: String,
+    default: 'side',
+    validator: value => ['side', 'stacked', 'none'].includes(value),
   },
 });
 
@@ -34,7 +35,22 @@ const searchRef = useTemplateRef('searchRef');
 
 const selectedItem = computed(() => props.items[selectedIndex.value]);
 
-const hasPreview = computed(() => props.showPreview && props.items.length > 0);
+const isStacked = computed(() => props.previewLayout === 'stacked');
+
+const hasPreview = computed(
+  () => props.previewLayout !== 'none' && props.items.length > 0
+);
+
+const listClass = computed(() => {
+  if (!hasPreview.value) return 'w-full';
+  return isStacked.value
+    ? 'w-full flex-1'
+    : 'w-2/5 flex-shrink-0 border-r rtl:border-r-0 rtl:border-l border-n-weak';
+});
+
+const previewClass = computed(() =>
+  isStacked.value ? 'h-24 flex-shrink-0 border-t border-n-weak' : 'flex-1'
+);
 
 const groupFor = index => {
   const { group } = props.items[index];
@@ -68,15 +84,9 @@ defineExpose({ scrollSelectedIntoView });
 <template>
   <div
     class="flex overflow-hidden border shadow-lg rounded-xl border-n-weak bg-n-alpha-3 backdrop-blur-[100px]"
+    :class="{ 'flex-col': isStacked }"
   >
-    <div
-      class="flex flex-col min-h-0"
-      :class="
-        hasPreview
-          ? 'w-2/5 flex-shrink-0 border-r rtl:border-r-0 rtl:border-l border-n-weak'
-          : 'w-full'
-      "
-    >
+    <div class="flex flex-col min-h-0" :class="listClass">
       <div
         class="relative flex items-center flex-shrink-0 h-11 px-3 border-b border-n-weak"
       >
@@ -129,8 +139,9 @@ defineExpose({ scrollSelectedIntoView });
         </li>
       </ul>
     </div>
-    <div v-if="hasPreview" class="flex flex-col flex-1 min-w-0">
+    <div v-if="hasPreview" class="flex flex-col min-w-0" :class="previewClass">
       <div
+        v-if="!isStacked"
         class="flex items-center flex-shrink-0 h-11 px-4 border-b border-n-weak"
       >
         <span class="min-w-0 text-xs font-medium truncate text-n-slate-11">
