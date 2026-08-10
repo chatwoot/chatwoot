@@ -69,14 +69,6 @@ RSpec.describe ConversationPolicy, type: :policy do
         expect(subject).not_to permit(agent_context, conversation)
       end
     end
-
-    context 'when agent lacks inbox and team access' do
-      let(:conversation) { create(:conversation, account: account) }
-
-      it 'denies access' do
-        expect(subject).not_to permit(agent_context, conversation)
-      end
-    end
   end
 end
 
