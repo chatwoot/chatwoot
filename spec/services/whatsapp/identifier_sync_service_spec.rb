@@ -28,6 +28,17 @@ describe Whatsapp::IdentifierSyncService do
       expect(contact.reload.additional_attributes['whatsapp_bsuid']).to eq('IN.ENT.9081726354')
     end
 
+    it 'does not replace the mirrored identifier when a later payload carries only the parent' do
+      service.perform(source_ids: ['2423423243', 'IN.2081978709342942', 'IN.ENT.9081726354'])
+
+      service.perform(source_ids: ['IN.ENT.9081726354'])
+
+      expect(contact.reload.additional_attributes).to include(
+        'whatsapp_bsuid' => 'IN.2081978709342942',
+        'whatsapp_bsuid_parent' => 'IN.ENT.9081726354'
+      )
+    end
+
     it 'reports the bare identifier for the twilio prefixed source ids' do
       service.perform(source_ids: ['whatsapp:+12345678900', 'whatsapp:IN.2081978709342942', 'whatsapp:IN.ENT.9081726354'])
 

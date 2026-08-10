@@ -69,12 +69,20 @@ class Whatsapp::IdentifierSyncService
   end
 
   # A parent identifier carries the `ENT` segment and groups a user across the business
-  # portfolios, so it is reported next to the regular one rather than replacing it.
+  # portfolios, so it is reported next to the regular one rather than replacing it. It only
+  # stands in for the regular key while nothing is mirrored there yet: a payload that carries
+  # the parent alone, such as a status update, must not downgrade an identifier already known.
   def bsuid_attributes(bsuids)
     parent, regular = bsuids.partition { |bsuid| bsuid.to_s.include?('.ENT.') }
-    attributes = { 'whatsapp_bsuid' => regular.first || parent.first }
+    identifier = regular.first || mirrored_bsuid || parent.first
+    attributes = {}
+    attributes['whatsapp_bsuid'] = identifier if identifier.present?
     attributes['whatsapp_bsuid_parent'] = parent.first if parent.first.present?
     attributes
+  end
+
+  def mirrored_bsuid
+    synced_contact.additional_attributes['whatsapp_bsuid'].presence
   end
 
   def synced_contact
