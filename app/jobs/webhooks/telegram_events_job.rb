@@ -50,8 +50,14 @@ class Webhooks::TelegramEventsJob < ApplicationJob
         Telegram::IncomingMessageService.new(inbox: channel.inbox, params: telegram_params).perform
       end
     ensure
-      business_connection_service.observe_update(telegram_params[:update_id])
+      observe_update(business_connection_service, telegram_params[:update_id], channel.id)
     end
+  end
+
+  def observe_update(business_connection_service, update_id, channel_id)
+    business_connection_service.observe_update(update_id)
+  rescue StandardError => e
+    Rails.logger.error("Failed to record Telegram update ID for channel #{channel_id}: #{e.message}")
   end
 
   def sync_business_connection(business_connection_service, telegram_params)

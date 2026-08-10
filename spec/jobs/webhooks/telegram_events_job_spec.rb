@@ -61,7 +61,10 @@ RSpec.describe Webhooks::TelegramEventsJob do
 
       expect(business_connection_service).to receive(:sync).with('connection-1', update_id: 42).ordered
       expect(incoming_message_service).to receive(:perform).ordered
-      expect(business_connection_service).to receive(:observe_update).with(42).ordered
+      expect(business_connection_service).to receive(:observe_update).with(42).ordered.and_raise(StandardError, 'lock timeout')
+      expect(Rails.logger).to receive(:error)
+        .with("Failed to record Telegram update ID for channel #{telegram_channel.id}: lock timeout")
+        .ordered
 
       described_class.perform_now(business_params)
     end
