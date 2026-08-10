@@ -170,6 +170,22 @@ const contains = (filterValue, conversationValue) => {
   return false;
 };
 
+const DATE_ONLY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Converts a value used in a date comparison into a Date
+ * @param {*} value - The value to convert
+ * @returns {Date|null} - The parsed date, or null when it cannot be parsed
+ *
+ * The backend compares date-only values against UTC midnight, while
+ * `coerceToDate` shifts them to midnight in the browser timezone. That gap
+ * hides conversations the API already returned and counted.
+ */
+const toComparableDate = value =>
+  typeof value === 'string' && DATE_ONLY_PATTERN.test(value)
+    ? new Date(`${value}T00:00:00.000Z`)
+    : coerceToDate(value);
+
 /**
  * Compares two date values using a comparison function
  * @param {*} conversationValue - The conversation value to compare
@@ -178,14 +194,14 @@ const contains = (filterValue, conversationValue) => {
  * @returns {Boolean} - Returns true if the comparison succeeds, false otherwise
  */
 const compareDates = (conversationValue, filterValue, compareFn) => {
-  const conversationDate = coerceToDate(conversationValue);
+  const conversationDate = toComparableDate(conversationValue);
 
   // In saved views, the filterValue might be returned as an Array
   // In conversation list, when filtering, the filterValue will be returned as a string
   const valueToCompare = Array.isArray(filterValue)
     ? filterValue[0]
     : filterValue;
-  const filterDate = coerceToDate(valueToCompare);
+  const filterDate = toComparableDate(valueToCompare);
 
   if (conversationDate === null || filterDate === null) return false;
   return compareFn(conversationDate, filterDate);

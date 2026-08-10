@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { matchesFilters } from '../filterHelpers';
 
 // SAMPLE PAYLOAD
@@ -1796,6 +1796,68 @@ describe('filterHelpers', () => {
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+  });
+
+  // These expectations hold in every timezone. Run the suite under
+  // TZ=Asia/Kolkata and TZ=America/Los_Angeles to cover browsers ahead of and
+  // behind UTC, where the boundary used to shift and hide rows.
+  describe('date-only filter values are compared against UTC midnight', () => {
+    const buildFilter = (filterOperator, value) => [
+      {
+        attribute_key: 'last_activity_at',
+        filter_operator: filterOperator,
+        values: [value],
+        query_operator: 'and',
+      },
+    ];
+
+    const lateInDay = { last_activity_at: 1786132800 }; // 2026-08-07 20:00 UTC
+    const earlyInDay = { last_activity_at: 1786075200 }; // 2026-08-07 04:00 UTC
+
+    it('includes a conversation late in the day for is_less_than', () => {
+      expect(
+        matchesFilters(lateInDay, buildFilter('is_less_than', '2026-08-08'))
+      ).toBe(true);
+    });
+
+    it('includes a conversation early in the day for is_greater_than', () => {
+      expect(
+        matchesFilters(earlyInDay, buildFilter('is_greater_than', '2026-08-07'))
+      ).toBe(true);
+    });
+
+    it('still excludes conversations outside the range', () => {
+      expect(
+        matchesFilters(lateInDay, buildFilter('is_less_than', '2026-08-07'))
+      ).toBe(false);
+      expect(
+        matchesFilters(earlyInDay, buildFilter('is_greater_than', '2026-08-08'))
+      ).toBe(false);
+    });
+
+    // Date custom attributes are stored as full ISO strings, not date-only ones
+    it('compares date custom attributes against the same boundary', () => {
+      const filters = [
+        {
+          attribute_key: 'renewal_date',
+          filter_operator: 'is_greater_than',
+          values: ['2026-08-07'],
+          query_operator: 'and',
+        },
+      ];
+      expect(
+        matchesFilters(
+          { custom_attributes: { renewal_date: '2026-08-08T00:00:00.000Z' } },
+          filters
+        )
+      ).toBe(true);
+      expect(
+        matchesFilters(
+          { custom_attributes: { renewal_date: '2026-08-07T00:00:00.000Z' } },
+          filters
+        )
+      ).toBe(false);
     });
   });
 });
