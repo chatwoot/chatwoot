@@ -738,7 +738,7 @@
           "TOOLTIP": "Ce numéro est connecté à l'application WhatsApp Business et à l'API Cloud"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Afficher le statut du nom",
+          "LABEL": "Statut du nom d’affichage",
           "TOOLTIP": "Revoir l'état du nom d'affichage WhatsApp"
         },
         "LAST_ONBOARDED_TIME": {

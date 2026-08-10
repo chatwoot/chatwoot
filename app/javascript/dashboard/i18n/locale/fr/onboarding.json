@@ -54,7 +54,7 @@
       "HELP_CENTER_GENERATING": "Création de votre centre d'aide…",
       "HELP_CENTER_ANALYZING_WEBSITE": "Analyse de votre site…",
       "HELP_CENTER_SETTING_UP_CATEGORIES": "Configuration des catégories…",
-      "HELP_CENTER_CURATING_ARTICLES": "Conservation des articles…",
+      "HELP_CENTER_CURATING_ARTICLES": "Sélection et organisation des articles…",
       "HELP_CENTER_ARTICLES": "{count} article créé | {count} articles créés",
       "HELP_CENTER_CATEGORIES": "{count} catégorie | {count} catégories",
       "HELP_CENTER_SUMMARY": "{count} article créé dans {categories} | {count} articles créés dans {categories}"

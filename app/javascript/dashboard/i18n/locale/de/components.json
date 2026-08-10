@@ -17,7 +17,7 @@
   },
   "DIALOG": {
     "BUTTONS": {
-      "CANCEL": "Stornieren",
+      "CANCEL": "Abbrechen",
       "CONFIRM": "Bestätigen"
     }
   },
@@ -73,6 +73,6 @@
     "HINT": "Funktioniert mit Links zu YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen und GuideJar sowie mit mp4-Links",
     "ERROR": "Das sieht nicht nach einem unterstützten Videolink aus",
     "ADD": "Einbetten",
-    "CANCEL": "Stornieren"
+    "CANCEL": "Abbrechen"
   }
 }

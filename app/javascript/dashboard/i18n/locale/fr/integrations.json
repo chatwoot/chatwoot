@@ -39,7 +39,7 @@
         "CANCEL_ANYTIME": "Changez ou annulez votre forfait à tout moment."
       },
       "SECRET": {
-        "LABEL": "Secrète",
+        "LABEL": "Secret",
         "COPY": "Copier le secret dans le presse-papiers",
         "COPY_SUCCESS": "Secret copié dans le presse-papiers",
         "TOGGLE": "Activer/désactiver la visibilité secrète",
@@ -171,7 +171,7 @@
         "SIMPLIFY": "Simplifier",
         "CONFIDENT": "Utiliser une tonalité sûre",
         "PROFESSIONAL": "Utiliser la tonalité professionnelle",
-        "CASUAL": "Utiliser la tonalité occasionnelle",
+        "CASUAL": "Utiliser une tonalité décontractée",
         "STRAIGHTFORWARD": "Utiliser une tonalité simple"
       },
       "REPLY_OPTIONS": {
