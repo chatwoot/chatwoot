@@ -469,6 +469,13 @@ function handleClickOutside(event) {
 }
 
 function reloadState(content = props.modelValue) {
+  range.value = null;
+  showUserMentions.value = false;
+  showCannedMenu.value = false;
+  showVariables.value = false;
+  showEmojiMenu.value = false;
+  showToolsMenu.value = false;
+
   const unrefContent = unref(content);
   state = createState(
     unrefContent,
@@ -827,9 +834,6 @@ watch(
 watch(
   computed(() => props.editorId),
   () => {
-    showCannedMenu.value = false;
-    showEmojiMenu.value = false;
-    showVariables.value = false;
     reloadState(props.modelValue);
   }
 );
