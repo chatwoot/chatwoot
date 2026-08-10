@@ -36,5 +36,31 @@ RSpec.describe Telegram::BusinessConnectionService do
       service.process({ id: 'connection-1', is_enabled: false }, update_id: 201)
       expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => false, 'update_id' => 201)
     end
+
+    it 'preserves the lifecycle update ID when a connection lookup refreshes state' do
+      channel = create(
+        :channel_telegram,
+        business_config: {
+          'can_connect_to_business' => true,
+          'connections' => {
+            'connection-1' => { 'id' => 'connection-1', 'is_enabled' => false, 'update_id' => 200 }
+          }
+        }
+      )
+      stub_request(:get, "#{channel.telegram_api_url}/getBusinessConnection")
+        .with(query: { business_connection_id: 'connection-1' })
+        .to_return(
+          status: 200,
+          body: { ok: true, result: { id: 'connection-1', is_enabled: true } }.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
+      service = described_class.new(channel: channel)
+
+      service.sync('connection-1')
+      expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => true, 'update_id' => 200)
+
+      service.process({ id: 'connection-1', is_enabled: false }, update_id: 199)
+      expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => true, 'update_id' => 200)
+    end
   end
 end

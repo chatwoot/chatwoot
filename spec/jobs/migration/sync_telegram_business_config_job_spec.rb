@@ -40,17 +40,20 @@ RSpec.describe Migration::SyncTelegramBusinessConfigJob do
     expect(channel).to have_received(:refresh_business_config!)
   end
 
-  it 'raises so the current batch is retried when a channel refresh fails' do
-    channel = instance_double(Channel::Telegram, id: 30, refresh_business_config!: false)
+  it 'retries a failed channel separately without blocking later batches' do
+    failed_channel = instance_double(Channel::Telegram, id: 10, refresh_business_config!: false)
+    successful_channel = instance_double(Channel::Telegram, id: 20, refresh_business_config!: true)
+    remaining_channel = instance_double(Channel::Telegram, id: 30)
     scope = double
 
-    allow(Channel::Telegram).to receive(:where).with('id > ?', 20).and_return(scope)
+    allow(Channel::Telegram).to receive(:where).with('id > ?', 0).and_return(scope)
     allow(scope).to receive(:order).with(:id).and_return(scope)
     allow(scope).to receive(:limit).with(3).and_return(scope)
-    allow(scope).to receive(:to_a).and_return([channel])
+    allow(scope).to receive(:to_a).and_return([failed_channel, successful_channel, remaining_channel])
 
-    expect { described_class.perform_now(after_id: 20) }
-      .to raise_error(described_class::RefreshFailed, 'Telegram Business config refresh failed for channel IDs: 30')
-    expect(described_class).not_to have_been_enqueued
+    described_class.perform_now
+
+    expect(Migration::SyncTelegramBusinessConfigChannelJob).to have_been_enqueued.with(10).on_queue('async_database_migration')
+    expect(described_class).to have_been_enqueued.with(after_id: 20).on_queue('async_database_migration')
   end
 end

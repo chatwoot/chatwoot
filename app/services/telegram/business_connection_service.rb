@@ -20,7 +20,8 @@ class Telegram::BusinessConnectionService
       config['connections'] ||= {}
       next if stale_update?(config, connection['id'], update_id)
 
-      connection['update_id'] = update_id if update_id.present?
+      ordering_update_id = update_id.presence || config.dig('connections', connection['id'], 'update_id')
+      connection['update_id'] = ordering_update_id if ordering_update_id.present?
       config['connections'][connection['id']] = connection
 
       persist_config(config)

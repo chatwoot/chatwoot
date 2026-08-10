@@ -1,6 +1,4 @@
 class Migration::SyncTelegramBusinessConfigJob < ApplicationJob
-  class RefreshFailed < StandardError; end
-
   BATCH_SIZE = 100
 
   queue_as :async_database_migration
@@ -10,7 +8,7 @@ class Migration::SyncTelegramBusinessConfigJob < ApplicationJob
     batch = channels.first(BATCH_SIZE)
     failed_channel_ids = batch.reject(&:refresh_business_config!).map(&:id)
 
-    raise RefreshFailed, "Telegram Business config refresh failed for channel IDs: #{failed_channel_ids.join(', ')}" if failed_channel_ids.any?
+    failed_channel_ids.each { |channel_id| Migration::SyncTelegramBusinessConfigChannelJob.perform_later(channel_id) }
 
     self.class.perform_later(after_id: batch.last.id) if channels.size > BATCH_SIZE
   end
