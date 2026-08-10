@@ -3,7 +3,7 @@ class Whatsapp::IdentifierSyncService
 
   def perform(source_ids: [], username: nil, phone_number: nil)
     create_contact_inboxes(source_ids)
-    update_contact(username, phone_number)
+    update_contact(source_ids, username, phone_number)
   end
 
   private
@@ -21,11 +21,12 @@ class Whatsapp::IdentifierSyncService
     end
   end
 
-  def update_contact(username, phone_number)
+  def update_contact(source_ids, username, phone_number)
     return if synced_contact.blank?
 
     update_contact_phone_number(phone_number)
     update_contact_username(username)
+    update_contact_bsuid(source_ids)
   end
 
   def update_contact_phone_number(phone_number)
@@ -41,6 +42,32 @@ class Whatsapp::IdentifierSyncService
     return if username.blank?
 
     synced_contact.update!(additional_attributes: additional_attributes_with_username(username))
+  end
+
+  # The phone number and the username are already mirrored onto the contact above, which is
+  # what makes them reachable to everything that reads a contact: the agent bot webhook, the
+  # websocket payload and the REST API. The business scoped user id is the third WhatsApp
+  # identity and the only one that stays confined to `contact_inbox.source_id`, where a
+  # payload only ever surfaces the single source id the conversation happens to be anchored
+  # to, usually the phone one. Mirror it as well so integrations can resolve the contact
+  # without a follow-up request.
+  def update_contact_bsuid(source_ids)
+    bsuids = source_ids.compact_blank.select { |source_id| source_id.to_s.match?(RegexHelper::WHATSAPP_BSUID_REGEX) }
+    return if bsuids.blank?
+
+    attributes = synced_contact.additional_attributes.deep_dup.merge(bsuid_attributes(bsuids))
+    return if attributes == synced_contact.additional_attributes
+
+    synced_contact.update!(additional_attributes: attributes)
+  end
+
+  # A parent identifier carries the `ENT` segment and groups a user across the business
+  # portfolios, so it is reported next to the regular one rather than replacing it.
+  def bsuid_attributes(bsuids)
+    parent, regular = bsuids.partition { |bsuid| bsuid.to_s.include?('.ENT.') }
+    attributes = { 'whatsapp_bsuid' => regular.first || parent.first }
+    attributes['whatsapp_bsuid_parent'] = parent.first if parent.first.present?
+    attributes
   end
 
   def synced_contact
