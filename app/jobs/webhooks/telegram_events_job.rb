@@ -33,9 +33,10 @@ class Webhooks::TelegramEventsJob < ApplicationJob
   end
 
   def process_event_params(channel, params)
-    return unless params[:telegram]
+    telegram_params = params[:telegram] || params['telegram']
+    return unless telegram_params
 
-    telegram_params = params['telegram'].with_indifferent_access
+    telegram_params = telegram_params.with_indifferent_access
     if telegram_params[:business_connection].present?
       Telegram::BusinessConnectionService.new(channel: channel).process(telegram_params[:business_connection])
     elsif telegram_params[:edited_message].present? || telegram_params[:edited_business_message].present?

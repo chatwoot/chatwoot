@@ -26,7 +26,7 @@ class Channel::Telegram < ApplicationRecord
   self.table_name = 'channel_telegram'
   EDITABLE_ATTRS = [:bot_token].freeze
 
-  before_validation :ensure_valid_bot_token, on: :create
+  before_validation :ensure_valid_bot_token, if: :will_save_change_to_bot_token?
   validates :bot_token, presence: true, uniqueness: true
   before_save :setup_telegram_webhook
 
@@ -79,11 +79,42 @@ class Channel::Telegram < ApplicationRecord
     message.conversation[:additional_attributes]['business_connection_id']
   end
 
+  def refresh_business_config!
+    response = HTTParty.get("#{telegram_api_url}/getMe")
+    payload = response.parsed_response
+
+    unless response.success? && payload['ok'] == true
+      persist_business_config_error(payload['description'].presence || 'Unable to fetch Telegram bot information')
+      return false
+    end
+
+    persist_refreshed_business_config(payload)
+    true
+  rescue StandardError => e
+    persist_business_config_error(e.message)
+    false
+  end
+
   def reply_to_message_id(message)
     message.content_attributes['in_reply_to_external_id']
   end
 
   private
+
+  def persist_refreshed_business_config(payload)
+    with_lock do
+      config = business_config.deep_dup
+      config['can_connect_to_business'] = payload['result']['can_connect_to_business'] == true
+      config['connections'] ||= {}
+
+      update_business_config_columns(
+        bot_name: payload['result']['username'],
+        business_config: config,
+        business_config_checked_at: Time.current,
+        business_config_error: nil
+      )
+    end
+  end
 
   def ensure_valid_bot_token
     response = HTTParty.get("#{telegram_api_url}/getMe")
@@ -94,12 +125,26 @@ class Channel::Telegram < ApplicationRecord
     end
 
     self.bot_name = payload['result']['username']
-    self.business_config = business_config.merge(
+    self.business_config = {
       'can_connect_to_business' => payload['result']['can_connect_to_business'] == true,
-      'connections' => business_config.fetch('connections', {})
-    )
+      'connections' => {}
+    }
     self.business_config_checked_at = Time.current
     self.business_config_error = nil
+  end
+
+  def persist_business_config_error(error)
+    update_business_config_columns(
+      business_config_checked_at: Time.current,
+      business_config_error: error.to_s.truncate(500)
+    )
+  end
+
+  def update_business_config_columns(attributes)
+    # Provider state updates must not revalidate the token or re-register the webhook.
+    # rubocop:disable Rails/SkipsModelValidations
+    update_columns(attributes)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def setup_telegram_webhook

@@ -3,6 +3,69 @@ require 'rails_helper'
 RSpec.describe Channel::Telegram do
   let(:telegram_channel) { create(:channel_telegram) }
 
+  describe 'bot validation' do
+    it 'stores Telegram Business capability details from getMe' do
+      channel = build(:channel_telegram, account: create(:account), bot_token: 'business-capable-token', business_config_error: 'Old error')
+      stub_request(:get, 'https://api.telegram.org/botbusiness-capable-token/getMe').to_return(
+        status: 200,
+        body: { ok: true, result: { username: 'business_bot', can_connect_to_business: true } }.to_json,
+        headers: { 'Content-Type' => 'application/json' }
+      )
+
+      travel_to(Time.zone.parse('2026-08-10 10:00:00')) do
+        expect(channel).to be_valid
+        expect(channel.bot_name).to eq('business_bot')
+        expect(channel.business_config).to eq('can_connect_to_business' => true, 'connections' => {})
+        expect(channel.business_config_checked_at).to eq(Time.current)
+        expect(channel.business_config_error).to be_nil
+      end
+    end
+
+    it 'refreshes capability and clears connection state when the bot token changes' do
+      channel = create(
+        :channel_telegram,
+        business_config: {
+          'can_connect_to_business' => true,
+          'connections' => { 'old-connection' => { 'is_enabled' => true, 'rights' => { 'can_reply' => true } } }
+        },
+        business_config_error: 'Old error'
+      )
+      channel = described_class.find(channel.id)
+      allow(channel).to receive(:setup_telegram_webhook)
+      stub_request(:get, 'https://api.telegram.org/botreplacement-token/getMe').to_return(
+        status: 200,
+        body: { ok: true, result: { username: 'replacement_bot', can_connect_to_business: false } }.to_json,
+        headers: { 'Content-Type' => 'application/json' }
+      )
+
+      travel_to(Time.zone.parse('2026-08-10 11:00:00')) do
+        channel.update!(bot_token: 'replacement-token')
+
+        expect(channel.bot_name).to eq('replacement_bot')
+        expect(channel.business_config).to eq('can_connect_to_business' => false, 'connections' => {})
+        expect(channel.business_config_checked_at).to eq(Time.current)
+        expect(channel.business_config_error).to be_nil
+      end
+    end
+  end
+
+  describe '#refresh_business_config!' do
+    it 'records an error when Telegram cannot return the bot information' do
+      channel = described_class.find(telegram_channel.id)
+      stub_request(:get, "https://api.telegram.org/bot#{channel.bot_token}/getMe").to_return(
+        status: 401,
+        body: { ok: false, description: 'Unauthorized' }.to_json,
+        headers: { 'Content-Type' => 'application/json' }
+      )
+
+      travel_to(Time.zone.parse('2026-08-10 12:00:00')) do
+        expect(channel.refresh_business_config!).to be(false)
+        expect(channel.business_config_checked_at).to eq(Time.current)
+        expect(channel.business_config_error).to eq('Unauthorized')
+      end
+    end
+  end
+
   describe '#convert_markdown_to_telegram_html' do
     subject { telegram_channel.send(:convert_markdown_to_telegram_html, text) }
 

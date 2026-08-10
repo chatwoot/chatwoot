@@ -14,12 +14,14 @@ class Telegram::BusinessConnectionService
     connection = normalize_connection(connection_params)
     return persist_error('Invalid Telegram Business connection payload') if connection['id'].blank?
 
-    config = channel.business_config.deep_dup
-    config['can_connect_to_business'] = true
-    config['connections'] ||= {}
-    config['connections'][connection['id']] = connection
+    channel.with_lock do
+      config = channel.business_config.deep_dup
+      config['can_connect_to_business'] = true
+      config['connections'] ||= {}
+      config['connections'][connection['id']] = connection
 
-    persist_config(config)
+      persist_config(config)
+    end
   end
 
   def sync(connection_id)
