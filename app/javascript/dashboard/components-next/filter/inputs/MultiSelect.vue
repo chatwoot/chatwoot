@@ -37,9 +37,12 @@ const searchTerm = ref('');
 
 const showSearch = computed(() => options.length > DROPDOWN_SEARCH_THRESHOLD);
 
-const searchResults = computed(() =>
-  picoSearch(options, searchTerm.value, ['name'])
-);
+const searchResults = computed(() => {
+  // picoSearch throws on a whitespace-only query, which trims down to no search terms.
+  const query = searchTerm.value.trim();
+  if (!query) return options;
+  return picoSearch(options, query, ['name']);
+});
 
 const hasItems = computed(() => {
   if (!selected.value) return false;

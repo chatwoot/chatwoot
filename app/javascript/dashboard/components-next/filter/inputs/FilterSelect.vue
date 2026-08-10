@@ -54,10 +54,12 @@ const showSearch = computed(
 );
 
 const searchResults = computed(() => {
-  if (!searchTerm.value) return props.options;
+  // picoSearch throws on a whitespace-only query, which trims down to no search terms.
+  const query = searchTerm.value.trim();
+  if (!query) return props.options;
   // Section headers are not selectable, so they are dropped once a query narrows the list.
   const selectableOptions = props.options.filter(option => !option.disabled);
-  return picoSearch(selectableOptions, searchTerm.value, ['label']);
+  return picoSearch(selectableOptions, query, ['label']);
 });
 
 const { top } = useElementBounding(triggerRef);
