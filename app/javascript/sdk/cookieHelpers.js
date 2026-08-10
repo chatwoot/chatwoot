@@ -1,4 +1,3 @@
-import md5 from 'md5';
 import Cookies from 'js-cookie';
 
 const REQUIRED_USER_KEYS = ['avatar_url', 'email', 'name'];
@@ -18,7 +17,14 @@ export const getUserString = ({ identifier = '', user }) => {
   return `${userStringWithSortedKeys}identifier${identifier}`;
 };
 
-export const computeHashForUserData = (...args) => md5(getUserString(...args));
+export const computeHashForUserData = async (...args) => {
+  const data = new TextEncoder().encode(getUserString(...args));
+  const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
+
+  return Array.from(new Uint8Array(hashBuffer), byte =>
+    byte.toString(16).padStart(2, '0')
+  ).join('');
+};
 
 export const hasUserKeys = user =>
   REQUIRED_USER_KEYS.reduce((acc, key) => acc || !!user[key], false);
