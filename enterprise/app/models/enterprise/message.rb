@@ -29,6 +29,15 @@ module Enterprise::Message
 
   private
 
+  def reopen_resolved_conversation
+    assistant = conversation.inbox.captain_assistant
+
+    return super if assistant.blank? || conversation.inbox.external_bot_active?
+    return conversation.open! unless assistant.engages?(conversation.contact, conversation)
+
+    super
+  end
+
   def mark_pending_conversation_as_open_for_human_response
     return unless captain_pending_conversation?
     return unless human_response?

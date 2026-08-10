@@ -248,6 +248,24 @@ const matchesCondition = (conversationValue, filter) => {
   }
 };
 
+const matchesConversationCondition = (conversation, filter) => {
+  const isHumanAssigneeFilter =
+    filter.attribute_key === 'assignee_id' &&
+    ['equal_to', 'not_equal_to'].includes(filter.filter_operator);
+
+  if (
+    isHumanAssigneeFilter &&
+    conversation.meta?.assignee_type === 'AgentBot'
+  ) {
+    return false;
+  }
+
+  return matchesCondition(
+    getValueFromConversation(conversation, filter.attribute_key),
+    filter
+  );
+};
+
 /**
  * Converts an array of evaluated filters into a JSON Logic rule
  * that respects SQL-like operator precedence (AND before OR)
@@ -351,8 +369,7 @@ const buildJsonLogicRule = evaluatedFilters => {
  */
 const evaluateFilters = (conversation, filters) => {
   return filters.map((filter, index) => {
-    const value = getValueFromConversation(conversation, filter.attribute_key);
-    const result = matchesCondition(value, filter);
+    const result = matchesConversationCondition(conversation, filter);
 
     // This part determines the logical operator that connects this filter to the next one:
     // - If this is not the last filter (index < filters.length - 1), use the filter's query_operator
@@ -379,12 +396,7 @@ export const matchesFilters = (conversation, filters) => {
 
   // Handle single filter case
   if (filters.length === 1) {
-    const value = getValueFromConversation(
-      conversation,
-      filters[0].attribute_key
-    );
-
-    return matchesCondition(value, filters[0]);
+    return matchesConversationCondition(conversation, filters[0]);
   }
 
   // Evaluate all conditions and prepare for jsonLogic

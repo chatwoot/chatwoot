@@ -9,6 +9,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import Select from 'dashboard/components-next/select/Select.vue';
+import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 
 const props = defineProps({
@@ -37,8 +38,42 @@ const initialState = {
 
 const state = reactive({ ...initialState });
 
+const MINUTES_PER_HOUR = 60;
+const INACTIVITY_STEP_MINUTES = 5;
+const MIN_INACTIVITY_MINUTES = 5;
+const MAX_INACTIVITY_MINUTES = 24 * MINUTES_PER_HOUR;
+const MAX_INACTIVITY_HOURS = MAX_INACTIVITY_MINUTES / MINUTES_PER_HOUR;
+
+const hoursPart = totalMinutes => Math.floor(totalMinutes / MINUTES_PER_HOUR);
+const minutesPart = totalMinutes => totalMinutes % MINUTES_PER_HOUR;
+
+const setInactivityThreshold = (hours, minutes) => {
+  state.inactivityThresholdMinutes = Math.min(
+    Math.max(hours * MINUTES_PER_HOUR + minutes, MIN_INACTIVITY_MINUTES),
+    MAX_INACTIVITY_MINUTES
+  );
+};
+
+const inactivityThresholdHours = computed({
+  get: () => hoursPart(state.inactivityThresholdMinutes),
+  set: hours =>
+    setInactivityThreshold(
+      Number(hours),
+      minutesPart(state.inactivityThresholdMinutes)
+    ),
+});
+
+const inactivityThresholdRemainingMinutes = computed({
+  get: () => minutesPart(state.inactivityThresholdMinutes),
+  set: minutes =>
+    setInactivityThreshold(
+      hoursPart(state.inactivityThresholdMinutes),
+      Number(minutes)
+    ),
+});
+
 const inactivityHourOptions = computed(() =>
-  Array.from({ length: 25 }, (_, hours) => ({
+  Array.from({ length: MAX_INACTIVITY_HOURS + 1 }, (_, hours) => ({
     value: hours,
     label: t(
       'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HOURS_SHORT',
@@ -47,45 +82,26 @@ const inactivityHourOptions = computed(() =>
   }))
 );
 
-const inactivityThresholdHours = computed({
-  get: () => Math.floor(state.inactivityThresholdMinutes / 60),
-  set: hours => {
-    const remainingMinutes = state.inactivityThresholdMinutes % 60;
-    const requestedMinutes = Number(hours) * 60 + remainingMinutes;
-    state.inactivityThresholdMinutes = Math.min(
-      Math.max(requestedMinutes, 5),
-      24 * 60
-    );
-  },
-});
-
-const inactivityThresholdRemainingMinutes = computed({
-  get: () => state.inactivityThresholdMinutes % 60,
-  set: minutes => {
-    const completeHours = Math.floor(state.inactivityThresholdMinutes / 60);
-    const requestedMinutes = completeHours * 60 + Number(minutes);
-    state.inactivityThresholdMinutes = Math.min(
-      Math.max(requestedMinutes, 5),
-      24 * 60
-    );
-  },
-});
-
 const inactivityMinuteOptions = computed(() => {
-  return Array.from({ length: 12 }, (_, index) => {
-    const minutes = index * 5;
-    const hours = inactivityThresholdHours.value;
+  const hours = inactivityThresholdHours.value;
 
-    return {
-      value: minutes,
-      label: t(
-        'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES_SHORT',
-        { count: minutes }
-      ),
-      disabled:
-        (hours === 0 && minutes === 0) || (hours === 24 && minutes !== 0),
-    };
-  });
+  return Array.from(
+    { length: MINUTES_PER_HOUR / INACTIVITY_STEP_MINUTES },
+    (_, index) => {
+      const minutes = index * INACTIVITY_STEP_MINUTES;
+
+      return {
+        value: minutes,
+        label: t(
+          'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES_SHORT',
+          { count: minutes }
+        ),
+        disabled:
+          (hours === 0 && minutes === 0) ||
+          (hours === MAX_INACTIVITY_HOURS && minutes !== 0),
+      };
+    }
+  );
 });
 
 const validationRules = {
@@ -94,8 +110,8 @@ const validationRules = {
   instructions: { minLength: minLength(1) },
   inactivityThresholdMinutes: {
     required,
-    minValue: minValue(5),
-    maxValue: maxValue(24 * 60),
+    minValue: minValue(MIN_INACTIVITY_MINUTES),
+    maxValue: maxValue(MAX_INACTIVITY_MINUTES),
   },
 };
 
@@ -174,19 +190,16 @@ watch(
 
 <template>
   <div class="flex flex-col gap-6">
-    <div
+    <SettingsToggleSection
       v-if="isCaptainV2Enabled"
-      class="flex w-full flex-col overflow-hidden rounded-xl bg-n-solid-2 outline outline-1 outline-n-container has-[.editor-wrapper.border-n-brand]:outline-n-brand has-[.editor-wrapper.border-n-ruby-8]:outline-n-ruby-8"
+      hide-toggle
+      :header="t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TITLE')"
     >
-      <div class="flex flex-col gap-5 px-5 py-4">
-        <h3 class="text-heading-2 text-n-slate-12">
-          {{ t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TITLE') }}
-        </h3>
-
+      <div class="flex w-full flex-col gap-4 py-2">
         <div
           class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
         >
-          <span class="text-heading-3 text-n-slate-12">
+          <span class="text-body-main text-n-slate-12">
             {{
               t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_LABEL')
             }}
@@ -196,12 +209,22 @@ watch(
               v-model="inactivityThresholdHours"
               :options="inactivityHourOptions"
               :error="formErrors.inactivityThresholdMinutes"
+              :aria-label="
+                t(
+                  'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_HOURS_ARIA_LABEL'
+                )
+              "
               class="[&>select]:min-w-24"
             />
             <Select
               v-model="inactivityThresholdRemainingMinutes"
               :options="inactivityMinuteOptions"
               :error="formErrors.inactivityThresholdMinutes"
+              :aria-label="
+                t(
+                  'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.DURATION_MINUTES_ARIA_LABEL'
+                )
+              "
               class="[&>select]:min-w-28"
             />
           </div>
@@ -209,27 +232,30 @@ watch(
 
         <p
           v-if="formErrors.inactivityThresholdMinutes"
-          class="text-xs text-n-ruby-9"
+          class="mb-0 text-xs text-n-ruby-9"
         >
           {{ formErrors.inactivityThresholdMinutes }}
         </p>
 
         <div class="flex items-center justify-between gap-3">
-          <span class="text-heading-3 text-n-slate-12">
+          <span class="text-body-main text-n-slate-12">
             {{
               t(
                 'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.TITLE'
               )
             }}
           </span>
-          <Switch v-model="state.sendInactivityResolutionMessage" />
+          <Switch
+            v-model="state.sendInactivityResolutionMessage"
+            :aria-label="
+              t(
+                'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.TITLE'
+              )
+            "
+          />
         </div>
       </div>
-
-      <div
-        v-if="state.sendInactivityResolutionMessage"
-        class="border-t border-n-weak"
-      >
+      <template v-if="state.sendInactivityResolutionMessage" #editor>
         <Editor
           v-model="state.resolutionMessage"
           :placeholder="
@@ -237,19 +263,27 @@ watch(
           "
           :message="formErrors.resolutionMessage"
           :message-type="formErrors.resolutionMessage ? 'error' : 'info'"
-          class="z-0 [&_.editor-wrapper]:!min-h-48 [&_.editor-wrapper]:!rounded-none [&_.editor-wrapper]:!border-0 [&_.editor-wrapper]:!px-5 [&_.editor-wrapper]:!py-4 [&>p]:px-5 [&>p]:pb-3"
+          class="z-0 [&_.editor-wrapper]:!min-h-32 [&_.editor-wrapper]:!border-0 [&_.editor-wrapper]:!bg-transparent [&_.editor-wrapper]:!p-0"
         />
-      </div>
-    </div>
+      </template>
+    </SettingsToggleSection>
 
-    <Editor
-      v-model="state.handoffMessage"
-      :label="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.LABEL')"
-      :placeholder="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.PLACEHOLDER')"
-      :message="formErrors.handoffMessage"
-      :message-type="formErrors.handoffMessage ? 'error' : 'info'"
-      class="z-0"
-    />
+    <SettingsToggleSection
+      hide-toggle
+      :header="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.LABEL')"
+    >
+      <template #editor>
+        <Editor
+          v-model="state.handoffMessage"
+          :placeholder="
+            t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.PLACEHOLDER')
+          "
+          :message="formErrors.handoffMessage"
+          :message-type="formErrors.handoffMessage ? 'error' : 'info'"
+          class="z-0 [&_.editor-wrapper]:!min-h-32 [&_.editor-wrapper]:!border-0 [&_.editor-wrapper]:!bg-transparent [&_.editor-wrapper]:!p-0"
+        />
+      </template>
+    </SettingsToggleSection>
 
     <Editor
       v-if="!isCaptainV2Enabled"

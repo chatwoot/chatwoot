@@ -256,7 +256,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
 
       it 'keeps inactivity timer settings behind Captain V2' do
-        account.disable_features('captain_integration_v2')
+        account.disable_features!('captain_integration_v2')
         assistant.update!(
           config: {
             'auto_resolve_mode' => 'evaluated',
@@ -287,7 +287,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
 
       it 'keeps inactivity follow-up settings behind Captain V2' do
-        account.disable_features('captain_integration_v2')
+        account.disable_features!('captain_integration_v2')
         assistant.update!(
           config: {
             'follow_up_before_resolving' => false,
@@ -314,7 +314,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         )
       end
 
-      it 'stores and returns the inactivity follow-up policy for Captain V2' do
+      it 'updates inactive conversation settings for Captain v2' do
         account.enable_features!('captain_integration_v2')
 
         patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
@@ -322,7 +322,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
                 assistant: {
                   config: {
                     auto_resolve_mode: 'evaluated',
-                    auto_resolve_after: 121,
+                    auto_resolve_after: 61,
                     follow_up_before_resolving: true,
                     follow_up_resolve_after: 45,
                     send_inactivity_resolution_message: false,
@@ -336,12 +336,53 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response[:config]).to include(
           auto_resolve_mode: 'evaluated',
-          auto_resolve_after: 120,
+          auto_resolve_after: 60,
           follow_up_before_resolving: true,
           follow_up_resolve_after: 45,
           send_inactivity_resolution_message: false,
           resolution_message: 'Saved closing message'
         )
+      end
+
+      it 'persists the nested audience condition tree' do
+        create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute,
+                                             attribute_display_type: :text, attribute_key: 'plan_tier')
+        audience = {
+          operator: 'and',
+          conditions: [
+            { attribute_key: 'country_code', filter_operator: 'equal_to', values: ['US'] },
+            { operator: 'or', conditions: [
+              { attribute_key: 'plan_tier', filter_operator: 'equal_to', values: ['paid'] }
+            ] }
+          ]
+        }
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: { assistant: { config: { audience: audience } } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        stored = assistant.reload.config['audience']
+        expect(stored['operator']).to eq('and')
+        expect(stored['conditions'].first['attribute_key']).to eq('country_code')
+        expect(stored['conditions'].last['conditions'].first['values']).to eq(['paid'])
+      end
+
+      it 'rejects invalid audience attributes and operators' do
+        invalid_audiences = [
+          { attribute_key: 'missing_attribute', filter_operator: 'not_equal_to', values: ['known'] },
+          { attribute_key: 'blocked', filter_operator: 'is_not_present', values: [] }
+        ]
+
+        invalid_audiences.each do |audience|
+          patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+                params: { assistant: { config: { audience: audience } } },
+                headers: admin.create_new_auth_token,
+                as: :json
+
+          expect(response).to have_http_status(:unprocessable_content)
+        end
       end
     end
   end

@@ -16,6 +16,7 @@
 #
 #  index_captain_assistants_on_account_id  (account_id)
 #
+# rubocop:disable Metrics/ClassLength
 class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
   CITATION_SOURCES_STATE_KEY = :captain_v2_citation_sources
@@ -25,6 +26,7 @@ class Captain::Assistant < ApplicationRecord
   MINIMUM_INACTIVITY_THRESHOLD_MINUTES = 5
   MAXIMUM_INACTIVITY_THRESHOLD_MINUTES = 1.day.in_minutes.to_i
   INACTIVITY_THRESHOLD_STEP_MINUTES = 5
+  RESPONSE_WINDOWS = %w[always business_hours outside_business_hours].freeze
 
   include Avatarable
   include Concerns::CaptainToolsHelpers
@@ -49,7 +51,7 @@ class Captain::Assistant < ApplicationRecord
   has_many :conversation_outcomes, dependent: :destroy_async
 
   store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
-                 :auto_resolve_mode, :auto_resolve_after, :send_inactivity_resolution_message,
+                 :auto_resolve_mode, :auto_resolve_after, :send_inactivity_resolution_message, :response_window,
                  :follow_up_before_resolving, :follow_up_resolve_after
 
   before_validation :set_default_auto_resolve_mode, on: :create
@@ -58,6 +60,8 @@ class Captain::Assistant < ApplicationRecord
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
+  validates_with Captain::AudienceValidator
+  validate :validate_response_window
   validates :auto_resolve_mode, inclusion: { in: AUTO_RESOLVE_MODES }
   validates :send_inactivity_resolution_message, inclusion: { in: [true, false] }
   validates :follow_up_before_resolving, inclusion: { in: [true, false] }
@@ -82,6 +86,26 @@ class Captain::Assistant < ApplicationRecord
 
   def available_name
     name
+  end
+
+  def engages?(contact, conversation)
+    responds_to_audience?(contact, conversation) && available_now?(conversation)
+  end
+
+  def responds_to_audience?(contact, conversation)
+    return true if config['audience'].blank?
+
+    Captain::AudienceMatcher.new(config['audience']).matches?(contact, conversation)
+  end
+
+  def available_now?(conversation)
+    response_window = config['response_window']
+    return true if response_window.blank? || response_window == 'always'
+
+    inbox = conversation.inbox
+    return true unless inbox.working_hours_enabled?
+
+    response_window == 'business_hours' ? !inbox.out_of_office? : inbox.out_of_office?
   end
 
   def auto_resolve_mode
@@ -188,6 +212,13 @@ class Captain::Assistant < ApplicationRecord
     self.auto_resolve_after = (threshold.fdiv(INACTIVITY_THRESHOLD_STEP_MINUTES).round * INACTIVITY_THRESHOLD_STEP_MINUTES)
   end
 
+  def validate_response_window
+    response_window = config['response_window']
+    return if response_window.blank?
+
+    errors.add(:config, 'invalid response_window') unless RESPONSE_WINDOWS.include?(response_window)
+  end
+
   def set_default_auto_resolve_mode
     return if config.key?('auto_resolve_mode')
 
@@ -228,3 +259,4 @@ class Captain::Assistant < ApplicationRecord
     "#{ENV.fetch('FRONTEND_URL', nil)}/assets/images/dashboard/captain/logo.svg"
   end
 end
+# rubocop:enable Metrics/ClassLength
