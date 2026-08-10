@@ -48,11 +48,11 @@ const listClass = computed(() => {
   if (!hasPreview.value) return 'w-full';
   return isStacked.value
     ? 'w-full flex-1'
-    : 'w-2/5 flex-shrink-0 border-r rtl:border-r-0 rtl:border-l border-n-weak';
+    : 'w-2/5 flex-shrink-0 border-r rtl:border-r-0 rtl:border-l border-n-strong';
 });
 
 const previewClass = computed(() =>
-  isStacked.value ? 'h-24 flex-shrink-0 border-t border-n-weak' : 'flex-1'
+  isStacked.value ? 'h-24 flex-shrink-0 border-t border-n-strong' : 'flex-1'
 );
 
 const groupFor = index => {
@@ -86,12 +86,12 @@ defineExpose({ scrollSelectedIntoView });
 
 <template>
   <div
-    class="flex overflow-hidden border shadow-lg rounded-xl border-n-weak bg-n-alpha-3 backdrop-blur-[100px]"
+    class="flex overflow-hidden border shadow-lg rounded-xl border-n-strong bg-n-alpha-3 backdrop-blur-[100px]"
     :class="{ 'flex-col': isStacked }"
   >
     <div class="flex flex-col min-h-0" :class="listClass">
       <div
-        class="relative flex items-center flex-shrink-0 h-11 px-3 border-b border-n-weak"
+        class="relative flex items-center flex-shrink-0 h-11 px-3 border-b border-n-strong"
       >
         <Icon icon="i-lucide-search" class="size-4 text-n-slate-10" />
         <input
@@ -159,7 +159,7 @@ defineExpose({ scrollSelectedIntoView });
     <div v-if="hasPreview" class="flex flex-col min-w-0" :class="previewClass">
       <div
         v-if="!isStacked"
-        class="flex items-center flex-shrink-0 h-11 px-4 border-b border-n-weak"
+        class="flex items-center flex-shrink-0 h-11 px-4 border-b border-n-strong"
       >
         <span class="min-w-0 text-xs font-medium truncate text-n-slate-11">
           {{ selectedItem?.label }}
