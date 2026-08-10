@@ -50,6 +50,15 @@ describe Whatsapp::CallService do
       expect(conversation.reload.assignee_id).to eq(agent.id)
     end
 
+    it 'keeps the AgentBot owner when accepting the call' do
+      agent_bot = create(:agent_bot, account: account)
+      conversation.update!(assignee_agent_bot: agent_bot)
+
+      described_class.new(call: call, agent: agent, sdp_answer: sdp_answer).accept
+
+      expect(conversation.reload.assigned_entity).to eq(agent_bot)
+    end
+
     it 'raises AlreadyAccepted when another agent has already accepted the call' do
       call.update!(status: 'in_progress')
 

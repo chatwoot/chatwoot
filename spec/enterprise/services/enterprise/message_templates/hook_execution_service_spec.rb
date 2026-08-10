@@ -224,6 +224,92 @@ RSpec.describe MessageTemplates::HookExecutionService do
     end
   end
 
+  context 'when the contact is inside the assistant audience' do
+    before do
+      assistant.update!(config: assistant.config.merge('audience' => {
+                                                         'attribute_key' => 'country_code', 'filter_operator' => 'equal_to', 'values' => ['US']
+                                                       }))
+      contact.update!(additional_attributes: { 'country_code' => 'US' })
+    end
+
+    it 'schedules captain response job' do
+      expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+    end
+  end
+
+  context 'when the conversation stops matching the audience mid-conversation' do
+    it 'still schedules captain response job for the pending conversation' do
+      conversation
+      assistant.update!(config: assistant.config.merge('audience' => {
+                                                         'attribute_key' => 'country_code', 'filter_operator' => 'equal_to', 'values' => ['US']
+                                                       }))
+      contact.update!(additional_attributes: { 'country_code' => 'CA' })
+
+      expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+    end
+  end
+
+  context 'when the reply schedule stops matching mid-conversation' do
+    before do
+      inbox.update!(working_hours_enabled: true)
+      inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+        open_all_day: true,
+        closed_all_day: false
+      )
+    end
+
+    it 'still schedules captain response job when business hours end after captain took the conversation' do
+      assistant.update!(config: assistant.config.merge('response_window' => 'business_hours'))
+      conversation
+      inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+        open_all_day: false,
+        closed_all_day: true
+      )
+
+      expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+    end
+
+    it 'still schedules captain response job when business hours begin after captain took the conversation' do
+      assistant.update!(config: assistant.config.merge('response_window' => 'outside_business_hours'))
+      inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+        open_all_day: false,
+        closed_all_day: true
+      )
+      conversation
+      inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+        open_all_day: true,
+        closed_all_day: false
+      )
+
+      expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+    end
+
+    it 'still schedules captain response job when both audience and schedule stop matching' do
+      assistant.update!(config: assistant.config.merge('response_window' => 'business_hours'))
+      conversation
+      assistant.update!(config: assistant.config.merge('audience' => {
+                                                         'attribute_key' => 'country_code', 'filter_operator' => 'equal_to', 'values' => ['US']
+                                                       }))
+      contact.update!(additional_attributes: { 'country_code' => 'CA' })
+      inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+        open_all_day: false,
+        closed_all_day: true
+      )
+
+      expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant)
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+    end
+  end
+
   context 'when message is outgoing' do
     it 'does not schedule captain response job' do
       expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)

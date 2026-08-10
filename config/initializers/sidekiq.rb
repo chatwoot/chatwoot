@@ -1,4 +1,5 @@
 require Rails.root.join('lib/redis/config')
+require Rails.root.join('lib/captain_response_dequeued_logger')
 
 schedule_file = 'config/schedule.yml'
 
@@ -18,10 +19,10 @@ end
 Sidekiq.configure_server do |config|
   config.redis = Redis::Config.app
 
-  if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_SIDEKIQ_DEQUEUE_LOGGER', false))
-    config.server_middleware do |chain|
-      chain.add ChatwootDequeuedLogger
-    end
+  config.server_middleware do |chain|
+    chain.add CaptainResponseDequeuedLogger
+
+    chain.add ChatwootDequeuedLogger if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_SIDEKIQ_DEQUEUE_LOGGER', false))
   end
 
   # skip the default start stop logging
