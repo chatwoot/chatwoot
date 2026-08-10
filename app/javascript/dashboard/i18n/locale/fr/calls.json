@@ -13,7 +13,7 @@
       "MISSED": "Manqué",
       "NO_REPLY": "Pas de réponse",
       "OTHER_ACTIVITY": "Autre activité",
-      "INCOMING": "Entrants",
+      "INCOMING": "Entrant",
       "OUTGOING": "Sortant",
       "IN_PROGRESS": "En cours",
       "ASSIGNEE": "Assigné à",
@@ -24,7 +24,7 @@
     },
     "STATUS": {
       "ONGOING": "En cours",
-      "INCOMING": "Entrants",
+      "INCOMING": "Entrant",
       "OUTGOING": "Sortant",
       "MISSED": "Manqué",
       "NO_REPLY": "Pas de réponse",
