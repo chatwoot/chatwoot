@@ -742,7 +742,7 @@
           "TOOLTIP": "Revoir l'état du nom d'affichage WhatsApp"
         },
         "LAST_ONBOARDED_TIME": {
-          "LABEL": "Dernier embarqué",
+          "LABEL": "Dernière intégration",
           "TOOLTIP": "Dernière date d’intégration de ce numéro de téléphone par Meta"
         },
         "PHONE_NUMBER_STATUS": {
