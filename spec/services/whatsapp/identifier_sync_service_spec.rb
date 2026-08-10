@@ -39,15 +39,6 @@ describe Whatsapp::IdentifierSyncService do
       )
     end
 
-    it 'reports the bare identifier for the twilio prefixed source ids' do
-      service.perform(source_ids: ['whatsapp:+12345678900', 'whatsapp:IN.2081978709342942', 'whatsapp:IN.ENT.9081726354'])
-
-      expect(contact.reload.additional_attributes).to include(
-        'whatsapp_bsuid' => 'IN.2081978709342942',
-        'whatsapp_bsuid_parent' => 'IN.ENT.9081726354'
-      )
-    end
-
     it 'keeps the identifier reachable through the webhook payload' do
       service.perform(source_ids: ['2423423243', 'IN.2081978709342942'])
       contact.reload
@@ -75,6 +66,20 @@ describe Whatsapp::IdentifierSyncService do
       service.perform(source_ids: ['2423423243', 'IN.2081978709342942'])
 
       expect { service.perform(source_ids: ['2423423243', 'IN.2081978709342942']) }.not_to(change { contact.reload.updated_at })
+    end
+
+    context 'when the inbox is a twilio whatsapp one' do
+      let!(:twilio_channel) { create(:channel_twilio_sms, medium: :whatsapp) }
+      let(:contact_inbox) { create(:contact_inbox, inbox: twilio_channel.inbox, source_id: 'whatsapp:+12345678900') }
+
+      it 'reports the identifier without the channel prefix' do
+        service.perform(source_ids: ['whatsapp:+12345678900', 'whatsapp:IN.2081978709342942', 'whatsapp:IN.ENT.9081726354'])
+
+        expect(contact.reload.additional_attributes).to include(
+          'whatsapp_bsuid' => 'IN.2081978709342942',
+          'whatsapp_bsuid_parent' => 'IN.ENT.9081726354'
+        )
+      end
     end
   end
 end
