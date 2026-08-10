@@ -40,8 +40,8 @@ RSpec.describe Webhooks::TelegramEventsJob do
       business_params = { bot_token: telegram_channel.bot_token, telegram: { update_id: 42, business_connection: connection } }
 
       allow(Telegram::BusinessConnectionService).to receive(:new).with(channel: telegram_channel).and_return(business_connection_service)
+      expect(business_connection_service).to receive(:process).with(connection.with_indifferent_access, update_id: 42).ordered
       expect(business_connection_service).to receive(:observe_update).with(42).ordered
-      expect(business_connection_service).to receive(:process).with(connection.with_indifferent_access, update_id: 42)
       expect(Telegram::IncomingMessageService).not_to receive(:new)
 
       described_class.perform_now(business_params)
@@ -59,9 +59,9 @@ RSpec.describe Webhooks::TelegramEventsJob do
         .with(inbox: telegram_channel.inbox, params: telegram_params.with_indifferent_access)
         .and_return(incoming_message_service)
 
-      expect(business_connection_service).to receive(:observe_update).with(42).ordered
       expect(business_connection_service).to receive(:sync).with('connection-1', update_id: 42).ordered
       expect(incoming_message_service).to receive(:perform).ordered
+      expect(business_connection_service).to receive(:observe_update).with(42).ordered
 
       described_class.perform_now(business_params)
     end

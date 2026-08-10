@@ -42,9 +42,8 @@ class Telegram::BusinessConnectionService
 
     channel.with_lock do
       config = channel.business_config.deep_dup
-      next false if config.fetch('connections', {}).empty? || stale_update?(config, update_id)
+      next false if config.fetch('connections', {}).empty? || !record_update(config, update_id)
 
-      record_update(config, update_id)
       update_channel(business_config: config)
     end
   end
@@ -57,7 +56,7 @@ class Telegram::BusinessConnectionService
       config['can_connect_to_business'] = true
       config['connections'] ||= {}
       next false unless applicable_update?(config, connection['id'], update_id, expected_bot_token, expected_update_id)
-      next if stale_update?(config, update_id)
+      next if stale_connection_update?(config, connection['id'], update_id)
 
       apply_update_ordering(connection, update_id, expected_update_id)
       config['connections'][connection['id']] = connection
@@ -86,11 +85,11 @@ class Telegram::BusinessConnectionService
     channel.business_config.dig('connections', connection_id, 'is_enabled') == true
   end
 
-  def stale_update?(config, update_id)
-    return false if update_id.blank? || config['last_update_id'].blank?
-    return false if config['last_update_id_received_at'].to_i <= 1.week.ago.to_i
+  def stale_connection_update?(config, connection_id, update_id)
+    previous_update_id = connection_update_id(config, connection_id)
+    return false if update_id.blank? || previous_update_id.blank? || update_ids_expired?(config)
 
-    update_id < config['last_update_id']
+    update_id <= previous_update_id
   end
 
   def apply_update_ordering(connection, update_id, expected_update_id)
@@ -101,10 +100,19 @@ class Telegram::BusinessConnectionService
   end
 
   def record_update(config, update_id)
-    return if update_id.blank?
+    return false if update_id.blank? || stale_observed_update?(config, update_id)
 
     config['last_update_id'] = update_id
     config['last_update_id_received_at'] = Time.current.to_i
+    true
+  end
+
+  def stale_observed_update?(config, update_id)
+    config['last_update_id'].present? && !update_ids_expired?(config) && update_id < config['last_update_id']
+  end
+
+  def update_ids_expired?(config)
+    config['last_update_id_received_at'].to_i <= 1.week.ago.to_i
   end
 
   def persist_config(config)

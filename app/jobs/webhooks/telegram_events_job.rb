@@ -38,16 +38,19 @@ class Webhooks::TelegramEventsJob < ApplicationJob
 
     telegram_params = telegram_params.with_indifferent_access
     business_connection_service = Telegram::BusinessConnectionService.new(channel: channel)
-    business_connection_service.observe_update(telegram_params[:update_id])
-    if telegram_params[:business_connection].present?
-      business_connection_service.process(
-        telegram_params[:business_connection], update_id: telegram_params[:update_id]
-      )
-    elsif telegram_params[:edited_message].present? || telegram_params[:edited_business_message].present?
-      Telegram::UpdateMessageService.new(inbox: channel.inbox, params: telegram_params).perform
-    else
-      sync_business_connection(business_connection_service, telegram_params)
-      Telegram::IncomingMessageService.new(inbox: channel.inbox, params: telegram_params).perform
+    begin
+      if telegram_params[:business_connection].present?
+        business_connection_service.process(
+          telegram_params[:business_connection], update_id: telegram_params[:update_id]
+        )
+      elsif telegram_params[:edited_message].present? || telegram_params[:edited_business_message].present?
+        Telegram::UpdateMessageService.new(inbox: channel.inbox, params: telegram_params).perform
+      else
+        sync_business_connection(business_connection_service, telegram_params)
+        Telegram::IncomingMessageService.new(inbox: channel.inbox, params: telegram_params).perform
+      end
+    ensure
+      business_connection_service.observe_update(telegram_params[:update_id])
     end
   end
 

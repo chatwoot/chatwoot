@@ -38,10 +38,14 @@ RSpec.describe Telegram::BusinessConnectionService do
       service.process({ id: 'connection-1', is_enabled: false }, update_id: 201)
       expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => false, 'update_id' => 201)
 
+      service.observe_update(250)
+      service.process({ id: 'connection-1', is_enabled: true }, update_id: 202)
+      expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => true, 'update_id' => 202)
+
       travel_to(1.week.from_now) do
-        service.observe_update(250)
+        service.observe_update(300)
         service.process({ id: 'connection-1', is_enabled: true }, update_id: 50)
-        expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => false, 'update_id' => 201)
+        expect(channel.reload.business_config.dig('connections', 'connection-1')).to include('is_enabled' => true, 'update_id' => 202)
       end
 
       travel_to(2.weeks.from_now) do
