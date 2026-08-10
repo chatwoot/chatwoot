@@ -14,7 +14,7 @@ class ConversationPolicy < ApplicationPolicy
   private
 
   def agent_can_view_conversation?
-    inbox_access? || team_access?
+    inbox_access? || participant?
   end
 
   def administrator?
