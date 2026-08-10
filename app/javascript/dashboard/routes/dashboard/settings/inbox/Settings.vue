@@ -45,6 +45,7 @@ import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
 import SelectInput from 'dashboard/components-next/select/Select.vue';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 
@@ -85,6 +86,7 @@ export default {
     Widget,
     AccessToken,
     Icon,
+    Checkbox,
   },
   mixins: [inboxMixin],
   setup() {
@@ -105,6 +107,7 @@ export default {
       selectedInboxName: '',
       channelWebsiteUrl: '',
       webhookUrl: '',
+      includePrivateNotes: false,
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
@@ -547,6 +550,8 @@ export default {
       this.avatarUrl = this.inbox.avatar_url;
       this.selectedInboxName = this.inbox.name;
       this.webhookUrl = this.inbox.webhook_url;
+      this.includePrivateNotes =
+        this.inbox.additional_attributes?.include_private_notes || false;
       this.greetingEnabled = this.inbox.greeting_enabled || false;
       this.greetingMessage = this.inbox.greeting_message || '';
       this.emailCollectEnabled = this.inbox.enable_email_collect;
@@ -697,6 +702,10 @@ export default {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
             webhook_url: this.webhookUrl,
+            additional_attributes: {
+              ...(this.inbox.additional_attributes || {}),
+              include_private_notes: this.includePrivateNotes,
+            },
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
@@ -946,6 +955,26 @@ export default {
                 @on-copy="copyWebhookSecret"
                 @on-reset="resetWebhookSecret"
               />
+            </SettingsFieldSection>
+
+            <SettingsFieldSection
+              v-if="isAPIInbox"
+              :label="
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_INCLUDE_PRIVATE_NOTES.LABEL'
+                )
+              "
+            >
+              <label class="flex items-center gap-2 cursor-pointer">
+                <Checkbox v-model="includePrivateNotes" />
+                <span class="text-sm text-n-slate-11">
+                  {{
+                    $t(
+                      'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_INCLUDE_PRIVATE_NOTES.CHECKBOX_LABEL'
+                    )
+                  }}
+                </span>
+              </label>
             </SettingsFieldSection>
 
             <SettingsFieldSection

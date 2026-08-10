@@ -13,6 +13,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
 
 const props = defineProps({
@@ -43,6 +44,7 @@ const formState = reactive({
   botUrl: '',
   botAvatar: null,
   botAvatarUrl: '',
+  includePrivateNotes: false,
 });
 
 const [showAccessToken, toggleAccessToken] = useToggle();
@@ -122,6 +124,7 @@ const resetForm = () => {
     botUrl: '',
     botAvatar: null,
     botAvatarUrl: '',
+    includePrivateNotes: false,
   });
   v$.value.$reset();
 };
@@ -161,6 +164,10 @@ const handleSubmit = async () => {
     outgoing_url: formState.botUrl,
     bot_type: 'webhook',
     avatar: formState.botAvatar,
+    bot_config: {
+      ...(props.selectedBot?.bot_config || {}),
+      include_private_notes: formState.includePrivateNotes,
+    },
   };
 
   const isCreate = props.type === MODAL_TYPES.CREATE;
@@ -225,6 +232,7 @@ const initializeForm = () => {
     formState.botDescription = description || '';
     formState.botUrl = botUrl || botConfig?.webhook_url || '';
     formState.botAvatarUrl = thumbnail || '';
+    formState.includePrivateNotes = botConfig?.include_private_notes || false;
 
     if (props.type === MODAL_TYPES.EDIT) {
       if (botAccessToken) accessToken.value = botAccessToken;
@@ -344,6 +352,13 @@ defineExpose({ dialogRef });
           :message-type="botUrlError ? 'error' : 'info'"
           @blur="v$.botUrl.$touch()"
         />
+
+        <label class="flex items-center gap-2 cursor-pointer">
+          <Checkbox v-model="formState.includePrivateNotes" />
+          <span class="text-sm text-n-slate-11">
+            {{ $t('AGENT_BOTS.FORM.INCLUDE_PRIVATE_NOTES.LABEL') }}
+          </span>
+        </label>
       </div>
 
       <div

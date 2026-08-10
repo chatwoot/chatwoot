@@ -39,6 +39,30 @@ describe AgentBotListener do
         listener.message_created(event)
       end
 
+      context 'when the message is private' do
+        let!(:private_message) do
+          create(:message, message_type: 'outgoing', private: true,
+                           account: account, inbox: inbox, conversation: conversation)
+        end
+        let(:private_event) { Events::Base.new(event_name, Time.zone.now, message: private_message) }
+
+        it 'does not send the message to the agent bot by default' do
+          create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+          expect(AgentBots::WebhookJob).not_to receive(:perform_later)
+          listener.message_created(private_event)
+        end
+
+        it 'sends the message when the agent bot opts in to private notes' do
+          bot = create(:agent_bot, bot_config: { 'include_private_notes' => true })
+          create(:agent_bot_inbox, inbox: inbox, agent_bot: bot)
+          expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+            bot.outgoing_url, private_message.webhook_data.merge(event: 'message_created'),
+            :agent_bot_webhook, secret: bot.secret, delivery_id: instance_of(String)
+          ).once
+          listener.message_created(private_event)
+        end
+      end
+
       context 'when conversation has a different assignee agent bot' do
         let!(:conversation_bot) { create(:agent_bot) }
 

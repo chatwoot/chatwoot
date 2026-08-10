@@ -123,6 +123,7 @@ class WebhookListener < BaseListener
   def deliver_api_inbox_webhooks(payload, inbox)
     return unless inbox.channel_type == 'Channel::Api'
     return if inbox.channel.webhook_url.blank?
+    return if payload[:private] && !inbox.channel.additional_attributes['include_private_notes']
 
     WebhookJob.perform_later(inbox.channel.webhook_url, payload, :api_inbox_webhook,
                              secret: inbox.channel.secret, delivery_id: SecureRandom.uuid)

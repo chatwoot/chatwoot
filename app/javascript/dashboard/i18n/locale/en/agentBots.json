@@ -98,6 +98,9 @@
         "PLACEHOLDER": "https://example.com/webhook",
         "REQUIRED": "Webhook URL is required"
       },
+      "INCLUDE_PRIVATE_NOTES": {
+        "LABEL": "Include private notes in message events"
+      },
       "ERRORS": {
         "NAME": "Bot name is required",
         "URL": "Webhook URL is required",
