@@ -111,6 +111,35 @@ describe ContactInboxWithContactBuilder do
       expect(contact_inbox.contact.id).to be(contact.id)
     end
 
+    it 'enqueues the avatar job with a delay so it runs after any outer transaction commits' do
+      expect(Avatar::AvatarFromUrlJob).to receive(:set).with(wait: 30.seconds).and_call_original
+
+      contact_inbox = described_class.new(
+        source_id: '123456',
+        inbox: inbox,
+        contact_attributes: {
+          name: 'Contact',
+          email: 'testemail@example.com',
+          avatar_url: 'https://example.com/avatar.png'
+        }
+      ).perform
+
+      expect(Avatar::AvatarFromUrlJob).to have_been_enqueued.with(contact_inbox.contact, 'https://example.com/avatar.png')
+    end
+
+    it 'does not enqueue the avatar job when no avatar_url is present' do
+      expect do
+        described_class.new(
+          source_id: '123456',
+          inbox: inbox,
+          contact_attributes: {
+            name: 'Contact',
+            email: 'testemail@example.com'
+          }
+        ).perform
+      end.not_to have_enqueued_job(Avatar::AvatarFromUrlJob)
+    end
+
     it 'reuses contact if it exists with the same source_id in a Facebook inbox when creating for Instagram inbox' do
       instagram_source_id = '123456789'
 

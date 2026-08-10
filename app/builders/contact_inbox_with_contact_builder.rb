@@ -45,7 +45,16 @@ class ContactInboxWithContactBuilder
   end
 
   def update_contact_avatar(contact)
-    ::Avatar::AvatarFromUrlJob.perform_later(contact, contact_attributes[:avatar_url]) if contact_attributes[:avatar_url]
+    return if contact_attributes[:avatar_url].blank?
+
+    # `build_contact_with_contact_inbox` runs inside `ActiveRecord::Base.transaction(requires_new: true)`,
+    # which is only a SAVEPOINT within any outer transaction (e.g. Messages::Facebook::MessageBuilder#perform).
+    # If we enqueue the job here without a delay, Sidekiq can dequeue and run it before the outer
+    # transaction commits, so the contact isn't visible yet and the job is discarded with an
+    # ActiveJob::DeserializationError. Since this method only runs on contact_inbox creation, the avatar
+    # is then never retried. Delaying the job (mirroring Avatarable#fetch_avatar_from_gravatar) gives the
+    # outer transaction time to commit before the job runs.
+    ::Avatar::AvatarFromUrlJob.set(wait: 30.seconds).perform_later(contact, contact_attributes[:avatar_url])
   end
 
   def create_contact
