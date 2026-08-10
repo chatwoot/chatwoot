@@ -51,6 +51,6 @@ class Webhooks::TelegramEventsJob < ApplicationJob
 
   def sync_business_connection(channel, telegram_params)
     connection_id = telegram_params.dig(:business_message, :business_connection_id)
-    Telegram::BusinessConnectionService.new(channel: channel).sync(connection_id) if connection_id.present?
+    Telegram::BusinessConnectionService.new(channel: channel).sync(connection_id, update_id: telegram_params[:update_id]) if connection_id.present?
   end
 end

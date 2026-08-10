@@ -49,7 +49,7 @@ RSpec.describe Webhooks::TelegramEventsJob do
     it 'syncs a business connection before processing a business message' do
       business_connection_service = instance_double(Telegram::BusinessConnectionService, sync: nil)
       incoming_message_service = instance_double(Telegram::IncomingMessageService, perform: nil)
-      telegram_params = { business_message: { business_connection_id: 'connection-1' } }
+      telegram_params = { update_id: 42, business_message: { business_connection_id: 'connection-1' } }
       business_params = { bot_token: telegram_channel.bot_token }
       business_params['telegram'] = telegram_params
 
@@ -58,7 +58,7 @@ RSpec.describe Webhooks::TelegramEventsJob do
         .with(inbox: telegram_channel.inbox, params: telegram_params.with_indifferent_access)
         .and_return(incoming_message_service)
 
-      expect(business_connection_service).to receive(:sync).with('connection-1').ordered
+      expect(business_connection_service).to receive(:sync).with('connection-1', update_id: 42).ordered
       expect(incoming_message_service).to receive(:perform).ordered
 
       described_class.perform_now(business_params)
