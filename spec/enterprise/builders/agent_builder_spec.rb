@@ -55,12 +55,12 @@ RSpec.describe AgentBuilder do
         expect { builder.perform }.not_to change(User, :count)
       end
 
-      it 'converts existing user to SAML provider' do
+      it 'does not convert the existing user to SAML provider' do
         expect(existing_user.provider).to eq('email')
 
         builder.perform
 
-        expect(existing_user.reload.provider).to eq('saml')
+        expect(existing_user.reload.provider).to eq('email')
       end
 
       it 'adds existing user to the account' do

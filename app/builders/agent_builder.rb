@@ -35,6 +35,10 @@ class AgentBuilder
     @user
   end
 
+  def new_user?
+    @new_user
+  end
+
   private
 
   def can_add_agent?

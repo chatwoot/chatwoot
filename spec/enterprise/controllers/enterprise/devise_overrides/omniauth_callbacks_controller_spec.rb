@@ -38,9 +38,9 @@ RSpec.describe 'Enterprise SAML OmniAuth Callbacks', type: :request do
       end
     end
 
-    it 'logs in existing user' do
+    it 'logs in existing user already provisioned via SAML' do
       with_modified_env FRONTEND_URL: 'http://www.example.com' do
-        create(:user, email: 'existing@example.com', account: account)
+        create(:user, email: 'existing@example.com', account: account, provider: 'saml')
         set_saml_config('existing@example.com')
 
         get "/omniauth/saml/callback?account_id=#{account.id}"
@@ -49,9 +49,21 @@ RSpec.describe 'Enterprise SAML OmniAuth Callbacks', type: :request do
       end
     end
 
+    it 'rejects an existing user already a member of the account but with a non-SAML provider' do
+      with_modified_env FRONTEND_URL: 'http://www.example.com' do
+        existing_user = create(:user, email: 'existing@example.com', account: account, provider: 'email')
+        set_saml_config('existing@example.com')
+
+        get "/omniauth/saml/callback?account_id=#{account.id}"
+
+        expect(response).to redirect_to('http://www.example.com/app/login?error=saml-authentication-failed')
+        expect(existing_user.reload.provider).to eq('email')
+      end
+    end
+
     it 'redirects mobile SAML login to the mobile deep link' do
       with_modified_env FRONTEND_URL: 'http://www.example.com' do
-        create(:user, email: 'mobile@example.com', account: account)
+        create(:user, email: 'mobile@example.com', account: account, provider: 'saml')
         set_saml_config('mobile@example.com')
 
         get "/omniauth/saml/callback?account_id=#{account.id}&RelayState=mobile"

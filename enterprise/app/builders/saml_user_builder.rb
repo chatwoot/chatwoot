@@ -19,14 +19,18 @@ class SamlUserBuilder
     user = User.from_email(auth_attribute('email'))
 
     return create_user unless user
-    return existing_user_for_account(user) if user_belongs_to_account?(user)
+    return existing_user_for_account(user) if eligible_existing_user?(user)
 
     raise AuthenticationFailed, I18n.t('auth.saml.authentication_failed')
   end
 
+  # Never bind a bare assertion to a user established via another provider.
+  def eligible_existing_user?(user)
+    user.provider == 'saml' && user_belongs_to_account?(user)
+  end
+
   def existing_user_for_account(user)
     confirm_user_if_required(user)
-    convert_existing_user_to_saml(user)
     user
   end
 
@@ -39,12 +43,6 @@ class SamlUserBuilder
 
     user.skip_confirmation!
     user.save!
-  end
-
-  def convert_existing_user_to_saml(user)
-    return if user.provider == 'saml'
-
-    user.update!(provider: 'saml')
   end
 
   def create_user

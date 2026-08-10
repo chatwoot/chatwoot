@@ -73,8 +73,8 @@ RSpec.describe SamlUserBuilder do
       end
     end
 
-    context 'when user already exists' do
-      let!(:existing_user) { create(:user, email: email, account: account) }
+    context 'when user already exists with SAML provider' do
+      let!(:existing_user) { create(:user, email: email, account: account, provider: 'saml') }
 
       it 'does not create a new user' do
         expect { builder.perform }.not_to change(User, :count)
@@ -90,101 +90,111 @@ RSpec.describe SamlUserBuilder do
         expect(user.accounts).to include(account)
       end
 
-      it 'converts existing user to SAML' do
-        expect(existing_user.provider).not_to eq('saml')
-
-        builder.perform
-
-        expect(existing_user.reload.provider).to eq('saml')
-      end
-
-      it 'does not change provider if user is already SAML' do
-        existing_user.update!(provider: 'saml')
-
+      it 'does not change provider' do
         expect { builder.perform }.not_to(change { existing_user.reload.provider })
       end
 
       it 'does not duplicate account association' do
         expect { builder.perform }.not_to change(AccountUser, :count)
       end
+    end
 
-      context 'when the user does not belong to the target account' do
-        let!(:other_account) { create(:account) }
-        let!(:existing_user) { create(:user, email: email, account: other_account) }
+    context 'when user already exists with a non-SAML provider' do
+      let!(:existing_user) { create(:user, email: email, account: account, provider: 'email') }
 
-        it 'raises an authentication failure' do
-          expect { builder.perform }.to raise_error do |error|
-            expect(error.class.name).to eq('SamlUserBuilder::AuthenticationFailed')
-            expect(error.message).to eq(I18n.t('auth.saml.authentication_failed'))
-          end
+      it 'raises an authentication failure instead of converting the user' do
+        expect { builder.perform }.to raise_error do |error|
+          expect(error.class.name).to eq('SamlUserBuilder::AuthenticationFailed')
+          expect(error.message).to eq(I18n.t('auth.saml.authentication_failed'))
         end
+        expect(existing_user.reload.provider).to eq('email')
+      end
 
-        it 'does not add the user to the target account' do
-          expect do
-            builder.perform
-          rescue StandardError => e
-            raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed' # rubocop:disable Style/ClassEqualityComparison
-          end.not_to change(AccountUser, :count)
-          expect(existing_user.reload.accounts).not_to include(account)
-        end
+      it 'does not create a new user' do
+        expect do
+          builder.perform
+        rescue SamlUserBuilder::AuthenticationFailed
+          nil
+        end.not_to change(User, :count)
+      end
+    end
 
-        it 'does not convert the user provider to saml' do
-          expect do
-            builder.perform
-          rescue StandardError => e
-            raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed' # rubocop:disable Style/ClassEqualityComparison
-          end.not_to(change { existing_user.reload.provider })
+    context 'when the user does not belong to the target account' do
+      let!(:other_account) { create(:account) }
+      let!(:existing_user) { create(:user, email: email, account: other_account, provider: 'saml') }
+
+      it 'raises an authentication failure' do
+        expect { builder.perform }.to raise_error do |error|
+          expect(error.class.name).to eq('SamlUserBuilder::AuthenticationFailed')
+          expect(error.message).to eq(I18n.t('auth.saml.authentication_failed'))
         end
       end
 
-      context 'when user is not confirmed' do
-        let(:unconfirmed_email) { 'unconfirmed_saml_user@example.com' }
-        let(:unconfirmed_auth_hash) do
-          {
-            'provider' => 'saml',
-            'uid' => 'saml-uid-123',
-            'info' => {
-              'email' => unconfirmed_email,
-              'name' => 'SAML User',
-              'first_name' => 'SAML',
-              'last_name' => 'User'
-            },
-            'extra' => {
-              'raw_info' => {
-                'groups' => %w[Administrators Users]
-              }
+      it 'does not add the user to the target account' do
+        expect do
+          builder.perform
+        rescue StandardError => e
+          raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed' # rubocop:disable Style/ClassEqualityComparison
+        end.not_to change(AccountUser, :count)
+        expect(existing_user.reload.accounts).not_to include(account)
+      end
+
+      it 'does not convert the user provider to saml' do
+        expect do
+          builder.perform
+        rescue StandardError => e
+          raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed' # rubocop:disable Style/ClassEqualityComparison
+        end.not_to(change { existing_user.reload.provider })
+      end
+    end
+
+    context 'when user is not confirmed' do
+      let(:unconfirmed_email) { 'unconfirmed_saml_user@example.com' }
+      let(:unconfirmed_auth_hash) do
+        {
+          'provider' => 'saml',
+          'uid' => 'saml-uid-123',
+          'info' => {
+            'email' => unconfirmed_email,
+            'name' => 'SAML User',
+            'first_name' => 'SAML',
+            'last_name' => 'User'
+          },
+          'extra' => {
+            'raw_info' => {
+              'groups' => %w[Administrators Users]
             }
           }
-        end
-        let(:unconfirmed_builder) { described_class.new(unconfirmed_auth_hash, account.id) }
-        let!(:existing_user) do
-          user = build(:user, email: unconfirmed_email, account: account)
-          user.confirmed_at = nil
-          user.save!(validate: false)
-          user
-        end
-
-        it 'confirms unconfirmed user after SAML authentication' do
-          expect(existing_user.confirmed?).to be false
-
-          unconfirmed_builder.perform
-
-          expect(existing_user.reload.confirmed?).to be true
-        end
+        }
+      end
+      let(:unconfirmed_builder) { described_class.new(unconfirmed_auth_hash, account.id) }
+      let!(:existing_user) do
+        user = build(:user, email: unconfirmed_email, account: account, provider: 'saml')
+        user.confirmed_at = nil
+        user.save!(validate: false)
+        user
       end
 
-      context 'when user is already confirmed' do
-        let!(:existing_user) { create(:user, email: email, account: account, confirmed_at: Time.current) }
+      it 'confirms unconfirmed user after SAML authentication' do
+        expect(existing_user.confirmed?).to be false
 
-        it 'keeps already confirmed user confirmed' do
-          expect(existing_user.confirmed?).to be true
-          original_confirmed_at = existing_user.confirmed_at
+        unconfirmed_builder.perform
 
-          builder.perform
+        expect(existing_user.reload.confirmed?).to be true
+      end
+    end
 
-          expect(existing_user.reload.confirmed?).to be true
-          expect(existing_user.reload.confirmed_at).to be_within(2.seconds).of(original_confirmed_at)
-        end
+    context 'when user is already confirmed' do
+      let!(:existing_user) { create(:user, email: email, account: account, provider: 'saml', confirmed_at: Time.current) }
+
+      it 'keeps already confirmed user confirmed' do
+        expect(existing_user.confirmed?).to be true
+        original_confirmed_at = existing_user.confirmed_at
+
+        builder.perform
+
+        expect(existing_user.reload.confirmed?).to be true
+        expect(existing_user.reload.confirmed_at).to be_within(2.seconds).of(original_confirmed_at)
       end
     end
 
