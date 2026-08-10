@@ -1156,7 +1156,7 @@
     "FAQ_SUGGESTIONS": {
       "HEADER": "Suggestions de FAQ",
       "SEARCH_PLACEHOLDER": "Rechercher des suggestions...",
-      "QUEUE_COUNT": "Suggestion {count} à revoir | {count} suggestions à revoir",
+      "QUEUE_COUNT": "{count} suggestion à revoir | {count} suggestions à revoir",
       "QUEUE_HINT": "Classé par demande du client",
       "SOURCE_COUNT": "{count} conversation | {count} conversations",
       "REVIEW": "Revoir les sources",
