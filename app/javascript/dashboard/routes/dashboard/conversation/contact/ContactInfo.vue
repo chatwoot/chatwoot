@@ -198,7 +198,6 @@ export default {
             ref="nameInput"
             v-model="editName"
             custom-input-class="!text-base !font-medium"
-            class="!w-fit"
             @enter-press="saveNameEdit"
             @escape-press="cancelNameEdit"
             @blur="saveNameEdit"
