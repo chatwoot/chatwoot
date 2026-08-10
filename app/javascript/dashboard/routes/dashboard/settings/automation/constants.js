@@ -669,14 +669,6 @@ export const AUTOMATIONS = {
         name: 'REMOVE_ASSIGNED_TEAM',
       },
       {
-        key: 'add_label',
-        name: 'ADD_LABEL',
-      },
-      {
-        key: 'remove_label',
-        name: 'REMOVE_LABEL',
-      },
-      {
         key: 'send_email_to_team',
         name: 'SEND_EMAIL_TO_TEAM',
       },
