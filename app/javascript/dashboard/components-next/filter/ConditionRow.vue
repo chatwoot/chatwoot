@@ -15,6 +15,7 @@ import { validateSingleFilter } from 'dashboard/helper/validations.js';
 const { filterTypes } = defineProps({
   showQueryOperator: { type: Boolean, default: false },
   filterTypes: { type: Array, required: true },
+  searchableAttributes: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['remove']);
@@ -199,6 +200,7 @@ defineExpose({ validate, resetValidation });
         v-model="attributeKey"
         variant="faded"
         :options="filterTypes"
+        :searchable="searchableAttributes"
         @update:model-value="resetModelOnAttributeKeyChange"
       />
       <FilterSelect

@@ -3,6 +3,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   include Captain::Conversation::V1FalsePromiseHandler
   include Captain::Conversation::V2LifecycleEvents
   include Captain::Conversation::MessageBuilder
+  include Captain::Conversation::ResponseLifecycleLogging
 
   MAX_MESSAGE_LENGTH = 10_000
   retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds
@@ -14,12 +15,13 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @assistant = assistant
     @responding_to_message_id = responding_to_message_id if captain_v2_enabled?
 
-    return unless conversation_pending?
+    return log_non_pending unless conversation_pending?
 
     Current.executed_by = @assistant
 
     return generate_and_process_response unless captain_v2_enabled?
-    return if newer_customer_message_arrived?
+
+    return log_pre_generation_discard if newer_customer_message_arrived?
 
     generate_response_with_v2
   rescue ActiveStorage::FileNotFoundError, Faraday::BadRequestError => e
@@ -221,11 +223,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       "[CAPTAIN][ResponseBuilderJob] V1 handoff requested but not executed for account=#{account.id} " \
       "conversation=#{@conversation.display_id}"
     )
-  end
-
-  def conversation_pending?
-    status = Conversation.uncached { Conversation.where(id: @conversation.id).pick(:status) }
-    status == 'pending' || status == Conversation.statuses[:pending]
   end
 
   def newer_customer_message_arrived?
