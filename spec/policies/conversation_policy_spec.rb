@@ -1,4 +1,3 @@
-```ruby
 require 'rails_helper'
 
 RSpec.describe ConversationPolicy, type: :policy do
@@ -80,4 +79,4 @@ RSpec.describe ConversationPolicy, type: :policy do
     end
   end
 end
-```
+
