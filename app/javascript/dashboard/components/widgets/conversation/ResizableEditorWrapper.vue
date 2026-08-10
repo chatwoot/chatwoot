@@ -152,3 +152,25 @@ defineExpose({ toggleEditorExpand, resetEditorHeight });
     <slot />
   </div>
 </template>
+
+<style lang="scss">
+.resizable-editor-wrapper {
+  .resizable-editor-body {
+    @apply overflow-auto;
+
+    min-height: clamp(
+      var(--editor-min-allowed, 5rem),
+      var(--editor-height, 5rem),
+      var(--editor-max-allowed, 7.5rem)
+    );
+    max-height: clamp(
+      var(--editor-min-allowed, 5rem),
+      var(--editor-height, 5rem),
+      var(--editor-max-allowed, 7.5rem)
+    );
+    transition:
+      min-height var(--editor-height-transition, 180ms ease),
+      max-height var(--editor-height-transition, 180ms ease);
+  }
+}
+</style>

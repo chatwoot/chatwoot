@@ -203,16 +203,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="space-y-2 mb-4">
-    <div class="overflow-y-auto max-h-56">
+  <div class="resizable-editor-body flex flex-col gap-2 mb-3">
+    <div class="flex-1 min-h-0 overflow-y-auto">
       <p
         v-dompurify-html="formatMessage(generatedContent, false)"
-        class="text-n-iris-12 text-sm prose-sm font-normal !mb-4"
+        class="text-n-iris-12 text-sm prose-sm font-normal"
       />
     </div>
-    <div class="editor-root relative editor--copilot space-x-2">
+    <div class="editor-root relative editor--copilot shrink-0">
       <div ref="editor" />
-      <div class="flex items-center justify-end absolute right-2 bottom-2">
+      <div class="flex items-center justify-end absolute end-2 bottom-2">
         <NextButton
           class="bg-n-iris-9 text-white !rounded-full"
           icon="i-lucide-arrow-up"
@@ -233,9 +233,9 @@ onMounted(() => {
 
   .ProseMirror-woot-style {
     min-height: 5rem;
-    max-height: 7.5rem !important;
+    max-height: 7.5rem;
     overflow: auto;
-    @apply px-2 !important;
+    @apply ps-2 pe-10 !important;
 
     .empty-node {
       &::before {
