@@ -97,7 +97,7 @@ class Telegram::IncomingMessageService
   def update_already_processed?
     return false if params[:update_id].blank?
 
-    @contact_inbox.conversations.joins(:messages).exists?(messages: { external_source_ids: { telegram_update_id: params[:update_id].to_s } })
+    @contact_inbox.conversations.joins(:messages).exists?(messages: { source_id: telegram_params_message_id.to_s })
   end
 
   def contact_attributes
