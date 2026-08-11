@@ -48,7 +48,7 @@ class Twilio::TemplateSyncService
   end
 
   def derive_status(template)
-    template.approval_requests&.dig('whatsapp', 'status')&.downcase || 'unsubmitted'
+    template.approval_requests&.dig('status')&.downcase || 'unsubmitted'
   end
 
   def derive_template_type(template)
