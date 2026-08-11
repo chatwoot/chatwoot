@@ -13,10 +13,8 @@ import { useBranding } from 'shared/composables/useBranding';
 import { useAccount } from 'dashboard/composables/useAccount';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
-import {
-  IS_META_INBOX_CREATION_DISABLED,
-  META_RESTRICTION_STATUS_URL,
-} from 'dashboard/constants/globals';
+import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 import * as Sentry from '@sentry/vue';
 
@@ -31,11 +29,11 @@ export default {
   },
   setup() {
     const { replaceInstallationName } = useBranding();
-    const { isOnChatwootCloud } = useAccount();
+    const { isMetaInboxCreationDisabled } = useAccount();
     const { preloadSdk, loginAndFetchPages } = useFacebookPageConnect();
     return {
       replaceInstallationName,
-      isOnChatwootCloud,
+      isMetaInboxCreationDisabled,
       preloadSdk,
       loginAndFetchPages,
       META_RESTRICTION_STATUS_URL,
@@ -83,7 +81,7 @@ export default {
       }));
     },
     isFacebookConnectionDisabled() {
-      return this.isOnChatwootCloud && IS_META_INBOX_CREATION_DISABLED;
+      return this.isMetaInboxCreationDisabled;
     },
   },
 
@@ -155,7 +153,13 @@ export default {
               params: { page: 'new', inbox_id: data.id },
             });
           })
-          .catch(() => {
+          .catch(error => {
+            const errorMessage = parseAPIErrorResponse(error);
+            useAlert(
+              typeof errorMessage === 'string'
+                ? errorMessage
+                : this.$t('INBOX_MGMT.DETAILS.ERROR_CHANNEL_CREATION')
+            );
             this.isCreating = false;
           });
       }

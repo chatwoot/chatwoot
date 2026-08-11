@@ -564,8 +564,6 @@
       },
       "FORM": {
         "UPDATE": "Update",
-        "SAVE_INACTIVITY_SETTINGS": "Save inactive conversation settings",
-        "SAVE_HANDOFF_MESSAGE": "Save handoff message",
         "SECTIONS": {
           "BASIC_INFO": "Basic Information",
           "SYSTEM_MESSAGES": "System Messages",
@@ -593,7 +591,7 @@
           "PLACEHOLDER": "Enter welcome message"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
+          "LABEL": "Handoff message",
           "PLACEHOLDER": "Enter handoff message"
         },
         "RESOLUTION_MESSAGE": {
@@ -603,32 +601,27 @@
         "INACTIVITY_RESOLUTION": {
           "TITLE": "Inactive conversations",
           "DESCRIPTION": "Choose what Captain should do when the customer stops replying.",
-          "DURATION_HOURS": "{count} hour | {count} hours",
-          "DURATION_MINUTES": "{count} minute | {count} minutes",
+          "MODE_LABEL": "Inactive conversation action",
           "REVIEW_AFTER": "Review after",
           "RESOLVE_AFTER": "Resolve after",
           "ALWAYS_WARNING": "Captain will resolve every inactive conversation without reviewing it. Some conversations that still need help may be closed.",
-          "PENDING_INFO": "Captain won't close the conversation because it has been inactive.",
-          "SUMMARY": {
-            "REVIEW": "Captain reviews the conversation after {duration}.",
-            "ALWAYS_RESOLVE": "Captain resolves the conversation after {duration} without reviewing it.",
-            "PENDING": "Captain waits for the customer and continues when they reply.",
-            "FOLLOW_UP": "If Captain follows up, it waits another {duration} before resolving."
-          },
+          "PENDING_INFO": "Captain won't close the conversation because it is inactive. It will continue when the customer replies.",
           "FOLLOW_UP": {
             "TITLE": "Follow up before resolving",
-            "DESCRIPTION": "Captain sends a follow-up based on the conversation."
+            "DESCRIPTION": "Captain sends a follow-up based on the conversation.",
+            "RESOLVE_AFTER": "Resolve after the follow-up",
+            "DURATION_HOURS_ARIA_LABEL": "Follow-up wait hours",
+            "DURATION_MINUTES_ARIA_LABEL": "Follow-up wait minutes"
           },
           "RESOLUTION_MESSAGE": {
             "TITLE": "Send a message when resolving",
-            "DESCRIPTION": "Send this closing message after Captain decides to resolve.",
-            "DISABLED_SUMMARY": "Captain will not send a resolution message.",
-            "RETAINED": "The saved resolution message is kept and will return if messages are turned on again."
+            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation.",
+            "RETAINED": "The saved message will return if you turn this setting on again."
           },
           "MODES": {
             "DISABLED": {
-              "LABEL": "Captain will handle it",
-              "DESCRIPTION": "Captain waits for the customer and continues the conversation when they reply."
+              "LABEL": "Wait for the customer",
+              "DESCRIPTION": "Keep the conversation pending until the customer replies."
             },
             "LEGACY": {
               "LABEL": "Always resolve",
@@ -639,9 +632,10 @@
               "DESCRIPTION": "Captain decides whether to resolve, follow up, or hand off."
             }
           },
-          "DURATION_LABEL": "Take action after",
-          "DURATION_HOURS_LABEL": "Hours",
-          "DURATION_MINUTES_LABEL": "Minutes"
+          "DURATION_HOURS_ARIA_LABEL": "Inactivity period hours",
+          "DURATION_MINUTES_ARIA_LABEL": "Inactivity period minutes",
+          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_MINUTES_SHORT": "{count} min"
         },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
@@ -653,6 +647,48 @@
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
           "ALLOW_CITATIONS": "Include source citations in responses",
           "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+        },
+        "AUDIENCE": {
+          "EVERYONE": {
+            "LABEL": "Everyone",
+            "DESC": "Captain responds to every conversation in connected inboxes."
+          },
+          "SPECIFIC": {
+            "LABEL": "Specific audience",
+            "DESC": "Captain responds only to customers who match the conditions below."
+          },
+          "ADD_CONDITION": "Add condition",
+          "ADD_GROUP": "Add condition group",
+          "EMPTY_TITLE": "No conditions yet",
+          "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
+          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
+          "MATCH_PREFIX": "Match",
+          "MATCH_SUFFIX": "of the following",
+          "MATCH_ALL": "all",
+          "MATCH_ANY": "any",
+          "GROUP_CONTACT": "Contact attributes",
+          "GROUP_CONVERSATION": "Conversation",
+          "GROUP_CUSTOM": "Custom attributes",
+          "BROWSER_LANGUAGE": "Browser language",
+          "CONVERSATION_LANGUAGE": "First message language",
+          "LOGGED_IN": "Logged-in user",
+          "LOGGED_IN_TRUE": "Yes",
+          "LOGGED_IN_FALSE": "No"
+        },
+        "SCHEDULE": {
+          "ALWAYS": {
+            "LABEL": "Anytime",
+            "DESC": "Captain responds to every conversation, regardless of time."
+          },
+          "BUSINESS_HOURS": {
+            "LABEL": "During business hours",
+            "DESC": "Captain responds only within each inbox's business hours."
+          },
+          "OUTSIDE_BUSINESS_HOURS": {
+            "LABEL": "Outside business hours",
+            "DESC": "Captain responds only when each inbox is closed."
+          },
+          "HINT": "Inboxes without business hours configured are always covered."
         }
       },
       "EDIT": {
@@ -671,6 +707,14 @@
           "TITLE": "System settings",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
           "DESCRIPTION_V2": "Manage inactive conversations and Captain's handoff message."
+        },
+        "AUDIENCE": {
+          "TITLE": "Audience",
+          "DESCRIPTION": "Choose whether this assistant responds to everyone or only to a specific audience."
+        },
+        "SCHEDULE": {
+          "TITLE": "Schedule",
+          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",

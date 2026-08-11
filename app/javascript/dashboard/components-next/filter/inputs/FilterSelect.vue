@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useElementBounding, useWindowSize } from '@vueuse/core';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
@@ -7,6 +8,7 @@ import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 
 import Button from 'next/button/Button.vue';
+import Icon from 'next/icon/Icon.vue';
 
 // [{label, icon, value}]
 const props = defineProps({
@@ -30,6 +32,10 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  searchable: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const selected = defineModel({
@@ -37,8 +43,22 @@ const selected = defineModel({
   required: true,
 });
 
+const vFocus = { mounted: el => el.focus() };
+
+const { t } = useI18n();
+
+const searchQuery = ref('');
 const triggerRef = ref(null);
 const dropdownRef = ref(null);
+
+const filteredOptions = computed(() => {
+  const query = searchQuery.value.trim().toLowerCase();
+  if (!props.searchable || !query) return props.options;
+  return props.options.filter(
+    option =>
+      !option.disabled && (option.label || '').toLowerCase().includes(query)
+  );
+});
 
 const { top } = useElementBounding(triggerRef);
 const { height } = useWindowSize();
@@ -65,6 +85,12 @@ const dropdownPosition = computed(() => {
 
 const updateSelected = newValue => {
   selected.value = newValue;
+  searchQuery.value = '';
+};
+
+const handleTriggerClick = toggle => {
+  searchQuery.value = '';
+  toggle();
 };
 </script>
 
@@ -81,7 +107,7 @@ const updateSelected = newValue => {
           :icon="iconToRender"
           :trailing-icon="selectedOption.icon ? false : true"
           :label="label || (hideLabel ? null : selectedOption.label)"
-          @click="toggle"
+          @click="handleTriggerClick(toggle)"
         />
       </slot>
     </template>
@@ -91,8 +117,17 @@ const updateSelected = newValue => {
       :class="dropdownPosition"
       strong
     >
+      <div v-if="searchable" class="relative">
+        <Icon class="absolute size-4 left-2 top-2" icon="i-lucide-search" />
+        <input
+          v-model="searchQuery"
+          v-focus
+          class="w-full p-1.5 pl-8 rounded-lg text-n-slate-11 bg-n-alpha-1"
+          :placeholder="t('FILTER.SEARCH_PLACEHOLDER')"
+        />
+      </div>
       <DropdownSection class="[&>ul]:max-h-72">
-        <template v-for="option in options" :key="option.value">
+        <template v-for="option in filteredOptions" :key="option.value">
           <li
             v-if="option.disabled"
             class="px-2 py-1.5 text-xs font-medium text-n-slate-10 select-none"
@@ -106,6 +141,12 @@ const updateSelected = newValue => {
             @click="updateSelected(option.value)"
           />
         </template>
+        <li
+          v-if="searchable && !filteredOptions.length"
+          class="px-2 py-1.5 text-sm text-n-slate-10 select-none"
+        >
+          {{ t('FILTER.NO_RESULTS') }}
+        </li>
       </DropdownSection>
     </DropdownBody>
   </DropdownContainer>

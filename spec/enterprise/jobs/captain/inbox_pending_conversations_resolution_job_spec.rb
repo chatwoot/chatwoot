@@ -18,6 +18,19 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       .to have_enqueued_job.on_queue('low')
   end
 
+  context 'when the assistant is deleted before the queued job runs' do
+    before do
+      captain_assistant.destroy!
+      inbox.reload
+    end
+
+    it 'leaves pending conversations unchanged' do
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    end
+  end
+
   context 'when captain_tasks is disabled' do
     before do
       allow(inbox.account).to receive(:feature_enabled?).and_call_original
@@ -67,6 +80,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
 
     it 'uses the assistant inactivity timer' do
+      captain_assistant.account.enable_features!('captain_integration_v2')
       captain_assistant.update!(config: captain_assistant.config.merge('auto_resolve_after' => 180))
 
       described_class.perform_now(inbox)
@@ -75,6 +89,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
 
     it 'resolves silently when the resolution message is disabled' do
+      captain_assistant.account.enable_features!('captain_integration_v2')
       captain_assistant.update!(config: captain_assistant.config.merge('send_inactivity_resolution_message' => false))
 
       described_class.perform_now(inbox)
@@ -148,6 +163,8 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     let(:follow_up_message) { 'Could you share the order number so I can help?' }
 
     before do
+      allow(inbox.account).to receive(:feature_enabled?).and_call_original
+      allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
       captain_assistant.update!(
         config: captain_assistant.config.merge(
           'follow_up_before_resolving' => true,
@@ -221,10 +238,91 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(resolvable_pending_conversation.messages.outgoing.where(private: false).pluck(:content))
         .to contain_exactly(follow_up_message)
     end
+
+    [
+      { relation: 'shorter than', inactivity_minutes: 90, follow_up_minutes: 5 },
+      { relation: 'equal to', inactivity_minutes: 60, follow_up_minutes: 60 },
+      { relation: 'longer than', inactivity_minutes: 60, follow_up_minutes: 90 }
+    ].each do |timer_case|
+      it "resolves from the follow-up timestamp when its timer is #{timer_case[:relation]} the inactivity timer" do
+        captain_assistant.account.enable_features!('captain_integration_v2')
+        captain_assistant.update!(
+          config: captain_assistant.config.merge(
+            'auto_resolve_after' => timer_case[:inactivity_minutes],
+            'follow_up_resolve_after' => timer_case[:follow_up_minutes]
+          )
+        )
+        resolvable_pending_conversation.update!(last_activity_at: (timer_case[:inactivity_minutes] + 1).minutes.ago)
+        recent_pending_conversation.update!(last_activity_at: 1.day.from_now)
+
+        described_class.perform_now(inbox)
+
+        generated_follow_up = resolvable_pending_conversation.messages
+                                                             .outgoing
+                                                             .where(private: false)
+                                                             .find_by!(
+                                                               'additional_attributes @> ?',
+                                                               { captain_inactivity_follow_up: true }.to_json
+                                                             )
+
+        travel_to(generated_follow_up.created_at + timer_case[:follow_up_minutes].minutes - 1.second) do
+          described_class.perform_now(inbox)
+        end
+        expect(resolvable_pending_conversation.reload).to be_pending
+
+        travel_to(generated_follow_up.created_at + timer_case[:follow_up_minutes].minutes + 1.second) do
+          described_class.perform_now(inbox)
+        end
+
+        expect(resolvable_pending_conversation.reload).to be_resolved
+        expect(Captain::ConversationCompletionService).to have_received(:new).once
+      end
+    end
+
+    it 'applies the batch limit after excluding conversations that have reached neither timer' do
+      captain_assistant.account.enable_features!('captain_integration_v2')
+      captain_assistant.update!(
+        config: captain_assistant.config.merge(
+          'auto_resolve_after' => 90,
+          'follow_up_resolve_after' => 5
+        )
+      )
+      resolvable_pending_conversation.update!(last_activity_at: 10.minutes.ago)
+      ineligible_conversations = [resolvable_pending_conversation]
+      ineligible_conversations << create(:conversation, inbox: inbox, last_activity_at: 10.minutes.ago, status: :pending)
+      ineligible_conversations << create(:conversation, inbox: inbox, last_activity_at: 10.minutes.ago, status: :pending)
+      expired_follow_up_conversation = create(:conversation, inbox: inbox, status: :pending)
+      create(
+        :message,
+        conversation: expired_follow_up_conversation,
+        inbox: inbox,
+        account: inbox.account,
+        sender: captain_assistant,
+        message_type: :outgoing,
+        content: follow_up_message,
+        additional_attributes: { 'captain_inactivity_follow_up' => true },
+        created_at: 6.minutes.ago
+      )
+
+      job = described_class.new
+      job.instance_variable_set(:@captain_assistant, captain_assistant)
+      job.instance_variable_set(:@inactivity_cutoff_time, 90.minutes.ago)
+      job.instance_variable_set(:@follow_up_resolution_cutoff_time, 5.minutes.ago)
+
+      expect(job.send(:candidate_pending_conversations, inbox)).to contain_exactly(expired_follow_up_conversation)
+
+      described_class.perform_now(inbox)
+
+      expect(expired_follow_up_conversation.reload).to be_resolved
+      expect(ineligible_conversations.map { |conversation| conversation.reload.status }).to all(eq('pending'))
+      expect(Captain::ConversationCompletionService).not_to have_received(:new)
+    end
   end
 
   context 'when Captain recommends a follow-up but the setting is disabled' do
     before do
+      allow(inbox.account).to receive(:feature_enabled?).and_call_original
+      allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
       mock_service = instance_double(Captain::ConversationCompletionService)
       allow(mock_service).to receive(:perform).and_return(
         {
@@ -493,6 +591,76 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       described_class.perform_now(inbox)
 
       expect(resolvable_pending_conversation.reload.status).to eq('open')
+    end
+  end
+
+  describe 'evaluated action transaction safety' do
+    let(:job) { described_class.new }
+    let(:conversation) { resolvable_pending_conversation.reload }
+
+    before do
+      job.instance_variable_set(:@captain_assistant, captain_assistant)
+      job.instance_variable_set(:@inactivity_cutoff_time, 1.hour.ago)
+      job.instance_variable_set(:@follow_up_resolution_cutoff_time, 30.minutes.ago)
+    end
+
+    it 'rolls back resolution messages when the status transition fails' do
+      expect(conversation).to receive(:with_lock).and_call_original
+      allow(conversation).to receive(:resolved!).and_raise(StandardError, 'transition failed')
+
+      expect do
+        job.send(:resolve_conversation, conversation, inbox, 'Customer question was answered')
+      end.to raise_error(StandardError, 'transition failed')
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.messages.outgoing).to be_empty
+    end
+
+    it 'rolls back handoff messages when the status transition fails' do
+      captain_assistant.update!(config: captain_assistant.config.merge('handoff_message' => 'Connecting you to an agent.'))
+      expect(conversation).to receive(:with_lock).and_call_original
+      allow(conversation).to receive(:bot_handoff!).and_raise(StandardError, 'transition failed')
+
+      expect do
+        job.send(:handoff_conversation, conversation, 'Customer needs an agent')
+      end.to raise_error(StandardError, 'transition failed')
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.messages.outgoing).to be_empty
+    end
+
+    it 'dispatches the bot handoff event after leaving the lock transaction' do
+      open_transactions_before_handoff = ActiveRecord::Base.connection.open_transactions
+      expect(conversation).to receive(:bot_handoff!).with(dispatch_event: false).and_call_original
+      expect(conversation).to receive(:dispatch_bot_handoff_event) do
+        expect(ActiveRecord::Base.connection.open_transactions).to eq(open_transactions_before_handoff)
+      end
+
+      job.send(:handoff_conversation, conversation, 'Customer needs an agent')
+    end
+
+    it 'rolls back second-stage resolution messages when the status transition fails' do
+      follow_up_message = create(
+        :message,
+        conversation: conversation,
+        inbox: inbox,
+        account: inbox.account,
+        sender: captain_assistant,
+        message_type: :outgoing,
+        content: 'Could you share your order number?',
+        additional_attributes: { 'captain_inactivity_follow_up' => true },
+        created_at: 31.minutes.ago
+      )
+      allow(conversation).to receive(:resolved!).and_raise(StandardError, 'transition failed')
+      expect(conversation).to receive(:with_lock).and_call_original
+
+      expect do
+        job.send(:process_pending_follow_up, conversation, inbox)
+      end.to raise_error(StandardError, 'transition failed')
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.messages.outgoing.pluck(:id)).to contain_exactly(follow_up_message.id)
+      expect(conversation.messages.where(private: true)).to be_empty
     end
   end
 

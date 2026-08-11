@@ -129,10 +129,12 @@ RSpec.describe Captain::AgentSession, type: :model do
   end
 
   describe 'defaults' do
-    it 'defaults faq_ids, document_ids, scenario_ids and run_context' do
+    it 'defaults source ids, scenario ids and run_context' do
       session = create(:captain_agent_session, account: account, assistant: assistant)
 
       expect(session.faq_ids).to eq([])
+      expect(session.used_faq_ids).to eq([])
+      expect(session.cited_document_ids).to eq([])
       expect(session.document_ids).to eq([])
       expect(session.scenario_ids).to eq([])
       expect(session.run_context).to eq({})

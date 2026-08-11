@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Izpildīt",
       "PREVIEW": "Priekšskatīt Makro",
-      "EXECUTED_SUCCESSFULLY": "Makro ir veiksmīgi izpildīts"
+      "EXECUTED_SUCCESSFULLY": "Makro ir veiksmīgi izpildīts",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Nepieciešama atribūta atslēga",
