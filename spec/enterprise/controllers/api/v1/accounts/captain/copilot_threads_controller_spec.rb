@@ -151,10 +151,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
             conversation_id: valid_params[:conversation_id],
             user_id: agent.id,
             copilot_thread_id: thread.id,
-            message: {
-              content: valid_params[:message],
-              request_type: 'reply_suggestion'
-            }
+            message: valid_params[:message],
+            request_type: 'reply_suggestion'
           )
         end
       end

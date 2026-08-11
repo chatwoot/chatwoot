@@ -6,7 +6,7 @@ RSpec.describe Captain::Copilot::ResponseJob, type: :job do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:copilot_thread) { create(:captain_copilot_thread, account: account, user: user, assistant: assistant) }
   let(:conversation_id) { 123 }
-  let(:message) { { 'content' => 'Test message' } }
+  let(:message) { 'Test message' }
 
   describe '#perform' do
     let(:chat_service) { instance_double(Captain::Copilot::ChatService) }
@@ -56,7 +56,8 @@ RSpec.describe Captain::Copilot::ResponseJob, type: :job do
         conversation_id: conversation_id,
         user_id: user.id,
         copilot_thread_id: copilot_thread.id,
-        message: message.merge('request_type' => 'reply_suggestion')
+        message: message,
+        request_type: 'reply_suggestion'
       )
     end
   end

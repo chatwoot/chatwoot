@@ -38,14 +38,14 @@ class CopilotMessage < ApplicationRecord
   end
 
   def enqueue_response_job(conversation_id, user_id, request_type: nil)
-    job_message = request_type.present? ? { content: message['content'], request_type: request_type } : message['content']
     job_arguments = {
       assistant: copilot_thread.assistant,
       conversation_id: conversation_id,
       user_id: user_id,
       copilot_thread_id: copilot_thread.id,
-      message: job_message
+      message: message['content']
     }
+    job_arguments[:request_type] = request_type if request_type.present?
 
     Captain::Copilot::ResponseJob.perform_later(**job_arguments)
   end
