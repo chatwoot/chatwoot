@@ -608,8 +608,7 @@
           "PENDING_INFO": "Captain won't close the conversation because it is inactive. It will continue when the customer replies.",
           "RESOLUTION_MESSAGE": {
             "TITLE": "Send a message when resolving",
-            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation.",
-            "RETAINED": "The saved message will return if you turn this setting on again."
+            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
           },
           "MODES": {
             "DISABLED": {

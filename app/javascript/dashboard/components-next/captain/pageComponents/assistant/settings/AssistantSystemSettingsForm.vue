@@ -279,16 +279,6 @@ watch(
               "
             />
           </div>
-          <p
-            v-if="!state.sendInactivityResolutionMessage"
-            class="mb-0 text-xs text-n-slate-11"
-          >
-            {{
-              t(
-                'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.RESOLUTION_MESSAGE.RETAINED'
-              )
-            }}
-          </p>
         </div>
       </div>
 
