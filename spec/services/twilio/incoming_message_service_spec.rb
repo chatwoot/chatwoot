@@ -511,6 +511,60 @@ describe Twilio::IncomingMessageService do
         end
       end
 
+      describe 'When the incoming WhatsApp message has CTWA referral parameters' do
+        let!(:whatsapp_twilio_channel) do
+          create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                                 inbox: create(:inbox, account: account, greeting_enabled: false))
+        end
+
+        it 'stores normalized referral attributes on the message' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+491741763110',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Hallo! Kann ich hierzu mehr Informationen erhalten?',
+            ReferralCtwaClid: 'AfjyUDlaIoiweZDnlzmDTEaG',
+            ReferralSourceId: '120237244350960485',
+            ReferralSourceUrl: 'https://fb.me/4tBfhWhjr',
+            ReferralSourceType: 'ad',
+            ReferralHeadline: 'German citizenship lawyer',
+            ReferralBody: 'Fast-track your German citizenship',
+            ReferralMediaId: '',
+            ReferralNumMedia: '0'
+          }
+
+          described_class.new(params: params).perform
+
+          message = whatsapp_twilio_channel.inbox.messages.last
+          expect(message.content_attributes['referral']).to eq(
+            'ctwa_clid' => 'AfjyUDlaIoiweZDnlzmDTEaG',
+            'source_id' => '120237244350960485',
+            'source_url' => 'https://fb.me/4tBfhWhjr',
+            'source_type' => 'ad',
+            'headline' => 'German citizenship lawyer',
+            'body' => 'Fast-track your German citizenship',
+            'num_media' => '0'
+          )
+        end
+
+        it 'does not add referral attributes when ReferralSourceId is absent' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+491741763110',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Regular WhatsApp message',
+            ReferralCtwaClid: 'AfjyUDlaIoiweZDnlzmDTEaG'
+          }
+
+          described_class.new(params: params).perform
+
+          message = whatsapp_twilio_channel.inbox.messages.last
+          expect(message.content_attributes).not_to have_key('referral')
+        end
+      end
+
       describe 'When the incoming number is a Brazilian number in new format with 9 included' do
         let!(:whatsapp_twilio_channel) do
           create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
@@ -732,6 +786,57 @@ describe Twilio::IncomingMessageService do
           expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Diego López')
           expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Argentina')
           expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+541123456789')
+        end
+      end
+
+      describe 'When the incoming number is a Mexican WhatsApp number with 1 after country code' do
+        let!(:whatsapp_twilio_channel) do
+          create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                                 inbox: create(:inbox, account: account, greeting_enabled: false))
+        end
+
+        it 'appends to existing contact when contact inbox exists without the extra 1' do
+          contact = create(:contact, account: account, phone_number: '+525512345678')
+          contact_inbox = create(:contact_inbox,
+                                 source_id: 'whatsapp:+525512345678',
+                                 contact: contact,
+                                 inbox: whatsapp_twilio_channel.inbox)
+          last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
+
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+5215512345678',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Mexico',
+            ProfileName: 'Maria Lopez'
+          }
+
+          described_class.new(params: params).perform
+
+          expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
+          expect(last_conversation.messages.last.content).to eq('Test message from Mexico')
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id)
+            .to eq('whatsapp:+525512345678')
+        end
+
+        it 'creates contact inbox with incoming number when no existing contact matches' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+5215512345678',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Mexico',
+            ProfileName: 'Maria Lopez'
+          }
+
+          described_class.new(params: params).perform
+
+          expect(whatsapp_twilio_channel.inbox.conversations.count).not_to eq(0)
+          expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Maria Lopez')
+          expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Mexico')
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id)
+            .to eq('whatsapp:+5215512345678')
         end
       end
     end

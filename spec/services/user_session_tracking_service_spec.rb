@@ -3,11 +3,14 @@ require 'rails_helper'
 RSpec.describe UserSessionTrackingService do
   let(:user) { create(:user) }
   let(:client_id) { 'client-abc' }
+  let(:ua) { 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15' }
+  let(:headers) { {} }
   let(:request) do
     instance_double(
       ActionDispatch::Request,
-      user_agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15',
-      remote_ip: '8.8.8.8'
+      user_agent: ua,
+      remote_ip: '8.8.8.8',
+      headers: headers
     )
   end
   let(:service) { described_class.new(user: user, request: request, client_id: client_id) }
@@ -46,6 +49,174 @@ RSpec.describe UserSessionTrackingService do
       expect { service.create_or_update! }.not_to change(user.user_sessions, :count)
       expect(existing.reload.ip_address).to eq('8.8.8.8')
       expect(existing.last_activity_at).to be_within(1.second).of(Time.current)
+    end
+
+    context 'with a Chatwoot Mobile legacy User-Agent' do
+      context 'when the UA is okhttp (Android Chatwoot Mobile)' do
+        let(:ua) { 'okhttp/4.9.2' }
+
+        it 'labels the session as Chatwoot Mobile on Android', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Chatwoot Mobile')
+          expect(session.browser_version).to be_nil
+          expect(session.platform_name).to eq('Android')
+          expect(session.platform_version).to be_nil
+          expect(session.device_name).to eq('Android')
+          expect(session.user_agent).to eq(ua)
+        end
+      end
+
+      context 'when the UA is CFNetwork (iOS Chatwoot Mobile)' do
+        let(:ua) { 'Chatwoot/3759 CFNetwork/3886.100.1 Darwin/27.0.0' }
+
+        it 'labels the session as Chatwoot Mobile on iPhone', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Chatwoot Mobile')
+          expect(session.browser_version).to be_nil
+          expect(session.platform_name).to eq('iPhone')
+          expect(session.platform_version).to be_nil
+          expect(session.device_name).to eq('iPhone')
+          expect(session.user_agent).to eq(ua)
+        end
+      end
+
+      context 'when the UA is a real browser (Firefox on Linux)' do
+        let(:ua) { 'Mozilla/5.0 (X11; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0' }
+
+        it 'does not override the Browser-derived metadata', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Firefox')
+          expect(session.platform_name).to eq('Generic Linux')
+          expect(session.device_name).not_to eq('Android')
+          expect(session.device_name).not_to eq('iPhone')
+        end
+      end
+
+      context 'when the UA is unknown but does not match any mobile pattern' do
+        let(:ua) { 'curl/8.4.0' }
+
+        it 'leaves the Unknown labels untouched', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Unknown Browser')
+          expect(session.platform_name).to eq('Unknown')
+          expect(session.device_name).to eq('Unknown')
+        end
+      end
+    end
+
+    context 'with X-Chatwoot-* structured headers' do
+      let(:ua) { 'Chatwoot/3759 CFNetwork/3886.100.1 Darwin/27.0.0' }
+
+      context 'when platform is ios and model is an iPhone' do
+        let(:headers) do
+          {
+            'X-Chatwoot-Client-Name' => 'Chatwoot Mobile',
+            'X-Chatwoot-Client-Version' => '4.7.0',
+            'X-Chatwoot-Platform' => 'ios',
+            'X-Chatwoot-Platform-Version' => '18.2',
+            'X-Chatwoot-Device-Model' => 'iPhone 15 Pro'
+          }
+        end
+
+        it 'maps the headers into the session columns', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Chatwoot Mobile')
+          expect(session.browser_version).to eq('4.7.0')
+          expect(session.platform_name).to eq('iPhone 15 Pro')
+          expect(session.platform_version).to eq('18.2')
+          expect(session.device_name).to eq('iPhone')
+          expect(session.user_agent).to eq(ua)
+        end
+      end
+
+      context 'when platform is ios and model is an iPad' do
+        let(:headers) do
+          {
+            'X-Chatwoot-Client-Name' => 'Chatwoot Mobile',
+            'X-Chatwoot-Client-Version' => '4.7.0',
+            'X-Chatwoot-Platform' => 'ios',
+            'X-Chatwoot-Platform-Version' => '18.2',
+            'X-Chatwoot-Device-Model' => 'iPad Pro 11-inch'
+          }
+        end
+
+        it 'sets device_name to iPad so the tablet icon renders', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Chatwoot Mobile')
+          expect(session.platform_name).to eq('iPad Pro 11-inch')
+          expect(session.device_name).to eq('iPad')
+        end
+      end
+
+      context 'when platform is android' do
+        let(:ua) { 'okhttp/4.9.2' }
+        let(:headers) do
+          {
+            'X-Chatwoot-Client-Name' => 'Chatwoot Mobile',
+            'X-Chatwoot-Client-Version' => '4.7.0',
+            'X-Chatwoot-Platform' => 'android',
+            'X-Chatwoot-Platform-Version' => '14',
+            'X-Chatwoot-Device-Model' => 'Pixel 7 Pro'
+          }
+        end
+
+        it 'maps the headers into the session columns', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Chatwoot Mobile')
+          expect(session.browser_version).to eq('4.7.0')
+          expect(session.platform_name).to eq('Pixel 7 Pro')
+          expect(session.platform_version).to eq('14')
+          expect(session.device_name).to eq('Android')
+        end
+      end
+
+      context 'when X-Chatwoot-Client-Name is blank' do
+        let(:ua) { 'okhttp/4.9.2' }
+        let(:headers) do
+          {
+            'X-Chatwoot-Client-Name' => '',
+            'X-Chatwoot-Platform' => 'android',
+            'X-Chatwoot-Device-Model' => 'Pixel 7 Pro'
+          }
+        end
+
+        it 'falls through to the legacy UA fallback', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Chatwoot Mobile')
+          expect(session.platform_name).to eq('Android')
+          expect(session.platform_version).to be_nil
+          expect(session.device_name).to eq('Android')
+        end
+      end
+
+      context 'when no X-Chatwoot-* headers are sent (real browser)' do
+        let(:ua) { 'Mozilla/5.0 (X11; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0' }
+        let(:headers) { {} }
+
+        it 'falls through to the Browser.new path', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Firefox')
+          expect(session.platform_name).to eq('Generic Linux')
+        end
+      end
     end
   end
 

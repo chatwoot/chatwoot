@@ -5,6 +5,7 @@ json.assignment_order assignment_policy.assignment_order
 json.conversation_priority assignment_policy.conversation_priority
 json.fair_distribution_limit assignment_policy.fair_distribution_limit
 json.fair_distribution_window assignment_policy.fair_distribution_window
+json.exclude_older_than_hours assignment_policy.exclude_older_than_hours
 json.enabled assignment_policy.enabled
 json.assigned_inbox_count assignment_policy.inboxes.count
 json.created_at assignment_policy.created_at.to_i

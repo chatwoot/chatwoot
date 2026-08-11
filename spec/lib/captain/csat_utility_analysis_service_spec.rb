@@ -25,6 +25,14 @@ RSpec.describe Captain::CsatUtilityAnalysisService do
       expect(result[:optimized_message]).to eq('Utility-safe message')
       expect(result[:message]).to eq('{"classification":"LIKELY_UTILITY","optimized_message":"Utility-safe message"}')
     end
+
+    it 'routes through the editor feature' do
+      expect(service).to receive(:make_api_call).with(
+        hash_including(feature: 'editor')
+      ).and_return({ message: '{"classification":"LIKELY_UTILITY"}' })
+
+      service.perform
+    end
   end
 
   describe '#api_key' do

@@ -1,6 +1,21 @@
 class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
   queue_as :low
 
+  # Catch-all so no exception type can wedge the generation in "generating".
+  # Declared FIRST because ActiveJob searches rescue handlers bottom-to-top:
+  # this puts StandardError at the bottom of the search order, so the specific
+  # retry_on/discard_on handlers declared below match first for their types.
+  #
+  # Without this, any error that isn't FirecrawlError or ArticleBuildFailed
+  # (e.g. ActiveRecord::RecordInvalid, SSL errors) falls through to ActiveJob's
+  # default retries, exhausts them, and lands in the dead set without ever
+  # calling finalize -> state stays "generating" at total - 1 until the 7-day
+  # Redis TTL expires. on_writer_failure logs the error, so code bugs are still
+  # visible; it just also progresses the state.
+  discard_on StandardError do |job, error|
+    job.send(:on_writer_failure, error)
+  end
+
   retry_on Firecrawl::FirecrawlError, wait: :polynomially_longer, attempts: 3 do |job, error|
     job.send(:on_writer_failure, error)
   end

@@ -3,7 +3,7 @@
     "LIMIT_MESSAGES": {
       "CONVERSATION": "Vous avez dépassé la limite de conversation. Le plan Hacker autorise uniquement 500 conversations.",
       "INBOXES": "Vous avez dépassé la limite de boîtes de réception. Le plan Hacker ne prend en charge que le chat en direct sur le site Web. Des boîtes de réception supplémentaires telles que l'email, WhatsApp, etc. nécessitent un plan payant.",
-      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "AGENTS": "Vous avez dépassé la limite d'agents. Votre abonnement autorise uniquement {allowedAgents} agents.",
       "NON_ADMIN": "Veuillez contacter votre administrateur pour mettre à niveau le plan et continuer à utiliser toutes les fonctionnalités."
     },
     "TITLE": "Paramètres du compte",
@@ -46,10 +46,10 @@
       },
       "AUTO_RESOLVE": {
         "TITLE": "Résolution automatique des conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "NOTE": "Cette configuration vous permet de résoudre automatiquement la conversation après une certaine période d'inactivité.",
         "DURATION": {
-          "LABEL": "Inactivity duration",
-          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "LABEL": "Durée d'inactivité",
+          "HELP": "Période d'inactivité après laquelle la conversation est automatiquement résolue",
           "PLACEHOLDER": "30",
           "ERROR": "La durée de résolution automatique doit être comprise entre 10 minutes et 999 jours",
           "API": {
@@ -58,19 +58,19 @@
           }
         },
         "MESSAGE": {
-          "LABEL": "Custom auto-resolution message",
+          "LABEL": "Message de résolution automatique personnalisée",
           "PLACEHOLDER": "La conversation a été marquée comme résolue par le système en raison de 15 jours d'inactivité",
-          "HELP": "Message sent to the customer after conversation is auto-resolved"
+          "HELP": "Message envoyé au client après que la conversation soit résolue automatiquement"
         },
-        "PREFERENCES": "Preferences",
+        "PREFERENCES": "Préférences",
         "LABEL": {
-          "LABEL": "Add label after auto-resolution",
-          "PLACEHOLDER": "Select a label"
+          "LABEL": "Ajouter une étiquette après la résolution automatique",
+          "PLACEHOLDER": "Sélectionnez un libellé"
         },
         "IGNORE_WAITING": {
-          "LABEL": "Skip conversations waiting for agent’s reply"
+          "LABEL": "Ignorer les conversations en attente de réponse de l'agent"
         },
-        "UPDATE_BUTTON": "Save Changes"
+        "UPDATE_BUTTON": "Enregistrer les modifications"
       },
       "NAME": {
         "LABEL": "Nom du compte",
@@ -94,14 +94,14 @@
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Exclure les conversations non prises en charge",
-        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+        "HELP": "Lorsque cette option est activée, le système ignorera la résolution des conversations qui sont toujours en attente de réponse d'un agent."
       },
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Transcribe Audio Messages",
-        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "TITLE": "Transcrire les messages audio",
+        "NOTE": "Transcrire automatiquement les messages audio dans les conversations. Générer une transcription texte chaque fois qu'un message audio est envoyé ou reçu, et l'afficher à côté du message.",
         "API": {
-          "SUCCESS": "Audio transcription setting updated successfully",
-          "ERROR": "Failed to update audio transcription setting"
+          "SUCCESS": "Paramètre de transcription audio mis à jour avec succès",
+          "ERROR": "Échec de la mise à jour des paramètres de transcription audio"
         }
       },
       "AUTO_RESOLVE_DURATION": {
@@ -134,7 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Appuyer sur Entrée pour sélectionner",
       "ENTER_TO_REMOVE": "Appuyer sur Entrée pour supprimer",
-      "NO_OPTIONS": "List is empty",
+      "NO_OPTIONS": "La liste est vide",
       "SELECT_ONE": "Sélectionnez un",
       "SELECT": "Sélectionner"
     }
@@ -164,17 +164,17 @@
       "conversation_assignment": "Conversation assignée",
       "assigned_conversation_new_message": "Nouveau message",
       "participating_conversation_new_message": "Nouveau message",
-      "conversation_mention": "Mention",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
+      "conversation_mention": "Mentionner",
+      "sla_missed_first_response": "SLA manqué",
+      "sla_missed_next_response": "SLA manqué",
+      "sla_missed_resolution": "SLA manqué"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Hors ligne",
-      "RECONNECTING": "Reconnecting...",
-      "RECONNECT_SUCCESS": "Reconnected"
+      "RECONNECTING": "Reconnexion en cours...",
+      "RECONNECT_SUCCESS": "Reconnecté"
     },
     "BUTTON": {
       "REFRESH": "Actualiser"
@@ -182,12 +182,12 @@
   },
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "Rechercher ou aller à",
-    "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
+    "SNOOZE_PLACEHOLDER": "Tapez une heure par exemple demain, 2 heures, vendredi prochain, jan 15...",
     "SECTIONS": {
       "GENERAL": "Général",
       "REPORTS": "Rapports",
       "CONVERSATION": "Conversation",
-      "BULK_ACTIONS": "Bulk Actions",
+      "BULK_ACTIONS": "Actions en bloc",
       "CHANGE_ASSIGNEE": "Changer de responsable",
       "CHANGE_PRIORITY": "Modifier la priorité",
       "CHANGE_TEAM": "Changer d’équipe",
@@ -200,20 +200,36 @@
       "SNOOZE_NOTIFICATION": "Mettre la notification en veille"
     },
     "COMMANDS": {
+      "GO_TO_MY_INBOX": "Aller à ma boîte de réception",
       "GO_TO_CONVERSATION_DASHBOARD": "Aller au tableau de bord des conversations",
       "GO_TO_CONTACTS_DASHBOARD": "Aller au tableau de bord des contacts",
+      "GO_TO_CAPTAIN": "Accéder à Captain",
+      "GO_TO_CALLS_DASHBOARD": "Aller au tableau de bord des appels",
+      "GO_TO_CAMPAIGNS": "Aller aux Campagnes",
+      "GO_TO_HELP_CENTER": "Aller au Centre d'aide",
       "GO_TO_REPORTS_OVERVIEW": "Accéder à la vue d'ensemble des rapports",
       "GO_TO_CONVERSATION_REPORTS": "Accéder aux rapports de conversation",
       "GO_TO_AGENT_REPORTS": "Aller aux rapports d'agent",
       "GO_TO_LABEL_REPORTS": "Aller aux rapports d'étiquette",
       "GO_TO_INBOX_REPORTS": "Accéder aux rapports de la boîte de réception",
       "GO_TO_TEAM_REPORTS": "Aller dans les rapports de l'équipe",
+      "GO_TO_CSAT_REPORTS": "Aller dans les rapports CSAT",
+      "GO_TO_BOT_REPORTS": "Aller aux rapports du bot",
+      "GO_TO_SLA_REPORTS": "Aller aux rapports de SLA",
       "GO_TO_SETTINGS_AGENTS": "Aller dans les paramètres de l'agent",
       "GO_TO_SETTINGS_TEAMS": "Aller dans les paramètres de l'équipe",
       "GO_TO_SETTINGS_INBOXES": "Accéder aux paramètres de la boîte de réception",
+      "GO_TO_SETTINGS_TEMPLATES": "Aller aux Modèles",
       "GO_TO_SETTINGS_LABELS": "Allez dans les paramètres d'étiquette",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Aller aux attributs personnalisés",
+      "GO_TO_SETTINGS_AUTOMATION": "Aller à l'automatisation",
+      "GO_TO_SETTINGS_MACROS": "Aller aux Macros",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Accéder aux paramètres de réponse préenregistrée",
+      "GO_TO_SETTINGS_SLA": "Allez dans les paramètres de SLA",
       "GO_TO_SETTINGS_APPLICATIONS": "Accéder aux paramètres de l'application",
+      "GO_TO_SETTINGS_DATA": "Aller aux données",
+      "GO_TO_SETTINGS_AUDIT_LOGS": "Aller aux journaux d'audit",
+      "GO_TO_SETTINGS_BILLING": "Aller à la facturation",
       "GO_TO_SETTINGS_ACCOUNT": "Accéder aux paramètres du compte",
       "GO_TO_SETTINGS_PROFILE": "Accéder aux paramètres du profil",
       "GO_TO_NOTIFICATIONS": "Accéder aux notifications",

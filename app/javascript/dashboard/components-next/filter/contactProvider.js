@@ -166,16 +166,6 @@ export function useContactFilterContext() {
       attributeModel: 'standard',
     },
     {
-      attributeKey: CONTACT_ATTRIBUTES.REFERER,
-      value: CONTACT_ATTRIBUTES.REFERER,
-      attributeName: t('CONTACTS_LAYOUT.FILTER.REFERER_LINK'),
-      label: t('CONTACTS_LAYOUT.FILTER.REFERER_LINK'),
-      inputType: 'plainText',
-      dataType: 'text',
-      filterOperators: containmentOperators.value,
-      attributeModel: 'standard',
-    },
-    {
       attributeKey: CONTACT_ATTRIBUTES.BLOCKED,
       value: CONTACT_ATTRIBUTES.BLOCKED,
       attributeName: t('CONTACTS_LAYOUT.FILTER.BLOCKED'),

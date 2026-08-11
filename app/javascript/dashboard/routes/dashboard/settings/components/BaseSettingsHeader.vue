@@ -52,9 +52,11 @@ const helpURL = getHelpUrlForFeature(props.featureName);
       v-if="title"
       class="flex items-center justify-between w-full gap-4 min-h-8 mb-2"
     >
-      <h1 class="text-heading-1 text-n-slate-12">
-        {{ title }}
-      </h1>
+      <slot name="title">
+        <h1 class="text-heading-1 text-n-slate-12">
+          {{ title }}
+        </h1>
+      </slot>
     </div>
     <div
       v-if="description || $slots.description || linkText || helpURL"
@@ -117,7 +119,7 @@ const helpURL = getHelpUrlForFeature(props.featureName);
     >
       <slot name="count" />
       <div
-        v-if="slots.count"
+        v-if="slots.count && slots.actions"
         class="w-px h-3 rounded-lg bg-n-weak ltr:ml-1 ltr:mr-2 rtl:ml-2 rtl:mr-1 flex-shrink-0"
       />
       <slot name="actions" />
