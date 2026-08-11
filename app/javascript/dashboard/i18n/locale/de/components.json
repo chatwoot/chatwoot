@@ -17,7 +17,7 @@
   },
   "DIALOG": {
     "BUTTONS": {
-      "CANCEL": "Stornieren",
+      "CANCEL": "Abbrechen",
       "CONFIRM": "Bestätigen"
     }
   },
@@ -64,6 +64,15 @@
     "BULLET_LIST": "Bullet List",
     "ORDERED_LIST": "Ordered List",
     "TABLE": "Table",
-    "IMAGE": "Image"
+    "IMAGE": "Bild",
+    "VIDEO": "Video",
+    "DIVIDER": "Trennlinie"
+  },
+  "VIDEO_EMBED": {
+    "PLACEHOLDER": "Videolink einfügen",
+    "HINT": "Funktioniert mit Links zu YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen und GuideJar sowie mit mp4-Links",
+    "ERROR": "Das sieht nicht nach einem unterstützten Videolink aus",
+    "ADD": "Einbetten",
+    "CANCEL": "Abbrechen"
   }
 }
