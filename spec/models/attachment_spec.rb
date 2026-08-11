@@ -259,6 +259,32 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'audio_metadata data_url' do
+    let(:audio_attachment) do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :audio)
+      attachment.file.attach(io: StringIO.new('fake audio'), filename: 'test.ogg', content_type: 'audio/ogg')
+      attachment.save!
+      attachment
+    end
+
+    it 'uses the proxy route when resolve_model_to_route is :rails_storage_proxy' do
+      allow(Rails.application.config.active_storage).to receive(:resolve_model_to_route).and_return(:rails_storage_proxy)
+
+      data_url = audio_attachment.push_event_data[:data_url]
+
+      expect(data_url).to include('/rails/active_storage/blobs/')
+      expect(data_url).not_to include('/rails/active_storage/blobs/redirect/')
+    end
+
+    it 'uses the redirect route when resolve_model_to_route is :rails_storage_redirect' do
+      allow(Rails.application.config.active_storage).to receive(:resolve_model_to_route).and_return(:rails_storage_redirect)
+
+      data_url = audio_attachment.push_event_data[:data_url]
+
+      expect(data_url).to include('/rails/active_storage/blobs/redirect/')
+    end
+  end
+
   describe 'set_extension' do
     it 'sets extension from filename on save' do
       attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
