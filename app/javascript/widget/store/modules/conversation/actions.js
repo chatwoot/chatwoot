@@ -41,7 +41,7 @@ export const actions = {
     });
   },
   sendMessageWithData: async (
-    { commit },
+    { commit, dispatch, state: conversationState },
     { message, pendingCustomAttributes = {}, pendingLabels = [] }
   ) => {
     const { id, content, replyTo, meta = {} } = message;
@@ -60,6 +60,19 @@ export const actions = {
       });
       if (hasPendingMetadata) {
         commit('clearPendingConversationMetadata');
+      }
+
+      // The server moves this message to a new conversation when the current one is resolved
+      // and the inbox disallows replies after resolution. Drop the old thread so we show the
+      // conversation the message landed in. Compare against the rendered messages, not the
+      // conversation attributes, since `conversation.created` can update those first.
+      const isStaleThread = Object.values(conversationState.conversations).some(
+        item =>
+          item.conversation_id && item.conversation_id !== data.conversation_id
+      );
+      if (isStaleThread) {
+        commit('clearConversations');
+        dispatch('conversationAttributes/getAttributes', {}, { root: true });
       }
 
       // [VITE] Don't delete this manually, since `pushMessageToConversation` does the replacement for us anyway

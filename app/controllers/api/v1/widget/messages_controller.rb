@@ -43,10 +43,17 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def set_conversation
-    return unless conversation.nil?
+    return unless conversation.nil? || conversation_closed_for_replies?
 
     @conversation = create_conversation
     apply_labels if permitted_params[:labels].present?
+  end
+
+  # Hiding the reply box in the widget does not stop a request from reaching this endpoint,
+  # so the rule is enforced here to keep a resolved conversation resolved. We start a new
+  # conversation instead of rejecting, so the visitor's message is not lost.
+  def conversation_closed_for_replies?
+    conversation.resolved? && !inbox.allow_messages_after_resolved
   end
 
   def apply_labels
