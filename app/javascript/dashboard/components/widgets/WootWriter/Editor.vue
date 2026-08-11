@@ -196,7 +196,7 @@ const showEmojiMenu = ref(false);
 const showToolsMenu = ref(false);
 const mentionSearchKey = ref('');
 const toolSearchKey = ref('');
-const cannedSearchTerm = ref('');
+const cannedSearchKey = ref('');
 const variableSearchTerm = ref('');
 const emojiSearchTerm = ref('');
 const range = ref(null);
@@ -207,6 +207,17 @@ const showSelectionMenu = ref(false);
 const editorRoot = useTemplateRef('editorRoot');
 const imageUpload = useTemplateRef('imageUpload');
 const editor = useTemplateRef('editor');
+
+// Anchors the picker to the trigger character, since editors can be much taller than the
+// line being typed on. Offsets are relative to the editor so the picker can sit on that
+// line and track it from there.
+const caretPosition = computed(() => {
+  if (!editorView || !range.value || !editorRoot.value) return null;
+  const from = Math.min(range.value.from, editorView.state.doc.content.size);
+  const { top, bottom } = editorView.coordsAtPos(from);
+  const editorTop = editorRoot.value.getBoundingClientRect().top;
+  return { top: top - editorTop, height: bottom - top };
+});
 
 const isEditorMenuPopover = computed(
   () =>
@@ -242,22 +253,41 @@ const shouldShowCannedResponses = computed(() => {
   );
 });
 
+// The picker owns the search field, so it takes focus while open. Dismissing it hands
+// focus back; selecting one does so through the insert itself. The suggestion stays
+// active in the document, so the picker only reopens once the trigger is typed afresh.
+const dismissCannedResponses = () => {
+  showCannedMenu.value = false;
+  editorView?.focus();
+};
+
+// Deleting the trigger drops the suggestion, so the plugin closes the picker through
+// `onExit` on its own.
+const removeSuggestionTrigger = () => {
+  if (!editorView || !range.value) return;
+  const { from, to } = range.value;
+  const end = Math.min(to, editorView.state.doc.content.size);
+  editorView.dispatch(editorView.state.tr.delete(from, end));
+  editorView.focus();
+};
+
 function createSuggestionPlugin({
   trigger,
   minChars = 0,
   showMenu,
   searchTerm,
   isAllowed = () => true,
+  interceptEnter = true,
 }) {
   return suggestionsPlugin({
     matcher: triggerCharacters(trigger, minChars),
     suggestionClass: '',
     onEnter: args => {
       if (!isAllowed()) return false;
-      showMenu.value = true;
       range.value = args.range;
       editorView = args.view;
       if (searchTerm) searchTerm.value = args.text || '';
+      showMenu.value = true;
       return false;
     },
     onChange: args => {
@@ -272,7 +302,7 @@ function createSuggestionPlugin({
       return false;
     },
     onKeyDown: ({ event }) => {
-      return event.keyCode === 13 && showMenu.value;
+      return event.keyCode === 13 && showMenu.value && interceptEnter;
     },
   });
 }
@@ -298,8 +328,9 @@ const plugins = computed(() => {
     createSuggestionPlugin({
       trigger: '/',
       showMenu: showCannedMenu,
-      searchTerm: cannedSearchTerm,
+      searchTerm: cannedSearchKey,
       isAllowed: () => !props.isPrivate,
+      interceptEnter: false,
     }),
     createSuggestionPlugin({
       trigger: '{{',
@@ -338,8 +369,8 @@ const sendWithSignature = computed(() => {
 watch(showUserMentions, updatedValue => {
   emit('toggleUserMention', props.isPrivate && updatedValue);
 });
-watch(showCannedMenu, updatedValue => {
-  emit('toggleCannedMenu', !props.isPrivate && updatedValue);
+watch(shouldShowCannedResponses, updatedValue => {
+  emit('toggleCannedMenu', updatedValue);
 });
 watch(showVariables, updatedValue => {
   emit('toggleVariablesMenu', !props.isPrivate && updatedValue);
@@ -799,7 +830,6 @@ watch(
     showCannedMenu.value = false;
     showEmojiMenu.value = false;
     showVariables.value = false;
-    cannedSearchTerm.value = '';
     reloadState(props.modelValue);
   }
 );
@@ -884,7 +914,12 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     />
     <CannedResponse
       v-if="shouldShowCannedResponses"
-      :search-key="cannedSearchTerm"
+      :caret-position="caretPosition"
+      :search-key="cannedSearchKey"
+      :variables="variables"
+      :schema="editorSchema"
+      @close="dismissCannedResponses"
+      @remove-trigger="removeSuggestionTrigger"
       @replace="content => insertSpecialContent('cannedResponse', content)"
     />
     <VariableList

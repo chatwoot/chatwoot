@@ -612,6 +612,9 @@
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "No pudimos completar la búsqueda. Por favor, inténtalo de nuevo."
     },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "No pudimos crear el contacto. Inténtalo de nuevo."
+    },
     "FORM": {
       "GO_TO_CONVERSATION": "Ver",
       "SUCCESS_MESSAGE": "¡El mensaje fue enviado con éxito!",
