@@ -124,6 +124,14 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
           expect(json_response[:meta]).to eq({ page: 2, total_count: 30 })
         end
       end
+
+      it 'does not allow conversation usage sorting' do
+        get "/api/v1/accounts/#{account.id}/captain/documents",
+            params: { sort: 'most_used' },
+            headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
 
     context 'when it is an admin' do
@@ -174,6 +182,41 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         expected_document_ids = [most_used_document.id, less_used_document.id, unused_document.id]
         expect(json_response[:payload].pluck(:id)).to eq(expected_document_ids)
         expect(json_response[:payload].pluck(:used_in_conversations_count)).to eq([2, 1, 0])
+      end
+
+      it 'returns 25 documents at a time when sorting by usage' do
+        create_list(:captain_document, 30, assistant: assistant, account: account)
+
+        get "/api/v1/accounts/#{account.id}/captain/documents",
+            params: { assistant_id: assistant.id, sort: 'most_used' },
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(json_response[:payload].length).to eq(25)
+        expect(json_response[:meta]).to eq({ page: 1, total_count: 30 })
+      end
+
+      it 'excludes deleted conversations from usage counts and sorting' do
+        used_document = create(:captain_document, assistant: assistant, account: account)
+        unused_document = create(:captain_document, assistant: assistant, account: account)
+        deleted_conversation = create(:conversation, account: account)
+        deleted_session = create(:captain_agent_session, account: account, assistant: assistant,
+                                                         subject: deleted_conversation,
+                                                         document_ids: [unused_document.id])
+        live_conversation = create(:conversation, account: account)
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: live_conversation, document_ids: [used_document.id])
+
+        deleted_conversation.destroy!
+        expect(deleted_session.reload).to be_present
+
+        get "/api/v1/accounts/#{account.id}/captain/documents",
+            params: { assistant_id: assistant.id, sort: 'most_used' },
+            headers: admin.create_new_auth_token, as: :json
+
+        documents_by_id = json_response[:payload].index_by { |item| item[:id] }
+        expect(json_response[:payload].first[:id]).to eq(used_document.id)
+        expect(documents_by_id.dig(used_document.id, :used_in_conversations_count)).to eq(1)
+        expect(documents_by_id.dig(unused_document.id, :used_in_conversations_count)).to eq(0)
       end
     end
   end
@@ -270,6 +313,19 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
       expect(json_response[:payload].length).to eq(1)
       expect(json_response.dig(:payload, 0, :record_type)).to eq('conversation')
       expect(json_response.dig(:payload, 0, :conversation, :id)).to eq(newer_conversation.id)
+    end
+
+    it 'returns 25 conversations at a time by default' do
+      create_list(:conversation, 24, account: account).each do |conversation|
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: conversation, document_ids: [document.id])
+      end
+
+      get "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/drilldown",
+          headers: admin.create_new_auth_token, as: :json
+
+      expect(json_response[:meta]).to include(current_page: 1, per_page: 25, total_count: 26)
+      expect(json_response[:payload].length).to eq(25)
     end
 
     it 'does not return sessions from another document' do

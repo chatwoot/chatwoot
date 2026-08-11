@@ -51,6 +51,23 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
         expect(responses_by_id[document_response.id]).not_to have_key(:used_in_conversations_count)
       end
 
+      it 'excludes deleted conversations from user-created FAQ usage counts' do
+        deleted_conversation = create(:conversation, account: account)
+        deleted_session = create(:captain_agent_session, account: account, assistant: assistant,
+                                                         subject: deleted_conversation,
+                                                         used_faq_ids: [manual_response.id])
+        deleted_conversation.destroy!
+        expect(deleted_session.reload).to be_present
+
+        get "/api/v1/accounts/#{account.id}/captain/assistant_responses",
+            params: { assistant_id: assistant.id },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        response_json = json_response[:payload].find { |item| item[:id] == manual_response.id }
+        expect(response_json[:used_in_conversations_count]).to eq(2)
+      end
+
       it 'does not expose conversation usage to an agent' do
         get "/api/v1/accounts/#{account.id}/captain/assistant_responses",
             params: { assistant_id: assistant.id },

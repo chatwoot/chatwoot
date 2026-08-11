@@ -8,9 +8,10 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   RESULTS_PER_PAGE = 25
 
   def index
-    @documents = filtered_documents
-    @documents_count = @documents.count
+    documents = filtered_documents
+    @documents_count = documents.count
     @sync_interval_hours = current_sync_interval&.in_hours&.to_i
+    @documents = apply_sort(documents, permitted_params[:sort])
     @documents = with_responses_count(@documents).page(@current_page).per(RESULTS_PER_PAGE)
     return unless can_view_drilldown?
 
@@ -64,8 +65,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
     documents = documents.where(assistant_id: permitted_params[:assistant_id]) if permitted_params[:assistant_id].present?
     documents = apply_source_filter(documents, permitted_params[:source])
     documents = apply_filter(documents, permitted_params[:filter])
-    documents = apply_search(documents, permitted_params[:search_key])
-    apply_sort(documents, permitted_params[:sort])
+    apply_search(documents, permitted_params[:search_key])
   end
 
   def with_responses_count(scope)
@@ -126,7 +126,13 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   def apply_sort(scope, sort)
     case sort
     when 'recently_created' then scope.order(created_at: :desc)
-    when 'most_used' then Captain::ConversationUsageBuilder.order_documents_by_conversation_count(scope)
+    when 'most_used'
+      authorize(Captain::Assistant, :drilldown?)
+      Captain::ConversationUsageBuilder.order_documents_by_conversation_count(
+        scope,
+        account_id: Current.account.id,
+        assistant_id: permitted_params[:assistant_id]
+      )
     else scope.order(updated_at: :desc)
     end
   end

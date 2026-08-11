@@ -6,17 +6,6 @@ class Captain::ConversationUsageBuilder
   DEFAULT_PER_PAGE = 25
   MAX_PER_PAGE = 100
   USAGE_COLUMNS = %w[document_ids used_faq_ids].freeze
-  DOCUMENT_CONVERSATION_USAGE_COUNT_SQL = <<~SQL.squish.freeze
-    (
-      SELECT COUNT(DISTINCT usage_sessions.subject_id)
-      FROM agent_sessions AS usage_sessions
-      WHERE usage_sessions.account_id = captain_documents.account_id
-        AND usage_sessions.assistant_id = captain_documents.assistant_id
-        AND usage_sessions.session_type = #{Captain::AgentSession.session_types.fetch('assistant')}
-        AND usage_sessions.subject_type = 'Conversation'
-        AND usage_sessions.document_ids @> jsonb_build_array(captain_documents.id)
-    )
-  SQL
 
   class << self
     def conversation_counts(resources, usage_column:)
@@ -32,41 +21,96 @@ class Captain::ConversationUsageBuilder
       end
     end
 
-    def order_documents_by_conversation_count(documents)
-      documents.reorder(
-        Arel.sql(
-          "#{DOCUMENT_CONVERSATION_USAGE_COUNT_SQL} DESC, " \
-          'captain_documents.updated_at DESC, captain_documents.id DESC'
+    def order_documents_by_conversation_count(documents, account_id:, assistant_id: nil)
+      usage_counts_sql = document_usage_counts(account_id, assistant_id).to_sql
+
+      documents
+        .joins(
+          <<~SQL.squish
+            LEFT JOIN (#{usage_counts_sql}) AS captain_document_usage
+              ON captain_document_usage.resource_id = captain_documents.id::text
+              AND captain_document_usage.assistant_id = captain_documents.assistant_id
+          SQL
         )
-      )
+        .group('captain_documents.id')
+        .reorder(
+          Arel.sql(
+            'COALESCE(MAX(captain_document_usage.conversation_count), 0) DESC, ' \
+            'captain_documents.updated_at DESC, captain_documents.id DESC'
+          )
+        )
     end
 
     private
 
     def usage_count_rows(resources, usage_column)
-      usage_sessions(resources, usage_column)
-        .where(knowledge_usage: { resource_id: resources.map { |resource| resource.id.to_s } })
-        .group('knowledge_usage.resource_id', 'agent_sessions.assistant_id')
-        .pluck(
-          Arel.sql('knowledge_usage.resource_id'),
-          Arel.sql('agent_sessions.assistant_id'),
-          Arel.sql('COUNT(DISTINCT agent_sessions.subject_id)')
-        )
+      resources.each_slice(DEFAULT_PER_PAGE).flat_map do |batch|
+        Captain::AgentSession.connection.select_rows(usage_count_sql(batch, usage_column))
+      end
     end
 
-    def usage_sessions(resources, usage_column)
-      Captain::AgentSession
-        .session_assistant
-        .where(
-          account_id: resources.first.account_id,
-          assistant_id: resources.map(&:assistant_id).uniq,
-          subject_type: 'Conversation'
+    # Each materialized query covers at most one 25-record API page. Keeping one
+    # constant containment predicate per record lets PostgreSQL use the JSONB
+    # GIN index before it checks whether each conversation still exists.
+    def usage_count_sql(resources, usage_column)
+      ctes = []
+      count_queries = []
+
+      resources.uniq { |resource| [resource.id, resource.assistant_id] }.each_with_index do |resource, index|
+        cte_name = "matching_sessions_#{index}"
+        ctes << "#{cte_name} AS MATERIALIZED (#{indexed_usage_sessions(resource, usage_column).to_sql})"
+        count_queries << usage_count_query(resource, cte_name)
+      end
+
+      "WITH #{ctes.join(', ')} #{count_queries.join(' UNION ALL ')}"
+    end
+
+    def indexed_usage_sessions(resource, usage_column)
+      Captain::AgentSession.session_assistant
+                           .where(
+                             account_id: resource.account_id,
+                             assistant_id: resource.assistant_id,
+                             subject_type: 'Conversation'
+                           )
+                           .where("agent_sessions.#{usage_column} @> ?", [resource.id].to_json)
+                           .select(:subject_id, :assistant_id, :account_id)
+    end
+
+    def usage_count_query(resource, cte_name)
+      resource_id = Captain::AgentSession.connection.quote(resource.id.to_s)
+
+      <<~SQL.squish
+        SELECT #{resource_id} AS resource_id,
+               #{cte_name}.assistant_id,
+               COUNT(DISTINCT #{cte_name}.subject_id)
+        FROM #{cte_name}
+        INNER JOIN conversations AS usage_conversations
+          ON usage_conversations.id = #{cte_name}.subject_id
+          AND usage_conversations.account_id = #{cte_name}.account_id
+        GROUP BY #{cte_name}.assistant_id
+      SQL
+    end
+
+    def document_usage_counts(account_id, assistant_id)
+      sessions = Captain::AgentSession.session_assistant.where(account_id: account_id, subject_type: 'Conversation')
+      sessions = sessions.where(assistant_id: assistant_id) if assistant_id.present?
+
+      sessions
+        .joins(
+          'INNER JOIN conversations AS usage_conversations ' \
+          'ON usage_conversations.id = agent_sessions.subject_id ' \
+          'AND usage_conversations.account_id = agent_sessions.account_id'
         )
         .joins(
           'CROSS JOIN LATERAL ' \
-          "jsonb_array_elements_text(agent_sessions.#{usage_column}) " \
-          'AS knowledge_usage(resource_id)'
+          'jsonb_array_elements_text(agent_sessions.document_ids) AS knowledge_usage(resource_id)'
         )
+        .select(
+          Arel.sql('agent_sessions.assistant_id'),
+          Arel.sql('knowledge_usage.resource_id'),
+          Arel.sql('COUNT(DISTINCT agent_sessions.subject_id) AS conversation_count')
+        )
+        .group('agent_sessions.assistant_id', 'knowledge_usage.resource_id')
     end
 
     def validate_usage_column(usage_column)
