@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import {
   computeHashForUserData,
-  fnv1a32,
+  fnv1a128,
   getUserCookieName,
   getUserString,
   hasUserKeys,
@@ -44,23 +44,23 @@ describe('#getUserString', () => {
   });
 });
 
-describe('#fnv1a32', () => {
+describe('#fnv1a128', () => {
   // Adapted from https://github.com/sindresorhus/fnv1a/blob/main/test.js
   it.each([
-    ['', '811c9dc5'],
-    ['h', 'ed0c3757'],
-    ['he', '5c3ae3b6'],
-    ['hel', '0ab4b02e'],
-    ['hell', '1c7177e6'],
-    ['hello', '4f9f2cab'],
-    ['hello ', 'e2931ed1'],
-    ['hello w', '53993f52'],
-    ['hello wo', 'd73e8d07'],
-    ['hello wor', '4c78af2f'],
-    ['hello worl', 'a4fbe679'],
-    ['hello world', 'd58b3fa7'],
+    ['', '6c62272e07bb014262b821756295c58d'],
+    ['h', 'd228cb69681a8caf78912b704e4a80c7'],
+    ['he', '08809533baab1be95aa0733055ac4756'],
+    ['hel', 'a68d42edea8b5822836dbc796afba45e'],
+    ['hell', '693c5663cb757277b806e966a3a30986'],
+    ['hello', 'e3e1efd54283d94f7081314b599d31b3'],
+    ['hello ', 'b25bb89a6b3c64bf6ef7a7b7446bffe1'],
+    ['hello w', '2e209201894ff78d8abb5e8130e37d92'],
+    ['hello wo', '43448b61f2659b29b48d48f727ec064f'],
+    ['hello wor', 'bc7f6d8b8005ec5129d8c81e1f6bad0f'],
+    ['hello worl', '0eeb3653ea49c7de7dbe3d10a97e58d1'],
+    ['hello world', '6c155799fdc8eec4b91523808e7726b7'],
   ])('hashes %j to %s', (value, expectedHash) => {
-    expect(fnv1a32(value)).toBe(expectedHash);
+    expect(fnv1a128(value)).toBe(expectedHash);
   });
 
   it('hashes long input', () => {
@@ -77,11 +77,11 @@ describe('#fnv1a32', () => {
     ].join(' ');
     const value = Array(3).fill(loremIpsumParagraph).join(' ');
 
-    expect(fnv1a32(value)).toBe('b0b8baa1');
+    expect(fnv1a128(value)).toBe('4fedf302b27b5c4dbaf35bd87a91f589');
   });
 
   it('hashes multi-byte UTF-8 characters', () => {
-    expect(fnv1a32('🦄🌈')).toBe('aaf5fee7');
+    expect(fnv1a128('🦄🌈')).toBe('0a25841ae4659905b36cb0d359fad39f');
   });
 
   it('hashes characters from across the Unicode range', () => {
@@ -105,13 +105,13 @@ describe('#fnv1a32', () => {
       .map(codePoint => String.fromCodePoint(codePoint))
       .join('');
 
-    expect(fnv1a32(value)).toBe('983fdf05');
+    expect(fnv1a128(value)).toBe('ca8f3b27d9685fa16c01b04ca12aba2d');
   });
 });
 
 describe('#computeHashForUserData', () => {
   it.each([
-    [{ user: {} }, 'ce3ca3c0'],
+    [{ user: {} }, '4a6876a8b6c40e1acb8f5f3663bc9440'],
     [
       {
         identifier: '12345',
@@ -122,7 +122,7 @@ describe('#computeHashForUserData', () => {
           identifier_hash: '12345',
         },
       },
-      '8c544d6c',
+      'd3cca1b490dd33284af994c893261564',
     ],
     [
       {
@@ -132,7 +132,7 @@ describe('#computeHashForUserData', () => {
           email: '🦄@example.com',
         },
       },
-      '489fd44e',
+      '880c8fc267db57e9bfda5c235e456bee',
     ],
   ])('hashes canonical user data synchronously', (userData, expectedHash) => {
     expect(computeHashForUserData(userData)).toBe(expectedHash);
@@ -174,6 +174,21 @@ describe('#computeHashForUserData', () => {
       user: { name: 'Pranav' },
     });
 
+    expect(firstHash).not.toBe(secondHash);
+  });
+
+  it('distinguishes identities that collide under FNV-1a 32-bit', () => {
+    const firstHash = computeHashForUserData({
+      identifier: 'id-149599',
+      user: { name: 'User' },
+    });
+    const secondHash = computeHashForUserData({
+      identifier: 'id-312382',
+      user: { name: 'User' },
+    });
+
+    expect(firstHash).toBe('c58d000a48a0ecdc3a2f086472892a2a');
+    expect(secondHash).toBe('5b6a4c7e44a0ecdc3a27b4af92ea26da');
     expect(firstHash).not.toBe(secondHash);
   });
 });
