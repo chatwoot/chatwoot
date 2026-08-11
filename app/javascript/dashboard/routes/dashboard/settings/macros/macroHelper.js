@@ -44,6 +44,27 @@ export const resolveAgents = (agents, ids) => {
     .join(', ');
 };
 
+const resolveActionValue = (key, params, { labels, teams, agents }) => {
+  const resolvers = {
+    assign_team: () => resolveTeamIds(teams, params),
+    add_label: () => resolveLabels(labels, params),
+    remove_label: () => resolveLabels(labels, params),
+    assign_agent: () => resolveAgents(agents, params),
+    send_webhook_event: () => params[0],
+    send_message: () => params[0],
+    send_email_transcript: () => params[0],
+    add_private_note: () => params[0],
+  };
+
+  return resolvers[key]?.() || '';
+};
+
+export const resolveMacroActions = (macro, records) =>
+  macro.actions.map(({ action_name: name, action_params: params }) => ({
+    actionName: resolveActionName(name),
+    actionValue: resolveActionValue(name, params, records),
+  }));
+
 export const getFileName = (id, actionType, files) => {
   if (!id || !files) return '';
   if (actionType === 'send_attachment') {

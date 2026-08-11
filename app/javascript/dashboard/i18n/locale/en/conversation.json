@@ -167,6 +167,10 @@
         "SEARCH_PLACEHOLDER": "Search emojis",
         "EMPTY_STATE": "Type to search emojis"
       },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
       "MENTION": {
         "SEARCH_PLACEHOLDER": "Search agents and teams",
         "FILTER": {
