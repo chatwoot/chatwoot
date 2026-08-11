@@ -698,7 +698,6 @@ RSpec.describe Conversation do
         inbox_id: conversation.inbox_id,
         status: conversation.status,
         contact_inbox: conversation.contact_inbox,
-        contact_inbox_source_ids: [conversation.contact_inbox.source_id],
         timestamp: conversation.last_activity_at.to_i,
         can_reply: true,
         channel: 'Channel::WebWidget',

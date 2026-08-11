@@ -43,9 +43,12 @@ RSpec.describe Conversations::EventDataPresenter do
       # the exceptions are the values that would be added in enterprise edition.
       expect(presenter.push_data.except(:applied_sla, :sla_events)).to include(expected_data)
     end
+  end
+
+  describe '#webhook_data' do
 
     it 'reports the source id of the conversation contact inbox' do
-      expect(presenter.push_data[:contact_inbox_source_ids]).to eq([conversation.contact_inbox.source_id])
+      expect(presenter.webhook_data[:contact_inbox_source_ids]).to eq([conversation.contact_inbox.source_id])
     end
 
     context 'when the contact reaches the same inbox through several identities' do
@@ -62,7 +65,7 @@ RSpec.describe Conversations::EventDataPresenter do
         create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact_inbox.contact, source_id: 'BR.2081978709342942')
         create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact_inbox.contact, source_id: 'BR.ENT.9081726354')
 
-        expect(presenter.push_data[:contact_inbox_source_ids])
+        expect(presenter.webhook_data[:contact_inbox_source_ids])
           .to contain_exactly('2423423243', 'BR.2081978709342942', 'BR.ENT.9081726354')
       end
 
@@ -71,12 +74,9 @@ RSpec.describe Conversations::EventDataPresenter do
                                                   account: whatsapp_channel.inbox.account)
         create(:contact_inbox, inbox: other_channel.inbox, contact: contact_inbox.contact, source_id: 'BR.7391028465738291')
 
-        expect(presenter.push_data[:contact_inbox_source_ids]).to contain_exactly('2423423243')
+        expect(presenter.webhook_data[:contact_inbox_source_ids]).to contain_exactly('2423423243')
       end
     end
-  end
-
-  describe '#webhook_data' do
     it 'includes account details for webhook consumers' do
       expect(presenter.webhook_data[:account]).to eq(conversation.account.webhook_data)
     end

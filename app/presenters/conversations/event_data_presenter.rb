@@ -4,7 +4,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       additional_attributes: additional_attributes,
       can_reply: can_reply?,
       channel: inbox.try(:channel_type),
-      **contact_inbox_payload,
+      contact_inbox: contact_inbox,
       id: display_id,
       inbox_id: inbox_id,
       messages: push_messages,
@@ -25,6 +25,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
   def webhook_data
     push_data.merge(
       account: account.webhook_data,
+      contact_inbox_source_ids: contact_inbox_source_ids,
       messages: webhook_push_messages
     )
   end
@@ -37,11 +38,15 @@ class Conversations::EventDataPresenter < SimpleDelegator
   # conversation happens to be anchored to, so the others never reach an integration even
   # though Chatwoot resolved them. Scoping to this inbox keeps the list meaningful when an
   # account connects more than one WhatsApp business, since each assigns its own identifiers.
-  def contact_inbox_payload
-    {
-      contact_inbox: contact_inbox,
-      contact_inbox_source_ids: contact.contact_inboxes.where(inbox_id: inbox_id).pluck(:source_id)
-    }
+  #
+  # This belongs to the webhook payload only, never to `push_data`. That one is broadcast to
+  # the contact's own token, and on an API inbox a source id is the whole of the credential:
+  # the public endpoint resolves a contact by inbox and source id alone, so handing a contact
+  # the sibling ids of a merged record would hand it their conversations too. Keeping it here
+  # also leaves the conversation index untouched, which renders `push_event_data` twice per
+  # row and would otherwise pay this query for every conversation on the page.
+  def contact_inbox_source_ids
+    contact.contact_inboxes.where(inbox_id: inbox_id).pluck(:source_id)
   end
 
   def push_messages
