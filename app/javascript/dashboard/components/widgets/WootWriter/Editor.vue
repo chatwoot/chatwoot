@@ -194,11 +194,11 @@ const showCannedMenu = ref(false);
 const showVariables = ref(false);
 const showEmojiMenu = ref(false);
 const showToolsMenu = ref(false);
-const mentionSearchKey = ref('');
 const toolSearchKey = ref('');
+const mentionSearchKey = ref('');
 const cannedSearchKey = ref('');
-const variableSearchTerm = ref('');
-const emojiSearchTerm = ref('');
+const variableSearchKey = ref('');
+const emojiSearchKey = ref('');
 const range = ref(null);
 const isTextSelected = ref(false); // Tracks text selection and prevents unnecessary re-renders on mouse selection
 const showSelectionMenu = ref(false);
@@ -253,13 +253,22 @@ const shouldShowCannedResponses = computed(() => {
   );
 });
 
+const shouldShowUserMentions = computed(() => {
+  return showUserMentions.value && props.isPrivate;
+});
+
 // The picker owns the search field, so it takes focus while open. Dismissing it hands
 // focus back; selecting one does so through the insert itself. The suggestion stays
 // active in the document, so the picker only reopens once the trigger is typed afresh.
-const dismissCannedResponses = () => {
-  showCannedMenu.value = false;
+const dismissPicker = showMenu => {
+  showMenu.value = false;
   editorView?.focus();
 };
+
+const dismissUserMentions = () => dismissPicker(showUserMentions);
+const dismissCannedResponses = () => dismissPicker(showCannedMenu);
+const dismissVariables = () => dismissPicker(showVariables);
+const dismissEmojiMenu = () => dismissPicker(showEmojiMenu);
 
 // Deleting the trigger drops the suggestion, so the plugin closes the picker through
 // `onExit` on its own.
@@ -277,7 +286,7 @@ function createSuggestionPlugin({
   showMenu,
   searchTerm,
   isAllowed = () => true,
-  interceptEnter = true,
+  interceptEnter = false,
 }) {
   return suggestionsPlugin({
     matcher: triggerCharacters(trigger, minChars),
@@ -318,6 +327,7 @@ const plugins = computed(() => {
       showMenu: showToolsMenu,
       searchTerm: toolSearchKey,
       isAllowed: () => props.enableCaptainTools,
+      interceptEnter: true,
     }),
     createSuggestionPlugin({
       trigger: '@',
@@ -330,12 +340,11 @@ const plugins = computed(() => {
       showMenu: showCannedMenu,
       searchTerm: cannedSearchKey,
       isAllowed: () => !props.isPrivate,
-      interceptEnter: false,
     }),
     createSuggestionPlugin({
       trigger: '{{',
       showMenu: showVariables,
-      searchTerm: variableSearchTerm,
+      searchTerm: variableSearchKey,
       isAllowed: () => !props.isPrivate,
     }),
     createVariableInputRule({
@@ -346,7 +355,7 @@ const plugins = computed(() => {
       trigger: ':',
       minChars: 2,
       showMenu: showEmojiMenu,
-      searchTerm: emojiSearchTerm,
+      searchTerm: emojiSearchKey,
     }),
   ];
 });
@@ -366,14 +375,14 @@ const sendWithSignature = computed(() => {
   return false;
 });
 
-watch(showUserMentions, updatedValue => {
-  emit('toggleUserMention', props.isPrivate && updatedValue);
+watch(shouldShowUserMentions, updatedValue => {
+  emit('toggleUserMention', updatedValue);
 });
 watch(shouldShowCannedResponses, updatedValue => {
   emit('toggleCannedMenu', updatedValue);
 });
-watch(showVariables, updatedValue => {
-  emit('toggleVariablesMenu', !props.isPrivate && updatedValue);
+watch(shouldShowVariables, updatedValue => {
+  emit('toggleVariablesMenu', updatedValue);
 });
 watch(showToolsMenu, updatedValue => {
   emit('toggleToolsMenu', props.enableCaptainTools && updatedValue);
@@ -908,8 +917,11 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     }"
   >
     <TagAgents
-      v-if="showUserMentions && isPrivate"
+      v-if="shouldShowUserMentions"
+      :caret-position="caretPosition"
       :search-key="mentionSearchKey"
+      @close="dismissUserMentions"
+      @remove-trigger="removeSuggestionTrigger"
       @select-agent="content => insertSpecialContent('mention', content)"
     />
     <CannedResponse
@@ -924,12 +936,19 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     />
     <VariableList
       v-if="shouldShowVariables"
-      :search-key="variableSearchTerm"
+      :caret-position="caretPosition"
+      :search-key="variableSearchKey"
+      :variables="variables"
+      @close="dismissVariables"
+      @remove-trigger="removeSuggestionTrigger"
       @select-variable="content => insertSpecialContent('variable', content)"
     />
     <KeyboardEmojiSelector
       v-if="showEmojiMenu"
-      :search-key="emojiSearchTerm"
+      :caret-position="caretPosition"
+      :search-key="emojiSearchKey"
+      @close="dismissEmojiMenu"
+      @remove-trigger="removeSuggestionTrigger"
       @select-emoji="emoji => insertSpecialContent('emoji', emoji)"
     />
     <TagTools
