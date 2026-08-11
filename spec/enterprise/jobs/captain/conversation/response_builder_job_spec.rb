@@ -817,6 +817,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
                                                                                      'response' => 'I tried to hand off',
                                                                                      'handoff_tool_called' => true
                                                                                    })
+        expect(Captain::ConversationEvents).to receive(:handed_off)
+          .with(conversation: conversation, assistant: assistant, source: 'tool', reason_category: :tool_failure, at: kind_of(Time))
 
         described_class.perform_now(conversation, assistant)
 
