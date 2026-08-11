@@ -11,6 +11,7 @@ export const state = {
     isFetching: false,
     isFetchingItem: false,
     isCreating: false,
+    isUpdating: false,
     isDeleting: false,
   },
 };
@@ -50,6 +51,19 @@ export const actions = {
     }
   },
 
+  update: async function update({ commit }, { id, ...slaObj }) {
+    commit(types.SET_SLA_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await SlaAPI.update(id, slaObj);
+      AnalyticsHelper.track(SLA_EVENTS.UPDATE);
+      commit(types.EDIT_SLA, response.data.payload);
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_SLA_UI_FLAG, { isUpdating: false });
+    }
+  },
+
   delete: async function deleteSla({ commit }, id) {
     commit(types.SET_SLA_UI_FLAG, { isDeleting: true });
     try {
@@ -74,6 +88,7 @@ export const mutations = {
 
   [types.SET_SLA]: MutationHelpers.set,
   [types.ADD_SLA]: MutationHelpers.create,
+  [types.EDIT_SLA]: MutationHelpers.update,
   [types.DELETE_SLA]: MutationHelpers.destroy,
 };
 

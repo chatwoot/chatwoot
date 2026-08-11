@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_10_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1416,6 +1416,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.datetime "updated_at", null: false
     t.string "description"
     t.float "resolution_time_threshold"
+    t.bigint "notify_user_ids", default: [], array: true
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
   end
 

@@ -1,5 +1,6 @@
 <script>
 import AddSLA from './AddSLA.vue';
+import EditSLA from './EditSLA.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from 'dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue';
 import SLAPaywallEnterprise from './SLAPaywallEnterprise.vue';
@@ -20,6 +21,7 @@ import { picoSearch } from '@scmmishra/pico-search';
 export default {
   components: {
     AddSLA,
+    EditSLA,
     SettingsLayout,
     BaseSettingsHeader,
     SLAPaywallEnterprise,
@@ -33,7 +35,6 @@ export default {
   data() {
     return {
       loading: {},
-      showAddPopup: false,
       showDeleteConfirmationPopup: false,
       selectedResponse: {},
       searchQuery: '',
@@ -87,10 +88,11 @@ export default {
       if (this.isBehindAPaywall) {
         return;
       }
-      this.showAddPopup = true;
+      this.$refs.addPanelRef.open();
     },
-    hideAddPopup() {
-      this.showAddPopup = false;
+    openEditPopup(response) {
+      this.selectedResponse = response;
+      this.$refs.editPanelRef.open(response);
     },
     openDeletePopup(response) {
       this.showDeleteConfirmationPopup = true;
@@ -281,8 +283,15 @@ export default {
                 </span>
               </BaseTableCell>
 
-              <BaseTableCell align="end" class="w-12">
-                <div class="flex justify-end">
+              <BaseTableCell align="end" class="w-20">
+                <div class="flex justify-end gap-1">
+                  <NextButton
+                    v-tooltip.top="$t('SLA.FORM.EDIT')"
+                    icon="i-lucide-pencil"
+                    slate
+                    sm
+                    @click="openEditPopup(sla)"
+                  />
                   <NextButton
                     v-tooltip.top="$t('SLA.FORM.DELETE')"
                     icon="i-woot-bin"
@@ -299,9 +308,9 @@ export default {
         </template>
       </BaseTable>
 
-      <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
-        <AddSLA @close="hideAddPopup" />
-      </woot-modal>
+      <AddSLA ref="addPanelRef" />
+
+      <EditSLA ref="editPanelRef" :selected-response="selectedResponse" />
 
       <woot-delete-modal
         v-model:show="showDeleteConfirmationPopup"

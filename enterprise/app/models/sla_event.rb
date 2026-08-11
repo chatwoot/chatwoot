@@ -63,8 +63,8 @@ class SlaEvent < ApplicationRecord
 
   def create_notifications
     notify_users = conversation.conversation_participants.map(&:user)
-    # Add all admins from the account to notify list
-    notify_users += account.administrators
+    # Add the admins configured on the SLA policy, defaults to all admins in the account
+    notify_users += sla_policy.notify_users
     # Ensure conversation assignee is notified
     notify_users += [conversation.assignee] if conversation.assignee.present?
 
