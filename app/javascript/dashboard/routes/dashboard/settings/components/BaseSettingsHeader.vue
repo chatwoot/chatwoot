@@ -119,7 +119,7 @@ const helpURL = getHelpUrlForFeature(props.featureName);
     >
       <slot name="count" />
       <div
-        v-if="slots.count"
+        v-if="slots.count && slots.actions"
         class="w-px h-3 rounded-lg bg-n-weak ltr:ml-1 ltr:mr-2 rtl:ml-2 rtl:mr-1 flex-shrink-0"
       />
       <slot name="actions" />

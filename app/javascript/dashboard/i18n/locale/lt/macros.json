@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Vykdyti",
       "PREVIEW": "Peržiūrėti makrokomandą",
-      "EXECUTED_SUCCESSFULLY": "Sėkmingai įvykdyta makrokomanda"
+      "EXECUTED_SUCCESSFULLY": "Sėkmingai įvykdyta makrokomanda",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",

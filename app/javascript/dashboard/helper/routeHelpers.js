@@ -150,3 +150,11 @@ export const isAInboxViewRoute = (routeName, includeBase = false) => {
 
 export const isNotificationRoute = routeName =>
   routeName === 'notifications_index';
+
+export const isUpgradePageBypassRoute = routeName =>
+  [
+    'billing_settings_index',
+    'settings_inbox_list',
+    'general_settings_index',
+    'agent_list',
+  ].includes(routeName);

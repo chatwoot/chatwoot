@@ -35,16 +35,18 @@ RSpec.describe 'Conversations API', type: :request do
     end
 
     it 'does not return SLA data for the conversation if the feature is disabled' do
+      account.enable_features!('sla')
+      sla_policy = create(:sla_policy, account: account)
+      conversation = create(:conversation, account: account, sla_policy: sla_policy)
+      create(:sla_event, conversation: conversation, applied_sla: conversation.applied_sla)
       account.disable_features!('sla')
-      conversation = create(:conversation, account: account)
-      create(:applied_sla, conversation: conversation)
-      create(:sla_event, conversation: conversation)
 
       get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}", headers: administrator.create_new_auth_token
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body.keys).not_to include('applied_sla')
       expect(response.parsed_body.keys).not_to include('sla_events')
+      expect(response.parsed_body['sla_policy_id']).to be_nil
     end
 
     context 'when agent has team access' do
