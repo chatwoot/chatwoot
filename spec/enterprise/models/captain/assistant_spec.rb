@@ -19,8 +19,6 @@ RSpec.describe Captain::Assistant, type: :model do
 
       expect(assistant.inactivity_threshold_minutes).to eq(60)
       expect(assistant.send_inactivity_resolution_message?).to be(true)
-      expect(assistant.follow_up_before_resolving?).to be(false)
-      expect(assistant.follow_up_resolution_threshold_minutes).to eq(60)
     end
 
     it 'validates the inactivity timer range' do
@@ -46,18 +44,6 @@ RSpec.describe Captain::Assistant, type: :model do
       assistant.validate
 
       expect(assistant.auto_resolve_after).to eq(65)
-    end
-
-    it 'reads the saved follow-up policy' do
-      assistant.update!(
-        config: assistant.config.merge(
-          'follow_up_before_resolving' => true,
-          'follow_up_resolve_after' => 90
-        )
-      )
-
-      expect(assistant.follow_up_before_resolving?).to be(true)
-      expect(assistant.follow_up_resolution_threshold_minutes).to eq(90)
     end
   end
 

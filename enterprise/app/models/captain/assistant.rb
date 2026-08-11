@@ -16,13 +16,11 @@
 #
 #  index_captain_assistants_on_account_id  (account_id)
 #
-# rubocop:disable Metrics/ClassLength
 class Captain::Assistant < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
   CITATION_SOURCES_STATE_KEY = :captain_v2_citation_sources
   AUTO_RESOLVE_MODES = %w[disabled legacy evaluated].freeze
   DEFAULT_INACTIVITY_THRESHOLD_MINUTES = 60
-  DEFAULT_FOLLOW_UP_RESOLUTION_THRESHOLD_MINUTES = 60
   MINIMUM_INACTIVITY_THRESHOLD_MINUTES = 5
   MAXIMUM_INACTIVITY_THRESHOLD_MINUTES = 1.day.in_minutes.to_i
   INACTIVITY_THRESHOLD_STEP_MINUTES = 5
@@ -51,8 +49,7 @@ class Captain::Assistant < ApplicationRecord
   has_many :conversation_outcomes, dependent: :destroy_async
 
   store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
-                 :auto_resolve_mode, :auto_resolve_after, :send_inactivity_resolution_message, :response_window,
-                 :follow_up_before_resolving, :follow_up_resolve_after
+                 :auto_resolve_mode, :auto_resolve_after, :send_inactivity_resolution_message, :response_window
 
   before_validation :set_default_auto_resolve_mode, on: :create
   before_validation :normalize_auto_resolve_after
@@ -64,15 +61,7 @@ class Captain::Assistant < ApplicationRecord
   validate :validate_response_window
   validates :auto_resolve_mode, inclusion: { in: AUTO_RESOLVE_MODES }
   validates :send_inactivity_resolution_message, inclusion: { in: [true, false] }
-  validates :follow_up_before_resolving, inclusion: { in: [true, false] }
   validates :auto_resolve_after,
-            numericality: {
-              only_integer: true,
-              greater_than_or_equal_to: MINIMUM_INACTIVITY_THRESHOLD_MINUTES,
-              less_than_or_equal_to: MAXIMUM_INACTIVITY_THRESHOLD_MINUTES
-            },
-            allow_nil: true
-  validates :follow_up_resolve_after,
             numericality: {
               only_integer: true,
               greater_than_or_equal_to: MINIMUM_INACTIVITY_THRESHOLD_MINUTES,
@@ -134,18 +123,6 @@ class Captain::Assistant < ApplicationRecord
 
   def send_inactivity_resolution_message?
     send_inactivity_resolution_message
-  end
-
-  def follow_up_before_resolving
-    config.fetch('follow_up_before_resolving', false)
-  end
-
-  def follow_up_before_resolving?
-    follow_up_before_resolving
-  end
-
-  def follow_up_resolution_threshold_minutes
-    config.fetch('follow_up_resolve_after', DEFAULT_FOLLOW_UP_RESOLUTION_THRESHOLD_MINUTES).to_i
   end
 
   def available_agent_tools
@@ -259,4 +236,3 @@ class Captain::Assistant < ApplicationRecord
     "#{ENV.fetch('FRONTEND_URL', nil)}/assets/images/dashboard/captain/logo.svg"
   end
 end
-# rubocop:enable Metrics/ClassLength
