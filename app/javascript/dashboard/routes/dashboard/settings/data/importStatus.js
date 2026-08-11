@@ -9,14 +9,21 @@ export const isIntercomImport = dataImport =>
   dataImport?.data_type === 'intercom' &&
   dataImport?.source_provider === 'intercom';
 
+export const isIntegrationImport = dataImport =>
+  ['freshdesk', 'intercom'].includes(dataImport?.data_type) &&
+  dataImport?.data_type === dataImport?.source_provider;
+
 export const isActiveIntercomImport = dataImport =>
   isIntercomImport(dataImport) && isActiveImport(dataImport);
 
+export const isActiveIntegrationImport = dataImport =>
+  isIntegrationImport(dataImport) && isActiveImport(dataImport);
+
 export const isAbandonableImport = dataImport =>
-  isActiveIntercomImport(dataImport);
+  isActiveIntegrationImport(dataImport);
 
 export const importedCount = dataImport => {
-  if (!isIntercomImport(dataImport)) {
+  if (!isIntegrationImport(dataImport)) {
     return Number(dataImport?.processed_records || 0);
   }
 

@@ -26,6 +26,11 @@ description: |
   
   For WhatsApp channels, you can send structured template messages using the `template_params` field. 
   Templates must be pre-approved in WhatsApp Business Manager.
+
+  By default, `content` is treated as the already-rendered transcript text for
+  compatibility with existing API and mobile clients. To submit the original
+  template body instead, set `template_params.content_mode` to `raw_template`;
+  Chatwoot will substitute `processed_params.body` before saving the transcript.
   
   ### Example Templates
   

@@ -24,8 +24,11 @@ class Captain::Conversation::MessageHistoryBuilderService
   def message_hash_for_context(message)
     return activity_message_hash(message) if message.message_type == 'activity'
 
+    content = prepare_multimodal_message_content(message)
+    return if content.blank?
+
     {
-      content: prepare_multimodal_message_content(message),
+      content: content,
       role: determine_role(message)
     }
   end
@@ -45,6 +48,14 @@ class Captain::Conversation::MessageHistoryBuilderService
   end
 
   def prepare_multimodal_message_content(message)
+    if message.outgoing? && message.sender_type == 'Captain::Assistant' && !message.deleted
+      message_attributes = message.additional_attributes.to_h
+      response_parts_attribute = Captain::Assistant::ResponseParts::MESSAGE_ATTRIBUTE_KEY
+      if message_attributes.key?(response_parts_attribute)
+        return Captain::Assistant::ResponseParts.new(message_attributes[response_parts_attribute]).plain_text.presence
+      end
+    end
+
     Captain::OpenAiMessageBuilderService.new(message: message).generate_content
   end
 end
