@@ -137,7 +137,18 @@ class Whatsapp::IncomingMessageBaseService
                       @contact_inbox.conversations
                                     .where.not(status: :resolved).last
                     end
-    return if @conversation
+    if @conversation
+      # CUSTOMIZAÇÃO_SYNAPSEOS: conversa já aberta e o cliente clicou num
+      # anúncio de novo — registra a campanha MAIS RECENTE (o create abaixo só
+      # cobre o primeiro contato).
+      new_campaign = ctwa_referral_attributes[:additional_attributes]
+      if new_campaign.present? && @conversation.additional_attributes['campaign'] != new_campaign[:campaign]
+        @conversation.update!(
+          additional_attributes: @conversation.additional_attributes.merge(new_campaign.stringify_keys)
+        )
+      end
+      return
+    end
 
     @conversation = ::Conversation.create!(conversation_params)
   end

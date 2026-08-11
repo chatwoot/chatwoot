@@ -9,7 +9,28 @@ module Whatsapp::IncomingMessageServiceHelpers
       inbox_id: @inbox.id,
       contact_id: @contact.id,
       contact_inbox_id: @contact_inbox.id
-    }
+    }.merge(ctwa_referral_attributes)
+  end
+
+  # CUSTOMIZAÇÃO_SYNAPSEOS: Click-to-WhatsApp — a Meta manda um bloco
+  # `referral` na PRIMEIRA mensagem de quem clicou num anúncio (id do anúncio,
+  # texto, url). O Chatwoot descartava esse dado, e sem ele não dá pra saber
+  # de qual campanha o lead veio nem se ele veio de campanha de OUTRA marca
+  # (2026-08-11: anúncio de Seguro Honda despejando lead no WhatsApp da Audi).
+  # Guardamos na conversa pra ficar disponível ao bot e ao time.
+  def ctwa_referral_attributes
+    referral = messages_data&.first&.dig(:referral)
+    return {} if referral.blank?
+
+    { additional_attributes: { campaign: {
+      source_type: referral[:source_type],
+      source_id: referral[:source_id],
+      source_url: referral[:source_url],
+      headline: referral[:headline],
+      body: referral[:body].to_s[0, 500],
+      media_type: referral[:media_type],
+      ctwa_clid: referral[:ctwa_clid]
+    }.compact } }
   end
 
   def processed_params
