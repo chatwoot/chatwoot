@@ -195,6 +195,23 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
       end
     end
 
+    context 'when user only has conversation_unassigned_manage permission' do
+      let(:inbox) { create(:inbox, account: account) }
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_unassigned_manage']) }
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee_agent_bot: agent_bot) }
+
+      before do
+        create(:inbox_member, user: user, inbox: inbox)
+        AccountUser.find_by!(user: user, account: account).update!(role: :agent, custom_role: custom_role)
+        create(:message, conversation: conversation, private: true, content: 'Agent bot private note')
+      end
+
+      it 'does not return a conversation assigned to an agent bot' do
+        expect(service.execute(conversation_id: conversation.display_id)).to eq('Conversation not found')
+      end
+    end
+
     context 'when an administrator has a limited custom role' do
       let(:user) { create(:user, :administrator, account: account) }
       let(:inbox) { create(:inbox, account: account) }

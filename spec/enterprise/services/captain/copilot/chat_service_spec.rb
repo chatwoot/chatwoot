@@ -208,6 +208,17 @@ RSpec.describe Captain::Copilot::ChatService do
       expect(service.messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
     end
 
+    it 'omits current viewing history for an agent bot conversation when the user can only manage unassigned conversations' do
+      create(:inbox_member, user: user, inbox: inbox)
+      custom_role = create(:custom_role, account: account, permissions: ['conversation_unassigned_manage'])
+      AccountUser.find_by!(user: user, account: account).update!(role: :agent, custom_role: custom_role)
+      conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
+
+      service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
+
+      expect(service.messages.any? { |m| m[:content].include?('You are currently viewing the conversation') }).to be false
+    end
+
     it 'includes current viewing history when the user has team access' do
       team = create(:team, account: account)
       create(:team_member, team: team, user: user)

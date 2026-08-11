@@ -39,7 +39,12 @@ module Captain::Copilot::ConversationAccess
 
   def custom_role_permission_scopes(conversations, account, user, permissions)
     scopes = []
-    scopes << conversations.where(assignee_id: [nil, user.id]) if permissions.include?('conversation_unassigned_manage')
+
+    if permissions.include?('conversation_unassigned_manage')
+      scopes << conversations
+                .unassigned
+                .or(conversations.assigned_to(user))
+    end
 
     if permissions.include?('conversation_participating_manage')
       participant_ids = ConversationParticipant.where(account_id: account.id, user_id: user.id).select(:conversation_id)
