@@ -5,6 +5,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       can_reply: can_reply?,
       channel: inbox.try(:channel_type),
       contact_inbox: contact_inbox,
+      contact_inbox_source_ids: contact_inbox_source_ids,
       id: display_id,
       inbox_id: inbox_id,
       messages: push_messages,
@@ -30,6 +31,16 @@ class Conversations::EventDataPresenter < SimpleDelegator
   end
 
   private
+
+  # Coexistence gives one contact several source ids inside the same inbox, one per identity
+  # WhatsApp reports: the phone number, the business scoped user id and, when the business
+  # belongs to a portfolio, the parent one. `contact_inbox` only carries the single id the
+  # conversation happens to be anchored to, so the others never reach an integration even
+  # though Chatwoot resolved them. Scoping to this inbox keeps the list meaningful when an
+  # account connects more than one WhatsApp business, since each assigns its own identifiers.
+  def contact_inbox_source_ids
+    contact.contact_inboxes.where(inbox_id: inbox_id).pluck(:source_id)
+  end
 
   def push_messages
     [messages.where(account_id: account_id).chat.last&.push_event_data].compact

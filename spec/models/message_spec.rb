@@ -140,6 +140,7 @@ RSpec.describe Message do
           contact_inbox: {
             source_id: message.conversation.contact_inbox.source_id
           },
+          contact_inbox_source_ids: [message.conversation.contact_inbox.source_id],
           last_activity_at: message.conversation.last_activity_at.to_i,
           unread_count: message.conversation.unread_incoming_messages.count
         },
