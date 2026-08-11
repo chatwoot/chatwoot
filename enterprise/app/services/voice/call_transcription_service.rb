@@ -2,16 +2,21 @@ class Voice::CallTranscriptionService
   pattr_initialize [:call!]
 
   def perform
-    return unless transcribable?
-
-    transcript = Llm::SpeechToTextService.new(blob: recording_blob, account: call.account).perform
-    return if transcript.blank?
-
-    call.update!(transcript: transcript)
-    publish(call.message)
+    # Split so a publish failure can retry without re-running (and re-charging) transcription.
+    transcribe if call.transcript.blank?
+    publish(call.message) if call.transcript.present?
   end
 
   private
+
+  def transcribe
+    return unless call.recording.attached?
+    return unless Llm::SpeechToTextService.available_for?(call.account)
+    return if Llm::SpeechToTextService.too_large?(recording_blob)
+
+    transcript = Llm::SpeechToTextService.new(blob: recording_blob, account: call.account).perform
+    call.update!(transcript: transcript) if transcript.present?
+  end
 
   def publish(message)
     return if message.blank?
@@ -23,14 +28,6 @@ class Voice::CallTranscriptionService
     return unless ChatwootApp.advanced_search_allowed?
 
     message.reindex
-  end
-
-  def transcribable?
-    return false if call.transcript.present?
-    return false unless call.recording.attached?
-    return false unless Llm::SpeechToTextService.available_for?(call.account)
-
-    !Llm::SpeechToTextService.too_large?(recording_blob)
   end
 
   def recording_blob
