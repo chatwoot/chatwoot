@@ -78,6 +78,25 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
 
       expect(Captain::ConversationCompletionService).not_to have_received(:new)
     end
+
+    it 'uses the assistant inactivity timer' do
+      captain_assistant.account.enable_features!('captain_integration_v2')
+      captain_assistant.update!(config: captain_assistant.config.merge('auto_resolve_after' => 180))
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    end
+
+    it 'resolves silently when the resolution message is disabled' do
+      captain_assistant.account.enable_features!('captain_integration_v2')
+      captain_assistant.update!(config: captain_assistant.config.merge('send_inactivity_resolution_message' => false))
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('resolved')
+      expect(resolvable_pending_conversation.messages.outgoing).to be_empty
+    end
   end
 
   context 'when captain_tasks is enabled' do
