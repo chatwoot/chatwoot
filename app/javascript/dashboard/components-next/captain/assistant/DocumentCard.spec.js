@@ -16,9 +16,6 @@ vi.mock('vue-i18n', () => ({
       if (key === 'CAPTAIN.DOCUMENTS.USED_IN_CONVERSATIONS') {
         return `Used in ${n} conversations`;
       }
-      if (key === 'CAPTAIN.DOCUMENTS.OPTIONS.VIEW_DETAILS') {
-        return 'View details';
-      }
       return key;
     },
   }),
@@ -79,14 +76,15 @@ describe('DocumentCard', () => {
     expect(wrapper.find('[aria-label^="Used in"]').exists()).toBe(false);
   });
 
-  it('opens details from the visible view details action', async () => {
+  it('opens details from the document title without a separate action', async () => {
     const wrapper = mountCard();
-    const viewDetailsButton = wrapper
+    const titleButton = wrapper
       .findAll('button')
-      .find(button => button.text() === 'View details');
+      .find(button => button.text() === 'Returns and refunds');
 
-    expect(viewDetailsButton).toBeDefined();
-    await viewDetailsButton.trigger('click');
+    expect(titleButton).toBeDefined();
+    expect(wrapper.text()).not.toContain('View details');
+    await titleButton.trigger('click');
 
     expect(wrapper.emitted('action')).toEqual([
       [{ action: 'viewDetails', id: 42 }],

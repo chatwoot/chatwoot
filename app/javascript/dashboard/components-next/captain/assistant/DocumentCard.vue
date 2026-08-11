@@ -187,35 +187,24 @@ const handleRetry = () => {
       >
         {{ name }}
       </button>
-      <div v-if="showMenu" class="flex gap-2 items-center">
+      <div
+        v-if="showMenu && menuItems.length"
+        v-on-clickaway="() => toggleDropdown(false)"
+        class="flex relative items-center group"
+      >
         <Button
-          :label="t('CAPTAIN.DOCUMENTS.OPTIONS.VIEW_DETAILS')"
-          icon="i-lucide-eye"
+          icon="i-lucide-ellipsis-vertical"
+          color="slate"
           size="xs"
-          slate
-          link
-          class="shrink-0"
-          @click.stop="handleViewDetails"
+          class="rounded-md group-hover:bg-n-alpha-2"
+          @click="toggleDropdown()"
         />
-        <div
-          v-if="menuItems.length"
-          v-on-clickaway="() => toggleDropdown(false)"
-          class="flex relative items-center group"
-        >
-          <Button
-            icon="i-lucide-ellipsis-vertical"
-            color="slate"
-            size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
-            @click="toggleDropdown()"
-          />
-          <DropdownMenu
-            v-if="showActionsDropdown"
-            :menu-items="menuItems"
-            class="top-full mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0"
-            @action="handleAction($event)"
-          />
-        </div>
+        <DropdownMenu
+          v-if="showActionsDropdown"
+          :menu-items="menuItems"
+          class="top-full mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0"
+          @action="handleAction($event)"
+        />
       </div>
     </div>
     <div class="flex gap-4 justify-between items-center w-full">
