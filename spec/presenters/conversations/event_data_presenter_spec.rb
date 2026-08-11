@@ -46,7 +46,6 @@ RSpec.describe Conversations::EventDataPresenter do
   end
 
   describe '#webhook_data' do
-
     it 'reports the source id of the conversation contact inbox' do
       expect(presenter.webhook_data[:contact_inbox_source_ids]).to eq([conversation.contact_inbox.source_id])
     end
@@ -77,6 +76,7 @@ RSpec.describe Conversations::EventDataPresenter do
         expect(presenter.webhook_data[:contact_inbox_source_ids]).to contain_exactly('2423423243')
       end
     end
+
     it 'includes account details for webhook consumers' do
       expect(presenter.webhook_data[:account]).to eq(conversation.account.webhook_data)
     end
