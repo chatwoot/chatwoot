@@ -621,7 +621,7 @@
           "MODES": {
             "DISABLED": {
               "LABEL": "Wait for the customer",
-              "DESCRIPTION": "Captain takes no action."
+              "DESCRIPTION": "Captain does not resolve inactive conversations."
             },
             "LEGACY": {
               "LABEL": "Always resolve",
@@ -629,7 +629,7 @@
             },
             "EVALUATED": {
               "LABEL": "Let Captain review it (recommended)",
-              "DESCRIPTION": "Captain decides whether to resolve the conversation."
+              "DESCRIPTION": "Captain reviews the conversation and can resolve it."
             }
           },
           "DURATION_HOURS_ARIA_LABEL": "Inactivity period hours",
