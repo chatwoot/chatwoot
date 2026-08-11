@@ -621,7 +621,7 @@
           "MODES": {
             "DISABLED": {
               "LABEL": "Wait for the customer",
-              "DESCRIPTION": "Captain does not resolve inactive conversations."
+              "DESCRIPTION": "Captain does not resolve inactive conversations. Captain can hand off a conversation if the customer asks."
             },
             "LEGACY": {
               "LABEL": "Always resolve",
