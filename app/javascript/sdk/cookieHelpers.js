@@ -17,8 +17,24 @@ export const getUserString = ({ identifier = '', user }) => {
   return `${userStringWithSortedKeys}identifier${identifier}`;
 };
 
+const computeFallbackHash = data => {
+  let hash = 0x811c9dc5;
+
+  data.forEach(byte => {
+    hash ^= byte; // eslint-disable-line no-bitwise
+    hash = Math.imul(hash, 0x01000193);
+  });
+
+  return (hash >>> 0).toString(16).padStart(8, '0'); // eslint-disable-line no-bitwise
+};
+
 export const computeHashForUserData = async (...args) => {
   const data = new TextEncoder().encode(getUserString(...args));
+
+  if (!window.crypto?.subtle) {
+    return computeFallbackHash(data);
+  }
+
   const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
 
   return Array.from(new Uint8Array(hashBuffer), byte =>
