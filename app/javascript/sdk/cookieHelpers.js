@@ -17,7 +17,8 @@ export const getUserString = ({ identifier = '', user }) => {
   return `${userStringWithSortedKeys}identifier${identifier}`;
 };
 
-const computeFallbackHash = data => {
+export const fnv1a32 = value => {
+  const data = new TextEncoder().encode(value);
   let hash = 0x811c9dc5;
 
   data.forEach(byte => {
@@ -28,19 +29,8 @@ const computeFallbackHash = data => {
   return (hash >>> 0).toString(16).padStart(8, '0'); // eslint-disable-line no-bitwise
 };
 
-export const computeHashForUserData = async (...args) => {
-  const data = new TextEncoder().encode(getUserString(...args));
-
-  if (!window.crypto?.subtle) {
-    return computeFallbackHash(data);
-  }
-
-  const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
-
-  return Array.from(new Uint8Array(hashBuffer), byte =>
-    byte.toString(16).padStart(2, '0')
-  ).join('');
-};
+export const computeHashForUserData = (...args) =>
+  fnv1a32(getUserString(...args));
 
 export const hasUserKeys = user =>
   REQUIRED_USER_KEYS.reduce((acc, key) => acc || !!user[key], false);

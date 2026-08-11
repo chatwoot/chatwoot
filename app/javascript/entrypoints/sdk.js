@@ -121,22 +121,18 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       }
 
       const userCookieName = getUserCookieName();
-      return computeHashForUserData({
-        identifier,
-        user,
-      }).then(hashToBeStored => {
-        const existingCookieValue = Cookies.get(userCookieName);
-        if (hashToBeStored === existingCookieValue) {
-          return;
-        }
+      const existingCookieValue = Cookies.get(userCookieName);
+      const hashToBeStored = computeHashForUserData({ identifier, user });
+      if (hashToBeStored === existingCookieValue) {
+        return;
+      }
 
-        window.$chatwoot.identifier = identifier;
-        window.$chatwoot.user = user;
-        IFrameHelper.sendMessage('set-user', { identifier, user });
+      window.$chatwoot.identifier = identifier;
+      window.$chatwoot.user = user;
+      IFrameHelper.sendMessage('set-user', { identifier, user });
 
-        setCookieWithDomain(userCookieName, hashToBeStored, {
-          baseDomain,
-        });
+      setCookieWithDomain(userCookieName, hashToBeStored, {
+        baseDomain,
       });
     },
 
