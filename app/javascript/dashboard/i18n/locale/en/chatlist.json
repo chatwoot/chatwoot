@@ -44,14 +44,8 @@
       "ORDER_BY": "Order by"
     },
     "CHAT_TIME_STAMP": {
-      "CREATED": {
-        "LATEST": "Created",
-        "OLDEST": "Created at:"
-      },
-      "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Last activity:",
-        "ACTIVE": "Last activity"
-      }
+      "CREATED": "Created at:",
+      "LAST_ACTIVITY": "Last activity:"
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {

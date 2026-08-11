@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
 import CaptainFaqSuggestionsAPI from 'dashboard/api/captain/faqSuggestions';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -280,7 +280,13 @@ defineExpose({ dialogRef });
             >
               {{ observation.generated_question }}
             </span>
-            <span class="text-xs text-n-slate-10">
+            <span
+              v-tooltip.top="{
+                content: exactTimestamp(observation.created_at),
+                delay: { show: 500, hide: 0 },
+              }"
+              class="text-xs text-n-slate-10"
+            >
               {{ dynamicTime(observation.created_at) }}
             </span>
           </button>

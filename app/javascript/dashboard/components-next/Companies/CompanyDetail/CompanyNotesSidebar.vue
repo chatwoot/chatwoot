@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -83,7 +83,13 @@ const openContact = contactId => {
                   {{ getWrittenBy(note) }}
                 </span>
                 {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.WROTE') }}
-                <span class="font-medium text-n-slate-11">
+                <span
+                  v-tooltip.top="{
+                    content: exactTimestamp(note.createdAt),
+                    delay: { show: 500, hide: 0 },
+                  }"
+                  class="font-medium text-n-slate-11"
+                >
                   {{ dynamicTime(note.createdAt) }}
                 </span>
               </span>

@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { dynamicTime } from 'shared/helpers/timeHelper';
+import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -75,6 +75,10 @@ const formattedLastActivityAt = computed(() => {
           </div>
           <span
             v-if="lastActivityAt"
+            v-tooltip.top="{
+              content: exactTimestamp(lastActivityAt),
+              delay: { show: 500, hide: 0 },
+            }"
             class="inline-flex items-center gap-1.5 text-sm text-n-slate-11 flex-shrink-0"
           >
             {{ formattedLastActivityAt }}

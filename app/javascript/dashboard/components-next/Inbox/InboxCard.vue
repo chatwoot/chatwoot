@@ -2,7 +2,11 @@
 import { computed, ref, onBeforeMount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
-import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import {
+  dynamicTime,
+  exactTimestamp,
+  shortTimestamp,
+} from 'shared/helpers/timeHelper';
 import {
   snoozedReopenTimeToTimestamp,
   shortenSnoozeTime,
@@ -233,7 +237,13 @@ onBeforeMount(contextMenuActions.close);
             class="flex-shrink-0 text-n-slate-11 size-2.5"
           />
         </div>
-        <span class="text-xs text-n-slate-10">
+        <span
+          v-tooltip.top="{
+            content: exactTimestamp(inboxItem?.lastActivityAt),
+            delay: { show: 500, hide: 0 },
+          }"
+          class="text-xs text-n-slate-10"
+        >
           {{ lastActivityAt }}
         </span>
       </div>
