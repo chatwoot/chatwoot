@@ -606,13 +606,6 @@
           "RESOLVE_AFTER": "Resolve after",
           "ALWAYS_WARNING": "Captain will resolve every inactive conversation without reviewing it. Some conversations that still need help may be closed.",
           "PENDING_INFO": "Captain won't close the conversation because it is inactive. It will continue when the customer replies.",
-          "FOLLOW_UP": {
-            "TITLE": "Follow up before resolving",
-            "DESCRIPTION": "Captain sends a follow-up based on the conversation.",
-            "RESOLVE_AFTER": "Resolve after the follow-up",
-            "DURATION_HOURS_ARIA_LABEL": "Follow-up wait hours",
-            "DURATION_MINUTES_ARIA_LABEL": "Follow-up wait minutes"
-          },
           "RESOLUTION_MESSAGE": {
             "TITLE": "Send a message when resolving",
             "DESCRIPTION": "Captain sends this closing message before it resolves the conversation.",

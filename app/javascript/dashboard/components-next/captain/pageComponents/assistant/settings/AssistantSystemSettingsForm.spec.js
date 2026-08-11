@@ -22,8 +22,6 @@ const assistant = {
     resolution_message: 'I will close this conversation for now.',
     auto_resolve_mode: 'evaluated',
     auto_resolve_after: 75,
-    follow_up_before_resolving: false,
-    follow_up_resolve_after: 30,
     send_inactivity_resolution_message: true,
   },
 };
@@ -50,12 +48,9 @@ describe('AssistantSystemSettingsForm', () => {
     ).toBe(true);
     expect(modeCards[0].props('isActive')).toBe(true);
     expect(wrapper.findAllComponents(DurationSelect)).toHaveLength(1);
-    expect(wrapper.findAllComponents(Switch)).toHaveLength(2);
+    expect(wrapper.findAllComponents(Switch)).toHaveLength(1);
     expect(wrapper.text()).toContain(
       'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.REVIEW_AFTER'
-    );
-    expect(wrapper.text()).toContain(
-      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.FOLLOW_UP.TITLE'
     );
   });
 
@@ -81,17 +76,13 @@ describe('AssistantSystemSettingsForm', () => {
     });
   });
 
-  it('saves both timers when follow-up is enabled', async () => {
+  it('saves the evaluated policy timer', async () => {
     const wrapper = mountComponent();
 
-    wrapper.findAllComponents(Switch)[0].vm.$emit('update:modelValue', true);
-    await nextTick();
-
     const durationSelects = wrapper.findAllComponents(DurationSelect);
-    expect(durationSelects).toHaveLength(2);
+    expect(durationSelects).toHaveLength(1);
 
     durationSelects[0].vm.$emit('update:modelValue', 130);
-    durationSelects[1].vm.$emit('update:modelValue', 80);
     await nextTick();
     await submitForm(wrapper);
 
@@ -99,13 +90,11 @@ describe('AssistantSystemSettingsForm', () => {
       config: {
         ...assistant.config,
         auto_resolve_after: 130,
-        follow_up_before_resolving: true,
-        follow_up_resolve_after: 80,
       },
     });
   });
 
-  it('shows the warning and hides follow-up controls in always resolve mode', async () => {
+  it('shows the warning in always resolve mode', async () => {
     const wrapper = mountComponent();
 
     wrapper.findAllComponents(RadioCard)[1].vm.$emit('select');
@@ -115,9 +104,6 @@ describe('AssistantSystemSettingsForm', () => {
     expect(wrapper.findAllComponents(Switch)).toHaveLength(1);
     expect(wrapper.text()).toContain(
       'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.ALWAYS_WARNING'
-    );
-    expect(wrapper.text()).not.toContain(
-      'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.FOLLOW_UP.TITLE'
     );
   });
 });
