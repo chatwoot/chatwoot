@@ -267,8 +267,18 @@ RSpec.describe Attachment do
       attachment
     end
 
+    around do |example|
+      # config.active_storage.resolve_model_to_route is only read once, at boot, by
+      # ActiveStorage's railtie initializer, which copies it into this module attribute.
+      # url_for (and therefore inline_audio_url/file_url) reads ActiveStorage.resolve_model_to_route
+      # at request time, so that's what needs to change for this spec, not the Rails config object.
+      original_route = ActiveStorage.resolve_model_to_route
+      example.run
+      ActiveStorage.resolve_model_to_route = original_route
+    end
+
     it 'uses the proxy route when resolve_model_to_route is :rails_storage_proxy' do
-      allow(Rails.application.config.active_storage).to receive(:resolve_model_to_route).and_return(:rails_storage_proxy)
+      ActiveStorage.resolve_model_to_route = :rails_storage_proxy
 
       data_url = audio_attachment.push_event_data[:data_url]
 
@@ -277,7 +287,7 @@ RSpec.describe Attachment do
     end
 
     it 'uses the redirect route when resolve_model_to_route is :rails_storage_redirect' do
-      allow(Rails.application.config.active_storage).to receive(:resolve_model_to_route).and_return(:rails_storage_redirect)
+      ActiveStorage.resolve_model_to_route = :rails_storage_redirect
 
       data_url = audio_attachment.push_event_data[:data_url]
 
