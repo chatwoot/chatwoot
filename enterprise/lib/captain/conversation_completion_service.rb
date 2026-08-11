@@ -1,4 +1,6 @@
-# Selects the safest next action for an inactive Captain conversation.
+# Evaluates whether a conversation is complete and can be auto-resolved.
+# Used by InboxPendingConversationsResolutionJob to determine if inactive
+# conversations should be resolved or handed off to human agents.
 #
 # NOTE: This service intentionally does NOT count toward Captain usage limits.
 # The response excludes the :message key that Enterprise::Captain::BaseTaskService
@@ -11,7 +13,7 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
 
   def perform
     content = format_evaluation_input
-    return default_handoff_response('No messages found') if content.blank?
+    return default_incomplete_response('No messages found') if content.blank?
 
     response = make_api_call(
       model: InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || GPT_MODEL,
@@ -22,7 +24,7 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
       schema: RESPONSE_SCHEMA
     )
 
-    return default_handoff_response(response[:error]) if response[:error].present?
+    return default_incomplete_response(response[:error]) if response[:error].present?
 
     parse_response(response[:message])
   end
@@ -88,21 +90,16 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
   end
 
   def parse_response(message)
-    return default_handoff_response('Invalid response format') unless message.is_a?(Hash)
-
-    action = message['action']
-    return default_handoff_response('Invalid action') unless action.in?(Captain::ConversationCompletionSchema::ACTIONS)
-    return default_handoff_response('Missing follow-up message') if action == 'follow_up' && message['follow_up_message'].blank?
+    return default_incomplete_response('Invalid response format') unless message.is_a?(Hash)
 
     {
-      action: action,
-      reason: message['reason'] || 'No reason provided',
-      follow_up_message: action == 'follow_up' ? message['follow_up_message'] : nil
+      complete: message['complete'] == true,
+      reason: message['reason'] || 'No reason provided'
     }
   end
 
-  def default_handoff_response(reason)
-    { action: 'handoff', reason: reason, follow_up_message: nil }
+  def default_incomplete_response(reason)
+    { complete: false, reason: reason }
   end
 
   # This is an internal operational evaluation, not a customer-triggered feature,

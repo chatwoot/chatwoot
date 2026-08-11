@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/ClassLength
 class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON = 'no outstanding questions'.freeze
   CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON = 'pending clarification from customer'.freeze
@@ -8,9 +7,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     @captain_assistant = inbox.captain_assistant
     return if captain_assistant.blank? || captain_assistant.inactive_conversation_resolution_disabled?
 
-    now = Time.current
-    @inactivity_cutoff_time = now - captain_assistant.inactivity_threshold_minutes.minutes
-    @follow_up_resolution_cutoff_time = now - captain_assistant.follow_up_resolution_threshold_minutes.minutes
+    @inactivity_cutoff_time = Time.current - captain_assistant.inactivity_threshold_minutes.minutes
 
     if evaluate_conversation_completion?(inbox.account)
       perform_with_evaluation(inbox)
@@ -23,7 +20,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   private
 
-  attr_reader :captain_assistant, :inactivity_cutoff_time, :follow_up_resolution_cutoff_time
+  attr_reader :captain_assistant, :inactivity_cutoff_time
 
   def evaluate_conversation_completion?(account)
     account.feature_enabled?('captain_tasks') && captain_assistant.evaluate_inactive_conversations_before_resolving?
@@ -40,34 +37,16 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   def perform_with_evaluation(inbox)
     Current.executed_by = captain_assistant
 
-    candidate_pending_conversations(inbox).each do |conversation|
-      next if process_pending_follow_up(conversation, inbox)
-      next unless inactive_for_initial_action?(conversation)
-
+    resolvable_pending_conversations(inbox).each do |conversation|
       evaluation = evaluate_conversation(conversation, inbox)
       next unless still_resolvable_after_evaluation?(conversation)
 
-      perform_evaluated_action(conversation, inbox, evaluation)
-    end
-  end
-
-  def perform_evaluated_action(conversation, inbox, evaluation)
-    case evaluation_action(evaluation)
-    when 'resolve'
-      resolve_conversation(conversation, inbox, evaluation[:reason])
-    when 'follow_up'
-      if captain_assistant.follow_up_before_resolving? && evaluation[:follow_up_message].present?
-        follow_up_conversation(conversation, evaluation[:reason], evaluation[:follow_up_message])
+      if evaluation[:complete]
+        resolve_conversation(conversation, inbox, evaluation[:reason])
       else
         handoff_conversation(conversation, evaluation[:reason])
       end
-    else
-      handoff_conversation(conversation, evaluation[:reason])
     end
-  end
-
-  def evaluation_action(evaluation)
-    evaluation[:action].presence_in(Captain::ConversationCompletionSchema::ACTIONS) || (evaluation[:complete] ? 'resolve' : 'handoff')
   end
 
   def evaluate_conversation(conversation, inbox)
@@ -83,25 +62,6 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
          .limit(Limits::BULK_ACTIONS_LIMIT)
   end
 
-  def candidate_pending_conversations(inbox)
-    pending_conversations = inbox.conversations.pending
-    initial_candidates = pending_conversations.where('conversations.last_activity_at < ?', inactivity_cutoff_time)
-    return initial_candidates.limit(Limits::BULK_ACTIONS_LIMIT) unless captain_assistant.follow_up_before_resolving?
-
-    expired_follow_up_candidates = pending_conversations
-                                   .where('conversations.last_activity_at < ?', follow_up_resolution_cutoff_time)
-                                   .where(id: expired_follow_up_conversation_ids(inbox))
-
-    initial_candidates.or(expired_follow_up_candidates).limit(Limits::BULK_ACTIONS_LIMIT)
-  end
-
-  def expired_follow_up_conversation_ids(inbox)
-    Captain::Conversation::InactivityFollowUpService.expired_conversation_ids(
-      inbox: inbox,
-      cutoff_time: follow_up_resolution_cutoff_time
-    )
-  end
-
   def inactive_for_initial_action?(conversation) = conversation.last_activity_at < inactivity_cutoff_time
 
   def still_resolvable_after_evaluation?(conversation)
@@ -109,20 +69,6 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     conversation.pending? && inactive_for_initial_action?(conversation)
   rescue ActiveRecord::RecordNotFound
     false
-  end
-
-  def process_pending_follow_up(conversation, inbox)
-    follow_up_message = follow_up_service(conversation).active_message
-    return false unless follow_up_message
-    return true unless follow_up_message.created_at < follow_up_resolution_cutoff_time
-
-    resolved = with_inference_activity_context(conversation, CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON) do
-      resolve_pending_follow_up(conversation, inbox)
-    end
-    record_inference_resolution(conversation) if resolved
-    true
-  rescue ActiveRecord::RecordNotFound
-    true
   end
 
   def resolve_time_based_conversation(conversation, inbox)
@@ -160,24 +106,12 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     nil
   end
 
-  def follow_up_conversation(conversation, reason, message)
-    follow_up_service(conversation).send!(reason: reason, content: message)
-  end
-
   def record_inference_resolution(conversation)
     Captain::ConversationEvents.resolved(
       conversation: conversation,
       assistant: captain_assistant,
       source: Captain::ConversationEvents::Sources::INFERENCE,
       at: Time.current
-    )
-  end
-
-  def follow_up_service(conversation)
-    Captain::Conversation::InactivityFollowUpService.new(
-      conversation: conversation,
-      assistant: captain_assistant,
-      inactivity_cutoff_time: inactivity_cutoff_time
     )
   end
 
@@ -202,20 +136,6 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     send_out_of_office_message_if_applicable(conversation.reload)
   rescue ActiveRecord::RecordNotFound
     nil
-  end
-
-  def resolve_pending_follow_up(conversation, inbox)
-    conversation.with_lock do
-      conversation.reload
-      follow_up_message = follow_up_service(conversation).active_message
-      next false unless conversation.pending? && follow_up_message
-      next false unless follow_up_message.created_at < follow_up_resolution_cutoff_time
-
-      conversation.resolved!
-      create_private_note(conversation, 'Auto-resolved after follow-up: Customer did not reply')
-      create_resolution_message(conversation, inbox)
-      true
-    end
   end
 
   def perform_locked_transition(conversation)
@@ -276,4 +196,3 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     )
   end
 end
-# rubocop:enable Metrics/ClassLength

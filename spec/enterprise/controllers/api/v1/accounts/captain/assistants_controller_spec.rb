@@ -286,34 +286,6 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         )
       end
 
-      it 'keeps inactivity follow-up settings behind Captain V2' do
-        account.disable_features!('captain_integration_v2')
-        assistant.update!(
-          config: {
-            'follow_up_before_resolving' => false,
-            'follow_up_resolve_after' => 60
-          }
-        )
-
-        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
-              params: {
-                assistant: {
-                  config: {
-                    follow_up_before_resolving: true,
-                    follow_up_resolve_after: 45
-                  }
-                }
-              },
-              headers: admin.create_new_auth_token,
-              as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(assistant.reload.config).to include(
-          'follow_up_before_resolving' => false,
-          'follow_up_resolve_after' => 60
-        )
-      end
-
       it 'updates inactive conversation settings for Captain v2' do
         account.enable_features!('captain_integration_v2')
 
@@ -323,8 +295,6 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
                   config: {
                     auto_resolve_mode: 'evaluated',
                     auto_resolve_after: 61,
-                    follow_up_before_resolving: true,
-                    follow_up_resolve_after: 45,
                     send_inactivity_resolution_message: false,
                     resolution_message: 'Saved closing message'
                   }
@@ -337,8 +307,6 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(json_response[:config]).to include(
           auto_resolve_mode: 'evaluated',
           auto_resolve_after: 60,
-          follow_up_before_resolving: true,
-          follow_up_resolve_after: 45,
           send_inactivity_resolution_message: false,
           resolution_message: 'Saved closing message'
         )
