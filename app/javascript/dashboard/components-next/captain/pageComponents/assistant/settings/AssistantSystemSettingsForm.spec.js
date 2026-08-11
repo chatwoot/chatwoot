@@ -3,9 +3,9 @@ import { flushPromises, shallowMount } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
 import Button from 'dashboard/components-next/button/Button.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
-import Select from 'dashboard/components-next/select/Select.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import AssistantSystemSettingsForm from './AssistantSystemSettingsForm.vue';
+import DurationSelect from './DurationSelect.vue';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
@@ -31,7 +31,7 @@ const assistant = {
 const mountComponent = () =>
   shallowMount(AssistantSystemSettingsForm, {
     props: { assistant },
-    global: { stubs: { SettingsToggleSection: false } },
+    global: { stubs: { Banner: false, SettingsToggleSection: false } },
   });
 
 const submitForm = async wrapper => {
@@ -45,8 +45,11 @@ describe('AssistantSystemSettingsForm', () => {
     const modeCards = wrapper.findAllComponents(RadioCard);
 
     expect(modeCards).toHaveLength(3);
+    expect(
+      modeCards.every(card => card.props('name') === 'auto-resolve-mode')
+    ).toBe(true);
     expect(modeCards[0].props('isActive')).toBe(true);
-    expect(wrapper.findAllComponents(Select)).toHaveLength(2);
+    expect(wrapper.findAllComponents(DurationSelect)).toHaveLength(1);
     expect(wrapper.findAllComponents(Switch)).toHaveLength(2);
     expect(wrapper.text()).toContain(
       'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.REVIEW_AFTER'
@@ -62,7 +65,7 @@ describe('AssistantSystemSettingsForm', () => {
     wrapper.findAllComponents(RadioCard)[2].vm.$emit('select');
     await nextTick();
 
-    expect(wrapper.findAllComponents(Select)).toHaveLength(0);
+    expect(wrapper.findAllComponents(DurationSelect)).toHaveLength(0);
     expect(wrapper.findAllComponents(Switch)).toHaveLength(0);
     expect(wrapper.text()).toContain(
       'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.PENDING_INFO'
@@ -84,13 +87,11 @@ describe('AssistantSystemSettingsForm', () => {
     wrapper.findAllComponents(Switch)[0].vm.$emit('update:modelValue', true);
     await nextTick();
 
-    const durationSelects = wrapper.findAllComponents(Select);
-    expect(durationSelects).toHaveLength(4);
+    const durationSelects = wrapper.findAllComponents(DurationSelect);
+    expect(durationSelects).toHaveLength(2);
 
-    durationSelects[0].vm.$emit('update:modelValue', 2);
-    durationSelects[1].vm.$emit('update:modelValue', 10);
-    durationSelects[2].vm.$emit('update:modelValue', 1);
-    durationSelects[3].vm.$emit('update:modelValue', 20);
+    durationSelects[0].vm.$emit('update:modelValue', 130);
+    durationSelects[1].vm.$emit('update:modelValue', 80);
     await nextTick();
     await submitForm(wrapper);
 
@@ -110,7 +111,7 @@ describe('AssistantSystemSettingsForm', () => {
     wrapper.findAllComponents(RadioCard)[1].vm.$emit('select');
     await nextTick();
 
-    expect(wrapper.findAllComponents(Select)).toHaveLength(2);
+    expect(wrapper.findAllComponents(DurationSelect)).toHaveLength(1);
     expect(wrapper.findAllComponents(Switch)).toHaveLength(1);
     expect(wrapper.text()).toContain(
       'CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.ALWAYS_WARNING'
