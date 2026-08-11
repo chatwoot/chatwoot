@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Execute",
       "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "EXECUTED_SUCCESSFULLY": "Macro executed successfully",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",

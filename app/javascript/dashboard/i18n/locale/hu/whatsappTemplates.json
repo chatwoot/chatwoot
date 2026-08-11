@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Változók",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Nyelv",
       "CATEGORY": "Kategória",
       "VARIABLE_PLACEHOLDER": "Add meg a {variable} értékét",
