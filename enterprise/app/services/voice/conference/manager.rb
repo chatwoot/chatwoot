@@ -52,7 +52,7 @@ class Voice::Conference::Manager
 
   def auto_assign_conversation!(user_id)
     conversation = call.conversation
-    return if conversation.assignee_id.present?
+    return if conversation.assigned_entity.present?
 
     Conversations::AssignmentService.new(conversation: conversation, assignee_id: user_id).perform
   end
