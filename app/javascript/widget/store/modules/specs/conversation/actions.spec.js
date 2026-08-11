@@ -154,6 +154,57 @@ describe('#actions', () => {
     });
   });
 
+  describe('#sendMessageWithData', () => {
+    const mockWindow = () =>
+      vi.spyOn(window, 'window', 'get').mockImplementation(() => ({
+        WOOT_WIDGET: { $root: { $i18n: { locale: 'en' } } },
+        location: { search: '' },
+      }));
+
+    it('clears the old thread when the server replies with a different conversation', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', conversation_id: 99 },
+      });
+      const windowSpy = mockWindow();
+      const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
+
+      await actions.sendMessageWithData(
+        { commit, dispatch, state },
+        { message: { id: 'temp', content: 'hello' } }
+      );
+      windowSpy.mockRestore();
+
+      expect(commit).toBeCalledWith('clearConversations');
+      expect(dispatch).toBeCalledWith(
+        'conversationAttributes/getAttributes',
+        {},
+        { root: true }
+      );
+    });
+
+    it('keeps the thread when the message lands in the same conversation', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', conversation_id: 55 },
+      });
+      const windowSpy = mockWindow();
+      const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
+
+      await actions.sendMessageWithData(
+        { commit, dispatch, state },
+        { message: { id: 'temp', content: 'hello' } }
+      );
+      windowSpy.mockRestore();
+
+      expect(commit).not.toBeCalledWith('clearConversations');
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        id: 2,
+        content: 'hello',
+        conversation_id: 55,
+        status: 'sent',
+      });
+    });
+  });
+
   describe('#sendAttachment', () => {
     it('sends correct mutations', () => {
       const mockDate = new Date(1466424490000);
@@ -161,7 +212,11 @@ describe('#actions', () => {
       const spy = vi.spyOn(global, 'Date').mockImplementation(() => mockDate);
       const thumbUrl = '';
       const attachment = { thumbUrl, fileType: 'file' };
-      const state = { pendingCustomAttributes: {}, pendingLabels: [] };
+      const state = {
+        conversations: {},
+        pendingCustomAttributes: {},
+        pendingLabels: [],
+      };
 
       actions.sendAttachment(
         { commit, dispatch, state },
@@ -184,6 +239,42 @@ describe('#actions', () => {
           },
         ],
       });
+    });
+
+    it('clears the old thread when the server replies with a different conversation', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, conversation_id: 99 },
+      });
+      const windowSpy = vi
+        .spyOn(window, 'window', 'get')
+        .mockImplementation(() => ({
+          WOOT_WIDGET: { $root: { $i18n: { locale: 'en' } } },
+          location: { search: '' },
+        }));
+      const state = {
+        conversations: { 1: { id: 1, conversation_id: 55 } },
+        pendingCustomAttributes: {},
+        pendingLabels: [],
+      };
+
+      await actions.sendAttachment(
+        { commit, dispatch, state },
+        {
+          attachment: {
+            thumbUrl: '',
+            fileType: 'file',
+            file: 'data:image/png',
+          },
+        }
+      );
+      windowSpy.mockRestore();
+
+      expect(commit).toBeCalledWith('clearConversations');
+      expect(dispatch).toBeCalledWith(
+        'conversationAttributes/getAttributes',
+        {},
+        { root: true }
+      );
     });
   });
 
