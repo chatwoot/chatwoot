@@ -32,7 +32,12 @@ class Voice::Conference::Manager
   def join_agent!
     user_id = extract_user_id
     claim_for_user!(user_id) if user_id
+    already_connected = call.in_progress?
     status_manager.process_status_update('in_progress', timestamp: now)
+    return if already_connected || !call.in_progress?
+
+    # Broadcast only once Twilio confirms the agent's leg actually joined, not on the claim.
+    call.broadcast_voice_call_event(:accepted, accepted_by_agent_id: call.accepted_by_agent_id)
   end
 
   # First-join wins; later joins by other agents are silently ignored so the

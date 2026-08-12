@@ -105,6 +105,17 @@ class Call < ApplicationRecord
     status.to_s.tr('_', '-')
   end
 
+  # Payload shape matches Whatsapp::CallService#broadcast so the frontend's
+  # onVoiceCallAccepted/onVoiceCallEnded handlers can treat both providers uniformly.
+  def broadcast_voice_call_event(event, **extra)
+    payload = {
+      event: "voice_call.#{event}",
+      data: { id: id, call_id: provider_call_id, provider: provider,
+              conversation_id: conversation_id, account_id: account_id }.merge(extra)
+    }
+    ActionCable.server.broadcast("account_#{account_id}", payload)
+  end
+
   def from_number
     incoming? ? contact.phone_number : inbox.channel&.phone_number
   end

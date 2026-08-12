@@ -16,7 +16,8 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
     conference_sid = conference_service.ensure_conference_sid
     conference_service.mark_agent_joined(user: current_user)
-    broadcast_voice_call_event(call, :accepted, accepted_by_agent_id: current_user.id)
+    # voice_call.accepted broadcasts from Voice::Conference::Manager#join_agent! once
+    # Twilio confirms the leg joined, not here — joinClientCall can still fail after this.
 
     render json: {
       status: 'success',
@@ -34,7 +35,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     finalize_as_agent_reject!(call) if rejecting
     # Account-wide, so every other tab/agent stops showing this call as ringing/active —
     # matches the equivalent WhatsApp broadcast (Whatsapp::CallService#broadcast).
-    broadcast_voice_call_event(call, :ended, status: call.display_status)
+    call.broadcast_voice_call_event(:ended, status: call.display_status)
     render json: { status: 'success', id: call.conversation.display_id }
   end
 
@@ -65,17 +66,6 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def render_call_already_accepted(error)
     render json: { error: error.message }, status: :conflict
-  end
-
-  # Payload shape matches Whatsapp::CallService#broadcast so the frontend's
-  # onVoiceCallAccepted/onVoiceCallEnded handlers can treat both providers uniformly.
-  def broadcast_voice_call_event(call, event, **extra)
-    payload = {
-      event: "voice_call.#{event}",
-      data: { id: call.id, call_id: call.provider_call_id, provider: call.provider,
-              conversation_id: call.conversation_id, account_id: call.account_id }.merge(extra)
-    }
-    ActionCable.server.broadcast("account_#{call.account_id}", payload)
   end
 
   # A hangup before pickup is treated as an agent rejection, matching WhatsApp.
