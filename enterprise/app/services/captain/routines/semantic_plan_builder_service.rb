@@ -35,20 +35,20 @@ class Captain::Routines::SemanticPlanBuilderService
 
   def evaluate_plan(attempt)
     emit(:evaluating_plan, attempt: attempt, maximum: MAX_EVALUATION_PASSES)
-    response = evaluator.perform
+    response = evaluator(attempt).perform
     return fail_plan(response[:error]) if response[:error]
 
     evaluation = response[:evaluation]
     @routine.update!(plan_evaluation: evaluation)
     log_evaluation(evaluation)
     emit(:plan_evaluated, evaluation: evaluation)
-    process_evaluation(evaluation)
+    process_evaluation(evaluation, final_attempt: attempt == MAX_EVALUATION_PASSES)
   end
 
-  def process_evaluation(evaluation)
+  def process_evaluation(evaluation, final_attempt:)
     case evaluation['status']
     when 'valid' then accept_plan_if_stable
-    when 'correctable' then repair_plan(evaluation)
+    when 'correctable' then final_attempt ? mark_needs_review : repair_plan(evaluation)
     when 'needs_clarification' then pause_for_clarification(evaluation)
     when 'unsupported' then mark_needs_review
     end
@@ -80,12 +80,14 @@ class Captain::Routines::SemanticPlanBuilderService
     ).perform
   end
 
-  def evaluator
+  def evaluator(attempt)
     Captain::Routines::SemanticPlanEvaluatorService.new(
       account: @routine.account,
       instructions: @routine.instructions,
       plan: @routine.semantic_plan,
-      clarification_answers: @routine.clarification_answers
+      clarification_answers: @routine.clarification_answers,
+      evaluation_attempt: attempt,
+      maximum_evaluation_attempts: MAX_EVALUATION_PASSES
     )
   end
 

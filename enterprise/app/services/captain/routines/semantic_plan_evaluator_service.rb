@@ -1,7 +1,12 @@
 class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
   RESPONSE_SCHEMA = Captain::Routines::SemanticPlanEvaluationSchema
 
-  pattr_initialize [:account!, :instructions!, :plan!, { clarification_answers: {} }]
+  pattr_initialize [
+    :account!,
+    :instructions!,
+    :plan!,
+    { clarification_answers: {}, evaluation_attempt: 1, maximum_evaluation_attempts: 1 }
+  ]
 
   def perform
     response = make_api_call(messages: messages, schema: RESPONSE_SCHEMA)
@@ -83,6 +88,12 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
       selected by the routine; do not ask about impossible out-of-scope states. When assignment is ambiguous, distinguish team
       assignment from individual agent assignment in the question.
 
+      Treat organization-specific vocabulary such as support tiers, customer segments, risk categories, and internal statuses as
+      unresolved unless the request or an authoritative clarification maps the term to product concepts in the capability summary.
+      Repeating an unresolved business term in the plan does not define how the routine selects records or behaves. If materially
+      different mappings are possible, return `needs_clarification` and ask the administrator to define the term in business-facing
+      product concepts. Do not ask for database fields, APIs, or record IDs.
+
       Invocation and scheduling are configured directly on the Routine model. Ignore schedule, timing, recurrence, manual-run,
       and event-trigger language in the original request. The semantic plan must not contain those concerns.
 
@@ -90,7 +101,8 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
       incorrect and must be returned as `correctable`, with that boundary removed.
 
       Return `valid` only when the plan faithfully and completely represents the request.
-      Return `correctable` when the plan can be repaired from information already present in the request.
+      Return `correctable` only when the exact repair is fully determined by information already supplied. Do not use
+      `correctable` to restate an unresolved business term or guess how it maps to product data.
       Return `needs_clarification` only when different user answers would materially change the intended routine. Ask focused
       questions with stable snake_case IDs. Never ask for record IDs, database fields, APIs, or other implementation details.
       Return `unsupported` when a requested product behavior is absent from the capability summary below. Describe the missing
@@ -100,6 +112,8 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
       and no questions. When status is `needs_clarification`, return at least one question. When status is `unsupported`, return at
       least one missing capability and no questions.
 
+      #{evaluation_pass_guidance}
+
       Available product capabilities:
       #{Captain::Routines::Operations::Registry.capabilities_prompt}
     PROMPT
@@ -107,6 +121,8 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
 
   def user_prompt
     <<~PROMPT
+      Evaluation pass: #{evaluation_attempt} of #{maximum_evaluation_attempts}
+
       Original request:
       #{instructions}
 
@@ -123,5 +139,22 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
 
   def event_name
     'routine_semantic_plan_evaluation'
+  end
+
+  def evaluation_pass_guidance
+    unless final_evaluation?
+      return 'This is not the final evaluation pass. Use `correctable` only when the next plan can be repaired from supplied facts.'
+    end
+
+    <<~GUIDANCE.squish
+      This is the final evaluation pass. There will be no later evaluation to verify another repair. If the remaining issue
+      requires choosing between materially different interpretations, return `needs_clarification` now. Do not manufacture a
+      question merely because this is the final pass: return `valid` when the plan is faithful, `correctable` only for a concrete
+      issue whose repair is fully determined, and `unsupported` when the required product behavior is unavailable.
+    GUIDANCE
+  end
+
+  def final_evaluation?
+    evaluation_attempt >= maximum_evaluation_attempts
   end
 end
