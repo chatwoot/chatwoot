@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from './FormattedContent.vue';
+import WhatsappReferral from './WhatsappReferral.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
 import { MESSAGE_TYPES } from '../../constants';
@@ -47,6 +48,10 @@ const handleSeeOriginal = () => {
       <span v-if="isEmpty" class="text-n-slate-11">
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
+      <WhatsappReferral
+        v-if="contentAttributes.referral"
+        :referral="contentAttributes.referral"
+      />
       <FormattedContent v-if="renderContent" :content="renderContent" />
       <TranslationToggle
         v-if="hasTranslations"
