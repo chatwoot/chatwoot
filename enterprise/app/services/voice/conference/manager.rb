@@ -33,30 +33,41 @@ class Voice::Conference::Manager
     user_id = extract_user_id
     return unless user_id
 
-    first_claim = claim_for_user!(user_id)
+    claim_for_user!(user_id)
     status_manager.process_status_update('in_progress', timestamp: now)
-    return unless first_claim && call.in_progress?
+    return unless call.accepted_by_agent_id == user_id && mark_accepted_broadcast!
 
-    # Broadcast on the winning claim, not on in_progress — an outbound call's Twilio leg can
-    # already be in_progress (via the contact's "answered" callback) before this join arrives.
     call.broadcast_voice_call_event(:accepted, accepted_by_agent_id: call.accepted_by_agent_id)
   end
 
   # First-join wins; later joins by other agents are silently ignored so the
   # webhook doesn't stomp the original assignee. User-facing rejection happens
-  # at the API layer. The claim and terminal-state check share one row lock, so
-  # concurrent/duplicate joins can't both win and a call already ended can't be claimed.
+  # at the API layer.
   def claim_for_user!(user_id)
-    claimed_first_time = false
+    claimed = false
     call.with_lock do
       next if call.terminal? || (call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id)
 
-      claimed_first_time = call.accepted_by_agent_id.blank?
       call.update!(accepted_by_agent_id: user_id) if call.accepted_by_agent_id != user_id
+      claimed = true
     end
 
-    auto_assign_conversation!(user_id) if claimed_first_time
-    claimed_first_time
+    auto_assign_conversation!(user_id) if claimed
+  end
+
+  # Exactly-once gate for the accepted broadcast, tracked separately from the claim: the
+  # claim can already be set before this webhook runs (mark_agent_joined on POST /conference,
+  # or OutboundCallBuilder at call creation), and call.status can already be in_progress via
+  # the contact's own "answered" callback — neither is a reliable "already broadcast" signal.
+  def mark_accepted_broadcast!
+    first_time = false
+    call.with_lock do
+      next if call.terminal? || call.accepted_broadcast_at.present?
+
+      call.update!(accepted_broadcast_at: now)
+      first_time = true
+    end
+    first_time
   end
 
   def auto_assign_conversation!(user_id)
