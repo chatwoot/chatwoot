@@ -99,7 +99,7 @@ const items = computed(() =>
 
 const onSelect = item => emit('replace', item.content);
 
-const { run: runFetch } = useAbortableRequest();
+const { run: runFetch, isPending: isFetching } = useAbortableRequest();
 
 const fetchCannedResponses = () => {
   runFetch(signal =>
@@ -110,11 +110,13 @@ const fetchCannedResponses = () => {
   );
 };
 
-const { start: scheduleFetch } = useTimeoutFn(
+const { start: scheduleFetch, isPending: isDebouncing } = useTimeoutFn(
   fetchCannedResponses,
   SEARCH_DEBOUNCE,
   { immediate: false }
 );
+
+const isLoading = computed(() => isFetching.value || isDebouncing.value);
 
 watch(searchTerm, scheduleFetch);
 
@@ -127,6 +129,7 @@ onMounted(fetchCannedResponses);
     :caret-position="caretPosition"
     :items="items"
     :search-placeholder="t('COMBOBOX.SEARCH_PLACEHOLDER')"
+    :is-loading="isLoading"
     :empty-label="
       searchTerm
         ? t('COMBOBOX.EMPTY_SEARCH_RESULTS', { searchTerm })
@@ -139,7 +142,7 @@ onMounted(fetchCannedResponses);
     <template #preview="{ item }">
       <div
         v-dompurify-html="formatMessage(item?.resolved || '')"
-        class="px-4 py-3 text-sm break-words prose-sm prose-p:text-sm prose-p:leading-relaxed prose-p:mb-1 prose-p:mt-0 prose-ul:mb-1 prose-ul:mt-0 text-n-slate-12"
+        class="px-4 py-3 prose prose-bubble !max-w-none prose-a:text-n-brand"
       />
     </template>
   </CaretAnchoredPicker>
