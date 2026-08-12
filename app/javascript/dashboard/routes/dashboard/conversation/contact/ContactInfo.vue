@@ -221,8 +221,8 @@ export default {
               class="flex-shrink-0 -mx-1 opacity-0 transition-opacity"
               :class="
                 isEditingName
-                  ? 'pointer-events-none'
-                  : 'group-hover/name:opacity-100'
+                  ? 'invisible'
+                  : 'group-hover/name:opacity-100 focus-visible:opacity-100'
               "
               @click="startEditingName"
             />
