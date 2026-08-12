@@ -2,7 +2,7 @@
 # Funnel and outcome metrics use episodes grouped by when demand started,
 # keeping their cohort stable as later facts arrive. Reply activity remains
 # message-derived because active episodes do not have a terminal snapshot yet.
-class Captain::AssistantOutcomeStatsBuilder
+class Captain::AssistantOverviewStatsBuilder
   DURABLE_RESOLUTION_WINDOW = 7.days
   SECONDS_SAVED_PER_REPLY = 2.minutes.to_i
   USAGE_LIMIT_REASON = 'usage_limit'.freeze
@@ -50,8 +50,7 @@ class Captain::AssistantOutcomeStatsBuilder
     previous = window_metrics(rows[:previous], messages[:previous])
 
     PACKED_METRICS.transform_values { |(key, mode)| pack(current[key], previous[key], mode) }.merge(
-      human_only_csat_score: pack(human_only_csat(window.current), human_only_csat(window.previous), :absolute),
-      handoff_reasons: handoff_reasons
+      human_only_csat_score: pack(human_only_csat(window.current), human_only_csat(window.previous), :absolute)
     )
   end
 
@@ -127,10 +126,6 @@ class Captain::AssistantOutcomeStatsBuilder
     )
 
     { current: row[0..1], previous: row[2..3] }
-  end
-
-  def handoff_reasons
-    outcomes_scope(window.current).where.not(handoff_reason_category: nil).group(:handoff_reason_category).count
   end
 
   # Account-wide CSAT from conversations where no Captain assistant ever

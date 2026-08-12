@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Captain::AssistantOutcomeStatsBuilder do
+RSpec.describe Captain::AssistantOverviewStatsBuilder do
   subject(:metrics) { described_class.new(assistant, '30').metrics }
 
   let(:account) { create(:account) }
@@ -22,8 +22,7 @@ RSpec.describe Captain::AssistantOutcomeStatsBuilder do
         :autonomous_csat_score,
         :assisted_csat_score,
         :human_only_csat_score,
-        :median_resolution_seconds,
-        :handoff_reasons
+        :median_resolution_seconds
       )
     end
 
@@ -33,7 +32,6 @@ RSpec.describe Captain::AssistantOutcomeStatsBuilder do
       expect(metrics[:durable_resolution_rate][:current]).to eq(0)
       expect(metrics[:autonomous_csat_score][:current]).to eq(0)
       expect(metrics[:assisted_csat_score][:current]).to eq(0)
-      expect(metrics[:handoff_reasons]).to eq({})
     end
   end
 
@@ -134,10 +132,6 @@ RSpec.describe Captain::AssistantOutcomeStatsBuilder do
       expect(metrics[:autonomous_csat_score][:current]).to eq(5.0)
       expect(metrics[:assisted_csat_score][:current]).to eq(4.0)
       expect(metrics[:median_resolution_seconds][:current]).to eq(250)
-    end
-
-    it 'returns the current-window handoff reason distribution' do
-      expect(metrics[:handoff_reasons]).to eq('missing_knowledge' => 1, 'usage_limit' => 1)
     end
   end
 
