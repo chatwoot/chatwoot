@@ -7,6 +7,7 @@
       "404": "Ne postoje aktivni razgovori u ovoj grupi."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Razgovori",
     "MENTION_HEADING": "Spominjanja",
     "UNATTENDED_HEADING": "Nedodeljeni",

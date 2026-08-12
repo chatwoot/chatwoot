@@ -7,6 +7,7 @@
       "404": "لا توجد محادثات نشطة في هذه المجموعة."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "المحادثات",
     "MENTION_HEADING": "الإشارات",
     "UNATTENDED_HEADING": "بدون حضور",
