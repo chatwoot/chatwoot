@@ -79,6 +79,21 @@
       "THRESHOLD_TIME": {
         "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
       },
+      "ALERT_RECIPIENTS": {
+        "LABEL": "Alert on breach",
+        "EVERYONE": {
+          "LABEL": "All administrators",
+          "DESC": "Every administrator in this account is alerted when this SLA is breached."
+        },
+        "SPECIFIC": {
+          "LABEL": "Specific administrators",
+          "DESC": "Only the administrators you pick are alerted when this SLA is breached.",
+          "PLACEHOLDER": "Select administrators",
+          "SEARCH": "Search administrators",
+          "EMPTY": "No administrators found"
+        },
+        "EMPTY_ERROR": "Select at least one administrator to alert"
+      },
       "EDIT": "Edit",
       "CREATE": "Create",
       "DELETE": "Delete",
@@ -89,6 +104,14 @@
       "DESC": "Friendly promises for great service!",
       "API": {
         "SUCCESS_MESSAGE": "SLA added successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit SLA",
+      "DESC": "Response times and business hours cannot be changed after an SLA is created.",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA updated successfully",
         "ERROR_MESSAGE": "There was an error, please try again"
       }
     },

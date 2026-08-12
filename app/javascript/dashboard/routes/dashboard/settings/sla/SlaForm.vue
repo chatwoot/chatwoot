@@ -1,29 +1,49 @@
 <script>
 import { mapGetters } from 'vuex';
-import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 import validations from './validations';
 import SlaTimeInput from './SlaTimeInput.vue';
+import SlaAlertRecipients from './SlaAlertRecipients.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import { useVuelidate } from '@vuelidate/core';
 import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
+
+const DEFAULT_TIME_INPUTS = [
+  {
+    threshold: null,
+    unit: 'Minutes',
+    label: 'SLA.FORM.FIRST_RESPONSE_TIME.LABEL',
+    placeholder: 'SLA.FORM.FIRST_RESPONSE_TIME.PLACEHOLDER',
+  },
+  {
+    threshold: null,
+    unit: 'Minutes',
+    label: 'SLA.FORM.NEXT_RESPONSE_TIME.LABEL',
+    placeholder: 'SLA.FORM.NEXT_RESPONSE_TIME.PLACEHOLDER',
+  },
+  {
+    threshold: null,
+    unit: 'Minutes',
+    label: 'SLA.FORM.RESOLUTION_TIME.LABEL',
+    placeholder: 'SLA.FORM.RESOLUTION_TIME.PLACEHOLDER',
+  },
+];
 
 export default {
   components: {
     SlaTimeInput,
+    SlaAlertRecipients,
     NextButton,
+    SidePanel,
     ToggleSwitch,
   },
   props: {
-    selectedResponse: {
-      type: Object,
-      default: () => {},
-    },
-    submitLabel: {
+    mode: {
       type: String,
-      required: true,
+      default: 'create',
     },
   },
-  emits: ['close', 'submitSla'],
+  emits: ['submitSla'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -33,27 +53,10 @@ export default {
       description: '',
       isSlaTimeInputsInvalid: false,
       slaTimeInputsValidation: {},
-      slaTimeInputs: [
-        {
-          threshold: null,
-          unit: 'Minutes',
-          label: 'SLA.FORM.FIRST_RESPONSE_TIME.LABEL',
-          placeholder: 'SLA.FORM.FIRST_RESPONSE_TIME.PLACEHOLDER',
-        },
-        {
-          threshold: null,
-          unit: 'Minutes',
-          label: 'SLA.FORM.NEXT_RESPONSE_TIME.LABEL',
-          placeholder: 'SLA.FORM.NEXT_RESPONSE_TIME.PLACEHOLDER',
-        },
-        {
-          threshold: null,
-          unit: 'Minutes',
-          label: 'SLA.FORM.RESOLUTION_TIME.LABEL',
-          placeholder: 'SLA.FORM.RESOLUTION_TIME.PLACEHOLDER',
-        },
-      ],
+      slaTimeInputs: structuredClone(DEFAULT_TIME_INPUTS),
       onlyDuringBusinessHours: false,
+      notifyUserIds: [],
+      isAlertRecipientsInvalid: false,
     };
   },
   validations,
@@ -61,10 +64,29 @@ export default {
     ...mapGetters({
       uiFlags: 'sla/getUIFlags',
     }),
+    isEditing() {
+      return this.mode === 'edit';
+    },
+    panelTitle() {
+      return this.isEditing
+        ? this.$t('SLA.EDIT.TITLE')
+        : this.$t('SLA.ADD.TITLE');
+    },
+    panelDescription() {
+      return this.isEditing
+        ? this.$t('SLA.EDIT.DESC')
+        : this.$t('SLA.ADD.DESC');
+    },
+    submitLabel() {
+      return this.isEditing
+        ? this.$t('SLA.FORM.EDIT')
+        : this.$t('SLA.FORM.CREATE');
+    },
     isSubmitDisabled() {
       return (
         this.v$.name.$invalid ||
         this.isSlaTimeInputsInvalid ||
+        this.isAlertRecipientsInvalid ||
         this.uiFlags.isUpdating
       );
     },
@@ -80,41 +102,30 @@ export default {
       return errorMessage;
     },
   },
-  mounted() {
-    if (this.selectedResponse) this.setFormValues();
-  },
   methods: {
-    onClose() {
-      this.$emit('close');
+    // The record is passed in on open, the prop on the parent updates only a tick later
+    open(sla) {
+      this.resetForm();
+      if (sla) this.setFormValues(sla);
+      this.$refs.panelRef.open();
     },
-    setFormValues() {
-      const {
-        name,
-        description,
-        first_response_time_threshold: firstResponseTimeThreshold,
-        next_response_time_threshold: nextResponseTimeThreshold,
-        resolution_time_threshold: resolutionTimeThreshold,
-        only_during_business_hours: onlyDuringBusinessHours,
-      } = this.selectedResponse;
-
+    close() {
+      this.$refs.panelRef.close();
+    },
+    resetForm() {
+      this.name = '';
+      this.description = '';
+      this.notifyUserIds = [];
+      this.onlyDuringBusinessHours = false;
+      this.slaTimeInputs = structuredClone(DEFAULT_TIME_INPUTS);
+      this.slaTimeInputsValidation = {};
+      this.isSlaTimeInputsInvalid = false;
+      this.v$.$reset();
+    },
+    setFormValues({ name, description, notify_user_ids: notifyUserIds }) {
       this.name = name;
       this.description = description;
-      this.onlyDuringBusinessHours = onlyDuringBusinessHours;
-
-      const thresholds = [
-        firstResponseTimeThreshold,
-        nextResponseTimeThreshold,
-        resolutionTimeThreshold,
-      ];
-      this.slaTimeInputs.forEach((input, index) => {
-        const converted = convertSecondsToTimeUnit(thresholds[index], {
-          minute: 'Minutes',
-          hour: 'Hours',
-          day: 'Days',
-        });
-        input.threshold = converted.time;
-        input.unit = converted.unit;
-      });
+      this.notifyUserIds = notifyUserIds || [];
     },
     updateThreshold(index, value) {
       this.slaTimeInputs[index].threshold = value;
@@ -126,11 +137,17 @@ export default {
       const payload = {
         name: this.name,
         description: this.description,
-        first_response_time_threshold: this.convertToSeconds(0),
-        next_response_time_threshold: this.convertToSeconds(1),
-        resolution_time_threshold: this.convertToSeconds(2),
-        only_during_business_hours: this.onlyDuringBusinessHours,
+        notify_user_ids: this.notifyUserIds,
       };
+
+      // Thresholds and business hours are locked once the SLA is created
+      if (!this.isEditing) {
+        payload.first_response_time_threshold = this.convertToSeconds(0);
+        payload.next_response_time_threshold = this.convertToSeconds(1);
+        payload.resolution_time_threshold = this.convertToSeconds(2);
+        payload.only_during_business_hours = this.onlyDuringBusinessHours;
+      }
+
       this.$emit('submitSla', payload);
     },
     convertToSeconds(index) {
@@ -158,8 +175,13 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col h-auto overflow-auto">
-    <form class="flex flex-wrap mx-0" @submit.prevent="onSubmit">
+  <SidePanel
+    ref="panelRef"
+    width="xl"
+    :title="panelTitle"
+    :description="panelDescription"
+  >
+    <div class="flex flex-wrap w-full mx-0">
       <woot-input
         v-model="name"
         :class="{ error: v$.name.$error }"
@@ -187,42 +209,51 @@ export default {
         :placeholder="$t('SLA.FORM.DESCRIPTION.PLACEHOLDER')"
       />
 
-      <SlaTimeInput
-        v-for="(input, index) in slaTimeInputs"
-        :key="index"
-        :threshold="input.threshold"
-        :threshold-unit="input.unit"
-        :label="$t(input.label)"
-        :placeholder="$t(input.placeholder)"
-        @update-threshold="updateThreshold(index, $event)"
-        @unit="updateUnit(index, $event)"
-        @is-in-valid="handleIsInvalid(index, $event)"
+      <template v-if="!isEditing">
+        <SlaTimeInput
+          v-for="(input, index) in slaTimeInputs"
+          :key="index"
+          :threshold="input.threshold"
+          :threshold-unit="input.unit"
+          :label="$t(input.label)"
+          :placeholder="$t(input.placeholder)"
+          @update-threshold="updateThreshold(index, $event)"
+          @unit="updateUnit(index, $event)"
+          @is-in-valid="handleIsInvalid(index, $event)"
+        />
+
+        <div
+          class="mt-3 flex h-10 items-center text-sm w-full gap-2 border border-solid border-n-strong px-3 py-1.5 rounded-xl justify-between"
+        >
+          <span for="sla_bh" class="text-n-slate-11">
+            {{ $t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER') }}
+          </span>
+          <ToggleSwitch id="sla_bh" v-model="onlyDuringBusinessHours" />
+        </div>
+      </template>
+
+      <SlaAlertRecipients
+        v-model="notifyUserIds"
+        @is-invalid="isAlertRecipientsInvalid = $event"
       />
-
-      <div
-        class="mt-3 flex h-10 items-center text-sm w-full gap-2 border border-solid border-n-strong px-3 py-1.5 rounded-xl justify-between"
-      >
-        <span for="sla_bh" class="text-n-slate-11">
-          {{ $t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER') }}
-        </span>
-        <ToggleSwitch id="sla_bh" v-model="onlyDuringBusinessHours" />
-      </div>
-
-      <div class="flex items-center justify-end w-full gap-2 mt-8">
+    </div>
+    <template #footer>
+      <div class="flex flex-row justify-end w-full gap-2">
         <NextButton
           faded
           slate
-          type="reset"
+          type="button"
           :label="$t('SLA.FORM.CANCEL')"
-          @click.prevent="onClose"
+          @click="close"
         />
         <NextButton
-          type="submit"
+          type="button"
           :label="submitLabel"
           :disabled="isSubmitDisabled"
           :is-loading="uiFlags.isUpdating"
+          @click="onSubmit"
         />
       </div>
-    </form>
-  </div>
+    </template>
+  </SidePanel>
 </template>
