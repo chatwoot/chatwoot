@@ -157,8 +157,8 @@ importers:
         specifier: ^2.0.5
         version: 2.0.5
       lettersanitizer:
-        specifier: ^1.0.6
-        version: 1.0.6
+        specifier: ^1.0.8
+        version: 1.0.8
       libphonenumber-js:
         specifier: ^1.11.9
         version: 1.11.9
@@ -226,8 +226,8 @@ importers:
         specifier: 9.14.5
         version: 9.14.5(vue@3.5.12(typescript@5.6.2))
       vue-letter:
-        specifier: ^0.2.1
-        version: 0.2.1
+        specifier: ^0.2.2
+        version: 0.2.2
       vue-router:
         specifier: ~4.4.5
         version: 4.4.5(vue@3.5.12(typescript@5.6.2))
@@ -3137,8 +3137,8 @@ packages:
   launch-editor@2.9.1:
     resolution: {integrity: sha512-Gcnl4Bd+hRO9P9icCP/RVVT2o8SFlPXofuCxvA2SaZuH45whSvf5p8x5oih5ftLiVhEI4sp5xDY+R+b3zJBh5w==}
 
-  lettersanitizer@1.0.6:
-    resolution: {integrity: sha512-2vj0tUtBRjlmTCFsgVlFmfi04p049Zwv/4eBGWBUOKropEoL+q+jTQQfFyDu50j7gL76pycMvrqD0uV0vxX2zg==}
+  lettersanitizer@1.0.8:
+    resolution: {integrity: sha512-xVP+ip61D7FgJsR9j3fsGo2xMw8+EUudVmvfj5CXg0DxbznVIurRyQcak+uT988AZT6g/SUW29ize8eq1NuBRw==}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -4775,8 +4775,8 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  vue-letter@0.2.1:
-    resolution: {integrity: sha512-IYWp47XUikjKfEniWYlFxeJFKABZwAE5IEjz866qCBytBr2dzqVDdjoMDpBP//krxkzN/QZYyHe6C09y/IODYg==}
+  vue-letter@0.2.2:
+    resolution: {integrity: sha512-Y7Jk1lgNtkJqie2NelUyIUGckEjwji5zOImTBUIViUDkl4US8mv1g+FwobbvIpmUiwglTOJh7wrxlDBQYQIrDw==}
 
   vue-resize@2.0.0-alpha.1:
     resolution: {integrity: sha512-7+iqOueLU7uc9NrMfrzbG8hwMqchfVfSzpVlCMeJQe4pyibqyoifDNbKTZvwxZKDvGkB+PdFeKvnGZMoEb8esg==}
@@ -8159,7 +8159,7 @@ snapshots:
       picocolors: 1.1.0
       shell-quote: 1.8.1
 
-  lettersanitizer@1.0.6: {}
+  lettersanitizer@1.0.8: {}
 
   levn@0.4.1:
     dependencies:
@@ -9938,9 +9938,9 @@ snapshots:
       '@vue/devtools-api': 6.6.4
       vue: 3.5.12(typescript@5.6.2)
 
-  vue-letter@0.2.1:
+  vue-letter@0.2.2:
     dependencies:
-      lettersanitizer: 1.0.6
+      lettersanitizer: 1.0.8
 
   vue-resize@2.0.0-alpha.1(vue@3.5.12(typescript@5.6.2)):
     dependencies:
