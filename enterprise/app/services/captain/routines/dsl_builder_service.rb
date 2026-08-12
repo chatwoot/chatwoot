@@ -1,11 +1,9 @@
 class Captain::Routines::DslBuilderService
   class InvalidClarificationAnswersError < StandardError; end
 
-  MIN_CONSECUTIVE_VALIDATIONS = 2
-  MAX_EVALUATION_PASSES = 4
-
-  def initialize(routine)
+  def initialize(routine, on_stage: nil)
     @routine = routine
+    @on_stage = on_stage
   end
 
   def perform(answers: {})
@@ -13,11 +11,11 @@ class Captain::Routines::DslBuilderService
     return result unless apply_clarification_answers(answers)
 
     @routine.update!(status: :building)
-    generation = generate_dsl(evaluator_feedback: @routine.evaluation.presence)
-    return fail_build(generation[:error]) if generation[:error]
+    plan_outcome = Captain::Routines::SemanticPlanBuilderService.new(@routine, on_stage: @on_stage).perform
+    return result unless plan_outcome == :accepted
 
-    persist_dsl(generation[:dsl])
-    evaluate_until_settled
+    Captain::Routines::DslCompilerService.new(@routine, on_stage: @on_stage).perform
+    result
   rescue InvalidClarificationAnswersError => e
     result.merge(error: e.message)
   rescue StandardError => e
@@ -25,103 +23,6 @@ class Captain::Routines::DslBuilderService
   end
 
   private
-
-  def evaluate_until_settled
-    MAX_EVALUATION_PASSES.times do
-      evaluation_response = evaluate_dsl
-      return fail_build(evaluation_response[:error]) if evaluation_response[:error]
-
-      evaluation = evaluation_response[:evaluation]
-      log_evaluation(evaluation)
-
-      settled_result = process_evaluation(evaluation)
-      return settled_result if settled_result
-    end
-
-    @routine.update!(status: :needs_review)
-    result
-  end
-
-  def process_evaluation(evaluation)
-    case evaluation['status']
-    when 'valid'
-      mark_ready if consecutive_validations >= MIN_CONSECUTIVE_VALIDATIONS
-    when 'correctable'
-      regenerate_dsl(evaluation)
-    when 'needs_clarification'
-      pause_for_clarification(evaluation)
-    when 'unsupported'
-      @routine.update!(status: :needs_review)
-      result
-    end
-  end
-
-  def regenerate_dsl(evaluation)
-    generation = generate_dsl(evaluator_feedback: evaluation)
-    return fail_build(generation[:error]) if generation[:error]
-
-    persist_dsl(generation[:dsl])
-    nil
-  end
-
-  def generate_dsl(evaluator_feedback:)
-    Captain::Routines::DslGeneratorService.new(
-      account: @routine.account,
-      instructions: @routine.instructions,
-      current_dsl: @routine.dsl.presence,
-      evaluator_feedback: evaluator_feedback,
-      clarification_answers: @routine.clarification_answers
-    ).perform
-  end
-
-  def evaluate_dsl
-    Captain::Routines::DslEvaluatorService.new(
-      account: @routine.account,
-      instructions: @routine.instructions,
-      dsl: @routine.dsl,
-      clarification_answers: @routine.clarification_answers
-    ).perform
-  end
-
-  def persist_dsl(dsl)
-    @routine.update!(dsl: dsl, name: dsl['name'])
-  end
-
-  def log_evaluation(evaluation)
-    iteration = @routine.build_iterations + 1
-    entry = {
-      'iteration' => iteration,
-      'dsl' => @routine.dsl,
-      'evaluation' => evaluation,
-      'created_at' => Time.current.iso8601
-    }
-
-    @routine.update!(
-      evaluation: evaluation,
-      build_iterations: iteration,
-      build_log: @routine.build_log + [entry]
-    )
-  end
-
-  def consecutive_validations
-    @routine.build_log.reverse.take_while do |entry|
-      entry.dig('evaluation', 'status') == 'valid'
-    end.size
-  end
-
-  def pause_for_clarification(evaluation)
-    questions = evaluation['questions'].reject do |question|
-      @routine.clarification_answers[question['id']].present?
-    end
-
-    if questions.empty?
-      @routine.update!(status: :needs_review)
-    else
-      @routine.update!(status: :awaiting_clarification, clarification_questions: questions)
-    end
-
-    result
-  end
 
   def apply_clarification_answers(answers)
     return true unless @routine.status_awaiting_clarification?
@@ -144,13 +45,8 @@ class Captain::Routines::DslBuilderService
     unanswered_questions.empty?
   end
 
-  def mark_ready
-    @routine.update!(status: :ready, clarification_questions: [])
-    result
-  end
-
   def fail_build(error)
-    evaluation = { 'status' => 'failed', 'summary' => error.to_s, 'corrections' => [], 'questions' => [] }
+    evaluation = Captain::Routines::BuildEvaluation.failed(error)
     @routine.update!(status: :failed, evaluation: evaluation)
     result
   end
@@ -159,6 +55,8 @@ class Captain::Routines::DslBuilderService
     {
       status: @routine.status,
       routine: @routine,
+      semantic_plan: @routine.semantic_plan,
+      plan_evaluation: @routine.plan_evaluation,
       dsl: @routine.dsl,
       evaluation: @routine.evaluation,
       questions: @routine.clarification_questions

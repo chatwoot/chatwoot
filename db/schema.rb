@@ -506,6 +506,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_12_155520) do
     t.bigint "account_id", null: false
     t.string "name"
     t.text "instructions", null: false
+    t.jsonb "semantic_plan", default: {}, null: false
+    t.jsonb "plan_evaluation", default: {}, null: false
     t.jsonb "dsl", default: {}, null: false
     t.integer "status", default: 0, null: false
     t.jsonb "clarification_questions", default: [], null: false

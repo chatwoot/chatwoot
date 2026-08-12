@@ -14,7 +14,7 @@ class Captain::Routine < ApplicationRecord
 
   validates :instructions, presence: true
 
-  def build_dsl!(answers: {})
-    Captain::Routines::DslBuilderService.new(self).perform(answers: answers)
+  def build_dsl!(answers: {}, on_stage: nil)
+    Captain::Routines::DslBuilderService.new(self, on_stage: on_stage).perform(answers: answers)
   end
 end

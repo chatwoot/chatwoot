@@ -31,13 +31,18 @@ class Captain::Routines::DslSchema
         'properties' => { 'ref' => { 'type' => 'string', 'minLength' => 1 } }
       },
       'collection_query' => {
-        'type' => 'object',
-        'required' => %w[operation with],
-        'additionalProperties' => false,
-        'properties' => {
-          'operation' => { 'type' => 'string', 'minLength' => 1 },
-          'with' => { 'type' => 'object' }
-        }
+        'oneOf' => [
+          { '$ref' => '#/definitions/reference' },
+          {
+            'type' => 'object',
+            'required' => %w[operation with],
+            'additionalProperties' => false,
+            'properties' => {
+              'operation' => { 'type' => 'string', 'minLength' => 1 },
+              'with' => { 'type' => 'object' }
+            }
+          }
+        ]
       },
       'condition' => {
         'type' => 'object',
@@ -108,7 +113,7 @@ class Captain::Routines::DslSchema
       },
       'approval_step' => {
         'type' => 'object',
-        'required' => %w[approval context],
+        'required' => %w[approval context do],
         'additionalProperties' => false,
         'properties' => {
           'approval' => { 'type' => 'string', 'minLength' => 1 },

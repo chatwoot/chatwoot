@@ -4,6 +4,8 @@ class CreateCaptainRoutines < ActiveRecord::Migration[7.2]
       t.references :account, null: false, index: false
       t.string :name
       t.text :instructions, null: false
+      t.jsonb :semantic_plan, null: false, default: {}
+      t.jsonb :plan_evaluation, null: false, default: {}
       t.jsonb :dsl, null: false, default: {}
       t.integer :status, null: false, default: 0
       t.jsonb :clarification_questions, null: false, default: []

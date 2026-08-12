@@ -1,0 +1,86 @@
+class Captain::Routines::SemanticPlanSchema
+  SCHEMA = {
+    'type' => 'object',
+    'required' => %w[version name trigger steps],
+    'additionalProperties' => false,
+    'properties' => {
+      'version' => { 'const' => 1 },
+      'name' => { 'type' => 'string', 'minLength' => 1 },
+      'trigger' => {
+        'type' => 'object',
+        'required' => %w[type description],
+        'additionalProperties' => false,
+        'properties' => {
+          'type' => { 'enum' => %w[manual schedule event] },
+          'description' => { 'type' => 'string', 'minLength' => 1 }
+        }
+      },
+      'steps' => {
+        'type' => 'array',
+        'minItems' => 1,
+        'items' => { '$ref' => '#/definitions/step' }
+      }
+    },
+    'definitions' => {
+      'step' => {
+        'type' => 'object',
+        'required' => %w[id type description],
+        'additionalProperties' => false,
+        'properties' => {
+          'id' => { 'type' => 'string', 'pattern' => '^[a-z][a-z0-9_]*$' },
+          'type' => { 'enum' => %w[selection context decision branch action approval] },
+          'description' => { 'type' => 'string', 'minLength' => 1 },
+          'depends_on' => {
+            'type' => 'array',
+            'uniqueItems' => true,
+            'items' => { 'type' => 'string', 'minLength' => 1 }
+          },
+          'choices' => {
+            'type' => 'array',
+            'minItems' => 2,
+            'uniqueItems' => true,
+            'items' => { 'type' => 'string', 'minLength' => 1 }
+          },
+          'condition' => { 'type' => 'string', 'minLength' => 1 },
+          'requires_approval' => { 'type' => 'boolean' },
+          'steps' => {
+            'type' => 'array',
+            'minItems' => 1,
+            'items' => { '$ref' => '#/definitions/step' }
+          }
+        },
+        'allOf' => [
+          {
+            'if' => { 'properties' => { 'type' => { 'const' => 'decision' } } },
+            'then' => { 'required' => ['choices'] }
+          },
+          {
+            'if' => { 'properties' => { 'type' => { 'enum' => %w[branch approval] } } },
+            'then' => { 'required' => ['steps'] }
+          },
+          {
+            'if' => { 'properties' => { 'type' => { 'const' => 'branch' } } },
+            'then' => { 'required' => ['condition'] }
+          }
+        ]
+      }
+    }
+  }.freeze
+
+  class << self
+    def errors(plan)
+      JSONSchemer.schema(SCHEMA).validate(plan).map do |error|
+        path = error['data_pointer'].presence || '/'
+        "#{path}: #{error['type']} #{error['details'].to_json}"
+      end
+    end
+
+    def valid?(plan)
+      errors(plan).empty?
+    end
+
+    def prompt
+      JSON.pretty_generate(SCHEMA)
+    end
+  end
+end

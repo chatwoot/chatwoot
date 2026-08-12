@@ -1,10 +1,10 @@
-class Captain::Routines::DslEvaluationSchema < RubyLLM::Schema
+class Captain::Routines::SemanticPlanEvaluationSchema < RubyLLM::Schema
   string :status, enum: %w[valid correctable needs_clarification unsupported]
   string :summary, description: 'A concise explanation of the evaluation result.'
 
   array :corrections, max_items: 10 do
     object do
-      string :path, description: 'JSON Pointer or a concise description of the affected DSL location.'
+      string :path, description: 'The plan step ID or concise description of the affected part.'
       string :problem
       string :suggestion
     end
@@ -19,8 +19,8 @@ class Captain::Routines::DslEvaluationSchema < RubyLLM::Schema
 
   array :missing_capabilities, max_items: 10 do
     object do
-      string :operation, description: 'The operation that lacks the required capability.'
-      string :capability, description: 'The missing filter, action, or behavior.'
+      string :requirement, description: 'The original requirement that cannot be fulfilled.'
+      string :capability, description: 'The missing product behavior.'
     end
   end
 end

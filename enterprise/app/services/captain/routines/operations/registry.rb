@@ -29,6 +29,13 @@ class Captain::Routines::Operations::Registry
       JSON.pretty_generate(OPERATIONS.transform_values(&:definition))
     end
 
+    def capabilities_prompt
+      capabilities = OPERATIONS.values.map do |operation|
+        operation.definition.slice(:kind, :effect, :approval, :description, :arguments, :returns).compact
+      end
+      JSON.pretty_generate(capabilities)
+    end
+
     def include?(name, kind: nil)
       operation = fetch(name)
       operation.present? && (kind.nil? || operation.kind == kind)
