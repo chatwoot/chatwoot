@@ -382,6 +382,34 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(contact.conversations.count).to eq(2)
       end
 
+      it 'names a contact created by an echo after the phone number, not the identifier' do
+        echo_params = {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              field: 'smb_message_echoes',
+              value: {
+                message_echoes: [{
+                  from: whatsapp_channel.phone_number.delete('+'),
+                  to: '919745786257',
+                  to_user_id: 'IN.2081978709342942',
+                  id: 'wamid.cloud-echo-first-event',
+                  text: { body: 'first contact by echo' },
+                  timestamp: '1778579585',
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: echo_params, outgoing_echo: true).perform
+
+        expect(Contact.last.name).to eq('+919745786257')
+        expect(whatsapp_channel.inbox.conversations.first.contact_inbox.source_id).to eq('IN.2081978709342942')
+      end
+
       it 'moves a phone-backed contact on the first payload that carries an identifier' do
         phone_contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '919745786257')
         contact = phone_contact_inbox.contact

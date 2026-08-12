@@ -4,7 +4,9 @@ module Whatsapp::IncomingMessageIdentifierHelper
     source_ids = outgoing_message_source_ids(message)
     return if source_ids.blank?
 
-    contact_attributes = contact_attributes_for_identifier(source_ids.first, message[:to])
+    # The name falls back to the phone number rather than to the first source id: that one is now
+    # the identifier, and a contact created by an echo alone would be displayed as `IN.2081978...`.
+    contact_attributes = contact_attributes_for_identifier(message[:to].presence || source_ids.first, message[:to])
     @contact_inbox = find_or_create_contact_inbox(
       source_ids: source_ids,
       contact_attributes: contact_attributes
@@ -83,9 +85,11 @@ module Whatsapp::IncomingMessageIdentifierHelper
   end
 
   def contact_attributes_from_contact_params(contact_params, source_identifier)
+    phone_identifier = contact_params[:wa_id].presence || messages_data.first[:from].presence
+
     contact_attributes_for_identifier(
-      contact_params.dig(:profile, :name).presence || source_identifier,
-      contact_params[:wa_id].presence || messages_data.first[:from].presence
+      contact_params.dig(:profile, :name).presence || phone_identifier.presence || source_identifier,
+      phone_identifier
     )
   end
 
