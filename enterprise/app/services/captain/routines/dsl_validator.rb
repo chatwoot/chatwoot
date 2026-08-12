@@ -57,6 +57,7 @@ class Captain::Routines::DslValidator
     operation = Captain::Routines::Operations::Registry.fetch(step['operation'])
     bindings[step['save_as']] = operation.return_type if operation&.kind == 'query' && step['save_as'].present?
     bindings[step['decide']] = 'one' if step['decide'].present?
+    bindings[step['compose']] = 'rich_message' if step['compose'].present?
   end
 
   def validate_standalone_operation(step)
@@ -91,14 +92,24 @@ class Captain::Routines::DslValidator
   end
 
   def validate_step_references(step, bindings)
-    values = step.values_at('with', 'about', 'when')
+    values = step.values_at('with', 'about', 'when', 'context', 'mention_bindings')
     syntax_errors = values.flat_map { |value| template_reference_errors_in(value) }
     references = values.flat_map { |value| references_in(value) }.uniq
     binding_errors = references.filter_map do |reference|
       root = reference.split('.').first
       "Reference '#{reference}' is not defined before this step" unless bindings.key?(root)
     end
-    syntax_errors + binding_errors
+    syntax_errors + binding_errors + required_mention_errors(step)
+  end
+
+  def required_mention_errors(step)
+    required_mentions = Array(step['required_mentions'])
+    return [] if required_mentions.empty?
+
+    available_mentions = step['mention_bindings'].is_a?(Hash) ? step['mention_bindings'].keys : []
+    (required_mentions - available_mentions).map do |mention|
+      "Required mention '#{mention}' is not declared in `mention_bindings`"
+    end
   end
 
   def references_in(value)

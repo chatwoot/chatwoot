@@ -83,6 +83,32 @@ class Captain::Routines::DslSchema
           }
         }
       },
+      'compose_step' => {
+        'type' => 'object',
+        'required' => %w[compose instruction context output],
+        'additionalProperties' => false,
+        'properties' => {
+          'compose' => { 'type' => 'string', 'minLength' => 1 },
+          'instruction' => { 'type' => 'string', 'minLength' => 1 },
+          'context' => {
+            'type' => 'object',
+            'minProperties' => 1,
+            'additionalProperties' => { '$ref' => '#/definitions/reference' }
+          },
+          'mention_bindings' => {
+            'type' => 'object',
+            'minProperties' => 1,
+            'additionalProperties' => { '$ref' => '#/definitions/reference' }
+          },
+          'required_mentions' => {
+            'type' => 'array',
+            'minItems' => 1,
+            'uniqueItems' => true,
+            'items' => { 'type' => 'string', 'minLength' => 1 }
+          },
+          'output' => { 'const' => 'rich_message' }
+        }
+      },
       'when_step' => {
         'type' => 'object',
         'required' => %w[when do],
@@ -102,7 +128,7 @@ class Captain::Routines::DslSchema
         }
       },
       'step' => {
-        'oneOf' => %w[each_step operation_step decide_step when_step].map do |definition|
+        'oneOf' => %w[each_step operation_step decide_step compose_step when_step].map do |definition|
           { '$ref' => "#/definitions/#{definition}" }
         end
       }
