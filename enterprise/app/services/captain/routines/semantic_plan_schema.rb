@@ -19,7 +19,7 @@ class Captain::Routines::SemanticPlanSchema
         'additionalProperties' => false,
         'properties' => {
           'id' => { 'type' => 'string', 'pattern' => '^[a-z][a-z0-9_]*$' },
-          'type' => { 'enum' => %w[selection context decision branch action constraint] },
+          'type' => { 'enum' => %w[selection context decision compose branch action constraint] },
           'description' => { 'type' => 'string', 'minLength' => 1 },
           'depends_on' => {
             'type' => 'array',
@@ -43,6 +43,10 @@ class Captain::Routines::SemanticPlanSchema
           {
             'if' => { 'properties' => { 'type' => { 'const' => 'decision' } } },
             'then' => { 'required' => ['choices'] }
+          },
+          {
+            'if' => { 'properties' => { 'type' => { 'const' => 'compose' } } },
+            'then' => { 'not' => { 'required' => ['choices'] } }
           },
           {
             'if' => { 'properties' => { 'type' => { 'const' => 'branch' } } },
