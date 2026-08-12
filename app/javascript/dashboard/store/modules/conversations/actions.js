@@ -3,6 +3,7 @@ import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
+import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import {
   buildConversationList,
   isOnMentionsView,
@@ -18,6 +19,9 @@ import {
   handleVoiceCallUpdated,
   syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
+
+// Page size MessageFinder uses when walking backwards through a conversation.
+const MESSAGES_PER_PAGE = 20;
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
@@ -98,7 +102,13 @@ const actions = {
         id: data.conversationId,
         data: payload,
       });
-      if (!payload.length) {
+      // A short page means the conversation has no older messages left to
+      // fetch. Requests carrying `after` page differently, so only a plain
+      // backward fetch can draw that conclusion from the payload size.
+      const hasReachedFirstMessage = data.after
+        ? !payload.length
+        : payload.length < MESSAGES_PER_PAGE;
+      if (hasReachedFirstMessage) {
         commit(types.SET_ALL_MESSAGES_LOADED, data.conversationId);
       }
     } catch (error) {
@@ -502,6 +512,19 @@ const actions = {
 
   setConversationFilters({ commit }, data) {
     commit(types.SET_CONVERSATION_FILTERS, data);
+  },
+
+  // Replaces the conversation list with the first page of results for `filters`.
+  // Filters are in snake case, matching the payload the filter API expects.
+  applyConversationFilters: ({ commit, dispatch }, filters) => {
+    commit(types.SET_CONVERSATION_FILTERS, filters);
+    commit(types.EMPTY_ALL_CONVERSATION);
+    dispatch('conversationPage/reset', {}, { root: true });
+
+    return dispatch('fetchFilteredConversations', {
+      queryData: filterQueryGenerator(filters),
+      page: 1,
+    });
   },
 
   clearConversationFilters({ commit }) {

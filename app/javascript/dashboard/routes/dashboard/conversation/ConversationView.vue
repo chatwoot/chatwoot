@@ -54,12 +54,14 @@ export default {
     },
   },
   setup() {
-    const { uiSettings, updateUISettings } = useUISettings();
+    const { uiSettings, updateUISettings, isOnExpandedLayout } =
+      useUISettings();
     const { accountId } = useAccount();
 
     return {
       uiSettings,
       updateUISettings,
+      isOnExpandedLayout,
       accountId,
     };
   },
@@ -79,15 +81,6 @@ export default {
     showMessageView() {
       return this.conversationId ? true : !this.isOnExpandedLayout;
     },
-    isOnExpandedLayout() {
-      const {
-        LAYOUT_TYPES: { CONDENSED },
-      } = wootConstants;
-      const { conversation_display_type: conversationDisplayType = CONDENSED } =
-        this.uiSettings;
-      return conversationDisplayType !== CONDENSED;
-    },
-
     shouldShowSidebar() {
       if (!this.currentChat.id) {
         return false;

@@ -10,6 +10,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   pageTitle: { type: String, required: true },
+  filterSummary: { type: String, default: '' },
   hasAppliedFilters: { type: Boolean, required: true },
   hasActiveFolders: { type: Boolean, required: true },
   activeStatus: { type: String, required: true },
@@ -39,6 +40,18 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
 const allCount = computed(() => props.conversationStats?.allCount || 0);
 const formattedAllCount = computed(() => formatNumber(allCount.value));
 
+// A filter replaces the list with a narrower one, so the header names what is
+// being shown and offers the single way back out of it.
+const showFilterScope = computed(
+  () => props.hasAppliedFilters && !props.hasActiveFolders
+);
+
+const title = computed(() =>
+  showFilterScope.value && props.filterSummary
+    ? props.filterSummary
+    : props.pageTitle
+);
+
 const toggleConversationLayout = () => {
   const { LAYOUT_TYPES } = wootConstants;
   const {
@@ -63,11 +76,19 @@ const toggleConversationLayout = () => {
     }"
   >
     <div class="flex items-center justify-center min-w-0">
-      <h1
-        class="text-base font-medium truncate text-n-slate-12"
-        :title="pageTitle"
-      >
-        {{ pageTitle }}
+      <NextButton
+        v-if="showFilterScope"
+        v-tooltip.right="$t('FILTER.CLEAR_BUTTON_LABEL')"
+        :aria-label="$t('FILTER.CLEAR_BUTTON_LABEL')"
+        icon="i-lucide-arrow-left"
+        class="ltr:mr-1 rtl:ml-1 shrink-0"
+        slate
+        xs
+        faded
+        @click="emit('resetFilters')"
+      />
+      <h1 class="text-base font-medium truncate text-n-slate-12" :title="title">
+        {{ title }}
       </h1>
       <span
         v-if="
@@ -102,14 +123,6 @@ const toggleConversationLayout = () => {
             :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
           />
         </div>
-        <NextButton
-          v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
-          icon="i-lucide-circle-x"
-          ruby
-          faded
-          xs
-          @click="emit('resetFilters')"
-        />
       </template>
       <template v-if="hasActiveFolders">
         <div class="relative">

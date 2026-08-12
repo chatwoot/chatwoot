@@ -4,11 +4,13 @@ import { useElementSize } from '@vueuse/core';
 // composable
 import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useContactConversationNavigation } from 'dashboard/composables/useContactConversationNavigation';
 
 // components
 import ReplyBox from './ReplyBox.vue';
 import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
+import ContactConversationLink from './ContactConversationLink.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
@@ -45,6 +47,7 @@ export default {
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
+    ContactConversationLink,
     Spinner,
     ResizableEditorWrapper,
   },
@@ -63,12 +66,18 @@ export default {
       getLabelSuggestions,
     } = useLabelSuggestions();
 
+    const { olderConversation, newerConversation, buildConversationPath } =
+      useContactConversationNavigation();
+
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
       captainTasksEnabled,
       getLabelSuggestions,
       isLabelSuggestionFeatureEnabled,
+      olderConversation,
+      newerConversation,
+      buildConversationPath,
       conversationPanelRef,
       resizableEditorWrapperRef,
       messagesViewRef,
@@ -504,6 +513,12 @@ export default {
             <Spinner v-if="shouldShowSpinner" class="text-n-brand" />
           </li>
         </transition>
+        <ContactConversationLink
+          v-if="olderConversation && listLoadingStatus"
+          direction="older"
+          :conversation="olderConversation"
+          :to="buildConversationPath(olderConversation.id)"
+        />
       </template>
       <template #unreadBadge>
         <li
@@ -523,6 +538,12 @@ export default {
           :suggested-labels="labelSuggestions"
           :chat-labels="currentChat.labels"
           :conversation-id="currentChat.id"
+        />
+        <ContactConversationLink
+          v-if="newerConversation"
+          direction="newer"
+          :conversation="newerConversation"
+          :to="buildConversationPath(newerConversation.id)"
         />
       </template>
     </MessageList>
