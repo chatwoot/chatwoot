@@ -45,6 +45,7 @@ describe Whatsapp::IncomingMessageServiceHelpers do
       it 'extracts button reply with context' do
         service = test_class.new(inbox: inbox, conversation: conversation)
         service.instance_variable_set(:@in_reply_to_external_id, source_message.source_id)
+        service.instance_variable_set(:@in_reply_to_message_id, source_message.id)
 
         message = {
           interactive: {
@@ -88,6 +89,7 @@ describe Whatsapp::IncomingMessageServiceHelpers do
       it 'extracts list reply with context' do
         service = test_class.new(inbox: inbox, conversation: conversation)
         service.instance_variable_set(:@in_reply_to_external_id, source_message.source_id)
+        service.instance_variable_set(:@in_reply_to_message_id, source_message.id)
 
         message = {
           interactive: {
@@ -133,6 +135,7 @@ describe Whatsapp::IncomingMessageServiceHelpers do
       it 'extracts carousel button reply with card context' do
         service = test_class.new(inbox: inbox, conversation: conversation)
         service.instance_variable_set(:@in_reply_to_external_id, source_message.source_id)
+        service.instance_variable_set(:@in_reply_to_message_id, source_message.id)
 
         message = {
           button: {
