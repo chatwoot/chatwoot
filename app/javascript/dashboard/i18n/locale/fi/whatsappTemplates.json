@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Muuttujat",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Language",
       "CATEGORY": "Category",
       "VARIABLE_PLACEHOLDER": "Enter {variable} value",
