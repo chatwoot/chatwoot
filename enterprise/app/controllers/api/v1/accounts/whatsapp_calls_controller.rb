@@ -1,6 +1,7 @@
 class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseController
   before_action :set_call, only: %i[show accept reject terminate upload_recording]
   before_action :set_call_context, only: :initiate
+  before_action :ensure_inbox_active, only: :initiate
   before_action :ensure_calling_enabled, only: :initiate
   before_action :ensure_sdp_offer, only: :initiate
   before_action :ensure_contact_phone, only: :initiate
@@ -94,6 +95,10 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     return if channel.is_a?(Channel::Whatsapp) && channel.voice_enabled?
 
     render_could_not_create_error(I18n.t('errors.whatsapp.calls.not_enabled'))
+  end
+
+  def ensure_inbox_active
+    render_inbox_disabled_error unless @inbox.active?
   end
 
   def ensure_sdp_offer

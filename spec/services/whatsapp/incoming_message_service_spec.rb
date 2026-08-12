@@ -252,6 +252,18 @@ describe Whatsapp::IncomingMessageService do
         expect(message.reload.status).to eq('read')
       end
 
+      it 'updates message status when the inbox is disabled' do
+        status_params = {
+          'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'read' }]
+        }.with_indifferent_access
+        message = Message.find_by!(source_id: from)
+        whatsapp_channel.inbox.update!(active: false)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+
+        expect(message.reload.status).to eq('read')
+      end
+
       it 'stores BSUID source ids from status contacts' do
         bsuid = 'IN.2081978709342942'
         parent_bsuid = 'IN.ENT.9081726354'

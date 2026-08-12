@@ -221,6 +221,18 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body['error']).to eq(I18n.t('errors.whatsapp.calls.not_enabled'))
     end
+
+    it 'returns 403 before initiating the provider call when the inbox is disabled' do
+      inbox.update!(active: false)
+      allow(provider_service).to receive(:initiate_call)
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+           headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:forbidden)
+      expect(provider_service).not_to have_received(:initiate_call)
+    end
   end
 
   describe 'POST /api/v1/accounts/:account_id/whatsapp_calls/:id/upload_recording' do

@@ -8,7 +8,7 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params)
 
-    if channel_is_inactive?(channel)
+    if channel_is_inactive?(channel, params)
       Rails.logger.warn("Inactive WhatsApp channel: #{channel&.phone_number || "unknown - #{params[:phone_number]}"}")
       return
     end
@@ -124,13 +124,27 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
     ].compact_blank.first
   end
 
-  def channel_is_inactive?(channel)
+  def channel_is_inactive?(channel, params)
     return true if channel.blank?
     # Only skip for embedded signup when reauth is required; manual flow uses API keys and should still receive webhooks
     return true if channel.reauthorization_required? && embedded_signup_channel?(channel)
     return true unless channel.account.active?
+    return true unless channel.inbox.active? || existing_message_update_event?(params)
 
     false
+  end
+
+  def status_update_event?(params)
+    value = params.dig(:entry, 0, :changes, 0, :value) || params
+    value[:statuses].present?
+  end
+
+  def existing_message_update_event?(params)
+    status_update_event?(params) || call_event?(params)
+  end
+
+  def call_event?(params)
+    params.dig(:entry, 0, :changes, 0, :field) == 'calls'
   end
 
   def embedded_signup_channel?(channel)

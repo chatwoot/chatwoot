@@ -142,6 +142,17 @@ RSpec.describe Campaign do
         campaign.trigger!
       end
 
+      it 'does not trigger the campaign when the inbox is disabled' do
+        campaign.save!
+        twilio_inbox.update!(active: false)
+
+        expect(Twilio::OneoffSmsCampaignService).not_to receive(:new)
+
+        campaign.trigger!
+
+        expect(campaign.reload.active?).to be true
+      end
+
       it 'keeps the campaign processing when triggering fails' do
         campaign.save!
         sms_service = double

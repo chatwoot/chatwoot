@@ -1,6 +1,7 @@
 class Public::Api::V1::Inboxes::ConversationsController < Public::Api::V1::InboxesController
   include Events::Types
   before_action :set_conversation, only: [:toggle_typing, :update_last_seen, :show, :toggle_status]
+  before_action :ensure_inbox_active, only: [:create, :toggle_typing, :toggle_status]
 
   def index
     @conversations = @contact_inbox.hmac_verified? ? @contact_inbox.contact.conversations : @contact_inbox.conversations
@@ -63,5 +64,9 @@ class Public::Api::V1::Inboxes::ConversationsController < Public::Api::V1::Inbox
 
   def conversation_params
     params.permit(custom_attributes: {})
+  end
+
+  def ensure_inbox_active
+    render_inbox_disabled_error unless @contact_inbox.inbox.active?
   end
 end

@@ -202,6 +202,24 @@ describe Webhooks::InstagramEventsJob do
         instagram_webhook.perform_now(messaging_seen_event[:entry])
       end
 
+      it 'handles messaging_seen callback when the inbox is disabled' do
+        messaging_seen_event = build(:messaging_seen_event).with_indifferent_access
+        instagram_messenger_inbox.update!(active: false)
+
+        expect(Instagram::ReadStatusService).to receive(:new).with(params: messaging_seen_event[:entry][0][:messaging][0],
+                                                                   channel: instagram_messenger_inbox.channel).and_call_original
+        instagram_webhook.perform_now(messaging_seen_event[:entry])
+      end
+
+      it 'does not create message callbacks when the inbox is disabled' do
+        dm_event = build(:instagram_message_create_event).with_indifferent_access
+        instagram_messenger_inbox.update!(active: false)
+
+        instagram_webhook.perform_now(dm_event[:entry])
+
+        expect(instagram_messenger_inbox.messages.count).to be 0
+      end
+
       it 'handles unsupported message' do
         unsupported_event = build(:instagram_message_unsupported_event).with_indifferent_access
         sender_id = unsupported_event[:entry][0][:messaging][0][:sender][:id]

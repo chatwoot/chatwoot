@@ -1,6 +1,7 @@
 class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   include WidgetHelper
 
+  before_action :ensure_inbox_active, only: [:update, :set_user, :destroy_custom_attributes]
   before_action :validate_hmac, only: [:set_user]
   before_action :validate_hmac_for_identified_update, only: [:update]
 

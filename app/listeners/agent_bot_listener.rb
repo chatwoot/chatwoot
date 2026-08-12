@@ -63,6 +63,8 @@ class AgentBotListener < BaseListener
   private
 
   def agent_bots_for(inbox, conversation = nil)
+    return [] unless inbox.active?
+
     bots = []
     bots << conversation.assignee_agent_bot if conversation&.assignee_agent_bot.present?
     inbox_bot = active_inbox_agent_bot(inbox)

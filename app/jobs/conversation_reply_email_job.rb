@@ -4,6 +4,7 @@ class ConversationReplyEmailJob < ApplicationJob
   def perform(conversation_id, last_queued_id)
     conversation = Conversation.find(conversation_id)
     return unless conversation.account.active?
+    return unless conversation.inbox.active?
 
     if conversation.messages.incoming&.last&.content_type == 'incoming_email'
       ConversationReplyMailer.with(account: conversation.account).reply_without_summary(conversation, last_queued_id).deliver_later

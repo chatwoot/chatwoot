@@ -5,6 +5,7 @@ class WidgetsController < ActionController::Base
   before_action :set_global_config
   before_action :set_web_widget
   before_action :ensure_account_is_active
+  before_action :ensure_inbox_active
   before_action :ensure_location_is_supported
   before_action :set_token
   before_action :set_contact
@@ -60,6 +61,10 @@ class WidgetsController < ActionController::Base
 
   def ensure_account_is_active
     render json: { error: 'Account is suspended' }, status: :unauthorized unless @web_widget.inbox.account.active?
+  end
+
+  def ensure_inbox_active
+    head :not_found unless @web_widget.inbox.active?
   end
 
   def ensure_location_is_supported; end

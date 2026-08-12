@@ -31,6 +31,18 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         response_data = response.parsed_body
         expect(response_data.keys).to include(*response_keys)
       end
+
+      it 'does not initialize config or create a contact when the inbox is disabled' do
+        web_widget.inbox.update!(active: false)
+
+        expect do
+          post '/api/v1/widget/config',
+               params: params,
+               as: :json
+        end.not_to change(Contact, :count)
+
+        expect(response).to have_http_status(:forbidden)
+      end
     end
 
     context 'with correct website token and valid X-Auth-Token' do
@@ -46,6 +58,17 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         response_data = response.parsed_body
         expect(response_data.keys).to include(*response_keys)
         expect(response_data['contact']['pubsub_token']).to eq(contact_inbox.pubsub_token)
+      end
+
+      it 'does not initialize config when the inbox is disabled' do
+        web_widget.inbox.update!(active: false)
+
+        post '/api/v1/widget/config',
+             params: params,
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
       end
 
       it 'returns 401 if account is suspended' do

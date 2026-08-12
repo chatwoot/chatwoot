@@ -1111,6 +1111,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.boolean "enable_email_collect", default: true
     t.boolean "csat_survey_enabled", default: false
     t.boolean "allow_messages_after_resolved", default: true
+    t.boolean "active", default: true, null: false
     t.jsonb "auto_assignment_config", default: {}
     t.boolean "lock_to_single_conversation", default: false, null: false
     t.bigint "portal_id"

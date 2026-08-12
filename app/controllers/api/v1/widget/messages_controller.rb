@@ -1,4 +1,5 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
+  before_action :ensure_inbox_active, only: [:create, :update]
   before_action :set_conversation, only: [:create]
   before_action :set_message, only: [:update]
 

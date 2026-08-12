@@ -4,6 +4,7 @@ class Twitter::TweetParserService < Twitter::WebhooksBaseService
   def perform
     set_inbox
 
+    return unless @inbox.active?
     return if !tweets_enabled? || message_already_exist? || user_has_blocked?
 
     create_message

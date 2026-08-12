@@ -20,6 +20,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   def perform
     # This channel might require reauthorization, may be owner might have changed the fb password
     return if @inbox.channel.reauthorization_required?
+    return unless @inbox.active?
 
     ActiveRecord::Base.transaction do
       build_contact_inbox

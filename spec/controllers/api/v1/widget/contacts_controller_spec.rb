@@ -37,6 +37,18 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
         expect(ContactIdentifyAction).to have_received(:new).with(expected_params)
         expect(identify_action).to have_received(:perform)
       end
+
+      it 'does not update the contact when the inbox is disabled' do
+        web_widget.inbox.update!(active: false)
+
+        patch '/api/v1/widget/contact',
+              params: params,
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(ContactIdentifyAction).not_to have_received(:new)
+      end
     end
 
     context 'with update contact' do
@@ -255,6 +267,18 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
       end
+
+      it 'does not set user when the inbox is disabled' do
+        web_widget.inbox.update!(active: false)
+
+        patch '/api/v1/widget/contact/set_user',
+              params: params.merge(identifier_hash: correct_identifier_hash),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(ContactIdentifyAction).not_to have_received(:new)
+      end
     end
   end
 
@@ -263,18 +287,31 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
 
     context 'with invalid website token' do
       it 'returns unauthorized' do
-        post '/api/v1/widget/destroy_custom_attributes', params: { website_token: '' }
+        post '/api/v1/widget/contact/destroy_custom_attributes', params: { website_token: '' }
         expect(response).to have_http_status(:not_found)
       end
     end
 
     context 'with correct website token' do
       it 'calls destroy custom attributes' do
-        post '/api/v1/widget/destroy_custom_attributes',
+        post '/api/v1/widget/contact/destroy_custom_attributes',
              params: params,
              headers: { 'X-Auth-Token' => token },
              as: :json
         expect(contact.reload.custom_attributes).to eq({})
+      end
+
+      it 'does not destroy custom attributes when the inbox is disabled' do
+        contact.update!(custom_attributes: { 'test' => 'value' })
+        web_widget.inbox.update!(active: false)
+
+        post '/api/v1/widget/contact/destroy_custom_attributes',
+             params: params,
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(contact.reload.custom_attributes).to eq('test' => 'value')
       end
     end
   end

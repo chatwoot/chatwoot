@@ -22,14 +22,15 @@ class Messages::MessageBuilder
   end
 
   def perform
+    raise CustomExceptions::InboxDisabled unless @conversation.inbox.active?
+
     @message = @conversation.messages.build(message_params)
     process_attachments
     process_emails
     # When the message has no quoted content, it will just be rendered as a regular message
     # The frontend is equipped to handle this case
     process_email_content
-    @message.save!
-    @message
+    @message.tap(&:save!)
   end
 
   private

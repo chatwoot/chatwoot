@@ -34,6 +34,20 @@ RSpec.describe '/api/v1/widget/events', type: :request do
           .with(params[:name], anything, contact_inbox: contact_inbox,
                                          event_info: { test_id: 'test', browser_language: nil, widget_language: nil, browser: anything })
       end
+
+      it 'does not dispatch events when the inbox is disabled' do
+        token
+        web_widget.inbox.update!(active: false)
+
+        expect(Rails.configuration.dispatcher).not_to receive(:dispatch)
+
+        post '/api/v1/widget/events',
+             params: params,
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+      end
     end
   end
 end

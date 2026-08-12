@@ -7,6 +7,7 @@ class Twilio::IncomingMessageService
 
   def perform
     return if twilio_channel.blank?
+    return unless inbox.active?
 
     set_contact
     set_conversation

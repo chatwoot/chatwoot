@@ -57,9 +57,11 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
 
       next if channel.blank?
 
-      if (event_name = event_name(messaging))
-        send(event_name, messaging, channel)
-      end
+      event_name = event_name(messaging)
+      next if event_name.blank?
+      next unless channel.inbox.active? || event_name == :read
+
+      send(event_name, messaging, channel)
     end
   end
 
@@ -126,7 +128,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def event_name(messaging)
-    @event_name ||= SUPPORTED_EVENTS.find { |key| messaging.key?(key) }
+    SUPPORTED_EVENTS.find { |key| messaging.key?(key) }
   end
 
   def message(messaging, channel)

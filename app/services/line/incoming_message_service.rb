@@ -7,6 +7,8 @@ class Line::IncomingMessageService
   LINE_STICKER_IMAGE_URL = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/%s/android/sticker.png'.freeze
 
   def perform
+    return unless @inbox.active?
+
     # probably test events
     return if params[:events].blank?
 

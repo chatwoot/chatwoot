@@ -4,6 +4,8 @@ class Sms::IncomingMessageService
   pattr_initialize [:inbox!, :params!]
 
   def perform
+    return unless @inbox.active?
+
     set_contact
     set_conversation
     @message = @conversation.messages.create!(

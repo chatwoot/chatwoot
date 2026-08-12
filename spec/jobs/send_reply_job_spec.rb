@@ -122,5 +122,62 @@ RSpec.describe SendReplyJob do
       message = create(:message, conversation: create(:conversation, inbox: tiktok_channel.inbox))
       expect_mapped_service_to_perform(message, 'Tiktok::SendOnTiktokService')
     end
+
+    it 'marks the message as failed when the inbox is disabled before the queued send runs' do
+      twilio_channel = create(:channel_twilio_sms)
+      message = create(:message, message_type: :outgoing, conversation: create(:conversation, inbox: twilio_channel.inbox))
+      twilio_channel.inbox.update!(active: false)
+
+      expect(Twilio::SendOnTwilioService).not_to receive(:new)
+
+      described_class.perform_now(message.id)
+
+      expect(message.reload).to be_failed
+      expect(message.external_error).to eq('This inbox is currently disabled')
+    end
+
+    it 'does not mark incoming messages as failed when the inbox is disabled' do
+      twilio_channel = create(:channel_twilio_sms)
+      message = create(:message, message_type: :incoming, conversation: create(:conversation, inbox: twilio_channel.inbox))
+      twilio_channel.inbox.update!(active: false)
+
+      described_class.perform_now(message.id)
+
+      expect(message.reload).not_to be_failed
+      expect(message.external_error).to be_nil
+    end
+
+    it 'does not mark private notes as failed when the inbox is disabled' do
+      twilio_channel = create(:channel_twilio_sms)
+      message = create(:message, private: true, conversation: create(:conversation, inbox: twilio_channel.inbox))
+      twilio_channel.inbox.update!(active: false)
+
+      described_class.perform_now(message.id)
+
+      expect(message.reload).not_to be_failed
+      expect(message.external_error).to be_nil
+    end
+
+    it 'does not mark provider echo messages as failed when the inbox is disabled' do
+      twilio_channel = create(:channel_twilio_sms)
+      message = create(:message, source_id: 'provider-message-id', conversation: create(:conversation, inbox: twilio_channel.inbox))
+      twilio_channel.inbox.update!(active: false)
+
+      described_class.perform_now(message.id)
+
+      expect(message.reload).not_to be_failed
+      expect(message.external_error).to be_nil
+    end
+
+    it 'does not mark web widget replies as failed when email continuity is disabled' do
+      webwidget_channel = create(:channel_widget, continuity_via_email: false)
+      message = create(:message, message_type: :outgoing, conversation: create(:conversation, inbox: webwidget_channel.inbox))
+      webwidget_channel.inbox.update!(active: false)
+
+      described_class.perform_now(message.id)
+
+      expect(message.reload).not_to be_failed
+      expect(message.external_error).to be_nil
+    end
   end
 end

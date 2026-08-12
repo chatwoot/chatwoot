@@ -6,7 +6,7 @@ class Webhooks::TelegramEventsJob < ApplicationJob
 
     channel = Channel::Telegram.find_by(bot_token: params[:bot_token])
 
-    if channel_is_inactive?(channel)
+    if channel_is_inactive?(channel, params)
       log_inactive_channel(channel, params)
       return
     end
@@ -16,11 +16,16 @@ class Webhooks::TelegramEventsJob < ApplicationJob
 
   private
 
-  def channel_is_inactive?(channel)
+  def channel_is_inactive?(channel, params)
     return true if channel.blank?
     return true unless channel.account.active?
+    return true unless channel.inbox.active? || update_message_event?(params)
 
     false
+  end
+
+  def update_message_event?(params)
+    params.dig(:telegram, :edited_message).present? || params.dig(:telegram, :edited_business_message).present?
   end
 
   def log_inactive_channel(channel, params)

@@ -4,6 +4,7 @@ class Webhooks::LineEventsJob < ApplicationJob
   def perform(params: {}, signature: '', post_body: '')
     @params = params
     return unless valid_event_payload?
+    return unless @channel.inbox.active?
     return unless valid_post_body?(post_body, signature)
 
     Line::IncomingMessageService.new(inbox: @channel.inbox, params: @params['line'].with_indifferent_access).perform

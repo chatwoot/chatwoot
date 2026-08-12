@@ -28,6 +28,18 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(json_response['meta']).not_to be_empty
       end
 
+      it 'returns messages when the inbox is disabled' do
+        web_widget.inbox.update!(active: false)
+
+        get api_v1_widget_messages_url,
+            params: { website_token: web_widget.website_token },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload'].length).to eq(4)
+      end
+
       it 'returns empty messages', :skip_before do
         get api_v1_widget_messages_url,
             params: { website_token: web_widget.website_token },
@@ -43,6 +55,20 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
   describe 'POST /api/v1/widget/messages' do
     context 'when post request is made' do
+      it 'does not create message in conversation when the inbox is disabled' do
+        web_widget.inbox.update!(active: false)
+        message_params = { content: 'hello world', timestamp: Time.current }
+
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: message_params },
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+        end.not_to change(Message, :count)
+
+        expect(response).to have_http_status(:forbidden)
+      end
+
       it 'creates message in conversation' do
         conversation.destroy! # Test all params
         message_params = { content: 'hello world', timestamp: Time.current }
@@ -213,6 +239,21 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   end
 
   describe 'PUT /api/v1/widget/messages' do
+    context 'when the inbox is disabled' do
+      it 'does not update the message' do
+        message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
+        web_widget.inbox.update!(active: false)
+
+        put api_v1_widget_message_url(message.id),
+            params: { website_token: web_widget.website_token, contact: { email: Faker::Internet.email } },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(message.reload.submitted_email).to be_nil
+      end
+    end
+
     context 'when put request targets a message from another visitor in the same inbox' do
       it 'does not update the foreign message' do
         other_contact = create(:contact, account: account, email: nil)

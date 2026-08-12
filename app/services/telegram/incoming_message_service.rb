@@ -7,6 +7,8 @@ class Telegram::IncomingMessageService
   pattr_initialize [:inbox!, :params!]
 
   def perform
+    return unless @inbox.active?
+
     # chatwoot doesn't support group conversations at the moment
     transform_business_message!
     return unless private_message?

@@ -5,6 +5,8 @@ class Twitter::DirectMessageParserService < Twitter::WebhooksBaseService
     return if source_app_id == parent_app_id
 
     set_inbox
+    return unless @inbox.active?
+
     ensure_contacts
     set_conversation
     @message = @conversation.messages.create!(

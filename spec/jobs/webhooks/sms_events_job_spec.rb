@@ -53,6 +53,14 @@ RSpec.describe Webhooks::SmsEventsJob do
       described_class.perform_now(params)
     end
 
+    it 'does not call Sms::IncomingMessageService for received messages when the inbox is disabled' do
+      sms_channel.inbox.update!(active: false)
+
+      expect(Sms::IncomingMessageService).not_to receive(:new)
+
+      described_class.perform_now(params)
+    end
+
     it 'calls Sms::DeliveryStatusService if the message type is message-delivered' do
       params[:type] = 'message-delivered'
       process_service = double
@@ -61,6 +69,20 @@ RSpec.describe Webhooks::SmsEventsJob do
       expect(Sms::DeliveryStatusService).to receive(:new).with(channel: sms_channel,
                                                                params: params[:message].with_indifferent_access)
       expect(process_service).to receive(:perform)
+      described_class.perform_now(params)
+    end
+
+    it 'calls Sms::DeliveryStatusService for delivered messages when the inbox is disabled' do
+      sms_channel.inbox.update!(active: false)
+      params[:type] = 'message-delivered'
+      process_service = double
+      allow(Sms::DeliveryStatusService).to receive(:new).and_return(process_service)
+      allow(process_service).to receive(:perform)
+
+      expect(Sms::DeliveryStatusService).to receive(:new).with(channel: sms_channel,
+                                                               params: params[:message].with_indifferent_access)
+      expect(process_service).to receive(:perform)
+
       described_class.perform_now(params)
     end
 

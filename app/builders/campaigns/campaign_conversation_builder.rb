@@ -3,6 +3,8 @@ class Campaigns::CampaignConversationBuilder
 
   def perform
     @contact_inbox = ContactInbox.find(@contact_inbox_id)
+    return unless @contact_inbox.inbox.active?
+
     @campaign = @contact_inbox.inbox.campaigns.find_by!(display_id: campaign_display_id)
 
     ActiveRecord::Base.transaction do

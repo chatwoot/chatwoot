@@ -1,4 +1,5 @@
 class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
+  before_action :ensure_inbox_active
   before_action :set_global_config
 
   def create

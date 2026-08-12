@@ -193,6 +193,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
     @inbox = Current.account.inboxes.find(params[:inbox_id])
     authorize @inbox, :show?
+    render_inbox_disabled_error unless @inbox.active?
   end
 
   def contact
@@ -209,6 +210,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     # and deprecate the support of passing only source_id as the param
     @contact_inbox ||= ::ContactInbox.find_by!(source_id: params[:source_id])
     authorize @contact_inbox.inbox, :show?
+    render_inbox_disabled_error unless @contact_inbox.inbox.active?
   rescue ActiveRecord::RecordNotUnique
     render json: { error: 'source_id should be unique' }, status: :unprocessable_entity
   end
@@ -216,12 +218,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def build_contact_inbox
     return if @inbox.blank? || @contact.blank?
 
-    ContactInboxBuilder.new(
-      contact: @contact,
-      inbox: @inbox,
-      source_id: params[:source_id],
-      hmac_verified: hmac_verified?
-    ).perform
+    ContactInboxBuilder.new(contact: @contact, inbox: @inbox, source_id: params[:source_id], hmac_verified: hmac_verified?).perform
   end
 
   def conversation_finder

@@ -1,5 +1,6 @@
 class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesController
   before_action :set_message, only: [:update]
+  before_action :ensure_inbox_active, only: [:create, :update]
 
   def index
     @messages = @conversation.nil? ? [] : message_finder.perform
@@ -69,5 +70,9 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
 
   def check_csat_locked
     (Time.zone.now.to_date - @message.created_at.to_date).to_i > 14 and @message.content_type == 'input_csat'
+  end
+
+  def ensure_inbox_active
+    render_inbox_disabled_error unless @conversation.inbox.active?
   end
 end

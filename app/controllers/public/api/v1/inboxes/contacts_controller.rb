@@ -1,5 +1,6 @@
 class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesController
   before_action :contact_inbox, except: [:create]
+  before_action :ensure_inbox_active, only: [:create, :update]
   before_action :process_hmac
 
   def show; end
@@ -49,5 +50,9 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
 
   def permitted_params
     params.permit(:identifier, :identifier_hash, :email, :name, :avatar_url, :phone_number, custom_attributes: {})
+  end
+
+  def ensure_inbox_active
+    render_inbox_disabled_error unless @inbox_channel.inbox.active?
   end
 end

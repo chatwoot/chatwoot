@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
   before_action :ensure_api_inbox, only: :update
+  before_action :ensure_inbox_active, only: [:create, :retry]
 
   def index
     @messages = message_finder.perform
@@ -9,6 +10,8 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     user = Current.user || @resource
     mb = Messages::MessageBuilder.new(user, @conversation, params)
     @message = mb.perform
+  rescue CustomExceptions::InboxDisabled
+    render_inbox_disabled_error
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -32,6 +35,8 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     service.perform
     message.update!(content_attributes: {})
     ::SendReplyJob.perform_later(message.id)
+  rescue CustomExceptions::InboxDisabled
+    render_inbox_disabled_error
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -79,5 +84,9 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   def ensure_api_inbox
     # Only API inboxes can update messages
     render json: { error: 'Message status update is only allowed for API inboxes' }, status: :forbidden unless @conversation.inbox.api?
+  end
+
+  def ensure_inbox_active
+    render_inbox_disabled_error unless @conversation.inbox.active?
   end
 end

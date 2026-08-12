@@ -13,6 +13,8 @@ class Whatsapp::IncomingMessageBaseService
     if processed_params.try(:[], :statuses).present?
       process_statuses
     elsif messages_data.present?
+      return unless @inbox.active?
+
       process_messages
     end
   end

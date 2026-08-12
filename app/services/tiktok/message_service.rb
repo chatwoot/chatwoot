@@ -4,6 +4,8 @@ class Tiktok::MessageService
   pattr_initialize [:channel!, :content!, :outgoing_echo]
 
   def perform
+    return unless channel.inbox.active?
+
     if outgoing_message?
       message = find_message(tt_conversation_id, tt_message_id)
       return if message.present?

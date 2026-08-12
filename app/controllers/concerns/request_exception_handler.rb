@@ -11,6 +11,7 @@ module RequestExceptionHandler
     rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
     rescue_from CustomExceptions::Inbox::LimitExceeded,
                 CustomExceptions::Account::EmailLimitExceeded,
+                CustomExceptions::InboxDisabled
                 with: :render_error_response
   end
 
@@ -45,6 +46,13 @@ module RequestExceptionHandler
 
   def render_could_not_create_error(error)
     render json: { error: sanitized_error_message(error) }, status: :unprocessable_entity
+  end
+
+  def render_inbox_disabled_error(_exception = nil)
+    render json: {
+      error: 'inbox_disabled',
+      message: 'This inbox is currently disabled'
+    }, status: :forbidden
   end
 
   def render_payment_required(message)

@@ -139,5 +139,18 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
       expect(response).to have_http_status(:success)
       expect(conversation.reload.contact_last_seen_at).not_to eq contact_last_seen_at
     end
+
+    it 'updates the last seen when the inbox is disabled' do
+      current_time = DateTime.now.utc
+      allow(DateTime).to receive(:now).and_return(current_time)
+      api_channel.inbox.update!(active: false)
+
+      expect(Conversations::UpdateMessageStatusJob).to receive(:perform_later).with(conversation.id, current_time)
+
+      post update_last_seen_path
+
+      expect(response).to have_http_status(:success)
+      expect(conversation.reload.contact_last_seen_at).not_to be_nil
+    end
   end
 end

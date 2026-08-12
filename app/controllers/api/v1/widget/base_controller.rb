@@ -89,4 +89,8 @@ class Api::V1::Widget::BaseController < ApplicationController
       message_type: :incoming
     }
   end
+
+  def ensure_inbox_active
+    render_inbox_disabled_error unless @web_widget.inbox.active?
+  end
 end
