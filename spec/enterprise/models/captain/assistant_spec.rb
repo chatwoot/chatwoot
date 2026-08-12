@@ -6,6 +6,18 @@ RSpec.describe Captain::Assistant, type: :model do
   let(:contact) { create(:contact, account: account, additional_attributes: { 'country_code' => 'US' }) }
   let(:conversation) { create(:conversation, account: account, contact: contact) }
 
+  describe 'associations' do
+    it 'keeps Captain and AgentBot conversations separate when their ids match' do
+      assistant = create(:captain_assistant, id: 999_999, account: account)
+      agent_bot = create(:agent_bot, id: assistant.id, account: account)
+      captain_conversation = create(:conversation, account: account, ai_assignee: assistant)
+      agent_bot_conversation = create(:conversation, account: account, ai_assignee: agent_bot)
+
+      expect(assistant.assigned_conversations).to contain_exactly(captain_conversation)
+      expect(agent_bot.assigned_conversations).to contain_exactly(agent_bot_conversation)
+    end
+  end
+
   describe 'inactive conversation settings' do
     it 'uses safe defaults when settings are unavailable' do
       assistant.account.enable_features('captain_integration_v2')
