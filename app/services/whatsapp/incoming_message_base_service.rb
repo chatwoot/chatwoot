@@ -113,26 +113,18 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def set_conversation
-    # Scope reuse to the contact across all its contact_inboxes in this inbox: WhatsApp coexistence
-    # gives one contact multiple source_ids (phone + BSUID), so reopen must not be limited to a single contact_inbox.
-    conversations = @contact.conversations.where(inbox_id: @inbox.id)
+    # Reuse is scoped to the contact inbox that resolved this message, never to the contact. A contact
+    # can hold unrelated WhatsApp identities in the same inbox, either from coexistence or from a
+    # dashboard merge, and a contact wide lookup cannot tell them apart: it would answer one identity
+    # through another one's source id. The conversation opened under a previous identity stays where it
+    # is and remains reachable under previous conversations.
+    conversations = @contact_inbox.conversations
     # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
     @conversation = if @inbox.lock_to_single_conversation
                       conversations.last
                     else
                       conversations.where.not(status: :resolved).last
                     end
-    # WhatsApp coexistence transition (phone -> BSUID-only): a conversation opened while a phone was present
-    # stays attached to the phone-backed contact_inbox even after the contact-scoped reuse above picks it up for
-    # a later BSUID-only webhook. Outbound replies use conversation.contact_inbox.source_id, so they would keep
-    # targeting the now-stale phone. Cloud API can address BSUIDs with `recipient`, so when the current message
-    # resolved to a BSUID contact_inbox, repoint the reused conversation to it. 360Dialog still addresses via `to`.
-    if @conversation &&
-       @inbox.channel.provider == 'whatsapp_cloud' &&
-       @contact_inbox.source_id.to_s.match?(RegexHelper::WHATSAPP_BSUID_REGEX) &&
-       @conversation.contact_inbox_id != @contact_inbox.id
-      @conversation.update!(contact_inbox_id: @contact_inbox.id)
-    end
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)

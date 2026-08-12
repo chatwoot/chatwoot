@@ -38,11 +38,13 @@ module Whatsapp::IncomingMessageIdentifierHelper
     ).perform
   end
 
+  # The business scoped user id comes first so it is the identity a message resolves to whenever one
+  # is present, and the phone number is the fallback for a payload that carries none.
   def incoming_message_source_ids(contact_params)
     [
-      whatsapp_phone_source_id(contact_params[:wa_id].presence || messages_data.first[:from].presence),
       whatsapp_source_id(contact_params[:user_id].presence || messages_data.first[:from_user_id].presence),
-      whatsapp_source_id(contact_params[:parent_user_id].presence || messages_data.first[:from_parent_user_id].presence)
+      whatsapp_source_id(contact_params[:parent_user_id].presence || messages_data.first[:from_parent_user_id].presence),
+      whatsapp_phone_source_id(contact_params[:wa_id].presence || messages_data.first[:from].presence)
     ].compact_blank.uniq
   end
 
