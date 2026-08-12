@@ -1,4 +1,5 @@
 import { actions } from '../../conversation/actions';
+import { mutations } from '../../conversation/mutations';
 import getUuid from '../../../../helpers/uuid';
 import { API } from 'widget/helpers/axios';
 
@@ -161,7 +162,7 @@ describe('#actions', () => {
         location: { search: '' },
       }));
 
-    it('clears the old thread when the server replies with a different conversation', async () => {
+    it('drops the old thread when the server replies with a different conversation', async () => {
       API.post.mockResolvedValue({
         data: { id: 2, content: 'hello', conversation_id: 99 },
       });
@@ -174,12 +175,62 @@ describe('#actions', () => {
       );
       windowSpy.mockRestore();
 
-      expect(commit).toBeCalledWith('clearConversations');
+      expect(commit).toBeCalledWith('deleteMessage', 1);
       expect(dispatch).toBeCalledWith(
         'conversationAttributes/getAttributes',
         {},
         { root: true }
       );
+    });
+
+    it('replaces the failed message when the retry succeeds', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', message_type: 0, conversation_id: 55 },
+      });
+      const windowSpy = mockWindow();
+      const state = {
+        conversations: {
+          temp: {
+            id: 'temp',
+            content: 'hello',
+            message_type: 0,
+            status: 'failed',
+          },
+        },
+      };
+      const applyMutation = (type, payload) => mutations[type](state, payload);
+
+      await actions.sendMessageWithData(
+        { commit: applyMutation, dispatch, state },
+        { message: state.conversations.temp }
+      );
+      windowSpy.mockRestore();
+
+      expect(Object.keys(state.conversations)).toEqual(['2']);
+    });
+
+    it('keeps messages already received for the new conversation', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', conversation_id: 99 },
+      });
+      const windowSpy = mockWindow();
+      const state = {
+        conversations: {
+          1: { id: 1, conversation_id: 55 },
+          77: { id: 77, content: 'greeting', conversation_id: 99 },
+          temp: { id: 'temp', content: 'hello' },
+        },
+      };
+
+      await actions.sendMessageWithData(
+        { commit, dispatch, state },
+        { message: { id: 'temp', content: 'hello' } }
+      );
+      windowSpy.mockRestore();
+
+      expect(commit).toBeCalledWith('deleteMessage', 1);
+      expect(commit).not.toBeCalledWith('deleteMessage', 77);
+      expect(commit).not.toBeCalledWith('deleteMessage', 'temp');
     });
 
     it('keeps the thread when the message lands in the same conversation', async () => {
@@ -195,7 +246,7 @@ describe('#actions', () => {
       );
       windowSpy.mockRestore();
 
-      expect(commit).not.toBeCalledWith('clearConversations');
+      expect(commit).not.toBeCalledWith('deleteMessage', 1);
       expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: 2,
         content: 'hello',
@@ -241,7 +292,7 @@ describe('#actions', () => {
       });
     });
 
-    it('clears the old thread when the server replies with a different conversation', async () => {
+    it('drops the old thread when the server replies with a different conversation', async () => {
       API.post.mockResolvedValue({
         data: { id: 2, conversation_id: 99 },
       });
@@ -269,7 +320,7 @@ describe('#actions', () => {
       );
       windowSpy.mockRestore();
 
-      expect(commit).toBeCalledWith('clearConversations');
+      expect(commit).toBeCalledWith('deleteMessage', 1);
       expect(dispatch).toBeCalledWith(
         'conversationAttributes/getAttributes',
         {},

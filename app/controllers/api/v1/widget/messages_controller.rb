@@ -45,13 +45,19 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def set_conversation
     return unless conversation.nil? || conversation_closed_for_replies?
 
-    @conversation = create_conversation
-    apply_labels if permitted_params[:labels].present?
+    # Two retries fire at once, so without the lock both would see the resolved
+    # conversation and start their own, splitting the thread.
+    @contact_inbox.with_lock do
+      @conversation = conversations.last
+      next unless conversation.nil? || conversation_closed_for_replies?
+
+      @conversation = create_conversation
+      apply_labels if permitted_params[:labels].present?
+    end
   end
 
-  # Hiding the reply box in the widget does not stop a request from reaching this endpoint,
-  # so the rule is enforced here to keep a resolved conversation resolved. We start a new
-  # conversation instead of rejecting, so the visitor's message is not lost.
+  # Hiding the reply box does not stop requests reaching this endpoint, so the rule is
+  # enforced here. A new conversation is started rather than rejected, so no message is lost.
   def conversation_closed_for_replies?
     conversation.resolved? && !inbox.allow_messages_after_resolved
   end

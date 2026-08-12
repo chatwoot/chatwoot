@@ -14,21 +14,20 @@ import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 
-// The server moves a message to a new conversation when the current one is resolved and the
-// inbox disallows replies after resolution. Drop the old thread so we show the conversation
-// the message landed in. Compare against the rendered messages, not the conversation
-// attributes, since `conversation.created` can update those first.
+// The server starts a new conversation when this one is resolved and the inbox disallows
+// replies. Compare against the messages, not the attributes, which `conversation.created`
+// updates first. Drop only the stale ones, so replies already received here survive.
 const resetStaleThread = (
   { commit, dispatch },
   conversations,
   conversationId
 ) => {
-  const isStale = Object.values(conversations).some(
+  const staleMessages = Object.values(conversations).filter(
     item => item.conversation_id && item.conversation_id !== conversationId
   );
-  if (!isStale) return;
+  if (!staleMessages.length) return;
 
-  commit('clearConversations');
+  staleMessages.forEach(item => commit('deleteMessage', item.id));
   dispatch('conversationAttributes/getAttributes', {}, { root: true });
 };
 
@@ -68,7 +67,9 @@ export const actions = {
       Object.keys(pendingCustomAttributes).length > 0 ||
       pendingLabels.length > 0;
 
-    commit('pushMessageToConversation', message);
+    // A retried message still carries `failed`, and only `in_progress` ones are replaced by
+    // the server copy, so without this the failed bubble stays behind as a duplicate.
+    commit('pushMessageToConversation', { ...message, status: 'in_progress' });
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
     try {
       const { data } = await sendMessageAPI(content, replyTo, {
