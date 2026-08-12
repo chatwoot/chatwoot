@@ -8,7 +8,7 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const hasThumbnailError = ref(false);
+const hasMediaError = ref(false);
 
 const safeUrl = value => {
   if (!value) return '';
@@ -22,20 +22,32 @@ const safeUrl = value => {
 };
 
 const sourceUrl = computed(() => safeUrl(props.referral.sourceUrl));
-const thumbnailUrl = computed(() => safeUrl(props.referral.thumbnailUrl));
-const showThumbnail = computed(
-  () => thumbnailUrl.value && !hasThumbnailError.value
+const mediaUrl = computed(() =>
+  safeUrl(
+    props.referral.thumbnailUrl ||
+      props.referral.imageUrl ||
+      props.referral.mediaUrl ||
+      props.referral.videoUrl
+  )
 );
-const isVideo = computed(() => props.referral.mediaType === 'video');
+const showMedia = computed(() => mediaUrl.value && !hasMediaError.value);
+const isVideo = computed(
+  () =>
+    props.referral.mediaType === 'video' ||
+    props.referral.mediaContentType?.startsWith('video/')
+);
+const renderVideo = computed(
+  () => isVideo.value && !props.referral.thumbnailUrl
+);
 
-const handleThumbnailError = () => {
-  hasThumbnailError.value = true;
+const handleMediaError = () => {
+  hasMediaError.value = true;
 };
 </script>
 
 <template>
   <div
-    class="overflow-hidden border rounded-lg border-n-weak bg-n-alpha-1"
+    class="w-full max-w-lg overflow-hidden border rounded-lg border-n-weak bg-n-alpha-1"
     data-testid="whatsapp-referral"
   >
     <a
@@ -46,14 +58,23 @@ const handleThumbnailError = () => {
       class="block text-current no-underline hover:no-underline"
     >
       <div
-        v-if="showThumbnail"
+        v-if="showMedia"
         class="relative overflow-hidden bg-n-alpha-2 aspect-video"
       >
+        <video
+          v-if="renderVideo"
+          :src="mediaUrl"
+          muted
+          preload="metadata"
+          class="object-cover w-full h-full skip-context-menu"
+          @error="handleMediaError"
+        />
         <img
-          :src="thumbnailUrl"
+          v-else
+          :src="mediaUrl"
           :alt="referral.headline || t('CONVERSATION.WHATSAPP_REFERRAL.AD')"
           class="object-cover w-full h-full skip-context-menu"
-          @error="handleThumbnailError"
+          @error="handleMediaError"
         />
         <div
           v-if="isVideo"

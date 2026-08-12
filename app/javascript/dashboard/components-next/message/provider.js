@@ -74,6 +74,10 @@ const MessageControl = Symbol('MessageControl');
  * @property {string} [referral.body] - Body copy of the originating ad
  * @property {string} [referral.mediaType] - Media type of the originating ad
  * @property {string} [referral.thumbnailUrl] - Thumbnail of the originating ad
+ * @property {string} [referral.imageUrl] - Image URL of a Cloud API referral
+ * @property {string} [referral.videoUrl] - Video URL of a Cloud API referral
+ * @property {string} [referral.mediaUrl] - Media URL of a Twilio referral
+ * @property {string} [referral.mediaContentType] - Media content type of a Twilio referral
  */
 
 /**

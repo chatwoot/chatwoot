@@ -42,6 +42,7 @@ import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
 import VoiceCallBubble from './bubbles/VoiceCall.vue';
 import WhatsappFlowResponseBubble from './bubbles/WhatsappFlowResponse.vue';
+import WhatsappReferral from './bubbles/Text/WhatsappReferral.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -416,6 +417,7 @@ const shouldRenderMessage = computed(() => {
     props.contentType === CONTENT_TYPES.INTEGRATIONS;
   const hasWhatsappFlowResponse =
     !!props.contentAttributes?.whatsappFlowResponse;
+  const hasWhatsappReferral = !!props.contentAttributes?.referral;
   const isFailedMessage = props.status === MESSAGE_STATUS.FAILED;
   const hasExternalError = !!props.contentAttributes?.externalError;
 
@@ -426,6 +428,7 @@ const shouldRenderMessage = computed(() => {
     isUnsupported ||
     isAnIntegrationMessage ||
     hasWhatsappFlowResponse ||
+    hasWhatsappReferral ||
     isFailedMessage ||
     hasExternalError
   );
@@ -583,7 +586,19 @@ provideMessageContext({
         }"
         @contextmenu="openContextMenu($event)"
       >
-        <Component :is="componentToRender" />
+        <div
+          class="flex flex-col min-w-0 gap-2"
+          :class="{
+            'items-end': orientation === ORIENTATION.RIGHT,
+            'items-start': orientation === ORIENTATION.LEFT,
+          }"
+        >
+          <WhatsappReferral
+            v-if="contentAttributes.referral"
+            :referral="contentAttributes.referral"
+          />
+          <Component :is="componentToRender" />
+        </div>
       </div>
       <MessageError
         v-if="contentAttributes.externalError"
