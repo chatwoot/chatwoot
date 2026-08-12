@@ -181,7 +181,9 @@ const isCardsValid = computed(
       card =>
         !!card.title &&
         !!card.actionText &&
-        (card.actionType !== 'url' || isValidURL(card.actionUrl))
+        (card.actionType !== 'url' || isValidURL(card.actionUrl)) &&
+        // WhatsApp interactive media carousels require every card to have media.
+        (!props.allowListType || !!card.mediaUrl)
     ) &&
     isCardsMediaValid.value
 );

@@ -126,6 +126,72 @@ describe('InteractiveMessagesModal', () => {
     expect(wrapper.emitted('onSend')).toHaveLength(1);
   });
 
+  it('blocks sending a WhatsApp carousel with a card missing media', async () => {
+    const wrapper = mountComponent(false, true);
+    wrapper.vm.selectedType = CONTENT_TYPES.CARDS;
+    wrapper.vm.carouselForm = {
+      bodyText: 'Check these out',
+      cards: [
+        {
+          id: 'card_1',
+          mediaUrl: '',
+          title: 'Card 1',
+          description: '',
+          actionType: 'reply',
+          actionText: 'Go',
+          actionUrl: '',
+        },
+        {
+          id: 'card_2',
+          mediaUrl: 'https://example.com/img.jpg',
+          title: 'Card 2',
+          description: '',
+          actionType: 'reply',
+          actionText: 'Go',
+          actionUrl: '',
+        },
+      ],
+    };
+    await nextTick();
+
+    wrapper.vm.onSend();
+
+    expect(wrapper.emitted('onSend')).toBeUndefined();
+  });
+
+  it('allows sending a WhatsApp carousel when every card has media', async () => {
+    const wrapper = mountComponent(false, true);
+    wrapper.vm.selectedType = CONTENT_TYPES.CARDS;
+    wrapper.vm.carouselForm = {
+      bodyText: 'Check these out',
+      cards: [
+        {
+          id: 'card_1',
+          mediaUrl: 'https://example.com/img1.jpg',
+          title: 'Card 1',
+          description: '',
+          actionType: 'reply',
+          actionText: 'Go',
+          actionUrl: '',
+        },
+        {
+          id: 'card_2',
+          mediaUrl: 'https://example.com/img2.jpg',
+          title: 'Card 2',
+          description: '',
+          actionType: 'reply',
+          actionText: 'Go',
+          actionUrl: '',
+        },
+      ],
+    };
+    await nextTick();
+
+    wrapper.vm.onSend();
+
+    expect(wrapper.emitted('onSend')).toHaveLength(1);
+  });
+
   it('blocks sending a CTA URL message with a footer over the WhatsApp limit', async () => {
     const wrapper = mountComponent(false);
     wrapper.vm.ctaUrlForm = {
