@@ -1,7 +1,7 @@
 module Enterprise::Account
-  # Transitional marker for the Captain V1 to V2 rollout. New cloud accounts get
-  # this marker so plan reconciliation can enable V2 for them without upgrading
-  # existing paid accounts. Remove once every account is migrated to V2.
+  # Transitional marker for the Captain V1 to V2 rollout. Set this to false only
+  # for accounts that must remain on V1 during paid plan reconciliation.
+  # Remove once every account is migrated to V2.
   CAPTAIN_V2_DEFAULT_ELIGIBLE = 'captain_v2_default_eligible'.freeze
 
   class << self
@@ -71,6 +71,12 @@ module Enterprise::Account
 
   def saml_enabled?
     saml_settings&.saml_enabled? || false
+  end
+
+  def api_and_webhooks_enabled?
+    return true unless ChatwootApp.chatwoot_cloud?
+
+    feature_enabled?('api_and_webhooks')
   end
 
   def billing_currency

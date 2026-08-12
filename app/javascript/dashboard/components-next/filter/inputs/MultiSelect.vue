@@ -1,6 +1,8 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { picoSearch } from '@scmmishra/pico-search';
+import { DROPDOWN_SEARCH_THRESHOLD } from '../helper/filterHelper';
 import Icon from 'next/icon/Icon.vue';
 import Button from 'next/button/Button.vue';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
@@ -23,10 +25,23 @@ const { options, maxChips, dropdownMaxHeight } = defineProps({
   },
 });
 
+const vFocus = { mounted: el => el.focus() };
+
 const { t } = useI18n();
 const selected = defineModel({
   type: [Array, String],
   required: true,
+});
+
+const searchTerm = ref('');
+
+const showSearch = computed(() => options.length > DROPDOWN_SEARCH_THRESHOLD);
+
+const searchResults = computed(() => {
+  // picoSearch throws on a whitespace-only query, which trims down to no search terms.
+  const query = searchTerm.value.trim();
+  if (!query) return options;
+  return picoSearch(options, query, ['name']);
 });
 
 const hasItems = computed(() => {
@@ -67,6 +82,11 @@ const remainingTooltip = computed(() => {
   return remainingItems.value.map(item => item.name).join(', ');
 });
 
+const toggleDropdown = toggle => {
+  searchTerm.value = '';
+  toggle();
+};
+
 const toggleOption = option => {
   // Ensure that the `icon` prop is not included, icon is a VNode which has circular references
   // This causes an error when creating a clone using JSON.parse(JSON.stringify())
@@ -96,7 +116,7 @@ const toggleOption = option => {
       <button
         v-if="hasItems"
         class="bg-n-alpha-2 py-2 rounded-lg h-8 flex items-center px-0"
-        @click="toggle"
+        @click="toggleDropdown(toggle)"
       >
         <div
           v-for="item in selectedVisibleItems"
@@ -119,7 +139,7 @@ const toggleOption = option => {
           <Icon icon="i-lucide-plus" />
         </div>
       </button>
-      <Button v-else sm slate faded @click="toggle">
+      <Button v-else sm slate faded @click="toggleDropdown(toggle)">
         <template #icon>
           <Icon icon="i-lucide-plus" class="text-n-slate-11" />
         </template>
@@ -127,23 +147,44 @@ const toggleOption = option => {
       </Button>
     </template>
     <DropdownBody class="top-0 min-w-48 z-50" strong>
+      <div v-if="showSearch" class="relative">
+        <Icon class="absolute size-4 left-2 top-2" icon="i-lucide-search" />
+        <input
+          v-model="searchTerm"
+          v-focus
+          class="p-1.5 pl-8 text-n-slate-11 bg-n-alpha-1 rounded-lg w-full"
+          :placeholder="t('COMBOBOX.SEARCH_PLACEHOLDER')"
+        />
+      </div>
       <DropdownSection :height="dropdownMaxHeight">
-        <DropdownItem
-          v-for="option in options"
-          :key="option.id"
-          :icon="option.icon"
-          preserve-open
-          @click="toggleOption(option)"
-        >
-          <template #label>
-            {{ option.name }}
-            <Icon
-              v-if="selectedIds.includes(option.id)"
-              icon="i-lucide-check"
-              class="bg-n-blue-text pointer-events-none"
-            />
-          </template>
-        </DropdownItem>
+        <template v-if="searchResults.length">
+          <DropdownItem
+            v-for="option in searchResults"
+            :key="option.id"
+            :icon="option.icon"
+            preserve-open
+            @click="toggleOption(option)"
+          >
+            <template #label>
+              {{ option.name }}
+              <Icon
+                v-if="selectedIds.includes(option.id)"
+                icon="i-lucide-check"
+                class="bg-n-blue-text pointer-events-none"
+              />
+            </template>
+          </DropdownItem>
+        </template>
+        <template v-else-if="searchTerm">
+          <DropdownItem disabled>
+            {{ t('COMBOBOX.EMPTY_SEARCH_RESULTS', { searchTerm }) }}
+          </DropdownItem>
+        </template>
+        <template v-else>
+          <DropdownItem disabled>
+            {{ t('COMBOBOX.EMPTY_STATE') }}
+          </DropdownItem>
+        </template>
       </DropdownSection>
     </DropdownBody>
   </DropdownContainer>

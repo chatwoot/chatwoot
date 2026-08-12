@@ -3,8 +3,8 @@
     "HEADER": "Agents",
     "HEADER_BTN_TXT": "Ajouter un agent",
     "LOADING": "Récupération de la liste des agents",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "Un agent est un membre de votre équipe d'assistance à la clientèle qui peut consulter et répondre aux messages des utilisateurs. La liste ci-dessous montre tous les agents de votre compte.",
+    "LEARN_MORE": "En savoir plus sur les rôles des utilisateurs",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrateur",
       "AGENT": "Agent"
@@ -15,12 +15,12 @@
       "TITLE": "Gérer les agents de votre équipe",
       "DESC": "Vous pouvez ajouter/supprimer des agents à votre équipe.",
       "NAME": "Nom",
-      "EMAIL": "COURRIEL",
+      "EMAIL": "E-MAIL",
       "STATUS": "État",
       "ACTIONS": "Actions",
       "VERIFIED": "Vérifié",
       "VERIFICATION_PENDING": "En attente de vérification",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "Permissions de rôle personnalisé disponibles"
     },
     "ADD": {
       "TITLE": "Ajouter un agent à votre équipe",
@@ -98,7 +98,7 @@
       }
     },
     "SEARCH_PLACEHOLDER": "Chercher des agents...",
-    "NO_RESULTS": "No agents found matching your search",
+    "NO_RESULTS": "Aucun agent trouvé correspondant à votre recherche",
     "SEARCH": {
       "NO_RESULTS": "Aucun résultat trouvé."
     },

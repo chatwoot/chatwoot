@@ -177,6 +177,33 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
 
       expect(json_response[:question]).to eq('Test question?')
       expect(json_response[:answer]).to eq('Test answer')
+      expect(json_response[:status]).to eq('approved')
+    end
+
+    it 'does not accept the removed pending status' do
+      params = valid_params.deep_merge(assistant_response: { status: 'pending' })
+
+      post "/api/v1/accounts/#{account.id}/captain/assistant_responses",
+           params: params,
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(Captain::AssistantResponse.last).to be_approved
+    end
+
+    it 'does not create a response for an assistant in another account' do
+      other_assistant = create(:captain_assistant)
+      params = valid_params.deep_merge(assistant_response: { assistant_id: other_assistant.id })
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/captain/assistant_responses",
+             params: params,
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.not_to change(Captain::AssistantResponse, :count)
+
+      expect(response).to have_http_status(:unprocessable_entity)
     end
 
     context 'with invalid params' do
@@ -221,6 +248,20 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
 
       expect(json_response[:question]).to eq('Updated question?')
       expect(json_response[:answer]).to eq('Updated answer')
+    end
+
+    it 'does not move a response to an assistant in another account' do
+      other_assistant = create(:captain_assistant)
+      params = update_params.deep_merge(assistant_response: { assistant_id: other_assistant.id })
+
+      patch "/api/v1/accounts/#{account.id}/captain/assistant_responses/#{response_record.id}",
+            params: params,
+            headers: admin.create_new_auth_token,
+            as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response_record.reload.assistant).to eq(assistant)
+      expect(response_record.question).not_to eq('Updated question?')
     end
 
     context 'with invalid params' do
