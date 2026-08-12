@@ -57,7 +57,11 @@
         helpUrls: <%= feature_help_urls.to_json.html_safe %>,
         inboxEventsEnabled: '<%= ENV['ENABLE_INBOX_EVENTS'].present? %>',
         selectedLocale: '<%= I18n.locale %>',
-        coroHomeUrl: '<%= ENV.fetch('CORO_HOME_URL', '') %>'
+        coroHomeUrl: '<%= ENV.fetch('CORO_HOME_URL', '') %>',
+        <%# JSON map of Chatwoot account_id → Tasks iframe URL.
+            Example: {"4":"https://ae.../coro-home?token=…&brand=msh","5":"…&brand=lg","7":"https://company-chat…/yalla-desk?token=…"}
+            Accounts omitted here do not inherit the MSH board. %>
+        coroTasksUrlByAccount: <%= raw(ENV.fetch('CORO_TASKS_URL_BY_ACCOUNT', '{}')) %>
       }
       window.globalConfig = <%= raw @global_config.to_json %>
       window.browserConfig = {

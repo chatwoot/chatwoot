@@ -351,8 +351,18 @@ const newReportRoutes = () => [
 
 const reportRoutes = computed(() => newReportRoutes());
 
+function accountHasOpsTasksBoard(id) {
+  const byAccount = window.chatwootConfig?.coroTasksUrlByAccount;
+  if (byAccount && typeof byAccount === 'object') {
+    const mapped = byAccount[String(id)] || byAccount[Number(id)];
+    if (typeof mapped === 'string' && mapped.trim()) return true;
+  }
+  // Legacy: only MSH (account 4) inherits CORO_HOME_URL.
+  return String(id) === '4' && Boolean(window.chatwootConfig?.coroHomeUrl);
+}
+
 const menuItems = computed(() => {
-  return [
+  const items = [
     {
       name: 'OpsTasks',
       label: t('SIDEBAR.OPS_TASKS'),
@@ -825,6 +835,10 @@ const menuItems = computed(() => {
       ],
     },
   ];
+  if (!accountHasOpsTasksBoard(accountId.value)) {
+    return items.filter(item => item.name !== 'OpsTasks');
+  }
+  return items;
 });
 </script>
 
