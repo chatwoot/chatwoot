@@ -58,7 +58,11 @@ module CaptainRoutineTerminalPresenter
   end
 
   def print_evaluating_plan(details)
-    stage('PLAN CHECK', "Semantic evaluation #{details[:attempt]}/#{details[:maximum]}…", :magenta)
+    stage(
+      'PLAN CHECK',
+      "Semantic evaluation #{details[:attempt]} · repairs #{details[:repairs_used]}/#{details[:maximum_repairs]}…",
+      :magenta
+    )
   end
 
   def print_plan_evaluated(details)
@@ -494,20 +498,20 @@ class CaptainRoutineExamplesWizard
     #   and assign the conversation to the Billing team. For all other conversations, add the label `routine-reviewed`.
     # TEXT
 
-    <<~TEXT.strip,
-      Review every open L2 support conversation assigned to the Engineering team. Triage the conversation using its recent
-      messages and determine whether the customer is blocked by an urgent product issue. Treat inability to send messages,
-      inability to access the dashboard, or messages not being received as urgent. Other issues are non-urgent.
+    # <<~TEXT.strip,
+    #   Review every open L2 support conversation assigned to the Engineering team. Triage the conversation using its recent
+    #   messages and determine whether the customer is blocked by an urgent product issue. Treat inability to send messages,
+    #   inability to access the dashboard, or messages not being received as urgent. Other issues are non-urgent.
 
-      For a non-urgent conversation, add a private note nudging the currently assigned engineer to reply to the customer.
+    #   For a non-urgent conversation, add a private note nudging the currently assigned engineer to reply to the customer.
 
-      For an urgent conversation, set its priority to urgent and add the label `p0-needs-attention`. Add a private note that
-      mentions both Jithin and the currently assigned engineer, asking them to address the issue immediately. Send this reply
-      to the customer: "We understand that this is blocking you. We are treating it as urgent and will address it shortly."
+    #   For an urgent conversation, set its priority to urgent and add the label `p0-needs-attention`. Add a private note that
+    #   mentions both Jithin and the currently assigned engineer, asking them to address the issue immediately. Send this reply
+    #   to the customer: "We understand that this is blocking you. We are treating it as urgent and will address it shortly."
 
-      Do not reassign the conversation. The `p0-needs-attention` label triggers the downstream automation, so the routine
-      does not need to perform any additional escalation after applying it.
-    TEXT
+    #   Do not reassign the conversation. The `p0-needs-attention` label triggers the downstream automation, so the routine
+    #   does not need to perform any additional escalation after applying it.
+    # TEXT
 
     <<~TEXT.strip
       Check snoozed conversations and follow up on the ones where we are still waiting for the customer.
