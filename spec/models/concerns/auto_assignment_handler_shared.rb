@@ -45,6 +45,15 @@ shared_examples_for 'auto_assignment_handler' do
       expect(conversation.reload.assignee).to be_nil
     end
 
+    it 'keeps AgentBot ownership when the conversation opens' do
+      agent_bot = create(:agent_bot, account: account)
+      conversation = create(:conversation, account: account, inbox: inbox, status: 'pending', assignee_agent_bot: agent_bot)
+
+      conversation.update!(status: 'open')
+
+      expect(conversation.reload.assigned_entity).to eq(agent_bot)
+    end
+
     it 'gets triggered on update only when status changes to open' do
       conversation.status = 'resolved'
       conversation.save!

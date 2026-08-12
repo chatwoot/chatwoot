@@ -49,6 +49,11 @@
       "DISABLE_MFA_DESC": "从您的帐户中删除两步验证",
       "DISABLE_BUTTON": "禁用两步验证"
     },
+    "LOW_BACKUP_CODES": {
+      "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
+      "NONE_LEFT": "You have no backup codes remaining. Generate new codes now to avoid getting locked out if you lose access to your authenticator.",
+      "ACTION": "Generate codes"
+    },
     "DISABLE": {
       "TITLE": "禁用两步验证",
       "DESCRIPTION": "您需要输入您的密码和验证码来禁用两步验证。",

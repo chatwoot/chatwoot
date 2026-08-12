@@ -5,7 +5,7 @@ class Saml::UpdateAccountUsersProviderJob < ApplicationJob
   # This job is triggered when SAML settings are created or destroyed
   def perform(account_id, provider)
     account = Account.find(account_id)
-    account.users.find_each(batch_size: 1000) do |user|
+    users_for_provider_update(account, provider).find_each(batch_size: 1000) do |user|
       next unless should_update_user_provider?(user, provider)
 
       # rubocop:disable Rails/SkipsModelValidations
@@ -23,6 +23,13 @@ class Saml::UpdateAccountUsersProviderJob < ApplicationJob
     return !user_has_other_saml_accounts?(user) if provider == 'email'
 
     true
+  end
+
+  def users_for_provider_update(account, provider)
+    return account.users.where.not(id: AccountUser.where.not(account_id: account.id).select(:user_id)) if provider == 'saml'
+    return account.users.where(provider: 'saml') if provider == 'email'
+
+    account.users
   end
 
   # Checks if the user belongs to any other accounts that have SAML configured

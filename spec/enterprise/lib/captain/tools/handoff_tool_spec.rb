@@ -16,13 +16,23 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
     end
   end
 
-  describe '#parameters' do
-    it 'returns the correct parameters' do
-      expect(tool.parameters).to have_key(:reason)
-      expect(tool.parameters[:reason].name).to eq(:reason)
-      expect(tool.parameters[:reason].type).to eq('string')
-      expect(tool.parameters[:reason].description).to eq('The reason why handoff is needed (optional)')
-      expect(tool.parameters[:reason].required).to be false
+  describe '#params_schema' do
+    it 'constrains the reason category to the supported values and keeps the reason optional' do
+      schema = tool.params_schema
+
+      expect(schema['properties']['reason']['type']).to eq('string')
+      expect(schema['properties']['reason_category']['enum']).to eq(described_class::REASON_CATEGORIES)
+      expect(schema['required']).to eq(['reason_category'])
+    end
+
+    it 'uses only reason categories supported by conversation outcomes' do
+      expect(ConversationOutcome::HANDOFF_REASON_CATEGORIES).to include(*described_class::REASON_CATEGORIES)
+    end
+
+    it 'survives Agents::ToolWrapper reading the class params at wrap time' do
+      described_class.params
+
+      expect(described_class.new(assistant).params_schema['properties'].keys).to contain_exactly('reason', 'reason_category')
     end
   end
 
@@ -96,9 +106,16 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
         it 'emits a captain handoff event with the tool source after the locked handoff completes' do
           expect(Captain::ConversationEvents).to receive(:handed_off)
-            .with(conversation: conversation, assistant: assistant, source: 'tool', at: kind_of(Time))
+            .with(conversation: conversation, assistant: assistant, source: 'tool', reason_category: 'customer_request', at: kind_of(Time))
 
-          tool.perform(tool_context, reason: 'Customer needs specialized support')
+          tool.perform(tool_context, reason: 'Customer needs specialized support', reason_category: 'customer_request')
+        end
+
+        it 'emits an unclassified handoff when the model supplies an unknown reason category' do
+          expect(Captain::ConversationEvents).to receive(:handed_off)
+            .with(conversation: conversation, assistant: assistant, source: 'tool', reason_category: nil, at: kind_of(Time))
+
+          tool.perform(tool_context, reason: 'Customer needs specialized support', reason_category: 'hallucinated_category')
         end
 
         it 'does not emit a captain handoff event when the handoff is skipped as stale' do
@@ -170,11 +187,33 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           tool.perform(tool_context, reason: 'Test reason')
         end
 
-        it 'emits a captain handoff event with the tool source' do
+        it 'emits a captain handoff event with the tool source and reason category' do
           expect(Captain::ConversationEvents).to receive(:handed_off)
-            .with(conversation: conversation, assistant: assistant, source: 'tool', at: kind_of(Time))
+            .with(conversation: conversation, assistant: assistant, source: 'tool', reason_category: 'unsupported_request', at: kind_of(Time))
 
-          tool.perform(tool_context, reason: 'Test reason')
+          tool.perform(tool_context, reason: 'Test reason', reason_category: 'unsupported_request')
+        end
+
+        it 'records the handoff on an existing V2 outcome' do
+          account.enable_features!('captain_integration_v2')
+          create(
+            :conversation_outcome,
+            account: account,
+            assistant: assistant,
+            conversation: conversation,
+            inbox: inbox
+          )
+
+          tool.perform(
+            tool_context,
+            reason: 'Customer needs specialized support',
+            reason_category: 'unsupported_request'
+          )
+
+          expect(ConversationOutcome.last).to have_attributes(
+            handoff_reason_category: 'unsupported_request',
+            handoff_at: be_present
+          )
         end
 
         it 'creates a conversation_bot_handoff reporting event' do
