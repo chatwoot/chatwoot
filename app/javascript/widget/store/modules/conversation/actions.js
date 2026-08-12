@@ -17,7 +17,9 @@ import { emitter } from 'shared/helpers/mitt';
 // The server starts a new conversation when this one is resolved and the inbox disallows
 // replies. Compare against the messages, not the attributes, which `conversation.created`
 // updates first. Drop only the stale ones, so replies already received here survive.
-const resetStaleThread = (
+// The socket drops `message.created` for the new conversation until the attributes point at
+// it, so pull the thread once the switch is done to pick up whatever was missed.
+const resetStaleThread = async (
   { commit, dispatch },
   conversations,
   conversationId
@@ -28,7 +30,8 @@ const resetStaleThread = (
   if (!staleMessages.length) return;
 
   staleMessages.forEach(item => commit('deleteMessage', item.id));
-  dispatch('conversationAttributes/getAttributes', {}, { root: true });
+  await dispatch('conversationAttributes/getAttributes', {}, { root: true });
+  dispatch('fetchOldConversations');
 };
 
 export const actions = {
