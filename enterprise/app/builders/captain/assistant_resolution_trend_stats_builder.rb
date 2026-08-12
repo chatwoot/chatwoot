@@ -1,0 +1,85 @@
+# Builds a weekly time series for Captain involvement and autonomous resolution.
+# All buckets are computed in one outcome-table scan and follow the viewer's
+# calendar timezone while remaining clipped to the selected reporting window.
+class Captain::AssistantResolutionTrendStatsBuilder
+  include Captain::AssistantOutcomeClassification
+
+  GRANULARITY = :week
+  WEEK_START = :sunday
+
+  attr_reader :assistant, :account
+
+  def initialize(assistant, range = Captain::AssistantStatsWindow::DEFAULT_RANGE, timezone_offset = nil)
+    @assistant = assistant
+    @account = assistant.account
+    @window = Captain::AssistantStatsWindow.new(range, timezone_offset)
+  end
+
+  def metrics
+    buckets = weekly_buckets
+    counts = bucket_counts(buckets)
+
+    {
+      granularity: GRANULARITY,
+      buckets: buckets.each_with_index.map { |bucket, index| serialize_bucket(bucket, counts[index]) }
+    }
+  end
+
+  private
+
+  attr_reader :window
+
+  def weekly_buckets
+    buckets = []
+    starts_at = window.current.first
+
+    while starts_at <= window.current.last
+      next_week_starts_at = starts_at.beginning_of_week(WEEK_START) + 1.week
+      final_bucket = next_week_starts_at > window.current.last
+
+      buckets << {
+        starts_at: starts_at,
+        ends_at: final_bucket ? window.current.last : next_week_starts_at,
+        ends_on: final_bucket ? window.current.last.to_date : next_week_starts_at.to_date - 1.day,
+        final: final_bucket
+      }
+      starts_at = next_week_starts_at
+    end
+
+    buckets
+  end
+
+  def bucket_counts(buckets)
+    aggregates = buckets.flat_map do |bucket|
+      clause = bucket_clause(bucket)
+      [
+        Arel.sql("COUNT(*) FILTER (WHERE #{clause} AND #{INVOLVED_SQL})"),
+        Arel.sql("COUNT(*) FILTER (WHERE #{clause} AND #{AUTONOMOUS_SQL})")
+      ]
+    end
+
+    outcomes_scope.reorder(nil).pick(*aggregates).each_slice(2).to_a
+  end
+
+  def serialize_bucket(bucket, counts)
+    {
+      starts_on: bucket[:starts_at].to_date,
+      ends_on: bucket[:ends_on],
+      conversations_handled: counts[0],
+      resolved_by_captain: counts[1]
+    }
+  end
+
+  def bucket_clause(bucket)
+    end_operator = bucket[:final] ? '<=' : '<'
+    "started_at >= #{quote(bucket[:starts_at])} AND started_at #{end_operator} #{quote(bucket[:ends_at])}"
+  end
+
+  def outcomes_scope
+    account.conversation_outcomes.where(assistant_id: assistant.id, started_at: window.current)
+  end
+
+  def quote(value)
+    account.class.connection.quote(value)
+  end
+end
