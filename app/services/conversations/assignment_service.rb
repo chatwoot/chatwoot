@@ -20,7 +20,7 @@ class Conversations::AssignmentService
         conversation.waiting_since = Time.current if conversation.waiting_since.blank?
       end
       conversation.assignee = assignee
-      conversation.assignee_agent_bot = nil
+      conversation.ai_assignee = nil
       conversation.save!
     end
     assignee
@@ -31,7 +31,7 @@ class Conversations::AssignmentService
 
     conversation.with_lock do
       conversation.assignee = nil
-      conversation.assignee_agent_bot = agent_bot
+      conversation.ai_assignee = agent_bot
       conversation.status = :pending
       conversation.save!
     end
