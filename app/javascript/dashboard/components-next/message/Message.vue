@@ -371,6 +371,12 @@ const isMessageDeleted = computed(() => {
   return props.contentAttributes?.deleted;
 });
 
+const shouldShowWhatsappReferral = computed(
+  () =>
+    variant.value === MESSAGE_VARIANTS.USER &&
+    !!props.contentAttributes?.referral
+);
+
 const payloadForContextMenu = computed(() => {
   return {
     id: props.id,
@@ -417,7 +423,6 @@ const shouldRenderMessage = computed(() => {
     props.contentType === CONTENT_TYPES.INTEGRATIONS;
   const hasWhatsappFlowResponse =
     !!props.contentAttributes?.whatsappFlowResponse;
-  const hasWhatsappReferral = !!props.contentAttributes?.referral;
   const isFailedMessage = props.status === MESSAGE_STATUS.FAILED;
   const hasExternalError = !!props.contentAttributes?.externalError;
 
@@ -428,7 +433,7 @@ const shouldRenderMessage = computed(() => {
     isUnsupported ||
     isAnIntegrationMessage ||
     hasWhatsappFlowResponse ||
-    hasWhatsappReferral ||
+    shouldShowWhatsappReferral.value ||
     isFailedMessage ||
     hasExternalError
   );
@@ -583,22 +588,15 @@ provideMessageContext({
         :class="{
           'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
           'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
+          'flex-col items-start gap-2': shouldShowWhatsappReferral,
         }"
         @contextmenu="openContextMenu($event)"
       >
-        <div
-          class="flex flex-col min-w-0 gap-2"
-          :class="{
-            'items-end': orientation === ORIENTATION.RIGHT,
-            'items-start': orientation === ORIENTATION.LEFT,
-          }"
-        >
-          <WhatsappReferral
-            v-if="contentAttributes.referral"
-            :referral="contentAttributes.referral"
-          />
-          <Component :is="componentToRender" />
-        </div>
+        <WhatsappReferral
+          v-if="shouldShowWhatsappReferral"
+          :referral="contentAttributes.referral"
+        />
+        <Component :is="componentToRender" />
       </div>
       <MessageError
         v-if="contentAttributes.externalError"
