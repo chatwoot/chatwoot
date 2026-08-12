@@ -254,6 +254,102 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(response).to have_http_status(:success)
         expect(assistant.reload.config).to include('product_name' => 'Chatwoot', 'auto_resolve_mode' => 'disabled')
       end
+
+      it 'keeps inactivity timer settings behind Captain V2' do
+        account.disable_features!('captain_integration_v2')
+        assistant.update!(
+          config: {
+            'auto_resolve_mode' => 'evaluated',
+            'auto_resolve_after' => 60,
+            'send_inactivity_resolution_message' => true
+          }
+        )
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: {
+                assistant: {
+                  config: {
+                    auto_resolve_mode: 'disabled',
+                    auto_resolve_after: 90,
+                    send_inactivity_resolution_message: false
+                  }
+                }
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(assistant.reload.config).to include(
+          'auto_resolve_mode' => 'disabled',
+          'auto_resolve_after' => 60,
+          'send_inactivity_resolution_message' => true
+        )
+      end
+
+      it 'updates inactive conversation settings for Captain v2' do
+        account.enable_features!('captain_integration_v2')
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: {
+                assistant: {
+                  config: {
+                    auto_resolve_after: 61,
+                    send_inactivity_resolution_message: false,
+                    resolution_message: 'Saved closing message'
+                  }
+                }
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:config]).to include(
+          auto_resolve_after: 60,
+          send_inactivity_resolution_message: false,
+          resolution_message: 'Saved closing message'
+        )
+      end
+
+      it 'persists the nested audience condition tree' do
+        create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute,
+                                             attribute_display_type: :text, attribute_key: 'plan_tier')
+        audience = {
+          operator: 'and',
+          conditions: [
+            { attribute_key: 'country_code', filter_operator: 'equal_to', values: ['US'] },
+            { operator: 'or', conditions: [
+              { attribute_key: 'plan_tier', filter_operator: 'equal_to', values: ['paid'] }
+            ] }
+          ]
+        }
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: { assistant: { config: { audience: audience } } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        stored = assistant.reload.config['audience']
+        expect(stored['operator']).to eq('and')
+        expect(stored['conditions'].first['attribute_key']).to eq('country_code')
+        expect(stored['conditions'].last['conditions'].first['values']).to eq(['paid'])
+      end
+
+      it 'rejects invalid audience attributes and operators' do
+        invalid_audiences = [
+          { attribute_key: 'missing_attribute', filter_operator: 'not_equal_to', values: ['known'] },
+          { attribute_key: 'blocked', filter_operator: 'is_not_present', values: [] }
+        ]
+
+        invalid_audiences.each do |audience|
+          patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+                params: { assistant: { config: { audience: audience } } },
+                headers: admin.create_new_auth_token,
+                as: :json
+
+          expect(response).to have_http_status(:unprocessable_content)
+        end
+      end
     end
   end
 
@@ -477,7 +573,12 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           assistant: assistant,
           source: 'playground'
         ).and_return(agent_runner_service)
-        allow(agent_runner_service).to receive(:generate_response).and_return({ response: 'Assistant response' })
+        allow(agent_runner_service).to receive(:generate_response).and_return(
+          {
+            response: 'Assistant response',
+            response_parts: [{ text: 'Assistant response', citation_indexes: [] }]
+          }
+        )
         expect(Captain::Llm::AssistantChatService).not_to receive(:new)
 
         post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
@@ -490,6 +591,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           message_history: valid_params[:message_history] + [{ role: 'user', content: valid_params[:message_content] }]
         )
         expect(json_response[:response]).to eq('Assistant response')
+        expect(json_response[:response_parts]).to eq([{ text: 'Assistant response', citation_indexes: [] }])
       end
 
       it 'does not duplicate the latest user message if it is already in history' do
