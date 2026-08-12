@@ -10,6 +10,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:dis
   end
 
   def perform_reply
+    send_attachments if message.attachments.present?
     if generic_template_message?
       send_generic_template_message
     elsif cta_url_message?
@@ -17,20 +18,25 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:dis
     elsif button_template_message?
       send_button_generic_template_message
     else
-      send_content_and_attachments
+      send_content
     end
   rescue Facebook::Messenger::FacebookError => e
     handle_facebook_error(e)
     Messages::StatusUpdateService.new(message, 'failed', e.message).perform
   end
 
-  def send_content_and_attachments
-    send_message_to_facebook fb_text_message_params if message.content.present?
-    return if message.attachments.blank?
-
+  # Attachments are sent as their own provider request independent of the
+  # message's content type, so an interactive (cards/cta_url/interactive_buttons)
+  # message with an attachment still delivers both instead of silently dropping
+  # the attachment (the shared validator explicitly allows this combination).
+  def send_attachments
     message.attachments.each do |attachment|
       send_message_to_facebook fb_attachment_message_params(attachment)
     end
+  end
+
+  def send_content
+    send_message_to_facebook fb_text_message_params if message.content.present?
   end
 
   # Returns whether the send succeeded, independent of message.status: a later

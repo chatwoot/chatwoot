@@ -252,6 +252,40 @@ describe Facebook::SendOnFacebookService do
       end
     end
 
+    context 'with cards content type and an attachment' do
+      it 'sends both the attachment and the generic template' do
+        message = build(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation,
+                                  content_type: 'cards',
+                                  content_attributes: {
+                                    'items' => [
+                                      {
+                                        'title' => 'Card 1',
+                                        'actions' => [{ 'type' => 'url', 'text' => 'Visit', 'uri' => 'https://example.com' }]
+                                      }
+                                    ]
+                                  })
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        message.save!
+        allow(attachment).to receive(:download_url).and_return('url1')
+
+        described_class.new(message: message).perform
+
+        expect(bot).to have_received(:deliver).with(
+          hash_including(message: hash_including(attachment: hash_including(type: 'image'))),
+          { page_id: facebook_channel.page_id }
+        )
+        expect(bot).to have_received(:deliver).with(
+          hash_including(
+            message: hash_including(
+              attachment: hash_including(type: 'template', payload: hash_including(template_type: 'generic'))
+            )
+          ),
+          { page_id: facebook_channel.page_id }
+        )
+      end
+    end
+
     context 'with cards intro text where the cards template send fails and is retried' do
       it 'does not resend the intro text that already succeeded' do
         success_json = { recipient_id: '1008372609250235', message_id: 'mid.intro' }.to_json
