@@ -15,8 +15,8 @@ class Captain::Assistant::InstrumentationAttributeProvider
     attributes = {
       format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'generation_stage') => generation_stage(message)
     }
-    if @service.send(:message_burst_protection_active?)
-      attributes[format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'discarded')] = @service.send(:newer_customer_message_arrived?).to_s
+    if @service.send(:stale_response_protection_active?)
+      attributes[format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'discarded')] = @service.send(:response_stale?).to_s
     end
     attributes
   end

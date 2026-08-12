@@ -10,9 +10,11 @@ class Captain::Assistant::AgentRunnerService
 
   attr_reader :last_run_result
 
+  STALE_RESPONSE_POLICIES = %i[customer_message public_message].freeze
+
   # rubocop:disable Metrics/ParameterLists
   def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil, read_only: false,
-                 trace_feature: :assistant)
+                 trace_feature: :assistant, stale_response_policy: :customer_message)
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
@@ -20,6 +22,9 @@ class Captain::Assistant::AgentRunnerService
     @responding_to_message_id = responding_to_message_id
     @read_only = read_only
     @trace_feature = trace_feature
+    @stale_response_policy = stale_response_policy.to_sym
+    raise ArgumentError, "Invalid stale response policy: #{@stale_response_policy}" unless valid_stale_response_policy?
+
     @handoff_tool_called = false
     @handoff_tool_completed = false
   end
@@ -48,6 +53,8 @@ class Captain::Assistant::AgentRunnerService
   def handoff_completed? = @handoff_tool_completed == true
 
   private
+
+  def valid_stale_response_policy? = STALE_RESPONSE_POLICIES.include?(@stale_response_policy)
 
   def build_context(message_history)
     conversation_history = message_history.map do |msg|

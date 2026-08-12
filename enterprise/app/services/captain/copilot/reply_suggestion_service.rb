@@ -3,8 +3,6 @@ class Captain::Copilot::ReplySuggestionService
 
   class GenerationError < StandardError; end
 
-  NO_INCOMING_MESSAGE_ERROR = 'A reply can only be suggested when the latest conversation message is from the customer'.freeze
-
   def initialize(assistant:, conversation_id:, user_id:, copilot_thread_id:)
     @assistant = assistant
     @account = assistant.account
@@ -20,7 +18,9 @@ class Captain::Copilot::ReplySuggestionService
   def generate_response
     conversation = accessible_conversation(account: @account, user: @user, display_id: @conversation_id)
     raise ActiveRecord::RecordNotFound, 'Conversation not found' if conversation.blank?
-    raise GenerationError, NO_INCOMING_MESSAGE_ERROR unless latest_public_message(conversation)&.incoming?
+
+    target_message = latest_public_message(conversation)
+    return persist_discarded_response unless target_message&.incoming?
 
     message_history = conversation_history(conversation)
 
@@ -29,13 +29,17 @@ class Captain::Copilot::ReplySuggestionService
       conversation: conversation,
       source: 'copilot_reply_suggestion',
       read_only: true,
-      trace_feature: :copilot
+      trace_feature: :copilot,
+      responding_to_message_id: target_message.id,
+      stale_response_policy: :public_message
     )
     response = runner.generate_response(message_history: message_history)
+    return persist_discarded_response if runner.response_discarded?
+
     raise GenerationError, response['reasoning'] if response['error']
 
-    persist_response(response, runner)
-    @account.increment_response_usage
+    return persist_discarded_response if persist_response(response, runner, conversation, target_message) == :discarded
+
     response
   end
 
@@ -54,19 +58,47 @@ class Captain::Copilot::ReplySuggestionService
                 .first
   end
 
-  def persist_response(response, runner)
+  def persist_response(response, runner, conversation, target_message)
     response_parts = Captain::Assistant::ResponseParts.from_response(response)
     content = response_parts.customer_message_content(
       citation_urls: @assistant.trusted_citation_urls(runner.last_run_result)
     )
 
-    @copilot_thread.copilot_messages.create!(
-      message_type: :assistant,
-      message: {
-        content: content,
-        reasoning: response['reasoning'],
-        reply_suggestion: true
-      }.compact
-    )
+    @copilot_thread.with_lock do
+      return :discarded unless latest_public_message(conversation)&.id == target_message.id
+      return :persisted if @copilot_thread.copilot_messages.assistant.exists?
+
+      @copilot_thread.copilot_messages.create!(
+        message_type: :assistant,
+        message: {
+          content: content,
+          reasoning: response['reasoning'],
+          reply_suggestion: true
+        }.compact
+      )
+      @account.increment_response_usage
+    end
+
+    :persisted
+  end
+
+  def persist_discarded_response
+    @copilot_thread.with_lock do
+      return discarded_response if @copilot_thread.copilot_messages.assistant.exists?
+
+      @copilot_thread.copilot_messages.create!(
+        message_type: :assistant,
+        message: { content: discarded_response['response'] }
+      )
+    end
+
+    discarded_response
+  end
+
+  def discarded_response
+    {
+      'response' => I18n.t('captain.copilot.reply_suggestion_discarded', locale: @account.locale),
+      'discarded' => true
+    }
   end
 end
