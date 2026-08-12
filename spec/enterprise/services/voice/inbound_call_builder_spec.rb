@@ -168,12 +168,16 @@ RSpec.describe Voice::InboundCallBuilder do
 
     # Closes the gap: the contact was keyed by BSUID, but the call also carries a phone.
     # Matching across every source_id reuses the contact instead of forking on the phone.
+    #
+    # The order matters and is the caller's contract: the builder trusts the leading source_id as
+    # the identity to land on. Whatsapp::InboundCallIdentityBuilder puts the BSUID there on Cloud,
+    # which is what this reproduces — passing the phone first would ask for the phone alias.
     it 'reuses the contact by matching any source_id, not just the first' do
       call = described_class.perform!(
         inbox: whatsapp_inbox,
         call_sid: 'wacall_bsuid_1',
         provider: :whatsapp,
-        caller: { source_ids: ['5541988887777', 'IN.2081978709342942'],
+        caller: { source_ids: ['IN.2081978709342942', '5541988887777'],
                   contact_attributes: { name: 'Ada Lovelace', phone_number: '+5541988887777' } }
       )
 
