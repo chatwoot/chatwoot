@@ -38,6 +38,9 @@ class Captain::Routines::DslGeneratorService < Captain::BaseTaskService
       Invocation and scheduling belong to the Routine model. The DSL describes only what to execute and how control flows.
       Never include a trigger, schedule, timing, recurrence, or invocation policy in the DSL.
 
+      Semantic `constraint` steps are binding prohibitions and scope boundaries. Enforce them by omitting forbidden behavior from
+      the DSL. Never compile a constraint into an operation, decision, branch, or no-op placeholder.
+
       A for-each `from` block must either invoke a collection query or reference a previously saved collection query result.
       Prefer querying once with `save_as` and then using `{ "ref": "saved_collection" }` when the result is reused.
       Every standalone query operation must use `save_as`; later steps may refer to its result by that name.

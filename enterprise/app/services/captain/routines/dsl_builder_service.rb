@@ -29,13 +29,10 @@ class Captain::Routines::DslBuilderService
     return false if answers.blank?
 
     answers = answers.to_h.stringify_keys
-    question_ids = @routine.clarification_questions.pluck('id')
-    unknown_ids = answers.keys - question_ids
-    raise InvalidClarificationAnswersError, "Unknown clarification answer IDs: #{unknown_ids.join(', ')}" if unknown_ids.any?
-
-    merged_answers = @routine.clarification_answers.merge(answers)
+    validate_answer_ids!(answers)
+    merged_answers = @routine.clarification_answers.merge(answered_questions(answers))
     unanswered_questions = @routine.clarification_questions.reject do |question|
-      merged_answers[question['id']].present?
+      clarification_answered?(merged_answers[question['id']])
     end
 
     @routine.update!(
@@ -43,6 +40,23 @@ class Captain::Routines::DslBuilderService
       clarification_questions: unanswered_questions
     )
     unanswered_questions.empty?
+  end
+
+  def validate_answer_ids!(answers)
+    question_ids = @routine.clarification_questions.pluck('id')
+    unknown_ids = answers.keys - question_ids
+    raise InvalidClarificationAnswersError, "Unknown clarification answer IDs: #{unknown_ids.join(', ')}" if unknown_ids.any?
+  end
+
+  def answered_questions(answers)
+    questions_by_id = @routine.clarification_questions.index_by { |question| question.fetch('id') }
+    answers.to_h do |id, answer|
+      [id, { 'question' => questions_by_id.fetch(id).fetch('question'), 'answer' => answer }]
+    end
+  end
+
+  def clarification_answered?(value)
+    value.is_a?(Hash) ? value['answer'].present? : value.present?
   end
 
   def fail_build(error)

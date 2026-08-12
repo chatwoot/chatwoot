@@ -123,12 +123,16 @@ class Captain::Routines::SemanticPlanBuilderService
 
   def pause_for_clarification(evaluation)
     questions = evaluation['questions'].reject do |question|
-      @routine.clarification_answers[question['id']].present?
+      clarification_answered?(@routine.clarification_answers[question['id']])
     end
 
     status = questions.empty? ? :needs_review : :awaiting_clarification
     @routine.update!(status: status, clarification_questions: questions)
     status
+  end
+
+  def clarification_answered?(value)
+    value.is_a?(Hash) ? value['answer'].present? : value.present?
   end
 
   def mark_needs_review
