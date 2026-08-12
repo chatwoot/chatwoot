@@ -26,8 +26,17 @@ const { contentElement, showReadMore, showReadLess, toggleExpanded } =
   useExpandableContent();
 
 const messageContent = computed(() => {
+  // Voice-call messages carry a generic content label (e.g. "Twilio voice
+  // call"), so a transcript match would otherwise be hidden behind it.
+  if (
+    props.message.contentType === 'voice_call' &&
+    props.message.call?.transcript
+  ) {
+    return props.message.call.transcript;
+  }
+
   // We perform search on either content, email subject, or transcribed text
-  // (voice-note attachments or a voice-call recording)
+  // (voice-note attachments)
   if (props.message.content) {
     return props.message.content;
   }
@@ -40,11 +49,7 @@ const messageContent = computed(() => {
   const audioAttachment = props.message.attachments?.find(
     attachment => attachment.fileType === 'audio'
   );
-  if (audioAttachment?.transcribedText) {
-    return audioAttachment.transcribedText;
-  }
-
-  return props.message.call?.transcript || '';
+  return audioAttachment?.transcribedText || '';
 });
 
 const escapeHtml = html => {
