@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { IFrameHelper } from 'widget/helpers/utils';
 
 const props = defineProps({
   message: {
@@ -24,6 +25,15 @@ const headerMediaUrl = computed(
 const buttons = computed(() => props.messageContentAttributes.buttons || []);
 const buttonHref = button =>
   (button.type === 'url' ? button.uri : null) || button.uri || '';
+const onButtonClick = button => {
+  if (buttonHref(button)) return;
+  if (!IFrameHelper.isIFrame()) return;
+
+  IFrameHelper.sendMessage({
+    event: 'postback',
+    data: { payload: button.id },
+  });
+};
 </script>
 
 <template>
@@ -48,16 +58,17 @@ const buttonHref = button =>
 
     <div class="border-t border-n-strong">
       <component
-        :is="buttonHref(button) ? 'a' : 'div'"
+        :is="buttonHref(button) ? 'a' : 'button'"
         v-for="(button, buttonIndex) in buttons"
         :key="button.id || button.text || buttonIndex"
         :href="buttonHref(button) || undefined"
         :target="buttonHref(button) ? '_blank' : undefined"
         :rel="buttonHref(button) ? 'noopener noreferrer' : undefined"
-        class="px-4 py-3 text-center text-n-brand font-medium"
+        class="w-full px-4 py-3 text-center text-n-brand font-medium"
         :class="{
           'border-t border-n-strong': buttonIndex !== 0,
         }"
+        @click="onButtonClick(button)"
       >
         {{ button.text }}
       </component>
