@@ -248,4 +248,9 @@ onMounted(() => {
     }
   }
 }
+
+.resizable-editor-wrapper .editor--copilot .ProseMirror-woot-style {
+  min-height: min(5rem, calc(var(--editor-height) - 2.5rem));
+  max-height: min(7.5rem, calc(var(--editor-height) - 2.5rem));
+}
 </style>
