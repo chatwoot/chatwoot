@@ -144,6 +144,15 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
         expect(result).to eq('Tool skipped because a newer customer message arrived')
       end.not_to change(Message, :count)
     end
+
+    it 'does not create a note in read only mode' do
+      tool_context.state[:read_only] = true
+
+      expect do
+        result = tool.execute(tool_context, note: 'Do not create this note')
+        expect(result).to eq('Tool unavailable while drafting a reply')
+      end.not_to change(Message, :count)
+    end
   end
 
   describe '#active?' do

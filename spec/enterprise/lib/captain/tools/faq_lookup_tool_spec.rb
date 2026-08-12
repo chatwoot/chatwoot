@@ -8,7 +8,7 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
 
   before do
     # Create installation config for OpenAI API key to avoid errors
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_API_KEY') { |config| config.value = 'test-key' }
 
     # Mock embedding service to avoid actual API calls
     embedding_service = instance_double(Captain::Llm::EmbeddingService)
@@ -194,6 +194,15 @@ RSpec.describe Captain::Tools::FaqLookupTool, type: :model do
   describe '#active?' do
     it 'returns true for public tools' do
       expect(tool.active?).to be true
+    end
+  end
+
+  describe '#execute' do
+    it 'allows FAQ searches in read only mode' do
+      tool_context.state[:read_only] = true
+      expect(tool).to receive(:perform).with(tool_context, query: 'password reset').and_return('FAQ result')
+
+      expect(tool.execute(tool_context, query: 'password reset')).to eq('FAQ result')
     end
   end
 end

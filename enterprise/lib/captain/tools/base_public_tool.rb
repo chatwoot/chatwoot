@@ -7,6 +7,7 @@ class Captain::Tools::BasePublicTool < Agents::Tool
   end
 
   def execute(tool_context, **params)
+    return 'Tool unavailable while drafting a reply' if read_only?(tool_context) && !safe_in_read_only_mode?
     return super unless captain_v2_enabled?
     return super if safe_to_run_after_new_customer_message?
     return 'Tool skipped because a newer customer message arrived' if newer_customer_message_arrived?(tool_context.state)
@@ -47,6 +48,14 @@ class Captain::Tools::BasePublicTool < Agents::Tool
 
   def safe_to_run_after_new_customer_message?
     false
+  end
+
+  def safe_in_read_only_mode?
+    false
+  end
+
+  def read_only?(tool_context)
+    tool_context&.state&.dig(:read_only) == true
   end
 
   def captain_v2_enabled?

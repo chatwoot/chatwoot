@@ -10,12 +10,13 @@ class Captain::Assistant::AgentRunnerService
 
   attr_reader :last_run_result
 
-  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil)
+  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil, read_only: false) # rubocop:disable Metrics/ParameterLists
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
     @source = source
     @responding_to_message_id = responding_to_message_id
+    @read_only = read_only
     @handoff_tool_called = false
     @handoff_tool_completed = false
   end

@@ -42,14 +42,15 @@ RSpec.describe Captain::Copilot::ResponseJob, type: :job do
       )
     end
 
-    it 'passes the reply suggestion request type to ChatService' do
-      expect(Captain::Copilot::ChatService).to receive(:new).with(
-        assistant,
+    it 'routes reply suggestions through the Agent Runner service' do
+      reply_suggestion_service = instance_double(Captain::Copilot::ReplySuggestionService, generate_response: nil)
+      expect(Captain::Copilot::ReplySuggestionService).to receive(:new).with(
+        assistant: assistant,
         user_id: user.id,
         copilot_thread_id: copilot_thread.id,
-        conversation_id: conversation_id,
-        request_type: 'reply_suggestion'
-      ).and_return(chat_service)
+        conversation_id: conversation_id
+      ).and_return(reply_suggestion_service)
+      expect(Captain::Copilot::ChatService).not_to receive(:new)
 
       described_class.perform_now(
         assistant: assistant,
@@ -59,6 +60,8 @@ RSpec.describe Captain::Copilot::ResponseJob, type: :job do
         message: message,
         request_type: 'reply_suggestion'
       )
+
+      expect(reply_suggestion_service).to have_received(:generate_response)
     end
   end
 end

@@ -67,6 +67,12 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(service.instance_variable_get(:@responding_to_message_id)).to eq(123)
     end
+
+    it 'accepts read only mode' do
+      service = described_class.new(assistant: assistant, conversation: conversation, read_only: true)
+
+      expect(service.instance_variable_get(:@read_only)).to be true
+    end
   end
 
   describe '#generate_response' do
@@ -120,6 +126,18 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(mock_runner).to receive(:run).with(
         'I need help with my account',
         context: hash_including(state: hash_including(responding_to_message_id: 123)),
+        max_turns: 10
+      )
+
+      service.generate_response(message_history: message_history)
+    end
+
+    it 'adds read only mode to the runner state' do
+      service = described_class.new(assistant: assistant, conversation: conversation, read_only: true)
+
+      expect(mock_runner).to receive(:run).with(
+        'I need help with my account',
+        context: hash_including(state: hash_including(read_only: true)),
         max_turns: 10
       )
 

@@ -175,47 +175,6 @@ RSpec.describe Captain::Copilot::ChatService do
       expect(viewing_history[:content]).to include(contact.id.to_s)
     end
 
-    it 'includes V2 assistant behavior for customer reply drafts' do
-      assistant.update!(
-        description: 'Help event planners manage their guest communication.',
-        response_guidelines: ['Use a warm tone.', 'Keep replies concise.'],
-        guardrails: ['Do not promise actions that have not happened.'],
-        config: assistant.config.merge('instructions' => 'Legacy instructions must not be used.')
-      )
-
-      system_prompt = described_class.new(assistant, { request_type: 'reply_suggestion' }).messages.first[:content]
-
-      expect(system_prompt).to include(
-        '[Selected Assistant Behavior]',
-        'Apply it when you draft a customer-facing reply.',
-        'this behavior takes precedence over the general Copilot response guidelines',
-        'Help event planners manage their guest communication.',
-        '[Assistant Response Guidelines]',
-        '- Use a warm tone.',
-        '- Keep replies concise.',
-        '[Assistant Guardrails]',
-        '- Do not promise actions that have not happened.'
-      )
-      expect(system_prompt).not_to include('Legacy instructions must not be used.')
-    end
-
-    it 'does not change the prompt for other Copilot requests' do
-      assistant.update!(
-        description: 'Help event planners manage their guest communication.',
-        response_guidelines: ['Use a warm tone.'],
-        guardrails: ['Do not promise actions that have not happened.']
-      )
-
-      system_prompt = described_class.new(assistant, {}).messages.first[:content]
-
-      expect(system_prompt).not_to include(
-        '[Selected Assistant Behavior]',
-        'Help event planners manage their guest communication.',
-        'Use a warm tone.',
-        'Do not promise actions that have not happened.'
-      )
-    end
-
     it 'omits current viewing history when the user cannot access the conversation' do
       service = described_class.new(assistant, { user_id: user.id, conversation_id: conversation.display_id })
       messages = service.messages

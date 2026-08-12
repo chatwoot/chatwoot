@@ -24,6 +24,7 @@ module Captain::Assistant::RunnerStateHelper
     }
     state[:source] = @source if @source.present?
     state[:responding_to_message_id] = @responding_to_message_id if @responding_to_message_id.present?
+    state[:read_only] = @read_only
 
     build_conversation_state(state) if @conversation
     state

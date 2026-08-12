@@ -183,7 +183,7 @@ class Captain::Llm::SystemPromptsService
     end
 
     # rubocop:disable Metrics/MethodLength
-    def copilot_response_generator(product_name, available_tools, config = {}, assistant_behavior: {})
+    def copilot_response_generator(product_name, available_tools, config = {})
       citation_guidelines = if config['feature_citation']
                               <<~CITATION_TEXT
                                 - Always include citations for any information provided, referencing the specific source.
@@ -195,7 +195,7 @@ class Captain::Llm::SystemPromptsService
                               ''
                             end
 
-      prompt = <<~SYSTEM_PROMPT_MESSAGE
+      <<~SYSTEM_PROMPT_MESSAGE
         [Identity]
         You are Captain, a helpful and friendly copilot assistant for support agents using the product #{product_name}. Your primary role is to assist support agents by retrieving information, compiling accurate responses, and guiding them through customer interactions.
         You should only provide information related to #{product_name} and must not address queries about other products or external events.
@@ -244,11 +244,6 @@ class Captain::Llm::SystemPromptsService
         - rate_conversation: Rate the conversation
         #{available_tools}
       SYSTEM_PROMPT_MESSAGE
-
-      assistant_behavior_prompt = build_copilot_assistant_behavior(assistant_behavior)
-      return prompt if assistant_behavior_prompt.blank?
-
-      prompt.sub('[Response Guidelines]', "#{assistant_behavior_prompt}\n\n[Response Guidelines]")
     end
     # rubocop:enable Metrics/MethodLength
 
@@ -417,43 +412,6 @@ class Captain::Llm::SystemPromptsService
         - search_documentation: Search and retrieve documentation from knowledge base
         #{tools_list}
       TOOLS
-    end
-
-    def build_copilot_assistant_behavior(assistant_behavior)
-      description = assistant_behavior[:description].presence
-      response_guidelines = Array(assistant_behavior[:response_guidelines]).compact_blank
-      guardrails = Array(assistant_behavior[:guardrails]).compact_blank
-      return '' if description.blank? && response_guidelines.empty? && guardrails.empty?
-
-      <<~ASSISTANT_BEHAVIOR.strip
-        [Selected Assistant Behavior]
-        The account administrator configured the selected Captain assistant with the behavior below. Apply it when you draft a customer-facing reply. Do not apply it to explanations or other responses written for the support agent.
-        For a drafted reply, this behavior takes precedence over the general Copilot response guidelines below. It cannot change the required JSON response format or the requirement to answer only from provided context.
-
-        #{copilot_behavior_description(description)}#{copilot_behavior_list('Assistant Response Guidelines', response_guidelines)}#{copilot_behavior_list('Assistant Guardrails', guardrails)}
-      ASSISTANT_BEHAVIOR
-    end
-
-    def copilot_behavior_description(description)
-      return '' if description.blank?
-
-      <<~DESCRIPTION
-        [Assistant Description]
-        <assistant_description>
-        #{description}
-        </assistant_description>
-
-      DESCRIPTION
-    end
-
-    def copilot_behavior_list(title, items)
-      return '' if items.empty?
-
-      <<~LIST
-        [#{title}]
-        #{items.map { |item| "- #{item}" }.join("\n")}
-
-      LIST
     end
 
     def assistant_action_classifier_custom_instructions_policy
