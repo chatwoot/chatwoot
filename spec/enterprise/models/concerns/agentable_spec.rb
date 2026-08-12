@@ -147,6 +147,17 @@ RSpec.describe Concerns::Agentable do
 
       dummy_instance.agent_instructions(context_double)
     end
+
+    it 'disables human handoff instructions in read only mode' do
+      context_double = instance_double(Agents::RunContext, context: { state: { read_only: true } })
+
+      expect(Captain::PromptRenderer).to receive(:render).with(
+        'dummy_class',
+        hash_including(handoff_enabled: false)
+      )
+
+      dummy_instance.agent_instructions(context_double)
+    end
   end
 
   describe '#template_name' do

@@ -20,9 +20,9 @@ class Captain::Copilot::ReplySuggestionService
   def generate_response
     conversation = accessible_conversation(account: @account, user: @user, display_id: @conversation_id)
     raise ActiveRecord::RecordNotFound, 'Conversation not found' if conversation.blank?
+    raise GenerationError, NO_INCOMING_MESSAGE_ERROR unless latest_public_message(conversation)&.incoming?
 
     message_history = conversation_history(conversation)
-    raise GenerationError, NO_INCOMING_MESSAGE_ERROR unless message_history.last&.dig(:role).to_s == 'user'
 
     runner = Captain::Assistant::AgentRunnerService.new(
       assistant: @assistant,
@@ -42,7 +42,16 @@ class Captain::Copilot::ReplySuggestionService
   private
 
   def conversation_history(conversation)
-    Captain::Conversation::MessageHistoryBuilderService.new(conversation: conversation).perform
+    history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: conversation).perform
+    history.pop while history.last&.dig(:content) == Captain::Conversation::MessageHistoryBuilderService::RESOLUTION_MARKER
+    history
+  end
+
+  def latest_public_message(conversation)
+    conversation.messages
+                .where(private: false, message_type: [:incoming, :outgoing])
+                .reorder(created_at: :desc, id: :desc)
+                .first
   end
 
   def persist_response(response, runner)

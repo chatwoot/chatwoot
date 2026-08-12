@@ -278,4 +278,23 @@ RSpec.describe Captain::Assistant, type: :model do
       )
     end
   end
+
+  describe '#agent_instructions' do
+    it 'keeps the human handoff protocol for customer-facing runs' do
+      context = instance_double(Agents::RunContext, context: { state: { read_only: false } })
+
+      instructions = assistant.agent_instructions(context)
+
+      expect(instructions).to include('# Human Handoff Protocol', 'captain--tools--handoff')
+    end
+
+    it 'removes the human handoff protocol from reply drafts' do
+      context = instance_double(Agents::RunContext, context: { state: { read_only: true } })
+
+      instructions = assistant.agent_instructions(context)
+
+      expect(instructions).to include('Do not offer or attempt a human handoff in a reply draft.')
+      expect(instructions).not_to include('# Human Handoff Protocol', 'captain--tools--handoff')
+    end
+  end
 end

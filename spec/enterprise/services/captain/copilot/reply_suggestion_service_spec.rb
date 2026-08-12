@@ -78,6 +78,24 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     expect(runner).not_to have_received(:generate_response)
   end
 
+  it 'ignores a trailing resolution activity when the latest public message is incoming' do
+    create(
+      :message,
+      conversation: conversation,
+      account: account,
+      inbox: inbox,
+      message_type: :activity,
+      content: 'Conversation was resolved',
+      content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
+    )
+
+    service.generate_response
+
+    expect(runner).to have_received(:generate_response).with(
+      message_history: [{ role: 'user', content: 'Who is your mascot?' }]
+    )
+  end
+
   it 'persists a reply suggestion with trusted citations' do
     expect do
       service.generate_response

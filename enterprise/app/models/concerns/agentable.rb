@@ -15,7 +15,7 @@ module Concerns::Agentable
   end
 
   def agent_instructions(context = nil)
-    enhanced_context = prompt_context
+    enhanced_context = prompt_context.merge(handoff_enabled: true)
 
     if context
       state = context.context[:state] || {}
@@ -25,7 +25,8 @@ module Concerns::Agentable
         conversation: state[:conversation] || {},
         contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
         campaign: state[:campaign] || {},
-        message_length_limit: state[:message_length_limit]
+        message_length_limit: state[:message_length_limit],
+        handoff_enabled: state[:read_only] != true
       )
     end
 

@@ -44,6 +44,10 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     allow(mock_runner).to receive(:on_run_complete).and_return(mock_runner)
     allow(mock_agent).to receive(:register_handoffs)
     allow(mock_scenario_agent).to receive(:register_handoffs)
+    allow(mock_agent).to receive(:tools).and_return([])
+    allow(mock_scenario_agent).to receive(:tools).and_return([])
+    allow(mock_agent).to receive(:clone).with(tools: []).and_return(mock_agent)
+    allow(mock_scenario_agent).to receive(:clone).with(tools: []).and_return(mock_scenario_agent)
   end
 
   describe '#initialize' do
@@ -162,6 +166,24 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       )
 
       service.generate_response(message_history: message_history)
+    end
+
+    it 'removes human handoff tools but keeps scenario routing in read only mode' do
+      faq_tool = Captain::Tools::FaqLookupTool.new(assistant)
+      handoff_tool = Captain::Tools::HandoffTool.new(assistant)
+      assistant_agent = Agents::Agent.new(name: 'assistant', tools: [faq_tool, handoff_tool])
+      scenario_agent = Agents::Agent.new(name: 'scenario', tools: [handoff_tool])
+      service = described_class.new(assistant: assistant, conversation: conversation, read_only: true)
+
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+      allow(scenario).to receive(:agent).and_return(scenario_agent)
+
+      configured_assistant, configured_scenario = service.send(:build_and_wire_agents)
+
+      expect(configured_assistant.tools).to contain_exactly(faq_tool)
+      expect(configured_scenario.tools).to be_empty
+      expect(configured_assistant.handoff_agents).to contain_exactly(configured_scenario)
+      expect(configured_scenario.handoff_agents).to contain_exactly(configured_assistant)
     end
 
     context 'when the latest user message is multimodal' do

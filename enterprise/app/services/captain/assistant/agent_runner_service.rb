@@ -104,13 +104,19 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def build_and_wire_agents
-    assistant_agent = @assistant.agent
-    scenario_agents = @assistant.scenarios.enabled.map(&:agent)
+    assistant_agent = agent_for_run(@assistant.agent)
+    scenario_agents = @assistant.scenarios.enabled.map { |scenario| agent_for_run(scenario.agent) }
 
     assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
 
     [assistant_agent] + scenario_agents
+  end
+
+  def agent_for_run(agent)
+    return agent unless @read_only
+
+    agent.clone(tools: agent.tools.reject { |tool| tool.is_a?(Captain::Tools::HandoffTool) })
   end
 
   def runner
