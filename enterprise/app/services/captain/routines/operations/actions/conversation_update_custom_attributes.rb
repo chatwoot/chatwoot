@@ -7,4 +7,22 @@ class Captain::Routines::Operations::Actions::ConversationUpdateCustomAttributes
     },
     required: %w[conversation_id attributes]
   )
+
+  def execute(conversation_id:, attributes:)
+    conversation = conversation!(conversation_id)
+    normalized_attributes = normalize_attributes(attributes)
+    conversation.update!(custom_attributes: conversation.custom_attributes.merge(normalized_attributes))
+    conversation_data(conversation.reload)
+  end
+
+  private
+
+  def normalize_attributes(attributes)
+    definitions = account.custom_attribute_definitions.with_attribute_model('conversation_attribute')
+    attributes.to_h do |name, value|
+      definition = definitions.where(attribute_key: name.to_s)
+                              .or(definitions.where('LOWER(attribute_display_name) = ?', name.to_s.downcase)).sole
+      [definition.attribute_key, value]
+    end
+  end
 end

@@ -5,4 +5,8 @@ class Captain::Routines::Operations::Actions::ConversationSendReply < Captain::R
     arguments: { conversation_id: 'conversation ID or reference', content: 'literal reply content or rich_message reference' },
     required: %w[conversation_id content]
   )
+
+  def execute(conversation_id:, content:)
+    create_message(conversation!(conversation_id), content, private: false)
+  end
 end

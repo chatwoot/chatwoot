@@ -5,4 +5,10 @@ class Captain::Routines::Operations::Actions::ConversationSnooze < Captain::Rout
     arguments: { conversation_id: 'conversation ID or reference', until: 'absolute or relative date and time' },
     required: %w[conversation_id until]
   )
+
+  def execute(conversation_id:, **arguments)
+    conversation = conversation!(conversation_id)
+    conversation.update!(status: :snoozed, snoozed_until: timestamp!(arguments.fetch(:until)))
+    conversation_data(conversation.reload)
+  end
 end

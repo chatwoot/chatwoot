@@ -6,4 +6,8 @@ class Captain::Routines::Operations::Queries::LabelSearch < Captain::Routines::O
     description: 'Resolve an account label by name or ID.',
     arguments: { query: 'label name or ID' }, required: %w[query]
   )
+
+  def execute(query:)
+    label_data(label!(query))
+  end
 end

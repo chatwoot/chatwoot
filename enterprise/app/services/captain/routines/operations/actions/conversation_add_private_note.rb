@@ -5,4 +5,8 @@ class Captain::Routines::Operations::Actions::ConversationAddPrivateNote < Capta
     arguments: { conversation_id: 'conversation ID or reference', content: 'literal note content or rich_message reference' },
     required: %w[conversation_id content]
   )
+
+  def execute(conversation_id:, content:)
+    create_message(conversation!(conversation_id), content, private: true)
+  end
 end

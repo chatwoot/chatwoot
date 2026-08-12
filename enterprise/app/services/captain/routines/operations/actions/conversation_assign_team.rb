@@ -5,4 +5,11 @@ class Captain::Routines::Operations::Actions::ConversationAssignTeam < Captain::
     arguments: { conversation_id: 'conversation ID or reference', team: 'team name, ID, or reference' },
     required: %w[conversation_id team]
   )
+
+  def execute(conversation_id:, team:)
+    conversation = conversation!(conversation_id)
+    resolved_team = team!(team)
+    conversation.with_lock { conversation.update!(team: resolved_team) }
+    conversation_data(conversation.reload)
+  end
 end

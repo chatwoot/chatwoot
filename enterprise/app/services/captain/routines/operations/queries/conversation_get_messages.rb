@@ -10,4 +10,10 @@ class Captain::Routines::Operations::Queries::ConversationGetMessages < Captain:
     },
     required: %w[conversation_id]
   )
+
+  def execute(conversation_id:, limit: 20, include_private: false)
+    messages = conversation!(conversation_id).messages.where(message_type: %i[incoming outgoing])
+    messages = messages.where(private: false) unless ActiveModel::Type::Boolean.new.cast(include_private)
+    messages.reorder(created_at: :desc, id: :desc).limit(limit.to_i.clamp(1, 100)).reverse.map { |message| message_data(message) }
+  end
 end

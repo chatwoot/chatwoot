@@ -24,6 +24,10 @@ class Captain::Routine < ApplicationRecord
     Captain::Routines::DslBuilderService.new(self, on_stage: on_stage).perform(answers: answers)
   end
 
+  def run!(**)
+    Captain::Routines::RunnerService.new(self, **).perform
+  end
+
   private
 
   def validate_cron_expression

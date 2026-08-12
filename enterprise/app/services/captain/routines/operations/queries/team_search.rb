@@ -6,4 +6,8 @@ class Captain::Routines::Operations::Queries::TeamSearch < Captain::Routines::Op
     description: 'Resolve an account team by name or ID.',
     arguments: { query: 'team name or ID' }, required: %w[query]
   )
+
+  def execute(query:)
+    team_data(team!(query))
+  end
 end

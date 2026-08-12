@@ -5,4 +5,11 @@ class Captain::Routines::Operations::Actions::ConversationRemoveLabel < Captain:
     arguments: { conversation_id: 'conversation ID or reference', label: 'label name' },
     required: %w[conversation_id label]
   )
+
+  def execute(conversation_id:, label:)
+    conversation = conversation!(conversation_id)
+    resolved_label = label!(label)
+    conversation.update!(label_list: conversation.label_list - [resolved_label.title])
+    conversation_data(conversation.reload)
+  end
 end
