@@ -381,6 +381,33 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(phone_conversation.reload.contact_inbox).to eq(phone_contact_inbox)
         expect(contact.conversations.count).to eq(2)
       end
+
+      it 'moves a phone-backed contact on the first payload that carries an identifier' do
+        phone_contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '919745786257')
+        contact = phone_contact_inbox.contact
+        create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: phone_contact_inbox,
+                              contact: contact, account: whatsapp_channel.inbox.account)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
+
+        bsuid_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
+
+        expect(bsuid_contact_inbox.contact).to eq(contact)
+        expect(contact.conversations.count).to eq(2)
+        expect(whatsapp_channel.inbox.messages.last.conversation.contact_inbox).to eq(bsuid_contact_inbox)
+      end
+
+      it 'does not open a third conversation on the payload after that' do
+        phone_contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '919745786257')
+        contact = phone_contact_inbox.contact
+        create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: phone_contact_inbox,
+                              contact: contact, account: whatsapp_channel.inbox.account)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
+        described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_only_params).perform
+
+        expect(contact.conversations.count).to eq(2)
+      end
     end
 
     context 'when invalid params' do
