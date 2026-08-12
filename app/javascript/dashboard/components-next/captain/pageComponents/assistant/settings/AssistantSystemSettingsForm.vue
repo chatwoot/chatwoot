@@ -180,7 +180,7 @@ watch(
     >
       <div class="flex w-full flex-col gap-4 pt-3">
         <div
-          class="flex flex-col gap-3"
+          class="flex flex-col gap-3 px-4"
           role="radiogroup"
           :aria-label="
             t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.MODE_LABEL')
@@ -200,7 +200,7 @@ watch(
 
         <div
           v-if="shouldShowInactivityDuration"
-          class="flex flex-col gap-3 border-t border-n-weak pt-4"
+          class="flex flex-col gap-3 border-t border-n-weak pt-4 px-4"
         >
           <div
             class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between"
@@ -231,7 +231,11 @@ watch(
           </p>
         </div>
 
-        <Banner v-if="state.autoResolveMode === 'legacy'" color="amber">
+        <Banner
+          v-if="state.autoResolveMode === 'legacy'"
+          color="amber"
+          class="mx-4"
+        >
           <div class="flex items-start gap-2">
             <span class="i-lucide-triangle-alert mt-0.5 size-4 shrink-0" />
             {{
@@ -240,7 +244,11 @@ watch(
           </div>
         </Banner>
 
-        <Banner v-if="state.autoResolveMode === 'disabled'" color="blue">
+        <Banner
+          v-if="state.autoResolveMode === 'disabled'"
+          color="blue"
+          class="mx-4"
+        >
           <div class="flex items-start gap-2">
             <span class="i-lucide-info mt-0.5 size-4 shrink-0" />
             {{
@@ -251,7 +259,7 @@ watch(
 
         <div
           v-if="shouldShowInactivityDuration"
-          class="flex flex-col gap-2 border-t border-n-weak pt-4"
+          class="flex flex-col gap-2 border-t border-n-weak pt-4 pb-1 px-4"
         >
           <div class="flex items-start justify-between gap-3">
             <div class="flex flex-col gap-1">
