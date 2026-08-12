@@ -57,12 +57,17 @@ module Whatsapp::IncomingMessageIdentifierHelper
     inbox.channel.try(:provider) == 'whatsapp_cloud'
   end
 
+  # An echo has to land on the same alias an inbound message would, otherwise the two entry
+  # points anchor the same contact on different rows and split the thread in half.
   def outgoing_message_source_ids(message)
-    [
-      whatsapp_phone_source_id(message[:to].presence),
+    phone_source_id = whatsapp_phone_source_id(message[:to].presence)
+    identifiers = [
       whatsapp_source_id(message[:to_user_id].presence),
       whatsapp_source_id(message[:to_parent_user_id].presence)
-    ].compact_blank.uniq
+    ]
+    ordered = addressable_identifiers? ? [*identifiers, phone_source_id] : [phone_source_id, *identifiers]
+
+    ordered.compact_blank.uniq
   end
 
   def whatsapp_phone_source_id(identifier)

@@ -340,6 +340,35 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(whatsapp_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'bsuid only')
       end
 
+      it 'keeps an outgoing echo on the same conversation as the inbound message' do
+        echo_params = {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              field: 'smb_message_echoes',
+              value: {
+                message_echoes: [{
+                  from: whatsapp_channel.phone_number.delete('+'),
+                  to: '919745786257',
+                  to_user_id: 'IN.2081978709342942',
+                  id: 'wamid.cloud-echo-message',
+                  text: { body: 'echo reply' },
+                  timestamp: '1778579584',
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
+        described_class.new(inbox: whatsapp_channel.inbox, params: echo_params, outgoing_echo: true).perform
+
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        expect(whatsapp_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'echo reply')
+      end
+
       it 'leaves a conversation opened under the phone identity untouched' do
         phone_contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '919745786257')
         contact = phone_contact_inbox.contact
