@@ -470,6 +470,56 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         end
       end
     end
+
+    context 'when a button reply context WAMID differs from the stored WAMID only by scope' do
+      it 'resolves the source card/button context through the conversation-scoped finder' do
+        message_token = '3AADF8441347E8571C10F4E3BFD3E0A1'
+        stored_source_id = "wamid.#{Base64.strict_encode64("phone:#{message_token}")}"
+        context_source_id = "wamid.#{Base64.strict_encode64("bsuid:#{message_token}")}"
+
+        contact = create(:contact, phone_number: '+16503071063', account: whatsapp_channel.account)
+        contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_channel.inbox, source_id: '16503071063')
+        conversation = create(:conversation, contact: contact, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        original_message = create(:message,
+                                  conversation: conversation,
+                                  source_id: stored_source_id,
+                                  content_type: 'interactive_buttons',
+                                  content_attributes: {
+                                    'body_text' => 'Pick one',
+                                    'buttons' => [{ 'id' => 'btn_1', 'text' => 'Option A' }]
+                                  })
+
+        button_reply_params = {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Pranav' }, wa_id: '16503071063' }],
+                messages: [{
+                  context: { from: '16503071063', id: context_source_id },
+                  from: '16503071063',
+                  id: 'wamid.REPLY_MESSAGE_ID',
+                  timestamp: '1770407829',
+                  type: 'interactive',
+                  interactive: {
+                    type: 'button_reply',
+                    button_reply: { id: 'btn_1', title: 'Option A' }
+                  }
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: button_reply_params).perform
+
+        reply_message = whatsapp_channel.inbox.messages.last
+        selected_reply = reply_message.content_attributes['selected_reply']
+        expect(selected_reply['source_message_id']).to eq(original_message.id)
+        expect(selected_reply['button_index']).to eq(0)
+      end
+    end
   end
 
   # Métodos auxiliares para reduzir o tamanho do exemplo

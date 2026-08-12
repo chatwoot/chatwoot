@@ -229,8 +229,13 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
   # rubocop:enable Metrics/CyclomaticComplexity
 
+  # process_in_reply_to already resolves @in_reply_to_message_id through
+  # Whatsapp::InReplyToMessageFinder, which is scoped to the conversation and
+  # handles a context WAMID that differs from the stored WAMID only by its
+  # phone/BSUID scope. Reuse that instead of repeating an exact global lookup,
+  # which misses in that case and drops the source card/button/list-row context.
   def source_message
-    @source_message ||= Message.find_by(source_id: @in_reply_to_external_id)
+    @source_message ||= Message.find_by(id: @in_reply_to_message_id)
   end
 end
 # rubocop:enable Metrics/ModuleLength
