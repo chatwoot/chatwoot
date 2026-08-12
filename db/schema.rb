@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_12_155520) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -500,6 +500,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_04_000003) do
     t.index ["conversation_id"], name: "index_captain_message_reports_on_conversation_id"
     t.index ["message_id"], name: "index_captain_message_reports_on_message_id"
     t.index ["user_id"], name: "index_captain_message_reports_on_user_id"
+  end
+
+  create_table "captain_routines", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name"
+    t.text "instructions", null: false
+    t.jsonb "dsl", default: {}, null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "clarification_questions", default: [], null: false
+    t.jsonb "clarification_answers", default: {}, null: false
+    t.jsonb "evaluation", default: {}, null: false
+    t.jsonb "build_log", default: [], null: false
+    t.integer "build_iterations", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status"], name: "index_captain_routines_on_account_id_and_status"
   end
 
   create_table "captain_scenarios", force: :cascade do |t|
