@@ -3,20 +3,9 @@
 # keeping their cohort stable as later facts arrive. Reply activity remains
 # message-derived because active episodes do not have a terminal snapshot yet.
 class Captain::AssistantOverviewStatsBuilder
-  DURABLE_RESOLUTION_WINDOW = 7.days
-  SECONDS_SAVED_PER_REPLY = 2.minutes.to_i
-  USAGE_LIMIT_REASON = 'usage_limit'.freeze
+  include Captain::AssistantOutcomeClassification
 
-  # Usage-limit handoffs represent blocked demand. Every other handoff,
-  # including an unclassified one, means Captain participated.
-  INVOLVED_SQL = '(first_captain_reply_at IS NOT NULL OR (handoff_at IS NOT NULL AND ' \
-                 "handoff_reason_category IS DISTINCT FROM '#{USAGE_LIMIT_REASON}'))".freeze
-  AUTONOMOUS_SQL = '(resolved_at IS NOT NULL AND first_captain_reply_at IS NOT NULL AND handoff_at IS NULL ' \
-                   'AND (first_human_reply_at IS NULL OR first_human_reply_at > resolved_at))'.freeze
-  ASSISTED_SQL = "(resolved_at IS NOT NULL AND #{INVOLVED_SQL} AND NOT #{AUTONOMOUS_SQL})".freeze
-  HANDOFF_SQL = "(#{INVOLVED_SQL} AND handoff_at IS NOT NULL)".freeze
-  REOPENED_AUTONOMOUS_SQL = "(#{AUTONOMOUS_SQL} AND ended_at IS NOT NULL AND ended_at > resolved_at)".freeze
-  DURABLE_SQL = "(ended_at IS NULL OR ended_at >= resolved_at + INTERVAL '7 days')".freeze
+  SECONDS_SAVED_PER_REPLY = 2.minutes.to_i
 
   PACKED_METRICS = {
     conversations_handled: %i[involved percent],
