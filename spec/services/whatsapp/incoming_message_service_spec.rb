@@ -252,29 +252,6 @@ describe Whatsapp::IncomingMessageService do
         expect(message.reload.status).to eq('read')
       end
 
-      it 'updates every message in a batched status webhook' do
-        first_message = Message.find_by!(source_id: from)
-        second_message = create(
-          :message,
-          account: whatsapp_channel.account,
-          inbox: whatsapp_channel.inbox,
-          conversation: first_message.conversation,
-          source_id: 'wamid.second-status',
-          status: :sent
-        )
-        status_params = {
-          'statuses' => [
-            { 'recipient_id' => from, 'id' => first_message.source_id, 'status' => 'delivered' },
-            { 'recipient_id' => from, 'id' => second_message.source_id, 'status' => 'read' }
-          ]
-        }.with_indifferent_access
-
-        described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
-
-        expect(first_message.reload).to be_delivered
-        expect(second_message.reload).to be_read
-      end
-
       it 'stores BSUID source ids from status contacts' do
         bsuid = 'IN.2081978709342942'
         parent_bsuid = 'IN.ENT.9081726354'

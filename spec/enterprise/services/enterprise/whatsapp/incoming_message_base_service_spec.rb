@@ -41,37 +41,4 @@ RSpec.describe Enterprise::Whatsapp::IncomingMessageBaseService do
 
     expect(other_recipient.reload).to be_sent
   end
-
-  it 'updates every campaign recipient in a batched status webhook' do
-    campaign = create(:campaign, account: channel.account, inbox: channel.inbox, campaign_type: :one_off)
-    first_recipient = CampaignRecipient.create!(
-      account: channel.account,
-      campaign: campaign,
-      contact: create(:contact, account: channel.account),
-      inbox: channel.inbox,
-      status: :sent,
-      source_id: 'wamid.first'
-    )
-    second_recipient = CampaignRecipient.create!(
-      account: channel.account,
-      campaign: campaign,
-      contact: create(:contact, account: channel.account),
-      inbox: channel.inbox,
-      status: :sent,
-      source_id: 'wamid.second'
-    )
-
-    Whatsapp::IncomingMessageService.new(
-      inbox: channel.inbox,
-      params: {
-        'statuses' => [
-          { 'id' => first_recipient.source_id, 'status' => 'delivered', 'timestamp' => '1700000600' },
-          { 'id' => second_recipient.source_id, 'status' => 'read', 'timestamp' => '1700000700' }
-        ]
-      }.with_indifferent_access
-    ).perform
-
-    expect(first_recipient.reload).to be_delivered
-    expect(second_recipient.reload).to be_read
-  end
 end

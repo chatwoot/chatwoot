@@ -2,16 +2,13 @@ module Enterprise::Whatsapp::IncomingMessageBaseService
   private
 
   def process_statuses
+    status = @processed_params[:statuses].first
+    recipient = CampaignRecipient.find_by(account_id: inbox.account_id, inbox_id: inbox.id, source_id: status[:id])
+    recipient&.update_from_whatsapp_status!(status)
+
     super
 
-    @processed_params[:statuses].each { |status| process_campaign_recipient_status(status) }
-  end
-
-  def process_campaign_recipient_status(status)
-    recipient = CampaignRecipient.find_by(account_id: inbox.account_id, inbox_id: inbox.id, source_id: status[:id])
-    return recipient.update_from_whatsapp_status!(status) if recipient
-
-    return if Message.exists?(inbox_id: inbox.id, source_id: status[:id])
+    return if recipient || @message
     return unless inbox.account.feature_enabled?(:whatsapp_campaign)
     return unless %w[delivered read failed].include?(status[:status].to_s)
 

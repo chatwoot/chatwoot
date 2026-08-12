@@ -18,7 +18,9 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   # Returns messages array for both regular messages and echo events
-  def messages_data = @processed_params&.dig(:messages) || @processed_params&.dig(:message_echoes)
+  def messages_data
+    @processed_params&.dig(:messages) || @processed_params&.dig(:message_echoes)
+  end
 
   private
 
@@ -45,12 +47,13 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def process_statuses
-    @processed_params[:statuses].each do |status|
-      next unless find_message_by_source_id(status[:id])
+    status = @processed_params[:statuses].first
+    return unless find_message_by_source_id(status[:id])
 
-      update_whatsapp_identifiers_from_status(status)
-      update_message_with_status(@message, status)
-    end
+    update_whatsapp_identifiers_from_status(status)
+    update_message_with_status(@message, status)
+  rescue ArgumentError => e
+    Rails.logger.error "Error while processing whatsapp status update #{e.message}"
   end
 
   def update_message_with_status(message, status)
@@ -60,8 +63,6 @@ class Whatsapp::IncomingMessageBaseService
       message.external_error = "#{error[:code]}: #{error[:title]}"
     end
     message.save!
-  rescue ArgumentError => e
-    Rails.logger.error "Error while processing whatsapp status update #{e.message}"
   end
 
   def create_messages
