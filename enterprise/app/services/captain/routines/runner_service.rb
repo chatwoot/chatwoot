@@ -102,16 +102,21 @@ class Captain::Routines::RunnerService
 
   def execute_decision(step, path)
     # TODO: Convert quota, configuration, and provider failures into typed execution failures once production retry semantics exist.
+    runtime.record(event(path, 'decide', 'started').merge('decision' => step.fetch('decide')))
     context = decision_context(step)
-    result = Captain::Routines::DecisionService.new(
+    result = decision_service(step, context).perform
+    runtime.bind(step.fetch('decide'), result.fetch('choice'))
+    runtime.record(event(path, 'decide', 'completed').merge('decision' => step.fetch('decide'), 'choice' => result.fetch('choice')))
+  end
+
+  def decision_service(step, context)
+    Captain::Routines::DecisionService.new(
       account: routine.account,
       instruction: step['instruction'].presence || "Choose the best outcome for #{step.fetch('decide')}",
       choices: step.fetch('choices'),
       context: context,
       execution_context: runtime.execution
-    ).perform
-    runtime.bind(step.fetch('decide'), result.fetch('choice'))
-    runtime.record(event(path, 'decide', 'completed').merge('decision' => step.fetch('decide'), 'choice' => result.fetch('choice')))
+    )
   end
 
   def decision_context(step)
@@ -122,17 +127,22 @@ class Captain::Routines::RunnerService
 
   def execute_composition(step, path)
     # TODO: Convert quota, configuration, and provider failures into typed execution failures once production retry semantics exist.
+    runtime.record(event(path, 'compose', 'started').merge('composition' => step.fetch('compose')))
     mentions = resolve_named_references(step.fetch('mention_bindings', {}))
-    result = Captain::Routines::ComposeService.new(
+    result = compose_service(step, mentions).perform
+    runtime.bind(step.fetch('compose'), result)
+    runtime.record(event(path, 'compose', 'completed').merge('composition' => step.fetch('compose'), 'segments' => result.fetch('segments').length))
+  end
+
+  def compose_service(step, mentions)
+    Captain::Routines::ComposeService.new(
       account: routine.account,
       instruction: step.fetch('instruction'),
       context: resolve_named_references(step.fetch('context')),
       mention_bindings: mentions,
       required_mentions: step.fetch('required_mentions', []),
       execution_context: runtime.execution
-    ).perform
-    runtime.bind(step.fetch('compose'), result)
-    runtime.record(event(path, 'compose', 'completed').merge('composition' => step.fetch('compose'), 'segments' => result.fetch('segments').length))
+    )
   end
 
   def resolve_named_references(references)
