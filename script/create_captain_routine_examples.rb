@@ -208,7 +208,7 @@ module CaptainRoutineHtmlRenderer
 
   ICONS = {
     'routine' => '<path d="M4 6h16"/><path d="M4 12h10"/><path d="M4 18h13"/><circle cx="19" cy="12" r="2"/>',
-    'trigger' => '<path d="m7 4 12 8-12 8z"/>',
+    'schedule' => '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
     'expand' => '<path d="M8 3H3v5"/><path d="M16 3h5v5"/><path d="M8 21H3v-5"/><path d="M16 21h5v-5"/>',
     'collapse' => '<path d="M3 8h5V3"/><path d="M21 8h-5V3"/><path d="M3 16h5v5"/><path d="M21 16h-5v5"/>'
   }.freeze
@@ -234,16 +234,14 @@ module CaptainRoutineHtmlRenderer
       </head>
       <body>
         <main>
-          <header>
-            <div class="identity"><span class="brand-mark">#{icon('routine')}</span><div><span class="eyebrow">CAPTAIN / ROUTINE #{format('%02d', routine.id)}</span><h1>#{escape(routine.name || 'Untitled routine')}</h1></div></div>
-            <span class="status #{escape(routine.status)}"><span class="status-indicator" aria-hidden="true"></span>#{escape(routine.status.tr('_', ' '))}</span>
-          </header>
-          <div class="edition-line"><span>Semantic plan</span><i aria-hidden="true"></i><span>Deterministic DSL</span></div>
-          <section class="panel instruction">#{section_heading('01', 'Source', 'Original instruction')}<p>#{escape(routine.instructions)}</p></section>
+          #{page_header(routine)}
+          <div class="edition-line"><span>Model schedule</span><i aria-hidden="true"></i><span>Semantic plan</span><i aria-hidden="true"></i><span>Deterministic DSL</span></div>
+          #{instruction_section(routine)}
+          #{invocation_section(routine)}
           #{flow_section(routine.dsl)}
           #{timeline_section(routine.build_log)}
-          #{raw_section('04', 'Semantic plan', routine.semantic_plan)}
-          #{raw_section('05', 'Compiled DSL', routine.dsl)}
+          #{raw_section('05', 'Semantic plan', routine.semantic_plan)}
+          #{raw_section('06', 'Compiled DSL', routine.dsl)}
         </main>
         <script>
           function setSteps(open) {
@@ -255,21 +253,45 @@ module CaptainRoutineHtmlRenderer
     HTML
   end
 
+  def page_header(routine)
+    <<~HTML
+      <header>
+        <div class="identity"><span class="brand-mark">#{icon('routine')}</span><div><span class="eyebrow">CAPTAIN / ROUTINE #{format('%02d', routine.id)}</span><h1>#{escape(routine.name || 'Untitled routine')}</h1></div></div>
+        <span class="status #{escape(routine.status)}"><span class="status-indicator" aria-hidden="true"></span>#{escape(routine.status.tr('_', ' '))}</span>
+      </header>
+    HTML
+  end
+
+  def instruction_section(routine)
+    <<~HTML
+      <section class="panel instruction">#{section_heading('01', 'Source', 'Original instruction')}<p>#{escape(routine.instructions)}</p></section>
+    HTML
+  end
+
+  def invocation_section(routine)
+    mode = routine.scheduled? ? 'Scheduled' : 'On demand'
+    expression = routine.cron_expression.presence || 'No recurring schedule'
+    <<~HTML
+      <section class="panel invocation-panel">
+        #{section_heading('02', 'Invocation', 'Run policy')}
+        <div class="invocation"><span class="invocation-icon">#{icon('schedule')}</span><div><span class="kicker">Mode</span><strong>#{mode}</strong></div><div><span class="kicker">Cron expression</span><code>#{escape(expression)}</code></div><div><span class="kicker">Timezone</span><code>#{escape(routine.timezone)}</code></div></div>
+      </section>
+    HTML
+  end
+
   def flow_section(dsl)
     if dsl.blank?
       return <<~HTML
-        <section class="panel">#{section_heading('02', 'Structure', 'Routine map')}<p class="muted">No DSL has been compiled yet.</p></section>
+        <section class="panel">#{section_heading('03', 'Structure', 'Routine map')}<p class="muted">No DSL has been compiled yet.</p></section>
       HTML
     end
 
-    trigger = dsl.fetch('trigger', {})
     controls = <<~HTML.squish
       <div class="controls"><button type="button" onclick="setSteps(true)">#{icon('expand')}<span>Expand all</span></button><button type="button" onclick="setSteps(false)">#{icon('collapse')}<span>Collapse all</span></button></div>
     HTML
     <<~HTML
       <section class="panel flow-panel">
-        #{section_heading('02', 'Structure', 'Routine map', controls)}
-        <div class="trigger"><span class="trigger-icon">#{icon('trigger')}</span><div><span class="kicker">Trigger</span><strong>#{escape(trigger['type'])}</strong></div><code>#{escape(trigger.except('type').to_json)}</code></div>
+        #{section_heading('03', 'Structure', 'Routine map', controls)}
         <div class="flow">#{CaptainRoutineHtmlSteps.render(dsl.fetch('steps', []))}</div>
       </section>
     HTML
@@ -284,7 +306,7 @@ module CaptainRoutineHtmlRenderer
         <small>Pass #{entry['iteration']} · #{escape(status.tr('_', ' '))}</small><p>#{escape(summary)}</p></div></li>
       HTML
     end.join
-    "<section class=\"panel lifecycle\">#{section_heading('03', 'Trace', 'Build lifecycle')}<ol class=\"timeline\">#{items}</ol></section>"
+    "<section class=\"panel lifecycle\">#{section_heading('04', 'Trace', 'Build lifecycle')}<ol class=\"timeline\">#{items}</ol></section>"
   end
 
   def raw_section(number, title, value)
@@ -353,7 +375,7 @@ module CaptainRoutineHtmlRenderer
       .identity { display: flex; align-items: flex-start; gap: 18px; min-width: 0; }
       .brand-mark { display: grid; flex: 0 0 40px; width: 40px; height: 40px; place-items: center; border: 1px solid var(--rule-strong); color: var(--blue); background: var(--panel); }
       .brand-mark svg { width: 20px; height: 20px; }
-      .eyebrow, .kicker, .kind, .section-index, .status, .branch-label, .trigger code {
+      .eyebrow, .kicker, .kind, .section-index, .status, .branch-label, .invocation code {
         font-family: var(--mono);
         letter-spacing: .08em;
         text-transform: uppercase;
@@ -364,7 +386,7 @@ module CaptainRoutineHtmlRenderer
       .status { display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto; padding: 8px 11px; border: 1px solid var(--rule-strong); color: var(--muted); background: var(--panel); font-size: 10px; font-weight: 500; }
       .status-indicator { width: 6px; height: 6px; background: currentColor; }
       .status.ready { color: var(--green); border-color: color-mix(in srgb, var(--green) 45%, var(--rule)); }
-      .edition-line { display: grid; grid-template-columns: max-content 1fr max-content; align-items: center; gap: 16px; margin-bottom: 22px; color: var(--muted); font: 500 10px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+      .edition-line { display: grid; grid-template-columns: max-content 1fr max-content 1fr max-content; align-items: center; gap: 16px; margin-bottom: 22px; color: var(--muted); font: 500 10px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
       .edition-line i { display: block; height: 1px; background: var(--rule-strong); }
       .panel, .raw-panel { margin: 0 0 18px; border: 1px solid var(--rule); background: var(--panel); }
       .panel { padding: clamp(22px, 2.5vw, 36px); }
@@ -378,11 +400,11 @@ module CaptainRoutineHtmlRenderer
       .controls button:hover { color: var(--blue); background: var(--blue-soft); }
       .controls button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
       .controls svg { width: 14px; height: 14px; }
-      .trigger { display: grid; grid-template-columns: 38px minmax(140px, .4fr) minmax(240px, 1fr); align-items: center; gap: 16px; padding: 14px 16px; border: 1px solid var(--rule-strong); border-left: 2px solid var(--blue); background: var(--blue-soft); }
-      .trigger-icon { display: grid; width: 32px; height: 32px; place-items: center; border-right: 1px solid var(--rule-strong); color: var(--blue); }
-      .trigger-icon svg { width: 15px; height: 15px; }
-      .trigger strong { display: block; font-weight: 500; }
-      .trigger code { justify-self: end; color: var(--muted); font-size: 10px; letter-spacing: 0; text-transform: none; overflow-wrap: anywhere; }
+      .invocation { display: grid; grid-template-columns: 38px repeat(3, minmax(150px, 1fr)); align-items: center; gap: 22px; padding: 16px; border: 1px solid var(--rule-strong); border-left: 2px solid var(--blue); background: var(--blue-soft); }
+      .invocation-icon { display: grid; width: 32px; height: 32px; place-items: center; border-right: 1px solid var(--rule-strong); color: var(--blue); }
+      .invocation-icon svg { width: 16px; height: 16px; }
+      .invocation strong { display: block; font-weight: 500; }
+      .invocation code { display: block; margin-top: 2px; color: var(--ink); font-size: 11px; letter-spacing: 0; text-transform: none; overflow-wrap: anywhere; }
       .flow { margin: 26px 0 0 16px; padding-left: 26px; border-left: 1px solid var(--rule-strong); }
       .step { position: relative; margin: 12px 0; border: 1px solid var(--rule); border-left: 2px solid var(--blue); background: #fff; }
       .step::before { position: absolute; top: 25px; left: -28px; width: 26px; border-top: 1px solid var(--rule-strong); content: ""; }
@@ -428,8 +450,10 @@ module CaptainRoutineHtmlRenderer
         .section-head { align-items: flex-start; }
         .controls { margin-top: 2px; }
         .controls button span { display: none; }
-        .trigger { grid-template-columns: 32px 1fr; }
-        .trigger code { grid-column: 2; justify-self: start; }
+        .edition-line { grid-template-columns: 1fr; gap: 8px; }
+        .edition-line i { display: none; }
+        .invocation { grid-template-columns: 32px 1fr; }
+        .invocation > div { grid-column: 2; }
         .flow { margin-left: 8px; padding-left: 18px; }
         .step::before { left: -20px; width: 18px; }
         .step-head { grid-template-columns: 24px 18px minmax(0, 1fr) 18px; }
@@ -448,9 +472,9 @@ end
 
 class CaptainRoutineExamplesWizard
   INSTRUCTIONS = [
+    # Schedule: 0 9 * * 1-5, configured separately on the Routine model.
     # <<~TEXT.strip,
-    #   Every weekday at 9:00 AM in the account timezone, review open conversations in the Support inbox that have been
-    #   waiting for an agent reply for more than 8 hours.
+    #   Review open conversations in the Support inbox that have been waiting for an agent reply for more than 8 hours.
     #
     #   For each conversation, load the 30 most recent messages, including private notes, and find the contact's resolved
     #   conversations from the previous 90 days. Use the current conversation and that history to classify the issue as a
@@ -529,8 +553,37 @@ class CaptainRoutineExamplesWizard
     @terminal.stage('ROUTINE', "#{position}/#{INSTRUCTIONS.size} · ID #{routine.id}", :cyan)
     puts @terminal.decorate(instructions, :dim)
     puts
+    configure_schedule(routine)
+    puts
     generate_until_settled(routine)
     routine.reload
+  end
+
+  def configure_schedule(routine)
+    @terminal.stage('SCHEDULE', 'Configured on the Routine model and excluded from its plan and DSL.', :blue)
+
+    loop do
+      cron_expression = ask('Cron expression (blank for on-demand)', allow_empty: true).presence
+      timezone = cron_expression.present? ? schedule_timezone(routine) : routine.timezone
+      routine.assign_attributes(cron_expression: cron_expression, timezone: timezone)
+
+      if routine.save
+        description = routine.scheduled? ? "#{routine.cron_expression} · #{routine.timezone}" : 'On demand'
+        @terminal.stage('RUN POLICY', description, :green)
+        return
+      end
+
+      @terminal.stage('INVALID', routine.errors.full_messages.to_sentence, :red)
+    end
+  end
+
+  def schedule_timezone(routine)
+    default_timezone = if routine.scheduled?
+                         routine.timezone
+                       else
+                         routine.account.reporting_timezone.presence || 'UTC'
+                       end
+    ask("Timezone [#{default_timezone}]", allow_empty: true).presence || default_timezone
   end
 
   def generate_until_settled(routine)

@@ -35,6 +35,9 @@ class Captain::Routines::DslGeneratorService < Captain::BaseTaskService
       and side effects to action operations. Never invent operations, account records, IDs, or facts absent from the plan.
       Preserve unresolved human-readable account references so the runtime can resolve them.
 
+      Invocation and scheduling belong to the Routine model. The DSL describes only what to execute and how control flows.
+      Never include a trigger, schedule, timing, recurrence, or invocation policy in the DSL.
+
       A for-each `from` block must either invoke a collection query or reference a previously saved collection query result.
       Prefer querying once with `save_as` and then using `{ "ref": "saved_collection" }` when the result is reused.
       Every standalone query operation must use `save_as`; later steps may refer to its result by that name.

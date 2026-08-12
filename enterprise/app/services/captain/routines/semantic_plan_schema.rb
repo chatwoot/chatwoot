@@ -1,20 +1,11 @@
 class Captain::Routines::SemanticPlanSchema
   SCHEMA = {
     'type' => 'object',
-    'required' => %w[version name trigger steps],
+    'required' => %w[version name steps],
     'additionalProperties' => false,
     'properties' => {
       'version' => { 'const' => 1 },
       'name' => { 'type' => 'string', 'minLength' => 1 },
-      'trigger' => {
-        'type' => 'object',
-        'required' => %w[type description],
-        'additionalProperties' => false,
-        'properties' => {
-          'type' => { 'enum' => %w[manual schedule event] },
-          'description' => { 'type' => 'string', 'minLength' => 1 }
-        }
-      },
       'steps' => {
         'type' => 'array',
         'minItems' => 1,

@@ -4,6 +4,8 @@ class CreateCaptainRoutines < ActiveRecord::Migration[7.2]
       t.references :account, null: false, index: false
       t.string :name
       t.text :instructions, null: false
+      t.string :cron_expression
+      t.string :timezone, null: false, default: 'UTC'
       t.jsonb :semantic_plan, null: false, default: {}
       t.jsonb :plan_evaluation, null: false, default: {}
       t.jsonb :dsl, null: false, default: {}

@@ -1,22 +1,12 @@
 class Captain::Routines::DslSchema
   SCHEMA = {
     'type' => 'object',
-    'required' => %w[version kind name trigger steps],
+    'required' => %w[version kind name steps],
     'additionalProperties' => false,
     'properties' => {
       'version' => { 'const' => 1 },
       'kind' => { 'const' => 'captain.routine' },
       'name' => { 'type' => 'string', 'minLength' => 1 },
-      'trigger' => {
-        'type' => 'object',
-        'required' => ['type'],
-        'additionalProperties' => false,
-        'properties' => {
-          'type' => { 'enum' => %w[manual schedule event] },
-          'schedule' => { 'type' => 'string', 'minLength' => 1 },
-          'event' => { 'type' => 'string', 'minLength' => 1 }
-        }
-      },
       'steps' => {
         'type' => 'array',
         'minItems' => 1,
