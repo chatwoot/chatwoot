@@ -90,7 +90,7 @@ module CaptainRoutineTerminalPresenter
   end
 
   def print_validating_dsl(_details)
-    stage('VALIDATING', 'Checking schema, operations, references, and cardinality…', :magenta)
+    stage('VALIDATING', 'Checking schema, operations, references, mentions, and cardinality…', :magenta)
   end
 
   def print_dsl_validated(details)
@@ -133,6 +133,8 @@ module CaptainRoutineHtmlSteps
                    '<path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/>',
     'decision' => '<circle cx="6" cy="3" r="1"/><circle cx="18" cy="6" r="1"/><circle cx="6" cy="21" r="1"/>' \
                   '<path d="M6 4v10a4 4 0 0 0 4 4h3"/><path d="M6 10a4 4 0 0 1 4-4h7"/><path d="m14 15 3 3-3 3"/>',
+    'compose' => '<path d="m12 3-1.8 4.2L6 9l4.2 1.8L12 15l1.8-4.2L18 9l-4.2-1.8L12 3Z"/>' \
+                 '<path d="m19 15-.9 2.1L16 18l2.1.9L19 21l.9-2.1L22 18l-2.1-.9L19 15Z"/>',
     'condition' => '<path d="M4 5h16"/><path d="M4 12h10"/><path d="M4 19h16"/><path d="m17 9 3 3-3 3"/>',
     'step' => '<circle cx="12" cy="12" r="9"/><path d="M12 8v8"/><path d="M8 12h8"/>'
   }.freeze
@@ -157,6 +159,7 @@ module CaptainRoutineHtmlSteps
     return ['loop', "For each #{step['each']}"] if step['each']
     return ['operation', step['operation']] if step['operation']
     return ['decision', step['decide']] if step['decide']
+    return ['compose', step['compose']] if step['compose']
     return ['condition', "When #{step.dig('when', 'ref')}"] if step['when']
 
     ['step', 'Unknown step']
@@ -410,6 +413,7 @@ module CaptainRoutineHtmlRenderer
       .step::before { position: absolute; top: 25px; left: -28px; width: 26px; border-top: 1px solid var(--rule-strong); content: ""; }
       .step.loop { border-left-color: var(--cyan); }
       .step.decision { border-left-color: var(--violet); }
+      .step.compose { border-left-color: var(--green); }
       .step.condition { border-left-color: var(--yellow); }
       .step-head { display: grid; grid-template-columns: 30px 20px minmax(72px, max-content) minmax(0, 1fr) 18px; align-items: center; gap: 11px; min-height: 50px; padding: 10px 14px; cursor: pointer; list-style: none; }
       .step-head::-webkit-details-marker, .branch-label::-webkit-details-marker, .raw-panel > summary::-webkit-details-marker { display: none; }
@@ -490,7 +494,7 @@ class CaptainRoutineExamplesWizard
     #   and assign the conversation to the Billing team. For all other conversations, add the label `routine-reviewed`.
     # TEXT
 
-    <<~TEXT.strip
+    <<~TEXT.strip,
       Review every open L2 support conversation assigned to the Engineering team. Triage the conversation using its recent
       messages and determine whether the customer is blocked by an urgent product issue. Treat inability to send messages,
       inability to access the dashboard, or messages not being received as urgent. Other issues are non-urgent.
@@ -505,7 +509,11 @@ class CaptainRoutineExamplesWizard
       does not need to perform any additional escalation after applying it.
     TEXT
 
-    # The other examples are temporarily disabled while exercising the L2 escalation routine.
+    <<~TEXT.strip
+      Check snoozed conversations and follow up on the ones where we are still waiting for the customer.
+    TEXT
+
+    # The earlier examples remain disabled while exercising these operational routines.
   ].freeze
 
   def initialize
