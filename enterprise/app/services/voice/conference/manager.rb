@@ -31,28 +31,32 @@ class Voice::Conference::Manager
 
   def join_agent!
     user_id = extract_user_id
-    claim_for_user!(user_id) if user_id
-    already_connected = call.in_progress?
-    status_manager.process_status_update('in_progress', timestamp: now)
-    return if already_connected || !call.in_progress?
+    return unless user_id
 
-    # Broadcast only once Twilio confirms the agent's leg actually joined, not on the claim.
+    first_claim = claim_for_user!(user_id)
+    status_manager.process_status_update('in_progress', timestamp: now)
+    return unless first_claim && call.in_progress?
+
+    # Broadcast on the winning claim, not on in_progress — an outbound call's Twilio leg can
+    # already be in_progress (via the contact's "answered" callback) before this join arrives.
     call.broadcast_voice_call_event(:accepted, accepted_by_agent_id: call.accepted_by_agent_id)
   end
 
   # First-join wins; later joins by other agents are silently ignored so the
   # webhook doesn't stomp the original assignee. User-facing rejection happens
-  # at the API layer.
+  # at the API layer. The claim and terminal-state check share one row lock, so
+  # concurrent/duplicate joins can't both win and a call already ended can't be claimed.
   def claim_for_user!(user_id)
-    claimed = false
+    claimed_first_time = false
     call.with_lock do
-      next if call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id
+      next if call.terminal? || (call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id)
 
+      claimed_first_time = call.accepted_by_agent_id.blank?
       call.update!(accepted_by_agent_id: user_id) if call.accepted_by_agent_id != user_id
-      claimed = true
     end
 
-    auto_assign_conversation!(user_id) if claimed
+    auto_assign_conversation!(user_id) if claimed_first_time
+    claimed_first_time
   end
 
   def auto_assign_conversation!(user_id)

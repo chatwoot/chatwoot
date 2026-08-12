@@ -429,7 +429,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   // eslint-disable-next-line class-methods-use-this
   onVoiceCallEnded = async data => {
-    if (!data?.provider) return;
+    if (!Object.values(VOICE_CALL_PROVIDERS).includes(data?.provider)) return;
     // A still-queued ringing message.created (see onVoiceCallAccepted) must not
     // resurrect a call that has already ended.
     markCallDismissed(data.call_id);
