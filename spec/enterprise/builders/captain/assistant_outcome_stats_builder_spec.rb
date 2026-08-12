@@ -8,7 +8,16 @@ RSpec.describe Captain::AssistantOutcomeStatsBuilder do
   let(:inbox) { create(:inbox, account: account) }
 
   context 'with no outcomes' do
-    it 'returns zeroed metrics' do
+    it 'returns zeroed legacy metrics' do
+      expect(metrics[:conversations_handled]).to eq(current: 0, previous: 0, trend: 0)
+      expect(metrics[:auto_resolution_rate][:current]).to eq(0)
+      expect(metrics[:handoff_rate][:current]).to eq(0)
+      expect(metrics[:hours_saved][:current]).to eq(0)
+      expect(metrics[:reopen_rate][:current]).to eq(0)
+      expect(metrics[:conversation_depth][:current]).to eq(0)
+    end
+
+    it 'returns zeroed outcome metrics' do
       expect(metrics[:eligible_conversations]).to eq(current: 0, previous: 0, trend: 0)
       expect(metrics[:coverage_rate][:current]).to eq(0)
       expect(metrics[:durable_resolution_rate][:current]).to eq(0)
@@ -105,6 +114,13 @@ RSpec.describe Captain::AssistantOutcomeStatsBuilder do
       expect(metrics[:durable_resolution_rate][:current]).to eq(50.0)
     end
 
+    it 'derives the legacy funnel metrics from outcome episodes' do
+      expect(metrics[:conversations_handled]).to eq(current: 4, previous: 1, trend: 300.0)
+      expect(metrics[:auto_resolution_rate][:current]).to eq(75.0)
+      expect(metrics[:handoff_rate][:current]).to eq(25.0)
+      expect(metrics[:reopen_rate][:current]).to eq(33.3)
+    end
+
     it 'computes CSAT and median durations from outcome facts' do
       expect(metrics[:csat_score][:current]).to eq(4.5)
       expect(metrics[:median_first_response_seconds][:current]).to eq(75)
@@ -127,6 +143,49 @@ RSpec.describe Captain::AssistantOutcomeStatsBuilder do
     )
 
     expect(metrics[:coverage_rate][:current]).to eq(100.0)
+    expect(metrics[:conversations_handled][:current]).to eq(1)
+    expect(metrics[:handoff_rate][:current]).to eq(100.0)
+  end
+
+  it 'derives reply activity from messages while an outcome episode is still active' do
+    stub_const("#{described_class}::SECONDS_SAVED_PER_REPLY", 20.minutes.to_i)
+    first_outcome = create(:conversation_outcome, account: account, assistant: assistant, inbox: inbox, started_at: 2.days.ago)
+    second_outcome = create(:conversation_outcome, account: account, assistant: assistant, inbox: inbox, started_at: 1.day.ago)
+
+    create_list(
+      :message,
+      2,
+      account: account,
+      inbox: inbox,
+      conversation: first_outcome.conversation,
+      sender: assistant,
+      message_type: :outgoing,
+      private: false,
+      created_at: 1.day.ago
+    )
+    create(
+      :message,
+      account: account,
+      inbox: inbox,
+      conversation: second_outcome.conversation,
+      sender: assistant,
+      message_type: :outgoing,
+      private: false,
+      created_at: 1.day.ago
+    )
+    create(
+      :message,
+      account: account,
+      inbox: inbox,
+      conversation: first_outcome.conversation,
+      sender: assistant,
+      message_type: :outgoing,
+      private: true,
+      created_at: 1.day.ago
+    )
+
+    expect(metrics[:hours_saved][:current]).to eq(1)
+    expect(metrics[:conversation_depth][:current]).to eq(1.5)
   end
 
   it 'does not count an episode in both adjacent day windows' do
