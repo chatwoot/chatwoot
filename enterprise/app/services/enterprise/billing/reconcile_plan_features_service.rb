@@ -19,6 +19,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     linear_integration
     channel_voice
     api_and_webhooks
+    data_import
   ].freeze
 
   BUSINESS_PLAN_FEATURES = %w[
@@ -37,7 +38,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
 
   def perform
     account.disable_features(*PREMIUM_PLAN_FEATURES)
-    account.disable_features('captain_integration_v2') if default_plan?
+    account.disable_features('captain_integration_v2')
     account.enable_features(*current_plan_features)
     account.enable_features('captain_integration_v2') if captain_v2_default_eligible?
     account.enable_features(*manually_managed_features)
@@ -74,6 +75,6 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   end
 
   def captain_v2_default_eligible?
-    !default_plan? && account.internal_attributes[Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE] == true
+    !default_plan? && account.internal_attributes[Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE] != false
   end
 end

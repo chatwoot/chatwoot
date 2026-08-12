@@ -126,6 +126,28 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.parsed_body['reauthorization_required']).to be(true)
       end
 
+      it 'returns only the configured state for an embedded signup WhatsApp business management token' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        whatsapp_channel = create(
+          :channel_whatsapp,
+          account: account,
+          provider: 'whatsapp_cloud',
+          business_management_token: 'business-token',
+          sync_templates: false,
+          validate_provider_config: false
+        )
+        whatsapp_inbox = create(:inbox, channel: whatsapp_channel, account: account)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['business_management_token_configured']).to be(true)
+        expect(response.parsed_body).not_to have_key('business_management_token')
+        expect(response.body).not_to include('business-token')
+      end
+
       it 'does not flag reauthorization_required for manual whatsapp channel even when reauth required' do
         whatsapp_channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
                                                      validate_provider_config: false)
@@ -634,6 +656,22 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(email_inbox.reload.branded_email_layout).to eq(layout)
         expect(response.parsed_body['branded_email_layout']).to eq(layout)
+      end
+
+      it 'rejects branded email layouts larger than 256 KiB' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        slot = '{{ content_for_layout }}'
+        large_layout = "#{'a' * (EmailTemplate::MAX_BODY_LENGTH - slot.length + 1)}#{slot}"
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: large_layout },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to include('is too long (maximum is 262144 characters)')
       end
 
       it 'rolls back branded email layout when inbox update fails' do
@@ -1236,6 +1274,91 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/:id/message_templates' do
+    let(:last_sync_attempt_at) { 1.hour.ago.change(usec: 0) }
+    let(:message_templates) do
+      [
+        { 'name' => 'shipping_update', 'language' => 'en_US' },
+        { 'name' => 'shipping_update', 'language' => 'es' },
+        { 'name' => 'account_update', 'language' => 'en_US' }
+      ]
+    end
+    let(:whatsapp_channel) do
+      create(
+        :channel_whatsapp,
+        account: account,
+        message_templates: message_templates,
+        message_templates_last_updated: last_sync_attempt_at,
+        sync_templates: false,
+        validate_provider_config: false
+      )
+    end
+    let(:whatsapp_inbox) { whatsapp_channel.inbox }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      it 'returns unauthorized when the agent is not assigned to the inbox' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns the templates when the agent is assigned to the inbox' do
+        create(:inbox_member, user: agent, inbox: whatsapp_inbox)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq(message_templates)
+        expect(Time.zone.parse(response.parsed_body.dig('meta', 'last_sync_attempt_at'))).to eq(last_sync_attempt_at)
+      end
+    end
+
+    context 'when it is an authenticated administrator' do
+      it 'filters templates by exact name' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            params: { name: 'shipping_update' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq(message_templates.first(2))
+      end
+
+      it 'returns an empty payload when the template name does not match' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            params: { name: 'missing_template' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq([])
+      end
+
+      it 'returns unprocessable entity for a non-WhatsApp inbox' do
+        inbox = create(:inbox, account: account)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Message templates are only available for WhatsApp channels')
+      end
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/sync_templates' do
     let(:whatsapp_channel) do
       create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
@@ -1321,19 +1444,24 @@ RSpec.describe 'Inboxes API', type: :request do
     let(:health_service) { instance_double(Whatsapp::HealthService) }
     let(:health_data) do
       {
+        id: 'phone123',
         display_phone_number: '+1234567890',
         verified_name: 'Test Business',
         name_status: 'APPROVED',
         quality_rating: 'GREEN',
         messaging_limit_tier: 'TIER_1000',
         account_mode: 'LIVE',
-        business_id: 'business123'
+        status: 'CONNECTED',
+        business_account_id: 'waba123',
+        business_account_name: 'Test WABA',
+        business_portfolio_id: 'business123',
+        business_portfolio_name: 'Test Business Portfolio'
       }
     end
 
     before do
       allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
-      allow(health_service).to receive(:fetch_health_status).and_return(health_data)
+      allow(health_service).to receive(:sync_health_status!).and_return(health_data)
     end
 
     context 'when it is an unauthenticated user' do
@@ -1354,13 +1482,18 @@ RSpec.describe 'Inboxes API', type: :request do
           expect(response).to have_http_status(:success)
           json_response = response.parsed_body
           expect(json_response).to include(
+            'id' => 'phone123',
             'display_phone_number' => '+1234567890',
             'verified_name' => 'Test Business',
             'name_status' => 'APPROVED',
             'quality_rating' => 'GREEN',
             'messaging_limit_tier' => 'TIER_1000',
             'account_mode' => 'LIVE',
-            'business_id' => 'business123'
+            'status' => 'CONNECTED',
+            'business_account_id' => 'waba123',
+            'business_account_name' => 'Test WABA',
+            'business_portfolio_id' => 'business123',
+            'business_portfolio_name' => 'Test Business Portfolio'
           )
         end
 
@@ -1386,7 +1519,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
         it 'calls the health service with correct channel' do
           expect(Whatsapp::HealthService).to receive(:new).with(whatsapp_channel).and_return(health_service)
-          expect(health_service).to receive(:fetch_health_status)
+          expect(health_service).to receive(:sync_health_status!)
 
           get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
               headers: admin.create_new_auth_token,
@@ -1396,7 +1529,7 @@ RSpec.describe 'Inboxes API', type: :request do
         end
 
         it 'handles service errors gracefully' do
-          allow(health_service).to receive(:fetch_health_status).and_raise(StandardError, 'API Error')
+          allow(health_service).to receive(:sync_health_status!).and_raise(StandardError, 'API Error')
 
           get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
               headers: admin.create_new_auth_token,
@@ -1405,6 +1538,29 @@ RSpec.describe 'Inboxes API', type: :request do
           expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
           expect(json_response['error']).to include('API Error')
+        end
+
+        it 'classifies Meta authorization failures for the recovery UI' do
+          error = Whatsapp::HealthService::ApiError.new(
+            message: 'The access token cannot authorize this request.',
+            http_status: 400,
+            code: 190,
+            subcode: 464
+          )
+          allow(health_service).to receive(:sync_health_status!).and_raise(error)
+
+          get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/health",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq(
+            'type' => 'authorization',
+            'message' => 'The access token cannot authorize this request.',
+            'http_status' => 400,
+            'code' => 190,
+            'subcode' => 464
+          )
         end
       end
 
