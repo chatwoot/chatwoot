@@ -71,50 +71,70 @@ class Captain::AssistantOverviewStatsBuilder
   # endpoint, so the previous range excludes that boundary to avoid counting an
   # episode in both cohorts.
   def outcome_window_rows
-    current_aggregates = window_aggregates(window_clause(window.current, column: 'started_at'))
+    current_aggregates = window_aggregates(window_predicate(window.current, table: outcomes_table, column: :started_at))
     previous_aggregates = window_aggregates(
-      window_clause(window.previous, column: 'started_at', exclude_end: shared_boundary?)
+      window_predicate(window.previous, table: outcomes_table, column: :started_at, exclude_end: shared_boundary?)
     )
-    row = outcomes_scope(full_span).reorder(nil).pick(
-      *(current_aggregates + previous_aggregates).map { |sql| Arel.sql(sql) }
-    )
+    row = outcomes_scope(full_span).reorder(nil).pick(*(current_aggregates + previous_aggregates))
     aggregate_count = current_aggregates.length
 
     { current: row.first(aggregate_count), previous: row.last(aggregate_count) }
   end
 
-  def window_aggregates(clause)
-    assessable = "#{AUTONOMOUS_SQL} AND resolved_at <= #{quote(durable_cutoff)}"
+  def window_aggregates(predicate)
+    volume_aggregates(predicate) + durability_aggregates(predicate) + csat_aggregates(predicate) + [median_resolution(predicate)]
+  end
+
+  def volume_aggregates(predicate)
+    [
+      filtered_count(predicate.and(involved(outcomes_table))),
+      filtered_count(predicate.and(autonomous(outcomes_table))),
+      filtered_count(predicate.and(handoff(outcomes_table))),
+      filtered_count(predicate.and(reopened_autonomous(outcomes_table)))
+    ]
+  end
+
+  def durability_aggregates(predicate)
+    assessable = autonomous(outcomes_table).and(outcomes_table[:resolved_at].lteq(durable_cutoff))
 
     [
-      "COUNT(*) FILTER (WHERE #{clause} AND #{INVOLVED_SQL})",
-      "COUNT(*) FILTER (WHERE #{clause} AND #{AUTONOMOUS_SQL})",
-      "COUNT(*) FILTER (WHERE #{clause} AND #{HANDOFF_SQL})",
-      "COUNT(*) FILTER (WHERE #{clause} AND #{REOPENED_AUTONOMOUS_SQL})",
-      "COUNT(*) FILTER (WHERE #{clause} AND #{assessable})",
-      "COUNT(*) FILTER (WHERE #{clause} AND #{assessable} AND #{DURABLE_SQL})",
-      "AVG(csat_rating) FILTER (WHERE #{clause} AND #{AUTONOMOUS_SQL} AND csat_rating IS NOT NULL)",
-      "AVG(csat_rating) FILTER (WHERE #{clause} AND #{ASSISTED_SQL} AND csat_rating IS NOT NULL)",
-      'percentile_cont(0.5) WITHIN GROUP (ORDER BY EXTRACT(EPOCH FROM (resolved_at - started_at))) ' \
-      "FILTER (WHERE #{clause} AND #{INVOLVED_SQL} AND resolved_at IS NOT NULL)"
+      filtered_count(predicate.and(assessable)),
+      filtered_count(predicate.and(assessable).and(durable(outcomes_table)))
+    ]
+  end
+
+  def csat_aggregates(predicate)
+    [
+      filtered_average(predicate.and(autonomous(outcomes_table))),
+      filtered_average(predicate.and(assisted(outcomes_table)))
     ]
   end
 
   # Reply-based metrics retain their event-time meaning. Outcome reply counts
   # are snapshotted only at terminal events, so active episodes can be stale.
   def message_window_rows
-    current_clause = window_clause(window.current, column: 'created_at')
-    previous_clause = window_clause(window.previous, column: 'created_at', exclude_end: shared_boundary?)
-    public_reply = "message_type = #{Message.message_types[:outgoing]} AND private = false"
-
-    row = assistant_messages.reorder(nil).pick(
-      Arel.sql("COUNT(*) FILTER (WHERE #{current_clause} AND #{public_reply})"),
-      Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE #{current_clause} AND #{public_reply})"),
-      Arel.sql("COUNT(*) FILTER (WHERE #{previous_clause} AND #{public_reply})"),
-      Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE #{previous_clause} AND #{public_reply})")
+    current_predicate = window_predicate(window.current, table: messages_table, column: :created_at)
+    previous_predicate = window_predicate(
+      window.previous, table: messages_table, column: :created_at, exclude_end: shared_boundary?
     )
+    aggregates = [current_predicate, previous_predicate].flat_map do |predicate|
+      message_aggregates(predicate.and(public_reply_predicate))
+    end
+
+    row = assistant_messages.reorder(nil).pick(*aggregates)
 
     { current: row[0..1], previous: row[2..3] }
+  end
+
+  def message_aggregates(predicate)
+    [
+      filtered_count(predicate),
+      messages_table[:conversation_id].count(true).filter(predicate)
+    ]
+  end
+
+  def public_reply_predicate
+    messages_table[:message_type].eq(Message.message_types[:outgoing]).and(messages_table[:private].eq(false))
   end
 
   # Account-wide CSAT from conversations where no Captain assistant ever
@@ -122,7 +142,7 @@ class Captain::AssistantOverviewStatsBuilder
   def human_only_csat(range)
     involved_conversations = ConversationOutcome
                              .where(account_id: account.id)
-                             .where(INVOLVED_SQL)
+                             .where(involved(outcomes_table))
                              .select(:conversation_id)
     score = account.csat_survey_responses
                    .where(created_at: range)
@@ -152,13 +172,40 @@ class Captain::AssistantOverviewStatsBuilder
     window.previous.last == window.current.first
   end
 
-  def window_clause(range, column:, exclude_end: false)
-    end_operator = exclude_end ? '<' : '<='
-    "#{column} >= #{quote(range.first)} AND #{column} #{end_operator} #{quote(range.last)}"
+  def window_predicate(range, table:, column:, exclude_end: false)
+    starts_in_window = table[column].gteq(range.first)
+    ends_in_window = exclude_end ? table[column].lt(range.last) : table[column].lteq(range.last)
+
+    starts_in_window.and(ends_in_window)
   end
 
-  def quote(value)
-    account.class.connection.quote(value)
+  def median_resolution(predicate)
+    duration = (outcomes_table[:resolved_at] - outcomes_table[:started_at]).extract(:epoch)
+    percentile = Arel::Nodes::NamedFunction.new('percentile_cont', [Arel::Nodes.build_quoted(0.5)])
+    within_group = Arel::Nodes::InfixOperation.new(
+      'WITHIN GROUP', percentile, Arel::Nodes::Window.new.order(duration)
+    )
+
+    Arel::Nodes::Filter.new(
+      within_group,
+      predicate.and(involved(outcomes_table)).and(outcomes_table[:resolved_at].not_eq(nil))
+    )
+  end
+
+  def filtered_count(predicate)
+    Arel.star.count.filter(predicate)
+  end
+
+  def filtered_average(predicate)
+    outcomes_table[:csat_rating].average.filter(predicate.and(outcomes_table[:csat_rating].not_eq(nil)))
+  end
+
+  def outcomes_table
+    @outcomes_table ||= ConversationOutcome.arel_table
+  end
+
+  def messages_table
+    @messages_table ||= Message.arel_table
   end
 
   def rate(numerator, denominator)

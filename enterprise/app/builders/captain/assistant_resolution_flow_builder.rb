@@ -30,10 +30,10 @@ class Captain::AssistantResolutionFlowBuilder
 
   def flow_counts
     handled, autonomous, handoffs, reopened = outcomes_scope.reorder(nil).pick(
-      Arel.sql("COUNT(*) FILTER (WHERE #{INVOLVED_SQL})"),
-      Arel.sql("COUNT(*) FILTER (WHERE #{AUTONOMOUS_SQL})"),
-      Arel.sql("COUNT(*) FILTER (WHERE #{HANDOFF_SQL})"),
-      Arel.sql("COUNT(*) FILTER (WHERE #{REOPENED_WITHIN_7_DAYS_SQL})")
+      filtered_count(involved(outcomes_table)),
+      filtered_count(autonomous(outcomes_table)),
+      filtered_count(handoff(outcomes_table)),
+      filtered_count(reopened_within_7_days(outcomes_table))
     )
 
     {
@@ -47,7 +47,7 @@ class Captain::AssistantResolutionFlowBuilder
   end
 
   def handoff_distribution(handoff_count)
-    distribution = outcomes_scope.where(HANDOFF_SQL).group(:handoff_reason_category).count.map do |category, count|
+    distribution = outcomes_scope.where(handoff(outcomes_table)).group(:handoff_reason_category).count.map do |category, count|
       {
         category: category || UNCLASSIFIED_REASON,
         count: count,
@@ -115,5 +115,13 @@ class Captain::AssistantResolutionFlowBuilder
 
   def outcomes_scope
     account.conversation_outcomes.where(assistant_id: assistant.id, started_at: window.current)
+  end
+
+  def filtered_count(predicate)
+    Arel.star.count.filter(predicate)
+  end
+
+  def outcomes_table
+    @outcomes_table ||= ConversationOutcome.arel_table
   end
 end

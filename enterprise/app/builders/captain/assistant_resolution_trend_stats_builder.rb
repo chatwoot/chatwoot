@@ -61,10 +61,10 @@ class Captain::AssistantResolutionTrendStatsBuilder
 
   def bucket_counts(buckets)
     aggregates = buckets.flat_map do |bucket|
-      clause = bucket_clause(bucket)
+      predicate = bucket_predicate(bucket)
       [
-        Arel.sql("COUNT(*) FILTER (WHERE #{clause} AND #{INVOLVED_SQL})"),
-        Arel.sql("COUNT(*) FILTER (WHERE #{clause} AND #{AUTONOMOUS_SQL})")
+        filtered_count(predicate.and(involved(outcomes_table))),
+        filtered_count(predicate.and(autonomous(outcomes_table)))
       ]
     end
 
@@ -80,16 +80,26 @@ class Captain::AssistantResolutionTrendStatsBuilder
     }
   end
 
-  def bucket_clause(bucket)
-    end_operator = bucket[:final] ? '<=' : '<'
-    "started_at >= #{quote(bucket[:starts_at])} AND started_at #{end_operator} #{quote(bucket[:ends_at])}"
+  def bucket_predicate(bucket)
+    starts_in_bucket = outcomes_table[:started_at].gteq(bucket[:starts_at])
+    ends_in_bucket = if bucket[:final]
+                       outcomes_table[:started_at].lteq(bucket[:ends_at])
+                     else
+                       outcomes_table[:started_at].lt(bucket[:ends_at])
+                     end
+
+    starts_in_bucket.and(ends_in_bucket)
   end
 
   def outcomes_scope
     account.conversation_outcomes.where(assistant_id: assistant.id, started_at: window.current)
   end
 
-  def quote(value)
-    account.class.connection.quote(value)
+  def filtered_count(predicate)
+    Arel.star.count.filter(predicate)
+  end
+
+  def outcomes_table
+    @outcomes_table ||= ConversationOutcome.arel_table
   end
 end
