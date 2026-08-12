@@ -478,6 +478,13 @@ function handleClickOutside(event) {
 }
 
 function reloadState(content = props.modelValue) {
+  range.value = null;
+  showUserMentions.value = false;
+  showCannedMenu.value = false;
+  showVariables.value = false;
+  showEmojiMenu.value = false;
+  showToolsMenu.value = false;
+
   const unrefContent = unref(content);
   state = createState(
     unrefContent,
@@ -779,6 +786,7 @@ function createEditorView() {
   editorView = new EditorView(editor.value, {
     state: state,
     editable: () => !props.disabled,
+    attributes: { class: 'resizable-editor-body' },
     nodeViews: {
       image: imageResizeView,
     },
@@ -836,9 +844,6 @@ watch(
 watch(
   computed(() => props.editorId),
   () => {
-    showCannedMenu.value = false;
-    showEmojiMenu.value = false;
-    showVariables.value = false;
     reloadState(props.modelValue);
   }
 );
@@ -1046,28 +1051,9 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 }
 
 .ProseMirror-woot-style:not(
-    :where(.resizable-editor-wrapper .ProseMirror-woot-style)
+    :where(.resizable-editor-wrapper .resizable-editor-body)
   ) {
   @apply min-h-[5rem] max-h-[7.5rem];
-}
-
-// Resizable editor wrapper styles
-.resizable-editor-wrapper {
-  .ProseMirror-woot-style {
-    min-height: clamp(
-      var(--editor-min-allowed, var(--editor-min-height, 5rem)),
-      var(--editor-height, var(--editor-min-height, 5rem)),
-      var(--editor-max-allowed, var(--editor-max-height, 7.5rem))
-    );
-    max-height: clamp(
-      var(--editor-min-allowed, var(--editor-min-height, 5rem)),
-      var(--editor-height, var(--editor-min-height, 5rem)),
-      var(--editor-max-allowed, var(--editor-max-height, 7.5rem))
-    );
-    transition:
-      min-height var(--editor-height-transition, 180ms ease),
-      max-height var(--editor-height-transition, 180ms ease);
-  }
 }
 
 .ProseMirror-prompt-backdrop::backdrop {
