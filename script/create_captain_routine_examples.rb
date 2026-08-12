@@ -90,7 +90,7 @@ module CaptainRoutineTerminalPresenter
   end
 
   def print_validating_dsl(_details)
-    stage('VALIDATING', 'Checking schema, operations, references, cardinality, and approvals…', :magenta)
+    stage('VALIDATING', 'Checking schema, operations, references, and cardinality…', :magenta)
   end
 
   def print_dsl_validated(details)
@@ -134,7 +134,6 @@ module CaptainRoutineHtmlSteps
     'decision' => '<circle cx="6" cy="3" r="1"/><circle cx="18" cy="6" r="1"/><circle cx="6" cy="21" r="1"/>' \
                   '<path d="M6 4v10a4 4 0 0 0 4 4h3"/><path d="M6 10a4 4 0 0 1 4-4h7"/><path d="m14 15 3 3-3 3"/>',
     'condition' => '<path d="M4 5h16"/><path d="M4 12h10"/><path d="M4 19h16"/><path d="m17 9 3 3-3 3"/>',
-    'approval' => '<path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V5l8-3 8 3z"/><path d="m9 12 2 2 4-4"/>',
     'step' => '<circle cx="12" cy="12" r="9"/><path d="M12 8v8"/><path d="M8 12h8"/>'
   }.freeze
 
@@ -159,7 +158,6 @@ module CaptainRoutineHtmlSteps
     return ['operation', step['operation']] if step['operation']
     return ['decision', step['decide']] if step['decide']
     return ['condition', "When #{step.dig('when', 'ref')}"] if step['when']
-    return ['approval', step['approval']] if step['approval']
 
     ['step', 'Unknown step']
   end
@@ -391,7 +389,6 @@ module CaptainRoutineHtmlRenderer
       .step.loop { border-left-color: var(--cyan); }
       .step.decision { border-left-color: var(--violet); }
       .step.condition { border-left-color: var(--yellow); }
-      .step.approval { border-left-color: var(--red); }
       .step-head { display: grid; grid-template-columns: 30px 20px minmax(72px, max-content) minmax(0, 1fr) 18px; align-items: center; gap: 11px; min-height: 50px; padding: 10px 14px; cursor: pointer; list-style: none; }
       .step-head::-webkit-details-marker, .branch-label::-webkit-details-marker, .raw-panel > summary::-webkit-details-marker { display: none; }
       .number { color: var(--muted); font: 400 10px/1 var(--mono); }
@@ -451,25 +448,40 @@ end
 
 class CaptainRoutineExamplesWizard
   INSTRUCTIONS = [
+    # <<~TEXT.strip,
+    #   Every weekday at 9:00 AM in the account timezone, review open conversations in the Support inbox that have been
+    #   waiting for an agent reply for more than 8 hours.
+    #
+    #   For each conversation, load the 30 most recent messages, including private notes, and find the contact's resolved
+    #   conversations from the previous 90 days. Use the current conversation and that history to classify the issue as a
+    #   security incident, service outage, billing problem, or other. Also decide whether the issue is urgent and whether
+    #   the contact has reported the same problem before.
+    #
+    #   For urgent security incidents or service outages, set the priority to urgent, add the labels `routine-urgent` and
+    #   `incident-escalation`, assign the conversation to the Escalations team, and add a private note saying that the
+    #   routine escalated it after reviewing the customer's recent history. Then send this reply:
+    #   "We are treating this as urgent and have escalated it to our incident team. We will share another update shortly."
+    #
+    #   For repeated billing problems, set the priority to high, add the labels `billing-escalation` and `repeat-contact`,
+    #   and assign the conversation to the Billing team. For all other conversations, add the label `routine-reviewed`.
+    # TEXT
+
     <<~TEXT.strip
-      Every weekday at 9:00 AM in the account timezone, review open conversations in the Support inbox that have been
-      waiting for an agent reply for more than 8 hours.
+      Review every open L2 support conversation assigned to the Engineering team. Triage the conversation using its recent
+      messages and determine whether the customer is blocked by an urgent product issue. Treat inability to send messages,
+      inability to access the dashboard, or messages not being received as urgent. Other issues are non-urgent.
 
-      For each conversation, load the 30 most recent messages, including private notes, and find the contact's resolved
-      conversations from the previous 90 days. Use the current conversation and that history to classify the issue as a
-      security incident, service outage, billing problem, or other. Also decide whether the issue is urgent and whether
-      the contact has reported the same problem before.
+      For a non-urgent conversation, add a private note nudging the currently assigned engineer to reply to the customer.
 
-      For urgent security incidents or service outages, set the priority to urgent, add the labels `routine-urgent` and
-      `incident-escalation`, assign the conversation to the Escalations team, and add a private note saying that the
-      routine escalated it after reviewing the customer's recent history. Ask for human approval, then send this reply:
-      "We are treating this as urgent and have escalated it to our incident team. We will share another update shortly."
+      For an urgent conversation, set its priority to urgent and add the label `p0-needs-attention`. Add a private note that
+      mentions both Jithin and the currently assigned engineer, asking them to address the issue immediately. Send this reply
+      to the customer: "We understand that this is blocking you. We are treating it as urgent and will address it shortly."
 
-      For repeated billing problems, set the priority to high, add the labels `billing-escalation` and `repeat-contact`,
-      and assign the conversation to the Billing team. For all other conversations, add the label `routine-reviewed`.
+      Do not reassign the conversation. The `p0-needs-attention` label triggers the downstream automation, so the routine
+      does not need to perform any additional escalation after applying it.
     TEXT
 
-    # The four smaller examples are temporarily disabled while exercising this complex routine.
+    # The other examples are temporarily disabled while exercising the L2 escalation routine.
   ].freeze
 
   def initialize
