@@ -50,6 +50,29 @@ describe ContentAttributeValidator do
     end
   end
 
+  context 'when a WhatsApp carousel has more than 10 cards' do
+    it 'is invalid' do
+      items = (1..11).map do |i|
+        { title: "Card #{i}", actions: [{ type: 'reply', text: 'Go', payload: "p#{i}" }] }
+      end
+      message = build_card_message(items)
+
+      expect(message).to be_invalid
+      expect(message.errors[:content_attributes]).to include('interactive carousel messages support at most 10 cards')
+    end
+  end
+
+  context 'when a WhatsApp carousel has exactly 10 cards' do
+    it 'is valid' do
+      items = (1..10).map do |i|
+        { title: "Card #{i}", actions: [{ type: 'reply', text: 'Go', payload: "p#{i}" }] }
+      end
+      message = build_card_message(items)
+
+      expect(message).to be_valid
+    end
+  end
+
   context 'when a WhatsApp carousel mixes url and reply cards across cards' do
     it 'is invalid' do
       message = build_card_message(

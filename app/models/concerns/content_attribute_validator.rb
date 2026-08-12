@@ -16,6 +16,8 @@ class ContentAttributeValidator < ActiveModel::Validator # rubocop:disable Metri
   ALLOWED_INTERACTIVE_LIST_ROW_KEYS = [:id, :title, :description].freeze
   # WhatsApp caps the combined row count across all sections at 10, not per section.
   MAX_INTERACTIVE_LIST_TOTAL_ROWS = 10
+  # Matches CarouselForm.vue's MAX_CARDS limit for WhatsApp/Facebook/Instagram carousels.
+  MAX_CARDS = 10
   URL_ACTION_TYPE = 'url'.freeze
   REPLY_ACTION_TYPE = 'reply'.freeze
   CTA_URL_HEADER_TYPE = 'image'.freeze
@@ -73,6 +75,17 @@ class ContentAttributeValidator < ActiveModel::Validator # rubocop:disable Metri
     validate_item_actions!(record)
     validate_interactive_card_actions!(record)
     validate_whatsapp_carousel_action_type_consistency!(record)
+    validate_max_cards!(record)
+  end
+
+  # The dashboard caps carousels at MAX_CARDS (10) for WhatsApp, Facebook, and
+  # Instagram; enforce the same upper bound here so an API/automation-created
+  # message with more items isn't accepted only to be rejected by the provider.
+  def validate_max_cards!(record)
+    return unless meta_generic_template_target?(record)
+    return if normalized_items(record).size <= MAX_CARDS
+
+    record.errors.add(:content_attributes, "interactive carousel messages support at most #{MAX_CARDS} cards")
   end
 
   # validate_whatsapp_interactive_card_actions! only rejects mixed action types
