@@ -19,7 +19,7 @@ class Captain::Routines::DslEvaluationSchema < RubyLLM::Schema
 
   array :missing_capabilities, max_items: 10 do
     object do
-      string :tool, description: 'The tool that lacks the required capability.'
+      string :operation, description: 'The operation that lacks the required capability.'
       string :capability, description: 'The missing filter, action, or behavior.'
     end
   end

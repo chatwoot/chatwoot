@@ -30,12 +30,12 @@ class Captain::Routines::DslSchema
         'additionalProperties' => false,
         'properties' => { 'ref' => { 'type' => 'string', 'minLength' => 1 } }
       },
-      'source' => {
+      'collection_query' => {
         'type' => 'object',
-        'required' => %w[tool with],
+        'required' => %w[operation with],
         'additionalProperties' => false,
         'properties' => {
-          'tool' => { 'type' => 'string', 'minLength' => 1 },
+          'operation' => { 'type' => 'string', 'minLength' => 1 },
           'with' => { 'type' => 'object' }
         }
       },
@@ -54,7 +54,7 @@ class Captain::Routines::DslSchema
         'additionalProperties' => false,
         'properties' => {
           'each' => { 'type' => 'string', 'minLength' => 1 },
-          'from' => { '$ref' => '#/definitions/source' },
+          'from' => { '$ref' => '#/definitions/collection_query' },
           'do' => {
             'type' => 'array',
             'minItems' => 1,
@@ -62,13 +62,14 @@ class Captain::Routines::DslSchema
           }
         }
       },
-      'tool_step' => {
+      'operation_step' => {
         'type' => 'object',
-        'required' => %w[tool with],
+        'required' => %w[operation with],
         'additionalProperties' => false,
         'properties' => {
-          'tool' => { 'type' => 'string', 'minLength' => 1 },
-          'with' => { 'type' => 'object' }
+          'operation' => { 'type' => 'string', 'minLength' => 1 },
+          'with' => { 'type' => 'object' },
+          'save_as' => { 'type' => 'string', 'minLength' => 1 }
         }
       },
       'decide_step' => {
@@ -116,7 +117,7 @@ class Captain::Routines::DslSchema
         }
       },
       'step' => {
-        'oneOf' => %w[each_step tool_step decide_step when_step approval_step].map do |definition|
+        'oneOf' => %w[each_step operation_step decide_step when_step approval_step].map do |definition|
           { '$ref' => "#/definitions/#{definition}" }
         end
       }
@@ -125,7 +126,7 @@ class Captain::Routines::DslSchema
 
   class << self
     def errors(dsl)
-      schema_errors(dsl) + tool_errors(dsl)
+      Captain::Routines::DslValidator.new(dsl).errors
     end
 
     def valid?(dsl)
@@ -134,55 +135,6 @@ class Captain::Routines::DslSchema
 
     def prompt
       JSON.pretty_generate(SCHEMA)
-    end
-
-    private
-
-    def schema_errors(dsl)
-      JSONSchemer.schema(SCHEMA).validate(dsl).map do |error|
-        path = error['data_pointer'].presence || '/'
-        "#{path}: #{error['type']} #{error['details'].to_json}"
-      end
-    end
-
-    def tool_errors(dsl)
-      return [] unless dsl.is_a?(Hash)
-
-      validate_steps(dsl['steps'])
-    end
-
-    def validate_steps(steps)
-      Array(steps).flat_map do |step|
-        next [] unless step.is_a?(Hash)
-
-        errors = validate_step_tool(step)
-        errors.concat(validate_steps(step['do']))
-        errors.concat(validate_steps(step['else']))
-        errors
-      end
-    end
-
-    def validate_step_tool(step)
-      if step['from'].is_a?(Hash)
-        validate_tool(step['from']['tool'], step['from']['with'], kind: 'source')
-      elsif step['tool'].present?
-        validate_tool(step['tool'], step['with'], kind: 'action')
-      else
-        []
-      end
-    end
-
-    def validate_tool(name, arguments, kind:)
-      catalog = Captain::Routines::ToolCatalog
-      return ["Tool '#{name}' is not an available #{kind}"] unless catalog.include?(name, kind: kind)
-
-      tool = catalog.fetch(name)
-      argument_names = arguments.is_a?(Hash) ? arguments.keys : []
-      missing_arguments = tool[:required] - argument_names
-      unknown_arguments = argument_names - tool[:arguments].keys.map(&:to_s)
-
-      missing_arguments.map { |argument| "Tool '#{name}' is missing required argument '#{argument}'" } +
-        unknown_arguments.map { |argument| "Tool '#{name}' does not accept argument '#{argument}'" }
     end
   end
 end
