@@ -20,7 +20,7 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const { highlightContent } = useMessageFormatter();
+const { getPlainText } = useMessageFormatter();
 
 const { contentElement, showReadMore, showReadLess, toggleExpanded } =
   useExpandableContent();
@@ -55,16 +55,30 @@ const messageContent = computed(() => {
 const escapeHtml = html => {
   const wrapper = document.createElement('p');
   wrapper.textContent = html;
-  return wrapper.textContent;
+  return wrapper.innerHTML;
 };
 
 const highlightedContent = computed(() => {
-  const content = messageContent.value || '';
-  const escapedText = escapeHtml(content);
-  return highlightContent(
-    escapedText,
-    props.searchTerm,
-    'searchkey--highlight'
+  // getPlainText decodes any markdown in the source into literal text (e.g. a
+  // literal "<img ...>" in the transcript stays as visible characters rather
+  // than a tag). escapeHtml then HTML-encodes that text so the highlight
+  // <span> injected below is the only real markup in the final string passed
+  // to v-dompurify-html.
+  const plainText = getPlainText(messageContent.value || '');
+  const escapedText = escapeHtml(plainText);
+
+  const searchTerm = props.searchTerm || '';
+  if (!searchTerm) {
+    return escapedText;
+  }
+
+  const escapedSearchTerm = escapeHtml(searchTerm).replace(
+    /[.*+?^${}()|[\]\\]/g,
+    '\\$&'
+  );
+  return escapedText.replace(
+    new RegExp(`(${escapedSearchTerm})`, 'ig'),
+    '<span class="searchkey--highlight">$1</span>'
   );
 });
 
