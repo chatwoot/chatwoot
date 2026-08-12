@@ -19,8 +19,10 @@ class ApplicationMailbox < ActionMailbox::Base
 
   class << self
     # checks if follows this pattern: reply+<conversation-uuid>@<mailer-domain.com>
+    # the reply address can appear in either To or Cc (e.g. replying to your own sent message)
     def reply_uuid_mail?(inbound_mail)
-      inbound_mail.mail.to&.any? do |email|
+      recipients = Array(inbound_mail.mail.to) + Array(inbound_mail.mail.cc)
+      recipients.any? do |email|
         conversation_uuid = email.split('@')[0]
         conversation_uuid.match?(REPLY_EMAIL_UUID_PATTERN)
       end

@@ -43,6 +43,19 @@ RSpec.describe Mailbox::ConversationFinderStrategies::ReceiverUuidStrategy do
       end
     end
 
+    context 'when mail has reply+uuid in Cc' do
+      before do
+        conversation.update!(uuid: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee')
+        mail.to = 'customer@example.com'
+        mail.cc = 'reply+aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee@example.com'
+      end
+
+      it 'extracts UUID from Cc recipients' do
+        strategy = described_class.new(mail)
+        expect(strategy.find).to eq(conversation)
+      end
+    end
+
     context 'when UUID does not exist in database' do
       before do
         mail.to = 'reply+99999999-9999-9999-9999-999999999999@example.com'

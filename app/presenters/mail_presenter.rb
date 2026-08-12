@@ -156,13 +156,12 @@ class MailPresenter < SimpleDelegator
   end
 
   def mail_receiver
-    if @mail.to.blank?
-      return [email_forwarded_for] if email_forwarded_for.present?
+    receivers = Array(@mail.to) + Array(@mail.cc)
+    return receivers if receivers.present?
 
-      []
-    else
-      @mail.to
-    end
+    return [email_forwarded_for] if email_forwarded_for.present?
+
+    []
   end
 
   def auto_reply?
