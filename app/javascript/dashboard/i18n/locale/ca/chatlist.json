@@ -7,6 +7,7 @@
       "404": "No hi ha converses actives en aquest grup."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Converses",
     "MENTION_HEADING": "Mencions",
     "UNATTENDED_HEADING": "Sense assistència",
@@ -79,6 +80,9 @@
       },
       "priority_desc_created_at_asc": {
         "TEXT": "Priority: Highest first, Created: Oldest first"
+      },
+      "unread": {
+        "TEXT": "Unread Count: Highest first"
       }
     },
     "ATTACHMENTS": {

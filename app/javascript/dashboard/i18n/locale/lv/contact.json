@@ -510,6 +510,7 @@
         "ATTRIBUTES": "Atribūti",
         "HISTORY": "Vēsture",
         "NOTES": "Piezīmes",
+        "MEDIA": "Media",
         "MERGE": "Apvienot"
       },
       "HISTORY": {
@@ -610,6 +611,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "Mēs nevarējām pabeigt meklēšanu. Lūdzu, mēģiniet vēlreiz."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Apskatīt",

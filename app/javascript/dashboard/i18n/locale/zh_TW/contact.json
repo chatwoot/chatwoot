@@ -510,6 +510,7 @@
         "ATTRIBUTES": "屬性",
         "HISTORY": "歷史紀錄",
         "NOTES": "備註",
+        "MEDIA": "媒體",
         "MERGE": "合併"
       },
       "HISTORY": {
@@ -610,6 +611,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "無法完成搜尋，請重試。"
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "查看",

@@ -5,9 +5,11 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   queue_as :low
 
   def perform(inbox)
-    return if inbox.account.captain_auto_resolve_disabled?
+    captain_assistant = inbox.captain_assistant
+    return if captain_assistant.blank? || captain_assistant.inactive_conversation_resolution_disabled?
 
-    if evaluate_conversation_completion?(inbox.account)
+    @inactivity_cutoff_time = Time.now.utc - captain_assistant.inactivity_threshold_minutes.minutes
+    if evaluate_conversation_completion?(captain_assistant, inbox.account)
       perform_with_evaluation(inbox)
     else
       perform_time_based(inbox)
@@ -18,8 +20,10 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   private
 
-  def evaluate_conversation_completion?(account)
-    account.feature_enabled?('captain_tasks') && account.captain_auto_resolve_evaluated?
+  attr_reader :inactivity_cutoff_time
+
+  def evaluate_conversation_completion?(assistant, account)
+    account.feature_enabled?('captain_tasks') && assistant.evaluate_inactive_conversations_before_resolving?
   end
 
   def perform_time_based(inbox)
@@ -28,6 +32,12 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     resolvable_pending_conversations(inbox).each do |conversation|
       create_resolution_message(conversation, inbox)
       conversation.resolved!
+      Captain::ConversationEvents.resolved(
+        conversation: conversation,
+        assistant: inbox.captain_assistant,
+        source: Captain::ConversationEvents::Sources::TIME_BASED,
+        at: Time.current
+      )
     end
   end
 
@@ -55,19 +65,15 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   def resolvable_pending_conversations(inbox)
     inbox.conversations.pending
-         .where('last_activity_at < ?', auto_resolve_cutoff_time)
+         .where('last_activity_at < ?', inactivity_cutoff_time)
          .limit(Limits::BULK_ACTIONS_LIMIT)
   end
 
   def still_resolvable_after_evaluation?(conversation)
     conversation.reload
-    conversation.pending? && conversation.last_activity_at < auto_resolve_cutoff_time
+    conversation.pending? && conversation.last_activity_at < inactivity_cutoff_time
   rescue ActiveRecord::RecordNotFound
     false
-  end
-
-  def auto_resolve_cutoff_time
-    Time.now.utc - 1.hour
   end
 
   def resolve_conversation(conversation, inbox, reason)
@@ -77,7 +83,12 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       reason: CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON,
       reason_type: :inference
     ) { conversation.resolved! }
-    conversation.dispatch_captain_inference_resolved_event
+    Captain::ConversationEvents.resolved(
+      conversation: conversation,
+      assistant: inbox.captain_assistant,
+      source: Captain::ConversationEvents::Sources::INFERENCE,
+      at: Time.current
+    )
   end
 
   def handoff_conversation(conversation, inbox, reason)
@@ -87,7 +98,13 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       reason: CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON,
       reason_type: :inference
     ) { conversation.bot_handoff! }
-    conversation.dispatch_captain_inference_handoff_event
+    Captain::ConversationEvents.handed_off(
+      conversation: conversation,
+      assistant: inbox.captain_assistant,
+      source: Captain::ConversationEvents::Sources::INFERENCE,
+      reason_category: :pending_clarification,
+      at: Time.current
+    )
     send_out_of_office_message_if_applicable(conversation.reload)
   end
 
@@ -111,6 +128,8 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   def create_resolution_message(conversation, inbox)
+    return unless inbox.captain_assistant.send_inactivity_resolution_message?
+
     I18n.with_locale(inbox.account.locale) do
       resolution_message = inbox.captain_assistant.config['resolution_message']
       conversation.messages.create!(

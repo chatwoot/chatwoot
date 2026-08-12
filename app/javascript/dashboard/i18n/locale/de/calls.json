@@ -1,0 +1,45 @@
+{
+  "CALLS_PAGE": {
+    "HEADER": "Anrufe",
+    "ALL_CALLS": "Alle Anrufe",
+    "ALL_CALLS_COUNT": "Alle Anrufe ({count})",
+    "EMPTY_STATE": "Keine Anrufe gefunden",
+    "SETUP": {
+      "TITLE": "Anrufe zentral tätigen und annehmen",
+      "SUBTITLE": "Richte einen Sprachkanal ein, um Anrufe gemeinsam mit deinem Team zu bearbeiten. Jeder Anruf wird zusammen mit seiner Aufzeichnung hier angezeigt.",
+      "ACTION": "Sprachkanal einrichten"
+    },
+    "FILTERS": {
+      "MISSED": "Verpasst",
+      "NO_REPLY": "Keine Antwort",
+      "OTHER_ACTIVITY": "Andere Aktivität",
+      "INCOMING": "Eingehend",
+      "OUTGOING": "Ausgehend",
+      "IN_PROGRESS": "Läuft",
+      "ASSIGNEE": "Zugewiesener",
+      "ALL_ASSIGNEES": "Alle Zuständigen",
+      "MORE_FILTERS": "Weitere Filter",
+      "INBOX": "Posteingang",
+      "ALL_INBOXES": "Alle Posteingänge"
+    },
+    "STATUS": {
+      "ONGOING": "Im Gange",
+      "INCOMING": "Eingehend",
+      "OUTGOING": "Ausgehend",
+      "MISSED": "Verpasst",
+      "NO_REPLY": "Keine Antwort",
+      "FAILED": "Fehlgeschlagen"
+    },
+    "ROW": {
+      "PICKED_BY": "Angenommen von",
+      "DIALED_BY": "Gewählt von",
+      "ANSWERED": "Angenommen",
+      "RINGING": "Klingelt",
+      "IN_PROGRESS": "Läuft",
+      "NO_AGENT": "Kein Agent hat diesen Anruf angenommen",
+      "NO_CONTACT_ANSWER": "Der Kontakt hat nicht geantwortet",
+      "FAILED": "Dieser Anruf konnte nicht verbunden werden",
+      "YESTERDAY": "Gestern"
+    }
+  }
+}

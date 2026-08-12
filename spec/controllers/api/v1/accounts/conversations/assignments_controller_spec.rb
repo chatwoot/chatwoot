@@ -37,7 +37,6 @@ RSpec.describe 'Conversation Assignment API', type: :request do
     context 'when it is an authenticated user with access to the inbox' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:agent_bot) { create(:agent_bot, account: account) }
-      let(:captain_assistant) { create(:captain_assistant, account: account) }
       let(:team) { create(:team, account: account) }
 
       before do
@@ -73,27 +72,6 @@ RSpec.describe 'Conversation Assignment API', type: :request do
         conversation.reload
         expect(conversation.assignee_agent_bot).to eq(agent_bot)
         expect(conversation.assignee).to be_nil
-      end
-
-      it 'assigns a Captain assistant to the conversation' do
-        params = { assignee_id: captain_assistant.id, assignee_type: 'CaptainAssistant' }
-
-        expect(Conversations::AssignmentService).to receive(:new)
-          .with(hash_including(conversation: conversation, assignee_id: captain_assistant.id, assignee_type: 'CaptainAssistant'))
-          .and_call_original
-
-        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
-             params: params,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(response.parsed_body['name']).to eq(captain_assistant.name)
-        conversation.reload
-        expect(conversation.assignee_captain_assistant).to eq(captain_assistant)
-        expect(conversation.assignee_agent_bot).to be_nil
-        expect(conversation.assignee).to be_nil
-        expect(conversation.status).to eq('pending')
       end
 
       it 'assigns a team to the conversation' do

@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Accounts::Conversations::BaseController
   # assigns agent/team to a conversation
   def create
-    if params.key?(:assignee_id) || ai_assignment?
+    if params.key?(:assignee_id) || agent_bot_assignment?
       set_agent
     elsif params.key?(:team_id)
       set_team
@@ -28,20 +28,21 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
       render partial: 'api/v1/models/agent', formats: [:json], locals: { resource: resource }
     when AgentBot
       render partial: 'api/v1/models/agent_bot_slim', formats: [:json], locals: { resource: resource }
-    when Captain::Assistant
-      render partial: 'api/v1/models/captain_assistant_slim', formats: [:json], locals: { resource: resource }
     else
       render json: nil
     end
   end
 
   def set_team
-    @team = Current.account.teams.find_by(id: params[:team_id])
-    @conversation.update!(team: @team)
+    team_id = params[:team_id].to_i
+    @team = team_id.positive? ? Current.account.teams.find(team_id) : nil
+    @conversation.with_lock do
+      @conversation.update!(team: @team)
+    end
     render json: @team
   end
 
-  def ai_assignment?
-    params[:assignee_type].to_s.in?(%w[AgentBot CaptainAssistant])
+  def agent_bot_assignment?
+    params[:assignee_type].to_s == 'AgentBot'
   end
 end

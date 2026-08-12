@@ -7,12 +7,7 @@ json.meta do
     json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
   end
   json.channel conversation.inbox.try(:channel_type)
-  if conversation.assignee_type == 'CaptainAssistant'
-    json.assignee do
-      json.partial! 'api/v1/models/captain_assistant_slim', formats: [:json], resource: conversation.assigned_entity
-    end
-    json.assignee_type 'CaptainAssistant'
-  elsif conversation.assigned_entity.is_a?(AgentBot)
+  if conversation.assigned_entity.is_a?(AgentBot)
     json.assignee do
       json.partial! 'api/v1/models/agent_bot_slim', formats: [:json], resource: conversation.assigned_entity
     end
@@ -63,5 +58,6 @@ json.last_non_activity_message conversation.messages.where(account_id: conversat
 json.last_activity_at conversation.last_activity_at.to_i
 json.priority conversation.priority
 json.waiting_since conversation.waiting_since.to_i.to_i
-json.sla_policy_id conversation.sla_policy_id
+sla_applicable = conversation.account.feature_enabled?('sla') && (!conversation.respond_to?(:sla_applicable?) || conversation.sla_applicable?)
+json.sla_policy_id sla_applicable ? conversation.sla_policy_id : nil
 json.partial! 'enterprise/api/v1/conversations/partials/conversation', conversation: conversation if ChatwootApp.enterprise?

@@ -8,6 +8,8 @@ describe ActionService do
     let(:conversation) { create(:conversation, account: account) }
     let(:action_service) { described_class.new(conversation) }
 
+    before { account.enable_features!('sla') }
+
     context 'when sla_policy_id is present' do
       it 'adds the sla policy to the conversation and create applied_sla entry' do
         action_service.add_sla([sla_policy.id])
@@ -19,6 +21,13 @@ describe ActionService do
         expect(applied_sla.sla_policy_id).to eq(sla_policy.id)
         expect(applied_sla.conversation_id).to eq(conversation.id)
         expect(applied_sla.sla_status).to eq('active')
+      end
+
+      it 'does not add the sla policy when contact is blocked' do
+        conversation.contact.update!(blocked: true)
+
+        expect { action_service.add_sla([sla_policy.id]) }.not_to change(AppliedSla, :count)
+        expect(conversation.reload.sla_policy_id).to be_nil
       end
     end
 
