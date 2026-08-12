@@ -5634,14 +5634,33 @@
                       "cards",
                       "input_select",
                       "form",
-                      "article"
+                      "article",
+                      "cta_url",
+                      "interactive_buttons",
+                      "interactive_list"
                     ],
                     "description": "Content type of the message",
                     "example": "text"
                   },
                   "content_attributes": {
-                    "type": "object",
-                    "description": "Attributes based on the content type",
+                    "description": "Attributes based on the content type. For 'cta_url', 'interactive_buttons', 'interactive_list', and 'cards' the shape must match one of the schemas below. Other content types accept a free-form object.\n",
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/message_content_attributes_cta_url"
+                      },
+                      {
+                        "$ref": "#/components/schemas/message_content_attributes_interactive_buttons"
+                      },
+                      {
+                        "$ref": "#/components/schemas/message_content_attributes_interactive_list"
+                      },
+                      {
+                        "$ref": "#/components/schemas/message_content_attributes_cards"
+                      },
+                      {
+                        "type": "object"
+                      }
+                    ],
                     "example": {}
                   },
                   "attachments[]": {
@@ -11087,14 +11106,33 @@
               "cards",
               "input_select",
               "form",
-              "article"
+              "article",
+              "cta_url",
+              "interactive_buttons",
+              "interactive_list"
             ],
             "description": "Content type of the message",
             "example": "text"
           },
           "content_attributes": {
-            "type": "object",
-            "description": "Attributes based on the content type",
+            "description": "Attributes based on the content type. For 'cta_url', 'interactive_buttons', 'interactive_list', and 'cards' the shape must match one of the schemas below. Other content types accept a free-form object.\n",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/message_content_attributes_cta_url"
+              },
+              {
+                "$ref": "#/components/schemas/message_content_attributes_interactive_buttons"
+              },
+              {
+                "$ref": "#/components/schemas/message_content_attributes_interactive_list"
+              },
+              {
+                "$ref": "#/components/schemas/message_content_attributes_cards"
+              },
+              {
+                "type": "object"
+              }
+            ],
             "example": {}
           },
           "campaign_id": {
@@ -11200,6 +11238,292 @@
                           "description": "Dynamic parameter value for the button",
                           "example": "SSFSDFSD"
                         }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "message_content_attributes_cta_url": {
+        "type": "object",
+        "description": "content_attributes shape for content_type 'cta_url' (WhatsApp/Facebook/Instagram call-to-action message). Only body_text, action.text, and action.uri are required by this endpoint; header, if present, must include both type and media_url. WhatsApp additionally limits footer_text to 60 characters and action.text to 20 characters at the provider, though this endpoint does not itself reject longer values.\n",
+        "required": [
+          "body_text",
+          "action"
+        ],
+        "properties": {
+          "body_text": {
+            "type": "string",
+            "description": "Main message text",
+            "example": "Check out our latest offer!"
+          },
+          "footer_text": {
+            "type": "string",
+            "description": "Optional footer text shown below the body",
+            "example": "Offer valid while supplies last"
+          },
+          "header": {
+            "type": "object",
+            "required": [
+              "type",
+              "media_url"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "image"
+                ]
+              },
+              "media_url": {
+                "type": "string",
+                "format": "uri",
+                "example": "https://example.com/banner.jpg"
+              }
+            }
+          },
+          "action": {
+            "type": "object",
+            "required": [
+              "text",
+              "uri"
+            ],
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "Button label",
+                "example": "Visit site"
+              },
+              "uri": {
+                "type": "string",
+                "format": "uri",
+                "example": "https://example.com"
+              }
+            }
+          }
+        }
+      },
+      "message_content_attributes_interactive_buttons": {
+        "type": "object",
+        "description": "content_attributes shape for content_type 'interactive_buttons' (WhatsApp/Facebook/Instagram quick-reply buttons). At most 3 buttons are accepted; each button requires text, plus id (for 'reply' buttons) or uri (for 'url' buttons). WhatsApp only supports 'reply' buttons and does not use header/footer_text on Instagram. WhatsApp additionally limits body_text to 1024 characters, footer_text to 60, and button text to 20 at the provider, though this endpoint does not itself reject longer values.\n",
+        "required": [
+          "body_text",
+          "buttons"
+        ],
+        "properties": {
+          "body_text": {
+            "type": "string",
+            "example": "Choose an option"
+          },
+          "footer_text": {
+            "type": "string",
+            "description": "Not sent on Instagram"
+          },
+          "header": {
+            "type": "object",
+            "description": "Not sent on Instagram",
+            "required": [
+              "type",
+              "media_url"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "image"
+                ]
+              },
+              "media_url": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          },
+          "buttons": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "required": [
+                "text"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Unique identifier echoed back in the reply payload when the button is clicked; required when type is 'reply'",
+                  "example": "btn_1"
+                },
+                "text": {
+                  "type": "string",
+                  "example": "Yes"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "reply",
+                    "url"
+                  ],
+                  "default": "reply",
+                  "description": "WhatsApp only supports 'reply' buttons"
+                },
+                "uri": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Required when type is 'url'"
+                }
+              }
+            }
+          }
+        }
+      },
+      "message_content_attributes_interactive_list": {
+        "type": "object",
+        "description": "content_attributes shape for content_type 'interactive_list' (WhatsApp-only interactive list message). The combined row count across all sections is capped at 10 by this endpoint. WhatsApp additionally limits body_text to 1024 characters, footer_text and header.text to 60, action.button_text to 20, section.title and row.title to 24, and row.description to 72 at the provider, though this endpoint does not itself reject longer values for those fields.\n",
+        "required": [
+          "body_text",
+          "action",
+          "sections"
+        ],
+        "properties": {
+          "body_text": {
+            "type": "string",
+            "example": "Pick an item from the list"
+          },
+          "footer_text": {
+            "type": "string"
+          },
+          "header": {
+            "type": "object",
+            "required": [
+              "type",
+              "text"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "text"
+                ]
+              },
+              "text": {
+                "type": "string"
+              }
+            }
+          },
+          "action": {
+            "type": "object",
+            "required": [
+              "button_text"
+            ],
+            "properties": {
+              "button_text": {
+                "type": "string",
+                "description": "Label of the button that opens the list",
+                "example": "View options"
+              }
+            }
+          },
+          "sections": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "rows"
+              ],
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "rows": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "title"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Unique identifier echoed back in the reply payload when the row is selected",
+                        "example": "row_1"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "message_content_attributes_cards": {
+        "type": "object",
+        "description": "content_attributes shape for content_type 'cards' (carousel). This endpoint only requires a non-empty items array where each item has a non-empty actions array using action type 'url', 'reply', or their aliases 'link'/'postback'. Additional rules apply only when the message targets a WhatsApp, Facebook, or Instagram channel (not for cards on website/API inboxes): a title is required per item; between 2 and 10 items are required; every action requires text, plus uri (for url/link) or payload (for reply/postback); and for WhatsApp specifically every item must also have media_url, and the action type/count must match across all items.\n",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "actions"
+              ],
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "Required when targeting WhatsApp, Facebook, or Instagram"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "media_url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Required when targeting WhatsApp"
+                },
+                "actions": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "url",
+                          "reply",
+                          "link",
+                          "postback"
+                        ],
+                        "description": "'link' and 'postback' are accepted aliases for 'url' and 'reply'"
+                      },
+                      "text": {
+                        "type": "string",
+                        "description": "Required when targeting WhatsApp, Facebook, or Instagram"
+                      },
+                      "uri": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "Required when type is 'url'/'link' and targeting WhatsApp, Facebook, or Instagram"
+                      },
+                      "payload": {
+                        "type": "string",
+                        "description": "Required when type is 'reply'/'postback' and targeting WhatsApp, Facebook, or Instagram; echoed back when the button is clicked"
                       }
                     }
                   }

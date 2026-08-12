@@ -1,0 +1,46 @@
+type: object
+description: >
+  content_attributes shape for content_type 'cta_url' (WhatsApp/Facebook/Instagram
+  call-to-action message). Only body_text, action.text, and action.uri are required
+  by this endpoint; header, if present, must include both type and media_url.
+  WhatsApp additionally limits footer_text to 60 characters and action.text to 20
+  characters at the provider, though this endpoint does not itself reject longer values.
+required:
+  - body_text
+  - action
+properties:
+  body_text:
+    type: string
+    description: Main message text
+    example: 'Check out our latest offer!'
+  footer_text:
+    type: string
+    description: Optional footer text shown below the body
+    example: 'Offer valid while supplies last'
+  header:
+    type: object
+    required:
+      - type
+      - media_url
+    properties:
+      type:
+        type: string
+        enum: ['image']
+      media_url:
+        type: string
+        format: uri
+        example: 'https://example.com/banner.jpg'
+  action:
+    type: object
+    required:
+      - text
+      - uri
+    properties:
+      text:
+        type: string
+        description: Button label
+        example: 'Visit site'
+      uri:
+        type: string
+        format: uri
+        example: 'https://example.com'

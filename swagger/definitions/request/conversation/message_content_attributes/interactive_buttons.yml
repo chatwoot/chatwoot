@@ -1,0 +1,56 @@
+type: object
+description: >
+  content_attributes shape for content_type 'interactive_buttons' (WhatsApp/Facebook/Instagram
+  quick-reply buttons). At most 3 buttons are accepted; each button requires text, plus id
+  (for 'reply' buttons) or uri (for 'url' buttons). WhatsApp only supports 'reply' buttons
+  and does not use header/footer_text on Instagram. WhatsApp additionally limits body_text
+  to 1024 characters, footer_text to 60, and button text to 20 at the provider, though this
+  endpoint does not itself reject longer values.
+required:
+  - body_text
+  - buttons
+properties:
+  body_text:
+    type: string
+    example: 'Choose an option'
+  footer_text:
+    type: string
+    description: Not sent on Instagram
+  header:
+    type: object
+    description: Not sent on Instagram
+    required:
+      - type
+      - media_url
+    properties:
+      type:
+        type: string
+        enum: ['image']
+      media_url:
+        type: string
+        format: uri
+  buttons:
+    type: array
+    minItems: 1
+    maxItems: 3
+    items:
+      type: object
+      required:
+        - text
+      properties:
+        id:
+          type: string
+          description: Unique identifier echoed back in the reply payload when the button is clicked; required when type is 'reply'
+          example: 'btn_1'
+        text:
+          type: string
+          example: 'Yes'
+        type:
+          type: string
+          enum: ['reply', 'url']
+          default: 'reply'
+          description: WhatsApp only supports 'reply' buttons
+        uri:
+          type: string
+          format: uri
+          description: Required when type is 'url'

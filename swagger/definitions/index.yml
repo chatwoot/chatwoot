@@ -141,6 +141,14 @@ conversation_create_payload:
   $ref: ./request/conversation/create_payload.yml
 conversation_message_create_payload:
   $ref: ./request/conversation/create_message_payload.yml
+message_content_attributes_cta_url:
+  $ref: ./request/conversation/message_content_attributes/cta_url.yml
+message_content_attributes_interactive_buttons:
+  $ref: ./request/conversation/message_content_attributes/interactive_buttons.yml
+message_content_attributes_interactive_list:
+  $ref: ./request/conversation/message_content_attributes/interactive_list.yml
+message_content_attributes_cards:
+  $ref: ./request/conversation/message_content_attributes/cards.yml
 
 # Inbox
 inbox_create_payload:

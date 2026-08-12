@@ -1,0 +1,50 @@
+type: object
+description: >
+  content_attributes shape for content_type 'cards' (carousel). This endpoint only
+  requires a non-empty items array where each item has a non-empty actions array
+  using action type 'url', 'reply', or their aliases 'link'/'postback'. Additional
+  rules apply only when the message targets a WhatsApp, Facebook, or Instagram
+  channel (not for cards on website/API inboxes): a title is required per item;
+  between 2 and 10 items are required; every action requires text, plus uri (for
+  url/link) or payload (for reply/postback); and for WhatsApp specifically every
+  item must also have media_url, and the action type/count must match across all items.
+required:
+  - items
+properties:
+  items:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required:
+        - actions
+      properties:
+        title:
+          type: string
+          description: Required when targeting WhatsApp, Facebook, or Instagram
+        description:
+          type: string
+        media_url:
+          type: string
+          format: uri
+          description: Required when targeting WhatsApp
+        actions:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum: ['url', 'reply', 'link', 'postback']
+                description: "'link' and 'postback' are accepted aliases for 'url' and 'reply'"
+              text:
+                type: string
+                description: Required when targeting WhatsApp, Facebook, or Instagram
+              uri:
+                type: string
+                format: uri
+                description: Required when type is 'url'/'link' and targeting WhatsApp, Facebook, or Instagram
+              payload:
+                type: string
+                description: Required when type is 'reply'/'postback' and targeting WhatsApp, Facebook, or Instagram; echoed back when the button is clicked

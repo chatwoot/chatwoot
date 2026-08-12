@@ -17,12 +17,20 @@ properties:
     example: false
   content_type:
     type: string
-    enum: ['text', 'input_email', 'cards', 'input_select', 'form', 'article']
+    enum: ['text', 'input_email', 'cards', 'input_select', 'form', 'article', 'cta_url', 'interactive_buttons', 'interactive_list']
     description: Content type of the message
     example: 'text'
   content_attributes:
-    type: object
-    description: Attributes based on the content type
+    description: >
+      Attributes based on the content type. For 'cta_url', 'interactive_buttons',
+      'interactive_list', and 'cards' the shape must match one of the schemas
+      below. Other content types accept a free-form object.
+    oneOf:
+      - $ref: '#/components/schemas/message_content_attributes_cta_url'
+      - $ref: '#/components/schemas/message_content_attributes_interactive_buttons'
+      - $ref: '#/components/schemas/message_content_attributes_interactive_list'
+      - $ref: '#/components/schemas/message_content_attributes_cards'
+      - type: object
     example: {}
   campaign_id:
     type: integer

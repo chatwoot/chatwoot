@@ -1,0 +1,65 @@
+type: object
+description: >
+  content_attributes shape for content_type 'interactive_list' (WhatsApp-only interactive
+  list message). The combined row count across all sections is capped at 10 by this
+  endpoint. WhatsApp additionally limits body_text to 1024 characters, footer_text and
+  header.text to 60, action.button_text to 20, section.title and row.title to 24, and
+  row.description to 72 at the provider, though this endpoint does not itself reject
+  longer values for those fields.
+required:
+  - body_text
+  - action
+  - sections
+properties:
+  body_text:
+    type: string
+    example: 'Pick an item from the list'
+  footer_text:
+    type: string
+  header:
+    type: object
+    required:
+      - type
+      - text
+    properties:
+      type:
+        type: string
+        enum: ['text']
+      text:
+        type: string
+  action:
+    type: object
+    required:
+      - button_text
+    properties:
+      button_text:
+        type: string
+        description: Label of the button that opens the list
+        example: 'View options'
+  sections:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required:
+        - rows
+      properties:
+        title:
+          type: string
+        rows:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required:
+              - id
+              - title
+            properties:
+              id:
+                type: string
+                description: Unique identifier echoed back in the reply payload when the row is selected
+                example: 'row_1'
+              title:
+                type: string
+              description:
+                type: string
