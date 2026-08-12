@@ -58,10 +58,6 @@ const appliedHeight = computed(() => {
   return clampToBounds(Math.max(requested, editorHeight.value));
 });
 
-provide('requestEditorHeight', height => {
-  requestedHeight.value = height;
-});
-
 // Measure height of elements surrounding the editor (top panel, email fields, bottom panel)
 const measureSurroundingHeight = () => {
   if (wrapperRef.value) {
@@ -71,6 +67,13 @@ const measureSurroundingHeight = () => {
     );
   }
 };
+
+provide('requestEditorHeight', height => {
+  // The bounds subtract the panels around the editor, so measure them before
+  // the request is clamped, the drag and the toggle may not have run yet
+  measureSurroundingHeight();
+  requestedHeight.value = height;
+});
 
 const clearDragStyles = () => {
   Object.assign(document.body.style, { cursor: '', userSelect: '' });

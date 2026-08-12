@@ -16,6 +16,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  placeholder: {
+    type: String,
+    default: undefined,
+  },
 });
 
 const emit = defineEmits([
@@ -71,6 +75,7 @@ const onSend = () => {
         v-model="copilotEditorContent"
         class="copilot-editor"
         :generated-content="generatedContent"
+        :placeholder="placeholder"
         :min-height="4"
         :enabled-menu-options="[]"
         @focus="onFocus"
