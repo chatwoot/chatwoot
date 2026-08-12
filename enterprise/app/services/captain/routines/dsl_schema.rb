@@ -69,11 +69,16 @@ class Captain::Routines::DslSchema
       },
       'decide_step' => {
         'type' => 'object',
-        'required' => %w[decide about choices],
+        'required' => %w[decide choices],
         'additionalProperties' => false,
         'properties' => {
           'decide' => { 'type' => 'string', 'minLength' => 1 },
           'about' => { '$ref' => '#/definitions/reference' },
+          'context' => {
+            'type' => 'object',
+            'minProperties' => 1,
+            'additionalProperties' => { '$ref' => '#/definitions/reference' }
+          },
           'instruction' => { 'type' => 'string', 'minLength' => 1 },
           'choices' => {
             'type' => 'array',
@@ -81,7 +86,11 @@ class Captain::Routines::DslSchema
             'uniqueItems' => true,
             'items' => { 'type' => 'string', 'minLength' => 1 }
           }
-        }
+        },
+        'anyOf' => [
+          { 'required' => ['about'] },
+          { 'required' => ['context'] }
+        ]
       },
       'compose_step' => {
         'type' => 'object',

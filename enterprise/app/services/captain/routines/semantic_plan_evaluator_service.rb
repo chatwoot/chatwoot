@@ -97,6 +97,15 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
       Invocation and scheduling are configured directly on the Routine model. Ignore schedule, timing, recurrence, manual-run,
       and event-trigger language in the original request. The semantic plan must not contain those concerns.
 
+      Runtime decisions and generated content automatically receive the immutable execution metadata below. Never ask where the
+      current time, local date, weekday, scheduled time, or Routine timezone comes from, and do not require the plan to load them:
+      #{Captain::Routines::ExecutionContext.prompt}
+
+      The `inboxes.get_availability` capability deterministically evaluates the relevant inbox's configured working hours and
+      timezone at the frozen execution start time. Treat references to that inbox's business hours or availability as grounded by
+      this capability. Ask for clarification only when the administrator refers to a different undefined business schedule or
+      when materially different inboxes could govern the behavior.
+
       Captain Routines are fully autonomous after they are enabled. A plan that introduces a human review or execution pause is
       incorrect and must be returned as `correctable`, with that boundary removed.
 

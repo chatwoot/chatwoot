@@ -45,6 +45,14 @@ class Captain::Routines::SemanticPlanGeneratorService < Captain::BaseTaskService
       Invocation and scheduling are configured directly on the Routine model outside this planning system. Ignore schedule,
       timing, recurrence, manual-run, and event-trigger language in the request. Never include those concerns in the plan.
 
+      Runtime `decision` and generated-content steps automatically receive this immutable execution context. Do not add context
+      steps to discover these values, and do not treat them as missing information:
+      #{Captain::Routines::ExecutionContext.prompt}
+
+      Inbox business-hours status is an available product capability. It is evaluated from the relevant inbox's configured
+      working hours and timezone at the frozen execution start time. Preserve business-hours-dependent behavior in the plan
+      without inventing schedules or asking the administrator to provide the current time.
+
       Do not emit DSL syntax, operation names, database fields, IDs, API details, or invented implementation choices. Preserve
       human-readable account references such as inbox, team, agent, and label names. Routines are fully autonomous after they are
       enabled, so represent every requested action directly and never introduce human review or execution pauses.

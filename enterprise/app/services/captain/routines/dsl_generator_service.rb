@@ -39,6 +39,15 @@ class Captain::Routines::DslGeneratorService < Captain::BaseTaskService
       Invocation and scheduling belong to the Routine model. The DSL describes only what to execute and how control flows.
       Never include a trigger, schedule, timing, recurrence, or invocation policy in the DSL.
 
+      Every `decide` and `compose` invocation automatically receives the immutable execution context below. Do not add queries,
+      explicit references, tools, or interpolation placeholders for these values:
+      #{Captain::Routines::ExecutionContext.prompt}
+
+      When behavior depends on configured inbox business hours, use `inboxes.get_availability`. The operation evaluates the inbox
+      at `execution.started_at` automatically, so never supply a timestamp argument. Use its saved status directly in deterministic
+      control flow, or include the saved result in a `decide` or `compose` context when semantic reasoning or generated wording
+      depends on availability.
+
       Semantic `constraint` steps are binding prohibitions and scope boundaries. Enforce them by omitting forbidden behavior from
       the DSL. Never compile a constraint into an operation, decision, branch, or no-op placeholder.
 
@@ -47,6 +56,9 @@ class Captain::Routines::DslGeneratorService < Captain::BaseTaskService
       Every standalone query operation must use `save_as`; later steps may refer to its result by that name.
       Represent every data reference as a JSON object such as `{ "ref": "conversation.id" }`. Never use string interpolation
       such as `${conversation.id}` or `{{conversation.id}}`.
+
+      A `decide` step may use `about` for one primary reference or `context` for named references. Prefer `context` when the
+      decision needs multiple inputs, such as recent messages and inbox availability.
 
       Use `compose` when the plan specifies the intent of a private note or reply but leaves its wording to Captain. A compose
       step is pure: it creates a saved `rich_message` and never posts content or causes any other side effect. Give it the live

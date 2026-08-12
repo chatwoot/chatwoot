@@ -21,6 +21,7 @@ class Captain::Routines::Operations::Registry
     Captain::Routines::Operations::Queries::TeamSearch,
     Captain::Routines::Operations::Queries::LabelSearch,
     Captain::Routines::Operations::Queries::InboxSearch,
+    Captain::Routines::Operations::Queries::InboxGetAvailability,
     Captain::Routines::Operations::Queries::KnowledgeSearch
   ].index_by(&:operation_name).freeze
 
