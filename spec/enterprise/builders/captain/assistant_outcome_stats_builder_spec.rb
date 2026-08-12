@@ -8,19 +8,31 @@ RSpec.describe Captain::AssistantOutcomeStatsBuilder do
   let(:inbox) { create(:inbox, account: account) }
 
   context 'with no outcomes' do
-    it 'returns zeroed legacy metrics' do
-      expect(metrics[:conversations_handled]).to eq(current: 0, previous: 0, trend: 0)
-      expect(metrics[:auto_resolution_rate][:current]).to eq(0)
-      expect(metrics[:handoff_rate][:current]).to eq(0)
-      expect(metrics[:hours_saved][:current]).to eq(0)
-      expect(metrics[:reopen_rate][:current]).to eq(0)
-      expect(metrics[:conversation_depth][:current]).to eq(0)
+    it 'returns only the overview metrics' do
+      expect(metrics.keys).to contain_exactly(
+        :conversations_handled,
+        :auto_resolution_rate,
+        :autonomous_resolutions,
+        :handoff_rate,
+        :handoff_count,
+        :hours_saved,
+        :reopen_rate,
+        :conversation_depth,
+        :durable_resolution_rate,
+        :autonomous_csat_score,
+        :assisted_csat_score,
+        :human_only_csat_score,
+        :median_resolution_seconds,
+        :handoff_reasons
+      )
     end
 
-    it 'returns zeroed outcome metrics' do
-      expect(metrics[:eligible_conversations]).to eq(current: 0, previous: 0, trend: 0)
-      expect(metrics[:coverage_rate][:current]).to eq(0)
+    it 'returns zeroed metrics' do
+      expect(metrics[:conversations_handled]).to eq(current: 0, previous: 0, trend: 0)
+      expect(metrics[:handoff_count][:current]).to eq(0)
       expect(metrics[:durable_resolution_rate][:current]).to eq(0)
+      expect(metrics[:autonomous_csat_score][:current]).to eq(0)
+      expect(metrics[:assisted_csat_score][:current]).to eq(0)
       expect(metrics[:handoff_reasons]).to eq({})
     end
   end
@@ -105,12 +117,8 @@ RSpec.describe Captain::AssistantOutcomeStatsBuilder do
       )
     end
 
-    it 'computes the outcome funnel and comparison trends' do
-      expect(metrics[:eligible_conversations]).to eq(current: 6, previous: 1, trend: 500.0)
-      expect(metrics[:coverage_rate]).to include(current: 66.7, previous: 100.0)
+    it 'computes resolution counts and durability' do
       expect(metrics[:autonomous_resolutions][:current]).to eq(3)
-      expect(metrics[:autonomous_resolution_rate][:current]).to eq(50.0)
-      expect(metrics[:assisted_resolutions][:current]).to eq(1)
       expect(metrics[:durable_resolution_rate][:current]).to eq(50.0)
     end
 
@@ -118,12 +126,13 @@ RSpec.describe Captain::AssistantOutcomeStatsBuilder do
       expect(metrics[:conversations_handled]).to eq(current: 4, previous: 1, trend: 300.0)
       expect(metrics[:auto_resolution_rate][:current]).to eq(75.0)
       expect(metrics[:handoff_rate][:current]).to eq(25.0)
+      expect(metrics[:handoff_count][:current]).to eq(1)
       expect(metrics[:reopen_rate][:current]).to eq(33.3)
     end
 
-    it 'computes CSAT and median durations from outcome facts' do
-      expect(metrics[:csat_score][:current]).to eq(4.5)
-      expect(metrics[:median_first_response_seconds][:current]).to eq(75)
+    it 'splits autonomous and assisted CSAT and computes the median resolution time' do
+      expect(metrics[:autonomous_csat_score][:current]).to eq(5.0)
+      expect(metrics[:assisted_csat_score][:current]).to eq(4.0)
       expect(metrics[:median_resolution_seconds][:current]).to eq(250)
     end
 
@@ -142,9 +151,9 @@ RSpec.describe Captain::AssistantOutcomeStatsBuilder do
       handoff_at: 1.day.ago
     )
 
-    expect(metrics[:coverage_rate][:current]).to eq(100.0)
     expect(metrics[:conversations_handled][:current]).to eq(1)
     expect(metrics[:handoff_rate][:current]).to eq(100.0)
+    expect(metrics[:handoff_count][:current]).to eq(1)
   end
 
   it 'derives reply activity from messages while an outcome episode is still active' do
@@ -184,7 +193,7 @@ RSpec.describe Captain::AssistantOutcomeStatsBuilder do
       created_at: 1.day.ago
     )
 
-    expect(metrics[:hours_saved][:current]).to eq(1)
+    expect(metrics[:hours_saved]).to eq(current: 1, previous: 0, trend: 1)
     expect(metrics[:conversation_depth][:current]).to eq(1.5)
   end
 
@@ -195,12 +204,13 @@ RSpec.describe Captain::AssistantOutcomeStatsBuilder do
         account: account,
         assistant: assistant,
         inbox: inbox,
-        started_at: 7.days.ago
+        started_at: 7.days.ago,
+        first_captain_reply_at: 7.days.ago
       )
 
       boundary_metrics = described_class.new(assistant, '7').metrics
 
-      expect(boundary_metrics[:eligible_conversations]).to include(current: 1, previous: 0)
+      expect(boundary_metrics[:conversations_handled]).to include(current: 1, previous: 0)
     end
   end
 

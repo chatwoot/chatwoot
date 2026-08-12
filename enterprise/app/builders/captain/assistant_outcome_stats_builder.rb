@@ -21,18 +21,15 @@ class Captain::AssistantOutcomeStatsBuilder
   PACKED_METRICS = {
     conversations_handled: %i[involved percent],
     auto_resolution_rate: %i[auto_resolution_rate point],
+    autonomous_resolutions: %i[autonomous percent],
     handoff_rate: %i[handoff_rate point],
-    hours_saved: %i[hours_saved percent],
+    handoff_count: %i[handoffs percent],
+    hours_saved: %i[hours_saved absolute],
     reopen_rate: %i[reopen_rate point],
     conversation_depth: %i[conversation_depth absolute],
-    eligible_conversations: %i[eligible percent],
-    coverage_rate: %i[coverage point],
-    autonomous_resolutions: %i[autonomous percent],
-    autonomous_resolution_rate: %i[autonomous_rate point],
-    assisted_resolutions: %i[assisted percent],
     durable_resolution_rate: %i[durable_rate point],
-    csat_score: %i[csat absolute],
-    median_first_response_seconds: %i[median_first_response absolute],
+    autonomous_csat_score: %i[autonomous_csat absolute],
+    assisted_csat_score: %i[assisted_csat absolute],
     median_resolution_seconds: %i[median_resolution absolute]
   }.freeze
 
@@ -63,24 +60,21 @@ class Captain::AssistantOutcomeStatsBuilder
   attr_reader :window
 
   def window_metrics(row, message_row)
-    eligible, involved, autonomous, assisted, handoffs, reopened, assessable, durable, csat, first_response, resolution = row
+    involved, autonomous, handoffs, reopened, assessable, durable, autonomous_csat, assisted_csat, resolution = row
     public_replies, reply_conversations = message_row
 
     {
       involved: involved,
+      autonomous: autonomous,
       auto_resolution_rate: rate(autonomous, involved),
+      handoffs: handoffs,
       handoff_rate: rate(handoffs, involved),
       hours_saved: (public_replies * SECONDS_SAVED_PER_REPLY / 3600.0).round,
       reopen_rate: rate(reopened, autonomous),
       conversation_depth: reply_conversations.zero? ? 0 : (public_replies.to_f / reply_conversations).round(1),
-      eligible: eligible,
-      coverage: rate(involved, eligible),
-      autonomous: autonomous,
-      autonomous_rate: rate(autonomous, eligible),
-      assisted: assisted,
       durable_rate: rate(durable, assessable),
-      csat: csat&.to_f&.round(2) || 0,
-      median_first_response: first_response.to_i,
+      autonomous_csat: autonomous_csat.to_f.round(2),
+      assisted_csat: assisted_csat.to_f.round(2),
       median_resolution: resolution.to_i
     }
   end
@@ -105,17 +99,14 @@ class Captain::AssistantOutcomeStatsBuilder
     assessable = "#{AUTONOMOUS_SQL} AND resolved_at <= #{quote(durable_cutoff)}"
 
     [
-      "COUNT(*) FILTER (WHERE #{clause})",
       "COUNT(*) FILTER (WHERE #{clause} AND #{INVOLVED_SQL})",
       "COUNT(*) FILTER (WHERE #{clause} AND #{AUTONOMOUS_SQL})",
-      "COUNT(*) FILTER (WHERE #{clause} AND #{ASSISTED_SQL})",
       "COUNT(*) FILTER (WHERE #{clause} AND #{HANDOFF_SQL})",
       "COUNT(*) FILTER (WHERE #{clause} AND #{REOPENED_AUTONOMOUS_SQL})",
       "COUNT(*) FILTER (WHERE #{clause} AND #{assessable})",
       "COUNT(*) FILTER (WHERE #{clause} AND #{assessable} AND #{DURABLE_SQL})",
-      "AVG(csat_rating) FILTER (WHERE #{clause} AND #{INVOLVED_SQL} AND csat_rating IS NOT NULL)",
-      'percentile_cont(0.5) WITHIN GROUP (ORDER BY EXTRACT(EPOCH FROM (first_captain_reply_at - started_at))) ' \
-      "FILTER (WHERE #{clause} AND first_captain_reply_at IS NOT NULL)",
+      "AVG(csat_rating) FILTER (WHERE #{clause} AND #{AUTONOMOUS_SQL} AND csat_rating IS NOT NULL)",
+      "AVG(csat_rating) FILTER (WHERE #{clause} AND #{ASSISTED_SQL} AND csat_rating IS NOT NULL)",
       'percentile_cont(0.5) WITHIN GROUP (ORDER BY EXTRACT(EPOCH FROM (resolved_at - started_at))) ' \
       "FILTER (WHERE #{clause} AND #{INVOLVED_SQL} AND resolved_at IS NOT NULL)"
     ]
