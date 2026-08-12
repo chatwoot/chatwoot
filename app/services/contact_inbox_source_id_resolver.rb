@@ -1,9 +1,10 @@
 class ContactInboxSourceIdResolver
-  pattr_initialize [:inbox!, :source_ids!, :contact_attributes!]
+  pattr_initialize [:inbox!, :source_ids!, :contact_attributes!, { prefer_first_source_id: false }]
 
   def perform
     existing = existing_contact_inbox
     return create_contact_inbox if existing.blank?
+    return existing unless prefer_first_source_id
     return existing if existing.source_id == preferred_source_id
 
     adopt_preferred_source_id(existing)
@@ -11,12 +12,12 @@ class ContactInboxSourceIdResolver
 
   private
 
-  # The caller lists the identifiers in the order it wants them resolved, so the first one is
-  # the identity a payload should land on. Finding a different row means the contact reached
-  # this inbox under an older identity and the preferred one has no row yet: it is created
-  # here, on that same contact, rather than deferring to the identifier sync that runs later.
-  # Without this the first payload carrying the new identity would still resolve to the old
-  # row, and only the one after it would move, which splits the thread a message too late.
+  # Opt in, because most callers want the opposite: reuse whichever alias already exists. A
+  # caller that asks for this is saying the first identifier is the identity a payload should
+  # land on, so finding a different row means the contact reached this inbox under an older
+  # identity and the preferred one has no row yet. It is created here, on that same contact,
+  # rather than deferring to the identifier sync that runs later: without it the first payload
+  # carrying the new identity would resolve to the old row and only the next one would move.
   def adopt_preferred_source_id(existing)
     inbox.contact_inboxes.create!(contact: existing.contact, source_id: preferred_source_id)
   rescue ActiveRecord::RecordNotUnique

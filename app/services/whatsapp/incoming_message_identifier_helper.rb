@@ -34,7 +34,8 @@ module Whatsapp::IncomingMessageIdentifierHelper
     ContactInboxSourceIdResolver.new(
       inbox: inbox,
       source_ids: source_ids,
-      contact_attributes: contact_attributes
+      contact_attributes: contact_attributes,
+      prefer_first_source_id: true
     ).perform
   end
 
