@@ -26,21 +26,25 @@ const { contentElement, showReadMore, showReadLess, toggleExpanded } =
   useExpandableContent();
 
 const messageContent = computed(() => {
-  // We perform search on either content or email subject or transcribed text
+  // We perform search on either content, email subject, or transcribed text
+  // (voice-note attachments or a voice-call recording)
   if (props.message.content) {
     return props.message.content;
   }
 
-  const { content_attributes = {} } = props.message;
-  const { email = {} } = content_attributes || {};
+  const { email = {} } = props.message.contentAttributes || {};
   if (email.subject) {
     return email.subject;
   }
 
   const audioAttachment = props.message.attachments?.find(
-    attachment => attachment.file_type === 'audio'
+    attachment => attachment.fileType === 'audio'
   );
-  return audioAttachment?.transcribed_text || '';
+  if (audioAttachment?.transcribedText) {
+    return audioAttachment.transcribedText;
+  }
+
+  return props.message.call?.transcript || '';
 });
 
 const escapeHtml = html => {
