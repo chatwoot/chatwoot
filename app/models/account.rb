@@ -61,6 +61,8 @@ class Account < ApplicationRecord
   store_accessor :settings, :captain_auto_resolve_mode, :captain_false_promise_harness_enabled
   include AccountCaptainAutoResolve
 
+  has_many :account_packages, dependent: :destroy_async
+  has_many :packages, through: :account_packages
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
   has_many :agent_bots, dependent: :destroy_async
@@ -238,5 +240,8 @@ end
 
 Account.prepend_mod_with('Account')
 Account.prepend_mod_with('Account::PlanUsageAndLimits')
+# Prepended last so package logic (usage_limits/active?) wins over the
+# enterprise PlanUsageAndLimits module. See Enterprise::Account::PackageLimits.
+Account.prepend_mod_with('Account::PackageLimits')
 Account.include_mod_with('Concerns::Account')
 Account.include_mod_with('Audit::Account')

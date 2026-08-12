@@ -8,6 +8,7 @@ module Enterprise::Concerns::Contact
                  if: :should_associate_company?
     before_save :sync_company_name_from_company, if: :will_save_change_to_company_id?
     after_update_commit :record_company_activity, if: :saved_change_to_last_activity_at?
+    before_create :ensure_contact_limit
   end
 
   private
@@ -46,6 +47,17 @@ module Enterprise::Concerns::Contact
       additional_attributes['company_name'] = company&.name
     else
       additional_attributes.delete('company_name')
+    end
+  end
+
+  def ensure_contact_limit
+    return unless account.present?
+
+    limit = account.usage_limits[:contacts]
+    return if limit.blank?
+
+    account.with_lock do
+      raise CustomExceptions::Contact::LimitExceeded.new({}) if account.contacts.count >= limit
     end
   end
 end

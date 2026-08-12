@@ -55,6 +55,14 @@ delete_accounts_job:
   class: 'Internal::DeleteAccountsJob'
   queue: scheduled_jobs
 
+# executed daily at 0317 UTC
+# to persist the suspended status for accounts whose package assignment has
+# expired / been removed / is inactive (runtime gating is immediate via Account#active?)
+deactivate_expired_packages_job:
+  cron: '17 3 * * *'
+  class: 'Internal::DeactivateExpiredPackagesJob'
+  queue: scheduled_jobs
+
 # executed every 30 minutes for assignment_v2
 periodic_assignment_job:
   cron: '*/30 * * * *'

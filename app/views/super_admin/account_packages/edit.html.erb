@@ -1,0 +1,28 @@
+<%#
+# Edit
+
+Change the package assigned to an account or its active period.
+
+## Local variables:
+
+- `account`: The Account the package is assigned to
+- `account_package`: The AccountPackage being edited
+- `packages`: Active Package records to choose from
+%>
+
+<% content_for(:title) do %>
+  Edit Package - <%= @account.name %>
+<% end %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title">
+    Edit Package
+  </h1>
+  <div>
+    <%= link_to('Back to Accounts', super_admin_accounts_path, class: 'button') %>
+  </div>
+</header>
+
+<section class="main-content__body">
+  <%= render 'form', account: @account, account_package: @account_package, packages: @packages %>
+</section>

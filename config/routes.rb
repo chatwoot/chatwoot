@@ -725,6 +725,7 @@ Rails.application.routes.draw do
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resources :platform_banners
+      resources :packages
       resource :instance_status, only: [:show]
 
       resource :settings, only: [:show] do
@@ -733,6 +734,7 @@ Rails.application.routes.draw do
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :show, :destroy]
+      resources :account_packages, only: [:new, :create, :edit, :update, :destroy]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'

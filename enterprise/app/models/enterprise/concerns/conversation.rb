@@ -13,10 +13,25 @@ module Enterprise::Concerns::Conversation
 
     before_validation :validate_sla_policy, if: -> { sla_policy_id_changed? }
     around_save :ensure_applied_sla_is_created, if: -> { sla_policy_id_changed? }
+    before_create :ensure_conversation_limit
   end
 
   def sla_applicable?
     !contact&.blocked?
+  end
+
+  def ensure_conversation_limit
+    return unless account.present?
+
+    limit = account.usage_limits[:conversations]
+    return if limit.blank?
+    window = account.package_usage_window
+    return unless window
+
+    account.with_lock do
+      count = account.conversations.where(created_at: window[0]...window[1]).count
+      raise CustomExceptions::Conversation::LimitExceeded.new({}) if count >= limit
+    end
   end
 
   private

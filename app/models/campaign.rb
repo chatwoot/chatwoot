@@ -79,6 +79,8 @@ class Campaign < ApplicationRecord
   end
 
   def execute_campaign
+    enforce_campaign_message_budget!
+
     case inbox.inbox_type
     when 'Twilio SMS'
       Twilio::OneoffSmsCampaignService.new(campaign: self).perform
@@ -87,6 +89,22 @@ class Campaign < ApplicationRecord
     when 'Whatsapp'
       Whatsapp::OneoffCampaignService.new(campaign: self).perform
     end
+  end
+
+  # One-off campaigns (SMS/Twilio/WhatsApp) are dispatched through external
+  # provider APIs, so their resulting messages do not carry `campaign_id` and
+  # are not metered by the Message before_create check. Guard the blast at the
+  # source so a one-off campaign cannot fire once the monthly budget is spent.
+  def enforce_campaign_message_budget!
+    limit = account.usage_limits[:campaign_messages]
+    return if limit.blank?
+    window = account.package_usage_window
+    return unless window
+
+    consumed = account.messages
+                      .where("additional_attributes->>'campaign_id' IS NOT NULL")
+                      .where(created_at: window[0]...window[1]).count
+    raise CustomExceptions::Message::CampaignLimitExceeded.new({}) if consumed >= limit
   end
 
   def invalidate_filtered_unread_count_filters

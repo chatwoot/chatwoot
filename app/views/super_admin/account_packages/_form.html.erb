@@ -1,0 +1,130 @@
+<%#
+# Account Package Form Partial
+
+Renders the "assign / edit package" flow for an account: lists the available
+active packages (with their limits) for the Super Admin to pick, plus the
+start/end period. Account activation/deactivation is handled by the
+AccountPackage callbacks.
+
+## Local variables:
+
+- `account`: The Account the package is being assigned to
+- `account_package`: The AccountPackage being created/edited
+- `packages`: Active Package records to choose from
+%>
+
+<div class="space-y-6">
+  <% if account_package.persisted? %>
+    <div class="mb-4 border border-slate-100 rounded-md p-4 bg-slate-25">
+      <h2 class="text-sm font-medium text-slate-700 mb-2">Current Assignment</h2>
+      <p class="text-sm text-slate-700">
+        <strong><%= account_package.package.name %></strong>
+        &nbsp;&middot;&nbsp;
+        <%= account_package.starts_at.strftime('%b %d, %Y %H:%M') %>
+        &rarr;
+        <%= account_package.ends_at.strftime('%b %d, %Y %H:%M') %>
+      </p>
+      <div class="mt-3">
+        <%= link_to(
+          'Remove Package',
+          [namespace, account_package],
+          class: 'button',
+          method: :delete,
+          data: { confirm: 'Remove this package? The account will be deactivated.' }
+        ) %>
+      </div>
+    </div>
+  <% end %>
+
+  <%= form_for([namespace, account_package], html: { class: 'form' }) do |f| %>
+    <%= f.hidden_field(:account_id) %>
+
+    <% if account_package.errors.any? %>
+      <div id="error_explanation">
+        <h2>
+          <%= pluralize(account_package.errors.count, 'error') %> prohibited this assignment from being saved:
+        </h2>
+        <ul>
+          <% account_package.errors.full_messages.each do |message| %>
+            <li class="flash-error"><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <fieldset class="mb-6">
+      <legend class="text-sm font-medium text-slate-700 mb-2">Select Package</legend>
+
+      <% if packages.any? %>
+        <div class="grid grid-cols-1 gap-3">
+          <% packages.each do |package| %>
+            <label class="block cursor-pointer rounded-md border p-4 <%= account_package.package_id == package.id ? 'border-woot-500 bg-woot-25' : 'border-slate-100' %>">
+              <div class="flex items-start">
+                <%= radio_button_tag('account_package[package_id]', package.id, account_package.package_id == package.id, class: 'mt-1') %>
+                <div class="ml-3">
+                  <span class="font-medium text-slate-800"><%= package.name %></span>
+                  <% if package.description.present? %>
+                    <p class="text-sm text-slate-600 mt-1"><%= package.description %></p>
+                  <% end %>
+                  <dl class="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-slate-700">
+                    <div class="flex justify-between">
+                      <dt class="text-slate-500">Users</dt>
+                      <dd class="font-medium"><%= package.users_limit || 'Unlimited' %></dd>
+                    </div>
+                    <div class="flex justify-between">
+                      <dt class="text-slate-500">Channels</dt>
+                      <dd class="font-medium"><%= package.channels_limit || 'Unlimited' %></dd>
+                    </div>
+                    <div class="flex justify-between">
+                      <dt class="text-slate-500">Contacts</dt>
+                      <dd class="font-medium"><%= package.contacts_limit || 'Unlimited' %></dd>
+                    </div>
+                    <div class="flex justify-between">
+                      <dt class="text-slate-500">Active chats / month</dt>
+                      <dd class="font-medium"><%= package.conversations_limit || 'Unlimited' %></dd>
+                    </div>
+                    <div class="flex justify-between">
+                      <dt class="text-slate-500">Campaign msgs / month</dt>
+                      <dd class="font-medium"><%= package.campaign_messages_limit || 'Unlimited' %></dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+            </label>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-slate-600">
+          No active packages available.
+          <%= link_to('Create one first', new_super_admin_package_path, class: 'text-woot-500') %>.
+        </p>
+      <% end %>
+    </fieldset>
+
+    <fieldset class="mb-6">
+      <legend class="text-sm font-medium text-slate-700 mb-2">Active Period</legend>
+
+      <div class="field-unit field-unit--datetime field-unit--required">
+        <div class="field-unit__label">
+          <%= f.label :starts_at, 'Start date' %>
+        </div>
+        <div class="field-unit__field">
+          <%= f.datetime_local_field :starts_at %>
+        </div>
+      </div>
+
+      <div class="field-unit field-unit--datetime field-unit--required">
+        <div class="field-unit__label">
+          <%= f.label :ends_at, 'End date' %>
+        </div>
+        <div class="field-unit__field">
+          <%= f.datetime_local_field :ends_at %>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <%= f.submit(account_package.persisted? ? 'Update Package' : 'Assign Package') %>
+    </div>
+  <% end %>
+</div>
