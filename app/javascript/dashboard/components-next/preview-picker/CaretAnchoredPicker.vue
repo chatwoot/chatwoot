@@ -29,6 +29,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['select', 'close', 'removeTrigger']);
@@ -184,6 +188,7 @@ watch(items, () => {
       :items="items"
       :search-placeholder="searchPlaceholder"
       :empty-label="emptyLabel"
+      :is-loading="isLoading"
       :preview-layout="previewLayout"
       data-popover-content
       class="fixed z-[9999]"
