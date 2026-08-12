@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     onClick() {
-      if (this.action.type === 'postback') {
+      if (['reply', 'postback'].includes(this.action.type)) {
         // Send message to parent iframe
         if (IFrameHelper.isIFrame()) {
           IFrameHelper.sendMessage({
