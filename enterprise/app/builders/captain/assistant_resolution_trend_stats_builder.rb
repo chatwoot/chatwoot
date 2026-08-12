@@ -1,10 +1,10 @@
-# Builds a weekly time series for Captain involvement and autonomous resolution.
+# Builds a time series for Captain involvement and autonomous resolution.
 # All buckets are computed in one outcome-table scan and follow the viewer's
 # calendar timezone while remaining clipped to the selected reporting window.
 class Captain::AssistantResolutionTrendStatsBuilder
   include Captain::AssistantOutcomeClassification
 
-  GRANULARITY = :week
+  DAILY_GRANULARITY_THRESHOLD = 15.days
   WEEK_START = :sunday
 
   attr_reader :assistant, :account
@@ -16,11 +16,11 @@ class Captain::AssistantResolutionTrendStatsBuilder
   end
 
   def metrics
-    buckets = weekly_buckets
+    buckets = time_buckets
     counts = bucket_counts(buckets)
 
     {
-      granularity: GRANULARITY,
+      granularity: granularity,
       buckets: buckets.each_with_index.map { |bucket, index| serialize_bucket(bucket, counts[index]) }
     }
   end
@@ -29,24 +29,34 @@ class Captain::AssistantResolutionTrendStatsBuilder
 
   attr_reader :window
 
-  def weekly_buckets
+  def time_buckets
     buckets = []
     starts_at = window.current.first
 
     while starts_at <= window.current.last
-      next_week_starts_at = starts_at.beginning_of_week(WEEK_START) + 1.week
-      final_bucket = next_week_starts_at > window.current.last
+      next_starts_at = next_bucket_starts_at(starts_at)
+      final_bucket = next_starts_at > window.current.last
 
       buckets << {
         starts_at: starts_at,
-        ends_at: final_bucket ? window.current.last : next_week_starts_at,
-        ends_on: final_bucket ? window.current.last.to_date : next_week_starts_at.to_date - 1.day,
+        ends_at: final_bucket ? window.current.last : next_starts_at,
+        ends_on: final_bucket ? window.current.last.to_date : next_starts_at.to_date - 1.day,
         final: final_bucket
       }
-      starts_at = next_week_starts_at
+      starts_at = next_starts_at
     end
 
     buckets
+  end
+
+  def granularity
+    window.current.last - window.current.first <= DAILY_GRANULARITY_THRESHOLD ? :day : :week
+  end
+
+  def next_bucket_starts_at(starts_at)
+    return starts_at.beginning_of_day + 1.day if granularity == :day
+
+    starts_at.beginning_of_week(WEEK_START) + 1.week
   end
 
   def bucket_counts(buckets)
