@@ -18,6 +18,60 @@ RSpec.describe Enterprise::Whatsapp::IncomingMessageBaseService do
         inbox: channel.inbox,
         params: { 'statuses' => [status] }.with_indifferent_access
       ).perform
-    end.to have_enqueued_job(Campaigns::UpdateRecipientStatusJob).with(status).on_queue('low')
+    end.to have_enqueued_job(Campaigns::UpdateRecipientStatusJob).with(channel.inbox.id, status).on_queue('low')
+  end
+
+  it 'does not update a recipient from another inbox' do
+    other_account = create(:account)
+    other_channel = create(:channel_whatsapp, account: other_account, sync_templates: false, validate_provider_config: false)
+    other_campaign = create(:campaign, account: other_account, inbox: other_channel.inbox, campaign_type: :one_off)
+    other_recipient = CampaignRecipient.create!(
+      account: other_account,
+      campaign: other_campaign,
+      contact: create(:contact, account: other_account),
+      inbox: other_channel.inbox,
+      status: :sent,
+      source_id: status['id']
+    )
+
+    Whatsapp::IncomingMessageService.new(
+      inbox: channel.inbox,
+      params: { 'statuses' => [status] }.with_indifferent_access
+    ).perform
+
+    expect(other_recipient.reload).to be_sent
+  end
+
+  it 'updates every campaign recipient in a batched status webhook' do
+    campaign = create(:campaign, account: channel.account, inbox: channel.inbox, campaign_type: :one_off)
+    first_recipient = CampaignRecipient.create!(
+      account: channel.account,
+      campaign: campaign,
+      contact: create(:contact, account: channel.account),
+      inbox: channel.inbox,
+      status: :sent,
+      source_id: 'wamid.first'
+    )
+    second_recipient = CampaignRecipient.create!(
+      account: channel.account,
+      campaign: campaign,
+      contact: create(:contact, account: channel.account),
+      inbox: channel.inbox,
+      status: :sent,
+      source_id: 'wamid.second'
+    )
+
+    Whatsapp::IncomingMessageService.new(
+      inbox: channel.inbox,
+      params: {
+        'statuses' => [
+          { 'id' => first_recipient.source_id, 'status' => 'delivered', 'timestamp' => '1700000600' },
+          { 'id' => second_recipient.source_id, 'status' => 'read', 'timestamp' => '1700000700' }
+        ]
+      }.with_indifferent_access
+    ).perform
+
+    expect(first_recipient.reload).to be_delivered
+    expect(second_recipient.reload).to be_read
   end
 end
