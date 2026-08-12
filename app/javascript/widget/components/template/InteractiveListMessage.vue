@@ -1,32 +1,38 @@
-<script>
-export default {
-  props: {
-    message: {
-      type: String,
-      default: '',
-    },
-    messageContentAttributes: {
-      type: Object,
-      default: () => ({}),
-    },
+<script setup>
+import { computed } from 'vue';
+import { IFrameHelper } from 'widget/helpers/utils';
+
+const props = defineProps({
+  message: {
+    type: String,
+    default: '',
   },
-  computed: {
-    headerText() {
-      return this.messageContentAttributes.header?.text || '';
-    },
-    bodyText() {
-      return this.messageContentAttributes.body_text || this.message;
-    },
-    footerText() {
-      return this.messageContentAttributes.footer_text || '';
-    },
-    buttonText() {
-      return this.messageContentAttributes.action?.button_text || '';
-    },
-    sections() {
-      return this.messageContentAttributes.sections || [];
-    },
+  messageContentAttributes: {
+    type: Object,
+    default: () => ({}),
   },
+});
+
+const headerText = computed(
+  () => props.messageContentAttributes.header?.text || ''
+);
+const bodyText = computed(
+  () => props.messageContentAttributes.body_text || props.message
+);
+const footerText = computed(
+  () => props.messageContentAttributes.footer_text || ''
+);
+const buttonText = computed(
+  () => props.messageContentAttributes.action?.button_text || ''
+);
+const sections = computed(() => props.messageContentAttributes.sections || []);
+const onRowClick = row => {
+  if (!IFrameHelper.isIFrame()) return;
+
+  IFrameHelper.sendMessage({
+    event: 'postback',
+    data: { payload: row.id },
+  });
 };
 </script>
 
@@ -66,14 +72,16 @@ export default {
           {{ section.title }}
         </p>
         <div class="rounded-lg border border-n-strong overflow-hidden">
-          <div
+          <button
             v-for="(row, rowIndex) in section.rows || []"
             :key="`${row.id || row.title}-${rowIndex}`"
-            class="px-4 py-3"
+            type="button"
+            class="w-full text-left px-4 py-3"
             :class="{
               'border-b border-n-strong':
                 rowIndex !== (section.rows || []).length - 1,
             }"
+            @click="onRowClick(row)"
           >
             <p class="font-medium text-n-slate-12">
               {{ row.title }}
@@ -81,7 +89,7 @@ export default {
             <p v-if="row.description" class="mt-1 text-sm text-n-slate-11">
               {{ row.description }}
             </p>
-          </div>
+          </button>
         </div>
       </div>
     </div>
