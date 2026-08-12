@@ -46,18 +46,22 @@ class Voice::InboundCallBuilder
   end
 
   # Resolve the contact/ContactInbox the same way inbound messages do — match across every
-  # candidate source_id (phone + BSUID aliases) so a call reuses the existing thread, creating
-  # one keyed on the first (phone, else BSUID) only when none exists. Shared with messaging via
-  # ContactInboxSourceIdResolver, which also rescues the concurrent-webhook create race.
+  # candidate source_id (phone + BSUID aliases) so a call reuses the existing contact. Shared
+  # with messaging via ContactInboxSourceIdResolver, which also rescues the concurrent-webhook
+  # create race.
+  #
+  # WhatsApp asks for the preferred alias so a call lands on the exact BSUID ContactInbox, the
+  # same one a message resolves; without it a legacy caller would keep answering through the
+  # phone row while messages moved on. Twilio has a single phone identity and opts out.
   def ensure_contact_inbox!
     ContactInboxSourceIdResolver.new(
-      inbox: inbox, source_ids: source_ids, contact_attributes: contact_attributes
+      inbox: inbox, source_ids: source_ids, contact_attributes: contact_attributes,
+      prefer_first_source_id: whatsapp_provider?
     ).perform
   end
 
   def resolve_conversation!(contact, contact_inbox)
-    reusable = reusable_conversation(contact, contact_inbox)
-    repoint_whatsapp_conversation!(reusable, contact_inbox) if reusable
+    reusable = reusable_conversation(contact_inbox)
     return reusable if reusable
 
     account.conversations.create!(
@@ -68,19 +72,15 @@ class Voice::InboundCallBuilder
     )
   end
 
-  def reusable_conversation(contact, contact_inbox)
-    conversations = whatsapp_provider? ? contact.conversations.where(inbox_id: inbox.id) : contact_inbox.conversations
+  # Scoped to the resolved ContactInbox, never to the contact. A dashboard merge leaves unrelated
+  # WhatsApp identities on the same contact, and a contact-wide lookup cannot tell them apart: it
+  # would answer a call through another identity's source_id. The conversation opened under a
+  # previous identity stays where it is, reachable under previous conversations.
+  def reusable_conversation(contact_inbox)
+    conversations = contact_inbox.conversations
     return conversations.last if inbox.lock_to_single_conversation
 
     conversations.where.not(status: :resolved).last
-  end
-
-  def repoint_whatsapp_conversation!(conversation, contact_inbox)
-    return unless whatsapp_provider?
-    return unless contact_inbox.source_id.to_s.match?(RegexHelper::WHATSAPP_BSUID_REGEX)
-    return if conversation.contact_inbox_id == contact_inbox.id
-
-    conversation.update!(contact_inbox_id: contact_inbox.id)
   end
 
   def whatsapp_provider?

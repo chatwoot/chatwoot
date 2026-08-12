@@ -18,8 +18,14 @@ class ContactInboxSourceIdResolver
   # identity and the preferred one has no row yet. It is created here, on that same contact,
   # rather than deferring to the identifier sync that runs later: without it the first payload
   # carrying the new identity would resolve to the old row and only the next one would move.
+  #
+  # The insert runs in a savepoint because inbound calls resolve identity inside an outer
+  # transaction: on PostgreSQL a unique violation aborts the enclosing transaction, so without
+  # one the rescue below would raise on its own lookup instead of recovering.
   def adopt_preferred_source_id(existing)
-    inbox.contact_inboxes.create!(contact: existing.contact, source_id: preferred_source_id)
+    ActiveRecord::Base.transaction(requires_new: true) do
+      inbox.contact_inboxes.create!(contact: existing.contact, source_id: preferred_source_id)
+    end
   rescue ActiveRecord::RecordNotUnique
     inbox.contact_inboxes.find_by(source_id: preferred_source_id) || existing
   end
