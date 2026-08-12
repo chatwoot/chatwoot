@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Змінні",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Мова",
       "CATEGORY": "Категорія",
       "VARIABLE_PLACEHOLDER": "Введіть значення {variable}",
