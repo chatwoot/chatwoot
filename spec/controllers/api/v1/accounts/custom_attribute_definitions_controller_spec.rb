@@ -107,6 +107,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['attribute_key']).to eq 'developer_id'
+        expect(json_response['position']).not_to be_nil
       end
 
       context 'when it is an agent' do
@@ -170,6 +171,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
         expect(custom_attribute_definition.reload.attribute_display_name).to eq('Developer ID')
         expect(custom_attribute_definition.reload.attribute_key).to eq('developer_id')
         expect(custom_attribute_definition.reload.attribute_model).to eq('conversation_attribute')
+        expect(response.parsed_body['position']).to eq(custom_attribute_definition.position)
       end
     end
 
