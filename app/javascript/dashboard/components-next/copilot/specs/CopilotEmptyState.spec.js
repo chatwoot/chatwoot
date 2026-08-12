@@ -10,9 +10,9 @@ vi.mock('vue-router', () => ({
   useRoute: () => ({ path: '/app/accounts/1/conversations/1' }),
 }));
 
-const mountComponent = () =>
+const mountComponent = (props = {}) =>
   shallowMount(CopilotEmptyState, {
-    props: { hasAssistants: true },
+    props: { hasAssistants: true, ...props },
     global: {
       mocks: { $t: key => key },
       stubs: { RouterLink: true },
@@ -40,6 +40,15 @@ describe('CopilotEmptyState', () => {
 
     expect(wrapper.emitted('useSuggestion')[0][0]).toBe(
       'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.CONTENT'
+    );
+  });
+
+  it('hides the reply suggestion when the latest message is not incoming', () => {
+    const wrapper = mountComponent({ canSuggestReply: false });
+
+    expect(wrapper.findAll('button')).toHaveLength(2);
+    expect(wrapper.text()).not.toContain(
+      'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL'
     );
   });
 });

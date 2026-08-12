@@ -4,10 +4,14 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import Icon from '../icon/Icon.vue';
 
-defineProps({
+const props = defineProps({
   hasAssistants: {
     type: Boolean,
     default: false,
+  },
+  canSuggestReply: {
+    type: Boolean,
+    default: true,
   },
 });
 
@@ -52,7 +56,11 @@ const getCurrentRoute = () => {
 
 const promptOptions = computed(() => {
   const currentRoute = getCurrentRoute();
-  return routePromptMap[currentRoute] || routePromptMap.conversations;
+  const prompts = routePromptMap[currentRoute] || routePromptMap.conversations;
+
+  return prompts.filter(
+    prompt => prompt.requestType !== 'reply_suggestion' || props.canSuggestReply
+  );
 });
 
 const handleSuggestion = opt => {

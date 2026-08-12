@@ -63,5 +63,19 @@ RSpec.describe Captain::Copilot::ResponseJob, type: :job do
 
       expect(reply_suggestion_service).to have_received(:generate_response)
     end
+
+    it 'keeps typed reply requests on the normal Copilot path' do
+      expect(Captain::Copilot::ReplySuggestionService).not_to receive(:new)
+
+      described_class.perform_now(
+        assistant: assistant,
+        conversation_id: conversation_id,
+        user_id: user.id,
+        copilot_thread_id: copilot_thread.id,
+        message: 'suggest a reply'
+      )
+
+      expect(chat_service).to have_received(:generate_response).with(nil)
+    end
   end
 end

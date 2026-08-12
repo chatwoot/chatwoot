@@ -49,6 +49,35 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     )
   end
 
+  it 'passes the complete ordered conversation to the Assistant Agent Runner' do
+    create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :outgoing,
+                     content: 'Please try restarting the app.')
+    create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming,
+                     content: 'It still does not work.')
+
+    service.generate_response
+
+    expect(runner).to have_received(:generate_response).with(
+      message_history: [
+        { role: 'user', content: 'Who is your mascot?' },
+        { role: 'assistant', content: 'Please try restarting the app.' },
+        { role: 'user', content: 'It still does not work.' }
+      ]
+    )
+  end
+
+  it 'does not replay an older customer message after an outgoing reply' do
+    create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :outgoing,
+                     content: 'Chatwoot uses Bob the Builder as its mascot.')
+
+    expect { service.generate_response }.to raise_error(
+      Captain::Copilot::ReplySuggestionService::GenerationError,
+      Captain::Copilot::ReplySuggestionService::NO_INCOMING_MESSAGE_ERROR
+    )
+    expect(Captain::Assistant::AgentRunnerService).not_to have_received(:new)
+    expect(runner).not_to have_received(:generate_response)
+  end
+
   it 'persists a reply suggestion with trusted citations' do
     expect do
       service.generate_response

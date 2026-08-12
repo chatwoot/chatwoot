@@ -3,6 +3,8 @@ class Captain::Copilot::ReplySuggestionService
 
   class GenerationError < StandardError; end
 
+  NO_INCOMING_MESSAGE_ERROR = 'A reply can only be suggested when the latest conversation message is from the customer'.freeze
+
   def initialize(assistant:, conversation_id:, user_id:, copilot_thread_id:)
     @assistant = assistant
     @account = assistant.account
@@ -19,6 +21,9 @@ class Captain::Copilot::ReplySuggestionService
     conversation = accessible_conversation(account: @account, user: @user, display_id: @conversation_id)
     raise ActiveRecord::RecordNotFound, 'Conversation not found' if conversation.blank?
 
+    message_history = conversation_history(conversation)
+    raise GenerationError, NO_INCOMING_MESSAGE_ERROR unless message_history.last&.dig(:role).to_s == 'user'
+
     runner = Captain::Assistant::AgentRunnerService.new(
       assistant: @assistant,
       conversation: conversation,
@@ -26,7 +31,7 @@ class Captain::Copilot::ReplySuggestionService
       read_only: true,
       trace_feature: :copilot
     )
-    response = runner.generate_response(message_history: conversation_history(conversation))
+    response = runner.generate_response(message_history: message_history)
     raise GenerationError, response['reasoning'] if response['error']
 
     persist_response(response, runner)

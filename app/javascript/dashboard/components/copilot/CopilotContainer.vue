@@ -10,6 +10,7 @@ import { useWindowSize } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import wootConstants from 'dashboard/constants/globals';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 
 defineProps({
   conversationInboxType: {
@@ -28,6 +29,11 @@ const assistants = useMapGetter('captainAssistants/getRecords');
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const inboxAssistant = useMapGetter('getCopilotAssistant');
 const currentChat = useMapGetter('getSelectedChat');
+const lastPublicMessage = useMapGetter('getLastEmailInSelectedChat');
+
+const canSuggestReply = computed(
+  () => lastPublicMessage.value?.message_type === MESSAGE_TYPE.INCOMING
+);
 
 const isSmallScreen = computed(
   () => windowWidth.value < wootConstants.SMALL_SCREEN_BREAKPOINT
@@ -152,6 +158,7 @@ onMounted(() => {
       :conversation-inbox-type="conversationInboxType"
       :assistants="assistants"
       :active-assistant="activeAssistant"
+      :can-suggest-reply="canSuggestReply"
       @set-assistant="setAssistant"
       @send-message="sendMessage"
       @reset="handleReset"
