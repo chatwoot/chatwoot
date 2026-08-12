@@ -65,9 +65,10 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     value = change[:value]&.with_indifferent_access
     return if value.blank?
 
-    channel = find_channel(value.dig(:recipient, :id))
-    if channel.blank?
-      Rails.logger.info("[IG Webhook] skip postback: no channel for recipient #{value.dig(:recipient, :id)}")
+    recipient_id = value.dig(:recipient, :id)
+    channels = matching_channels(recipient_id)
+    if channels.empty?
+      Rails.logger.info("[IG Webhook] skip postback: no channel for recipient #{recipient_id}")
       return
     end
 
@@ -82,7 +83,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
       postback: value[:postback]
     }.with_indifferent_access
 
-    postback(messaging, channel)
+    channels.each { |channel| postback(messaging, channel) }
   end
 
   def process_messages(entry)
@@ -90,12 +91,18 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
       Rails.logger.info("Instagram Events Job Messaging: #{messaging}")
 
       instagram_id = instagram_id(messaging)
-      channel = find_channel(instagram_id)
+      event_name = event_name(messaging)
+      next unless event_name
 
-      next if channel.blank?
-
-      if (event_name = event_name(messaging))
-        send(event_name, messaging, channel)
+      # The same Instagram account can be connected via Facebook Page to more
+      # than one Chatwoot account, so fan out postback clicks to every
+      # matching channel/inbox rather than an arbitrary single one, mirroring
+      # FacebookPostbackJob. Other event types keep the single-channel lookup.
+      if event_name == :postback
+        matching_channels(instagram_id).each { |channel| postback(messaging, channel) }
+      else
+        channel = find_channel(instagram_id)
+        send(event_name, messaging, channel) if channel.present?
       end
     end
   end
@@ -168,6 +175,17 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     channel ||= Channel::FacebookPage.find_by(instagram_id: instagram_id)
 
     channel
+  end
+
+  # Unlike Channel::Instagram (unique per Instagram business login connection),
+  # the same Facebook Page can be connected to more than one Chatwoot account,
+  # so callers that must reach every affected inbox (e.g. postback fan-out)
+  # need every matching channel, not just the first one found.
+  def matching_channels(instagram_id)
+    return [] if instagram_id.blank?
+
+    Channel::Instagram.where(instagram_id: instagram_id).to_a +
+      Channel::FacebookPage.where(instagram_id: instagram_id).to_a
   end
 
   def event_name(messaging)

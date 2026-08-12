@@ -458,5 +458,38 @@ describe Webhooks::InstagramEventsJob do
         expect(job.send(:contact_instagram_id)).to eq 'sender_1'
       end
     end
+
+    context 'when the same Instagram-via-Facebook-Page account is connected to multiple Chatwoot accounts' do
+      let!(:account2) { create(:account) }
+      let!(:instagram_messenger_channel2) { create(:channel_instagram_fb_page, account: account2, instagram_id: 'chatwoot-app-user-id-1') }
+      let!(:instagram_messenger_inbox2) { create(:inbox, channel: instagram_messenger_channel2, account: account2, greeting_enabled: false) }
+
+      def messaging_postback_entry
+        [{
+          'id' => 'chatwoot-app-user-id-1',
+          'time' => 1_700_000_000,
+          'messaging' => [{
+            sender: { id: 'sender_1' },
+            recipient: { id: 'chatwoot-app-user-id-1' },
+            timestamp: 1_700_000_000,
+            postback: { title: 'Option A', payload: 'btn_1', mid: 'mid.original_send' }
+          }]
+        }]
+      end
+
+      it 'fans out the postback to every inbox connected via the shared Facebook Page' do
+        instagram_messenger_channel1 = create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1')
+        instagram_messenger_inbox1 = create(:inbox, channel: instagram_messenger_channel1, account: account, greeting_enabled: false)
+        contact1 = create(:contact, account: account)
+        create(:contact_inbox, contact: contact1, inbox: instagram_messenger_inbox1, source_id: 'sender_1')
+        contact2 = create(:contact, account: account2)
+        create(:contact_inbox, contact: contact2, inbox: instagram_messenger_inbox2, source_id: 'sender_1')
+
+        instagram_webhook.perform_now(messaging_postback_entry)
+
+        expect(instagram_messenger_inbox1.messages.incoming.count).to eq 1
+        expect(instagram_messenger_inbox2.messages.incoming.count).to eq 1
+      end
+    end
   end
 end
