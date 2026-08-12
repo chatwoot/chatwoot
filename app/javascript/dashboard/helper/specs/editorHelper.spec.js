@@ -559,6 +559,40 @@ describe('insertAtCursor', () => {
     // Check if content was replaced correctly
     expect(editorView.state.doc.firstChild.firstChild.text).toBe('Hello Me');
   });
+
+  it('should not strand empty paragraphs when inserting multi-block content into an empty editor', () => {
+    const editorState = createEditorState();
+    const editorView = new EditorView(document.body, { state: editorState });
+
+    const multiParagraph = schema.node('doc', null, [
+      schema.node('paragraph', null, [schema.text('line one')]),
+      schema.node('paragraph', null, [schema.text('line two')]),
+    ]);
+
+    // Cursor sits inside the empty starter paragraph (pos 1).
+    insertAtCursor(editorView, multiParagraph, 1);
+
+    const { doc } = editorView.state;
+    expect(doc.childCount).toBe(2);
+    expect(doc.firstChild.textContent).toBe('line one');
+    expect(doc.lastChild.textContent).toBe('line two');
+  });
+
+  it('should keep existing content when inserting multi-block content into a non-empty editor', () => {
+    const editorState = createEditorState('Existing');
+    const editorView = new EditorView(document.body, { state: editorState });
+
+    const multiParagraph = schema.node('doc', null, [
+      schema.node('paragraph', null, [schema.text('line one')]),
+      schema.node('paragraph', null, [schema.text('line two')]),
+    ]);
+
+    insertAtCursor(editorView, multiParagraph, 0);
+
+    expect(editorView.state.doc.textContent).toContain('Existing');
+    expect(editorView.state.doc.textContent).toContain('line one');
+    expect(editorView.state.doc.textContent).toContain('line two');
+  });
 });
 
 describe('findNodeToInsertImage', () => {

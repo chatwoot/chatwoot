@@ -326,9 +326,20 @@ export function insertAtCursor(editorView, node, from, to) {
     node = node.firstChild.content;
   }
 
+  const { doc } = editorView.state;
+  const isDocEmpty =
+    doc.childCount === 1 &&
+    doc.firstChild.type.name === 'paragraph' &&
+    doc.firstChild.content.size === 0;
+
   let tr;
   if (to) {
     tr = editorView.state.tr.replaceWith(from, to, node).insertText(` `);
+  } else if (isDocEmpty && !isWrappedInParagraph) {
+    // Inserting multi-block content into the empty starter paragraph splits
+    // it, stranding empty paragraphs above and below the inserted content.
+    // Replace the whole empty doc instead.
+    tr = editorView.state.tr.replaceWith(0, doc.content.size, node);
   } else {
     tr = editorView.state.tr.insert(from, node);
   }

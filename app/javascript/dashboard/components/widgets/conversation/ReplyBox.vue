@@ -1401,6 +1401,7 @@ export default {
           :update-selection-with="updateEditorSelectionWith"
           :min-height="4"
           :disabled="isEditorDisabled"
+          enable-insert-events
           enable-variables
           :variables="messageVariables"
           :signature="messageSignature"
