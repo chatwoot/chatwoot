@@ -151,6 +151,9 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'bsuid only')
         expect(bsuid_contact_inbox.contact).to eq(contact_inbox.contact)
         expect(whatsapp_channel.inbox.conversations.first.contact_inbox).to eq(contact_inbox)
+        # this provider cannot address an identifier, so the BSUID-only follow-up has to land on the
+        # phone backed thread rather than opening one nobody could reply through
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
       end
 
       it 'backfills contact phone number when a phone arrives after BSUID-only creation' do
