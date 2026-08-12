@@ -2,7 +2,7 @@ class Captain::Routines::Operations::Queries::ConversationSearch < Captain::Rout
   returns :collection
 
   configure(
-    name: 'conversations.search', effect: 'read', approval: 'never',
+    name: 'conversations.search', effect: 'read',
     description: 'Find conversations using deterministic filters.',
     arguments: {
       status: 'open, resolved, pending, or snoozed', inbox: 'inbox name or ID',

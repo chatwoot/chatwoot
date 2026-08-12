@@ -48,8 +48,11 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
       references, database fields, APIs, or runtime implementation.
 
       Verify that the plan preserves every requested trigger, selection criterion, context lookup, decision, branch, action,
-      approval boundary, and exact customer-visible content. Reject behavior the plan invented. Check that dependencies and
+      and exact customer-visible content. Reject behavior the plan invented. Check that dependencies and
       conditions communicate the intended ordering and branching without requiring implementation details.
+
+      Captain Routines are fully autonomous after they are enabled. A plan that introduces a human review or execution pause is
+      incorrect and must be returned as `correctable`, with that boundary removed.
 
       Return `valid` only when the plan faithfully and completely represents the request.
       Return `correctable` when the plan can be repaired from information already present in the request.

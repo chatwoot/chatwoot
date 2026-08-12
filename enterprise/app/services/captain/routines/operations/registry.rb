@@ -31,7 +31,7 @@ class Captain::Routines::Operations::Registry
 
     def capabilities_prompt
       capabilities = OPERATIONS.values.map do |operation|
-        operation.definition.slice(:kind, :effect, :approval, :description, :arguments, :returns).compact
+        operation.definition.slice(:kind, :effect, :description, :arguments, :returns).compact
       end
       JSON.pretty_generate(capabilities)
     end

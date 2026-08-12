@@ -28,7 +28,7 @@ class Captain::Routines::SemanticPlanSchema
         'additionalProperties' => false,
         'properties' => {
           'id' => { 'type' => 'string', 'pattern' => '^[a-z][a-z0-9_]*$' },
-          'type' => { 'enum' => %w[selection context decision branch action approval] },
+          'type' => { 'enum' => %w[selection context decision branch action] },
           'description' => { 'type' => 'string', 'minLength' => 1 },
           'depends_on' => {
             'type' => 'array',
@@ -42,7 +42,6 @@ class Captain::Routines::SemanticPlanSchema
             'items' => { 'type' => 'string', 'minLength' => 1 }
           },
           'condition' => { 'type' => 'string', 'minLength' => 1 },
-          'requires_approval' => { 'type' => 'boolean' },
           'steps' => {
             'type' => 'array',
             'minItems' => 1,
@@ -55,12 +54,8 @@ class Captain::Routines::SemanticPlanSchema
             'then' => { 'required' => ['choices'] }
           },
           {
-            'if' => { 'properties' => { 'type' => { 'enum' => %w[branch approval] } } },
-            'then' => { 'required' => ['steps'] }
-          },
-          {
             'if' => { 'properties' => { 'type' => { 'const' => 'branch' } } },
-            'then' => { 'required' => ['condition'] }
+            'then' => { 'required' => %w[condition steps] }
           }
         ]
       }

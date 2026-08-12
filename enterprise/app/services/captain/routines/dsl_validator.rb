@@ -24,33 +24,33 @@ class Captain::Routines::DslValidator
     validate_steps(@dsl['steps'], {})
   end
 
-  def validate_steps(steps, bindings, within_approval: false)
+  def validate_steps(steps, bindings)
     Array(steps).each_with_object([]) do |step, errors|
       next unless step.is_a?(Hash)
 
-      errors.concat(validate_step_operation(step, bindings, within_approval: within_approval))
+      errors.concat(validate_step_operation(step, bindings))
       errors.concat(validate_step_references(step, bindings))
-      errors.concat(validate_nested_steps(step, bindings, within_approval: within_approval))
+      errors.concat(validate_nested_steps(step, bindings))
       register_step_result(step, bindings)
     end
   end
 
-  def validate_step_operation(step, bindings, within_approval:)
+  def validate_step_operation(step, bindings)
     if step['from'].is_a?(Hash)
       validate_loop_source(step['from'], bindings)
     elsif step['operation'].present?
-      validate_standalone_operation(step, within_approval: within_approval)
+      validate_standalone_operation(step)
     else
       []
     end
   end
 
-  def validate_nested_steps(step, bindings, within_approval:)
+  def validate_nested_steps(step, bindings)
     nested_bindings = bindings.dup
     nested_bindings[step['each']] = 'one' if step['each'].present?
 
-    errors = validate_steps(step['do'], nested_bindings, within_approval: within_approval || step.key?('approval'))
-    errors.concat(validate_steps(step['else'], bindings.dup, within_approval: within_approval))
+    errors = validate_steps(step['do'], nested_bindings)
+    errors.concat(validate_steps(step['else'], bindings.dup))
   end
 
   def register_step_result(step, bindings)
@@ -59,14 +59,12 @@ class Captain::Routines::DslValidator
     bindings[step['decide']] = 'one' if step['decide'].present?
   end
 
-  def validate_standalone_operation(step, within_approval:)
+  def validate_standalone_operation(step)
     operation = Captain::Routines::Operations::Registry.fetch(step['operation'])
     return ["Operation '#{step['operation']}' is not available"] unless operation
 
     errors = validate_operation(step['operation'], step['with'], kind: operation.kind)
     errors << "Query operation '#{step['operation']}' requires `save_as`" if operation.kind == 'query' && step['save_as'].blank?
-    requires_approval = operation.approval == 'required' && !within_approval
-    errors << "Operation '#{step['operation']}' must be nested inside an `approval` step" if requires_approval
     errors
   end
 
@@ -93,7 +91,7 @@ class Captain::Routines::DslValidator
   end
 
   def validate_step_references(step, bindings)
-    values = step.values_at('with', 'about', 'when', 'context')
+    values = step.values_at('with', 'about', 'when')
     syntax_errors = values.flat_map { |value| template_reference_errors_in(value) }
     references = values.flat_map { |value| references_in(value) }.uniq
     binding_errors = references.filter_map do |reference|

@@ -111,18 +111,8 @@ class Captain::Routines::DslSchema
           }
         }
       },
-      'approval_step' => {
-        'type' => 'object',
-        'required' => %w[approval context do],
-        'additionalProperties' => false,
-        'properties' => {
-          'approval' => { 'type' => 'string', 'minLength' => 1 },
-          'context' => { 'type' => 'object' },
-          'do' => { 'type' => 'array', 'minItems' => 1, 'items' => { '$ref' => '#/definitions/step' } }
-        }
-      },
       'step' => {
-        'oneOf' => %w[each_step operation_step decide_step when_step approval_step].map do |definition|
+        'oneOf' => %w[each_step operation_step decide_step when_step].map do |definition|
           { '$ref' => "#/definitions/#{definition}" }
         end
       }

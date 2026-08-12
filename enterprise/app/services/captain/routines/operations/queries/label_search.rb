@@ -2,7 +2,7 @@ class Captain::Routines::Operations::Queries::LabelSearch < Captain::Routines::O
   returns :one
 
   configure(
-    name: 'labels.search', effect: 'read', approval: 'never',
+    name: 'labels.search', effect: 'read',
     description: 'Resolve an account label by name or ID.',
     arguments: { query: 'label name or ID' }, required: %w[query]
   )

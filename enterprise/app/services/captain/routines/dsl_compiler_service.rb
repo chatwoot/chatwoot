@@ -56,7 +56,7 @@ class Captain::Routines::DslCompilerService
     errors = Captain::Routines::DslSchema.errors(@routine.dsl)
     evaluation = if errors.empty?
                    Captain::Routines::BuildEvaluation.valid(
-                     'The DSL satisfies the schema, operation contracts, references, cardinality, and approval requirements.'
+                     'The DSL satisfies the schema, operation contracts, references, and cardinality requirements.'
                    )
                  else
                    Captain::Routines::BuildEvaluation.correctable(

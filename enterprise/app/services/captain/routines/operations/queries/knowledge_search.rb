@@ -2,7 +2,7 @@ class Captain::Routines::Operations::Queries::KnowledgeSearch < Captain::Routine
   returns :collection
 
   configure(
-    name: 'knowledge.search', effect: 'read', approval: 'never',
+    name: 'knowledge.search', effect: 'read',
     description: 'Search accessible FAQs, help-center articles, and Captain documents.',
     arguments: {
       query: 'semantic search query', language: 'optional language code', limit: 'maximum number of results'

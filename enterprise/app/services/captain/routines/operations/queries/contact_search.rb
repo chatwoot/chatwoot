@@ -2,7 +2,7 @@ class Captain::Routines::Operations::Queries::ContactSearch < Captain::Routines:
   returns :collection
 
   configure(
-    name: 'contacts.search', effect: 'read', approval: 'never',
+    name: 'contacts.search', effect: 'read',
     description: 'Find contacts using deterministic identity, label, or activity filters.',
     arguments: {
       query: 'name, email, phone number, or identifier', labels: 'array of label names',

@@ -40,9 +40,8 @@ class Captain::Routines::DslGeneratorService < Captain::BaseTaskService
       Every standalone query operation must use `save_as`; later steps may refer to its result by that name.
       Represent every data reference as a JSON object such as `{ "ref": "conversation.id" }`. Never use string interpolation
       such as `${conversation.id}` or `{{conversation.id}}`.
-      Put actions whose approval is `required` inside this exact approval step shape:
-      `{ "approval": "Plain-language approval request", "context": {}, "do": [...] }`.
-      Do not wrap actions with any other approval representation.
+      Routines are fully autonomous after they are enabled. Compile customer-visible and internal actions directly into the
+      relevant branch. Never introduce human review, confirmation, or other execution pauses.
 
       Return the complete DSL in `dsl_json`. It must be valid JSON and conform to this schema:
       #{Captain::Routines::DslSchema.prompt}

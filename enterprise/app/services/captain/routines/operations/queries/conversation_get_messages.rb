@@ -2,7 +2,7 @@ class Captain::Routines::Operations::Queries::ConversationGetMessages < Captain:
   returns :collection
 
   configure(
-    name: 'conversations.get_messages', effect: 'read', approval: 'never',
+    name: 'conversations.get_messages', effect: 'read',
     description: 'Load recent messages from one conversation for semantic analysis.',
     arguments: {
       conversation_id: 'conversation ID or reference', limit: 'maximum number of messages',
