@@ -85,6 +85,107 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
 
         described_class.perform_now(microsoft_imap_email_channel)
       end
+
+      it 'records a fetch error' do
+        error_response = double
+        oauth_error = OAuth2::Error.new(error_response)
+
+        allow(Imap::MicrosoftFetchEmailService).to receive(:new)
+          .with(channel: microsoft_imap_email_channel, interval: 1)
+          .and_raise(oauth_error)
+
+        expect do
+          described_class.perform_now(microsoft_imap_email_channel)
+        end.to change { microsoft_imap_email_channel.reload.imap_fetch_error_count }.by(1)
+      end
+    end
+
+    context 'when the channel is paused for fetch backoff' do
+      it 'does not fetch emails' do
+        imap_email_channel.update!(imap_fetch_paused_till: 5.minutes.from_now)
+
+        expect(Imap::FetchEmailService).not_to receive(:new)
+
+        described_class.perform_now(imap_email_channel)
+      end
+    end
+
+    context 'when the IMAP fetch fails' do
+      it 'records a fetch error on connection errors' do
+        allow(Imap::FetchEmailService).to receive(:new).and_raise(Errno::ECONNREFUSED)
+
+        expect do
+          described_class.perform_now(imap_email_channel)
+        end.to change { imap_email_channel.reload.imap_fetch_error_count }.by(1)
+      end
+
+      it 'records a fetch error on SSL errors' do
+        allow(Imap::FetchEmailService).to receive(:new).and_raise(OpenSSL::SSL::SSLError)
+
+        expect do
+          described_class.perform_now(imap_email_channel)
+        end.to change { imap_email_channel.reload.imap_fetch_error_count }.by(1)
+      end
+
+      it 'records a fetch error on read timeouts' do
+        allow(Imap::FetchEmailService).to receive(:new).and_raise(Net::ReadTimeout)
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(instance_double(ChatwootExceptionTracker, capture_exception: true))
+
+        expect do
+          described_class.perform_now(imap_email_channel)
+        end.to change { imap_email_channel.reload.imap_fetch_error_count }.by(1)
+      end
+
+      it 'records a fetch error when a connection error reaches the generic handler' do
+        allow(Imap::FetchEmailService).to receive(:new).and_raise(Errno::ETIMEDOUT)
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(instance_double(ChatwootExceptionTracker, capture_exception: true))
+
+        expect do
+          described_class.perform_now(imap_email_channel)
+        end.to change { imap_email_channel.reload.imap_fetch_error_count }.by(1)
+      end
+
+      it 'does not record a fetch error for non-connection unexpected errors' do
+        allow(Imap::FetchEmailService).to receive(:new).and_raise(StandardError)
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(instance_double(ChatwootExceptionTracker, capture_exception: true))
+
+        expect do
+          described_class.perform_now(imap_email_channel)
+        end.not_to(change { imap_email_channel.reload.imap_fetch_error_count })
+      end
+
+      it 'does not record a fetch error when the lock cannot be acquired' do
+        lock_manager = instance_double(Redis::LockManager, lock: false)
+        allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
+
+        expect do
+          described_class.perform_now(imap_email_channel)
+        end.not_to(change { imap_email_channel.reload.imap_fetch_error_count })
+      end
+
+      it 'pauses the channel after the third consecutive failure' do
+        imap_email_channel.update!(imap_fetch_error_count: 2)
+        allow(Imap::FetchEmailService).to receive(:new).and_raise(Errno::ECONNREFUSED)
+
+        described_class.perform_now(imap_email_channel)
+
+        expect(imap_email_channel.reload.imap_fetch_paused_till).to be_within(10.seconds).of(5.minutes.from_now)
+      end
+    end
+
+    context 'when the IMAP fetch succeeds after failures' do
+      it 'resets the backoff state' do
+        imap_email_channel.update!(imap_fetch_error_count: 4, imap_fetch_paused_till: 1.minute.ago)
+
+        fetch_service = double
+        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
+
+        described_class.perform_now(imap_email_channel)
+
+        expect(imap_email_channel.reload.imap_fetch_error_count).to eq(0)
+        expect(imap_email_channel.imap_fetch_paused_till).to be_nil
+      end
     end
 
     context 'when the fetch service returns the email objects' do
