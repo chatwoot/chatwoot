@@ -76,8 +76,11 @@ class ContentAttributeValidator < ActiveModel::Validator # rubocop:disable Metri
   def validate_whatsapp_carousel_action_type_consistency!(record)
     return unless whatsapp_interactive_carousel_target?(record)
 
-    card_action_types = normalized_items(record).filter_map { |item| item[:actions].pluck(:type).compact.first }.uniq
-    return if card_action_types.size <= 1
+    # Compare the full per-card action-type shape (not just each card's first
+    # action), since WhatsApp requires both the button type and the button
+    # count to match across every card in the carousel.
+    card_action_shapes = normalized_items(record).map { |item| item[:actions].pluck(:type).compact }.uniq
+    return if card_action_shapes.size <= 1
 
     record.errors.add(:content_attributes, 'contains carousel cards with mixed action types across cards')
   end
