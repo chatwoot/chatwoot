@@ -36,9 +36,9 @@ export const getters = {
       .map(camelcaseKeys);
   },
   getAttributesByModel: _state => attributeModel => {
-    return _state.records.filter(
-      record => record.attribute_model === attributeModel
-    );
+    return _state.records
+      .filter(record => record.attribute_model === attributeModel)
+      .sort((a, b) => a.position - b.position);
   },
 };
 
@@ -89,6 +89,20 @@ export const actions = {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isDeleting: false });
     }
   },
+  reorder: async ({ commit, state: moduleState }, positionsHash) => {
+    const oldPositions = Object.keys(positionsHash).reduce((map, id) => {
+      const record = moduleState.records.find(item => item.id === Number(id));
+      map[id] = record?.position;
+      return map;
+    }, {});
+    commit(types.SET_CUSTOM_ATTRIBUTE_POSITIONS, positionsHash);
+    try {
+      await AttributeAPI.reorder(positionsHash);
+    } catch (error) {
+      commit(types.SET_CUSTOM_ATTRIBUTE_POSITIONS, oldPositions);
+      throw error;
+    }
+  },
 };
 
 export const mutations = {
@@ -103,6 +117,13 @@ export const mutations = {
   [types.SET_CUSTOM_ATTRIBUTE]: MutationHelpers.set,
   [types.EDIT_CUSTOM_ATTRIBUTE]: MutationHelpers.update,
   [types.DELETE_CUSTOM_ATTRIBUTE]: MutationHelpers.destroy,
+  [types.SET_CUSTOM_ATTRIBUTE_POSITIONS](_state, positionsHash) {
+    _state.records.forEach(record => {
+      if (positionsHash[record.id] !== undefined) {
+        record.position = positionsHash[record.id];
+      }
+    });
+  },
 };
 
 export default {

@@ -114,5 +114,42 @@ RSpec.describe CustomAttributeDefinition do
         expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
       end
     end
+
+    describe '#set_position' do
+      it 'assigns an incremental position scoped to account and attribute_model' do
+        first = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+        second = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+        expect(first.position).to eq(10)
+        expect(second.position).to eq(20)
+      end
+
+      it 'tracks positions independently per attribute_model' do
+        conversation_cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+        contact_cad = create(:custom_attribute_definition, account: account, attribute_model: 'contact_attribute')
+
+        expect(conversation_cad.position).to eq(10)
+        expect(contact_cad.position).to eq(10)
+      end
+    end
+  end
+
+  describe '.update_positions' do
+    it 'updates positions for the given account-scoped ids' do
+      first = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+      second = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+      described_class.update_positions(account: account, positions_hash: { first.id => 20, second.id => 10 })
+
+      expect(first.reload.position).to eq(20)
+      expect(second.reload.position).to eq(10)
+    end
+
+    it 'does nothing when positions_hash is blank' do
+      cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+      expect { described_class.update_positions(account: account, positions_hash: {}) }
+        .not_to(change { cad.reload.position })
+    end
   end
 end

@@ -17,7 +17,7 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
       let!(:custom_attribute_definition) { create(:custom_attribute_definition, account: account) }
 
       it 'returns all customer attribute definitions related to the account' do
-        create(:custom_attribute_definition, attribute_model: 'contact_attribute', account: account)
+        contact_attribute_definition = create(:custom_attribute_definition, attribute_model: 'contact_attribute', account: account)
 
         get "/api/v1/accounts/#{account.id}/custom_attribute_definitions",
             headers: admin.create_new_auth_token,
@@ -27,7 +27,25 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
         response_body = response.parsed_body
 
         expect(response_body.count).to eq(2)
-        expect(response_body.first['attribute_key']).to eq(custom_attribute_definition.attribute_key)
+        expect(response_body.pluck('attribute_key')).to contain_exactly(
+          custom_attribute_definition.attribute_key, contact_attribute_definition.attribute_key
+        )
+      end
+
+      it 'returns the custom attribute definitions ordered by position' do
+        second = create(:custom_attribute_definition, account: account)
+
+        CustomAttributeDefinition.update_positions(
+          account: account,
+          positions_hash: { custom_attribute_definition.id => 20, second.id => 10 }
+        )
+
+        get "/api/v1/accounts/#{account.id}/custom_attribute_definitions",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        response_body = response.parsed_body
+        expect(response_body.pluck('id')).to eq([second.id, custom_attribute_definition.id])
       end
     end
   end
@@ -197,6 +215,46 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
         expect(account.custom_attribute_definitions.count).to be 1
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/custom_attribute_definitions/reorder' do
+    let!(:first_attribute) { create(:custom_attribute_definition, account: account) }
+    let!(:second_attribute) { create(:custom_attribute_definition, account: account) }
+    let(:payload) { { positions_hash: { first_attribute.id => 20, second_attribute.id => 10 } } }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/custom_attribute_definitions/reorder", params: payload
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an admin' do
+      it 'updates the positions' do
+        post "/api/v1/accounts/#{account.id}/custom_attribute_definitions/reorder",
+             headers: admin.create_new_auth_token,
+             params: payload,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(first_attribute.reload.position).to eq(20)
+        expect(second_attribute.reload.position).to eq(10)
+      end
+    end
+
+    context 'when it is an agent' do
+      it 'returns forbidden and does not update the positions' do
+        original_position = first_attribute.position
+
+        post "/api/v1/accounts/#{account.id}/custom_attribute_definitions/reorder",
+             headers: agent.create_new_auth_token,
+             params: payload,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(first_attribute.reload.position).to eq(original_position)
       end
     end
   end

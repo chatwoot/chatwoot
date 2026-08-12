@@ -10,6 +10,7 @@
 #  attribute_model        :integer          default("conversation_attribute")
 #  attribute_values       :jsonb
 #  default_value          :integer
+#  position               :integer
 #  regex_cue              :string
 #  regex_pattern          :string
 #  created_at             :datetime         not null
@@ -46,12 +47,27 @@ class CustomAttributeDefinition < ApplicationRecord
   enum attribute_display_type: { text: 0, number: 1, currency: 2, percent: 3, link: 4, date: 5, list: 6, checkbox: 7 }
 
   belongs_to :account
+  before_create :set_position
   after_update :update_widget_pre_chat_custom_fields, unless: :company_attribute?
   after_destroy :sync_widget_pre_chat_custom_fields, unless: :company_attribute?
   after_update_commit :invalidate_filtered_unread_count_filters_update, if: :conversation_attribute_before_or_after?
   after_destroy_commit :invalidate_filtered_unread_count_filters_destroy, if: :conversation_attribute?
 
+  def self.update_positions(account:, positions_hash:)
+    return if positions_hash.blank?
+
+    transaction do
+      positions_hash.each do |id, new_position|
+        account.custom_attribute_definitions.find(id).update!(position: new_position)
+      end
+    end
+  end
+
   private
+
+  def set_position
+    self.position = self.class.where(account_id: account_id, attribute_model: attribute_model).maximum(:position).to_i + 10
+  end
 
   def normalize_attribute_fields
     self.attribute_key = attribute_key.strip if attribute_key.present?
