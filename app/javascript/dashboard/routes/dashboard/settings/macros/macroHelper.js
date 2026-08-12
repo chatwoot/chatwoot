@@ -10,9 +10,8 @@ export const emptyMacro = {
   visibility: 'global',
 };
 
-export const resolveActionName = key => {
-  return macroActionTypes.find(i => i.key === key).label;
-};
+export const resolveActionName = key =>
+  macroActionTypes.find(i => i.key === key)?.label ?? key.toUpperCase();
 
 export const resolveTeamIds = (teams, ids) => {
   return ids
