@@ -50,6 +50,11 @@ class ContentAttributeValidator < ActiveModel::Validator # rubocop:disable Metri
   private
 
   def reject_attachments_on_interactive_message!(record)
+    # Only WhatsApp's send_message checks attachments before the interactive
+    # payload and returns early, short-circuiting the interactive send.
+    # Facebook/Instagram send both, and website/API inboxes support cards with
+    # attachments as separate pieces of content, so scope this to WhatsApp.
+    return unless record.inbox&.whatsapp?
     return unless INTERACTIVE_CONTENT_TYPES.include?(record.content_type)
     return if record.attachments.blank?
 
