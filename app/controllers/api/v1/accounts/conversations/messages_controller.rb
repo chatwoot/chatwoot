@@ -30,7 +30,10 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
     service = Messages::StatusUpdateService.new(message, 'sent')
     service.perform
-    message.update!(content_attributes: {})
+    retry_attributes = { content_attributes: {} }
+    # This retry issue is currently reproducible only for WhatsApp. Preserve source_id for other channels until their retry behavior is verified.
+    retry_attributes[:source_id] = nil if @conversation.inbox.whatsapp?
+    message.update!(retry_attributes)
     ::SendReplyJob.perform_later(message.id)
   rescue StandardError => e
     render_could_not_create_error(e.message)
