@@ -73,6 +73,26 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(service.instance_variable_get(:@read_only)).to be true
     end
+
+    it 'uses Assistant trace attribution by default' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+
+      expect(service.send(:trace_config)).to include(
+        name: 'llm.captain_v2',
+        tags: ['captain_v2'],
+        feature_name: 'assistant'
+      )
+    end
+
+    it 'supports Copilot trace attribution' do
+      service = described_class.new(assistant: assistant, conversation: conversation, trace_feature: :copilot)
+
+      expect(service.send(:trace_config)).to include(
+        name: 'llm.captain.copilot',
+        tags: ['copilot'],
+        feature_name: 'copilot'
+      )
+    end
   end
 
   describe '#generate_response' do
@@ -639,6 +659,52 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(attributes['langfuse.trace.input']).to include('image_url')
       expect(attributes['langfuse.observation.input']).to include('image_url')
       expect(attributes['langfuse.user.id']).to eq(account.id.to_s)
+      expect(attributes['langfuse.trace.metadata.feature_name']).to eq('assistant')
+    end
+
+    it 'attributes Copilot runner traces to Copilot' do
+      service = described_class.new(assistant: assistant, conversation: conversation, trace_feature: :copilot)
+      context = {
+        state: {
+          account_id: account.id,
+          assistant_id: assistant.id,
+          source: 'copilot_reply_suggestion',
+          conversation: { id: conversation.id, display_id: conversation.display_id }
+        }
+      }
+      context_wrapper = Struct.new(:context).new(context)
+
+      attributes = service.send(:dynamic_trace_attributes, context_wrapper)
+
+      expect(attributes).to include(
+        'langfuse.trace.metadata.feature_name' => 'copilot',
+        'langfuse.trace.metadata.source' => 'copilot_reply_suggestion'
+      )
+    end
+  end
+
+  describe '#install_instrumentation' do
+    it 'installs Copilot trace attribution for a Copilot runner' do
+      service = described_class.new(assistant: assistant, conversation: conversation, trace_feature: :copilot)
+      tracer = instance_double(OpenTelemetry::Trace::Tracer)
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+      allow(OpentelemetryConfig).to receive(:tracer).and_return(tracer)
+      allow(mock_runner).to receive(:on_agent_thinking).and_return(mock_runner)
+
+      expect(Agents::Instrumentation).to receive(:install).with(
+        mock_runner,
+        tracer: tracer,
+        trace_name: 'llm.captain.copilot',
+        span_attributes: {
+          'langfuse.trace.tags' => '["copilot"]',
+          'langfuse.trace.metadata.feature_name' => 'copilot',
+          'langfuse.observation.metadata.feature_name' => 'copilot'
+        },
+        attribute_provider: instance_of(Captain::Assistant::InstrumentationAttributeProvider)
+      )
+
+      service.send(:install_instrumentation, mock_runner)
     end
   end
 

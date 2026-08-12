@@ -1,17 +1,33 @@
 module Captain::Assistant::RunnerInstrumentationHelper
   include Integrations::LlmInstrumentationConstants
 
+  TRACE_CONFIG = {
+    assistant: {
+      name: 'llm.captain_v2',
+      tags: ['captain_v2'],
+      feature_name: 'assistant'
+    },
+    copilot: {
+      name: 'llm.captain.copilot',
+      tags: ['copilot'],
+      feature_name: 'copilot'
+    }
+  }.freeze
+
   private
 
   def install_instrumentation(runner)
     return unless ChatwootApp.otel_enabled?
 
+    config = trace_config
     Agents::Instrumentation.install(
       runner,
       tracer: OpentelemetryConfig.tracer,
-      trace_name: 'llm.captain_v2',
+      trace_name: config[:name],
       span_attributes: {
-        ATTR_LANGFUSE_TAGS => ['captain_v2'].to_json
+        ATTR_LANGFUSE_TAGS => config[:tags].to_json,
+        format(ATTR_LANGFUSE_METADATA, 'feature_name') => config[:feature_name],
+        format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'feature_name') => config[:feature_name]
       },
       attribute_provider: Captain::Assistant::InstrumentationAttributeProvider.new(self)
     )
@@ -29,6 +45,7 @@ module Captain::Assistant::RunnerInstrumentationHelper
       format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation[:display_id],
       format(ATTR_LANGFUSE_METADATA, 'channel_type') => state[:channel_type],
       format(ATTR_LANGFUSE_METADATA, 'source') => state[:source],
+      format(ATTR_LANGFUSE_METADATA, 'feature_name') => trace_config[:feature_name],
       ATTR_LANGFUSE_TRACE_INPUT => trace_input,
       ATTR_LANGFUSE_OBSERVATION_INPUT => trace_input
     }.compact.transform_values(&:to_s)
@@ -86,6 +103,10 @@ module Captain::Assistant::RunnerInstrumentationHelper
   end
 
   def message_burst_protection_active? = @responding_to_message_id.present?
+
+  def trace_config
+    TRACE_CONFIG.fetch(@trace_feature)
+  end
 
   def newer_customer_message_arrived?
     return false if @responding_to_message_id.blank? || @conversation.blank?

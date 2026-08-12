@@ -10,16 +10,20 @@ class Captain::Assistant::AgentRunnerService
 
   attr_reader :last_run_result
 
-  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil, read_only: false) # rubocop:disable Metrics/ParameterLists
+  # rubocop:disable Metrics/ParameterLists
+  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil, read_only: false,
+                 trace_feature: :assistant)
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
     @source = source
     @responding_to_message_id = responding_to_message_id
     @read_only = read_only
+    @trace_feature = trace_feature
     @handoff_tool_called = false
     @handoff_tool_completed = false
   end
+  # rubocop:enable Metrics/ParameterLists
 
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)

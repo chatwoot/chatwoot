@@ -23,7 +23,8 @@ class Captain::Copilot::ReplySuggestionService
       assistant: @assistant,
       conversation: conversation,
       source: 'copilot_reply_suggestion',
-      read_only: true
+      read_only: true,
+      trace_feature: :copilot
     )
     response = runner.generate_response(message_history: conversation_history(conversation))
     raise GenerationError, response['reasoning'] if response['error']

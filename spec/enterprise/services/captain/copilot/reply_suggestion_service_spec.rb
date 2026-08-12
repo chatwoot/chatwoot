@@ -34,7 +34,8 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
       assistant: assistant,
       conversation: conversation,
       source: 'copilot_reply_suggestion',
-      read_only: true
+      read_only: true,
+      trace_feature: :copilot
     ).and_return(runner)
     allow(runner).to receive(:generate_response).and_return(response)
     allow(assistant).to receive(:trusted_citation_urls).with(run_result).and_return(1 => 'https://example.com/mascot')
