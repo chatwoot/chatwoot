@@ -156,6 +156,30 @@
       "AGENTS": "Agents",
       "TEAMS": "Teams"
     },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Description",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Search emojis",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "All"
+        },
+        "AVAILABILITY": "Availability",
+        "ROLE": "Role",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Snooze until",
       "APPLY": "Snooze",
