@@ -6,6 +6,7 @@ import { differenceInDays } from 'date-fns';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
 import { throwErrorMessage } from '../utils/api';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const findRecordById = ($state, id) =>
   $state.records.find(record => record.id === Number(id)) || {};
@@ -22,6 +23,19 @@ const state = {
     isFetchingLimits: false,
   },
 };
+
+// Captain feature flags are force-disabled here as part of removing Captain
+// from the user dashboard (CLAUDE.md task). Backend and store modules stay
+// intact, but every captain-gated UI control is hidden through this single
+// choke point (useCaptain, copilot panel/launcher/tab, label suggestions,
+// billing card, account settings, editor AI, message generation details, etc.).
+const CAPTAIN_FEATURE_FLAGS = [
+  FEATURE_FLAGS.CAPTAIN,
+  FEATURE_FLAGS.CAPTAIN_TASKS,
+  FEATURE_FLAGS.CAPTAIN_V2,
+  FEATURE_FLAGS.CAPTAIN_DOCUMENT_AUTO_SYNC,
+  FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS,
+];
 
 export const getters = {
   getAccount: $state => id => {
@@ -49,6 +63,7 @@ export const getters = {
     return diffDays <= TRIAL_PERIOD_DAYS;
   },
   isFeatureEnabledonAccount: $state => (id, featureName) => {
+    if (CAPTAIN_FEATURE_FLAGS.includes(featureName)) return false;
     const { features = {} } = findRecordById($state, id);
     return features[featureName] || false;
   },

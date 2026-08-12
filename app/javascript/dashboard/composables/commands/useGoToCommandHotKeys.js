@@ -57,14 +57,6 @@ const GO_TO_COMMANDS = [
     routeName: 'contacts_dashboard_index',
   },
   {
-    id: 'goto_captain',
-    title: 'COMMAND_BAR.COMMANDS.GO_TO_CAPTAIN',
-    section: SECTION_GENERAL,
-    icon: ICON_BOT,
-    routeName: 'captain_assistants_index',
-    params: { navigationPath: 'captain_assistants_overview_index' },
-  },
-  {
     id: 'goto_calls_dashboard',
     title: 'COMMAND_BAR.COMMANDS.GO_TO_CALLS_DASHBOARD',
     section: SECTION_GENERAL,

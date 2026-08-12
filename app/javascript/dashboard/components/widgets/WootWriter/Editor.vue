@@ -115,6 +115,13 @@ const emit = defineEmits([
 const { t } = useI18n();
 const { captainTasksEnabled } = useCaptain();
 
+// The "@" trigger doubles as the Captain tools autocomplete when
+// enableCaptainTools is on. When Captain is disabled in the dashboard, fall
+// back to user/contact mentions so the trigger keeps working normally.
+const captainToolsAllowed = computed(
+  () => props.enableCaptainTools && captainTasksEnabled.value
+);
+
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
@@ -326,14 +333,14 @@ const plugins = computed(() => {
       trigger: '@',
       showMenu: showToolsMenu,
       searchTerm: toolSearchKey,
-      isAllowed: () => props.enableCaptainTools,
+      isAllowed: () => captainToolsAllowed.value,
       interceptEnter: true,
     }),
     createSuggestionPlugin({
       trigger: '@',
       showMenu: showUserMentions,
       searchTerm: mentionSearchKey,
-      isAllowed: () => props.isPrivate || !props.enableCaptainTools,
+      isAllowed: () => props.isPrivate || !captainToolsAllowed.value,
     }),
     createSuggestionPlugin({
       trigger: '/',
@@ -385,7 +392,7 @@ watch(shouldShowVariables, updatedValue => {
   emit('toggleVariablesMenu', updatedValue);
 });
 watch(showToolsMenu, updatedValue => {
-  emit('toggleToolsMenu', props.enableCaptainTools && updatedValue);
+  emit('toggleToolsMenu', captainToolsAllowed.value && updatedValue);
 });
 
 function focusEditorInputField(pos = 'end') {
