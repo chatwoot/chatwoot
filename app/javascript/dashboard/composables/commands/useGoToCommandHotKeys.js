@@ -16,7 +16,6 @@ import {
   ICON_DATABASE,
   ICON_INBOX,
   ICON_LAYOUT_TEMPLATE,
-  ICON_LIBRARY,
   ICON_MEGAPHONE,
   ICON_MESSAGE_CIRCLE,
   ICON_MESSAGE_QUOTE,
@@ -78,14 +77,6 @@ const GO_TO_COMMANDS = [
     section: SECTION_GENERAL,
     icon: ICON_MEGAPHONE,
     routeName: 'campaigns_livechat_index',
-  },
-  {
-    id: 'goto_help_center',
-    title: 'COMMAND_BAR.COMMANDS.GO_TO_HELP_CENTER',
-    section: SECTION_GENERAL,
-    icon: ICON_LIBRARY,
-    routeName: 'portals_index',
-    params: { navigationPath: 'portals_articles_index' },
   },
   {
     id: 'open_reports_overview',

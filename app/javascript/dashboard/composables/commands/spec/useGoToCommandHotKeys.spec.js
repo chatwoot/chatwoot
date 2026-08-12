@@ -16,10 +16,6 @@ const ROUTE_META = {
     permissions: ['administrator', 'agent'],
     installationTypes: ['cloud', 'enterprise'],
   },
-  portals_index: {
-    featureFlag: MOCK_FEATURE_FLAGS.HELP_CENTER,
-    permissions: ['administrator', 'knowledge_base_manage'],
-  },
   agent_reports_index: {
     featureFlag: MOCK_FEATURE_FLAGS.REPORTS,
     permissions: ['administrator', 'report_manage'],
@@ -170,24 +166,6 @@ describe('useGoToCommandHotKeys', () => {
     expect(
       goToCommandHotKeys.value.find(cmd => cmd.id.includes('agent_settings'))
     ).toBeUndefined();
-  });
-
-  it('should hide the help center from agents, who cannot open it', () => {
-    userPermissions = ['agent'];
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
-
-    expect(goToCommandHotKeys.value.map(cmd => cmd.id)).not.toContain(
-      'goto_help_center'
-    );
-  });
-
-  it('should offer the help center to a knowledge base manager', () => {
-    userPermissions = ['custom_role', 'knowledge_base_manage'];
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
-
-    expect(goToCommandHotKeys.value.map(cmd => cmd.id)).toContain(
-      'goto_help_center'
-    );
   });
 
   it('should drop report commands when the reports feature is disabled', () => {
