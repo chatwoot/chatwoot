@@ -33,18 +33,22 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:dis
     end
   end
 
+  # Returns whether the send succeeded, independent of message.status: a later
+  # successful send does not reset a status left over from an earlier failed
+  # part, so callers that gate follow-up sends on success must use this return
+  # value rather than re-checking message.status.
   def send_message_to_facebook(delivery_params, update_source_id: true)
     parsed_result = deliver_message(delivery_params)
-    return if parsed_result.nil?
+    return false if parsed_result.nil?
 
     if parsed_result['error'].present?
       Messages::StatusUpdateService.new(message, 'failed', external_error(parsed_result)).perform
       Rails.logger.info "Facebook::SendOnFacebookService: Error sending message to Facebook : Page - #{channel.page_id} : #{parsed_result}"
+      return false
     end
 
-    return if parsed_result['message_id'].blank? || !update_source_id
-
-    message.update!(source_id: parsed_result['message_id'])
+    message.update!(source_id: parsed_result['message_id']) if update_source_id && parsed_result['message_id'].present?
+    true
   end
 
   def deliver_message(delivery_params)
@@ -108,14 +112,14 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService # rubocop:dis
       # Don't let the intro-text half set source_id: the base service treats a
       # present source_id as "already sent by this channel" and would silently
       # skip a Retry before the cards half ever got a chance to complete.
-      send_message_to_facebook(fb_text_message_params, update_source_id: false)
-      mark_generic_template_part_sent('generic_template_intro_sent') unless message.status == 'failed'
+      return unless send_message_to_facebook(fb_text_message_params, update_source_id: false)
+
+      mark_generic_template_part_sent('generic_template_intro_sent')
     end
 
     return if message.content_attributes['generic_template_cards_sent'].present?
 
-    send_message_to_facebook(fb_generic_template_message_params)
-    mark_generic_template_part_sent('generic_template_cards_sent') unless message.status == 'failed'
+    mark_generic_template_part_sent('generic_template_cards_sent') if send_message_to_facebook(fb_generic_template_message_params)
   end
 
   def mark_generic_template_part_sent(key)

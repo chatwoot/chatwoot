@@ -44,14 +44,17 @@ class Instagram::BaseSendService < Base::SendOnChannelService # rubocop:disable 
       # Don't let the intro-text half set source_id: the base service treats a
       # present source_id as "already sent by this channel" and would silently
       # skip a Retry before the cards half ever got a chance to complete.
-      send_message(text_message_params, update_source_id: false)
-      mark_generic_template_part_sent('generic_template_intro_sent') unless message.status == 'failed'
+      # process_response returns nil on failure, so its truthiness (not
+      # message.status, which a later success won't reset) tells us whether
+      # this specific send succeeded.
+      return unless send_message(text_message_params, update_source_id: false)
+
+      mark_generic_template_part_sent('generic_template_intro_sent')
     end
 
     return if message.content_attributes['generic_template_cards_sent'].present?
 
-    send_message(generic_template_message_params)
-    mark_generic_template_part_sent('generic_template_cards_sent') unless message.status == 'failed'
+    mark_generic_template_part_sent('generic_template_cards_sent') if send_message(generic_template_message_params)
   end
 
   def mark_generic_template_part_sent(key)
