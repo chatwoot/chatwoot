@@ -36,6 +36,20 @@ describe ContentAttributeValidator do
     end
   end
 
+  context 'when a WhatsApp carousel item uses the postback/link legacy aliases and has no title' do
+    it 'is invalid' do
+      message = build_card_message(
+        [
+          { description: 'desc', actions: [{ type: 'postback', text: 'Go', payload: 'p1' }] },
+          { title: 'Card 2', actions: [{ type: 'postback', text: 'Go', payload: 'p2' }] }
+        ]
+      )
+
+      expect(message).to be_invalid
+      expect(message.errors[:content_attributes]).to include('contains items missing title')
+    end
+  end
+
   context 'when a WhatsApp carousel mixes url and reply cards across cards' do
     it 'is invalid' do
       message = build_card_message(

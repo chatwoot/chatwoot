@@ -495,7 +495,7 @@ class ContentAttributeValidator < ActiveModel::Validator # rubocop:disable Metri
 
   def interactive_card_actions_present?(record)
     normalized_items(record).any? do |item|
-      item[:actions].pluck(:type).compact.intersect?([URL_ACTION_TYPE, REPLY_ACTION_TYPE])
+      item[:actions].pluck(:type).compact.intersect?(SUPPORTED_CARD_ACTION_TYPES)
     end
   end
 
