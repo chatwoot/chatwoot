@@ -509,6 +509,7 @@ function reloadState(content = props.modelValue) {
   showVariables.value = false;
   showEmojiMenu.value = false;
   showToolsMenu.value = false;
+  showMacroMenu.value = false;
 
   const unrefContent = unref(content);
   state = createState(
