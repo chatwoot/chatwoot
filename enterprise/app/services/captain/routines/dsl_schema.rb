@@ -111,7 +111,8 @@ class Captain::Routines::DslSchema
         'additionalProperties' => false,
         'properties' => {
           'approval' => { 'type' => 'string', 'minLength' => 1 },
-          'context' => { 'type' => 'object' }
+          'context' => { 'type' => 'object' },
+          'do' => { 'type' => 'array', 'minItems' => 1, 'items' => { '$ref' => '#/definitions/step' } }
         }
       },
       'step' => {

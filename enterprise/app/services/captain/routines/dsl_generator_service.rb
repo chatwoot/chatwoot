@@ -34,6 +34,7 @@ class Captain::Routines::DslGeneratorService < Captain::BaseTaskService
       Use deterministic source filters for facts that can be queried, `decide` steps only for semantic judgment,
       `when` steps for branching, and action tools only for side effects. Never invent tools, account records, IDs, or user answers.
       Preserve unresolved human-readable references, such as an agent name, so the evaluator can request clarification when necessary.
+      Honor each tool's approval policy. Put actions whose approval is `required` inside the `do` block of an `approval` step.
 
       Return the complete DSL in `dsl_json`. It must be valid JSON and conform to this schema:
       #{Captain::Routines::DslSchema.prompt}

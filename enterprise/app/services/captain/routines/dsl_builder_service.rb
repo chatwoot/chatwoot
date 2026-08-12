@@ -34,21 +34,34 @@ class Captain::Routines::DslBuilderService
       evaluation = evaluation_response[:evaluation]
       log_evaluation(evaluation)
 
-      case evaluation['status']
-      when 'valid'
-        return mark_ready if consecutive_validations >= MIN_CONSECUTIVE_VALIDATIONS
-      when 'correctable'
-        generation = generate_dsl(evaluator_feedback: evaluation)
-        return fail_build(generation[:error]) if generation[:error]
-
-        persist_dsl(generation[:dsl])
-      when 'needs_clarification'
-        return pause_for_clarification(evaluation)
-      end
+      settled_result = process_evaluation(evaluation)
+      return settled_result if settled_result
     end
 
     @routine.update!(status: :needs_review)
     result
+  end
+
+  def process_evaluation(evaluation)
+    case evaluation['status']
+    when 'valid'
+      mark_ready if consecutive_validations >= MIN_CONSECUTIVE_VALIDATIONS
+    when 'correctable'
+      regenerate_dsl(evaluation)
+    when 'needs_clarification'
+      pause_for_clarification(evaluation)
+    when 'unsupported'
+      @routine.update!(status: :needs_review)
+      result
+    end
+  end
+
+  def regenerate_dsl(evaluation)
+    generation = generate_dsl(evaluator_feedback: evaluation)
+    return fail_build(generation[:error]) if generation[:error]
+
+    persist_dsl(generation[:dsl])
+    nil
   end
 
   def generate_dsl(evaluator_feedback:)
