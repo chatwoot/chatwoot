@@ -27,15 +27,19 @@ class Conversations::AssignmentService
   end
 
   def assign_agent_bot
-    return unless agent_bot
+    assign_ai_assignee(agent_bot)
+  end
+
+  def assign_ai_assignee(ai_assignee)
+    return unless ai_assignee
 
     conversation.with_lock do
       conversation.assignee = nil
-      conversation.ai_assignee = agent_bot
+      conversation.ai_assignee = ai_assignee
       conversation.status = :pending
       conversation.save!
     end
-    agent_bot
+    ai_assignee
   end
 
   def assignee
@@ -50,3 +54,5 @@ class Conversations::AssignmentService
     assignee_type.to_s == 'AgentBot'
   end
 end
+
+Conversations::AssignmentService.prepend_mod_with('Conversations::AssignmentService')
