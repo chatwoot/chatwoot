@@ -1,6 +1,6 @@
 class Captain::Routines::SemanticPlanBuilderService
   MIN_CONSECUTIVE_VALIDATIONS = 2
-  MAX_EVALUATION_PASSES = 4
+  MAX_REPAIR_PASSES = 4
 
   def initialize(routine, on_stage: nil)
     @routine = routine
@@ -24,34 +24,49 @@ class Captain::Routines::SemanticPlanBuilderService
   end
 
   def evaluate_until_settled
-    MAX_EVALUATION_PASSES.times do |pass|
-      outcome = evaluate_plan(pass + 1)
-      return outcome if outcome
-    end
+    repairs_used = 0
+    evaluation_number = 0
 
-    @routine.update!(status: :needs_review)
-    :needs_review
+    loop do
+      evaluation_number += 1
+      outcome, repaired = evaluate_plan(evaluation_number, repairs_used)
+      return outcome if outcome
+
+      repairs_used += 1 if repaired
+    end
   end
 
-  def evaluate_plan(attempt)
-    emit(:evaluating_plan, attempt: attempt, maximum: MAX_EVALUATION_PASSES)
-    response = evaluator(attempt).perform
-    return fail_plan(response[:error]) if response[:error]
+  def evaluate_plan(evaluation_number, repairs_used)
+    emit(
+      :evaluating_plan,
+      attempt: evaluation_number,
+      repairs_used: repairs_used,
+      maximum_repairs: MAX_REPAIR_PASSES
+    )
+    response = evaluator(repairs_used).perform
+    return [fail_plan(response[:error]), false] if response[:error]
 
     evaluation = response[:evaluation]
     @routine.update!(plan_evaluation: evaluation)
     log_evaluation(evaluation)
     emit(:plan_evaluated, evaluation: evaluation)
-    process_evaluation(evaluation, final_attempt: attempt == MAX_EVALUATION_PASSES)
+    process_evaluation(evaluation, repairs_used: repairs_used)
   end
 
-  def process_evaluation(evaluation, final_attempt:)
+  def process_evaluation(evaluation, repairs_used:)
     case evaluation['status']
-    when 'valid' then accept_plan_if_stable
-    when 'correctable' then final_attempt ? mark_needs_review : repair_plan(evaluation)
-    when 'needs_clarification' then pause_for_clarification(evaluation)
-    when 'unsupported' then mark_needs_review
+    when 'valid' then [accept_plan_if_stable, false]
+    when 'correctable' then process_correction(evaluation, repairs_used)
+    when 'needs_clarification' then [pause_for_clarification(evaluation), false]
+    else [mark_needs_review, false]
     end
+  end
+
+  def process_correction(evaluation, repairs_used)
+    return [mark_needs_review, false] if repairs_used >= MAX_REPAIR_PASSES
+
+    outcome = repair_plan(evaluation)
+    [outcome, outcome.nil?]
   end
 
   def accept_plan_if_stable
@@ -80,14 +95,14 @@ class Captain::Routines::SemanticPlanBuilderService
     ).perform
   end
 
-  def evaluator(attempt)
+  def evaluator(repairs_used)
     Captain::Routines::SemanticPlanEvaluatorService.new(
       account: @routine.account,
       instructions: @routine.instructions,
       plan: @routine.semantic_plan,
       clarification_answers: @routine.clarification_answers,
-      evaluation_attempt: attempt,
-      maximum_evaluation_attempts: MAX_EVALUATION_PASSES
+      repairs_used: repairs_used,
+      maximum_repairs: MAX_REPAIR_PASSES
     )
   end
 

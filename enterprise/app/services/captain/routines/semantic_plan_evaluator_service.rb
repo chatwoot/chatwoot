@@ -5,7 +5,7 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
     :account!,
     :instructions!,
     :plan!,
-    { clarification_answers: {}, evaluation_attempt: 1, maximum_evaluation_attempts: 1 }
+    { clarification_answers: {}, repairs_used: 0, maximum_repairs: 4 }
   ]
 
   def perform
@@ -135,7 +135,7 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
 
   def user_prompt
     <<~PROMPT
-      Evaluation pass: #{evaluation_attempt} of #{maximum_evaluation_attempts}
+      Repair budget: #{repairs_used} of #{maximum_repairs} repairs used
 
       Original request:
       #{instructions}
@@ -156,19 +156,23 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
   end
 
   def evaluation_pass_guidance
-    unless final_evaluation?
-      return 'This is not the final evaluation pass. Use `correctable` only when the next plan can be repaired from supplied facts.'
+    if repairs_remaining?
+      return <<~GUIDANCE.squish
+        There are #{maximum_repairs - repairs_used} plan repairs remaining. A `valid` result does not consume this budget and will
+        receive another independent evaluation when confirmation is still required. Use `correctable` only when the next plan can
+        be repaired from supplied facts.
+      GUIDANCE
     end
 
     <<~GUIDANCE.squish
-      This is the final evaluation pass. There will be no later evaluation to verify another repair. If the remaining issue
-      requires choosing between materially different interpretations, return `needs_clarification` now. Do not manufacture a
-      question merely because this is the final pass: return `valid` when the plan is faithful, `correctable` only for a concrete
-      issue whose repair is fully determined, and `unsupported` when the required product behavior is unavailable.
+      The plan repair budget is exhausted, but valid results may still receive another independent confirmation. If a remaining
+      issue requires choosing between materially different interpretations, return `needs_clarification`. Do not manufacture a
+      question because the repair budget is exhausted: return `valid` when the plan is faithful, `correctable` only when a concrete
+      defect truly remains, and `unsupported` when the required product behavior is unavailable.
     GUIDANCE
   end
 
-  def final_evaluation?
-    evaluation_attempt >= maximum_evaluation_attempts
+  def repairs_remaining?
+    repairs_used < maximum_repairs
   end
 end
