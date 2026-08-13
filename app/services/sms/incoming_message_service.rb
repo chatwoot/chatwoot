@@ -83,10 +83,7 @@ class Sms::IncomingMessageService
       # we don't need to process this files since chatwoot doesn't support it
       next if media_url.end_with?('.smil', '.xml')
 
-      attachment_file = Down.download(
-        media_url,
-        http_basic_authentication: [channel.provider_config['api_key'], channel.provider_config['api_secret']]
-      )
+      attachment_file = Down.download(media_url, **download_options(media_url))
 
       @message.attachments.new(
         account_id: @message.account_id,
@@ -98,5 +95,28 @@ class Sms::IncomingMessageService
         }
       )
     end
+  end
+
+  # Only forward the tenant's provider credentials when the media is hosted on the
+  # provider's own domain, so an attacker-supplied URL cannot capture them. Redirects
+  # are disabled on the credentialed request so the credentials cannot follow a
+  # cross-host redirect either.
+  def download_options(media_url)
+    return {} unless provider_hosted?(media_url)
+
+    {
+      http_basic_authentication: [channel.provider_config['api_key'], channel.provider_config['api_secret']],
+      max_redirects: 0
+    }
+  end
+
+  def provider_hosted?(media_url)
+    URI.parse(media_url).host&.casecmp?(provider_host) || false
+  rescue URI::InvalidURIError
+    false
+  end
+
+  def provider_host
+    @provider_host ||= URI.parse(channel.api_base_path).host
   end
 end

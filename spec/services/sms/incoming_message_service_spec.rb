@@ -93,5 +93,40 @@ describe Sms::IncomingMessageService do
         expect(sms_channel.inbox.messages.first.attachments.present?).to be true
       end
     end
+
+    context 'when downloading media attachments' do
+      let(:provider_media_url) { 'https://messaging.bandwidth.com/api/v2/users/1/media/real.png' }
+
+      it 'attaches provider credentials only when the media host is the provider host' do
+        stub_request(:get, provider_media_url).to_return(status: 200, body: File.read('spec/assets/sample.png'))
+        media_params = { 'media': [provider_media_url] }.with_indifferent_access
+
+        described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
+
+        expect(a_request(:get, provider_media_url).with(basic_auth: %w[1 1])).to have_been_made
+      end
+
+      it 'does not forward provider credentials to an attacker-controlled media host' do
+        stub_request(:get, 'http://attacker.example/steal.png').to_return(status: 200, body: File.read('spec/assets/sample.png'))
+        media_params = { 'media': ['http://attacker.example/steal.png'] }.with_indifferent_access
+
+        described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
+
+        expect(a_request(:get, 'http://attacker.example/steal.png').with(basic_auth: %w[1 1])).not_to have_been_made
+        # the media is still downloaded, just without the tenant's provider credentials attached
+        expect(sms_channel.inbox.messages.first.attachments.present?).to be true
+      end
+
+      it 'does not let provider credentials follow a redirect off the provider host' do
+        stub_request(:get, provider_media_url).to_return(status: 302, headers: { 'Location' => 'http://attacker.example/steal.png' })
+        attacker_request = stub_request(:get, 'http://attacker.example/steal.png').to_return(status: 200, body: File.read('spec/assets/sample.png'))
+        media_params = { 'media': [provider_media_url] }.with_indifferent_access
+
+        expect do
+          described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
+        end.to raise_error(Down::TooManyRedirects)
+        expect(attacker_request).not_to have_been_requested
+      end
+    end
   end
 end
