@@ -30,7 +30,7 @@ as well as a link to its edit page.
             class: "button",
           ) if authorized_action? page.resource, :edit %>
     <%= button_to(
-            "Resend confirmation email",
+            t("super_admin.users.resend_confirmation.button"),
             [:resend_confirmation, namespace, page.resource.becomes(User)],
             method: :post,
             class: "button",
