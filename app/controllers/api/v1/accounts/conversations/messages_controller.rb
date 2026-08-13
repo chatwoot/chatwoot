@@ -1,6 +1,5 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
   before_action :ensure_api_inbox, only: :update
-  before_action :ensure_human_can_reply, only: :create
 
   def index
     @messages = message_finder.perform
@@ -80,14 +79,5 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   def ensure_api_inbox
     # Only API inboxes can update messages
     render json: { error: 'Message status update is only allowed for API inboxes' }, status: :forbidden unless @conversation.inbox.api?
-  end
-
-  def ensure_human_can_reply
-    return unless Current.user.is_a?(User)
-    return unless params.fetch(:message_type, 'outgoing').in?(%w[outgoing template])
-    return if ActiveModel::Type::Boolean.new.cast(params[:private])
-    return if @conversation.assignee_agent_bot_id.blank?
-
-    render json: { error: I18n.t('errors.conversations.ai_assignee_reply_not_allowed') }, status: :forbidden
   end
 end
