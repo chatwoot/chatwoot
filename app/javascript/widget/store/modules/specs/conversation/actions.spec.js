@@ -1,7 +1,9 @@
+import { API } from 'widget/helpers/axios';
+import getUuid from '../../../../helpers/uuid';
 import { actions } from '../../conversation/actions';
 import { mutations } from '../../conversation/mutations';
-import getUuid from '../../../../helpers/uuid';
-import { API } from 'widget/helpers/axios';
+
+const rootStateWith = id => ({ conversationAttributes: { id } });
 
 vi.mock('../../../../helpers/uuid');
 vi.mock('widget/helpers/axios');
@@ -170,7 +172,7 @@ describe('#actions', () => {
       const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
 
       await actions.sendMessageWithData(
-        { commit, dispatch, state },
+        { commit, dispatch, state, rootState: rootStateWith(55) },
         { message: { id: 'temp', content: 'hello' } }
       );
       windowSpy.mockRestore();
@@ -202,7 +204,12 @@ describe('#actions', () => {
       const applyMutation = (type, payload) => mutations[type](state, payload);
 
       await actions.sendMessageWithData(
-        { commit: applyMutation, dispatch, state },
+        {
+          commit: applyMutation,
+          dispatch,
+          state,
+          rootState: rootStateWith(55),
+        },
         { message: state.conversations.temp }
       );
       windowSpy.mockRestore();
@@ -224,7 +231,7 @@ describe('#actions', () => {
       };
 
       await actions.sendMessageWithData(
-        { commit, dispatch, state },
+        { commit, dispatch, state, rootState: rootStateWith(55) },
         { message: { id: 'temp', content: 'hello' } }
       );
       windowSpy.mockRestore();
@@ -232,6 +239,27 @@ describe('#actions', () => {
       expect(commit).toBeCalledWith('deleteMessage', 1);
       expect(commit).not.toBeCalledWith('deleteMessage', 77);
       expect(commit).not.toBeCalledWith('deleteMessage', 'temp');
+    });
+
+    it('refreshes when the attributes are stale and there is nothing to drop', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', conversation_id: 99 },
+      });
+      const windowSpy = mockWindow();
+      const state = { conversations: {} };
+
+      await actions.sendMessageWithData(
+        { commit, dispatch, state, rootState: rootStateWith(55) },
+        { message: { id: 'temp', content: 'hello' } }
+      );
+      windowSpy.mockRestore();
+
+      expect(dispatch).toBeCalledWith(
+        'conversationAttributes/getAttributes',
+        {},
+        { root: true }
+      );
+      expect(dispatch).toBeCalledWith('fetchOldConversations');
     });
 
     it('keeps the thread when the message lands in the same conversation', async () => {
@@ -242,7 +270,7 @@ describe('#actions', () => {
       const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
 
       await actions.sendMessageWithData(
-        { commit, dispatch, state },
+        { commit, dispatch, state, rootState: rootStateWith(55) },
         { message: { id: 'temp', content: 'hello' } }
       );
       windowSpy.mockRestore();
@@ -271,7 +299,7 @@ describe('#actions', () => {
       };
 
       actions.sendAttachment(
-        { commit, dispatch, state },
+        { commit, dispatch, state, rootState: rootStateWith(55) },
         { attachment, replyTo: 135 }
       );
       spy.mockRestore();
@@ -310,7 +338,7 @@ describe('#actions', () => {
       };
 
       await actions.sendAttachment(
-        { commit, dispatch, state },
+        { commit, dispatch, state, rootState: rootStateWith(55) },
         {
           attachment: {
             thumbUrl: '',

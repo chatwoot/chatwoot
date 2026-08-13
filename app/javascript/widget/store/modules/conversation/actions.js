@@ -15,16 +15,18 @@ import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 
 // The server starts a new thread when the current one is resolved and replies are disallowed.
-// Refresh after dropping: the socket ignores `message.created` until the attributes catch up.
+// Messages and attributes go stale independently, so either one triggers the refresh: the socket
+// ignores `message.created` until the attributes catch up, so the thread is pulled as well.
 const resetStaleThread = async (
-  { commit, dispatch },
-  conversations,
+  { commit, dispatch, state, rootState },
   conversationId
 ) => {
-  const staleMessages = Object.values(conversations).filter(
+  const staleMessages = Object.values(state.conversations).filter(
     item => item.conversation_id && item.conversation_id !== conversationId
   );
-  if (!staleMessages.length) return;
+  const { id: attributeId } = rootState.conversationAttributes;
+  const hasStaleAttributes = attributeId && attributeId !== conversationId;
+  if (!staleMessages.length && !hasStaleAttributes) return;
 
   staleMessages.forEach(item => commit('deleteMessage', item.id));
   await dispatch('conversationAttributes/getAttributes', {}, { root: true });
@@ -59,7 +61,7 @@ export const actions = {
     });
   },
   sendMessageWithData: async (
-    { commit, dispatch, state: conversationState },
+    { commit, dispatch, state: conversationState, rootState },
     { message, pendingCustomAttributes = {}, pendingLabels = [] }
   ) => {
     const { id, content, replyTo, meta = {} } = message;
@@ -82,8 +84,7 @@ export const actions = {
       }
 
       resetStaleThread(
-        { commit, dispatch },
-        conversationState.conversations,
+        { commit, dispatch, state: conversationState, rootState },
         data.conversation_id
       );
 
@@ -104,7 +105,7 @@ export const actions = {
   },
 
   sendAttachment: async (
-    { commit, dispatch, state: conversationState },
+    { commit, dispatch, state: conversationState, rootState },
     params
   ) => {
     const {
@@ -138,8 +139,7 @@ export const actions = {
         commit('clearPendingConversationMetadata');
       }
       resetStaleThread(
-        { commit, dispatch },
-        conversationState.conversations,
+        { commit, dispatch, state: conversationState, rootState },
         data.conversation_id
       );
 
