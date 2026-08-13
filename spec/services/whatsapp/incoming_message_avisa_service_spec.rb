@@ -313,6 +313,86 @@ describe Whatsapp::IncomingMessageAvisaService do
       end
     end
 
+    context 'when the client replies to a STATUS (caso conv 3769, 13/ago)' do
+      # Payload REAL do caso: o WhatsApp anexa no contextInfo o quote do
+      # Status (status@broadcast, com a legenda do carro postado) E TAMBÉM o
+      # externalAdReply da ORIGEM antiga da thread (CTWA de meses atrás). O
+      # assunto é o Status citado — o anúncio velho não pode ser carimbado.
+      def status_reply_message(text: 'Valor')
+        {
+          'extendedTextMessage' => {
+            'text' => text,
+            'contextInfo' => {
+              'stanzaID' => '3EB09E844C758E3A52814B',
+              'participant' => '90649730801791@lid',
+              'remoteJID' => 'status@broadcast',
+              'quotedType' => 0,
+              'entryPointConversionSource' => 'status',
+              'quotedMessage' => {
+                'imageMessage' => {
+                  'URL' => 'https://mmg.whatsapp.net/foo',
+                  'mimetype' => 'image/jpeg',
+                  'caption' => '*Porsche Macan* | *2023* | 9.620km | Cor Azul Gentian'
+                },
+              },
+              'externalAdReply' => {
+                'title' => 'MERCEDES G-63  AMG ED1 4MATIC V8 Bi-TB [2019]',
+                'sourceUrl' => 'https://www.instagram.com/p/DbiTYTNsyID/',
+                'thumbnailUrl' => 'https://scontent.xx.fbcdn.net/old.jpg'
+              },
+            },
+          },
+        }
+      end
+
+      it 'preserva a legenda do Status e NÃO carimba o anúncio antigo' do
+        params = { jsonData: json_data(status_reply_message) }
+        described_class.new(inbox: inbox, params: params).perform
+
+        msg = inbox.messages.last
+        expect(msg.content).to eq('Valor')
+        attrs = msg.reload.content_attributes
+        expect(attrs['status_reply']).to be(true)
+        expect(attrs['quoted_status_caption']).to include('Porsche Macan')
+        expect(attrs['is_ad']).to be_nil
+        expect(attrs['ad_data']).to be_nil
+      end
+
+      it 'sem legenda no quote, marca só o status_reply (sem chute)' do
+        m = status_reply_message
+        m['extendedTextMessage']['contextInfo']['quotedMessage'] = {
+          'imageMessage' => { 'URL' => 'https://mmg.whatsapp.net/foo', 'mimetype' => 'image/jpeg' },
+        }
+        params = { jsonData: json_data(m) }
+        described_class.new(inbox: inbox, params: params).perform
+
+        attrs = inbox.messages.last.reload.content_attributes
+        expect(attrs['status_reply']).to be(true)
+        expect(attrs).not_to have_key('quoted_status_caption')
+        expect(attrs['is_ad']).to be_nil
+      end
+
+      it 'CTWA legítimo (sem quote de status) segue carimbando o anúncio' do
+        m = {
+          'extendedTextMessage' => {
+            'text' => 'Tenho interesse',
+            'contextInfo' => {
+              'externalAdReply' => {
+                'title' => 'Cadillac Escalade | Estoque de Oportunidades',
+                'sourceUrl' => 'https://fb.me/5VBu1YOSg'
+              },
+            },
+          },
+        }
+        params = { jsonData: json_data(m) }
+        described_class.new(inbox: inbox, params: params).perform
+
+        attrs = inbox.messages.last.reload.content_attributes
+        expect(attrs['is_ad']).to be(true)
+        expect(attrs['status_reply']).to be_nil
+      end
+    end
+
     context 'when a templateMessage (HSM) arrives' do
       it 'extrai o corpo do hydratedTemplate em vez de "[mensagem não suportada]"' do
         params = {

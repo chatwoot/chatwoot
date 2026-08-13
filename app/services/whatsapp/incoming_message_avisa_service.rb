@@ -20,6 +20,9 @@
 #   - envelopes (desembrulhados): ephemeral/view-once/doc-com-legenda/
 #     deviceSent/associatedChild (FutureProof)
 #   - quoted: extendedTextMessage.contextInfo -> popula in_reply_to_external_id
+#   - resposta a STATUS: quoted de status@broadcast -> preserva a legenda
+#     citada e NAO carimba o externalAdReply (que ali e a origem antiga da
+#     thread, nao o assunto)
 #   - outgoing echo: IsFromMe=true cria :outgoing (dedup por source_id)
 #   - ruído de sistema: protocolMessage não-edição (revoke/sync) -> ignorado
 # Grupos ainda pendentes.
@@ -259,6 +262,33 @@ class Whatsapp::IncomingMessageAvisaService
     return nil unless ctx.is_a?(Hash)
 
     (ctx['stanzaId'] || ctx['stanzaID']).to_s.presence
+  end
+
+  # --- Resposta a STATUS (13/ago, conv 3769) --------------------------------
+  # Quando o cliente responde a um STATUS da loja, o contextInfo traz o quote
+  # de `status@broadcast` (e o whatsmeow marca entryPointConversionSource=
+  # 'status') — e TAMBÉM re-anexa o externalAdReply da ORIGEM da thread (o
+  # CTWA antigo que abriu a conversa). O assunto da mensagem é o STATUS
+  # citado, não o anúncio velho: carimbar is_ad ali gravou "MERCEDES G-63
+  # [2019]" numa pergunta sobre o Porsche Macan do Status.
+  def status_reply?
+    ctx = event.dig('Message', 'extendedTextMessage', 'contextInfo')
+    return false unless ctx.is_a?(Hash)
+
+    remote = first_present(ctx, 'remoteJID', 'remoteJid', 'RemoteJID').to_s
+    source = first_present(ctx, 'entryPointConversionSource', 'EntryPointConversionSource').to_s
+    remote == 'status@broadcast' || source == 'status'
+  end
+
+  # Legenda/texto do conteúdo CITADO (imagem/vídeo com caption, ou texto puro).
+  def quoted_caption
+    qm = event.dig('Message', 'extendedTextMessage', 'contextInfo', 'quotedMessage')
+    return nil unless qm.is_a?(Hash)
+
+    qm.dig('imageMessage', 'caption').presence ||
+      qm.dig('videoMessage', 'caption').presence ||
+      qm['conversation'].presence ||
+      qm.dig('extendedTextMessage', 'text').presence
   end
 
   # --- Click-to-WhatsApp: anúncio patrocinado (Facebook/Instagram) -------------
@@ -526,11 +556,22 @@ class Whatsapp::IncomingMessageAvisaService
     # Anúncio CTWA (FB/IG): marca is_ad + ad_data p/ o front desenhar o card. Se o
     # cliente não mandou texto junto, usa o cabeçalho do anúncio como content pra
     # bolha não ficar vazia (e a origem aparecer mesmo sem o card).
-    ad = ad_data
-    if ad.present?
-      content_attrs[:is_ad] = true
-      content_attrs[:ad_data] = ad
-      text = ad_header_text(ad) if text.blank?
+    #
+    # EXCEÇÃO — resposta a STATUS (13/ago, conv 3769): o externalAdReply que
+    # acompanha o quote de status@broadcast é a origem ANTIGA da thread, não o
+    # assunto. Preserva a legenda do Status citado (content_attributes
+    # aditivos que o attra-py lê) e deixa o carimbo de anúncio de fora.
+    if status_reply?
+      content_attrs[:status_reply] = true
+      quoted = quoted_caption
+      content_attrs[:quoted_status_caption] = quoted if quoted.present?
+    else
+      ad = ad_data
+      if ad.present?
+        content_attrs[:is_ad] = true
+        content_attrs[:ad_data] = ad
+        text = ad_header_text(ad) if text.blank?
+      end
     end
 
     {
