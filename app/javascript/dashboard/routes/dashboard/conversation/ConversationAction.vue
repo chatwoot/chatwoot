@@ -25,7 +25,10 @@ export default {
     },
   },
   setup() {
-    const { agentsList } = useAgentsList(true, { includeAgentBots: true });
+    const { agentsList } = useAgentsList(true, {
+      includeAgentBots: true,
+      includeCaptain: true,
+    });
     return {
       agentsList,
     };

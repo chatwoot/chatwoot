@@ -65,5 +65,28 @@ describe('#actions', () => {
         members: agentsData,
       });
     });
+
+    it('requests Captain only for the type-aware assignment list', async () => {
+      axios.get.mockResolvedValue({
+        data: { payload: agentsData },
+      });
+
+      await actions.fetch(
+        { commit },
+        { inboxIds: [1], includeAgentBots: true, includeCaptain: true }
+      );
+
+      expect(axios.get).toHaveBeenCalledWith('/api/v1/assignable_agents', {
+        params: {
+          inbox_ids: [1],
+          include_agent_bots: true,
+          include_captain: true,
+        },
+      });
+      expect(commit).toHaveBeenCalledWith(types.SET_INBOX_ASSIGNABLE_AGENTS, {
+        inboxId: '1:with_ai_assignees',
+        members: agentsData,
+      });
+    });
   });
 });
