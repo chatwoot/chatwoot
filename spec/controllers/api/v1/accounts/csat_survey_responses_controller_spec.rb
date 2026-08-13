@@ -183,6 +183,21 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
         expect(content[1][1]).to eq '1'
         expect(content.length).to eq 3
       end
+
+      it 'neutralizes formulas in the customer supplied feedback message' do
+        formula = '=HYPERLINK("http://attacker.example","click me")'
+        create(:csat_survey_response, account: account, feedback_message: formula)
+
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses/download",
+            params: params,
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+
+        feedback_column = CSV.parse(response.body).drop(1).map { |row| row[2] }
+        expect(feedback_column).to include("'#{formula}")
+        expect(feedback_column).not_to include(formula)
+      end
     end
   end
 end
