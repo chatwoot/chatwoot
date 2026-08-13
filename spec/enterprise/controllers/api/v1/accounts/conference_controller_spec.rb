@@ -156,9 +156,9 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call.end_reason).to eq('agent_rejected')
       end
 
-      it 'marks an in-progress call as completed instead of leaving it non-terminal' do
+      it 'marks an in-progress call as completed with duration, instead of leaving it non-terminal' do
         call = Call.find_by(provider_call_id: 'CALL123')
-        call.update!(status: 'in_progress', accepted_by_agent_id: agent.id)
+        call.update!(status: 'in_progress', accepted_by_agent_id: agent.id, started_at: 30.seconds.ago)
 
         delete "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
                headers: agent.create_new_auth_token,
@@ -169,6 +169,8 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(call.status).to eq('completed')
         expect(call.end_reason).to eq('agent_hangup')
         expect(call.terminal?).to be true
+        expect(call.duration_seconds).to be >= 30
+        expect(call.ended_at).to be_present
       end
 
       it 'marks a claimed-but-not-yet-connected call as no_answer instead of leaving it ringing' do
