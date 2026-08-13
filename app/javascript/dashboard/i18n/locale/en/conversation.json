@@ -67,6 +67,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "No response",
