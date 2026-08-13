@@ -39,11 +39,12 @@ const isPublicMacroReadOnly = computed(
   () => macro.value?.visibility === 'global' && !isAdmin.value
 );
 
-const fetchDropdownData = () => {
-  store.dispatch('agents/get');
-  store.dispatch('teams/get');
-  store.dispatch('labels/get');
-};
+const fetchDropdownData = () =>
+  Promise.all([
+    store.dispatch('agents/get'),
+    store.dispatch('teams/get'),
+    store.dispatch('labels/get'),
+  ]);
 
 const formatMacro = macroData => {
   const formattedActions = macroData.actions.map(action => {
@@ -56,13 +57,6 @@ const formatMacro = macroData => {
         actionParams = getMacroDropdownValues(action.action_name).filter(item =>
           [...action.action_params].includes(item.id)
         );
-      } else if (inputType === 'team_message') {
-        actionParams = {
-          team_ids: getMacroDropdownValues(action.action_name).filter(item =>
-            [...action.action_params[0].team_ids].includes(item.id)
-          ),
-          message: action.action_params[0].message,
-        };
       } else actionParams = [...action.action_params];
     }
     return {
@@ -77,7 +71,10 @@ const formatMacro = macroData => {
 };
 
 const manifestMacro = async () => {
-  await store.dispatch('macros/getSingleMacro', macroId.value);
+  await Promise.all([
+    fetchDropdownData(),
+    store.dispatch('macros/getSingleMacro', macroId.value),
+  ]);
   const singleMacro = store.getters['macros/getMacro'](macroId.value);
   macro.value = formatMacro(singleMacro);
 };
@@ -104,10 +101,10 @@ const initNewMacro = () => {
 watch(
   () => route,
   () => {
-    fetchDropdownData();
     if (route.params.macroId) {
       fetchMacro();
     } else {
+      fetchDropdownData();
       initNewMacro();
     }
   },

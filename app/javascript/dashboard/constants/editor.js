@@ -237,7 +237,7 @@ export const MARKDOWN_PATTERNS = [
   },
   {
     type: 'orderedList', // PM: ordered_list, eg: 1. item
-    patterns: [{ pattern: /^[\t ]*\d+\.\s+/gm, replacement: '' }],
+    patterns: [{ pattern: /^[\t ]*\d+[.)]\s+/gm, replacement: '' }],
   },
   {
     type: 'heading', // PM: heading, eg: ## Heading
