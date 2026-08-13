@@ -97,10 +97,8 @@ class Sms::IncomingMessageService
     end
   end
 
-  # Only forward the tenant's provider credentials when the media is hosted on the
-  # provider's own domain, so an attacker-supplied URL cannot capture them. Redirects
-  # are disabled on the credentialed request so the credentials cannot follow a
-  # cross-host redirect either.
+  # Attach the provider credentials only for media on the provider's own host, and
+  # do not follow redirects on that request.
   def download_options(media_url)
     return {} unless provider_hosted?(media_url)
 
