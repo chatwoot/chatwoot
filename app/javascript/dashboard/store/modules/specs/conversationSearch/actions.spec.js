@@ -99,6 +99,7 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.CONTACT_SEARCH_SET_UI_FLAG, { isFetching: true }],
         [types.CONTACT_SEARCH_SET, [{ id: 1 }]],
+        [types.CONTACT_SEARCH_SET_UI_FLAG, { hasMore: false }],
         [types.CONTACT_SEARCH_SET_UI_FLAG, { isFetching: false }],
       ]);
     });
@@ -123,6 +124,7 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: true }],
         [types.CONVERSATION_SEARCH_SET, [{ id: 1 }]],
+        [types.CONVERSATION_SEARCH_SET_UI_FLAG, { hasMore: false }],
         [types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: false }],
       ]);
     });
@@ -147,7 +149,21 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.MESSAGE_SEARCH_SET_UI_FLAG, { isFetching: true }],
         [types.MESSAGE_SEARCH_SET, [{ id: 1 }]],
+        [types.MESSAGE_SEARCH_SET_UI_FLAG, { hasMore: false }],
         [types.MESSAGE_SEARCH_SET_UI_FLAG, { isFetching: false }],
+      ]);
+    });
+
+    it('should mark hasMore when the API returns a full page', async () => {
+      const fullPage = Array.from({ length: 15 }, (_, i) => ({ id: i + 1 }));
+      axios.get.mockResolvedValue({
+        data: { payload: { messages: fullPage } },
+      });
+
+      await actions.messageSearch({ commit }, { q: 'test', page: 1 });
+      expect(commit.mock.calls).toContainEqual([
+        types.MESSAGE_SEARCH_SET_UI_FLAG,
+        { hasMore: true },
       ]);
     });
 
@@ -171,6 +187,7 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: true }],
         [types.ARTICLE_SEARCH_SET, [{ id: 1 }]],
+        [types.ARTICLE_SEARCH_SET_UI_FLAG, { hasMore: false }],
         [types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: false }],
       ]);
     });
@@ -187,6 +204,7 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: true }],
         [types.ARTICLE_SEARCH_SET, [{ id: 1 }]],
+        [types.ARTICLE_SEARCH_SET_UI_FLAG, { hasMore: false }],
         [types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: false }],
       ]);
     });
