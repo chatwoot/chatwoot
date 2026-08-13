@@ -25,13 +25,13 @@ class Email::BaseBuilder
     # Friendly: <agent_name> from <business_name>
     # Professional: <business_name>
     if inbox.friendly?
-      I18n.t(
-        'conversations.reply.email.header.friendly_name',
+      Email::SenderNameBuilder.new(
+        account: account,
+        sender: message&.sender,
+        sender_email: sender_email,
         sender_name: custom_sender_name,
-        business_name: business_name,
-        from_email: sender_email,
-        locale: sender_locale
-      )
+        business_name: business_name
+      ).build
     else
       I18n.t(
         'conversations.reply.email.header.professional_name',
@@ -39,12 +39,6 @@ class Email::BaseBuilder
         from_email: sender_email
       )
     end
-  end
-
-  def sender_locale
-    return account.locale unless message&.sender.is_a?(User)
-
-    message.sender.ui_settings&.dig('locale').presence || account.locale
   end
 
   def business_name

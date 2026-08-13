@@ -91,17 +91,16 @@ class ConversationReplyMailer < ApplicationMailer
 
   def sender_name(sender_email)
     if @inbox.friendly?
-      I18n.t('conversations.reply.email.header.friendly_name', sender_name: custom_sender_name, business_name: business_name,
-                                                               from_email: sender_email, locale: sender_locale)
+      Email::SenderNameBuilder.new(
+        account: @account,
+        sender: current_message&.sender,
+        sender_email: sender_email,
+        sender_name: custom_sender_name,
+        business_name: business_name
+      ).build
     else
       I18n.t('conversations.reply.email.header.professional_name', business_name: business_name, from_email: sender_email)
     end
-  end
-
-  def sender_locale
-    return @account.locale unless current_message&.sender.is_a?(User)
-
-    current_message.sender.ui_settings&.dig('locale').presence || @account.locale
   end
 
   def current_message
