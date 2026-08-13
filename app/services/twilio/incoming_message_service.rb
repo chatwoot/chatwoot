@@ -187,12 +187,20 @@ class Twilio::IncomingMessageService # rubocop:disable Metrics/ClassLength
 
   def twilio_https_url?(media_url)
     uri = URI.parse(media_url)
-    return false unless uri.scheme == 'https'
-
-    host = uri.host&.downcase
-    host == TWILIO_DOMAIN || host&.end_with?(".#{TWILIO_DOMAIN}") || false
+    canonical_https?(uri) && twilio_host?(uri.host)
   rescue URI::InvalidURIError
     false
+  end
+
+  # Credentials go only to the provider's exact endpoint form: https, default port,
+  # no embedded userinfo.
+  def canonical_https?(uri)
+    uri.scheme == 'https' && uri.userinfo.nil? && uri.port == URI::HTTPS.default_port
+  end
+
+  def twilio_host?(host)
+    host = host&.downcase
+    host == TWILIO_DOMAIN || host&.end_with?(".#{TWILIO_DOMAIN}") || false
   end
 
   def handle_download_attachment_error(error, media_url)
