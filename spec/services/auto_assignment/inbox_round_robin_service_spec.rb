@@ -30,6 +30,7 @@ describe AutoAssignment::InboxRoundRobinService do
     it 'keeps the queue empty when the inbox has no members' do
       empty_inbox = create(:inbox, account: account)
       service = described_class.new(inbox: empty_inbox)
+      service.add_agent_to_queue(-1)
 
       expect(service.available_agent).to be_nil
       expect(service.send(:queue)).to be_empty
