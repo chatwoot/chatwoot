@@ -175,6 +175,11 @@ export function generateTranslationPayload(auditLogItem, agentList) {
       auditLogItem.audited_changes?.display_id || auditLogItem.auditable_id;
   }
 
+  if (auditableType === 'message' && action === 'destroy') {
+    translationPayload.conversationId =
+      auditLogItem.audited_changes?.display_id;
+  }
+
   if (auditableType === 'accountuser') {
     translationPayload = handleAccountUser(
       auditLogItem,
