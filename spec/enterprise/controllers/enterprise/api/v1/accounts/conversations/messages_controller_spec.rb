@@ -31,6 +31,7 @@ RSpec.describe 'Enterprise Conversation Messages API', type: :request do
         expect(audit_log.remote_address).to be_present
         expect(audit_log.audited_changes['content']).to eq('Secret original content')
         expect(audit_log.audited_changes['conversation_id']).to eq(message.conversation_id)
+        expect(audit_log.audited_changes['display_id']).to eq(conversation.display_id)
         expect(audit_log.audited_changes['inbox_id']).to eq(message.inbox_id)
       end
     end
@@ -43,6 +44,17 @@ RSpec.describe 'Enterprise Conversation Messages API', type: :request do
       end.not_to change(Enterprise::AuditLog, :count)
 
       expect(response).to have_http_status(:not_found)
+    end
+
+    it 'does not create a duplicate audit log when an already-deleted message is deleted again' do
+      path = "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}"
+
+      delete path, headers: agent.create_new_auth_token, as: :json
+      expect(Enterprise::AuditLog.where(auditable_type: 'Message', action: 'destroy').count).to eq(1)
+
+      expect do
+        delete path, headers: agent.create_new_auth_token, as: :json
+      end.not_to change(Enterprise::AuditLog, :count)
     end
   end
 end
