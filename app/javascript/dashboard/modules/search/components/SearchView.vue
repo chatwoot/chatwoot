@@ -316,7 +316,7 @@ const onBack = () => {
   clearSearchResult();
 };
 
-const loadMore = () => {
+const loadMore = async () => {
   const SEARCH_ACTIONS = {
     contacts: 'conversationSearch/contactSearch',
     conversations: 'conversationSearch/conversationSearch',
@@ -334,7 +334,10 @@ const loadMore = () => {
     tab
   );
 
-  store.dispatch(SEARCH_ACTIONS[tab], payload);
+  const success = await store.dispatch(SEARCH_ACTIONS[tab], payload);
+  // Roll back on failure so a retry fetches the same page instead of
+  // skipping past the one that never loaded
+  if (!success) pages.value[tab] -= 1;
 };
 
 const onTabChange = tab => {

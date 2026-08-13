@@ -175,6 +175,22 @@ describe('#actions', () => {
         [types.MESSAGE_SEARCH_SET_UI_FLAG, { isFetching: false }],
       ]);
     });
+
+    it('should report success so callers can keep the page counter', async () => {
+      axios.get.mockResolvedValue({
+        data: { payload: { messages: [{ id: 1 }] } },
+      });
+      await expect(
+        actions.messageSearch({ commit }, { q: 'test', page: 2 })
+      ).resolves.toBe(true);
+    });
+
+    it('should report failure so callers can roll the page counter back', async () => {
+      axios.get.mockRejectedValue({});
+      await expect(
+        actions.messageSearch({ commit }, { q: 'test', page: 2 })
+      ).resolves.toBe(false);
+    });
   });
 
   describe('#articleSearch', () => {

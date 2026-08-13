@@ -105,8 +105,10 @@ export const actions = {
       commit(types.CONTACT_SEARCH_SET_UI_FLAG, {
         hasMore: data.payload.contacts.length === PER_PAGE,
       });
+      return true;
     } catch (error) {
-      // Ignore error
+      // Failure is reported so callers can roll back their page counter
+      return false;
     } finally {
       commit(types.CONTACT_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
@@ -120,8 +122,10 @@ export const actions = {
       commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, {
         hasMore: data.payload.conversations.length === PER_PAGE,
       });
+      return true;
     } catch (error) {
-      // Ignore error
+      // Failure is reported so callers can roll back their page counter
+      return false;
     } finally {
       commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
@@ -135,8 +139,10 @@ export const actions = {
       commit(types.MESSAGE_SEARCH_SET_UI_FLAG, {
         hasMore: data.payload.messages.length === PER_PAGE,
       });
+      return true;
     } catch (error) {
-      // Ignore error
+      // Failure is reported so callers can roll back their page counter
+      return false;
     } finally {
       commit(types.MESSAGE_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
@@ -150,8 +156,10 @@ export const actions = {
       commit(types.ARTICLE_SEARCH_SET_UI_FLAG, {
         hasMore: data.payload.articles.length === PER_PAGE,
       });
+      return true;
     } catch (error) {
-      // Ignore error
+      // Failure is reported so callers can roll back their page counter
+      return false;
     } finally {
       commit(types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
