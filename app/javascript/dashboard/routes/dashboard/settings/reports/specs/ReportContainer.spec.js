@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+import { formatTime } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
 import ReportContainer from '../ReportContainer.vue';
 
@@ -37,7 +38,8 @@ describe('ReportContainer.vue', () => {
       },
       global: {
         mocks: {
-          $t: key => key,
+          $t: (key, params) =>
+            params?.count === undefined ? key : `${key}:${params.count}`,
           $store: {
             getters: {
               getAccountReports: {
@@ -78,7 +80,13 @@ describe('ReportContainer.vue', () => {
           },
           BarChart: {
             name: 'BarChart',
-            props: ['data', 'formatValue', 'yStepSize', 'clickable'],
+            props: [
+              'data',
+              'formatValue',
+              'pointDescription',
+              'yStepSize',
+              'clickable',
+            ],
             emits: ['itemClick'],
             template:
               '<button data-test-id="bar-chart" @click="$emit(\'itemClick\', { item: data.series[0].data[0], pointIndex: 0 })" />',
@@ -152,11 +160,38 @@ describe('ReportContainer.vue', () => {
   });
 
   it('uses semantic duration steps only for average metrics', () => {
-    const durationWrapper = mountComponent({
+    const descriptionMetrics = [
+      [
+        'avg_first_response_time',
+        'REPORT.METRICS.FIRST_RESPONSE_TIME.TOOLTIP_DESCRIPTION:2',
+      ],
+      [
+        'avg_resolution_time',
+        'REPORT.METRICS.RESOLUTION_TIME.TOOLTIP_DESCRIPTION:2',
+      ],
+      ['reply_time', 'REPORT.METRICS.REPLY_TIME.TOOLTIP_DESCRIPTION:2'],
+    ];
+
+    descriptionMetrics.forEach(([reportKey, expectedDescription]) => {
+      const wrapper = mountComponent({
+        reportKey,
+        dataPoint: { value: 50000, count: 2, timestamp: 1621103400 },
+      });
+      const chart = wrapper.findComponent({ name: 'BarChart' });
+
+      expect(chart.props('formatValue')(50000, { count: 2 })).toBe(
+        formatTime(50000)
+      );
+      expect(chart.props('pointDescription')({ count: 2 })).toBe(
+        expectedDescription
+      );
+    });
+
+    const resolutionWrapper = mountComponent({
       reportKey: 'avg_resolution_time',
       dataPoint: { value: 50000, count: 2, timestamp: 1621103400 },
     });
-    const durationChart = durationWrapper.findComponent({ name: 'BarChart' });
+    const durationChart = resolutionWrapper.findComponent({ name: 'BarChart' });
 
     expect(durationChart.props('formatValue')(0)).toBe('0');
     expect(
@@ -171,6 +206,9 @@ describe('ReportContainer.vue', () => {
     const countWrapper = mountComponent();
     expect(
       countWrapper.findComponent({ name: 'BarChart' }).props('yStepSize')
+    ).toBeUndefined();
+    expect(
+      countWrapper.findComponent({ name: 'BarChart' }).props('pointDescription')
     ).toBeUndefined();
   });
 

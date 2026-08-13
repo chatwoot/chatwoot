@@ -4,7 +4,7 @@ import BarChart from '../charts/BarChart.vue';
 vi.mock('@chatwoot/viz', () => ({
   BarChart: {
     name: 'VizBarChart',
-    props: ['data', 'ariaLabel', 'onItemClick'],
+    props: ['data', 'ariaLabel', 'pointDescription', 'onItemClick'],
     template: '<button @click="onItemClick?.({ pointIndex: 0 })" />',
   },
 }));
@@ -16,11 +16,13 @@ describe('BarChart.vue', () => {
   };
 
   it('emits the clicked chart item when clickable', () => {
+    const pointDescription = point => point.description;
     const wrapper = shallowMount(BarChart, {
       props: {
         clickable: true,
         data,
         ariaLabel: 'Conversations by day',
+        pointDescription,
       },
     });
 
@@ -29,6 +31,7 @@ describe('BarChart.vue', () => {
 
     expect(chart.props('data')).toEqual(data);
     expect(chart.props('ariaLabel')).toBe('Conversations by day');
+    expect(chart.props('pointDescription')).toBe(pointDescription);
     expect(wrapper.emitted('itemClick')[0][0]).toEqual({ pointIndex: 0 });
   });
 

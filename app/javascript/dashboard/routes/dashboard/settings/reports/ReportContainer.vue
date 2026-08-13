@@ -116,7 +116,6 @@ export default {
         KEY: this.reportKeys[key],
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
         INFO_TEXT: infoText[key],
-        TOOLTIP_TEXT: `REPORT.METRICS.${key}.TOOLTIP_TEXT`,
         trend: this.calculateTrend(this.reportKeys[key]),
       }));
     },
@@ -177,14 +176,30 @@ export default {
       return (value, dataPoint) => {
         if (!dataPoint && value === 0) return '0';
 
-        const metricValue = formatTime(value || 0);
-        if (!dataPoint) return metricValue;
-
-        return this.$t(metric.TOOLTIP_TEXT, {
-          metricValue,
-          conversationCount: dataPoint.count || 0,
-        });
+        return formatTime(value || 0);
       };
+    },
+    getPointDescription(metric) {
+      if (metric.KEY === 'avg_first_response_time') {
+        return dataPoint =>
+          this.$t('REPORT.METRICS.FIRST_RESPONSE_TIME.TOOLTIP_DESCRIPTION', {
+            count: dataPoint.count || 0,
+          });
+      }
+
+      if (metric.KEY === 'avg_resolution_time') {
+        return dataPoint =>
+          this.$t('REPORT.METRICS.RESOLUTION_TIME.TOOLTIP_DESCRIPTION', {
+            count: dataPoint.count || 0,
+          });
+      }
+
+      if (metric.KEY !== 'reply_time') return undefined;
+
+      return dataPoint =>
+        this.$t('REPORT.METRICS.REPLY_TIME.TOOLTIP_DESCRIPTION', {
+          count: dataPoint.count || 0,
+        });
     },
     getDurationStepSize({ min, max, tickCount }) {
       const targetStep = (max - min) / Math.max(tickCount - 1, 1);
@@ -302,6 +317,7 @@ export default {
             :data="getChartData(metric)"
             :aria-label="getChartAriaLabel(metric)"
             :format-value="getValueFormatter(metric)"
+            :point-description="getPointDescription(metric)"
             :y-step-size="
               isAverageMetricType(metric.KEY) ? getDurationStepSize : undefined
             "
