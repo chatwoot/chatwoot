@@ -169,6 +169,49 @@ describe('useMacros', () => {
     expect(getMacroDropdownValues('unknown_type')).toEqual([]);
   });
 
+  it('resolves macro actions into name and value pairs', () => {
+    const { resolveMacroActions } = useMacros();
+    const macro = {
+      actions: [
+        { action_name: 'assign_team', action_params: [1, 'nil'] },
+        { action_name: 'assign_agent', action_params: [9] },
+        { action_name: 'add_label', action_params: ['sales', 'billing'] },
+        { action_name: 'change_priority', action_params: ['high'] },
+        { action_name: 'send_attachment', action_params: ['blob-1'] },
+        { action_name: 'send_message', action_params: ['Hello there'] },
+        { action_name: 'resolve_conversation', action_params: [] },
+      ],
+      files: [{ blob_id: 'blob-1', filename: 'invoice.pdf' }],
+    };
+
+    expect(resolveMacroActions(macro)).toEqual([
+      {
+        actionName: 'ASSIGN_TEAM',
+        actionValue: '⚙️ sales team, AUTOMATION.NONE_OPTION',
+      },
+      { actionName: 'ASSIGN_AGENT', actionValue: 'Clark Kent' },
+      { actionName: 'ADD_LABEL', actionValue: 'sales, billing' },
+      {
+        actionName: 'CHANGE_PRIORITY',
+        actionValue: 'MACROS.PRIORITY_TYPES.HIGH',
+      },
+      { actionName: 'SEND_ATTACHMENT', actionValue: 'invoice.pdf' },
+      { actionName: 'SEND_MESSAGE', actionValue: 'Hello there' },
+      { actionName: 'RESOLVE_CONVERSATION', actionValue: '' },
+    ]);
+  });
+
+  it('resolves actions the macro builder does not offer', () => {
+    const { resolveMacroActions } = useMacros();
+    const macro = {
+      actions: [{ action_name: 'change_status', action_params: ['resolved'] }],
+    };
+
+    expect(resolveMacroActions(macro)).toEqual([
+      { actionName: 'CHANGE_STATUS', actionValue: 'resolved' },
+    ]);
+  });
+
   it('handles empty data correctly', () => {
     useStoreGetters.mockReturnValue({
       'labels/getLabels': { value: [] },

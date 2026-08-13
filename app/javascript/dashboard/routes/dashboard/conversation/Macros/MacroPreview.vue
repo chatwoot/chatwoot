@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import { useMapGetter } from 'dashboard/composables/store.js';
-import { resolveMacroActions } from 'dashboard/routes/dashboard/settings/macros/macroHelper';
+import { useMacros } from 'dashboard/composables/useMacros';
 
 const props = defineProps({
   macro: {
@@ -10,17 +9,9 @@ const props = defineProps({
   },
 });
 
-const labels = useMapGetter('labels/getLabels');
-const teams = useMapGetter('teams/getTeams');
-const agents = useMapGetter('agents/getAgents');
+const { resolveMacroActions } = useMacros();
 
-const resolvedMacro = computed(() =>
-  resolveMacroActions(props.macro, {
-    labels: labels.value,
-    teams: teams.value,
-    agents: agents.value,
-  })
-);
+const resolvedMacro = computed(() => resolveMacroActions(props.macro));
 </script>
 
 <template>

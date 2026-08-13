@@ -1,9 +1,9 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useStore } from 'dashboard/composables/store';
 import { useOrderedMacros } from 'dashboard/composables/useOrderedMacros';
-import { resolveMacroActions } from 'dashboard/routes/dashboard/settings/macros/macroHelper';
+import { useMacros } from 'dashboard/composables/useMacros';
 import CaretAnchoredPicker from 'dashboard/components-next/preview-picker/CaretAnchoredPicker.vue';
 
 const props = defineProps({
@@ -23,10 +23,7 @@ const store = useStore();
 const { t } = useI18n();
 
 const { orderedMacros } = useOrderedMacros();
-
-const labels = useMapGetter('labels/getLabels');
-const teams = useMapGetter('teams/getTeams');
-const agents = useMapGetter('agents/getAgents');
+const { resolveMacroActions } = useMacros();
 
 // The trigger can already be followed by text, from a draft or a caret moved back onto it
 const searchQuery = ref(props.searchKey);
@@ -46,13 +43,6 @@ const items = computed(() =>
       }),
     }))
 );
-
-const actionsFor = macro =>
-  resolveMacroActions(macro, {
-    labels: labels.value,
-    teams: teams.value,
-    agents: agents.value,
-  });
 
 const onSelect = item => emit('selectMacro', item.macro);
 
@@ -75,7 +65,7 @@ onMounted(() => {
     <template #preview="{ item }">
       <div v-if="item" class="px-4 py-3">
         <div
-          v-for="(action, index) in actionsFor(item.macro)"
+          v-for="(action, index) in resolveMacroActions(item.macro)"
           :key="index"
           class="relative flex flex-col pb-2 group ps-4 last:pb-0 gap-0.5"
         >
