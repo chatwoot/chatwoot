@@ -15,6 +15,7 @@ import CannedResponse from '../conversation/CannedResponse.vue';
 import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
 import TagAgents from '../conversation/TagAgents.vue';
 import VariableList from '../conversation/VariableList.vue';
+import MacroList from '../conversation/MacroList.vue';
 import TagTools from '../conversation/TagTools.vue';
 import CopilotMenuBar from './CopilotMenuBar.vue';
 
@@ -86,6 +87,7 @@ const props = defineProps({
   enableVariables: { type: Boolean, default: false },
   enableCannedResponses: { type: Boolean, default: true },
   enableCaptainTools: { type: Boolean, default: false },
+  enableMacros: { type: Boolean, default: false },
   variables: { type: Object, default: () => ({}) },
   signature: { type: String, default: '' },
   // allowSignature is a kill switch, ensuring no signature methods
@@ -104,6 +106,8 @@ const emit = defineEmits([
   'toggleCannedMenu',
   'toggleVariablesMenu',
   'toggleToolsMenu',
+  'toggleMacrosMenu',
+  'executeMacro',
   'clearSelection',
   'blur',
   'focus',
@@ -194,11 +198,13 @@ const showCannedMenu = ref(false);
 const showVariables = ref(false);
 const showEmojiMenu = ref(false);
 const showToolsMenu = ref(false);
+const showMacroMenu = ref(false);
 const toolSearchKey = ref('');
 const mentionSearchKey = ref('');
 const cannedSearchKey = ref('');
 const variableSearchKey = ref('');
 const emojiSearchKey = ref('');
+const macroSearchKey = ref('');
 const range = ref(null);
 const isTextSelected = ref(false); // Tracks text selection and prevents unnecessary re-renders on mouse selection
 const showSelectionMenu = ref(false);
@@ -253,6 +259,10 @@ const shouldShowCannedResponses = computed(() => {
   );
 });
 
+const shouldShowMacros = computed(() => {
+  return props.enableMacros && showMacroMenu.value;
+});
+
 const shouldShowUserMentions = computed(() => {
   return showUserMentions.value && props.isPrivate;
 });
@@ -269,6 +279,7 @@ const dismissUserMentions = () => dismissPicker(showUserMentions);
 const dismissCannedResponses = () => dismissPicker(showCannedMenu);
 const dismissVariables = () => dismissPicker(showVariables);
 const dismissEmojiMenu = () => dismissPicker(showEmojiMenu);
+const dismissMacros = () => dismissPicker(showMacroMenu);
 
 // Deleting the trigger drops the suggestion, so the plugin closes the picker through
 // `onExit` on its own.
@@ -278,6 +289,11 @@ const removeSuggestionTrigger = () => {
   const end = Math.min(to, editorView.state.doc.content.size);
   editorView.dispatch(editorView.state.tr.delete(from, end));
   editorView.focus();
+};
+
+const onSelectMacro = macro => {
+  removeSuggestionTrigger();
+  emit('executeMacro', macro);
 };
 
 function createSuggestionPlugin({
@@ -352,6 +368,12 @@ const plugins = computed(() => {
       getVariables: () => props.variables,
     }),
     createSuggestionPlugin({
+      trigger: '#',
+      showMenu: showMacroMenu,
+      searchTerm: macroSearchKey,
+      isAllowed: () => props.enableMacros,
+    }),
+    createSuggestionPlugin({
       trigger: ':',
       minChars: 2,
       showMenu: showEmojiMenu,
@@ -383,6 +405,9 @@ watch(shouldShowCannedResponses, updatedValue => {
 });
 watch(shouldShowVariables, updatedValue => {
   emit('toggleVariablesMenu', updatedValue);
+});
+watch(shouldShowMacros, updatedValue => {
+  emit('toggleMacrosMenu', updatedValue);
 });
 watch(showToolsMenu, updatedValue => {
   emit('toggleToolsMenu', props.enableCaptainTools && updatedValue);
@@ -484,6 +509,7 @@ function reloadState(content = props.modelValue) {
   showVariables.value = false;
   showEmojiMenu.value = false;
   showToolsMenu.value = false;
+  showMacroMenu.value = false;
 
   const unrefContent = unref(content);
   state = createState(
@@ -947,6 +973,14 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       @close="dismissVariables"
       @remove-trigger="removeSuggestionTrigger"
       @select-variable="content => insertSpecialContent('variable', content)"
+    />
+    <MacroList
+      v-if="shouldShowMacros"
+      :caret-position="caretPosition"
+      :search-key="macroSearchKey"
+      @close="dismissMacros"
+      @remove-trigger="removeSuggestionTrigger"
+      @select-macro="onSelectMacro"
     />
     <KeyboardEmojiSelector
       v-if="showEmojiMenu"
