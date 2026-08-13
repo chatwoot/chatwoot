@@ -73,13 +73,17 @@ const onSend = () => {
     <div
       v-else-if="isGeneratingContent"
       key="loading-state"
-      class="bg-n-iris-5 rounded min-h-[4.75rem] w-full mb-4 p-4 flex items-start"
+      class="resizable-editor-body flex flex-col justify-end mb-3"
     >
-      <div class="flex items-center gap-2">
-        <CaptainLoader class="text-n-iris-10 size-4" />
-        <span class="text-sm text-n-iris-10">
-          {{ $t('CONVERSATION.REPLYBOX.COPILOT_THINKING') }}
-        </span>
+      <div
+        class="bg-n-iris-5 rounded min-h-[4.75rem] w-full p-4 flex items-start"
+      >
+        <div class="flex items-center gap-2">
+          <CaptainLoader class="text-n-iris-10 size-4" />
+          <span class="text-sm text-n-iris-10">
+            {{ $t('CONVERSATION.REPLYBOX.COPILOT_THINKING') }}
+          </span>
+        </div>
       </div>
     </div>
   </Transition>
