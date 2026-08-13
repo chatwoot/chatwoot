@@ -92,5 +92,24 @@ describe MessageFinder do
         expect(result.last.id).to be conversation.messages[-2].id
       end
     end
+
+    context 'with after and before attributes above the message id range' do
+      let!(:max_id_message) do
+        create(:message, id: described_class::MESSAGE_ID_MAX, account: account, inbox: inbox, conversation: conversation)
+      end
+      let(:params) do
+        {
+          after: 881_965_304_328,
+          before: 4_611_686_018_427_387_903
+        }
+      end
+
+      it 'returns no messages' do
+        result = message_finder.perform
+
+        expect(result).to be_empty
+        expect(result).not_to include(max_id_message)
+      end
+    end
   end
 end
