@@ -2,6 +2,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { PRIORITY_CONDITION_VALUES } from 'dashboard/constants/automation';
+import { generateTeamOptions } from 'dashboard/helper/automationHelper';
 import {
   resolveActionName,
   getFileName,
@@ -32,9 +33,9 @@ export const useMacros = () => {
   const getMacroDropdownValues = type => {
     switch (type) {
       case 'assign_team':
-        return withNoneOption(teams.value);
+        return withNoneOption(generateTeamOptions(teams.value));
       case 'send_email_to_team':
-        return teams.value;
+        return generateTeamOptions(teams.value);
       case 'assign_agent':
         return [
           ...withNoneOption(),

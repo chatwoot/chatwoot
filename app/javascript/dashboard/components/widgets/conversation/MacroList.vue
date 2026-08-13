@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useOrderedMacros } from 'dashboard/composables/useOrderedMacros';
 import { useMacros } from 'dashboard/composables/useMacros';
 import CaretAnchoredPicker from 'dashboard/components-next/preview-picker/CaretAnchoredPicker.vue';
@@ -24,6 +24,8 @@ const { t } = useI18n();
 
 const { orderedMacros } = useOrderedMacros();
 const { resolveMacroActions } = useMacros();
+
+const uiFlags = useMapGetter('macros/getUIFlags');
 
 // The trigger can already be followed by text, from a draft or a caret moved back onto it
 const searchQuery = ref(props.searchKey);
@@ -57,6 +59,7 @@ onMounted(() => {
     :caret-position="caretPosition"
     :items="items"
     :search-placeholder="t('CONVERSATION.PICKER.MACRO.SEARCH_PLACEHOLDER')"
+    :is-loading="uiFlags.isFetching"
     :empty-label="t('COMBOBOX.EMPTY_STATE')"
     @select="onSelect"
     @close="emit('close')"

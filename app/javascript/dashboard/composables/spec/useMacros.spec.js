@@ -4,7 +4,6 @@ import { useStoreGetters } from 'dashboard/composables/store';
 import { PRIORITY_CONDITION_VALUES } from 'dashboard/constants/automation';
 
 vi.mock('dashboard/composables/store');
-vi.mock('dashboard/helper/automationHelper.js');
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
 }));
@@ -58,6 +57,8 @@ describe('useMacros', () => {
     {
       id: 1,
       name: '⚙️ sales team',
+      icon: 'chat-1-line',
+      icon_color: '#64748B',
       description: 'This is our internal sales team',
       allow_auto_assign: true,
       account_id: 1,
@@ -80,6 +81,12 @@ describe('useMacros', () => {
       is_member: true,
     },
   ];
+  const mockTeamOptions = mockTeams.map(team => ({
+    id: team.id,
+    name: team.name,
+    emoji: team.icon,
+    iconColor: team.icon_color,
+  }));
   const mockAgents = [
     {
       id: 1,
@@ -133,8 +140,10 @@ describe('useMacros', () => {
       id: 'nil',
       name: 'AUTOMATION.NONE_OPTION',
     });
-    expect(assignTeamResult.slice(1)).toEqual(mockTeams);
-    expect(getMacroDropdownValues('send_email_to_team')).toEqual(mockTeams);
+    expect(assignTeamResult.slice(1)).toEqual(mockTeamOptions);
+    expect(getMacroDropdownValues('send_email_to_team')).toEqual(
+      mockTeamOptions
+    );
   });
 
   it('returns agents with "None" and "Self" options for assign_agent type', () => {
