@@ -70,8 +70,12 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
       Messages::StatusUpdateService.new(message, 'sent').perform
       previous_source_id = message.source_id
-      message.update!(content_attributes: {}, source_id: nil)
-      Rails.logger.info "Cleared older source ID #{previous_source_id} for message #{message.id}" if previous_source_id.present?
+      retry_attributes = { content_attributes: {} }
+      retry_attributes[:source_id] = nil unless @conversation.inbox.api? || @conversation.inbox.web_widget?
+      message.update!(retry_attributes)
+      if retry_attributes.key?(:source_id) && previous_source_id.present?
+        Rails.logger.info "Cleared older source ID #{previous_source_id} for message #{message.id}"
+      end
       true
     end
   end
