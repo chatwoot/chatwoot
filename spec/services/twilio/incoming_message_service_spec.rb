@@ -16,6 +16,7 @@ describe Twilio::IncomingMessageService do
     allow(Resolv).to receive(:getaddresses).and_call_original
     allow(Resolv).to receive(:getaddresses).with('chatwoot-assets.local').and_return(['93.184.216.34'])
     allow(Resolv).to receive(:getaddresses).with('other.example').and_return(['93.184.216.34'])
+    allow(Resolv).to receive(:getaddresses).with('api.twilio.com').and_return(['93.184.216.34'])
     allow(Resolv).to receive(:getaddresses).with('internal.example').and_return(['169.254.169.254'])
   end
 
@@ -278,6 +279,15 @@ describe Twilio::IncomingMessageService do
         described_class.new(params: media_params.merge(MediaUrl0: 'http://internal.example/file.png')).perform
 
         expect(conversation.reload.messages.last.attachments.count).to eq(0)
+      end
+
+      it 'does not attach credentials to a plaintext Twilio url' do
+        http_url = 'http://api.twilio.com/2010-04-01/Accounts/ACxxx/Messages/MMxx/Media/MExx'
+        stub_request(:get, http_url).to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
+
+        described_class.new(params: media_params.merge(MediaUrl0: http_url)).perform
+
+        expect(a_request(:get, http_url).with(basic_auth: ['ACxxx', twilio_channel.auth_token])).not_to have_been_made
       end
     end
 

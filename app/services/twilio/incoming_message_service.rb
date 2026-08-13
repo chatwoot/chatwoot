@@ -177,8 +177,13 @@ class Twilio::IncomingMessageService # rubocop:disable Metrics/ClassLength
     Rails.logger.info "Error downloading Twilio media: #{e.class}: Skipping"
   end
 
+  # Only the provider's own https host is fetched with credentials; a plaintext
+  # (http) or non-Twilio URL from the payload goes through SafeFetch instead.
   def twilio_hosted?(media_url)
-    host = URI.parse(media_url).host&.downcase
+    uri = URI.parse(media_url)
+    return false unless uri.scheme == 'https'
+
+    host = uri.host&.downcase
     host == TWILIO_DOMAIN || host&.end_with?(".#{TWILIO_DOMAIN}") || false
   rescue URI::InvalidURIError
     false
