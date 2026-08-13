@@ -8,11 +8,16 @@ const mountDurationInput = ({ initialValue = null } = {}) => {
     setup() {
       const duration = ref(initialValue);
       const unit = ref('minutes');
+      const submittedDuration = ref(null);
 
-      return { duration, unit };
+      const handleSubmit = () => {
+        submittedDuration.value = duration.value;
+      };
+
+      return { duration, unit, submittedDuration, handleSubmit };
     },
     template: `
-      <div>
+      <form @submit.prevent="handleSubmit">
         <DurationInput
           v-model="duration"
           v-model:unit="unit"
@@ -20,7 +25,10 @@ const mountDurationInput = ({ initialValue = null } = {}) => {
           :max="100"
         />
         <output data-testid="duration">{{ duration }}</output>
-      </div>
+        <output data-testid="submitted-duration">
+          {{ submittedDuration }}
+        </output>
+      </form>
     `,
   });
 
@@ -51,5 +59,18 @@ describe('DurationInput', () => {
     await input.setValue('125');
     await input.trigger('blur');
     expect(input.element.value).toBe('100');
+  });
+
+  it('normalizes the value before Enter submits the form', async () => {
+    const wrapper = mountDurationInput();
+    const input = wrapper.get('input');
+
+    await input.setValue('125');
+    await input.trigger('keydown', { key: 'Enter' });
+    await wrapper.get('form').trigger('submit');
+
+    expect(wrapper.get('[data-testid="submitted-duration"]').text()).toBe(
+      '100'
+    );
   });
 });

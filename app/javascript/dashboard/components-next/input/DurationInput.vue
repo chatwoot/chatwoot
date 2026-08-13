@@ -77,7 +77,7 @@ watch(unit, () => {
     :placeholder="t('DURATION_INPUT.PLACEHOLDER')"
     class="flex-grow w-full disabled:"
     @blur="normalizeDuration"
-    @enter="normalizeDuration"
+    @keydown.enter="normalizeDuration"
   />
   <select
     v-model="unit"
