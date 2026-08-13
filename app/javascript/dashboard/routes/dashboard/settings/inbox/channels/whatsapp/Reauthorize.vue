@@ -112,6 +112,31 @@ const startEmbeddedSignup = authCode => {
   window.addEventListener('message', messageHandler);
 };
 
+// FB.login's authCode and Meta's FINISH postMessage arrive independently and in no
+// guaranteed order (see useWhatsappEmbeddedSignup.js). The "existing config" reauth
+// shortcut already trusts the stored business/phone IDs, so it only needs to know
+// which FINISH variant occurred — this waits for it exactly like the composable waits
+// for its business data, instead of only catching it if it happens to arrive early.
+const createFinishEventWaiter = () => {
+  let listener;
+  const promise = new Promise(resolve => {
+    listener = createMessageHandler(data => {
+      if (
+        data?.event === 'FINISH' ||
+        data?.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
+      ) {
+        window.removeEventListener('message', listener);
+        resolve(data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING');
+      }
+    });
+    window.addEventListener('message', listener);
+  });
+  return {
+    promise,
+    cleanup: () => window.removeEventListener('message', listener),
+  };
+};
+
 const handleLoginAndReauthorize = async () => {
   // Validate required configuration
   if (!whatsappAppId.value) {
@@ -121,31 +146,22 @@ const handleLoginAndReauthorize = async () => {
     throw new Error('WhatsApp Configuration ID is required');
   }
 
-  // The FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING postMessage can arrive before or after
-  // FB.login's authCode resolves. The "existing config" shortcut below calls
-  // reauthorizeWhatsApp immediately once authCode is ready and never reaches
-  // startEmbeddedSignup, so this listener is the only chance to catch that event for it.
-  let isCoexistence = false;
-  const coexistenceListener = createMessageHandler(data => {
-    if (data?.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING') {
-      isCoexistence = true;
-    }
-  });
-  window.addEventListener('message', coexistenceListener);
+  // Check if this is a reauthorization scenario where we already have the business data
+  const existingConfig = props.inbox.provider_config;
+  const hasExistingConfig = Boolean(
+    existingConfig &&
+      existingConfig.business_account_id &&
+      existingConfig.phone_number_id
+  );
+  const finishWaiter = hasExistingConfig ? createFinishEventWaiter() : null;
 
   try {
     const authCode = await initWhatsAppEmbeddedSignup(
       whatsappConfigurationId.value
     );
 
-    // Check if this is a reauthorization scenario where we already have the business data
-    const existingConfig = props.inbox.provider_config;
-    if (
-      existingConfig &&
-      existingConfig.business_account_id &&
-      existingConfig.phone_number_id
-    ) {
-      window.removeEventListener('message', coexistenceListener);
+    if (hasExistingConfig) {
+      const isCoexistence = await finishWaiter.promise;
       await reauthorizeWhatsApp({
         code: authCode,
         business_id: existingConfig.business_account_id,
@@ -154,11 +170,10 @@ const handleLoginAndReauthorize = async () => {
         is_coexistence: isCoexistence,
       });
     } else {
-      window.removeEventListener('message', coexistenceListener);
       startEmbeddedSignup(authCode);
     }
   } catch (error) {
-    window.removeEventListener('message', coexistenceListener);
+    finishWaiter?.cleanup();
     if (error.message === 'Login cancelled') {
       useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
     } else {
