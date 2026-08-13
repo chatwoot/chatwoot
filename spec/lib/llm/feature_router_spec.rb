@@ -30,6 +30,19 @@ RSpec.describe Llm::FeatureRouter do
       )
     end
 
+    it 'uses a valid account model override for an internal feature' do
+      account.update!(captain_models: { 'conversation_completion' => 'gpt-5.2' })
+
+      resolved = described_class.resolve(feature: 'conversation_completion', account: account)
+
+      expect(resolved).to include(
+        feature: 'conversation_completion',
+        provider: 'openai',
+        model: 'gpt-5.2',
+        source: :account_override
+      )
+    end
+
     it 'resolves GPT-5.2 as the assistant default when Captain V2 is enabled without storing an account override' do
       account.enable_features!('captain_integration_v2')
 

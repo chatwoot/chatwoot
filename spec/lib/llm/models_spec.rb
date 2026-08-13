@@ -31,6 +31,10 @@ RSpec.describe Llm::Models do
       expect(described_class.default_model_for('conversation_faq_generation')).to eq('gpt-5.2')
       expect(described_class.default_model_for('conversation_faq_matching')).to eq('gpt-4.1-mini')
     end
+
+    it 'offers the assistant model list for conversation completion' do
+      expect(described_class.models_for('conversation_completion')).to eq(described_class.models_for('assistant'))
+    end
   end
 
   describe '.models' do
