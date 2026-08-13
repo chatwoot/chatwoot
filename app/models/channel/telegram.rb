@@ -60,10 +60,13 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def process_error(message, response)
-    return unless response.parsed_response['ok'] == false
+    parsed_response = response.parsed_response
+    # Telegram's error body is expected to be a JSON object, but a non-2xx response can also arrive
+    # with a body that parses to something else (e.g. a bare `null`), which isn't safe to index with `[]`.
+    return unless parsed_response.is_a?(Hash) && parsed_response['ok'] == false
 
     # https://github.com/TelegramBotAPI/errors/tree/master/json
-    message.external_error = "#{response.parsed_response['error_code']}, #{response.parsed_response['description']}"
+    message.external_error = "#{parsed_response['error_code']}, #{parsed_response['description']}"
     message.status = :failed
     message.save!
   end

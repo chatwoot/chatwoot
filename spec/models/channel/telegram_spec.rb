@@ -153,6 +153,57 @@ RSpec.describe Channel::Telegram do
       expect(message.reload.status).to eq('failed')
       expect(message.reload.external_error).to eq('403, Forbidden: bot was blocked by the user')
     end
+
+    it 'send text message failed with a non-JSON-object response body' do
+      # Telegram (or an intermediary proxy) can return a non-2xx response whose body parses to
+      # something other than a JSON object (e.g. a bare `null`). `process_error` used to call
+      # `[]` directly on that parsed value and raise NoMethodError instead of failing gracefully.
+      message = create(:message, message_type: :outgoing, content: 'test',
+                                 conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' }))
+
+      stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
+        .with(
+          body: 'chat_id=123&text=test&reply_markup=&parse_mode=HTML&reply_to_message_id='
+        )
+        .to_return(
+          status: 502,
+          headers: { 'Content-Type' => 'application/json' },
+          body: 'null'
+        )
+
+      expect { telegram_channel.send_message_on_telegram(message) }.not_to raise_error
+      expect(message.reload.status).not_to eq('failed')
+    end
+  end
+
+  describe '#process_error' do
+    let(:message) do
+      create(:message, message_type: :outgoing, content: 'test',
+                       conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' }))
+    end
+
+    it 'marks the message as failed when the response body is a JSON object with ok: false' do
+      response = OpenStruct.new(parsed_response: { 'ok' => false, 'error_code' => 403, 'description' => 'Forbidden' })
+
+      telegram_channel.process_error(message, response)
+
+      expect(message.reload.status).to eq('failed')
+      expect(message.external_error).to eq('403, Forbidden')
+    end
+
+    it 'does not raise and leaves the message untouched when parsed_response is nil' do
+      response = OpenStruct.new(parsed_response: nil)
+
+      expect { telegram_channel.process_error(message, response) }.not_to raise_error
+      expect(message.reload.status).not_to eq('failed')
+    end
+
+    it 'does not raise and leaves the message untouched when parsed_response is an Array' do
+      response = OpenStruct.new(parsed_response: [{ 'ok' => false }])
+
+      expect { telegram_channel.process_error(message, response) }.not_to raise_error
+      expect(message.reload.status).not_to eq('failed')
+    end
   end
 
   context 'when message contains attachments' do
