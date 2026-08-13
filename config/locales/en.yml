@@ -631,17 +631,18 @@ en:
         empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
-        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        helper_text: 'Leave a model blank to use the default routing for that AI feature.'
         customer_features: 'Customer features'
         internal_features: 'Internal features'
         use_default: 'Use default: %{model} (%{model_id})'
-        use_default_routing: 'Use default routing'
+        use_installation_model: 'Use installation model: %{model} (%{model_id})'
       show:
         summary: 'View model routing'
         provider: 'Provider'
         model: 'Model'
       sources:
         account_override: 'Account override'
+        installation_override: 'Installation setting'
         default: 'Default'
       features:
         conversation_completion: 'Inactive conversation completion evaluator'

@@ -45,12 +45,32 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(completion_card.text.squish).to include('Inactive conversation completion evaluator', 'GPT-5.2', 'Account override')
         expect(response.body).to include('Editor', 'OpenAI', 'openai', 'gpt-4.1', 'Label suggestion', 'Default')
       end
+
+      it 'shows the installation model for internal routing on self-hosted Enterprise', if: ChatwootApp.enterprise? do
+        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
+        sign_in(super_admin, scope: :super_admin)
+
+        get "/super_admin/accounts/#{account.id}"
+        document = Nokogiri::HTML(response.body)
+        routing_panel = document.at_css('#captain_models').parent.at_css('details')
+        completion_card = routing_panel.css('.rounded-md').find { |card| card.text.include?('conversation_completion') }
+
+        expect(response).to have_http_status(:success)
+        expect(completion_card.text.squish).to include(
+          'Inactive conversation completion evaluator',
+          'GPT-5.1',
+          'Installation setting'
+        )
+      end
     end
   end
 
   describe 'GET /super_admin/accounts/{account_id}/edit' do
     context 'when it is an authenticated user' do
       it 'renders separate Captain model selectors for customer and internal AI features', if: ChatwootApp.enterprise? do
+        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         account.update!(captain_models: { 'editor' => 'gpt-4.1' })
         sign_in(super_admin, scope: :super_admin)
 
@@ -72,7 +92,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
 
         expect(response.body).to include('Customer features', 'Internal features')
         expect(editor_select.at_css('option[value=""]').text.squish).to eq("Use default: #{default_model} (#{default_model_id})")
-        expect(completion_select.at_css('option[value=""]').text.squish).to eq('Use default routing')
+        expect(completion_select.at_css('option[value=""]').text.squish).to eq('Use installation model: GPT-5.1 (gpt-5.1)')
         expect(completion_select.css('option').pluck('value')).to eq([''] + Llm::Models.models_for('conversation_completion'))
       end
 

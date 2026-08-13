@@ -50,10 +50,21 @@ class CaptainModelOverridesField < Administrate::Field::Base
   end
 
   def default_option_label(feature_key)
-    return I18n.t('super_admin.captain_model_overrides.form.use_default_routing') if Llm::Models.internal_feature?(feature_key)
+    return internal_default_option_label(feature_key) if Llm::Models.internal_feature?(feature_key)
 
     model_id = default_model_id(feature_key)
     I18n.t('super_admin.captain_model_overrides.form.use_default', model: model_label(model_id), model_id: model_id)
+  end
+
+  def internal_default_option_label(feature_key)
+    route = Llm::FeatureRouter.resolve(feature: feature_key)
+    translation_key = route[:source] == :installation_override ? 'use_installation_model' : 'use_default'
+
+    I18n.t(
+      "super_admin.captain_model_overrides.form.#{translation_key}",
+      model: model_label(route[:model]),
+      model_id: route[:model]
+    )
   end
 
   def model_label(model_id)
