@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Varijable",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Jezik",
       "CATEGORY": "Kategorija",
       "VARIABLE_PLACEHOLDER": "Unesi {variable} vrijednost",

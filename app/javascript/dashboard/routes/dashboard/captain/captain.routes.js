@@ -11,7 +11,10 @@ import AssistantsIndexPage from './pages/AssistantsIndexPage.vue';
 import AssistantEmptyStateIndex from './assistants/Index.vue';
 
 import AssistantOverviewIndex from './assistants/overview/Index.vue';
-import AssistantSettingsIndex from './assistants/settings/Settings.vue';
+import AssistantSettingsIndex from './assistants/settings/Index.vue';
+import AssistantSystemSettingsIndex from './assistants/settings/System.vue';
+import AssistantAudienceSettingsIndex from './assistants/settings/Audience.vue';
+import AssistantScheduleSettingsIndex from './assistants/settings/Schedule.vue';
 import AssistantInboxesIndex from './assistants/inboxes/Index.vue';
 import AssistantPlaygroundIndex from './assistants/playground/Index.vue';
 import AssistantGuardrailsIndex from './assistants/guardrails/Index.vue';
@@ -110,7 +113,31 @@ const assistantRoutes = [
     name: 'captain_assistants_settings_index',
     meta,
   },
-  // Settings sub-pages (guardrails and guidelines)
+  // Settings sub-pages
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/:assistantId/settings/system'
+    ),
+    component: AssistantSystemSettingsIndex,
+    name: 'captain_assistants_settings_system_index',
+    meta,
+  },
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/:assistantId/settings/audience'
+    ),
+    component: AssistantAudienceSettingsIndex,
+    name: 'captain_assistants_settings_audience_index',
+    meta,
+  },
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/:assistantId/settings/schedule'
+    ),
+    component: AssistantScheduleSettingsIndex,
+    name: 'captain_assistants_settings_schedule_index',
+    meta,
+  },
   {
     path: frontendURL(
       'accounts/:accountId/captain/:assistantId/settings/guardrails'
