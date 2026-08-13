@@ -42,7 +42,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(summaries).to include('View model routing')
         expect(summaries).not_to include('All features', 'Captain models')
         expect(routing_panel.text.squish).to include('Customer features', 'Internal features')
-        expect(completion_card.text.squish).to include('Conversation completion', 'GPT-5.2', 'Account override')
+        expect(completion_card.text.squish).to include('Inactive conversation completion evaluator', 'GPT-5.2', 'Account override')
         expect(response.body).to include('Editor', 'OpenAI', 'openai', 'gpt-4.1', 'Label suggestion', 'Default')
       end
     end

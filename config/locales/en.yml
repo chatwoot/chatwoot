@@ -644,7 +644,7 @@ en:
         account_override: 'Account override'
         default: 'Default'
       features:
-        conversation_completion: 'Conversation completion'
+        conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: 'Assistant'
         copilot: 'Copilot'
