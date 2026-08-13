@@ -23,6 +23,12 @@ class Captain::ConversationUsageBuilder
 
     def order_documents_by_conversation_count(documents, account_id:, assistant_id: nil)
       usage_counts_sql = document_usage_counts(account_id, assistant_id).to_sql
+      documents_table = Captain::Document.arel_table
+      usage_counts = Arel::Table.new('captain_document_usage')
+      conversation_count = Arel::Nodes::NamedFunction.new(
+        'COALESCE',
+        [usage_counts[:conversation_count].maximum, Arel::Nodes.build_quoted(0)]
+      )
 
       documents
         .joins(
@@ -32,13 +38,8 @@ class Captain::ConversationUsageBuilder
               AND captain_document_usage.assistant_id = captain_documents.assistant_id
           SQL
         )
-        .group('captain_documents.id')
-        .reorder(
-          Arel.sql(
-            'COALESCE(MAX(captain_document_usage.conversation_count), 0) DESC, ' \
-            'captain_documents.updated_at DESC, captain_documents.id DESC'
-          )
-        )
+        .group(documents_table[:id])
+        .reorder(conversation_count.desc, documents_table[:updated_at].desc, documents_table[:id].desc)
     end
 
     private
@@ -67,50 +68,55 @@ class Captain::ConversationUsageBuilder
 
     def indexed_usage_sessions(resource, usage_column)
       Captain::AgentSession.session_assistant
+                           .with_delivered_answer
                            .where(
                              account_id: resource.account_id,
                              assistant_id: resource.assistant_id,
                              subject_type: 'Conversation'
                            )
-                           .where("agent_sessions.#{usage_column} @> ?", [resource.id].to_json)
+                           .where(Captain::AgentSession.arel_table[usage_column].contains([resource.id]))
                            .select(:subject_id, :assistant_id, :account_id)
     end
 
     def usage_count_query(resource, cte_name)
-      resource_id = Captain::AgentSession.connection.quote(resource.id.to_s)
-
-      <<~SQL.squish
-        SELECT #{resource_id} AS resource_id,
-               #{cte_name}.assistant_id,
-               COUNT(DISTINCT #{cte_name}.subject_id)
-        FROM #{cte_name}
-        INNER JOIN conversations AS usage_conversations
-          ON usage_conversations.id = #{cte_name}.subject_id
-          AND usage_conversations.account_id = #{cte_name}.account_id
-        GROUP BY #{cte_name}.assistant_id
-      SQL
+      sessions = Arel::Table.new(cte_name)
+      query = sessions.project(
+        Arel::Nodes.build_quoted(resource.id.to_s).as('resource_id'),
+        sessions[:assistant_id],
+        sessions[:subject_id].count(true)
+      )
+      query.join_sources.concat(existing_conversation_join(sessions))
+      query.group(sessions[:assistant_id]).to_sql
     end
 
     def document_usage_counts(account_id, assistant_id)
-      sessions = Captain::AgentSession.session_assistant.where(account_id: account_id, subject_type: 'Conversation')
+      sessions_table = Captain::AgentSession.arel_table
+      knowledge_usage = Arel::Table.new('knowledge_usage')
+      sessions = Captain::AgentSession.session_assistant
+                                      .with_delivered_answer
+                                      .where(account_id: account_id, subject_type: 'Conversation')
       sessions = sessions.where(assistant_id: assistant_id) if assistant_id.present?
 
       sessions
-        .joins(
-          'INNER JOIN conversations AS usage_conversations ' \
-          'ON usage_conversations.id = agent_sessions.subject_id ' \
-          'AND usage_conversations.account_id = agent_sessions.account_id'
-        )
+        .joins(existing_conversation_join(sessions_table))
         .joins(
           'CROSS JOIN LATERAL ' \
           'jsonb_array_elements_text(agent_sessions.document_ids) AS knowledge_usage(resource_id)'
         )
         .select(
-          Arel.sql('agent_sessions.assistant_id'),
-          Arel.sql('knowledge_usage.resource_id'),
-          Arel.sql('COUNT(DISTINCT agent_sessions.subject_id) AS conversation_count')
+          sessions_table[:assistant_id],
+          knowledge_usage[:resource_id],
+          sessions_table[:subject_id].count(true).as('conversation_count')
         )
-        .group('agent_sessions.assistant_id', 'knowledge_usage.resource_id')
+        .group(sessions_table[:assistant_id], knowledge_usage[:resource_id])
+    end
+
+    def existing_conversation_join(sessions)
+      conversations = Conversation.arel_table.alias('usage_conversations')
+      join_condition = conversations[:id].eq(sessions[:subject_id])
+                                         .and(conversations[:account_id].eq(sessions[:account_id]))
+
+      sessions.join(conversations).on(join_condition).join_sources
     end
 
     def validate_usage_column(usage_column)
@@ -162,8 +168,9 @@ class Captain::ConversationUsageBuilder
   def matching_sessions
     account.captain_agent_sessions
            .session_assistant
+           .with_delivered_answer
            .where(assistant_id: resource.assistant_id, subject_type: 'Conversation')
-           .where("agent_sessions.#{usage_column} @> ?", [resource.id].to_json)
+           .where(Captain::AgentSession.arel_table[usage_column].contains([resource.id]))
   end
 
   def record_serializer(records)

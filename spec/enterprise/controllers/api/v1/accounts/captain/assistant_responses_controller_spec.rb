@@ -29,13 +29,13 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
 
       before do
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: first_conversation, used_faq_ids: [manual_response.id])
+                                       subject: first_conversation, used_faq_ids: [manual_response.id], credits_consumed: 1.0)
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: first_conversation, used_faq_ids: [manual_response.id])
+                                       subject: first_conversation, used_faq_ids: [manual_response.id], credits_consumed: 1.0)
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: second_conversation, used_faq_ids: [manual_response.id])
+                                       subject: second_conversation, used_faq_ids: [manual_response.id], credits_consumed: 1.0)
         create(:captain_agent_session, account: account, assistant: another_assistant,
-                                       subject: second_conversation, used_faq_ids: [manual_response.id])
+                                       subject: second_conversation, used_faq_ids: [manual_response.id], credits_consumed: 1.0)
       end
 
       it 'returns distinct conversation usage only for user-created FAQs to an admin' do
@@ -51,11 +51,33 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
         expect(responses_by_id[document_response.id]).not_to have_key(:used_in_conversations_count)
       end
 
+      it 'excludes handoff sessions from manual FAQ usage' do
+        handoff_response = create(:captain_assistant_response, account: account, assistant: assistant, documentable: admin)
+        handoff_conversation = create(:conversation, account: account)
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: handoff_conversation, used_faq_ids: [handoff_response.id], credits_consumed: 0.0)
+
+        get "/api/v1/accounts/#{account.id}/captain/assistant_responses",
+            params: { assistant_id: assistant.id },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        response_json = json_response[:payload].find { |item| item[:id] == handoff_response.id }
+        expect(response_json[:used_in_conversations_count]).to eq(0)
+
+        get "/api/v1/accounts/#{account.id}/captain/assistant_responses/#{handoff_response.id}/drilldown",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(json_response[:meta][:conversation_count]).to eq(0)
+        expect(json_response[:payload]).to be_empty
+      end
+
       it 'excludes deleted conversations from user-created FAQ usage counts' do
         deleted_conversation = create(:conversation, account: account)
         deleted_session = create(:captain_agent_session, account: account, assistant: assistant,
                                                          subject: deleted_conversation,
-                                                         used_faq_ids: [manual_response.id])
+                                                         used_faq_ids: [manual_response.id], credits_consumed: 1.0)
         deleted_conversation.destroy!
         expect(deleted_session.reload).to be_present
 
@@ -235,11 +257,11 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
 
     before do
       create(:captain_agent_session, account: account, assistant: assistant,
-                                     subject: older_conversation, used_faq_ids: [manual_response.id])
+                                     subject: older_conversation, used_faq_ids: [manual_response.id], credits_consumed: 1.0)
       create(:captain_agent_session, account: account, assistant: assistant,
-                                     subject: newer_conversation, used_faq_ids: [manual_response.id])
+                                     subject: newer_conversation, used_faq_ids: [manual_response.id], credits_consumed: 1.0)
       create(:captain_agent_session, account: account, assistant: assistant,
-                                     subject: newer_conversation, used_faq_ids: [manual_response.id])
+                                     subject: newer_conversation, used_faq_ids: [manual_response.id], credits_consumed: 1.0)
     end
 
     it 'returns unauthorized for an agent' do

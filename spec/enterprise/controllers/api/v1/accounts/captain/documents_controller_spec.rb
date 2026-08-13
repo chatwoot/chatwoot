@@ -141,21 +141,45 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         other_document = create(:captain_document, assistant: assistant, account: account)
 
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: first_conversation, document_ids: [document.id])
+                                       subject: first_conversation, document_ids: [document.id], credits_consumed: 1.0)
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: first_conversation, document_ids: [document.id])
+                                       subject: first_conversation, document_ids: [document.id], credits_consumed: 1.0)
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: second_conversation, document_ids: [document.id])
+                                       subject: second_conversation, document_ids: [document.id], credits_consumed: 1.0)
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: second_conversation, document_ids: [other_document.id])
+                                       subject: second_conversation, document_ids: [other_document.id], credits_consumed: 1.0)
         create(:captain_agent_session, account: account, assistant: assistant2,
-                                       subject: second_conversation, document_ids: [document.id])
+                                       subject: second_conversation, document_ids: [document.id], credits_consumed: 1.0)
 
         get "/api/v1/accounts/#{account.id}/captain/documents",
             headers: admin.create_new_auth_token, as: :json
 
         matching_document = json_response[:payload].find { |item| item[:id] == document.id }
         expect(matching_document[:used_in_conversations_count]).to eq(2)
+      end
+
+      it 'excludes handoff sessions from document usage' do
+        answered_document = create(:captain_document, assistant: assistant, account: account)
+        answered_conversation = create(:conversation, account: account)
+        handoff_conversation = create(:conversation, account: account)
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: answered_conversation, document_ids: [answered_document.id], credits_consumed: 1.0)
+        create(:captain_agent_session, account: account, assistant: assistant,
+                                       subject: handoff_conversation, document_ids: [document.id], credits_consumed: 0.0)
+
+        get "/api/v1/accounts/#{account.id}/captain/documents",
+            params: { assistant_id: assistant.id, sort: 'most_used' },
+            headers: admin.create_new_auth_token, as: :json
+
+        documents_by_id = json_response[:payload].index_by { |item| item[:id] }
+        expect(json_response[:payload].first[:id]).to eq(answered_document.id)
+        expect(documents_by_id.dig(document.id, :used_in_conversations_count)).to eq(0)
+
+        get "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/drilldown",
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(json_response[:meta][:conversation_count]).to eq(0)
+        expect(json_response[:payload]).to be_empty
       end
 
       it 'sorts documents by the number of distinct conversations that used them' do
@@ -166,13 +190,13 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         second_conversation = create(:conversation, account: account)
 
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: first_conversation, document_ids: [most_used_document.id])
+                                       subject: first_conversation, document_ids: [most_used_document.id], credits_consumed: 1.0)
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: first_conversation, document_ids: [most_used_document.id])
+                                       subject: first_conversation, document_ids: [most_used_document.id], credits_consumed: 1.0)
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: second_conversation, document_ids: [most_used_document.id])
+                                       subject: second_conversation, document_ids: [most_used_document.id], credits_consumed: 1.0)
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: second_conversation, document_ids: [less_used_document.id])
+                                       subject: second_conversation, document_ids: [less_used_document.id], credits_consumed: 1.0)
 
         get "/api/v1/accounts/#{account.id}/captain/documents",
             params: { assistant_id: assistant.id, sort: 'most_used' },
@@ -201,10 +225,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         deleted_conversation = create(:conversation, account: account)
         deleted_session = create(:captain_agent_session, account: account, assistant: assistant,
                                                          subject: deleted_conversation,
-                                                         document_ids: [unused_document.id])
+                                                         document_ids: [unused_document.id], credits_consumed: 1.0)
         live_conversation = create(:conversation, account: account)
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: live_conversation, document_ids: [used_document.id])
+                                       subject: live_conversation, document_ids: [used_document.id], credits_consumed: 1.0)
 
         deleted_conversation.destroy!
         expect(deleted_session.reload).to be_present
@@ -285,11 +309,11 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
 
     before do
       create(:captain_agent_session, account: account, assistant: assistant,
-                                     subject: older_conversation, document_ids: [document.id])
+                                     subject: older_conversation, document_ids: [document.id], credits_consumed: 1.0)
       create(:captain_agent_session, account: account, assistant: assistant,
-                                     subject: newer_conversation, document_ids: [document.id])
+                                     subject: newer_conversation, document_ids: [document.id], credits_consumed: 1.0)
       create(:captain_agent_session, account: account, assistant: assistant,
-                                     subject: newer_conversation, document_ids: [document.id])
+                                     subject: newer_conversation, document_ids: [document.id], credits_consumed: 1.0)
     end
 
     it 'returns unauthorized for an agent' do
@@ -318,7 +342,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
     it 'returns 25 conversations at a time by default' do
       create_list(:conversation, 24, account: account).each do |conversation|
         create(:captain_agent_session, account: account, assistant: assistant,
-                                       subject: conversation, document_ids: [document.id])
+                                       subject: conversation, document_ids: [document.id], credits_consumed: 1.0)
       end
 
       get "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/drilldown",
