@@ -487,6 +487,8 @@
     - $ref: '#/components/parameters/account_id'
     - $ref: '#/components/parameters/conversation_id'
     - $ref: '#/components/parameters/message_id'
+  patch:
+    $ref: ./application/conversation/messages/update.yml
   delete:
     $ref: ./application/conversation/messages/delete.yml
 
