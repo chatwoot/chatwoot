@@ -544,6 +544,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Overview",
     "LIVE": "Live",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
