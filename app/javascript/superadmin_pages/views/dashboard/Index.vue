@@ -1,5 +1,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
+import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
 import BarChart from 'shared/components/charts/BarChart.vue';
 
 const stats = ref(null);
@@ -31,12 +33,12 @@ const chartAriaLabel = 'Conversations created by day';
 const chartData = computed(() => {
   const sourceData = stats.value?.chartData || [];
   return {
-    categories: sourceData.map(([label]) => label),
+    categories: sourceData.map(([label]) => format(parseISO(label), 'dd-MMM')),
     series: [
       {
         id: 'conversations',
         label: 'Conversations',
-        color: 'rgb(var(--blue-9))',
+        color: '#1f93ff',
         data: sourceData.map(([, value]) => value),
       },
     ],
