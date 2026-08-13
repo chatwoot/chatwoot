@@ -5,8 +5,11 @@ module Captain::AssistantOutcomeClassification
 
   private
 
-  # Usage-limit handoffs represent blocked demand. Every other handoff,
-  # including an unclassified one, means Captain participated.
+  # A usage-limit handoff is blocked demand only when Captain never replied, so
+  # it does not make the episode involved. If Captain replied before the quota
+  # ran out, the episode remains involved and the later transfer is a real
+  # handoff. Every non-usage-limit handoff, including an unclassified one, also
+  # means Captain participated.
   def involved(table)
     table[:first_captain_reply_at].not_eq(nil).or(
       table[:handoff_at].not_eq(nil).and(
@@ -33,6 +36,8 @@ module Captain::AssistantOutcomeClassification
   end
 
   def handoff(table)
+    # Intentionally includes usage-limit transfers when a prior Captain reply
+    # made the episode involved; only pre-participation quota blocks are excluded.
     involved(table).and(table[:handoff_at].not_eq(nil))
   end
 
