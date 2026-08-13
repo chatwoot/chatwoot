@@ -36,6 +36,35 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.first.content).to eq(params[:content])
       end
 
+      context 'when an AI agent owns the conversation' do
+        let(:agent_bot) { create(:agent_bot) }
+
+        before do
+          conversation.update!(ai_assignee: agent_bot, status: :pending)
+        end
+
+        it 'blocks public replies' do
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'test-message' },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:forbidden)
+          expect(response.parsed_body['error']).to eq(I18n.t('errors.conversations.ai_assignee_reply_not_allowed'))
+          expect(conversation.messages.count).to eq(0)
+        end
+
+        it 'allows private notes' do
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'test-note', private: true },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(conversation.messages.last).to have_attributes(content: 'test-note', private: true)
+        end
+      end
+
       it 'does not create the message' do
         params = { content: "#{'h' * 150 * 1000}a", private: true }
 
@@ -135,6 +164,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
       it 'creates a new outgoing message' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        conversation.update!(ai_assignee: agent_bot, status: :pending)
         params = { content: 'test-message' }
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),

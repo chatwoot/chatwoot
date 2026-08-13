@@ -54,6 +54,7 @@ import {
 import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { isFileTypeAllowedForChannel } from 'shared/helpers/FileHelper';
+import { isAIAssigneeType } from 'dashboard/helper/agentHelper';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -185,7 +186,7 @@ export default {
     canSendPublicReply() {
       return (
         this.isWithinMessagingWindow &&
-        !this.isBotOwnedPendingConversation &&
+        !this.isAIOwnedConversation &&
         !this.isInstagramReplyRestricted
       );
     },
@@ -202,7 +203,7 @@ export default {
         return true;
       }
 
-      return this.isBotOwnedPendingConversation
+      return this.isAIOwnedConversation
         ? this.isPrivate
         : this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
@@ -226,11 +227,8 @@ export default {
       );
       return !!stripped.trim();
     },
-    isBotOwnedPendingConversation() {
-      return (
-        this.currentChat?.status === wootConstants.STATUS_TYPE.PENDING &&
-        this.currentChat?.meta?.assignee_type === 'AgentBot'
-      );
+    isAIOwnedConversation() {
+      return isAIAssigneeType(this.currentChat?.meta?.assignee_type);
     },
     inboxId() {
       return this.currentChat.inbox_id;

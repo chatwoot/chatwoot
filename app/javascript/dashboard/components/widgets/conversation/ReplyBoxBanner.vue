@@ -4,7 +4,7 @@ import { useStore } from 'vuex';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
-import wootConstants from 'dashboard/constants/globals';
+import { isAIAssigneeType } from 'dashboard/helper/agentHelper';
 
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -56,20 +56,14 @@ const showSelfAssignBanner = computed(() => {
   );
 });
 
-const isPendingConversation = computed(
-  () => currentChat.value?.status === wootConstants.STATUS_TYPE.PENDING
+const isAIOwned = computed(() =>
+  isAIAssigneeType(currentChat.value?.meta?.assignee_type)
 );
 
-const isAgentBotOwned = computed(
-  () => currentChat.value?.meta?.assignee_type === 'AgentBot'
-);
-
-const showBotHandoffBanner = computed(() => {
-  return isPendingConversation.value && isAgentBotOwned.value;
-});
+const showBotHandoffBanner = computed(() => isAIOwned.value);
 
 const botAssigneeName = computed(() => {
-  if (isAgentBotOwned.value && assignedAgent.value?.name) {
+  if (isAIOwned.value && assignedAgent.value?.name) {
     return assignedAgent.value.name;
   }
 
@@ -104,7 +98,7 @@ const reopenConversation = async () => {
 const onClickBotHandoff = async () => {
   try {
     const shouldAssignToCurrentUser =
-      isAgentBotOwned.value || needsAssignmentToCurrentUser.value;
+      isAIOwned.value || needsAssignmentToCurrentUser.value;
 
     await reopenConversation();
 
