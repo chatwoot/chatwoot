@@ -31,8 +31,8 @@ importers:
         specifier: ^0.0.57
         version: 0.0.57
       '@chatwoot/viz':
-        specifier: ^0.1.0
-        version: 0.1.0(vue@3.5.12(typescript@5.6.2))
+        specifier: ^0.1.1
+        version: 0.1.1(vue@3.5.12(typescript@5.6.2))
       '@formkit/core':
         specifier: ^1.7.2
         version: 1.7.2
@@ -111,9 +111,6 @@ importers:
       camelcase-keys:
         specifier: ^9.1.3
         version: 9.1.3
-      chart.js:
-        specifier: ~4.4.4
-        version: 4.4.4
       color2k:
         specifier: ^2.0.2
         version: 2.0.3
@@ -216,9 +213,6 @@ importers:
       vue:
         specifier: ^3.5.12
         version: 3.5.12(typescript@5.6.2)
-      vue-chartjs:
-        specifier: 5.3.1
-        version: 5.3.1(chart.js@4.4.4)(vue@3.5.12(typescript@5.6.2))
       vue-datepicker-next:
         specifier: ^1.0.3
         version: 1.0.3(vue@3.5.12(typescript@5.6.2))
@@ -462,8 +456,8 @@ packages:
     resolution: {integrity: sha512-L4QrCmimkULY9ZQk0MJRLfwry3Pqq2e7psETqoZGYopMZ+8DSWe4t6cModSjTCBnDjqgp/gTl0oorntCYrDE8w==}
     engines: {node: '>=10'}
 
-  '@chatwoot/viz@0.1.0':
-    resolution: {integrity: sha512-SR+S6wz8/bcXLFhlGWS0VPm0+9ZvvxGv3VZdz3t8CC5kcS3G1jWBeg0tie7+tX6BA6PvZ/erE2+kQ5p5RuDjQQ==}
+  '@chatwoot/viz@0.1.1':
+    resolution: {integrity: sha512-6x/ocGHpczEXPVvYrAG6aDXpRWPCy93qec1UPG3XMsPC18YhF0Lo3bznbnY5tBewVkkBjhTYvSGD3j9XnbwX/g==}
     engines: {node: '>=24.4.1'}
     peerDependencies:
       vue: ^3.5.0
@@ -1084,9 +1078,6 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
-
-  '@kurkle/color@0.3.2':
-    resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
 
   '@lezer/common@1.2.2':
     resolution: {integrity: sha512-Z+R3hN6kXbgBWAuejUNPihylAL1Z5CaFqnIe0nTX8Ej+XlIy3EGtXxn6WtLMO+os2hRkQvm2yvaGMYliUzlJaw==}
@@ -1889,10 +1880,6 @@ packages:
 
   charenc@0.0.2:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
-
-  chart.js@4.4.4:
-    resolution: {integrity: sha512-emICKGBABnxhMjUjlYRR12PmOXhJ2eJjEHL2/dZlWjxRAZT1D8xplLFq5M0tMQK8ja+wBS/tuVEJB5C6r7VxJA==}
-    engines: {pnpm: '>=8'}
 
   check-error@2.1.1:
     resolution: {integrity: sha512-OAlb+T7V4Op9OwdkjmguYRqncdlx5JiofwOAUkmTF+jNdHwzTaTs4sRAGpzLF3oOz5xAyDGrPgeIDFQmDOTiJw==}
@@ -4728,12 +4715,6 @@ packages:
       jsdom:
         optional: true
 
-  vue-chartjs@5.3.1:
-    resolution: {integrity: sha512-rZjqcHBxKiHrBl0CIvcOlVEBwRhpWAVf6rDU3vUfa7HuSRmGtCslc0Oc8m16oAVuk0erzc1FCtH1VCriHsrz+A==}
-    peerDependencies:
-      chart.js: ^4.1.1
-      vue: ^3.0.0-0 || ^2.7.0
-
   vue-component-type-helpers@2.1.2:
     resolution: {integrity: sha512-URuxnrOhO9lUG4LOAapGWBaa/WOLDzzyAbL+uKZqT7RS+PFy0cdXI2mUSh7GaMts6vtHaeVbGk7trd0FPJi65Q==}
 
@@ -5151,7 +5132,7 @@ snapshots:
     dependencies:
       date-fns: 2.30.0
 
-  '@chatwoot/viz@0.1.0(vue@3.5.12(typescript@5.6.2))':
+  '@chatwoot/viz@0.1.1(vue@3.5.12(typescript@5.6.2))':
     dependencies:
       vue: 3.5.12(typescript@5.6.2)
 
@@ -5803,8 +5784,6 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
     optional: true
-
-  '@kurkle/color@0.3.2': {}
 
   '@lezer/common@1.2.2': {}
 
@@ -6693,10 +6672,6 @@ snapshots:
       tslib: 2.7.0
 
   charenc@0.0.2: {}
-
-  chart.js@4.4.4:
-    dependencies:
-      '@kurkle/color': 0.3.2
 
   check-error@2.1.1: {}
 
@@ -9882,11 +9857,6 @@ snapshots:
       - terser
       - tsx
       - yaml
-
-  vue-chartjs@5.3.1(chart.js@4.4.4)(vue@3.5.12(typescript@5.6.2)):
-    dependencies:
-      chart.js: 4.4.4
-      vue: 3.5.12(typescript@5.6.2)
 
   vue-component-type-helpers@2.1.2: {}
 

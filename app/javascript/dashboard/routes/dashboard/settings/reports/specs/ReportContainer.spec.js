@@ -78,10 +78,10 @@ describe('ReportContainer.vue', () => {
           },
           BarChart: {
             name: 'BarChart',
-            props: ['collection', 'chartOptions', 'clickable'],
-            emits: ['elementClick'],
+            props: ['data', 'formatValue', 'yStepSize', 'clickable'],
+            emits: ['itemClick'],
             template:
-              '<button data-test-id="bar-chart" @click="$emit(\'elementClick\', { dataIndex: 0, label: \'20-May\', value: 2 })" />',
+              '<button data-test-id="bar-chart" @click="$emit(\'itemClick\', { item: data.series[0].data[0], pointIndex: 0 })" />',
           },
         },
       },
@@ -149,6 +149,29 @@ describe('ReportContainer.vue', () => {
       metric: 'avg_first_response_time',
       bucketTimestamp: 1621103400,
     });
+  });
+
+  it('uses semantic duration steps only for average metrics', () => {
+    const durationWrapper = mountComponent({
+      reportKey: 'avg_resolution_time',
+      dataPoint: { value: 50000, count: 2, timestamp: 1621103400 },
+    });
+    const durationChart = durationWrapper.findComponent({ name: 'BarChart' });
+
+    expect(durationChart.props('formatValue')(0)).toBe('0');
+    expect(
+      durationChart.props('yStepSize')({
+        min: 0,
+        max: 50000,
+        values: [50000],
+        tickCount: 5,
+      })
+    ).toBe(10800);
+
+    const countWrapper = mountComponent();
+    expect(
+      countWrapper.findComponent({ name: 'BarChart' }).props('yStepSize')
+    ).toBeUndefined();
   });
 
   it('navigates to adjacent drillable buckets within the report range', async () => {
