@@ -133,7 +133,7 @@ describe('useMacros', () => {
     ); // +2 for "None" and "Self"
   });
 
-  it('returns teams with "None" option for assign_team and teams only for send_email_to_team', () => {
+  it('returns teams with "None" option for assign_team', () => {
     const { getMacroDropdownValues } = useMacros();
     const assignTeamResult = getMacroDropdownValues('assign_team');
     expect(assignTeamResult[0]).toEqual({
@@ -141,9 +141,6 @@ describe('useMacros', () => {
       name: 'AUTOMATION.NONE_OPTION',
     });
     expect(assignTeamResult.slice(1)).toEqual(mockTeamOptions);
-    expect(getMacroDropdownValues('send_email_to_team')).toEqual(
-      mockTeamOptions
-    );
   });
 
   it('returns agents with "None" and "Self" options for assign_agent type', () => {

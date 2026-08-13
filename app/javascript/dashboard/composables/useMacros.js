@@ -34,8 +34,6 @@ export const useMacros = () => {
     switch (type) {
       case 'assign_team':
         return withNoneOption(generateTeamOptions(teams.value));
-      case 'send_email_to_team':
-        return generateTeamOptions(teams.value);
       case 'assign_agent':
         return [
           ...withNoneOption(),

@@ -56,13 +56,6 @@ const formatMacro = macroData => {
         actionParams = getMacroDropdownValues(action.action_name).filter(item =>
           [...action.action_params].includes(item.id)
         );
-      } else if (inputType === 'team_message') {
-        actionParams = {
-          team_ids: getMacroDropdownValues(action.action_name).filter(item =>
-            [...action.action_params[0].team_ids].includes(item.id)
-          ),
-          message: action.action_params[0].message,
-        };
       } else actionParams = [...action.action_params];
     }
     return {
