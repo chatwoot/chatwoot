@@ -37,7 +37,16 @@ class MessageFinder
   end
 
   def messages_before(before_id)
-    messages.reorder('created_at desc').where('id < ?', before_id).limit(20).reverse
+    ref = @conversation.messages.find_by(id: before_id)
+    return messages_latest unless ref
+
+    # Use created_at for comparison so backdated messages (with high IDs) are included correctly.
+    # Primary sort by created_at, with id as tiebreaker.
+    messages
+      .reorder('created_at desc, id desc')
+      .where('created_at < ? OR (created_at = ? AND id < ?)', ref.created_at, ref.created_at, ref.id)
+      .limit(20)
+      .reverse
   end
 
   def messages_between(after_id, before_id)
