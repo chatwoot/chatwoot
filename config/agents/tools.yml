@@ -30,6 +30,11 @@
   description: 'Search FAQ responses using semantic similarity'
   icon: 'search'
 
+- id: get_inbox_availability
+  title: 'Check Inbox Availability'
+  description: 'Check whether an inbox is currently within its configured business hours'
+  icon: 'clock'
+
 - id: resolve_conversation
   title: 'Resolve Conversation'
   description: 'Resolve a conversation when the issue has been addressed'
