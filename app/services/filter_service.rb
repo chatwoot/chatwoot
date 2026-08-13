@@ -161,7 +161,10 @@ class FilterService
     when 'date'
       Date.iso8601(raw_value.to_s)
     when 'numeric'
-      BigDecimal(raw_value.to_s)
+      decimal = BigDecimal(raw_value.to_s)
+      raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key) unless decimal.finite?
+
+      decimal
     else
       raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key)
     end

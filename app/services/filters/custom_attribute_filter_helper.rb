@@ -41,6 +41,7 @@ module Filters::CustomAttributeFilterHelper
   def validate_custom_attribute_values!(query_hash)
     return unless @attribute_data_type.in?(%w[date numeric])
     return if query_hash[:filter_operator].in?(%w[is_present is_not_present])
+    return if @attribute_data_type == 'date' && query_hash[:filter_operator] == 'days_before'
 
     Array(query_hash[:values]).each do |value|
       coerce_lt_gt_value(value, @attribute_data_type, @attribute_key)
