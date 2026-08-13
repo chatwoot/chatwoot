@@ -123,7 +123,7 @@ class Whatsapp::CsatTemplateService
   end
 
   def business_account_path
-    "#{api_base_path}/#{WHATSAPP_API_VERSION}/#{@whatsapp_channel.provider_config['business_account_id']}"
+    "#{api_base_path}/#{api_version}/#{@whatsapp_channel.provider_config['business_account_id']}"
   end
 
   def api_headers
@@ -134,6 +134,10 @@ class Whatsapp::CsatTemplateService
   end
 
   def api_base_path
-    ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
+    Whatsapp::CloudApiHost.base_url(@whatsapp_channel.provider_config['api_key'])
+  end
+
+  def api_version
+    Whatsapp::CloudApiHost.api_version(@whatsapp_channel.provider_config['api_key'], WHATSAPP_API_VERSION)
   end
 end

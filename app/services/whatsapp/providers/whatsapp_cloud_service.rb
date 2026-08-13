@@ -89,7 +89,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def media_url(media_id)
-    "#{api_base_path}/v13.0/#{media_id}"
+    "#{api_base_path}/#{cloud_api_version('v13.0')}/#{media_id}"
   end
 
   private
@@ -109,16 +109,20 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def api_base_path
-    ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
+    Whatsapp::CloudApiHost.base_url(whatsapp_channel.provider_config['api_key'])
   end
 
-  # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
+  def cloud_api_version(legacy)
+    Whatsapp::CloudApiHost.api_version(whatsapp_channel.provider_config['api_key'], legacy)
+  end
+
+  # Dualhook inboxes send on v25.0; Graph keeps the legacy per-endpoint versions.
   def phone_id_path(version = 'v13.0')
-    "#{api_base_path}/#{version}/#{whatsapp_channel.provider_config['phone_number_id']}"
+    "#{api_base_path}/#{cloud_api_version(version)}/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
 
   def business_account_path
-    "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
+    "#{api_base_path}/#{cloud_api_version('v14.0')}/#{whatsapp_channel.provider_config['business_account_id']}"
   end
 
   def send_text_message(phone_number, message)
