@@ -49,10 +49,13 @@ describe MessageFinder do
     end
 
     context 'with a before attribute above the message id range' do
+      let!(:max_id_message) do
+        create(:message, id: described_class::MESSAGE_ID_MAX, account: account, inbox: inbox, conversation: conversation)
+      end
       let(:params) { { before: 4_611_686_018_427_387_903 } }
 
-      it 'returns the latest messages without overflowing the database column' do
-        expect(message_finder.perform.count).to be 6
+      it 'includes the maximum valid message id without overflowing the database column' do
+        expect(message_finder.perform).to include(max_id_message)
       end
     end
 
