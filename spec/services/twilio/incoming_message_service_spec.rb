@@ -262,6 +262,15 @@ describe Twilio::IncomingMessageService do
         expect(a_request(:get, other_url).with(basic_auth: ['ACxxx', twilio_channel.auth_token])).not_to have_been_made
         expect(conversation.reload.messages.last.attachments.count).to eq(1)
       end
+
+      it 'does not attach credentials to a plaintext Twilio url' do
+        http_url = 'http://api.twilio.com/2010-04-01/Accounts/ACxxx/Messages/MMxx/Media/MExx'
+        stub_request(:get, http_url).to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
+
+        described_class.new(params: media_params.merge(MediaUrl0: http_url)).perform
+
+        expect(a_request(:get, http_url).with(basic_auth: ['ACxxx', twilio_channel.auth_token])).not_to have_been_made
+      end
     end
 
     context 'when a message with multiple attachments is received' do

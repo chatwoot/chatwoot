@@ -1,4 +1,4 @@
-class Twilio::IncomingMessageService
+class Twilio::IncomingMessageService # rubocop:disable Metrics/ClassLength
   include ::FileTypeHelper
   include ::Twilio::WhatsappIdentifierHelper
   include ::Twilio::ReferralParamsHelper
@@ -176,15 +176,23 @@ class Twilio::IncomingMessageService
     Down.download(media_url, **credential_options(media_url))
   end
 
-  # Attach Twilio credentials only for media hosted on a Twilio domain.
+  # Attach Twilio credentials only for media on an https Twilio domain, so they are
+  # never sent to a plaintext (http) URL from the payload.
   def credential_options(media_url)
-    host = URI.parse(media_url).host&.downcase
-    return {} unless host == TWILIO_DOMAIN || host&.end_with?(".#{TWILIO_DOMAIN}")
+    return {} unless twilio_https_url?(media_url)
 
     # auth_token is the password for both api-key and account-sid auth
     { http_basic_authentication: [twilio_channel.api_key_sid.presence || twilio_channel.account_sid, twilio_channel.auth_token] }
+  end
+
+  def twilio_https_url?(media_url)
+    uri = URI.parse(media_url)
+    return false unless uri.scheme == 'https'
+
+    host = uri.host&.downcase
+    host == TWILIO_DOMAIN || host&.end_with?(".#{TWILIO_DOMAIN}") || false
   rescue URI::InvalidURIError
-    {}
+    false
   end
 
   def handle_download_attachment_error(error, media_url)
