@@ -152,7 +152,10 @@ export default {
         series: [
           {
             id: metric.KEY,
-            label: metric.NAME,
+            label:
+              metric.KEY === 'reply_time'
+                ? this.$t('REPORT.METRICS.REPLY_TIME.TOOLTIP_LABEL')
+                : metric.NAME,
             color: 'rgb(var(--blue-9))',
             data,
           },

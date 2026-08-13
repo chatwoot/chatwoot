@@ -185,6 +185,11 @@ describe('ReportContainer.vue', () => {
       expect(chart.props('pointDescription')({ count: 2 })).toBe(
         expectedDescription
       );
+      if (reportKey === 'reply_time') {
+        expect(chart.props('data').series[0].label).toBe(
+          'REPORT.METRICS.REPLY_TIME.TOOLTIP_LABEL'
+        );
+      }
     });
 
     const resolutionWrapper = mountComponent({

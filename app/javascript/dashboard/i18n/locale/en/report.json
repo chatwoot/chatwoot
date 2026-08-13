@@ -47,6 +47,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
+        "TOOLTIP_LABEL": "Waiting time",
         "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
