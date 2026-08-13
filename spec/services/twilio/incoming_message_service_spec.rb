@@ -289,6 +289,15 @@ describe Twilio::IncomingMessageService do
 
         expect(a_request(:get, http_url).with(basic_auth: ['ACxxx', twilio_channel.auth_token])).not_to have_been_made
       end
+
+      it 'saves the message when a non-Twilio media download fails at the transport level' do
+        stub_request(:get, 'http://other.example/file.png').to_raise(Errno::ECONNREFUSED)
+
+        described_class.new(params: media_params.merge(MediaUrl0: 'http://other.example/file.png')).perform
+
+        expect(conversation.reload.messages.last).to be_present
+        expect(conversation.reload.messages.last.attachments.count).to eq(0)
+      end
     end
 
     context 'when a message with multiple attachments is received' do

@@ -173,7 +173,10 @@ class Twilio::IncomingMessageService # rubocop:disable Metrics/ClassLength
         yield persisted_copy(result.tempfile), result.original_filename, result.content_type
       end
     end
-  rescue SafeFetch::Error => e
+    # Twilio originally skipped failed media and saved the message; keep that by
+    # catching download/transport failures (SafeFetch wraps some, not connection
+    # resets or closed streams) rather than aborting the whole message.
+  rescue SafeFetch::Error, SystemCallError, IOError => e
     Rails.logger.info "Error downloading Twilio media: #{e.class}: Skipping"
   end
 
