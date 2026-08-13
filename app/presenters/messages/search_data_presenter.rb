@@ -56,3 +56,5 @@ class Messages::SearchDataPresenter < SimpleDelegator
     }
   end
 end
+
+Messages::SearchDataPresenter.prepend_mod_with('Messages::SearchDataPresenter')
