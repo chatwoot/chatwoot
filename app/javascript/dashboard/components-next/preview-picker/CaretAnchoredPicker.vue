@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch, useTemplateRef } from 'vue';
+import { computed, ref, watch, useSlots, useTemplateRef } from 'vue';
 import {
   useElementBounding,
   useResizeObserver,
@@ -29,6 +29,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['select', 'close', 'removeTrigger']);
@@ -36,12 +40,17 @@ const emit = defineEmits(['select', 'close', 'removeTrigger']);
 const search = defineModel('search', { type: String, default: '' });
 
 const MIN_HEIGHT = 200;
-const MAX_HEIGHT = 300;
+const MAX_HEIGHT = 360;
 const MAX_WIDTH = 768;
+const LIST_ONLY_MAX_WIDTH = 420;
 const VIEWPORT_MARGIN = 16;
 const GAP = 8;
 const SIDE_PREVIEW_MIN_WIDTH = 480;
-const STACKED_PREVIEW_MIN_HEIGHT = 260;
+const STACKED_PREVIEW_MIN_HEIGHT = 280;
+
+const slots = useSlots();
+
+const hasPreview = computed(() => Boolean(slots.preview));
 
 const caretAnchorRef = useTemplateRef('caretAnchorRef');
 const pickerRef = useTemplateRef('pickerRef');
@@ -78,12 +87,13 @@ const placement = computed(() => {
 const width = computed(() =>
   Math.min(
     caretAnchor.width.value,
-    MAX_WIDTH,
+    hasPreview.value ? MAX_WIDTH : LIST_ONLY_MAX_WIDTH,
     windowWidth.value - VIEWPORT_MARGIN * 2
   )
 );
 
 const previewLayout = computed(() => {
+  if (!hasPreview.value) return 'none';
   if (width.value >= SIDE_PREVIEW_MIN_WIDTH) return 'side';
   if (placement.value.height >= STACKED_PREVIEW_MIN_HEIGHT) return 'stacked';
   return 'none';
@@ -178,6 +188,7 @@ watch(items, () => {
       :items="items"
       :search-placeholder="searchPlaceholder"
       :empty-label="emptyLabel"
+      :is-loading="isLoading"
       :preview-layout="previewLayout"
       data-popover-content
       class="fixed z-[9999]"
@@ -187,7 +198,10 @@ watch(items, () => {
       <template v-if="$slots.leading" #leading="slotProps">
         <slot name="leading" v-bind="slotProps" />
       </template>
-      <template #preview="slotProps">
+      <template v-if="$slots.filters" #filters>
+        <slot name="filters" />
+      </template>
+      <template v-if="hasPreview" #preview="slotProps">
         <slot name="preview" v-bind="slotProps" />
       </template>
     </PreviewPicker>

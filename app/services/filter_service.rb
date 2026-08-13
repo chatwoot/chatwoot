@@ -161,7 +161,10 @@ class FilterService
     when 'date'
       Date.iso8601(raw_value.to_s)
     when 'numeric'
-      BigDecimal(raw_value.to_s)
+      decimal = BigDecimal(raw_value.to_s)
+      raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key) unless decimal.finite?
+
+      decimal
     else
       raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key)
     end
@@ -195,8 +198,11 @@ class FilterService
   end
 
   def validate_query_operator
-    @params[:payload].each do |query_hash|
+    @params[:payload].each_with_index do |query_hash, index|
       validate_single_condition(query_hash)
+      next unless index == @params[:payload].length - 1
+
+      raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) if query_hash['query_operator'].present?
     end
   end
 end
