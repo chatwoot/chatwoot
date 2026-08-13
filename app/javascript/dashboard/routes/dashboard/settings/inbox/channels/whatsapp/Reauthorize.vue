@@ -121,6 +121,18 @@ const handleLoginAndReauthorize = async () => {
     throw new Error('WhatsApp Configuration ID is required');
   }
 
+  // The FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING postMessage can arrive before or after
+  // FB.login's authCode resolves. The "existing config" shortcut below calls
+  // reauthorizeWhatsApp immediately once authCode is ready and never reaches
+  // startEmbeddedSignup, so this listener is the only chance to catch that event for it.
+  let isCoexistence = false;
+  const coexistenceListener = createMessageHandler(data => {
+    if (data?.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING') {
+      isCoexistence = true;
+    }
+  });
+  window.addEventListener('message', coexistenceListener);
+
   try {
     const authCode = await initWhatsAppEmbeddedSignup(
       whatsappConfigurationId.value
@@ -133,16 +145,20 @@ const handleLoginAndReauthorize = async () => {
       existingConfig.business_account_id &&
       existingConfig.phone_number_id
     ) {
+      window.removeEventListener('message', coexistenceListener);
       await reauthorizeWhatsApp({
         code: authCode,
         business_id: existingConfig.business_account_id,
         waba_id: existingConfig.business_account_id,
         phone_number_id: existingConfig.phone_number_id,
+        is_coexistence: isCoexistence,
       });
     } else {
+      window.removeEventListener('message', coexistenceListener);
       startEmbeddedSignup(authCode);
     }
   } catch (error) {
+    window.removeEventListener('message', coexistenceListener);
     if (error.message === 'Login cancelled') {
       useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
     } else {
