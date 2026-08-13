@@ -39,11 +39,12 @@ const isPublicMacroReadOnly = computed(
   () => macro.value?.visibility === 'global' && !isAdmin.value
 );
 
-const fetchDropdownData = () => {
-  store.dispatch('agents/get');
-  store.dispatch('teams/get');
-  store.dispatch('labels/get');
-};
+const fetchDropdownData = () =>
+  Promise.all([
+    store.dispatch('agents/get'),
+    store.dispatch('teams/get'),
+    store.dispatch('labels/get'),
+  ]);
 
 const formatMacro = macroData => {
   const formattedActions = macroData.actions.map(action => {
@@ -70,7 +71,10 @@ const formatMacro = macroData => {
 };
 
 const manifestMacro = async () => {
-  await store.dispatch('macros/getSingleMacro', macroId.value);
+  await Promise.all([
+    fetchDropdownData(),
+    store.dispatch('macros/getSingleMacro', macroId.value),
+  ]);
   const singleMacro = store.getters['macros/getMacro'](macroId.value);
   macro.value = formatMacro(singleMacro);
 };
@@ -97,10 +101,10 @@ const initNewMacro = () => {
 watch(
   () => route,
   () => {
-    fetchDropdownData();
     if (route.params.macroId) {
       fetchMacro();
     } else {
+      fetchDropdownData();
       initNewMacro();
     }
   },
