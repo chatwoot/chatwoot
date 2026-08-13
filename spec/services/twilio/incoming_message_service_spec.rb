@@ -10,6 +10,15 @@ describe Twilio::IncomingMessageService do
   let(:contact_inbox) { create(:contact_inbox, source_id: '+12345', contact: contact, inbox: twilio_channel.inbox) }
   let!(:conversation) { create(:conversation, contact: contact, inbox: twilio_channel.inbox, contact_inbox: contact_inbox) }
 
+  # Non-Twilio media is fetched through SafeFetch (SsrfFilter), which resolves the
+  # host and rejects private addresses. Stub resolution to public IPs for test hosts.
+  before do
+    allow(Resolv).to receive(:getaddresses).and_call_original
+    allow(Resolv).to receive(:getaddresses).with('chatwoot-assets.local').and_return(['93.184.216.34'])
+    allow(Resolv).to receive(:getaddresses).with('other.example').and_return(['93.184.216.34'])
+    allow(Resolv).to receive(:getaddresses).with('internal.example').and_return(['169.254.169.254'])
+  end
+
   describe '#perform' do
     it 'creates a new message in existing conversation' do
       params = {
@@ -198,14 +207,7 @@ describe Twilio::IncomingMessageService do
     end
 
     context 'when there is an error downloading the attachment' do
-      before do
-        stub_request(:get, 'https://chatwoot-assets.local/sample.png')
-          .to_raise(Down::Error.new('Download error'))
-
-        stub_request(:get, 'https://chatwoot-assets.local/sample.png')
-          .to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
-      end
-
+      let(:twilio_media_url) { 'https://api.twilio.com/2010-04-01/Accounts/ACxxx/Media/MExx' }
       let(:params_with_attachment_error) do
         {
           SmsSid: 'SMxx',
@@ -215,8 +217,17 @@ describe Twilio::IncomingMessageService do
           Body: 'testing3',
           NumMedia: '1',
           MediaContentType0: 'image/jpeg',
-          MediaUrl0: 'https://chatwoot-assets.local/sample.png'
+          MediaUrl0: twilio_media_url
         }
+      end
+
+      before do
+        stub_request(:get, twilio_media_url)
+          .with(basic_auth: ['ACxxx', twilio_channel.auth_token])
+          .to_raise(Down::Error.new('Download error'))
+
+        stub_request(:get, twilio_media_url)
+          .to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
       end
 
       it 'retries downloading the attachment without a token after an error' do
@@ -261,6 +272,12 @@ describe Twilio::IncomingMessageService do
 
         expect(a_request(:get, other_url).with(basic_auth: ['ACxxx', twilio_channel.auth_token])).not_to have_been_made
         expect(conversation.reload.messages.last.attachments.count).to eq(1)
+      end
+
+      it 'does not fetch media that resolves to an internal address' do
+        described_class.new(params: media_params.merge(MediaUrl0: 'http://internal.example/file.png')).perform
+
+        expect(conversation.reload.messages.last.attachments.count).to eq(0)
       end
     end
 

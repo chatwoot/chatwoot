@@ -1,4 +1,4 @@
-class Twilio::IncomingMessageService
+class Twilio::IncomingMessageService # rubocop:disable Metrics/ClassLength
   include ::FileTypeHelper
   include ::Twilio::WhatsappIdentifierHelper
   include ::Twilio::ReferralParamsHelper
@@ -152,18 +152,45 @@ class Twilio::IncomingMessageService
   end
 
   def attach_single_file(media_url)
-    attachment_file = download_attachment_file(media_url)
-    return if attachment_file.blank?
+    fetch_media(media_url) do |io, filename, content_type|
+      @message.attachments.new(
+        account_id: @message.account_id,
+        file_type: file_type(content_type),
+        file: { io: io, filename: filename, content_type: content_type }
+      )
+    end
+  end
 
-    @message.attachments.new(
-      account_id: @message.account_id,
-      file_type: file_type(attachment_file.content_type),
-      file: {
-        io: attachment_file,
-        filename: attachment_file.original_filename,
-        content_type: attachment_file.content_type
-      }
-    )
+  # Twilio-hosted media is fetched directly with credentials (following the
+  # provider's CDN redirect). Any other URL from the payload is fetched through
+  # SafeFetch so it cannot reach internal addresses.
+  def fetch_media(media_url)
+    if twilio_hosted?(media_url)
+      file = download_attachment_file(media_url)
+      yield file, file.original_filename, file.content_type if file.present?
+    else
+      SafeFetch.fetch(media_url, validate_content_type: false) do |result|
+        yield persisted_copy(result.tempfile), result.original_filename, result.content_type
+      end
+    end
+  rescue SafeFetch::Error => e
+    Rails.logger.info "Error downloading Twilio media: #{e.class}: Skipping"
+  end
+
+  def twilio_hosted?(media_url)
+    host = URI.parse(media_url).host&.downcase
+    host == TWILIO_DOMAIN || host&.end_with?(".#{TWILIO_DOMAIN}") || false
+  rescue URI::InvalidURIError
+    false
+  end
+
+  # SafeFetch closes its tempfile when the block returns, but the attachment is
+  # uploaded later on save!, so stream the contents into a tempfile that survives.
+  def persisted_copy(source)
+    tempfile = Tempfile.new('twilio-media', binmode: true)
+    IO.copy_stream(source, tempfile)
+    tempfile.rewind
+    tempfile
   end
 
   def download_attachment_file(media_url)
@@ -173,18 +200,9 @@ class Twilio::IncomingMessageService
   end
 
   def download_with_auth(media_url)
-    Down.download(media_url, **credential_options(media_url))
-  end
-
-  # Attach Twilio credentials only for media hosted on a Twilio domain.
-  def credential_options(media_url)
-    host = URI.parse(media_url).host&.downcase
-    return {} unless host == TWILIO_DOMAIN || host&.end_with?(".#{TWILIO_DOMAIN}")
-
     # auth_token is the password for both api-key and account-sid auth
-    { http_basic_authentication: [twilio_channel.api_key_sid.presence || twilio_channel.account_sid, twilio_channel.auth_token] }
-  rescue URI::InvalidURIError
-    {}
+    credentials = [twilio_channel.api_key_sid.presence || twilio_channel.account_sid, twilio_channel.auth_token]
+    Down.download(media_url, http_basic_authentication: credentials)
   end
 
   def handle_download_attachment_error(error, media_url)
