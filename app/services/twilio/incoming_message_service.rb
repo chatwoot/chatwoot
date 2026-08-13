@@ -3,6 +3,8 @@ class Twilio::IncomingMessageService
   include ::Twilio::WhatsappIdentifierHelper
   include ::Twilio::ReferralParamsHelper
 
+  TWILIO_DOMAIN = 'twilio.com'.freeze
+
   pattr_initialize [:params!]
 
   def perform
@@ -171,15 +173,18 @@ class Twilio::IncomingMessageService
   end
 
   def download_with_auth(media_url)
-    auth_credentials = if twilio_channel.api_key_sid.present?
-                         # When using api_key_sid, the auth token should be the api_secret_key
-                         [twilio_channel.api_key_sid, twilio_channel.auth_token]
-                       else
-                         # When using account_sid, the auth token is the account's auth token
-                         [twilio_channel.account_sid, twilio_channel.auth_token]
-                       end
+    Down.download(media_url, **credential_options(media_url))
+  end
 
-    Down.download(media_url, http_basic_authentication: auth_credentials)
+  # Attach Twilio credentials only for media hosted on a Twilio domain.
+  def credential_options(media_url)
+    host = URI.parse(media_url).host&.downcase
+    return {} unless host == TWILIO_DOMAIN || host&.end_with?(".#{TWILIO_DOMAIN}")
+
+    # auth_token is the password for both api-key and account-sid auth
+    { http_basic_authentication: [twilio_channel.api_key_sid.presence || twilio_channel.account_sid, twilio_channel.auth_token] }
+  rescue URI::InvalidURIError
+    {}
   end
 
   def handle_download_attachment_error(error, media_url)

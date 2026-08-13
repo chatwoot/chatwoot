@@ -230,6 +230,40 @@ describe Twilio::IncomingMessageService do
       end
     end
 
+    context 'when downloading media attachments' do
+      let(:twilio_media_url) { 'https://api.twilio.com/2010-04-01/Accounts/ACxxx/Messages/MMxx/Media/MExx' }
+
+      let(:media_params) do
+        {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'media',
+          NumMedia: '1',
+          MediaContentType0: 'image/png'
+        }
+      end
+
+      it 'attaches Twilio credentials for media on a Twilio host' do
+        stub_request(:get, twilio_media_url).to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
+
+        described_class.new(params: media_params.merge(MediaUrl0: twilio_media_url)).perform
+
+        expect(a_request(:get, twilio_media_url).with(basic_auth: ['ACxxx', twilio_channel.auth_token])).to have_been_made
+      end
+
+      it 'downloads media from non-Twilio hosts without credentials' do
+        other_url = 'http://other.example/file.png'
+        stub_request(:get, other_url).to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
+
+        described_class.new(params: media_params.merge(MediaUrl0: other_url)).perform
+
+        expect(a_request(:get, other_url).with(basic_auth: ['ACxxx', twilio_channel.auth_token])).not_to have_been_made
+        expect(conversation.reload.messages.last.attachments.count).to eq(1)
+      end
+    end
+
     context 'when a message with multiple attachments is received' do
       before do
         stub_request(:get, 'https://chatwoot-assets.local/sample.png')
