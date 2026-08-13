@@ -108,13 +108,16 @@ class Sms::IncomingMessageService
     }
   end
 
+  # Match both scheme and host so credentials are never attached to a plaintext
+  # (http) URL from the payload, only to the provider's own https endpoint.
   def provider_hosted?(media_url)
-    URI.parse(media_url).host&.casecmp?(provider_host) || false
+    uri = URI.parse(media_url)
+    uri.scheme == provider_uri.scheme && provider_uri.host.casecmp?(uri.host.to_s)
   rescue URI::InvalidURIError
     false
   end
 
-  def provider_host
-    @provider_host ||= URI.parse(channel.api_base_path).host
+  def provider_uri
+    @provider_uri ||= URI.parse(channel.api_base_path)
   end
 end
