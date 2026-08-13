@@ -59,8 +59,10 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
   private
 
   def calls_phone_id_path
-    base = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
-    version = GlobalConfigService.load('WHATSAPP_API_VERSION', WHATSAPP_CALLING_API_VERSION_FALLBACK)
+    api_key = whatsapp_channel.provider_config['api_key']
+    base = Whatsapp::CloudApiHost.base_url(api_key)
+    legacy = GlobalConfigService.load('WHATSAPP_API_VERSION', WHATSAPP_CALLING_API_VERSION_FALLBACK)
+    version = Whatsapp::CloudApiHost.api_version(api_key, legacy)
     "#{base}/#{version}/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
 

@@ -26,7 +26,7 @@ msh_sync_contact_names_job:
   class: 'Msh::SyncContactNamesJob'
   queue: low
 
-# executed hourly — keep MSH WhatsApp api_key aligned with company-chat Meta token
+# executed hourly — keep MSH WhatsApp api_key aligned with Dualhook (dh_live_ only)
 msh_sync_whatsapp_token_job:
   cron: '35 * * * *'
   class: 'Msh::SyncWhatsappTokenJob'

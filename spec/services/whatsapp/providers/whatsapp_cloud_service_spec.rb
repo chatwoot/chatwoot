@@ -282,7 +282,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
   describe 'Ability to configure Base URL' do
     context 'when environment variable WHATSAPP_CLOUD_BASE_URL is not set' do
-      it 'uses the default base url' do
+      it 'uses Graph for non-Dualhook keys' do
         expect(subject.send(:api_base_path)).to eq('https://graph.facebook.com')
       end
     end
@@ -292,6 +292,20 @@ describe Whatsapp::Providers::WhatsappCloudService do
         with_modified_env WHATSAPP_CLOUD_BASE_URL: 'http://test.com' do
           expect(subject.send(:api_base_path)).to eq('http://test.com')
         end
+      end
+    end
+
+    context 'when the inbox uses a Dualhook connection key' do
+      before { whatsapp_channel.provider_config['api_key'] = 'dh_live_test' }
+
+      it 'uses Dualhook as the default base url' do
+        expect(subject.send(:api_base_path)).to eq('https://api.dualhook.com')
+      end
+
+      it 'posts text messages to Dualhook v25.0' do
+        stub_request(:post, 'https://api.dualhook.com/v25.0/123456789/messages')
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
     end
   end

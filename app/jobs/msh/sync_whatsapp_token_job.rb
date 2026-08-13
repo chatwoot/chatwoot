@@ -1,6 +1,6 @@
-# Keeps the Coro Inbox WhatsApp Cloud api_key in sync with the Meta token
-# owned by company-chat (Dualhook). Set WHATSAPP_META_ACCESS_TOKEN on Railway
-# to the same value as company-chat's Vercel env.
+# Keeps the Coro Inbox WhatsApp Cloud api_key in sync with Dualhook.
+# Only writes dh_live_ keys so a Meta Graph token in WHATSAPP_META_ACCESS_TOKEN
+# cannot overwrite Dualhook inbox credentials.
 class Msh::SyncWhatsappTokenJob < ApplicationJob
   queue_as :low
 
@@ -8,7 +8,7 @@ class Msh::SyncWhatsappTokenJob < ApplicationJob
   MSH_PHONE_NUMBER = '+971558992235'
 
   def perform
-    token = ENV['WHATSAPP_META_ACCESS_TOKEN'].presence
+    token = dualhook_token
     return if token.blank?
 
     Channel::Whatsapp.where(phone_number: MSH_PHONE_NUMBER).find_each do |channel|
@@ -20,6 +20,14 @@ class Msh::SyncWhatsappTokenJob < ApplicationJob
       # Skip validations/callbacks so we never re-register Meta webhooks away from Dualhook.
       channel.update_columns(provider_config: config, updated_at: Time.current)
       Rails.logger.info("[Msh::SyncWhatsappTokenJob] synced api_key for channel=#{channel.id}")
+    end
+  end
+
+  private
+
+  def dualhook_token
+    [ENV['WHATSAPP_DUALHOOK_API_KEY'], ENV['WHATSAPP_META_ACCESS_TOKEN']].find do |value|
+      value.to_s.start_with?('dh_live_')
     end
   end
 end
