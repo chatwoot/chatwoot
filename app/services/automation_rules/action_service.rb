@@ -1,8 +1,9 @@
 class AutomationRules::ActionService < ActionService
-  def initialize(rule, account, conversation)
+  def initialize(rule, account, conversation, message: nil)
     super(conversation)
     @rule = rule
     @account = account
+    @message = message
     Current.executed_by = rule
   end
 
@@ -37,6 +38,13 @@ class AutomationRules::ActionService < ActionService
 
   def send_webhook_event(webhook_url)
     payload = @conversation.webhook_data.merge(event: "automation_event.#{@rule.event_name}")
+    # @conversation.webhook_data embeds conversation.messages.chat.last, i.e. whatever is
+    # newest *right now*. This runs off an async job (AutomationRuleListener dispatches via
+    # AsyncDispatcher), so for a message-triggered rule that can be a later message than the
+    # one that actually fired the rule -- e.g. a macro sending several messages back to back
+    # queues one job per message, and by the time job N runs, message N+1 (or later) may
+    # already exist. Prefer the specific message this run was triggered for, when we have one.
+    payload[:messages] = [@message.webhook_push_event_data] if @message.present?
     WebhookJob.perform_later(webhook_url[0], payload)
   end
 
