@@ -32,8 +32,10 @@ RSpec.describe Llm::Models do
       expect(described_class.default_model_for('conversation_faq_matching')).to eq('gpt-4.1-mini')
     end
 
-    it 'offers the assistant model list for conversation completion' do
-      expect(described_class.models_for('conversation_completion')).to eq(described_class.models_for('assistant'))
+    it 'offers only supported OpenAI models for conversation completion' do
+      expect(described_class.models_for('conversation_completion')).to eq(
+        %w[gpt-4.1-mini gpt-5-mini gpt-4.1 gpt-5.1 gpt-5.2]
+      )
     end
   end
 
