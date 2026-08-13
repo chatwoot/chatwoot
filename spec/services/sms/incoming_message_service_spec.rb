@@ -126,6 +126,16 @@ describe Sms::IncomingMessageService do
         expect(a_request(:get, http_url).with(basic_auth: %w[1 1])).not_to have_been_made
       end
 
+      it 'does not attach credentials to a provider url on a non-default port' do
+        url = 'https://messaging.bandwidth.com:8443/api/v2/users/1/media/real.png'
+        stub_request(:get, url).to_return(status: 200, body: File.read('spec/assets/sample.png'))
+        media_params = { 'media': [url] }.with_indifferent_access
+
+        described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
+
+        expect(a_request(:get, url).with(basic_auth: %w[1 1])).not_to have_been_made
+      end
+
       it 'does not follow redirects on the credentialed request' do
         stub_request(:get, provider_media_url).to_return(status: 302, headers: { 'Location' => 'http://other.example/file.png' })
         redirected_request = stub_request(:get, 'http://other.example/file.png').to_return(status: 200, body: File.read('spec/assets/sample.png'))
