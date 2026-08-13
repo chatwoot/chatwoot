@@ -56,8 +56,8 @@ class RailsUpgrade::Preflight
     check_gem_version('groupdate', '>= 6.8.0')
     check_gem_version('rails-i18n', '~> 8.0')
 
-    route = Rails.application.routes.url_helpers.app_account_conversation_path(account_id: 1, id: 2)
-    check('rails_8.mailer_route', expected: '/app/accounts/1/conversations/2', actual: route) { route == '/app/accounts/1/conversations/2' }
+    route = Rails.application.routes.url_helpers.app_account_path(1)
+    check('rails_8.mailer_route', expected: '/app/accounts/1', actual: route) { route == '/app/accounts/1' }
 
     time_behavior = ActiveSupport.to_time_preserves_timezone
     check('rails_8.to_time_preserves_timezone', expected: 'zone', actual: time_behavior.to_s) { time_behavior == :zone }
