@@ -307,6 +307,15 @@ describe Whatsapp::Providers::WhatsappCloudService do
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
         expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
+
+      it 'syncs templates with Bearer auth instead of access_token query' do
+        stub_request(:get, 'https://api.dualhook.com/v25.0/123456789/message_templates')
+          .with(headers: { 'Authorization' => 'Bearer dh_live_test' })
+          .to_return(status: 200, headers: response_headers, body: { data: [{ id: '1', name: 'hello' }] }.to_json)
+
+        expect(service.sync_templates).to be(true)
+        expect(whatsapp_channel.reload.message_templates.first).to eq({ 'id' => '1', 'name' => 'hello' })
+      end
     end
   end
 

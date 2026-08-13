@@ -34,12 +34,12 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def sync_templates
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
-    templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
+    templates = fetch_whatsapp_templates(message_templates_url)
     whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc) if templates.present?
   end
 
   def fetch_whatsapp_templates(url)
-    response = HTTParty.get(url)
+    response = HTTParty.get(url, headers: cloud_get_headers)
     unless response.success?
       Rails.logger.warn "[WHATSAPP] Template sync failed for account #{whatsapp_channel.account_id} " \
                         "inbox #{whatsapp_channel.inbox&.id}: #{response.code} #{error_message(response)}"
@@ -59,12 +59,12 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def validate_provider_config?
     config = whatsapp_channel.provider_config
-    response = HTTParty.get("#{business_account_path}/message_templates?access_token=#{config['api_key']}")
+    response = HTTParty.get(message_templates_url, headers: cloud_get_headers)
     return log_transfer_failure('waba_or_token_check', response) unless response.success?
     # The templates check only proves the WABA/token pair, so verify the phone_number_id belongs to this WABA when it changes.
     return true unless whatsapp_channel.provider_config_changed?
 
-    phone_response = HTTParty.get("#{business_account_path}/phone_numbers?fields=id&limit=100&access_token=#{config['api_key']}")
+    phone_response = HTTParty.get(phone_numbers_url, headers: cloud_get_headers)
     ids = phone_response.parsed_response.is_a?(Hash) ? Array(phone_response.parsed_response['data']) : []
     return true if phone_response.success? && ids.any? { |number| number['id'] == config['phone_number_id'].to_s }
 
@@ -123,6 +123,29 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def business_account_path
     "#{api_base_path}/#{cloud_api_version('v14.0')}/#{whatsapp_channel.provider_config['business_account_id']}"
+  end
+
+  def dualhook_request?
+    Whatsapp::CloudApiHost.dualhook_host?(whatsapp_channel.provider_config['api_key'])
+  end
+
+  # Dualhook rejects ?access_token= (401 Invalid credential) and requires Bearer.
+  def cloud_get_headers
+    dualhook_request? ? api_headers : {}
+  end
+
+  def message_templates_url
+    path = "#{business_account_path}/message_templates"
+    return path if dualhook_request?
+
+    "#{path}?access_token=#{whatsapp_channel.provider_config['api_key']}"
+  end
+
+  def phone_numbers_url
+    path = "#{business_account_path}/phone_numbers?fields=id&limit=100"
+    return path if dualhook_request?
+
+    "#{path}&access_token=#{whatsapp_channel.provider_config['api_key']}"
   end
 
   def send_text_message(phone_number, message)
