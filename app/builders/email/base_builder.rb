@@ -29,7 +29,8 @@ class Email::BaseBuilder
         'conversations.reply.email.header.friendly_name',
         sender_name: custom_sender_name,
         business_name: business_name,
-        from_email: sender_email
+        from_email: sender_email,
+        locale: sender_locale
       )
     else
       I18n.t(
@@ -38,6 +39,12 @@ class Email::BaseBuilder
         from_email: sender_email
       )
     end
+  end
+
+  def sender_locale
+    return account.locale unless message&.sender.is_a?(User)
+
+    message.sender.ui_settings&.dig('locale').presence || account.locale
   end
 
   def business_name
