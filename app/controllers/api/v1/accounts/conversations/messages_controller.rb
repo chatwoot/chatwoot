@@ -28,13 +28,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   def retry
     return if message.blank?
 
-    service = Messages::StatusUpdateService.new(message, 'sent')
-    service.perform
-    retry_attributes = { content_attributes: {} }
-    # This retry issue is currently reproducible only for WhatsApp. Preserve source_id for other channels until their retry behavior is verified.
-    retry_attributes[:source_id] = nil if @conversation.inbox.whatsapp?
-    message.update!(retry_attributes)
-    ::SendReplyJob.perform_later(message.id)
+    ::SendReplyJob.perform_later(message.id) if claim_message_retry
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -68,6 +62,23 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def message_finder
     @message_finder ||= MessageFinder.new(@conversation, params)
+  end
+
+  def claim_message_retry
+    message.with_lock do
+      next false unless message.failed?
+
+      Messages::StatusUpdateService.new(message, 'sent').perform
+      retry_attributes = { content_attributes: {} }
+      # This retry issue is currently reproducible only for WhatsApp. Preserve source_id for other channels until their retry behavior is verified.
+      if @conversation.inbox.whatsapp?
+        previous_source_id = message.source_id
+        retry_attributes[:source_id] = nil
+      end
+      message.update!(retry_attributes)
+      Rails.logger.info "Cleared older source ID #{previous_source_id} for message #{message.id}" if previous_source_id.present?
+      true
+    end
   end
 
   def permitted_params
