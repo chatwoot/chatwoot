@@ -94,6 +94,16 @@ export const generateConditionOptions = (options, key = 'id') => {
   });
 };
 
+// Teams carry an emoji icon picker value in `icon`, which is not a CSS class and
+// cannot be handed to the generic Icon component the dropdowns render.
+export const generateTeamOptions = teams =>
+  (teams || []).map(team => ({
+    id: team.id,
+    name: team.name,
+    emoji: team.icon,
+    iconColor: team.icon_color,
+  }));
+
 export const getActionOptions = ({
   agents,
   teams,
@@ -105,8 +115,10 @@ export const getActionOptions = ({
 }) => {
   const actionsMap = {
     assign_agent: addNoneToListFn ? addNoneToListFn(agents) : agents,
-    assign_team: addNoneToListFn ? addNoneToListFn(teams) : teams,
-    send_email_to_team: teams,
+    assign_team: addNoneToListFn
+      ? addNoneToListFn(generateTeamOptions(teams))
+      : generateTeamOptions(teams),
+    send_email_to_team: generateTeamOptions(teams),
     add_label: generateConditionOptions(labels, 'title'),
     remove_label: generateConditionOptions(labels, 'title'),
     change_priority: priorityOptions,
@@ -144,7 +156,7 @@ export const getConditionOptions = ({
     assignee_id: agents,
     contact: contacts,
     inbox_id: inboxes,
-    team_id: teams,
+    team_id: generateTeamOptions(teams),
     campaigns: generateConditionOptions(campaigns),
     browser_language: languages,
     conversation_language: languages,
