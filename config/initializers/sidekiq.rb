@@ -33,6 +33,22 @@ Sidekiq.configure_server do |config|
   end
 end
 
+# Publish Sidekiq queue metrics (latency, depth) to CloudWatch for autoscaling.
+# Opt-in via ENABLE_SIDEKIQ_CLOUDWATCH; the gem's lifecycle hooks report from the
+# Sidekiq process only, so web/other processes are unaffected.
+if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_SIDEKIQ_CLOUDWATCH', false))
+  require 'speedshop/cloudwatch'
+  require 'speedshop/cloudwatch/sidekiq'
+
+  Speedshop::Cloudwatch.configure do |cw|
+    cw.client = Aws::CloudWatch::Client.new(region: ENV.fetch('AWS_REGION', 'us-east-1'))
+    cw.namespaces[:sidekiq] = ENV.fetch('SIDEKIQ_CLOUDWATCH_NAMESPACE', 'Chatwoot/Sidekiq')
+    cw.interval = ENV.fetch('SIDEKIQ_CLOUDWATCH_INTERVAL', 60).to_i
+    cw.metrics[:sidekiq] = %i[QueueLatency QueueSize EnqueuedJobs Utilization]
+    cw.enabled_environments = [cw.environment]
+  end
+end
+
 # https://github.com/ondrejbartas/sidekiq-cron
 Rails.application.reloader.to_prepare do
   # load_from_hash! upserts jobs from the YAML and removes any Redis-persisted
