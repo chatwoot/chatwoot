@@ -105,18 +105,45 @@ const handleEmbeddedSignupEvents = async (data, authCode) => {
   }
 };
 
-const startEmbeddedSignup = authCode => {
-  const messageHandler = createMessageHandler(data =>
-    handleEmbeddedSignupEvents(data, authCode)
-  );
+// FB.login's authCode and Meta's FINISH postMessage arrive independently and in no
+// guaranteed order (see useWhatsappEmbeddedSignup.js), so the listener is registered
+// before the auth code is known and buffers a FINISH event until setAuthCode() runs —
+// otherwise a FINISH that arrives before FB.login resolves would be missed entirely.
+const startEmbeddedSignup = () => {
+  let authCode = null;
+  let pendingEvent = null;
+  let messageHandler;
+
+  const process = () => {
+    if (!authCode || !pendingEvent) return;
+    handleEmbeddedSignupEvents(pendingEvent, authCode);
+  };
+
+  messageHandler = createMessageHandler(data => {
+    if (
+      data.event === 'FINISH' ||
+      data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
+    ) {
+      pendingEvent = data;
+      process();
+    } else {
+      handleEmbeddedSignupEvents(data, authCode);
+    }
+  });
   window.addEventListener('message', messageHandler);
+
+  return {
+    setAuthCode: code => {
+      authCode = code;
+      process();
+    },
+    cleanup: () => window.removeEventListener('message', messageHandler),
+  };
 };
 
-// FB.login's authCode and Meta's FINISH postMessage arrive independently and in no
-// guaranteed order (see useWhatsappEmbeddedSignup.js). The "existing config" reauth
-// shortcut already trusts the stored business/phone IDs, so it only needs to know
-// which FINISH variant occurred — this waits for it exactly like the composable waits
-// for its business data, instead of only catching it if it happens to arrive early.
+// The "existing config" reauth shortcut already trusts the stored business/phone IDs,
+// so it only needs to know which FINISH variant occurred — same ordering guarantee as
+// startEmbeddedSignup above, just without needing to buffer the event's business data.
 const createFinishEventWaiter = () => {
   let listener;
   const promise = new Promise(resolve => {
@@ -154,6 +181,7 @@ const handleLoginAndReauthorize = async () => {
       existingConfig.phone_number_id
   );
   const finishWaiter = hasExistingConfig ? createFinishEventWaiter() : null;
+  const embeddedSignup = hasExistingConfig ? null : startEmbeddedSignup();
 
   try {
     const authCode = await initWhatsAppEmbeddedSignup(
@@ -170,10 +198,11 @@ const handleLoginAndReauthorize = async () => {
         is_coexistence: isCoexistence,
       });
     } else {
-      startEmbeddedSignup(authCode);
+      embeddedSignup.setAuthCode(authCode);
     }
   } catch (error) {
     finishWaiter?.cleanup();
+    embeddedSignup?.cleanup();
     if (error.message === 'Login cancelled') {
       useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
     } else {
