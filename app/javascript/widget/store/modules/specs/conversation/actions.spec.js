@@ -181,7 +181,6 @@ describe('#actions', () => {
         {},
         { root: true }
       );
-      // replies that landed before the id switched were dropped by the socket
       expect(dispatch).toBeCalledWith('fetchOldConversations');
     });
 

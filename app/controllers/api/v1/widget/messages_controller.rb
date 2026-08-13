@@ -45,9 +45,9 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def set_conversation
     return unless conversation.nil? || conversation_closed_for_replies?
 
-    # Two retries fire at once, so without the lock both would see the resolved
-    # conversation and start their own, splitting the thread.
-    @contact_inbox.with_lock do
+    # Serialize concurrent sends so they cannot each start a thread. Locks the contact, not the
+    # contact inbox, since HMAC sessions share conversations across contact inboxes.
+    @contact.with_lock do
       @conversation = conversations.last
       next unless conversation.nil? || conversation_closed_for_replies?
 
@@ -56,10 +56,10 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     end
   end
 
-  # Hiding the reply box does not stop requests reaching this endpoint, so the rule is
-  # enforced here. A new conversation is started rather than rejected, so no message is lost.
+  # Hiding the reply box does not stop requests reaching this endpoint, so the setting is
+  # enforced here. Blocked contacts are skipped, their conversations are always resolved.
   def conversation_closed_for_replies?
-    conversation.resolved? && !inbox.allow_messages_after_resolved
+    conversation.resolved? && !inbox.allow_messages_after_resolved && !@contact.blocked?
   end
 
   def apply_labels

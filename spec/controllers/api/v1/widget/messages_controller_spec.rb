@@ -243,6 +243,20 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(contact_inbox.conversations.count).to eq(1)
         expect(conversation.reload.open?).to be(true)
       end
+
+      it 'keeps a blocked contact on the same conversation' do
+        web_widget.inbox.update!(allow_messages_after_resolved: false)
+        contact.update!(blocked: true)
+
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['conversation_id']).to eq(conversation.display_id)
+        expect(contact_inbox.conversations.count).to eq(1)
+      end
     end
 
     context 'when the last conversation is not resolved' do

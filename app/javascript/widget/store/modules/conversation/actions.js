@@ -14,11 +14,8 @@ import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 
-// The server starts a new conversation when this one is resolved and the inbox disallows
-// replies. Compare against the messages, not the attributes, which `conversation.created`
-// updates first. Drop only the stale ones, so replies already received here survive.
-// The socket drops `message.created` for the new conversation until the attributes point at
-// it, so pull the thread once the switch is done to pick up whatever was missed.
+// The server starts a new thread when the current one is resolved and replies are disallowed.
+// Refresh after dropping: the socket ignores `message.created` until the attributes catch up.
 const resetStaleThread = async (
   { commit, dispatch },
   conversations,
@@ -70,8 +67,7 @@ export const actions = {
       Object.keys(pendingCustomAttributes).length > 0 ||
       pendingLabels.length > 0;
 
-    // A retried message still carries `failed`, and only `in_progress` ones are replaced by
-    // the server copy, so without this the failed bubble stays behind as a duplicate.
+    // Only `in_progress` messages are replaced by the server copy; a retry still carries `failed`.
     commit('pushMessageToConversation', { ...message, status: 'in_progress' });
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
     try {
