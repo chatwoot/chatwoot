@@ -298,6 +298,15 @@ describe Twilio::IncomingMessageService do
         expect(conversation.reload.messages.last).to be_present
         expect(conversation.reload.messages.last.attachments.count).to eq(0)
       end
+
+      it 'does not attach credentials to a Twilio url on a non-default port' do
+        url = 'https://api.twilio.com:8443/2010-04-01/Accounts/ACxxx/Messages/MMxx/Media/MExx'
+        stub_request(:get, url).to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
+
+        described_class.new(params: media_params.merge(MediaUrl0: url)).perform
+
+        expect(a_request(:get, url).with(basic_auth: ['ACxxx', twilio_channel.auth_token])).not_to have_been_made
+      end
     end
 
     context 'when a message with multiple attachments is received' do

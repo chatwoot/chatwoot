@@ -180,14 +180,11 @@ class Twilio::IncomingMessageService # rubocop:disable Metrics/ClassLength
     Rails.logger.info "Error downloading Twilio media: #{e.class}: Skipping"
   end
 
-  # Only the provider's own https host is fetched with credentials; a plaintext
-  # (http) or non-Twilio URL from the payload goes through SafeFetch instead.
+  # Only the provider's exact endpoint (https, default port, no userinfo) is fetched
+  # with credentials; anything else from the payload goes through SafeFetch instead.
   def twilio_hosted?(media_url)
     uri = URI.parse(media_url)
-    return false unless uri.scheme == 'https'
-
-    host = uri.host&.downcase
-    host == TWILIO_DOMAIN || host&.end_with?(".#{TWILIO_DOMAIN}") || false
+    canonical_https?(uri) && twilio_host?(uri.host)
   rescue URI::InvalidURIError
     false
   end
@@ -211,6 +208,17 @@ class Twilio::IncomingMessageService # rubocop:disable Metrics/ClassLength
     # auth_token is the password for both api-key and account-sid auth
     credentials = [twilio_channel.api_key_sid.presence || twilio_channel.account_sid, twilio_channel.auth_token]
     Down.download(media_url, http_basic_authentication: credentials)
+  end
+
+  # Credentials go only to the provider's exact endpoint form: https, default port,
+  # no embedded userinfo.
+  def canonical_https?(uri)
+    uri.scheme == 'https' && uri.userinfo.nil? && uri.port == URI::HTTPS.default_port
+  end
+
+  def twilio_host?(host)
+    host = host&.downcase
+    host == TWILIO_DOMAIN || host&.end_with?(".#{TWILIO_DOMAIN}") || false
   end
 
   def handle_download_attachment_error(error, media_url)
