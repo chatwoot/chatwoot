@@ -47,6 +47,15 @@ class Enterprise::AuditLog < Audited::Audit
     nil
   end
 
+  def resolve_ip_location!
+    return if remote_address.blank?
+
+    result = IpLookupService.new.perform(remote_address)
+    return unless result
+
+    update_columns(city: result.city, country: result.country, country_code: result.country_code) # rubocop:disable Rails/SkipsModelValidations
+  end
+
   private
 
   def enqueue_ip_lookup
