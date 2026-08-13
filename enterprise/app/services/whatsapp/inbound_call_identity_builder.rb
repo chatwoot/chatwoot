@@ -2,15 +2,15 @@ class Whatsapp::InboundCallIdentityBuilder
   pattr_initialize [:inbox!, :params!]
 
   # Build the message path's source_id set plus contact attributes, so the resolver lands a call
-  # on the same ContactInbox a message would: on Cloud the BSUID leads and the phone trails, and
-  # anywhere else the phone still leads. BSUIDs ride in from_user_id/from_parent_user_id (or the
-  # contact's user_id/parent_user_id), never in `from` (the phone wa_id).
+  # on the same ContactInbox a message would: on Cloud the parent BSUID leads, then the regular
+  # one, and the phone trails; anywhere else the phone still leads. BSUIDs ride in
+  # from_user_id/from_parent_user_id (or the contact's user_id/parent_user_id), never in `from`.
   def perform(payload)
     contact = caller_contact(payload)
     phone = contact[:wa_id].presence || payload[:from].presence
     identifiers = [
-      payload[:from_user_id].presence || contact[:user_id].presence,
-      payload[:from_parent_user_id].presence || contact[:parent_user_id].presence
+      payload[:from_parent_user_id].presence || contact[:parent_user_id].presence,
+      payload[:from_user_id].presence || contact[:user_id].presence
     ]
     ordered = addressable_identifiers? ? [*identifiers, phone_source_id(phone)] : [phone_source_id(phone), *identifiers]
     source_ids = ordered.compact_blank.uniq

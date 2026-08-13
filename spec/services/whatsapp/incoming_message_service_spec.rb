@@ -119,6 +119,31 @@ describe Whatsapp::IncomingMessageService do
         expect(parent_contact_inbox.contact).to eq(contact)
       end
 
+      # Meta sends the parent identifier alone in some payloads. Leading with it keeps the mixed
+      # event and the parent-only follow-up on one ContactInbox, so the thread is not split.
+      it 'reuses the conversation when a parent-only payload follows one carrying both identifiers' do
+        mixed = {
+          'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'wa_id' => '919745786257',
+                           'user_id' => 'IN.2081978709342942', 'parent_user_id' => 'IN.ENT.9081726354' }],
+          'messages' => [{ 'from' => '919745786257', 'from_user_id' => 'IN.2081978709342942',
+                           'from_parent_user_id' => 'IN.ENT.9081726354', 'id' => 'wamid.mixed-first',
+                           'text' => { 'body' => 'first' }, 'timestamp' => '1778579582', 'type' => 'text' }]
+        }.with_indifferent_access
+        parent_only = {
+          'contacts' => [{ 'parent_user_id' => 'IN.ENT.9081726354' }],
+          'messages' => [{ 'from_parent_user_id' => 'IN.ENT.9081726354', 'id' => 'wamid.parent-only-second',
+                           'text' => { 'body' => 'second' }, 'timestamp' => '1778579600', 'type' => 'text' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: mixed).perform
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: parent_only).perform }
+          .not_to(change { whatsapp_channel.inbox.conversations.count })
+
+        conversation = whatsapp_channel.inbox.conversations.last
+        expect(conversation.contact_inbox.source_id).to eq('IN.ENT.9081726354')
+        expect(conversation.messages.pluck(:content)).to include('first', 'second')
+      end
+
       it 'links phone and BSUID source ids to the same contact' do
         phone_with_bsuid_params = {
           'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'wa_id' => '919745786257', 'user_id' => 'IN.2081978709342942' }],

@@ -41,15 +41,19 @@ module Whatsapp::IncomingMessageIdentifierHelper
     ).perform
   end
 
-  # The business scoped user id comes first so it is the identity a message resolves to whenever one
-  # is present, and the phone number is the fallback for a payload that carries none. Only the Cloud
-  # provider can address an identifier back, through `recipient`: 360Dialog always sends to `to`, so
-  # there the phone number stays the identity a conversation anchors to and a reply keeps working.
+  # Parent business scoped user id, then the regular one, then the phone number. The parent is the
+  # identifier that survives across the payload shapes Meta sends: an event carrying both and a
+  # later parent-only event describe the same sender, so leading with it keeps them on one
+  # ContactInbox instead of anchoring each on a row of its own. It is addressable in its own right,
+  # through `recipient`, for messages and for calls alike.
+  #
+  # Only the Cloud provider can address an identifier back: 360Dialog always sends to `to`, so there
+  # the phone number stays the identity a conversation anchors to and a reply keeps working.
   def incoming_message_source_ids(contact_params)
     phone_source_id = whatsapp_phone_source_id(contact_params[:wa_id].presence || messages_data.first[:from].presence)
     identifiers = [
-      whatsapp_source_id(contact_params[:user_id].presence || messages_data.first[:from_user_id].presence),
-      whatsapp_source_id(contact_params[:parent_user_id].presence || messages_data.first[:from_parent_user_id].presence)
+      whatsapp_source_id(contact_params[:parent_user_id].presence || messages_data.first[:from_parent_user_id].presence),
+      whatsapp_source_id(contact_params[:user_id].presence || messages_data.first[:from_user_id].presence)
     ]
     ordered = addressable_identifiers? ? [*identifiers, phone_source_id] : [phone_source_id, *identifiers]
 
@@ -65,8 +69,8 @@ module Whatsapp::IncomingMessageIdentifierHelper
   def outgoing_message_source_ids(message)
     phone_source_id = whatsapp_phone_source_id(message[:to].presence)
     identifiers = [
-      whatsapp_source_id(message[:to_user_id].presence),
-      whatsapp_source_id(message[:to_parent_user_id].presence)
+      whatsapp_source_id(message[:to_parent_user_id].presence),
+      whatsapp_source_id(message[:to_user_id].presence)
     ]
     ordered = addressable_identifiers? ? [*identifiers, phone_source_id] : [phone_source_id, *identifiers]
 
