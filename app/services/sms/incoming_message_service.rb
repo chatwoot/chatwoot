@@ -107,7 +107,9 @@ class Sms::IncomingMessageService
         yield persisted_copy(result.tempfile), result.original_filename, result.content_type
       end
     end
-  rescue SafeFetch::Error => e
+    # Skip only unsafe/permanent failures; let transient errors (timeout, 5xx) raise
+    # so the job retries, as before this change.
+  rescue SafeFetch::UnsafeUrlError, SafeFetch::InvalidUrlError, SafeFetch::FileTooLargeError, SafeFetch::UnsupportedContentTypeError => e
     Rails.logger.warn("[SMS] skipping media download: #{e.class}")
   end
 

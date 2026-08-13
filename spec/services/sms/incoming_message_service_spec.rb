@@ -175,6 +175,15 @@ describe Sms::IncomingMessageService do
 
         expect(sms_channel.inbox.messages.first.attachments.present?).to be false
       end
+
+      it 'lets a transient download failure raise so the job retries' do
+        stub_request(:get, 'http://other.example/file.png').to_return(status: 500)
+        media_params = { 'media': ['http://other.example/file.png'] }.with_indifferent_access
+
+        expect do
+          described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
+        end.to raise_error(SafeFetch::HttpError)
+      end
     end
   end
 end
