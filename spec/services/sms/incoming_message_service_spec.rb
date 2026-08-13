@@ -21,6 +21,15 @@ describe Sms::IncomingMessageService do
       }.with_indifferent_access
     end
 
+    # Non-provider media is fetched through SafeFetch (SsrfFilter), which resolves the
+    # host and rejects private addresses. Stub resolution to public IPs for test hosts.
+    before do
+      allow(Resolv).to receive(:getaddresses).and_call_original
+      allow(Resolv).to receive(:getaddresses).with('test.com').and_return(['93.184.216.34'])
+      allow(Resolv).to receive(:getaddresses).with('other.example').and_return(['93.184.216.34'])
+      allow(Resolv).to receive(:getaddresses).with('internal.example').and_return(['169.254.169.254'])
+    end
+
     context 'when valid text message params' do
       it 'creates appropriate conversations, message and contacts' do
         described_class.new(inbox: sms_channel.inbox, params: params).perform
@@ -77,8 +86,10 @@ describe Sms::IncomingMessageService do
       end
 
       it 'creates attachment messages and ignores .smil files' do
-        stub_request(:get, 'http://test.com/test.png').to_return(status: 200, body: File.read('spec/assets/sample.png'), headers: {})
-        stub_request(:get, 'http://test.com/test2.png').to_return(status: 200, body: File.read('spec/assets/sample.png'), headers: {})
+        stub_request(:get, 'http://test.com/test.png').to_return(status: 200, body: File.read('spec/assets/sample.png'),
+                                                                 headers: { 'Content-Type' => 'image/png' })
+        stub_request(:get, 'http://test.com/test2.png').to_return(status: 200, body: File.read('spec/assets/sample.png'),
+                                                                  headers: { 'Content-Type' => 'image/png' })
 
         media_params = { 'media': [
           'http://test.com/test.smil',
@@ -107,7 +118,8 @@ describe Sms::IncomingMessageService do
       end
 
       it 'downloads media from other hosts without provider credentials' do
-        stub_request(:get, 'http://other.example/file.png').to_return(status: 200, body: File.read('spec/assets/sample.png'))
+        stub_request(:get, 'http://other.example/file.png').to_return(status: 200, body: File.read('spec/assets/sample.png'),
+                                                                      headers: { 'Content-Type' => 'image/png' })
         media_params = { 'media': ['http://other.example/file.png'] }.with_indifferent_access
 
         described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
@@ -154,6 +166,14 @@ describe Sms::IncomingMessageService do
           described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
         end.to raise_error(Down::TooManyRedirects)
         expect(redirected_request).not_to have_been_requested
+      end
+
+      it 'does not fetch media that resolves to an internal address' do
+        media_params = { 'media': ['http://internal.example/file.png'] }.with_indifferent_access
+
+        described_class.new(inbox: sms_channel.inbox, params: params.merge(media_params)).perform
+
+        expect(sms_channel.inbox.messages.first.attachments.present?).to be false
       end
     end
   end
