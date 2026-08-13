@@ -1,10 +1,10 @@
 # List of the premium features in EE edition
-- disable_branding
-- audit_logs
-- sla
-- custom_roles
+#
+# The previously-listed features (disable_branding, audit_logs, sla, custom_roles,
+# csat_review_notes, conversation_required_attributes) were permanently unlocked for
+# this product: they are enabled by default for every account (config/features.yml)
+# and must NOT be force-disabled here, or the daily reconcile would re-lock them.
+# Captain integration flags remain listed since the Captain pages are being removed.
 - captain_integration
 - captain_integration_v2
 - captain_document_auto_sync
-- csat_review_notes
-- conversation_required_attributes
