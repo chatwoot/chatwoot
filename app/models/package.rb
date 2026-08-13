@@ -2,17 +2,17 @@
 #
 # Table name: packages
 #
-#  id                     :bigint           not null, primary key
+#  id                      :bigint           not null, primary key
 #  campaign_messages_limit :integer
-#  channels_limit         :integer
-#  contacts_limit         :integer
-#  conversations_limit    :integer
-#  description            :text
-#  name                   :string           not null
-#  status                 :integer          default("active"), not null
-#  users_limit            :integer
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
+#  channels_limit          :integer
+#  contacts_limit          :integer
+#  conversations_limit     :integer
+#  description             :text
+#  name                    :string           not null
+#  status                  :integer          default("active"), not null
+#  users_limit             :integer
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #
 # Indexes
 #
@@ -36,4 +36,5 @@ class Package < ApplicationRecord
 
   has_many :account_packages, dependent: :destroy_async
   has_many :accounts, through: :account_packages
+  has_many :addons, dependent: :destroy_async
 end

@@ -63,6 +63,7 @@ class Account < ApplicationRecord
 
   has_many :account_packages, dependent: :destroy_async
   has_many :packages, through: :account_packages
+  has_many :addons, dependent: :destroy_async
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
   has_many :agent_bots, dependent: :destroy_async
