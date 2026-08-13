@@ -30,6 +30,9 @@ importers:
       '@chatwoot/utils':
         specifier: ^0.0.57
         version: 0.0.57
+      '@chatwoot/viz':
+        specifier: ^0.1.0
+        version: 0.1.0(vue@3.5.12(typescript@5.6.2))
       '@formkit/core':
         specifier: ^1.7.2
         version: 1.7.2
@@ -458,6 +461,12 @@ packages:
   '@chatwoot/utils@0.0.57':
     resolution: {integrity: sha512-L4QrCmimkULY9ZQk0MJRLfwry3Pqq2e7psETqoZGYopMZ+8DSWe4t6cModSjTCBnDjqgp/gTl0oorntCYrDE8w==}
     engines: {node: '>=10'}
+
+  '@chatwoot/viz@0.1.0':
+    resolution: {integrity: sha512-SR+S6wz8/bcXLFhlGWS0VPm0+9ZvvxGv3VZdz3t8CC5kcS3G1jWBeg0tie7+tX6BA6PvZ/erE2+kQ5p5RuDjQQ==}
+    engines: {node: '>=24.4.1'}
+    peerDependencies:
+      vue: ^3.5.0
 
   '@codemirror/commands@6.7.0':
     resolution: {integrity: sha512-+cduIZ2KbesDhbykV02K25A5xIVrquSPz4UxxYBemRlAT2aW8dhwUgLDwej7q/RJUHKk4nALYcR1puecDvbdqw==}
@@ -5141,6 +5150,10 @@ snapshots:
   '@chatwoot/utils@0.0.57':
     dependencies:
       date-fns: 2.30.0
+
+  '@chatwoot/viz@0.1.0(vue@3.5.12(typescript@5.6.2))':
+    dependencies:
+      vue: 3.5.12(typescript@5.6.2)
 
   '@codemirror/commands@6.7.0':
     dependencies:
