@@ -28,8 +28,30 @@
 #
 class Enterprise::AuditLog < Audited::Audit
   after_save :log_additional_information
+  after_create_commit :enqueue_ip_lookup, if: -> { remote_address.present? }
+
+  def location
+    [city, country].compact_blank.join(', ').presence
+  end
+
+  def masked_remote_address
+    return if remote_address.blank?
+
+    ip = IPAddr.new(remote_address)
+    if ip.ipv4?
+      "#{ip.to_s.split('.')[0..2].join('.')}.x"
+    else
+      "#{ip.to_string.split(':')[0..3].join(':')}::"
+    end
+  rescue IPAddr::Error
+    nil
+  end
 
   private
+
+  def enqueue_ip_lookup
+    Enterprise::AuditLogIpLookupJob.perform_later(self)
+  end
 
   def log_additional_information
     # rubocop:disable Rails/SkipsModelValidations

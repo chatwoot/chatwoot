@@ -60,5 +60,43 @@ RSpec.describe 'Enterprise Audit API', type: :request do
         )
       end
     end
+
+    context 'when the audit_log_ip_address flag is off' do
+      before do
+        account.enable_features(:audit_logs)
+        account.save!
+        Enterprise::AuditLog.create!(auditable: inbox, action: 'update', associated: account,
+                                     remote_address: '203.0.113.42', city: 'Berlin', country: 'Germany')
+      end
+
+      it 'returns location and a masked remote_address, never the full IP' do
+        get "/api/v1/accounts/#{account.id}/audit_logs",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Berlin, Germany')
+        expect(response.body).to include('203.0.113.x')
+        expect(response.body).not_to include('203.0.113.42')
+      end
+    end
+
+    context 'when the audit_log_ip_address flag is on' do
+      before do
+        account.enable_features(:audit_logs, :audit_log_ip_address)
+        account.save!
+        Enterprise::AuditLog.create!(auditable: inbox, action: 'update', associated: account,
+                                     remote_address: '203.0.113.42', city: 'Berlin', country: 'Germany')
+      end
+
+      it 'returns the full remote_address' do
+        get "/api/v1/accounts/#{account.id}/audit_logs",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('203.0.113.42')
+      end
+    end
   end
 end
