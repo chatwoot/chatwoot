@@ -40,8 +40,21 @@ if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_SIDEKIQ_CLOUDWATCH', fa
   require 'speedshop/cloudwatch'
   require 'speedshop/cloudwatch/sidekiq'
 
+  # Use the instance role by default. Do not fall through to the default AWS chain: the shared
+  # AWS_ACCESS_KEY_ID is scoped to storage (S3) and would lack cloudwatch:PutMetricData.
+  # Dedicated keys can be supplied to override when an instance role is not available.
+  cloudwatch_credentials =
+    if ENV['SIDEKIQ_CLOUDWATCH_AWS_ACCESS_KEY_ID'].present?
+      Aws::Credentials.new(ENV.fetch('SIDEKIQ_CLOUDWATCH_AWS_ACCESS_KEY_ID'), ENV.fetch('SIDEKIQ_CLOUDWATCH_AWS_SECRET_ACCESS_KEY'))
+    else
+      Aws::InstanceProfileCredentials.new
+    end
+
   Speedshop::Cloudwatch.configure do |cw|
-    cw.client = Aws::CloudWatch::Client.new(region: ENV.fetch('AWS_REGION', 'us-east-1'))
+    cw.client = Aws::CloudWatch::Client.new(
+      region: ENV.fetch('SIDEKIQ_CLOUDWATCH_AWS_REGION', ENV.fetch('AWS_REGION', 'us-east-1')),
+      credentials: cloudwatch_credentials
+    )
     cw.namespaces[:sidekiq] = ENV.fetch('SIDEKIQ_CLOUDWATCH_NAMESPACE', 'Chatwoot/Sidekiq')
     cw.interval = ENV.fetch('SIDEKIQ_CLOUDWATCH_INTERVAL', 60).to_i
     cw.metrics[:sidekiq] = %i[QueueLatency QueueSize EnqueuedJobs Utilization]
