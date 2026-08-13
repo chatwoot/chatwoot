@@ -79,12 +79,14 @@ const handleEmbeddedSignupEvents = async (data, authCode) => {
   ) {
     const businessData = data.data;
 
-    if (isValidBusinessData(businessData) && businessData.phone_number_id) {
+    // phone_number_id isn't required here: the backend resolves it from the WABA
+    // (PhoneInfoService) when omitted, which coexistence completions sometimes do.
+    if (isValidBusinessData(businessData)) {
       await reauthorizeWhatsApp({
         code: authCode,
         business_id: businessData.business_id,
         waba_id: businessData.waba_id,
-        phone_number_id: businessData.phone_number_id,
+        phone_number_id: businessData.phone_number_id || '',
         is_coexistence:
           data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING',
       });
