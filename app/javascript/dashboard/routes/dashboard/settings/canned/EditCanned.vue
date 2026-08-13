@@ -6,17 +6,20 @@ import { useAlert } from 'dashboard/composables';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Modal from '../../../../components/Modal.vue';
+import CannedResponseFileInput from 'dashboard/components/widgets/CannedResponseFileInput.vue';
 
 export default {
   components: {
     NextButton,
     Modal,
     WootMessageEditor,
+    CannedResponseFileInput,
   },
   props: {
     id: { type: Number, default: null },
     edcontent: { type: String, default: '' },
     edshortCode: { type: String, default: '' },
+    edAttachments: { type: Array, default: () => [] },
     onClose: { type: Function, default: () => {} },
   },
   setup() {
@@ -30,6 +33,7 @@ export default {
       },
       shortCode: this.edshortCode,
       content: this.edcontent,
+      attachments: [],
       show: true,
     };
   },
@@ -55,6 +59,7 @@ export default {
     resetForm() {
       this.shortCode = '';
       this.content = '';
+      this.attachments = [];
       this.v$.shortCode.$reset();
       this.v$.content.$reset();
     },
@@ -67,6 +72,7 @@ export default {
           id: this.id,
           short_code: this.shortCode,
           content: this.content,
+          attachments: this.attachments,
         })
         .then(() => {
           // Reset Form, Show success message
@@ -122,6 +128,17 @@ export default {
             />
           </div>
         </div>
+
+        <div class="w-full">
+          <label>
+            {{ $t('CANNED_MGMT.EDIT.FORM.ATTACHMENTS.LABEL') }}
+          </label>
+          <CannedResponseFileInput
+            v-model="attachments"
+            :initial-files="edAttachments"
+          />
+        </div>
+
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <NextButton
             faded
