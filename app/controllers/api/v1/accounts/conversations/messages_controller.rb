@@ -69,13 +69,8 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
       next false unless message.failed?
 
       Messages::StatusUpdateService.new(message, 'sent').perform
-      retry_attributes = { content_attributes: {} }
-      # This retry issue is currently reproducible only for WhatsApp. Preserve source_id for other channels until their retry behavior is verified.
-      if @conversation.inbox.whatsapp?
-        previous_source_id = message.source_id
-        retry_attributes[:source_id] = nil
-      end
-      message.update!(retry_attributes)
+      previous_source_id = message.source_id
+      message.update!(content_attributes: {}, source_id: nil)
       Rails.logger.info "Cleared older source ID #{previous_source_id} for message #{message.id}" if previous_source_id.present?
       true
     end
