@@ -72,6 +72,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} deleted conversation #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message (#{id})"
     }
   }
 }
