@@ -4,6 +4,8 @@ import { useRoute } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useMacroExecution } from 'dashboard/composables/useMacroExecution';
 import { useOrderedMacros } from 'dashboard/composables/useOrderedMacros';
+import { usePolicy } from 'dashboard/composables/usePolicy';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { ICON_TOY_BRICK } from 'dashboard/helper/commandbar/icons';
 import {
   isAConversationRoute,
@@ -18,16 +20,19 @@ export function useMacroHotKeys() {
   const { orderedMacros } = useOrderedMacros();
   const { execute, submitPendingAttributes, dismissPendingAttributes } =
     useMacroExecution();
+  const { isFeatureFlagEnabled } = usePolicy();
 
   const currentChat = useMapGetter('getSelectedChat');
   const pendingAttributes = ref(null);
 
-  const isConversationOrInboxRoute = computed(
-    () => isAConversationRoute(route.name) || isAInboxViewRoute(route.name)
+  const isMacrosAvailable = computed(
+    () =>
+      isFeatureFlagEnabled(FEATURE_FLAGS.MACROS) &&
+      (isAConversationRoute(route.name) || isAInboxViewRoute(route.name))
   );
 
   watch(
-    isConversationOrInboxRoute,
+    isMacrosAvailable,
     isActive => {
       if (isActive && !orderedMacros.value.length) store.dispatch('macros/get');
     },
@@ -35,7 +40,7 @@ export function useMacroHotKeys() {
   );
 
   const macroHotKeys = computed(() => {
-    if (!isConversationOrInboxRoute.value || !orderedMacros.value.length) {
+    if (!isMacrosAvailable.value || !orderedMacros.value.length) {
       return [];
     }
 
