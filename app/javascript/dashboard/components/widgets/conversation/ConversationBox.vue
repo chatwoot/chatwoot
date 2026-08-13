@@ -65,6 +65,7 @@ export default {
           this.$store.dispatch('inboxAssignableAgents/fetch', {
             inboxIds: [inboxId],
             includeAgentBots: true,
+            includeCaptain: true,
           });
         }
       },

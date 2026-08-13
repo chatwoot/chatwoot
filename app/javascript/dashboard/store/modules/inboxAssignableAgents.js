@@ -7,8 +7,13 @@ const state = {
   },
 };
 
-const recordKey = (inboxId, { includeAgentBots = false } = {}) =>
-  includeAgentBots ? `${inboxId}:with_agent_bots` : inboxId;
+const recordKey = (
+  inboxId,
+  { includeAgentBots = false, includeCaptain = false } = {}
+) => {
+  if (includeCaptain) return `${inboxId}:with_ai_assignees`;
+  return includeAgentBots ? `${inboxId}:with_agent_bots` : inboxId;
+};
 
 export const types = {
   SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG: 'SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG',
@@ -20,11 +25,13 @@ export const getters = {
     $state =>
     (inboxId, options = {}) => {
       const includeAgentBots = options.includeAgentBots || false;
+      const includeCaptain = options.includeCaptain || false;
       const allAgents = $state.records[recordKey(inboxId, options)] || [];
       const verifiedAgents = allAgents.filter(
         record =>
           record.confirmed ||
-          (includeAgentBots && record.assignee_type === 'AgentBot')
+          (includeAgentBots && record.assignee_type === 'AgentBot') ||
+          (includeCaptain && record.assignee_type === 'Captain::Assistant')
       );
       return verifiedAgents;
     },
@@ -40,19 +47,27 @@ export const actions = {
       : actionPayload.inboxIds;
     const includeAgentBots =
       !Array.isArray(actionPayload) && actionPayload.includeAgentBots;
+    const includeCaptain =
+      !Array.isArray(actionPayload) && actionPayload.includeCaptain;
     commit(types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload },
-      } = await AssignableAgentsAPI.get(inboxIds, { includeAgentBots });
-      if (includeAgentBots) {
+      } = await AssignableAgentsAPI.get(inboxIds, {
+        includeAgentBots,
+        includeCaptain,
+      });
+      if (includeAgentBots || includeCaptain) {
         commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
           inboxId: inboxIds.join(','),
           members: payload,
         });
       }
       commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
-        inboxId: recordKey(inboxIds.join(','), { includeAgentBots }),
+        inboxId: recordKey(inboxIds.join(','), {
+          includeAgentBots,
+          includeCaptain,
+        }),
         members: payload,
       });
     } catch (error) {
