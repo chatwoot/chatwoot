@@ -153,7 +153,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'shows the list of accounts' do
-        expect(account.cache_keys.keys).to contain_exactly(:inbox, :label, :team)
+        expect(account.cache_keys.keys).to contain_exactly(:inbox, :label, :team, :canned_response)
         sign_in(super_admin, scope: :super_admin)
 
         now_timestamp = Time.now.utc.to_i
