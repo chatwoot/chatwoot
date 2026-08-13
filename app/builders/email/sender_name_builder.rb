@@ -32,7 +32,7 @@ class Email::SenderNameBuilder
   end
 
   def sender_locale
-    locale_candidates.find { |locale| valid_locale?(locale) && I18n.exists?(TRANSLATION_KEY, locale) } || I18n.default_locale
+    locale_candidates.find { |locale| valid_locale?(locale) && I18n.exists?(TRANSLATION_KEY, locale, fallback: false) } || I18n.default_locale
   end
 
   def locale_candidates

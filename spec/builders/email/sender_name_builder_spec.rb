@@ -38,10 +38,27 @@ RSpec.describe Email::SenderNameBuilder do
     expect(builder.build).to eq('Ivan von Juvigo <care@example.com>')
   end
 
-  it 'falls back to the account locale when the sender name translation is missing' do
-    sender.update!(ui_settings: { 'locale' => 'sr' })
+  context 'with production-style locale fallbacks' do
+    around do |example|
+      original_backend = I18n.backend
+      original_fallbacks = I18n.fallbacks
+      fallback_backend = I18n::Backend::Simple.new
+      fallback_backend.extend(I18n::Backend::Fallbacks)
+      I18n.backend = fallback_backend
+      I18n.fallbacks = I18n::Locale::Fallbacks.new(I18n.default_locale)
 
-    expect(builder.build).to eq('Ivan from Juvigo <care@example.com>')
+      example.run
+    ensure
+      I18n.backend = original_backend
+      I18n.fallbacks = original_fallbacks
+    end
+
+    it 'falls back to the account locale when the sender name translation is missing' do
+      account.update!(locale: :de)
+      sender.update!(ui_settings: { 'locale' => 'sr' })
+
+      expect(builder.build).to eq('Ivan von Juvigo <care@example.com>')
+    end
   end
 
   it 'falls back to the account locale when the sender is not a user' do
