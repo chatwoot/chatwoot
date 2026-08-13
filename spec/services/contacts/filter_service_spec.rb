@@ -460,6 +460,52 @@ describe Contacts::FilterService do
         expect(result[:contacts].pluck(:id)).to eq([cs_contact.id])
       end
 
+      it 'filters custom date attributes by days before' do
+        cs_contact.update!(custom_attributes: cs_contact.custom_attributes.merge('signed_in_at' => (Time.zone.today - 4.days).to_s))
+        el_contact.update!(custom_attributes: el_contact.custom_attributes.merge('signed_in_at' => (Time.zone.today - 2.days).to_s))
+        params[:payload] = [
+          {
+            attribute_key: 'signed_in_at',
+            filter_operator: 'days_before',
+            values: [3],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(account, first_user, params).perform
+
+        expect(result[:contacts].pluck(:id)).to include(cs_contact.id)
+        expect(result[:contacts].pluck(:id)).not_to include(el_contact.id)
+      end
+
+      it 'rejects blank custom numeric values' do
+        params[:payload] = [
+          {
+            attribute_key: 'lifetime_value',
+            values: [''],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(account, first_user, params).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidValue)
+      end
+
+      it 'rejects non-finite custom numeric values' do
+        %w[Infinity NaN].each do |value|
+          params[:payload] = [
+            {
+              attribute_key: 'lifetime_value',
+              filter_operator: 'is_greater_than',
+              values: [value],
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+
+          expect { filter_service.new(account, first_user, params).perform }
+            .to raise_error(CustomExceptions::CustomFilter::InvalidValue)
+        end
+      end
+
       it 'rejects invalid custom date comparison values' do
         malicious_value = "2024-01-01'::date OR (SELECT pg_sleep(5)) IS NOT NULL --"
         params[:payload] = [
