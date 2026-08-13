@@ -6,6 +6,7 @@ import {
   buildAttributesFilterTypes,
   CONTACT_ATTRIBUTES,
 } from './helper/filterHelper.js';
+import { groupFilterTypes } from './helper/filterAttributeIcons.js';
 import countries from 'shared/constants/countries.js';
 
 /**
@@ -202,5 +203,10 @@ export function useContactFilterContext() {
     ...customFilterTypes.value,
   ]);
 
-  return { filterTypes };
+  // The same attributes, grouped into sections with a leading icon, for the attribute picker.
+  const attributeFilterTypes = computed(() =>
+    groupFilterTypes(filterTypes.value, t, 'CONTACTS_FILTER')
+  );
+
+  return { filterTypes, attributeFilterTypes };
 }

@@ -9,7 +9,7 @@ RSpec.describe Captain::ConversationCompletionService do
   let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'test-key')
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
     allow(mock_chat).to receive(:with_instructions)
     allow(mock_chat).to receive(:with_schema).and_return(mock_chat)

@@ -1,6 +1,5 @@
 class Api::V1::AccountsController < Api::BaseController
   include AuthHelper
-  include CacheKeysHelper
 
   skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception,
                      only: [:create], raise: false
@@ -52,7 +51,7 @@ class Api::V1::AccountsController < Api::BaseController
 
   def cache_keys
     expires_in 10.seconds, public: false, stale_while_revalidate: 5.minutes
-    render json: { cache_keys: cache_keys_for_account }, status: :ok
+    render json: { cache_keys: @account.cache_keys }, status: :ok
   end
 
   def update
@@ -95,14 +94,6 @@ class Api::V1::AccountsController < Api::BaseController
     return if account_params[:user_full_name].present?
 
     raise CustomExceptions::Account::InvalidParams.new({})
-  end
-
-  def cache_keys_for_account
-    {
-      label: fetch_value_for_key(params[:id], Label.name.underscore),
-      inbox: fetch_value_for_key(params[:id], Inbox.name.underscore),
-      team: fetch_value_for_key(params[:id], Team.name.underscore)
-    }
   end
 
   def fetch_account
