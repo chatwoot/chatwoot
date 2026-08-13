@@ -75,7 +75,7 @@ export const initWhatsAppEmbeddedSignup = configId => {
         extras: {
           setup: {},
           featureType: 'whatsapp_business_app_onboarding',
-          sessionInfoVersion: '3',
+          sessionInfoVersion: '4',
         },
       }
     );

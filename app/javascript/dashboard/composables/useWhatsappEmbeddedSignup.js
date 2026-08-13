@@ -26,6 +26,7 @@ export function useWhatsappEmbeddedSignup() {
     return new Promise((resolve, reject) => {
       let authCode = null;
       let businessData = null;
+      let isCoexistence = false;
       let settled = false;
       let messageHandler;
 
@@ -46,6 +47,7 @@ export function useWhatsappEmbeddedSignup() {
           business_id: businessData.business_id,
           waba_id: businessData.waba_id,
           phone_number_id: businessData.phone_number_id || '',
+          is_coexistence: isCoexistence,
         });
       };
 
@@ -59,6 +61,8 @@ export function useWhatsappEmbeddedSignup() {
             return;
           }
           businessData = data.data;
+          isCoexistence =
+            data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING';
           resolveIfReady();
         } else if (data.event === 'CANCEL') {
           settle(resolve, null);
