@@ -17,7 +17,8 @@
         "GROUPS": {
           "ACCESS": "Access",
           "AGENTS_TEAMS": "Agents & teams",
-          "CONFIGURATION": "Configuration"
+          "CONFIGURATION": "Configuration",
+          "CONVERSATIONS": "Conversations"
         },
         "OPTIONS": {
           "SIGN_IN_OUT": "Sign in / sign out",
@@ -29,7 +30,8 @@
           "INBOXES": "Inboxes",
           "WEBHOOKS": "Webhooks",
           "AUTOMATION_RULES": "Automation rules",
-          "MACROS": "Macros"
+          "MACROS": "Macros",
+          "CONVERSATION_DELETIONS": "Conversation deletions"
         }
       },
       "SORT": {

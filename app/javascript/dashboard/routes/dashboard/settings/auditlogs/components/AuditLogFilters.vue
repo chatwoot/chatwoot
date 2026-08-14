@@ -11,7 +11,7 @@ import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
 import { DATE_RANGE_TYPES } from 'dashboard/components/ui/DatePicker/helpers/DatePickerHelper';
 
 const props = defineProps({
-  // route-level filters: { q, type, since, until, sort }
+  // { q, type, since, until, sort }
   filters: {
     type: Object,
     default: () => ({}),
@@ -42,6 +42,10 @@ const EVENT_TYPE_GROUPS = [
       { value: 'AutomationRule', key: 'AUTOMATION_RULES' },
       { value: 'Macro', key: 'MACROS' },
     ],
+  },
+  {
+    key: 'CONVERSATIONS',
+    types: [{ value: 'Conversation', key: 'CONVERSATION_DELETIONS' }],
   },
 ];
 
@@ -105,7 +109,6 @@ const autoSearch = useDebounceFn(() => {
 
 const onSearchInput = value => {
   searchText.value = value;
-  // Emptying the field clears the filter without waiting for the debounce
   if (value === '' && props.filters.q) {
     emit('update', { q: undefined });
     return;
@@ -148,12 +151,10 @@ const hasDateFilter = computed(() =>
   Boolean(props.filters.since || props.filters.until)
 );
 
-// Shows the picker before any range is applied; the filter only kicks in
-// once the user picks a preset or hits apply.
 const showPicker = ref(false);
 
 const pickerDateRange = ref([]);
-// Custom range until proven otherwise; a URL-restored window has no preset
+// a URL-restored window has no known preset
 const pickerRangeType = ref(DATE_RANGE_TYPES.CUSTOM_RANGE);
 
 watch(
@@ -260,6 +261,7 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
         v-model:date-range="pickerDateRange"
         v-model:range-type="pickerRangeType"
         :default-open="!hasDateFilter"
+        :apply-on-clickaway="false"
         @date-range-changed="onDateRangeChanged"
       />
       <Button

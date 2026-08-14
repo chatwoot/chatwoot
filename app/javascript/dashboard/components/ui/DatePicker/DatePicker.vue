@@ -35,11 +35,13 @@ import CalendarWeek from './components/CalendarWeek.vue';
 import CalendarFooter from './components/CalendarFooter.vue';
 
 const props = defineProps({
-  // Render with the calendar popup already open. Lets a parent that shows
-  // the picker on demand skip the second click on the trigger.
   defaultOpen: {
     type: Boolean,
     default: false,
+  },
+  applyOnClickaway: {
+    type: Boolean,
+    default: true,
   },
 });
 
@@ -51,8 +53,7 @@ const popupStyle = ref({ left: '0px' });
 const POPUP_WIDTH = 880;
 const VIEWPORT_MARGIN = 16;
 
-// The popup is wider than most triggers, so anchoring it to either edge can
-// push it off screen. Clamp it inside the viewport instead.
+// Clamp the popup inside the viewport; edge-anchoring pushes it off screen
 const positionPopup = () => {
   const rect = pickerWrapper.value?.getBoundingClientRect();
   if (!rect) return;
@@ -381,7 +382,11 @@ onMounted(() => {
 });
 
 const closeDatePicker = () => {
-  if (isValid(selectedStartDate.value) && isValid(selectedEndDate.value)) {
+  if (
+    props.applyOnClickaway &&
+    isValid(selectedStartDate.value) &&
+    isValid(selectedEndDate.value)
+  ) {
     emitDateRange();
   } else {
     showDatePicker.value = false;

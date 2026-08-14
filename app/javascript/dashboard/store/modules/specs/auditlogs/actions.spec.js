@@ -65,11 +65,16 @@ describe('#actions', () => {
       expect(setCalls).toEqual([[types.default.SET_AUDIT_LOGS, [{ id: 2 }]]]);
     });
 
-    it('resets the fetching flag on API error', async () => {
+    it('clears stale records and resets the fetching flag on API error', async () => {
       axios.get.mockRejectedValue({ message: 'Request failed' });
       await expect(actions.fetch({ commit }, {})).rejects.toThrow();
       expect(commit.mock.calls).toEqual([
         [types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: true }],
+        [types.default.SET_AUDIT_LOGS, []],
+        [
+          types.default.SET_AUDIT_LOGS_META,
+          { totalEntries: 0, perPage: 25, currentPage: 1 },
+        ],
         [types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: false }],
       ]);
     });
