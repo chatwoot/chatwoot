@@ -7,6 +7,7 @@
       "404": "Šajā grupā nav aktīvu sarunu."
     },
     "FAILED_TO_SEND": "Neizdevās nosūtīt",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Sarunas",
     "MENTION_HEADING": "Pieminēšanas",
     "UNATTENDED_HEADING": "Bez uzraudzības",

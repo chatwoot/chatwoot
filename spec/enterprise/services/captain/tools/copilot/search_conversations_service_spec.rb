@@ -156,5 +156,84 @@ RSpec.describe Captain::Tools::Copilot::SearchConversationsService do
         expect(result).not_to include(resolved_conversation.to_llm_text(include_contact_details: true))
       end
     end
+
+    context 'when the user has team access without inbox access' do
+      let(:user) { create(:user, account: account, role: :agent) }
+      let(:team) { create(:team, account: account) }
+      let!(:team_conversation) { create(:conversation, :with_team, account: account, team: team) }
+
+      before { create(:team_member, team: team, user: user) }
+
+      it 'returns and counts the team conversation' do
+        result = service.execute
+
+        expect(result).to include('Total number of conversations: 1')
+        expect(result).to include("Conversation ID: ##{team_conversation.display_id}")
+      end
+    end
+
+    context 'when the user only has conversation_unassigned_manage permission' do
+      let(:user) { create(:user, account: account, role: :agent) }
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_unassigned_manage']) }
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let!(:agent_bot_conversation) do
+        create(:conversation, account: account, inbox: open_conversation.inbox, assignee_agent_bot: agent_bot)
+      end
+
+      before do
+        create(:inbox_member, user: user, inbox: open_conversation.inbox)
+        AccountUser.find_by!(user: user, account: account).update!(role: :agent, custom_role: custom_role)
+        create(:message, conversation: agent_bot_conversation, private: true, content: 'Agent bot private note')
+      end
+
+      it 'does not return or count a conversation assigned to an agent bot' do
+        result = service.execute
+
+        expect(result).to include('Total number of conversations: 1')
+        expect(result).to include("Conversation ID: ##{open_conversation.display_id}")
+        expect(result).not_to include("Conversation ID: ##{agent_bot_conversation.display_id}")
+        expect(result).not_to include('Agent bot private note')
+      end
+    end
+
+    context 'when an administrator has a limited custom role' do
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_participating_manage']) }
+
+      before do
+        AccountUser.find_by!(user: user, account: account).update!(custom_role: custom_role)
+        create(:message, conversation: open_conversation, private: true, content: 'Restricted private note')
+      end
+
+      it 'does not return or count unrelated conversations' do
+        result = service.execute
+
+        expect(result).to eq('No conversations found')
+        expect(result).not_to include('Restricted private note')
+      end
+
+      it 'returns and counts an assigned conversation outside their inboxes' do
+        assigned_conversation = create(:conversation, account: account, assignee: user)
+
+        result = service.execute
+
+        expect(result).to include('Total number of conversations: 1')
+        expect(result).to include("Conversation ID: ##{assigned_conversation.display_id}")
+        expect(result).not_to include('Restricted private note')
+      end
+    end
+
+    context 'when an administrator has a conversation_manage custom role' do
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_manage']) }
+
+      before { AccountUser.find_by!(user: user, account: account).update!(custom_role: custom_role) }
+
+      it 'returns conversations outside their inboxes' do
+        result = service.execute
+
+        expect(result).to include('Total number of conversations: 2')
+        expect(result).to include("Conversation ID: ##{open_conversation.display_id}")
+        expect(result).to include("Conversation ID: ##{resolved_conversation.display_id}")
+      end
+    end
   end
 end

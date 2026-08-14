@@ -24,6 +24,8 @@ module Llm::FeatureRouter
     private
 
     def account_model_override(account, feature_key)
+      return if Llm::Models.internal_feature?(feature_key)
+
       model = account&.captain_models&.[](feature_key).presence
       return unless model
       return model if Llm::Models.valid_model_for?(feature_key, model)

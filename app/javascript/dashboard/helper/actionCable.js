@@ -12,6 +12,7 @@ import {
   isLocalWhatsappCall,
 } from 'dashboard/composables/useWhatsappCallSession';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
+import { markCallDismissed } from 'dashboard/helper/voice';
 import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
@@ -61,6 +62,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'account.enrichment_completed': this.onEnrichmentCompleted,
       'copilot.message.created': this.onCopilotMessageCreated,
       'voice_call.incoming': this.onVoiceCallIncoming,
+      'voice_call.accepted': this.onVoiceCallAccepted,
       'voice_call.outbound_connected': this.onVoiceCallOutboundConnected,
       'voice_call.outbound_accepted': this.onVoiceCallOutboundAccepted,
       'voice_call.ended': this.onVoiceCallEnded,
@@ -345,6 +347,9 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('labels/revalidate', { newKey: keys.label });
     this.app.$store.dispatch('inboxes/revalidate', { newKey: keys.inbox });
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
+    this.app.$store.dispatch('revalidateCannedResponses', {
+      newKey: keys.canned_response,
+    });
 
     if (this.isFilteredUnreadCountsEnabled()) {
       // Inbox/team/label visibility changes can change the accessible set used
@@ -372,6 +377,24 @@ class ActionCableConnector extends BaseActionCableConnector {
       iceServers: data.ice_servers,
       caller: data.caller,
     });
+  };
+
+  // Inbound call accepted (in this tab or a sibling tab/window on the same
+  // account). Broadcast is account-wide, so drop the ringing card everywhere
+  // except the tab that actually owns the now-active call — removing an
+  // active call here would tear down its live WebRTC session. Check
+  // isLocalWhatsappCall (set synchronously before the accept API call) rather
+  // than the store's isActive flag, which this tab may not have set yet.
+  // Mark dismissed regardless of locality: the ringing message.created for
+  // this call is queued through ActionCableBroadcastJob and can still be
+  // delivered after this (synchronous) broadcast, which would otherwise
+  // re-add the call as ringing once it finally arrives.
+  // eslint-disable-next-line class-methods-use-this
+  onVoiceCallAccepted = data => {
+    if (data?.provider !== VOICE_CALL_PROVIDERS.WHATSAPP) return;
+    markCallDismissed(data.call_id);
+    if (isLocalWhatsappCall(data.id)) return;
+    useCallsStore().removeCall(data.call_id);
   };
 
   // `connect` is the WebRTC tunnel-ready signal (fires ~20s before pickup
@@ -405,6 +428,9 @@ class ActionCableConnector extends BaseActionCableConnector {
   // eslint-disable-next-line class-methods-use-this
   onVoiceCallEnded = async data => {
     if (data?.provider !== VOICE_CALL_PROVIDERS.WHATSAPP) return;
+    // A still-queued ringing message.created (see onVoiceCallAccepted) must not
+    // resurrect a call that has already ended.
+    markCallDismissed(data.call_id);
     // The store entry should always be removed for this account-wide broadcast,
     // but the WebRTC/recorder teardown must only run for the call this tab owns
     // — otherwise an unrelated agent's call ending would stop this tab's

@@ -34,6 +34,10 @@ class InboxPolicy < ApplicationPolicy
     true
   end
 
+  def message_templates?
+    true
+  end
+
   def campaigns?
     @account_user.administrator?
   end
@@ -59,6 +63,10 @@ class InboxPolicy < ApplicationPolicy
   end
 
   def sync_templates?
+    @account_user.administrator?
+  end
+
+  def whatsapp_business_management_token?
     @account_user.administrator?
   end
 
