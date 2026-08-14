@@ -10,12 +10,8 @@ RSpec.describe 'Api::V1::Integrations::Webhooks' do
       { 'X-Slack-Request-Timestamp' => timestamp.to_s, 'X-Slack-Signature' => signature, 'CONTENT_TYPE' => 'application/json' }
     end
 
-    def stub_signing_secret(value)
-      allow(GlobalConfigService).to receive(:load).with('SLACK_SIGNING_SECRET', nil).and_return(value)
-    end
-
     context 'when no signing secret is configured' do
-      before { stub_signing_secret(nil) }
+      before { allow(GlobalConfigService).to receive(:load).with('SLACK_SIGNING_SECRET', nil).and_return(nil) }
 
       it 'skips verification and processes the webhook' do
         builder = instance_double(Integrations::Slack::IncomingMessageBuilder, perform: true)
@@ -28,7 +24,7 @@ RSpec.describe 'Api::V1::Integrations::Webhooks' do
     end
 
     context 'when a signing secret is configured via installation config' do
-      before { stub_signing_secret(secret) }
+      before { allow(GlobalConfigService).to receive(:load).with('SLACK_SIGNING_SECRET', nil).and_return(secret) }
 
       it 'processes the webhook when the signature is valid' do
         builder = instance_double(Integrations::Slack::IncomingMessageBuilder, perform: true)
