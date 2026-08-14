@@ -20,6 +20,7 @@ module Filters::CustomAttributeFilterHelper
   end
 
   def build_custom_attr_query(query_hash, current_index)
+    validate_custom_attribute_values!(query_hash)
     filter_operator_value = filter_operation(query_hash, current_index)
     query_operator = query_hash[:query_operator]
     table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
@@ -35,6 +36,16 @@ module Filters::CustomAttributeFilterHelper
             end
 
     query + not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
+  end
+
+  def validate_custom_attribute_values!(query_hash)
+    return unless @attribute_data_type.in?(%w[date numeric])
+    return if query_hash[:filter_operator].in?(%w[is_present is_not_present])
+    return if @attribute_data_type == 'date' && query_hash[:filter_operator] == 'days_before'
+
+    Array(query_hash[:values]).each do |value|
+      coerce_lt_gt_value(value, @attribute_data_type, @attribute_key)
+    end
   end
 
   def custom_attribute(attribute_key, account, custom_attribute_type)
