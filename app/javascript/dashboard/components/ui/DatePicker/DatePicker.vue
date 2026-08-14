@@ -409,7 +409,7 @@ const closeDatePicker = () => {
     <div
       v-if="showDatePicker"
       v-on-clickaway="closeDatePicker"
-      class="flex absolute top-9 z-30 shadow-md select-none w-[880px] rounded-2xl bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container"
+      class="flex absolute top-9 z-30 shadow-md select-none w-[880px] max-w-[calc(100vw-2rem)] overflow-x-auto rounded-2xl bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container"
       :style="popupStyle"
     >
       <CalendarDateRange
