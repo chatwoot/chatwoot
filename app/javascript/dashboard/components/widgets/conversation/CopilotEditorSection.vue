@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import CopilotEditor from 'dashboard/components/widgets/WootWriter/CopilotEditor.vue';
 import CaptainLoader from 'dashboard/components/widgets/conversation/copilot/CaptainLoader.vue';
 
-defineProps({
+const props = defineProps({
   showCopilotEditor: {
     type: Boolean,
     default: false,
@@ -16,6 +16,10 @@ defineProps({
     type: String,
     default: '',
   },
+  placeholder: {
+    type: String,
+    default: undefined,
+  },
 });
 
 const emit = defineEmits([
@@ -26,7 +30,14 @@ const emit = defineEmits([
   'send',
 ]);
 
+const requestEditorHeight = inject('requestEditorHeight', () => {});
+
 const copilotEditorContent = ref('');
+
+// The loader needs no room of its own, the suggestion asks for its own
+const onStateEnter = () => {
+  if (props.isGeneratingContent) requestEditorHeight(0);
+};
 
 const onFocus = () => {
   emit('focus');
@@ -47,42 +58,49 @@ const onSend = () => {
 </script>
 
 <template>
-  <Transition
-    mode="out-in"
-    enter-active-class="transition-all duration-300 ease-out"
-    enter-from-class="opacity-0 translate-y-2 scale-[0.98]"
-    enter-to-class="opacity-100 translate-y-0 scale-100"
-    leave-active-class="transition-all duration-200 ease-in"
-    leave-from-class="opacity-100 translate-y-0 scale-100"
-    leave-to-class="opacity-0 translate-y-2 scale-[0.98]"
-    @after-enter="emit('contentReady')"
-  >
-    <CopilotEditor
-      v-if="showCopilotEditor && !isGeneratingContent"
-      key="copilot-editor"
-      v-model="copilotEditorContent"
-      class="copilot-editor"
-      :generated-content="generatedContent"
-      :min-height="4"
-      :enabled-menu-options="[]"
-      @focus="onFocus"
-      @blur="onBlur"
-      @clear-selection="clearEditorSelection"
-      @send="onSend"
-    />
-    <div
-      v-else-if="isGeneratingContent"
-      key="loading-state"
-      class="bg-n-iris-5 rounded min-h-[4.75rem] w-full mb-4 p-4 flex items-start"
+  <div class="relative">
+    <Transition
+      enter-active-class="transition-opacity duration-200 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="absolute inset-x-0 top-0 pointer-events-none transition-opacity duration-200 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+      @enter="onStateEnter"
+      @after-enter="emit('contentReady')"
     >
-      <div class="flex items-center gap-2">
-        <CaptainLoader class="text-n-iris-10 size-4" />
-        <span class="text-sm text-n-iris-10">
-          {{ $t('CONVERSATION.REPLYBOX.COPILOT_THINKING') }}
-        </span>
+      <CopilotEditor
+        v-if="showCopilotEditor && !isGeneratingContent"
+        key="copilot-editor"
+        v-model="copilotEditorContent"
+        class="copilot-editor"
+        :generated-content="generatedContent"
+        :placeholder="placeholder"
+        :min-height="4"
+        :enabled-menu-options="[]"
+        @focus="onFocus"
+        @blur="onBlur"
+        @clear-selection="clearEditorSelection"
+        @send="onSend"
+      />
+      <div
+        v-else-if="isGeneratingContent"
+        key="loading-state"
+        class="resizable-editor-body flex flex-col justify-end mb-3"
+      >
+        <div
+          class="bg-n-iris-5 rounded min-h-[4.75rem] w-full p-4 flex items-start"
+        >
+          <div class="flex items-center gap-2">
+            <CaptainLoader class="text-n-iris-10 size-4" />
+            <span class="text-sm text-n-iris-10">
+              {{ $t('CONVERSATION.REPLYBOX.COPILOT_THINKING') }}
+            </span>
+          </div>
+        </div>
       </div>
-    </div>
-  </Transition>
+    </Transition>
+  </div>
 </template>
 
 <style lang="scss">

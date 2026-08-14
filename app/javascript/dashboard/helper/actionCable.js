@@ -347,6 +347,9 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('labels/revalidate', { newKey: keys.label });
     this.app.$store.dispatch('inboxes/revalidate', { newKey: keys.inbox });
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
+    this.app.$store.dispatch('revalidateCannedResponses', {
+      newKey: keys.canned_response,
+    });
 
     if (this.isFilteredUnreadCountsEnabled()) {
       // Inbox/team/label visibility changes can change the accessible set used

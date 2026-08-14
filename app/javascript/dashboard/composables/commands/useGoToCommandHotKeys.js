@@ -4,7 +4,6 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useRouter } from 'vue-router';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import {
-  ICON_BELL,
   ICON_BLOCKS,
   ICON_BOT,
   ICON_BRIEFCASE,
@@ -261,13 +260,6 @@ const GO_TO_COMMANDS = [
     section: SECTION_SETTINGS,
     icon: ICON_USER_PEN,
     routeName: 'profile_settings_index',
-  },
-  {
-    id: 'open_notifications',
-    title: 'COMMAND_BAR.COMMANDS.GO_TO_NOTIFICATIONS',
-    section: SECTION_SETTINGS,
-    icon: ICON_BELL,
-    routeName: 'notifications_index',
   },
 ];
 
