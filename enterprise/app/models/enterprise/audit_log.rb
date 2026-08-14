@@ -35,7 +35,7 @@ class Enterprise::AuditLog < Audited::Audit
   scope :search_by_user, lambda { |query|
     term = "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
     joins("LEFT JOIN users ON users.id = audits.user_id AND audits.user_type = 'User'")
-      .where('audits.username ILIKE :term OR users.name ILIKE :term', term: term)
+      .where('audits.username ILIKE :term OR users.name ILIKE :term OR users.email ILIKE :term', term: term)
   }
 
   private

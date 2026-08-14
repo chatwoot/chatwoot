@@ -98,6 +98,15 @@ RSpec.describe 'Enterprise Audit API', type: :request do
         expect(json_response['audit_logs'].pluck('id')).to eq([inbox_audit.id])
       end
 
+      it 'searches by current email for audits written before an email change' do
+        jane.skip_reconfirmation!
+        jane.update!(email: 'renamed@example.com')
+
+        json_response = fetch_audit_logs(q: 'renamed@')
+
+        expect(json_response['audit_logs'].pluck('id')).to eq([inbox_audit.id])
+      end
+
       it 'searches by user name' do
         json_response = fetch_audit_logs(q: 'smith')
 

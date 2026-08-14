@@ -44,9 +44,9 @@ const hasActiveFilters = computed(() => {
   return Boolean(q || type || since || until || sort);
 });
 
-const fetchAuditLogs = () => {
+const fetchAuditLogs = async () => {
   try {
-    store.dispatch('auditlogs/fetch', currentFilters.value);
+    await store.dispatch('auditlogs/fetch', currentFilters.value);
   } catch (error) {
     const errorMessage = error?.message || t('AUDIT_LOGS.API.ERROR_MESSAGE');
     useAlert(errorMessage);
