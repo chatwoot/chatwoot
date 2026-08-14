@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { useLocale } from 'shared/composables/useLocale';
 
 import ButtonV4 from 'next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -28,7 +29,8 @@ const props = defineProps({
 
 const emit = defineEmits(['registerWebhook', 'goToConfiguration']);
 
-const { t, te, locale } = useI18n();
+const { t, te } = useI18n();
+const { resolvedLocale } = useLocale();
 
 const QUALITY_COLORS = {
   GREEN: 'text-n-teal-11',
@@ -77,7 +79,7 @@ const formatDateTime = value => {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
 
-  return new Intl.DateTimeFormat(locale.value, {
+  return new Intl.DateTimeFormat(resolvedLocale.value, {
     dateStyle: 'medium',
     timeStyle: 'short',
   }).format(date);
