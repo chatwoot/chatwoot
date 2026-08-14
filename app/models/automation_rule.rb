@@ -71,8 +71,33 @@ class AutomationRule < ApplicationRecord
   private
 
   def schedule_format
-    kind = schedule.is_a?(Hash) ? (schedule['kind'].presence || schedule[:kind]) : nil
+    kind = schedule_value(:kind).to_s
     errors.add(:schedule, 'kind is required for time_triggered rules') if kind.blank?
+    return unless kind == 'days_since_attribute'
+
+    relative_to = schedule_value(:relative_to).to_s.presence || 'after'
+    unless %w[after on before].include?(relative_to)
+      errors.add(:schedule, 'relative_to must be after, on, or before')
+      return
+    end
+
+    if schedule_value(:attribute_key).to_s.blank?
+      errors.add(:schedule, 'attribute_key is required')
+      return
+    end
+
+    return if relative_to == 'on'
+
+    days = schedule_hash[:days] || schedule_hash['days']
+    errors.add(:schedule, 'days must be 1 or greater') if days.to_i < 1
+  end
+
+  def schedule_hash
+    schedule.is_a?(Hash) ? schedule : {}
+  end
+
+  def schedule_value(key)
+    schedule_hash[key.to_s].presence || schedule_hash[key]
   end
 
   def json_conditions_format

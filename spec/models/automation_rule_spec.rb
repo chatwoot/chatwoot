@@ -107,6 +107,43 @@ RSpec.describe AutomationRule do
     end
   end
 
+  describe 'schedule_format for time_triggered' do
+    let(:account) { create(:account) }
+
+    def time_rule(schedule)
+      build(
+        :automation_rule,
+        account: account,
+        event_name: 'time_triggered',
+        conditions: [],
+        actions: [{ 'action_name' => 'add_label', 'action_params' => ['seguimiento'] }],
+        schedule: schedule
+      )
+    end
+
+    it 'allows on without days' do
+      rule = time_rule('kind' => 'days_since_attribute', 'attribute_key' => 'fecha_cita', 'relative_to' => 'on')
+      expect(rule).to be_valid
+    end
+
+    it 'rejects after when days is missing or zero' do
+      rule = time_rule('kind' => 'days_since_attribute', 'attribute_key' => 'fecha_cita', 'relative_to' => 'after')
+      expect(rule).not_to be_valid
+      expect(rule.errors[:schedule]).to include('days must be 1 or greater')
+    end
+
+    it 'rejects invalid relative_to' do
+      rule = time_rule(
+        'kind' => 'days_since_attribute',
+        'attribute_key' => 'fecha_cita',
+        'relative_to' => 'whenever',
+        'days' => 3
+      )
+      expect(rule).not_to be_valid
+      expect(rule.errors[:schedule]).to include('relative_to must be after, on, or before')
+    end
+  end
+
   describe 'reauthorizable' do
     context 'when prompt_reauthorization!' do
       it 'marks the rule inactive' do

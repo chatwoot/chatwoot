@@ -2,6 +2,7 @@
 
 class Automations::TimeBasedRuleRunner
   LEDGER_TTL = 90.days.to_i
+  RELATIVE_TO_VALUES = %w[after on before].freeze
 
   def initialize(rule)
     @rule = rule
@@ -39,14 +40,19 @@ class Automations::TimeBasedRuleRunner
 
   def days_since_attribute_scope(scope)
     key = @schedule[:attribute_key].to_s
-    days = @schedule[:days].to_i
-    return Conversation.none if key.blank? || days <= 0
+    return Conversation.none if key.blank?
 
-    threshold = days.days.ago.to_date
+    relative = relative_to
+    days = @schedule[:days].to_i
+    return Conversation.none if relative != 'on' && days <= 0
+
+    target_date = date_offset_target(relative, days)
+    operator = relative == 'after' ? '<=' : '='
+
     # Only cast ISO YYYY-MM-DD (or datetime starting with that, e.g.
     # 2026-07-27T15:30:00Z). Invalid strings like "foo" must not raise —
     # they would abort the whole scheduler job. Datetime values use the
-    # calendar date portion (LEFT 10) so "N days since" stays day-based.
+    # calendar date portion (LEFT 10) so offsets stay day-based.
     casted = <<~SQL.squish
       CASE
         WHEN (conversations.custom_attributes ->> ?) ~ '^\\d{4}-\\d{2}-\\d{2}'
@@ -56,7 +62,24 @@ class Automations::TimeBasedRuleRunner
     SQL
 
     scope.where("#{casted} IS NOT NULL", key, key)
-         .where("#{casted} <= ?", key, key, threshold)
+         .where("#{casted} #{operator} ?", key, key, target_date)
+  end
+
+  def relative_to
+    value = @schedule[:relative_to].to_s.presence || 'after'
+    RELATIVE_TO_VALUES.include?(value) ? value : 'after'
+  end
+
+  def date_offset_target(relative, days)
+    today = Time.zone.today
+    case relative
+    when 'on'
+      today
+    when 'before'
+      today + days
+    else
+      today - days
+    end
   end
 
   def hours_since_last_message_scope(scope, message_type)
@@ -107,7 +130,7 @@ class Automations::TimeBasedRuleRunner
     case @schedule[:kind].to_s
     when 'days_since_attribute'
       raw = conversation.custom_attributes[@schedule[:attribute_key].to_s]
-      "days:#{raw}:#{@schedule[:days]}"
+      "days:#{raw}:#{@schedule[:days]}:#{relative_to}"
     when 'hours_since_last_outgoing', 'hours_since_last_incoming'
       msg_id = conversation.read_attribute(:time_rule_message_id)
       msg_at = conversation.read_attribute(:time_rule_message_at)
