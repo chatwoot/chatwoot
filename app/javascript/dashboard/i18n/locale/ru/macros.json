@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Выполнение",
       "PREVIEW": "Предпросмотр макроса",
-      "EXECUTED_SUCCESSFULLY": "Макрос успешно выполнен"
+      "EXECUTED_SUCCESSFULLY": "Макрос успешно выполнен",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Необходимо ввести ключ атрибута",

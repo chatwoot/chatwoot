@@ -121,6 +121,25 @@
       "CLEAR_FILTER": "Filter löschen",
       "EMPTY_LIST": "Keine Ergebnisse gefunden"
     },
+    "DRILLDOWN": {
+      "TITLE": "Details zu {metric}",
+      "RESULT_COUNT_CONVERSATION": "{count} Unterhaltung | {count} Unterhaltungen",
+      "RESULT_COUNT_MESSAGE": "{count} Nachricht | {count} Nachrichten",
+      "EMPTY": "Für diesen Balken wurden keine Einträge gefunden.",
+      "ERROR": "Einträge konnten nicht geladen werden. Bitte versuche es erneut.",
+      "ADMIN_ONLY": "Nur Administratoren können die Einträge eines Berichts aufschlüsseln.",
+      "LOAD_MORE": "Load more",
+      "PREVIOUS_BUCKET": "Vorheriger Balken",
+      "NEXT_BUCKET": "Nächster Balken",
+      "UNKNOWN_CONTACT": "Unbekannter Kontakt",
+      "UNKNOWN_INBOX": "Unbekannter Posteingang",
+      "UNASSIGNED_AGENT": "Nicht zugewiesen",
+      "NO_MESSAGE_CONTENT": "Kein Nachrichteninhalt",
+      "MESSAGE_CREATED_AT": "Nachricht erstellt um {time}",
+      "EVENT_OCCURRED_AT": "Ereignis eingetreten um {time}",
+      "INCOMING_MESSAGE": "Eingehende Nachricht",
+      "OUTGOING_MESSAGE": "Ausgehende Nachricht"
+    },
     "PAGINATION": {
       "RESULTS": "Showing {start} to {end} of {total} results",
       "PER_PAGE_TEMPLATE": "{size} / page"

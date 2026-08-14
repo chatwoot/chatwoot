@@ -7,6 +7,7 @@
       "404": "В этой группе нет активных диалогов."
     },
     "FAILED_TO_SEND": "Не удалось отправить",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Диалоги",
     "MENTION_HEADING": "Упоминания",
     "UNATTENDED_HEADING": "Неотвеченные",
@@ -79,6 +80,9 @@
       },
       "priority_desc_created_at_asc": {
         "TEXT": "Приоритет: Сначала высокие, Создано: Сначала старые"
+      },
+      "unread": {
+        "TEXT": "Unread Count: Highest first"
       }
     },
     "ATTACHMENTS": {

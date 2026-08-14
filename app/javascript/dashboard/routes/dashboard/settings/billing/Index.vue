@@ -15,6 +15,8 @@ import PurchaseCreditsModal from './components/PurchaseCreditsModal.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
+import { getCurrencyConfig } from 'dashboard/constants/billing';
+import { useI18n } from 'vue-i18n';
 
 const router = useRouter();
 const { currentAccount, isOnChatwootCloud } = useAccount();
@@ -29,12 +31,17 @@ const {
 
 const uiFlags = useMapGetter('accounts/getUIFlags');
 const store = useStore();
+const { t } = useI18n();
 
 const BILLING_REFRESH_ATTEMPTED = 'billing_refresh_attempted';
 
 // State for handling refresh attempts and loading
 const isWaitingForBilling = ref(false);
 const purchaseCreditsModalRef = ref(null);
+
+// Currency selection shown to new accounts whose locale supports a non-USD currency.
+const currencySelectionRequired = ref(false);
+const currencyOptions = ref([]);
 
 const customAttributes = computed(() => {
   return currentAccount.value.custom_attributes || {};
@@ -61,6 +68,13 @@ const subscribedQuantity = computed(() => {
   return customAttributes.value.subscribed_quantity;
 });
 
+const billingCurrency = computed(() => {
+  if (!customAttributes.value.billing_currency) return '';
+  return t(
+    getCurrencyConfig(customAttributes.value.billing_currency).i18nLabelKey
+  );
+});
+
 const subscriptionRenewsOn = computed(() => {
   if (!customAttributes.value.subscription_ends_on) return '';
   const endDate = new Date(customAttributes.value.subscription_ends_on);
@@ -78,7 +92,9 @@ const hasABillingPlan = computed(() => {
 
 const fetchAccountDetails = async () => {
   if (!hasABillingPlan.value) {
-    await store.dispatch('accounts/subscription');
+    const data = await store.dispatch('accounts/subscription');
+    currencySelectionRequired.value = !!data?.currency_selection_required;
+    currencyOptions.value = data?.currency_options || [];
   }
   // Always fetch limits for billing page to show credit usage
   fetchLimits();
@@ -96,6 +112,9 @@ const handleBillingPageLogic = async () => {
 
   // If cloud user, fetch account details first
   await fetchAccountDetails();
+
+  // Waiting on the user to pick a billing currency — don't auto-refresh.
+  if (currencySelectionRequired.value) return;
 
   // If still no billing plan after fetch
   if (!hasABillingPlan.value) {
@@ -116,6 +135,13 @@ const handleBillingPageLogic = async () => {
     // Billing plan found, clear any existing refresh flag
     sessionStorage.remove(BILLING_REFRESH_ATTEMPTED);
   }
+};
+
+const onSelectCurrency = async code => {
+  await store.dispatch('accounts/selectBillingCurrency', code);
+  currencySelectionRequired.value = false;
+  // Currency stored and customer creation kicked off — resume the standard wait flow.
+  await handleBillingPageLogic();
 };
 
 const onClickBillingPortal = () => {
@@ -148,7 +174,9 @@ onMounted(handleBillingPageLogic);
         ? $t('BILLING_SETTINGS.NO_BILLING_USER')
         : $t('ATTRIBUTES_MGMT.LOADING')
     "
-    :no-records-found="!hasABillingPlan && !isWaitingForBilling"
+    :no-records-found="
+      !hasABillingPlan && !isWaitingForBilling && !currencySelectionRequired
+    "
     :no-records-message="$t('BILLING_SETTINGS.NO_BILLING_USER')"
   >
     <template #header>
@@ -160,7 +188,30 @@ onMounted(handleBillingPageLogic);
       />
     </template>
     <template #body>
-      <section class="grid gap-4">
+      <section v-if="currencySelectionRequired" class="grid gap-4">
+        <BillingCard
+          :title="$t('BILLING_SETTINGS.CURRENCY.SELECT.TITLE')"
+          :description="$t('BILLING_SETTINGS.CURRENCY.SELECT.DESCRIPTION')"
+        >
+          <template #action>
+            <div class="flex gap-2">
+              <ButtonV4
+                v-for="code in currencyOptions"
+                :key="code"
+                sm
+                solid
+                blue
+                :is-loading="uiFlags.isCheckoutInProcess"
+                :disabled="uiFlags.isCheckoutInProcess"
+                @click="onSelectCurrency(code)"
+              >
+                {{ $t(getCurrencyConfig(code).i18nLabelKey) }}
+              </ButtonV4>
+            </div>
+          </template>
+        </BillingCard>
+      </section>
+      <section v-else class="grid gap-4">
         <BillingCard
           :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
           :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
@@ -187,6 +238,11 @@ onMounted(handleBillingPageLogic);
               v-if="subscriptionRenewsOn"
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.RENEWS_ON')"
               :value="subscriptionRenewsOn"
+            />
+            <DetailItem
+              v-if="billingCurrency"
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.CURRENCY')"
+              :value="billingCurrency"
             />
           </div>
         </BillingCard>

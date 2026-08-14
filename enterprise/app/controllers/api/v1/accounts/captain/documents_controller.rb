@@ -1,24 +1,21 @@
 class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseController
-  before_action :current_account
   before_action -> { check_authorization(Captain::Assistant) }
 
   before_action :set_current_page, only: [:index]
   before_action :set_documents, except: [:create]
-  before_action :set_document, only: [:show, :destroy, :sync]
+  before_action :set_document, only: [:show, :destroy, :sync, :drilldown]
   before_action :set_assistant, only: [:create]
   RESULTS_PER_PAGE = 25
 
   def index
-    base_query = @documents
-    base_query = base_query.where(assistant_id: permitted_params[:assistant_id]) if permitted_params[:assistant_id].present?
-    base_query = apply_source_filter(base_query, permitted_params[:source])
-    base_query = apply_filter(base_query, permitted_params[:filter])
-    base_query = apply_search(base_query, permitted_params[:search_key])
-    base_query = apply_sort(base_query, permitted_params[:sort])
-
-    @documents_count = base_query.count
+    documents = filtered_documents
+    @documents_count = documents.count
     @sync_interval_hours = current_sync_interval&.in_hours&.to_i
-    @documents = base_query.page(@current_page).per(RESULTS_PER_PAGE)
+    @documents = apply_sort(documents, permitted_params[:sort])
+    @documents = with_responses_count(@documents).page(@current_page).per(RESULTS_PER_PAGE)
+    return unless can_view_drilldown?
+
+    @document_usage_counts = Captain::ConversationUsageBuilder.conversation_counts(@documents, usage_column: :document_ids)
   end
 
   def show; end
@@ -48,6 +45,10 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
     head :accepted
   end
 
+  def drilldown
+    render json: Captain::ConversationUsageBuilder.new(@document, drilldown_params, usage_column: :document_ids).build
+  end
+
   def destroy
     @document.destroy
     head :no_content
@@ -57,6 +58,20 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
 
   def set_documents
     @documents = Current.account.captain_documents.with_attached_pdf_file.includes(:assistant)
+  end
+
+  def filtered_documents
+    documents = @documents
+    documents = documents.where(assistant_id: permitted_params[:assistant_id]) if permitted_params[:assistant_id].present?
+    documents = apply_source_filter(documents, permitted_params[:source])
+    documents = apply_filter(documents, permitted_params[:filter])
+    apply_search(documents, permitted_params[:search_key])
+  end
+
+  def with_responses_count(scope)
+    scope.left_joins(:responses)
+         .select('captain_documents.*, COUNT(captain_assistant_responses.id) AS responses_count')
+         .group('captain_documents.id')
   end
 
   def set_document
@@ -73,6 +88,14 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
 
   def permitted_params
     params.permit(:assistant_id, :page, :id, :account_id, :filter, :source, :sort, :search_key)
+  end
+
+  def drilldown_params
+    params.permit(:page, :per_page)
+  end
+
+  def can_view_drilldown?
+    policy(Captain::Assistant).drilldown?
   end
 
   def apply_source_filter(scope, source)
@@ -103,6 +126,13 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   def apply_sort(scope, sort)
     case sort
     when 'recently_created' then scope.order(created_at: :desc)
+    when 'most_used'
+      authorize(Captain::Assistant, :drilldown?)
+      Captain::ConversationUsageBuilder.order_documents_by_conversation_count(
+        scope,
+        account_id: Current.account.id,
+        assistant_id: permitted_params[:assistant_id]
+      )
     else scope.order(updated_at: :desc)
     end
   end

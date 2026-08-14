@@ -45,6 +45,7 @@
 
 - Prefer the smallest production-ready change that solves the current problem.
 - Build for the expected production path first. Do not add speculative guards, fallbacks, retries, or edge-case handling unless the caller can actually hit that case or production has proven it necessary.
+- Enforce eligibility and exclusivity rules at the earliest shared entry point. Do not repeat backup guards across downstream jobs, callbacks, services, or writes unless a proven independent path bypasses that point.
 - When an impossible or misconfigured state would indicate a setup/deployment bug, let it fail loudly instead of silently skipping behavior.
 - For locked/internal configs that must exist in production, prefer direct reads (`find`, `find_by!`, required hash keys) over silent fallbacks.
 - Do not add validation or response checks unless the code uses the result or the check changes behavior meaningfully.
@@ -85,8 +86,10 @@
 ## Project-Specific
 
 - **Translations**:
-  - Only update `en.yml` and `en.json`
-  - Other languages are handled by the community
+  - For product and source-string changes, only update `en.yml` and `en.json`; other languages are handled through Crowdin and the community
+  - Crowdin-generated translation sync PRs may update non-English locale files; do not flag those changes solely for modifying translated locale files
+  - Preserve product and brand names, OAuth scopes, API values, and other machine-readable identifiers unless an official localized form exists
+  - When reviewing Crowdin syncs, verify protected terms remain unchanged. Add newly introduced product names, brand names, and machine-readable identifiers to the Crowdin glossary as non-translatable, and keep the glossary current
   - Backend i18n → `en.yml`, Frontend i18n → `en.json`
 - **Frontend**:
   - Use `components-next/` for message bubbles (the rest is being deprecated)

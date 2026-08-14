@@ -80,7 +80,7 @@ export default {
 <template>
   <div class="group/row w-full h-5 ltr:-ml-1 rtl:-mr-1">
     <!-- Inline edit mode -->
-    <div v-if="isEditing" class="flex items-center gap-2">
+    <div v-if="isEditing" class="flex items-center w-full min-w-0 gap-2">
       <EmojiOrIcon
         :icon="icon"
         :emoji="emoji"
@@ -91,7 +91,6 @@ export default {
         ref="editInput"
         v-model="editValue"
         :placeholder="title"
-        class="!w-fit"
         @enter-press="saveEdit"
         @escape-press="cancelEdit"
         @blur="saveEdit"

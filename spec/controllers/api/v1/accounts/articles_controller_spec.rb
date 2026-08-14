@@ -40,69 +40,39 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['position']).to be(3)
       end
 
-      it 'creates article when portal is referenced by id instead of slug' do
+      it 'rejects a cross-account author without exposing their details' do
+        foreign_user = create(:user, account: create(:account), role: :agent)
         article_params = {
           article: {
             category_id: category.id,
-            description: 'test description',
             title: 'MyTitle',
             slug: 'my-title',
             content: 'This is my content.',
             status: :published,
-            author_id: agent.id,
-            position: 3
+            author_id: foreign_user.id
           }
         }
-        post "/api/v1/accounts/#{account.id}/portals/#{portal.id}/articles",
-             params: article_params,
-             headers: admin.create_new_auth_token
-        expect(response).to have_http_status(:success)
-        json_response = response.parsed_body
-        expect(json_response['payload']['title']).to eql('MyTitle')
-        expect(json_response['payload']['status']).to eql('published')
-        expect(json_response['payload']['position']).to be(3)
-      end
+        expect do
+          post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+               params: article_params,
+               headers: admin.create_new_auth_token
+        end.not_to(change { portal.articles.count })
 
-      it 'returns not found when portal segment is a mistyped slug starting with another portal\'s id' do
-        article_params = {
-          article: {
-            category_id: category.id,
-            description: 'test description',
-            title: 'MyTitle',
-            slug: 'my-title',
-            content: 'This is my content.',
-            status: :published,
-            author_id: agent.id,
-            position: 3
-          }
-        }
-        post "/api/v1/accounts/#{account.id}/portals/#{portal.id}-old-slug/articles",
-             params: article_params,
-             headers: admin.create_new_auth_token
-        expect(response).to have_http_status(:not_found)
-      end
-
-      it 'rejects a numeric portal segment that ambiguously matches a different portal by slug and by id' do
-        other_portal = create(:portal, name: 'numeric slug portal', slug: portal.id.to_s, account_id: account.id)
-
-        article_params = {
-          article: {
-            category_id: category.id,
-            description: 'test description',
-            title: 'MyTitle',
-            slug: 'my-title',
-            content: 'This is my content.',
-            status: :published,
-            author_id: agent.id,
-            position: 3
-          }
-        }
-        post "/api/v1/accounts/#{account.id}/portals/#{portal.id}/articles",
-             params: article_params,
-             headers: admin.create_new_auth_token
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(other_portal.articles.count).to eq(0)
-        expect(portal.articles.count).to eq(1)
+        expect(response.parsed_body).to eq('error' => 'Invalid author ID')
+        expect(response.body).not_to include(foreign_user.email)
+      end
+
+      it 'rejects a malformed author_id without raising' do
+        [%w[3 4], ' 3 ', '3abc'].each do |bad_author_id|
+          post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+               params: { article: { title: 'MyTitle', slug: 'my-title', content: 'This is my content.', author_id: bad_author_id } },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body).to eq('error' => 'Invalid author ID')
+        end
       end
 
       it 'creates article even if category is not provided' do
@@ -234,6 +204,55 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['title']).to eql(article_params[:article][:title])
         expect(json_response['payload']['status']).to eql(article_params[:article][:status])
         expect(json_response['payload']['position']).to eql(article_params[:article][:position])
+      end
+
+      it 'ignores a cross-account author while updating other attributes' do
+        foreign_user = create(:user, account: create(:account), role: :agent)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            params: { article: { title: 'Updated title', author_id: foreign_user.id } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body.dig('payload', 'title')).to eq('Updated title')
+        expect(response.parsed_body.dig('payload', 'author', 'id')).to eq(agent.id)
+        expect(response.body).not_to include(foreign_user.email)
+        expect(article.reload.author_id).to eq(agent.id)
+      end
+
+      it 'allows editing an article whose author is no longer an account member' do
+        foreign_user = create(:user, account: create(:account), role: :agent)
+        article.update!(author_id: foreign_user.id)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            params: { article: { title: 'Updated title', author_id: foreign_user.id } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.title).to eq('Updated title')
+      end
+
+      it 'stages draft-only fields without bumping updated_at' do
+        expect do
+          put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+              params: { article: { draft_title: 'Draft title', draft_content: 'Draft body' } },
+              headers: admin.create_new_auth_token
+        end.not_to(change { article.reload.updated_at })
+
+        expect(response).to have_http_status(:success)
+        expect(article.draft_title).to eq('Draft title')
+        expect(article.draft_content).to eq('Draft body')
+      end
+
+      it 'rejects an over-length draft without persisting it' do
+        expect do
+          put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+              params: { article: { draft_content: 'a' * 20_001 } },
+              headers: admin.create_new_auth_token
+        end.not_to(change { article.reload.draft_content })
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to include('too long')
       end
     end
   end
@@ -369,6 +388,18 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
         expect(json_response['payload']['title']).to eq(article2.title)
         expect(json_response['payload']['id']).to eq(article2.id)
+      end
+
+      it 'does not expose an author who is not a member of the account' do
+        foreign_user = create(:user, account: create(:account), role: :agent)
+        article.update!(author_id: foreign_user.id)
+
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).not_to have_key('author')
+        expect(response.body).not_to include(foreign_user.email)
       end
 
       it 'get associated articles' do

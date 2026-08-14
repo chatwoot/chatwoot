@@ -1,6 +1,7 @@
-class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Integrations::BaseController
   before_action :fetch_conversation, only: [:create_issue, :link_issue, :unlink_issue, :linked_issues]
   before_action :fetch_hook, only: [:destroy]
+  before_action :check_authorization, only: [:destroy]
 
   def destroy
     revoke_linear_token
@@ -28,7 +29,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def create_issue
-    issue = linear_processor_service.create_issue(permitted_params, Current.user)
+    issue = linear_processor_service.create_issue(permitted_params.to_h.stringify_keys, Current.user)
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
