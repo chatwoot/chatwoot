@@ -121,6 +121,10 @@ export const AUTOMATIONS = {
         name: 'SEND_MESSAGE',
       },
       {
+        key: 'send_whatsapp_template',
+        name: 'SEND_WHATSAPP_TEMPLATE',
+      },
+      {
         key: 'send_email_transcript',
         name: 'SEND_EMAIL_TRANSCRIPT',
       },
@@ -257,6 +261,10 @@ export const AUTOMATIONS = {
       {
         key: 'send_message',
         name: 'SEND_MESSAGE',
+      },
+      {
+        key: 'send_whatsapp_template',
+        name: 'SEND_WHATSAPP_TEMPLATE',
       },
       {
         key: 'send_email_transcript',
@@ -405,6 +413,10 @@ export const AUTOMATIONS = {
         name: 'SEND_MESSAGE',
       },
       {
+        key: 'send_whatsapp_template',
+        name: 'SEND_WHATSAPP_TEMPLATE',
+      },
+      {
         key: 'send_email_transcript',
         name: 'SEND_EMAIL_TRANSCRIPT',
       },
@@ -545,6 +557,10 @@ export const AUTOMATIONS = {
         name: 'SEND_MESSAGE',
       },
       {
+        key: 'send_whatsapp_template',
+        name: 'SEND_WHATSAPP_TEMPLATE',
+      },
+      {
         key: 'send_email_transcript',
         name: 'SEND_EMAIL_TRANSCRIPT',
       },
@@ -671,6 +687,10 @@ export const AUTOMATIONS = {
         name: 'SEND_MESSAGE',
       },
       {
+        key: 'send_whatsapp_template',
+        name: 'SEND_WHATSAPP_TEMPLATE',
+      },
+      {
         key: 'send_email_transcript',
         name: 'SEND_EMAIL_TRANSCRIPT',
       },
@@ -727,6 +747,10 @@ export const AUTOMATIONS = {
       {
         key: 'send_message',
         name: 'SEND_MESSAGE',
+      },
+      {
+        key: 'send_whatsapp_template',
+        name: 'SEND_WHATSAPP_TEMPLATE',
       },
       {
         key: 'add_private_note',
@@ -887,6 +911,11 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'send_message',
     label: 'SEND_MESSAGE',
     inputType: 'textarea',
+  },
+  {
+    key: 'send_whatsapp_template',
+    label: 'SEND_WHATSAPP_TEMPLATE',
+    inputType: 'whatsapp_template',
   },
   {
     key: 'add_private_note',

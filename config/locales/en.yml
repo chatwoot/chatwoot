@@ -623,6 +623,11 @@ en:
     activity_actor: 'automation «%{name}»'
     audit_note: 'Automation "%{name}" ran.'
     message_skipped_messaging_window: 'Automation "%{name}" did not send an outbound message (messaging window closed).'
+    template_skipped:
+      not_whatsapp: 'Automation "%{name}" did not send a WhatsApp template (conversation is not on WhatsApp).'
+      wrong_inbox: 'Automation "%{name}" did not send a WhatsApp template (conversation inbox does not match).'
+      template_missing: 'Automation "%{name}" did not send a WhatsApp template (template missing or not approved on this inbox).'
+      blank_liquid: 'Automation "%{name}" did not send a WhatsApp template (a template variable resolved to blank).'
   business_rules:
     lint_failed: 'Business rules failed validation. Fix or disable invalid enabled rules.'
   crm:

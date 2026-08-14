@@ -148,6 +148,16 @@
       "CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_NOW": "Dynamic date & time: now",
       "CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_HELP": "Resolved when the automation or macro runs. Use now, now plus N days, or variables like {{ contact.custom_attribute.foo }}.",
       "VARIABLES_HINT": "Use the insert-variable button for contact name, custom attributes, or dates",
+      "WHATSAPP_TEMPLATE": {
+        "INBOX_LABEL": "WhatsApp inbox",
+        "INBOX_PLACEHOLDER": "Select a WhatsApp inbox",
+        "INBOX_EMPTY": "No WhatsApp inboxes in this account",
+        "INBOX_HINT": "This template is sent only if the conversation is on the WhatsApp inbox selected above. On other inboxes or channels the template is skipped; any other actions in this rule still run.",
+        "TEMPLATE_LABEL": "Template",
+        "TEMPLATE_PLACEHOLDER": "Select a template",
+        "TEMPLATE_DISABLED": "Select an inbox first",
+        "VARIABLES_HINT": "Use Liquid variables such as contact.name in template fields."
+      },
       "DELAY_SECONDS_LABEL": "Wait (seconds)",
       "MARK_READ_TYPING_LABEL": "Mark as read and show typing",
       "DELIVERY_HINT": "WhatsApp only for read/typing. Wait 1–25s required for typing. Other channels only wait."
@@ -206,6 +216,7 @@
       "SEND_WEBHOOK_EVENT": "Send Webhook Event",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
+      "SEND_WHATSAPP_TEMPLATE": "Send WhatsApp template",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "Change Priority",
       "UPDATE_CONTACT_CUSTOM_ATTRIBUTE": "Update contact custom attribute",

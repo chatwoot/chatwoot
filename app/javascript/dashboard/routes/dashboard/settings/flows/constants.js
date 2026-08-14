@@ -6,6 +6,7 @@ export const FLOW_EXCLUDED_ACTIONS = [
   'execute_macro',
   'add_sla',
   'send_attachment',
+  'send_whatsapp_template',
 ];
 
 /** Same catalog as Automations/Macros, minus mid-flow exclusions. */

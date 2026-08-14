@@ -83,4 +83,39 @@ describe('validateAutomation', () => {
     const errors = validateAutomation(automationWithNoParamAction);
     expect(errors).toEqual({});
   });
+
+  it('requires inbox and template for send_whatsapp_template', () => {
+    const base = {
+      name: 'Test',
+      description: 'Test',
+      event_name: 'message_created',
+      conditions: [
+        {
+          attribute_key: 'content',
+          filter_operator: 'contains',
+          values: 'hello',
+        },
+      ],
+    };
+    const missing = validateAutomation({
+      ...base,
+      actions: [{ action_name: 'send_whatsapp_template', action_params: {} }],
+    });
+    expect(missing).toHaveProperty('action_0');
+
+    const valid = validateAutomation({
+      ...base,
+      actions: [
+        {
+          action_name: 'send_whatsapp_template',
+          action_params: {
+            inbox_id: 12,
+            name: 'hello',
+            language: 'es',
+          },
+        },
+      ],
+    });
+    expect(valid).toEqual({});
+  });
 });

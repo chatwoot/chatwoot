@@ -416,6 +416,7 @@ export const showActionInput = (automationActionTypes, action) => {
   if (
     action === 'send_email_to_team' ||
     action === 'send_message' ||
+    action === 'send_whatsapp_template' ||
     action === 'add_private_note' ||
     action === 'update_contact_custom_attribute' ||
     action === 'update_conversation_custom_attribute'

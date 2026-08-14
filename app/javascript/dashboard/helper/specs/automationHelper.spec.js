@@ -457,6 +457,7 @@ describe('showActionInput', () => {
   it('returns false for send_email_to_team and send_message actions', () => {
     expect(helpers.showActionInput([], 'send_email_to_team')).toBe(false);
     expect(helpers.showActionInput([], 'send_message')).toBe(false);
+    expect(helpers.showActionInput([], 'send_whatsapp_template')).toBe(false);
   });
 
   it('returns true if the action has an input type', () => {

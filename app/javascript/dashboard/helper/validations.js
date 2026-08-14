@@ -114,6 +114,13 @@ export const validateConditions = conditions => {
   return errors;
 };
 
+const validateWhatsAppTemplateParams = params => {
+  if (!params?.inbox_id || !params.name || !params.language) {
+    return ACTION_PARAMETERS_REQUIRED;
+  }
+  return null;
+};
+
 /**
  * Validates a single action of an automation object.
  *
@@ -163,10 +170,20 @@ const validateSingleAction = action => {
       }
       return null;
     }
+    if (action.action_name === 'send_whatsapp_template') {
+      return validateWhatsAppTemplateParams(params);
+    }
     return null;
   }
 
   // Array form used after payload generation / when editing saved rules
+  if (
+    Array.isArray(params) &&
+    action.action_name === 'send_whatsapp_template'
+  ) {
+    return validateWhatsAppTemplateParams(params[0] || {});
+  }
+
   if (Array.isArray(params) && isCustomAttributeAction) {
     const data = params[0] || {};
     if (!data.attribute_key || data.value === undefined || data.value === '') {

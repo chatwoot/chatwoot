@@ -1,6 +1,7 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionCustomAttributeInput from './AutomationActionCustomAttributeInput.vue';
+import AutomationActionWhatsAppTemplateInput from './AutomationActionWhatsAppTemplateInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -15,6 +16,7 @@ export default {
   components: {
     AutomationActionTeamMessageInput,
     AutomationActionCustomAttributeInput,
+    AutomationActionWhatsAppTemplateInput,
     AutomationActionFileInput,
     WootMessageEditor,
     NextButton,
@@ -133,9 +135,12 @@ export default {
     isVerticalLayout() {
       return (
         this.isCustomAttributeAction ||
-        ['team_message', 'textarea', 'custom_attribute'].includes(
-          this.inputType
-        )
+        [
+          'team_message',
+          'textarea',
+          'custom_attribute',
+          'whatsapp_template',
+        ].includes(this.inputType)
       );
     },
     castMessageVmodel: {
@@ -159,10 +164,6 @@ export default {
     },
     onActionNameChange(value) {
       const actionName = value?.id || value;
-      const isCustomAttribute = [
-        'update_contact_custom_attribute',
-        'update_conversation_custom_attribute',
-      ].includes(actionName);
       const supportsDelivery = ['send_message', 'send_attachment'].includes(
         actionName
       );
@@ -171,13 +172,23 @@ export default {
       // new action_name (avoid resetAction wiping state in a second tick).
       const payload = {
         action_name: actionName,
-        action_params: isCustomAttribute
-          ? { attribute_key: '', value: '' }
-          : [],
+        action_params: this.defaultActionParams(actionName),
         delivery: supportsDelivery ? { ...DEFAULT_DELIVERY } : undefined,
       };
       this.$emit('update:modelValue', payload);
       this.$emit('input', payload);
+    },
+    defaultActionParams(actionName) {
+      if (
+        [
+          'update_contact_custom_attribute',
+          'update_conversation_custom_attribute',
+        ].includes(actionName)
+      ) {
+        return { attribute_key: '', value: '' };
+      }
+      if (actionName === 'send_whatsapp_template') return {};
+      return [];
     },
     insertMessageVariable(token) {
       const current = this.castMessageVmodel || '';
@@ -264,6 +275,14 @@ export default {
         v-if="inputType === 'team_message'"
         v-model="action_params"
         :teams="dropdownValues"
+        :dropdown-max-height="dropdownMaxHeight"
+      />
+      <AutomationActionWhatsAppTemplateInput
+        v-if="
+          inputType === 'whatsapp_template' ||
+          action_name === 'send_whatsapp_template'
+        "
+        v-model="action_params"
         :dropdown-max-height="dropdownMaxHeight"
       />
       <AutomationActionCustomAttributeInput
