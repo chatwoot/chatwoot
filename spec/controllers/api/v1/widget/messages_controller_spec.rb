@@ -257,6 +257,18 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(response.parsed_body['conversation_id']).to eq(conversation.display_id)
         expect(contact_inbox.conversations.count).to eq(1)
       end
+
+      it 'does not leave the new conversation behind when the message is rejected' do
+        web_widget.inbox.update!(allow_messages_after_resolved: false)
+
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: { content: 'a' * 150_001, timestamp: Time.current } },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(contact_inbox.conversations.count).to eq(1)
+      end
     end
 
     context 'when the last conversation is not resolved' do

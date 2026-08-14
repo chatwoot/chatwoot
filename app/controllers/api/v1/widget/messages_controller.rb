@@ -1,5 +1,4 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
-  before_action :set_conversation, only: [:create]
   before_action :set_message, only: [:update]
 
   def index
@@ -7,9 +6,13 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def create
-    @message = conversation.messages.new(message_params)
-    build_attachment
-    @message.save!
+    # A rejected message must not leave the conversation it started behind, so both are written together.
+    ActiveRecord::Base.transaction do
+      set_conversation
+      @message = conversation.messages.new(message_params)
+      build_attachment
+      @message.save!
+    end
   end
 
   def update
