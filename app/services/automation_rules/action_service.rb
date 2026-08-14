@@ -61,6 +61,29 @@ class AutomationRules::ActionService < ActionService
     WebhookJob.perform_later(webhook_url[0], payload)
   end
 
+  def send_whatsapp_template(params)
+    template_params = extract_whatsapp_template_params(params)
+    return skip_whatsapp_template!(:template_missing) if template_params.blank?
+
+    inbox = @conversation.inbox
+    return skip_whatsapp_template!(:not_whatsapp) unless inbox.whatsapp?
+    return skip_whatsapp_template!(:wrong_inbox) unless inbox.id.to_i == template_params[:inbox_id].to_i
+
+    template = find_approved_whatsapp_template(inbox.channel, template_params)
+    return skip_whatsapp_template!(:template_missing) if template.blank?
+
+    interpolated, blank = interpolate_whatsapp_template_params(template_params)
+    return skip_whatsapp_template!(:blank_liquid) if blank
+
+    payload = interpolated.slice(:name, :namespace, :language, :category, :processed_params)
+    Messages::MessageBuilder.new(nil, @conversation, {
+                                   content: rendered_whatsapp_template_body(template, payload[:processed_params]),
+                                   private: false,
+                                   template_params: payload,
+                                   content_attributes: automation_message_attributes
+                                 }).perform
+  end
+
   def send_message(message, delivery = nil)
     return if conversation_a_tweet?
     return skip_outbound_outside_messaging_window! unless @conversation.can_reply?
@@ -81,19 +104,92 @@ class AutomationRules::ActionService < ActionService
   end
 
   def skip_outbound_outside_messaging_window!
+    leave_automation_skip_note!(
+      'automation.message_skipped_messaging_window',
+      messaging_window_skipped: true
+    )
+  end
+
+  def skip_whatsapp_template!(reason)
+    leave_automation_skip_note!(
+      "automation.template_skipped.#{reason}",
+      whatsapp_template_skipped: reason.to_s
+    )
+  end
+
+  def leave_automation_skip_note!(i18n_key, extra_attrs)
     locale = @account.locale.presence || I18n.default_locale
-    content = I18n.with_locale(locale) do
-      I18n.t('automation.message_skipped_messaging_window', name: @rule.name)
-    end
+    content = I18n.with_locale(locale) { I18n.t(i18n_key, name: @rule.name) }
 
     Conversations::SystemAuditNote.perform(
       conversation: @conversation,
       content: content,
-      content_attributes: {
-        automation_rule_id: @rule.id,
-        messaging_window_skipped: true
-      }
+      content_attributes: extra_attrs.merge(automation_rule_id: @rule.id)
     )
+  end
+
+  def extract_whatsapp_template_params(params)
+    data = params.is_a?(Array) ? params[0] : params
+    return {} if data.blank?
+
+    data.respond_to?(:with_indifferent_access) ? data.with_indifferent_access : {}
+  end
+
+  def find_approved_whatsapp_template(channel, template_params)
+    Array(channel.message_templates).find do |entry|
+      entry['name'] == template_params[:name] &&
+        entry['language']&.downcase == template_params[:language].to_s.downcase &&
+        entry['status']&.downcase == 'approved'
+    end
+  end
+
+  def interpolate_whatsapp_template_params(template_params)
+    copy = template_params.deep_dup
+    processed = copy[:processed_params]
+    return [copy, false] if processed.blank?
+
+    rendered = interpolate_liquid_tree(processed)
+    [copy.merge(processed_params: rendered), blank_liquid_tree?(processed, rendered)]
+  end
+
+  def interpolate_liquid_tree(value)
+    case value
+    when Hash
+      value.transform_values { |item| interpolate_liquid_tree(item) }
+    when Array
+      value.map { |item| interpolate_liquid_tree(item) }
+    when String
+      value.include?('{{') ? AutomationRules::MessageRendererService.new(@conversation, value).perform : value
+    else
+      value
+    end
+  end
+
+  def blank_liquid_tree?(original, rendered)
+    case original
+    when Hash
+      return false unless rendered.is_a?(Hash)
+
+      original.any? { |key, item| blank_liquid_tree?(item, rendered[key]) }
+    when Array
+      return false unless rendered.is_a?(Array)
+
+      original.each_with_index.any? { |item, index| blank_liquid_tree?(item, rendered[index]) }
+    when String
+      original.include?('{{') && rendered.to_s.blank?
+    else
+      false
+    end
+  end
+
+  def rendered_whatsapp_template_body(template, processed_params)
+    body = Array(template['components']).find { |component| component['type'].to_s.casecmp('BODY').zero? }
+    text = body&.[]('text').presence || template['name']
+    values = (processed_params || {}).with_indifferent_access
+    body_values = (values[:body] || values).with_indifferent_access
+    text.gsub(/\{\{\s*([^}]+)\s*\}\}/) do
+      body_values[Regexp.last_match(1).strip].presence || "{{#{Regexp.last_match(1).strip}}}"
+    end
   end
 
   def add_private_note(message)

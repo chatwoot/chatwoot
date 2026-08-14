@@ -129,6 +129,17 @@ export function useEditableAutomation() {
         message: params[0].message,
       };
     }
+    if (inputType === 'whatsapp_template') {
+      const data = Array.isArray(params) ? params[0] || {} : params || {};
+      return {
+        inbox_id: data.inbox_id || null,
+        name: data.name || '',
+        language: data.language || '',
+        namespace: data.namespace || '',
+        category: data.category || '',
+        processed_params: data.processed_params || {},
+      };
+    }
     return Array.isArray(params) ? [...params] : [];
   };
 

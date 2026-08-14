@@ -217,5 +217,67 @@ RSpec.describe AutomationRules::ActionService do
         expect(conversation.reload.assignee).to eq(agent)
       end
     end
+
+    describe '#perform with send_whatsapp_template action' do
+      let!(:whatsapp_channel) do
+        create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false)
+      end
+      let(:whatsapp_inbox) { whatsapp_channel.inbox }
+      let(:contact_inbox) { create(:contact_inbox, inbox: whatsapp_inbox, source_id: '123456789') }
+      let(:wa_conversation) { create(:conversation, account: account, inbox: whatsapp_inbox, contact_inbox: contact_inbox) }
+      let(:template_params) do
+        {
+          inbox_id: whatsapp_inbox.id,
+          name: 'sample_shipping_confirmation',
+          language: 'en_US',
+          namespace: '23423423_2342423_324234234_2343224',
+          category: 'SHIPPING_UPDATE',
+          processed_params: { 'body' => { '1' => '3' } }
+        }
+      end
+      let(:message_builder) { instance_double(Messages::MessageBuilder, perform: true) }
+
+      before do
+        rule.actions = [{ action_name: 'send_whatsapp_template', action_params: [template_params] }]
+        rule.save!
+      end
+
+      it 'sends the template on a matching WhatsApp inbox' do
+        allow(Messages::MessageBuilder).to receive(:new).and_return(message_builder)
+        described_class.new(rule, account, wa_conversation).perform
+
+        expect(Messages::MessageBuilder).to have_received(:new).with(
+          nil,
+          wa_conversation,
+          hash_including(private: false)
+        )
+        expect(message_builder).to have_received(:perform)
+      end
+
+      it 'sends even when the 24 hour window is closed' do
+        expect(wa_conversation.can_reply?).to be(false)
+        allow(Messages::MessageBuilder).to receive(:new).and_return(message_builder)
+        described_class.new(rule, account, wa_conversation).perform
+        expect(message_builder).to have_received(:perform)
+      end
+
+      it 'does not send a public message when the conversation is not WhatsApp' do
+        described_class.new(rule, account, conversation).perform
+
+        expect(conversation.messages.where(private: false)).to be_empty
+        expect(conversation.messages.where(private: true).last.content).to include('not on WhatsApp')
+      end
+
+      it 'does not send a public message when the inbox does not match' do
+        other_channel = create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false)
+        other_contact_inbox = create(:contact_inbox, inbox: other_channel.inbox, source_id: '999')
+        other_conversation = create(:conversation, account: account, inbox: other_channel.inbox, contact_inbox: other_contact_inbox)
+
+        described_class.new(rule, account, other_conversation).perform
+
+        expect(other_conversation.messages.where(private: false)).to be_empty
+        expect(other_conversation.messages.where(private: true).last.content).to include('does not match')
+      end
+    end
   end
 end

@@ -153,10 +153,16 @@ export function useAutomation(startValue = null) {
       'update_contact_custom_attribute',
       'update_conversation_custom_attribute',
     ].includes(actionName);
+    let actionParams = [];
+    if (isCustomAttribute) {
+      actionParams = { attribute_key: '', value: '' };
+    } else if (actionName === 'send_whatsapp_template') {
+      actionParams = {};
+    }
 
     newActions[index] = {
       ...newActions[index],
-      action_params: isCustomAttribute ? { attribute_key: '', value: '' } : [],
+      action_params: actionParams,
       delivery: { delay_seconds: 0, mark_read_and_typing: false },
     };
 
