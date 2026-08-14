@@ -9,7 +9,6 @@
     "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
     "FILTERS": {
       "SEARCH_PLACEHOLDER": "Search by agent name or email",
-      "PRESS_ENTER": "↵ Enter",
       "DATE_RANGE": "Date range",
       "CLEAR_DATE_RANGE": "Clear date range",
       "EVENT_TYPE": {

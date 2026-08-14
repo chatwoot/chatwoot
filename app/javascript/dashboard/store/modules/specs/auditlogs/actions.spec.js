@@ -36,6 +36,35 @@ describe('#actions', () => {
       ]);
     });
 
+    it('ignores stale responses when a newer fetch has started', async () => {
+      let resolveFirst;
+      const firstResponse = new Promise(resolve => {
+        resolveFirst = resolve;
+      });
+      const payload = logs => ({
+        data: {
+          audit_logs: logs,
+          total_entries: 1,
+          per_page: 25,
+          current_page: 1,
+        },
+      });
+      axios.get
+        .mockReturnValueOnce(firstResponse)
+        .mockResolvedValueOnce(payload([{ id: 2 }]));
+
+      const first = actions.fetch({ commit }, { q: 'a' });
+      const second = actions.fetch({ commit }, { q: 'ab' });
+      await second;
+      resolveFirst(payload([{ id: 1 }]));
+      await first;
+
+      const setCalls = commit.mock.calls.filter(
+        ([type]) => type === types.default.SET_AUDIT_LOGS
+      );
+      expect(setCalls).toEqual([[types.default.SET_AUDIT_LOGS, [{ id: 2 }]]]);
+    });
+
     it('resets the fetching flag on API error', async () => {
       axios.get.mockRejectedValue({ message: 'Request failed' });
       await expect(actions.fetch({ commit }, {})).rejects.toThrow();

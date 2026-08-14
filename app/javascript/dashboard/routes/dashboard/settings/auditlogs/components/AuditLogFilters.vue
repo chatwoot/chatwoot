@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useDebounceFn } from '@vueuse/core';
 import { subDays, startOfDay, endOfDay } from 'date-fns';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -89,19 +90,27 @@ watch(
   }
 );
 
+const AUTO_SEARCH_MIN_CHARS = 3;
+const AUTO_SEARCH_DELAY = 800;
+
 const submitSearch = () => {
   emit('update', { q: searchText.value || undefined });
 };
 
-const showEnterHint = computed(
-  () =>
-    Boolean(searchText.value) && searchText.value !== (props.filters.q || '')
-);
+const autoSearch = useDebounceFn(() => {
+  if (searchText.value === (props.filters.q || '')) return;
+  if (searchText.value.length < AUTO_SEARCH_MIN_CHARS) return;
+  submitSearch();
+}, AUTO_SEARCH_DELAY);
 
 const onSearchInput = value => {
   searchText.value = value;
-  // Emptying the field clears the filter without waiting for enter
-  if (value === '' && props.filters.q) emit('update', { q: undefined });
+  // Emptying the field clears the filter without waiting for the debounce
+  if (value === '' && props.filters.q) {
+    emit('update', { q: undefined });
+    return;
+  }
+  autoSearch();
 };
 
 const showSortMenu = ref(false);
@@ -186,7 +195,6 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
       :placeholder="$t('AUDIT_LOGS.FILTERS.SEARCH_PLACEHOLDER')"
       :custom-input-class="[
         'h-8 ltr:!pl-8 !py-1 rtl:!pr-8 [&:not(.focus)]:!border-transparent bg-n-alpha-2 dark:bg-n-solid-1',
-        showEnterHint ? 'ltr:!pr-20 rtl:!pl-20' : '',
       ]"
       class="w-full sm:w-auto sm:flex-1 sm:min-w-56 sm:max-w-72"
       @update:model-value="onSearchInput"
@@ -197,12 +205,6 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
           icon="i-lucide-search"
           class="absolute -translate-y-1/2 text-n-slate-11 size-4 top-1/2 ltr:left-2 rtl:right-2"
         />
-        <span
-          v-if="showEnterHint"
-          class="absolute -translate-y-1/2 top-1/2 ltr:right-8 rtl:left-8 text-xs text-n-slate-10 pointer-events-none"
-        >
-          {{ $t('AUDIT_LOGS.FILTERS.PRESS_ENTER') }}
-        </span>
       </template>
     </Input>
     <div class="relative">

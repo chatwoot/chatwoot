@@ -19,16 +19,41 @@ const mountComponent = (filters = {}) =>
   });
 
 describe('AuditLogFilters', () => {
-  it('searches only on enter, not while typing', async () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('auto-searches after a pause for three or more characters', async () => {
     const wrapper = mountComponent();
     const input = wrapper.findComponent(Input);
-    await input.vm.$emit('update:modelValue', 'v');
-    await input.vm.$emit('update:modelValue', 'vishnu');
+    await input.vm.$emit('update:modelValue', 'vis');
 
     expect(wrapper.emitted('update')).toBeUndefined();
 
+    vi.advanceTimersByTime(800);
+    expect(wrapper.emitted('update')).toEqual([[{ q: 'vis' }]]);
+  });
+
+  it('does not auto-search below three characters', async () => {
+    const wrapper = mountComponent();
+    const input = wrapper.findComponent(Input);
+    await input.vm.$emit('update:modelValue', 'vi');
+    vi.advanceTimersByTime(800);
+
+    expect(wrapper.emitted('update')).toBeUndefined();
+  });
+
+  it('searches immediately on enter regardless of length', async () => {
+    const wrapper = mountComponent();
+    const input = wrapper.findComponent(Input);
+    await input.vm.$emit('update:modelValue', 'vi');
     await input.vm.$emit('enter');
-    expect(wrapper.emitted('update')).toEqual([[{ q: 'vishnu' }]]);
+
+    expect(wrapper.emitted('update')).toEqual([[{ q: 'vi' }]]);
   });
 
   it('clears the search filter when the input is emptied', async () => {

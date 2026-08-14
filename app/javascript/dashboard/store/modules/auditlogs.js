@@ -27,11 +27,17 @@ const getters = {
   },
 };
 
+let activeFetchId = 0;
+
 export const actions = {
   async fetch({ commit }, filters = {}) {
+    activeFetchId += 1;
+    const fetchId = activeFetchId;
     commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: true });
     try {
       const response = await AuditLogsAPI.get(filters);
+      // A newer fetch superseded this one; drop the stale response
+      if (fetchId !== activeFetchId) return null;
       const { audit_logs: logs = [] } = response.data;
       const {
         total_entries: totalEntries,
@@ -47,6 +53,7 @@ export const actions = {
       commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: false });
       return logs;
     } catch (error) {
+      if (fetchId !== activeFetchId) return null;
       commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: false });
       return throwErrorMessage(error);
     }
