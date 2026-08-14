@@ -42,13 +42,6 @@ const EVENT_TYPE_GROUPS = [
       { value: 'Macro', key: 'MACROS' },
     ],
   },
-  {
-    key: 'CONVERSATIONS',
-    types: [
-      { value: 'Conversation', key: 'CONVERSATION_DELETIONS' },
-      { value: 'Message', key: 'MESSAGE_DELETIONS' },
-    ],
-  },
 ];
 
 const showEventMenu = ref(false);
