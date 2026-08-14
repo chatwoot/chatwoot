@@ -1,4 +1,7 @@
 class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::BaseController
+  OVERVIEW_SUMMARY_CACHE_VERSION = 'v1'.freeze
+  OVERVIEW_SUMMARY_CACHE_TTL = 1.hour
+
   before_action -> { authorize(Captain::Assistant, :metrics?) }
   before_action :set_assistant
 
@@ -7,12 +10,7 @@ class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::
   end
 
   def overview_summary
-    result = Captain::AssistantOverviewSummaryService.new(
-      account: Current.account,
-      assistant: @assistant,
-      range: params[:range],
-      timezone_offset: params[:timezone_offset]
-    ).perform
+    result = Rails.cache.read(overview_summary_cache_key) || generate_overview_summary
 
     if result[:error]
       render json: { error: result[:error] }, status: :unprocessable_content
@@ -30,6 +28,33 @@ class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::
   end
 
   private
+
+  def generate_overview_summary
+    result = Captain::AssistantOverviewSummaryService.new(
+      account: Current.account,
+      assistant: @assistant,
+      range: params[:range],
+      timezone_offset: params[:timezone_offset]
+    ).perform
+
+    Rails.cache.write(overview_summary_cache_key, result, expires_in: OVERVIEW_SUMMARY_CACHE_TTL) unless result[:error]
+    result
+  end
+
+  def overview_summary_cache_key
+    window = Captain::AssistantStatsWindow.new(params[:range], params[:timezone_offset])
+    timezone = params[:timezone_offset].presence || 'default'
+
+    [
+      'captain_assistant_overview_summary',
+      OVERVIEW_SUMMARY_CACHE_VERSION,
+      Current.account.id,
+      @assistant.cache_key_with_version,
+      window.range,
+      timezone,
+      Current.account.locale
+    ]
+  end
 
   def set_assistant
     @assistant = Current.account.captain_assistants.find(params[:assistant_id])
