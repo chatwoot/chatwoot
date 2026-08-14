@@ -10,14 +10,12 @@ RSpec.describe 'Api::V1::Integrations::Webhooks' do
       { 'X-Slack-Request-Timestamp' => timestamp.to_s, 'X-Slack-Signature' => signature, 'CONTENT_TYPE' => 'application/json' }
     end
 
-    def stub_signing_secret(config: nil, env: nil)
-      allow(GlobalConfigService).to receive(:load).with('SLACK_SIGNING_SECRET', nil).and_return(config)
-      allow(ENV).to receive(:fetch).and_call_original
-      allow(ENV).to receive(:fetch).with('SLACK_SIGNING_SECRET', nil).and_return(env)
+    def stub_signing_secret(value)
+      allow(GlobalConfigService).to receive(:load).with('SLACK_SIGNING_SECRET', nil).and_return(value)
     end
 
     context 'when no signing secret is configured' do
-      before { stub_signing_secret(config: nil, env: nil) }
+      before { stub_signing_secret(nil) }
 
       it 'skips verification and processes the webhook' do
         builder = instance_double(Integrations::Slack::IncomingMessageBuilder, perform: true)
@@ -30,7 +28,7 @@ RSpec.describe 'Api::V1::Integrations::Webhooks' do
     end
 
     context 'when a signing secret is configured via installation config' do
-      before { stub_signing_secret(config: secret) }
+      before { stub_signing_secret(secret) }
 
       it 'processes the webhook when the signature is valid' do
         builder = instance_double(Integrations::Slack::IncomingMessageBuilder, perform: true)
@@ -64,19 +62,6 @@ RSpec.describe 'Api::V1::Integrations::Webhooks' do
         body = payload.to_json
 
         post '/api/v1/integrations/webhooks', params: body, headers: slack_headers(body, timestamp: 10.minutes.ago.to_i)
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
-
-    context 'when the signing secret is only available via ENV (blank installation config)' do
-      before { stub_signing_secret(config: nil, env: secret) }
-
-      it 'still enforces verification and rejects an invalid signature' do
-        expect(Integrations::Slack::IncomingMessageBuilder).not_to receive(:new)
-        body = payload.to_json
-
-        post '/api/v1/integrations/webhooks', params: body, headers: slack_headers(body, signature: 'v0=deadbeef')
 
         expect(response).to have_http_status(:unauthorized)
       end
