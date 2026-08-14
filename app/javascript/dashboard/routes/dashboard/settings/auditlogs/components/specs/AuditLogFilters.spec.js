@@ -1,6 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
 import AuditLogFilters from '../AuditLogFilters.vue';
 
@@ -18,6 +19,26 @@ const mountComponent = (filters = {}) =>
   });
 
 describe('AuditLogFilters', () => {
+  it('searches only on enter, not while typing', async () => {
+    const wrapper = mountComponent();
+    const input = wrapper.findComponent(Input);
+    await input.vm.$emit('update:modelValue', 'v');
+    await input.vm.$emit('update:modelValue', 'vishnu');
+
+    expect(wrapper.emitted('update')).toBeUndefined();
+
+    await input.vm.$emit('enter');
+    expect(wrapper.emitted('update')).toEqual([[{ q: 'vishnu' }]]);
+  });
+
+  it('clears the search filter when the input is emptied', async () => {
+    const wrapper = mountComponent({ q: 'jane' });
+    const input = wrapper.findComponent(Input);
+    await input.vm.$emit('update:modelValue', '');
+
+    expect(wrapper.emitted('update')).toEqual([[{ q: undefined }]]);
+  });
+
   it('emits a type update when an event type is chosen', async () => {
     const wrapper = mountComponent();
     await wrapper.findComponent(Button).trigger('click');

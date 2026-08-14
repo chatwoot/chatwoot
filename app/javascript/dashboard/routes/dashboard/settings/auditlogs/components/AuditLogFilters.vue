@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useDebounceFn } from '@vueuse/core';
 import { subDays, startOfDay, endOfDay } from 'date-fns';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -89,9 +88,24 @@ const onEventTypeAction = ({ value }) => {
   emit('update', { type: value || undefined });
 };
 
-const onSearchInput = useDebounceFn(event => {
-  emit('update', { q: event.target.value });
-}, 300);
+const searchText = ref(props.filters.q || '');
+
+watch(
+  () => props.filters.q,
+  value => {
+    searchText.value = value || '';
+  }
+);
+
+const submitSearch = () => {
+  emit('update', { q: searchText.value || undefined });
+};
+
+const onSearchInput = value => {
+  searchText.value = value;
+  // Emptying the field clears the filter without waiting for enter
+  if (value === '' && props.filters.q) emit('update', { q: undefined });
+};
 
 const sortOptions = computed(() => [
   { label: t('AUDIT_LOGS.FILTERS.SORT.NEWEST'), value: 'desc' },
@@ -157,12 +171,13 @@ const onDateRangeChanged = ([startDate, endDate]) => {
 <template>
   <div class="flex flex-col lg:flex-row lg:items-center gap-2 mb-4">
     <Input
-      :model-value="filters.q || ''"
+      :model-value="searchText"
       type="search"
       :placeholder="$t('AUDIT_LOGS.FILTERS.SEARCH_PLACEHOLDER')"
       :custom-input-class="['h-8 ltr:!pl-8 !py-1 rtl:!pr-8']"
       class="lg:max-w-72 w-full"
-      @input="onSearchInput"
+      @update:model-value="onSearchInput"
+      @enter="submitSearch"
     >
       <template #prefix>
         <Icon
