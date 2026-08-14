@@ -483,35 +483,35 @@ class CaptainRoutineExamplesWizard
     # Schedule: 0 9 * * 1-5, configured separately on the Routine model.
     # <<~TEXT.strip,
     #   Review open conversations in the Support inbox that have been waiting for an agent reply for more than 8 hours.
-    #
+
     #   For each conversation, load the 30 most recent messages, including private notes, and find the contact's resolved
     #   conversations from the previous 90 days. Use the current conversation and that history to classify the issue as a
     #   security incident, service outage, billing problem, or other. Also decide whether the issue is urgent and whether
     #   the contact has reported the same problem before.
-    #
+
     #   For urgent security incidents or service outages, set the priority to urgent, add the labels `routine-urgent` and
     #   `incident-escalation`, assign the conversation to the Escalations team, and add a private note saying that the
     #   routine escalated it after reviewing the customer's recent history. Then send this reply:
     #   "We are treating this as urgent and have escalated it to our incident team. We will share another update shortly."
-    #
+
     #   For repeated billing problems, set the priority to high, add the labels `billing-escalation` and `repeat-contact`,
     #   and assign the conversation to the Billing team. For all other conversations, add the label `routine-reviewed`.
     # TEXT
 
-    # <<~TEXT.strip,
-    #   Review every open L2 support conversation assigned to the Engineering team. Triage the conversation using its recent
-    #   messages and determine whether the customer is blocked by an urgent product issue. Treat inability to send messages,
-    #   inability to access the dashboard, or messages not being received as urgent. Other issues are non-urgent.
+    <<~TEXT.strip,
+      Review every open L2 support conversation assigned to the Engineering team. Triage the conversation using its recent
+      messages and determine whether the customer is blocked by an urgent product issue. Treat inability to send messages,
+      inability to access the dashboard, or messages not being received as urgent. Other issues are non-urgent.
 
-    #   For a non-urgent conversation, add a private note nudging the currently assigned engineer to reply to the customer.
+      For a non-urgent conversation, add a private note nudging the currently assigned engineer to reply to the customer.
 
-    #   For an urgent conversation, set its priority to urgent and add the label `p0-needs-attention`. Add a private note that
-    #   mentions both Jithin and the currently assigned engineer, asking them to address the issue immediately. Send this reply
-    #   to the customer: "We understand that this is blocking you. We are treating it as urgent and will address it shortly."
+      For an urgent conversation, set its priority to urgent and add the label `p0-needs-attention`. Add a private note that
+      mentions both Jithin and the currently assigned engineer, asking them to address the issue immediately. Send this reply
+      to the customer: "We understand that this is blocking you. We are treating it as urgent and will address it shortly."
 
-    #   Do not reassign the conversation. The `p0-needs-attention` label triggers the downstream automation, so the routine
-    #   does not need to perform any additional escalation after applying it.
-    # TEXT
+      Do not reassign the conversation. The `p0-needs-attention` label triggers the downstream automation, so the routine
+      does not need to perform any additional escalation after applying it.
+    TEXT
 
     <<~TEXT.strip
       Check snoozed conversations and follow up on the ones where we are still waiting for the customer.
@@ -620,10 +620,35 @@ class CaptainRoutineExamplesWizard
   def answer_questions(routine)
     @terminal.stage('CLARIFY', 'Captain needs more information', :magenta)
     answers = routine.clarification_questions.each_with_index.to_h do |question, index|
-      [question.fetch('id'), ask("#{index + 1}. #{question.fetch('question')}")]
+      [question.fetch('id'), ask_clarification(question, index + 1)]
     end
     run_builder(routine, answers: answers)
     :built
+  end
+
+  def ask_clarification(question, position)
+    puts @terminal.decorate("  #{question['reason']}", :dim) if question['reason'].present?
+    suggestions = Array(question['suggested_answers'])
+    print_suggested_answers(suggestions)
+
+    prompt = "#{position}. #{question.fetch('question')}"
+    prompt += ' (choose a number or type an answer)' if suggestions.any?
+    answer = ask(prompt)
+    selected_answer(suggestions, answer)
+  end
+
+  def print_suggested_answers(suggestions)
+    suggestions.each_with_index do |suggestion, index|
+      label = suggestion.is_a?(Hash) ? suggestion['label'] : suggestion.to_s
+      puts "  #{@terminal.decorate((index + 1).to_s.rjust(2), :cyan)}  #{label}"
+    end
+  end
+
+  def selected_answer(suggestions, answer)
+    return answer unless answer.match?(/\A\d+\z/) && answer.to_i.between?(1, suggestions.length)
+
+    suggestion = suggestions.fetch(answer.to_i - 1)
+    suggestion.is_a?(Hash) ? suggestion.fetch('answer', suggestion['label']) : suggestion
   end
 
   def run_builder(routine, answers: {})

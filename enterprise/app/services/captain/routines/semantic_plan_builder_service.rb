@@ -10,7 +10,12 @@ class Captain::Routines::SemanticPlanBuilderService
   def perform
     return reuse_plan if accepted_plan?
 
-    return fail_plan(initial_generation[:error]) if initial_generation[:error]
+    generation = initial_generation
+    return fail_plan(generation[:error]) if generation[:error]
+
+    persist_plan(generation[:plan])
+    clarification_outcome = pause_for_questions(generation[:questions])
+    return clarification_outcome if clarification_outcome
 
     evaluate_until_settled
   end
@@ -18,9 +23,7 @@ class Captain::Routines::SemanticPlanBuilderService
   private
 
   def initial_generation
-    @initial_generation ||= generate_plan(feedback: @routine.plan_evaluation.presence).tap do |generation|
-      persist_plan(generation[:plan]) unless generation[:error]
-    end
+    @initial_generation ||= generate_plan(feedback: @routine.plan_evaluation.presence)
   end
 
   def evaluate_until_settled
@@ -81,6 +84,9 @@ class Captain::Routines::SemanticPlanBuilderService
     return fail_plan(generation[:error]) if generation[:error]
 
     persist_plan(generation[:plan])
+    clarification_outcome = pause_for_questions(generation[:questions])
+    return clarification_outcome if clarification_outcome
+
     nil
   end
 
@@ -139,13 +145,17 @@ class Captain::Routines::SemanticPlanBuilderService
   end
 
   def pause_for_clarification(evaluation)
-    questions = evaluation['questions'].reject do |question|
+    pause_for_questions(evaluation['questions']) || mark_needs_review
+  end
+
+  def pause_for_questions(questions)
+    questions = Array(questions).reject do |question|
       clarification_answered?(@routine.clarification_answers[question['id']])
     end
+    return if questions.empty?
 
-    status = questions.empty? ? :needs_review : :awaiting_clarification
-    @routine.update!(status: status, clarification_questions: questions)
-    status
+    @routine.update!(status: :awaiting_clarification, clarification_questions: questions)
+    :awaiting_clarification
   end
 
   def clarification_answered?(value)

@@ -69,6 +69,7 @@ class Captain::Routines::RuntimeContext
 
   def lookup(name)
     return execution if name == 'execution'
+    return routine.dsl.fetch('resources', {}) if name == 'resources'
 
     frame = @frames.reverse.find { |candidate| candidate.key?(name) }
     raise Captain::Routines::MissingReferenceError, "Reference '#{name}' is not bound" unless frame

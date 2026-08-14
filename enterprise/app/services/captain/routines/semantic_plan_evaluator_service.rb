@@ -1,4 +1,6 @@
 class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
+  include Captain::Routines::AgentTask
+
   RESPONSE_SCHEMA = Captain::Routines::SemanticPlanEvaluationSchema
 
   pattr_initialize [
@@ -9,7 +11,12 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
   ]
 
   def perform
-    response = make_api_call(messages: messages, schema: RESPONSE_SCHEMA)
+    response = run_agent(
+      name: 'Captain Routine Semantic Reviewer',
+      instructions: system_prompt,
+      input: user_prompt,
+      schema: RESPONSE_SCHEMA
+    )
     return response if response[:error]
 
     response.merge(evaluation: normalized_evaluation(response[:message]))
@@ -61,13 +68,6 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
     evaluation['status'] = 'correctable' unless evaluation['status'] == 'needs_clarification'
   end
 
-  def messages
-    [
-      { role: 'system', content: system_prompt },
-      { role: 'user', content: user_prompt }
-    ]
-  end
-
   def system_prompt
     <<~PROMPT
       You independently compare a semantic Captain Routine plan with the administrator's original request.
@@ -98,6 +98,10 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
       Repeating an unresolved business term in the plan does not define how the routine selects records or behaves. If materially
       different mappings are possible, return `needs_clarification` and ask the administrator to define the term in business-facing
       product concepts. Do not ask for database fields, APIs, or record IDs.
+
+      The plan may contain `resources` resolved from live account lookups by the planner. Treat these as authoritative account
+      records. A pinned resource proves which concrete agent, team, inbox, or label a human-readable name refers to; do not ask the
+      administrator to identify it again. Resource IDs are grounding metadata and are not behavior to compare with the request.
 
       Invocation and scheduling are configured directly on the Routine model. Ignore schedule, timing, recurrence, manual-run,
       and event-trigger language in the original request. The semantic plan must not contain those concerns.
@@ -130,6 +134,9 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
 
       Available product capabilities:
       #{Captain::Routines::Operations::Registry.capabilities_prompt}
+
+      Chatwoot environment:
+      #{Captain::Routines::Environment.prompt}
     PROMPT
   end
 

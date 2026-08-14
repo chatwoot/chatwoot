@@ -7,6 +7,7 @@ class Captain::Routines::DslSchema
       'version' => { 'const' => 1 },
       'kind' => { 'const' => 'captain.routine' },
       'name' => { 'type' => 'string', 'minLength' => 1 },
+      'resources' => Captain::Routines::ResourceSchema::COLLECTION,
       'steps' => {
         'type' => 'array',
         'minItems' => 1,

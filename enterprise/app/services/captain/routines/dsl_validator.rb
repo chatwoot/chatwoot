@@ -6,7 +6,7 @@ class Captain::Routines::DslValidator
   end
 
   def errors
-    schema_errors + operation_errors
+    schema_errors + resource_usage_errors + operation_errors
   end
 
   private
@@ -21,7 +21,18 @@ class Captain::Routines::DslValidator
   def operation_errors
     return [] unless @dsl.is_a?(Hash)
 
-    validate_steps(@dsl['steps'], {})
+    validate_steps(@dsl['steps'], resource_bindings)
+  end
+
+  def resource_usage_errors
+    return [] unless @dsl.is_a?(Hash) && @dsl['resources'].is_a?(Hash)
+
+    used_resources = references_in(@dsl['steps']).filter_map do |reference|
+      reference.match(/\Aresources\.([a-z][a-z0-9_]*)(?:\.|\z)/)&.captures&.first
+    end
+    (@dsl['resources'].keys - used_resources).map do |resource|
+      "Pinned resource '#{resource}' is not referenced by any executable step"
+    end
   end
 
   def validate_steps(steps, bindings)
@@ -97,7 +108,11 @@ class Captain::Routines::DslValidator
     references = values.flat_map { |value| references_in(value) }.uniq
     binding_errors = references.filter_map do |reference|
       root = reference.split('.').first
-      "Reference '#{reference}' is not defined before this step" unless bindings.key?(root)
+      if root == 'resources'
+        resource_reference_error(reference)
+      else
+        "Reference '#{reference}' is not defined before this step" unless bindings.key?(root)
+      end
     end
     syntax_errors + binding_errors + required_mention_errors(step)
   end
@@ -150,5 +165,23 @@ class Captain::Routines::DslValidator
 
     missing_arguments.map { |argument| "Operation '#{name}' is missing required argument '#{argument}'" } +
       unknown_arguments.map { |argument| "Operation '#{name}' does not accept argument '#{argument}'" }
+  end
+
+  def resource_bindings
+    @dsl['resources'].is_a?(Hash) && @dsl['resources'].present? ? { 'resources' => 'one' } : {}
+  end
+
+  def resource_reference_error(reference)
+    _, resource_name, *path = reference.split('.')
+    resources = @dsl['resources'].is_a?(Hash) ? @dsl['resources'] : {}
+    resource = resources[resource_name]
+    return "Reference '#{reference}' uses an undefined resource" unless resource
+
+    path.reduce(resource) do |value, segment|
+      return "Reference '#{reference}' does not contain '#{segment}'" unless value.is_a?(Hash) && value.key?(segment)
+
+      value[segment]
+    end
+    nil
   end
 end

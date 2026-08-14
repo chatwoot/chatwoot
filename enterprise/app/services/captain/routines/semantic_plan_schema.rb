@@ -6,6 +6,7 @@ class Captain::Routines::SemanticPlanSchema
     'properties' => {
       'version' => { 'const' => 1 },
       'name' => { 'type' => 'string', 'minLength' => 1 },
+      'resources' => Captain::Routines::ResourceSchema::COLLECTION,
       'steps' => {
         'type' => 'array',
         'minItems' => 1,

@@ -1,4 +1,6 @@
 class Captain::Routines::DslGeneratorService < Captain::BaseTaskService
+  include Captain::Routines::AgentTask
+
   RESPONSE_SCHEMA = Captain::Routines::DslGenerationSchema
 
   pattr_initialize [
@@ -8,23 +10,24 @@ class Captain::Routines::DslGeneratorService < Captain::BaseTaskService
   ]
 
   def perform
-    response = make_api_call(messages: messages, schema: RESPONSE_SCHEMA)
+    response = run_agent(
+      name: 'Captain Routine DSL Compiler',
+      instructions: system_prompt,
+      input: user_prompt,
+      schema: RESPONSE_SCHEMA
+    )
     return response if response[:error]
 
     payload = response[:message].deep_symbolize_keys
-    response.merge(dsl: JSON.parse(payload[:dsl_json]), summary: payload[:summary])
+    dsl = JSON.parse(payload[:dsl_json])
+    resources = semantic_plan.fetch('resources', {})
+    resources.present? ? dsl['resources'] = resources : dsl.delete('resources')
+    response.merge(dsl: dsl, summary: payload[:summary])
   rescue JSON::ParserError => e
     response.merge(error: "Generated DSL is not valid JSON: #{e.message}", error_code: 422)
   end
 
   private
-
-  def messages
-    [
-      { role: 'system', content: system_prompt },
-      { role: 'user', content: user_prompt }
-    ]
-  end
 
   def system_prompt
     <<~PROMPT
@@ -34,7 +37,10 @@ class Captain::Routines::DslGeneratorService < Captain::BaseTaskService
       Bind deterministic selections and context lookups to query operations, semantic judgments to `decide`, conditions to `when`,
       generated content to `compose`, and side effects to action operations. Never invent operations, account records, IDs, or
       facts absent from the plan.
-      Preserve unresolved human-readable account references so the runtime can resolve them.
+      Preserve unresolved human-readable account references so the runtime can resolve them. Copy pinned semantic-plan resources
+      unchanged to the DSL. Use ID references such as `{ "ref": "resources.jithin.id" }` for agent, team, and inbox operation
+      arguments. Use `.name` for name-only filters such as conversation labels. A mention binding requires the complete agent object,
+      so use `{ "ref": "resources.jithin" }` there. Do not query pinned resources again by name or duplicate numeric IDs in steps.
 
       Invocation and scheduling belong to the Routine model. The DSL describes only what to execute and how control flows.
       Never include a trigger, schedule, timing, recurrence, or invocation policy in the DSL.
@@ -79,6 +85,9 @@ class Captain::Routines::DslGeneratorService < Captain::BaseTaskService
 
       Available operations:
       #{Captain::Routines::Operations::Registry.prompt}
+
+      Chatwoot environment:
+      #{Captain::Routines::Environment.prompt}
     PROMPT
   end
 
