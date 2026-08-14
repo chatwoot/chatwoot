@@ -1,5 +1,5 @@
 class Captain::Routines::Operations::Queries::TeamSearch < Captain::Routines::Operations::Query
-  returns :one
+  returns :one, of: :team
 
   configure(
     name: 'teams.search', effect: 'read',

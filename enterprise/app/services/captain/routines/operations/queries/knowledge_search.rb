@@ -1,5 +1,5 @@
 class Captain::Routines::Operations::Queries::KnowledgeSearch < Captain::Routines::Operations::Query
-  returns :collection
+  returns :collection, of: :knowledge_result
 
   configure(
     name: 'knowledge.search', effect: 'read',

@@ -1,5 +1,5 @@
 class Captain::Routines::Operations::Queries::ContactSearch < Captain::Routines::Operations::Query
-  returns :collection
+  returns :collection, of: :contact
 
   configure(
     name: 'contacts.search', effect: 'read',

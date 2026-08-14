@@ -1,5 +1,5 @@
 class Captain::Routines::Operations::Queries::ConversationFind < Captain::Routines::Operations::Query
-  returns :one
+  returns :one, of: :conversation
 
   configure(
     name: 'conversations.find', effect: 'read',

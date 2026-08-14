@@ -1,5 +1,5 @@
 class Captain::Routines::Operations::Queries::InboxGetAvailability < Captain::Routines::Operations::Query
-  returns :one
+  returns :one, of: :inbox_availability
 
   configure(
     name: 'inboxes.get_availability', effect: 'read',

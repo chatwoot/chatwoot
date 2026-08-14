@@ -1,5 +1,5 @@
 class Captain::Routines::Operations::Queries::AgentSearch < Captain::Routines::Operations::Query
-  returns :one
+  returns :one, of: :agent
 
   configure(
     name: 'agents.search', effect: 'read',

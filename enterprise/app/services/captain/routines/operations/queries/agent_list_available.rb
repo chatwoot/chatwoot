@@ -1,5 +1,5 @@
 class Captain::Routines::Operations::Queries::AgentListAvailable < Captain::Routines::Operations::Query
-  returns :collection
+  returns :collection, of: :agent
 
   configure(
     name: 'agents.list_available', effect: 'read',

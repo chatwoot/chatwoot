@@ -1,5 +1,5 @@
 class Captain::Routines::Operations::Queries::InboxSearch < Captain::Routines::Operations::Query
-  returns :one
+  returns :one, of: :inbox
 
   configure(
     name: 'inboxes.search', effect: 'read',

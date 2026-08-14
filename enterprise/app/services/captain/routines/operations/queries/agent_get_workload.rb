@@ -1,5 +1,5 @@
 class Captain::Routines::Operations::Queries::AgentGetWorkload < Captain::Routines::Operations::Query
-  returns :one
+  returns :one, of: :agent_workload
 
   configure(
     name: 'agents.get_workload', effect: 'read',

@@ -1,5 +1,5 @@
 class Captain::Routines::Operations::Queries::LabelSearch < Captain::Routines::Operations::Query
-  returns :one
+  returns :one, of: :label
 
   configure(
     name: 'labels.search', effect: 'read',

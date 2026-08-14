@@ -1,5 +1,5 @@
 class Captain::Routines::Operations::Queries::ConversationGetMessages < Captain::Routines::Operations::Query
-  returns :collection
+  returns :collection, of: :message
 
   configure(
     name: 'conversations.get_messages', effect: 'read',

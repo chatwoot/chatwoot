@@ -1,5 +1,5 @@
 class Captain::Routines::Operations::Queries::ContactFind < Captain::Routines::Operations::Query
-  returns :one
+  returns :one, of: :contact
 
   configure(
     name: 'contacts.find', effect: 'read',

@@ -77,6 +77,9 @@ class Captain::Routines::SemanticPlanEvaluatorService < Captain::BaseTaskService
       Verify that the plan preserves every requested selection criterion, context lookup, decision, composition, branch, action,
       constraint, and exact customer-visible content. Reject behavior the plan invented. Check that dependencies and
       conditions communicate the intended ordering and branching without requiring implementation details.
+      Before returning `valid`, trace every runtime value required by the plan to the Chatwoot data model. A nullable value needs
+      an absent-value policy whenever different policies would materially change behavior. If none was supplied, return
+      `needs_clarification`; language that refers to the value is not evidence that every selected record contains it.
 
       A `compose` step is valid pure content generation when wording must be derived from runtime context. It neither makes a
       decision nor causes a side effect; the later action that sends or stores its result must depend on it. Never require a

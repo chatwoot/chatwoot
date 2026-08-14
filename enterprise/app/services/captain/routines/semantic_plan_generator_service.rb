@@ -63,6 +63,9 @@ class Captain::Routines::SemanticPlanGeneratorService < Captain::BaseTaskService
       The plan is an implementation-independent statement of intent. Preserve every selection criterion, source of context,
       decision, composition, branch, action, constraint, and exact user-provided message. Use stable snake_case step IDs and
       `depends_on` to make data and decision dependencies explicit. Keep deterministic selection separate from semantic decisions.
+      Before returning, trace every runtime value required by the plan to the Chatwoot data model. If a required value is nullable,
+      preserve the administrator's absent-value policy or request clarification when different policies would change behavior.
+      Merely referring to a value in the request does not prove that it exists on every selected record.
 
       Use a `compose` step when Captain must generate message content from runtime context and the administrator specified its
       intent rather than exact wording. Composition is pure content generation: it does not choose between outcomes and does not
