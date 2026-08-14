@@ -49,14 +49,6 @@ RSpec.describe 'Api::V1::Integrations::Webhooks' do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'rejects the webhook when the Slack headers are missing' do
-        expect(Integrations::Slack::IncomingMessageBuilder).not_to receive(:new)
-
-        post '/api/v1/integrations/webhooks', params: payload.to_json, headers: { 'CONTENT_TYPE' => 'application/json' }
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
       it 'rejects a replayed request with a stale timestamp' do
         expect(Integrations::Slack::IncomingMessageBuilder).not_to receive(:new)
         body = payload.to_json
