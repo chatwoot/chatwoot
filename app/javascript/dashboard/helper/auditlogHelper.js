@@ -229,7 +229,8 @@ export function parseAuditLogRouteQuery(query = {}) {
   const filters = { page: parsePositiveInt(query.page) || 1 };
 
   if (query.q) filters.q = query.q;
-  if (query.type) filters.types = [query.type];
+  const type = Array.isArray(query.type) ? query.type[0] : query.type;
+  if (type) filters.types = [type];
   if (SORT_ORDERS.includes(query.sort)) filters.sort = query.sort;
 
   const since = parsePositiveInt(query.since);

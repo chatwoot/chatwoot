@@ -129,6 +129,13 @@ RSpec.describe 'Enterprise Audit API', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response['audit_logs'].pluck('id')).to include(inbox_audit.id, sign_in_audit.id)
       end
+
+      it 'ignores malformed types and q params' do
+        json_response = fetch_audit_logs(types: { foo: 'bar' }, q: ['not-a-string'])
+
+        expect(response).to have_http_status(:success)
+        expect(json_response['audit_logs'].pluck('id')).to include(inbox_audit.id, sign_in_audit.id)
+      end
     end
   end
 end

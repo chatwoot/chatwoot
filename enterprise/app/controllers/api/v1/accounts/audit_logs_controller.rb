@@ -25,9 +25,13 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::EnterpriseAcco
 
   def filtered_audit_logs
     scope = Current.account.associated_audits
-    scope = scope.with_auditable_types(params[:types]) if params[:types].present?
-    scope = scope.search_by_user(params[:q]) if params[:q].present?
+    scope = scope.with_auditable_types(auditable_types) if auditable_types.present?
+    scope = scope.search_by_user(params[:q]) if params[:q].is_a?(String) && params[:q].present?
     apply_date_window(scope)
+  end
+
+  def auditable_types
+    Array.wrap(params[:types]).grep(String)
   end
 
   def apply_date_window(scope)

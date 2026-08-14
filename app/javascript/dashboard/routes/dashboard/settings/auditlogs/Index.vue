@@ -91,7 +91,10 @@ onMounted(() => {
 
 watch(
   () => route.query,
-  () => fetchAuditLogs()
+  () => {
+    if (route.name !== 'auditlogs_list') return;
+    fetchAuditLogs();
+  }
 );
 
 const tableHeaders = computed(() => {

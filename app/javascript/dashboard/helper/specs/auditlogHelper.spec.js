@@ -220,6 +220,13 @@ describe('Helper functions', () => {
         parseAuditLogRouteQuery({ since: 'junk', sort: 'sideways' })
       ).toEqual({ page: 1 });
     });
+
+    it('uses the first value when type is repeated', () => {
+      expect(parseAuditLogRouteQuery({ type: ['Inbox', 'Team'] })).toEqual({
+        page: 1,
+        types: ['Inbox'],
+      });
+    });
   });
 
   describe('#buildAuditLogRouteQuery', () => {
