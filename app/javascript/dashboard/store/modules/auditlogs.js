@@ -27,11 +27,11 @@ const getters = {
   },
 };
 
-const actions = {
-  async fetch({ commit }, { page } = {}) {
+export const actions = {
+  async fetch({ commit }, filters = {}) {
     commit(types.default.SET_AUDIT_LOGS_UI_FLAG, { fetchingList: true });
     try {
-      const response = await AuditLogsAPI.get({ page });
+      const response = await AuditLogsAPI.get(filters);
       const { audit_logs: logs = [] } = response.data;
       const {
         total_entries: totalEntries,
