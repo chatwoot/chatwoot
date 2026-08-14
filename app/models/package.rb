@@ -36,5 +36,4 @@ class Package < ApplicationRecord
 
   has_many :account_packages, dependent: :destroy_async
   has_many :accounts, through: :account_packages
-  has_many :addons, dependent: :destroy_async
 end

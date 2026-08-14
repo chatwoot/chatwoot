@@ -52,6 +52,49 @@ RSpec.describe Account do
           expect(account.usage_limits[:agents]).to eq(base_agents)
         end
       end
+
+      context 'with an account add-on boost' do
+        let(:addon) { create(:addon, users_limit: 100, channels_limit: 20, contacts_limit: 1000) }
+
+        before do
+          create(:account_package, account: account, package: package)
+          create(:account_addon, account: account, addon: addon,
+                                 starts_at: 1.day.ago, ends_at: 1.day.from_now)
+        end
+
+        it 'adds the add-on boosts to the package limits' do
+          limits = account.usage_limits
+
+          expect(limits[:agents]).to eq(105)             # 5 + 100
+          expect(limits[:inboxes]).to eq(23)             # 3 + 20
+          expect(limits[:contacts]).to eq(1100)          # 100 + 1000
+          expect(limits[:conversations]).to eq(50)       # no conversation boost
+          expect(limits[:campaign_messages]).to eq(200)  # no campaign boost
+        end
+
+        it 'does not count an add-on whose period has expired' do
+          create(:account_addon, account: account, addon: addon, starts_at: 2.days.ago, ends_at: 1.day.ago)
+
+          expect(account.usage_limits[:agents]).to eq(105)  # only the current one counts
+        end
+
+        it 'does not count an add-on that is no longer active' do
+          addon.update!(status: :inactive)
+
+          expect(account.usage_limits[:agents]).to eq(5)
+        end
+
+        it 'does not count an add-on whose period falls outside the package period' do
+          # Current period but starting before the package start — the model would
+          # reject it, so build it as a legacy/edge-case row to exercise the
+          # package-period clamp in active_addons.
+          outside = build(:account_addon, account: account, addon: addon,
+                                          starts_at: 2.months.ago, ends_at: 1.month.from_now)
+          outside.save!(validate: false)
+
+          expect(account.usage_limits[:agents]).to eq(105)
+        end
+      end
     end
 
     describe '#active?' do

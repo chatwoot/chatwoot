@@ -20,7 +20,8 @@ module Enterprise::Account::PackageLimits
     # Add-ons boost the base plan's limits additively. An add-on only counts when
     # it is active, its period is current, and it extends the account's current
     # base plan. A nil limit on either side means "unlimited", which stays unlimited.
-    active_addons.each do |addon|
+    active_addons.each do |account_addon|
+      addon = account_addon.addon
       limits[:agents] = add_limit(limits[:agents], addon.users_limit)
       limits[:inboxes] = add_limit(limits[:inboxes], addon.channels_limit)
       limits[:contacts] = add_limit(limits[:contacts], addon.contacts_limit)
@@ -31,10 +32,20 @@ module Enterprise::Account::PackageLimits
     limits
   end
 
-  # Add-ons that currently count towards the account's limits: active, within
-  # their period, and tied to the account's current, active base plan.
+  # The AccountAddon activations that currently count towards the account's
+  # limits: their catalog add-on is active, the period is current, and the
+  # period is clamped to the account's current base package period. An
+  # "until package end" add-on snapshots the package end at assignment time; the
+  # clamp keeps a later package *shortening* from letting the add-on outlive the
+  # package it extends.
   def active_addons
-    addons.current.joins(:package).where(packages: { status: Package.statuses[:active] })
+    assignment = current_account_package
+    return AccountAddon.none unless assignment
+
+    account_addons.current.with_active_addon
+                  .includes(:addon)
+                  .where('account_addons.starts_at::date >= ?', assignment.starts_at.to_date)
+                  .where('account_addons.ends_at::date <= ?', assignment.ends_at.to_date)
   end
 
   # An account without a valid, active package assignment is inactive, no

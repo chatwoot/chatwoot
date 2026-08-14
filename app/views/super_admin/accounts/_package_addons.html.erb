@@ -1,0 +1,91 @@
+<%#
+# Package & Add-ons
+
+Rendered on the Account show page. Shows the account's current base package and
+its period, plus the add-ons activated for the account (with their periods), and
+links to assign/edit the package and add/edit/remove add-ons.
+
+## Local variables:
+
+- `page`: The Administrate::Page::Show for the account being displayed
+%>
+
+<% if page.resource.respond_to?(:current_account_package) %>
+  <%
+    account = page.resource
+    assignment = account.current_account_package
+  %>
+  <section class="main-content__body mt-4">
+    <div class="border border-slate-100 rounded-md p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-sm font-medium text-slate-700">Package &amp; Add-ons</h2>
+        <div class="flex items-center gap-2">
+          <% if assignment.present? %>
+            <%= link_to('Edit Package', [:edit, namespace, assignment], class: 'button') %>
+            <%= link_to('Add Add-on', [:new, namespace, :account_addon, account_id: account.id], class: 'button') %>
+          <% else %>
+            <%= link_to('Assign Package', [:new, namespace, :account_package, account_id: account.id], class: 'button') %>
+          <% end %>
+        </div>
+      </div>
+
+      <% if assignment.present? %>
+        <p class="text-sm text-slate-700 mb-2">
+          <strong><%= assignment.package.name %></strong>
+          &nbsp;&middot;&nbsp;
+          <%= assignment.starts_at.strftime('%b %d, %Y') %>
+          &rarr;
+          <%= assignment.ends_at.strftime('%b %d, %Y') %>
+        </p>
+
+        <% account_addons = account.account_addons.includes(:addon).order(:starts_at) %>
+        <% if account_addons.any? %>
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-slate-500">
+                <th class="py-1 pr-4">Add-on</th>
+                <th class="py-1 pr-4">Period</th>
+                <th class="py-1">Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% account_addons.each do |account_addon| %>
+                <%
+                  active_now = account_addon.current? && account_addon.addon.active?
+                  status = account_addon.addon.inactive? ? 'Inactive add-on' : (account_addon.current? ? 'Active' : 'Expired')
+                %>
+                <tr class="border-t border-slate-100">
+                  <td class="py-2 pr-4 font-medium text-slate-800"><%= account_addon.addon.name %></td>
+                  <td class="py-2 pr-4 text-slate-700">
+                    <%= account_addon.starts_at.strftime('%b %d, %Y') %>
+                    &rarr;
+                    <%= account_addon.ends_at.strftime('%b %d, %Y') %>
+                  </td>
+                  <td class="py-2 pr-4 <%= active_now ? 'text-green-600' : 'text-slate-500' %>"><%= status %></td>
+                  <td class="py-2 text-right whitespace-nowrap">
+                    <%= link_to('Edit', [:edit, namespace, account_addon], class: 'mr-3') %>
+                    <%= link_to(
+                      'Remove',
+                      [namespace, account_addon],
+                      class: 'text-color-red',
+                      method: :delete,
+                      data: { confirm: 'Remove this add-on? Its limit boosts will no longer count.' }
+                    ) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p class="text-sm text-slate-600">No add-ons activated for this account.</p>
+        <% end %>
+      <% else %>
+        <p class="text-sm text-slate-600">
+          This account has no current active package. Assign a package before
+          activating add-ons.
+        </p>
+      <% end %>
+    </div>
+  </section>
+<% end %>

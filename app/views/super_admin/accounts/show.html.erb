@@ -96,3 +96,5 @@ as well as a link to its edit page.
   <%= render partial: "seed_data", locals: { page: page } %>
 
   <%= render partial: "reset_cache", locals: { page: page } %>
+
+  <%= render "package_addons", page: page, namespace: namespace %>

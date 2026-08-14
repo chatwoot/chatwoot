@@ -1,0 +1,29 @@
+<%#
+# Edit
+
+Change the add-on activated for an account or its active period.
+
+## Local variables:
+
+- `account`: The Account the add-on is activated for
+- `account_addon`: The AccountAddon being edited
+- `account_package`: The account's current AccountPackage (or nil)
+- `addons`: Active Addon records (the catalog) to choose from
+%>
+
+<% content_for(:title) do %>
+  Edit Add-on - <%= @account.name %>
+<% end %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title">
+    Edit Add-on
+  </h1>
+  <div>
+    <%= link_to('Back to Account', super_admin_account_path(@account), class: 'button') %>
+  </div>
+</header>
+
+<section class="main-content__body">
+  <%= render 'form', account: @account, account_addon: @account_addon, account_package: @account_package, addons: @addons %>
+</section>

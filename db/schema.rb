@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_08_13_000001) do
+ActiveRecord::Schema[7.2].define(version: 2026_08_14_000002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -26,6 +26,20 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_13_000001) do
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
+  end
+
+  create_table "account_addons", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "addon_id", null: false
+    t.datetime "starts_at", null: false
+    t.datetime "ends_at", null: false
+    t.string "duration_type", default: "custom", null: false
+    t.integer "duration_months"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "ends_at"], name: "index_account_addons_on_account_id_and_ends_at"
+    t.index ["account_id"], name: "index_account_addons_on_account_id"
+    t.index ["addon_id"], name: "index_account_addons_on_addon_id"
   end
 
   create_table "account_packages", force: :cascade do |t|
@@ -130,20 +144,13 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_13_000001) do
     t.string "name", null: false
     t.text "description"
     t.integer "status", default: 0, null: false
-    t.bigint "account_id", null: false
-    t.bigint "package_id", null: false
     t.integer "users_limit"
     t.integer "channels_limit"
     t.integer "contacts_limit"
     t.integer "conversations_limit"
     t.integer "campaign_messages_limit"
-    t.datetime "starts_at", null: false
-    t.datetime "ends_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id", "ends_at"], name: "index_addons_on_account_id_and_ends_at"
-    t.index ["account_id"], name: "index_addons_on_account_id"
-    t.index ["package_id"], name: "index_addons_on_package_id"
     t.index ["status"], name: "index_addons_on_status"
   end
 

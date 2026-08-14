@@ -12,9 +12,9 @@
 #
 # Indexes
 #
-#  index_account_packages_on_account_id           (account_id)
-#  index_account_packages_on_account_id_and_ends_at  (account_id, ends_at)
-#  index_account_packages_on_package_id           (package_id)
+#  index_account_packages_on_account_id              (account_id)
+#  index_account_packages_on_account_id_and_ends_at  (account_id,ends_at)
+#  index_account_packages_on_package_id              (package_id)
 #
 class AccountPackage < ApplicationRecord
   belongs_to :account

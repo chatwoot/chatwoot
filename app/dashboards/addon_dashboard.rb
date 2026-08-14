@@ -12,15 +12,11 @@ class AddonDashboard < Administrate::BaseDashboard
     name: Field::String.with_options(searchable: true),
     description: Field::Text.with_options(truncate: 200),
     status: Field::Select.with_options(collection: %w[active inactive]),
-    account: Field::BelongsToSearch.with_options(class_name: 'Account', searchable: true, searchable_field: [:name, :id], order: 'id DESC'),
-    package: Field::BelongsToSearch.with_options(class_name: 'Package', searchable: true, searchable_field: [:name, :id], order: 'id DESC'),
     users_limit: Field::Number,
     channels_limit: Field::Number,
     contacts_limit: Field::Number,
     conversations_limit: Field::Number,
     campaign_messages_limit: Field::Number,
-    starts_at: Field::DateTime,
-    ends_at: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -33,11 +29,9 @@ class AddonDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     name
-    account
-    package
     status
-    starts_at
-    ends_at
+    users_limit
+    channels_limit
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -47,15 +41,11 @@ class AddonDashboard < Administrate::BaseDashboard
     name
     description
     status
-    account
-    package
     users_limit
     channels_limit
     contacts_limit
     conversations_limit
     campaign_messages_limit
-    starts_at
-    ends_at
     created_at
     updated_at
   ].freeze
@@ -67,15 +57,11 @@ class AddonDashboard < Administrate::BaseDashboard
     name
     description
     status
-    account
-    package
     users_limit
     channels_limit
     contacts_limit
     conversations_limit
     campaign_messages_limit
-    starts_at
-    ends_at
   ].freeze
 
   # COLLECTION_FILTERS
