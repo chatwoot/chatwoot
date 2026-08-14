@@ -2,13 +2,17 @@
 import { computed, nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
-import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.vue';
 import WhatsAppTemplateParser from 'dashboard/components-next/whatsapp/WhatsAppTemplateParser.vue';
 
 const props = defineProps({
   modelValue: {
     type: [Object, Array],
     default: () => ({}),
+  },
+  dropdownMaxHeight: {
+    type: String,
+    default: 'max-h-80',
   },
 });
 
@@ -31,53 +35,47 @@ const currentParams = computed(() => {
   return raw && typeof raw === 'object' ? raw : {};
 });
 
-const inboxOptions = computed(
-  () =>
-    whatsAppInboxes.value?.map(inbox => ({
-      value: inbox.id,
-      label: inbox.name,
-    })) ?? []
+const inboxOptions = computed(() =>
+  (whatsAppInboxes.value || []).map(inbox => ({
+    id: inbox.id,
+    name: String(inbox.name || inbox.id),
+  }))
 );
 
 const inboxId = computed(() => currentParams.value.inbox_id || null);
 
-const templateOptions = computed(() => {
+const templateRecords = computed(() => {
   if (!inboxId.value) return [];
-  const templates = getFilteredWhatsAppTemplates.value(inboxId.value) || [];
-  return templates.map(template => {
+  const getter = getFilteredWhatsAppTemplates.value;
+  if (typeof getter !== 'function') return [];
+  try {
+    const templates = getter(inboxId.value);
+    return Array.isArray(templates) ? templates : [];
+  } catch {
+    return [];
+  }
+});
+
+const templateOptions = computed(() =>
+  templateRecords.value.map(template => {
+    const language = template.language || 'en';
     const friendlyName = String(template.name || '')
       .replace(/_/g, ' ')
       .replace(/\b\w/g, letter => letter.toUpperCase());
     return {
-      value: template.id || `${template.name}:${template.language}`,
-      label: `${friendlyName} (${template.language || 'en'})`,
+      id: template.id || `${template.name}:${language}`,
+      name: `${friendlyName} (${language})`,
       template,
     };
-  });
-});
+  })
+);
 
 const selectedTemplate = computed(() => {
-  if (!templateId.value) return null;
   return (
-    templateOptions.value.find(option => option.value === templateId.value)
+    templateOptions.value.find(option => option.id === templateId.value)
       ?.template || null
   );
 });
-
-const emitParams = (partial, processedParams) => {
-  const template = selectedTemplate.value;
-  const next = {
-    inbox_id: inboxId.value,
-    name: template?.name || currentParams.value.name || '',
-    language: template?.language || currentParams.value.language || '',
-    namespace: template?.namespace || currentParams.value.namespace || '',
-    category: template?.category || currentParams.value.category || '',
-    processed_params:
-      processedParams || currentParams.value.processed_params || {},
-    ...partial,
-  };
-  emit('update:modelValue', next);
-};
 
 const onInboxChange = value => {
   templateId.value = null;
@@ -96,7 +94,7 @@ const onTemplateChange = value => {
   templateId.value = value || null;
   hydratedKey.value = '';
   const template = templateOptions.value.find(
-    option => option.value === value
+    option => option.id === value
   )?.template;
   emit('update:modelValue', {
     inbox_id: inboxId.value,
@@ -105,6 +103,45 @@ const onTemplateChange = value => {
     namespace: template?.namespace || '',
     category: template?.category || '',
     processed_params: {},
+  });
+};
+
+const selectedInbox = computed({
+  get() {
+    if (!inboxId.value) return null;
+    return (
+      inboxOptions.value.find(option => option.id === inboxId.value) || null
+    );
+  },
+  set(value) {
+    onInboxChange(value?.id || null);
+  },
+});
+
+const selectedTemplateOption = computed({
+  get() {
+    if (!templateId.value) return null;
+    return (
+      templateOptions.value.find(option => option.id === templateId.value) ||
+      null
+    );
+  },
+  set(value) {
+    onTemplateChange(value?.id || null);
+  },
+});
+
+const emitParams = (partial, processedParams) => {
+  const template = selectedTemplate.value;
+  emit('update:modelValue', {
+    inbox_id: inboxId.value,
+    name: template?.name || currentParams.value.name || '',
+    language: template?.language || currentParams.value.language || '',
+    namespace: template?.namespace || currentParams.value.namespace || '',
+    category: template?.category || currentParams.value.category || '',
+    processed_params:
+      processedParams || currentParams.value.processed_params || {},
+    ...partial,
   });
 };
 
@@ -118,7 +155,7 @@ watch(
   inboxOptions,
   options => {
     if (inboxId.value || options.length !== 1) return;
-    onInboxChange(options[0].value);
+    onInboxChange(options[0].id);
   },
   { immediate: true }
 );
@@ -137,7 +174,7 @@ watch(
         String(option.template.language || '').toLowerCase() ===
           String(language || '').toLowerCase()
     );
-    templateId.value = match?.value || null;
+    templateId.value = match?.id || null;
   },
   { immediate: true }
 );
@@ -181,35 +218,37 @@ watch(
       <label class="mb-0 text-xs font-medium text-n-slate-12">
         {{ t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.INBOX_LABEL') }}
       </label>
-      <ComboBox
-        :model-value="inboxId"
+      <SingleSelect
+        v-if="inboxOptions.length"
+        v-model="selectedInbox"
         :options="inboxOptions"
+        :dropdown-max-height="dropdownMaxHeight"
         :placeholder="
-          inboxOptions.length
-            ? t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.INBOX_PLACEHOLDER')
-            : t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.INBOX_EMPTY')
+          t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.INBOX_PLACEHOLDER')
         "
-        :disabled="!inboxOptions.length"
-        teleport
-        @update:model-value="onInboxChange"
+        disable-deselect
       />
+      <p v-else class="mb-0 text-xs text-n-slate-11">
+        {{ t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.INBOX_EMPTY') }}
+      </p>
     </div>
     <div class="flex flex-col gap-1">
       <label class="mb-0 text-xs font-medium text-n-slate-12">
         {{ t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.TEMPLATE_LABEL') }}
       </label>
-      <ComboBox
-        :model-value="templateId"
+      <SingleSelect
+        v-if="inboxId"
+        v-model="selectedTemplateOption"
         :options="templateOptions"
-        :disabled="!inboxId"
+        :dropdown-max-height="dropdownMaxHeight"
         :placeholder="
-          inboxId
-            ? t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.TEMPLATE_PLACEHOLDER')
-            : t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.TEMPLATE_DISABLED')
+          t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.TEMPLATE_PLACEHOLDER')
         "
-        teleport
-        @update:model-value="onTemplateChange"
+        disable-deselect
       />
+      <p v-else class="mb-0 text-xs text-n-slate-11">
+        {{ t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.TEMPLATE_DISABLED') }}
+      </p>
     </div>
     <WhatsAppTemplateParser
       v-if="selectedTemplate"

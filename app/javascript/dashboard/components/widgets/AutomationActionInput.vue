@@ -278,8 +278,12 @@ export default {
         :dropdown-max-height="dropdownMaxHeight"
       />
       <AutomationActionWhatsAppTemplateInput
-        v-if="inputType === 'whatsapp_template'"
+        v-if="
+          inputType === 'whatsapp_template' ||
+          action_name === 'send_whatsapp_template'
+        "
         v-model="action_params"
+        :dropdown-max-height="dropdownMaxHeight"
       />
       <AutomationActionCustomAttributeInput
         v-if="isCustomAttributeAction || inputType === 'custom_attribute'"

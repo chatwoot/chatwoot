@@ -155,7 +155,7 @@
         "TEMPLATE_LABEL": "Template",
         "TEMPLATE_PLACEHOLDER": "Select a template",
         "TEMPLATE_DISABLED": "Select an inbox first",
-        "VARIABLES_HINT": "Use Liquid variables such as {{contact.name}} in template fields."
+        "VARIABLES_HINT": "Use Liquid variables such as contact.name in template fields."
       },
       "DELAY_SECONDS_LABEL": "Wait (seconds)",
       "MARK_READ_TYPING_LABEL": "Mark as read and show typing",
