@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import snakecaseKeys from 'snakecase-keys';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import MessagePreview from './MessagePreview.vue';
@@ -12,10 +12,8 @@ const props = defineProps({
   },
 });
 
-// Conversations are camelcased in the store, MessagePreview reads the message
-// in the API's snake_case shape.
 const lastNonActivityMessage = computed(() =>
-  snakecaseKeys(props.conversation.lastNonActivityMessage ?? {}, { deep: true })
+  useSnakeCase(props.conversation.lastNonActivityMessage ?? {}, { deep: true })
 );
 
 const assignee = computed(() => {
@@ -38,7 +36,8 @@ const unreadMessagesCount = computed(() => {
     <MessagePreview
       :message="lastNonActivityMessage"
       multi-line
-      class="w-full text-n-slate-12"
+      class="w-full"
+      :class="unreadMessagesCount > 0 ? 'text-n-slate-12' : 'text-n-slate-11'"
     />
     <div class="flex items-center flex-shrink-0 gap-2 pb-2">
       <Avatar

@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
-import snakecaseKeys from 'snakecase-keys';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import MessagePreview from 'dashboard/components-next/Conversation/ConversationCard/MessagePreview.vue';
@@ -29,7 +29,7 @@ const props = defineProps({
 const slaCardLabelRef = ref(null);
 
 const lastNonActivityMessage = computed(() =>
-  snakecaseKeys(props.conversation.lastNonActivityMessage ?? {}, { deep: true })
+  useSnakeCase(props.conversation.lastNonActivityMessage ?? {}, { deep: true })
 );
 
 const assignee = computed(() => {
@@ -64,7 +64,8 @@ defineExpose({
     <div class="flex items-center justify-between w-full gap-2 py-1 h-7">
       <MessagePreview
         :message="lastNonActivityMessage"
-        class="flex-1 min-w-0 text-n-slate-12"
+        class="flex-1 min-w-0"
+        :class="unreadMessagesCount > 0 ? 'text-n-slate-12' : 'text-n-slate-11'"
       />
 
       <div
