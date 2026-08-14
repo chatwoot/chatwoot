@@ -498,7 +498,7 @@ class CaptainRoutineExamplesWizard
     #   and assign the conversation to the Billing team. For all other conversations, add the label `routine-reviewed`.
     # TEXT
 
-    <<~TEXT.strip,
+    <<~TEXT.strip
       Review every open L2 support conversation assigned to the Engineering team. Triage the conversation using its recent
       messages and determine whether the customer is blocked by an urgent product issue. Treat inability to send messages,
       inability to access the dashboard, or messages not being received as urgent. Other issues are non-urgent.
@@ -513,9 +513,9 @@ class CaptainRoutineExamplesWizard
       does not need to perform any additional escalation after applying it.
     TEXT
 
-    <<~TEXT.strip
-      Check snoozed conversations and follow up on the ones where we are still waiting for the customer.
-    TEXT
+    # <<~TEXT.strip
+    #   Check snoozed conversations and follow up on the ones where we are still waiting for the customer.
+    # TEXT
 
     # The earlier examples remain disabled while exercising these operational routines.
   ].freeze
