@@ -2,6 +2,8 @@ import {
   extractChangedAccountUserValues,
   generateTranslationPayload,
   generateLogActionKey,
+  parseAuditLogRouteQuery,
+  buildAuditLogRouteQuery,
 } from '../auditlogHelper'; // import the functions
 
 describe('Helper functions', () => {
@@ -189,6 +191,48 @@ describe('Helper functions', () => {
 
       const logActionKey = generateLogActionKey(auditLogItem);
       expect(logActionKey).toEqual('AUDIT_LOGS.ACCOUNT_USER.EDIT.DELETED');
+    });
+  });
+
+  describe('#parseAuditLogRouteQuery', () => {
+    it('maps route query params to API filters', () => {
+      expect(
+        parseAuditLogRouteQuery({
+          page: '2',
+          q: 'jane',
+          type: 'Inbox',
+          since: '100',
+          until: '200',
+          sort: 'asc',
+        })
+      ).toEqual({
+        page: 2,
+        q: 'jane',
+        types: ['Inbox'],
+        since: 100,
+        until: 200,
+        sort: 'asc',
+      });
+    });
+
+    it('defaults to page 1 and drops invalid values', () => {
+      expect(
+        parseAuditLogRouteQuery({ since: 'junk', sort: 'sideways' })
+      ).toEqual({ page: 1 });
+    });
+  });
+
+  describe('#buildAuditLogRouteQuery', () => {
+    it('drops blank values and resets page', () => {
+      expect(
+        buildAuditLogRouteQuery({
+          q: '',
+          type: 'Inbox',
+          since: 100,
+          until: null,
+          sort: 'asc',
+        })
+      ).toEqual({ type: 'Inbox', since: 100, sort: 'asc' });
     });
   });
 });

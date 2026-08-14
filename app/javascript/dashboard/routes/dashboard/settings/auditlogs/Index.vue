@@ -10,9 +10,12 @@ import {
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
+import AuditLogFilters from './components/AuditLogFilters.vue';
 import {
   generateTranslationPayload,
   generateLogActionKey,
+  parseAuditLogRouteQuery,
+  buildAuditLogRouteQuery,
 } from 'dashboard/helper/auditlogHelper';
 import { computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -29,15 +32,36 @@ const agentList = computed(() => getters['agents/getAgents'].value);
 const { t } = useI18n();
 const route = useRoute();
 
-const routerPage = computed(() => Number(route.query.page ?? 1));
+const currentFilters = computed(() => parseAuditLogRouteQuery(route.query));
 
-const fetchAuditLogs = page => {
+const barFilters = computed(() => {
+  const { q, types, since, until, sort } = currentFilters.value;
+  return { q, type: types?.[0], since, until, sort };
+});
+
+const hasActiveFilters = computed(() => {
+  const { q, type, since, until, sort } = barFilters.value;
+  return Boolean(q || type || since || until || sort);
+});
+
+const fetchAuditLogs = () => {
   try {
-    store.dispatch('auditlogs/fetch', { page });
+    store.dispatch('auditlogs/fetch', currentFilters.value);
   } catch (error) {
     const errorMessage = error?.message || t('AUDIT_LOGS.API.ERROR_MESSAGE');
     useAlert(errorMessage);
   }
+};
+
+const updateQuery = partial => {
+  router.push({
+    name: 'auditlogs_list',
+    query: buildAuditLogRouteQuery({ ...route.query, ...partial }),
+  });
+};
+
+const onFiltersUpdate = partial => {
+  updateQuery({ ...partial, page: undefined });
 };
 
 const generateLogText = auditLogItem => {
@@ -57,19 +81,18 @@ const generateLogText = auditLogItem => {
 };
 
 const onPageChange = page => {
-  router.push({ name: 'auditlogs_list', query: { page: page } });
+  updateQuery({ page });
 };
 
 onMounted(() => {
   store.dispatch('agents/get');
-  fetchAuditLogs(routerPage.value);
+  fetchAuditLogs();
 });
 
-watch(routerPage, (newPage, oldPage) => {
-  if (newPage !== oldPage) {
-    fetchAuditLogs(newPage);
-  }
-});
+watch(
+  () => route.query,
+  () => fetchAuditLogs()
+);
 
 const tableHeaders = computed(() => {
   return [
@@ -85,7 +108,11 @@ const tableHeaders = computed(() => {
     :is-loading="uiFlags.fetchingList"
     :loading-message="$t('AUDIT_LOGS.LOADING')"
     :no-records-found="!records.length"
-    :no-records-message="$t('AUDIT_LOGS.LIST.404')"
+    :no-records-message="
+      hasActiveFilters
+        ? $t('AUDIT_LOGS.LIST.FILTERED_404')
+        : $t('AUDIT_LOGS.LIST.404')
+    "
   >
     <template #header>
       <BaseSettingsHeader
@@ -94,6 +121,9 @@ const tableHeaders = computed(() => {
         :link-text="$t('AUDIT_LOGS.LEARN_MORE')"
         feature-name="audit_logs"
       />
+    </template>
+    <template #preBody>
+      <AuditLogFilters :filters="barFilters" @update="onFiltersUpdate" />
     </template>
     <template #body>
       <div class="flex flex-col">
