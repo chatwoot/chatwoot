@@ -85,6 +85,7 @@ const { operators } = useOperators();
 
 const panelRef = ref(null);
 const instantTriggerRef = useTemplateRef('instantTriggerRef');
+const waitConditionRef = useTemplateRef('waitConditionRef');
 const errors = ref({});
 
 const isEditMode = computed(() => props.mode === 'edit');
@@ -249,11 +250,14 @@ watch(
   { deep: true }
 );
 
-const isConditionsValid = () => instantTriggerRef.value?.validate() ?? true;
+const isConditionsValid = () =>
+  (isDelayed.value ? waitConditionRef : instantTriggerRef).value?.validate() ??
+  true;
 
 const resetValidation = () => {
   errors.value = {};
   instantTriggerRef.value?.resetValidation();
+  waitConditionRef.value?.resetValidation();
 };
 
 const syncCustomAttributeTypes = () => {
@@ -327,12 +331,15 @@ defineExpose({ open, close });
       <AutomationWaitCondition
         v-if="isDelayed"
         :key="waitSectionKey"
+        ref="waitConditionRef"
         v-model:event-name="automation.event_name"
         v-model:conditions="automation.conditions"
         v-model:delay="delayMinutes"
         v-model:unit="delayUnit"
         :status-options="statusOptions"
         :inbox-options="inboxOptions"
+        :filter-types="filterTypes"
+        :remove-filter="removeFilter"
         :is-saved-wait="isSavedWait"
         :has-error="Boolean(errors.execution_delay)"
       />

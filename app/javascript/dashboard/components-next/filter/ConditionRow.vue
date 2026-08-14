@@ -12,8 +12,9 @@ import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { validateSingleFilter } from 'dashboard/helper/validations.js';
 
 // filterTypes: import('vue').ComputedRef<FilterType[]>
-const { filterTypes } = defineProps({
+const { filterTypes, valuePlaceholder } = defineProps({
   showQueryOperator: { type: Boolean, default: false },
+  valuePlaceholder: { type: String, default: '' },
   filterTypes: { type: Array, required: true },
 });
 
@@ -211,12 +212,14 @@ defineExpose({ validate, resetValidation });
           v-if="inputType === 'multiSelect'"
           v-model="values"
           :options="currentFilter.options"
+          :placeholder="valuePlaceholder"
           dropdown-max-height="max-h-72"
         />
         <SingleSelect
           v-else-if="inputType === 'searchSelect'"
           v-model="values"
           :options="currentFilter.options"
+          :placeholder="valuePlaceholder"
           dropdown-max-height="max-h-64"
         />
         <SingleSelect
@@ -225,6 +228,7 @@ defineExpose({ validate, resetValidation });
           async-search
           :options="asyncOptions"
           :is-searching="isSearching"
+          :placeholder="valuePlaceholder"
           :search-placeholder="currentFilter.searchPlaceholder"
           dropdown-max-height="max-h-64"
           @search="onAsyncSearch"
@@ -234,6 +238,7 @@ defineExpose({ validate, resetValidation });
           v-model="values"
           disable-search
           :options="booleanOptions"
+          :placeholder="valuePlaceholder"
         />
         <Input
           v-else
