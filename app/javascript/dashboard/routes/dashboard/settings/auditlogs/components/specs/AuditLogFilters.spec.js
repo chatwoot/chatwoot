@@ -3,6 +3,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
+import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
 import AuditLogFilters from '../AuditLogFilters.vue';
 
 vi.mock('vue-i18n', () => ({
@@ -72,12 +73,32 @@ describe('AuditLogFilters', () => {
     ]);
   });
 
-  it('applies a default window when enabling the date filter', async () => {
+  it('opens the picker without applying any filter', async () => {
     const wrapper = mountComponent();
+    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(false);
+
     const dateButton = wrapper.findAllComponents(Button).at(1);
     await dateButton.trigger('click');
 
-    const [[payload]] = wrapper.emitted('update');
-    expect(payload.since).toBeLessThan(payload.until);
+    expect(wrapper.emitted('update')).toBeUndefined();
+    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(true);
+  });
+
+  it('applies the range picked in the date picker and keeps its range type', async () => {
+    const wrapper = mountComponent();
+    await wrapper.findAllComponents(Button).at(1).trigger('click');
+    wrapper
+      .findComponent(WootDatePicker)
+      .vm.$emit('dateRangeChanged', [
+        new Date(1000),
+        new Date(2000),
+        'last30days',
+      ]);
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('update')).toEqual([[{ since: 1, until: 2 }]]);
+    expect(wrapper.findComponent(WootDatePicker).props('rangeType')).toBe(
+      'last30days'
+    );
   });
 });

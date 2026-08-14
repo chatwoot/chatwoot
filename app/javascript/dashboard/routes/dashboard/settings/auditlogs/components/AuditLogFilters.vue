@@ -132,7 +132,12 @@ const hasDateFilter = computed(() =>
   Boolean(props.filters.since || props.filters.until)
 );
 
+// Shows the picker before any range is applied; the filter only kicks in
+// once the user picks a preset or hits apply.
+const showPicker = ref(false);
+
 const pickerDateRange = ref([]);
+// Custom range until proven otherwise; a URL-restored window has no preset
 const pickerRangeType = ref(DATE_RANGE_TYPES.CUSTOM_RANGE);
 
 watch(
@@ -144,26 +149,24 @@ watch(
         toDate(until) || endOfDay(new Date()),
       ];
     } else {
+      showPicker.value = false;
       pickerDateRange.value = [];
-      pickerRangeType.value = DATE_RANGE_TYPES.CUSTOM_RANGE;
+      pickerRangeType.value = DATE_RANGE_TYPES.LAST_7_DAYS;
     }
   },
   { immediate: true }
 );
 
-const enableDateFilter = () => {
-  pickerRangeType.value = DATE_RANGE_TYPES.LAST_7_DAYS;
-  emit('update', {
-    since: toEpoch(startOfDay(subDays(new Date(), 6))),
-    until: toEpoch(endOfDay(new Date())),
-  });
+const onPickerClickaway = () => {
+  if (!hasDateFilter.value) showPicker.value = false;
 };
 
 const clearDateFilter = () => {
   emit('update', { since: undefined, until: undefined });
 };
 
-const onDateRangeChanged = ([startDate, endDate]) => {
+const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
+  if (rangeType) pickerRangeType.value = rangeType;
   emit('update', { since: toEpoch(startDate), until: toEpoch(endDate) });
 };
 </script>
@@ -205,13 +208,20 @@ const onDateRangeChanged = ([startDate, endDate]) => {
           @action="onEventTypeAction"
         />
       </div>
-      <template v-if="hasDateFilter">
+      <div
+        v-if="hasDateFilter || showPicker"
+        v-on-clickaway="onPickerClickaway"
+        class="flex items-center gap-2"
+      >
         <WootDatePicker
           v-model:date-range="pickerDateRange"
           v-model:range-type="pickerRangeType"
+          align="right"
+          :default-open="!hasDateFilter"
           @date-range-changed="onDateRangeChanged"
         />
         <Button
+          v-if="hasDateFilter"
           v-tooltip.top="$t('AUDIT_LOGS.FILTERS.CLEAR_DATE_RANGE')"
           icon="i-lucide-x"
           slate
@@ -219,7 +229,7 @@ const onDateRangeChanged = ([startDate, endDate]) => {
           sm
           @click="clearDateFilter"
         />
-      </template>
+      </div>
       <Button
         v-else
         :label="$t('AUDIT_LOGS.FILTERS.DATE_RANGE')"
@@ -227,7 +237,7 @@ const onDateRangeChanged = ([startDate, endDate]) => {
         slate
         faded
         sm
-        @click="enableDateFilter"
+        @click="showPicker = true"
       />
       <SelectMenu
         :model-value="activeSort"

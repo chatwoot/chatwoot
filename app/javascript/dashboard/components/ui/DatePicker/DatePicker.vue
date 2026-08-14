@@ -34,8 +34,28 @@ import CalendarMonth from './components/CalendarMonth.vue';
 import CalendarWeek from './components/CalendarWeek.vue';
 import CalendarFooter from './components/CalendarFooter.vue';
 
+const props = defineProps({
+  // Anchors the calendar popup to the trigger's left or right edge. Use
+  // 'right' when the trigger sits close to the viewport's right side.
+  align: {
+    type: String,
+    default: 'left',
+    validator: value => ['left', 'right'].includes(value),
+  },
+  // Render with the calendar popup already open. Lets a parent that shows
+  // the picker on demand skip the second click on the trigger.
+  defaultOpen: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const emit = defineEmits(['dateRangeChanged']);
 const { t } = useI18n();
+
+const popupAlignmentClass = computed(() =>
+  props.align === 'right' ? 'ltr:right-0 rtl:left-0' : 'ltr:left-0 rtl:right-0'
+);
 
 const dateRange = defineModel('dateRange', {
   type: Array,
@@ -50,7 +70,7 @@ const { LAST_7_DAYS, CUSTOM_RANGE } = DATE_RANGE_TYPES;
 const { START_CALENDAR, END_CALENDAR } = CALENDAR_TYPES;
 const { WEEK, MONTH, YEAR } = CALENDAR_PERIODS;
 
-const showDatePicker = ref(false);
+const showDatePicker = ref(props.defaultOpen);
 const calendarViews = ref({ start: WEEK, end: WEEK });
 const currentDate = ref(new Date());
 
@@ -370,7 +390,8 @@ const closeDatePicker = () => {
     <div
       v-if="showDatePicker"
       v-on-clickaway="closeDatePicker"
-      class="flex absolute top-9 ltr:left-0 rtl:right-0 z-30 shadow-md select-none w-[880px] rounded-2xl bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container"
+      class="flex absolute top-9 z-30 shadow-md select-none w-[880px] rounded-2xl bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container"
+      :class="popupAlignmentClass"
     >
       <CalendarDateRange
         :selected-range="selectedRange"
