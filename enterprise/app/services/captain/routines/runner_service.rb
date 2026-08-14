@@ -141,6 +141,8 @@ class Captain::Routines::RunnerService
       context: resolve_named_references(step.fetch('context')),
       mention_bindings: mentions,
       required_mentions: step.fetch('required_mentions', []),
+      routine_id: routine.id,
+      composition: step.fetch('compose'),
       execution_context: runtime.execution
     )
   end

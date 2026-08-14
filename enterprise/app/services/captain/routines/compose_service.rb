@@ -1,12 +1,18 @@
 class Captain::Routines::ComposeService < Captain::BaseTaskService
-  pattr_initialize [:account!, :instruction!, :context!, :execution_context!, { mention_bindings: {}, required_mentions: [] }]
+  pattr_initialize [
+    :account!,
+    :instruction!,
+    :context!,
+    :execution_context!,
+    { mention_bindings: {}, required_mentions: [], routine_id: nil, composition: nil }
+  ]
 
   def perform
     response = make_api_call(messages: messages, schema: Captain::Routines::ComposeSchema)
     raise Captain::Routines::LlmError, response[:error] if response[:error]
 
     segments = response[:message].deep_symbolize_keys.fetch(:segments)
-    validate_segments!(segments)
+    validate_segments_with_logging!(segments)
 
     {
       'type' => 'rich_message',
@@ -66,10 +72,17 @@ class Captain::Routines::ComposeService < Captain::BaseTaskService
     raise Captain::Routines::LlmError, "Composition omitted required mentions: #{missing_mentions.join(', ')}"
   end
 
+  def validate_segments_with_logging!(segments)
+    validate_segments!(segments)
+  rescue Captain::Routines::LlmError => e
+    log_validation_failure(e, segments)
+    raise
+  end
+
   def validate_segment!(segment)
     case segment[:type]
     when 'text'
-      raise Captain::Routines::LlmError, 'Text segments require non-empty text' if segment[:value].blank?
+      raise Captain::Routines::LlmError, 'Text segments require non-empty text' if segment[:value].to_s.empty?
     when 'mention'
       mention = segment[:value].to_s
       raise Captain::Routines::LlmError, "Composition used undeclared mention '#{mention}'" unless mention_bindings.key?(mention)
@@ -82,6 +95,37 @@ class Captain::Routines::ComposeService < Captain::BaseTaskService
     return { 'type' => 'text', 'text' => segment.fetch(:value) } if segment.fetch(:type) == 'text'
 
     { 'type' => 'mention', 'mention' => segment.fetch(:value) }
+  end
+
+  def log_validation_failure(error, segments)
+    payload = {
+      event: 'composition_validation_failed',
+      account_id: account.id,
+      routine_id: routine_id,
+      execution_id: execution_context['id'],
+      composition: composition,
+      error: error.message,
+      required_mentions: required_mentions.map(&:to_s),
+      available_mentions: mention_bindings.keys.map(&:to_s),
+      segments: segment_diagnostics(segments)
+    }.compact
+
+    Rails.logger.error("[Captain::Routines::ComposeService] #{payload.to_json}")
+  end
+
+  def segment_diagnostics(segments)
+    Array(segments).each_with_index.map do |segment, index|
+      value = segment[:value]
+      {
+        index: index,
+        type: segment[:type],
+        keys: segment.keys.map(&:to_s).sort,
+        value_type: value.class.name,
+        value_length: value.respond_to?(:length) ? value.length : nil,
+        whitespace_only: value.is_a?(String) && !value.empty? && value.strip.empty?,
+        declared_mention: segment[:type] == 'mention' ? mention_bindings.key?(value.to_s) : nil
+      }.compact
+    end
   end
 
   def event_name
