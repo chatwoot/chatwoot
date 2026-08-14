@@ -71,6 +71,12 @@ Rails.application.routes.draw do
                 get :summary
                 get :drilldown
               end
+              resource :stats, only: [], controller: :assistant_stats do
+                get :overview
+                get :overview_summary
+                get :resolution_flow
+                get :resolution_trend
+              end
               collection do
                 get :tools
               end
