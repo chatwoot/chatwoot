@@ -26,10 +26,21 @@ class Webhooks::PlivoController < ActionController::API
   def valid_signature?(channel)
     Plivo::SignatureValidator.new(
       auth_token: channel.provider_config['auth_token'],
-      url: request.original_url.split('?').first,
+      url: signed_url,
       params: request.request_parameters,
       nonce: request.headers['X-Plivo-Signature-V3-Nonce'],
       signature: request.headers['X-Plivo-Signature-Ma-V3'].presence || request.headers['X-Plivo-Signature-V3']
     ).valid?
+  end
+
+  # Plivo signs the exact URL it was configured to post to, which is the
+  # public callback URL Chatwoot advertises (built from FRONTEND_URL), not the
+  # request URL seen behind a reverse proxy or tunnel. Fall back to the request
+  # URL only when FRONTEND_URL is not configured.
+  def signed_url
+    frontend_url = ENV.fetch('FRONTEND_URL', nil)
+    return request.original_url.split('?').first if frontend_url.blank?
+
+    "#{frontend_url}/webhooks/plivo/#{params[:phone_number]}"
   end
 end

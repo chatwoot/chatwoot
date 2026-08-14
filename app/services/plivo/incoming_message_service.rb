@@ -29,7 +29,8 @@ class Plivo::IncomingMessageService
   end
 
   def phone_number
-    params[:from]
+    number = params[:from].to_s
+    number.start_with?('+') ? number : "+#{number}"
   end
 
   def formatted_phone_number
@@ -38,7 +39,7 @@ class Plivo::IncomingMessageService
 
   def set_contact
     contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: params[:from],
+      source_id: phone_number,
       inbox: @inbox,
       contact_attributes: contact_attributes
     ).perform
