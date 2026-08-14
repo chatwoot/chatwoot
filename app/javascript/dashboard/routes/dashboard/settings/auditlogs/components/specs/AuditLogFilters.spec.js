@@ -2,7 +2,6 @@ import { shallowMount } from '@vue/test-utils';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
 import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
 import AuditLogFilters from '../AuditLogFilters.vue';
 
@@ -56,16 +55,18 @@ describe('AuditLogFilters', () => {
     expect(wrapper.emitted('update')).toEqual([[{ type: undefined }]]);
   });
 
-  it('emits a sort update', () => {
+  it('emits a sort update from the sort menu', async () => {
     const wrapper = mountComponent();
-    wrapper.findComponent(SelectMenu).vm.$emit('update:modelValue', 'asc');
+    const sortButton = wrapper.findAllComponents(Button).at(1);
+    await sortButton.trigger('click');
+    wrapper.findComponent(DropdownMenu).vm.$emit('action', { value: 'asc' });
 
     expect(wrapper.emitted('update')).toEqual([[{ sort: 'asc' }]]);
   });
 
   it('clears the date window from the clear button', async () => {
     const wrapper = mountComponent({ since: 100, until: 200 });
-    const clearButton = wrapper.findAllComponents(Button).at(1);
+    const clearButton = wrapper.findAllComponents(Button).at(2);
     await clearButton.trigger('click');
 
     expect(wrapper.emitted('update')).toEqual([
@@ -77,7 +78,7 @@ describe('AuditLogFilters', () => {
     const wrapper = mountComponent();
     expect(wrapper.findComponent(WootDatePicker).exists()).toBe(false);
 
-    const dateButton = wrapper.findAllComponents(Button).at(1);
+    const dateButton = wrapper.findAllComponents(Button).at(2);
     await dateButton.trigger('click');
 
     expect(wrapper.emitted('update')).toBeUndefined();
@@ -86,7 +87,7 @@ describe('AuditLogFilters', () => {
 
   it('applies the range picked in the date picker and keeps its range type', async () => {
     const wrapper = mountComponent();
-    await wrapper.findAllComponents(Button).at(1).trigger('click');
+    await wrapper.findAllComponents(Button).at(2).trigger('click');
     wrapper
       .findComponent(WootDatePicker)
       .vm.$emit('dateRangeChanged', [

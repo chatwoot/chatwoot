@@ -6,7 +6,6 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
-import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
 import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
 import { DATE_RANGE_TYPES } from 'dashboard/components/ui/DatePicker/helpers/DatePickerHelper';
 
@@ -112,21 +111,31 @@ const onSearchInput = value => {
   if (value === '' && props.filters.q) emit('update', { q: undefined });
 };
 
-const sortOptions = computed(() => [
-  { label: t('AUDIT_LOGS.FILTERS.SORT.NEWEST'), value: 'desc' },
-  { label: t('AUDIT_LOGS.FILTERS.SORT.OLDEST'), value: 'asc' },
-]);
+const showSortMenu = ref(false);
 
 const activeSort = computed(() =>
   props.filters.sort === 'asc' ? 'asc' : 'desc'
 );
 
+const sortMenuItems = computed(() => [
+  {
+    label: t('AUDIT_LOGS.FILTERS.SORT.NEWEST'),
+    value: 'desc',
+    isSelected: activeSort.value === 'desc',
+  },
+  {
+    label: t('AUDIT_LOGS.FILTERS.SORT.OLDEST'),
+    value: 'asc',
+    isSelected: activeSort.value === 'asc',
+  },
+]);
+
 const activeSortLabel = computed(
-  () =>
-    sortOptions.value.find(option => option.value === activeSort.value).label
+  () => sortMenuItems.value.find(item => item.isSelected).label
 );
 
-const onSortChange = value => {
+const onSortAction = ({ value }) => {
+  showSortMenu.value = false;
   emit('update', { sort: value === 'desc' ? undefined : value });
 };
 
@@ -205,15 +214,20 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
     </Input>
     <div class="relative">
       <Button
-        :label="activeEventTypeLabel"
-        icon="i-lucide-chevron-down"
-        trailing-icon
+        icon="i-lucide-list-filter"
         slate
         faded
         sm
+        justify="start"
         class="w-48"
         @click="showEventMenu = !showEventMenu"
-      />
+      >
+        <span class="min-w-0 truncate">{{ activeEventTypeLabel }}</span>
+        <Icon
+          icon="i-lucide-chevron-down"
+          class="flex-shrink-0 size-3.5 ltr:ml-auto rtl:mr-auto"
+        />
+      </Button>
       <DropdownMenu
         v-if="showEventMenu"
         v-on-clickaway="() => (showEventMenu = false)"
@@ -222,12 +236,26 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
         @action="onEventTypeAction"
       />
     </div>
-    <SelectMenu
-      :model-value="activeSort"
-      :options="sortOptions"
-      :label="activeSortLabel"
-      @update:model-value="onSortChange"
-    />
+    <div class="relative">
+      <Button
+        icon="i-lucide-arrow-down-up"
+        slate
+        faded
+        sm
+        justify="start"
+        @click="showSortMenu = !showSortMenu"
+      >
+        <span class="min-w-0 truncate">{{ activeSortLabel }}</span>
+        <Icon icon="i-lucide-chevron-down" class="flex-shrink-0 size-3.5" />
+      </Button>
+      <DropdownMenu
+        v-if="showSortMenu"
+        v-on-clickaway="() => (showSortMenu = false)"
+        :menu-items="sortMenuItems"
+        class="top-full mt-1 ltr:left-0 rtl:right-0"
+        @action="onSortAction"
+      />
+    </div>
     <div
       v-if="hasDateFilter || showPicker"
       v-on-clickaway="onPickerClickaway"
