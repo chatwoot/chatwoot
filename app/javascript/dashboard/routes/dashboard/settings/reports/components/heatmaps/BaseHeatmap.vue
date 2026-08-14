@@ -83,20 +83,20 @@ const colorSchemeClass = computed(() => {
 <template>
   <div
     v-if="isLoading"
-    class="grid relative w-full gap-x-4 gap-y-2.5 overflow-y-scroll md:overflow-visible grid-cols-[80px_1fr]"
+    class="grid relative w-full gap-x-4 gap-y-2.5 overflow-y-scroll md:overflow-visible grid-cols-[5rem_1fr]"
   >
-    <div class="grid gap-[5px] flex-shrink-0">
+    <div class="grid gap-[0.3125rem] flex-shrink-0">
       <div
         v-for="ii in numberOfRows"
         :key="ii"
-        class="w-full rounded-sm bg-n-slate-3 dark:bg-n-slate-1 animate-loader-pulse h-8 min-w-[70px]"
+        class="w-full rounded-sm bg-n-slate-3 dark:bg-n-slate-1 animate-loader-pulse h-8 min-w-[4.375rem]"
       />
     </div>
-    <div class="grid gap-[5px] w-full min-w-[700px]">
+    <div class="grid gap-[0.3125rem] w-full min-w-[43.75rem]">
       <div
         v-for="ii in numberOfRows"
         :key="ii"
-        class="grid gap-[5px] grid-cols-[repeat(24,_1fr)]"
+        class="grid gap-[0.3125rem] grid-cols-[repeat(24,_1fr)]"
       >
         <div
           v-for="jj in 24"
@@ -107,7 +107,7 @@ const colorSchemeClass = computed(() => {
     </div>
     <div />
     <div
-      class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-n-slate-11"
+      class="grid grid-cols-[repeat(24,_1fr)] gap-[0.3125rem] w-full text-xxxs font-semibold h-5 text-n-slate-11"
     >
       <div v-for="ii in 24" :key="ii" class="flex items-center justify-center">
         {{ ii - 1 }}
