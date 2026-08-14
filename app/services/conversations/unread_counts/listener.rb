@@ -13,11 +13,11 @@ class Conversations::UnreadCounts::Listener < BaseListener
     return unless account.feature_enabled?('conversation_unread_counts') || account.feature_enabled?(filtered_count_feature_flag)
 
     conversation = message.conversation
-    refreshed = refresh(conversation) if message.incoming? && account.feature_enabled?('conversation_unread_counts')
+    refreshed = refresh(conversation) if refresh_unread_membership?(message, account)
 
     invalidate_filtered_conversation(conversation)
 
-    notify_filtered_count_change(conversation) unless message.incoming? && refreshed
+    notify_filtered_count_change(conversation) unless refreshed
   end
 
   def conversation_status_changed(event)
@@ -71,6 +71,12 @@ class Conversations::UnreadCounts::Listener < BaseListener
   end
 
   private
+
+  def refresh_unread_membership?(message, account)
+    return false unless account.feature_enabled?('conversation_unread_counts')
+
+    message.incoming? || message.outgoing?
+  end
 
   def refresh_then_invalidate(conversation, changed_attributes = nil)
     refreshed = refresh(conversation, changed_attributes)

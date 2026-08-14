@@ -186,7 +186,8 @@ class Conversation < ApplicationRecord
   end
 
   def unread_incoming_messages
-    unread_messages.where(account_id: account_id).incoming.last(10)
+    incoming = unread_messages.where(account_id: account_id).incoming
+    incoming.where(self.class.unanswered_by_staff_sql).last(10)
   end
 
   def cached_label_list_array
@@ -235,6 +236,22 @@ class Conversation < ApplicationRecord
                                 conversations[:agent_last_seen_at].eq(nil)
                                   .or(messages[:created_at].gt(conversations[:agent_last_seen_at]))
                               )
+                              .and(unanswered_by_staff_sql)
+  end
+
+  # Incoming customer messages are not unread once a later public staff reply exists.
+  def self.unanswered_by_staff_sql
+    Arel.sql(<<~SQL.squish)
+      NOT EXISTS (
+        SELECT 1
+        FROM messages staff_replies
+        WHERE staff_replies.conversation_id = messages.conversation_id
+          AND staff_replies.account_id = messages.account_id
+          AND staff_replies.message_type = #{Message.message_types[:outgoing]}
+          AND staff_replies.private = FALSE
+          AND staff_replies.created_at >= messages.created_at
+      )
+    SQL
   end
 
   def recent_messages

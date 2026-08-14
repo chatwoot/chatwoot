@@ -644,7 +644,7 @@ RSpec.describe Conversation do
     end
 
     before do
-      create(:message, message_type: :outgoing, **message_params)
+      create(:message, message_type: :outgoing, **message_params, created_at: 2.hours.ago)
     end
 
     it 'returns unread incoming messages' do
@@ -653,6 +653,18 @@ RSpec.describe Conversation do
 
     it 'returns unread incoming messages even if the agent has not seen the conversation' do
       conversation.update!(agent_last_seen_at: nil)
+
+      expect(unread_incoming_messages).to contain_exactly(message)
+    end
+
+    it 'does not count incoming messages that already have a later staff reply' do
+      create(:message, message_type: :outgoing, **message_params, created_at: Time.current)
+
+      expect(unread_incoming_messages).to be_empty
+    end
+
+    it 'does not treat a later private note as a staff reply' do
+      create(:message, message_type: :outgoing, **message_params, created_at: Time.current, private: true)
 
       expect(unread_incoming_messages).to contain_exactly(message)
     end

@@ -102,11 +102,7 @@ class Conversations::UnreadCounts::Refresher
     # Sidebar unread counts intentionally track only open conversations.
     return false unless conversation.open?
 
-    incoming_messages = conversation.messages.incoming.where(account_id: account.id)
-    if conversation.agent_last_seen_at
-      incoming_messages = incoming_messages.where(Message.arel_table[:created_at].gt(conversation.agent_last_seen_at))
-    end
-    incoming_messages.exists?
+    conversation.unread_incoming_messages.any?
   end
 
   def affected_inbox_ids

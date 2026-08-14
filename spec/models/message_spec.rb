@@ -234,6 +234,39 @@ RSpec.describe Message do
       expect(conversation.first_reply_created_at).to be_nil
       expect(conversation.waiting_since).to eq conversation.created_at
     end
+
+    it 'marks the conversation as read when an agent replies' do
+      conversation.update!(agent_last_seen_at: 1.hour.ago)
+      create(:message, message_type: :incoming, conversation: conversation, created_at: 30.minutes.ago)
+      expect(conversation.reload.unread_incoming_messages).to be_present
+
+      outgoing_message = create(:message, message_type: :outgoing, conversation: conversation)
+
+      expect(conversation.reload.agent_last_seen_at).to be_within(1.second).of(outgoing_message.created_at)
+      expect(conversation.unread_incoming_messages).to be_empty
+    end
+
+    it 'updates assignee last seen when the assigned agent replies' do
+      agent = create(:user, account: conversation.account)
+      conversation.update!(assignee: agent, agent_last_seen_at: 1.hour.ago, assignee_last_seen_at: 1.hour.ago)
+
+      outgoing_message = create(:message, message_type: :outgoing, conversation: conversation, sender: agent)
+
+      conversation.reload
+      expect(conversation.agent_last_seen_at).to be_within(1.second).of(outgoing_message.created_at)
+      expect(conversation.assignee_last_seen_at).to be_within(1.second).of(outgoing_message.created_at)
+    end
+
+    it 'does not mark the conversation as read for private notes, bots, or automations' do
+      conversation.update!(agent_last_seen_at: 1.hour.ago)
+      last_seen_at = conversation.agent_last_seen_at
+
+      create(:message, message_type: :outgoing, conversation: conversation, private: true)
+      create(:message, message_type: :outgoing, conversation: conversation, sender: create(:agent_bot))
+      create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { automation_rule_id: 1 })
+
+      expect(conversation.reload.agent_last_seen_at).to be_within(1.second).of(last_seen_at)
+    end
   end
 
   describe '#reopen_conversation' do

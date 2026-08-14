@@ -50,6 +50,7 @@ class Conversations::UnreadCounts::Builder
            .merge(Message.incoming.reorder(nil))
            .where(messages: { account_id: account.id })
            .where(unread_since_last_seen_condition)
+           .where(Conversation.unanswered_by_staff_sql)
            .distinct
   end
 

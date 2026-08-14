@@ -35,13 +35,15 @@ RSpec.describe Conversations::UnreadCounts::Listener do
     listener.message_created(event)
   end
 
-  it 'ignores outgoing message creation' do
+  it 'refreshes unread counts when an outgoing message is created' do
+    account.enable_features!(:conversation_unread_counts)
     message = create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing)
     event = Events::Base.new('message.created', Time.zone.now, message: message)
 
     listener.message_created(event)
 
-    expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
+    expect(Conversations::UnreadCounts::Notifier).to have_received(:new).with(conversation, changed_attributes: nil)
+    expect(notifier).to have_received(:perform)
   end
 
   it 'ignores incoming message creation when conversation unread counts are disabled' do
@@ -68,17 +70,13 @@ RSpec.describe Conversations::UnreadCounts::Listener do
 
   it 'notifies clients when outgoing message activity changes filtered counts' do
     account.enable_features!(:conversation_unread_counts, :unread_count_for_filters)
-    allow(Rails.configuration.dispatcher).to receive(:dispatch)
     message = create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing)
     event = Events::Base.new('message.created', Time.zone.now, message: message)
 
     listener.message_created(event)
 
-    expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
-      'conversation.unread_count_changed',
-      kind_of(Time),
-      conversation: conversation
-    )
+    expect(Conversations::UnreadCounts::Notifier).to have_received(:new).with(conversation, changed_attributes: nil)
+    expect(notifier).to have_received(:perform)
   end
 
   it 'refreshes unread counts when conversation status changes' do

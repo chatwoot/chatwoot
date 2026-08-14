@@ -376,6 +376,7 @@ class Message < ApplicationRecord
   end
 
   def dispatch_create_events
+    mark_conversation_read_on_human_reply
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
 
     if valid_first_reply?
@@ -384,6 +385,19 @@ class Message < ApplicationRecord
     else
       update_waiting_since
     end
+  end
+
+  def mark_conversation_read_on_human_reply
+    return unless human_response?
+    return if private?
+    return if conversation.agent_last_seen_at.present? && conversation.agent_last_seen_at >= created_at
+
+    updates = { agent_last_seen_at: created_at }
+    updates[:assignee_last_seen_at] = created_at if sender.is_a?(User) && sender.id == conversation.assignee_id
+
+    # rubocop:disable Rails/SkipsModelValidations
+    conversation.update_columns(updates)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def dispatch_update_event
