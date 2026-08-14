@@ -101,6 +101,11 @@ const submitSearch = () => {
   emit('update', { q: searchText.value || undefined });
 };
 
+const showEnterHint = computed(
+  () =>
+    Boolean(searchText.value) && searchText.value !== (props.filters.q || '')
+);
+
 const onSearchInput = value => {
   searchText.value = value;
   // Emptying the field clears the filter without waiting for enter
@@ -172,13 +177,16 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
 </script>
 
 <template>
-  <div class="flex flex-col lg:flex-row lg:items-center gap-2 mb-4">
+  <div class="flex flex-wrap items-center gap-2 mb-4">
     <Input
       :model-value="searchText"
       type="search"
       :placeholder="$t('AUDIT_LOGS.FILTERS.SEARCH_PLACEHOLDER')"
-      :custom-input-class="['h-8 ltr:!pl-8 !py-1 rtl:!pr-8']"
-      class="lg:max-w-72 w-full"
+      :custom-input-class="[
+        'h-8 ltr:!pl-8 !py-1 rtl:!pr-8 [&:not(.focus)]:!border-transparent bg-n-alpha-2 dark:bg-n-solid-1',
+        showEnterHint ? 'ltr:!pr-20 rtl:!pl-20' : '',
+      ]"
+      class="w-full sm:w-auto sm:flex-1 sm:min-w-56 sm:max-w-72"
       @update:model-value="onSearchInput"
       @enter="submitSearch"
     >
@@ -187,64 +195,68 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
           icon="i-lucide-search"
           class="absolute -translate-y-1/2 text-n-slate-11 size-4 top-1/2 ltr:left-2 rtl:right-2"
         />
+        <span
+          v-if="showEnterHint"
+          class="absolute -translate-y-1/2 top-1/2 ltr:right-8 rtl:left-8 text-xs text-n-slate-10 pointer-events-none"
+        >
+          {{ $t('AUDIT_LOGS.FILTERS.PRESS_ENTER') }}
+        </span>
       </template>
     </Input>
-    <div class="flex items-center gap-2 flex-wrap">
-      <div class="relative">
-        <Button
-          :label="activeEventTypeLabel"
-          icon="i-lucide-chevron-down"
-          trailing-icon
-          slate
-          faded
-          sm
-          class="w-48"
-          @click="showEventMenu = !showEventMenu"
-        />
-        <DropdownMenu
-          v-if="showEventMenu"
-          v-on-clickaway="() => (showEventMenu = false)"
-          :menu-sections="eventMenuSections"
-          class="top-full mt-1 ltr:left-0 rtl:right-0 max-h-80"
-          @action="onEventTypeAction"
-        />
-      </div>
-      <SelectMenu
-        :model-value="activeSort"
-        :options="sortOptions"
-        :label="activeSortLabel"
-        @update:model-value="onSortChange"
-      />
-      <div
-        v-if="hasDateFilter || showPicker"
-        v-on-clickaway="onPickerClickaway"
-        class="flex items-center gap-2"
-      >
-        <WootDatePicker
-          v-model:date-range="pickerDateRange"
-          v-model:range-type="pickerRangeType"
-          :default-open="!hasDateFilter"
-          @date-range-changed="onDateRangeChanged"
-        />
-        <Button
-          v-if="hasDateFilter"
-          v-tooltip.top="$t('AUDIT_LOGS.FILTERS.CLEAR_DATE_RANGE')"
-          icon="i-lucide-x"
-          slate
-          ghost
-          sm
-          @click="clearDateFilter"
-        />
-      </div>
+    <div class="relative">
       <Button
-        v-else
-        :label="$t('AUDIT_LOGS.FILTERS.DATE_RANGE')"
-        icon="i-lucide-calendar-range"
+        :label="activeEventTypeLabel"
+        icon="i-lucide-chevron-down"
+        trailing-icon
         slate
         faded
         sm
-        @click="showPicker = true"
+        class="w-48"
+        @click="showEventMenu = !showEventMenu"
+      />
+      <DropdownMenu
+        v-if="showEventMenu"
+        v-on-clickaway="() => (showEventMenu = false)"
+        :menu-sections="eventMenuSections"
+        class="top-full mt-1 ltr:left-0 rtl:right-0 max-h-80"
+        @action="onEventTypeAction"
       />
     </div>
+    <SelectMenu
+      :model-value="activeSort"
+      :options="sortOptions"
+      :label="activeSortLabel"
+      @update:model-value="onSortChange"
+    />
+    <div
+      v-if="hasDateFilter || showPicker"
+      v-on-clickaway="onPickerClickaway"
+      class="flex items-center gap-2"
+    >
+      <WootDatePicker
+        v-model:date-range="pickerDateRange"
+        v-model:range-type="pickerRangeType"
+        :default-open="!hasDateFilter"
+        @date-range-changed="onDateRangeChanged"
+      />
+      <Button
+        v-if="hasDateFilter"
+        v-tooltip.top="$t('AUDIT_LOGS.FILTERS.CLEAR_DATE_RANGE')"
+        icon="i-lucide-x"
+        slate
+        ghost
+        sm
+        @click="clearDateFilter"
+      />
+    </div>
+    <Button
+      v-else
+      :label="$t('AUDIT_LOGS.FILTERS.DATE_RANGE')"
+      icon="i-lucide-calendar-range"
+      slate
+      faded
+      sm
+      @click="showPicker = true"
+    />
   </div>
 </template>
