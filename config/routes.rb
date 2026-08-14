@@ -726,6 +726,7 @@ Rails.application.routes.draw do
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resources :platform_banners
       resources :packages
+      resources :addons
       resource :instance_status, only: [:show]
 
       resource :settings, only: [:show] do
