@@ -3,6 +3,7 @@ import FileUpload from 'vue-upload-component';
 import Spinner from 'shared/components/Spinner.vue';
 import {
   checkFileSizeLimit,
+  isFileTypeAllowedForChannel,
   resolveMaximumFileUploadSize,
 } from 'shared/helpers/FileHelper';
 import {
@@ -114,11 +115,23 @@ export default {
       }
     },
     getUploadableFiles(files) {
-      const validFiles = files.filter(file =>
+      const filesWithAllowedTypes = files.filter(file =>
+        isFileTypeAllowedForChannel(file.file, {
+          channelType: 'Channel::WebWidget',
+        })
+      );
+
+      if (filesWithAllowedTypes.length !== files.length) {
+        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          message: this.$t('FILE_TYPE_NOT_SUPPORTED'),
+        });
+      }
+
+      const validFiles = filesWithAllowedTypes.filter(file =>
         checkFileSizeLimit(file, this.fileUploadSizeLimit)
       );
 
-      if (validFiles.length !== files.length) {
+      if (validFiles.length !== filesWithAllowedTypes.length) {
         emitter.emit(BUS_EVENTS.SHOW_ALERT, {
           message: this.$t('FILE_SIZE_LIMIT', {
             MAXIMUM_FILE_UPLOAD_SIZE: this.fileUploadSizeLimit,
@@ -126,16 +139,23 @@ export default {
         });
       }
 
-      if (validFiles.length > MAXIMUM_ATTACHMENTS) {
-        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
-          message: this.$t('MAXIMUM_ATTACHMENTS_LIMIT', {
-            MAXIMUM_ATTACHMENTS,
-          }),
-        });
-        return validFiles.slice(0, MAXIMUM_ATTACHMENTS);
-      }
-
       return validFiles;
+    },
+    splitIntoUploadBatches(items) {
+      return Array.from(
+        { length: Math.ceil(items.length / MAXIMUM_ATTACHMENTS) },
+        (_, index) =>
+          items.slice(
+            index * MAXIMUM_ATTACHMENTS,
+            (index + 1) * MAXIMUM_ATTACHMENTS
+          )
+      );
+    },
+    processBatchesSequentially(batches, processBatch) {
+      return batches.reduce(
+        (promise, batch) => promise.then(() => processBatch(batch)),
+        Promise.resolve()
+      );
     },
     startUploadBatch() {
       this.activeUploadBatches += 1;
@@ -154,14 +174,20 @@ export default {
 
       this.startUploadBatch();
       try {
-        const attachments = await Promise.all(
-          validFiles.map(file => this.uploadFileDirectly(file))
-        );
-        const successfulAttachments = attachments.filter(Boolean);
+        const uploadBatches = this.splitIntoUploadBatches(validFiles);
+        await this.processBatchesSequentially(
+          uploadBatches,
+          async uploadBatch => {
+            const attachments = await Promise.all(
+              uploadBatch.map(file => this.uploadFileDirectly(file))
+            );
+            const successfulAttachments = attachments.filter(Boolean);
 
-        if (successfulAttachments.length) {
-          await this.attachFiles(successfulAttachments);
-        }
+            if (successfulAttachments.length) {
+              await this.attachFiles(successfulAttachments);
+            }
+          }
+        );
       } finally {
         this.finishUploadBatch();
       }
@@ -201,14 +227,17 @@ export default {
         return;
       }
 
-      const attachments = validFiles.map(file => ({
-        file: file.file,
-        ...this.getLocalFileAttributes(file),
-      }));
+      const uploadBatches = this.splitIntoUploadBatches(validFiles);
 
       this.startUploadBatch();
       try {
-        await this.attachFiles(attachments);
+        await this.processBatchesSequentially(uploadBatches, uploadBatch => {
+          const attachments = uploadBatch.map(file => ({
+            file: file.file,
+            ...this.getLocalFileAttributes(file),
+          }));
+          return this.attachFiles(attachments);
+        });
       } finally {
         this.finishUploadBatch();
       }
