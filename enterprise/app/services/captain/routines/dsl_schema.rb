@@ -95,7 +95,7 @@ class Captain::Routines::DslSchema
       },
       'compose_step' => {
         'type' => 'object',
-        'required' => %w[compose instruction context output],
+        'required' => %w[compose instruction context],
         'additionalProperties' => false,
         'properties' => {
           'compose' => { 'type' => 'string', 'minLength' => 1 },
@@ -115,8 +115,7 @@ class Captain::Routines::DslSchema
             'minItems' => 1,
             'uniqueItems' => true,
             'items' => { 'type' => 'string', 'minLength' => 1 }
-          },
-          'output' => { 'const' => 'rich_message' }
+          }
         }
       },
       'when_step' => {

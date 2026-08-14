@@ -67,8 +67,11 @@ class Captain::Routines::DslGeneratorService < Captain::BaseTaskService
       decision needs multiple inputs, such as recent messages and inbox availability.
 
       Use `compose` when the plan specifies the intent of a private note or reply but leaves its wording to Captain. A compose
-      step is pure: it creates a saved `rich_message` and never posts content or causes any other side effect. Give it the live
-      context needed to write the message, then pass its result by reference to the relevant action operation.
+      step is pure: it creates a saved `rich_message` and never posts content or causes any other side effect. The string value of
+      `compose` is the binding name for that result. Give the step live context, then pass its result to an action using that exact
+      binding in a reference. For example, `{ "compose": "draft_reply", ... }` is consumed as
+      `{ "content": { "ref": "draft_reply" } }`. Compose steps have no `output` property because their result type is always
+      `rich_message`.
       If the administrator supplied exact message text, use that literal content directly and do not use `compose`.
 
       Mentions in generated content must be typed. Resolve named people with an available query, use live conversation context
