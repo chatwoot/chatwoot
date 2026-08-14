@@ -7,6 +7,7 @@ import MacroForm from './MacroForm.vue';
 import { MACRO_ACTION_TYPES } from './constants';
 import { useAlert } from 'dashboard/composables';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
+import { getActionIcon } from 'dashboard/helper/automationHelper';
 import { useMacros } from 'dashboard/composables/useMacros';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 
@@ -28,6 +29,7 @@ const macroActionTypes = computed(() => {
   return MACRO_ACTION_TYPES.map(type => ({
     ...type,
     label: t(`MACROS.ACTIONS.${type.label}`),
+    icon: getActionIcon(type.key),
   }));
 });
 

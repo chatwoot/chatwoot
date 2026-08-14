@@ -156,6 +156,7 @@ describe('useMacros', () => {
     const expectedLabels = mockLabels.map(i => ({
       id: i.title,
       name: i.title,
+      color: i.color,
     }));
     expect(getMacroDropdownValues('add_label')).toEqual(expectedLabels);
     expect(getMacroDropdownValues('remove_label')).toEqual(expectedLabels);
