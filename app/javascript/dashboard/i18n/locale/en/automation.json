@@ -152,6 +152,7 @@
         "INBOX_LABEL": "WhatsApp inbox",
         "INBOX_PLACEHOLDER": "Select a WhatsApp inbox",
         "INBOX_EMPTY": "No WhatsApp inboxes in this account",
+        "INBOX_HINT": "This template is sent only if the conversation is on the WhatsApp inbox selected above. On other inboxes or channels the template is skipped; any other actions in this rule still run.",
         "TEMPLATE_LABEL": "Template",
         "TEMPLATE_PLACEHOLDER": "Select a template",
         "TEMPLATE_DISABLED": "Select an inbox first",

@@ -148,6 +148,16 @@
       "CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_NOW": "Fecha y hora dinámica: ahora",
       "CUSTOM_ATTRIBUTE_DATETIME_DYNAMIC_HELP": "Se resuelve cuando corre la automatización o macro. Usa ahora, ahora más N días, o variables como {{ contact.custom_attribute.foo }}.",
       "VARIABLES_HINT": "Usa el botón de variables para insertar nombre del contacto, atributos personalizados o fechas",
+      "WHATSAPP_TEMPLATE": {
+        "INBOX_LABEL": "Inbox de WhatsApp",
+        "INBOX_PLACEHOLDER": "Selecciona un inbox de WhatsApp",
+        "INBOX_EMPTY": "No hay inboxes de WhatsApp en esta cuenta",
+        "INBOX_HINT": "Esta plantilla solo se envía si la conversación está en el inbox de WhatsApp seleccionado arriba. En otros inboxes o canales se omite; el resto de acciones de esta regla sí se ejecutan.",
+        "TEMPLATE_LABEL": "Plantilla",
+        "TEMPLATE_PLACEHOLDER": "Selecciona una plantilla",
+        "TEMPLATE_DISABLED": "Primero selecciona un inbox",
+        "VARIABLES_HINT": "Usa variables Liquid como contact.name en los campos de la plantilla."
+      },
       "DELAY_SECONDS_LABEL": "Espera (segundos)",
       "MARK_READ_TYPING_LABEL": "Marcar como leído y mostrar escribiendo",
       "DELIVERY_HINT": "Leído/escribiendo solo en WhatsApp. Requiere espera de 1–25 s. En otros canales solo aplica la espera."
@@ -206,6 +216,7 @@
       "SEND_WEBHOOK_EVENT": "Enviar Evento de Webhook",
       "SEND_ATTACHMENT": "Enviar archivo adjunto",
       "SEND_MESSAGE": "Enviar mensaje",
+      "SEND_WHATSAPP_TEMPLATE": "Enviar plantilla de WhatsApp",
       "ADD_PRIVATE_NOTE": "Añadir una nota privada",
       "CHANGE_PRIORITY": "Cambiar prioridad",
       "UPDATE_CONTACT_CUSTOM_ATTRIBUTE": "Actualizar atributo personalizado del contacto",

@@ -574,6 +574,11 @@ es:
     activity_actor: 'automatización «%{name}»'
     audit_note: 'Automatización «%{name}» ejecutada.'
     message_skipped_messaging_window: 'Automatización «%{name}» no envió mensaje al cliente (ventana de mensajería cerrada).'
+    template_skipped:
+      not_whatsapp: 'Automatización «%{name}» no envió una plantilla de WhatsApp (la conversación no está en WhatsApp).'
+      wrong_inbox: 'Automatización «%{name}» no envió una plantilla de WhatsApp (el inbox de la conversación no coincide).'
+      template_missing: 'Automatización «%{name}» no envió una plantilla de WhatsApp (plantilla ausente o no aprobada en este inbox).'
+      blank_liquid: 'Automatización «%{name}» no envió una plantilla de WhatsApp (una variable de la plantilla quedó vacía).'
   business_rules:
     lint_failed: 'Las reglas de negocio no pasaron validación. Corrige o desactiva las reglas inválidas activas.'
   crm:

@@ -231,6 +231,9 @@ watch(
       <p v-else class="mb-0 text-xs text-n-slate-11">
         {{ t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.INBOX_EMPTY') }}
       </p>
+      <p class="mb-0 text-xs text-n-slate-11">
+        {{ t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.INBOX_HINT') }}
+      </p>
     </div>
     <div class="flex flex-col gap-1">
       <label class="mb-0 text-xs font-medium text-n-slate-12">
