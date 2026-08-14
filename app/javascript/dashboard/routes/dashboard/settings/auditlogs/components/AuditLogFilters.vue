@@ -174,8 +174,15 @@ watch(
   { immediate: true }
 );
 
+// remounting drops edits the user never applied
+const pickerKey = ref(0);
+
 const onPickerClickaway = () => {
-  if (!hasDateFilter.value) showPicker.value = false;
+  if (hasDateFilter.value) {
+    pickerKey.value += 1;
+    return;
+  }
+  showPicker.value = false;
 };
 
 const clearDateFilter = () => {
@@ -261,6 +268,7 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
       class="flex items-center gap-2"
     >
       <WootDatePicker
+        :key="pickerKey"
         v-model:date-range="pickerDateRange"
         v-model:range-type="pickerRangeType"
         :default-open="!hasDateFilter"

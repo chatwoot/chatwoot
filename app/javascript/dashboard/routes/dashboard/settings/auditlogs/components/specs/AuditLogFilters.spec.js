@@ -9,14 +9,22 @@ vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
 }));
 
-const mountComponent = (filters = {}) =>
-  shallowMount(AuditLogFilters, {
+let clickawayHandlers = [];
+
+const mountComponent = (filters = {}) => {
+  clickawayHandlers = [];
+  return shallowMount(AuditLogFilters, {
     props: { filters },
     global: {
       mocks: { $t: key => key },
-      directives: { 'on-clickaway': {} },
+      directives: {
+        'on-clickaway': {
+          mounted: (el, binding) => clickawayHandlers.push(binding.value),
+        },
+      },
     },
   });
+};
 
 describe('AuditLogFilters', () => {
   beforeEach(() => {
@@ -127,6 +135,17 @@ describe('AuditLogFilters', () => {
     expect(wrapper.findComponent(WootDatePicker).props('rangeType')).toBe(
       'last30days'
     );
+  });
+
+  it('discards unapplied picker edits when dismissed', async () => {
+    const wrapper = mountComponent({ since: 100, until: 200 });
+    const before = wrapper.findComponent(WootDatePicker).vm;
+
+    clickawayHandlers.forEach(handler => handler());
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('update')).toBeUndefined();
+    expect(wrapper.findComponent(WootDatePicker).vm).not.toBe(before);
   });
 
   it('widens a picked range to whole days', async () => {
