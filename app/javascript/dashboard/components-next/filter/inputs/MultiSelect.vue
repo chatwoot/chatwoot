@@ -131,6 +131,11 @@ const toggleOption = option => {
             :color="item.iconColor"
             class="flex-shrink-0 size-4"
           />
+          <span
+            v-if="item.color"
+            class="flex-shrink-0 rounded-full size-1.5"
+            :style="{ backgroundColor: item.color }"
+          />
           <span class="truncate">{{ item.name }}</span>
         </div>
         <div
@@ -172,11 +177,17 @@ const toggleOption = option => {
             preserve-open
             @click="toggleOption(option)"
           >
-            <template v-if="option.emoji" #icon>
+            <template v-if="option.emoji || option.color" #icon>
               <EmojiIcon
+                v-if="option.emoji"
                 :value="option.emoji"
                 :color="option.iconColor"
                 class="flex-shrink-0 size-4"
+              />
+              <span
+                v-else
+                class="flex-shrink-0 rounded-full size-1.5"
+                :style="{ backgroundColor: option.color }"
               />
             </template>
             <template #label>
