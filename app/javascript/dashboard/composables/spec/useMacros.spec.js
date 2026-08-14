@@ -4,7 +4,6 @@ import { useStoreGetters } from 'dashboard/composables/store';
 import { PRIORITY_CONDITION_VALUES } from 'dashboard/constants/automation';
 
 vi.mock('dashboard/composables/store');
-vi.mock('dashboard/helper/automationHelper.js');
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
 }));
@@ -58,6 +57,8 @@ describe('useMacros', () => {
     {
       id: 1,
       name: '⚙️ sales team',
+      icon: 'chat-1-line',
+      icon_color: '#64748B',
       description: 'This is our internal sales team',
       allow_auto_assign: true,
       account_id: 1,
@@ -80,6 +81,12 @@ describe('useMacros', () => {
       is_member: true,
     },
   ];
+  const mockTeamOptions = mockTeams.map(team => ({
+    id: team.id,
+    name: team.name,
+    emoji: team.icon,
+    iconColor: team.icon_color,
+  }));
   const mockAgents = [
     {
       id: 1,
@@ -126,15 +133,14 @@ describe('useMacros', () => {
     ); // +2 for "None" and "Self"
   });
 
-  it('returns teams with "None" option for assign_team and teams only for send_email_to_team', () => {
+  it('returns teams with "None" option for assign_team', () => {
     const { getMacroDropdownValues } = useMacros();
     const assignTeamResult = getMacroDropdownValues('assign_team');
     expect(assignTeamResult[0]).toEqual({
       id: 'nil',
       name: 'AUTOMATION.NONE_OPTION',
     });
-    expect(assignTeamResult.slice(1)).toEqual(mockTeams);
-    expect(getMacroDropdownValues('send_email_to_team')).toEqual(mockTeams);
+    expect(assignTeamResult.slice(1)).toEqual(mockTeamOptions);
   });
 
   it('returns agents with "None" and "Self" options for assign_agent type', () => {
@@ -150,6 +156,7 @@ describe('useMacros', () => {
     const expectedLabels = mockLabels.map(i => ({
       id: i.title,
       name: i.title,
+      color: i.color,
     }));
     expect(getMacroDropdownValues('add_label')).toEqual(expectedLabels);
     expect(getMacroDropdownValues('remove_label')).toEqual(expectedLabels);
@@ -167,6 +174,49 @@ describe('useMacros', () => {
   it('returns an empty array for unknown types', () => {
     const { getMacroDropdownValues } = useMacros();
     expect(getMacroDropdownValues('unknown_type')).toEqual([]);
+  });
+
+  it('resolves macro actions into name and value pairs', () => {
+    const { resolveMacroActions } = useMacros();
+    const macro = {
+      actions: [
+        { action_name: 'assign_team', action_params: [1, 'nil'] },
+        { action_name: 'assign_agent', action_params: [9] },
+        { action_name: 'add_label', action_params: ['sales', 'billing'] },
+        { action_name: 'change_priority', action_params: ['high'] },
+        { action_name: 'send_attachment', action_params: ['blob-1'] },
+        { action_name: 'send_message', action_params: ['Hello there'] },
+        { action_name: 'resolve_conversation', action_params: [] },
+      ],
+      files: [{ blob_id: 'blob-1', filename: 'invoice.pdf' }],
+    };
+
+    expect(resolveMacroActions(macro)).toEqual([
+      {
+        actionName: 'ASSIGN_TEAM',
+        actionValue: '⚙️ sales team, AUTOMATION.NONE_OPTION',
+      },
+      { actionName: 'ASSIGN_AGENT', actionValue: 'Clark Kent' },
+      { actionName: 'ADD_LABEL', actionValue: 'sales, billing' },
+      {
+        actionName: 'CHANGE_PRIORITY',
+        actionValue: 'MACROS.PRIORITY_TYPES.HIGH',
+      },
+      { actionName: 'SEND_ATTACHMENT', actionValue: 'invoice.pdf' },
+      { actionName: 'SEND_MESSAGE', actionValue: 'Hello there' },
+      { actionName: 'RESOLVE_CONVERSATION', actionValue: '' },
+    ]);
+  });
+
+  it('resolves actions the macro builder does not offer', () => {
+    const { resolveMacroActions } = useMacros();
+    const macro = {
+      actions: [{ action_name: 'change_status', action_params: ['resolved'] }],
+    };
+
+    expect(resolveMacroActions(macro)).toEqual([
+      { actionName: 'CHANGE_STATUS', actionValue: 'resolved' },
+    ]);
   });
 
   it('handles empty data correctly', () => {

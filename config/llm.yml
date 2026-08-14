@@ -69,6 +69,10 @@ models:
     credit_multiplier: 1
 
 features:
+  conversation_completion:
+    models: [gpt-4.1]
+    default: gpt-4.1
+    internal: true
   editor:
     models:
       [

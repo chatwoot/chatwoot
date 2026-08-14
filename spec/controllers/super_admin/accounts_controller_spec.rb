@@ -57,6 +57,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         Llm::Models.feature_keys.each do |feature_key|
           expect(response.body).to include("account[captain_models][#{feature_key}]")
         end
+        expect(response.body).not_to include('account[captain_models][conversation_completion]')
 
         document = Nokogiri::HTML(response.body)
         editor_select = document.at_css('select[name="account[captain_models][editor]"]')
@@ -153,7 +154,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'shows the list of accounts' do
-        expect(account.cache_keys.keys).to contain_exactly(:inbox, :label, :team)
+        expect(account.cache_keys.keys).to contain_exactly(:inbox, :label, :team, :canned_response)
         sign_in(super_admin, scope: :super_admin)
 
         now_timestamp = Time.now.utc.to_i
