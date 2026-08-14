@@ -184,7 +184,10 @@ const clearDateFilter = () => {
 
 const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
   if (rangeType) pickerRangeType.value = rangeType;
-  emit('update', { since: toEpoch(startDate), until: toEpoch(endDate) });
+  emit('update', {
+    since: toEpoch(startOfDay(startDate)),
+    until: toEpoch(endOfDay(endDate)),
+  });
 };
 </script>
 

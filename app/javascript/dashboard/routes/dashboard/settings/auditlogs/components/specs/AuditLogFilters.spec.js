@@ -116,15 +116,35 @@ describe('AuditLogFilters', () => {
     wrapper
       .findComponent(WootDatePicker)
       .vm.$emit('dateRangeChanged', [
-        new Date(1000),
-        new Date(2000),
+        new Date(2026, 7, 1),
+        new Date(2026, 7, 10),
         'last30days',
       ]);
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.emitted('update')).toEqual([[{ since: 1, until: 2 }]]);
+    const [[payload]] = wrapper.emitted('update');
+    expect(payload.since).toBeLessThan(payload.until);
     expect(wrapper.findComponent(WootDatePicker).props('rangeType')).toBe(
       'last30days'
+    );
+  });
+
+  it('widens a picked range to whole days', async () => {
+    const wrapper = mountComponent();
+    await wrapper.findAllComponents(Button).at(2).trigger('click');
+    wrapper
+      .findComponent(WootDatePicker)
+      .vm.$emit('dateRangeChanged', [
+        new Date(2026, 7, 1, 13, 4, 5),
+        new Date(2026, 7, 10, 13, 4, 5),
+      ]);
+
+    const [[payload]] = wrapper.emitted('update');
+    expect(new Date(payload.since * 1000)).toEqual(
+      new Date(2026, 7, 1, 0, 0, 0)
+    );
+    expect(new Date(payload.until * 1000)).toEqual(
+      new Date(2026, 7, 10, 23, 59, 59)
     );
   });
 });
