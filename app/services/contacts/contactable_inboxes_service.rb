@@ -16,6 +16,8 @@ class Contacts::ContactableInboxesService
       whatsapp_contactable_inbox(inbox)
     when 'Channel::Sms'
       sms_contactable_inbox(inbox)
+    when 'Channel::Plivo'
+      plivo_contactable_inbox(inbox)
     when 'Channel::Email'
       email_contactable_inbox(inbox)
     when 'Channel::Api'
@@ -55,6 +57,12 @@ class Contacts::ContactableInboxesService
   end
 
   def sms_contactable_inbox(inbox)
+    return if @contact.phone_number.blank?
+
+    { source_id: @contact.phone_number, inbox: inbox }
+  end
+
+  def plivo_contactable_inbox(inbox)
     return if @contact.phone_number.blank?
 
     { source_id: @contact.phone_number, inbox: inbox }

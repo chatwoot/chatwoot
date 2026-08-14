@@ -123,6 +123,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Sms'
   end
 
+  def plivo?
+    channel_type == 'Channel::Plivo'
+  end
+
   def facebook?
     channel_type == 'Channel::FacebookPage'
   end
@@ -192,6 +196,8 @@ class Inbox < ApplicationRecord
       "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/callback"
     when 'Channel::Sms'
       "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/sms/#{channel.phone_number.delete_prefix('+')}"
+    when 'Channel::Plivo'
+      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/plivo/#{channel.phone_number.delete_prefix('+')}"
     when 'Channel::Line'
       "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/line/#{channel.line_channel_id}"
     when 'Channel::Whatsapp'
