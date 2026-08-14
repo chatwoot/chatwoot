@@ -198,6 +198,7 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
           slate
           faded
           sm
+          class="w-48"
           @click="showEventMenu = !showEventMenu"
         />
         <DropdownMenu
@@ -208,6 +209,12 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
           @action="onEventTypeAction"
         />
       </div>
+      <SelectMenu
+        :model-value="activeSort"
+        :options="sortOptions"
+        :label="activeSortLabel"
+        @update:model-value="onSortChange"
+      />
       <div
         v-if="hasDateFilter || showPicker"
         v-on-clickaway="onPickerClickaway"
@@ -216,7 +223,6 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
         <WootDatePicker
           v-model:date-range="pickerDateRange"
           v-model:range-type="pickerRangeType"
-          align="right"
           :default-open="!hasDateFilter"
           @date-range-changed="onDateRangeChanged"
         />
@@ -238,12 +244,6 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
         faded
         sm
         @click="showPicker = true"
-      />
-      <SelectMenu
-        :model-value="activeSort"
-        :options="sortOptions"
-        :label="activeSortLabel"
-        @update:model-value="onSortChange"
       />
     </div>
   </div>

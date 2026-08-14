@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
   getActiveDateRange,
@@ -35,13 +35,6 @@ import CalendarWeek from './components/CalendarWeek.vue';
 import CalendarFooter from './components/CalendarFooter.vue';
 
 const props = defineProps({
-  // Anchors the calendar popup to the trigger's left or right edge. Use
-  // 'right' when the trigger sits close to the viewport's right side.
-  align: {
-    type: String,
-    default: 'left',
-    validator: value => ['left', 'right'].includes(value),
-  },
   // Render with the calendar popup already open. Lets a parent that shows
   // the picker on demand skip the second click on the trigger.
   defaultOpen: {
@@ -53,9 +46,23 @@ const props = defineProps({
 const emit = defineEmits(['dateRangeChanged']);
 const { t } = useI18n();
 
-const popupAlignmentClass = computed(() =>
-  props.align === 'right' ? 'ltr:right-0 rtl:left-0' : 'ltr:left-0 rtl:right-0'
-);
+const pickerWrapper = ref(null);
+const popupStyle = ref({ left: '0px' });
+const POPUP_WIDTH = 880;
+const VIEWPORT_MARGIN = 16;
+
+// The popup is wider than most triggers, so anchoring it to either edge can
+// push it off screen. Clamp it inside the viewport instead.
+const positionPopup = () => {
+  const rect = pickerWrapper.value?.getBoundingClientRect();
+  if (!rect) return;
+  let offset = Math.min(
+    0,
+    window.innerWidth - VIEWPORT_MARGIN - POPUP_WIDTH - rect.left
+  );
+  offset = Math.max(offset, VIEWPORT_MARGIN - rect.left);
+  popupStyle.value = { left: `${offset}px` };
+};
 
 const dateRange = defineModel('dateRange', {
   type: Array,
@@ -363,8 +370,15 @@ const initializeCalendarMonths = () => {
 
 const toggleDatePicker = () => {
   showDatePicker.value = !showDatePicker.value;
-  if (showDatePicker.value) initializeCalendarMonths();
+  if (showDatePicker.value) {
+    positionPopup();
+    initializeCalendarMonths();
+  }
 };
+
+onMounted(() => {
+  if (showDatePicker.value) positionPopup();
+});
 
 const closeDatePicker = () => {
   if (isValid(selectedStartDate.value) && isValid(selectedEndDate.value)) {
@@ -376,7 +390,7 @@ const closeDatePicker = () => {
 </script>
 
 <template>
-  <div class="relative flex-shrink-0 font-inter">
+  <div ref="pickerWrapper" class="relative flex-shrink-0 font-inter">
     <DatePickerButton
       :selected-start-date="selectedStartDate"
       :selected-end-date="selectedEndDate"
@@ -391,7 +405,7 @@ const closeDatePicker = () => {
       v-if="showDatePicker"
       v-on-clickaway="closeDatePicker"
       class="flex absolute top-9 z-30 shadow-md select-none w-[880px] rounded-2xl bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container"
-      :class="popupAlignmentClass"
+      :style="popupStyle"
     >
       <CalendarDateRange
         :selected-range="selectedRange"
