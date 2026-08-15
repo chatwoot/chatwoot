@@ -31,10 +31,19 @@ class SearchService
   end
 
   def filter_conversations
-    conversations_query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
-                                         .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
-                                         .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
-                            ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
+    # Filtering on contacts via a subquery instead of an OR across the joined tables
+    # lets postgres use the trigram index on contacts and skip the join entirely,
+    # since an OR spanning two tables forces a full scan of both.
+    base_query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
+    conversations_query = base_query.where(contact_id: matching_contact_ids)
+
+    # display_id is numeric, so a search term with non-digit characters can never match it
+    if search_query.match?(/\A\d+\z/)
+      conversations_query = conversations_query.or(
+        base_query.where.not(contact_id: nil)
+                  .where('CAST(conversations.display_id AS TEXT) ILIKE :search', search: "%#{search_query}%")
+      )
+    end
 
     if current_account.feature_enabled?('advanced_search')
       conversations_query = apply_time_filter(conversations_query,
@@ -44,6 +53,13 @@ class SearchService
     @conversations = conversations_query.order('conversations.created_at DESC')
                                         .page(params[:page])
                                         .per(15)
+  end
+
+  def matching_contact_ids
+    current_account.contacts.where(
+      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR identifier ILIKE :search',
+      search: "%#{search_query}%"
+    ).select(:id)
   end
 
   def filter_messages
