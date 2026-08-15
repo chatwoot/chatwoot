@@ -25,7 +25,7 @@ describe CsatSurveyService do
       it 'sends CSAT survey when within messaging window' do
         service.perform
 
-        expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: conversation)
+        expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: conversation, assigned_agent_id: nil)
         expect(csat_template).to have_received(:perform)
       end
     end
@@ -225,7 +225,7 @@ describe CsatSurveyService do
 
           whatsapp_service.perform
 
-          expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: whatsapp_conversation)
+          expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: whatsapp_conversation, assigned_agent_id: nil)
           expect(csat_template).to have_received(:perform)
         end
 
@@ -234,7 +234,7 @@ describe CsatSurveyService do
 
           whatsapp_service.perform
 
-          expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: whatsapp_conversation)
+          expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: whatsapp_conversation, assigned_agent_id: nil)
           expect(csat_template).to have_received(:perform)
         end
 
@@ -245,7 +245,7 @@ describe CsatSurveyService do
 
           whatsapp_service.perform
 
-          expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: whatsapp_conversation)
+          expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: whatsapp_conversation, assigned_agent_id: nil)
           expect(csat_template).to have_received(:perform)
         end
 
@@ -255,7 +255,7 @@ describe CsatSurveyService do
 
           whatsapp_service.perform
 
-          expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: whatsapp_conversation)
+          expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: whatsapp_conversation, assigned_agent_id: nil)
           expect(csat_template).to have_received(:perform)
         end
       end
@@ -264,7 +264,7 @@ describe CsatSurveyService do
         it 'falls back to regular survey' do
           whatsapp_service.perform
 
-          expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: whatsapp_conversation)
+          expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: whatsapp_conversation, assigned_agent_id: nil)
           expect(csat_template).to have_received(:perform)
         end
       end

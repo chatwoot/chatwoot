@@ -4,7 +4,10 @@ class CsatSurveyListener < BaseListener
 
     return unless conversation.resolved?
 
-    CsatSurveyService.new(conversation: conversation).perform
+    # The event carries the assignee as it was when the status change was
+    # dispatched - the conversation itself is reloaded here and may already
+    # have been unassigned by an automation running off the resolved event.
+    CsatSurveyService.new(conversation: conversation, assignee_id: event.data[:assignee_id]).perform
   end
 
   def message_updated(event)

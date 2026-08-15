@@ -1,5 +1,8 @@
 class MessageTemplates::Template::CsatSurvey
-  pattr_initialize [:conversation!]
+  # assigned_agent_id: who the eventual response should credit, captured by
+  # the caller while it was still known. Falls back to what the conversation
+  # itself can still tell us.
+  pattr_initialize [:conversation!, :assigned_agent_id]
 
   def perform
     ActiveRecord::Base.transaction do
@@ -34,7 +37,13 @@ class MessageTemplates::Template::CsatSurvey
 
   def content_attributes
     {
-      display_type: csat_config['display_type'] || 'emoji'
+      display_type: csat_config['display_type'] || 'emoji',
+      # Captured when the survey is sent, not when the contact answers it:
+      # by submission time an automation may long since have unassigned the
+      # conversation and the response would be recorded without an agent
+      # (#14872). See Conversation#csat_survey_agent_id for why the assignee
+      # alone is not enough even at this point.
+      assigned_agent_id: assigned_agent_id || @conversation.csat_survey_agent_id
     }
   end
 end

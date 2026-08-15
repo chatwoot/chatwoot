@@ -48,7 +48,18 @@ describe CsatSurveyListener do
       it 'triggers CSAT survey service' do
         event = Events::Base.new(event_name, Time.zone.now, conversation: resolved_conversation)
         expect(csat_service).to receive(:perform)
-        expect(CsatSurveyService).to receive(:new).with(conversation: resolved_conversation).and_return(csat_service)
+        expect(CsatSurveyService).to receive(:new).with(conversation: resolved_conversation, assignee_id: nil).and_return(csat_service)
+
+        listener.conversation_status_changed(event)
+      end
+
+      it 'passes the assignee captured at event dispatch to the service' do
+        # The event snapshot is authoritative: by the time this listener runs,
+        # an automation triggered by the resolved event may already have
+        # unassigned the reloaded conversation.
+        event = Events::Base.new(event_name, Time.zone.now, conversation: resolved_conversation, assignee_id: user.id)
+        expect(csat_service).to receive(:perform)
+        expect(CsatSurveyService).to receive(:new).with(conversation: resolved_conversation, assignee_id: user.id).and_return(csat_service)
 
         listener.conversation_status_changed(event)
       end
