@@ -93,9 +93,8 @@ create_external_widget_path() {
     "$external_base_url/conversations" > "$conversation_path"
   jq -e --arg content "$content" '
     (.id | type == "number") and
-    (.messages | type == "array" and length == 1) and
-    (.messages[0].id | type == "number") and
-    (.messages[0].content == $content) and
+    (.messages | type == "array") and
+    ([.messages[] | select(.message_type == 0 and .content == $content and (.id | type == "number"))] | length == 1) and
     (.contact | type == "object")
   ' "$conversation_path" >/dev/null || {
     printf 'External widget conversation response does not match the expected schema.\n' >&2
@@ -105,12 +104,14 @@ create_external_widget_path() {
   chmod 600 "$e2e_runtime/${kind}-auth-token" "$config_path" "$conversation_path"
 }
 
-create_external_widget_path handoff 'Ich möchte mit einem Menschen sprechen.'
-create_external_widget_path answer 'Wo beginnt die Produktionspfadprüfung?'
+handoff_content='Ich möchte mit einem Menschen sprechen.'
+answer_content='Wo beginnt die Produktionspfadprüfung?'
+create_external_widget_path handoff "$handoff_content"
+create_external_widget_path answer "$answer_content"
 conversation_display_id="$(jq -r '.id' "$e2e_runtime/handoff-conversation.json")"
-message_id="$(jq -r '.messages[0].id' "$e2e_runtime/handoff-conversation.json")"
+message_id="$(jq -r --arg content "$handoff_content" '.messages[] | select(.message_type == 0 and .content == $content) | .id' "$e2e_runtime/handoff-conversation.json")"
 answer_conversation_display_id="$(jq -r '.id' "$e2e_runtime/answer-conversation.json")"
-answer_message_id="$(jq -r '.messages[0].id' "$e2e_runtime/answer-conversation.json")"
+answer_message_id="$(jq -r --arg content "$answer_content" '.messages[] | select(.message_type == 0 and .content == $content) | .id' "$e2e_runtime/answer-conversation.json")"
 conversation_id="$("${compose[@]}" exec -T -e E2E_ACCOUNT_ID="$account_id" -e E2E_DISPLAY_ID="$conversation_display_id" rails bundle exec rails runner '
   print Conversation.find_by!(account_id: Integer(ENV.fetch("E2E_ACCOUNT_ID")), display_id: Integer(ENV.fetch("E2E_DISPLAY_ID"))).id
 ')"
