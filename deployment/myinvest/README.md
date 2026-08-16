@@ -52,12 +52,45 @@ The initial password exists only in `.env` as `ADMIN_PASSWORD`. Log in as `ADMIN
 
 Configure channels inside the matching account, never in the shared installation context:
 
-1. Create a Meta WhatsApp Cloud inbox for `MyInvest Pro` and attach the SaaS support number.
+1. Create a Meta WhatsApp Cloud inbox for `MyInvest Pro` and attach the SaaS product support number.
 2. Create a separate inbox for `Academy Neu` and its number/routing.
 3. Keep legacy contacts, templates, and the old number in `Academy Alt`.
 4. Assign agents and teams separately in each account; verify with one inbound and one outbound template message per number.
 
+### WhatsApp cutover for `legacy_academy`
+
+Use the cutover wrapper only after the legacy HubSpot channel has been de-activated; the wrapper reads the HubSpot Conversations API and refuses to proceed while the configured channel account is still active or authorized. Set the Meta phone number, phone number ID, WABA ID, access token, app secret, and HubSpot credentials in `.env`, then run with the exact confirmation:
+
+```bash
+CUTOVER_CONFIRMATION='cutover-whatsapp:legacy_academy:+491234567890' \
+  ./scripts/cutover-whatsapp.rb
+```
+
+The wrapper validates the confirmation, paginates HubSpot `conversations/v3/conversations/channel-accounts`, and refuses to proceed unless every returned account is inactive and unauthorized. It then invokes a Rails provisioner that:
+
+- creates or reuses the `legacy_academy` WhatsApp inbox keyed by phone number;
+- fails closed on cross-account or mismatched WABA/phone-ID conflicts;
+- sets the `whatsapp_cloud` provider config including `app_secret`;
+- runs `Whatsapp::WebhookSetupService` and propagates any failure;
+- verifies Meta health: exact phone, WABA, business portfolio, `CONNECTED`/`VERIFIED`/`CLOUD_API`, non-risky quality rating, and webhook callback;
+- attaches the tenant's `MyInvest Claude Support` AgentBot only after health passes;
+- assigns an existing account administrator to the inbox;
+- never prints secrets or places them on argv.
+
+Re-runs are safe: a matching existing channel is reused and the same verification steps are applied. If health verification fails, fix the Meta-side configuration and rerun with the same confirmation; the AgentBot is attached only on a passing health check.
+
 Meta/WABA tokens belong in Chatwoot's channel settings, never in this repository or custom attributes. They are protected by the database/storage boundary and the encrypted recovery snapshot. A single installation provides application-level tenant separation. Use separate stacks/databases if a contractual or regulatory requirement demands physical isolation.
+
+### Google Workspace email prerequisites
+
+Native Google OAuth email channels require a dedicated shared mailbox per semantic tenant. Personal mailbox ingestion is forbidden because it would break tenant boundaries and expose private correspondence to the review/quarantine knowledge model. Configure OAuth once at installation scope:
+
+```dotenv
+GOOGLE_OAUTH_CLIENT_ID=...
+GOOGLE_OAUTH_CLIENT_SECRET=...
+```
+
+`GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_CLIENT_SECRET` are optional but paired: `validate.sh` fails closed if exactly one is set. They are passed only to `rails` and `sidekiq`; the validator rejects any other service receiving `GOOGLE_OAUTH_CLIENT_SECRET`. Chatwoot builds the Google callback from `FRONTEND_URL`; do not set a separate callback env. Each tenant inbox must connect to its own shared mailbox address; never reuse or forward a personal inbox into a tenant channel.
 
 ## Claude agent handoff
 

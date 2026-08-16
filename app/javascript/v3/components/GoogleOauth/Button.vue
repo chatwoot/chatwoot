@@ -8,7 +8,8 @@ export default {
       // https://github.com/lynndylanhurley/devise_token_auth/issues/1466
       const baseUrl = 'https://accounts.google.com/o/oauth2/auth';
       const clientId = window.chatwootConfig.googleOAuthClientId;
-      const redirectUri = window.chatwootConfig.googleOAuthCallbackUrl;
+      const redirectUri =
+        window.chatwootConfig.googleOAuthCallbackUrl || `${window.chatwootConfig.hostURL}/google/callback`;
       const responseType = 'code';
       const scope = 'email profile';
 

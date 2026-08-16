@@ -53,6 +53,8 @@ x-chatwoot: &chatwoot
     LOGRAGE_ENABLED: ${LOGRAGE_ENABLED:-true}
     INSTALLATION_NAME: ${INSTALLATION_NAME:-MyInvest Support}
     BRAND_NAME: ${BRAND_NAME:-MyInvest}
+    GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID:-}
+    GOOGLE_OAUTH_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET:-}
   volumes:
     - chatwoot_storage:/app/storage
     - ./bootstrap:/bootstrap:ro
@@ -272,6 +274,7 @@ services:
       - "${BIND_ADDRESS:-0.0.0.0}:${HTTPS_PORT:-443}:443/udp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./brand:/srv/brand:ro
       - caddy_data:/data
       - caddy_config:/config
     networks:
