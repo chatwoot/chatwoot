@@ -24,6 +24,8 @@ ${EDITOR:-vi} .env
 
 `setup-env.sh` is idempotent and never prints generated values. Before `prepare.sh`, set SMTP and the selected Claude provider credentials in `.env`. Keep signup disabled. The default is an EU Bedrock inference profile; direct Anthropic additionally requires a completed processing-region/DPA review and `ALLOW_DIRECT_ANTHROPIC=true`. `prepare.sh` runs Chatwoot's database preparation/migrations and therefore needs the explicit human production-migration approval required by the operating policy.
 
+The generated `IMPORT_ID_HMAC_KEY` is a separate, durable key for pseudonymous source mappings during historical imports. It is included only in encrypted recovery metadata and is never passed to the running Chatwoot or Claude services.
+
 For a local proof stack, set `LOCAL_SMOKE=true`, `BIND_ADDRESS=127.0.0.1`, and use localhost Caddy overrides, then run `scripts/e2e.sh`. It creates synthetic local records only and proves signed delivery, durable handoff, duplicate suppression, and cross-account rejection; it refuses to run in production mode.
 
 The initial password exists only in `.env` as `ADMIN_PASSWORD`. Log in as `ADMIN_EMAIL`, change that password immediately, enable MFA, then remove `ADMIN_PASSWORD` from `.env` after bootstrap. Re-running bootstrap does not change an existing user's password or duplicate accounts/memberships.
@@ -69,6 +71,26 @@ RESTORE_CONFIRMATION=restore:20260816T023000Z \
 ```
 
 ## Operations
+
+### Historical support chats
+
+Historical chat bundles are tenant-bound and explicitly excluded from the Claude knowledge base. The Academy website exporter accepts its Neon connection only through the process environment and writes a mode-`0700` bundle with mode-`0600` files:
+
+```bash
+SOURCE_DATABASE_URL='postgresql://…' ./scripts/export-neon-support-history.sh /secure/path/academy-history
+```
+
+The export is fixed to `new_academy`; it refuses other channels, unknown roles, empty messages, existing output directories, and any knowledge import. Delete the restricted raw bundle after the idempotent Chatwoot import has been verified.
+
+After a verified backup, validate and import a bundle with its exact tenant/source confirmation. Local smoke stacks prefix the value with `local-`:
+
+```bash
+CHAT_IMPORT_BACKUP_CONFIRMED=true \
+CHAT_IMPORT_CONFIRMATION='import:new_academy:neon_academy_website_support' \
+  ./scripts/import-chat-history.sh /secure/path/academy-history
+```
+
+The wrapper runs the importer twice, requires the second pass to create no records, verifies the tenant ledger and bot-free inbox, and asserts that the Claude knowledge-document count remains unchanged.
 
 Useful read-only checks:
 

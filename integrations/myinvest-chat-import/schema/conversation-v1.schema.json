@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://myinvest-pro.de/schemas/chat-import/conversation-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["external_id", "contact_external_id", "status", "created_at", "updated_at"],
+  "properties": {
+    "external_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "contact_external_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "status": { "const": "resolved" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

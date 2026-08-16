@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://myinvest-pro.de/schemas/chat-import/manifest-v1.schema.json",
+  "title": "MyInvest Chat History Import Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_namespace", "export_id", "tenant_key", "created_at", "knowledge_import", "files"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "source_namespace": { "$ref": "#/$defs/stableId" },
+    "export_id": { "$ref": "#/$defs/stableId" },
+    "tenant_key": { "enum": ["saas", "new_academy", "legacy_academy"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "knowledge_import": { "const": false },
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contacts", "conversations", "messages"],
+      "properties": {
+        "contacts": { "$ref": "#/$defs/file", "properties": { "path": { "const": "contacts.ndjson" } } },
+        "conversations": { "$ref": "#/$defs/file", "properties": { "path": { "const": "conversations.ndjson" } } },
+        "messages": { "$ref": "#/$defs/file", "properties": { "path": { "const": "messages.ndjson" } } }
+      }
+    }
+  },
+  "$defs": {
+    "stableId": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "count"],
+      "properties": {
+        "path": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "count": { "type": "integer", "minimum": 0, "maximum": 10000000 }
+      }
+    }
+  }
+}

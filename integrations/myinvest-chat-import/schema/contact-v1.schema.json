@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://myinvest-pro.de/schemas/chat-import/contact-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["external_id", "name", "created_at", "updated_at"],
+  "properties": {
+    "external_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "name": { "type": "string", "maxLength": 255 },
+    "email": { "type": "string", "format": "email", "maxLength": 320 },
+    "phone_number": { "type": "string", "pattern": "^\\+[1-9][0-9]{1,14}$" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" }
+  }
+}

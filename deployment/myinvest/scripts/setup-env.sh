@@ -5,19 +5,31 @@ deployment_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 template_path="$deployment_dir/.env.example"
 env_path="${1:-$deployment_dir/.env}"
 
+command -v openssl >/dev/null 2>&1 || {
+  printf 'openssl is required\n' >&2
+  exit 1
+}
+
 if [[ -e "$env_path" ]]; then
   if grep -q '__GENERATE' "$env_path"; then
     printf 'Refusing to use incomplete environment file: %s\n' "$env_path" >&2
     exit 1
   fi
+  if ! grep -q '^IMPORT_ID_HMAC_KEY=' "$env_path"; then
+    umask 077
+    temporary_path="${env_path}.tmp.$$"
+    trap 'rm -f -- "$temporary_path"' EXIT
+    cp "$env_path" "$temporary_path"
+    printf 'IMPORT_ID_HMAC_KEY=%s\n' "$(openssl rand -hex 32)" >> "$temporary_path"
+    mv "$temporary_path" "$env_path"
+    chmod 600 "$env_path"
+    trap - EXIT
+    printf 'Added the missing import identity key without printing it: %s\n' "$env_path"
+    exit 0
+  fi
   printf 'Environment already exists; left unchanged: %s\n' "$env_path"
   exit 0
 fi
-
-command -v openssl >/dev/null 2>&1 || {
-  printf 'openssl is required\n' >&2
-  exit 1
-}
 
 umask 077
 secret_key_base="$(openssl rand -hex 64)"
@@ -29,11 +41,13 @@ postgres_password="$(openssl rand -hex 32)"
 redis_password="$(openssl rand -hex 32)"
 claude_database_password="$(openssl rand -hex 32)"
 admin_password="Mw-$(openssl rand -hex 18)!A7"
+import_id_hmac_key="$(openssl rand -hex 32)"
 temporary_path="${env_path}.tmp.$$"
 trap 'rm -f -- "$temporary_path"' EXIT
 
 while IFS= read -r line || [[ -n "$line" ]]; do
   case "$line" in
+    IMPORT_ID_HMAC_KEY=__GENERATE_IMPORT_ID_HMAC_KEY__) line="IMPORT_ID_HMAC_KEY=$import_id_hmac_key" ;;
     SECRET_KEY_BASE=__GENERATE__) line="SECRET_KEY_BASE=$secret_key_base" ;;
     ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=__GENERATE__) line="ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=$encryption_primary" ;;
     ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=__GENERATE__) line="ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=$encryption_deterministic" ;;
