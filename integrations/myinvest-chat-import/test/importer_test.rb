@@ -274,6 +274,26 @@ class MyinvestChatImportTest < Minitest::Test
     end
   end
 
+  def test_rejects_oversized_record_file_before_reading
+    with_bundle do |path|
+      records_path = File.join(path, 'contacts.ndjson')
+      File.open(records_path, 'wb') do |file|
+        chunk = 'x' * 1_048_576
+        1024.times { file.write(chunk) }
+        file.write('x')
+      end
+
+      manifest_path = File.join(path, 'manifest.json')
+      manifest = JSON.parse(File.read(manifest_path))
+      manifest['files']['contacts']['sha256'] = Digest::SHA256.file(records_path).hexdigest
+      manifest['files']['contacts']['count'] = 1
+      File.write(manifest_path, JSON.generate(manifest))
+
+      error = assert_raises(MyinvestChatImport::ValidationError) { MyinvestChatImport::Bundle.load(path) }
+      assert_equal 'file_too_large', error.code
+    end
+  end
+
   private
 
   def import(path, adapter)

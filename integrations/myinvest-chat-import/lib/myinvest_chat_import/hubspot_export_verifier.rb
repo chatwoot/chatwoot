@@ -12,16 +12,10 @@ module MyinvestChatImport
     end
 
     def call
-      verify!
-    end
-
-    def verify!
       bundle = Bundle.load(@path)
       raise ValidationError, 'unsupported_schema_version' unless bundle.schema_version == 2
-      raise KnowledgeSeparationError unless bundle_knowledge_import_false?(bundle)
 
       archive = bundle.load_archive_manifest!
-      raise KnowledgeSeparationError unless archive.fetch('manifest').fetch('knowledge_import') == false
 
       source_events = archive.fetch('source_events')
       selected_events = source_events.select { |event| SUPPORTED_EVENT_TYPES.include?(event['type']) }
@@ -51,8 +45,8 @@ module MyinvestChatImport
         'skipped_events' => source_events.length - selected_events.length,
         'source_subset_equal' => true,
         'attachment_archive_closed' => true,
-        'manifest_digest_match' => true,
-        'archive_manifest_digest_match' => true,
+        'import_files_digest_match' => true,
+        'archive_files_digest_match' => true,
         'event_identity_match' => true,
         'content_mapping_match' => true,
         'attachment_closure_match' => true,
@@ -61,11 +55,6 @@ module MyinvestChatImport
     end
 
     private
-
-    def bundle_knowledge_import_false?(bundle)
-      manifest = JSON.parse(File.binread(File.join(File.realpath(@path), 'manifest.json')))
-      manifest.fetch('knowledge_import') == false && bundle.schema_version == 2
-    end
 
     def source_identity(event)
       event.fetch('id').to_s

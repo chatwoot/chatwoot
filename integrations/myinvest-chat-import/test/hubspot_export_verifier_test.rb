@@ -102,6 +102,8 @@ class HubspotExportVerifierTest < Minitest::Test
       assert_equal 1, receipt.fetch('skipped_events')
       assert_equal true, receipt.fetch('source_subset_equal')
       assert_equal true, receipt.fetch('attachment_archive_closed')
+      assert_equal true, receipt.fetch('import_files_digest_match')
+      assert_equal true, receipt.fetch('archive_files_digest_match')
       refute_includes receipt.keys, 'content'
       refute_includes receipt.keys, 'email'
       refute_includes receipt.keys, 'name'
