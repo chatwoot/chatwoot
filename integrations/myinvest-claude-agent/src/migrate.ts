@@ -1,14 +1,13 @@
-import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import pg from 'pg';
+import { runMigrations } from './migrations.js';
 
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) throw new Error('DATABASE_URL is required');
 const pool = new pg.Pool({ connectionString: databaseUrl });
 try {
-  const sql = await readFile(resolve('migrations/001_knowledge.sql'), 'utf8');
-  await pool.query(sql);
-  console.log('Knowledge schema is ready');
+  const applied = await runMigrations(pool, resolve('migrations'));
+  console.log(JSON.stringify({ event: 'agent_schema_ready', migrations_applied: applied.length }));
 } finally {
   await pool.end();
 }

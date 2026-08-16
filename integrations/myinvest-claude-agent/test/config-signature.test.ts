@@ -1,6 +1,11 @@
 import { createHmac } from 'node:crypto'
 import { describe, expect, it } from 'vitest'
-import { buildTenantRegistry, loadConfig, parseTenantConfig } from '../src/config.js'
+import {
+  buildTenantRegistry,
+  loadConfig,
+  parseTenantConfig,
+  validateLocalLlmBaseUrl,
+} from '../src/config.js'
 import { verifyChatwootSignature } from '../src/webhook/signature.js'
 import { tenants } from './fixtures.js'
 
@@ -27,6 +32,62 @@ describe('tenant configuration', () => {
     expect(loadConfig({ ...environment, LOCAL_SMOKE: 'true' }).LOCAL_FAKE_CLAUDE_ANSWER).toBe(
       'local only',
     )
+  })
+
+  it('normalizes compose-provided empty optional local fields for non-local providers', () => {
+    const config = loadConfig({
+      DATABASE_URL: 'postgresql://example.invalid/agent',
+      REDIS_URL: 'redis://example.invalid/1',
+      CHATWOOT_BASE_URL: 'https://support.example.invalid',
+      TENANTS_JSON: JSON.stringify(tenants),
+      ANTHROPIC_PROVIDER: 'bedrock',
+      LOCAL_LLM_BASE_URL: '',
+      LOCAL_LLM_MODEL: '',
+      LOCAL_LLM_ALLOWED_HOSTS: '',
+      LOCAL_LLM_API_KEY: '',
+    })
+    expect(config.LOCAL_LLM_BASE_URL).toBeUndefined()
+    expect(config.LOCAL_LLM_MODEL).toBeUndefined()
+    expect(config.LOCAL_LLM_ALLOWED_HOSTS).toBeUndefined()
+    expect(config.LOCAL_LLM_API_KEY).toBeUndefined()
+    expect(() => loadConfig({
+      ...{
+        DATABASE_URL: 'postgresql://example.invalid/agent',
+        REDIS_URL: 'redis://example.invalid/1',
+        CHATWOOT_BASE_URL: 'https://support.example.invalid',
+        TENANTS_JSON: JSON.stringify(tenants),
+      },
+      ANTHROPIC_PROVIDER: 'local',
+      LOCAL_LLM_BASE_URL: '',
+      LOCAL_LLM_MODEL: '',
+      LOCAL_LLM_ALLOWED_HOSTS: '',
+    })).toThrow(/required/i)
+  })
+
+  it('allows a local provider only on an explicit internal host and fixed v1 path', () => {
+    const environment = {
+      DATABASE_URL: 'postgresql://example.invalid/agent',
+      REDIS_URL: 'redis://example.invalid/1',
+      CHATWOOT_BASE_URL: 'https://support.example.invalid',
+      TENANTS_JSON: JSON.stringify(tenants),
+      ANTHROPIC_PROVIDER: 'local',
+      LOCAL_LLM_BASE_URL: 'http://local-llm:8000/v1/',
+      LOCAL_LLM_MODEL: 'local-model',
+      LOCAL_LLM_ALLOWED_HOSTS: 'local-llm',
+    }
+    expect(loadConfig(environment).LOCAL_LLM_BASE_URL).toBe('http://local-llm:8000/v1')
+    expect(validateLocalLlmBaseUrl('http://10.100.24.3:8000/v1', '10.100.24.3'))
+      .toBe('http://10.100.24.3:8000/v1')
+
+    for (const [url, hosts] of [
+      ['http://example.com/v1', 'example.com'],
+      ['http://169.254.169.254/v1', '169.254.169.254'],
+      ['http://local-llm:8000/v1', 'other-service'],
+      ['http://user:password@local-llm:8000/v1', 'local-llm'],
+      ['http://local-llm:8000/admin', 'local-llm'],
+    ]) {
+      expect(() => validateLocalLlmBaseUrl(url!, hosts!)).toThrow()
+    }
   })
 })
 

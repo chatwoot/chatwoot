@@ -22,7 +22,7 @@ ${EDITOR:-vi} .env
 ./scripts/smoke.sh
 ```
 
-`setup-env.sh` is idempotent and never prints generated values. Before `prepare.sh`, set SMTP and the selected Claude provider credentials in `.env`. Keep signup disabled. The default is an EU Bedrock inference profile; direct Anthropic additionally requires a completed processing-region/DPA review and `ALLOW_DIRECT_ANTHROPIC=true`. `prepare.sh` runs Chatwoot's database preparation/migrations and therefore needs the explicit human production-migration approval required by the operating policy.
+`setup-env.sh` is idempotent and never prints generated values. Before `prepare.sh`, set SMTP and the selected model provider in `.env`. Keep signup disabled. The DGX profile defaults to the local OpenAI-compatible Ollama endpoint on the dedicated Docker bridge (`172.30.240.1`); the host service itself is loopback-only and the validator pins both endpoint and `qwen3:8b`. EU Bedrock remains supported. Direct Anthropic additionally requires a completed processing-region/DPA review and `ALLOW_DIRECT_ANTHROPIC=true`. `prepare.sh` runs Chatwoot's database preparation/migrations and therefore needs the explicit human production-migration approval required by the operating policy.
 
 The generated `IMPORT_ID_HMAC_KEY` is a separate, durable key for pseudonymous source mappings during historical imports. It is included only in encrypted recovery metadata and is never passed to the running Chatwoot or Claude services.
 
@@ -34,15 +34,15 @@ The generated `IMPORT_ID_HMAC_KEY` is a separate, durable key for pseudonymous s
 CADDY_SITE_ADDRESS=support.myinvest-pro.de
 CADDY_SITE_SCHEME=http
 INGRESS_MODE=cloudflare_tunnel
-BIND_ADDRESS=10.100.24.3
+BIND_ADDRESS=127.0.0.1
 HTTP_PORT=80
 HTTPS_PORT=443
 FRONTEND_URL=https://support.myinvest-pro.de
 ```
 
-This makes Caddy serve application traffic only on `spark-4527`'s private DGX fabric address. Caddy pins `X-Forwarded-Proto=https` toward Rails, so secure cookies and `FORCE_SSL` remain correct behind the public Cloudflare TLS edge. The matching Cloudflare Tunnel ingress is `support.myinvest-pro.de -> http://10.100.24.3:80`; adding that route, creating its DNS record, and restarting the tunnel are production writes and are not part of a preflight. Do not use the node's `100.91.91.1` address as `BIND_ADDRESS`: Tailscale runs there in userspace mode and does not create a bindable network interface.
+Run the named Cloudflare Tunnel connector on `spark-4527` itself and route `support.myinvest-pro.de -> http://127.0.0.1:80`. Caddy is loopback-only, so customer traffic never traverses the shared DGX fabric in plaintext. Caddy pins `X-Forwarded-Proto=https` toward Rails, so secure cookies and `FORCE_SSL` remain correct behind the public Cloudflare TLS edge. The validator deliberately rejects a remote/private-fabric Caddy bind in tunnel mode.
 
-The named Docker volumes survive container recreation and host reboot, but all of them live on the same single NVMe as `/var/lib/docker`. `BACKUP_DIR` on that disk is only a mode-`0700` staging copy, not disaster recovery. Before the production migration, configure versioned EU S3-compatible storage and an encrypted off-host destination for completed snapshots; retain no plaintext snapshot on another unencrypted cluster node.
+The named Docker volumes survive container recreation and host reboot, but all of them live on the same single NVMe as `/var/lib/docker`. The interim DGX profile runs MinIO only on the internal Docker network with bucket versioning enabled (`STORAGE_LOCAL_MINIO=true`, `STORAGE_ENDPOINT=http://minio:9000`, `STORAGE_FORCE_PATH_STYLE=true`, `DIRECT_UPLOADS_ENABLED=false`). Uploads are proxied through Chatwoot because browsers cannot reach the private MinIO hostname. `BACKUP_DIR` on that disk is only mode-`0700` staging, not disaster recovery. In production `backup.sh` keeps plaintext staging only while writers are paused, then AEAD-encrypts the whole completed snapshot, uploads and remotely verifies it, retains only the encrypted local archive plus receipt, and removes the plaintext staging tree. Never copy plaintext recovery files to another cluster node.
 
 For a local proof stack, set `LOCAL_SMOKE=true`, `BIND_ADDRESS=127.0.0.1`, and use localhost Caddy overrides, then run `scripts/e2e.sh`. It creates synthetic local records only and proves signed delivery, durable handoff, duplicate suppression, and cross-account rejection; it refuses to run in production mode.
 
@@ -72,13 +72,30 @@ Keep the knowledge sources scoped by account/tenant in the agent. Retrieved cont
 
 ## Backups and restore
 
-`backup.sh` briefly pauses writers to create an application-consistent snapshot containing both databases, local Active Storage, Redis, an exact S3 object-version manifest, encrypted recovery metadata, and checksums. For production S3 it refuses to run unless bucket versioning is enabled and every database-referenced object version exists:
+`backup.sh` briefly pauses writers to create an application-consistent snapshot containing both databases, local Active Storage, Redis, the complete local MinIO volume, an exact S3 object-version manifest, encrypted recovery metadata, and checksums. In production it then invokes `offsite-backup.sh`: the whole snapshot is stream-encrypted with OpenPGP AEAD/OCB/AES-256, uploaded to `BACKUP_OFFSITE_REMOTE`, and read back from the remote for a ciphertext SHA-256 comparison. It refuses to run unless bucket versioning is enabled and every database-referenced object version exists:
 
 ```bash
 ./scripts/backup.sh
 ```
 
-Set `BACKUP_GPG_RECIPIENT` to the offline recovery key. Schedule the script from the host, for example daily at 02:30 UTC, and copy completed snapshot directories to encrypted off-host storage. Local retention defaults to 14 days. Test restores on an isolated host regularly. Restore requires the current `.env` to match the encrypted recovery metadata; if the host was lost, decrypt that file out-of-band into `.env` first.
+Set `BACKUP_GPG_RECIPIENT` to the offline recovery key and `BACKUP_OFFSITE_REMOTE` to a configured rclone destination such as `recovery:MyInvest/Backups/Chatwoot`. Schedule the script from the host, for example daily at 02:30 UTC. Local retention defaults to 14 days. The adjacent `*.offsite-receipt.json` records the immutable remote path and ciphertext SHA-256 without secrets; the only retained local payload is `*.tar.gpg`.
+
+Run a real non-destructive recovery proof regularly on an isolated recovery host that has the offline private key. Use the remote and checksum from that receipt; the command downloads the ciphertext, verifies its SHA-256, authenticates/decrypts the AEAD archive, and checks every inner snapshot file before discarding its temporary directory:
+
+```bash
+./scripts/verify-offsite-backup.sh \
+  ./backups/20260816T023000Z.offsite-receipt.json
+```
+
+Only after this proof should a restore be approved. Materialize plaintext only inside the isolated recovery root, using the same receipt; the recovery script refuses an existing target and needs an exact confirmation:
+
+```bash
+RECOVERY_CONFIRMATION=recover:20260816T023000Z \
+  ./scripts/recover-offsite-backup.sh \
+  ./backups/20260816T023000Z.offsite-receipt.json /secure/recovery
+```
+
+`restore.sh` requires the current `.env` to match the encrypted recovery metadata; if the host was lost, decrypt that file out-of-band into `.env` first. Remove the materialized plaintext recovery directory after the approved restore proof; the encrypted archive and receipt remain the durable artifacts.
 
 Restore is destructive and is intentionally never automatic. It stops application services, recreates both databases, replaces Chatwoot and Redis volumes, and restores every S3 key to the version recorded with the database snapshot. After explicit human approval:
 
@@ -86,7 +103,10 @@ Restore is destructive and is intentionally never automatic. It stops applicatio
 RESTORE_CONFIRMATION=restore:20260816T023000Z \
   ./scripts/restore.sh ./backups/20260816T023000Z
 ./scripts/smoke.sh
+PRODUCTION_E2E_CONFIRMATION=test:support.myinvest-pro.de ./scripts/e2e-production.sh
 ```
+
+The production E2E creates two clearly marked synthetic visitors through the externally routed website-widget API, not through Rails. It proves Cloudflare/Caddy/Chatwoot ingress, an AgentBot handoff, exactly one sourced reply visible again through the public widget API, HMAC/replay/tenant rejection, then resolves the synthetic conversations and retires the temporary knowledge document without deleting production records.
 
 ## Operations
 
@@ -112,6 +132,13 @@ CHAT_IMPORT_CONFIRMATION='import:new_academy:neon_academy_website_support' \
 
 The wrapper runs the importer twice, requires the second pass to create no records, verifies the tenant ledger and bot-free inbox, and asserts that the Claude knowledge-document count remains unchanged.
 
+When restoring a local Chatwoot snapshot into the production S3-compatible profile, migrate every existing Active Storage blob before opening the service. The migration verifies the database service names, MinIO versioning and object count, and downloads every blob to compare its checksum:
+
+```bash
+STORAGE_MIGRATION_CONFIRMATION=migrate:local:s3_compatible \
+  ./scripts/migrate-storage-to-s3.sh
+```
+
 Useful read-only checks:
 
 ```bash
@@ -120,6 +147,6 @@ docker compose logs --tail=200 rails sidekiq claude-agent
 curl --fail https://support.myinvest-pro.de/health
 ```
 
-For upgrades, read the Chatwoot release notes, create a fresh backup, update the exact version and digest in `compose.yaml`, run `validate.sh`, apply the approved database preparation, and finish with `bootstrap.sh` plus `smoke.sh`. Never switch this stack to a floating `latest` tag.
+For upgrades, read the Chatwoot release notes, create a fresh backup, update the exact version and digest in `compose.yaml`, run `validate.sh`, apply the approved database preparation, and finish with `bootstrap.sh`, `smoke.sh`, and `e2e-production.sh`. Never switch this stack to a floating `latest` tag.
 
 If changing the domain, update `CADDY_SITE_ADDRESS` and `FRONTEND_URL` together. Caddy manages ACME certificates automatically; preserve both Caddy volumes across redeployments.

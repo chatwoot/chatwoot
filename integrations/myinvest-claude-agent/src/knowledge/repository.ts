@@ -35,6 +35,8 @@ export class PostgresKnowledgeRepository implements KnowledgeRepository {
               ts_rank_cd(search_vector, input.query)::float AS score
        FROM agent_knowledge_documents, input
        WHERE tenant_key = $1
+         AND publication_status = 'published'
+         AND active = true
          AND search_vector @@ input.query
        ORDER BY score DESC, source_id ASC
        LIMIT $3`,

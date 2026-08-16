@@ -18,7 +18,7 @@ expected_confirmation="restore:$snapshot_name"
   exit 1
 }
 
-for file in chatwoot.dump claude-agent.dump storage.tar.gz redis.tar.gz object-storage-manifest.json environment.env.gpg SHA256SUMS; do
+for file in chatwoot.dump claude-agent.dump storage.tar.gz redis.tar.gz object-storage.tar.gz object-storage-manifest.json environment.env.gpg SHA256SUMS; do
   [[ -f "$snapshot/$file" ]] || {
     printf 'Snapshot is incomplete: %s\n' "$file" >&2
     exit 1
@@ -40,7 +40,7 @@ if ! cmp -s "$recovery_env" "$env_path"; then
   exit 1
 fi
 
-"${compose[@]}" stop caddy rails sidekiq claude-agent
+"${compose[@]}" stop caddy rails sidekiq claude-agent minio
 "${compose[@]}" up -d postgres redis
 
 restore_database() {
@@ -72,7 +72,14 @@ docker run --rm \
   -v "$snapshot:/backup:ro" \
   alpine:3.21@sha256:48b0309ca019d89d40f670aa1bc06e426dc0931948452e8491e3d65087abc07d \
   sh -ec 'find /target -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +; tar -xzf /backup/redis.tar.gz -C /target'
+docker run --rm \
+  -v myinvest-chatwoot-minio:/target \
+  -v "$snapshot:/backup:ro" \
+  alpine:3.21@sha256:48b0309ca019d89d40f670aa1bc06e426dc0931948452e8491e3d65087abc07d \
+  sh -ec 'find /target -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +; tar -xzf /backup/object-storage.tar.gz -C /target'
 
+"${compose[@]}" up -d minio
+"${compose[@]}" run --rm minio-init
 "${compose[@]}" run --rm rails bundle exec rails db:chatwoot_prepare
 "${compose[@]}" run --rm -v "$snapshot:/restore:ro" rails \
   bundle exec rails runner /bootstrap/restore_object_storage.rb

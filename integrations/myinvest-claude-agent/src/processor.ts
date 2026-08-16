@@ -71,6 +71,7 @@ export class MessageProcessor {
         sources,
       })
       const sourceList = sources
+        .filter((source) => answer.sourceIds.includes(source.sourceId))
         .map((source) => sourceReference(source))
         .filter((value, index, all) => all.indexOf(value) === index)
         .join(', ')
@@ -78,7 +79,7 @@ export class MessageProcessor {
       await this.dependencies.chatwoot.sendMessage(
         tenant,
         conversationId,
-        `${answer}\n\nQuellen: ${sourceList}`,
+        `${answer.text}\n\nQuellen: ${sourceList}`,
         payload.id,
       )
       await this.dependencies.state.completeDelivery(tenant.key, payload.id, 'replied')

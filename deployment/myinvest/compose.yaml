@@ -76,6 +76,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
     healthcheck:
       test:
         - CMD
@@ -96,6 +98,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
     healthcheck:
       test:
         - CMD-SHELL
@@ -152,6 +156,52 @@ services:
       retries: 10
       start_period: 10s
 
+  minio:
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z@sha256:9966a92a734f9411e32f4f41d7d9d826fcdc0f68c4e20b70295bd4e7c11f8a2f
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-local-smoke-minio-root}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-local-smoke-minio-root-password-00000000}
+    command: ["server", "/data", "--address", ":9000"]
+    volumes:
+      - minio_data:/data
+    networks:
+      - backend
+    restart: unless-stopped
+    init: true
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  minio-init:
+    image: minio/mc:RELEASE.2025-08-13T08-35-41Z@sha256:37d109dddbbb2c95873f5fc81ac93f37023264770fc580a7564148892087b1b7
+    environment:
+      STORAGE_BUCKET_NAME: ${STORAGE_BUCKET_NAME:-local-smoke-chatwoot}
+      STORAGE_ACCESS_KEY_ID: ${STORAGE_ACCESS_KEY_ID:-local-smoke-minio}
+      STORAGE_SECRET_ACCESS_KEY: ${STORAGE_SECRET_ACCESS_KEY:-local-smoke-minio-password-00000000}
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-local-smoke-minio-root}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-local-smoke-minio-root-password-00000000}
+    entrypoint: ["/bin/sh", "-ec"]
+    command:
+      - >-
+        mc alias set myinvest http://minio:9000 "$$MINIO_ROOT_USER" "$$MINIO_ROOT_PASSWORD";
+        mc mb --ignore-existing "myinvest/$$STORAGE_BUCKET_NAME";
+        mc version enable "myinvest/$$STORAGE_BUCKET_NAME";
+        printf '%s' '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":["s3:GetBucketLocation","s3:GetBucketVersioning","s3:ListBucket","s3:ListBucketVersions","s3:ListBucketMultipartUploads"],"Resource":["arn:aws:s3:::'"$$STORAGE_BUCKET_NAME"'"]},{"Effect":"Allow","Action":["s3:GetObject","s3:GetObjectVersion","s3:PutObject","s3:DeleteObject","s3:DeleteObjectVersion","s3:AbortMultipartUpload","s3:ListMultipartUploadParts"],"Resource":["arn:aws:s3:::'"$$STORAGE_BUCKET_NAME"'/*"]}]}' > /tmp/chatwoot-policy.json;
+        mc admin policy create myinvest chatwoot-app /tmp/chatwoot-policy.json;
+        mc admin user add myinvest "$$STORAGE_ACCESS_KEY_ID" "$$STORAGE_SECRET_ACCESS_KEY";
+        mc admin policy attach myinvest chatwoot-app --user "$$STORAGE_ACCESS_KEY_ID";
+        version_info="$$(mc version info "myinvest/$$STORAGE_BUCKET_NAME" --json)";
+        case "$$version_info" in *'"versioning":{"status":"Enabled"'*) ;; *) exit 1 ;; esac
+    networks:
+      - backend
+    depends_on:
+      minio:
+        condition: service_healthy
+    restart: "no"
+
   claude-agent:
     build:
       context: ../../integrations/myinvest-claude-agent
@@ -178,6 +228,11 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
       AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN:-}
+      LOCAL_LLM_BASE_URL: ${LOCAL_LLM_BASE_URL:-}
+      LOCAL_LLM_MODEL: ${LOCAL_LLM_MODEL:-}
+      LOCAL_LLM_ALLOWED_HOSTS: ${LOCAL_LLM_ALLOWED_HOSTS:-}
+      LOCAL_LLM_API_KEY: ${LOCAL_LLM_API_KEY:-}
+      LOCAL_LLM_TIMEOUT_MS: ${LOCAL_LLM_TIMEOUT_MS:-30000}
     command: ["sh", "-ec", "node dist/migrate.js && exec node dist/server.js"]
     expose:
       - "8080"
@@ -235,6 +290,11 @@ services:
 networks:
   frontend:
   egress:
+    name: myinvest-chatwoot-egress
+    ipam:
+      config:
+        - subnet: 172.30.240.0/24
+          gateway: 172.30.240.1
   backend:
     internal: true
 
@@ -249,3 +309,5 @@ volumes:
     name: myinvest-chatwoot-caddy-data
   caddy_config:
     name: myinvest-chatwoot-caddy-config
+  minio_data:
+    name: myinvest-chatwoot-minio

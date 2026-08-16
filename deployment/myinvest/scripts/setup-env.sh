@@ -11,20 +11,57 @@ command -v openssl >/dev/null 2>&1 || {
 }
 
 if [[ -e "$env_path" ]]; then
-  if grep -q '__GENERATE' "$env_path"; then
-    printf 'Refusing to use incomplete environment file: %s\n' "$env_path" >&2
+  if grep '__GENERATE' "$env_path" |
+    grep -Ev '^(MINIO_ROOT_USER=__GENERATE_MINIO_ROOT_USER__|MINIO_ROOT_PASSWORD=__GENERATE_MINIO_ROOT_PASSWORD__|STORAGE_ACCESS_KEY_ID=__GENERATE_STORAGE_ACCESS_KEY_ID__|STORAGE_SECRET_ACCESS_KEY=__GENERATE_STORAGE_SECRET_ACCESS_KEY__)$' |
+    grep -q .; then
+    printf 'Refusing to use environment file with unknown unresolved placeholders: %s\n' "$env_path" >&2
     exit 1
   fi
-  if ! grep -q '^IMPORT_ID_HMAC_KEY=' "$env_path"; then
+  if ! grep -Eq '^IMPORT_ID_HMAC_KEY=.+$' "$env_path" ||
+     ! grep -Eq '^MINIO_ROOT_USER=.+$' "$env_path" ||
+     ! grep -Eq '^MINIO_ROOT_PASSWORD=.+$' "$env_path" ||
+     ! grep -Eq '^STORAGE_ACCESS_KEY_ID=.+$' "$env_path" ||
+     ! grep -Eq '^STORAGE_SECRET_ACCESS_KEY=.+$' "$env_path" ||
+     grep -Eq '^(MINIO_ROOT_USER=__GENERATE_MINIO_ROOT_USER__|MINIO_ROOT_PASSWORD=__GENERATE_MINIO_ROOT_PASSWORD__|STORAGE_ACCESS_KEY_ID=__GENERATE_STORAGE_ACCESS_KEY_ID__|STORAGE_SECRET_ACCESS_KEY=__GENERATE_STORAGE_SECRET_ACCESS_KEY__)$' "$env_path"; then
     umask 077
     temporary_path="${env_path}.tmp.$$"
     trap 'rm -f -- "$temporary_path"' EXIT
     cp "$env_path" "$temporary_path"
-    printf 'IMPORT_ID_HMAC_KEY=%s\n' "$(openssl rand -hex 32)" >> "$temporary_path"
+    import_id_hmac_key="$(openssl rand -hex 32)"
+    minio_root_user="root-$(openssl rand -hex 12)"
+    minio_root_password="$(openssl rand -hex 32)"
+    storage_access_key_id="app-$(openssl rand -hex 12)"
+    storage_secret_access_key="$(openssl rand -hex 32)"
+    sed -i.bak \
+      -e "s|^IMPORT_ID_HMAC_KEY=$|IMPORT_ID_HMAC_KEY=$import_id_hmac_key|" \
+      -e "s|^MINIO_ROOT_USER=__GENERATE_MINIO_ROOT_USER__$|MINIO_ROOT_USER=$minio_root_user|" \
+      -e "s|^MINIO_ROOT_USER=$|MINIO_ROOT_USER=$minio_root_user|" \
+      -e "s|^MINIO_ROOT_PASSWORD=__GENERATE_MINIO_ROOT_PASSWORD__$|MINIO_ROOT_PASSWORD=$minio_root_password|" \
+      -e "s|^MINIO_ROOT_PASSWORD=$|MINIO_ROOT_PASSWORD=$minio_root_password|" \
+      -e "s|^STORAGE_ACCESS_KEY_ID=__GENERATE_STORAGE_ACCESS_KEY_ID__$|STORAGE_ACCESS_KEY_ID=$storage_access_key_id|" \
+      -e "s|^STORAGE_ACCESS_KEY_ID=$|STORAGE_ACCESS_KEY_ID=$storage_access_key_id|" \
+      -e "s|^STORAGE_SECRET_ACCESS_KEY=__GENERATE_STORAGE_SECRET_ACCESS_KEY__$|STORAGE_SECRET_ACCESS_KEY=$storage_secret_access_key|" \
+      -e "s|^STORAGE_SECRET_ACCESS_KEY=$|STORAGE_SECRET_ACCESS_KEY=$storage_secret_access_key|" \
+      "$temporary_path"
+    rm -f -- "${temporary_path}.bak"
+    grep -Eq '^IMPORT_ID_HMAC_KEY=.+$' "$temporary_path" ||
+      printf 'IMPORT_ID_HMAC_KEY=%s\n' "$import_id_hmac_key" >> "$temporary_path"
+    grep -Eq '^MINIO_ROOT_USER=.+$' "$temporary_path" ||
+      printf 'MINIO_ROOT_USER=%s\n' "$minio_root_user" >> "$temporary_path"
+    grep -Eq '^MINIO_ROOT_PASSWORD=.+$' "$temporary_path" ||
+      printf 'MINIO_ROOT_PASSWORD=%s\n' "$minio_root_password" >> "$temporary_path"
+    grep -Eq '^STORAGE_ACCESS_KEY_ID=.+$' "$temporary_path" ||
+      printf 'STORAGE_ACCESS_KEY_ID=%s\n' "$storage_access_key_id" >> "$temporary_path"
+    grep -Eq '^STORAGE_SECRET_ACCESS_KEY=.+$' "$temporary_path" ||
+      printf 'STORAGE_SECRET_ACCESS_KEY=%s\n' "$storage_secret_access_key" >> "$temporary_path"
+    if grep -q '__GENERATE' "$temporary_path"; then
+      printf 'Secret generation left unresolved placeholders\n' >&2
+      exit 1
+    fi
     mv "$temporary_path" "$env_path"
     chmod 600 "$env_path"
     trap - EXIT
-    printf 'Added the missing import identity key without printing it: %s\n' "$env_path"
+    printf 'Added missing durable secrets without printing them: %s\n' "$env_path"
     exit 0
   fi
   printf 'Environment already exists; left unchanged: %s\n' "$env_path"
@@ -42,6 +79,10 @@ redis_password="$(openssl rand -hex 32)"
 claude_database_password="$(openssl rand -hex 32)"
 admin_password="Mw-$(openssl rand -hex 18)!A7"
 import_id_hmac_key="$(openssl rand -hex 32)"
+minio_root_user="root-$(openssl rand -hex 12)"
+minio_root_password="$(openssl rand -hex 32)"
+storage_access_key_id="app-$(openssl rand -hex 12)"
+storage_secret_access_key="$(openssl rand -hex 32)"
 temporary_path="${env_path}.tmp.$$"
 trap 'rm -f -- "$temporary_path"' EXIT
 
@@ -60,6 +101,10 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     CLAUDE_AGENT_DATABASE_URL=__GENERATE_CLAUDE_DATABASE_URL__) line="CLAUDE_AGENT_DATABASE_URL=postgresql://claude_agent:${claude_database_password}@postgres:5432/claude_agent" ;;
     CLAUDE_AGENT_REDIS_URL=__GENERATE_CLAUDE_REDIS_URL__) line="CLAUDE_AGENT_REDIS_URL=redis://:${redis_password}@redis:6379/1" ;;
     ADMIN_PASSWORD=__GENERATE_ADMIN_PASSWORD__) line="ADMIN_PASSWORD=$admin_password" ;;
+    MINIO_ROOT_USER=__GENERATE_MINIO_ROOT_USER__) line="MINIO_ROOT_USER=$minio_root_user" ;;
+    MINIO_ROOT_PASSWORD=__GENERATE_MINIO_ROOT_PASSWORD__) line="MINIO_ROOT_PASSWORD=$minio_root_password" ;;
+    STORAGE_ACCESS_KEY_ID=__GENERATE_STORAGE_ACCESS_KEY_ID__) line="STORAGE_ACCESS_KEY_ID=$storage_access_key_id" ;;
+    STORAGE_SECRET_ACCESS_KEY=__GENERATE_STORAGE_SECRET_ACCESS_KEY__) line="STORAGE_SECRET_ACCESS_KEY=$storage_secret_access_key" ;;
   esac
   printf '%s\n' "$line" >> "$temporary_path"
 done < "$template_path"

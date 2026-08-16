@@ -31,7 +31,8 @@ context_path="$deployment_dir/runtime/e2e.json"
   )
   context = {
     account_id: account.id,
-    conversation_id: conversation.id,
+    conversation_record_id: conversation.id,
+    conversation_id: conversation.display_id,
     message_id: 1_000_000_000 + SecureRandom.random_number(1_000_000_000)
   }
   path = "/bootstrap-output/e2e.json"
@@ -40,8 +41,16 @@ context_path="$deployment_dir/runtime/e2e.json"
 '
 
 account_id="$(jq -r '.account_id' "$context_path")"
+conversation_record_id="$(jq -r '.conversation_record_id' "$context_path")"
 conversation_id="$(jq -r '.conversation_id' "$context_path")"
 message_id="$(jq -r '.message_id' "$context_path")"
+"${compose[@]}" exec -T \
+  -e E2E_CONVERSATION_RECORD_ID="$conversation_record_id" -e E2E_CONVERSATION_DISPLAY_ID="$conversation_id" \
+  rails bundle exec rails runner '
+    conversation = Conversation.find(Integer(ENV.fetch("E2E_CONVERSATION_RECORD_ID")))
+    expected_display_id = Integer(ENV.fetch("E2E_CONVERSATION_DISPLAY_ID"))
+    raise "E2E public conversation identifier drifted from display_id" unless conversation.display_id == expected_display_id
+  ' >/dev/null
 payload="$(jq -cn \
   --argjson account "$account_id" \
   --argjson conversation "$conversation_id" \
@@ -73,9 +82,9 @@ done
 
 deadline=$((SECONDS + 60))
 until "${compose[@]}" exec -T \
-  -e E2E_CONVERSATION_ID="$conversation_id" \
+  -e E2E_CONVERSATION_RECORD_ID="$conversation_record_id" \
   rails bundle exec rails runner '
-    conversation = Conversation.find(Integer(ENV.fetch("E2E_CONVERSATION_ID")))
+    conversation = Conversation.find(Integer(ENV.fetch("E2E_CONVERSATION_RECORD_ID")))
     exit(conversation.open? ? 0 : 1)
   ' >/dev/null 2>&1; do
   (( SECONDS < deadline )) || {

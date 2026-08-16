@@ -9,6 +9,8 @@ describe('knowledge isolation', () => {
     const repository = new PostgresKnowledgeRepository({ query })
     expect(await repository.search('new_academy', 'Provision', 4)).toEqual([])
     expect(query.mock.calls[0]![0]).toContain('tenant_key = $1')
+    expect(query.mock.calls[0]![0]).toContain("publication_status = 'published'")
+    expect(query.mock.calls[0]![0]).toContain('active = true')
     expect(query.mock.calls[0]![1]).toEqual(['new_academy', 'Provision', 4])
     expect(query).toHaveBeenCalledOnce()
   })
@@ -16,7 +18,10 @@ describe('knowledge isolation', () => {
 
 function setup(hits: unknown[] = [{ sourceId: 'source-1', title: 'Onboarding', content: 'Kontoeinrichtung', metadata: {}, score: 0.4 }]) {
   const search = vi.fn().mockResolvedValue(hits)
-  const answer = vi.fn().mockResolvedValue('Du startest mit der Kontoeinrichtung.')
+  const answer = vi.fn().mockResolvedValue({
+    text: 'Du startest mit der Kontoeinrichtung.',
+    sourceIds: ['source-1'],
+  })
   const sendMessage = vi.fn().mockResolvedValue(undefined)
   const handoff = vi.fn().mockResolvedValue(undefined)
   const state = {
@@ -82,5 +87,21 @@ describe('MessageProcessor', () => {
     expect(ambiguous.sendMessage).not.toHaveBeenCalled()
     expect(ambiguous.handoff).toHaveBeenCalledOnce()
     expect(ambiguous.state.completeDelivery).toHaveBeenCalledWith('saas', 55, 'handed_off')
+  })
+
+  it('cites only sources selected by the model', async () => {
+    const selected = setup([
+      { sourceId: 'source-1', title: 'Quelle Eins', content: 'A', metadata: {}, score: 0.4 },
+      { sourceId: 'source-2', title: 'Quelle Zwei', content: 'B', metadata: {}, score: 0.3 },
+    ])
+    selected.answer.mockResolvedValueOnce({ text: 'Antwort', sourceIds: ['source-2'] })
+    await selected.processor.process({ tenant: tenants[0]!, payload: incomingPayload() })
+    expect(selected.sendMessage).toHaveBeenCalledWith(
+      tenants[0],
+      77,
+      expect.stringContaining('Quelle Zwei [source-2]'),
+      55,
+    )
+    expect(selected.sendMessage.mock.calls[0]![2]).not.toContain('Quelle Eins')
   })
 })

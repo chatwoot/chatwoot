@@ -6,7 +6,8 @@ env_path="${ENV_FILE:-$deployment_dir/.env}"
 compose=(docker compose --project-directory "$deployment_dir" --env-file "$env_path" -f "$deployment_dir/compose.yaml")
 
 "$deployment_dir/scripts/validate.sh"
-"${compose[@]}" up -d postgres redis
+"${compose[@]}" up -d postgres redis minio
+"${compose[@]}" run --rm minio-init
 # Chatwoot intentionally runs as a non-superuser; only this approved preparation
 # step creates the extensions its schema requires.
 # shellcheck disable=SC2016
