@@ -2,43 +2,75 @@
 
 require_relative 'lib/whatsapp_cutover'
 
-required = %w[
-  CUTOVER_TENANT
-  WHATSAPP_PHONE_NUMBER
-  WHATSAPP_PHONE_NUMBER_ID
-  WHATSAPP_WABA_ID
-  WHATSAPP_BUSINESS_PORTFOLIO_ID
-  WHATSAPP_ACCESS_TOKEN
-  WHATSAPP_APP_SECRET
-]
-missing = required.select { |key| ENV[key].to_s.empty? }
-raise "Missing cutover variables: #{missing.join(', ')}" if missing.any?
+module Myinvest
+  module WhatsappCutover
+    module Bootstrap
+      class Runner
+        REQUIRED_VARIABLES = %w[
+          CUTOVER_TENANT
+          WHATSAPP_PHONE_NUMBER
+          WHATSAPP_PHONE_NUMBER_ID
+          WHATSAPP_WABA_ID
+          WHATSAPP_BUSINESS_PORTFOLIO_ID
+          WHATSAPP_ACCESS_TOKEN
+          WHATSAPP_APP_SECRET
+        ].freeze
 
-tenant_key = ENV.fetch('CUTOVER_TENANT')
-account = begin
-  Account.where("custom_attributes ->> 'myinvest_tenant_key' = ?", tenant_key).sole
-rescue ActiveRecord::RecordNotFound
-  raise 'Tenant not found'
-rescue ActiveRecord::SoleRecordExceeded
-  raise 'Ambiguous tenant configuration'
+        def self.run(env = ENV)
+          new(env).run
+        end
+
+        def initialize(env)
+          @env = env
+        end
+
+        def run
+          validate_environment!
+          account = lookup_account!
+          service = build_service(account)
+
+          if env['DRY_RUN'] == 'true'
+            puts '[WHATSAPP_CUTOVER] dry run completed'
+            return
+          end
+
+          channel = service.perform
+          puts '[WHATSAPP_CUTOVER] completed'
+          channel
+        end
+
+        private
+
+        attr_reader :env
+
+        def validate_environment!
+          missing = REQUIRED_VARIABLES.select { |key| env[key].to_s.empty? }
+          raise "Missing cutover variables: #{missing.join(', ')}" if missing.any?
+        end
+
+        def lookup_account!
+          tenant_key = env.fetch('CUTOVER_TENANT')
+          Account.where("custom_attributes ->> 'myinvest_tenant_key' = ?", tenant_key).sole
+        rescue ActiveRecord::RecordNotFound
+          raise 'Tenant not found'
+        rescue ActiveRecord::SoleRecordExceeded
+          raise 'Ambiguous tenant configuration'
+        end
+
+        def build_service(account)
+          Myinvest::WhatsappCutover::Service.new(
+            account: account,
+            phone_number: env.fetch('WHATSAPP_PHONE_NUMBER'),
+            phone_number_id: env.fetch('WHATSAPP_PHONE_NUMBER_ID'),
+            waba_id: env.fetch('WHATSAPP_WABA_ID'),
+            business_portfolio_id: env.fetch('WHATSAPP_BUSINESS_PORTFOLIO_ID'),
+            access_token: env.fetch('WHATSAPP_ACCESS_TOKEN'),
+            app_secret: env.fetch('WHATSAPP_APP_SECRET')
+          )
+        end
+      end
+    end
+  end
 end
 
-phone_number = ENV.fetch('WHATSAPP_PHONE_NUMBER')
-service = Myinvest::WhatsappCutover::Service.new(
-  account: account,
-  phone_number: phone_number,
-  phone_number_id: ENV.fetch('WHATSAPP_PHONE_NUMBER_ID'),
-  waba_id: ENV.fetch('WHATSAPP_WABA_ID'),
-  business_portfolio_id: ENV.fetch('WHATSAPP_BUSINESS_PORTFOLIO_ID'),
-  access_token: ENV.fetch('WHATSAPP_ACCESS_TOKEN'),
-  app_secret: ENV.fetch('WHATSAPP_APP_SECRET')
-)
-
-if ENV['DRY_RUN'] == 'true'
-  puts "[WHATSAPP_CUTOVER] dry-run account_id=#{account.id}"
-  exit 0
-end
-
-channel = service.perform
-
-puts "WhatsApp cutover complete: inbox_id=#{channel.inbox.id} channel_id=#{channel.id}"
+Myinvest::WhatsappCutover::Bootstrap::Runner.run if __FILE__ == $PROGRAM_NAME

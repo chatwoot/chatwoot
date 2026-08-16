@@ -118,6 +118,8 @@ module Myinvest
 
       def setup_webhook!(channel)
         Whatsapp::WebhookSetupService.new(channel, waba_id, access_token).perform
+      rescue StandardError
+        raise 'Webhook setup failed'
       end
 
       def verify_health!(channel)
@@ -132,7 +134,7 @@ module Myinvest
         verify_quality_rating!(health)
         verify_webhook!(health)
 
-        Rails.logger.info("[WHATSAPP_CUTOVER] health verified account_id=#{account.id} channel_id=#{channel.id}")
+        Rails.logger.info('[WHATSAPP_CUTOVER] health verified')
       end
 
       def fetch_health(channel)
@@ -252,7 +254,7 @@ module Myinvest
         bot_inbox.status = :active
         bot_inbox.save!
 
-        Rails.logger.info("[WHATSAPP_CUTOVER] agent_bot attached account_id=#{account.id} channel_id=#{channel.id} agent_bot_id=#{agent_bot.id}")
+        Rails.logger.info('[WHATSAPP_CUTOVER] agent bot attached')
       end
 
       def assign_admin!(channel)
@@ -260,7 +262,7 @@ module Myinvest
         raise ConfigurationError, 'No account administrator found' unless admin_membership&.user
 
         InboxMember.find_or_create_by!(inbox: channel.inbox, user: admin_membership.user)
-        Rails.logger.info("[WHATSAPP_CUTOVER] admin assigned account_id=#{account.id} channel_id=#{channel.id} user_id=#{admin_membership.user_id}")
+        Rails.logger.info('[WHATSAPP_CUTOVER] admin assigned')
       end
     end
   end

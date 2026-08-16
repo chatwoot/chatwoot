@@ -1,5 +1,6 @@
 require 'rails_helper'
 require_relative '../../../deployment/myinvest/scripts/cutover-whatsapp'
+require_relative '../../../deployment/myinvest/bootstrap/cutover_whatsapp'
 
 describe Myinvest::WhatsappCutover::Wrapper do
   subject(:wrapper) { described_class.new(env) }
@@ -24,6 +25,35 @@ describe Myinvest::WhatsappCutover::Wrapper do
       checker = instance_double(Myinvest::WhatsappCutover::HubspotChannelChecker, cutover_allowed?: true)
       allow(Myinvest::WhatsappCutover::HubspotChannelChecker).to receive(:new).and_return(checker)
       allow(wrapper).to receive(:run_rails_provisioner!).and_return(true)
+    end
+
+    def capture_output
+      old_stdout = $stdout
+      old_stderr = $stderr
+      $stdout = StringIO.new
+      $stderr = StringIO.new
+      yield
+      [$stdout.string, $stderr.string, nil]
+    rescue StandardError => e
+      [$stdout.string, $stderr.string, e]
+    ensure
+      $stdout = old_stdout
+      $stderr = old_stderr
+    end
+
+    def sensitive_values
+      [
+        env['CUTOVER_CONFIRMATION'],
+        env['CUTOVER_TENANT'],
+        env['WHATSAPP_PHONE_NUMBER'],
+        env['WHATSAPP_PHONE_NUMBER_ID'],
+        env['WHATSAPP_WABA_ID'],
+        env['WHATSAPP_BUSINESS_PORTFOLIO_ID'],
+        env['WHATSAPP_ACCESS_TOKEN'],
+        env['WHATSAPP_APP_SECRET'],
+        env['HUBSPOT_ACCESS_TOKEN'],
+        env['HUBSPOT_CHANNEL_ACCOUNT_ID']
+      ].compact
     end
 
     it 'requires an exact confirmation' do
@@ -98,6 +128,163 @@ describe Myinvest::WhatsappCutover::Wrapper do
         'WHATSAPP_CUTOVER_RUNNING'
       )
       expect(captured_env).not_to include('HUBSPOT_ACCESS_TOKEN', 'HUBSPOT_CHANNEL_ACCOUNT_ID')
+    end
+
+    it 'does not write sensitive values to stdout or stderr on success' do
+      stdout, stderr, error = capture_output { wrapper.run }
+      expect(error).to be_nil
+      combined = stdout + stderr
+
+      sensitive_values.each do |value|
+        expect(combined).not_to include(value)
+      end
+    end
+
+    it 'does not write sensitive values to stdout, stderr, or raised messages on confirmation mismatch' do
+      env['CUTOVER_CONFIRMATION'] = 'wrong'
+      stdout, stderr, error = capture_output { wrapper.run }
+
+      expect(error).to be_a(StandardError)
+      combined = stdout + stderr + error.message
+      sensitive_values.each do |value|
+        expect(combined).not_to include(value)
+      end
+    end
+
+    it 'does not write sensitive values to stdout, stderr, or raised messages on missing variables' do
+      env.delete('WHATSAPP_ACCESS_TOKEN')
+      stdout, stderr, error = capture_output { wrapper.run }
+
+      expect(error).to be_a(StandardError)
+      combined = stdout + stderr + error.message
+      sensitive_values.each do |value|
+        expect(combined).not_to include(value)
+      end
+    end
+
+    it 'does not write sensitive values to stdout, stderr, or raised messages when HubSpot blocks cutover' do
+      checker = instance_double(Myinvest::WhatsappCutover::HubspotChannelChecker, cutover_allowed?: false)
+      allow(Myinvest::WhatsappCutover::HubspotChannelChecker).to receive(:new).and_return(checker)
+      stdout, stderr, error = capture_output { wrapper.run }
+
+      expect(error).to be_a(StandardError)
+      combined = stdout + stderr + error.message
+      sensitive_values.each do |value|
+        expect(combined).not_to include(value)
+      end
+    end
+
+    it 'does not write sensitive values to stdout, stderr, or raised messages when the Rails provisioner fails' do
+      allow(wrapper).to receive(:run_rails_provisioner!).and_call_original
+      allow(wrapper).to receive(:system).and_return(false)
+      stdout, stderr, error = capture_output { wrapper.run }
+
+      expect(error).to be_a(StandardError)
+      combined = stdout + stderr + error.message
+      sensitive_values.each do |value|
+        expect(combined).not_to include(value)
+      end
+      expect(error.message).to eq('Rails provisioner failed')
+    end
+  end
+
+  describe Myinvest::WhatsappCutover::Bootstrap::Runner do
+    subject(:runner) { described_class.new(runner_env) }
+
+    let(:tenant_account) { create(:account, name: 'Academy Alt', custom_attributes: { 'myinvest_tenant_key' => 'legacy_academy' }) }
+    let(:runner_env) do
+      {
+        'CUTOVER_TENANT' => 'legacy_academy',
+        'WHATSAPP_PHONE_NUMBER' => '+491234567890',
+        'WHATSAPP_PHONE_NUMBER_ID' => '1234567890',
+        'WHATSAPP_WABA_ID' => '9876543210',
+        'WHATSAPP_BUSINESS_PORTFOLIO_ID' => '1122334455',
+        'WHATSAPP_ACCESS_TOKEN' => 'super-secret-access-token',
+        'WHATSAPP_APP_SECRET' => 'super-secret-app-secret'
+      }
+    end
+    let(:frontend_url) { 'https://support.myinvest-pro.de' }
+    let(:health_status) do
+      {
+        id: runner_env['WHATSAPP_PHONE_NUMBER_ID'],
+        display_phone_number: runner_env['WHATSAPP_PHONE_NUMBER'],
+        business_account_id: runner_env['WHATSAPP_WABA_ID'],
+        business_portfolio_id: runner_env['WHATSAPP_BUSINESS_PORTFOLIO_ID'],
+        status: 'CONNECTED',
+        code_verification_status: 'VERIFIED',
+        platform_type: 'CLOUD_API',
+        quality_rating: 'GREEN',
+        webhook_configuration: {
+          'override_callback_uri' => "#{frontend_url}/webhooks/whatsapp/#{runner_env['WHATSAPP_PHONE_NUMBER']}"
+        }
+      }
+    end
+
+    around do |example|
+      with_modified_env FRONTEND_URL: frontend_url do
+        example.run
+      end
+    end
+
+    before do
+      tenant_account
+      create(:account_user, account: tenant_account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: tenant_account, name: 'MyInvest Claude Support')
+      allow_any_instance_of(Channel::Whatsapp).to receive(:sync_templates)
+      allow_any_instance_of(Whatsapp::Providers::WhatsappCloudService)
+        .to receive(:validate_provider_config?).and_return(true)
+      allow_any_instance_of(Whatsapp::WebhookSetupService).to receive(:perform).and_return(true)
+      allow_any_instance_of(Whatsapp::HealthService).to receive(:fetch_health_status).and_return(health_status)
+    end
+
+    def capture_runner_output
+      old_stdout = $stdout
+      $stdout = StringIO.new
+      yield
+      $stdout.string
+    ensure
+      $stdout = old_stdout
+    end
+
+    it 'prints a generic message on success without identifiers' do
+      output = capture_runner_output { runner.run }
+
+      expect(output).to include('[WHATSAPP_CUTOVER] completed')
+      expect(output).not_to include(runner_env['WHATSAPP_PHONE_NUMBER'])
+      expect(output).not_to include(runner_env['WHATSAPP_PHONE_NUMBER_ID'])
+      expect(output).not_to include(runner_env['WHATSAPP_WABA_ID'])
+      expect(output).not_to include(runner_env['WHATSAPP_BUSINESS_PORTFOLIO_ID'])
+      expect(output).not_to include(runner_env['WHATSAPP_ACCESS_TOKEN'])
+      expect(output).not_to include(runner_env['WHATSAPP_APP_SECRET'])
+      expect(output).not_to include(tenant_account.id.to_s)
+    end
+
+    it 'prints a generic message in dry-run mode without identifiers' do
+      runner_env['DRY_RUN'] = 'true'
+      output = capture_runner_output { runner.run }
+
+      expect(output).to include('[WHATSAPP_CUTOVER] dry run completed')
+      expect(output).not_to include(runner_env['WHATSAPP_PHONE_NUMBER'])
+      expect(output).not_to include(tenant_account.id.to_s)
+    end
+
+    it 'raises generic errors without identifiers when the tenant is missing' do
+      runner_env['CUTOVER_TENANT'] = 'unknown_tenant'
+
+      expect { runner.run }.to raise_error do |error|
+        expect(error.message).to eq('Tenant not found')
+        expect(error.message).not_to include('unknown_tenant')
+      end
+    end
+
+    it 'raises generic errors without identifiers when variables are missing' do
+      token = runner_env.delete('WHATSAPP_ACCESS_TOKEN')
+
+      expect { runner.run }.to raise_error do |error|
+        expect(error.message).to include('Missing cutover variables')
+        expect(error.message).not_to include(runner_env['WHATSAPP_PHONE_NUMBER'])
+        expect(error.message).not_to include(token)
+      end
     end
   end
 

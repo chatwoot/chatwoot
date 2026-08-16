@@ -219,11 +219,11 @@ describe Myinvest::WhatsappCutover::Service do
         .to raise_error(Myinvest::WhatsappCutover::ConflictError, /different phone number ID/)
     end
 
-    it 'propagates webhook setup failures' do
+    it 'fails closed on webhook setup failures with a generic message' do
       allow_any_instance_of(Whatsapp::WebhookSetupService)
         .to receive(:perform).and_raise('Meta webhook error')
 
-      expect { service.perform }.to raise_error(RuntimeError, 'Meta webhook error')
+      expect { service.perform }.to raise_error(RuntimeError, 'Webhook setup failed')
     end
 
     it 'verifies health before attaching agent bot' do
@@ -465,6 +465,20 @@ describe Myinvest::WhatsappCutover::Service do
       end
     end
 
+    it 'does not leak secrets or phone numbers in webhook setup errors' do
+      create(:user)
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+      allow_any_instance_of(Whatsapp::WebhookSetupService)
+        .to receive(:perform).and_raise("Meta error for #{phone_number} token #{access_token}")
+
+      expect { service.perform }.to raise_error do |error|
+        expect(error.message).not_to include(phone_number)
+        expect(error.message).not_to include(access_token)
+        expect(error.message).not_to include(app_secret)
+      end
+    end
+
     it 'does not log secrets' do
       create(:user)
       create(:account_user, account: account, user: create(:user), role: :administrator)
@@ -479,7 +493,7 @@ describe Myinvest::WhatsappCutover::Service do
       expect(log_text).not_to include(app_secret)
     end
 
-    it 'does not log phone numbers or provider IDs' do
+    it 'does not log phone numbers, provider IDs, or internal resource IDs' do
       create(:user)
       create(:account_user, account: account, user: create(:user), role: :administrator)
       create(:agent_bot, account: account, name: 'MyInvest Claude Support')
@@ -488,11 +502,17 @@ describe Myinvest::WhatsappCutover::Service do
 
       service.perform
 
+      channel = Channel::Whatsapp.last
       log_text = logged.join("\n")
       expect(log_text).not_to include(phone_number)
       expect(log_text).not_to include(phone_number_id)
       expect(log_text).not_to include(waba_id)
       expect(log_text).not_to include(business_portfolio_id)
+      expect(log_text).not_to include(account.id.to_s)
+      expect(log_text).not_to include(channel.id.to_s)
+      expect(log_text).not_to include(channel.inbox.id.to_s)
+      expect(log_text).not_to include(AgentBot.last.id.to_s)
+      expect(log_text).not_to include(AccountUser.last.user_id.to_s)
     end
   end
 end
