@@ -57,7 +57,15 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   #     "changes": [{
   #       "field": "smb_message_echoes",
   #       "value": {
-  #         "message_echoes": [{ "from": "971545296927", "to": "919745786257", "id": "wamid...", "text": { "body": "Hi" } }]
+  #         "contacts": [{
+  #           "wa_id": "919745786257", "user_id": "IN.2081978709342942",
+  #           "parent_user_id": "IN.ENT.11815799212886844830"
+  #         }],
+  #         "message_echoes": [{
+  #           "from": "971545296927", "to": "919745786257", "to_user_id": "IN.2081978709342942",
+  #           "to_parent_user_id": "IN.ENT.11815799212886844830",
+  #           "id": "wamid...", "text": { "body": "Hi" }
+  #         }]
   #       }
   #     }]
   #   }]
@@ -66,8 +74,9 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   # Key differences:
   # - field: "smb_message_echoes" instead of "messages"
   # - message_echoes[] instead of messages[]
-  # - "from" is the business number, "to" is the contact (reversed from regular messages)
-  # - No "contacts" array in echo payload
+  # - "from" is the business number; "to" is the contact phone and can be omitted
+  # - "to_user_id" is the contact BSUID; "to_parent_user_id" is included when parent BSUIDs are enabled
+  # - contacts[] contains the same contact identifiers
   def message_echo_event?(params)
     params.dig(:entry, 0, :changes, 0, :field) == 'smb_message_echoes'
   end
