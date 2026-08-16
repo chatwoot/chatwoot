@@ -26,6 +26,24 @@ ${EDITOR:-vi} .env
 
 The generated `IMPORT_ID_HMAC_KEY` is a separate, durable key for pseudonymous source mappings during historical imports. It is included only in encrypted recovery metadata and is never passed to the running Chatwoot or Claude services.
 
+### DGX Spark interim host
+
+`dgx-workloads` (`spark-4527`) can run this stack as an explicitly accepted interim host, but it is shared infrastructure and does not satisfy the dedicated-host prerequisite above. Keep the Docker volumes on the host NVMe and use Cloudflare only as the public edge. The host-side production environment for the private DGX fabric path is:
+
+```dotenv
+CADDY_SITE_ADDRESS=support.myinvest-pro.de
+CADDY_SITE_SCHEME=http
+INGRESS_MODE=cloudflare_tunnel
+BIND_ADDRESS=10.100.24.3
+HTTP_PORT=80
+HTTPS_PORT=443
+FRONTEND_URL=https://support.myinvest-pro.de
+```
+
+This makes Caddy serve application traffic only on `spark-4527`'s private DGX fabric address. Caddy pins `X-Forwarded-Proto=https` toward Rails, so secure cookies and `FORCE_SSL` remain correct behind the public Cloudflare TLS edge. The matching Cloudflare Tunnel ingress is `support.myinvest-pro.de -> http://10.100.24.3:80`; adding that route, creating its DNS record, and restarting the tunnel are production writes and are not part of a preflight. Do not use the node's `100.91.91.1` address as `BIND_ADDRESS`: Tailscale runs there in userspace mode and does not create a bindable network interface.
+
+The named Docker volumes survive container recreation and host reboot, but all of them live on the same single NVMe as `/var/lib/docker`. `BACKUP_DIR` on that disk is only a mode-`0700` staging copy, not disaster recovery. Before the production migration, configure versioned EU S3-compatible storage and an encrypted off-host destination for completed snapshots; retain no plaintext snapshot on another unencrypted cluster node.
+
 For a local proof stack, set `LOCAL_SMOKE=true`, `BIND_ADDRESS=127.0.0.1`, and use localhost Caddy overrides, then run `scripts/e2e.sh`. It creates synthetic local records only and proves signed delivery, durable handoff, duplicate suppression, and cross-account rejection; it refuses to run in production mode.
 
 The initial password exists only in `.env` as `ADMIN_PASSWORD`. Log in as `ADMIN_EMAIL`, change that password immediately, enable MFA, then remove `ADMIN_PASSWORD` from `.env` after bootstrap. Re-running bootstrap does not change an existing user's password or duplicate accounts/memberships.
@@ -79,6 +97,8 @@ Historical chat bundles are tenant-bound and explicitly excluded from the Claude
 ```bash
 SOURCE_DATABASE_URL='postgresql://…' ./scripts/export-neon-support-history.sh /secure/path/academy-history
 ```
+
+The HubSpot exporter accepts its token and exact inbox/channel allowlist only through the process environment. It writes complete source-event archives, full original email bodies, and local digest-addressed file attachments without retaining signed URLs. Mixed MyInvest24 histories belong only in the bot-free `legacy_academy` history inbox with `knowledge_import=false`; they are brand/source archives, not Academy knowledge classification.
 
 The export is fixed to `new_academy`; it refuses other channels, unknown roles, empty messages, existing output directories, and any knowledge import. Delete the restricted raw bundle after the idempotent Chatwoot import has been verified.
 

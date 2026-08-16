@@ -19,6 +19,8 @@ set -a
 # shellcheck disable=SC1090
 source "$env_path"
 set +a
+CADDY_SITE_SCHEME="${CADDY_SITE_SCHEME:-https}"
+INGRESS_MODE="${INGRESS_MODE:-direct}"
 
 required=(
   CADDY_SITE_ADDRESS ACME_EMAIL BIND_ADDRESS FRONTEND_URL FORCE_SSL ENABLE_ACCOUNT_SIGNUP
@@ -62,10 +64,31 @@ VIPS_BLOCK_UNTRUSTED|1
 POLICIES
 
 if [[ "$LOCAL_SMOKE" != true ]]; then
-  [[ "$BIND_ADDRESS" == 0.0.0.0 ]] || {
-    printf 'Production requires BIND_ADDRESS=0.0.0.0.\n' >&2
-    exit 1
-  }
+  case "$INGRESS_MODE" in
+    direct)
+      [[ "$BIND_ADDRESS" == 0.0.0.0 && "$CADDY_SITE_SCHEME" == https ]] || {
+        printf 'Direct production ingress requires BIND_ADDRESS=0.0.0.0 and CADDY_SITE_SCHEME=https.\n' >&2
+        exit 1
+      }
+      ;;
+    cloudflare_tunnel)
+      IFS=. read -r bind_a bind_b bind_c bind_d <<<"$BIND_ADDRESS"
+      if [[ "$CADDY_SITE_SCHEME" != http || ! "$bind_a" =~ ^[0-9]+$ || ! "$bind_b" =~ ^[0-9]+$ ||
+            ! "$bind_c" =~ ^[0-9]+$ || ! "$bind_d" =~ ^[0-9]+$ ]] ||
+         (( bind_a > 255 || bind_b > 255 || bind_c > 255 || bind_d > 255 )) ||
+         ! { (( bind_a == 10 )) ||
+             (( bind_a == 172 && bind_b >= 16 && bind_b <= 31 )) ||
+             (( bind_a == 192 && bind_b == 168 )) ||
+             (( bind_a == 100 && bind_b >= 64 && bind_b <= 127 )); }; then
+        printf 'Cloudflare Tunnel ingress requires CADDY_SITE_SCHEME=http and a private, host-specific BIND_ADDRESS.\n' >&2
+        exit 1
+      fi
+      ;;
+    *)
+      printf 'Unsupported INGRESS_MODE: %s\n' "$INGRESS_MODE" >&2
+      exit 1
+      ;;
+  esac
   [[ -z "${LOCAL_FAKE_CLAUDE_ANSWER:-}" ]] || {
     printf 'LOCAL_FAKE_CLAUDE_ANSWER is forbidden in production.\n' >&2
     exit 1
@@ -120,6 +143,10 @@ if [[ "$LOCAL_SMOKE" != true ]]; then
     exit 1
   }
 else
+  [[ "$INGRESS_MODE" == direct && "$CADDY_SITE_SCHEME" == https ]] || {
+    printf 'LOCAL_SMOKE requires direct HTTPS ingress.\n' >&2
+    exit 1
+  }
   [[ -n "${LOCAL_FAKE_CLAUDE_ANSWER:-}" ]] || {
     printf 'LOCAL_SMOKE requires a deterministic local Claude answer for E2E.\n' >&2
     exit 1

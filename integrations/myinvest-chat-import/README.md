@@ -2,11 +2,21 @@
 
 This is a callback-free, one-time history importer for the pinned Chatwoot v4.16.2 deployment. One bundle belongs to exactly one of `saas`, `new_academy`, or `legacy_academy`. It creates or resolves a dedicated bot-free `History Import` API inbox, imports every conversation as resolved/read, and preserves source/provenance metadata without using it for routing.
 
-The runner uses `insert_all!`, `DataImport`, and `DataImportMapping`; stable source identities are tenant-scoped HMACs. A PostgreSQL advisory lock serializes imports per tenant, each conversation and its messages are atomic, retries are idempotent, and changed payloads for an existing source identity fail closed. No record body or external ID is logged.
+The runner uses `insert_all!`, `DataImport`, and `DataImportMapping`; stable source identities are tenant-scoped HMACs. A PostgreSQL advisory lock serializes imports per tenant, each conversation and its messages are atomic, retries are idempotent, and changed message/conversation payloads for an existing source identity fail closed. Contact snapshots from different HubSpot channels may legitimately differ; an existing contact identity is reused without overwriting its first imported values. No record body or external ID is logged.
 
-## Bundle v1
+## Bundle formats
 
-The root contains `manifest.json`, `contacts.ndjson`, `conversations.ndjson`, and `messages.ndjson`. The manifest and record contracts are in [`schema/`](schema/). Manifest SHA-256 values are calculated over the exact file bytes. Files must be regular, non-symlink files in the bundle root; v1 rejects every attachment, including external URLs. All input must be valid UTF-8 without NUL bytes, and message content is imported as plaintext with a 150,000-character limit.
+The root contains `manifest.json`, `contacts.ndjson`, `conversations.ndjson`, and `messages.ndjson`. The manifest and record contracts are in [`schema/`](schema/). Manifest SHA-256 values are calculated over the exact file bytes. Files must be regular, non-symlink files. Bundle v1 rejects every attachment, including external URLs. Bundle v2 accepts only digest-addressed local files under `attachments/`; it verifies path, byte size, and SHA-256 before import and never retrieves a URL during import. All text input must be valid UTF-8 without NUL bytes, and normalized Chatwoot message content has a 150,000-character limit.
+
+`bin/export_hubspot.rb` creates a v2 bundle plus an integrity-linked `archive-manifest.json`, `source_threads.ndjson`, and `source_events.ndjson`. It retrieves the original body for truncated email messages, downloads every HubSpot `FILE` attachment into the private bundle, removes remote file URLs from the archive, and keeps system events even though only messages/comments enter Chatwoot. The output directory and subdirectories are mode `0700`; every file is mode `0600`.
+
+Pass the private-app token and the exact channel allowlist through the process environment; the destination must not exist:
+
+```sh
+HUBSPOT_ACCESS_TOKEN='…' \
+HUBSPOT_EXPORT_CONFIG_JSON='{"tenant_key":"legacy_academy","inbox_ids":["…"],"channel_account_ids":["…"],"export_id":"hubspot-export-20260816"}' \
+  ruby integrations/myinvest-chat-import/bin/export_hubspot.rb /secure/path/hubspot-history
+```
 
 `knowledge_import` must be `false`. This code has no Claude-agent database integration or credentials and never writes to the knowledge store. If selected conversations should later become knowledge, that is a separate, reviewed export and ingestion process.
 
@@ -52,5 +62,6 @@ Run unit and syntax checks with:
 
 ```sh
 ruby integrations/myinvest-chat-import/test/importer_test.rb
+ruby integrations/myinvest-chat-import/test/hubspot_exporter_test.rb
 find integrations/myinvest-chat-import -name '*.rb' -print0 | xargs -0 -n1 ruby -c
 ```

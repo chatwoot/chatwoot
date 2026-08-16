@@ -29,7 +29,9 @@ mappings = records.to_h do |type, source_records|
       source_object_type: type,
       source_object_id: source_object_id
     )
-    raise MyinvestChatImport::FingerprintConflictError unless mapping.metadata.fetch('payload_sha256') == identity.payload(record)
+    if type != 'contact' && mapping.metadata.fetch('payload_sha256') != identity.payload(record)
+      raise MyinvestChatImport::FingerprintConflictError
+    end
     raise MyinvestChatImport::KnowledgeSeparationError unless mapping.metadata.fetch('knowledge_import') == false
 
     [record.fetch('external_id'), mapping]
@@ -60,7 +62,10 @@ raise MyinvestChatImport::KnowledgeSeparationError unless messages.all? do |mess
 end
 
 bundle.contacts.each do |record|
-  contact = contacts_by_id.fetch(mappings.fetch('contact').fetch(record.fetch('external_id')).chatwoot_record_id)
+  mapping = mappings.fetch('contact').fetch(record.fetch('external_id'))
+  contact = contacts_by_id.fetch(mapping.chatwoot_record_id)
+  next unless mapping.metadata.fetch('payload_sha256') == identity.payload(record)
+
   raise MyinvestChatImport::LedgerIntegrityError unless contact.name == record.fetch('name') &&
                                                          contact.created_at == Time.iso8601(record.fetch('created_at'))
 end
@@ -80,12 +85,24 @@ bundle.messages.each do |record|
                                                          message.private == expected_private &&
                                                          message.content == record.fetch('content') &&
                                                          message.created_at == Time.iso8601(record.fetch('created_at'))
+  imported_attachments = Attachment.where(message_id: message.id).order(:id).to_a
+  expected_attachments = record.fetch('attachments')
+  raise MyinvestChatImport::LedgerIntegrityError unless imported_attachments.length == expected_attachments.length
+  expected_attachments.each do |expected|
+    attachment = imported_attachments.find { |candidate| candidate.meta['sha256'] == expected.fetch('sha256') }
+    valid = attachment&.account_id == account.id && attachment&.meta&.fetch('knowledge_import') == false &&
+            attachment.file.attached? && attachment.file.filename.to_s == expected.fetch('filename') &&
+            attachment.file.content_type == expected.fetch('content_type') && attachment.file.byte_size == expected.fetch('byte_size') &&
+            attachment.file.blob.service.exist?(attachment.file.blob.key)
+    raise MyinvestChatImport::LedgerIntegrityError unless valid
+  end
 end
 
 export_id_hmac = identity.for(bundle, 'export', bundle.export_id)
 data_import = DataImport.where(account_id: account.id, source_provider: MyinvestChatImport::Importer::SOURCE_PROVIDER)
                         .where("source_metadata ->> 'export_id_hmac' = ?", export_id_hmac).sole
 raise MyinvestChatImport::LedgerIntegrityError unless data_import.completed? && data_import.processed_records == bundle.total_records
+raise MyinvestChatImport::LedgerIntegrityError unless data_import.source_metadata.fetch('schema_version') == bundle.schema_version
 raise MyinvestChatImport::KnowledgeSeparationError unless data_import.source_metadata.fetch('knowledge_import') == false
 
 puts JSON.generate(
@@ -94,6 +111,7 @@ puts JSON.generate(
   contacts: contacts.length,
   conversations: conversations.length,
   messages: messages.length,
+  attachments: bundle.messages.sum { |message| message.fetch('attachments').length },
   source_timestamps_preserved: true,
   directions_preserved: true,
   knowledge_import: false,

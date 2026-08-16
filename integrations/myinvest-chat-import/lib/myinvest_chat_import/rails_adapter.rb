@@ -34,7 +34,7 @@ module MyinvestChatImport
       inbox.id
     end
 
-    def begin_import(account_id:, export_id_hmac:, bundle_sha256:, total_records:, source_namespace_hmac:)
+    def begin_import(account_id:, export_id_hmac:, bundle_sha256:, total_records:, source_namespace_hmac:, schema_version:)
       relation = DataImport.where(account_id: account_id, source_provider: SOURCE_PROVIDER)
                            .where("source_metadata ->> 'export_id_hmac' = ?", export_id_hmac)
       existing_imports = relation.limit(2).to_a
@@ -44,7 +44,13 @@ module MyinvestChatImport
       if existing
         raise FingerprintConflictError unless existing.source_metadata.fetch('bundle_sha256') == bundle_sha256
 
-        relation.update_all(status: DataImport.statuses.fetch('processing'), started_at: Time.current, completed_at: nil, updated_at: Time.current)
+        relation.update_all(
+          status: DataImport.statuses.fetch('processing'),
+          source_metadata: existing.source_metadata.merge('schema_version' => schema_version),
+          started_at: Time.current,
+          completed_at: nil,
+          updated_at: Time.current
+        )
         return existing.id
       end
 
@@ -55,12 +61,12 @@ module MyinvestChatImport
         status: DataImport.statuses.fetch('processing'),
         total_records: total_records,
         processed_records: 0,
-        name: 'History Import v1',
+        name: "History Import v#{schema_version}",
         source_type: 'history',
         source_provider: SOURCE_PROVIDER,
         import_types: %w[contacts conversations],
         source_metadata: {
-          'schema_version' => 1,
+          'schema_version' => schema_version,
           'export_id_hmac' => export_id_hmac,
           'bundle_sha256' => bundle_sha256,
           'source_namespace_hmac' => source_namespace_hmac,
@@ -126,6 +132,54 @@ module MyinvestChatImport
       Message.insert_all!(rows, returning: ['id']).rows.flatten
     end
 
+    def insert_attachments(rows)
+      return if rows.empty?
+
+      uploaded_keys = []
+      rows.each do |row|
+        checksum = Base64.strict_encode64(Digest::MD5.file(row.fetch(:path)).digest)
+        key = "myinvest-history/#{row.fetch(:storage_key)}"
+        uploaded_keys << key
+        File.open(row.fetch(:path), 'rb') do |file|
+          ActiveStorage::Blob.service.upload(key, file, checksum: checksum)
+        end
+        now = Time.current
+        blob_id = inserted_id(
+          ActiveStorage::Blob.insert_all!([{
+            key: key,
+            filename: row.fetch(:filename),
+            content_type: row.fetch(:content_type),
+            metadata: { 'identified' => true, 'analyzed' => false },
+            byte_size: row.fetch(:byte_size),
+            checksum: checksum,
+            service_name: ActiveStorage::Blob.service.name,
+            created_at: now
+          }], returning: ['id'])
+        )
+        attachment_id = inserted_id(
+          Attachment.insert_all!([{
+            account_id: row.fetch(:account_id),
+            message_id: row.fetch(:message_id),
+            file_type: attachment_file_type(row.fetch(:content_type)),
+            extension: File.extname(row.fetch(:filename)).delete_prefix('.').presence,
+            meta: { 'myinvest_history_import' => true, 'knowledge_import' => false, 'sha256' => row.fetch(:sha256) },
+            created_at: now,
+            updated_at: now
+          }], returning: ['id'])
+        )
+        ActiveStorage::Attachment.insert_all!([{
+          name: 'file',
+          record_type: 'Attachment',
+          record_id: attachment_id,
+          blob_id: blob_id,
+          created_at: now
+        }])
+      end
+    rescue StandardError
+      uploaded_keys.each { |key| ActiveStorage::Blob.service.delete(key) }
+      raise
+    end
+
     def complete_import(import_id:, processed_records:, stats:)
       DataImport.where(id: import_id).update_all(
         status: DataImport.statuses.fetch('completed'),
@@ -156,6 +210,14 @@ module MyinvestChatImport
       raise LedgerIntegrityError unless id
 
       id
+    end
+
+    def attachment_file_type(content_type)
+      return Attachment.file_types.fetch('image') if content_type.start_with?('image/')
+      return Attachment.file_types.fetch('audio') if content_type.start_with?('audio/')
+      return Attachment.file_types.fetch('video') if content_type.start_with?('video/')
+
+      Attachment.file_types.fetch('file')
     end
 
     def insert_history_inbox(account_id)

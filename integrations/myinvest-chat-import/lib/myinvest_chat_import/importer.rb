@@ -27,6 +27,7 @@ module MyinvestChatImport
             export_id_hmac: identity.for(bundle, 'export', bundle.export_id),
             bundle_sha256: bundle.bundle_sha256,
             source_namespace_hmac: identity.for(bundle, 'namespace', bundle.source_namespace),
+            schema_version: bundle.schema_version,
             total_records: bundle.total_records
           )
           import_contacts(account_id)
@@ -109,6 +110,24 @@ module MyinvestChatImport
         insert_mapping(account_id, 'message', record, id)
         increment('message', 'created')
       end
+      adapter.insert_attachments(attachment_rows(account_id, pending, ids))
+    end
+
+    def attachment_rows(account_id, pending, message_ids)
+      pending.zip(message_ids).flat_map do |(record, _attributes), message_id|
+        record.fetch('attachments').map do |attachment|
+          {
+            account_id: account_id,
+            message_id: message_id,
+            path: bundle.attachment_path(attachment),
+            filename: attachment.fetch('filename'),
+            content_type: attachment.fetch('content_type'),
+            byte_size: attachment.fetch('byte_size'),
+            sha256: attachment.fetch('sha256'),
+            storage_key: identity.for(bundle, 'attachment_storage', "#{record.fetch('external_id')}:#{attachment.fetch('external_id')}")
+          }
+        end
+      end
     end
 
     def resolve_record(account_id, type, record)
@@ -136,7 +155,9 @@ module MyinvestChatImport
       source_object_id = identity.for(bundle, type, record.fetch('external_id'))
       mapping = adapter.find_mapping(account_id: account_id, source_object_type: type, source_object_id: source_object_id)
       return nil unless mapping
-      raise FingerprintConflictError unless mapping.fetch(:metadata).fetch('payload_sha256') == identity.payload(record)
+      if type != 'contact' && mapping.fetch(:metadata).fetch('payload_sha256') != identity.payload(record)
+        raise FingerprintConflictError
+      end
 
       mapping
     end

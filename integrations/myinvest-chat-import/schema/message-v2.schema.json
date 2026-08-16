@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://myinvest-pro.de/schemas/chat-import/message-v2.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["external_id", "conversation_external_id", "direction", "content", "created_at", "updated_at", "attachments"],
+  "properties": {
+    "external_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "conversation_external_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "direction": { "enum": ["incoming", "outgoing", "note"] },
+    "content": { "type": "string", "maxLength": 150000 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "attachments": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["external_id", "path", "sha256", "byte_size", "filename", "content_type"],
+        "properties": {
+          "external_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+          "path": { "type": "string", "pattern": "^attachments/[0-9a-f]{64}$" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "byte_size": { "type": "integer", "minimum": 0, "maximum": 1073741824 },
+          "filename": { "type": "string", "minLength": 1, "maxLength": 255 },
+          "content_type": { "type": "string", "minLength": 3, "maxLength": 255 }
+        }
+      }
+    },
+    "metadata": { "type": "object" }
+  }
+}

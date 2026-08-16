@@ -11,10 +11,11 @@ class MyinvestChatImportTest < Minitest::Test
   TENANTS = %w[saas new_academy legacy_academy].freeze
 
   class MemoryAdapter
-    attr_reader :callback_count, :contacts, :conversations, :imports, :mappings, :messages
+    attr_reader :attachments, :callback_count, :contacts, :conversations, :imports, :mappings, :messages
 
     def initialize
       @accounts = TENANTS.to_h { |tenant| [tenant, "account-#{tenant}"] }
+      @attachments = []
       @callback_count = 0
       @contacts = []
       @conversations = []
@@ -29,10 +30,10 @@ class MyinvestChatImportTest < Minitest::Test
     end
 
     def transaction
-      snapshot = Marshal.dump([@contacts, @conversations, @imports, @mappings, @messages, @next_id])
+      snapshot = Marshal.dump([@attachments, @contacts, @conversations, @imports, @mappings, @messages, @next_id])
       yield
     rescue StandardError
-      @contacts, @conversations, @imports, @mappings, @messages, @next_id = Marshal.load(snapshot)
+      @attachments, @contacts, @conversations, @imports, @mappings, @messages, @next_id = Marshal.load(snapshot)
       raise
     end
 
@@ -44,7 +45,7 @@ class MyinvestChatImportTest < Minitest::Test
       "inbox-#{account_id}"
     end
 
-    def begin_import(account_id:, export_id_hmac:, bundle_sha256:, total_records:, source_namespace_hmac:)
+    def begin_import(account_id:, export_id_hmac:, bundle_sha256:, total_records:, source_namespace_hmac:, schema_version:)
       existing = @imports.find { |item| item[:account_id] == account_id && item[:export_id_hmac] == export_id_hmac }
       if existing
         raise MyinvestChatImport::FingerprintConflictError if existing[:bundle_sha256] != bundle_sha256
@@ -56,7 +57,8 @@ class MyinvestChatImportTest < Minitest::Test
       id = next_id
       @imports << {
         id: id, account_id: account_id, export_id_hmac: export_id_hmac, bundle_sha256: bundle_sha256,
-        source_namespace_hmac: source_namespace_hmac, total_records: total_records, status: 'processing'
+        source_namespace_hmac: source_namespace_hmac, schema_version: schema_version,
+        total_records: total_records, status: 'processing'
       }
       id
     end
@@ -93,6 +95,14 @@ class MyinvestChatImportTest < Minitest::Test
         id = next_id
         @messages << attributes.merge(id: id)
         id
+      end
+    end
+
+    def insert_attachments(rows)
+      rows.each do |row|
+        raise 'missing local attachment' unless File.file?(row.fetch(:path))
+
+        @attachments << row
       end
     end
 
@@ -152,16 +162,29 @@ class MyinvestChatImportTest < Minitest::Test
     end
   end
 
-  def test_changed_payload_for_a_mapped_source_id_is_a_conflict
+  def test_changed_contact_snapshot_reuses_identity_without_overwriting_the_contact
     adapter = MemoryAdapter.new
     with_bundle { |path| import(path, adapter) }
 
     changed_contact = default_contacts.fetch(0).merge('name' => 'Changed Name')
     with_bundle(export_id: 'export-2', contacts: [changed_contact]) do |path|
-      assert_raises(MyinvestChatImport::FingerprintConflictError) { import(path, adapter) }
+      import(path, adapter)
     end
 
     assert_equal 1, adapter.contacts.length
+    assert_equal 'Ada Example', adapter.contacts.first.fetch(:name)
+  end
+
+  def test_changed_message_payload_for_a_mapped_source_id_is_a_conflict
+    adapter = MemoryAdapter.new
+    with_bundle { |path| import(path, adapter) }
+
+    changed_message = default_messages.fetch(0).merge('content' => 'Manipulated')
+    with_bundle(export_id: 'export-2', messages: [changed_message]) do |path|
+      assert_raises(MyinvestChatImport::FingerprintConflictError) { import(path, adapter) }
+    end
+
+    assert_equal 2, adapter.messages.length
   end
 
   def test_rejects_manifest_traversal_and_external_attachments
@@ -178,6 +201,48 @@ class MyinvestChatImportTest < Minitest::Test
     message = default_messages.fetch(0).merge('attachments' => external_attachment)
     with_bundle(messages: [message]) do |path|
       assert_raises(MyinvestChatImport::UnsupportedAttachmentError) { MyinvestChatImport::Bundle.load(path) }
+    end
+  end
+
+  def test_v2_imports_digest_verified_local_attachments_idempotently
+    bytes = '%PDF-history'
+    digest = Digest::SHA256.hexdigest(bytes)
+    attachment = {
+      'external_id' => 'hubspot-file:987', 'path' => "attachments/#{digest}", 'sha256' => digest,
+      'byte_size' => bytes.bytesize, 'filename' => 'history.pdf', 'content_type' => 'application/pdf'
+    }
+    message = default_messages.fetch(0).merge('attachments' => [attachment])
+
+    with_bundle(schema_version: 2, messages: [message], attachment_files: { attachment.fetch('path') => bytes }) do |path|
+      adapter = MemoryAdapter.new
+      2.times { import(path, adapter) }
+
+      assert_equal 1, adapter.attachments.length
+      assert_equal 'history.pdf', adapter.attachments.first.fetch(:filename)
+      assert_equal Digest::SHA256.hexdigest(File.binread(adapter.attachments.first.fetch(:path))), digest
+    end
+  end
+
+  def test_v2_rejects_attachment_digest_mismatch_and_symlink
+    bytes = 'trusted bytes'
+    digest = Digest::SHA256.hexdigest(bytes)
+    attachment = {
+      'external_id' => 'hubspot-file:987', 'path' => "attachments/#{digest}", 'sha256' => digest,
+      'byte_size' => bytes.bytesize, 'filename' => 'history.txt', 'content_type' => 'text/plain'
+    }
+    message = default_messages.fetch(0).merge('attachments' => [attachment])
+
+    with_bundle(schema_version: 2, messages: [message], attachment_files: { attachment.fetch('path') => 'changed bytes' }) do |path|
+      assert_raises(MyinvestChatImport::ValidationError) { MyinvestChatImport::Bundle.load(path) }
+    end
+    with_bundle(schema_version: 2, messages: [message], attachment_files: { attachment.fetch('path') => bytes }) do |path|
+      attachment_path = File.join(path, attachment.fetch('path'))
+      target = File.join(path, 'target.txt')
+      File.binwrite(target, bytes)
+      File.delete(attachment_path)
+      File.symlink(target, attachment_path)
+
+      assert_raises(MyinvestChatImport::UnsafePathError) { MyinvestChatImport::Bundle.load(path) }
     end
   end
 
@@ -218,8 +283,14 @@ class MyinvestChatImportTest < Minitest::Test
   end
 
   def with_bundle(tenant_key: 'saas', export_id: 'export-1', contacts: default_contacts,
-                  conversations: default_conversations, messages: default_messages)
+                  conversations: default_conversations, messages: default_messages, schema_version: 1,
+                  attachment_files: {})
     Dir.mktmpdir('myinvest-chat-import') do |path|
+      attachment_files.each do |relative_path, bytes|
+        absolute_path = File.join(path, relative_path)
+        FileUtils.mkdir_p(File.dirname(absolute_path))
+        File.binwrite(absolute_path, bytes)
+      end
       records = { 'contacts' => contacts, 'conversations' => conversations, 'messages' => messages }
       files = records.to_h do |name, rows|
         bytes = rows.map { |row| JSON.generate(row) }.join("\n") + "\n"
@@ -228,7 +299,7 @@ class MyinvestChatImportTest < Minitest::Test
         [name, { 'path' => filename, 'sha256' => Digest::SHA256.hexdigest(bytes), 'count' => rows.length }]
       end
       manifest = {
-        'schema_version' => 1,
+        'schema_version' => schema_version,
         'source_namespace' => 'academy-export',
         'export_id' => export_id,
         'tenant_key' => tenant_key,

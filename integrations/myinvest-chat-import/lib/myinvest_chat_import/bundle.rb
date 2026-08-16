@@ -13,12 +13,15 @@ module MyinvestChatImport
     CONTACT_KEYS = %w[external_id name email phone_number created_at updated_at].freeze
     CONVERSATION_KEYS = %w[external_id contact_external_id status created_at updated_at].freeze
     MESSAGE_KEYS = %w[external_id conversation_external_id direction content created_at updated_at attachments metadata].freeze
+    ATTACHMENT_KEYS = %w[external_id path sha256 byte_size filename content_type].freeze
     MAX_ID_LENGTH = 512
     MAX_MESSAGE_LENGTH = 150_000
+    MAX_ATTACHMENTS_PER_MESSAGE = 100
+    MAX_ATTACHMENT_BYTES = 1_073_741_824
     MAX_RECORDS_PER_FILE = 10_000_000
     FORBIDDEN_METADATA_KEY = /(?:^|_)(?:route|routing|tenant|account|inbox|agent|bot|handoff|assignee|status|direction)(?:_|$)/i
 
-    attr_reader :bundle_sha256, :contacts, :conversations, :export_id, :messages, :source_namespace, :tenant_key
+    attr_reader :bundle_sha256, :contacts, :conversations, :export_id, :messages, :schema_version, :source_namespace, :tenant_key
 
     def self.load(path)
       new(path).tap(&:load!)
@@ -40,6 +43,7 @@ module MyinvestChatImport
       validate_manifest!(manifest)
 
       @bundle_sha256 = Digest::SHA256.hexdigest(manifest_bytes.b)
+      @schema_version = manifest.fetch('schema_version')
       @source_namespace = stable_id!(manifest.fetch('source_namespace'))
       @export_id = stable_id!(manifest.fetch('export_id'))
       @tenant_key = manifest.fetch('tenant_key')
@@ -48,6 +52,12 @@ module MyinvestChatImport
       @messages = load_records(manifest, 'messages') { |record| validate_message!(record) }
       validate_references!
       self
+    end
+
+    def attachment_path(descriptor)
+      raise UnsupportedAttachmentError unless schema_version == 2
+
+      safe_attachment_file(descriptor.fetch('path'))
     end
 
     private
@@ -100,7 +110,7 @@ module MyinvestChatImport
     end
 
     def validate_manifest!(manifest)
-      raise ValidationError, 'unsupported_schema_version' unless manifest.fetch('schema_version') == 1
+      raise ValidationError, 'unsupported_schema_version' unless [1, 2].include?(manifest.fetch('schema_version'))
       stable_id!(manifest.fetch('source_namespace'))
       stable_id!(manifest.fetch('export_id'))
       raise ValidationError, 'unsupported_tenant' unless TENANTS.include?(manifest.fetch('tenant_key'))
@@ -164,9 +174,52 @@ module MyinvestChatImport
       raise ValidationError, 'invalid_message_direction' unless %w[incoming outgoing note].include?(record.fetch('direction'))
       string!(record.fetch('content'), 'invalid_message_content', max: MAX_MESSAGE_LENGTH)
       raise ValidationError, 'attachments_must_be_array' unless record.fetch('attachments').is_a?(Array)
-      raise UnsupportedAttachmentError unless record.fetch('attachments').empty?
+      attachments = record.fetch('attachments')
+      raise ValidationError, 'too_many_attachments' if attachments.length > MAX_ATTACHMENTS_PER_MESSAGE
+      raise UnsupportedAttachmentError if schema_version == 1 && attachments.any?
+      attachments.each { |attachment| validate_attachment!(attachment) } if schema_version == 2
       validate_metadata!(record.fetch('metadata', {}))
       timestamp_pair!(record)
+    end
+
+    def validate_attachment!(attachment)
+      raise ValidationError, 'attachment_schema_mismatch' unless attachment.is_a?(Hash)
+
+      validate_exact_keys!(attachment, ATTACHMENT_KEYS, 'attachment_schema_mismatch')
+      stable_id!(attachment.fetch('external_id'))
+      path = attachment.fetch('path')
+      digest = attachment.fetch('sha256')
+      raise UnsafePathError unless path.is_a?(String) && path.match?(%r{\Aattachments/[0-9a-f]{64}\z})
+      raise ValidationError, 'invalid_attachment_sha256' unless digest.is_a?(String) && digest.match?(/\A[0-9a-f]{64}\z/)
+      raise ValidationError, 'attachment_path_digest_mismatch' unless File.basename(path) == digest
+
+      byte_size = attachment.fetch('byte_size')
+      raise ValidationError, 'invalid_attachment_size' unless byte_size.is_a?(Integer) && byte_size.between?(0, MAX_ATTACHMENT_BYTES)
+      filename = attachment.fetch('filename')
+      string!(filename, 'invalid_attachment_filename', max: 255)
+      raise ValidationError, 'invalid_attachment_filename' if filename.empty? || filename != File.basename(filename) || filename.match?(/[\\\/\r\n]/)
+      content_type = attachment.fetch('content_type')
+      string!(content_type, 'invalid_attachment_content_type', max: 255)
+      raise ValidationError, 'invalid_attachment_content_type' unless content_type.match?(%r{\A[a-z0-9][a-z0-9.+-]*/[a-z0-9][a-z0-9.+-]*\z}i)
+
+      absolute_path = safe_attachment_file(path)
+      raise ValidationError, 'attachment_size_mismatch' unless File.size(absolute_path) == byte_size
+      raise ValidationError, 'attachment_digest_mismatch' unless secure_equal?(Digest::SHA256.file(absolute_path).hexdigest, digest)
+    end
+
+    def safe_attachment_file(relative_path)
+      path = File.join(@root, relative_path)
+      stat = File.lstat(path)
+      real = File.realpath(path)
+      attachment_directory = File.join(@root, 'attachments')
+      directory_stat = File.lstat(attachment_directory)
+      attachment_root = File.realpath(attachment_directory)
+      raise UnsafePathError unless directory_stat.directory? && !directory_stat.symlink? && File.dirname(attachment_root) == @root
+      raise UnsafePathError unless stat.file? && !stat.symlink? && File.dirname(real) == attachment_root
+
+      real
+    rescue Errno::ENOENT, Errno::EACCES
+      raise UnsafePathError
     end
 
     def validate_metadata!(metadata)

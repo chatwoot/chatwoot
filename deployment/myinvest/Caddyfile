@@ -6,7 +6,7 @@
 	}
 }
 
-{$CADDY_SITE_ADDRESS} {
+{$CADDY_SITE_SCHEME:https}://{$CADDY_SITE_ADDRESS} {
 	encode zstd gzip
 
 	header {
@@ -24,6 +24,7 @@
 
 	handle {
 		reverse_proxy rails:3000 {
+			header_up X-Forwarded-Proto https
 			health_uri /health
 			health_interval 30s
 			health_timeout 5s
