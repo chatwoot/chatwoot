@@ -1,0 +1,250 @@
+name: myinvest-chatwoot
+
+x-chatwoot: &chatwoot
+  image: chatwoot/chatwoot:v4.16.2@sha256:f9b071ffe678031ee6d51bf591ddd4336b80c3edfb3105e38e46afd32b8211b2
+  environment: &chatwoot-environment
+    NODE_ENV: production
+    RAILS_ENV: production
+    INSTALLATION_ENV: docker
+    FRONTEND_URL: ${FRONTEND_URL:?FRONTEND_URL is required}
+    FORCE_SSL: ${FORCE_SSL:-true}
+    ENABLE_ACCOUNT_SIGNUP: ${ENABLE_ACCOUNT_SIGNUP:-false}
+    SAFE_FETCH_ALLOW_PRIVATE_NETWORK: ${SAFE_FETCH_ALLOW_PRIVATE_NETWORK:-false}
+    DISABLE_TELEMETRY: ${DISABLE_TELEMETRY:-true}
+    ENABLE_PUSH_RELAY_SERVER: ${ENABLE_PUSH_RELAY_SERVER:-false}
+    ENABLE_RACK_ATTACK: ${ENABLE_RACK_ATTACK:-true}
+    ENABLE_RACK_ATTACK_WIDGET_API: ${ENABLE_RACK_ATTACK_WIDGET_API:-true}
+    RACK_ATTACK_LIMIT: ${RACK_ATTACK_LIMIT:-300}
+    VIPS_BLOCK_UNTRUSTED: ${VIPS_BLOCK_UNTRUSTED:-1}
+    DEFAULT_LOCALE: ${DEFAULT_LOCALE:-de}
+    TZ: ${TZ:-Europe/Berlin}
+    SECRET_KEY_BASE: ${SECRET_KEY_BASE:?SECRET_KEY_BASE is required}
+    ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY: ${ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY:?ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY is required}
+    ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: ${ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY:?ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY is required}
+    ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: ${ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT:?ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT is required}
+    POSTGRES_HOST: postgres
+    POSTGRES_DATABASE: ${POSTGRES_DATABASE:?POSTGRES_DATABASE is required}
+    POSTGRES_USERNAME: ${POSTGRES_USERNAME:?POSTGRES_USERNAME is required}
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    POSTGRES_PORT: "5432"
+    POSTGRES_STATEMENT_TIMEOUT: ${POSTGRES_STATEMENT_TIMEOUT:-14s}
+    REDIS_URL: ${REDIS_URL:?REDIS_URL is required}
+    RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
+    SIDEKIQ_CONCURRENCY: ${SIDEKIQ_CONCURRENCY:-10}
+    MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:-}
+    SMTP_DOMAIN: ${SMTP_DOMAIN:-}
+    SMTP_ADDRESS: ${SMTP_ADDRESS:-}
+    SMTP_PORT: ${SMTP_PORT:-587}
+    SMTP_USERNAME: ${SMTP_USERNAME:-}
+    SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+    SMTP_AUTHENTICATION: ${SMTP_AUTHENTICATION:-login}
+    SMTP_ENABLE_STARTTLS_AUTO: ${SMTP_ENABLE_STARTTLS_AUTO:-true}
+    SMTP_OPENSSL_VERIFY_MODE: ${SMTP_OPENSSL_VERIFY_MODE:-peer}
+    ACTIVE_STORAGE_SERVICE: ${ACTIVE_STORAGE_SERVICE:-local}
+    STORAGE_BUCKET_NAME: ${STORAGE_BUCKET_NAME:-}
+    STORAGE_ACCESS_KEY_ID: ${STORAGE_ACCESS_KEY_ID:-}
+    STORAGE_SECRET_ACCESS_KEY: ${STORAGE_SECRET_ACCESS_KEY:-}
+    STORAGE_REGION: ${STORAGE_REGION:-}
+    STORAGE_ENDPOINT: ${STORAGE_ENDPOINT:-}
+    STORAGE_FORCE_PATH_STYLE: ${STORAGE_FORCE_PATH_STYLE:-false}
+    DIRECT_UPLOADS_ENABLED: ${DIRECT_UPLOADS_ENABLED:-false}
+    RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT:-true}
+    LOG_LEVEL: ${LOG_LEVEL:-info}
+    LOGRAGE_ENABLED: ${LOGRAGE_ENABLED:-true}
+    INSTALLATION_NAME: ${INSTALLATION_NAME:-MyInvest Support}
+    BRAND_NAME: ${BRAND_NAME:-MyInvest}
+  volumes:
+    - chatwoot_storage:/app/storage
+    - ./bootstrap:/bootstrap:ro
+    - ./runtime:/bootstrap-output
+    - ./chatwoot-initializers/myinvest_security.rb:/app/config/initializers/myinvest_security.rb:ro
+  networks:
+    - backend
+    - egress
+  restart: unless-stopped
+  init: true
+
+services:
+  rails:
+    <<: *chatwoot
+    entrypoint: docker/entrypoints/rails.sh
+    command: ["bundle", "exec", "rails", "server", "-p", "3000", "-b", "0.0.0.0"]
+    expose:
+      - "3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - ruby
+        - -rnet/http
+        - -e
+        - "uri = URI('http://127.0.0.1:3000/health'); request = Net::HTTP::Get.new(uri); request['X-Forwarded-Proto'] = 'https'; response = Net::HTTP.start(uri.host, uri.port) { |http| http.request(request) }; exit(response.is_a?(Net::HTTPSuccess) ? 0 : 1)"
+      interval: 20s
+      timeout: 5s
+      retries: 12
+      start_period: 90s
+
+  sidekiq:
+    <<: *chatwoot
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - "bundle exec rails runner 'exit(Sidekiq::ProcessSet.new.size.positive? ? 0 : 1)'"
+      interval: 30s
+      timeout: 15s
+      retries: 5
+      start_period: 90s
+
+  postgres:
+    image: pgvector/pgvector:pg16@sha256:ccc6e83d6e35e931dc7c5def2022729d5a6c370318d099181995567ff1fb4d6b
+    environment:
+      POSTGRES_USER: ${POSTGRES_ADMIN_USER:?POSTGRES_ADMIN_USER is required}
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?POSTGRES_ADMIN_PASSWORD is required}
+      POSTGRES_DB: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+      CHATWOOT_DATABASE: ${POSTGRES_DATABASE:?POSTGRES_DATABASE is required}
+      CHATWOOT_DATABASE_USER: ${POSTGRES_USERNAME:?POSTGRES_USERNAME is required}
+      CHATWOOT_DATABASE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      CLAUDE_AGENT_DATABASE: ${CLAUDE_AGENT_DATABASE:?CLAUDE_AGENT_DATABASE is required}
+      CLAUDE_AGENT_DATABASE_USER: ${CLAUDE_AGENT_DATABASE_USER:?CLAUDE_AGENT_DATABASE_USER is required}
+      CLAUDE_AGENT_DATABASE_PASSWORD: ${CLAUDE_AGENT_DATABASE_PASSWORD:?CLAUDE_AGENT_DATABASE_PASSWORD is required}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    shm_size: 256mb
+
+  redis:
+    image: redis:7.4-alpine@sha256:e7723ff73d963f5cc6d9c4643ea3d989527a402a319239054e9472a7fb9219a2
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?REDIS_PASSWORD is required}
+    command:
+      - sh
+      - -ec
+      - exec redis-server --appendonly yes --appendfsync everysec --requirepass "$${REDIS_PASSWORD}"
+    volumes:
+      - redis_data:/data
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "REDISCLI_AUTH=\"$$REDIS_PASSWORD\" redis-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  claude-agent:
+    build:
+      context: ../../integrations/myinvest-claude-agent
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: "8080"
+      LOCAL_SMOKE: ${LOCAL_SMOKE:-false}
+      LOCAL_FAKE_CLAUDE_ANSWER: ${LOCAL_FAKE_CLAUDE_ANSWER:-}
+      DATABASE_URL: ${CLAUDE_AGENT_DATABASE_URL:?CLAUDE_AGENT_DATABASE_URL is required}
+      REDIS_URL: ${CLAUDE_AGENT_REDIS_URL:?CLAUDE_AGENT_REDIS_URL is required}
+      CHATWOOT_BASE_URL: http://rails:3000
+      TENANTS_JSON: ${TENANTS_JSON:?TENANTS_JSON is required}
+      WEBHOOK_REPLAY_WINDOW_SECONDS: ${WEBHOOK_REPLAY_WINDOW_SECONDS:-300}
+      DELIVERY_RETENTION_SECONDS: ${DELIVERY_RETENTION_SECONDS:-86400}
+      MAX_BODY_BYTES: ${MAX_BODY_BYTES:-262144}
+      KNOWLEDGE_MIN_SCORE: ${KNOWLEDGE_MIN_SCORE:-0.05}
+      KNOWLEDGE_MAX_SOURCES: ${KNOWLEDGE_MAX_SOURCES:-4}
+      ANTHROPIC_PROVIDER: ${ANTHROPIC_PROVIDER:?ANTHROPIC_PROVIDER is required}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:?ANTHROPIC_MODEL is required}
+      AWS_REGION: ${AWS_REGION:?AWS_REGION is required}
+      BEDROCK_MODEL: ${BEDROCK_MODEL:?BEDROCK_MODEL is required}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN:-}
+    command: ["sh", "-ec", "node dist/migrate.js && exec node dist/server.js"]
+    expose:
+      - "8080"
+    networks:
+      - backend
+      - egress
+    restart: unless-stopped
+    init: true
+    depends_on:
+      rails:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8080/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  caddy:
+    image: caddy:2.10.2-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d
+    environment:
+      CADDY_SITE_ADDRESS: ${CADDY_SITE_ADDRESS:?CADDY_SITE_ADDRESS is required}
+      ACME_EMAIL: ${ACME_EMAIL:?ACME_EMAIL is required}
+    ports:
+      - "${BIND_ADDRESS:-0.0.0.0}:${HTTP_PORT:-80}:80"
+      - "${BIND_ADDRESS:-0.0.0.0}:${HTTPS_PORT:-443}:443"
+      - "${BIND_ADDRESS:-0.0.0.0}:${HTTPS_PORT:-443}:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+    depends_on:
+      rails:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:2019/config/"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+networks:
+  frontend:
+  egress:
+  backend:
+    internal: true
+
+volumes:
+  chatwoot_storage:
+    name: myinvest-chatwoot-storage
+  postgres_data:
+    name: myinvest-chatwoot-postgres
+  redis_data:
+    name: myinvest-chatwoot-redis
+  caddy_data:
+    name: myinvest-chatwoot-caddy-data
+  caddy_config:
+    name: myinvest-chatwoot-caddy-config

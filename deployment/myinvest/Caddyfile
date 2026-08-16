@@ -1,0 +1,40 @@
+{
+	admin localhost:2019
+	email {$ACME_EMAIL}
+	servers {
+		protocols h1 h2 h3
+	}
+}
+
+{$CADDY_SITE_ADDRESS} {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	handle /_agent/webhooks/chatwoot {
+		uri strip_prefix /_agent
+		reverse_proxy claude-agent:8080
+	}
+
+	handle {
+		reverse_proxy rails:3000 {
+			health_uri /health
+			health_interval 30s
+			health_timeout 5s
+			health_headers {
+				X-Forwarded-Proto https
+			}
+		}
+	}
+
+	log {
+		output stdout
+		format json
+	}
+}
