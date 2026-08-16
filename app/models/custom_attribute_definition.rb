@@ -58,7 +58,9 @@ class CustomAttributeDefinition < ApplicationRecord
 
     transaction do
       positions_hash.each do |id, new_position|
+        # rubocop:disable Rails/SkipsModelValidations
         account.custom_attribute_definitions.find(id).update_columns(position: new_position, updated_at: Time.current)
+        # rubocop:enable Rails/SkipsModelValidations
       end
     end
   end
