@@ -13,6 +13,7 @@ import PasswordRequirements from './PasswordRequirements.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
+import { useMapGetter } from 'dashboard/composables/store.js';
 import * as CompanyEmailValidator from 'company-email-validator';
 
 const MIN_PASSWORD_LENGTH = 6;
@@ -32,9 +33,7 @@ const credentials = reactive({
 });
 
 const globalConfig = computed(() => store.getters['globalConfig/get']);
-const isAChatwootInstance = computed(
-  () => globalConfig.value.installationName === 'Chatwoot'
-);
+const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
 
 const rules = {
   credentials: {
@@ -42,7 +41,7 @@ const rules = {
       required,
       email,
       businessEmailValidator(value) {
-        if (!isAChatwootInstance.value) return true;
+        if (!isOnChatwootCloud.value) return true;
         return CompanyEmailValidator.isCompanyEmail(value);
       },
     },

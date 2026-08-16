@@ -1,8 +1,9 @@
 import { mount } from '@vue/test-utils';
 import Form from './Form.vue';
 
-const { globalConfigState } = vi.hoisted(() => ({
+const { globalConfigState, isOnChatwootCloudState } = vi.hoisted(() => ({
   globalConfigState: { value: {} },
+  isOnChatwootCloudState: { value: false },
 }));
 
 vi.mock('vuex', () => ({
@@ -11,6 +12,13 @@ vi.mock('vuex', () => ({
       'globalConfig/get': globalConfigState.value,
     },
   }),
+}));
+
+vi.mock('dashboard/composables/store.js', () => ({
+  useMapGetter: getter =>
+    getter === 'globalConfig/isOnChatwootCloud'
+      ? isOnChatwootCloudState
+      : { value: undefined },
 }));
 
 vi.mock('vue-i18n', () => ({
@@ -60,8 +68,9 @@ describe('Signup Form', () => {
     window.chatwootConfig = { allowedLoginMethods: ['email'] };
   });
 
-  it('rejects a personal email address when installationName is Chatwoot', async () => {
+  it('rejects a personal email address on Chatwoot Cloud', async () => {
     globalConfigState.value = { installationName: 'Chatwoot' };
+    isOnChatwootCloudState.value = true;
     const wrapper = mountForm();
     const emailInput = wrapper.find('input[name="email_address"]');
 
@@ -71,8 +80,33 @@ describe('Signup Form', () => {
     expect(emailInput.classes()).toContain('error');
   });
 
-  it('skips the business email restriction on self-hosted installations', async () => {
+  it('skips the business email restriction on a rebranded self-hosted installation', async () => {
     globalConfigState.value = { installationName: 'My Self Hosted Chatwoot' };
+    isOnChatwootCloudState.value = false;
+    const wrapper = mountForm();
+    const emailInput = wrapper.find('input[name="email_address"]');
+
+    await emailInput.setValue('personal@gmail.com');
+    await emailInput.trigger('blur');
+
+    expect(emailInput.classes()).not.toContain('error');
+  });
+
+  it('skips the business email restriction on a stock self-hosted installation with the default installation name', async () => {
+    globalConfigState.value = { installationName: 'Chatwoot' };
+    isOnChatwootCloudState.value = false;
+    const wrapper = mountForm();
+    const emailInput = wrapper.find('input[name="email_address"]');
+
+    await emailInput.setValue('personal@gmail.com');
+    await emailInput.trigger('blur');
+
+    expect(emailInput.classes()).not.toContain('error');
+  });
+
+  it('skips the business email restriction when globalConfig is empty', async () => {
+    globalConfigState.value = {};
+    isOnChatwootCloudState.value = false;
     const wrapper = mountForm();
     const emailInput = wrapper.find('input[name="email_address"]');
 
