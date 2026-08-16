@@ -34,7 +34,7 @@ UPDATE agent_knowledge_documents
 SET active = false, publication_status = '\''retired'\'', updated_at = now()
 WHERE tenant_key = '\''saas'\'' AND source_namespace = '\''production-e2e'\'' AND source_id = :'\''source_id'\'';
 SQL' \
-      >/dev/null 2>&1 || true
+      >/dev/null
   fi
 }
 resolve_test_conversations() {
@@ -43,14 +43,36 @@ resolve_test_conversations() {
     scope.find_each do |conversation|
       conversation.update!(status: :resolved, custom_attributes: conversation.custom_attributes.merge("myinvest_e2e_retired" => true))
     end
-  ' >/dev/null 2>&1 || true
+  ' >/dev/null
+}
+verify_no_active_test_artifacts() {
+  local active_documents unresolved_conversations
+  # Variables intentionally expand inside the PostgreSQL container.
+  # shellcheck disable=SC2016
+  active_documents="$("${compose[@]}" exec -T postgres sh -ec \
+    'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="SELECT count(*) FROM agent_knowledge_documents WHERE source_namespace = '\''production-e2e'\'' AND (active = true OR publication_status <> '\''retired'\'')"')"
+  unresolved_conversations="$("${compose[@]}" exec -T rails bundle exec rails runner '
+    print Conversation.where("custom_attributes ->> '\''production_e2e'\'' = ?", "true").where.not(status: :resolved).count
+  ')"
+  if [[ "$active_documents" != 0 || "$unresolved_conversations" != 0 ]]; then
+    printf 'Production E2E cleanup verification failed (active_documents=%s unresolved_conversations=%s).\n' \
+      "$active_documents" "$unresolved_conversations" >&2
+    return 1
+  fi
 }
 cleanup_production_e2e() {
-  retire_test_knowledge
-  resolve_test_conversations
+  local original_status=$? cleanup_status=0
+  trap - EXIT
+  set +e
+  retire_test_knowledge || cleanup_status=1
+  resolve_test_conversations || cleanup_status=1
   if [[ -n "${e2e_runtime:-}" && -d "$e2e_runtime" ]]; then
-    find "$e2e_runtime" -depth -delete 2>/dev/null || true
+    find "$e2e_runtime" -depth -delete || cleanup_status=1
   fi
+  if (( original_status != 0 )); then
+    exit "$original_status"
+  fi
+  exit "$cleanup_status"
 }
 trap cleanup_production_e2e EXIT
 
@@ -226,8 +248,9 @@ payload="$(jq -cn \
   --argjson message "$message_id" \
   '{event:"message_created",id:$message,created_at:$created_at,content:"Ich möchte mit einem Menschen sprechen.",message_type:"incoming",private:false,account:{id:$account},conversation:{id:$conversation}}')"
 timestamp="$(date +%s)"
-signature="$(TENANT_KEY=saas TIMESTAMP="$timestamp" RAW_BODY="$payload" TENANTS_PATH="$deployment_dir/runtime/tenants.json" \
-  ruby -rjson -ropenssl -e '
+signature="$("${compose[@]}" exec -T \
+  -e TENANT_KEY=saas -e TIMESTAMP="$timestamp" -e RAW_BODY="$payload" -e TENANTS_PATH=/bootstrap-output/tenants.json \
+  rails ruby -rjson -ropenssl -e '
     tenant = JSON.parse(File.read(ENV.fetch("TENANTS_PATH"))).find { |entry| entry.fetch("key") == ENV.fetch("TENANT_KEY") }
     abort "tenant not found" unless tenant
     data = "#{ENV.fetch("TIMESTAMP")}.#{ENV.fetch("RAW_BODY")}"
@@ -270,6 +293,7 @@ ledger_count="$("${compose[@]}" exec -T postgres sh -ec \
 
 resolve_test_conversations
 retire_test_knowledge
+verify_no_active_test_artifacts
 test_document_inserted=false
 find "$e2e_runtime" -depth -delete
 trap - EXIT
