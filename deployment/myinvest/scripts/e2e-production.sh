@@ -20,7 +20,13 @@ set +a
 }
 
 context_path="$deployment_dir/runtime/e2e-production.json"
-test_source_id="production-e2e-$(date +%s)"
+test_run_marker="production-e2e-$(date -u +%Y%m%dT%H%M%SZ)-$(openssl rand -hex 16)"
+[[ "$test_run_marker" =~ ^production-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}$ ]] || {
+  printf 'Could not create a valid Production E2E run marker.\n' >&2
+  exit 1
+}
+test_source_id="$test_run_marker"
+expected_account_id="$(jq -er '.[] | select(.key == "saas") | .accountId | select(type == "number")' "$deployment_dir/runtime/tenants.json")"
 test_content='Die Produktionspfadprüfung beginnt im Testbereich unter Einstellungen.'
 test_content_hash="$(printf '%s' "$test_content" | shasum -a 256 | awk '{print $1}')"
 test_document_inserted=false
@@ -38,8 +44,11 @@ SQL' \
   fi
 }
 resolve_test_conversations() {
-  "${compose[@]}" exec -T -e E2E_SOURCE_ID="$test_source_id" rails bundle exec rails runner '
-    scope = Conversation.where("custom_attributes ->> '\''production_e2e_source_id'\'' = ?", ENV.fetch("E2E_SOURCE_ID"))
+  "${compose[@]}" exec -T -e E2E_ACCOUNT_ID="$expected_account_id" -e E2E_RUN_MARKER="$test_run_marker" rails bundle exec rails runner '
+    account_id = Integer(ENV.fetch("E2E_ACCOUNT_ID"))
+    marker = ENV.fetch("E2E_RUN_MARKER")
+    raise "invalid Production E2E marker" unless marker.match?(/\Aproduction-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}\z/)
+    scope = Conversation.where(account_id: account_id).where("additional_attributes ->> '\''myinvest_production_e2e_run'\'' = ?", marker)
     scope.find_each do |conversation|
       conversation.update!(status: :resolved, custom_attributes: conversation.custom_attributes.merge("myinvest_e2e_retired" => true))
     end
@@ -51,8 +60,11 @@ verify_no_active_test_artifacts() {
   # shellcheck disable=SC2016
   active_documents="$("${compose[@]}" exec -T postgres sh -ec \
     'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="SELECT count(*) FROM agent_knowledge_documents WHERE source_namespace = '\''production-e2e'\'' AND (active = true OR publication_status <> '\''retired'\'')"')"
-  unresolved_conversations="$("${compose[@]}" exec -T rails bundle exec rails runner '
-    print Conversation.where("custom_attributes ->> '\''production_e2e'\'' = ?", "true").where.not(status: :resolved).count
+  unresolved_conversations="$("${compose[@]}" exec -T -e E2E_ACCOUNT_ID="$expected_account_id" rails bundle exec rails runner '
+    account_id = Integer(ENV.fetch("E2E_ACCOUNT_ID"))
+    print Conversation.where(account_id: account_id)
+      .where("additional_attributes ->> '\''myinvest_production_e2e_run'\'' LIKE ?", "production-e2e-%")
+      .where.not(status: :resolved).count
   ')"
   if [[ "$active_documents" != 0 || "$unresolved_conversations" != 0 ]]; then
     printf 'Production E2E cleanup verification failed (active_documents=%s unresolved_conversations=%s).\n' \
@@ -83,8 +95,11 @@ trap cleanup_production_e2e EXIT
 "${compose[@]}" exec -T postgres sh -ec \
   'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --quiet --set=ON_ERROR_STOP=1 --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="UPDATE agent_knowledge_documents SET active = false, publication_status = '\''retired'\'', updated_at = now() WHERE source_namespace = '\''production-e2e'\'' AND (active = true OR publication_status <> '\''retired'\'')"' \
   >/dev/null
-"${compose[@]}" exec -T rails bundle exec rails runner '
-  Conversation.where("custom_attributes ->> '\''production_e2e'\'' = ?", "true").where.not(status: :resolved).find_each do |conversation|
+"${compose[@]}" exec -T -e E2E_ACCOUNT_ID="$expected_account_id" rails bundle exec rails runner '
+  account_id = Integer(ENV.fetch("E2E_ACCOUNT_ID"))
+  Conversation.where(account_id: account_id)
+    .where("additional_attributes ->> '\''myinvest_production_e2e_run'\'' LIKE ?", "production-e2e-%")
+    .where.not(status: :resolved).find_each do |conversation|
     conversation.update!(status: :resolved, custom_attributes: conversation.custom_attributes.merge("myinvest_e2e_retired" => true))
   end
 ' >/dev/null
@@ -110,6 +125,10 @@ test_document_inserted=true
   bundle exec rails runner /bootstrap/e2e_production_path.rb >/dev/null
 
 account_id="$(jq -r '.account_id' "$context_path")"
+[[ "$account_id" == "$expected_account_id" ]] || {
+  printf 'Production E2E account does not match the tenant registry.\n' >&2
+  exit 1
+}
 website_token="$(jq -r '.website_token' "$context_path")"
 external_base_url="${FRONTEND_URL%/}/api/v1/widget"
 e2e_runtime="$(mktemp -d)"
@@ -140,9 +159,8 @@ create_external_widget_path() {
     --header 'content-type: application/json' \
     --header "X-Auth-Token: $auth_token" \
     --data-binary "$(jq -cn \
-      --arg website_token "$website_token" --arg marker "$marker" --arg kind "$kind" --arg content "$content" \
-      --arg source_id "$test_source_id" \
-      '{website_token:$website_token,contact:{name:$marker},message:{content:$content,referer_url:"https://support.myinvest-pro.de/production-e2e"},custom_attributes:{myinvest_e2e:$kind,production_e2e:true,production_e2e_source_id:$source_id}}')" \
+      --arg website_token "$website_token" --arg marker "$marker" --arg content "$content" \
+      '{website_token:$website_token,contact:{name:$marker},message:{content:$content,referer_url:"https://support.myinvest-pro.de/production-e2e"}}')" \
     "$external_base_url/conversations" > "$conversation_path"
   jq -e --arg content "$content" '
     (.id | type == "number") and
@@ -153,6 +171,18 @@ create_external_widget_path() {
     printf 'External widget conversation response does not match the expected schema.\n' >&2
     return 1
   }
+  local display_id
+  display_id="$(jq -er '.id | select(type == "number")' "$conversation_path")"
+  "${compose[@]}" exec -T \
+    -e E2E_ACCOUNT_ID="$account_id" -e E2E_DISPLAY_ID="$display_id" -e E2E_RUN_MARKER="$test_run_marker" \
+    rails bundle exec rails runner '
+      account_id = Integer(ENV.fetch("E2E_ACCOUNT_ID"))
+      display_id = Integer(ENV.fetch("E2E_DISPLAY_ID"))
+      marker = ENV.fetch("E2E_RUN_MARKER")
+      raise "invalid Production E2E marker" unless marker.match?(/\Aproduction-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}\z/)
+      conversation = Conversation.find_by!(account_id: account_id, display_id: display_id)
+      conversation.update!(additional_attributes: conversation.additional_attributes.merge("myinvest_production_e2e_run" => marker))
+    ' >/dev/null
   printf '%s' "$auth_token" > "$e2e_runtime/${kind}-auth-token"
   chmod 600 "$e2e_runtime/${kind}-auth-token" "$config_path" "$conversation_path"
 }

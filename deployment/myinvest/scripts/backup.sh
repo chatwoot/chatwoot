@@ -44,7 +44,8 @@ finish_or_clean_up() {
 trap finish_or_clean_up EXIT
 
 "${compose[@]}" pause rails sidekiq claude-agent >/dev/null
-"${compose[@]}" run --rm rails bundle exec rails runner /bootstrap/object_storage_manifest.rb >/dev/null
+"${compose[@]}" run --rm --user "$(id -u):$(id -g)" rails \
+  bundle exec rails runner /bootstrap/object_storage_manifest.rb >/dev/null
 cp "$deployment_dir/runtime/object-storage-manifest.json" "$temporary/object-storage-manifest.json"
 "${compose[@]}" pause minio >/dev/null
 # Variables in these commands intentionally expand inside the database container.
