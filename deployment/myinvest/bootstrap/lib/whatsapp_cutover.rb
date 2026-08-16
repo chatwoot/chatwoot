@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'securerandom'
+require 'uri'
 
 module Myinvest
   module WhatsappCutover
@@ -13,6 +14,8 @@ module Myinvest
       REQUIRED_CODE_VERIFICATION = 'VERIFIED'
       REQUIRED_PLATFORM_TYPE = 'CLOUD_API'
       RISKY_QUALITY_RATINGS = %w[YELLOW RED].freeze
+      E164_REGEX = /\A\+[1-9]\d{1,14}\z/.freeze
+      DECIMAL_ID_REGEX = /\A\d+\z/.freeze
 
       attr_reader :account, :phone_number, :phone_number_id, :waba_id, :business_portfolio_id, :access_token, :app_secret
 
@@ -41,9 +44,13 @@ module Myinvest
       def validate_parameters!
         raise ArgumentError, 'Account is required' if account.blank?
         raise ArgumentError, 'Phone number is required' if phone_number.blank?
+        raise ArgumentError, 'Phone number must be a valid E.164 number' unless phone_number.match?(E164_REGEX)
         raise ArgumentError, 'Phone number ID is required' if phone_number_id.blank?
+        raise ArgumentError, 'Phone number ID must be a numeric string' unless phone_number_id.match?(DECIMAL_ID_REGEX)
         raise ArgumentError, 'WABA ID is required' if waba_id.blank?
+        raise ArgumentError, 'WABA ID must be a numeric string' unless waba_id.match?(DECIMAL_ID_REGEX)
         raise ArgumentError, 'Business portfolio ID is required' if business_portfolio_id.blank?
+        raise ArgumentError, 'Business portfolio ID must be a numeric string' unless business_portfolio_id.match?(DECIMAL_ID_REGEX)
         raise ArgumentError, 'Access token is required' if access_token.blank?
         raise ArgumentError, 'App secret is required' if app_secret.blank?
       end
@@ -70,9 +77,7 @@ module Myinvest
 
       def validate_ownership!(channel)
         if channel.account_id != account.id
-          raise ConflictError,
-                "Phone number #{redact_phone(phone_number)} already belongs to account #{channel.account_id}; " \
-                'cross-account cutover rejected'
+          raise ConflictError, 'Phone number already belongs to another account; cross-account cutover rejected'
         end
 
         config = channel.provider_config || {}
@@ -80,15 +85,11 @@ module Myinvest
         existing_phone_id = config['phone_number_id'].to_s
 
         if existing_waba.present? && existing_waba != waba_id
-          raise ConflictError,
-                "Phone number #{redact_phone(phone_number)} exists under WABA #{existing_waba}; " \
-                "requested WABA #{waba_id} conflicts"
+          raise ConflictError, 'Existing phone number is registered under a different WABA; cutover rejected'
         end
 
         if existing_phone_id.present? && existing_phone_id != phone_number_id
-          raise ConflictError,
-                "Phone number #{redact_phone(phone_number)} exists with phone_number_id #{existing_phone_id}; " \
-                "requested #{phone_number_id} conflicts"
+          raise ConflictError, 'Existing phone number is registered with a different phone number ID; cutover rejected'
         end
 
         true
@@ -131,10 +132,7 @@ module Myinvest
         verify_quality_rating!(health)
         verify_webhook!(health)
 
-        Rails.logger.info(
-          "[WHATSAPP_CUTOVER] health verified account_id=#{account.id} channel_id=#{channel.id} " \
-          "phone_number_id=#{phone_number_id} waba_id=#{waba_id}"
-        )
+        Rails.logger.info("[WHATSAPP_CUTOVER] health verified account_id=#{account.id} channel_id=#{channel.id}")
       end
 
       def fetch_health(channel)
@@ -153,9 +151,8 @@ module Myinvest
       end
 
       def verify_phone!(health)
-        actual_phone = normalize_phone(health[:display_phone_number].to_s)
-        expected_phone = normalize_phone(phone_number)
-        return if actual_phone.present? && actual_phone == expected_phone
+        actual_phone = health[:display_phone_number].to_s.strip
+        return if actual_phone == phone_number
 
         raise HealthError, 'Health check failed: phone number mismatch'
       end
@@ -203,10 +200,10 @@ module Myinvest
       end
 
       def verify_webhook!(health)
-        expected = health[:expected_webhook_url].to_s
-        raise HealthError, 'Health check failed: expected webhook URL missing' if expected.blank?
-
         actual = webhook_override_callback_uri(health)
+        raise HealthError, 'Health check failed: webhook callback missing' if actual.blank?
+
+        expected = expected_webhook_url
         return if actual == expected
 
         raise HealthError, 'Health check failed: webhook callback mismatch'
@@ -219,6 +216,33 @@ module Myinvest
         config['override_callback_uri'].to_s
       end
 
+      def expected_webhook_url
+        "#{strict_frontend_origin}/webhooks/whatsapp/#{phone_number}"
+      end
+
+      def strict_frontend_origin
+        url = ENV.fetch('FRONTEND_URL', '')
+        raise HealthError, 'Health check failed: FRONTEND_URL is not configured' if url.blank?
+
+        uri = URI.parse(url)
+        raise HealthError, 'Health check failed: FRONTEND_URL must use HTTPS' unless uri.is_a?(URI::HTTPS)
+        raise HealthError, 'Health check failed: FRONTEND_URL must not contain userinfo' if uri.userinfo.present?
+        raise HealthError, 'Health check failed: FRONTEND_URL must not contain a query string' if uri.query.present?
+        raise HealthError, 'Health check failed: FRONTEND_URL must not contain a fragment' if uri.fragment.present?
+
+        host = uri.host.to_s.downcase
+        raise HealthError, 'Health check failed: FRONTEND_URL host is missing' if host.blank?
+
+        port = uri.port
+        if port == uri.default_port
+          "https://#{host}"
+        else
+          "https://#{host}:#{port}"
+        end
+      rescue URI::InvalidURIError
+        raise HealthError, 'Health check failed: FRONTEND_URL is invalid'
+      end
+
       def attach_agent_bot!(channel)
         agent_bot = AgentBot.find_by(account: account, name: 'MyInvest Claude Support')
         raise ConfigurationError, 'Agent bot MyInvest Claude Support not found' unless agent_bot
@@ -228,10 +252,7 @@ module Myinvest
         bot_inbox.status = :active
         bot_inbox.save!
 
-        Rails.logger.info(
-          "[WHATSAPP_CUTOVER] agent_bot attached account_id=#{account.id} channel_id=#{channel.id} " \
-          "agent_bot_id=#{agent_bot.id}"
-        )
+        Rails.logger.info("[WHATSAPP_CUTOVER] agent_bot attached account_id=#{account.id} channel_id=#{channel.id} agent_bot_id=#{agent_bot.id}")
       end
 
       def assign_admin!(channel)
@@ -239,18 +260,7 @@ module Myinvest
         raise ConfigurationError, 'No account administrator found' unless admin_membership&.user
 
         InboxMember.find_or_create_by!(inbox: channel.inbox, user: admin_membership.user)
-        Rails.logger.info(
-          "[WHATSAPP_CUTOVER] admin assigned account_id=#{account.id} channel_id=#{channel.id} " \
-          "user_id=#{admin_membership.user_id}"
-        )
-      end
-
-      def normalize_phone(value)
-        value.to_s.gsub(/\D/, '')
-      end
-
-      def redact_phone(value)
-        value.to_s.gsub(/(?<=.{4}).(?=.{2})/, '*')
+        Rails.logger.info("[WHATSAPP_CUTOVER] admin assigned account_id=#{account.id} channel_id=#{channel.id} user_id=#{admin_membership.user_id}")
       end
     end
   end

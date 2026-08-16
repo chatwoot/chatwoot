@@ -18,9 +18,10 @@ describe Myinvest::WhatsappCutover::Service do
   let(:phone_number) { '+491234567890' }
   let(:phone_number_id) { '1234567890' }
   let(:waba_id) { '9876543210' }
-  let(:business_portfolio_id) { 'portfolio-1' }
+  let(:business_portfolio_id) { '1122334455' }
   let(:access_token) { 'super-secret-access-token' }
   let(:app_secret) { 'super-secret-app-secret' }
+  let(:frontend_url) { 'https://support.myinvest-pro.de' }
 
   let(:health_status) do
     {
@@ -32,11 +33,16 @@ describe Myinvest::WhatsappCutover::Service do
       code_verification_status: 'VERIFIED',
       platform_type: 'CLOUD_API',
       quality_rating: 'GREEN',
-      expected_webhook_url: "https://support.myinvest-pro.de/webhooks/whatsapp/#{phone_number}",
       webhook_configuration: {
-        'override_callback_uri' => "https://support.myinvest-pro.de/webhooks/whatsapp/#{phone_number}"
+        'override_callback_uri' => "#{frontend_url}/webhooks/whatsapp/#{phone_number}"
       }
     }
+  end
+
+  around do |example|
+    with_modified_env FRONTEND_URL: frontend_url do
+      example.run
+    end
   end
 
   before do
@@ -83,14 +89,34 @@ describe Myinvest::WhatsappCutover::Service do
         .to raise_error(ArgumentError, 'Phone number is required')
     end
 
+    it 'requires a valid E.164 phone number' do
+      expect { build_service(phone_number: '01234567890') }
+        .to raise_error(ArgumentError, 'Phone number must be a valid E.164 number')
+    end
+
+    it 'rejects a phone number with non-digit characters after the plus' do
+      expect { build_service(phone_number: '+49123abc789') }
+        .to raise_error(ArgumentError, 'Phone number must be a valid E.164 number')
+    end
+
     it 'requires phone number id' do
       expect { build_service(phone_number_id: '') }
         .to raise_error(ArgumentError, 'Phone number ID is required')
     end
 
+    it 'requires phone number id to be numeric' do
+      expect { build_service(phone_number_id: 'abc123') }
+        .to raise_error(ArgumentError, 'Phone number ID must be a numeric string')
+    end
+
     it 'requires waba id' do
       expect { build_service(waba_id: '') }
         .to raise_error(ArgumentError, 'WABA ID is required')
+    end
+
+    it 'requires waba id to be numeric' do
+      expect { build_service(waba_id: 'waba-1') }
+        .to raise_error(ArgumentError, 'WABA ID must be a numeric string')
     end
 
     it 'requires access token' do
@@ -106,6 +132,11 @@ describe Myinvest::WhatsappCutover::Service do
     it 'requires business portfolio id' do
       expect { build_service(business_portfolio_id: '') }
         .to raise_error(ArgumentError, 'Business portfolio ID is required')
+    end
+
+    it 'requires business portfolio id to be numeric' do
+      expect { build_service(business_portfolio_id: 'portfolio-1') }
+        .to raise_error(ArgumentError, 'Business portfolio ID must be a numeric string')
     end
   end
 
@@ -173,7 +204,7 @@ describe Myinvest::WhatsappCutover::Service do
       )
 
       expect { service.perform }
-        .to raise_error(Myinvest::WhatsappCutover::ConflictError, /requested WABA .* conflicts/)
+        .to raise_error(Myinvest::WhatsappCutover::ConflictError, /different WABA/)
     end
 
     it 'fails closed on phone number id mismatch' do
@@ -185,7 +216,7 @@ describe Myinvest::WhatsappCutover::Service do
       )
 
       expect { service.perform }
-        .to raise_error(Myinvest::WhatsappCutover::ConflictError, /phone_number_id .* conflicts/)
+        .to raise_error(Myinvest::WhatsappCutover::ConflictError, /different phone number ID/)
     end
 
     it 'propagates webhook setup failures' do
@@ -320,7 +351,85 @@ describe Myinvest::WhatsappCutover::Service do
         .to raise_error(Myinvest::WhatsappCutover::HealthError, /quality rating mismatch/)
     end
 
-    it 'does not leak secrets in raised messages' do
+    it 'rejects a non-HTTPS FRONTEND_URL origin' do
+      create(:user)
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+
+      with_modified_env FRONTEND_URL: 'http://support.myinvest-pro.de' do
+        expect { service.perform }
+          .to raise_error(Myinvest::WhatsappCutover::HealthError, /FRONTEND_URL must use HTTPS/)
+      end
+    end
+
+    it 'rejects a FRONTEND_URL with userinfo' do
+      create(:user)
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+
+      with_modified_env FRONTEND_URL: 'https://user:pass@support.myinvest-pro.de' do
+        expect { service.perform }
+          .to raise_error(Myinvest::WhatsappCutover::HealthError, /FRONTEND_URL must not contain userinfo/)
+      end
+    end
+
+    it 'rejects a FRONTEND_URL with a query string' do
+      create(:user)
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+
+      with_modified_env FRONTEND_URL: 'https://support.myinvest-pro.de?foo=bar' do
+        expect { service.perform }
+          .to raise_error(Myinvest::WhatsappCutover::HealthError, /FRONTEND_URL must not contain a query string/)
+      end
+    end
+
+    it 'rejects a FRONTEND_URL with a fragment' do
+      create(:user)
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+
+      with_modified_env FRONTEND_URL: 'https://support.myinvest-pro.de#section' do
+        expect { service.perform }
+          .to raise_error(Myinvest::WhatsappCutover::HealthError, /FRONTEND_URL must not contain a fragment/)
+      end
+    end
+
+    it 'ignores health expected_webhook_url and compares only override_callback_uri' do
+      create(:user)
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+
+      allow_any_instance_of(Whatsapp::HealthService).to receive(:fetch_health_status).and_return(
+        health_status.merge(
+          expected_webhook_url: 'https://evil.example/webhooks/whatsapp/evil',
+          webhook_configuration: {
+            'override_callback_uri' => "#{frontend_url}/webhooks/whatsapp/#{phone_number}"
+          }
+        )
+      )
+
+      expect { service.perform }.not_to raise_error
+    end
+
+    it 'fails closed when override_callback_uri does not match the computed webhook URL' do
+      create(:user)
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+
+      allow_any_instance_of(Whatsapp::HealthService).to receive(:fetch_health_status).and_return(
+        health_status.merge(
+          webhook_configuration: {
+            'override_callback_uri' => 'https://evil.example/webhooks/whatsapp/evil'
+          }
+        )
+      )
+
+      expect { service.perform }
+        .to raise_error(Myinvest::WhatsappCutover::HealthError, /webhook callback mismatch/)
+    end
+
+    it 'does not leak phone numbers in raised messages' do
       other_account = create(:account)
       create(
         :channel_whatsapp,
@@ -332,26 +441,12 @@ describe Myinvest::WhatsappCutover::Service do
       )
 
       expect { service.perform }.to raise_error do |error|
-        expect(error.message).not_to include(access_token)
-        expect(error.message).not_to include(app_secret)
-        expect(error.message).to include(phone_number.gsub(/(?<=.{4}).(?=.{2})/, '*'))
+        expect(error.message).not_to include(phone_number)
+        expect(error.message).not_to include(phone_number.delete_prefix('+'))
       end
     end
 
-    it 'does not log secrets' do
-      create(:user)
-      create(:account_user, account: account, user: create(:user), role: :administrator)
-      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
-      logged = []
-      allow(Rails.logger).to receive(:info) { |message| logged << message.to_s }
-
-      service.perform
-
-      expect(logged.join("\n")).not_to include(access_token)
-      expect(logged.join("\n")).not_to include(app_secret)
-    end
-
-    it 'does not leak secrets from health mismatch errors' do
+    it 'does not leak secrets in raised messages' do
       create(:user)
       create(:account_user, account: account, user: create(:user), role: :administrator)
       create(:agent_bot, account: account, name: 'MyInvest Claude Support')
@@ -368,6 +463,36 @@ describe Myinvest::WhatsappCutover::Service do
         expect(error.message).not_to include(access_token)
         expect(error.message).not_to include(app_secret)
       end
+    end
+
+    it 'does not log secrets' do
+      create(:user)
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+      logged = []
+      allow(Rails.logger).to receive(:info) { |message| logged << message.to_s }
+
+      service.perform
+
+      log_text = logged.join("\n")
+      expect(log_text).not_to include(access_token)
+      expect(log_text).not_to include(app_secret)
+    end
+
+    it 'does not log phone numbers or provider IDs' do
+      create(:user)
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+      logged = []
+      allow(Rails.logger).to receive(:info) { |message| logged << message.to_s }
+
+      service.perform
+
+      log_text = logged.join("\n")
+      expect(log_text).not_to include(phone_number)
+      expect(log_text).not_to include(phone_number_id)
+      expect(log_text).not_to include(waba_id)
+      expect(log_text).not_to include(business_portfolio_id)
     end
   end
 end

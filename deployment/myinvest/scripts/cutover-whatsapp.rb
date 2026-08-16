@@ -43,7 +43,7 @@ module Myinvest
 
           after = page.dig('paging', 'next', 'after')
           break if after.nil?
-          raise 'HubSpot pagination repeated cursor' if seen_afters.include?(after)
+          raise 'HubSpot pagination error' if seen_afters.include?(after)
 
           seen_afters << after
         end
@@ -65,28 +65,31 @@ module Myinvest
           http.request(request)
         end
 
-        raise "HubSpot API returned HTTP #{response.code}" unless response.is_a?(Net::HTTPSuccess)
+        raise 'HubSpot API error' unless response.is_a?(Net::HTTPSuccess)
 
         parse_page(response.body)
       end
 
       def parse_page(body)
         parsed = JSON.parse(body)
-        raise 'HubSpot page is not a JSON object' unless parsed.is_a?(Hash)
-        raise 'HubSpot page missing results array' unless parsed['results'].is_a?(Array)
+        raise 'HubSpot response invalid' unless parsed.is_a?(Hash) && parsed['results'].is_a?(Array)
 
-        parsed['results'].each_with_index do |item, index|
-          raise "HubSpot result #{index} is not a hash" unless item.is_a?(Hash)
-          raise "HubSpot result #{index} missing id" unless item.key?('id')
-          raise "HubSpot result #{index} active is not a boolean" unless item['active'].is_a?(TrueClass) || item['active'].is_a?(FalseClass)
-          unless item['authorized'].is_a?(TrueClass) || item['authorized'].is_a?(FalseClass)
-            raise "HubSpot result #{index} authorized is not a boolean"
-          end
+        parsed['results'].each do |item|
+          raise 'HubSpot response invalid' unless valid_result?(item)
         end
 
         parsed
       rescue JSON::ParserError
-        raise 'HubSpot API returned invalid JSON'
+        raise 'HubSpot response invalid'
+      end
+
+      def valid_result?(item)
+        return false unless item.is_a?(Hash)
+        return false unless item.key?('id')
+        return false unless item['active'].is_a?(TrueClass) || item['active'].is_a?(FalseClass)
+        return false unless item['authorized'].is_a?(TrueClass) || item['authorized'].is_a?(FalseClass)
+
+        true
       end
     end
 
@@ -139,7 +142,7 @@ module Myinvest
         actual = env['CUTOVER_CONFIRMATION'].to_s
         return if actual == expected
 
-        raise "Confirmation mismatch: expected #{expected}"
+        raise 'Confirmation mismatch; aborting cutover'
       end
 
       def validate_required!

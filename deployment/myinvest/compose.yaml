@@ -275,7 +275,6 @@ services:
       - "${BIND_ADDRESS:-0.0.0.0}:${HTTPS_PORT:-443}:443/udp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./brand:/srv/brand:ro
       - caddy_data:/data
       - caddy_config:/config
     networks:

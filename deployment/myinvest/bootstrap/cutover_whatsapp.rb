@@ -15,11 +15,14 @@ missing = required.select { |key| ENV[key].to_s.empty? }
 raise "Missing cutover variables: #{missing.join(', ')}" if missing.any?
 
 tenant_key = ENV.fetch('CUTOVER_TENANT')
-accounts = Account.where("custom_attributes ->> 'myinvest_tenant_key' = ?", tenant_key)
-raise "Tenant not found: #{tenant_key}" if accounts.none?
-raise "Ambiguous tenant: #{tenant_key}" if accounts.count > 1
+account = begin
+  Account.where("custom_attributes ->> 'myinvest_tenant_key' = ?", tenant_key).sole
+rescue ActiveRecord::RecordNotFound
+  raise 'Tenant not found'
+rescue ActiveRecord::SoleRecordExceeded
+  raise 'Ambiguous tenant configuration'
+end
 
-account = accounts.first!
 phone_number = ENV.fetch('WHATSAPP_PHONE_NUMBER')
 service = Myinvest::WhatsappCutover::Service.new(
   account: account,
@@ -32,8 +35,7 @@ service = Myinvest::WhatsappCutover::Service.new(
 )
 
 if ENV['DRY_RUN'] == 'true'
-  redacted_phone = phone_number.gsub(/(?<=.{4}).(?=.{2})/, '*')
-  puts "[WHATSAPP_CUTOVER] dry-run account_id=#{account.id} phone=#{redacted_phone}"
+  puts "[WHATSAPP_CUTOVER] dry-run account_id=#{account.id}"
   exit 0
 end
 

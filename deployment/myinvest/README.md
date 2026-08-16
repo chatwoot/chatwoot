@@ -66,7 +66,7 @@ CUTOVER_CONFIRMATION='cutover-whatsapp:legacy_academy:+491234567890' \
   ./scripts/cutover-whatsapp.rb
 ```
 
-The wrapper validates the confirmation, paginates HubSpot `conversations/v3/conversations/channel-accounts`, and refuses to proceed unless every returned account is inactive and unauthorized. It then invokes a Rails provisioner that:
+The wrapper validates the confirmation, paginates HubSpot `conversations/v3/conversations/channel-accounts`, and refuses to proceed while the configured channel account is still active or authorized. It then invokes a Rails provisioner that:
 
 - creates or reuses the `legacy_academy` WhatsApp inbox keyed by phone number;
 - fails closed on cross-account or mismatched WABA/phone-ID conflicts;
