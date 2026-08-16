@@ -1,11 +1,12 @@
 version: '3'
 
+x-base: &base
+  image: chatwoot/chatwoot:latest
+  env_file: .env
+  volumes:
+    - storage_data:/app/storage
+
 services:
-  base: &base
-    image: chatwoot/chatwoot:latest
-    env_file: .env ## Change this file for customized env variables
-    volumes:
-      - storage_data:/app/storage
 
   rails:
     <<: *base
@@ -19,7 +20,15 @@ services:
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
     entrypoint: docker/entrypoints/rails.sh
-    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    command:
+      - bundle
+      - exec
+      - rails
+      - s
+      - -p
+      - '3000'
+      - -b
+      - 0.0.0.0
     restart: always
 
   sidekiq:
@@ -31,7 +40,12 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
-    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    command:
+      - bundle
+      - exec
+      - sidekiq
+      - -C
+      - config/sidekiq.yml
     restart: always
 
   postgres:
@@ -50,7 +64,10 @@ services:
   redis:
     image: redis:alpine
     restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    command:
+      - sh
+      - -c
+      - redis-server --requirepass "$REDIS_PASSWORD"
     env_file: .env
     volumes:
       - redis_data:/data

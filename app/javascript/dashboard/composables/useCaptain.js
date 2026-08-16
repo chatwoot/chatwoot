@@ -59,7 +59,13 @@ export function useCaptain() {
 
   const fetchLimits = () => {
     if (isEnterprise) {
-      store.dispatch('accounts/limits');
+      store
+        .dispatch('accounts/limits')
+        .catch(error => {
+          if (error?.response?.status !== 404) {
+            return Promise.reject(error);
+          }
+        });
     }
   };
 

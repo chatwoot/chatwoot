@@ -12,6 +12,8 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import ParamRow from './ParamRow.vue';
 import AuthConfig from './AuthConfig.vue';
+import AdditionalHeaders from './AdditionalHeaders.vue';
+import { CUSTOM_TOOL_PRESETS } from './CustomToolPresets';
 
 const props = defineProps({
   mode: {
@@ -42,6 +44,7 @@ const initialState = {
   response_template: '',
   auth_type: 'none',
   auth_config: {},
+  additional_headers: {},
   param_schema: [],
 };
 
@@ -60,6 +63,7 @@ watch(
       state.response_template = newTool.response_template || '';
       state.auth_type = newTool.auth_type || 'none';
       state.auth_config = newTool.auth_config || {};
+      state.additional_headers = newTool.additional_headers || {};
       state.param_schema = newTool.param_schema || [];
     }
   },
@@ -98,6 +102,36 @@ const authTypeOptions = computed(() => [
     label: t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_TYPES.API_KEY'),
   },
 ]);
+
+const presetOptions = computed(() => [
+  { value: '', label: t('CAPTAIN.CUSTOM_TOOLS.FORM.PRESET.PLACEHOLDER') },
+  ...CUSTOM_TOOL_PRESETS.map(preset => ({
+    value: preset.id,
+    label: preset.label,
+  })),
+]);
+
+const selectedPreset = ref('');
+
+const applyPreset = async value => {
+  const preset = CUSTOM_TOOL_PRESETS.find(item => item.id === value);
+  if (!preset) return;
+
+  const presetValues = preset.values;
+  state.title = presetValues.title;
+  state.description = presetValues.description;
+  state.endpoint_url = presetValues.endpoint_url;
+  state.http_method = presetValues.http_method;
+  state.auth_type = presetValues.auth_type;
+  state.auth_config = presetValues.auth_config || {};
+  state.additional_headers = presetValues.additional_headers || {};
+  state.request_template = presetValues.request_template || '';
+  state.response_template = presetValues.response_template || '';
+  state.param_schema = (presetValues.param_schema || []).map(param => ({
+    ...param,
+  }));
+  selectedPreset.value = value;
+};
 
 const v$ = useVuelidate(validationRules, state);
 
@@ -182,6 +216,21 @@ const handleTest = async () => {
     class="flex flex-col px-4 -mx-4 gap-4 max-h-[calc(100vh-200px)] overflow-y-scroll"
     @submit.prevent="handleSubmit"
   >
+    <div v-if="mode === 'create'" class="flex flex-col gap-1">
+      <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+        {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PRESET.LABEL') }}
+      </label>
+      <ComboBox
+        v-model="selectedPreset"
+        :options="presetOptions"
+        class="[&>div>button]:bg-n-alpha-black2"
+        @update:model-value="applyPreset"
+      />
+      <p class="text-xs text-n-slate-11">
+        {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PRESET.HELP_TEXT') }}
+      </p>
+    </div>
+
     <Input
       v-model="state.title"
       :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.TITLE.LABEL')"
@@ -233,6 +282,16 @@ const handleTest = async () => {
       v-model:auth-config="state.auth_config"
       :auth-type="state.auth_type"
     />
+
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium text-n-slate-12">
+        {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.ADDITIONAL_HEADERS.LABEL') }}
+      </label>
+      <p class="text-xs text-n-slate-11 -mt-1">
+        {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.ADDITIONAL_HEADERS.HELP_TEXT') }}
+      </p>
+      <AdditionalHeaders v-model="state.additional_headers" />
+    </div>
 
     <div class="flex flex-col gap-2">
       <label class="text-sm font-medium text-n-slate-12">

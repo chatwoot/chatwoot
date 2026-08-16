@@ -1,0 +1,14 @@
+# Force LF line endings for files that are executed inside Docker / Linux containers.
+#
+# On Windows, a global `core.autocrlf=true` rewrites these to CRLF on checkout.
+# A CRLF'd shebang line (`#!/bin/sh\r`) makes the Linux kernel fail with
+# "exec .../script.sh: no such file or directory", which crashes the
+# rails/vite containers on `docker compose up`.
+#
+# Keep these files LF regardless of the host OS.
+*.sh              text eol=lf
+*.rb              text eol=lf
+Dockerfile        text eol=lf
+*Dockerfile*      text eol=lf
+docker/Dockerfile text eol=lf
+bin/*             text eol=lf

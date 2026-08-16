@@ -1164,6 +1164,18 @@
           "LABEL": "Response Template (Optional)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
+        "PRESET": {
+          "LABEL": "Start from a template",
+          "PLACEHOLDER": "Choose a template...",
+          "HELP_TEXT": "Pick a preset to pre-fill the tool for a well-known service (e.g. Cal.com). You still add your own credentials and event type id."
+        },
+        "ADDITIONAL_HEADERS": {
+          "LABEL": "Additional Headers",
+          "HELP_TEXT": "Extra static headers sent with every request (e.g. cal-api-version). The Authorization header is configured above.",
+          "NAME_PLACEHOLDER": "Header name (e.g. cal-api-version)",
+          "VALUE_PLACEHOLDER": "Header value (e.g. 2024-08-13)",
+          "ADD": "Add header"
+        },
         "ERRORS": {
           "PARAM_NAME_REQUIRED": "Parameter name is required"
         }

@@ -7,6 +7,7 @@ json.http_method custom_tool.http_method
 json.request_template custom_tool.request_template
 json.response_template custom_tool.response_template
 json.auth_type custom_tool.auth_type
+json.additional_headers custom_tool.additional_headers if Current.user&.administrator?
 json.auth_config custom_tool.auth_config if Current.user&.administrator?
 json.param_schema custom_tool.param_schema
 json.enabled custom_tool.enabled

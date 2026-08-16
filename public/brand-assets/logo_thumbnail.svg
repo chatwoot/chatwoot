@@ -1,25 +1,3 @@
-<svg
-  width="16"
-  height="16"
-  viewBox="0 0 16 16"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <g clip-path="url(#woot-logo-clip-2342424e23u32098)">
-    <path
-      d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
-      fill="#2781F6"
-    />
-    <path
-      d="M11.4172 11.4172H7.70831C5.66383 11.4172 4 9.75328 4 7.70828C4 5.66394 5.66383 4 7.70835 4C9.75339 4 11.4172 5.66394 11.4172 7.70828V11.4172Z"
-      fill="white"
-      stroke="white"
-      stroke-width="0.1875"
-    />
-  </g>
-  <defs>
-    <clipPath id="woot-logo-clip-2342424e23u32098">
-      <rect width="16" height="16" fill="white" />
-    </clipPath>
-  </defs>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <image x="0" y="0" width="16" height="16" preserveAspectRatio="xMidYMid meet" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABi0lEQVR4nKVTu6oCMRA9SRbFR2VpLXZ+giAI+geCjYXYKWyxjWBrb+sPiD9hYy0iVota2GjhFyiimcvMJcv6uA/wQEgmk5lzkpkoABYfQMcNpRSMMTK/HNT6rU8BoL9YOIiIflZgjBGjVqthMpmgUqk8sHJwvV7HdDpFo9FAPIZBnudxegqCgBjdblfsRCJBxhjKZrN0PB7FVywWxae1/p4Rw/l8xu12w+VyEdk87vc7+v0+8vk8fN/HdrsVdmvtq4JerycsrVZLbB7lcln21ut1pEgpFfkRT+D7vhw+HA4UhiHt93uxF4sF5XI5ke2ku6HxBqfTCZvNBmEYYrfboVAooN1uP8iOg56v0Gw2I4ZUKkXL5VL2q9Wq7PE13iqw1sojZjIZeJ6HdDotD9vpdMQ3Go2ktLx2DaXjCTiAA5PJpCS6Xq9ir1YrjMdjlEolDIdD6QtOxPAcM2M2myEIAszn80gRH2a2wWAgJWRFXEYuL+NfrfwbWEGUgGW5Oz6/uPtorMixOwUffecvpIzwy9B9nWcAAAAASUVORK5CYII="/>
 </svg>

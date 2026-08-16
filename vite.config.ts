@@ -14,4 +14,11 @@ export default defineConfig({
     },
   },
   resolve: { alias: aliases },
+  server: {
+    // Bind to all interfaces so the rails container can reach the dev server
+    // at the `vite` service host (resolves to its IPv4, not localhost).
+    host: '0.0.0.0',
+    // Accept the `vite` hostname used by Rails' ViteRuby proxy in Docker.
+    allowedHosts: true,
+  },
 });

@@ -103,6 +103,32 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
       end
     end
 
+    context 'with additional headers' do
+      before do
+        custom_tool.update!(
+          auth_type: 'bearer',
+          auth_config: { 'token' => 'secret_bearer_token' },
+          additional_headers: { 'cal-api-version' => '2024-08-13' },
+          endpoint_url: 'https://example.com/data',
+          response_template: nil
+        )
+        stub_request(:get, 'https://example.com/data')
+          .with(headers: {
+                  'Authorization' => 'Bearer secret_bearer_token',
+                  'cal-api-version' => '2024-08-13'
+                })
+          .to_return(status: 200, body: '{"authenticated": true}')
+      end
+
+      it 'sends additional headers alongside auth headers' do
+        result = tool.perform(tool_context)
+
+        expect(result).to eq('{"authenticated": true}')
+        expect(WebMock).to have_requested(:get, 'https://example.com/data')
+          .with(headers: { 'cal-api-version' => '2024-08-13' })
+      end
+    end
+
     context 'with basic authentication' do
       before do
         custom_tool.update!(

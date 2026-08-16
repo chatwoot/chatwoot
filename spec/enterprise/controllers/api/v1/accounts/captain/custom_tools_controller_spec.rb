@@ -137,6 +137,21 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
                                                    ])
       end
 
+      it 'persists additional_headers on create' do
+        post "/api/v1/accounts/#{account.id}/captain/custom_tools",
+             params: {
+               custom_tool: valid_attributes[:custom_tool].merge(
+                 additional_headers: { 'cal-api-version' => '2024-08-13' }
+               )
+             },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:additional_headers]).to eq(:'cal-api-version' => '2024-08-13')
+        expect(account.captain_custom_tools.last.additional_headers).to eq('cal-api-version' => '2024-08-13')
+      end
+
       context 'with invalid parameters' do
         let(:invalid_attributes) do
           {

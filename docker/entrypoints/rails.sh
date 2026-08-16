@@ -30,5 +30,9 @@ do
   sleep 2;
 done
 
+# Prepare the database schema on boot.
+# db:prepare is idempotent: it creates the DB if missing and runs pending migrations.
+bundle exec rails db:prepare
+
 # Execute the main process of the container
 exec "$@"

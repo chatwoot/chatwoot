@@ -54,6 +54,7 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   def request_headers(tool_context, json_body, auth_headers)
     headers = auth_headers.dup
     headers.merge!(@custom_tool.build_metadata_headers(tool_context&.state || {}))
+    headers.merge!(@custom_tool.additional_headers.to_h)
     headers['Content-Type'] = 'application/json' if json_body.present?
     headers
   end

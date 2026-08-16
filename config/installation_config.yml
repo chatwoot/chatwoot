@@ -15,7 +15,7 @@
 
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'KIRA.id'
   display_title: 'Installation Name'
   description: 'The installation wide name that would be used in the dashboard, title etc.'
 - name: LOGO_THUMBNAIL
@@ -31,29 +31,29 @@
   display_title: 'Logo Dark Mode'
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://kira.id'
   display_title: 'Brand URL'
   description: 'The URL that would be used in emails under the section “Powered By”'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://kira.id'
   display_title: 'Widget Brand URL'
   description: 'The URL that would be used in the widget under the section “Powered By”'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'KIRA.id'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: 'https://kira.id/terms-of-service'
   display_title: 'Terms URL'
   description: 'The terms of service URL displayed in Signup Page'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: 'https://kira.id/privacy-policy'
   display_title: 'Privacy URL'
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
   value: true
-  display_title: 'Chatwoot Metadata'
-  description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
+  display_title: 'KIRA.id Metadata'
+  description: 'Display default KIRA.id metadata like favicons and upgrade warnings'
   type: boolean
 # ------- End of Branding Related Config ------- #
 
@@ -192,16 +192,16 @@
   description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4.1-mini'
   locked: false
 - name: CAPTAIN_OPEN_AI_ENDPOINT
-  display_title: 'OpenAI API Endpoint (optional)'
-  description: 'The OpenAI endpoint configured for use in Captain AI. Default: https://api.openai.com/'
+  display_title: 'OpenAI / OpenRouter API Endpoint'
+  description: 'Base URL for the Chat Completions API. Use https://api.openai.com/ for OpenAI, or https://openrouter.ai/api/ for OpenRouter. Default: https://api.openai.com/'
   locked: false
 - name: CAPTAIN_EMBEDDING_MODEL
-  display_title: 'Embedding Model (optional)'
-  description: 'The embedding model configured for use in Captain AI. Default: text-embedding-3-small'
+  display_title: 'Embedding Model'
+  description: 'Model used to generate embeddings for Captain AI knowledge. Default: text-embedding-3-small'
   locked: false
 - name: CAPTAIN_FIRECRAWL_API_KEY
-  display_title: 'FireCrawl API Key (optional)'
-  description: 'The FireCrawl API key for the Captain AI service'
+  display_title: 'Firecrawl API Key'
+  description: 'Firecrawl API key used by Captain AI to crawl and index web pages.'
   locked: false
   type: secret
 - name: CAPTAIN_CLOUD_PLAN_LIMITS
@@ -322,7 +322,7 @@
 
 # ------- Chatwoot Internal Config for Self Hosted ----#
 - name: INSTALLATION_PRICING_PLAN
-  value: 'community'
+  value: 'enterprise'
   description: 'The pricing plan for the installation, retrieved from the billing API'
 - name: INSTALLATION_PRICING_PLAN_QUANTITY
   value: 0

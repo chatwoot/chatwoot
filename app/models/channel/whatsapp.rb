@@ -9,7 +9,7 @@
 #  phone_number                   :string           not null
 #  phone_number_health            :jsonb            not null
 #  phone_number_health_checked_at :datetime
-#  phone_number_health_error      :string
+#  phone_number_health_error      :string(500)
 #  provider                       :string           default("default")
 #  provider_config                :jsonb
 #  created_at                     :datetime         not null

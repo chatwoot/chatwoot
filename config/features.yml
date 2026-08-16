@@ -27,18 +27,18 @@
   help_url: https://chwt.app/hc/fb
 - name: conversation_unread_counts
   display_name: Conversation Unread Counts
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: ip_lookup
   display_name: IP Lookup
-  enabled: false
+  enabled: true
 - name: disable_branding
   display_name: Disable Branding
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: email_continuity_on_api_channel
   display_name: Email Continuity on API Channel
-  enabled: false
+  enabled: true
 - name: help_center
   display_name: Help Center
   enabled: true
@@ -84,7 +84,7 @@
   enabled: true
 - name: report_rollup
   display_name: Report Rollup
-  enabled: false
+  enabled: true
 - name: channel_website
   display_name: Website Channel
   enabled: true
@@ -104,57 +104,57 @@
   enabled: true
 - name: custom_reply_email
   display_name: Custom Reply Email
-  enabled: false
+  enabled: true
 - name: custom_reply_domain
   display_name: Custom Reply Domain
-  enabled: false
+  enabled: true
 - name: audit_logs
   display_name: Audit Logs
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: custom_tools
   display_name: Custom Tools
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: message_reply_to
   display_name: Message Reply To
-  enabled: false
+  enabled: true
   deprecated: true
 - name: branded_email_templates
   display_name: Branded Email Templates
-  enabled: false
+  enabled: true
 - name: inbox_view
   display_name: Inbox View
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: sla
   display_name: SLA
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
   help_url: https://chwt.app/hc/sla
 - name: help_center_embedding_search
   display_name: Help Center Embedding Search
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
   chatwoot_internal: true
 - name: linear_integration
   display_name: Linear Integration
-  enabled: false
+  enabled: true
 - name: captain_integration
   display_name: Captain
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: custom_roles
   display_name: Custom Roles
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: chatwoot_v4
   display_name: Chatwoot V4
   enabled: true
 - name: captain_v1_action_classifier
   display_name: Captain V1 Action Classifier
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
   chatwoot_internal: true
 - name: contact_chatwoot_support_team
   display_name: Contact Chatwoot Support Team
@@ -162,99 +162,99 @@
   chatwoot_internal: true
 - name: shopify_integration
   display_name: Shopify Integration
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: search_with_gin
   display_name: Search messages with GIN
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: channel_instagram
   display_name: Instagram Channel
   enabled: true
 - name: crm_integration
   display_name: CRM Integration
-  enabled: false
+  enabled: true
 - name: channel_voice
   display_name: Voice Channel
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: notion_integration
   display_name: Notion Integration
-  enabled: false
+  enabled: true
 - name: captain_integration_v2
   display_name: Captain V2
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
-  enabled: false
+  enabled: true
   deprecated: true
 - name: whatsapp_campaign
   display_name: WhatsApp Campaign
-  enabled: false
+  enabled: true
 - name: crm_v2
   display_name: CRM V2
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: assignment_v2
   display_name: Assignment V2
   enabled: true
 - name: captain_document_auto_sync
   display_name: Captain Document Auto Sync
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: advanced_search
   display_name: Advanced Search
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: saml
   display_name: SAML
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: advanced_search_indexing
   display_name: Advanced Search Indexing
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
   chatwoot_internal: true
 - name: reply_mailer_migration
   # This feature is temporary only to migrate reply mailer to new email builder
   # Once the migration is done, this feature can be removed
   display_name: Reply Mailer Migration
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: unread_count_for_filters
   display_name: Unread Count For Filters
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: companies
   display_name: Companies
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: channel_tiktok
   display_name: TikTok Channel
   enabled: true
 - name: csat_review_notes
   display_name: CSAT Review Notes
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: captain_tasks
   display_name: Captain Tasks
   enabled: true
 - name: conversation_required_attributes
   display_name: Required Conversation Attributes
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: advanced_assignment
   display_name: Advanced Assignment
-  enabled: false
-  premium: true
+  enabled: true
+  premium: false
 - name: whatsapp_manual_transfer
   display_name: WhatsApp Manual Transfer
-  enabled: false
+  enabled: true
   column: feature_flags_ext_1
 - name: data_import
   display_name: Data Import
-  enabled: false
+  enabled: true
   column: feature_flags_ext_1
 - name: api_and_webhooks
   display_name: API and Webhooks
@@ -262,13 +262,13 @@
   column: feature_flags_ext_1
 - name: whatsapp_reconfigure
   display_name: WhatsApp Reconfigure
-  enabled: false
+  enabled: true
   column: feature_flags_ext_1
 - name: whatsapp_embedded_signup_inbox_creation
   display_name: WhatsApp Embedded Signup Flow
-  enabled: false
+  enabled: true
   column: feature_flags_ext_1
 - name: delayed_automations
   display_name: Delayed Automations
-  enabled: false
+  enabled: true
   column: feature_flags_ext_1

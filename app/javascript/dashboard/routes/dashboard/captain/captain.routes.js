@@ -39,7 +39,11 @@ const faqSuggestionsMeta = {
 const metaCustomTools = {
   permissions: ['administrator', 'agent'],
   featureFlag: FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS,
-  installationTypes: [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE],
+  installationTypes: [
+    INSTALLATION_TYPES.CLOUD,
+    INSTALLATION_TYPES.ENTERPRISE,
+    INSTALLATION_TYPES.COMMUNITY,
+  ],
 };
 
 const metaV2 = {
