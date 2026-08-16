@@ -291,6 +291,26 @@ class HubspotExportVerifierTest < Minitest::Test
     assert_archive_event_validation('direction', 'archive_event_missing_direction')
   end
 
+  def test_fails_closed_when_archive_event_id_is_not_a_string
+    assert_archive_event_type_validation('id', 123, 'invalid_external_id')
+    assert_archive_event_type_validation('id', nil, 'invalid_external_id')
+  end
+
+  def test_fails_closed_when_archive_event_type_is_not_a_string
+    assert_archive_event_type_validation('type', 123, 'invalid_archive_event_type')
+    assert_archive_event_type_validation('type', nil, 'invalid_archive_event_type')
+  end
+
+  def test_fails_closed_when_archive_event_archive_thread_id_is_not_a_string
+    assert_archive_event_type_validation('archiveThreadId', 123, 'invalid_external_id')
+    assert_archive_event_type_validation('archiveThreadId', nil, 'invalid_external_id')
+  end
+
+  def test_fails_closed_when_archive_event_direction_is_not_a_string
+    assert_archive_event_type_validation('direction', 123, 'archive_event_missing_direction')
+    assert_archive_event_type_validation('direction', nil, 'archive_event_missing_direction')
+  end
+
   def test_fails_closed_when_archive_event_attachments_is_not_array
     with_export do |path|
       bytes = rewrite_ndjson(path, 'source_events.ndjson') do |rows|
@@ -518,6 +538,26 @@ class HubspotExportVerifierTest < Minitest::Test
           next row unless row.fetch('id') == 'message-1'
 
           row.reject { |key, _value| key == field }
+        end
+      end
+      rewrite_json(path, 'archive-manifest.json') do |manifest|
+        manifest['files']['source_events']['sha256'] = Digest::SHA256.hexdigest(bytes)
+        manifest['files']['source_events']['count'] = bytes.lines.length
+        manifest
+      end
+
+      error = assert_raises(MyinvestChatImport::ValidationError) { verify(path) }
+      assert_equal code, error.code
+    end
+  end
+
+  def assert_archive_event_type_validation(field, value, code)
+    with_export do |path|
+      bytes = rewrite_ndjson(path, 'source_events.ndjson') do |rows|
+        rows.map do |row|
+          next row unless row.fetch('id') == 'message-1'
+
+          row.merge(field => value)
         end
       end
       rewrite_json(path, 'archive-manifest.json') do |manifest|

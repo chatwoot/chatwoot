@@ -57,27 +57,27 @@ module MyinvestChatImport
     private
 
     def source_identity(event)
-      event.fetch('id').to_s
+      event.fetch('id')
     rescue KeyError
       raise ValidationError, 'archive_event_schema_mismatch'
     end
 
     def message_identity(message)
-      external_id = message.fetch('external_id').to_s
+      external_id = message.fetch('external_id')
       raise ValidationError, 'source_event_subset_mismatch' unless external_id.start_with?(MESSAGE_EXTERNAL_PREFIX)
 
       external_id.delete_prefix(MESSAGE_EXTERNAL_PREFIX)
     end
 
     def conversation_identity(conversation)
-      external_id = conversation.fetch('external_id').to_s
+      external_id = conversation.fetch('external_id')
       raise ValidationError, 'source_thread_conversation_mismatch' unless external_id.start_with?(THREAD_EXTERNAL_PREFIX)
 
       external_id.delete_prefix(THREAD_EXTERNAL_PREFIX)
     end
 
     def verify_thread_closure!(bundle, source_threads)
-      thread_ids = source_threads.map { |thread| thread.fetch('id').to_s }.sort
+      thread_ids = source_threads.map { |thread| thread.fetch('id') }.sort
       conversation_ids = bundle.conversations.map { |conversation| conversation_identity(conversation) }.sort
       raise ValidationError, 'source_thread_conversation_mismatch' unless thread_ids == conversation_ids
     end
@@ -89,7 +89,7 @@ module MyinvestChatImport
         expected_thread_id = conversation_identity(
           'external_id' => message.fetch('conversation_external_id')
         )
-        raise ValidationError, 'source_event_thread_mismatch' unless event.fetch('archiveThreadId').to_s == expected_thread_id
+        raise ValidationError, 'source_event_thread_mismatch' unless event.fetch('archiveThreadId') == expected_thread_id
         raise ValidationError, 'source_event_direction_mismatch' unless message.fetch('direction') == event_direction(event)
 
         created_at, updated_at = ordered_timestamps(event.fetch('createdAt'), event['updatedAt'] || event.fetch('createdAt'))
@@ -156,7 +156,7 @@ module MyinvestChatImport
 
     def index_attachments!(rows)
       rows.each_with_object({}) do |attachment, index|
-        identity = [attachment.fetch('source_message_id').to_s, attachment.fetch('sha256')]
+        identity = [attachment.fetch('source_message_id'), attachment.fetch('sha256')]
         raise ValidationError, 'attachment_archive_not_closed' if index.key?(identity)
 
         index[identity] = attachment

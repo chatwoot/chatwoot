@@ -217,7 +217,7 @@ module MyinvestChatImport
     def validate_archive_thread!(record)
       raise ValidationError, 'archive_thread_schema_mismatch' unless record.is_a?(Hash)
 
-      stable_id!(record.fetch('id').to_s)
+      stable_id!(record.fetch('id'))
     rescue KeyError
       raise ValidationError, 'archive_thread_schema_mismatch'
     end
@@ -225,11 +225,13 @@ module MyinvestChatImport
     def validate_archive_event!(record)
       raise ValidationError, 'archive_event_schema_mismatch' unless record.is_a?(Hash)
 
-      stable_id!(record.fetch('id').to_s)
-      type = record.fetch('type').to_s
+      stable_id!(record.fetch('id'))
+      type = record.fetch('type')
       string!(type, 'invalid_archive_event_type', max: MAX_ID_LENGTH)
       validate_archive_event_required_fields!(record, type)
-      Array(record.fetch('attachments')).each { |attachment| validate_archive_event_attachment!(attachment) }
+      attachments = record.fetch('attachments')
+      raise ValidationError, 'archive_event_attachments_must_be_array' unless attachments.is_a?(Array)
+      attachments.each { |attachment| validate_archive_event_attachment!(attachment) }
     rescue KeyError
       raise ValidationError, 'archive_event_schema_mismatch'
     end
@@ -237,14 +239,12 @@ module MyinvestChatImport
     def validate_archive_event_required_fields!(record, type)
       return unless %w[MESSAGE COMMENT].include?(type)
 
-      stable_id!(record.fetch('archiveThreadId').to_s)
+      stable_id!(record.fetch('archiveThreadId'))
       timestamp!(record.fetch('createdAt'))
       if type == 'MESSAGE'
         direction = record.fetch('direction')
-        raise ValidationError, 'archive_event_missing_direction' unless %w[INCOMING OUTGOING].include?(direction)
+        raise ValidationError, 'archive_event_missing_direction' unless direction.is_a?(String) && %w[INCOMING OUTGOING].include?(direction)
       end
-      attachments = record.fetch('attachments')
-      raise ValidationError, 'archive_event_attachments_must_be_array' unless attachments.is_a?(Array)
     rescue KeyError => e
       raise ValidationError, archive_event_missing_code(e.key)
     end
