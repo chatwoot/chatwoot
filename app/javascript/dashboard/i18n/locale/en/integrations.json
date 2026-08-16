@@ -591,12 +591,43 @@
           "PLACEHOLDER": "Enter welcome message"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
+          "LABEL": "Handoff message",
           "PLACEHOLDER": "Enter handoff message"
         },
         "RESOLUTION_MESSAGE": {
           "LABEL": "Resolution Message",
           "PLACEHOLDER": "Enter resolution message"
+        },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "When customers stop replying",
+          "DESCRIPTION": "Choose how Captain handles the conversation.",
+          "MODE_LABEL": "Action when the customer stops replying",
+          "REVIEW_AFTER": "Review after",
+          "RESOLVE_AFTER": "Resolve after",
+          "ALWAYS_WARNING": "Captain will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
+          "PENDING_INFO": "The conversation remains pending until the customer replies.",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Send a message when resolving",
+            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
+          },
+          "MODES": {
+            "DISABLED": {
+              "LABEL": "Wait for the customer",
+              "DESCRIPTION": "Captain does not resolve the conversation. Captain can still hand it off if the customer asks."
+            },
+            "LEGACY": {
+              "LABEL": "Always resolve",
+              "DESCRIPTION": "Captain resolves every conversation after the selected time."
+            },
+            "EVALUATED": {
+              "LABEL": "Let Captain review it (recommended)",
+              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+            }
+          },
+          "DURATION_HOURS_ARIA_LABEL": "Hours before action",
+          "DURATION_MINUTES_ARIA_LABEL": "Minutes before action",
+          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_MINUTES_SHORT": "{count} min"
         },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
@@ -666,7 +697,8 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
+          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
         },
         "AUDIENCE": {
           "TITLE": "Audience",

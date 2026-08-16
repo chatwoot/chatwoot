@@ -1104,6 +1104,9 @@ describe('stripUnsupportedFormatting', () => {
       expect(
         stripUnsupportedFormatting('1. first\n2. second', emptySchema)
       ).toBe('first\nsecond');
+      expect(
+        stripUnsupportedFormatting('1) first\n2) second', emptySchema)
+      ).toBe('first\nsecond');
     });
 
     it('strips code block markers', () => {

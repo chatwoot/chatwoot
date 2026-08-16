@@ -7,6 +7,7 @@
       "404": "Það eru engin virk spjöll í þessum hóp."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Samtöl",
     "MENTION_HEADING": "Mentions",
     "UNATTENDED_HEADING": "Unattended",
