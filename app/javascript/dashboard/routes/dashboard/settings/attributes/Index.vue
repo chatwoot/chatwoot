@@ -163,7 +163,10 @@ const filteredAttributes = computed(() => {
 const localAttributes = ref(filteredAttributes.value);
 
 const dragEnabled = computed(
-  () => !searchQuery.value.trim() && localAttributes.value.length > 1
+  () =>
+    !searchQuery.value.trim() &&
+    localAttributes.value.length > 1 &&
+    !uiFlags.value.isReordering
 );
 
 const onDragEnd = () => {

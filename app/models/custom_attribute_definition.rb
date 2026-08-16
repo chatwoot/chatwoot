@@ -58,7 +58,7 @@ class CustomAttributeDefinition < ApplicationRecord
 
     transaction do
       positions_hash.each do |id, new_position|
-        account.custom_attribute_definitions.find(id).update!(position: new_position)
+        account.custom_attribute_definitions.find(id).update_columns(position: new_position, updated_at: Time.current)
       end
     end
   end
@@ -66,6 +66,7 @@ class CustomAttributeDefinition < ApplicationRecord
   private
 
   def set_position
+    account.lock!
     self.position = self.class.where(account_id: account_id, attribute_model: attribute_model).maximum(:position).to_i + 10
   end
 

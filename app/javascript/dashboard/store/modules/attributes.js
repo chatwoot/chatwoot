@@ -10,6 +10,7 @@ export const state = {
     isCreating: false,
     isUpdating: false,
     isDeleting: false,
+    isReordering: false,
   },
 };
 
@@ -95,12 +96,15 @@ export const actions = {
       map[id] = record?.position;
       return map;
     }, {});
+    commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isReordering: true });
     commit(types.SET_CUSTOM_ATTRIBUTE_POSITIONS, positionsHash);
     try {
       await AttributeAPI.reorder(positionsHash);
     } catch (error) {
       commit(types.SET_CUSTOM_ATTRIBUTE_POSITIONS, oldPositions);
       throw error;
+    } finally {
+      commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isReordering: false });
     }
   },
 };
