@@ -6,6 +6,16 @@
 	}
 }
 
+(direct) {
+}
+
+(cloudflare_tunnel) {
+	# The tunnel origin is loopback-only. Preserve Cloudflare's authenticated
+	# client IP so Chatwoot throttles visitors rather than the tunnel peer.
+	header_up X-Forwarded-For {http.request.header.Cf-Connecting-Ip}
+	header_up X-Real-IP {http.request.header.Cf-Connecting-Ip}
+}
+
 {$CADDY_SITE_SCHEME:https}://{$CADDY_SITE_ADDRESS} {
 	encode zstd gzip
 
@@ -25,11 +35,7 @@
 	handle {
 		reverse_proxy rails:3000 {
 			header_up X-Forwarded-Proto https
-			# The origin is loopback-only behind the co-located Cloudflare Tunnel.
-			# Preserve the edge-authenticated client IP so Chatwoot's per-IP widget
-			# throttle does not collapse every visitor into the tunnel peer address.
-			header_up X-Forwarded-For {http.request.header.Cf-Connecting-Ip}
-			header_up X-Real-IP {http.request.header.Cf-Connecting-Ip}
+			import {$INGRESS_MODE:direct}
 			health_uri /health
 			health_interval 30s
 			health_timeout 5s

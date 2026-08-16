@@ -264,6 +264,7 @@ services:
     environment:
       CADDY_SITE_ADDRESS: ${CADDY_SITE_ADDRESS:?CADDY_SITE_ADDRESS is required}
       CADDY_SITE_SCHEME: ${CADDY_SITE_SCHEME:-https}
+      INGRESS_MODE: ${INGRESS_MODE:-direct}
       ACME_EMAIL: ${ACME_EMAIL:?ACME_EMAIL is required}
     ports:
       - "${BIND_ADDRESS:-0.0.0.0}:${HTTP_PORT:-80}:80"
