@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'digest'
+require 'fileutils'
 require 'json'
 require 'minitest/autorun'
 require 'tmpdir'
@@ -278,6 +279,168 @@ class HubspotExportVerifierTest < Minitest::Test
     end
   end
 
+  def test_fails_closed_when_archive_event_is_missing_archive_thread_id
+    assert_archive_event_validation('archiveThreadId', 'archive_event_missing_archive_thread_id')
+  end
+
+  def test_fails_closed_when_archive_event_is_missing_created_at
+    assert_archive_event_validation('createdAt', 'archive_event_missing_created_at')
+  end
+
+  def test_fails_closed_when_archive_event_is_missing_direction
+    assert_archive_event_validation('direction', 'archive_event_missing_direction')
+  end
+
+  def test_fails_closed_when_archive_event_attachments_is_not_array
+    with_export do |path|
+      bytes = rewrite_ndjson(path, 'source_events.ndjson') do |rows|
+        rows.map do |row|
+          next row unless row.fetch('id') == 'message-1'
+
+          row.merge('attachments' => 'not-an-array')
+        end
+      end
+      rewrite_json(path, 'archive-manifest.json') do |manifest|
+        manifest['files']['source_events']['sha256'] = Digest::SHA256.hexdigest(bytes)
+        manifest['files']['source_events']['count'] = bytes.lines.length
+        manifest
+      end
+
+      error = assert_raises(MyinvestChatImport::ValidationError) { verify(path) }
+      assert_equal 'archive_event_attachments_must_be_array', error.code
+    end
+  end
+
+  def test_fails_closed_when_file_attachment_archived_file_is_missing
+    with_export do |path|
+      bytes = rewrite_ndjson(path, 'source_events.ndjson') do |rows|
+        rows.map do |row|
+          next row unless row.fetch('id') == 'message-1'
+
+          row.merge(
+            'attachments' => row.fetch('attachments').map do |attachment|
+              next attachment unless attachment['type'] == 'FILE'
+
+              attachment.reject { |key, _value| key == 'archivedFile' }
+            end
+          )
+        end
+      end
+      rewrite_json(path, 'archive-manifest.json') do |manifest|
+        manifest['files']['source_events']['sha256'] = Digest::SHA256.hexdigest(bytes)
+        manifest['files']['source_events']['count'] = bytes.lines.length
+        manifest
+      end
+
+      error = assert_raises(MyinvestChatImport::ValidationError) { verify(path) }
+      assert_equal 'archive_event_archived_file_missing', error.code
+    end
+  end
+
+  def test_fails_closed_when_file_attachment_archived_file_sha_is_missing
+    with_export do |path|
+      bytes = rewrite_ndjson(path, 'source_events.ndjson') do |rows|
+        rows.map do |row|
+          next row unless row.fetch('id') == 'message-1'
+
+          row.merge(
+            'attachments' => row.fetch('attachments').map do |attachment|
+              next attachment unless attachment['type'] == 'FILE'
+
+              attachment.merge('archivedFile' => attachment.fetch('archivedFile').merge('sha256' => nil))
+            end
+          )
+        end
+      end
+      rewrite_json(path, 'archive-manifest.json') do |manifest|
+        manifest['files']['source_events']['sha256'] = Digest::SHA256.hexdigest(bytes)
+        manifest['files']['source_events']['count'] = bytes.lines.length
+        manifest
+      end
+
+      error = assert_raises(MyinvestChatImport::ValidationError) { verify(path) }
+      assert_equal 'archive_event_archived_file_invalid', error.code
+    end
+  end
+
+  def test_fails_closed_when_remote_url_remains_at_top_level_of_file_attachment
+    with_export do |path|
+      bytes = rewrite_ndjson(path, 'source_events.ndjson') do |rows|
+        rows.map do |row|
+          next row unless row.fetch('id') == 'message-1'
+
+          row.merge(
+            'attachments' => row.fetch('attachments').map do |attachment|
+              next attachment unless attachment['type'] == 'FILE'
+
+              attachment.merge('url' => 'https://example.invalid/top-level')
+            end
+          )
+        end
+      end
+      rewrite_json(path, 'archive-manifest.json') do |manifest|
+        manifest['files']['source_events']['sha256'] = Digest::SHA256.hexdigest(bytes)
+        manifest['files']['source_events']['count'] = bytes.lines.length
+        manifest
+      end
+
+      error = assert_raises(MyinvestChatImport::ValidationError) { verify(path) }
+      assert_equal 'url_in_source_archive', error.code
+    end
+  end
+
+  def test_fails_closed_when_source_threads_do_not_close_against_conversations
+    with_export do |path|
+      bytes = rewrite_ndjson(path, 'source_threads.ndjson') do |rows|
+        rows + [{ 'id' => 'unexpected-thread' }]
+      end
+      rewrite_json(path, 'archive-manifest.json') do |manifest|
+        manifest['files']['source_threads']['sha256'] = Digest::SHA256.hexdigest(bytes)
+        manifest['files']['source_threads']['count'] = bytes.lines.length
+        manifest
+      end
+
+      error = assert_raises(MyinvestChatImport::ValidationError) { verify(path) }
+      assert_equal 'source_thread_conversation_mismatch', error.code
+    end
+  end
+
+  def test_fails_closed_when_archive_manifest_created_at_mismatches_import_manifest
+    with_export do |path|
+      rewrite_json(path, 'archive-manifest.json') do |manifest|
+        manifest.merge('created_at' => '2026-08-16T15:00:01Z')
+      end
+
+      error = assert_raises(MyinvestChatImport::ValidationError) { verify(path) }
+      assert_equal 'archive_manifest_created_at_mismatch', error.code
+    end
+  end
+
+  def test_fails_closed_when_bundle_schema_version_is_not_v2
+    Dir.mktmpdir('hubspot-v1-export') do |root|
+      path = File.join(root, 'bundle')
+      FileUtils.mkdir_p(path, mode: 0o700)
+      empty_digest = Digest::SHA256.hexdigest('')
+      files = %w[contacts conversations messages].to_h do |name|
+        File.write(File.join(path, "#{name}.ndjson"), '')
+        [name, { 'path' => "#{name}.ndjson", 'sha256' => empty_digest, 'count' => 0 }]
+      end
+      manifest = {
+        'schema_version' => 1,
+        'source_namespace' => 'academy-export',
+        'export_id' => 'hubspot-export-1',
+        'tenant_key' => 'legacy_academy',
+        'created_at' => '2026-08-16T15:00:00Z',
+        'knowledge_import' => false,
+        'files' => files
+      }
+      File.write(File.join(path, 'manifest.json'), JSON.generate(manifest))
+
+      error = assert_raises(MyinvestChatImport::ValidationError) { verify(path) }
+      assert_equal 'unsupported_schema_version', error.code
+    end
+  end
+
   def test_verifier_reuses_bundle_helpers_and_does_not_duplicate_importer
     source = File.read(File.expand_path('../lib/myinvest_chat_import/hubspot_export_verifier.rb', __dir__))
     cli = File.read(cli_path)
@@ -345,6 +508,26 @@ class HubspotExportVerifierTest < Minitest::Test
       manifest['files']['source_events']['sha256'] = Digest::SHA256.hexdigest(bytes)
       manifest['files']['source_events']['count'] = bytes.empty? ? 0 : bytes.lines.length
       manifest
+    end
+  end
+
+  def assert_archive_event_validation(field, code)
+    with_export do |path|
+      bytes = rewrite_ndjson(path, 'source_events.ndjson') do |rows|
+        rows.map do |row|
+          next row unless row.fetch('id') == 'message-1'
+
+          row.reject { |key, _value| key == field }
+        end
+      end
+      rewrite_json(path, 'archive-manifest.json') do |manifest|
+        manifest['files']['source_events']['sha256'] = Digest::SHA256.hexdigest(bytes)
+        manifest['files']['source_events']['count'] = bytes.lines.length
+        manifest
+      end
+
+      error = assert_raises(MyinvestChatImport::ValidationError) { verify(path) }
+      assert_equal code, error.code
     end
   end
 

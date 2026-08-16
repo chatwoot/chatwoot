@@ -58,6 +58,8 @@ module MyinvestChatImport
 
     def source_identity(event)
       event.fetch('id').to_s
+    rescue KeyError
+      raise ValidationError, 'archive_event_schema_mismatch'
     end
 
     def message_identity(message)
@@ -87,7 +89,7 @@ module MyinvestChatImport
         expected_thread_id = conversation_identity(
           'external_id' => message.fetch('conversation_external_id')
         )
-        raise ValidationError, 'source_event_thread_mismatch' unless event['archiveThreadId'].to_s == expected_thread_id
+        raise ValidationError, 'source_event_thread_mismatch' unless event.fetch('archiveThreadId').to_s == expected_thread_id
         raise ValidationError, 'source_event_direction_mismatch' unless message.fetch('direction') == event_direction(event)
 
         created_at, updated_at = ordered_timestamps(event.fetch('createdAt'), event['updatedAt'] || event.fetch('createdAt'))
@@ -95,14 +97,19 @@ module MyinvestChatImport
         raise ValidationError, 'source_event_timestamp_mismatch' unless message.fetch('updated_at') == updated_at
         raise ValidationError, 'source_event_content_mismatch' unless message.fetch('content') == event_content(event)
       end
+    rescue KeyError => e
+      raise ValidationError, archive_event_missing_code(e.key)
     end
 
     def verify_no_urls!(source_events, archived_attachments)
       source_events.each do |event|
         Array(event['attachments']).each do |attachment|
-          next unless attachment['type'] == 'FILE'
+          next unless attachment.is_a?(Hash) && attachment['type'] == 'FILE'
+
           raise ValidationError, 'url_in_source_archive' if attachment.key?('url')
-          raise ValidationError, 'url_in_source_archive' if attachment.fetch('archivedFile', {}).key?('url')
+
+          archived_file = attachment['archivedFile']
+          raise ValidationError, 'url_in_source_archive' if archived_file.is_a?(Hash) && archived_file.key?('url')
         end
       end
       archived_attachments.each do |attachment|
@@ -130,18 +137,21 @@ module MyinvestChatImport
       end
 
       selected_events.each do |event|
-        Array(event['attachments']).select { |attachment| attachment['type'] == 'FILE' }.each do |attachment|
+        Array(event['attachments']).select { |attachment| attachment.is_a?(Hash) && attachment['type'] == 'FILE' }.each do |attachment|
           local = attachment['archivedFile']
           raise ValidationError, 'attachment_archive_not_closed' unless local.is_a?(Hash)
           raise ValidationError, 'attachment_archive_not_closed' if attachment.key?('url')
 
           identity = [source_identity(event), local.fetch('sha256')]
+
           raise ValidationError, 'attachment_archive_not_closed' unless archive_by_identity.key?(identity)
           ATTACHMENT_COMPARE_KEYS.each do |key|
             raise ValidationError, 'attachment_archive_not_closed' unless local.fetch(key) == archive_by_identity.fetch(identity).fetch(key)
           end
         end
       end
+    rescue KeyError
+      raise ValidationError, 'attachment_archive_not_closed'
     end
 
     def index_attachments!(rows)
@@ -160,6 +170,17 @@ module MyinvestChatImport
       when 'INCOMING' then 'incoming'
       when 'OUTGOING' then 'outgoing'
       else raise ValidationError, 'unsupported_source_event_direction'
+      end
+    rescue KeyError => e
+      raise ValidationError, archive_event_missing_code(e.key)
+    end
+
+    def archive_event_missing_code(key)
+      case key
+      when 'archiveThreadId' then 'archive_event_missing_archive_thread_id'
+      when 'createdAt' then 'archive_event_missing_created_at'
+      when 'direction' then 'archive_event_missing_direction'
+      else 'archive_event_schema_mismatch'
       end
     end
 
