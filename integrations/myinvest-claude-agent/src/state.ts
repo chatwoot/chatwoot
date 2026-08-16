@@ -53,13 +53,17 @@ export class PostgresAgentState implements AgentState {
     conversationId: number,
   ): Promise<DeliveryClaim> {
     const result = await this.database.query<{ status: DeliveryStatus; acquired: boolean }>(
-      `WITH inserted AS (
+      `WITH claimed AS (
          INSERT INTO agent_delivery_ledger (tenant_key, message_id, conversation_id, status)
          VALUES ($1, $2, $3, 'processing')
-         ON CONFLICT (tenant_key, message_id) DO NOTHING
-         RETURNING status
+         ON CONFLICT (tenant_key, message_id) DO UPDATE
+           SET conversation_id = EXCLUDED.conversation_id,
+               status = 'processing',
+               updated_at = now()
+         WHERE agent_delivery_ledger.conversation_id < 0
+         RETURNING status, true AS acquired
        )
-       SELECT status, true AS acquired FROM inserted
+       SELECT status, acquired FROM claimed
        UNION ALL
        SELECT status, false AS acquired
          FROM agent_delivery_ledger

@@ -102,9 +102,13 @@ Restore is destructive and is intentionally never automatic. It stops applicatio
 ```bash
 RESTORE_CONFIRMATION=restore:20260816T023000Z \
   ./scripts/restore.sh ./backups/20260816T023000Z
+AGENT_STATE_RECONCILE_CONFIRMATION=reconcile:support.myinvest-pro.de \
+  ./scripts/reconcile-agent-state.sh
 ./scripts/smoke.sh
 PRODUCTION_E2E_CONFIRMATION=test:support.myinvest-pro.de ./scripts/e2e-production.sh
 ```
+
+The reconciliation compares every agent delivery/state key with the restored Chatwoot tenant, message, conversation, and creation time while public ingress and asynchronous writers are paused. A stale delivery keeps its auditable message key but receives a negative conversation marker; the agent may reclaim only that marker on a later real delivery. Stale handoff states are neutralized to `active`. A second run must report zero remaining mismatches.
 
 The production E2E creates two clearly marked synthetic visitors through the externally routed website-widget API, not through Rails. It proves Cloudflare/Caddy/Chatwoot ingress, an AgentBot handoff, exactly one sourced reply visible again through the public widget API, HMAC/replay/tenant rejection, then resolves the synthetic conversations and retires the temporary knowledge document without deleting production records.
 
