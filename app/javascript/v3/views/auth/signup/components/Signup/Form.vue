@@ -31,12 +31,18 @@ const credentials = reactive({
   hCaptchaClientResponse: '',
 });
 
+const globalConfig = computed(() => store.getters['globalConfig/get']);
+const isAChatwootInstance = computed(
+  () => globalConfig.value.installationName === 'Chatwoot'
+);
+
 const rules = {
   credentials: {
     email: {
       required,
       email,
       businessEmailValidator(value) {
+        if (!isAChatwootInstance.value) return true;
         return CompanyEmailValidator.isCompanyEmail(value);
       },
     },
@@ -49,8 +55,6 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, { credentials });
-
-const globalConfig = computed(() => store.getters['globalConfig/get']);
 
 const termsLink = computed(() =>
   t('REGISTER.TERMS_ACCEPT')
