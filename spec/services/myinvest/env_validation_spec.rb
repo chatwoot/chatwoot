@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'open3'
+require 'shellwords'
 require 'tempfile'
 
 describe 'deployment/myinvest/scripts/validate.sh' do
@@ -108,7 +109,7 @@ describe 'deployment/myinvest/scripts/validate.sh' do
   let(:env_file) { Tempfile.new('.env') }
 
   before do
-    env_file.write(base_env.map { |k, v| "#{k}=#{v}" }.join("\n"))
+    env_file.write(base_env.map { |k, v| "#{k}=#{Shellwords.escape(v)}" }.join("\n"))
     env_file.close
   end
 
