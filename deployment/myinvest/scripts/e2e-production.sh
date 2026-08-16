@@ -44,8 +44,28 @@ SQL' \
       >/dev/null
   fi
 }
+resolve_registered_recovery_conversations() {
+  local registry_markers="$1"
+  [[ "$registry_markers" =~ ^production-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}(,production-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32})*$ ]] || {
+    printf 'Production E2E registry contains an invalid recovery marker.\n' >&2
+    return 1
+  }
+  "${compose[@]}" exec -T -e E2E_ACCOUNT_ID="$expected_account_id" -e E2E_REGISTRY_MARKERS="$registry_markers" \
+    rails bundle exec rails runner '
+      account_id = Integer(ENV.fetch("E2E_ACCOUNT_ID"))
+      markers = ENV.fetch("E2E_REGISTRY_MARKERS").split(",").uniq
+      valid = /\Aproduction-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}\z/
+      raise "invalid Production E2E registry marker" unless markers.any? && markers.all? { |marker| marker.match?(valid) }
+      base = Conversation.where(account_id: account_id)
+      recovery = base.where("custom_attributes ->> '\''myinvest_production_e2e_recovery'\'' IN (?)", markers)
+      marked = base.where("additional_attributes ->> '\''myinvest_production_e2e_run'\'' IN (?)", markers)
+      Conversation.where(id: recovery.select(:id)).or(Conversation.where(id: marked.select(:id))).distinct.find_each do |conversation|
+        conversation.update!(status: :resolved, custom_attributes: conversation.custom_attributes.merge("myinvest_e2e_retired" => true))
+      end
+    ' >/dev/null
+}
 resolve_test_conversations() {
-  local display_ids=''
+  local display_ids='' registry_count
   if (( ${#created_display_ids[@]} > 0 )); then
     display_ids="$(IFS=,; printf '%s' "${created_display_ids[*]}")"
     [[ "$display_ids" =~ ^[0-9]+(,[0-9]+)*$ ]] || {
@@ -53,6 +73,16 @@ resolve_test_conversations() {
       return 1
     }
   fi
+  # The public recovery marker is trusted only when the same unpredictable
+  # marker exists in the internal, tenant-bound Production E2E registry.
+  # Variables intentionally expand inside the PostgreSQL container.
+  # shellcheck disable=SC2016
+  registry_count="$("${compose[@]}" exec -T -e E2E_SOURCE_ID="$test_run_marker" postgres sh -ec \
+    'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --set=source_id="$E2E_SOURCE_ID" --command="SELECT count(*) FROM agent_knowledge_documents WHERE tenant_key = '\''saas'\'' AND source_namespace = '\''production-e2e'\'' AND source_id = :'\''source_id'\''"')"
+  [[ "$registry_count" == 1 ]] || {
+    printf 'Production E2E recovery marker is missing from the internal registry.\n' >&2
+    return 1
+  }
   "${compose[@]}" exec -T \
     -e E2E_ACCOUNT_ID="$expected_account_id" -e E2E_RUN_MARKER="$test_run_marker" -e E2E_DISPLAY_IDS="$display_ids" \
     rails bundle exec rails runner '
@@ -61,9 +91,10 @@ resolve_test_conversations() {
     raise "invalid Production E2E marker" unless marker.match?(/\Aproduction-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}\z/)
     display_ids = ENV.fetch("E2E_DISPLAY_IDS").split(",").reject(&:empty?).map { |value| Integer(value, 10) }.uniq
     marked = Conversation.where(account_id: account_id).where("additional_attributes ->> '\''myinvest_production_e2e_run'\'' = ?", marker).to_a
+    recovery = Conversation.where(account_id: account_id).where("custom_attributes ->> '\''myinvest_production_e2e_recovery'\'' = ?", marker).to_a
     exact = Conversation.where(account_id: account_id, display_id: display_ids).to_a
     raise "missing exact Production E2E conversation" unless exact.length == display_ids.length
-    (marked + exact).uniq(&:id).each do |conversation|
+    (marked + recovery + exact).uniq(&:id).each do |conversation|
       conversation.update!(status: :resolved, custom_attributes: conversation.custom_attributes.merge("myinvest_e2e_retired" => true))
     end
   ' >/dev/null
@@ -79,15 +110,21 @@ verify_no_active_test_artifacts() {
   active_documents="$("${compose[@]}" exec -T postgres sh -ec \
     'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="SELECT count(*) FROM agent_knowledge_documents WHERE source_namespace = '\''production-e2e'\'' AND (active = true OR publication_status <> '\''retired'\'')"')"
   unresolved_conversations="$("${compose[@]}" exec -T \
-    -e E2E_ACCOUNT_ID="$expected_account_id" -e E2E_DISPLAY_IDS="$display_ids" \
+    -e E2E_ACCOUNT_ID="$expected_account_id" -e E2E_DISPLAY_IDS="$display_ids" -e E2E_RUN_MARKER="$test_run_marker" \
     rails bundle exec rails runner '
     account_id = Integer(ENV.fetch("E2E_ACCOUNT_ID"))
+    marker = ENV.fetch("E2E_RUN_MARKER")
+    raise "invalid Production E2E marker" unless marker.match?(/\Aproduction-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}\z/)
     display_ids = ENV.fetch("E2E_DISPLAY_IDS").split(",").reject(&:empty?).map { |value| Integer(value, 10) }.uniq
     marked = Conversation.where(account_id: account_id)
       .where("additional_attributes ->> '\''myinvest_production_e2e_run'\'' LIKE ?", "production-e2e-%")
       .where.not(status: :resolved)
+    recovery = Conversation.where(account_id: account_id)
+      .where("custom_attributes ->> '\''myinvest_production_e2e_recovery'\'' = ?", marker)
+      .where.not(status: :resolved)
     exact = Conversation.where(account_id: account_id, display_id: display_ids).where.not(status: :resolved)
-    print Conversation.where(id: marked.select(:id)).or(Conversation.where(id: exact.select(:id))).distinct.count
+    ids = marked.select(:id).or(recovery.select(:id)).or(exact.select(:id))
+    print Conversation.where(id: ids).distinct.count
   ')"
   if [[ "$active_documents" != 0 || "$unresolved_conversations" != 0 ]]; then
     printf 'Production E2E cleanup verification failed (active_documents=%s unresolved_conversations=%s).\n' \
@@ -99,8 +136,8 @@ cleanup_production_e2e() {
   local original_status=$? cleanup_status=0
   trap - EXIT
   set +e
-  retire_test_knowledge || cleanup_status=1
   resolve_test_conversations || cleanup_status=1
+  retire_test_knowledge || cleanup_status=1
   if [[ -n "${e2e_runtime:-}" && -d "$e2e_runtime" ]]; then
     find "$e2e_runtime" -depth -delete || cleanup_status=1
   fi
@@ -112,21 +149,30 @@ cleanup_production_e2e() {
 trap cleanup_production_e2e EXIT
 
 # A terminated prior run must never influence retrieval or leave a synthetic
-# conversation open. These selectors are limited to Production E2E artifacts.
+# conversation open. Public recovery attributes are usable only after their
+# unpredictable values have been loaded from the internal tenant registry.
+prior_registry_markers=()
+# Variables intentionally expand inside the PostgreSQL container.
+# shellcheck disable=SC2016
+while IFS= read -r registry_marker; do
+  [[ -n "$registry_marker" ]] || continue
+  [[ "$registry_marker" =~ ^production-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}$ ]] || {
+    printf 'Production E2E registry returned an invalid marker.\n' >&2
+    exit 1
+  }
+  prior_registry_markers+=("$registry_marker")
+done < <("${compose[@]}" exec -T postgres sh -ec \
+  'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="SELECT DISTINCT source_id FROM agent_knowledge_documents WHERE tenant_key = '\''saas'\'' AND source_namespace = '\''production-e2e'\'' AND source_id ~ '\''^production-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}$'\'' ORDER BY source_id"')
+if (( ${#prior_registry_markers[@]} > 0 )); then
+  prior_registry_markers_csv="$(IFS=,; printf '%s' "${prior_registry_markers[*]}")"
+  resolve_registered_recovery_conversations "$prior_registry_markers_csv"
+fi
+
 # Variables intentionally expand inside the PostgreSQL container.
 # shellcheck disable=SC2016
 "${compose[@]}" exec -T postgres sh -ec \
   'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --quiet --set=ON_ERROR_STOP=1 --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="UPDATE agent_knowledge_documents SET active = false, publication_status = '\''retired'\'', updated_at = now() WHERE source_namespace = '\''production-e2e'\'' AND (active = true OR publication_status <> '\''retired'\'')"' \
   >/dev/null
-"${compose[@]}" exec -T -e E2E_ACCOUNT_ID="$expected_account_id" rails bundle exec rails runner '
-  account_id = Integer(ENV.fetch("E2E_ACCOUNT_ID"))
-  Conversation.where(account_id: account_id)
-    .where("additional_attributes ->> '\''myinvest_production_e2e_run'\'' LIKE ?", "production-e2e-%")
-    .where.not(status: :resolved).find_each do |conversation|
-    conversation.update!(status: :resolved, custom_attributes: conversation.custom_attributes.merge("myinvest_e2e_retired" => true))
-  end
-' >/dev/null
-
 # Variables intentionally expand inside the PostgreSQL container.
 # shellcheck disable=SC2016
 "${compose[@]}" exec -T \
@@ -182,8 +228,8 @@ create_external_widget_path() {
     --header 'content-type: application/json' \
     --header "X-Auth-Token: $auth_token" \
     --data-binary "$(jq -cn \
-      --arg website_token "$website_token" --arg marker "$marker" --arg content "$content" \
-      '{website_token:$website_token,contact:{name:$marker},message:{content:$content,referer_url:"https://support.myinvest-pro.de/production-e2e"}}')" \
+      --arg website_token "$website_token" --arg marker "$marker" --arg content "$content" --arg recovery "$test_run_marker" \
+      '{website_token:$website_token,contact:{name:$marker},message:{content:$content,referer_url:"https://support.myinvest-pro.de/production-e2e"},custom_attributes:{myinvest_production_e2e_recovery:$recovery}}')" \
     "$external_base_url/conversations" > "$conversation_path"
   jq -e --arg content "$content" '
     (.id | type == "number") and
