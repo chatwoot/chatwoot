@@ -29,11 +29,43 @@ retire_test_knowledge() {
     # Variables intentionally expand inside the PostgreSQL container.
     # shellcheck disable=SC2016
     "${compose[@]}" exec -T -e E2E_SOURCE_ID="$test_source_id" postgres sh -ec \
-      'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --quiet --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --set=source_id="$E2E_SOURCE_ID" --command="UPDATE agent_knowledge_documents SET active = false, publication_status = '\''retired'\'', updated_at = now() WHERE tenant_key = '\''saas'\'' AND source_namespace = '\''production-e2e'\'' AND source_id = :'\''source_id'\''"' \
+      'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --quiet --set=ON_ERROR_STOP=1 --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --set=source_id="$E2E_SOURCE_ID" <<SQL
+UPDATE agent_knowledge_documents
+SET active = false, publication_status = '\''retired'\'', updated_at = now()
+WHERE tenant_key = '\''saas'\'' AND source_namespace = '\''production-e2e'\'' AND source_id = :'\''source_id'\'';
+SQL' \
       >/dev/null 2>&1 || true
   fi
 }
-trap retire_test_knowledge EXIT
+resolve_test_conversations() {
+  "${compose[@]}" exec -T -e E2E_SOURCE_ID="$test_source_id" rails bundle exec rails runner '
+    scope = Conversation.where("custom_attributes ->> '\''production_e2e_source_id'\'' = ?", ENV.fetch("E2E_SOURCE_ID"))
+    scope.find_each do |conversation|
+      conversation.update!(status: :resolved, custom_attributes: conversation.custom_attributes.merge("myinvest_e2e_retired" => true))
+    end
+  ' >/dev/null 2>&1 || true
+}
+cleanup_production_e2e() {
+  retire_test_knowledge
+  resolve_test_conversations
+  if [[ -n "${e2e_runtime:-}" && -d "$e2e_runtime" ]]; then
+    find "$e2e_runtime" -depth -delete 2>/dev/null || true
+  fi
+}
+trap cleanup_production_e2e EXIT
+
+# A terminated prior run must never influence retrieval or leave a synthetic
+# conversation open. These selectors are limited to Production E2E artifacts.
+# Variables intentionally expand inside the PostgreSQL container.
+# shellcheck disable=SC2016
+"${compose[@]}" exec -T postgres sh -ec \
+  'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --quiet --set=ON_ERROR_STOP=1 --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="UPDATE agent_knowledge_documents SET active = false, publication_status = '\''retired'\'', updated_at = now() WHERE source_namespace = '\''production-e2e'\'' AND (active = true OR publication_status <> '\''retired'\'')"' \
+  >/dev/null
+"${compose[@]}" exec -T rails bundle exec rails runner '
+  Conversation.where("custom_attributes ->> '\''production_e2e'\'' = ?", "true").where.not(status: :resolved).find_each do |conversation|
+    conversation.update!(status: :resolved, custom_attributes: conversation.custom_attributes.merge("myinvest_e2e_retired" => true))
+  end
+' >/dev/null
 
 # Variables intentionally expand inside the PostgreSQL container.
 # shellcheck disable=SC2016
@@ -59,8 +91,6 @@ account_id="$(jq -r '.account_id' "$context_path")"
 website_token="$(jq -r '.website_token' "$context_path")"
 external_base_url="${FRONTEND_URL%/}/api/v1/widget"
 e2e_runtime="$(mktemp -d)"
-cleanup_e2e_runtime() { find "$e2e_runtime" -depth -delete 2>/dev/null || true; }
-trap 'retire_test_knowledge; cleanup_e2e_runtime' EXIT
 
 create_external_widget_path() {
   local kind="$1"
@@ -89,7 +119,8 @@ create_external_widget_path() {
     --header "X-Auth-Token: $auth_token" \
     --data-binary "$(jq -cn \
       --arg website_token "$website_token" --arg marker "$marker" --arg kind "$kind" --arg content "$content" \
-      '{website_token:$website_token,contact:{name:$marker},message:{content:$content,referer_url:"https://support.myinvest-pro.de/production-e2e"},custom_attributes:{myinvest_e2e:$kind,production_e2e:true}}')" \
+      --arg source_id "$test_source_id" \
+      '{website_token:$website_token,contact:{name:$marker},message:{content:$content,referer_url:"https://support.myinvest-pro.de/production-e2e"},custom_attributes:{myinvest_e2e:$kind,production_e2e:true,production_e2e_source_id:$source_id}}')" \
     "$external_base_url/conversations" > "$conversation_path"
   jq -e --arg content "$content" '
     (.id | type == "number") and
@@ -237,17 +268,10 @@ ledger_count="$("${compose[@]}" exec -T postgres sh -ec \
   exit 1
 }
 
-"${compose[@]}" exec -T \
-  -e E2E_HANDOFF_CONVERSATION_ID="$conversation_id" -e E2E_ANSWER_CONVERSATION_ID="$answer_conversation_id" \
-  rails bundle exec rails runner '
-    ids = [ENV.fetch("E2E_HANDOFF_CONVERSATION_ID"), ENV.fetch("E2E_ANSWER_CONVERSATION_ID")].map { |value| Integer(value) }
-    Conversation.where(id: ids).find_each do |conversation|
-      conversation.update!(status: :resolved, custom_attributes: conversation.custom_attributes.merge("myinvest_e2e_retired" => true))
-    end
-  ' >/dev/null
+resolve_test_conversations
 retire_test_knowledge
 test_document_inserted=false
-cleanup_e2e_runtime
+find "$e2e_runtime" -depth -delete
 trap - EXIT
 
 printf 'Production E2E passed: external website ingress, public AgentBot handoff, one externally visible sourced reply, HMAC, replay suppression, and tenant rejection.\n'
