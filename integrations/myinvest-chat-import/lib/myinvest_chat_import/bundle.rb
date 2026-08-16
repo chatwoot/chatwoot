@@ -8,12 +8,18 @@ module MyinvestChatImport
       'conversations' => 'conversations.ndjson',
       'messages' => 'messages.ndjson'
     }.freeze
+    ARCHIVE_FILE_NAMES = {
+      'source_threads' => 'source_threads.ndjson',
+      'source_events' => 'source_events.ndjson',
+      'attachments' => 'attachments.ndjson'
+    }.freeze
     MANIFEST_KEYS = %w[schema_version source_namespace export_id tenant_key created_at knowledge_import files].freeze
     FILE_KEYS = %w[path sha256 count].freeze
     CONTACT_KEYS = %w[external_id name email phone_number created_at updated_at].freeze
     CONVERSATION_KEYS = %w[external_id contact_external_id status created_at updated_at].freeze
     MESSAGE_KEYS = %w[external_id conversation_external_id direction content created_at updated_at attachments metadata].freeze
     ATTACHMENT_KEYS = %w[external_id path sha256 byte_size filename content_type].freeze
+    ARCHIVE_ATTACHMENT_KEYS = %w[external_id path sha256 byte_size filename content_type source_message_id].freeze
     MAX_ID_LENGTH = 512
     MAX_MESSAGE_LENGTH = 150_000
     MAX_ATTACHMENTS_PER_MESSAGE = 100
@@ -58,6 +64,27 @@ module MyinvestChatImport
       raise UnsupportedAttachmentError unless schema_version == 2
 
       safe_attachment_file(descriptor.fetch('path'))
+    end
+
+    def load_archive_manifest!
+      manifest_bytes = read_utf8(safe_file('archive-manifest.json'), max_bytes: 1_048_576)
+      manifest = parse_object(manifest_bytes, 'invalid_archive_manifest_json')
+      validate_exact_keys!(manifest, MANIFEST_KEYS, 'archive_manifest_schema_mismatch')
+      raise ValidationError, 'unsupported_schema_version' unless manifest.fetch('schema_version') == 2
+      validate_manifest!(manifest, file_names: ARCHIVE_FILE_NAMES, schema_error: 'archive_manifest_schema_mismatch')
+      unless manifest.fetch('export_id') == export_id &&
+             manifest.fetch('tenant_key') == tenant_key &&
+             manifest.fetch('source_namespace') == source_namespace
+        raise ValidationError, 'archive_manifest_identity_mismatch'
+      end
+
+      archive = {
+        'manifest' => manifest.freeze,
+        'source_threads' => load_records(manifest, 'source_threads') { |record| validate_archive_thread!(record) },
+        'source_events' => load_records(manifest, 'source_events') { |record| validate_archive_event!(record) },
+        'attachments' => load_records(manifest, 'attachments') { |record| validate_archive_attachment!(record) }
+      }
+      archive.freeze
     end
 
     private
@@ -109,20 +136,20 @@ module MyinvestChatImport
       raise ValidationError, error_code unless (required - record.keys).empty? && (record.keys - allowed).empty?
     end
 
-    def validate_manifest!(manifest)
+    def validate_manifest!(manifest, file_names: FILE_NAMES, schema_error: 'files_schema_mismatch')
       raise ValidationError, 'unsupported_schema_version' unless [1, 2].include?(manifest.fetch('schema_version'))
       stable_id!(manifest.fetch('source_namespace'))
       stable_id!(manifest.fetch('export_id'))
       raise ValidationError, 'unsupported_tenant' unless TENANTS.include?(manifest.fetch('tenant_key'))
       timestamp!(manifest.fetch('created_at'))
       raise KnowledgeSeparationError unless manifest.fetch('knowledge_import') == false
-      raise ValidationError, 'files_schema_mismatch' unless manifest.fetch('files').is_a?(Hash) && manifest.fetch('files').keys.sort == FILE_NAMES.keys.sort
+      raise ValidationError, schema_error unless manifest.fetch('files').is_a?(Hash) && manifest.fetch('files').keys.sort == file_names.keys.sort
 
       manifest.fetch('files').each do |name, descriptor|
         raise ValidationError, 'file_descriptor_invalid' unless descriptor.is_a?(Hash)
 
         validate_exact_keys!(descriptor, FILE_KEYS, 'file_descriptor_invalid')
-        raise UnsafePathError unless descriptor.fetch('path') == FILE_NAMES.fetch(name)
+        raise UnsafePathError unless descriptor.fetch('path') == file_names.fetch(name)
         raise ValidationError, 'invalid_file_sha256' unless descriptor.fetch('sha256').is_a?(String) && descriptor.fetch('sha256').match?(/\A[0-9a-f]{64}\z/)
         count = descriptor.fetch('count')
         raise ValidationError, 'invalid_file_count' unless count.is_a?(Integer) && count.between?(0, MAX_RECORDS_PER_FILE)
@@ -182,10 +209,40 @@ module MyinvestChatImport
       timestamp_pair!(record)
     end
 
+    def validate_archive_thread!(record)
+      raise ValidationError, 'archive_thread_schema_mismatch' unless record.is_a?(Hash)
+
+      stable_id!(record.fetch('id').to_s)
+    rescue KeyError
+      raise ValidationError, 'archive_thread_schema_mismatch'
+    end
+
+    def validate_archive_event!(record)
+      raise ValidationError, 'archive_event_schema_mismatch' unless record.is_a?(Hash)
+
+      stable_id!(record.fetch('id').to_s)
+      string!(record.fetch('type').to_s, 'invalid_archive_event_type', max: MAX_ID_LENGTH)
+      timestamp!(record.fetch('createdAt')) if record.key?('createdAt')
+    rescue KeyError
+      raise ValidationError, 'archive_event_schema_mismatch'
+    end
+
+    def validate_archive_attachment!(attachment)
+      raise ValidationError, 'attachment_schema_mismatch' unless attachment.is_a?(Hash)
+
+      validate_exact_keys!(attachment, ARCHIVE_ATTACHMENT_KEYS, 'attachment_schema_mismatch')
+      stable_id!(attachment.fetch('source_message_id'))
+      validate_attachment_fields!(attachment)
+    end
+
     def validate_attachment!(attachment)
       raise ValidationError, 'attachment_schema_mismatch' unless attachment.is_a?(Hash)
 
       validate_exact_keys!(attachment, ATTACHMENT_KEYS, 'attachment_schema_mismatch')
+      validate_attachment_fields!(attachment)
+    end
+
+    def validate_attachment_fields!(attachment)
       stable_id!(attachment.fetch('external_id'))
       path = attachment.fetch('path')
       digest = attachment.fetch('sha256')

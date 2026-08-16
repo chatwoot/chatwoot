@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://myinvest-pro.de/schemas/chat-import/archive-manifest-v2.schema.json",
+  "title": "MyInvest HubSpot History Archive Manifest v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_namespace", "export_id", "tenant_key", "created_at", "knowledge_import", "files"],
+  "properties": {
+    "schema_version": { "const": 2 },
+    "source_namespace": { "$ref": "#/$defs/stableId" },
+    "export_id": { "$ref": "#/$defs/stableId" },
+    "tenant_key": { "enum": ["saas", "new_academy", "legacy_academy"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "knowledge_import": { "const": false },
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_threads", "source_events", "attachments"],
+      "properties": {
+        "source_threads": { "$ref": "#/$defs/file", "properties": { "path": { "const": "source_threads.ndjson" } } },
+        "source_events": { "$ref": "#/$defs/file", "properties": { "path": { "const": "source_events.ndjson" } } },
+        "attachments": { "$ref": "#/$defs/file", "properties": { "path": { "const": "attachments.ndjson" } } }
+      }
+    }
+  },
+  "$defs": {
+    "stableId": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "count"],
+      "properties": {
+        "path": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "count": { "type": "integer", "minimum": 0, "maximum": 10000000 }
+      }
+    }
+  }
+}
