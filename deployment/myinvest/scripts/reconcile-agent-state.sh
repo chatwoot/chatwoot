@@ -15,6 +15,26 @@ set +a
   exit 1
 }
 
+archive_agent_queue="${RECONCILE_ARCHIVE_AGENT_QUEUE:-false}"
+agent_redis_db=''
+archive_ttl="${DELIVERY_RETENTION_SECONDS:-86400}"
+if [[ "$archive_agent_queue" == true ]]; then
+  if [[ "$CLAUDE_AGENT_REDIS_URL" =~ ^redis://([^/@]+@)?redis:6379/([0-9]+)$ ]]; then
+    agent_redis_db="${BASH_REMATCH[2]}"
+  else
+    printf 'CLAUDE_AGENT_REDIS_URL must target redis:6379 with an explicit numeric database.\n' >&2
+    exit 1
+  fi
+  [[ "$agent_redis_db" =~ ^[0-9]+$ && "$agent_redis_db" -le 15 ]] || {
+    printf 'CLAUDE_AGENT_REDIS_URL database is outside the configured Redis database range.\n' >&2
+    exit 1
+  }
+  [[ "$archive_ttl" =~ ^[1-9][0-9]*$ ]] || {
+    printf 'DELIVERY_RETENTION_SECONDS must be a positive integer.\n' >&2
+    exit 1
+  }
+fi
+
 work_dir="$(mktemp -d "$deployment_dir/runtime/agent-state-reconcile.XXXXXX")"
 live_messages="$work_dir/live-messages.tsv"
 live_conversations="$work_dir/live-conversations.tsv"
@@ -56,19 +76,38 @@ for service in caddy sidekiq claude-agent; do
 done
 
 archived_queue_keys=0
-if [[ "${RECONCILE_ARCHIVE_AGENT_QUEUE:-false}" == true ]]; then
+if [[ "$archive_agent_queue" == true ]]; then
   archived_queue_keys="$(
     # Variables intentionally expand only inside the Redis container.
     # shellcheck disable=SC2016
-    "${compose[@]}" exec -T -e RECONCILE_RUN_TAG="$run_tag" redis sh -ec '
+    "${compose[@]}" exec -T \
+      -e RECONCILE_RUN_TAG="$run_tag" -e AGENT_REDIS_DB="$agent_redis_db" -e ARCHIVE_TTL="$archive_ttl" \
+      redis sh -ec '
+      set -eu
+      keys_file="/tmp/myinvest-agent-queue-$RECONCILE_RUN_TAG.keys"
+      cleanup_keys() { find "$keys_file" -maxdepth 0 -type f -delete >/dev/null 2>&1 || true; }
+      trap cleanup_keys EXIT
+      pong="$(REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli --no-auth-warning -n "$AGENT_REDIS_DB" PING)"
+      [ "$pong" = PONG ] || exit 1
+      REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli --no-auth-warning -n "$AGENT_REDIS_DB" \
+        --scan --pattern "bull:myinvest-chatwoot-agent:*" > "$keys_file"
       count=0
-      REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli --no-auth-warning --scan --pattern "bull:myinvest-chatwoot-agent:*" |
       while IFS= read -r key; do
         [ -n "$key" ] || continue
-        REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli --no-auth-warning RENAME "$key" "retired:$RECONCILE_RUN_TAG:$key" >/dev/null
+        retired_key="retired:$RECONCILE_RUN_TAG:$key"
+        renamed="$(REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli --no-auth-warning -n "$AGENT_REDIS_DB" RENAME "$key" "$retired_key")"
+        [ "$renamed" = OK ] || exit 1
+        expired="$(REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli --no-auth-warning -n "$AGENT_REDIS_DB" EXPIRE "$retired_key" "$ARCHIVE_TTL")"
+        [ "$expired" = 1 ] || exit 1
+        observed_ttl="$(REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli --no-auth-warning -n "$AGENT_REDIS_DB" TTL "$retired_key")"
+        [ "$observed_ttl" -gt 0 ] && [ "$observed_ttl" -le "$ARCHIVE_TTL" ] || exit 1
         count=$((count + 1))
-        printf "%s\n" "$count"
-      done | tail -n 1
+      done < "$keys_file"
+      : > "$keys_file"
+      REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli --no-auth-warning -n "$AGENT_REDIS_DB" \
+        --scan --pattern "bull:myinvest-chatwoot-agent:*" > "$keys_file"
+      [ ! -s "$keys_file" ] || exit 1
+      printf "%s\n" "$count"
     '
   )"
   archived_queue_keys="${archived_queue_keys:-0}"
