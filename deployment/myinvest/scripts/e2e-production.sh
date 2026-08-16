@@ -78,7 +78,11 @@ resolve_test_conversations() {
   # Variables intentionally expand inside the PostgreSQL container.
   # shellcheck disable=SC2016
   registry_count="$("${compose[@]}" exec -T -e E2E_SOURCE_ID="$test_run_marker" postgres sh -ec \
-    'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --set=source_id="$E2E_SOURCE_ID" --command="SELECT count(*) FROM agent_knowledge_documents WHERE tenant_key = '\''saas'\'' AND source_namespace = '\''production-e2e'\'' AND source_id = :'\''source_id'\''"')"
+    'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --set=source_id="$E2E_SOURCE_ID" <<SQL
+SELECT count(*)
+FROM agent_knowledge_documents
+WHERE tenant_key = '\''saas'\'' AND source_namespace = '\''production-e2e'\'' AND source_id = :'\''source_id'\'';
+SQL')"
   [[ "$registry_count" == 1 ]] || {
     printf 'Production E2E recovery marker is missing from the internal registry.\n' >&2
     return 1
