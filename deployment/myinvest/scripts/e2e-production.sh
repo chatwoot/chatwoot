@@ -30,6 +30,7 @@ expected_account_id="$(jq -er '.[] | select(.key == "saas") | .accountId | selec
 test_content='Die Produktionspfadprüfung beginnt im Testbereich unter Einstellungen.'
 test_content_hash="$(printf '%s' "$test_content" | shasum -a 256 | awk '{print $1}')"
 test_document_inserted=false
+created_display_ids=()
 retire_test_knowledge() {
   if [[ "$test_document_inserted" == true ]]; then
     # Variables intentionally expand inside the PostgreSQL container.
@@ -44,27 +45,49 @@ SQL' \
   fi
 }
 resolve_test_conversations() {
-  "${compose[@]}" exec -T -e E2E_ACCOUNT_ID="$expected_account_id" -e E2E_RUN_MARKER="$test_run_marker" rails bundle exec rails runner '
+  local display_ids=''
+  if (( ${#created_display_ids[@]} > 0 )); then
+    display_ids="$(IFS=,; printf '%s' "${created_display_ids[*]}")"
+    [[ "$display_ids" =~ ^[0-9]+(,[0-9]+)*$ ]] || {
+      printf 'Production E2E recorded invalid display IDs.\n' >&2
+      return 1
+    }
+  fi
+  "${compose[@]}" exec -T \
+    -e E2E_ACCOUNT_ID="$expected_account_id" -e E2E_RUN_MARKER="$test_run_marker" -e E2E_DISPLAY_IDS="$display_ids" \
+    rails bundle exec rails runner '
     account_id = Integer(ENV.fetch("E2E_ACCOUNT_ID"))
     marker = ENV.fetch("E2E_RUN_MARKER")
     raise "invalid Production E2E marker" unless marker.match?(/\Aproduction-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}\z/)
-    scope = Conversation.where(account_id: account_id).where("additional_attributes ->> '\''myinvest_production_e2e_run'\'' = ?", marker)
-    scope.find_each do |conversation|
+    display_ids = ENV.fetch("E2E_DISPLAY_IDS").split(",").reject(&:empty?).map { |value| Integer(value, 10) }.uniq
+    marked = Conversation.where(account_id: account_id).where("additional_attributes ->> '\''myinvest_production_e2e_run'\'' = ?", marker).to_a
+    exact = Conversation.where(account_id: account_id, display_id: display_ids).to_a
+    raise "missing exact Production E2E conversation" unless exact.length == display_ids.length
+    (marked + exact).uniq(&:id).each do |conversation|
       conversation.update!(status: :resolved, custom_attributes: conversation.custom_attributes.merge("myinvest_e2e_retired" => true))
     end
   ' >/dev/null
 }
 verify_no_active_test_artifacts() {
-  local active_documents unresolved_conversations
+  local active_documents unresolved_conversations display_ids=''
+  if (( ${#created_display_ids[@]} > 0 )); then
+    display_ids="$(IFS=,; printf '%s' "${created_display_ids[*]}")"
+    [[ "$display_ids" =~ ^[0-9]+(,[0-9]+)*$ ]] || return 1
+  fi
   # Variables intentionally expand inside the PostgreSQL container.
   # shellcheck disable=SC2016
   active_documents="$("${compose[@]}" exec -T postgres sh -ec \
     'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="SELECT count(*) FROM agent_knowledge_documents WHERE source_namespace = '\''production-e2e'\'' AND (active = true OR publication_status <> '\''retired'\'')"')"
-  unresolved_conversations="$("${compose[@]}" exec -T -e E2E_ACCOUNT_ID="$expected_account_id" rails bundle exec rails runner '
+  unresolved_conversations="$("${compose[@]}" exec -T \
+    -e E2E_ACCOUNT_ID="$expected_account_id" -e E2E_DISPLAY_IDS="$display_ids" \
+    rails bundle exec rails runner '
     account_id = Integer(ENV.fetch("E2E_ACCOUNT_ID"))
-    print Conversation.where(account_id: account_id)
+    display_ids = ENV.fetch("E2E_DISPLAY_IDS").split(",").reject(&:empty?).map { |value| Integer(value, 10) }.uniq
+    marked = Conversation.where(account_id: account_id)
       .where("additional_attributes ->> '\''myinvest_production_e2e_run'\'' LIKE ?", "production-e2e-%")
-      .where.not(status: :resolved).count
+      .where.not(status: :resolved)
+    exact = Conversation.where(account_id: account_id, display_id: display_ids).where.not(status: :resolved)
+    print Conversation.where(id: marked.select(:id)).or(Conversation.where(id: exact.select(:id))).distinct.count
   ')"
   if [[ "$active_documents" != 0 || "$unresolved_conversations" != 0 ]]; then
     printf 'Production E2E cleanup verification failed (active_documents=%s unresolved_conversations=%s).\n' \
@@ -173,6 +196,9 @@ create_external_widget_path() {
   }
   local display_id
   display_id="$(jq -er '.id | select(type == "number")' "$conversation_path")"
+  # Record the exact account/display tuple before the server-marker write. The
+  # EXIT trap can therefore resolve a conversation even if that write fails.
+  created_display_ids+=("$display_id")
   "${compose[@]}" exec -T \
     -e E2E_ACCOUNT_ID="$account_id" -e E2E_DISPLAY_ID="$display_id" -e E2E_RUN_MARKER="$test_run_marker" \
     rails bundle exec rails runner '
