@@ -25,7 +25,7 @@ module MyinvestChatImport
     MAX_ATTACHMENTS_PER_MESSAGE = 100
     MAX_ATTACHMENT_BYTES = 1_073_741_824
     MAX_RECORDS_PER_FILE = 10_000_000
-    MAX_RECORDS_FILE_BYTES = 1_073_741_824
+    MAX_NDJSON_FILE_BYTES = 268_435_456
     FORBIDDEN_METADATA_KEY = /(?:^|_)(?:route|routing|tenant|account|inbox|agent|bot|handoff|assignee|status|direction)(?:_|$)/i
 
     attr_reader :bundle_sha256, :contacts, :conversations, :export_id, :messages, :schema_version, :source_namespace, :tenant_key
@@ -159,7 +159,7 @@ module MyinvestChatImport
 
     def load_records(manifest, name)
       descriptor = manifest.fetch('files').fetch(name)
-      bytes = read_utf8(safe_file(descriptor.fetch('path')), max_bytes: MAX_RECORDS_FILE_BYTES)
+      bytes = read_utf8(safe_file(descriptor.fetch('path')), max_bytes: MAX_NDJSON_FILE_BYTES)
       unless secure_equal?(Digest::SHA256.hexdigest(bytes.b), descriptor.fetch('sha256'))
         raise ValidationError, 'file_digest_mismatch'
       end
