@@ -78,7 +78,9 @@ Rails.application.routes.draw do
               resources :scenarios
             end
             resources :agent_sessions, only: [:show]
-            resources :assistant_responses
+            resources :assistant_responses do
+              get :drilldown, on: :member
+            end
             resources :faq_suggestions, only: [:index, :show, :update] do
               post :approve, on: :member
               post :dismiss, on: :member
@@ -93,6 +95,7 @@ Rails.application.routes.draw do
             end
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member
+              get :drilldown, on: :member
             end
             resource :tasks, only: [], controller: 'tasks' do
               post :rewrite
