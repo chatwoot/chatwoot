@@ -56,9 +56,16 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
 
-  # Use an evented file watcher to asynchronously detect changes in source code,
-  # routes, locales, etc. This feature depends on the listen gem.
-  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+  # Use a polling file watcher to detect changes in source code, routes, locales,
+  # etc. The evented watcher (listen gem) is unreliable on Docker Desktop bind
+  # mounts, causing a full reload + template recompile on every request, which
+  # makes dev renders take tens of seconds.
+  config.file_watcher = ActiveSupport::FileUpdateChecker
+
+  # Cache compiled templates in memory. Dev default re-checks template mtimes on
+  # every request, which is pathologically slow over a Docker Desktop/Windows
+  # bind mount (recompiles the whole layout + partials per request).
+  config.action_view.cache_template_loading = true
 
   # Disable host check during development
   config.hosts = nil

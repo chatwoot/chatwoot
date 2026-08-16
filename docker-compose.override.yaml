@@ -1,0 +1,34 @@
+# Local dev override:
+#  - gives the Postgres container a non-empty superuser password
+#    (docker-compose.yaml hard-codes an empty one, which makes Postgres crash-loop);
+#  - makes Vite work: the image lacks pnpm/npm, so download pnpm's standalone
+#    binary (vite_ruby execs pnpm to launch the dev server; node_modules is already
+#    populated, so no install is needed).
+# Safe to delete; compose auto-merges this file.
+services:
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: chatwoot_dev
+
+  vite:
+    entrypoint:
+      - sh
+      - -c
+      - >-
+        wget -qO /usr/local/bin/pnpm
+        https://github.com/pnpm/pnpm/releases/download/v10.2.0/pnpm-linuxstatic-x64 &&
+        chmod +x /usr/local/bin/pnpm &&
+        exec bin/vite dev
+    environment:
+      # vite_ruby reads VITE_RUBY_HOST (not VITE_DEV_SERVER_HOST, which the base
+      # compose sets but is never consumed). Default "localhost" binds to ::1 only,
+      # which neither the host nor the rails container can reach.
+      VITE_RUBY_HOST: 0.0.0.0
+
+  rails:
+    environment:
+      LOG_LEVEL: debug
+      # Point vite_ruby at the vite container (VITE_DEV_SERVER_HOST in the base
+      # compose is never read by vite_ruby). Without this, rails pings localhost
+      # for the dev server, misses it, and falls back to slow full autoBuilds.
+      VITE_RUBY_HOST: vite
