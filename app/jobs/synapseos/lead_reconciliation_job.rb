@@ -5,8 +5,10 @@ module Synapseos
   # violações de invariante, em vez de só alertar. Conserta:
   #
   #   - Lead não-terminal sem next_action_at OU com next_action_at no passado
-  #     (lead "largado" / dormente) -> transition(:sem_resposta_esgotou),
-  #     reentrando em Futuro + 90d. Mata a dormência silenciosa (I2).
+  #     (lead "largado" / dormente) -> transition(:sem_resposta_esgotou), que
+  #     desde 2026-08-16 encerra como 'sem_resposta' (retomada em +90d) em vez
+  #     de mandar pra Futuro — silêncio não é intenção declarada. Mata a
+  #     dormência silenciosa (I2).
   #   - Lead terminal nao_quer cuja conversa ainda está open -> resolve (I1).
   #
   # Emite Rails.logger.info com a contagem de violações reparadas (métrica;
@@ -34,7 +36,7 @@ module Synapseos
 
     # I2: lead num estado não-terminal cujo próximo passo está ausente ou já
     # venceu. Só o caso INEQUÍVOCO do ADR (silêncio com cadência esgotada) é
-    # reparado automaticamente pra Futuro + 90d. Um lead 'quer' (SLA do consultor
+    # reparado automaticamente (encerra como sem_resposta). Um lead 'quer' (SLA do consultor
     # estourou) ou 'quer_depois' (retomada venceu sem re-toque) NÃO é rebaixado
     # pra nutrição silenciosamente — é caso de escalação/decisão, então vira
     # violação LOGADA pra revisão (a métrica fica visível, sem esfriar um lead

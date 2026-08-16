@@ -5,6 +5,10 @@ RSpec.describe Synapseos::LeadReconciliationJob, type: :job do
   let!(:stage_futuro) do
     create(:synapseos_pipeline_stage, account: account, slug: 'futuro', name: 'Futuro', stage_type: 'open')
   end
+  # o reparo por silêncio encerra o lead (2026-08-16): Futuro é só de intenção declarada
+  let!(:stage_encerrado) do
+    create(:synapseos_pipeline_stage, account: account, slug: 'encerrado', name: 'Encerrado', stage_type: 'lost')
+  end
 
   def build_lead(estado:, next_action_at:, conversation: nil, motivo: nil)
     conv = conversation || create(:conversation, account: account)
@@ -17,13 +21,17 @@ RSpec.describe Synapseos::LeadReconciliationJob, type: :job do
   end
 
   describe '#perform' do
-    it 'repairs a non-terminal lead with nil next_action_at into Futuro+90d (I2)' do
+    it 'repairs a dormant lead by closing it as sem_resposta, keeping +90d reengagement (I2)' do
+      # Silêncio não é intenção: o lead largado encerra como sem_resposta em vez
+      # de poluir a coluna Futuro, que é de quem declarou querer trocar depois.
       lead = build_lead(estado: 'sem_resposta', next_action_at: nil)
 
       count = described_class.new.perform
 
       lead.reload
-      expect(lead.estado).to eq('quer_depois')
+      expect(lead.estado).to eq('sem_resposta')
+      expect(lead.pipeline_stage_id).to eq(stage_encerrado.id)
+      expect(lead.pipeline_stage_id).not_to eq(stage_futuro.id)
       expect(lead.next_action_at).to be_present
       expect(lead.next_action_at).to be > 80.days.from_now
       expect(count).to be >= 1
@@ -35,7 +43,7 @@ RSpec.describe Synapseos::LeadReconciliationJob, type: :job do
       described_class.new.perform
 
       lead.reload
-      expect(lead.estado).to eq('quer_depois')
+      expect(lead.estado).to eq('sem_resposta')
       expect(lead.next_action_at).to be > Time.current
     end
 

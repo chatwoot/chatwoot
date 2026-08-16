@@ -93,15 +93,27 @@ RSpec.describe Synapseos::LeadLifecycle do
     end
 
     context 'with :sem_resposta_esgotou' do
-      it 'reenters Futuro at +90d and is never terminal' do
+      # Silêncio NÃO é intenção declarada: a coluna Futuro é de quem RESPONDEU
+      # dizendo que troca mais pra frente. Quem não respondeu a nenhum toque vai
+      # pra Encerrado (definição do próprio pipeline: "sem resposta após
+      # cadência completa"), mas segue com retomada em +90d.
+      it 'goes to Encerrado as sem_resposta, never to Futuro' do
         freeze_time do
           described_class.transition(lead: lead, signal: :sem_resposta_esgotou)
           lead.reload
-          expect(lead.estado).to eq('quer_depois')
-          expect(lead.pipeline_stage_id).to eq(stage_futuro.id)
+          expect(lead.estado).to eq('sem_resposta')
+          expect(lead.pipeline_stage_id).to eq(stage_encerrado.id)
+          expect(lead.pipeline_stage_id).not_to eq(stage_futuro.id)
+          expect(lead.motivo).to eq('sem_resposta_cadencia_esgotada')
+        end
+      end
+
+      it 'keeps the lead reachable for reengagement in 90 days' do
+        freeze_time do
+          described_class.transition(lead: lead, signal: :sem_resposta_esgotou)
+          lead.reload
           expect(lead.retomada_at).to eq(Time.current + 90.days)
           expect(lead.next_action_at).to eq(lead.retomada_at)
-          expect(lead.terminal?).to be(false)
         end
       end
     end

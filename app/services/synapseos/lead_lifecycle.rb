@@ -15,7 +15,7 @@ module Synapseos
   #   :quer_depois           -> quer_depois (Futuro; retomada por horizonte)
   #   :nao_quer              -> nao_quer    (terminal; exige motivo; auto-resolve)
   #   :sem_resposta_toque    -> sem_resposta(cadência ++; agenda próximo toque)
-  #   :sem_resposta_esgotou  -> quer_depois (Futuro + 90d; nunca terminal)
+  #   :sem_resposta_esgotou  -> sem_resposta (Encerrado + retomada 90d)
   class LeadLifecycle
     class InvalidSignal < StandardError; end
     class MotivoRequired < StandardError; end
@@ -142,12 +142,19 @@ module Synapseos
     end
 
     def apply_sem_resposta_esgotou
-      # Nunca terminal por silêncio: reentra em Futuro com data longa.
-      @lead.estado = 'quer_depois'
-      move_to_stage(STAGE_FUTURO)
-      @lead.status = :open
+      # SILÊNCIO NÃO É INTENÇÃO (corrigido 2026-08-16). Antes o lead que não
+      # respondia a NENHUM toque virava estado 'quer_depois' e caía na coluna
+      # Futuro — misturando quem sumiu com quem DISSE que troca mais pra frente.
+      # A coluna Futuro é de intenção declarada; o próprio pipeline define
+      # Encerrado como "sem resposta após cadência completa".
+      # O lead NÃO é perdido: retomada_at segue em +90d pra reengajamento, e o
+      # estado 'sem_resposta' preserva a verdade do que aconteceu.
+      @lead.estado = 'sem_resposta'
+      move_to_stage(STAGE_ENCERRADO)
+      @lead.status = :disqualified
+      @lead.disqualified_at ||= now
+      @lead.motivo = 'sem_resposta_cadencia_esgotada'
       @lead.retomada_at = now + ESGOTOU_OFFSET
-      @lead.motivo = nil
       @lead.next_action_at = @lead.retomada_at
     end
 
