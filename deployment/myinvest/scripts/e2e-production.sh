@@ -78,7 +78,7 @@ resolve_test_conversations() {
   # Variables intentionally expand inside the PostgreSQL container.
   # shellcheck disable=SC2016
   registry_count="$("${compose[@]}" exec -T -e E2E_SOURCE_ID="$test_run_marker" postgres sh -ec \
-    'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --set=source_id="$E2E_SOURCE_ID" <<SQL
+    'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --set=ON_ERROR_STOP=1 --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --set=source_id="$E2E_SOURCE_ID" <<SQL
 SELECT count(*)
 FROM agent_knowledge_documents
 WHERE tenant_key = '\''saas'\'' AND source_namespace = '\''production-e2e'\'' AND source_id = :'\''source_id'\'';
@@ -104,7 +104,8 @@ SQL')"
   ' >/dev/null
 }
 verify_no_active_test_artifacts() {
-  local active_documents unresolved_conversations display_ids=''
+  local active_documents unresolved_conversations display_ids='' registry_output registry_markers_csv
+  local registry_markers=()
   if (( ${#created_display_ids[@]} > 0 )); then
     display_ids="$(IFS=,; printf '%s' "${created_display_ids[*]}")"
     [[ "$display_ids" =~ ^[0-9]+(,[0-9]+)*$ ]] || return 1
@@ -112,19 +113,34 @@ verify_no_active_test_artifacts() {
   # Variables intentionally expand inside the PostgreSQL container.
   # shellcheck disable=SC2016
   active_documents="$("${compose[@]}" exec -T postgres sh -ec \
-    'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="SELECT count(*) FROM agent_knowledge_documents WHERE source_namespace = '\''production-e2e'\'' AND (active = true OR publication_status <> '\''retired'\'')"')"
+    'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --set=ON_ERROR_STOP=1 --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="SELECT count(*) FROM agent_knowledge_documents WHERE source_namespace = '\''production-e2e'\'' AND (active = true OR publication_status <> '\''retired'\'')"')"
+  # Variables intentionally expand inside the PostgreSQL container.
+  # shellcheck disable=SC2016
+  if ! registry_output="$("${compose[@]}" exec -T postgres sh -ec \
+    'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --set=ON_ERROR_STOP=1 --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="SELECT DISTINCT source_id FROM agent_knowledge_documents WHERE tenant_key = '\''saas'\'' AND source_namespace = '\''production-e2e'\'' AND source_id ~ '\''^production-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}$'\'' ORDER BY source_id"')"; then
+    printf 'Could not verify the internal Production E2E registry.\n' >&2
+    return 1
+  fi
+  while IFS= read -r registry_marker; do
+    [[ -n "$registry_marker" ]] || continue
+    [[ "$registry_marker" =~ ^production-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}$ ]] || return 1
+    registry_markers+=("$registry_marker")
+  done <<< "$registry_output"
+  (( ${#registry_markers[@]} > 0 )) || return 1
+  registry_markers_csv="$(IFS=,; printf '%s' "${registry_markers[*]}")"
   unresolved_conversations="$("${compose[@]}" exec -T \
-    -e E2E_ACCOUNT_ID="$expected_account_id" -e E2E_DISPLAY_IDS="$display_ids" -e E2E_RUN_MARKER="$test_run_marker" \
+    -e E2E_ACCOUNT_ID="$expected_account_id" -e E2E_DISPLAY_IDS="$display_ids" -e E2E_REGISTRY_MARKERS="$registry_markers_csv" \
     rails bundle exec rails runner '
     account_id = Integer(ENV.fetch("E2E_ACCOUNT_ID"))
-    marker = ENV.fetch("E2E_RUN_MARKER")
-    raise "invalid Production E2E marker" unless marker.match?(/\Aproduction-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}\z/)
+    markers = ENV.fetch("E2E_REGISTRY_MARKERS").split(",").uniq
+    valid = /\Aproduction-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}\z/
+    raise "invalid Production E2E registry marker" unless markers.any? && markers.all? { |marker| marker.match?(valid) }
     display_ids = ENV.fetch("E2E_DISPLAY_IDS").split(",").reject(&:empty?).map { |value| Integer(value, 10) }.uniq
     marked = Conversation.where(account_id: account_id)
-      .where("additional_attributes ->> '\''myinvest_production_e2e_run'\'' LIKE ?", "production-e2e-%")
+      .where("additional_attributes ->> '\''myinvest_production_e2e_run'\'' IN (?)", markers)
       .where.not(status: :resolved)
     recovery = Conversation.where(account_id: account_id)
-      .where("custom_attributes ->> '\''myinvest_production_e2e_recovery'\'' = ?", marker)
+      .where("custom_attributes ->> '\''myinvest_production_e2e_recovery'\'' IN (?)", markers)
       .where.not(status: :resolved)
     exact = Conversation.where(account_id: account_id, display_id: display_ids).where.not(status: :resolved)
     ids = marked.select(:id).or(recovery.select(:id)).or(exact.select(:id))
@@ -158,6 +174,11 @@ trap cleanup_production_e2e EXIT
 prior_registry_markers=()
 # Variables intentionally expand inside the PostgreSQL container.
 # shellcheck disable=SC2016
+if ! prior_registry_output="$("${compose[@]}" exec -T postgres sh -ec \
+  'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --set=ON_ERROR_STOP=1 --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="SELECT DISTINCT source_id FROM agent_knowledge_documents WHERE tenant_key = '\''saas'\'' AND source_namespace = '\''production-e2e'\'' AND source_id ~ '\''^production-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}$'\'' ORDER BY source_id"')"; then
+  printf 'Could not read the internal Production E2E registry.\n' >&2
+  exit 1
+fi
 while IFS= read -r registry_marker; do
   [[ -n "$registry_marker" ]] || continue
   [[ "$registry_marker" =~ ^production-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}$ ]] || {
@@ -165,8 +186,7 @@ while IFS= read -r registry_marker; do
     exit 1
   }
   prior_registry_markers+=("$registry_marker")
-done < <("${compose[@]}" exec -T postgres sh -ec \
-  'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --tuples-only --no-align --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --command="SELECT DISTINCT source_id FROM agent_knowledge_documents WHERE tenant_key = '\''saas'\'' AND source_namespace = '\''production-e2e'\'' AND source_id ~ '\''^production-e2e-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{32}$'\'' ORDER BY source_id"')
+done <<< "$prior_registry_output"
 if (( ${#prior_registry_markers[@]} > 0 )); then
   prior_registry_markers_csv="$(IFS=,; printf '%s' "${prior_registry_markers[*]}")"
   resolve_registered_recovery_conversations "$prior_registry_markers_csv"
@@ -182,7 +202,7 @@ fi
 "${compose[@]}" exec -T \
   -e E2E_SOURCE_ID="$test_source_id" -e E2E_CONTENT="$test_content" -e E2E_CONTENT_HASH="$test_content_hash" \
   postgres sh -ec \
-  'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --quiet --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --set=source_id="$E2E_SOURCE_ID" --set=content="$E2E_CONTENT" --set=content_hash="$E2E_CONTENT_HASH" <<SQL
+  'PGPASSWORD="$CLAUDE_AGENT_DATABASE_PASSWORD" psql --quiet --set=ON_ERROR_STOP=1 --username "$CLAUDE_AGENT_DATABASE_USER" --dbname "$CLAUDE_AGENT_DATABASE" --set=source_id="$E2E_SOURCE_ID" --set=content="$E2E_CONTENT" --set=content_hash="$E2E_CONTENT_HASH" <<SQL
 INSERT INTO agent_knowledge_documents
   (tenant_key, source_namespace, source_id, title, content, metadata, content_hash,
    publication_status, active, ingest_batch_id)
