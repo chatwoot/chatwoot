@@ -25,6 +25,11 @@
 	handle {
 		reverse_proxy rails:3000 {
 			header_up X-Forwarded-Proto https
+			# The origin is loopback-only behind the co-located Cloudflare Tunnel.
+			# Preserve the edge-authenticated client IP so Chatwoot's per-IP widget
+			# throttle does not collapse every visitor into the tunnel peer address.
+			header_up X-Forwarded-For {http.request.header.Cf-Connecting-Ip}
+			header_up X-Real-IP {http.request.header.Cf-Connecting-Ip}
 			health_uri /health
 			health_interval 30s
 			health_timeout 5s
