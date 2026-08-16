@@ -48,23 +48,15 @@
 	log {
 		output stdout
 		format filter {
-			# Chatwoot uses these non-standard authentication headers. Caddy only
-			# redacts the standard Authorization/Cookie headers automatically.
-			request>headers>Access-Token delete
-			request>headers>Client delete
-			request>headers>Uid delete
-			resp_headers>Access-Token delete
-			resp_headers>Client delete
-			resp_headers>Uid delete
-			request>headers>Cf-Warp-Tag-Id delete
-			request>headers>Cf-Connecting-Ip delete
-			request>headers>X-Forwarded-For delete
+			# Chatwoot and its widget use several custom authentication headers.
+			# Drop both header maps so future credential names also fail closed.
+			request>headers delete
+			resp_headers delete
 			request>remote_ip ip_mask 24 48
 			request>client_ip ip_mask 24 48
-			request>uri query {
-				delete website_token
-				delete access_token
-			}
+			# Query values can carry widget, reset, SSO, or future token names.
+			# Keep only the request path in logs so unknown credentials fail closed.
+			request>uri regexp "[?].*$" ""
 			wrap json
 		}
 	}
