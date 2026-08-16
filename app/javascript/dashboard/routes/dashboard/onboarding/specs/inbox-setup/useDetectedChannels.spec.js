@@ -16,6 +16,7 @@ const mountComposable = ({
   features = { channel_instagram: true },
   inboxes = [],
   isOnChatwootCloud = false,
+  disableMetaInboxCreation = false,
 } = {}) => {
   const store = createStore({
     modules: {
@@ -24,6 +25,9 @@ const mountComposable = ({
         getters: {
           get: () => ({}),
           isOnChatwootCloud: () => isOnChatwootCloud,
+          isMetaInboxCreationDisabled: () =>
+            isOnChatwootCloud && disableMetaInboxCreation,
+          isMetaMessageSendingDisabled: () => false,
         },
       },
       accounts: {
@@ -218,6 +222,7 @@ describe('useDetectedChannels', () => {
           whatsapp_embedded_signup_inbox_creation: true,
         },
         isOnChatwootCloud: true,
+        disableMetaInboxCreation: true,
         brandInfo: {
           socials: [
             { type: 'whatsapp', url: 'https://wa.me/14155552671' },

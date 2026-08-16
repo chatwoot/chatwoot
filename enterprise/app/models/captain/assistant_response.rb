@@ -33,6 +33,7 @@ class Captain::AssistantResponse < ApplicationRecord
 
   validates :question, presence: true
   validates :answer, presence: true
+  validate :assistant_belongs_to_account
 
   before_validation :ensure_account
   before_validation :ensure_status
@@ -51,6 +52,10 @@ class Captain::AssistantResponse < ApplicationRecord
     nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(5)
   end
 
+  def customer_visible_source_url
+    documentable.customer_visible_source_url if documentable.is_a?(Captain::Document)
+  end
+
   private
 
   def ensure_status
@@ -62,7 +67,13 @@ class Captain::AssistantResponse < ApplicationRecord
   end
 
   def ensure_account
-    self.account = assistant&.account
+    self.account ||= assistant&.account
+  end
+
+  def assistant_belongs_to_account
+    return if assistant.blank? || assistant.account_id == account_id
+
+    errors.add(:assistant, :invalid)
   end
 
   def update_response_embedding

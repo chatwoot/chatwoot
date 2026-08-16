@@ -447,7 +447,6 @@
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Close details",
         "EMPTY": "No records found for this metric.",
         "ERROR": "Could not load records. Please try again.",
         "LOAD_MORE": "Load more",
@@ -592,12 +591,43 @@
           "PLACEHOLDER": "Enter welcome message"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
+          "LABEL": "Handoff message",
           "PLACEHOLDER": "Enter handoff message"
         },
         "RESOLUTION_MESSAGE": {
           "LABEL": "Resolution Message",
           "PLACEHOLDER": "Enter resolution message"
+        },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "When customers stop replying",
+          "DESCRIPTION": "Choose how Captain handles the conversation.",
+          "MODE_LABEL": "Action when the customer stops replying",
+          "REVIEW_AFTER": "Review after",
+          "RESOLVE_AFTER": "Resolve after",
+          "ALWAYS_WARNING": "Captain will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
+          "PENDING_INFO": "The conversation remains pending until the customer replies.",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Send a message when resolving",
+            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
+          },
+          "MODES": {
+            "DISABLED": {
+              "LABEL": "Wait for the customer",
+              "DESCRIPTION": "Captain does not resolve the conversation. Captain can still hand it off if the customer asks."
+            },
+            "LEGACY": {
+              "LABEL": "Always resolve",
+              "DESCRIPTION": "Captain resolves every conversation after the selected time."
+            },
+            "EVALUATED": {
+              "LABEL": "Let Captain review it (recommended)",
+              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+            }
+          },
+          "DURATION_HOURS_ARIA_LABEL": "Hours before action",
+          "DURATION_MINUTES_ARIA_LABEL": "Minutes before action",
+          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_MINUTES_SHORT": "{count} min"
         },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
@@ -609,6 +639,48 @@
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
           "ALLOW_CITATIONS": "Include source citations in responses",
           "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+        },
+        "AUDIENCE": {
+          "EVERYONE": {
+            "LABEL": "Everyone",
+            "DESC": "Captain responds to every conversation in connected inboxes."
+          },
+          "SPECIFIC": {
+            "LABEL": "Specific audience",
+            "DESC": "Captain responds only to customers who match the conditions below."
+          },
+          "ADD_CONDITION": "Add condition",
+          "ADD_GROUP": "Add condition group",
+          "EMPTY_TITLE": "No conditions yet",
+          "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
+          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
+          "MATCH_PREFIX": "Match",
+          "MATCH_SUFFIX": "of the following",
+          "MATCH_ALL": "all",
+          "MATCH_ANY": "any",
+          "GROUP_CONTACT": "Contact attributes",
+          "GROUP_CONVERSATION": "Conversation",
+          "GROUP_CUSTOM": "Custom attributes",
+          "BROWSER_LANGUAGE": "Browser language",
+          "CONVERSATION_LANGUAGE": "First message language",
+          "LOGGED_IN": "Logged-in user",
+          "LOGGED_IN_TRUE": "Yes",
+          "LOGGED_IN_FALSE": "No"
+        },
+        "SCHEDULE": {
+          "ALWAYS": {
+            "LABEL": "Anytime",
+            "DESC": "Captain responds to every conversation, regardless of time."
+          },
+          "BUSINESS_HOURS": {
+            "LABEL": "During business hours",
+            "DESC": "Captain responds only within each inbox's business hours."
+          },
+          "OUTSIDE_BUSINESS_HOURS": {
+            "LABEL": "Outside business hours",
+            "DESC": "Captain responds only when each inbox is closed."
+          },
+          "HINT": "Inboxes without business hours configured are always covered."
         }
       },
       "EDIT": {
@@ -625,7 +697,16 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
+          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
+        },
+        "AUDIENCE": {
+          "TITLE": "Audience",
+          "DESCRIPTION": "Choose whether this assistant responds to everyone or only to a specific audience."
+        },
+        "SCHEDULE": {
+          "TITLE": "Schedule",
+          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
@@ -819,6 +900,8 @@
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
       "FAQ_COUNT": "{n} FAQ | {n} FAQs",
+      "USED_IN_CONVERSATIONS": "Used in {n} conversation | Used in {n} conversations",
+      "NO_USED_CONVERSATIONS": "No conversations found for this document.",
       "SELECTED": "{count} selected",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
@@ -856,7 +939,8 @@
         },
         "SORT": {
           "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created"
+          "RECENTLY_CREATED": "Recently created",
+          "MOST_USED": "Most used in conversations"
         },
         "SEARCH_PLACEHOLDER": "Search..."
       },
@@ -884,6 +968,7 @@
         "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
         "SOURCE": "Source",
         "GENERATED_FAQS": "Generated FAQs",
+        "USED_IN_CONVERSATIONS": "Used in conversations",
         "LAST_UPDATED": "Last updated",
         "NOT_AVAILABLE": "Not available",
         "CONTENT_TAB": "Crawled content",
@@ -1087,6 +1172,7 @@
     "RESPONSES": {
       "HEADER": "FAQs",
       "ADD_NEW": "Create new FAQ",
+      "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
       },

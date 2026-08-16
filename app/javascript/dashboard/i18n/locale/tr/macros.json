@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Çalıştır",
       "PREVIEW": "Kısayol Ön İzlemesi",
-      "EXECUTED_SUCCESSFULLY": "Kısayol başarıyla çalıştırıldı"
+      "EXECUTED_SUCCESSFULLY": "Kısayol başarıyla çalıştırıldı",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Özellik anahtarı gereklidir",

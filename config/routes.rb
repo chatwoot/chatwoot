@@ -78,7 +78,9 @@ Rails.application.routes.draw do
               resources :scenarios
             end
             resources :agent_sessions, only: [:show]
-            resources :assistant_responses
+            resources :assistant_responses do
+              get :drilldown, on: :member
+            end
             resources :faq_suggestions, only: [:index, :show, :update] do
               post :approve, on: :member
               post :dismiss, on: :member
@@ -93,6 +95,7 @@ Rails.application.routes.draw do
             end
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member
+              get :drilldown, on: :member
             end
             resource :tasks, only: [], controller: 'tasks' do
               post :rewrite
@@ -280,6 +283,7 @@ Rails.application.routes.draw do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
             get :agent_bot, on: :member
+            get :message_templates, on: :member
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
             post :sync_templates, on: :member
