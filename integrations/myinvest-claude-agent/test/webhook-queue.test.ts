@@ -17,6 +17,14 @@ describe('WebhookController', () => {
       const ignoredRaw = JSON.stringify(ignored)
       expect((await controller.handle(ignoredRaw, signedHeaders(ignoredRaw, tenants[0]!.webhookSecret, nowMs))).status).toBe(200)
     }
+    const { created_at: _missingCreatedAt, ...missingGeneration } = incomingPayload()
+    const missingGenerationRaw = JSON.stringify(missingGeneration)
+    await expect(
+      controller.handle(
+        missingGenerationRaw,
+        signedHeaders(missingGenerationRaw, tenants[0]!.webhookSecret, nowMs),
+      ),
+    ).rejects.toThrow()
   })
 
   it('turns queue failures into a retryable infrastructure error', async () => {

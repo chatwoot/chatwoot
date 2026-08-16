@@ -22,7 +22,7 @@ postgres_id="$("${compose[@]}" ps -q postgres)"
 run_tag="$(date -u +%Y%m%dT%H%M%SZ)-$$"
 container_messages="/tmp/myinvest-agent-state-${run_tag}-messages.tsv"
 container_conversations="/tmp/myinvest-agent-state-${run_tag}-conversations.tsv"
-writers_paused=false
+paused_services=()
 
 cleanup() {
   if [[ -n "$postgres_id" ]]; then
@@ -31,8 +31,8 @@ cleanup() {
       -delete >/dev/null 2>&1 || true
   fi
   find "$work_dir" -depth -delete >/dev/null 2>&1 || true
-  if [[ "$writers_paused" == true ]]; then
-    "${compose[@]}" unpause caddy sidekiq claude-agent >/dev/null 2>&1 || true
+  if (( ${#paused_services[@]} > 0 )); then
+    "${compose[@]}" unpause "${paused_services[@]}" >/dev/null 2>&1 || true
   fi
 }
 trap cleanup EXIT
@@ -45,8 +45,35 @@ trap cleanup EXIT
 # Hold public ingress and asynchronous delivery writers while Rails produces the
 # live relation and PostgreSQL commits the reconciliation. Rails stays running
 # only so the read-only runner can export the canonical Chatwoot identifiers.
-"${compose[@]}" pause caddy sidekiq claude-agent >/dev/null
-writers_paused=true
+for service in caddy sidekiq claude-agent; do
+  container_id="$("${compose[@]}" ps -q "$service")"
+  [[ -n "$container_id" ]] || continue
+  read -r running paused < <(docker inspect --format '{{.State.Running}} {{.State.Paused}}' "$container_id")
+  if [[ "$running" == true && "$paused" == false ]]; then
+    "${compose[@]}" pause "$service" >/dev/null
+    paused_services+=("$service")
+  fi
+done
+
+archived_queue_keys=0
+if [[ "${RECONCILE_ARCHIVE_AGENT_QUEUE:-false}" == true ]]; then
+  archived_queue_keys="$(
+    # Variables intentionally expand only inside the Redis container.
+    # shellcheck disable=SC2016
+    "${compose[@]}" exec -T -e RECONCILE_RUN_TAG="$run_tag" redis sh -ec '
+      count=0
+      REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli --no-auth-warning --scan --pattern "bull:myinvest-chatwoot-agent:*" |
+      while IFS= read -r key; do
+        [ -n "$key" ] || continue
+        REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli --no-auth-warning RENAME "$key" "retired:$RECONCILE_RUN_TAG:$key" >/dev/null
+        count=$((count + 1))
+        printf "%s\n" "$count"
+      done | tail -n 1
+    '
+  )"
+  archived_queue_keys="${archived_queue_keys:-0}"
+fi
+printf '{"event":"agent_queue_archived","keys":%s}\n' "$archived_queue_keys"
 
 "${compose[@]}" exec -T -e TENANTS_JSON rails bundle exec rails runner '
   require "json"
@@ -122,7 +149,8 @@ INSERT INTO reconcile_counts
 SELECT 'retired_delivery', count(*) FROM delivery_to_retire;
 
 UPDATE agent_delivery_ledger AS ledger
-SET conversation_id = -abs(ledger.conversation_id)
+SET conversation_id = -abs(ledger.conversation_id),
+    status = 'replied'
 FROM delivery_to_retire AS stale
 WHERE ledger.tenant_key = stale.tenant_key
   AND ledger.message_id = stale.message_id;

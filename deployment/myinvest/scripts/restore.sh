@@ -83,9 +83,13 @@ docker run --rm \
 "${compose[@]}" run --rm rails bundle exec rails db:chatwoot_prepare
 "${compose[@]}" run --rm -v "$snapshot:/restore:ro" rails \
   bundle exec rails runner /bootstrap/restore_object_storage.rb
+"${compose[@]}" up -d rails
+AGENT_STATE_RECONCILE_CONFIRMATION="reconcile:${CADDY_SITE_ADDRESS}" \
+RECONCILE_ARCHIVE_AGENT_QUEUE=true \
+  "$deployment_dir/scripts/reconcile-agent-state.sh"
 "${compose[@]}" up -d --build
 "${compose[@]}" exec -T postgres sh -ec \
   "PGPASSWORD=\"\$CHATWOOT_DATABASE_PASSWORD\" psql --username \"\$CHATWOOT_DATABASE_USER\" --dbname \"\$CHATWOOT_DATABASE\" --command 'SELECT 1' >/dev/null"
 "${compose[@]}" exec -T postgres sh -ec \
   "PGPASSWORD=\"\$CLAUDE_AGENT_DATABASE_PASSWORD\" psql --username \"\$CLAUDE_AGENT_DATABASE_USER\" --dbname \"\$CLAUDE_AGENT_DATABASE\" --command 'SELECT 1' >/dev/null"
-printf 'Restore completed; run scripts/smoke.sh now.\n'
+printf 'Restore and fail-closed agent state/queue reconciliation completed; run scripts/smoke.sh now.\n'

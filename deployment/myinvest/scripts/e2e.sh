@@ -51,11 +51,13 @@ message_id="$(jq -r '.message_id' "$context_path")"
     expected_display_id = Integer(ENV.fetch("E2E_CONVERSATION_DISPLAY_ID"))
     raise "E2E public conversation identifier drifted from display_id" unless conversation.display_id == expected_display_id
   ' >/dev/null
+event_created_at="$(date -u +%Y-%m-%dT%H:%M:%S.000Z)"
 payload="$(jq -cn \
+  --arg created_at "$event_created_at" \
   --argjson account "$account_id" \
   --argjson conversation "$conversation_id" \
   --argjson message "$message_id" \
-  '{event:"message_created",id:$message,content:"Ich möchte mit einem Menschen sprechen.",message_type:"incoming",private:false,account:{id:$account},conversation:{id:$conversation}}')"
+  '{event:"message_created",id:$message,created_at:$created_at,content:"Ich möchte mit einem Menschen sprechen.",message_type:"incoming",private:false,account:{id:$account},conversation:{id:$conversation}}')"
 timestamp="$(date +%s)"
 delivery_id="local-e2e-${message_id}"
 signature="$(TENANT_KEY=saas TIMESTAMP="$timestamp" RAW_BODY="$payload" TENANTS_PATH="$deployment_dir/runtime/tenants.json" \

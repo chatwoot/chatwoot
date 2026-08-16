@@ -23,6 +23,7 @@ export interface AgentState {
     tenantKey: TenantKey,
     messageId: number,
     conversationId: number,
+    eventCreatedAt: string,
   ): Promise<DeliveryClaim>
   markSending(tenantKey: TenantKey, messageId: number): Promise<void>
   completeDelivery(
@@ -51,6 +52,7 @@ export class PostgresAgentState implements AgentState {
     tenantKey: TenantKey,
     messageId: number,
     conversationId: number,
+    eventCreatedAt: string,
   ): Promise<DeliveryClaim> {
     const result = await this.database.query<{ status: DeliveryStatus; acquired: boolean }>(
       `WITH claimed AS (
@@ -61,6 +63,7 @@ export class PostgresAgentState implements AgentState {
                status = 'processing',
                updated_at = now()
          WHERE agent_delivery_ledger.conversation_id < 0
+           AND $4::timestamptz > agent_delivery_ledger.updated_at
          RETURNING status, true AS acquired
        )
        SELECT status, acquired FROM claimed
@@ -69,7 +72,7 @@ export class PostgresAgentState implements AgentState {
          FROM agent_delivery_ledger
         WHERE tenant_key = $1 AND message_id = $2
        LIMIT 1`,
-      [tenantKey, messageId, conversationId],
+      [tenantKey, messageId, conversationId, eventCreatedAt],
     )
     const claim = result.rows[0]
     if (!claim) throw new Error('Delivery ledger did not return a claim')

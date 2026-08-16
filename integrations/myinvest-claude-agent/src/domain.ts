@@ -7,6 +7,7 @@ export const chatwootWebhookSchema = z
   .object({
     event: z.string(),
     id: z.number().int().positive(),
+    created_at: z.string().datetime(),
     content: z.string().default(''),
     message_type: z.string(),
     private: z.boolean().optional().default(false),

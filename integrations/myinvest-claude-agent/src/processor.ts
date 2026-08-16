@@ -33,6 +33,7 @@ export class MessageProcessor {
       tenant.key,
       payload.id,
       conversationId,
+      payload.created_at,
     )
     if (!delivery.acquired) {
       if (delivery.status === 'processing' || delivery.status === 'sending') {

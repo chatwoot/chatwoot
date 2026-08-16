@@ -81,12 +81,14 @@ describe('MessageProcessor', () => {
     expect(completed.sendMessage).not.toHaveBeenCalled()
     expect(completed.handoff).not.toHaveBeenCalled()
 
-    const ambiguous = setup()
-    ambiguous.state.beginDelivery.mockResolvedValueOnce({ status: 'sending', acquired: false })
-    await ambiguous.processor.process({ tenant: tenants[0]!, payload: incomingPayload() })
-    expect(ambiguous.sendMessage).not.toHaveBeenCalled()
-    expect(ambiguous.handoff).toHaveBeenCalledOnce()
-    expect(ambiguous.state.completeDelivery).toHaveBeenCalledWith('saas', 55, 'handed_off')
+    for (const status of ['processing', 'sending'] as const) {
+      const ambiguous = setup()
+      ambiguous.state.beginDelivery.mockResolvedValueOnce({ status, acquired: false })
+      await ambiguous.processor.process({ tenant: tenants[0]!, payload: incomingPayload() })
+      expect(ambiguous.sendMessage).not.toHaveBeenCalled()
+      expect(ambiguous.handoff).toHaveBeenCalledOnce()
+      expect(ambiguous.state.completeDelivery).toHaveBeenCalledWith('saas', 55, 'handed_off')
+    }
   })
 
   it('cites only sources selected by the model', async () => {
