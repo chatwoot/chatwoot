@@ -32,13 +32,6 @@
 		reverse_proxy claude-agent:8080
 	}
 
-	@stock_favicon path /favicon.ico /favicon-16x16.png /favicon-32x32.png /favicon-96x96.png /favicon-512x512.png /favicon-badge-16x16.png /favicon-badge-32x32.png /favicon-badge-96x96.png
-	handle @stock_favicon {
-		rewrite * /favicon.png
-		root * /srv/brand
-		file_server
-	}
-
 	handle {
 		reverse_proxy rails:3000 {
 			header_up X-Forwarded-Proto https

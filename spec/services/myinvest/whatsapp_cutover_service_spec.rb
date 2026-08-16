@@ -8,9 +8,9 @@ describe Myinvest::WhatsappCutover::Service do
       phone_number: phone_number,
       phone_number_id: phone_number_id,
       waba_id: waba_id,
+      business_portfolio_id: business_portfolio_id,
       access_token: access_token,
-      app_secret: app_secret,
-      override_callback_url: override_callback_url
+      app_secret: app_secret
     )
   end
 
@@ -18,10 +18,9 @@ describe Myinvest::WhatsappCutover::Service do
   let(:phone_number) { '+491234567890' }
   let(:phone_number_id) { '1234567890' }
   let(:waba_id) { '9876543210' }
+  let(:business_portfolio_id) { 'portfolio-1' }
   let(:access_token) { 'super-secret-access-token' }
   let(:app_secret) { 'super-secret-app-secret' }
-  let(:override_callback_url) { nil }
-  let(:business_portfolio_id) { 'portfolio-1' }
 
   let(:health_status) do
     {
@@ -35,8 +34,7 @@ describe Myinvest::WhatsappCutover::Service do
       quality_rating: 'GREEN',
       expected_webhook_url: "https://support.myinvest-pro.de/webhooks/whatsapp/#{phone_number}",
       webhook_configuration: {
-        'application' => "https://support.myinvest-pro.de/webhooks/whatsapp/#{phone_number}",
-        'phone_number' => "https://support.myinvest-pro.de/webhooks/whatsapp/#{phone_number}"
+        'override_callback_uri' => "https://support.myinvest-pro.de/webhooks/whatsapp/#{phone_number}"
       }
     }
   end
@@ -51,14 +49,13 @@ describe Myinvest::WhatsappCutover::Service do
 
   def build_service(overrides = {})
     described_class.new(
-      **{
-        account: account,
-        phone_number: phone_number,
-        phone_number_id: phone_number_id,
-        waba_id: waba_id,
-        access_token: access_token,
-        app_secret: app_secret
-      }.merge(overrides)
+      account: account,
+      phone_number: phone_number,
+      phone_number_id: phone_number_id,
+      waba_id: waba_id,
+      business_portfolio_id: business_portfolio_id,
+      access_token: access_token,
+      app_secret: app_secret, **overrides
     )
   end
 
@@ -104,6 +101,11 @@ describe Myinvest::WhatsappCutover::Service do
     it 'requires app secret' do
       expect { build_service(app_secret: '') }
         .to raise_error(ArgumentError, 'App secret is required')
+    end
+
+    it 'requires business portfolio id' do
+      expect { build_service(business_portfolio_id: '') }
+        .to raise_error(ArgumentError, 'Business portfolio ID is required')
     end
   end
 
@@ -225,7 +227,7 @@ describe Myinvest::WhatsappCutover::Service do
       create(:agent_bot, account: account, name: 'MyInvest Claude Support')
 
       expect { service.perform }
-        .to raise_error(Myinvest::WhatsappCutover::HealthError, 'Meta health error')
+        .to raise_error(Myinvest::WhatsappCutover::HealthError, 'Health check failed')
       expect(AgentBotInbox.count).to eq(0)
     end
 
@@ -240,43 +242,17 @@ describe Myinvest::WhatsappCutover::Service do
       expect(channel.inbox.members).to include(admin)
     end
 
-    context 'with override callback URL' do
-      let(:override_callback_url) { 'https://support.myinvest-pro.de/webhooks/whatsapp/override' }
-      let(:health_status) do
-        super().merge(
-          webhook_configuration: {
-            'application' => override_callback_url,
-            'phone_number' => override_callback_url
-          }
-        )
-      end
+    it 'rejects a business portfolio ID mismatch in health' do
+      create(:user)
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
 
-      it 'stores the override callback URL and verifies it' do
-        create(:user)
-        create(:account_user, account: account, user: create(:user), role: :administrator)
-        create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+      allow_any_instance_of(Whatsapp::HealthService).to receive(:fetch_health_status).and_return(
+        health_status.merge(business_portfolio_id: 'other-portfolio')
+      )
 
-        channel = service.perform
-        expect(channel.provider_config['override_callback_url']).to eq(override_callback_url)
-      end
-
-      it 'fails when health check callback does not match' do
-        create(:user)
-        create(:account_user, account: account, user: create(:user), role: :administrator)
-        create(:agent_bot, account: account, name: 'MyInvest Claude Support')
-
-        allow_any_instance_of(Whatsapp::HealthService).to receive(:fetch_health_status).and_return(
-          health_status.merge(
-            webhook_configuration: {
-              'application' => 'https://wrong.example/webhooks',
-              'phone_number' => 'https://wrong.example/webhooks'
-            }
-          )
-        )
-
-        expect { service.perform }
-          .to raise_error(Myinvest::WhatsappCutover::HealthError, /webhook callback mismatch/)
-      end
+      expect { service.perform }
+        .to raise_error(Myinvest::WhatsappCutover::HealthError, /business portfolio mismatch/)
     end
 
     it 'requires a business portfolio ID in health' do
@@ -289,7 +265,7 @@ describe Myinvest::WhatsappCutover::Service do
       )
 
       expect { service.perform }
-        .to raise_error(Myinvest::WhatsappCutover::HealthError, /business portfolio missing/)
+        .to raise_error(Myinvest::WhatsappCutover::HealthError, /business portfolio mismatch/)
     end
 
     it 'requires CONNECTED status' do
@@ -302,7 +278,7 @@ describe Myinvest::WhatsappCutover::Service do
       )
 
       expect { service.perform }
-        .to raise_error(Myinvest::WhatsappCutover::HealthError, /status is DISCONNECTED/)
+        .to raise_error(Myinvest::WhatsappCutover::HealthError, /status mismatch/)
     end
 
     it 'requires VERIFIED code verification status' do
@@ -315,7 +291,7 @@ describe Myinvest::WhatsappCutover::Service do
       )
 
       expect { service.perform }
-        .to raise_error(Myinvest::WhatsappCutover::HealthError, /code verification status is PENDING/)
+        .to raise_error(Myinvest::WhatsappCutover::HealthError, /code verification mismatch/)
     end
 
     it 'requires CLOUD_API platform type' do
@@ -328,7 +304,7 @@ describe Myinvest::WhatsappCutover::Service do
       )
 
       expect { service.perform }
-        .to raise_error(Myinvest::WhatsappCutover::HealthError, /platform type is ON_PREM/)
+        .to raise_error(Myinvest::WhatsappCutover::HealthError, /platform type mismatch/)
     end
 
     it 'rejects risky quality ratings' do
@@ -341,7 +317,7 @@ describe Myinvest::WhatsappCutover::Service do
       )
 
       expect { service.perform }
-        .to raise_error(Myinvest::WhatsappCutover::HealthError, /risky quality rating/)
+        .to raise_error(Myinvest::WhatsappCutover::HealthError, /quality rating mismatch/)
     end
 
     it 'does not leak secrets in raised messages' do
@@ -382,8 +358,7 @@ describe Myinvest::WhatsappCutover::Service do
       allow_any_instance_of(Whatsapp::HealthService).to receive(:fetch_health_status).and_return(
         health_status.merge(
           webhook_configuration: {
-            'application' => "https://evil.example/#{access_token}",
-            'phone_number' => "https://evil.example/#{app_secret}"
+            'override_callback_uri' => "https://evil.example/#{access_token}/#{app_secret}"
           }
         )
       )

@@ -11,6 +11,7 @@ describe Myinvest::WhatsappCutover::Wrapper do
       'WHATSAPP_PHONE_NUMBER' => '+491234567890',
       'WHATSAPP_PHONE_NUMBER_ID' => '1234567890',
       'WHATSAPP_WABA_ID' => '9876543210',
+      'WHATSAPP_BUSINESS_PORTFOLIO_ID' => 'portfolio-1',
       'WHATSAPP_ACCESS_TOKEN' => 'super-secret-access-token',
       'WHATSAPP_APP_SECRET' => 'super-secret-app-secret',
       'HUBSPOT_ACCESS_TOKEN' => 'super-secret-hubspot-token',
@@ -46,9 +47,9 @@ describe Myinvest::WhatsappCutover::Wrapper do
       wrapper.run
     end
 
-    it 'skips the Rails provisioner in dry-run mode' do
+    it 'invokes the Rails provisioner with DRY_RUN=true in dry-run mode' do
       env['DRY_RUN'] = 'true'
-      expect(wrapper).not_to receive(:run_rails_provisioner!)
+      expect(wrapper).to receive(:run_rails_provisioner!)
       wrapper.run
     end
 
@@ -68,6 +69,27 @@ describe Myinvest::WhatsappCutover::Wrapper do
       expect(argv).not_to include('WHATSAPP_ACCESS_TOKEN=super-secret-access-token')
       expect(argv).not_to include('WHATSAPP_APP_SECRET=super-secret-app-secret')
       expect(argv.join(' ')).not_to include('super-secret')
+    end
+
+    it 'passes only the pass-through variables through the child env' do
+      captured_env = nil
+      allow(wrapper).to receive(:system) do |*args|
+        captured_env = args.first
+        true
+      end
+      allow(wrapper).to receive(:run_rails_provisioner!).and_call_original
+
+      wrapper.run
+
+      expect(captured_env).to include(
+        'CUTOVER_TENANT',
+        'WHATSAPP_PHONE_NUMBER',
+        'WHATSAPP_BUSINESS_PORTFOLIO_ID',
+        'WHATSAPP_ACCESS_TOKEN',
+        'WHATSAPP_APP_SECRET',
+        'WHATSAPP_CUTOVER_RUNNING'
+      )
+      expect(captured_env).not_to include('HUBSPOT_ACCESS_TOKEN', 'HUBSPOT_CHANNEL_ACCOUNT_ID')
     end
   end
 
@@ -147,6 +169,44 @@ describe Myinvest::WhatsappCutover::Wrapper do
         .to_return(status: 401, body: '{}')
 
       expect { checker.cutover_allowed? }.to raise_error(/HubSpot API returned HTTP 401/)
+    end
+
+    it 'rejects a page without a results array' do
+      stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
+        .to_return(status: 200, body: { 'results' => 'not-an-array' }.to_json)
+
+      expect { checker.cutover_allowed? }.to raise_error(/results array/)
+    end
+
+    it 'rejects a result that is not a hash' do
+      stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
+        .to_return(status: 200, body: { 'results' => ['account-1'] }.to_json)
+
+      expect { checker.cutover_allowed? }.to raise_error(/result 0 is not a hash/)
+    end
+
+    it 'rejects string boolean flags' do
+      stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
+        .to_return(status: 200, body: {
+          'results' => [{ 'id' => 'account-1', 'active' => 'false', 'authorized' => 'false' }]
+        }.to_json)
+
+      expect { checker.cutover_allowed? }.to raise_error(/active is not a boolean/)
+    end
+
+    it 'rejects a repeated pagination cursor' do
+      stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
+        .to_return(status: 200, body: {
+          'results' => [],
+          'paging' => { 'next' => { 'after' => 'stuck' } }
+        }.to_json)
+      stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts\?.*after=stuck.*})
+        .to_return(status: 200, body: {
+          'results' => [],
+          'paging' => { 'next' => { 'after' => 'stuck' } }
+        }.to_json)
+
+      expect { checker.cutover_allowed? }.to raise_error(/pagination repeated cursor/)
     end
   end
 end

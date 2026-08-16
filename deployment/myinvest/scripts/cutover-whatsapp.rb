@@ -34,13 +34,18 @@ module Myinvest
 
       def fetch_channel_account
         after = nil
+        seen_afters = []
+
         loop do
           page = fetch_page(after)
-          account = page['results']&.find { |item| item['id'].to_s == channel_account_id.to_s }
+          account = page['results'].find { |item| item['id'].to_s == channel_account_id.to_s }
           return account if account
 
           after = page.dig('paging', 'next', 'after')
           break if after.nil?
+          raise 'HubSpot pagination repeated cursor' if seen_afters.include?(after)
+
+          seen_afters << after
         end
         nil
       end
@@ -62,7 +67,26 @@ module Myinvest
 
         raise "HubSpot API returned HTTP #{response.code}" unless response.is_a?(Net::HTTPSuccess)
 
-        JSON.parse(response.body)
+        parse_page(response.body)
+      end
+
+      def parse_page(body)
+        parsed = JSON.parse(body)
+        raise 'HubSpot page is not a JSON object' unless parsed.is_a?(Hash)
+        raise 'HubSpot page missing results array' unless parsed['results'].is_a?(Array)
+
+        parsed['results'].each_with_index do |item, index|
+          raise "HubSpot result #{index} is not a hash" unless item.is_a?(Hash)
+          raise "HubSpot result #{index} missing id" unless item.key?('id')
+          raise "HubSpot result #{index} active is not a boolean" unless item['active'].is_a?(TrueClass) || item['active'].is_a?(FalseClass)
+          unless item['authorized'].is_a?(TrueClass) || item['authorized'].is_a?(FalseClass)
+            raise "HubSpot result #{index} authorized is not a boolean"
+          end
+        end
+
+        parsed
+      rescue JSON::ParserError
+        raise 'HubSpot API returned invalid JSON'
       end
     end
 
@@ -73,6 +97,7 @@ module Myinvest
         WHATSAPP_PHONE_NUMBER
         WHATSAPP_PHONE_NUMBER_ID
         WHATSAPP_WABA_ID
+        WHATSAPP_BUSINESS_PORTFOLIO_ID
         WHATSAPP_ACCESS_TOKEN
         WHATSAPP_APP_SECRET
         HUBSPOT_ACCESS_TOKEN
@@ -80,13 +105,14 @@ module Myinvest
       ].freeze
 
       PASS_THROUGH_VARIABLES = %w[
+        DRY_RUN
         CUTOVER_TENANT
         WHATSAPP_PHONE_NUMBER
         WHATSAPP_PHONE_NUMBER_ID
         WHATSAPP_WABA_ID
+        WHATSAPP_BUSINESS_PORTFOLIO_ID
         WHATSAPP_ACCESS_TOKEN
         WHATSAPP_APP_SECRET
-        WHATSAPP_OVERRIDE_CALLBACK_URL
       ].freeze
 
       def initialize(env)
@@ -97,8 +123,6 @@ module Myinvest
         validate_confirmation!
         validate_required!
         verify_hubspot_channel_inactive!
-        return true if dry_run?
-
         run_rails_provisioner!
       end
 
@@ -152,7 +176,10 @@ module Myinvest
 
         $stdout.puts '[WHATSAPP_CUTOVER] invoking Rails provisioner'
         $stdout.flush
-        child_env = ENV.to_h.merge(string_env).merge('WHATSAPP_CUTOVER_RUNNING' => 'true')
+        child_env = ENV.to_h
+                       .merge(string_env)
+                       .slice(*PASS_THROUGH_VARIABLES)
+                       .merge('WHATSAPP_CUTOVER_RUNNING' => 'true')
         ok = system(child_env, *command)
         raise 'Rails provisioner failed' unless ok
       end
