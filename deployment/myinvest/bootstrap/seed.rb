@@ -11,33 +11,56 @@ required = %w[
 missing = required.select { |key| ENV[key].blank? }
 raise "Missing bootstrap variables: #{missing.join(', ')}" if missing.any?
 
-admin = User.from_email(ENV.fetch('ADMIN_EMAIL'))
-unless admin
-  raise 'ADMIN_PASSWORD is required when creating the initial administrator' if ENV['ADMIN_PASSWORD'].blank?
-
-  admin = User.new(
-    name: ENV.fetch('ADMIN_NAME'),
-    email: ENV.fetch('ADMIN_EMAIL'),
-    password: ENV.fetch('ADMIN_PASSWORD'),
-    password_confirmation: ENV.fetch('ADMIN_PASSWORD'),
-    type: 'SuperAdmin'
-  )
-  admin.skip_confirmation!
-  admin.save!
-end
-
 account_names = [
   ['saas', ENV.fetch('MYINVEST_ACCOUNT_NAME'), ENV.fetch('MYINVEST_WEBSITE_URL')],
   ['new_academy', ENV.fetch('ACADEMY_NEW_ACCOUNT_NAME'), ENV.fetch('ACADEMY_NEW_WEBSITE_URL')],
   ['legacy_academy', ENV.fetch('ACADEMY_LEGACY_ACCOUNT_NAME'), ENV.fetch('ACADEMY_LEGACY_WEBSITE_URL')]
 ]
+canonical_keys = account_names.map(&:first)
+configured_names = account_names.map { |_, name, _| name }
+raise 'MyInvest tenant account names must be distinct' unless configured_names.uniq.length == account_names.length
 
 tenant_credentials = []
+# rubocop:disable Metrics/BlockLength
 ActiveRecord::Base.transaction do
+  ActiveRecord::Base.connection.execute('SELECT pg_advisory_xact_lock(728395104)')
+
+  tagged_accounts = Account.where("custom_attributes ? 'myinvest_tenant_key'").to_a
+  unknown_keys = tagged_accounts.filter_map do |account|
+    tenant_key = account.custom_attributes['myinvest_tenant_key']
+    tenant_key.to_s.presence || '(blank)' unless canonical_keys.include?(tenant_key)
+  end.uniq.sort
+  raise "Unknown MyInvest tenant keys: #{unknown_keys.join(', ')}" if unknown_keys.any?
+
+  accounts_by_key = tagged_accounts.group_by { |account| account.custom_attributes['myinvest_tenant_key'] }
+  duplicate_key = canonical_keys.find { |key| accounts_by_key.fetch(key, []).length > 1 }
+  raise "Duplicate MyInvest tenant account for key: #{duplicate_key}" if duplicate_key
+
+  account_names.each do |key, name, _|
+    canonical_account = accounts_by_key.fetch(key, []).first
+    conflicting_name = Account.where(name: name).where.not(id: canonical_account&.id).exists?
+    next unless conflicting_name
+
+    raise "MyInvest tenant account name is already used without its canonical key: #{name}"
+  end
+
+  admin = User.from_email(ENV.fetch('ADMIN_EMAIL'))
+  unless admin
+    raise 'ADMIN_PASSWORD is required when creating the initial administrator' if ENV['ADMIN_PASSWORD'].blank?
+
+    admin = User.new(
+      name: ENV.fetch('ADMIN_NAME'),
+      email: ENV.fetch('ADMIN_EMAIL'),
+      password: ENV.fetch('ADMIN_PASSWORD'),
+      password_confirmation: ENV.fetch('ADMIN_PASSWORD'),
+      type: 'SuperAdmin'
+    )
+    admin.skip_confirmation!
+    admin.save!
+  end
+
   account_names.each do |key, name, website_url|
-    account = Account.where("custom_attributes ->> 'myinvest_tenant_key' = ?", key).first
-    account ||= Account.find_by(name: name)
-    account ||= Account.new
+    account = accounts_by_key.fetch(key, []).first || Account.new
     account.name = name
     account.locale = :de
     account.custom_attributes = account.custom_attributes.merge(
@@ -82,6 +105,7 @@ ActiveRecord::Base.transaction do
     }
   end
 end
+# rubocop:enable Metrics/BlockLength
 
 output_directory = '/bootstrap-output'
 FileUtils.mkdir_p(output_directory, mode: 0o700)
@@ -91,4 +115,4 @@ File.write(temporary_path, JSON.generate(tenant_credentials), mode: 'w', perm: 0
 File.rename(temporary_path, output_path)
 File.chmod(0o600, output_path)
 
-puts "Bootstrap complete: #{account_names.length} account boundaries, website inboxes, and Agent Bots."
+puts "Bootstrap complete: #{account_names.length} account boundaries, website inboxes, and Agent Bots." # rubocop:disable Rails/Output
