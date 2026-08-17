@@ -426,6 +426,20 @@ describe Myinvest::WhatsappCutover::Service do
       expect(Inbox.count).to eq(inbox_count)
     end
 
+    it 'rejects a trailing slash before creating a channel or configuring Meta' do
+      expect_any_instance_of(Whatsapp::WebhookSetupService).not_to receive(:register_callback)
+      channel_count = Channel::Whatsapp.count
+      inbox_count = Inbox.count
+
+      with_modified_env FRONTEND_URL: 'https://support.myinvest-pro.de/' do
+        expect { service.perform }
+          .to raise_error(Myinvest::WhatsappCutover::HealthError, /FRONTEND_URL must be an origin without a trailing slash/)
+      end
+
+      expect(Channel::Whatsapp.count).to eq(channel_count)
+      expect(Inbox.count).to eq(inbox_count)
+    end
+
     it 'ignores health expected_webhook_url and compares only override_callback_uri' do
       create(:user)
       create(:account_user, account: account, user: create(:user), role: :administrator)

@@ -256,7 +256,7 @@ module Myinvest
         raise HealthError, 'Health check failed: FRONTEND_URL must not contain userinfo' if uri.userinfo.present?
         raise HealthError, 'Health check failed: FRONTEND_URL must not contain a query string' if uri.query.present?
         raise HealthError, 'Health check failed: FRONTEND_URL must not contain a fragment' if uri.fragment.present?
-        raise HealthError, 'Health check failed: FRONTEND_URL must be an origin' unless uri.path.blank? || uri.path == '/'
+        raise HealthError, 'Health check failed: FRONTEND_URL must be an origin without a trailing slash' unless uri.path.blank?
 
         host = uri.host.to_s.downcase
         raise HealthError, 'Health check failed: FRONTEND_URL host is missing' if host.blank?
