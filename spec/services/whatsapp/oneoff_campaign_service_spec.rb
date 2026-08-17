@@ -300,10 +300,10 @@ describe Whatsapp::OneoffCampaignService do
 
       # A campaign walks its recipients one at a time, so reading the identifier per contact would
       # cost one round trip each on a queue that is already low priority.
-      def count_contact_inbox_queries(&block)
+      def count_contact_inbox_queries(&)
         count = 0
         counter = ->(_name, _start, _finish, _id, payload) { count += 1 if payload[:sql].to_s.include?('FROM "contact_inboxes"') }
-        ActiveSupport::Notifications.subscribed(counter, 'sql.active_record', &block)
+        ActiveSupport::Notifications.subscribed(counter, 'sql.active_record', &)
         count
       end
 
