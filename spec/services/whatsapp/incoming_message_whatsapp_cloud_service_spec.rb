@@ -271,6 +271,31 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         }.with_indifferent_access
       end
 
+      it 'creates the first conversation on the BSUID contact inbox when the phone number is absent' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_only_params).perform
+
+        contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
+        conversation = whatsapp_channel.inbox.conversations.find_by!(contact_inbox: contact_inbox)
+
+        expect(contact_inbox.contact.phone_number).to be_nil
+        expect(conversation.messages.pluck(:content)).to contain_exactly('bsuid only')
+      end
+
+      it 'keeps a later mixed phone and BSUID payload on the existing BSUID conversation' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_only_params).perform
+        original_conversation = whatsapp_channel.inbox.conversations.find_by!(contact_inbox: whatsapp_channel.inbox.contact_inboxes.find_by!(
+          source_id: 'IN.2081978709342942'
+        ))
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
+
+        contact = original_conversation.contact
+        phone_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: '919745786257')
+        expect(phone_contact_inbox.contact).to eq(contact)
+        expect(whatsapp_channel.inbox.conversations).to contain_exactly(original_conversation)
+        expect(original_conversation.messages.pluck(:content)).to contain_exactly('bsuid only', 'phone and bsuid')
+      end
+
       it 'creates a contact and conversation when only BSUID is present' do
         bsuid_params = {
           phone_number: whatsapp_channel.phone_number,
@@ -435,6 +460,133 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_only_params).perform
 
         expect(contact.conversations.count).to eq(2)
+      end
+
+      context 'when a merged contact owns multiple WhatsApp identities' do
+        let(:account) { whatsapp_channel.inbox.account }
+        let!(:contact_a) { create(:contact, account: account, name: 'Customer A') }
+        let!(:contact_b) { create(:contact, account: account, name: 'Customer B') }
+        let!(:contact_inbox_a) do
+          create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact_a, source_id: 'AE.QACUSTOMERA')
+        end
+        let!(:contact_inbox_b) do
+          create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact_b, source_id: 'AE.QACUSTOMERB')
+        end
+        let!(:conversation_a) do
+          create(:conversation, account: account, inbox: whatsapp_channel.inbox, contact: contact_a, contact_inbox: contact_inbox_a)
+        end
+        let!(:conversation_b) do
+          create(:conversation, account: account, inbox: whatsapp_channel.inbox, contact: contact_b, contact_inbox: contact_inbox_b)
+        end
+        let(:customer_a_params) do
+          {
+            phone_number: whatsapp_channel.phone_number,
+            object: 'whatsapp_business_account',
+            entry: [{
+              changes: [{
+                value: {
+                  contacts: [{ profile: { name: 'Customer A', username: 'shared-handle' }, user_id: 'AE.QACUSTOMERA' }],
+                  messages: [{
+                    from_user_id: 'AE.QACUSTOMERA', id: 'wamid.cloud-merged-customer-a',
+                    text: { body: 'message from customer A' }, timestamp: '1778579701', type: 'text'
+                  }]
+                }
+              }]
+            }]
+          }.with_indifferent_access
+        end
+        let(:customer_b_params) do
+          {
+            phone_number: whatsapp_channel.phone_number,
+            object: 'whatsapp_business_account',
+            entry: [{
+              changes: [{
+                value: {
+                  contacts: [{ profile: { name: 'Customer B', username: 'shared-handle' }, user_id: 'AE.QACUSTOMERB' }],
+                  messages: [{
+                    from_user_id: 'AE.QACUSTOMERB', id: 'wamid.cloud-merged-customer-b',
+                    text: { body: 'message from customer B' }, timestamp: '1778579702', type: 'text'
+                  }]
+                }
+              }]
+            }]
+          }.with_indifferent_access
+        end
+
+        before do
+          ContactMergeAction.new(account: account, base_contact: contact_a, mergee_contact: contact_b).perform
+        end
+
+        it 'routes each inbound message by its exact BSUID instead of shared contact metadata or recency' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: customer_b_params).perform
+          described_class.new(inbox: whatsapp_channel.inbox, params: customer_a_params).perform
+
+          expect(conversation_a.reload.messages.pluck(:content)).to contain_exactly('message from customer A')
+          expect(conversation_b.reload.messages.pluck(:content)).to contain_exactly('message from customer B')
+          expect(conversation_a.contact_inbox).to eq(contact_inbox_a)
+          expect(conversation_b.contact_inbox).to eq(contact_inbox_b)
+        end
+
+        it 'reopens only the exact identity conversation when conversation locking is enabled' do
+          whatsapp_channel.inbox.update!(lock_to_single_conversation: true)
+          conversation_a.update!(status: :resolved)
+          conversation_b.update!(status: :resolved)
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: customer_a_params).perform
+          described_class.new(inbox: whatsapp_channel.inbox, params: customer_b_params).perform
+
+          expect(whatsapp_channel.inbox.conversations.count).to eq(2)
+          expect(conversation_a.reload).to have_attributes(status: 'open', contact_inbox: contact_inbox_a)
+          expect(conversation_b.reload).to have_attributes(status: 'open', contact_inbox: contact_inbox_b)
+        end
+
+        it 'creates a new conversation for each exact identity when conversation locking is disabled' do
+          whatsapp_channel.inbox.update!(lock_to_single_conversation: false)
+          conversation_a.update!(status: :resolved)
+          conversation_b.update!(status: :resolved)
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: customer_a_params).perform
+          described_class.new(inbox: whatsapp_channel.inbox, params: customer_b_params).perform
+
+          expect(contact_inbox_a.conversations.count).to eq(2)
+          expect(contact_inbox_b.conversations.count).to eq(2)
+          expect(contact_inbox_a.conversations.last.messages.pluck(:content)).to contain_exactly('message from customer A')
+          expect(contact_inbox_b.conversations.last.messages.pluck(:content)).to contain_exactly('message from customer B')
+        end
+      end
+
+      it 'does not merge or repoint contacts when identifiers in one payload conflict' do
+        account = whatsapp_channel.inbox.account
+        bsuid_contact = create(:contact, account: account, name: 'BSUID contact')
+        phone_contact = create(:contact, account: account, name: 'Phone contact')
+        bsuid_contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: bsuid_contact, source_id: 'AE.QACONFLICT')
+        phone_contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: phone_contact, source_id: '971501234567')
+        bsuid_conversation = create(:conversation, account: account, inbox: whatsapp_channel.inbox, contact: bsuid_contact,
+                                                   contact_inbox: bsuid_contact_inbox)
+        phone_conversation = create(:conversation, account: account, inbox: whatsapp_channel.inbox, contact: phone_contact,
+                                                   contact_inbox: phone_contact_inbox)
+        conflicting_params = {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Conflicting identifiers' }, wa_id: '971501234567', user_id: 'AE.QACONFLICT' }],
+                messages: [{
+                  from: '971501234567', from_user_id: 'AE.QACONFLICT', id: 'wamid.cloud-conflicting-identifiers',
+                  text: { body: 'route by exact BSUID' }, timestamp: '1778579800', type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: conflicting_params).perform
+
+        expect(bsuid_conversation.reload.messages.pluck(:content)).to contain_exactly('route by exact BSUID')
+        expect(phone_conversation.reload.messages).to be_empty
+        expect(bsuid_contact_inbox.reload.contact).to eq(bsuid_contact)
+        expect(phone_contact_inbox.reload.contact).to eq(phone_contact)
       end
     end
 

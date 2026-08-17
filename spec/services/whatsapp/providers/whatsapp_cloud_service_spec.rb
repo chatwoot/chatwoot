@@ -239,6 +239,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
   describe 'when the recipient is a Business-Scoped User ID (BSUID)' do
     # Meta requires a BSUID to be sent in the `recipient` field (with recipient_type: individual), not `to`.
     let(:bsuid) { 'BR.13491208655302741918' }
+    let(:parent_bsuid) { 'IN.ENT.9081726354' }
 
     it 'sends a text message via the recipient field instead of to' do
       stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
@@ -255,6 +256,23 @@ describe Whatsapp::Providers::WhatsappCloudService do
         .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
 
       expect(service.send_message(bsuid, message)).to eq 'message_id'
+    end
+
+    it 'sends a text message to a parent BSUID via the recipient field instead of to' do
+      stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+        .with(
+          body: {
+            messaging_product: 'whatsapp',
+            context: nil,
+            recipient_type: 'individual',
+            recipient: parent_bsuid,
+            text: { body: message.content },
+            type: 'text'
+          }.to_json
+        )
+        .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message(parent_bsuid, message)).to eq 'message_id'
     end
 
     it 'sends a template via the recipient field instead of to' do
