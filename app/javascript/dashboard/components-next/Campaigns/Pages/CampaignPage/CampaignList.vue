@@ -15,7 +15,7 @@ defineProps({
 });
 
 const emit = defineEmits(['edit', 'delete', 'analytics']);
-const STATUS_COMPLETED = 'completed';
+const ANALYTICS_CAMPAIGN_STATUSES = ['processing', 'completed'];
 const { isEnterprise } = useConfig();
 
 const handleEdit = campaign => emit('edit', campaign);
@@ -39,7 +39,7 @@ const handleAnalytics = campaign => emit('analytics', campaign);
       :show-analytics="
         isEnterprise &&
         campaign.inbox?.channel_type === INBOX_TYPES.WHATSAPP &&
-        campaign.campaign_status === STATUS_COMPLETED
+        ANALYTICS_CAMPAIGN_STATUSES.includes(campaign.campaign_status)
       "
       @edit="handleEdit(campaign)"
       @delete="handleDelete(campaign)"

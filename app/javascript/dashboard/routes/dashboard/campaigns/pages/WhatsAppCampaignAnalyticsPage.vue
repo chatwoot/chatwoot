@@ -8,6 +8,7 @@ import { messageStamp } from 'shared/helpers/timeHelper';
 import CampaignsAPI from 'dashboard/api/campaigns';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import CampaignAnalyticsLayout from 'dashboard/components-next/Campaigns/CampaignAnalyticsLayout.vue';
@@ -16,6 +17,7 @@ import CampaignDeliveryBreakdown from 'dashboard/components-next/Campaigns/Pages
 import CampaignDeliveryTable from 'dashboard/components-next/Campaigns/Pages/CampaignAnalyticsPage/CampaignDeliveryTable.vue';
 
 const DELIVERIES_PER_PAGE = 25;
+const CAMPAIGN_STATUS_PROCESSING = 'processing';
 const STATUS_FILTERS = [
   'all',
   'sent',
@@ -48,6 +50,9 @@ const campaign = computed(() =>
 const campaignTitle = computed(
   () => campaign.value?.title || `#${campaignId.value}`
 );
+const isCampaignProcessing = computed(
+  () => campaign.value?.campaign_status === CAMPAIGN_STATUS_PROCESSING
+);
 
 const inboxIcon = computed(() => {
   const inbox = campaign.value?.inbox;
@@ -69,6 +74,27 @@ const breadcrumbItems = computed(() => [
 
 const metricCount = key => Number(state.metrics?.[key] || 0);
 const audience = computed(() => metricCount('audience'));
+const analyticsEmptyState = computed(() => {
+  if (state.isFetchingMetrics || audience.value > 0) return null;
+
+  if (isCampaignProcessing.value) {
+    return {
+      icon: 'i-lucide-clock-3',
+      title: t('CAMPAIGN.WHATSAPP.ANALYTICS.EMPTY_STATE.PENDING.TITLE'),
+      description: t(
+        'CAMPAIGN.WHATSAPP.ANALYTICS.EMPTY_STATE.PENDING.DESCRIPTION'
+      ),
+    };
+  }
+
+  return {
+    icon: 'i-lucide-chart-no-axes-column',
+    title: t('CAMPAIGN.WHATSAPP.ANALYTICS.EMPTY_STATE.UNAVAILABLE.TITLE'),
+    description: t(
+      'CAMPAIGN.WHATSAPP.ANALYTICS.EMPTY_STATE.UNAVAILABLE.DESCRIPTION'
+    ),
+  };
+});
 
 const metricRate = key => {
   if (!audience.value) return '';
@@ -164,7 +190,9 @@ const goToCampaigns = () => {
 // trigger for a full refresh rather than the mount hook.
 watch(
   campaignId,
-  () => {
+  id => {
+    if (!Number.isFinite(id)) return;
+
     state.status = 'all';
     state.page = 1;
     fetchMetrics();
@@ -185,6 +213,18 @@ watch(
     @breadcrumb-click="goToCampaigns"
   >
     <div class="flex flex-col gap-6 pb-8">
+      <Banner v-if="isCampaignProcessing" color="amber">
+        <div class="flex items-start gap-3 text-start">
+          <Icon
+            icon="i-lucide-loader-circle"
+            class="flex-shrink-0 mt-0.5 size-4 animate-spin"
+          />
+          <span>
+            {{ t('CAMPAIGN.WHATSAPP.ANALYTICS.PROCESSING_BANNER') }}
+          </span>
+        </div>
+      </Banner>
+
       <div
         v-if="campaign?.inbox"
         class="flex flex-wrap items-center text-sm gap-x-3 gap-y-2 text-n-slate-11"
@@ -206,6 +246,28 @@ watch(
       </div>
 
       <div
+        v-if="analyticsEmptyState"
+        class="flex min-h-64 items-center justify-center rounded-xl border border-n-weak bg-n-solid-2 px-6 py-12 text-center"
+      >
+        <div class="flex max-w-md flex-col items-center gap-3">
+          <div
+            class="grid size-10 place-content-center rounded-full bg-n-alpha-2 text-n-slate-11"
+          >
+            <Icon :icon="analyticsEmptyState.icon" class="size-5" />
+          </div>
+          <div class="flex flex-col gap-1">
+            <h3 class="text-base font-medium text-n-slate-12">
+              {{ analyticsEmptyState.title }}
+            </h3>
+            <p class="text-sm text-n-slate-11">
+              {{ analyticsEmptyState.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        v-else
         class="grid grid-cols-1 gap-px overflow-hidden border rounded-xl sm:grid-cols-2 lg:grid-cols-3 bg-n-weak border-n-weak"
       >
         <CampaignMetricCard
@@ -220,11 +282,13 @@ watch(
       </div>
 
       <CampaignDeliveryBreakdown
+        v-if="!analyticsEmptyState"
         :metrics="state.metrics ?? undefined"
         :loading="state.isFetchingMetrics"
       />
 
       <CampaignDeliveryTable
+        v-if="!analyticsEmptyState"
         :deliveries="state.deliveries"
         :loading="state.isFetchingDeliveries"
         :no-data-message="noDataMessage"
