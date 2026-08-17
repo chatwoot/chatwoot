@@ -255,21 +255,21 @@ const handleToggleWidget = () => {
 // Widget-specific color variables to match actual widget appearance
 .widget-wrapper {
   // Light mode - widget colors
-  --slate-1: 252 252 253;
-  --slate-2: 249 249 251;
-  --slate-3: 240 240 243;
-  --slate-4: 232 232 236;
-  --slate-5: 224 225 230;
-  --slate-6: 217 217 224;
-  --slate-7: 205 206 214;
-  --slate-8: 185 187 198;
-  --slate-9: 139 141 152;
-  --slate-10: 128 131 141;
-  --slate-11: 96 100 108;
-  --slate-12: 28 32 36;
+  --slate-1: 252 252 252;
+  --slate-2: 249 249 249;
+  --slate-3: 240 240 240;
+  --slate-4: 232 232 232;
+  --slate-5: 225 225 225;
+  --slate-6: 218 218 218;
+  --slate-7: 206 206 206;
+  --slate-8: 187 187 187;
+  --slate-9: 141 141 141;
+  --slate-10: 131 131 131;
+  --slate-11: 100 100 100;
+  --slate-12: 31 31 31;
 
   --background-color: 253 253 253;
-  --text-blue: 8 109 224;
+  --text-blue: 96 96 96;
   --border-container: 236 236 236;
   --border-strong: 235 235 235;
   --border-weak: 234 234 234;
@@ -277,52 +277,52 @@ const handleToggleWidget = () => {
   --solid-2: 255 255 255;
   --solid-3: 255 255 255;
   --solid-active: 255 255 255;
-  --solid-amber: 252 232 193;
-  --solid-blue: 218 236 255;
-  --solid-iris: 230 231 255;
+  --solid-amber: 233 233 233;
+  --solid-blue: 234 234 234;
+  --solid-iris: 233 233 233;
 
   --alpha-1: 67, 67, 67, 0.06;
-  --alpha-2: 201, 202, 207, 0.15;
+  --alpha-2: 202, 202, 202, 0.15;
   --alpha-3: 255, 255, 255, 0.96;
   --black-alpha-1: 0, 0, 0, 0.12;
   --black-alpha-2: 0, 0, 0, 0.04;
-  --border-blue: 39, 129, 246, 0.5;
+  --border-blue: 118, 118, 118, 0.5;
   --white-alpha: 255, 255, 255, 0.8;
 }
 
 // Dark mode - widget colors
 .dark .widget-wrapper {
-  --slate-1: 17 17 19;
-  --slate-2: 24 25 27;
-  --slate-3: 33 34 37;
-  --slate-4: 39 42 45;
-  --slate-5: 46 49 53;
-  --slate-6: 54 58 63;
-  --slate-7: 67 72 78;
-  --slate-8: 90 97 105;
-  --slate-9: 105 110 119;
-  --slate-10: 119 123 132;
-  --slate-11: 176 180 186;
-  --slate-12: 237 238 240;
+  --slate-1: 17 17 17;
+  --slate-2: 25 25 25;
+  --slate-3: 34 34 34;
+  --slate-4: 42 42 42;
+  --slate-5: 49 49 49;
+  --slate-6: 58 58 58;
+  --slate-7: 71 71 71;
+  --slate-8: 96 96 96;
+  --slate-9: 110 110 110;
+  --slate-10: 123 123 123;
+  --slate-11: 180 180 180;
+  --slate-12: 238 238 238;
 
-  --background-color: 18 18 19;
+  --background-color: 18 18 18;
   --border-strong: 52 52 52;
-  --border-weak: 38 38 42;
-  --solid-1: 23 23 26;
-  --solid-2: 29 30 36;
-  --solid-3: 44 45 54;
-  --solid-active: 53 57 66;
-  --solid-amber: 42 37 30;
-  --solid-blue: 16 49 91;
-  --solid-iris: 38 42 101;
-  --text-blue: 126 182 255;
+  --border-weak: 38 38 38;
+  --solid-1: 23 23 23;
+  --solid-2: 30 30 30;
+  --solid-3: 45 45 45;
+  --solid-active: 57 57 57;
+  --solid-amber: 38 38 38;
+  --solid-blue: 45 45 45;
+  --solid-iris: 45 45 45;
+  --text-blue: 175 175 175;
 
   --alpha-1: 36, 36, 36, 0.8;
-  --alpha-2: 139, 147, 182, 0.15;
-  --alpha-3: 36, 38, 45, 0.9;
+  --alpha-2: 148, 148, 148, 0.15;
+  --alpha-3: 38, 38, 38, 0.9;
   --black-alpha-1: 0, 0, 0, 0.3;
   --black-alpha-2: 0, 0, 0, 0.2;
-  --border-blue: 39, 129, 246, 0.5;
+  --border-blue: 118, 118, 118, 0.5;
   --border-container: 236, 236, 236, 0;
   --white-alpha: 255, 255, 255, 0.1;
 }

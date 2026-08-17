@@ -19,7 +19,7 @@ const state = {
   showPopoutButton: false,
   widgetColor: '',
   widgetStyle: 'standard',
-  darkMode: 'light',
+  darkMode: 'dark',
   isUpdatingRoute: false,
   welcomeTitle: '',
   welcomeDescription: '',

@@ -23,10 +23,10 @@
     "SEARCH_PLACEHOLDER": "Search integrations...",
     "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
+      "DISABLED": "AI Agent is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "LOADING_CONSOLE": "Loading AI Agent Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load AI Agent Console. Please refresh and try again."
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
@@ -397,12 +397,12 @@
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
+    "NAME": "AI Agent",
     "HEADER_KNOW_MORE": "Know more",
     "OVERVIEW": {
       "HEADER": "Overview",
       "WELCOME": {
-        "LABEL": "Captain summary",
+        "LABEL": "AI Agent summary",
         "LOADING": "Generating summary…"
       },
       "INBOX_BANNER": {
@@ -435,7 +435,7 @@
         },
         "HOURS_SAVED": {
           "LABEL": "Time saved",
-          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+          "HINT": "Estimate: AI Agent replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
         },
         "REOPEN": {
           "LABEL": "Reopen rate",
@@ -461,8 +461,8 @@
       },
       "LINKS": {
         "DOCS": {
-          "TITLE": "Captain docs",
-          "DESCRIPTION": "Guides and how-tos for Captain"
+          "TITLE": "AI Agent docs",
+          "DESCRIPTION": "Guides and how-tos for AI Agent"
         },
         "PLAYGROUND": {
           "TITLE": "Playground",
@@ -487,7 +487,7 @@
       "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
       "SEND_MESSAGE": "Send message...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
+      "LOADER": "AI Agent is thinking",
       "YOU": "You",
       "USE": "Use this",
       "RESET": "Reset",
@@ -522,23 +522,23 @@
       "MESSAGE_PLACEHOLDER": "Type your message...",
       "HEADER": "Playground",
       "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "CREDIT_NOTE": "Messages sent here will count toward your AI Agent credits."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "TITLE": "Upgrade to use AI Agent",
+      "AVAILABLE_ON": "AI Agent is not available on the free plan.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "UPGRADE_NOW": "Upgrade now",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "AI Agent is only available in the Enterprise plans.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "You've used over 80% of your response limit. To continue using AI Agent, please upgrade.",
+      "DOCUMENTS": "Document limit reached. Upgrade to continue using AI Agent."
     },
     "FORM": {
       "CANCEL": "Cancel",
@@ -600,28 +600,28 @@
         },
         "INACTIVITY_RESOLUTION": {
           "TITLE": "When customers stop replying",
-          "DESCRIPTION": "Choose how Captain handles the conversation.",
+          "DESCRIPTION": "Choose how AI Agent handles the conversation.",
           "MODE_LABEL": "Action when the customer stops replying",
           "REVIEW_AFTER": "Review after",
           "RESOLVE_AFTER": "Resolve after",
-          "ALWAYS_WARNING": "Captain will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
+          "ALWAYS_WARNING": "AI Agent will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
           "PENDING_INFO": "The conversation remains pending until the customer replies.",
           "RESOLUTION_MESSAGE": {
             "TITLE": "Send a message when resolving",
-            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
+            "DESCRIPTION": "AI Agent sends this closing message before it resolves the conversation."
           },
           "MODES": {
             "DISABLED": {
               "LABEL": "Wait for the customer",
-              "DESCRIPTION": "Captain does not resolve the conversation. Captain can still hand it off if the customer asks."
+              "DESCRIPTION": "AI Agent does not resolve the conversation. AI Agent can still hand it off if the customer asks."
             },
             "LEGACY": {
               "LABEL": "Always resolve",
-              "DESCRIPTION": "Captain resolves every conversation after the selected time."
+              "DESCRIPTION": "AI Agent resolves every conversation after the selected time."
             },
             "EVALUATED": {
-              "LABEL": "Let Captain review it (recommended)",
-              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+              "LABEL": "Let AI Agent review it (recommended)",
+              "DESCRIPTION": "AI Agent decides whether to resolve the conversation or hand it off."
             }
           },
           "DURATION_HOURS_ARIA_LABEL": "Hours before action",
@@ -643,11 +643,11 @@
         "AUDIENCE": {
           "EVERYONE": {
             "LABEL": "Everyone",
-            "DESC": "Captain responds to every conversation in connected inboxes."
+            "DESC": "AI Agent responds to every conversation in connected inboxes."
           },
           "SPECIFIC": {
             "LABEL": "Specific audience",
-            "DESC": "Captain responds only to customers who match the conditions below."
+            "DESC": "AI Agent responds only to customers who match the conditions below."
           },
           "ADD_CONDITION": "Add condition",
           "ADD_GROUP": "Add condition group",
@@ -670,15 +670,15 @@
         "SCHEDULE": {
           "ALWAYS": {
             "LABEL": "Anytime",
-            "DESC": "Captain responds to every conversation, regardless of time."
+            "DESC": "AI Agent responds to every conversation, regardless of time."
           },
           "BUSINESS_HOURS": {
             "LABEL": "During business hours",
-            "DESC": "Captain responds only within each inbox's business hours."
+            "DESC": "AI Agent responds only within each inbox's business hours."
           },
           "OUTSIDE_BUSINESS_HOURS": {
             "LABEL": "Outside business hours",
-            "DESC": "Captain responds only when each inbox is closed."
+            "DESC": "AI Agent responds only when each inbox is closed."
           },
           "HINT": "Inboxes without business hours configured are always covered."
         }
@@ -698,7 +698,7 @@
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
-          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
+          "DESCRIPTION_V2": "Manage what AI Agent does when customers stop replying and set the handoff message."
         },
         "AUDIENCE": {
           "TITLE": "Audience",
@@ -706,7 +706,7 @@
         },
         "SCHEDULE": {
           "TITLE": "Schedule",
-          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
+          "DESCRIPTION": "Choose when AI Agent replies. Outside this window, conversations are handed to your team."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
@@ -737,8 +737,8 @@
         "TITLE": "No assistants available",
         "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "AI Agent Assistant",
+          "NOTE": "AI Agent Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
         }
       },
       "GUARDRAILS": {
@@ -1035,8 +1035,8 @@
         "FILTERED_TITLE": "No matching documents",
         "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "AI Agent Document",
+          "NOTE": "A document in AI Agent serves as a knowledge resource for the assistant. By connecting your help center or guides, AI Agent can analyze the content and provide accurate responses for customer inquiries."
         }
       }
     },
@@ -1075,14 +1075,14 @@
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to use tools with Captain",
-        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "TITLE": "Upgrade to use tools with AI Agent",
+        "AVAILABLE_ON": "AI Agent Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
         "UPGRADE_PROMPT": "",
         "UPGRADE_NOW": "Open billing",
         "CANCEL_ANYTIME": ""
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "AVAILABLE_ON": "AI Agent Tools are only available in the paid plans.",
         "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
         "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
       },
@@ -1211,7 +1211,7 @@
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
       "SUGGESTIONS_BANNER": {
-        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "TITLE": "AI Agent grouped recurring customer questions into FAQ suggestions.",
         "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
@@ -1248,8 +1248,8 @@
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "AI Agent FAQ",
+          "NOTE": "AI Agent FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
       }
     },
@@ -1266,7 +1266,7 @@
       "SAVE": "Save changes",
       "DETAILS": {
         "TITLE": "Review FAQ suggestion",
-        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "DESCRIPTION": "AI Agent grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | AI Agent grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
         "SOURCES": "Source conversations",
         "SOURCE_PROGRESS": "{visible} of {total}",
         "NO_SOURCES": "No accessible source conversations were found.",
@@ -1278,7 +1278,7 @@
         "CLEAR_SEARCH": "Clear search"
       },
       "SUCCESS": {
-        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "APPROVED": "FAQ approved and added to AI Agent's knowledge.",
         "DISMISSED": "Suggestion dismissed.",
         "SAVED": "Suggestion updated."
       },

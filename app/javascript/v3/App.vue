@@ -4,7 +4,7 @@ import SnackbarContainer from './components/SnackBar/Container.vue';
 export default {
   components: { SnackbarContainer },
   data() {
-    return { theme: 'light' };
+    return { theme: 'dark' };
   },
   mounted() {
     this.setColorTheme();
@@ -13,7 +13,11 @@ export default {
   },
   methods: {
     setColorTheme() {
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      const prefersLight =
+        window.matchMedia &&
+        !window.matchMedia('(prefers-color-scheme: dark)').matches;
+      // Default to dark mode unless the OS explicitly prefers light.
+      if (!prefersLight) {
         this.theme = 'dark';
         document.documentElement.classList.add('dark');
       } else {

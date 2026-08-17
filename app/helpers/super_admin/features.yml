@@ -48,7 +48,7 @@ help_center:
   enabled: true
   icon: 'icon-book-2-line'
 captain:
-  name: 'Captain'
+  name: 'AI Agent'
   description: 'Enable AI-powered conversations with your customers.'
   enabled: true
   icon: 'icon-captain'
