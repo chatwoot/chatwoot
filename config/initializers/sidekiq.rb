@@ -34,9 +34,10 @@ Sidekiq.configure_server do |config|
 end
 
 # Publish Sidekiq queue metrics (latency, depth) to CloudWatch for autoscaling.
-# Opt-in via ENABLE_SIDEKIQ_CLOUDWATCH; the gem's lifecycle hooks report from the
-# Sidekiq process only, so web/other processes are unaffected.
-if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_SIDEKIQ_CLOUDWATCH', false))
+# Opt-in via ENABLE_SIDEKIQ_CLOUDWATCH, and gated on Sidekiq.server? so the AWS
+# client and credential lookup run only in the Sidekiq process, never in web,
+# console, or rake.
+if Sidekiq.server? && ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_SIDEKIQ_CLOUDWATCH', false))
   require 'speedshop/cloudwatch'
   require 'speedshop/cloudwatch/sidekiq'
 
@@ -50,13 +51,20 @@ if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_SIDEKIQ_CLOUDWATCH', fa
       Aws::InstanceProfileCredentials.new
     end
 
+  # Region: dedicated override, else the shared storage region, else a default. Uses presence
+  # so a present-but-blank env var (as .env.example ships AWS_REGION=) does not become "".
+  cloudwatch_region = ENV['SIDEKIQ_CLOUDWATCH_AWS_REGION'].presence || ENV['AWS_REGION'].presence || 'us-east-1'
+
+  # Interval: fall back to the 60s default unless a positive integer is given. This only rejects
+  # blank/zero/negative/non-numeric values (which would make the reporter busy-loop); a valid
+  # sub-60 value is honoured, though it bills as high-resolution CloudWatch metrics.
+  configured_interval = Integer(ENV.fetch('SIDEKIQ_CLOUDWATCH_INTERVAL', 60), exception: false)
+  cloudwatch_interval = configured_interval&.positive? ? configured_interval : 60
+
   Speedshop::Cloudwatch.configure do |cw|
-    cw.client = Aws::CloudWatch::Client.new(
-      region: ENV.fetch('SIDEKIQ_CLOUDWATCH_AWS_REGION', ENV.fetch('AWS_REGION', 'us-east-1')),
-      credentials: cloudwatch_credentials
-    )
+    cw.client = Aws::CloudWatch::Client.new(region: cloudwatch_region, credentials: cloudwatch_credentials)
     cw.namespaces[:sidekiq] = ENV.fetch('SIDEKIQ_CLOUDWATCH_NAMESPACE', 'Chatwoot/Sidekiq')
-    cw.interval = ENV.fetch('SIDEKIQ_CLOUDWATCH_INTERVAL', 60).to_i
+    cw.interval = cloudwatch_interval
     cw.metrics[:sidekiq] = %i[QueueLatency QueueSize EnqueuedJobs Utilization]
     cw.enabled_environments = [cw.environment]
   end
