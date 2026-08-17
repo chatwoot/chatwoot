@@ -2,6 +2,7 @@
 
 require 'faker'
 require 'active_support/testing/time_helpers'
+require_relative 'csat_response_creator'
 
 # Seeds Captain assistant activity for the reports/overview test data.
 #
@@ -96,7 +97,7 @@ class Seeders::Reports::AssistantConversationCreator
   end
 
   def apply_outcome(conversation, created_at, outcome)
-    resolved_at = created_at + rand((30.minutes)..(8.hours))
+    resolved_at = [created_at + rand((30.minutes)..(8.hours)), Time.current].min
 
     case outcome
     when :resolved_by_assistant
@@ -107,7 +108,8 @@ class Seeders::Reports::AssistantConversationCreator
       resolve_by_human(conversation, resolved_at) if rand < 0.6
     when :resolved_and_reopened
       resolve_by_captain(conversation, resolved_at)
-      reopen(conversation, resolved_at + rand((1.hour)..(24.hours)))
+      reopened_at = [resolved_at + rand((1.hour)..(24.hours)), Time.current].min
+      reopen(conversation, reopened_at)
     end
   end
 
@@ -155,6 +157,7 @@ class Seeders::Reports::AssistantConversationCreator
       trigger_captain_event(Events::Types::CAPTAIN_CONVERSATION_RESOLVED, conversation)
     end
     travel_back
+    Seeders::Reports::CsatResponseCreator.new(conversation: conversation, resolved_at: resolved_at).perform!
   end
 
   def resolve_by_human(conversation, resolved_at)
@@ -163,6 +166,7 @@ class Seeders::Reports::AssistantConversationCreator
       trigger_event('conversation_resolved', conversation)
     end
     travel_back
+    Seeders::Reports::CsatResponseCreator.new(conversation: conversation, resolved_at: resolved_at).perform!
   end
 
   def reopen(conversation, reopened_at)

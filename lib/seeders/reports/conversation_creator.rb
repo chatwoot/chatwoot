@@ -2,6 +2,7 @@
 
 require 'faker'
 require 'active_support/testing/time_helpers'
+require_relative 'csat_response_creator'
 
 class Seeders::Reports::ConversationCreator
   include ActiveSupport::Testing::TimeHelpers
@@ -43,6 +44,8 @@ class Seeders::Reports::ConversationCreator
 
     # Now resolve outside of time travel if needed
     if should_resolve && resolution_time
+      resolution_time = [resolution_time, Time.current].min
+
       # rubocop:disable Rails/SkipsModelValidations
       conversation.update_column(:status, :resolved)
       conversation.update_column(:updated_at, resolution_time)
@@ -53,6 +56,8 @@ class Seeders::Reports::ConversationCreator
         trigger_conversation_resolved_event(conversation)
       end
       travel_back
+
+      Seeders::Reports::CsatResponseCreator.new(conversation: conversation, resolved_at: resolution_time).perform!
     end
 
     conversation

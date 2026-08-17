@@ -40,10 +40,12 @@ class Seeders::Reports::ReportDataSeeder
   TOTAL_LABELS = 30
   TOTAL_INBOXES = 3
   MESSAGES_PER_CONVERSATION = 5
+  CONVERSATION_HOUR_WEIGHTS = [1, 1, 1, 1, 1, 1, 2, 3, 5, 8, 10, 11, 11, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1].freeze
+  CONVERSATION_HOURS = CONVERSATION_HOUR_WEIGHTS.each_with_index.flat_map { |weight, hour| [hour] * weight }.freeze
   # Captain assistant conversations, split across the outcomes the overview page reports on.
   TOTAL_ASSISTANT_CONVERSATIONS = 120
   ASSISTANT_KNOWLEDGE_APPROVED = 14
-  ASSISTANT_KNOWLEDGE_PENDING = 6
+  ASSISTANT_FAQ_SUGGESTIONS = 6
   ASSISTANT_DOCUMENTS = 4
   START_DATE = 3.months.ago # rubocop:disable Rails/RelativeDateConstant
   END_DATE = Time.current
@@ -85,6 +87,8 @@ class Seeders::Reports::ReportDataSeeder
   def clear_existing_data
     puts "Clearing existing data for account: #{@account.id}"
     clear_assistant_data
+    CsatSurveyResponse.where(account_id: @account.id).delete_all
+    Message.where(account_id: @account.id, content_type: :input_csat).delete_all
     @account.teams.destroy_all
     @account.conversations.destroy_all
     @account.labels.destroy_all
@@ -98,6 +102,8 @@ class Seeders::Reports::ReportDataSeeder
   # would leave rows around mid-reseed); order respects foreign keys.
   def clear_assistant_data
     assistant_ids = Captain::Assistant.for_account(@account.id).select(:id)
+    Captain::FaqObservation.where(account_id: @account.id).delete_all
+    Captain::FaqSuggestion.where(account_id: @account.id).delete_all
     Captain::AssistantResponse.by_account(@account.id).delete_all
     Captain::Document.for_account(@account.id).delete_all
     CaptainInbox.where(captain_assistant_id: assistant_ids).delete_all
@@ -200,8 +206,8 @@ class Seeders::Reports::ReportDataSeeder
                          @agents
                        else
                          # Subsequent inboxes get random selection with some overlap
-                         min_agents = [@agents.size / TOTAL_INBOXES, 10].max
-                         max_agents = [(@agents.size * 0.8).to_i, 50].min
+                         min_agents = [@agents.size / TOTAL_INBOXES, 10].max.clamp(0, @agents.size)
+                         max_agents = [(@agents.size * 0.8).to_i, 50].min.clamp(min_agents, @agents.size)
                          @agents.sample(rand(min_agents..max_agents))
                        end
 
@@ -249,8 +255,8 @@ class Seeders::Reports::ReportDataSeeder
   end
 
   def create_assistant_knowledge
-    ASSISTANT_KNOWLEDGE_APPROVED.times { create_assistant_response(:approved) }
-    ASSISTANT_KNOWLEDGE_PENDING.times { create_assistant_response(:pending) }
+    ASSISTANT_KNOWLEDGE_APPROVED.times { create_assistant_response }
+    ASSISTANT_FAQ_SUGGESTIONS.times { create_faq_suggestion }
 
     ASSISTANT_DOCUMENTS.times do
       Captain::Document.create!(
@@ -265,13 +271,24 @@ class Seeders::Reports::ReportDataSeeder
     end
   end
 
-  def create_assistant_response(status)
+  def create_assistant_response
     Captain::AssistantResponse.create!(
       account: @account,
       assistant: @assistant,
       question: "#{Faker::Lorem.sentence(word_count: rand(4..8)).chomp('.')}?",
       answer: Faker::Lorem.paragraph(sentence_count: rand(2..4)),
-      status: status
+      status: :approved
+    )
+  end
+
+  def create_faq_suggestion
+    Captain::FaqSuggestion.create!(
+      account: @account,
+      assistant: @assistant,
+      question: "#{Faker::Lorem.sentence(word_count: rand(4..8)).chomp('.')}?",
+      answer: Faker::Lorem.paragraph(sentence_count: rand(2..4)),
+      status: :open,
+      source_count: rand(1..8)
     )
   end
 
@@ -285,7 +302,7 @@ class Seeders::Reports::ReportDataSeeder
 
     outcomes = assistant_outcome_distribution
     outcomes.each_with_index do |outcome, i|
-      created_at = Faker::Time.between(from: 65.days.ago, to: END_DATE)
+      created_at = conversation_created_at(from: 65.days.ago)
       creator.create_conversation(created_at: created_at, outcome: outcome)
 
       print "\rCreating assistant conversations: #{i + 1}/#{outcomes.size}"
@@ -319,7 +336,7 @@ class Seeders::Reports::ReportDataSeeder
     )
 
     TOTAL_CONVERSATIONS.times do |i|
-      created_at = Faker::Time.between(from: START_DATE, to: END_DATE)
+      created_at = conversation_created_at(from: START_DATE)
       conversation_creator.create_conversation(created_at: created_at)
 
       completion_percentage = ((i + 1).to_f / TOTAL_CONVERSATIONS * 100).round
@@ -327,6 +344,19 @@ class Seeders::Reports::ReportDataSeeder
     end
 
     print "\n"
+  end
+
+  # Pick dates uniformly while concentrating start times during daytime in the
+  # timezone configured on the machine running the seeder.
+  def conversation_created_at(from:)
+    local_start = from.to_time.getlocal
+    local_end = END_DATE.to_time.getlocal
+
+    loop do
+      date = Faker::Date.between(from: local_start.to_date, to: local_end.to_date)
+      created_at = Time.local(date.year, date.month, date.day, CONVERSATION_HOURS.sample, rand(60), rand(60)).getlocal
+      return created_at if created_at.between?(local_start, local_end)
+    end
   end
 end
 # rubocop:enable Rails/Output, Metrics/ClassLength
