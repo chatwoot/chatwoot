@@ -113,6 +113,8 @@ Keep the knowledge sources scoped by account/tenant in the agent. Retrieved cont
 
 Set `BACKUP_GPG_RECIPIENT` to the offline recovery key and `BACKUP_OFFSITE_REMOTE` to a configured rclone destination such as `recovery:MyInvest/Backups/Chatwoot`. Schedule the script from the host, for example daily at 02:30 UTC. Local retention defaults to 14 days. The adjacent `*.offsite-receipt.json` records the immutable remote path and ciphertext SHA-256 without secrets; the only retained local payload is `*.tar.gpg`.
 
+`backup.sh` holds a host-user-wide `flock` under `$XDG_STATE_HOME` (or `~/.local/state`) for its complete lifetime. A second invocation fails before it pauses a service or creates plaintext staging, including when the two invocations originate from different immutable release directories.
+
 Run a real non-destructive recovery proof regularly on an isolated recovery host that has the offline private key. Use the remote and checksum from that receipt; the command downloads the ciphertext, verifies its SHA-256, authenticates/decrypts the AEAD archive, and checks every inner snapshot file before discarding its temporary directory:
 
 ```bash
