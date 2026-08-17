@@ -2,6 +2,8 @@
 
 require 'json'
 require 'minitest/autorun'
+require 'open3'
+require 'tmpdir'
 require_relative '../bootstrap/lib/channel_readiness'
 
 class ChannelReadinessSpec < Minitest::Test
@@ -122,6 +124,44 @@ class ChannelReadinessSpec < Minitest::Test
     assert_equal 'ready', instagram.fetch('human_status')
     assert_equal 'blocked', instagram.fetch('status')
     assert_equal ['auto_reply_evaluation_unapproved'], instagram.fetch('reasons')
+  end
+
+  def test_executable_uses_compose_env_file_without_putting_dynamic_credentials_on_argv
+    Dir.mktmpdir do |directory|
+      env_path = File.join(directory, '.env')
+      fake_docker = File.join(directory, 'docker')
+      File.write(env_path, <<~ENV)
+        TENANTS_JSON='[{"key":"saas","accountId":10}]'
+        CHANNEL_READINESS_CONFIG_JSON='[{"key":"saas","instagram":{"access_token_env":"DYNAMIC_IG_TOKEN"}}]'
+        DYNAMIC_IG_TOKEN=dynamic-instagram-secret
+      ENV
+      File.write(fake_docker, <<~'SH')
+        #!/usr/bin/env sh
+        set -eu
+        arguments="$*"
+        case "$arguments" in
+          *compose*run*"--env-from-file $ENV_FILE"*"/scripts/cutover-whatsapp.rb:/scripts/cutover-whatsapp.rb:ro"*"rails ruby"*) ;;
+          *) exit 1 ;;
+        esac
+        case "$arguments" in
+          *dynamic-instagram-secret*) exit 1 ;;
+        esac
+        grep -q '^TENANTS_JSON=' "$ENV_FILE"
+        grep -q '^DYNAMIC_IG_TOKEN=' "$ENV_FILE"
+        printf '%s\n' '{"version":1,"dry_run":true,"status":"ready","tenants":[]}'
+      SH
+      File.chmod(0o755, fake_docker)
+
+      script = File.expand_path('../scripts/channel-readiness.rb', __dir__)
+      stdout, stderr, status = Open3.capture3(
+        { 'PATH' => "#{directory}:#{ENV.fetch('PATH')}", 'ENV_FILE' => env_path }, script
+      )
+
+      assert status.success?, stderr
+      assert_equal({ 'version' => 1, 'dry_run' => true, 'status' => 'ready', 'tenants' => [] }, JSON.parse(stdout))
+      refute_includes stdout, 'dynamic-instagram-secret'
+      refute_includes stderr, 'dynamic-instagram-secret'
+    end
   end
 
   private

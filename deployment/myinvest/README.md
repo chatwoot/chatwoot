@@ -121,7 +121,7 @@ Run the fail-closed preflight from this directory:
 ./scripts/channel-readiness.rb
 ```
 
-The command is always read-only/dry-run: it does not connect to providers, send messages, create channels, or register webhooks. Its exact JSON contract contains `version`, `dry_run`, overall `status`, and tenant/channel `status` plus fixed reason codes. It emits tenant keys and configured public channel names only; mailbox addresses, phone numbers, provider/account IDs, owners, OAuth values, tokens, app secrets, confirmations, and environment-variable names are never emitted. Duplicate email mailboxes, Instagram identifiers, or WhatsApp identities across tenants block every affected channel.
+The host wrapper needs Docker Compose v5 but no host Ruby. It uses `deployment/myinvest/.env` by default (or `ENV_FILE`) both for Compose interpolation and as the one-off Rails container's `--env-from-file`, so `TENANTS_JSON` and every credential variable dynamically named by the manifest are available without being copied onto argv or logged. The command is always read-only/dry-run: it starts the pinned `rails` image with `--no-deps`, does not connect to providers, send messages, create channels, or register webhooks. Its exact JSON contract contains `version`, `dry_run`, overall `status`, and tenant/channel `status` plus fixed reason codes. It emits tenant keys and configured public channel names only; mailbox addresses, phone numbers, provider/account IDs, owners, OAuth values, tokens, app secrets, confirmations, environment-variable names, and env-file contents are never emitted. Duplicate email mailboxes, Instagram identifiers, or WhatsApp identities across tenants block every affected channel.
 
 ## Claude agent handoff
 

@@ -1,9 +1,22 @@
-#!/usr/bin/env ruby
-# frozen_string_literal: true
+#!/usr/bin/env sh
+set -eu
 
-require 'json'
-require_relative '../bootstrap/lib/channel_readiness'
+deployment_dir="$(cd "$(dirname "$0")/.." && pwd)"
+env_path="${ENV_FILE:-$deployment_dir/.env}"
 
-report = Myinvest::ChannelReadiness::Builder.new(ENV).call
-$stdout.puts JSON.generate(report)
-exit(report['status'] == 'ready' ? 0 : 1)
+if [ ! -r "$env_path" ]; then
+  printf 'Channel readiness environment is unavailable.\n' >&2
+  exit 1
+fi
+
+docker compose \
+  --project-directory "$deployment_dir" \
+  --env-file "$env_path" \
+  -f "$deployment_dir/compose.yaml" \
+  run --rm --no-deps --env-from-file "$env_path" \
+  --volume "$deployment_dir/scripts/cutover-whatsapp.rb:/scripts/cutover-whatsapp.rb:ro" rails \
+  ruby -I/bootstrap -rjson -rlib/channel_readiness -e '
+    report = Myinvest::ChannelReadiness::Builder.new(ENV).call
+    $stdout.puts JSON.generate(report)
+    Kernel.exit(report["status"] == "ready" ? 0 : 1)
+  '
