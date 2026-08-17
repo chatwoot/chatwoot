@@ -59,6 +59,8 @@ RSpec.describe Myinvest::SupportStructure do
         end
         expect(first_line_team.members).to contain_exactly(first_line)
         expect(escalation_team.members).to contain_exactly(escalation)
+        expect(first_line_team).to be_allow_auto_assign
+        expect(escalation_team).to be_allow_auto_assign
         expect(first_line_team.members).not_to include(admin)
         expect(escalation_team.members).not_to include(admin)
         expect(account.automation_rules.where(name: described_class.managed_rule_names)).to have_attributes(count: 2)
@@ -68,6 +70,13 @@ RSpec.describe Myinvest::SupportStructure do
         routing_rule = account.automation_rules.find_by!(name: described_class.managed_rule_names.first)
         routed_team_id = routing_rule.actions.find { |action| action.fetch('action_name') == 'assign_team' }.fetch('action_params').first
         expect(account.teams.find(routed_team_id).members).to contain_exactly(first_line)
+
+        live_inbox_ids = account.inboxes.ids.map(&:to_s)
+        account.automation_rules.where(name: described_class.managed_rule_names).find_each do |rule|
+          inbox_condition = rule.conditions.find { |condition| condition.fetch('attribute_key') == 'inbox_id' }
+          expect(inbox_condition).to include('filter_operator' => 'equal_to', 'values' => match_array(live_inbox_ids))
+          expect(rule.conditions.drop(1).pluck('query_operator')).to all(be_nil)
+        end
       end
     end
     # rubocop:enable RSpec/MultipleExpectations
@@ -138,10 +147,91 @@ RSpec.describe Myinvest::SupportStructure do
       expect(Team.count).to eq(0)
     end
 
+    it 'rejects an enabled account-level integration hook when the account has history' do
+      account = accounts.fetch('legacy_academy')
+      create(:inbox, account: account, name: 'Imported History', enable_auto_assignment: false)
+      create(:integrations_hook, account: account, status: :enabled)
+
+      expect { provisioner.call }.to raise_error(Myinvest::SupportStructure::ConfigurationError, /account-level integration hook/i)
+      expect(Team.count).to eq(0)
+    end
+
+    it 'rejects active account automations that can reach history conversations' do
+      account = accounts.fetch('legacy_academy')
+      create(:inbox, account: account, name: 'Imported History', enable_auto_assignment: false)
+      create(:automation_rule, account: account, name: 'Unsafe history automation',
+                               conditions: [{ 'attribute_key' => 'status', 'filter_operator' => 'equal_to',
+                                              'values' => ['open'], 'query_operator' => nil }],
+                               actions: [{ 'action_name' => 'send_message', 'action_params' => ['unsafe'] },
+                                         { 'action_name' => 'send_webhook_event',
+                                           'action_params' => ['https://example.test/unsafe'] },
+                                         { 'action_name' => 'change_priority', 'action_params' => ['urgent'] }])
+
+      expect { provisioner.call }.to raise_error(Myinvest::SupportStructure::ConfigurationError, /live inbox scope/i)
+      expect(Team.count).to eq(0)
+    end
+
+    it 'rejects an OR condition that can bypass an active automation live inbox scope' do
+      account = accounts.fetch('legacy_academy')
+      live_inbox = account.inboxes.first
+      create(:inbox, account: account, name: 'Imported History', enable_auto_assignment: false)
+      create(:automation_rule, account: account, name: 'Bypassable history automation',
+                               conditions: [{ 'attribute_key' => 'inbox_id', 'filter_operator' => 'equal_to',
+                                              'values' => [live_inbox.id], 'query_operator' => 'OR' },
+                                            { 'attribute_key' => 'status', 'filter_operator' => 'equal_to',
+                                              'values' => ['open'], 'query_operator' => nil }],
+                               actions: [{ 'action_name' => 'add_label', 'action_params' => ['support'] }])
+
+      expect { provisioner.call }.to raise_error(Myinvest::SupportStructure::ConfigurationError, /live inbox scope/i)
+      expect(Team.count).to eq(0)
+    end
+
+    it 'allows a conjunctive active automation scoped to verified live inboxes' do
+      account = accounts.fetch('legacy_academy')
+      live_inbox = account.inboxes.first
+      create(:inbox, account: account, name: 'Imported History', enable_auto_assignment: false)
+      rule = create(:automation_rule, account: account, name: 'Safe live automation',
+                                      conditions: [{ 'attribute_key' => 'inbox_id', 'filter_operator' => 'equal_to',
+                                                     'values' => [live_inbox.id], 'query_operator' => 'AND' },
+                                                   { 'attribute_key' => 'status', 'filter_operator' => 'equal_to',
+                                                     'values' => ['open'], 'query_operator' => nil }],
+                                      actions: [{ 'action_name' => 'add_label', 'action_params' => ['support'] }])
+
+      provisioner.call
+
+      expect(rule.reload).to be_active
+    end
+
+    it 'rejects active automations that assign agents directly or route through unmanaged teams' do
+      account = accounts.fetch('saas')
+      live_inbox = account.inboxes.first
+      unmanaged_team = create(:team, account: account, name: 'unmanaged', allow_auto_assign: false)
+      conditions = [{ 'attribute_key' => 'inbox_id', 'filter_operator' => 'equal_to',
+                      'values' => [live_inbox.id], 'query_operator' => nil }]
+      create(:automation_rule, account: account, name: 'Direct administrator assignment', conditions: conditions,
+                               actions: [{ 'action_name' => 'assign_agent', 'action_params' => [admin.id] }])
+      create(:automation_rule, account: account, name: 'Unmanaged team assignment', conditions: conditions,
+                               actions: [{ 'action_name' => 'assign_team', 'action_params' => [unmanaged_team.id] }])
+
+      expect { provisioner.call }.to raise_error(Myinvest::SupportStructure::ConfigurationError, /managed team/i)
+      expect(Team.where.not(id: unmanaged_team.id)).to be_empty
+    end
+
+    it 'rejects automatic assignment through an unmanaged team without changing it' do
+      account = accounts.fetch('saas')
+      unmanaged_team = create(:team, account: account, name: 'stale routing team', allow_auto_assign: true)
+      create(:team_member, team: unmanaged_team, user: admin)
+
+      expect { provisioner.call }.to raise_error(Myinvest::SupportStructure::ConfigurationError, /unmanaged team/i)
+      expect(unmanaged_team.reload).to be_allow_auto_assign
+      expect(unmanaged_team.members).to contain_exactly(admin)
+    end
+
     it 'preserves unrelated records and user memberships' do
       account = accounts.fetch('saas')
-      unrelated_team = create(:team, account: account, name: 'bespoke team', description: 'keep me')
-      unrelated_rule = create(:automation_rule, account: account, name: 'Customer rule')
+      unrelated_team = create(:team, account: account, name: 'bespoke team', description: 'keep me', allow_auto_assign: false)
+      unrelated_rule = create(:automation_rule, account: account, name: 'Customer rule',
+                                                actions: [{ 'action_name' => 'add_label', 'action_params' => ['customer'] }])
 
       provisioner.call
 

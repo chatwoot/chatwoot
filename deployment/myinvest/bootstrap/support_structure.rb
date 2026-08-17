@@ -43,6 +43,7 @@ class Myinvest::SupportStructure
     validate_history_inboxes!(accounts)
     rosters = resolve_rosters!(accounts)
     validate_existing_rosters!(accounts, rosters)
+    validate_automation_boundaries!(accounts, rosters)
     return result('dry-run', 'planned', build_plan(accounts)) if dry_run
 
     raise ConfigurationError, 'Exact production confirmation is required' unless confirmation == PRODUCTION_CONFIRMATION
@@ -92,6 +93,9 @@ class Myinvest::SupportStructure
     accounts.each_value do |account|
       histories = history_inboxes(account)
       raise ConfigurationError, 'A history inbox account has a relevant account-level webhook' if histories.any? && relevant_account_webhook?(account)
+      if histories.any? && account.hooks.account_hooks.enabled.exists?
+        raise ConfigurationError, 'A history inbox account has an enabled account-level integration hook'
+      end
 
       histories.each do |inbox|
         raise ConfigurationError, 'A history inbox has an attached AI bot' if inbox.agent_bot_inbox.present?
@@ -209,6 +213,96 @@ class Myinvest::SupportStructure
     raise ConfigurationError, 'Managed roster contains an identity not explicitly designated'
   end
 
+  def validate_automation_boundaries!(accounts, rosters)
+    accounts.each do |tenant_key, account|
+      roster = rosters.fetch(tenant_key)
+      managed_teams = existing_managed_teams(account, tenant_key)
+      validate_auto_assignment_teams!(account, managed_teams, roster)
+      validate_active_automations!(account, managed_teams, roster, history_inboxes(account).any?)
+    end
+  end
+
+  def existing_managed_teams(account, tenant_key)
+    TENANTS.fetch(tenant_key).fetch(:teams).to_h do |attributes|
+      name = attributes.fetch(:name)
+      [name, account.teams.find_by(name: name.downcase)]
+    end
+  end
+
+  def validate_auto_assignment_teams!(account, managed_teams, roster)
+    managed_names = managed_teams.keys.map(&:downcase)
+    if account.teams.where(allow_auto_assign: true).where.not(name: managed_names).exists?
+      raise ConfigurationError, 'Automatic assignment is enabled for an unmanaged team'
+    end
+
+    managed_teams.each do |name, team|
+      next unless team&.allow_auto_assign?
+
+      validate_exact_team_roster!(team, roster.fetch(:teams).fetch(name))
+    end
+  end
+
+  def validate_active_automations!(account, managed_teams, roster, history_present)
+    rules = account.automation_rules.active.where.not(name: self.class.managed_rule_names)
+    rules.find_each do |rule|
+      if history_present && !live_inbox_scoped?(rule, account)
+        raise ConfigurationError, 'An active account automation does not have a fail-closed live inbox scope'
+      end
+
+      validate_automation_assignments!(rule, managed_teams, roster)
+    end
+  end
+
+  def live_inbox_scoped?(rule, account)
+    conditions = rule.conditions
+    return false unless conditions.is_a?(Array) && conditions.any? && conjunctive_conditions?(conditions)
+
+    inbox_conditions = conditions.select { |condition| condition['attribute_key'] == 'inbox_id' }
+    return false unless inbox_conditions.one?
+
+    live_ids = live_inboxes(account).map { |inbox| inbox.id.to_s }
+    valid_live_inbox_condition?(inbox_conditions.first, live_ids)
+  end
+
+  def valid_live_inbox_condition?(condition, live_ids)
+    values = condition['values']
+    return false unless condition['filter_operator'] == 'equal_to'
+    return false unless values.is_a?(Array) && values.any?
+
+    normalized_values = values.map(&:to_s)
+    normalized_values.uniq.length == normalized_values.length && (normalized_values - live_ids).empty?
+  end
+
+  def conjunctive_conditions?(conditions)
+    conditions.each_with_index.all? do |condition, index|
+      operator = condition['query_operator'].presence&.upcase
+      index == conditions.length - 1 ? operator.nil? : operator == 'AND'
+    end
+  end
+
+  def validate_automation_assignments!(rule, managed_teams, roster)
+    rule.actions.each do |automation_action|
+      action_name = automation_action['action_name']
+      next unless %w[assign_agent assign_team].include?(action_name)
+
+      raise ConfigurationError, 'Active automation assignments must use a verified managed team' if action_name == 'assign_agent'
+
+      target_ids = Array(automation_action['action_params']).map(&:to_s)
+      managed_team = managed_teams.compact.find { |_name, candidate| target_ids == [candidate.id.to_s] }
+      raise ConfigurationError, 'Active automation assignments must use a verified managed team' unless managed_team
+
+      name, team = managed_team
+      validate_exact_team_roster!(team, roster.fetch(:teams).fetch(name))
+    end
+  end
+
+  def validate_exact_team_roster!(team, expected_members)
+    expected_ids = expected_members.map(&:id).sort
+    return if expected_ids.any? && team.member_ids.sort == expected_ids
+
+    raise ConfigurationError, 'Automatic assignment managed team roster is not exact and non-empty'
+  end
+
   def upsert_team!(account, attributes, members)
     team = unique_record!(account.teams, :name, attributes.fetch(:name).downcase, 'team')
     team ||= account.teams.new(name: attributes.fetch(:name))
@@ -230,11 +324,10 @@ class Myinvest::SupportStructure
     account.update!(custom_attributes: account.custom_attributes.merge('support_operations' => operations))
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity
   def verify_rosters!(account, teams, roster)
     teams.each do |team|
-      expected_ids = roster.fetch(:teams).fetch(team.name.titleize).map(&:id).sort
-      raise ConfigurationError, 'Managed team roster verification failed' unless team.member_ids.sort == expected_ids
+      validate_exact_team_roster!(team, roster.fetch(:teams).fetch(team.name.titleize))
+      raise ConfigurationError, 'Managed team roster verification failed' unless team.allow_auto_assign?
     end
     live_inboxes(account).each do |inbox|
       expected_ids = roster.fetch(:inboxes).fetch(inbox.name).map(&:id).sort
@@ -242,7 +335,6 @@ class Myinvest::SupportStructure
       raise ConfigurationError, 'Live inbox auto-assignment was not disabled' if inbox.enable_auto_assignment?
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
 
   def live_inboxes(account)
     account.inboxes.to_a - history_inboxes(account)
@@ -250,6 +342,8 @@ class Myinvest::SupportStructure
 
   def upsert_automations!(account, primary_team)
     inbox_ids = live_inboxes(account).map { |inbox| inbox.id.to_s }
+    raise ConfigurationError, 'Managed automations require a non-empty live inbox scope' if inbox_ids.empty?
+
     upsert_automation!(account, self.class.managed_rule_names.first, event_name: 'conversation_created',
                                                                      conditions: [condition('inbox_id', 'equal_to', inbox_ids)],
                                                                      actions: [
@@ -257,12 +351,13 @@ class Myinvest::SupportStructure
                                                                        action('add_label', ['support'])
                                                                      ])
     upsert_automation!(account, self.class.managed_rule_names.last, event_name: 'conversation_updated',
-                                                                    conditions: [condition('labels', 'equal_to', ['urgent'])],
+                                                                    conditions: [condition('inbox_id', 'equal_to', inbox_ids, 'AND'),
+                                                                                 condition('labels', 'equal_to', ['urgent'])],
                                                                     actions: [action('change_priority', ['urgent'])])
   end
 
-  def condition(attribute, operator, values)
-    { 'attribute_key' => attribute, 'filter_operator' => operator, 'values' => values, 'query_operator' => nil }
+  def condition(attribute, operator, values, query_operator = nil)
+    { 'attribute_key' => attribute, 'filter_operator' => operator, 'values' => values, 'query_operator' => query_operator }
   end
 
   def action(name, params)
