@@ -311,6 +311,146 @@ describe CustomMarkdownRenderer do
     end
   end
 
+  describe 'raw HTML embeds (img/iframe allow-list)' do
+    # These exercise the `html`/`inline_html` node types, which is what raw HTML submitted via
+    # the Portal Articles API parses into (as opposed to markdown image/link syntax, which uses
+    # the `image`/`link` node types tested elsewhere in this file).
+    def render_html(html)
+      doc = CommonMarker.render_doc(html, :DEFAULT)
+      renderer.render(doc)
+    end
+
+    context 'with the exact payload from the reported issue' do
+      it 'renders the trusted YouTube iframe and the image, dropping the surrounding raw markup' do
+        html = '<p>This article has a video and an image.</p>' \
+               '<div><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe></div>' \
+               '<p>And here is an image:</p><img src="https://example.com/screenshot.png" width="600">' \
+               '<p>End of article.</p>'
+        output = render_html(html)
+
+        expect(output).to include('<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"')
+        expect(output).to include('allowfullscreen')
+        expect(output).to include('<img src="https://example.com/screenshot.png" width="600" />')
+      end
+    end
+
+    context 'with a trusted iframe host' do
+      it 'renders a bare Loom iframe' do
+        html = '<iframe src="https://www.loom.com/embed/VIDEO_ID" allowfullscreen></iframe>'
+        expect(render_html(html)).to include('<iframe src="https://www.loom.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>')
+      end
+    end
+
+    context 'with an untrusted iframe host' do
+      it 'drops the iframe entirely' do
+        html = '<iframe src="https://evil.com/phish"></iframe>'
+        output = render_html(html)
+        expect(output).not_to include('<iframe')
+        expect(output).not_to include('evil.com')
+      end
+    end
+
+    context 'with a plain http(s) image' do
+      it 'renders the image' do
+        html = '<img src="https://example.com/pic.png" alt="A pic" title="Nice">'
+        output = render_html(html)
+        expect(output).to include('<img src="https://example.com/pic.png" alt="A pic" title="Nice" />')
+      end
+    end
+
+    describe 'XSS regression coverage' do
+      it 'strips a raw <script> tag' do
+        output = render_html('<script>alert(1)</script>')
+        expect(output).not_to include('<script')
+        expect(output).not_to include('alert(1)')
+      end
+
+      it 'drops an <img> with a relative/non-URL src (classic onerror payload)' do
+        output = render_html('<img src=x onerror=alert(1)>')
+        expect(output).not_to include('onerror')
+        expect(output).not_to include('alert(1)')
+        expect(output).not_to include('<img')
+      end
+
+      it 'drops an <img> with a javascript: src' do
+        output = render_html('<img src="javascript:alert(1)">')
+        expect(output).not_to include('javascript:')
+        expect(output).not_to include('<img')
+      end
+
+      it 'drops an <iframe> with a javascript: src' do
+        output = render_html('<iframe src="javascript:alert(1)"></iframe>')
+        expect(output).not_to include('javascript:')
+        expect(output).not_to include('<iframe')
+      end
+
+      it 'drops an <iframe> with a data: src' do
+        output = render_html('<iframe src="data:text/html,<script>alert(1)</script>"></iframe>')
+        expect(output).not_to include('<iframe')
+        expect(output).not_to include('<script')
+      end
+
+      it 'drops an <img> with a data: src (no data URIs allowed for images either)' do
+        output = render_html('<img src="data:image/png;base64,AAAA">')
+        expect(output).not_to include('<img')
+        expect(output).not_to include('data:')
+      end
+
+      it 'drops an <iframe> with a protocol-relative src' do
+        output = render_html('<iframe src="//evil.com/x"></iframe>')
+        expect(output).not_to include('<iframe')
+        expect(output).not_to include('evil.com')
+      end
+
+      it 'drops an <iframe> whose src uses userinfo to disguise the real host' do
+        output = render_html('<iframe src="https://www.youtube.com@evil.com/x"></iframe>')
+        expect(output).not_to include('<iframe')
+        expect(output).not_to include('evil.com')
+      end
+
+      it 'does not allow a look-alike host to pass as a trusted host' do
+        output = render_html('<iframe src="https://evilyoutube.com/embed/x"></iframe>')
+        expect(output).not_to include('<iframe')
+      end
+
+      it 'does not allow a trusted-looking suffix host to pass as trusted' do
+        output = render_html('<iframe src="https://www.youtube.com.evil.com/embed/x"></iframe>')
+        expect(output).not_to include('<iframe')
+      end
+
+      it 'strips a raw <a href="javascript:..."> tag entirely (anchor is not on the allow-list)' do
+        output = render_html('<a href="javascript:alert(1)">click me</a>')
+        expect(output).not_to include('<a ')
+        expect(output).not_to include('javascript:')
+      end
+
+      it 'ignores an iframe srcdoc attribute even when no usable src is present' do
+        output = render_html('<iframe srcdoc="<script>alert(1)</script>"></iframe>')
+        expect(output).not_to include('<script')
+        expect(output).not_to include('<iframe')
+      end
+
+      it 'does not let a malicious width/height value inject extra attributes onto a safe image' do
+        html = %(<img src="https://example.com/pic.png" width="1&quot; onerror=&quot;alert(1)">)
+        output = render_html(html)
+        expect(output).to include('<img src="https://example.com/pic.png" />')
+        expect(output).not_to include('onerror')
+      end
+
+      it 'is not fooled by uppercase tag/attribute names' do
+        output = render_html('<IFRAME SRC="javascript:alert(1)"></IFRAME>')
+        expect(output).not_to include('<iframe')
+        expect(output.downcase).not_to include('javascript:')
+      end
+
+      it 'still omits unrelated raw HTML (e.g. a div wrapper) as a bare comment-free no-op' do
+        output = render_html('<div class="foo">hello</div>')
+        expect(output).not_to include('<div')
+        expect(output).not_to include('class="foo"')
+      end
+    end
+  end
+
   describe '#image' do
     it 'renders width in px with responsive cap and auto height' do
       markdown = '![Sample](https://example.com/image.jpg?cw_image_width=400px)'

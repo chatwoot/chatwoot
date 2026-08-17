@@ -10,6 +10,28 @@
 # 2. Define the regex pattern with named capture groups: (?<name>pattern)
 # 3. Create an HTML template using %{name} placeholders matching the capture groups
 
+# Hosts allowed as a raw `<iframe src="...">` destination when an article is created/updated
+# with raw HTML (e.g. via the Portal Articles API) instead of a markdown link. This list only
+# mirrors the iframe destinations the embed templates below already point traffic to — it does
+# not grant any new trust. CustomMarkdownRenderer#trusted_iframe_host? requires an exact,
+# case-insensitive host match (no subdomain/suffix matching) before a raw iframe is re-rendered.
+trusted_iframe_hosts:
+  - www.youtube.com
+  - youtube.com
+  - www.youtube-nocookie.com
+  - youtube-nocookie.com
+  - www.loom.com
+  - loom.com
+  - player.vimeo.com
+  - vimeo.com
+  - app.arcade.software
+  - player.mediadelivery.net
+  - iframe.mediadelivery.net
+  - www.guidejar.com
+  - guidejar.com
+  - codepen.io
+  - www.codepen.io
+
 youtube:
   regex: 'https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)(?<video_id>[^&/]+)'
   template: |

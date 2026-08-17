@@ -6,7 +6,15 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   def self.embed_regexes
-    @embed_regexes ||= config.transform_values { |embed_config| Regexp.new(embed_config['regex']) }
+    @embed_regexes ||= config.each_with_object({}) do |(key, embed_config), acc|
+      next unless embed_config.is_a?(Hash) && embed_config['regex']
+
+      acc[key] = Regexp.new(embed_config['regex'])
+    end
+  end
+
+  def self.trusted_iframe_hosts
+    @trusted_iframe_hosts ||= Array(config['trusted_iframe_hosts']).map(&:downcase).to_set.freeze
   end
 
   # Matches columnResizing({ cellMinWidth: 50 }) in @chatwoot/prosemirror-schema
@@ -17,11 +25,32 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   # The article editor serializes column widths as a `<!--cw-colwidths:...-->` HTML
   # comment immediately before each resized table. Capture it (emitting nothing) so the
   # next `table` can size itself; any other raw HTML keeps its default rendering.
+  # `html`/`inline_html` are where CommonMarker delivers raw HTML nodes. Without passing the
+  # `:UNSAFE` render option, its own default behavior would blank ALL raw HTML out to
+  # `<!-- raw HTML omitted -->` here — including the `<img>`/`<iframe>` embeds from
+  # https://github.com/chatwoot/chatwoot/issues/14602. We deliberately do NOT enable `:UNSAFE`
+  # anywhere in this renderer; instead both node types are routed through
+  # EmbeddedHtmlSanitizer's narrow allow-list, which re-renders only `img`/`iframe` and drops
+  # everything else exactly as before.
   def html(node)
     match = node.string_content.match(COLWIDTHS_COMMENT)
-    return super unless match
+    if match
+      @pending_colwidths = match[1].split(',').map(&:to_i)
+      return
+    end
 
-    @pending_colwidths = match[1].split(',').map(&:to_i)
+    safe_html = embed_sanitizer.sanitize(node.string_content)
+    return if safe_html.blank?
+
+    block { out(safe_html) }
+  end
+
+  # Raw inline HTML (e.g. a bare `<img ...>` or `<iframe ...>` tag written directly in the
+  # article body rather than as a markdown image/link) reaches this node type instead of `html`
+  # above.
+  def inline_html(node)
+    safe_html = embed_sanitizer.sanitize(node.string_content)
+    out(safe_html) if safe_html.present?
   end
 
   def table(node)
@@ -69,6 +98,10 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   private
+
+  def embed_sanitizer
+    @embed_sanitizer ||= EmbeddedHtmlSanitizer.new(self.class.trusted_iframe_hosts)
+  end
 
   def sized_widths?(widths)
     widths.is_a?(Array) && widths.any? { |w| w.to_i.positive? }
