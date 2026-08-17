@@ -134,7 +134,9 @@ const startEmbeddedSignup = () => {
       data.event === 'FINISH' ||
       data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
     ) {
-      pendingEvent = data;
+      // Keep the first terminal event: a coexistence FINISH must win over a
+      // later normal FINISH that can arrive before the auth code is known.
+      pendingEvent = pendingEvent || data;
       process();
     } else {
       settle();
@@ -221,9 +223,13 @@ const handleLoginAndReauthorize = async () => {
         phone_number_id: existingConfig.phone_number_id,
         is_coexistence: isCoexistence,
       });
-    } else {
-      embeddedSignup.setAuthCode(authCode);
+      return false;
     }
+
+    embeddedSignup.setAuthCode(authCode);
+    // Still pending: the FINISH/CANCEL/error postMessage resolves asynchronously
+    // and owns resetting isRequestingAuthorization from there.
+    return true;
   } catch (error) {
     finishWaiter?.cleanup();
     embeddedSignup?.cleanup();
@@ -235,7 +241,7 @@ const handleLoginAndReauthorize = async () => {
           t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_NOT_COMPLETED')
       );
     }
-    throw error;
+    return false;
   }
 };
 
@@ -247,14 +253,13 @@ const requestAuthorization = async () => {
 
   isRequestingAuthorization.value = true;
   try {
-    await handleLoginAndReauthorize();
-  } catch (error) {
-    useAlert(error.message || t('INBOX.REAUTHORIZE.CONFIGURATION_ERROR'));
-  } finally {
-    // Reset only if not already processing through embedded signup
-    if (!window.FB || !window.FB.getLoginStatus) {
+    const stillPending = await handleLoginAndReauthorize();
+    if (!stillPending) {
       isRequestingAuthorization.value = false;
     }
+  } catch (error) {
+    useAlert(error.message || t('INBOX.REAUTHORIZE.CONFIGURATION_ERROR'));
+    isRequestingAuthorization.value = false;
   }
 };
 
