@@ -303,21 +303,18 @@ RSpec.describe Captain::Assistant, type: :model do
   end
 
   describe '#agent_instructions' do
-    it 'keeps the human handoff protocol for customer-facing runs' do
-      context = instance_double(Agents::RunContext, context: { state: { read_only: false } })
-
-      instructions = assistant.agent_instructions(context)
+    it 'keeps the Assistant human handoff prompt unchanged' do
+      instructions = assistant.agent_instructions
 
       expect(instructions).to include('# Human Handoff Protocol', 'captain--tools--handoff')
+      expect(instructions).not_to include('You are drafting a reply for a support agent to review.')
     end
 
-    it 'removes the human handoff protocol from reply drafts' do
-      context = instance_double(Agents::RunContext, context: { state: { read_only: true } })
+    it 'renders the separate Copilot reply suggestion prompt when requested' do
+      instructions = assistant.agent_instructions(nil, prompt_template: 'copilot_reply_suggestion')
 
-      instructions = assistant.agent_instructions(context)
-
-      expect(instructions).to include('Do not offer or attempt a human handoff in a reply draft.')
-      expect(instructions).not_to include('# Human Handoff Protocol', 'captain--tools--handoff')
+      expect(instructions).to include('You are drafting a reply for a support agent to review.')
+      expect(instructions).not_to include('# Human Handoff Protocol')
     end
   end
 end

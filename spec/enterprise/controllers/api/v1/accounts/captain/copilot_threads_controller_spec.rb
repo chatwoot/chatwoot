@@ -135,7 +135,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
           )
         end
 
-        it 'passes the reply suggestion request type to the response job' do
+        it 'enqueues the dedicated reply suggestion job' do
           account.limits = { captain_responses: 2 }
           account.custom_attributes = { captain_responses_usage: 0 }
           account.save!
@@ -146,13 +146,11 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
                as: :json
 
           thread = CopilotThread.last
-          expect(Captain::Copilot::ResponseJob).to have_been_enqueued.with(
+          expect(Captain::Copilot::ReplySuggestionJob).to have_been_enqueued.with(
             assistant: assistant,
             conversation_id: valid_params[:conversation_id],
             user_id: agent.id,
-            copilot_thread_id: thread.id,
-            message: valid_params[:message],
-            request_type: 'reply_suggestion'
+            copilot_thread_id: thread.id
           )
         end
       end

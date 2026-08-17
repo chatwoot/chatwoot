@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
@@ -106,6 +106,8 @@ const handleReset = () => {
   selectedCopilotThreadId.value = null;
 };
 
+watch(() => currentChat.value?.id, handleReset);
+
 const sendMessage = async payload => {
   const message = typeof payload === 'string' ? payload : payload.message;
   const requestType =
@@ -120,13 +122,16 @@ const sendMessage = async payload => {
         message,
       });
     } else {
+      const conversationId = currentChat.value?.id;
       const response = await store.dispatch('copilotThreads/create', {
         assistant_id: activeAssistant.value.id,
-        conversation_id: currentChat.value?.id,
+        conversation_id: conversationId,
         message,
         ...(requestType && { request_type: requestType }),
       });
-      selectedCopilotThreadId.value = response.id;
+      if (currentChat.value?.id === conversationId) {
+        selectedCopilotThreadId.value = response.id;
+      }
     }
   } catch (error) {
     useAlert(error.message);

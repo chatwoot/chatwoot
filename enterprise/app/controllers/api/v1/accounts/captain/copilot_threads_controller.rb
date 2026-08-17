@@ -31,17 +31,28 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
 
   def build_copilot_response(copilot_message)
     if Current.account.usage_limits[:captain][:responses][:current_available].positive?
-      copilot_message.enqueue_response_job(
-        copilot_thread_params[:conversation_id],
-        Current.user.id,
-        request_type: copilot_thread_params[:request_type]
-      )
+      enqueue_copilot_response(copilot_message)
     else
       copilot_message.copilot_thread.copilot_messages.create!(
         message_type: :assistant,
         message: { content: I18n.t('captain.copilot_limit') }
       )
     end
+  end
+
+  def enqueue_copilot_response(copilot_message)
+    return enqueue_reply_suggestion if copilot_thread_params[:request_type] == 'reply_suggestion'
+
+    copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id], Current.user.id)
+  end
+
+  def enqueue_reply_suggestion
+    Captain::Copilot::ReplySuggestionJob.perform_later(
+      assistant: @copilot_thread.assistant,
+      conversation_id: copilot_thread_params[:conversation_id],
+      user_id: Current.user.id,
+      copilot_thread_id: @copilot_thread.id
+    )
   end
 
   def ensure_message

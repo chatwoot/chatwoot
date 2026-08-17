@@ -44,10 +44,6 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     allow(mock_runner).to receive(:on_run_complete).and_return(mock_runner)
     allow(mock_agent).to receive(:register_handoffs)
     allow(mock_scenario_agent).to receive(:register_handoffs)
-    allow(mock_agent).to receive(:tools).and_return([])
-    allow(mock_scenario_agent).to receive(:tools).and_return([])
-    allow(mock_agent).to receive(:clone).with(tools: []).and_return(mock_agent)
-    allow(mock_scenario_agent).to receive(:clone).with(tools: []).and_return(mock_scenario_agent)
   end
 
   describe '#initialize' do
@@ -72,46 +68,59 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(service.instance_variable_get(:@responding_to_message_id)).to eq(123)
     end
 
-    it 'accepts read only mode' do
-      service = described_class.new(assistant: assistant, conversation: conversation, read_only: true)
+    it 'accepts reply suggestion mode' do
+      service = described_class.new(assistant: assistant, execution_mode: :reply_suggestion)
 
-      expect(service.instance_variable_get(:@read_only)).to be true
-    end
-
-    it 'accepts public message stale response protection' do
-      service = described_class.new(
-        assistant: assistant,
-        conversation: conversation,
-        stale_response_policy: :public_message
+      expect(service.instance_variable_get(:@execution_mode)).to eq(:reply_suggestion)
+      expect(service.send(:trace_config)).to include(
+        name: 'llm.captain.copilot.agent',
+        tags: ['copilot']
       )
-
-      expect(service.instance_variable_get(:@stale_response_policy)).to eq(:public_message)
     end
 
-    it 'rejects an unknown stale response policy' do
+    it 'rejects an unknown execution mode' do
       expect do
-        described_class.new(assistant: assistant, stale_response_policy: :unknown)
-      end.to raise_error(ArgumentError, 'Invalid stale response policy: unknown')
+        described_class.new(assistant: assistant, execution_mode: :unknown)
+      end.to raise_error(ArgumentError, 'Invalid execution mode: unknown')
+    end
+  end
+
+  describe '#build_and_wire_agents' do
+    it 'keeps only reply-safe tools and internal scenario routing in reply suggestion mode' do
+      faq_tool = Captain::Tools::FaqLookupTool.new(assistant)
+      handoff_tool = Captain::Tools::HandoffTool.new(assistant)
+      get_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'GET'))
+      post_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'POST'))
+      private_note_tool = Captain::Tools::AddPrivateNoteTool.new(assistant)
+      assistant_agent = Agents::Agent.new(name: 'assistant', tools: [faq_tool, handoff_tool, get_tool, post_tool])
+      scenario_agent = Agents::Agent.new(name: 'scenario', tools: [private_note_tool])
+      service = described_class.new(assistant: assistant, conversation: conversation, execution_mode: :reply_suggestion)
+
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+      allow(scenario).to receive(:agent).and_return(scenario_agent)
+
+      configured_assistant, configured_scenario = service.send(:build_and_wire_agents)
+
+      expect(configured_assistant.tools).to contain_exactly(faq_tool, get_tool)
+      expect(configured_scenario.tools).to be_empty
+      expect(configured_assistant.handoff_agents).to contain_exactly(configured_scenario)
+      expect(configured_scenario.handoff_agents).to contain_exactly(configured_assistant)
     end
 
-    it 'uses Assistant trace attribution by default' do
-      service = described_class.new(assistant: assistant, conversation: conversation)
+    it 'uses the Copilot prompt without changing the Assistant prompt path' do
+      assistant_agent = Agents::Agent.new(name: 'assistant')
+      service = described_class.new(assistant: assistant, conversation: conversation, execution_mode: :reply_suggestion)
+      context = instance_double(Agents::RunContext)
 
-      expect(service.send(:trace_config)).to include(
-        name: 'llm.captain_v2',
-        tags: ['captain_v2'],
-        feature_name: 'assistant'
-      )
-    end
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+      allow(assistant).to receive(:scenarios).and_return(Captain::Scenario.none)
+      expect(assistant).to receive(:agent_instructions)
+        .with(context, prompt_template: 'copilot_reply_suggestion')
+        .and_return('Copilot instructions')
 
-    it 'supports Copilot trace attribution' do
-      service = described_class.new(assistant: assistant, conversation: conversation, trace_feature: :copilot)
+      configured_assistant = service.send(:build_and_wire_agents).first
 
-      expect(service.send(:trace_config)).to include(
-        name: 'llm.captain.copilot',
-        tags: ['copilot'],
-        feature_name: 'copilot'
-      )
+      expect(configured_assistant.instructions.call(context)).to eq('Copilot instructions')
     end
   end
 
@@ -170,36 +179,6 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       )
 
       service.generate_response(message_history: message_history)
-    end
-
-    it 'adds read only mode to the runner state' do
-      service = described_class.new(assistant: assistant, conversation: conversation, read_only: true)
-
-      expect(mock_runner).to receive(:run).with(
-        'I need help with my account',
-        context: hash_including(state: hash_including(read_only: true)),
-        max_turns: 10
-      )
-
-      service.generate_response(message_history: message_history)
-    end
-
-    it 'removes human handoff tools but keeps scenario routing in read only mode' do
-      faq_tool = Captain::Tools::FaqLookupTool.new(assistant)
-      handoff_tool = Captain::Tools::HandoffTool.new(assistant)
-      assistant_agent = Agents::Agent.new(name: 'assistant', tools: [faq_tool, handoff_tool])
-      scenario_agent = Agents::Agent.new(name: 'scenario', tools: [handoff_tool])
-      service = described_class.new(assistant: assistant, conversation: conversation, read_only: true)
-
-      allow(assistant).to receive(:agent).and_return(assistant_agent)
-      allow(scenario).to receive(:agent).and_return(scenario_agent)
-
-      configured_assistant, configured_scenario = service.send(:build_and_wire_agents)
-
-      expect(configured_assistant.tools).to contain_exactly(faq_tool)
-      expect(configured_scenario.tools).to be_empty
-      expect(configured_assistant.handoff_agents).to contain_exactly(configured_scenario)
-      expect(configured_scenario.handoff_agents).to contain_exactly(configured_assistant)
     end
 
     context 'when the latest user message is multimodal' do
@@ -697,52 +676,6 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(attributes['langfuse.trace.input']).to include('image_url')
       expect(attributes['langfuse.observation.input']).to include('image_url')
       expect(attributes['langfuse.user.id']).to eq(account.id.to_s)
-      expect(attributes['langfuse.trace.metadata.feature_name']).to eq('assistant')
-    end
-
-    it 'attributes Copilot runner traces to Copilot' do
-      service = described_class.new(assistant: assistant, conversation: conversation, trace_feature: :copilot)
-      context = {
-        state: {
-          account_id: account.id,
-          assistant_id: assistant.id,
-          source: 'copilot_reply_suggestion',
-          conversation: { id: conversation.id, display_id: conversation.display_id }
-        }
-      }
-      context_wrapper = Struct.new(:context).new(context)
-
-      attributes = service.send(:dynamic_trace_attributes, context_wrapper)
-
-      expect(attributes).to include(
-        'langfuse.trace.metadata.feature_name' => 'copilot',
-        'langfuse.trace.metadata.source' => 'copilot_reply_suggestion'
-      )
-    end
-  end
-
-  describe '#install_instrumentation' do
-    it 'installs Copilot trace attribution for a Copilot runner' do
-      service = described_class.new(assistant: assistant, conversation: conversation, trace_feature: :copilot)
-      tracer = instance_double(OpenTelemetry::Trace::Tracer)
-
-      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
-      allow(OpentelemetryConfig).to receive(:tracer).and_return(tracer)
-      allow(mock_runner).to receive(:on_agent_thinking).and_return(mock_runner)
-
-      expect(Agents::Instrumentation).to receive(:install).with(
-        mock_runner,
-        tracer: tracer,
-        trace_name: 'llm.captain.copilot',
-        span_attributes: {
-          'langfuse.trace.tags' => '["copilot"]',
-          'langfuse.trace.metadata.feature_name' => 'copilot',
-          'langfuse.observation.metadata.feature_name' => 'copilot'
-        },
-        attribute_provider: instance_of(Captain::Assistant::InstrumentationAttributeProvider)
-      )
-
-      service.send(:install_instrumentation, mock_runner)
     end
   end
 
@@ -810,57 +743,6 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       attributes = attribute_provider.generation_attributes(nil, nil, message)
 
       expect(attributes['langfuse.observation.metadata.discarded']).to eq('true')
-    end
-
-    it 'marks a Copilot draft as discarded when a newer public outgoing message arrives' do
-      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
-      runner_service = described_class.new(
-        assistant: assistant,
-        conversation: conversation,
-        responding_to_message_id: responding_to_message.id,
-        stale_response_policy: :public_message
-      )
-      attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
-      message = instance_double(RubyLLM::Message, tool_calls: {})
-      create(:message, conversation: conversation, message_type: :outgoing, private: false)
-
-      attributes = attribute_provider.generation_attributes(nil, nil, message)
-
-      expect(attributes['langfuse.observation.metadata.discarded']).to eq('true')
-    end
-
-    it 'does not discard an Assistant response when a newer outgoing message arrives' do
-      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
-      runner_service = described_class.new(
-        assistant: assistant,
-        conversation: conversation,
-        responding_to_message_id: responding_to_message.id
-      )
-      attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
-      message = instance_double(RubyLLM::Message, tool_calls: {})
-      create(:message, conversation: conversation, message_type: :outgoing, private: false)
-
-      attributes = attribute_provider.generation_attributes(nil, nil, message)
-
-      expect(attributes['langfuse.observation.metadata.discarded']).to eq('false')
-    end
-
-    it 'does not discard a Copilot draft for a newer private or activity message' do
-      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
-      runner_service = described_class.new(
-        assistant: assistant,
-        conversation: conversation,
-        responding_to_message_id: responding_to_message.id,
-        stale_response_policy: :public_message
-      )
-      attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
-      message = instance_double(RubyLLM::Message, tool_calls: {})
-      create(:message, conversation: conversation, message_type: :outgoing, private: true)
-      create(:message, conversation: conversation, message_type: :activity)
-
-      attributes = attribute_provider.generation_attributes(nil, nil, message)
-
-      expect(attributes['langfuse.observation.metadata.discarded']).to eq('false')
     end
   end
 
@@ -1038,6 +920,17 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       service.send(:add_usage_metadata_callback, runner)
     end
 
+    it 'leaves final credit and discard metadata to the reply suggestion service' do
+      service = described_class.new(assistant: assistant, conversation: conversation, execution_mode: :reply_suggestion)
+      runner = instance_double(Agents::AgentRunner)
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      expect(runner).not_to receive(:on_run_complete)
+
+      service.send(:add_usage_metadata_callback, runner)
+    end
+
     it 'sets credit_used=true when handoff tool is not used' do
       service = described_class.new(assistant: assistant, conversation: conversation)
       runner = instance_double(Agents::AgentRunner)
@@ -1058,31 +951,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       service.send(:add_usage_metadata_callback, runner)
 
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'true')
-      run_complete_callback.call('assistant', instance_double(Agents::RunResult, error: nil), context_wrapper)
-    end
-
-    it 'sets credit_used=false when the run fails and can be retried' do
-      service = described_class.new(assistant: assistant, conversation: conversation)
-      runner = instance_double(Agents::AgentRunner)
-      run_complete_callback = nil
-      span_class = Class.new do
-        def set_attribute(*); end
-      end
-      root_span = instance_double(span_class)
-      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
-
-      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
-      allow(runner).to receive(:on_tool_complete).and_return(runner)
-      allow(runner).to receive(:on_run_complete) do |&block|
-        run_complete_callback = block
-        runner
-      end
-
-      service.send(:add_usage_metadata_callback, runner)
-
-      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
-      failed_result = instance_double(Agents::RunResult, error: StandardError.new('temporary failure'))
-      run_complete_callback.call('assistant', failed_result, context_wrapper)
+      run_complete_callback.call('assistant', nil, context_wrapper)
     end
 
     it 'marks the trace discarded and does not use credit when a newer message arrived' do
@@ -1111,72 +980,6 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       run_complete_callback.call('assistant', nil, context_wrapper)
 
       expect(service.response_discarded?).to be true
-    end
-
-    it 'marks a retryable Copilot failure as not discarded and does not use credit' do
-      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
-      service = described_class.new(
-        assistant: assistant,
-        conversation: conversation,
-        responding_to_message_id: responding_to_message.id,
-        stale_response_policy: :public_message
-      )
-      runner = instance_double(Agents::AgentRunner)
-      run_complete_callback = nil
-      span_class = Class.new do
-        def set_attribute(*); end
-      end
-      root_span = instance_double(span_class)
-      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
-
-      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
-      allow(runner).to receive(:on_tool_complete).and_return(runner)
-      allow(runner).to receive(:on_run_complete) do |&block|
-        run_complete_callback = block
-        runner
-      end
-
-      service.send(:add_usage_metadata_callback, runner)
-
-      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.discarded', 'false')
-      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
-      failed_result = instance_double(Agents::RunResult, error: StandardError.new('temporary failure'))
-      run_complete_callback.call('assistant', failed_result, context_wrapper)
-
-      expect(service.response_discarded?).to be false
-    end
-
-    it 'marks a successful Copilot draft as not discarded and using one credit' do
-      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
-      service = described_class.new(
-        assistant: assistant,
-        conversation: conversation,
-        responding_to_message_id: responding_to_message.id,
-        stale_response_policy: :public_message
-      )
-      runner = instance_double(Agents::AgentRunner)
-      run_complete_callback = nil
-      span_class = Class.new do
-        def set_attribute(*); end
-      end
-      root_span = instance_double(span_class)
-      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
-
-      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
-      allow(runner).to receive(:on_tool_complete).and_return(runner)
-      allow(runner).to receive(:on_run_complete) do |&block|
-        run_complete_callback = block
-        runner
-      end
-
-      service.send(:add_usage_metadata_callback, runner)
-
-      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.discarded', 'false')
-      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'true')
-      successful_result = instance_double(Agents::RunResult, error: nil)
-      run_complete_callback.call('assistant', successful_result, context_wrapper)
-
-      expect(service.response_discarded?).to be false
     end
   end
 

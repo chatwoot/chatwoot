@@ -7,10 +7,9 @@ class Captain::Assistant::ResponseRewriter
   AGENT_NAME = 'captain_response_rewriter'.freeze
   INSTRUCTIONS = 'Shorten customer support responses without changing their meaning or adding information.'.freeze
 
-  def initialize(assistant:, attribute_provider:, trace_config:)
+  def initialize(assistant:, attribute_provider:)
     @assistant = assistant
     @attribute_provider = attribute_provider
-    @trace_config = trace_config
   end
 
   def rewrite(run_result, response_parts:, response_text_limit:)
@@ -81,11 +80,9 @@ class Captain::Assistant::ResponseRewriter
     Agents::Instrumentation.install(
       runner,
       tracer: OpentelemetryConfig.tracer,
-      trace_name: "#{@trace_config[:name]}.rewrite",
+      trace_name: 'llm.captain_v2.rewrite',
       span_attributes: {
-        ATTR_LANGFUSE_TAGS => (@trace_config[:tags] + ['channel_limit_rewrite']).to_json,
-        format(ATTR_LANGFUSE_METADATA, 'feature_name') => @trace_config[:feature_name],
-        format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'feature_name') => @trace_config[:feature_name],
+        ATTR_LANGFUSE_TAGS => %w[captain_v2 channel_limit_rewrite].to_json,
         format(ATTR_LANGFUSE_METADATA, 'credit_used') => 'false'
       },
       attribute_provider: @attribute_provider

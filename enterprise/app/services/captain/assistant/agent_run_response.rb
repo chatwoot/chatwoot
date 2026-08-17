@@ -31,8 +31,7 @@ module Captain::Assistant::AgentRunResponse
   def response_rewriter
     @response_rewriter ||= Captain::Assistant::ResponseRewriter.new(
       assistant: @assistant,
-      attribute_provider: Captain::Assistant::InstrumentationAttributeProvider.new(self),
-      trace_config: trace_config
+      attribute_provider: Captain::Assistant::InstrumentationAttributeProvider.new(self)
     )
   end
 

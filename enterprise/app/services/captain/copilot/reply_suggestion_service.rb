@@ -1,7 +1,10 @@
 class Captain::Copilot::ReplySuggestionService
   include Captain::Copilot::ConversationAccess
+  include Integrations::LlmInstrumentationConstants
 
   class GenerationError < StandardError; end
+
+  TRACE_NAME = 'llm.captain.copilot'.freeze
 
   def initialize(assistant:, conversation_id:, user_id:, copilot_thread_id:)
     @assistant = assistant
@@ -13,34 +16,26 @@ class Captain::Copilot::ReplySuggestionService
       user_id: user_id,
       assistant_id: assistant.id
     )
+    @discarded = false
+    @credit_used = false
   end
 
   def generate_response
     conversation = accessible_conversation(account: @account, user: @user, display_id: @conversation_id)
     raise ActiveRecord::RecordNotFound, 'Conversation not found' if conversation.blank?
 
+    existing_response = completed_response
+    return existing_response if existing_response
+
     target_message = latest_public_message(conversation)
-    return persist_discarded_response unless target_message&.incoming?
+    with_trace(conversation, target_message) do
+      next persist_discarded_response unless target_message&.incoming?
 
-    message_history = conversation_history(conversation)
+      response, runner = generate_reply(conversation)
+      raise GenerationError, response['reasoning'] if response['error']
 
-    runner = Captain::Assistant::AgentRunnerService.new(
-      assistant: @assistant,
-      conversation: conversation,
-      source: 'copilot_reply_suggestion',
-      read_only: true,
-      trace_feature: :copilot,
-      responding_to_message_id: target_message.id,
-      stale_response_policy: :public_message
-    )
-    response = runner.generate_response(message_history: message_history)
-    return persist_discarded_response if runner.response_discarded?
-
-    raise GenerationError, response['reasoning'] if response['error']
-
-    return persist_discarded_response if persist_response(response, runner, conversation, target_message) == :discarded
-
-    response
+      persist_response(response, runner, conversation, target_message)
+    end
   end
 
   private
@@ -49,6 +44,18 @@ class Captain::Copilot::ReplySuggestionService
     history = Captain::Conversation::MessageHistoryBuilderService.new(conversation: conversation).perform
     history.pop while history.last&.dig(:content) == Captain::Conversation::MessageHistoryBuilderService::RESOLUTION_MARKER
     history
+  end
+
+  def generate_reply(conversation)
+    runner = Captain::Assistant::AgentRunnerService.new(
+      assistant: @assistant,
+      conversation: conversation,
+      source: 'copilot_reply_suggestion',
+      execution_mode: :reply_suggestion
+    )
+    response = runner.generate_response(message_history: conversation_history(conversation))
+
+    [response, runner]
   end
 
   def latest_public_message(conversation)
@@ -65,39 +72,100 @@ class Captain::Copilot::ReplySuggestionService
     )
 
     @copilot_thread.with_lock do
-      return :discarded unless latest_public_message(conversation)&.id == target_message.id
-      return :persisted if @copilot_thread.copilot_messages.assistant.exists?
+      existing_message = @copilot_thread.copilot_messages.assistant.first
+      return response_from(existing_message) if existing_message
+      return create_discarded_response if latest_public_message(conversation)&.id != target_message.id
 
-      @copilot_thread.copilot_messages.create!(
-        message_type: :assistant,
-        message: {
-          content: content,
-          reasoning: response['reasoning'],
-          reply_suggestion: true
-        }.compact
-      )
-      @account.increment_response_usage
+      create_reply_suggestion(response, content)
     end
+  end
 
-    :persisted
+  def create_reply_suggestion(response, content)
+    @copilot_thread.copilot_messages.create!(
+      message_type: :assistant,
+      message: {
+        content: content,
+        reasoning: response['reasoning'],
+        reply_suggestion: true
+      }.compact
+    )
+    @account.increment_response_usage
+    @credit_used = true
+
+    response
   end
 
   def persist_discarded_response
     @copilot_thread.with_lock do
-      return discarded_response if @copilot_thread.copilot_messages.assistant.exists?
+      existing_message = @copilot_thread.copilot_messages.assistant.first
+      return response_from(existing_message) if existing_message
 
-      @copilot_thread.copilot_messages.create!(
-        message_type: :assistant,
-        message: { content: discarded_response['response'] }
-      )
+      create_discarded_response
     end
+  end
 
-    discarded_response
+  def create_discarded_response
+    @discarded = true
+    response = discarded_response
+    @copilot_thread.copilot_messages.create!(
+      message_type: :assistant,
+      message: { content: response['response'] }
+    )
+
+    response
+  end
+
+  def completed_response
+    message = @copilot_thread.copilot_messages.assistant.first
+    response_from(message) if message
+  end
+
+  def response_from(copilot_message)
+    @discarded = copilot_message.message['reply_suggestion'] != true
+
+    {
+      'response' => copilot_message.message['content'],
+      'discarded' => @discarded
+    }
+  end
+
+  def with_trace(conversation, target_message)
+    return yield unless ChatwootApp.otel_enabled?
+
+    OpentelemetryConfig.tracer.in_span(TRACE_NAME, attributes: trace_attributes(conversation, target_message)) do |span|
+      response = yield
+      span.set_attribute(ATTR_LANGFUSE_TRACE_OUTPUT, response.to_json)
+      response
+    ensure
+      write_final_trace_metadata(span)
+    end
+  end
+
+  def trace_attributes(conversation, target_message)
+    {
+      ATTR_LANGFUSE_USER_ID => @account.id.to_s,
+      ATTR_LANGFUSE_SESSION_ID => "#{@account.id}_#{conversation.display_id}",
+      ATTR_LANGFUSE_TAGS => ['copilot'].to_json,
+      format(ATTR_LANGFUSE_METADATA, 'assistant_id') => @assistant.id.to_s,
+      format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation.display_id.to_s,
+      format(ATTR_LANGFUSE_METADATA, 'source') => 'copilot_reply_suggestion',
+      format(ATTR_LANGFUSE_METADATA, 'feature_name') => 'copilot',
+      ATTR_LANGFUSE_TRACE_INPUT => { target_message_id: target_message&.id }.to_json
+    }
+  end
+
+  def write_final_trace_metadata(span)
+    span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'discarded'), @discarded.to_s)
+    span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), @credit_used.to_s)
+  end
+
+  def reply_locale
+    @user.ui_settings&.dig('locale').presence || @account.locale
   end
 
   def discarded_response
     {
-      'response' => I18n.t('captain.copilot.reply_suggestion_discarded', locale: @account.locale),
+      'response' => I18n.t('captain.copilot.reply_suggestion_discarded', locale: reply_locale),
       'discarded' => true
     }
   end

@@ -6,7 +6,7 @@ RSpec.describe Captain::Copilot::ResponseJob, type: :job do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:copilot_thread) { create(:captain_copilot_thread, account: account, user: user, assistant: assistant) }
   let(:conversation_id) { 123 }
-  let(:message) { 'Test message' }
+  let(:message) { { 'content' => 'Test message' } }
 
   describe '#perform' do
     let(:chat_service) { instance_double(Captain::Copilot::ChatService) }
@@ -40,42 +40,6 @@ RSpec.describe Captain::Copilot::ResponseJob, type: :job do
         copilot_thread_id: copilot_thread.id,
         message: message
       )
-    end
-
-    it 'routes reply suggestions through the Agent Runner service' do
-      reply_suggestion_service = instance_double(Captain::Copilot::ReplySuggestionService, generate_response: nil)
-      expect(Captain::Copilot::ReplySuggestionService).to receive(:new).with(
-        assistant: assistant,
-        user_id: user.id,
-        copilot_thread_id: copilot_thread.id,
-        conversation_id: conversation_id
-      ).and_return(reply_suggestion_service)
-      expect(Captain::Copilot::ChatService).not_to receive(:new)
-
-      described_class.perform_now(
-        assistant: assistant,
-        conversation_id: conversation_id,
-        user_id: user.id,
-        copilot_thread_id: copilot_thread.id,
-        message: message,
-        request_type: 'reply_suggestion'
-      )
-
-      expect(reply_suggestion_service).to have_received(:generate_response)
-    end
-
-    it 'keeps typed reply requests on the normal Copilot path' do
-      expect(Captain::Copilot::ReplySuggestionService).not_to receive(:new)
-
-      described_class.perform_now(
-        assistant: assistant,
-        conversation_id: conversation_id,
-        user_id: user.id,
-        copilot_thread_id: copilot_thread.id,
-        message: 'suggest a reply'
-      )
-
-      expect(chat_service).to have_received(:generate_response).with(nil)
     end
   end
 end

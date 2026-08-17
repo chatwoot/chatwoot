@@ -21,11 +21,11 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
     'An error occurred while executing the request'
   end
 
-  private
-
-  def safe_in_read_only_mode?
+  def available_in_reply_suggestion?
     @custom_tool.http_method == 'GET'
   end
+
+  private
 
   def safe_to_run_after_new_customer_message?
     @custom_tool.http_method == 'GET'

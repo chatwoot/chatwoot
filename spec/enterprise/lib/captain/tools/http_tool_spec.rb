@@ -21,13 +21,17 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
     end
   end
 
-  describe '#execute' do
-    it 'does not execute POST requests in read only mode' do
-      custom_tool.update!(http_method: 'POST', endpoint_url: 'https://example.com/orders')
-      tool_context.state[:read_only] = true
+  describe '#available_in_reply_suggestion?' do
+    it 'allows GET tools' do
+      custom_tool.update!(http_method: 'GET')
 
-      expect(tool.execute(tool_context)).to eq('Tool unavailable while drafting a reply')
-      expect(WebMock).not_to have_requested(:post, 'https://example.com/orders')
+      expect(tool.available_in_reply_suggestion?).to be true
+    end
+
+    it 'rejects POST tools' do
+      custom_tool.update!(http_method: 'POST')
+
+      expect(tool.available_in_reply_suggestion?).to be false
     end
   end
 

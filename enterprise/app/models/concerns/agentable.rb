@@ -14,8 +14,8 @@ module Concerns::Agentable
     )
   end
 
-  def agent_instructions(context = nil)
-    enhanced_context = prompt_context.merge(handoff_enabled: true)
+  def agent_instructions(context = nil, prompt_template: template_name)
+    enhanced_context = prompt_context
 
     if context
       state = context.context[:state] || {}
@@ -25,12 +25,11 @@ module Concerns::Agentable
         conversation: state[:conversation] || {},
         contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
         campaign: state[:campaign] || {},
-        message_length_limit: state[:message_length_limit],
-        handoff_enabled: state[:read_only] != true
+        message_length_limit: state[:message_length_limit]
       )
     end
 
-    Captain::PromptRenderer.render(template_name, enhanced_context.with_indifferent_access)
+    Captain::PromptRenderer.render(prompt_template, enhanced_context.with_indifferent_access)
   end
 
   def agent_model

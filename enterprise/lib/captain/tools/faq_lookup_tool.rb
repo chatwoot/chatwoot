@@ -20,10 +20,6 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
 
   private
 
-  def safe_in_read_only_mode?
-    true
-  end
-
   def safe_to_run_after_new_customer_message?
     true
   end

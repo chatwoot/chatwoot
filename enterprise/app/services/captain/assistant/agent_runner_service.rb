@@ -10,20 +10,17 @@ class Captain::Assistant::AgentRunnerService
 
   attr_reader :last_run_result
 
-  STALE_RESPONSE_POLICIES = %i[customer_message public_message].freeze
+  EXECUTION_MODES = %i[assistant reply_suggestion].freeze
 
   # rubocop:disable Metrics/ParameterLists
-  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil, read_only: false,
-                 trace_feature: :assistant, stale_response_policy: :customer_message)
+  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil, execution_mode: :assistant)
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
     @source = source
     @responding_to_message_id = responding_to_message_id
-    @read_only = read_only
-    @trace_feature = trace_feature
-    @stale_response_policy = stale_response_policy.to_sym
-    raise ArgumentError, "Invalid stale response policy: #{@stale_response_policy}" unless valid_stale_response_policy?
+    @execution_mode = execution_mode.to_sym
+    raise ArgumentError, "Invalid execution mode: #{@execution_mode}" unless EXECUTION_MODES.include?(@execution_mode)
 
     @handoff_tool_called = false
     @handoff_tool_completed = false
@@ -53,8 +50,6 @@ class Captain::Assistant::AgentRunnerService
   def handoff_completed? = @handoff_tool_completed == true
 
   private
-
-  def valid_stale_response_policy? = STALE_RESPONSE_POLICIES.include?(@stale_response_policy)
 
   def build_context(message_history)
     conversation_history = message_history.map do |msg|
@@ -111,8 +106,8 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def build_and_wire_agents
-    assistant_agent = agent_for_run(@assistant.agent)
-    scenario_agents = @assistant.scenarios.enabled.map { |scenario| agent_for_run(scenario.agent) }
+    assistant_agent = agent_for_run(@assistant, 'copilot_reply_suggestion')
+    scenario_agents = @assistant.scenarios.enabled.map { |scenario| agent_for_run(scenario, 'copilot_reply_suggestion_scenario') }
 
     assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
@@ -120,11 +115,23 @@ class Captain::Assistant::AgentRunnerService
     [assistant_agent] + scenario_agents
   end
 
-  def agent_for_run(agent)
-    return agent unless @read_only
+  def agent_for_run(agentable, reply_suggestion_template)
+    agent = agentable.agent
+    return agent unless reply_suggestion?
 
-    agent.clone(tools: agent.tools.reject { |tool| tool.is_a?(Captain::Tools::HandoffTool) })
+    agent.clone(
+      instructions: ->(context) { agentable.agent_instructions(context, prompt_template: reply_suggestion_template) },
+      tools: agent.tools.select { |tool| available_in_reply_suggestion?(tool) }
+    )
   end
+
+  def available_in_reply_suggestion?(tool)
+    return true if tool.is_a?(Captain::Tools::FaqLookupTool)
+
+    tool.is_a?(Captain::Tools::HttpTool) && tool.available_in_reply_suggestion?
+  end
+
+  def reply_suggestion? = @execution_mode == :reply_suggestion
 
   def runner
     @runner ||= begin
