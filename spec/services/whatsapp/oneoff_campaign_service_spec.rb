@@ -285,6 +285,36 @@ describe Whatsapp::OneoffCampaignService do
 
         described_class.new(campaign: campaign).perform
       end
+
+      # A campaign walks its recipients one at a time, so reading the identifier per contact would
+      # cost one round trip each on a queue that is already low priority.
+      def count_contact_inbox_queries
+        count = 0
+        counter = ->(_name, _start, _finish, _id, payload) { count += 1 if payload[:sql].to_s.include?('FROM "contact_inboxes"') }
+        ActiveSupport::Notifications.subscribed(counter, 'sql.active_record') { yield }
+        count
+      end
+
+      it 'reads the identifiers for the whole audience in a single query' do
+        3.times do |index|
+          contact = contact_in_audience
+          create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: "BR.bulk#{index}")
+        end
+        allow(whatsapp_channel).to receive(:send_template)
+
+        queries = count_contact_inbox_queries { described_class.new(campaign: campaign).perform }
+
+        expect(queries).to eq(1)
+      end
+
+      it 'reads no identifier at all when every contact has a phone number' do
+        3.times { |index| contact_in_audience(phone_number: "+5551999999#{index}9") }
+        allow(whatsapp_channel).to receive(:send_template)
+
+        queries = count_contact_inbox_queries { described_class.new(campaign: campaign).perform }
+
+        expect(queries).to eq(0)
+      end
     end
 
     context 'when template_params is missing' do
