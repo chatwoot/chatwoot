@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 require 'json'
+require 'fileutils'
 require 'minitest/autorun'
 require 'open3'
 require 'tmpdir'
 require_relative '../bootstrap/lib/channel_readiness'
 
+# This integration-style Minitest contract keeps complete manifests and wrapper assertions together for auditability.
+# rubocop:disable Metrics/AbcSize, Metrics/ClassLength, Metrics/MethodLength
 class ChannelReadinessSpec < Minitest::Test
   TENANTS = [
     { 'key' => 'saas', 'accountId' => 10 },
@@ -21,6 +24,7 @@ class ChannelReadinessSpec < Minitest::Test
     assert_equal 'blocked', report.fetch('status')
     assert_equal 'declarative', report.fetch('assessment')
     assert report.fetch('dry_run')
+    assert_equal %w[saas new_academy legacy_academy], (report.fetch('tenants').map { |tenant| tenant.fetch('key') })
     assert_equal %w[email instagram whatsapp], report.fetch('tenants').first.fetch('channels').keys
     assert_equal(%w[planned planned planned],
                  report.fetch('tenants').first.fetch('channels').values.map { |channel| channel.fetch('human_status') })
@@ -29,7 +33,7 @@ class ChannelReadinessSpec < Minitest::Test
     assert report.fetch('tenants').first.fetch('channels').values.all? do |channel|
       channel.fetch('reasons').include?('runtime_verification_required')
     end
-    assert_includes json, 'SaaS Support'
+    assert_includes json, 'saas Support'
     sensitive_values(env).each { |value| refute_includes json, value }
   end
 
@@ -49,16 +53,14 @@ class ChannelReadinessSpec < Minitest::Test
   def test_blocks_duplicate_identities_across_tenants
     env = complete_env
     config = JSON.parse(env.fetch('CHANNEL_READINESS_CONFIG_JSON'))
-    duplicate = Marshal.load(Marshal.dump(config.first))
-    duplicate['key'] = 'new_academy'
-    duplicate['account_id'] = '20'
-    duplicate['email']['name'] = 'Academy Email'
-    duplicate['instagram']['name'] = 'Academy Instagram'
-    duplicate['whatsapp']['name'] = 'Academy WhatsApp'
-    %w[email instagram whatsapp].each { |channel| duplicate[channel]['inbox_account_id'] = '20' }
-    duplicate['whatsapp']['cutover_confirmation'] = 'cutover-whatsapp:new_academy:+491234567890'
-    config << duplicate
-    env['TENANTS_JSON'] = JSON.generate(TENANTS.first(2))
+    config[1]['email']['mailbox'] = config[0]['email']['mailbox']
+    %w[business_id page_id account_id].each do |field|
+      config[1]['instagram'][field] = config[0]['instagram'][field]
+    end
+    %w[phone_number waba_id phone_number_id].each do |field|
+      config[1]['whatsapp'][field] = config[0]['whatsapp'][field]
+    end
+    config[1]['whatsapp']['cutover_confirmation'] = "cutover-whatsapp:new_academy:#{config[0]['whatsapp']['phone_number']}"
     env['CHANNEL_READINESS_CONFIG_JSON'] = JSON.generate(config)
 
     report = Myinvest::ChannelReadiness::Builder.new(env).call
@@ -70,7 +72,7 @@ class ChannelReadinessSpec < Minitest::Test
 
   def test_blocks_missing_credentials_permissions_and_cutover_confirmation
     env = complete_env.merge(
-      'GOOGLE_OAUTH_CLIENT_SECRET' => '',
+      'GOOGLE_OAUTH_CONFIGURED' => '',
       'CHANNEL_READINESS_IG_TOKEN' => '',
       'CHANNEL_READINESS_WA_SECRET' => '',
       'HUBSPOT_CUTOVER_CONFIRMED' => 'false'
@@ -86,7 +88,7 @@ class ChannelReadinessSpec < Minitest::Test
 
   def test_blocks_unencrypted_credentials_incomplete_rosters_and_unverified_providers
     env = complete_env
-    env['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY'] = ''
+    env['CHANNEL_READINESS_ENCRYPTION_CONFIGURED'] = ''
     config = JSON.parse(env.fetch('CHANNEL_READINESS_CONFIG_JSON'))
     config.first['email']['human_inbox_member_ids'] = ['7']
     config.first['instagram']['callback_verified'] = false
@@ -141,7 +143,20 @@ class ChannelReadinessSpec < Minitest::Test
       Myinvest::ChannelReadiness::Builder.new(env).credential_env_names
     end
 
+    env = complete_env
+    config = JSON.parse(env.fetch('CHANNEL_READINESS_CONFIG_JSON'))
+    config.first['instagram']['access_token_env'] = 'CHANNEL_READINESS_ENCRYPTION_CONFIGURED'
+    env['CHANNEL_READINESS_CONFIG_JSON'] = JSON.generate(config)
+    assert_raises(Myinvest::ChannelReadiness::ManifestError) do
+      Myinvest::ChannelReadiness::Builder.new(env).credential_env_names
+    end
+
     env = complete_env.merge('POSTGRES_ADMIN_PASSWORD' => 'must-not-enter-container')
+    assert_raises(Myinvest::ChannelReadiness::ManifestError) do
+      Myinvest::ChannelReadiness::Builder.new(env).credential_env_names
+    end
+
+    env = complete_env.merge('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY' => 'must-not-enter-container')
     assert_raises(Myinvest::ChannelReadiness::ManifestError) do
       Myinvest::ChannelReadiness::Builder.new(env).credential_env_names
     end
@@ -161,16 +176,46 @@ class ChannelReadinessSpec < Minitest::Test
     end
   end
 
-  def test_omitted_duplicate_and_nonexistent_tenant_mappings_block_the_whole_assessment
+  def test_rejects_one_two_and_extra_tenant_even_when_both_manifests_match
     base_env = complete_env
     base_config = JSON.parse(base_env.fetch('CHANNEL_READINESS_CONFIG_JSON'))
+    extra_tenant = { 'key' => 'extra_academy', 'accountId' => 40 }
+    extra_config = Marshal.load(Marshal.dump(base_config.first))
+    extra_config['key'] = 'extra_academy'
+    extra_config['account_id'] = '40'
     cases = [
-      [TENANTS.first(2), base_config],
-      [TENANTS.first(1), base_config + [Marshal.load(Marshal.dump(base_config.first))]],
-      [TENANTS.first(1), [base_config.first.merge('key' => 'nonexistent')]]
+      [TENANTS.first(1), base_config.first(1)],
+      [TENANTS.first(2), base_config.first(2)],
+      [TENANTS + [extra_tenant], base_config + [extra_config]]
     ]
 
     cases.each do |canonical, configured|
+      env = base_env.merge('TENANTS_JSON' => JSON.generate(canonical),
+                           'CHANNEL_READINESS_CONFIG_JSON' => JSON.generate(configured))
+      report = Myinvest::ChannelReadiness::Builder.new(env).call
+
+      assert_equal 'blocked', report.fetch('status')
+      assert_equal ['tenant_mapping_invalid'], report.fetch('reasons')
+      assert_empty report.fetch('tenants')
+    end
+  end
+
+  def test_rejects_duplicate_tenant_keys_and_account_ids_in_either_manifest
+    base_env = complete_env
+    base_config = JSON.parse(base_env.fetch('CHANNEL_READINESS_CONFIG_JSON'))
+    canonical_duplicate_key = Marshal.load(Marshal.dump(TENANTS))
+    canonical_duplicate_key[2]['key'] = 'saas'
+    configured_duplicate_key = Marshal.load(Marshal.dump(base_config))
+    configured_duplicate_key[2]['key'] = 'saas'
+    canonical_duplicate_account = Marshal.load(Marshal.dump(TENANTS))
+    canonical_duplicate_account[2]['accountId'] = 10
+    configured_duplicate_account = Marshal.load(Marshal.dump(base_config))
+    configured_duplicate_account[2]['account_id'] = '10'
+
+    [
+      [canonical_duplicate_key, base_config], [TENANTS, configured_duplicate_key],
+      [canonical_duplicate_account, base_config], [TENANTS, configured_duplicate_account]
+    ].each do |canonical, configured|
       env = base_env.merge('TENANTS_JSON' => JSON.generate(canonical),
                            'CHANNEL_READINESS_CONFIG_JSON' => JSON.generate(configured))
       report = Myinvest::ChannelReadiness::Builder.new(env).call
@@ -218,7 +263,7 @@ class ChannelReadinessSpec < Minitest::Test
         BACKUP_GPG_RECIPIENT=backup-secret
         CLAUDE_AGENT_DATABASE_PASSWORD=agent-db-secret
       ENV
-      File.write(fake_docker, <<~'SH')
+      File.write(fake_docker, <<~SH)
         #!/usr/bin/env sh
         set -eu
         arguments="$*"
@@ -227,7 +272,7 @@ class ChannelReadinessSpec < Minitest::Test
           *) exit 1 ;;
         esac
         for secret_value in dynamic-instagram-secret readiness-primary-key readiness-deterministic-key \
-          readiness-key-derivation-salt readiness-google-secret unreferenced-readiness-secret; do
+          readiness-key-derivation-salt readiness-google-client readiness-google-secret unreferenced-readiness-secret; do
           case "$arguments" in
             *"$secret_value"*) exit 1 ;;
           esac
@@ -250,25 +295,28 @@ class ChannelReadinessSpec < Minitest::Test
         [ "$selected_env" != "$ENV_FILE" ]
         [ "$(stat -c %a "$selected_env")" = 600 ]
         for forbidden in ADMIN_PASSWORD POSTGRES_ADMIN_PASSWORD MINIO_ROOT_PASSWORD ANTHROPIC_API_KEY \
-          AWS_SECRET_ACCESS_KEY BACKUP_GPG_RECIPIENT CLAUDE_AGENT_DATABASE_PASSWORD; do
+          AWS_SECRET_ACCESS_KEY BACKUP_GPG_RECIPIENT CLAUDE_AGENT_DATABASE_PASSWORD \
+          ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY \
+          ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT GOOGLE_OAUTH_CLIENT_ID GOOGLE_OAUTH_CLIENT_SECRET; do
           ! grep -q "^$forbidden=" "$selected_env"
+        done
+        for secret_value in dynamic-instagram-secret readiness-primary-key readiness-deterministic-key \
+          readiness-key-derivation-salt readiness-google-client readiness-google-secret unreferenced-readiness-secret; do
+          ! grep -Fq "$secret_value" "$selected_env"
         done
         ! grep -q '^CHANNEL_READINESS_UNUSED_TOKEN=' "$selected_env"
         if [ "$count" -eq 1 ]; then
           grep -q '^TENANTS_JSON=' "$selected_env"
           grep -q '^CHANNEL_READINESS_CONFIG_JSON=' "$selected_env"
-          ! grep -q '^GOOGLE_OAUTH_CLIENT_SECRET=' "$selected_env"
-          ! grep -q '^ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=' "$selected_env"
+          ! grep -q '^CHANNEL_READINESS_ENCRYPTION_CONFIGURED=' "$selected_env"
+          ! grep -q '^GOOGLE_OAUTH_CONFIGURED=' "$selected_env"
           ! grep -q '^HUBSPOT_CUTOVER_CONFIRMED=' "$selected_env"
           printf '%s\n' CHANNEL_READINESS_IG_TOKEN > "$work_dir/credential-env-names"
           chmod 600 "$work_dir/credential-env-names"
         else
-          grep -q '^CHANNEL_READINESS_IG_TOKEN=dynamic-instagram-secret$' "$selected_env"
-          grep -q '^GOOGLE_OAUTH_CLIENT_ID=' "$selected_env"
-          grep -q '^GOOGLE_OAUTH_CLIENT_SECRET=' "$selected_env"
-          grep -q '^ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=' "$selected_env"
-          grep -q '^ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=' "$selected_env"
-          grep -q '^ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT=' "$selected_env"
+          grep -q '^CHANNEL_READINESS_IG_TOKEN=true$' "$selected_env"
+          grep -q '^CHANNEL_READINESS_ENCRYPTION_CONFIGURED=true$' "$selected_env"
+          grep -q '^GOOGLE_OAUTH_CONFIGURED=true$' "$selected_env"
           grep -q '^HUBSPOT_CUTOVER_CONFIRMED=true$' "$selected_env"
           printf '%s\n' '{"version":1,"dry_run":true,"status":"blocked","tenants":[]}'
         fi
@@ -287,7 +335,7 @@ class ChannelReadinessSpec < Minitest::Test
       assert_equal({ 'version' => 1, 'dry_run' => true, 'status' => 'blocked', 'tenants' => [] }, JSON.parse(stdout))
       %w[
         dynamic-instagram-secret readiness-primary-key readiness-deterministic-key
-        readiness-key-derivation-salt readiness-google-secret unreferenced-readiness-secret
+        readiness-key-derivation-salt readiness-google-client readiness-google-secret unreferenced-readiness-secret
       ].each do |secret|
         refute_includes stdout, secret
         refute_includes stderr, secret
@@ -296,59 +344,105 @@ class ChannelReadinessSpec < Minitest::Test
     end
   end
 
+  def test_executable_fails_closed_before_starting_a_container_for_invalid_secret_assignments
+    Dir.mktmpdir do |directory|
+      env_path = File.join(directory, '.env')
+      fake_docker = File.join(directory, 'docker')
+      invoked = File.join(directory, 'docker-invoked')
+      valid_env = <<~ENV
+        TENANTS_JSON='[{"key":"saas","accountId":10},{"key":"new_academy","accountId":20},{"key":"legacy_academy","accountId":30}]'
+        CHANNEL_READINESS_CONFIG_JSON='[]'
+        ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=readiness-primary-key
+        ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=readiness-deterministic-key
+        ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT=readiness-key-derivation-salt
+        GOOGLE_OAUTH_CLIENT_ID=readiness-google-client
+        GOOGLE_OAUTH_CLIENT_SECRET=readiness-google-secret
+      ENV
+      File.write(fake_docker, <<~SH)
+        #!/usr/bin/env sh
+        : > "$FAKE_DOCKER_INVOKED"
+        exit 99
+      SH
+      File.chmod(0o755, fake_docker)
+      invalid_envs = [
+        valid_env.sub('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=readiness-primary-key', 'ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY='),
+        "#{valid_env}ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=duplicate\n",
+        valid_env.sub("GOOGLE_OAUTH_CLIENT_SECRET=readiness-google-secret\n", ''),
+        "#{valid_env}GOOGLE_OAUTH_CLIENT_SECRET=duplicate\n"
+      ]
+      script = File.expand_path('../scripts/channel-readiness.rb', __dir__)
+
+      invalid_envs.each do |invalid_env|
+        File.write(env_path, invalid_env)
+        FileUtils.rm_f(invoked)
+        stdout, stderr, status = Open3.capture3(
+          {
+            'PATH' => "#{directory}:#{ENV.fetch('PATH')}", 'ENV_FILE' => env_path,
+            'FAKE_DOCKER_INVOKED' => invoked, 'TMPDIR' => directory
+          }, script
+        )
+
+        refute status.success?
+        assert_empty stdout
+        assert_equal "Channel readiness environment is invalid.\n", stderr
+        refute File.exist?(invoked)
+      end
+    end
+  end
+
   private
 
   def complete_env
-    config = [{
-      'key' => 'saas',
-      'account_id' => '10',
-      'email' => {
-        'name' => 'SaaS Support', 'mailbox' => 'support@example.invalid', 'dedicated_shared_mailbox_confirmed' => true,
-        'inbox_account_id' => '10', 'human_inbox_member_ids' => %w[7 8], 'expected_human_inbox_member_ids' => %w[7 8],
-        'provider_health' => 'ready', 'callback_verified' => true, 'bot_attached' => false,
-        'auto_reply_evaluation_approved' => true
-      },
-      'instagram' => {
-        'name' => 'SaaS Instagram', 'business_id' => '111', 'page_id' => '222', 'account_id' => '333',
-        'access_token_env' => 'CHANNEL_READINESS_IG_TOKEN',
-        'permissions' => %w[instagram_manage_messages pages_manage_metadata pages_show_list],
-        'inbox_account_id' => '10', 'human_inbox_member_ids' => %w[7 8], 'expected_human_inbox_member_ids' => %w[7 8],
-        'provider_health' => 'ready', 'callback_verified' => true, 'bot_attached' => false,
-        'auto_reply_evaluation_approved' => true
-      },
-      'whatsapp' => {
-        'name' => 'SaaS WhatsApp', 'phone_number' => '+491234567890', 'waba_id' => '444', 'phone_number_id' => '555',
-        'access_token_env' => 'CHANNEL_READINESS_WA_TOKEN', 'app_secret_env' => 'CHANNEL_READINESS_WA_SECRET',
-        'hubspot_owner' => 'HubSpot Support',
-        'hubspot_channel_account_id' => '666', 'cutover_confirmation' => 'cutover-whatsapp:saas:+491234567890',
-        'inbox_account_id' => '10', 'human_inbox_member_ids' => %w[7 8], 'expected_human_inbox_member_ids' => %w[7 8],
-        'provider_health' => 'ready', 'callback_verified' => true, 'bot_attached' => false,
-        'auto_reply_evaluation_approved' => true
+    config = TENANTS.each_with_index.map do |tenant, index|
+      key = tenant.fetch('key')
+      account_id = tenant.fetch('accountId').to_s
+      phone_number = "+49123456789#{index}"
+      common = {
+        'inbox_account_id' => account_id, 'human_inbox_member_ids' => %w[7 8],
+        'expected_human_inbox_member_ids' => %w[7 8], 'provider_health' => 'ready',
+        'callback_verified' => true, 'bot_attached' => false, 'auto_reply_evaluation_approved' => true
       }
-    }]
+      {
+        'key' => key, 'account_id' => account_id,
+        'email' => common.merge(
+          'name' => "#{key} Support", 'mailbox' => "support-#{key}@example.invalid",
+          'dedicated_shared_mailbox_confirmed' => true
+        ),
+        'instagram' => common.merge(
+          'name' => "#{key} Instagram", 'business_id' => (111 + index).to_s, 'page_id' => (222 + index).to_s,
+          'account_id' => (333 + index).to_s, 'access_token_env' => 'CHANNEL_READINESS_IG_TOKEN',
+          'permissions' => %w[instagram_manage_messages pages_manage_metadata pages_show_list]
+        ),
+        'whatsapp' => common.merge(
+          'name' => "#{key} WhatsApp", 'phone_number' => phone_number, 'waba_id' => (444 + index).to_s,
+          'phone_number_id' => (555 + index).to_s, 'access_token_env' => 'CHANNEL_READINESS_WA_TOKEN',
+          'app_secret_env' => 'CHANNEL_READINESS_WA_SECRET', 'hubspot_owner' => "#{key} HubSpot Support",
+          'hubspot_channel_account_id' => (666 + index).to_s,
+          'cutover_confirmation' => "cutover-whatsapp:#{key}:#{phone_number}"
+        )
+      }
+    end
     {
-      'TENANTS_JSON' => JSON.generate(TENANTS.first(1)),
+      'TENANTS_JSON' => JSON.generate(TENANTS),
       'CHANNEL_READINESS_CONFIG_JSON' => JSON.generate(config),
-      'GOOGLE_OAUTH_CLIENT_ID' => 'google-client-id',
-      'GOOGLE_OAUTH_CLIENT_SECRET' => 'google-client-secret',
-      'ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY' => 'primary-encryption-key',
-      'ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY' => 'deterministic-encryption-key',
-      'ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT' => 'encryption-salt',
-      'CHANNEL_READINESS_IG_TOKEN' => 'instagram-access-token',
-      'CHANNEL_READINESS_WA_TOKEN' => 'whatsapp-access-token',
-      'CHANNEL_READINESS_WA_SECRET' => 'whatsapp-app-secret',
+      'GOOGLE_OAUTH_CONFIGURED' => 'true',
+      'CHANNEL_READINESS_ENCRYPTION_CONFIGURED' => 'true',
+      'CHANNEL_READINESS_IG_TOKEN' => 'true',
+      'CHANNEL_READINESS_WA_TOKEN' => 'true',
+      'CHANNEL_READINESS_WA_SECRET' => 'true',
       'HUBSPOT_CUTOVER_CONFIRMED' => 'true'
     }
   end
 
   def sensitive_values(env)
-    config = JSON.parse(env.fetch('CHANNEL_READINESS_CONFIG_JSON')).first
-    [
-      config.dig('email', 'mailbox'), config.dig('instagram', 'business_id'), config.dig('instagram', 'page_id'),
-      config.dig('instagram', 'account_id'), config.dig('whatsapp', 'phone_number'), config.dig('whatsapp', 'waba_id'),
-      config.dig('whatsapp', 'phone_number_id'), config.dig('whatsapp', 'hubspot_owner'),
-      config.dig('whatsapp', 'hubspot_channel_account_id'), env['GOOGLE_OAUTH_CLIENT_ID'], env['GOOGLE_OAUTH_CLIENT_SECRET'],
-      env['CHANNEL_READINESS_IG_TOKEN'], env['CHANNEL_READINESS_WA_TOKEN'], env['CHANNEL_READINESS_WA_SECRET']
-    ]
+    JSON.parse(env.fetch('CHANNEL_READINESS_CONFIG_JSON')).flat_map do |config|
+      [
+        config.dig('email', 'mailbox'), config.dig('instagram', 'business_id'), config.dig('instagram', 'page_id'),
+        config.dig('instagram', 'account_id'), config.dig('whatsapp', 'phone_number'), config.dig('whatsapp', 'waba_id'),
+        config.dig('whatsapp', 'phone_number_id'), config.dig('whatsapp', 'hubspot_owner'),
+        config.dig('whatsapp', 'hubspot_channel_account_id')
+      ]
+    end
   end
 end
+# rubocop:enable Metrics/AbcSize, Metrics/ClassLength, Metrics/MethodLength

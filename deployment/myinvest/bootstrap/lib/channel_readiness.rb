@@ -7,12 +7,29 @@ require_relative 'whatsapp_cutover'
 module Myinvest::ChannelReadiness
   class ManifestError < StandardError; end
 
+  # This standalone validator keeps the fail-closed manifest contract explicit and auditable in one place.
+  # rubocop:disable Metrics/AbcSize, Metrics/ClassLength, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/ParameterLists, Metrics/PerceivedComplexity
   class Builder
     CHANNELS = %w[email instagram whatsapp].freeze
+    TENANT_KEYS = %w[saas new_academy legacy_academy].freeze
     INSTAGRAM_PERMISSIONS = %w[instagram_manage_messages pages_manage_metadata pages_show_list].freeze
+    INSTAGRAM_IDENTITY_FIELDS = %w[business_id page_id account_id].freeze
+    WHATSAPP_IDENTITY_FIELDS = %w[phone_number waba_id phone_number_id].freeze
     DECIMAL_ID_REGEX = Myinvest::WhatsappCutover::HubspotChannelChecker::DECIMAL_ID_REGEX
     E164_REGEX = Myinvest::WhatsappCutover::Service::E164_REGEX
-    CREDENTIAL_ENV_REGEX = /\ACHANNEL_READINESS_[A-Z0-9_]+\z/.freeze
+    CREDENTIAL_ENV_REGEX = /\ACHANNEL_READINESS_[A-Z0-9_]+\z/
+    ENCRYPTION_CONFIGURED_MARKER = 'CHANNEL_READINESS_ENCRYPTION_CONFIGURED'
+    GOOGLE_OAUTH_CONFIGURED_MARKER = 'GOOGLE_OAUTH_CONFIGURED'
+    RESERVED_READINESS_ENV_NAMES = [
+      'CHANNEL_READINESS_CONFIG_JSON', ENCRYPTION_CONFIGURED_MARKER, GOOGLE_OAUTH_CONFIGURED_MARKER
+    ].freeze
+    FORBIDDEN_SECRET_ENV_NAMES = %w[
+      ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+      ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+      ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
+      GOOGLE_OAUTH_CLIENT_ID
+      GOOGLE_OAUTH_CLIENT_SECRET
+    ].freeze
     FORBIDDEN_ENV_PREFIXES = %w[
       POSTGRES_ADMIN_ MINIO_ROOT_ ADMIN_ ANTHROPIC_ AWS_ BACKUP_ CLAUDE_AGENT_DATABASE
     ].freeze
@@ -26,7 +43,6 @@ module Myinvest::ChannelReadiness
       configured_tenants = parse_array(env.fetch('CHANNEL_READINESS_CONFIG_JSON'))
       return invalid_configuration_report if configured_tenants.empty?
 
-      @configured_tenants = configured_tenants
       return invalid_configuration_report('tenant_mapping_invalid') unless exact_tenant_set?(canonical_tenants, configured_tenants)
 
       credential_env_names
@@ -43,7 +59,7 @@ module Myinvest::ChannelReadiness
     end
 
     def credential_env_names
-      raise ManifestError if env.keys.any? { |key| FORBIDDEN_ENV_PREFIXES.any? { |prefix| key.to_s.start_with?(prefix) } }
+      raise ManifestError if forbidden_environment?
 
       canonical_tenants = parse_array(env.fetch('TENANTS_JSON'))
       configured_tenants = parse_array(env.fetch('CHANNEL_READINESS_CONFIG_JSON'))
@@ -54,7 +70,7 @@ module Myinvest::ChannelReadiness
         [tenant.dig('instagram', 'access_token_env'), tenant.dig('whatsapp', 'access_token_env'),
          tenant.dig('whatsapp', 'app_secret_env')]
       end
-      raise ManifestError unless names.all? { |name| name.is_a?(String) && name.match?(CREDENTIAL_ENV_REGEX) }
+      raise ManifestError unless names.all? { |name| valid_credential_env_name?(name) }
 
       names.uniq.sort
     rescue KeyError, JSON::ParserError, TypeError
@@ -67,7 +83,7 @@ module Myinvest::ChannelReadiness
 
     def parse_array(value)
       parsed = JSON.parse(value)
-      raise TypeError unless parsed.is_a?(Array) && parsed.all? { |item| item.is_a?(Hash) }
+      raise TypeError unless parsed.is_a?(Array) && parsed.all?(Hash)
 
       parsed
     end
@@ -75,8 +91,9 @@ module Myinvest::ChannelReadiness
     def build_tenant(tenant, canonical_tenants, duplicate_identities)
       key = tenant['key'].is_a?(String) ? tenant['key'] : ''
       mapping_valid = canonical_mapping_valid?(tenant, canonical_tenants)
-      channels = CHANNELS.to_h do |channel|
-        [channel, build_channel(channel, tenant[channel], tenant['account_id'], key, mapping_valid, duplicate_identities)]
+      channels = {}
+      CHANNELS.each do |channel|
+        channels[channel] = build_channel(channel, tenant[channel], tenant['account_id'], key, mapping_valid, duplicate_identities)
       end
       reasons = mapping_valid ? history_inbox_reasons(tenant['history_inbox'], tenant['account_id']) : ['tenant_mapping_invalid']
       {
@@ -90,26 +107,27 @@ module Myinvest::ChannelReadiness
     def canonical_mapping_valid?(tenant, canonical_tenants)
       return false unless tenant['key'].is_a?(String)
 
-      matches = canonical_tenants.select { |canonical| canonical['key'] == tenant['key'] }
-      account_id = tenant['account_id'].to_s
-      matches.one? && account_id == matches.first['accountId'].to_s &&
-        canonical_tenants.count { |canonical| canonical['accountId'].to_s == account_id } == 1 &&
-        @configured_tenants.count { |configured| configured['key'] == tenant['key'] } == 1 &&
-        @configured_tenants.count { |configured| configured['account_id'].to_s == account_id } == 1
+      canonical = canonical_tenants.find { |candidate| candidate['key'] == tenant['key'] }
+      canonical && tenant['account_id'].to_s == canonical['accountId'].to_s
     end
 
     def exact_tenant_set?(canonical_tenants, configured_tenants)
-      canonical_valid = canonical_tenants.all? do |tenant|
-        tenant['key'].is_a?(String) && !tenant['key'].empty? && tenant['accountId'].to_s.match?(DECIMAL_ID_REGEX)
-      end
-      configured_valid = configured_tenants.all? do |tenant|
-        tenant['key'].is_a?(String) && !tenant['key'].empty? && tenant['account_id'].to_s.match?(DECIMAL_ID_REGEX)
-      end
-      return false unless canonical_valid && configured_valid
+      canonical = tenant_pairs(canonical_tenants, 'accountId')
+      configured = tenant_pairs(configured_tenants, 'account_id')
+      canonical && configured && canonical == configured
+    end
 
-      canonical = canonical_tenants.map { |tenant| [tenant['key'], tenant['accountId'].to_s] }
-      configured = configured_tenants.map { |tenant| [tenant['key'], tenant['account_id'].to_s] }
-      canonical.length == canonical.uniq.length && configured.length == configured.uniq.length && canonical.sort == configured.sort
+    def tenant_pairs(tenants, account_id_key)
+      return unless tenants.length == TENANT_KEYS.length
+      return unless tenants.all? do |tenant|
+        tenant['key'].is_a?(String) && tenant[account_id_key].to_s.match?(DECIMAL_ID_REGEX)
+      end
+
+      pairs = tenants.map { |tenant| [tenant['key'], tenant[account_id_key].to_s] }
+      return unless pairs.map(&:first).sort == TENANT_KEYS.sort
+      return unless pairs.map(&:last).uniq.length == TENANT_KEYS.length
+
+      pairs.sort
     end
 
     def valid_tenant_manifest?(tenant)
@@ -124,15 +142,15 @@ module Myinvest::ChannelReadiness
       email_valid = allowed_keys?(email, common_keys + %w[mailbox dedicated_shared_mailbox_confirmed]) &&
                     email['mailbox'].is_a?(String) && boolean?(email['dedicated_shared_mailbox_confirmed'])
       instagram_valid = allowed_keys?(instagram, common_keys + %w[business_id page_id account_id access_token_env permissions]) &&
-        %w[business_id page_id account_id access_token_env].all? { |field| instagram[field].is_a?(String) } &&
-        instagram['permissions'].is_a?(Array) && instagram['permissions'].all?(String)
+                        %w[business_id page_id account_id access_token_env].all? { |field| instagram[field].is_a?(String) } &&
+                        instagram['permissions'].is_a?(Array) && instagram['permissions'].all?(String)
       whatsapp_valid = allowed_keys?(
         whatsapp,
         common_keys + %w[phone_number waba_id phone_number_id access_token_env app_secret_env hubspot_owner
                          hubspot_channel_account_id cutover_confirmation]
       ) &&
-        %w[phone_number waba_id phone_number_id access_token_env app_secret_env hubspot_owner
-           hubspot_channel_account_id cutover_confirmation].all? { |field| whatsapp[field].is_a?(String) }
+                       %w[phone_number waba_id phone_number_id access_token_env app_secret_env hubspot_owner
+                          hubspot_channel_account_id cutover_confirmation].all? { |field| whatsapp[field].is_a?(String) }
       email_valid && instagram_valid && whatsapp_valid && valid_history_manifest?(tenant['history_inbox'])
     end
 
@@ -192,11 +210,7 @@ module Myinvest::ChannelReadiness
     end
 
     def encryption_configured?
-      %w[
-        ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
-        ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
-        ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
-      ].all? { |key| present?(env[key]) }
+      env[ENCRYPTION_CONFIGURED_MARKER] == 'true'
     end
 
     def exact_human_roster?(config)
@@ -210,7 +224,7 @@ module Myinvest::ChannelReadiness
       return ['history_inbox_not_inert'] unless config.is_a?(Hash)
 
       inert = config['inbox_account_id'].to_s == tenant_account_id.to_s && exact_human_roster?(config) &&
-              config['callback_count'] == 0 && config['hook_count'] == 0 && config['bot_attached'] == false &&
+              config['callback_count'].zero? && config['hook_count'].zero? && config['bot_attached'] == false &&
               config['auto_assignment_enabled'] == false
       inert ? [] : ['history_inbox_not_inert']
     end
@@ -219,7 +233,7 @@ module Myinvest::ChannelReadiness
       reasons = []
       reasons << 'mailbox_missing' unless present?(config['mailbox'])
       reasons << 'shared_mailbox_unconfirmed' unless config['dedicated_shared_mailbox_confirmed'] == true
-      reasons << 'oauth_config_missing' unless present?(env['GOOGLE_OAUTH_CLIENT_ID']) && present?(env['GOOGLE_OAUTH_CLIENT_SECRET'])
+      reasons << 'oauth_config_missing' unless env[GOOGLE_OAUTH_CONFIGURED_MARKER] == 'true'
       reasons
     end
 
@@ -270,8 +284,8 @@ module Myinvest::ChannelReadiness
         whatsapp = channel_config(tenant, 'whatsapp')
         mailbox = email['mailbox']
         add_identity(occurrences, 'email', mailbox.downcase, tenant_key) if mailbox.is_a?(String)
-        %w[business_id page_id account_id].each { |field| add_identity(occurrences, 'instagram', instagram[field], tenant_key) }
-        %w[phone_number waba_id phone_number_id].each { |field| add_identity(occurrences, 'whatsapp', whatsapp[field], tenant_key) }
+        INSTAGRAM_IDENTITY_FIELDS.each { |field| add_identity(occurrences, 'instagram', instagram[field], tenant_key) }
+        WHATSAPP_IDENTITY_FIELDS.each { |field| add_identity(occurrences, 'whatsapp', whatsapp[field], tenant_key) }
       end
       occurrences.each_with_object([]) do |((channel, _identity), tenant_keys), duplicates|
         next unless tenant_keys.uniq.length > 1
@@ -293,7 +307,17 @@ module Myinvest::ChannelReadiness
     end
 
     def credential_present?(env_name)
-      present?(env_name) && present?(env[env_name])
+      present?(env_name) && env[env_name] == 'true'
+    end
+
+    def valid_credential_env_name?(name)
+      name.is_a?(String) && name.match?(CREDENTIAL_ENV_REGEX) && RESERVED_READINESS_ENV_NAMES.none?(name)
+    end
+
+    def forbidden_environment?
+      env.keys.any? do |key|
+        FORBIDDEN_SECRET_ENV_NAMES.include?(key.to_s) || FORBIDDEN_ENV_PREFIXES.any? { |prefix| key.to_s.start_with?(prefix) }
+      end
     end
 
     def present?(value)
@@ -307,4 +331,5 @@ module Myinvest::ChannelReadiness
       }
     end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/ClassLength, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/ParameterLists, Metrics/PerceivedComplexity
 end

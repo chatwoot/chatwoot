@@ -267,6 +267,11 @@ if command -v jq >/dev/null 2>&1; then
     'rails|TENANTS_JSON' \
     'rails|ANTHROPIC_API_KEY' \
     'rails|LOCAL_LLM_BASE_URL' \
+    'channel-readiness|ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY' \
+    'channel-readiness|ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY' \
+    'channel-readiness|ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT' \
+    'channel-readiness|GOOGLE_OAUTH_CLIENT_ID' \
+    'channel-readiness|GOOGLE_OAUTH_CLIENT_SECRET' \
     'caddy|LOCAL_LLM_BASE_URL' \
     'caddy|STORAGE_SECRET_ACCESS_KEY' \
     'claude-agent|SECRET_KEY_BASE' \
@@ -280,7 +285,7 @@ if command -v jq >/dev/null 2>&1; then
       exit 1
     fi
   done
-  for service in caddy redis postgres claude-agent minio minio-init; do
+  for service in caddy redis postgres channel-readiness claude-agent minio minio-init; do
     if jq -e --arg service "$service" '.services[$service].environment.GOOGLE_OAUTH_CLIENT_SECRET != null' <<<"$rendered" >/dev/null; then
       printf 'Secret boundary violation: %s received GOOGLE_OAUTH_CLIENT_SECRET\n' "$service" >&2
       exit 1

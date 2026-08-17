@@ -22,13 +22,10 @@ ENV
 cat >"$readiness_env" <<'ENV'
 TENANTS_JSON=[]
 CHANNEL_READINESS_CONFIG_JSON=[]
-ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=readiness-primary-key
-ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=readiness-deterministic-key
-ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT=readiness-key-derivation-salt
-GOOGLE_OAUTH_CLIENT_ID=readiness-google-client
-GOOGLE_OAUTH_CLIENT_SECRET=readiness-google-secret
+CHANNEL_READINESS_ENCRYPTION_CONFIGURED=true
+GOOGLE_OAUTH_CONFIGURED=true
 HUBSPOT_CUTOVER_CONFIRMED=true
-CHANNEL_READINESS_RUNTIME_CREDENTIAL=readiness-provider-secret
+CHANNEL_READINESS_RUNTIME_CREDENTIAL=true
 ENV
 chmod 600 "$compose_env" "$manifest_env" "$readiness_env"
 
@@ -40,6 +37,8 @@ compose=(
 )
 
 forbidden_env='forbidden = %w[
+  ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+  ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT GOOGLE_OAUTH_CLIENT_ID GOOGLE_OAUTH_CLIENT_SECRET
   ADMIN_PASSWORD ANTHROPIC_API_KEY AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
   BACKUP_GPG_RECIPIENT CLAUDE_AGENT_DATABASE_PASSWORD CLAUDE_AGENT_DATABASE_URL CLAUDE_AGENT_REDIS_URL
   DATABASE_URL MINIO_ROOT_PASSWORD POSTGRES_ADMIN_PASSWORD POSTGRES_PASSWORD REDIS_PASSWORD REDIS_URL
@@ -56,7 +55,7 @@ abort "Forbidden environment reached channel readiness container." if forbidden.
     credentials = %w[
       ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
       ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT GOOGLE_OAUTH_CLIENT_ID GOOGLE_OAUTH_CLIENT_SECRET
-      HUBSPOT_CUTOVER_CONFIRMED
+      CHANNEL_READINESS_ENCRYPTION_CONFIGURED GOOGLE_OAUTH_CONFIGURED HUBSPOT_CUTOVER_CONFIRMED
     ]
     abort \"Credentials reached manifest container.\" if credentials.any? { |name| ENV.key?(name) }
   " >/dev/null
@@ -64,14 +63,16 @@ abort "Forbidden environment reached channel readiness container." if forbidden.
 "${compose[@]}" run --rm --no-deps --env-from-file "$readiness_env" channel-readiness \
   ruby -e "$forbidden_env
     readiness = ENV.keys.grep(/\ACHANNEL_READINESS_/).sort
-    expected = %w[CHANNEL_READINESS_CONFIG_JSON CHANNEL_READINESS_RUNTIME_CREDENTIAL]
-    abort \"Unexpected readiness environment reached assessment container.\" unless readiness == expected
-    required = %w[
-      ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
-      ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT GOOGLE_OAUTH_CLIENT_ID GOOGLE_OAUTH_CLIENT_SECRET
-      HUBSPOT_CUTOVER_CONFIRMED TENANTS_JSON
+    expected = %w[
+      CHANNEL_READINESS_CONFIG_JSON CHANNEL_READINESS_ENCRYPTION_CONFIGURED CHANNEL_READINESS_RUNTIME_CREDENTIAL
     ]
-    abort \"Required readiness environment is unavailable.\" unless required.all? { |name| ENV.key?(name) }
+    abort \"Unexpected readiness environment reached assessment container.\" unless readiness == expected
+    markers = %w[
+      CHANNEL_READINESS_ENCRYPTION_CONFIGURED CHANNEL_READINESS_RUNTIME_CREDENTIAL GOOGLE_OAUTH_CONFIGURED
+      HUBSPOT_CUTOVER_CONFIRMED
+    ]
+    abort \"Required readiness markers are unavailable.\" unless markers.all? { |name| ENV[name] == \"true\" }
+    abort \"Tenant mapping is unavailable.\" unless ENV.key?(\"TENANTS_JSON\")
   " >/dev/null
 
 printf 'Channel readiness container environment is isolated.\n'
