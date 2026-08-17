@@ -107,7 +107,7 @@ describe Whatsapp::OneoffCampaignService do
         described_class.new(campaign: campaign).perform
       end
 
-      it 'skips contacts without phone numbers' do
+      it 'skips contacts without a phone number or a business scoped user id' do
         contact_without_phone = create(:contact, account: account, phone_number: nil)
         contact_without_phone.update_labels([label1.title])
 
@@ -218,6 +218,72 @@ describe Whatsapp::OneoffCampaignService do
         allow(Rails.logger).to receive(:info)
 
         described_class.new(campaign: campaign_with_blank_liquid).perform
+      end
+    end
+
+    context 'when the contact has a business scoped user id' do
+      def contact_in_audience(phone_number: nil)
+        contact = create(:contact, account: account, phone_number: phone_number)
+        contact.update_labels([label1.title])
+        contact
+      end
+
+      it 'addresses a contact that only has a business scoped user id' do
+        contact = contact_in_audience
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'BR.5aBcD1')
+
+        expect(whatsapp_channel).to receive(:send_template).with('BR.5aBcD1', anything, nil)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'keeps addressing by phone number when the contact has both' do
+        contact = contact_in_audience(phone_number: '+555199999999')
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'BR.5aBcD1')
+
+        expect(whatsapp_channel).to receive(:send_template).with('+555199999999', anything, nil)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'prefers the most recent identifier, since it rotates on a phone number change' do
+        contact = contact_in_audience
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'BR.retired1')
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'BR.current1')
+
+        expect(whatsapp_channel).to receive(:send_template).with('BR.current1', anything, nil)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'prefers the identifier scoped to this business over the parent one' do
+        contact = contact_in_audience
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'BR.5aBcD1')
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'BR.ENT.9zYxW2')
+
+        expect(whatsapp_channel).to receive(:send_template).with('BR.5aBcD1', anything, nil)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'falls back to the parent identifier when it is the only one' do
+        contact = contact_in_audience
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'BR.ENT.9zYxW2')
+
+        expect(whatsapp_channel).to receive(:send_template).with('BR.ENT.9zYxW2', anything, nil)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'ignores an identifier that belongs to another inbox' do
+        other_inbox = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                                validate_provider_config: false, sync_templates: false).inbox
+        contact = contact_in_audience
+        create(:contact_inbox, contact: contact, inbox: other_inbox, source_id: 'BR.5aBcD1')
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(campaign: campaign).perform
       end
     end
 

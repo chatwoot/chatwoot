@@ -45,10 +45,11 @@ class Whatsapp::OneoffCampaignService
   end
 
   def process_contact(contact)
-    Rails.logger.info "Processing contact: #{contact.name} (#{contact.phone_number})"
+    address = campaign_address(contact)
+    Rails.logger.info "Processing contact: #{contact.name} (#{address})"
 
-    if contact.phone_number.blank?
-      Rails.logger.info "Skipping contact #{contact.name} - no phone number"
+    if address.blank?
+      Rails.logger.info "Skipping contact #{contact.name} - no phone number or business scoped user id"
       return
     end
 
@@ -60,7 +61,38 @@ class Whatsapp::OneoffCampaignService
     processed_template_params = process_liquid_template_params(contact)
     return if processed_template_params.nil?
 
-    send_whatsapp_template_message(to: contact.phone_number, template_params: processed_template_params)
+    send_whatsapp_template_message(to: address, template_params: processed_template_params)
+  end
+
+  # A contact that adopted a username can reach a business without ever exposing a phone number,
+  # so the only address it has is the business scoped user id stored on its contact inbox. The
+  # phone number stays first, which leaves every existing campaign sending exactly what it sends
+  # today and changes only the contacts that are skipped as unreachable right now.
+  #
+  # The identifier scoped to a parent business is the last resort rather than the first choice:
+  # it addresses the person relative to the parent, while a campaign goes out from the number
+  # behind this inbox. Skipping a contact that carries only that one would reopen the very bug
+  # this closes, so it is used when nothing else is available.
+  def campaign_address(contact)
+    return contact.phone_number if contact.phone_number.present?
+
+    identifiers = campaign_bsuids(contact)
+    identifiers.find { |source_id| !RegexHelper::WHATSAPP_BSUID_PARENT_REGEX.match?(source_id) } || identifiers.first
+  end
+
+  # Newest first, because the identifier rotates when the person changes phone number and the new
+  # row is created after the old one. Without an explicit order the database promises nothing, and
+  # a retired identifier does not fail in a way anyone notices: the provider answers 200 and drops
+  # the message.
+  #
+  # Scoped to the campaign's own inbox because the identifier belongs to one business; another
+  # number on the same account gives the same person a different one.
+  def campaign_bsuids(contact)
+    contact.contact_inboxes
+           .where(inbox_id: inbox.id)
+           .order(id: :desc)
+           .pluck(:source_id)
+           .select { |source_id| source_id.to_s.match?(RegexHelper::WHATSAPP_BSUID_REGEX) }
   end
 
   def process_audience(audience_labels)
