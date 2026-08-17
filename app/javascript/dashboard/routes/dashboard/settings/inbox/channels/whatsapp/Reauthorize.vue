@@ -157,7 +157,7 @@ const startEmbeddedSignup = () => {
 // startEmbeddedSignup above, just without needing to buffer the event's business data.
 const createFinishEventWaiter = () => {
   let listener;
-  const promise = new Promise(resolve => {
+  const promise = new Promise((resolve, reject) => {
     listener = createMessageHandler(data => {
       if (
         data?.event === 'FINISH' ||
@@ -165,6 +165,19 @@ const createFinishEventWaiter = () => {
       ) {
         window.removeEventListener('message', listener);
         resolve(data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING');
+      } else if (data?.event === 'CANCEL') {
+        window.removeEventListener('message', listener);
+        reject(
+          new Error(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'))
+        );
+      } else if (data?.event === 'error') {
+        window.removeEventListener('message', listener);
+        reject(
+          new Error(
+            data.error_message ||
+              t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SIGNUP_ERROR')
+          )
+        );
       }
     });
     window.addEventListener('message', listener);
