@@ -30,6 +30,7 @@ module Myinvest
         @access_token = access_token.to_s
         @app_secret = app_secret.to_s
         validate_parameters!
+        @frontend_origin = strict_frontend_origin
       end
 
       def perform
@@ -239,7 +240,7 @@ module Myinvest
       end
 
       def expected_webhook_url
-        "#{strict_frontend_origin}/webhooks/whatsapp/#{phone_number}"
+        "#{@frontend_origin}/webhooks/whatsapp/#{phone_number}"
       end
 
       def valid_matching_identifier?(actual, expected)
