@@ -61,7 +61,7 @@ module Api::V1::InboxesHelper
   end
 
   def build_imap_connection(channel_data)
-    Net::IMAP.new(channel_data[:imap_address], port: channel_data[:imap_port], ssl: channel_data[:imap_enable_ssl])
+    Net::IMAP.new(channel_data[:imap_address], port: channel_data[:imap_port], ssl: channel_data[:imap_enable_ssl], open_timeout: 10)
   end
 
   def check_smtp_connection(channel_data, smtp)
