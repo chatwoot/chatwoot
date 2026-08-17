@@ -7,7 +7,9 @@ class Twilio::MediaDownloadService
   def perform
     return download_without_auth unless valid_retry_url?
 
-    download_with_auth
+    file = download_with_auth
+    log_download(outcome: 'success', attempt: 1)
+    file
   rescue Down::NotFound => e
     retry_with_auth(e)
   rescue Down::Error => e

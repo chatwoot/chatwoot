@@ -28,12 +28,16 @@ RSpec.describe Twilio::MediaDownloadService do
     stub_request(:get, media_url)
       .with(basic_auth: auth_credentials)
       .to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
+    allow(Rails.logger).to receive(:info)
 
     file = service.perform
 
     expect(file.content_type).to eq('image/png')
     expect(service).not_to have_received(:sleep)
     expect(a_request(:get, media_url).with(basic_auth: auth_credentials)).to have_been_made.once
+    expect(Rails.logger).to have_received(:info).with(
+      include('[TWILIO] Media download outcome=success attempt=1')
+    )
   end
 
   it 'waits and retries an authenticated 404 with authentication' do
