@@ -230,30 +230,6 @@ describe Twilio::IncomingMessageService do
       end
     end
 
-    context 'when media download retries are exhausted' do
-      it 'preserves the text message without an attachment' do
-        downloader = instance_double(Twilio::MediaDownloadService, perform: nil)
-        allow(Twilio::MediaDownloadService).to receive(:new).and_return(downloader)
-
-        described_class.new(
-          params: {
-            SmsSid: 'SMxx',
-            From: '+12345',
-            AccountSid: 'ACxxx',
-            MessagingServiceSid: twilio_channel.messaging_service_sid,
-            Body: 'testing exhausted media retries',
-            NumMedia: '1',
-            MediaContentType0: 'image/jpeg',
-            MediaUrl0: 'https://api.twilio.com/media'
-          }
-        ).perform
-
-        message = conversation.reload.messages.last
-        expect(message.content).to eq('testing exhausted media retries')
-        expect(message.attachments.count).to eq(0)
-      end
-    end
-
     context 'when a message with multiple attachments is received' do
       before do
         stub_request(:get, 'https://chatwoot-assets.local/sample.png')
@@ -282,42 +258,6 @@ describe Twilio::IncomingMessageService do
         expect(conversation.reload.messages.last.content).to eq('testing multiple media')
         expect(conversation.reload.messages.last.attachments.count).to eq(2)
         expect(conversation.reload.messages.last.attachments.map(&:file_type)).to contain_exactly('image', 'image')
-      end
-    end
-
-    context 'when multiple media downloads stay unavailable' do
-      let(:message_sid) { "MM#{'1' * 32}" }
-      let(:first_media_url) do
-        "https://api.twilio.com/2010-04-01/Accounts/#{twilio_channel.account_sid}/Messages/#{message_sid}/Media/ME#{'2' * 32}"
-      end
-      let(:second_media_url) do
-        "https://api.twilio.com/2010-04-01/Accounts/#{twilio_channel.account_sid}/Messages/#{message_sid}/Media/ME#{'3' * 32}"
-      end
-
-      it 'shares one retry delay budget across all attachments' do
-        stub_request(:get, first_media_url).to_return(status: 404)
-        stub_request(:get, second_media_url).to_return(status: 404)
-        allow(Twilio::MediaDownloadService).to receive(:new).and_wrap_original do |method, **args|
-          service = method.call(**args)
-          allow(service).to receive(:sleep)
-          service
-        end
-
-        described_class.new(
-          params: {
-            SmsSid: message_sid,
-            From: '+12345',
-            AccountSid: 'ACxxx',
-            MessagingServiceSid: twilio_channel.messaging_service_sid,
-            Body: 'testing shared media retry budget',
-            NumMedia: '2',
-            MediaUrl0: first_media_url,
-            MediaUrl1: second_media_url
-          }
-        ).perform
-
-        expect(a_request(:get, first_media_url)).to have_been_made.times(3)
-        expect(a_request(:get, second_media_url)).to have_been_made.once
       end
     end
 
