@@ -39,7 +39,6 @@ import sessionLimit from './sessionLimit.json';
 import settings from './settings.json';
 import signup from './signup.json';
 import sla from './sla.json';
-import snooze from './snooze.json';
 import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
 import whatsappTemplateMgmt from './whatsappTemplateMgmt.json';
@@ -87,7 +86,6 @@ export default {
   ...settings,
   ...signup,
   ...sla,
-  ...snooze,
   ...teamsSettings,
   ...whatsappTemplates,
   ...whatsappTemplateMgmt,
