@@ -197,7 +197,8 @@
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bandwidth"
+          "BANDWIDTH": "Bandwidth",
+          "PLIVO": "Plivo"
         },
         "API": {
           "ERROR_MESSAGE": "We were not able to save the SMS channel"
@@ -240,6 +241,36 @@
           "API_CALLBACK": {
             "TITLE": "Callback URL",
             "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
+          }
+        },
+        "PLIVO": {
+          "INBOX_NAME": {
+            "LABEL": "Inbox Name",
+            "PLACEHOLDER": "Please enter a inbox name",
+            "ERROR": "This field is required"
+          },
+          "PHONE_NUMBER": {
+            "LABEL": "Phone number",
+            "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          },
+          "AUTH_ID": {
+            "LABEL": "Auth ID",
+            "PLACEHOLDER": "Please enter your Plivo Auth ID",
+            "ERROR": "This field is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "Auth Token",
+            "PLACEHOLDER": "Please enter your Plivo Auth Token",
+            "ERROR": "This field is required"
+          },
+          "SUBMIT_BUTTON": "Create Plivo Channel",
+          "API": {
+            "ERROR_MESSAGE": "We were not able to authenticate Plivo credentials, please try again"
+          },
+          "API_CALLBACK": {
+            "TITLE": "Callback URL",
+            "SUBTITLE": "You have to configure the message callback URL in Plivo with the URL mentioned here."
           }
         }
       },

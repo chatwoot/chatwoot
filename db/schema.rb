@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_07_101420) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_14_120000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -614,6 +614,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_07_101420) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["line_channel_id"], name: "index_channel_line_on_line_channel_id", unique: true
+  end
+
+  create_table "channel_plivo", force: :cascade do |t|
+    t.string "phone_number", null: false
+    t.jsonb "provider_config", default: {}
+    t.integer "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["phone_number"], name: "index_channel_plivo_on_phone_number", unique: true
   end
 
   create_table "channel_sms", force: :cascade do |t|

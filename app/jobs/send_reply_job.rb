@@ -8,6 +8,7 @@ class SendReplyJob < ApplicationJob
     'Channel::Telegram' => ::Telegram::SendOnTelegramService,
     'Channel::Whatsapp' => ::Whatsapp::SendOnWhatsappService,
     'Channel::Sms' => ::Sms::SendOnSmsService,
+    'Channel::Plivo' => ::Plivo::SendOnPlivoService,
     'Channel::Instagram' => ::Instagram::SendOnInstagramService,
     'Channel::Tiktok' => ::Tiktok::SendOnTiktokService,
     'Channel::Email' => ::Email::SendOnEmailService,

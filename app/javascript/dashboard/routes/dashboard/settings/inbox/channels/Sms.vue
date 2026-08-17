@@ -2,12 +2,14 @@
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import BandwidthSms from './BandwidthSms.vue';
 import Twilio from './Twilio.vue';
+import Plivo from './Plivo.vue';
 
 export default {
   components: {
     PageHeader,
     Twilio,
     BandwidthSms,
+    Plivo,
   },
   data() {
     return {
@@ -33,10 +35,14 @@ export default {
           <option value="360dialog">
             {{ $t('INBOX_MGMT.ADD.SMS.PROVIDERS.BANDWIDTH') }}
           </option>
+          <option value="plivo">
+            {{ $t('INBOX_MGMT.ADD.SMS.PROVIDERS.PLIVO') }}
+          </option>
         </select>
       </label>
     </div>
     <Twilio v-if="provider === 'twilio'" type="sms" />
+    <Plivo v-else-if="provider === 'plivo'" />
     <BandwidthSms v-else />
   </div>
 </template>
