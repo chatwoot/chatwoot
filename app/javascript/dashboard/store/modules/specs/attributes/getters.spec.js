@@ -35,6 +35,21 @@ describe('#getters', () => {
     ]);
   });
 
+  it('getAttributesByModel sorts records without a position to the end', () => {
+    const state = {
+      records: [
+        { attribute_key: 'no_position', attribute_model: 1, position: null },
+        { attribute_key: 'second', attribute_model: 1, position: 20 },
+        { attribute_key: 'first', attribute_model: 1, position: 10 },
+      ],
+    };
+    expect(
+      getters
+        .getAttributesByModel(state)(1)
+        .map(r => r.attribute_key)
+    ).toEqual(['first', 'second', 'no_position']);
+  });
+
   it('getCompanyAttributes', () => {
     const state = {
       records: [

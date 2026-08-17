@@ -39,7 +39,7 @@ export const getters = {
   getAttributesByModel: _state => attributeModel => {
     return _state.records
       .filter(record => record.attribute_model === attributeModel)
-      .sort((a, b) => a.position - b.position);
+      .sort((a, b) => (a.position ?? Infinity) - (b.position ?? Infinity));
   },
 };
 
