@@ -5,11 +5,17 @@ require_relative '../../scripts/cutover-whatsapp'
 require_relative 'whatsapp_cutover'
 
 module Myinvest::ChannelReadiness
+  class ManifestError < StandardError; end
+
   class Builder
     CHANNELS = %w[email instagram whatsapp].freeze
     INSTAGRAM_PERMISSIONS = %w[instagram_manage_messages pages_manage_metadata pages_show_list].freeze
     DECIMAL_ID_REGEX = Myinvest::WhatsappCutover::HubspotChannelChecker::DECIMAL_ID_REGEX
     E164_REGEX = Myinvest::WhatsappCutover::Service::E164_REGEX
+    CREDENTIAL_ENV_REGEX = /\ACHANNEL_READINESS_[A-Z0-9_]+\z/.freeze
+    FORBIDDEN_ENV_PREFIXES = %w[
+      POSTGRES_ADMIN_ MINIO_ROOT_ ADMIN_ ANTHROPIC_ AWS_ BACKUP_ CLAUDE_AGENT_DATABASE
+    ].freeze
 
     def initialize(env)
       @env = env
@@ -21,16 +27,38 @@ module Myinvest::ChannelReadiness
       return invalid_configuration_report if configured_tenants.empty?
 
       @configured_tenants = configured_tenants
+      return invalid_configuration_report('tenant_mapping_invalid') unless exact_tenant_set?(canonical_tenants, configured_tenants)
+
+      credential_env_names
       duplicate_identities = duplicate_identities(configured_tenants)
       tenants = configured_tenants.map { |tenant| build_tenant(tenant, canonical_tenants, duplicate_identities) }
 
       {
-        'version' => 1, 'dry_run' => true,
+        'version' => 1, 'dry_run' => true, 'assessment' => 'declarative',
         'status' => tenants.all? { |tenant| tenant['status'] == 'ready' } ? 'ready' : 'blocked',
         'tenants' => tenants
       }
     rescue StandardError
       invalid_configuration_report
+    end
+
+    def credential_env_names
+      raise ManifestError if env.keys.any? { |key| FORBIDDEN_ENV_PREFIXES.any? { |prefix| key.to_s.start_with?(prefix) } }
+
+      canonical_tenants = parse_array(env.fetch('TENANTS_JSON'))
+      configured_tenants = parse_array(env.fetch('CHANNEL_READINESS_CONFIG_JSON'))
+      raise ManifestError unless exact_tenant_set?(canonical_tenants, configured_tenants) &&
+                                 configured_tenants.all? { |tenant| valid_tenant_manifest?(tenant) }
+
+      names = configured_tenants.flat_map do |tenant|
+        [tenant.dig('instagram', 'access_token_env'), tenant.dig('whatsapp', 'access_token_env'),
+         tenant.dig('whatsapp', 'app_secret_env')]
+      end
+      raise ManifestError unless names.all? { |name| name.is_a?(String) && name.match?(CREDENTIAL_ENV_REGEX) }
+
+      names.uniq.sort
+    rescue KeyError, JSON::ParserError, TypeError
+      raise ManifestError
     end
 
     private
@@ -70,6 +98,69 @@ module Myinvest::ChannelReadiness
         @configured_tenants.count { |configured| configured['account_id'].to_s == account_id } == 1
     end
 
+    def exact_tenant_set?(canonical_tenants, configured_tenants)
+      canonical_valid = canonical_tenants.all? do |tenant|
+        tenant['key'].is_a?(String) && !tenant['key'].empty? && tenant['accountId'].to_s.match?(DECIMAL_ID_REGEX)
+      end
+      configured_valid = configured_tenants.all? do |tenant|
+        tenant['key'].is_a?(String) && !tenant['key'].empty? && tenant['account_id'].to_s.match?(DECIMAL_ID_REGEX)
+      end
+      return false unless canonical_valid && configured_valid
+
+      canonical = canonical_tenants.map { |tenant| [tenant['key'], tenant['accountId'].to_s] }
+      configured = configured_tenants.map { |tenant| [tenant['key'], tenant['account_id'].to_s] }
+      canonical.length == canonical.uniq.length && configured.length == configured.uniq.length && canonical.sort == configured.sort
+    end
+
+    def valid_tenant_manifest?(tenant)
+      tenant_keys = %w[key account_id email instagram whatsapp history_inbox]
+      return false unless allowed_keys?(tenant, tenant_keys) && CHANNELS.all? { |channel| valid_common_manifest?(tenant[channel]) }
+
+      email = tenant['email']
+      instagram = tenant['instagram']
+      whatsapp = tenant['whatsapp']
+      common_keys = %w[name inbox_account_id human_inbox_member_ids expected_human_inbox_member_ids provider_health
+                       callback_verified bot_attached auto_reply_evaluation_approved]
+      email_valid = allowed_keys?(email, common_keys + %w[mailbox dedicated_shared_mailbox_confirmed]) &&
+                    email['mailbox'].is_a?(String) && boolean?(email['dedicated_shared_mailbox_confirmed'])
+      instagram_valid = allowed_keys?(instagram, common_keys + %w[business_id page_id account_id access_token_env permissions]) &&
+        %w[business_id page_id account_id access_token_env].all? { |field| instagram[field].is_a?(String) } &&
+        instagram['permissions'].is_a?(Array) && instagram['permissions'].all?(String)
+      whatsapp_valid = allowed_keys?(
+        whatsapp,
+        common_keys + %w[phone_number waba_id phone_number_id access_token_env app_secret_env hubspot_owner
+                         hubspot_channel_account_id cutover_confirmation]
+      ) &&
+        %w[phone_number waba_id phone_number_id access_token_env app_secret_env hubspot_owner
+           hubspot_channel_account_id cutover_confirmation].all? { |field| whatsapp[field].is_a?(String) }
+      email_valid && instagram_valid && whatsapp_valid && valid_history_manifest?(tenant['history_inbox'])
+    end
+
+    def valid_common_manifest?(config)
+      config.is_a?(Hash) && config['name'].is_a?(String) && config['inbox_account_id'].to_s.match?(DECIMAL_ID_REGEX) &&
+        config['human_inbox_member_ids'].is_a?(Array) && config['expected_human_inbox_member_ids'].is_a?(Array) &&
+        config['provider_health'].is_a?(String) && boolean?(config['callback_verified']) &&
+        boolean?(config['bot_attached']) &&
+        (!config.key?('auto_reply_evaluation_approved') || boolean?(config['auto_reply_evaluation_approved']))
+    end
+
+    def boolean?(value)
+      value == true || value == false
+    end
+
+    def valid_history_manifest?(config)
+      return true if config.nil?
+
+      keys = %w[inbox_account_id human_inbox_member_ids expected_human_inbox_member_ids callback_count hook_count
+                bot_attached auto_assignment_enabled]
+      allowed_keys?(config, keys) && config['callback_count'].is_a?(Integer) && config['hook_count'].is_a?(Integer) &&
+        boolean?(config['bot_attached']) && boolean?(config['auto_assignment_enabled']) && exact_human_roster?(config)
+    end
+
+    def allowed_keys?(hash, keys)
+      hash.is_a?(Hash) && (hash.keys - keys).empty?
+    end
+
     def build_channel(channel, config, tenant_account_id, tenant_key, mapping_valid, duplicate_identities)
       name = config.is_a?(Hash) && config['name'].is_a?(String) ? config['name'] : ''
       reasons = config.is_a?(Hash) ? send("#{channel}_reasons", config, tenant_key) : ['channel_configuration_missing']
@@ -77,12 +168,13 @@ module Myinvest::ChannelReadiness
       reasons << 'public_name_missing' if name.empty?
       reasons << 'identity_duplicate' if duplicate_identities.include?([tenant_key, channel])
       reasons << 'tenant_mapping_invalid' unless mapping_valid
+      reasons << 'runtime_verification_required'
       reasons.uniq!
-      human_reasons = reasons - %w[auto_reply_evaluation_unapproved bot_already_attached]
+      human_reasons = reasons - %w[auto_reply_evaluation_unapproved bot_already_attached runtime_verification_required]
       {
         'name' => name,
-        'human_status' => human_reasons.empty? ? 'ready' : 'blocked',
-        'status' => reasons.empty? ? 'ready' : 'blocked',
+        'human_status' => human_reasons.empty? ? 'planned' : 'blocked',
+        'status' => 'blocked',
         'reasons' => reasons
       }
     end
@@ -208,8 +300,11 @@ module Myinvest::ChannelReadiness
       !value.to_s.strip.empty?
     end
 
-    def invalid_configuration_report
-      { 'version' => 1, 'dry_run' => true, 'status' => 'blocked', 'reasons' => ['configuration_invalid'], 'tenants' => [] }
+    def invalid_configuration_report(reason = 'configuration_invalid')
+      {
+        'version' => 1, 'dry_run' => true, 'assessment' => 'declarative', 'status' => 'blocked',
+        'reasons' => [reason], 'tenants' => []
+      }
     end
   end
 end
