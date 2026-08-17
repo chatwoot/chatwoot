@@ -4,6 +4,7 @@ require 'json'
 
 module Myinvest; end
 
+# rubocop:disable Metrics/ClassLength
 class Myinvest::SupportStructure
   class ConfigurationError < StandardError; end
 
@@ -30,26 +31,30 @@ class Myinvest::SupportStructure
     ['MyInvest managed: route new conversations', 'MyInvest managed: prioritize urgent conversations']
   end
 
-  def initialize(dry_run: true, confirmation: nil)
+  def initialize(dry_run: true, confirmation: nil, rosters_json: ENV.fetch('SUPPORT_ROSTERS_JSON', nil))
     @dry_run = dry_run
     @confirmation = confirmation
+    @rosters_json = rosters_json
   end
 
   def call
     accounts = load_accounts!
     validate_history_inboxes!(accounts)
-    validate_existing_rosters!(accounts)
+    rosters = resolve_rosters!(accounts)
+    validate_existing_rosters!(accounts, rosters)
     return result('dry-run', 'planned', build_plan(accounts)) if dry_run
 
     raise ConfigurationError, 'Exact production confirmation is required' unless confirmation == PRODUCTION_CONFIRMATION
 
-    ActiveRecord::Base.transaction { accounts.each { |tenant_key, account| provision_account!(tenant_key, account) } }
+    ActiveRecord::Base.transaction do
+      accounts.each { |tenant_key, account| provision_account!(tenant_key, account, rosters.fetch(tenant_key)) }
+    end
     result('apply', 'applied', build_plan(accounts))
   end
 
   private
 
-  attr_reader :dry_run, :confirmation
+  attr_reader :dry_run, :confirmation, :rosters_json
 
   # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
   def load_accounts!
@@ -81,19 +86,27 @@ class Myinvest::SupportStructure
   end
   # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def validate_history_inboxes!(accounts)
     accounts.each_value do |account|
       history_inboxes(account).each do |inbox|
         raise ConfigurationError, 'A history inbox has an attached AI bot' if inbox.agent_bot_inbox.present?
+        if inbox.channel.is_a?(Channel::Api) && inbox.channel.webhook_url.present?
+          raise ConfigurationError, 'A history inbox API channel has channel webhook_url configured'
+        end
         raise ConfigurationError, 'A history inbox has a webhook' if inbox.webhooks.exists?
         raise ConfigurationError, 'A history inbox has an enabled integration hook' if inbox.hooks.enabled.exists?
         raise ConfigurationError, 'A history inbox has auto-assignment enabled' if inbox.enable_auto_assignment?
       end
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   def history_inboxes(account)
-    account.inboxes.select { |inbox| inbox.name.match?(/history|historie|archive/i) }
+    account.inboxes.select do |inbox|
+      durable_history = inbox.channel.is_a?(Channel::Api) && inbox.channel.additional_attributes['myinvest_history_import'] == true
+      durable_history || inbox.name.match?(/history|historie|archive/i)
+    end
   end
 
   def build_plan(accounts)
@@ -104,30 +117,86 @@ class Myinvest::SupportStructure
     end
   end
 
-  def provision_account!(tenant_key, account)
+  def provision_account!(tenant_key, account, roster)
     configuration = TENANTS.fetch(tenant_key)
-    members = account.account_users.includes(:user).map(&:user)
-    teams = configuration.fetch(:teams).map { |attributes| upsert_team!(account, attributes, members) }
+    teams = configuration.fetch(:teams).map do |attributes|
+      upsert_team!(account, attributes, roster.fetch(:teams).fetch(attributes.fetch(:name)))
+    end
     LABELS.each { |attributes| upsert_label!(account, attributes) }
-    live_inboxes(account).each { |inbox| members.each { |user| InboxMember.find_or_create_by!(inbox: inbox, user: user) } }
+    live_inboxes(account).each do |inbox|
+      inbox.update!(enable_auto_assignment: false)
+      roster.fetch(:inboxes).fetch(inbox.name).each { |user| InboxMember.find_or_create_by!(inbox: inbox, user: user) }
+    end
     update_response_targets!(account, configuration.fetch(:response_targets_minutes))
     upsert_automations!(account, teams.first)
-    verify_rosters!(account, teams, members)
+    verify_rosters!(account, teams, roster)
   end
 
-  def validate_existing_rosters!(accounts)
-    accounts.each do |tenant_key, account|
-      roster_ids = account.account_users.pluck(:user_id)
-      raise ConfigurationError, "Tenant #{tenant_key} has no human account roster" if roster_ids.empty?
+  def resolve_rosters!(accounts)
+    raise ConfigurationError, 'SUPPORT_ROSTERS_JSON is required' if rosters_json.blank?
 
-      names = TENANTS.fetch(tenant_key).fetch(:teams).map { |team| team.fetch(:name).downcase }
-      managed_team_ids = account.teams.where(name: names).pluck(:id)
-      unexpected_team_members = TeamMember.where(team_id: managed_team_ids).where.not(user_id: roster_ids)
-      unexpected_inbox_members = InboxMember.where(inbox: live_inboxes(account)).where.not(user_id: roster_ids)
-      next unless unexpected_team_members.exists? || unexpected_inbox_members.exists?
-
-      raise ConfigurationError, 'Managed routing roster contains a user outside the canonical account membership'
+    parsed = JSON.parse(rosters_json)
+    unless parsed.is_a?(Hash) && parsed.keys.sort == TENANTS.keys.sort
+      raise ConfigurationError, 'SUPPORT_ROSTERS_JSON must contain exactly the canonical tenant keys'
     end
+
+    accounts.to_h { |tenant_key, account| [tenant_key, resolve_tenant_roster!(tenant_key, account, parsed.fetch(tenant_key))] }
+  rescue JSON::ParserError, TypeError
+    raise ConfigurationError, 'SUPPORT_ROSTERS_JSON is invalid'
+  end
+
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def resolve_tenant_roster!(tenant_key, account, roster)
+    unless roster.is_a?(Hash) && roster.keys.sort == %w[inboxes teams] && roster.values.all?(Hash)
+      raise ConfigurationError, "Tenant #{tenant_key} roster must contain only inboxes and teams"
+    end
+
+    inbox_names = live_inboxes(account).map(&:name)
+    team_names = TENANTS.fetch(tenant_key).fetch(:teams).map { |team| team.fetch(:name) }
+    unless roster.fetch('inboxes').keys.sort == inbox_names.sort && roster.fetch('teams').keys.sort == team_names.sort
+      raise ConfigurationError, "Tenant #{tenant_key} roster keys do not match managed inboxes and teams"
+    end
+
+    users_by_email = account.account_users.includes(:user).to_h { |membership| [membership.user.email.downcase, membership.user] }
+    resolved = { inboxes: resolve_roster_group!(roster.fetch('inboxes'), users_by_email),
+                 teams: resolve_roster_group!(roster.fetch('teams'), users_by_email) }
+    team_rosters = resolved.fetch(:teams).values.map { |users| users.map(&:id).sort }
+    raise ConfigurationError, "Tenant #{tenant_key} managed team rosters must be distinct" unless team_rosters.uniq.length == team_rosters.length
+
+    resolved
+  end
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def resolve_roster_group!(group, users_by_email)
+    group.to_h do |name, identities|
+      unless identities.is_a?(Array) && identities.any? && identities.all? { |identity| identity.is_a?(String) && identity.present? }
+        raise ConfigurationError, 'Roster identities must be non-empty email arrays'
+      end
+
+      normalized = identities.map(&:downcase)
+      raise ConfigurationError, 'Roster contains duplicate identities' unless normalized.uniq.length == normalized.length
+      raise ConfigurationError, 'Roster contains an unknown account identity' unless normalized.all? { |email| users_by_email.key?(email) }
+
+      [name, normalized.map { |email| users_by_email.fetch(email) }]
+    end
+  end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+  def validate_existing_rosters!(accounts, rosters)
+    accounts.each do |tenant_key, account|
+      roster = rosters.fetch(tenant_key)
+      TENANTS.fetch(tenant_key).fetch(:teams).each do |attributes|
+        team = account.teams.find_by(name: attributes.fetch(:name).downcase)
+        validate_existing_ids!(team&.member_ids || [], roster.fetch(:teams).fetch(attributes.fetch(:name)).map(&:id))
+      end
+    end
+  end
+
+  def validate_existing_ids!(existing_ids, roster_ids)
+    return if (existing_ids - roster_ids).empty?
+
+    raise ConfigurationError, 'Managed roster contains an identity not explicitly designated'
   end
 
   def upsert_team!(account, attributes, members)
@@ -151,16 +220,19 @@ class Myinvest::SupportStructure
     account.update!(custom_attributes: account.custom_attributes.merge('support_operations' => operations))
   end
 
-  def verify_rosters!(account, teams, members)
-    expected_ids = members.map(&:id).sort
+  # rubocop:disable Metrics/CyclomaticComplexity
+  def verify_rosters!(account, teams, roster)
     teams.each do |team|
-      raise ConfigurationError, 'Managed team roster verification failed' unless team.team_members.pluck(:user_id).sort == expected_ids
+      expected_ids = roster.fetch(:teams).fetch(team.name.titleize).map(&:id).sort
+      raise ConfigurationError, 'Managed team roster verification failed' unless team.member_ids.sort == expected_ids
     end
     live_inboxes(account).each do |inbox|
-      actual_ids = inbox.inbox_members.pluck(:user_id).sort
-      raise ConfigurationError, 'Human inbox roster verification failed' unless actual_ids == expected_ids
+      expected_ids = roster.fetch(:inboxes).fetch(inbox.name).map(&:id).sort
+      raise ConfigurationError, 'Human inbox roster verification failed' unless (expected_ids - inbox.member_ids).empty?
+      raise ConfigurationError, 'Live inbox auto-assignment was not disabled' if inbox.enable_auto_assignment?
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def live_inboxes(account)
     account.inboxes.to_a - history_inboxes(account)
@@ -203,6 +275,7 @@ class Myinvest::SupportStructure
     { command: 'support-structure', mode: mode, status: status, tenants: tenants }
   end
 end
+# rubocop:enable Metrics/ClassLength
 
 if ENV['SUPPORT_STRUCTURE_RUN'] == 'true'
   dry_run = ENV.fetch('SUPPORT_STRUCTURE_MODE', 'dry-run') != 'apply'

@@ -11,11 +11,12 @@ apply = mode == '--apply'
 env_path = ENV.fetch('ENV_FILE', File.join(deployment_dir, '.env'))
 command = ['docker', 'compose', '--project-directory', deployment_dir, '--env-file', env_path,
            '-f', File.join(deployment_dir, 'compose.yaml'), 'run', '--rm', '-e', 'SUPPORT_STRUCTURE_RUN=true',
-           '-e', "SUPPORT_STRUCTURE_MODE=#{apply ? 'apply' : 'dry-run'}"]
+           '-e', "SUPPORT_STRUCTURE_MODE=#{apply ? 'apply' : 'dry-run'}", '-e', 'SUPPORT_ROSTERS_JSON']
 command.push('-e', 'SUPPORT_STRUCTURE_CONFIRMATION') if apply
 command.push('rails', 'bundle', 'exec', 'rails', 'runner', '/bootstrap/support_structure.rb')
 
-unless system({ 'SUPPORT_STRUCTURE_CONFIRMATION' => ENV['SUPPORT_STRUCTURE_CONFIRMATION'].to_s }, *command)
+unless system({ 'SUPPORT_STRUCTURE_CONFIRMATION' => ENV['SUPPORT_STRUCTURE_CONFIRMATION'].to_s,
+                'SUPPORT_ROSTERS_JSON' => ENV['SUPPORT_ROSTERS_JSON'].to_s }, *command)
   warn JSON.generate(command: 'support-structure', mode: apply ? 'apply' : 'dry-run', status: 'failed')
   raise SystemExit, 1
 end

@@ -53,17 +53,21 @@ The initial password exists only in `.env` as `ADMIN_PASSWORD`. Log in as `ADMIN
 Preview the tenant-scoped teams, labels, inbox memberships, and safe routing/priority automations with the default dry run:
 
 ```bash
-./scripts/bootstrap-support-structure.rb
+SUPPORT_ROSTERS_JSON="$(cat /secure/support-rosters.json)" \
+  ./scripts/bootstrap-support-structure.rb
 ```
 
 Apply only with the exact production confirmation:
 
 ```bash
-SUPPORT_STRUCTURE_CONFIRMATION=provision-support-structure:production \
+SUPPORT_ROSTERS_JSON="$(cat /secure/support-rosters.json)" \
+  SUPPORT_STRUCTURE_CONFIRMATION=provision-support-structure:production \
   ./scripts/bootstrap-support-structure.rb --apply
 ```
 
-The command requires exactly one canonical account for each tenant key, distinct account IDs, and no unkeyed account adopting a canonical display name. It updates only managed records and never sends customer messages or deletes unrelated configuration. Every current human account member is provisioned and verified as both a member of each managed routing team and an `InboxMember` of each live inbox; inbox membership remains the visibility boundary. History/archive inboxes are excluded from routing and roster changes, and fail validation if they have a bot, webhook, enabled integration hook, or auto-assignment. Response targets are operational metadata in each account's `support_operations` custom attribute; the command neither creates nor claims an Enterprise SLA. Output contains counts and tenant keys only—no user details, credentials, or message content.
+`SUPPORT_ROSTERS_JSON` must contain exactly the three tenant keys. Each tenant contains `inboxes`, keyed by every live inbox name, and `teams`, keyed by both canonical managed team names; every value is a non-empty array of account-user email identities. First-line and escalation rosters are explicit and may differ. Unknown or duplicate identities fail before writes. Administrators remain authorized through `AccountUser` but are not made assignable unless explicitly listed.
+
+The command requires exactly one canonical account for each tenant key, distinct account IDs, and no unkeyed account adopting a canonical display name. It updates only managed records and never sends customer messages or deletes unrelated configuration. Managed team rosters are provisioned and verified exactly. Explicit inbox support users are added while existing InboxMembers, including the bootstrap administrator, are preserved. Every live inbox has auto-assignment disabled so the conversation-created automation routes directly to the explicit nonempty first-line team without a pre-team round-robin race. History imports are identified durably by `Channel::Api.additional_attributes.myinvest_history_import=true`, with a conservative name fallback. They are excluded from routing and roster changes, and fail validation if they have an API channel `webhook_url`, Inbox webhook, enabled integration hook, bot, or auto-assignment. Response targets are operational metadata in each account's `support_operations` custom attribute; the command neither creates nor claims an Enterprise SLA. Output contains counts and tenant keys only—no user details, credentials, or message content.
 
 ## WhatsApp and channels
 
