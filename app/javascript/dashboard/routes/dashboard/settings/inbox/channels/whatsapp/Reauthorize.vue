@@ -115,9 +115,17 @@ const startEmbeddedSignup = () => {
   let authCode = null;
   let pendingEvent = null;
   let messageHandler;
+  let settled = false;
+
+  const settle = () => {
+    if (settled) return;
+    settled = true;
+    window.removeEventListener('message', messageHandler);
+  };
 
   const process = () => {
     if (!authCode || !pendingEvent) return;
+    settle();
     handleEmbeddedSignupEvents(pendingEvent, authCode);
   };
 
@@ -129,6 +137,7 @@ const startEmbeddedSignup = () => {
       pendingEvent = data;
       process();
     } else {
+      settle();
       handleEmbeddedSignupEvents(data, authCode);
     }
   });
@@ -139,7 +148,7 @@ const startEmbeddedSignup = () => {
       authCode = code;
       process();
     },
-    cleanup: () => window.removeEventListener('message', messageHandler),
+    cleanup: settle,
   };
 };
 
