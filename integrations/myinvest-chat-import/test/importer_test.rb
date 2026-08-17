@@ -146,11 +146,14 @@ class MyinvestChatImportTest < Minitest::Test
     data_import.define_singleton_method(:statuses) { { 'completed' => 2 } }
 
     with_temporary_constant(:DataImport, data_import) do
+      Time.define_singleton_method(:current) { Time.now }
       MyinvestChatImport::RailsAdapter.new.complete_import(
         import_id: 7,
         processed_records: 11,
         stats: { 'message' => { 'created' => 11 } }
       )
+    ensure
+      Time.singleton_class.send(:remove_method, :current)
     end
 
     assert_nil updates.fetch(0).fetch(:processing_errors)
