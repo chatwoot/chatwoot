@@ -1,5 +1,5 @@
 class Whatsapp::WebhookSetupService
-  def initialize(channel, waba_id = nil, access_token = nil, is_coexistence: false)
+  def initialize(channel, waba_id = nil, access_token = nil, is_coexistence: nil)
     @channel = channel
     @waba_id = waba_id || channel.provider_config['business_account_id']
     @access_token = access_token || channel.provider_config['api_key']
@@ -23,10 +23,12 @@ class Whatsapp::WebhookSetupService
   private
 
   # Coexistence numbers come pre-registered, so /register is redundant. @is_coexistence (from the
-  # FE's FINISH event) skips the health API call entirely; health_data is only a fallback for
-  # callers with no such signal (manual setup, voice toggle, direct webhook re-registration).
+  # FE's FINISH event) skips the health API call entirely; the is_on_biz_app fallback only runs for
+  # callers that pass no signal at all (nil) — manual setup, voice toggle, direct webhook
+  # re-registration — since an explicit `false` already means the FE positively ruled out coexistence.
   def should_register_phone_number?
-    return false if @is_coexistence || health_data[:is_on_biz_app]
+    return false if @is_coexistence
+    return false if @is_coexistence.nil? && health_data[:is_on_biz_app]
 
     !phone_number_verified? || phone_number_needs_registration?
   end

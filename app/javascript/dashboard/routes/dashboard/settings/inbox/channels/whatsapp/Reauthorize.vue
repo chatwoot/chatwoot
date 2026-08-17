@@ -91,6 +91,7 @@ const handleEmbeddedSignupEvents = async (data, authCode) => {
           data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING',
       });
     } else {
+      isRequestingAuthorization.value = false;
       useAlert(
         t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.INVALID_BUSINESS_DATA')
       );
