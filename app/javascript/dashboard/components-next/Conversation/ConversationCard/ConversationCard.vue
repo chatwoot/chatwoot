@@ -57,10 +57,15 @@ const lastActivityAt = computed(() => {
   return timestamp ? shortTimestamp(dynamicTime(timestamp)) : '';
 });
 
-const showMessagePreviewWithoutMeta = computed(() => {
+const hasVisibleLabels = computed(() => {
   const { labels = [] } = props.conversation;
+  return props.accountLabels.some(({ title }) => labels.includes(title));
+});
+
+const showMessagePreviewWithoutMeta = computed(() => {
   return (
-    !cardMessagePreviewWithMetaRef.value?.hasSlaThreshold && labels.length === 0
+    !cardMessagePreviewWithMetaRef.value?.hasSlaThreshold &&
+    !hasVisibleLabels.value
   );
 });
 
@@ -128,6 +133,7 @@ const onCardClick = e => {
         :conversation="conversation"
         :contact="contact"
         :account-labels="accountLabels"
+        :has-labels="hasVisibleLabels"
       />
     </div>
   </div>
