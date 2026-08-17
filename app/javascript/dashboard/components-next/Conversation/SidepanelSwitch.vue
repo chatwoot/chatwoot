@@ -82,7 +82,7 @@ useKeyboardEvents(keyboardEvents);
         'bg-n-alpha-2 !text-n-iris-9 active:!brightness-105 active:shadow-sm':
           isCopilotPanelOpen,
       }"
-      icon="i-woot-captain"
+      icon="i-lucide-bot"
       @click="handleCopilotSidebarToggle"
     />
   </ButtonGroup>

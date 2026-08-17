@@ -211,7 +211,7 @@ const handleRetry = () => {
       <span
         class="flex gap-1 items-center text-sm truncate shrink-0 text-n-slate-11"
       >
-        <Icon icon="i-woot-captain" />
+        <Icon icon="i-lucide-bot" />
         {{ assistant?.name || '' }}
       </span>
       <a

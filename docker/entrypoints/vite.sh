@@ -4,8 +4,15 @@ set -x
 rm -rf /app/tmp/pids/server.pid
 rm -rf /app/tmp/cache/*
 
-pnpm store prune
-pnpm install --force
+# Install dependencies, preferring already-cached tarballs in the pnpm store
+# (mounted as the `pnpm_store` volume) so cold boots are a fast link pass
+# instead of an 8000+ package re-download. `--prefer-offline` still fetches
+# anything genuinely missing, and fails loudly if a required package can't be
+# resolved at all (rather than silently producing a broken install).
+if ! pnpm install --prefer-offline; then
+  echo "pnpm install failed; refusing to start Vite with a broken dependency tree." >&2
+  exit 1
+fi
 
 # The widget embed serves the SDK at /packs/js/sdk.js, but the dev pipeline
 # (Vite dev server) never produces it. It's built only by `build:sdk` (the

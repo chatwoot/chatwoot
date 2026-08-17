@@ -82,7 +82,7 @@ const language = computed(() =>
         class="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2 text-xs text-n-slate-10"
       >
         <span class="inline-flex min-w-0 items-center gap-1.5">
-          <Icon icon="i-woot-captain" class="size-3.5 shrink-0" />
+          <Icon icon="i-lucide-bot" class="size-3.5 shrink-0" />
           <span class="truncate">{{ suggestion.assistant?.name }}</span>
         </span>
         <span class="inline-flex items-center gap-1.5">

@@ -181,7 +181,7 @@ defineExpose({ dialogRef });
           <span
             class="inline-flex items-center gap-1.5 rounded-full bg-n-alpha-2 px-2.5 py-1"
           >
-            <Icon icon="i-woot-captain" class="size-3.5" />
+            <Icon icon="i-lucide-bot" class="size-3.5" />
             {{ suggestion.assistant?.name }}
           </span>
         </div>

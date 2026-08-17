@@ -146,15 +146,15 @@
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
+    "HEADER": "Members Overview",
+    "DESCRIPTION": "Easily track member performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click a member's name to learn more.",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "DOWNLOAD_AGENT_REPORTS": "Download member reports",
+    "FILTER_DROPDOWN_LABEL": "Select Member",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
-        "AGENTS": "Search agents"
+        "AGENTS": "Search members"
       }
     },
     "METRICS": {
