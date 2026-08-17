@@ -5,7 +5,6 @@ import { HeatmapChart } from '@chatwoot/viz';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 
-import { getQuantileIntervals } from '@chatwoot/utils';
 import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
 import { useI18n } from 'vue-i18n';
 
@@ -57,12 +56,15 @@ const columns = Array.from({ length: 24 }, (_, hour) => ({
   label: `${String(hour).padStart(2, '0')}:00`,
 }));
 
+const QUANTILES = [0.2, 0.4, 0.6, 0.8, 0.9, 0.99];
+
 const COLOR_SCHEMES = {
   blue: [
     'rgb(var(--blue-3))',
     'rgb(var(--blue-5))',
     'rgb(var(--blue-7))',
     'rgb(var(--blue-8))',
+    'rgb(var(--blue-9))',
     'rgb(var(--blue-10))',
     'rgb(var(--blue-11))',
   ],
@@ -71,6 +73,7 @@ const COLOR_SCHEMES = {
     'rgb(var(--teal-5))',
     'rgb(var(--teal-7))',
     'rgb(var(--teal-8))',
+    'rgb(var(--teal-9))',
     'rgb(var(--teal-10))',
     'rgb(var(--teal-11))',
   ],
@@ -93,24 +96,7 @@ const chartData = computed(() => {
   return { columns, rows };
 });
 
-const quantileRange = computed(() =>
-  getQuantileIntervals(
-    props.heatmapData.map(item => item.value),
-    [0.2, 0.4, 0.6, 0.8, 0.9, 0.99]
-  )
-);
-
-const getCellColor = cell => {
-  if (!cell?.value) return 'rgb(var(--slate-2))';
-
-  const level = [...quantileRange.value, Infinity].findIndex(
-    threshold => cell.value <= threshold
-  );
-
-  if (level === 0) return 'rgb(var(--slate-2))';
-
-  return COLOR_SCHEMES[props.colorScheme][level - 1];
-};
+const heatmapColors = computed(() => COLOR_SCHEMES[props.colorScheme]);
 
 const colorSchemeClass = computed(() => {
   return props.colorScheme === 'green'
@@ -157,11 +143,13 @@ const colorSchemeClass = computed(() => {
     v-else
     :data="chartData"
     :aria-label="ariaLabel"
-    :cell-color="getCellColor"
+    :colors="heatmapColors"
     :format-value="formatValue"
+    :quantiles="QUANTILES"
     :cell-min-width="24"
     :gap="5"
     :row-label-width="96"
+    zero-color="rgb(var(--solid-2))"
     class="[--cw-viz-heatmap-level-0-color:rgb(var(--slate-2))] [--cw-viz-heatmap-cell-border-color:rgb(var(--border-strong))] [--cw-viz-heatmap-label-color:rgb(var(--slate-11))] [--cw-viz-heatmap-label-background:rgb(var(--solid-2))] [--cw-viz-heatmap-row-title-color:rgb(var(--slate-12))] [--cw-viz-heatmap-column-label-color:rgb(var(--slate-12))] [--cw-viz-heatmap-tooltip-border-color:rgb(var(--border-strong))] [--cw-viz-heatmap-tooltip-color:rgb(var(--slate-12))] [--cw-viz-heatmap-tooltip-background:rgb(var(--solid-2))] [--cw-viz-heatmap-tooltip-label-color:rgb(var(--slate-11))]"
     :class="colorSchemeClass"
   />
