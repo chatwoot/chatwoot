@@ -69,51 +69,50 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     it 'accepts reply suggestion mode' do
-      service = described_class.new(assistant: assistant, execution_mode: :reply_suggestion)
+      service = described_class.new(assistant: assistant, source: described_class::REPLY_SUGGESTION_SOURCE)
 
-      expect(service.instance_variable_get(:@execution_mode)).to eq(:reply_suggestion)
+      expect(service.instance_variable_get(:@source)).to eq('copilot_reply_suggestion')
       expect(service.send(:trace_config)).to include(
         name: 'llm.captain.copilot.agent',
         tags: ['copilot']
       )
     end
-
-    it 'rejects an unknown execution mode' do
-      expect do
-        described_class.new(assistant: assistant, execution_mode: :unknown)
-      end.to raise_error(ArgumentError, 'Invalid execution mode: unknown')
-    end
   end
 
   describe '#build_and_wire_agents' do
-    it 'keeps only reply-safe tools and internal scenario routing in reply suggestion mode' do
+    it 'keeps only reply-safe tools and excludes scenarios in reply suggestion mode' do
       faq_tool = Captain::Tools::FaqLookupTool.new(assistant)
       handoff_tool = Captain::Tools::HandoffTool.new(assistant)
       get_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'GET'))
       post_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'POST'))
       private_note_tool = Captain::Tools::AddPrivateNoteTool.new(assistant)
-      assistant_agent = Agents::Agent.new(name: 'assistant', tools: [faq_tool, handoff_tool, get_tool, post_tool])
-      scenario_agent = Agents::Agent.new(name: 'scenario', tools: [private_note_tool])
-      service = described_class.new(assistant: assistant, conversation: conversation, execution_mode: :reply_suggestion)
+      assistant_agent = Agents::Agent.new(name: 'assistant', tools: [faq_tool, handoff_tool, get_tool, post_tool, private_note_tool])
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        source: described_class::REPLY_SUGGESTION_SOURCE
+      )
 
       allow(assistant).to receive(:agent).and_return(assistant_agent)
-      allow(scenario).to receive(:agent).and_return(scenario_agent)
+      expect(assistant).not_to receive(:scenarios)
 
-      configured_assistant, configured_scenario = service.send(:build_and_wire_agents)
+      configured_assistant = service.send(:build_and_wire_agents).sole
 
       expect(configured_assistant.tools).to contain_exactly(faq_tool, get_tool)
-      expect(configured_scenario.tools).to be_empty
-      expect(configured_assistant.handoff_agents).to contain_exactly(configured_scenario)
-      expect(configured_scenario.handoff_agents).to contain_exactly(configured_assistant)
+      expect(configured_assistant.handoff_agents).to be_empty
     end
 
     it 'uses the Copilot prompt without changing the Assistant prompt path' do
       assistant_agent = Agents::Agent.new(name: 'assistant')
-      service = described_class.new(assistant: assistant, conversation: conversation, execution_mode: :reply_suggestion)
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        source: described_class::REPLY_SUGGESTION_SOURCE
+      )
       context = instance_double(Agents::RunContext)
 
       allow(assistant).to receive(:agent).and_return(assistant_agent)
-      allow(assistant).to receive(:scenarios).and_return(Captain::Scenario.none)
+      expect(assistant).not_to receive(:scenarios)
       expect(assistant).to receive(:agent_instructions)
         .with(context, prompt_template: 'copilot_reply_suggestion')
         .and_return('Copilot instructions')
@@ -921,7 +920,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     it 'leaves final credit and discard metadata to the reply suggestion service' do
-      service = described_class.new(assistant: assistant, conversation: conversation, execution_mode: :reply_suggestion)
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        source: described_class::REPLY_SUGGESTION_SOURCE
+      )
       runner = instance_double(Agents::AgentRunner)
 
       allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)

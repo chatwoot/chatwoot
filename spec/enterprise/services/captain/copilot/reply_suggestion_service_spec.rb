@@ -42,8 +42,7 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
       hash_including(
         assistant: assistant,
         conversation: conversation,
-        source: 'copilot_reply_suggestion',
-        execution_mode: :reply_suggestion
+        source: Captain::Assistant::AgentRunnerService::REPLY_SUGGESTION_SOURCE
       )
     ).and_return(runner)
     allow(runner).to receive(:generate_response).and_return(response)
@@ -56,8 +55,7 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     expect(Captain::Assistant::AgentRunnerService).to have_received(:new).with(
       assistant: assistant,
       conversation: conversation,
-      source: 'copilot_reply_suggestion',
-      execution_mode: :reply_suggestion
+      source: Captain::Assistant::AgentRunnerService::REPLY_SUGGESTION_SOURCE
     )
     expect(runner).to have_received(:generate_response).with(
       message_history: [{ role: 'user', content: 'Who is your mascot?' }]

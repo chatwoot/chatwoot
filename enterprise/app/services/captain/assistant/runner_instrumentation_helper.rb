@@ -112,6 +112,6 @@ module Captain::Assistant::RunnerInstrumentationHelper
   end
 
   def trace_config
-    TRACE_CONFIG.fetch(@execution_mode)
+    TRACE_CONFIG.fetch(reply_suggestion? ? :reply_suggestion : :assistant)
   end
 end

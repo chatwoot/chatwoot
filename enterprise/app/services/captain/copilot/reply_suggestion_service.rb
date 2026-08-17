@@ -50,8 +50,7 @@ class Captain::Copilot::ReplySuggestionService
     runner = Captain::Assistant::AgentRunnerService.new(
       assistant: @assistant,
       conversation: conversation,
-      source: 'copilot_reply_suggestion',
-      execution_mode: :reply_suggestion
+      source: Captain::Assistant::AgentRunnerService::REPLY_SUGGESTION_SOURCE
     )
     response = runner.generate_response(message_history: conversation_history(conversation))
 

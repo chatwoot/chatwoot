@@ -10,22 +10,18 @@ class Captain::Assistant::AgentRunnerService
 
   attr_reader :last_run_result
 
-  EXECUTION_MODES = %i[assistant reply_suggestion].freeze
+  REPLY_SUGGESTION_SOURCE = 'copilot_reply_suggestion'.freeze
 
-  # rubocop:disable Metrics/ParameterLists
-  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil, execution_mode: :assistant)
+  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil)
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
     @source = source
     @responding_to_message_id = responding_to_message_id
-    @execution_mode = execution_mode.to_sym
-    raise ArgumentError, "Invalid execution mode: #{@execution_mode}" unless EXECUTION_MODES.include?(@execution_mode)
 
     @handoff_tool_called = false
     @handoff_tool_completed = false
   end
-  # rubocop:enable Metrics/ParameterLists
 
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)
@@ -106,8 +102,10 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def build_and_wire_agents
-    assistant_agent = agent_for_run(@assistant, 'copilot_reply_suggestion')
-    scenario_agents = @assistant.scenarios.enabled.map { |scenario| agent_for_run(scenario, 'copilot_reply_suggestion_scenario') }
+    return [reply_suggestion_agent] if reply_suggestion?
+
+    assistant_agent = @assistant.agent
+    scenario_agents = @assistant.scenarios.enabled.map(&:agent)
 
     assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
@@ -115,12 +113,10 @@ class Captain::Assistant::AgentRunnerService
     [assistant_agent] + scenario_agents
   end
 
-  def agent_for_run(agentable, reply_suggestion_template)
-    agent = agentable.agent
-    return agent unless reply_suggestion?
-
+  def reply_suggestion_agent
+    agent = @assistant.agent
     agent.clone(
-      instructions: ->(context) { agentable.agent_instructions(context, prompt_template: reply_suggestion_template) },
+      instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
       tools: agent.tools.select { |tool| available_in_reply_suggestion?(tool) }
     )
   end
@@ -131,7 +127,7 @@ class Captain::Assistant::AgentRunnerService
     tool.is_a?(Captain::Tools::HttpTool) && tool.available_in_reply_suggestion?
   end
 
-  def reply_suggestion? = @execution_mode == :reply_suggestion
+  def reply_suggestion? = @source == REPLY_SUGGESTION_SOURCE
 
   def runner
     @runner ||= begin
