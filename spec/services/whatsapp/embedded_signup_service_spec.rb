@@ -33,7 +33,7 @@ describe Whatsapp::EmbeddedSignupService do
 
       phone_service = instance_double(Whatsapp::PhoneInfoService)
       allow(Whatsapp::PhoneInfoService).to receive(:new)
-        .with(params[:waba_id], params[:phone_number_id], access_token).and_return(phone_service)
+        .with(params[:waba_id], params[:phone_number_id], access_token, expected_phone_number: anything).and_return(phone_service)
       allow(phone_service).to receive(:perform).and_return(phone_info)
 
       channel_creation = instance_double(Whatsapp::ChannelCreationService)

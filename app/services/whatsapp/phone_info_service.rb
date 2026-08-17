@@ -1,8 +1,9 @@
 class Whatsapp::PhoneInfoService
-  def initialize(waba_id, phone_number_id, access_token)
+  def initialize(waba_id, phone_number_id, access_token, expected_phone_number: nil)
     @waba_id = waba_id
     @phone_number_id = phone_number_id
     @access_token = access_token
+    @expected_phone_number = expected_phone_number
     @api_client = Whatsapp::FacebookApiClient.new(access_token)
   end
 
@@ -31,11 +32,25 @@ class Whatsapp::PhoneInfoService
   def find_phone_data(phone_numbers)
     return nil if phone_numbers.blank?
 
-    if @phone_number_id.present?
-      phone_numbers.find { |phone| phone['id'] == @phone_number_id } || phone_numbers.first
-    else
-      phone_numbers.first
-    end
+    find_by_id(phone_numbers) || find_by_expected_number(phone_numbers) || phone_numbers.first
+  end
+
+  def find_by_id(phone_numbers)
+    return nil if @phone_number_id.blank?
+
+    phone_numbers.find { |phone| phone['id'] == @phone_number_id }
+  end
+
+  # Coexistence completions can omit phone_number_id; when reauthorizing a known channel,
+  # match its existing number instead of arbitrarily taking the WABA's first number.
+  def find_by_expected_number(phone_numbers)
+    return nil if @phone_number_id.present? || @expected_phone_number.blank?
+
+    phone_numbers.find { |phone| matches_expected_phone_number?(phone) }
+  end
+
+  def matches_expected_phone_number?(phone)
+    "+#{sanitize_phone_number(phone['display_phone_number'])}" == @expected_phone_number
   end
 
   def build_phone_info(phone_data)

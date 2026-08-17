@@ -92,6 +92,31 @@ describe Whatsapp::PhoneInfoService do
       end
     end
 
+    context 'when phone_number_id is omitted but expected_phone_number matches a later WABA number' do
+      let(:phone_number_id) { nil }
+      let(:service) { described_class.new(waba_id, phone_number_id, access_token, expected_phone_number: '+1112223333') }
+      let(:phone_response) do
+        {
+          'data' => [
+            { 'id' => 'other_phone_id', 'display_phone_number' => '9876543210', 'verified_name' => 'Other Business',
+              'code_verification_status' => 'VERIFIED' },
+            { 'id' => 'target_phone_id', 'display_phone_number' => '1112223333', 'verified_name' => 'Target Business',
+              'code_verification_status' => 'VERIFIED' }
+          ]
+        }
+      end
+
+      before do
+        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+      end
+
+      it 'resolves the reauthorized phone number instead of taking the first' do
+        result = service.perform
+        expect(result[:phone_number_id]).to eq('target_phone_id')
+        expect(result[:phone_number]).to eq('+1112223333')
+      end
+    end
+
     context 'when no phone numbers are available' do
       let(:phone_response) { { 'data' => [] } }
 

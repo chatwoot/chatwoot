@@ -38,7 +38,20 @@ class Whatsapp::EmbeddedSignupService
   end
 
   def fetch_phone_info(access_token)
-    Whatsapp::PhoneInfoService.new(@waba_id, @phone_number_id, access_token).perform
+    Whatsapp::PhoneInfoService.new(
+      @waba_id, @phone_number_id, access_token, expected_phone_number: reauthorizing_channel&.phone_number
+    ).perform
+  end
+
+  # When phone_number_id is omitted (coexistence completions can leave it blank), this lets
+  # PhoneInfoService match the WABA number against the channel being reauthorized instead of
+  # arbitrarily taking the first number, which would misidentify a WABA with multiple numbers.
+  def reauthorizing_channel
+    return nil if @inbox_id.blank?
+
+    @reauthorizing_channel ||= @account.inboxes.find(@inbox_id).channel
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 
   def create_or_reauthorize_channel(access_token, phone_info)
