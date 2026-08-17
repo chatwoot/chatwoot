@@ -52,7 +52,7 @@ x-chatwoot: &chatwoot
     LOG_LEVEL: ${LOG_LEVEL:-info}
     LOGRAGE_ENABLED: ${LOGRAGE_ENABLED:-true}
     INSTALLATION_NAME: ${INSTALLATION_NAME:-MyInvest Support}
-    BRAND_NAME: ${BRAND_NAME:-MyInvest}
+    BRAND_NAME: ${BRAND_NAME:-MyInvest Support}
     GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID:-}
     GOOGLE_OAUTH_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET:-}
     GOOGLE_OAUTH_CALLBACK_URL: ${FRONTEND_URL}/google/callback
@@ -61,6 +61,7 @@ x-chatwoot: &chatwoot
     - ./bootstrap:/bootstrap:ro
     - ./runtime:/bootstrap-output
     - ./chatwoot-initializers/myinvest_security.rb:/app/config/initializers/myinvest_security.rb:ro
+    - ./chatwoot-config/premium_installation_config.yml:/app/enterprise/config/premium_installation_config.yml:ro
   networks:
     - backend
     - egress
@@ -286,6 +287,7 @@ services:
       - "${BIND_ADDRESS:-0.0.0.0}:${HTTPS_PORT:-443}:443/udp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./brand-assets:/srv/brand-assets:ro
       - caddy_data:/data
       - caddy_config:/config
     networks:

@@ -313,14 +313,27 @@ IMAGES
       exit 1
     }
   done
+  brand_assets_source="$(jq -r '.services.caddy.volumes[] | select(.target == "/srv/brand-assets") | .source' <<<"$rendered")"
+  [[ "$brand_assets_source" == "$deployment_dir/brand-assets" ]] || {
+    printf 'Brand assets are not mounted read-only into Caddy.\n' >&2
+    exit 1
+  }
+  jq -e '.services.caddy.volumes[] | select(.target == "/srv/brand-assets") | .read_only == true' <<<"$rendered" >/dev/null || {
+    printf 'Brand assets mount must be read-only.\n' >&2
+    exit 1
+  }
 fi
 
-docker run --rm \
-  -e CADDY_SITE_ADDRESS=localhost \
-  -e ACME_EMAIL=ops@example.invalid \
-  -v "$deployment_dir/Caddyfile:/etc/caddy/Caddyfile:ro" \
-  caddy:2.10.2-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d \
-  caddy validate --config /etc/caddy/Caddyfile >/dev/null
+for ingress_mode in direct cloudflare_tunnel; do
+  docker run --rm \
+    -e CADDY_SITE_ADDRESS=localhost \
+    -e CADDY_SITE_SCHEME=http \
+    -e "INGRESS_MODE=$ingress_mode" \
+    -e ACME_EMAIL=ops@example.invalid \
+    -v "$deployment_dir/Caddyfile:/etc/caddy/Caddyfile:ro" \
+    caddy:2.10.2-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d \
+    caddy validate --config /etc/caddy/Caddyfile >/dev/null
+done
 
 for helper in "$deployment_dir/scripts/backup.sh" "$deployment_dir/scripts/restore.sh"; do
   grep -q 'alpine:3.21@sha256:48b0309ca019d89d40f670aa1bc06e426dc0931948452e8491e3d65087abc07d' "$helper" || {

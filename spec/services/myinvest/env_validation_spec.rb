@@ -99,7 +99,7 @@ describe 'deployment/myinvest/scripts/validate.sh' do
       'LOG_LEVEL' => 'error',
       'LOGRAGE_ENABLED' => 'true',
       'INSTALLATION_NAME' => 'MyInvest Support',
-      'BRAND_NAME' => 'MyInvest',
+      'BRAND_NAME' => 'MyInvest Support',
       'BACKUP_DIR' => './backups',
       'BACKUP_RETENTION_DAYS' => '14',
       'BACKUP_GPG_RECIPIENT' => 'recipient',

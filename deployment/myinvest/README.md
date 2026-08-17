@@ -26,6 +26,8 @@ ${EDITOR:-vi} .env
 
 The generated `IMPORT_ID_HMAC_KEY` is a separate, durable key for pseudonymous source mappings during historical imports. It is included only in encrypted recovery metadata and is never passed to the running Chatwoot or Claude services.
 
+`bootstrap.sh` also applies the MyInvest Support name, links, and mounted `/brand-assets/` paths directly to `InstallationConfig`. Re-running it is idempotent and corrects stale database-backed branding without rebuilding the pinned Chatwoot image or changing tenant data. Caddy serves the mounted assets read-only, and handles only the exact public root with a temporary redirect to `/app/login`; all non-root routes continue through their existing handlers. `validate.sh` validates the Caddy configuration for both direct and Cloudflare Tunnel ingress, while `smoke.sh` checks the redirect, login, health endpoint, and configured branding assets.
+
 ### DGX Spark interim host
 
 `dgx-workloads` (`spark-4527`) can run this stack as an explicitly accepted interim host, but it is shared infrastructure and does not satisfy the dedicated-host prerequisite above. Keep the Docker volumes on the host NVMe and use Cloudflare only as the public edge. The host-side production environment for the private DGX fabric path is:

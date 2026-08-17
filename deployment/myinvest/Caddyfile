@@ -27,6 +27,14 @@
 		-Server
 	}
 
+	@root path /
+	redir @root /app/login 302
+
+	handle_path /brand-assets/* {
+		root * /srv/brand-assets
+		file_server
+	}
+
 	handle /_agent/webhooks/chatwoot {
 		uri strip_prefix /_agent
 		reverse_proxy claude-agent:8080

@@ -1,0 +1,32 @@
+# MyInvest branding values must match bootstrap/lib/branding.rb so the
+# Community plan reconciler cannot restore upstream Chatwoot metadata.
+- name: INSTALLATION_NAME
+  value: 'MyInvest Support'
+  locked: true
+- name: BRAND_NAME
+  value: 'MyInvest Support'
+  locked: true
+- name: BRAND_URL
+  value: 'https://www.myinvest-pro.de'
+  locked: true
+- name: WIDGET_BRAND_URL
+  value: 'https://www.myinvest-pro.de'
+  locked: true
+- name: TERMS_URL
+  value: 'https://www.myinvest-pro.de/agb'
+  locked: true
+- name: PRIVACY_URL
+  value: 'https://www.myinvest-pro.de/datenschutz'
+  locked: true
+- name: LOGO
+  value: '/brand-assets/logo.svg'
+  locked: true
+- name: LOGO_DARK
+  value: '/brand-assets/logo_dark.svg'
+  locked: true
+- name: LOGO_THUMBNAIL
+  value: '/brand-assets/logo_thumbnail.png'
+  locked: true
+- name: DISPLAY_MANIFEST
+  value: false
+  locked: true

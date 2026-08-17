@@ -15,6 +15,7 @@ bootstrap_environment=(
   -e MYINVEST_ACCOUNT_NAME -e ACADEMY_NEW_ACCOUNT_NAME -e ACADEMY_LEGACY_ACCOUNT_NAME
   -e MYINVEST_WEBSITE_URL -e ACADEMY_NEW_WEBSITE_URL -e ACADEMY_LEGACY_WEBSITE_URL
 )
+"${compose[@]}" run --rm rails bundle exec rails runner /bootstrap/branding.rb
 "${compose[@]}" run --rm "${bootstrap_environment[@]}" rails bundle exec rails runner /bootstrap/seed.rb
 "$deployment_dir/scripts/render-tenants-env.rb" "$deployment_dir/runtime/tenants.json" "$env_path"
 "${compose[@]}" up -d --build --force-recreate claude-agent

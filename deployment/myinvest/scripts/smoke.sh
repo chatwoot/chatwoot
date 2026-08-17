@@ -77,8 +77,37 @@ if [[ "$LOCAL_SMOKE" != true ]]; then
   '
 fi
 
-smoke_url="${SMOKE_URL:-${FRONTEND_URL%/}/health}"
+base_url="${FRONTEND_URL%/}"
+smoke_url="${SMOKE_URL:-$base_url/health}"
 curl_tls=()
 [[ "$LOCAL_SMOKE" == true ]] && curl_tls+=(--insecure)
-curl "${curl_tls[@]}" --fail --silent --show-error --max-time 15 "$smoke_url" >/dev/null
-printf 'Smoke test passed: services, egress, health endpoint, and three account boundaries.\n'
+
+root_headers="$(curl "${curl_tls[@]}" --silent --show-error --max-time 15 --output /dev/null --dump-header - "$base_url/")"
+root_status="$(awk '/^HTTP\// { status = $2 } END { print status }' <<<"$root_headers")"
+root_location="$(awk 'BEGIN { IGNORECASE = 1 } /^Location:/ { sub(/\r$/, "", $2); location = $2 } END { print location }' <<<"$root_headers")"
+[[ "$root_status" == 302 && "$root_location" == /app/login ]] || {
+  printf 'Unexpected public root response: status=%s location=%s\n' "$root_status" "$root_location" >&2
+  exit 1
+}
+
+login_status="$(curl "${curl_tls[@]}" --silent --show-error --max-time 15 --output /dev/null --write-out '%{http_code}' "$base_url/app/login")"
+[[ "$login_status" == 200 ]] || {
+  printf 'Unexpected login response: status=%s\n' "$login_status" >&2
+  exit 1
+}
+
+health_status="$(curl "${curl_tls[@]}" --silent --show-error --max-time 15 --output /dev/null --write-out '%{http_code}' "$smoke_url")"
+[[ "$health_status" == 200 ]] || {
+  printf 'Unexpected health response: status=%s\n' "$health_status" >&2
+  exit 1
+}
+
+for asset in logo.svg logo_dark.svg logo_thumbnail.png; do
+  asset_status="$(curl "${curl_tls[@]}" --silent --show-error --max-time 15 --output /dev/null --write-out '%{http_code}' "$base_url/brand-assets/$asset")"
+  [[ "$asset_status" == 200 ]] || {
+    printf 'Unexpected branding asset response for %s: status=%s\n' "$asset" "$asset_status" >&2
+    exit 1
+  }
+done
+
+printf 'Smoke test passed: services, egress, root redirect, login, health, branding assets, and three account boundaries.\n'
