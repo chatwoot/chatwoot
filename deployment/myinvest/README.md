@@ -92,6 +92,20 @@ GOOGLE_OAUTH_CLIENT_SECRET=...
 
 `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_CLIENT_SECRET` are optional but paired: `validate.sh` fails closed if exactly one is set. They are passed only to `rails` and `sidekiq`; the validator rejects any other service receiving `GOOGLE_OAUTH_CLIENT_SECRET`. Chatwoot builds the Google callback from `FRONTEND_URL`; do not set a separate callback env. Each tenant inbox must connect to its own shared mailbox address; never reuse or forward a personal inbox into a tenant channel.
 
+### Native channel readiness preflight
+
+Before creating native Email, Instagram DM, or WhatsApp channels, set `CHANNEL_READINESS_CONFIG_JSON` to an array whose entries map a canonical `TENANTS_JSON` `key` and `accountId` (as `account_id`) to channel configuration. Every channel needs a public `name`, matching `inbox_account_id`, exact `human_inbox_member_ids` and `expected_human_inbox_member_ids` rosters, `provider_health: "ready"`, `callback_verified: true`, and `bot_attached: false`. Email also needs `mailbox` and `dedicated_shared_mailbox_confirmed: true`. Instagram needs numeric `business_id`, `page_id`, and `account_id`, the complete `permissions` list (`instagram_manage_messages`, `pages_manage_metadata`, and `pages_show_list`), and `access_token_env`. WhatsApp needs an E.164 `phone_number`, numeric `waba_id`, `phone_number_id`, and `hubspot_channel_account_id`, plus `access_token_env`, `app_secret_env`, `hubspot_owner`, and the existing exact `cutover-whatsapp:<tenant>:<phone>` confirmation. These `*_env` values name variables containing credentials; credentials must not be placed directly in the manifest. Set `HUBSPOT_CUTOVER_CONFIRMED=true` only after ownership and deactivation are independently confirmed. The three Active Record encryption variables must be configured before credentials can pass preflight.
+
+A channel's `human_status` can be `ready` after those provider, exact callback, ownership, and roster checks pass. Its bot-attachment `status` remains `blocked` until that tenant/channel has a reviewed auto-reply evaluation recorded as `auto_reply_evaluation_approved: true`; missing approval produces only the redacted `auto_reply_evaluation_unapproved` reason. This approval is independent of retrieval ranking: `KNOWLEDGE_MIN_SCORE` is an FTS rank, not a probability or confidence threshold. If a tenant declares `history_inbox`, its account and human roster must match and `callback_count`, `hook_count`, `bot_attached`, and `auto_assignment_enabled` must prove that the inbox is inert.
+
+Run the fail-closed preflight from this directory:
+
+```bash
+./scripts/channel-readiness.rb
+```
+
+The command is always read-only/dry-run: it does not connect to providers, send messages, create channels, or register webhooks. Its exact JSON contract contains `version`, `dry_run`, overall `status`, and tenant/channel `status` plus fixed reason codes. It emits tenant keys and configured public channel names only; mailbox addresses, phone numbers, provider/account IDs, owners, OAuth values, tokens, app secrets, confirmations, and environment-variable names are never emitted. Duplicate email mailboxes, Instagram identifiers, or WhatsApp identities across tenants block every affected channel.
+
 ## Claude agent handoff
 
 The `claude-agent` service builds from `../../integrations/myinvest-claude-agent` and talks to Chatwoot over `http://rails:3000`. Chatwoot sends signed AgentBot webhooks through the public `/_agent/webhooks/chatwoot` route, so private-network SSRF access stays disabled. Bootstrap creates one website inbox and one account-scoped Agent Bot per account, connects each pair, and writes the canonical `TENANTS_JSON` keys `saas`, `new_academy`, and `legacy_academy` atomically to `.env`; no credential is printed. It then builds and starts the agent.
