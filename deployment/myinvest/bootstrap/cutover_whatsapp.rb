@@ -6,6 +6,15 @@ module Myinvest
   module WhatsappCutover
     module Bootstrap
       class Runner
+        class BootstrapError < StandardError; end
+
+        SAFE_SERVICE_ERRORS = [
+          Myinvest::WhatsappCutover::InputError,
+          Myinvest::WhatsappCutover::ConflictError,
+          Myinvest::WhatsappCutover::HealthError,
+          Myinvest::WhatsappCutover::ConfigurationError
+        ].freeze
+
         REQUIRED_VARIABLES = %w[
           CUTOVER_TENANT
           WHATSAPP_PHONE_NUMBER
@@ -37,6 +46,12 @@ module Myinvest
           channel = service.perform
           puts '[WHATSAPP_CUTOVER] completed'
           channel
+        rescue *SAFE_SERVICE_ERRORS => e
+          raise BootstrapError, e.message
+        rescue BootstrapError
+          raise
+        rescue StandardError
+          raise BootstrapError, 'WhatsApp cutover failed'
         end
 
         private
@@ -45,16 +60,16 @@ module Myinvest
 
         def validate_environment!
           missing = REQUIRED_VARIABLES.select { |key| env[key].to_s.empty? }
-          raise "Missing cutover variables: #{missing.join(', ')}" if missing.any?
+          raise BootstrapError, "Missing cutover variables: #{missing.join(', ')}" if missing.any?
         end
 
         def lookup_account!
           tenant_key = env.fetch('CUTOVER_TENANT')
           Account.where("custom_attributes ->> 'myinvest_tenant_key' = ?", tenant_key).sole
         rescue ActiveRecord::RecordNotFound
-          raise 'Tenant not found'
+          raise BootstrapError, 'Tenant not found'
         rescue ActiveRecord::SoleRecordExceeded
-          raise 'Ambiguous tenant configuration'
+          raise BootstrapError, 'Ambiguous tenant configuration'
         end
 
         def build_service(account)

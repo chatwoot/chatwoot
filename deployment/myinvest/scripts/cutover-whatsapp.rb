@@ -9,9 +9,14 @@ require 'uri'
 module Myinvest
   module WhatsappCutover
     class HubspotChannelChecker
+      DECIMAL_ID_REGEX = /\A[1-9][0-9]*\z/.freeze
+
       def initialize(access_token:, channel_account_id:, base_uri: 'https://api.hubapi.com')
         raise ArgumentError, 'HubSpot access token is required' if access_token.to_s.empty?
-        raise ArgumentError, 'HubSpot channel account ID is required' if channel_account_id.to_s.empty?
+        raise ArgumentError, 'HubSpot channel account ID is required' if channel_account_id.nil? || channel_account_id == ''
+        unless channel_account_id.is_a?(String) && channel_account_id.match?(DECIMAL_ID_REGEX)
+          raise ArgumentError, 'HubSpot channel account ID must be a positive numeric string'
+        end
 
         @access_token = access_token
         @channel_account_id = channel_account_id
@@ -35,19 +40,22 @@ module Myinvest
       def fetch_channel_account
         after = nil
         seen_afters = []
+        matches = []
 
         loop do
           page = fetch_page(after)
-          account = page['results'].find { |item| item['id'].to_s == channel_account_id.to_s }
-          return account if account
+          matches.concat(page['results'].select { |item| item['id'] == channel_account_id })
 
-          after = page.dig('paging', 'next', 'after')
+          after = next_cursor(page)
           break if after.nil?
           raise 'HubSpot pagination error' if seen_afters.include?(after)
 
           seen_afters << after
         end
-        nil
+
+        raise 'HubSpot channel account is duplicated; aborting cutover' if matches.length > 1
+
+        matches.first
       end
 
       def fetch_page(after)
@@ -85,11 +93,26 @@ module Myinvest
 
       def valid_result?(item)
         return false unless item.is_a?(Hash)
-        return false unless item.key?('id')
+        return false unless item['id'].is_a?(String) && item['id'].match?(DECIMAL_ID_REGEX)
         return false unless item['active'].is_a?(TrueClass) || item['active'].is_a?(FalseClass)
         return false unless item['authorized'].is_a?(TrueClass) || item['authorized'].is_a?(FalseClass)
 
         true
+      end
+
+      def next_cursor(page)
+        paging = page['paging']
+        return nil if paging.nil?
+        raise 'HubSpot response invalid' unless paging.is_a?(Hash)
+
+        next_page = paging['next']
+        return nil if next_page.nil?
+        raise 'HubSpot response invalid' unless next_page.is_a?(Hash)
+
+        cursor = next_page['after']
+        raise 'HubSpot response invalid' unless cursor.is_a?(String) && !cursor.empty?
+
+        cursor
       end
     end
 

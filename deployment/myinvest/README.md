@@ -71,7 +71,7 @@ The wrapper validates the confirmation, paginates HubSpot `conversations/v3/conv
 - creates or reuses the `legacy_academy` WhatsApp inbox keyed by phone number;
 - fails closed on cross-account or mismatched WABA/phone-ID conflicts;
 - sets the `whatsapp_cloud` provider config including `app_secret`;
-- runs `Whatsapp::WebhookSetupService` and propagates any failure;
+- registers only the Meta webhook callback (never the phone number) and converts provider failures to generic cutover errors;
 - verifies Meta health: exact phone, WABA, business portfolio, `CONNECTED`/`VERIFIED`/`CLOUD_API`, non-risky quality rating, and webhook callback;
 - attaches the tenant's `MyInvest Claude Support` AgentBot only after health passes;
 - assigns an existing account administrator to the inbox;

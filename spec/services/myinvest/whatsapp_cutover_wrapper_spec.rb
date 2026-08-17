@@ -16,7 +16,7 @@ describe Myinvest::WhatsappCutover::Wrapper do
       'WHATSAPP_ACCESS_TOKEN' => 'super-secret-access-token',
       'WHATSAPP_APP_SECRET' => 'super-secret-app-secret',
       'HUBSPOT_ACCESS_TOKEN' => 'super-secret-hubspot-token',
-      'HUBSPOT_CHANNEL_ACCOUNT_ID' => 'hubspot-channel-account-1'
+      'HUBSPOT_CHANNEL_ACCOUNT_ID' => '1396213374'
     }
   end
 
@@ -233,7 +233,7 @@ describe Myinvest::WhatsappCutover::Wrapper do
       allow_any_instance_of(Channel::Whatsapp).to receive(:sync_templates)
       allow_any_instance_of(Whatsapp::Providers::WhatsappCloudService)
         .to receive(:validate_provider_config?).and_return(true)
-      allow_any_instance_of(Whatsapp::WebhookSetupService).to receive(:perform).and_return(true)
+      allow_any_instance_of(Whatsapp::WebhookSetupService).to receive(:register_callback).and_return(true)
       allow_any_instance_of(Whatsapp::HealthService).to receive(:fetch_health_status).and_return(health_status)
     end
 
@@ -286,15 +286,26 @@ describe Myinvest::WhatsappCutover::Wrapper do
         expect(error.message).not_to include(token)
       end
     end
+
+    it 'sanitizes unexpected provider failures at the runner boundary' do
+      sentinel = 'provider-secret-phone-id-waba'
+      allow_any_instance_of(Myinvest::WhatsappCutover::Service).to receive(:perform).and_raise(sentinel)
+
+      expect { runner.run }.to raise_error do |error|
+        expect(error).to be_a(Myinvest::WhatsappCutover::Bootstrap::Runner::BootstrapError)
+        expect(error.message).to eq('WhatsApp cutover failed')
+        expect(error.message).not_to include(sentinel)
+      end
+    end
   end
 
   describe Myinvest::WhatsappCutover::HubspotChannelChecker do
-    subject(:checker) { described_class.new(access_token: 'token', channel_account_id: 'account-1') }
+    subject(:checker) { described_class.new(access_token: 'token', channel_account_id: '1396213374') }
 
     let(:base_uri) { 'https://api.hubapi.com' }
 
     it 'rejects empty access token' do
-      expect { described_class.new(access_token: '', channel_account_id: 'account-1') }
+      expect { described_class.new(access_token: '', channel_account_id: '1396213374') }
         .to raise_error(ArgumentError, /access token is required/)
     end
 
@@ -303,8 +314,15 @@ describe Myinvest::WhatsappCutover::Wrapper do
         .to raise_error(ArgumentError, /channel account ID is required/)
     end
 
+    it 'rejects non-string, zero, signed, padded, and leading-zero channel account ids' do
+      [1396213374, 0, '0', '+1', ' 1', '01'].each do |invalid_id|
+        expect { described_class.new(access_token: 'token', channel_account_id: invalid_id) }
+          .to raise_error(ArgumentError, /positive numeric string/)
+      end
+    end
+
     it 'rejects non-https base uri' do
-      expect { described_class.new(access_token: 'token', channel_account_id: 'account-1', base_uri: 'http://api.hubapi.com') }
+      expect { described_class.new(access_token: 'token', channel_account_id: '1396213374', base_uri: 'http://api.hubapi.com') }
         .to raise_error(ArgumentError, /HubSpot endpoint must use HTTPS/)
     end
 
@@ -319,8 +337,8 @@ describe Myinvest::WhatsappCutover::Wrapper do
       stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
         .to_return(status: 200, body: {
           'results' => [
-            { 'id' => 'other-account', 'active' => true, 'authorized' => true },
-            { 'id' => 'account-1', 'active' => false, 'authorized' => false }
+            { 'id' => '100', 'active' => true, 'authorized' => true },
+            { 'id' => '1396213374', 'active' => false, 'authorized' => false }
           ]
         }.to_json)
 
@@ -330,7 +348,7 @@ describe Myinvest::WhatsappCutover::Wrapper do
     it 'rejects cutover when the channel account is active' do
       stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
         .to_return(status: 200, body: {
-          'results' => [{ 'id' => 'account-1', 'active' => true, 'authorized' => false }]
+          'results' => [{ 'id' => '1396213374', 'active' => true, 'authorized' => false }]
         }.to_json)
 
       expect(checker.cutover_allowed?).to be(false)
@@ -339,7 +357,7 @@ describe Myinvest::WhatsappCutover::Wrapper do
     it 'rejects cutover when the channel account is authorized' do
       stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
         .to_return(status: 200, body: {
-          'results' => [{ 'id' => 'account-1', 'active' => false, 'authorized' => true }]
+          'results' => [{ 'id' => '1396213374', 'active' => false, 'authorized' => true }]
         }.to_json)
 
       expect(checker.cutover_allowed?).to be(false)
@@ -348,12 +366,12 @@ describe Myinvest::WhatsappCutover::Wrapper do
     it 'paginates through HubSpot channel accounts' do
       stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts\?limit=100$})
         .to_return(status: 200, body: {
-          'results' => [{ 'id' => 'page-one', 'active' => false, 'authorized' => false }],
+          'results' => [{ 'id' => '100', 'active' => false, 'authorized' => false }],
           'paging' => { 'next' => { 'after' => 'page2token' } }
         }.to_json)
       stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts\?.*after=page2token.*})
         .to_return(status: 200, body: {
-          'results' => [{ 'id' => 'account-1', 'active' => false, 'authorized' => false }]
+          'results' => [{ 'id' => '1396213374', 'active' => false, 'authorized' => false }]
         }.to_json)
 
       expect(checker.cutover_allowed?).to be(true)
@@ -384,7 +402,7 @@ describe Myinvest::WhatsappCutover::Wrapper do
 
     it 'rejects a result that is not a hash' do
       stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
-        .to_return(status: 200, body: { 'results' => ['account-1'] }.to_json)
+        .to_return(status: 200, body: { 'results' => ['1396213374'] }.to_json)
 
       expect { checker.cutover_allowed? }.to raise_error(/HubSpot response invalid/)
     end
@@ -392,7 +410,7 @@ describe Myinvest::WhatsappCutover::Wrapper do
     it 'rejects string boolean flags' do
       stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
         .to_return(status: 200, body: {
-          'results' => [{ 'id' => 'account-1', 'active' => 'false', 'authorized' => 'false' }]
+          'results' => [{ 'id' => '1396213374', 'active' => 'false', 'authorized' => 'false' }]
         }.to_json)
 
       expect { checker.cutover_allowed? }.to raise_error(/HubSpot response invalid/)
@@ -425,7 +443,7 @@ describe Myinvest::WhatsappCutover::Wrapper do
     it 'rejects a result missing active or authorized flags' do
       stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
         .to_return(status: 200, body: {
-          'results' => [{ 'id' => 'account-1' }]
+          'results' => [{ 'id' => '1396213374' }]
         }.to_json)
 
       expect { checker.cutover_allowed? }.to raise_error(/HubSpot response invalid/)
@@ -436,6 +454,43 @@ describe Myinvest::WhatsappCutover::Wrapper do
         .to_return(status: 200, body: 'not-json')
 
       expect { checker.cutover_allowed? }.to raise_error(/HubSpot response invalid/)
+    end
+
+    it 'rejects malformed result identifiers' do
+      [1396213374, '0', '01', '+1', ' 1'].each do |invalid_id|
+        stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
+          .to_return(status: 200, body: {
+            'results' => [{ 'id' => invalid_id, 'active' => false, 'authorized' => false }]
+          }.to_json)
+
+        expect { checker.cutover_allowed? }.to raise_error(/HubSpot response invalid/)
+      end
+    end
+
+    it 'rejects an empty or non-string pagination cursor' do
+      ['', 2].each do |invalid_cursor|
+        stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
+          .to_return(status: 200, body: {
+            'results' => [],
+            'paging' => { 'next' => { 'after' => invalid_cursor } }
+          }.to_json)
+
+        expect { checker.cutover_allowed? }.to raise_error(/HubSpot response invalid/)
+      end
+    end
+
+    it 'rejects duplicate exact matches across pages' do
+      stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts\?limit=100$})
+        .to_return(status: 200, body: {
+          'results' => [{ 'id' => '1396213374', 'active' => false, 'authorized' => false }],
+          'paging' => { 'next' => { 'after' => 'next-page' } }
+        }.to_json)
+      stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts\?.*after=next-page.*})
+        .to_return(status: 200, body: {
+          'results' => [{ 'id' => '1396213374', 'active' => false, 'authorized' => false }]
+        }.to_json)
+
+      expect { checker.cutover_allowed? }.to raise_error(/duplicated/)
     end
   end
 end

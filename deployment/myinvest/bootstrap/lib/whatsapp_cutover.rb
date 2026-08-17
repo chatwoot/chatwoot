@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'securerandom'
+require 'logger'
 require 'uri'
 
 module Myinvest
@@ -8,6 +9,7 @@ module Myinvest
     class ConflictError < StandardError; end
     class HealthError < StandardError; end
     class ConfigurationError < StandardError; end
+    class InputError < ArgumentError; end
 
     class Service
       REQUIRED_STATUS = 'CONNECTED'
@@ -15,16 +17,16 @@ module Myinvest
       REQUIRED_PLATFORM_TYPE = 'CLOUD_API'
       RISKY_QUALITY_RATINGS = %w[YELLOW RED].freeze
       E164_REGEX = /\A\+[1-9]\d{1,14}\z/.freeze
-      DECIMAL_ID_REGEX = /\A\d+\z/.freeze
+      DECIMAL_ID_REGEX = /\A[1-9][0-9]*\z/.freeze
 
       attr_reader :account, :phone_number, :phone_number_id, :waba_id, :business_portfolio_id, :access_token, :app_secret
 
       def initialize(account:, phone_number:, phone_number_id:, waba_id:, business_portfolio_id:, access_token:, app_secret:)
         @account = account
         @phone_number = phone_number.to_s.strip
-        @phone_number_id = phone_number_id.to_s.strip
-        @waba_id = waba_id.to_s.strip
-        @business_portfolio_id = business_portfolio_id.to_s.strip
+        @phone_number_id = phone_number_id
+        @waba_id = waba_id
+        @business_portfolio_id = business_portfolio_id
         @access_token = access_token.to_s
         @app_secret = app_secret.to_s
         validate_parameters!
@@ -42,37 +44,52 @@ module Myinvest
       private
 
       def validate_parameters!
-        raise ArgumentError, 'Account is required' if account.blank?
-        raise ArgumentError, 'Phone number is required' if phone_number.blank?
-        raise ArgumentError, 'Phone number must be a valid E.164 number' unless phone_number.match?(E164_REGEX)
-        raise ArgumentError, 'Phone number ID is required' if phone_number_id.blank?
-        raise ArgumentError, 'Phone number ID must be a numeric string' unless phone_number_id.match?(DECIMAL_ID_REGEX)
-        raise ArgumentError, 'WABA ID is required' if waba_id.blank?
-        raise ArgumentError, 'WABA ID must be a numeric string' unless waba_id.match?(DECIMAL_ID_REGEX)
-        raise ArgumentError, 'Business portfolio ID is required' if business_portfolio_id.blank?
-        raise ArgumentError, 'Business portfolio ID must be a numeric string' unless business_portfolio_id.match?(DECIMAL_ID_REGEX)
-        raise ArgumentError, 'Access token is required' if access_token.blank?
-        raise ArgumentError, 'App secret is required' if app_secret.blank?
+        raise InputError, 'Account is required' if account.blank?
+        raise InputError, 'Phone number is required' if phone_number.blank?
+        raise InputError, 'Phone number must be a valid E.164 number' unless phone_number.match?(E164_REGEX)
+        validate_identifier!(phone_number_id, 'Phone number ID')
+        validate_identifier!(waba_id, 'WABA ID')
+        validate_identifier!(business_portfolio_id, 'Business portfolio ID')
+        raise InputError, 'Access token is required' if access_token.blank?
+        raise InputError, 'App secret is required' if app_secret.blank?
+      end
+
+      def validate_identifier!(value, label)
+        raise InputError, "#{label} is required" if value.nil? || (value.is_a?(String) && value.empty?)
+        raise InputError, "#{label} must be a numeric string" unless value.is_a?(String) && value.match?(DECIMAL_ID_REGEX)
       end
 
       def find_or_create_channel!
         existing = Channel::Whatsapp.find_by(phone_number: phone_number)
         if existing
           validate_ownership!(existing)
-          apply_provider_config!(existing)
+          silence_provider_logs { apply_provider_config!(existing) }
+          Rails.logger.info('[WHATSAPP_CUTOVER] channel configured')
           return existing
         end
 
-        ActiveRecord::Base.transaction do
-          channel = Channel::Whatsapp.build(
-            account: account,
-            phone_number: phone_number,
-            provider: 'whatsapp_cloud',
-            provider_config: build_provider_config
-          )
-          Inbox.create!(account: account, name: build_inbox_name, channel: channel)
-          channel
+        channel = silence_provider_logs do
+          ActiveRecord::Base.transaction do
+            channel = Channel::Whatsapp.build(
+              account: account,
+              phone_number: phone_number,
+              provider: 'whatsapp_cloud',
+              provider_config: build_provider_config
+            )
+            Inbox.create!(account: account, name: build_inbox_name, channel: channel)
+            channel
+          end
         end
+        Rails.logger.info('[WHATSAPP_CUTOVER] channel configured')
+        channel
+      rescue ConflictError
+        raise
+      rescue StandardError
+        raise ConfigurationError, 'Channel configuration failed'
+      end
+
+      def silence_provider_logs(&block)
+        Rails.logger.silence(::Logger::UNKNOWN + 1, &block)
       end
 
       def validate_ownership!(channel)
@@ -81,8 +98,8 @@ module Myinvest
         end
 
         config = channel.provider_config || {}
-        existing_waba = config['business_account_id'].to_s
-        existing_phone_id = config['phone_number_id'].to_s
+        existing_waba = config['business_account_id']
+        existing_phone_id = config['phone_number_id']
 
         if existing_waba.present? && existing_waba != waba_id
           raise ConflictError, 'Existing phone number is registered under a different WABA; cutover rejected'
@@ -117,9 +134,12 @@ module Myinvest
       end
 
       def setup_webhook!(channel)
-        Whatsapp::WebhookSetupService.new(channel, waba_id, access_token).perform
+        silence_provider_logs do
+          Whatsapp::WebhookSetupService.new(channel, waba_id, access_token).register_callback
+        end
+        Rails.logger.info('[WHATSAPP_CUTOVER] webhook configured')
       rescue StandardError
-        raise 'Webhook setup failed'
+        raise ConfigurationError, 'Webhook setup failed'
       end
 
       def verify_health!(channel)
@@ -138,7 +158,7 @@ module Myinvest
       end
 
       def fetch_health(channel)
-        Whatsapp::HealthService.new(channel).fetch_health_status
+        silence_provider_logs { Whatsapp::HealthService.new(channel).fetch_health_status }
       rescue HealthError
         raise
       rescue StandardError
@@ -146,8 +166,8 @@ module Myinvest
       end
 
       def verify_phone_id!(health)
-        actual_id = health[:id].to_s
-        return if actual_id.present? && actual_id == phone_number_id
+        actual_id = health[:id]
+        return if valid_matching_identifier?(actual_id, phone_number_id)
 
         raise HealthError, 'Health check failed: phone number ID mismatch'
       end
@@ -160,15 +180,15 @@ module Myinvest
       end
 
       def verify_waba!(health)
-        actual_waba = health[:business_account_id].to_s
-        return if actual_waba.present? && actual_waba == waba_id
+        actual_waba = health[:business_account_id]
+        return if valid_matching_identifier?(actual_waba, waba_id)
 
         raise HealthError, 'Health check failed: WABA mismatch'
       end
 
       def verify_business_portfolio!(health)
-        portfolio_id = health[:business_portfolio_id].to_s
-        return if portfolio_id.present? && portfolio_id == business_portfolio_id
+        portfolio_id = health[:business_portfolio_id]
+        return if valid_matching_identifier?(portfolio_id, business_portfolio_id)
 
         raise HealthError, 'Health check failed: business portfolio mismatch'
       end
@@ -222,6 +242,10 @@ module Myinvest
         "#{strict_frontend_origin}/webhooks/whatsapp/#{phone_number}"
       end
 
+      def valid_matching_identifier?(actual, expected)
+        actual.is_a?(String) && actual.match?(DECIMAL_ID_REGEX) && actual == expected
+      end
+
       def strict_frontend_origin
         url = ENV.fetch('FRONTEND_URL', '')
         raise HealthError, 'Health check failed: FRONTEND_URL is not configured' if url.blank?
@@ -231,6 +255,7 @@ module Myinvest
         raise HealthError, 'Health check failed: FRONTEND_URL must not contain userinfo' if uri.userinfo.present?
         raise HealthError, 'Health check failed: FRONTEND_URL must not contain a query string' if uri.query.present?
         raise HealthError, 'Health check failed: FRONTEND_URL must not contain a fragment' if uri.fragment.present?
+        raise HealthError, 'Health check failed: FRONTEND_URL must be an origin' unless uri.path.blank? || uri.path == '/'
 
         host = uri.host.to_s.downcase
         raise HealthError, 'Health check failed: FRONTEND_URL host is missing' if host.blank?

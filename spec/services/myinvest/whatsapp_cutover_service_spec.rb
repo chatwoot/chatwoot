@@ -49,7 +49,7 @@ describe Myinvest::WhatsappCutover::Service do
     allow_any_instance_of(Channel::Whatsapp).to receive(:sync_templates)
     allow_any_instance_of(Whatsapp::Providers::WhatsappCloudService)
       .to receive(:validate_provider_config?).and_return(true)
-    allow_any_instance_of(Whatsapp::WebhookSetupService).to receive(:perform).and_return(true)
+    allow_any_instance_of(Whatsapp::WebhookSetupService).to receive(:register_callback).and_return(true)
     allow_any_instance_of(Whatsapp::HealthService).to receive(:fetch_health_status).and_return(health_status)
   end
 
@@ -107,6 +107,13 @@ describe Myinvest::WhatsappCutover::Service do
     it 'requires phone number id to be numeric' do
       expect { build_service(phone_number_id: 'abc123') }
         .to raise_error(ArgumentError, 'Phone number ID must be a numeric string')
+    end
+
+    it 'requires provider ids to be exact positive decimal strings' do
+      [0, '0', '01', '+1', ' 1'].each do |invalid_id|
+        expect { build_service(phone_number_id: invalid_id) }
+          .to raise_error(ArgumentError, 'Phone number ID must be a numeric string')
+      end
     end
 
     it 'requires waba id' do
@@ -221,9 +228,19 @@ describe Myinvest::WhatsappCutover::Service do
 
     it 'fails closed on webhook setup failures with a generic message' do
       allow_any_instance_of(Whatsapp::WebhookSetupService)
-        .to receive(:perform).and_raise('Meta webhook error')
+        .to receive(:register_callback).and_raise('Meta webhook error')
 
-      expect { service.perform }.to raise_error(RuntimeError, 'Webhook setup failed')
+      expect { service.perform }.to raise_error(Myinvest::WhatsappCutover::ConfigurationError, 'Webhook setup failed')
+    end
+
+    it 'registers only the callback and never invokes phone registration' do
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+
+      expect_any_instance_of(Whatsapp::WebhookSetupService).to receive(:register_callback).once.and_return(true)
+      expect_any_instance_of(Whatsapp::WebhookSetupService).not_to receive(:perform)
+
+      service.perform
     end
 
     it 'verifies health before attaching agent bot' do
@@ -395,6 +412,16 @@ describe Myinvest::WhatsappCutover::Service do
       end
     end
 
+    it 'rejects a FRONTEND_URL with a non-root path' do
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+
+      with_modified_env FRONTEND_URL: 'https://support.myinvest-pro.de/nested' do
+        expect { service.perform }
+          .to raise_error(Myinvest::WhatsappCutover::HealthError, /FRONTEND_URL must be an origin/)
+      end
+    end
+
     it 'ignores health expected_webhook_url and compares only override_callback_uri' do
       create(:user)
       create(:account_user, account: account, user: create(:user), role: :administrator)
@@ -470,7 +497,7 @@ describe Myinvest::WhatsappCutover::Service do
       create(:account_user, account: account, user: create(:user), role: :administrator)
       create(:agent_bot, account: account, name: 'MyInvest Claude Support')
       allow_any_instance_of(Whatsapp::WebhookSetupService)
-        .to receive(:perform).and_raise("Meta error for #{phone_number} token #{access_token}")
+        .to receive(:register_callback).and_raise("Meta error for #{phone_number} token #{access_token}")
 
       expect { service.perform }.to raise_error do |error|
         expect(error.message).not_to include(phone_number)
@@ -491,6 +518,26 @@ describe Myinvest::WhatsappCutover::Service do
       log_text = logged.join("\n")
       expect(log_text).not_to include(access_token)
       expect(log_text).not_to include(app_secret)
+    end
+
+    it 'silences provider logs containing credentials and identifiers' do
+      create(:account_user, account: account, user: create(:user), role: :administrator)
+      create(:agent_bot, account: account, name: 'MyInvest Claude Support')
+      sentinel = "#{access_token}:#{app_secret}:#{phone_number}:#{phone_number_id}:#{waba_id}"
+      allow_any_instance_of(Whatsapp::WebhookSetupService).to receive(:register_callback) do
+        Rails.logger.error(sentinel)
+        true
+      end
+
+      output = StringIO.new
+      previous_logger = Rails.logger
+      Rails.logger = ActiveSupport::Logger.new(output)
+      service.perform
+
+      expect(output.string).not_to include(sentinel)
+      expect(output.string).not_to include(access_token, app_secret, phone_number, phone_number_id, waba_id)
+    ensure
+      Rails.logger = previous_logger
     end
 
     it 'does not log phone numbers, provider IDs, or internal resource IDs' do
