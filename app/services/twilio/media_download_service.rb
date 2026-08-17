@@ -2,7 +2,16 @@ class Twilio::MediaDownloadService
   RETRY_DELAYS = [1, 3].freeze
   API_HOST_PATTERN = /\Aapi(?:\.[a-z0-9-]+){0,2}\.twilio\.com\z/i
 
-  pattr_initialize [:channel!, :media_url!, :message_sid!, :media_index!]
+  pattr_initialize [:channel!, :media_url!, :message_sid!, :media_index!] do
+    @account_sid = channel.account_sid
+    @auth_credentials = if channel.api_key_sid.present?
+                          [channel.api_key_sid, channel.auth_token]
+                        else
+                          [account_sid, channel.auth_token]
+                        end
+  end
+
+  attr_private :account_sid, :auth_credentials
 
   def perform
     return download_without_auth unless valid_retry_url?
@@ -41,13 +50,7 @@ class Twilio::MediaDownloadService
   end
 
   def download_with_auth
-    Down.download(media_url, http_basic_authentication: auth_credentials)
-  end
-
-  def auth_credentials
-    return [channel.api_key_sid, channel.auth_token] if channel.api_key_sid.present?
-
-    [channel.account_sid, channel.auth_token]
+    Down.download(media_url, http_basic_authentication: auth_credentials, max_redirects: 0)
   end
 
   def download_without_auth
@@ -83,7 +86,7 @@ class Twilio::MediaDownloadService
   end
 
   def valid_media_path?(path)
-    prefix = "/2010-04-01/Accounts/#{channel.account_sid}/Messages/#{message_sid}/Media/"
+    prefix = "/2010-04-01/Accounts/#{account_sid}/Messages/#{message_sid}/Media/"
     path.match?(/\A#{Regexp.escape(prefix)}ME[0-9a-f]{32}\z/i)
   end
 

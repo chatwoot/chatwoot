@@ -84,6 +84,39 @@ RSpec.describe Twilio::MediaDownloadService do
     expect(a_request(:get, media_url).with { |request| request.headers['Authorization'].blank? }).not_to have_been_made
   end
 
+  it 'does not follow redirects for authenticated media downloads' do
+    redirect_url = 'https://redirect.example/media.jpg'
+    stub_request(:get, media_url)
+      .with(basic_auth: auth_credentials)
+      .to_return(status: 302, headers: { 'Location' => redirect_url })
+    stub_request(:get, redirect_url)
+      .to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/jpeg' })
+
+    expect(service.perform).to be_nil
+
+    expect(a_request(:get, media_url).with(basic_auth: auth_credentials)).to have_been_made.once
+    expect(a_request(:get, redirect_url)).not_to have_been_made
+  end
+
+  it 'uses the initial channel credentials for every retry' do
+    initial_credentials = auth_credentials
+    changed_credentials = ['ACchanged', 'changed-token']
+    stub_request(:get, media_url)
+      .with(basic_auth: initial_credentials)
+      .to_return(
+        { status: 404 },
+        { status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' } }
+      )
+    allow(service).to receive(:sleep) do
+      channel.assign_attributes(account_sid: changed_credentials.first, auth_token: changed_credentials.last)
+    end
+
+    expect(service.perform.content_type).to eq('image/png')
+
+    expect(a_request(:get, media_url).with(basic_auth: initial_credentials)).to have_been_made.twice
+    expect(a_request(:get, media_url).with(basic_auth: changed_credentials)).not_to have_been_made
+  end
+
   context 'when media comes from a non-Twilio URL' do
     let(:media_url) { 'https://example.com/media.jpg' }
 
@@ -129,9 +162,13 @@ RSpec.describe Twilio::MediaDownloadService do
     let(:api_key_sid) { "SK#{'3' * 32}" }
     let(:api_key_secret) { 'api-key-secret' }
     let(:api_key_credentials) { [api_key_sid, api_key_secret] }
+    let(:channel) do
+      super().tap do |twilio_channel|
+        twilio_channel.update!(api_key_sid: api_key_sid, auth_token: api_key_secret)
+      end
+    end
 
     it 'uses the API key credentials for every transient 404 attempt' do
-      channel.update!(api_key_sid: api_key_sid, auth_token: api_key_secret)
       stub_request(:get, media_url)
         .with(basic_auth: api_key_credentials)
         .to_return(
