@@ -48,6 +48,23 @@ For a local proof stack, set `LOCAL_SMOKE=true`, `BIND_ADDRESS=127.0.0.1`, and u
 
 The initial password exists only in `.env` as `ADMIN_PASSWORD`. Log in as `ADMIN_EMAIL`, change that password immediately, enable MFA, then remove `ADMIN_PASSWORD` from `.env` after bootstrap. Re-running bootstrap does not change an existing user's password or duplicate accounts/memberships.
 
+### Support structure
+
+Preview the tenant-scoped teams, labels, inbox memberships, and safe routing/priority automations with the default dry run:
+
+```bash
+./scripts/bootstrap-support-structure.rb
+```
+
+Apply only with the exact production confirmation:
+
+```bash
+SUPPORT_STRUCTURE_CONFIRMATION=provision-support-structure:production \
+  ./scripts/bootstrap-support-structure.rb --apply
+```
+
+The command requires exactly one canonical account for each tenant key, distinct account IDs, and no unkeyed account adopting a canonical display name. It updates only managed records and never sends customer messages or deletes unrelated configuration. Every current human account member is provisioned and verified as both a member of each managed routing team and an `InboxMember` of each live inbox; inbox membership remains the visibility boundary. History/archive inboxes are excluded from routing and roster changes, and fail validation if they have a bot, webhook, enabled integration hook, or auto-assignment. Response targets are operational metadata in each account's `support_operations` custom attribute; the command neither creates nor claims an Enterprise SLA. Output contains counts and tenant keys only—no user details, credentials, or message content.
+
 ## WhatsApp and channels
 
 Configure channels inside the matching account, never in the shared installation context:
