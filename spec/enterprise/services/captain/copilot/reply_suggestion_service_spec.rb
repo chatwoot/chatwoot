@@ -126,6 +126,23 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     )
   end
 
+  it 'preserves raw links without adding citations when citations are disabled' do
+    assistant.update!(config: assistant.config.merge('feature_citation' => false))
+    allow(assistant).to receive(:trusted_citation_urls).and_call_original
+    allow(runner).to receive(:generate_response).and_return(
+      'response_parts' => [{ 'text' => 'Guide: https://yc.ms/eglb1H', 'citation_indexes' => [1] }],
+      'response' => 'Guide: https://yc.ms/eglb1H',
+      'reasoning' => 'Used the configured response guideline.'
+    )
+
+    service.generate_response
+
+    expect(copilot_thread.copilot_messages.last.message).to include(
+      'content' => 'Guide: https://yc.ms/eglb1H',
+      'reply_suggestion' => true
+    )
+  end
+
   it 'increments response usage after persisting the suggestion' do
     expect do
       service.generate_response
