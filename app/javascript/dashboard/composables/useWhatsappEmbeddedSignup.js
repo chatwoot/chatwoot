@@ -56,6 +56,9 @@ export function useWhatsappEmbeddedSignup() {
           data.event === 'FINISH' ||
           data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
         ) {
+          // Keep the first terminal event: a coexistence FINISH must win over a
+          // later normal FINISH that can arrive before the auth code is known.
+          if (businessData) return;
           if (!isValidBusinessData(data.data)) {
             settle(reject, new Error('Invalid business data'));
             return;
