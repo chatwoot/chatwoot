@@ -5,6 +5,7 @@ import { HeatmapChart } from '@chatwoot/viz';
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
 
+import { getQuantileIntervals } from '@chatwoot/utils';
 import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
 import { useI18n } from 'vue-i18n';
 
@@ -53,8 +54,27 @@ const DAYS_OF_WEEK = [
 
 const columns = Array.from({ length: 24 }, (_, hour) => ({
   id: hour,
-  label: String(hour),
+  label: `${String(hour).padStart(2, '0')}:00`,
 }));
+
+const COLOR_SCHEMES = {
+  blue: [
+    'rgb(var(--blue-3))',
+    'rgb(var(--blue-5))',
+    'rgb(var(--blue-7))',
+    'rgb(var(--blue-8))',
+    'rgb(var(--blue-10))',
+    'rgb(var(--blue-11))',
+  ],
+  green: [
+    'rgb(var(--teal-3))',
+    'rgb(var(--teal-5))',
+    'rgb(var(--teal-7))',
+    'rgb(var(--teal-8))',
+    'rgb(var(--teal-10))',
+    'rgb(var(--teal-11))',
+  ],
+};
 
 const chartData = computed(() => {
   const groupedData = groupHeatmapByDay(props.heatmapData);
@@ -73,10 +93,29 @@ const chartData = computed(() => {
   return { columns, rows };
 });
 
+const quantileRange = computed(() =>
+  getQuantileIntervals(
+    props.heatmapData.map(item => item.value),
+    [0.2, 0.4, 0.6, 0.8, 0.9, 0.99]
+  )
+);
+
+const getCellColor = cell => {
+  if (!cell?.value) return 'rgb(var(--slate-2))';
+
+  const level = [...quantileRange.value, Infinity].findIndex(
+    threshold => cell.value <= threshold
+  );
+
+  if (level === 0) return 'rgb(var(--slate-2))';
+
+  return COLOR_SCHEMES[props.colorScheme][level - 1];
+};
+
 const colorSchemeClass = computed(() => {
   return props.colorScheme === 'green'
-    ? '[--cw-viz-heatmap-level-1-color:rgb(var(--teal-3))] [--cw-viz-heatmap-level-2-color:rgb(var(--teal-5))] [--cw-viz-heatmap-level-3-color:rgb(var(--teal-8))] [--cw-viz-heatmap-level-4-color:rgb(var(--teal-11))] [--cw-viz-heatmap-focus-color:rgb(var(--teal-9))]'
-    : '[--cw-viz-heatmap-level-1-color:rgb(var(--blue-3))] [--cw-viz-heatmap-level-2-color:rgb(var(--blue-5))] [--cw-viz-heatmap-level-3-color:rgb(var(--blue-8))] [--cw-viz-heatmap-level-4-color:rgb(var(--blue-11))] [--cw-viz-heatmap-focus-color:rgb(var(--blue-9))]';
+    ? '[--cw-viz-heatmap-focus-color:rgb(var(--teal-9))]'
+    : '[--cw-viz-heatmap-focus-color:rgb(var(--blue-9))]';
 });
 </script>
 
@@ -118,6 +157,7 @@ const colorSchemeClass = computed(() => {
     v-else
     :data="chartData"
     :aria-label="ariaLabel"
+    :cell-color="getCellColor"
     :format-value="formatValue"
     :cell-min-width="24"
     :gap="5"
