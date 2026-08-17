@@ -6,6 +6,7 @@ require 'minitest/autorun'
 require 'tmpdir'
 
 require_relative '../lib/myinvest_chat_import'
+require_relative '../lib/myinvest_chat_import/rails_adapter'
 
 class MyinvestChatImportTest < Minitest::Test
   TENANTS = %w[saas new_academy legacy_academy].freeze
@@ -134,6 +135,26 @@ class MyinvestChatImportTest < Minitest::Test
       assert_equal 4, adapter.mappings.length
       assert_equal 'completed', adapter.imports.fetch(0).fetch(:status)
     end
+  end
+
+  def test_successful_retry_clears_stale_import_errors
+    updates = []
+    relation = Object.new
+    relation.define_singleton_method(:update_all) { |attributes| updates << attributes }
+    data_import = Class.new
+    data_import.define_singleton_method(:where) { |**| relation }
+    data_import.define_singleton_method(:statuses) { { 'completed' => 2 } }
+
+    with_temporary_constant(:DataImport, data_import) do
+      MyinvestChatImport::RailsAdapter.new.complete_import(
+        import_id: 7,
+        processed_records: 11,
+        stats: { 'message' => { 'created' => 11 } }
+      )
+    end
+
+    assert_nil updates.fetch(0).fetch(:processing_errors)
+    assert_nil updates.fetch(0).fetch(:last_error_at)
   end
 
   def test_identical_external_ids_are_isolated_across_all_three_tenants
@@ -306,6 +327,16 @@ class MyinvestChatImportTest < Minitest::Test
   end
 
   private
+
+  def with_temporary_constant(name, value)
+    previous = Object.const_get(name) if Object.const_defined?(name, false)
+    Object.send(:remove_const, name) if Object.const_defined?(name, false)
+    Object.const_set(name, value)
+    yield
+  ensure
+    Object.send(:remove_const, name) if Object.const_defined?(name, false)
+    Object.const_set(name, previous) if previous
+  end
 
   def import(path, adapter)
     bundle = MyinvestChatImport::Bundle.load(path)
