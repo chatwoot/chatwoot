@@ -49,9 +49,9 @@ if ! docker compose \
   --project-directory "$deployment_dir" \
   --env-file "$env_path" \
   -f "$deployment_dir/compose.yaml" \
-  run --rm --no-deps --env-from-file "$fixed_env" \
+  run --rm --no-deps --user "$(id -u):$(id -g)" --env-from-file "$fixed_env" \
   --volume "$work_dir:/readiness-work" \
-  --volume "$deployment_dir/scripts/cutover-whatsapp.rb:/scripts/cutover-whatsapp.rb:ro" rails \
+  channel-readiness \
   ruby -I/bootstrap -rlib/channel_readiness -e '
     names = Myinvest::ChannelReadiness::Builder.new(ENV).credential_env_names
     File.open("/readiness-work/credential-env-names", File::WRONLY | File::CREAT | File::EXCL, 0o600) do |file|
@@ -63,10 +63,18 @@ if ! docker compose \
 fi
 
 cp "$fixed_env" "$readiness_env"
-copy_env_assignment HUBSPOT_CUTOVER_CONFIRMED false "$readiness_env" || {
-  printf 'Channel readiness environment is invalid.\n' >&2
-  exit 1
-}
+for readiness_name in \
+  ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY \
+  ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY \
+  ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT \
+  GOOGLE_OAUTH_CLIENT_ID \
+  GOOGLE_OAUTH_CLIENT_SECRET \
+  HUBSPOT_CUTOVER_CONFIRMED; do
+  copy_env_assignment "$readiness_name" false "$readiness_env" || {
+    printf 'Channel readiness environment is invalid.\n' >&2
+    exit 1
+  }
+done
 while IFS= read -r credential_name; do
   copy_env_assignment "$credential_name" false "$readiness_env" || {
     printf 'Channel readiness environment is invalid.\n' >&2
@@ -79,8 +87,8 @@ docker compose \
   --project-directory "$deployment_dir" \
   --env-file "$env_path" \
   -f "$deployment_dir/compose.yaml" \
-  run --rm --no-deps --env-from-file "$readiness_env" \
-  --volume "$deployment_dir/scripts/cutover-whatsapp.rb:/scripts/cutover-whatsapp.rb:ro" rails \
+  run --rm --no-deps --user "$(id -u):$(id -g)" --env-from-file "$readiness_env" \
+  channel-readiness \
   ruby -I/bootstrap -rjson -rlib/channel_readiness -e '
     report = Myinvest::ChannelReadiness::Builder.new(ENV).call
     $stdout.puts JSON.generate(report)

@@ -240,9 +240,9 @@ if [[ -n "${GOOGLE_OAUTH_CALLBACK_URL:-}" ]]; then
   exit 1
 fi
 
-"${compose[@]}" config --quiet
+"${compose[@]}" --profile tools config --quiet
 
-rendered="$("${compose[@]}" config --format json)"
+rendered="$("${compose[@]}" --profile tools config --format json)"
 if command -v jq >/dev/null 2>&1; then
   if jq -e '.services.postgres.ports or .services.redis.ports or .services.minio.ports' <<<"$rendered" >/dev/null; then
     printf 'PostgreSQL, Redis, or MinIO unexpectedly exposes a host port.\n' >&2
@@ -250,6 +250,12 @@ if command -v jq >/dev/null 2>&1; then
   fi
   if ! jq -e --arg bind "$BIND_ADDRESS" '.services.caddy.ports | all(.host_ip == $bind)' <<<"$rendered" >/dev/null; then
     printf 'Caddy published-port binding does not match BIND_ADDRESS.\n' >&2
+    exit 1
+  fi
+  if ! jq -e '.services["channel-readiness"] |
+    ((.environment // {}) == {} and .network_mode == "none" and .read_only == true and .profiles == ["tools"])' \
+    <<<"$rendered" >/dev/null; then
+    printf 'Channel readiness service boundary is invalid.\n' >&2
     exit 1
   fi
   for assertion in \
@@ -288,6 +294,7 @@ if command -v jq >/dev/null 2>&1; then
     }
   done <<'IMAGES'
 rails|chatwoot/chatwoot:v4.16.2@sha256:f9b071ffe678031ee6d51bf591ddd4336b80c3edfb3105e38e46afd32b8211b2
+channel-readiness|chatwoot/chatwoot:v4.16.2@sha256:f9b071ffe678031ee6d51bf591ddd4336b80c3edfb3105e38e46afd32b8211b2
 postgres|pgvector/pgvector:pg16@sha256:ccc6e83d6e35e931dc7c5def2022729d5a6c370318d099181995567ff1fb4d6b
 redis|redis:7.4-alpine@sha256:e7723ff73d963f5cc6d9c4643ea3d989527a402a319239054e9472a7fb9219a2
 caddy|caddy:2.10.2-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d

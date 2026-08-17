@@ -112,6 +112,17 @@ services:
       retries: 5
       start_period: 90s
 
+  channel-readiness:
+    image: chatwoot/chatwoot:v4.16.2@sha256:f9b071ffe678031ee6d51bf591ddd4336b80c3edfb3105e38e46afd32b8211b2
+    profiles: ["tools"]
+    volumes:
+      - ./bootstrap:/bootstrap:ro
+      - ./scripts/cutover-whatsapp.rb:/scripts/cutover-whatsapp.rb:ro
+    network_mode: none
+    restart: "no"
+    read_only: true
+    init: true
+
   postgres:
     image: pgvector/pgvector:pg16@sha256:ccc6e83d6e35e931dc7c5def2022729d5a6c370318d099181995567ff1fb4d6b
     environment:

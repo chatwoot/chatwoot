@@ -195,7 +195,7 @@ class ChannelReadinessSpec < Minitest::Test
     assert_equal %w[auto_reply_evaluation_unapproved runtime_verification_required], instagram.fetch('reasons')
   end
 
-  def test_executable_uses_compose_env_file_without_putting_dynamic_credentials_on_argv
+  def test_executable_uses_dedicated_compose_service_without_putting_dynamic_credentials_on_argv
     Dir.mktmpdir do |directory|
       env_path = File.join(directory, '.env')
       fake_docker = File.join(directory, 'docker')
@@ -203,6 +203,13 @@ class ChannelReadinessSpec < Minitest::Test
         TENANTS_JSON='[{"key":"saas","accountId":10}]'
         CHANNEL_READINESS_CONFIG_JSON='[{"key":"saas","instagram":{"access_token_env":"CHANNEL_READINESS_IG_TOKEN"}}]'
         CHANNEL_READINESS_IG_TOKEN=dynamic-instagram-secret
+        CHANNEL_READINESS_UNUSED_TOKEN=unreferenced-readiness-secret
+        ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=readiness-primary-key
+        ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=readiness-deterministic-key
+        ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT=readiness-key-derivation-salt
+        GOOGLE_OAUTH_CLIENT_ID=readiness-google-client
+        GOOGLE_OAUTH_CLIENT_SECRET=readiness-google-secret
+        HUBSPOT_CUTOVER_CONFIRMED=true
         ADMIN_PASSWORD=admin-secret
         POSTGRES_ADMIN_PASSWORD=postgres-admin-secret
         MINIO_ROOT_PASSWORD=minio-root-secret
@@ -215,9 +222,16 @@ class ChannelReadinessSpec < Minitest::Test
         #!/usr/bin/env sh
         set -eu
         arguments="$*"
-        case "$arguments" in
-          *dynamic-instagram-secret*) exit 1 ;;
+        case " $arguments " in
+          *" channel-readiness ruby "*) ;;
+          *) exit 1 ;;
         esac
+        for secret_value in dynamic-instagram-secret readiness-primary-key readiness-deterministic-key \
+          readiness-key-derivation-salt readiness-google-secret unreferenced-readiness-secret; do
+          case "$arguments" in
+            *"$secret_value"*) exit 1 ;;
+          esac
+        done
         count_file="$FAKE_STATE/count"
         count=0
         [ ! -f "$count_file" ] || count="$(cat "$count_file")"
@@ -239,13 +253,23 @@ class ChannelReadinessSpec < Minitest::Test
           AWS_SECRET_ACCESS_KEY BACKUP_GPG_RECIPIENT CLAUDE_AGENT_DATABASE_PASSWORD; do
           ! grep -q "^$forbidden=" "$selected_env"
         done
+        ! grep -q '^CHANNEL_READINESS_UNUSED_TOKEN=' "$selected_env"
         if [ "$count" -eq 1 ]; then
           grep -q '^TENANTS_JSON=' "$selected_env"
           grep -q '^CHANNEL_READINESS_CONFIG_JSON=' "$selected_env"
+          ! grep -q '^GOOGLE_OAUTH_CLIENT_SECRET=' "$selected_env"
+          ! grep -q '^ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=' "$selected_env"
+          ! grep -q '^HUBSPOT_CUTOVER_CONFIRMED=' "$selected_env"
           printf '%s\n' CHANNEL_READINESS_IG_TOKEN > "$work_dir/credential-env-names"
           chmod 600 "$work_dir/credential-env-names"
         else
           grep -q '^CHANNEL_READINESS_IG_TOKEN=dynamic-instagram-secret$' "$selected_env"
+          grep -q '^GOOGLE_OAUTH_CLIENT_ID=' "$selected_env"
+          grep -q '^GOOGLE_OAUTH_CLIENT_SECRET=' "$selected_env"
+          grep -q '^ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=' "$selected_env"
+          grep -q '^ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=' "$selected_env"
+          grep -q '^ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT=' "$selected_env"
+          grep -q '^HUBSPOT_CUTOVER_CONFIRMED=true$' "$selected_env"
           printf '%s\n' '{"version":1,"dry_run":true,"status":"blocked","tenants":[]}'
         fi
       SH
@@ -261,8 +285,13 @@ class ChannelReadinessSpec < Minitest::Test
 
       assert status.success?, stderr
       assert_equal({ 'version' => 1, 'dry_run' => true, 'status' => 'blocked', 'tenants' => [] }, JSON.parse(stdout))
-      refute_includes stdout, 'dynamic-instagram-secret'
-      refute_includes stderr, 'dynamic-instagram-secret'
+      %w[
+        dynamic-instagram-secret readiness-primary-key readiness-deterministic-key
+        readiness-key-derivation-salt readiness-google-secret unreferenced-readiness-secret
+      ].each do |secret|
+        refute_includes stdout, secret
+        refute_includes stderr, secret
+      end
       assert_empty Dir.glob(File.join(directory, 'channel-readiness.*'))
     end
   end
