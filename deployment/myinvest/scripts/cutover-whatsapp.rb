@@ -206,7 +206,7 @@ module Myinvest
                        .merge(string_env)
                        .slice(*PASS_THROUGH_VARIABLES)
                        .merge('WHATSAPP_CUTOVER_RUNNING' => 'true')
-        ok = system(child_env, *command)
+        ok = system(child_env, *command, out: File::NULL, err: File::NULL)
         raise 'Rails provisioner failed' unless ok
       end
 

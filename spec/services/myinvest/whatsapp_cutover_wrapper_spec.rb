@@ -130,6 +130,19 @@ describe Myinvest::WhatsappCutover::Wrapper do
       expect(captured_env).not_to include('HUBSPOT_ACCESS_TOKEN', 'HUBSPOT_CHANNEL_ACCOUNT_ID')
     end
 
+    it 'discards child stdout and stderr at the trust boundary' do
+      process_options = nil
+      allow(wrapper).to receive(:system) do |*args|
+        process_options = args.last
+        true
+      end
+      allow(wrapper).to receive(:run_rails_provisioner!).and_call_original
+
+      wrapper.run
+
+      expect(process_options).to eq(out: File::NULL, err: File::NULL)
+    end
+
     it 'does not write sensitive values to stdout or stderr on success' do
       stdout, stderr, error = capture_output { wrapper.run }
       expect(error).to be_nil
