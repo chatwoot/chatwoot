@@ -8,20 +8,28 @@ module MyinvestChatImport
       'conversations' => 'conversations.ndjson',
       'messages' => 'messages.ndjson'
     }.freeze
+    ARCHIVE_FILE_NAMES = {
+      'source_threads' => 'source_threads.ndjson',
+      'source_events' => 'source_events.ndjson',
+      'attachments' => 'attachments.ndjson'
+    }.freeze
     MANIFEST_KEYS = %w[schema_version source_namespace export_id tenant_key created_at knowledge_import files].freeze
     FILE_KEYS = %w[path sha256 count].freeze
     CONTACT_KEYS = %w[external_id name email phone_number created_at updated_at].freeze
     CONVERSATION_KEYS = %w[external_id contact_external_id status created_at updated_at].freeze
     MESSAGE_KEYS = %w[external_id conversation_external_id direction content created_at updated_at attachments metadata].freeze
     ATTACHMENT_KEYS = %w[external_id path sha256 byte_size filename content_type].freeze
+    ARCHIVE_ATTACHMENT_KEYS = %w[external_id path sha256 byte_size filename content_type source_message_id].freeze
+    ARCHIVED_FILE_KEYS = %w[external_id path sha256 byte_size filename content_type].freeze
     MAX_ID_LENGTH = 512
     MAX_MESSAGE_LENGTH = 150_000
     MAX_ATTACHMENTS_PER_MESSAGE = 100
     MAX_ATTACHMENT_BYTES = 1_073_741_824
     MAX_RECORDS_PER_FILE = 10_000_000
+    MAX_NDJSON_FILE_BYTES = 268_435_456
     FORBIDDEN_METADATA_KEY = /(?:^|_)(?:route|routing|tenant|account|inbox|agent|bot|handoff|assignee|status|direction)(?:_|$)/i
 
-    attr_reader :bundle_sha256, :contacts, :conversations, :export_id, :messages, :schema_version, :source_namespace, :tenant_key
+    attr_reader :bundle_sha256, :contacts, :conversations, :created_at, :export_id, :messages, :schema_version, :source_namespace, :tenant_key
 
     def self.load(path)
       new(path).tap(&:load!)
@@ -47,6 +55,8 @@ module MyinvestChatImport
       @source_namespace = stable_id!(manifest.fetch('source_namespace'))
       @export_id = stable_id!(manifest.fetch('export_id'))
       @tenant_key = manifest.fetch('tenant_key')
+      timestamp!(manifest.fetch('created_at'))
+      @created_at = manifest.fetch('created_at')
       @contacts = load_records(manifest, 'contacts') { |record| validate_contact!(record) }
       @conversations = load_records(manifest, 'conversations') { |record| validate_conversation!(record) }
       @messages = load_records(manifest, 'messages') { |record| validate_message!(record) }
@@ -58,6 +68,28 @@ module MyinvestChatImport
       raise UnsupportedAttachmentError unless schema_version == 2
 
       safe_attachment_file(descriptor.fetch('path'))
+    end
+
+    def load_archive_manifest!
+      manifest_bytes = read_utf8(safe_file('archive-manifest.json'), max_bytes: 1_048_576)
+      manifest = parse_object(manifest_bytes, 'invalid_archive_manifest_json')
+      validate_exact_keys!(manifest, MANIFEST_KEYS, 'archive_manifest_schema_mismatch')
+      raise ValidationError, 'unsupported_schema_version' unless manifest.fetch('schema_version') == 2
+      validate_manifest!(manifest, file_names: ARCHIVE_FILE_NAMES, schema_error: 'archive_manifest_schema_mismatch')
+      unless manifest.fetch('export_id') == export_id &&
+             manifest.fetch('tenant_key') == tenant_key &&
+             manifest.fetch('source_namespace') == source_namespace
+        raise ValidationError, 'archive_manifest_identity_mismatch'
+      end
+      raise ValidationError, 'archive_manifest_created_at_mismatch' unless manifest.fetch('created_at') == created_at
+
+      archive = {
+        'manifest' => manifest.freeze,
+        'source_threads' => load_records(manifest, 'source_threads') { |record| validate_archive_thread!(record) },
+        'source_events' => load_records(manifest, 'source_events') { |record| validate_archive_event!(record) },
+        'attachments' => load_records(manifest, 'attachments') { |record| validate_archive_attachment!(record) }
+      }
+      archive.freeze
     end
 
     private
@@ -109,20 +141,20 @@ module MyinvestChatImport
       raise ValidationError, error_code unless (required - record.keys).empty? && (record.keys - allowed).empty?
     end
 
-    def validate_manifest!(manifest)
+    def validate_manifest!(manifest, file_names: FILE_NAMES, schema_error: 'files_schema_mismatch')
       raise ValidationError, 'unsupported_schema_version' unless [1, 2].include?(manifest.fetch('schema_version'))
       stable_id!(manifest.fetch('source_namespace'))
       stable_id!(manifest.fetch('export_id'))
       raise ValidationError, 'unsupported_tenant' unless TENANTS.include?(manifest.fetch('tenant_key'))
       timestamp!(manifest.fetch('created_at'))
       raise KnowledgeSeparationError unless manifest.fetch('knowledge_import') == false
-      raise ValidationError, 'files_schema_mismatch' unless manifest.fetch('files').is_a?(Hash) && manifest.fetch('files').keys.sort == FILE_NAMES.keys.sort
+      raise ValidationError, schema_error unless manifest.fetch('files').is_a?(Hash) && manifest.fetch('files').keys.sort == file_names.keys.sort
 
       manifest.fetch('files').each do |name, descriptor|
         raise ValidationError, 'file_descriptor_invalid' unless descriptor.is_a?(Hash)
 
         validate_exact_keys!(descriptor, FILE_KEYS, 'file_descriptor_invalid')
-        raise UnsafePathError unless descriptor.fetch('path') == FILE_NAMES.fetch(name)
+        raise UnsafePathError unless descriptor.fetch('path') == file_names.fetch(name)
         raise ValidationError, 'invalid_file_sha256' unless descriptor.fetch('sha256').is_a?(String) && descriptor.fetch('sha256').match?(/\A[0-9a-f]{64}\z/)
         count = descriptor.fetch('count')
         raise ValidationError, 'invalid_file_count' unless count.is_a?(Integer) && count.between?(0, MAX_RECORDS_PER_FILE)
@@ -131,7 +163,7 @@ module MyinvestChatImport
 
     def load_records(manifest, name)
       descriptor = manifest.fetch('files').fetch(name)
-      bytes = read_utf8(safe_file(descriptor.fetch('path')))
+      bytes = read_utf8(safe_file(descriptor.fetch('path')), max_bytes: MAX_NDJSON_FILE_BYTES)
       unless secure_equal?(Digest::SHA256.hexdigest(bytes.b), descriptor.fetch('sha256'))
         raise ValidationError, 'file_digest_mismatch'
       end
@@ -182,10 +214,103 @@ module MyinvestChatImport
       timestamp_pair!(record)
     end
 
+    def validate_archive_thread!(record)
+      raise ValidationError, 'archive_thread_schema_mismatch' unless record.is_a?(Hash)
+
+      stable_id!(record.fetch('id'))
+    rescue KeyError
+      raise ValidationError, 'archive_thread_schema_mismatch'
+    end
+
+    def validate_archive_event!(record)
+      raise ValidationError, 'archive_event_schema_mismatch' unless record.is_a?(Hash)
+
+      stable_id!(record.fetch('id'))
+      type = record.fetch('type')
+      string!(type, 'invalid_archive_event_type', max: MAX_ID_LENGTH)
+      validate_archive_event_required_fields!(record, type)
+      attachments = record.fetch('attachments')
+      raise ValidationError, 'archive_event_attachments_must_be_array' unless attachments.is_a?(Array)
+      attachments.each { |attachment| validate_archive_event_attachment!(attachment) }
+    rescue KeyError
+      raise ValidationError, 'archive_event_schema_mismatch'
+    end
+
+    def validate_archive_event_required_fields!(record, type)
+      return unless %w[MESSAGE COMMENT].include?(type)
+
+      stable_id!(record.fetch('archiveThreadId'))
+      timestamp!(record.fetch('createdAt'))
+      if type == 'MESSAGE'
+        direction = record.fetch('direction')
+        raise ValidationError, 'archive_event_missing_direction' unless direction.is_a?(String) && %w[INCOMING OUTGOING].include?(direction)
+      end
+    rescue KeyError => e
+      raise ValidationError, archive_event_missing_code(e.key)
+    end
+
+    def archive_event_missing_code(key)
+      case key
+      when 'archiveThreadId' then 'archive_event_missing_archive_thread_id'
+      when 'createdAt' then 'archive_event_missing_created_at'
+      when 'direction' then 'archive_event_missing_direction'
+      when 'attachments' then 'archive_event_attachments_must_be_array'
+      else 'archive_event_schema_mismatch'
+      end
+    end
+
+    def validate_archive_event_attachment!(attachment)
+      raise ValidationError, 'attachment_schema_mismatch' unless attachment.is_a?(Hash)
+
+      return unless attachment['type'] == 'FILE'
+
+      raise ValidationError, 'url_in_source_archive' if attachment.key?('url')
+
+      local = attachment.fetch('archivedFile') { raise ValidationError, 'archive_event_archived_file_missing' }
+      raise ValidationError, 'archive_event_archived_file_invalid' unless local.is_a?(Hash)
+
+      raise ValidationError, 'url_in_source_archive' if local.key?('url')
+      raise ValidationError, 'archive_event_archived_file_invalid' unless local.keys.sort == ARCHIVED_FILE_KEYS.sort
+
+      validate_archived_file_fields!(local)
+    end
+
+    def validate_archived_file_fields!(local)
+      stable_id!(local.fetch('external_id'))
+      path = local.fetch('path')
+      digest = local.fetch('sha256')
+      raise ValidationError, 'archive_event_archived_file_invalid' unless path.is_a?(String) && path.match?(%r{\Aattachments/[0-9a-f]{64}\z})
+      raise ValidationError, 'archive_event_archived_file_invalid' unless digest.is_a?(String) && digest.match?(/\A[0-9a-f]{64}\z/)
+      raise ValidationError, 'archive_event_archived_file_invalid' unless File.basename(path) == digest
+
+      byte_size = local.fetch('byte_size')
+      raise ValidationError, 'archive_event_archived_file_invalid' unless byte_size.is_a?(Integer) && byte_size.between?(0, MAX_ATTACHMENT_BYTES)
+
+      filename = local.fetch('filename')
+      string!(filename, 'archive_event_archived_file_invalid', max: 255)
+      valid_filename = !filename.empty? && filename == File.basename(filename) && !filename.match?(%r{[\\/\r\n]})
+      raise ValidationError, 'archive_event_archived_file_invalid' unless valid_filename
+      content_type = local.fetch('content_type')
+      string!(content_type, 'archive_event_archived_file_invalid', max: 255)
+      raise ValidationError, 'archive_event_archived_file_invalid' unless content_type.match?(%r{\A[a-z0-9][a-z0-9.+-]*/[a-z0-9][a-z0-9.+-]*\z}i)
+    end
+
+    def validate_archive_attachment!(attachment)
+      raise ValidationError, 'attachment_schema_mismatch' unless attachment.is_a?(Hash)
+
+      validate_exact_keys!(attachment, ARCHIVE_ATTACHMENT_KEYS, 'attachment_schema_mismatch')
+      stable_id!(attachment.fetch('source_message_id'))
+      validate_attachment_fields!(attachment)
+    end
+
     def validate_attachment!(attachment)
       raise ValidationError, 'attachment_schema_mismatch' unless attachment.is_a?(Hash)
 
       validate_exact_keys!(attachment, ATTACHMENT_KEYS, 'attachment_schema_mismatch')
+      validate_attachment_fields!(attachment)
+    end
+
+    def validate_attachment_fields!(attachment)
       stable_id!(attachment.fetch('external_id'))
       path = attachment.fetch('path')
       digest = attachment.fetch('sha256')

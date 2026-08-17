@@ -23,6 +23,12 @@ HUBSPOT_EXPORT_CONFIG_JSON='{"tenant_key":"legacy_academy","inbox_ids":["…"],"
 ## Validate without writes
 
 ```sh
+ruby integrations/myinvest-chat-import/bin/verify_hubspot_export.rb /absolute/path/to/bundle
+```
+
+The offline verifier is fail-closed. It checks `manifest.json` and `archive-manifest.json`, every declared SHA-256/count/path, `knowledge_import=false`, exact MESSAGE+COMMENT source-event subset equality against imported messages by source identity, and attachment archive count/digest closure. The only stdout is an aggregate JSON receipt without record bodies, emails, names, or source IDs.
+
+```sh
 ruby -I integrations/myinvest-chat-import/lib -r myinvest_chat_import -e \
   'bundle = MyinvestChatImport::Bundle.load(ARGV.fetch(0)); puts JSON.generate(tenant_key: bundle.tenant_key, contacts: bundle.contacts.length, conversations: bundle.conversations.length, messages: bundle.messages.length)' \
   /absolute/path/to/bundle
@@ -58,10 +64,22 @@ puts JSON.generate(counts)
 '
 ```
 
+## Verify the exported archive
+
+Before import, validate the offline HubSpot v2 archive without any API calls or database writes. The verifier loads the bundle through `Bundle`, checks the archive manifest, SHA-256/counts of `source_threads.ndjson`, `source_events.ndjson`, and `attachments.ndjson`, confirms exact identity and content mapping between every `MESSAGE`/`COMMENT` source event and every `messages.ndjson` row, closes file attachment descriptors against local digest/size, and rejects any remaining remote URLs:
+
+```sh
+ruby integrations/myinvest-chat-import/bin/verify_hubspot_export.rb /absolute/path/to/bundle
+```
+
+It emits an aggregate-only JSON receipt and exits non-zero on any mismatch.
+
 Run unit and syntax checks with:
 
 ```sh
 ruby integrations/myinvest-chat-import/test/importer_test.rb
 ruby integrations/myinvest-chat-import/test/hubspot_exporter_test.rb
+ruby integrations/myinvest-chat-import/test/hubspot_email_export_fixture.rb
+ruby integrations/myinvest-chat-import/test/hubspot_export_verifier_test.rb
 find integrations/myinvest-chat-import -name '*.rb' -print0 | xargs -0 -n1 ruby -c
 ```

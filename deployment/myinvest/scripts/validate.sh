@@ -228,6 +228,18 @@ if [[ "$FRONTEND_URL" != https://* && "$FRONTEND_URL" != http://localhost* && "$
   exit 1
 fi
 
+if [[ -n "${GOOGLE_OAUTH_CLIENT_ID:-}" || -n "${GOOGLE_OAUTH_CLIENT_SECRET:-}" ]]; then
+  if [[ -z "${GOOGLE_OAUTH_CLIENT_ID:-}" || -z "${GOOGLE_OAUTH_CLIENT_SECRET:-}" ]]; then
+    printf 'GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET must both be set or both unset.\n' >&2
+    exit 1
+  fi
+fi
+
+if [[ -n "${GOOGLE_OAUTH_CALLBACK_URL:-}" ]]; then
+  printf 'GOOGLE_OAUTH_CALLBACK_URL is unused; Chatwoot builds the callback from FRONTEND_URL.\n' >&2
+  exit 1
+fi
+
 "${compose[@]}" config --quiet
 
 rendered="$("${compose[@]}" config --format json)"
@@ -259,6 +271,12 @@ if command -v jq >/dev/null 2>&1; then
     forbidden="${assertion#*|}"
     if jq -e --arg service "$service" --arg forbidden "$forbidden" '.services[$service].environment[$forbidden] != null' <<<"$rendered" >/dev/null; then
       printf 'Secret boundary violation: %s received %s\n' "$service" "$forbidden" >&2
+      exit 1
+    fi
+  done
+  for service in caddy redis postgres claude-agent minio minio-init; do
+    if jq -e --arg service "$service" '.services[$service].environment.GOOGLE_OAUTH_CLIENT_SECRET != null' <<<"$rendered" >/dev/null; then
+      printf 'Secret boundary violation: %s received GOOGLE_OAUTH_CLIENT_SECRET\n' "$service" >&2
       exit 1
     fi
   done

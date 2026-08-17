@@ -53,6 +53,9 @@ x-chatwoot: &chatwoot
     LOGRAGE_ENABLED: ${LOGRAGE_ENABLED:-true}
     INSTALLATION_NAME: ${INSTALLATION_NAME:-MyInvest Support}
     BRAND_NAME: ${BRAND_NAME:-MyInvest}
+    GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID:-}
+    GOOGLE_OAUTH_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET:-}
+    GOOGLE_OAUTH_CALLBACK_URL: ${FRONTEND_URL}/google/callback
   volumes:
     - chatwoot_storage:/app/storage
     - ./bootstrap:/bootstrap:ro
