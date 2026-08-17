@@ -1,4 +1,7 @@
 module Api::V1::InboxesHelper
+  IMAP_VALIDATION_TIMEOUT = 10
+  private_constant :IMAP_VALIDATION_TIMEOUT
+
   def inbox_name(channel)
     return channel.try(:bot_name) if channel.is_a?(Channel::Telegram)
 
@@ -35,14 +38,18 @@ module Api::V1::InboxesHelper
   end
 
   def check_imap_connection(channel_data, authentication)
-    imap = open_imap_connection(channel_data, authentication)
+    # Net::IMAP only applies open_timeout to TCP/TLS establishment. Bound the complete validation so greeting or authentication
+    # stalls finish before Rack's request timeout and can be returned as a validation error.
+    Timeout.timeout(IMAP_VALIDATION_TIMEOUT) do
+      authenticate_imap_connection(channel_data, authentication)
+    end
   rescue SocketError => e
     raise StandardError, I18n.t('errors.inboxes.imap.socket_error')
   rescue Net::IMAP::NoResponseError => e
     raise StandardError, I18n.t('errors.inboxes.imap.no_response_error')
   rescue Errno::EHOSTUNREACH => e
     raise StandardError, I18n.t('errors.inboxes.imap.host_unreachable_error')
-  rescue Net::OpenTimeout => e
+  rescue Timeout::Error => e
     raise StandardError,
           I18n.t('errors.inboxes.imap.connection_timed_out_error', address: channel_data[:imap_address], port: channel_data[:imap_port])
   rescue Net::IMAP::Error => e
@@ -50,18 +57,19 @@ module Api::V1::InboxesHelper
   rescue StandardError => e
     raise StandardError, e.message
   ensure
-    imap.disconnect if imap.present? && !imap.disconnected?
     Rails.logger.error "[Api::V1::InboxesHelper] check_imap_connection failed with #{e.message}" if e.present?
   end
 
-  def open_imap_connection(channel_data, authentication)
+  def authenticate_imap_connection(channel_data, authentication)
     imap = build_imap_connection(channel_data)
     Imap::Authentication.authenticate!(imap, authentication, channel_data[:imap_login], channel_data[:imap_password])
-    imap
+  ensure
+    imap.disconnect if imap.present? && !imap.disconnected?
   end
 
   def build_imap_connection(channel_data)
-    Net::IMAP.new(channel_data[:imap_address], port: channel_data[:imap_port], ssl: channel_data[:imap_enable_ssl], open_timeout: 10)
+    Net::IMAP.new(channel_data[:imap_address], port: channel_data[:imap_port], ssl: channel_data[:imap_enable_ssl],
+                                               open_timeout: IMAP_VALIDATION_TIMEOUT)
   end
 
   def check_smtp_connection(channel_data, smtp)

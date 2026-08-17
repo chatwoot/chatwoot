@@ -129,7 +129,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def validate_and_update_email_channel(channel_attributes)
     validate_email_channel(channel_attributes)
   rescue StandardError => e
-    render json: { message: e }, status: :unprocessable_entity and return
+    render json: { message: e.message }, status: :unprocessable_entity and raise ActiveRecord::Rollback
   end
 
   def reauthorize_and_update_channel(channel_attributes)
