@@ -444,6 +444,19 @@ describe Myinvest::WhatsappCutover::Wrapper do
       expect { checker.cutover_allowed? }.to raise_error(/HubSpot pagination error/)
     end
 
+    it 'bounds pagination even when every cursor is unique' do
+      allow(checker).to receive(:fetch_page) do |after|
+        next_cursor = after.nil? ? '1' : (after.to_i + 1).to_s
+        {
+          'results' => [],
+          'paging' => { 'next' => { 'after' => next_cursor } }
+        }
+      end
+
+      expect { checker.cutover_allowed? }.to raise_error(/HubSpot pagination error/)
+      expect(checker).to have_received(:fetch_page).exactly(described_class::MAX_PAGES).times
+    end
+
     it 'rejects a result missing an id' do
       stub_request(:get, %r{api\.hubapi\.com/conversations/v3/conversations/channel-accounts.*})
         .to_return(status: 200, body: {

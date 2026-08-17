@@ -10,6 +10,7 @@ module Myinvest
   module WhatsappCutover
     class HubspotChannelChecker
       DECIMAL_ID_REGEX = /\A[1-9][0-9]*\z/.freeze
+      MAX_PAGES = 100
 
       def initialize(access_token:, channel_account_id:, base_uri: 'https://api.hubapi.com')
         raise ArgumentError, 'HubSpot access token is required' if access_token.to_s.empty?
@@ -41,8 +42,12 @@ module Myinvest
         after = nil
         seen_afters = []
         matches = []
+        page_count = 0
 
         loop do
+          page_count += 1
+          raise 'HubSpot pagination error' if page_count > MAX_PAGES
+
           page = fetch_page(after)
           matches.concat(page['results'].select { |item| item['id'] == channel_account_id })
 
