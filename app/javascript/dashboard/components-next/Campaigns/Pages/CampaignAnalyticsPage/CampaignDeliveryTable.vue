@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import DeliveryStatusBadge from './DeliveryStatusBadge.vue';
@@ -26,6 +27,7 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+const route = useRoute();
 
 const headers = computed(() => [
   t('CAMPAIGN.WHATSAPP.ANALYTICS.TABLE.CONTACT'),
@@ -43,6 +45,14 @@ const errorCode = delivery =>
 const messageContent = delivery =>
   delivery.message_content ||
   t('CAMPAIGN.WHATSAPP.ANALYTICS.TABLE.MESSAGE_NOT_GENERATED');
+
+const contactDetailsRoute = contactId => ({
+  name: 'contacts_edit',
+  params: {
+    accountId: route.params.accountId,
+    contactId,
+  },
+});
 
 const isEmpty = computed(() => props.deliveries.length === 0);
 </script>
@@ -84,9 +94,21 @@ const isEmpty = computed(() => props.deliveries.length === 0);
             <template #default>
               <BaseTableCell>
                 <div class="flex flex-col gap-0.5 py-1">
-                  <span class="truncate text-heading-3 text-n-slate-12">
-                    {{ delivery.contact.name || '-' }}
-                  </span>
+                  <RouterLink
+                    :to="contactDetailsRoute(delivery.contact.id)"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center max-w-full gap-1 transition-colors w-fit text-heading-3 text-n-slate-12 hover:text-n-blue-11 hover:underline underline-offset-2"
+                    :title="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
+                  >
+                    <span class="truncate">
+                      {{ delivery.contact.name || '-' }}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="i-lucide-arrow-up-right size-3.5 shrink-0"
+                    />
+                  </RouterLink>
                   <span
                     class="tabular-nums truncate text-label-small text-n-slate-11"
                   >
