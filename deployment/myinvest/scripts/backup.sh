@@ -6,6 +6,21 @@ deployment_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 env_path="${ENV_FILE:-$deployment_dir/.env}"
 compose=(docker compose --project-directory "$deployment_dir" --env-file "$env_path" -f "$deployment_dir/compose.yaml")
 
+command -v flock >/dev/null 2>&1 || {
+  printf 'flock is required for serialized backups.\n' >&2
+  exit 1
+}
+backup_lock_dir="${XDG_STATE_HOME:-$HOME/.local/state}/myinvest-chatwoot"
+mkdir -p "$backup_lock_dir"
+chmod 700 "$backup_lock_dir"
+backup_lock_path="$backup_lock_dir/backup.lock"
+exec 9>>"$backup_lock_path"
+chmod 600 "$backup_lock_path"
+flock -n 9 || {
+  printf 'Another MyInvest Chatwoot backup is already running.\n' >&2
+  exit 1
+}
+
 set -a
 # shellcheck disable=SC1090
 source "$env_path"
