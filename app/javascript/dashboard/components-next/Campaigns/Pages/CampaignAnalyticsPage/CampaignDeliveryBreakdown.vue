@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { PercentageChart } from '@chatwoot/viz';
 
 const props = defineProps({
   metrics: {
@@ -33,31 +34,31 @@ const segments = computed(() => {
     {
       key: 'read',
       value: read,
-      barClass: 'bg-n-iris-9',
+      color: 'rgb(var(--iris-9))',
       dotClass: 'bg-n-iris-9',
     },
     {
       key: 'delivered',
       value: delivered,
-      barClass: 'bg-n-teal-9',
+      color: 'rgb(var(--teal-9))',
       dotClass: 'bg-n-teal-9',
     },
     {
       key: 'failed',
       value: failed,
-      barClass: 'bg-n-ruby-9',
+      color: 'rgb(var(--ruby-9))',
       dotClass: 'bg-n-ruby-9',
     },
     {
       key: 'skipped',
       value: skipped,
-      barClass: 'bg-n-amber-9',
+      color: 'rgb(var(--amber-9))',
       dotClass: 'bg-n-amber-9',
     },
     {
       key: 'pending',
       value: pending,
-      barClass: 'bg-n-slate-6',
+      color: 'rgb(var(--slate-6))',
       dotClass: 'bg-n-slate-6',
     },
   ].map(segment => ({
@@ -65,9 +66,18 @@ const segments = computed(() => {
     label: t(
       `CAMPAIGN.WHATSAPP.ANALYTICS.BREAKDOWN.LEGEND.${segment.key.toUpperCase()}`
     ),
-    width: audience.value ? (segment.value / audience.value) * 100 : 0,
   }));
 });
+
+const chartData = computed(() => ({
+  total: audience.value,
+  segments: segments.value.map(({ key, label, value, color }) => ({
+    id: key,
+    label,
+    value,
+    color,
+  })),
+}));
 
 const deliveryRate = computed(() =>
   audience.value ? Math.round((count('delivered') / audience.value) * 100) : 0
@@ -94,15 +104,17 @@ const deliveryRate = computed(() =>
       v-if="loading"
       class="w-full h-2 rounded-full bg-n-slate-3 animate-pulse"
     />
-    <div v-else class="flex w-full h-2 gap-px overflow-hidden rounded-full">
-      <div
-        v-for="segment in segments"
-        :key="segment.key"
-        :class="segment.barClass"
-        :style="{ width: `${segment.width}%` }"
-      />
-      <div v-if="!audience" class="w-full bg-n-alpha-2" />
-    </div>
+    <PercentageChart
+      v-else-if="audience"
+      :data="chartData"
+      :aria-label="t('CAMPAIGN.WHATSAPP.ANALYTICS.BREAKDOWN.TITLE')"
+      :bar-height="8"
+      :bar-gap="1"
+      :bar-radius="999"
+      :show-legend="false"
+      :show-tooltip="false"
+    />
+    <div v-else class="w-full h-2 rounded-full bg-n-alpha-2" />
     <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
       <div
         v-for="segment in segments"

@@ -40,7 +40,10 @@ const errorReason = delivery =>
   delivery.error_message || delivery.error_title || delivery.error_code || '';
 
 const errorCode = delivery =>
-  delivery.error_code && delivery.error_message ? delivery.error_code : '';
+  delivery.error_code &&
+  String(delivery.error_code) !== String(errorReason(delivery))
+    ? delivery.error_code
+    : '';
 
 const messageContent = delivery =>
   delivery.message_content ||

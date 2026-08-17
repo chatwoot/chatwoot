@@ -1,8 +1,15 @@
 <script setup>
-import { computed, reactive, watch } from 'vue';
+import {
+  computed,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  reactive,
+  watch,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { messageStamp } from 'shared/helpers/timeHelper';
 import CampaignsAPI from 'dashboard/api/campaigns';
@@ -17,6 +24,7 @@ import CampaignDeliveryBreakdown from 'dashboard/components-next/Campaigns/Pages
 import CampaignDeliveryTable from 'dashboard/components-next/Campaigns/Pages/CampaignAnalyticsPage/CampaignDeliveryTable.vue';
 
 const DELIVERIES_PER_PAGE = 25;
+const ANALYTICS_POLL_INTERVAL = 5000;
 const CAMPAIGN_STATUS_PROCESSING = 'processing';
 const STATUS_FILTERS = [
   'all',
@@ -30,6 +38,7 @@ const STATUS_FILTERS = [
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
+const store = useStore();
 
 const state = reactive({
   metrics: null,
@@ -39,7 +48,15 @@ const state = reactive({
   page: 1,
   isFetchingMetrics: true,
   isFetchingDeliveries: true,
+  metricsError: false,
+  deliveriesError: false,
 });
+
+let metricsRequestId = 0;
+let deliveriesRequestId = 0;
+let pollingTimeoutId;
+let isPageActive = false;
+let skipNextFilterRefresh = false;
 
 const campaigns = useMapGetter('campaigns/getAllCampaigns');
 
@@ -76,6 +93,16 @@ const metricCount = key => Number(state.metrics?.[key] || 0);
 const audience = computed(() => metricCount('audience'));
 const analyticsEmptyState = computed(() => {
   if (state.isFetchingMetrics || audience.value > 0) return null;
+
+  if (state.metricsError) {
+    return {
+      icon: 'i-lucide-triangle-alert',
+      title: t('CAMPAIGN.WHATSAPP.ANALYTICS.EMPTY_STATE.ERROR.TITLE'),
+      description: t(
+        'CAMPAIGN.WHATSAPP.ANALYTICS.EMPTY_STATE.ERROR.DESCRIPTION'
+      ),
+    };
+  }
 
   if (isCampaignProcessing.value) {
     return {
@@ -138,6 +165,10 @@ const activeTabIndex = computed(() => STATUS_FILTERS.indexOf(state.status));
 const totalDeliveries = computed(() => Number(state.meta.total_count || 0));
 
 const noDataMessage = computed(() => {
+  if (state.deliveriesError) {
+    return t('CAMPAIGN.WHATSAPP.ANALYTICS.DELIVERIES_ERROR');
+  }
+
   if (state.status === 'all') return t('CAMPAIGN.WHATSAPP.ANALYTICS.EMPTY');
 
   return t('CAMPAIGN.WHATSAPP.ANALYTICS.EMPTY_FILTER', {
@@ -147,28 +178,82 @@ const noDataMessage = computed(() => {
   });
 });
 
-const fetchMetrics = async () => {
-  state.isFetchingMetrics = true;
+const fetchMetrics = async ({
+  id = campaignId.value,
+  showLoading = true,
+} = {}) => {
+  metricsRequestId += 1;
+  const requestId = metricsRequestId;
+  if (showLoading) state.isFetchingMetrics = true;
+
   try {
-    const { data } = await CampaignsAPI.analyticsMetrics(campaignId.value);
+    const { data } = await CampaignsAPI.analyticsMetrics(id);
+    if (requestId !== metricsRequestId || id !== campaignId.value) return;
+
     state.metrics = data;
+    state.metricsError = false;
+  } catch {
+    if (requestId !== metricsRequestId || id !== campaignId.value) return;
+
+    state.metrics = null;
+    state.metricsError = true;
   } finally {
-    state.isFetchingMetrics = false;
+    if (requestId === metricsRequestId && id === campaignId.value) {
+      state.isFetchingMetrics = false;
+    }
   }
 };
 
-const fetchDeliveries = async () => {
-  state.isFetchingDeliveries = true;
+const fetchDeliveries = async ({
+  id = campaignId.value,
+  status = state.status,
+  page = state.page,
+  showLoading = true,
+} = {}) => {
+  deliveriesRequestId += 1;
+  const requestId = deliveriesRequestId;
+  if (showLoading) state.isFetchingDeliveries = true;
+
   try {
-    const { data } = await CampaignsAPI.analyticsContacts(campaignId.value, {
-      status: state.status === 'all' ? undefined : state.status,
-      page: state.page,
+    const { data } = await CampaignsAPI.analyticsContacts(id, {
+      status: status === 'all' ? undefined : status,
+      page,
     });
+    if (requestId !== deliveriesRequestId || id !== campaignId.value) return;
+
     state.deliveries = data.payload;
     state.meta = data.meta;
+    state.deliveriesError = false;
+  } catch {
+    if (requestId !== deliveriesRequestId || id !== campaignId.value) return;
+
+    state.deliveries = [];
+    state.meta = {};
+    state.deliveriesError = true;
   } finally {
-    state.isFetchingDeliveries = false;
+    if (requestId === deliveriesRequestId && id === campaignId.value) {
+      state.isFetchingDeliveries = false;
+    }
   }
+};
+
+const stopPolling = () => {
+  window.clearTimeout(pollingTimeoutId);
+  pollingTimeoutId = undefined;
+};
+
+const schedulePolling = () => {
+  stopPolling();
+  if (!isPageActive || !isCampaignProcessing.value) return;
+
+  pollingTimeoutId = window.setTimeout(async () => {
+    await Promise.all([
+      fetchMetrics({ showLoading: false }),
+      fetchDeliveries({ showLoading: false }),
+      store.dispatch('campaigns/get'),
+    ]);
+    schedulePolling();
+  }, ANALYTICS_POLL_INTERVAL);
 };
 
 const handleTabChange = tab => {
@@ -193,18 +278,51 @@ watch(
   id => {
     if (!Number.isFinite(id)) return;
 
+    metricsRequestId += 1;
+    deliveriesRequestId += 1;
+    state.metrics = null;
+    state.deliveries = [];
+    state.meta = {};
+    state.metricsError = false;
+    state.deliveriesError = false;
+    state.isFetchingMetrics = true;
+    state.isFetchingDeliveries = true;
+
+    skipNextFilterRefresh = state.status !== 'all' || state.page !== 1;
     state.status = 'all';
     state.page = 1;
-    fetchMetrics();
-    fetchDeliveries();
+    fetchMetrics({ id });
+    fetchDeliveries({ id, status: 'all', page: 1 });
+    schedulePolling();
   },
   { immediate: true }
 );
 
 watch(
   () => [state.status, state.page],
-  () => fetchDeliveries()
+  () => {
+    if (skipNextFilterRefresh) {
+      skipNextFilterRefresh = false;
+      return;
+    }
+
+    fetchDeliveries();
+  }
 );
+
+watch(isCampaignProcessing, schedulePolling);
+
+onActivated(() => {
+  isPageActive = true;
+  schedulePolling();
+});
+
+onDeactivated(() => {
+  isPageActive = false;
+  stopPolling();
+});
+
+onBeforeUnmount(stopPolling);
 </script>
 
 <template>
