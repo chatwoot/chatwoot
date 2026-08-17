@@ -55,6 +55,14 @@ RSpec.describe Twilio::MediaDownloadService do
     file.close
   end
 
+  it 'uses only IPv4 addresses for Twilio media redirects' do
+    ipv4_address = IPAddr.new('18.65.3.1')
+    ipv6_address = IPAddr.new('2600:9000:2652:5000:1:47:fb00:93a1')
+    allow(SsrfFilter::DEFAULT_RESOLVER).to receive(:call).with('mms.twiliocdn.com').and_return([ipv4_address, ipv6_address])
+
+    expect(described_class::IPV4_RESOLVER.call('mms.twiliocdn.com')).to eq([ipv4_address])
+  end
+
   it 'retries a transient authenticated 404 and follows the successful redirect' do
     stub_request(:get, media_url)
       .with(basic_auth: auth_credentials)

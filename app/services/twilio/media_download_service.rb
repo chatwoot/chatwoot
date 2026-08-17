@@ -1,6 +1,9 @@
 class Twilio::MediaDownloadService
   RETRY_DELAYS = [1, 3].freeze
   API_HOST_PATTERN = /\Aapi(?:\.[a-z0-9-]+){0,2}\.twilio\.com\z/i
+  IPV4_RESOLVER = lambda do |hostname|
+    SsrfFilter::DEFAULT_RESOLVER.call(hostname).select(&:ipv4?)
+  end
 
   pattr_initialize [:channel!, :media_url!, :message_sid!, :media_index!, { retry_delays: RETRY_DELAYS }] do
     @account_sid = channel.account_sid
@@ -60,6 +63,7 @@ class Twilio::MediaDownloadService
     SafeFetch.fetch(
       media_url,
       http_basic_authentication: auth_credentials,
+      resolver: IPV4_RESOLVER,
       validate_content_type: false
     ) { |result| retain_download(result) }
   end
