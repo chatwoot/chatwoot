@@ -85,11 +85,11 @@ class SearchService
 
       # Apply the text search using the GIN index
       base_query.where('content @@ to_tsquery(?)', tsquery)
-                .reorder('created_at DESC')
+                .reorder('messages.created_at DESC, messages.id DESC')
                 .page(params[:page])
                 .per(15)
     else
-      base_query.reorder('created_at DESC')
+      base_query.reorder('messages.created_at DESC, messages.id DESC')
                 .page(params[:page])
                 .per(15)
     end
@@ -99,7 +99,7 @@ class SearchService
     base_query = message_base_query
     base_query = apply_message_filters(base_query)
     base_query.where('messages.content ILIKE :search', search: "%#{search_query}%")
-              .reorder('created_at DESC')
+              .reorder('messages.created_at DESC, messages.id DESC')
               .page(params[:page])
               .per(15)
   end
