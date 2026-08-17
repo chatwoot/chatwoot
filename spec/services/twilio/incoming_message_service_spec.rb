@@ -230,6 +230,30 @@ describe Twilio::IncomingMessageService do
       end
     end
 
+    context 'when media download retries are exhausted' do
+      it 'preserves the text message without an attachment' do
+        downloader = instance_double(Twilio::MediaDownloadService, perform: nil)
+        allow(Twilio::MediaDownloadService).to receive(:new).and_return(downloader)
+
+        described_class.new(
+          params: {
+            SmsSid: 'SMxx',
+            From: '+12345',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: twilio_channel.messaging_service_sid,
+            Body: 'testing exhausted media retries',
+            NumMedia: '1',
+            MediaContentType0: 'image/jpeg',
+            MediaUrl0: 'https://api.twilio.com/media'
+          }
+        ).perform
+
+        message = conversation.reload.messages.last
+        expect(message.content).to eq('testing exhausted media retries')
+        expect(message.attachments.count).to eq(0)
+      end
+    end
+
     context 'when a message with multiple attachments is received' do
       before do
         stub_request(:get, 'https://chatwoot-assets.local/sample.png')
