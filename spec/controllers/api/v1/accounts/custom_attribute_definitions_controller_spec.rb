@@ -187,6 +187,22 @@ RSpec.describe 'Custom Attribute Definitions API', type: :request do
         expect(custom_attribute_definition.reload.attribute_display_name).to eq(original_name)
       end
     end
+
+    context 'when changing attribute_model via update' do
+      it 'recomputes position into the destination scope without colliding with an existing record there' do
+        existing_contact_cad = create(:custom_attribute_definition, attribute_model: 'contact_attribute', account: account)
+
+        patch "/api/v1/accounts/#{account.id}/custom_attribute_definitions/#{custom_attribute_definition.id}",
+              headers: admin.create_new_auth_token,
+              params: { custom_attribute_definition: { attribute_model: 'contact_attribute' } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(custom_attribute_definition.reload.attribute_model).to eq('contact_attribute')
+        expect(response.parsed_body['position']).to eq(existing_contact_cad.reload.position + 10)
+        expect(custom_attribute_definition.position).not_to eq(existing_contact_cad.position)
+      end
+    end
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/custom_attribute_definitions/:id' do

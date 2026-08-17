@@ -131,6 +131,43 @@ RSpec.describe CustomAttributeDefinition do
         expect(conversation_cad.position).to eq(10)
         expect(contact_cad.position).to eq(10)
       end
+
+      context 'when attribute_model changes on update' do
+        it 'reassigns position to the end of the destination attribute_model scope' do
+          existing_contact_cad = create(:custom_attribute_definition, account: account, attribute_model: 'contact_attribute')
+          cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+          cad.update!(attribute_model: 'contact_attribute')
+
+          expect(cad.reload.position).to eq(existing_contact_cad.position + 10)
+        end
+
+        it 'appends to an empty destination scope starting at 10' do
+          cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+          cad.update!(attribute_model: 'company_attribute')
+
+          expect(cad.reload.position).to eq(10)
+        end
+
+        it 'does not collide with an existing record already at the same position in the destination scope' do
+          existing_company_cad = create(:custom_attribute_definition, account: account, attribute_model: 'company_attribute')
+          cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+          cad.update!(attribute_model: 'company_attribute')
+
+          expect(cad.reload.position).not_to eq(existing_company_cad.reload.position)
+        end
+
+        it 'does not change position when attribute_model is not part of the update' do
+          cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+          original_position = cad.position
+
+          cad.update!(attribute_display_name: 'Renamed')
+
+          expect(cad.reload.position).to eq(original_position)
+        end
+      end
     end
   end
 

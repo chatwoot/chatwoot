@@ -48,6 +48,7 @@ class CustomAttributeDefinition < ApplicationRecord
 
   belongs_to :account
   before_create :set_position
+  before_update :set_position, if: :attribute_model_changed?
   after_update :update_widget_pre_chat_custom_fields, unless: :company_attribute?
   after_destroy :sync_widget_pre_chat_custom_fields, unless: :company_attribute?
   after_update_commit :invalidate_filtered_unread_count_filters_update, if: :conversation_attribute_before_or_after?
