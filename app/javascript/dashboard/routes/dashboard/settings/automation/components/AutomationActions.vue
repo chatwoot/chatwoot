@@ -67,7 +67,6 @@ const hasActionErrors = computed(() =>
         :key="i"
         v-model="actions[i]"
         :action-types="actionTypes"
-        dropdown-max-height="max-h-[7.5rem]"
         :dropdown-values="getActionDropdownValues(action.action_name)"
         :show-action-input="showActionInput(actionTypes, action.action_name)"
         :error-message="

@@ -11,6 +11,7 @@ import {
   getAttributes,
 } from 'dashboard/helper/automationHelper';
 import { getAttributeIcon } from 'dashboard/components-next/filter/helper/filterAttributeIcons';
+import { provideDropdownTeleport } from 'dashboard/components-next/dropdown-menu/base/provider';
 import { validateAutomation } from 'dashboard/helper/validations';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
@@ -82,6 +83,8 @@ const INPUT_TYPE_MAP = {
 const { t } = useI18n();
 const { isCloudFeatureEnabled } = useAccount();
 const { operators } = useOperators();
+
+provideDropdownTeleport();
 
 const panelRef = ref(null);
 const instantTriggerRef = useTemplateRef('instantTriggerRef');
