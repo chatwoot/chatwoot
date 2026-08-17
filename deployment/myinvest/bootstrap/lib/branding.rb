@@ -10,9 +10,9 @@ class Myinvest::Branding
     'WIDGET_BRAND_URL' => 'https://www.myinvest-pro.de',
     'TERMS_URL' => 'https://www.myinvest-pro.de/agb',
     'PRIVACY_URL' => 'https://www.myinvest-pro.de/datenschutz',
-    'LOGO' => '/brand-assets/logo.svg',
-    'LOGO_DARK' => '/brand-assets/logo_dark.svg',
-    'LOGO_THUMBNAIL' => '/brand-assets/logo_thumbnail.png',
+    'LOGO' => '/brand-assets/logo.svg?v=myinvest-support-20260817',
+    'LOGO_DARK' => '/brand-assets/logo_dark.svg?v=myinvest-support-20260817',
+    'LOGO_THUMBNAIL' => '/brand-assets/logo_thumbnail.png?v=myinvest-support-20260817',
     'DISPLAY_MANIFEST' => false
   }.freeze
 

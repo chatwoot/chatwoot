@@ -103,9 +103,16 @@ health_status="$(curl "${curl_tls[@]}" --silent --show-error --max-time 15 --out
 }
 
 for asset in logo.svg logo_dark.svg logo_thumbnail.png; do
-  asset_status="$(curl "${curl_tls[@]}" --silent --show-error --max-time 15 --output /dev/null --write-out '%{http_code}' "$base_url/brand-assets/$asset")"
+  asset_url="$base_url/brand-assets/$asset?v=myinvest-support-20260817"
+  asset_status="$(curl "${curl_tls[@]}" --silent --show-error --max-time 15 --output /dev/null --write-out '%{http_code}' "$asset_url")"
   [[ "$asset_status" == 200 ]] || {
     printf 'Unexpected branding asset response for %s: status=%s\n' "$asset" "$asset_status" >&2
+    exit 1
+  }
+  public_hash="$(curl "${curl_tls[@]}" --silent --show-error --max-time 15 "$asset_url" | sha256sum | awk '{ print $1 }')"
+  expected_hash="$(sha256sum "$deployment_dir/brand-assets/$asset" | awk '{ print $1 }')"
+  [[ "$public_hash" == "$expected_hash" ]] || {
+    printf 'Unexpected branding asset content for %s.\n' "$asset" >&2
     exit 1
   }
 done

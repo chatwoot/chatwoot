@@ -19,13 +19,13 @@
   value: 'https://www.myinvest-pro.de/datenschutz'
   locked: true
 - name: LOGO
-  value: '/brand-assets/logo.svg'
+  value: '/brand-assets/logo.svg?v=myinvest-support-20260817'
   locked: true
 - name: LOGO_DARK
-  value: '/brand-assets/logo_dark.svg'
+  value: '/brand-assets/logo_dark.svg?v=myinvest-support-20260817'
   locked: true
 - name: LOGO_THUMBNAIL
-  value: '/brand-assets/logo_thumbnail.png'
+  value: '/brand-assets/logo_thumbnail.png?v=myinvest-support-20260817'
   locked: true
 - name: DISPLAY_MANIFEST
   value: false
