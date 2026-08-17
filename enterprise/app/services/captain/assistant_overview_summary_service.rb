@@ -4,6 +4,8 @@ class Captain::AssistantOverviewSummaryService < Captain::BaseTaskService
   pattr_initialize [:account!, :assistant!, { range: Captain::AssistantStatsWindow::DEFAULT_RANGE, timezone_offset: nil }]
 
   def perform
+    return { points: [] } unless report_has_activity?
+
     response = make_api_call(feature: 'editor', messages: messages, schema: RESPONSE_SCHEMA)
     return response if response[:error]
 
@@ -39,6 +41,10 @@ class Captain::AssistantOverviewSummaryService < Captain::BaseTaskService
 
   def stats_window
     @stats_window ||= Captain::AssistantStatsWindow.new(range, timezone_offset)
+  end
+
+  def report_has_activity?
+    report_data[:overview][:conversations_handled].values_at(:current, :previous).any?(&:positive?)
   end
 
   def extract_points(message)
