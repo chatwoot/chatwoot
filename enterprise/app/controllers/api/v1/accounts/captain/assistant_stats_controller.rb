@@ -4,6 +4,7 @@ class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::
 
   before_action -> { authorize(Captain::Assistant, :metrics?) }
   before_action :set_assistant
+  before_action :validate_timezone_offset, only: :overview_summary
 
   def overview
     render json: Captain::AssistantOverviewStatsBuilder.new(@assistant, params[:range], params[:timezone_offset]).metrics
@@ -42,18 +43,23 @@ class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::
   end
 
   def overview_summary_cache_key
-    window = Captain::AssistantStatsWindow.new(params[:range], params[:timezone_offset])
-    timezone = params[:timezone_offset].presence || 'default'
-
     [
       'captain_assistant_overview_summary',
       OVERVIEW_SUMMARY_CACHE_VERSION,
       Current.account.id,
       @assistant.cache_key_with_version,
-      window.range,
-      timezone,
+      stats_window.range,
+      stats_window.timezone,
       Current.account.locale
     ]
+  end
+
+  def stats_window
+    @stats_window ||= Captain::AssistantStatsWindow.new(params[:range], params[:timezone_offset])
+  end
+
+  def validate_timezone_offset
+    head :unprocessable_entity unless stats_window.timezone_offset_valid?
   end
 
   def set_assistant
