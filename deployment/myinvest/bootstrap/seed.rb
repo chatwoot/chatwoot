@@ -115,4 +115,4 @@ File.write(temporary_path, JSON.generate(tenant_credentials), mode: 'w', perm: 0
 File.rename(temporary_path, output_path)
 File.chmod(0o600, output_path)
 
-puts "Bootstrap complete: #{account_names.length} account boundaries, website inboxes, and Agent Bots." # rubocop:disable Rails/Output
+puts "Bootstrap complete: #{account_names.length} account boundaries, website inboxes, and Agent Bots."
