@@ -214,7 +214,7 @@ DO UPDATE SET publication_status = '\''published'\'', active = true, updated_at 
 SQL' >/dev/null
 test_document_inserted=true
 
-"${compose[@]}" exec -T -e FRONTEND_URL -e LOCAL_SMOKE rails \
+"${compose[@]}" exec -T --user "$(id -u):$(id -g)" -e FRONTEND_URL -e LOCAL_SMOKE rails \
   bundle exec rails runner /bootstrap/e2e_production_path.rb >/dev/null
 
 account_id="$(jq -r '.account_id' "$context_path")"
