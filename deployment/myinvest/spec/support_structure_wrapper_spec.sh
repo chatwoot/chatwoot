@@ -28,14 +28,20 @@ run_wrapper() {
 run_wrapper
 grep -Fxq 'SUPPORT_STRUCTURE_MODE=dry-run' "$work_dir/arguments"
 grep -Fxq 'SUPPORT_ROSTERS_JSON' "$work_dir/arguments"
-! grep -Fq 'private-roster-sentinel' "$work_dir/arguments"
+if grep -Fq 'private-roster-sentinel' "$work_dir/arguments"; then
+  printf 'Support roster leaked into Docker arguments.\n' >&2
+  exit 1
+fi
 grep -Fxq 'private-roster-sentinel' "$work_dir/roster"
 grep -Fxq 'private-confirmation-sentinel' "$work_dir/confirmation"
 
 run_wrapper --apply
 grep -Fxq 'SUPPORT_STRUCTURE_MODE=apply' "$work_dir/arguments"
 grep -Fxq 'SUPPORT_STRUCTURE_CONFIRMATION' "$work_dir/arguments"
-! grep -Fq 'private-confirmation-sentinel' "$work_dir/arguments"
+if grep -Fq 'private-confirmation-sentinel' "$work_dir/arguments"; then
+  printf 'Support confirmation leaked into Docker arguments.\n' >&2
+  exit 1
+fi
 
 if run_wrapper unexpected >/dev/null 2>&1; then
   printf 'Invalid support-structure mode was accepted.\n' >&2
