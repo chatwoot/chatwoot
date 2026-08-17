@@ -49,6 +49,8 @@ module MyinvestChatImport
           source_metadata: existing.source_metadata.merge('schema_version' => schema_version),
           started_at: Time.current,
           completed_at: nil,
+          processing_errors: nil,
+          last_error_at: nil,
           updated_at: Time.current
         )
         return existing.id
@@ -185,6 +187,8 @@ module MyinvestChatImport
         status: DataImport.statuses.fetch('completed'),
         processed_records: processed_records,
         stats: stats,
+        processing_errors: nil,
+        last_error_at: nil,
         completed_at: Time.current,
         updated_at: Time.current
       )
