@@ -9,6 +9,7 @@ class Myinvest::SupportStructure
   class ConfigurationError < StandardError; end
 
   PRODUCTION_CONFIRMATION = 'provision-support-structure:production'
+  HISTORY_DELIVERY_SUBSCRIPTIONS = Webhook::ALLOWED_WEBHOOK_EVENTS.grep(/\A(?:conversation|message)_/).freeze
   LABELS = [
     { title: 'support', color: '#1f93ff', description: 'General support request' },
     { title: 'billing', color: '#f59e0b', description: 'Billing or payment request' },
@@ -86,10 +87,13 @@ class Myinvest::SupportStructure
   end
   # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
 
-  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def validate_history_inboxes!(accounts)
     accounts.each_value do |account|
-      history_inboxes(account).each do |inbox|
+      histories = history_inboxes(account)
+      raise ConfigurationError, 'A history inbox account has a relevant account-level webhook' if histories.any? && relevant_account_webhook?(account)
+
+      histories.each do |inbox|
         raise ConfigurationError, 'A history inbox has an attached AI bot' if inbox.agent_bot_inbox.present?
         if inbox.channel.is_a?(Channel::Api) && inbox.channel.webhook_url.present?
           raise ConfigurationError, 'A history inbox API channel has channel webhook_url configured'
@@ -100,7 +104,13 @@ class Myinvest::SupportStructure
       end
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+  def relevant_account_webhook?(account)
+    account.webhooks.account_type.where(inbox_id: nil).any? do |webhook|
+      webhook.subscriptions.intersect?(HISTORY_DELIVERY_SUBSCRIPTIONS)
+    end
+  end
 
   def history_inboxes(account)
     account.inboxes.select do |inbox|

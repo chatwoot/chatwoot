@@ -125,6 +125,19 @@ RSpec.describe Myinvest::SupportStructure do
       expect(Team.count).to eq(0)
     end
 
+    it 'rejects a relevant account-level webhook for an otherwise inert durable history inbox' do
+      account = accounts.fetch('legacy_academy')
+      channel = create(:channel_api, account: account, webhook_url: nil,
+                                     additional_attributes: { 'myinvest_history_import' => true })
+      history = create(:inbox, account: account, channel: channel, name: 'Imported records', enable_auto_assignment: false)
+      create(:webhook, account_id: account.id, inbox_id: nil, webhook_type: :account_type,
+                       subscriptions: %w[conversation_created message_created])
+
+      expect(history.webhooks).to be_empty
+      expect { provisioner.call }.to raise_error(Myinvest::SupportStructure::ConfigurationError, /account-level webhook/i)
+      expect(Team.count).to eq(0)
+    end
+
     it 'preserves unrelated records and user memberships' do
       account = accounts.fetch('saas')
       unrelated_team = create(:team, account: account, name: 'bespoke team', description: 'keep me')
