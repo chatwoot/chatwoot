@@ -69,15 +69,15 @@ class Whatsapp::OneoffCampaignService
   # phone number stays first, which leaves every existing campaign sending exactly what it sends
   # today and changes only the contacts that are skipped as unreachable right now.
   #
-  # The identifier scoped to a parent business is the last resort rather than the first choice:
-  # it addresses the person relative to the parent, while a campaign goes out from the number
-  # behind this inbox. Skipping a contact that carries only that one would reopen the very bug
-  # this closes, so it is used when nothing else is available.
+  # The newest identifier wins, with no preference for the kind of identifier it is. Ranking a
+  # regular identifier above one scoped to a parent business would reach back past a rotation and
+  # address a retired alias, since `Whatsapp::IdentifierSyncService#create_contact_inboxes` only
+  # ever appends. Recency is also enough to keep the regular one when a payload carries both,
+  # because that same append order records the parent first.
   def campaign_address(contact)
     return contact.phone_number if contact.phone_number.present?
 
-    identifiers = campaign_bsuids(contact)
-    identifiers.find { |source_id| !RegexHelper::WHATSAPP_BSUID_PARENT_REGEX.match?(source_id) } || identifiers.first
+    campaign_bsuids(contact).first
   end
 
   def campaign_bsuids(contact)

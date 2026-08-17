@@ -256,12 +256,24 @@ describe Whatsapp::OneoffCampaignService do
         described_class.new(campaign: campaign).perform
       end
 
-      it 'prefers the identifier scoped to this business over the parent one' do
+      it 'addresses the identifier scoped to this business when a payload carries both' do
         contact = contact_in_audience
-        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'BR.5aBcD1')
+        # The inbound path appends the parent identifier before the regular one, so the regular
+        # identifier is the newer row whenever both arrive together.
         create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'BR.ENT.9zYxW2')
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'BR.5aBcD1')
 
         expect(whatsapp_channel).to receive(:send_template).with('BR.5aBcD1', anything, nil)
+
+        described_class.new(campaign: campaign).perform
+      end
+
+      it 'addresses a current parent identifier rather than a regular one left behind by a rotation' do
+        contact = contact_in_audience
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'BR.retired1')
+        create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: 'BR.ENT.9zYxW2')
+
+        expect(whatsapp_channel).to receive(:send_template).with('BR.ENT.9zYxW2', anything, nil)
 
         described_class.new(campaign: campaign).perform
       end
@@ -288,10 +300,10 @@ describe Whatsapp::OneoffCampaignService do
 
       # A campaign walks its recipients one at a time, so reading the identifier per contact would
       # cost one round trip each on a queue that is already low priority.
-      def count_contact_inbox_queries
+      def count_contact_inbox_queries(&block)
         count = 0
         counter = ->(_name, _start, _finish, _id, payload) { count += 1 if payload[:sql].to_s.include?('FROM "contact_inboxes"') }
-        ActiveSupport::Notifications.subscribed(counter, 'sql.active_record') { yield }
+        ActiveSupport::Notifications.subscribed(counter, 'sql.active_record', &block)
         count
       end
 
