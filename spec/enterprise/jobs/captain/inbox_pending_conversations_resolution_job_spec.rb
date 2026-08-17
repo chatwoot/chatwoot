@@ -5,7 +5,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   let!(:resolvable_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 2.hours.ago, status: :pending) }
   let!(:recent_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 1.minute.ago, status: :pending) }
   let!(:open_conversation) { create(:conversation, inbox: inbox, last_activity_at: 1.hour.ago, status: :open) }
-  let!(:captain_assistant) { create(:captain_assistant, account: inbox.account) }
+  let!(:captain_assistant) { create(:captain_assistant, account: inbox.account, config: { 'auto_resolve_mode' => 'evaluated' }) }
 
   before do
     create(:captain_inbox, inbox: inbox, captain_assistant: captain_assistant)
@@ -18,7 +18,25 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       .to have_enqueued_job.on_queue('low')
   end
 
+  context 'when the assistant is deleted before the queued job runs' do
+    before do
+      captain_assistant.destroy!
+      inbox.reload
+    end
+
+    it 'leaves pending conversations unchanged' do
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    end
+  end
+
   context 'when captain_tasks is disabled' do
+    before do
+      allow(inbox.account).to receive(:feature_enabled?).and_call_original
+      allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(false)
+    end
+
     it 'resolves pending conversations inactive for over 1 hour' do
       described_class.perform_now(inbox)
 
@@ -37,12 +55,47 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(open_conversation.reload.status).to eq('open')
     end
 
+    it 'emits a captain resolved event with the time_based source' do
+      expect(Captain::ConversationEvents).to receive(:resolved)
+        .with(conversation: resolvable_pending_conversation, assistant: captain_assistant, source: 'time_based', at: kind_of(Time))
+
+      described_class.perform_now(inbox)
+    end
+
+    it 'does not create a captain inference reporting event' do
+      perform_enqueued_jobs do
+        described_class.perform_now(inbox)
+      end
+
+      expect(ReportingEvent.exists?(conversation_id: resolvable_pending_conversation.id,
+                                    name: 'conversation_captain_inference_resolved')).to be(false)
+    end
+
     it 'does not call ConversationCompletionService' do
       allow(Captain::ConversationCompletionService).to receive(:new)
 
       described_class.perform_now(inbox)
 
       expect(Captain::ConversationCompletionService).not_to have_received(:new)
+    end
+
+    it 'uses the assistant inactivity timer' do
+      captain_assistant.account.enable_features!('captain_integration_v2')
+      captain_assistant.update!(config: captain_assistant.config.merge('auto_resolve_after' => 180))
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    end
+
+    it 'resolves silently when the resolution message is disabled' do
+      captain_assistant.account.enable_features!('captain_integration_v2')
+      captain_assistant.update!(config: captain_assistant.config.merge('send_inactivity_resolution_message' => false))
+
+      described_class.perform_now(inbox)
+
+      expect(resolvable_pending_conversation.reload.status).to eq('resolved')
+      expect(resolvable_pending_conversation.messages.outgoing).to be_empty
     end
   end
 
@@ -85,8 +138,18 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       expect(resolvable_pending_conversation.messages.outgoing).to be_empty
     end
 
-    it 'falls back to legacy time-based resolve when legacy auto-resolve is forced' do
-      inbox.account.update!(captain_auto_resolve_mode: 'legacy')
+    it 'uses legacy time-based resolve when configured on the assistant' do
+      captain_assistant.update!(auto_resolve_mode: 'legacy')
+      allow(Captain::ConversationCompletionService).to receive(:new)
+
+      described_class.perform_now(inbox)
+
+      expect(Captain::ConversationCompletionService).not_to have_received(:new)
+      expect(resolvable_pending_conversation.reload.status).to eq('resolved')
+    end
+
+    it 'uses the assistant always-resolve policy instead of the account policy' do
+      captain_assistant.update!(config: captain_assistant.config.merge('auto_resolve_mode' => 'legacy'))
       allow(Captain::ConversationCompletionService).to receive(:new)
 
       described_class.perform_now(inbox)
@@ -154,9 +217,17 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
             account_id: resolvable_pending_conversation.account_id,
             inbox_id: resolvable_pending_conversation.inbox_id,
             message_type: :activity,
-            content: expected_content
+            content: expected_content,
+            content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
           }
         )
+    end
+
+    it 'emits a captain resolved event with the inference source' do
+      expect(Captain::ConversationEvents).to receive(:resolved)
+        .with(conversation: resolvable_pending_conversation, assistant: captain_assistant, source: 'inference', at: kind_of(Time))
+
+      described_class.perform_now(inbox)
     end
 
     it 'creates a captain inference resolved reporting event' do
@@ -198,7 +269,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
 
     it 'creates handoff message with configured content' do
       handoff_message = 'Connecting you to a human agent...'
-      captain_assistant.update!(config: { 'handoff_message' => handoff_message })
+      captain_assistant.update!(config: captain_assistant.config.merge('handoff_message' => handoff_message))
       inbox.reload
       allow(inbox.account).to receive(:feature_enabled?).and_call_original
       allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
@@ -214,7 +285,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       handoff_message = 'Connecting you to a human agent...'
       original_waiting_since = 3.hours.ago
 
-      captain_assistant.update!(config: { 'handoff_message' => handoff_message })
+      captain_assistant.update!(config: captain_assistant.config.merge('handoff_message' => handoff_message))
       resolvable_pending_conversation.update!(waiting_since: original_waiting_since)
       allow(MessageTemplates::Template::OutOfOffice).to receive(:perform_if_applicable)
       inbox.reload
@@ -227,7 +298,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
 
     it 'does not create handoff message if not configured' do
-      captain_assistant.update!(config: {})
+      captain_assistant.update!(config: captain_assistant.config.except('handoff_message'))
       inbox.reload
       allow(inbox.account).to receive(:feature_enabled?).and_call_original
       allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
@@ -252,9 +323,18 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
             account_id: resolvable_pending_conversation.account_id,
             inbox_id: resolvable_pending_conversation.inbox_id,
             message_type: :activity,
-            content: expected_content
+            content: expected_content,
+            content_attributes: { activity: { type: 'conversation_status_changed', status: 'open' } }
           }
         )
+    end
+
+    it 'emits a captain handoff event with the inference source' do
+      expect(Captain::ConversationEvents).to receive(:handed_off)
+        .with(conversation: resolvable_pending_conversation, assistant: captain_assistant, source: 'inference',
+              reason_category: :pending_clarification, at: kind_of(Time))
+
+      described_class.perform_now(inbox)
     end
 
     it 'creates a captain inference handoff reporting event' do
@@ -331,8 +411,64 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
     end
   end
 
+  describe 'evaluated action transaction safety' do
+    let(:job) { described_class.new }
+    let(:conversation) { resolvable_pending_conversation.reload }
+
+    before do
+      job.instance_variable_set(:@captain_assistant, captain_assistant)
+      job.instance_variable_set(:@inactivity_cutoff_time, 1.hour.ago)
+    end
+
+    it 'rolls back resolution messages when the status transition fails' do
+      expect(conversation).to receive(:with_lock).and_call_original
+      allow(conversation).to receive(:resolved!).and_raise(StandardError, 'transition failed')
+
+      expect do
+        job.send(:resolve_conversation, conversation, inbox, 'Customer question was answered')
+      end.to raise_error(StandardError, 'transition failed')
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.messages.outgoing).to be_empty
+    end
+
+    it 'rolls back handoff messages when the status transition fails' do
+      captain_assistant.update!(config: captain_assistant.config.merge('handoff_message' => 'Connecting you to an agent.'))
+      expect(conversation).to receive(:with_lock).and_call_original
+      allow(conversation).to receive(:bot_handoff!).and_raise(StandardError, 'transition failed')
+
+      expect do
+        job.send(:handoff_conversation, conversation, 'Customer needs an agent')
+      end.to raise_error(StandardError, 'transition failed')
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.messages.outgoing).to be_empty
+    end
+
+    it 'dispatches the bot handoff event after leaving the lock transaction' do
+      open_transactions_before_handoff = ActiveRecord::Base.connection.open_transactions
+      expect(conversation).to receive(:bot_handoff!).with(dispatch_event: false).and_call_original
+      expect(conversation).to receive(:dispatch_bot_handoff_event) do
+        expect(ActiveRecord::Base.connection.open_transactions).to eq(open_transactions_before_handoff)
+      end
+
+      job.send(:handoff_conversation, conversation, 'Customer needs an agent')
+    end
+  end
+
   it 'does not resolve conversations when auto-resolve is disabled at execution time' do
-    inbox.account.update!(captain_auto_resolve_mode: 'disabled')
+    captain_assistant.update!(auto_resolve_mode: 'disabled')
+
+    expect do
+      described_class.perform_now(inbox)
+    end.not_to(change { resolvable_pending_conversation.reload.status })
+
+    expect(resolvable_pending_conversation.reload.status).to eq('pending')
+    expect(resolvable_pending_conversation.messages.outgoing).to be_empty
+  end
+
+  it 'does not resolve conversations when the assistant policy is disabled at execution time' do
+    captain_assistant.update!(config: captain_assistant.config.merge('auto_resolve_mode' => 'disabled'))
 
     expect do
       described_class.perform_now(inbox)
@@ -343,6 +479,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   end
 
   it 'falls back to disabled mode from legacy settings key' do
+    captain_assistant.update!(config: captain_assistant.config.except('auto_resolve_mode'))
     inbox.account.update!(settings: inbox.account.settings.merge('captain_disable_auto_resolve' => true))
 
     expect do

@@ -40,6 +40,22 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     process_initiate_call_response(response)
   end
 
+  # Sets WABA calling status ('ENABLED'/'DISABLED'). Returns true, or raises with
+  # Meta's user-facing message on failure so the caller can surface it.
+  def update_calling_status(status)
+    response = HTTParty.post(
+      "#{calls_phone_id_path}/settings",
+      headers: api_headers,
+      body: { calling: { status: status } }.to_json
+    )
+    return true if response.success?
+
+    parsed = response.parsed_response.is_a?(Hash) ? response.parsed_response : {}
+    error = parsed['error'].is_a?(Hash) ? parsed['error'] : {}
+    Rails.logger.error "[WHATSAPP CALL] update_calling_status failed: status=#{response.code} body=#{response.body}"
+    raise meta_error_message(error, 'Failed to update calling status')
+  end
+
   private
 
   def calls_phone_id_path
@@ -86,11 +102,18 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
 
     Rails.logger.error "[WHATSAPP CALL] initiate_call failed: status=#{response.code} body=#{response.body}"
     parsed = response.parsed_response.is_a?(Hash) ? response.parsed_response : {}
-    error_code = parsed.dig('error', 'code')
-    error_msg = parsed.dig('error', 'error_user_msg') || 'Failed to initiate call'
+    error = parsed['error'].is_a?(Hash) ? parsed['error'] : {}
+    error_code = error['code']
+    error_msg = meta_error_message(error, 'Failed to initiate call')
 
     raise Voice::CallErrors::NoCallPermission, error_msg if error_code == Voice::CallErrors::NO_CALL_PERMISSION_CODE
 
     raise Voice::CallErrors::CallFailed, error_msg
+  end
+
+  # Meta often returns a blank error_user_msg (e.g. code 131044 business-eligibility);
+  # an empty string is truthy, so `||` would surface it. Prefer the first non-blank field.
+  def meta_error_message(error, default)
+    error['error_user_msg'].presence || error['message'].presence || error['error_user_title'].presence || default
   end
 end

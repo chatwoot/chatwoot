@@ -51,10 +51,13 @@ RSpec.describe 'Enterprise Audit API', type: :request do
         expect(json_response['audit_logs'][1]['action']).to eql('create')
         expect(json_response['audit_logs'][1]['audited_changes']['name']).to eql(inbox.name)
         expect(json_response['audit_logs'][1]['associated_id']).to eql(account.id)
-        expect(json_response['current_page']).to be(1)
         # contains audit log for account user as well
         # contains audit logs for account update(enable audit logs)
-        expect(json_response['total_entries']).to be(3)
+        expect(json_response.slice('current_page', 'per_page', 'total_entries')).to eql(
+          'current_page' => 1,
+          'per_page' => 25,
+          'total_entries' => 3
+        )
       end
     end
   end

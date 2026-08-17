@@ -47,6 +47,14 @@ const filterTypes = [
     attributeModel: 'standard',
   },
   {
+    attributeKey: 'contact_id',
+    attributeI18nKey: 'CONTACT',
+    inputType: 'search_select',
+    dataType: 'number',
+    filterOperators: OPERATOR_TYPES_1,
+    attributeModel: 'standard',
+  },
+  {
     attributeKey: 'display_id',
     attributeI18nKey: 'CONVERSATION_IDENTIFIER',
     inputType: 'plain_text',
@@ -132,6 +140,10 @@ export const filterAttributeGroups = [
       {
         key: 'team_id',
         i18nKey: 'TEAM_NAME',
+      },
+      {
+        key: 'contact_id',
+        i18nKey: 'CONTACT',
       },
       {
         key: 'display_id',

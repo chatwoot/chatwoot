@@ -7,7 +7,7 @@ const state = {
   records: [],
   meta: {
     currentPage: 1,
-    perPage: 15,
+    perPage: 25,
     totalEntries: 0,
   },
   uiFlags: {

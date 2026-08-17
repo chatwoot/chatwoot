@@ -21,9 +21,15 @@ properties:
         "contact_updated",
         "message_created",
         "message_updated",
-        "webwidget_triggered"
+        "webwidget_triggered",
+        "conversation_typing_on",
+        "conversation_typing_off"
       ]
     description: The list of subscribed events
+  secret:
+    type: string
+    nullable: true
+    description: Secret used to sign webhook requests. Signed webhook deliveries include `X-Chatwoot-Timestamp` and `X-Chatwoot-Signature`; the signature is `sha256=` followed by the HMAC-SHA256 of `{timestamp}.{raw_request_body}` using this secret. Deliveries also include `X-Chatwoot-Delivery` when a delivery id is available.
   account_id:
     type: number
     description: The id of the account which the webhook object belongs to

@@ -46,9 +46,8 @@ const formattedLastActivityAt = computed(() => {
         :src="avatarSource"
         class="shrink-0"
         :name="name"
-        :size="48"
+        :size="42"
         hide-offline-status
-        rounded-full
       />
       <div class="flex flex-col gap-0.5 flex-1 min-w-0">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1 min-w-0">

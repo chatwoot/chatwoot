@@ -49,12 +49,21 @@
       "DISABLE_MFA_DESC": "Hesabınızdan iki faktörlü kimlik doğrulamayı kaldırın",
       "DISABLE_BUTTON": "İki Faktörlü Kimlik Doğrulamayı Devre Dışı Bırak"
     },
+    "LOW_BACKUP_CODES": {
+      "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
+      "NONE_LEFT": "You have no backup codes remaining. Generate new codes now to avoid getting locked out if you lose access to your authenticator.",
+      "ACTION": "Generate codes"
+    },
     "DISABLE": {
       "TITLE": "İki Faktörlü Kimlik Doğrulamayı Devre Dışı Bırak",
       "DESCRIPTION": "İki faktörlü kimlik doğrulamayı devre dışı bırakmak için şifrenizi ve doğrulama kodunu girmeniz gerekir.",
       "PASSWORD": "Parola",
       "OTP_CODE": "Doğrulama Kodu",
       "OTP_CODE_PLACEHOLDER": "000000",
+      "BACKUP_CODE": "Yedek Kod",
+      "BACKUP_CODE_PLACEHOLDER": "Yedek kodlarınızdan birini girin",
+      "USE_BACKUP_CODE": "Lost access to your authenticator? Use a backup code instead",
+      "USE_OTP_CODE": "Use a verification code from your authenticator app",
       "CONFIRM": "2FA'yı devre dışı bırak",
       "CANCEL": "İptal Et",
       "SUCCESS": "İki faktörlü kimlik doğrulama devre dışı bırakıldı",

@@ -20,6 +20,8 @@
     "CALL": "Llamar",
     "CALL_INITIATED": "Llamando al contacto…",
     "CALL_FAILED": "No se puede iniciar la llamada. Por favor, inténtelo de nuevo.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Solicitud de permiso de llamada al contacto enviada. Inténtalo de nuevo una vez que acepten.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Solicitud de permiso de llamada ya enviada recientemente. Inténtelo de nuevo una vez que el contacto acepte.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Seleccionar un buzón de entrada"
@@ -386,6 +388,7 @@
       "IDENTIFIER": "Idenrificador",
       "COUNTRY": "País",
       "CITY": "Ciudad",
+      "COMPANY": "Empresa",
       "CREATED_AT": "Creado el",
       "LAST_ACTIVITY": "Última actividad",
       "REFERER_LINK": "Enlace de referencia",
@@ -507,6 +510,7 @@
         "ATTRIBUTES": "Atributos",
         "HISTORY": "Historial",
         "NOTES": "Notas",
+        "MEDIA": "Media",
         "MERGE": "Combinar"
       },
       "HISTORY": {
@@ -582,8 +586,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Asignar etiquetas",
+    "REMOVE_LABELS": "Quitar etiquetas",
     "ASSIGN_LABELS_SUCCESS": "Etiquetas asignadas correctamente.",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "REMOVE_LABELS_SUCCESS": "Etiquetas removidas con éxito.",
+    "REMOVE_LABELS_FAILED": "Error al eliminar las etiquetas",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "{count} selected",
@@ -604,6 +611,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "No pudimos completar la búsqueda. Por favor, inténtalo de nuevo."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "No pudimos crear el contacto. Inténtalo de nuevo."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Ver",

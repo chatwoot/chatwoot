@@ -15,8 +15,10 @@ module AutoAssignmentHandler
     return unless should_run_auto_assignment?
 
     if inbox.auto_assignment_v2_enabled?
-      # Use new assignment system
-      AutoAssignment::AssignmentJob.perform_later(inbox_id: inbox.id)
+      # Coalesces bursts of triggers per inbox. Fine if the job runs even when the
+      # surrounding save rolls back: it only scans the inbox's current unassigned
+      # conversations, so running it for an uncommitted change is harmless.
+      AutoAssignment::AssignmentJob.enqueue_for_inbox(inbox.id)
     else
       # Use legacy assignment system
       # If conversation has a team, only consider team members for assignment
@@ -40,6 +42,7 @@ module AutoAssignmentHandler
     # Assignment V2: Resolved/snoozed conversations still have an assignee, so bypass the
     # assignee-blank check below. The AssignmentJob needs to run to rebalance assignments.
     return true if conversation_status_changed_to_resolved_or_snoozed?
+    return false if assignee_agent_bot_id.present?
 
     # run only if assignee is blank or doesn't have access to inbox
     assignee.blank? || inbox.members.exclude?(assignee)

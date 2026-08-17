@@ -1,6 +1,7 @@
 <script setup>
-import { computed, defineModel, h, watch, ref } from 'vue';
+import { computed, h, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { debounce } from '@chatwoot/utils';
 import Button from 'next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import FilterSelect from './inputs/FilterSelect.vue';
@@ -109,6 +110,34 @@ const inputFieldType = computed(() => {
   return 'text';
 });
 
+const asyncOptions = ref([]);
+const isSearching = ref(false);
+const lastSearchQuery = ref('');
+
+const performAsyncSearch = async query => {
+  let results;
+  try {
+    results = await currentFilter.value.searchOptions(query);
+  } catch {
+    results = [];
+  }
+  // skip stale responses — a newer search in this row owns the UI
+  if (query !== lastSearchQuery.value) return;
+  // null means another row's search aborted ours, reset instead of staying stuck on the searching state
+  if (results !== null) asyncOptions.value = results;
+  isSearching.value = false;
+};
+
+const debouncedAsyncSearch = debounce(performAsyncSearch, 300);
+
+const onAsyncSearch = query => {
+  const hasQuery = !!query.trim();
+  lastSearchQuery.value = query;
+  if (!hasQuery) asyncOptions.value = [];
+  isSearching.value = hasQuery;
+  debouncedAsyncSearch(query);
+};
+
 const resetModelOnAttributeKeyChange = newAttributeKey => {
   /**
    * Resets the filter values and operator when the attribute key changes. This ensures that
@@ -121,11 +150,16 @@ const resetModelOnAttributeKeyChange = newAttributeKey => {
   const newInputType = getInputType(newOperator, filter);
   if (newInputType === 'multiSelect') {
     values.value = [];
-  } else if (['searchSelect', 'booleanSelect'].includes(newInputType)) {
+  } else if (
+    ['searchSelect', 'asyncSearchSelect', 'booleanSelect'].includes(
+      newInputType
+    )
+  ) {
     values.value = {};
   } else {
     values.value = '';
   }
+  asyncOptions.value = [];
   filterOperator.value = newOperator.value;
 };
 
@@ -184,6 +218,16 @@ defineExpose({ validate, resetValidation });
           v-model="values"
           :options="currentFilter.options"
           dropdown-max-height="max-h-64"
+        />
+        <SingleSelect
+          v-else-if="inputType === 'asyncSearchSelect'"
+          v-model="values"
+          async-search
+          :options="asyncOptions"
+          :is-searching="isSearching"
+          :search-placeholder="currentFilter.searchPlaceholder"
+          dropdown-max-height="max-h-64"
+          @search="onAsyncSearch"
         />
         <SingleSelect
           v-else-if="inputType === 'booleanSelect'"

@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "Villa kom upp við að eyða fjölva. Vinsamlegast reyndu aftur síðar"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "Edit macro",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "Macro Visibility",
         "GLOBAL": {
           "LABEL": "Public",
-          "DESCRIPTION": "Þessi fjölvi er aðgengileg opinberlega fyrir alla þjónustufulltrúa á þessum reikningi."
+          "DESCRIPTION": "Þessi fjölvi er aðgengileg opinberlega fyrir alla þjónustufulltrúa á þessum reikningi.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "Private",
@@ -77,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Execute",
       "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "EXECUTED_SUCCESSFULLY": "Macro executed successfully",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",

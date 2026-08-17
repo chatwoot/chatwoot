@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "Произошла ошибка при удалении макроса. Пожалуйста, повторите попытку позже"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "Просмотр макроса"
+    },
     "EDIT": {
       "TOOLTIP": "Изменить макрос",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "Видимость макроса",
         "GLOBAL": {
           "LABEL": "Публичный",
-          "DESCRIPTION": "Этот макрос доступен всем агентам на этом аккаунте."
+          "DESCRIPTION": "Этот макрос доступен всем агентам на этом аккаунте.",
+          "CREATE_DISABLED_DESCRIPTION": "Только администраторы могут создавать общедоступные макросы.",
+          "EDIT_DISABLED_DESCRIPTION": "Только администраторы могут редактировать общедоступные макросы."
         },
         "PERSONAL": {
           "LABEL": "Приватный",
@@ -77,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Выполнение",
       "PREVIEW": "Предпросмотр макроса",
-      "EXECUTED_SUCCESSFULLY": "Макрос успешно выполнен"
+      "EXECUTED_SUCCESSFULLY": "Макрос успешно выполнен",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Необходимо ввести ключ атрибута",

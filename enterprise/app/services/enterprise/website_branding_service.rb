@@ -58,6 +58,7 @@ module Enterprise::WebsiteBrandingService
       socials: brand['socials'] || [],
       links: brand['links'],
       email: @email,
+      email_provider: detect_email_provider,
       industries: brand.dig('industries', 'eic') || [],
       stock: brand['stock'],
       is_nsfw: brand['is_nsfw'] || false
