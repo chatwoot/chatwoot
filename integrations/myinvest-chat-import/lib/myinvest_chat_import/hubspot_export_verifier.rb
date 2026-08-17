@@ -136,18 +136,25 @@ module MyinvestChatImport
         end
       end
 
-      selected_events.each do |event|
-        Array(event['attachments']).select { |attachment| attachment.is_a?(Hash) && attachment['type'] == 'FILE' }.each do |attachment|
+      event_attachments = selected_events.flat_map do |event|
+        Array(event['attachments']).each_with_object([]) do |attachment, rows|
+          next unless attachment.is_a?(Hash) && attachment['type'] == 'FILE'
+
           local = attachment['archivedFile']
           raise ValidationError, 'attachment_archive_not_closed' unless local.is_a?(Hash)
           raise ValidationError, 'attachment_archive_not_closed' if attachment.key?('url')
 
-          identity = [source_identity(event), local.fetch('sha256')]
+          rows << local.merge('source_message_id' => source_identity(event))
+        end
+      end
+      raise ValidationError, 'attachment_archive_not_closed' unless event_attachments.length == archive_attachments.length
 
-          raise ValidationError, 'attachment_archive_not_closed' unless archive_by_identity.key?(identity)
-          ATTACHMENT_COMPARE_KEYS.each do |key|
-            raise ValidationError, 'attachment_archive_not_closed' unless local.fetch(key) == archive_by_identity.fetch(identity).fetch(key)
-          end
+      event_by_identity = index_attachments!(event_attachments)
+      raise ValidationError, 'attachment_archive_not_closed' unless event_by_identity.keys.sort == archive_by_identity.keys.sort
+
+      event_by_identity.each do |identity, local|
+        ATTACHMENT_COMPARE_KEYS.each do |key|
+          raise ValidationError, 'attachment_archive_not_closed' unless local.fetch(key) == archive_by_identity.fetch(identity).fetch(key)
         end
       end
     rescue KeyError

@@ -209,6 +209,45 @@ class HubspotExportVerifierTest < Minitest::Test
     end
   end
 
+  def test_fails_closed_when_source_event_attachment_references_are_not_exact
+    with_export do |path|
+      bytes = rewrite_ndjson(path, 'source_events.ndjson') do |rows|
+        rows.map do |row|
+          next row unless row.fetch('id') == 'message-1'
+
+          file_attachment = row.fetch('attachments').find { |attachment| attachment['type'] == 'FILE' }
+          row.merge('attachments' => row.fetch('attachments') + [file_attachment])
+        end
+      end
+      rewrite_json(path, 'archive-manifest.json') do |manifest|
+        manifest['files']['source_events']['sha256'] = Digest::SHA256.hexdigest(bytes)
+        manifest['files']['source_events']['count'] = bytes.lines.length
+        manifest
+      end
+
+      error = assert_raises(MyinvestChatImport::ValidationError) { verify(path) }
+      assert_equal 'attachment_archive_not_closed', error.code
+    end
+
+    with_export do |path|
+      bytes = rewrite_ndjson(path, 'source_events.ndjson') do |rows|
+        rows.map do |row|
+          next row unless row.fetch('id') == 'message-1'
+
+          row.merge('attachments' => row.fetch('attachments').reject { |attachment| attachment['type'] == 'FILE' })
+        end
+      end
+      rewrite_json(path, 'archive-manifest.json') do |manifest|
+        manifest['files']['source_events']['sha256'] = Digest::SHA256.hexdigest(bytes)
+        manifest['files']['source_events']['count'] = bytes.lines.length
+        manifest
+      end
+
+      error = assert_raises(MyinvestChatImport::ValidationError) { verify(path) }
+      assert_equal 'attachment_archive_not_closed', error.code
+    end
+  end
+
   def test_fails_closed_when_source_event_content_does_not_match_message
     with_export do |path|
       bytes = rewrite_ndjson(path, 'messages.ndjson') do |rows|
