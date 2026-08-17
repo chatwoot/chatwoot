@@ -100,7 +100,7 @@ RSpec.describe Twilio::MediaDownloadService do
 
   it 'uses the initial channel credentials for every retry' do
     initial_credentials = auth_credentials
-    changed_credentials = ['ACchanged', 'changed-token']
+    changed_credentials = %w[ACchanged changed-token]
     stub_request(:get, media_url)
       .with(basic_auth: initial_credentials)
       .to_return(

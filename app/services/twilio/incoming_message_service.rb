@@ -169,8 +169,13 @@ class Twilio::IncomingMessageService
       channel: twilio_channel,
       media_url: media_url,
       message_sid: params[:SmsSid].presence || params[:MessageSid],
-      media_index: media_index
+      media_index: media_index,
+      retry_delays: media_retry_delays
     ).perform
+  end
+
+  def media_retry_delays
+    @media_retry_delays ||= Twilio::MediaDownloadService::RETRY_DELAYS.dup
   end
 
   def location_message?

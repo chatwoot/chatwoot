@@ -2,7 +2,7 @@ class Twilio::MediaDownloadService
   RETRY_DELAYS = [1, 3].freeze
   API_HOST_PATTERN = /\Aapi(?:\.[a-z0-9-]+){0,2}\.twilio\.com\z/i
 
-  pattr_initialize [:channel!, :media_url!, :message_sid!, :media_index!] do
+  pattr_initialize [:channel!, :media_url!, :message_sid!, :media_index!, { retry_delays: RETRY_DELAYS }] do
     @account_sid = channel.account_sid
     @auth_credentials = if channel.api_key_sid.present?
                           [channel.api_key_sid, channel.auth_token]
@@ -29,16 +29,20 @@ class Twilio::MediaDownloadService
 
   def retry_with_auth(initial_error)
     last_error = initial_error
+    attempt = 1
 
-    RETRY_DELAYS.each_with_index do |delay, index|
-      return download_retry(delay, index + 2, last_error)
-    rescue Down::NotFound => e
-      last_error = e
-    rescue Down::Error => e
-      return log_failure(e, index + 2)
+    while (delay = retry_delays.shift)
+      attempt += 1
+      begin
+        return download_retry(delay, attempt, last_error)
+      rescue Down::NotFound => e
+        last_error = e
+      rescue Down::Error => e
+        return log_failure(e, attempt)
+      end
     end
 
-    log_failure(last_error, RETRY_DELAYS.length + 1)
+    log_failure(last_error, attempt)
   end
 
   def download_retry(delay, attempt, error)
