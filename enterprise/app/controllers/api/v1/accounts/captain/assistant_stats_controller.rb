@@ -11,7 +11,8 @@ class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::
   end
 
   def overview_summary
-    result = Rails.cache.read(overview_summary_cache_key) || generate_overview_summary
+    cached_result = Redis::Alfred.get(overview_summary_cache_key)
+    result = cached_result ? JSON.parse(cached_result, symbolize_names: true) : generate_overview_summary
 
     if result[:error]
       render json: { error: result[:error] }, status: :unprocessable_content
@@ -38,7 +39,7 @@ class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::
       timezone_offset: params[:timezone_offset]
     ).perform
 
-    Rails.cache.write(overview_summary_cache_key, result, expires_in: OVERVIEW_SUMMARY_CACHE_TTL) unless result[:error]
+    Redis::Alfred.set(overview_summary_cache_key, result.to_json, ex: OVERVIEW_SUMMARY_CACHE_TTL.to_i) unless result[:error]
     result
   end
 
@@ -51,7 +52,7 @@ class Api::V1::Accounts::Captain::AssistantStatsController < Api::V1::Accounts::
       stats_window.range,
       stats_window.timezone,
       Current.account.locale
-    ]
+    ].join(':')
   end
 
   def stats_window
