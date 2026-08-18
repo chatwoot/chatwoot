@@ -23,6 +23,7 @@ import {
 } from 'dashboard/helper/auditlogHelper';
 
 const SEARCH_DEBOUNCE_DELAY = 500;
+const MIN_SEARCH_LENGTH = 3;
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -103,7 +104,8 @@ const tableHeaders = computed(() => {
 });
 
 const commitSearch = useDebounceFn(() => {
-  const term = searchQuery.value.trim();
+  const typed = searchQuery.value.trim();
+  const term = typed.length < MIN_SEARCH_LENGTH ? '' : typed;
   if (term === pushedSearch.value) return;
   pushedSearch.value = term;
   onFiltersUpdate({ q: term || undefined });
