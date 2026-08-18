@@ -199,8 +199,10 @@ const fetchMetrics = async ({
   } catch {
     if (requestId !== metricsRequestId || id !== campaignId.value) return;
 
-    state.metrics = null;
-    state.metricsError = true;
+    if (showLoading) {
+      state.metrics = null;
+      state.metricsError = true;
+    }
   } finally {
     if (requestId === metricsRequestId && id === campaignId.value) {
       state.isFetchingMetrics = false;
@@ -231,9 +233,11 @@ const fetchDeliveries = async ({
   } catch {
     if (requestId !== deliveriesRequestId || id !== campaignId.value) return;
 
-    state.deliveries = [];
-    state.meta = {};
-    state.deliveriesError = true;
+    if (showLoading) {
+      state.deliveries = [];
+      state.meta = {};
+      state.deliveriesError = true;
+    }
   } finally {
     if (requestId === deliveriesRequestId && id === campaignId.value) {
       state.isFetchingDeliveries = false;
