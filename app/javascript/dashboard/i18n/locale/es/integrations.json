@@ -240,6 +240,42 @@
     "CONNECT": {
       "BUTTON_TEXT": "Conectar"
     },
+    "CALENDARS": {
+      "HEADER": "Calendarios",
+      "DESCRIPTION": "Conectá Google Calendar a esta cuenta. Habilitá calendarios concretos; los agentes crean citas desde Calendarios y desde la conversación.",
+      "GOOGLE": "Google",
+      "MICROSOFT": "Microsoft",
+      "COMING_SOON": "Próximamente",
+      "CONNECT_GOOGLE": "Conectar Google",
+      "DISCONNECT": "Desconectar",
+      "CONNECTED_ACCOUNTS": "Cuentas conectadas",
+      "GOOGLE_ACCOUNT": "Cuenta de Google",
+      "NO_ACCOUNTS": "Todavía no hay cuentas de Google conectadas.",
+      "NOT_CONFIGURED": "Faltan las credenciales de Google Calendar. Cargá Client ID y Secret en Super Admin → Settings → Google Calendar.",
+      "CONNECT_ERROR": "No se pudo iniciar OAuth de Google. Probá de nuevo.",
+      "DISCONNECT_SUCCESS": "Cuenta de Google desconectada",
+      "DISCONNECT_ERROR": "No se pudo desconectar esta cuenta. Probá de nuevo.",
+      "LOAD_ERROR": "No se pudieron cargar las conexiones de calendario.",
+      "ENABLE_HINT": "Habilitá solo los calendarios que debe usar el equipo. El calendario personal queda oculto hasta que lo actives.",
+      "TEAM_ONLY_HINT": "Solo los calendarios que marques acá aparecen en Calendarios y al crear citas. Los que no marques quedan privados.",
+      "TEAM_SHARE_WARNING": "Los calendarios que habilites acá los verá el equipo autorizado, no solo vos. Activá únicamente los que deban compartirse.",
+      "HOURS": "Horario",
+      "SEARCH_CALENDARS": "Buscar calendarios",
+      "ENABLED_COUNT": "{count} habilitados para el equipo",
+      "VISIBLE_TO_TEAM": "Visible para el equipo",
+      "HIDDEN_FROM_TEAM": "Oculto para el equipo",
+      "CHOOSE_CALENDARS": "Elegir calendarios",
+      "HIDE_CALENDARS": "Ocultar",
+      "SAVE_CALENDARS": "Guardar calendarios",
+      "SAVE_SUCCESS": "Calendarios habilitados guardados",
+      "SAVE_ERROR": "No se pudieron guardar los calendarios.",
+      "PRIMARY": "(principal)",
+      "NO_WRITABLE": "Esta cuenta de Google no tiene calendarios con permiso de escritura.",
+      "DELETE": {
+        "TITLE": "Desconectar Google Calendar",
+        "MESSAGE": "¿Desconectar la cuenta de {name}? Los eventos de esta cuenta dejarán de verse en el panel."
+      }
+    },
     "DASHBOARD_APPS": {
       "TITLE": "Panel de aplicaciones",
       "HEADER_BTN_TXT": "Añadir una nueva aplicación",

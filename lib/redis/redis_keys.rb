@@ -107,4 +107,9 @@ module Redis::RedisKeys
 
   ## Account Email Rate Limiting
   ACCOUNT_OUTBOUND_EMAIL_COUNT_KEY = 'OUTBOUND_EMAIL_COUNT::%<account_id>d::%<date>s'.freeze
+
+  ## Calendar event edit lock (UX; Google etag is the source of truth)
+  CALENDAR_EVENT_LOCK = 'CALENDAR_EVENT_LOCK::%<account_id>d::%<event_id>s'.freeze
+  # Serializes create/reschedule on one Google calendar so agents/bots cannot double-book
+  CALENDAR_BOOKING_LOCK = 'CALENDAR_BOOKING_LOCK::%<account_id>d::%<calendar_id>s'.freeze
 end

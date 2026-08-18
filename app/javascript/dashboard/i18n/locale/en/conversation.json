@@ -385,6 +385,7 @@
         "previous_conversation": "Previous conversations",
         "conversation_participants": "Participants",
         "linear_issues": "Linear issues",
+        "calendar_events": "Appointments",
         "shopify_orders": "Shopify orders"
       },
       "EMPTY_STATE": "All sidebar sections are hidden. Use the menu above to show them."
@@ -469,8 +470,15 @@
       "PREVIOUS_CONVERSATION": "Previous Conversations",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
+      "CALENDAR_EVENTS": "Appointments",
       "SHOPIFY_ORDERS": "Shopify Orders",
       "SHARED_FILES": "Attachments"
+    },
+    "CALENDAR": {
+      "NEW": "New appointment",
+      "EMPTY": "No appointments linked to this conversation",
+      "DELETED": "Cancelled event",
+      "NOT_CONNECTED": "Connect Google Calendar in Settings → Integrations → Calendars."
     },
     "SHARED_FILES": {
       "EMPTY": "No attachments yet",

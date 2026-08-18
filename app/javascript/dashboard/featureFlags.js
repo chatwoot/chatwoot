@@ -56,6 +56,7 @@ export const FEATURE_FLAGS = {
   INTERNAL_TASKS: 'internal_tasks',
   INTERNAL_CHATS: 'internal_chats',
   FLOWS_V1: 'flows_v1',
+  CALENDAR: 'calendar_integration',
 };
 
 export const PREMIUM_FEATURES = [

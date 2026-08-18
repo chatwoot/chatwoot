@@ -8,4 +8,5 @@ export const LOCAL_STORAGE_KEYS = {
   MESSAGE_REPLY_TO: 'messageReplyTo',
   RECENT_SEARCHES: 'recentSearches',
   SIDEBAR_MINIMIZED_SECTIONS: 'sidebarMinimizedSections',
+  CALENDAR_SHOW_CANCELLED: 'calendarShowCancelled',
 };

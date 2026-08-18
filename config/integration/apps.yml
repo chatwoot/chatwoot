@@ -253,6 +253,14 @@ shopify:
   allow_multiple_hooks: false
   visible_properties: []
 
+calendars:
+  id: calendars
+  logo: calendars.png
+  i18n_key: calendars
+  hook_type: account
+  allow_multiple_hooks: true
+  visible_properties: []
+
 leadsquared:
   id: leadsquared
   feature_flag: crm_integration

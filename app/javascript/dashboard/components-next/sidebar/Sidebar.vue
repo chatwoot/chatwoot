@@ -103,6 +103,13 @@ const hasInternalTasks = computed(() => {
   );
 });
 
+const hasCalendars = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.CALENDAR
+  );
+});
+
 const hasFlows = computed(() => {
   return isFeatureEnabledonAccount.value(
     accountId.value,
@@ -423,6 +430,16 @@ const menuItems = computed(() => {
       getterKeys: {
         count: 'internalTasks/getMyOpenTaskCount',
       },
+    });
+  }
+
+  if (hasCalendars.value) {
+    items.push({
+      name: 'Calendars',
+      label: t('SIDEBAR.CALENDARS'),
+      icon: 'i-lucide-calendar',
+      to: accountScopedRoute('calendars_dashboard_index'),
+      activeOn: ['calendars_dashboard_index'],
     });
   }
 

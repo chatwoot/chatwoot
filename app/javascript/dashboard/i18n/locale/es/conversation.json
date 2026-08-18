@@ -371,6 +371,7 @@
         "previous_conversation": "Conversaciones anteriores",
         "conversation_participants": "Participantes",
         "linear_issues": "Issues de Linear",
+        "calendar_events": "Citas",
         "shopify_orders": "Órdenes de Shopify"
       },
       "EMPTY_STATE": "Todas las secciones del panel están ocultas. Usa el menú de arriba para mostrarlas."
@@ -455,8 +456,15 @@
       "PREVIOUS_CONVERSATION": "Conversaciones anteriores",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Problemas lineales vinculados",
+      "CALENDAR_EVENTS": "Citas",
       "SHOPIFY_ORDERS": "Shopify Orders",
       "SHARED_FILES": "Adjuntos"
+    },
+    "CALENDAR": {
+      "NEW": "Nueva cita",
+      "EMPTY": "No hay citas ligadas a esta conversación",
+      "DELETED": "Evento cancelado",
+      "NOT_CONNECTED": "Conectá Google Calendar en Ajustes → Integraciones → Calendarios."
     },
     "SHARED_FILES": {
       "EMPTY": "No hay archivos adjuntos aún",

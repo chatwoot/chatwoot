@@ -512,6 +512,34 @@
   type: boolean
 ## ------ End of Configs added for Google OAuth ------ ##
 
+## ------ Google Calendar (InboxHub calendars, not login) ------ ##
+- name: GOOGLE_CALENDAR_CLIENT_ID
+  display_title: 'Google Calendar Client ID'
+  value:
+  locked: false
+  description: 'OAuth client ID for Google Calendar. Separate from Google login. Redirect: FRONTEND_URL/google_calendar/callback'
+- name: GOOGLE_CALENDAR_CLIENT_SECRET
+  display_title: 'Google Calendar Client Secret'
+  value:
+  locked: false
+  description: 'OAuth client secret for Google Calendar'
+  type: secret
+## ------ End of Google Calendar ------ ##
+
+## ------ Microsoft Calendar (placeholder until Graph is wired) ------ ##
+- name: MICROSOFT_CALENDAR_CLIENT_ID
+  display_title: 'Microsoft Calendar Client ID'
+  value:
+  locked: false
+  description: 'Azure app ID for Microsoft Calendar. Separate from Microsoft email. Coming soon.'
+- name: MICROSOFT_CALENDAR_CLIENT_SECRET
+  display_title: 'Microsoft Calendar Client Secret'
+  value:
+  locked: false
+  description: 'Azure app secret for Microsoft Calendar. Coming soon.'
+  type: secret
+## ------ End of Microsoft Calendar ------ ##
+
 ## ------ Configs added for SAML SSO ------ ##
 - name: ENABLE_SAML_SSO_LOGIN
   display_title: 'Enable SAML SSO login'

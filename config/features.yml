@@ -408,3 +408,9 @@
   chatwoot_internal: true
   category: conversations
   description: Reply-to threading support for messages.
+- name: calendar_integration
+  display_name: Calendars
+  enabled: true
+  column: feature_flags_ext_1
+  category: integrations
+  description: Connect Google calendars and view events in the dashboard.

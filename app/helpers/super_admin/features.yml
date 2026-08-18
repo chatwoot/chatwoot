@@ -111,12 +111,24 @@ google:
   enabled: true
   icon: 'icon-google'
   config_key: 'google'
+google_calendar:
+  name: 'Google Calendar'
+  description: 'OAuth credentials for connecting Google calendars (not login)'
+  enabled: true
+  icon: 'icon-google'
+  config_key: 'google_calendar'
 microsoft:
   name: 'Microsoft'
   description: 'Configuration for setting up Microsoft Email'
   enabled: true
   icon: 'icon-microsoft'
   config_key: 'microsoft'
+microsoft_calendar:
+  name: 'Microsoft Calendar'
+  description: 'OAuth credentials for connecting Microsoft calendars (coming soon)'
+  enabled: true
+  icon: 'icon-microsoft'
+  config_key: 'microsoft_calendar'
 
 # ------- Third-party Integrations ------- #
 linear:

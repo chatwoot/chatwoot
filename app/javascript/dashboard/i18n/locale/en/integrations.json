@@ -240,6 +240,42 @@
     "CONNECT": {
       "BUTTON_TEXT": "Connect"
     },
+    "CALENDARS": {
+      "HEADER": "Calendars",
+      "DESCRIPTION": "Connect Google Calendar to this account. Enable specific calendars, then agents can create appointments from Calendars and from a conversation.",
+      "GOOGLE": "Google",
+      "MICROSOFT": "Microsoft",
+      "COMING_SOON": "Coming soon",
+      "CONNECT_GOOGLE": "Connect Google",
+      "DISCONNECT": "Disconnect",
+      "CONNECTED_ACCOUNTS": "Connected accounts",
+      "GOOGLE_ACCOUNT": "Google account",
+      "NO_ACCOUNTS": "No Google accounts connected yet.",
+      "NOT_CONFIGURED": "Google Calendar credentials are not set. Add the Client ID and Secret in Super Admin → Settings → Google Calendar.",
+      "CONNECT_ERROR": "Could not start Google OAuth. Try again.",
+      "DISCONNECT_SUCCESS": "Google account disconnected",
+      "DISCONNECT_ERROR": "Could not disconnect this account. Try again.",
+      "LOAD_ERROR": "Could not load calendar connections.",
+      "ENABLE_HINT": "Enable only the calendars the team should use. The personal calendar stays hidden until you turn it on.",
+      "TEAM_ONLY_HINT": "Only calendars you enable here appear in Calendars and when creating appointments. Unchecked calendars stay private.",
+      "TEAM_SHARE_WARNING": "Calendars you enable here are visible to the authorized team, not only to you. Turn on only the calendars that should be shared.",
+      "HOURS": "Hours",
+      "SEARCH_CALENDARS": "Search calendars",
+      "ENABLED_COUNT": "{count} enabled for the team",
+      "VISIBLE_TO_TEAM": "Visible to the team",
+      "HIDDEN_FROM_TEAM": "Hidden from the team",
+      "CHOOSE_CALENDARS": "Choose calendars",
+      "HIDE_CALENDARS": "Hide",
+      "SAVE_CALENDARS": "Save calendars",
+      "SAVE_SUCCESS": "Enabled calendars saved",
+      "SAVE_ERROR": "Could not save enabled calendars.",
+      "PRIMARY": "(primary)",
+      "NO_WRITABLE": "This Google account has no writable calendars.",
+      "DELETE": {
+        "TITLE": "Disconnect Google Calendar",
+        "MESSAGE": "Disconnect {name}? Events from this account will stop showing in the dashboard."
+      }
+    },
     "DASHBOARD_APPS": {
       "TITLE": "Dashboard Apps",
       "HEADER_BTN_TXT": "Add a new dashboard app",

@@ -26,6 +26,7 @@ import SidebarVisibilityMenu from './SidebarVisibilityMenu.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 import ConversationTasksPanel from 'dashboard/components-next/InternalTasks/ConversationTasksPanel.vue';
+import CalendarEventsList from 'dashboard/components/widgets/conversation/CalendarEventsList.vue';
 
 const props = defineProps({
   conversationId: {
@@ -100,6 +101,19 @@ const isLinearClientIdConfigured = computed(() => {
 
 const isLinearConnected = computed(
   () => linearIntegration.value?.enabled || false
+);
+
+const calendarIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'calendars'
+);
+
+const isCalendarFeatureEnabled = computed(() =>
+  isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.CALENDAR)
+);
+
+const isCalendarConnected = computed(
+  () => calendarIntegration.value?.enabled || false
 );
 
 const store = useStore();
@@ -349,6 +363,34 @@ onMounted(() => {
               >
                 <LinearSetupCTA v-if="!isLinearConnected" />
                 <LinearIssuesList v-else :conversation-id="conversationId" />
+              </AccordionItem>
+            </div>
+            <div
+              v-else-if="
+                element.name === 'calendar_events' &&
+                isVisible('calendar_events') &&
+                isCalendarFeatureEnabled
+              "
+            >
+              <AccordionItem
+                :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CALENDAR_EVENTS')"
+                icon="i-lucide-calendar"
+                :is-open="isContactSidebarItemOpen('is_calendar_events_open')"
+                compact
+                @toggle="
+                  value =>
+                    toggleSidebarUIState('is_calendar_events_open', value)
+                "
+              >
+                <CalendarEventsList
+                  v-if="isCalendarConnected"
+                  :conversation-id="conversationId"
+                  :contact-id="contactId"
+                  :contact-name="contact.name"
+                />
+                <p v-else class="px-4 py-3 text-sm text-n-slate-11">
+                  {{ $t('CONVERSATION_SIDEBAR.CALENDAR.NOT_CONNECTED') }}
+                </p>
               </AccordionItem>
             </div>
             <div

@@ -7,6 +7,7 @@ import { useBranding } from 'shared/composables/useBranding';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Label from 'dashboard/components-next/label/Label.vue';
+import googleCalendarLogo from 'dashboard/assets/images/integrations/google-calendar.svg';
 
 const props = defineProps({
   id: {
@@ -46,6 +47,20 @@ const integrationStatusColor = computed(() =>
 const actionURL = computed(() =>
   frontendURL(`accounts/${accountId.value}/settings/integrations/${props.id}`)
 );
+
+const logoSrc = computed(() => {
+  if (props.id === 'calendars') {
+    return googleCalendarLogo;
+  }
+  return `/dashboard/images/integrations/${props.id}.png`;
+});
+
+const logoSrcDark = computed(() => {
+  if (props.id === 'calendars') {
+    return googleCalendarLogo;
+  }
+  return `/dashboard/images/integrations/${props.id}-dark.png`;
+});
 </script>
 
 <template>
@@ -55,11 +70,11 @@ const actionURL = computed(() =>
     <div class="flex items-start justify-between">
       <div class="flex h-12 w-12 mb-2">
         <img
-          :src="`/dashboard/images/integrations/${id}.png`"
+          :src="logoSrc"
           class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
         />
         <img
-          :src="`/dashboard/images/integrations/${id}-dark.png`"
+          :src="logoSrcDark"
           class="max-w-full rounded-md border border-n-weak shadow-sm hidden dark:block bg-n-alpha-3 dark:bg-n-alpha-2"
         />
       </div>

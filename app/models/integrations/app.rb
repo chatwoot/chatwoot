@@ -64,6 +64,8 @@ class Integrations::App
       account.feature_enabled?('crm_integration')
     when 'notion'
       notion_enabled?(account)
+    when 'calendars'
+      account.feature_enabled?('calendar_integration')
     else
       true
     end
@@ -88,6 +90,8 @@ class Integrations::App
       account.webhooks.exists?
     when 'dashboard_apps'
       account.dashboard_apps.exists?
+    when 'calendars'
+      account.calendar_connections.active.exists?
     else
       account.hooks.exists?(app_id: id)
     end
