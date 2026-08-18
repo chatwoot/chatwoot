@@ -54,6 +54,8 @@ const fetchAuditLogs = async () => {
 };
 
 const updateQuery = partial => {
+  // a debounced search can land after the admin has moved to another page
+  if (route.name !== 'auditlogs_list') return;
   router.push({
     name: 'auditlogs_list',
     query: buildAuditLogRouteQuery({ ...route.query, ...partial }),
