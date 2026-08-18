@@ -3,6 +3,8 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::EnterpriseAcco
   before_action :fetch_audit
 
   RESULTS_PER_PAGE = 25
+  # 9999-12-31T23:59:59Z, beyond this the database cannot represent the timestamp
+  MAX_EPOCH = 253_402_300_799
 
   def show
     @audit_logs = @audit_logs.page(params[:page]).per(RESULTS_PER_PAGE)
@@ -49,7 +51,10 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::EnterpriseAcco
   def parsed_time(value)
     return if value.blank?
 
-    Time.zone.at(Integer(value))
+    epoch = Integer(value)
+    return unless epoch.abs <= MAX_EPOCH
+
+    Time.zone.at(epoch)
   rescue ArgumentError, TypeError
     nil
   end
