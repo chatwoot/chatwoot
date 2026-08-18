@@ -7,6 +7,7 @@ import { useAlert } from 'dashboard/composables';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Label from 'dashboard/components-next/label/Label.vue';
 import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
@@ -29,6 +30,8 @@ const { t } = useI18n();
 
 const isLoaded = ref(false);
 const inboxIdBeingUpdated = ref(null);
+const disconnectDialogRef = ref(null);
+const isDisconnecting = ref(false);
 // The switch keeps an optimistic local value. When a toggle fails, nothing in
 // the store changes, so bump this counter to remount the switch and let it
 // pick the (unchanged) truth back up.
@@ -104,6 +107,30 @@ const toggleInbox = async (inbox, shouldHandle) => {
   }
 };
 
+const openDisconnectDialog = () => disconnectDialogRef.value?.open();
+
+// The connected state is read from the agent bot list and the card copy from
+// the integration payload, so both have to be refetched for the page to fall
+// back to its not-connected form.
+const confirmDisconnect = async () => {
+  isDisconnecting.value = true;
+  try {
+    await store.dispatch('integrations/disconnectPathors');
+    await Promise.all([
+      store.dispatch('integrations/get'),
+      store.dispatch('agentBots/get'),
+    ]);
+    disconnectDialogRef.value?.close();
+    useAlert(t('INTEGRATION_SETTINGS.PATHORS.DISCONNECT.SUCCESS'));
+  } catch (error) {
+    useAlert(
+      error?.message || t('INTEGRATION_SETTINGS.PATHORS.DISCONNECT.ERROR')
+    );
+  } finally {
+    isDisconnecting.value = false;
+  }
+};
+
 const initializePathorsIntegration = async () => {
   await Promise.all([
     store.dispatch('integrations/get'),
@@ -168,7 +195,7 @@ onMounted(() => {
               </p>
             </div>
           </div>
-          <div v-if="isConnected" class="flex items-center flex-shrink-0">
+          <div v-if="isConnected" class="flex items-center flex-shrink-0 gap-2">
             <a :href="manageUrl" target="_blank" rel="noopener noreferrer">
               <Button
                 faded
@@ -178,6 +205,13 @@ onMounted(() => {
                 trailing-icon
               />
             </a>
+            <Button
+              faded
+              ruby
+              :label="$t('INTEGRATION_SETTINGS.PATHORS.DISCONNECT.BUTTON_TEXT')"
+              :is-loading="isDisconnecting"
+              @click="openDisconnectDialog"
+            />
           </div>
         </div>
 
@@ -272,6 +306,20 @@ onMounted(() => {
             </li>
           </ul>
         </div>
+
+        <Dialog
+          ref="disconnectDialogRef"
+          type="alert"
+          :title="$t('INTEGRATION_SETTINGS.PATHORS.DISCONNECT.DIALOG_TITLE')"
+          :description="
+            $t('INTEGRATION_SETTINGS.PATHORS.DISCONNECT.DIALOG_MESSAGE')
+          "
+          :confirm-button-label="
+            $t('INTEGRATION_SETTINGS.PATHORS.DISCONNECT.CONFIRM')
+          "
+          :is-loading="isDisconnecting"
+          @confirm="confirmDisconnect"
+        />
       </div>
     </template>
   </SettingsLayout>

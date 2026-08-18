@@ -102,6 +102,22 @@ export const actions = {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false });
     }
   },
+  // Pathors disconnect goes through its own action because the settings page
+  // reports the outcome to the user, and `deleteIntegration` swallows errors.
+  disconnectPathors: async ({ commit }) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: true });
+    try {
+      await IntegrationsAPI.delete('pathors');
+      commit(types.default.DELETE_INTEGRATION, {
+        id: 'pathors',
+        enabled: false,
+      });
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false });
+    }
+  },
   showHook: async ({ commit }, hookId) => {
     commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isFetchingItem: true });
     try {

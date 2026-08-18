@@ -7,6 +7,14 @@
         "NOT_CONNECTED": "Not connected"
       },
       "MANAGE_BUTTON_TEXT": "Manage in Pathors",
+      "DISCONNECT": {
+        "BUTTON_TEXT": "Disconnect",
+        "DIALOG_TITLE": "Disconnect this account from Pathors?",
+        "DIALOG_MESSAGE": "The Pathors AI agent will stop replying in every inbox, and the binding on the Pathors side is released as well. Past conversations and call records are kept. You can connect again at any time.",
+        "CONFIRM": "Yes, disconnect",
+        "SUCCESS": "This account is no longer connected to Pathors.",
+        "ERROR": "The account could not be disconnected, please try again."
+      },
       "NOT_CONNECTED": {
         "TITLE": "This account is not connected to Pathors yet",
         "DESCRIPTION": "Connect this account to a Pathors project. You will pick the project on the Pathors authorization page; once connected, the AI agent shows up here and you can choose the inboxes it replies in.",

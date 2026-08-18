@@ -7,6 +7,14 @@
         "NOT_CONNECTED": "尚未連接"
       },
       "MANAGE_BUTTON_TEXT": "在 Pathors 中管理",
+      "DISCONNECT": {
+        "BUTTON_TEXT": "解除連接",
+        "DIALOG_TITLE": "要將此帳號與 Pathors 解除連接嗎？",
+        "DIALOG_MESSAGE": "Pathors AI 助理會停止回覆所有收件匣，Pathors 端的綁定也會一併解除。過去的對話與通話紀錄都會保留。你隨時可以重新連接。",
+        "CONFIRM": "確定解除連接",
+        "SUCCESS": "此帳號已與 Pathors 解除連接。",
+        "ERROR": "無法解除連接，請重試。"
+      },
       "NOT_CONNECTED": {
         "TITLE": "此帳號尚未連接 Pathors",
         "DESCRIPTION": "將此帳號連接到 Pathors 專案。你會在 Pathors 授權頁面選擇要連接的專案；連接完成後，AI agent 會出現在這裡，你可以選擇它要回覆哪些收件匣。",

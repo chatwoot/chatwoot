@@ -407,6 +407,7 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
+            resource :pathors, controller: 'pathors', only: [:destroy]
           end
           resources :portals do
             member do
