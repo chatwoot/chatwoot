@@ -1,17 +1,29 @@
 module Captain::Assistant::RunnerInstrumentationHelper
   include Integrations::LlmInstrumentationConstants
 
+  TRACE_CONFIG = {
+    assistant: {
+      name: 'llm.captain_v2',
+      tags: ['captain_v2']
+    },
+    reply_suggestion: {
+      name: 'llm.captain.copilot.agent',
+      tags: ['copilot']
+    }
+  }.freeze
+
   private
 
   def install_instrumentation(runner)
     return unless ChatwootApp.otel_enabled?
 
+    config = trace_config
     Agents::Instrumentation.install(
       runner,
       tracer: OpentelemetryConfig.tracer,
-      trace_name: 'llm.captain_v2',
+      trace_name: config[:name],
       span_attributes: {
-        ATTR_LANGFUSE_TAGS => ['captain_v2'].to_json
+        ATTR_LANGFUSE_TAGS => config[:tags].to_json
       },
       attribute_provider: Captain::Assistant::InstrumentationAttributeProvider.new(self)
     )
@@ -42,6 +54,8 @@ module Captain::Assistant::RunnerInstrumentationHelper
     runner.on_tool_complete do |tool_name, _tool_result, context_wrapper|
       track_handoff_usage(tool_name, handoff_tool_name, context_wrapper)
     end
+
+    return runner if reply_suggestion?
 
     if message_burst_protection_active?
       runner.on_run_complete do |_agent_name, _result, context_wrapper|
@@ -95,5 +109,9 @@ module Captain::Assistant::RunnerInstrumentationHelper
                    .captain_response_triggering
                    .exists?(['messages.id > ?', @responding_to_message_id])
     end
+  end
+
+  def trace_config
+    TRACE_CONFIG.fetch(reply_suggestion? ? :reply_suggestion : :assistant)
   end
 end

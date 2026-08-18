@@ -21,6 +21,20 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
     end
   end
 
+  describe '#available_in_reply_suggestion?' do
+    it 'allows GET tools' do
+      custom_tool.update!(http_method: 'GET')
+
+      expect(tool.available_in_reply_suggestion?).to be true
+    end
+
+    it 'rejects POST tools' do
+      custom_tool.update!(http_method: 'POST')
+
+      expect(tool.available_in_reply_suggestion?).to be false
+    end
+  end
+
   describe '#perform' do
     context 'with GET request' do
       before do
