@@ -38,6 +38,15 @@ class Captain::Copilot::ReplySuggestionService
     end
   end
 
+  def persist_failure_response
+    @copilot_thread.with_lock do
+      existing_message = @copilot_thread.copilot_messages.assistant.first
+      return response_from(existing_message) if existing_message
+
+      create_failure_response
+    end
+  end
+
   private
 
   def conversation_history(conversation)
@@ -114,6 +123,16 @@ class Captain::Copilot::ReplySuggestionService
     response
   end
 
+  def create_failure_response
+    response = failure_response
+    @copilot_thread.copilot_messages.create!(
+      message_type: :assistant,
+      message: { content: response['response'] }
+    )
+
+    response
+  end
+
   def completed_response
     message = @copilot_thread.copilot_messages.assistant.first
     response_from(message) if message
@@ -166,6 +185,13 @@ class Captain::Copilot::ReplySuggestionService
     {
       'response' => I18n.t('captain.copilot.reply_suggestion_discarded', locale: reply_locale),
       'discarded' => true
+    }
+  end
+
+  def failure_response
+    {
+      'response' => I18n.t('captain.copilot.reply_suggestion_failed', locale: reply_locale),
+      'discarded' => false
     }
   end
 end

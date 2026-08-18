@@ -446,6 +446,7 @@ en:
       invalid_tool_call: 'Invalid tool call'
       tool_not_available: 'Tool not available'
       reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
+      reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'

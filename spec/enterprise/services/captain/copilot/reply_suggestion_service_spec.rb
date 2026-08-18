@@ -197,6 +197,28 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     expect(copilot_thread.copilot_messages.assistant.count).to eq(1)
   end
 
+  it 'persists a terminal failure response without charging' do
+    expect do
+      expect(service.persist_failure_response['discarded']).to be false
+    end.not_to(change { account.reload.custom_attributes['captain_responses_usage'].to_i })
+
+    message = copilot_thread.copilot_messages.last
+    expect(message).to be_assistant
+    expect(message.message).to eq(
+      'content' => "Copilot couldn't generate a reply. Please try again."
+    )
+  end
+
+  it 'does not replace a completed suggestion with a failure response' do
+    service.generate_response
+
+    expect do
+      service.persist_failure_response
+    end.not_to change(copilot_thread.copilot_messages, :count)
+
+    expect(copilot_thread.copilot_messages.last.message['reply_suggestion']).to be true
+  end
+
   it 'does not use a conversation the user cannot access' do
     custom_role = create(:custom_role, account: account, permissions: [])
     account.account_users.find_by!(user: user).update!(role: :agent, custom_role: custom_role)
