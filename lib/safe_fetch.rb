@@ -32,7 +32,8 @@ module SafeFetch
   rescue SsrfFilter::Error, Resolv::ResolvError => e
     raise UnsafeUrlError, e.message
   rescue Net::OpenTimeout, Net::ReadTimeout, SocketError, OpenSSL::SSL::SSLError,
-         IOError, SystemCallError => e
+         IOError, Errno::ECONNABORTED, Errno::ECONNREFUSED, Errno::ECONNRESET,
+         Errno::EHOSTUNREACH, Errno::ENETUNREACH, Errno::EPIPE, Errno::ETIMEDOUT => e
     raise FetchError, e.message
   end
 
