@@ -423,30 +423,30 @@
       "METRICS": {
         "HANDLED": {
           "LABEL": "Conversations handled",
-          "HINT": "Distinct conversations where Captain sent at least one public reply."
+          "HINT": "Conversations where Captain replied to the customer or handed the conversation to your team."
         },
         "AUTO_RESOLUTION": {
           "LABEL": "Auto-resolution rate",
-          "HINT": "Share of handled conversations Captain resolved without a handoff or human reply."
+          "HINT": "The share of handled conversations Captain resolved without help from your team. Higher means Captain resolved more on its own."
         },
         "HANDOFF": {
           "LABEL": "Handoff rate",
-          "HINT": "Share of handled conversations Captain escalated to a human agent."
+          "HINT": "The share of handled conversations Captain passed to your team. Lower means fewer conversations needed an agent."
         },
         "HOURS_SAVED": {
           "LABEL": "Time saved",
-          "HINT": "Estimated agent effort saved based on Captain's public replies.",
-          "NOTE": "Uses two minutes per reply; directional, not measured labor."
+          "HINT": "An estimate of how much agent reply time Captain saved.",
+          "NOTE": "Based on two minutes saved for each public Captain reply."
         },
         "REOPEN": {
           "LABEL": "Reopen rate",
-          "HINT": "Share of Captain-resolved conversations that were later reopened.",
-          "NOTE": "Lower suggests Captain's resolutions are holding."
+          "HINT": "The share of Captain-resolved conversations that customers returned to later.",
+          "NOTE": "Lower means more resolutions stayed resolved."
         },
         "DEPTH": {
           "LABEL": "Messages / conversation",
-          "HINT": "Average number of public Captain replies per handled conversation.",
-          "NOTE": "Lower can mean faster resolution, but conversation complexity matters."
+          "HINT": "The average number of replies Captain sent in each conversation it handled.",
+          "NOTE": "A lower number can mean quicker answers, but complex questions may need more replies."
         }
       },
       "DRILLDOWN": {
@@ -496,13 +496,13 @@
           },
           "DURABLE": {
             "LABEL": "Captain resolutions remained closed",
-            "HINT": "Share of eligible Captain resolutions that stayed closed for seven days.",
-            "NOTE": "Recent resolutions are excluded until the seven-day window completes."
+            "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
+            "NOTE": "Only resolutions old enough to observe for seven days are included."
           },
           "MEDIAN_RESOLUTION": {
             "LABEL": "Median resolution time",
-            "HINT": "Median time from the start of a Captain-handled episode to resolution.",
-            "NOTE": "Half resolved faster and half took longer."
+            "HINT": "The typical time from when a conversation reached Captain until it was resolved.",
+            "NOTE": "Lower means customers generally got resolved sooner."
           },
           "DEPTH": {
             "LABEL": "Messages per conversation"
@@ -547,9 +547,9 @@
         "CSAT": {
           "TITLE": "Captain CSAT",
           "AUTONOMOUS": "Captain-resolved conversations",
-          "AUTONOMOUS_HINT": "Average CSAT for conversations resolved by Captain without human involvement.",
+          "AUTONOMOUS_HINT": "The average customer rating for conversations Captain resolved without help from your team.",
           "ASSISTED": "Captain-assisted conversations",
-          "ASSISTED_HINT": "Average CSAT for conversations where Captain participated before team resolution.",
+          "ASSISTED_HINT": "The average customer rating when Captain helped before your team resolved the conversation.",
           "VS_HUMANS": "{value} vs humans"
         },
         "USAGE": {

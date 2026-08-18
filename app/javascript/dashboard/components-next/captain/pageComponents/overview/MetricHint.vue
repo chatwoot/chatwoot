@@ -2,7 +2,7 @@
 import Popover from 'dashboard/components-next/popover/Popover.vue';
 
 defineProps({
-  title: { type: String, required: true },
+  label: { type: String, required: true },
   description: { type: String, required: true },
   note: { type: String, default: '' },
 });
@@ -18,16 +18,13 @@ defineProps({
           :class="
             isOpen ? 'text-n-slate-12' : 'text-n-slate-8 hover:text-n-slate-12'
           "
-          :aria-label="title"
+          :aria-label="label"
         >
           <span class="i-lucide-info size-3.5" />
         </button>
       </template>
       <template #content>
         <div class="flex flex-col gap-1.5 p-4 w-72 text-start">
-          <span class="text-xs font-medium text-n-slate-12">
-            {{ title }}
-          </span>
           <p class="m-0 text-xs leading-5 text-n-slate-11">
             {{ description }}
           </p>

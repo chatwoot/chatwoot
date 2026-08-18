@@ -68,7 +68,7 @@ const onActivate = () => {
         <span>{{ label }}</span>
         <MetricHint
           v-if="hint"
-          :title="label"
+          :label="label"
           :description="hint"
           :note="hintNote"
         />
@@ -125,7 +125,7 @@ const onActivate = () => {
       <span>{{ label }}</span>
       <MetricHint
         v-if="hint"
-        :title="label"
+        :label="label"
         :description="hint"
         :note="hintNote"
       />
