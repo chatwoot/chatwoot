@@ -1,0 +1,45 @@
+{
+  "CALLS_PAGE": {
+    "HEADER": "通話",
+    "ALL_CALLS": "所有通話",
+    "ALL_CALLS_COUNT": "所有通話（{count}）",
+    "EMPTY_STATE": "沒有通話紀錄",
+    "SETUP": {
+      "TITLE": "在同一個地方撥打與接聽電話",
+      "SUBTITLE": "設定語音渠道，就能和團隊一起處理來電。每一通電話與錄音都會顯示在這裡。",
+      "ACTION": "設定語音渠道"
+    },
+    "FILTERS": {
+      "MISSED": "未接",
+      "NO_REPLY": "未回應",
+      "OTHER_ACTIVITY": "其他活動",
+      "INCOMING": "來電",
+      "OUTGOING": "撥出",
+      "IN_PROGRESS": "通話中",
+      "ASSIGNEE": "負責人",
+      "ALL_ASSIGNEES": "所有負責人",
+      "MORE_FILTERS": "更多篩選",
+      "INBOX": "收件匣",
+      "ALL_INBOXES": "所有收件匣"
+    },
+    "STATUS": {
+      "ONGOING": "進行中",
+      "INCOMING": "來電",
+      "OUTGOING": "撥出",
+      "MISSED": "未接",
+      "NO_REPLY": "未回應",
+      "FAILED": "失敗"
+    },
+    "ROW": {
+      "PICKED_BY": "接聽者",
+      "DIALED_BY": "撥號者",
+      "ANSWERED": "已接聽",
+      "RINGING": "響鈴中",
+      "IN_PROGRESS": "通話中",
+      "NO_AGENT": "沒有客服接聽這通電話",
+      "NO_CONTACT_ANSWER": "對方未接聽",
+      "FAILED": "這通電話無法接通",
+      "YESTERDAY": "昨天"
+    }
+  }
+}

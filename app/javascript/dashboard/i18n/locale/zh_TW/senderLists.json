@@ -1,0 +1,46 @@
+{
+  "SENDER_LISTS": {
+    "HEADER": "寄件者名單",
+    "DESCRIPTION": "決定進來的郵件怎麼分流。可以加完整地址（例如 name@example.com），也可以加整個網域（例如 example.com）。",
+    "LOADING": "正在載入寄件者名單",
+    "EMPTY": "尚未加入任何寄件者。",
+    "LISTS": {
+      "VIP": {
+        "TITLE": "VIP",
+        "DESCRIPTION": "來自這些寄件者的對話會標為高優先，並加上 vip 標籤。"
+      },
+      "BLOCKED": {
+        "TITLE": "封鎖",
+        "DESCRIPTION": "來自這些寄件者的郵件一進來就會被解決，並加上 filtered 標籤。"
+      },
+      "ALLOWED": {
+        "TITLE": "允許",
+        "DESCRIPTION": "來自這些寄件者的郵件永遠不會被過濾，即使看起來像電子報。"
+      }
+    },
+    "FORM": {
+      "PLACEHOLDER": "name@example.com、example.com",
+      "ARIA_LABEL": "將寄件者加入{list}名單",
+      "ADD": "加入",
+      "REMOVE": "移除",
+      "ERROR": "{value}：{message}"
+    },
+    "API": {
+      "CREATE_ERROR": "無法加入這些寄件者，請再試一次。",
+      "DELETE_ERROR": "無法移除這個寄件者，請再試一次。"
+    },
+    "CONTACT": {
+      "TITLE": "寄件者名單",
+      "NOT_LISTED": "不在名單中",
+      "ON_LIST_EMAIL": "在{list}名單中",
+      "ON_LIST_DOMAIN": "透過 {value} 在{list}名單中",
+      "MANAGE": "管理",
+      "EMAIL_SECTION": "這個地址",
+      "DOMAIN_SECTION": "{domain} 的所有人",
+      "ADD_TO_VIP": "加入 VIP",
+      "ADD_TO_BLOCKED": "加入封鎖",
+      "ADD_TO_ALLOWED": "加入允許",
+      "REMOVE": "從{list}名單移除"
+    }
+  }
+}

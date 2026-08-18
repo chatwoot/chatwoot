@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_TEMPLATE_MGMT": {
+    "TITLE": "訊息範本",
+    "DESCRIPTION": "檢視從 WhatsApp 收件匣同步過來的訊息範本。要新增或修改範本，請到供應商後台操作。",
+    "COUNT": "{n} 個範本 | {n} 個範本",
+    "KNOW_MORE": "了解更多",
+    "NEW_TEMPLATE": "新增範本",
+    "SEARCH_PLACEHOLDER": "以內容或名稱搜尋…",
+    "MANAGE_IN_META": "在 Meta 管理",
+    "MANAGE_IN_TWILIO": "在 Twilio 管理",
+    "LOADING": "正在載入 WhatsApp 範本…",
+    "EMPTY": "沒有 WhatsApp 範本。",
+    "NO_RESULTS": "沒有符合篩選條件的範本。",
+    "FETCH_ERROR": "無法載入 WhatsApp 範本，請再試一次。",
+    "PARTIAL_FETCH_ERROR": "部分 WhatsApp 範本載入失敗，請再試一次。",
+    "LAST_SYNC_ATTEMPT": "上次同步時間：{date}",
+    "MORE_INBOXES": "＋{n}",
+    "FILTERS": {
+      "ALL_INBOXES": "所有收件匣",
+      "ALL_LANGUAGES": "所有語言"
+    },
+    "TYPES": {
+      "TEXT": "文字",
+      "IMAGE": "圖片",
+      "VIDEO": "影片",
+      "DOCUMENT": "文件",
+      "MEDIA": "媒體",
+      "QUICK_REPLY": "快速回覆",
+      "CALL_TO_ACTION": "行動呼籲",
+      "CATALOG": "型錄",
+      "COPY_CODE": "複製代碼"
+    },
+    "PREVIEW": {
+      "TITLE": "範本預覽",
+      "DESCRIPTION": "預覽這個範本在 WhatsApp 上顯示的樣子。",
+      "OPEN": "預覽 {name}",
+      "CLOSE": "關閉預覽",
+      "DETAILS": "範本詳細資料",
+      "STATUS": "狀態",
+      "TYPE": "內容類型",
+      "CATEGORY": "分類",
+      "LANGUAGE": "語言",
+      "INBOXES": "收件匣",
+      "LAST_SYNC_ATTEMPT": "上次同步時間"
+    }
+  }
+}

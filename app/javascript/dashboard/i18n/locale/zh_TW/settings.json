@@ -431,7 +431,10 @@
       "TRIAGE": "待分派",
       "OVERDUE": "逾期"
     },
-    "PEOPLE": "人員與團隊"
+    "PEOPLE": "人員與團隊",
+    "CALLS": "通話",
+    "WHATSAPP_TEMPLATES": "訊息範本",
+    "SENDER_LISTS": "寄件者名單"
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",

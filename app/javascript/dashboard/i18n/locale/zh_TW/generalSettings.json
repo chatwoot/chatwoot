@@ -152,12 +152,7 @@
     "LIST": {
       "LOADING_MESSAGE": "正在載入通知...",
       "404": "沒有通知",
-      "TABLE_HEADER": [
-        "姓名",
-        "電話號碼",
-        "對話",
-        "最後聯絡"
-      ]
+      "TABLE_HEADER": ["姓名", "電話號碼", "對話", "最後聯絡"]
     },
     "TYPE_LABEL": {
       "conversation_creation": "新對話",
