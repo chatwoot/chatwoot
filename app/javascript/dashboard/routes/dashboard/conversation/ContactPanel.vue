@@ -24,6 +24,8 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
+import TicketPanel from 'dashboard/components-next/Tickets/TicketPanel.vue';
+import CustomerContextCard from 'dashboard/components-next/Tickets/CustomerContextCard.vue';
 
 const props = defineProps({
   conversationId: {
@@ -59,6 +61,10 @@ const { isCloudFeatureEnabled } = useAccount();
 
 const isLinearFeatureEnabled = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.LINEAR)
+);
+
+const isTicketsFeatureEnabled = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.TICKETS)
 );
 
 const linearIntegration = useFunctionGetter(
@@ -150,8 +156,41 @@ onMounted(() => {
         @end="onDragEnd"
       >
         <template #item="{ element }">
+          <div v-if="element.name === 'ticket' && isTicketsFeatureEnabled">
+            <!-- Stored inverted so the case panel, which gates resolving the
+                 conversation, is open until the agent collapses it. -->
+            <AccordionItem
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.TICKET')"
+              :is-open="!isContactSidebarItemOpen('is_ticket_collapsed')"
+              compact
+              @toggle="
+                value => toggleSidebarUIState('is_ticket_collapsed', value)
+              "
+            >
+              <TicketPanel :conversation-id="conversationId" />
+            </AccordionItem>
+          </div>
           <div
-            v-if="element.name === 'conversation_actions'"
+            v-else-if="
+              element.name === 'customer_context' && isTicketsFeatureEnabled
+            "
+          >
+            <AccordionItem
+              :title="$t('TICKETS.CONTEXT.TITLE')"
+              :is-open="isContactSidebarItemOpen('is_customer_context_open')"
+              compact
+              @toggle="
+                value => toggleSidebarUIState('is_customer_context_open', value)
+              "
+            >
+              <CustomerContextCard
+                :contact-id="contactId"
+                :conversation-id="conversationId"
+              />
+            </AccordionItem>
+          </div>
+          <div
+            v-else-if="element.name === 'conversation_actions'"
             class="conversation--actions"
           >
             <AccordionItem

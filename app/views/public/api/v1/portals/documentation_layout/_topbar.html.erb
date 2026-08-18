@@ -21,6 +21,17 @@
          class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition <%= current == :home ? 'text-n-portal' : 'text-n-slate-11 hover:text-n-slate-12' %>">
         <%= I18n.t('public_portal.common.home') %>
       </a>
+      <%# Customer ticket entry: only shown when the portal is wired to a widget inbox %>
+      <% if portal_tickets_enabled?(portal) %>
+        <a href="/hc/<%= portal.slug %>/tickets/new"
+           class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition text-n-slate-11 hover:text-n-slate-12">
+          <%= I18n.t('public_portal.tickets.nav.submit_a_ticket') %>
+        </a>
+        <a href="/hc/<%= portal.slug %>/tickets"
+           class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md transition text-n-slate-11 hover:text-n-slate-12">
+          <%= I18n.t('public_portal.tickets.nav.my_tickets') %>
+        </a>
+      <% end %>
       <% if portal.homepage_link.present? %>
         <a href="<%= portal.homepage_link %>" target="_blank" rel="noopener noreferrer nofollow"
            class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-n-slate-11 hover:text-n-slate-12 rounded-md transition">

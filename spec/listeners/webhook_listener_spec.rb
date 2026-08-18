@@ -451,4 +451,72 @@ describe WebhookListener do
       end
     end
   end
+
+  describe '#ticket_created' do
+    let(:event_name) { :'ticket.created' }
+    let(:ticket) { create(:ticket, account: account, conversation: conversation) }
+    let(:ticket_event) { Events::Base.new(event_name, Time.zone.now, ticket: ticket) }
+
+    context 'when the event is not subscribed' do
+      it 'does not trigger webhook' do
+        create(:webhook, inbox: inbox, account: account, subscriptions: ['conversation_created'])
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.ticket_created(ticket_event)
+      end
+    end
+
+    context 'when the event is subscribed' do
+      it 'triggers the webhook event' do
+        webhook = create(:webhook, inbox: inbox, account: account, subscriptions: ['ticket_created'])
+
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, ticket.webhook_data.merge(event: 'ticket_created'), :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+        listener.ticket_created(ticket_event)
+      end
+    end
+  end
+
+  describe '#ticket_updated' do
+    let(:event_name) { :'ticket.updated' }
+    let(:ticket) { create(:ticket, account: account, conversation: conversation) }
+    let(:ticket_event) do
+      Events::Base.new(event_name, Time.zone.now, ticket: ticket, changed_attributes: { waiting_on: %w[none customer] })
+    end
+
+    it 'triggers the webhook event with the changed attributes' do
+      webhook = create(:webhook, inbox: inbox, account: account, subscriptions: ['ticket_updated'])
+      payload = ticket.webhook_data.merge(
+        event: 'ticket_updated',
+        changed_attributes: [{ waiting_on: { previous_value: 'none', current_value: 'customer' } }]
+      )
+
+      expect(WebhookJob).to receive(:perform_later).with(
+        webhook.url, payload, :account_webhook,
+        secret: webhook.secret, delivery_id: instance_of(String)
+      ).once
+      listener.ticket_updated(ticket_event)
+    end
+  end
+
+  describe '#ticket_task_completed' do
+    let(:event_name) { :'ticket_task.completed' }
+    let(:ticket_task) do
+      create(:ticket_task, account: account, status: :done,
+                           ticket: create(:ticket, account: account, conversation: conversation))
+    end
+    let(:ticket_event) { Events::Base.new(event_name, Time.zone.now, ticket_task: ticket_task) }
+
+    it 'triggers the webhook event with the task payload' do
+      webhook = create(:webhook, inbox: inbox, account: account, subscriptions: ['ticket_task_completed'])
+      payload = ticket_task.ticket.webhook_data.merge(event: 'ticket_task_completed', ticket_task: ticket_task.push_event_data)
+
+      expect(WebhookJob).to receive(:perform_later).with(
+        webhook.url, payload, :account_webhook,
+        secret: webhook.secret, delivery_id: instance_of(String)
+      ).once
+      listener.ticket_task_completed(ticket_event)
+    end
+  end
 end

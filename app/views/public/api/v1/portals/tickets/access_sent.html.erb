@@ -1,0 +1,12 @@
+<% content_for :head do %>
+  <title><%= I18n.t('public_portal.tickets.access_sent.title') %> | <%= @portal.localized_value('name', @locale) %></title>
+<% end %>
+
+<div class="w-full max-w-lg px-4 mx-auto md:px-8 py-10 md:py-14">
+  <h1 class="text-3xl font-semibold text-slate-900 dark:text-white"><%= I18n.t('public_portal.tickets.access_sent.title') %></h1>
+  <p class="mt-2 text-slate-600 dark:text-slate-400"><%= I18n.t('public_portal.tickets.access_sent.description') %></p>
+
+  <a href="<%= generate_home_link(@portal.slug, @locale, @theme_from_params, false) %>" class="inline-block mt-8 text-sm font-medium underline text-woot-500">
+    <%= I18n.t('public_portal.tickets.back_to_home') %>
+  </a>
+</div>

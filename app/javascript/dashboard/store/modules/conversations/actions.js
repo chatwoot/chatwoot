@@ -3,6 +3,8 @@ import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
+import { useAlert } from 'dashboard/composables';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import {
   buildConversationList,
   isOnMentionsView,
@@ -286,8 +288,14 @@ const actions = {
         status: updatedStatus,
         snoozedUntil: updatedSnoozedUntil,
       });
+      return true;
     } catch (error) {
-      // Handle error
+      // The server rejects some transitions outright (open ticket tasks,
+      // missing required attributes, reopening a closed case) and explains why.
+      // Without this the status silently snaps back with no reason given.
+      const message = parseAPIErrorResponse(error);
+      if (typeof message === 'string') useAlert(message);
+      return false;
     }
   },
 

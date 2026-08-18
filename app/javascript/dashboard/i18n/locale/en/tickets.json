@@ -1,0 +1,81 @@
+{
+  "TICKETS": {
+    "HEADER": "Tickets",
+    "EMPTY_STATE": "No tickets match these filters",
+    "STATUS_CATEGORY": {
+      "TRIAGE": "Triage",
+      "IN_PROGRESS": "In progress",
+      "WAITING": "Waiting",
+      "DONE": "Done",
+      "CLOSED": "Closed"
+    },
+    "TYPE": {
+      "QUESTION": "Question",
+      "ISSUE": "Issue",
+      "REQUEST": "Request",
+      "INCIDENT": "Incident"
+    },
+    "WAITING_ON": {
+      "NONE": "Nobody",
+      "CUSTOMER": "Customer",
+      "INTERNAL": "Internal",
+      "EXTERNAL": "External"
+    },
+    "FILTERS": {
+      "ALL": "All",
+      "TYPE": "Type",
+      "ALL_TYPES": "All types",
+      "OVERDUE": "Overdue only"
+    },
+    "TABLE": {
+      "NUMBER": "#",
+      "SUBJECT": "Subject",
+      "TYPE": "Type",
+      "STATUS": "Status",
+      "WAITING_ON": "Waiting on",
+      "DUE_AT": "Due",
+      "ASSIGNEE": "Assignee",
+      "UPDATED_AT": "Updated"
+    },
+    "PANEL": {
+      "EMPTY": "No ticket on this conversation yet.",
+      "CREATE": "Create ticket",
+      "EDIT": "Edit ticket",
+      "LOAD_ERROR": "Could not load the ticket",
+      "SAVE_ERROR": "Could not save the ticket"
+    },
+    "CONTEXT": {
+      "TITLE": "Customer context",
+      "OPEN_CASES": "Open cases",
+      "EMPTY": "No open cases for this customer.",
+      "CURRENT": "Current",
+      "CONVERSATIONS": "Conversations",
+      "LAST_ACTIVITY": "Last activity",
+      "LOAD_ERROR": "Could not load the customer context"
+    },
+    "FORM": {
+      "SUBJECT": "Subject",
+      "SUBJECT_PLACEHOLDER": "What does the customer need?",
+      "SUBJECT_REQUIRED": "Subject is required",
+      "TYPE": "Type",
+      "TYPE_PLACEHOLDER": "None",
+      "DUE_AT": "Due",
+      "WAITING_ON": "Waiting on",
+      "WAITING_NOTE": "Note",
+      "WAITING_NOTE_PLACEHOLDER": "What are we waiting for?",
+      "SAVE": "Save",
+      "CANCEL": "Cancel"
+    },
+    "TASKS": {
+      "TITLE": "Tasks",
+      "ADD_PLACEHOLDER": "Add a task, press enter",
+      "DELETE": "Delete task",
+      "OWNER_PLACEHOLDER": "Owner",
+      "OWNER_NONE": "No owner",
+      "AGENTS": "Agents",
+      "TEAMS": "Teams",
+      "SAVE_ERROR": "Could not save the task",
+      "BLOCKING_RESOLVE": "{count} open · finish before resolving"
+    }
+  }
+}

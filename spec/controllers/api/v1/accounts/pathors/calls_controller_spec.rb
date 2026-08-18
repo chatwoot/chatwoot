@@ -4,6 +4,7 @@ RSpec.describe 'Pathors Calls API', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
+  let(:agent_bot) { create(:agent_bot, account: account) }
   let(:conversation) { create(:conversation, account: account) }
 
   let(:create_payload) do
@@ -27,11 +28,22 @@ RSpec.describe 'Pathors Calls API', type: :request do
     end
 
     context 'when it is an agent' do
-      it 'returns unauthorized' do
+      it 'creates the call' do
         post "/api/v1/accounts/#{account.id}/pathors/calls",
              params: create_payload, headers: agent.create_new_auth_token, as: :json
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:success)
+        expect(Call.last.provider).to eq('pathors')
+      end
+    end
+
+    context 'when it is an agent bot' do
+      it 'creates the call' do
+        post "/api/v1/accounts/#{account.id}/pathors/calls",
+             params: create_payload, headers: { api_access_token: agent_bot.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Call.last.provider).to eq('pathors')
       end
     end
 
@@ -135,11 +147,22 @@ RSpec.describe 'Pathors Calls API', type: :request do
     end
 
     context 'when it is an agent' do
-      it 'returns unauthorized' do
+      it 'updates the call' do
         patch "/api/v1/accounts/#{account.id}/pathors/calls/#{call.id}",
               params: { status: 'completed' }, headers: agent.create_new_auth_token, as: :json
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:success)
+        expect(call.reload.status).to eq('completed')
+      end
+    end
+
+    context 'when it is an agent bot' do
+      it 'updates the call' do
+        patch "/api/v1/accounts/#{account.id}/pathors/calls/#{call.id}",
+              params: { status: 'completed' }, headers: { api_access_token: agent_bot.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(call.reload.status).to eq('completed')
       end
     end
 

@@ -83,6 +83,26 @@ class WebhookListener < BaseListener
     deliver_account_webhooks(payload, account)
   end
 
+  def ticket_created(event)
+    ticket = event.data[:ticket]
+    payload = ticket.webhook_data.merge(event: __method__.to_s)
+    deliver_webhook_payloads(payload, ticket.conversation.inbox)
+  end
+
+  def ticket_updated(event)
+    ticket = event.data[:ticket]
+    changed_attributes = extract_changed_attributes(event)
+    payload = ticket.webhook_data.merge(event: __method__.to_s, changed_attributes: changed_attributes)
+    deliver_webhook_payloads(payload, ticket.conversation.inbox)
+  end
+
+  def ticket_task_completed(event)
+    ticket_task = event.data[:ticket_task]
+    ticket = ticket_task.ticket
+    payload = ticket.webhook_data.merge(event: __method__.to_s, ticket_task: ticket_task.push_event_data)
+    deliver_webhook_payloads(payload, ticket.conversation.inbox)
+  end
+
   def conversation_typing_on(event)
     handle_typing_status(__method__.to_s, event)
   end

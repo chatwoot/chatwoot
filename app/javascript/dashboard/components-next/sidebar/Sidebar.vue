@@ -100,6 +100,13 @@ const hasDataImport = computed(() => {
   );
 });
 
+const hasTickets = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.TICKETS
+  );
+});
+
 const fetchConversationUnreadCounts = ([currentAccountId, isEnabled]) => {
   if (!currentAccountId) return;
 
@@ -571,6 +578,17 @@ const menuItems = computed(() => {
         },
       ],
     },
+    ...(hasTickets.value
+      ? [
+          {
+            name: 'Tickets',
+            label: t('SIDEBAR.TICKETS'),
+            icon: 'i-lucide-square-check-big',
+            to: accountScopedRoute('tickets_dashboard_index'),
+            activeOn: ['tickets_dashboard_index'],
+          },
+        ]
+      : []),
     ...(isCallsAvailable.value
       ? [
           {

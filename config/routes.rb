@@ -162,6 +162,9 @@ Rails.application.routes.draw do
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
+              resource :ticket, only: [:show, :create, :update] do
+                resources :tasks, only: [:create, :update, :destroy], controller: 'ticket_tasks'
+              end
             end
             member do
               post :mute
@@ -179,6 +182,8 @@ Rails.application.routes.draw do
               get :reporting_events if ChatwootApp.enterprise?
             end
           end
+
+          resources :tickets, only: [:index]
 
           resources :search, only: [:index] do
             collection do
@@ -357,6 +362,7 @@ Rails.application.routes.draw do
                 post :join
               end
             end
+            resource :context, only: [:show]
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
@@ -613,6 +619,15 @@ Rails.application.routes.draw do
 
   get 'hc/:slug', to: 'public/api/v1/portals#show'
   get 'hc/:slug/sitemap.xml', to: 'public/api/v1/portals#sitemap'
+  # Customer facing ticket entry. Declared before `hc/:slug/:locale` so `tickets`
+  # is not swallowed as a locale segment.
+  get 'hc/:slug/tickets/new', to: 'public/api/v1/portals/tickets#new', as: :new_public_portal_ticket
+  get 'hc/:slug/tickets/access', to: 'public/api/v1/portals/tickets#access', as: :public_portal_ticket_access
+  post 'hc/:slug/tickets/access', to: 'public/api/v1/portals/tickets#send_access_link'
+  get 'hc/:slug/tickets/verify', to: 'public/api/v1/portals/tickets#verify', as: :public_portal_ticket_verify
+  get 'hc/:slug/tickets', to: 'public/api/v1/portals/tickets#index', as: :public_portal_tickets
+  post 'hc/:slug/tickets', to: 'public/api/v1/portals/tickets#create'
+  get 'hc/:slug/tickets/:id', to: 'public/api/v1/portals/tickets#show', as: :public_portal_ticket
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show', as: :public_portal_locale
   get 'hc/:slug/:locale/search', to: 'public/api/v1/portals/search#index', as: :portal_search
   get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'

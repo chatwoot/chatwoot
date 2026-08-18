@@ -11,6 +11,16 @@
 
     <%# Go to homepage link section %>
     <div class="flex items-center justify-between gap-2 sm:gap-5">
+      <%# Customer ticket entry: only shown when the portal is wired to a widget inbox %>
+      <% if portal_tickets_enabled?(@portal) %>
+        <a href="/hc/<%= @portal.slug %>/tickets/new" class="px-1 py-2 text-sm font-medium whitespace-nowrap text-slate-800 dark:text-slate-100">
+          <%= I18n.t('public_portal.tickets.nav.submit_a_ticket') %>
+        </a>
+        <a href="/hc/<%= @portal.slug %>/tickets" class="px-1 py-2 text-sm font-medium whitespace-nowrap text-slate-800 dark:text-slate-100">
+          <%= I18n.t('public_portal.tickets.nav.my_tickets') %>
+        </a>
+      <% end %>
+
       <% if @portal.homepage_link %>
         <div class="px-1 py-2 ltr:ml-8 rtl:mr-8 cursor-pointer block">
           <div class="flex-grow flex-shrink-0">

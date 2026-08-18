@@ -33,7 +33,8 @@ describe Macros::ExecutionService, type: :service do
   end
 
   it 'resolves when the feature is disabled' do
-    account.disable_features('conversation_required_attributes')
+    # Persisted: the conversation-level guard reads the account back from the DB.
+    account.disable_features!('conversation_required_attributes')
 
     described_class.new(macro, conversation, user).perform
 

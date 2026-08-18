@@ -76,6 +76,16 @@
 
         <span class="h-px bg-slate-100/70 dark:bg-slate-800/70 w-full"></span>
 
+        <!-- Customer Ticket Entry -->
+        <% if portal_tickets_enabled?(@portal) %>
+          <a href="/hc/<%= @portal.slug %>/tickets/new" class="py-2 text-lg font-medium text-slate-800 dark:text-slate-100">
+            <%= I18n.t('public_portal.tickets.nav.submit_a_ticket') %>
+          </a>
+          <a href="/hc/<%= @portal.slug %>/tickets" class="py-2 text-lg font-medium text-slate-800 dark:text-slate-100">
+            <%= I18n.t('public_portal.tickets.nav.my_tickets') %>
+          </a>
+        <% end %>
+
         <!-- Homepage Link -->
         <% if @portal.homepage_link %>
           <a href="<%= @portal.homepage_link %>" target="_blank" rel="noopener noreferrer nofollow" class="flex items-center gap-3 py-2 cursor-pointer stroke-slate-800 dark:stroke-slate-100 text-slate-800 dark:text-slate-100 hover:text-slate-700 dark:hover:text-slate-200 transition-colors">

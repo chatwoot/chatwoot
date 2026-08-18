@@ -276,3 +276,9 @@
   display_name: Delayed Automations
   enabled: false
   column: feature_flags_ext_1
+- name: tickets
+  display_name: Tickets
+  # Pathors: the case layer on top of conversations — a 1:1 ticket plus internal
+  # tasks that must be done before the conversation can be resolved.
+  enabled: true
+  column: feature_flags_ext_1

@@ -1,0 +1,46 @@
+<% content_for :head do %>
+  <title><%= @ticket.subject %> | <%= @portal.localized_value('name', @locale) %></title>
+<% end %>
+
+<div class="w-full max-w-3xl px-4 mx-auto md:px-8 py-10 md:py-14">
+  <a href="/hc/<%= @portal.slug %>/tickets" class="text-sm font-medium underline text-woot-500">
+    <%= I18n.t('public_portal.tickets.show.back_to_list') %>
+  </a>
+
+  <div class="flex flex-wrap items-center gap-3 mt-6">
+    <span class="text-sm font-medium text-slate-500 dark:text-slate-400">#<%= @ticket.conversation.display_id %></span>
+    <span class="px-2 py-0.5 text-xs font-medium rounded-full <%= ticket_status_category_classes(@ticket.status_category) %>">
+      <%= I18n.t("public_portal.tickets.status_categories.#{@ticket.status_category}") %>
+    </span>
+    <% if @ticket.ticket_type.present? %>
+      <span class="text-sm text-slate-500 dark:text-slate-400"><%= I18n.t("public_portal.tickets.types.#{@ticket.ticket_type}", default: @ticket.ticket_type) %></span>
+    <% end %>
+  </div>
+
+  <h1 class="mt-2 text-3xl font-semibold text-slate-900 dark:text-white"><%= @ticket.subject %></h1>
+  <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+    <%= I18n.t('public_portal.tickets.show.created_at', time: l(@ticket.created_at, format: :long)) %>
+  </p>
+
+  <h2 class="mt-10 text-lg font-semibold text-slate-900 dark:text-white"><%= I18n.t('public_portal.tickets.show.timeline') %></h2>
+
+  <% if @messages.empty? %>
+    <p class="mt-4 text-slate-600 dark:text-slate-400"><%= I18n.t('public_portal.tickets.show.no_messages') %></p>
+  <% else %>
+    <ol class="flex flex-col gap-4 mt-4">
+      <% @messages.each do |message| %>
+        <li class="p-4 border rounded-lg border-slate-200 dark:border-slate-700 <%= message.incoming? ? 'bg-white dark:bg-slate-900' : 'bg-slate-50 dark:bg-slate-800' %>">
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <span class="text-sm font-medium text-slate-800 dark:text-slate-100">
+              <%= message.incoming? ? I18n.t('public_portal.tickets.show.you') : @portal.localized_value('name', @locale) %>
+            </span>
+            <span class="text-xs text-slate-500 dark:text-slate-400"><%= l(message.created_at, format: :long) %></span>
+          </div>
+          <p class="mt-2 whitespace-pre-line text-slate-700 dark:text-slate-200"><%= message.content %></p>
+        </li>
+      <% end %>
+    </ol>
+  <% end %>
+
+  <p class="mt-8 text-sm text-slate-500 dark:text-slate-400"><%= I18n.t('public_portal.tickets.show.reply_hint') %></p>
+</div>

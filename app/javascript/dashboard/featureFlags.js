@@ -23,6 +23,7 @@ export const FEATURE_FLAGS = {
   HELP_CENTER: 'help_center',
   REPORTS: 'reports',
   TEAM_MANAGEMENT: 'team_management',
+  TICKETS: 'tickets',
   VOICE_RECORDER: 'voice_recorder',
   AUDIT_LOGS: 'audit_logs',
   INBOX_VIEW: 'inbox_view',

@@ -165,6 +165,13 @@ class Rack::Attack
     req.ip if req.path_without_extensions == '/api/v1/accounts' && req.post?
   end
 
+  ### Help center ticket entry ###
+  # Both endpoints are unauthenticated and have side effects: one creates a conversation,
+  # the other sends a magic link email. Keep a single IP from using them as a spam relay.
+  throttle('hc/tickets/ip', limit: 5, period: 5.minutes) do |req|
+    req.ip if req.post? && req.path_without_extensions.match?(%r{\A/hc/[^/]+/tickets(/access)?\z})
+  end
+
   ##-----------------------------------------------##
 
   ###-----------------------------------------------###

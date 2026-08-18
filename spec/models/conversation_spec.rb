@@ -1134,8 +1134,10 @@ RSpec.describe Conversation do
       conversation.reload
       expect(conversation.waiting_since).to be_within(1.second).of(conversation_start_time)
 
-      # Agent replies - this should create first response event
-      agent_reply1_time = 4.hours.ago
+      # Agent replies - this should create first response event. Anchored to the
+      # conversation start rather than wall clock so elapsed test time cannot
+      # push the measured value past the 1-second assertion margin.
+      agent_reply1_time = conversation_start_time + 1.hour
       create_agent_message(conversation, created_at: agent_reply1_time)
 
       first_response_events = account.reporting_events.where(name: 'first_response', conversation_id: conversation.id)
@@ -1279,6 +1281,103 @@ RSpec.describe Conversation do
       travel_to(1.hour.from_now) { conversation.update!(priority: :high) }
 
       expect(conversation.reload.status_changed_at).to be_within(1.second).of(original)
+    end
+  end
+
+  describe 'ticket status gate' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+
+    context 'when the conversation has no ticket' do
+      it 'resolves freely' do
+        expect(conversation.update(status: :resolved)).to be(true)
+      end
+
+      it 'reopens freely' do
+        conversation.update!(status: :resolved)
+
+        expect(conversation.update(status: :open)).to be(true)
+      end
+    end
+
+    context 'with open tasks on the ticket' do
+      let(:ticket) { create(:ticket, account: account, conversation: conversation) }
+
+      it 'refuses to resolve and reports the open task count' do
+        create(:ticket_task, account: account, ticket: ticket)
+        create(:ticket_task, account: account, ticket: ticket)
+
+        expect(conversation.update(status: :resolved)).to be(false)
+        expect(conversation.errors[:status].first).to eq(I18n.t('errors.conversations.ticket.open_tasks', count: 2))
+      end
+
+      it 'resolves once every task is done' do
+        task = create(:ticket_task, account: account, ticket: ticket)
+        task.update!(status: :done)
+
+        expect(conversation.update(status: :resolved)).to be(true)
+      end
+
+      it 'blocks an automation driven resolve just the same' do
+        create(:ticket_task, account: account, ticket: ticket)
+        Current.executed_by = create(:automation_rule, account: account)
+
+        expect(conversation.update(status: :resolved)).to be(false)
+
+        Current.executed_by = nil
+      end
+    end
+
+    context 'with required conversation attributes' do
+      let(:ticket) { create(:ticket, account: account, conversation: conversation) }
+
+      before do
+        ticket
+        account.enable_features('conversation_required_attributes')
+        create(:custom_attribute_definition, account: account, attribute_key: 'refund_amount',
+                                             attribute_model: 'conversation_attribute')
+        account.update!(settings: account.settings.to_h.merge('conversation_required_attributes' => ['refund_amount']))
+      end
+
+      it 'refuses to resolve when a required attribute is blank' do
+        expect(conversation.update(status: :resolved)).to be(false)
+        expect(conversation.errors[:status].first).to eq(
+          I18n.t('errors.conversations.required_attributes.missing', attributes: 'refund_amount')
+        )
+      end
+
+      it 'resolves once the required attribute is filled' do
+        conversation.update!(custom_attributes: { 'refund_amount' => '120' })
+
+        expect(conversation.update(status: :resolved)).to be(true)
+      end
+
+      it 'ignores required attributes when the feature is disabled' do
+        account.disable_features('conversation_required_attributes')
+
+        expect(conversation.update(status: :resolved)).to be(true)
+      end
+    end
+
+    context 'when the ticket is closed' do
+      let(:ticket) { create(:ticket, account: account, conversation: conversation) }
+
+      before do
+        ticket
+        conversation.update!(status: :resolved)
+        ticket.update!(closed_at: Time.current)
+      end
+
+      it 'refuses to reopen the conversation' do
+        expect(conversation.update(status: :open)).to be(false)
+        expect(conversation.errors[:status].first).to eq(I18n.t('errors.conversations.ticket.closed'))
+      end
+
+      it 'still allows reopening when the ticket is not closed' do
+        ticket.update!(closed_at: nil)
+
+        expect(conversation.update(status: :open)).to be(true)
+      end
     end
   end
 end

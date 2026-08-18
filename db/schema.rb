@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_06_000001) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_14_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1479,6 +1479,44 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_000001) do
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end
 
+  create_table "ticket_tasks", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "ticket_id", null: false
+    t.string "title", null: false
+    t.text "description"
+    t.integer "status", default: 0, null: false
+    t.bigint "assignee_id"
+    t.bigint "team_id"
+    t.datetime "due_at"
+    t.datetime "completed_at"
+    t.bigint "created_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_ticket_tasks_on_account_id"
+    t.index ["assignee_id"], name: "index_ticket_tasks_on_assignee_id"
+    t.index ["created_by_id"], name: "index_ticket_tasks_on_created_by_id"
+    t.index ["team_id"], name: "index_ticket_tasks_on_team_id"
+    t.index ["ticket_id", "status"], name: "index_ticket_tasks_on_ticket_id_and_status"
+    t.index ["ticket_id"], name: "index_ticket_tasks_on_ticket_id"
+  end
+
+  create_table "tickets", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.string "subject", null: false
+    t.string "ticket_type"
+    t.integer "waiting_on", default: 0, null: false
+    t.string "waiting_note"
+    t.datetime "due_at"
+    t.datetime "closed_at"
+    t.bigint "created_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_tickets_on_account_id"
+    t.index ["conversation_id"], name: "index_tickets_on_conversation_id", unique: true
+    t.index ["created_by_id"], name: "index_tickets_on_created_by_id"
+  end
+
   create_table "user_sessions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "client_id", null: false
@@ -1572,6 +1610,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_000001) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "sender_list_entries", "accounts"
+  add_foreign_key "ticket_tasks", "accounts"
+  add_foreign_key "ticket_tasks", "teams"
+  add_foreign_key "ticket_tasks", "tickets"
+  add_foreign_key "ticket_tasks", "users", column: "assignee_id"
+  add_foreign_key "ticket_tasks", "users", column: "created_by_id"
+  add_foreign_key "tickets", "accounts"
+  add_foreign_key "tickets", "conversations"
+  add_foreign_key "tickets", "users", column: "created_by_id"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

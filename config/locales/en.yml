@@ -114,6 +114,13 @@ en:
     conversations:
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
+      ticket:
+        open_tasks:
+          one: 'cannot be resolved while 1 task is still open'
+          other: 'cannot be resolved while %{count} tasks are still open'
+        closed: 'cannot be reopened because the ticket is closed. Start a new ticket for follow ups.'
+      required_attributes:
+        missing: 'cannot be resolved until these required attributes are filled: %{attributes}'
     data_import:
       data_type:
         invalid: Invalid data type
@@ -319,6 +326,11 @@ en:
         auto_opened_after_agent_reply: 'Conversation was marked open automatically after an agent reply'
       agent_bot:
         error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
+      ticket:
+        created: 'Ticket created: %{subject}'
+        waiting_on: 'Ticket is now waiting on %{waiting_on}'
+        waiting_cleared: 'Ticket is no longer waiting'
+        task_completed: 'Task completed: %{title}'
       status:
         resolved: 'Conversation was marked resolved by %{user_name}'
         contact_resolved: 'Conversation was resolved by %{contact_name}'
@@ -549,6 +561,66 @@ en:
       title: Help Center Unavailable
       description: Please contact the site administrator for more information.
       action: If you are the administrator, please upgrade your plan to restore access.
+    tickets:
+      back_to_home: Go to home page
+      nav:
+        submit_a_ticket: Submit a ticket
+        my_tickets: My tickets
+      fields:
+        name: Name
+        email: Email
+        subject: Subject
+        ticket_type: Type
+        ticket_type_blank: Select a type
+        description: How can we help?
+      types:
+        question: Question
+        issue: Issue
+        request: Request
+        incident: Incident
+      status_categories:
+        triage: New
+        in_progress: In progress
+        waiting: Waiting
+        done: Resolved
+        closed: Closed
+      errors:
+        email: Enter a valid email address.
+        subject: Enter a subject.
+        description: Describe your request.
+      new:
+        title: Submit a ticket
+        description: Tell us what you need and we will get back to you by email.
+        submit: Submit ticket
+        view_my_tickets: View my tickets
+      created:
+        title: Your ticket has been created
+        description: We have received your request and will reply by email.
+        reference: Ticket number
+        view_my_tickets: View my tickets
+      access:
+        title: My tickets
+        description: Enter your email address and we will send you a link to view your tickets.
+        submit: Send me a link
+        submit_a_ticket: Submit a new ticket
+        invalid_token: This link has expired or is not valid. Request a new one below.
+      access_sent:
+        title: Check your inbox
+        description: If we have tickets for that email address, a sign-in link is on its way. The link expires in 15 minutes.
+      access_mailer:
+        subject: 'Your ticket access link for %{portal_name}'
+      index:
+        title: My tickets
+        new_ticket: Submit a ticket
+        empty: You do not have any tickets yet.
+        updated_at: 'Updated %{time}'
+      show:
+        back_to_list: Back to my tickets
+        created_at: 'Created %{time}'
+        timeline: Conversation
+        no_messages: There are no messages on this ticket yet.
+        you: You
+        reply_hint: To add to this ticket, reply to the email we sent you.
   slack_unfurl:
     fields:
       name: Name

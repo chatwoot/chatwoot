@@ -1,0 +1,23 @@
+<% content_for :head do %>
+  <title><%= I18n.t('public_portal.tickets.created.title') %> | <%= @portal.localized_value('name', @locale) %></title>
+<% end %>
+
+<div class="w-full max-w-3xl px-4 mx-auto md:px-8 py-10 md:py-14">
+  <h1 class="text-3xl font-semibold text-slate-900 dark:text-white"><%= I18n.t('public_portal.tickets.created.title') %></h1>
+  <p class="mt-2 text-slate-600 dark:text-slate-400"><%= I18n.t('public_portal.tickets.created.description') %></p>
+
+  <div class="p-5 mt-8 border rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+    <p class="text-sm text-slate-500 dark:text-slate-400"><%= I18n.t('public_portal.tickets.created.reference') %></p>
+    <p class="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">#<%= @ticket.conversation.display_id %></p>
+    <p class="mt-3 text-slate-700 dark:text-slate-200"><%= @ticket.subject %></p>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-4 mt-8">
+    <a href="/hc/<%= @portal.slug %>/tickets/access" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900">
+      <%= I18n.t('public_portal.tickets.created.view_my_tickets') %>
+    </a>
+    <a href="<%= generate_home_link(@portal.slug, @locale, @theme_from_params, false) %>" class="text-sm font-medium underline text-woot-500">
+      <%= I18n.t('public_portal.tickets.back_to_home') %>
+    </a>
+  </div>
+</div>

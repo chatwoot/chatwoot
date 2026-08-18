@@ -95,8 +95,8 @@ const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
     payload.customAttributes = customAttributes;
   }
 
-  store.dispatch('toggleStatus', payload).then(() => {
-    useAlert(t('CONVERSATION.CHANGE_STATUS'));
+  store.dispatch('toggleStatus', payload).then(didChange => {
+    if (didChange) useAlert(t('CONVERSATION.CHANGE_STATUS'));
     isLoading.value = false;
   });
 };

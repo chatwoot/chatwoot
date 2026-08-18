@@ -1,0 +1,57 @@
+<% content_for :head do %>
+  <title><%= I18n.t('public_portal.tickets.new.title') %> | <%= @portal.localized_value('name', @locale) %></title>
+<% end %>
+
+<% input_class = 'w-full px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' %>
+<% label_class = 'block text-sm font-medium text-slate-800 dark:text-slate-200 mb-1.5' %>
+
+<div class="w-full max-w-3xl px-4 mx-auto md:px-8 py-10 md:py-14">
+  <h1 class="text-3xl font-semibold text-slate-900 dark:text-white"><%= I18n.t('public_portal.tickets.new.title') %></h1>
+  <p class="mt-2 text-slate-600 dark:text-slate-400"><%= I18n.t('public_portal.tickets.new.description') %></p>
+
+  <form action="/hc/<%= @portal.slug %>/tickets" method="POST" class="flex flex-col gap-5 mt-8">
+    <div>
+      <label class="<%= label_class %>" for="ticket-name"><%= I18n.t('public_portal.tickets.fields.name') %></label>
+      <input class="<%= input_class %>" id="ticket-name" type="text" name="name" value="<%= @submission[:name] %>" autocomplete="name">
+    </div>
+
+    <div>
+      <label class="<%= label_class %>" for="ticket-email"><%= I18n.t('public_portal.tickets.fields.email') %></label>
+      <input class="<%= input_class %>" id="ticket-email" type="email" name="email" value="<%= @submission[:email] %>" autocomplete="email" required>
+      <%= render 'public/api/v1/portals/tickets/field_error', message: @errors&.dig(:email) %>
+    </div>
+
+    <div>
+      <label class="<%= label_class %>" for="ticket-subject"><%= I18n.t('public_portal.tickets.fields.subject') %></label>
+      <input class="<%= input_class %>" id="ticket-subject" type="text" name="subject" value="<%= @submission[:subject] %>" required>
+      <%= render 'public/api/v1/portals/tickets/field_error', message: @errors&.dig(:subject) %>
+    </div>
+
+    <div>
+      <label class="<%= label_class %>" for="ticket-type"><%= I18n.t('public_portal.tickets.fields.ticket_type') %></label>
+      <select class="<%= input_class %>" id="ticket-type" name="ticket_type">
+        <option value=""><%= I18n.t('public_portal.tickets.fields.ticket_type_blank') %></option>
+        <% @ticket_types.each do |ticket_type| %>
+          <option value="<%= ticket_type %>" <%= 'selected' if @submission[:ticket_type] == ticket_type %>>
+            <%= I18n.t("public_portal.tickets.types.#{ticket_type}") %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+
+    <div>
+      <label class="<%= label_class %>" for="ticket-description"><%= I18n.t('public_portal.tickets.fields.description') %></label>
+      <textarea class="<%= input_class %>" id="ticket-description" name="description" rows="6" required><%= @submission[:description] %></textarea>
+      <%= render 'public/api/v1/portals/tickets/field_error', message: @errors&.dig(:description) %>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-4">
+      <button type="submit" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900">
+        <%= I18n.t('public_portal.tickets.new.submit') %>
+      </button>
+      <a href="/hc/<%= @portal.slug %>/tickets/access" class="text-sm font-medium underline text-woot-500">
+        <%= I18n.t('public_portal.tickets.new.view_my_tickets') %>
+      </a>
+    </div>
+  </form>
+</div>

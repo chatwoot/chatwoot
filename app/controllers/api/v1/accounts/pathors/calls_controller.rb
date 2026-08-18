@@ -8,10 +8,9 @@ class Api::V1::Accounts::Pathors::CallsController < Api::V1::Accounts::BaseContr
     'outgoing' => 'outgoing'
   }.freeze
 
-  # create/update are backend-to-backend webhooks and stay admin-only. `join` is
-  # a dashboard action taken by whichever human is looking at the ringing bubble,
-  # so it authorizes on conversation access instead (see #authorize_join).
-  before_action :check_admin_authorization?, except: [:join]
+  # create/update are backend-to-backend webhooks: bots use the whitelisted bot
+  # token (see BOT_ACCESSIBLE_ENDPOINTS), agents their own token. `join` is a
+  # dashboard action authorized on conversation access (see #authorize_join).
   before_action :fetch_conversation, only: [:create]
   before_action :fetch_call, only: [:update]
   before_action :fetch_pathors_call, only: [:join]

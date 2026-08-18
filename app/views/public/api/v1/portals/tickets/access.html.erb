@@ -1,0 +1,28 @@
+<% content_for :head do %>
+  <title><%= I18n.t('public_portal.tickets.access.title') %> | <%= @portal.localized_value('name', @locale) %></title>
+<% end %>
+
+<% input_class = 'w-full px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' %>
+
+<div class="w-full max-w-lg px-4 mx-auto md:px-8 py-10 md:py-14">
+  <h1 class="text-3xl font-semibold text-slate-900 dark:text-white"><%= I18n.t('public_portal.tickets.access.title') %></h1>
+  <p class="mt-2 text-slate-600 dark:text-slate-400"><%= I18n.t('public_portal.tickets.access.description') %></p>
+
+  <%= render 'public/api/v1/portals/tickets/field_error', message: @error %>
+
+  <form action="/hc/<%= @portal.slug %>/tickets/access" method="POST" class="flex flex-col gap-5 mt-8">
+    <div>
+      <label class="block mb-1.5 text-sm font-medium text-slate-800 dark:text-slate-200" for="access-email"><%= I18n.t('public_portal.tickets.fields.email') %></label>
+      <input class="<%= input_class %>" id="access-email" type="email" name="email" autocomplete="email" required>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-4">
+      <button type="submit" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white rounded-lg bg-slate-900 dark:bg-white dark:text-slate-900">
+        <%= I18n.t('public_portal.tickets.access.submit') %>
+      </button>
+      <a href="/hc/<%= @portal.slug %>/tickets/new" class="text-sm font-medium underline text-woot-500">
+        <%= I18n.t('public_portal.tickets.access.submit_a_ticket') %>
+      </a>
+    </div>
+  </form>
+</div>

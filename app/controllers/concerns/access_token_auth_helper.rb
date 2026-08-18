@@ -3,7 +3,11 @@ module AccessTokenAuthHelper
     'api/v1/accounts/conversations' => %w[show toggle_status toggle_typing_status toggle_priority create update custom_attributes],
     'api/v1/accounts/conversations/messages' => ['create'],
     'api/v1/accounts/conversations/assignments' => ['create'],
-    'api/v1/accounts/conversations/labels' => %w[index create]
+    'api/v1/accounts/conversations/labels' => %w[index create],
+    'api/v1/accounts/conversations/tickets' => %w[show create update],
+    'api/v1/accounts/conversations/ticket_tasks' => %w[create update],
+    'api/v1/accounts/pathors/calls' => %w[create update],
+    'api/v1/accounts/pathors/contexts' => ['show']
   }.freeze
 
   def ensure_access_token

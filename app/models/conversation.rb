@@ -88,6 +88,9 @@ class Conversation < ApplicationRecord
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
   validate :validate_referer_url
+  # Case layer gate: replying is not resolving. Enforced here rather than in the
+  # controllers so automations and auto-resolve are held to the same rule.
+  validate :validate_ticket_status_transition, if: :status_changed?
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
@@ -126,6 +129,7 @@ class Conversation < ApplicationRecord
   belongs_to :team, optional: true
   belongs_to :campaign, optional: true
 
+  has_one :ticket, dependent: :destroy
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async, autosave: true
   has_one :csat_survey_response, dependent: :destroy_async
@@ -463,6 +467,53 @@ class Conversation < ApplicationRecord
     return unless additional_attributes['referer']
 
     self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
+  end
+
+  def validate_ticket_status_transition
+    if resolved?
+      validate_open_ticket_tasks
+      validate_required_custom_attributes
+    elsif open? && status_was == 'resolved'
+      validate_ticket_not_closed
+    end
+  end
+
+  def validate_open_ticket_tasks
+    return if ticket.blank?
+
+    open_tasks = ticket.ticket_tasks.open.count
+    return if open_tasks.zero?
+
+    errors.add(:status, I18n.t('errors.conversations.ticket.open_tasks', count: open_tasks))
+  end
+
+  # The dashboard already blocks this in the resolve modal; automations, macros
+  # and the API reach the same transition without passing through that modal.
+  def validate_required_custom_attributes
+    missing_keys = missing_required_attribute_keys
+    return if missing_keys.blank?
+
+    errors.add(:status, I18n.t('errors.conversations.required_attributes.missing', attributes: missing_keys.join(', ')))
+  end
+
+  # Read straight off `settings`: the `conversation_required_attributes` accessor
+  # is declared in the Enterprise Account concern, and this validation runs in
+  # both editions.
+  def missing_required_attribute_keys
+    return [] unless account.feature_enabled?('conversation_required_attributes')
+
+    required_keys = account.settings.to_h['conversation_required_attributes'].to_a
+    return [] if required_keys.blank?
+
+    defined_keys = account.custom_attribute_definitions.conversation_attribute.pluck(:attribute_key)
+    attributes = custom_attributes || {}
+    (required_keys & defined_keys).select { |key| attributes[key].to_s.blank? }
+  end
+
+  def validate_ticket_not_closed
+    return if ticket&.closed_at.blank?
+
+    errors.add(:status, I18n.t('errors.conversations.ticket.closed'))
   end
 
   # creating db triggers
