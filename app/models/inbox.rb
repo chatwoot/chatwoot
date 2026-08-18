@@ -159,6 +159,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::TwitterProfile'
   end
 
+  def voice?
+    channel_type == 'Channel::Voice'
+  end
+
   def telegram?
     channel_type == 'Channel::Telegram'
   end

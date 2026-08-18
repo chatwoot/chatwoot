@@ -17,53 +17,28 @@ const store = useStore();
 const router = useRouter();
 
 const state = reactive({
+  inboxName: '',
   phoneNumber: '',
-  accountSid: '',
-  authToken: '',
-  apiKeySid: '',
-  apiKeySecret: '',
 });
 
 const uiFlags = useMapGetter('inboxes/getUIFlags');
 
 const validationRules = {
+  inboxName: { required },
   phoneNumber: { required, isPhoneE164 },
-  accountSid: { required },
-  authToken: { required },
-  apiKeySid: { required },
-  apiKeySecret: { required },
 };
 
 const v$ = useVuelidate(validationRules, state);
 const isSubmitDisabled = computed(() => v$.value.$invalid);
 
 const formErrors = computed(() => ({
+  inboxName: v$.value.inboxName?.$error
+    ? t('INBOX_MGMT.ADD.VOICE.INBOX_NAME.ERROR')
+    : '',
   phoneNumber: v$.value.phoneNumber?.$error
     ? t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.ERROR')
     : '',
-  accountSid: v$.value.accountSid?.$error
-    ? t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.REQUIRED')
-    : '',
-  authToken: v$.value.authToken?.$error
-    ? t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.REQUIRED')
-    : '',
-  apiKeySid: v$.value.apiKeySid?.$error
-    ? t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.REQUIRED')
-    : '',
-  apiKeySecret: v$.value.apiKeySecret?.$error
-    ? t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.REQUIRED')
-    : '',
 }));
-
-function getProviderConfig() {
-  const config = {
-    account_sid: state.accountSid,
-    auth_token: state.authToken,
-    api_key_sid: state.apiKeySid,
-    api_key_secret: state.apiKeySecret,
-  };
-  return config;
-}
 
 async function createChannel() {
   const isFormValid = await v$.value.$validate();
@@ -71,12 +46,8 @@ async function createChannel() {
 
   try {
     const channel = await store.dispatch('inboxes/createVoiceChannel', {
-      name: `Voice (${state.phoneNumber})`,
-      voice: {
-        phone_number: state.phoneNumber,
-        provider: 'twilio',
-        provider_config: getProviderConfig(),
-      },
+      name: state.inboxName.trim(),
+      voice: { phone_number: state.phoneNumber },
     });
 
     router.replace({
@@ -104,52 +75,23 @@ async function createChannel() {
       @submit.prevent="createChannel"
     >
       <Input
+        v-model="state.inboxName"
+        :label="t('INBOX_MGMT.ADD.VOICE.INBOX_NAME.LABEL')"
+        :placeholder="t('INBOX_MGMT.ADD.VOICE.INBOX_NAME.PLACEHOLDER')"
+        :message="formErrors.inboxName"
+        :message-type="formErrors.inboxName ? 'error' : 'info'"
+        @blur="v$.inboxName?.$touch"
+      />
+
+      <Input
         v-model="state.phoneNumber"
         :label="t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.LABEL')"
         :placeholder="t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.PLACEHOLDER')"
-        :message="formErrors.phoneNumber"
+        :message="
+          formErrors.phoneNumber || t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.HELP')
+        "
         :message-type="formErrors.phoneNumber ? 'error' : 'info'"
         @blur="v$.phoneNumber?.$touch"
-      />
-
-      <Input
-        v-model="state.accountSid"
-        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.LABEL')"
-        :placeholder="t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.PLACEHOLDER')"
-        :message="formErrors.accountSid"
-        :message-type="formErrors.accountSid ? 'error' : 'info'"
-        @blur="v$.accountSid?.$touch"
-      />
-
-      <Input
-        v-model="state.authToken"
-        type="password"
-        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.LABEL')"
-        :placeholder="t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.PLACEHOLDER')"
-        :message="formErrors.authToken"
-        :message-type="formErrors.authToken ? 'error' : 'info'"
-        @blur="v$.authToken?.$touch"
-      />
-
-      <Input
-        v-model="state.apiKeySid"
-        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.LABEL')"
-        :placeholder="t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.PLACEHOLDER')"
-        :message="formErrors.apiKeySid"
-        :message-type="formErrors.apiKeySid ? 'error' : 'info'"
-        @blur="v$.apiKeySid?.$touch"
-      />
-
-      <Input
-        v-model="state.apiKeySecret"
-        type="password"
-        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.LABEL')"
-        :placeholder="
-          t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.PLACEHOLDER')
-        "
-        :message="formErrors.apiKeySecret"
-        :message-type="formErrors.apiKeySecret ? 'error' : 'info'"
-        @blur="v$.apiKeySecret?.$touch"
       />
 
       <div>

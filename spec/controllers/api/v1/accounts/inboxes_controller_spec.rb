@@ -528,6 +528,41 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('+123456789')
       end
 
+      it 'creates a voice inbox when administrator' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'Support Line', channel: { type: 'voice', phone_number: '+886222222222' } },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['name']).to eq('Support Line')
+        expect(json_response['channel_type']).to eq('Channel::Voice')
+        expect(json_response['phone_number']).to eq('+886222222222')
+      end
+
+      it 'rejects a voice inbox with a number that is not in E.164 format' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'Support Line', channel: { type: 'voice', phone_number: '0222222222' } },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.voice_channels.count).to eq(0)
+      end
+
+      it 'rejects a voice inbox reusing a number already claimed on the account' do
+        create(:channel_voice, account: account, phone_number: '+886222222222')
+
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'Second Line', channel: { type: 'voice', phone_number: '+886222222222' } },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.voice_channels.count).to eq(1)
+      end
+
       it 'creates the webwidget inbox that allow messages after conversation is resolved' do
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,

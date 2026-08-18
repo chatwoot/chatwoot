@@ -345,10 +345,16 @@
       },
       "VOICE": {
         "TITLE": "Voice Channel",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "DESC": "Turn a phone number into an inbox and start supporting your customers over calls.",
+        "INBOX_NAME": {
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Enter a name for this inbox (e.g. Support Line)",
+          "ERROR": "Please provide a name for this inbox"
+        },
         "PHONE_NUMBER": {
           "LABEL": "Phone Number",
           "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
+          "HELP": "The number callers dial to reach this inbox. It cannot be changed later.",
           "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
         },
         "TWILIO": {
@@ -519,7 +525,7 @@
           },
           "VOICE": {
             "TITLE": "Voice",
-            "DESCRIPTION": "Integrate with Twilio Voice"
+            "DESCRIPTION": "Take calls on a phone number"
           }
         }
       },
@@ -891,6 +897,8 @@
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "VOICE_PHONE_NUMBER": "Phone Number",
+      "VOICE_PHONE_NUMBER_SUB_TEXT": "Calls to this number land in this inbox. To use a different number, create a new inbox.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
       "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",

@@ -236,6 +236,41 @@ describe ContactInboxBuilder do
       end
     end
 
+    describe 'voice inbox' do
+      let!(:voice_channel) { create(:channel_voice, account: account) }
+      let(:voice_inbox) { voice_channel.inbox }
+
+      it 'creates a contact inbox with contact phone number when source id not provided' do
+        contact_inbox = described_class.new(
+          contact: contact,
+          inbox: voice_inbox
+        ).perform
+
+        expect(contact_inbox.source_id).to eq(contact.phone_number)
+      end
+
+      it 'reuses the contact inbox when one already exists for the phone number' do
+        existing_contact_inbox = create(:contact_inbox, contact: contact, inbox: voice_inbox, source_id: contact.phone_number)
+        contact_inbox = described_class.new(
+          contact: contact,
+          inbox: voice_inbox
+        ).perform
+
+        expect(contact_inbox.id).to eq(existing_contact_inbox.id)
+      end
+
+      it 'raises error when contact phone number is not present and no source id is provided' do
+        contact.update!(phone_number: nil)
+
+        expect do
+          described_class.new(
+            contact: contact,
+            inbox: voice_inbox
+          ).perform
+        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
+      end
+    end
+
     describe 'email inbox' do
       let!(:email_channel) { create(:channel_email, account: account) }
       let!(:email_inbox) { create(:inbox, channel: email_channel, account: account) }

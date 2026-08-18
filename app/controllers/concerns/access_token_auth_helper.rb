@@ -7,7 +7,8 @@ module AccessTokenAuthHelper
     'api/v1/accounts/conversations/tickets' => %w[show create update],
     'api/v1/accounts/conversations/ticket_tasks' => %w[create update],
     'api/v1/accounts/pathors/calls' => %w[create update],
-    'api/v1/accounts/pathors/contexts' => ['show']
+    'api/v1/accounts/pathors/contexts' => ['show'],
+    'api/v1/accounts/pathors/voice_inboxes' => ['index']
   }.freeze
 
   def ensure_access_token

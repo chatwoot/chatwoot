@@ -252,6 +252,14 @@ export default {
       <woot-code :script="inbox.callback_webhook_url" lang="html" />
     </SettingsFieldSection>
   </div>
+  <div v-else-if="isAVoiceChannel">
+    <SettingsFieldSection
+      :label="$t('INBOX_MGMT.SETTINGS_POPUP.VOICE_PHONE_NUMBER')"
+      :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.VOICE_PHONE_NUMBER_SUB_TEXT')"
+    >
+      <woot-code :script="inbox.phone_number" />
+    </SettingsFieldSection>
+  </div>
   <div v-else-if="isAWebWidgetInbox">
     <div class="space-y-4">
       <SettingsToggleSection

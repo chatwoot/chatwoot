@@ -59,6 +59,9 @@ export default {
     isALineChannel() {
       return this.channelType === INBOX_TYPES.LINE;
     },
+    isAVoiceChannel() {
+      return this.channelType === INBOX_TYPES.VOICE;
+    },
     voiceCallEnabled() {
       return isVoiceCallEnabled(this.inbox);
     },

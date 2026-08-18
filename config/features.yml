@@ -176,8 +176,9 @@
   enabled: false
 - name: channel_voice
   display_name: Voice Channel
-  enabled: false
-  premium: true
+  # Pathors fork: voice is a core channel backed by the Pathors platform, not a
+  # premium add-on. Upstream default is enabled: false / premium: true.
+  enabled: true
 - name: notion_integration
   display_name: Notion Integration
   enabled: false

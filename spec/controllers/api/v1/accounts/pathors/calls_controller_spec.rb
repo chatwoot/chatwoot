@@ -74,6 +74,25 @@ RSpec.describe 'Pathors Calls API', type: :request do
         expect(message.conversation_id).to eq(conversation.id)
       end
 
+      it 'creates a call on a conversation that belongs to a voice inbox' do
+        voice_inbox = create(:channel_voice, account: account, phone_number: '+886222222222').inbox
+        contact_inbox = ContactInboxWithContactBuilder.new(
+          inbox: voice_inbox,
+          contact_attributes: { phone_number: '+886912345678' }
+        ).perform
+        voice_conversation = create(:conversation, account: account, inbox: voice_inbox, contact_inbox: contact_inbox,
+                                                   contact: contact_inbox.contact)
+
+        post "/api/v1/accounts/#{account.id}/pathors/calls",
+             params: create_payload.merge(conversation_id: voice_conversation.display_id),
+             headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        call = Call.last
+        expect(call.inbox_id).to eq(voice_inbox.id)
+        expect(call.message.conversation_id).to eq(voice_conversation.id)
+      end
+
       it 'creates an outgoing voice_call message for an outbound call' do
         post "/api/v1/accounts/#{account.id}/pathors/calls",
              params: create_payload.merge(direction: 'outbound'),

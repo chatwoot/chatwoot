@@ -363,6 +363,7 @@ Rails.application.routes.draw do
               end
             end
             resource :context, only: [:show]
+            resources :voice_inboxes, only: [:index]
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]

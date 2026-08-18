@@ -5,7 +5,9 @@ import {
   getInboxIconByType,
   getInboxVoiceIcon,
   getInboxWarningIconClass,
+  getVoiceCallProvider,
   getVoiceCallIcon,
+  isVoiceCallEnabled,
 } from '../inbox';
 
 describe('#Inbox Helpers', () => {
@@ -226,6 +228,40 @@ describe('#Inbox Helpers', () => {
       expect(
         getInboxIconByType(INBOX_TYPES.WHATSAPP, undefined, 'line', false)
       ).toBe('i-woot-whatsapp');
+    });
+  });
+
+  describe('getVoiceCallProvider', () => {
+    it('reports no provider for a Voice inbox so legacy call UI stays dark', () => {
+      expect(getVoiceCallProvider({ channel_type: INBOX_TYPES.VOICE })).toBe(
+        null
+      );
+    });
+
+    it('reports no provider for the camelCase shape either', () => {
+      expect(getVoiceCallProvider({ channelType: INBOX_TYPES.VOICE })).toBe(
+        null
+      );
+    });
+
+    it('does not treat a Voice inbox as legacy-voice-call enabled', () => {
+      expect(isVoiceCallEnabled({ channel_type: INBOX_TYPES.VOICE })).toBe(
+        false
+      );
+    });
+
+    it('still requires the voice flag on a Twilio inbox', () => {
+      expect(getVoiceCallProvider({ channel_type: INBOX_TYPES.TWILIO })).toBe(
+        null
+      );
+    });
+  });
+
+  describe('getVoiceCallIcon for pathors', () => {
+    it('returns the generic voice-call glyph', () => {
+      expect(getVoiceCallIcon(VOICE_CALL_PROVIDERS.PATHORS)).toBe(
+        'i-woot-voice-call'
+      );
     });
   });
 });
