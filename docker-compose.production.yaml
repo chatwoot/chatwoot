@@ -11,9 +11,29 @@ x-base: &base
     - dokploy-network
 
 services:
+  prepare:
+    <<: *base
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      NODE_ENV: production
+      RAILS_ENV: production
+      INSTALLATION_ENV: docker
+    command:
+      - bundle
+      - exec
+      - rails
+      - db:chatwoot_prepare
+    restart: 'no'
+
   rails:
     <<: *base
     depends_on:
+      prepare:
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
       redis:
@@ -37,6 +57,8 @@ services:
   sidekiq:
     <<: *base
     depends_on:
+      prepare:
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
       redis:
