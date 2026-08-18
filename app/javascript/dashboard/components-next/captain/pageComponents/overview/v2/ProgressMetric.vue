@@ -38,18 +38,18 @@ const chartData = computed(() => ({
     </div>
     <div
       v-if="loading"
-      class="w-full h-1.5 rounded-full bg-n-slate-3 animate-pulse"
+      class="w-full h-[9px] rounded-full bg-n-slate-3 animate-pulse"
     />
     <PercentageChart
       v-else-if="total > 0"
       :data="chartData"
       :aria-label="label"
-      :bar-height="6"
+      :bar-height="9"
       :bar-gap="1"
       :bar-radius="999"
       :show-legend="false"
       :show-tooltip="false"
     />
-    <div v-else class="w-full h-1.5 rounded-full bg-n-alpha-2" />
+    <div v-else class="w-full h-[9px] rounded-full bg-n-alpha-2" />
   </div>
 </template>
