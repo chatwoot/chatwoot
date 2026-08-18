@@ -28,54 +28,64 @@ module CaptainRoutineRunTerminal
 
   def event(details)
     case details.fetch('type')
-    when 'operation' then operation_event(details)
-    when 'each' then each_event(details)
-    when 'decide' then decision_event(details)
-    when 'compose' then compose_event(details)
-    when 'when' then condition_event(details)
+    when 'select' then select_event(details)
+    when 'map' then map_event(details)
+    when 'agent' then agent_event(details)
+    when 'agent_tool' then agent_tool_event(details)
+    when 'reduce' then reduce_event(details)
     end
   end
 
   private
 
-  def operation_event(details)
+  def select_event(details)
+    message = if details.fetch('status') == 'started'
+                "#{details.fetch('entity')} · selecting"
+              else
+                "#{details.fetch('entity')} · #{details.fetch('records')} records"
+              end
+    stage('SELECT', "#{message} #{path(details)}", :cyan)
+  end
+
+  def map_event(details)
+    if details.fetch('status') == 'started'
+      stage('MAP', "#{details.fetch('binding')} · #{details.fetch('records')} records #{path(details)}", :blue)
+    else
+      stage('MAP DONE', "#{details.fetch('results')} results collected #{path(details)}", :green)
+    end
+  end
+
+  def agent_event(details)
+    if details.fetch('status') == 'started'
+      stage('AGENT', "conversation #{details.fetch('record_id')} · investigating #{path(details)}", :magenta)
+    else
+      outcome = decorate(details.fetch('outcome'), :bold)
+      failed = details.fetch('status') == 'failed'
+      stage(failed ? 'AGENT FAIL' : 'AGENT DONE',
+            "conversation #{details.fetch('record_id')} · #{outcome} · #{details.fetch('receipts')} receipts #{path(details)}",
+            failed ? :red : :green)
+    end
+  end
+
+  def agent_tool_event(details)
     color = operation_color(details.fetch('effect'))
-    label = details.fetch('effect') == 'read' ? 'QUERY' : 'ACTION'
-    status = details.fetch('status') == 'started' ? decorate('running', :dim) : decorate('done', :green)
-    stage(label, "#{details.fetch('operation')} · #{status} #{path(details)}", color)
+    label = details.fetch('effect') == 'read' ? 'TOOL' : 'ACTION'
+    status = details.fetch('status') == 'completed' ? decorate('done', :green) : decorate('failed', :red)
+    stage(label, "#{details.fetch('operation')} · #{status} · conversation #{details.fetch('record_id')} #{path(details)}", color)
   end
 
-  def each_event(details)
-    if details.fetch('status') == 'started'
-      stage('EACH', "#{details.fetch('binding')} · #{details.fetch('items')} items #{path(details)}", :blue)
-    else
-      stage('EACH DONE', "#{details.fetch('items')} items processed #{path(details)}", :green)
-    end
-  end
-
-  def decision_event(details)
-    if details.fetch('status') == 'started'
-      stage('DECIDE', "#{details.fetch('decision')} · evaluating #{path(details)}", :magenta)
-    else
-      stage('DECIDED', "#{details.fetch('decision')} → #{decorate(details.fetch('choice'), :bold)} #{path(details)}", :magenta)
-    end
-  end
-
-  def compose_event(details)
-    if details.fetch('status') == 'started'
-      stage('COMPOSE', "#{details.fetch('composition')} · drafting #{path(details)}", :cyan)
-    else
-      stage('COMPOSED', "#{details.fetch('composition')} · #{details.fetch('segments')} segments #{path(details)}", :green)
-    end
-  end
-
-  def condition_event(details)
-    outcome = details.fetch('matched') ? decorate('matched', :green) : decorate('not matched', :dim)
-    stage('WHEN', "#{outcome} · #{details.fetch('branch').upcase} branch #{path(details)}", :yellow)
+  def reduce_event(details)
+    status = details.fetch('status') == 'started' ? 'summarizing' : 'summary ready'
+    stage('REDUCE', "#{details.fetch('results')} results · #{status} #{path(details)}", :cyan)
   end
 
   def operation_color(effect)
-    { 'read' => :cyan, 'internal_write' => :yellow, 'customer_visible_write' => :red }.fetch(effect, :blue)
+    {
+      'read' => :cyan,
+      'internal_write' => :yellow,
+      'customer_visible_write' => :red,
+      'external_write' => :magenta
+    }.fetch(effect, :blue)
   end
 
   def path(details)
@@ -84,7 +94,7 @@ module CaptainRoutineRunTerminal
 end
 
 class CaptainRoutineRunWizard
-  STEP_TYPES = %w[operation each decide compose when].freeze
+  STEP_TYPES = %w[each reduce].freeze
 
   def initialize
     @terminal = CaptainRoutineRunTerminal
@@ -168,15 +178,10 @@ class CaptainRoutineRunWizard
     routine.scheduled? ? "#{routine.cron_expression} · #{routine.timezone}" : 'On demand'
   end
 
-  def print_steps(steps, depth = 0)
+  def print_steps(steps)
     steps.each_with_index do |step, index|
-      prefix = "#{'  ' * depth}#{format('%02d', index + 1)}"
+      prefix = format('%02d', index + 1)
       puts "#{@terminal.decorate(prefix, :dim)}  #{step_description(step)}"
-      print_steps(step.fetch('do'), depth + 1) if step['do'].present?
-      if step['else'].present?
-        puts "#{'  ' * (depth + 1)}#{@terminal.decorate('ELSE', :dim)}"
-        print_steps(step.fetch('else'), depth + 1)
-      end
     end
   end
 
@@ -185,43 +190,22 @@ class CaptainRoutineRunWizard
     type ? send("#{type}_description", step) : 'UNKNOWN'
   end
 
-  def operation_description(step)
-    operation = Captain::Routines::Operations::Registry.fetch(step.fetch('operation'))
-    binding = step['save_as'].present? ? " → #{step['save_as']}" : ''
-    color = operation.kind == 'query' ? :cyan : action_color(operation.effect)
-    @terminal.decorate("#{operation.kind.upcase}  #{step['operation']}#{binding}", color)
-  end
-
   def each_description(step)
-    @terminal.decorate("EACH   #{step['each']} from #{source_name(step.fetch('from'))}", :blue)
+    source = step.fetch('from')
+    filters = source.fetch('where').present? ? source.fetch('where').inspect : 'all conversations'
+    @terminal.decorate("EACH   #{step['each']} from #{source.fetch('select')} #{filters} → #{step.fetch('collect_as')}", :blue)
   end
 
-  def decide_description(step)
-    @terminal.decorate("DECIDE #{step['decide']} → #{step['choices'].join(' / ')}", :magenta)
-  end
-
-  def compose_description(step)
-    @terminal.decorate("COMPOSE #{step['compose']} → rich_message", :cyan)
-  end
-
-  def when_description(step)
-    @terminal.decorate("WHEN   #{step.dig('when', 'ref')} == #{step.dig('when', 'equals').inspect}", :yellow)
-  end
-
-  def source_name(source)
-    source['ref'] || source['operation']
-  end
-
-  def action_color(effect)
-    effect == 'customer_visible_write' ? :red : :yellow
+  def reduce_description(step)
+    @terminal.decorate("REDUCE #{step.dig('reduce', 'ref')} → #{step.fetch('save_as')}", :cyan)
   end
 
   def count_steps(steps)
-    steps.sum { |step| 1 + count_steps(step.fetch('do', [])) + count_steps(step.fetch('else', [])) }
+    steps.length
   end
 
   def confirm_run!(routine)
-    @terminal.stage('WARNING', 'This run performs real internal and customer-visible actions.', :red)
+    @terminal.stage('WARNING', 'This run executes the actions available to the Routine.', :red)
     answer = ask("Run Routine #{routine.id} now? [y/N]", allow_empty: true)
     abort 'Run cancelled.' unless answer.casecmp?('y') || answer.casecmp?('yes')
   end
@@ -254,6 +238,7 @@ class CaptainRoutineRunWizard
                     else value.inspect
                     end
       puts "  #{@terminal.decorate(name, :cyan)} #{@terminal.decorate("· #{description}", :dim)}"
+      puts indent(value.fetch('summary')) if value.is_a?(Hash) && value['summary'].present?
     end
   end
 

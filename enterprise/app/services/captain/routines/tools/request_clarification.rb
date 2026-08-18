@@ -1,5 +1,5 @@
 class Captain::Routines::Tools::RequestClarification < Captain::Routines::Tools::Base
-  description 'Record a blocking administrator question when different answers would materially change the Routine'
+  description 'Sparingly record a business choice that blocks planning and cannot reasonably be decided by the runtime agent'
   param :id, type: 'string', desc: 'Stable snake_case question identifier'
   param :question, type: 'string', desc: 'One focused business-facing question'
   param :reason, type: 'string', desc: 'Why the answer materially changes the Routine'

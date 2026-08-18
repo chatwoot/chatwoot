@@ -49,43 +49,11 @@ module CaptainRoutineTerminalPresenter
 
   private
 
-  def print_planning(_details)
-    stage('PLANNING', 'Generating a semantic plan from the instruction…', :blue)
-  end
-
-  def print_plan_generated(details)
-    document('SEMANTIC PLAN', details.fetch(:plan), :blue)
-  end
-
-  def print_evaluating_plan(details)
-    stage(
-      'PLAN CHECK',
-      "Semantic evaluation #{details[:attempt]} · repairs #{details[:repairs_used]}/#{details[:maximum_repairs]}…",
-      :magenta
-    )
-  end
-
-  def print_plan_evaluated(details)
-    evaluation('PLAN RESULT', details.fetch(:evaluation))
-  end
-
-  def print_repairing_plan(_details)
-    stage('SELF-HEAL', 'Repairing the semantic plan from evaluator feedback…', :yellow)
-  end
-
-  def print_plan_accepted(_details)
-    stage('PLAN READY', 'The semantic plan faithfully represents the instruction.', :green)
-  end
-
-  def print_plan_reused(_details)
-    stage('PLAN READY', 'Reusing the previously accepted semantic plan.', :green)
-  end
-
   def print_compiling_dsl(details)
     if details[:repairing]
-      stage('SELF-HEAL', "Recompiling DSL from validator feedback (#{attempt(details)})…", :yellow)
+      stage('SELF-HEAL', "Rebuilding DSL from validation or review feedback (#{attempt(details)})…", :yellow)
     else
-      stage('COMPILING', "Compiling the accepted plan into DSL (#{attempt(details)})…", :blue)
+      stage('GENERATING', "Building DSL directly from the instruction (#{attempt(details)})…", :blue)
     end
   end
 
@@ -94,11 +62,19 @@ module CaptainRoutineTerminalPresenter
   end
 
   def print_validating_dsl(_details)
-    stage('VALIDATING', 'Checking schema, operations, references, mentions, and cardinality…', :magenta)
+    stage('VALIDATING', 'Checking schema, selection filters, bindings, and reduction references…', :magenta)
   end
 
   def print_dsl_validated(details)
     evaluation('DSL RESULT', details.fetch(:evaluation))
+  end
+
+  def print_evaluating_dsl(_details)
+    stage('DSL CHECK', 'Comparing the candidate DSL with the original instruction…', :magenta)
+  end
+
+  def print_dsl_evaluated(details)
+    evaluation('DSL INTENT', details.fetch(:evaluation))
   end
 
   def attempt(details)
@@ -133,13 +109,7 @@ module CaptainRoutineHtmlSteps
 
   ICONS = {
     'loop' => '<path d="m17 2 4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
-    'operation' => '<path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/>' \
-                   '<path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/>',
-    'decision' => '<circle cx="6" cy="3" r="1"/><circle cx="18" cy="6" r="1"/><circle cx="6" cy="21" r="1"/>' \
-                  '<path d="M6 4v10a4 4 0 0 0 4 4h3"/><path d="M6 10a4 4 0 0 1 4-4h7"/><path d="m14 15 3 3-3 3"/>',
-    'compose' => '<path d="m12 3-1.8 4.2L6 9l4.2 1.8L12 15l1.8-4.2L18 9l-4.2-1.8L12 3Z"/>' \
-                 '<path d="m19 15-.9 2.1L16 18l2.1.9L19 21l.9-2.1L22 18l-2.1-.9L19 15Z"/>',
-    'condition' => '<path d="M4 5h16"/><path d="M4 12h10"/><path d="M4 19h16"/><path d="m17 9 3 3-3 3"/>',
+    'reduction' => '<path d="M4 5h16"/><path d="M7 10h10"/><path d="M10 15h4"/><path d="M12 15v5"/>',
     'step' => '<circle cx="12" cy="12" r="9"/><path d="M12 8v8"/><path d="M8 12h8"/>'
   }.freeze
 
@@ -154,52 +124,48 @@ module CaptainRoutineHtmlSteps
     <<~HTML
       <details class="step #{type}" open>
         <summary class="step-head"><span class="number">#{format('%02d', position)}</span><span class="icon">#{icon(type)}</span><span class="kind">#{escape(type)}</span><strong>#{escape(title)}</strong><span class="disclosure" aria-hidden="true"></span></summary>
-        <div class="step-body">#{step_details(step)}#{nested_steps(step)}</div>
+        <div class="step-body">#{step_details(step)}</div>
       </details>
     HTML
   end
 
   def step_identity(step)
     return ['loop', "For each #{step['each']}"] if step['each']
-    return ['operation', step['operation']] if step['operation']
-    return ['decision', step['decide']] if step['decide']
-    return ['compose', step['compose']] if step['compose']
-    return ['condition', "When #{step.dig('when', 'ref')}"] if step['when']
+    return ['reduction', "Reduce #{step.dig('reduce', 'ref')}"] if step['reduce']
 
     ['step', 'Unknown step']
   end
 
   def step_details(step)
-    "<pre>#{escape(JSON.pretty_generate(step.except('do', 'else')))}</pre>"
-  end
-
-  def nested_steps(step)
-    branches = []
-    branches << nested_branch('DO', step['do']) if step['do'].present?
-    branches << nested_branch('ELSE', step['else']) if step['else'].present?
-    return '' if branches.empty?
-
-    "<div class=\"branches\">#{branches.join}</div>"
-  end
-
-  def nested_branch(label, steps)
+    run = step.fetch('run', {})
+    orchestration = step.except('run', 'do', 'else')
     <<~HTML
-      <details class="branch" open>
-        <summary class="branch-label"><span class="branch-icon" aria-hidden="true">#{branch_icon}</span><span>#{label}</span><small>#{steps.size} #{'step'.pluralize(steps.size)}</small><span class="disclosure" aria-hidden="true"></span></summary>
-        <div class="branch-body">#{render(steps)}</div>
-      </details>
+      <div class="step-metadata">
+        <span class="kicker">Orchestration</span>
+        <pre>#{escape(JSON.pretty_generate(orchestration))}</pre>
+      </div>
+      <div class="agent-instruction">
+        <div class="instruction-head"><span class="kicker">Agent instruction</span><code>#{escape(run['agent'])}</code></div>
+        <pre>#{escape(run['instruction'])}</pre>
+      </div>
+      #{result_contract_details(run['result'])}
+    HTML
+  end
+
+  def result_contract_details(contract)
+    return '' unless contract
+
+    <<~HTML
+      <div class="step-metadata">
+        <span class="kicker">Result contract</span>
+        <pre>#{escape(JSON.pretty_generate(contract))}</pre>
+      </div>
     HTML
   end
 
   def icon(type)
     <<~HTML.squish
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">#{ICONS.fetch(type)}</svg>
-    HTML
-  end
-
-  def branch_icon
-    <<~HTML.squish
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a4 4 0 0 0 4 4h8"/><path d="m15 10 3 3-3 3"/></svg>
     HTML
   end
 
@@ -242,17 +208,16 @@ module CaptainRoutineHtmlRenderer
       <body>
         <main>
           #{page_header(routine)}
-          <div class="edition-line"><span>Model schedule</span><i aria-hidden="true"></i><span>Semantic plan</span><i aria-hidden="true"></i><span>Deterministic DSL</span></div>
+          <div class="edition-line"><span>Model schedule</span><i aria-hidden="true"></i><span>Direct generation</span><i aria-hidden="true"></i><span>Reviewed DSL</span></div>
           #{instruction_section(routine)}
           #{invocation_section(routine)}
           #{flow_section(routine.dsl)}
           #{timeline_section(routine.build_log)}
-          #{raw_section('05', 'Semantic plan', routine.semantic_plan)}
-          #{raw_section('06', 'Compiled DSL', routine.dsl)}
+          #{raw_section('05', 'Compiled DSL', routine.dsl)}
         </main>
         <script>
           function setSteps(open) {
-            document.querySelectorAll('details.step, details.branch').forEach(function(step) { step.open = open; });
+            document.querySelectorAll('details.step').forEach(function(step) { step.open = open; });
           }
         </script>
       </body>
@@ -382,7 +347,7 @@ module CaptainRoutineHtmlRenderer
       .identity { display: flex; align-items: flex-start; gap: 18px; min-width: 0; }
       .brand-mark { display: grid; flex: 0 0 40px; width: 40px; height: 40px; place-items: center; border: 1px solid var(--rule-strong); color: var(--blue); background: var(--panel); }
       .brand-mark svg { width: 20px; height: 20px; }
-      .eyebrow, .kicker, .kind, .section-index, .status, .branch-label, .invocation code {
+      .eyebrow, .kicker, .kind, .section-index, .status, .invocation code {
         font-family: var(--mono);
         letter-spacing: .08em;
         text-transform: uppercase;
@@ -416,11 +381,9 @@ module CaptainRoutineHtmlRenderer
       .step { position: relative; margin: 12px 0; border: 1px solid var(--rule); border-left: 2px solid var(--blue); background: #fff; }
       .step::before { position: absolute; top: 25px; left: -28px; width: 26px; border-top: 1px solid var(--rule-strong); content: ""; }
       .step.loop { border-left-color: var(--cyan); }
-      .step.decision { border-left-color: var(--violet); }
-      .step.compose { border-left-color: var(--green); }
-      .step.condition { border-left-color: var(--yellow); }
+      .step.reduction { border-left-color: var(--violet); }
       .step-head { display: grid; grid-template-columns: 30px 20px minmax(72px, max-content) minmax(0, 1fr) 18px; align-items: center; gap: 11px; min-height: 50px; padding: 10px 14px; cursor: pointer; list-style: none; }
-      .step-head::-webkit-details-marker, .branch-label::-webkit-details-marker, .raw-panel > summary::-webkit-details-marker { display: none; }
+      .step-head::-webkit-details-marker, .raw-panel > summary::-webkit-details-marker { display: none; }
       .number { color: var(--muted); font: 400 10px/1 var(--mono); }
       .icon { color: var(--blue); }
       .icon svg { width: 16px; height: 16px; }
@@ -431,13 +394,11 @@ module CaptainRoutineHtmlRenderer
       details:not([open]) > summary .disclosure::after { transform: rotate(90deg); }
       .step-body { padding: 0 14px 14px 75px; border-top: 1px solid var(--rule); }
       pre { overflow: auto; margin: 14px 0 0; padding: 16px; border-left: 1px solid var(--rule-strong); color: #334155; background: #f8fafc; font: 400 12px/1.65 var(--mono); }
-      .branches { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 12px; margin-top: 16px; }
-      .branch { margin: 0; border: 1px solid var(--rule); background: #fbfcfe; }
-      .branch-label { display: grid; grid-template-columns: 18px max-content 1fr 18px; align-items: center; gap: 9px; min-height: 40px; padding: 8px 11px; color: var(--blue); font-size: 9px; font-weight: 500; cursor: pointer; list-style: none; }
-      .branch-label small { justify-self: end; color: var(--muted); font: 400 10px/1 var(--mono); letter-spacing: 0; text-transform: none; }
-      .branch-icon svg { width: 15px; height: 15px; }
-      .branch-body { padding: 0 11px 10px; }
-      .branch .step::before { display: none; }
+      .step-metadata, .agent-instruction { margin-top: 14px; }
+      .step-metadata pre { margin-top: 6px; }
+      .instruction-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .instruction-head code { color: var(--blue); font: 500 12px/1.4 var(--mono); }
+      .agent-instruction pre { margin-top: 6px; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); font-family: inherit; font-size: 14px; line-height: 1.7; }
       .timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
       .timeline li { display: grid; grid-template-columns: 12px 1fr; gap: 12px; padding: 18px 20px 18px 0; border-bottom: 1px solid var(--rule); }
       .timeline .dot { width: 7px; height: 7px; margin-top: 7px; border: 1px solid var(--yellow); background: transparent; }
@@ -467,7 +428,6 @@ module CaptainRoutineHtmlRenderer
         .step-head { grid-template-columns: 24px 18px minmax(0, 1fr) 18px; }
         .step-head .kind { display: none; }
         .step-body { padding-left: 14px; }
-        .branches { grid-template-columns: 1fr; }
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -478,47 +438,23 @@ module CaptainRoutineHtmlRenderer
 end
 # rubocop:enable Metrics/ModuleLength
 
+module CaptainRoutineExampleInstructions
+  REFUND = <<~TEXT.strip.freeze
+    Go through all conversations tagged `refund`.
+
+    For each conversation, review the messages and customer details and look up their payment in Stripe. If there isn't enough
+    information to find the payment, ask the customer for what is missing.
+
+    Issue a refund if the customer accidentally paid twice, or if they were charged after a free trial they meant to cancel.
+    Otherwise, add a private note explaining why the refund was rejected.
+
+    When finished, summarize the refunds and rejections, explain the reasons, list any conversations still waiting for
+    information, and tell me the most common reason customers requested a refund.
+  TEXT
+end
+
 class CaptainRoutineExamplesWizard
-  INSTRUCTIONS = [
-    # Schedule: 0 9 * * 1-5, configured separately on the Routine model.
-    # <<~TEXT.strip,
-    #   Review open conversations in the Support inbox that have been waiting for an agent reply for more than 8 hours.
-
-    #   For each conversation, load the 30 most recent messages, including private notes, and find the contact's resolved
-    #   conversations from the previous 90 days. Use the current conversation and that history to classify the issue as a
-    #   security incident, service outage, billing problem, or other. Also decide whether the issue is urgent and whether
-    #   the contact has reported the same problem before.
-
-    #   For urgent security incidents or service outages, set the priority to urgent, add the labels `routine-urgent` and
-    #   `incident-escalation`, assign the conversation to the Escalations team, and add a private note saying that the
-    #   routine escalated it after reviewing the customer's recent history. Then send this reply:
-    #   "We are treating this as urgent and have escalated it to our incident team. We will share another update shortly."
-
-    #   For repeated billing problems, set the priority to high, add the labels `billing-escalation` and `repeat-contact`,
-    #   and assign the conversation to the Billing team. For all other conversations, add the label `routine-reviewed`.
-    # TEXT
-
-    <<~TEXT.strip
-      Review every open L2 support conversation assigned to the Engineering team. Triage the conversation using its recent
-      messages and determine whether the customer is blocked by an urgent product issue. Treat inability to send messages,
-      inability to access the dashboard, or messages not being received as urgent. Other issues are non-urgent.
-
-      For a non-urgent conversation, add a private note nudging the currently assigned engineer to reply to the customer.
-
-      For an urgent conversation, set its priority to urgent and add the label `p0-needs-attention`. Add a private note that
-      mentions both Jithin and the currently assigned engineer, asking them to address the issue immediately. Send this reply
-      to the customer: "We understand that this is blocking you. We are treating it as urgent and will address it shortly."
-
-      Do not reassign the conversation. The `p0-needs-attention` label triggers the downstream automation, so the routine
-      does not need to perform any additional escalation after applying it.
-    TEXT
-
-    # <<~TEXT.strip
-    #   Check snoozed conversations and follow up on the ones where we are still waiting for the customer.
-    # TEXT
-
-    # The earlier examples remain disabled while exercising these operational routines.
-  ].freeze
+  INSTRUCTIONS = [CaptainRoutineExampleInstructions::REFUND].freeze
 
   def initialize
     @terminal = CaptainRoutineTerminalPresenter
@@ -529,6 +465,10 @@ class CaptainRoutineExamplesWizard
     print_header
     account = select_account
     confirm_account!(account)
+    label = account.labels.find_or_create_by!(title: 'refund') do |record|
+      record.description = 'Marks conversations for the Captain refund Routine.'
+    end
+    @terminal.stage('LABEL', "#{label.title} (#{label.id}) is available for deterministic selection.", :green)
     routines = INSTRUCTIONS.each_with_index.map { |instructions, index| build_routine(account, instructions, index + 1) }
     print_summary(routines)
   end
@@ -538,7 +478,7 @@ class CaptainRoutineExamplesWizard
   def print_header
     puts
     puts @terminal.decorate('Captain Routine Setup', :bold, :cyan)
-    puts @terminal.decorate('Plan, evaluate, self-heal, compile, and visualize a Routine DSL.', :dim)
+    puts @terminal.decorate('Generate, validate, review, repair, and visualize a Routine DSL.', :dim)
     puts
   end
 
@@ -572,7 +512,7 @@ class CaptainRoutineExamplesWizard
   end
 
   def configure_schedule(routine)
-    @terminal.stage('SCHEDULE', 'Configured on the Routine model and excluded from its plan and DSL.', :blue)
+    @terminal.stage('SCHEDULE', 'Configured on the Routine model and excluded from its DSL.', :blue)
 
     loop do
       cron_expression = ask('Cron expression (blank for on-demand)', allow_empty: true).presence
@@ -674,8 +614,7 @@ class CaptainRoutineExamplesWizard
 
   def print_unresolved_routine(routine)
     @terminal.stage(routine.status.upcase, 'The routine requires review', :red)
-    details = routine.plan_evaluation['status'] == 'valid' ? routine.evaluation : routine.plan_evaluation
-    puts JSON.pretty_generate(details)
+    puts JSON.pretty_generate(routine.evaluation)
     visualize(routine) if routine.dsl.present?
     :finished
   end

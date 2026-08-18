@@ -1,6 +1,6 @@
 class Captain::Routines::ExecutionContext
   CONTRACT = {
-    implicit_for: %w[decide compose],
+    implicit_for: %w[agent reduce],
     immutable: true,
     fields: {
       id: 'unique routine execution ID',

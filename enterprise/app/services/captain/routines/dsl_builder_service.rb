@@ -7,13 +7,10 @@ class Captain::Routines::DslBuilderService
   end
 
   def perform(answers: {})
-    return result if @routine.status_ready?
+    return result if reusable_dsl?
     return result unless apply_clarification_answers(answers)
 
-    @routine.update!(status: :building)
-    plan_outcome = Captain::Routines::SemanticPlanBuilderService.new(@routine, on_stage: @on_stage).perform
-    return result unless plan_outcome == :accepted
-
+    @routine.update!(status: :building, semantic_plan: {}, plan_evaluation: {}, evaluation: {})
     Captain::Routines::DslCompilerService.new(@routine, on_stage: @on_stage).perform
     result
   rescue InvalidClarificationAnswersError => e
@@ -23,6 +20,11 @@ class Captain::Routines::DslBuilderService
   end
 
   private
+
+  def reusable_dsl?
+    @routine.status_ready? && @routine.semantic_plan.blank? && @routine.plan_evaluation.blank? &&
+      Captain::Routines::DslSchema.valid?(@routine.dsl)
+  end
 
   def apply_clarification_answers(answers)
     return true unless @routine.status_awaiting_clarification?
@@ -69,8 +71,6 @@ class Captain::Routines::DslBuilderService
     {
       status: @routine.status,
       routine: @routine,
-      semantic_plan: @routine.semantic_plan,
-      plan_evaluation: @routine.plan_evaluation,
       dsl: @routine.dsl,
       evaluation: @routine.evaluation,
       questions: @routine.clarification_questions

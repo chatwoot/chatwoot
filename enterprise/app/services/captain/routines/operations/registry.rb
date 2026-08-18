@@ -22,7 +22,9 @@ class Captain::Routines::Operations::Registry
     Captain::Routines::Operations::Queries::LabelSearch,
     Captain::Routines::Operations::Queries::InboxSearch,
     Captain::Routines::Operations::Queries::InboxGetAvailability,
-    Captain::Routines::Operations::Queries::KnowledgeSearch
+    Captain::Routines::Operations::Queries::KnowledgeSearch,
+    Captain::Routines::Operations::Queries::StripePaymentSearch,
+    Captain::Routines::Operations::Actions::StripeRefundCreate
   ].index_by(&:operation_name).freeze
 
   class << self

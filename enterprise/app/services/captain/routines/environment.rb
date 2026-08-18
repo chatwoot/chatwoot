@@ -115,6 +115,30 @@ class Captain::Routines::Environment
       question: string
       answer: string
       url: string?
+
+    stripe_payment:
+      id: string
+      customer_email: string?
+      status: succeeded
+      amount_cents: integer
+      currency: string
+      billing_reason: subscription_cycle | duplicate
+      created_at: timestamp
+      refundable: boolean
+      refunded: boolean
+      refund_id: string?
+      matched_by: object[]
+      duplicate_of: string?
+      trial: object?
+
+    stripe_refund:
+      id: string
+      payment_id: string
+      status: succeeded
+      amount_cents: integer
+      currency: string
+      reason: duplicate_payment | accidental_trial_charge
+      created_at: timestamp
   MODEL
 
   class << self
@@ -126,9 +150,8 @@ class Captain::Routines::Environment
         #{DOMAIN_MODEL}
 
         Team and agent assignments are independent: either may be absent, and a team assignment never implies an individual
-        assignee. A nullable value may be absent on any selected record. When requested behavior depends on one and different
-        absent-value policies would change behavior, ask the administrator for clarification unless a fallback or skip policy was
-        already supplied.
+        assignee. Nullable values may be absent on selected records. The autonomous per-record Captain can inspect available
+        context and decide how to handle ordinary missing data; do not require the administrator to define every absent-value case.
 
         Labels and custom attributes provide account-defined classification. Messages may be customer-visible replies or internal
         private notes. Inbox business hours are configured per inbox and evaluated in that inbox's timezone.
@@ -140,7 +163,7 @@ class Captain::Routines::Environment
         unambiguous. If materially different mappings would change behavior, ask a concise clarification in the administrator's
         own terms instead of guessing or exposing implementation terminology.
 
-        Named agents, teams, inboxes, and labels are account records. The planner grounds unique matches as pinned plan resources.
+        Named agents, teams, inboxes, and labels are account records. The builder grounds unique matches as pinned DSL resources.
         An unresolved or ambiguous name requires administrator clarification; a record or ID must never be invented.
 
         The operation catalog is the complete executable vocabulary for this Routine version. Each query declares the domain

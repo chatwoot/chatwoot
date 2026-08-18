@@ -7,7 +7,8 @@ class Captain::Routines::RuntimeContext
     @started_at = started_at
     @scheduled_for = scheduled_for
     @on_step = on_step
-    @frames = [{}]
+    @bindings = {}
+    @integration_state = {}
     @trace = []
     @execution = Captain::Routines::ExecutionContext.build(
       id: id,
@@ -20,22 +21,15 @@ class Captain::Routines::RuntimeContext
   delegate :account, to: :routine
 
   def bind(name, value)
-    @frames.last[name.to_s] = value
-  end
-
-  def bindings
-    @frames.reduce({}) { |result, frame| result.merge(frame) }
+    @bindings[name.to_s] = value
   end
 
   def root_bindings
-    @frames.first.deep_dup
+    @bindings.deep_dup
   end
 
-  def with_frame(bindings = {})
-    @frames << bindings.stringify_keys
-    yield
-  ensure
-    @frames.pop
+  def integration_state(name)
+    @integration_state[name.to_s] ||= {}
   end
 
   def resolve(reference)
@@ -71,10 +65,9 @@ class Captain::Routines::RuntimeContext
     return execution if name == 'execution'
     return routine.dsl.fetch('resources', {}) if name == 'resources'
 
-    frame = @frames.reverse.find { |candidate| candidate.key?(name) }
-    raise Captain::Routines::MissingReferenceError, "Reference '#{name}' is not bound" unless frame
+    raise Captain::Routines::MissingReferenceError, "Reference '#{name}' is not bound" unless @bindings.key?(name)
 
-    frame.fetch(name)
+    @bindings.fetch(name)
   end
 
   def resolve_segment(value, segment, reference)

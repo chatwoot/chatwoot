@@ -1,12 +1,19 @@
 class Captain::Routines::DslValidator
   TEMPLATE_REFERENCE = /(?:\$\{[^}]+\}|\{\{[^}]+\}\})/
+  OUTCOME_ALIAS_FIELDS = %w[action_taken decision_category disposition final_decision final_result].freeze
+  RESERVED_RESULT_OUTCOMES = %w[agent_failed].freeze
+  RESERVED_RESULT_FIELDS = %w[data outcome reason receipts record_id status].freeze
+  SELECTORS = {
+    'conversations' => 'conversations.search'
+  }.freeze
 
   def initialize(dsl)
     @dsl = dsl
   end
 
   def errors
-    schema_errors + resource_usage_errors + operation_errors
+    errors = schema_errors
+    errors.empty? ? orchestration_errors : errors
   end
 
   private
@@ -18,113 +25,108 @@ class Captain::Routines::DslValidator
     end
   end
 
-  def operation_errors
+  def orchestration_errors
     return [] unless @dsl.is_a?(Hash)
 
-    validate_steps(@dsl['steps'], resource_bindings)
-  end
-
-  def resource_usage_errors
-    return [] unless @dsl.is_a?(Hash) && @dsl['resources'].is_a?(Hash)
-
-    used_resources = references_in(@dsl['steps']).filter_map do |reference|
-      reference.match(/\Aresources\.([a-z][a-z0-9_]*)(?:\.|\z)/)&.captures&.first
-    end
-    (@dsl['resources'].keys - used_resources).map do |resource|
-      "Pinned resource '#{resource}' is not referenced by any executable step"
-    end
-  end
-
-  def validate_steps(steps, bindings)
-    Array(steps).each_with_object([]) do |step, errors|
+    bindings = {}
+    Array(@dsl['steps']).each_with_object([]) do |step, errors|
       next unless step.is_a?(Hash)
 
-      errors.concat(validate_step_operation(step, bindings))
-      errors.concat(validate_step_references(step, bindings))
-      errors.concat(validate_nested_steps(step, bindings))
-      register_step_result(step, bindings)
+      errors.concat(validate_step(step, bindings))
     end
   end
 
-  def validate_step_operation(step, bindings)
-    if step['from'].is_a?(Hash)
-      validate_loop_source(step['from'], bindings)
-    elsif step['operation'].present?
-      validate_standalone_operation(step)
-    else
-      []
+  def validate_step(step, bindings)
+    return validate_each(step, bindings) if step['each'].present?
+    return validate_reduce(step, bindings) if step['reduce'].present?
+
+    []
+  end
+
+  def validate_each(step, bindings)
+    validate_template_references(step['from']) +
+      validate_selection(step['from']) +
+      validate_selection_references(step['from']) +
+      validate_result_contract(step.dig('run', 'result')) +
+      register_binding(bindings, step['collect_as'], 'collection')
+  end
+
+  def validate_result_contract(contract)
+    return [] unless contract.is_a?(Hash)
+
+    fields = Array(contract['fields'])
+    reserved_result_outcome_errors(contract['outcomes']) +
+      duplicate_result_field_errors(fields) +
+      fields.flat_map { |field| validate_result_field(field) }
+  end
+
+  def reserved_result_outcome_errors(outcomes)
+    (Array(outcomes) & RESERVED_RESULT_OUTCOMES).map do |outcome|
+      "Result outcome '#{outcome}' is reserved by the Routine runtime"
     end
   end
 
-  def validate_nested_steps(step, bindings)
-    nested_bindings = bindings.dup
-    nested_bindings[step['each']] = 'one' if step['each'].present?
-
-    errors = validate_steps(step['do'], nested_bindings)
-    errors.concat(validate_steps(step['else'], bindings.dup))
+  def duplicate_result_field_errors(fields)
+    names = fields.filter_map { |field| field['name'] if field.is_a?(Hash) }
+    names.tally.filter_map do |name, count|
+      "Result field '#{name}' is defined more than once" if count > 1
+    end
   end
 
-  def register_step_result(step, bindings)
-    operation = Captain::Routines::Operations::Registry.fetch(step['operation'])
-    bindings[step['save_as']] = operation.return_type if operation&.kind == 'query' && step['save_as'].present?
-    bindings[step['decide']] = 'one' if step['decide'].present?
-    bindings[step['compose']] = 'rich_message' if step['compose'].present?
-  end
+  def validate_result_field(field)
+    return [] unless field.is_a?(Hash)
 
-  def validate_standalone_operation(step)
-    operation = Captain::Routines::Operations::Registry.fetch(step['operation'])
-    return ["Operation '#{step['operation']}' is not available"] unless operation
+    errors = []
+    name = field['name']
+    errors << "Result field '#{name}' is reserved by the Routine runtime" if RESERVED_RESULT_FIELDS.include?(name)
+    errors << "Result field '#{name}' duplicates the run outcome" if OUTCOME_ALIAS_FIELDS.include?(name)
 
-    errors = validate_operation(step['operation'], step['with'], kind: operation.kind)
-    errors << "Query operation '#{step['operation']}' requires `save_as`" if operation.kind == 'query' && step['save_as'].blank?
+    values = Array(field['values'])
+    if field['type'] == 'enum'
+      errors << "Enum result field '#{name}' must define at least one value" if values.empty?
+    elsif values.any?
+      errors << "Result field '#{name}' may define values only when its type is enum"
+    end
     errors
   end
 
-  def validate_collection_query(name, arguments)
-    errors = validate_operation(name, arguments, kind: 'query')
-    operation = Captain::Routines::Operations::Registry.fetch(name)
-    return errors unless operation&.kind == 'query'
-
-    errors << "Query operation '#{name}' must return a collection when used in a for-each `from` block" if operation.return_type != 'collection'
-    errors
+  def validate_reduce(step, bindings)
+    validate_reduction(step, bindings) + register_binding(bindings, step['save_as'], 'one')
   end
 
-  def validate_loop_source(source, bindings)
-    return validate_collection_reference(source['ref'], bindings) if source['ref'].present?
+  def validate_selection(selection)
+    return [] unless selection.is_a?(Hash)
 
-    validate_collection_query(source['operation'], source['with'])
+    operation_name = SELECTORS[selection['select']]
+    return ["Selector '#{selection['select']}' is not available"] unless operation_name
+
+    operation = Captain::Routines::Operations::Registry.fetch(operation_name)
+    arguments = selection['where'].is_a?(Hash) ? selection['where'] : {}
+    validate_arguments(operation, arguments)
   end
 
-  def validate_collection_reference(name, bindings)
-    return ["Loop source '#{name}' is not defined"] unless bindings.key?(name)
-    return [] if bindings[name] == 'collection'
+  def validate_reduction(step, bindings)
+    reference = step.dig('reduce', 'ref')
+    return [] if reference.blank?
+    return ["Reduction source '#{reference}' is not defined before this step"] unless bindings.key?(reference)
+    return [] if bindings[reference] == 'collection'
 
-    ["Loop source '#{name}' must reference a collection query result"]
+    ["Reduction source '#{reference}' must be a collected result"]
   end
 
-  def validate_step_references(step, bindings)
-    values = step.values_at('with', 'about', 'when', 'context', 'mention_bindings')
-    syntax_errors = values.flat_map { |value| template_reference_errors_in(value) }
-    references = values.flat_map { |value| references_in(value) }.uniq
-    binding_errors = references.filter_map do |reference|
-      root = reference.split('.').first
-      if root == 'resources'
-        resource_reference_error(reference)
-      else
-        "Reference '#{reference}' is not defined before this step" unless bindings.key?(root)
-      end
-    end
-    syntax_errors + binding_errors + required_mention_errors(step)
+  def validate_arguments(operation, arguments)
+    return ['Conversation selector operation is not available'] unless operation
+
+    argument_names = arguments.keys
+    missing_arguments = operation.required_arguments - argument_names
+    unknown_arguments = argument_names - operation.arguments.keys.map(&:to_s)
+
+    missing_arguments.map { |argument| "Conversation selection is missing required filter '#{argument}'" } +
+      unknown_arguments.map { |argument| "Conversation selection does not accept filter '#{argument}'" }
   end
 
-  def required_mention_errors(step)
-    required_mentions = Array(step['required_mentions'])
-    return [] if required_mentions.empty?
-
-    available_mentions = step['mention_bindings'].is_a?(Hash) ? step['mention_bindings'].keys : []
-    (required_mentions - available_mentions).map do |mention|
-      "Required mention '#{mention}' is not declared in `mention_bindings`"
-    end
+  def validate_selection_references(selection)
+    references_in(selection).filter_map { |reference| resource_reference_error(reference) }
   end
 
   def references_in(value)
@@ -139,40 +141,10 @@ class Captain::Routines::DslValidator
     end
   end
 
-  def template_reference_errors_in(value)
-    case value
-    when Hash
-      value.values.flat_map { |nested| template_reference_errors_in(nested) }
-    when Array
-      value.flat_map { |nested| template_reference_errors_in(nested) }
-    when String
-      value.scan(TEMPLATE_REFERENCE).map do |reference|
-        "Template reference '#{reference}' is not supported; use a `{ \"ref\": \"binding.path\" }` object"
-      end
-    else
-      []
-    end
-  end
-
-  def validate_operation(name, arguments, kind:)
-    registry = Captain::Routines::Operations::Registry
-    return ["Operation '#{name}' is not an available #{kind}"] unless registry.include?(name, kind: kind)
-
-    operation = registry.fetch(name)
-    argument_names = arguments.is_a?(Hash) ? arguments.keys : []
-    missing_arguments = operation.required_arguments - argument_names
-    unknown_arguments = argument_names - operation.arguments.keys.map(&:to_s)
-
-    missing_arguments.map { |argument| "Operation '#{name}' is missing required argument '#{argument}'" } +
-      unknown_arguments.map { |argument| "Operation '#{name}' does not accept argument '#{argument}'" }
-  end
-
-  def resource_bindings
-    @dsl['resources'].is_a?(Hash) && @dsl['resources'].present? ? { 'resources' => 'one' } : {}
-  end
-
   def resource_reference_error(reference)
-    _, resource_name, *path = reference.split('.')
+    root, resource_name, *path = reference.split('.')
+    return "Selection reference '#{reference}' must use a pinned resource" unless root == 'resources'
+
     resources = @dsl['resources'].is_a?(Hash) ? @dsl['resources'] : {}
     resource = resources[resource_name]
     return "Reference '#{reference}' uses an undefined resource" unless resource
@@ -183,5 +155,28 @@ class Captain::Routines::DslValidator
       value[segment]
     end
     nil
+  end
+
+  def register_binding(bindings, name, type)
+    return [] if name.blank?
+    return ["Binding '#{name}' is already defined"] if bindings.key?(name)
+
+    bindings[name] = type
+    []
+  end
+
+  def validate_template_references(value)
+    case value
+    when Hash
+      value.values.flat_map { |nested| validate_template_references(nested) }
+    when Array
+      value.flat_map { |nested| validate_template_references(nested) }
+    when String
+      value.scan(TEMPLATE_REFERENCE).map do |reference|
+        "Template reference '#{reference}' is not supported"
+      end
+    else
+      []
+    end
   end
 end
