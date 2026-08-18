@@ -75,10 +75,7 @@ const onTypeSelected = ({ value }) => {
       @tab-changed="onTabChanged"
     />
     <div class="flex items-center gap-3 shrink-0">
-      <OnClickOutside
-        class="relative"
-        @trigger="isTypeMenuOpen = false"
-      >
+      <OnClickOutside class="relative" @trigger="isTypeMenuOpen = false">
         <Button
           variant="outline"
           size="sm"
