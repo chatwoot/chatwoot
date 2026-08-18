@@ -6,6 +6,10 @@ RSpec.describe Llm::FeatureRouter do
   let(:account) { create(:account) }
 
   describe '.resolve' do
+    before do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(false)
+    end
+
     it 'returns the feature default without an account' do
       resolved = described_class.resolve(feature: 'editor')
 
@@ -26,6 +30,59 @@ RSpec.describe Llm::FeatureRouter do
         feature: 'editor',
         provider: 'openai',
         model: 'gpt-4.1',
+        source: :account_override
+      )
+    end
+
+    it 'uses a valid account model override for an internal feature' do
+      account.update!(captain_models: { 'conversation_completion' => 'gpt-5.2' })
+
+      resolved = described_class.resolve(feature: 'conversation_completion', account: account)
+
+      expect(resolved).to include(
+        feature: 'conversation_completion',
+        provider: 'openai',
+        model: 'gpt-5.2',
+        source: :account_override
+      )
+    end
+
+    it 'uses the installation model for conversation completion on self-hosted Enterprise' do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
+
+      resolved = described_class.resolve(feature: 'conversation_completion', account: account)
+
+      expect(resolved).to eq(
+        feature: 'conversation_completion',
+        provider: 'openai',
+        model: 'gpt-5.1',
+        source: :installation_override
+      )
+    end
+
+    it 'keeps the OpenAI provider for a custom installation model' do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'custom-openai-model')
+
+      resolved = described_class.resolve(feature: 'conversation_completion', account: account)
+
+      expect(resolved).to include(
+        provider: 'openai',
+        model: 'custom-openai-model',
+        source: :installation_override
+      )
+    end
+
+    it 'keeps account overrides ahead of the installation model' do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
+      account.update!(captain_models: { 'conversation_completion' => 'gpt-5.2' })
+
+      resolved = described_class.resolve(feature: 'conversation_completion', account: account)
+
+      expect(resolved).to include(
+        model: 'gpt-5.2',
         source: :account_override
       )
     end

@@ -139,6 +139,8 @@ gem 'sidekiq', '~> 7.3.10'
 gem 'sidekiq-cron', '>= 2.4.0'
 # for sidekiq healthcheck
 gem 'sidekiq_alive'
+# publishes Sidekiq queue metrics to CloudWatch for autoscaling (opt-in via ENABLE_SIDEKIQ_CLOUDWATCH)
+gem 'speedshop-cloudwatch', '~> 0.2.1', require: false
 
 ##-- Push notification service --##
 gem 'fcm'

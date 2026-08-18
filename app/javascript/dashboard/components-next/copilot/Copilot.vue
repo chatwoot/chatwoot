@@ -31,6 +31,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  canSuggestReply: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['sendMessage', 'reset', 'setAssistant']);
@@ -160,6 +164,7 @@ watch(
       <CopilotEmptyState
         v-else
         :has-assistants="hasAssistants"
+        :can-suggest-reply="canSuggestReply"
         @use-suggestion="sendMessage"
       />
     </div>
