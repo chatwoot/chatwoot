@@ -109,7 +109,9 @@ x-chatwoot-base: &chatwoot-base
     REDIS_VELMA_SIZE: ${REDIS_VELMA_SIZE:-10}
     REMOVE_STALE_CONTACT_INBOX_JOB_STATUS: ${REMOVE_STALE_CONTACT_INBOX_JOB_STATUS:-false}
   volumes:
-    - storage_data:/app/storage
+    - type: bind
+      source: ${CHATWOOT_STORAGE_PATH:-/data/chatwoot/storage}
+      target: /app/storage
 
 services:
   migrate:
@@ -137,6 +139,3 @@ services:
         condition: service_completed_successfully
     command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
     restart: always
-
-volumes:
-  storage_data:
