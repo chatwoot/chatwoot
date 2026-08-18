@@ -47,16 +47,19 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
   def set_conversation
     return unless conversation.nil? || conversation_closed_for_replies?
+    return start_conversation if conversation.nil?
 
-    # Serialize concurrent sends so they cannot each start a thread. Locks the contact, not the
-    # contact inbox, since HMAC sessions share conversations across contact inboxes.
-    @contact.with_lock do
-      @conversation = conversations.last
-      next unless conversation.nil? || conversation_closed_for_replies?
+    # Serialize concurrent sends so they cannot each start a replacement. Locks the resolved
+    # conversation, which both HMAC sessions of a contact resolve to, and not the contact itself,
+    # whose row the dashboard writes to on unrelated paths.
+    conversation.lock!
+    @conversation = conversations.last
+    start_conversation if conversation_closed_for_replies?
+  end
 
-      @conversation = create_conversation
-      apply_labels if permitted_params[:labels].present?
-    end
+  def start_conversation
+    @conversation = create_conversation
+    apply_labels if permitted_params[:labels].present?
   end
 
   # Hiding the reply box does not stop requests reaching this endpoint, so the setting is
