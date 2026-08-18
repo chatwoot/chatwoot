@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
   getActiveDateRange,
@@ -45,25 +45,8 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['dateRangeChanged', 'close']);
+const emit = defineEmits(['dateRangeChanged']);
 const { t } = useI18n();
-
-const pickerWrapper = ref(null);
-const popupStyle = ref({ left: '0px' });
-const POPUP_WIDTH = 880;
-const VIEWPORT_MARGIN = 16;
-
-// Clamp the popup inside the viewport; edge-anchoring pushes it off screen
-const positionPopup = () => {
-  const rect = pickerWrapper.value?.getBoundingClientRect();
-  if (!rect) return;
-  let offset = Math.min(
-    0,
-    window.innerWidth - VIEWPORT_MARGIN - POPUP_WIDTH - rect.left
-  );
-  offset = Math.max(offset, VIEWPORT_MARGIN - rect.left);
-  popupStyle.value = { left: `${offset}px` };
-};
 
 const dateRange = defineModel('dateRange', {
   type: Array,
@@ -371,17 +354,8 @@ const initializeCalendarMonths = () => {
 
 const toggleDatePicker = () => {
   showDatePicker.value = !showDatePicker.value;
-  if (showDatePicker.value) {
-    positionPopup();
-    initializeCalendarMonths();
-  } else {
-    emit('close');
-  }
+  if (showDatePicker.value) initializeCalendarMonths();
 };
-
-onMounted(() => {
-  if (showDatePicker.value) positionPopup();
-});
 
 const closeDatePicker = () => {
   if (
@@ -397,7 +371,7 @@ const closeDatePicker = () => {
 </script>
 
 <template>
-  <div ref="pickerWrapper" class="relative flex-shrink-0 font-inter">
+  <div class="relative flex-shrink-0 font-inter">
     <DatePickerButton
       :selected-start-date="selectedStartDate"
       :selected-end-date="selectedEndDate"
@@ -411,8 +385,7 @@ const closeDatePicker = () => {
     <div
       v-if="showDatePicker"
       v-on-clickaway="closeDatePicker"
-      class="flex absolute top-9 z-30 shadow-md select-none w-[880px] max-w-[calc(100vw-2rem)] overflow-x-auto rounded-2xl bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container"
-      :style="popupStyle"
+      class="flex absolute top-9 ltr:left-0 rtl:right-0 z-30 shadow-md select-none w-[880px] rounded-2xl bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container"
     >
       <CalendarDateRange
         :selected-range="selectedRange"
