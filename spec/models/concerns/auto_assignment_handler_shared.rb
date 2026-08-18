@@ -54,6 +54,20 @@ shared_examples_for 'auto_assignment_handler' do
       expect(conversation.reload.assigned_entity).to eq(agent_bot)
     end
 
+    it 'emits conversation.opened when auto assignment runs on the open transition' do
+      conversation.update!(status: 'pending', assignee: nil)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      conversation.update!(status: 'open')
+
+      expect(conversation.assignee).to eq(agent)
+      expect(conversation.previous_changes.keys).to include('status', 'assignee_id')
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_OPENED, kind_of(Time), hash_including(conversation: conversation))
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), hash_including(conversation: conversation))
+    end
+
     it 'gets triggered on update only when status changes to open' do
       conversation.status = 'resolved'
       conversation.save!

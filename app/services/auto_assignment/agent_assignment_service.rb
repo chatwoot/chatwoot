@@ -8,19 +8,27 @@ class AutoAssignment::AgentAssignmentService
     round_robin_manage_service.available_agent(allowed_agent_ids: allowed_online_agent_ids)
   end
 
+  # Locks the row to serialize with concurrent assignment writers, then sets the assignee
+  # on the in-memory conversation without saving. Called from the conversation's own
+  # before_save so status and assignee commit as one change-set and both stay visible to
+  # the after_commit callbacks. Returns the new assignee, or nil when nothing changed.
+  def assign_under_lock
+    locked = Conversation.lock.find_by(id: conversation.id)
+    return unless locked && reassignment_still_needed?(locked)
+
+    new_assignee = find_assignee
+    return unless new_assignee
+
+    conversation.assignee_id = locked.assignee_id
+    conversation.clear_attribute_changes([:assignee_id])
+    conversation.assignee = new_assignee
+  end
+
   def perform
-    # Lock a separate instance only to decide; write through conversation itself so its
-    # already-registered after_commit callbacks actually fire.
+    # Standalone assignment with its own save (create path). Write through conversation
+    # itself so its already-registered after_commit callbacks actually fire.
     Conversation.transaction do
-      locked = Conversation.lock.find_by(id: conversation.id)
-      next unless locked && reassignment_still_needed?(locked)
-
-      new_assignee = find_assignee
-      next unless new_assignee
-
-      conversation.assignee_id = locked.assignee_id
-      conversation.clear_attribute_changes([:assignee_id])
-      conversation.update(assignee: new_assignee)
+      conversation.save if assign_under_lock
     end
   end
 
