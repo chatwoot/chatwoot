@@ -35,8 +35,9 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
                      content: 'Who is your mascot?')
   end
 
+  let!(:inbox_member) { create(:inbox_member, user: user, inbox: inbox) }
+
   before do
-    create(:inbox_member, user: user, inbox: inbox)
     incoming_message
     allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
       hash_including(
@@ -223,8 +224,29 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     custom_role = create(:custom_role, account: account, permissions: [])
     account.account_users.find_by!(user: user).update!(role: :agent, custom_role: custom_role)
 
-    expect { service.generate_response }.to raise_error(ActiveRecord::RecordNotFound, 'Conversation not found')
+    expect do
+      expect(service.generate_response['discarded']).to be false
+    end.not_to(change { account.reload.custom_attributes['captain_responses_usage'].to_i })
+
     expect(runner).not_to have_received(:generate_response)
+    expect(copilot_thread.copilot_messages.last.message).to eq(
+      'content' => "Copilot couldn't generate a reply. Please try again."
+    )
+  end
+
+  it 'does not persist a generated response when the user loses access during the run' do
+    allow(runner).to receive(:generate_response) do
+      inbox_member.destroy!
+      response
+    end
+
+    expect do
+      expect(service.generate_response['discarded']).to be false
+    end.not_to(change { account.reload.custom_attributes['captain_responses_usage'].to_i })
+
+    expect(copilot_thread.copilot_messages.last.message).to eq(
+      'content' => "Copilot couldn't generate a reply. Please try again."
+    )
   end
 
   it 'does not persist an Agent Runner error as a customer reply' do
