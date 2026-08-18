@@ -535,9 +535,14 @@
         },
         "RESOLUTION_TREND": {
           "TITLE": "Weekly Resolution Trend",
+          "CONVERSATION_COUNT": "Conversation count",
+          "RESOLUTION_RATE": "Resolution rate",
+          "CURRENT_PERIOD": "Current period",
+          "PREVIOUS_PERIOD": "Previous period",
           "HANDLED": "Handled",
           "RESOLVED": "Resolved by Captain",
-          "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period"
+          "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
+          "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
         },
         "CSAT": {
           "TITLE": "Captain CSAT",
