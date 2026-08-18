@@ -1,9 +1,6 @@
 module Enterprise::Message
   def self.prepended(base)
     base.class_eval do
-      has_one :call, class_name: 'Call', foreign_key: :message_id, dependent: :nullify, inverse_of: :message
-
-      scope :with_call, -> { includes(call: [:contact, { inbox: :channel }]) }
       # Scheduling and freshness checks must share this scope so an email auto reply or newsletter
       # cannot cancel a pending response.
       scope :captain_response_triggering, lambda {
@@ -15,12 +12,6 @@ module Enterprise::Message
         )
       }
     end
-  end
-
-  def push_event_data
-    data = super
-    data[:call] = call.push_event_data if content_type == 'voice_call' && call.present?
-    data
   end
 
   def captain_response_triggering?
