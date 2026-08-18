@@ -399,6 +399,10 @@ en:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      calendar:
+        event_created: '%{user_name} created calendar event "%{event_title}"'
+        event_updated: '%{user_name} updated calendar event "%{event_title}"'
+        event_deleted: '%{user_name} deleted calendar event "%{event_title}"'
       whatsapp_call:
         permission_requested: 'Sent a call permission request to %{contact_name}.'
         permission_granted: '%{contact_name} accepted the call permission request.'
@@ -475,6 +479,22 @@ en:
       name: 'Shopify'
       short_description: 'Access order details and customer data from your Shopify store.'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    calendars:
+      name: 'Calendars'
+      short_description: 'Connect Google calendars and view events in the dashboard.'
+      description: 'Connect Google Calendar accounts so your team can see upcoming events. Microsoft Calendar is coming soon.'
+      default_title: Appointment
+      untitled: '(No title)'
+      stale: This event was changed by someone else. Reload and try again.
+      locked: '%{name} is editing this event'
+      slot_busy: That time slot is not available. Choose another time.
+      slot_in_progress: Someone else is booking on this calendar right now. Wait a moment and try again.
+      slot_overlap: 'Cannot book: it overlaps "%{title}" by %{name} (%{start}–%{end}). Choose another time.'
+      slot_overlap_unknown: 'Cannot book: it overlaps "%{title}" (%{start}–%{end}). Choose another time.'
+      delete_note_required: Write why this appointment is being cancelled.
+      not_enabled: This calendar is not enabled for the team.
+      invalid_range: The end time must be after the start time.
+      customer_message: 'Your appointment "%{title}" is scheduled for %{start_at}.'
     leadsquared:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'

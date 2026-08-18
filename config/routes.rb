@@ -210,6 +210,7 @@ Rails.application.routes.draw do
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
               resources :internal_tasks, only: [:index, :create]
+              resources :calendar_events, only: [:index]
               resource :timeline, only: [:show]
             end
             member do
@@ -455,6 +456,21 @@ Rails.application.routes.draw do
                 post :unlink_issue
                 get :search_issue
                 get :linked_issues
+              end
+            end
+            resources :calendar_connections, controller: 'calendar', only: [:index, :destroy] do
+              member do
+                get :calendars
+                patch :calendars, action: :update_calendars
+              end
+              collection do
+                get :oauth
+                get :events
+                post :events, action: :create_event
+                patch 'events/:event_id', action: :update_event
+                delete 'events/:event_id', action: :destroy_event
+                post 'events/:event_id/lock', action: :lock_event
+                delete 'events/:event_id/lock', action: :unlock_event
               end
             end
             resource :notion, controller: 'notion', only: [] do
@@ -719,6 +735,8 @@ Rails.application.routes.draw do
   namespace :linear do
     resource :callback, only: [:show]
   end
+
+  get 'google_calendar/callback', to: 'google_calendar/callbacks#show'
 
   namespace :shopify do
     resource :callback, only: [:show]

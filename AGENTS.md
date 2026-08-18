@@ -19,6 +19,72 @@
 - **rbenv setup**: Before running any `bundle` or `rspec` commands, init rbenv in your shell (`eval "$(rbenv init -)"`) so the correct Ruby/Bundler versions are used
 - Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
 
+## Current Focus — Calendar module (Google Calendar integration)
+
+_Estado: branch `feat/panel-ai-admin-sso` con trabajo del módulo Calendar sin commitear (28 archivos nuevos, 5 migraciones)._
+
+### Archivos del módulo
+
+**Backend (nuevo):**
+- Modelos: `app/models/calendar_connection.rb`, `app/models/calendar_connection_calendar.rb`, `app/models/calendar_event.rb`, `app/models/calendar_event_activity.rb`
+- Controladores: `app/controllers/api/v1/accounts/integrations/calendar_controller.rb`, `app/controllers/api/v1/accounts/conversations/calendar_events_controller.rb`, `app/controllers/google_calendar/`
+- OAuth/helpers: `lib/integrations/google_calendar/`, `app/helpers/google_calendar/`
+
+**Frontend (nuevo):**
+- Vista principal: `app/javascript/dashboard/routes/dashboard/calendars/` (`CalendarView.vue`, `WeekGrid.vue`, `AgendaSidebar.vue`, `EventBlock.vue`, `EventModal.vue`, `routes.js`)
+- Settings: `app/javascript/dashboard/routes/dashboard/settings/integrations/Calendars.vue`
+- En conversación: `app/javascript/dashboard/components/widgets/conversation/CalendarEventsList.vue`
+- API client: `app/javascript/dashboard/api/integrations/calendar.js`
+- Helpers: `app/javascript/dashboard/helper/calendarTime.js`, `app/javascript/dashboard/helper/calendarLabels.js`, `app/javascript/dashboard/helper/useCalendarCancelledVisibility.js`
+
+**Assets:** `public/dashboard/images/integrations/google-calendar.svg`, `google.svg`, `microsoft-outlook.svg`, `microsoft.svg` (untracked; servidos por Rails en `/dashboard/images/integrations/...` — ver matriz de rebuild abajo).
+
+### Migraciones pendientes (corren con `.\scripts\dev-migrate.ps1`)
+
+```
+20260818120000_create_calendar_connections.rb
+20260818130000_create_calendar_connection_calendars_and_events.rb
+20260818140000_add_soft_delete_and_activities_to_calendar_events.rb
+20260818150000_add_display_name_to_calendar_connections.rb
+20260818160000_add_hours_to_calendar_connection_calendars.rb
+```
+
+### Feature flag, ruta, scope
+
+- Flag: `calendar_integration` (config `config/features.yml:411`, exposed en `app/javascript/dashboard/featureFlags.js:59` como `FEATURE_FLAGS.CALENDAR`, registrado en `app/models/integrations/app.rb:68`).
+- Sidebar item: `app/javascript/dashboard/components-next/sidebar/Sidebar.vue:439-442` → `accounts/:accountId/calendars`.
+- Ruta FE: `app/javascript/dashboard/routes/dashboard/calendars/routes.js` (vue-router) → `calendars_dashboard_index`.
+- Rutas BE: `config/routes.rb:213` (`calendar_events` bajo conversation), `config/routes.rb:461-474` (`calendar_connections` con `oauth`, `events`, `lock`, `unlock`), `config/routes.rb:739` (`google_calendar/callback`).
+- Settings sub-ruta: `settings_integrations_calendars` (`integrations.routes.js:93-95`).
+- localStorage key para "mostrar cancelados": `LOCAL_STORAGE_KEYS.CALENDAR_SHOW_CANCELLED` (`constants/localStorage.js:11`).
+
+### i18n
+
+- Todas las keys `SIDEBAR.CALENDAR_PAGE.*` y `MODAL.*` están en `app/javascript/dashboard/i18n/locale/en/settings.json:321-397`.
+- Para cambios de producto solo editar `en.json` (Crowdin sync el resto).
+
+### Probar end-to-end
+
+1. Activar el flag: Super Admin → Feature Flags → `calendar_integration` → habilitar cuenta.
+2. Super Admin → Installation Config → `GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_OAUTH_CLIENT_SECRET` / `GOOGLE_OAUTH_REDIRECT_URI` (Redirect: `FRONTEND_URL/google_calendar/callback`).
+3. `Settings → Integrations → Calendars` (admin) → conectar Google.
+4. Sidebar → `Calendars` → elegir cuenta/calendario → click en slot o sobre evento.
+5. API client: `CalendarAPI.startOAuth()` → `/api/v1/accounts/:id/integrations/calendar_connections/oauth` (GET).
+
+### Cuando SÍ necesitas rebuild (vs solo restart / HMR)
+
+| Cambio | Acción |
+|--------|--------|
+| `.vue`, `.js`, `.scss` en `app/` | HMR de Vite — refrescar navegador basta |
+| `.rb` en `app/`, `lib/`, `db/migrate/`, `config/` | `docker restart chatwoot-chatwoot-rails-1` |
+| Nuevos SVG/asset en `app/javascript/.../assets/images/` | HMR los sirve; verificar consola |
+| Nuevos SVG/asset en `public/dashboard/images/` | **requiere `up -d --build`** (montaje excluye `./public/vite` y assets de `public/` se bakean en imagen) |
+| Nuevos iconos `i-lucide-*` / `i-ri-*` referenciados en templates | HMR alcanza si ya están en `tailwind.config.js`; si agregás familia nueva, `pnpm exec vite build` + restart |
+| `Gemfile`, `package.json`, `Dockerfile`, `docker/entrypoints/*` | **requiere `up -d --build`** |
+| Nuevas migraciones | `.\scripts\dev-migrate.ps1` (sin restart) |
+
+Si dudas: `pnpm exec vite build && docker compose -f docker-compose.dokploy.yml -f docker-compose.dokploy.fork.yml restart chatwoot-rails` (lo que hace `.\scripts\dev-vite-build.ps1`).
+
 ## Code Style
 
 - **Ruby**: Follow RuboCop rules (150 character max line length)

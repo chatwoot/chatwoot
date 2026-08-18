@@ -52,6 +52,9 @@ const isSectionAvailable = name => {
       !!linearIntegration.value?.id
     );
   }
+  if (name === 'calendar_events') {
+    return isCloudFeatureEnabled(FEATURE_FLAGS.CALENDAR);
+  }
   return true;
 };
 
@@ -81,7 +84,7 @@ const buildCategoriesForType = attributeType => {
 
   const list = [...groups.values()];
 
-  // Conversation metadata (browser, IP, …) always exposed as System under info.
+  // Conversation metadata (browser, IP, â€¦) always exposed as System under info.
   if (attributeType === 'conversation_attribute') {
     list.unshift({
       key: '__system__',
@@ -228,6 +231,7 @@ const onReset = () => {
                 count: visibleCount,
               })
             }}
+            <!-- eslint-disable-next-line vue/no-bare-strings-in-template -->
             · {{ $t('CONVERSATION.SIDEBAR.MENU.ORDER_HINT') }}
           </p>
         </div>

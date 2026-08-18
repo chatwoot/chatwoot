@@ -350,6 +350,10 @@ es:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      calendar:
+        event_created: '%{user_name} creó la cita "%{event_title}"'
+        event_updated: '%{user_name} actualizó la cita "%{event_title}"'
+        event_deleted: '%{user_name} eliminó la cita "%{event_title}"'
       whatsapp_call:
         permission_requested: 'Envió una solicitud de permiso de llamada a %{contact_name}.'
         permission_granted: '%{contact_name} ha aceptado la solicitud de permiso de llamada.'
@@ -426,6 +430,22 @@ es:
       name: 'Shopify'
       short_description: 'Access order details and customer data from your Shopify store.'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    calendars:
+      name: 'Calendarios'
+      short_description: 'Conectá Google Calendar y mirá los eventos en el panel.'
+      description: 'Conectá cuentas de Google Calendar para que el equipo vea los eventos. Microsoft Calendar llega pronto.'
+      default_title: Cita
+      untitled: '(Sin título)'
+      stale: Alguien más cambió este evento. Recargá e intentá de nuevo.
+      locked: '%{name} está editando este evento'
+      slot_busy: Ese horario no está disponible. Elegí otro.
+      slot_in_progress: Alguien más está agendando en este calendario ahora. Esperá un momento e intentá de nuevo.
+      slot_overlap: 'No se puede agendar: se cruza con "%{title}" de %{name} (%{start}–%{end}). Elegí otro horario.'
+      slot_overlap_unknown: 'No se puede agendar: se cruza con "%{title}" (%{start}–%{end}). Elegí otro horario.'
+      delete_note_required: Escribí por qué se cancela esta cita.
+      not_enabled: Este calendario no está habilitado para el equipo.
+      invalid_range: La hora de fin debe ser posterior a la de inicio.
+      customer_message: 'Tu cita "%{title}" quedó agendada para el %{start_at}.'
     leadsquared:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'

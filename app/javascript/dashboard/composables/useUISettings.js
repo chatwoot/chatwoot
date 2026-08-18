@@ -12,6 +12,7 @@ export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = Object.freeze([
   { name: 'previous_conversation' },
   { name: 'conversation_participants' },
   { name: 'linear_issues' },
+  { name: 'calendar_events' },
   { name: 'shopify_orders' },
 ]);
 
@@ -25,7 +26,7 @@ export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = Object.freeze([
   { name: 'previous_conversation' },
 ]);
 
-/** Sidebar section name → custom attribute model for category prefs */
+/** Sidebar section name â†’ custom attribute model for category prefs */
 export const SIDEBAR_SECTION_ATTRIBUTE_TYPE = Object.freeze({
   conversation_info: 'conversation_attribute',
   contact_attributes: 'contact_attribute',
@@ -33,7 +34,7 @@ export const SIDEBAR_SECTION_ATTRIBUTE_TYPE = Object.freeze({
 
 export const UNCATEGORIZED_CATEGORY_SLUG = 'uncategorized';
 
-/** Built-in category for conversation metadata (browser, IP, referer, …) */
+/** Built-in category for conversation metadata (browser, IP, referer, â€¦) */
 export const SYSTEM_CATEGORY_SLUG = 'system';
 
 /**
