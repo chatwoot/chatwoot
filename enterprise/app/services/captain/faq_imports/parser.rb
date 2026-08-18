@@ -1,0 +1,108 @@
+class Captain::FaqImports::Parser
+  MAX_ROWS = 1000
+  REQUIRED_HEADERS = %w[question answer].freeze
+
+  class InvalidCsvError < StandardError; end
+
+  def initialize(assistant:, content:)
+    @assistant = assistant
+    @content = content
+  end
+
+  def perform
+    table = CSV.parse(@content.to_s.delete_prefix("\uFEFF"), headers: false)
+    headers = table.shift
+    validate_headers!(headers)
+    raise InvalidCsvError, "CSV files can contain at most #{MAX_ROWS} rows." if table.length > MAX_ROWS
+
+    rows = build_rows(table, headers)
+    mark_csv_duplicates!(rows)
+    mark_existing_faqs!(rows)
+    rows
+  rescue CSV::MalformedCSVError => e
+    raise InvalidCsvError, "The CSV could not be read: #{e.message}"
+  end
+
+  def self.normalize(value)
+    value.to_s.strip.gsub(/[[:space:]]+/, ' ').downcase
+  end
+
+  private
+
+  def validate_headers!(headers)
+    normalized_headers = Array(headers).map { |header| self.class.normalize(header) }
+    return if normalized_headers.length == 2 && normalized_headers.sort == REQUIRED_HEADERS.sort
+
+    raise InvalidCsvError, 'The CSV must have exactly two columns named question and answer.'
+  end
+
+  def build_rows(table, headers)
+    normalized_headers = headers.map { |header| self.class.normalize(header) }
+    question_index = normalized_headers.index('question')
+    answer_index = normalized_headers.index('answer')
+
+    table.each_with_index.map do |values, index|
+      build_row(values, index + 2, question_index, answer_index)
+    end
+  end
+
+  def build_row(values, row_number, question_index, answer_index)
+    question = values[question_index].to_s.strip if values.length == 2
+    answer = values[answer_index].to_s.strip if values.length == 2
+    error = row_error(values, question, answer)
+
+    {
+      'row_number' => row_number,
+      'question' => question.to_s,
+      'answer' => answer.to_s,
+      'normalized_question' => self.class.normalize(question),
+      'normalized_answer' => self.class.normalize(answer),
+      'state' => error.present? ? 'invalid' : 'valid',
+      'error' => error
+    }
+  end
+
+  def row_error(values, question, answer)
+    return 'Expected two columns.' unless values.length == 2
+    return 'Question is required.' if question.blank?
+    return 'Answer is required.' if answer.blank?
+
+    nil
+  end
+
+  def mark_csv_duplicates!(rows)
+    rows.select { |row| row['state'] == 'valid' }.group_by { |row| row['normalized_question'] }.each_value do |group|
+      mark_duplicate_group!(group)
+    end
+  end
+
+  def mark_duplicate_group!(group)
+    if group.pluck('normalized_answer').uniq.many?
+      group.each do |row|
+        row['state'] = 'invalid'
+        row['error'] = 'The same question has different answers.'
+      end
+    else
+      group.drop(1).each do |row|
+        row['state'] = 'duplicate'
+        row['error'] = 'Repeated row.'
+      end
+    end
+  end
+
+  def mark_existing_faqs!(rows)
+    existing_faqs = @assistant.responses.select(:id, :question, :answer).order(:id).each_with_object({}) do |faq, result|
+      result[self.class.normalize(faq.question)] ||= faq
+    end
+
+    rows.select { |row| row['state'] == 'valid' }.each do |row|
+      existing = existing_faqs[row['normalized_question']]
+      next if existing.blank?
+
+      row['state'] = 'existing'
+      row['existing_id'] = existing.id
+      row['existing_answer'] = existing.answer
+      row['resolution'] = 'skip'
+    end
+  end
+end

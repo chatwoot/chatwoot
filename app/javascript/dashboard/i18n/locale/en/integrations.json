@@ -1172,6 +1172,62 @@
     "RESPONSES": {
       "HEADER": "FAQs",
       "ADD_NEW": "Create new FAQ",
+      "IMPORT": {
+        "ACTION": "Import FAQs from CSV",
+        "TITLE": "Import FAQs from CSV",
+        "DESCRIPTION": "Upload a CSV to review its FAQs before importing them.",
+        "CHOOSE_FILE": "Choose a CSV file",
+        "FILE_HELP": "Use question and answer columns. You can import up to 1,000 rows.",
+        "PREVIEW": "Review CSV",
+        "PREVIEW_HELP": "The preview is read only. Fix invalid rows in the CSV and upload it again.",
+        "UPLOAD_ANOTHER": "Upload another CSV",
+        "CONFIRM": "Import {count} FAQ | Import {count} FAQs",
+        "SUCCESS": "The FAQ import has started.",
+        "ROW_COUNT": "{count} row | {count} rows",
+        "EXISTING_COUNT": "{count} already exists | {count} already exist",
+        "INVALID_COUNT": "{count} invalid row | {count} invalid rows",
+        "DOWNLOAD_INVALID": "Download invalid rows",
+        "EXISTING_ANSWER": "Existing answer",
+        "IMPORTED_ANSWER": "Imported answer",
+        "TABLE": {
+          "ROW": "Row",
+          "QUESTION": "Question",
+          "ANSWER": "Answer",
+          "STATUS": "Status"
+        },
+        "STATES": {
+          "READY": "Ready",
+          "EXISTING": "Already exists",
+          "SKIPPED": "Repeated row. Skipped."
+        },
+        "ACTIONS": {
+          "SKIP": "Skip",
+          "OVERWRITE": "Overwrite"
+        },
+        "STATUS": {
+          "PREPARING": {
+            "TITLE": "Preparing for search",
+            "DESCRIPTION": "Captain is preparing the imported FAQs for search."
+          },
+          "COMPLETED": {
+            "TITLE": "Completed",
+            "DESCRIPTION": "{created} created, {overwritten} overwritten, and {skipped} skipped."
+          },
+          "COMPLETED_WITH_ERRORS": {
+            "TITLE": "Completed with errors",
+            "DESCRIPTION": "{created} created, {overwritten} overwritten, and {skipped} skipped."
+          },
+          "FAILED": {
+            "TITLE": "Failed",
+            "DESCRIPTION": "The import could not be completed."
+          }
+        },
+        "ERRORS": {
+          "PREVIEW": "There was an error reading the CSV. Please check the file and try again.",
+          "CONFIRM": "There was an error starting the import. Please try again.",
+          "DOWNLOAD": "There was an error downloading the invalid rows. Please try again."
+        }
+      },
       "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"

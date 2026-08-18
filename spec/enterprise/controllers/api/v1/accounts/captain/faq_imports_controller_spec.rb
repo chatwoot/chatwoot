@@ -1,0 +1,93 @@
+require 'rails_helper'
+
+RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
+  let(:account) { create(:account) }
+  let(:assistant) { create(:captain_assistant, account: account) }
+  let(:admin) { create(:user, account: account, role: :administrator) }
+  let(:agent) { create(:user, account: account, role: :agent) }
+  let(:base_path) { "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/faq_imports" }
+
+  def json_response
+    JSON.parse(response.body, symbolize_names: true)
+  end
+
+  it 'uploads a valid CSV and returns a read-only preview' do
+    create(:captain_assistant_response, assistant: assistant, question: 'Existing question', answer: 'Existing answer')
+
+    expect do
+      post base_path,
+           params: { file: generate_csv_file([%w[Question Answer], ['Existing question', 'Imported answer'], ['', 'Missing']]) },
+           headers: admin.create_new_auth_token
+    end.to change(Captain::FaqImport, :count).by(1)
+
+    expect(response).to have_http_status(:created)
+    expect(json_response).to include(row_count: 2, invalid_row_count: 1, status: 'preview')
+    expect(json_response[:rows].first).to include(state: 'existing', existing_answer: 'Existing answer', resolution: 'skip')
+    expect(Captain::FaqImport.last.source_file).to be_attached
+  end
+
+  it 'rejects invalid headers and files over the row limit' do
+    post base_path,
+         params: { file: generate_csv_file([%w[question answer notes], %w[One Two Three]]) },
+         headers: admin.create_new_auth_token
+    expect(response).to have_http_status(:unprocessable_entity)
+
+    oversized = [%w[question answer]] + Array.new(1001) { |index| ["Question #{index}", 'Answer'] }
+    post base_path, params: { file: generate_csv_file(oversized) }, headers: admin.create_new_auth_token
+    expect(response).to have_http_status(:unprocessable_entity)
+  end
+
+  it 'does not allow an agent to preview an import' do
+    post base_path,
+         params: { file: generate_csv_file([%w[question answer], %w[One Two]]) },
+         headers: agent.create_new_auth_token
+
+    expect(response).to have_http_status(:unauthorized)
+  end
+
+  it 'allows only one preparing import per assistant' do
+    create(:captain_faq_import, assistant: assistant, account: account, user: admin, status: :preparing, confirmed_at: Time.current)
+
+    post base_path,
+         params: { file: generate_csv_file([%w[question answer], %w[One Two]]) },
+         headers: admin.create_new_auth_token
+
+    expect(response).to have_http_status(:conflict)
+  end
+
+  it 'confirms overwrite choices and returns only the latest confirmed status' do
+    existing = create(:captain_assistant_response, assistant: assistant, question: 'Existing question', answer: 'Existing answer')
+    rows = Captain::FaqImports::Parser.new(
+      assistant: assistant,
+      content: "question,answer\nExisting question,Imported answer\n"
+    ).perform
+    faq_import = create(:captain_faq_import, assistant: assistant, account: account, user: admin, rows: rows, row_count: 1)
+
+    expect do
+      post "#{base_path}/#{faq_import.id}/confirm",
+           params: { overwrite_row_numbers: [2] },
+           headers: admin.create_new_auth_token,
+           as: :json
+    end.to have_enqueued_job(Captain::FaqImports::ProcessJob).with(faq_import)
+
+    expect(response).to have_http_status(:accepted)
+    expect(faq_import.reload.rows.first['resolution']).to eq('overwrite')
+
+    get "#{base_path}/latest", headers: admin.create_new_auth_token, as: :json
+    expect(response).to have_http_status(:ok)
+    expect(json_response).to include(id: faq_import.id, status: 'preparing')
+    expect(existing.reload.answer).to eq('Existing answer')
+  end
+
+  it 'downloads invalid rows with a clear error column' do
+    rows = Captain::FaqImports::Parser.new(assistant: assistant, content: "question,answer\n,Missing question\n").perform
+    faq_import = create(:captain_faq_import, assistant: assistant, account: account, user: admin, rows: rows, row_count: 1)
+
+    get "#{base_path}/#{faq_import.id}/invalid_rows", headers: admin.create_new_auth_token
+
+    expect(response).to have_http_status(:ok)
+    expect(CSV.parse(response.body)).to eq(
+      [['question', 'answer', 'error'], ['', 'Missing question', 'Question is required.']]
+    )
+  end
+end
