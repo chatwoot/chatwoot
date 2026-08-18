@@ -220,31 +220,26 @@ export const generateLogActionKey = auditLogItem => {
 
 const SORT_ORDERS = ['asc', 'desc'];
 
-function parsePositiveInt(value) {
-  const parsed = Number.parseInt(value, 10);
-  return Number.isNaN(parsed) || parsed < 0 ? undefined : parsed;
-}
-
-export function parseAuditLogRouteQuery(query = {}) {
-  const filters = { page: parsePositiveInt(query.page) || 1 };
+export const auditLogFiltersFromQuery = (query = {}) => {
+  const filters = { page: Number(query.page) || 1 };
 
   if (query.q) filters.q = query.q;
-  const type = Array.isArray(query.type) ? query.type[0] : query.type;
-  if (type) filters.types = [type];
+  if (query.type) filters.types = [query.type];
   if (SORT_ORDERS.includes(query.sort)) filters.sort = query.sort;
 
-  const since = parsePositiveInt(query.since);
-  const until = parsePositiveInt(query.until);
-  if (since !== undefined) filters.since = since;
-  if (until !== undefined) filters.until = until;
+  const since = Number(query.since);
+  const until = Number(query.until);
+  if (since && until) {
+    filters.since = since;
+    filters.until = until;
+  }
 
   return filters;
-}
+};
 
-export function buildAuditLogRouteQuery(filters = {}) {
-  return Object.fromEntries(
-    Object.entries(filters).filter(
-      ([, value]) => value !== undefined && value !== null && value !== ''
+export const buildAuditLogRouteQuery = (query = {}) =>
+  Object.fromEntries(
+    Object.entries(query).filter(
+      ([, value]) => value !== undefined && value !== ''
     )
   );
-}

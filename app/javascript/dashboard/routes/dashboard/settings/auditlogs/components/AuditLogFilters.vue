@@ -1,24 +1,42 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useDebounceFn } from '@vueuse/core';
-import { subDays, startOfDay, endOfDay } from 'date-fns';
+import { startOfDay, endOfDay } from 'date-fns';
+import { vOnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
-import Input from 'dashboard/components-next/input/Input.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
 import { DATE_RANGE_TYPES } from 'dashboard/components/ui/DatePicker/helpers/DatePickerHelper';
 
 const props = defineProps({
-  // { q, type, since, until, sort }
-  filters: {
-    type: Object,
-    default: () => ({}),
+  type: {
+    type: String,
+    default: '',
+  },
+  range: {
+    type: String,
+    default: '',
+  },
+  since: {
+    type: [String, Number],
+    default: null,
+  },
+  until: {
+    type: [String, Number],
+    default: null,
+  },
+  sort: {
+    type: String,
+    default: '',
+  },
+  hasActiveFilters: {
+    type: Boolean,
+    default: false,
   },
 });
 
-const emit = defineEmits(['update']);
+const emit = defineEmits(['update', 'clear']);
 
 const { t } = useI18n();
 
@@ -49,261 +67,177 @@ const EVENT_TYPE_GROUPS = [
   },
 ];
 
-const showEventMenu = ref(false);
+const toUnixTime = date => Math.floor(date.getTime() / 1000);
+const toDate = seconds => new Date(Number(seconds) * 1000);
 
-const eventMenuSections = computed(() => [
-  {
-    items: [
-      {
-        label: t('AUDIT_LOGS.FILTERS.EVENT_TYPE.ALL'),
-        value: '',
-        isSelected: !props.filters.type,
-      },
-    ],
-  },
-  ...EVENT_TYPE_GROUPS.map(group => ({
-    title: t(`AUDIT_LOGS.FILTERS.EVENT_TYPE.GROUPS.${group.key}`),
-    items: group.types.map(type => ({
-      label: t(`AUDIT_LOGS.FILTERS.EVENT_TYPE.OPTIONS.${type.key}`),
-      value: type.value,
-      isSelected: props.filters.type === type.value,
-    })),
-  })),
-]);
-
-const activeEventTypeLabel = computed(() => {
-  const match = EVENT_TYPE_GROUPS.flatMap(group => group.types).find(
-    type => type.value === props.filters.type
-  );
-  return match
-    ? t(`AUDIT_LOGS.FILTERS.EVENT_TYPE.OPTIONS.${match.key}`)
-    : t('AUDIT_LOGS.FILTERS.EVENT_TYPE.LABEL');
-});
-
-const onEventTypeAction = ({ value }) => {
-  showEventMenu.value = false;
-  emit('update', { type: value || undefined });
-};
-
-const searchText = ref(props.filters.q || '');
-
-watch(
-  () => props.filters.q,
-  value => {
-    searchText.value = value || '';
-  }
-);
-
-const AUTO_SEARCH_MIN_CHARS = 3;
-const AUTO_SEARCH_DELAY = 800;
-
-const submitSearch = () => {
-  emit('update', { q: searchText.value || undefined });
-};
-
-const autoSearch = useDebounceFn(() => {
-  if (searchText.value === (props.filters.q || '')) return;
-  if (searchText.value.length < AUTO_SEARCH_MIN_CHARS) return;
-  submitSearch();
-}, AUTO_SEARCH_DELAY);
-
-const onSearchInput = value => {
-  searchText.value = value;
-  if (value === '' && props.filters.q) {
-    emit('update', { q: undefined });
-    return;
-  }
-  autoSearch();
-};
-
-const showSortMenu = ref(false);
-
-const activeSort = computed(() =>
-  props.filters.sort === 'asc' ? 'asc' : 'desc'
-);
-
-const sortMenuItems = computed(() => [
-  {
-    label: t('AUDIT_LOGS.FILTERS.SORT.NEWEST'),
-    value: 'desc',
-    isSelected: activeSort.value === 'desc',
-  },
-  {
-    label: t('AUDIT_LOGS.FILTERS.SORT.OLDEST'),
-    value: 'asc',
-    isSelected: activeSort.value === 'asc',
-  },
-]);
-
-const activeSortLabel = computed(
-  () => sortMenuItems.value.find(item => item.isSelected).label
-);
-
-const onSortAction = ({ value }) => {
-  showSortMenu.value = false;
-  emit('update', { sort: value === 'desc' ? undefined : value });
-};
-
-const toStartEpoch = date => Math.floor(startOfDay(date).getTime() / 1000);
-// round up so the last second of the day stays inside the window
-const toEndEpoch = date => Math.ceil(endOfDay(date).getTime() / 1000);
-const toDate = seconds => (seconds ? new Date(seconds * 1000) : undefined);
-
-const hasDateFilter = computed(() =>
-  Boolean(props.filters.since || props.filters.until)
-);
-
+const openFilterMenu = ref(null);
 const showPicker = ref(false);
 
+const pickerKey = ref(0);
 const pickerDateRange = ref([]);
-// a URL-restored window has no known preset
-const pickerRangeType = ref(DATE_RANGE_TYPES.CUSTOM_RANGE);
+const pickerRangeType = ref(DATE_RANGE_TYPES.LAST_7_DAYS);
 
-// the window we last applied from the picker, so a restored one is recognisable
-let appliedWindow = null;
+const hasDateFilter = computed(() => Boolean(props.since && props.until));
+const isPickerVisible = computed(() => hasDateFilter.value || showPicker.value);
 
 watch(
-  () => [props.filters.since, props.filters.until],
-  ([since, until]) => {
-    if (since || until) {
-      pickerDateRange.value = [
-        toDate(since) || startOfDay(subDays(new Date(), 6)),
-        toDate(until) || endOfDay(new Date()),
-      ];
-      const isApplied =
-        appliedWindow?.[0] === since && appliedWindow?.[1] === until;
-      if (!isApplied) pickerRangeType.value = DATE_RANGE_TYPES.CUSTOM_RANGE;
-    } else {
+  () => [props.range, props.since, props.until],
+  ([range, since, until]) => {
+    if (!hasDateFilter.value) {
       showPicker.value = false;
-      pickerDateRange.value = [];
-      pickerRangeType.value = DATE_RANGE_TYPES.LAST_7_DAYS;
+      return;
     }
+    pickerRangeType.value = range || DATE_RANGE_TYPES.CUSTOM_RANGE;
+    pickerDateRange.value = [toDate(since), toDate(until)];
   },
   { immediate: true }
 );
 
-// remounting drops edits the user never applied
-const pickerKey = ref(0);
+const eventTypeSections = computed(() => [
+  {
+    items: [
+      {
+        label: t('AUDIT_LOGS.FILTERS.ALL_EVENTS'),
+        action: 'type',
+        isSelected: !props.type,
+      },
+    ],
+  },
+  ...EVENT_TYPE_GROUPS.map(group => ({
+    title: t(`AUDIT_LOGS.FILTERS.EVENT_TYPE_GROUPS.${group.key}`),
+    items: group.types.map(({ value, key }) => ({
+      label: t(`AUDIT_LOGS.FILTERS.EVENT_TYPES.${key}`),
+      value,
+      action: 'type',
+      isSelected: props.type === value,
+    })),
+  })),
+]);
 
-const onPickerClickaway = () => {
-  if (hasDateFilter.value) {
-    pickerKey.value += 1;
-    return;
-  }
-  showPicker.value = false;
-};
+const sortSections = computed(() => [
+  {
+    items: [
+      {
+        label: t('AUDIT_LOGS.FILTERS.SORT.NEWEST'),
+        action: 'sort',
+        isSelected: props.sort !== 'asc',
+      },
+      {
+        label: t('AUDIT_LOGS.FILTERS.SORT.OLDEST'),
+        value: 'asc',
+        action: 'sort',
+        isSelected: props.sort === 'asc',
+      },
+    ],
+  },
+]);
 
-const clearDateFilter = () => {
-  emit('update', { since: undefined, until: undefined });
-};
+const filterMenus = computed(() =>
+  [
+    {
+      key: 'type',
+      icon: 'i-lucide-list-filter',
+      sections: eventTypeSections.value,
+    },
+    {
+      key: 'sort',
+      icon: 'i-lucide-arrow-down-up',
+      sections: sortSections.value,
+    },
+  ].map(menu => ({
+    ...menu,
+    label: menu.sections
+      .flatMap(section => section.items)
+      .find(item => item.isSelected).label,
+  }))
+);
 
-const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
-  if (rangeType) pickerRangeType.value = rangeType;
-  appliedWindow = [toStartEpoch(startDate), toEndEpoch(endDate)];
-  emit('update', { since: appliedWindow[0], until: appliedWindow[1] });
-};
-
-const onPickerClose = () => {
+const dismissPicker = () => {
   if (!hasDateFilter.value) showPicker.value = false;
+};
+
+const closeMenus = () => {
+  openFilterMenu.value = null;
+};
+
+const closeFilterMenu = () => {
+  closeMenus();
+  dismissPicker();
+};
+
+const openDatePicker = () => {
+  closeMenus();
+  showPicker.value = true;
+};
+
+const toggleFilterMenu = key => {
+  dismissPicker();
+  pickerKey.value += 1;
+  openFilterMenu.value = openFilterMenu.value === key ? null : key;
+};
+
+const applyDateRange = ([start, end, range]) => {
+  emit('update', {
+    range,
+    since: toUnixTime(startOfDay(start)),
+    until: toUnixTime(endOfDay(end)),
+  });
+};
+
+const handleFilterAction = ({ action, value }) => {
+  closeFilterMenu();
+  emit('update', { [action]: value });
 };
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center gap-2 mb-4">
-    <Input
-      :model-value="searchText"
-      type="search"
-      :placeholder="$t('AUDIT_LOGS.FILTERS.SEARCH_PLACEHOLDER')"
-      :custom-input-class="[
-        'h-8 ltr:!pl-8 !py-1 rtl:!pr-8 [&:not(.focus)]:!border-transparent bg-n-alpha-2 dark:bg-n-solid-1',
-      ]"
-      class="w-full sm:w-auto sm:flex-1 sm:min-w-56 sm:max-w-72"
-      @update:model-value="onSearchInput"
-      @enter="submitSearch"
-    >
-      <template #prefix>
-        <Icon
-          icon="i-lucide-search"
-          class="absolute -translate-y-1/2 text-n-slate-11 size-4 top-1/2 ltr:left-2 rtl:right-2"
-        />
-      </template>
-    </Input>
-    <div class="relative">
-      <Button
-        icon="i-lucide-list-filter"
-        slate
-        faded
-        sm
-        justify="start"
-        class="w-48"
-        @click="showEventMenu = !showEventMenu"
-      >
-        <span class="min-w-0 truncate">{{ activeEventTypeLabel }}</span>
-        <Icon
-          icon="i-lucide-chevron-down"
-          class="flex-shrink-0 size-3.5 ltr:ml-auto rtl:mr-auto"
-        />
-      </Button>
-      <DropdownMenu
-        v-if="showEventMenu"
-        v-on-clickaway="() => (showEventMenu = false)"
-        :menu-sections="eventMenuSections"
-        class="top-full mt-1 ltr:left-0 rtl:right-0 max-h-80"
-        @action="onEventTypeAction"
-      />
-    </div>
-    <div class="relative">
-      <Button
-        icon="i-lucide-arrow-down-up"
-        slate
-        faded
-        sm
-        justify="start"
-        @click="showSortMenu = !showSortMenu"
-      >
-        <span class="min-w-0 truncate">{{ activeSortLabel }}</span>
-        <Icon icon="i-lucide-chevron-down" class="flex-shrink-0 size-3.5" />
-      </Button>
-      <DropdownMenu
-        v-if="showSortMenu"
-        v-on-clickaway="() => (showSortMenu = false)"
-        :menu-items="sortMenuItems"
-        class="top-full mt-1 ltr:left-0 rtl:right-0"
-        @action="onSortAction"
-      />
-    </div>
-    <div
-      v-if="hasDateFilter || showPicker"
-      v-on-clickaway="onPickerClickaway"
-      class="flex items-center gap-2"
-    >
-      <WootDatePicker
-        :key="pickerKey"
-        v-model:date-range="pickerDateRange"
-        v-model:range-type="pickerRangeType"
-        :default-open="!hasDateFilter"
-        :apply-on-clickaway="false"
-        @date-range-changed="onDateRangeChanged"
-        @close="onPickerClose"
-      />
-      <Button
-        v-if="hasDateFilter"
-        v-tooltip.top="$t('AUDIT_LOGS.FILTERS.CLEAR_DATE_RANGE')"
-        icon="i-lucide-x"
-        slate
-        ghost
-        sm
-        @click="clearDateFilter"
-      />
-    </div>
+  <div
+    v-on-click-outside="closeFilterMenu"
+    class="flex items-center gap-2 shrink-0"
+  >
+    <WootDatePicker
+      v-if="isPickerVisible"
+      :key="pickerKey"
+      v-model:date-range="pickerDateRange"
+      v-model:range-type="pickerRangeType"
+      :default-open="!hasDateFilter"
+      @click="closeMenus"
+      @date-range-changed="applyDateRange"
+    />
     <Button
       v-else
       :label="$t('AUDIT_LOGS.FILTERS.DATE_RANGE')"
       icon="i-lucide-calendar-range"
+      color="slate"
+      size="sm"
+      @click="openDatePicker"
+    />
+    <div v-for="menu in filterMenus" :key="menu.key" class="relative">
+      <Button
+        :icon="menu.icon"
+        color="slate"
+        size="sm"
+        :class="{ 'bg-n-slate-9/10': openFilterMenu === menu.key }"
+        @click="toggleFilterMenu(menu.key)"
+      >
+        <span class="min-w-0 truncate">{{ menu.label }}</span>
+        <Icon icon="i-lucide-chevron-down" class="shrink-0 size-4" />
+      </Button>
+      <DropdownMenu
+        v-if="openFilterMenu === menu.key"
+        :menu-sections="menu.sections"
+        class="mt-2 min-w-52 max-h-80 top-full start-0"
+        @action="handleFilterAction"
+      />
+    </div>
+    <Button
+      v-if="hasActiveFilters"
+      :label="$t('AUDIT_LOGS.FILTERS.CLEAR_ALL')"
+      icon="i-lucide-x"
       slate
-      faded
+      ghost
       sm
-      @click="showPicker = true"
+      @click="emit('clear')"
     />
   </div>
 </template>

@@ -2,7 +2,7 @@ import {
   extractChangedAccountUserValues,
   generateTranslationPayload,
   generateLogActionKey,
-  parseAuditLogRouteQuery,
+  auditLogFiltersFromQuery,
   buildAuditLogRouteQuery,
 } from '../auditlogHelper'; // import the functions
 
@@ -194,52 +194,48 @@ describe('Helper functions', () => {
     });
   });
 
-  describe('#parseAuditLogRouteQuery', () => {
+  describe('#auditLogFiltersFromQuery', () => {
     it('maps route query params to API filters', () => {
       expect(
-        parseAuditLogRouteQuery({
+        auditLogFiltersFromQuery({
           page: '2',
           q: 'jane',
           type: 'Inbox',
+          sort: 'asc',
           since: '100',
           until: '200',
-          sort: 'asc',
         })
       ).toEqual({
         page: 2,
         q: 'jane',
         types: ['Inbox'],
+        sort: 'asc',
         since: 100,
         until: 200,
-        sort: 'asc',
       });
     });
 
-    it('defaults to page 1 and drops invalid values', () => {
+    it('defaults to page 1 and drops unknown values', () => {
       expect(
-        parseAuditLogRouteQuery({ since: 'junk', sort: 'sideways' })
+        auditLogFiltersFromQuery({ sort: 'sideways', range: 'last7days' })
       ).toEqual({ page: 1 });
     });
 
-    it('uses the first value when type is repeated', () => {
-      expect(parseAuditLogRouteQuery({ type: ['Inbox', 'Team'] })).toEqual({
-        page: 1,
-        types: ['Inbox'],
-      });
+    it('ignores a half open date window', () => {
+      expect(auditLogFiltersFromQuery({ since: '100' })).toEqual({ page: 1 });
     });
   });
 
   describe('#buildAuditLogRouteQuery', () => {
-    it('drops blank values and resets page', () => {
+    it('drops blank values', () => {
       expect(
         buildAuditLogRouteQuery({
           q: '',
           type: 'Inbox',
-          since: 100,
-          until: null,
-          sort: 'asc',
+          range: 'last7days',
+          page: undefined,
         })
-      ).toEqual({ type: 'Inbox', since: 100, sort: 'asc' });
+      ).toEqual({ type: 'Inbox', range: 'last7days' });
     });
   });
 });

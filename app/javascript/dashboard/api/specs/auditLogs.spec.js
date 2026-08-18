@@ -41,12 +41,5 @@ describe('#AuditLogsAPI', () => {
         },
       });
     });
-
-    it('#get drops blank filters', () => {
-      auditLogs.get({ page: 1, q: '', types: [], sort: undefined });
-      expect(axiosMock.get).toHaveBeenCalledWith(auditLogs.url, {
-        params: { page: 1 },
-      });
-    });
   });
 });

@@ -39,10 +39,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  applyOnClickaway: {
-    type: Boolean,
-    default: true,
-  },
 });
 
 const emit = defineEmits(['dateRangeChanged']);
@@ -358,11 +354,7 @@ const toggleDatePicker = () => {
 };
 
 const closeDatePicker = () => {
-  if (
-    props.applyOnClickaway &&
-    isValid(selectedStartDate.value) &&
-    isValid(selectedEndDate.value)
-  ) {
+  if (isValid(selectedStartDate.value) && isValid(selectedEndDate.value)) {
     emitDateRange();
   } else {
     showDatePicker.value = false;

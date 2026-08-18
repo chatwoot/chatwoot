@@ -1,7 +1,6 @@
-import { shallowMount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
-import Input from 'dashboard/components-next/input/Input.vue';
 import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
 import AuditLogFilters from '../AuditLogFilters.vue';
 
@@ -9,211 +8,140 @@ vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
 }));
 
-let clickawayHandlers = [];
-
-const mountComponent = (filters = {}) => {
-  clickawayHandlers = [];
-  return shallowMount(AuditLogFilters, {
-    props: { filters },
+const mountComponent = (props = {}, mountFn = shallowMount) =>
+  mountFn(AuditLogFilters, {
+    props,
     global: {
-      mocks: { $t: key => key },
-      directives: {
-        'on-clickaway': {
-          mounted: (el, binding) => clickawayHandlers.push(binding.value),
-        },
-      },
+      directives: { 'on-click-outside': {}, 'on-clickaway': {} },
     },
   });
+
+const openMenu = async (wrapper, index) => {
+  await wrapper.findAllComponents(Button).at(index).trigger('click');
+  return wrapper.findComponent(DropdownMenu);
 };
 
 describe('AuditLogFilters', () => {
-  beforeEach(() => {
-    vi.useFakeTimers();
+  it('labels each menu with the active option', () => {
+    const labels = mountComponent({ type: 'Inbox', sort: 'asc' }, mount)
+      .findAllComponents(Button)
+      .map(button => button.text());
+
+    expect(labels).toEqual([
+      'AUDIT_LOGS.FILTERS.DATE_RANGE',
+      'AUDIT_LOGS.FILTERS.EVENT_TYPES.INBOXES',
+      'AUDIT_LOGS.FILTERS.SORT.OLDEST',
+    ]);
   });
 
-  afterEach(() => {
-    vi.useRealTimers();
+  it('falls back to the all-records label when unfiltered', () => {
+    const labels = mountComponent({}, mount)
+      .findAllComponents(Button)
+      .map(button => button.text());
+
+    expect(labels).toEqual([
+      'AUDIT_LOGS.FILTERS.DATE_RANGE',
+      'AUDIT_LOGS.FILTERS.ALL_EVENTS',
+      'AUDIT_LOGS.FILTERS.SORT.NEWEST',
+    ]);
   });
 
-  it('auto-searches after a pause for three or more characters', async () => {
+  it('groups event types into sections', async () => {
     const wrapper = mountComponent();
-    const input = wrapper.findComponent(Input);
-    await input.vm.$emit('update:modelValue', 'vis');
+    const menu = await openMenu(wrapper, 1);
 
-    expect(wrapper.emitted('update')).toBeUndefined();
-
-    vi.advanceTimersByTime(800);
-    expect(wrapper.emitted('update')).toEqual([[{ q: 'vis' }]]);
+    expect(menu.props('menuSections').map(section => section.title)).toEqual([
+      undefined,
+      'AUDIT_LOGS.FILTERS.EVENT_TYPE_GROUPS.ACCESS',
+      'AUDIT_LOGS.FILTERS.EVENT_TYPE_GROUPS.AGENTS_TEAMS',
+      'AUDIT_LOGS.FILTERS.EVENT_TYPE_GROUPS.CONFIGURATION',
+      'AUDIT_LOGS.FILTERS.EVENT_TYPE_GROUPS.CONVERSATIONS',
+    ]);
   });
 
-  it('does not auto-search below three characters', async () => {
-    const wrapper = mountComponent();
-    const input = wrapper.findComponent(Input);
-    await input.vm.$emit('update:modelValue', 'vi');
-    vi.advanceTimersByTime(800);
-
-    expect(wrapper.emitted('update')).toBeUndefined();
-  });
-
-  it('searches immediately on enter regardless of length', async () => {
-    const wrapper = mountComponent();
-    const input = wrapper.findComponent(Input);
-    await input.vm.$emit('update:modelValue', 'vi');
-    await input.vm.$emit('enter');
-
-    expect(wrapper.emitted('update')).toEqual([[{ q: 'vi' }]]);
-  });
-
-  it('clears the search filter when the input is emptied', async () => {
-    const wrapper = mountComponent({ q: 'jane' });
-    const input = wrapper.findComponent(Input);
-    await input.vm.$emit('update:modelValue', '');
-
-    expect(wrapper.emitted('update')).toEqual([[{ q: undefined }]]);
-  });
-
-  it('emits a type update when an event type is chosen', async () => {
-    const wrapper = mountComponent();
-    await wrapper.findComponent(Button).trigger('click');
-    wrapper.findComponent(DropdownMenu).vm.$emit('action', { value: 'Inbox' });
-
-    expect(wrapper.emitted('update')).toEqual([[{ type: 'Inbox' }]]);
-  });
-
-  it('clears the type when all events is chosen', async () => {
+  it('emits an undefined value when the all-records option is picked', async () => {
     const wrapper = mountComponent({ type: 'Inbox' });
-    await wrapper.findComponent(Button).trigger('click');
-    wrapper.findComponent(DropdownMenu).vm.$emit('action', { value: '' });
+    const menu = await openMenu(wrapper, 1);
+    menu.vm.$emit('action', { action: 'type', value: undefined });
 
     expect(wrapper.emitted('update')).toEqual([[{ type: undefined }]]);
   });
 
-  it('emits a sort update from the sort menu', async () => {
+  it('closes an open menu when the calendar is revealed', async () => {
     const wrapper = mountComponent();
-    const sortButton = wrapper.findAllComponents(Button).at(1);
-    await sortButton.trigger('click');
-    wrapper.findComponent(DropdownMenu).vm.$emit('action', { value: 'asc' });
+    await openMenu(wrapper, 1);
+    await wrapper.findAllComponents(Button).at(0).trigger('click');
 
-    expect(wrapper.emitted('update')).toEqual([[{ sort: 'asc' }]]);
+    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(true);
+    expect(wrapper.findComponent(DropdownMenu).exists()).toBe(false);
   });
 
-  it('clears the date window from the clear button', async () => {
+  it('closes an open menu when the calendar is reopened', async () => {
     const wrapper = mountComponent({ since: 100, until: 200 });
-    const clearButton = wrapper.findAllComponents(Button).at(2);
-    await clearButton.trigger('click');
+    await openMenu(wrapper, 1);
+    await wrapper.findComponent(WootDatePicker).trigger('click');
 
-    expect(wrapper.emitted('update')).toEqual([
-      [{ since: undefined, until: undefined }],
+    expect(wrapper.findComponent(DropdownMenu).exists()).toBe(false);
+  });
+
+  it('emits clear from the clear-filters button', async () => {
+    const wrapper = mountComponent({ type: 'Inbox', hasActiveFilters: true });
+    await wrapper.findAllComponents(Button).at(3).trigger('click');
+
+    expect(wrapper.emitted('clear')).toHaveLength(1);
+  });
+
+  it('keeps a single menu open at a time', async () => {
+    const wrapper = mountComponent();
+    await openMenu(wrapper, 1);
+    await openMenu(wrapper, 2);
+
+    expect(wrapper.findAllComponents(DropdownMenu)).toHaveLength(1);
+  });
+
+  it('opens the calendar without applying a window', async () => {
+    const wrapper = mountComponent();
+    await wrapper.findAllComponents(Button).at(0).trigger('click');
+    const picker = wrapper.findComponent(WootDatePicker);
+
+    expect(picker.props('defaultOpen')).toBe(true);
+    expect(wrapper.emitted('update')).toBeUndefined();
+  });
+
+  it('swaps the date button for the calendar once a window is applied', () => {
+    expect(mountComponent().findComponent(WootDatePicker).exists()).toBe(false);
+
+    const wrapper = mountComponent(
+      { range: 'last30days', since: 100, until: 200 },
+      mount
+    );
+    const picker = wrapper.findComponent(WootDatePicker);
+
+    expect(picker.props('rangeType')).toBe('last30days');
+    expect(picker.props('dateRange')).toEqual([
+      new Date(100000),
+      new Date(200000),
     ]);
-  });
-
-  it('opens the picker without applying any filter', async () => {
-    const wrapper = mountComponent();
-    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(false);
-
-    const dateButton = wrapper.findAllComponents(Button).at(2);
-    await dateButton.trigger('click');
-
-    expect(wrapper.emitted('update')).toBeUndefined();
-    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(true);
-  });
-
-  it('applies the range picked in the date picker and keeps its range type', async () => {
-    const wrapper = mountComponent();
-    await wrapper.findAllComponents(Button).at(2).trigger('click');
-    wrapper
-      .findComponent(WootDatePicker)
-      .vm.$emit('dateRangeChanged', [
-        new Date(2026, 7, 1),
-        new Date(2026, 7, 10),
-        'last30days',
-      ]);
-    await wrapper.vm.$nextTick();
-
-    const [[payload]] = wrapper.emitted('update');
-    expect(payload.since).toBeLessThan(payload.until);
-    expect(wrapper.findComponent(WootDatePicker).props('rangeType')).toBe(
-      'last30days'
+    expect(wrapper.findAllComponents(Button).at(0).text()).toBe(
+      'AUDIT_LOGS.FILTERS.ALL_EVENTS'
     );
   });
 
-  it('discards unapplied picker edits when dismissed', async () => {
+  it('widens the window picked in the calendar to whole days', () => {
     const wrapper = mountComponent({ since: 100, until: 200 });
-    const before = wrapper.findComponent(WootDatePicker).vm;
-
-    clickawayHandlers.forEach(handler => handler());
-    await wrapper.vm.$nextTick();
-
-    expect(wrapper.emitted('update')).toBeUndefined();
-    expect(wrapper.findComponent(WootDatePicker).vm).not.toBe(before);
-  });
-
-  it('widens a picked range to whole days', async () => {
-    const wrapper = mountComponent();
-    await wrapper.findAllComponents(Button).at(2).trigger('click');
     wrapper
       .findComponent(WootDatePicker)
       .vm.$emit('dateRangeChanged', [
-        new Date(2026, 7, 1, 13, 4, 5),
-        new Date(2026, 7, 10, 13, 4, 5),
+        new Date(2026, 7, 3, 13, 4, 5),
+        new Date(2026, 7, 12),
+        'custom',
       ]);
 
     const [[payload]] = wrapper.emitted('update');
-    expect(new Date(payload.since * 1000)).toEqual(
-      new Date(2026, 7, 1, 0, 0, 0)
-    );
-    // the end boundary rounds up so the last second of the day is included
+    expect(payload.range).toBe('custom');
+    expect(new Date(payload.since * 1000)).toEqual(new Date(2026, 7, 3));
     expect(new Date(payload.until * 1000)).toEqual(
-      new Date(2026, 7, 11, 0, 0, 0)
-    );
-  });
-
-  it('closes the picker when it is dismissed with nothing applied', async () => {
-    const wrapper = mountComponent();
-    await wrapper.findAllComponents(Button).at(2).trigger('click');
-    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(true);
-
-    wrapper.findComponent(WootDatePicker).vm.$emit('close');
-    await wrapper.vm.$nextTick();
-
-    expect(wrapper.emitted('update')).toBeUndefined();
-    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(false);
-  });
-
-  it('keeps the preset label of the range it just applied', async () => {
-    const wrapper = mountComponent();
-    await wrapper.findAllComponents(Button).at(2).trigger('click');
-    wrapper
-      .findComponent(WootDatePicker)
-      .vm.$emit('dateRangeChanged', [
-        new Date(2026, 7, 1),
-        new Date(2026, 7, 10),
-        'last30days',
-      ]);
-    const [[payload]] = wrapper.emitted('update');
-    await wrapper.setProps({
-      filters: { since: payload.since, until: payload.until },
-    });
-
-    expect(wrapper.findComponent(WootDatePicker).props('rangeType')).toBe(
-      'last30days'
-    );
-  });
-
-  it('labels a window restored from history as a custom range', async () => {
-    const wrapper = mountComponent();
-    await wrapper.findAllComponents(Button).at(2).trigger('click');
-    wrapper
-      .findComponent(WootDatePicker)
-      .vm.$emit('dateRangeChanged', [
-        new Date(2026, 7, 1),
-        new Date(2026, 7, 10),
-        'last30days',
-      ]);
-    await wrapper.setProps({ filters: { since: 100, until: 200 } });
-
-    expect(wrapper.findComponent(WootDatePicker).props('rangeType')).toBe(
-      'custom'
+      new Date(2026, 7, 12, 23, 59, 59)
     );
   });
 });
