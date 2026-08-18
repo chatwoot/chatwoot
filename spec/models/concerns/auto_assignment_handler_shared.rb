@@ -54,6 +54,16 @@ shared_examples_for 'auto_assignment_handler' do
       expect(conversation.reload.assigned_entity).to eq(agent_bot)
     end
 
+    it 'assigns an agent when bot handoff clears the agent bot in the same save' do
+      agent_bot = create(:agent_bot, account: account)
+      handoff_conversation = create(:conversation, account: account, inbox: inbox, status: 'pending', assignee_agent_bot: agent_bot)
+
+      handoff_conversation.bot_handoff!
+
+      expect(handoff_conversation.reload.assignee).to eq(agent)
+      expect(handoff_conversation.assignee_agent_bot).to be_nil
+    end
+
     it 'emits conversation.opened when auto assignment runs on the open transition' do
       conversation.update!(status: 'pending', assignee: nil)
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
