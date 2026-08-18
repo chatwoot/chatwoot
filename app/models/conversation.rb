@@ -77,6 +77,7 @@ class Conversation < ApplicationRecord
   validates :contact_id, presence: true
   before_validation :validate_additional_attributes
   before_validation :reset_agent_bot_when_assignee_present
+  before_validation :sync_agent_bot_assignee_type
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
@@ -302,6 +303,13 @@ class Conversation < ApplicationRecord
     return if assignee_id.blank?
 
     self.ai_assignee = nil
+  end
+
+  # Temporary compatibility until AI ownership is handled through the polymorphic association.
+  def sync_agent_bot_assignee_type
+    return unless has_attribute?(:ai_assignee_type) && will_save_change_to_assignee_agent_bot_id?
+
+    self.ai_assignee_type = assignee_agent_bot_id.present? ? 'AgentBot' : nil
   end
 
   def determine_conversation_status
