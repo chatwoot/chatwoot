@@ -144,7 +144,9 @@ const onSortAction = ({ value }) => {
   emit('update', { sort: value === 'desc' ? undefined : value });
 };
 
-const toEpoch = date => Math.floor(date.getTime() / 1000);
+const toStartEpoch = date => Math.floor(startOfDay(date).getTime() / 1000);
+// round up so the last second of the day stays inside the window
+const toEndEpoch = date => Math.ceil(endOfDay(date).getTime() / 1000);
 const toDate = seconds => (seconds ? new Date(seconds * 1000) : undefined);
 
 const hasDateFilter = computed(() =>
@@ -157,6 +159,9 @@ const pickerDateRange = ref([]);
 // a URL-restored window has no known preset
 const pickerRangeType = ref(DATE_RANGE_TYPES.CUSTOM_RANGE);
 
+// the window we last applied from the picker, so a restored one is recognisable
+let appliedWindow = null;
+
 watch(
   () => [props.filters.since, props.filters.until],
   ([since, until]) => {
@@ -165,6 +170,9 @@ watch(
         toDate(since) || startOfDay(subDays(new Date(), 6)),
         toDate(until) || endOfDay(new Date()),
       ];
+      const isApplied =
+        appliedWindow?.[0] === since && appliedWindow?.[1] === until;
+      if (!isApplied) pickerRangeType.value = DATE_RANGE_TYPES.CUSTOM_RANGE;
     } else {
       showPicker.value = false;
       pickerDateRange.value = [];
@@ -191,10 +199,8 @@ const clearDateFilter = () => {
 
 const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
   if (rangeType) pickerRangeType.value = rangeType;
-  emit('update', {
-    since: toEpoch(startOfDay(startDate)),
-    until: toEpoch(endOfDay(endDate)),
-  });
+  appliedWindow = [toStartEpoch(startDate), toEndEpoch(endDate)];
+  emit('update', { since: appliedWindow[0], until: appliedWindow[1] });
 };
 
 const onPickerClose = () => {

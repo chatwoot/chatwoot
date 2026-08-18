@@ -148,18 +148,6 @@ describe('AuditLogFilters', () => {
     expect(wrapper.findComponent(WootDatePicker).vm).not.toBe(before);
   });
 
-  it('closes the picker when it is dismissed with nothing applied', async () => {
-    const wrapper = mountComponent();
-    await wrapper.findAllComponents(Button).at(2).trigger('click');
-    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(true);
-
-    wrapper.findComponent(WootDatePicker).vm.$emit('close');
-    await wrapper.vm.$nextTick();
-
-    expect(wrapper.emitted('update')).toBeUndefined();
-    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(false);
-  });
-
   it('widens a picked range to whole days', async () => {
     const wrapper = mountComponent();
     await wrapper.findAllComponents(Button).at(2).trigger('click');
@@ -174,8 +162,58 @@ describe('AuditLogFilters', () => {
     expect(new Date(payload.since * 1000)).toEqual(
       new Date(2026, 7, 1, 0, 0, 0)
     );
+    // the end boundary rounds up so the last second of the day is included
     expect(new Date(payload.until * 1000)).toEqual(
-      new Date(2026, 7, 10, 23, 59, 59)
+      new Date(2026, 7, 11, 0, 0, 0)
+    );
+  });
+
+  it('closes the picker when it is dismissed with nothing applied', async () => {
+    const wrapper = mountComponent();
+    await wrapper.findAllComponents(Button).at(2).trigger('click');
+    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(true);
+
+    wrapper.findComponent(WootDatePicker).vm.$emit('close');
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('update')).toBeUndefined();
+    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(false);
+  });
+
+  it('keeps the preset label of the range it just applied', async () => {
+    const wrapper = mountComponent();
+    await wrapper.findAllComponents(Button).at(2).trigger('click');
+    wrapper
+      .findComponent(WootDatePicker)
+      .vm.$emit('dateRangeChanged', [
+        new Date(2026, 7, 1),
+        new Date(2026, 7, 10),
+        'last30days',
+      ]);
+    const [[payload]] = wrapper.emitted('update');
+    await wrapper.setProps({
+      filters: { since: payload.since, until: payload.until },
+    });
+
+    expect(wrapper.findComponent(WootDatePicker).props('rangeType')).toBe(
+      'last30days'
+    );
+  });
+
+  it('labels a window restored from history as a custom range', async () => {
+    const wrapper = mountComponent();
+    await wrapper.findAllComponents(Button).at(2).trigger('click');
+    wrapper
+      .findComponent(WootDatePicker)
+      .vm.$emit('dateRangeChanged', [
+        new Date(2026, 7, 1),
+        new Date(2026, 7, 10),
+        'last30days',
+      ]);
+    await wrapper.setProps({ filters: { since: 100, until: 200 } });
+
+    expect(wrapper.findComponent(WootDatePicker).props('rangeType')).toBe(
+      'custom'
     );
   });
 });
