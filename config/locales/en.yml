@@ -660,3 +660,8 @@ en:
       subscriptions_deleted:
         one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
         other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+    users:
+      resend_confirmation:
+        button: 'Resend confirmation email'
+        sent: 'Confirmation email sent.'
+        already_confirmed: 'User is already confirmed.'
