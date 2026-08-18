@@ -102,15 +102,14 @@ const tableHeaders = computed(() => {
   ];
 });
 
-const commitSearch = useDebounceFn(term => {
+const commitSearch = useDebounceFn(() => {
+  const term = searchQuery.value.trim();
+  if (term === pushedSearch.value) return;
   pushedSearch.value = term;
   onFiltersUpdate({ q: term || undefined });
 }, SEARCH_DEBOUNCE_DELAY);
 
-watch(searchQuery, value => {
-  const term = value.trim();
-  if (term !== pushedSearch.value) commitSearch(term);
-});
+watch(searchQuery, () => commitSearch());
 
 watch(
   () => route.query.q,

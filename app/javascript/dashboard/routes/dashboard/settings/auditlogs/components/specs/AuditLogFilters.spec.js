@@ -46,6 +46,14 @@ describe('AuditLogFilters', () => {
     ]);
   });
 
+  it('falls back to all events when the type is not recognised', () => {
+    const wrapper = mountComponent({ type: 'Bogus' }, mount);
+
+    expect(wrapper.findAllComponents(Button).at(1).text()).toBe(
+      'AUDIT_LOGS.FILTERS.ALL_EVENTS'
+    );
+  });
+
   it('groups event types into sections', async () => {
     const wrapper = mountComponent();
     const menu = await openMenu(wrapper, 1);

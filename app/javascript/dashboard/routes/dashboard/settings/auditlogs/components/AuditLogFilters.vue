@@ -93,13 +93,19 @@ watch(
   { immediate: true }
 );
 
+const selectedEventType = computed(() =>
+  EVENT_TYPE_GROUPS.flatMap(group => group.types).find(
+    ({ value }) => value === props.type
+  )
+);
+
 const eventTypeSections = computed(() => [
   {
     items: [
       {
         label: t('AUDIT_LOGS.FILTERS.ALL_EVENTS'),
         action: 'type',
-        isSelected: !props.type,
+        isSelected: !selectedEventType.value,
       },
     ],
   },
