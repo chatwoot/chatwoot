@@ -12,6 +12,7 @@ RSpec.describe Messages::SearchDataPresenter do
     let(:expected_data) do
       {
         content: message.content,
+        id: message.id,
         account_id: message.account_id,
         inbox_id: message.inbox_id,
         conversation_id: message.conversation_id,
