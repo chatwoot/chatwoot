@@ -95,6 +95,11 @@
       "YOU_ANSWERED": "您已接聽",
       "AGENT_ANSWERED": "{agentName} answered",
       "JOIN_CALL": "加入通話",
+      "LEAVE_CALL": "離開通話",
+      "JOIN_ALREADY_CLAIMED": "已由其他人接聽",
+      "JOIN_CALL_ENDED": "通話已結束",
+      "JOIN_MIC_DENIED": "需要麥克風權限才能加入通話",
+      "JOIN_FAILED": "無法加入通話",
       "CALL_BACK": "Call back",
       "TRANSCRIPT_SHOW_MORE": "Show more",
       "TRANSCRIPT_SHOW_LESS": "Show less"

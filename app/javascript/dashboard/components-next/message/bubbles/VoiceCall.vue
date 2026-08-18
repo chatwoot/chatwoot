@@ -14,10 +14,15 @@ import {
 } from '../constants';
 import { useCallActions } from 'dashboard/composables/useCallSession';
 import { useWhatsappCallSession } from 'dashboard/composables/useWhatsappCallSession';
+import {
+  usePathorsCallSession,
+  PATHORS_JOIN_ERROR,
+} from 'dashboard/composables/usePathorsCallSession';
 import { useCallsStore } from 'dashboard/stores/calls';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import { formatDuration } from 'shared/helpers/timeHelper';
 import { useAlert } from 'dashboard/composables';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
@@ -37,6 +42,22 @@ const ICON_MAP = {
   [VOICE_CALL_STATUS.REJECTED]: 'i-ph-phone-x-bold',
 };
 
+// A Pathors call is live from the moment it rings until it reaches a terminal
+// status — the AI agent is already talking, so an agent can drop in at any
+// point, not only while it rings.
+const PATHORS_LIVE_STATUSES = [
+  VOICE_CALL_STATUS.RINGING,
+  VOICE_CALL_STATUS.IN_PROGRESS,
+];
+
+const PATHORS_ERROR_LABELS = {
+  [PATHORS_JOIN_ERROR.ALREADY_CLAIMED]:
+    'CONVERSATION.VOICE_CALL.JOIN_ALREADY_CLAIMED',
+  [PATHORS_JOIN_ERROR.CALL_ENDED]: 'CONVERSATION.VOICE_CALL.JOIN_CALL_ENDED',
+  [PATHORS_JOIN_ERROR.MEDIA_DENIED]: 'CONVERSATION.VOICE_CALL.JOIN_MIC_DENIED',
+  [PATHORS_JOIN_ERROR.UNAVAILABLE]: 'CONVERSATION.VOICE_CALL.JOIN_FAILED',
+};
+
 const { t } = useI18n();
 const store = useStore();
 const {
@@ -52,6 +73,16 @@ const {
 const { joinCall, endCall, activeCall, hasActiveCall, isJoining } =
   useCallActions();
 const whatsappCallSession = useWhatsappCallSession();
+const {
+  join: joinPathorsCall,
+  leave: leavePathorsCall,
+  isJoining: isJoiningPathorsCall,
+  isJoined: isJoinedPathorsCall,
+  error: pathorsCallError,
+  durationSeconds: pathorsCallDuration,
+  isActiveCall: isActivePathorsCall,
+} = usePathorsCallSession();
+const { accountId } = useAccount();
 const callsStore = useCallsStore();
 const contactsUiFlags = useMapGetter('contacts/getUIFlags');
 const isInitiatingCall = computed(
@@ -80,6 +111,9 @@ const isOutbound = computed(() => {
 });
 const isWhatsapp = computed(
   () => call.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
+);
+const isPathors = computed(
+  () => call.value?.provider === VOICE_CALL_PROVIDERS.PATHORS
 );
 const isFailed = computed(() =>
   [
@@ -209,6 +243,9 @@ const iconContainerClass = computed(() => {
 const callSid = computed(() => call.value?.providerCallId);
 
 const canJoinCall = computed(() => {
+  // Pathors calls run through their own relay + LiveKit room below; the Twilio
+  // conference path (useCallActions) has nothing to join them to.
+  if (isPathors.value) return false;
   if (status.value !== VOICE_CALL_STATUS.RINGING) return false;
   if (isOutbound.value) return false;
   if (acceptedByAgentId.value) return false;
@@ -249,6 +286,45 @@ const handleJoinCall = async () => {
     callSid: callSid.value,
   });
 };
+
+// --- Pathors human takeover -------------------------------------------------
+
+const pathorsCallId = computed(() => call.value?.id);
+const isPathorsCallLive = computed(
+  () => isPathors.value && PATHORS_LIVE_STATUSES.includes(status.value)
+);
+// The composable's state is a browser-wide singleton, so "joined" only means
+// "this bubble" when the active call id matches.
+const isInThisPathorsCall = computed(
+  () =>
+    isPathorsCallLive.value &&
+    isJoinedPathorsCall.value &&
+    isActivePathorsCall(pathorsCallId.value)
+);
+const canJoinPathorsCall = computed(
+  () =>
+    isPathorsCallLive.value &&
+    !!pathorsCallId.value &&
+    !isJoinedPathorsCall.value
+);
+const pathorsCallDurationLabel = computed(() =>
+  formatDuration(pathorsCallDuration.value)
+);
+
+const handlePathorsJoin = async () => {
+  if (!canJoinPathorsCall.value || isJoiningPathorsCall.value) return;
+
+  const joined = await joinPathorsCall({
+    accountId: accountId.value,
+    callId: pathorsCallId.value,
+  });
+  if (joined) return;
+
+  const labelKeyForError = PATHORS_ERROR_LABELS[pathorsCallError.value];
+  useAlert(t(labelKeyForError || 'CONVERSATION.VOICE_CALL.JOIN_FAILED'));
+};
+
+const handlePathorsLeave = () => leavePathorsCall();
 
 const canCallBack = computed(
   () =>
@@ -360,6 +436,31 @@ const handleCallBack = async () => {
         :disabled="isJoining"
         @click="handleJoinCall"
       />
+
+      <!-- Pathors: take the call over from the AI agent, then hang up -->
+      <NextButton
+        v-if="canJoinPathorsCall"
+        type="button"
+        :label="$t('CONVERSATION.VOICE_CALL.JOIN_CALL')"
+        icon="i-ph-phone-bold"
+        teal
+        class="!rounded-full"
+        :disabled="isJoiningPathorsCall"
+        @click="handlePathorsJoin"
+      />
+      <div v-else-if="isInThisPathorsCall" class="flex gap-2 items-center">
+        <NextButton
+          type="button"
+          :label="$t('CONVERSATION.VOICE_CALL.LEAVE_CALL')"
+          icon="i-ph-phone-x-bold"
+          ruby
+          class="flex-1 !rounded-full"
+          @click="handlePathorsLeave"
+        />
+        <span class="font-mono text-sm tabular-nums opacity-75">
+          {{ pathorsCallDurationLabel }}
+        </span>
+      </div>
     </div>
   </BaseBubble>
 </template>

@@ -371,7 +371,11 @@ Rails.application.routes.draw do
           end
 
           namespace :pathors do
-            resources :calls, only: [:create, :update]
+            resources :calls, only: [:create, :update] do
+              member do
+                post :join
+              end
+            end
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]

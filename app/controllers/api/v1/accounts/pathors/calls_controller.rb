@@ -8,9 +8,14 @@ class Api::V1::Accounts::Pathors::CallsController < Api::V1::Accounts::BaseContr
     'outgoing' => 'outgoing'
   }.freeze
 
-  before_action :check_admin_authorization?
+  # create/update are backend-to-backend webhooks and stay admin-only. `join` is
+  # a dashboard action taken by whichever human is looking at the ringing bubble,
+  # so it authorizes on conversation access instead (see #authorize_join).
+  before_action :check_admin_authorization?, except: [:join]
   before_action :fetch_conversation, only: [:create]
   before_action :fetch_call, only: [:update]
+  before_action :fetch_pathors_call, only: [:join]
+  before_action :authorize_join, only: [:join]
 
   def create
     direction = DIRECTIONS[create_params[:direction].to_s]
@@ -35,7 +40,38 @@ class Api::V1::Accounts::Pathors::CallsController < Api::V1::Accounts::BaseContr
     render_call(@call)
   end
 
+  # Hands the clicking agent a LiveKit token for the room the voice agent is
+  # already in. The Pathors backend arbitrates who wins the race (409) and
+  # whether the call is still alive (404); we relay its answer as-is.
+  def join
+    return render json: { error: 'call_ended' }, status: :gone if @call.terminal?
+
+    result = ::Pathors::CallJoinService.new(call: @call, user: Current.user).perform
+    record_join if result.ok?
+
+    render json: result.body, status: result.status
+  end
+
   private
+
+  def record_join
+    @call.update(accepted_by_agent_id: Current.user.id)
+    # Rebroadcasts the bubble so every other dashboard sees who answered.
+    # rubocop:disable Rails/SkipsModelValidations
+    @call.message&.touch
+    # rubocop:enable Rails/SkipsModelValidations
+    assign_conversation_to_joiner
+  end
+
+  # Answering an unassigned conversation claims it, mirroring what a human
+  # picking up a phone means. An existing assignee is never overwritten.
+  def assign_conversation_to_joiner
+    conversation = @call.conversation
+    return if conversation.blank?
+    return if conversation.assignee_id.present? || conversation.assignee_agent_bot_id.present?
+
+    ::Conversations::AssignmentService.new(conversation: conversation, assignee_id: Current.user.id).perform
+  end
 
   def create_call_with_message(direction, status)
     ActiveRecord::Base.transaction do
@@ -109,6 +145,18 @@ class Api::V1::Accounts::Pathors::CallsController < Api::V1::Accounts::BaseContr
 
   def fetch_call
     @call = account_calls.find(params[:id])
+  end
+
+  # A non-pathors call has no LiveKit room to join, so it is simply not found
+  # for this endpoint rather than a distinct error the UI has to phrase.
+  def fetch_pathors_call
+    @call = account_calls.where(provider: :pathors).find(params[:id])
+  end
+
+  # Same bar as opening the conversation in the dashboard: any agent with inbox
+  # or team access may answer, not just administrators.
+  def authorize_join
+    authorize @call.conversation, :show?
   end
 
   # Tolerates the dashed display form ('in-progress') the dashboard uses.

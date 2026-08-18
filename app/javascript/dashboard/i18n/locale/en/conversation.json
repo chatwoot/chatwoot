@@ -111,6 +111,11 @@
       "YOU_ANSWERED": "You answered",
       "AGENT_ANSWERED": "{agentName} answered",
       "JOIN_CALL": "Join call",
+      "LEAVE_CALL": "Leave call",
+      "JOIN_ALREADY_CLAIMED": "Someone else answered this call",
+      "JOIN_CALL_ENDED": "This call has already ended",
+      "JOIN_MIC_DENIED": "Microphone access is required to join the call",
+      "JOIN_FAILED": "Could not join the call",
       "CALL_BACK": "Call back",
       "TRANSCRIPT_SHOW_MORE": "Show more",
       "TRANSCRIPT_SHOW_LESS": "Show less"

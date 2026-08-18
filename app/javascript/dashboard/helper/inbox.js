@@ -35,6 +35,10 @@ export const CHANNEL_TYPES = {
 export const VOICE_CALL_PROVIDERS = {
   TWILIO: 'twilio',
   WHATSAPP: 'whatsapp',
+  // Pathors calls are not tied to a Chatwoot channel — the call record's own
+  // `provider` field is the only signal, so getVoiceCallProvider (which maps
+  // inbox channel types) deliberately never returns this one.
+  PATHORS: 'pathors',
 };
 
 export const getVoiceCallProvider = inbox => {
