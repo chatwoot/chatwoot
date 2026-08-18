@@ -8,7 +8,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   def self.embeds_config
-    @embeds_config ||= config['embeds'] || {}
+    @embeds_config ||= config.fetch('embeds')
   end
 
   def self.embed_regexes
@@ -20,7 +20,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   def self.trusted_iframe_hosts
-    @trusted_iframe_hosts ||= Array(config['trusted_iframe_hosts']).map(&:downcase).to_set.freeze
+    @trusted_iframe_hosts ||= config.fetch('trusted_iframe_hosts').to_set(&:downcase).freeze
   end
 
   # Matches columnResizing({ cellMinWidth: 50 }) in @chatwoot/prosemirror-schema

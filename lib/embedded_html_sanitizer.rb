@@ -38,7 +38,7 @@ class EmbeddedHtmlSanitizer
     src = safe_http_url(element['src'])
     return nil unless src
 
-    tag = +%(<img src="#{CGI.escapeHTML(src)}")
+    tag = %(<img src="#{CGI.escapeHTML(src)}")
     tag << %( alt="#{CGI.escapeHTML(element['alt'])}") if element['alt'].present?
     tag << %( title="#{CGI.escapeHTML(element['title'])}") if element['title'].present?
     tag << %( width="#{element['width']}") if safe_dimension?(element['width'])
@@ -51,7 +51,7 @@ class EmbeddedHtmlSanitizer
     src = safe_http_url(element['src'])
     return nil unless src && trusted_iframe_host?(src)
 
-    tag = +%(<iframe src="#{CGI.escapeHTML(src)}" frameborder="0")
+    tag = %(<iframe src="#{CGI.escapeHTML(src)}" frameborder="0")
     tag << %( width="#{element['width']}") if safe_dimension?(element['width'])
     tag << %( height="#{element['height']}") if safe_dimension?(element['height'])
     tag << %( title="#{CGI.escapeHTML(element['title'])}") if element['title'].present?
