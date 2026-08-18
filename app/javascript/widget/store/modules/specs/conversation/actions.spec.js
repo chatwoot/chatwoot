@@ -309,6 +309,36 @@ describe('#actions', () => {
       expect(localCommit).toBeCalledWith('deleteMessage', 3);
     });
 
+    it('ignores a late response from a superseded conversation', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', conversation_id: 55 },
+      });
+      const windowSpy = mockWindow();
+      // the widget has already switched to conversation 99
+      const state = { conversations: { 1: { id: 1, conversation_id: 99 } } };
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+
+      await actions.sendMessageWithData(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          state,
+          rootState: rootStateWith(99),
+        },
+        { message: { id: 'temp', content: 'hello' } }
+      );
+      windowSpy.mockRestore();
+
+      expect(localCommit).not.toBeCalledWith('deleteMessage', 1);
+      expect(localDispatch).not.toBeCalledWith(
+        'conversationAttributes/getAttributes',
+        {},
+        { root: true }
+      );
+      expect(localDispatch).not.toBeCalledWith('fetchOldConversations');
+    });
+
     it('keeps the thread when the message lands in the same conversation', async () => {
       API.post.mockResolvedValue({
         data: { id: 2, content: 'hello', conversation_id: 55 },

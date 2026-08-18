@@ -15,17 +15,18 @@ import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 
 // The server starts a new thread when the current one is resolved and replies are disallowed.
-// Messages and attributes go stale independently, so either one triggers the refresh.
+// Messages and attributes go stale independently, so either one triggers the refresh. Only older
+// threads count, so a late response cannot undo a switch a newer one already made.
 const resetStaleThread = async (
   { commit, dispatch, state, rootState },
   conversationId
 ) => {
   const staleMessages = () =>
     Object.values(state.conversations).filter(
-      item => item.conversation_id && item.conversation_id !== conversationId
+      item => item.conversation_id && item.conversation_id < conversationId
     );
   const { id: attributeId } = rootState.conversationAttributes;
-  const hasStaleAttributes = attributeId && attributeId !== conversationId;
+  const hasStaleAttributes = attributeId && attributeId < conversationId;
   if (!staleMessages().length && !hasStaleAttributes) return;
 
   await dispatch('conversationAttributes/getAttributes', {}, { root: true });

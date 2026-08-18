@@ -6,7 +6,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def create
-    # A rejected message must not leave the conversation it started behind, so both are written together.
+    # A rejected message must not leave its new conversation behind.
     ActiveRecord::Base.transaction do
       set_conversation
       @message = conversation.messages.new(message_params)
@@ -46,26 +46,22 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def set_conversation
-    return unless conversation.nil? || conversation_closed_for_replies?
     return start_conversation if conversation.nil?
+    # Hiding the reply box does not stop requests reaching this endpoint, so the setting is
+    # enforced here.
+    return if inbox.allow_messages_after_resolved
 
-    # Serialize concurrent sends so they cannot each start a replacement. Locks the resolved
-    # conversation, which both HMAC sessions of a contact resolve to, and not the contact itself,
-    # whose row the dashboard writes to on unrelated paths.
+    # Held until the message is written, so a resolve landing mid-request cannot leave the message
+    # in the thread it closed, and concurrent sends cannot each start a replacement.
     conversation.lock!
     @conversation = conversations.last
-    start_conversation if conversation_closed_for_replies?
+    # Blocked contacts are skipped; their conversations are always resolved.
+    start_conversation if conversation.resolved? && !@contact.blocked?
   end
 
   def start_conversation
     @conversation = create_conversation
     apply_labels if permitted_params[:labels].present?
-  end
-
-  # Hiding the reply box does not stop requests reaching this endpoint, so the setting is
-  # enforced here. Blocked contacts are skipped, their conversations are always resolved.
-  def conversation_closed_for_replies?
-    conversation.resolved? && !inbox.allow_messages_after_resolved && !@contact.blocked?
   end
 
   def apply_labels
