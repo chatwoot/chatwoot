@@ -97,6 +97,13 @@ zh_TW:
     conversations:
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
+      ticket:
+        open_tasks:
+          one: '還有 1 項工作項未完成，無法解決'
+          other: '還有 %{count} 項工作項未完成，無法解決'
+        closed: '工單已結案，無法重新開啟。後續問題請開立新工單。'
+      required_attributes:
+        missing: '下列必填屬性尚未填寫，無法解決：%{attributes}'
     data_import:
       data_type:
         invalid: 無效的資料類型
@@ -300,6 +307,15 @@ zh_TW:
         auto_opened_after_agent_reply: '客服回覆後，對話已自動標記為開啟'
       agent_bot:
         error_moved_to_open: '由於機器人客服發生錯誤，系統已將對話標記為開啟。'
+      ticket:
+        created: '已建立工單：%{subject}'
+        waiting_on: '工單目前等待中：%{waiting_on}'
+        waiting_on_labels:
+          customer: 客戶
+          internal: 內部團隊
+          external: 外部單位
+        waiting_cleared: '工單已結束等待'
+        task_completed: '工作項已完成：%{title}'
       status:
         resolved: '%{user_name} 將對話標記為已解決'
         contact_resolved: '%{contact_name} 已解決此對話'
@@ -529,6 +545,66 @@ zh_TW:
       title: 幫助中心目前無法使用
       description: 請聯繫網站管理員以取得更多資訊。
       action: 如果您是管理員，請升級您的方案以恢復存取權限。
+    tickets:
+      back_to_home: 回到首頁
+      nav:
+        submit_a_ticket: 提交工單
+        my_tickets: 我的工單
+      fields:
+        name: 姓名
+        email: 電子郵件
+        subject: 主旨
+        ticket_type: 類型
+        ticket_type_blank: 請選擇類型
+        description: 我們可以如何協助您？
+      types:
+        question: 諮詢
+        issue: 問題
+        request: 需求
+        incident: 事故
+      status_categories:
+        triage: 待處理
+        in_progress: 處理中
+        waiting: 等待中
+        done: 已解決
+        closed: 已結案
+      errors:
+        email: 請輸入有效的電子郵件地址。
+        subject: 請填寫主旨。
+        description: 請描述您的需求。
+      new:
+        title: 提交工單
+        description: 請告訴我們您的需求，我們會以電子郵件回覆您。
+        submit: 送出工單
+        view_my_tickets: 查看我的工單
+      created:
+        title: 您的工單已建立
+        description: 我們已收到您的需求，將以電子郵件回覆您。
+        reference: 工單編號
+        view_my_tickets: 查看我的工單
+      access:
+        title: 我的工單
+        description: 請輸入您的電子郵件地址，我們會寄送查看工單的連結給您。
+        submit: 寄送連結給我
+        submit_a_ticket: 提交新工單
+        invalid_token: 這個連結已失效或不正確，請於下方重新索取。
+      access_sent:
+        title: 請查看您的信箱
+        description: 若該電子郵件地址有工單，登入連結已寄出。連結將在 15 分鐘後失效。
+      access_mailer:
+        subject: '%{portal_name} 的工單存取連結'
+      index:
+        title: 我的工單
+        new_ticket: 提交工單
+        empty: 您目前沒有任何工單。
+        updated_at: '更新於 %{time}'
+      show:
+        back_to_list: 返回我的工單
+        created_at: '建立於 %{time}'
+        timeline: 對話紀錄
+        no_messages: 這張工單目前還沒有訊息。
+        you: 您
+        reply_hint: 若要補充內容，請直接回覆我們寄給您的郵件。
   slack_unfurl:
     fields:
       name: 姓名

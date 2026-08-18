@@ -330,10 +330,16 @@
       },
       "VOICE": {
         "TITLE": "語音頻道",
-        "DESC": "整合 Twilio Voice，透過電話為客戶提供支援服務。",
+        "DESC": "把一組電話號碼變成收件匣，開始透過通話為客戶提供服務。",
+        "INBOX_NAME": {
+          "LABEL": "收件匣名稱",
+          "PLACEHOLDER": "為這個收件匣取個名稱（例：客服專線）",
+          "ERROR": "請為這個收件匣填寫名稱"
+        },
         "PHONE_NUMBER": {
           "LABEL": "電話號碼",
           "PLACEHOLDER": "輸入您的電話號碼（例：+1234567890）",
+          "HELP": "客戶撥打這個號碼即可接通此收件匣，建立後無法變更。",
           "ERROR": "請提供 E.164 格式的有效電話號碼（例：+1234567890）"
         },
         "TWILIO": {
@@ -504,7 +510,7 @@
           },
           "VOICE": {
             "TITLE": "語音",
-            "DESCRIPTION": "整合 Twilio Voice"
+            "DESCRIPTION": "用一組電話號碼接聽來電"
           }
         }
       },
@@ -802,6 +808,8 @@
       "HMAC_MANDATORY_DESCRIPTION": "啟用後，無法驗證的請求將被拒絕。",
       "INBOX_IDENTIFIER": "收件匣識別碼",
       "INBOX_IDENTIFIER_SUB_TEXT": "使用此處顯示的 `inbox_identifier` Token 來驗證您的 API 用戶端。",
+      "VOICE_PHONE_NUMBER": "電話號碼",
+      "VOICE_PHONE_NUMBER_SUB_TEXT": "撥打這個號碼的來電都會進到此收件匣。要改用其他號碼，請另外建立收件匣。",
       "FORWARD_EMAIL_TITLE": "轉寄電子郵件",
       "FORWARD_EMAIL_SUB_TEXT": "開始將您的電子郵件轉寄至以下地址。",
       "FORWARD_EMAIL_NOT_CONFIGURED": "此安裝環境目前未啟用郵件轉寄功能。若需使用此功能，請聯絡您的管理員啟用。",

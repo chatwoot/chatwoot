@@ -145,7 +145,8 @@ class Ticket < ApplicationRecord
     content = if waiting_none?
                 I18n.t('conversations.activity.ticket.waiting_cleared')
               else
-                I18n.t('conversations.activity.ticket.waiting_on', waiting_on: waiting_on)
+                I18n.t('conversations.activity.ticket.waiting_on',
+                       waiting_on: I18n.t("conversations.activity.ticket.waiting_on_labels.#{waiting_on}"))
               end
 
     create_activity_message(content)

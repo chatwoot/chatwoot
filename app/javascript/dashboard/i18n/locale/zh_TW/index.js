@@ -39,6 +39,7 @@ import signup from './signup.json';
 import sla from './sla.json';
 import snooze from './snooze.json';
 import teamsSettings from './teamsSettings.json';
+import tickets from './tickets.json';
 import whatsappTemplates from './whatsappTemplates.json';
 
 export default {
@@ -83,5 +84,6 @@ export default {
   ...sla,
   ...snooze,
   ...teamsSettings,
+  ...tickets,
   ...whatsappTemplates,
 };

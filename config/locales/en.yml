@@ -329,6 +329,10 @@ en:
       ticket:
         created: 'Ticket created: %{subject}'
         waiting_on: 'Ticket is now waiting on %{waiting_on}'
+        waiting_on_labels:
+          customer: the customer
+          internal: an internal team
+          external: an external party
         waiting_cleared: 'Ticket is no longer waiting'
         task_completed: 'Task completed: %{title}'
       status:

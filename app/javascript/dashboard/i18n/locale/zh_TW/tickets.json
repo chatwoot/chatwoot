@@ -1,0 +1,81 @@
+{
+  "TICKETS": {
+    "HEADER": "工單",
+    "EMPTY_STATE": "沒有符合這些條件的工單",
+    "STATUS_CATEGORY": {
+      "TRIAGE": "待分派",
+      "IN_PROGRESS": "處理中",
+      "WAITING": "等待中",
+      "DONE": "已解決",
+      "CLOSED": "已結案"
+    },
+    "TYPE": {
+      "QUESTION": "諮詢",
+      "ISSUE": "問題",
+      "REQUEST": "需求",
+      "INCIDENT": "事故"
+    },
+    "WAITING_ON": {
+      "NONE": "無",
+      "CUSTOMER": "等待客戶",
+      "INTERNAL": "等待內部",
+      "EXTERNAL": "等待外部"
+    },
+    "FILTERS": {
+      "ALL": "全部",
+      "TYPE": "類型",
+      "ALL_TYPES": "所有類型",
+      "OVERDUE": "只看逾期"
+    },
+    "TABLE": {
+      "NUMBER": "#",
+      "SUBJECT": "主旨",
+      "TYPE": "類型",
+      "STATUS": "狀態",
+      "WAITING_ON": "等待對象",
+      "DUE_AT": "期限",
+      "ASSIGNEE": "負責人",
+      "UPDATED_AT": "更新時間"
+    },
+    "PANEL": {
+      "EMPTY": "這個對話還沒有工單。",
+      "CREATE": "建立工單",
+      "EDIT": "編輯工單",
+      "LOAD_ERROR": "無法載入工單",
+      "SAVE_ERROR": "無法儲存工單"
+    },
+    "CONTEXT": {
+      "TITLE": "客戶概況",
+      "OPEN_CASES": "未結工單",
+      "EMPTY": "這位客戶沒有未結工單。",
+      "CURRENT": "目前",
+      "CONVERSATIONS": "對話數",
+      "LAST_ACTIVITY": "最後活動",
+      "LOAD_ERROR": "無法載入客戶概況"
+    },
+    "FORM": {
+      "SUBJECT": "主旨",
+      "SUBJECT_PLACEHOLDER": "客戶需要什麼協助？",
+      "SUBJECT_REQUIRED": "請填寫主旨",
+      "TYPE": "類型",
+      "TYPE_PLACEHOLDER": "無",
+      "DUE_AT": "期限",
+      "WAITING_ON": "等待對象",
+      "WAITING_NOTE": "備註",
+      "WAITING_NOTE_PLACEHOLDER": "在等什麼？",
+      "SAVE": "儲存",
+      "CANCEL": "取消"
+    },
+    "TASKS": {
+      "TITLE": "工作項",
+      "ADD_PLACEHOLDER": "新增工作項，按 Enter 送出",
+      "DELETE": "刪除工作項",
+      "OWNER_PLACEHOLDER": "負責人",
+      "OWNER_NONE": "無負責人",
+      "AGENTS": "客服人員",
+      "TEAMS": "團隊",
+      "SAVE_ERROR": "無法儲存工作項",
+      "BLOCKING_RESOLVE": "{count} 項未完成 · 解決前需先完成"
+    }
+  }
+}
