@@ -15,21 +15,25 @@ import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 
 // The server starts a new thread when the current one is resolved and replies are disallowed.
-// Messages and attributes go stale independently, so either one triggers the refresh: the socket
-// ignores `message.created` until the attributes catch up, so the thread is pulled as well.
+// Messages and attributes go stale independently, so either one triggers the refresh.
 const resetStaleThread = async (
   { commit, dispatch, state, rootState },
   conversationId
 ) => {
-  const staleMessages = Object.values(state.conversations).filter(
-    item => item.conversation_id && item.conversation_id !== conversationId
-  );
+  const staleMessages = () =>
+    Object.values(state.conversations).filter(
+      item => item.conversation_id && item.conversation_id !== conversationId
+    );
   const { id: attributeId } = rootState.conversationAttributes;
   const hasStaleAttributes = attributeId && attributeId !== conversationId;
-  if (!staleMessages.length && !hasStaleAttributes) return;
+  if (!staleMessages().length && !hasStaleAttributes) return;
 
-  staleMessages.forEach(item => commit('deleteMessage', item.id));
   await dispatch('conversationAttributes/getAttributes', {}, { root: true });
+  // Dropped after the refresh: until then the socket still treats the old conversation as
+  // active and can add its events back.
+  staleMessages().forEach(item => commit('deleteMessage', item.id));
+  // Paging to the start of the old thread leaves this set, blocking scroll back in the new one.
+  commit('setConversationUIFlag', { allMessagesLoaded: false });
   dispatch('fetchOldConversations');
 };
 
