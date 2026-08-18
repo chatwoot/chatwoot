@@ -1,6 +1,7 @@
 import { readonly, ref } from 'vue';
 import Cookies from 'js-cookie';
 import WhatsappCallsAPI from 'dashboard/api/channel/whatsapp/whatsappCallsAPI';
+import { remuxWebmToOgg } from 'dashboard/components/widgets/WootWriter/utils/webmOpusToOgg';
 import { VOICE_CALL_OUTBOUND_INIT_STATUS } from 'dashboard/components-next/message/constants';
 
 // Module-level state lets the cable handlers and unload listeners reach the
@@ -177,10 +178,20 @@ const stopRecorderAndUpload = async callId => {
   }
   if (!recorderChunks.length || !callId) return;
 
-  const blob = new Blob(recorderChunks, { type: recorderChunks[0].type });
+  let blob = new Blob(recorderChunks, { type: recorderChunks[0].type });
+  let filename = 'call-recording.webm';
+  // MediaRecorder never backfills the WebM duration header, which breaks
+  // mobile players; remuxing to OGG gives the file a real duration via
+  // granule positions. On failure, fall back to uploading the raw WebM.
+  try {
+    blob = await remuxWebmToOgg(blob);
+    filename = 'call-recording.ogg';
+  } catch (_) {
+    /* noop */
+  }
   // Best-effort — the controller's idempotency guard handles a retry.
   try {
-    await WhatsappCallsAPI.uploadRecording(callId, blob);
+    await WhatsappCallsAPI.uploadRecording(callId, blob, filename);
   } catch (_) {
     /* noop */
   }
