@@ -114,14 +114,7 @@ const isRetryableSync = computed(
 const showSyncStatus = computed(() => !isPdf.value);
 
 const menuItems = computed(() => {
-  const allOptions = [
-    {
-      label: t('CAPTAIN.DOCUMENTS.OPTIONS.VIEW_DETAILS'),
-      value: 'viewDetails',
-      action: 'viewDetails',
-      icon: 'i-lucide-eye',
-    },
-  ];
+  const allOptions = [];
 
   if (canSync.value) {
     allOptions.push({
@@ -150,7 +143,6 @@ const createdAtLabel = computed(() => dynamicTime(props.createdAt));
 const responsesCountLabel = computed(() =>
   t('CAPTAIN.DOCUMENTS.FAQ_COUNT', { n: props.responsesCount })
 );
-
 const displayLink = computed(() =>
   isPdf.value
     ? formatDocumentLink(props.externalLink)
@@ -195,25 +187,24 @@ const handleRetry = () => {
       >
         {{ name }}
       </button>
-      <div v-if="showMenu" class="flex gap-2 items-center">
-        <div
-          v-on-clickaway="() => toggleDropdown(false)"
-          class="flex relative items-center group"
-        >
-          <Button
-            icon="i-lucide-ellipsis-vertical"
-            color="slate"
-            size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
-            @click="toggleDropdown()"
-          />
-          <DropdownMenu
-            v-if="showActionsDropdown"
-            :menu-items="menuItems"
-            class="top-full mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0"
-            @action="handleAction($event)"
-          />
-        </div>
+      <div
+        v-if="showMenu && menuItems.length"
+        v-on-clickaway="() => toggleDropdown(false)"
+        class="flex relative items-center group"
+      >
+        <Button
+          icon="i-lucide-ellipsis-vertical"
+          color="slate"
+          size="xs"
+          class="rounded-md group-hover:bg-n-alpha-2"
+          @click="toggleDropdown()"
+        />
+        <DropdownMenu
+          v-if="showActionsDropdown"
+          :menu-items="menuItems"
+          class="top-full mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0"
+          @action="handleAction($event)"
+        />
       </div>
     </div>
     <div class="flex gap-4 justify-between items-center w-full">
