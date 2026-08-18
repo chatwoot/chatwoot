@@ -54,7 +54,7 @@ class Call < ApplicationRecord
 
   # `calls` has no columns for these, so they live in the jsonb meta blob.
   # `room_name` is unused in P1 and reserved for the P2 live-audio bridge.
-  store_accessor :meta, :room_name, :ended_at, :from_number, :to_number
+  store_accessor :meta, :room_name, :ended_at, :from_number, :to_number, :recording_url
 
   validates :provider_call_id, presence: true, uniqueness: { scope: :provider }
   validates :status, inclusion: { in: STATUSES }
@@ -107,7 +107,9 @@ class Call < ApplicationRecord
       ended_at: ended_at,
       from_number: from_number,
       to_number: to_number,
-      recording_url: nil,
+      # Written back by the Pathors backend once the recording is finalized, so it
+      # stays nil for the whole live phase of the call.
+      recording_url: recording_url,
       transcript: transcript
     }
   end

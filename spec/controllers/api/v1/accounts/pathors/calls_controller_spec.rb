@@ -237,6 +237,61 @@ RSpec.describe 'Pathors Calls API', type: :request do
         expect(response.parsed_body['status']).to eq('completed')
       end
 
+      it 'stores the recording_url alongside the terminal status' do
+        patch "/api/v1/accounts/#{account.id}/pathors/calls/#{call.id}",
+              params: { status: 'completed', recording_url: 'https://cdn.pathors.example/recordings/abc.mp3' },
+              headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(call.reload.recording_url).to eq('https://cdn.pathors.example/recordings/abc.mp3')
+        expect(response.parsed_body['recording_url']).to eq('https://cdn.pathors.example/recordings/abc.mp3')
+      end
+
+      it 'accepts a late recording_url written back after the call completed' do
+        call.update!(status: 'completed')
+
+        patch "/api/v1/accounts/#{account.id}/pathors/calls/#{call.id}",
+              params: { recording_url: 'https://cdn.pathors.example/recordings/abc.mp3' },
+              headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(call.reload.recording_url).to eq('https://cdn.pathors.example/recordings/abc.mp3')
+      end
+
+      it 'keeps the recording_url from a webhook whose status would regress' do
+        call.update!(status: 'completed')
+
+        patch "/api/v1/accounts/#{account.id}/pathors/calls/#{call.id}",
+              params: { status: 'in_progress', duration_seconds: 99, recording_url: 'https://cdn.pathors.example/recordings/abc.mp3' },
+              headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        call.reload
+        expect(call.recording_url).to eq('https://cdn.pathors.example/recordings/abc.mp3')
+        expect(call.status).to eq('completed')
+        expect(call.duration_seconds).to be_nil
+      end
+
+      it 'rejects a recording_url that is not http(s)' do
+        patch "/api/v1/accounts/#{account.id}/pathors/calls/#{call.id}",
+              params: { status: 'completed', recording_url: 'javascript:alert(1)' },
+              headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        call.reload
+        expect(call.recording_url).to be_nil
+        expect(call.status).not_to eq('completed')
+      end
+
+      it 'rejects an unparseable recording_url' do
+        patch "/api/v1/accounts/#{account.id}/pathors/calls/#{call.id}",
+              params: { recording_url: 'http://exa mple.com/a.mp3' },
+              headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(call.reload.recording_url).to be_nil
+      end
+
       it 'allows a terminal to terminal correction' do
         call.update!(status: 'completed')
 

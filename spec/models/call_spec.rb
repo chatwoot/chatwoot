@@ -92,6 +92,14 @@ RSpec.describe Call do
       expect(call.meta['from_number']).to eq('+886912345678')
     end
 
+    it 'stores recording_url in the meta blob' do
+      call = create(:call, :pathors, recording_url: 'https://cdn.pathors.example/recordings/abc.mp3')
+      call.reload
+
+      expect(call.recording_url).to eq('https://cdn.pathors.example/recordings/abc.mp3')
+      expect(call.meta['recording_url']).to eq('https://cdn.pathors.example/recordings/abc.mp3')
+    end
+
     it 'normalises ended_at to iso8601' do
       call = build(:call, :pathors)
       call.ended_at = '2026-08-05T10:00:00Z'
@@ -129,8 +137,19 @@ RSpec.describe Call do
 
       expect(data).to have_key(:conference_sid)
       expect(data[:conference_sid]).to be_nil
+    end
+
+    it 'emits a nil recording_url while the call is still live' do
+      data = call.push_event_data
+
       expect(data).to have_key(:recording_url)
       expect(data[:recording_url]).to be_nil
+    end
+
+    it 'exposes the recording_url once it has been written back' do
+      call.update!(status: 'completed', recording_url: 'https://cdn.pathors.example/recordings/abc.mp3')
+
+      expect(call.push_event_data[:recording_url]).to eq('https://cdn.pathors.example/recordings/abc.mp3')
     end
 
     it 'emits started_at as iso8601' do

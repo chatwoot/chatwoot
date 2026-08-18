@@ -34,7 +34,9 @@ class Api::V1::Accounts::Pathors::CallsController < Api::V1::Accounts::BaseContr
   end
 
   def update
-    apply_update unless ignore_update?
+    return render_error('Invalid recording_url') if invalid_recording_url?
+
+    stale_status? ? apply_recording_url : apply_update
 
     render_call(@call)
   end
@@ -111,21 +113,46 @@ class Api::V1::Accounts::Pathors::CallsController < Api::V1::Accounts::BaseContr
 
   # A call that already reached a terminal state must never be walked back to a
   # live one by a late/out-of-order webhook.
-  def ignore_update?
+  def stale_status?
     status = normalized_status(update_params[:status])
     status.present? && @call.terminal? && Call::TERMINAL_STATUSES.exclude?(status)
   end
 
+  # The recording is uploaded only after the platform finalizes the call, so it
+  # necessarily arrives later than the terminal status. It is therefore the one
+  # field a stale-status webhook may still carry that is worth keeping — the
+  # guard exists to block status regressions, not to block the recording.
+  def apply_recording_url
+    return if update_params[:recording_url].blank?
+
+    persist(recording_url: update_params[:recording_url])
+  end
+
   def apply_update
-    attributes = update_params.slice(:duration_seconds, :end_reason, :ended_at).to_h
+    attributes = update_params.slice(:duration_seconds, :end_reason, :ended_at, :recording_url).to_h
     status = normalized_status(update_params[:status])
     attributes[:status] = status if status.present?
 
+    persist(attributes)
+  end
+
+  def persist(attributes)
     @call.update!(attributes)
     # Fires MESSAGE_UPDATED so the dashboard bubble re-renders with the new state.
     # rubocop:disable Rails/SkipsModelValidations
     @call.message&.touch
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  # The dashboard hands this straight to an <audio> element, so anything that is
+  # not a fetchable http(s) URL is a caller bug rather than something to store.
+  def invalid_recording_url?
+    value = update_params[:recording_url]
+    return false if value.blank?
+
+    !URI.parse(value).is_a?(URI::HTTP)
+  rescue URI::InvalidURIError
+    true
   end
 
   def existing_call
@@ -179,6 +206,6 @@ class Api::V1::Accounts::Pathors::CallsController < Api::V1::Accounts::BaseContr
   end
 
   def update_params
-    params.permit(:status, :duration_seconds, :end_reason, :ended_at)
+    params.permit(:status, :duration_seconds, :end_reason, :ended_at, :recording_url)
   end
 end
