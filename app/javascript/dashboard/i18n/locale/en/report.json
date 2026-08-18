@@ -23,12 +23,14 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
@@ -120,6 +124,25 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "No results found"
+    },
+    "DRILLDOWN": {
+      "TITLE": "{metric} details",
+      "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
+      "RESULT_COUNT_MESSAGE": "{count} message | {count} messages",
+      "EMPTY": "No records found for this bar.",
+      "ERROR": "Could not load records. Please try again.",
+      "ADMIN_ONLY": "Only administrators can drill down into report records.",
+      "LOAD_MORE": "Load more",
+      "PREVIOUS_BUCKET": "Previous bar",
+      "NEXT_BUCKET": "Next bar",
+      "UNKNOWN_CONTACT": "Unknown contact",
+      "UNKNOWN_INBOX": "Unknown inbox",
+      "UNASSIGNED_AGENT": "Unassigned",
+      "NO_MESSAGE_CONTENT": "No message content",
+      "MESSAGE_CREATED_AT": "Message created at {time}",
+      "EVENT_OCCURRED_AT": "Event occurred at {time}",
+      "INCOMING_MESSAGE": "Incoming message",
+      "OUTGOING_MESSAGE": "Outgoing message"
     },
     "PAGINATION": {
       "RESULTS": "Showing {start} to {end} of {total} results",
@@ -525,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Overview",
     "LIVE": "Live",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",

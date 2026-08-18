@@ -5,7 +5,7 @@ class Captain::Tools::FirecrawlParserJob < ApplicationJob
     assistant = Captain::Assistant.find(assistant_id)
     metadata = payload[:metadata]
 
-    canonical_url = normalize_link(metadata['url'])
+    canonical_url = normalize_link(metadata['sourceURL'].presence || metadata['url'])
     document = assistant.documents.find_or_initialize_by(
       external_link: canonical_url
     )

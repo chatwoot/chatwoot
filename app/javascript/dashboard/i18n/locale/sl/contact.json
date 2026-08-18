@@ -510,6 +510,7 @@
         "ATTRIBUTES": "Atributi",
         "HISTORY": "Zgodovina",
         "NOTES": "Beležke",
+        "MEDIA": "Media",
         "MERGE": "Združi"
       },
       "HISTORY": {
@@ -610,6 +611,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "Iskanja ni bilo mogoče dokončati. Poskusite znova."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Poglej",

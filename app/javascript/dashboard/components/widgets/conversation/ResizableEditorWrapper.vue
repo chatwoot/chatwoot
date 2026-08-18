@@ -1,5 +1,12 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, useTemplateRef } from 'vue';
+import {
+  ref,
+  computed,
+  provide,
+  onMounted,
+  onBeforeUnmount,
+  useTemplateRef,
+} from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -20,19 +27,10 @@ const editorHeight = ref(DEFAULT_HEIGHT);
 const isResizing = ref(false);
 const startY = ref(0);
 const startHeight = ref(0);
+const requestedHeight = ref(0);
 let resetTimeoutId = null;
 
 const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
-
-// Measure height of elements surrounding the editor (top panel, email fields, bottom panel)
-const measureSurroundingHeight = () => {
-  if (wrapperRef.value) {
-    surroundingHeight.value = Math.max(
-      0,
-      wrapperRef.value.offsetHeight - editorHeight.value
-    );
-  }
-};
 
 const isContainerReady = computed(() => props.containerHeight > 0);
 
@@ -52,6 +50,31 @@ const sizeBounds = computed(() => {
 const clampToBounds = val =>
   clamp(val, sizeBounds.value.min, sizeBounds.value.max);
 
+// The dragged height always comes back, content can only ask the editor to grow
+const appliedHeight = computed(() => {
+  const requested = requestedHeight.value
+    ? Math.max(requestedHeight.value, sizeBounds.value.default)
+    : 0;
+  return clampToBounds(Math.max(requested, editorHeight.value));
+});
+
+// Measure height of elements surrounding the editor (top panel, email fields, bottom panel)
+const measureSurroundingHeight = () => {
+  if (wrapperRef.value) {
+    surroundingHeight.value = Math.max(
+      0,
+      wrapperRef.value.offsetHeight - appliedHeight.value
+    );
+  }
+};
+
+provide('requestEditorHeight', height => {
+  // The bounds subtract the panels around the editor, so measure them before
+  // the request is clamped, the drag and the toggle may not have run yet
+  measureSurroundingHeight();
+  requestedHeight.value = height;
+});
+
 const clearDragStyles = () => {
   Object.assign(document.body.style, { cursor: '', userSelect: '' });
 };
@@ -59,12 +82,12 @@ const clearDragStyles = () => {
 const getClientY = e => (e.touches ? e.touches[0].clientY : e.clientY);
 
 const onResizeStart = event => {
-  editorHeight.value = clampToBounds(editorHeight.value);
   measureSurroundingHeight();
   isResizing.value = true;
   startY.value = getClientY(event);
-  startHeight.value = clampToBounds(editorHeight.value);
+  startHeight.value = appliedHeight.value;
   editorHeight.value = startHeight.value;
+  requestedHeight.value = 0;
   Object.assign(document.body.style, {
     cursor: 'row-resize',
     userSelect: 'none',
@@ -86,14 +109,15 @@ const onResizeEnd = () => {
 };
 
 const resetEditorHeight = () => {
+  requestedHeight.value = 0;
   editorHeight.value = sizeBounds.value.default;
 };
 
 const toggleEditorExpand = () => {
-  editorHeight.value = clampToBounds(editorHeight.value);
   measureSurroundingHeight();
   const { expanded, max, default: defaultHeight } = sizeBounds.value;
-  const isExpanded = editorHeight.value > defaultHeight;
+  const isExpanded = appliedHeight.value > defaultHeight;
+  requestedHeight.value = 0;
   // If expanded is too close to default, use max so the toggle is always noticeable
   const target = expanded - defaultHeight < 100 ? max : expanded;
   editorHeight.value = isExpanded ? defaultHeight : target;
@@ -132,10 +156,12 @@ defineExpose({ toggleEditorExpand, resetEditorHeight });
     ref="wrapperRef"
     class="relative resizable-editor-wrapper"
     :style="{
-      '--editor-height': editorHeight + 'px',
+      '--editor-height': appliedHeight + 'px',
       '--editor-min-allowed': sizeBounds.min + 'px',
       '--editor-max-allowed': sizeBounds.max + 'px',
-      '--editor-height-transition': isResizing ? 'none' : '180ms ease',
+      '--editor-height-transition': isResizing
+        ? '0s'
+        : '200ms cubic-bezier(0.4, 0, 0.2, 1)',
     }"
   >
     <div
@@ -152,3 +178,20 @@ defineExpose({ toggleEditorExpand, resetEditorHeight });
     <slot />
   </div>
 </template>
+
+<style lang="scss">
+.resizable-editor-wrapper {
+  .resizable-editor-body {
+    @apply overflow-auto;
+
+    height: clamp(
+      var(--editor-min-allowed, 5rem),
+      var(--editor-height, 5rem),
+      var(--editor-max-allowed, 7.5rem)
+    );
+    transition:
+      height var(--editor-height-transition),
+      opacity var(--editor-height-transition);
+  }
+}
+</style>

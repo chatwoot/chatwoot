@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonnierte Events",
       "LEARN_MORE": "Mehr über Webhooks erfahren",
+      "PAYWALL": {
+        "TITLE": "Webhooks sind in kostenpflichtigen Tarifen verfügbar",
+        "AVAILABLE_ON": "Verwende Webhooks, um Echtzeitereignisse aus deinem Chatwoot-Konto zu empfangen.",
+        "UPGRADE_PROMPT": "Wechsle zum Tarif Startups, Business oder Enterprise, um Webhooks zu verwenden.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Du kannst deinen Tarif jederzeit ändern oder kündigen."
+      },
       "SECRET": {
         "LABEL": "Secret",
         "COPY": "Copy secret to clipboard",
@@ -58,7 +65,7 @@
             "CONTACT_UPDATED": "Kontakt aktualisiert",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
-            "INBOX_UPDATED": "Inbox updated"
+            "INBOX_UPDATED": "Postfach aktualisiert"
           }
         },
         "NAME": {
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "Kapitän",
     "HEADER_KNOW_MORE": "Mehr erfahren",
+    "OVERVIEW": {
+      "HEADER": "Übersicht",
+      "WELCOME": {
+        "LABEL": "Captain-Zusammenfassung",
+        "LOADING": "Zusammenfassung wird erstellt…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "Dieser Assistent ist noch mit keinem Postfach verbunden und antwortet daher nicht auf Unterhaltungen.",
+        "ACTION": "Postfach verbinden",
+        "DISMISS": "Ausblenden"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ-Vorschläge können geprüft werden und halten die Abdeckung bei {coverage}%. Gib sie frei, damit dein Assistent mehr Anfragen selbstständig lösen kann.",
+        "ACTION": "Vorschläge prüfen",
+        "DISMISS": "Ausblenden"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Letzte {count} Tage",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Bearbeitete Unterhaltungen",
+          "HINT": "Eindeutige Unterhaltungen, in denen dieser Assistent geantwortet hat."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Automatische Lösungsrate",
+          "HINT": "Anteil der bearbeiteten Unterhaltungen, die ohne menschliche Antwort geschlossen wurden."
+        },
+        "HANDOFF": {
+          "LABEL": "Übergaberate",
+          "HINT": "Anteil der bearbeiteten Unterhaltungen, die an einen menschlichen Agenten weitergeleitet wurden."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Eingesparte Zeit",
+          "HINT": "Schätzung: Anzahl der Captain-Antworten multipliziert mit etwa 2 Minuten angenommenem Arbeitsaufwand eines Agenten pro Antwort. Ein Richtwert, keine gemessene Arbeitszeit."
+        },
+        "REOPEN": {
+          "LABEL": "Wiedereröffnungsrate",
+          "HINT": "Automatisch gelöste Unterhaltungen, die anschließend wieder geöffnet wurden."
+        },
+        "DEPTH": {
+          "LABEL": "Nachrichten / Unterhaltung",
+          "HINT": "Durchschnittliche Anzahl der Antworten, die der Assistent pro Unterhaltung sendet."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "Für diese Kennzahl wurden keine Einträge gefunden.",
+        "ERROR": "Die Einträge konnten nicht geladen werden. Bitte versuche es erneut.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} Unterhaltung | {count} Unterhaltungen"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Wissensabdeckung",
+        "COVERAGE": "{pct}% freigegeben",
+        "APPROVED": "Freigegebene FAQs",
+        "SUGGESTIONS": "FAQ-Vorschläge",
+        "DOCUMENTS": "Documents"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain-Dokumentation",
+          "DESCRIPTION": "Anleitungen und praktische Hilfen zu Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "Playground",
+          "DESCRIPTION": "Teste die Antworten dieses Assistenten"
+        },
+        "BILLING": {
+          "TITLE": "Abrechnung",
+          "DESCRIPTION": "Guthaben und Tarif verwalten"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Assistenten",
       "SWITCH_ASSISTANT": "Zwischen Assistenten wechseln",
@@ -493,10 +575,6 @@
           "LABEL": "Name",
           "PLACEHOLDER": "Enter assistant name",
           "ERROR": "The name is required"
-        },
-        "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
         },
         "DESCRIPTION": {
           "LABEL": "Beschreibung",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} selected",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
@@ -752,53 +831,73 @@
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
       "BULK_SYNC": {
-        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
-        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
-        "ZERO_MESSAGE": "No documents marked for refresh.",
-        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+        "SUCCESS_MESSAGE_ONE": "Aktualisierung für 1 Dokument vorgemerkt",
+        "SUCCESS_MESSAGE": "Aktualisierung für {count} Dokumente vorgemerkt",
+        "ZERO_MESSAGE": "Keine Dokumente zur Aktualisierung markiert.",
+        "ERROR_MESSAGE": "Die Aktualisierung konnte nicht vorgemerkt werden. Bitte versuche es erneut."
       },
       "SYNC": {
-        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
-        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+        "QUEUED_MESSAGE": "Aktualisierung vorgemerkt. Wir aktualisieren das Dokument in Kürze.",
+        "ERROR_MESSAGE": "Die Aktualisierung konnte nicht vorgemerkt werden. Bitte versuche es erneut."
       },
       "FILTERS": {
         "SOURCE": {
-          "ALL": "All sources",
-          "WEB": "Web pages",
+          "ALL": "Alle Quellen",
+          "WEB": "Webseiten",
           "PDF": "PDFs"
         },
         "STATUS": {
-          "ANY": "Any status",
-          "UPDATED": "Updated",
-          "NEEDS_UPDATE": "Needs update",
-          "UPDATING": "Updating",
+          "ANY": "Beliebiger Status",
+          "UPDATED": "Aktualisiert",
+          "NEEDS_UPDATE": "Aktualisierung erforderlich",
+          "UPDATING": "Wird aktualisiert",
           "FAILED": "Failed"
         },
         "SORT": {
-          "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created"
+          "RECENTLY_UPDATED": "Zuletzt aktualisiert",
+          "RECENTLY_CREATED": "Zuletzt erstellt"
         },
         "SEARCH_PLACEHOLDER": "Search..."
       },
       "SYNC_STATUS": {
-        "SYNCED": "last updated {time}",
+        "SYNCED": "zuletzt aktualisiert {time}",
         "SYNCING": "aktualisiere...",
-        "STALE_SYNC": "update stalled",
-        "FAILED": "Failed to sync",
-        "NEVER_SYNCED": "not updated yet"
+        "STALE_SYNC": "Aktualisierung hängt",
+        "FAILED": "Synchronisierung fehlgeschlagen",
+        "NEVER_SYNCED": "noch nicht aktualisiert"
       },
       "SYNC_ERRORS": {
         "NOT_FOUND": "Seite nicht gefunden",
-        "ACCESS_DENIED": "Access denied",
-        "TIMEOUT": "Page took too long to respond",
-        "CONTENT_EMPTY": "Page returned empty content",
-        "FETCH_FAILED": "Could not fetch page",
-        "SYNC_ERROR": "Unexpected error",
-        "DEFAULT": "Sync error"
+        "ACCESS_DENIED": "Zugriff verweigert",
+        "TIMEOUT": "Die Seite hat zu lange nicht geantwortet",
+        "CONTENT_EMPTY": "Die Seite hat keinen Inhalt zurückgegeben",
+        "FETCH_FAILED": "Die Seite konnte nicht abgerufen werden",
+        "SYNC_ERROR": "Unerwarteter Fehler",
+        "DEFAULT": "Synchronisierungsfehler"
       },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+        "EMPTY": "Aus diesem Dokument wurden noch keine FAQs erstellt."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Prüfe die gecrawlten Inhalte und die aus dieser Quelle erstellten FAQs.",
+        "SOURCE": "Quelle",
+        "GENERATED_FAQS": "Erstellte FAQs",
+        "LAST_UPDATED": "Zuletzt aktualisiert",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Gecrawlte Inhalte",
+        "PDF_TAB": "PDF-Details",
+        "CONTENT_TITLE": "Gecrawlte Inhalte",
+        "PDF_TITLE": "PDF-Datei",
+        "PDF_DESCRIPTION": "Prüfe die ursprüngliche PDF-Quelle.",
+        "CHARACTER_COUNT": "{count} Zeichen extrahiert",
+        "COPY_CONTENT": "Kopieren",
+        "COPY_SUCCESS": "Gecrawlte Inhalte in die Zwischenablage kopiert",
+        "COPY_ERROR": "Gecrawlte Inhalte konnten nicht kopiert werden",
+        "VIEW_RAW": "Rohdaten anzeigen",
+        "VIEW_PREVIEW": "Vorschau anzeigen",
+        "UNREADABLE_CONTENT": "Aus diesem Dokument konnten keine lesbaren Inhalte extrahiert werden. Du kannst die extrahierten Rohdaten anzeigen.",
+        "EMPTY_CONTENT": "Für dieses Dokument sind noch keine gecrawlten Inhalte verfügbar."
       },
       "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
       "CREATE": {
@@ -838,16 +937,16 @@
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "SYNC_NOW": "Refresh now",
-        "RETRY_SYNC": "Retry refresh",
+        "VIEW_DETAILS": "Details anzeigen",
+        "SYNC_NOW": "Jetzt aktualisieren",
+        "RETRY_SYNC": "Aktualisierung erneut versuchen",
         "DELETE_DOCUMENT": "Delete Document"
       },
       "EMPTY_STATE": {
         "TITLE": "No documents available",
         "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
-        "FILTERED_TITLE": "No matching documents",
-        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
+        "FILTERED_TITLE": "Keine passenden Dokumente",
+        "FILTERED_SUBTITLE": "Ändere die Quelle, den Status oder den Suchbegriff.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
           "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "FAQs",
-      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
       "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
-      "BULK_DELETE_BUTTON": "Löschen",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+      "ERRORS": {
+        "LOAD": "Beim Laden der FAQs ist ein Fehler aufgetreten. Bitte versuche es erneut."
       },
+      "BULK_DELETE_BUTTON": "Löschen",
       "BULK_DELETE": {
         "TITLE": "Delete FAQs?",
         "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
-      "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "Alle"
-      },
-      "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Ausstehend",
-        "APPROVED": "Approved",
-        "ALL": "Alle"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain hat wiederkehrende Kundenfragen zu FAQ-Vorschlägen zusammengefasst.",
+        "ACTION": "Vorschläge prüfen"
       },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ-Vorschläge",
+      "SEARCH_PLACEHOLDER": "Vorschläge durchsuchen...",
+      "QUEUE_COUNT": "{count} Vorschlag zu prüfen | {count} Vorschläge zu prüfen",
+      "QUEUE_HINT": "Nach Kundennachfrage sortiert",
+      "SOURCE_COUNT": "{count} Unterhaltung | {count} Unterhaltungen",
+      "REVIEW": "Quellen prüfen",
+      "APPROVE": "Freigeben",
+      "APPROVE_FAQ": "FAQ freigeben",
+      "DISMISS": "Verwerfen",
+      "SAVE": "Änderungen speichern",
+      "DETAILS": {
+        "TITLE": "FAQ-Vorschlag prüfen",
+        "DESCRIPTION": "Captain hat {count} Unterhaltung zu diesem Vorschlag zusammengefasst. Prüfe die Belege und überarbeite die FAQ vor der Freigabe. | Captain hat {count} Unterhaltungen zu diesem Vorschlag zusammengefasst. Prüfe die Belege und überarbeite die FAQ vor der Freigabe.",
+        "SOURCES": "Quellunterhaltungen",
+        "SOURCE_PROGRESS": "{visible} von {total}",
+        "NO_SOURCES": "Es wurden keine zugänglichen Quellunterhaltungen gefunden.",
+        "RETRY": "Erneut versuchen"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "Die Prüfliste ist leer",
+        "SUBTITLE": "Neue FAQ-Vorschläge erscheinen hier, sobald sie geprüft werden können.",
+        "CLEAR_SEARCH": "Suche zurücksetzen"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ freigegeben und zum Wissen von Captain hinzugefügt.",
+        "DISMISSED": "Vorschlag verworfen.",
+        "SAVED": "Vorschlag aktualisiert."
+      },
+      "ERRORS": {
+        "LOAD": "Beim Laden der FAQ-Vorschläge ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+        "LOAD_DETAILS": "Beim Laden der Quellunterhaltungen ist ein Fehler aufgetreten.",
+        "APPROVE": "Beim Freigeben der FAQ ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+        "DISMISS": "Beim Verwerfen des Vorschlags ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+        "SAVE": "Beim Speichern des Vorschlags ist ein Fehler aufgetreten. Bitte versuche es erneut."
       }
     },
     "INBOXES": {

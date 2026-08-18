@@ -1,17 +1,17 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
-    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+    "SHOWING": "Affichage de {startItem} à {endItem} sur {totalItems} élément | Affichage de {startItem} à {endItem} sur {totalItems} éléments",
+    "CURRENT_PAGE_INFO": "{currentPage} sur {totalPages} page | {currentPage} sur {totalPages} pages"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "Select an option...",
-    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
+    "PLACEHOLDER": "Sélectionnez une option...",
+    "EMPTY_SEARCH_RESULTS": "Aucun élément trouvé pour le terme de recherche `{searchTerm}`",
     "EMPTY_STATE": "Aucun résultat trouvé.",
-    "SEARCH_PLACEHOLDER": "Search...",
-    "MORE": "+{count} more"
+    "SEARCH_PLACEHOLDER": "Rechercher…",
+    "MORE": "+{count} de plus"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER": "Rechercher…",
     "EMPTY_STATE": "Aucun résultat trouvé.",
     "SEARCHING": "Recherche en cours..."
   },
@@ -22,8 +22,8 @@
     }
   },
   "PHONE_INPUT": {
-    "SEARCH_PLACEHOLDER": "Search country",
-    "ERROR": "Phone number should be empty or in E.164 format",
+    "SEARCH_PLACEHOLDER": "Rechercher dans le pays",
+    "ERROR": "Le numéro de téléphone doit être vide ou au format E.164",
     "DIAL_CODE_ERROR": "Veuillez sélectionner un code d'appel dans la liste"
   },
   "THUMBNAIL": {
@@ -32,17 +32,17 @@
     }
   },
   "BREADCRUMB": {
-    "ARIA_LABEL": "Breadcrumb"
+    "ARIA_LABEL": "Fil d'Ariane"
   },
   "SWITCH": {
-    "TOGGLE": "Toggle switch"
+    "TOGGLE": "Basculer"
   },
   "LABEL": {
-    "TAG_BUTTON": "tag"
+    "TAG_BUTTON": "étiquette"
   },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "En savoir plus",
-    "WATCH_VIDEO": "Watch video"
+    "WATCH_VIDEO": "Regarder la vidéo"
   },
   "DURATION_INPUT": {
     "MINUTES": "Minutes",
@@ -54,16 +54,25 @@
     "COMING_SOON": "Bientôt disponible !"
   },
   "SLASH_COMMANDS": {
-    "HEADING_1": "Heading 1",
-    "HEADING_2": "Heading 2",
-    "HEADING_3": "Heading 3",
-    "BOLD": "Bold",
-    "ITALIC": "Italic",
-    "STRIKETHROUGH": "Strikethrough",
+    "HEADING_1": "Titre 1",
+    "HEADING_2": "Titre 2",
+    "HEADING_3": "Titre 3",
+    "BOLD": "Gras",
+    "ITALIC": "Italique",
+    "STRIKETHROUGH": "Texte barré",
     "CODE": "Code",
-    "BULLET_LIST": "Bullet List",
-    "ORDERED_LIST": "Ordered List",
-    "TABLE": "Table",
-    "IMAGE": "Image"
+    "BULLET_LIST": "Liste de puces",
+    "ORDERED_LIST": "Liste ordonnée",
+    "TABLE": "Tableau",
+    "IMAGE": "Image",
+    "VIDEO": "Vidéo",
+    "DIVIDER": "Diviseur"
+  },
+  "VIDEO_EMBED": {
+    "PLACEHOLDER": "Coller un lien vidéo",
+    "HINT": "Fonctionne avec les liens YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar et mp4",
+    "ERROR": "Cela ne ressemble pas à un lien vidéo pris en charge",
+    "ADD": "Intégrer",
+    "CANCEL": "Annuler"
   }
 }

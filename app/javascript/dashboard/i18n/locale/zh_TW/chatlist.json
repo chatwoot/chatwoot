@@ -7,6 +7,7 @@
       "404": "這個群組中沒有進行中的對話"
     },
     "FAILED_TO_SEND": "傳送失敗",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "對話",
     "MENTION_HEADING": "被提及",
     "UNATTENDED_HEADING": "無人處理",
@@ -79,6 +80,9 @@
       },
       "priority_desc_created_at_asc": {
         "TEXT": "優先順序：高的在前，建立日期：舊的在前"
+      },
+      "unread": {
+        "TEXT": "Unread Count: Highest first"
       }
     },
     "ATTACHMENTS": {

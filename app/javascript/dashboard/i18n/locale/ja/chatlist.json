@@ -7,6 +7,7 @@
       "404": "このグループには有効な会話データがありません"
     },
     "FAILED_TO_SEND": "送信に失敗しました",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "会話データ",
     "MENTION_HEADING": "メンション",
     "UNATTENDED_HEADING": "未対応",
@@ -79,6 +80,9 @@
       },
       "priority_desc_created_at_asc": {
         "TEXT": "Priority: Highest first, Created: Oldest first"
+      },
+      "unread": {
+        "TEXT": "Unread Count: Highest first"
       }
     },
     "ATTACHMENTS": {

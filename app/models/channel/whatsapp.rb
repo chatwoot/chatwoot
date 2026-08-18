@@ -3,9 +3,13 @@
 # Table name: channel_whatsapp
 #
 #  id                             :bigint           not null, primary key
+#  business_management_token      :text
 #  message_templates              :jsonb
 #  message_templates_last_updated :datetime
 #  phone_number                   :string           not null
+#  phone_number_health            :jsonb            not null
+#  phone_number_health_checked_at :datetime
+#  phone_number_health_error      :string
 #  provider                       :string           default("default")
 #  provider_config                :jsonb
 #  created_at                     :datetime         not null
@@ -14,7 +18,8 @@
 #
 # Indexes
 #
-#  index_channel_whatsapp_on_phone_number  (phone_number) UNIQUE
+#  index_channel_whatsapp_on_phone_number                    (phone_number) UNIQUE
+#  index_channel_whatsapp_on_phone_number_health_checked_at  (phone_number_health_checked_at)
 #
 
 class Channel::Whatsapp < ApplicationRecord
@@ -23,6 +28,7 @@ class Channel::Whatsapp < ApplicationRecord
 
   self.table_name = 'channel_whatsapp'
   EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
+  encrypts :business_management_token if Chatwoot.encryption_configured?
 
   # default at the moment is 360dialog lets change later.
   PROVIDERS = %w[default whatsapp_cloud].freeze
@@ -33,6 +39,7 @@ class Channel::Whatsapp < ApplicationRecord
   validate :validate_provider_config
 
   after_create :sync_templates
+  after_update_commit :log_credentials_transfer, if: :saved_change_to_provider_config?
   before_destroy :teardown_webhooks
   after_commit :setup_webhooks, on: :create, if: :should_auto_setup_webhooks?
 
@@ -69,6 +76,16 @@ class Channel::Whatsapp < ApplicationRecord
     end
   end
 
+  def template_access_token
+    return provider_config['api_key'] unless ChatwootApp.chatwoot_cloud? && provider_config['source'] == 'embedded_signup'
+
+    business_management_token.presence || provider_config['api_key']
+  end
+
+  def serializable_hash(options = nil)
+    super.except('business_management_token')
+  end
+
   # Enables voice: turns calling on at Meta (idempotent), then re-registers webhooks
   # with the in-memory calling_enabled flag so the `calls` field is subscribed. The
   # flag is persisted only after registration succeeds, so a webhook failure can't
@@ -100,6 +117,13 @@ class Channel::Whatsapp < ApplicationRecord
     end
   end
 
+  # Whether the pending (unsaved) provider_config change drops the embedded_signup
+  # source marker, i.e. this save is an embedded signup → manual setup transfer.
+  def embedded_to_manual_transfer_pending?
+    before, after = provider_config_change
+    before&.dig('source') == 'embedded_signup' && after['source'] != 'embedded_signup'
+  end
+
   def mark_message_templates_updated
     # rubocop:disable Rails/SkipsModelValidations
     update_column(:message_templates_last_updated, Time.zone.now)
@@ -129,6 +153,16 @@ class Channel::Whatsapp < ApplicationRecord
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
   end
 
+  # Logs only the embedded signup → manual migration (the save drops the
+  # embedded_signup source marker), so credential rotations on inboxes that are
+  # already manual stay silent.
+  def log_credentials_transfer
+    before, after = saved_change_to_provider_config
+    return unless before&.dig('source') == 'embedded_signup' && after['source'] != 'embedded_signup'
+
+    Rails.logger.info("[WHATSAPP_EMBEDDED_TO_MANUAL] success account_id=#{account_id} channel_id=#{id}")
+  end
+
   def perform_webhook_setup
     webhook_setup_service.perform
   end
@@ -147,3 +181,5 @@ class Channel::Whatsapp < ApplicationRecord
     provider == 'whatsapp_cloud' && provider_config['source'] != 'embedded_signup'
   end
 end
+
+Channel::Whatsapp.prepend_mod_with('Channel::Whatsapp')

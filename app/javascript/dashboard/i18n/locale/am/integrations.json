@@ -31,6 +31,13 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "ተመዝግቧል የሆኑ ክስተቶች",
       "LEARN_MORE": "ስለ webhooks ተጨማሪ ያውቁ",
+      "PAYWALL": {
+        "TITLE": "Webhooks are available on paid plans",
+        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
+        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+      },
       "SECRET": {
         "LABEL": "ምስጢር",
         "COPY": "ምስጢሩን ወደ ክሊፕቦርድ ቅዳ",
@@ -392,6 +399,81 @@
   "CAPTAIN": {
     "NAME": "ካፕቴን",
     "HEADER_KNOW_MORE": "ተጨማሪ ያውቁ",
+    "OVERVIEW": {
+      "HEADER": "አጠቃላይ እይታ",
+      "WELCOME": {
+        "LABEL": "Captain summary",
+        "LOADING": "Generating summary…"
+      },
+      "INBOX_BANNER": {
+        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
+        "ACTION": "Connect inbox",
+        "DISMISS": "Dismiss"
+      },
+      "COVERAGE_BANNER": {
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
+        "DISMISS": "Dismiss"
+      },
+      "RANGES": {
+        "LAST_DAYS": "Last {count} days",
+        "THIS_MONTH": "This month",
+        "LAST_MONTH": "Last month"
+      },
+      "METRICS": {
+        "HANDLED": {
+          "LABEL": "Conversations handled",
+          "HINT": "Distinct conversations this assistant replied in."
+        },
+        "AUTO_RESOLUTION": {
+          "LABEL": "Auto-resolution rate",
+          "HINT": "Share of handled conversations closed without a human reply."
+        },
+        "HANDOFF": {
+          "LABEL": "Handoff rate",
+          "HINT": "Share of handled conversations escalated to a human agent."
+        },
+        "HOURS_SAVED": {
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+        },
+        "REOPEN": {
+          "LABEL": "Reopen rate",
+          "HINT": "Auto-resolved conversations that were reopened afterwards."
+        },
+        "DEPTH": {
+          "LABEL": "Messages / conversation",
+          "HINT": "Average replies the assistant sends per conversation."
+        }
+      },
+      "DRILLDOWN": {
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
+      "KNOWLEDGE": {
+        "TITLE": "Knowledge coverage",
+        "COVERAGE": "{pct}% approved",
+        "APPROVED": "Approved FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
+        "DOCUMENTS": "ሰነዶች"
+      },
+      "LINKS": {
+        "DOCS": {
+          "TITLE": "Captain docs",
+          "DESCRIPTION": "Guides and how-tos for Captain"
+        },
+        "PLAYGROUND": {
+          "TITLE": "መጫወቻ ቦታ",
+          "DESCRIPTION": "Test this assistant's replies"
+        },
+        "BILLING": {
+          "TITLE": "ክፍያ",
+          "DESCRIPTION": "Manage credits and plan"
+        }
+      }
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "አገልጋዮች",
       "SWITCH_ASSISTANT": "በአገልጋዮች መካከል ቀይር",
@@ -493,10 +575,6 @@
           "LABEL": "ስም",
           "PLACEHOLDER": "የእርዳታ ስም ያስገቡ",
           "ERROR": "ስም አስፈላጊ ነው"
-        },
-        "TEMPERATURE": {
-          "LABEL": "የምላሽ ሙቀት",
-          "DESCRIPTION": "እንዴት ፈጠራዊ ወይም ገደብ ያለ መልስ እንደሚሰጥ ያስተካክሉ። ዝቅተኛ እሴቶች ትክክለኛና ተወላጅ መልሶችን ያመነታሉ፣ ከፍተኛ እሴቶች ግን በተለያዩና ፈጠራዊ መልሶች ላይ ያስተዋውቃሉ።"
         },
         "DESCRIPTION": {
           "LABEL": "መግለጫ",
@@ -739,6 +817,7 @@
     "DOCUMENTS": {
       "HEADER": "ሰነዶች",
       "ADD_NEW": "አዲስ ሰነድ ፍጠር",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} ተመረጡ",
       "SELECT_ALL": "ሁሉንም ይምረጡ ({count})",
       "UNSELECT_ALL": "ሁሉንም አልምረጥም ({count})",
@@ -798,7 +877,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "ተዛማጅ የFAQ ጥያቄዎች",
-        "DESCRIPTION": "እነዚህ የFAQ ጥያቄዎች ቀጥተኛ ከሰነዱ ተፈጥረዋል።"
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "ቅዳ",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "ሰነዱን እንደ የእውቀት ምንጭ ለማከማቸት የሰነዱን URL ያስገቡ እና ከዚያ ጋር ለማገናኘት እገዛ አገልጋይን ይምረጡ።",
       "CREATE": {
@@ -838,7 +937,7 @@
         "ERROR_MESSAGE": "ሰነዱን ለማስወገድ ስህተት አጋጥሟል፣ እባክዎን እንደገና ይሞክሩ።"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "ተዛማጅ ምላሾችን እይ",
+        "VIEW_DETAILS": "ዝርዝሮችን እይ",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "ሰነድ ሰርዝ"
@@ -985,7 +1084,6 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ ጥያቄዎች",
-      "PENDING_FAQS": "በመጠባበቂያ ላይ ያሉ የተደጋጋሚ ጥያቄዎች",
       "ADD_NEW": "አዲስ FAQ ፍጠር",
       "DOCUMENTABLE": {
         "CONVERSATION": "ውይይት #{id}"
@@ -994,12 +1092,10 @@
       "SELECT_ALL": "ሁሉንም ይምረጡ ({count})",
       "UNSELECT_ALL": "ሁሉንም አልምረጥም ({count})",
       "SEARCH_PLACEHOLDER": "የተደጋጋሚ ጥያቄዎችን ይፈልጉ...",
-      "BULK_APPROVE_BUTTON": "አረጋግጥ",
-      "BULK_DELETE_BUTTON": "አጥፋ",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "የተደረገ ጥያቄዎች በተሳካ ሁኔታ ተፈቅዷል",
-        "ERROR_MESSAGE": "የተደረገውን ጥያቄዎች ማፈቀድ ላይ ስህተት አለ፣ እባክዎ እንደገና ይሞክሩ።"
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "አጥፋ",
       "BULK_DELETE": {
         "TITLE": "ጥያቄዎችን ማጥፋት ይፈልጋሉ?",
         "DESCRIPTION": "የተመረጡትን ጥያቄዎች ማጥፋት እርግጠኛ ነዎት? ይህ እርምጃ አይተካልም።",
@@ -1014,20 +1110,9 @@
         "SUCCESS_MESSAGE": "FAQ በተሳካ ሁኔታ ተሰርዟል",
         "ERROR_MESSAGE": "FAQ ለማጥፋት ስህተት አጋጥሟል፣ እባክህ እንደገና ይሞክሩ።"
       },
-      "FILTER": {
-        "ASSISTANT": "አስማሪ: {selected}",
-        "STATUS": "ሁኔታ: {selected}",
-        "ALL_ASSISTANTS": "ሁሉም"
-      },
-      "STATUS": {
-        "TITLE": "ሁኔታ",
-        "PENDING": "በመጠባበቅ ላይ",
-        "APPROVED": "ተፈቅዷል",
-        "ALL": "ሁሉም"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain ደንበኞችዎ የሚፈልጉትን አንዳንድ የተደጋጋሚ ጥያቄዎች ተገናኝቷል።",
-        "ACTION": "እዚህ ይጫኑ ለማረጋገጥ"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "ጥያቄ እና ከዚያ ተዛማጅ መልስ ወደ እውቀት ቋት ያክሉ እና ከሚዛመደው አስማሪ ይምረጡ።",
       "CREATE": {
@@ -1060,13 +1145,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "FAQ አልተገኘም",
-        "NO_PENDING_TITLE": "ለማረጋገጥ ተጠባባቂ ያልተጠበቁ የFAQ ጥያቄዎች አልተገኙም",
         "SUBTITLE": "የተደጋጋሚ ጥያቄዎች አገልጋይዎን ከደንበኞችዎ ጥያቄዎች በፍጥነትና ትክክለኛ መልስ ለማቅረብ ይረዳሉ። እነዚህ ከይዘትዎ በራስሰር ሊፈጠሩ ወይም በእጅ ሊጨምሩ ይችላሉ።",
         "CLEAR_SEARCH": "እየሰሩ ያሉ አሰሳዎችን አጽዳ",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain ተደጋጋሚ ጥያቄዎች",
           "NOTE": "Captain ተደጋጋሚ ጥያቄዎች በደንበኞች መካከል የተለመዱ ጥያቄዎችን ይገነባል—እነሱ ከእርዳታ መረጃ ቤትዎ ውስጥ እንኳን ከሌለው ወይም በተደጋጋሚ የሚጠየቁ ሆነው—እና የሚዛመዱ ተደጋጋሚ ጥያቄዎችን ለድጋፍ ማሻሻል ይፈጥራል። እያንዳንዱን ምክር ማስተካከል ወይም ማቋረጥ መወሰን ይችላሉ።"
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "አረጋግጥ",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "ለውጦች አስቀምጥ",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

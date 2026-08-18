@@ -31,8 +31,13 @@ class Voice::Conference::Manager
 
   def join_agent!
     user_id = extract_user_id
-    claim_for_user!(user_id) if user_id
+    return unless user_id
+
+    claim_for_user!(user_id)
     status_manager.process_status_update('in_progress', timestamp: now)
+    return unless call.accepted_by_agent_id == user_id && mark_accepted_broadcast!
+
+    call.broadcast_voice_call_event(:accepted, accepted_by_agent_id: call.accepted_by_agent_id)
   end
 
   # First-join wins; later joins by other agents are silently ignored so the
@@ -41,7 +46,7 @@ class Voice::Conference::Manager
   def claim_for_user!(user_id)
     claimed = false
     call.with_lock do
-      next if call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id
+      next if call.terminal? || (call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id)
 
       call.update!(accepted_by_agent_id: user_id) if call.accepted_by_agent_id != user_id
       claimed = true
@@ -50,9 +55,24 @@ class Voice::Conference::Manager
     auto_assign_conversation!(user_id) if claimed
   end
 
+  # Exactly-once gate for the accepted broadcast, tracked separately from the claim: the
+  # claim can already be set before this webhook runs (mark_agent_joined on POST /conference,
+  # or OutboundCallBuilder at call creation), and call.status can already be in_progress via
+  # the contact's own "answered" callback — neither is a reliable "already broadcast" signal.
+  def mark_accepted_broadcast!
+    first_time = false
+    call.with_lock do
+      next if call.terminal? || call.accepted_broadcast_at.present?
+
+      call.update!(accepted_broadcast_at: now)
+      first_time = true
+    end
+    first_time
+  end
+
   def auto_assign_conversation!(user_id)
     conversation = call.conversation
-    return if conversation.assignee_id.present?
+    return if conversation.assigned_entity.present?
 
     Conversations::AssignmentService.new(conversation: conversation, assignee_id: user_id).perform
   end

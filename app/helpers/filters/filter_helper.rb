@@ -68,6 +68,8 @@ module Filters::FilterHelper
     when 'text_case_insensitive'
       text_case_insensitive_filter(query_hash, filter_operator_value)
     else
+      return text_cast_filter(query_hash, filter_operator_value) if text_search_on_display_id?(query_hash)
+
       default_filter(query_hash, filter_operator_value)
     end
   end
@@ -82,8 +84,29 @@ module Filters::FilterHelper
       "#{filter_operator_value} #{query_hash[:query_operator]}"
   end
 
+  def text_cast_filter(query_hash, filter_operator_value)
+    "(#{filter_config[:table_name]}.#{query_hash[:attribute_key]})::text #{filter_operator_value} #{query_hash[:query_operator]}"
+  end
+
   def default_filter(query_hash, filter_operator_value)
+    if query_hash[:attribute_key] == 'assignee_id' && query_hash[:filter_operator].in?(%w[is_present is_not_present])
+      return assignee_presence_filter(filter_config[:table_name], query_hash)
+    end
+
     "#{filter_config[:table_name]}.#{query_hash[:attribute_key]} #{filter_operator_value} #{query_hash[:query_operator]}"
+  end
+
+  # Assignee ownership can live in either column until it is standardized as a polymorphic association.
+  def assignee_presence_filter(table_name, query_hash)
+    if query_hash[:filter_operator] == 'is_present'
+      return "(#{table_name}.assignee_id IS NOT NULL OR #{table_name}.assignee_agent_bot_id IS NOT NULL) #{query_hash[:query_operator]}"
+    end
+
+    "(#{table_name}.assignee_id IS NULL AND #{table_name}.assignee_agent_bot_id IS NULL) #{query_hash[:query_operator]}"
+  end
+
+  def text_search_on_display_id?(query_hash)
+    query_hash[:attribute_key] == 'display_id' && %w[contains does_not_contain].include?(query_hash[:filter_operator])
   end
 
   def validate_single_condition(condition)
