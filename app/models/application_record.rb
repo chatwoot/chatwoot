@@ -1,6 +1,6 @@
 class ApplicationRecord < ActiveRecord::Base
   MAX_STRING_COLUMN_LENGTH = 255
-  MAX_TEXT_COLUMN_LENGTH = 20_000
+  MAX_TEXT_COLUMN_LENGTH = ENV.fetch('MAX_TEXT_COLUMN_LENGTH', 20_000).to_i
 
   include Events::Types
   self.abstract_class = true
