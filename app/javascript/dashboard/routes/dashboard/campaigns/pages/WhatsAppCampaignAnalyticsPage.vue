@@ -123,6 +123,10 @@ const analyticsEmptyState = computed(() => {
   };
 });
 
+const showAnalytics = computed(
+  () => !state.isFetchingMetrics && !analyticsEmptyState.value
+);
+
 const metricRate = key => {
   if (!audience.value) return '';
 
@@ -364,7 +368,22 @@ onBeforeUnmount(stopPolling);
       </div>
 
       <div
-        v-if="analyticsEmptyState"
+        v-if="state.isFetchingMetrics"
+        class="flex min-h-64 items-center justify-center rounded-xl border border-n-weak bg-n-solid-2 px-6 py-12"
+        role="status"
+        aria-live="polite"
+      >
+        <Icon
+          icon="i-lucide-loader-circle"
+          class="size-5 animate-spin text-n-slate-11"
+        />
+        <span class="sr-only">
+          {{ t('CAMPAIGN.WHATSAPP.ANALYTICS.LOADING') }}
+        </span>
+      </div>
+
+      <div
+        v-else-if="analyticsEmptyState"
         class="flex min-h-64 items-center justify-center rounded-xl border border-n-weak bg-n-solid-2 px-6 py-12 text-center"
       >
         <div class="flex max-w-md flex-col items-center gap-3">
@@ -400,13 +419,13 @@ onBeforeUnmount(stopPolling);
       </div>
 
       <CampaignDeliveryBreakdown
-        v-if="!analyticsEmptyState"
+        v-if="showAnalytics"
         :metrics="state.metrics ?? undefined"
         :loading="state.isFetchingMetrics"
       />
 
       <CampaignDeliveryTable
-        v-if="!analyticsEmptyState"
+        v-if="showAnalytics"
         :deliveries="state.deliveries"
         :loading="state.isFetchingDeliveries"
         :no-data-message="noDataMessage"
