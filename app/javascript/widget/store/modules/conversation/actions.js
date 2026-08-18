@@ -16,7 +16,9 @@ import { emitter } from 'shared/helpers/mitt';
 
 // The server starts a new thread when the current one is resolved and replies are disallowed.
 // Messages and attributes go stale independently, so either one triggers the refresh. Only older
-// threads count, so a late response cannot undo a switch a newer one already made.
+// threads count, so a late response cannot undo a switch a newer one already made. The message it
+// carries is still kept: the list is grouped by date and sender, never by thread, and it is what
+// replaces the pending placeholder.
 const resetStaleThread = async (
   { commit, dispatch, state, rootState },
   conversationId
