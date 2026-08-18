@@ -478,7 +478,9 @@
         "SUMMARY": {
           "GREETING": "Hello, {name}!",
           "DEFAULT_NAME": "there",
-          "EMPTY": "Captain's performance summary will appear here when enough activity is available."
+          "EMPTY": "Captain's performance summary will appear here when enough activity is available.",
+          "PREVIOUS": "Previous summary point",
+          "NEXT": "Next summary point"
         },
         "UNITS": {
           "DAYS": "{value}d",
@@ -527,8 +529,7 @@
           "UNCLASSIFIED": "Unclassified"
         },
         "RESOLUTION_TREND": {
-          "TITLE": "Resolution trend",
-          "MEASURE": "No. of conversations",
+          "TITLE": "Weekly Resolution Trend",
           "HANDLED": "Handled",
           "RESOLVED": "Resolved by Captain",
           "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period"

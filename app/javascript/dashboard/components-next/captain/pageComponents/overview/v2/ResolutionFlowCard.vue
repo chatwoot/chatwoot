@@ -88,13 +88,13 @@ const formatCount = value => Number(value).toLocaleString();
       <div class="w-full min-w-0 lg:w-[755px]">
         <div
           v-if="loading"
-          class="h-[228px] rounded-lg bg-n-slate-3 animate-pulse"
+          class="h-[260px] rounded-lg bg-n-slate-3 animate-pulse"
         />
         <SankeyChart
           v-else-if="hasData"
           :data="chartData"
           :format-value="formatCount"
-          :height="228"
+          :height="260"
           :node-padding="24"
           show-label-background
           :aria-label="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_FLOW.ARIA_LABEL')"
@@ -102,7 +102,7 @@ const formatCount = value => Number(value).toLocaleString();
         />
         <div
           v-else
-          class="grid h-[228px] text-sm place-content-center text-n-slate-11"
+          class="grid h-[260px] text-sm place-content-center text-n-slate-11"
         >
           {{ $t('CAPTAIN.OVERVIEW.V2.EMPTY') }}
         </div>

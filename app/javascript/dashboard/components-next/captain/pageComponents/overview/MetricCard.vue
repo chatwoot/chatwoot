@@ -13,7 +13,7 @@ const props = defineProps({
   layout: {
     type: String,
     default: 'standard',
-    validator: value => ['standard', 'headline'].includes(value),
+    validator: value => ['standard', 'headline', 'spread'].includes(value),
   },
   showHint: { type: Boolean, default: false },
   compact: { type: Boolean, default: false },
@@ -32,6 +32,10 @@ const trendClass = computed(() => {
   return props.trendGood ? 'text-n-teal-11' : 'text-n-ruby-11';
 });
 
+const hasLabelHeader = computed(() =>
+  ['standard', 'spread'].includes(props.layout)
+);
+
 const onActivate = () => {
   if (props.clickable) emit('click');
 };
@@ -41,7 +45,11 @@ const onActivate = () => {
   <div
     class="flex flex-col p-5 group bg-n-card"
     :class="[
-      layout === 'headline' ? 'justify-between' : compact ? 'gap-2' : 'gap-3',
+      ['headline', 'spread'].includes(layout)
+        ? 'justify-between'
+        : compact
+          ? 'gap-2'
+          : 'gap-3',
       clickable
         ? 'cursor-pointer transition-colors hover:bg-n-slate-2/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand'
         : '',
@@ -52,7 +60,7 @@ const onActivate = () => {
     @keydown.enter.self.prevent="onActivate"
     @keydown.space.self.prevent="onActivate"
   >
-    <div v-if="layout === 'standard'" class="flex items-start w-full gap-1.5">
+    <div v-if="hasLabelHeader" class="flex items-center w-full gap-1.5">
       <div
         class="min-w-0 text-sm font-[420] leading-[21px] tracking-[-0.28px] text-n-slate-11"
       >
@@ -61,11 +69,12 @@ const onActivate = () => {
           v-if="hint"
           v-tooltip="hint"
           class="inline-block ms-1.5 align-[-2px] cursor-help i-lucide-info size-3.5 text-n-slate-11"
-          :class="
+          :class="[
+            layout === 'spread' ? '!ms-1' : '',
             showHint
               ? ''
-              : 'transition-opacity opacity-0 group-hover:opacity-100'
-          "
+              : 'transition-opacity opacity-0 group-hover:opacity-100',
+          ]"
         />
       </div>
       <span
@@ -78,6 +87,7 @@ const onActivate = () => {
           v-if="trendUp !== null"
           class="size-3"
           :class="[
+            layout === 'spread' ? '!size-[10.5px]' : '',
             trendUp
               ? 'i-fluent-caret-up-12-filled'
               : 'i-fluent-caret-down-12-filled',
@@ -156,6 +166,19 @@ const onActivate = () => {
         {{ description }}
       </span>
     </div>
+    <span
+      v-else-if="layout === 'spread'"
+      class="text-[28px] font-[520] leading-8 tracking-[-0.56px] tabular-nums"
+      :class="valueClass"
+    >
+      {{ value }}
+    </span>
+    <span
+      v-if="layout === 'spread' && description && !loading"
+      class="text-sm font-[420] leading-[21px] tracking-[-0.28px] text-n-slate-11"
+    >
+      {{ description }}
+    </span>
     <span
       v-if="layout === 'headline' && description"
       class="text-sm font-[420] leading-[21px] tracking-[-0.28px] text-n-slate-11"

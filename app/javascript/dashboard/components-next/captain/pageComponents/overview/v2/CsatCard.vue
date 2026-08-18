@@ -16,6 +16,7 @@ const { t } = useI18n();
 const formatScore = value => Number(value || 0).toFixed(1);
 const formatTrend = value => {
   const numericValue = Number(value || 0);
+  if (numericValue === 0) return '0';
   const sign = numericValue > 0 ? '+' : '';
   return `${sign}${numericValue.toFixed(1)}`;
 };
@@ -35,8 +36,7 @@ const metricFor = (key, label, hint, score) => ({
   value: formatScore(score?.current),
   trend: formatTrend(score?.trend),
   trendGood: Number(score?.trend || 0) === 0 ? null : score.trend > 0,
-  trendUp:
-    Number(score?.trend || 0) === 0 ? null : Number(score?.trend || 0) > 0,
+  trendUp: Number(score?.trend || 0) >= 0,
   description: comparison(score),
   valueClass: 'text-n-blue-11',
 });
@@ -58,13 +58,20 @@ const metrics = computed(() => [
 </script>
 
 <template>
-  <OverviewPanel :title="$t('CAPTAIN.OVERVIEW.V2.CSAT.TITLE')">
-    <div class="grid gap-px mt-4 bg-n-weak">
+  <OverviewPanel
+    :title="$t('CAPTAIN.OVERVIEW.V2.CSAT.TITLE')"
+    border-class="border-n-weak"
+    :shadow="false"
+  >
+    <div class="grid grid-rows-[repeat(2,142px)]">
       <MetricCard
-        v-for="metric in metrics"
+        v-for="(metric, index) in metrics"
         :key="metric.key"
         v-bind="metric"
+        layout="spread"
+        show-hint
         :loading="loading"
+        :class="index === 0 ? 'border-b border-n-weak' : ''"
       />
     </div>
   </OverviewPanel>

@@ -1,7 +1,8 @@
 <script setup>
+import { computed, onUnmounted, ref, watch } from 'vue';
 import MetricCard from 'dashboard/components-next/captain/pageComponents/overview/MetricCard.vue';
 
-defineProps({
+const props = defineProps({
   userName: { type: String, default: '' },
   points: { type: Array, default: () => [] },
   featuredMetrics: { type: Array, default: () => [] },
@@ -9,6 +10,51 @@ defineProps({
   loading: { type: Boolean, default: false },
   summaryLoading: { type: Boolean, default: false },
 });
+
+const AUTO_ROTATION_DELAY = 15000;
+
+const activePointIndex = ref(0);
+let rotationTimer = null;
+
+const activePoint = computed(
+  () => props.points[activePointIndex.value] || props.points[0] || ''
+);
+
+const movePoint = direction => {
+  const pointCount = props.points.length;
+  if (!pointCount) return;
+
+  activePointIndex.value =
+    (activePointIndex.value + direction + pointCount) % pointCount;
+};
+
+const stopAutoRotation = () => {
+  if (rotationTimer) clearInterval(rotationTimer);
+  rotationTimer = null;
+};
+
+const startAutoRotation = () => {
+  stopAutoRotation();
+  if (props.points.length < 2) return;
+
+  rotationTimer = setInterval(() => movePoint(1), AUTO_ROTATION_DELAY);
+};
+
+const selectPoint = direction => {
+  movePoint(direction);
+  startAutoRotation();
+};
+
+watch(
+  () => props.points,
+  () => {
+    activePointIndex.value = 0;
+    startAutoRotation();
+  },
+  { immediate: true }
+);
+
+onUnmounted(stopAutoRotation);
 </script>
 
 <template>
@@ -19,11 +65,38 @@ defineProps({
       <div
         class="flex flex-col min-h-[139px] gap-3 p-5 bg-n-card lg:col-span-4"
       >
-        <div class="flex items-center gap-1.5 text-n-iris-11">
-          <span class="i-lucide-sparkles size-5" />
-          <span class="text-base font-medium">
-            {{ $t('CAPTAIN.OVERVIEW.V2.SUMMARY.GREETING', { name: userName }) }}
-          </span>
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-1.5 text-n-iris-11">
+            <span class="i-lucide-sparkles size-5" />
+            <span class="text-base font-medium">
+              {{
+                $t('CAPTAIN.OVERVIEW.V2.SUMMARY.GREETING', { name: userName })
+              }}
+            </span>
+          </div>
+          <div
+            v-if="!summaryLoading && points.length > 1"
+            class="flex items-center gap-0.5"
+          >
+            <button
+              v-tooltip="$t('CAPTAIN.OVERVIEW.V2.SUMMARY.PREVIOUS')"
+              type="button"
+              class="grid rounded-md size-6 place-content-center text-n-slate-11 transition-colors hover:bg-n-alpha-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
+              :aria-label="$t('CAPTAIN.OVERVIEW.V2.SUMMARY.PREVIOUS')"
+              @click="selectPoint(-1)"
+            >
+              <span class="i-lucide-chevron-left size-3.5" />
+            </button>
+            <button
+              v-tooltip="$t('CAPTAIN.OVERVIEW.V2.SUMMARY.NEXT')"
+              type="button"
+              class="grid rounded-md size-6 place-content-center text-n-slate-11 transition-colors hover:bg-n-alpha-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
+              :aria-label="$t('CAPTAIN.OVERVIEW.V2.SUMMARY.NEXT')"
+              @click="selectPoint(1)"
+            >
+              <span class="i-lucide-chevron-right size-3.5" />
+            </button>
+          </div>
         </div>
         <div
           v-if="summaryLoading"
@@ -35,9 +108,10 @@ defineProps({
         </div>
         <p
           v-else-if="points.length"
+          aria-live="polite"
           class="text-sm font-[420] leading-[21px] tracking-[-0.21px] text-n-slate-12"
         >
-          {{ points.join(' ') }}
+          {{ activePoint }}
         </p>
         <p
           v-else
