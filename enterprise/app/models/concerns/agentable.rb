@@ -14,7 +14,7 @@ module Concerns::Agentable
     )
   end
 
-  def agent_instructions(context = nil)
+  def agent_instructions(context = nil, prompt_template: template_name)
     enhanced_context = prompt_context
 
     if context
@@ -29,7 +29,7 @@ module Concerns::Agentable
       )
     end
 
-    Captain::PromptRenderer.render(template_name, enhanced_context.with_indifferent_access)
+    Captain::PromptRenderer.render(prompt_template, enhanced_context.with_indifferent_access)
   end
 
   def agent_model

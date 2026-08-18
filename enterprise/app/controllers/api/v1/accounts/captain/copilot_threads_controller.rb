@@ -1,5 +1,8 @@
 class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::BaseController
+  include Captain::Copilot::ConversationAccess
+
   before_action :ensure_message, only: :create
+  before_action :ensure_accessible_conversation, only: :create
 
   def index
     @copilot_threads = Current.account.copilot_threads
@@ -31,7 +34,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
 
   def build_copilot_response(copilot_message)
     if Current.account.usage_limits[:captain][:responses][:current_available].positive?
-      copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id], Current.user.id)
+      enqueue_copilot_response(copilot_message)
     else
       copilot_message.copilot_thread.copilot_messages.create!(
         message_type: :assistant,
@@ -40,8 +43,38 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
     end
   end
 
+  def enqueue_copilot_response(copilot_message)
+    return enqueue_reply_suggestion if reply_suggestion?
+
+    copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id], Current.user.id)
+  end
+
+  def enqueue_reply_suggestion
+    Captain::Copilot::ReplySuggestionJob.perform_later(
+      assistant: @copilot_thread.assistant,
+      conversation_id: copilot_thread_params[:conversation_id],
+      user_id: Current.user.id,
+      copilot_thread_id: @copilot_thread.id
+    )
+  end
+
   def ensure_message
     return render_could_not_create_error(I18n.t('captain.copilot_message_required')) if copilot_thread_params[:message].blank?
+  end
+
+  def ensure_accessible_conversation
+    return unless reply_suggestion?
+
+    conversation = accessible_conversation(
+      account: Current.account,
+      user: Current.user,
+      display_id: copilot_thread_params[:conversation_id]
+    )
+    raise ActiveRecord::RecordNotFound, 'Conversation not found' if conversation.blank?
+  end
+
+  def reply_suggestion?
+    copilot_thread_params[:request_type] == 'reply_suggestion'
   end
 
   def assistant
@@ -49,7 +82,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   end
 
   def copilot_thread_params
-    params.permit(:message, :assistant_id, :conversation_id)
+    params.permit(:message, :assistant_id, :conversation_id, :request_type)
   end
 
   def permitted_params
