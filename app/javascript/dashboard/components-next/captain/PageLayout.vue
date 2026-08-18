@@ -66,6 +66,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  containerClass: {
+    type: String,
+    default: 'max-w-[71rem]',
+  },
 });
 
 const emit = defineEmits(['click', 'close', 'update:currentPage']);
@@ -117,7 +121,7 @@ const handleCreateAssistant = () => {
 <template>
   <section class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1">
     <header class="sticky top-0 z-10 px-6">
-      <div class="w-full max-w-5xl mx-auto">
+      <div class="w-full mx-auto" :class="containerClass">
         <div
           class="flex items-start lg:items-center justify-between w-full py-6 lg:py-0 lg:h-20 gap-4 lg:gap-2 flex-col lg:flex-row"
         >
@@ -207,7 +211,7 @@ const handleCreateAssistant = () => {
       </div>
     </header>
     <main class="flex-1 px-6 overflow-y-auto">
-      <div class="w-full max-w-5xl h-full mx-auto py-4">
+      <div class="w-full h-full py-4 mx-auto" :class="containerClass">
         <slot v-if="!showPaywall" name="controls" />
         <div
           v-if="isFetching"

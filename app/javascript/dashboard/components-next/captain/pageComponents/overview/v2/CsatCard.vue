@@ -1,0 +1,71 @@
+<script setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import MetricCard from 'dashboard/components-next/captain/pageComponents/overview/MetricCard.vue';
+import OverviewPanel from './OverviewPanel.vue';
+
+const props = defineProps({
+  autonomous: { type: Object, default: null },
+  assisted: { type: Object, default: null },
+  humanOnly: { type: Object, default: null },
+  loading: { type: Boolean, default: false },
+});
+
+const { t } = useI18n();
+
+const formatScore = value => Number(value || 0).toFixed(1);
+const formatTrend = value => {
+  const numericValue = Number(value || 0);
+  const sign = numericValue > 0 ? '+' : '';
+  return `${sign}${numericValue.toFixed(1)}`;
+};
+
+const comparison = score => {
+  const delta =
+    Number(score?.current || 0) - Number(props.humanOnly?.current || 0);
+  return t('CAPTAIN.OVERVIEW.V2.CSAT.VS_HUMANS', {
+    value: formatTrend(delta),
+  });
+};
+
+const metricFor = (key, label, hint, score) => ({
+  key,
+  label,
+  hint,
+  value: formatScore(score?.current),
+  trend: formatTrend(score?.trend),
+  trendGood: Number(score?.trend || 0) === 0 ? null : score.trend > 0,
+  trendUp:
+    Number(score?.trend || 0) === 0 ? null : Number(score?.trend || 0) > 0,
+  description: comparison(score),
+  valueClass: 'text-n-blue-11',
+});
+
+const metrics = computed(() => [
+  metricFor(
+    'autonomous',
+    t('CAPTAIN.OVERVIEW.V2.CSAT.AUTONOMOUS'),
+    t('CAPTAIN.OVERVIEW.V2.CSAT.AUTONOMOUS_HINT'),
+    props.autonomous
+  ),
+  metricFor(
+    'assisted',
+    t('CAPTAIN.OVERVIEW.V2.CSAT.ASSISTED'),
+    t('CAPTAIN.OVERVIEW.V2.CSAT.ASSISTED_HINT'),
+    props.assisted
+  ),
+]);
+</script>
+
+<template>
+  <OverviewPanel :title="$t('CAPTAIN.OVERVIEW.V2.CSAT.TITLE')">
+    <div class="grid gap-px mt-4 bg-n-weak">
+      <MetricCard
+        v-for="metric in metrics"
+        :key="metric.key"
+        v-bind="metric"
+        :loading="loading"
+      />
+    </div>
+  </OverviewPanel>
+</template>
