@@ -23,7 +23,7 @@ as well as a link to its edit page.
     <%= content_for(:title) %>
   </h1>
 
-  <div>
+  <div class="flex items-center gap-2">
     <%= link_to(
             t("administrate.actions.edit"),
             [:edit, namespace,  page.resource.becomes(User)],
@@ -34,6 +34,7 @@ as well as a link to its edit page.
             [:resend_confirmation, namespace, page.resource.becomes(User)],
             method: :post,
             class: "button",
+            form_class: "button_to contents",
           ) unless page.resource.confirmed? %>
   </div>
 </header>
