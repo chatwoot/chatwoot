@@ -6,15 +6,18 @@ x-base: &base
     - .env
   volumes:
     - storage_data:/app/storage
+  networks:
+    - default
+    - dokploy-network
 
 services:
   rails:
     <<: *base
     depends_on:
-      - postgres
-      - redis
-    # Do not publish host port 3000: it is already allocated on this VPS.
-    # Dokploy/Traefik should target this service on container port 3000.
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
     environment:
       NODE_ENV: production
       RAILS_ENV: production
@@ -34,8 +37,10 @@ services:
   sidekiq:
     <<: *base
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
     environment:
       NODE_ENV: production
       RAILS_ENV: production
@@ -51,13 +56,23 @@ services:
   postgres:
     image: pgvector/pgvector:pg16
     restart: always
-    # Host 5432 is already used on Dokploy. App traffic uses hostname "postgres" on the compose network.
+    env_file:
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: chatwoot
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in Dokploy Environment}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d chatwoot']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    networks:
+      - default
+      - dokploy-network
 
   redis:
     image: redis:alpine
@@ -70,8 +85,15 @@ services:
       - .env
     volumes:
       - redis_data:/data
+    networks:
+      - default
+      - dokploy-network
 
 volumes:
   storage_data:
   postgres_data:
   redis_data:
+
+networks:
+  dokploy-network:
+    external: true
