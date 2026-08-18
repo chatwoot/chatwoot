@@ -21,23 +21,23 @@ class Email::BaseBuilder
     message&.sender&.available_name || I18n.t('conversations.reply.email.header.notifications')
   end
 
+  # Builds "display name <email>" via Mail::Address so the display name is
+  # quoted per RFC 5322 and characters like commas can't split the mailbox.
   def sender_name(sender_email)
     # Friendly: <agent_name> from <business_name>
     # Professional: <business_name>
-    if inbox.friendly?
-      I18n.t(
-        'conversations.reply.email.header.friendly_name',
-        sender_name: custom_sender_name,
-        business_name: business_name,
-        from_email: sender_email
-      )
-    else
-      I18n.t(
-        'conversations.reply.email.header.professional_name',
-        business_name: business_name,
-        from_email: sender_email
-      )
-    end
+    address = Mail::Address.new
+    address.address = sender_email
+    address.display_name = if inbox.friendly?
+                             I18n.t(
+                               'conversations.reply.email.header.friendly_display_name',
+                               sender_name: custom_sender_name,
+                               business_name: business_name
+                             )
+                           else
+                             business_name
+                           end
+    address.format
   end
 
   def business_name

@@ -374,8 +374,7 @@ en:
           notifications: 'Notifications'
           from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
-          friendly_name: '%{sender_name} from %{business_name} <%{from_email}>'
-          professional_name: '%{business_name} <%{from_email}>'
+          friendly_display_name: '%{sender_name} from %{business_name}'
       channel_email:
         header:
           reply_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
