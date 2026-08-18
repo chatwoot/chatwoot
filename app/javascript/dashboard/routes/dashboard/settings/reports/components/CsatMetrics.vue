@@ -5,7 +5,6 @@ import CsatMetricCard from './CsatMetricCard.vue';
 import CsatRatingDistribution from './CsatRatingDistribution.vue';
 
 const metrics = useMapGetter('csat/getMetrics');
-const ratingPercentage = useMapGetter('csat/getRatingPercentage');
 const ratingCount = useMapGetter('csat/getRatingCount');
 const satisfactionScore = useMapGetter('csat/getSatisfactionScore');
 const responseRate = useMapGetter('csat/getResponseRate');
@@ -54,7 +53,6 @@ const formatPercent = value => (value ? `${value}%` : '0%');
     </div>
 
     <CsatRatingDistribution
-      :rating-percentage="ratingPercentage"
       :rating-count="ratingCount"
       :total-response-count="metrics.totalResponseCount"
       :is-loading="isLoading"

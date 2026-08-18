@@ -146,6 +146,7 @@
         "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
       },
       "CARD": {
+        "ANALYTICS": "View analytics",
         "STATUS": {
           "PROCESSING": "Processing",
           "COMPLETED": "Completed",
@@ -200,6 +201,91 @@
             "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
             "ERROR_MESSAGE": "There was an error. Please try again."
           }
+        }
+      },
+      "ANALYTICS": {
+        "LOADING": "Loading analytics...",
+        "EMPTY": "No delivery records found.",
+        "EMPTY_FILTER": "No {status} delivery records found.",
+        "DELIVERIES_ERROR": "Delivery records couldn't be loaded. Refresh the page to try again.",
+        "EMPTY_STATE": {
+          "ERROR": {
+            "TITLE": "Analytics couldn't be loaded",
+            "DESCRIPTION": "Refresh the page to try again."
+          },
+          "PENDING": {
+            "TITLE": "Delivery data will appear once sending begins",
+            "DESCRIPTION": "There are no delivery records for this campaign yet."
+          },
+          "UNAVAILABLE": {
+            "TITLE": "Analytics aren't available for this campaign",
+            "DESCRIPTION": "No delivery data was recorded for this campaign. This can happen for campaigns sent before campaign analytics were introduced."
+          }
+        },
+        "PROCESSING_BANNER": "This campaign is still processing. Analytics will update as messages are sent and delivery statuses are received.",
+        "RATE": "{value}% of audience",
+        "SENT_ON": "Sent on {date}",
+        "PAGE_INFO": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts",
+        "BREADCRUMB": {
+          "CAMPAIGNS": "Campaigns",
+          "WHATSAPP": "WhatsApp"
+        },
+        "FILTERS": {
+          "ALL": "All"
+        },
+        "METRICS": {
+          "AUDIENCE": {
+            "LABEL": "Audience",
+            "HINT": "Contacts included in this campaign."
+          },
+          "SENT": {
+            "LABEL": "Sent",
+            "HINT": "Messages accepted by WhatsApp for delivery."
+          },
+          "DELIVERED": {
+            "LABEL": "Delivered",
+            "HINT": "Messages that reached the contact's device. Read messages are included."
+          },
+          "READ": {
+            "LABEL": "Read",
+            "HINT": "Messages opened by the contact."
+          },
+          "FAILED": {
+            "LABEL": "Failed",
+            "HINT": "Messages WhatsApp could not deliver."
+          },
+          "SKIPPED": {
+            "LABEL": "Skipped",
+            "HINT": "Contacts skipped before sending, usually because of a missing or invalid phone number."
+          }
+        },
+        "STATUS": {
+          "QUEUED": "Queued",
+          "SENT": "Sent",
+          "DELIVERED": "Delivered",
+          "READ": "Read",
+          "FAILED": "Failed",
+          "SKIPPED": "Skipped"
+        },
+        "BREAKDOWN": {
+          "TITLE": "Delivery breakdown",
+          "DELIVERY_RATE": "{value}% delivered",
+          "LEGEND": {
+            "READ": "Read",
+            "DELIVERED": "Delivered",
+            "FAILED": "Failed",
+            "SKIPPED": "Skipped",
+            "PENDING": "Pending"
+          }
+        },
+        "TABLE": {
+          "TITLE": "Deliveries",
+          "CONTACT": "Contact",
+          "STATUS": "Status",
+          "MESSAGE": "Message",
+          "MESSAGE_NOT_GENERATED": "Not generated",
+          "REASON": "Reason",
+          "ERROR_CODE": "Code {code}"
         }
       }
     },
