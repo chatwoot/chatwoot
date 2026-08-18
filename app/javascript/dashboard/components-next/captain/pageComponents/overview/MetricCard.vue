@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import MetricHint from 'dashboard/components-next/captain/pageComponents/overview/MetricHint.vue';
 
 const props = defineProps({
   label: { type: String, required: true },
@@ -15,10 +16,10 @@ const props = defineProps({
     default: 'standard',
     validator: value => ['standard', 'headline', 'spread'].includes(value),
   },
-  showHint: { type: Boolean, default: false },
   compact: { type: Boolean, default: false },
   trendUp: { type: Boolean, default: null },
   hint: { type: String, default: '' },
+  hintNote: { type: String, default: '' },
   // null = neutral, true = good direction, false = bad direction
   trendGood: { type: Boolean, default: null },
   clickable: { type: Boolean, default: false },
@@ -62,19 +63,14 @@ const onActivate = () => {
   >
     <div v-if="hasLabelHeader" class="flex items-center w-full gap-1.5">
       <div
-        class="min-w-0 text-sm font-[420] leading-[21px] tracking-[-0.28px] text-n-slate-11"
+        class="flex items-center min-w-0 gap-1 text-sm font-[420] leading-[21px] tracking-[-0.28px] text-n-slate-11"
       >
         <span>{{ label }}</span>
-        <span
+        <MetricHint
           v-if="hint"
-          v-tooltip="hint"
-          class="inline-block ms-1.5 align-[-2px] cursor-help i-lucide-info size-3.5 text-n-slate-11"
-          :class="[
-            layout === 'spread' ? '!ms-1' : '',
-            showHint
-              ? ''
-              : 'transition-opacity opacity-0 group-hover:opacity-100',
-          ]"
+          :title="label"
+          :description="hint"
+          :note="hintNote"
         />
       </div>
       <span
@@ -124,16 +120,14 @@ const onActivate = () => {
     </div>
     <div
       v-if="layout === 'headline'"
-      class="text-sm font-[420] leading-[21px] tracking-[-0.28px] text-n-slate-11"
+      class="flex items-center gap-1 text-sm font-[420] leading-[21px] tracking-[-0.28px] text-n-slate-11"
     >
       <span>{{ label }}</span>
-      <span
+      <MetricHint
         v-if="hint"
-        v-tooltip="hint"
-        class="inline-block ms-1.5 align-[-2px] cursor-help i-lucide-info size-3 text-n-slate-11"
-        :class="
-          showHint ? '' : 'transition-opacity opacity-0 group-hover:opacity-100'
-        "
+        :title="label"
+        :description="hint"
+        :note="hintNote"
       />
     </div>
     <div v-if="loading" class="flex items-end justify-between gap-2 mt-auto">

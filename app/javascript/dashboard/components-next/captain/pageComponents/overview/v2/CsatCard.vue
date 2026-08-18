@@ -69,7 +69,6 @@ const metrics = computed(() => [
         :key="metric.key"
         v-bind="metric"
         layout="spread"
-        show-hint
         :loading="loading"
         :class="index === 0 ? 'border-b border-n-weak' : ''"
       />

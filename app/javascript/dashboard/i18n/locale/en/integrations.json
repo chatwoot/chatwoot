@@ -423,27 +423,30 @@
       "METRICS": {
         "HANDLED": {
           "LABEL": "Conversations handled",
-          "HINT": "Distinct conversations this assistant replied in."
+          "HINT": "Distinct conversations where Captain sent at least one public reply."
         },
         "AUTO_RESOLUTION": {
           "LABEL": "Auto-resolution rate",
-          "HINT": "Share of handled conversations closed without a human reply."
+          "HINT": "Share of handled conversations Captain resolved without a handoff or human reply."
         },
         "HANDOFF": {
           "LABEL": "Handoff rate",
-          "HINT": "Share of handled conversations escalated to a human agent."
+          "HINT": "Share of handled conversations Captain escalated to a human agent."
         },
         "HOURS_SAVED": {
           "LABEL": "Time saved",
-          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+          "HINT": "Estimated agent effort saved based on Captain's public replies.",
+          "NOTE": "Uses two minutes per reply; directional, not measured labor."
         },
         "REOPEN": {
           "LABEL": "Reopen rate",
-          "HINT": "Auto-resolved conversations that were reopened afterwards."
+          "HINT": "Share of Captain-resolved conversations that were later reopened.",
+          "NOTE": "Lower suggests Captain's resolutions are holding."
         },
         "DEPTH": {
           "LABEL": "Messages / conversation",
-          "HINT": "Average replies the assistant sends per conversation."
+          "HINT": "Average number of public Captain replies per handled conversation.",
+          "NOTE": "Lower can mean faster resolution, but conversation complexity matters."
         }
       },
       "DRILLDOWN": {
@@ -493,11 +496,13 @@
           },
           "DURABLE": {
             "LABEL": "Captain resolutions remained closed",
-            "HINT": "Share of eligible Captain resolutions that stayed closed for seven days."
+            "HINT": "Share of eligible Captain resolutions that stayed closed for seven days.",
+            "NOTE": "Recent resolutions are excluded until the seven-day window completes."
           },
           "MEDIAN_RESOLUTION": {
             "LABEL": "Median resolution time",
-            "HINT": "Median time from the start of a Captain episode to resolution."
+            "HINT": "Median time from the start of a Captain-handled episode to resolution.",
+            "NOTE": "Half resolved faster and half took longer."
           },
           "DEPTH": {
             "LABEL": "Messages per conversation"

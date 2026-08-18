@@ -126,7 +126,6 @@ onUnmounted(stopAutoRotation);
         v-bind="metric"
         :loading="loading"
         layout="headline"
-        show-hint
         value-size-class="text-2xl"
         class="min-h-[139px] lg:col-span-1"
       />
@@ -137,7 +136,6 @@ onUnmounted(stopAutoRotation);
         :key="metric.key"
         v-bind="metric"
         :loading="loading"
-        show-hint
         compact
         value-size-class="text-2xl"
         class="min-h-[101px]"
