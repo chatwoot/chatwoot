@@ -46,11 +46,16 @@
           "ATTRIBUTE_KEY_NONE": "No hay atributos de conversación tipo fecha o fecha-hora. Créalos en Atributos personalizados.",
           "ATTRIBUTE_KEY_ORPHAN": "{key} (no encontrado)",
           "ATTRIBUTE_TYPE_DATETIME": "fecha-hora",
-          "DAYS": "Días desde el atributo",
+          "DAYS": "Número de días",
+          "RELATIVE_TO": "Cuándo respecto a la fecha",
+          "RELATIVE_TO_AFTER": "N días después de la fecha del atributo",
+          "RELATIVE_TO_ON": "El mismo día de la fecha del atributo",
+          "RELATIVE_TO_BEFORE": "N días antes de la fecha del atributo",
+          "RELATIVE_HINT": "El mismo día y N días antes disparan solo ese día calendario. N días después sigue siendo N o más días más tarde, una vez.",
           "HOURS": "Horas desde el último mensaje",
           "HELP": "Se revisa cada ~5 minutos. Cada regla se dispara una vez por conversación y ventana.",
           "KINDS": {
-            "DAYS_SINCE": "N días desde un atributo de fecha o fecha-hora",
+            "DAYS_SINCE": "Un atributo de fecha o fecha-hora (antes, el mismo día o después)",
             "HOURS_OUTGOING": "Horas desde el último mensaje saliente",
             "HOURS_INCOMING": "Horas desde el último mensaje entrante"
           },

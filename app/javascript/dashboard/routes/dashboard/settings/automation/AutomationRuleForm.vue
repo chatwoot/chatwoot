@@ -161,7 +161,27 @@ const ensureSchedule = () => {
       hours: 24,
     };
   }
+  if (
+    automation.value.schedule.kind === 'days_since_attribute' &&
+    !automation.value.schedule.relative_to
+  ) {
+    automation.value.schedule.relative_to = 'after';
+  }
 };
+
+const scheduleRelativeTo = computed({
+  get: () => automation.value?.schedule?.relative_to || 'after',
+  set: value => {
+    if (!automation.value.schedule) automation.value.schedule = {};
+    automation.value.schedule.relative_to = value;
+  },
+});
+
+const showScheduleDays = computed(
+  () =>
+    automation.value?.schedule?.kind === 'days_since_attribute' &&
+    scheduleRelativeTo.value !== 'on'
+);
 
 watch(
   isTimeTriggered,
@@ -169,6 +189,17 @@ watch(
     if (enabled) ensureSchedule();
   },
   { immediate: true }
+);
+
+watch(
+  () => automation.value?.schedule?.kind,
+  kind => {
+    if (kind === 'days_since_attribute' && automation.value?.schedule) {
+      if (!automation.value.schedule.relative_to) {
+        automation.value.schedule.relative_to = 'after';
+      }
+    }
+  }
 );
 
 const filterTypes = computed(() => {
@@ -410,6 +441,20 @@ defineExpose({ open, close });
             v-if="automation.schedule.kind === 'days_since_attribute'"
             class="text-sm text-n-slate-11"
           >
+            {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.RELATIVE_TO') }}
+            <select v-model="scheduleRelativeTo" class="mt-1 w-full m-0">
+              <option value="after">
+                {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.RELATIVE_TO_AFTER') }}
+              </option>
+              <option value="on">
+                {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.RELATIVE_TO_ON') }}
+              </option>
+              <option value="before">
+                {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.RELATIVE_TO_BEFORE') }}
+              </option>
+            </select>
+          </label>
+          <label v-if="showScheduleDays" class="text-sm text-n-slate-11">
             {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.DAYS') }}
             <input
               v-model.number="automation.schedule.days"
@@ -418,6 +463,12 @@ defineExpose({ open, close });
               class="mt-1 w-full"
             />
           </label>
+          <p
+            v-if="automation.schedule.kind === 'days_since_attribute'"
+            class="m-0 text-xs text-n-slate-11"
+          >
+            {{ $t('AUTOMATION.ADD.FORM.SCHEDULE.RELATIVE_HINT') }}
+          </p>
           <label
             v-if="
               automation.schedule.kind === 'hours_since_last_outgoing' ||

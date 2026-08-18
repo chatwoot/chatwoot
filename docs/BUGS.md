@@ -3,7 +3,8 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** feature `B-NEW-51` `contacts.chat_bot` + Panel reclaim AgentBot
+**Última actualización:** feature `B-NEW-52` time automations before/on/after
+(2026-08-14). Antes: feature `B-NEW-51` `contacts.chat_bot` + Panel reclaim AgentBot
 (2026-07-29). Antes: feature `B-NEW-50` business rules lint + dry-run + kill switch
 (2026-07-29). Antes: fix `B-NEW-49` KPIs contacto open/resolved (enum group keys)
 (2026-07-29). Antes: fix `B-NEW-48` contact search doble encode + ILIKE
@@ -130,6 +131,7 @@ rows (2026-07-23, branch `fix/report-panels-pivot-agent-rows`). Antes:
 | B-NEW-48 | Bug UX | No | ✅ Contact search: sin doble encode; ILIKE id/doc; company_name |
 | B-NEW-49 | Bug UX | No | ✅ KPIs contacto: normalizar keys de `group(:status)` (open/resolved) |
 | B-NEW-50 | Feature | No | ✅ BR safety: lint al activar, dry-run FE, `business_rules_paused`, enabled default false |
+| B-NEW-52 | Feature | No | ✅ Time automations: N días antes / el mismo día / N días después del atributo |
 
 ---
 
@@ -1125,6 +1127,23 @@ bot y el 2.º queda en silencio porque Panel veía `has_human_agent`.
 **Cómo probar (local):** inbox con Dueño del contacto + contacto con agente +
 `chat_bot` ON → msgs 1–2 bot OK y assignee conversación ≈ AgentBot; handoff →
 dueño; `chat_bot` OFF → silencio. Requiere migrate `chat_bot`.
+
+### B-NEW-52 — Time automations: antes / el mismo día / después
+
+**Problema:** `days_since_attribute` solo disparaba N≥1 días **después** de un
+atributo de fecha (`fecha <= hoy − N`). No había “el mismo día” ni “N días
+antes” (recordatorio de cita).
+
+**Fix:** `schedule.relative_to` = `after` (default, igual que antes) | `on` |
+`before`. Sin migración. `on`/`before` matchean el día calendario exacto;
+`after` sigue con `<=` + ledger una vez.
+
+**Archivos:** `time_based_rule_runner.rb`, `automation_rule.rb`,
+`AutomationRuleForm.vue`, `validations.js`, `en/es/automation.json`.
+
+**Cómo probar:** Automations → By time → atributo de fecha. After N=1 + fecha
+ayer → dispara; On + fecha hoy → dispara; Before N=3 + fecha hoy+3 → dispara.
+Reglas viejas sin `relative_to` siguen siendo after.
 
 ### B-NEW-50 — Business rules safety: lint + dry-run + kill switch
 

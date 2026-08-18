@@ -46,11 +46,16 @@
           "ATTRIBUTE_KEY_NONE": "No conversation date or datetime attributes found. Create them under Custom attributes.",
           "ATTRIBUTE_KEY_ORPHAN": "{key} (not found)",
           "ATTRIBUTE_TYPE_DATETIME": "datetime",
-          "DAYS": "Days since attribute",
+          "DAYS": "Number of days",
+          "RELATIVE_TO": "When relative to the date",
+          "RELATIVE_TO_AFTER": "N days after the attribute date",
+          "RELATIVE_TO_ON": "On the attribute date",
+          "RELATIVE_TO_BEFORE": "N days before the attribute date",
+          "RELATIVE_HINT": "On the date and N days before fire that calendar day only. N days after still means N or more days later, once.",
           "HOURS": "Hours since last message",
           "HELP": "Scanned about every 5 minutes. Each rule fires once per conversation window.",
           "KINDS": {
-            "DAYS_SINCE": "N days since a date or datetime attribute",
+            "DAYS_SINCE": "A date or datetime attribute (before, on, or after)",
             "HOURS_OUTGOING": "Hours since last outgoing message",
             "HOURS_INCOMING": "Hours since last incoming message"
           },

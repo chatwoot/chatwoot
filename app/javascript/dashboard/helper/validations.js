@@ -247,11 +247,14 @@ export const validateAutomation = automation => {
     const kind = automation.schedule?.kind;
     if (!kind) {
       scheduleErrors.schedule = 'KIND_REQUIRED';
-    } else if (
-      kind === 'days_since_attribute' &&
-      (!automation.schedule?.attribute_key || !automation.schedule?.days)
-    ) {
-      scheduleErrors.schedule = 'ATTRIBUTE_DAYS_REQUIRED';
+    } else if (kind === 'days_since_attribute') {
+      const relativeTo = automation.schedule?.relative_to || 'after';
+      const days = Number(automation.schedule?.days);
+      if (!automation.schedule?.attribute_key) {
+        scheduleErrors.schedule = 'ATTRIBUTE_DAYS_REQUIRED';
+      } else if (relativeTo !== 'on' && (!Number.isFinite(days) || days < 1)) {
+        scheduleErrors.schedule = 'ATTRIBUTE_DAYS_REQUIRED';
+      }
     } else if (
       (kind === 'hours_since_last_outgoing' ||
         kind === 'hours_since_last_incoming') &&

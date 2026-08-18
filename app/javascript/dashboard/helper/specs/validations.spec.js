@@ -118,4 +118,50 @@ describe('validateAutomation', () => {
     });
     expect(valid).toEqual({});
   });
+
+  it('allows on-date time schedule without days', () => {
+    const errors = validateAutomation({
+      name: 'Test',
+      description: 'Test',
+      event_name: 'time_triggered',
+      conditions: [],
+      actions: [{ action_name: 'add_label', action_params: ['follow-up'] }],
+      schedule: {
+        kind: 'days_since_attribute',
+        attribute_key: 'fecha_cita',
+        relative_to: 'on',
+      },
+    });
+    expect(errors).toEqual({});
+  });
+
+  it('requires days for after and before time schedules', () => {
+    const base = {
+      name: 'Test',
+      description: 'Test',
+      event_name: 'time_triggered',
+      conditions: [],
+      actions: [{ action_name: 'add_label', action_params: ['follow-up'] }],
+    };
+    const missingDays = validateAutomation({
+      ...base,
+      schedule: {
+        kind: 'days_since_attribute',
+        attribute_key: 'fecha_cita',
+        relative_to: 'before',
+      },
+    });
+    expect(missingDays).toHaveProperty('schedule');
+
+    const validBefore = validateAutomation({
+      ...base,
+      schedule: {
+        kind: 'days_since_attribute',
+        attribute_key: 'fecha_cita',
+        relative_to: 'before',
+        days: 3,
+      },
+    });
+    expect(validBefore).toEqual({});
+  });
 });
