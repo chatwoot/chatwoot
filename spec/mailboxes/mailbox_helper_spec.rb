@@ -111,6 +111,13 @@ RSpec.describe MailboxHelper do
 
       expect(helper_instance.send(:body_references_cid?, 'image001.jpg@test')).to be true
     end
+
+    it 'matches the CID URI scheme case-insensitively without changing Content-ID matching' do
+      helper_instance.instance_variable_set(:@html_content, '<img src="CiD:image001.jpg%40test">')
+
+      expect(helper_instance.send(:body_references_cid?, 'image001.jpg@test')).to be true
+      expect(helper_instance.send(:body_references_cid?, 'IMAGE001.jpg@test')).to be false
+    end
   end
 
   describe '#inline_attachment?' do
@@ -170,6 +177,17 @@ RSpec.describe MailboxHelper do
       html_content = helper_instance.instance_variable_get(:@html_content)
       expect(html_content).to include('/fake-image-url"')
       expect(html_content).not_to include('cid:')
+    end
+
+    it 'replaces CID references with mixed-case URI schemes' do
+      allow(Rails.application.routes.url_helpers).to receive(:url_for).and_return('/fake-image-url')
+      helper_instance.instance_variable_set(:@html_content, '<img src="CID:image001.jpg%40test">')
+
+      helper_instance.send(:upload_inline_image, mail_attachment)
+
+      html_content = helper_instance.instance_variable_get(:@html_content)
+      expect(html_content).to include('/fake-image-url"')
+      expect(html_content).not_to match(/cid:/i)
     end
   end
 
