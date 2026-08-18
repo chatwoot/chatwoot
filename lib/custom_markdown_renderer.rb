@@ -5,8 +5,12 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     @config ||= YAML.load_file(CONFIG_PATH)
   end
 
+  def self.embeds_config
+    @embeds_config ||= config['embeds'] || {}
+  end
+
   def self.embed_regexes
-    @embed_regexes ||= config.each_with_object({}) do |(key, embed_config), acc|
+    @embed_regexes ||= embeds_config.each_with_object({}) do |(key, embed_config), acc|
       next unless embed_config.is_a?(Hash) && embed_config['regex']
 
       acc[key] = Regexp.new(embed_config['regex'])
@@ -207,7 +211,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   def render_embed_from_match(embed_key, match_data)
-    embed_config = self.class.config[embed_key]
+    embed_config = self.class.embeds_config[embed_key]
     return nil unless embed_config
 
     template = embed_config['template']
