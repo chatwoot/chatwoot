@@ -196,6 +196,10 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
     until: toEpoch(endOfDay(endDate)),
   });
 };
+
+const onPickerClose = () => {
+  if (!hasDateFilter.value) showPicker.value = false;
+};
 </script>
 
 <template>
@@ -274,6 +278,7 @@ const onDateRangeChanged = ([startDate, endDate, rangeType]) => {
         :default-open="!hasDateFilter"
         :apply-on-clickaway="false"
         @date-range-changed="onDateRangeChanged"
+        @close="onPickerClose"
       />
       <Button
         v-if="hasDateFilter"

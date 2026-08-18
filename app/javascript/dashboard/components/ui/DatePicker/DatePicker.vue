@@ -45,7 +45,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['dateRangeChanged']);
+const emit = defineEmits(['dateRangeChanged', 'close']);
 const { t } = useI18n();
 
 const pickerWrapper = ref(null);
@@ -374,6 +374,8 @@ const toggleDatePicker = () => {
   if (showDatePicker.value) {
     positionPopup();
     initializeCalendarMonths();
+  } else {
+    emit('close');
   }
 };
 

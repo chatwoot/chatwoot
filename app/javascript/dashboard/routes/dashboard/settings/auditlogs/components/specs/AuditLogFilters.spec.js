@@ -148,6 +148,18 @@ describe('AuditLogFilters', () => {
     expect(wrapper.findComponent(WootDatePicker).vm).not.toBe(before);
   });
 
+  it('closes the picker when it is dismissed with nothing applied', async () => {
+    const wrapper = mountComponent();
+    await wrapper.findAllComponents(Button).at(2).trigger('click');
+    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(true);
+
+    wrapper.findComponent(WootDatePicker).vm.$emit('close');
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.emitted('update')).toBeUndefined();
+    expect(wrapper.findComponent(WootDatePicker).exists()).toBe(false);
+  });
+
   it('widens a picked range to whole days', async () => {
     const wrapper = mountComponent();
     await wrapper.findAllComponents(Button).at(2).trigger('click');
