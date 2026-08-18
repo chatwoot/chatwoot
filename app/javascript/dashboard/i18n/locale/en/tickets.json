@@ -25,7 +25,8 @@
       "ALL": "All",
       "TYPE": "Type",
       "ALL_TYPES": "All types",
-      "OVERDUE": "Overdue only"
+      "OVERDUE": "Overdue only",
+      "MINE": "Assigned to me"
     },
     "TABLE": {
       "NUMBER": "#",

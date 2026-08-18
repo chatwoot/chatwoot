@@ -20,7 +20,9 @@
       "ACTIONS": "操作",
       "VERIFIED": "已認證",
       "VERIFICATION_PENDING": "待驗證",
-      "AVAILABLE_CUSTOM_ROLE": "可用的自訂角色權限"
+      "AVAILABLE_CUSTOM_ROLE": "可用的自訂角色權限",
+      "MORE_TEAMS": "＋{count} 個",
+      "NO_TEAM": "尚未加入任何團隊"
     },
     "ADD": {
       "TITLE": "新增客服到您的團隊",

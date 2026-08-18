@@ -21,6 +21,7 @@ const router = useRouter();
 const ticketsStore = useTicketsStore();
 
 const accountId = useMapGetter('getCurrentAccountId');
+const currentUserId = useMapGetter('getCurrentUserID');
 
 const tickets = computed(() => ticketsStore.records);
 const meta = computed(() => ticketsStore.meta);
@@ -38,6 +39,9 @@ const ticketType = ref(
     : null
 );
 const overdue = ref(route.query.overdue === 'true');
+// `mine` travels as a flag rather than an agent id so a shared link means
+// "assigned to whoever opens it", which is what the sidebar view promises.
+const mine = ref(route.query.mine === 'true');
 const currentPage = ref(Number(route.query.page) || 1);
 
 const syncFiltersToUrl = () => {
@@ -46,6 +50,7 @@ const syncFiltersToUrl = () => {
       ...(statusCategory.value && { status_category: statusCategory.value }),
       ...(ticketType.value && { ticket_type: ticketType.value }),
       ...(overdue.value && { overdue: 'true' }),
+      ...(mine.value && { mine: 'true' }),
       ...(currentPage.value > 1 && { page: currentPage.value }),
     },
   });
@@ -59,13 +64,15 @@ const fetchTickets = async () => {
       ...(statusCategory.value && { status_category: statusCategory.value }),
       ...(ticketType.value && { ticket_type: ticketType.value }),
       ...(overdue.value && { overdue: true }),
+      ...(mine.value &&
+        currentUserId.value && { assignee_id: currentUserId.value }),
     });
   } catch (error) {
     useAlert(error.message);
   }
 };
 
-watch([statusCategory, ticketType, overdue], () => {
+watch([statusCategory, ticketType, overdue, mine], () => {
   currentPage.value = 1;
   fetchTickets();
 });
@@ -100,6 +107,7 @@ onMounted(fetchTickets);
         v-model:status-category="statusCategory"
         v-model:ticket-type="ticketType"
         v-model:overdue="overdue"
+        v-model:mine="mine"
         class="pb-4 mx-6 mt-5 border-b border-n-weak"
       />
     </header>

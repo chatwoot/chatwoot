@@ -20,7 +20,9 @@
       "ACTIONS": "Actions",
       "VERIFIED": "Verified",
       "VERIFICATION_PENDING": "Verification Pending",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions",
+      "MORE_TEAMS": "+{count} more",
+      "NO_TEAM": "No team"
     },
     "ADD": {
       "TITLE": "Add agent to your team",

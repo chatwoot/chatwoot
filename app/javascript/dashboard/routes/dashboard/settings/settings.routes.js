@@ -22,6 +22,7 @@ import reports from './reports/reports.routes';
 import senderLists from './senderLists/senderLists.routes';
 import store from '../../../store';
 import sla from './sla/sla.routes';
+import people from './people/people.routes';
 import teams from './teams/teams.routes';
 import customRoles from './customRoles/customRole.routes';
 import profile from './profile/profile.routes';
@@ -67,6 +68,7 @@ export default {
     ...reports.routes,
     ...senderLists.routes,
     ...sla.routes,
+    ...people.routes,
     ...teams.routes,
     ...customRoles.routes,
     ...profile.routes,

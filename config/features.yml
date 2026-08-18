@@ -49,7 +49,9 @@
   help_url: https://chwt.app/hc/agent-bots
 - name: macros
   display_name: Macros
-  enabled: true
+  # Pathors fork: not part of the product we ship today — hidden so the
+  # settings list stays about things the team actually configures.
+  enabled: false
 - name: agent_management
   display_name: Agent Management
   enabled: true
@@ -70,7 +72,9 @@
   help_url: https://chwt.app/hc/custom-attributes
 - name: automations
   display_name: Automations
-  enabled: true
+  # Pathors fork: not part of the product we ship today — hidden so the
+  # settings list stays about things the team actually configures.
+  enabled: false
 - name: canned_responses
   display_name: Canned Responses
   enabled: true
@@ -101,7 +105,9 @@
   enabled: true
 - name: auto_resolve_conversations
   display_name: Auto Resolve Conversations
-  enabled: true
+  # Pathors fork: not part of the product we ship today — hidden so the
+  # settings list stays about things the team actually configures.
+  enabled: false
 - name: custom_reply_email
   display_name: Custom Reply Email
   enabled: false

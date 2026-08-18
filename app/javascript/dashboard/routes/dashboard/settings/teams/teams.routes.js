@@ -1,7 +1,6 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 
-import TeamsIndex from './Index.vue';
 import CreateStepWrap from './Create/Index.vue';
 import EditStepWrap from './Edit/Index.vue';
 import CreateTeam from './Create/CreateTeam.vue';
@@ -25,13 +24,14 @@ export default {
           },
         },
         {
+          // See agent.routes.js — both list paths fold into the shared page.
           path: 'list',
           name: 'settings_teams_list',
-          component: TeamsIndex,
-          meta: {
-            featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
-            permissions: ['administrator'],
-          },
+          redirect: to => ({
+            name: 'settings_people_index',
+            params: to.params,
+            query: { tab: 'teams' },
+          }),
         },
       ],
     },

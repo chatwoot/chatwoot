@@ -412,7 +412,26 @@
     "DOCS": "閱讀文件",
     "SECURITY": "安全性",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "對話工作流程"
+    "CONVERSATION_WORKFLOW": "對話工作流程",
+    "SECTIONS": {
+      "WORK": "日常工作",
+      "CUSTOMERS": "客戶與觸及",
+      "ADMIN": "分析與設定"
+    },
+    "SETTINGS_GROUPS": {
+      "ACCOUNT": "帳號",
+      "PEOPLE": "團隊與權限",
+      "CHANNELS": "收件匣與渠道",
+      "CONVERSATIONS": "對話規則",
+      "INTEGRATIONS": "整合與資料"
+    },
+    "TICKET_VIEWS": {
+      "ALL": "全部工單",
+      "MINE": "我的工單",
+      "TRIAGE": "待分派",
+      "OVERDUE": "逾期"
+    },
+    "PEOPLE": "人員與團隊"
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",

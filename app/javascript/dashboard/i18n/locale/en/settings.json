@@ -416,7 +416,26 @@
     "DOCS": "Read docs",
     "SECURITY": "Security",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+    "CONVERSATION_WORKFLOW": "Conversation Workflow",
+    "SECTIONS": {
+      "WORK": "Work",
+      "CUSTOMERS": "Customers & outreach",
+      "ADMIN": "Insights & setup"
+    },
+    "SETTINGS_GROUPS": {
+      "ACCOUNT": "Account",
+      "PEOPLE": "People & permissions",
+      "CHANNELS": "Inboxes & channels",
+      "CONVERSATIONS": "Conversation rules",
+      "INTEGRATIONS": "Integrations & data"
+    },
+    "TICKET_VIEWS": {
+      "ALL": "All tickets",
+      "MINE": "My tickets",
+      "TRIAGE": "Needs triage",
+      "OVERDUE": "Overdue"
+    },
+    "PEOPLE": "People & teams"
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",

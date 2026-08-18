@@ -82,12 +82,10 @@ export function usePopoverState() {
   };
 }
 
-export function useSidebarContext() {
-  const context = inject(SidebarControl, null);
-  if (context === null) {
-    throw new Error(`Component is missing a parent <Sidebar /> component.`);
-  }
-
+// Route-meta driven visibility helpers. Deliberately free of `inject` so the
+// component that *provides* the sidebar context (Sidebar.vue) can use them too —
+// it needs them to drop a section header whose every item is hidden by policy.
+export function useSidebarRouteMeta() {
   const router = useRouter();
   const { shouldShow } = usePolicy();
 
@@ -145,6 +143,24 @@ export function useSidebarContext() {
 
     return shouldShow(featureFlag, permissions, installationType);
   };
+
+  return {
+    resolvePath,
+    resolvePermissions,
+    resolveFeatureFlag,
+    resolveInstallationType,
+    isAllowed,
+  };
+}
+
+export function useSidebarContext() {
+  const context = inject(SidebarControl, null);
+  if (context === null) {
+    throw new Error(`Component is missing a parent <Sidebar /> component.`);
+  }
+
+  const { resolvePath, resolvePermissions, resolveFeatureFlag, isAllowed } =
+    useSidebarRouteMeta();
 
   return {
     ...context,

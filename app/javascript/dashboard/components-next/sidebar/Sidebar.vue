@@ -1,6 +1,10 @@
 <script setup>
 import { h, ref, computed, onMounted, watch } from 'vue';
-import { provideSidebarContext, useSidebarResize } from './provider';
+import {
+  provideSidebarContext,
+  useSidebarResize,
+  useSidebarRouteMeta,
+} from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -15,6 +19,7 @@ import { useWindowSize, useEventListener } from '@vueuse/core';
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
+import SidebarSectionHeader from './SidebarSectionHeader.vue';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import SidebarChangelogButton from './SidebarChangelogButton.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
@@ -366,6 +371,90 @@ const newReportRoutes = () => [
 
 const reportRoutes = computed(() => newReportRoutes());
 
+// Top-level items are grouped into sections by name so the giant menuItems
+// literal below stays untouched: an item upstream adds later still renders, it
+// just lands in the trailing unlabelled section instead of disappearing.
+const SECTION_LAYOUT = [
+  {
+    name: 'work',
+    labelKey: 'SIDEBAR.SECTIONS.WORK',
+    items: ['Inbox', 'Conversation', 'Tickets', 'Calls', 'Captain'],
+  },
+  {
+    name: 'customers',
+    labelKey: 'SIDEBAR.SECTIONS.CUSTOMERS',
+    items: ['Contacts', 'Companies', 'Campaigns', 'Portals'],
+  },
+  {
+    name: 'admin',
+    labelKey: 'SIDEBAR.SECTIONS.ADMIN',
+    items: ['Reports', 'Settings'],
+  },
+];
+
+// Settings was a flat list of 21 entries. Same name-mapping trick, rendered
+// through SidebarSubGroup — the component the conversation folders already use.
+const SETTINGS_GROUP_LAYOUT = [
+  {
+    name: 'Account',
+    labelKey: 'SIDEBAR.SETTINGS_GROUPS.ACCOUNT',
+    icon: 'i-lucide-building-2',
+    items: [
+      'Settings Account Settings',
+      'Settings Billing',
+      'Settings Security',
+      'Settings Audit Logs',
+    ],
+  },
+  {
+    name: 'People',
+    labelKey: 'SIDEBAR.SETTINGS_GROUPS.PEOPLE',
+    icon: 'i-lucide-users',
+    items: [
+      'Settings People',
+      'Settings Agent Assignment',
+      'Settings Custom Roles',
+    ],
+  },
+  {
+    name: 'Channels',
+    labelKey: 'SIDEBAR.SETTINGS_GROUPS.CHANNELS',
+    icon: 'i-lucide-inbox',
+    items: ['Settings Inboxes', 'Settings Templates', 'Settings Sender Lists'],
+  },
+  {
+    name: 'Conversations',
+    labelKey: 'SIDEBAR.SETTINGS_GROUPS.CONVERSATIONS',
+    icon: 'i-lucide-message-circle',
+    items: [
+      'Settings Labels',
+      'Settings Custom Attributes',
+      'Settings Canned Responses',
+      'Settings Sla',
+    ],
+  },
+  {
+    name: 'Integrations',
+    labelKey: 'SIDEBAR.SETTINGS_GROUPS.INTEGRATIONS',
+    icon: 'i-lucide-blocks',
+    items: ['Settings Integrations', 'Settings Agent Bots', 'Settings Data'],
+  },
+];
+
+// Pathors fork: these are not part of the product we ship today. Macros and
+// Automation are additionally off by default in features.yml; Conversation
+// Workflow has no flag, so the sidebar entry is what hides it. Note it is also
+// where "required attributes before resolving" is configured — bring the entry
+// back if that ticket resolve rule is ever turned on.
+const HIDDEN_SETTINGS_ITEMS = [
+  // Superseded by the merged 'Settings People' entry below.
+  'Settings Agents',
+  'Settings Teams',
+  'Settings Macros',
+  'Settings Automation',
+  'Conversation Workflow',
+];
+
 const menuItems = computed(() => {
   return [
     {
@@ -584,8 +673,41 @@ const menuItems = computed(() => {
             name: 'Tickets',
             label: t('SIDEBAR.TICKETS'),
             icon: 'i-lucide-square-check-big',
-            to: accountScopedRoute('tickets_dashboard_index'),
-            activeOn: ['tickets_dashboard_index'],
+            children: [
+              {
+                name: 'All Tickets',
+                label: t('SIDEBAR.TICKET_VIEWS.ALL'),
+                icon: 'i-lucide-square-check-big',
+                to: accountScopedRoute('tickets_dashboard_index'),
+              },
+              {
+                name: 'My Tickets',
+                label: t('SIDEBAR.TICKET_VIEWS.MINE'),
+                icon: 'i-lucide-user-round-check',
+                to: {
+                  ...accountScopedRoute('tickets_dashboard_index'),
+                  query: { mine: 'true' },
+                },
+              },
+              {
+                name: 'Triage Tickets',
+                label: t('SIDEBAR.TICKET_VIEWS.TRIAGE'),
+                icon: 'i-lucide-inbox',
+                to: {
+                  ...accountScopedRoute('tickets_dashboard_index'),
+                  query: { status_category: 'triage' },
+                },
+              },
+              {
+                name: 'Overdue Tickets',
+                label: t('SIDEBAR.TICKET_VIEWS.OVERDUE'),
+                icon: 'i-lucide-clock-alert',
+                to: {
+                  ...accountScopedRoute('tickets_dashboard_index'),
+                  query: { overdue: 'true' },
+                },
+              },
+            ],
           },
         ]
       : []),
@@ -804,26 +926,21 @@ const menuItems = computed(() => {
         //   to: accountScopedRoute('captain_settings_index'),
         // },
         {
-          name: 'Settings Agents',
-          label: t('SIDEBAR.AGENTS'),
-          icon: 'i-lucide-square-user',
-          to: accountScopedRoute('agent_list'),
-        },
-        {
-          name: 'Settings Teams',
-          label: t('SIDEBAR.TEAMS'),
+          name: 'Settings People',
+          label: t('SIDEBAR.PEOPLE'),
           icon: 'i-lucide-users',
+          to: accountScopedRoute('settings_people_index'),
           activeOn: [
+            'settings_people_index',
+            'agent_list',
             'settings_teams_list',
             'settings_teams_new',
-            'settings_teams_finish',
             'settings_teams_add_agents',
-            'settings_teams_show',
+            'settings_teams_finish',
             'settings_teams_edit',
             'settings_teams_edit_members',
             'settings_teams_edit_finish',
           ],
-          to: accountScopedRoute('settings_teams_list'),
         },
         ...(hasAdvancedAssignment.value
           ? [
@@ -962,6 +1079,70 @@ const menuItems = computed(() => {
     },
   ];
 });
+
+const { isAllowed } = useSidebarRouteMeta();
+
+// Mirrors SidebarGroup's own visibleChildren rule (see SidebarGroup.vue) so a
+// section header never outlives the items it labels.
+const isItemVisible = item => {
+  if (!item.children?.length) return isAllowed(item.to);
+
+  return item.children.some(child =>
+    child.children
+      ? child.children.some(subChild => subChild.to && isAllowed(subChild.to))
+      : child.to && isAllowed(child.to)
+  );
+};
+
+const groupedSettingsChildren = children => {
+  const byName = new Map(children.map(child => [child.name, child]));
+  const groups = SETTINGS_GROUP_LAYOUT.map(group => ({
+    name: group.name,
+    label: t(group.labelKey),
+    icon: group.icon,
+    collapsible: false,
+    showTreeLine: true,
+    children: group.items.map(itemName => byName.get(itemName)).filter(Boolean),
+  })).filter(group => group.children.length);
+
+  const claimed = new Set([
+    ...SETTINGS_GROUP_LAYOUT.flatMap(group => group.items),
+    ...HIDDEN_SETTINGS_ITEMS,
+  ]);
+
+  return [...groups, ...children.filter(child => !claimed.has(child.name))];
+};
+
+const menuSections = computed(() => {
+  const byName = new Map(
+    menuItems.value.map(item => [
+      item.name,
+      item.name === 'Settings'
+        ? { ...item, children: groupedSettingsChildren(item.children) }
+        : item,
+    ])
+  );
+
+  const sections = SECTION_LAYOUT.map(section => ({
+    name: section.name,
+    label: t(section.labelKey),
+    items: section.items
+      .map(itemName => byName.get(itemName))
+      .filter(item => item && isItemVisible(item)),
+  }));
+
+  const claimed = new Set(SECTION_LAYOUT.flatMap(section => section.items));
+  const unclaimed = menuItems.value.filter(
+    item => !claimed.has(item.name) && isItemVisible(item)
+  );
+
+  return [
+    ...sections,
+    ...(unclaimed.length
+      ? [{ name: 'other', label: '', items: unclaimed }]
+      : []),
+  ].filter(section => section.items.length);
+});
 </script>
 
 <template>
@@ -1068,11 +1249,18 @@ const menuItems = computed(() => {
         class="flex flex-col gap-1 m-0 list-none min-w-0"
         :class="{ 'items-center': isEffectivelyCollapsed }"
       >
-        <SidebarGroup
-          v-for="item in menuItems"
-          :key="item.name"
-          v-bind="item"
-        />
+        <template v-for="section in menuSections" :key="section.name">
+          <SidebarSectionHeader
+            v-if="section.label"
+            :label="section.label"
+            :collapsed="isEffectivelyCollapsed"
+          />
+          <SidebarGroup
+            v-for="item in section.items"
+            :key="item.name"
+            v-bind="item"
+          />
+        </template>
       </ul>
     </nav>
     <section

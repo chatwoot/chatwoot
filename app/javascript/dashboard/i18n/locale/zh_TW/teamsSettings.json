@@ -11,7 +11,9 @@
     "LIST": {
       "404": "此帳戶中尚未建立任何團隊。",
       "EDIT_TEAM": "編輯團隊",
-      "NONE": "無"
+      "NONE": "無",
+      "MEMBER_COUNT": "{count} 位成員",
+      "NO_MEMBERS": "尚無成員"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -119,6 +121,12 @@
         "LABEL": "允許此團隊自動指派。"
       },
       "SUBMIT_CREATE": "建立團隊"
+    }
+  },
+  "PEOPLE": {
+    "TABS": {
+      "AGENTS": "客服人員",
+      "TEAMS": "團隊"
     }
   }
 }

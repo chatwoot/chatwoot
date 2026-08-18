@@ -13,6 +13,7 @@ import {
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import { useTeamMembership } from '../people/useTeamMembership';
 import SettingsLayout from '../SettingsLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -49,6 +50,11 @@ const filteredAgentList = computed(() => {
 const uiFlags = computed(() => getters['agents/getUIFlags'].value);
 const currentUserId = computed(() => getters.getCurrentUserID.value);
 const customRoles = useMapGetter('customRole/getCustomRoles');
+const { teamsByAgentId } = useTeamMembership();
+
+const MAX_TEAM_CHIPS = 2;
+
+const teamsForAgent = agent => teamsByAgentId.value[agent.id] ?? [];
 
 onMounted(() => {
   store.dispatch('agents/get');
@@ -199,6 +205,31 @@ const confirmDeletion = () => {
               <span class="block text-heading-3 text-n-slate-12 capitalize">
                 {{ agent.name }}
               </span>
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span
+                  v-for="team in teamsForAgent(agent).slice(0, MAX_TEAM_CHIPS)"
+                  :key="team.id"
+                  class="px-2 py-0.5 rounded-md text-body-small bg-n-alpha-2 text-n-slate-11"
+                >
+                  {{ team.name }}
+                </span>
+                <span
+                  v-if="teamsForAgent(agent).length > MAX_TEAM_CHIPS"
+                  class="text-body-small text-n-slate-10"
+                >
+                  {{
+                    $t('AGENT_MGMT.LIST.MORE_TEAMS', {
+                      count: teamsForAgent(agent).length - MAX_TEAM_CHIPS,
+                    })
+                  }}
+                </span>
+                <span
+                  v-if="!teamsForAgent(agent).length"
+                  class="text-body-small text-n-slate-10"
+                >
+                  {{ $t('AGENT_MGMT.LIST.NO_TEAM') }}
+                </span>
+              </div>
               <div class="flex items-center gap-2">
                 <span class="text-body-main text-n-slate-11">
                   {{ agent.email }}

@@ -2,6 +2,8 @@
 import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import { useTeamMembership } from '../people/useTeamMembership';
 import SettingsLayout from '../SettingsLayout.vue';
 import { computed, ref } from 'vue';
 import { picoSearch } from '@scmmishra/pico-search';
@@ -22,6 +24,11 @@ const loading = ref({});
 const searchQuery = ref('');
 
 const teamsList = useMapGetter('teams/getTeams');
+const { membersByTeamId } = useTeamMembership();
+
+const MAX_MEMBER_AVATARS = 4;
+
+const membersForTeam = team => membersByTeamId.value[team.id] ?? [];
 
 const filteredTeamsList = computed(() => {
   const query = searchQuery.value.trim();
@@ -145,6 +152,33 @@ const confirmPlaceHolderText = computed(() =>
               <p class="mb-0 text-n-slate-11 text-body-main">
                 {{ team.description }}
               </p>
+              <div class="flex items-center gap-2">
+                <div
+                  v-if="membersForTeam(team).length"
+                  class="flex -space-x-1.5"
+                >
+                  <Avatar
+                    v-for="member in membersForTeam(team).slice(
+                      0,
+                      MAX_MEMBER_AVATARS
+                    )"
+                    :key="member.id"
+                    :src="member.thumbnail"
+                    :name="member.name"
+                    :size="20"
+                    class="outline outline-1 outline-n-background rounded-full"
+                  />
+                </div>
+                <span class="text-body-small text-n-slate-10">
+                  {{
+                    membersForTeam(team).length
+                      ? $t('TEAMS_SETTINGS.LIST.MEMBER_COUNT', {
+                          count: membersForTeam(team).length,
+                        })
+                      : $t('TEAMS_SETTINGS.LIST.NO_MEMBERS')
+                  }}
+                </span>
+              </div>
             </div>
           </div>
           <div class="flex justify-end gap-3">

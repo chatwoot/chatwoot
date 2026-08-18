@@ -1,7 +1,5 @@
-import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 import SettingsWrapper from '../SettingsWrapper.vue';
-import AgentHome from './Index.vue';
 
 export default {
   routes: [
@@ -16,13 +14,15 @@ export default {
           },
         },
         {
+          // Agents and teams now share one page; the old paths stay as
+          // redirects so existing bookmarks and deep links keep working.
           path: 'list',
           name: 'agent_list',
-          component: AgentHome,
-          meta: {
-            featureFlag: FEATURE_FLAGS.AGENT_MANAGEMENT,
-            permissions: ['administrator'],
-          },
+          redirect: to => ({
+            name: 'settings_people_index',
+            params: to.params,
+            query: { tab: 'agents' },
+          }),
         },
       ],
     },

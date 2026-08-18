@@ -11,7 +11,9 @@
     "LIST": {
       "404": "There are no teams created on this account.",
       "EDIT_TEAM": "Edit team",
-      "NONE": "None"
+      "NONE": "None",
+      "MEMBER_COUNT": "{count} members",
+      "NO_MEMBERS": "No members yet"
     },
     "CREATE_FLOW": {
       "CREATE": {
@@ -119,6 +121,12 @@
         "LABEL": "Allow auto assign for this team."
       },
       "SUBMIT_CREATE": "Create team"
+    }
+  },
+  "PEOPLE": {
+    "TABS": {
+      "AGENTS": "Agents",
+      "TEAMS": "Teams"
     }
   }
 }

@@ -16,6 +16,7 @@ const statusCategory = defineModel('statusCategory', {
 });
 const ticketType = defineModel('ticketType', { type: String, default: null });
 const overdue = defineModel('overdue', { type: Boolean, default: false });
+const mine = defineModel('mine', { type: Boolean, default: false });
 
 const { t } = useI18n();
 
@@ -95,6 +96,10 @@ const onTypeSelected = ({ value }) => {
           @action="onTypeSelected"
         />
       </OnClickOutside>
+      <div class="flex items-center gap-2 text-sm text-n-slate-11">
+        <span>{{ t('TICKETS.FILTERS.MINE') }}</span>
+        <Switch v-model="mine" />
+      </div>
       <div class="flex items-center gap-2 text-sm text-n-slate-11">
         <span>{{ t('TICKETS.FILTERS.OVERDUE') }}</span>
         <Switch v-model="overdue" />

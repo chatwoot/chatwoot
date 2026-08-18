@@ -25,7 +25,8 @@
       "ALL": "全部",
       "TYPE": "類型",
       "ALL_TYPES": "所有類型",
-      "OVERDUE": "只看逾期"
+      "OVERDUE": "只看逾期",
+      "MINE": "只看我的"
     },
     "TABLE": {
       "NUMBER": "#",
