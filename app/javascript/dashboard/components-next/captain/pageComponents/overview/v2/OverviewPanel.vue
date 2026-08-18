@@ -6,7 +6,7 @@ defineProps({
 
 <template>
   <section
-    class="flex flex-col min-w-0 overflow-hidden border rounded-xl bg-n-solid-1 border-n-weak"
+    class="flex flex-col min-w-0 overflow-hidden border rounded-2xl bg-n-card border-n-container shadow-[0_1px_2px_0_rgba(27,28,29,0.04)]"
   >
     <header
       v-if="title || $slots.actions"

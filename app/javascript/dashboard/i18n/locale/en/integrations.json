@@ -522,6 +522,7 @@
           "POLICY_RESTRICTION": "Policy restriction",
           "TOOL_FAILURE": "Tool failure",
           "PENDING_CLARIFICATION": "Pending customer clarification",
+          "PERCENTAGE": "({value}%)",
           "USAGE_LIMIT": "Usage limit",
           "UNCLASSIFIED": "Unclassified"
         },
