@@ -30,13 +30,9 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  hasActiveFilters: {
-    type: Boolean,
-    default: false,
-  },
 });
 
-const emit = defineEmits(['update', 'clear']);
+const emit = defineEmits(['update']);
 
 const { t } = useI18n();
 
@@ -199,7 +195,7 @@ const handleFilterAction = ({ action, value }) => {
 <template>
   <div
     v-on-click-outside="closeFilterMenu"
-    class="flex items-center gap-2 shrink-0"
+    class="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:shrink-0"
   >
     <WootDatePicker
       v-if="isPickerVisible"

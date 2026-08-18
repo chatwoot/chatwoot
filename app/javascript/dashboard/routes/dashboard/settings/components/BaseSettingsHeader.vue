@@ -87,7 +87,7 @@ const helpURL = getHelpUrlForFeature(props.featureName);
   </div>
   <div
     v-if="searchPlaceholder || slots.actions || slots.tabs"
-    class="gap-3 flex justify-between sm:mt-4 min-w-0"
+    class="gap-3 flex flex-wrap sm:flex-nowrap justify-between sm:mt-4 min-w-0"
   >
     <div
       v-if="slots.tabs || searchPlaceholder"

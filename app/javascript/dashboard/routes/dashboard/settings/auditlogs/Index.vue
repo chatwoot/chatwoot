@@ -11,6 +11,7 @@ import {
   BaseTableRow,
   BaseTableCell,
 } from 'dashboard/components-next/table';
+import Button from 'dashboard/components-next/button/Button.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -161,15 +162,23 @@ onMounted(() => {
             :since="route.query.since"
             :until="route.query.until"
             :sort="route.query.sort"
-            :has-active-filters="hasActiveFilters"
             @update="onFiltersUpdate"
-            @clear="clearFilters"
           />
         </template>
         <template v-if="meta.totalEntries" #count>
           <span class="text-body-main text-n-slate-11 whitespace-nowrap">
             {{ $t('AUDIT_LOGS.COUNT', { n: meta.totalEntries }) }}
           </span>
+        </template>
+        <template v-if="hasActiveFilters" #actions>
+          <Button
+            :label="$t('AUDIT_LOGS.FILTERS.CLEAR_ALL')"
+            icon="i-lucide-x"
+            slate
+            ghost
+            sm
+            @click="clearFilters"
+          />
         </template>
       </BaseSettingsHeader>
     </template>

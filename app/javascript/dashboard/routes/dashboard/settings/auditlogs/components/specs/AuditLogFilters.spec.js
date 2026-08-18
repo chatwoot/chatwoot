@@ -92,13 +92,6 @@ describe('AuditLogFilters', () => {
     expect(wrapper.findComponent(DropdownMenu).exists()).toBe(false);
   });
 
-  it('emits clear from the clear-filters button', async () => {
-    const wrapper = mountComponent({ type: 'Inbox', hasActiveFilters: true });
-    await wrapper.findAllComponents(Button).at(3).trigger('click');
-
-    expect(wrapper.emitted('clear')).toHaveLength(1);
-  });
-
   it('keeps a single menu open at a time', async () => {
     const wrapper = mountComponent();
     await openMenu(wrapper, 1);
