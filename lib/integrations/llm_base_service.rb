@@ -84,9 +84,9 @@ class Integrations::LlmBaseService
   end
 
   def api_base
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence || 'https://api.openai.com/'
+    endpoint = hook.settings['api_base'].presence || InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence || 'https://api.openai.com/'
     endpoint = endpoint.chomp('/')
-    "#{endpoint}/v1"
+    endpoint.end_with?('/v1') ? endpoint : "#{endpoint}/v1"
   end
 
   def make_api_call(body)
@@ -167,7 +167,7 @@ class Integrations::LlmBaseService
   end
 
   def llm_credential
-    @llm_credential ||= { api_key: hook.settings['api_key'], source: :hook }
+    @llm_credential ||= { api_key: hook.settings['api_key'], api_base: hook.settings['api_base'].presence, source: :hook }
   end
 
   def exception_tracking_account

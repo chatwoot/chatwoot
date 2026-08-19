@@ -1,7 +1,7 @@
 module Integrations::Openai::KeyValidator
   TIMEOUT_SECONDS = 5
 
-  def self.valid?(api_key)
+  def self.valid?(api_key, api_base: nil)
     return false if api_key.blank?
 
     connection = Faraday.new do |f|
@@ -9,7 +9,7 @@ module Integrations::Openai::KeyValidator
       f.options.open_timeout = TIMEOUT_SECONDS
     end
 
-    response = connection.get("#{api_base}/models") do |req|
+    response = connection.get("#{api_base_url(api_base)}/models") do |req|
       req.headers['Authorization'] = "Bearer #{api_key}"
     end
 
@@ -19,8 +19,9 @@ module Integrations::Openai::KeyValidator
     true
   end
 
-  def self.api_base
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence || 'https://api.openai.com/'
-    "#{endpoint.chomp('/')}/v1"
+  def self.api_base_url(endpoint = nil)
+    endpoint = endpoint.presence || InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence || 'https://api.openai.com/'
+    endpoint = endpoint.chomp('/')
+    endpoint.end_with?('/v1') ? endpoint : "#{endpoint}/v1"
   end
 end

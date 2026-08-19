@@ -120,7 +120,7 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def openai_api_key_changed?
-    settings_api_key(settings) != settings_api_key(settings_in_database)
+    settings_api_key(settings) != settings_api_key(settings_in_database) || settings_api_base(settings) != settings_api_base(settings_in_database)
   end
 
   def cloudflare_realtimekit_credentials_changed?
@@ -139,7 +139,7 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def validate_openai_api_key
-    return if Integrations::Openai::KeyValidator.valid?(settings_api_key(settings))
+    return if Integrations::Openai::KeyValidator.valid?(settings_api_key(settings), api_base: settings_api_base(settings))
 
     errors.add(:base, I18n.t('errors.openai.invalid_api_key'))
   end
@@ -153,6 +153,10 @@ class Integrations::Hook < ApplicationRecord
 
   def settings_api_key(value)
     settings_value(value, 'api_key')
+  end
+
+  def settings_api_base(value)
+    settings_value(value, 'api_base')
   end
 
   def settings_cloudflare_realtimekit_credentials(value)
