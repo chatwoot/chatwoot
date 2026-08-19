@@ -29,6 +29,12 @@ as well as a link to its edit page.
             [:edit, namespace,  page.resource.becomes(User)],
             class: "button",
           ) if authorized_action? page.resource, :edit %>
+    <%= button_to(
+            t("super_admin.users.resend_confirmation.button"),
+            [:resend_confirmation, namespace, page.resource.becomes(User)],
+            method: :post,
+            class: "button",
+          ) unless page.resource.confirmed? %>
   </div>
 </header>
 

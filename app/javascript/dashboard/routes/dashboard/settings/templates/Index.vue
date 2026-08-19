@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onActivated, onDeactivated, ref } from 'vue';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 
