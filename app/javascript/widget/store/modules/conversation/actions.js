@@ -14,6 +14,9 @@ import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 
+// Only the newest history request may write to the list; a thread switch cancels the one it supersedes.
+let historyRequest = null;
+
 // One list holds every thread, so its newest conversation is the one on screen.
 const latestThreadId = conversations =>
   Object.values(conversations).reduce(
@@ -35,6 +38,8 @@ const resetStaleThread = async (
   const hasStaleAttributes = attributeId && attributeId < conversationId;
   if (!staleMessages().length && !hasStaleAttributes) return;
 
+  // A page still loading the thread being left would merge it back once it arrives.
+  historyRequest?.abort();
   await dispatch('conversationAttributes/getAttributes', {}, { root: true });
   // Dropped after the refresh, or the socket adds the old thread's events straight back.
   staleMessages().forEach(item => commit('deleteMessage', item.id));
@@ -180,16 +185,14 @@ export const actions = {
       // Show error
     }
   },
-  fetchOldConversations: async ({ commit, state }, { before } = {}) => {
-    const requested = latestThreadId(state.conversations);
+  fetchOldConversations: async ({ commit }, { before } = {}) => {
+    const request = new AbortController();
+    historyRequest = request;
     try {
       commit('setConversationListLoading', true);
       const {
         data: { payload, meta },
-      } = await getMessagesAPI({ before });
-      // This page was asked for before the switch, so it belongs to the thread just dropped.
-      if (requested && latestThreadId(state.conversations) > requested) return;
-
+      } = await getMessagesAPI({ before }, { signal: request.signal });
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
