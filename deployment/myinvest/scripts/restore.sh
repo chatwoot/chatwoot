@@ -43,6 +43,20 @@ fi
 "${compose[@]}" stop caddy rails sidekiq claude-agent minio
 "${compose[@]}" up -d postgres redis
 
+# `up -d` kehrt zurueck, sobald der Container laeuft — nicht, sobald Postgres
+# Verbindungen annimmt. Ohne dieses Warten scheitert das erste dropdb mit
+# "No such file or directory" auf dem Socket.
+for _ in $(seq 1 60); do
+  if "${compose[@]}" exec -T postgres sh -ec 'pg_isready -U "$POSTGRES_USER" -q'; then
+    break
+  fi
+  sleep 2
+done
+"${compose[@]}" exec -T postgres sh -ec 'pg_isready -U "$POSTGRES_USER" -q' || {
+  printf 'PostgreSQL wurde nicht rechtzeitig bereit.\n' >&2
+  exit 1
+}
+
 restore_database() {
   local database="$1"
   local owner="$2"
@@ -50,7 +64,12 @@ restore_database() {
   "${compose[@]}" exec -T postgres sh -ec \
     "PGPASSWORD=\"\$POSTGRES_PASSWORD\" dropdb --if-exists --force --username \"\$POSTGRES_USER\" '$database' && PGPASSWORD=\"\$POSTGRES_PASSWORD\" createdb --username \"\$POSTGRES_USER\" --owner '$owner' '$database'"
   "${compose[@]}" exec -T postgres sh -ec \
-    "PGPASSWORD=\"\$POSTGRES_PASSWORD\" pg_restore --exit-on-error --no-owner --role '$owner' --username \"\$POSTGRES_USER\" --dbname '$database'" \
+    "PGPASSWORD=\"\$POSTGRES_PASSWORD\" psql --quiet --username \"\$POSTGRES_USER\" --dbname '$database' \
+       --command 'CREATE EXTENSION IF NOT EXISTS pg_stat_statements' \
+       --command 'CREATE EXTENSION IF NOT EXISTS vector' \
+       --command 'CREATE EXTENSION IF NOT EXISTS pg_trgm'"
+  "${compose[@]}" exec -T postgres sh -ec \
+    "PGPASSWORD=\"\$POSTGRES_PASSWORD\" pg_restore --exit-on-error --no-owner --no-comments --role '$owner' --username \"\$POSTGRES_USER\" --dbname '$database'" \
     < "$dump_path"
 }
 
