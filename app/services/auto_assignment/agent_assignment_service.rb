@@ -14,7 +14,10 @@ class AutoAssignment::AgentAssignmentService
   # the after_commit callbacks. Returns the new assignee, or nil when nothing changed.
   def assign_under_lock
     locked = Conversation.lock.find_by(id: conversation.id)
-    return unless locked && reassignment_still_needed?(locked)
+    return unless locked
+
+    discard_already_applied_status_change(locked)
+    return unless reassignment_still_needed?(locked)
 
     new_assignee = find_assignee
     return unless new_assignee
@@ -33,6 +36,16 @@ class AutoAssignment::AgentAssignmentService
   end
 
   private
+
+  # A concurrent writer may have committed the same status transition while we waited for
+  # the lock; keeping our stale copy dirty would announce it a second time (duplicate
+  # conversation.opened events, activities and reporting rows), so drop it and let the
+  # save carry only changes that are genuinely ours.
+  def discard_already_applied_status_change(locked_conversation)
+    return unless conversation.will_save_change_to_status? && conversation.status == locked_conversation.status
+
+    conversation.clear_attribute_changes([:status])
+  end
 
   # Fields the in-flight save is writing commit at their pending value (e.g. bot_handoff!
   # clears the agent bot in the same save that opens), so the locked row only decides

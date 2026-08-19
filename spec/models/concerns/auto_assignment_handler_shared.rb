@@ -78,6 +78,33 @@ shared_examples_for 'auto_assignment_handler' do
         .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), hash_including(conversation: conversation))
     end
 
+    it 'does not re-announce an open transition a concurrent request already committed' do
+      conversation.update!(status: 'pending', assignee: nil)
+      stale = Conversation.find(conversation.id)
+      conversation.update!(status: 'open')
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      stale.update!(status: 'open')
+
+      expect(stale.reload.assignee).to eq(agent)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+    end
+
+    it 'still assigns on a stale open transition when the earlier open found no agent' do
+      allow(Redis::Alfred).to receive(:rpoplpush).and_return(nil)
+      conversation.update!(status: 'pending', assignee: nil)
+      stale = Conversation.find(conversation.id)
+      conversation.update!(status: 'open')
+      allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent.id)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      stale.update!(status: 'open')
+
+      expect(stale.reload.assignee).to eq(agent)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+        .with(described_class::CONVERSATION_OPENED, kind_of(Time), hash_including(conversation: stale))
+    end
+
     it 'gets triggered on update only when status changes to open' do
       conversation.status = 'resolved'
       conversation.save!
