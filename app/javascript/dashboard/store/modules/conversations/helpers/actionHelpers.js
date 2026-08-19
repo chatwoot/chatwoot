@@ -63,24 +63,25 @@ export const buildConversationList = (
   context.commit(types.CLEAR_LIST_LOADING_STATUS);
   setContacts(context.commit, conversationList);
 
-  // `updatedWithin` is used after an Action Cable reconnect to merge
-  // conversations changed during the disconnect. This response is an
-  // unpaginated delta, so an empty payload means "nothing changed", not EOF.
-  if (
-    requestPayload.updatedWithin !== undefined &&
-    requestPayload.updatedWithin !== null
-  ) {
-    return;
-  }
-
   // Keep the full objects in the canonical cache above, and separately record
-  // the ordered page membership so another assignee tab cannot affect this one.
+  // the active tab's membership. Reconnect deltas also pass through here so a
+  // conversation recovered after a disconnect becomes visible in that tab.
   if (Object.values(wootConstants.ASSIGNEE_TYPE).includes(filterType)) {
     context.commit(types.SET_CONVERSATION_IDS_FOR_ASSIGNEE, {
       assigneeType: filterType,
       conversationIds: conversationList.map(conversation => conversation.id),
       page: requestPayload.page,
     });
+  }
+
+  // `updatedWithin` is used after an Action Cable reconnect to merge
+  // conversations and tab IDs changed during the disconnect. This response is
+  // an unpaginated delta, so it must not advance the page or mark the tab EOF.
+  if (
+    requestPayload.updatedWithin !== undefined &&
+    requestPayload.updatedWithin !== null
+  ) {
+    return;
   }
 
   setPageFilter({
