@@ -44,6 +44,50 @@ describe WebhookListener do
       end
     end
 
+    context 'when API and webhook access is disabled for the account' do
+      before do
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+        allow(message).to receive(:inbox).and_return(inbox)
+        allow(inbox).to receive(:account).and_return(account)
+      end
+
+      it 'does not trigger account webhooks' do
+        create(:webhook, inbox: inbox, account: account)
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.message_created(message_created_event)
+      end
+
+      it 'still triggers API inbox webhooks' do
+        channel_api = create(:channel_api, account: account)
+        api_inbox = channel_api.inbox
+        api_conversation = create(:conversation, account: account, inbox: api_inbox, assignee: user)
+        api_message = create(:message, message_type: 'outgoing', account: account, inbox: api_inbox, conversation: api_conversation)
+        api_event = Events::Base.new(event_name, Time.zone.now, message: api_message)
+        allow(api_message).to receive(:inbox).and_return(api_inbox)
+        allow(api_inbox).to receive(:account).and_return(account)
+        expect(WebhookJob).to receive(:perform_later).with(
+          channel_api.webhook_url, api_message.webhook_data.merge(event: 'message_created'),
+          :api_inbox_webhook, secret: channel_api.secret, delivery_id: instance_of(String)
+        ).once
+        listener.message_created(api_event)
+      end
+    end
+
+    context 'when api_and_webhooks feature is disabled on self-hosted' do
+      it 'still triggers account webhooks' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+        account.disable_features!('api_and_webhooks')
+        webhook = create(:webhook, inbox: inbox, account: account)
+
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, message.webhook_data.merge(event: 'message_created'), :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+
+        listener.message_created(message_created_event)
+      end
+    end
+
     context 'when inbox is an API Channel' do
       it 'triggers webhook if webhook_url is present' do
         channel_api = create(:channel_api, account: account)

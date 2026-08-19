@@ -42,6 +42,7 @@ RSpec.describe Captain::FollowUpService do
     context 'when follow-up context exists' do
       it 'constructs messages array with full conversation history' do
         expect(service).to receive(:make_api_call) do |args|
+          expect(args[:feature]).to eq('editor')
           messages = args[:messages]
 
           expect(messages).to match(

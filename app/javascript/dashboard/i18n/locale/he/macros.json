@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "לבצע",
       "PREVIEW": "תצוגה מקדימה מאקרו",
-      "EXECUTED_SUCCESSFULLY": "המאקרו הופעל בהצלחה"
+      "EXECUTED_SUCCESSFULLY": "המאקרו הופעל בהצלחה",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "מפתח תכונה נדרש",

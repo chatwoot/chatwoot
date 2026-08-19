@@ -174,9 +174,20 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
             'default_locale' => 'en',
             'layout' => 'classic',
             'social_profiles' => {},
-            'locale_translations' => {}
+            'locale_translations' => {},
+            'popular_content' => {},
+            'analytics' => {}
           }
         )
+      end
+
+      it 'allows administrators to set analytics config' do
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { config: { analytics: { ga4_measurement_id: 'G-ADMIN12345' } } } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(portal.reload.config['analytics']).to eq('ga4_measurement_id' => 'G-ADMIN12345')
       end
 
       it 'preserves drafted locales when draft_locales is omitted' do

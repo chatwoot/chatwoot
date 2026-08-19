@@ -29,6 +29,7 @@ RSpec.describe Captain::RewriteService do
       expect(service).to receive(:prompt_from_file).with('fix_spelling_grammar').and_return('Fix errors')
 
       expect(service).to receive(:make_api_call) do |args|
+        expect(args[:feature]).to eq('editor')
         expect(args[:messages][0][:content]).to eq('Fix errors')
         expect(args[:messages][1][:content]).to eq(content)
         { message: 'Fixed' }
@@ -122,6 +123,7 @@ RSpec.describe Captain::RewriteService do
 
     it 'uses conversation context and draft message with Liquid template' do
       expect(service).to receive(:make_api_call) do |args|
+        expect(args[:feature]).to eq('editor')
         system_content = args[:messages][0][:content]
 
         expect(system_content).to include('Context:')

@@ -72,7 +72,8 @@ const actions = {
         'appliedFilters'
       );
     } catch (error) {
-      // Handle error
+      commit(types.CLEAR_LIST_LOADING_STATUS);
+      throw error;
     }
   },
 
@@ -208,23 +209,31 @@ const actions = {
     }
   },
 
-  assignAgent: async ({ dispatch }, { conversationId, agentId }) => {
+  assignAgent: async (
+    { dispatch },
+    { conversationId, agentId, assigneeType }
+  ) => {
     try {
       const response = await ConversationApi.assignAgent({
         conversationId,
         agentId,
+        assigneeType,
       });
       dispatch('setCurrentChatAssignee', {
         conversationId,
         assignee: response.data,
+        assigneeType,
       });
     } catch (error) {
       // Handle error
     }
   },
 
-  setCurrentChatAssignee({ commit }, { conversationId, assignee }) {
-    commit(types.ASSIGN_AGENT, { conversationId, assignee });
+  setCurrentChatAssignee(
+    { commit },
+    { conversationId, assignee, assigneeType }
+  ) {
+    commit(types.ASSIGN_AGENT, { conversationId, assignee, assigneeType });
   },
 
   assignTeam: async ({ dispatch }, { conversationId, teamId }) => {
@@ -487,7 +496,7 @@ const actions = {
         customAttributes: custom_attributes,
       });
     } catch (error) {
-      // Handle error
+      throw new Error(error);
     }
   },
 

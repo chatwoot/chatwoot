@@ -17,6 +17,9 @@
 #   - 5 teams with realistic distribution
 #   - 30 labels with random assignments
 #   - 3 inboxes with agent assignments
+#   - 1 Captain assistant bound to a single web inbox, with knowledge (FAQs + documents)
+#     and a variety of assistant-handled conversations (auto-resolved, handed off,
+#     handled with a human, resolved-then-reopened) for the assistant overview page
 #   - Realistic reporting events with historical timestamps
 #
 # Note: This seeder clears existing data for the account before seeding.
@@ -24,8 +27,9 @@
 require 'faker'
 require_relative 'conversation_creator'
 require_relative 'message_creator'
+require_relative 'assistant_conversation_creator'
 
-# rubocop:disable Rails/Output
+# rubocop:disable Rails/Output, Metrics/ClassLength
 class Seeders::Reports::ReportDataSeeder
   include ActiveSupport::Testing::TimeHelpers
 
@@ -36,6 +40,11 @@ class Seeders::Reports::ReportDataSeeder
   TOTAL_LABELS = 30
   TOTAL_INBOXES = 3
   MESSAGES_PER_CONVERSATION = 5
+  # Captain assistant conversations, split across the outcomes the overview page reports on.
+  TOTAL_ASSISTANT_CONVERSATIONS = 120
+  ASSISTANT_KNOWLEDGE_APPROVED = 14
+  ASSISTANT_KNOWLEDGE_PENDING = 6
+  ASSISTANT_DOCUMENTS = 4
   START_DATE = 3.months.ago # rubocop:disable Rails/RelativeDateConstant
   END_DATE = Time.current
 
@@ -48,6 +57,8 @@ class Seeders::Reports::ReportDataSeeder
     @labels = []
     @inboxes = []
     @contacts = []
+    @assistant = nil
+    @assistant_inbox = nil
   end
 
   def perform!
@@ -61,8 +72,10 @@ class Seeders::Reports::ReportDataSeeder
     create_labels
     create_inboxes
     create_contacts
+    create_assistant
 
     create_conversations
+    create_assistant_conversations
 
     puts "Completed reports data seeding for account: #{@account.name}"
   end
@@ -71,6 +84,7 @@ class Seeders::Reports::ReportDataSeeder
 
   def clear_existing_data
     puts "Clearing existing data for account: #{@account.id}"
+    clear_assistant_data
     @account.teams.destroy_all
     @account.conversations.destroy_all
     @account.labels.destroy_all
@@ -78,6 +92,16 @@ class Seeders::Reports::ReportDataSeeder
     @account.contacts.destroy_all
     @account.agents.destroy_all
     @account.reporting_events.destroy_all
+  end
+
+  # Delete Captain records directly (assistant associations are destroy_async, which
+  # would leave rows around mid-reseed); order respects foreign keys.
+  def clear_assistant_data
+    assistant_ids = Captain::Assistant.for_account(@account.id).select(:id)
+    Captain::AssistantResponse.by_account(@account.id).delete_all
+    Captain::Document.for_account(@account.id).delete_all
+    CaptainInbox.where(captain_assistant_id: assistant_ids).delete_all
+    Captain::Assistant.for_account(@account.id).delete_all
   end
 
   def create_teams
@@ -208,6 +232,80 @@ class Seeders::Reports::ReportDataSeeder
     print "\n"
   end
 
+  # One assistant, bound to a single web inbox (the first one), as the overview page expects.
+  def create_assistant
+    @account.enable_features!('captain_integration', 'captain_integration_v2')
+    @assistant_inbox = @inboxes.first
+    @assistant = Captain::Assistant.create!(
+      account: @account,
+      name: "#{Faker::Company.name} Copilot",
+      description: 'Captain assistant handling website support conversations.',
+      config: { feature_faq: true, feature_memory: true, product_name: @account.name }
+    )
+    CaptainInbox.create!(captain_assistant: @assistant, inbox: @assistant_inbox)
+    create_assistant_knowledge
+
+    puts "Created assistant '#{@assistant.name}' for inbox '#{@assistant_inbox.name}'"
+  end
+
+  def create_assistant_knowledge
+    ASSISTANT_KNOWLEDGE_APPROVED.times { create_assistant_response(:approved) }
+    ASSISTANT_KNOWLEDGE_PENDING.times { create_assistant_response(:pending) }
+
+    ASSISTANT_DOCUMENTS.times do
+      Captain::Document.create!(
+        account: @account,
+        assistant: @assistant,
+        name: Faker::Company.catch_phrase,
+        external_link: "https://#{Faker::Internet.domain_name}/#{Faker::Internet.slug}",
+        content: Faker::Lorem.paragraphs(number: rand(2..4)).join("\n\n"),
+        status: :available,
+        sync_status: :synced
+      )
+    end
+  end
+
+  def create_assistant_response(status)
+    Captain::AssistantResponse.create!(
+      account: @account,
+      assistant: @assistant,
+      question: "#{Faker::Lorem.sentence(word_count: rand(4..8)).chomp('.')}?",
+      answer: Faker::Lorem.paragraph(sentence_count: rand(2..4)),
+      status: status
+    )
+  end
+
+  def create_assistant_conversations
+    creator = Seeders::Reports::AssistantConversationCreator.new(
+      account: @account,
+      assistant: @assistant,
+      inbox: @assistant_inbox,
+      resources: { contacts: @contacts, agents: @agents }
+    )
+
+    outcomes = assistant_outcome_distribution
+    outcomes.each_with_index do |outcome, i|
+      created_at = Faker::Time.between(from: 65.days.ago, to: END_DATE)
+      creator.create_conversation(created_at: created_at, outcome: outcome)
+
+      print "\rCreating assistant conversations: #{i + 1}/#{outcomes.size}"
+    end
+
+    print "\n"
+  end
+
+  # Weighted mix of outcomes so every overview metric has meaningful numbers, shuffled
+  # so they interleave across the time span rather than clustering by type.
+  def assistant_outcome_distribution
+    counts = {
+      resolved_by_assistant: (TOTAL_ASSISTANT_CONVERSATIONS * 0.4).round,
+      handled_by_both: (TOTAL_ASSISTANT_CONVERSATIONS * 0.25).round,
+      handed_off: (TOTAL_ASSISTANT_CONVERSATIONS * 0.2).round,
+      resolved_and_reopened: (TOTAL_ASSISTANT_CONVERSATIONS * 0.15).round
+    }
+    counts.flat_map { |outcome, count| [outcome] * count }.shuffle
+  end
+
   def create_conversations
     conversation_creator = Seeders::Reports::ConversationCreator.new(
       account: @account,
@@ -231,4 +329,4 @@ class Seeders::Reports::ReportDataSeeder
     print "\n"
   end
 end
-# rubocop:enable Rails/Output
+# rubocop:enable Rails/Output, Metrics/ClassLength

@@ -65,8 +65,8 @@ const inboxName = computed(() => inbox.value?.name);
 
 const inboxIcon = computed(() => {
   if (!inbox.value) return null;
-  const { channelType, medium } = inbox.value;
-  return getInboxIconByType(channelType, medium);
+  const { channelType, medium, voiceEnabled } = inbox.value;
+  return getInboxIconByType(channelType, medium, 'fill', voiceEnabled);
 });
 
 const fileAttachments = computed(() => {

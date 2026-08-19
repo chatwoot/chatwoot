@@ -41,6 +41,49 @@ RSpec.describe Conversation, type: :model do
     # end
   end
 
+  describe 'SLA completion' do
+    let(:applied_sla) { create(:applied_sla) }
+    let(:conversation) { applied_sla.conversation }
+
+    it 'records the completion time when the conversation is resolved' do
+      completion_time = Time.zone.parse('2026-07-15 10:00:00')
+
+      travel_to(completion_time) { conversation.update!(status: :resolved) }
+
+      expect(applied_sla.reload.completed_at).to eq(completion_time)
+    end
+
+    it 'records the completion time when SLA evaluation finishes during resolution' do
+      completion_time = Time.zone.parse('2026-07-15 10:00:00')
+      allow(conversation).to receive(:update_applied_sla_completion).and_wrap_original do |method|
+        applied_sla.update!(sla_status: :missed)
+        method.call
+      end
+
+      travel_to(completion_time) { conversation.update!(status: :resolved) }
+
+      expect(applied_sla.reload).to have_attributes(sla_status: 'missed', completed_at: completion_time)
+    end
+
+    it 'clears the completion time when a nonterminal SLA is reopened' do
+      conversation.update!(status: :resolved)
+
+      conversation.update!(status: :open)
+
+      expect(applied_sla.reload.completed_at).to be_nil
+    end
+
+    it 'preserves the completion time when a terminal SLA is reopened' do
+      conversation.update!(status: :resolved)
+      completed_at = applied_sla.reload.completed_at
+      applied_sla.update!(sla_status: :missed)
+
+      conversation.update!(status: :open)
+
+      expect(applied_sla.reload.completed_at).to eq(completed_at)
+    end
+  end
+
   describe 'sla_policy' do
     let(:account) { create(:account) }
     let(:conversation) { create(:conversation, account: account) }
@@ -58,6 +101,30 @@ RSpec.describe Conversation, type: :model do
         conversation.sla_policy = sla_policy
         conversation.save!
         expect(conversation.applied_sla.sla_policy_id).to eq(sla_policy.id)
+      end
+
+      it 'throws error if contact is blocked' do
+        conversation.contact.update!(blocked: true)
+        conversation.sla_policy = sla_policy
+
+        expect(conversation.valid?).to be false
+        expect(conversation.errors[:sla_policy]).to eq(['cannot be assigned to conversations with blocked contacts'])
+      end
+
+      it 'allows assigning sla after contact is unblocked' do
+        conversation.contact.update!(blocked: true)
+        conversation.contact.update!(blocked: false)
+        conversation.sla_policy = sla_policy
+
+        conversation.save!
+
+        expect(conversation.applied_sla.sla_policy_id).to eq(sla_policy.id)
+      end
+
+      it 'keeps existing behavior when contact is missing' do
+        conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+
+        expect(conversation.reload.sla_applicable?).to be true
       end
     end
 
