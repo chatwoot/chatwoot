@@ -53,7 +53,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # enforced here.
     return if inbox.allow_messages_after_resolved || !conversation.resolved?
 
-    render json: { error: 'Conversation is resolved and does not accept new messages' }, status: :forbidden
+    render json: { error: I18n.t('errors.conversations.resolved') }, status: :forbidden
   end
 
   def apply_labels

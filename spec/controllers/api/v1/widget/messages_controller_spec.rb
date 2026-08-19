@@ -57,7 +57,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         end.to not_change(Conversation, :count).and not_change(Message, :count)
 
         expect(response).to have_http_status(:forbidden)
-        expect(response.parsed_body['error']).to eq('Conversation is resolved and does not accept new messages')
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.conversations.resolved'))
       end
 
       it 'accepts the message when the inbox allows messages after resolved' do
