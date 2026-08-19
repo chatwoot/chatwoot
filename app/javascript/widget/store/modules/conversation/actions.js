@@ -15,6 +15,7 @@ import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 
 // A thread switch cancels the reads it supersedes, so their payloads never reach the new thread.
+// Starting a read cancels the previous one, so only ever one of each kind is outstanding.
 let historyRequest = null;
 let syncRequest = null;
 
@@ -188,6 +189,7 @@ export const actions = {
     }
   },
   fetchOldConversations: async ({ commit }, { before } = {}) => {
+    historyRequest?.abort();
     const request = new AbortController();
     historyRequest = request;
     try {
@@ -207,6 +209,7 @@ export const actions = {
   },
 
   syncLatestMessages: async ({ state, commit }) => {
+    syncRequest?.abort();
     const request = new AbortController();
     syncRequest = request;
     try {

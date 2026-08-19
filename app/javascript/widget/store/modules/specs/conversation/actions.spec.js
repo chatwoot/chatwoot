@@ -595,6 +595,23 @@ describe('#actions', () => {
       expect(signal.aborted).toBe(true);
     });
 
+    it('cancels an earlier read when a second one starts', async () => {
+      const signals = [];
+      API.get.mockImplementation(
+        (url, config) =>
+          new Promise(() => {
+            signals.push(config.signal);
+          })
+      );
+      actions.fetchOldConversations({ commit }, {});
+      actions.fetchOldConversations({ commit }, {});
+      await Promise.resolve();
+
+      expect(signals).toHaveLength(2);
+      expect(signals[0].aborted).toBe(true);
+      expect(signals[1].aborted).toBe(false);
+    });
+
     it('cancels a reconnect sync that a thread switch supersedes', async () => {
       let signal;
       API.get.mockImplementationOnce(
