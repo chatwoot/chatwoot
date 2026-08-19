@@ -75,7 +75,12 @@ RSpec.describe Captain::FaqImports::Parser do
     rows = parse("question,answer\nHow does it work?,First answer\nHOW DOES IT WORK?,Second answer\n")
 
     expect(rows.map { |row| row['state'] }).to eq(%w[invalid invalid])
-    expect(rows.map { |row| row['error'] }.uniq).to eq(['The same question has different answers.'])
+    expect(rows.map { |row| row['error'] }.uniq).to eq(
+      [
+        'The CSV has different answers for this question. ' \
+        'All matching rows will be skipped.'
+      ]
+    )
   end
 
   it 'keeps punctuation significant when matching existing FAQs' do

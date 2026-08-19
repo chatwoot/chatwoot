@@ -1190,7 +1190,7 @@
           "ANSWER_3": "Delivery usually takes three days."
         },
         "PREVIEW": "Review CSV",
-        "PREVIEW_HELP": "The preview is read only. Fix invalid rows in the CSV and upload it again.",
+        "PREVIEW_HELP": "You cannot edit this preview. Invalid and repeated rows will be skipped. Fix the CSV and upload it again to import them.",
         "UPLOAD_ANOTHER": "Upload another CSV",
         "CONFIRM": "Import {count} FAQ | Import {count} FAQs",
         "SUCCESS": "The FAQ import has started.",

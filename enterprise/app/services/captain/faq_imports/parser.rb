@@ -87,7 +87,8 @@ class Captain::FaqImports::Parser
     if group.pluck('normalized_answer').uniq.many?
       group.each do |row|
         row['state'] = 'invalid'
-        row['error'] = 'The same question has different answers.'
+        row['error'] = 'The CSV has different answers for this question. ' \
+                       'All matching rows will be skipped.'
       end
     else
       group.drop(1).each do |row|
