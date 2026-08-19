@@ -22,10 +22,18 @@
 	header {
 		Strict-Transport-Security "max-age=31536000; includeSubDomains"
 		X-Content-Type-Options "nosniff"
-		X-Frame-Options "SAMEORIGIN"
 		Referrer-Policy "strict-origin-when-cross-origin"
 		-Server
 	}
+
+	# Das eingebettete Chat-Widget lebt davon, in fremden Seiten zu laufen:
+	# `widgets_controller` loescht X-Frame-Options bewusst. Ein globaler
+	# Caddy-Header setzt ihn danach wieder und laesst das Chatfenster auf
+	# www.myinvest-pro.de leer, waehrend der Launcher normal erscheint —
+	# ein Fehlerbild, das erst beim echten Einbetten auffaellt.
+	# Alles andere, insbesondere /app, bleibt klickjacking-geschuetzt.
+	@protected not path /widget /widget/* /packs/* /api/v1/widget /api/v1/widget/*
+	header @protected X-Frame-Options "SAMEORIGIN"
 
 	@root path /
 	redir @root /app/login 302
