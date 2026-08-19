@@ -3,10 +3,47 @@ class Whatsapp::IdentifierSyncService
 
   def perform(source_ids: [], username: nil, phone_number: nil)
     create_contact_inboxes(source_ids)
+    group_identifiers(source_ids)
     update_contact(username, phone_number)
   end
 
   private
+
+  # The identifiers carried by one webhook are the only evidence Meta gives that two source ids
+  # belong to the same person, and it gives it once, when the payload arrives. Recording it lets a
+  # call site widen its scope to that evidence rather than to the whole contact, which is what
+  # breaks once an agent merges two people in the dashboard.
+  #
+  # This never runs from a merge, only from an inbound payload, so rows an agent brought together
+  # keep whatever groups they already had.
+  def group_identifiers(source_ids)
+    rows = identifier_rows(source_ids)
+    return if rows.empty?
+
+    groups = rows.filter_map(&:identity_group_id).uniq
+    # Identifiers arriving together can prove that two existing groups are one person. Joining them
+    # is a deliberate path rather than a side effect of a webhook, and it is the one place where
+    # being wrong recreates the routing bug this exists to avoid, so this leaves them alone.
+    return if groups.length > 1
+
+    assign_identity_group(rows, groups.first || SecureRandom.uuid)
+  end
+
+  def assign_identity_group(rows, identity_group_id)
+    ungrouped = rows.select { |row| row.identity_group_id.nil? }
+    return if ungrouped.empty?
+
+    # rubocop:disable Rails/SkipsModelValidations
+    ContactInbox.where(id: ungrouped.map(&:id)).update_all(identity_group_id: identity_group_id, updated_at: Time.current)
+    # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def identifier_rows(source_ids)
+    identifiers = source_ids.compact_blank.uniq
+    return [] if identifiers.blank?
+
+    inbox.contact_inboxes.where(source_id: identifiers).to_a
+  end
 
   def create_contact_inboxes(source_ids)
     source_ids.compact_blank.uniq.each do |source_id|
