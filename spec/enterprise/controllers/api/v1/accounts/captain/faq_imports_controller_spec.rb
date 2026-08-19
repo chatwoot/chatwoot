@@ -26,6 +26,22 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
     expect(Captain::FaqImport.last.source_file).to be_attached
   end
 
+  it 'uploads UTF-8 CSV content received as binary' do
+    file = Tempfile.new(['faqs', '.csv'])
+    file.binmode
+    file.write("question,answer\nWhat’s included?,Everything\n".b)
+    file.rewind
+
+    post base_path,
+         params: { file: Rack::Test::UploadedFile.new(file.path, 'text/csv', true) },
+         headers: admin.create_new_auth_token
+
+    expect(response).to have_http_status(:created)
+    expect(json_response[:rows].first).to include(question: 'What’s included?', answer: 'Everything', state: 'valid')
+  ensure
+    file&.close!
+  end
+
   it 'rejects invalid headers and files over the row limit' do
     post base_path,
          params: { file: generate_csv_file([%w[question answer notes], %w[One Two Three]]) },

@@ -1179,6 +1179,16 @@
         "DESCRIPTION": "Upload a CSV to review its FAQs before importing them.",
         "CHOOSE_FILE": "Choose a CSV file",
         "FILE_HELP": "Use question and answer columns. You can import up to 1,000 rows.",
+        "SAMPLE": {
+          "QUESTION_HEADER": "question",
+          "ANSWER_HEADER": "answer",
+          "QUESTION_1": "How do I track my order?",
+          "ANSWER_1": "Open your order to see its status.",
+          "QUESTION_2": "Can I change my plan?",
+          "ANSWER_2": "Yes. You can change it from Billing.",
+          "QUESTION_3": "When will my order arrive?",
+          "ANSWER_3": "Delivery usually takes three days."
+        },
         "PREVIEW": "Review CSV",
         "PREVIEW_HELP": "The preview is read only. Fix invalid rows in the CSV and upload it again.",
         "UPLOAD_ANOTHER": "Upload another CSV",

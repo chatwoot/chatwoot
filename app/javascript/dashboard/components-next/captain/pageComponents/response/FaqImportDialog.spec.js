@@ -89,6 +89,29 @@ describe('FaqImportDialog', () => {
     vi.clearAllMocks();
   });
 
+  it('shows a fading question and answer example before file selection', async () => {
+    const wrapper = mountDialog();
+    const sample = wrapper.get('[data-testid="csv-format-sample"]');
+
+    expect(sample.text()).toContain(
+      'CAPTAIN.RESPONSES.IMPORT.SAMPLE.QUESTION_HEADER'
+    );
+    expect(sample.text()).toContain(
+      'CAPTAIN.RESPONSES.IMPORT.SAMPLE.ANSWER_HEADER'
+    );
+    expect(sample.text()).toContain(
+      'CAPTAIN.RESPONSES.IMPORT.SAMPLE.QUESTION_1'
+    );
+    expect(sample.attributes('class')).toContain('overflow-hidden');
+    expect(sample.html()).toContain('mask-image:linear-gradient');
+
+    await selectFile(wrapper);
+
+    expect(wrapper.find('[data-testid="csv-format-sample"]').exists()).toBe(
+      false
+    );
+  });
+
   it('uploads the CSV and shows a read-only preview', async () => {
     create.mockResolvedValueOnce({ data: preview });
     const wrapper = mountDialog();

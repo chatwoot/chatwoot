@@ -37,6 +37,20 @@ const readyCount = computed(
     rows.value.filter(row => row.state === 'valid').length +
     overwriteRowNumbers.value.size
 );
+const sampleRows = computed(() => [
+  {
+    question: t('CAPTAIN.RESPONSES.IMPORT.SAMPLE.QUESTION_1'),
+    answer: t('CAPTAIN.RESPONSES.IMPORT.SAMPLE.ANSWER_1'),
+  },
+  {
+    question: t('CAPTAIN.RESPONSES.IMPORT.SAMPLE.QUESTION_2'),
+    answer: t('CAPTAIN.RESPONSES.IMPORT.SAMPLE.ANSWER_2'),
+  },
+  {
+    question: t('CAPTAIN.RESPONSES.IMPORT.SAMPLE.QUESTION_3'),
+    answer: t('CAPTAIN.RESPONSES.IMPORT.SAMPLE.ANSWER_3'),
+  },
+]);
 
 const close = () => dialogRef.value.close();
 
@@ -159,6 +173,40 @@ defineExpose({ dialogRef });
         <span class="text-xs text-n-slate-10">
           {{ $t('CAPTAIN.RESPONSES.IMPORT.FILE_HELP') }}
         </span>
+
+        <div
+          v-if="!selectedFile"
+          data-testid="csv-format-sample"
+          aria-hidden="true"
+          class="mt-3 w-full max-w-lg overflow-hidden rounded-lg border border-n-weak bg-n-solid-1 text-start shadow-sm"
+        >
+          <div
+            class="grid grid-cols-2 divide-x divide-n-weak border-b border-n-weak bg-n-solid-2 text-xs font-medium text-n-slate-12"
+          >
+            <span class="px-3 py-2">
+              {{ $t('CAPTAIN.RESPONSES.IMPORT.SAMPLE.QUESTION_HEADER') }}
+            </span>
+            <span class="px-3 py-2">
+              {{ $t('CAPTAIN.RESPONSES.IMPORT.SAMPLE.ANSWER_HEADER') }}
+            </span>
+          </div>
+          <div
+            class="divide-y divide-n-weak [mask-image:linear-gradient(to_bottom,#000_20%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_20%,transparent_100%)]"
+          >
+            <div
+              v-for="row in sampleRows"
+              :key="row.question"
+              class="grid grid-cols-2 divide-x divide-n-weak text-xs text-n-slate-11"
+            >
+              <span class="truncate px-3 py-2">
+                {{ row.question }}
+              </span>
+              <span class="truncate px-3 py-2">
+                {{ row.answer }}
+              </span>
+            </div>
+          </div>
+        </div>
       </button>
       <input
         ref="fileInput"

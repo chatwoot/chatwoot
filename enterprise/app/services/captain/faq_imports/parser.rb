@@ -10,7 +10,7 @@ class Captain::FaqImports::Parser
   end
 
   def perform
-    table = CSV.parse(@content.to_s.delete_prefix("\uFEFF"), headers: false)
+    table = CSV.parse(utf8_content.delete_prefix("\uFEFF"), headers: false)
     headers = table.shift
     validate_headers!(headers)
     raise InvalidCsvError, "CSV files can contain at most #{MAX_ROWS} rows." if table.length > MAX_ROWS
@@ -28,6 +28,13 @@ class Captain::FaqImports::Parser
   end
 
   private
+
+  def utf8_content
+    content = @content.to_s.dup.force_encoding(Encoding::UTF_8)
+    return content if content.valid_encoding?
+
+    raise InvalidCsvError, 'The CSV must use UTF-8 encoding.'
+  end
 
   def validate_headers!(headers)
     normalized_headers = Array(headers).map { |header| self.class.normalize(header) }

@@ -18,9 +18,24 @@ RSpec.describe Captain::FaqImports::Parser do
   end
 
   it 'accepts a UTF-8 byte order mark' do
-    rows = parse("\uFEFFquestion,answer\nQuestion,Answer\n")
+    rows = parse("\uFEFFquestion,answer\nQuestion,Answer\n".b)
 
     expect(rows.first['state']).to eq('valid')
+  end
+
+  it 'accepts UTF-8 CSV content read as binary' do
+    rows = parse("question,answer\nWhat’s included?,Everything\n".b)
+
+    expect(rows.first).to include(
+      'question' => 'What’s included?',
+      'answer' => 'Everything',
+      'state' => 'valid'
+    )
+  end
+
+  it 'rejects content that is not valid UTF-8' do
+    expect { parse("question,answer\nQuestion,\xFF\n".b) }
+      .to raise_error(described_class::InvalidCsvError, 'The CSV must use UTF-8 encoding.')
   end
 
   it 'rejects missing and additional columns' do
