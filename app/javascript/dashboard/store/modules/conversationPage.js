@@ -49,13 +49,6 @@ export const mutations = {
     };
   },
   [types.default.SET_CONVERSATION_END_REACHED]: ($state, { filter }) => {
-    if (filter === 'all') {
-      $state.hasEndReached = {
-        ...$state.hasEndReached,
-        unassigned: true,
-        me: true,
-      };
-    }
     $state.hasEndReached = {
       ...$state.hasEndReached,
       [filter]: true,

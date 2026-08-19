@@ -213,6 +213,10 @@ const hasCurrentPageEndReached = useFunctionGetter(
   'conversationPage/getHasEndReached',
   currentPageFilterKey
 );
+const activeAssigneeTabConversationIds = useFunctionGetter(
+  'getConversationIdsForAssignee',
+  activeAssigneeTab
+);
 
 const conversationCustomAttributes = useFunctionGetter(
   'attributes/getAttributesByModel',
@@ -337,6 +341,17 @@ const conversationList = computed(() => {
     }
   } else {
     localConversationList = [...chatLists.value];
+  }
+
+  if (!hasAppliedFiltersOrActiveFolders.value) {
+    // The canonical store also contains conversations loaded by other tabs.
+    // Rebuild this list in the active tab's server-provided page order.
+    const conversationsById = new Map(
+      localConversationList.map(conversation => [conversation.id, conversation])
+    );
+    localConversationList = activeAssigneeTabConversationIds.value
+      .map(id => conversationsById.get(id))
+      .filter(Boolean);
   }
 
   if (activeFolder.value) {
@@ -613,13 +628,12 @@ function updateAssigneeTab(selectedTab) {
     emitter.emit('clearSearchInput');
     activeAssigneeTab.value = selectedTab;
 
-    // Assignee tabs keep independent pagination over a shared conversation
-    // cache. Live status and assignment changes can leave a tab at EOF after
-    // its cached rows stop matching. Restart only that tab when the server
-    // count proves the cache is incomplete.
+    // Live status and assignment changes can make a tab's cached membership
+    // disagree with its server count while its pagination still says EOF.
+    // Restart only that tab so page one replaces its stale conversation IDs.
     const hasStalePagination =
       hasCurrentPageEndReached.value &&
-      activeAssigneeTabCount.value > conversationList.value.length;
+      activeAssigneeTabCount.value !== conversationList.value.length;
     if (hasStalePagination) {
       store.dispatch('conversationPage/resetFilter', {
         filter: selectedTab,

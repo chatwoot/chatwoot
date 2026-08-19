@@ -138,6 +138,10 @@ const getters = {
     });
   },
   getChatListLoadingStatus: ({ listLoadingStatus }) => listLoadingStatus,
+  getConversationIdsForAssignee:
+    ({ conversationIdsByAssignee }) =>
+    assigneeType =>
+      conversationIdsByAssignee[assigneeType],
   getAllMessagesLoaded(_state) {
     const [chat] = getSelectedChatConversation(_state);
     return !chat || chat.allMessagesLoaded === undefined

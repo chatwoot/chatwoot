@@ -1,4 +1,5 @@
 import types from '../../../mutation-types';
+import wootConstants from 'dashboard/constants/globals';
 
 export const setPageFilter = ({ dispatch, filter, page, markEndReached }) => {
   dispatch('conversationPage/setCurrentPage', { filter, page }, { root: true });
@@ -70,6 +71,16 @@ export const buildConversationList = (
     requestPayload.updatedWithin !== null
   ) {
     return;
+  }
+
+  // Keep the full objects in the canonical cache above, and separately record
+  // the ordered page membership so another assignee tab cannot affect this one.
+  if (Object.values(wootConstants.ASSIGNEE_TYPE).includes(filterType)) {
+    context.commit(types.SET_CONVERSATION_IDS_FOR_ASSIGNEE, {
+      assigneeType: filterType,
+      conversationIds: conversationList.map(conversation => conversation.id),
+      page: requestPayload.page,
+    });
   }
 
   setPageFilter({

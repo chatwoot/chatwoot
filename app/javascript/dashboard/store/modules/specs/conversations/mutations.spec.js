@@ -1047,6 +1047,11 @@ describe('#mutations', () => {
           { id: 2, meta: { sender: { id: 2 } } },
           { id: 3, meta: { sender: { id: 1 } } },
         ],
+        conversationIdsByAssignee: {
+          me: [1, 2],
+          unassigned: [3],
+          all: [1, 2, 3],
+        },
       };
 
       mutations[types.CLEAR_CONTACT_CONVERSATIONS](state, 1);
@@ -1081,6 +1086,11 @@ describe('#mutations', () => {
     it('should delete a conversation', () => {
       const state = {
         allConversations: [{ id: 1, messages: [] }],
+        conversationIdsByAssignee: {
+          me: [1],
+          unassigned: [],
+          all: [1],
+        },
       };
 
       mutations[types.DELETE_CONVERSATION](state, 1);

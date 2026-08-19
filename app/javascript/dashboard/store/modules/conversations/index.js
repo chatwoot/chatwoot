@@ -8,8 +8,38 @@ import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { CONTENT_TYPES } from 'dashboard/components-next/message/constants.js';
 
+const emptyConversationIdsByAssignee = () => ({
+  me: [],
+  unassigned: [],
+  all: [],
+});
+
+const addConversationId = (conversationIds, conversationId) =>
+  conversationIds.includes(conversationId)
+    ? conversationIds
+    : [...conversationIds, conversationId];
+
+const removeConversationId = (conversationIds, conversationId) =>
+  conversationIds.filter(id => id !== conversationId);
+
+const removeConversationIdsFromAssigneeCaches = (_state, conversationIds) => {
+  const idsToRemove = new Set(conversationIds);
+  _state.conversationIdsByAssignee = Object.fromEntries(
+    Object.entries(_state.conversationIdsByAssignee).map(
+      ([assigneeType, cachedIds]) => [
+        assigneeType,
+        cachedIds.filter(id => !idsToRemove.has(id)),
+      ]
+    )
+  );
+};
+
 const state = {
   allConversations: [],
+  // Conversation objects stay shared so messages and real-time updates have a
+  // single source of truth. These IDs preserve the paginated result set that
+  // each assignee tab loaded without duplicating the conversation objects.
+  conversationIdsByAssignee: emptyConversationIdsByAssignee(),
   attachments: {},
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
@@ -59,8 +89,46 @@ export const mutations = {
     });
     _state.allConversations = newAllConversations;
   },
+  [types.SET_CONVERSATION_IDS_FOR_ASSIGNEE](
+    _state,
+    { assigneeType, conversationIds, page }
+  ) {
+    // Page one is either the initial load or a stale-cache recovery, so it must
+    // replace that tab's membership. Later pages extend only the same tab.
+    const existingIds =
+      page === 1 ? [] : _state.conversationIdsByAssignee[assigneeType];
+    _state.conversationIdsByAssignee = {
+      ..._state.conversationIdsByAssignee,
+      [assigneeType]: [...new Set([...existingIds, ...conversationIds])],
+    };
+  },
+  [types.SYNC_CONVERSATION_ASSIGNEE_CACHE](
+    _state,
+    { conversationId, currentUserId }
+  ) {
+    const conversation = getConversationById(_state)(conversationId);
+    if (!conversation) return;
+
+    // Page responses establish tab membership, while local and Action Cable
+    // updates keep an already-loaded conversation in the tabs it now matches.
+    const isMine =
+      conversation.meta?.assignee_type !== 'AgentBot' &&
+      conversation.meta?.assignee?.id === currentUserId;
+    const isUnassigned = !conversation.meta?.assignee;
+    const { all, me, unassigned } = _state.conversationIdsByAssignee;
+    _state.conversationIdsByAssignee = {
+      all: addConversationId(all, conversationId),
+      me: isMine
+        ? addConversationId(me, conversationId)
+        : removeConversationId(me, conversationId),
+      unassigned: isUnassigned
+        ? addConversationId(unassigned, conversationId)
+        : removeConversationId(unassigned, conversationId),
+    };
+  },
   [types.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
+    _state.conversationIdsByAssignee = emptyConversationIdsByAssignee();
     _state.selectedChatId = null;
   },
   [types.SET_ALL_MESSAGES_LOADED](_state, conversationId) {
@@ -241,6 +309,7 @@ export const mutations = {
     _state.allConversations = _state.allConversations.filter(
       c => c.id !== conversationId
     );
+    removeConversationIdsFromAssigneeCaches(_state, [conversationId]);
   },
 
   [types.UPDATE_CONVERSATION](_state, conversation) {
@@ -339,10 +408,14 @@ export const mutations = {
   },
 
   [types.CLEAR_CONTACT_CONVERSATIONS](_state, contactId) {
+    const removedConversationIds = _state.allConversations
+      .filter(c => c.meta.sender.id === contactId)
+      .map(c => c.id);
     const chats = _state.allConversations.filter(
       c => c.meta.sender.id !== contactId
     );
     _state.allConversations = chats;
+    removeConversationIdsFromAssigneeCaches(_state, removedConversationIds);
   },
 
   [types.SET_CONVERSATION_FILTERS](_state, data) {
