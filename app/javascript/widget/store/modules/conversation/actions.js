@@ -24,32 +24,33 @@ const newestThreadId = messages =>
     0
   );
 
-// The server answers on a new thread once the current one is resolved and replies are off.
-// Messages and attributes go stale independently, so either one triggers the refresh.
-const resetStaleThread = async (
-  { commit, dispatch, state, rootState },
-  conversationId
-) => {
-  const staleMessages = () =>
-    Object.values(state.conversations).filter(
-      item => item.conversation_id && item.conversation_id < conversationId
-    );
-  const { id: attributeId } = rootState.conversationAttributes;
-  const hasStaleAttributes = attributeId && attributeId < conversationId;
-  if (!staleMessages().length && !hasStaleAttributes) return;
-
-  // Recorded before anything is awaited, so responses that outlive the switch are rejected by
-  // the store instead of merging the thread being left back into the new one.
-  commit('setThreadId', conversationId);
-  await dispatch('conversationAttributes/getAttributes', {}, { root: true });
-  // Dropped after the refresh, or the socket adds the old thread's events straight back.
-  staleMessages().forEach(item => commit('deleteMessage', item.id));
-  // Paging to the start of the old thread leaves this set, blocking scroll back in the new one.
-  commit('setConversationUIFlag', { allMessagesLoaded: false });
-  dispatch('fetchOldConversations');
-};
-
 export const actions = {
+  // The server answers on a new thread once the current one is resolved and replies are off.
+  // Every way a session can learn the thread moved dispatches this one flow. Messages and
+  // attributes go stale independently, so either one triggers the refresh.
+  resetStaleThread: async (
+    { commit, dispatch, state, rootState },
+    conversationId
+  ) => {
+    const staleMessages = () =>
+      Object.values(state.conversations).filter(
+        item => item.conversation_id && item.conversation_id < conversationId
+      );
+    const { id: attributeId } = rootState.conversationAttributes;
+    const hasStaleAttributes = attributeId && attributeId < conversationId;
+    if (!staleMessages().length && !hasStaleAttributes) return;
+
+    // Recorded before anything is awaited, so responses that outlive the switch are rejected by
+    // the store instead of merging the thread being left back into the new one.
+    commit('setThreadId', conversationId);
+    await dispatch('conversationAttributes/getAttributes', {}, { root: true });
+    // Dropped after the refresh, or the socket adds the old thread's events straight back.
+    staleMessages().forEach(item => commit('deleteMessage', item.id));
+    // Paging to the start of the old thread leaves this set, blocking scroll back in the new one.
+    commit('setConversationUIFlag', { allMessagesLoaded: false });
+    dispatch('fetchOldConversations');
+  },
+
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
     try {
@@ -77,7 +78,7 @@ export const actions = {
     });
   },
   sendMessageWithData: async (
-    { commit, dispatch, state: conversationState, rootState },
+    { commit, dispatch, state: conversationState },
     { message, pendingCustomAttributes = {}, pendingLabels = [] }
   ) => {
     const { id, content, replyTo, meta = {} } = message;
@@ -107,10 +108,7 @@ export const actions = {
         return;
       }
 
-      resetStaleThread(
-        { commit, dispatch, state: conversationState, rootState },
-        threadId
-      );
+      dispatch('resetStaleThread', threadId);
 
       // [VITE] Don't delete this manually, since `pushMessageToConversation` does the replacement for us anyway
       // commit('deleteMessage', message.id);
@@ -129,7 +127,7 @@ export const actions = {
   },
 
   sendAttachment: async (
-    { commit, dispatch, state: conversationState, rootState },
+    { commit, dispatch, state: conversationState },
     params
   ) => {
     const {
@@ -168,10 +166,7 @@ export const actions = {
         return;
       }
 
-      resetStaleThread(
-        { commit, dispatch, state: conversationState, rootState },
-        threadId
-      );
+      dispatch('resetStaleThread', threadId);
 
       commit('updateAttachmentMessageStatus', {
         message: data,
@@ -187,8 +182,10 @@ export const actions = {
       // Show error
     }
   },
-  fetchOldConversations: async (store, { before } = {}) => {
-    const { commit, state } = store;
+  fetchOldConversations: async (
+    { commit, dispatch, state },
+    { before } = {}
+  ) => {
     // An empty page marks the thread fully loaded, so a page for a thread we have left must not
     // reach the store at all — the message filter alone cannot tell those two apart.
     const requestedThread = state.threadId;
@@ -203,7 +200,8 @@ export const actions = {
       const formattedMessages = getNonDeletedMessages({ messages: payload });
       // The server only serves its newest conversation, so a payload can be the first sign that
       // the thread moved while this session could not observe it. Same flow as every other sign.
-      resetStaleThread(store, newestThreadId(formattedMessages));
+      const revealedThread = newestThreadId(formattedMessages);
+      if (revealedThread) dispatch('resetStaleThread', revealedThread);
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMessagesInConversation', formattedMessages);
     } catch (error) {
@@ -213,8 +211,7 @@ export const actions = {
     }
   },
 
-  syncLatestMessages: async store => {
-    const { state, commit } = store;
+  syncLatestMessages: async ({ commit, dispatch, state }) => {
     try {
       const { lastMessageId, conversations } = state;
 
@@ -225,7 +222,8 @@ export const actions = {
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
       // A reconnect sync is how a session that was offline learns the thread moved.
-      resetStaleThread(store, newestThreadId(formattedMessages));
+      const revealedThread = newestThreadId(formattedMessages);
+      if (revealedThread) dispatch('resetStaleThread', revealedThread);
       const missingMessages = formattedMessages.filter(
         message =>
           conversations?.[message.id] === undefined &&
@@ -252,16 +250,16 @@ export const actions = {
     commit('clearConversations');
   },
 
-  addOrUpdateMessage: async (store, data) => {
+  addOrUpdateMessage: async ({ commit, dispatch }, data) => {
     const { id, content_attributes, conversation_id: threadId } = data;
     if (content_attributes && content_attributes.deleted) {
-      store.commit('deleteMessage', id);
+      commit('deleteMessage', id);
       return;
     }
     // Another session can move the visitor to a new thread, and its first message arriving over
     // the socket is how this session finds out — so it takes the same switch flow as a send.
-    if (threadId) resetStaleThread(store, threadId);
-    store.commit('pushMessageToConversation', data);
+    if (threadId) dispatch('resetStaleThread', threadId);
+    commit('pushMessageToConversation', data);
   },
 
   toggleAgentTyping({ commit }, data) {
