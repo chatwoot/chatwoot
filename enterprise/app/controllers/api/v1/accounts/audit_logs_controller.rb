@@ -52,7 +52,7 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::EnterpriseAcco
     return if value.blank?
 
     epoch = Integer(value)
-    return unless epoch.abs <= MAX_EPOCH
+    return unless epoch.between?(0, MAX_EPOCH)
 
     Time.zone.at(epoch)
   rescue ArgumentError, TypeError
