@@ -61,6 +61,17 @@ export const buildConversationList = (
   );
   context.commit(types.CLEAR_LIST_LOADING_STATUS);
   setContacts(context.commit, conversationList);
+
+  // `updatedWithin` is used after an Action Cable reconnect to merge
+  // conversations changed during the disconnect. This response is an
+  // unpaginated delta, so an empty payload means "nothing changed", not EOF.
+  if (
+    requestPayload.updatedWithin !== undefined &&
+    requestPayload.updatedWithin !== null
+  ) {
+    return;
+  }
+
   setPageFilter({
     dispatch: context.dispatch,
     filter: filterType,
