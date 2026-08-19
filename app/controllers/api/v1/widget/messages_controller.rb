@@ -54,7 +54,11 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # Held until the message is written, so a resolve landing mid-request cannot leave the message
     # in the thread it closed, and concurrent sends cannot each start a replacement.
     conversation.lock!
-    @conversation = conversations.last
+    replacement = conversations.last
+    # Another request can replace the thread while this one waits on the lock. The replacement is
+    # then the row being written, so it needs the same lock; ids only ascend, so no deadlock.
+    replacement.lock! if replacement.id != conversation.id
+    @conversation = replacement
     # Blocked contacts are skipped; their conversations are always resolved.
     start_conversation if conversation.resolved? && !@contact.blocked?
   end
