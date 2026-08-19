@@ -1172,8 +1172,9 @@
     "RESPONSES": {
       "HEADER": "FAQs",
       "ADD_NEW": "Create new FAQ",
+      "CREATE_MANUALLY": "Create manually",
       "IMPORT": {
-        "ACTION": "Import FAQs from CSV",
+        "ACTION": "Import from CSV",
         "TITLE": "Import FAQs from CSV",
         "DESCRIPTION": "Upload a CSV to review its FAQs before importing them.",
         "CHOOSE_FILE": "Choose a CSV file",

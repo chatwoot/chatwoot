@@ -13,9 +13,8 @@ import CaptainResponseAPI from 'dashboard/api/captain/response';
 import CaptainFaqImportsAPI from 'dashboard/api/captain/faqImports';
 
 import Banner from 'dashboard/components-next/banner/Banner.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import Policy from 'dashboard/components/policy.vue';
+import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
@@ -51,6 +50,7 @@ const { t } = useI18n();
 
 const createDialog = ref(null);
 const faqImportDialog = ref(null);
+const showFaqActions = ref(false);
 const showFaqImportDialog = ref(false);
 const latestFaqImport = ref(null);
 let faqImportPollTimer = null;
@@ -58,6 +58,20 @@ let latestFaqImportRequestId = 0;
 
 const selectedAssistantId = computed(() => Number(route.params.assistantId));
 const canManageFaqs = computed(() => checkPermissions(['administrator']));
+
+const faqActionItems = computed(() => [
+  {
+    label: t('CAPTAIN.RESPONSES.CREATE_MANUALLY'),
+    action: 'create',
+    icon: 'i-lucide-square-pen',
+  },
+  {
+    label: t('CAPTAIN.RESPONSES.IMPORT.ACTION'),
+    action: 'import',
+    icon: 'i-lucide-file-up',
+    disabled: latestFaqImport.value?.status === 'preparing',
+  },
+]);
 
 const suggestionCount = useMapGetter('captainFaqSuggestions/getOpenCount');
 
@@ -123,6 +137,11 @@ const handleFaqImportOpen = () => {
   nextTick(() => faqImportDialog.value.dialogRef.open());
 };
 
+const toggleFaqActions = () => {
+  if (!canManageFaqs.value) return;
+  showFaqActions.value = !showFaqActions.value;
+};
+
 const handleFaqImportClose = () => {
   showFaqImportDialog.value = false;
 };
@@ -134,6 +153,15 @@ const handleDelete = () => {
 const handleCreate = () => {
   dialogType.value = 'create';
   nextTick(() => createDialog.value.dialogRef.open());
+};
+
+const handleFaqAction = ({ action }) => {
+  showFaqActions.value = false;
+  if (action === 'import') {
+    handleFaqImportOpen();
+  } else {
+    handleCreate();
+  }
 };
 
 const handleEdit = () => {
@@ -364,6 +392,7 @@ watch(
     stopFaqImportPolling();
     latestFaqImportRequestId += 1;
     latestFaqImport.value = null;
+    showFaqActions.value = false;
     showFaqImportDialog.value = false;
     selectedResponse.value = null;
     usageResponse.value = null;
@@ -402,20 +431,16 @@ onUnmounted(() => {
     :show-pagination-footer="!isFetching && !!responses.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @update:current-page="onPageChange"
-    @click="handleCreate"
+    @click="toggleFaqActions"
+    @close="showFaqActions = false"
   >
-    <template #headerActions>
-      <Policy v-if="canManageFaqs" :permissions="['administrator']">
-        <Button
-          :label="$t('CAPTAIN.RESPONSES.IMPORT.ACTION')"
-          icon="i-lucide-file-up"
-          variant="faded"
-          color="slate"
-          size="sm"
-          :disabled="latestFaqImport?.status === 'preparing'"
-          @click="handleFaqImportOpen"
-        />
-      </Policy>
+    <template #action>
+      <DropdownMenu
+        v-if="canManageFaqs && showFaqActions"
+        :menu-items="faqActionItems"
+        class="mt-1 min-w-48 ltr:right-0 rtl:left-0 top-full"
+        @action="handleFaqAction"
+      />
     </template>
 
     <template #knowMore>

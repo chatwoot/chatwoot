@@ -7,6 +7,8 @@ const mocks = vi.hoisted(() => ({
   push: vi.fn(),
   getResponses: vi.fn(),
   latestImport: vi.fn(),
+  createDialogOpen: vi.fn(),
+  importDialogOpen: vi.fn(),
   canManage: true,
   getterValues: null,
 }));
@@ -21,12 +23,35 @@ vi.mock('dashboard/api/captain/faqImports', () => ({
 
 vi.mock('dashboard/components-next/captain/PageLayout.vue', () => ({
   default: {
+    props: ['buttonLabel'],
+    emits: ['click', 'close'],
     template: `
       <div>
-        <slot name="headerActions" />
+        <button data-faq-create @click="$emit('click')">{{ buttonLabel }}</button>
+        <slot name="action" />
         <slot name="controls" />
         <slot name="body" />
         <slot />
+      </div>
+    `,
+  },
+}));
+
+vi.mock('dashboard/components-next/dropdown-menu/DropdownMenu.vue', () => ({
+  default: {
+    props: ['menuItems'],
+    emits: ['action'],
+    template: `
+      <div data-faq-actions>
+        <button
+          v-for="item in menuItems"
+          :key="item.action"
+          :data-faq-action="item.action"
+          :disabled="item.disabled"
+          @click="$emit('action', item)"
+        >
+          {{ item.label }}
+        </button>
       </div>
     `,
   },
@@ -80,7 +105,16 @@ vi.mock('dashboard/components-next/captain/assistant/ResponseCard.vue', () => ({
 
 vi.mock(
   'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue',
-  () => ({ default: { template: '<div />' } })
+  () => ({
+    default: {
+      setup: (_, { expose }) => {
+        const dialogRef = { open: mocks.createDialogOpen };
+        expose({ dialogRef });
+        return { dialogRef };
+      },
+      template: '<div data-create-dialog />',
+    },
+  })
 );
 
 vi.mock(
@@ -105,7 +139,16 @@ vi.mock(
 
 vi.mock(
   'dashboard/components-next/captain/pageComponents/response/FaqImportDialog.vue',
-  () => ({ default: { template: '<div />' } })
+  () => ({
+    default: {
+      setup: (_, { expose }) => {
+        const dialogRef = { open: mocks.importDialogOpen };
+        expose({ dialogRef });
+        return { dialogRef };
+      },
+      template: '<div data-import-dialog />',
+    },
+  })
 );
 
 vi.mock('dashboard/composables/store', async () => {
@@ -160,8 +203,9 @@ const mountPage = () =>
       stubs: {
         PageLayout: false,
         Banner: false,
-        Button: false,
-        Policy: false,
+        DropdownMenu: false,
+        CreateResponseDialog: false,
+        FaqImportDialog: false,
       },
     },
   });
@@ -203,10 +247,10 @@ describe('Captain FAQ imports on the responses page', () => {
     expect(wrapper.get('[data-banner]').text()).toContain(
       `CAPTAIN.RESPONSES.IMPORT.STATUS.${copyKey}.TITLE`
     );
-    expect(
-      wrapper.get('[data-button="CAPTAIN.RESPONSES.IMPORT.ACTION"]').element
-        .disabled
-    ).toBe(status === 'preparing');
+    await wrapper.get('[data-faq-create]').trigger('click');
+    expect(wrapper.get('[data-faq-action="import"]').element.disabled).toBe(
+      status === 'preparing'
+    );
 
     wrapper.unmount();
   });
@@ -228,9 +272,33 @@ describe('Captain FAQ imports on the responses page', () => {
     await flushPromises();
 
     expect(mocks.latestImport).not.toHaveBeenCalled();
-    expect(
-      wrapper.find('[data-button="CAPTAIN.RESPONSES.IMPORT.ACTION"]').exists()
-    ).toBe(false);
+    await wrapper.get('[data-faq-create]').trigger('click');
+    expect(wrapper.find('[data-faq-actions]').exists()).toBe(false);
+    wrapper.unmount();
+  });
+
+  it('offers manual creation and CSV import from the create action', async () => {
+    mocks.latestImport.mockResolvedValueOnce({ data: null });
+    const wrapper = mountPage();
+    await flushPromises();
+
+    await wrapper.get('[data-faq-create]').trigger('click');
+
+    expect(wrapper.get('[data-faq-action="create"]').text()).toBe(
+      'CAPTAIN.RESPONSES.CREATE_MANUALLY'
+    );
+    expect(wrapper.get('[data-faq-action="import"]').text()).toBe(
+      'CAPTAIN.RESPONSES.IMPORT.ACTION'
+    );
+
+    await wrapper.get('[data-faq-action="create"]').trigger('click');
+    await flushPromises();
+    expect(mocks.createDialogOpen).toHaveBeenCalledOnce();
+
+    await wrapper.get('[data-faq-create]').trigger('click');
+    await wrapper.get('[data-faq-action="import"]').trigger('click');
+    await flushPromises();
+    expect(mocks.importDialogOpen).toHaveBeenCalledOnce();
     wrapper.unmount();
   });
 
