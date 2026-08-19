@@ -85,10 +85,30 @@ describe Whatsapp::PhoneInfoService do
         allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
       end
 
-      it 'uses the first available phone number as fallback' do
-        result = service.perform
-        expect(result[:phone_number_id]).to eq('available_phone_id')
-        expect(result[:phone_number]).to eq('+9876543210')
+      it 'raises instead of falling back to a different number' do
+        expect { service.perform }.to raise_error(/No matching phone number found for WABA/)
+      end
+    end
+
+    context 'when no identifier is given and the WABA has multiple numbers' do
+      let(:phone_number_id) { nil }
+      let(:phone_response) do
+        {
+          'data' => [
+            { 'id' => 'first_phone_id', 'display_phone_number' => '1234567890', 'verified_name' => 'First Business',
+              'code_verification_status' => 'VERIFIED' },
+            { 'id' => 'second_phone_id', 'display_phone_number' => '9876543210', 'verified_name' => 'Second Business',
+              'code_verification_status' => 'VERIFIED' }
+          ]
+        }
+      end
+
+      before do
+        allow(api_client).to receive(:fetch_phone_numbers).with(waba_id).and_return(phone_response)
+      end
+
+      it 'raises instead of arbitrarily selecting the first number' do
+        expect { service.perform }.to raise_error(/Multiple phone numbers found for WABA/)
       end
     end
 
