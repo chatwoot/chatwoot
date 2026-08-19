@@ -59,6 +59,10 @@ const playRemoteStream = stream => {
 // that races cleanup still has data to upload.
 const RECORDING_TIMESLICE_MS = 1000;
 const ICE_GATHER_TIMEOUT_MS = 10000;
+// The OGG remux is a whole-file in-memory pass on the main thread (~4x the
+// blob size transient); past this cap (~3 h at the 48 kbps recording bitrate)
+// skip it and upload the raw WebM instead.
+const MAX_REMUX_BYTES = 64 * 1024 * 1024;
 
 const RECORDER_MIME_CANDIDATES = [
   'audio/webm;codecs=opus',
@@ -107,7 +111,11 @@ const setupRecorder = () => {
   if (!mimeType) return;
 
   recorderChunks = [];
-  mediaRecorder = new MediaRecorder(destination.stream, { mimeType });
+  // 48 kbps Opus is transparent for speech vs Chrome's ~128 kbps default.
+  mediaRecorder = new MediaRecorder(destination.stream, {
+    mimeType,
+    audioBitsPerSecond: 48000,
+  });
   mediaRecorder.ondataavailable = event => {
     if (event.data && event.data.size > 0) recorderChunks.push(event.data);
   };
@@ -180,14 +188,15 @@ const stopRecorderAndUpload = async callId => {
 
   let blob = new Blob(recorderChunks, { type: recorderChunks[0].type });
   let filename = 'call-recording.webm';
-  // MediaRecorder never backfills the WebM duration header, which breaks
-  // mobile players; remuxing to OGG gives the file a real duration via
-  // granule positions. On failure, fall back to uploading the raw WebM.
-  try {
-    blob = await remuxWebmToOgg(blob);
-    filename = 'call-recording.ogg';
-  } catch (_) {
-    /* noop */
+  // Remux to OGG so the file carries a real duration (MediaRecorder never
+  // backfills the WebM duration header, which breaks mobile players).
+  if (blob.size <= MAX_REMUX_BYTES) {
+    try {
+      blob = await remuxWebmToOgg(blob);
+      filename = 'call-recording.ogg';
+    } catch (_) {
+      /* noop — fall back to uploading the raw WebM */
+    }
   }
   // Best-effort — the controller's idempotency guard handles a retry.
   try {
