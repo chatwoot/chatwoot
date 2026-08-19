@@ -131,8 +131,9 @@ const filterMenus = computed(() =>
   }))
 );
 
-const dismissPicker = () => {
-  if (!hasDateFilter.value) showPicker.value = false;
+const resetPicker = () => {
+  if (hasDateFilter.value) pickerKey.value += 1;
+  else showPicker.value = false;
 };
 
 const closeMenus = () => {
@@ -141,7 +142,7 @@ const closeMenus = () => {
 
 const closeFilterMenu = () => {
   closeMenus();
-  dismissPicker();
+  resetPicker();
 };
 
 const openDatePicker = () => {
@@ -150,8 +151,7 @@ const openDatePicker = () => {
 };
 
 const toggleFilterMenu = key => {
-  dismissPicker();
-  pickerKey.value += 1;
+  resetPicker();
   openFilterMenu.value = openFilterMenu.value === key ? null : key;
 };
 
@@ -181,7 +181,7 @@ const handleFilterAction = ({ action, value }) => {
       v-model:range-type="pickerRangeType"
       :has-applied-range="hasDateFilter"
       @click="closeMenus"
-      @close="dismissPicker"
+      @close="resetPicker"
       @date-range-changed="applyDateRange"
     />
     <Button
