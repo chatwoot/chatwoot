@@ -594,6 +594,44 @@ describe('#actions', () => {
 
       expect(signal.aborted).toBe(true);
     });
+
+    it('cancels a reconnect sync that a thread switch supersedes', async () => {
+      let signal;
+      API.get.mockImplementationOnce(
+        (url, config) =>
+          new Promise(() => {
+            signal = config.signal;
+          })
+      );
+      actions.syncLatestMessages({
+        state: { lastMessageId: 1, conversations: {} },
+        commit,
+      });
+      await Promise.resolve();
+      expect(signal.aborted).toBe(false);
+
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', conversation_id: 99 },
+      });
+      const windowSpy = vi
+        .spyOn(window, 'window', 'get')
+        .mockImplementation(() => ({
+          WOOT_WIDGET: { $root: { $i18n: { locale: 'en' } } },
+          location: { search: '' },
+        }));
+      await actions.sendMessageWithData(
+        {
+          commit,
+          dispatch,
+          state: { conversations: {} },
+          rootState: rootStateWith(55),
+        },
+        { message: { id: 'temp', content: 'hello' } }
+      );
+      windowSpy.mockRestore();
+
+      expect(signal.aborted).toBe(true);
+    });
   });
 
   describe('#syncLatestMessages', () => {

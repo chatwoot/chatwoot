@@ -14,8 +14,9 @@ import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 
-// Only the newest history request may write to the list; a thread switch cancels the one it supersedes.
+// A thread switch cancels the reads it supersedes, so their payloads never reach the new thread.
 let historyRequest = null;
+let syncRequest = null;
 
 // One list holds every thread, so its newest conversation is the one on screen.
 const latestThreadId = conversations =>
@@ -38,8 +39,9 @@ const resetStaleThread = async (
   const hasStaleAttributes = attributeId && attributeId < conversationId;
   if (!staleMessages().length && !hasStaleAttributes) return;
 
-  // A page still loading the thread being left would merge it back once it arrives.
+  // Anything still loading the thread being left would merge it back once it arrives.
   historyRequest?.abort();
+  syncRequest?.abort();
   await dispatch('conversationAttributes/getAttributes', {}, { root: true });
   // Dropped after the refresh, or the socket adds the old thread's events straight back.
   staleMessages().forEach(item => commit('deleteMessage', item.id));
@@ -205,12 +207,17 @@ export const actions = {
   },
 
   syncLatestMessages: async ({ state, commit }) => {
+    const request = new AbortController();
+    syncRequest = request;
     try {
       const { lastMessageId, conversations } = state;
 
       const {
         data: { payload, meta },
-      } = await getMessagesAPI({ after: lastMessageId });
+      } = await getMessagesAPI(
+        { after: lastMessageId },
+        { signal: request.signal }
+      );
 
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
