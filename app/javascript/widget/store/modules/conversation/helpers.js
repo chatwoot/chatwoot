@@ -48,6 +48,12 @@ export const findUndeliveredMessage = (messageInbox, { content }) =>
     message => message.content === content && message.status === 'in_progress'
   );
 
+// A message from a thread the widget has left never enters the list. A newer thread is the server
+// moving us, so it is kept; temporary messages carry no thread yet, and a null threadId means no
+// thread has been left behind.
+export const belongsToThread = (threadId, { conversation_id: messageThread }) =>
+  !threadId || !messageThread || messageThread >= threadId;
+
 export const getNonDeletedMessages = ({ messages }) => {
   return messages.filter(
     item => !(item.content_attributes && item.content_attributes.deleted)

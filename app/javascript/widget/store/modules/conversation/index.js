@@ -4,6 +4,7 @@ import { mutations } from './mutations';
 
 const state = {
   conversations: {},
+  threadId: null,
   meta: {
     userLastSeenAt: undefined,
   },

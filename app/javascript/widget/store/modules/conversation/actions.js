@@ -11,20 +11,12 @@ import {
 } from 'widget/api/conversation';
 
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
-import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
+import {
+  belongsToThread,
+  createTemporaryMessage,
+  getNonDeletedMessages,
+} from './helpers';
 import { emitter } from 'shared/helpers/mitt';
-
-// A thread switch cancels the reads it supersedes, so their payloads never reach the new thread.
-// Starting a read cancels the previous one, so only ever one of each kind is outstanding.
-let historyRequest = null;
-let syncRequest = null;
-
-// One list holds every thread, so its newest conversation is the one on screen.
-const latestThreadId = conversations =>
-  Object.values(conversations).reduce(
-    (latest, item) => Math.max(latest, item.conversation_id || 0),
-    0
-  );
 
 // The server answers on a new thread once the current one is resolved and replies are off.
 // Messages and attributes go stale independently, so either one triggers the refresh.
@@ -40,9 +32,9 @@ const resetStaleThread = async (
   const hasStaleAttributes = attributeId && attributeId < conversationId;
   if (!staleMessages().length && !hasStaleAttributes) return;
 
-  // Anything still loading the thread being left would merge it back once it arrives.
-  historyRequest?.abort();
-  syncRequest?.abort();
+  // Recorded before anything is awaited, so responses that outlive the switch are rejected by
+  // the store instead of merging the thread being left back into the new one.
+  commit('setThreadId', conversationId);
   await dispatch('conversationAttributes/getAttributes', {}, { root: true });
   // Dropped after the refresh, or the socket adds the old thread's events straight back.
   staleMessages().forEach(item => commit('deleteMessage', item.id));
@@ -102,8 +94,9 @@ export const actions = {
       }
 
       const { conversation_id: threadId } = data;
-      // A newer send already switched threads, so this reply belongs to the one just dropped.
-      if (latestThreadId(conversationState.conversations) > threadId) {
+      // Only an older thread is rejected: a newer one is the server moving us, which is the switch
+      // itself. The store would drop this reply anyway, so its placeholder goes with it.
+      if (conversationState.threadId && threadId < conversationState.threadId) {
         commit('deleteMessage', id);
         return;
       }
@@ -164,7 +157,7 @@ export const actions = {
         commit('clearPendingConversationMetadata');
       }
       const { conversation_id: threadId } = data;
-      if (latestThreadId(conversationState.conversations) > threadId) {
+      if (conversationState.threadId && threadId < conversationState.threadId) {
         commit('deleteMessage', tempMessage.id);
         return;
       }
@@ -188,15 +181,17 @@ export const actions = {
       // Show error
     }
   },
-  fetchOldConversations: async ({ commit }, { before } = {}) => {
-    historyRequest?.abort();
-    const request = new AbortController();
-    historyRequest = request;
+  fetchOldConversations: async ({ commit, state }, { before } = {}) => {
+    // An empty page marks the thread fully loaded, so a page for a thread we have left must not
+    // reach the store at all — the message filter alone cannot tell those two apart.
+    const requestedThread = state.threadId;
     try {
       commit('setConversationListLoading', true);
       const {
         data: { payload, meta },
-      } = await getMessagesAPI({ before }, { signal: request.signal });
+      } = await getMessagesAPI({ before });
+      if (state.threadId !== requestedThread) return;
+
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
@@ -209,23 +204,19 @@ export const actions = {
   },
 
   syncLatestMessages: async ({ state, commit }) => {
-    syncRequest?.abort();
-    const request = new AbortController();
-    syncRequest = request;
     try {
       const { lastMessageId, conversations } = state;
 
       const {
         data: { payload, meta },
-      } = await getMessagesAPI(
-        { after: lastMessageId },
-        { signal: request.signal }
-      );
+      } = await getMessagesAPI({ after: lastMessageId });
 
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
       const missingMessages = formattedMessages.filter(
-        message => conversations?.[message.id] === undefined
+        message =>
+          conversations?.[message.id] === undefined &&
+          belongsToThread(state.threadId, message)
       );
       if (!missingMessages.length) return;
       missingMessages.forEach(message => {

@@ -178,6 +178,8 @@ describe('#actions', () => {
       windowSpy.mockRestore();
 
       expect(commit).toBeCalledWith('deleteMessage', 1);
+      // recorded before the refresh, so responses that outlive the switch are rejected
+      expect(commit).toBeCalledWith('setThreadId', 99);
       expect(dispatch).toBeCalledWith(
         'conversationAttributes/getAttributes',
         {},
@@ -315,7 +317,10 @@ describe('#actions', () => {
       });
       const windowSpy = mockWindow();
       // the widget has already switched to conversation 99
-      const state = { conversations: { 1: { id: 1, conversation_id: 99 } } };
+      const state = {
+        conversations: { 1: { id: 1, conversation_id: 99 } },
+        threadId: 99,
+      };
       const localCommit = vi.fn();
       const localDispatch = vi.fn(() => Promise.resolve());
 
@@ -345,6 +350,32 @@ describe('#actions', () => {
         status: 'sent',
       });
       expect(localCommit).toBeCalledWith('deleteMessage', 'temp');
+    });
+
+    it('accepts the reply that moves the widget to a newer thread', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', conversation_id: 99 },
+      });
+      const windowSpy = mockWindow();
+      const state = {
+        conversations: { 1: { id: 1, conversation_id: 55 } },
+        threadId: 55,
+      };
+      const localCommit = vi.fn();
+
+      await actions.sendMessageWithData(
+        { commit: localCommit, dispatch, state, rootState: rootStateWith(55) },
+        { message: { id: 'temp', content: 'hello' } }
+      );
+      windowSpy.mockRestore();
+
+      expect(localCommit).not.toBeCalledWith('deleteMessage', 'temp');
+      expect(localCommit).toBeCalledWith('pushMessageToConversation', {
+        id: 2,
+        content: 'hello',
+        conversation_id: 99,
+        status: 'sent',
+      });
     });
 
     it('keeps the thread when the message lands in the same conversation', async () => {
@@ -542,7 +573,10 @@ describe('#actions', () => {
           },
         },
       });
-      await actions.fetchOldConversations({ commit }, {});
+      await actions.fetchOldConversations(
+        { commit, state: { conversations: {}, threadId: null } },
+        {}
+      );
       expect(commit.mock.calls).toEqual([
         ['setConversationListLoading', true],
         ['conversation/setMetaUserLastSeenAt', 1466424490, { root: true }],
@@ -560,94 +594,44 @@ describe('#actions', () => {
       ]);
     });
 
-    it('cancels a history request that a thread switch supersedes', async () => {
-      let signal;
-      API.get.mockImplementationOnce(
-        (url, config) =>
-          new Promise(() => {
-            signal = config.signal;
-          })
-      );
-      actions.fetchOldConversations({ commit }, {});
-      await Promise.resolve();
-      expect(signal.aborted).toBe(false);
-
-      API.post.mockResolvedValue({
-        data: { id: 2, content: 'hello', conversation_id: 99 },
-      });
-      const windowSpy = vi
-        .spyOn(window, 'window', 'get')
-        .mockImplementation(() => ({
-          WOOT_WIDGET: { $root: { $i18n: { locale: 'en' } } },
-          location: { search: '' },
-        }));
-      await actions.sendMessageWithData(
-        {
-          commit,
-          dispatch,
-          state: { conversations: {} },
-          rootState: rootStateWith(55),
+    it('drops a page that belongs to the thread the widget has left', async () => {
+      API.get.mockResolvedValue({
+        data: {
+          payload: [{ id: 1, text: 'hey', conversation_id: 55 }],
+          meta: { contact_last_seen_at: 1466424490 },
         },
-        { message: { id: 'temp', content: 'hello' } }
-      );
-      windowSpy.mockRestore();
+      });
+      const state = { conversations: {}, threadId: 55 };
+      // the switch lands while the page is in flight
+      const localCommit = vi.fn(() => {
+        state.threadId = 99;
+      });
 
-      expect(signal.aborted).toBe(true);
+      await actions.fetchOldConversations({ commit: localCommit, state }, {});
+
+      expect(localCommit).not.toBeCalledWith(
+        'setMessagesInConversation',
+        expect.anything()
+      );
+      expect(localCommit).toBeCalledWith('setConversationListLoading', false);
     });
 
-    it('cancels an earlier read when a second one starts', async () => {
-      const signals = [];
-      API.get.mockImplementation(
-        (url, config) =>
-          new Promise(() => {
-            signals.push(config.signal);
-          })
-      );
-      actions.fetchOldConversations({ commit }, {});
-      actions.fetchOldConversations({ commit }, {});
-      await Promise.resolve();
-
-      expect(signals).toHaveLength(2);
-      expect(signals[0].aborted).toBe(true);
-      expect(signals[1].aborted).toBe(false);
-    });
-
-    it('cancels a reconnect sync that a thread switch supersedes', async () => {
-      let signal;
-      API.get.mockImplementationOnce(
-        (url, config) =>
-          new Promise(() => {
-            signal = config.signal;
-          })
-      );
-      actions.syncLatestMessages({
-        state: { lastMessageId: 1, conversations: {} },
-        commit,
-      });
-      await Promise.resolve();
-      expect(signal.aborted).toBe(false);
-
-      API.post.mockResolvedValue({
-        data: { id: 2, content: 'hello', conversation_id: 99 },
-      });
-      const windowSpy = vi
-        .spyOn(window, 'window', 'get')
-        .mockImplementation(() => ({
-          WOOT_WIDGET: { $root: { $i18n: { locale: 'en' } } },
-          location: { search: '' },
-        }));
-      await actions.sendMessageWithData(
-        {
-          commit,
-          dispatch,
-          state: { conversations: {} },
-          rootState: rootStateWith(55),
+    it('keeps a page when the thread has not changed', async () => {
+      API.get.mockResolvedValue({
+        data: {
+          payload: [{ id: 1, text: 'hey', conversation_id: 55 }],
+          meta: { contact_last_seen_at: 1466424490 },
         },
-        { message: { id: 'temp', content: 'hello' } }
-      );
-      windowSpy.mockRestore();
+      });
 
-      expect(signal.aborted).toBe(true);
+      await actions.fetchOldConversations(
+        { commit, state: { conversations: {}, threadId: 55 } },
+        {}
+      );
+
+      expect(commit).toBeCalledWith('setMessagesInConversation', [
+        { id: 1, text: 'hey', conversation_id: 55 },
+      ]);
     });
   });
 

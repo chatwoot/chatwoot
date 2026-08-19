@@ -29,9 +29,9 @@ const sendAttachmentAPI = async (
   return API.post(urlData.url, urlData.params);
 };
 
-const getMessagesAPI = async ({ before, after }, { signal } = {}) => {
+const getMessagesAPI = async ({ before, after }) => {
   const urlData = endPoints.getConversation({ before, after });
-  return API.get(urlData.url, { params: urlData.params, signal });
+  return API.get(urlData.url, { params: urlData.params });
 };
 
 const getConversationAPI = async () => {

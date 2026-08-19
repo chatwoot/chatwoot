@@ -22,6 +22,23 @@ const outgoingMessagePayload = {
 };
 
 describe('#mutations', () => {
+  describe('#setMessagesInConversation', () => {
+    it('keeps only the messages belonging to the thread the list holds', () => {
+      const state = { conversations: {}, threadId: 99, uiFlags: {} };
+      mutations.setMessagesInConversation(state, [
+        { id: 1, conversation_id: 55 },
+        { id: 2, conversation_id: 99 },
+      ]);
+      expect(Object.keys(state.conversations)).toEqual(['2']);
+    });
+
+    it('marks the thread loaded when the page is genuinely empty', () => {
+      const state = { conversations: {}, threadId: 99, uiFlags: {} };
+      mutations.setMessagesInConversation(state, []);
+      expect(state.uiFlags.allMessagesLoaded).toBe(true);
+    });
+  });
+
   describe('#pushMessageToConversation', () => {
     it('add message to conversation if outgoing', () => {
       const state = { conversations: {} };
@@ -29,6 +46,22 @@ describe('#mutations', () => {
       expect(state.conversations).toEqual({
         1: outgoingMessagePayload,
       });
+    });
+
+    it('ignores a message from a thread the list has left', () => {
+      const state = { conversations: {}, threadId: 99 };
+      mutations.pushMessageToConversation(state, {
+        ...outgoingMessagePayload,
+        conversation_id: 55,
+      });
+      expect(state.conversations).toEqual({});
+    });
+
+    it('adds a message from the thread the list holds', () => {
+      const state = { conversations: {}, threadId: 99 };
+      const message = { ...outgoingMessagePayload, conversation_id: 99 };
+      mutations.pushMessageToConversation(state, message);
+      expect(state.conversations).toEqual({ 1: message });
     });
 
     it('add message to conversation if message in undelivered', () => {
