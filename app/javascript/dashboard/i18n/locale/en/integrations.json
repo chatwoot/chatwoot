@@ -900,6 +900,8 @@
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
       "FAQ_COUNT": "{n} FAQ | {n} FAQs",
+      "USED_IN_CONVERSATIONS": "Used in {n} conversation | Used in {n} conversations",
+      "NO_USED_CONVERSATIONS": "No conversations found for this document.",
       "SELECTED": "{count} selected",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
@@ -937,7 +939,8 @@
         },
         "SORT": {
           "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created"
+          "RECENTLY_CREATED": "Recently created",
+          "MOST_USED": "Most used in conversations"
         },
         "SEARCH_PLACEHOLDER": "Search..."
       },
@@ -965,6 +968,7 @@
         "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
         "SOURCE": "Source",
         "GENERATED_FAQS": "Generated FAQs",
+        "USED_IN_CONVERSATIONS": "Used in conversations",
         "LAST_UPDATED": "Last updated",
         "NOT_AVAILABLE": "Not available",
         "CONTENT_TAB": "Crawled content",
@@ -1168,6 +1172,7 @@
     "RESPONSES": {
       "HEADER": "FAQs",
       "ADD_NEW": "Create new FAQ",
+      "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
       },

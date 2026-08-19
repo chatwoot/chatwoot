@@ -2,7 +2,7 @@
 import { computed, onActivated, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 import Avatar from 'next/avatar/Avatar.vue';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import SettingsLayout from '../SettingsLayout.vue';

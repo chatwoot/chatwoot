@@ -105,6 +105,7 @@
       "MUTE_CONVERSATION": "Mute Conversation",
       "SNOOZE_CONVERSATION": "Snooze Conversation",
       "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "Change Priority",

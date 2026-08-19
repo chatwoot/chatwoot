@@ -1170,14 +1170,14 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
-    it('should handle empty arrays in conversation', () => {
+    it('should treat an empty labels array as not present', () => {
       const conversation = {
         labels: [],
       };
       const filters = [
         {
           attribute_key: 'labels',
-          filter_operator: 'is_present',
+          filter_operator: 'is_not_present',
           values: [],
           query_operator: 'and',
         },
