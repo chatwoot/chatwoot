@@ -75,32 +75,26 @@ services:
       - config/sidekiq.yml
     restart: always
 
-postgres:
-  image: pgvector/pgvector:pg16
-  restart: always
-  env_file:
-    - .env
-  volumes:
-    - postgres_data:/var/lib/postgresql/data
-
-  ports:
-    - "5432:5432"
-
-  environment:
-    POSTGRES_DB: chatwoot
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in Dokploy Environment}
-
-  healthcheck:
-    test: ['CMD-SHELL', 'pg_isready -U postgres -d chatwoot']
-    interval: 5s
-    timeout: 5s
-    retries: 20
-    start_period: 10s
-
-  networks:
-    - default
-    - dokploy-network
+ postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: chatwoot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in Dokploy Environment}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d chatwoot']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    networks:
+      - default
+      - dokploy-network
 
   redis:
     image: redis:alpine
