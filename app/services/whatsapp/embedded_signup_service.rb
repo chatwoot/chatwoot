@@ -2,7 +2,6 @@ class Whatsapp::EmbeddedSignupService
   def initialize(account:, params:, inbox_id: nil)
     @account = account
     @code = params[:code]
-    @business_id = params[:business_id]
     @waba_id = params[:waba_id]
     @phone_number_id = params[:phone_number_id]
     @inbox_id = inbox_id
@@ -89,7 +88,6 @@ class Whatsapp::EmbeddedSignupService
   def validate_parameters!
     missing_params = []
     missing_params << 'code' if @code.blank?
-    missing_params << 'business_id' if @business_id.blank?
     missing_params << 'waba_id' if @waba_id.blank?
 
     return if missing_params.empty?

@@ -44,7 +44,7 @@ export function useWhatsappEmbeddedSignup() {
         if (!authCode || !businessData) return;
         settle(resolve, {
           code: authCode,
-          business_id: businessData.business_id,
+          business_id: businessData.business_id || '',
           waba_id: businessData.waba_id,
           phone_number_id: businessData.phone_number_id || '',
           is_coexistence: isCoexistence,

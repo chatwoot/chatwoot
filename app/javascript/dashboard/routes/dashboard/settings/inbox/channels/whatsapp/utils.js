@@ -29,8 +29,10 @@ export const initializeFacebook = (appId, apiVersion) => {
   });
 };
 
+// Only waba_id is guaranteed: Meta's coexistence FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING
+// event documents data: { waba_id } alone — no business_id or phone_number_id.
 export const isValidBusinessData = businessData => {
-  return businessData && businessData.business_id && businessData.waba_id;
+  return Boolean(businessData && businessData.waba_id);
 };
 
 export const createMessageHandler = onEmbeddedSignupData => {
@@ -75,7 +77,7 @@ export const initWhatsAppEmbeddedSignup = configId => {
         extras: {
           setup: {},
           featureType: 'whatsapp_business_app_onboarding',
-          sessionInfoVersion: '4',
+          sessionInfoVersion: '3',
         },
       }
     );

@@ -11,9 +11,7 @@ vi.mock(
     setupFacebookSdk: vi.fn(),
     initWhatsAppEmbeddedSignup: vi.fn(),
     createMessageHandler: vi.fn(),
-    isValidBusinessData: vi.fn(data =>
-      Boolean(data && data.business_id && data.waba_id)
-    ),
+    isValidBusinessData: vi.fn(data => Boolean(data && data.waba_id)),
   })
 );
 
@@ -104,6 +102,27 @@ describe('useWhatsappEmbeddedSignup', () => {
       business_id: 'biz-1',
       waba_id: 'waba-1',
       phone_number_id: 'phone-1',
+      is_coexistence: true,
+    });
+  });
+
+  it('resolves a coexistence completion that only carries waba_id', async () => {
+    initWhatsAppEmbeddedSignup.mockResolvedValue('auth-code');
+
+    const { runEmbeddedSignup } = useWhatsappEmbeddedSignup();
+    const result = runEmbeddedSignup();
+
+    await flushPromises();
+    emit({
+      event: 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING',
+      data: { waba_id: 'waba-1' },
+    });
+
+    await expect(result).resolves.toEqual({
+      code: 'auth-code',
+      business_id: '',
+      waba_id: 'waba-1',
+      phone_number_id: '',
       is_coexistence: true,
     });
   });

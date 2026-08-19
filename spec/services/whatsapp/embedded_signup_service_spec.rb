@@ -106,8 +106,13 @@ describe Whatsapp::EmbeddedSignupService do
 
     context 'when parameters are invalid' do
       it 'raises ArgumentError for missing parameters' do
-        invalid_service = described_class.new(account: account, params: { code: '', business_id: '', waba_id: '' })
-        expect { invalid_service.perform }.to raise_error(ArgumentError, /Required parameters are missing/)
+        invalid_service = described_class.new(account: account, params: { code: '', waba_id: '' })
+        expect { invalid_service.perform }.to raise_error(ArgumentError, 'Required parameters are missing: code, waba_id')
+      end
+
+      it 'does not require business_id' do
+        coexistence_service = described_class.new(account: account, params: params.except(:business_id))
+        expect { coexistence_service.perform }.not_to raise_error
       end
     end
 

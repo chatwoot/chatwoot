@@ -81,7 +81,6 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
   def validate_embedded_signup_params!
     missing_params = []
     missing_params << 'code' if params[:code].blank?
-    missing_params << 'business_id' if params[:business_id].blank?
     missing_params << 'waba_id' if params[:waba_id].blank?
 
     return if missing_params.empty?
