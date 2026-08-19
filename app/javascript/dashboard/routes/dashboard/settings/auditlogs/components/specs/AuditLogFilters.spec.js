@@ -105,7 +105,7 @@ describe('AuditLogFilters', () => {
     await wrapper.findAllComponents(Button).at(0).trigger('click');
     const picker = wrapper.findComponent(WootDatePicker);
 
-    expect(picker.props('defaultOpen')).toBe(true);
+    expect(picker.props('hasAppliedRange')).toBe(false);
     expect(wrapper.emitted('update')).toBeUndefined();
   });
 

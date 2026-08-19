@@ -35,9 +35,9 @@ import CalendarWeek from './components/CalendarWeek.vue';
 import CalendarFooter from './components/CalendarFooter.vue';
 
 const props = defineProps({
-  defaultOpen: {
+  hasAppliedRange: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 });
 
@@ -57,7 +57,7 @@ const { LAST_7_DAYS, CUSTOM_RANGE } = DATE_RANGE_TYPES;
 const { START_CALENDAR, END_CALENDAR } = CALENDAR_TYPES;
 const { WEEK, MONTH, YEAR } = CALENDAR_PERIODS;
 
-const showDatePicker = ref(props.defaultOpen);
+const showDatePicker = ref(!props.hasAppliedRange);
 const calendarViews = ref({ start: WEEK, end: WEEK });
 const currentDate = ref(new Date());
 
@@ -358,11 +358,16 @@ const toggleDatePicker = () => {
 };
 
 const closeDatePicker = () => {
-  if (isValid(selectedStartDate.value) && isValid(selectedEndDate.value)) {
+  const canApply =
+    props.hasAppliedRange &&
+    isValid(selectedStartDate.value) &&
+    isValid(selectedEndDate.value);
+  if (canApply) {
     emitDateRange();
-  } else {
-    showDatePicker.value = false;
+    return;
   }
+  showDatePicker.value = false;
+  emit('close');
 };
 </script>
 

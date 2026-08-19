@@ -179,7 +179,7 @@ const handleFilterAction = ({ action, value }) => {
       :key="pickerKey"
       v-model:date-range="pickerDateRange"
       v-model:range-type="pickerRangeType"
-      :default-open="!hasDateFilter"
+      :has-applied-range="hasDateFilter"
       @click="closeMenus"
       @close="dismissPicker"
       @date-range-changed="applyDateRange"
