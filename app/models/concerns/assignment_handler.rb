@@ -11,6 +11,7 @@ module AssignmentHandler
 
   def ensure_assignee_is_from_team
     return unless team_id_changed?
+    return if assignee_agent_bot_id.present?
 
     validate_current_assignee_team
     self.assignee ||= find_assignee_from_team
@@ -29,7 +30,7 @@ module AssignmentHandler
 
   def notify_assignment_change
     {
-      ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? },
+      ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? || saved_change_to_assignee_agent_bot_id? },
       TEAM_CHANGED => -> { saved_change_to_team_id? }
     }.each do |event, condition|
       condition.call && dispatcher_dispatch(event, previous_changes)

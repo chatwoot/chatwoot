@@ -1,4 +1,9 @@
 module Enterprise::Account
+  # Transitional marker for the Captain V1 to V2 rollout. Set this to false only
+  # for accounts that must remain on V1 during paid plan reconciliation.
+  # Remove once every account is migrated to V2.
+  CAPTAIN_V2_DEFAULT_ELIGIBLE = 'captain_v2_default_eligible'.freeze
+
   class << self
     def captain_document_sync_intervals
       parse_captain_document_sync_intervals(InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS')&.value)
@@ -68,6 +73,12 @@ module Enterprise::Account
     saml_settings&.saml_enabled? || false
   end
 
+  def api_and_webhooks_enabled?
+    return true unless ChatwootApp.chatwoot_cloud?
+
+    feature_enabled?('api_and_webhooks')
+  end
+
   def billing_currency
     # Feature off => everyone is billed in USD (legacy behaviour).
     return Enterprise::Billing::Currencies::DEFAULT unless Enterprise::Billing::Currencies.enabled?
@@ -93,6 +104,15 @@ module Enterprise::Account
   end
 
   private
+
+  def enable_default_features
+    super
+    if ChatwootApp.self_hosted_enterprise?
+      enable_features('captain_integration', 'captain_integration_v2')
+    elsif ChatwootApp.chatwoot_cloud?
+      internal_attributes[CAPTAIN_V2_DEFAULT_ELIGIBLE] = true
+    end
+  end
 
   def sync_assignment_features
     if feature_enabled?('assignment_v2')

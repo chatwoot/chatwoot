@@ -33,6 +33,7 @@ const state = {
     allFetched: false,
     isFetching: false,
     isSwitching: false,
+    isFetchingSSLStatus: false,
   },
 };
 

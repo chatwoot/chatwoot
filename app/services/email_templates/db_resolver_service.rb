@@ -29,12 +29,14 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
   end
   # rubocop:enable Metrics/ParameterLists
 
-  # the function has to accept(name, prefix, partial, _details, _locals = [])
-  # _details contain local info which we can leverage in future
+  # the function has to accept(name, prefix, partial, details, locals = [])
+  # details contain local info which we can leverage in future
   # cause of codeclimate issue with 4 args, relying on (*args)
-  def find_templates(name, prefix, partial, *_args)
+  def find_templates(name, prefix, partial, *args)
     @template_name = name
-    @template_type = prefix.include?('layout') ? 'layout' : 'content'
+    @template_type = prefix.to_s.include?('layout') ? 'layout' : 'content'
+    @prefix = prefix
+    @details = args.first if args.first.is_a?(Hash)
     @db_template = find_db_template
 
     return [] if @db_template.blank?
@@ -54,17 +56,62 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
   private
 
   def find_db_template
-    find_account_template || find_installation_template
+    find_inbox_template || find_account_template || find_installation_template
+  end
+
+  def find_inbox_template
+    return unless email_inbox_layout_lookup? && branded_email_templates_enabled?
+
+    find_template_for(@@model.where(inbox: Current.inbox))
   end
 
   def find_account_template
     return unless Current.account
+    return if account_layout_lookup? && !branded_email_templates_enabled?
 
-    @@model.find_by(name: @template_name, template_type: @template_type, account: Current.account)
+    find_template_for(@@model.where(account: Current.account, inbox: nil))
   end
 
   def find_installation_template
-    @@model.find_by(name: @template_name, template_type: @template_type, account: nil)
+    find_template_for(@@model.where(account: nil, inbox: nil))
+  end
+
+  def account_layout_lookup?
+    @template_type == 'layout' && Current.account.present?
+  end
+
+  def email_inbox_layout_lookup?
+    account_layout_lookup? && Current.inbox&.email?
+  end
+
+  def branded_email_templates_enabled?
+    Current.account&.feature_enabled?(:branded_email_templates)
+  end
+
+  def find_template_for(relation)
+    locale_candidates.each do |locale|
+      template_names.each do |name|
+        template = relation.find_by(name: name, template_type: @template_type, locale: locale)
+        return template if template.present?
+      end
+    end
+
+    nil
+  end
+
+  def locale_candidates
+    locale = Array(@details&.dig(:locale)).first
+    EmailTemplate.locale_candidates(locale.presence || EmailTemplate::DEFAULT_LOCALE)
+  end
+
+  def template_names
+    [db_template_name, @template_name].uniq
+  end
+
+  def db_template_name
+    return @template_name if @template_type == 'layout'
+
+    build_path(@prefix)
   end
 
   # Build path with eventual prefix

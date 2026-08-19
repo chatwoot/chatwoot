@@ -510,6 +510,7 @@
         "ATTRIBUTES": "Atributos",
         "HISTORY": "Histórico",
         "NOTES": "Notas",
+        "MEDIA": "Mídia",
         "MERGE": "Mesclar"
       },
       "HISTORY": {
@@ -610,6 +611,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "Não foi possível completar a pesquisa. Por favor, tente novamente."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "Não foi possível criar o contato. Por favor, tente novamente."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Visualizar",

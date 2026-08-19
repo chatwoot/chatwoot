@@ -55,9 +55,28 @@ export const getVoiceCallProvider = inbox => {
 
 export const isVoiceCallEnabled = inbox => getVoiceCallProvider(inbox) !== null;
 
+// Combined channel + voice-wave badge glyph per voice-call provider.
+export const VOICE_CALL_ICONS = {
+  [VOICE_CALL_PROVIDERS.WHATSAPP]: 'i-woot-whatsapp-voice',
+  [VOICE_CALL_PROVIDERS.TWILIO]: 'i-woot-voice-call',
+};
+
+export const getVoiceCallIcon = provider =>
+  VOICE_CALL_ICONS[provider] ?? VOICE_CALL_ICONS[VOICE_CALL_PROVIDERS.TWILIO];
+
 export const TWILIO_CHANNEL_MEDIUM = {
   WHATSAPP: 'whatsapp',
   SMS: 'sms',
+};
+
+export const getInboxVoiceIcon = (channelType, medium) => {
+  const isWhatsapp =
+    channelType === INBOX_TYPES.WHATSAPP ||
+    (channelType === INBOX_TYPES.TWILIO &&
+      medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP);
+  return getVoiceCallIcon(
+    isWhatsapp ? VOICE_CALL_PROVIDERS.WHATSAPP : VOICE_CALL_PROVIDERS.TWILIO
+  );
 };
 
 const INBOX_ICON_MAP_FILL = {
@@ -182,7 +201,14 @@ export const getInboxClassByType = (type, phoneNumber) => {
   }
 };
 
-export const getInboxIconByType = (type, medium, variant = 'fill') => {
+export const getInboxIconByType = (
+  type,
+  medium,
+  variant = 'fill',
+  voiceEnabled = false
+) => {
+  if (voiceEnabled) return getInboxVoiceIcon(type, medium);
+
   const iconMap =
     variant === 'fill' ? INBOX_ICON_MAP_FILL : INBOX_ICON_MAP_LINE;
   const defaultIcon =

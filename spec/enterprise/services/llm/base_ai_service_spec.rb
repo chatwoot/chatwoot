@@ -30,6 +30,14 @@ RSpec.describe Llm::BaseAiService do
       expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-4.1-nano')
     end
 
+    it 'uses the Captain V2 assistant default ahead of the installation model' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      account.enable_features!('captain_integration_v2')
+
+      expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-5.2')
+      expect(account.reload.captain_models).to be_nil
+    end
+
     it 'uses the feature default when feature context has no account override or installation model' do
       expect(described_class.new(feature: 'assistant', account: account).model).to eq(Llm::Models.default_model_for('assistant'))
     end
