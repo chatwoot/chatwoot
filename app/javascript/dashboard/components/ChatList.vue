@@ -612,6 +612,20 @@ function updateAssigneeTab(selectedTab) {
     resetBulkActions();
     emitter.emit('clearSearchInput');
     activeAssigneeTab.value = selectedTab;
+
+    // Assignee tabs keep independent pagination over a shared conversation
+    // cache. Live status and assignment changes can leave a tab at EOF after
+    // its cached rows stop matching. Restart only that tab when the server
+    // count proves the cache is incomplete.
+    const hasStalePagination =
+      hasCurrentPageEndReached.value &&
+      activeAssigneeTabCount.value > conversationList.value.length;
+    if (hasStalePagination) {
+      store.dispatch('conversationPage/resetFilter', {
+        filter: selectedTab,
+      });
+    }
+
     if (!currentPage.value) {
       fetchConversations();
     }
