@@ -10,12 +10,15 @@ class Captain::Assistant::AgentRunnerService
 
   attr_reader :last_run_result
 
+  REPLY_SUGGESTION_SOURCE = 'copilot_reply_suggestion'.freeze
+
   def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil)
     @assistant = assistant
     @conversation = conversation
     @callbacks = callbacks
     @source = source
     @responding_to_message_id = responding_to_message_id
+
     @handoff_tool_called = false
     @handoff_tool_completed = false
   end
@@ -99,6 +102,8 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def build_and_wire_agents
+    return [reply_suggestion_agent] if reply_suggestion?
+
     assistant_agent = @assistant.agent
     scenario_agents = @assistant.scenarios.enabled.map(&:agent)
 
@@ -107,6 +112,22 @@ class Captain::Assistant::AgentRunnerService
 
     [assistant_agent] + scenario_agents
   end
+
+  def reply_suggestion_agent
+    agent = @assistant.agent
+    agent.clone(
+      instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
+      tools: agent.tools.select { |tool| available_in_reply_suggestion?(tool) }
+    )
+  end
+
+  def available_in_reply_suggestion?(tool)
+    return true if tool.is_a?(Captain::Tools::FaqLookupTool)
+
+    tool.is_a?(Captain::Tools::HttpTool) && tool.available_in_reply_suggestion?
+  end
+
+  def reply_suggestion? = @source == REPLY_SUGGESTION_SOURCE
 
   def runner
     @runner ||= begin
