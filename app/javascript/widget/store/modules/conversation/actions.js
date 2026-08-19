@@ -18,6 +18,12 @@ import {
 } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 
+const newestThreadId = messages =>
+  messages.reduce(
+    (latest, item) => Math.max(latest, item.conversation_id || 0),
+    0
+  );
+
 // The server answers on a new thread once the current one is resolved and replies are off.
 // Messages and attributes go stale independently, so either one triggers the refresh.
 const resetStaleThread = async (
@@ -181,7 +187,8 @@ export const actions = {
       // Show error
     }
   },
-  fetchOldConversations: async ({ commit, state }, { before } = {}) => {
+  fetchOldConversations: async (store, { before } = {}) => {
+    const { commit, state } = store;
     // An empty page marks the thread fully loaded, so a page for a thread we have left must not
     // reach the store at all — the message filter alone cannot tell those two apart.
     const requestedThread = state.threadId;
@@ -194,6 +201,9 @@ export const actions = {
 
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
+      // The server only serves its newest conversation, so a payload can be the first sign that
+      // the thread moved while this session could not observe it. Same flow as every other sign.
+      resetStaleThread(store, newestThreadId(formattedMessages));
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMessagesInConversation', formattedMessages);
     } catch (error) {
@@ -203,7 +213,8 @@ export const actions = {
     }
   },
 
-  syncLatestMessages: async ({ state, commit }) => {
+  syncLatestMessages: async store => {
+    const { state, commit } = store;
     try {
       const { lastMessageId, conversations } = state;
 
@@ -213,6 +224,8 @@ export const actions = {
 
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
+      // A reconnect sync is how a session that was offline learns the thread moved.
+      resetStaleThread(store, newestThreadId(formattedMessages));
       const missingMessages = formattedMessages.filter(
         message =>
           conversations?.[message.id] === undefined &&
@@ -239,13 +252,16 @@ export const actions = {
     commit('clearConversations');
   },
 
-  addOrUpdateMessage: async ({ commit }, data) => {
-    const { id, content_attributes } = data;
+  addOrUpdateMessage: async (store, data) => {
+    const { id, content_attributes, conversation_id: threadId } = data;
     if (content_attributes && content_attributes.deleted) {
-      commit('deleteMessage', id);
+      store.commit('deleteMessage', id);
       return;
     }
-    commit('pushMessageToConversation', data);
+    // Another session can move the visitor to a new thread, and its first message arriving over
+    // the socket is how this session finds out — so it takes the same switch flow as a send.
+    if (threadId) resetStaleThread(store, threadId);
+    store.commit('pushMessageToConversation', data);
   },
 
   toggleAgentTyping({ commit }, data) {

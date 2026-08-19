@@ -51,6 +51,55 @@ describe('#actions', () => {
   });
 
   describe('#addOrUpdateMessage', () => {
+    it('runs the switch flow when another session moved to a newer thread', async () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+      const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
+
+      await actions.addOrUpdateMessage(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          state,
+          rootState: rootStateWith(55),
+        },
+        { id: 2, content: 'from the other tab', conversation_id: 99 }
+      );
+
+      expect(localCommit).toBeCalledWith('setThreadId', 99);
+      expect(localCommit).toBeCalledWith('deleteMessage', 1);
+      expect(localDispatch).toBeCalledWith(
+        'conversationAttributes/getAttributes',
+        {},
+        { root: true }
+      );
+      expect(localDispatch).toBeCalledWith('fetchOldConversations');
+      expect(localCommit).toBeCalledWith('pushMessageToConversation', {
+        id: 2,
+        content: 'from the other tab',
+        conversation_id: 99,
+      });
+    });
+
+    it('leaves the thread alone for a message from the same conversation', async () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+      const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
+
+      await actions.addOrUpdateMessage(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          state,
+          rootState: rootStateWith(55),
+        },
+        { id: 2, content: 'Hey', conversation_id: 55 }
+      );
+
+      expect(localCommit).not.toBeCalledWith('setThreadId', expect.anything());
+      expect(localDispatch).not.toBeCalledWith('fetchOldConversations');
+    });
+
     it('sends correct actions for non-deleted message', () => {
       actions.addOrUpdateMessage(
         { commit },
@@ -616,6 +665,34 @@ describe('#actions', () => {
       expect(localCommit).toBeCalledWith('setConversationListLoading', false);
     });
 
+    it('runs the switch flow when a page reveals a newer thread', async () => {
+      API.get.mockResolvedValue({
+        data: {
+          payload: [{ id: 9, content: 'hi', conversation_id: 99 }],
+          meta: { contact_last_seen_at: 1466424490 },
+        },
+      });
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+      const state = {
+        threadId: null,
+        conversations: { 1: { id: 1, conversation_id: 55 } },
+      };
+
+      await actions.fetchOldConversations(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          state,
+          rootState: rootStateWith(55),
+        },
+        {}
+      );
+
+      expect(localCommit).toBeCalledWith('setThreadId', 99);
+      expect(localCommit).toBeCalledWith('deleteMessage', 1);
+    });
+
     it('keeps a page when the thread has not changed', async () => {
       API.get.mockResolvedValue({
         data: {
@@ -636,6 +713,32 @@ describe('#actions', () => {
   });
 
   describe('#syncLatestMessages', () => {
+    it('runs the switch flow when the sync reveals a newer thread', async () => {
+      API.get.mockResolvedValue({
+        data: {
+          payload: [{ id: 9, content: 'hi', conversation_id: 99 }],
+          meta: { contact_last_seen_at: 1466424490 },
+        },
+      });
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+      const state = {
+        lastMessageId: 1,
+        conversations: { 1: { id: 1, conversation_id: 55 } },
+      };
+
+      await actions.syncLatestMessages({
+        commit: localCommit,
+        dispatch: localDispatch,
+        state,
+        rootState: rootStateWith(55),
+      });
+
+      expect(localCommit).toBeCalledWith('setThreadId', 99);
+      expect(localCommit).toBeCalledWith('deleteMessage', 1);
+      expect(localDispatch).toBeCalledWith('fetchOldConversations');
+    });
+
     it('latest message should append to end of list', async () => {
       const state = {
         uiFlags: { allMessagesLoaded: false },
