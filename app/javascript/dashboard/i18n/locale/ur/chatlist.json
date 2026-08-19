@@ -7,6 +7,7 @@
       "404": "اس گروپ میں کوئی فعال گفتگو نہیں ہے۔."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "مکالمات",
     "MENTION_HEADING": "تذکرہ",
     "UNATTENDED_HEADING": "Unattended",

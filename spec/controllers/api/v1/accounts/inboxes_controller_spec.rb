@@ -126,6 +126,28 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.parsed_body['reauthorization_required']).to be(true)
       end
 
+      it 'returns only the configured state for an embedded signup WhatsApp business management token' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        whatsapp_channel = create(
+          :channel_whatsapp,
+          account: account,
+          provider: 'whatsapp_cloud',
+          business_management_token: 'business-token',
+          sync_templates: false,
+          validate_provider_config: false
+        )
+        whatsapp_inbox = create(:inbox, channel: whatsapp_channel, account: account)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['business_management_token_configured']).to be(true)
+        expect(response.parsed_body).not_to have_key('business_management_token')
+        expect(response.body).not_to include('business-token')
+      end
+
       it 'does not flag reauthorization_required for manual whatsapp channel even when reauth required' do
         whatsapp_channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
                                                      validate_provider_config: false)
@@ -1248,6 +1270,91 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:not_found)
         expect(inbox.reload.agent_bot).to be_nil
+      end
+    end
+  end
+
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/:id/message_templates' do
+    let(:last_sync_attempt_at) { 1.hour.ago.change(usec: 0) }
+    let(:message_templates) do
+      [
+        { 'name' => 'shipping_update', 'language' => 'en_US' },
+        { 'name' => 'shipping_update', 'language' => 'es' },
+        { 'name' => 'account_update', 'language' => 'en_US' }
+      ]
+    end
+    let(:whatsapp_channel) do
+      create(
+        :channel_whatsapp,
+        account: account,
+        message_templates: message_templates,
+        message_templates_last_updated: last_sync_attempt_at,
+        sync_templates: false,
+        validate_provider_config: false
+      )
+    end
+    let(:whatsapp_inbox) { whatsapp_channel.inbox }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      it 'returns unauthorized when the agent is not assigned to the inbox' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns the templates when the agent is assigned to the inbox' do
+        create(:inbox_member, user: agent, inbox: whatsapp_inbox)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq(message_templates)
+        expect(Time.zone.parse(response.parsed_body.dig('meta', 'last_sync_attempt_at'))).to eq(last_sync_attempt_at)
+      end
+    end
+
+    context 'when it is an authenticated administrator' do
+      it 'filters templates by exact name' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            params: { name: 'shipping_update' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq(message_templates.first(2))
+      end
+
+      it 'returns an empty payload when the template name does not match' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            params: { name: 'missing_template' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq([])
+      end
+
+      it 'returns unprocessable entity for a non-WhatsApp inbox' do
+        inbox = create(:inbox, account: account)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Message templates are only available for WhatsApp channels')
       end
     end
   end

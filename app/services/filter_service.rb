@@ -98,8 +98,13 @@ class FilterService
   end
 
   def days_before_filter_query(query_hash, current_index)
-    date = Time.zone.today - query_hash['values'][0].to_i.days
-    updated_query_hash = query_hash.with_indifferent_access.merge(
+    days = Integer(query_hash['values'][0].to_s, 10, exception: false)
+    # UI supports 1..998 days; anything else would silently coerce into an
+    # unintended cutoff (negative => future date matching everything)
+    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key']) unless days&.between?(1, 998)
+
+    date = Time.zone.today - days.days
+    updated_query_hash = query_hash.to_h.with_indifferent_access.merge(
       values: [date.strftime],
       filter_operator: 'is_less_than'
     )
@@ -107,12 +112,16 @@ class FilterService
     lt_gt_filter_query(updated_query_hash, current_index)
   end
 
+  # Computes mine/unassigned/all counts in one scan of the filtered set instead of
+  # three separate COUNT queries.
   def set_count_for_all_conversations
-    [
-      @conversations.assigned_to(@user).count,
-      @conversations.unassigned.count,
-      @conversations.count
-    ]
+    counts = @conversations.except(:includes, :order).pick(
+      Arel.sql(ActiveRecord::Base.sanitize_sql_array(['COUNT(*) FILTER (WHERE assignee_id = ?)', @user.id])),
+      Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL AND assignee_agent_bot_id IS NULL)'),
+      Arel.sql('COUNT(*)')
+    )
+    # pick short-circuits to nil on a none relation (e.g. permission scope with no access)
+    counts ? counts.map(&:to_i) : [0, 0, 0]
   end
 
   def tag_filter_query(query_hash, current_index)
@@ -152,7 +161,10 @@ class FilterService
     when 'date'
       Date.iso8601(raw_value.to_s)
     when 'numeric'
-      BigDecimal(raw_value.to_s)
+      decimal = BigDecimal(raw_value.to_s)
+      raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key) unless decimal.finite?
+
+      decimal
     else
       raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key)
     end
@@ -186,8 +198,11 @@ class FilterService
   end
 
   def validate_query_operator
-    @params[:payload].each do |query_hash|
+    @params[:payload].each_with_index do |query_hash, index|
       validate_single_condition(query_hash)
+      next unless index == @params[:payload].length - 1
+
+      raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) if query_hash['query_operator'].present?
     end
   end
 end

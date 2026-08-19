@@ -176,9 +176,20 @@ class Whatsapp::IncomingMessageBaseService
 
   def message_content_attributes(message)
     content_attrs = outgoing_echo ? { external_echo: true } : {}
+    content_attrs[:in_reply_to] = @in_reply_to_message_id if @in_reply_to_message_id.present?
     content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
     referral_content_attrs = referral_attributes(message)
     content_attrs[:referral] = referral_content_attrs if referral_content_attrs.present?
+
+    flow_response = message.dig(:interactive, :nfm_reply)
+    if flow_response.present?
+      content_attrs[:whatsapp_flow_response] = {
+        name: flow_response[:name],
+        body: flow_response[:body],
+        response_json: parse_flow_response_json(flow_response[:response_json])
+      }.compact
+    end
+
     content_attrs
   end
 
@@ -222,3 +233,5 @@ class Whatsapp::IncomingMessageBaseService
     @contact.name == phone_number || @contact.name == formatted_phone_number
   end
 end
+
+Whatsapp::IncomingMessageBaseService.prepend_mod_with('Whatsapp::IncomingMessageBaseService')

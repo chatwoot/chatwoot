@@ -24,14 +24,17 @@ class Conversations::FilterService < FilterService
   end
 
   def base_relation
+    # :messages is deliberately not preloaded: the list payload fetches messages through
+    # scoped queries (last message, last_non_activity_message), which bypass the preload.
     conversations = @account.conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
+      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
     )
 
     Conversations::PermissionFilterService.new(
       conversations,
       @user,
-      @account
+      @account,
+      plan_hint_selective_filter: label_filter_present?
     ).perform
   end
 
@@ -48,5 +51,17 @@ class Conversations::FilterService < FilterService
 
   def conversations
     @conversations.sort_on_last_activity_at.page(current_page)
+  end
+
+  private
+
+  # The planner hint only pays off when the label condition positively narrows the
+  # result set: `equal_to` joined by AND. Negative/presence operators or an OR in the
+  # payload leave the result broad, where the inbox index is the better driver.
+  def label_filter_present?
+    payload = @params[:payload].to_a
+    return false if payload.any? { |query_hash| query_hash[:query_operator].to_s.casecmp('or').zero? }
+
+    payload.any? { |query_hash| query_hash[:attribute_key] == 'labels' && query_hash[:filter_operator] == 'equal_to' }
   end
 end

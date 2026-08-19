@@ -2,6 +2,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include Events::Types
   include DateRangeHelper
   include HmacConcern
+  include ConversationCustomAttributesConcern
 
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
@@ -129,11 +130,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     update_last_seen_on_conversation(last_seen_at, true)
   end
 
-  def custom_attributes
-    @conversation.custom_attributes = params.permit(custom_attributes: {})[:custom_attributes]
-    @conversation.save!
-  end
-
   def destroy
     authorize @conversation, :destroy?
     ::Conversations::DeleteService.new(conversation: @conversation, user: Current.user, ip: request.ip).perform
@@ -180,9 +176,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def handle_human_open
-    @conversation.assignee_agent_bot = nil
-    @conversation.assignee = Current.user if Current.user.agent?
-    @conversation.save!
+    @conversation.with_lock do
+      @conversation.assignee_agent_bot = nil
+      @conversation.assignee = Current.user if Current.user.agent?
+      @conversation.save!
+    end
   end
 
   def conversation
@@ -209,7 +207,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     # fallback for the old case where we do look up only using source id
     # In future we need to change this and make sure we do look up on combination of inbox_id and source_id
     # and deprecate the support of passing only source_id as the param
-    @contact_inbox ||= ::ContactInbox.find_by!(source_id: params[:source_id])
+    lookup_scope = @inbox ? @inbox.contact_inboxes : ContactInbox.joins(:inbox).where(inboxes: { account_id: Current.account.id })
+    @contact_inbox ||= lookup_scope.find_by!(source_id: params[:source_id])
     authorize @contact_inbox.inbox, :show?
   rescue ActiveRecord::RecordNotUnique
     render json: { error: 'source_id should be unique' }, status: :unprocessable_entity

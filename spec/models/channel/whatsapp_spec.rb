@@ -4,6 +4,65 @@ require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 
 RSpec.describe Channel::Whatsapp do
+  describe '#serializable_hash' do
+    it 'does not expose the business management token' do
+      channel = build(:channel_whatsapp, business_management_token: 'business-token')
+
+      expect(channel.serializable_hash).not_to have_key('business_management_token')
+    end
+  end
+
+  describe '#template_access_token' do
+    let(:channel) do
+      build(
+        :channel_whatsapp,
+        provider: 'whatsapp_cloud',
+        provider_config: { 'api_key' => 'api-key', 'source' => source },
+        business_management_token: business_management_token
+      )
+    end
+    let(:source) { 'embedded_signup' }
+
+    context 'when running on Chatwoot Cloud' do
+      before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true) }
+
+      context 'with a business management token' do
+        let(:business_management_token) { 'business-token' }
+
+        it 'uses the business management token' do
+          expect(channel.template_access_token).to eq('business-token')
+        end
+      end
+
+      context 'without a business management token' do
+        let(:business_management_token) { nil }
+
+        it 'uses the provider API key' do
+          expect(channel.template_access_token).to eq('api-key')
+        end
+      end
+
+      context 'with a manually configured inbox' do
+        let(:business_management_token) { 'business-token' }
+        let(:source) { nil }
+
+        it 'ignores the business management token' do
+          expect(channel.template_access_token).to eq('api-key')
+        end
+      end
+    end
+
+    context 'when running outside Chatwoot Cloud' do
+      before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false) }
+
+      let(:business_management_token) { 'business-token' }
+
+      it 'ignores the business management token' do
+        expect(channel.template_access_token).to eq('api-key')
+      end
+    end
+  end
+
   describe 'concerns' do
     let(:channel) { create(:channel_whatsapp) }
 
@@ -44,6 +103,9 @@ RSpec.describe Channel::Whatsapp do
                    }] }.to_json)
       stub_request(:get, 'https://graph.facebook.com/v14.0//phone_numbers?fields=id&limit=100&access_token=test_key')
         .to_return(status: 200, body: { data: [{ id: 'random_id' }] }.to_json, headers: { 'Content-Type' => 'application/json' })
+      stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates')
+        .with(headers: { 'Authorization' => 'Bearer test_key' })
+        .to_return(status: 200, body: { data: [] }.to_json, headers: { 'Content-Type' => 'application/json' })
       expect(channel.save).to be(true)
     end
 

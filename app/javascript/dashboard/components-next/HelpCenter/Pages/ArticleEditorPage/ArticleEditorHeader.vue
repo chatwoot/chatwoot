@@ -260,7 +260,6 @@ const onDraftFailed = error => {
       <button
         v-if="hasPendingChanges"
         type="button"
-        data-diff-toggle
         :title="t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.VIEW_CHANGES')"
         class="flex items-center gap-1.5 px-2 py-1 text-xs font-medium transition-colors rounded-lg cursor-pointer text-n-amber-11 bg-n-amber-3 outline outline-1 outline-n-amber-5 hover:bg-n-amber-4"
         @click="emit('showDiff')"
