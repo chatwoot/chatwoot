@@ -109,17 +109,50 @@ const INBOX_ICON_MAP_LINE = {
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
 
-export const getInboxSource = (type, phoneNumber, inbox) => {
-  switch (type) {
+export const getInboxIdentifier = inbox => {
+  if (!inbox) return '';
+
+  switch (inbox.channel_type) {
     case INBOX_TYPES.WEB:
       return inbox.website_url || '';
 
     case INBOX_TYPES.TWILIO:
+      return (
+        inbox.phone_number?.replace(/^whatsapp:/, '') ||
+        inbox.messaging_service_sid ||
+        ''
+      );
+
     case INBOX_TYPES.WHATSAPP:
-      return phoneNumber || '';
+    case INBOX_TYPES.SMS:
+      return inbox.phone_number || '';
 
     case INBOX_TYPES.EMAIL:
       return inbox.email || '';
+
+    case INBOX_TYPES.FB:
+      return inbox.page_id || '';
+
+    case INBOX_TYPES.INSTAGRAM:
+      return inbox.instagram_id || '';
+
+    case INBOX_TYPES.TIKTOK:
+      return inbox.business_id || '';
+
+    case INBOX_TYPES.TWITTER:
+      return inbox.profile_id || '';
+
+    case INBOX_TYPES.TELEGRAM:
+      if (!inbox.bot_name) return '';
+      return inbox.bot_name.startsWith('@')
+        ? inbox.bot_name
+        : `@${inbox.bot_name}`;
+
+    case INBOX_TYPES.LINE:
+      return inbox.line_channel_id || '';
+
+    case INBOX_TYPES.API:
+      return inbox.inbox_identifier || '';
 
     default:
       return '';
