@@ -1,4 +1,5 @@
 import {
+  belongsToThread,
   findUndeliveredMessage,
   createTemporaryMessage,
   getNonDeletedMessages,
@@ -77,5 +78,26 @@ describe('#getNonDeletedMessages', () => {
         content_attributes: {},
       },
     ]);
+  });
+});
+
+describe('#belongsToThread', () => {
+  const message = threadId => ({ conversation_id: threadId });
+
+  it('keeps everything while no thread has been left behind', () => {
+    expect(belongsToThread(null, message(55))).toBe(true);
+  });
+
+  it('keeps a temporary message that has no thread yet', () => {
+    expect(belongsToThread(99, { content: 'hello' })).toBe(true);
+  });
+
+  it('rejects a message from the thread the widget has left', () => {
+    expect(belongsToThread(99, message(55))).toBe(false);
+  });
+
+  it('keeps the newer thread the server moved us to', () => {
+    expect(belongsToThread(99, message(99))).toBe(true);
+    expect(belongsToThread(99, message(100))).toBe(true);
   });
 });

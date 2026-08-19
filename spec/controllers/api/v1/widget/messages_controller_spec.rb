@@ -210,6 +210,82 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(conversation.reload.open?).to be(true)
       end
     end
+
+    context 'when the last conversation is resolved' do
+      let(:message_params) { { content: 'hello world', timestamp: Time.current } }
+
+      before { conversation.resolved! }
+
+      it 'starts a new conversation when the inbox disallows messages after resolved' do
+        web_widget.inbox.update!(allow_messages_after_resolved: false)
+
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['conversation_id']).not_to eq(conversation.display_id)
+        expect(contact_inbox.conversations.count).to eq(2)
+        expect(conversation.reload.resolved?).to be(true)
+      end
+
+      it 'reopens the same conversation when the inbox allows messages after resolved' do
+        web_widget.inbox.update!(allow_messages_after_resolved: true)
+
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['conversation_id']).to eq(conversation.display_id)
+        expect(contact_inbox.conversations.count).to eq(1)
+        expect(conversation.reload.open?).to be(true)
+      end
+
+      it 'keeps a blocked contact on the same conversation' do
+        web_widget.inbox.update!(allow_messages_after_resolved: false)
+        contact.update!(blocked: true)
+
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['conversation_id']).to eq(conversation.display_id)
+        expect(contact_inbox.conversations.count).to eq(1)
+      end
+
+      it 'does not leave the new conversation behind when the message is rejected' do
+        web_widget.inbox.update!(allow_messages_after_resolved: false)
+
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: { content: 'a' * 150_001, timestamp: Time.current } },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(contact_inbox.conversations.count).to eq(1)
+      end
+    end
+
+    context 'when the last conversation is not resolved' do
+      it 'appends to the same conversation even if the inbox disallows messages after resolved' do
+        web_widget.inbox.update!(allow_messages_after_resolved: false)
+        message_params = { content: 'hello world', timestamp: Time.current }
+
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['conversation_id']).to eq(conversation.display_id)
+        expect(contact_inbox.conversations.count).to eq(1)
+      end
+    end
   end
 
   describe 'PUT /api/v1/widget/messages' do

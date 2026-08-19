@@ -1,13 +1,19 @@
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
-import { findUndeliveredMessage } from './helpers';
+import { belongsToThread, findUndeliveredMessage } from './helpers';
 
 export const mutations = {
   clearConversations($state) {
     $state.conversations = {};
     $state.pendingCustomAttributes = {};
     $state.pendingLabels = [];
+    $state.threadId = null;
+  },
+  setThreadId($state, threadId) {
+    $state.threadId = threadId;
   },
   pushMessageToConversation($state, message) {
+    if (!belongsToThread($state.threadId, message)) return;
+
     const { id, status, message_type: type } = message;
 
     const messagesInbox = $state.conversations;
@@ -66,9 +72,11 @@ export const mutations = {
       return;
     }
 
-    payload.forEach(message => {
-      $state.conversations[message.id] = message;
-    });
+    payload
+      .filter(message => belongsToThread($state.threadId, message))
+      .forEach(message => {
+        $state.conversations[message.id] = message;
+      });
   },
 
   setMissingMessagesInConversation($state, payload) {

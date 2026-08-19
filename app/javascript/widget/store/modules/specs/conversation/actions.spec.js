@@ -1,6 +1,9 @@
-import { actions } from '../../conversation/actions';
-import getUuid from '../../../../helpers/uuid';
 import { API } from 'widget/helpers/axios';
+import getUuid from '../../../../helpers/uuid';
+import { actions } from '../../conversation/actions';
+import { mutations } from '../../conversation/mutations';
+
+const rootStateWith = id => ({ conversationAttributes: { id } });
 
 vi.mock('../../../../helpers/uuid');
 vi.mock('widget/helpers/axios');
@@ -48,6 +51,48 @@ describe('#actions', () => {
   });
 
   describe('#addOrUpdateMessage', () => {
+    it('runs the switch flow when another session moved to a newer thread', async () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+      const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
+
+      await actions.addOrUpdateMessage(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          state,
+          rootState: rootStateWith(55),
+        },
+        { id: 2, content: 'from the other tab', conversation_id: 99 }
+      );
+
+      expect(localDispatch).toBeCalledWith('resetStaleThread', 99);
+      expect(localCommit).toBeCalledWith('pushMessageToConversation', {
+        id: 2,
+        content: 'from the other tab',
+        conversation_id: 99,
+      });
+    });
+
+    it('leaves the thread alone for a message from the same conversation', async () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+      const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
+
+      await actions.addOrUpdateMessage(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          state,
+          rootState: rootStateWith(55),
+        },
+        { id: 2, content: 'Hey', conversation_id: 55 }
+      );
+
+      expect(localCommit).not.toBeCalledWith('setThreadId', expect.anything());
+      expect(localDispatch).not.toBeCalledWith('fetchOldConversations');
+    });
+
     it('sends correct actions for non-deleted message', () => {
       actions.addOrUpdateMessage(
         { commit },
@@ -154,6 +199,259 @@ describe('#actions', () => {
     });
   });
 
+  describe('#resetStaleThread', () => {
+    it('does nothing while nothing on screen is older', async () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+      const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
+
+      await actions.resetStaleThread(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          state,
+          rootState: rootStateWith(55),
+        },
+        55
+      );
+
+      expect(localCommit).not.toBeCalled();
+      expect(localDispatch).not.toBeCalled();
+    });
+
+    it('records the thread, refreshes and purges only older messages', async () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+      const state = {
+        conversations: {
+          1: { id: 1, conversation_id: 55 },
+          77: { id: 77, content: 'greeting', conversation_id: 99 },
+          temp: { id: 'temp', content: 'hello' },
+        },
+      };
+
+      await actions.resetStaleThread(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          state,
+          rootState: rootStateWith(55),
+        },
+        99
+      );
+
+      // recorded before the refresh, so responses that outlive the switch are rejected
+      expect(localCommit.mock.calls[0]).toEqual(['setThreadId', 99]);
+      expect(localDispatch).toBeCalledWith(
+        'conversationAttributes/getAttributes',
+        {},
+        { root: true }
+      );
+      expect(localCommit).toBeCalledWith('deleteMessage', 1);
+      expect(localCommit).not.toBeCalledWith('deleteMessage', 77);
+      expect(localCommit).not.toBeCalledWith('deleteMessage', 'temp');
+      expect(localCommit).toBeCalledWith('setConversationUIFlag', {
+        allMessagesLoaded: false,
+      });
+      expect(localDispatch).toBeCalledWith('fetchOldConversations');
+    });
+
+    it('refreshes when only the attributes are stale', async () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+
+      await actions.resetStaleThread(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          state: { conversations: {} },
+          rootState: rootStateWith(55),
+        },
+        99
+      );
+
+      expect(localDispatch).toBeCalledWith(
+        'conversationAttributes/getAttributes',
+        {},
+        { root: true }
+      );
+      expect(localDispatch).toBeCalledWith('fetchOldConversations');
+    });
+
+    it('drops old thread messages that arrive while the attributes refresh', async () => {
+      const localCommit = vi.fn();
+      const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
+      const localDispatch = vi.fn(action => {
+        if (action === 'conversationAttributes/getAttributes') {
+          state.conversations[3] = { id: 3, conversation_id: 55 };
+        }
+        return Promise.resolve();
+      });
+
+      await actions.resetStaleThread(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          state,
+          rootState: rootStateWith(55),
+        },
+        99
+      );
+
+      expect(localCommit).toBeCalledWith('deleteMessage', 3);
+    });
+  });
+
+  describe('#sendMessageWithData', () => {
+    const mockWindow = () =>
+      vi.spyOn(window, 'window', 'get').mockImplementation(() => ({
+        WOOT_WIDGET: { $root: { $i18n: { locale: 'en' } } },
+        location: { search: '' },
+      }));
+
+    it('routes the switch through resetStaleThread', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', conversation_id: 99 },
+      });
+      const windowSpy = mockWindow();
+      const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
+
+      await actions.sendMessageWithData(
+        { commit, dispatch, state },
+        { message: { id: 'temp', content: 'hello' } }
+      );
+      windowSpy.mockRestore();
+
+      expect(dispatch).toBeCalledWith('resetStaleThread', 99);
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        id: 2,
+        content: 'hello',
+        conversation_id: 99,
+        status: 'sent',
+      });
+    });
+
+    it('replaces the failed message when the retry succeeds', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', message_type: 0, conversation_id: 55 },
+      });
+      const windowSpy = mockWindow();
+      const state = {
+        conversations: {
+          temp: {
+            id: 'temp',
+            content: 'hello',
+            message_type: 0,
+            status: 'failed',
+          },
+        },
+      };
+      const applyMutation = (type, payload) => mutations[type](state, payload);
+
+      await actions.sendMessageWithData(
+        {
+          commit: applyMutation,
+          dispatch,
+          state,
+          rootState: rootStateWith(55),
+        },
+        { message: state.conversations.temp }
+      );
+      windowSpy.mockRestore();
+
+      expect(Object.keys(state.conversations)).toEqual(['2']);
+    });
+
+    it('ignores a late response from a superseded conversation', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', conversation_id: 55 },
+      });
+      const windowSpy = mockWindow();
+      // the widget has already switched to conversation 99
+      const state = {
+        conversations: { 1: { id: 1, conversation_id: 99 } },
+        threadId: 99,
+      };
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+
+      await actions.sendMessageWithData(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          state,
+          rootState: rootStateWith(99),
+        },
+        { message: { id: 'temp', content: 'hello' } }
+      );
+      windowSpy.mockRestore();
+
+      expect(localCommit).not.toBeCalledWith('deleteMessage', 1);
+      expect(localDispatch).not.toBeCalledWith(
+        'conversationAttributes/getAttributes',
+        {},
+        { root: true }
+      );
+      expect(localDispatch).not.toBeCalledWith('fetchOldConversations');
+      // the response itself stays out of the thread on screen
+      expect(localCommit).not.toBeCalledWith('pushMessageToConversation', {
+        id: 2,
+        content: 'hello',
+        conversation_id: 55,
+        status: 'sent',
+      });
+      expect(localCommit).toBeCalledWith('deleteMessage', 'temp');
+    });
+
+    it('accepts the reply that moves the widget to a newer thread', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', conversation_id: 99 },
+      });
+      const windowSpy = mockWindow();
+      const state = {
+        conversations: { 1: { id: 1, conversation_id: 55 } },
+        threadId: 55,
+      };
+      const localCommit = vi.fn();
+
+      await actions.sendMessageWithData(
+        { commit: localCommit, dispatch, state, rootState: rootStateWith(55) },
+        { message: { id: 'temp', content: 'hello' } }
+      );
+      windowSpy.mockRestore();
+
+      expect(localCommit).not.toBeCalledWith('deleteMessage', 'temp');
+      expect(localCommit).toBeCalledWith('pushMessageToConversation', {
+        id: 2,
+        content: 'hello',
+        conversation_id: 99,
+        status: 'sent',
+      });
+    });
+
+    it('keeps the thread when the message lands in the same conversation', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, content: 'hello', conversation_id: 55 },
+      });
+      const windowSpy = mockWindow();
+      const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
+
+      await actions.sendMessageWithData(
+        { commit, dispatch, state, rootState: rootStateWith(55) },
+        { message: { id: 'temp', content: 'hello' } }
+      );
+      windowSpy.mockRestore();
+
+      expect(commit).not.toBeCalledWith('deleteMessage', 1);
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        id: 2,
+        content: 'hello',
+        conversation_id: 55,
+        status: 'sent',
+      });
+    });
+  });
+
   describe('#sendAttachment', () => {
     it('sends correct mutations', () => {
       const mockDate = new Date(1466424490000);
@@ -161,10 +459,14 @@ describe('#actions', () => {
       const spy = vi.spyOn(global, 'Date').mockImplementation(() => mockDate);
       const thumbUrl = '';
       const attachment = { thumbUrl, fileType: 'file' };
-      const state = { pendingCustomAttributes: {}, pendingLabels: [] };
+      const state = {
+        conversations: {},
+        pendingCustomAttributes: {},
+        pendingLabels: [],
+      };
 
       actions.sendAttachment(
-        { commit, dispatch, state },
+        { commit, dispatch, state, rootState: rootStateWith(55) },
         { attachment, replyTo: 135 }
       );
       spy.mockRestore();
@@ -184,6 +486,37 @@ describe('#actions', () => {
           },
         ],
       });
+    });
+
+    it('drops the old thread when the server replies with a different conversation', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 2, conversation_id: 99 },
+      });
+      const windowSpy = vi
+        .spyOn(window, 'window', 'get')
+        .mockImplementation(() => ({
+          WOOT_WIDGET: { $root: { $i18n: { locale: 'en' } } },
+          location: { search: '' },
+        }));
+      const state = {
+        conversations: { 1: { id: 1, conversation_id: 55 } },
+        pendingCustomAttributes: {},
+        pendingLabels: [],
+      };
+
+      await actions.sendAttachment(
+        { commit, dispatch, state, rootState: rootStateWith(55) },
+        {
+          attachment: {
+            thumbUrl: '',
+            fileType: 'file',
+            file: 'data:image/png',
+          },
+        }
+      );
+      windowSpy.mockRestore();
+
+      expect(dispatch).toBeCalledWith('resetStaleThread', 99);
     });
   });
 
@@ -286,7 +619,15 @@ describe('#actions', () => {
           },
         },
       });
-      await actions.fetchOldConversations({ commit }, {});
+      await actions.fetchOldConversations(
+        {
+          commit,
+          dispatch,
+          state: { conversations: {}, threadId: null },
+          rootState: rootStateWith(1),
+        },
+        {}
+      );
       expect(commit.mock.calls).toEqual([
         ['setConversationListLoading', true],
         ['conversation/setMetaUserLastSeenAt', 1466424490, { root: true }],
@@ -303,9 +644,99 @@ describe('#actions', () => {
         ['setConversationListLoading', false],
       ]);
     });
+
+    it('drops a page that belongs to the thread the widget has left', async () => {
+      API.get.mockResolvedValue({
+        data: {
+          payload: [{ id: 1, text: 'hey', conversation_id: 55 }],
+          meta: { contact_last_seen_at: 1466424490 },
+        },
+      });
+      const state = { conversations: {}, threadId: 55 };
+      // the switch lands while the page is in flight
+      const localCommit = vi.fn(() => {
+        state.threadId = 99;
+      });
+
+      await actions.fetchOldConversations({ commit: localCommit, state }, {});
+
+      expect(localCommit).not.toBeCalledWith(
+        'setMessagesInConversation',
+        expect.anything()
+      );
+      expect(localCommit).toBeCalledWith('setConversationListLoading', false);
+    });
+
+    it('runs the switch flow when a page reveals a newer thread', async () => {
+      API.get.mockResolvedValue({
+        data: {
+          payload: [{ id: 9, content: 'hi', conversation_id: 99 }],
+          meta: { contact_last_seen_at: 1466424490 },
+        },
+      });
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+      const state = {
+        threadId: null,
+        conversations: { 1: { id: 1, conversation_id: 55 } },
+      };
+
+      await actions.fetchOldConversations(
+        { commit: localCommit, dispatch: localDispatch, state },
+        {}
+      );
+
+      expect(localDispatch).toBeCalledWith('resetStaleThread', 99);
+    });
+
+    it('keeps a page when the thread has not changed', async () => {
+      API.get.mockResolvedValue({
+        data: {
+          payload: [{ id: 1, text: 'hey', conversation_id: 55 }],
+          meta: { contact_last_seen_at: 1466424490 },
+        },
+      });
+
+      await actions.fetchOldConversations(
+        {
+          commit,
+          dispatch,
+          state: { conversations: {}, threadId: 55 },
+          rootState: rootStateWith(55),
+        },
+        {}
+      );
+
+      expect(commit).toBeCalledWith('setMessagesInConversation', [
+        { id: 1, text: 'hey', conversation_id: 55 },
+      ]);
+    });
   });
 
   describe('#syncLatestMessages', () => {
+    it('runs the switch flow when the sync reveals a newer thread', async () => {
+      API.get.mockResolvedValue({
+        data: {
+          payload: [{ id: 9, content: 'hi', conversation_id: 99 }],
+          meta: { contact_last_seen_at: 1466424490 },
+        },
+      });
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn(() => Promise.resolve());
+      const state = {
+        lastMessageId: 1,
+        conversations: { 1: { id: 1, conversation_id: 55 } },
+      };
+
+      await actions.syncLatestMessages({
+        commit: localCommit,
+        dispatch: localDispatch,
+        state,
+      });
+
+      expect(localDispatch).toBeCalledWith('resetStaleThread', 99);
+    });
+
     it('latest message should append to end of list', async () => {
       const state = {
         uiFlags: { allMessagesLoaded: false },
@@ -349,7 +780,10 @@ describe('#actions', () => {
           },
         },
       });
-      await actions.syncLatestMessages({ state, commit }, {});
+      await actions.syncLatestMessages(
+        { state, commit, dispatch, rootState: rootStateWith(20) },
+        {}
+      );
       expect(commit.mock.calls).toEqual([
         ['conversation/setMetaUserLastSeenAt', 1466424490, { root: true }],
         [
@@ -431,7 +865,10 @@ describe('#actions', () => {
           },
         },
       });
-      await actions.syncLatestMessages({ state, commit }, {});
+      await actions.syncLatestMessages(
+        { state, commit, dispatch, rootState: rootStateWith(20) },
+        {}
+      );
 
       expect(commit.mock.calls).toEqual([
         ['conversation/setMetaUserLastSeenAt', 14664223490, { root: true }],
@@ -474,7 +911,7 @@ describe('#actions', () => {
     it('abort syncing if there is no missing messages ', async () => {
       const state = {
         uiFlags: { allMessagesLoaded: false },
-        conversation: {
+        conversations: {
           454: {
             id: 454,
             content: 'hi',
@@ -504,7 +941,10 @@ describe('#actions', () => {
           },
         },
       });
-      await actions.syncLatestMessages({ state, commit }, {});
+      await actions.syncLatestMessages(
+        { state, commit, dispatch, rootState: rootStateWith(20) },
+        {}
+      );
 
       expect(commit.mock.calls).toEqual([]);
     });

@@ -11,9 +11,46 @@ import {
 } from 'widget/api/conversation';
 
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
-import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
+import {
+  belongsToThread,
+  createTemporaryMessage,
+  getNonDeletedMessages,
+} from './helpers';
 import { emitter } from 'shared/helpers/mitt';
+
+const newestThreadId = messages =>
+  messages.reduce(
+    (latest, item) => Math.max(latest, item.conversation_id || 0),
+    0
+  );
+
 export const actions = {
+  // The server answers on a new thread once the current one is resolved and replies are off.
+  // Every way a session can learn the thread moved dispatches this one flow. Messages and
+  // attributes go stale independently, so either one triggers the refresh.
+  resetStaleThread: async (
+    { commit, dispatch, state, rootState },
+    conversationId
+  ) => {
+    const staleMessages = () =>
+      Object.values(state.conversations).filter(
+        item => item.conversation_id && item.conversation_id < conversationId
+      );
+    const { id: attributeId } = rootState.conversationAttributes;
+    const hasStaleAttributes = attributeId && attributeId < conversationId;
+    if (!staleMessages().length && !hasStaleAttributes) return;
+
+    // Recorded before anything is awaited, so responses that outlive the switch are rejected by
+    // the store instead of merging the thread being left back into the new one.
+    commit('setThreadId', conversationId);
+    await dispatch('conversationAttributes/getAttributes', {}, { root: true });
+    // Dropped after the refresh, or the socket adds the old thread's events straight back.
+    staleMessages().forEach(item => commit('deleteMessage', item.id));
+    // Paging to the start of the old thread leaves this set, blocking scroll back in the new one.
+    commit('setConversationUIFlag', { allMessagesLoaded: false });
+    dispatch('fetchOldConversations');
+  },
+
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
     try {
@@ -41,7 +78,7 @@ export const actions = {
     });
   },
   sendMessageWithData: async (
-    { commit },
+    { commit, dispatch, state: conversationState },
     { message, pendingCustomAttributes = {}, pendingLabels = [] }
   ) => {
     const { id, content, replyTo, meta = {} } = message;
@@ -49,7 +86,8 @@ export const actions = {
       Object.keys(pendingCustomAttributes).length > 0 ||
       pendingLabels.length > 0;
 
-    commit('pushMessageToConversation', message);
+    // Only `in_progress` messages are replaced by the server copy; a retry still carries `failed`.
+    commit('pushMessageToConversation', { ...message, status: 'in_progress' });
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
     try {
       const { data } = await sendMessageAPI(content, replyTo, {
@@ -61,6 +99,16 @@ export const actions = {
       if (hasPendingMetadata) {
         commit('clearPendingConversationMetadata');
       }
+
+      const { conversation_id: threadId } = data;
+      // Only an older thread is rejected: a newer one is the server moving us, which is the switch
+      // itself. The store would drop this reply anyway, so its placeholder goes with it.
+      if (conversationState.threadId && threadId < conversationState.threadId) {
+        commit('deleteMessage', id);
+        return;
+      }
+
+      dispatch('resetStaleThread', threadId);
 
       // [VITE] Don't delete this manually, since `pushMessageToConversation` does the replacement for us anyway
       // commit('deleteMessage', message.id);
@@ -78,7 +126,10 @@ export const actions = {
     commit('setLastMessageId');
   },
 
-  sendAttachment: async ({ commit, state: conversationState }, params) => {
+  sendAttachment: async (
+    { commit, dispatch, state: conversationState },
+    params
+  ) => {
     const {
       attachment: { thumbUrl, fileType },
       meta = {},
@@ -109,6 +160,14 @@ export const actions = {
       if (hasPendingMetadata) {
         commit('clearPendingConversationMetadata');
       }
+      const { conversation_id: threadId } = data;
+      if (conversationState.threadId && threadId < conversationState.threadId) {
+        commit('deleteMessage', tempMessage.id);
+        return;
+      }
+
+      dispatch('resetStaleThread', threadId);
+
       commit('updateAttachmentMessageStatus', {
         message: data,
         tempId: tempMessage.id,
@@ -123,23 +182,36 @@ export const actions = {
       // Show error
     }
   },
-  fetchOldConversations: async ({ commit }, { before } = {}) => {
+  fetchOldConversations: async (
+    { commit, dispatch, state },
+    { before } = {}
+  ) => {
+    // An empty page marks the thread fully loaded, so a page for a thread we have left must not
+    // reach the store at all — the message filter alone cannot tell those two apart.
+    const requestedThread = state.threadId;
     try {
       commit('setConversationListLoading', true);
       const {
         data: { payload, meta },
       } = await getMessagesAPI({ before });
+      if (state.threadId !== requestedThread) return;
+
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
+      // The server only serves its newest conversation, so a payload can be the first sign that
+      // the thread moved while this session could not observe it. Same flow as every other sign.
+      const revealedThread = newestThreadId(formattedMessages);
+      if (revealedThread) dispatch('resetStaleThread', revealedThread);
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMessagesInConversation', formattedMessages);
-      commit('setConversationListLoading', false);
     } catch (error) {
+      // Ignore error
+    } finally {
       commit('setConversationListLoading', false);
     }
   },
 
-  syncLatestMessages: async ({ state, commit }) => {
+  syncLatestMessages: async ({ commit, dispatch, state }) => {
     try {
       const { lastMessageId, conversations } = state;
 
@@ -149,8 +221,13 @@ export const actions = {
 
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
+      // A reconnect sync is how a session that was offline learns the thread moved.
+      const revealedThread = newestThreadId(formattedMessages);
+      if (revealedThread) dispatch('resetStaleThread', revealedThread);
       const missingMessages = formattedMessages.filter(
-        message => conversations?.[message.id] === undefined
+        message =>
+          conversations?.[message.id] === undefined &&
+          belongsToThread(state.threadId, message)
       );
       if (!missingMessages.length) return;
       missingMessages.forEach(message => {
@@ -173,12 +250,15 @@ export const actions = {
     commit('clearConversations');
   },
 
-  addOrUpdateMessage: async ({ commit }, data) => {
-    const { id, content_attributes } = data;
+  addOrUpdateMessage: async ({ commit, dispatch }, data) => {
+    const { id, content_attributes, conversation_id: threadId } = data;
     if (content_attributes && content_attributes.deleted) {
       commit('deleteMessage', id);
       return;
     }
+    // Another session can move the visitor to a new thread, and its first message arriving over
+    // the socket is how this session finds out — so it takes the same switch flow as a send.
+    if (threadId) dispatch('resetStaleThread', threadId);
     commit('pushMessageToConversation', data);
   },
 

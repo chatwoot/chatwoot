@@ -1,5 +1,4 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
-  before_action :set_conversation, only: [:create]
   before_action :set_message, only: [:update]
 
   def index
@@ -7,9 +6,13 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def create
-    @message = conversation.messages.new(message_params)
-    build_attachment
-    @message.save!
+    # A rejected message must not leave its new conversation behind.
+    ActiveRecord::Base.transaction do
+      set_conversation
+      @message = conversation.messages.new(message_params)
+      build_attachment
+      @message.save!
+    end
   end
 
   def update
@@ -43,8 +46,24 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def set_conversation
-    return unless conversation.nil?
+    return start_conversation if conversation.nil?
+    # Hiding the reply box does not stop requests reaching this endpoint, so the setting is
+    # enforced here.
+    return if inbox.allow_messages_after_resolved
 
+    # Held until the message is written, so a resolve landing mid-request cannot leave the message
+    # in the thread it closed, and concurrent sends cannot each start a replacement.
+    conversation.lock!
+    replacement = conversations.last
+    # Another request can replace the thread while this one waits on the lock. The replacement is
+    # then the row being written, so it needs the same lock; ids only ascend, so no deadlock.
+    replacement.lock! if replacement.id != conversation.id
+    @conversation = replacement
+    # Blocked contacts are skipped; their conversations are always resolved.
+    start_conversation if conversation.resolved? && !@contact.blocked?
+  end
+
+  def start_conversation
     @conversation = create_conversation
     apply_labels if permitted_params[:labels].present?
   end
