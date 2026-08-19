@@ -20,6 +20,39 @@ const mountChannelLeaf = props =>
   });
 
 describe('ChannelLeaf', () => {
+  it('renders the channel identifier beside the inbox name', () => {
+    const wrapper = mountChannelLeaf({
+      inbox: {
+        channel_type: 'Channel::Email',
+        email: 'support@example.com',
+        reauthorization_required: false,
+      },
+    });
+
+    expect(wrapper.text()).toContain('Website');
+    expect(wrapper.text()).toContain('support@example.com');
+    expect(
+      wrapper.get('[data-test-id="channel-identifier"]').attributes()
+    ).toMatchObject({
+      dir: 'auto',
+      title: 'support@example.com',
+    });
+  });
+
+  it('keeps the current label when the channel has no identifier', () => {
+    const wrapper = mountChannelLeaf({
+      inbox: {
+        channel_type: 'Channel::Email',
+        reauthorization_required: false,
+      },
+    });
+
+    expect(wrapper.text()).toBe('Website');
+    expect(wrapper.find('[data-test-id="channel-identifier"]').exists()).toBe(
+      false
+    );
+  });
+
   it('renders unread badge when count is present', () => {
     const wrapper = mountChannelLeaf({ badgeCount: 3 });
     const badge = wrapper.find('[data-test-id="sidebar-unread-badge"]');
