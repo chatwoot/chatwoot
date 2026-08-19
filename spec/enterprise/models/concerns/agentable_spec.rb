@@ -147,6 +147,15 @@ RSpec.describe Concerns::Agentable do
 
       dummy_instance.agent_instructions(context_double)
     end
+
+    it 'can render a caller-specific prompt without changing the default prompt' do
+      expect(Captain::PromptRenderer).to receive(:render).with(
+        'copilot_reply_suggestion',
+        hash_including(base_key: 'base_value')
+      )
+
+      dummy_instance.agent_instructions(nil, prompt_template: 'copilot_reply_suggestion')
+    end
   end
 
   describe '#template_name' do

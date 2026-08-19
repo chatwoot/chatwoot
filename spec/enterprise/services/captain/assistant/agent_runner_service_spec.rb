@@ -67,6 +67,60 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(service.instance_variable_get(:@responding_to_message_id)).to eq(123)
     end
+
+    it 'accepts reply suggestion mode' do
+      service = described_class.new(assistant: assistant, source: described_class::REPLY_SUGGESTION_SOURCE)
+
+      expect(service.instance_variable_get(:@source)).to eq('copilot_reply_suggestion')
+      expect(service.send(:trace_config)).to include(
+        name: 'llm.captain.copilot.agent',
+        tags: ['copilot']
+      )
+    end
+  end
+
+  describe '#build_and_wire_agents' do
+    it 'keeps only reply-safe tools and excludes scenarios in reply suggestion mode' do
+      faq_tool = Captain::Tools::FaqLookupTool.new(assistant)
+      handoff_tool = Captain::Tools::HandoffTool.new(assistant)
+      get_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'GET'))
+      post_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'POST'))
+      private_note_tool = Captain::Tools::AddPrivateNoteTool.new(assistant)
+      assistant_agent = Agents::Agent.new(name: 'assistant', tools: [faq_tool, handoff_tool, get_tool, post_tool, private_note_tool])
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        source: described_class::REPLY_SUGGESTION_SOURCE
+      )
+
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+      expect(assistant).not_to receive(:scenarios)
+
+      configured_assistant = service.send(:build_and_wire_agents).sole
+
+      expect(configured_assistant.tools).to contain_exactly(faq_tool, get_tool)
+      expect(configured_assistant.handoff_agents).to be_empty
+    end
+
+    it 'uses the Copilot prompt without changing the Assistant prompt path' do
+      assistant_agent = Agents::Agent.new(name: 'assistant')
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        source: described_class::REPLY_SUGGESTION_SOURCE
+      )
+      context = instance_double(Agents::RunContext)
+
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+      expect(assistant).not_to receive(:scenarios)
+      expect(assistant).to receive(:agent_instructions)
+        .with(context, prompt_template: 'copilot_reply_suggestion')
+        .and_return('Copilot instructions')
+
+      configured_assistant = service.send(:build_and_wire_agents).first
+
+      expect(configured_assistant.instructions.call(context)).to eq('Copilot instructions')
+    end
   end
 
   describe '#generate_response' do
@@ -859,6 +913,21 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       runner = instance_double(Agents::AgentRunner)
 
       allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      expect(runner).not_to receive(:on_run_complete)
+
+      service.send(:add_usage_metadata_callback, runner)
+    end
+
+    it 'leaves final credit and discard metadata to the reply suggestion service' do
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        source: described_class::REPLY_SUGGESTION_SOURCE
+      )
+      runner = instance_double(Agents::AgentRunner)
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
       allow(runner).to receive(:on_tool_complete).and_return(runner)
       expect(runner).not_to receive(:on_run_complete)
 
