@@ -8,6 +8,7 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
 import { DATE_RANGE_TYPES } from 'dashboard/components/ui/DatePicker/helpers/DatePickerHelper';
+import { EVENT_TYPE_GROUPS } from 'dashboard/helper/auditlogHelper';
 
 const props = defineProps({
   type: {
@@ -19,11 +20,11 @@ const props = defineProps({
     default: '',
   },
   since: {
-    type: [String, Number],
+    type: Number,
     default: null,
   },
   until: {
-    type: [String, Number],
+    type: Number,
     default: null,
   },
   sort: {
@@ -36,35 +37,8 @@ const emit = defineEmits(['update']);
 
 const { t } = useI18n();
 
-const EVENT_TYPE_GROUPS = [
-  { key: 'ACCESS', types: [{ value: 'User', key: 'SIGN_IN_OUT' }] },
-  {
-    key: 'AGENTS_TEAMS',
-    types: [
-      { value: 'AccountUser', key: 'AGENTS' },
-      { value: 'Team', key: 'TEAMS' },
-      { value: 'TeamMember', key: 'TEAM_MEMBERS' },
-      { value: 'InboxMember', key: 'INBOX_MEMBERS' },
-    ],
-  },
-  {
-    key: 'CONFIGURATION',
-    types: [
-      { value: 'Account', key: 'ACCOUNT' },
-      { value: 'Inbox', key: 'INBOXES' },
-      { value: 'Webhook', key: 'WEBHOOKS' },
-      { value: 'AutomationRule', key: 'AUTOMATION_RULES' },
-      { value: 'Macro', key: 'MACROS' },
-    ],
-  },
-  {
-    key: 'CONVERSATIONS',
-    types: [{ value: 'Conversation', key: 'CONVERSATION_DELETIONS' }],
-  },
-];
-
 const toUnixTime = date => Math.floor(date.getTime() / 1000);
-const toDate = seconds => new Date(Number(seconds) * 1000);
+const toDate = seconds => new Date(seconds * 1000);
 const isKnownRange = value => Object.values(DATE_RANGE_TYPES).includes(value);
 
 const openFilterMenu = ref(null);

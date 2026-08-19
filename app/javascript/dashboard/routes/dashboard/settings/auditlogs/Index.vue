@@ -42,15 +42,16 @@ const searchQuery = ref(route.query.q ?? '');
 // must not overwrite a term the admin is still typing.
 const pushedSearch = ref(searchQuery.value);
 
+const filters = computed(() => auditLogFiltersFromQuery(route.query));
+
 const hasActiveFilters = computed(() => {
-  const { q, type, since, sort } = route.query;
-  return Boolean(q || type || since || sort);
+  const { q, types, since, sort } = filters.value;
+  return Boolean(q || types || since || sort);
 });
 
 const fetchAuditLogs = async () => {
   try {
-    const filters = auditLogFiltersFromQuery(route.query);
-    await store.dispatch('auditlogs/fetch', filters);
+    await store.dispatch('auditlogs/fetch', filters.value);
   } catch (error) {
     const errorMessage = error?.message || t('AUDIT_LOGS.API.ERROR_MESSAGE');
     useAlert(errorMessage);
@@ -157,11 +158,11 @@ onMounted(() => {
       >
         <template #tabs>
           <AuditLogFilters
-            :type="route.query.type"
+            :type="filters.types?.[0]"
             :range="route.query.range"
-            :since="route.query.since"
-            :until="route.query.until"
-            :sort="route.query.sort"
+            :since="filters.since"
+            :until="filters.until"
+            :sort="filters.sort"
             @update="onFiltersUpdate"
           />
         </template>
