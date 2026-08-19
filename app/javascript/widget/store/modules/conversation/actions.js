@@ -14,11 +14,15 @@ import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 
-// The server starts a new thread when the current one is resolved and replies are disallowed.
-// Messages and attributes go stale independently, so either one triggers the refresh. Only older
-// threads count, so a late response cannot undo a switch a newer one already made. The message it
-// carries is still kept: the list is grouped by date and sender, never by thread, and it is what
-// replaces the pending placeholder.
+// One list holds every thread, so its newest conversation is the one on screen.
+const latestThreadId = conversations =>
+  Object.values(conversations).reduce(
+    (latest, item) => Math.max(latest, item.conversation_id || 0),
+    0
+  );
+
+// The server answers on a new thread once the current one is resolved and replies are off.
+// Messages and attributes go stale independently, so either one triggers the refresh.
 const resetStaleThread = async (
   { commit, dispatch, state, rootState },
   conversationId
@@ -32,8 +36,7 @@ const resetStaleThread = async (
   if (!staleMessages().length && !hasStaleAttributes) return;
 
   await dispatch('conversationAttributes/getAttributes', {}, { root: true });
-  // Dropped after the refresh: until then the socket still treats the old conversation as
-  // active and can add its events back.
+  // Dropped after the refresh, or the socket adds the old thread's events straight back.
   staleMessages().forEach(item => commit('deleteMessage', item.id));
   // Paging to the start of the old thread leaves this set, blocking scroll back in the new one.
   commit('setConversationUIFlag', { allMessagesLoaded: false });
@@ -90,9 +93,16 @@ export const actions = {
         commit('clearPendingConversationMetadata');
       }
 
+      const { conversation_id: threadId } = data;
+      // A newer send already switched threads, so this reply belongs to the one just dropped.
+      if (latestThreadId(conversationState.conversations) > threadId) {
+        commit('deleteMessage', id);
+        return;
+      }
+
       resetStaleThread(
         { commit, dispatch, state: conversationState, rootState },
-        data.conversation_id
+        threadId
       );
 
       // [VITE] Don't delete this manually, since `pushMessageToConversation` does the replacement for us anyway
@@ -145,9 +155,15 @@ export const actions = {
       if (hasPendingMetadata) {
         commit('clearPendingConversationMetadata');
       }
+      const { conversation_id: threadId } = data;
+      if (latestThreadId(conversationState.conversations) > threadId) {
+        commit('deleteMessage', tempMessage.id);
+        return;
+      }
+
       resetStaleThread(
         { commit, dispatch, state: conversationState, rootState },
-        data.conversation_id
+        threadId
       );
 
       commit('updateAttachmentMessageStatus', {
@@ -164,18 +180,23 @@ export const actions = {
       // Show error
     }
   },
-  fetchOldConversations: async ({ commit }, { before } = {}) => {
+  fetchOldConversations: async ({ commit, state }, { before } = {}) => {
+    const requested = latestThreadId(state.conversations);
     try {
       commit('setConversationListLoading', true);
       const {
         data: { payload, meta },
       } = await getMessagesAPI({ before });
+      // This page was asked for before the switch, so it belongs to the thread just dropped.
+      if (requested && latestThreadId(state.conversations) > requested) return;
+
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMessagesInConversation', formattedMessages);
-      commit('setConversationListLoading', false);
     } catch (error) {
+      // Ignore error
+    } finally {
       commit('setConversationListLoading', false);
     }
   },

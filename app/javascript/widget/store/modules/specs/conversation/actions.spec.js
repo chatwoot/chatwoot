@@ -337,6 +337,14 @@ describe('#actions', () => {
         { root: true }
       );
       expect(localDispatch).not.toBeCalledWith('fetchOldConversations');
+      // the response itself stays out of the thread on screen
+      expect(localCommit).not.toBeCalledWith('pushMessageToConversation', {
+        id: 2,
+        content: 'hello',
+        conversation_id: 55,
+        status: 'sent',
+      });
+      expect(localCommit).toBeCalledWith('deleteMessage', 'temp');
     });
 
     it('keeps the thread when the message lands in the same conversation', async () => {
@@ -534,7 +542,10 @@ describe('#actions', () => {
           },
         },
       });
-      await actions.fetchOldConversations({ commit }, {});
+      await actions.fetchOldConversations(
+        { commit, state: { conversations: {} } },
+        {}
+      );
       expect(commit.mock.calls).toEqual([
         ['setConversationListLoading', true],
         ['conversation/setMetaUserLastSeenAt', 1466424490, { root: true }],
@@ -549,6 +560,48 @@ describe('#actions', () => {
           ],
         ],
         ['setConversationListLoading', false],
+      ]);
+    });
+
+    it('skips a page that was requested before the thread was replaced', async () => {
+      const state = { conversations: { 1: { id: 1, conversation_id: 55 } } };
+      // the widget moves to conversation 99 while the request is in flight
+      API.get.mockImplementationOnce(async () => {
+        state.conversations[7] = { id: 7, conversation_id: 99 };
+        return {
+          data: {
+            payload: [{ id: 2, text: 'hey', conversation_id: 55 }],
+            meta: { contact_last_seen_at: 1466424490 },
+          },
+        };
+      });
+
+      await actions.fetchOldConversations({ commit, state }, {});
+
+      expect(commit).not.toBeCalledWith(
+        'setMessagesInConversation',
+        expect.anything()
+      );
+      expect(commit).toBeCalledWith('setConversationListLoading', false);
+    });
+
+    it('keeps a page requested with no thread on screen yet', async () => {
+      // the setUser flow clears the list, then fetches before the attributes arrive
+      const state = { conversations: {} };
+      API.get.mockImplementationOnce(async () => {
+        state.conversations[7] = { id: 7, conversation_id: 99 };
+        return {
+          data: {
+            payload: [{ id: 2, text: 'hey', conversation_id: 55 }],
+            meta: { contact_last_seen_at: 1466424490 },
+          },
+        };
+      });
+
+      await actions.fetchOldConversations({ commit, state }, {});
+
+      expect(commit).toBeCalledWith('setMessagesInConversation', [
+        { id: 2, text: 'hey', conversation_id: 55 },
       ]);
     });
   });
