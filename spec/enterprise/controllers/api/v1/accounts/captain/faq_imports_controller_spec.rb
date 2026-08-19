@@ -95,6 +95,25 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
     expect(existing.reload.answer).to eq('Existing answer')
   end
 
+  it 'queues recovery when the latest import has stopped making progress' do
+    faq_import = create(
+      :captain_faq_import,
+      assistant: assistant,
+      account: account,
+      user: admin,
+      status: :preparing,
+      confirmed_at: 20.minutes.ago,
+      updated_at: 20.minutes.ago
+    )
+
+    expect do
+      get "#{base_path}/latest", headers: admin.create_new_auth_token, as: :json
+    end.to have_enqueued_job(Captain::FaqImports::RecoverStalledJob).with(faq_import)
+
+    expect(response).to have_http_status(:ok)
+    expect(json_response).to include(id: faq_import.id, status: 'preparing')
+  end
+
   it 'downloads invalid rows with a clear error column' do
     rows = Captain::FaqImports::Parser.new(assistant: assistant, content: "question,answer\n,Missing question\n").perform
     faq_import = create(:captain_faq_import, assistant: assistant, account: account, user: admin, rows: rows, row_count: 1)

@@ -13,6 +13,7 @@ import CaptainResponseAPI from 'dashboard/api/captain/response';
 import CaptainFaqImportsAPI from 'dashboard/api/captain/faqImports';
 
 import Banner from 'dashboard/components-next/banner/Banner.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
@@ -54,7 +55,10 @@ const showFaqActions = ref(false);
 const showFaqImportDialog = ref(false);
 const latestFaqImport = ref(null);
 let faqImportPollTimer = null;
+let faqImportStatusTimer = null;
 let latestFaqImportRequestId = 0;
+
+const FAQ_IMPORT_STATUS_VISIBLE_FOR = 15000;
 
 const selectedAssistantId = computed(() => Number(route.params.assistantId));
 const canManageFaqs = computed(() => checkPermissions(['administrator']));
@@ -75,15 +79,26 @@ const faqActionItems = computed(() => [
 
 const suggestionCount = useMapGetter('captainFaqSuggestions/getOpenCount');
 
-const faqImportBannerColor = computed(() => {
-  const colorByStatus = {
-    preparing: 'blue',
-    completed: 'teal',
-    completed_with_errors: 'amber',
-    failed: 'ruby',
+const faqImportStatusIcon = computed(() => {
+  const iconByStatus = {
+    preparing: 'i-lucide-file-up',
+    completed: 'i-lucide-circle-check',
+    completed_with_errors: 'i-lucide-triangle-alert',
+    failed: 'i-lucide-circle-alert',
   };
 
-  return colorByStatus[latestFaqImport.value?.status] || 'slate';
+  return iconByStatus[latestFaqImport.value?.status];
+});
+
+const faqImportStatusClass = computed(() => {
+  const classByStatus = {
+    preparing: 'text-n-blue-11',
+    completed: 'text-n-teal-11',
+    completed_with_errors: 'text-n-amber-11',
+    failed: 'text-n-ruby-11',
+  };
+
+  return classByStatus[latestFaqImport.value?.status] || 'text-n-slate-11';
 });
 
 const faqImportStatusCopy = computed(() => {
@@ -130,6 +145,37 @@ const faqImportStatusCopy = computed(() => {
 const stopFaqImportPolling = () => {
   if (faqImportPollTimer) clearTimeout(faqImportPollTimer);
   faqImportPollTimer = null;
+};
+
+const stopFaqImportStatusTimer = () => {
+  if (faqImportStatusTimer) clearTimeout(faqImportStatusTimer);
+  faqImportStatusTimer = null;
+};
+
+const displayFaqImportStatus = faqImport => {
+  stopFaqImportStatusTimer();
+
+  if (!faqImport || faqImport.status === 'preparing') {
+    latestFaqImport.value = faqImport;
+    return;
+  }
+
+  const completedAt = Date.parse(faqImport.completed_at);
+  const remainingTime = Math.min(
+    FAQ_IMPORT_STATUS_VISIBLE_FOR,
+    FAQ_IMPORT_STATUS_VISIBLE_FOR - (Date.now() - completedAt)
+  );
+
+  if (!Number.isFinite(completedAt) || remainingTime <= 0) {
+    latestFaqImport.value = null;
+    return;
+  }
+
+  latestFaqImport.value = faqImport;
+  faqImportStatusTimer = setTimeout(() => {
+    latestFaqImport.value = null;
+    faqImportStatusTimer = null;
+  }, remainingTime);
 };
 
 const handleFaqImportOpen = () => {
@@ -270,7 +316,7 @@ const fetchLatestFaqImport = async () => {
     }
 
     const previousStatus = latestFaqImport.value?.status;
-    latestFaqImport.value = data;
+    displayFaqImportStatus(data);
     stopFaqImportPolling();
 
     if (data?.status === 'preparing') {
@@ -279,12 +325,17 @@ const fetchLatestFaqImport = async () => {
       fetchResponses(responseMeta.value?.page || 1);
     }
   } catch {
-    if (requestId === latestFaqImportRequestId) stopFaqImportPolling();
+    if (requestId !== latestFaqImportRequestId) return;
+
+    stopFaqImportPolling();
+    if (latestFaqImport.value?.status === 'preparing') {
+      faqImportPollTimer = setTimeout(fetchLatestFaqImport, 5000);
+    }
   }
 };
 
 const handleFaqImportConfirmed = faqImport => {
-  latestFaqImport.value = faqImport;
+  displayFaqImportStatus(faqImport);
   fetchResponses(responseMeta.value?.page || 1);
   stopFaqImportPolling();
   if (faqImport?.status === 'preparing') {
@@ -390,6 +441,7 @@ watch(
   selectedAssistantId,
   () => {
     stopFaqImportPolling();
+    stopFaqImportStatusTimer();
     latestFaqImportRequestId += 1;
     latestFaqImport.value = null;
     showFaqActions.value = false;
@@ -414,6 +466,7 @@ watch(
 
 onUnmounted(() => {
   stopFaqImportPolling();
+  stopFaqImportStatusTimer();
   latestFaqImportRequestId += 1;
   store.dispatch('captainResponses/setFetchingList', false);
 });
@@ -441,6 +494,43 @@ onUnmounted(() => {
         class="mt-1 min-w-48 ltr:right-0 rtl:left-0 top-full"
         @action="handleFaqAction"
       />
+    </template>
+
+    <template #controls>
+      <section
+        v-if="latestFaqImport"
+        data-testid="faq-import-status"
+        :data-status="latestFaqImport.status"
+        role="status"
+        aria-live="polite"
+        class="mb-4"
+      >
+        <h3 class="mb-2 text-sm font-medium text-n-slate-12">
+          {{ $t('CAPTAIN.RESPONSES.IMPORT.SECTION_TITLE') }}
+        </h3>
+        <div
+          class="flex items-start gap-3 rounded-xl border border-n-weak bg-n-solid-1 px-4 py-3"
+        >
+          <Icon
+            :icon="faqImportStatusIcon"
+            class="mt-0.5 size-4 shrink-0"
+            :class="faqImportStatusClass"
+          />
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <span class="text-sm font-medium text-n-slate-12">
+                {{ faqImportStatusCopy.title }}
+              </span>
+              <span class="truncate text-xs text-n-slate-10">
+                {{ latestFaqImport.original_filename }}
+              </span>
+            </div>
+            <p class="mb-0 mt-1 text-xs text-n-slate-11">
+              {{ faqImportStatusCopy.description }}
+            </p>
+          </div>
+        </div>
+      </section>
     </template>
 
     <template #knowMore>
@@ -485,19 +575,6 @@ onUnmounted(() => {
         }"
         @bulk-delete="bulkDeleteDialog.dialogRef.open()"
       />
-    </template>
-
-    <template #controls>
-      <Banner v-if="latestFaqImport" :color="faqImportBannerColor" class="mb-4">
-        <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-          <span class="font-medium">
-            {{ faqImportStatusCopy.title }}
-          </span>
-          <span>
-            {{ faqImportStatusCopy.description }}
-          </span>
-        </div>
-      </Banner>
     </template>
 
     <template #emptyState>

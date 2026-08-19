@@ -1175,6 +1175,7 @@
       "CREATE_MANUALLY": "Create manually",
       "IMPORT": {
         "ACTION": "Import from CSV",
+        "SECTION_TITLE": "Import",
         "TITLE": "Import FAQs from CSV",
         "DESCRIPTION": "Upload a CSV to review its FAQs before importing them.",
         "CHOOSE_FILE": "Choose a CSV file",
@@ -1217,19 +1218,19 @@
         },
         "STATUS": {
           "PREPARING": {
-            "TITLE": "Preparing for search",
+            "TITLE": "Importing FAQs",
             "DESCRIPTION": "Captain is preparing the imported FAQs for search."
           },
           "COMPLETED": {
-            "TITLE": "Completed",
+            "TITLE": "FAQ import complete",
             "DESCRIPTION": "{created} created, {overwritten} overwritten, and {skipped} skipped."
           },
           "COMPLETED_WITH_ERRORS": {
-            "TITLE": "Completed with errors",
+            "TITLE": "FAQ import completed with errors",
             "DESCRIPTION": "{created} created, {overwritten} overwritten, and {skipped} skipped."
           },
           "FAILED": {
-            "TITLE": "Failed",
+            "TITLE": "FAQ import failed",
             "DESCRIPTION": "The import could not be completed."
           }
         },

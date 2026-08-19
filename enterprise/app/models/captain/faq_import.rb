@@ -1,6 +1,8 @@
 class Captain::FaqImport < ApplicationRecord
   self.table_name = 'captain_faq_imports'
 
+  STALLED_AFTER = 15.minutes
+
   class InvalidStateError < StandardError; end
 
   belongs_to :account
@@ -70,6 +72,14 @@ class Captain::FaqImport < ApplicationRecord
     with_lock do
       update!(status: :failed, error_message: message.to_s.truncate(1000), completed_at: Time.current) if preparing?
     end
+  end
+
+  def rows_processed?
+    created_count + overwritten_count + skipped_count == row_count
+  end
+
+  def stalled?
+    preparing? && updated_at <= STALLED_AFTER.ago
   end
 
   private

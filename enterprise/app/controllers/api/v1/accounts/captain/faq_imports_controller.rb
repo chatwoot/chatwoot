@@ -9,7 +9,12 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
 
   def create
     return render json: { error: 'Choose a CSV file.' }, status: :unprocessable_content if params[:file].blank?
-    return render_active_import_error if @assistant.faq_imports.preparing.exists?
+
+    active_import = @assistant.faq_imports.preparing.first
+    if active_import
+      recover_if_stalled(active_import)
+      return render_active_import_error
+    end
 
     content = params[:file].read
     rows = Captain::FaqImports::Parser.new(assistant: @assistant, content: content).perform
@@ -25,6 +30,7 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
 
   def latest
     faq_import = @assistant.faq_imports.confirmed.latest_first.first
+    recover_if_stalled(faq_import)
     render json: faq_import ? serialize(faq_import) : nil
   end
 
@@ -79,6 +85,10 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
 
   def render_active_import_error
     render json: { error: 'Another FAQ import is already active for this assistant.' }, status: :conflict
+  end
+
+  def recover_if_stalled(faq_import)
+    Captain::FaqImports::RecoverStalledJob.perform_later(faq_import) if faq_import&.stalled?
   end
 
   def serialize(faq_import)

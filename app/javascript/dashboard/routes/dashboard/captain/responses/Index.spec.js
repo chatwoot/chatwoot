@@ -224,15 +224,16 @@ describe('Captain FAQ imports on the responses page', () => {
   });
 
   it.each([
-    ['preparing', 'blue', 'PREPARING'],
-    ['completed', 'teal', 'COMPLETED'],
-    ['completed_with_errors', 'amber', 'COMPLETED_WITH_ERRORS'],
-    ['failed', 'ruby', 'FAILED'],
-  ])('shows the latest %s import inline', async (status, color, copyKey) => {
+    ['preparing', 'PREPARING'],
+    ['completed', 'COMPLETED'],
+    ['completed_with_errors', 'COMPLETED_WITH_ERRORS'],
+    ['failed', 'FAILED'],
+  ])('shows the latest %s import inline', async (status, copyKey) => {
     mocks.latestImport.mockResolvedValueOnce({
       data: {
         id: 9,
         status,
+        completed_at: status === 'preparing' ? null : new Date().toISOString(),
         created_count: 2,
         overwritten_count: 1,
         skipped_count: 1,
@@ -243,10 +244,15 @@ describe('Captain FAQ imports on the responses page', () => {
     await flushPromises();
 
     expect(mocks.latestImport).toHaveBeenCalledWith({ assistantId: 42 });
-    expect(wrapper.get('[data-banner]').attributes('data-color')).toBe(color);
-    expect(wrapper.get('[data-banner]').text()).toContain(
+    expect(wrapper.get('[data-testid="faq-import-status"]').text()).toContain(
       `CAPTAIN.RESPONSES.IMPORT.STATUS.${copyKey}.TITLE`
     );
+    expect(wrapper.get('[data-testid="faq-import-status"]').text()).toContain(
+      'CAPTAIN.RESPONSES.IMPORT.SECTION_TITLE'
+    );
+    expect(
+      wrapper.get('[data-testid="faq-import-status"]').attributes('data-status')
+    ).toBe(status);
     await wrapper.get('[data-faq-create]').trigger('click');
     expect(wrapper.get('[data-faq-action="import"]').element.disabled).toBe(
       status === 'preparing'
@@ -261,7 +267,9 @@ describe('Captain FAQ imports on the responses page', () => {
     const wrapper = mountPage();
     await flushPromises();
 
-    expect(wrapper.find('[data-banner]').exists()).toBe(false);
+    expect(wrapper.find('[data-testid="faq-import-status"]').exists()).toBe(
+      false
+    );
     wrapper.unmount();
   });
 
@@ -306,7 +314,13 @@ describe('Captain FAQ imports on the responses page', () => {
     vi.useFakeTimers();
     mocks.latestImport
       .mockResolvedValueOnce({ data: { id: 9, status: 'preparing' } })
-      .mockResolvedValueOnce({ data: { id: 9, status: 'completed' } });
+      .mockResolvedValueOnce({
+        data: {
+          id: 9,
+          status: 'completed',
+          completed_at: new Date().toISOString(),
+        },
+      });
 
     const wrapper = mountPage();
     await flushPromises();
@@ -317,6 +331,78 @@ describe('Captain FAQ imports on the responses page', () => {
 
     expect(mocks.latestImport).toHaveBeenCalledTimes(2);
     expect(mocks.getResponses).toHaveBeenCalledTimes(2);
+    wrapper.unmount();
+  });
+
+  it('keeps checking an active import after a temporary status error', async () => {
+    vi.useFakeTimers();
+    mocks.latestImport
+      .mockResolvedValueOnce({ data: { id: 9, status: 'preparing' } })
+      .mockRejectedValueOnce(new Error('Unavailable'))
+      .mockResolvedValueOnce({
+        data: {
+          id: 9,
+          status: 'completed',
+          completed_at: new Date().toISOString(),
+        },
+      });
+
+    const wrapper = mountPage();
+    await flushPromises();
+
+    await vi.advanceTimersByTimeAsync(5000);
+    await flushPromises();
+    expect(mocks.latestImport).toHaveBeenCalledTimes(2);
+
+    await vi.advanceTimersByTimeAsync(5000);
+    await flushPromises();
+    expect(mocks.latestImport).toHaveBeenCalledTimes(3);
+    expect(
+      wrapper.get('[data-testid="faq-import-status"]').attributes('data-status')
+    ).toBe('completed');
+    wrapper.unmount();
+  });
+
+  it('removes a terminal import status after its display window', async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-08-19T10:00:00Z'));
+    mocks.latestImport.mockResolvedValueOnce({
+      data: {
+        id: 9,
+        status: 'completed',
+        completed_at: new Date().toISOString(),
+      },
+    });
+
+    const wrapper = mountPage();
+    await flushPromises();
+    expect(wrapper.find('[data-testid="faq-import-status"]').exists()).toBe(
+      true
+    );
+
+    await vi.advanceTimersByTimeAsync(15000);
+
+    expect(wrapper.find('[data-testid="faq-import-status"]').exists()).toBe(
+      false
+    );
+    wrapper.unmount();
+  });
+
+  it('does not restore an old terminal import status', async () => {
+    mocks.latestImport.mockResolvedValueOnce({
+      data: {
+        id: 9,
+        status: 'completed',
+        completed_at: new Date(Date.now() - 16000).toISOString(),
+      },
+    });
+
+    const wrapper = mountPage();
+    await flushPromises();
+
+    expect(wrapper.find('[data-testid="faq-import-status"]').exists()).toBe(
+      false
+    );
     wrapper.unmount();
   });
 });

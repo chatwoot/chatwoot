@@ -17,7 +17,7 @@ class Captain::FaqImports::ProcessJob < ApplicationJob
   def process_rows(faq_import)
     faq_import.with_lock do
       return unless faq_import.preparing?
-      return if processed?(faq_import)
+      return if faq_import.rows_processed?
 
       rows = faq_import.rows.deep_dup
       counts = { created: 0, overwritten: 0, skipped: 0 }
@@ -34,10 +34,6 @@ class Captain::FaqImports::ProcessJob < ApplicationJob
         skipped_count: counts[:skipped]
       )
     end
-  end
-
-  def processed?(faq_import)
-    faq_import.created_count + faq_import.overwritten_count + faq_import.skipped_count == faq_import.row_count
   end
 
   def process_row(row, faq_import, existing_faqs, counts)
