@@ -65,6 +65,7 @@ const EVENT_TYPE_GROUPS = [
 
 const toUnixTime = date => Math.floor(date.getTime() / 1000);
 const toDate = seconds => new Date(Number(seconds) * 1000);
+const isKnownRange = value => Object.values(DATE_RANGE_TYPES).includes(value);
 
 const openFilterMenu = ref(null);
 const showPicker = ref(false);
@@ -83,7 +84,9 @@ watch(
       showPicker.value = false;
       return;
     }
-    pickerRangeType.value = range || DATE_RANGE_TYPES.CUSTOM_RANGE;
+    pickerRangeType.value = isKnownRange(range)
+      ? range
+      : DATE_RANGE_TYPES.CUSTOM_RANGE;
     pickerDateRange.value = [toDate(since), toDate(until)];
   },
   { immediate: true }
@@ -204,6 +207,7 @@ const handleFilterAction = ({ action, value }) => {
       v-model:range-type="pickerRangeType"
       :default-open="!hasDateFilter"
       @click="closeMenus"
+      @close="dismissPicker"
       @date-range-changed="applyDateRange"
     />
     <Button
@@ -232,14 +236,5 @@ const handleFilterAction = ({ action, value }) => {
         @action="handleFilterAction"
       />
     </div>
-    <Button
-      v-if="hasActiveFilters"
-      :label="$t('AUDIT_LOGS.FILTERS.CLEAR_ALL')"
-      icon="i-lucide-x"
-      slate
-      ghost
-      sm
-      @click="emit('clear')"
-    />
   </div>
 </template>

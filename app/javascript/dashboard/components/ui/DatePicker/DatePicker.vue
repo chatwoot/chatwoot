@@ -41,7 +41,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['dateRangeChanged']);
+const emit = defineEmits(['dateRangeChanged', 'close']);
 const { t } = useI18n();
 
 const dateRange = defineModel('dateRange', {
@@ -350,7 +350,11 @@ const initializeCalendarMonths = () => {
 
 const toggleDatePicker = () => {
   showDatePicker.value = !showDatePicker.value;
-  if (showDatePicker.value) initializeCalendarMonths();
+  if (showDatePicker.value) {
+    initializeCalendarMonths();
+  } else {
+    emit('close');
+  }
 };
 
 const closeDatePicker = () => {
