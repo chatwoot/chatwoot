@@ -3,7 +3,6 @@ export const FACEBOOK_PAGE_SCOPES = [
   'business_management',
   'pages_messaging',
   'pages_show_list',
-  'pages_read_engagement',
 ];
 
 export const INSTAGRAM_SCOPES = [
