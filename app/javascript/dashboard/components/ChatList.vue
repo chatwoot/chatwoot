@@ -74,7 +74,7 @@ const showAdvancedFilters = ref(false);
 // chatsOnView is to store the chats that are currently visible on the screen,
 // which mirrors the conversationList.
 const chatsOnView = ref([]);
-const foldersQuery = ref({});
+const foldersQuery = useMapGetter('getAppliedConversationFiltersQuery');
 const showAddFoldersModal = ref(false);
 const showDeleteFoldersModal = ref(false);
 const appliedFilter = ref([]);
@@ -135,8 +135,8 @@ const hasAppliedFilters = computed(() => {
   return appliedFilters.value.length !== 0;
 });
 
-// A single contact filter is the one scope worth naming in the header, since it
-// is applied from the contact panel rather than built in the filter modal.
+// A lone contact filter is applied from the contact panel, so the header names
+// the contact it scopes the list to.
 const appliedFilterSummary = computed(() => {
   const [filter, ...rest] = appliedFilters.value;
   if (rest.length || filter?.attributeKey !== 'contact_id') return '';
@@ -428,7 +428,6 @@ function fetchSavedFilteredConversations(payload) {
 
 function onApplyFilter(payload) {
   payload = useSnakeCase(payload);
-  foldersQuery.value = filterQueryGenerator(payload);
   showAdvancedFilters.value = false;
   store
     .dispatch('applyConversationFilters', payload)
@@ -869,8 +868,8 @@ watch(conversationFilters, (newVal, oldVal) => {
   }
 });
 
-// Filters can be applied from outside the list, so the selection is cleared here
-// rather than at each call site.
+// Filters can be applied from outside the list too, so clear the selection on
+// the store change rather than at each call site.
 watch(appliedFilters, () => resetBulkActions());
 </script>
 

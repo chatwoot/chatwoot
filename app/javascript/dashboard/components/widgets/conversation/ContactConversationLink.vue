@@ -48,7 +48,7 @@ const lastMessage = computed(() => getLastMessage(props.conversation));
     <router-link
       v-tooltip.top="startedAtWithTime"
       :to="to"
-      class="flex items-center w-full h-9 gap-2.5 px-3 transition-colors border shadow-sm rounded-xl group max-w-lg border-n-weak bg-n-solid-1 hover:border-n-brand hover:bg-n-alpha-1 focus-visible:outline-none focus-visible:border-n-brand focus-visible:bg-n-alpha-1"
+      class="inline-flex items-center h-8 gap-2 px-3 transition-colors border rounded-full shadow-sm group max-w-lg border-n-weak bg-n-solid-1 hover:border-n-brand focus-visible:outline-none focus-visible:border-n-brand"
     >
       <Icon
         :icon="isOlder ? 'i-lucide-arrow-up' : 'i-lucide-arrow-down'"
@@ -67,12 +67,10 @@ const lastMessage = computed(() => getLastMessage(props.conversation));
         <MessagePreview
           :message="lastMessage"
           :show-message-type="false"
-          class="flex-1 min-w-0 text-xs text-n-slate-11"
+          class="min-w-0 text-xs text-n-slate-11"
         />
       </template>
-      <span
-        class="flex-shrink-0 text-xs ltr:ml-auto rtl:mr-auto text-n-slate-10"
-      >
+      <span class="flex-shrink-0 text-xs whitespace-nowrap text-n-slate-10">
         {{ startedAt }}
       </span>
     </router-link>

@@ -23,17 +23,16 @@ const contactConversations = useMapGetter(
   'contactConversations/getContactConversation'
 );
 
-// Scoping the list to one contact only says something when there is more than
-// the conversation already open, and only where a conversation list exists to
+// Scoping needs more than the open conversation, and a conversation list to
 // scope — the inbox view has none.
 const isVisible = computed(() => {
   if (String(route.name || '').startsWith('inbox_view')) return false;
   return contactConversations.value(props.contact.id).length > 1;
 });
 
-// On the expanded layout the list sits behind the open conversation, so move to
-// it first and let the filter land on a list the agent can see. The path keeps
-// the current inbox or team, which stops the list from resetting the filter.
+// On the expanded layout the list sits behind the open conversation, so move
+// to it first; the path keeps the current inbox/team scope so the list does
+// not reset the filter on navigation.
 const viewAllConversations = async () => {
   if (isOnExpandedLayout.value) {
     await router.push(buildConversationListPath());
@@ -56,12 +55,10 @@ const viewAllConversations = async () => {
   <NextButton
     v-if="isVisible"
     :label="$t('CONTACT_PANEL.CONVERSATIONS.VIEW_ALL')"
-    class="w-full"
     icon="i-lucide-messages-square"
-    justify="center"
-    outline
-    slate
+    link
     sm
+    class="!gap-1.5"
     @click="viewAllConversations"
   />
 </template>

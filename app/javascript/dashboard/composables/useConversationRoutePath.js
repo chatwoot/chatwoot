@@ -12,15 +12,8 @@ import {
 } from 'dashboard/store/modules/conversations/helpers/actionHelpers';
 import wootConstants from 'dashboard/constants/globals';
 
-/**
- * Builds conversation and conversation list paths that keep the context of the
- * active route, so navigating does not drop the inbox, label, team or folder
- * the agent is working from.
- * @returns {{
- *   buildConversationPath: (conversationId: number) => string,
- *   buildConversationListPath: () => string,
- * }}
- */
+// Builds conversation and conversation list paths that keep the context of the
+// active route — the inbox, label, team or folder the agent is working from.
 export function useConversationRoutePath() {
   const route = useRoute();
 

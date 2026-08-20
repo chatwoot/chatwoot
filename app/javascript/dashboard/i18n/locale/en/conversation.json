@@ -35,8 +35,8 @@
     "UNREAD_MESSAGES": "Unread Messages",
     "UNREAD_MESSAGE": "Unread Message",
     "CONTACT_HISTORY": {
-      "OLDER": "Go to older conversation",
-      "NEWER": "Go to newer conversation"
+      "OLDER": "Older conversation",
+      "NEWER": "Newer conversation"
     },
     "CLICK_HERE": "Click here",
     "LOADING_INBOXES": "Loading inboxes",

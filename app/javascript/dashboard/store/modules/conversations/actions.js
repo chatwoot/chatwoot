@@ -102,9 +102,9 @@ const actions = {
         id: data.conversationId,
         data: payload,
       });
-      // A short page means the conversation has no older messages left to
-      // fetch. Requests carrying `after` page differently, so only a plain
-      // backward fetch can draw that conclusion from the payload size.
+      // A short backward page means the start of the conversation is reached;
+      // requests carrying `after` page differently, so only an empty payload
+      // proves it there.
       const hasReachedFirstMessage = data.after
         ? !payload.length
         : payload.length < MESSAGES_PER_PAGE;
@@ -514,8 +514,8 @@ const actions = {
     commit(types.SET_CONVERSATION_FILTERS, data);
   },
 
-  // Replaces the conversation list with the first page of results for `filters`.
-  // Filters are in snake case, matching the payload the filter API expects.
+  // Replaces the conversation list with the first page of results for the
+  // given filters, which are snake_case as the filter API expects.
   applyConversationFilters: ({ commit, dispatch }, filters) => {
     commit(types.SET_CONVERSATION_FILTERS, filters);
     commit(types.EMPTY_ALL_CONVERSATION);
