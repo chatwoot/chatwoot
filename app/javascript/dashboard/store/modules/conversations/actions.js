@@ -54,6 +54,13 @@ const actions = {
       const {
         data: { data },
       } = await ConversationApi.get(params);
+
+      // Filter mutations replace `conversationFilters` with a new object. If
+      // the reference changed while this request was in flight, a newer list
+      // request owns the active tab cache. Ignore this stale response before it
+      // can replace the current tab's IDs, counts, contacts, or loading state.
+      if (params !== state.conversationFilters) return;
+
       buildConversationList(
         { commit, dispatch },
         params,
