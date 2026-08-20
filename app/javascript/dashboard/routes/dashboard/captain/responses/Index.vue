@@ -335,6 +335,7 @@ const fetchLatestFaqImport = async () => {
 };
 
 const handleFaqImportConfirmed = faqImport => {
+  latestFaqImportRequestId += 1;
   displayFaqImportStatus(faqImport);
   fetchResponses(responseMeta.value?.page || 1);
   stopFaqImportPolling();

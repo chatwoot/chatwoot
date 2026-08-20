@@ -71,6 +71,28 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
     expect(response).to have_http_status(:conflict)
   end
 
+  it 'rechecks for a preparing import while replacing a preview' do
+    use_assistant_instance
+    allow(assistant).to receive(:with_lock).and_wrap_original do |method, *args, &block|
+      create(
+        :captain_faq_import,
+        assistant: method.receiver,
+        account: account,
+        user: admin,
+        status: :preparing,
+        confirmed_at: Time.current
+      )
+      method.call(*args, &block)
+    end
+
+    post base_path,
+         params: { file: generate_csv_file([%w[question answer], %w[One Two]]) },
+         headers: admin.create_new_auth_token
+
+    expect(response).to have_http_status(:conflict)
+    expect(assistant.faq_imports.pluck(:status)).to eq(['preparing'])
+  end
+
   it 'confirms overwrite choices and returns only the latest confirmed status' do
     existing = create(:captain_assistant_response, assistant: assistant, question: 'Existing question', answer: 'Existing answer')
     rows = Captain::FaqImports::Parser.new(
@@ -95,7 +117,51 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
     expect(existing.reload.answer).to eq('Existing answer')
   end
 
+  it 'does not confirm a preview that was replaced while waiting for the assistant lock' do
+    faq_import = create(:captain_faq_import, assistant: assistant, account: account, user: admin)
+    use_assistant_instance
+    allow(assistant).to receive(:with_lock).and_wrap_original do |method, *args, &block|
+      faq_import.destroy! if faq_import.persisted?
+      method.call(*args, &block)
+    end
+
+    expect do
+      post "#{base_path}/#{faq_import.id}/confirm",
+           params: { overwrite_row_numbers: [] },
+           headers: admin.create_new_auth_token,
+           as: :json
+    end.not_to have_enqueued_job(Captain::FaqImports::ProcessJob)
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(json_response).to include(error: 'This import can no longer be confirmed.')
+  end
+
   it 'queues recovery when the latest import has stopped making progress' do
+    faq_import = create(
+      :captain_faq_import,
+      assistant: assistant,
+      account: account,
+      user: admin,
+      status: :preparing,
+      confirmed_at: 20.minutes.ago,
+      updated_at: 20.minutes.ago,
+      row_count: 1,
+      rows: [{ 'state' => Captain::FaqImport::ROW_STATES[:valid] }]
+    )
+
+    expect do
+      get "#{base_path}/latest", headers: admin.create_new_auth_token, as: :json
+    end.to have_enqueued_job(Captain::FaqImports::RecoverStalledJob)
+
+    expect(response).to have_http_status(:ok)
+    expect(json_response).to include(id: faq_import.id, status: 'preparing')
+
+    expect do
+      perform_enqueued_jobs(only: Captain::FaqImports::RecoverStalledJob)
+    end.to have_enqueued_job(Captain::FaqImports::ProcessJob).with(faq_import)
+  end
+
+  it 'claims stalled recovery before queuing a job' do
     faq_import = create(
       :captain_faq_import,
       assistant: assistant,
@@ -107,11 +173,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
     )
 
     expect do
-      get "#{base_path}/latest", headers: admin.create_new_auth_token, as: :json
-    end.to have_enqueued_job(Captain::FaqImports::RecoverStalledJob).with(faq_import)
+      2.times { get "#{base_path}/latest", headers: admin.create_new_auth_token, as: :json }
+    end.to have_enqueued_job(Captain::FaqImports::RecoverStalledJob).exactly(:once)
 
-    expect(response).to have_http_status(:ok)
-    expect(json_response).to include(id: faq_import.id, status: 'preparing')
+    expect(faq_import.reload.updated_at).to be_within(5.seconds).of(Time.current)
   end
 
   it 'downloads invalid rows with a clear error column' do
@@ -124,5 +189,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
     expect(CSV.parse(response.body)).to eq(
       [['question', 'answer', 'error'], ['', 'Missing question', 'Question is required.']]
     )
+  end
+
+  def use_assistant_instance
+    allow(Current).to receive(:account).and_return(account)
+    allow(account.captain_assistants).to receive(:find).and_return(assistant)
   end
 end

@@ -363,6 +363,39 @@ describe('Captain FAQ imports on the responses page', () => {
     wrapper.unmount();
   });
 
+  it('does not replace a confirmed import with an older status response', async () => {
+    let resolveLatestImport;
+    mocks.latestImport.mockReturnValueOnce(
+      new Promise(resolve => {
+        resolveLatestImport = resolve;
+      })
+    );
+
+    const wrapper = mountPage();
+    await wrapper.get('[data-faq-create]').trigger('click');
+    await wrapper.get('[data-faq-action="import"]').trigger('click');
+    await flushPromises();
+
+    wrapper
+      .findComponent({ ref: 'faqImportDialog' })
+      .vm.$emit('confirmed', { id: 10, status: 'preparing' });
+    await flushPromises();
+
+    resolveLatestImport({
+      data: {
+        id: 9,
+        status: 'completed',
+        completed_at: new Date().toISOString(),
+      },
+    });
+    await flushPromises();
+
+    expect(
+      wrapper.get('[data-testid="faq-import-status"]').attributes('data-status')
+    ).toBe('preparing');
+    wrapper.unmount();
+  });
+
   it('removes a terminal import status after its display window', async () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-08-19T10:00:00Z'));

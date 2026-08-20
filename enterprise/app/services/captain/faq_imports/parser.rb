@@ -1,5 +1,6 @@
 class Captain::FaqImports::Parser
   MAX_ROWS = 1000
+  MAX_QUESTION_LENGTH = 255
   REQUIRED_HEADERS = %w[question answer].freeze
 
   class InvalidCsvError < StandardError; end
@@ -64,7 +65,7 @@ class Captain::FaqImports::Parser
       'answer' => answer.to_s,
       'normalized_question' => self.class.normalize(question),
       'normalized_answer' => self.class.normalize(answer),
-      'state' => error.present? ? 'invalid' : 'valid',
+      'state' => error.present? ? Captain::FaqImport::ROW_STATES[:invalid] : Captain::FaqImport::ROW_STATES[:valid],
       'error' => error
     }
   end
@@ -73,12 +74,13 @@ class Captain::FaqImports::Parser
     return 'Expected two columns.' unless values.length == 2
     return 'Question is required.' if question.blank?
     return 'Answer is required.' if answer.blank?
+    return "Question must be #{MAX_QUESTION_LENGTH} characters or fewer." if question.length > MAX_QUESTION_LENGTH
 
     nil
   end
 
   def mark_csv_duplicates!(rows)
-    rows.select { |row| row['state'] == 'valid' }.group_by { |row| row['normalized_question'] }.each_value do |group|
+    valid_rows(rows).group_by { |row| row['normalized_question'] }.each_value do |group|
       mark_duplicate_group!(group)
     end
   end
@@ -86,31 +88,39 @@ class Captain::FaqImports::Parser
   def mark_duplicate_group!(group)
     if group.pluck('normalized_answer').uniq.many?
       group.each do |row|
-        row['state'] = 'invalid'
+        row['state'] = Captain::FaqImport::ROW_STATES[:invalid]
         row['error'] = 'The CSV has different answers for this question. ' \
                        'All matching rows will be skipped.'
       end
     else
       group.drop(1).each do |row|
-        row['state'] = 'duplicate'
+        row['state'] = Captain::FaqImport::ROW_STATES[:duplicate]
         row['error'] = 'Repeated row.'
       end
     end
   end
 
   def mark_existing_faqs!(rows)
-    existing_faqs = @assistant.responses.select(:id, :question, :answer).order(:id).each_with_object({}) do |faq, result|
-      result[self.class.normalize(faq.question)] ||= faq
-    end
+    existing_faqs = existing_faqs_by_question
 
-    rows.select { |row| row['state'] == 'valid' }.each do |row|
+    valid_rows(rows).each do |row|
       existing = existing_faqs[row['normalized_question']]
       next if existing.blank?
 
-      row['state'] = 'existing'
+      row['state'] = Captain::FaqImport::ROW_STATES[:existing]
       row['existing_id'] = existing.id
       row['existing_answer'] = existing.answer
-      row['resolution'] = 'skip'
+      row['resolution'] = Captain::FaqImport::RESOLUTIONS[:skip]
     end
+  end
+
+  def existing_faqs_by_question
+    @assistant.responses.select(:id, :question, :answer).order(:id).each_with_object({}) do |faq, result|
+      result[self.class.normalize(faq.question)] ||= faq
+    end
+  end
+
+  def valid_rows(rows)
+    rows.select { |row| row['state'] == Captain::FaqImport::ROW_STATES[:valid] }
   end
 end

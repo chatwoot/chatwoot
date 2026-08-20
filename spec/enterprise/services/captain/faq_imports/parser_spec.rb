@@ -65,6 +65,16 @@ RSpec.describe Captain::FaqImports::Parser do
     )
   end
 
+  it 'marks questions longer than the database limit as invalid' do
+    question = 'Q' * 256
+    rows = parse("question,answer\n#{question},Answer\n")
+
+    expect(rows.first).to include(
+      'state' => 'invalid',
+      'error' => 'Question must be 255 characters or fewer.'
+    )
+  end
+
   it 'skips repeated rows after normalizing whitespace and capitalization' do
     rows = parse("question,answer\nHow   does it work?,Very well\n\" how\ndoes IT work? \", very   WELL \n")
 

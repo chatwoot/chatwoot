@@ -81,7 +81,8 @@ class Captain::AssistantResponse < ApplicationRecord
   def update_response_embedding
     return unless saved_change_to_question? || saved_change_to_answer? || embedding.nil?
 
-    arguments = [self, "#{question}: #{answer}"]
+    embedding_target = faq_import_context.present? ? id : self
+    arguments = [embedding_target, "#{question}: #{answer}"]
     arguments << faq_import_context if faq_import_context.present?
     Captain::Llm::UpdateEmbeddingJob.perform_later(*arguments)
   end

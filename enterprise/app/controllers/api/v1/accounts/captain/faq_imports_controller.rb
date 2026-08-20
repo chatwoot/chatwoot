@@ -24,7 +24,7 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
     render json: serialize(faq_import), status: :created
   rescue Captain::FaqImports::Parser::InvalidCsvError => e
     render json: { error: e.message }, status: :unprocessable_content
-  rescue ActiveRecord::RecordNotUnique
+  rescue Captain::FaqImport::ActiveImportError, ActiveRecord::RecordNotUnique
     render_active_import_error
   end
 
@@ -35,17 +35,19 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
   end
 
   def confirm
-    @faq_import.confirm!(params[:overwrite_row_numbers])
+    @assistant.with_lock do
+      @faq_import.reload.confirm!(params[:overwrite_row_numbers])
+    end
     Captain::FaqImports::ProcessJob.perform_later(@faq_import)
     render json: serialize(@faq_import), status: :accepted
-  rescue Captain::FaqImport::InvalidStateError
+  rescue Captain::FaqImport::InvalidStateError, ActiveRecord::RecordNotFound
     render json: { error: 'This import can no longer be confirmed.' }, status: :unprocessable_content
   end
 
   def invalid_rows
     csv = CSV.generate do |output|
       output << %w[question answer error]
-      @faq_import.rows.select { |row| row['state'] == 'invalid' }.each do |row|
+      @faq_import.invalid_rows.each do |row|
         output << [row['question'], row['answer'], row['error']]
       end
     end
@@ -64,12 +66,16 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
   end
 
   def create_preview!(content, rows)
-    @assistant.faq_imports.preview.destroy_all
-    faq_import = @assistant.faq_imports.create!(preview_attributes(content, rows))
-    faq_import.source_file.attach(
-      io: StringIO.new(content), filename: faq_import.original_filename, content_type: 'text/csv'
-    )
-    faq_import
+    @assistant.with_lock do
+      raise Captain::FaqImport::ActiveImportError if @assistant.faq_imports.preparing.exists?
+
+      @assistant.faq_imports.preview.destroy_all
+      faq_import = @assistant.faq_imports.create!(preview_attributes(content, rows))
+      faq_import.source_file.attach(
+        io: StringIO.new(content), filename: faq_import.original_filename, content_type: 'text/csv'
+      )
+      faq_import
+    end
   end
 
   def preview_attributes(content, rows)
@@ -88,7 +94,8 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
   end
 
   def recover_if_stalled(faq_import)
-    Captain::FaqImports::RecoverStalledJob.perform_later(faq_import) if faq_import&.stalled?
+    recovery_claimed_at = faq_import&.claim_stalled_recovery!
+    Captain::FaqImports::RecoverStalledJob.perform_later(faq_import, recovery_claimed_at) if recovery_claimed_at
   end
 
   def serialize(faq_import)
@@ -97,7 +104,7 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
       original_filename: faq_import.original_filename,
       status: faq_import.status,
       row_count: faq_import.row_count,
-      invalid_row_count: faq_import.rows.count { |row| row['state'] == 'invalid' },
+      invalid_row_count: faq_import.invalid_rows.count,
       created_count: faq_import.created_count,
       overwritten_count: faq_import.overwritten_count,
       skipped_count: faq_import.skipped_count,

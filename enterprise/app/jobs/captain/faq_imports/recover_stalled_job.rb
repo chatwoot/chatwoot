@@ -1,31 +1,31 @@
 class Captain::FaqImports::RecoverStalledJob < ApplicationJob
   queue_as :low
 
-  def perform(faq_import)
-    recovery = recovery_action(faq_import)
+  PROCESS_ROWS = :process_rows
+
+  def perform(faq_import, recovery_claimed_at)
+    recovery = recovery_action(faq_import, recovery_claimed_at)
     return if recovery.nil?
 
-    return Captain::FaqImports::ProcessJob.perform_later(faq_import) if recovery == :process_rows
-    return faq_import.fail!('The import stopped before search preparation finished.') if recovery.empty?
+    return Captain::FaqImports::ProcessJob.perform_later(faq_import) if recovery == PROCESS_ROWS
+    return faq_import.complete_if_ready! if recovery.empty?
 
     recover_embeddings(faq_import, recovery)
   end
 
   private
 
-  def recovery_action(faq_import)
+  def recovery_action(faq_import, recovery_claimed_at)
     faq_import.with_lock do
-      return unless faq_import.stalled?
+      return unless faq_import.recovery_claim_current?(recovery_claimed_at)
 
-      action = faq_import.rows_processed? ? pending_response_ids(faq_import) : :process_rows
-      faq_import.update!(updated_at: Time.current)
-      action
+      faq_import.rows_processed? ? pending_response_ids(faq_import) : PROCESS_ROWS
     end
   end
 
   def pending_response_ids(faq_import)
     faq_import.rows.filter_map do |row|
-      row['response_id'] if row['embedding_state'] == 'pending'
+      row['response_id'] if row['embedding_state'] == Captain::FaqImport::EMBEDDING_STATES[:pending]
     end
   end
 
@@ -39,7 +39,7 @@ class Captain::FaqImports::RecoverStalledJob < ApplicationJob
       elsif response.embedding.present?
         faq_import.mark_embedding!(response.id, success: true)
       else
-        Captain::Llm::UpdateEmbeddingJob.perform_later(response, "#{response.question}: #{response.answer}", faq_import)
+        Captain::Llm::UpdateEmbeddingJob.perform_later(response.id, "#{response.question}: #{response.answer}", faq_import)
       end
     end
   end

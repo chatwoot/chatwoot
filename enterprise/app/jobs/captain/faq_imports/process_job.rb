@@ -5,7 +5,7 @@ class Captain::FaqImports::ProcessJob < ApplicationJob
     return unless faq_import.preparing?
 
     process_rows(faq_import)
-    faq_import.finish_if_no_embeddings!
+    faq_import.complete_if_ready!
   rescue StandardError => e
     faq_import.fail!(e.message)
   ensure
@@ -37,8 +37,11 @@ class Captain::FaqImports::ProcessJob < ApplicationJob
   end
 
   def process_row(row, faq_import, existing_faqs, counts)
-    return skip_row(counts) unless %w[valid existing].include?(row['state'])
-    return skip_row(counts) if row['state'] == 'existing' && row['resolution'] == 'skip'
+    return skip_row(counts) unless Captain::FaqImport::IMPORTABLE_ROW_STATES.include?(row['state'])
+    if row['state'] == Captain::FaqImport::ROW_STATES[:existing] &&
+       row['resolution'] == Captain::FaqImport::RESOLUTIONS[:skip]
+      return skip_row(counts)
+    end
 
     existing = existing_faqs[row['normalized_question']]
     if existing.present?
@@ -50,7 +53,10 @@ class Captain::FaqImports::ProcessJob < ApplicationJob
   end
 
   def process_existing_row(existing, row, faq_import, counts)
-    return skip_row(counts) unless row['state'] == 'existing' && row['resolution'] == 'overwrite'
+    unless row['state'] == Captain::FaqImport::ROW_STATES[:existing] &&
+           row['resolution'] == Captain::FaqImport::RESOLUTIONS[:overwrite]
+      return skip_row(counts)
+    end
 
     overwrite_faq(existing, row, faq_import)
     counts[:overwritten] += 1
@@ -94,6 +100,6 @@ class Captain::FaqImports::ProcessJob < ApplicationJob
     response.faq_import_context = faq_import
     response.save!
     row['response_id'] = response.id
-    row['embedding_state'] = 'pending'
+    row['embedding_state'] = Captain::FaqImport::EMBEDDING_STATES[:pending]
   end
 end
