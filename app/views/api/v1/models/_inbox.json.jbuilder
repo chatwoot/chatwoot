@@ -143,6 +143,7 @@ json.bot_name resource.channel.try(:bot_name) if resource.telegram?
 if resource.whatsapp?
   message_templates = resource.channel.try(:message_templates)
   json.message_templates message_templates.is_a?(Array) ? message_templates : []
+  json.history_sync resource.channel.try(:whatsapp_history_sync)&.api_payload
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
   if Current.account_user&.administrator? &&
      ChatwootApp.chatwoot_cloud? &&

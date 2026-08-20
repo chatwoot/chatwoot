@@ -1,7 +1,7 @@
 class Whatsapp::FacebookApiClient
   BASE_URI = 'https://graph.facebook.com'.freeze
   # Base webhook fields resent on every subscribe so Meta won't reset to defaults. `calls` is added by callers only when voice is enabled.
-  WEBHOOK_DEFAULT_FIELDS = %w[messages smb_message_echoes].freeze
+  WEBHOOK_DEFAULT_FIELDS = %w[messages smb_message_echoes history].freeze
 
   def initialize(access_token = nil)
     @access_token = access_token
@@ -197,6 +197,19 @@ class Whatsapp::FacebookApiClient
     )
 
     handle_response(response, 'WABA app unsubscription failed')
+  end
+
+  def request_history_sync(phone_number_id)
+    response = HTTParty.post(
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}/smb_app_data",
+      headers: request_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        sync_type: 'history'
+      }.to_json
+    )
+
+    handle_response(response, 'WhatsApp history sync request failed')
   end
 
   private
