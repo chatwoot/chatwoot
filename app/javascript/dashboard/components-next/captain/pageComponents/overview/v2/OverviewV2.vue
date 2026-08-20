@@ -315,7 +315,7 @@ const metrics = computed(() => [
     hint: t('CAPTAIN.OVERVIEW.METRICS.DEPTH.HINT'),
     hintNote: t('CAPTAIN.OVERVIEW.METRICS.DEPTH.NOTE'),
     formatValue: value => value.toFixed(1),
-    direction: 'up',
+    direction: 'neutral',
   }),
   metricFor({
     key: 'reopen_rate',
