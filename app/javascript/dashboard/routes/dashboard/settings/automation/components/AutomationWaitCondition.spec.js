@@ -51,6 +51,12 @@ const filterTypes = [
     label: 'Assignee',
     filterOperators: [{ value: 'equal_to', label: 'Equals' }],
   },
+  {
+    attributeKey: 'labels',
+    value: 'labels',
+    label: 'Labels',
+    filterOperators: [{ value: 'equal_to', label: 'Equals' }],
+  },
 ];
 
 const mountComponent = (props = {}, options = {}) =>

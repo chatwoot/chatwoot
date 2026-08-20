@@ -496,6 +496,21 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(account.automation_rules.last.conditions.map(&:deep_symbolize_keys)).to eq(conditions)
       end
 
+      it 'rejects delayed rules with label conditions' do
+        conditions = [
+          { attribute_key: 'message_type', filter_operator: 'equal_to', values: ['outgoing'], query_operator: 'and' },
+          { attribute_key: 'labels', filter_operator: 'equal_to', values: ['feature'], query_operator: nil }
+        ]
+
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: delayed_rule_params.merge(event_name: 'message_created', conditions: conditions),
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.automation_rules.find_by(name: delayed_rule_params[:name])).to be_nil
+      end
+
       it 'copies execution_delay on clone' do
         automation_rule = create(:automation_rule, account: account, execution_delay: 240)
 

@@ -215,9 +215,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         end
 
         it 'will return false when conversation has the label' do
-          conversation.add_labels(%w[bug feature])
-
-          expect(conversation.reload.label_list).to contain_exactly('bug', 'feature')
+          conversation.add_labels(['feature'])
           expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
         end
       end

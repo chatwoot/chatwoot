@@ -55,6 +55,7 @@ const triggerStatus = ref(DEFAULT_TRIGGER_STATUS);
 // No inbox selected means the rule applies to every inbox.
 const triggerInboxes = ref([]);
 const conditionsRef = useTemplateRef('conditionsRef');
+const unsupportedDelayedAttributes = new Set(['labels']);
 
 const isStatusTrigger = computed(
   () => selectedTrigger.value === 'conversation_status'
@@ -72,7 +73,9 @@ const additionalFilterTypes = computed(() => {
   if (isStatusTrigger.value) return [];
 
   return props.filterTypes.filter(
-    filter => !managedAttributeKeys.value.has(filter.attributeKey)
+    filter =>
+      !managedAttributeKeys.value.has(filter.attributeKey) &&
+      !unsupportedDelayedAttributes.has(filter.attributeKey)
   );
 });
 
