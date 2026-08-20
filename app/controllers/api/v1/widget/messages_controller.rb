@@ -43,10 +43,17 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def set_conversation
-    return unless conversation.nil?
+    if conversation.nil?
+      @conversation = create_conversation
+      apply_labels if permitted_params[:labels].present?
+      return
+    end
 
-    @conversation = create_conversation
-    apply_labels if permitted_params[:labels].present?
+    # Hiding the reply box does not stop requests reaching this endpoint, so the setting is
+    # enforced here.
+    return if inbox.allow_messages_after_resolved || !conversation.resolved?
+
+    render json: { error: I18n.t('errors.conversations.resolved') }, status: :forbidden
   end
 
   def apply_labels
