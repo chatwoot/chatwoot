@@ -1,4 +1,4 @@
-import { h, nextTick, onMounted, onUnmounted, ref } from 'vue';
+import { h, nextTick, onMounted, onUnmounted } from 'vue';
 import { createMemoryHistory, createRouter } from 'vue-router';
 import { flushPromises, mount } from '@vue/test-utils';
 import Dashboard from '../Dashboard.vue';
