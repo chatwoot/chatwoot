@@ -3,6 +3,23 @@ import Cookies from 'js-cookie';
 
 const REQUIRED_USER_KEYS = ['avatar_url', 'email', 'name'];
 const ALLOWED_USER_ATTRIBUTES = [...REQUIRED_USER_KEYS, 'identifier_hash'];
+const CONTACT_INFORMATION_ATTRIBUTES = [
+  'phone_number',
+  'company_name',
+  'city',
+  'country_code',
+  'description',
+  'social_profiles',
+];
+
+const serializeUserAttribute = value => {
+  if (!value || typeof value !== 'object') return value || '';
+
+  const sortedEntries = Object.keys(value)
+    .sort()
+    .map(key => [key, value[key]]);
+  return JSON.stringify(sortedEntries);
+};
 
 export const getUserCookieName = () => {
   const SET_USER_COOKIE_PREFIX = 'cw_user_';
@@ -15,7 +32,15 @@ export const getUserString = ({ identifier = '', user }) => {
     (acc, key) => `${acc}${key}${user[key] || ''}`,
     ''
   );
-  return `${userStringWithSortedKeys}identifier${identifier}`;
+  const contactInformationString = CONTACT_INFORMATION_ATTRIBUTES.reduce(
+    (acc, key) => {
+      if (user[key] === undefined) return acc;
+
+      return `${acc}${key}${serializeUserAttribute(user[key])}`;
+    },
+    ''
+  );
+  return `${userStringWithSortedKeys}${contactInformationString}identifier${identifier}`;
 };
 
 export const computeHashForUserData = (...args) => md5(getUserString(...args));

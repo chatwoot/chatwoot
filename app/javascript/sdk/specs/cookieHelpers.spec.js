@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import {
+  computeHashForUserData,
   getUserCookieName,
   getUserString,
   hasUserKeys,
@@ -39,6 +40,78 @@ describe('#getUserString', () => {
     ).toBe(
       'avatar_urlhttps://images.chatwoot.com/placeholderemailpranav@example.comnameidentifier_hashidentifier'
     );
+  });
+});
+
+describe('#computeHashForUserData', () => {
+  const identifier = 'user-123';
+  const user = {
+    name: 'Pranav',
+    email: 'pranav@example.com',
+  };
+
+  it.each([
+    ['phone_number', '+15555550100', '+15555550101'],
+    ['company_name', 'Chatwoot', 'Acme'],
+    ['city', 'Bengaluru', 'Kochi'],
+    ['country_code', 'IN', 'US'],
+    ['description', 'Chatwoot user', 'Acme user'],
+  ])('changes when %s changes', (attribute, currentValue, updatedValue) => {
+    const currentHash = computeHashForUserData({
+      identifier,
+      user: { ...user, [attribute]: currentValue },
+    });
+    const updatedHash = computeHashForUserData({
+      identifier,
+      user: { ...user, [attribute]: updatedValue },
+    });
+
+    expect(updatedHash).not.toBe(currentHash);
+  });
+
+  it('changes when a social profile changes', () => {
+    const currentHash = computeHashForUserData({
+      identifier,
+      user: { ...user, social_profiles: { github: 'chatwoot' } },
+    });
+    const updatedHash = computeHashForUserData({
+      identifier,
+      user: { ...user, social_profiles: { github: 'chatwoot-app' } },
+    });
+
+    expect(updatedHash).not.toBe(currentHash);
+  });
+
+  it('is independent of social profile property order', () => {
+    const firstHash = computeHashForUserData({
+      identifier,
+      user: {
+        ...user,
+        social_profiles: { github: 'chatwoot', twitter: 'chatwootapp' },
+      },
+    });
+    const secondHash = computeHashForUserData({
+      identifier,
+      user: {
+        ...user,
+        social_profiles: { twitter: 'chatwootapp', github: 'chatwoot' },
+      },
+    });
+
+    expect(secondHash).toBe(firstHash);
+  });
+
+  it('ignores custom attributes managed by setCustomAttributes', () => {
+    const currentHash = computeHashForUserData({
+      identifier,
+      user: { ...user, custom_attributes: { plan: 'starter' } },
+    });
+    const updatedHash = computeHashForUserData({
+      identifier,
+      user: { ...user, custom_attributes: { plan: 'business' } },
+    });
+
+    expect(updatedHash).toBe(currentHash);
   });
 });
 
