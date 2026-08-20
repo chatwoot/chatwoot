@@ -1,4 +1,6 @@
 class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::BaseController
+  DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE_MB = 40
+
   before_action -> { authorize(Captain::Assistant, :create?) }
   before_action :set_assistant
   before_action :set_faq_import, only: [:show, :confirm, :invalid_rows]
@@ -9,6 +11,7 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
 
   def create
     return render json: { error: 'Choose a CSV file.' }, status: :unprocessable_content if params[:file].blank?
+    return render_file_too_large if uploaded_file_too_large?
 
     active_import = @assistant.faq_imports.preparing.first
     if active_import
@@ -45,7 +48,7 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
   end
 
   def invalid_rows
-    csv = CSV.generate do |output|
+    csv = CSVSafe.generate do |output|
       output << %w[question answer error]
       @faq_import.invalid_rows.each do |row|
         output << [row['question'], row['answer'], row['error']]
@@ -91,6 +94,17 @@ class Api::V1::Accounts::Captain::FaqImportsController < Api::V1::Accounts::Base
 
   def render_active_import_error
     render json: { error: 'Another FAQ import is already active for this assistant.' }, status: :conflict
+  end
+
+  def uploaded_file_too_large?
+    configured_limit = GlobalConfigService.load('MAXIMUM_FILE_UPLOAD_SIZE', DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE_MB).to_i
+    configured_limit = DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE_MB unless configured_limit.positive?
+
+    params[:file].size > configured_limit.megabytes
+  end
+
+  def render_file_too_large
+    render json: { error: I18n.t('errors.upload.file_too_large') }, status: :unprocessable_content
   end
 
   def recover_if_stalled(faq_import)

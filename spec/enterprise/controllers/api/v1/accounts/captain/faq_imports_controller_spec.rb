@@ -53,6 +53,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
     expect(response).to have_http_status(:unprocessable_entity)
   end
 
+  it 'rejects a file over the configured upload limit before reading it' do
+    allow(GlobalConfigService).to receive(:load).with('MAXIMUM_FILE_UPLOAD_SIZE', 40).and_return('1')
+    file = generate_csv_file([%w[question answer], ['Question', 'A' * 1.megabyte]])
+
+    expect do
+      post base_path, params: { file: file }, headers: admin.create_new_auth_token
+    end.not_to change(Captain::FaqImport, :count)
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(json_response).to include(error: 'File exceeds the maximum allowed size')
+  end
+
   it 'does not allow an agent to preview an import' do
     post base_path,
          params: { file: generate_csv_file([%w[question answer], %w[One Two]]) },
@@ -188,6 +200,27 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqImports', type: :request do
     expect(response).to have_http_status(:ok)
     expect(CSV.parse(response.body)).to eq(
       [['question', 'answer', 'error'], ['', 'Missing question', 'Question is required.']]
+    )
+  end
+
+  it 'neutralizes spreadsheet formulas in downloaded invalid rows' do
+    content = CSV.generate do |csv|
+      csv << %w[question answer]
+      csv << ['=1+1', '']
+      csv << ['', '@SUM(1,1)']
+    end
+    rows = Captain::FaqImports::Parser.new(assistant: assistant, content: content).perform
+    faq_import = create(:captain_faq_import, assistant: assistant, account: account, user: admin, rows: rows, row_count: 2)
+
+    get "#{base_path}/#{faq_import.id}/invalid_rows", headers: admin.create_new_auth_token
+
+    expect(response).to have_http_status(:ok)
+    expect(CSV.parse(response.body)).to eq(
+      [
+        %w[question answer error],
+        ["'=1+1", '', 'Answer is required.'],
+        ['', "'@SUM(1,1)", 'Question is required.']
+      ]
     )
   end
 
