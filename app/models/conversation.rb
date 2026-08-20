@@ -215,6 +215,12 @@ class Conversation < ApplicationRecord
     true
   end
 
+  # Keep legacy AgentBot reads coherent until they move to the typed association.
+  def ai_assignee=(owner)
+    super
+    association(:assignee_agent_bot).reset
+  end
+
   # Virtual attribute till we switch completely to polymorphic assignee
   def assignee_type
     return ai_assignee_type.presence || 'AgentBot' if assignee_agent_bot_id.present?

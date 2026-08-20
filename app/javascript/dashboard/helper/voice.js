@@ -27,6 +27,21 @@ export const markCallDismissed = callSid => {
   if (callSid) dismissedCallSids.add(callSid);
 };
 
+// Which Twilio call (if any) this tab is actively joining/owns. Must be set
+// synchronously BEFORE the join API call — mirrors useWhatsappCallSession's
+// activeCallId — so the account-wide voice_call.accepted broadcast (which can
+// arrive before the join promise resolves) doesn't mistake this tab's own
+// call for a sibling tab's and tear it down mid-join.
+let localCallSid = null;
+export const markLocalCall = callSid => {
+  localCallSid = callSid || null;
+};
+export const isLocalCall = callSid =>
+  !!callSid && localCallSid != null && callSid === localCallSid;
+export const clearLocalCall = callSid => {
+  if (localCallSid === callSid) localCallSid = null;
+};
+
 export const isInbound = direction => direction === 'inbound';
 
 const isVoiceCallMessage = message => {

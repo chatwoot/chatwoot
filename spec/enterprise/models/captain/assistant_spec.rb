@@ -313,4 +313,30 @@ RSpec.describe Captain::Assistant, type: :model do
       )
     end
   end
+
+  describe '#agent_instructions' do
+    it 'keeps the Assistant human handoff prompt unchanged' do
+      instructions = assistant.agent_instructions
+
+      expect(instructions).to include('# Human Handoff Protocol', 'captain--tools--handoff')
+      expect(instructions).not_to include('You are drafting a reply for a support agent to review.')
+    end
+
+    it 'renders the separate Copilot reply suggestion prompt when requested' do
+      assistant.update!(
+        response_guidelines: ['Include the raw guide URL https://yc.ms/eglb1H.'],
+        guardrails: ['Never add citation numbers or footnotes.']
+      )
+      scenario = create(:captain_scenario, assistant: assistant, account: account, title: 'Refund workflow')
+
+      instructions = assistant.agent_instructions(nil, prompt_template: 'copilot_reply_suggestion')
+
+      expect(instructions).to include(
+        'You are drafting a reply for a support agent to review.',
+        'Include the raw guide URL https://yc.ms/eglb1H.',
+        'Never add citation numbers or footnotes.'
+      )
+      expect(instructions).not_to include('# Human Handoff Protocol', scenario.title, "handoff_to_#{scenario.handoff_key}")
+    end
+  end
 end
