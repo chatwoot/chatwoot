@@ -472,7 +472,7 @@ describe('#actions', () => {
         data: dataReceived,
       });
       await actions.fetchFilteredConversations(
-        { commit, dispatch },
+        { commit, dispatch, state: { appliedFiltersSortBy: null } },
         dataToSend
       );
       expect(commit).toHaveBeenCalledTimes(4);
@@ -490,7 +490,10 @@ describe('#actions', () => {
     it('clears the loading state and rethrows if the request fails', async () => {
       axios.post.mockRejectedValue(new Error('Request failed'));
       await expect(
-        actions.fetchFilteredConversations({ commit }, dataToSend)
+        actions.fetchFilteredConversations(
+          { commit, state: { appliedFiltersSortBy: null } },
+          dataToSend
+        )
       ).rejects.toThrow('Request failed');
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
@@ -810,7 +813,6 @@ describe('#addMentions', () => {
 
       expect(localCommit.mock.calls).toEqual([
         [types.SET_CURRENT_CHAT_WINDOW, data],
-        [types.CLEAR_ALL_MESSAGES_LOADED, 42],
       ]);
       expect(localDispatch).not.toHaveBeenCalled();
     });

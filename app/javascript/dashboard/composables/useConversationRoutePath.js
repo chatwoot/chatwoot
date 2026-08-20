@@ -12,8 +12,7 @@ import {
 } from 'dashboard/store/modules/conversations/helpers/actionHelpers';
 import wootConstants from 'dashboard/constants/globals';
 
-// Builds conversation and conversation list paths that keep the context of the
-// active route — the inbox, label, team or folder the agent is working from.
+// Builds conversation and list paths that keep the active route's context.
 export function useConversationRoutePath() {
   const route = useRoute();
 

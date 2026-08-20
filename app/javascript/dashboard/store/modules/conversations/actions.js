@@ -65,10 +65,13 @@ const actions = {
     }
   },
 
-  fetchFilteredConversations: async ({ commit, dispatch }, params) => {
+  fetchFilteredConversations: async ({ commit, dispatch, state }, params) => {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
-      const { data } = await ConversationApi.filter(params);
+      const queryData = state.appliedFiltersSortBy
+        ? { ...params.queryData, sort_by: state.appliedFiltersSortBy }
+        : params.queryData;
+      const { data } = await ConversationApi.filter({ ...params, queryData });
       buildConversationList(
         { commit, dispatch },
         params,
@@ -102,9 +105,7 @@ const actions = {
         id: data.conversationId,
         data: payload,
       });
-      // A short backward page means the start of the conversation is reached;
-      // requests carrying `after` page differently, so only an empty payload
-      // proves it there.
+      // A short backward page means the start is reached; `after` requests only prove it when empty.
       const hasReachedFirstMessage = data.after
         ? !payload.length
         : payload.length < MESSAGES_PER_PAGE;
@@ -204,8 +205,9 @@ const actions = {
 
   async setActiveChat({ commit, dispatch }, { data, after }) {
     commit(types.SET_CURRENT_CHAT_WINDOW, data);
-    commit(types.CLEAR_ALL_MESSAGES_LOADED, data.id);
     if (data.dataFetched === undefined) {
+      // Reset only when refetching — a re-activated short conversation has no scroll to earn it back.
+      commit(types.CLEAR_ALL_MESSAGES_LOADED, data.id);
       try {
         await dispatch('fetchPreviousMessages', {
           after,
@@ -389,8 +391,7 @@ const actions = {
   },
 
   addConversation({ commit, state, dispatch, rootState }, conversation) {
-    // Keep the cached contact history fresh so the in-thread navigation and
-    // the previous-conversations panel see new conversations as they arrive.
+    // Keep the cached contact history fresh for the in-thread navigation.
     dispatch('contactConversations/appendConversation', conversation, {
       root: true,
     });
@@ -519,10 +520,13 @@ const actions = {
     commit(types.SET_CONVERSATION_FILTERS, data);
   },
 
-  // Replaces the conversation list with the first page of results for the
-  // given filters, which are snake_case as the filter API expects.
-  applyConversationFilters: ({ commit, dispatch }, filters) => {
+  // Replaces the list with page 1 of the snake_case filters; sortBy overrides the activity order.
+  applyConversationFilters: (
+    { commit, dispatch },
+    { filters, sortBy = null }
+  ) => {
     commit(types.SET_CONVERSATION_FILTERS, filters);
+    commit(types.SET_CONVERSATION_FILTERS_SORT, sortBy);
     commit(types.EMPTY_ALL_CONVERSATION);
     dispatch('conversationPage/reset', {}, { root: true });
 

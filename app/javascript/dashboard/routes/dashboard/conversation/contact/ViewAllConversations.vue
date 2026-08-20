@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useConversationRoutePath } from 'dashboard/composables/useConversationRoutePath';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import wootConstants from 'dashboard/constants/globals';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -23,16 +24,13 @@ const contactConversations = useMapGetter(
   'contactConversations/getContactConversation'
 );
 
-// Scoping needs more than the open conversation, and a conversation list to
-// scope — the inbox view has none.
+// Needs more than the open conversation, and a list to scope — the inbox view has none.
 const isVisible = computed(() => {
   if (String(route.name || '').startsWith('inbox_view')) return false;
   return contactConversations.value(props.contact.id).length > 1;
 });
 
-// Applying a filter empties the conversation store, which drops the open
-// conversation when it is not in the first filtered page or the fetch fails —
-// fetch it back, as the filter modal path does through `conversationLoad`.
+// Applying a filter empties the store; refetch the open conversation if it was dropped.
 const restoreOpenConversation = () => {
   const conversationId = Number(route.params.conversation_id);
   if (!conversationId) return;
@@ -41,25 +39,27 @@ const restoreOpenConversation = () => {
   }
 };
 
-// On the expanded layout the list sits behind the open conversation, so move
-// to it first; the path keeps the current inbox/team scope so the list does
-// not reset the filter on navigation.
+// On the expanded layout, move to the list first; the path keeps the current scope.
 const viewAllConversations = async () => {
   if (isOnExpandedLayout.value) {
     await router.push(buildConversationListPath());
   }
 
   store
-    .dispatch('applyConversationFilters', [
-      {
-        attribute_key: 'contact_id',
-        attribute_model: 'standard',
-        filter_operator: 'equal_to',
-        query_operator: 'and',
-        custom_attribute_type: '',
-        values: [{ id: props.contact.id, name: props.contact.name }],
-      },
-    ])
+    .dispatch('applyConversationFilters', {
+      filters: [
+        {
+          attribute_key: 'contact_id',
+          attribute_model: 'standard',
+          filter_operator: 'equal_to',
+          query_operator: 'and',
+          custom_attribute_type: '',
+          values: [{ id: props.contact.id, name: props.contact.name }],
+        },
+      ],
+      // Match the chronological order of the in-thread navigation.
+      sortBy: wootConstants.SORT_BY_TYPE.CREATED_AT_DESC,
+    })
     .finally(restoreOpenConversation);
 };
 </script>

@@ -10,8 +10,7 @@ class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::
       Current.account
     ).perform
 
-    # Newest-created first, so the list is a contiguous window of the
-    # contact's most recent history even when the limit truncates it.
+    # Newest-created first keeps the window contiguous even when the limit truncates it.
     @conversations = conversations.order(created_at: :desc, id: :desc).limit(20)
   end
 end

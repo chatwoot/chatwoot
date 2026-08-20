@@ -40,8 +40,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
 const allCount = computed(() => props.conversationStats?.allCount || 0);
 const formattedAllCount = computed(() => formatNumber(allCount.value));
 
-// While filters narrow the list, the header names what is shown and the back
-// button is the way out of it.
+// While filters narrow the list, the header names it and the back button exits.
 const showFilterScope = computed(
   () => props.hasAppliedFilters && !props.hasActiveFolders
 );

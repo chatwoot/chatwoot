@@ -118,8 +118,7 @@ export const actions = {
     }
   },
   get: async ({ commit }, contactId) => {
-    // The panel accordion and the in-thread navigation can request the same
-    // contact at the same time; a single request serves both.
+    // The panel and the in-thread navigation may request the same contact at once.
     const id = Number(contactId);
     if (inFlightContactIds.has(id)) return;
     inFlightContactIds.add(id);

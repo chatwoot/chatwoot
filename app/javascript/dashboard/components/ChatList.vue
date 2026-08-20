@@ -135,8 +135,7 @@ const hasAppliedFilters = computed(() => {
   return appliedFilters.value.length !== 0;
 });
 
-// A lone contact filter is applied from the contact panel, so the header names
-// the contact it scopes the list to.
+// A lone contact filter comes from the contact panel; the header names the contact.
 const appliedFilterSummary = computed(() => {
   const [filter, ...rest] = appliedFilters.value;
   if (rest.length || filter?.attributeKey !== 'contact_id') return '';
@@ -430,7 +429,7 @@ function onApplyFilter(payload) {
   payload = useSnakeCase(payload);
   showAdvancedFilters.value = false;
   store
-    .dispatch('applyConversationFilters', payload)
+    .dispatch('applyConversationFilters', { filters: payload })
     .catch(() => useAlert(t('CHAT_LIST.FETCH_ERROR')))
     .finally(emitConversationLoaded);
 }
@@ -868,8 +867,7 @@ watch(conversationFilters, (newVal, oldVal) => {
   }
 });
 
-// Filters can be applied from outside the list too, so clear the selection on
-// the store change rather than at each call site.
+// Filters can be applied from outside the list, so clear the selection here.
 watch(appliedFilters, () => resetBulkActions());
 </script>
 

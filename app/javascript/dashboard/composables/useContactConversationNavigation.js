@@ -2,8 +2,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { computed, watch } from 'vue';
 import { useConversationRoutePath } from './useConversationRoutePath';
 
-// Resolves the conversations that sit immediately before and after the active
-// one in the contact's history, ordered by the time each conversation started.
+// Resolves the conversations before and after the active one in the contact's history.
 export function useContactConversationNavigation() {
   const store = useStore();
   const { buildConversationPath } = useConversationRoutePath();
@@ -40,8 +39,7 @@ export function useContactConversationNavigation() {
       : (orderedConversations.value[currentIndex.value + 1] ?? null)
   );
 
-  // Refetch when the cached list cannot place the open conversation — the
-  // contact was never fetched, or the list predates this conversation.
+  // Refetch when the cached list cannot place the open conversation.
   watch(
     [contactId, () => currentChat.value?.id],
     ([id, conversationId]) => {
