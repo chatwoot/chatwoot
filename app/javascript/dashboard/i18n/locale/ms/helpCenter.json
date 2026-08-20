@@ -45,8 +45,6 @@
         "TITLE": "Muat naik imej",
         "UPLOADING": "Sedang memuat naik...",
         "SUCCESS": "Imej berjaya dimuat naik",
-        "ERROR": "Ralat semasa memuat naik imej",
-        "UN_AUTHORIZED_ERROR": "Anda tidak dibenarkan memuat naik imej",
         "ERROR_FILE_SIZE": "Saiz imej harus kurang daripada {size}MB",
         "ERROR_FILE_FORMAT": "Format imej harus jpg, jpeg atau png",
         "ERROR_FILE_DIMENSIONS": "Dimensi imej harus kurang daripada 2000 x 2000"

@@ -45,8 +45,6 @@
         "TITLE": "ምስል አስገባ",
         "UPLOADING": "እየሰራ ነው...",
         "SUCCESS": "ምስል በተሳካ ሁኔታ ተሰብስቧል",
-        "ERROR": "ምስል ሲሰብስብ ስህተት አጋጥሟል",
-        "UN_AUTHORIZED_ERROR": "ምስሎችን ለማስገባት ፈቃድ የለዎትም",
         "ERROR_FILE_SIZE": "የምስል መጠን ከ {size}MB በታች መሆን አለበት",
         "ERROR_FILE_FORMAT": "የምስል ቅርጸ ቅርጸት እንዲሁም jpg, jpeg ወይም png መሆን አለበት",
         "ERROR_FILE_DIMENSIONS": "የምስል ስፋት ከ 2000 x 2000 በታች መሆን አለበት"

@@ -45,8 +45,6 @@
         "TITLE": "Ngarko imazhin",
         "UPLOADING": "Po ngarkohet...",
         "SUCCESS": "Imazhi u ngarkua me sukses",
-        "ERROR": "Gabim gjatë ngarkimit të imazhit",
-        "UN_AUTHORIZED_ERROR": "Nuk jeni i autorizuar të ngarkoni imazhe",
         "ERROR_FILE_SIZE": "Madhësia e imazhit duhet të jetë më pak se {size}MB",
         "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
         "ERROR_FILE_DIMENSIONS": "Dimensionet e imazhit duhet të jenë më pak se 2000 x 2000"

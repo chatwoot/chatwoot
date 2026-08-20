@@ -45,8 +45,6 @@
         "TITLE": "ছবি আপলোড করুন",
         "UPLOADING": "আপলোড হচ্ছে...",
         "SUCCESS": "ছবি সফলভাবে আপলোড হয়েছে",
-        "ERROR": "ছবি আপলোড করার সময় ত্রুটি হয়েছে",
-        "UN_AUTHORIZED_ERROR": "আপনি ছবি আপলোড করার অনুমোদিত নন",
         "ERROR_FILE_SIZE": "ছবির আকার {size}MB এর কম হওয়া উচিত",
         "ERROR_FILE_FORMAT": "ছবির ফরম্যাট jpg, jpeg অথবা png হতে হবে",
         "ERROR_FILE_DIMENSIONS": "ছবির মাত্রা 2000 × 2000-এর কম হতে হবে"

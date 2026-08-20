@@ -139,37 +139,6 @@
       "SELECT": "Seç"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Bildirimler",
-    "MARK_ALL_DONE": "Hepsini Tamamlandı İşaretle",
-    "DELETE_TITLE": "silindi",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Okunmamış Bildirimler",
-      "ALL_NOTIFICATIONS": "Tüm bildirimleri görüntüle",
-      "LOADING_UNREAD_MESSAGE": "Okunmamış bildirimler yükleniyor...",
-      "EMPTY_MESSAGE": "Okunmamış bildiriminiz yok"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Bildirimler yükleniyor...",
-      "404": "Bildirim yok",
-      "TABLE_HEADER": [
-        "İsim",
-        "Telefon Numarası",
-        "Konuşmalar",
-        "Son Görüşülen"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Yeni Görüşme",
-      "conversation_assignment": "Atanan Görüşme",
-      "assigned_conversation_new_message": "Yeni Mesaj",
-      "participating_conversation_new_message": "Yeni Mesaj",
-      "conversation_mention": "Bahset",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Çevrimdışı",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Hesap Ayarlarına Git",
       "GO_TO_SETTINGS_PROFILE": "Profil Ayarlarına Git",
-      "GO_TO_NOTIFICATIONS": "Bildirimlere Git",
       "ADD_LABELS_TO_CONVERSATION": "Konuşmaya Etiket Ekle",
       "ASSIGN_AN_AGENT": "Bir Temsilci Ata",
       "AI_ASSIST": "AI Yardımı",

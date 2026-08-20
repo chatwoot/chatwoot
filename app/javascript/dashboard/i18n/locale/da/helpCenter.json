@@ -45,8 +45,6 @@
         "TITLE": "Upload billede",
         "UPLOADING": "Uploader...",
         "SUCCESS": "Billede blev uploadet",
-        "ERROR": "Fejl under overførsel af billede",
-        "UN_AUTHORIZED_ERROR": "Du har ikke tilladelse til at overføre billeder",
         "ERROR_FILE_SIZE": "Billedets størrelse skal være mindre end {size}MB",
         "ERROR_FILE_FORMAT": "Billedformatet skal være jpg, jpeg eller png",
         "ERROR_FILE_DIMENSIONS": "Billeddimensioner skal være mindre end 2000 x 2000 px"

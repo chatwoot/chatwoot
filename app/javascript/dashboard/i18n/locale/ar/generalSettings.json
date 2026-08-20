@@ -139,37 +139,6 @@
       "SELECT": "اختر"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "الإشعارات",
-    "MARK_ALL_DONE": "وضع علامة منجز على الجميع",
-    "DELETE_TITLE": "تم الحذف",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "إشعارات غير مقروءة",
-      "ALL_NOTIFICATIONS": "عرض جميع الإشعارات",
-      "LOADING_UNREAD_MESSAGE": "جار جلب الإشعارات الغير مقروءة...",
-      "EMPTY_MESSAGE": "ليس لديك إشعارات غير مقروءة"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "جاري جلب الإشعارات...",
-      "404": "لا يوجد إشعارات",
-      "TABLE_HEADER": [
-        "الاسم",
-        "رقم الهاتف",
-        "المحادثات",
-        "آخر تواصل"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "محادثة جديدة",
-      "conversation_assignment": "تم تعيين المحادثة",
-      "assigned_conversation_new_message": "رسالة جديدة",
-      "participating_conversation_new_message": "رسالة جديدة",
-      "conversation_mention": "إشارة",
-      "sla_missed_first_response": "فشل اتفاقية مستوى الخدمة",
-      "sla_missed_next_response": "فشل اتفاقية مستوى الخدمة",
-      "sla_missed_resolution": "فشل اتفاقية مستوى الخدمة"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "غير متصل",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "الذهاب إلى إعدادات الحساب",
       "GO_TO_SETTINGS_PROFILE": "الذهاب إلى إعدادات الملف الشخصي",
-      "GO_TO_NOTIFICATIONS": "الذهاب إلى الإشعارات",
       "ADD_LABELS_TO_CONVERSATION": "إضافة وسم إلى المحادثة",
       "ASSIGN_AN_AGENT": "تعيين وكيل",
       "AI_ASSIST": "مساعدة AI",

@@ -139,37 +139,6 @@
       "SELECT": "Выбрать"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Уведомления",
-    "MARK_ALL_DONE": "Отметить все прочитанными",
-    "DELETE_TITLE": "удалено",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Непрочитанные уведомления",
-      "ALL_NOTIFICATIONS": "Показать все уведомления",
-      "LOADING_UNREAD_MESSAGE": "Загрузка непрочитанных уведомлений...",
-      "EMPTY_MESSAGE": "У вас нет непрочитанных уведомлений"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Загрузка уведомлений...",
-      "404": "Уведомления отсутствуют",
-      "TABLE_HEADER": [
-        "Имя",
-        "Номер телефона",
-        "Диалоги",
-        "Последний Контакт"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Новая беседа",
-      "conversation_assignment": "Беседа назначена",
-      "assigned_conversation_new_message": "Новое сообщение",
-      "participating_conversation_new_message": "Новое сообщение",
-      "conversation_mention": "Упоминание",
-      "sla_missed_first_response": "Пропущено SLA",
-      "sla_missed_next_response": "Пропущено SLA",
-      "sla_missed_resolution": "Пропущено SLA"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Оффлайн",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Перейти в настройки учетной записи",
       "GO_TO_SETTINGS_PROFILE": "Перейти в настройки профиля",
-      "GO_TO_NOTIFICATIONS": "Перейти к уведомлениям",
       "ADD_LABELS_TO_CONVERSATION": "Добавить метку в диалог",
       "ASSIGN_AN_AGENT": "Назначить сотрудника",
       "AI_ASSIST": "Помощь ИИ",

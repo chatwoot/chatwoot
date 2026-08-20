@@ -139,37 +139,6 @@
       "SELECT": "เลือก"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "การแจ้งเตือน",
-    "MARK_ALL_DONE": "ทำเครื่องหมายว่าเสร็จแล้วทั้งหมด",
-    "DELETE_TITLE": "ลบ",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "การแจ้งเตือนที่ยังไม่ได้อ่าน",
-      "ALL_NOTIFICATIONS": "ดูการแจ้งเตือนทั้งหมด",
-      "LOADING_UNREAD_MESSAGE": "กำลังโหลดการแจ้งเตือนที่ยังไม่ได้อ่าน",
-      "EMPTY_MESSAGE": "ไม่มีการแจ้งเตือนที่ยังไม่ได้อ่าน"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "กำลังโหลดการแจ้งเตือน",
-      "404": "ไม่มีการแจ้งเตือน",
-      "TABLE_HEADER": [
-        "ชื่อ",
-        "หมายเลขโทรศัพท์",
-        "การสนทนา",
-        "ติดต่อครั้งสุดท้าย"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "สร้างการสนทนาใหม่",
-      "conversation_assignment": "การสนทนาที่ถูกมอบหมาย",
-      "assigned_conversation_new_message": "ข้อความใหม่",
-      "participating_conversation_new_message": "ข้อความใหม่",
-      "conversation_mention": "กล่าวถึง",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "ออฟไลน์",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "ไปที่หน้าตั้งค่าบัญชี",
       "GO_TO_SETTINGS_PROFILE": "ไปที่หน้าตั้งค่าข้อมูลส่วนตัว",
-      "GO_TO_NOTIFICATIONS": "ไปที่หน้าการแจ้งเตือน",
       "ADD_LABELS_TO_CONVERSATION": "เพิ่มป้ายกำกับให้บทสนทนา",
       "ASSIGN_AN_AGENT": "กำหนดพนักงาน",
       "AI_ASSIST": "AI Assist",

@@ -139,37 +139,6 @@
       "SELECT": "Επιλογή"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Ειδοποιήσεις",
-    "MARK_ALL_DONE": "Όλες ολοκληρωμένες",
-    "DELETE_TITLE": "διαγράφηκε",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Μη Αναγνωσμένες Ειδοποιήσεις",
-      "ALL_NOTIFICATIONS": "Προβολή όλων των ειδοποιήσεων",
-      "LOADING_UNREAD_MESSAGE": "Φόρτωση μη αναγνωσμένων ειδοποιήσεων...",
-      "EMPTY_MESSAGE": "Δεν έχετε μη αναγνωσμένες ειδοποιήσεις"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Φόρτωση ειδοποιήσεων...",
-      "404": "Καμία Ειδοποίηση",
-      "TABLE_HEADER": [
-        "Όνομα",
-        "Αριθμός Τηλεφώνου",
-        "Συζητήσεις",
-        "Τελευταία επικοινωνία"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Νέα συνομιλία",
-      "conversation_assignment": "Η Συνομιλία Ανατέθηκε",
-      "assigned_conversation_new_message": "Νέο Μήνυμα",
-      "participating_conversation_new_message": "Νέο Μήνυμα",
-      "conversation_mention": "Αναφορά",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Εκτός",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Μεταβείτε στις ρυθμίσεις λογαριασμού",
       "GO_TO_SETTINGS_PROFILE": "Μετάβαση στις ρυθμίσεις προφίλ",
-      "GO_TO_NOTIFICATIONS": "Μετάβαση στις ειδοποιήσεις",
       "ADD_LABELS_TO_CONVERSATION": "Προσθήκη ετικέτας στη συνομιλία",
       "ASSIGN_AN_AGENT": "Εκχώρηση πράκτορα",
       "AI_ASSIST": "AI Assist",

@@ -139,37 +139,6 @@
       "SELECT": "Selecionar"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notificações",
-    "MARK_ALL_DONE": "Marcar Tudo Feito",
-    "DELETE_TITLE": "Excluído",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Notificações não lidas",
-      "ALL_NOTIFICATIONS": "Visualizar todas as notificações",
-      "LOADING_UNREAD_MESSAGE": "Carregando notificações não lidas...",
-      "EMPTY_MESSAGE": "Você não tem notificações não lidas"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Carregando notificações...",
-      "404": "Sem Notificações",
-      "TABLE_HEADER": [
-        "Nome",
-        "Número de Telefone",
-        "Conversas",
-        "Último Contactado"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Nova conversa",
-      "conversation_assignment": "Conversa Atribuída",
-      "assigned_conversation_new_message": "Nova Mensagem",
-      "participating_conversation_new_message": "Nova Mensagem",
-      "conversation_mention": "Menção",
-      "sla_missed_first_response": "SLA não alcançado",
-      "sla_missed_next_response": "SLA não alcançado",
-      "sla_missed_resolution": "SLA não alcançado"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Desconectado",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Ir para Faturamento",
       "GO_TO_SETTINGS_ACCOUNT": "Ir para as Configurações da Conta",
       "GO_TO_SETTINGS_PROFILE": "Ir para as Configurações do Perfil",
-      "GO_TO_NOTIFICATIONS": "Ir para Notificações",
       "ADD_LABELS_TO_CONVERSATION": "Adicionar etiqueta à conversa",
       "ASSIGN_AN_AGENT": "Atribuir um agente",
       "AI_ASSIST": "Assistente IA",

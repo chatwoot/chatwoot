@@ -139,37 +139,6 @@
       "SELECT": "Vælg"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifikationer",
-    "MARK_ALL_DONE": "Markér Alle Udførte",
-    "DELETE_TITLE": "slettet",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Ulæste Notifikationer",
-      "ALL_NOTIFICATIONS": "Se alle notifikationer",
-      "LOADING_UNREAD_MESSAGE": "Indlæser ulæste notifikationer...",
-      "EMPTY_MESSAGE": "Du har ingen ulæste notifikationer"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Indlæser notifikationer...",
-      "404": "Ingen Notifikationer",
-      "TABLE_HEADER": [
-        "Navn",
-        "Telefonnummer",
-        "Samtaler",
-        "Sidst Kontaktet"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Ny samtale",
-      "conversation_assignment": "Samtale Tildelt",
-      "assigned_conversation_new_message": "Ny Besked",
-      "participating_conversation_new_message": "Ny Besked",
-      "conversation_mention": "Omtale",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Gå til kontoindstillinger",
       "GO_TO_SETTINGS_PROFILE": "Gå til profilindstillinger",
-      "GO_TO_NOTIFICATIONS": "Gå til Notifikationer",
       "ADD_LABELS_TO_CONVERSATION": "Tilføj etiket til samtalen",
       "ASSIGN_AN_AGENT": "Tildel en agent",
       "AI_ASSIST": "AI Assist",

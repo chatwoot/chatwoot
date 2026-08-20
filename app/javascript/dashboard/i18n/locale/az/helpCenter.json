@@ -45,8 +45,6 @@
         "TITLE": "Şəkil yüklə",
         "UPLOADING": "Yüklənir...",
         "SUCCESS": "Şəkil uğurla yükləndi",
-        "ERROR": "Şəkil yüklənərkən xəta baş verdi",
-        "UN_AUTHORIZED_ERROR": "Şəkilləri yükləmək üçün icazəniz yoxdur",
         "ERROR_FILE_SIZE": "Şəkilin ölçüsü {size}MB-dən az olmalıdır",
         "ERROR_FILE_FORMAT": "Şəkil formatı jpg, jpeg və ya png olmalıdır",
         "ERROR_FILE_DIMENSIONS": "Şəkilin ölçüləri 2000 x 2000-dən az olmalıdır"

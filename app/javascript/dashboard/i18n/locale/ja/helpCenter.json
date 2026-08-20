@@ -45,8 +45,6 @@
         "TITLE": "画像をアップロード",
         "UPLOADING": "アップロード中...",
         "SUCCESS": "画像が正常にアップロードされました",
-        "ERROR": "画像のアップロード中にエラーが発生しました",
-        "UN_AUTHORIZED_ERROR": "画像をアップロードする権限がありません",
         "ERROR_FILE_SIZE": "画像サイズは {size}MB 未満である必要があります",
         "ERROR_FILE_FORMAT": "画像形式は jpg、jpeg または png である必要があります",
         "ERROR_FILE_DIMENSIONS": "画像の寸法は 2000 x 2000 未満である必要があります"
