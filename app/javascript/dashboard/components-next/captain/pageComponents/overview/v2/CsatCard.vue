@@ -22,8 +22,10 @@ const formatTrend = value => {
 };
 
 const comparison = score => {
-  const delta =
-    Number(score?.current || 0) - Number(props.humanOnly?.current || 0);
+  const humanOnlyScore = props.humanOnly?.current;
+  if (humanOnlyScore === null || humanOnlyScore === undefined) return '';
+
+  const delta = Number(score?.current || 0) - Number(humanOnlyScore);
   return t('CAPTAIN.OVERVIEW.V2.CSAT.VS_HUMANS', {
     value: formatTrend(delta),
   });
