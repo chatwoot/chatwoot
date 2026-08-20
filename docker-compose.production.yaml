@@ -10,7 +10,6 @@ services:
   rails:
     <<: *base
     depends_on:
-      - postgres
       - redis
     ports:
       - '127.0.0.1:3000:3000'
@@ -25,7 +24,6 @@ services:
   sidekiq:
     <<: *base
     depends_on:
-      - postgres
       - redis
     environment:
       - NODE_ENV=production
@@ -33,19 +31,6 @@ services:
       - INSTALLATION_ENV=docker
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
-
-  postgres:
-    image: pgvector/pgvector:pg16
-    restart: always
-    ports:
-      - '127.0.0.1:5432:5432'
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
 
   redis:
     image: redis:alpine
@@ -59,5 +44,4 @@ services:
 
 volumes:
   storage_data:
-  postgres_data:
   redis_data:
