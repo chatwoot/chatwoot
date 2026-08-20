@@ -325,6 +325,7 @@ class Conversation < ApplicationRecord
     return unless inbox.agent_bot_inbox&.active? && assignee_id.blank?
 
     self.assignee_agent_bot = inbox.agent_bot
+    sync_agent_bot_assignee_type
   end
 
   def notify_conversation_creation
