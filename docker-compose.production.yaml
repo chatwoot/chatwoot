@@ -4,6 +4,8 @@ services:
   base: &base
     image: chatwoot/chatwoot:latest
     env_file: .env ## Change this file for customized env variables
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - storage_data:/app/storage
 
