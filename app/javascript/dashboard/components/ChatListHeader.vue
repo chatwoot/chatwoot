@@ -81,10 +81,10 @@ const toggleConversationLayout = () => {
         v-tooltip.right="$t('FILTER.CLEAR_BUTTON_LABEL')"
         :aria-label="$t('FILTER.CLEAR_BUTTON_LABEL')"
         icon="i-lucide-chevron-left"
-        class="ltr:mr-1 rtl:ml-1 shrink-0"
+        class="shrink-0 -ms-2 !h-6 !w-6 me-1"
         slate
-        xs
-        faded
+        sm
+        ghost
         @click="emit('resetFilters')"
       />
       <h1 class="text-base font-medium truncate text-n-slate-12" :title="title">
