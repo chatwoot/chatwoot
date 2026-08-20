@@ -14,7 +14,7 @@ services:
     depends_on:
       - redis
     ports:
-      - '127.0.0.1:5679:4000'
+      - '5679:4000'
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
