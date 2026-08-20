@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 import { DROPDOWN_SEARCH_THRESHOLD } from '../helper/filterHelper';
 import Icon from 'next/icon/Icon.vue';
 import EmojiIcon from 'next/emoji-icon-picker/EmojiIcon.vue';
