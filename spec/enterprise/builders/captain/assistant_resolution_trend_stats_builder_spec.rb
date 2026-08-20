@@ -20,15 +20,15 @@ RSpec.describe Captain::AssistantResolutionTrendStatsBuilder do
         granularity: :week,
         buckets: [
           { starts_on: Date.new(2025, 6, 1), ends_on: Date.new(2025, 6, 7), conversations_handled: 0, resolved_by_captain: 0,
-            current_resolution_rate: 0, previous_resolution_rate: 0 },
+            current_resolution_rate: nil, previous_resolution_rate: nil },
           { starts_on: Date.new(2025, 6, 8), ends_on: Date.new(2025, 6, 14), conversations_handled: 0, resolved_by_captain: 0,
-            current_resolution_rate: 0, previous_resolution_rate: 0 },
+            current_resolution_rate: nil, previous_resolution_rate: nil },
           { starts_on: Date.new(2025, 6, 15), ends_on: Date.new(2025, 6, 21), conversations_handled: 0, resolved_by_captain: 0,
-            current_resolution_rate: 0, previous_resolution_rate: 0 },
+            current_resolution_rate: nil, previous_resolution_rate: nil },
           { starts_on: Date.new(2025, 6, 22), ends_on: Date.new(2025, 6, 28), conversations_handled: 0, resolved_by_captain: 0,
-            current_resolution_rate: 0, previous_resolution_rate: 0 },
+            current_resolution_rate: nil, previous_resolution_rate: nil },
           { starts_on: Date.new(2025, 6, 29), ends_on: Date.new(2025, 6, 30), conversations_handled: 0, resolved_by_captain: 0,
-            current_resolution_rate: 0, previous_resolution_rate: 0 }
+            current_resolution_rate: nil, previous_resolution_rate: nil }
         ]
       )
     end

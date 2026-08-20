@@ -55,23 +55,29 @@ class Captain::AssistantResolutionTrendStatsBuilder
     buckets
   end
 
-  # Align comparison buckets by elapsed position so both series retain the
-  # current period's bucket count and size across different calendar months.
+  # Align comparison buckets by elapsed position while retaining the current
+  # period's bucket count. The final bucket absorbs trailing comparison days.
   def previous_period_buckets(buckets)
     period_offset = window.previous.first - window.current.first
     exclude_end = window.previous.last == window.current.first
 
     buckets.map do |bucket|
       starts_at = bucket[:starts_at] + period_offset
-      shifted_end = bucket[:ends_at] + period_offset
+      ends_at = comparison_bucket_end(bucket, period_offset)
 
       {
         starts_at: starts_at,
-        ends_at: [shifted_end, window.previous.last].min,
-        final: shifted_end >= window.previous.last,
+        ends_at: ends_at,
+        final: ends_at >= window.previous.last,
         exclude_end: exclude_end
       }
     end
+  end
+
+  def comparison_bucket_end(bucket, period_offset)
+    return window.previous.last if bucket[:final]
+
+    [bucket[:ends_at] + period_offset, window.previous.last].min
   end
 
   def granularity
@@ -135,7 +141,7 @@ class Captain::AssistantResolutionTrendStatsBuilder
 
   def resolution_rate(counts)
     handled, resolved = counts
-    return 0 if handled.zero?
+    return if handled.zero?
 
     (resolved.to_f / handled * 100).round(1)
   end

@@ -77,7 +77,7 @@ const rateChartData = computed(() => ({
       color: 'rgb(var(--teal-9))',
       valueColor: 'rgb(var(--teal-11))',
       data: (props.trend?.buckets || []).map(
-        bucket => bucket.current_resolution_rate
+        bucket => bucket.current_resolution_rate ?? undefined
       ),
     },
     {
@@ -86,7 +86,7 @@ const rateChartData = computed(() => ({
       color: 'rgb(var(--slate-7))',
       valueColor: 'rgb(var(--slate-10))',
       data: (props.trend?.buckets || []).map(
-        bucket => bucket.previous_resolution_rate
+        bucket => bucket.previous_resolution_rate ?? undefined
       ),
     },
   ],
@@ -114,7 +114,11 @@ const selectedMeasureLabel = computed(
 );
 
 const hasCountData = computed(() => countChartData.value.categories.length > 0);
-const hasRateData = computed(() => rateChartData.value.categories.length > 0);
+const hasRateData = computed(() =>
+  rateChartData.value.series.some(series =>
+    series.data.some(value => Number.isFinite(value))
+  )
+);
 const formatCount = value => Number(value).toLocaleString();
 const formatRate = value => `${Number(value).toFixed(1)}%`;
 
