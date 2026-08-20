@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import Button from 'dashboard/components-next/button/Button.vue';
 import OverviewPanel from './OverviewPanel.vue';
 import ProgressMetric from './ProgressMetric.vue';
@@ -13,6 +15,10 @@ const props = defineProps({
 
 const emit = defineEmits(['refresh', 'buy']);
 const { t } = useI18n();
+const { isOnChatwootCloud } = useAccount();
+const { isAdmin } = useAdmin();
+
+const canBuyCredits = computed(() => isOnChatwootCloud.value && isAdmin.value);
 
 const percentage = limits => {
   const total = Number(limits?.totalCount || 0);
@@ -68,6 +74,7 @@ const meters = computed(() => [
           @click="emit('refresh')"
         />
         <Button
+          v-if="canBuyCredits"
           sm
           slate
           outline
