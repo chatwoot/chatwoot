@@ -1,9 +1,10 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 import { DROPDOWN_SEARCH_THRESHOLD } from '../helper/filterHelper';
 import Icon from 'next/icon/Icon.vue';
+import EmojiIcon from 'next/emoji-icon-picker/EmojiIcon.vue';
 import Button from 'next/button/Button.vue';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
@@ -124,6 +125,17 @@ const toggleOption = option => {
           class="px-3 border-r rtl:border-l rtl:border-r-0 border-n-weak text-n-slate-12 text-sm flex gap-2 items-center max-w-[100px]"
         >
           <Icon v-if="item.icon" :icon="item.icon" class="flex-shrink-0" />
+          <EmojiIcon
+            v-if="item.emoji"
+            :value="item.emoji"
+            :color="item.iconColor"
+            class="flex-shrink-0 size-4"
+          />
+          <span
+            v-if="item.color"
+            class="flex-shrink-0 rounded-full size-1.5"
+            :style="{ backgroundColor: item.color }"
+          />
           <span class="truncate">{{ item.name }}</span>
         </div>
         <div
@@ -165,6 +177,19 @@ const toggleOption = option => {
             preserve-open
             @click="toggleOption(option)"
           >
+            <template v-if="option.emoji || option.color" #icon>
+              <EmojiIcon
+                v-if="option.emoji"
+                :value="option.emoji"
+                :color="option.iconColor"
+                class="flex-shrink-0 size-4"
+              />
+              <span
+                v-else
+                class="flex-shrink-0 rounded-full size-1.5"
+                :style="{ backgroundColor: option.color }"
+              />
+            </template>
             <template #label>
               {{ option.name }}
               <Icon

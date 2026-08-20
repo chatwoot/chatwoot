@@ -41,6 +41,13 @@ const handleDelete = campaign => {
   selectedCampaign.value = campaign;
   confirmDeleteCampaignDialogRef.value.dialogRef.open();
 };
+
+const handleAnalytics = campaign => {
+  router.push({
+    name: 'campaigns_whatsapp_analytics',
+    params: { campaignId: campaign.id },
+  });
+};
 </script>
 
 <template>
@@ -61,6 +68,7 @@ const handleDelete = campaign => {
       show-edit
       @edit="handleEdit"
       @delete="handleDelete"
+      @analytics="handleAnalytics"
     />
     <WhatsAppCampaignEmptyState
       v-else

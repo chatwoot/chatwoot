@@ -46,9 +46,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showAnalytics: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['edit', 'delete']);
+const emit = defineEmits(['edit', 'delete', 'analytics']);
 
 const { t } = useI18n();
 
@@ -135,7 +139,17 @@ const inboxIcon = computed(() => {
         />
       </div>
     </div>
-    <div class="flex items-center justify-end w-20 gap-2">
+    <div class="flex items-center justify-end w-28 gap-2">
+      <Button
+        v-if="showAnalytics"
+        v-tooltip.top="t('CAMPAIGN.WHATSAPP.CARD.ANALYTICS')"
+        variant="faded"
+        size="sm"
+        color="slate"
+        icon="i-lucide-chart-no-axes-column"
+        :title="t('CAMPAIGN.WHATSAPP.CARD.ANALYTICS')"
+        @click="emit('analytics')"
+      />
       <Button
         v-if="isEditable"
         variant="faded"
