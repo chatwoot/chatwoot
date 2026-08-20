@@ -1,4 +1,5 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
+  before_action :prevent_reply_to_resolved_conversation, only: [:create]
   before_action :set_conversation, only: [:create]
   before_action :set_message, only: [:update]
 
@@ -42,18 +43,20 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     end
   end
 
-  def set_conversation
-    if conversation.nil?
-      @conversation = create_conversation
-      apply_labels if permitted_params[:labels].present?
-      return
-    end
-
-    # Hiding the reply box does not stop requests reaching this endpoint, so the setting is
-    # enforced here.
-    return if inbox.allow_messages_after_resolved || !conversation.resolved?
+  # Hiding the reply box does not stop requests reaching this endpoint, so the setting is
+  # enforced here.
+  def prevent_reply_to_resolved_conversation
+    return unless conversation&.resolved?
+    return if inbox.allow_messages_after_resolved
 
     render json: { error: I18n.t('errors.conversations.resolved') }, status: :forbidden
+  end
+
+  def set_conversation
+    return if conversation.present?
+
+    @conversation = create_conversation
+    apply_labels if permitted_params[:labels].present?
   end
 
   def apply_labels
