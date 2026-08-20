@@ -75,6 +75,29 @@ RSpec.describe Captain::FaqImports::ProcessJob, type: :job do
     expect(faq_import.reload).to have_attributes(status: 'preparing', overwritten_count: 1)
   end
 
+  it 'does not overwrite a replacement FAQ that was not shown in the preview' do
+    previewed = create(
+      :captain_assistant_response,
+      assistant: assistant,
+      question: 'Existing question',
+      answer: 'Previewed answer'
+    )
+    faq_import = confirmed_import("question,answer\nExisting question,Imported answer\n", overwrite_rows: [2])
+    previewed.update!(question: 'Renamed question')
+    replacement = create(
+      :captain_assistant_response,
+      assistant: assistant,
+      question: 'Existing question',
+      answer: 'Replacement answer'
+    )
+
+    described_class.perform_now(faq_import)
+
+    expect(previewed.reload.answer).to eq('Previewed answer')
+    expect(replacement.reload.answer).to eq('Replacement answer')
+    expect(faq_import.reload).to have_attributes(status: 'completed', overwritten_count: 0, skipped_count: 1)
+  end
+
   it 'does not overwrite an FAQ created after the preview' do
     faq_import = confirmed_import("question,answer\nNew question,Imported answer\n")
     existing = create(:captain_assistant_response, assistant: assistant, question: 'NEW QUESTION', answer: 'Manual answer')
@@ -101,7 +124,7 @@ RSpec.describe Captain::FaqImports::ProcessJob, type: :job do
     faq_import = confirmed_import("question,answer\nNew question,New answer\n")
 
     described_class.perform_now(faq_import)
-    perform_enqueued_jobs(only: Captain::Llm::UpdateEmbeddingJob)
+    3.times { perform_enqueued_jobs(only: Captain::Llm::UpdateEmbeddingJob) }
 
     expect(faq_import.reload).to have_attributes(
       status: 'completed_with_errors',
