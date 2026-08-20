@@ -1,6 +1,7 @@
 class Captain::FaqImports::Parser
   MAX_ROWS = 1000
-  MAX_QUESTION_LENGTH = 255
+  MAX_QUESTION_LENGTH = ApplicationRecord::MAX_STRING_COLUMN_LENGTH
+  MAX_ANSWER_LENGTH = ApplicationRecord::MAX_TEXT_COLUMN_LENGTH
   REQUIRED_HEADERS = %w[question answer].freeze
 
   class InvalidCsvError < StandardError; end
@@ -75,6 +76,7 @@ class Captain::FaqImports::Parser
     return 'Question is required.' if question.blank?
     return 'Answer is required.' if answer.blank?
     return "Question must be #{MAX_QUESTION_LENGTH} characters or fewer." if question.length > MAX_QUESTION_LENGTH
+    return "Answer must be #{MAX_ANSWER_LENGTH} characters or fewer." if answer.length > MAX_ANSWER_LENGTH
 
     nil
   end

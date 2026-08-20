@@ -75,6 +75,21 @@ RSpec.describe Captain::FaqImports::Parser do
     )
   end
 
+  it 'marks answers longer than the database limit as invalid' do
+    answer = 'A' * (ApplicationRecord::MAX_TEXT_COLUMN_LENGTH + 1)
+    content = CSV.generate do |csv|
+      csv << %w[question answer]
+      csv << ['Question', answer]
+    end
+
+    rows = parse(content)
+
+    expect(rows.first).to include(
+      'state' => 'invalid',
+      'error' => 'Answer must be 20000 characters or fewer.'
+    )
+  end
+
   it 'skips repeated rows after normalizing whitespace and capitalization' do
     rows = parse("question,answer\nHow   does it work?,Very well\n\" how\ndoes IT work? \", very   WELL \n")
 
