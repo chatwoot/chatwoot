@@ -534,7 +534,7 @@
           "UNCLASSIFIED": "Unclassified"
         },
         "RESOLUTION_TREND": {
-          "TITLE": "Weekly Resolution Trend",
+          "TITLE": "Resolution trend",
           "CONVERSATION_COUNT": "Conversation count",
           "RESOLUTION_RATE": "Resolution rate",
           "CURRENT_PERIOD": "Current period",
