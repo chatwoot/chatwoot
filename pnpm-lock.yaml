@@ -77,7 +77,7 @@ importers:
         version: 2.2.1
       '@tailwindcss/typography':
         specifier: ^0.5.19
-        version: 0.5.19(tailwindcss@3.4.19)
+        version: 0.5.19(tailwindcss@3.4.17)
       '@tanstack/vue-table':
         specifier: ^8.20.5
         version: 8.20.5(vue@3.5.12(typescript@5.6.2))
@@ -261,7 +261,7 @@ importers:
     devDependencies:
       '@egoist/tailwindcss-icons':
         specifier: ^1.9.2
-        version: 1.9.2(tailwindcss@3.4.19)
+        version: 1.9.2(tailwindcss@3.4.17)
       '@histoire/plugin-vue':
         specifier: 0.17.15
         version: 0.17.15(histoire@0.17.15(@types/node@22.7.0)(lightningcss@1.32.0)(sass-embedded@1.83.4)(sass@1.79.3)(terser@5.33.0)(vite@6.4.2(@types/node@22.7.0)(jiti@1.21.6)(lightningcss@1.32.0)(sass-embedded@1.83.4)(sass@1.79.3)(terser@5.33.0)(yaml@2.8.2))(yaml@2.8.2))(vite@6.4.2(@types/node@22.7.0)(jiti@1.21.6)(lightningcss@1.32.0)(sass-embedded@1.83.4)(sass@1.79.3)(terser@5.33.0)(yaml@2.8.2))(vue@3.5.12(typescript@5.6.2))
@@ -343,6 +343,9 @@ importers:
       postcss:
         specifier: ^8.5.23
         version: 8.5.23
+      postcss-import:
+        specifier: 15.1.0
+        version: 15.1.0(postcss@8.5.23)
       postcss-preset-env:
         specifier: ^8.5.1
         version: 8.5.1(postcss@8.5.23)
@@ -359,8 +362,8 @@ importers:
         specifier: ^8.2.4
         version: 8.2.6
       tailwindcss:
-        specifier: ^3.4.19
-        version: 3.4.19
+        specifier: ^3.4.17
+        version: 3.4.17
       vite:
         specifier: 6.4.2
         version: 6.4.2(@types/node@22.7.0)(jiti@1.21.6)(lightningcss@1.32.0)(sass-embedded@1.83.4)(sass@1.79.3)(terser@5.33.0)(yaml@2.8.2)
@@ -1229,10 +1232,6 @@ packages:
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
-
-  '@jridgewell/gen-mapping@0.3.5':
-    resolution: {integrity: sha512-IzL8ZoEDIBRWEzlCcRhOaCupYyN5gdIK+Q6fbFdPDg6HqX6jpkItn7DFIpW9LQzXG6Df9sA7+OKnq0qlz/GaQg==}
-    engines: {node: '>=6.0.0'}
 
   '@jridgewell/gen-mapping@0.3.8':
     resolution: {integrity: sha512-imAbBGkb+ebQyxKgzv5Hu2nmROxoDOXHh80evxdoXNOrvAnVx7zimzc1Oo5h9RlfV4vPXaE2iM5pOFbvOCClWA==}
@@ -4896,8 +4895,8 @@ packages:
     resolution: {integrity: sha512-w2sfv80nrAh2VCbqR5AK27wswXhqcck2AhfnNW76beQXskGZ1V12GwS//yYVa3d3fcvAip2OUnbDAjW2k3v9fA==}
     engines: {node: '>=10.0.0'}
 
-  tailwindcss@3.4.19:
-    resolution: {integrity: sha512-3ofp+LL8E+pK/JuPLPggVAIaEuhvIz4qNcf3nA1Xn2o/7fb7s/TYpHhwGDv1ZU3PkBluUVaF8PyCHcm48cKLWQ==}
+  tailwindcss@3.4.17:
+    resolution: {integrity: sha512-w33E2aCvSDP0tW9RZuNXadXlkHXqFzSkQew/aIa2i/Sj8fThxwovwlXHSPXTbAHwEIhBFXAedUhP2tueAKP8Og==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -5934,10 +5933,10 @@ snapshots:
     dependencies:
       postcss-selector-parser: 6.1.1
 
-  '@egoist/tailwindcss-icons@1.9.2(tailwindcss@3.4.19)':
+  '@egoist/tailwindcss-icons@1.9.2(tailwindcss@3.4.17)':
     dependencies:
       '@iconify/utils': 3.1.0
-      tailwindcss: 3.4.19
+      tailwindcss: 3.4.17
 
   '@emnapi/runtime@1.11.3':
     dependencies:
@@ -6422,13 +6421,6 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
       '@jridgewell/trace-mapping': 0.3.31
-    optional: true
-
-  '@jridgewell/gen-mapping@0.3.5':
-    dependencies:
-      '@jridgewell/set-array': 1.2.1
-      '@jridgewell/sourcemap-codec': 1.5.0
-      '@jridgewell/trace-mapping': 0.3.25
 
   '@jridgewell/gen-mapping@0.3.8':
     dependencies:
@@ -6438,8 +6430,7 @@ snapshots:
 
   '@jridgewell/resolve-uri@3.1.1': {}
 
-  '@jridgewell/resolve-uri@3.1.2':
-    optional: true
+  '@jridgewell/resolve-uri@3.1.2': {}
 
   '@jridgewell/set-array@1.2.1': {}
 
@@ -6451,8 +6442,7 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
 
-  '@jridgewell/sourcemap-codec@1.5.5':
-    optional: true
+  '@jridgewell/sourcemap-codec@1.5.5': {}
 
   '@jridgewell/trace-mapping@0.3.25':
     dependencies:
@@ -6463,7 +6453,6 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
-    optional: true
 
   '@keyv/bigmap@1.3.1(keyv@5.6.0)':
     dependencies:
@@ -6700,10 +6689,10 @@ snapshots:
       semver: 7.5.3
       size-limit: 8.2.6
 
-  '@tailwindcss/typography@0.5.19(tailwindcss@3.4.19)':
+  '@tailwindcss/typography@0.5.19(tailwindcss@3.4.17)':
     dependencies:
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.4.19
+      tailwindcss: 3.4.17
 
   '@tanstack/table-core@8.20.5': {}
 
@@ -9650,7 +9639,7 @@ snapshots:
   postcss-load-config@4.0.2(postcss@8.5.23):
     dependencies:
       lilconfig: 3.1.3
-      yaml: 2.5.1
+      yaml: 2.8.2
     optionalDependencies:
       postcss: 8.5.23
 
@@ -10426,7 +10415,7 @@ snapshots:
 
   sucrase@3.35.0:
     dependencies:
-      '@jridgewell/gen-mapping': 0.3.5
+      '@jridgewell/gen-mapping': 0.3.13
       commander: 4.1.1
       glob: 10.4.5
       lines-and-columns: 1.2.4
@@ -10474,7 +10463,7 @@ snapshots:
       string-width: 4.2.3
       strip-ansi: 6.0.1
 
-  tailwindcss@3.4.19:
+  tailwindcss@3.4.17:
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2

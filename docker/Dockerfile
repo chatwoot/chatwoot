@@ -62,8 +62,13 @@ COPY Gemfile Gemfile.lock ./
 # https://github.com/googleapis/google-cloud-ruby/issues/13306
 # adding xz as nokogiri was failing to build libxml
 # https://github.com/chatwoot/chatwoot/issues/4045
-RUN apk update && apk add --no-cache build-base musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers xz vips
+RUN apk update && apk add --no-cache build-base musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers xz vips libxml2-dev libxslt-dev
 RUN bundle config set --local force_ruby_platform true
+# Use the system libxml2/libxslt instead of nokogiri's vendored static .a libs.
+# On alpine3.21 + Ruby 3.4.4 the vendored packaged libxml2.a/libxslt.a are not
+# emitted, so the nokogiri extension link step fails with
+# "cannot find .../libxml2/2.13.9/lib/libxml2.a". System libs avoid that.
+ENV NOKOGIRI_USE_SYSTEM_LIBRARIES=1
 
 # Do not install development or test gems in production
 RUN if [ "$RAILS_ENV" = "production" ]; then \
@@ -113,6 +118,9 @@ ENV EXECJS_RUNTIME ${EXECJS_RUNTIME}
 ARG RAILS_SERVE_STATIC_FILES=true
 ENV RAILS_SERVE_STATIC_FILES ${RAILS_SERVE_STATIC_FILES}
 
+# Keep nokogiri on system libs in the runtime stage too (see pre-builder note).
+ENV NOKOGIRI_USE_SYSTEM_LIBRARIES=1
+
 ARG BUNDLE_FORCE_RUBY_PLATFORM=1
 ENV BUNDLE_FORCE_RUBY_PLATFORM ${BUNDLE_FORCE_RUBY_PLATFORM}
 
@@ -128,6 +136,8 @@ RUN apk update && apk add --no-cache \
   imagemagick \
   git \
   vips \
+  libxml2 \
+  libxslt \
   && gem install bundler -v "$BUNDLER_VERSION"
 
 # Restrict libvips to its trusted image loaders when generating variants

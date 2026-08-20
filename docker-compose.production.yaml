@@ -1,7 +1,11 @@
 version: '3'
 
+# Chatwoot production stack — uses the prebuilt image from ghcr.io/kira-id.
+# Secrets/connection params come from the repo .env via env_file (POSTGRES_*,
+# REDIS_URL, SECRET_KEY_BASE, etc.). Bring it up with:
+#   docker compose -f docker-compose.production.yaml up -d
 x-base: &base
-  image: chatwoot/chatwoot:latest
+  image: ghcr.io/kira-id/chatwoot:latest
   env_file: .env
   volumes:
     - storage_data:/app/storage
@@ -51,23 +55,26 @@ services:
   postgres:
     image: pgvector/pgvector:pg16
     restart: always
-    ports:
-      - '127.0.0.1:5432:5432'
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    env_file: .env
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '127.0.0.1:5432:5432'
 
   redis:
     image: redis:alpine
     restart: always
+    # Only enable requirepass when a REDIS_PASSWORD is actually set. The .env
+    # currently has an empty REDIS_PASSWORD, and REDIS_URL=redis://redis:6379
+    # (no auth), so requirepass would make Redis reject connections.
     command:
       - sh
       - -c
-      - redis-server --requirepass "$REDIS_PASSWORD"
+      - 'if [ -n "$REDIS_PASSWORD" ]; then redis-server --requirepass "$REDIS_PASSWORD"; else redis-server; fi'
     env_file: .env
     volumes:
       - redis_data:/data
