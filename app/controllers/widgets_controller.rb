@@ -54,8 +54,24 @@ class WidgetsController < ActionController::Base
   def build_contact
     return if @contact.present?
 
-    @contact_inbox, @token = build_contact_inbox_with_token(@web_widget, additional_attributes)
+    @contact_inbox, @token = build_contact_inbox_with_token(@web_widget, additional_attributes, identifier: verified_identifier)
     @contact = @contact_inbox.contact
+  end
+
+  # Allows the host site to identify the visitor on the very first widget request,
+  # so an existing contact is found/reused instead of creating a throwaway one
+  # that would later need to be merged via set_user.
+  def verified_identifier
+    identifier = permitted_params[:identifier]
+    return if identifier.blank?
+    return if @web_widget.hmac_mandatory && !valid_identifier_hmac?(identifier)
+
+    identifier
+  end
+
+  def valid_identifier_hmac?(identifier)
+    permitted_params[:identifier_hash].present? &&
+      permitted_params[:identifier_hash] == OpenSSL::HMAC.hexdigest('sha256', @web_widget.hmac_token, identifier.to_s)
   end
 
   def ensure_account_is_active
@@ -73,7 +89,7 @@ class WidgetsController < ActionController::Base
   end
 
   def permitted_params
-    params.permit(:website_token, :cw_conversation)
+    params.permit(:website_token, :cw_conversation, :identifier, :identifier_hash)
   end
 
   def allow_iframe_requests

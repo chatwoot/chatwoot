@@ -18,7 +18,12 @@ import {
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 
-const runSDK = ({ baseUrl, websiteToken }) => {
+const runSDK = ({
+  baseUrl,
+  websiteToken,
+  identifier: bootIdentifier,
+  identifierHash: bootIdentifierHash,
+}) => {
   if (window.$chatwoot) {
     return;
   }
@@ -63,6 +68,8 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     isOpen: false,
     position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
+    identifier: bootIdentifier,
+    identifierHash: bootIdentifierHash,
     locale,
     useBrowserLanguage: chatwootSettings.useBrowserLanguage || false,
     type: getBubbleView(chatwootSettings.type),
@@ -213,6 +220,8 @@ const runSDK = ({ baseUrl, websiteToken }) => {
   IFrameHelper.createFrame({
     baseUrl,
     websiteToken,
+    identifier: bootIdentifier,
+    identifierHash: bootIdentifierHash,
   });
 };
 

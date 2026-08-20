@@ -100,10 +100,10 @@ class Channel::WebWidget < ApplicationRecord
     }
   end
 
-  def create_contact_inbox(additional_attributes = {})
+  def create_contact_inbox(additional_attributes = {}, identifier: nil)
     ::ContactInboxWithContactBuilder.new({
                                            inbox: inbox,
-                                           contact_attributes: { additional_attributes: additional_attributes }
+                                           contact_attributes: { identifier: identifier, additional_attributes: additional_attributes }
                                          }).perform
   end
 end

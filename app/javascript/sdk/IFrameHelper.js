@@ -51,10 +51,17 @@ const updateCampaignReadStatus = baseDomain => {
 };
 
 export const IFrameHelper = {
-  getUrl({ baseUrl, websiteToken }) {
-    return `${baseUrl}/widget?website_token=${websiteToken}`;
+  getUrl({ baseUrl, websiteToken, identifier, identifierHash }) {
+    let url = `${baseUrl}/widget?website_token=${websiteToken}`;
+    if (identifier) {
+      url += `&identifier=${encodeURIComponent(identifier)}`;
+    }
+    if (identifierHash) {
+      url += `&identifier_hash=${encodeURIComponent(identifierHash)}`;
+    }
+    return url;
   },
-  createFrame: ({ baseUrl, websiteToken }) => {
+  createFrame: ({ baseUrl, websiteToken, identifier, identifierHash }) => {
     if (IFrameHelper.getAppFrame()) {
       return;
     }
@@ -62,7 +69,12 @@ export const IFrameHelper = {
     loadCSS();
     const iframe = document.createElement('iframe');
     const cwCookie = Cookies.get('cw_conversation');
-    let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
+    let widgetUrl = IFrameHelper.getUrl({
+      baseUrl,
+      websiteToken,
+      identifier,
+      identifierHash,
+    });
     if (cwCookie) {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
     }
