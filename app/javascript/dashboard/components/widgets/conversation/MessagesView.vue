@@ -14,6 +14,7 @@ import ContactConversationLink from './ContactConversationLink.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
+import ReferralBubble from 'dashboard/components-next/Conversation/ReferralBubble.vue';
 
 // stores and apis
 import { mapGetters } from 'vuex';
@@ -50,6 +51,7 @@ export default {
     ContactConversationLink,
     Spinner,
     ResizableEditorWrapper,
+    ReferralBubble,
   },
   mixins: [inboxMixin],
   setup() {
@@ -148,6 +150,9 @@ export default {
         return filterDuplicateSourceMessages(messages);
       }
       return messages;
+    },
+    referralData() {
+      return this.currentChat?.additional_attributes?.referral || null;
     },
     readMessages() {
       return getReadMessages(
@@ -519,6 +524,7 @@ export default {
           :conversation="olderConversation"
           :to="buildConversationPath(olderConversation.id)"
         />
+        <ReferralBubble v-if="referralData" :referral="referralData" />
       </template>
       <template #unreadBadge>
         <li

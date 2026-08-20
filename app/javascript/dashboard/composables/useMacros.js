@@ -2,7 +2,10 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { PRIORITY_CONDITION_VALUES } from 'dashboard/constants/automation';
-import { generateTeamOptions } from 'dashboard/helper/automationHelper';
+import {
+  generateLabelOptions,
+  generateTeamOptions,
+} from 'dashboard/helper/automationHelper';
 import {
   resolveActionName,
   getFileName,
@@ -42,10 +45,7 @@ export const useMacros = () => {
         ];
       case 'add_label':
       case 'remove_label':
-        return labels.value.map(i => ({
-          id: i.title,
-          name: i.title,
-        }));
+        return generateLabelOptions(labels.value);
       case 'change_priority':
         return PRIORITY_CONDITION_VALUES.map(item => ({
           id: item.id,

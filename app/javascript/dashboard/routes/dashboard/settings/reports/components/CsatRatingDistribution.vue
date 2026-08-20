@@ -1,13 +1,10 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { PercentageChart } from '@chatwoot/viz';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 
 const props = defineProps({
-  ratingPercentage: {
-    type: Object,
-    default: () => ({}),
-  },
   ratingCount: {
     type: Object,
     default: () => ({}),
@@ -28,16 +25,15 @@ const sortedRatings = computed(() =>
   [...CSAT_RATINGS].sort((a, b) => b.value - a.value)
 );
 
-const formatPercent = value => (value ? `${value}%` : '0%');
-
-const getRatingLabel = value => {
-  const rating = CSAT_RATINGS.find(r => r.value === value);
-  return rating ? t(rating.translationKey) : '';
-};
-
-const getRatingCount = value => {
-  return props.ratingCount[value] || 0;
-};
+const chartData = computed(() => ({
+  total: props.totalResponseCount,
+  segments: sortedRatings.value.map(rating => ({
+    id: rating.key,
+    label: t(rating.translationKey),
+    value: props.ratingCount[rating.value] || 0,
+    color: rating.color,
+  })),
+}));
 </script>
 
 <template>
@@ -60,42 +56,20 @@ const getRatingCount = value => {
     </div>
 
     <div v-else class="mt-4">
-      <div
+      <PercentageChart
         v-if="totalResponseCount"
-        class="flex h-6 w-full rounded-full overflow-hidden bg-n-alpha-2"
+        :data="chartData"
+        :aria-label="$t('CSAT_REPORTS.METRIC.RATING_DISTRIBUTION')"
       >
-        <div
-          v-for="rating in sortedRatings"
-          :key="rating.value"
-          v-tooltip="
-            `${getRatingLabel(rating.value)}: ${formatPercent(ratingPercentage[rating.value])} (${getRatingCount(rating.value)})`
-          "
-          :style="{
-            width: `${ratingPercentage[rating.value]}%`,
-            backgroundColor: rating.color,
-          }"
-          class="h-full transition-all duration-300 first:rounded-s-full last:rounded-e-full cursor-default"
-        />
-      </div>
-      <div v-else class="h-6 w-full rounded-full bg-n-alpha-2" />
-
-      <div class="flex flex-wrap gap-x-6 gap-y-2 mt-4">
-        <div
-          v-for="rating in sortedRatings"
-          :key="rating.value"
-          class="flex items-center gap-2"
-        >
-          <span class="text-sm text-n-slate-11">
-            {{ getRatingLabel(rating.value) }}
-          </span>
+        <template #legend-item="{ label, formattedPercentage, formattedValue }">
+          <span class="text-sm text-n-slate-11">{{ label }}</span>
           <span class="text-sm font-medium text-n-slate-12">
-            {{ formatPercent(ratingPercentage[rating.value]) }}
+            {{ formattedPercentage }}
           </span>
-          <span class="text-xs text-n-slate-10">
-            ({{ getRatingCount(rating.value) }})
-          </span>
-        </div>
-      </div>
+          <span class="text-xs text-n-slate-10">({{ formattedValue }})</span>
+        </template>
+      </PercentageChart>
+      <div v-else class="h-6 w-full rounded bg-n-alpha-2" />
     </div>
   </div>
 </template>

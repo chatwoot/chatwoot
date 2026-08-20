@@ -420,12 +420,48 @@ describe Conversations::FilterService do
 
         expect { filter_service.new(params, user_1, account).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidQueryOperator)
       end
+
+      it 'rejects a query operator on the final condition' do
+        params[:payload] = [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['open'],
+            query_operator: 'AND',
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(params, user_1, account).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidQueryOperator)
+      end
     end
   end
 
   describe '#perform on custom attribute' do
     context 'with query present' do
       let!(:params) { { payload: [], page: 1 } }
+
+      it 'filters custom date attributes by days before' do
+        en_conversation_1.update!(
+          custom_attributes: en_conversation_1.custom_attributes.merge('conversation_created' => (Time.zone.today - 4.days).to_s)
+        )
+        en_conversation_2.update!(
+          custom_attributes: en_conversation_2.custom_attributes.merge('conversation_created' => (Time.zone.today - 2.days).to_s)
+        )
+        params[:payload] = [
+          {
+            attribute_key: 'conversation_created',
+            filter_operator: 'days_before',
+            values: [3],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(params, user_1, account).perform
+
+        expect(result[:conversations].pluck(:id)).to include(en_conversation_1.id)
+        expect(result[:conversations].pluck(:id)).not_to include(en_conversation_2.id)
+      end
 
       it 'filter by custom_attributes and labels' do
         user_2_assigned_conversation.update_labels('support')
