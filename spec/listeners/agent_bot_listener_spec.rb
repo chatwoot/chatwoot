@@ -47,13 +47,9 @@ describe AgentBotListener do
           conversation.update!(assignee_agent_bot: conversation_bot, assignee: nil)
         end
 
-        it 'sends message to both bots exactly once' do
+        it 'sends message only to the assigned bot' do
           payload = message.webhook_data.merge(event: 'message_created')
 
-          expect(AgentBots::WebhookJob).to receive(:perform_later).with(
-            agent_bot.outgoing_url, payload, :agent_bot_webhook,
-            secret: agent_bot.secret, delivery_id: instance_of(String)
-          ).once
           expect(AgentBots::WebhookJob).to receive(:perform_later).with(
             conversation_bot.outgoing_url, payload, :agent_bot_webhook,
             secret: conversation_bot.secret, delivery_id: instance_of(String)

@@ -45,7 +45,8 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def captain_conversation_message?
-    message.captain_response_triggering? && captain_assistant_configured? && !inbox.external_bot_active?
+    message.captain_response_triggering? && captain_assistant_configured? &&
+      (!inbox.external_bot_active? || conversation.assignee_type == 'Captain::Assistant')
   end
 
   def perform_handoff

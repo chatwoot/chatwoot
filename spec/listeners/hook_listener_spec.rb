@@ -71,10 +71,13 @@ describe HookListener do
         listener.message_created(event)
       end
 
-      it 'enqueues the job for dialogflow' do
+      it 'enqueues dialogflow only without an explicit AI owner' do
         hook = create(:integrations_hook, :dialogflow, account: account, inbox: inbox)
         expect(HookJob).to receive(:perform_later).with(hook, event_name, message: message, previous_changes: nil)
 
+        listener.message_created(event)
+        conversation.update!(assignee: nil, ai_assignee: create(:agent_bot, account: account))
+        message.association(:conversation).reset
         listener.message_created(event)
       end
 

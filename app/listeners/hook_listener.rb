@@ -41,6 +41,7 @@ class HookListener < BaseListener
       # In case of dialogflow, we would have a hook for each inbox.
       # Which means we will execute the same hook multiple times if the below filter isn't there
       next if hook.inbox.present? && hook.inbox != message.inbox
+      next if hook.dialogflow? && message.conversation.ai_assignee_type.present?
       next unless supported_hook_event?(hook, event.name)
 
       HookJob.perform_later(hook, event.name, message: message, previous_changes: event.data[:previous_changes])

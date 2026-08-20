@@ -23,6 +23,8 @@ RSpec.describe MessageTemplates::HookExecutionService do
 
       it 'keeps the legacy job arguments for Captain V1' do
         allow(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later)
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: account))
+        conversation.update!(ai_assignee: assistant)
 
         create(:message, conversation: conversation, message_type: :incoming, account: account)
 
