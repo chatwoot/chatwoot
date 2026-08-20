@@ -1,4 +1,4 @@
-import { computed, h, nextTick, onMounted, onUnmounted, ref } from 'vue';
+import { h, nextTick, onMounted, onUnmounted, ref } from 'vue';
 import { createMemoryHistory, createRouter } from 'vue-router';
 import { flushPromises, mount } from '@vue/test-utils';
 import Dashboard from '../Dashboard.vue';
@@ -33,26 +33,11 @@ const ROUTES = [
   },
 ];
 
-const createUpgradePageStub = paywalled => ({
-  name: 'UpgradePage',
-  props: { bypassUpgradePage: { type: Boolean, default: false } },
-  setup(props, { expose, slots }) {
-    expose({
-      isAccountPaywalled: computed(() => paywalled.value),
-      shouldShowUpgradePage: computed(
-        () => !props.bypassUpgradePage && paywalled.value
-      ),
-    });
-    return () => h('div', { class: 'upgrade-page' }, slots.default?.());
-  },
-});
-
 // ninja-keys binds cmd+k / ctrl+k when it connects and unbinds when it
 // disconnects, so the hotkey only works while the component stays mounted.
 const createCommandBarStub = tracker => ({
   name: 'CommandBar',
-  props: { isPaywalled: { type: Boolean, default: false } },
-  setup(props) {
+  setup() {
     tracker.mounts += 1;
     const onKeydown = event => {
       if (event.key === 'k' && (event.metaKey || event.ctrlKey)) {
@@ -61,11 +46,7 @@ const createCommandBarStub = tracker => ({
     };
     onMounted(() => document.addEventListener('keydown', onKeydown));
     onUnmounted(() => document.removeEventListener('keydown', onKeydown));
-    return () =>
-      h('div', {
-        class: 'command-bar',
-        'data-paywalled': String(props.isPaywalled),
-      });
+    return () => h('div', { class: 'command-bar' });
   },
 });
 
@@ -77,24 +58,19 @@ const pressHotkey = (modifier = 'metaKey') =>
 describe('Dashboard', () => {
   let wrapper;
 
-  const mountDashboard = async ({
-    paywalled = false,
-    routeName = 'home',
-  } = {}) => {
-    const isPaywalled = ref(paywalled);
+  const mountDashboard = async () => {
     const commandBar = { mounts: 0, opens: 0 };
     const router = createRouter({
       history: createMemoryHistory(),
       routes: ROUTES,
     });
-    await router.push({ name: routeName });
+    await router.push({ name: 'home' });
     await router.isReady();
 
     wrapper = mount(Dashboard, {
       global: {
         plugins: [router],
         stubs: {
-          UpgradePage: createUpgradePageStub(isPaywalled),
           CommandBar: createCommandBarStub(commandBar),
           NextSidebar: true,
           MobileSidebarLauncher: true,
@@ -108,136 +84,41 @@ describe('Dashboard', () => {
     });
     await flushPromises();
 
-    return { wrapper, router, isPaywalled, commandBar };
+    return { wrapper, router, commandBar };
   };
-
-  const isCommandBarPaywalled = () =>
-    wrapper.find('.command-bar').attributes('data-paywalled') === 'true';
 
   afterEach(() => {
     wrapper?.unmount();
   });
 
-  describe('when the account is not paywalled', () => {
-    it('renders the routed content and keeps the upgrade page hidden', async () => {
-      await mountDashboard();
+  it('renders the routed content', async () => {
+    await mountDashboard();
 
-      expect(wrapper.find('.routed-content').exists()).toBe(true);
-      expect(wrapper.find('.upgrade-page').isVisible()).toBe(false);
-    });
-
-    it('mounts the command bar', async () => {
-      const { commandBar } = await mountDashboard();
-
-      expect(wrapper.find('.command-bar').exists()).toBe(true);
-      expect(commandBar.mounts).toBe(1);
-    });
-
-    it('marks the command bar as not paywalled', async () => {
-      await mountDashboard();
-
-      expect(isCommandBarPaywalled()).toBe(false);
-    });
+    expect(wrapper.find('.routed-content').exists()).toBe(true);
   });
 
-  describe('when the account is paywalled', () => {
-    it('replaces the routed content with the upgrade page', async () => {
-      await mountDashboard({ paywalled: true });
+  it('mounts the command bar once', async () => {
+    const { commandBar } = await mountDashboard();
 
-      expect(wrapper.find('.routed-content').exists()).toBe(false);
-      expect(wrapper.find('.upgrade-page').isVisible()).toBe(true);
-    });
-
-    it('keeps the command bar mounted', async () => {
-      const { commandBar } = await mountDashboard({ paywalled: true });
-
-      expect(wrapper.find('.command-bar').exists()).toBe(true);
-      expect(commandBar.mounts).toBe(1);
-    });
-
-    it('marks the command bar as paywalled', async () => {
-      await mountDashboard({ paywalled: true });
-
-      expect(isCommandBarPaywalled()).toBe(true);
-    });
-
-    it.each(['metaKey', 'ctrlKey'])('opens on %s + k', async modifier => {
-      const { commandBar } = await mountDashboard({ paywalled: true });
-
-      pressHotkey(modifier);
-
-      expect(commandBar.opens).toBe(1);
-    });
+    expect(wrapper.find('.command-bar').exists()).toBe(true);
+    expect(commandBar.mounts).toBe(1);
   });
 
-  describe('across the paywall transition', () => {
-    it('does not remount the command bar when the upgrade page takes over', async () => {
-      const { isPaywalled, commandBar } = await mountDashboard();
+  it.each(['metaKey', 'ctrlKey'])('opens on %s + k', async modifier => {
+    const { commandBar } = await mountDashboard();
 
-      isPaywalled.value = true;
-      await nextTick();
+    pressHotkey(modifier);
 
-      expect(wrapper.find('.routed-content').exists()).toBe(false);
-      expect(wrapper.find('.command-bar').exists()).toBe(true);
-      expect(commandBar.mounts).toBe(1);
-      expect(isCommandBarPaywalled()).toBe(true);
-    });
-
-    it('keeps handling the hotkey after the upgrade page takes over', async () => {
-      const { isPaywalled, commandBar } = await mountDashboard();
-
-      pressHotkey();
-      isPaywalled.value = true;
-      await nextTick();
-      pressHotkey();
-
-      expect(commandBar.opens).toBe(2);
-    });
-
-    it('restores the routed content when the paywall clears', async () => {
-      const { isPaywalled, commandBar } = await mountDashboard({
-        paywalled: true,
-      });
-
-      isPaywalled.value = false;
-      await nextTick();
-
-      expect(wrapper.find('.routed-content').exists()).toBe(true);
-      expect(wrapper.find('.command-bar').exists()).toBe(true);
-      expect(commandBar.mounts).toBe(1);
-      expect(isCommandBarPaywalled()).toBe(false);
-    });
+    expect(commandBar.opens).toBe(1);
   });
 
-  describe('on a route that bypasses the upgrade page', () => {
-    it('keeps the routed content while the account is paywalled', async () => {
-      await mountDashboard({
-        paywalled: true,
-        routeName: 'billing_settings_index',
-      });
+  it('keeps handling the hotkey across re-renders', async () => {
+    const { commandBar } = await mountDashboard();
 
-      expect(wrapper.find('.routed-content').exists()).toBe(true);
-      expect(wrapper.find('.upgrade-page').isVisible()).toBe(false);
-    });
+    pressHotkey();
+    await nextTick();
+    pressHotkey();
 
-    it('still marks the command bar as paywalled', async () => {
-      await mountDashboard({
-        paywalled: true,
-        routeName: 'billing_settings_index',
-      });
-
-      expect(isCommandBarPaywalled()).toBe(true);
-    });
-
-    it('keeps one command bar when navigating away from the upgrade page', async () => {
-      const { router, commandBar } = await mountDashboard({ paywalled: true });
-
-      await router.push({ name: 'billing_settings_index' });
-      await flushPromises();
-
-      expect(wrapper.find('.routed-content').exists()).toBe(true);
-      expect(commandBar.mounts).toBe(1);
-      expect(isCommandBarPaywalled()).toBe(true);
-    });
+    expect(commandBar.opens).toBe(2);
   });
 });

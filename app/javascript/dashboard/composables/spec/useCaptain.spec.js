@@ -172,49 +172,12 @@ describe('useCaptain', () => {
     expect(TasksAPI.rewrite).toHaveBeenCalled();
   });
 
-  it('fetchLimits dispatches limits when enterprise', async () => {
-    useConfig.mockReturnValue({ isEnterprise: true });
-    mockStore.dispatch.mockResolvedValueOnce();
-
+  it('fetchLimits is a no-op after the enterprise edition is removed', async () => {
     const { fetchLimits } = useCaptain();
     await fetchLimits();
 
-    expect(mockStore.dispatch).toHaveBeenCalledWith('accounts/limits');
-  });
-
-  it('fetchLimits ignores 404 errors when enterprise', async () => {
-    useConfig.mockReturnValue({ isEnterprise: true });
-    mockStore.dispatch.mockRejectedValueOnce({
-      response: { status: 404 },
-    });
-
-    const { fetchLimits } = useCaptain();
-    await expect(fetchLimits()).resolves.toBeUndefined();
-
-    expect(mockStore.dispatch).toHaveBeenCalledWith('accounts/limits');
-  });
-
-  it('fetchLimits rejects non-404 errors when enterprise', async () => {
-    useConfig.mockReturnValue({ isEnterprise: true });
-    mockStore.dispatch.mockRejectedValueOnce({
-      response: { status: 500 },
-    });
-
-    const { fetchLimits } = useCaptain();
-    await expect(fetchLimits()).rejects.toMatchObject({
-      response: { status: 500 },
-    });
-
-    expect(mockStore.dispatch).toHaveBeenCalledWith('accounts/limits');
-  });
-
-  it('fetchLimits does not dispatch limits when not enterprise', async () => {
-    useConfig.mockReturnValue({ isEnterprise: false });
-    mockStore.dispatch.mockResolvedValueOnce();
-
-    const { fetchLimits } = useCaptain();
-    await fetchLimits();
-
+    // The /accounts/:id/limits endpoint (and its store action) no longer
+    // exists, so fetchLimits must not dispatch anything.
     expect(mockStore.dispatch).not.toHaveBeenCalled();
   });
 });
