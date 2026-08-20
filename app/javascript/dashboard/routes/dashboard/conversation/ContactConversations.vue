@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useConversationRoutePath } from 'dashboard/composables/useConversationRoutePath';
 import ConversationCard from 'dashboard/components/widgets/conversation/ConversationCard.vue';
+import ViewAllConversations from './contact/ViewAllConversations.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import ConversationContextMenu from 'dashboard/components/widgets/conversation/contextMenu/Index.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -122,6 +123,7 @@ onMounted(() => {
         @click="onCardClick(conversation, $event)"
         @contextmenu="openContextMenu(conversation, $event)"
       />
+      <ViewAllConversations :contact="contactGetter(contactId) || {}" />
     </div>
     <ContextMenu
       v-if="showContextMenu && activeContextChat"

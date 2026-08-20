@@ -54,15 +54,10 @@ const viewAllConversations = async () => {
 <template>
   <button
     v-if="isVisible"
-    class="flex items-center justify-between w-full px-4 py-2 mb-3 rounded-lg select-none outline outline-1 outline-n-weak bg-n-slate-2 transition-colors hover:bg-n-slate-3"
+    class="flex items-center justify-center w-full gap-1 py-2.5 text-xs font-medium transition-colors rounded-b-lg text-n-blue-11 hover:bg-n-alpha-1"
     @click="viewAllConversations"
   >
-    <span class="text-sm text-n-slate-12">
-      {{ $t('CONTACT_PANEL.CONVERSATIONS.VIEW_ALL') }}
-    </span>
-    <Icon
-      icon="i-lucide-chevron-right"
-      class="size-4 text-n-blue-11 rtl:rotate-180"
-    />
+    {{ $t('CONTACT_PANEL.CONVERSATIONS.VIEW_ALL') }}
+    <Icon icon="i-lucide-chevron-right" class="size-3.5 rtl:rotate-180" />
   </button>
 </template>

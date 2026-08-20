@@ -80,7 +80,7 @@ const toggleConversationLayout = () => {
         v-if="showFilterScope"
         v-tooltip.right="$t('FILTER.CLEAR_BUTTON_LABEL')"
         :aria-label="$t('FILTER.CLEAR_BUTTON_LABEL')"
-        icon="i-lucide-arrow-left"
+        icon="i-lucide-chevron-left"
         class="ltr:mr-1 rtl:ml-1 shrink-0"
         slate
         xs
