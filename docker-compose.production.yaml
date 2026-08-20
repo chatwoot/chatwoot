@@ -8,6 +8,7 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - storage_data:/app/storage
+      - ./config/environments/production.rb:/app/config/environments/production.rb:ro
 
   rails:
     <<: *base
