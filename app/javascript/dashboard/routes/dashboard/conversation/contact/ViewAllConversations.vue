@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useConversationRoutePath } from 'dashboard/composables/useConversationRoutePath';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   contact: {
@@ -52,13 +52,17 @@ const viewAllConversations = async () => {
 </script>
 
 <template>
-  <NextButton
+  <button
     v-if="isVisible"
-    :label="$t('CONTACT_PANEL.CONVERSATIONS.VIEW_ALL')"
-    icon="i-lucide-messages-square"
-    link
-    sm
-    class="!gap-1.5"
+    class="flex items-center justify-between w-full px-4 py-2 mb-3 rounded-lg select-none outline outline-1 outline-n-weak bg-n-slate-2 transition-colors hover:bg-n-slate-3"
     @click="viewAllConversations"
-  />
+  >
+    <span class="text-sm text-n-slate-12">
+      {{ $t('CONTACT_PANEL.CONVERSATIONS.VIEW_ALL') }}
+    </span>
+    <Icon
+      icon="i-lucide-chevron-right"
+      class="size-4 text-n-blue-11 rtl:rotate-180"
+    />
+  </button>
 </template>

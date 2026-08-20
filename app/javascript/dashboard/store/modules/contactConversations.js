@@ -63,6 +63,8 @@ const setNewConversationPayload = ({
   });
 };
 
+const inFlightContactIds = new Set();
+
 const state = {
   records: {},
   uiFlags: {
@@ -75,7 +77,10 @@ export const getters = {
     return $state.uiFlags;
   },
   getContactConversation: $state => id => {
-    return $state.records[Number(id)] || [];
+    const records = $state.records[Number(id)] || [];
+    return [...records].sort(
+      (a, b) => b.created_at - a.created_at || b.id - a.id
+    );
   },
   getAllConversationsByContactId: $state => id => {
     const records = $state.records[Number(id)] || [];
@@ -113,23 +118,36 @@ export const actions = {
     }
   },
   get: async ({ commit }, contactId) => {
+    // The panel accordion and the in-thread navigation can request the same
+    // contact at the same time; a single request serves both.
+    const id = Number(contactId);
+    if (inFlightContactIds.has(id)) return;
+    inFlightContactIds.add(id);
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isFetching: true,
     });
     try {
-      const response = await ContactAPI.getConversations(contactId);
+      const response = await ContactAPI.getConversations(id);
       commit(types.default.SET_CONTACT_CONVERSATIONS, {
-        id: contactId,
+        id,
         data: response.data.payload,
       });
-      commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
-        isFetching: false,
-      });
     } catch (error) {
+      // components render from whatever is cached
+    } finally {
+      inFlightContactIds.delete(id);
       commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
         isFetching: false,
       });
     }
+  },
+  appendConversation: ({ commit, state: $state }, conversation) => {
+    const contactId = conversation?.meta?.sender?.id;
+    if (!contactId || !$state.records[contactId]) return;
+    commit(types.default.ADD_CONTACT_CONVERSATION, {
+      id: contactId,
+      data: conversation,
+    });
   },
 };
 

@@ -389,6 +389,11 @@ const actions = {
   },
 
   addConversation({ commit, state, dispatch, rootState }, conversation) {
+    // Keep the cached contact history fresh so the in-thread navigation and
+    // the previous-conversations panel see new conversations as they arrive.
+    dispatch('contactConversations/appendConversation', conversation, {
+      root: true,
+    });
     const { currentInbox, appliedFilters } = state;
     const {
       inbox_id: inboxId,
