@@ -12,9 +12,10 @@ import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { validateSingleFilter } from 'dashboard/helper/validations.js';
 
 // filterTypes: import('vue').ComputedRef<FilterType[]>
-const { filterTypes, valuePlaceholder } = defineProps({
+const { filterTypes, valuePlaceholder, allowWrap } = defineProps({
   showQueryOperator: { type: Boolean, default: false },
   valuePlaceholder: { type: String, default: '' },
+  allowWrap: { type: Boolean, default: false },
   filterTypes: { type: Array, required: true },
 });
 
@@ -186,6 +187,7 @@ defineExpose({ validate, resetValidation });
       class="flex items-center gap-2 rounded-md"
       :class="{
         'animate-wiggle': showErrors && validationError,
+        'flex-wrap': allowWrap,
       }"
     >
       <FilterSelect
@@ -194,17 +196,20 @@ defineExpose({ validate, resetValidation });
         variant="faded"
         hide-icon
         class="text-sm"
+        :class="{ 'shrink-0': allowWrap }"
         :options="queryOperatorOptions"
       />
       <FilterSelect
         v-model="attributeKey"
         variant="faded"
+        :class="{ 'shrink-0': allowWrap }"
         :options="filterTypes"
         @update:model-value="resetModelOnAttributeKeyChange"
       />
       <FilterSelect
         v-model="filterOperator"
         variant="ghost"
+        :class="{ 'shrink-0': allowWrap }"
         :options="currentFilter?.filterOperators"
       />
       <template v-if="currentOperator?.hasInput">
@@ -213,6 +218,10 @@ defineExpose({ validate, resetValidation });
           v-model="values"
           :options="currentFilter.options"
           :placeholder="valuePlaceholder"
+          :class="{
+            'flex-1 min-w-24 basis-[calc(100%-2.5rem)] sm:basis-auto':
+              allowWrap,
+          }"
           dropdown-max-height="max-h-72"
         />
         <SingleSelect
@@ -220,6 +229,10 @@ defineExpose({ validate, resetValidation });
           v-model="values"
           :options="currentFilter.options"
           :placeholder="valuePlaceholder"
+          :class="{
+            'flex-1 min-w-24 basis-[calc(100%-2.5rem)] sm:basis-auto':
+              allowWrap,
+          }"
           dropdown-max-height="max-h-64"
         />
         <SingleSelect
@@ -230,6 +243,10 @@ defineExpose({ validate, resetValidation });
           :is-searching="isSearching"
           :placeholder="valuePlaceholder"
           :search-placeholder="currentFilter.searchPlaceholder"
+          :class="{
+            'flex-1 min-w-24 basis-[calc(100%-2.5rem)] sm:basis-auto':
+              allowWrap,
+          }"
           dropdown-max-height="max-h-64"
           @search="onAsyncSearch"
         />
@@ -239,12 +256,20 @@ defineExpose({ validate, resetValidation });
           disable-search
           :options="booleanOptions"
           :placeholder="valuePlaceholder"
+          :class="{
+            'flex-1 min-w-24 basis-[calc(100%-2.5rem)] sm:basis-auto':
+              allowWrap,
+          }"
         />
         <Input
           v-else
           v-model="values"
           :type="inputFieldType"
           class="[&>input]:h-8 [&>input]:py-1.5 [&>input]:outline-offset-0"
+          :class="{
+            'flex-1 min-w-24 basis-[calc(100%-2.5rem)] sm:basis-auto':
+              allowWrap,
+          }"
           :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
         />
       </template>

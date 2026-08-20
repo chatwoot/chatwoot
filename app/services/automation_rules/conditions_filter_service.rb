@@ -150,17 +150,15 @@ class AutomationRules::ConditionsFilterService < FilterService
       return assignee_presence_filter(table_name, query_hash)
     end
 
+    return build_label_query_string(query_hash, current_index, query_operator) if attribute_key == 'labels'
+
     filter_operator_value = filter_operation(query_hash, current_index)
 
     case current_filter['attribute_type']
     when 'additional_attributes'
       " #{table_name}.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'standard'
-      if attribute_key == 'labels'
-        build_label_query_string(query_hash, current_index, query_operator)
-      else
-        " #{table_name}.#{attribute_key} #{filter_operator_value} #{query_operator} "
-      end
+      " #{table_name}.#{attribute_key} #{filter_operator_value} #{query_operator} "
     end
   end
 
@@ -171,19 +169,19 @@ class AutomationRules::ConditionsFilterService < FilterService
 
       value_placeholder = "value_#{current_index}"
       @filter_values[value_placeholder] = query_hash['values'].first
-      " tags.name = :#{value_placeholder} #{query_operator} "
+      " #{label_exists_query(value_placeholder)} #{query_operator} "
     when 'not_equal_to'
       return " 1=0 #{query_operator} " if query_hash['values'].blank?
 
       value_placeholder = "value_#{current_index}"
       @filter_values[value_placeholder] = query_hash['values'].first
-      " tags.name != :#{value_placeholder} #{query_operator} "
+      " NOT #{label_exists_query(value_placeholder)} #{query_operator} "
     when 'is_present'
-      " tags.id IS NOT NULL #{query_operator} "
+      " #{label_exists_query} #{query_operator} "
     when 'is_not_present'
-      " tags.id IS NULL #{query_operator} "
+      " NOT #{label_exists_query} #{query_operator} "
     else
-      " tags.id #{filter_operation(query_hash, current_index)} #{query_operator} "
+      " 1=0 #{query_operator} "
     end
   end
 
@@ -196,20 +194,14 @@ class AutomationRules::ConditionsFilterService < FilterService
       'LEFT OUTER JOIN messages on messages.conversation_id = conversations.id'
     )
 
-    # Only add label joins when label conditions exist
-    if label_conditions?
-      records = records.joins(
-        'LEFT OUTER JOIN taggings ON taggings.taggable_id = conversations.id AND taggings.taggable_type = \'Conversation\''
-      ).joins(
-        'LEFT OUTER JOIN tags ON taggings.tag_id = tags.id'
-      )
-    end
-
     records = records.where(messages: { id: @options[:message].id }) if @options[:message].present?
     records
   end
 
-  def label_conditions?
-    @rule.conditions.any? { |condition| condition['attribute_key'] == 'labels' }
+  def label_exists_query(value_placeholder = nil)
+    name_condition = value_placeholder ? " AND tags.name = :#{value_placeholder}" : ''
+
+    'EXISTS (SELECT 1 FROM taggings INNER JOIN tags ON tags.id = taggings.tag_id ' \
+      "WHERE taggings.taggable_id = conversations.id AND taggings.taggable_type = 'Conversation'#{name_condition})"
   end
 end

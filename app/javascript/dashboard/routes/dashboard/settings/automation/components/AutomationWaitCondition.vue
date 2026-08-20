@@ -167,12 +167,43 @@ const buildCondition = (attributeKey, values) => ({
   custom_attribute_type: '',
 });
 
+const normalizedQueryOperator = operator =>
+  operator?.toLowerCase() === 'or' ? 'or' : 'and';
+
+const connectorBeforeCondition = conditionIndex => {
+  const previousCondition = conditions.value[conditionIndex - 1];
+  const connector = previousCondition?.query_operator;
+
+  // Conditions created through the API can place an additional condition before the managed
+  // trigger condition. OR is commutative for this two-condition edge case, so show its connector
+  // rather than claiming the saved rule uses AND.
+  if (conditionIndex === 0) {
+    return normalizedQueryOperator(
+      conditions.value[conditionIndex]?.query_operator
+    );
+  }
+
+  return normalizedQueryOperator(connector);
+};
+
+const connectorLabel = conditionIndex =>
+  connectorBeforeCondition(conditionIndex) === 'or'
+    ? t('FILTER.QUERY_DROPDOWN_LABELS.OR')
+    : t('FILTER.QUERY_DROPDOWN_LABELS.AND');
+
 const applyTrigger = ({ preserveAdditional = true } = {}) => {
-  const additionalConditions = preserveAdditional
-    ? conditions.value.filter(
-        condition => !managedAttributeKeys.value.has(condition.attribute_key)
-      )
-    : [];
+  const firstAdditionalConditionIndex = conditions.value.findIndex(
+    condition => !managedAttributeKeys.value.has(condition.attribute_key)
+  );
+  const additionalConditions =
+    preserveAdditional && firstAdditionalConditionIndex !== -1
+      ? conditions.value.filter(
+          condition => !managedAttributeKeys.value.has(condition.attribute_key)
+        )
+      : [];
+  const additionalConditionsConnector = connectorBeforeCondition(
+    firstAdditionalConditionIndex
+  );
   const trigger = DELAYED_TRIGGERS.find(
     item => item.key === selectedTrigger.value
   );
@@ -195,13 +226,10 @@ const applyTrigger = ({ preserveAdditional = true } = {}) => {
       )
     );
   }
-  conditions.value = [
-    ...waitConditions,
-    ...additionalConditions.map(condition => ({
-      ...condition,
-      query_operator: 'and',
-    })),
-  ];
+  if (additionalConditions.length) {
+    waitConditions.at(-1).query_operator = additionalConditionsConnector;
+  }
+  conditions.value = [...waitConditions, ...additionalConditions];
 };
 
 const addCondition = () => {
@@ -213,16 +241,18 @@ const addCondition = () => {
     selectableFilters[0];
   if (!defaultFilter) return;
 
+  const lastConditionIndex = conditions.value.length - 1;
   conditions.value = [
-    ...conditions.value.map(condition => ({
-      ...condition,
-      query_operator: 'and',
-    })),
+    ...conditions.value.map((condition, index) =>
+      index === lastConditionIndex
+        ? { ...condition, query_operator: 'and' }
+        : condition
+    ),
     {
       attribute_key: defaultFilter.attributeKey,
       filter_operator: defaultFilter.filterOperators[0].value,
       values: '',
-      query_operator: 'and',
+      query_operator: null,
       custom_attribute_type:
         defaultFilter.attributeModel === 'standard'
           ? ''
@@ -231,8 +261,11 @@ const addCondition = () => {
   ];
 };
 
-const validate = () =>
-  conditionsRef.value?.every(condition => condition.validate()) ?? true;
+const validate = () => {
+  const validationResults =
+    conditionsRef.value?.map(condition => condition.validate()) ?? [];
+  return validationResults.every(Boolean);
+};
 
 const resetValidation = () => {
   conditionsRef.value?.forEach(condition => condition.resetValidation());
@@ -262,7 +295,7 @@ defineExpose({ validate, resetValidation });
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-col min-w-0 gap-2">
     <label class="mb-0">
       {{ $t('AUTOMATION.ADD.FORM.WAIT.LABEL') }}
     </label>
@@ -270,7 +303,7 @@ defineExpose({ validate, resetValidation });
       class="grid gap-3 sm:grid-cols-[minmax(0,1fr)_13rem] lg:grid-cols-[minmax(0,1fr)_17rem]"
     >
       <div
-        class="flex flex-col gap-3 p-4 outline outline-1 -outline-offset-1 rounded-xl"
+        class="flex flex-col min-w-0 gap-3 p-4 outline outline-1 -outline-offset-1 rounded-xl"
         :class="
           hasError
             ? 'outline-n-ruby-5 bg-n-ruby-2/50'
@@ -315,12 +348,12 @@ defineExpose({ validate, resetValidation });
           <ul
             v-for="conditionIndex in additionalConditionIndexes"
             :key="conditionIndex"
-            class="flex items-center gap-2 p-0 m-0 list-none"
+            class="flex flex-col items-stretch gap-2 p-0 m-0 list-none"
           >
             <li
-              class="flex items-center h-8 px-3 text-sm font-medium rounded-md bg-n-alpha-2 text-n-slate-11 shrink-0"
+              class="flex items-center self-start h-8 px-3 text-sm font-medium rounded-md bg-n-alpha-2 text-n-slate-11 shrink-0"
             >
-              {{ $t('FILTER.QUERY_DROPDOWN_LABELS.AND') }}
+              {{ connectorLabel(conditionIndex) }}
             </li>
             <ConditionRow
               ref="conditionsRef"
@@ -329,7 +362,8 @@ defineExpose({ validate, resetValidation });
                 conditions[conditionIndex].filter_operator
               "
               v-model:values="conditions[conditionIndex].values"
-              class="flex-1 min-w-0"
+              allow-wrap
+              class="w-full min-w-0"
               :filter-types="additionalFilterTypes"
               :value-placeholder="
                 $t('AUTOMATION.ADD.FORM.WAIT.CONDITION_PLACEHOLDER')
@@ -349,7 +383,7 @@ defineExpose({ validate, resetValidation });
           />
         </div>
       </div>
-      <aside class="flex flex-col gap-3 p-4 rounded-xl bg-n-alpha-1">
+      <aside class="flex flex-col min-w-0 gap-3 p-4 rounded-xl bg-n-alpha-1">
         <Icon icon="i-lucide-info" class="text-n-slate-10" />
         <p class="mb-0 text-xs text-n-slate-11">{{ explanation }}</p>
         <p class="mb-0 text-xs text-n-slate-11">

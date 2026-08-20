@@ -91,6 +91,23 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     expect(conversation.messages.outgoing.where(content: 'Just checking in')).to be_empty
   end
 
+  it 'skips the follow-up when an excluded label is present with another label' do
+    follow_up_rule.conditions.last['query_operator'] = 'and'
+    follow_up_rule.conditions << {
+      'values' => ['feature'], 'attribute_key' => 'labels', 'query_operator' => nil,
+      'filter_operator' => 'not_equal_to'
+    }
+    follow_up_rule.save!
+    conversation.add_labels(%w[bug feature])
+
+    row = follow_up_execution
+    job.perform(row.reload)
+
+    expect(row.reload).to be_skipped
+    expect(row.skip_reason).to eq('conditions_changed')
+    expect(conversation.messages.outgoing.where(content: 'Just checking in')).to be_empty
+  end
+
   it 'skips with expired when the row is past the due window' do
     pending_execution.update!(due_at: 4.days.ago)
     job.perform(pending_execution.reload)

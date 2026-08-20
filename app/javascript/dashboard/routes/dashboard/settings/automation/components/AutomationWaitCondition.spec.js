@@ -1,4 +1,4 @@
-import { nextTick } from 'vue';
+import { h, nextTick } from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -53,7 +53,7 @@ const filterTypes = [
   },
 ];
 
-const mountComponent = (props = {}) =>
+const mountComponent = (props = {}, options = {}) =>
   shallowMount(AutomationWaitCondition, {
     props: {
       eventName: 'conversation_created',
@@ -74,6 +74,7 @@ const mountComponent = (props = {}) =>
       removeFilter: vi.fn(),
       ...props,
     },
+    ...options,
   });
 
 describe('AutomationWaitCondition', () => {
@@ -212,6 +213,7 @@ describe('AutomationWaitCondition', () => {
     expect(condition.props()).toMatchObject({
       attributeKey: 'status',
       showQueryOperator: false,
+      allowWrap: true,
       valuePlaceholder: 'AUTOMATION.ADD.FORM.WAIT.CONDITION_PLACEHOLDER',
     });
     expect(
@@ -232,9 +234,74 @@ describe('AutomationWaitCondition', () => {
       attribute_key: 'status',
       filter_operator: 'equal_to',
       values: '',
-      query_operator: 'and',
+      query_operator: null,
       custom_attribute_type: '',
     });
+  });
+
+  it('shows and preserves a saved OR connector while new conditions use AND', async () => {
+    const wrapper = mountComponent({
+      eventName: 'message_created',
+      isSavedWait: true,
+      conditions: [
+        {
+          attribute_key: 'message_type',
+          filter_operator: 'equal_to',
+          values: [{ id: 'outgoing', name: 'Outgoing' }],
+          query_operator: 'or',
+          custom_attribute_type: '',
+        },
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'pending', name: 'Pending' }],
+          query_operator: null,
+          custom_attribute_type: '',
+        },
+      ],
+    });
+    await nextTick();
+
+    expect(wrapper.text()).toContain('FILTER.QUERY_DROPDOWN_LABELS.OR');
+    expect(wrapper.emitted('update:conditions')).toBeUndefined();
+
+    wrapper
+      .findComponent(FilterSelect)
+      .vm.$emit('update:modelValue', 'agent_unresponsive');
+    await nextTick();
+
+    const changedTriggerConditions = wrapper
+      .emitted('update:conditions')
+      .at(-1)[0];
+    expect(changedTriggerConditions).toEqual([
+      expect.objectContaining({
+        attribute_key: 'message_type',
+        values: 'incoming',
+        query_operator: 'or',
+      }),
+      expect.objectContaining({
+        attribute_key: 'status',
+        query_operator: null,
+      }),
+    ]);
+
+    await wrapper.setProps({ conditions: changedTriggerConditions });
+    await wrapper.findComponent(NextButton).trigger('click');
+
+    expect(wrapper.emitted('update:conditions').at(-1)[0]).toEqual([
+      expect.objectContaining({
+        attribute_key: 'message_type',
+        query_operator: 'or',
+      }),
+      expect.objectContaining({
+        attribute_key: 'status',
+        query_operator: 'and',
+      }),
+      expect.objectContaining({
+        attribute_key: 'status',
+        query_operator: null,
+      }),
+    ]);
   });
 
   it('keeps a saved pending condition when the reply direction changes', async () => {
@@ -330,7 +397,7 @@ describe('AutomationWaitCondition', () => {
       }),
       expect.objectContaining({
         attribute_key: 'status',
-        query_operator: 'and',
+        query_operator: null,
       }),
     ]);
     expect(wrapper.findAllComponents(ConditionRow)).toHaveLength(2);
@@ -381,7 +448,7 @@ describe('AutomationWaitCondition', () => {
       expect.objectContaining({
         attribute_key: 'status',
         values: [{ id: 'pending', name: 'Pending' }],
-        query_operator: 'and',
+        query_operator: null,
       }),
     ]);
 
@@ -396,5 +463,58 @@ describe('AutomationWaitCondition', () => {
     ]);
     expect(wrapper.findComponent(ConditionRow).exists()).toBe(false);
     expect(wrapper.findComponent(NextButton).exists()).toBe(false);
+  });
+
+  it('validates every added condition before returning the result', async () => {
+    const validations = [vi.fn(() => false), vi.fn(() => false)];
+    let validationIndex = 0;
+    const ConditionRowStub = {
+      name: 'ConditionRow',
+      setup(_, { expose }) {
+        const validate = validations[validationIndex];
+        validationIndex += 1;
+        expose({ validate, resetValidation: vi.fn() });
+        return () => h('li');
+      },
+    };
+    const wrapper = mountComponent(
+      {
+        eventName: 'message_created',
+        isSavedWait: true,
+        conditions: [
+          {
+            attribute_key: 'message_type',
+            filter_operator: 'equal_to',
+            values: [{ id: 'incoming', name: 'Incoming' }],
+            query_operator: 'and',
+            custom_attribute_type: '',
+          },
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: '',
+            query_operator: 'and',
+            custom_attribute_type: '',
+          },
+          {
+            attribute_key: 'assignee_id',
+            filter_operator: 'equal_to',
+            values: '',
+            query_operator: null,
+            custom_attribute_type: '',
+          },
+        ],
+      },
+      {
+        global: {
+          stubs: { ConditionRow: ConditionRowStub },
+        },
+      }
+    );
+    await nextTick();
+
+    expect(wrapper.vm.validate()).toBe(false);
+    expect(validations[0]).toHaveBeenCalledOnce();
+    expect(validations[1]).toHaveBeenCalledOnce();
   });
 });
