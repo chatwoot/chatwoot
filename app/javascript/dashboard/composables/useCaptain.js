@@ -2,10 +2,8 @@ import { computed } from 'vue';
 import {
   useFunctionGetter,
   useMapGetter,
-  useStore,
 } from 'dashboard/composables/store.js';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useConfig } from 'dashboard/composables/useConfig';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -14,10 +12,8 @@ import TasksAPI from 'dashboard/api/captain/tasks';
 import { CAPTAIN_ERROR_TYPES } from 'dashboard/composables/captain/constants';
 
 export function useCaptain() {
-  const store = useStore();
   const { t } = useI18n();
   const { isCloudFeatureEnabled, currentAccount } = useAccount();
-  const { isEnterprise } = useConfig();
   const uiFlags = useMapGetter('accounts/getUIFlags');
   const currentChat = useMapGetter('getSelectedChat');
   const replyMode = useMapGetter('draftMessages/getReplyEditorMode');
@@ -57,17 +53,10 @@ export function useCaptain() {
 
   const isFetchingLimits = computed(() => uiFlags.value.isFetchingLimits);
 
-  const fetchLimits = () => {
-    if (isEnterprise) {
-      store
-        .dispatch('accounts/limits')
-        .catch(error => {
-          if (error?.response?.status !== 404) {
-            return Promise.reject(error);
-          }
-        });
-    }
-  };
+  // Captain usage limits were a cloud/enterprise billing concept. With the
+  // enterprise edition removed there is no /accounts/:id/limits endpoint, so
+  // limit fetching is a no-op; the banners simply never show.
+  const fetchLimits = () => {};
 
   // === Error Handling ===
   /**
