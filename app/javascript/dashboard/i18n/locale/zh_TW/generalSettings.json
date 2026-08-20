@@ -139,37 +139,6 @@
       "SELECT": "選擇"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "通知",
-    "MARK_ALL_DONE": "全部標記完成",
-    "DELETE_TITLE": "已刪除",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "未讀通知",
-      "ALL_NOTIFICATIONS": "查看所有通知",
-      "LOADING_UNREAD_MESSAGE": "正在載入未讀通知...",
-      "EMPTY_MESSAGE": "您沒有未讀通知"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "正在載入通知...",
-      "404": "沒有通知",
-      "TABLE_HEADER": [
-        "姓名",
-        "電話號碼",
-        "對話",
-        "最後聯絡"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "新對話",
-      "conversation_assignment": "對話已指派",
-      "assigned_conversation_new_message": "新訊息",
-      "participating_conversation_new_message": "新訊息",
-      "conversation_mention": "被提及",
-      "sla_missed_first_response": "SLA 未達標",
-      "sla_missed_next_response": "SLA 未達標",
-      "sla_missed_resolution": "SLA 未達標"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "離線",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "前往帳戶設定",
       "GO_TO_SETTINGS_PROFILE": "前往個人資料設定",
-      "GO_TO_NOTIFICATIONS": "前往通知",
       "ADD_LABELS_TO_CONVERSATION": "為對話新增標籤",
       "ASSIGN_AN_AGENT": "指派客服人員",
       "AI_ASSIST": "AI 助手",

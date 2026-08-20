@@ -139,37 +139,6 @@
       "SELECT": "Pasirinkti"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Perspėjimai",
-    "MARK_ALL_DONE": "Pažymėti viską kaip atliktą",
-    "DELETE_TITLE": "ištrinta",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Neperskaityti Perspėjimai",
-      "ALL_NOTIFICATIONS": "Rodyti visus perspėjimus",
-      "LOADING_UNREAD_MESSAGE": "Neperskaityti perspėjimai parsiunčiami...",
-      "EMPTY_MESSAGE": "Turite neperskaitytų perspėjimų"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Perspėjimai parsiunčiami...",
-      "404": "Nėra Perspėjimų",
-      "TABLE_HEADER": [
-        "Vardas",
-        "Telefono numeris",
-        "Pokalbiai",
-        "Paskutinį kartą susisiekta"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Naujas pokalbis",
-      "conversation_assignment": "Pokalbis priskirtas",
-      "assigned_conversation_new_message": "Naujas pranešimas",
-      "participating_conversation_new_message": "Naujas pranešimas",
-      "conversation_mention": "Paminėjimas",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Atsijungęs",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Eiti į Paskyros Nustatymus",
       "GO_TO_SETTINGS_PROFILE": "Eiti į Profilio Nustatymus",
-      "GO_TO_NOTIFICATIONS": "Eikite į Perspėjimus",
       "ADD_LABELS_TO_CONVERSATION": "Pridėti etiketę pokalbiui",
       "ASSIGN_AN_AGENT": "Priskirti Agentą",
       "AI_ASSIST": "AI pagalba",

@@ -4,7 +4,6 @@
     "DESCRIPTION": "View the message templates synced from your WhatsApp inboxes. To create or edit a template, manage it with your provider.",
     "COUNT": "{n} template | {n} templates",
     "KNOW_MORE": "Ketahui lebih lanjut",
-    "NEW_TEMPLATE": "New template",
     "SEARCH_PLACEHOLDER": "Search by content or name...",
     "MANAGE_IN_META": "Manage in Meta",
     "MANAGE_IN_TWILIO": "Manage in Twilio",
@@ -40,8 +39,7 @@
       "TYPE": "Content type",
       "CATEGORY": "Category",
       "LANGUAGE": "Language",
-      "INBOXES": "Peti Masuk",
-      "LAST_SYNC_ATTEMPT": "Last sync attempt"
+      "INBOXES": "Peti Masuk"
     }
   }
 }

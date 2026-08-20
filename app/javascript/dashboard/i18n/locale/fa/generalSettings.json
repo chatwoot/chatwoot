@@ -139,37 +139,6 @@
       "SELECT": "انتخاب کنید"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "اعلان ها",
-    "MARK_ALL_DONE": "همه را به انجام شده تغییر بده",
-    "DELETE_TITLE": "حذف شده",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "آگاه‌سازی‌های خوانده نشده",
-      "ALL_NOTIFICATIONS": "مشاهده همه آگاه‌سازی‌ها",
-      "LOADING_UNREAD_MESSAGE": "در حال بارگیری آگاه‌سازی‌های خوانده نشده...",
-      "EMPTY_MESSAGE": "شما هیچ آگاه‌سازی‌ خوانده نشده‌ای ندارید"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "در حال بارگیری اعلان ها...",
-      "404": "اعلانی وجود ندارد",
-      "TABLE_HEADER": [
-        "نام",
-        "شماره تلفن",
-        "گفتگوها",
-        "آخرین تماس"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "گفتگوی جدید",
-      "conversation_assignment": "مکالمه اختصاص داده شد",
-      "assigned_conversation_new_message": "پیام جدید",
-      "participating_conversation_new_message": "پیام جدید",
-      "conversation_mention": "اشاره",
-      "sla_missed_first_response": "SLA های از دست رفته",
-      "sla_missed_next_response": "SLA های از دست رفته",
-      "sla_missed_resolution": "SLA های از دست رفته"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "آفلاین",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "به تنظیمات حساب بروید",
       "GO_TO_SETTINGS_PROFILE": "به تنظیمات پروفایل بروید",
-      "GO_TO_NOTIFICATIONS": "به اعلان ها بروید",
       "ADD_LABELS_TO_CONVERSATION": "برچسب را به مکالمه اضافه کنید",
       "ASSIGN_AN_AGENT": "یک اپراتور تعیین کنید",
       "AI_ASSIST": "دستیار هوش مصنوعی",

@@ -4,7 +4,6 @@
     "DESCRIPTION": "Sieh dir die Nachrichtenvorlagen an, die aus deinen WhatsApp-Postfächern synchronisiert wurden. Erstelle oder bearbeite Vorlagen bei deinem Anbieter.",
     "COUNT": "{n} Vorlage | {n} Vorlagen",
     "KNOW_MORE": "Mehr erfahren",
-    "NEW_TEMPLATE": "Neue Vorlage",
     "SEARCH_PLACEHOLDER": "Nach Inhalt oder Name suchen ...",
     "MANAGE_IN_META": "In Meta verwalten",
     "MANAGE_IN_TWILIO": "In Twilio verwalten",
@@ -40,8 +39,7 @@
       "TYPE": "Inhaltstyp",
       "CATEGORY": "Kategorie",
       "LANGUAGE": "Sprache",
-      "INBOXES": "Posteingänge",
-      "LAST_SYNC_ATTEMPT": "Letzter Synchronisierungsversuch"
+      "INBOXES": "Posteingänge"
     }
   }
 }

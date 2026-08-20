@@ -139,37 +139,6 @@
       "SELECT": "Pilih"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifikasi",
-    "MARK_ALL_DONE": "Tandai Semua Selesai",
-    "DELETE_TITLE": "terhapus",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Notifikasi Belum Dibaca",
-      "ALL_NOTIFICATIONS": "Lihat semua notifikasi",
-      "LOADING_UNREAD_MESSAGE": "Memuat notifikasi belum dibaca...",
-      "EMPTY_MESSAGE": "Anda tidak memiliki notifikasi belum dibaca"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Memuat notifikasi...",
-      "404": "Tidak Ada Notifikasi",
-      "TABLE_HEADER": [
-        "Nama",
-        "Nomor Telepon",
-        "Percakapan",
-        "Terakhir Dihubungi"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Percakapan baru",
-      "conversation_assignment": "Percakapan ditugaskan",
-      "assigned_conversation_new_message": "Pesan Baru",
-      "participating_conversation_new_message": "Pesan Baru",
-      "conversation_mention": "Mention",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Menuju ke Pengaturan Akun",
       "GO_TO_SETTINGS_PROFILE": "Menuju ke Pengaturan Profil",
-      "GO_TO_NOTIFICATIONS": "Menuju ke Notifikasi",
       "ADD_LABELS_TO_CONVERSATION": "Tambahkan label ke percakapan",
       "ASSIGN_AN_AGENT": "Tetapkan agen",
       "AI_ASSIST": "AI Assist",

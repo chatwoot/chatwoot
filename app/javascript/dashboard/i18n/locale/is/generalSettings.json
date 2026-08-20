@@ -139,37 +139,6 @@
       "SELECT": "Velja"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Skilaboð",
-    "MARK_ALL_DONE": "Merkja allt tilbúð",
-    "DELETE_TITLE": "eyða",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Ólesnar tilkynningar",
-      "ALL_NOTIFICATIONS": "Skoða allar tilkynningar",
-      "LOADING_UNREAD_MESSAGE": "Hleð ólesnum skilaboðum...",
-      "EMPTY_MESSAGE": "Þú átt enginn ólesin skilaboð"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Hleð skilaboðum...",
-      "404": "Engin skilaboð",
-      "TABLE_HEADER": [
-        "Nafn",
-        "Símanúmer",
-        "Samtöl",
-        "Síðast samband"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Nýtt samtal",
-      "conversation_assignment": "Samtali úthlutað",
-      "assigned_conversation_new_message": "Nýtt skilaboð",
-      "participating_conversation_new_message": "Nýtt skilaboð",
-      "conversation_mention": "Nefna",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Opna Stillingar Aðgangs",
       "GO_TO_SETTINGS_PROFILE": "Opna Stillingar Prófíls",
-      "GO_TO_NOTIFICATIONS": "Opna Tilkynningar",
       "ADD_LABELS_TO_CONVERSATION": "Merkja samtalið",
       "ASSIGN_AN_AGENT": "Úthluta á þjónustufulltrúa",
       "AI_ASSIST": "AI Assist",

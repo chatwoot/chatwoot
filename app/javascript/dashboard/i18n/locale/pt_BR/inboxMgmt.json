@@ -845,8 +845,8 @@
       "USE_INBOX_AVATAR_FOR_BOT": "Use o nome da caixa de entrada e avatar do bot"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Código Menssageiro <scripit>",
-      "MESSENGER_SUB_HEAD": "Favor, insira essse código <script> dentro da tag Body de sua página html",
+      "MESSENGER_HEADING": "Código Menssageiro",
+      "MESSENGER_SUB_HEAD": "Favor, insira essse código dentro da tag Body de sua página html",
       "ALLOWED_DOMAINS": {
         "TITLE": "Domínios permitidos",
         "DESCRIPTION": "Restrinja quais sites podem incorporar seu widget de chat. Por segurança, adicione apenas domínios que você possui e confia. Adicione um ou mais domínios separados por vírgulas. Deixe em branco para permitir todos os domínios (não recomendado para produção).",

@@ -4,7 +4,6 @@
     "DESCRIPTION": "Visualize os modelos de mensagens sincronizados das suas caixas de entrada do WhatsApp. Para criar ou editar um modelo, gerencie-o com seu provedor.",
     "COUNT": "{n} modelo | {n} modelos",
     "KNOW_MORE": "Saiba mais",
-    "NEW_TEMPLATE": "Novo modelo",
     "SEARCH_PLACEHOLDER": "Pesquisar por conteúdo ou nome...",
     "MANAGE_IN_META": "Gerenciar na Meta",
     "MANAGE_IN_TWILIO": "Gerenciar no Twilio",
@@ -40,8 +39,7 @@
       "TYPE": "Tipo de conteúdo",
       "CATEGORY": "Categoria",
       "LANGUAGE": "Idioma",
-      "INBOXES": "Caixas de Entrada",
-      "LAST_SYNC_ATTEMPT": "Última tentativa de sincronização"
+      "INBOXES": "Caixas de Entrada"
     }
   }
 }

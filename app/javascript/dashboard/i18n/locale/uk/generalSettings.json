@@ -139,37 +139,6 @@
       "SELECT": "Обрати"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Сповіщення",
-    "MARK_ALL_DONE": "Позначити все готове",
-    "DELETE_TITLE": "видалено",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Непрочитані сповіщення",
-      "ALL_NOTIFICATIONS": "Переглянути всі сповіщення",
-      "LOADING_UNREAD_MESSAGE": "Завантаження непрочитаних сповіщень...",
-      "EMPTY_MESSAGE": "У вас немає непрочитаних сповіщень"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Завантаження сповіщень...",
-      "404": "Немає сповіщень",
-      "TABLE_HEADER": [
-        "Ім'я",
-        "Номер телефону",
-        "Бесіди",
-        "Останній контакт"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Новий діалог",
-      "conversation_assignment": "Діалог призначений",
-      "assigned_conversation_new_message": "Нове повідомлення",
-      "participating_conversation_new_message": "Нове повідомлення",
-      "conversation_mention": "Відмітка",
-      "sla_missed_first_response": "SLA пропущено",
-      "sla_missed_next_response": "SLA пропущено",
-      "sla_missed_resolution": "SLA пропущено"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Не в мережі",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Перейти до Налаштування облікового запису",
       "GO_TO_SETTINGS_PROFILE": "Перейти до Налаштування профілю",
-      "GO_TO_NOTIFICATIONS": "Перейти до сповіщень",
       "ADD_LABELS_TO_CONVERSATION": "Додати мітку до діалогу",
       "ASSIGN_AN_AGENT": "Призначити агента",
       "AI_ASSIST": "ШІ асистент",
