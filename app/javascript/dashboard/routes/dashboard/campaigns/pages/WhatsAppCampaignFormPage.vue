@@ -210,8 +210,16 @@ const templatePayload = computed(() => {
   };
 });
 
+const isInboxChanged = computed(
+  () => isEditMode.value && state.inboxId !== savedState.value.inboxId
+);
+
 const sectionPayloads = {
-  basic: () => ({ title: state.title, inbox_id: state.inboxId }),
+  basic: () => ({
+    title: state.title,
+    inbox_id: state.inboxId,
+    ...(isInboxChanged.value ? templatePayload.value : {}),
+  }),
   audience: () => ({ audience: audiencePayload.value }),
   template: () => templatePayload.value,
 };
@@ -267,9 +275,11 @@ const handleUpdate = async payload => {
 // A campaign that does not exist yet has nothing to persist, so saving a
 // section only confirms its values until the campaign is scheduled.
 const handleSectionSave = async section => {
+  const savedTemplateToo = section === 'basic' && isInboxChanged.value;
   if (isEditMode.value && !(await handleUpdate(sectionPayloads[section]())))
     return;
   commitSection(section);
+  if (savedTemplateToo) commitSection('template');
 };
 
 const handleCreate = async scheduledAt => {
@@ -346,7 +356,9 @@ const handleReschedule = async () => {
             size="sm"
             :label="t('CAMPAIGN.WHATSAPP.FORM.RESCHEDULE')"
             :is-loading="uiFlags.isUpdating"
-            :disabled="!isScheduleDirty || uiFlags.isUpdating"
+            :disabled="
+              !isScheduleDirty || !state.scheduledAt || uiFlags.isUpdating
+            "
             @click="handleReschedule"
           />
         </template>
@@ -361,7 +373,11 @@ const handleReschedule = async () => {
           :title="t('CAMPAIGN.WHATSAPP.FORM.BASIC_SETTINGS.TITLE')"
           :is-dirty="isSectionDirty('basic')"
           :is-saving="uiFlags.isUpdating"
-          :is-save-disabled="!state.title || !state.inboxId"
+          :is-save-disabled="
+            !state.title ||
+            !state.inboxId ||
+            (isInboxChanged && !isTemplateComplete)
+          "
           @discard="handleDiscard('basic')"
           @save="handleSectionSave('basic')"
         >
@@ -399,6 +415,7 @@ const handleReschedule = async () => {
             v-model:template-id="state.templateId"
             v-model:processed-params="state.processedParams"
             :templates="templates"
+            :has-inbox="!!state.inboxId"
           />
         </SectionCard>
       </div>

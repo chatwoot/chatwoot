@@ -203,6 +203,7 @@
             "PLACEHOLDER": "Select a template"
           },
           "EMPTY_STATE": "Select an inbox to load its approved templates",
+          "NO_TEMPLATES": "This inbox has no approved templates that can be used in a campaign",
           "HEADER_LABEL": "Header",
           "HEADER_PLACEHOLDER": "Enter {type} header",
           "DOCUMENT_NAME_PLACEHOLDER": "Enter document name",

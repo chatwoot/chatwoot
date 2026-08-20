@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDebounceFn } from '@vueuse/core';
 
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import ContactAPI from 'dashboard/api/contacts';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -32,28 +33,33 @@ const contacts = ref([]);
 const totalCount = ref(0);
 const currentPage = ref(1);
 const searchQuery = ref('');
-const isFetching = ref(false);
+
+const { run: runContactsRequest, isPending: isFetching } =
+  useAbortableRequest();
 
 const previewContacts = computed(() => contacts.value.slice(0, PREVIEW_COUNT));
 
 const fetchContacts = async () => {
-  isFetching.value = true;
   try {
-    const { data } = searchQuery.value
-      ? await ContactAPI.search(
-          searchQuery.value,
-          currentPage.value,
-          'name',
-          props.label.title
-        )
-      : await ContactAPI.get(currentPage.value, 'name', props.label.title);
-    contacts.value = data.payload;
-    totalCount.value = data.meta.count;
+    const response = await runContactsRequest(signal =>
+      searchQuery.value
+        ? ContactAPI.search(
+            searchQuery.value,
+            currentPage.value,
+            'name',
+            props.label.title,
+            { signal }
+          )
+        : ContactAPI.get(currentPage.value, 'name', props.label.title, {
+            signal,
+          })
+    );
+    if (!response) return;
+    contacts.value = response.data.payload;
+    totalCount.value = response.data.meta.count;
   } catch {
     contacts.value = [];
     totalCount.value = 0;
-  } finally {
-    isFetching.value = false;
   }
 };
 

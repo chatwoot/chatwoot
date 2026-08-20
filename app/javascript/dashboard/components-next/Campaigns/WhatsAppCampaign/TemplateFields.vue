@@ -17,6 +17,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  hasInbox: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const templateId = defineModel('templateId', {
@@ -35,6 +39,12 @@ const templateOptions = computed(() =>
     value: template.id,
     label: `${template.name.replace(/_/g, ' ')} (${template.language})`,
   }))
+);
+
+const emptyState = computed(() =>
+  props.hasInbox
+    ? t('CAMPAIGN.WHATSAPP.FORM.TEMPLATE.NO_TEMPLATES')
+    : t('CAMPAIGN.WHATSAPP.FORM.TEMPLATE.EMPTY_STATE')
 );
 
 const selectedTemplate = computed(
@@ -88,7 +98,7 @@ const updateHeaderParam = (key, value) => {
       :model-value="templateId"
       :options="templateOptions"
       :placeholder="t('CAMPAIGN.WHATSAPP.FORM.TEMPLATE.SELECT.PLACEHOLDER')"
-      :empty-state="t('CAMPAIGN.WHATSAPP.FORM.TEMPLATE.EMPTY_STATE')"
+      :empty-state="emptyState"
       @update:model-value="handleTemplateChange"
     />
   </div>
