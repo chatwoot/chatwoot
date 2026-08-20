@@ -12,13 +12,12 @@ const CONTACT_INFORMATION_ATTRIBUTES = [
   'social_profiles',
 ];
 
-const serializeUserAttribute = value => {
+const normalizeUserAttribute = value => {
   if (!value || typeof value !== 'object') return value || '';
 
-  const sortedEntries = Object.keys(value)
+  return Object.keys(value)
     .sort()
     .map(key => [key, value[key]]);
-  return JSON.stringify(sortedEntries);
 };
 
 export const getUserCookieName = () => {
@@ -28,19 +27,14 @@ export const getUserCookieName = () => {
 };
 
 export const getUserString = ({ identifier = '', user }) => {
-  const userStringWithSortedKeys = ALLOWED_USER_ATTRIBUTES.reduce(
-    (acc, key) => `${acc}${key}${user[key] || ''}`,
-    ''
-  );
-  const contactInformationString = CONTACT_INFORMATION_ATTRIBUTES.reduce(
-    (acc, key) => {
-      if (user[key] === undefined) return acc;
-
-      return `${acc}${key}${serializeUserAttribute(user[key])}`;
-    },
-    ''
-  );
-  return `${userStringWithSortedKeys}${contactInformationString}identifier${identifier}`;
+  const userAttributes = [
+    ...ALLOWED_USER_ATTRIBUTES.map(key => [key, user[key] || '']),
+    ...CONTACT_INFORMATION_ATTRIBUTES.filter(
+      key => user[key] !== undefined
+    ).map(key => [key, normalizeUserAttribute(user[key])]),
+    ['identifier', String(identifier)],
+  ];
+  return JSON.stringify(userAttributes);
 };
 
 export const computeHashForUserData = (...args) => md5(getUserString(...args));

@@ -27,7 +27,13 @@ describe('#getUserString', () => {
         identifier: '12345',
       })
     ).toBe(
-      'avatar_urlhttps://images.chatwoot.com/placeholderemailpranav@example.comnamePranavidentifier_hash12345identifier12345'
+      JSON.stringify([
+        ['avatar_url', 'https://images.chatwoot.com/placeholder'],
+        ['email', 'pranav@example.com'],
+        ['name', 'Pranav'],
+        ['identifier_hash', '12345'],
+        ['identifier', '12345'],
+      ])
     );
 
     expect(
@@ -38,7 +44,13 @@ describe('#getUserString', () => {
         },
       })
     ).toBe(
-      'avatar_urlhttps://images.chatwoot.com/placeholderemailpranav@example.comnameidentifier_hashidentifier'
+      JSON.stringify([
+        ['avatar_url', 'https://images.chatwoot.com/placeholder'],
+        ['email', 'pranav@example.com'],
+        ['name', ''],
+        ['identifier_hash', ''],
+        ['identifier', ''],
+      ])
     );
   });
 });
@@ -49,6 +61,19 @@ describe('#computeHashForUserData', () => {
     name: 'Pranav',
     email: 'pranav@example.com',
   };
+
+  it('normalizes numeric identifiers', () => {
+    const numericIdentifierHash = computeHashForUserData({
+      identifier: 123,
+      user,
+    });
+    const stringIdentifierHash = computeHashForUserData({
+      identifier: '123',
+      user,
+    });
+
+    expect(numericIdentifierHash).toBe(stringIdentifierHash);
+  });
 
   it.each([
     ['phone_number', '+15555550100', '+15555550101'],
@@ -80,6 +105,19 @@ describe('#computeHashForUserData', () => {
     });
 
     expect(updatedHash).not.toBe(currentHash);
+  });
+
+  it('preserves contact information field boundaries', () => {
+    const companyNameHash = computeHashForUserData({
+      identifier,
+      user: { ...user, company_name: 'cityParis' },
+    });
+    const companyNameAndCityHash = computeHashForUserData({
+      identifier,
+      user: { ...user, company_name: '', city: 'Paris' },
+    });
+
+    expect(companyNameAndCityHash).not.toBe(companyNameHash);
   });
 
   it('is independent of social profile property order', () => {
