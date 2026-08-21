@@ -56,7 +56,10 @@ describe('useAgentsList', () => {
     expect(assignableAgents.value).toEqual(allAgentsData);
     expect(
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
-    ).toHaveBeenCalledWith(1, { includeAgentBots: false });
+    ).toHaveBeenCalledWith(1, {
+      includeAgentBots: false,
+      includeCaptain: false,
+    });
     expect(agentsList.value[0]).toEqual(mockNoneAgent);
     expect(agentsList.value.length).toBe(
       formattedAgentsData.slice(1).length + 1
@@ -71,11 +74,29 @@ describe('useAgentsList', () => {
     expect(assignableAgents.value).toEqual(allAgentsData);
     expect(
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
-    ).toHaveBeenCalledWith(1, { includeAgentBots: true });
+    ).toHaveBeenCalledWith(1, {
+      includeAgentBots: true,
+      includeCaptain: false,
+    });
     expect(agentsList.value[0]).toEqual(mockNoneAgent);
     expect(agentsList.value.length).toBe(
       formattedAgentsData.slice(1).length + 1
     );
+  });
+
+  it('requests Captain when explicitly included', () => {
+    const { assignableAgents } = useAgentsList(true, {
+      includeAgentBots: true,
+      includeCaptain: true,
+    });
+    expect(assignableAgents.value).toEqual(allAgentsData);
+
+    expect(
+      useMapGetter('inboxAssignableAgents/getAssignableAgents').value
+    ).toHaveBeenCalledWith(1, {
+      includeAgentBots: true,
+      includeCaptain: true,
+    });
   });
 
   it('includes None agent when includeNoneAgent is true', () => {
