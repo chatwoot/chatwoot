@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Variabile",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Limbă",
       "CATEGORY": "Categorie",
       "VARIABLE_PLACEHOLDER": "Introducerea {variable} valoare",
