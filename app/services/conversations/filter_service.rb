@@ -42,6 +42,11 @@ class Conversations::FilterService < FilterService
     @params[:page] || 1
   end
 
+  def filter_operation(query_hash, current_index)
+    coerce_text_attribute_values(query_hash) if @custom_attribute_type.present? && @attribute_data_type == 'text'
+    super
+  end
+
   def filter_config
     {
       entity: 'Conversation',

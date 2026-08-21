@@ -519,6 +519,38 @@ describe Contacts::FilterService do
 
         expect { filter_service.new(account, first_user, params).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidValue)
       end
+
+      it 'filters text custom attributes with numeric JSON values' do
+        en_contact.update!(custom_attributes: { contact_additional_information: '12345678901' })
+        params[:payload] = [
+          {
+            attribute_key: 'contact_additional_information',
+            filter_operator: 'equal_to',
+            values: [12_345_678_901],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(account, first_user, params).perform
+        expect(result[:count]).to be 1
+        expect(result[:contacts].first.id).to eq(en_contact.id)
+      end
+
+      it 'filters text custom attributes with numeric JSON values using contains' do
+        en_contact.update!(custom_attributes: { contact_additional_information: '12345678901' })
+        params[:payload] = [
+          {
+            attribute_key: 'contact_additional_information',
+            filter_operator: 'contains',
+            values: [12_345_678_901],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(account, first_user, params).perform
+        expect(result[:count]).to be 1
+        expect(result[:contacts].first.id).to eq(en_contact.id)
+      end
     end
   end
 end
