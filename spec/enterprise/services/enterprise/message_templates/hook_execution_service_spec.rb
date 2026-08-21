@@ -524,6 +524,15 @@ RSpec.describe MessageTemplates::HookExecutionService do
       )
     end
 
+    it 'asks for an email when the handed-off conversation remains unassigned' do
+      contact.update!(email: nil)
+      inbox.update!(enable_email_collect: true)
+
+      create(:message, conversation: conversation, message_type: :incoming, account: account)
+
+      expect(conversation.messages.where(content_type: :input_email)).to exist
+    end
+
     context 'when outside business hours' do
       before do
         inbox.update!(

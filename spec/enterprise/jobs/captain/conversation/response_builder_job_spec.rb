@@ -300,6 +300,23 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
         end
 
+        it 'asks for an email after the handoff message when no agent is assigned' do
+          conversation.contact.update!(email: nil)
+          inbox.update!(enable_email_collect: true)
+          allow(mock_action_classifier_service).to receive(:classify).and_return({
+                                                                                   'action' => 'handoff',
+                                                                                   'action_reason' => 'explicit_human_request',
+                                                                                   'model' => 'gpt-4.1'
+                                                                                 })
+
+          described_class.perform_now(conversation, assistant)
+
+          handoff_message = conversation.messages.outgoing.where(private: false).last
+          email_prompt = conversation.messages.find_by(content_type: :input_email)
+          expect(email_prompt).to be_present
+          expect(email_prompt.id).to be > handoff_message.id
+        end
+
         it 'skips the classifier when the legacy handoff token is returned' do
           allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
           expect(Captain::Llm::AssistantActionClassifierService).not_to receive(:new)
@@ -771,6 +788,36 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(conversation).not_to receive(:bot_handoff!)
 
         described_class.perform_now(conversation, assistant)
+      end
+
+      it 'asks for an email after the handoff message when no agent is assigned' do
+        conversation.contact.update!(email: nil)
+        inbox.update!(enable_email_collect: true)
+        allow(mock_agent_runner_service).to receive(:generate_response) do
+          conversation.update!(status: :open)
+          { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
+        end
+
+        described_class.perform_now(conversation, assistant)
+
+        handoff_message = conversation.messages.outgoing.where(private: false).last
+        email_prompt = conversation.messages.find_by(content_type: :input_email)
+        expect(email_prompt).to be_present
+        expect(email_prompt.id).to be > handoff_message.id
+      end
+
+      it 'does not ask for an email when an agent is assigned during handoff' do
+        conversation.contact.update!(email: nil)
+        inbox.update!(enable_email_collect: true)
+        agent = create(:user, account: account)
+        allow(mock_agent_runner_service).to receive(:generate_response) do
+          conversation.update!(status: :open, assignee: agent)
+          { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
+        end
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(conversation.messages.where(content_type: :input_email)).to be_empty
       end
 
       it 'does not create a duplicate out of office message' do

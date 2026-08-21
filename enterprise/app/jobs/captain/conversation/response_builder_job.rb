@@ -146,6 +146,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       @conversation.bot_handoff!
       report_v1_handoff_not_executed if conversation_pending?
       send_out_of_office_message_if_applicable
+      ::MessageTemplates::Template::EmailCollect.perform_after_handoff_if_applicable(@conversation)
     end
   end
 
@@ -154,6 +155,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     # waiting_since so this message doesn't clear the timestamp it left in place.
     I18n.with_locale(@assistant.account.locale) do
       create_handoff_message(preserve_waiting_since: true)
+      ::MessageTemplates::Template::EmailCollect.perform_after_handoff_if_applicable(@conversation)
     end
   end
 
