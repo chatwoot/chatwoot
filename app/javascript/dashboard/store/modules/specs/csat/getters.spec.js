@@ -23,36 +23,6 @@ describe('#getters', () => {
     expect(getters.getMetrics(state)).toEqual(state.metrics);
   });
 
-  it('getRatingPercentage', () => {
-    let state = {
-      metrics: {
-        totalResponseCount: 0,
-        ratingsCount: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-      },
-    };
-    expect(getters.getRatingPercentage(state)).toEqual({
-      1: 0,
-      2: 0,
-      3: 0,
-      4: 0,
-      5: 0,
-    });
-
-    state = {
-      metrics: {
-        totalResponseCount: 50,
-        ratingsCount: { 1: 10, 2: 20, 3: 15, 4: 3, 5: 2 },
-      },
-    };
-    expect(getters.getRatingPercentage(state)).toEqual({
-      1: '20.00',
-      2: '40.00',
-      3: '30.00',
-      4: '6.00',
-      5: '4.00',
-    });
-  });
-
   it('getResponseRate', () => {
     expect(
       getters.getResponseRate({

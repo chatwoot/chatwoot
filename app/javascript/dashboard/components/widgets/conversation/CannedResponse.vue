@@ -1,9 +1,8 @@
 <script setup>
-import { computed, ref, watch, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useTimeoutFn } from '@vueuse/core';
+import { picoSearch } from '@chatwoot/pico-search';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import {
   resolveVariablesInMessage,
   stripUnsupportedFormatting,
@@ -34,7 +33,6 @@ const emit = defineEmits(['replace', 'close', 'removeTrigger']);
 
 // Characters kept before the match when a snippet has to skip ahead
 const SNIPPET_LEAD = 24;
-const SEARCH_DEBOUNCE = 200;
 const HIGHLIGHT_CLASS = 'text-n-blue-text';
 
 const store = useStore();
@@ -42,6 +40,7 @@ const { t } = useI18n();
 const { getPlainText, formatMessage, highlightContent } = useMessageFormatter();
 
 const cannedResponses = useMapGetter('getCannedResponses');
+const uiFlags = useMapGetter('getUIFlags');
 // The trigger can already be followed by text, from a draft or a caret moved back onto it
 const searchQuery = ref(props.searchKey);
 
@@ -86,8 +85,17 @@ const records = computed(() =>
   })
 );
 
+const filteredRecords = computed(() => {
+  if (!searchTerm.value) return records.value;
+
+  return picoSearch(records.value, searchTerm.value, [
+    { name: 'shortCode', weight: 1 },
+    'plainText',
+  ]);
+});
+
 const items = computed(() =>
-  records.value.map(record => ({
+  filteredRecords.value.map(record => ({
     id: record.id,
     content: record.content,
     resolved: record.resolved,
@@ -99,26 +107,7 @@ const items = computed(() =>
 
 const onSelect = item => emit('replace', item.content);
 
-const { run: runFetch } = useAbortableRequest();
-
-const fetchCannedResponses = () => {
-  runFetch(signal =>
-    store.dispatch('getCannedResponse', {
-      searchKey: searchTerm.value,
-      signal,
-    })
-  );
-};
-
-const { start: scheduleFetch } = useTimeoutFn(
-  fetchCannedResponses,
-  SEARCH_DEBOUNCE,
-  { immediate: false }
-);
-
-watch(searchTerm, scheduleFetch);
-
-onMounted(fetchCannedResponses);
+onMounted(() => store.dispatch('getCannedResponse'));
 </script>
 
 <template>
@@ -127,6 +116,7 @@ onMounted(fetchCannedResponses);
     :caret-position="caretPosition"
     :items="items"
     :search-placeholder="t('COMBOBOX.SEARCH_PLACEHOLDER')"
+    :is-loading="uiFlags.fetchingList"
     :empty-label="
       searchTerm
         ? t('COMBOBOX.EMPTY_SEARCH_RESULTS', { searchTerm })
@@ -139,7 +129,7 @@ onMounted(fetchCannedResponses);
     <template #preview="{ item }">
       <div
         v-dompurify-html="formatMessage(item?.resolved || '')"
-        class="px-4 py-3 text-sm break-words prose-sm prose-p:text-sm prose-p:leading-relaxed prose-p:mb-1 prose-p:mt-0 prose-ul:mb-1 prose-ul:mt-0 text-n-slate-12"
+        class="px-4 py-3 prose prose-bubble !max-w-none prose-a:text-n-brand"
       />
     </template>
   </CaretAnchoredPicker>

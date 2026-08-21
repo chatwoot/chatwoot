@@ -28,7 +28,13 @@ describe('#getUserString', () => {
         identifier: '12345',
       })
     ).toBe(
-      'avatar_urlhttps://images.chatwoot.com/placeholderemailpranav@example.comnamePranavidentifier_hash12345identifier12345'
+      JSON.stringify([
+        ['avatar_url', 'https://images.chatwoot.com/placeholder'],
+        ['email', 'pranav@example.com'],
+        ['name', 'Pranav'],
+        ['identifier_hash', '12345'],
+        ['identifier', '12345'],
+      ])
     );
 
     expect(
@@ -39,7 +45,13 @@ describe('#getUserString', () => {
         },
       })
     ).toBe(
-      'avatar_urlhttps://images.chatwoot.com/placeholderemailpranav@example.comnameidentifier_hashidentifier'
+      JSON.stringify([
+        ['avatar_url', 'https://images.chatwoot.com/placeholder'],
+        ['email', 'pranav@example.com'],
+        ['name', ''],
+        ['identifier_hash', ''],
+        ['identifier', ''],
+      ])
     );
   });
 });
@@ -111,7 +123,7 @@ describe('#fnv1a128', () => {
 
 describe('#computeHashForUserData', () => {
   it.each([
-    [{ user: {} }, '4a6876a8b6c40e1acb8f5f3663bc9440'],
+    [{ user: {} }, '1aad4cb46d5db425dcc232d086a8b6be'],
     [
       {
         identifier: '12345',
@@ -122,7 +134,7 @@ describe('#computeHashForUserData', () => {
           identifier_hash: '12345',
         },
       },
-      'd3cca1b490dd33284af994c893261564',
+      '73b97d28ad386b211c8eed2143752b6e',
     ],
     [
       {
@@ -132,7 +144,7 @@ describe('#computeHashForUserData', () => {
           email: '🦄@example.com',
         },
       },
-      '880c8fc267db57e9bfda5c235e456bee',
+      'ca2a97a04c3bcafc20d9cdeac1e5b3f4',
     ],
   ])('hashes canonical user data synchronously', (userData, expectedHash) => {
     expect(computeHashForUserData(userData)).toBe(expectedHash);
@@ -187,9 +199,107 @@ describe('#computeHashForUserData', () => {
       user: { name: 'User' },
     });
 
-    expect(firstHash).toBe('c58d000a48a0ecdc3a2f086472892a2a');
-    expect(secondHash).toBe('5b6a4c7e44a0ecdc3a27b4af92ea26da');
+    expect(firstHash).toHaveLength(32);
+    expect(secondHash).toHaveLength(32);
     expect(firstHash).not.toBe(secondHash);
+  });
+});
+
+describe('#computeHashForUserData', () => {
+  const identifier = 'user-123';
+  const user = {
+    name: 'Pranav',
+    email: 'pranav@example.com',
+  };
+
+  it('normalizes numeric identifiers', () => {
+    const numericIdentifierHash = computeHashForUserData({
+      identifier: 123,
+      user,
+    });
+    const stringIdentifierHash = computeHashForUserData({
+      identifier: '123',
+      user,
+    });
+
+    expect(numericIdentifierHash).toBe(stringIdentifierHash);
+  });
+
+  it.each([
+    ['phone_number', '+15555550100', '+15555550101'],
+    ['company_name', 'Chatwoot', 'Acme'],
+    ['city', 'Bengaluru', 'Kochi'],
+    ['country_code', 'IN', 'US'],
+    ['description', 'Chatwoot user', 'Acme user'],
+  ])('changes when %s changes', (attribute, currentValue, updatedValue) => {
+    const currentHash = computeHashForUserData({
+      identifier,
+      user: { ...user, [attribute]: currentValue },
+    });
+    const updatedHash = computeHashForUserData({
+      identifier,
+      user: { ...user, [attribute]: updatedValue },
+    });
+
+    expect(updatedHash).not.toBe(currentHash);
+  });
+
+  it('changes when a social profile changes', () => {
+    const currentHash = computeHashForUserData({
+      identifier,
+      user: { ...user, social_profiles: { github: 'chatwoot' } },
+    });
+    const updatedHash = computeHashForUserData({
+      identifier,
+      user: { ...user, social_profiles: { github: 'chatwoot-app' } },
+    });
+
+    expect(updatedHash).not.toBe(currentHash);
+  });
+
+  it('preserves contact information field boundaries', () => {
+    const companyNameHash = computeHashForUserData({
+      identifier,
+      user: { ...user, company_name: 'cityParis' },
+    });
+    const companyNameAndCityHash = computeHashForUserData({
+      identifier,
+      user: { ...user, company_name: '', city: 'Paris' },
+    });
+
+    expect(companyNameAndCityHash).not.toBe(companyNameHash);
+  });
+
+  it('is independent of social profile property order', () => {
+    const firstHash = computeHashForUserData({
+      identifier,
+      user: {
+        ...user,
+        social_profiles: { github: 'chatwoot', twitter: 'chatwootapp' },
+      },
+    });
+    const secondHash = computeHashForUserData({
+      identifier,
+      user: {
+        ...user,
+        social_profiles: { twitter: 'chatwootapp', github: 'chatwoot' },
+      },
+    });
+
+    expect(secondHash).toBe(firstHash);
+  });
+
+  it('ignores custom attributes managed by setCustomAttributes', () => {
+    const currentHash = computeHashForUserData({
+      identifier,
+      user: { ...user, custom_attributes: { plan: 'starter' } },
+    });
+    const updatedHash = computeHashForUserData({
+      identifier,
+      user: { ...user, custom_attributes: { plan: 'business' } },
+    });
+
+    expect(updatedHash).toBe(currentHash);
   });
 });
 

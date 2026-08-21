@@ -1,6 +1,7 @@
 <script setup>
 import { computed, nextTick, onMounted, useId, useTemplateRef } from 'vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   items: {
@@ -14,6 +15,10 @@ const props = defineProps({
   emptyLabel: {
     type: String,
     default: '',
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
   },
   previewLayout: {
     type: String,
@@ -52,7 +57,7 @@ const listClass = computed(() => {
 });
 
 const previewClass = computed(() =>
-  isStacked.value ? 'h-24 flex-shrink-0 border-t border-n-strong' : 'flex-1'
+  isStacked.value ? 'h-28 flex-shrink-0 border-t border-n-strong' : 'flex-1'
 );
 
 const groupFor = index => {
@@ -108,13 +113,21 @@ defineExpose({ scrollSelectedIntoView });
           :placeholder="searchPlaceholder"
         />
       </div>
+      <div
+        v-if="$slots.filters"
+        class="flex-shrink-0 min-w-0 px-1 pt-1 pb-1.5"
+        @mousedown.prevent
+      >
+        <slot name="filters" />
+      </div>
       <div ref="listRef" class="flex-1 p-1 overflow-y-auto">
         <ul :id="listboxId" role="listbox" class="m-0 list-none">
           <template v-for="(item, index) in items" :key="item.id">
             <li
               v-if="groupFor(index)"
               role="presentation"
-              class="px-2 pt-2 pb-1 text-xs font-medium text-n-slate-10"
+              class="px-2 pb-1 text-xs font-medium text-n-slate-10"
+              :class="index === 0 ? '' : 'pt-2'"
             >
               {{ groupFor(index) }}
             </li>
@@ -150,9 +163,10 @@ defineExpose({ scrollSelectedIntoView });
         <div
           v-if="!items.length"
           role="status"
-          class="px-2 py-1.5 text-sm text-n-slate-11"
+          class="flex items-center px-2 py-1.5 text-sm text-n-slate-11"
         >
-          {{ emptyLabel }}
+          <Spinner v-if="isLoading" :size="16" />
+          <template v-else>{{ emptyLabel }}</template>
         </div>
       </div>
     </div>
