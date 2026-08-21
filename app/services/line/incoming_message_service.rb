@@ -23,12 +23,14 @@ class Line::IncomingMessageService
       next if @line_contact_info['userId'].blank?
 
       set_contact
-      set_conversation
+      ActiveRecord::Base.transaction do
+        set_conversation
 
-      next unless message_created? event
+        next unless message_created? event
 
-      attach_files event['message']
-      @message.save!
+        attach_files event['message']
+        @message.save!
+      end
     end
   end
 
