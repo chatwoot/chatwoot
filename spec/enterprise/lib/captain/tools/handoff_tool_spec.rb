@@ -344,7 +344,19 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
   end
 
   describe 'out of office message after handoff' do
-    context 'when outside business hours' do
+    context 'with Captain V2' do
+      it 'leaves the public message to the response builder' do
+        account.enable_features!('captain_integration_v2')
+
+        expect do
+          tool.perform(tool_context, reason: 'Customer needs help')
+        end.not_to(change { conversation.messages.where(private: false).count })
+
+        expect(conversation.messages.template).to be_empty
+      end
+    end
+
+    context 'when outside business hours with Captain V1' do
       before do
         inbox.update!(
           working_hours_enabled: true,
@@ -366,7 +378,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       end
     end
 
-    context 'when within business hours' do
+    context 'when within business hours with Captain V1' do
       before do
         inbox.update!(
           working_hours_enabled: true,
@@ -385,7 +397,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       end
     end
 
-    context 'when no out of office message is configured' do
+    context 'when no out of office message is configured with Captain V1' do
       before do
         inbox.update!(
           working_hours_enabled: true,

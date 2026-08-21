@@ -773,7 +773,16 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
       end
 
-      it 'does not create a duplicate out of office message' do
+      it 'uses the outside-business-hours message without creating an out-of-office template' do
+        assistant.update!(config: assistant.config.merge(
+          'handoff_message' => 'I am connecting you with the team.',
+          'handoff_message_outside_business_hours' => 'The team will reply when they are back.'
+        ))
+        inbox.update!(working_hours_enabled: true, out_of_office_message: 'The inbox is closed.')
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          closed_all_day: true,
+          open_all_day: false
+        )
         allow(mock_agent_runner_service).to receive(:generate_response) do
           conversation.update!(status: :open)
           { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
@@ -781,6 +790,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
         described_class.perform_now(conversation, assistant)
 
+        expect(conversation.messages.outgoing.where(private: false).last.content).to eq('The team will reply when they are back.')
         expect(conversation.messages.template.count).to eq(0)
       end
 

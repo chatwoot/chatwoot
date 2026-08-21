@@ -362,18 +362,29 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
       inbox.update!(working_hours_enabled: true, out_of_office_message: 'We are currently unavailable.')
     end
 
-    it 'sends OOO message for non-campaign conversations' do
+    it 'sends one configured outside-business-hours handoff message' do
+      captain_assistant.account.enable_features!('captain_integration_v2')
+      captain_assistant.update!(config: captain_assistant.config.merge(
+        'handoff_message' => 'Connecting you to the team.',
+        'handoff_message_outside_business_hours' => 'The team will reply when they are back.'
+      ))
+
       travel_to '01.11.2020 13:00'.to_datetime do
         resolvable_pending_conversation.update!(last_activity_at: 2.hours.ago)
         described_class.perform_now(inbox)
 
-        ooo_message = resolvable_pending_conversation.messages.template.last
-        expect(ooo_message).to be_present
-        expect(ooo_message.content).to eq('We are currently unavailable.')
+        public_message = resolvable_pending_conversation.messages.outgoing.where(private: false).last
+        expect(public_message.content).to eq('The team will reply when they are back.')
+        expect(resolvable_pending_conversation.messages.template).to be_empty
       end
     end
 
-    it 'does not send OOO message for campaign conversations' do
+    it 'uses the regular handoff message for campaign conversations' do
+      captain_assistant.account.enable_features!('captain_integration_v2')
+      captain_assistant.update!(config: captain_assistant.config.merge(
+        'handoff_message' => 'Connecting you to the team.',
+        'handoff_message_outside_business_hours' => 'The team will reply when they are back.'
+      ))
       campaign = create(:campaign, account: inbox.account, inbox: inbox)
       resolvable_pending_conversation.update!(campaign: campaign)
 
@@ -381,16 +392,33 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
         resolvable_pending_conversation.update!(last_activity_at: 2.hours.ago)
         described_class.perform_now(inbox)
 
+        expect(resolvable_pending_conversation.messages.outgoing.where(private: false).last.content).to eq('Connecting you to the team.')
         expect(resolvable_pending_conversation.messages.template).to be_empty
       end
     end
 
-    it 'does not send OOO message during business hours' do
+    it 'uses the regular handoff message during business hours' do
+      captain_assistant.account.enable_features!('captain_integration_v2')
+      captain_assistant.update!(config: captain_assistant.config.merge(
+        'handoff_message' => 'Connecting you to the team.',
+        'handoff_message_outside_business_hours' => 'The team will reply when they are back.'
+      ))
+
       travel_to '26.10.2020 10:00'.to_datetime do
         resolvable_pending_conversation.update!(last_activity_at: 2.hours.ago)
         described_class.perform_now(inbox)
 
+        expect(resolvable_pending_conversation.messages.outgoing.where(private: false).last.content).to eq('Connecting you to the team.')
         expect(resolvable_pending_conversation.messages.template).to be_empty
+      end
+    end
+
+    it 'keeps the out-of-office template separate for Captain V1' do
+      travel_to '01.11.2020 13:00'.to_datetime do
+        resolvable_pending_conversation.update!(last_activity_at: 2.hours.ago)
+        described_class.perform_now(inbox)
+
+        expect(resolvable_pending_conversation.messages.template.last.content).to eq('We are currently unavailable.')
       end
     end
   end

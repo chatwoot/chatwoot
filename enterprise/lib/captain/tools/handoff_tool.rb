@@ -71,9 +71,6 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
     # Queue the event after the state change commits so notification jobs always see the open conversation.
     conversation.dispatch_bot_handoff_event
     emit_tool_handoff_event(conversation, reason_category)
-
-    # Send out of office message if applicable (since template messages were suppressed while Captain was handling)
-    send_out_of_office_message_if_applicable(conversation)
     :completed
   end
 

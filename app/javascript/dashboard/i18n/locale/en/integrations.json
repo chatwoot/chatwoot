@@ -592,7 +592,19 @@
         },
         "HANDOFF_MESSAGE": {
           "LABEL": "Handoff message",
-          "PLACEHOLDER": "Enter handoff message"
+          "PLACEHOLDER": "Enter handoff message",
+          "TITLE": "Handoff messages",
+          "DESCRIPTION": "Choose what Captain says when it hands a conversation to your team.",
+          "BUSINESS_HOURS": {
+            "LABEL": "During business hours",
+            "DESCRIPTION": "Captain sends this message when the inbox is open or has no business hours set.",
+            "PLACEHOLDER": "Enter the handoff message"
+          },
+          "OUTSIDE_BUSINESS_HOURS": {
+            "LABEL": "Outside business hours",
+            "DESCRIPTION": "Captain sends this message when the inbox is closed. If left blank, Captain uses the inbox out-of-office message, then the business-hours handoff message.",
+            "PLACEHOLDER": "Enter the handoff message"
+          }
         },
         "RESOLUTION_MESSAGE": {
           "LABEL": "Resolution Message",
@@ -698,7 +710,7 @@
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
-          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
+          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set handoff messages."
         },
         "AUDIENCE": {
           "TITLE": "Audience",

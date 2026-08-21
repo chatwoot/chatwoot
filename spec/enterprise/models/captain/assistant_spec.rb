@@ -127,6 +127,61 @@ RSpec.describe Captain::Assistant, type: :model do
     end
   end
 
+  describe '#handoff_message_for' do
+    let(:inbox) { create(:inbox, account: account, out_of_office_message: 'The team is currently offline.') }
+    let(:scheduled_conversation) { create(:conversation, account: account, inbox: inbox, contact: contact) }
+
+    before do
+      account.enable_features!('captain_integration_v2')
+      assistant.update!(config: {
+                          'handoff_message' => 'I am connecting you with the team.',
+                          'handoff_message_outside_business_hours' => 'The team will reply when they are back.'
+                        })
+    end
+
+    it 'uses the regular handoff message while the inbox is open' do
+      allow(scheduled_conversation.inbox).to receive(:out_of_office?).and_return(false)
+
+      expect(assistant.handoff_message_for(scheduled_conversation)).to eq('I am connecting you with the team.')
+    end
+
+    it 'uses the outside-business-hours handoff message while the inbox is closed' do
+      allow(scheduled_conversation.inbox).to receive(:out_of_office?).and_return(true)
+
+      expect(assistant.handoff_message_for(scheduled_conversation)).to eq('The team will reply when they are back.')
+    end
+
+    it 'falls back to the inbox out-of-office message when the outside-hours message is blank' do
+      assistant.config['handoff_message_outside_business_hours'] = ''
+      allow(scheduled_conversation.inbox).to receive(:out_of_office?).and_return(true)
+
+      expect(assistant.handoff_message_for(scheduled_conversation)).to eq('The team is currently offline.')
+    end
+
+    it 'falls back to the regular handoff message when no outside-hours message is available' do
+      assistant.config['handoff_message_outside_business_hours'] = ''
+      inbox.update!(out_of_office_message: nil)
+      scheduled_conversation.reload
+      allow(scheduled_conversation.inbox).to receive(:out_of_office?).and_return(true)
+
+      expect(assistant.handoff_message_for(scheduled_conversation)).to eq('I am connecting you with the team.')
+    end
+
+    it 'uses the regular handoff message for campaign conversations' do
+      scheduled_conversation.update!(campaign: create(:campaign, account: account, inbox: inbox))
+      allow(scheduled_conversation.inbox).to receive(:out_of_office?).and_return(true)
+
+      expect(assistant.handoff_message_for(scheduled_conversation)).to eq('I am connecting you with the team.')
+    end
+
+    it 'keeps the regular handoff message for Captain V1' do
+      account.disable_features!('captain_integration_v2')
+      allow(scheduled_conversation.inbox).to receive(:out_of_office?).and_return(true)
+
+      expect(assistant.handoff_message_for(scheduled_conversation)).to eq('I am connecting you with the team.')
+    end
+  end
+
   describe 'response_window validation' do
     it 'accepts a blank response_window' do
       assistant.config['response_window'] = nil

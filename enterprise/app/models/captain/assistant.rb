@@ -29,6 +29,7 @@ class Captain::Assistant < ApplicationRecord
   include Avatarable
   include Concerns::CaptainToolsHelpers
   include Concerns::Agentable
+  include Concerns::HandoffMessageSelectable
 
   self.table_name = 'captain_assistants'
 

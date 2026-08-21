@@ -35,6 +35,7 @@ const MAX_INACTIVITY_MINUTES = 24 * 60;
 
 const initialState = {
   handoffMessage: '',
+  handoffMessageOutsideBusinessHours: '',
   resolutionMessage: '',
   instructions: '',
   autoResolveMode: 'evaluated',
@@ -85,6 +86,7 @@ const initialActionTimingLabel = computed(() =>
 
 const validationRules = {
   handoffMessage: { minLength: minLength(1) },
+  handoffMessageOutsideBusinessHours: { minLength: minLength(1) },
   resolutionMessage: { minLength: minLength(1) },
   instructions: { minLength: minLength(1) },
   inactivityThresholdMinutes: {
@@ -102,6 +104,9 @@ const getErrorMessage = field => {
 
 const formErrors = computed(() => ({
   handoffMessage: getErrorMessage('handoffMessage'),
+  handoffMessageOutsideBusinessHours: getErrorMessage(
+    'handoffMessageOutsideBusinessHours'
+  ),
   resolutionMessage: getErrorMessage('resolutionMessage'),
   instructions: getErrorMessage('instructions'),
   inactivityThresholdMinutes: getErrorMessage('inactivityThresholdMinutes'),
@@ -110,6 +115,8 @@ const formErrors = computed(() => ({
 const updateStateFromAssistant = assistant => {
   const { config = {} } = assistant;
   state.handoffMessage = config.handoff_message;
+  state.handoffMessageOutsideBusinessHours =
+    config.handoff_message_outside_business_hours;
   state.resolutionMessage = config.resolution_message;
   state.instructions = config.instructions;
   state.autoResolveMode = config.auto_resolve_mode ?? 'evaluated';
@@ -123,7 +130,7 @@ const fieldsToValidate = () => {
     return ['handoffMessage', 'resolutionMessage', 'instructions'];
   }
 
-  const fields = ['handoffMessage'];
+  const fields = ['handoffMessage', 'handoffMessageOutsideBusinessHours'];
   if (shouldShowInactivityDuration.value) {
     fields.push('inactivityThresholdMinutes');
     if (state.sendInactivityResolutionMessage) fields.push('resolutionMessage');
@@ -146,6 +153,8 @@ const handleSystemMessagesUpdate = async () => {
 
   if (isCaptainV2Enabled.value) {
     Object.assign(payload.config, {
+      handoff_message_outside_business_hours:
+        state.handoffMessageOutsideBusinessHours,
       auto_resolve_mode: state.autoResolveMode,
       auto_resolve_after: state.inactivityThresholdMinutes,
       send_inactivity_resolution_message: state.sendInactivityResolutionMessage,
@@ -309,6 +318,62 @@ watch(
     </SettingsToggleSection>
 
     <SettingsToggleSection
+      v-if="isCaptainV2Enabled"
+      hide-toggle
+      :header="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.TITLE')"
+      :description="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.DESCRIPTION')"
+    >
+      <div
+        class="flex w-full flex-col gap-6 border-t border-n-weak px-4 pb-4 pt-4"
+      >
+        <Editor
+          v-model="state.handoffMessage"
+          :label="
+            t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.BUSINESS_HOURS.LABEL')
+          "
+          :placeholder="
+            t(
+              'CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.BUSINESS_HOURS.PLACEHOLDER'
+            )
+          "
+          :message="
+            formErrors.handoffMessage ||
+            t(
+              'CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.BUSINESS_HOURS.DESCRIPTION'
+            )
+          "
+          :message-type="formErrors.handoffMessage ? 'error' : 'info'"
+          class="z-0"
+        />
+
+        <Editor
+          v-model="state.handoffMessageOutsideBusinessHours"
+          :label="
+            t(
+              'CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.OUTSIDE_BUSINESS_HOURS.LABEL'
+            )
+          "
+          :placeholder="
+            t(
+              'CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.OUTSIDE_BUSINESS_HOURS.PLACEHOLDER'
+            )
+          "
+          :message="
+            formErrors.handoffMessageOutsideBusinessHours ||
+            t(
+              'CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.OUTSIDE_BUSINESS_HOURS.DESCRIPTION'
+            )
+          "
+          :message-type="
+            formErrors.handoffMessageOutsideBusinessHours ? 'error' : 'info'
+          "
+          class="z-0"
+        />
+      </div>
+    </SettingsToggleSection>
+
+    <SettingsToggleSection
+      v-else
       hide-toggle
       :header="t('CAPTAIN.ASSISTANTS.FORM.HANDOFF_MESSAGE.LABEL')"
     >

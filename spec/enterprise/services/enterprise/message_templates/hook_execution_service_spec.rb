@@ -537,14 +537,24 @@ RSpec.describe MessageTemplates::HookExecutionService do
         )
       end
 
-      it 'sends out of office message after handoff due to quota exceeded' do
+      it 'keeps the handoff and out-of-office messages separate for Captain V1' do
         expect do
           create(:message, conversation: conversation, message_type: :incoming, account: account)
         end.to change { conversation.messages.template.count }.by(1)
 
         expect(conversation.reload.status).to eq('open')
-        ooo_message = conversation.messages.template.last
-        expect(ooo_message.content).to eq('We are currently closed. Please leave your email.')
+        expect(conversation.messages.outgoing.last.content).to eq('Transferring to another agent for further assistance.')
+        expect(conversation.messages.template.last.content).to eq('We are currently closed. Please leave your email.')
+      end
+
+      it 'sends the inbox out-of-office copy once for Captain V2 when no outside-hours handoff message is configured' do
+        account.enable_features!('captain_integration_v2')
+
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
+
+        expect(conversation.reload.status).to eq('open')
+        expect(conversation.messages.outgoing.last.content).to eq('We are currently closed. Please leave your email.')
+        expect(conversation.messages.template).to be_empty
       end
     end
 
@@ -561,12 +571,12 @@ RSpec.describe MessageTemplates::HookExecutionService do
         )
       end
 
-      it 'does not send out of office message after handoff' do
-        expect do
-          create(:message, conversation: conversation, message_type: :incoming, account: account)
-        end.not_to(change { conversation.messages.template.count })
+      it 'uses the existing quota handoff message' do
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
 
         expect(conversation.reload.status).to eq('open')
+        expect(conversation.messages.outgoing.last.content).to eq('Transferring to another agent for further assistance.')
+        expect(conversation.messages.template).to be_empty
       end
     end
   end

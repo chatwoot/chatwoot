@@ -145,16 +145,23 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       create_handoff_message
       @conversation.bot_handoff!
       report_v1_handoff_not_executed if conversation_pending?
-      send_out_of_office_message_if_applicable
+      send_out_of_office_message_if_applicable unless captain_v2_enabled?
     end
   end
 
   def process_v2_handoff
-    # HandoffTool already ran bot_handoff! + OOO inside the agent loop. Preserve
+    # HandoffTool already ran bot_handoff! inside the agent loop. Preserve
     # waiting_since so this message doesn't clear the timestamp it left in place.
     I18n.with_locale(@assistant.account.locale) do
       create_handoff_message(preserve_waiting_since: true)
     end
+  end
+
+  def create_handoff_message(preserve_waiting_since: false)
+    @handoff_message = create_outgoing_message(
+      @assistant.handoff_message_for(@conversation).presence || I18n.t('conversations.captain.handoff'),
+      preserve_waiting_since: preserve_waiting_since
+    )
   end
 
   def send_out_of_office_message_if_applicable
@@ -163,13 +170,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return if @conversation.campaign.present?
 
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(@conversation)
-  end
-
-  def create_handoff_message(preserve_waiting_since: false)
-    @handoff_message = create_outgoing_message(
-      @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'),
-      preserve_waiting_since: preserve_waiting_since
-    )
   end
 
   # Capture runs outside the delivery transaction and never raises (the service

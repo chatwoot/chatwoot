@@ -133,7 +133,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
       reason_category: :pending_clarification,
       at: Time.current
     )
-    send_out_of_office_message_if_applicable(conversation.reload)
+    send_out_of_office_message_if_applicable(conversation.reload) unless captain_v2_enabled?
   rescue ActiveRecord::RecordNotFound
     nil
   end
@@ -150,6 +150,10 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
 
   def with_inference_activity_context(conversation, reason, &)
     conversation.with_captain_activity_context(reason: reason, reason_type: :inference, &)
+  end
+
+  def captain_v2_enabled?
+    captain_assistant.account.feature_enabled?('captain_integration_v2')
   end
 
   def send_out_of_office_message_if_applicable(conversation)
@@ -183,7 +187,7 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   def create_handoff_message(conversation)
-    handoff_message = captain_assistant.config['handoff_message']
+    handoff_message = captain_assistant.handoff_message_for(conversation)
     return if handoff_message.blank?
 
     conversation.messages.create!(

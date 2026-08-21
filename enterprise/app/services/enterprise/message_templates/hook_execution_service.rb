@@ -50,12 +50,7 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def perform_handoff
     Rails.logger.info("Captain limit exceeded, performing handoff mid-conversation for conversation: #{conversation.id}")
-    conversation.messages.create!(
-      message_type: :outgoing,
-      account_id: conversation.account.id,
-      inbox_id: conversation.inbox.id,
-      content: 'Transferring to another agent for further assistance.'
-    )
+    create_handoff_message
     conversation.bot_handoff!
     Captain::ConversationEvents.handed_off(
       conversation: conversation,
@@ -64,7 +59,30 @@ module Enterprise::MessageTemplates::HookExecutionService
       reason_category: :usage_limit,
       at: Time.current
     )
-    send_out_of_office_message_after_handoff
+    send_out_of_office_message_after_handoff unless captain_v2_enabled?
+  end
+
+  def create_handoff_message
+    conversation.messages.create!(
+      message_type: :outgoing,
+      account_id: conversation.account.id,
+      inbox_id: conversation.inbox.id,
+      content: handoff_message_content
+    )
+  end
+
+  def handoff_message_content
+    return default_handoff_message unless captain_v2_enabled?
+
+    inbox.captain_assistant.handoff_message_for(conversation).presence || default_handoff_message
+  end
+
+  def default_handoff_message
+    'Transferring to another agent for further assistance.'
+  end
+
+  def captain_v2_enabled?
+    conversation.account.feature_enabled?('captain_integration_v2')
   end
 
   def send_out_of_office_message_after_handoff

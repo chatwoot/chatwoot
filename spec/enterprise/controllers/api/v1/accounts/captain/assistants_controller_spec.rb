@@ -243,6 +243,28 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(assistant.reload.config).to include('feature_citation' => false, 'auto_resolve_mode' => 'disabled')
       end
 
+      it 'updates both handoff messages' do
+        account.enable_features!('captain_integration_v2')
+
+        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
+              params: {
+                assistant: {
+                  config: {
+                    handoff_message: 'I am connecting you with the team.',
+                    handoff_message_outside_business_hours: 'The team will reply when they are back.'
+                  }
+                }
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(assistant.reload.config).to include(
+          'handoff_message' => 'I am connecting you with the team.',
+          'handoff_message_outside_business_hours' => 'The team will reply when they are back.'
+        )
+      end
+
       it 'updates auto_resolve_mode without replacing other config' do
         assistant.update!(config: { 'product_name' => 'Chatwoot', 'auto_resolve_mode' => 'legacy' })
 
@@ -271,7 +293,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
                   config: {
                     auto_resolve_mode: 'disabled',
                     auto_resolve_after: 90,
-                    send_inactivity_resolution_message: false
+                    send_inactivity_resolution_message: false,
+                    handoff_message_outside_business_hours: 'This must not be saved for Captain V1.'
                   }
                 }
               },
@@ -284,6 +307,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           'auto_resolve_after' => 60,
           'send_inactivity_resolution_message' => true
         )
+        expect(assistant.config).not_to have_key('handoff_message_outside_business_hours')
       end
 
       it 'updates inactive conversation settings for Captain v2' do
