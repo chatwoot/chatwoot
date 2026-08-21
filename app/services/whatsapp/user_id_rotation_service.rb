@@ -8,6 +8,12 @@
 # under it stay where they are and remain reachable under previous conversations. Messages that
 # arrive after the rotation resolve through the exact new identifier.
 class Whatsapp::UserIdRotationService
+  # The holder of the mutex is processing a message for the identifier being introduced, so it
+  # is worth a short wait rather than racing it into a split contact.
+  LOCK_ATTEMPTS = 3
+  LOCK_RETRY_INTERVAL = 0.2
+  LOCK_TTL = 30.seconds
+
   pattr_initialize [:inbox!, :payload!]
 
   def perform
@@ -38,8 +44,16 @@ class Whatsapp::UserIdRotationService
     return record_alias(previous_source_id, current_source_id) if current_source_id == job_locked_source_id
 
     key = format(::Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: inbox.id, sender_id: current_source_id)
-    return if Redis::LockManager.new.with_lock(key, 30.seconds) { record_alias(previous_source_id, current_source_id) }
+    lock_manager = Redis::LockManager.new
 
+    LOCK_ATTEMPTS.times do
+      return if lock_manager.with_lock(key, LOCK_TTL) { record_alias(previous_source_id, current_source_id) }
+
+      sleep(LOCK_RETRY_INTERVAL)
+    end
+
+    # The holder is still working. Dropping the rotation would lose it for good, so the alias is
+    # recorded anyway and `record_alias` reports a landing on another contact instead of hiding it.
     record_alias(previous_source_id, current_source_id)
   end
 
@@ -64,9 +78,11 @@ class Whatsapp::UserIdRotationService
 
     inbox.contact_inboxes.create!(contact: contact_inbox.contact, source_id: current_source_id)
   rescue ActiveRecord::RecordNotUnique
-    # A concurrent webhook inserted the same (inbox_id, source_id) first. The alias exists,
-    # which is the whole point, so there is nothing left to do.
-    nil
+    # Someone inserted the same (inbox_id, source_id) while this was running, which is only
+    # harmless when it landed on the same contact. A message that arrived under the current
+    # identifier before this event builds a contact of its own, and treating that as done would
+    # leave the two identifiers on different contacts with nothing said about it.
+    log_collision(inbox.contact_inboxes.find_by(source_id: current_source_id), contact_inbox, current_source_id)
   end
 
   # Already known. On the same contact the rotation is simply already recorded, most often
@@ -74,6 +90,7 @@ class Whatsapp::UserIdRotationService
   # would have to be merged, which is a separate concern with its own failure modes, so both
   # rows are left exactly as they are.
   def log_collision(existing, contact_inbox, current_source_id)
+    return if existing.blank?
     return if existing.contact_id == contact_inbox.contact_id
 
     Rails.logger.warn(
