@@ -131,6 +131,25 @@ RSpec.describe Contact do
         expect(resolved).to include(contact_with_email, contact_with_phone, contact_with_identifier)
         expect(resolved).not_to include(contact_without_details)
       end
+
+      it 'includes contacts identified only by a WhatsApp contact inbox' do
+        cloud_channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', account: account,
+                                                  validate_provider_config: false, sync_templates: false)
+        twilio_channel = create(:channel_twilio_sms, medium: :whatsapp, account: account)
+        cloud_contact = create(:contact, account: account, name: 'Cloud BSUID', email: nil, phone_number: nil, identifier: nil)
+        twilio_contact = create(:contact, account: account, name: 'Twilio BSUID', email: nil, phone_number: nil, identifier: nil)
+        create(:contact_inbox, contact: cloud_contact, inbox: cloud_channel.inbox, source_id: 'IN.2081978709342942')
+        create(:contact_inbox, contact: twilio_contact, inbox: twilio_channel.inbox, source_id: 'whatsapp:IN.2166217060865430')
+
+        expect(account.contacts.resolved_contacts(use_crm_v2: false)).to include(cloud_contact, twilio_contact)
+      end
+
+      it 'does not include an unidentified web widget visitor' do
+        visitor = create(:contact, account: account, name: 'Anonymous', email: nil, phone_number: nil, identifier: nil)
+        create(:contact_inbox, contact: visitor, inbox: create(:channel_widget, account: account).inbox)
+
+        expect(account.contacts.resolved_contacts(use_crm_v2: false)).not_to include(visitor)
+      end
     end
 
     context 'when crm_v2 feature flag is enabled' do
@@ -170,6 +189,16 @@ RSpec.describe Contact do
         expect(resolved).to include(lead_contact)
         expect(resolved).not_to include(customer_contact)
         expect(resolved).not_to include(visitor_contact)
+      end
+
+      it 'includes an existing BSUID-only visitor contact' do
+        channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', account: account,
+                                            validate_provider_config: false, sync_templates: false)
+        contact = create(:contact, account: account, name: 'BSUID only', email: nil, phone_number: nil, identifier: nil)
+        create(:contact_inbox, contact: contact, inbox: channel.inbox, source_id: 'IN.2081978709342942')
+
+        expect(contact.contact_type).to eq('visitor')
+        expect(account.contacts.resolved_contacts(use_crm_v2: true)).to include(contact)
       end
 
       it 'returns contacts with email, phone_number, or identifier when explicitly passing use_crm_v2: false' do

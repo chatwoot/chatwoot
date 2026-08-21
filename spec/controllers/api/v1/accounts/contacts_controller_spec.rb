@@ -54,6 +54,17 @@ RSpec.describe 'Contacts API', type: :request do
         expect(contact_inboxes_source_ids).to include(contact_inbox.source_id)
       end
 
+      it 'returns a contact identified only by a WhatsApp BSUID' do
+        channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', account: account,
+                                            validate_provider_config: false, sync_templates: false)
+        bsuid_contact = create(:contact, account: account, name: 'BSUID customer', email: nil, phone_number: nil, identifier: nil)
+        create(:contact_inbox, contact: bsuid_contact, inbox: channel.inbox, source_id: 'IN.2081978709342942')
+
+        get "/api/v1/accounts/#{account.id}/contacts", headers: admin.create_new_auth_token, as: :json
+
+        expect(response.parsed_body['payload'].pluck('id')).to include(bsuid_contact.id)
+      end
+
       it 'returns all contacts without contact inboxes' do
         get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false",
             headers: admin.create_new_auth_token,
@@ -357,6 +368,18 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(contact2.email)
         expect(response.body).not_to include(contact1.email)
+      end
+
+      it 'finds a BSUID-only contact by name' do
+        channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', account: account,
+                                            validate_provider_config: false, sync_templates: false)
+        bsuid_contact = create(:contact, account: account, name: 'Private Username Contact', email: nil, phone_number: nil, identifier: nil)
+        create(:contact_inbox, contact: bsuid_contact, inbox: channel.inbox, source_id: 'IN.2081978709342942')
+
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: 'Private Username' }, headers: admin.create_new_auth_token, as: :json
+
+        expect(response.parsed_body['payload'].pluck('id')).to include(bsuid_contact.id)
       end
 
       it 'matches the resolved contact respecting the identifier character casing' do

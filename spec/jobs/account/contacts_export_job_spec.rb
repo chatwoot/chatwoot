@@ -148,6 +148,18 @@ RSpec.describe Account::ContactsExportJob do
       expect(csv_data.length).to eq(account.contacts.resolved_contacts.count)
     end
 
+    it 'exports a contact identified only by a WhatsApp BSUID' do
+      channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', account: account,
+                                          validate_provider_config: false, sync_templates: false)
+      contact = create(:contact, account: account, name: 'BSUID export contact', email: nil, phone_number: nil, identifier: nil)
+      create(:contact_inbox, contact: contact, inbox: channel.inbox, source_id: 'IN.2081978709342942')
+
+      described_class.perform_now(account.id, user.id, %w[id name], {})
+
+      csv_data = CSV.parse(account.contacts_export.download, headers: true)
+      expect(csv_data.pluck('name')).to include(contact.name)
+    end
+
     it 'returns resolved contacts filtered if labels are provided' do
       # Adding label to a resolved contact
       Contact.last.add_labels(['spec-billing'])
