@@ -14,6 +14,13 @@
 #  account_id   :bigint           not null
 #  assistant_id :bigint           not null
 #
+# Indexes
+#
+#  idx_cap_faq_suggestions_on_account_assistant_status_language  (account_id,assistant_id,status,language)
+#  index_captain_faq_suggestions_on_account_id                   (account_id)
+#  index_captain_faq_suggestions_on_assistant_id                 (assistant_id)
+#  vector_idx_captain_faq_suggestions_embedding                  (embedding) USING ivfflat
+#
 class Captain::FaqSuggestion < ApplicationRecord
   self.table_name = 'captain_faq_suggestions'
 

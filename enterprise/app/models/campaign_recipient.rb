@@ -1,3 +1,43 @@
+# == Schema Information
+#
+# Table name: campaign_recipients
+#
+#  id              :bigint           not null, primary key
+#  delivered_at    :datetime
+#  error_code      :string
+#  error_message   :text
+#  error_title     :string
+#  failed_at       :datetime
+#  message_content :text
+#  read_at         :datetime
+#  sent_at         :datetime
+#  status          :integer          default("queued"), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  account_id      :bigint           not null
+#  campaign_id     :bigint           not null
+#  contact_id      :bigint           not null
+#  inbox_id        :bigint           not null
+#  source_id       :string
+#
+# Indexes
+#
+#  index_campaign_recipients_on_account_id                  (account_id)
+#  index_campaign_recipients_on_account_id_and_campaign_id  (account_id,campaign_id)
+#  index_campaign_recipients_on_campaign_id                 (campaign_id)
+#  index_campaign_recipients_on_campaign_id_and_contact_id  (campaign_id,contact_id) UNIQUE
+#  index_campaign_recipients_on_campaign_id_and_status      (campaign_id,status)
+#  index_campaign_recipients_on_contact_id                  (contact_id)
+#  index_campaign_recipients_on_inbox_id                    (inbox_id)
+#  index_campaign_recipients_on_source_id                   (source_id) UNIQUE WHERE (source_id IS NOT NULL)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
+#  fk_rails_...  (campaign_id => campaigns.id) ON DELETE => cascade
+#  fk_rails_...  (contact_id => contacts.id) ON DELETE => cascade
+#  fk_rails_...  (inbox_id => inboxes.id) ON DELETE => cascade
+#
 class CampaignRecipient < ApplicationRecord
   belongs_to :account
   belongs_to :campaign

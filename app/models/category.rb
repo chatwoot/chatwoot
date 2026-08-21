@@ -5,6 +5,7 @@
 #  id                     :bigint           not null, primary key
 #  description            :text
 #  icon                   :string           default("")
+#  icon_color             :string           default("")
 #  locale                 :string           default("en")
 #  name                   :string
 #  position               :integer

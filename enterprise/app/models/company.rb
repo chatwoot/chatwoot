@@ -2,17 +2,17 @@
 #
 # Table name: companies
 #
+#  id                    :bigint           not null, primary key
 #  additional_attributes :jsonb
+#  contacts_count        :integer
 #  custom_attributes     :jsonb
+#  description           :text
+#  domain                :string
 #  last_activity_at      :datetime
-#  id             :bigint           not null, primary key
-#  contacts_count :integer
-#  description    :text
-#  domain         :string
-#  name           :string           not null
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  account_id     :bigint           not null
+#  name                  :string           not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :bigint           not null
 #
 # Indexes
 #
