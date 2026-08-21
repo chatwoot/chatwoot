@@ -1,5 +1,6 @@
 <script setup>
 import { h, ref, computed, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import {
   provideSidebarContext,
   useSidebarResize,
@@ -51,6 +52,16 @@ const emit = defineEmits([
 const { accountScopedRoute, isOnChatwootCloud } = useAccount();
 const { isEnterprise } = useConfig();
 const store = useStore();
+const route = useRoute();
+
+// Any account-scoped /settings/ route swaps the whole sidebar into the
+// settings navigation (see the nav template below). Route-driven rather than
+// click-driven so deep links and refreshes land in the right context. Profile
+// (/accounts/:id/profile) and reports (/accounts/:id/reports) live outside
+// this prefix on purpose.
+const isSettingsContext = computed(() =>
+  /\/accounts\/\d+\/settings(\/|$)/.test(route.path)
+);
 
 // Calls run on the enterprise-only API (cloud runs enterprise); hide the entry
 // on community so it doesn't lead to a dashboard/CTA the backend can't serve.
@@ -392,13 +403,15 @@ const SECTION_LAYOUT = [
   },
 ];
 
-// Settings was a flat list of 21 entries. Same name-mapping trick, rendered
-// through SidebarSubGroup — the component the conversation folders already use.
+// Settings items grouped for the settings-context sidebar: when the route is
+// under /settings/ the whole sidebar swaps to these sections (same section
+// header treatment as the main menu), instead of nesting groups inside a
+// dropdown. Same name-mapping trick as SECTION_LAYOUT — an item upstream adds
+// later lands in the trailing unlabelled section instead of disappearing.
 const SETTINGS_GROUP_LAYOUT = [
   {
     name: 'Account',
     labelKey: 'SIDEBAR.SETTINGS_GROUPS.ACCOUNT',
-    icon: 'i-lucide-building-2',
     items: [
       'Settings Account Settings',
       'Settings Billing',
@@ -409,7 +422,6 @@ const SETTINGS_GROUP_LAYOUT = [
   {
     name: 'People',
     labelKey: 'SIDEBAR.SETTINGS_GROUPS.PEOPLE',
-    icon: 'i-lucide-users',
     items: [
       'Settings People',
       'Settings Agent Assignment',
@@ -419,13 +431,11 @@ const SETTINGS_GROUP_LAYOUT = [
   {
     name: 'Channels',
     labelKey: 'SIDEBAR.SETTINGS_GROUPS.CHANNELS',
-    icon: 'i-lucide-inbox',
     items: ['Settings Inboxes', 'Settings Templates', 'Settings Sender Lists'],
   },
   {
     name: 'Conversations',
     labelKey: 'SIDEBAR.SETTINGS_GROUPS.CONVERSATIONS',
-    icon: 'i-lucide-message-circle',
     items: [
       'Settings Labels',
       'Settings Custom Attributes',
@@ -436,7 +446,6 @@ const SETTINGS_GROUP_LAYOUT = [
   {
     name: 'Integrations',
     labelKey: 'SIDEBAR.SETTINGS_GROUPS.INTEGRATIONS',
-    icon: 'i-lucide-blocks',
     items: ['Settings Integrations', 'Settings Agent Bots', 'Settings Data'],
   },
 ];
@@ -912,173 +921,181 @@ const menuItems = computed(() => {
       name: 'Settings',
       label: t('SIDEBAR.SETTINGS'),
       icon: 'i-lucide-bolt',
-      children: [
-        {
-          name: 'Settings Account Settings',
-          label: t('SIDEBAR.ACCOUNT_SETTINGS'),
-          icon: 'i-lucide-briefcase',
-          to: accountScopedRoute('general_settings_index'),
-        },
-        // {
-        //   name: 'Settings Captain',
-        //   label: t('SIDEBAR.CAPTAIN_AI'),
-        //   icon: 'i-woot-captain',
-        //   to: accountScopedRoute('captain_settings_index'),
-        // },
-        {
-          name: 'Settings People',
-          label: t('SIDEBAR.PEOPLE'),
-          icon: 'i-lucide-users',
-          to: accountScopedRoute('settings_people_index'),
-          activeOn: [
-            'settings_people_index',
-            'agent_list',
-            'settings_teams_list',
-            'settings_teams_new',
-            'settings_teams_add_agents',
-            'settings_teams_finish',
-            'settings_teams_edit',
-            'settings_teams_edit_members',
-            'settings_teams_edit_finish',
-          ],
-        },
-        ...(hasAdvancedAssignment.value
-          ? [
-              {
-                name: 'Settings Agent Assignment',
-                label: t('SIDEBAR.AGENT_ASSIGNMENT'),
-                icon: 'i-lucide-user-cog',
-                activeOn: [
-                  'assignment_policy_index',
-                  'agent_assignment_policy_index',
-                  'agent_assignment_policy_create',
-                  'agent_assignment_policy_edit',
-                  'agent_capacity_policy_index',
-                  'agent_capacity_policy_create',
-                  'agent_capacity_policy_edit',
-                ],
-                to: accountScopedRoute('assignment_policy_index'),
-              },
-            ]
-          : []),
-        {
-          name: 'Settings Inboxes',
-          label: t('SIDEBAR.INBOXES'),
-          icon: 'i-lucide-inbox',
-          activeOn: [
-            'settings_inbox_list',
-            'settings_inbox_show',
-            'settings_inbox_new',
-            'settings_inbox_finish',
-            'settings_inboxes_page_channel',
-            'settings_inboxes_add_agents',
-          ],
-          to: accountScopedRoute('settings_inbox_list'),
-        },
-        {
-          name: 'Settings Templates',
-          label: t('SIDEBAR.WHATSAPP_TEMPLATES'),
-          icon: 'i-lucide-layout-template',
-          to: accountScopedRoute('settings_templates'),
-        },
-        {
-          name: 'Settings Labels',
-          label: t('SIDEBAR.LABELS'),
-          icon: 'i-lucide-tags',
-          to: accountScopedRoute('labels_list'),
-        },
-        {
-          name: 'Settings Custom Attributes',
-          label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
-          icon: 'i-lucide-code',
-          to: accountScopedRoute('attributes_list'),
-        },
-        {
-          name: 'Settings Sender Lists',
-          label: t('SIDEBAR.SENDER_LISTS'),
-          icon: 'i-lucide-mail-check',
-          to: accountScopedRoute('sender_lists_index'),
-        },
-        {
-          name: 'Settings Automation',
-          label: t('SIDEBAR.AUTOMATION'),
-          icon: 'i-lucide-repeat',
-          to: accountScopedRoute('automation_list'),
-        },
-        {
-          name: 'Settings Agent Bots',
-          label: t('SIDEBAR.AGENT_BOTS'),
-          icon: 'i-lucide-bot',
-          to: accountScopedRoute('agent_bots'),
-        },
-        {
-          name: 'Settings Macros',
-          label: t('SIDEBAR.MACROS'),
-          icon: 'i-lucide-toy-brick',
-          to: accountScopedRoute('macros_wrapper'),
-        },
-        {
-          name: 'Settings Canned Responses',
-          label: t('SIDEBAR.CANNED_RESPONSES'),
-          icon: 'i-lucide-message-square-quote',
-          to: accountScopedRoute('canned_list'),
-        },
-        {
-          name: 'Settings Integrations',
-          label: t('SIDEBAR.INTEGRATIONS'),
-          icon: 'i-lucide-blocks',
-          to: accountScopedRoute('settings_applications'),
-        },
-        ...(hasDataImport.value
-          ? [
-              {
-                name: 'Settings Data',
-                label: t('SIDEBAR.DATA'),
-                icon: 'i-lucide-database',
-                to: accountScopedRoute('settings_data_imports'),
-              },
-            ]
-          : []),
-        {
-          name: 'Settings Audit Logs',
-          label: t('SIDEBAR.AUDIT_LOGS'),
-          icon: 'i-lucide-briefcase',
-          to: accountScopedRoute('auditlogs_list'),
-        },
-        {
-          name: 'Settings Custom Roles',
-          label: t('SIDEBAR.CUSTOM_ROLES'),
-          icon: 'i-lucide-shield-plus',
-          to: accountScopedRoute('custom_roles_list'),
-        },
-        {
-          name: 'Settings Sla',
-          label: t('SIDEBAR.SLA'),
-          icon: 'i-lucide-clock-alert',
-          to: accountScopedRoute('sla_list'),
-        },
-        {
-          name: 'Conversation Workflow',
-          label: t('SIDEBAR.CONVERSATION_WORKFLOW'),
-          icon: 'i-lucide-workflow',
-          to: accountScopedRoute('conversation_workflow_index'),
-        },
-        {
-          name: 'Settings Security',
-          label: t('SIDEBAR.SECURITY'),
-          icon: 'i-lucide-shield',
-          to: accountScopedRoute('security_settings_index'),
-        },
-        {
-          name: 'Settings Billing',
-          label: t('SIDEBAR.BILLING'),
-          icon: 'i-lucide-credit-card',
-          to: accountScopedRoute('billing_settings_index'),
-        },
-      ],
+      // settings_home redirects per role (admin → general settings, agents →
+      // canned responses), so this single link is every role's entry point.
+      to: accountScopedRoute('settings_home'),
     },
   ];
 });
+
+// The settings-context sidebar's item pool. A flat list rather than children
+// of the Settings entry, so the main menu's Settings row stays a plain link
+// and grouping happens with full-height section headers instead of a nested
+// dropdown.
+const settingsMenuItems = computed(() => [
+  {
+    name: 'Settings Account Settings',
+    label: t('SIDEBAR.ACCOUNT_SETTINGS'),
+    icon: 'i-lucide-briefcase',
+    to: accountScopedRoute('general_settings_index'),
+  },
+  // {
+  //   name: 'Settings Captain',
+  //   label: t('SIDEBAR.CAPTAIN_AI'),
+  //   icon: 'i-woot-captain',
+  //   to: accountScopedRoute('captain_settings_index'),
+  // },
+  {
+    name: 'Settings People',
+    label: t('SIDEBAR.PEOPLE'),
+    icon: 'i-lucide-users',
+    to: accountScopedRoute('settings_people_index'),
+    activeOn: [
+      'settings_people_index',
+      'agent_list',
+      'settings_teams_list',
+      'settings_teams_new',
+      'settings_teams_add_agents',
+      'settings_teams_finish',
+      'settings_teams_edit',
+      'settings_teams_edit_members',
+      'settings_teams_edit_finish',
+    ],
+  },
+  ...(hasAdvancedAssignment.value
+    ? [
+        {
+          name: 'Settings Agent Assignment',
+          label: t('SIDEBAR.AGENT_ASSIGNMENT'),
+          icon: 'i-lucide-user-cog',
+          activeOn: [
+            'assignment_policy_index',
+            'agent_assignment_policy_index',
+            'agent_assignment_policy_create',
+            'agent_assignment_policy_edit',
+            'agent_capacity_policy_index',
+            'agent_capacity_policy_create',
+            'agent_capacity_policy_edit',
+          ],
+          to: accountScopedRoute('assignment_policy_index'),
+        },
+      ]
+    : []),
+  {
+    name: 'Settings Inboxes',
+    label: t('SIDEBAR.INBOXES'),
+    icon: 'i-lucide-inbox',
+    activeOn: [
+      'settings_inbox_list',
+      'settings_inbox_show',
+      'settings_inbox_new',
+      'settings_inbox_finish',
+      'settings_inboxes_page_channel',
+      'settings_inboxes_add_agents',
+    ],
+    to: accountScopedRoute('settings_inbox_list'),
+  },
+  {
+    name: 'Settings Templates',
+    label: t('SIDEBAR.WHATSAPP_TEMPLATES'),
+    icon: 'i-lucide-layout-template',
+    to: accountScopedRoute('settings_templates'),
+  },
+  {
+    name: 'Settings Labels',
+    label: t('SIDEBAR.LABELS'),
+    icon: 'i-lucide-tags',
+    to: accountScopedRoute('labels_list'),
+  },
+  {
+    name: 'Settings Custom Attributes',
+    label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
+    icon: 'i-lucide-code',
+    to: accountScopedRoute('attributes_list'),
+  },
+  {
+    name: 'Settings Sender Lists',
+    label: t('SIDEBAR.SENDER_LISTS'),
+    icon: 'i-lucide-mail-check',
+    to: accountScopedRoute('sender_lists_index'),
+  },
+  {
+    name: 'Settings Automation',
+    label: t('SIDEBAR.AUTOMATION'),
+    icon: 'i-lucide-repeat',
+    to: accountScopedRoute('automation_list'),
+  },
+  {
+    name: 'Settings Agent Bots',
+    label: t('SIDEBAR.AGENT_BOTS'),
+    icon: 'i-lucide-bot',
+    to: accountScopedRoute('agent_bots'),
+  },
+  {
+    name: 'Settings Macros',
+    label: t('SIDEBAR.MACROS'),
+    icon: 'i-lucide-toy-brick',
+    to: accountScopedRoute('macros_wrapper'),
+  },
+  {
+    name: 'Settings Canned Responses',
+    label: t('SIDEBAR.CANNED_RESPONSES'),
+    icon: 'i-lucide-message-square-quote',
+    to: accountScopedRoute('canned_list'),
+  },
+  {
+    name: 'Settings Integrations',
+    label: t('SIDEBAR.INTEGRATIONS'),
+    icon: 'i-lucide-blocks',
+    to: accountScopedRoute('settings_applications'),
+  },
+  ...(hasDataImport.value
+    ? [
+        {
+          name: 'Settings Data',
+          label: t('SIDEBAR.DATA'),
+          icon: 'i-lucide-database',
+          to: accountScopedRoute('settings_data_imports'),
+        },
+      ]
+    : []),
+  {
+    name: 'Settings Audit Logs',
+    label: t('SIDEBAR.AUDIT_LOGS'),
+    icon: 'i-lucide-briefcase',
+    to: accountScopedRoute('auditlogs_list'),
+  },
+  {
+    name: 'Settings Custom Roles',
+    label: t('SIDEBAR.CUSTOM_ROLES'),
+    icon: 'i-lucide-shield-plus',
+    to: accountScopedRoute('custom_roles_list'),
+  },
+  {
+    name: 'Settings Sla',
+    label: t('SIDEBAR.SLA'),
+    icon: 'i-lucide-clock-alert',
+    to: accountScopedRoute('sla_list'),
+  },
+  {
+    name: 'Conversation Workflow',
+    label: t('SIDEBAR.CONVERSATION_WORKFLOW'),
+    icon: 'i-lucide-workflow',
+    to: accountScopedRoute('conversation_workflow_index'),
+  },
+  {
+    name: 'Settings Security',
+    label: t('SIDEBAR.SECURITY'),
+    icon: 'i-lucide-shield',
+    to: accountScopedRoute('security_settings_index'),
+  },
+  {
+    name: 'Settings Billing',
+    label: t('SIDEBAR.BILLING'),
+    icon: 'i-lucide-credit-card',
+    to: accountScopedRoute('billing_settings_index'),
+  },
+]);
 
 const { isAllowed } = useSidebarRouteMeta();
 
@@ -1094,34 +1111,41 @@ const isItemVisible = item => {
   );
 };
 
-const groupedSettingsChildren = children => {
-  const byName = new Map(children.map(child => [child.name, child]));
-  const groups = SETTINGS_GROUP_LAYOUT.map(group => ({
+// Sections for the settings-context sidebar: same shape as menuSections
+// (label + flat items) so the template renders both with the same components.
+// Items are permission-filtered here because they render as flat leaves — a
+// section header must never outlive the items it labels.
+const settingsSections = computed(() => {
+  const byName = new Map(
+    settingsMenuItems.value.map(item => [item.name, item])
+  );
+
+  const sections = SETTINGS_GROUP_LAYOUT.map(group => ({
     name: group.name,
     label: t(group.labelKey),
-    icon: group.icon,
-    collapsible: false,
-    showTreeLine: true,
-    children: group.items.map(itemName => byName.get(itemName)).filter(Boolean),
-  })).filter(group => group.children.length);
+    items: group.items
+      .map(itemName => byName.get(itemName))
+      .filter(item => item && item.to && isAllowed(item.to)),
+  }));
 
   const claimed = new Set([
     ...SETTINGS_GROUP_LAYOUT.flatMap(group => group.items),
     ...HIDDEN_SETTINGS_ITEMS,
   ]);
+  const unclaimed = settingsMenuItems.value.filter(
+    item => !claimed.has(item.name) && item.to && isAllowed(item.to)
+  );
 
-  return [...groups, ...children.filter(child => !claimed.has(child.name))];
-};
+  return [
+    ...sections,
+    ...(unclaimed.length
+      ? [{ name: 'other', label: '', items: unclaimed }]
+      : []),
+  ].filter(section => section.items.length);
+});
 
 const menuSections = computed(() => {
-  const byName = new Map(
-    menuItems.value.map(item => [
-      item.name,
-      item.name === 'Settings'
-        ? { ...item, children: groupedSettingsChildren(item.children) }
-        : item,
-    ])
-  );
+  const byName = new Map(menuItems.value.map(item => [item.name, item]));
 
   const sections = SECTION_LAYOUT.map(section => ({
     name: section.name,
@@ -1249,17 +1273,59 @@ const menuSections = computed(() => {
         class="flex flex-col gap-1 m-0 list-none min-w-0"
         :class="{ 'items-center': isEffectivelyCollapsed }"
       >
-        <template v-for="section in menuSections" :key="section.name">
-          <SidebarSectionHeader
-            v-if="section.label"
-            :label="section.label"
-            :collapsed="isEffectivelyCollapsed"
-          />
-          <SidebarGroup
-            v-for="item in section.items"
-            :key="item.name"
-            v-bind="item"
-          />
+        <!-- Settings context: the sidebar swaps to the settings navigation.
+             One row acts as both title and way back; groups render with the
+             same section headers as the main menu, items stay flat. -->
+        <template v-if="isSettingsContext">
+          <li
+            class="min-w-0"
+            :class="{ 'mb-1 w-full': !isEffectivelyCollapsed }"
+          >
+            <RouterLink
+              :to="accountScopedRoute('home')"
+              :aria-label="t('SIDEBAR.BACK_TO_MAIN')"
+              class="flex items-center gap-2 rounded-lg font-medium text-n-slate-12 hover:bg-n-alpha-2"
+              :class="
+                isEffectivelyCollapsed ? 'justify-center size-10' : 'h-8 px-2'
+              "
+              :title="
+                isEffectivelyCollapsed ? t('SIDEBAR.BACK_TO_MAIN') : undefined
+              "
+            >
+              <span
+                class="i-lucide-arrow-left size-4 rtl:rotate-180 text-n-slate-11 flex-shrink-0"
+              />
+              <span v-if="!isEffectivelyCollapsed" class="truncate">
+                {{ t('SIDEBAR.SETTINGS') }}
+              </span>
+            </RouterLink>
+          </li>
+          <template v-for="section in settingsSections" :key="section.name">
+            <SidebarSectionHeader
+              v-if="section.label"
+              :label="section.label"
+              :collapsed="isEffectivelyCollapsed"
+            />
+            <SidebarGroup
+              v-for="item in section.items"
+              :key="item.name"
+              v-bind="item"
+            />
+          </template>
+        </template>
+        <template v-else>
+          <template v-for="section in menuSections" :key="section.name">
+            <SidebarSectionHeader
+              v-if="section.label"
+              :label="section.label"
+              :collapsed="isEffectivelyCollapsed"
+            />
+            <SidebarGroup
+              v-for="item in section.items"
+              :key="item.name"
+              v-bind="item"
+            />
+          </template>
         </template>
       </ul>
     </nav>
