@@ -14,20 +14,22 @@ class Whatsapp::UserIdRotationService
   LOCK_RETRY_INTERVAL = 0.2
   LOCK_TTL = 30.seconds
 
-  pattr_initialize [:inbox!, :payload!]
+  pattr_initialize [:inbox!, :updates!]
 
   def perform
-    rotations.each { |previous_source_id, current_source_id| rotate(previous_source_id, current_source_id) }
+    updates.each do |update|
+      rotations(update).each { |previous_source_id, current_source_id| rotate(previous_source_id, current_source_id) }
+    end
   end
 
   private
 
   # The parent identifier first, so that an event carrying both leaves the rows in the same
   # order the inbound path appends them.
-  def rotations
+  def rotations(update)
     [
-      [payload.dig(:parent_user_id, :previous), payload.dig(:parent_user_id, :current)],
-      [payload.dig(:user_id, :previous), payload.dig(:user_id, :current)]
+      [update.dig(:parent_user_id, :previous), update.dig(:parent_user_id, :current)],
+      [update.dig(:user_id, :previous), update.dig(:user_id, :current)]
     ].select { |previous, current| previous.present? && current.present? && previous != current }
   end
 
@@ -57,14 +59,15 @@ class Whatsapp::UserIdRotationService
     record_alias(previous_source_id, current_source_id)
   end
 
-  # `Webhooks::WhatsappEventsJob` already holds the mutex for one identifier of this payload.
-  # Taking it again here would deadlock against our own lock, so that one is used as is.
+  # `Webhooks::WhatsappEventsJob` already holds the mutex for one identifier, derived from the
+  # FIRST entry of the batch. Taking that one again here would block on our own lock, and deriving
+  # it per entry would silently skip the lock for every entry after the first, which is exactly the
+  # case the job does not cover. Mirrors `contact_sender_id_from_user_id_update`.
   def job_locked_source_id
-    @job_locked_source_id ||= [
-      payload.dig(:parent_user_id, :current),
-      payload.dig(:user_id, :current),
-      payload[:wa_id]
-    ].compact_blank.first
+    @job_locked_source_id ||= begin
+      first = updates.first || {}
+      [first.dig(:parent_user_id, :current), first.dig(:user_id, :current), first[:wa_id]].compact_blank.first
+    end
   end
 
   def record_alias(previous_source_id, current_source_id)

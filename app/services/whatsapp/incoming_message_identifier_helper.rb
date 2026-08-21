@@ -121,7 +121,7 @@ module Whatsapp::IncomingMessageIdentifierHelper
   end
 
   def process_user_id_updates
-    processed_params[:user_id_update].each { |payload| Whatsapp::UserIdRotationService.new(inbox: inbox, payload: payload).perform }
+    Whatsapp::UserIdRotationService.new(inbox: inbox, updates: processed_params[:user_id_update]).perform
   end
 
   def status_source_ids(status)
