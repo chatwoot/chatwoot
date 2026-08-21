@@ -181,7 +181,7 @@ describe('ReplyBox', () => {
   });
 
   describe.each(CHANNELS)('$name', ({ name, inbox }) => {
-    it('locks the composer and hides template sends when a bot owns a pending conversation', () => {
+    it('locks the composer and hides template sends when AI owns the conversation', () => {
       const { wrapper } = mountWith({
         inbox,
         chat: {
@@ -197,7 +197,7 @@ describe('ReplyBox', () => {
       expect(topPanel(wrapper).isEditorDisabled).toBe(false);
     });
 
-    it('opens directly in note mode when a bot already owns the pending conversation', () => {
+    it('opens directly in note mode when AI owns the conversation', () => {
       const { wrapper, store } = mountWith({
         inbox,
         chat: {
@@ -224,7 +224,7 @@ describe('ReplyBox', () => {
     });
 
     it.each(['open', 'resolved', 'snoozed'])(
-      'leaves the composer open when a bot owns a %s conversation',
+      'locks the composer when AI owns a %s conversation',
       status => {
         const { wrapper } = mountWith({
           inbox,
@@ -234,8 +234,8 @@ describe('ReplyBox', () => {
           },
         });
 
-        expect(topPanel(wrapper).isReplyRestricted).toBe(false);
-        expect(bottomPanel(wrapper).enableWhatsAppTemplates).toBe(true);
+        expect(topPanel(wrapper).isReplyRestricted).toBe(true);
+        expect(bottomPanel(wrapper).enableWhatsAppTemplates).toBe(false);
       }
     );
 
@@ -265,6 +265,22 @@ describe('ReplyBox', () => {
       // else the composer falls back to a usable private note.
       expect(topPanel(wrapper).isEditorDisabled).toBe(stillRepliable);
     });
+  });
+
+  it('locks the composer when Captain owns the conversation', () => {
+    const { wrapper } = mountWith({
+      inbox: { channel_type: 'Channel::WebWidget' },
+      chat: {
+        status: 'pending',
+        meta: {
+          sender: { id: 2 },
+          assignee_type: 'Captain::Assistant',
+        },
+      },
+    });
+
+    expect(topPanel(wrapper).isReplyRestricted).toBe(true);
+    expect(bottomPanel(wrapper).isOnPrivateNote).toBe(true);
   });
 
   it('hides the template action when the inbox has no templates synced', () => {
