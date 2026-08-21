@@ -1,10 +1,14 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useCaptain } from 'dashboard/composables/useCaptain';
+import {
+  isAbortError,
+  useAbortableRequest,
+} from 'dashboard/composables/useAbortableRequest';
 import CaptainAssistant from 'dashboard/api/captain/assistant';
 import CaptainAssistantStats from 'dashboard/api/captain/assistantStats';
 
@@ -34,9 +38,16 @@ const summaryPoints = ref([]);
 const resolutionFlow = ref(null);
 const resolutionTrend = ref(null);
 const faqStats = ref(null);
-const isFetchingReport = ref(false);
-const isFetchingSummary = ref(false);
-const isFetchingKnowledge = ref(false);
+
+const TREND_DIRECTIONS = {
+  UP: 'up',
+  DOWN: 'down',
+  NEUTRAL: 'neutral',
+};
+const HOURS_PER_DAY = 24;
+const SECONDS_PER_MINUTE = 60;
+const SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
+const DURATION_DAY_THRESHOLD_HOURS = 100;
 
 const assistantId = computed(() => route.params.assistantId);
 const userName = computed(
@@ -45,102 +56,72 @@ const userName = computed(
     t('CAPTAIN.OVERVIEW.V2.SUMMARY.DEFAULT_NAME')
 );
 
-let reportFetchToken = 0;
-let summaryFetchToken = 0;
-let knowledgeFetchToken = 0;
-let reportAbortController = null;
-let summaryAbortController = null;
-let knowledgeAbortController = null;
+const { run: runReportRequest, isPending: isFetchingReport } =
+  useAbortableRequest();
+const { run: runSummaryRequest, isPending: isFetchingSummary } =
+  useAbortableRequest();
+const { run: runKnowledgeRequest, isPending: isFetchingKnowledge } =
+  useAbortableRequest();
 
-const fulfilledData = result =>
-  result.status === 'fulfilled' ? result.value.data : null;
+const optionalResponseData = async request => {
+  try {
+    return (await request).data;
+  } catch (error) {
+    if (isAbortError(error)) throw error;
+    return null;
+  }
+};
 
 const fetchReport = async () => {
-  reportFetchToken += 1;
-  const token = reportFetchToken;
-  reportAbortController?.abort();
-  reportAbortController = new AbortController();
-  const request = {
-    assistantId: assistantId.value,
-    range: selectedRange.value,
-    signal: reportAbortController.signal,
-  };
+  const results = await runReportRequest(signal => {
+    const request = {
+      assistantId: assistantId.value,
+      range: selectedRange.value,
+      signal,
+    };
 
-  isFetchingReport.value = true;
-  const results = await Promise.allSettled([
-    CaptainAssistantStats.getOverview(request),
-    CaptainAssistantStats.getResolutionFlow(request),
-    CaptainAssistantStats.getResolutionTrend(request),
-  ]);
+    return Promise.all([
+      optionalResponseData(CaptainAssistantStats.getOverview(request)),
+      optionalResponseData(CaptainAssistantStats.getResolutionFlow(request)),
+      optionalResponseData(CaptainAssistantStats.getResolutionTrend(request)),
+    ]);
+  });
 
-  if (token !== reportFetchToken || reportAbortController.signal.aborted)
-    return;
-  [overview.value, resolutionFlow.value, resolutionTrend.value] =
-    results.map(fulfilledData);
-  isFetchingReport.value = false;
+  if (results) {
+    [overview.value, resolutionFlow.value, resolutionTrend.value] = results;
+  }
 };
 
 const fetchSummary = async () => {
-  summaryFetchToken += 1;
-  const token = summaryFetchToken;
-  summaryAbortController?.abort();
-  summaryAbortController = new AbortController();
-  isFetchingSummary.value = true;
   summaryPoints.value = [];
 
   try {
-    const { data } = await CaptainAssistantStats.getOverviewSummary({
-      assistantId: assistantId.value,
-      range: selectedRange.value,
-      signal: summaryAbortController.signal,
-    });
-    if (token === summaryFetchToken && !summaryAbortController.signal.aborted) {
-      summaryPoints.value = data.points || [];
-    }
+    const response = await runSummaryRequest(signal =>
+      CaptainAssistantStats.getOverviewSummary({
+        assistantId: assistantId.value,
+        range: selectedRange.value,
+        signal,
+      })
+    );
+    if (response) summaryPoints.value = response.data.points || [];
   } catch {
-    if (token === summaryFetchToken && !summaryAbortController.signal.aborted) {
-      summaryPoints.value = [];
-    }
-  } finally {
-    if (token === summaryFetchToken && !summaryAbortController.signal.aborted) {
-      isFetchingSummary.value = false;
-    }
+    summaryPoints.value = [];
   }
 };
 
 const fetchKnowledge = async () => {
-  knowledgeFetchToken += 1;
-  const token = knowledgeFetchToken;
-  knowledgeAbortController?.abort();
-  knowledgeAbortController = new AbortController();
   faqStats.value = null;
-  isFetchingKnowledge.value = true;
 
   try {
-    const { data } = await CaptainAssistant.getFaqStats({
-      assistantId: assistantId.value,
-      signal: knowledgeAbortController.signal,
-    });
-    if (
-      token === knowledgeFetchToken &&
-      !knowledgeAbortController.signal.aborted
-    ) {
-      faqStats.value = data;
-    }
+    const response = await runKnowledgeRequest(signal =>
+      CaptainAssistant.getFaqStats({
+        assistantId: assistantId.value,
+        signal,
+      })
+    );
+    if (response) faqStats.value = response.data;
   } catch {
-    if (
-      token === knowledgeFetchToken &&
-      !knowledgeAbortController.signal.aborted
-    ) {
-      faqStats.value = null;
-    }
-  } finally {
-    if (
-      token === knowledgeFetchToken &&
-      !knowledgeAbortController.signal.aborted
-    ) {
-      isFetchingKnowledge.value = false;
-    }
+    faqStats.value = null;
   }
 };
 
@@ -155,31 +136,28 @@ watch(
 watch(assistantId, fetchKnowledge, { immediate: true });
 
 onMounted(fetchLimits);
-onUnmounted(() => {
-  reportAbortController?.abort();
-  summaryAbortController?.abort();
-  knowledgeAbortController?.abort();
-});
 
 const trendGood = (trend, direction) => {
-  if (!trend || direction === 'neutral') return null;
-  return direction === 'up' ? trend > 0 : trend < 0;
+  if (!trend || direction === TREND_DIRECTIONS.NEUTRAL) return null;
+  return direction === TREND_DIRECTIONS.UP ? trend > 0 : trend < 0;
 };
 
 const signed = value => `${value > 0 ? '+' : ''}${value}`;
 const formatDuration = hours =>
-  hours >= 100
-    ? t('CAPTAIN.OVERVIEW.V2.UNITS.DAYS', { value: Math.round(hours / 24) })
+  hours >= DURATION_DAY_THRESHOLD_HOURS
+    ? t('CAPTAIN.OVERVIEW.V2.UNITS.DAYS', {
+        value: Math.round(hours / HOURS_PER_DAY),
+      })
     : t('CAPTAIN.OVERVIEW.V2.UNITS.HOURS', { value: hours });
 
 const formatResolutionTime = seconds => {
-  if (seconds >= 3600) {
+  if (seconds >= SECONDS_PER_HOUR) {
     return t('CAPTAIN.OVERVIEW.V2.UNITS.HOURS', {
-      value: (seconds / 3600).toFixed(1),
+      value: (seconds / SECONDS_PER_HOUR).toFixed(1),
     });
   }
   return t('CAPTAIN.OVERVIEW.V2.UNITS.MINUTES', {
-    value: Math.round(seconds / 60),
+    value: Math.round(seconds / SECONDS_PER_MINUTE),
   });
 };
 
@@ -258,7 +236,7 @@ const featuredMetrics = computed(() => [
     hintNote: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.NOTE'),
     formatValue: formatDuration,
     formatTrend: formatDurationTrend,
-    direction: 'up',
+    direction: TREND_DIRECTIONS.UP,
     valueClass: 'text-n-iris-11',
   }),
   metricFor({
@@ -267,7 +245,7 @@ const featuredMetrics = computed(() => [
     hint: t('CAPTAIN.OVERVIEW.V2.METRICS.DURABLE.HINT'),
     hintNote: t('CAPTAIN.OVERVIEW.V2.METRICS.DURABLE.NOTE'),
     formatValue: value => `${value}%`,
-    direction: 'up',
+    direction: TREND_DIRECTIONS.UP,
     trendSuffix: '%',
     valueClass: 'text-n-iris-11',
   }),
@@ -279,7 +257,7 @@ const metrics = computed(() => [
     label: t('CAPTAIN.OVERVIEW.METRICS.HANDLED.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HANDLED.HINT'),
     formatValue: value => value.toLocaleString(),
-    direction: 'up',
+    direction: TREND_DIRECTIONS.UP,
     trendSuffix: '%',
   }),
   metricFor({
@@ -287,7 +265,7 @@ const metrics = computed(() => [
     label: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.HINT'),
     formatValue: value => `${value}%`,
-    direction: 'up',
+    direction: TREND_DIRECTIONS.UP,
     trendSuffix: '%',
     supportingValue: Number(
       overview.value?.autonomous_resolutions?.current || 0
@@ -301,7 +279,7 @@ const metrics = computed(() => [
     label: t('CAPTAIN.OVERVIEW.METRICS.HANDOFF.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HANDOFF.HINT'),
     formatValue: value => `${value}%`,
-    direction: 'down',
+    direction: TREND_DIRECTIONS.DOWN,
     trendSuffix: '%',
     supportingValue: Number(
       overview.value?.handoff_count?.current || 0
@@ -316,7 +294,7 @@ const metrics = computed(() => [
     hint: t('CAPTAIN.OVERVIEW.METRICS.DEPTH.HINT'),
     hintNote: t('CAPTAIN.OVERVIEW.METRICS.DEPTH.NOTE'),
     formatValue: value => value.toFixed(1),
-    direction: 'neutral',
+    direction: TREND_DIRECTIONS.NEUTRAL,
   }),
   metricFor({
     key: 'reopen_rate',
@@ -324,7 +302,7 @@ const metrics = computed(() => [
     hint: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.HINT'),
     hintNote: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.NOTE'),
     formatValue: value => `${value}%`,
-    direction: 'down',
+    direction: TREND_DIRECTIONS.DOWN,
     trendSuffix: '%',
   }),
   metricFor({
@@ -334,7 +312,7 @@ const metrics = computed(() => [
     hintNote: t('CAPTAIN.OVERVIEW.V2.METRICS.MEDIAN_RESOLUTION.NOTE'),
     formatValue: formatResolutionTime,
     formatTrend: formatResolutionTrend,
-    direction: 'down',
+    direction: TREND_DIRECTIONS.DOWN,
   }),
 ]);
 

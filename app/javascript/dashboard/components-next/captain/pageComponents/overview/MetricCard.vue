@@ -63,7 +63,7 @@ const onActivate = () => {
   >
     <div v-if="hasLabelHeader" class="flex items-center w-full gap-1.5">
       <div
-        class="flex items-center min-w-0 gap-1 text-sm font-[420] leading-[21px] tracking-[-0.28px] text-n-slate-11"
+        class="flex items-center min-w-0 gap-1 text-body-main text-n-slate-11"
       >
         <span>{{ label }}</span>
         <MetricHint
@@ -75,7 +75,7 @@ const onActivate = () => {
       </div>
       <span
         v-if="!loading && trend"
-        class="flex items-center gap-1 ml-auto text-sm font-medium leading-[21px] tracking-[0.14px] tabular-nums shrink-0"
+        class="flex items-center gap-1 ms-auto text-heading-3 tracking-[0.00875rem] tabular-nums shrink-0"
         :class="trendClass"
       >
         {{ trend }}
@@ -83,7 +83,7 @@ const onActivate = () => {
           v-if="trendUp !== null"
           class="size-3"
           :class="[
-            layout === 'spread' ? '!size-[10.5px]' : '',
+            layout === 'spread' ? '!size-[0.65625rem]' : '',
             trendUp
               ? 'i-fluent-caret-up-12-filled'
               : 'i-fluent-caret-down-12-filled',
@@ -96,20 +96,20 @@ const onActivate = () => {
       class="flex items-start justify-between gap-2"
     >
       <span
-        class="font-[520] leading-8 tracking-[-0.48px] tabular-nums"
+        class="font-[520] leading-8 tracking-[-0.03rem] tabular-nums"
         :class="[valueSizeClass, valueClass]"
       >
         {{ value }}
       </span>
       <span
         v-if="trend"
-        class="flex items-center gap-1 text-sm font-medium leading-[21px] tracking-[0.14px] tabular-nums shrink-0"
+        class="flex items-center gap-1 text-heading-3 tracking-[0.00875rem] tabular-nums shrink-0"
         :class="trendClass"
       >
         {{ trend }}
         <span
           v-if="trendUp !== null"
-          class="size-[10.5px]"
+          class="size-[0.65625rem]"
           :class="[
             trendUp
               ? 'i-fluent-caret-up-12-filled'
@@ -120,7 +120,7 @@ const onActivate = () => {
     </div>
     <div
       v-if="layout === 'headline'"
-      class="flex items-center gap-1 text-sm font-[420] leading-[21px] tracking-[-0.28px] text-n-slate-11"
+      class="flex items-center gap-1 text-body-main text-n-slate-11"
     >
       <span>{{ label }}</span>
       <MetricHint
@@ -137,14 +137,14 @@ const onActivate = () => {
     <div v-else-if="layout === 'standard'" class="flex flex-col min-w-0 gap-1">
       <div class="flex items-baseline justify-between gap-2">
         <span
-          class="font-[520] leading-8 tracking-[-0.48px] tabular-nums"
+          class="font-[520] leading-8 tracking-[-0.03rem] tabular-nums"
           :class="[valueSizeClass, valueClass]"
         >
           {{ value }}
         </span>
         <span
           v-if="supportingValue || supportingText"
-          class="text-sm font-[420] leading-[21px] tracking-[-0.28px] text-right tabular-nums shrink-0"
+          class="text-body-main text-right tabular-nums shrink-0"
         >
           <span class="text-n-slate-12">{{ supportingValue }}</span>
           <span class="text-n-slate-10">
@@ -153,29 +153,26 @@ const onActivate = () => {
           </span>
         </span>
       </div>
-      <span
-        v-if="description"
-        class="text-sm font-[420] leading-[21px] tracking-[-0.28px] text-n-slate-11"
-      >
+      <span v-if="description" class="text-body-main text-n-slate-11">
         {{ description }}
       </span>
     </div>
     <span
       v-else-if="layout === 'spread'"
-      class="text-[28px] font-[520] leading-8 tracking-[-0.56px] tabular-nums"
+      class="text-[1.75rem] font-[520] leading-8 tracking-[-0.035rem] tabular-nums"
       :class="valueClass"
     >
       {{ value }}
     </span>
     <span
       v-if="layout === 'spread' && description && !loading"
-      class="text-sm font-[420] leading-[21px] tracking-[-0.28px] text-n-slate-11"
+      class="text-body-main text-n-slate-11"
     >
       {{ description }}
     </span>
     <span
       v-if="layout === 'headline' && description"
-      class="text-sm font-[420] leading-[21px] tracking-[-0.28px] text-n-slate-11"
+      class="text-body-main text-n-slate-11"
     >
       {{ description }}
     </span>

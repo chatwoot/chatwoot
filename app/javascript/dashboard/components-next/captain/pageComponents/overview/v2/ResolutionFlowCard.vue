@@ -32,6 +32,15 @@ const REASON_LABELS = {
   unclassified: 'UNCLASSIFIED',
 };
 
+const FLOW_NODE_COLORS = {
+  conversations_handled: 'rgb(var(--iris-9))',
+  resolved_by_captain: 'rgb(var(--teal-9))',
+  stayed_closed: 'rgb(var(--teal-9))',
+  reopened_within_7_days: 'rgb(var(--ruby-9))',
+  closed_with_team: 'rgb(var(--slate-8))',
+};
+const DEFAULT_FLOW_NODE_COLOR = 'rgb(var(--amber-9))';
+
 const reasonLabel = category =>
   t(
     `CAPTAIN.OVERVIEW.V2.HANDOFF_REASONS.${REASON_LABELS[category] || 'UNCLASSIFIED'}`
@@ -46,14 +55,7 @@ const nodeLabel = id => {
   );
 };
 
-const nodeColor = id => {
-  if (id === 'conversations_handled') return 'rgb(var(--iris-9))';
-  if (id === 'resolved_by_captain' || id === 'stayed_closed')
-    return 'rgb(var(--teal-9))';
-  if (id === 'reopened_within_7_days') return 'rgb(var(--ruby-9))';
-  if (id === 'closed_with_team') return 'rgb(var(--slate-8))';
-  return 'rgb(var(--amber-9))';
-};
+const nodeColor = id => FLOW_NODE_COLORS[id] || DEFAULT_FLOW_NODE_COLOR;
 
 const chartData = computed(() => {
   const sankey = props.flow?.sankey;
@@ -85,10 +87,10 @@ const formatCount = value => Number(value).toLocaleString();
     <div
       class="flex flex-col min-w-0 gap-5 p-5 lg:flex-row lg:items-center lg:justify-between lg:gap-0"
     >
-      <div class="w-full min-w-0 lg:w-[755px]">
+      <div class="w-full min-w-0 lg:w-[47.1875rem]">
         <div
           v-if="loading"
-          class="h-[260px] rounded-lg bg-n-slate-3 animate-pulse"
+          class="h-[16.25rem] rounded-lg bg-n-slate-3 animate-pulse"
         />
         <SankeyChart
           v-else-if="hasData"
@@ -98,28 +100,26 @@ const formatCount = value => Number(value).toLocaleString();
           :node-padding="24"
           show-label-background
           :aria-label="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_FLOW.ARIA_LABEL')"
-          class="[--cw-viz-sankey-label-color:rgb(var(--slate-11))] [--cw-viz-sankey-label-value-color:rgb(var(--slate-12))] [--cw-viz-sankey-label-background:rgb(var(--slate-1))] [--cw-viz-sankey-label-border-color:rgb(var(--slate-4))] [--cw-viz-sankey-label-font-size:12px] [&_.cw-viz-sankey__label-background--terminal]:fill-[rgb(var(--card-color))] [&_.cw-viz-sankey__label-text]:font-[440] [&_.cw-viz-sankey__label-text]:tracking-[-0.24px] [&_.cw-viz-sankey__label-value]:font-[440] [&_.cw-viz-sankey__label-value]:tracking-[-0.24px]"
+          class="[--cw-viz-sankey-label-color:rgb(var(--slate-11))] [--cw-viz-sankey-label-value-color:rgb(var(--slate-12))] [--cw-viz-sankey-label-background:rgb(var(--slate-1))] [--cw-viz-sankey-label-border-color:rgb(var(--slate-4))] [--cw-viz-sankey-label-font-size:0.75rem] [&_.cw-viz-sankey__label-background--terminal]:fill-[rgb(var(--card-color))] [&_.cw-viz-sankey__label-text]:font-[440] [&_.cw-viz-sankey__label-text]:tracking-[-0.015rem] [&_.cw-viz-sankey__label-value]:font-[440] [&_.cw-viz-sankey__label-value]:tracking-[-0.015rem]"
         />
         <div
           v-else
-          class="grid h-[260px] text-sm place-content-center text-n-slate-11"
+          class="grid h-[16.25rem] text-body-main place-content-center text-n-slate-11"
         >
           {{ $t('CAPTAIN.OVERVIEW.V2.EMPTY') }}
         </div>
       </div>
       <div
-        class="flex flex-col justify-center w-full gap-3 lg:self-stretch lg:w-[294px] lg:pl-4 lg:pr-2"
+        class="flex flex-col justify-center w-full gap-3 lg:self-stretch lg:w-[18.375rem] lg:pl-4 lg:pr-2"
       >
-        <h2
-          class="font-interDisplay text-sm font-medium leading-[21px] tracking-[0.14px] text-n-slate-12"
-        >
+        <h2 class="text-heading-3 text-n-slate-12">
           {{ $t('CAPTAIN.OVERVIEW.V2.HANDOFF_REASONS.TITLE') }}
         </h2>
         <div v-if="loading" class="flex flex-col gap-2.5">
           <div
             v-for="index in 6"
             :key="index"
-            class="h-[21px] rounded bg-n-slate-3 animate-pulse"
+            class="h-[1.3125rem] rounded bg-n-slate-3 animate-pulse"
           />
         </div>
         <ul v-else-if="distribution.length" class="flex flex-col gap-2.5">
@@ -129,19 +129,15 @@ const formatCount = value => Number(value).toLocaleString();
             class="flex items-center w-full gap-4"
           >
             <span
-              class="flex-1 min-w-0 font-inter text-sm font-420 leading-[21px] tracking-[-0.28px] truncate text-n-slate-11"
+              class="flex-1 min-w-0 truncate text-body-main text-n-slate-11"
             >
               {{ reasonLabel(reason.category) }}
             </span>
             <span class="flex items-center gap-1 tabular-nums shrink-0">
-              <span
-                class="font-inter text-sm font-460 leading-[21px] tracking-[-0.28px] text-n-slate-12"
-              >
+              <span class="text-button text-n-slate-12">
                 {{ reason.count.toLocaleString() }}
               </span>
-              <span
-                class="w-11 font-inter text-xs font-440 leading-4 tracking-[-0.24px] text-center text-n-slate-11"
-              >
+              <span class="w-11 text-center text-label-small text-n-slate-11">
                 {{
                   $t('CAPTAIN.OVERVIEW.V2.HANDOFF_REASONS.PERCENTAGE', {
                     value: reason.percentage,
@@ -151,7 +147,7 @@ const formatCount = value => Number(value).toLocaleString();
             </span>
           </li>
         </ul>
-        <p v-else class="text-sm text-n-slate-11">
+        <p v-else class="text-body-main text-n-slate-11">
           {{ $t('CAPTAIN.OVERVIEW.V2.EMPTY') }}
         </p>
       </div>

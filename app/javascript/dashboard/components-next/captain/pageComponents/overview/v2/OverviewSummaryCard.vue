@@ -59,16 +59,16 @@ onUnmounted(stopAutoRotation);
 
 <template>
   <section
-    class="overflow-hidden border rounded-2xl bg-n-weak border-n-container shadow-[0_1px_1px_rgba(27,28,29,0.04)]"
+    class="overflow-hidden border rounded-2xl bg-n-weak border-n-container shadow-[0_0.0625rem_0.0625rem_rgba(27,28,29,0.04)]"
   >
     <div class="grid gap-px border-b lg:grid-cols-6 border-n-weak">
       <div
-        class="flex flex-col min-h-[139px] gap-3 p-5 bg-n-card lg:col-span-4"
+        class="flex flex-col min-h-[8.6875rem] gap-3 p-5 bg-n-card lg:col-span-4"
       >
         <div class="flex items-center justify-between gap-3">
           <div class="flex items-center gap-1.5 text-n-iris-11">
             <span class="i-lucide-sparkles size-5" />
-            <span class="text-base font-medium">
+            <span class="text-heading-2">
               {{
                 $t('CAPTAIN.OVERVIEW.V2.SUMMARY.GREETING', { name: userName })
               }}
@@ -109,14 +109,11 @@ onUnmounted(stopAutoRotation);
         <p
           v-else-if="points.length"
           aria-live="polite"
-          class="text-sm font-[420] leading-[21px] tracking-[-0.21px] text-n-slate-12"
+          class="text-body-para text-n-slate-12"
         >
           {{ activePoint }}
         </p>
-        <p
-          v-else
-          class="text-sm font-[420] leading-[21px] tracking-[-0.21px] text-n-slate-11"
-        >
+        <p v-else class="text-body-para text-n-slate-11">
           {{ $t('CAPTAIN.OVERVIEW.V2.SUMMARY.EMPTY') }}
         </p>
       </div>
@@ -127,7 +124,7 @@ onUnmounted(stopAutoRotation);
         :loading="loading"
         layout="headline"
         value-size-class="text-2xl"
-        class="min-h-[139px] lg:col-span-1"
+        class="min-h-[8.6875rem] lg:col-span-1"
       />
     </div>
     <div class="grid gap-px sm:grid-cols-2 lg:grid-cols-3">
@@ -138,7 +135,7 @@ onUnmounted(stopAutoRotation);
         :loading="loading"
         compact
         value-size-class="text-2xl"
-        class="min-h-[101px]"
+        class="min-h-[6.3125rem]"
       />
     </div>
   </section>

@@ -65,7 +65,7 @@ const metrics = computed(() => [
     border-class="border-n-weak"
     :shadow="false"
   >
-    <div class="grid grid-rows-[repeat(2,142px)]">
+    <div class="grid grid-rows-[repeat(2,8.875rem)]">
       <MetricCard
         v-for="(metric, index) in metrics"
         :key="metric.key"

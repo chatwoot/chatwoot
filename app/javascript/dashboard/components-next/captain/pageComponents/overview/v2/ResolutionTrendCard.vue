@@ -146,7 +146,7 @@ const selectMeasure = ({ value }) => {
         <DropdownMenu
           v-if="showDropdown"
           :menu-items="measureOptions"
-          class="mt-1 min-w-48 ltr:right-0 rtl:left-0 top-full"
+          class="mt-1 min-w-48 end-0 top-full"
           @action="selectMeasure($event)"
         />
       </div>
@@ -154,7 +154,7 @@ const selectMeasure = ({ value }) => {
     <div class="min-w-0 px-5 pb-5 pt-8">
       <div
         v-if="loading"
-        class="h-[232px] rounded-lg bg-n-slate-3 animate-pulse"
+        class="h-[14.5rem] rounded-lg bg-n-slate-3 animate-pulse"
       />
       <LineChart
         v-else-if="selectedMeasure === 'conversation_count' && hasCountData"
@@ -163,7 +163,7 @@ const selectMeasure = ({ value }) => {
         :height="232"
         :point-radius="3"
         :aria-label="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.ARIA_LABEL')"
-        class="[--cw-viz-line-label-color:rgb(var(--slate-11))] [--cw-viz-line-axis-color:rgb(var(--slate-4))] [--cw-viz-line-axis-font-size:12px] [--cw-viz-line-value-font-size:12px] [--cw-viz-line-width:1px] [--cw-viz-line-point-border-width:4px] [--cw-viz-line-tooltip-background:rgb(var(--solid-2))] [--cw-viz-line-tooltip-color:rgb(var(--slate-12))] [--cw-viz-line-tooltip-border-color:rgb(var(--border-strong))] [&_.cw-viz-line__axis-label]:font-[440] [&_.cw-viz-line__axis-label]:tracking-[-0.24px] [&_.cw-viz-line__value]:font-[440] [&_.cw-viz-line__value]:tracking-[-0.24px]"
+        class="[--cw-viz-line-label-color:rgb(var(--slate-11))] [--cw-viz-line-axis-color:rgb(var(--slate-4))] [--cw-viz-line-axis-font-size:0.75rem] [--cw-viz-line-value-font-size:0.75rem] [--cw-viz-line-width:0.0625rem] [--cw-viz-line-point-border-width:0.25rem] [--cw-viz-line-tooltip-background:rgb(var(--solid-2))] [--cw-viz-line-tooltip-color:rgb(var(--slate-12))] [--cw-viz-line-tooltip-border-color:rgb(var(--border-strong))] [&_.cw-viz-line__axis-label]:font-[440] [&_.cw-viz-line__axis-label]:tracking-[-0.015rem] [&_.cw-viz-line__value]:font-[440] [&_.cw-viz-line__value]:tracking-[-0.015rem]"
       />
       <BarChart
         v-else-if="selectedMeasure === 'resolution_rate' && hasRateData"
@@ -176,11 +176,11 @@ const selectMeasure = ({ value }) => {
         :bar-gap="4"
         :max-bar-width="32"
         :aria-label="$t('CAPTAIN.OVERVIEW.V2.RESOLUTION_TREND.RATE_ARIA_LABEL')"
-        class="[--cw-viz-bar-label-color:rgb(var(--slate-11))] [--cw-viz-bar-axis-color:rgb(var(--slate-4))] [--cw-viz-bar-axis-font-size:12px] [--cw-viz-bar-value-font-size:12px] [--cw-viz-bar-tooltip-background:rgb(var(--solid-2))] [--cw-viz-bar-tooltip-color:rgb(var(--slate-12))] [--cw-viz-bar-tooltip-border-color:rgb(var(--border-strong))] [&_.cw-viz-bar__axis-label]:font-[440] [&_.cw-viz-bar__axis-label]:tracking-[-0.24px] [&_.cw-viz-bar__value]:font-[440] [&_.cw-viz-bar__value]:tracking-[-0.24px]"
+        class="[--cw-viz-bar-label-color:rgb(var(--slate-11))] [--cw-viz-bar-axis-color:rgb(var(--slate-4))] [--cw-viz-bar-axis-font-size:0.75rem] [--cw-viz-bar-value-font-size:0.75rem] [--cw-viz-bar-tooltip-background:rgb(var(--solid-2))] [--cw-viz-bar-tooltip-color:rgb(var(--slate-12))] [--cw-viz-bar-tooltip-border-color:rgb(var(--border-strong))] [&_.cw-viz-bar__axis-label]:font-[440] [&_.cw-viz-bar__axis-label]:tracking-[-0.015rem] [&_.cw-viz-bar__value]:font-[440] [&_.cw-viz-bar__value]:tracking-[-0.015rem]"
       />
       <div
         v-else
-        class="grid h-[232px] text-sm place-content-center text-n-slate-11"
+        class="grid h-[14.5rem] text-body-main place-content-center text-n-slate-11"
       >
         {{ $t('CAPTAIN.OVERVIEW.V2.EMPTY') }}
       </div>
