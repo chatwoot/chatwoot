@@ -14,7 +14,6 @@ RSpec.describe 'Captain conversation assignment API', type: :request do
   end
 
   it 'assigns the connected Captain and marks the conversation pending' do
-    create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: account))
     conversation.update!(assignee: agent, status: :open)
 
     post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),

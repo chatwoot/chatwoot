@@ -1,6 +1,7 @@
 module Enterprise::Conversations::AssignmentService
   def perform
     return super unless assignee_type.to_s == 'Captain::Assistant'
+    return if conversation.inbox.external_bot_active?
 
     assign_ai_assignee(captain_assistant)
   end
