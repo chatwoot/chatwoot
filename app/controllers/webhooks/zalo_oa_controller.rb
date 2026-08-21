@@ -1,8 +1,8 @@
 class Webhooks::ZaloOaController < ActionController::API
   def process_payload
     channel = find_channel
-    return head :not_found if channel.blank?
-    return head :unauthorized unless valid_signature?(channel)
+    return head :ok if channel.blank?
+    return head :ok unless valid_signature?(channel)
 
     event = params.to_unsafe_hash.except('controller', 'action')
     if echo_event?
