@@ -47,7 +47,7 @@ shared_examples_for 'auto_assignment_handler' do
 
     it 'keeps AgentBot ownership when the conversation opens' do
       agent_bot = create(:agent_bot, account: account)
-      conversation = create(:conversation, account: account, inbox: inbox, status: 'pending', assignee_agent_bot: agent_bot)
+      conversation = create(:conversation, account: account, inbox: inbox, status: 'pending', ai_assignee: agent_bot)
 
       conversation.update!(status: 'open')
 
@@ -56,12 +56,12 @@ shared_examples_for 'auto_assignment_handler' do
 
     it 'assigns an agent when bot handoff clears the agent bot in the same save' do
       agent_bot = create(:agent_bot, account: account)
-      handoff_conversation = create(:conversation, account: account, inbox: inbox, status: 'pending', assignee_agent_bot: agent_bot)
+      handoff_conversation = create(:conversation, account: account, inbox: inbox, status: 'pending', ai_assignee: agent_bot)
 
       handoff_conversation.bot_handoff!
 
       expect(handoff_conversation.reload.assignee).to eq(agent)
-      expect(handoff_conversation.assignee_agent_bot).to be_nil
+      expect(handoff_conversation.ai_assignee).to be_nil
     end
 
     it 'emits conversation.opened when auto assignment runs on the open transition' do
