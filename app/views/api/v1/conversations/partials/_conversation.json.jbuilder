@@ -12,6 +12,11 @@ json.meta do
       json.partial! 'api/v1/models/agent_bot_slim', formats: [:json], resource: conversation.assigned_entity
     end
     json.assignee_type 'AgentBot'
+  elsif conversation.assignee_type == 'Captain::Assistant'
+    json.assignee do
+      json.partial! 'api/v1/models/captain/assistant_slim', formats: [:json], resource: conversation.assigned_entity
+    end
+    json.assignee_type 'Captain::Assistant'
   elsif conversation.assigned_entity&.account
     json.assignee do
       json.partial! 'api/v1/models/agent', formats: [:json], resource: conversation.assigned_entity
