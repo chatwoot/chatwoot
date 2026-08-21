@@ -742,7 +742,11 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
     end
 
     context 'when a user_id_update webhook is received' do
-      let(:user_id_update_params) do
+      let(:user_id_update_params) { build_user_id_update([{ user_id: { previous: 'IN.PREVIOUSBSUID', current: 'IN.CURRENTBSUID' } }]) }
+
+      let(:update_defaults) { { wa_id: '2423423243', timestamp: '1664799904' } }
+
+      def build_user_id_update(updates)
         {
           phone_number: whatsapp_channel.phone_number,
           object: 'whatsapp_business_account',
@@ -752,103 +756,103 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
               value: {
                 messaging_product: 'whatsapp',
                 contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: '2423423243' }],
-                user_id_update: [{
-                  wa_id: '2423423243',
-                  detail: 'User id for Sojan Jose has been updated.',
-                  user_id: { previous: 'IN.PREVIOUSBSUID', current: 'IN.CURRENTBSUID' },
-                  timestamp: '1664799904'
-                }]
+                user_id_update: updates.map { |update| update_defaults.merge(update) }
               }
             }]
           }]
         }.with_indifferent_access
       end
 
-      it 're-points the contact inbox to the new business scoped user id' do
-        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
-
-        described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
-
-        expect(contact_inbox.reload.source_id).to eq('IN.CURRENTBSUID')
+      def rotate(params = user_id_update_params)
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
       end
 
-      it 'keeps the contact and its conversations' do
-        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
-        conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox,
-                                             contact: contact_inbox.contact, account: whatsapp_channel.inbox.account)
-
-        described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
-
-        expect(conversation.reload.contact_inbox_id).to eq(contact_inbox.id)
-        expect(whatsapp_channel.inbox.contact_inboxes.count).to eq(1)
+      def source_ids
+        whatsapp_channel.inbox.contact_inboxes.pluck(:source_id)
       end
 
-      it 'leaves both rows in place when the new identifier belongs to another contact' do
-        previous_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
-        conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: previous_inbox,
-                                             contact: previous_inbox.contact, account: whatsapp_channel.inbox.account)
-        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.CURRENTBSUID')
+      it 'records the current identifier as another alias of the same contact' do
+        previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
 
-        described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
+        rotate
 
-        expect(whatsapp_channel.inbox.contact_inboxes.pluck(:source_id))
-          .to contain_exactly('IN.PREVIOUSBSUID', 'IN.CURRENTBSUID')
-        expect(conversation.reload.contact_inbox).to eq(previous_inbox)
+        current = whatsapp_channel.inbox.contact_inboxes.find_by(source_id: 'IN.CURRENTBSUID')
+        expect(current.contact_id).to eq(previous.contact_id)
       end
 
-      it 'anchors the conversations when the new identifier already sits on the same contact' do
-        previous_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
-        current_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: previous_inbox.contact,
-                                               source_id: 'IN.CURRENTBSUID')
-        conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: previous_inbox,
-                                             contact: previous_inbox.contact, account: whatsapp_channel.inbox.account)
+      it 'keeps the previous identifier so a delayed event still resolves to the same person' do
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
 
-        described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
+        rotate
 
-        expect(conversation.reload.contact_inbox).to eq(current_inbox)
+        expect(source_ids).to contain_exactly('IN.PREVIOUSBSUID', 'IN.CURRENTBSUID')
+      end
+
+      it 'leaves existing conversations on the contact inbox that opened them' do
+        previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+        conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: previous,
+                                             contact: previous.contact, account: whatsapp_channel.inbox.account)
+
+        rotate
+
+        expect(conversation.reload.contact_inbox).to eq(previous)
+      end
+
+      it 'applies every rotation carried by a batched payload' do
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.FIRSTPREVIOUS')
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.SECONDPREVIOUS')
+
+        rotate(build_user_id_update([
+                                      { user_id: { previous: 'IN.FIRSTPREVIOUS', current: 'IN.FIRSTCURRENT' } },
+                                      { user_id: { previous: 'IN.SECONDPREVIOUS', current: 'IN.SECONDCURRENT' } }
+                                    ]))
+
+        expect(source_ids).to include('IN.FIRSTCURRENT', 'IN.SECONDCURRENT')
+      end
+
+      it 'applies both sides when a rotation names a regular and a parent identifier' do
+        contact = create(:contact, account: whatsapp_channel.inbox.account)
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.PREVIOUSBSUID')
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: contact, source_id: 'IN.ENT.PREVIOUSBSUID')
+
+        rotate(build_user_id_update([{
+                                      user_id: { previous: 'IN.PREVIOUSBSUID', current: 'IN.CURRENTBSUID' },
+                                      parent_user_id: { previous: 'IN.ENT.PREVIOUSBSUID', current: 'IN.ENT.CURRENTBSUID' }
+                                    }]))
+
+        expect(source_ids).to include('IN.CURRENTBSUID', 'IN.ENT.CURRENTBSUID')
+      end
+
+      it 'is a no-op when the same event arrives twice' do
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+        rotate
+
+        expect { rotate }.not_to change(ContactInbox, :count)
+      end
+
+      it 'does not undo a newer rotation when an older event arrives out of order' do
+        first = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.FIRSTBSUID')
+        rotate(build_user_id_update([{ user_id: { previous: 'IN.FIRSTBSUID', current: 'IN.SECONDBSUID' } }]))
+        rotate(build_user_id_update([{ user_id: { previous: 'IN.SECONDBSUID', current: 'IN.THIRDBSUID' } }]))
+
+        rotate(build_user_id_update([{ user_id: { previous: 'IN.FIRSTBSUID', current: 'IN.SECONDBSUID' } }]))
+
+        expect(source_ids).to contain_exactly('IN.FIRSTBSUID', 'IN.SECONDBSUID', 'IN.THIRDBSUID')
+        expect(whatsapp_channel.inbox.contact_inboxes.pluck(:contact_id).uniq).to eq([first.contact_id])
+      end
+
+      it 'leaves both rows alone when the current identifier already belongs to another contact' do
+        previous = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
+        other = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.CURRENTBSUID')
+
+        rotate
+
+        expect(previous.reload.source_id).to eq('IN.PREVIOUSBSUID')
+        expect(other.reload.contact_id).not_to eq(previous.contact_id)
       end
 
       it 'does nothing when the previous identifier is unknown' do
-        expect { described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform }
-          .not_to change(ContactInbox, :count)
-      end
-
-      it 'anchors the conversations to the business scoped user id so replies reach the new number' do
-        bsuid_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
-        phone_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: bsuid_inbox.contact, source_id: '2423423243')
-        conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: phone_inbox,
-                                             contact: bsuid_inbox.contact, account: whatsapp_channel.inbox.account)
-
-        described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
-
-        expect(conversation.reload.contact_inbox).to eq(bsuid_inbox)
-        expect(bsuid_inbox.reload.source_id).to eq('IN.CURRENTBSUID')
-      end
-
-      it 'leaves the conversations of another merged identity where they are' do
-        rotating_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.PREVIOUSBSUID')
-        other_identity_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, contact: rotating_inbox.contact,
-                                                      source_id: '16505550000')
-        other_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: other_identity_inbox,
-                                                   contact: rotating_inbox.contact, account: whatsapp_channel.inbox.account)
-
-        described_class.new(inbox: whatsapp_channel.inbox, params: user_id_update_params).perform
-
-        expect(rotating_inbox.reload.source_id).to eq('IN.CURRENTBSUID')
-        expect(other_conversation.reload.contact_inbox).to eq(other_identity_inbox)
-      end
-
-      it 're-points the contact inbox when only the parent business scoped user id rotates' do
-        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.ENT.PREVIOUSBSUID')
-        parent_params = user_id_update_params.deep_dup
-        parent_params[:entry].first[:changes].first[:value][:user_id_update].first.merge!(
-          user_id: nil,
-          parent_user_id: { previous: 'IN.ENT.PREVIOUSBSUID', current: 'IN.ENT.CURRENTBSUID' }
-        )
-
-        described_class.new(inbox: whatsapp_channel.inbox, params: parent_params).perform
-
-        expect(contact_inbox.reload.source_id).to eq('IN.ENT.CURRENTBSUID')
+        expect { rotate }.not_to change(ContactInbox, :count)
       end
     end
   end

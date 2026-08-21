@@ -1,94 +1,84 @@
-# WhatsApp regenerates a user's business scoped user id when that user changes
-# their phone number, and reports it through the `user_id_update` webhook, which
-# carries both the previous and the current identifier. Re-point the contact
-# inbox so the existing contact and its history are kept, instead of the next
-# message arriving as a brand new contact.
+# WhatsApp regenerates a user's business scoped user id when that user changes their phone
+# number, and reports it through the `user_id_update` webhook, which names both the previous
+# and the current identifier. Recording the current one as another alias of the same contact
+# keeps that person's history instead of letting the next message arrive as a new contact.
+#
+# Nothing is renamed and nothing is moved. The previous identifier stays on the contact, so a
+# delayed event that still carries it resolves to the same person, and conversations opened
+# under it stay where they are and remain reachable under previous conversations. Messages that
+# arrive after the rotation resolve through the exact new identifier.
 class Whatsapp::UserIdRotationService
   pattr_initialize [:inbox!, :payload!]
 
   def perform
-    # The parent identifier is rotated first so that, when both change, the conversations end up
-    # anchored to the regular one, which is the identifier that resolves the incoming messages.
-    rotate(payload.dig(:parent_user_id, :previous), payload.dig(:parent_user_id, :current))
-    rotate(payload.dig(:user_id, :previous), payload.dig(:user_id, :current))
+    rotations.each { |previous_source_id, current_source_id| rotate(previous_source_id, current_source_id) }
   end
 
   private
 
-  def rotate(previous_source_id, current_source_id)
-    return if previous_source_id.blank? || current_source_id.blank?
-    return if previous_source_id == current_source_id
+  # The parent identifier first, so that an event carrying both leaves the rows in the same
+  # order the inbound path appends them.
+  def rotations
+    [
+      [payload.dig(:parent_user_id, :previous), payload.dig(:parent_user_id, :current)],
+      [payload.dig(:user_id, :previous), payload.dig(:user_id, :current)]
+    ].select { |previous, current| previous.present? && current.present? && previous != current }
+  end
 
+  # Serialized on the identifier being introduced, because the event races the first message
+  # that arrives under it: that message finds no row for the new identifier and builds a second
+  # contact for someone we already know. The job level mutex cannot cover this on its own. It
+  # locks a single sender id, while one payload can carry several rotations and one rotation can
+  # name both a regular and a parent identifier, so every identifier past the first is unguarded.
+  #
+  # Acquiring the lock is best effort. Holding it is what prevents the split, but failing to get
+  # it is not a reason to drop the alias, since the write itself is safe either way and skipping
+  # would lose the rotation for good.
+  def rotate(previous_source_id, current_source_id)
+    return record_alias(previous_source_id, current_source_id) if current_source_id == job_locked_source_id
+
+    key = format(::Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: inbox.id, sender_id: current_source_id)
+    return if Redis::LockManager.new.with_lock(key, 30.seconds) { record_alias(previous_source_id, current_source_id) }
+
+    record_alias(previous_source_id, current_source_id)
+  end
+
+  # `Webhooks::WhatsappEventsJob` already holds the mutex for one identifier of this payload.
+  # Taking it again here would deadlock against our own lock, so that one is used as is.
+  def job_locked_source_id
+    @job_locked_source_id ||= [
+      payload.dig(:parent_user_id, :current),
+      payload.dig(:user_id, :current),
+      payload[:wa_id]
+    ].compact_blank.first
+  end
+
+  def record_alias(previous_source_id, current_source_id)
     contact_inbox = inbox.contact_inboxes.find_by(source_id: previous_source_id)
+    # The previous identifier is unknown, so there is no history to keep and nothing to attach
+    # the current one to. A later message carrying it creates the contact in the usual way.
     return if contact_inbox.blank?
 
-    current_contact_inbox = inbox.contact_inboxes.find_by(source_id: current_source_id)
-    return complete_rotation(contact_inbox, current_contact_inbox) if current_contact_inbox.present?
+    existing = inbox.contact_inboxes.find_by(source_id: current_source_id)
+    return log_collision(existing, contact_inbox, current_source_id) if existing.present?
 
-    # One transaction, so a worker that dies midway leaves nothing half migrated: a retry
-    # either finds the previous identifier and redoes the whole move, or finds the current
-    # one and stops. A partial move would strand the conversations on the obsolete inbox
-    # with no row left for the retry to recognise.
-    ActiveRecord::Base.transaction do
-      contact_inbox.update!(source_id: current_source_id)
-      anchor_conversations(contact_inbox)
-    end
+    inbox.contact_inboxes.create!(contact: contact_inbox.contact, source_id: current_source_id)
   rescue ActiveRecord::RecordNotUnique
-    # The row was created between the check above and the update, so it already carries the
-    # current identifier and the transaction rolled back. The rotation is still unfinished
-    # though, and the same-contact case is exactly the one that can be completed.
-    Rails.logger.info("[WHATSAPP] source_id #{current_source_id} already taken in inbox #{inbox.id}")
-    complete_rotation(contact_inbox, inbox.contact_inboxes.find_by(source_id: current_source_id))
+    # A concurrent webhook inserted the same (inbox_id, source_id) first. The alias exists,
+    # which is the whole point, so there is nothing left to do.
+    nil
   end
 
-  # The current identifier is already known. On the same contact it means the user reached
-  # us through it before the update arrived, most often because an unchanged parent id
-  # resolved them, so the rows are already right and only the anchor is missing. On another
-  # contact the two identities have to be merged, which is a separate concern, so the rows
-  # are left exactly as they are.
-  def complete_rotation(contact_inbox, current_contact_inbox)
-    return if current_contact_inbox.blank?
-    return if current_contact_inbox.contact_id != contact_inbox.contact_id
+  # Already known. On the same contact the rotation is simply already recorded, most often
+  # because a duplicate or out of order event arrived. On another contact the two identities
+  # would have to be merged, which is a separate concern with its own failure modes, so both
+  # rows are left exactly as they are.
+  def log_collision(existing, contact_inbox, current_source_id)
+    return if existing.contact_id == contact_inbox.contact_id
 
-    anchor_conversations(current_contact_inbox)
-  end
-
-  # A conversation is anchored to whichever contact inbox resolved its first message, and
-  # `Whatsapp::SendOnWhatsappService` replies through that source id. A contact that has both
-  # identifiers is resolved by the phone one first, so replies would keep going to the number
-  # the user just left. Anchor them to the business scoped user id instead, which is the
-  # identifier that survived the change and which the Cloud API accepts as a `recipient`.
-  #
-  # Only the identifiers this event names count as the same identity. A contact merged from
-  # the dashboard can hold contact inboxes for two genuinely different phone numbers, and
-  # moving those would address their replies to the wrong destination.
-  def anchor_conversations(contact_inbox)
-    contact_inbox.contact
-                 .conversations
-                 .where(inbox_id: inbox.id, contact_inbox_id: rotating_identity_contact_inbox_ids)
-                 .where.not(contact_inbox_id: contact_inbox.id)
-                 .find_each { |conversation| conversation.update!(contact_inbox: contact_inbox) }
-  end
-
-  def rotating_identity_contact_inbox_ids
-    @rotating_identity_contact_inbox_ids ||= inbox.contact_inboxes.where(source_id: rotating_identity_source_ids).ids
-  end
-
-  # Both sides of each rotation, so the set stays the same before and after the update.
-  def rotating_identity_source_ids
-    [
-      payload.dig(:user_id, :previous),
-      payload.dig(:user_id, :current),
-      payload.dig(:parent_user_id, :previous),
-      payload.dig(:parent_user_id, :current),
-      phone_source_id
-    ].compact_blank.uniq
-  end
-
-  def phone_source_id
-    identifier = payload[:wa_id].to_s
-    return unless identifier.match?(/\A\d{1,15}\z/)
-
-    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(identifier, :cloud)
+    Rails.logger.warn(
+      "[WHATSAPP] user_id_update: #{current_source_id} already belongs to contact #{existing.contact_id} " \
+      "in inbox #{inbox.id}, not moving it from contact #{contact_inbox.contact_id}"
+    )
   end
 end
