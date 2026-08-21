@@ -487,7 +487,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
                 value: {
                   contacts: [{ profile: { name: 'Customer A', username: 'shared-handle' }, user_id: 'AE.QACUSTOMERA' }],
                   messages: [{
-                    from_user_id: 'AE.QACUSTOMERA', id: 'wamid.cloud-merged-customer-a',
+                    from_user_id: 'AE.QACUSTOMERA', id: "wamid.cloud-merged-customer-a-#{SecureRandom.hex(8)}",
                     text: { body: 'message from customer A' }, timestamp: '1778579701', type: 'text'
                   }]
                 }
@@ -504,7 +504,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
                 value: {
                   contacts: [{ profile: { name: 'Customer B', username: 'shared-handle' }, user_id: 'AE.QACUSTOMERB' }],
                   messages: [{
-                    from_user_id: 'AE.QACUSTOMERB', id: 'wamid.cloud-merged-customer-b',
+                    from_user_id: 'AE.QACUSTOMERB', id: "wamid.cloud-merged-customer-b-#{SecureRandom.hex(8)}",
                     text: { body: 'message from customer B' }, timestamp: '1778579702', type: 'text'
                   }]
                 }
