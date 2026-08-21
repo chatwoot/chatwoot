@@ -27,7 +27,7 @@ class Whatsapp::CallPermissionRequestService
 
   # Treat transport errors as a falsy return so the caller renders 422 rather than 500.
   def send_request_safely
-    provider_service.send_call_permission_request(conversation.contact.phone_number.delete('+'), *body_args)
+    provider_service.send_call_permission_request(conversation.contact_inbox.source_id, *body_args)
   rescue StandardError => e
     Rails.logger.warn "[WHATSAPP CALL] permission_request failed: #{e.class} #{e.message}"
     nil

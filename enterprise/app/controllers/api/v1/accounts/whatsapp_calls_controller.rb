@@ -3,7 +3,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   before_action :set_call_context, only: :initiate
   before_action :ensure_calling_enabled, only: :initiate
   before_action :ensure_sdp_offer, only: :initiate
-  before_action :ensure_contact_phone, only: :initiate
+  before_action :ensure_call_recipient, only: :initiate
   before_action :ensure_recording_present, only: :upload_recording
   before_action :ensure_call_message, only: :upload_recording
 
@@ -102,8 +102,8 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     render_could_not_create_error(I18n.t('errors.whatsapp.calls.sdp_offer_required'))
   end
 
-  def ensure_contact_phone
-    return if @contact.phone_number.present?
+  def ensure_call_recipient
+    return if call_recipient.present?
 
     render_could_not_create_error(I18n.t('errors.whatsapp.calls.contact_phone_required'))
   end
@@ -132,13 +132,24 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     # fresh thread (@conversation nil until the dial succeeds) is created already assigned to the caller.
     claim_for_caller = @conversation.present? && @conversation.assigned_entity.nil?
 
-    result = provider_service.initiate_call(@contact.phone_number.delete('+'), params[:sdp_offer])
+    result = provider_service.initiate_call(call_recipient, params[:sdp_offer])
     provider_call_id = result.dig('calls', 0, 'id') || result['call_id']
 
     @conversation = open_conversation!
     @conversation.with_lock { @conversation.update!(assignee: Current.user) } if claim_for_caller
 
     create_call_record(provider_call_id)
+  end
+
+  def call_recipient
+    # A conversation is already anchored to the exact WhatsApp identity selected by routing. Use
+    # that source id for the call instead of guessing from the contact, which may contain unrelated
+    # aliases after a dashboard merge. Contact-level calling keeps its existing phone-only behavior.
+    @call_recipient ||= if params[:conversation_id].present?
+                          @conversation.contact_inbox&.source_id
+                        else
+                          @contact.phone_number&.delete('+')
+                        end
   end
 
   def create_call_record(provider_call_id)

@@ -20,9 +20,9 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     call_api('terminate_call', call_action_body(call_id, 'terminate'))
   end
 
-  def send_call_permission_request(to_phone_number, body_text = I18n.t('conversations.messages.whatsapp.call_permission_request_body'))
+  def send_call_permission_request(recipient, body_text = I18n.t('conversations.messages.whatsapp.call_permission_request_body'))
     response = HTTParty.post(
-      "#{calls_phone_id_path}/messages", headers: api_headers, body: permission_request_body(to_phone_number, body_text)
+      "#{calls_phone_id_path}/messages", headers: api_headers, body: permission_request_body(recipient, body_text)
     )
 
     unless response.success?
@@ -33,9 +33,9 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     response.parsed_response
   end
 
-  def initiate_call(to_phone_number, sdp_offer)
+  def initiate_call(recipient, sdp_offer)
     response = HTTParty.post(
-      "#{calls_phone_id_path}/calls", headers: api_headers, body: initiate_call_body(to_phone_number, sdp_offer)
+      "#{calls_phone_id_path}/calls", headers: api_headers, body: initiate_call_body(recipient, sdp_offer)
     )
     process_initiate_call_response(response)
   end
@@ -78,9 +78,9 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     response.success?
   end
 
-  def permission_request_body(to_phone_number, body_text)
+  def permission_request_body(recipient, body_text)
     {
-      messaging_product: 'whatsapp', recipient_type: 'individual', to: to_phone_number,
+      messaging_product: 'whatsapp', recipient_type: 'individual', **recipient_params(recipient),
       type: 'interactive',
       interactive: {
         type: 'call_permission_request',
@@ -90,9 +90,9 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     }.to_json
   end
 
-  def initiate_call_body(to_phone_number, sdp_offer)
+  def initiate_call_body(recipient, sdp_offer)
     {
-      messaging_product: 'whatsapp', to: to_phone_number, action: 'connect',
+      messaging_product: 'whatsapp', **recipient_params(recipient), action: 'connect',
       session: { sdp: sdp_offer, sdp_type: 'offer' }
     }.to_json
   end
