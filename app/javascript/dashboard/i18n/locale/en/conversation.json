@@ -221,6 +221,13 @@
       "DESCRIPTION": "Are you sure you want to delete this conversation?",
       "CONFIRM": "Delete"
     },
+    "BULK_DELETE_CONVERSATION": {
+      "TITLE": "Delete {count} conversation | Delete {count} conversations",
+      "DESCRIPTION": "Permanent removal, including every message. This can't be undone.",
+      "CONFIRM": "Delete",
+      "SUCCESS": "{count} conversation deleted | {count} conversations deleted",
+      "PARTIAL": "{deleted} deleted, {failed} failed"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",

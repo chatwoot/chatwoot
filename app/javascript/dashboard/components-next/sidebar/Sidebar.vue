@@ -2,7 +2,6 @@
 import { h, ref, computed, onMounted, watch } from 'vue';
 import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useConfig } from 'dashboard/composables/useConfig';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
@@ -44,14 +43,11 @@ const emit = defineEmits([
 ]);
 
 const { accountScopedRoute, isOnChatwootCloud } = useAccount();
-const { isEnterprise } = useConfig();
 const store = useStore();
 
-// Calls run on the enterprise-only API (cloud runs enterprise); hide the entry
-// on community so it doesn't lead to a dashboard/CTA the backend can't serve.
-const isCallsAvailable = computed(
-  () => isOnChatwootCloud.value || isEnterprise
-);
+// Não usamos o canal de voz nesta instalação. No upstream isto dependia de
+// isEnterprise/isOnChatwootCloud, porque Calls roda na API enterprise.
+const isCallsAvailable = computed(() => false);
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
 
@@ -359,8 +355,12 @@ const newReportRoutes = () => [
 
 const reportRoutes = computed(() => newReportRoutes());
 
+// Itens que esta instalação não usa. Filtrados no fim do computed em vez de
+// removidos do literal, para manter o rebase com o upstream trivial.
+const HIDDEN_MENU_ITEMS = ['Captain', 'Portals'];
+
 const menuItems = computed(() => {
-  return [
+  const items = [
     {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),
@@ -940,6 +940,8 @@ const menuItems = computed(() => {
       ],
     },
   ];
+
+  return items.filter(item => !HIDDEN_MENU_ITEMS.includes(item.name));
 });
 </script>
 

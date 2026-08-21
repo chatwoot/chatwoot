@@ -3,6 +3,10 @@
     "CONVERSATIONS_SELECTED": "{conversationCount} conversas selecionadas",
     "NONE": "Nenhuma",
     "CLEAR_SELECTION": "Limpar",
+    "DELETE": {
+      "BUTTON": "Excluir",
+      "TOOLTIP": "Excluir conversas selecionadas"
+    },
     "ASSIGN_AGENT_CONFIRMATION_LABEL": "Tem certeza de que deseja atribuir {n} conversa para {agentName}? | Tem certeza de que deseja atribuir {n} conversas para {agentName}?",
     "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Tem certeza de que deseja remover a atribuição de {n} conversa? | Tem certeza de que deseja remover a atribuição de {n} conversas?",
     "YES": "Sim",

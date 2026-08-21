@@ -21,6 +21,7 @@ import {
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useDocumentTitle } from 'dashboard/composables/useDocumentTitle';
 
 export default {
   name: 'App',
@@ -42,6 +43,8 @@ export default {
     // Use the font size composable (it automatically sets up the watcher)
     const { currentFontSize } = useFontSize();
     const { uiSettings } = useUISettings();
+    // Prefixa o título da aba com a contagem de não lidas: "(3) Desky-adm".
+    useDocumentTitle();
 
     return {
       router,

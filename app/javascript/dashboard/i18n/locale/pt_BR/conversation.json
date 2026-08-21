@@ -183,6 +183,13 @@
       "DESCRIPTION": "Tem certeza que deseja excluir esta conversa?",
       "CONFIRM": "Excluir"
     },
+    "BULK_DELETE_CONVERSATION": {
+      "TITLE": "Excluir {count} conversa | Excluir {count} conversas",
+      "DESCRIPTION": "Remoção definitiva, incluindo todas as mensagens. Não dá para desfazer.",
+      "CONFIRM": "Excluir",
+      "SUCCESS": "{count} conversa excluída | {count} conversas excluídas",
+      "PARTIAL": "{deleted} excluídas, {failed} falharam"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Deixar pendente",
       "RESOLVED": "Marcar como resolvida",

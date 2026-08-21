@@ -46,6 +46,13 @@ const providerBrandIconMap = {
 
 const resolveInbox = inbox => inbox?.value ?? inbox;
 
+// Pontes de WhatsApp (WAHA, Evolution) chegam como Channel::Api, que o Chatwoot
+// trata como canal genérico e desenha com o ícone de nuvem. Quando o nome da
+// caixa identifica o WhatsApp, usamos o ícone do WhatsApp.
+const isWhatsappNamedApiInbox = inbox =>
+  inbox?.channel_type === INBOX_TYPES.API &&
+  /whats\s*app/i.test(inbox?.name ?? '');
+
 export function useChannelIcon(inbox) {
   const channelIcon = computed(() => {
     const inboxDetails = resolveInbox(inbox);
@@ -63,6 +70,10 @@ export function useChannelIcon(inbox) {
       type === INBOX_TYPES.TWILIO &&
       inboxDetails.medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
     ) {
+      icon = 'i-woot-whatsapp';
+    }
+
+    if (isWhatsappNamedApiInbox(inboxDetails)) {
       icon = 'i-woot-whatsapp';
     }
 
@@ -93,6 +104,10 @@ export function useChannelBrandIcon(inbox) {
       type === INBOX_TYPES.TWILIO &&
       inboxDetails.medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
     ) {
+      icon = channelTypeBrandIconMap['Channel::Whatsapp'];
+    }
+
+    if (isWhatsappNamedApiInbox(inboxDetails)) {
       icon = channelTypeBrandIconMap['Channel::Whatsapp'];
     }
 

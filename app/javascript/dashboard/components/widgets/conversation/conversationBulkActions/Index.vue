@@ -48,7 +48,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['selectAllConversations']);
+const emit = defineEmits(['selectAllConversations', 'deleteConversations']);
 
 defineOptions({
   inheritAttrs: false,
@@ -199,6 +199,16 @@ onUnmounted(() => {
           <BulkTeamActions
             :conversation-count="conversations.length"
             @select="onAssignTeam"
+          />
+          <div class="w-px h-3 bg-n-weak rounded-lg flex-shrink-0" />
+          <NextButton
+            v-tooltip="$t('BULK_ACTION.DELETE.TOOLTIP')"
+            :label="$t('BULK_ACTION.DELETE.BUTTON')"
+            icon="i-lucide-trash-2"
+            ghost
+            sm
+            class="!text-n-ruby-11 !h-6 flex-shrink-0"
+            @click="emit('deleteConversations')"
           />
         </div>
       </div>

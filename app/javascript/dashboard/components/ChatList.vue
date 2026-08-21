@@ -840,6 +840,40 @@ const handleDelete = conversationId => {
   deleteConversationDialogRef.value.open();
 };
 
+const bulkDeleteDialogRef = ref(null);
+
+const openBulkDeleteDialog = () => {
+  bulkDeleteDialogRef.value.open();
+};
+
+async function bulkDeleteConversations() {
+  const ids = [...selectedConversations.value];
+  const results = await Promise.allSettled(
+    ids.map(id => store.dispatch('deleteConversation', id))
+  );
+  const failed = results.filter(({ status }) => status === 'rejected').length;
+
+  resetBulkActions();
+  bulkDeleteDialogRef.value.close();
+
+  if (failed) {
+    useAlert(
+      t('CONVERSATION.BULK_DELETE_CONVERSATION.PARTIAL', {
+        deleted: ids.length - failed,
+        failed,
+      })
+    );
+  } else {
+    useAlert(
+      t(
+        'CONVERSATION.BULK_DELETE_CONVERSATION.SUCCESS',
+        { count: ids.length },
+        ids.length
+      )
+    );
+  }
+}
+
 provide('selectConversation', selectConversation);
 provide('deSelectConversation', deSelectConversation);
 provide('assignAgent', onAssignAgent);
@@ -954,6 +988,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       :show-snoozed-action="allSelectedConversationsStatus('snoozed')"
       :class="isOnExpandedLayout && 'sm:!w-[24rem] !w-full'"
       @select-all-conversations="toggleSelectAll"
+      @delete-conversations="openBulkDeleteDialog"
     />
     <ConversationList
       :conversation-list="conversationList"
@@ -979,6 +1014,22 @@ watch(conversationFilters, (newVal, oldVal) => {
       :confirm-button-label="$t('CONVERSATION.DELETE_CONVERSATION.CONFIRM')"
       @confirm="deleteConversation"
       @close="selectedConversationId = null"
+    />
+    <Dialog
+      ref="bulkDeleteDialogRef"
+      type="alert"
+      :title="
+        $t(
+          'CONVERSATION.BULK_DELETE_CONVERSATION.TITLE',
+          { count: selectedConversations.length },
+          selectedConversations.length
+        )
+      "
+      :description="$t('CONVERSATION.BULK_DELETE_CONVERSATION.DESCRIPTION')"
+      :confirm-button-label="
+        $t('CONVERSATION.BULK_DELETE_CONVERSATION.CONFIRM')
+      "
+      @confirm="bulkDeleteConversations"
     />
     <TeleportWithDirection
       v-if="showAdvancedFilters"

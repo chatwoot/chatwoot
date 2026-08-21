@@ -3,6 +3,10 @@
     "CONVERSATIONS_SELECTED": "{conversationCount} selected",
     "NONE": "None",
     "CLEAR_SELECTION": "Clear",
+    "DELETE": {
+      "BUTTON": "Delete",
+      "TOOLTIP": "Delete selected conversations"
+    },
     "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
     "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "Yes",
