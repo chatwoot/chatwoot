@@ -58,6 +58,8 @@ module Enterprise::Whatsapp::OneoffCampaignService
   end
 
   def send_whatsapp_template_message(recipient:, to:, template_params:)
+    return if authentication_template_blocked?(recipient, to, template_params)
+
     processor = Whatsapp::TemplateProcessorService.new(
       channel: channel,
       template_params: template_params
@@ -88,6 +90,14 @@ module Enterprise::Whatsapp::OneoffCampaignService
       lang_code: lang_code,
       parameters: processed_parameters
     }
+  end
+
+  def authentication_template_blocked?(campaign_recipient, recipient, params)
+    error = Whatsapp::AuthenticationTemplateGuard.new(channel: channel, recipient: recipient, template_params: params).error
+    return false unless error
+
+    campaign_recipient.mark_failed!(message: error)
+    true
   end
 
   def update_recipient_from_provider_response(recipient, source_id)

@@ -39,6 +39,11 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
   end
 
   def send_template_message
+    if (error = authentication_template_error)
+      message.update!(status: :failed, external_error: error)
+      return
+    end
+
     content_sid, content_variables = process_template_params
 
     if content_sid.blank?
@@ -62,6 +67,12 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
 
   def template_params
     message.additional_attributes && message.additional_attributes['template_params']
+  end
+
+  def authentication_template_error
+    Whatsapp::AuthenticationTemplateGuard.new(
+      channel: channel, recipient: contact_inbox.source_id, template_params: template_params
+    ).error
   end
 
   def process_template_params

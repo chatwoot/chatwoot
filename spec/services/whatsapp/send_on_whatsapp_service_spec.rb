@@ -396,6 +396,34 @@ describe Whatsapp::SendOnWhatsappService do
       end
     end
 
+    context 'when an authentication template targets a BSUID-only contact' do
+      let!(:whatsapp_channel) do
+        create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+      end
+      let!(:contact_inbox) do
+        create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: 'IN.2081978709342942')
+      end
+      let!(:conversation) do
+        create(:conversation, contact_inbox: contact_inbox, inbox: whatsapp_channel.inbox)
+      end
+
+      it 'fails before submitting the template to Meta' do
+        whatsapp_channel.update!(message_templates: [{
+                                   'name' => 'login_code', 'language' => 'en_US', 'status' => 'APPROVED',
+                                   'category' => 'AUTHENTICATION', 'components' => []
+                                 }])
+        message = create(:message, conversation: conversation, message_type: :outgoing,
+                                   additional_attributes: { template_params: { name: 'login_code', language: 'en_US' } })
+
+        described_class.new(message: message).perform
+
+        expect(message.reload).to have_attributes(
+          status: 'failed', external_error: I18n.t('errors.whatsapp.authentication_template_requires_phone')
+        )
+        expect(a_request(:post, %r{graph\.facebook\.com/.*/messages})).not_to have_been_made
+      end
+    end
+
     context 'when a merged contact owns multiple Meta Cloud identities' do
       let!(:whatsapp_channel) do
         create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)

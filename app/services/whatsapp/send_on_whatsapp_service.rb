@@ -13,6 +13,8 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   end
 
   def send_template_message
+    return if authentication_template_blocked?
+
     processor = Whatsapp::TemplateProcessorService.new(
       channel: channel,
       template_params: template_params,
@@ -42,5 +44,15 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
 
   def template_params
     message.additional_attributes && message.additional_attributes['template_params']
+  end
+
+  def authentication_template_blocked?
+    error = Whatsapp::AuthenticationTemplateGuard.new(
+      channel: channel, recipient: message.conversation.contact_inbox.source_id, template_params: template_params
+    ).error
+    return false unless error
+
+    message.update!(status: :failed, external_error: error)
+    true
   end
 end

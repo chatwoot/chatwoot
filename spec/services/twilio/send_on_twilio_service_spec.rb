@@ -91,6 +91,31 @@ describe Twilio::SendOnTwilioService do
         described_class.new(message: message_a).perform
         described_class.new(message: message_b).perform
       end
+
+      it 'fails a BSUID-only authentication template before submitting it to Twilio' do
+        twilio_whatsapp.update!(content_templates: {
+                                  'templates' => [{
+                                    'friendly_name' => 'login_code', 'language' => 'en_US', 'status' => 'approved',
+                                    'category' => 'authentication', 'content_sid' => 'HX123'
+                                  }]
+                                })
+        bsuid_contact_inbox = create(:contact_inbox, contact: contact, inbox: twilio_whatsapp_inbox,
+                                                     source_id: 'whatsapp:IN.2166217060865430')
+        bsuid_conversation = create(:conversation, contact: contact, inbox: twilio_whatsapp_inbox,
+                                                   contact_inbox: bsuid_contact_inbox)
+        template_message = create(
+          :message, message_type: :outgoing, inbox: twilio_whatsapp_inbox, account: account, conversation: bsuid_conversation,
+                    additional_attributes: { template_params: { name: 'login_code', language: 'en_US' } }
+        )
+        allow(messages_double).to receive(:create)
+
+        described_class.new(message: template_message).perform
+
+        expect(template_message.reload).to have_attributes(
+          status: 'failed', external_error: I18n.t('errors.whatsapp.authentication_template_requires_phone')
+        )
+        expect(messages_double).not_to have_received(:create)
+      end
     end
 
     it 'if outgoing message has attachment and is for whatsapp' do

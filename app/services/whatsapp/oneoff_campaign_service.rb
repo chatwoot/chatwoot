@@ -85,6 +85,8 @@ class Whatsapp::OneoffCampaignService
   end
 
   def send_whatsapp_template_message(to:, template_params:)
+    return if authentication_template_blocked?(to, template_params)
+
     processor = Whatsapp::TemplateProcessorService.new(
       channel: channel,
       template_params: template_params
@@ -106,6 +108,14 @@ class Whatsapp::OneoffCampaignService
     Rails.logger.error "Backtrace: #{e.backtrace.first(5).join('\n')}"
     # continue processing remaining contacts
     nil
+  end
+
+  def authentication_template_blocked?(recipient, params)
+    error = Whatsapp::AuthenticationTemplateGuard.new(channel: channel, recipient: recipient, template_params: params).error
+    return false unless error
+
+    Rails.logger.warn "Skipping BSUID campaign recipient: #{error}"
+    true
   end
 end
 
