@@ -139,10 +139,12 @@ class Conversation < ApplicationRecord
   before_create :ensure_waiting_since
 
   after_update_commit :execute_after_update_commit_callbacks
+  after_update_commit :assign_agent_after_bot_handoff
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
   before_destroy :set_unread_count_deletion_data
   after_destroy_commit :notify_conversation_deletion
+  after_rollback :clear_bot_handoff_assignment
 
   delegate :auto_resolve_after, to: :account
 
@@ -183,6 +185,7 @@ class Conversation < ApplicationRecord
   def bot_handoff!(dispatch_event: true)
     update(waiting_since: Time.current) if waiting_since.blank?
     self.ai_assignee = nil
+    @assign_agent_after_bot_handoff = inbox.auto_assignment_v2_enabled?
     open!
     dispatch_bot_handoff_event if dispatch_event
   end
@@ -270,6 +273,19 @@ class Conversation < ApplicationRecord
   end
 
   private
+
+  def assign_agent_after_bot_handoff
+    return unless @assign_agent_after_bot_handoff
+
+    @assign_agent_after_bot_handoff = false
+    AutoAssignment::AssignmentService.new(inbox: inbox).perform_assignment(self)
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: account).capture_exception
+  end
+
+  def clear_bot_handoff_assignment
+    @assign_agent_after_bot_handoff = false
+  end
 
   def execute_after_update_commit_callbacks
     handle_resolved_status_change
