@@ -70,7 +70,9 @@ class Whatsapp::HealthService
 
     phone_health = format_phone_health_response(fetch_graph_data(@channel.provider_config['phone_number_id'], phone_health_fields))
     business_health = format_business_account_response(fetch_graph_data(@channel.provider_config['business_account_id'], business_account_fields))
-    [phone_health.merge(business_health), nil]
+    business_profile = Whatsapp::BusinessProfileService.new(@channel, api_version: @api_version).fetch
+
+    [phone_health.merge(business_health, business_profile: business_profile), nil]
   rescue StandardError => e
     return [phone_health, e] if phone_health
 

@@ -111,7 +111,11 @@ RSpec.describe Whatsapp::HealthService do
 
       service.fetch_health_status
 
-      expect(a_request(:get, %r{graph\.facebook\.com/v25\.0/test_phone_number_id})).to have_been_made.once
+      expect(
+        a_request(:get, %r{graph\.facebook\.com/v25\.0/test_phone_number_id}).with do |request|
+          request.uri.path == '/v25.0/test_phone_number_id'
+        end
+      ).to have_been_made.once
     end
   end
 
