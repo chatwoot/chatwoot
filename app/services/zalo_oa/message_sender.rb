@@ -8,6 +8,13 @@ class ZaloOa::MessageSender
   FILE_UPLOAD_URL = 'https://openapi.zalo.me/v2.0/oa/upload/file'.freeze
 
   IMAGE_EXTENSIONS = %w[jpg jpeg png gif webp].freeze
+  # GIF is excluded: re-encoding it would drop the animation. An oversized GIF is uploaded
+  # as-is and, like any image Zalo still rejects, fails with a PermanentError that surfaces
+  # to the agent as a failed message.
+  COMPRESSIBLE_EXTENSIONS = %w[jpg jpeg png webp].freeze
+  # Compress before upload when the source exceeds this; also the compression target.
+  # Conservative margin under Zalo OA's ~1MB image cap.
+  IMAGE_COMPRESS_THRESHOLD = 900_000
   RETRYABLE_CODES = [-32, -100].freeze
   # Not followed, blocked invite, banned/inactive, no interaction, expired interaction,
   # night curfew (22h-6h), user restricted this message type.
@@ -44,7 +51,7 @@ class ZaloOa::MessageSender
   end
 
   def send_image(user_id, attachment, caption)
-    attachment_id = upload(IMAGE_UPLOAD_URL, attachment, 'attachment_id')
+    attachment_id = upload(IMAGE_UPLOAD_URL, image_tempfile_path(attachment), 'attachment_id')
     post_message(
       recipient: { user_id: user_id },
       message: {
@@ -58,15 +65,14 @@ class ZaloOa::MessageSender
   end
 
   def send_file(user_id, attachment, caption)
-    token = upload(FILE_UPLOAD_URL, attachment, 'token')
+    token = upload(FILE_UPLOAD_URL, save_attachment_to_tempfile(attachment), 'token')
     post_message(
       recipient: { user_id: user_id },
       message: { text: caption.presence, attachment: { type: 'file', payload: { token: token } } }.compact
     )
   end
 
-  def upload(url, attachment, id_field)
-    temp_file_path = save_attachment_to_tempfile(attachment)
+  def upload(url, temp_file_path, id_field)
     File.open(temp_file_path, 'rb') do |file|
       response = HTTParty.post(url, headers: { 'access_token' => channel.valid_access_token }, body: { file: file })
       id = response.parsed_response.dig('data', id_field)
@@ -78,19 +84,38 @@ class ZaloOa::MessageSender
     File.delete(temp_file_path) if temp_file_path && File.exist?(temp_file_path)
   end
 
-  # Streams the blob to disk instead of loading it into memory, and is always removed by the
+  # Shrinks the image first when it's over Zalo's cap and re-encodable (see ImageCompressor).
+  # Falls back to the original file, unchanged, when compression isn't applicable or doesn't
+  # find a fit under the target — the upload then either succeeds anyway or is rejected by
+  # Zalo, in which case the agent sees a failed message rather than a silently dropped one.
+  def image_tempfile_path(attachment)
+    original_path = save_attachment_to_tempfile(attachment)
+    return original_path unless compressible?(attachment)
+
+    compressed = ZaloOa::ImageCompressor.new(path: original_path).call
+    return original_path if compressed.nil?
+
+    File.delete(original_path)
+    write_tempfile(attachment, "compressed.#{compressed[:ext]}") { |file| file.write(compressed[:data]) }
+  end
+
+  def compressible?(attachment)
+    COMPRESSIBLE_EXTENSIONS.include?(extension(attachment)) && attachment.file.blob.byte_size > IMAGE_COMPRESS_THRESHOLD
+  end
+
+  # Streams the blob to disk instead of loading it into memory. Always removed by the
   # `ensure` in `upload`, on both a successful and a failed send.
   def save_attachment_to_tempfile(attachment)
+    write_tempfile(attachment, attachment.file.filename.to_s) do |file|
+      attachment.file.blob.open { |blob_file| IO.copy_stream(blob_file, file) }
+    end
+  end
+
+  def write_tempfile(attachment, filename, &)
     temp_dir = Rails.root.join('tmp/uploads', "zalo-oa-#{attachment.id}")
     FileUtils.mkdir_p(temp_dir)
-    temp_file_path = File.join(temp_dir, attachment.file.filename.to_s)
-
-    File.open(temp_file_path, 'wb') do |file|
-      attachment.file.blob.open do |blob_file|
-        IO.copy_stream(blob_file, file)
-      end
-    end
-
+    temp_file_path = File.join(temp_dir, filename)
+    File.open(temp_file_path, 'wb', &)
     temp_file_path
   end
 
