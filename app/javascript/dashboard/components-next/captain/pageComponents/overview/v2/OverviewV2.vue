@@ -113,6 +113,7 @@ const fetchKnowledge = async () => {
   const token = knowledgeFetchToken;
   knowledgeAbortController?.abort();
   knowledgeAbortController = new AbortController();
+  faqStats.value = null;
   isFetchingKnowledge.value = true;
 
   try {
