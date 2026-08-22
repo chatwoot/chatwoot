@@ -87,11 +87,6 @@ services:
       - VITE_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
-      # On Docker Desktop for Windows, inotify file-change events are NOT
-      # forwarded across the host bind mount, so Vite never detects edits and
-      # hot reload silently stops working. Force chokidar to poll instead.
-      - CHOKIDAR_USEPOLLING=true
-      - CHOKIDAR_INTERVAL=1000
     entrypoint: docker/entrypoints/vite.sh
     command:
       - bin/vite

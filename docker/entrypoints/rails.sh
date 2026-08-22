@@ -4,7 +4,8 @@ set -x
 
 # Remove a potentially pre-existing server.pid for Rails.
 rm -rf /app/tmp/pids/server.pid
-rm -rf /app/tmp/cache/*
+rm -rf /app/tmp/cache 2>/dev/null || true
+mkdir -p /app/tmp/cache
 
 echo "Waiting for postgres to become ready...."
 

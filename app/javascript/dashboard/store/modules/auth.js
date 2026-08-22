@@ -110,14 +110,15 @@ export const actions = {
     } catch (error) {
       if (error?.response?.status === 401) {
         clearCookiesOnLogout();
+        context.commit(types.CLEAR_USER);
       }
     }
   },
   async setUser({ commit, dispatch }) {
-    if (authAPI.hasAuthCookie()) {
-      await dispatch('validityCheck');
-    }
     commit(types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false });
+    if (authAPI.hasAuthCookie()) {
+      dispatch('validityCheck');
+    }
   },
   logout({ commit }) {
     commit(types.CLEAR_USER);

@@ -2,7 +2,8 @@
 set -x
 
 rm -rf /app/tmp/pids/server.pid
-rm -rf /app/tmp/cache/*
+rm -rf /app/tmp/cache 2>/dev/null || true
+mkdir -p /app/tmp/cache
 
 # Install dependencies, preferring already-cached tarballs in the pnpm store
 # (mounted as the `pnpm_store` volume) so cold boots are a fast link pass
