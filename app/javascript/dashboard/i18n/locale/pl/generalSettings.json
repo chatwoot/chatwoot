@@ -139,37 +139,6 @@
       "SELECT": "Wybierz"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Powiadomienia",
-    "MARK_ALL_DONE": "Oznacz wszystkie jako zrobione",
-    "DELETE_TITLE": "usunięto",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Nieprzeczytane powiadomienia",
-      "ALL_NOTIFICATIONS": "Wyświetl wszystkie powiadomienia",
-      "LOADING_UNREAD_MESSAGE": "Ładowanie nieprzeczytanych powiadomień...",
-      "EMPTY_MESSAGE": "Nie masz żadnych nieprzeczytanych powiadomień"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Ładowanie powiadomień...",
-      "404": "Nie znaleziono powiadomień",
-      "TABLE_HEADER": [
-        "Nazwisko",
-        "Numer telefonu",
-        "Rozmowy",
-        "Ostatni kontakt"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Nowa rozmowa",
-      "conversation_assignment": "Przypisanie rozmowy",
-      "assigned_conversation_new_message": "Nowa wiadomość",
-      "participating_conversation_new_message": "Nowa wiadomość",
-      "conversation_mention": "Wzmianka",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Niedostępny",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Przejdź do ustawień konta",
       "GO_TO_SETTINGS_PROFILE": "Przejdź do ustawień profilu",
-      "GO_TO_NOTIFICATIONS": "Przejdź do powiadomień",
       "ADD_LABELS_TO_CONVERSATION": "Dodaj etykietę do rozmowy",
       "ASSIGN_AN_AGENT": "Przypisz agenta",
       "AI_ASSIST": "AI Assist",

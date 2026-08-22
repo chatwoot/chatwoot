@@ -139,37 +139,6 @@
       "SELECT": "Chọn"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Thông báo",
-    "MARK_ALL_DONE": "Đánh dấu tất cả đã xong",
-    "DELETE_TITLE": "đã xoá",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Thông báo tin chưa đọc",
-      "ALL_NOTIFICATIONS": "Xem tất cả thông báo",
-      "LOADING_UNREAD_MESSAGE": "Đang tải thông báo tin chưa đọc...",
-      "EMPTY_MESSAGE": "Bạn không có thông báo tin chưa đọc"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Đang tải thông báo...",
-      "404": "Không có thông báo",
-      "TABLE_HEADER": [
-        "Tên",
-        "Số điện thoại",
-        "Các cuộc hội thoại",
-        "Liên hệ lần cuối"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Hội thoại mới mới",
-      "conversation_assignment": "Hội thoại đã được phân công",
-      "assigned_conversation_new_message": "Tin nhắn mới",
-      "participating_conversation_new_message": "Tin nhắn mới",
-      "conversation_mention": "Nhắc đến",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Không Trực Tuyến",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Đi đến Cài đặt Tài khoản",
       "GO_TO_SETTINGS_PROFILE": "Đi đến Cài đặt Hồ sơ",
-      "GO_TO_NOTIFICATIONS": "Đi đến Thông báo",
       "ADD_LABELS_TO_CONVERSATION": "Thêm nhãn vào hội thoại",
       "ASSIGN_AN_AGENT": "Gán cho tổng đài viên",
       "AI_ASSIST": "AI Assist",

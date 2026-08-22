@@ -38,6 +38,9 @@ jobs:
       - name: Run eslint
         run: pnpm run eslint
 
+      - name: Run i18n lint
+        run: pnpm run lint:i18n
+
       - name: Run frontend tests with coverage
         run: |
           mkdir -p coverage

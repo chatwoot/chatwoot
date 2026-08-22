@@ -139,37 +139,6 @@
       "SELECT": "Select"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Aviseringar",
-    "MARK_ALL_DONE": "Markera alla som klara",
-    "DELETE_TITLE": "deleted",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Laddar aviseringar...",
-      "404": "Inga aviseringar",
-      "TABLE_HEADER": [
-        "Namn",
-        "Telefonnummer",
-        "Konversationer",
-        "Senast kontaktad"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Ny konversation",
-      "conversation_assignment": "Konversationen tilldelad",
-      "assigned_conversation_new_message": "Nytt meddelande",
-      "participating_conversation_new_message": "Nytt meddelande",
-      "conversation_mention": "Omnämning",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
       "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
       "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
       "ASSIGN_AN_AGENT": "Assign an agent",
       "AI_ASSIST": "AI Assist",

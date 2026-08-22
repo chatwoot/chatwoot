@@ -139,37 +139,6 @@
       "SELECT": "Select"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Obaveštenja",
-    "MARK_ALL_DONE": "Označi sve kao završeno",
-    "DELETE_TITLE": "obrisano",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Nepročitana obaveštenja",
-      "ALL_NOTIFICATIONS": "Pregledaj sva obaveštenja",
-      "LOADING_UNREAD_MESSAGE": "Učitavanje nepročitanih obaveštenja...",
-      "EMPTY_MESSAGE": "Nemate nepročitanih obaveštenja"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Učitavanje obaveštenja...",
-      "404": "Nema obaveštenja",
-      "TABLE_HEADER": [
-        "Ime",
-        "Broj telefona",
-        "Razgovori",
-        "Poslednji put kontaktiran"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Novi razgovor",
-      "conversation_assignment": "Dodeljen razgovoru",
-      "assigned_conversation_new_message": "Nova poruka",
-      "participating_conversation_new_message": "Nova poruka",
-      "conversation_mention": "Pominjanje",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Nedostupan",
@@ -232,7 +201,6 @@
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Idi na podešavanja naloga",
       "GO_TO_SETTINGS_PROFILE": "Idi na podešavanja profila",
-      "GO_TO_NOTIFICATIONS": "Idi na obaveštenja",
       "ADD_LABELS_TO_CONVERSATION": "Dodaj oznaku razgovoru",
       "ASSIGN_AN_AGENT": "Dodeli agenta",
       "AI_ASSIST": "AI Assist",

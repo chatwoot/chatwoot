@@ -846,7 +846,7 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger scenarijus",
-      "MESSENGER_SUB_HEAD": "Įdėkite šį mygtuką savo <body> žymos viduje",
+      "MESSENGER_SUB_HEAD": "Įdėkite šį mygtuką savo body žymos viduje",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
         "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",

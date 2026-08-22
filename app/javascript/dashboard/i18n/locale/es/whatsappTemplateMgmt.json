@@ -4,7 +4,6 @@
     "DESCRIPTION": "Consulta las plantillas de mensajes sincronizadas desde tus bandejas de entrada de WhatsApp. Para crear o editar una plantilla, gestiónala con tu proveedor.",
     "COUNT": "{n} plantilla | {n} plantillas",
     "KNOW_MORE": "Más información",
-    "NEW_TEMPLATE": "Nueva plantilla",
     "SEARCH_PLACEHOLDER": "Buscar por contenido o nombre...",
     "MANAGE_IN_META": "Gestionar en Meta",
     "MANAGE_IN_TWILIO": "Gestionar en Twilio",
@@ -40,8 +39,7 @@
       "TYPE": "Tipo de contenido",
       "CATEGORY": "Categoría",
       "LANGUAGE": "Idioma",
-      "INBOXES": "Bandejas de entrada",
-      "LAST_SYNC_ATTEMPT": "Último intento de sincronización"
+      "INBOXES": "Bandejas de entrada"
     }
   }
 }

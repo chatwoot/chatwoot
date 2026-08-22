@@ -846,7 +846,7 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Tempatkan tombol ini di dalam tag <body> Anda",
+      "MESSENGER_SUB_HEAD": "Tempatkan tombol ini di dalam tag body Anda",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
         "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",

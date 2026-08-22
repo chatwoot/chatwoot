@@ -1020,7 +1020,7 @@
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "የራስ-ሰው መለያየት ውስጥ ያለ ከፍተኛ ድርሻ",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "ከ<b>0</b> በላይ ዋጋ እባክዎ ያስገቡ።",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "ከ0 በላይ ዋጋ እባክዎ ያስገቡ።",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "ከዚህ ኢንቦክስ የሚሰጡ ውይይቶች በአጠቃላይ ቁጥር ላይ ለኤጅንት ራስ-ሰው መለያየት ያለውን ድርሻ አገደም"
     },
     "ASSIGNMENT": {
