@@ -4,6 +4,8 @@ class Shopify::CallbacksController < ApplicationController
   def show
     if chatwoot_initiated?
       handle_chatwoot_initiated_flow
+    elsif params[:code].blank?
+      handle_shopify_initiated_without_code
     else
       handle_shopify_initiated_flow
     end
@@ -14,9 +16,7 @@ class Shopify::CallbacksController < ApplicationController
 
   private
 
-  def chatwoot_initiated?
-    verified_account_id.present?
-  end
+  def chatwoot_initiated? = verified_account_id.present?
 
   def handle_chatwoot_initiated_flow
     @account_id = verified_account_id
@@ -32,15 +32,7 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def handle_shopify_initiated_flow
-    ensure_shopify_enabled!
-    raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
-    raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
-
-    load_existing_shopify_account
-
-    # Security: HMAC validation ensures params (including shop) haven't been tampered with.
-    # Additionally, the OAuth code is cryptographically bound to the shop that issued it.
-    # Shopify will reject any attempt to exchange a code at a different shop's endpoint.
+    prepare_shopify_initiated_flow
     exchange_access_token
 
     if @account
@@ -55,6 +47,26 @@ class Shopify::CallbacksController < ApplicationController
     )
 
     redirect_to "#{frontend_url}/app/auth/signup?shopify_pending_install=#{CGI.escape(token_key)}", allow_other_host: true
+  end
+
+  def handle_shopify_initiated_without_code
+    prepare_shopify_initiated_flow
+    hook = @account&.hooks&.find_by(app_id: 'shopify')
+    return redirect_to existing_account_redirect_url if hook&.enabled? && hook.access_token.present?
+
+    authorization_url = oauth_client.auth_code.authorize_url(
+      redirect_uri: redirect_callback_uri,
+      scope: Shopify::IntegrationHelper::REQUIRED_SCOPES.join(',')
+    )
+    redirect_to authorization_url, allow_other_host: true
+  end
+
+  def prepare_shopify_initiated_flow
+    ensure_shopify_enabled!
+    raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
+    raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
+
+    load_existing_shopify_account
   end
 
   def exchange_access_token
@@ -159,29 +171,19 @@ class Shopify::CallbacksController < ApplicationController
     )
   end
 
-  def account
-    @account ||= Account.find(@account_id)
-  end
+  def account = (@account ||= Account.find(@account_id))
 
-  def verified_account_id
-    @verified_account_id ||= verify_shopify_token(params[:state])
-  end
+  def verified_account_id = (@verified_account_id ||= verify_shopify_token(params[:state]))
 
   def ensure_shopify_enabled!(account: nil)
     raise StandardError, 'Shopify integration is disabled' unless Shopify::FeatureGate.enabled?(account: account)
   end
 
-  def redirect_callback_uri
-    "#{frontend_url}/shopify/callback"
-  end
+  def redirect_callback_uri = "#{frontend_url}/shopify/callback"
 
-  def shopify_integration_url
-    "#{frontend_url}/app/accounts/#{account.id}/settings/integrations/shopify"
-  end
+  def shopify_integration_url = "#{frontend_url}/app/accounts/#{account.id}/settings/integrations/shopify"
 
-  def shopify_billing_url
-    "#{frontend_url}/app/accounts/#{account.id}/settings/billing?shop=#{CGI.escape(params[:shop])}"
-  end
+  def shopify_billing_url = "#{frontend_url}/app/accounts/#{account.id}/settings/billing?shop=#{CGI.escape(params[:shop])}"
 
   def error_redirect_url
     if @account_id
@@ -195,9 +197,7 @@ class Shopify::CallbacksController < ApplicationController
     end
   end
 
-  def frontend_url
-    ENV.fetch('FRONTEND_URL', '')
-  end
+  def frontend_url = ENV.fetch('FRONTEND_URL', '')
 
   def valid_shop_domain?
     return false if params[:shop].blank?
