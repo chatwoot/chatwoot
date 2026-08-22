@@ -28,7 +28,6 @@ class Shopify::PartnerClient
           description
           price {
             __typename
-            active
             currency
             ... on FlatRatePrice {
               amount

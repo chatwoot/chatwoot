@@ -40,12 +40,12 @@ class Shopify::SubscriptionSnapshot
     private
 
     def build_attributes(active_subscription, latest_event, verified_at)
-      active_items = Array(active_subscription&.fetch('items', nil)).select { |item| item.dig('price', 'active') == true }
-      primary_item = active_items.one? ? active_items.first : nil
+      subscription_items = Array(active_subscription&.fetch('items', nil))
+      primary_item = subscription_items.one? ? subscription_items.first : nil
 
       {
         'state' => subscription_state(active_subscription, latest_event, verified_at),
-        'plan_handles' => active_items.pluck('handle').compact,
+        'plan_handles' => subscription_items.pluck('handle').compact,
         'plan_name' => primary_item&.fetch('description', nil),
         'amount' => primary_item&.dig('price', 'amount'),
         'currency' => primary_item&.dig('price', 'currency'),
