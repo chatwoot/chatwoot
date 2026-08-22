@@ -28,11 +28,11 @@ describe('#AssignableAgentsAPI', () => {
     });
 
     it('#getAssignableAgents with agent bots', () => {
-      assignableAgentsAPI.get([1], { includeAgentBots: true });
+      assignableAgentsAPI.get([1], { includeAgentBots: false });
       expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/assignable_agents', {
         params: {
           inbox_ids: [1],
-          include_agent_bots: true,
+          include_agent_bots: false,
         },
       });
     });

@@ -1,13 +1,7 @@
 <script setup>
 import { computed, watch, onMounted, ref } from 'vue';
-import {
-  useMapGetter,
-  useFunctionGetter,
-  useStore,
-} from 'dashboard/composables/store';
-import { useAccount } from 'dashboard/composables/useAccount';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
@@ -20,10 +14,7 @@ import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import SharedFiles from './SharedFiles.vue';
 import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
-import ShopifyOrdersList from 'dashboard/components/widgets/conversation/ShopifyOrdersList.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
-import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
-import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 
 const props = defineProps({
   conversationId: {
@@ -45,34 +36,6 @@ const {
 
 const dragging = ref(false);
 const conversationSidebarItems = ref([]);
-
-const shopifyIntegration = useFunctionGetter(
-  'integrations/getIntegration',
-  'shopify'
-);
-
-const isShopifyFeatureEnabled = computed(
-  () => shopifyIntegration.value.enabled
-);
-
-const { isCloudFeatureEnabled } = useAccount();
-
-const isLinearFeatureEnabled = computed(() =>
-  isCloudFeatureEnabled(FEATURE_FLAGS.LINEAR)
-);
-
-const linearIntegration = useFunctionGetter(
-  'integrations/getIntegration',
-  'linear'
-);
-
-const isLinearClientIdConfigured = computed(() => {
-  return !!linearIntegration.value?.id;
-});
-
-const isLinearConnected = computed(
-  () => linearIntegration.value?.enabled || false
-);
 
 const store = useStore();
 const currentChat = useMapGetter('getSelectedChat');
@@ -126,8 +89,6 @@ onMounted(() => {
   conversationSidebarItems.value = conversationSidebarItemsOrder.value;
   getContactDetails();
   store.dispatch('attributes/get', 0);
-  // Load integrations to ensure linear integration state is available
-  store.dispatch('integrations/get', 'linear');
 });
 </script>
 
@@ -251,41 +212,6 @@ onMounted(() => {
               <MacrosList :conversation-id="conversationId" />
             </AccordionItem>
           </woot-feature-toggle>
-          <div
-            v-else-if="
-              element.name === 'linear_issues' &&
-              isLinearFeatureEnabled &&
-              isLinearClientIdConfigured
-            "
-          >
-            <AccordionItem
-              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.LINEAR_ISSUES')"
-              :is-open="isContactSidebarItemOpen('is_linear_issues_open')"
-              compact
-              @toggle="
-                value => toggleSidebarUIState('is_linear_issues_open', value)
-              "
-            >
-              <LinearSetupCTA v-if="!isLinearConnected" />
-              <LinearIssuesList v-else :conversation-id="conversationId" />
-            </AccordionItem>
-          </div>
-          <div
-            v-else-if="
-              element.name === 'shopify_orders' && isShopifyFeatureEnabled
-            "
-          >
-            <AccordionItem
-              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.SHOPIFY_ORDERS')"
-              :is-open="isContactSidebarItemOpen('is_shopify_orders_open')"
-              compact
-              @toggle="
-                value => toggleSidebarUIState('is_shopify_orders_open', value)
-              "
-            >
-              <ShopifyOrdersList :contact-id="contactId" />
-            </AccordionItem>
-          </div>
           <div v-else-if="element.name === 'contact_notes'">
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_NOTES')"

@@ -55,6 +55,18 @@ function mediaPathFor(mediaId) {
   return path.join(MEDIA_DIR, mediaId);
 }
 
+function isGroupJid(jid) {
+  if (!jid) return false;
+  return jid.endsWith('@g.us') || jid === 'status@broadcast' || jid.endsWith('@broadcast');
+}
+
+function isPrivateDirectJid(jid) {
+  if (!jid) return false;
+  if (isGroupJid(jid)) return false;
+  // Direct 1:1 chats come as @s.whatsapp.net (current), @c.us (legacy), or @lid (new linked-device id)
+  return jid.endsWith('@s.whatsapp.net') || jid.endsWith('@c.us') || jid.endsWith('@lid');
+}
+
 /**
  * Map a Baileys message into Chatwoot Cloud webhook shape.
  * Chatwoot's Whatsapp::IncomingMessageWhatsappCloudService parses
@@ -217,6 +229,13 @@ export class BaileysManager {
     sock.ev.on('messages.upsert', async ({ messages }) => {
       for (const m of messages) {
         if (m.key.fromMe) continue; // only inbound to Chatwoot
+        const remoteJid = m.key.remoteJid || '';
+        // Filter out group chats — only direct/private messages should reach Chatwoot
+        if (!isPrivateDirectJid(remoteJid)) {
+          // Narrow log so operators can see group traffic is being ignored
+          if (isGroupJid(remoteJid)) process.stdout.write(`[companion] ignored group message from ${remoteJid} for ${identifier}\n`);
+          continue;
+        }
         try {
           const payload = toCloudMessage(client.selfNumber || identifier, client.selfNumber, m, client.mediaNodes);
           await this.onInbound(client.identifier, payload, client);
@@ -230,6 +249,8 @@ export class BaileysManager {
     sock.ev.on('messages.update', (updates) => {
       for (const u of updates) {
         if (!u.update?.status) continue;
+        // Delivery/read receipts for group messages are not useful in a 1:1 inbox
+        if (isGroupJid(u.key.remoteJid)) continue;
         const status = ['', 'error', 'pending', 'server', 'delivered', 'read', 'played'][u.update.status] || 'sent';
         const payload = {
           entry: [

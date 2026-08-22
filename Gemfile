@@ -111,14 +111,10 @@ gem 'twilio-ruby'
 gem 'twitty', '~> 0.1.5'
 # facebook client
 gem 'koala'
-# slack client
-gem 'slack-ruby-client', '~> 2.7.0'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow-v2', '>= 0.24.0'
 gem 'grpc'
 # Translate integrations
-# 'google-cloud-translate' gem depends on faraday 2.0 version
-# this dependency breaks the slack-ruby-client gem
 gem 'google-cloud-translate-v3', '>= 0.7.0'
 
 ##-- apm and error monitoring ---#
@@ -207,8 +203,6 @@ gem 'cld3', '~> 3.7'
 # OpenTelemetry for LLM observability
 gem 'opentelemetry-sdk'
 gem 'opentelemetry-exporter-otlp'
-
-gem 'shopify_api'
 
 gem 'firecrawl-sdk', '~> 1.0', require: 'firecrawl'
 

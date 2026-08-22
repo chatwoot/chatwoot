@@ -59,7 +59,7 @@ const showMetaSection = computed(() => {
 });
 
 const isAgentBotAssignee = computed(
-  () => props.chat?.meta?.assignee_type === 'AgentBot'
+  () => props.chat?.meta?.assignee_type === '__removed__'
 );
 
 const hasSlaPolicyId = computed(

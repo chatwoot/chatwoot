@@ -52,8 +52,9 @@ RSpec.describe Crm::SetupJob do
       it 'returns without processing' do
         non_crm_hook = create(:integrations_hook,
                               account: account,
-                              app_id: 'slack',
-                              settings: { webhook_url: 'https://slack.com/webhook' })
+                              app_id: 'dialogflow',
+                              inbox: create(:inbox, account: account),
+                              settings: { project_id: 'test', credentials: {} })
         expect(described_class.new.perform(non_crm_hook.id)).to be_nil
       end
     end

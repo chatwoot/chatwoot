@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp Companion — Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+<div class="max-w-6xl mx-auto p-6 space-y-6">
+  <header class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold">WhatsApp Companion Dashboard</h1>
+      <p class="text-sm text-slate-500">Baileys bridge — health, instances, webhook &amp; send testers</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <span id="healthBadge" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-200">checking…</span>
+      <button onclick="checkHealth()" class="px-3 py-1.5 bg-white border rounded text-sm">Refresh</button>
+    </div>
+  </header>
+
+  <!-- Token bar -->
+  <section class="bg-white border rounded-lg p-4 flex flex-wrap gap-3 items-end">
+    <div class="flex-1 min-w-[260px]">
+      <label class="block text-xs font-medium text-slate-600 mb-1">Companion token (x-companion-token / WHATSAPP_COMPANION_TOKEN)</label>
+      <input id="tokenInput" type="password" placeholder="paste token" class="w-full border rounded px-3 py-2 text-sm">
+      <p class="text-xs text-slate-400 mt-1">Stored locally in <code>localStorage</code>; sent as <code>x-companion-token</code> header.</p>
+    </div>
+    <button onclick="saveToken()" class="px-4 py-2 bg-slate-900 text-white rounded text-sm">Save</button>
+    <button onclick="clearToken()" class="px-4 py-2 bg-white border rounded text-sm">Clear</button>
+    <div class="text-xs text-slate-500">
+      <div>CHATWOOT_URL: <span id="cfgUrl" class="font-mono">—</span></div>
+      <div>AUTH_DIR persisted ids: <span id="cfgAuth" class="font-mono">—</span></div>
+    </div>
+  </section>
+
+  <!-- Instances -->
+  <section class="bg-white border rounded-lg p-4">
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="font-semibold">Connected / Persisted Instances</h2>
+      <div class="flex gap-2">
+        <input id="newIdentifier" placeholder="phone e.g. 628123456789" class="border rounded px-3 py-1.5 text-sm w-56">
+        <button onclick="connectIdentifier()" class="px-3 py-1.5 bg-emerald-600 text-white rounded text-sm">Connect / QR</button>
+        <button onclick="listInstances()" class="px-3 py-1.5 bg-white border rounded text-sm">Refresh</button>
+      </div>
+    </div>
+    <div id="instancesTable" class="overflow-auto"></div>
+    <p class="text-xs text-slate-400 mt-2">“Persisted” = auth dir exists on disk (survives restart). “Live status” = in-memory Baileys socket state. Disconnected but persisted can be reconnected without re-scan.</p>
+  </section>
+
+  <!-- Direct Inbound / Webhook Listener -->
+  <section class="bg-white border rounded-lg p-4 space-y-3">
+    <div class="flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <h2 class="font-semibold">Direct Inbound — Webhook Listener (WhatsApp → Chatwoot)</h2>
+        <p class="text-xs text-slate-500">Live listener: every connected number auto-forwards inbound <b>direct/private</b> WhatsApp messages to <code>POST /webhooks/whatsapp_unofficial/:phone</code> via <code>CHATWOOT_URL</code>. Group chats (<code>@g.us</code>) and <code>status@broadcast</code> are filtered out. No polling needed — Baileys WebSocket pushes messages.</p>
+      </div>
+      <div class="flex gap-2">
+        <span id="listenerBadge" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-200">checking…</span>
+        <button onclick="loadWebhookStatus()" class="px-3 py-1.5 bg-white border rounded text-sm">Refresh</button>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-3 text-xs">
+      <div class="bg-slate-50 border rounded p-3">
+        <div class="font-semibold text-slate-600">Forward target</div>
+        <div id="wsChatwootUrl" class="font-mono break-all mt-1">—</div>
+        <div class="text-slate-400 mt-1">Template: <span id="wsTemplate" class="font-mono">—</span></div>
+      </div>
+      <div class="bg-slate-50 border rounded p-3">
+        <div class="font-semibold text-slate-600">Listening numbers</div>
+        <div id="wsListening" class="mt-1">—</div>
+        <div id="wsListeningHint" class="text-slate-400 mt-1"></div>
+      </div>
+      <div class="bg-slate-50 border rounded p-3">
+        <div class="font-semibold text-slate-600">Last forward to Chatwoot</div>
+        <div id="wsLastForward" class="mt-1 font-mono break-all">—</div>
+      </div>
+    </div>
+    <div id="wsLiveClients" class="overflow-auto"></div>
+    <p class="text-xs text-slate-400">If “Listening numbers” is empty, connect a number above (QR scan). Once <span class="font-semibold">connected</span>, this companion holds the WebSocket and instantly forwards every inbound <b>private</b> customer message (group messages are ignored). Check “Last forward” — green <code>200</code> means Chatwoot accepted it (conversation/message created).</p>
+  </section>
+
+  <!-- Live Inbound Messages -->
+  <section class="bg-white border rounded-lg p-4 space-y-3">
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <h2 class="font-semibold">Live Inbound Messages <span id="inboundCount" class="ml-2 px-2 py-0.5 bg-slate-100 rounded-full text-xs font-mono">0</span></h2>
+      <div class="flex items-center gap-2 flex-wrap">
+        <span id="sseBadge" class="px-2 py-1 rounded-full text-xs bg-slate-100">SSE: connecting…</span>
+        <select id="inboundFilter" onchange="loadInbound()" class="border rounded px-2 py-1.5 text-xs">
+          <option value="">All numbers</option>
+        </select>
+        <label class="flex items-center gap-1 text-xs"><input id="inboundLiveToggle" type="checkbox" checked onchange="toggleLive()"> Live</label>
+        <button onclick="loadInbound()" class="px-3 py-1.5 bg-white border rounded text-xs">Refresh</button>
+        <button onclick="clearInbound()" class="px-3 py-1.5 bg-white border rounded text-xs text-red-600">Clear</button>
+      </div>
+    </div>
+    <p class="text-xs text-slate-500">Real WhatsApp inbound (Baileys <code>messages.upsert</code>, <b>private/direct only</b> — groups filtered) — forwarded directly to Chatwoot and shown here. Leave <b>Live</b> on for SSE push; falls back to polling every 4s.</p>
+    <div id="inboundList" class="space-y-2 max-h-[520px] overflow-auto border rounded p-2 bg-slate-50">
+      <p class="text-sm text-slate-400 text-center py-8">No messages yet — send a WhatsApp to a connected number to see it here.</p>
+    </div>
+    <details class="text-xs">
+      <summary class="cursor-pointer underline">Raw latest payload</summary>
+      <pre id="inboundRaw" class="bg-slate-950 text-slate-300 text-xs p-3 rounded overflow-auto max-h-64 mt-2">—</pre>
+    </details>
+  </section>
+
+  <div class="grid md:grid-cols-2 gap-6">
+    <!-- Outbound test -->
+    <section class="bg-white border rounded-lg p-4 space-y-3">
+      <h2 class="font-semibold">Test Outbound (companion → WhatsApp)</h2>
+      <p class="text-xs text-slate-500">Proxies via <code>POST /send</code>. Needs identifier already <span class="font-semibold">connected</span>.</p>
+      <label class="block text-xs">From (identifier) <input id="sendIdentifier" class="w-full border rounded px-2 py-1.5 text-sm mt-1" placeholder="628123456789"></label>
+      <label class="block text-xs">To (jid/phone) <input id="sendTo" class="w-full border rounded px-2 py-1.5 text-sm mt-1" placeholder="628987654321"></label>
+      <label class="block text-xs">Type
+        <select id="sendType" class="w-full border rounded px-2 py-1.5 text-sm mt-1">
+          <option value="text">text</option>
+          <option value="image">image (mediaUrl)</option>
+          <option value="document">document</option>
+        </select>
+      </label>
+      <label class="block text-xs">Text / Caption <textarea id="sendText" rows="3" class="w-full border rounded px-2 py-1.5 text-sm mt-1" placeholder="Hello from companion dashboard"></textarea></label>
+      <label class="block text-xs">Media URL (for image/document) <input id="sendMediaUrl" class="w-full border rounded px-2 py-1.5 text-sm mt-1" placeholder="https://..."></label>
+      <button onclick="testSend()" class="w-full px-3 py-2 bg-slate-900 text-white rounded text-sm">Send</button>
+      <pre id="sendResult" class="bg-slate-950 text-green-300 text-xs p-3 rounded overflow-auto max-h-64 hidden"></pre>
+    </section>
+
+    <!-- Inbound / webhook test -->
+    <section class="bg-white border rounded-lg p-4 space-y-3">
+      <h2 class="font-semibold">Test Inbound / Webhook (companion → Chatwoot)</h2>
+      <p class="text-xs text-slate-500">Sends a fake Cloud-shaped payload to <code>POST /webhooks/whatsapp_unofficial/:phone</code> via companion, or directly exercises the webhook.</p>
+      <label class="block text-xs">Channel phone (identifier) <input id="hookIdentifier" class="w-full border rounded px-2 py-1.5 text-sm mt-1" placeholder="628123456789"></label>
+      <label class="block text-xs">From (customer WA id) <input id="hookFrom" class="w-full border rounded px-2 py-1.5 text-sm mt-1" placeholder="628987654321"></label>
+      <label class="block text-xs">Message body <textarea id="hookText" rows="3" class="w-full border rounded px-2 py-1.5 text-sm mt-1">Hello inbound test</textarea></label>
+      <div class="flex gap-2">
+        <button onclick="testWebhook()" class="flex-1 px-3 py-2 bg-indigo-600 text-white rounded text-sm">POST to Chatwoot webhook</button>
+        <button onclick="simulateInbound()" class="flex-1 px-3 py-2 bg-white border rounded text-sm">Simulate via logs</button>
+      </div>
+      <pre id="hookResult" class="bg-slate-950 text-green-300 text-xs p-3 rounded overflow-auto max-h-64 hidden"></pre>
+      <div class="flex items-center justify-between pt-2 border-t">
+        <h3 class="text-xs font-semibold">Recent events (inbound forward / send)</h3>
+        <button onclick="loadLogs()" class="text-xs underline">refresh logs</button>
+      </div>
+      <pre id="logs" class="bg-slate-950 text-slate-300 text-xs p-3 rounded overflow-auto max-h-64">—</pre>
+    </section>
+  </div>
+
+  <!-- QR modal -->
+  <div id="qrModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-6">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full space-y-3">
+      <h3 class="font-semibold">QR for <span id="qrId" class="font-mono"></span> — <span id="qrStatus"></span></h3>
+      <img id="qrImg" class="w-full border rounded hidden">
+      <p id="qrHint" class="text-sm text-slate-500"></p>
+      <div class="flex gap-2 justify-end">
+        <button onclick="closeQr()" class="px-3 py-1.5 bg-white border rounded text-sm">Close</button>
+        <button onclick="refreshQr()" class="px-3 py-1.5 bg-slate-900 text-white rounded text-sm">Refresh</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-xs text-slate-400 text-center py-4">Companion dashboard served from <code>whatsapp-companion/src/dashboard.html</code> — authenticated with shared token. No session is created.</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+let currentQrId = null;
+let qrTimer = null;
+
+function getToken(){ return localStorage.getItem('wa_companion_token') || ''; }
+function setToken(v){ localStorage.setItem('wa_companion_token', v); }
+function headers(){ const t=getToken(); return t ? {'x-companion-token': t, 'Content-Type':'application/json'} : {'Content-Type':'application/json'}; }
+
+function clearToken(){ localStorage.removeItem('wa_companion_token'); $('tokenInput').value=''; }
+(function init(){ $('tokenInput').value=getToken(); })();
+
+async function checkHealth(){
+  const b=$('healthBadge');
+  try {
+    const r=await fetch('/health'); const j=await r.json();
+    b.textContent = j.ok ? 'up' : 'unknown'; b.className='px-3 py-1 rounded-full text-xs font-semibold '+(j.ok?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700');
+    // detail
+    try {
+      const d=await fetch('/admin/api/health', {headers: headers()});
+      if(d.ok){ const dj=await d.json(); $('cfgUrl').textContent=dj.chatwoot_url||'—'; $('cfgAuth').textContent=(dj.persisted_identifiers||[]).join(', ')||'(none)'; }
+    } catch(e){}
+  } catch(e){ b.textContent='down'; b.className='px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700'; }
+}
+
+function renderInstances(list){
+  if(!list.length){ $('instancesTable').innerHTML='<p class="text-sm text-slate-400">No persisted identifiers yet. Connect a number to create one.</p>'; return; }
+  let h='<table class="w-full text-sm"><thead><tr class="text-left text-xs text-slate-500 border-b"><th class="py-2">Identifier</th><th>Status</th><th>Self number</th><th>Persisted</th><th>QR</th><th>Actions</th></tr></thead><tbody>';
+  for(const r of list){
+    const badge = r.status==='connected' ? 'bg-emerald-100 text-emerald-700' : r.status==='scanning' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600';
+    h+=`<tr class="border-b"><td class="py-2 font-mono">${r.identifier}</td><td><span class="px-2 py-0.5 rounded-full text-xs ${badge}">${r.status}</span></td><td class="font-mono text-xs">${r.self_number||'—'}</td><td class="text-xs">${r.persisted?'yes':'no'}</td><td><button onclick="openQr('${r.identifier}')" class="text-xs underline">QR/status</button></td><td class="flex gap-1 py-1"><button onclick="doStatus('${r.identifier}')" class="px-2 py-1 border rounded text-xs">status</button><button onclick="doLogout('${r.identifier}')" class="px-2 py-1 border rounded text-xs text-red-600">logout</button></td></tr>`;
+  }
+  h+='</tbody></table>'; $('instancesTable').innerHTML=h;
+}
+
+async function listInstances(){
+  try{
+    const r=await fetch('/admin/api/instances', {headers: headers()});
+    if(!r.ok){ const t=await r.text(); $('instancesTable').innerHTML=`<p class="text-sm text-red-600">Failed: ${r.status} ${t.slice(0,500)}</p><p class="text-xs text-slate-400">Check token.</p>`; return; }
+    const j=await r.json(); renderInstances(j.instances||[]);
+  } catch(e){ $('instancesTable').innerHTML=`<p class="text-sm text-red-600">${e.message}</p>`; }
+}
+
+async function connectIdentifier(){
+  const id=$('newIdentifier').value.trim(); if(!id) return alert('Enter identifier');
+  const r=await fetch('/connect', {method:'POST', headers: headers(), body: JSON.stringify({identifier:id})});
+  const j=await r.json().catch(()=>({})); if(!r.ok) return alert('Connect failed: '+JSON.stringify(j));
+  openQr(id); listInstances();
+}
+
+function openQr(id){
+  currentQrId=id; $('qrId').textContent=id; $('qrModal').classList.remove('hidden'); refreshQr();
+  if(qrTimer) clearInterval(qrTimer); qrTimer=setInterval(refreshQr, 3000);
+}
+function closeQr(){ $('qrModal').classList.add('hidden'); if(qrTimer) clearInterval(qrTimer); qrTimer=null; }
+async function refreshQr(){
+  if(!currentQrId) return;
+  try{
+    const sr=await fetch('/status/'+encodeURIComponent(currentQrId), {headers: headers()}); const sj=await sr.json().catch(()=>({})); $('qrStatus').textContent=sj.status||'?';
+    if(sj.status==='connected'){ $('qrImg').classList.add('hidden'); $('qrHint').textContent='Connected — no QR needed.'; return; }
+    const r=await fetch('/qr/'+encodeURIComponent(currentQrId), {headers: headers()});
+    if(r.status===204){ $('qrImg').classList.add('hidden'); $('qrHint').textContent='No QR available (connected or not scanning). Status: '+(sj.status||'?'); return; }
+    if(!r.ok){ const t=await r.text(); $('qrHint').textContent='QR error: '+r.status+' '+t.slice(0,300); return; }
+    const j=await r.json(); if(j.qr){ $('qrImg').src=j.qr; $('qrImg').classList.remove('hidden'); $('qrHint').textContent='Scan with WhatsApp → Linked devices.'; } else { $('qrHint').textContent=JSON.stringify(j).slice(0,400); }
+  } catch(e){ $('qrHint').textContent=e.message; }
+}
+async function doStatus(id){ const r=await fetch('/status/'+encodeURIComponent(id), {headers: headers()}); const j=await r.json().catch(async()=>({raw:await r.text()})); alert(JSON.stringify(j,null,2)); listInstances(); }
+async function doLogout(id){ if(!confirm('Logout '+id+'? Clears persisted auth.')) return; const r=await fetch('/logout/'+encodeURIComponent(id), {method:'POST', headers: headers()}); const j=await r.json().catch(()=>({})); alert(JSON.stringify(j)); listInstances(); }
+
+async function testSend(){
+  const body={ identifier: $('sendIdentifier').value.trim(), to: $('sendTo').value.trim(), type: $('sendType').value, text: $('sendText').value, mediaUrl: $('sendMediaUrl').value.trim()||undefined };
+  if(!body.identifier||!body.to) return alert('identifier and to required');
+  const r=await fetch('/send', {method:'POST', headers: headers(), body: JSON.stringify(body)});
+  const j=await r.json().catch(async()=>({raw:await r.text()})); $('sendResult').classList.remove('hidden'); $('sendResult').textContent=JSON.stringify({status:r.status, body:j},null,2); loadLogs();
+}
+async function testWebhook(){
+  const id=$('hookIdentifier').value.trim(); if(!id) return alert('identifier required');
+  const payload={ identifier:id, from:$('hookFrom').value.trim()||'628000000000', text:$('hookText').value };
+  const r=await fetch('/admin/api/test-webhook', {method:'POST', headers: headers(), body: JSON.stringify(payload)});
+  const j=await r.json().catch(async()=>({raw:await r.text()})); $('hookResult').classList.remove('hidden'); $('hookResult').textContent=JSON.stringify({status:r.status, body:j},null,2); loadLogs();
+}
+async function simulateInbound(){ testWebhook(); }
+async function loadLogs(){
+  try{ const r=await fetch('/admin/api/logs', {headers: headers()}); if(!r.ok) throw new Error(r.status+' '+(await r.text()).slice(0,300)); const j=await r.json(); $('logs').textContent=JSON.stringify(j,null,2); } catch(e){ $('logs').textContent='logs error: '+e.message+' (check token)'; }
+}
+
+// --- Webhook listener + inbound live ---
+let inboundCache = [];
+let sseSource = null;
+let pollTimer = null;
+
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function loadWebhookStatus(){
+  try{
+    const r=await fetch('/admin/api/webhook-status', {headers: headers()});
+    if(!r.ok){ const t=await r.text(); throw new Error(r.status+' '+t.slice(0,300)); }
+    const j=await r.json();
+    $('wsChatwootUrl').textContent=j.chatwoot_url||'—';
+    $('wsTemplate').textContent=j.webhook_template||'—';
+    const badge=$('listenerBadge');
+    if(j.is_listening){ badge.textContent='listening ('+j.listening_identifiers.length+')'; badge.className='px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700'; }
+    else { badge.textContent='not listening'; badge.className='px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700'; }
+    $('wsListening').innerHTML = j.listening_identifiers.length ? j.listening_identifiers.map(id=>`<span class="inline-block px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-mono mr-1 mb-1">${esc(id)}</span>`).join('') : '<span class="text-slate-400">— none connected —</span>';
+    $('wsListeningHint').textContent = j.listening_identifiers.length ? 'Auto-forwarding inbound via Baileys WebSocket → Chatwoot.' : 'Connect a number above to start listening.';
+    const lf=j.last_forward;
+    if(!lf) $('wsLastForward').innerHTML='<span class="text-slate-400">No forwards yet — waiting for first inbound or test.</span>';
+    else {
+      const cls = lf.ok ? 'text-emerald-600' : 'text-red-600';
+      $('wsLastForward').innerHTML=`<span class="${cls} font-semibold">${lf.ok?'✓':'✗'} ${lf.status||lf.error||'?'} </span><span class="text-slate-500">${esc(lf.ts||'')}</span><br><span class="text-xs break-all">${esc(lf.target_url||'')} ${esc(lf.body||lf.error||'')}</span> <span class="text-slate-400">[${esc(lf.identifier||'')}] attempt ${lf.attempt||1}</span>`;
+    }
+    // live clients table
+    const live=j.live_clients||[];
+    if(!live.length) $('wsLiveClients').innerHTML='<p class="text-xs text-slate-400 mt-2">No live clients.</p>';
+    else {
+      let h='<table class="w-full text-xs mt-2"><thead><tr class="text-left text-slate-500 border-b"><th class="py-1">Identifier</th><th>Status</th><th>Listening?</th><th>Webhook URL</th></tr></thead><tbody>';
+      for(const c of live){
+        const listening = c.status==='connected';
+        h+=`<tr class="border-b"><td class="font-mono py-1">${esc(c.identifier)}</td><td><span class="px-2 py-0.5 rounded-full ${listening?'bg-emerald-100 text-emerald-700':'bg-slate-100'}">${esc(c.status)}</span></td><td>${listening?'<span class="text-emerald-600">● yes</span>':'<span class="text-slate-400">—</span>'}</td><td class="font-mono text-xs break-all">${esc(j.chatwoot_url)}/webhooks/whatsapp_unofficial/${esc(c.identifier)}</td></tr>`;
+      }
+      h+='</tbody></table>';
+      $('wsLiveClients').innerHTML=h;
+    }
+    // update filter options
+    const sel=$('inboundFilter');
+    const prev=sel.value;
+    const allIds=[...new Set([...(j.persisted_identifiers||[]), ...(j.live_clients||[]).map(c=>c.identifier)])];
+    sel.innerHTML='<option value="">All numbers</option>' + allIds.map(id=>`<option value="${esc(id)}">${esc(id)}</option>`).join('');
+    if(allIds.includes(prev)) sel.value=prev;
+  } catch(e){
+    $('listenerBadge').textContent='error';
+    $('wsLastForward').textContent='error: '+e.message+' (check token)';
+  }
+}
+
+function renderInbound(list){
+  inboundCache=list;
+  $('inboundCount').textContent=list.length;
+  if(!list.length){
+    $('inboundList').innerHTML='<p class="text-sm text-slate-400 text-center py-8">No messages yet — send a WhatsApp to a connected number to see it here.</p>';
+    $('inboundRaw').textContent='—';
+    return;
+  }
+  let html='';
+  for(const m of list){
+    const fwd = m.forward;
+    const fwdBadge = !fwd ? '<span class="px-1.5 py-0.5 bg-slate-100 rounded text-xs">no forward yet</span>' : fwd.ok ? '<span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded text-xs">→ Chatwoot '+fwd.status+'</span>' : '<span class="px-1.5 py-0.5 bg-red-100 text-red-700 rounded text-xs">✗ Chatwoot '+((fwd.status||fwd.error)||'fail')+'</span>';
+    const time = new Date(m.received_at).toLocaleString();
+    const bodyPreview = m.body ? esc(m.body).slice(0,500) : (m.type==='image'?'[image]':m.type==='video'?'[video]':m.type==='audio'?'[audio]':m.type==='document'?'[document]':m.type==='sticker'?'[sticker]':m.type==='location'?'[location]':'[empty]');
+    html+=`<div class="bg-white border rounded p-3 space-y-1">
+      <div class="flex items-center justify-between gap-2 flex-wrap">
+        <span class="font-mono text-xs px-2 py-0.5 bg-slate-900 text-white rounded">${esc(m.identifier)}</span>
+        <span class="text-xs text-slate-400">${esc(time)}</span>
+      </div>
+      <div class="flex items-center gap-2 text-xs flex-wrap">
+        <span class="font-semibold">${esc(m.pushName||'Unknown')}</span>
+        <span class="font-mono text-slate-500">${esc(m.from)}</span>
+        <span class="px-1.5 py-0.5 bg-indigo-50 text-indigo-700 rounded text-xs">${esc(m.type)}</span>
+        ${fwdBadge}
+      </div>
+      <div class="text-sm whitespace-pre-wrap break-words bg-slate-50 border rounded p-2">${bodyPreview}</div>
+      <div class="text-xs text-slate-400 font-mono break-all">WA id: ${esc(m.raw_message?.id||m.id)} → ${esc(m.chatwoot_url||'')}</div>
+      <details class="text-xs"><summary class="cursor-pointer underline">raw payload</summary><pre class="bg-slate-950 text-slate-300 p-2 rounded overflow-auto max-h-40 mt-1">${esc(JSON.stringify(m.raw_payload||m.raw_message, null, 2))}</pre></details>
+    </div>`;
+  }
+  $('inboundList').innerHTML=html;
+  $('inboundRaw').textContent=JSON.stringify(list[0].raw_payload||list[0], null, 2);
+}
+
+async function loadInbound(){
+  try{
+    const id=$('inboundFilter').value;
+    const url='/admin/api/inbound?limit=50'+(id?'&identifier='+encodeURIComponent(id):'');
+    const r=await fetch(url, {headers: headers()});
+    if(!r.ok) throw new Error(r.status+' '+(await r.text()).slice(0,300));
+    const j=await r.json();
+    renderInbound(j.inbound||[]);
+  } catch(e){
+    $('inboundList').innerHTML=`<p class="text-sm text-red-600">Failed: ${esc(e.message)} (check token)</p>`;
+  }
+}
+
+async function clearInbound(){
+  if(!confirm('Clear inbound message history (in-memory)?')) return;
+  const r=await fetch('/admin/api/inbound', {method:'DELETE', headers: headers()});
+  if(!r.ok){ alert('Clear failed: '+r.status); return; }
+  loadInbound(); loadWebhookStatus();
+}
+
+function toggleLive(){
+  const on=$('inboundLiveToggle').checked;
+  if(on) connectSse(); else disconnectSse();
+}
+function connectSse(){
+  disconnectSse();
+  const token=getToken();
+  if(!token){ $('sseBadge').textContent='SSE: no token'; $('sseBadge').className='px-2 py-1 rounded-full text-xs bg-amber-100 text-amber-700'; startPoll(); return; }
+  try{
+    const es=new EventSource('/admin/api/events?token='+encodeURIComponent(token));
+    sseSource=es;
+    es.addEventListener('ready', ()=>{ $('sseBadge').textContent='SSE: live'; $('sseBadge').className='px-2 py-1 rounded-full text-xs bg-emerald-100 text-emerald-700'; });
+    es.addEventListener('inbound', (ev)=>{
+      try{
+        const data=JSON.parse(ev.data);
+        // prepend to cache if filter matches
+        const filter=$('inboundFilter').value;
+        if(filter && data.identifier!==filter) { loadWebhookStatus(); return; }
+        inboundCache.unshift(data);
+        if(inboundCache.length>50) inboundCache.pop();
+        renderInbound(inboundCache);
+        loadWebhookStatus();
+      } catch(e){}
+    });
+    es.onerror=()=>{
+      $('sseBadge').textContent='SSE: reconnecting…';
+      $('sseBadge').className='px-2 py-1 rounded-full text-xs bg-amber-100 text-amber-700';
+    };
+  } catch(e){
+    $('sseBadge').textContent='SSE: error';
+  }
+  startPoll();
+}
+function disconnectSse(){
+  if(sseSource){ try{sseSource.close();}catch{} sseSource=null; }
+  stopPoll();
+  $('sseBadge').textContent='SSE: paused';
+  $('sseBadge').className='px-2 py-1 rounded-full text-xs bg-slate-100';
+  if($('inboundLiveToggle').checked){ $('sseBadge').textContent='SSE: live (poll)'; }
+}
+function startPoll(){
+  stopPoll();
+  pollTimer=setInterval(()=>{ if($('inboundLiveToggle').checked){ loadInbound(); loadWebhookStatus(); } }, 4000);
+}
+function stopPoll(){ if(pollTimer){ clearInterval(pollTimer); pollTimer=null; } }
+
+function saveToken(){ setToken($('tokenInput').value.trim()); alert('Token saved'); checkHealth(); listInstances(); loadLogs(); loadWebhookStatus(); loadInbound(); connectSse(); }
+
+checkHealth(); listInstances(); loadLogs(); loadWebhookStatus(); loadInbound(); connectSse();
+</script>
+</body>
+</html>

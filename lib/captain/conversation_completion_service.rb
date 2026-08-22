@@ -92,7 +92,7 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
   end
 
   def bot_reply?(message)
-    message.outgoing? && message.sender_type.in?(['AgentBot', 'Captain::Assistant'])
+    message.outgoing? && message.sender_type.in?(['Captain::Assistant'])
   end
 
   def parse_response(message)

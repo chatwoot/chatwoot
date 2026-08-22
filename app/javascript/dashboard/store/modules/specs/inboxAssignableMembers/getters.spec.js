@@ -20,13 +20,13 @@ describe('#getters', () => {
     const state = {
       records: {
         1: [agentBot, agentsData[0]],
-        '1:with_agent_bots': [agentBot, agentsData[0]],
+        '1:': [agentBot, agentsData[0]],
       },
     };
 
     expect(getters.getAssignableAgents(state)(1)).toEqual([agentsData[0]]);
     expect(
-      getters.getAssignableAgents(state)(1, { includeAgentBots: true })
+      getters.getAssignableAgents(state)(1, { includeAgentBots: false })
     ).toEqual([agentBot, agentsData[0]]);
   });
 

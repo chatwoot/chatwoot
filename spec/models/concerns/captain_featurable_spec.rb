@@ -7,13 +7,13 @@ RSpec.describe CaptainFeaturable do
 
   describe 'dynamic method generation' do
     it 'generates enabled? methods for all features' do
-      Llm::Models.feature_keys.each do |feature_key|
+      Llm::FeatureRouter.feature_keys.each do |feature_key|
         expect(account).to respond_to("captain_#{feature_key}_enabled?")
       end
     end
 
     it 'generates model accessor methods for all features' do
-      Llm::Models.feature_keys.each do |feature_key|
+      Llm::FeatureRouter.feature_keys.each do |feature_key|
         expect(account).to respond_to("captain_#{feature_key}_model")
       end
     end
@@ -22,7 +22,7 @@ RSpec.describe CaptainFeaturable do
   describe 'feature enabled methods' do
     context 'when no features are explicitly enabled' do
       it 'returns false for all features' do
-        Llm::Models.feature_keys.each do |feature_key|
+        Llm::FeatureRouter.feature_keys.each do |feature_key|
           expect(account.send("captain_#{feature_key}_enabled?")).to be false
         end
       end
@@ -50,7 +50,7 @@ RSpec.describe CaptainFeaturable do
       end
 
       it 'returns false for all features' do
-        Llm::Models.feature_keys.each do |feature_key|
+        Llm::FeatureRouter.feature_keys.each do |feature_key|
           expect(account.send("captain_#{feature_key}_enabled?")).to be false
         end
       end
@@ -58,35 +58,18 @@ RSpec.describe CaptainFeaturable do
   end
 
   describe 'model accessor methods' do
-    context 'when models are explicitly configured' do
-      before do
-        account.update!(captain_models: {
-                          'editor' => 'gpt-4.1-mini',
-                          'assistant' => 'gpt-5.1',
-                          'label_suggestion' => 'gpt-4.1-nano'
-                        })
-      end
+    it 'returns single configured model for all features regardless of stored overrides' do
+      account.update!(captain_models: {
+                        'editor' => 'gpt-4.1-mini',
+                        'assistant' => 'gpt-5.1',
+                        'label_suggestion' => 'gpt-4.1-nano'
+                      })
 
-      it 'returns configured models for configured features' do
-        expect(account.captain_editor_model).to eq('gpt-4.1-mini')
-        expect(account.captain_assistant_model).to eq('gpt-5.1')
-        expect(account.captain_label_suggestion_model).to eq('gpt-4.1-nano')
-      end
-
-      it 'returns default models for unconfigured features' do
-        expect(account.captain_copilot_model).to eq(Llm::Config.model)
-        expect(account.captain_audio_transcription_model).to eq(Llm::Config.model)
-      end
-    end
-
-    context 'when configured with invalid model' do
-      before do
-        account.captain_models = { 'editor' => 'invalid-model' }
-      end
-
-      it 'falls back to the single configured model' do
-        expect(account.captain_editor_model).to eq(Llm::Config.model)
-      end
+      expect(account.captain_editor_model).to eq(Llm::Config.model)
+      expect(account.captain_assistant_model).to eq(Llm::Config.model)
+      expect(account.captain_label_suggestion_model).to eq(Llm::Config.model)
+      expect(account.captain_copilot_model).to eq(Llm::Config.model)
+      expect(account.captain_audio_transcription_model).to eq(Llm::Config.model)
     end
 
     context 'when captain_models is nil' do
@@ -95,7 +78,7 @@ RSpec.describe CaptainFeaturable do
       end
 
       it 'returns the single configured model for all features' do
-        Llm::Models.feature_keys.each do |feature_key|
+        Llm::FeatureRouter.feature_keys.each do |feature_key|
           expect(account.send("captain_#{feature_key}_model")).to eq(Llm::Config.model)
         end
       end
@@ -107,16 +90,15 @@ RSpec.describe CaptainFeaturable do
       account.update!(captain_features: { 'editor' => true, 'copilot' => true })
       prefs = account.captain_preferences
 
-      Llm::Models.feature_keys.each do |feature_key|
+      Llm::FeatureRouter.feature_keys.each do |feature_key|
         expect(account.send("captain_#{feature_key}_enabled?")).to eq(prefs[:features][feature_key])
       end
     end
 
     it 'model methods use the same logic as captain_preferences[:models]' do
-      account.update!(captain_models: { 'editor' => 'gpt-4.1-mini', 'assistant' => 'gpt-5.2' })
       prefs = account.captain_preferences
 
-      Llm::Models.feature_keys.each do |feature_key|
+      Llm::FeatureRouter.feature_keys.each do |feature_key|
         expect(account.send("captain_#{feature_key}_model")).to eq(prefs[:models][feature_key])
       end
     end

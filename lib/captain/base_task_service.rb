@@ -55,10 +55,7 @@ class Captain::BaseTaskService
   def resolved_model(model:, feature:)
     return model if feature.blank?
 
-    route = Llm::FeatureRouter.resolve(feature: feature, account: account)
-    return model if model.present? && route[:source] == :default
-
-    route[:model]
+    Llm::FeatureRouter.resolve(feature: feature, account: account)[:model]
   end
 
   def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [])
@@ -161,7 +158,7 @@ class Captain::BaseTaskService
   # exhausted captain_responses quota nor decrements it on success — the call
   # participates in the quota system in neither direction.
   def counts_toward_usage?
-    llm_credential&.dig(:source) != :hook
+    true
   end
 
   def api_key_configured?
@@ -173,28 +170,11 @@ class Captain::BaseTaskService
   end
 
   def llm_credential
-    @llm_credential ||= if use_account_openai_hook?
-                          hook_llm_credential || system_llm_credential
-                        else
-                          system_llm_credential
-                        end
-  end
-
-  def use_account_openai_hook?
-    false
-  end
-
-  def hook_llm_credential
-    key = openai_hook&.settings&.dig('api_key').presence
-    { api_key: key, source: :hook } if key
+    @llm_credential ||= system_llm_credential
   end
 
   def system_llm_credential
     { api_key: system_api_key, source: :system } if system_api_key.present?
-  end
-
-  def openai_hook
-    @openai_hook ||= account.hooks.find_by(app_id: 'openai', status: 'enabled')
   end
 
   def system_api_key
@@ -206,7 +186,7 @@ class Captain::BaseTaskService
   end
 
   def prompt_from_file(file_name)
-    Rails.root.join('lib/integrations/openai/openai_prompts', "#{file_name}.liquid").read
+    Rails.root.join('lib/captain/editor_prompts', "#{file_name}.liquid").read
   end
 
   # Follow-up context for client-side refinement

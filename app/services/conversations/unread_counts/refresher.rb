@@ -88,7 +88,6 @@ class Conversations::UnreadCounts::Refresher
       conversation_id: conversation_id
     )
     return unless unread?
-    return if conversation.assignee_agent_bot_id
 
     store.add_assignment_membership(
       account_id: account.id,

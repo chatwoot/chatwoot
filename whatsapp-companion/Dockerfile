@@ -1,11 +1,16 @@
+# syntax=docker/dockerfile:1.6
 FROM node:20-alpine
 
 # Create app directory
 WORKDIR /app
 
+RUN apk add --no-cache git
+
 # Install app dependencies (leverage Docker layer cache when package.json is unchanged)
+# BuildKit cache mount on npm's download cache: re-running after a lockfile change
+# reuses already-fetched tarballs instead of re-downloading from the registry.
 COPY package.json package-lock.json* ./
-RUN npm install --omit=dev
+RUN --mount=type=cache,target=/root/.npm,id=whatsapp-npm npm ci --omit=dev
 
 # Bundle app source
 COPY . .

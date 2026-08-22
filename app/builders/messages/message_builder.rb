@@ -134,9 +134,7 @@ class Messages::MessageBuilder
   end
 
   def message_sender
-    return if @params[:sender_type] != 'AgentBot'
-
-    AgentBot.where(account_id: [nil, @conversation.account.id]).find_by(id: @params[:sender_id])
+    nil
   end
 
   def message_params

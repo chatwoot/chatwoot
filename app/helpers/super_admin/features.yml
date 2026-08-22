@@ -114,24 +114,6 @@ microsoft:
   config_key: 'microsoft'
 
 # ------- Third-party Integrations ------- #
-linear:
-  name: 'Linear'
-  description: 'Configuration for setting up Linear Integration'
-  enabled: true
-  icon: 'icon-linear'
-  config_key: 'linear'
-notion:
-  name: 'Notion'
-  description: 'Configuration for setting up Notion Integration'
-  enabled: true
-  icon: 'icon-notion'
-  config_key: 'notion'
-slack:
-  name: 'Slack'
-  description: 'Configuration for setting up Slack Integration'
-  enabled: true
-  icon: 'icon-slack'
-  config_key: 'slack'
 whatsapp_embedded:
   name: 'WhatsApp Embedded'
   description: 'Configuration for setting up WhatsApp Embedded Integration'
@@ -144,9 +126,3 @@ whatsapp_companion:
   enabled: true
   icon: 'icon-whatsapp-line'
   config_key: 'whatsapp_unofficial'
-shopify:
-  name: 'Shopify'
-  description: 'Configuration for setting up Shopify Integration'
-  enabled: true
-  icon: 'icon-shopify'
-  config_key: 'shopify'

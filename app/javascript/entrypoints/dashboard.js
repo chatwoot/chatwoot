@@ -39,9 +39,9 @@ const i18n = createI18n({
   messages: i18nMessages,
 });
 
-sync(store, router);
-
 const pinia = createPinia();
+
+sync(store, router);
 
 const app = createApp(App);
 app.use(i18n);

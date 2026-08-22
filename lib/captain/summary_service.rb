@@ -25,7 +25,4 @@ class Captain::SummaryService < Captain::BaseTaskService
     'summarize'
   end
 
-  def use_account_openai_hook?
-    true
-  end
 end

@@ -29,51 +29,9 @@ describe('#actions', () => {
     });
   });
 
-  describe('#connectSlack:', () => {
-    it('sends correct actions if API is success', async () => {
-      let data = { hooks: [{ id: 'slack', enabled: false }] };
-      axios.post.mockResolvedValue({ data: data });
-      await actions.connectSlack({ commit });
-      expect(commit.mock.calls).toEqual([
-        [types.SET_INTEGRATIONS_UI_FLAG, { isCreatingSlack: true }],
-        [types.ADD_INTEGRATION, data],
-        [types.SET_INTEGRATIONS_UI_FLAG, { isCreatingSlack: false }],
-      ]);
-    });
-    it('sends correct actions if API is error', async () => {
-      axios.post.mockRejectedValue(errorMessage);
-      await expect(actions.connectSlack({ commit })).rejects.toThrow(Error);
-      expect(commit.mock.calls).toEqual([
-        [types.SET_INTEGRATIONS_UI_FLAG, { isCreatingSlack: true }],
-        [types.SET_INTEGRATIONS_UI_FLAG, { isCreatingSlack: false }],
-      ]);
-    });
-  });
-
-  describe('#updateSlack', () => {
-    it('sends correct actions if API is success', async () => {
-      let data = { hooks: [{ id: 'slack', enabled: false }] };
-      axios.patch.mockResolvedValue({ data: data });
-      await actions.updateSlack({ commit }, { referenceId: '12345' });
-      expect(commit.mock.calls).toEqual([
-        [types.SET_INTEGRATIONS_UI_FLAG, { isUpdatingSlack: true }],
-        [types.ADD_INTEGRATION, data],
-        [types.SET_INTEGRATIONS_UI_FLAG, { isUpdatingSlack: false }],
-      ]);
-    });
-    it('sends correct actions if API is error', async () => {
-      axios.patch.mockRejectedValue(errorMessage);
-      await expect(actions.updateSlack({ commit })).rejects.toThrow(Error);
-      expect(commit.mock.calls).toEqual([
-        [types.SET_INTEGRATIONS_UI_FLAG, { isUpdatingSlack: true }],
-        [types.SET_INTEGRATIONS_UI_FLAG, { isUpdatingSlack: false }],
-      ]);
-    });
-  });
-
   describe('#deleteIntegration:', () => {
     it('sends correct actions if API is success', async () => {
-      let data = { id: 'slack', enabled: false };
+      let data = { id: 'dialogflow', enabled: false };
       axios.delete.mockResolvedValue({ data: data });
       await actions.deleteIntegration({ commit }, data.id);
       expect(commit.mock.calls).toEqual([
@@ -94,7 +52,7 @@ describe('#actions', () => {
 
   describe('#createHooks', () => {
     it('sends correct actions if API is success', async () => {
-      let data = { id: 'slack', enabled: false };
+      let data = { id: 'dialogflow', enabled: false };
       axios.post.mockResolvedValue({ data: data });
       await actions.createHook({ commit }, data);
       expect(commit.mock.calls).toEqual([

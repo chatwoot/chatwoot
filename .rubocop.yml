@@ -91,7 +91,6 @@ Metrics/BlockLength:
 Metrics/ModuleLength:
   Exclude:
     - lib/seeders/message_seeder.rb
-    - spec/support/slack_stubs.rb
 
 Rails/HelperInstanceVariable:
   Exclude:

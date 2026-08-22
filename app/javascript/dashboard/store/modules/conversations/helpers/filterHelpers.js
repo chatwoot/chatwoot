@@ -295,7 +295,7 @@ const matchesConversationCondition = (conversation, filter) => {
 
   if (
     isHumanAssigneeFilter &&
-    conversation.meta?.assignee_type === 'AgentBot'
+    conversation.meta?.assignee_type === '__removed__'
   ) {
     return false;
   }

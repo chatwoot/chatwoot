@@ -104,7 +104,4 @@ class Captain::FollowUpService < Captain::BaseTaskService
     'follow_up'
   end
 
-  def use_account_openai_hook?
-    true
-  end
 end

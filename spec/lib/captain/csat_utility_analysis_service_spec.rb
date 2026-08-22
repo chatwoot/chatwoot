@@ -38,7 +38,7 @@ RSpec.describe Captain::CsatUtilityAnalysisService do
   describe '#api_key' do
     context 'when account has an OpenAI hook key' do
       before do
-        create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'customer-own-key' })
+        create(:integrations_hook, :dialogflow, account: account, settings: { 'api_key' => 'customer-own-key' })
       end
 
       it 'uses the account hook key' do

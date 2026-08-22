@@ -8,13 +8,6 @@ RSpec.describe AdministratorNotifications::IntegrationsNotificationMailer do
   let!(:administrator) { create(:user, :administrator, email: 'admin@example.com', account: account) }
   let!(:another_administrator) { create(:user, :administrator, email: 'owner@example.com', account: account) }
 
-  describe 'slack_disconnect' do
-    let(:mail) { described_class.with(account: account).slack_disconnect.deliver_now }
-
-    it 'renders the subject' do
-      expect(mail.subject).to eq('Your Slack integration has expired')
-    end
-
     it 'renders the receiver email' do
       expect(mail.to).to contain_exactly(administrator.email, another_administrator.email)
     end
@@ -39,13 +32,6 @@ RSpec.describe AdministratorNotifications::IntegrationsNotificationMailer do
       expect(mail.to).to contain_exactly(administrator.email, another_administrator.email)
     end
   end
-
-  describe 'openai_disconnect' do
-    let(:mail) { described_class.with(account: account).openai_disconnect.deliver_now }
-
-    it 'renders the subject' do
-      expect(mail.subject).to eq('Your OpenAI integration was disconnected')
-    end
 
     it 'renders the content' do
       expect(mail.body.encoded).to include('the configured API key is invalid or revoked')

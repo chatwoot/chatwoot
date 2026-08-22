@@ -21,7 +21,7 @@ class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
   end
 
   def update_event_data(event, conversation)
-    last_bot_reply = conversation.messages.where(sender_type: 'AgentBot').order(created_at: :asc).last
+    last_bot_reply = conversation.messages.where(sender_type: 'Captain::Assistant').order(created_at: :asc).last
     return if last_bot_reply.blank?
 
     first_human_reply = conversation.messages.where(sender_type: 'User').order(created_at: :asc).first

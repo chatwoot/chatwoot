@@ -54,7 +54,7 @@ export function useAgentsList(
    */
   const agentsList = computed(() => {
     const agents = (assignableAgents.value || []).map(agent =>
-      !agent.name && agent.assignee_type === 'AgentBot'
+      !agent.name && agent.assignee_type === '__removed__'
         ? { ...agent, name: '-' }
         : agent
     );

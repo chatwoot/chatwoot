@@ -28,7 +28,7 @@ class Captain::Assistant::SessionCaptureService
       session_type: :assistant,
       subject: @conversation,
       result: result_message,
-      llm_model: "#{Llm::Models.provider_for(model)}-#{model}",
+      llm_model: "#{Llm::Config.provider_for(model)}-#{model}",
       credits_consumed: @credits_consumed,
       faq_ids: metadata[:faq_ids] || [],
       used_faq_ids: metadata[:used_faq_ids] || [],

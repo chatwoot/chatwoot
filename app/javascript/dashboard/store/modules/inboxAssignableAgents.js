@@ -8,7 +8,7 @@ const state = {
 };
 
 const recordKey = (inboxId, { includeAgentBots = false } = {}) =>
-  includeAgentBots ? `${inboxId}:with_agent_bots` : inboxId;
+  includeAgentBots ? `${inboxId}:` : inboxId;
 
 export const types = {
   SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG: 'SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG',
@@ -24,7 +24,7 @@ export const getters = {
       const verifiedAgents = allAgents.filter(
         record =>
           record.confirmed ||
-          (includeAgentBots && record.assignee_type === 'AgentBot')
+          (includeAgentBots && record.assignee_type === '__removed__')
       );
       return verifiedAgents;
     },
@@ -55,8 +55,6 @@ export const actions = {
         inboxId: recordKey(inboxIds.join(','), { includeAgentBots }),
         members: payload,
       });
-    } catch (error) {
-      throw error;
     } finally {
       commit(types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: false });
     }

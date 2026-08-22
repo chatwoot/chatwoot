@@ -48,11 +48,9 @@ module Reauthorizable
   end
 
   def process_integration_hook_reauthorization_emails
-    if slack?
-      AdministratorNotifications::IntegrationsNotificationMailer.with(account: account).slack_disconnect.deliver_later
-    elsif dialogflow?
-      AdministratorNotifications::IntegrationsNotificationMailer.with(account: account).dialogflow_disconnect.deliver_later
-    end
+    return unless dialogflow?
+
+    AdministratorNotifications::IntegrationsNotificationMailer.with(account: account).dialogflow_disconnect.deliver_later
   end
 
   def send_channel_reauthorization_email(disconnect_type)

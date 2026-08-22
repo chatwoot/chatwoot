@@ -1,8 +1,8 @@
 module AccountSettingsSchema
   extend ActiveSupport::Concern
 
-  CAPTAIN_MODEL_PROPERTIES = Llm::Models.feature_keys.index_with { { 'type': %w[string null] } }.freeze
-  CAPTAIN_FEATURE_PROPERTIES = Llm::Models.feature_keys.index_with { { 'type': %w[boolean null] } }.freeze
+  CAPTAIN_MODEL_PROPERTIES = Llm::FeatureRouter.feature_keys.index_with { { 'type': %w[string null] } }.freeze
+  CAPTAIN_FEATURE_PROPERTIES = Llm::FeatureRouter.feature_keys.index_with { { 'type': %w[boolean null] } }.freeze
 
   SETTINGS_PARAMS_SCHEMA = {
     'type': 'object',
@@ -11,7 +11,6 @@ module AccountSettingsSchema
         'auto_resolve_after': { 'type': %w[integer null], 'minimum': 10, 'maximum': 1_439_856 },
         'auto_resolve_message': { 'type': %w[string null] },
         'auto_resolve_ignore_waiting': { 'type': %w[boolean null] },
-        'audio_transcriptions': { 'type': %w[boolean null] },
         'auto_resolve_label': { 'type': %w[string null] },
         'keep_pending_on_bot_failure': { 'type': %w[boolean null] },
         'captain_auto_resolve_mode': { 'type': %w[string null], 'enum': ['evaluated', 'legacy', 'disabled', nil] },

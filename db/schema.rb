@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_08_15_000000) do
+ActiveRecord::Schema[7.2].define(version: 2026_08_22_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -112,28 +112,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_15_000000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "agent_bot_inboxes", force: :cascade do |t|
-    t.integer "inbox_id"
-    t.integer "agent_bot_id"
-    t.integer "status", default: 0
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "account_id"
-  end
-
-  create_table "agent_bots", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
-    t.string "outgoing_url"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.bigint "account_id"
-    t.integer "bot_type", default: 0
-    t.jsonb "bot_config", default: {}
-    t.string "secret"
-    t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
   create_table "agent_capacity_policies", force: :cascade do |t|
@@ -850,7 +828,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_15_000000) do
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
     t.text "cached_label_list"
-    t.bigint "assignee_agent_bot_id"
     t.datetime "status_changed_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"

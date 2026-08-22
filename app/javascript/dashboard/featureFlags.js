@@ -1,5 +1,4 @@
 export const FEATURE_FLAGS = {
-  AGENT_BOTS: 'agent_bots',
   AGENT_MANAGEMENT: 'agent_management',
   ASSIGNMENT_V2: 'assignment_v2',
   ADVANCED_ASSIGNMENT: 'advanced_assignment',
@@ -36,7 +35,6 @@ export const FEATURE_FLAGS = {
   EMAIL_CONTINUITY_ON_API_CHANNEL: 'email_continuity_on_api_channel',
   INBOUND_EMAILS: 'inbound_emails',
   IP_LOOKUP: 'ip_lookup',
-  LINEAR: 'linear_integration',
   CAPTAIN: 'captain_integration',
   CUSTOM_ROLES: 'custom_roles',
   CHATWOOT_V4: 'chatwoot_v4',

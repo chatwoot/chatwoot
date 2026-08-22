@@ -35,11 +35,11 @@ shared_examples_for 'reauthorizable' do
     slack_mailer_response = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
     dialogflow_mailer_response = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
     allow(AdministratorNotifications::IntegrationsNotificationMailer).to receive(:with).and_return(integrations_mailer)
-    allow(integrations_mailer).to receive(:slack_disconnect).and_return(slack_mailer_response)
+    allow(integrations_mailer).to receive(:dialogflow_disconnect).and_return(slack_mailer_response)
     allow(integrations_mailer).to receive(:dialogflow_disconnect).and_return(dialogflow_mailer_response)
 
     # Allow the model to respond to slack? and dialogflow? methods
-    allow(obj).to receive(:slack?).and_return(true)
+    allow(obj).to receive(:dialogflow?).and_return(true)
     allow(obj).to receive(:dialogflow?).and_return(false)
   end
 

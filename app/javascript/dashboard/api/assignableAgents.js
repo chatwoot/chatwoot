@@ -10,7 +10,7 @@ class AssignableAgents extends ApiClient {
     return axios.get(this.url, {
       params: {
         inbox_ids: inboxIds,
-        ...(includeAgentBots ? { include_agent_bots: true } : {}),
+        ...(includeAgentBots ? { include_agent_bots: false } : {}),
       },
     });
   }

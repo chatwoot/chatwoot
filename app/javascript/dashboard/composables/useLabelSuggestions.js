@@ -29,20 +29,7 @@ export function useLabelSuggestions() {
     return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS);
   });
 
-  const aiIntegration = computed(
-    () =>
-      appIntegrations.value.find(
-        integration => integration.id === 'openai' && !!integration.hooks.length
-      )?.hooks[0]
-  );
-
-  const isLabelSuggestionFeatureEnabled = computed(() => {
-    if (aiIntegration.value) {
-      const { settings = {} } = aiIntegration.value || {};
-      return !!settings.label_suggestion;
-    }
-    return false;
-  });
+  const isLabelSuggestionFeatureEnabled = computed(() => false);
 
   const fetchIntegrationsIfRequired = async () => {
     if (!appIntegrations.value.length) {

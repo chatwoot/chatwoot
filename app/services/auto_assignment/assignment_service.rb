@@ -12,7 +12,6 @@ class AutoAssignment::AssignmentService
     conversations.each do |conversation|
       if perform_for_conversation(conversation)
         assigned_count += 1
-      elsif !conversation.assignee_agent_bot.present?
         add_all_members_as_participants(conversation)
       end
     end

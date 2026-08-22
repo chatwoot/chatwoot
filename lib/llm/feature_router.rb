@@ -1,34 +1,44 @@
 module Llm::FeatureRouter
   class UnknownFeatureError < StandardError; end
 
+  FEATURE_KEYS = %w[
+    conversation_completion
+    editor
+    assistant
+    copilot
+    label_suggestion
+    document_faq_generation
+    conversation_faq_generation
+    conversation_faq_matching
+    pdf_faq_generation
+    help_center_article_generation
+    onboarding_content_generation
+    help_center_query_translation
+    audio_transcription
+    help_center_search
+  ].freeze
+
   class << self
     def resolve(feature:, account: nil)
       feature_key = feature.to_s
-      raise UnknownFeatureError, "Unknown LLM feature: #{feature_key}" unless Llm::Models.feature?(feature_key)
+      raise UnknownFeatureError, "Unknown LLM feature: #{feature_key}" unless FEATURE_KEYS.include?(feature_key)
 
-      model = account_model_override(account, feature_key)
-      source = model.present? ? :account_override : :default
-      # When no explicit per-feature override exists, every feature uses the
-      # single configured model, so operators manage one model for the whole app.
-      model ||= Llm::Config.model
+      model = Llm::Config.model
 
       {
         feature: feature_key,
-        provider: Llm::Models.provider_for(model),
+        provider: Llm::Config.provider_for(model),
         model: model,
-        source: source
+        source: :default
       }
     end
 
-    private
+    def feature_keys
+      FEATURE_KEYS.reject { |key| key == 'conversation_completion' }
+    end
 
-    def account_model_override(account, feature_key)
-      return if Llm::Models.internal_feature?(feature_key)
-
-      model = account&.captain_models&.[](feature_key).presence
-      return unless model
-      return model if Llm::Models.valid_model_for?(feature_key, model)
-      nil
+    def feature?(feature)
+      FEATURE_KEYS.include?(feature.to_s)
     end
   end
 end

@@ -293,7 +293,7 @@ RSpec.describe Captain::BaseTaskService do
     end
 
     it 'tracks exceptions against the system key when an account hook exists' do
-      create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'hook-key' })
+      create(:integrations_hook, :dialogflow, account: account, settings: { 'api_key' => 'hook-key' })
 
       expect(Llm::Config).to receive(:with_api_key).with('test-key', api_base: anything).and_raise(error)
       expect(ChatwootExceptionTracker).to receive(:new).with(error, account: account).and_return(exception_tracker)
@@ -307,22 +307,8 @@ RSpec.describe Captain::BaseTaskService do
   end
 
   describe '#api_key' do
-    context 'when openai hook is configured' do
-      let(:hook) { create(:integrations_hook, account: account, app_id: 'openai', status: 'enabled', settings: { 'api_key' => 'hook-key' }) }
-
-      before { hook }
-
-      it 'uses system api key by default' do
-        expect(service.send(:api_key)).to eq('test-key')
-      end
     end
 
-    context 'when subclass opts into account OpenAI hook usage' do
-      let(:test_service_class) do
-        Class.new(described_class) do
-          def event_name
-            'test_event'
-          end
 
           def use_account_openai_hook?
             true
@@ -331,7 +317,7 @@ RSpec.describe Captain::BaseTaskService do
       end
 
       before do
-        create(:integrations_hook, account: account, app_id: 'openai', status: 'enabled', settings: { 'api_key' => 'hook-key' })
+        create(:integrations_hook, account: account, app_id: 'dialogflow', status: 'enabled', settings: { 'api_key' => 'hook-key' })
       end
 
       it 'uses api key from hook' do
@@ -339,37 +325,8 @@ RSpec.describe Captain::BaseTaskService do
       end
     end
 
-    it 'uses account OpenAI hook for editor task services' do
-      create(:integrations_hook, account: account, app_id: 'openai', status: 'enabled', settings: { 'api_key' => 'hook-key' })
-      user = create(:user, account: account)
-      follow_up_context = {
-        'event_name' => 'professional',
-        'original_context' => 'Original text',
-        'last_response' => 'Last response'
-      }
-
-      editor_services = [
-        Captain::RewriteService.new(account: account, content: 'Text', operation: 'improve', conversation_display_id: conversation.display_id),
-        Captain::SummaryService.new(account: account, conversation_display_id: conversation.display_id),
-        Captain::ReplySuggestionService.new(account: account, conversation_display_id: conversation.display_id, user: user),
-        Captain::LabelSuggestionService.new(account: account, conversation_display_id: conversation.display_id),
-        Captain::FollowUpService.new(
-          account: account,
-          follow_up_context: follow_up_context,
-          user_message: 'Make it shorter',
-          conversation_display_id: conversation.display_id
-        )
-      ]
-
-      editor_services.each do |editor_service|
-        expect(editor_service.send(:api_key)).to eq('hook-key')
-      end
     end
 
-    context 'when openai hook is not configured' do
-      it 'uses system api key' do
-        expect(service.send(:api_key)).to eq('test-key')
-      end
     end
 
     context 'when no API key is configured' do
@@ -387,7 +344,7 @@ RSpec.describe Captain::BaseTaskService do
     it 'reads prompt from file' do
       service
       prompt_path = instance_double(Pathname, read: 'Test prompt content')
-      allow(Rails.root).to receive(:join).with('lib/integrations/openai/openai_prompts', 'test.liquid').and_return(prompt_path)
+      allow(Rails.root).to receive(:join).with('lib/captain/editor_prompts', 'test.liquid').and_return(prompt_path)
 
       expect(service.send(:prompt_from_file, 'test')).to eq('Test prompt content')
     end

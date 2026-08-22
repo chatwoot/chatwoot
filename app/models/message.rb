@@ -114,7 +114,7 @@ class Message < ApplicationRecord
                                          :external_created_at, :story_sender, :story_id, :external_error,
                                          :translations, :in_reply_to_external_id, :is_unsupported, :data], coder: JSON
 
-  store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
+  store :external_source_ids, accessors: [], coder: JSON, prefix: :external_source_id
 
   scope :created_since, ->(datetime) { where('created_at > ?', datetime) }
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
@@ -176,8 +176,7 @@ class Message < ApplicationRecord
   end
 
   def merge_sender_attributes(data)
-    data[:sender] = sender.push_event_data if sender && !sender.is_a?(AgentBot)
-    data[:sender] = sender.push_event_data(inbox) if sender.is_a?(AgentBot)
+    data[:sender] = sender.push_event_data if sender
     data
   end
 
@@ -242,7 +241,7 @@ class Message < ApplicationRecord
     return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
     return false if conversation.messages.outgoing
-                                .where.not(sender_type: ['AgentBot', 'Captain::Assistant'])
+                                .where.not(sender_type: ['Captain::Assistant'])
                                 .where.not(private: true)
                                 .where("(additional_attributes->'campaign_id') is null").count > 1
 
@@ -388,8 +387,7 @@ class Message < ApplicationRecord
   end
 
   def bot_response?
-    # Check if this is a response from AgentBot or Captain::Assistant
-    outgoing? && sender_type.in?(['AgentBot', 'Captain::Assistant'])
+    outgoing? && sender_type == 'Captain::Assistant'
   end
 
   def dispatch_create_events

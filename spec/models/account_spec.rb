@@ -437,7 +437,7 @@ RSpec.describe Account do
 
         expect(prefs[:features].values).to all(be false)
 
-        Llm::Models.feature_keys.each do |feature|
+        Llm::FeatureRouter.feature_keys.each do |feature|
           expect(prefs[:models][feature]).to eq(Llm::Config.model)
         end
       end
@@ -451,13 +451,13 @@ RSpec.describe Account do
     end
 
     describe 'with saved model preferences' do
-      it 'returns saved preferences merged with singles' do
+      it 'ignores saved preferences and returns single source model' do
         account.update!(captain_models: { 'editor' => 'gpt-4.1-mini', 'assistant' => 'gpt-5.2' })
 
         prefs = account.captain_preferences
 
-        expect(prefs[:models]['editor']).to eq('gpt-4.1-mini')
-        expect(prefs[:models]['assistant']).to eq('gpt-5.2')
+        expect(prefs[:models]['editor']).to eq(Llm::Config.model)
+        expect(prefs[:models]['assistant']).to eq(Llm::Config.model)
         expect(prefs[:models]['copilot']).to eq(Llm::Config.model)
       end
     end
@@ -475,11 +475,10 @@ RSpec.describe Account do
     end
 
     describe 'validation' do
-      it 'rejects invalid model for a feature' do
+      it 'accepts any model string (single source, no allow-list)' do
         account.captain_models = { 'label_suggestion' => 'gpt-5.1' }
 
-        expect(account).not_to be_valid
-        expect(account.errors[:captain_models].first).to include('not a valid model for label_suggestion')
+        expect(account).to be_valid
       end
 
       it 'accepts valid model for a feature' do
@@ -488,11 +487,10 @@ RSpec.describe Account do
         expect(account).to be_valid
       end
 
-      it 'rejects unknown feature keys' do
+      it 'accepts unknown feature keys (no validation)' do
         account.captain_models = { 'unknown_feature' => 'gpt-4.1' }
 
-        expect(account).not_to be_valid
-        expect(account.errors[:captain_models]).to include("'unknown_feature' is not a known feature")
+        expect(account).to be_valid
       end
 
       it 'removes blank model overrides before saving' do

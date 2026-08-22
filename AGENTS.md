@@ -10,7 +10,7 @@ keep and extend the open-source features (Captain, campaigns, contacts/companies
 
 * **Backend**: Ruby on Rails (`ruby` `3.4.4` — see `.ruby-version`), PostgreSQL
   (`pgvector/pgvector:pg16`), Redis, Sidekiq for jobs.
-* **Frontend**: Vue 3 + Vite (`vite` `6.x`), Pinia/Vuex stores, Tailwind.
+* **Frontend**: Vue 3 + Vite (`vite` `6.x`), Pinia stores, Tailwind. Vuex is removed (`vuex` not in `package.json`); legacy `import from 'vuex'` is shimmed via `app/javascript/dashboard/store/vuexCompat.js` (aliased in `vite.shared.ts`).
 * **Package manager**: `pnpm` `10.x` (Node `24.x`). Use `pnpm`, not `npm`/`yarn`.
 * **Ruby**: managed via `rbenv`. Before any `bundle`/`rails`/`rspec` command,
   init rbenv (`eval "$(rbenv init -)"`) so the correct Ruby/Bundler are used.
@@ -335,6 +335,7 @@ The final implementation should feel like code written by an experienced enginee
 ### Frontend
 * Use `components-next/` for message bubbles (the rest is being deprecated).
 * New routes/components generally live under `app/javascript/dashboard/`.
+* **State management**: Pinia is the standard. Do not add new Vuex modules or `mapGetters`/`mapActions`/`createStore` from `vuex`; use `defineStore` / `storeToRefs` / `use*Store()` instead (see `app/javascript/dashboard/stores/` and `app/javascript/dashboard/store/storeFactory.js` with `type: 'pinia'`). Existing Vuex-style code still runs via the `vuexCompat.js` shim but is considered legacy and should be migrated opportunistically.
 
 ### Deployment
 * Production images are published to `ghcr.io/kira-id` (see *Running with Docker*).

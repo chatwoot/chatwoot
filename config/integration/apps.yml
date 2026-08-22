@@ -23,63 +23,6 @@ dashboard_apps:
   i18n_key: dashboard_apps
   hook_type: account
   allow_multiple_hooks: true
-openai:
-  id: openai
-  logo: openai.png
-  i18n_key: openai
-  action: /openai
-  hook_type: account
-  allow_multiple_hooks: false
-  settings_json_schema:
-    {
-      'type': 'object',
-      'properties':
-        {
-          'api_key': { 'type': 'string' },
-          'label_suggestion': { 'type': 'boolean' },
-        },
-      'required': ['api_key'],
-      'additionalProperties': false,
-    }
-  settings_form_schema:
-    [
-      {
-        'label': 'API Key',
-        'type': 'text',
-        'name': 'api_key',
-        'validation': 'required',
-      },
-      {
-        'label': 'Show label suggestions',
-        'type': 'checkbox',
-        'name': 'label_suggestion',
-        'validation': '',
-      },
-    ]
-  visible_properties: ['label_suggestion']
-linear:
-  id: linear
-  logo: linear.png
-  i18n_key: linear
-  action: https://linear.app/oauth/authorize
-  hook_type: account
-  allow_multiple_hooks: false
-  visible_properties: []
-notion:
-  id: notion
-  logo: notion.png
-  i18n_key: notion
-  hook_type: account
-  allow_multiple_hooks: false
-  visible_properties: []
-slack:
-  id: slack
-  logo: slack.png
-  i18n_key: slack
-  action: https://slack.com/oauth/v2/authorize?scope=commands,chat:write,channels:read,channels:manage,channels:join,groups:read,groups:write,im:write,mpim:write,users:read,users:read.email,chat:write.customize,channels:history,groups:history,mpim:history,im:history,files:read,files:write
-  hook_type: account
-  allow_multiple_hooks: false
-  visible_properties: ['channel_name']
 dialogflow:
   id: dialogflow
   logo: dialogflow.png
@@ -244,14 +187,6 @@ dyte:
       },
     ]
   visible_properties: ['account_id', 'app_id']
-
-shopify:
-  id: shopify
-  logo: shopify.png
-  i18n_key: shopify
-  hook_type: account
-  allow_multiple_hooks: false
-  visible_properties: []
 
 leadsquared:
   id: leadsquared

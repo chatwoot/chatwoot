@@ -127,13 +127,13 @@ export default {
               <Avatar
                 v-if="
                   hasThumbnail &&
-                  (!option.icon || option.assignee_type === 'AgentBot')
+                  (!option.icon || option.assignee_type === '__removed__')
                 "
                 :src="option.thumbnail"
                 :name="option.name"
                 :status="option.availability_status"
                 :icon-name="
-                  option.assignee_type === 'AgentBot'
+                  option.assignee_type === '__removed__'
                     ? 'i-lucide-bot'
                     : undefined
                 "
@@ -142,7 +142,9 @@ export default {
                 rounded-full
               >
                 <template
-                  v-if="option.assignee_type === 'AgentBot' && option.thumbnail"
+                  v-if="
+                    option.assignee_type === '__removed__' && option.thumbnail
+                  "
                   #badge
                 >
                   <div

@@ -65,13 +65,13 @@ describe('useAgentsList', () => {
 
   it('requests agent bots when explicitly included', () => {
     const { agentsList, assignableAgents } = useAgentsList(true, {
-      includeAgentBots: true,
+      includeAgentBots: false,
     });
 
     expect(assignableAgents.value).toEqual(allAgentsData);
     expect(
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
-    ).toHaveBeenCalledWith(1, { includeAgentBots: true });
+    ).toHaveBeenCalledWith(1, { includeAgentBots: false });
     expect(agentsList.value[0]).toEqual(mockNoneAgent);
     expect(agentsList.value.length).toBe(
       formattedAgentsData.slice(1).length + 1

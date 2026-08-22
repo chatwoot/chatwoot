@@ -4,7 +4,7 @@ RSpec.describe Integrations::LlmBaseService do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
-  let(:hook) { create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'hook-key' }) }
+  let(:hook) { create(:integrations_hook, :dialogflow, account: account, settings: { 'api_key' => 'hook-key' }) }
   let(:event) { { 'name' => 'summarize', 'data' => { 'conversation_display_id' => conversation.display_id } } }
   let(:service) { described_class.new(hook: hook, event: event) }
   let(:error) { StandardError.new('API Error') }

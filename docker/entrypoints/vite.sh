@@ -16,7 +16,7 @@ rm -rf /app/tmp/cache/*
 # forever and leaves the dashboard with a missing Vite manifest
 # (MissingEntrypointError). In CI mode pnpm answers the prompt automatically.
 export CI=true
-if ! pnpm install --prefer-offline; then
+if ! pnpm install --prefer-offline --no-frozen-lockfile; then
   echo "pnpm install failed; refusing to start Vite with a broken dependency tree." >&2
   exit 1
 fi

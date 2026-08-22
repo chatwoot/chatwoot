@@ -64,7 +64,4 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
     'csat_utility_analysis'
   end
 
-  def use_account_openai_hook?
-    true
-  end
 end

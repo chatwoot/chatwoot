@@ -47,13 +47,13 @@ describe('#actions', () => {
 
       await actions.fetch(
         { commit },
-        { inboxIds: [1], includeAgentBots: true }
+        { inboxIds: [1], includeAgentBots: false }
       );
 
       expect(axios.get).toHaveBeenCalledWith('/api/v1/assignable_agents', {
         params: {
           inbox_ids: [1],
-          include_agent_bots: true,
+          include_agent_bots: false,
         },
       });
       expect(commit).toHaveBeenCalledWith(types.SET_INBOX_ASSIGNABLE_AGENTS, {
@@ -61,7 +61,7 @@ describe('#actions', () => {
         members: agentsData,
       });
       expect(commit).toHaveBeenCalledWith(types.SET_INBOX_ASSIGNABLE_AGENTS, {
-        inboxId: '1:with_agent_bots',
+        inboxId: '1:',
         members: agentsData,
       });
     });

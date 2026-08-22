@@ -132,9 +132,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def bot_handoff?
-    return false unless Current.user.is_a?(AgentBot)
-
-    @conversation.status == 'pending' && params[:status] == 'open'
+    false
   end
 
   def toggle_priority
@@ -218,7 +216,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def handle_human_open
     @conversation.with_lock do
-      @conversation.assignee_agent_bot = nil
       @conversation.assignee = Current.user if Current.user.agent?
       @conversation.save!
     end

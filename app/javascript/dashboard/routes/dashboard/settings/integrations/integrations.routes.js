@@ -5,10 +5,6 @@ import IntegrationHooks from './IntegrationHooks.vue';
 import Index from './Index.vue';
 import Webhook from './Webhooks/Index.vue';
 import DashboardApps from './DashboardApps/Index.vue';
-import Slack from './Slack.vue';
-import Linear from './Linear.vue';
-import Notion from './Notion.vue';
-import Shopify from './Shopify.vue';
 
 export default {
   routes: [
@@ -50,44 +46,6 @@ export default {
       path: frontendURL('accounts/:accountId/settings/integrations'),
       component: SettingsWrapper,
       children: [
-        {
-          path: 'slack',
-          name: 'settings_integrations_slack',
-          component: Slack,
-          meta: {
-            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
-            permissions: ['administrator'],
-          },
-          props: route => ({ code: route.query.code }),
-        },
-        {
-          path: 'linear',
-          name: 'settings_integrations_linear',
-          component: Linear,
-          meta: {
-            permissions: ['administrator'],
-          },
-          props: route => ({ code: route.query.code }),
-        },
-        {
-          path: 'notion',
-          name: 'settings_integrations_notion',
-          component: Notion,
-          meta: {
-            permissions: ['administrator'],
-          },
-          props: route => ({ code: route.query.code }),
-        },
-        {
-          path: 'shopify',
-          name: 'settings_integrations_shopify',
-          component: Shopify,
-          meta: {
-            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
-            permissions: ['administrator'],
-          },
-          props: route => ({ error: route.query.error }),
-        },
         {
           path: ':integration_id',
           name: 'settings_applications_integration',

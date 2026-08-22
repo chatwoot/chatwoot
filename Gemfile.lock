@@ -289,9 +289,6 @@ GEM
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
-    faraday-mashify (1.0.0)
-      faraday (~> 2.0)
-      hashie
     faraday-multipart (1.2.0)
       multipart-post (~> 2.0)
     faraday-net_http (3.4.4)
@@ -334,8 +331,6 @@ GEM
       grpc (~> 1.36)
     gemoji (4.1.0)
     geocoder (1.8.1)
-    gli (2.22.2)
-      ostruct
     globalid (1.2.1)
       activesupport (>= 6.1)
     gmail_xoauth (0.4.3)
@@ -412,7 +407,6 @@ GEM
       ruby2ruby (~> 2.4)
       ruby_parser (~> 3.10)
     hana (1.3.7)
-    hash_diff (1.1.1)
     hashdiff (1.1.0)
     hashie (5.1.0)
       logger
@@ -605,9 +599,6 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0, >= 2.0.5)
       version_gem (~> 1.1, >= 1.1.11)
-    oj (3.17.3)
-      bigdecimal (>= 3.0)
-      ostruct (>= 0.2)
     omniauth (2.1.4)
       hashie (>= 3.4.6)
       logger
@@ -652,7 +643,6 @@ GEM
       opentelemetry-api (~> 1.0)
     orm_adapter (0.5.0)
     os (1.1.4)
-    ostruct (0.6.3)
     parallel (1.27.0)
     parser (3.3.8.0)
       ast (~> 2.4.1)
@@ -890,17 +880,6 @@ GEM
       sentry-ruby (~> 5.19.0)
       sidekiq (>= 3.0)
     sexp_processor (4.17.0)
-    shopify_api (14.8.0)
-      activesupport
-      concurrent-ruby
-      hash_diff
-      httparty
-      jwt
-      oj
-      openssl
-      securerandom
-      sorbet-runtime
-      zeitwerk (~> 2.5)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
     sidekiq (7.3.10)
@@ -931,17 +910,9 @@ GEM
     skooma (0.3.7)
       json_skooma (~> 0.2.5)
       zeitwerk (~> 2.6)
-    slack-ruby-client (2.7.0)
-      faraday (>= 2.0.1)
-      faraday-mashify
-      faraday-multipart
-      gli
-      hashie
-      logger
     snaky_hash (2.0.5)
       hashie (>= 0.1.0, < 6)
       version_gem (>= 1.1.8, < 3)
-    sorbet-runtime (0.5.11934)
     spring (4.1.1)
     spring-watcher-listen (2.1.0)
       listen (>= 2.7, < 4.0)
@@ -1168,7 +1139,6 @@ DEPENDENCIES
   sentry-rails (>= 5.19.0)
   sentry-ruby
   sentry-sidekiq (>= 5.19.0)
-  shopify_api
   shoulda-matchers
   sidekiq (~> 7.3.10)
   sidekiq-cron (>= 2.4.0)
@@ -1176,7 +1146,6 @@ DEPENDENCIES
   simplecov (>= 0.21)
   simplecov_json_formatter
   skooma
-  slack-ruby-client (~> 2.7.0)
   spring
   spring-watcher-listen
   squasher

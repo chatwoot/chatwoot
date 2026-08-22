@@ -35,7 +35,6 @@ Rails.application.routes.draw do
     namespace :survey do
       resources :responses, only: [:show]
     end
-    resource :slack_uploads, only: [:show]
   end
 
   get '/health', to: 'health#show'
@@ -106,11 +105,6 @@ Rails.application.routes.draw do
               post :label_suggestion
               post :follow_up
             end
-          end
-          resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
-            delete :avatar, on: :member
-            post :reset_access_token, on: :member
-            post :reset_secret, on: :member
           end
           resources :contact_inboxes, only: [] do
             collection do
@@ -305,9 +299,7 @@ Rails.application.routes.draw do
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
-            get :agent_bot, on: :member
             get :message_templates, on: :member
-            post :set_agent_bot, on: :member
             get :captain_bot, on: :member
             post :set_captain_bot, on: :member
             delete :avatar, on: :member
@@ -387,10 +379,6 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
-          namespace :notion do
-            resource :authorization, only: [:create]
-          end
-
           namespace :whatsapp do
             resource :authorization, only: [:create]
           end
@@ -403,38 +391,10 @@ Rails.application.routes.draw do
                 post :process_event
               end
             end
-            resource :slack, only: [:create, :update, :destroy], controller: 'slack' do
-              member do
-                get :list_all_channels
-              end
-            end
             resource :dyte, controller: 'dyte', only: [] do
               collection do
                 post :create_a_meeting
                 post :add_participant_to_meeting
-              end
-            end
-            resource :shopify, controller: 'shopify', only: [:destroy] do
-              collection do
-                post :auth
-                get :orders
-              end
-            end
-            resource :linear, controller: 'linear', only: [] do
-              collection do
-                delete :destroy
-                get :teams
-                get :team_entities
-                post :create_issue
-                post :link_issue
-                post :unlink_issue
-                get :search_issue
-                get :linked_issues
-              end
-            end
-            resource :notion, controller: 'notion', only: [] do
-              collection do
-                delete :destroy
               end
             end
           end
@@ -466,10 +426,6 @@ Rails.application.routes.draw do
       end
       # end of account scoped api routes
       # ----------------------------------
-
-      namespace :integrations do
-        resources :webhooks, only: [:create]
-      end
 
       resource :profile, only: [:show, :update] do
         delete :avatar, on: :collection
@@ -580,9 +536,6 @@ Rails.application.routes.draw do
             post :token
           end
         end
-        resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
-          delete :avatar, on: :member
-        end
         resources :accounts, only: [:index, :create, :show, :update, :destroy] do
           resources :account_users, only: [:index, :create] do
             collection do
@@ -657,18 +610,9 @@ Rails.application.routes.draw do
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
-  post 'webhooks/shopify', to: 'webhooks/shopify#events'
   post 'webhooks/captain/firecrawl', to: 'captain/webhooks/firecrawl#process_payload'
 
   namespace :twitter do
-    resource :callback, only: [:show]
-  end
-
-  namespace :linear do
-    resource :callback, only: [:show]
-  end
-
-  namespace :shopify do
     resource :callback, only: [:show]
   end
 
@@ -686,7 +630,6 @@ Rails.application.routes.draw do
   get 'google/callback', to: 'google/callbacks#show'
   get 'instagram/callback', to: 'instagram/callbacks#show'
   get 'tiktok/callback', to: 'tiktok/callbacks#show'
-  get 'notion/callback', to: 'notion/callbacks#show'
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
@@ -721,9 +664,6 @@ Rails.application.routes.draw do
 
       resources :access_tokens, only: [:index, :show]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
-      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
-        delete :avatar, on: :member, action: :destroy_avatar
-      end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resources :platform_banners
       resource :instance_status, only: [:show]

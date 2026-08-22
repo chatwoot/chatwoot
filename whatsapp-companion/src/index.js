@@ -21,14 +21,78 @@ import express from 'express';
 import qrcode from 'qrcode';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { BaileysManager, STATUS, mediaPathFor } from './baileysClient.js';
 
 const PORT = Number(process.env.PORT || 4000);
 const SHARED_TOKEN = process.env.CHATWOOT_SHARED_TOKEN || '';
 const CHATWOOT_URL = (process.env.CHATWOOT_URL || 'http://rails:3000').replace(/\/+$/, '');
+const AUTH_DIR = process.env.AUTH_DIR || '/app/auth';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json({ limit: '25mb' }));
+
+// In-memory ring buffers for dashboard diagnostics
+const EVENT_LOG = [];
+const EVENT_LOG_MAX = 100;
+const INBOUND_MESSAGES = [];
+const INBOUND_MAX = 200;
+const SSE_CLIENTS = new Set();
+let LAST_FORWARD = null;
+
+function pushLog(entry) {
+  EVENT_LOG.unshift({ ts: new Date().toISOString(), ...entry });
+  if (EVENT_LOG.length > EVENT_LOG_MAX) EVENT_LOG.pop();
+}
+
+function pushInbound(entry) {
+  INBOUND_MESSAGES.unshift({ id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, received_at: new Date().toISOString(), ...entry });
+  if (INBOUND_MESSAGES.length > INBOUND_MAX) INBOUND_MESSAGES.pop();
+  broadcastSse('inbound', INBOUND_MESSAGES[0]);
+}
+
+function broadcastSse(event, data) {
+  const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+  for (const res of SSE_CLIENTS) {
+    try { res.write(payload); } catch { /* ignore */ }
+  }
+}
+
+function extractInboundSummary(payload) {
+  try {
+    const obj = typeof payload === 'string' ? JSON.parse(payload) : payload;
+    const val = obj?.entry?.[0]?.changes?.[0]?.value;
+    if (!val) return null;
+    if (val.messages?.[0]) {
+      const m = val.messages[0];
+      const c = val.contacts?.[0];
+      return {
+        from: m.from || c?.wa_id || '',
+        pushName: c?.profile?.name || '',
+        type: m.type || 'unknown',
+        body: m.text?.body || m.image?.caption || m.video?.caption || m.document?.caption || m.audio ? '' : (m.text?.body || ''),
+        raw: m,
+        statuses: null,
+      };
+    }
+    if (val.statuses?.[0]) {
+      return { statuses: val.statuses, type: 'status' };
+    }
+    return null;
+  } catch { return null; }
+}
+
+function listPersistedIdentifiers() {
+  try {
+    if (!fs.existsSync(AUTH_DIR)) return [];
+    return fs.readdirSync(AUTH_DIR, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name);
+  } catch {
+    return [];
+  }
+}
 
 const FORWARD_MAX_ATTEMPTS = 5;
 const FORWARD_BASE_DELAY_MS = 1000;
@@ -38,6 +102,7 @@ async function forwardToChatwoot(identifier, body) {
 
   for (let attempt = 1; attempt <= FORWARD_MAX_ATTEMPTS; attempt += 1) {
     let response;
+    let responseText = '';
     try {
       response = await fetch(url, {
         method: 'POST',
@@ -47,22 +112,27 @@ async function forwardToChatwoot(identifier, body) {
         },
         body,
       });
+      responseText = await response.text().catch(() => '');
     } catch (err) {
-      // Network-level failure (connection refused, DNS, timeout). Retry with
-      // backoff so a transient Chatwoot restart doesn't drop the customer message.
       if (attempt < FORWARD_MAX_ATTEMPTS) {
         await delay(FORWARD_BASE_DELAY_MS * attempt);
         continue;
       }
+      LAST_FORWARD = { ts: new Date().toISOString(), identifier, target_url: url, ok: false, status: 0, error: err.message, attempt };
+      pushLog({ direction: 'forward-error', identifier, target_url: url, error: err.message, attempt });
       process.stderr.write(`[companion] inbound forward error for ${identifier}: ${err.message}\n`);
-      return;
+      return { ok: false, status: 0, error: err.message };
     }
 
-    if (response.ok) return;
+    LAST_FORWARD = { ts: new Date().toISOString(), identifier, target_url: url, ok: response.ok, status: response.status, body: responseText.slice(0, 2000), attempt };
+    if (response.ok) {
+      pushLog({ direction: 'forward-ok', identifier, target_url: url, status: response.status });
+      return { ok: true, status: response.status };
+    }
 
-    // Failure responses (4xx/5xx) won't resolve after retries.
-    process.stderr.write(`[companion] inbound forward failed ${response.status} for ${identifier}\n`);
-    return;
+    pushLog({ direction: 'forward-failed', identifier, target_url: url, status: response.status, body: responseText.slice(0, 2000) });
+    process.stderr.write(`[companion] inbound forward failed ${response.status} for ${identifier}: ${responseText.slice(0, 500)}\n`);
+    return { ok: false, status: response.status, body: responseText.slice(0, 2000) };
   }
 }
 
@@ -73,22 +143,158 @@ function delay(ms) {
 const manager = new BaileysManager({
   onInbound: async (identifier, payload, _client) => {
     const body = typeof payload === 'string' ? payload : JSON.stringify(payload);
-    await forwardToChatwoot(identifier, body);
+    const summary = extractInboundSummary(payload);
+    const isStatus = !!(summary && summary.statuses);
+    // Store inbound messages (skip status updates for inbound list, but keep in event log)
+    if (!isStatus) {
+      const parsed = typeof payload === 'string' ? tryParse(payload) : payload;
+      const val = parsed?.entry?.[0]?.changes?.[0]?.value;
+      const msg = val?.messages?.[0];
+      const contact = val?.contacts?.[0];
+      const meta = val?.metadata;
+      // fire-and-forget Chatwoot forward, then record result
+      pushLog({ direction: 'inbound', identifier, payload: parsed, summary });
+      const forwardResult = await forwardToChatwoot(identifier, body);
+      pushInbound({
+        identifier,
+        phone_number_id: meta?.phone_number_id || identifier,
+        display_phone_number: meta?.display_phone_number || identifier,
+        from: summary?.from || msg?.from || '',
+        pushName: summary?.pushName || contact?.profile?.name || '',
+        type: summary?.type || msg?.type || 'unknown',
+        body: msg?.text?.body || msg?.image?.caption || msg?.video?.caption || msg?.document?.caption || msg?.text?.body || (msg?.type === 'text' ? '' : ''),
+        raw_message: msg || null,
+        raw_payload: parsed,
+        forward: forwardResult || null,
+        chatwoot_url: `${CHATWOOT_URL}/webhooks/whatsapp_unofficial/${encodeURIComponent(identifier)}`,
+      });
+    } else {
+      pushLog({ direction: 'status', identifier, payload: typeof payload === 'string' ? tryParse(payload) : payload, summary });
+      await forwardToChatwoot(identifier, body);
+    }
   },
 });
+
+function tryParse(s) {
+  try { return JSON.parse(s); } catch { return s; }
+}
+
+function extractToken(req) {
+  const auth = req.headers['authorization'] || '';
+  if (auth.startsWith('Bearer ')) return auth.slice(7);
+  if (req.headers['x-companion-token']) return req.headers['x-companion-token'];
+  if (req.query && req.query.token) return req.query.token;
+  return null;
+}
 
 function authenticate(req, res, next) {
   if (!SHARED_TOKEN) {
     process.stderr.write('[companion] CHATWOOT_SHARED_TOKEN not configured — rejecting request\n');
     return res.status(503).json({ error: 'companion_token_not_configured', hint: 'Set CHATWOOT_SHARED_TOKEN in companion and WHATSAPP_COMPANION_TOKEN in Chatwoot' });
   }
-  const auth = req.headers['authorization'] || '';
-  const token = auth.startsWith('Bearer ') ? auth.slice(7) : req.headers['x-companion-token'];
+  const token = extractToken(req);
   if (token === SHARED_TOKEN) return next();
   return res.status(401).json({ error: 'unauthorized' });
 }
 
 app.get('/health', (_req, res) => res.json({ ok: true, status: 'up' }));
+
+// ---- Dashboard (no auth to load HTML; API calls below still require token) ----
+app.get('/', (_req, res) => res.redirect('/dashboard'));
+app.get('/dashboard', (_req, res) => {
+  const htmlPath = path.join(__dirname, 'dashboard.html');
+  if (fs.existsSync(htmlPath)) return res.sendFile(htmlPath);
+  return res.status(404).send('dashboard.html not found');
+});
+
+// ---- Admin API (authenticated) ----
+app.get('/admin/api/health', authenticate, (_req, res) => {
+  const persisted = listPersistedIdentifiers();
+  const live = [...manager.clients.entries()].map(([id, c]) => ({ identifier: id, status: c.status, self_number: c.selfNumber }));
+  res.json({ ok: true, status: 'up', chatwoot_url: CHATWOOT_URL, persisted_identifiers: persisted, live_clients: live, uptime_s: Math.round(process.uptime()) });
+});
+
+app.get('/admin/api/instances', authenticate, (_req, res) => {
+  const persisted = new Set(listPersistedIdentifiers());
+  const liveMap = new Map([...manager.clients.entries()].map(([id, c]) => [id, c]));
+  const allIds = new Set([...persisted, ...liveMap.keys()]);
+  const instances = [...allIds].map((id) => {
+    const c = liveMap.get(id);
+    return { identifier: id, status: c ? c.status : 'disconnected', self_number: c ? c.selfNumber : null, persisted: persisted.has(id), has_qr: !!(c && c.qr) };
+  });
+  res.json({ instances });
+});
+
+app.get('/admin/api/logs', authenticate, (_req, res) => {
+  res.json({ logs: EVENT_LOG.slice(0, 50) });
+});
+
+app.get('/admin/api/inbound', authenticate, (req, res) => {
+  const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 50, 1), 200);
+  const identifier = req.query.identifier ? String(req.query.identifier) : null;
+  let items = INBOUND_MESSAGES;
+  if (identifier) items = items.filter((m) => m.identifier === identifier);
+  res.json({ count: items.length, total: INBOUND_MESSAGES.length, inbound: items.slice(0, limit) });
+});
+
+app.delete('/admin/api/inbound', authenticate, (_req, res) => {
+  INBOUND_MESSAGES.length = 0;
+  res.json({ ok: true });
+});
+
+app.get('/admin/api/webhook-status', authenticate, (_req, res) => {
+  const persisted = listPersistedIdentifiers();
+  const live = [...manager.clients.entries()].map(([id, c]) => ({ identifier: id, status: c.status, self_number: c.selfNumber }));
+  const listening = live.filter((c) => c.status === 'connected').map((c) => c.identifier);
+  res.json({
+    chatwoot_url: CHATWOOT_URL,
+    webhook_template: `${CHATWOOT_URL}/webhooks/whatsapp_unofficial/:phone_number`,
+    persisted_identifiers: persisted,
+    live_clients: live,
+    listening_identifiers: listening,
+    is_listening: listening.length > 0,
+    last_forward: LAST_FORWARD,
+    inbound_count: INBOUND_MESSAGES.length,
+    inbound_latest: INBOUND_MESSAGES[0] || null,
+  });
+});
+
+// SSE stream for live inbound messages (EventSource cannot set headers, so token via ?token= is accepted)
+app.get('/admin/api/events', (req, res) => {
+  const token = extractToken(req);
+  if (!SHARED_TOKEN) return res.status(503).json({ error: 'companion_token_not_configured' });
+  if (token !== SHARED_TOKEN) return res.status(401).json({ error: 'unauthorized' });
+
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    Connection: 'keep-alive',
+  });
+  res.write(`event: ready\ndata: ${JSON.stringify({ ts: new Date().toISOString(), inbound_count: INBOUND_MESSAGES.length })}\n\n`);
+  SSE_CLIENTS.add(res);
+  req.on('close', () => SSE_CLIENTS.delete(res));
+});
+
+app.post('/admin/api/test-webhook', authenticate, async (req, res) => {
+  const { identifier, from, text } = req.body || {};
+  if (!identifier) return res.status(400).json({ error: 'identifier_required' });
+  const fromId = (from || '628000000000').replace(/\D/g, '');
+  const bodyText = text || 'Hello from companion dashboard test';
+  const fakePayload = {
+    entry: [{ id: identifier, changes: [{ field: 'messages', value: { metadata: { display_phone_number: identifier, phone_number_id: identifier }, contacts: [{ profile: { name: 'Dashboard Tester' }, wa_id: fromId }], messages: [{ from: fromId, id: `test-${Date.now()}`, timestamp: String(Math.floor(Date.now() / 1000)), type: 'text', text: { body: bodyText } }] } }] }],
+  };
+  const body = JSON.stringify(fakePayload);
+  const url = `${CHATWOOT_URL}/webhooks/whatsapp_unofficial/${encodeURIComponent(identifier)}`;
+  try {
+    const resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-companion-token': SHARED_TOKEN }, body });
+    const respText = await resp.text();
+    pushLog({ direction: 'test-webhook', identifier, target_url: url, status: resp.status, response: respText.slice(0, 2000) });
+    return res.json({ forwarded_to: url, chatwoot_status: resp.status, chatwoot_body: respText.slice(0, 2000), payload: fakePayload });
+  } catch (err) {
+    pushLog({ direction: 'test-webhook-error', identifier, error: err.message });
+    return res.status(502).json({ error: err.message, forwarded_to: url });
+  }
+});
 
 app.post('/connect', authenticate, async (req, res) => {
   const { identifier } = req.body || {};
@@ -124,8 +330,10 @@ app.post('/send', authenticate, async (req, res) => {
   if (!identifier || !to) return res.status(400).json({ error: 'identifier_and_to_required' });
   try {
     const result = await manager.sendMessage(identifier, { to, type, text, mediaUrl, mediaBase64, mimeType, caption, filename });
+    pushLog({ direction: 'outbound', identifier, to, type: type || 'text', status: 'sent', wa_id: result?.key?.id || null });
     return res.json({ id: result?.key?.id || null, status: 'sent' });
   } catch (err) {
+    pushLog({ direction: 'outbound-error', identifier, to, error: err.message });
     return res.status(400).json({ error: err.message });
   }
 });

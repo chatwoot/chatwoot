@@ -1,5 +1,4 @@
 class Integrations::App
-  include Linear::IntegrationHelper
   attr_accessor :params
 
   def initialize(params)
@@ -34,52 +33,17 @@ class Integrations::App
     Array(params[:visible_properties]).map(&:to_s)
   end
 
-  # There is no way to get the account_id from the linear callback
-  # so we are using the generate_linear_token method to generate a token and encode it in the state parameter
-  def encode_state
-    generate_linear_token(Current.account.id)
-  end
-
   def action
-    case params[:id]
-    when 'slack'
-      client_id = GlobalConfigService.load('SLACK_CLIENT_ID', nil)
-      "#{params[:action]}&client_id=#{client_id}&redirect_uri=#{self.class.slack_integration_url}"
-    when 'linear'
-      build_linear_action
-    else
-      params[:action]
-    end
+    params[:action]
   end
 
   def active?(account)
     case params[:id]
-    when 'slack'
-      GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
-    when 'linear'
-      account.feature_enabled?('linear_integration') && GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
-    when 'shopify'
-      shopify_enabled?(account)
     when 'leadsquared'
       account.feature_enabled?('crm_integration')
-    when 'notion'
-      notion_enabled?(account)
     else
       true
     end
-  end
-
-  def build_linear_action
-    app_id = GlobalConfigService.load('LINEAR_CLIENT_ID', nil)
-    [
-      "#{params[:action]}?response_type=code",
-      "client_id=#{app_id}",
-      "redirect_uri=#{self.class.linear_integration_url}",
-      "state=#{encode_state}",
-      'scope=read,write',
-      'prompt=consent',
-      'actor=app'
-    ].join('&')
   end
 
   def enabled?(account)
@@ -95,14 +59,6 @@ class Integrations::App
 
   def hooks
     Current.account.hooks.where(app_id: id)
-  end
-
-  def self.slack_integration_url
-    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/integrations/slack"
-  end
-
-  def self.linear_integration_url
-    "#{ENV.fetch('FRONTEND_URL', nil)}/linear/callback"
   end
 
   class << self
@@ -121,13 +77,5 @@ class Integrations::App
     end
   end
 
-  private
 
-  def shopify_enabled?(account)
-    account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
-  end
-
-  def notion_enabled?(account)
-    account.feature_enabled?('notion_integration') && GlobalConfigService.load('NOTION_CLIENT_ID', nil).present?
-  end
 end

@@ -11,7 +11,7 @@ class Api::V1::Accounts::OauthAuthorizationController < Api::V1::Accounts::BaseC
     # The sgid purpose doubles as a return hint: onboarding tags it so the callback
     # can route the user back to inbox setup. The purpose is part of the signed
     # payload (tamper-proof), and a non-onboarding request keeps the default
-    # purpose, leaving callers like Notion byte-identical.
+    # purpose.
     Current.account.to_sgid(expires_in: 15.minutes, for: state_purpose).to_s
   end
 

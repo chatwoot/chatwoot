@@ -190,7 +190,7 @@ class ConversationFinder
 
     counts = @conversations.unscope(:order).pick(
       Arel.sql("COUNT(*) FILTER (WHERE assignee_id = #{current_user.id})"),
-      Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL AND assignee_agent_bot_id IS NULL)'),
+      Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL)'),
       Arel.sql('COUNT(*)')
     )
     counts || [0, 0, 0]

@@ -57,7 +57,4 @@ class Captain::RewriteService < Captain::BaseTaskService
     operation
   end
 
-  def use_account_openai_hook?
-    true
-  end
 end

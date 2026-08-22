@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Accounts::Conversations::BaseController
   # assigns agent/team to a conversation
   def create
-    if params.key?(:assignee_id) || agent_bot_assignment?
+    if params.key?(:assignee_id)
       set_agent
     elsif params.key?(:team_id)
       set_team
@@ -23,11 +23,8 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
   end
 
   def render_agent(resource)
-    case resource
-    when User
+    if resource.is_a?(User)
       render partial: 'api/v1/models/agent', formats: [:json], locals: { resource: resource }
-    when AgentBot
-      render partial: 'api/v1/models/agent_bot_slim', formats: [:json], locals: { resource: resource }
     else
       render json: nil
     end
@@ -42,7 +39,5 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
     render json: @team
   end
 
-  def agent_bot_assignment?
-    params[:assignee_type].to_s == 'AgentBot'
-  end
+
 end

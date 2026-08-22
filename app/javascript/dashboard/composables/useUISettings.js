@@ -10,8 +10,6 @@ export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = Object.freeze([
   { name: 'shared_files' },
   { name: 'previous_conversation' },
   { name: 'conversation_participants' },
-  { name: 'linear_issues' },
-  { name: 'shopify_orders' },
 ]);
 
 export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = Object.freeze([

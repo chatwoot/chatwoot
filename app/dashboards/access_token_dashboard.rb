@@ -53,7 +53,6 @@ class AccessTokenDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {
     user: ->(resources) { resources.where(owner_type: 'User') },
-    agent_bot: ->(resources) { resources.where(owner_type: 'AgentBot') },
     platform_app: ->(resources) { resources.where(owner_type: 'PlatformApp') }
   }.freeze
 

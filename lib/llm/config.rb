@@ -77,6 +77,14 @@ module Llm::Config
       openai_endpoint&.include?('openrouter.ai')
     end
 
+    def provider_for(model_name)
+      model = model_name.to_s.downcase
+      LlmConstants::PROVIDER_PREFIXES.each do |provider, prefixes|
+        return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
+      end
+      nil
+    end
+
     private
 
     def configure_ruby_llm
@@ -84,7 +92,6 @@ module Llm::Config
         config.openai_api_key = system_api_key if system_api_key.present?
         config.openai_api_base = api_base if openai_endpoint.present?
         config.openrouter_api_key = system_api_key if openrouter_endpoint?
-        config.model_registry_file = Rails.root.join('config/llm_models.json').to_s
         config.logger = Rails.logger
       end
     end

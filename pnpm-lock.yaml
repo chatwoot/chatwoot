@@ -249,12 +249,6 @@ importers:
       vuedraggable:
         specifier: ^4.1.0
         version: 4.1.0(vue@3.5.12(typescript@5.6.2))
-      vuex:
-        specifier: ~4.1.0
-        version: 4.1.0(vue@3.5.12(typescript@5.6.2))
-      vuex-router-sync:
-        specifier: 6.0.0-rc.1
-        version: 6.0.0-rc.1(vue-router@4.4.5(vue@3.5.12(typescript@5.6.2)))(vuex@4.1.0(vue@3.5.12(typescript@5.6.2)))
       wavesurfer.js:
         specifier: 7.8.6
         version: 7.8.6
@@ -1732,9 +1726,6 @@ packages:
 
   '@vue/compiler-ssr@3.5.8':
     resolution: {integrity: sha512-W96PtryNsNG9u0ZnN5Q5j27Z/feGrFV6zy9q5tzJVyJaLiwYxvC0ek4IXClZygyhjm+XKM7WD9pdKi/wIRVC/Q==}
-
-  '@vue/devtools-api@6.6.3':
-    resolution: {integrity: sha512-0MiMsFma/HqA6g3KLKn+AGpL1kgKhFWszC9U29NfpWK5LE7bjeXxySWJrOJ77hBz+TBrBQ7o4QJqbPbqbs8rJw==}
 
   '@vue/devtools-api@6.6.4':
     resolution: {integrity: sha512-sGhTPMuXqZ1rVOk32RylztWkfXTRhuS7vgAKv0zjqk8gbsHkJ7xfFf+jbySxt7tWObEJwyKaHMikV/WGDiQm8g==}
@@ -5336,17 +5327,6 @@ packages:
     peerDependencies:
       vue: ^3.0.1
 
-  vuex-router-sync@6.0.0-rc.1:
-    resolution: {integrity: sha512-pzVrX/rmQsDjJiKPAjgKxpkxWdiBBQmxATFA6eFyS2Tmo6jauq8iDk9BWxkw41/OA+pbq4wkONRC0aeErDw8GQ==}
-    peerDependencies:
-      vue-router: ^4.0.0
-      vuex: ^4.0.0
-
-  vuex@4.1.0:
-    resolution: {integrity: sha512-hmV6UerDrPcgbSy9ORAtNXDr9M4wlNP4pEFKye4ujJF8oqgFFuxDCdOLS3eNoRTtq5O3hoBDh9Doj1bQMYHRbQ==}
-    peerDependencies:
-      vue: ^3.2.0
-
   w3c-keyname@2.2.4:
     resolution: {integrity: sha512-tOhfEwEzFLJzf6d1ZPkYfGj+FWhIpBux9ppoP3rlclw3Z0BZv3N7b7030Z1kYth+6rDuAsXUFr+d0VE6Ed1ikw==}
 
@@ -6930,8 +6910,6 @@ snapshots:
     dependencies:
       '@vue/compiler-dom': 3.5.8
       '@vue/shared': 3.5.8
-
-  '@vue/devtools-api@6.6.3': {}
 
   '@vue/devtools-api@6.6.4': {}
 
@@ -10961,16 +10939,6 @@ snapshots:
   vuedraggable@4.1.0(vue@3.5.12(typescript@5.6.2)):
     dependencies:
       sortablejs: 1.14.0
-      vue: 3.5.12(typescript@5.6.2)
-
-  vuex-router-sync@6.0.0-rc.1(vue-router@4.4.5(vue@3.5.12(typescript@5.6.2)))(vuex@4.1.0(vue@3.5.12(typescript@5.6.2))):
-    dependencies:
-      vue-router: 4.4.5(vue@3.5.12(typescript@5.6.2))
-      vuex: 4.1.0(vue@3.5.12(typescript@5.6.2))
-
-  vuex@4.1.0(vue@3.5.12(typescript@5.6.2)):
-    dependencies:
-      '@vue/devtools-api': 6.6.3
       vue: 3.5.12(typescript@5.6.2)
 
   w3c-keyname@2.2.4: {}

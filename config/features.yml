@@ -43,10 +43,6 @@
   display_name: Help Center
   enabled: true
   help_url: https://chwt.app/hc/help-center
-- name: agent_bots
-  display_name: Agent Bots
-  enabled: true
-  help_url: https://chwt.app/hc/agent-bots
 - name: macros
   display_name: Macros
   enabled: true
@@ -137,9 +133,6 @@
   enabled: true
   premium: false
   chatwoot_internal: true
-- name: linear_integration
-  display_name: Linear Integration
-  enabled: true
 - name: captain_integration
   display_name: Captain
   enabled: true
@@ -160,10 +153,6 @@
   display_name: Contact Chatwoot Support Team
   enabled: true
   chatwoot_internal: true
-- name: shopify_integration
-  display_name: Shopify Integration
-  enabled: true
-  chatwoot_internal: true
 - name: search_with_gin
   display_name: Search messages with GIN
   enabled: true
@@ -178,9 +167,6 @@
   display_name: Voice Channel
   enabled: true
   premium: false
-- name: notion_integration
-  display_name: Notion Integration
-  enabled: true
 - name: captain_integration_v2
   display_name: Captain V2
   enabled: true

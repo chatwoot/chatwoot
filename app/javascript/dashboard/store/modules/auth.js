@@ -116,8 +116,6 @@ export const actions = {
   async setUser({ commit, dispatch }) {
     if (authAPI.hasAuthCookie()) {
       await dispatch('validityCheck');
-    } else {
-      commit(types.CLEAR_USER);
     }
     commit(types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false });
   },

@@ -16,19 +16,19 @@ RSpec.describe Llm::FeatureRouter do
       )
     end
 
-    it 'uses a valid account model override' do
+    it 'ignores account model overrides and returns single source model' do
       account.update!(captain_models: { 'editor' => 'gpt-4.1' })
 
       resolved = described_class.resolve(feature: 'editor', account: account)
 
       expect(resolved).to include(
         feature: 'editor',
-        model: 'gpt-4.1',
-        source: :account_override
+        model: Llm::Config.model,
+        source: :default
       )
     end
 
-    it 'resolves the single configured model as the assistant default for V2 accounts without storing an override' do
+    it 'resolves the single configured model for V2 accounts' do
       account.enable_features!('captain_integration_v2')
 
       resolved = described_class.resolve(feature: 'assistant', account: account)
@@ -39,40 +39,6 @@ RSpec.describe Llm::FeatureRouter do
         source: :default
       )
       expect(account.reload.captain_models).to be_nil
-    end
-
-    it 'keeps account model overrides ahead of the default' do
-      account.enable_features!('captain_integration_v2')
-      account.update!(captain_models: { 'assistant' => 'gpt-5.1' })
-
-      resolved = described_class.resolve(feature: 'assistant', account: account)
-
-      expect(resolved).to include(
-        model: 'gpt-5.1',
-        source: :account_override
-      )
-    end
-
-    it 'falls back to the single configured model when the account override is invalid' do
-      account.captain_models = { 'editor' => 'invalid-model' }
-
-      resolved = described_class.resolve(feature: 'editor', account: account)
-
-      expect(resolved).to include(
-        model: Llm::Config.model,
-        source: :default
-      )
-    end
-
-    it 'falls back to the single configured model when the account override is blank' do
-      account.update!(captain_models: { 'editor' => '' })
-
-      resolved = described_class.resolve(feature: 'editor', account: account)
-
-      expect(resolved).to include(
-        model: Llm::Config.model,
-        source: :default
-      )
     end
 
     it 'raises for unknown features' do

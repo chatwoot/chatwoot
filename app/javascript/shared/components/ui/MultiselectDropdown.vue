@@ -65,7 +65,7 @@ const hasIcon = computed(() => {
 });
 
 const isAgentBot = computed(
-  () => props.selectedItem?.assignee_type === 'AgentBot'
+  () => props.selectedItem?.assignee_type === '__removed__'
 );
 
 const selectedItemName = computed(() =>

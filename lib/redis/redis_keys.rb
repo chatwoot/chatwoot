@@ -64,7 +64,6 @@ module Redis::RedisKeys
   ONLINE_PRESENCE_USERS = 'ONLINE_PRESENCE::%<account_id>d::USERS'.freeze
 
   ## Authorization Status Keys
-  # Used to track token expiry and such issues for facebook slack integrations etc
   AUTHORIZATION_ERROR_COUNT = 'AUTHORIZATION_ERROR_COUNT:%<obj_type>s:%<obj_id>d'.freeze
   REAUTHORIZATION_REQUIRED =  'REAUTHORIZATION_REQUIRED:%<obj_type>s:%<obj_id>d'.freeze
 

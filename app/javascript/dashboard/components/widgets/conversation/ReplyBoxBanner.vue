@@ -61,7 +61,7 @@ const isPendingConversation = computed(
 );
 
 const isAgentBotOwned = computed(
-  () => currentChat.value?.meta?.assignee_type === 'AgentBot'
+  () => currentChat.value?.meta?.assignee_type === '__removed__'
 );
 
 const showBotHandoffBanner = computed(() => {

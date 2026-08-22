@@ -2,6 +2,10 @@ import path from 'path';
 
 export const aliases = {
   vue: 'vue/dist/vue.esm-bundler.js',
+  vuex: path.resolve('./app/javascript/dashboard/store/vuexCompat.js'),
+  'vuex-router-sync': path.resolve(
+    './app/javascript/dashboard/store/routerSync.js'
+  ),
   components: path.resolve('./app/javascript/dashboard/components'),
   next: path.resolve('./app/javascript/dashboard/components-next'),
   v3: path.resolve('./app/javascript/v3'),

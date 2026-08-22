@@ -117,7 +117,7 @@ class FilterService
   def set_count_for_all_conversations
     counts = @conversations.except(:includes, :order).pick(
       Arel.sql(ActiveRecord::Base.sanitize_sql_array(['COUNT(*) FILTER (WHERE assignee_id = ?)', @user.id])),
-      Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL AND assignee_agent_bot_id IS NULL)'),
+      Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL)'),
       Arel.sql('COUNT(*)')
     )
     # pick short-circuits to nil on a none relation (e.g. permission scope with no access)

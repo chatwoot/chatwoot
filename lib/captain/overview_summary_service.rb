@@ -72,9 +72,6 @@ class Captain::OverviewSummaryService < Captain::BaseTaskService
     'captain_overview_summary'
   end
 
-  def use_account_openai_hook?
-    true
-  end
 
   # The overview summary is an internal analytics readout, not a customer-facing
   # response, so it should not consume or be blocked by the captain_responses quota.

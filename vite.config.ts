@@ -1,3 +1,5 @@
+import path from 'path';
+
 import { defineConfig } from 'vite';
 import ruby from 'vite-plugin-ruby';
 import vue from '@vitejs/plugin-vue';

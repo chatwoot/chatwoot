@@ -64,12 +64,6 @@ describe HookListener do
     end
 
     context 'when hook is enabled and app_id is supported' do
-      it 'enqueues the job for slack' do
-        hook = create(:integrations_hook, account: account)
-        expect(HookJob).to receive(:perform_later).with(hook, event_name, message: message, previous_changes: nil)
-
-        listener.message_created(event)
-      end
 
       it 'enqueues the job for dialogflow' do
         hook = create(:integrations_hook, :dialogflow, account: account, inbox: inbox)
@@ -85,17 +79,11 @@ describe HookListener do
         listener.message_created(event)
       end
 
-      it 'enqueues the job for linear' do
-        hook = create(:integrations_hook, :linear, account: account)
-        expect(HookJob).to receive(:perform_later).with(hook, event_name, message: message, previous_changes: nil)
-
-        listener.message_created(event)
-      end
     end
 
     context 'with disabled hook' do
       it 'does not enqueue job for disabled hooks' do
-        create(:integrations_hook, account: account, status: 'disabled', app_id: 'slack')
+        create(:integrations_hook, account: account, status: 'disabled', app_id: 'dialogflow')
         expect(HookJob).not_to receive(:perform_later)
 
         listener.message_created(event)

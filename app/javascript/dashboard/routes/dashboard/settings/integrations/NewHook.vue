@@ -64,10 +64,6 @@ export default {
       return this.integration.id === 'dialogflow';
     },
     submitButtonLabel() {
-      if (this.integration.id === 'openai' && this.uiFlags.isCreatingHook) {
-        return this.$t('INTEGRATION_APPS.ADD.FORM.VALIDATING_OPENAI');
-      }
-
       return this.$t('INTEGRATION_APPS.ADD.FORM.SUBMIT');
     },
   },

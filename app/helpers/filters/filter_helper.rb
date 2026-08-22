@@ -99,10 +99,10 @@ module Filters::FilterHelper
   # Assignee ownership can live in either column until it is standardized as a polymorphic association.
   def assignee_presence_filter(table_name, query_hash)
     if query_hash[:filter_operator] == 'is_present'
-      return "(#{table_name}.assignee_id IS NOT NULL OR #{table_name}.assignee_agent_bot_id IS NOT NULL) #{query_hash[:query_operator]}"
+      return "(#{table_name}.assignee_id IS NOT NULL) #{query_hash[:query_operator]}"
     end
 
-    "(#{table_name}.assignee_id IS NULL AND #{table_name}.assignee_agent_bot_id IS NULL) #{query_hash[:query_operator]}"
+    "(#{table_name}.assignee_id IS NULL) #{query_hash[:query_operator]}"
   end
 
   def text_search_on_display_id?(query_hash)

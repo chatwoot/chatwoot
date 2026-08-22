@@ -29,7 +29,6 @@ class Integrations::Hook < ApplicationRecord
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
   validate :validate_settings_json_schema
   validate :ensure_feature_enabled
-  validate :validate_openai_api_key, if: :validate_openai_api_key?
   validate :validate_cloudflare_realtimekit_credentials, if: :validate_cloudflare_realtimekit_credentials?
   validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
 
@@ -50,24 +49,12 @@ class Integrations::Hook < ApplicationRecord
     @app ||= Integrations::App.find(id: app_id)
   end
 
-  def slack?
-    app_id == 'slack'
-  end
-
   def dialogflow?
     app_id == 'dialogflow'
   end
 
-  def openai?
-    app_id == 'openai'
-  end
-
   def dyte?
     app_id == 'dyte'
-  end
-
-  def notion?
-    app_id == 'notion'
   end
 
   def disable
@@ -76,7 +63,7 @@ class Integrations::Hook < ApplicationRecord
 
   def process_event(_event)
     # OpenAI integration migrated to Captain::EditorService
-    # Other integrations (slack, dialogflow, etc.) handled via HookJob
+    # Other integrations (dialogflow, etc.) handled via HookJob
     { error: 'No processor found' }
   end
 
@@ -108,19 +95,9 @@ class Integrations::Hook < ApplicationRecord
     errors.add(:settings, ': Invalid settings data') unless JSONSchemer.schema(app.params[:settings_json_schema]).valid?(settings)
   end
 
-  # TODO: When adding credential validation for other integrations (dialogflow, dyte, etc.),
-  # extract this into an app-level config flag in apps.yml instead of hardcoding app_id checks.
-  def validate_openai_api_key?
-    openai? && enabled? && (new_record? || openai_api_key_changed? || will_save_change_to_status?)
-  end
-
   def validate_cloudflare_realtimekit_credentials?
     dyte? && enabled? && !legacy_dyte_settings_unchanged? &&
       (new_record? || cloudflare_realtimekit_credentials_changed? || will_save_change_to_status?)
-  end
-
-  def openai_api_key_changed?
-    settings_api_key(settings) != settings_api_key(settings_in_database)
   end
 
   def cloudflare_realtimekit_credentials_changed?
@@ -136,12 +113,6 @@ class Integrations::Hook < ApplicationRecord
 
     %w[organization_id api_key].any? { |key| settings_value(value, key).present? } &&
       %w[account_id app_id api_token].none? { |key| settings_value(value, key).present? }
-  end
-
-  def validate_openai_api_key
-    return if Integrations::Openai::KeyValidator.valid?(settings_api_key(settings))
-
-    errors.add(:base, I18n.t('errors.openai.invalid_api_key'))
   end
 
   def validate_cloudflare_realtimekit_credentials
