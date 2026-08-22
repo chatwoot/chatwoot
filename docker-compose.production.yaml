@@ -2,7 +2,9 @@ version: '3'
 
 services:
   base: &base
-    image: chatwoot/chatwoot:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
     env_file: .env ## Change this file for customized env variables
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -12,6 +14,7 @@ services:
 
   rails:
     <<: *base
+    image: chatwoot-custom-rails:latest
     depends_on:
       - redis
     ports:
@@ -26,6 +29,7 @@ services:
 
   sidekiq:
     <<: *base
+    image: chatwoot-custom-sidekiq:latest
     depends_on:
       - redis
     environment:

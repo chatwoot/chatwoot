@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_email_inbox_agents'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_instagram_inbox_agents'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_tiktok_inbox_agents'
+    get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_zalo_oa_inbox_agents'
     get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_instagram_inbox_settings'
     get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_tiktok_inbox_settings'
     get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_email_inbox_settings'
@@ -383,6 +384,10 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
+          namespace :zalo_oa do
+            resource :authorization, only: [:create]
+          end
+
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
@@ -670,6 +675,8 @@ Rails.application.routes.draw do
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
   post 'webhooks/shopify', to: 'webhooks/shopify#events'
+  post 'webhooks/zalo_oa', to: 'webhooks/zalo_oa#process_payload'
+  get 'zalo_oa/callback', to: 'zalo_oa/callbacks#show'
 
   namespace :twitter do
     resource :callback, only: [:show]
