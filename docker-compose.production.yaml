@@ -2,6 +2,7 @@ version: '3'
 
 services:
   base: &base
+    image: chatwoot-custom:1.0
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -14,7 +15,7 @@ services:
 
   rails:
     <<: *base
-    image: chatwoot-custom-rails:latest
+    image: chatwoot-custom-rails:1.0
     depends_on:
       - redis
     ports:
@@ -29,7 +30,7 @@ services:
 
   sidekiq:
     <<: *base
-    image: chatwoot-custom-sidekiq:latest
+    image: chatwoot-custom-sidekiq:1.0
     depends_on:
       - redis
     environment:
@@ -48,7 +49,6 @@ services:
       - redis_data:/data
     ports:
       - '127.0.0.1:6379:6379'
-
 volumes:
   storage_data:
   redis_data:
