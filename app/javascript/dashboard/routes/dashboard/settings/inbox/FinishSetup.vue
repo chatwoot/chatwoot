@@ -74,18 +74,6 @@ const message = computed(() => {
     )}`;
   }
 
-  if (shouldShowWhatsAppQr.value) {
-    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
-      'INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION'
-    )}`;
-  }
-
-  if (shouldShowSmsQr.value) {
-    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
-      'INBOX_MGMT.FINISH.SMS_QR_INSTRUCTION'
-    )}`;
-  }
-
   if (isALineChannel.value) {
     return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
       'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
