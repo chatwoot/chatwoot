@@ -61,6 +61,12 @@ initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
 
-window.onload = () => {
+function mountV3App() {
   app.mount('#app');
-};
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', mountV3App);
+} else {
+  mountV3App();
+}

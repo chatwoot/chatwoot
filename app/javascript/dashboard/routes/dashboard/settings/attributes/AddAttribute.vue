@@ -161,7 +161,7 @@ export default {
 </script>
 
 <template>
-  <woot-modal v-model:show="show" :on-close="onClose">
+  <woot-modal v-model:show="show" @close="onClose">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header :header-title="$t('ATTRIBUTES_MGMT.ADD.TITLE')" />
 

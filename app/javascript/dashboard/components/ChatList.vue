@@ -393,6 +393,22 @@ function emitConversationLoaded() {
   emit('conversationLoad');
 }
 
+function isUnauthorizedError(error) {
+  return error?.response?.status === 401;
+}
+
+function handleFetchError(error) {
+  if (isUnauthorizedError(error)) {
+    // Global APIHelper interceptor already redirects to /app/login.
+    // Mark page as ended to stop IntersectionObserver retry loop.
+    store.dispatch('conversationPage/setEndReached', {
+      filter: currentPageFilterKey.value,
+    });
+    return;
+  }
+  useAlert(t('CHAT_LIST.FETCH_ERROR'));
+}
+
 function fetchFilteredConversations(payload) {
   payload = useSnakeCase(payload);
   let page = currentFiltersPage.value + 1;
@@ -401,7 +417,7 @@ function fetchFilteredConversations(payload) {
       queryData: filterQueryGenerator(payload),
       page,
     })
-    .catch(() => useAlert(t('CHAT_LIST.FETCH_ERROR')))
+    .catch(handleFetchError)
     // emit even on failure so a deep-linked conversation still loads via
     // fetchConversationIfUnavailable
     .finally(emitConversationLoaded);
@@ -417,7 +433,7 @@ function fetchSavedFilteredConversations(payload) {
       queryData: payload,
       page,
     })
-    .catch(() => useAlert(t('CHAT_LIST.FETCH_ERROR')))
+    .catch(handleFetchError)
     .finally(emitConversationLoaded);
 }
 

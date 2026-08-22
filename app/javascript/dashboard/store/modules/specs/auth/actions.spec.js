@@ -5,10 +5,17 @@ import types from '../../../mutation-types';
 import * as APIHelpers from '../../../utils/api';
 import '../../../../routes';
 
-vi.spyOn(APIHelpers, 'setUser');
-vi.spyOn(APIHelpers, 'clearCookiesOnLogout');
+vi.spyOn(APIHelpers, 'setUser').mockImplementation(() => {});
 vi.spyOn(APIHelpers, 'getHeaderExpiry');
 vi.spyOn(Cookies, 'get');
+// Prevent clearCookiesOnLogout from touching window.localStorage in jsdom
+Object.defineProperty(window, 'localStorage', {
+  value: { removeItem: vi.fn(), getItem: vi.fn(), setItem: vi.fn() },
+  writable: true,
+});
+vi.spyOn(APIHelpers, 'clearCookiesOnLogout').mockImplementation(() => {
+  // no-op for test
+});
 
 const commit = vi.fn();
 const dispatch = vi.fn();
@@ -176,16 +183,19 @@ describe('#actions', () => {
   describe('#setUser', () => {
     it('sends correct actions if user is logged in', async () => {
       Cookies.get.mockImplementation(() => true);
-      actions.setUser({ commit, dispatch });
-      expect(commit.mock.calls).toEqual([]);
+      dispatch.mockResolvedValue();
+      await actions.setUser({ commit, dispatch });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CURRENT_USER_UI_FLAGS, { isFetching: true }],
+        [types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false }],
+      ]);
       expect(dispatch.mock.calls).toEqual([['validityCheck']]);
     });
 
     it('sends correct actions if user is not logged in', async () => {
       Cookies.get.mockImplementation(() => false);
-      actions.setUser({ commit, dispatch });
+      await actions.setUser({ commit, dispatch });
       expect(commit.mock.calls).toEqual([
-        [types.CLEAR_USER],
         [types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false }],
       ]);
       expect(dispatch).toHaveBeenCalledTimes(0);

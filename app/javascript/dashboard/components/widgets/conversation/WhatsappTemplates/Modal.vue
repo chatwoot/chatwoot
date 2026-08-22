@@ -61,7 +61,7 @@ export default {
 </script>
 
 <template>
-  <woot-modal v-model:show="localShow" :on-close="onClose" size="modal-big">
+  <woot-modal v-model:show="localShow" size="modal-big" @close="onClose">
     <woot-modal-header
       :header-title="$t('WHATSAPP_TEMPLATES.MODAL.TITLE')"
       :header-content="modalHeaderContent"

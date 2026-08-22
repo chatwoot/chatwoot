@@ -8,7 +8,13 @@ import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import AnalyticsHelper from '../helper/AnalyticsHelper';
 
 const ONBOARDING_STEPS = ['account_details', 'enrichment', 'inbox_setup'];
-const routes = [...dashboard.routes];
+const routes = [
+  {
+    path: '/',
+    redirect: '/app/login',
+  },
+  ...dashboard.routes,
+];
 
 const onboardingPath = step =>
   step === 'inbox_setup' ? 'onboarding/inbox-setup' : 'onboarding';
@@ -20,7 +26,11 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
 
   if (!isLoggedIn) {
     window.location.assign('/app/login');
-    return '';
+    // The redirect above triggers a full page navigation to the v3 login app,
+    // so abort the in-app navigation here. Calling `next(false)` prevents
+    // vue-router from logging an "Invalid navigation guard" warning for the
+    // synchronous reload we just initiated.
+    return next(false);
   }
 
   const { accounts = [], account_id: accountId } = user;

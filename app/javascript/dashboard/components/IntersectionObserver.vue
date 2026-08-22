@@ -12,11 +12,18 @@ const { options } = defineProps({
 const emit = defineEmits(['observed']);
 const observedElement = ref('');
 
+let isThrottled = false;
+
 useIntersectionObserver(
   observedElement,
   ([{ isIntersecting }]) => {
-    if (isIntersecting) {
+    if (isIntersecting && !isThrottled) {
+      isThrottled = true;
       emit('observed');
+      // Throttle next emit to avoid infinite loop on rapid failures (e.g. 401)
+      setTimeout(() => {
+        isThrottled = false;
+      }, 500);
     }
   },
   options

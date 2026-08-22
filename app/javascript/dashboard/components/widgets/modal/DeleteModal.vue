@@ -16,7 +16,7 @@ const show = defineModel('show', { type: Boolean, default: false });
 </script>
 
 <template>
-  <Modal v-model:show="show" :on-close="onClose">
+  <Modal v-model:show="show" @close="onClose">
     <woot-modal-header
       :header-title="title"
       :header-content="message"

@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1.6
 FROM node:20-alpine
 
 # Create app directory

@@ -115,10 +115,13 @@ export const actions = {
     }
   },
   async setUser({ commit, dispatch }) {
-    commit(types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false });
-    if (authAPI.hasAuthCookie()) {
-      dispatch('validityCheck');
+    if (!authAPI.hasAuthCookie()) {
+      commit(types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false });
+      return;
     }
+    commit(types.SET_CURRENT_USER_UI_FLAGS, { isFetching: true });
+    await dispatch('validityCheck');
+    commit(types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false });
   },
   logout({ commit }) {
     commit(types.CLEAR_USER);

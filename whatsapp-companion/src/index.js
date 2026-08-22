@@ -364,4 +364,24 @@ app.listen(PORT, () => {
   if (!SHARED_TOKEN) {
     process.stderr.write('[companion] WARNING: CHATWOOT_SHARED_TOKEN is empty — all authenticated endpoints will return 503 until configured\n');
   }
+  restorePersistedSessions();
 });
+
+/**
+ * After a restart the in-memory client map is empty, but each identifier's Baileys
+ * auth state (creds + Signal keys) is persisted on the AUTH_DIR volume. Reconnect
+ * every one so a container reload does NOT force a QR re-scan: valid sessions come
+ * back up silently, and only genuinely logged-out identifiers emit a fresh QR.
+ */
+function restorePersistedSessions() {
+  const persisted = listPersistedIdentifiers();
+  if (persisted.length === 0) return;
+  process.stdout.write(`[companion] restoring ${persisted.length} persisted WhatsApp session(s): ${persisted.join(', ')}\n`);
+  for (const identifier of persisted) {
+    manager.connect(identifier).then((status) => {
+      process.stdout.write(`[companion] restored session for ${identifier} -> ${status}\n`);
+    }).catch((err) => {
+      process.stderr.write(`[companion] failed to restore session for ${identifier}: ${err.message}\n`);
+    });
+  }
+}

@@ -1,6 +1,16 @@
 import Auth from '../api/auth';
 
-const parseErrorCode = error => Promise.reject(error);
+const handleUnauthorizedError = error => {
+  if (error?.response?.status === 401) {
+    // Avoid redirect loop if already on login
+    if (!window.location.pathname.includes('/app/login')) {
+      window.location.assign('/app/login');
+    }
+  }
+  return Promise.reject(error);
+};
+
+const parseErrorCode = error => handleUnauthorizedError(error);
 
 export default axios => {
   const { apiHost = '' } = window.chatwootConfig || {};
