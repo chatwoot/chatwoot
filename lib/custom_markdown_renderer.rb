@@ -11,9 +11,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
 
   def self.embed_regexes
     @embed_regexes ||= embeds_config.each_with_object({}) do |(key, embed_config), acc|
-      next unless embed_config.is_a?(Hash) && embed_config['regex']
-
-      acc[key] = Regexp.new(embed_config['regex'])
+      acc[key] = Regexp.new(embed_config.fetch('regex'))
     end
   end
 
