@@ -92,6 +92,14 @@ RSpec.describe Contact do
 
       expect(build(:contact, account: account, phone_number: nil)).to be_valid
     end
+
+    it 'does not raise RecordNotUnique for duplicate whitespace-only phone numbers, matching model blank semantics' do
+      account = create(:account)
+      create(:contact, account: account, phone_number: nil).update_column(:phone_number, ' ')
+      duplicate = create(:contact, account: account, phone_number: nil)
+
+      expect { duplicate.update_column(:phone_number, ' ') }.not_to raise_error
+    end
   end
 
   context 'when email format' do

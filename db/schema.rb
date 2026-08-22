@@ -807,7 +807,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_17_120000) do
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
-    t.index ["phone_number", "account_id"], name: "uniq_phone_number_per_account_contact", unique: true, where: "(((phone_number)::text IS NOT NULL) AND ((phone_number)::text <> ''::text))"
+    t.index ["phone_number", "account_id"], name: "uniq_phone_number_per_account_contact", unique: true, where: "(((phone_number)::text IS NOT NULL) AND (btrim((phone_number)::text) <> ''::text))"
   end
 
   create_table "conversation_outcomes", force: :cascade do |t|
