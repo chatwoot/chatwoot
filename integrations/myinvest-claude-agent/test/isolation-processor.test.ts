@@ -12,7 +12,12 @@ describe('knowledge isolation', () => {
     expect(query.mock.calls[0]![0]).toContain("publication_status = 'published'")
     expect(query.mock.calls[0]![0]).toContain('active = true')
     expect(query.mock.calls[0]![1]).toEqual(['new_academy', 'Provision', 4])
-    expect(query).toHaveBeenCalledOnce()
+    // OR-Fallback bei leerem Ergebnis bleibt strikt tenant-gebunden.
+    expect(query).toHaveBeenCalledTimes(2)
+    expect(query.mock.calls[1]![0]).toContain('tenant_key = $1')
+    expect(query.mock.calls[1]![0]).toContain("publication_status = 'published'")
+    expect(query.mock.calls[1]![0]).toContain('active = true')
+    expect(query.mock.calls[1]![1]).toEqual(['new_academy', 'Provision', 4])
   })
 })
 
