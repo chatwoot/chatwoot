@@ -1,21 +1,6 @@
 import { getters } from '../../notifications/getters';
 
 describe('#getters', () => {
-  it('getNotifications', () => {
-    const state = {
-      records: {
-        1: { id: 1 },
-        2: { id: 2 },
-        3: { id: 3 },
-      },
-    };
-    expect(getters.getNotifications(state)).toEqual([
-      { id: 3 },
-      { id: 2 },
-      { id: 1 },
-    ]);
-  });
-
   it('getFilteredNotifications', () => {
     const state = {
       records: {

@@ -33,6 +33,12 @@ RSpec.describe ConversationPolicy, type: :policy do
 
         expect(subject).not_to permit(context, conversation)
       end
+
+      it 'denies access to conversations assigned to an agent bot' do
+        conversation = create(:conversation, account: account, inbox: inbox, assignee_agent_bot: create(:agent_bot, account: account))
+
+        expect(subject).not_to permit(context, conversation)
+      end
     end
 
     context 'when role grants conversation_participating_manage' do

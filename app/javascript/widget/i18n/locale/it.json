@@ -106,6 +106,11 @@
     "NOT_FOUND": "Nessuna emoji corrisponde alla tua ricerca",
     "ARIA_LABEL": "Selettore emoji"
   },
+  "EMOJI_ICON_PICKER": {
+    "SEARCH_EMOJI": "Search emoji…",
+    "FREQUENTLY_USED": "Frequently used",
+    "NO_EMOJI": "Nessuna emoji corrisponde alla tua ricerca"
+  },
   "CSAT": {
     "TITLE": "Valuta la conversazione",
     "SUBMITTED_TITLE": "Grazie per aver inviato la valutazione",

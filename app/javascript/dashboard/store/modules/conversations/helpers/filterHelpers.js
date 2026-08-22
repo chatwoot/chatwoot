@@ -170,6 +170,35 @@ const contains = (filterValue, conversationValue) => {
   return false;
 };
 
+const DATE_ONLY_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Checks whether a value is a calendar date without a time, as emitted by the
+ * date pickers and required by the backend (Date.iso8601)
+ * @param {*} value - The value to check
+ * @returns {Boolean} - Returns true for `YYYY-MM-DD` strings
+ */
+const isDateOnly = value =>
+  typeof value === 'string' && DATE_ONLY_PATTERN.test(value);
+
+/**
+ * Reduces a value to the UTC calendar day it falls on
+ * @param {*} value - An epoch timestamp, an ISO string or a `YYYY-MM-DD` string
+ * @returns {Number|null} - Milliseconds at UTC midnight, or null when unparseable
+ *
+ * `coerceToDate` reads a `YYYY-MM-DD` string as midnight in the browser
+ * timezone, which lands on the previous day for browsers behind UTC.
+ */
+const toUtcDay = value => {
+  const date = isDateOnly(value)
+    ? new Date(`${value}T00:00:00.000Z`)
+    : coerceToDate(value);
+
+  if (date === null) return null;
+
+  return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+};
+
 /**
  * Compares two date values using a comparison function
  * @param {*} conversationValue - The conversation value to compare
@@ -178,13 +207,24 @@ const contains = (filterValue, conversationValue) => {
  * @returns {Boolean} - Returns true if the comparison succeeds, false otherwise
  */
 const compareDates = (conversationValue, filterValue, compareFn) => {
-  const conversationDate = coerceToDate(conversationValue);
-
   // In saved views, the filterValue might be returned as an Array
   // In conversation list, when filtering, the filterValue will be returned as a string
   const valueToCompare = Array.isArray(filterValue)
     ? filterValue[0]
     : filterValue;
+
+  // A date filter compares whole days. The backend casts both sides with
+  // `::date` (Filters::FilterHelper#date_filter), so the time of day never
+  // takes part and the day is the one in UTC.
+  if (isDateOnly(valueToCompare)) {
+    const conversationDay = toUtcDay(conversationValue);
+    const filterDay = toUtcDay(valueToCompare);
+
+    if (conversationDay === null || filterDay === null) return false;
+    return compareFn(conversationDay, filterDay);
+  }
+
+  const conversationDate = coerceToDate(conversationValue);
   const filterDate = coerceToDate(valueToCompare);
 
   if (conversationDate === null || filterDate === null) return false;
@@ -202,6 +242,11 @@ const matchesCondition = (conversationValue, filter) => {
 
   const isNullish =
     conversationValue === null || conversationValue === undefined;
+  const isEmptyLabels =
+    filter.attribute_key === 'labels' &&
+    Array.isArray(conversationValue) &&
+    conversationValue.length === 0;
+  const isAbsent = isNullish || isEmptyLabels;
 
   const filterValue = Array.isArray(values)
     ? values.map(resolveValue)
@@ -221,10 +266,10 @@ const matchesCondition = (conversationValue, filter) => {
       return !contains(filterValue, conversationValue);
 
     case 'is_present':
-      return !isNullish;
+      return !isAbsent;
 
     case 'is_not_present':
-      return isNullish;
+      return isAbsent;
 
     case 'is_greater_than':
       return compareDates(conversationValue, filterValue, (a, b) => a > b);
@@ -246,6 +291,24 @@ const matchesCondition = (conversationValue, filter) => {
     default:
       return false;
   }
+};
+
+const matchesConversationCondition = (conversation, filter) => {
+  const isHumanAssigneeFilter =
+    filter.attribute_key === 'assignee_id' &&
+    ['equal_to', 'not_equal_to'].includes(filter.filter_operator);
+
+  if (
+    isHumanAssigneeFilter &&
+    conversation.meta?.assignee_type === 'AgentBot'
+  ) {
+    return false;
+  }
+
+  return matchesCondition(
+    getValueFromConversation(conversation, filter.attribute_key),
+    filter
+  );
 };
 
 /**
@@ -351,8 +414,7 @@ const buildJsonLogicRule = evaluatedFilters => {
  */
 const evaluateFilters = (conversation, filters) => {
   return filters.map((filter, index) => {
-    const value = getValueFromConversation(conversation, filter.attribute_key);
-    const result = matchesCondition(value, filter);
+    const result = matchesConversationCondition(conversation, filter);
 
     // This part determines the logical operator that connects this filter to the next one:
     // - If this is not the last filter (index < filters.length - 1), use the filter's query_operator
@@ -379,12 +441,7 @@ export const matchesFilters = (conversation, filters) => {
 
   // Handle single filter case
   if (filters.length === 1) {
-    const value = getValueFromConversation(
-      conversation,
-      filters[0].attribute_key
-    );
-
-    return matchesCondition(value, filters[0]);
+    return matchesConversationCondition(conversation, filters[0]);
   }
 
   // Evaluate all conditions and prepare for jsonLogic

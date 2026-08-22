@@ -33,8 +33,8 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
 
       expect(Voice::InboundCallBuilder).to receive(:perform!).with(
         inbox: inbox,
-        from_number: from_number,
-        call_sid: call_sid
+        call_sid: call_sid,
+        caller: { source_ids: [from_number], contact_attributes: { name: from_number, phone_number: from_number } }
       ).and_return(call)
 
       post "/twilio/voice/call/#{digits}", params: {
@@ -111,6 +111,23 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         'Direction' => 'inbound'
       }
       expect(response).to have_http_status(:not_found)
+    end
+
+    it 'rejects the inbound contact leg without building a call when inbound calls are disabled' do
+      channel.update!(provider_config: { 'inbound_calls_enabled' => false })
+      expect(Voice::InboundCallBuilder).not_to receive(:perform!)
+
+      expect do
+        post "/twilio/voice/call/#{digits}", params: {
+          'CallSid' => call_sid,
+          'From' => from_number,
+          'To' => to_number,
+          'Direction' => 'inbound'
+        }
+      end.not_to change(Call, :count)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('<Reject')
     end
   end
 

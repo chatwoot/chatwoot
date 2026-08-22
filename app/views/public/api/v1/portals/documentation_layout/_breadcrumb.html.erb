@@ -14,12 +14,12 @@
         href="<%= public_portal_category_path(portal.slug, category.locale, category.slug) %>"
         class="inline-flex items-center gap-1.5 hover:text-n-slate-12 transition"
       >
-        <% if category.icon.present? %><span><%= category.icon %></span><% end %>
+        <% if category.icon.present? %><span><%= render_emoji_or_icon(category.icon, category.icon_color) %></span><% end %>
         <%= category.name %>
       </a>
     <% else %>
       <span class="inline-flex items-center gap-1.5 text-n-slate-12 font-medium truncate">
-        <% if category.icon.present? %><span><%= category.icon %></span><% end %>
+        <% if category.icon.present? %><span class="inline-flex flex-shrink-0"><%= render_emoji_or_icon(category.icon, category.icon_color) %></span><% end %>
         <%= category.name %>
       </span>
     <% end %>

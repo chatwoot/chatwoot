@@ -381,6 +381,13 @@
   post:
     $ref: ./application/conversation/custom_attributes.yml
 
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/destroy_custom_attributes:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/destroy_custom_attributes.yml
+
 # Conversations Assignments
 
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/assignments:
@@ -411,10 +418,14 @@
     $ref: ./application/conversation/reporting_events.yml
 
 # Inboxes
+/api/v1/accounts/{account_id}/branded_email_layout:
+  $ref: ./application/branded_email_layout.yml
 /api/v1/accounts/{account_id}/inboxes:
   $ref: ./application/inboxes/index.yml
 /api/v1/accounts/{account_id}/inboxes/{id}:
   $ref: ./application/inboxes/update.yml
+/api/v1/accounts/{account_id}/inboxes/{id}/message_templates:
+  $ref: ./application/inboxes/message_templates.yml
 /api/v1/accounts/{account_id}/inboxes/{id}/agent_bot:
   $ref: ./application/inboxes/get_agent_bot.yml
 /api/v1/accounts/{account_id}/inboxes/{id}/set_agent_bot:

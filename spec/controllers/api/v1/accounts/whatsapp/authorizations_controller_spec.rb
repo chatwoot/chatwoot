@@ -456,29 +456,18 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
         create(:inbox_member, inbox: whatsapp_inbox, user: agent)
       end
 
-      it 'returns unprocessable_entity error' do
+      it 'returns unauthorized error' do
         allow(whatsapp_channel).to receive(:reauthorization_required?).and_return(true)
 
-        # Stub the embedded signup service to prevent HTTP calls
-        embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
-        allow(Whatsapp::EmbeddedSignupService).to receive(:new).with(
-          account: account,
-          params: {
-            code: 'test',
-            business_id: 'test',
-            waba_id: 'test'
-          },
-          inbox_id: whatsapp_inbox.id
-        ).and_return(embedded_signup_service)
-        allow(embedded_signup_service).to receive(:perform).and_return(whatsapp_channel)
+        expect(Whatsapp::EmbeddedSignupService).not_to receive(:new)
 
         post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
              params: { inbox_id: whatsapp_inbox.id, code: 'test', business_id: 'test', waba_id: 'test' },
              headers: agent.create_new_auth_token,
              as: :json
 
-        # Agents should get unprocessable_entity since they can find the inbox but channel doesn't need reauth
-        expect(response).to have_http_status(:unprocessable_entity)
+        # Reauthorizing an existing inbox swaps live credentials, so it is restricted to admins.
+        expect(response).to have_http_status(:unauthorized)
       end
     end
 
