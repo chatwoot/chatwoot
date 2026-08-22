@@ -32,11 +32,8 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def handle_shopify_initiated_flow
-    ensure_shopify_enabled!
     prepare_shopify_initiated_flow
     verify_shopify_oauth_state!
-
-    load_existing_shopify_account
 
     # Security: HMAC validation ensures params (including shop) haven't been tampered with.
     # Additionally, the OAuth code is cryptographically bound to the shop that issued it.
@@ -59,6 +56,9 @@ class Shopify::CallbacksController < ApplicationController
 
   def handle_shopify_initiated_without_code
     prepare_shopify_initiated_flow
+    hook = @account&.hooks&.find_by(app_id: 'shopify')
+    return redirect_to existing_account_redirect_url if hook&.enabled? && hook.access_token.present?
+
     state = SecureRandom.hex(16)
     Redis::SecureStorage.set(oauth_state_key(state), { shop: params[:shop] }, 10.minutes)
 
@@ -71,8 +71,11 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def prepare_shopify_initiated_flow
+    ensure_shopify_enabled!
     raise StandardError, 'Invalid HMAC signature' unless valid_hmac?
     raise StandardError, 'Invalid shop domain' unless valid_shop_domain?
+
+    load_existing_shopify_account
   end
 
   def verify_shopify_oauth_state!
@@ -189,9 +192,7 @@ class Shopify::CallbacksController < ApplicationController
     )
   end
 
-  def account
-    @account ||= Account.find(@account_id)
-  end
+  def account = (@account ||= Account.find(@account_id))
 
   def verified_account_id
     return unless params[:state].to_s.count('.') == 2
@@ -203,17 +204,11 @@ class Shopify::CallbacksController < ApplicationController
     raise StandardError, 'Shopify integration is disabled' unless Shopify::FeatureGate.enabled?(account: account)
   end
 
-  def redirect_callback_uri
-    "#{frontend_url}/shopify/callback"
-  end
+  def redirect_callback_uri = "#{frontend_url}/shopify/callback"
 
-  def shopify_integration_url
-    "#{frontend_url}/app/accounts/#{account.id}/settings/integrations/shopify"
-  end
+  def shopify_integration_url = "#{frontend_url}/app/accounts/#{account.id}/settings/integrations/shopify"
 
-  def shopify_billing_url
-    "#{frontend_url}/app/accounts/#{account.id}/settings/billing?shop=#{CGI.escape(params[:shop])}"
-  end
+  def shopify_billing_url = "#{frontend_url}/app/accounts/#{account.id}/settings/billing?shop=#{CGI.escape(params[:shop])}"
 
   def error_redirect_url
     if @account_id
@@ -227,9 +222,7 @@ class Shopify::CallbacksController < ApplicationController
     end
   end
 
-  def frontend_url
-    ENV.fetch('FRONTEND_URL', '')
-  end
+  def frontend_url = ENV.fetch('FRONTEND_URL', '')
 
   def oauth_state_key(state)
     "shopify_oauth_state:#{state}"
