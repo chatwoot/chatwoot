@@ -33,13 +33,31 @@ const getters = {
 };
 
 const actions = {
+  revalidateCannedResponses: async function revalidateCannedResponses(
+    { commit },
+    { newKey } = {}
+  ) {
+    try {
+      const isExistingKeyValid =
+        await CannedResponseAPI.validateCacheKey(newKey);
+      if (!isExistingKeyValid) {
+        const response = await CannedResponseAPI.refetchAndCommit(newKey);
+        commit(types.default.SET_CANNED, response.data);
+      }
+    } catch (error) {
+      // Ignore error
+    }
+  },
+
   getCannedResponse: async function getCannedResponse(
     { commit },
     { searchKey, usable } = {}
   ) {
     commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: true });
     try {
-      const response = await CannedResponseAPI.get({ searchKey, usable });
+      const response = await CannedResponseAPI.get(
+        searchKey || usable ? { searchKey, usable } : true
+      );
       commit(types.default.SET_CANNED, response.data);
       commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: false });
     } catch (error) {

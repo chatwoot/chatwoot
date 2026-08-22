@@ -22,6 +22,9 @@ class TriggerScheduledItemsJob < ApplicationJob
 
     # Time-based automation rules (every ~5 min via this cron)
     Automations::TimeBasedSchedulerJob.perform_later
+
+    # Job to trigger pending executions
+    AutomationRules::TriggerPendingExecutionsJob.perform_later
   end
 end
 

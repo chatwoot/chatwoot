@@ -1,4 +1,6 @@
 class MessageFinder
+  MESSAGE_ID_MAX = 2_147_483_647
+
   def initialize(conversation, params)
     @conversation = conversation
     @params = params
@@ -21,12 +23,16 @@ class MessageFinder
   end
 
   def current_messages
+    return messages.none if oversized_message_id?(@params[:after])
+
     if @params[:after].present? && @params[:before].present?
-      apply_private_note_visibility(messages_between(@params[:after].to_i, @params[:before].to_i))
+      apply_private_note_visibility(
+        messages_between(normalized_message_id(@params[:after]), @params[:before].to_i)
+      )
     elsif @params[:before].present?
       apply_private_note_visibility(messages_before(@params[:before].to_i))
     elsif @params[:after].present?
-      apply_private_note_visibility(messages_after(@params[:after].to_i))
+      apply_private_note_visibility(messages_after(normalized_message_id(@params[:after])))
     else
       apply_private_note_visibility(messages_latest)
     end
@@ -56,15 +62,28 @@ class MessageFinder
   end
 
   def messages_before(before_id)
+    return messages_latest if oversized_message_id?(before_id)
+
+    before_id = normalized_message_id(before_id)
     messages.reorder('created_at desc').where('id < ?', before_id).limit(20).reverse
   end
 
   def messages_between(after_id, before_id)
-    messages.reorder('created_at asc').where('id >= ? AND id < ?', after_id, before_id).limit(1000)
+    message_scope = messages.reorder('created_at asc').where('id >= ?', after_id)
+    message_scope = message_scope.where('id < ?', normalized_message_id(before_id)) unless oversized_message_id?(before_id)
+    message_scope.limit(1000)
   end
 
   def messages_latest
     messages.reorder('created_at desc').limit(20).reverse
+  end
+
+  def normalized_message_id(value)
+    value.to_i.clamp(0, MESSAGE_ID_MAX)
+  end
+
+  def oversized_message_id?(value)
+    value.to_i > MESSAGE_ID_MAX
   end
 end
 

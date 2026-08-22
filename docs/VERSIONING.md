@@ -4,7 +4,7 @@ Este repo es un fork de Chatwoot. Hay **dos números de versión** y no se mezcl
 
 | Capa | Dónde vive | Ejemplo | Qué significa |
 |------|------------|---------|----------------|
-| **Upstream Chatwoot** | `package.json` → `"version"` | `4.16.1` | Base OSS / sync con Chatwoot |
+| **Upstream Chatwoot** | `package.json` → `"version"` | `4.17.0` | Base OSS / sync con Chatwoot |
 | **InboxHub (PaluHub)** | [`PALUHUB_VERSION`](../PALUHUB_VERSION) + tags git | `1.0.0` | Releases del fork (features/fixes propios) |
 
 ## Semver del fork (`PALUHUB_VERSION`)

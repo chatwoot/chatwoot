@@ -85,7 +85,7 @@ export default {
 <template>
   <div class="group/row w-full h-5 ltr:-ml-1 rtl:-mr-1">
     <!-- Inline edit mode -->
-    <div v-if="isEditing" class="flex items-center gap-2">
+    <div v-if="isEditing" class="flex items-center w-full min-w-0 gap-2">
       <span
         v-if="iconClass"
         class="flex-shrink-0 size-3.5 text-n-slate-10 ltr:ml-1 rtl:mr-1"
@@ -102,7 +102,6 @@ export default {
         ref="editInput"
         v-model="editValue"
         :placeholder="title"
-        class="!w-fit"
         @enter-press="saveEdit"
         @escape-press="cancelEdit"
         @blur="saveEdit"

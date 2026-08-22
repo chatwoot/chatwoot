@@ -48,9 +48,10 @@ class Whatsapp::OneoffCampaignService
   def build_recipient(contact)
     campaign.campaign_recipients.create!(
       account_id: campaign.account_id,
+      inbox_id: campaign.inbox_id,
       contact_id: contact.id,
       phone_number: contact.phone_number,
-      status: :pending
+      status: :queued
     )
   end
 
@@ -136,3 +137,5 @@ class Whatsapp::OneoffCampaignService
     nil
   end
 end
+
+Whatsapp::OneoffCampaignService.prepend_mod_with('Whatsapp::OneoffCampaignService')

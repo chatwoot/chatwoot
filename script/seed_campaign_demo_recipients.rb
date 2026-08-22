@@ -82,7 +82,7 @@ samples = [
   { name: 'Carla Leído', phone: '+593981111003', status: :read, hours_ago: 4 },
   { name: 'Diego Fallido', phone: '+593981111004', status: :failed, hours_ago: 5, error: '131026: Message undeliverable' },
   { name: 'Elena Omitido', phone: nil, status: :skipped, hours_ago: 5, error: 'no phone number' },
-  { name: 'Felipe Pendiente', phone: '+593981111006', status: :pending, hours_ago: 1 },
+  { name: 'Felipe Pendiente', phone: '+593981111006', status: :queued, hours_ago: 1 },
   { name: 'Gina Entregado 2', phone: '+593981111007', status: :delivered, hours_ago: 2 },
   { name: 'Hugo Leído 2', phone: '+593981111008', status: :read, hours_ago: 1 },
   { name: 'Irene Enviado 2', phone: '+593981111009', status: :sent, hours_ago: 1 },
@@ -108,8 +108,10 @@ samples.each_with_index do |sample, idx|
     phone_number: sample[:phone],
     status: sample[:status],
     error_message: sample[:error],
-    source_id: sample[:status] == :skipped || sample[:status] == :pending ? nil : "wamid.demo.#{idx + 1}"
+    source_id: sample[:status] == :skipped || sample[:status] == :queued ? nil : "wamid.demo.#{idx + 1}"
   }
+
+  attrs[:inbox] = inbox
 
   case sample[:status]
   when :sent

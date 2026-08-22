@@ -6,16 +6,6 @@ class CampaignsAPI extends ApiClient {
     super('campaigns', { accountScoped: true });
   }
 
-  getRecipients(campaignId, { status, page, q } = {}) {
-    return axios.get(`${this.url}/${campaignId}/recipients`, {
-      params: { status, page, q },
-    });
-  }
-
-  getStats(campaignId) {
-    return axios.get(`${this.url}/${campaignId}/stats`);
-  }
-
   previewAudience({ inboxId, audience } = {}) {
     return axios.post(`${this.url}/preview_audience`, {
       inbox_id: inboxId,
@@ -23,14 +13,23 @@ class CampaignsAPI extends ApiClient {
     });
   }
 
-  exportRecipients(campaignId, { status, q, exportFormat } = {}) {
+  exportRecipients(campaignId, { status, exportFormat } = {}) {
     return axios.get(`${this.url}/${campaignId}/export_recipients`, {
       params: {
         status,
-        q,
         export_format: exportFormat,
       },
       responseType: exportFormat === 'xlsx' ? 'blob' : 'text',
+    });
+  }
+
+  analyticsMetrics(id) {
+    return axios.get(`${this.url}/${id}/analytics/metrics`);
+  }
+
+  analyticsContacts(id, { status, page } = {}) {
+    return axios.get(`${this.url}/${id}/analytics/contacts`, {
+      params: { status, page },
     });
   }
 }

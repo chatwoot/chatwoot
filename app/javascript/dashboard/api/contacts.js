@@ -1,20 +1,27 @@
 /* global axios */
 import ApiClient from './ApiClient';
 
-export const buildContactParams = (page, sortAttr, label, search, perPage) => {
+export const buildContactParams = (
+  page,
+  sortAttr,
+  label,
+  search,
+  perPage
+) => {
+  const params = {
+    include_contact_inboxes: false,
+    page,
+    sort: sortAttr || '',
+    ...(search ? { q: search } : {}),
+    ...(label ? { labels: [label] } : {}),
+    ...(perPage ? { per_page: perPage } : {}),
+  };
+
   // Encode sort so custom:key / -custom:key survive query parsing
-  let params = `include_contact_inboxes=false&page=${page}&sort=${encodeURIComponent(
-    sortAttr || ''
-  )}`;
-  if (perPage) {
-    params = `${params}&per_page=${perPage}`;
+  if (params.sort) {
+    params.sort = encodeURIComponent(params.sort);
   }
-  if (search) {
-    params = `${params}&q=${encodeURIComponent(search)}`;
-  }
-  if (label) {
-    params = `${params}&labels[]=${encodeURIComponent(label)}`;
-  }
+
   return params;
 };
 
@@ -25,14 +32,9 @@ class ContactAPI extends ApiClient {
 
   // eslint-disable-next-line default-param-last
   get(page, sortAttr = 'name', label = '', perPage) {
-    const requestURL = `${this.url}?${buildContactParams(
-      page,
-      sortAttr,
-      label,
-      '',
-      perPage
-    )}`;
-    return axios.get(requestURL);
+    return axios.get(this.url, {
+      params: buildContactParams(page, sortAttr, label, '', perPage),
+    });
   }
 
   show(id) {
@@ -76,38 +78,30 @@ class ContactAPI extends ApiClient {
   }
 
   search(search = '', page = 1, sortAttr = 'name', label = '', options = {}) {
-    const requestURL = `${this.url}/search?${buildContactParams(
-      page,
-      sortAttr,
-      label,
-      search,
-      options.perPage
-    )}`;
-    return axios.get(requestURL, { signal: options.signal });
+    return axios.get(`${this.url}/search`, {
+      params: buildContactParams(
+        page,
+        sortAttr,
+        label,
+        search,
+        options.perPage
+      ),
+      signal: options.signal,
+    });
   }
 
   // eslint-disable-next-line default-param-last
   active(page = 1, sortAttr = 'name', perPage) {
-    const requestURL = `${this.url}/active?${buildContactParams(
-      page,
-      sortAttr,
-      '',
-      '',
-      perPage
-    )}`;
-    return axios.get(requestURL);
+    return axios.get(`${this.url}/active`, {
+      params: buildContactParams(page, sortAttr, '', '', perPage),
+    });
   }
 
   // eslint-disable-next-line default-param-last
   filter(page = 1, sortAttr = 'name', queryPayload, perPage) {
-    const requestURL = `${this.url}/filter?${buildContactParams(
-      page,
-      sortAttr,
-      '',
-      '',
-      perPage
-    )}`;
-    return axios.post(requestURL, queryPayload);
+    return axios.post(`${this.url}/filter`, queryPayload, {
+      params: buildContactParams(page, sortAttr, '', '', perPage),
+    });
   }
 
   importContacts(file) {

@@ -17,6 +17,8 @@
 #
 
 class CannedResponse < ApplicationRecord
+  include AccountCacheRevalidator
+
   validates :content, presence: true
   validates :short_code, presence: true
   validates :account, presence: true

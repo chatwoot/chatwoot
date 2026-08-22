@@ -5,6 +5,8 @@ import { useRouter, useRoute } from 'vue-router';
 import { parseBoolean } from '@chatwoot/utils';
 import mfaAPI from 'dashboard/api/mfa';
 import { useAlert } from 'dashboard/composables';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MfaStatusCard from './MfaStatusCard.vue';
 import MfaSetupWizard from './MfaSetupWizard.vue';
 import MfaManagementActions from './MfaManagementActions.vue';
@@ -95,6 +97,7 @@ const completeMfaSetup = () => {
   mfaEnabled.value = true;
   backupCodesGenerated.value = true;
   showSetup.value = false;
+  emitter.emit(BUS_EVENTS.MFA_STATE_CHANGED);
   useAlert(t('MFA_SETTINGS.SETUP.SUCCESS'));
 };
 
@@ -110,6 +113,7 @@ const disableMfa = async ({ password, otpCode, backupCode }) => {
     mfaEnabled.value = false;
     backupCodesGenerated.value = false;
     managementActionsRef.value?.resetDisableForm();
+    emitter.emit(BUS_EVENTS.MFA_STATE_CHANGED);
     useAlert(t('MFA_SETTINGS.DISABLE.SUCCESS'));
   } catch (error) {
     useAlert(t('MFA_SETTINGS.DISABLE.ERROR'));
@@ -123,6 +127,7 @@ const regenerateBackupCodes = async ({ otpCode }) => {
     backupCodes.value = response.data.backup_codes;
     managementActionsRef.value?.resetRegenerateForm();
     managementActionsRef.value?.showBackupCodesDialog();
+    emitter.emit(BUS_EVENTS.MFA_STATE_CHANGED);
     useAlert(t('MFA_SETTINGS.REGENERATE.SUCCESS'));
   } catch (error) {
     useAlert(t('MFA_SETTINGS.REGENERATE.ERROR'));

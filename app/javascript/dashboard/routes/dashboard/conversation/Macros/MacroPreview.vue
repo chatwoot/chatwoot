@@ -1,14 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import { useMapGetter } from 'dashboard/composables/store.js';
-import {
-  resolveActionName,
-  resolveTeamIds,
-  resolveLabels,
-  resolveAgents,
-} from 'dashboard/routes/dashboard/settings/macros/macroHelper';
-import { useI18n } from 'vue-i18n';
-import { useStatusLabel } from 'dashboard/composables/useStatusLabel';
+import { useMacros } from 'dashboard/composables/useMacros';
 
 const props = defineProps({
   macro: {
@@ -17,57 +9,14 @@ const props = defineProps({
   },
 });
 
-const { t } = useI18n();
-const { getResolveConversationPhrase } = useStatusLabel();
+const { resolveMacroActions } = useMacros();
 
-const labels = useMapGetter('labels/getLabels');
-const teams = useMapGetter('teams/getTeams');
-const agents = useMapGetter('agents/getAgents');
-
-const actionLabel = actionName => {
-  if (actionName === 'RESOLVE_CONVERSATION') {
-    return getResolveConversationPhrase();
-  }
-  return t(`MACROS.ACTIONS.${actionName}`);
-};
-
-const getActionValue = (key, params) => {
-  const customAttrParams = Array.isArray(params) ? params[0] : params;
-  const actionsMap = {
-    assign_team: resolveTeamIds(teams.value, params),
-    add_label: resolveLabels(labels.value, params),
-    remove_label: resolveLabels(labels.value, params),
-    assign_agent: resolveAgents(agents.value, params),
-    remove_assigned_agent: null,
-    mute_conversation: null,
-    snooze_conversation: null,
-    resolve_conversation: null,
-    remove_assigned_team: null,
-    send_webhook_event: params[0],
-    send_message: params[0],
-    send_email_transcript: params[0],
-    add_private_note: params[0],
-    update_contact_custom_attribute: customAttrParams
-      ? `${customAttrParams.attribute_key}: ${customAttrParams.value}`
-      : '',
-    update_conversation_custom_attribute: customAttrParams
-      ? `${customAttrParams.attribute_key}: ${customAttrParams.value}`
-      : '',
-  };
-  return actionsMap[key] || '';
-};
-
-const resolvedMacro = computed(() => {
-  return props.macro.actions.map(action => ({
-    actionName: resolveActionName(action.action_name),
-    actionValue: getActionValue(action.action_name, action.action_params),
-  }));
-});
+const resolvedMacro = computed(() => resolveMacroActions(props.macro));
 </script>
 
 <template>
   <div
-    class="macro-preview absolute border border-n-weak max-h-[22.5rem] z-50 w-64 rounded-md bg-n-alpha-3 backdrop-blur-[100px] shadow-lg bottom-8 right-8 overflow-y-auto p-4 text-left rtl:text-right"
+    class="macro-preview absolute border border-n-weak max-h-[22.5rem] z-50 w-64 rounded-md bg-n-alpha-3 backdrop-blur-[100px] shadow-lg bottom-8 end-8 overflow-y-auto p-4 text-start"
   >
     <h6 class="mb-4 text-sm text-n-slate-12">
       {{ macro.name }}
@@ -75,17 +24,17 @@ const resolvedMacro = computed(() => {
     <div
       v-for="(action, i) in resolvedMacro"
       :key="i"
-      class="relative pl-4 macro-block"
+      class="relative ps-4 macro-block"
     >
       <div
         v-if="i !== macro.actions.length - 1"
-        class="top-[0.390625rem] absolute -bottom-1 left-0 w-px bg-n-slate-6"
+        class="top-[0.390625rem] absolute -bottom-1 start-0 w-px bg-n-slate-6"
       />
       <div
-        class="absolute -left-[0.21875rem] top-[0.2734375rem] w-2 h-2 rounded-full bg-n-solid-1 border-2 border-solid border-n-weak dark:border-n-slate-6"
+        class="absolute -start-[0.21875rem] top-[0.2734375rem] w-2 h-2 rounded-full bg-n-solid-1 border-2 border-solid border-n-weak dark:border-n-slate-6"
       />
       <p class="mb-1 text-xs text-n-slate-11">
-        {{ actionLabel(action.actionName) }}
+        {{ action.actionName }}
       </p>
       <p class="text-n-slate-12 text-sm">{{ action.actionValue }}</p>
     </div>

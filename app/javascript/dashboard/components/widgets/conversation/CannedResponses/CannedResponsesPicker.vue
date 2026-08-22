@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 
 const emit = defineEmits(['onSelect']);
 

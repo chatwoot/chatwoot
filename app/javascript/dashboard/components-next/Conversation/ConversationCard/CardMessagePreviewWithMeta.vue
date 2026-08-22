@@ -1,9 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import MessagePreview from 'dashboard/components-next/Conversation/ConversationCard/MessagePreview.vue';
 import CardLabels from 'dashboard/components-next/Conversation/ConversationCard/CardLabels.vue';
 import SLACardLabel from 'dashboard/components-next/Conversation/ConversationCard/SLACardLabel.vue';
 import UnreadBadge from './UnreadBadge.vue';
@@ -21,22 +21,17 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  hasLabels: {
+    type: Boolean,
+    default: false,
+  },
 });
-
-const { t } = useI18n();
 
 const slaCardLabelRef = ref(null);
 
-const { getPlainText } = useMessageFormatter();
-
-const lastNonActivityMessageContent = computed(() => {
-  const { lastNonActivityMessage = {}, customAttributes = {} } =
-    props.conversation;
-  const { email: { subject } = {} } = customAttributes;
-  return getPlainText(
-    subject || lastNonActivityMessage?.content || t('CHAT_LIST.NO_CONTENT')
-  );
-});
+const lastNonActivityMessage = computed(() =>
+  useSnakeCase(props.conversation.lastNonActivityMessage ?? {}, { deep: true })
+);
 
 const assignee = computed(() => {
   const { meta: { assignee: agent = {} } = {} } = props.conversation;
@@ -68,9 +63,11 @@ defineExpose({
 <template>
   <div class="flex flex-col w-full gap-1">
     <div class="flex items-center justify-between w-full gap-2 py-1 h-7">
-      <p class="mb-0 text-sm leading-7 text-n-slate-12 line-clamp-1">
-        {{ lastNonActivityMessageContent }}
-      </p>
+      <MessagePreview
+        :message="lastNonActivityMessage"
+        class="flex-1 min-w-0"
+        :class="unreadMessagesCount > 0 ? 'text-n-slate-12' : 'text-n-slate-11'"
+      />
 
       <UnreadBadge :count="unreadMessagesCount" align-bottom />
     </div>
@@ -78,7 +75,7 @@ defineExpose({
     <div
       class="grid items-center gap-2.5 h-7"
       :class="
-        hasSlaThreshold
+        hasSlaThreshold && hasLabels
           ? 'grid-cols-[auto_auto_1fr_20px]'
           : 'grid-cols-[1fr_20px]'
       "
@@ -88,8 +85,8 @@ defineExpose({
         ref="slaCardLabelRef"
         :conversation="conversation"
       />
-      <div v-if="hasSlaThreshold" class="w-px h-3 bg-n-slate-4" />
-      <div class="overflow-hidden">
+      <div v-if="hasSlaThreshold && hasLabels" class="w-px h-3 bg-n-slate-4" />
+      <div v-if="hasLabels" class="overflow-hidden">
         <CardLabels
           :conversation-labels="conversation.labels"
           :account-labels="accountLabels"

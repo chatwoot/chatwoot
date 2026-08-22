@@ -35,7 +35,24 @@ const {
 
 const { formatAutomation } = useEditableAutomation();
 
-const open = () => formRef.value?.open();
+const syncAutomationFromSelected = (source = props.selectedResponse) => {
+  if (!source?.conditions) return;
+
+  manifestCustomAttributes();
+  automation.value = formatAutomation(
+    source,
+    allCustomAttributes.value,
+    automationTypes,
+    AUTOMATION_ACTION_TYPES
+  );
+};
+
+// Format from the rule passed to open(): the prop updates a tick later, so at open() time
+// automation still holds the previously selected rule (its execution_delay hydrates the form).
+const open = rule => {
+  syncAutomationFromSelected(rule);
+  formRef.value?.open(rule?.execution_delay);
+};
 const close = () => formRef.value?.close();
 
 const onSave = (payload, mode) => {
@@ -47,12 +64,13 @@ watch(
   async value => {
     if (!value?.conditions) return;
 
-    // Clear first so the dialog never shows a stale/half-mounted action row.
     automation.value = null;
 
-    await store.dispatch('attributes/get');
-    await store.dispatch('macros/get');
-    await store.dispatch('flows/get');
+    await Promise.all([
+      store.dispatch('attributes/get'),
+      store.dispatch('macros/get'),
+      store.dispatch('flows/get'),
+    ]);
     manifestCustomAttributes();
 
     automation.value = formatAutomation(
