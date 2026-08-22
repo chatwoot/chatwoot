@@ -457,6 +457,7 @@ Rails.application.routes.draw do
 
       namespace :integrations do
         resources :webhooks, only: [:create]
+        resources :students, only: [:create]
       end
 
       # Frontend API endpoint to trigger SAML authentication flow
