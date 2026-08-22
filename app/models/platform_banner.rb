@@ -3,7 +3,7 @@
 # Table name: platform_banners
 #
 #  id             :bigint           not null, primary key
-#  active         :boolean          default(TRUE), not null
+#  active         :boolean          default(TRUE)
 #  banner_message :text             not null
 #  banner_type    :integer          default("info"), not null
 #  created_at     :datetime         not null
