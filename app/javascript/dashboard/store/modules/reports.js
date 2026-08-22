@@ -1,4 +1,3 @@
-/* eslint no-console: 0 */
 import * as types from '../mutation-types';
 import { STATUS } from '../constants';
 import Report from '../../api/reports';
@@ -231,6 +230,7 @@ export const actions = {
         });
       })
       .catch(error => {
+        // eslint-disable-next-line no-console
         console.error(error);
       });
   },
@@ -244,6 +244,7 @@ export const actions = {
         });
       })
       .catch(error => {
+        // eslint-disable-next-line no-console
         console.error(error);
       });
   },
@@ -257,6 +258,7 @@ export const actions = {
         });
       })
       .catch(error => {
+        // eslint-disable-next-line no-console
         console.error(error);
       });
   },
@@ -270,6 +272,7 @@ export const actions = {
         });
       })
       .catch(error => {
+        // eslint-disable-next-line no-console
         console.error(error);
       });
   },
@@ -283,6 +286,7 @@ export const actions = {
         });
       })
       .catch(error => {
+        // eslint-disable-next-line no-console
         console.error(error);
       });
   },
@@ -303,6 +307,7 @@ export const actions = {
         });
       })
       .catch(error => {
+        // eslint-disable-next-line no-console
         console.error(error);
       });
   },

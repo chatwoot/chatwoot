@@ -11,7 +11,6 @@ import {
   ICON_CLOCK_ALERT,
   ICON_CODE,
   ICON_CONTACT,
-  ICON_CREDIT_CARD,
   ICON_DATABASE,
   ICON_INBOX,
   ICON_LAYOUT_TEMPLATE,
@@ -239,13 +238,6 @@ const GO_TO_COMMANDS = [
     section: SECTION_SETTINGS,
     icon: ICON_BRIEFCASE,
     routeName: 'auditlogs_list',
-  },
-  {
-    id: 'open_billing_settings',
-    title: 'COMMAND_BAR.COMMANDS.GO_TO_SETTINGS_BILLING',
-    section: SECTION_SETTINGS,
-    icon: ICON_CREDIT_CARD,
-    routeName: 'billing_settings_index',
   },
   {
     id: 'open_account_settings',

@@ -19,6 +19,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
     Current.executed_by = @assistant
 
+    # Simple replies are the non-LLM first layer: a keyword match answers the
+    # customer directly and skips LLM generation entirely.
+    return if simple_reply_handled?
+
     return generate_and_process_response unless captain_v2_enabled?
 
     return log_pre_generation_discard if newer_customer_message_arrived?
@@ -36,6 +40,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   private
 
   delegate :account, :inbox, to: :@conversation
+
+  def simple_reply_handled?
+    Captain::Conversation::SimpleReplyService.new(conversation: @conversation, assistant: @assistant).perform
+  end
 
   def generate_and_process_response
     message_history = collect_previous_messages
@@ -97,8 +105,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       next if captain_v2_enabled? && newer_customer_message_arrived?
 
       message = create_messages
-      Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
-      account.increment_response_usage
     end
     return unless message
 
@@ -166,10 +172,25 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def create_handoff_message(preserve_waiting_since: false)
-    @handoff_message = create_outgoing_message(
-      @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'),
-      preserve_waiting_since: preserve_waiting_since
-    )
+    content = generated_handoff_message.presence ||
+              @assistant.config['handoff_message'].presence ||
+              I18n.t('conversations.captain.handoff')
+    @handoff_message = create_outgoing_message(content, preserve_waiting_since: preserve_waiting_since)
+  end
+
+  # The handoff farewell is LLM-generated from the conversation context, with
+  # the configured/canned message as the fallback so a generation failure never
+  # blocks handing off to a human.
+  def generated_handoff_message
+    result = Captain::Llm::HandoffMessageService.new(
+      account: account,
+      assistant: @assistant,
+      conversation: @conversation
+    ).perform
+    result[:error] ? nil : result[:message]
+  rescue StandardError => e
+    Rails.logger.warn("[CAPTAIN][ResponseBuilderJob] Handoff message generation failed for conversation=#{@conversation.display_id}: #{e.class.name}: #{e.message}")
+    nil
   end
 
   # Capture runs outside the delivery transaction and never raises (the service

@@ -4,7 +4,7 @@ RSpec.describe 'Platform Email Channel Migrations API', type: :request do
   let!(:account) { create(:account) }
   let(:platform_app) { create(:platform_app) }
   let(:base_url) { "/platform/api/v1/accounts/#{account.id}/email_channel_migrations" }
-  let(:headers) { { api_access_token: platform_app.access_token.token } }
+  let(:headers) { { 'api-access-token': platform_app.access_token.token } }
 
   let(:google_provider_config) do
     { access_token: 'ya29.test-access-token', refresh_token: '1//test-refresh-token', expires_on: 1.hour.from_now.to_s }
@@ -38,7 +38,7 @@ RSpec.describe 'Platform Email Channel Migrations API', type: :request do
 
       it 'returns unauthorized with invalid token' do
         with_modified_env EMAIL_CHANNEL_MIGRATION: 'true' do
-          post base_url, params: valid_migration_params, headers: { api_access_token: 'invalid' }, as: :json
+          post base_url, params: valid_migration_params, headers: { 'api-access-token': 'invalid' }, as: :json
           expect(response).to have_http_status(:unauthorized)
         end
       end

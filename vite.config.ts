@@ -9,7 +9,14 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
+        // Use the modern Sass compiler API for faster stylesheet compilation.
         api: 'modern-compiler',
+        // The codebase (and some third-party deps like vue-datepicker-next) still
+        // rely on legacy Sass features Dart Sass deprecates and will remove in
+        // 3.0.0: the `@import` rule and global built-in functions such as `mix()`.
+        // Silence those specific deprecation warnings until the stylesheets are
+        // migrated to `@use` / `color.mix`.
+        silenceDeprecations: ['import', 'global-builtin'],
       },
     },
   },

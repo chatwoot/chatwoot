@@ -74,8 +74,8 @@ RSpec.describe CaptainFeaturable do
       end
 
       it 'returns default models for unconfigured features' do
-        expect(account.captain_copilot_model).to eq(Llm::Models.default_model_for('copilot'))
-        expect(account.captain_audio_transcription_model).to eq(Llm::Models.default_model_for('audio_transcription'))
+        expect(account.captain_copilot_model).to eq(Llm::Config.model)
+        expect(account.captain_audio_transcription_model).to eq(Llm::Config.model)
       end
     end
 
@@ -84,8 +84,8 @@ RSpec.describe CaptainFeaturable do
         account.captain_models = { 'editor' => 'invalid-model' }
       end
 
-      it 'falls back to default model' do
-        expect(account.captain_editor_model).to eq(Llm::Models.default_model_for('editor'))
+      it 'falls back to the single configured model' do
+        expect(account.captain_editor_model).to eq(Llm::Config.model)
       end
     end
 
@@ -94,10 +94,9 @@ RSpec.describe CaptainFeaturable do
         account.update!(captain_models: nil)
       end
 
-      it 'returns default models for all features' do
+      it 'returns the single configured model for all features' do
         Llm::Models.feature_keys.each do |feature_key|
-          expected_default = Llm::Models.default_model_for(feature_key)
-          expect(account.send("captain_#{feature_key}_model")).to eq(expected_default)
+          expect(account.send("captain_#{feature_key}_model")).to eq(Llm::Config.model)
         end
       end
     end

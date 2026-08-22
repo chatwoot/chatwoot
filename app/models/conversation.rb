@@ -110,6 +110,7 @@ class Conversation < ApplicationRecord
       ON grouped_conversations.conversation_id = conversations.id"
     ).sort_on_last_user_message_at
   }
+  scope :with_sla_applicable_contact, -> { left_joins(:contact).where(contacts: { blocked: [false, nil] }) }
 
   belongs_to :account
   belongs_to :inbox
@@ -119,18 +120,23 @@ class Conversation < ApplicationRecord
   belongs_to :contact_inbox
   belongs_to :team, optional: true
   belongs_to :campaign, optional: true
+  belongs_to :sla_policy, optional: true
 
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async, autosave: true
   has_one :csat_survey_response, dependent: :destroy_async
+  has_one :applied_sla, dependent: :destroy_async
+  has_many :sla_events, dependent: :destroy_async
   has_many :conversation_participants, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
   has_many :reporting_events, dependent: :destroy_async
   has_many :automation_rule_pending_executions, dependent: :delete_all
 
+  before_validation :validate_sla_policy, if: -> { sla_policy_id_changed? }
   before_save :ensure_snooze_until_reset
   before_save :set_status_changed_at
+  around_save :ensure_applied_sla_is_created, if: -> { sla_policy_id_changed? }
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
 
@@ -141,6 +147,10 @@ class Conversation < ApplicationRecord
   after_destroy_commit :notify_conversation_deletion
 
   delegate :auto_resolve_after, to: :account
+
+  def sla_applicable?
+    !contact&.blocked?
+  end
 
   def can_reply?
     Conversations::MessageWindowService.new(self).can_reply?
@@ -263,6 +273,7 @@ class Conversation < ApplicationRecord
 
   def execute_after_update_commit_callbacks
     handle_resolved_status_change
+    update_applied_sla_completion
     notify_status_change
     create_activity
     invalidate_filtered_unread_count_conversation
@@ -288,6 +299,47 @@ class Conversation < ApplicationRecord
 
   def ensure_waiting_since
     self.waiting_since = created_at
+  end
+
+  def validate_sla_policy
+    if sla_policy_id.nil? && changes[:sla_policy_id].first.present?
+      errors.add(:sla_policy, 'cannot remove sla policy from conversation')
+      return
+    end
+
+    unless sla_applicable?
+      errors.add(:sla_policy, 'cannot be assigned to conversations with blocked contacts')
+      return
+    end
+
+    if changes[:sla_policy_id].first.present?
+      errors.add(:sla_policy, 'conversation already has a different sla')
+      return
+    end
+
+    errors.add(:sla_policy, 'sla policy account mismatch') if sla_policy&.account_id != account_id
+  end
+
+  # handling inside a transaction to ensure applied sla record is also created
+  def ensure_applied_sla_is_created
+    ActiveRecord::Base.transaction do
+      yield
+      create_applied_sla(sla_policy_id: sla_policy_id) if applied_sla.blank?
+    end
+  rescue ActiveRecord::RecordInvalid
+    raise ActiveRecord::Rollback
+  end
+
+  def update_applied_sla_completion
+    return unless saved_change_to_status?
+
+    current_applied_sla = applied_sla
+    return if current_applied_sla.blank?
+
+    terminal_sla = current_applied_sla.sla_status.in?(%w[hit missed])
+    return if terminal_sla && (!resolved? || current_applied_sla.completed_at.present?)
+
+    current_applied_sla.update!(completed_at: resolved? ? Time.current : nil)
   end
 
   def validate_additional_attributes
@@ -338,7 +390,7 @@ class Conversation < ApplicationRecord
 
   def list_of_keys
     %w[team_id assignee_id assignee_agent_bot_id status snoozed_until custom_attributes label_list waiting_since
-       first_reply_created_at priority]
+       first_reply_created_at priority sla_policy_id]
   end
 
   def allowed_keys?

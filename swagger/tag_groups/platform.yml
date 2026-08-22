@@ -31,10 +31,10 @@ components:
     userApiKey:
       type: apiKey
       in: header
-      name: api_access_token
+      name: api-access-token
       description: This token can be obtained by visiting the profile page or via rails console. Provides access to endpoints based on the user permissions levels.
     platformAppApiKey:
       type: apiKey
       in: header
-      name: api_access_token
+      name: api-access-token
       description: This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles. 

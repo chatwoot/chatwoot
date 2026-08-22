@@ -2,6 +2,7 @@ class Webhooks::TwilioEventsJob < ApplicationJob
   queue_as :low
 
   def perform(params = {})
+    params = params.with_indifferent_access if params.respond_to?(:with_indifferent_access)
     # Skip processing if Body parameter, MediaUrl0, or location data is not present
     # This is to skip processing delivery events being delivered to this endpoint
     return if params[:Body].blank? && params[:MediaUrl0].blank? && !valid_location_message?(params)

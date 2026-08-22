@@ -139,7 +139,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
-             headers: { api_access_token: agent_bot.access_token.token },
+             headers: { 'api-access-token': agent_bot.access_token.token },
              as: :json
 
         expect(response).to have_http_status(:success)
@@ -155,7 +155,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
-             headers: { api_access_token: agent_bot.access_token.token },
+             headers: { 'api-access-token': agent_bot.access_token.token },
              as: :json
 
         expect(response).to have_http_status(:success)
@@ -171,7 +171,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
-             headers: { api_access_token: agent_bot.access_token.token },
+             headers: { 'api-access-token': agent_bot.access_token.token },
              as: :json
 
         expect(response).to have_http_status(:success)

@@ -126,23 +126,13 @@ export const actions = {
   },
 
   updateProfile: async ({ commit }, params) => {
-    // eslint-disable-next-line no-useless-catch
-    try {
-      const response = await authAPI.profileUpdate(params);
-      commit(types.SET_CURRENT_USER, response.data);
-    } catch (error) {
-      throw error;
-    }
+    const response = await authAPI.profileUpdate(params);
+    commit(types.SET_CURRENT_USER, response.data);
   },
 
   updatePassword: async ({ commit }, params) => {
-    // eslint-disable-next-line no-useless-catch
-    try {
-      const response = await authAPI.profilePasswordUpdate(params);
-      commit(types.SET_CURRENT_USER, response.data);
-    } catch (error) {
-      throw error;
-    }
+    const response = await authAPI.profilePasswordUpdate(params);
+    commit(types.SET_CURRENT_USER, response.data);
   },
 
   deleteAvatar: async ({ commit }) => {
@@ -150,7 +140,8 @@ export const actions = {
       const response = await authAPI.deleteAvatar();
       commit(types.SET_CURRENT_USER, response.data);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to delete avatar:', error);
     }
   },
 
@@ -167,7 +158,8 @@ export const actions = {
         commit(types.SET_CURRENT_USER, response.data);
       }
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to update UI settings:', error);
     }
   },
 
@@ -219,7 +211,8 @@ export const actions = {
     try {
       await authAPI.setActiveAccount({ accountId });
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to set active account:', error);
     }
   },
 
@@ -237,7 +230,8 @@ export const actions = {
     try {
       await authAPI.resendConfirmation();
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to resend confirmation:', error);
     }
   },
 };
@@ -259,7 +253,7 @@ export const mutations = {
   [types.SET_CURRENT_USER_AUTO_OFFLINE](_state, autoOffline) {
     const accounts = _state.currentUser.accounts.map(account => {
       if (account.id === _state.currentUser.account_id) {
-        return { ...account, autoOffline: autoOffline };
+        return { ...account, auto_offline: autoOffline };
       }
       return account;
     });

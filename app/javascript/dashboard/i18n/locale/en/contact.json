@@ -290,7 +290,6 @@
       "ID": "(ID: {identifier})"
     }
   },
-
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "Contacts",
@@ -378,6 +377,41 @@
           }
         }
       }
+    },
+    "CSV_IMPORT": {
+      "TITLE": "Import contacts from CSV",
+      "INFO": "Upload a CSV export. Contacts are deduplicated by email, then phone, then name + city. Each contact is linked to a company derived from the business name.",
+      "CHOOSE_FILE": "Choose CSV file",
+      "BUTTON": "Import CSV",
+      "CANCEL": "Cancel",
+      "IMPORT": "Import",
+      "SUCCESS": "Imported {created} new, updated {updated} contacts and {companies} companies.",
+      "ERROR": "There was an error importing the CSV. Please try again.",
+      "RESULT": {
+        "CREATED": "Created",
+        "UPDATED": "Updated",
+        "SKIPPED": "Skipped",
+        "COMPANIES": "Companies"
+      }
+    },
+    "SEND_EMAIL": {
+      "BUTTON": "Send email",
+      "TITLE": "Send email",
+      "INFO": "This email will be sent to {email} from the selected Email inbox.",
+      "INBOX": "Email inbox",
+      "INBOX_PLACEHOLDER": "Select an Email inbox",
+      "SUBJECT": "Subject",
+      "SUBJECT_PLACEHOLDER": "Email subject",
+      "MESSAGE": "Message",
+      "MESSAGE_PLACEHOLDER": "Write your message...",
+      "CC": "Cc",
+      "CC_PLACEHOLDER": "comma separated emails",
+      "BCC": "Bcc",
+      "BCC_PLACEHOLDER": "comma separated emails",
+      "CANCEL": "Cancel",
+      "SEND": "Send",
+      "SUCCESS": "Email sent successfully",
+      "ERROR": "There was an error sending the email. Please try again."
     },
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
@@ -609,7 +643,6 @@
       "CONFIRM_SINGLE": "Delete contact"
     }
   },
-
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."

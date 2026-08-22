@@ -14,10 +14,22 @@ export const getSelectedChatConversation = ({
 }) =>
   allConversations.filter(conversation => conversation.id === selectedChatId);
 
+// Inbox ids the current user is a collaborator of, mirroring the server-side ACL in
+// `InboxPolicy`. The `inboxes` store is already scoped to the user's inboxes, so this
+// reflects the same boundary the backend enforces. Missing getters (e.g. in specs
+// that don't wire the inboxes module) safely resolve to an empty set.
+const resolveAccessibleInboxIds = rootGetters => {
+  const accessibleInboxGetter = rootGetters?.['inboxes/getAllInboxes'];
+  if (typeof accessibleInboxGetter !== 'function') return [];
+
+  return accessibleInboxGetter().map(inbox => Number(inbox.id));
+};
+
 const getters = {
   getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
     return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
   },
+
   getFilteredConversations: (
     { allConversations, chatSortFilter, appliedFilters },
     _,
@@ -30,6 +42,7 @@ const getters = {
 
     const permissions = getUserPermissions(currentUser, currentAccountId);
     const userRole = getUserRole(currentUser, currentAccountId);
+    const accessibleInboxIds = resolveAccessibleInboxIds(rootGetters);
 
     return allConversations
       .filter(conversation => {
@@ -41,7 +54,8 @@ const getters = {
           conversation,
           userRole,
           permissions,
-          currentUserId
+          currentUserId,
+          accessibleInboxIds
         );
 
         return matchesFilterResult && allowedForRole;
@@ -124,6 +138,7 @@ const getters = {
 
     const permissions = getUserPermissions(currentUser, currentAccountId);
     const userRole = getUserRole(currentUser, currentAccountId);
+    const accessibleInboxIds = resolveAccessibleInboxIds(rootGetters);
 
     return _state.allConversations.filter(conversation => {
       const shouldFilter = applyPageFilters(conversation, activeFilters);
@@ -131,7 +146,8 @@ const getters = {
         conversation,
         userRole,
         permissions,
-        currentUserId
+        currentUserId,
+        accessibleInboxIds
       );
 
       return shouldFilter && allowedForRole;

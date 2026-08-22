@@ -14,7 +14,7 @@ const store = useStore();
 const dialogType = ref('');
 const route = useRoute();
 
-const assistantId = computed(() => route.params.assistantId);
+const assistantId = computed(() => Number(route.params.assistantId));
 const assistantUiFlags = useMapGetter('captainAssistants/getUIFlags');
 const uiFlags = useMapGetter('captainInboxes/getUIFlags');
 const isFetchingAssistant = computed(() => assistantUiFlags.value.fetchingItem);

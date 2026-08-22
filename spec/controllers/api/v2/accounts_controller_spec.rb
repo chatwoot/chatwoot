@@ -82,6 +82,19 @@ RSpec.describe 'Accounts API', type: :request do
     end
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to false' do
+      # GlobalConfigService resolves ENABLE_ACCOUNT_SIGNUP from the persisted
+      # InstallationConfig / Redis cache first, falling back to ENV only when
+      # that is absent. Clear both so the env override is actually honored.
+      before do
+        GlobalConfig.clear_cache
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+      end
+
+      after do
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+        GlobalConfig.clear_cache
+      end
+
       it 'responds 404 on requests' do
         params = { email: email }
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do

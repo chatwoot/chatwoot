@@ -9,16 +9,12 @@ x-base: &base
       RAILS_SERVE_STATIC_FILES: 'false'
   tty: true
   stdin_open: true
-  image: chatwoot:development
   env_file: .env
 
 services:
 
   rails:
     <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/rails.Dockerfile
     image: chatwoot-rails:development
     volumes:
       - ./:/app:delegated
@@ -36,7 +32,7 @@ services:
       - '3000:3000'
     env_file: .env
     environment:
-      - VITE_DEV_SERVER_HOST=vite
+      - VITE_RUBY_HOST=vite
       - NODE_ENV=development
       - RAILS_ENV=development
     entrypoint: docker/entrypoints/rails.sh
@@ -77,9 +73,6 @@ services:
 
   vite:
     <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/vite.Dockerfile
     image: chatwoot-vite:development
     volumes:
       - ./:/app:delegated
@@ -140,6 +133,28 @@ services:
       - '1025:1025'
       - '8025:8025'
 
+  whatsapp-companion:
+    build:
+      context: ./whatsapp-companion
+      dockerfile: ./Dockerfile
+    restart: always
+    environment:
+      - CHATWOOT_URL=http://rails:3000
+      - CHATWOOT_SHARED_TOKEN=${WHATSAPP_COMPANION_TOKEN:-changeme}
+      - PORT=4000
+    volumes:
+      - companion_auth:/app/auth
+      - companion_media:/app/media
+    ports:
+      - '4000:4000'
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - rails
+
 volumes:
   postgres:
   redis:
@@ -148,3 +163,5 @@ volumes:
   pnpm_store:
   cache:
   bundle:
+  companion_auth:
+  companion_media:

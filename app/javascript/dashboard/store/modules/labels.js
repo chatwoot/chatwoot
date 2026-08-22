@@ -40,7 +40,8 @@ export const actions = {
         commit(types.SET_LABELS, response.data.payload);
       }
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to revalidate labels:', error);
     }
   },
 
@@ -53,7 +54,8 @@ export const actions = {
       );
       commit(types.SET_LABELS, sortedLabels);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch labels:', error);
     } finally {
       commit(types.SET_LABEL_UI_FLAG, { isFetching: false });
     }
@@ -80,7 +82,7 @@ export const actions = {
       AnalyticsHelper.track(LABEL_EVENTS.UPDATE);
       commit(types.EDIT_LABEL, response.data);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_LABEL_UI_FLAG, { isUpdating: false });
     }
@@ -93,7 +95,7 @@ export const actions = {
       AnalyticsHelper.track(LABEL_EVENTS.DELETED);
       commit(types.DELETE_LABEL, id);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_LABEL_UI_FLAG, { isDeleting: false });
     }

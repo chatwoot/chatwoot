@@ -39,15 +39,18 @@ export default {
       this.fetchAccountSummary();
       this.fetchChartData();
     },
-    fetchAccountSummary() {
+    async fetchAccountSummary() {
       try {
-        this.$store.dispatch('fetchAccountSummary', this.getRequestPayload());
+        await this.$store.dispatch(
+          'fetchAccountSummary',
+          this.getRequestPayload()
+        );
       } catch {
         useAlert(this.$t('REPORT.SUMMARY_FETCHING_FAILED'));
       }
     },
-    fetchChartData() {
-      [
+    async fetchChartData() {
+      const reportKeys = [
         'CONVERSATIONS',
         'INCOMING_MESSAGES',
         'OUTGOING_MESSAGES',
@@ -55,16 +58,19 @@ export default {
         'RESOLUTION_TIME',
         'RESOLUTION_COUNT',
         'REPLY_TIME',
-      ].forEach(async key => {
-        try {
-          await this.$store.dispatch('fetchAccountReport', {
+      ];
+      const results = await Promise.allSettled(
+        reportKeys.map(key =>
+          this.$store.dispatch('fetchAccountReport', {
             metric: REPORTS_KEYS[key],
             ...this.getRequestPayload(),
-          });
-        } catch {
-          useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
-        }
-      });
+          })
+        )
+      );
+      const hasFailure = results.some(result => result.status === 'rejected');
+      if (hasFailure) {
+        useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+      }
     },
     getRequestPayload() {
       const { from, to, groupBy, businessHours } = this;
@@ -76,19 +82,27 @@ export default {
         businessHours,
       };
     },
-    downloadConversationReports() {
+    async downloadConversationReports() {
       const { from, to } = this;
+      if (!from || !to) {
+        useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+        return;
+      }
       const fileName = generateFileName({
         type: 'conversation',
         to,
         businessHours: this.businessHours,
       });
-      this.$store.dispatch('downloadConversationsSummaryReports', {
-        from,
-        to,
-        fileName,
-        businessHours: this.businessHours,
-      });
+      try {
+        await this.$store.dispatch('downloadConversationsSummaryReports', {
+          from,
+          to,
+          fileName,
+          businessHours: this.businessHours,
+        });
+      } catch {
+        useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+      }
     },
     onFilterChange({ from, to, groupBy, businessHours }) {
       this.from = from;

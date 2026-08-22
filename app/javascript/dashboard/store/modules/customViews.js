@@ -104,7 +104,8 @@ export const actions = {
         await CustomViewsAPI.getCustomViewsByFilterType(filterType);
       commit(types.SET_CUSTOM_VIEW, { data: response.data, filterType });
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch custom views:', error);
     } finally {
       commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isFetching: false });
     }
@@ -157,7 +158,7 @@ export const actions = {
       commit(types.DELETE_CUSTOM_VIEW, { data: id, filterType });
       refreshConversationUnreadCounts({ dispatch, rootGetters }, filterType);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isDeleting: false });
     }

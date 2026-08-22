@@ -1,43 +1,8 @@
-import { useMapGetter } from 'dashboard/composables/store';
-import { useAccount } from 'dashboard/composables/useAccount';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-
-// OAuth/SDK channels need installation-level app credentials to be usable. When
-// the credential is missing the channel is "not configured" and is hidden from
-// onboarding entirely. Channels without an entry (Website, Telegram, Line, …)
-// need no installation credential and are always considered configured.
-// Mirrors the availability checks in ChannelItem.vue.
+// Channel gating (installation OAuth app IDs + feature flags) has been removed
+// so that every channel is always shown and selectable in the onboarding flow.
+// Mirrors the change in components/widgets/ChannelItem.vue.
 export function useChannelConfig() {
-  const globalConfig = useMapGetter('globalConfig/get');
-  const {
-    isCloudFeatureEnabled,
-    isOnChatwootCloud,
-    isMetaInboxCreationDisabled,
-  } = useAccount();
-  const installationConfig = window.chatwootConfig || {};
-
-  const CHANNEL_CONFIGURED = {
-    // WhatsApp is onboarded only via Meta embedded signup, which needs both the
-    // app id (not the 'none' sentinel) and the signup configuration id.
-    whatsapp: () =>
-      !isMetaInboxCreationDisabled.value &&
-      (!isOnChatwootCloud.value ||
-        isCloudFeatureEnabled(FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW)) &&
-      Boolean(installationConfig.whatsappAppId) &&
-      installationConfig.whatsappAppId !== 'none' &&
-      Boolean(installationConfig.whatsappConfigurationId),
-    facebook: () =>
-      !isMetaInboxCreationDisabled.value && Boolean(installationConfig.fbAppId),
-    instagram: () =>
-      !isMetaInboxCreationDisabled.value &&
-      Boolean(installationConfig.instagramAppId) &&
-      isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_INSTAGRAM),
-    tiktok: () => Boolean(installationConfig.tiktokAppId),
-    gmail: () => Boolean(installationConfig.googleOAuthClientId),
-    outlook: () => Boolean(globalConfig.value.azureAppId),
-  };
-
-  const isConfigured = type => CHANNEL_CONFIGURED[type]?.() ?? true;
+  const isConfigured = () => true;
 
   return { isConfigured };
 }

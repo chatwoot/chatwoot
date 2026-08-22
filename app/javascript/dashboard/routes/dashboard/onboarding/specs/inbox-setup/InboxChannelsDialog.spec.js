@@ -45,7 +45,7 @@ const mountDialog = () =>
     },
   });
 
-describe('InboxChannelsDialog Facebook gating', () => {
+describe('InboxChannelsDialog Facebook channel', () => {
   afterEach(() => {
     delete window.chatwootConfig;
     isOnChatwootCloud.value = false;
@@ -62,19 +62,17 @@ describe('InboxChannelsDialog Facebook gating', () => {
     expect(wrapper.find('[data-test="fb-form"]').exists()).toBe(true);
   });
 
-  it('shows the grid (not the picker) when fbAppId is missing', async () => {
+  it('opens the Facebook page picker even when fbAppId is missing (gating removed)', async () => {
     window.chatwootConfig = {};
     const wrapper = mountDialog();
 
     wrapper.vm.open('facebook');
     await nextTick();
 
-    expect(wrapper.find('[data-test="fb-form"]').exists()).toBe(false);
-    // The channel grid renders its cards instead.
-    expect(wrapper.find('button').exists()).toBe(true);
+    expect(wrapper.find('[data-test="fb-form"]').exists()).toBe(true);
   });
 
-  it('shows the grid when Meta inbox creation is disabled on Chatwoot Cloud', async () => {
+  it('opens the Facebook page picker even when Meta inbox creation is disabled on Chatwoot Cloud (gating removed)', async () => {
     isOnChatwootCloud.value = true;
     isMetaInboxCreationDisabled.value = true;
     window.chatwootConfig = { fbAppId: 'fb-app' };
@@ -83,7 +81,6 @@ describe('InboxChannelsDialog Facebook gating', () => {
     wrapper.vm.open('facebook');
     await nextTick();
 
-    expect(wrapper.find('[data-test="fb-form"]').exists()).toBe(false);
-    expect(wrapper.find('button').exists()).toBe(true);
+    expect(wrapper.find('[data-test="fb-form"]').exists()).toBe(true);
   });
 });

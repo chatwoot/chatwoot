@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe Whatsapp::OneoffCampaignService do
+  include ActiveJob::TestHelper
+
   let(:account) { create(:account) }
   let!(:whatsapp_channel) do
     create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
@@ -8,11 +10,6 @@ describe Whatsapp::OneoffCampaignService do
   let!(:whatsapp_inbox) { whatsapp_channel.inbox }
   let(:label1) { create(:label, account: account) }
   let(:label2) { create(:label, account: account) }
-  let!(:campaign) do
-    create(:campaign, inbox: whatsapp_inbox, account: account,
-                      audience: [{ type: 'Label', id: label1.id }, { type: 'Label', id: label2.id }],
-                      template_params: template_params)
-  end
   let(:template_params) do
     {
       'name' => 'ticket_status_updated',
@@ -23,15 +20,29 @@ describe Whatsapp::OneoffCampaignService do
     }
   end
 
-  before do
-    # Stub HTTP requests to WhatsApp API
-    stub_request(:post, /graph\.facebook\.com.*messages/)
-      .to_return(status: 200, body: { messages: [{ id: 'message_id_123' }] }.to_json, headers: { 'Content-Type' => 'application/json' })
+  # Captured payloads of the outbound requests to the external APIs. The specs
+  # run the real delivery code and assert on what it actually sent.
+  let(:cloud_api_payloads) { [] }
+  let(:companion_payloads) { [] }
 
-    # Ensure the service uses our mocked channel object by stubbing the whole delegation chain
-    # Using allow_any_instance_of here because the service is instantiated within individual tests
-    # and we need to mock the delegated channel method for proper test isolation
-    allow_any_instance_of(described_class).to receive(:channel).and_return(whatsapp_channel) # rubocop:disable RSpec/AnyInstance
+  before do
+    ActiveJob::Base.queue_adapter = :test
+
+    stub_request(:post, /graph\.facebook\.com.*messages/)
+      .with do |request|
+      cloud_api_payloads << JSON.parse(request.body)
+      true
+    end
+      .to_return(status: 200, body: { messages: [{ id: 'message_id_123' }] }.to_json,
+                 headers: { 'Content-Type' => 'application/json' })
+
+    stub_request(:post, 'http://whatsapp-companion:4000/send')
+      .with do |request|
+      companion_payloads << JSON.parse(request.body)
+      true
+    end
+      .to_return(status: 200, body: { id: 'companion_message_id', status: 'sent' }.to_json,
+                 headers: { 'Content-Type' => 'application/json' })
   end
 
   describe '#perform' do
@@ -41,6 +52,12 @@ describe Whatsapp::OneoffCampaignService do
     end
 
     context 'when campaign validation fails' do
+      let(:campaign) do
+        create(:campaign, inbox: whatsapp_inbox, account: account,
+                          audience: [{ type: 'Label', id: label1.id }],
+                          template_params: template_params)
+      end
+
       it 'raises error if campaign is completed' do
         campaign.completed!
 
@@ -57,7 +74,7 @@ describe Whatsapp::OneoffCampaignService do
       end
 
       it 'raises error when campaign is not oneoff' do
-        allow(campaign).to receive(:one_off?).and_return(false)
+        campaign.update_columns(campaign_type: 'ongoing') # rubocop:disable Rails/SkipsModelValidations
 
         expect { described_class.new(campaign: campaign).perform }.to raise_error "Invalid campaign #{campaign.id}"
       end
@@ -75,23 +92,82 @@ describe Whatsapp::OneoffCampaignService do
       end
     end
 
-    context 'when campaign is valid' do
-      it 'marks campaign as completed' do
-        described_class.new(campaign: campaign).perform
-
-        expect(campaign.reload.completed?).to be true
+    context 'when channel provider is whatsapp_unofficial' do
+      let!(:unofficial_channel) do
+        create(:channel_whatsapp, account: account, provider: 'whatsapp_unofficial',
+                                  phone_number: '15550009999',
+                                  validate_provider_config: false, sync_templates: false)
+      end
+      let!(:unofficial_inbox) { unofficial_channel.inbox }
+      let!(:unofficial_campaign) do
+        create(:campaign, inbox: unofficial_inbox, account: account,
+                          audience: [{ type: 'Label', id: label1.id }],
+                          message: 'Hello {{contact.name}}!')
       end
 
-      it 'marks the campaign completed after processing the audience' do
+      before do
+        # No feature flag required for unofficial sends.
+        account.disable_features!(:whatsapp_campaign)
+      end
+
+      it 'sends a free-form liquid-rendered message through the companion' do
+        contact = create(:contact, :with_phone_number, account: account, name: 'Jane')
+        contact.update_labels([label1.title])
+
+        perform_enqueued_jobs do
+          described_class.new(campaign: unofficial_campaign).perform
+        end
+
+        expect(companion_payloads).to contain_exactly(
+          'identifier' => '15550009999',
+          'to' => contact.phone_number,
+          'type' => 'text',
+          'text' => 'Hello Jane!'
+        )
+        expect(cloud_api_payloads).to be_empty
+        expect(unofficial_campaign.reload.completed?).to be true
+      end
+    end
+
+    context 'when campaign is valid' do
+      let(:campaign) do
+        create(:campaign, inbox: whatsapp_inbox, account: account,
+                          audience: [{ type: 'Label', id: label1.id }, { type: 'Label', id: label2.id }],
+                          template_params: template_params)
+      end
+
+      it 'schedules delivery jobs for each contact instead of sending inline' do
         contact = create(:contact, :with_phone_number, account: account)
         contact.update_labels([label1.title])
 
-        expect(whatsapp_channel).to receive(:send_template) do
-          expect(campaign.reload.completed?).to be false
+        expect do
+          described_class.new(campaign: campaign).perform
+        end.to have_enqueued_job(Campaigns::WhatsappContactJob).with(campaign.id, contact.id)
+
+        expect(campaign.reload.completed?).to be false
+      end
+
+      it 'schedules the correct number of delivery jobs' do
+        create_list(:contact, 4, :with_phone_number, account: account).each { |c| c.update_labels([label1.title]) }
+
+        expect do
+          described_class.new(campaign: campaign).perform
+        end.to have_enqueued_job(Campaigns::WhatsappContactJob).exactly(4).times
+
+        expect(campaign.reload.completed?).to be false
+      end
+
+      it 'marks campaign as completed after all delivery jobs finish' do
+        contact = create(:contact, :with_phone_number, account: account)
+        contact.update_labels([label1.title])
+
+        perform_enqueued_jobs do
+          described_class.new(campaign: campaign).perform
         end
 
-        described_class.new(campaign: campaign).perform
-
+        expect(cloud_api_payloads).to contain_exactly(
+          hash_including('to' => contact.phone_number, 'type' => 'template')
+        )
         expect(campaign.reload.completed?).to be true
       end
 
@@ -102,55 +178,56 @@ describe Whatsapp::OneoffCampaignService do
         contact_with_label2.update_labels([label2.title])
         contact_with_both_labels.update_labels([label1.title, label2.title])
 
-        expect(whatsapp_channel).to receive(:send_template).exactly(3).times
+        perform_enqueued_jobs do
+          described_class.new(campaign: campaign).perform
+        end
 
-        described_class.new(campaign: campaign).perform
+        # Audience labels match inclusively: a contact holding any audience
+        # label is a recipient.
+        recipients = cloud_api_payloads.pluck('to')
+        expect(recipients).to contain_exactly(
+          contact_with_label1.phone_number,
+          contact_with_label2.phone_number,
+          contact_with_both_labels.phone_number
+        )
       end
 
       it 'skips contacts without phone numbers' do
         contact_without_phone = create(:contact, account: account, phone_number: nil)
         contact_without_phone.update_labels([label1.title])
 
-        expect(whatsapp_channel).not_to receive(:send_template)
+        perform_enqueued_jobs do
+          described_class.new(campaign: campaign).perform
+        end
 
-        described_class.new(campaign: campaign).perform
+        expect(cloud_api_payloads).to be_empty
       end
 
-      it 'uses template processor service to process templates' do
+      it 'sends the template with the processed parameters' do
         contact = create(:contact, :with_phone_number, account: account)
         contact.update_labels([label1.title])
 
-        expect(Whatsapp::TemplateProcessorService).to receive(:new)
-          .with(channel: whatsapp_channel, template_params: template_params)
-          .and_call_original
+        perform_enqueued_jobs do
+          described_class.new(campaign: campaign).perform
+        end
 
-        described_class.new(campaign: campaign).perform
-      end
-
-      it 'sends template message with correct parameters' do
-        contact = create(:contact, :with_phone_number, account: account)
-        contact.update_labels([label1.title])
-
-        expect(whatsapp_channel).to receive(:send_template).with(
-          contact.phone_number,
+        expect(cloud_api_payloads).to contain_exactly(
           hash_including(
-            name: 'ticket_status_updated',
-            namespace: '23423423_2342423_324234234_2343224',
-            lang_code: 'en',
-            parameters: array_including(
-              hash_including(
-                type: 'body',
-                parameters: array_including(
-                  hash_including(type: 'text', parameter_name: 'name', text: 'John'),
-                  hash_including(type: 'text', parameter_name: 'ticket_id', text: '2332')
-                )
-              )
+            'to' => contact.phone_number,
+            'type' => 'template',
+            'template' => hash_including(
+              'name' => 'ticket_status_updated',
+              'language' => hash_including('code' => 'en'),
+              'components' => [
+                'type' => 'body',
+                'parameters' => [
+                  { 'type' => 'text', 'parameter_name' => 'name', 'text' => 'John' },
+                  { 'type' => 'text', 'parameter_name' => 'ticket_id', 'text' => '2332' }
+                ]
+              ]
             )
-          ),
-          nil
+          )
         )
-
-        described_class.new(campaign: campaign).perform
       end
 
       it 'processes liquid variables in template parameters' do
@@ -172,28 +249,15 @@ describe Whatsapp::OneoffCampaignService do
                                                    }
                                                  })
 
-        contact_drop_name = ContactDrop.new(contact).name
+        perform_enqueued_jobs do
+          described_class.new(campaign: campaign_with_liquid).perform
+        end
 
-        expect(whatsapp_channel).to receive(:send_template).with(
-          contact.phone_number,
-          hash_including(
-            name: 'ticket_status_updated',
-            namespace: '23423423_2342423_324234234_2343224',
-            lang_code: 'en',
-            parameters: array_including(
-              hash_including(
-                type: 'body',
-                parameters: array_including(
-                  hash_including(type: 'text', parameter_name: 'name', text: contact_drop_name),
-                  hash_including(type: 'text', parameter_name: 'ticket_id', text: contact.email)
-                )
-              )
-            )
-          ),
-          nil
+        body_parameters = cloud_api_payloads.first.dig('template', 'components').first['parameters']
+        expect(body_parameters).to contain_exactly(
+          { 'type' => 'text', 'parameter_name' => 'name', 'text' => ContactDrop.new(contact).name },
+          { 'type' => 'text', 'parameter_name' => 'ticket_id', 'text' => 'jane@example.com' }
         )
-
-        described_class.new(campaign: campaign_with_liquid).perform
       end
 
       it 'skips contacts when liquid variables resolve to blank values' do
@@ -213,47 +277,52 @@ describe Whatsapp::OneoffCampaignService do
                                                          }
                                                        })
 
-        expect(whatsapp_channel).not_to receive(:send_template)
-        expect(Rails.logger).to receive(:info).with("Skipping contact #{contact.name} - liquid variables resolved to blank values")
-        allow(Rails.logger).to receive(:info)
+        perform_enqueued_jobs do
+          described_class.new(campaign: campaign_with_blank_liquid).perform
+        end
 
-        described_class.new(campaign: campaign_with_blank_liquid).perform
+        expect(cloud_api_payloads).to be_empty
+      end
+
+      it 'continues processing remaining contacts when a send fails' do
+        contact_error, contact_success = create_list(:contact, 2, :with_phone_number, account: account)
+        contact_error.update_labels([label1.title])
+        contact_success.update_labels([label1.title])
+
+        stub_request(:post, /graph\.facebook\.com.*messages/)
+          .with { |request| JSON.parse(request.body)['to'] == contact_error.phone_number }
+          .to_return(status: 500, body: { error: { message: 'WhatsApp API error' } }.to_json)
+
+        perform_enqueued_jobs do
+          described_class.new(campaign: campaign).perform
+        end
+
+        # Both contacts were attempted and the failed one did not stop the
+        # campaign from completing.
+        expect(a_request(:post, /graph\.facebook\.com.*messages/)
+                 .with { |request| JSON.parse(request.body)['to'] == contact_error.phone_number }).to have_been_made.once
+        expect(a_request(:post, /graph\.facebook\.com.*messages/)
+                 .with { |request| JSON.parse(request.body)['to'] == contact_success.phone_number }).to have_been_made.once
+        expect(campaign.reload.completed?).to be true
       end
     end
 
     context 'when template_params is missing' do
-      let(:template_params) { nil }
+      let(:campaign) do
+        create(:campaign, inbox: whatsapp_inbox, account: account,
+                          audience: [{ type: 'Label', id: label1.id }],
+                          template_params: nil)
+      end
 
-      it 'skips contacts and logs error' do
+      it 'skips contacts without sending anything' do
         contact = create(:contact, :with_phone_number, account: account)
         contact.update_labels([label1.title])
 
-        expect(Rails.logger).to receive(:error)
-          .with("Skipping contact #{contact.name} - no template_params found for WhatsApp campaign")
-        expect(whatsapp_channel).not_to receive(:send_template)
+        perform_enqueued_jobs do
+          described_class.new(campaign: campaign).perform
+        end
 
-        described_class.new(campaign: campaign).perform
-      end
-    end
-
-    context 'when send_template raises an error' do
-      it 'logs error and continues processing remaining contacts' do
-        contact_error, contact_success = create_list(:contact, 2, :with_phone_number, account: account)
-        contact_error.update_labels([label1.title])
-        contact_success.update_labels([label1.title])
-        error_message = 'WhatsApp API error'
-
-        allow(whatsapp_channel).to receive(:send_template).and_return(nil)
-
-        expect(whatsapp_channel).to receive(:send_template).with(contact_error.phone_number, anything, nil).and_raise(StandardError, error_message)
-        expect(whatsapp_channel).to receive(:send_template).with(contact_success.phone_number, anything, nil).once
-
-        expect(Rails.logger).to receive(:error)
-          .with("Failed to send WhatsApp template message to #{contact_error.phone_number}: #{error_message}")
-        expect(Rails.logger).to receive(:error).with(/Backtrace:/)
-
-        described_class.new(campaign: campaign).perform
-        expect(campaign.reload.completed?).to be true
+        expect(cloud_api_payloads).to be_empty
       end
     end
   end

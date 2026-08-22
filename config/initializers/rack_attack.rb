@@ -292,11 +292,11 @@ class Rack::Attack
     match_data = %r{\A/api/v2/accounts/(?<account_id>\d+)/reports/drilldown\z}.match(req.path_without_extensions)
     next unless match_data.present? && req.get?
 
-    # Extract user identification (uid for web, api_access_token for API requests)
+    # Extract user identification (uid for web, api-access-token for API requests)
     user_uid = req.get_header('HTTP_UID')
-    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN')
 
-    # Use uid if present, otherwise fallback to api_access_token for tracking
+    # Use uid if present, otherwise use api-access-token for tracking
     user_identifier = user_uid.presence || api_access_token.presence
 
     "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
@@ -305,11 +305,11 @@ class Rack::Attack
   # Throttle by individual user (based on uid)
   throttle('/api/v2/accounts/:account_id/reports/user', limit: reports_api_user_level_limit, period: 1.minute) do |req|
     match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
-    # Extract user identification (uid for web, api_access_token for API requests)
+    # Extract user identification (uid for web, api-access-token for API requests)
     user_uid = req.get_header('HTTP_UID')
-    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN')
 
-    # Use uid if present, otherwise fallback to api_access_token for tracking
+    # Use uid if present, otherwise use api-access-token for tracking
     user_identifier = user_uid.presence || api_access_token.presence
 
     "#{user_identifier}:#{match_data[:account_id]}" if match_data.present? && user_identifier.present?
@@ -328,7 +328,7 @@ class Rack::Attack
     next unless match_data.present? && req.get?
 
     user_uid = req.get_header('HTTP_UID')
-    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN')
     user_identifier = user_uid.presence || api_access_token.presence
 
     "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
@@ -342,12 +342,12 @@ ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start
   req = payload[:request]
 
   user_uid = req.get_header('HTTP_UID')
-  api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+  api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN')
 
   # Mask the token if present
   masked_api_token = api_access_token.present? ? "#{api_access_token[0..4]}...[REDACTED]" : nil
 
-  # Use uid if present, otherwise fallback to masked api_access_token for tracking
+  # Use uid if present, otherwise use masked api-access-token for tracking
   user_identifier = user_uid.presence || masked_api_token.presence || 'unknown_user'
 
   # Extract account ID if present

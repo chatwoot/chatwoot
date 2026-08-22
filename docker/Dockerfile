@@ -71,13 +71,25 @@ RUN bundle config set --local force_ruby_platform true
 ENV NOKOGIRI_USE_SYSTEM_LIBRARIES=1
 
 # Do not install development or test gems in production
-RUN if [ "$RAILS_ENV" = "production" ]; then \
-  bundle config set without 'development test'; bundle install -j 4 -r 3; \
-  else bundle install -j 4 -r 3; \
+# BuildKit cache mount: Bundler's *download* cache lives on an external mount so
+# a Gemfile change reuses already-fetched .gem files instead of re-downloading
+# the whole index (+ native-extension source tarballs) from rubygems.org. The
+# gems themselves are still installed into BUNDLE_PATH=/gems and committed to
+# the layer, so the downstream `COPY --from=pre-builder /gems/` and the
+# `/gems/ruby/.../cache/*.gem` cleanup keep working. (Do NOT mount /gems itself
+# as the cache — that would keep the installed gems out of the image layer.)
+RUN --mount=type=cache,target=/root/.cache/bundler,id=cw-bundler \
+  if [ "$RAILS_ENV" = "production" ]; then \
+    bundle config set without 'development test'; BUNDLE_CACHE_PATH=/root/.cache/bundler bundle install -j 4 -r 3; \
+  else BUNDLE_CACHE_PATH=/root/.cache/bundler bundle install -j 4 -r 3; \
   fi
 
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm i
+# BuildKit cache mount on the pnpm store: re-running `pnpm i` after a
+# package.json change re-links from the cached store instead of re-downloading
+# 8000+ packages. node_modules is still materialised in /app as before.
+RUN --mount=type=cache,target=/root/.cache/pnpm,id=cw-pnpm \
+  pnpm i --store-dir /root/.cache/pnpm
 
 COPY . /app
 

@@ -44,6 +44,45 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     end
   end
 
+  # Kiraid: one-shot "send email" composer. Creates a conversation on an Email
+  # inbox and sends the message immediately through SMTP (SendReplyJob).
+  # Body/params: inbox_id (Email), contact_id, message (string), subject (optional),
+  # cc_emails / bcc_emails (optional arrays).
+  # Remove this action (and its route) if you drop the email-composer feature.
+  def send_email
+    inbox = Current.account.inboxes.find(params[:inbox_id])
+    return render json: { error: 'Inbox is not an Email inbox' }, status: :unprocessable_entity unless inbox.inbox_type == 'Email'
+
+    contact = Current.account.contacts.find(params[:contact_id])
+    return render json: { error: 'Contact has no email' }, status: :unprocessable_entity if contact.email.blank?
+
+    contact_inbox = ContactInboxBuilder.new(contact: contact, inbox: inbox).perform
+
+    # MessageBuilder reads content/cc_emails/bcc_emails from the top level of
+    # its params (not nested under content_attributes), so keep them flat.
+    message_params = {
+      content: params[:message],
+      cc_emails: Array(params[:cc_emails]).reject(&:blank?).join(','),
+      bcc_emails: Array(params[:bcc_emails]).reject(&:blank?).join(',')
+    }
+
+    @conversation = nil
+    ActiveRecord::Base.transaction do
+      @conversation = ConversationBuilder.new(
+        params: {
+          inbox_id: inbox.id, contact_id: contact.id,
+          additional_attributes: { mail_subject: params[:subject] }.compact
+        },
+        contact_inbox: contact_inbox
+      ).perform
+      Messages::MessageBuilder.new(Current.user, @conversation, message_params).perform
+    end
+
+    render 'show', status: :created
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
+  end
+
   def update
     @conversation.update!(permitted_update_params)
   end
@@ -140,7 +179,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def permitted_update_params
     # TODO: Move the other conversation attributes to this method and remove specific endpoints for each attribute
-    params.permit(:priority)
+    return params.permit(:priority) unless Current.account.feature_enabled?('sla')
+
+    params.permit(:priority, :sla_policy_id)
   end
 
   def attachment_params

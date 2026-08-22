@@ -13,7 +13,7 @@ RSpec.describe InboxPolicy, type: :policy do
   let(:administrator_context) { { user: administrator, account: account, account_user: account.account_users.first } }
   let(:agent_context) { { user: agent, account: account, account_user: account.account_users.first } }
 
-  permissions :create?, :destroy?, :update?, :set_agent_bot? do
+  permissions :create?, :destroy?, :update?, :set_agent_bot?, :set_captain_bot? do
     context 'when administrator' do
       it { expect(inbox_policy).to permit(administrator_context, inbox) }
     end
@@ -23,7 +23,7 @@ RSpec.describe InboxPolicy, type: :policy do
     end
   end
 
-  permissions :index? do
+  permissions :index?, :captain_bot? do
     context 'when administrator' do
       it { expect(inbox_policy).to permit(administrator_context, inbox) }
     end

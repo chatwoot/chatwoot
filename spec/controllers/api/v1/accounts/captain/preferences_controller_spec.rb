@@ -62,27 +62,27 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
           source: 'account_override'
         )
         expect(json_response.dig(:features, :label_suggestion)).to include(
-          model: Llm::Models.default_model_for('label_suggestion'),
-          selected: Llm::Models.default_model_for('label_suggestion'),
+          model: Llm::Config.model,
+          selected: Llm::Config.model,
           provider: 'openai',
           source: 'default'
         )
       end
 
-      it 'returns the assistant YAML default for V1 accounts' do
+      it 'returns the configured model as the assistant default for V1 accounts' do
         get "/api/v1/accounts/#{account.id}/captain/preferences",
             headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
         expect(json_response.dig(:features, :assistant)).to include(
-          default: Llm::Models.default_model_for('assistant'),
-          selected: Llm::Models.default_model_for('assistant'),
+          default: Llm::Config.model,
+          selected: Llm::Config.model,
           source: 'default'
         )
       end
 
-      it 'returns GPT-5.2 as the assistant default for V2 accounts' do
+      it 'returns the configured model as the assistant default for V2 accounts' do
         account.enable_features!('captain_integration_v2')
 
         get "/api/v1/accounts/#{account.id}/captain/preferences",
@@ -91,13 +91,13 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(json_response.dig(:features, :assistant)).to include(
-          default: Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL,
-          selected: Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL,
+          default: Llm::Config.model,
+          selected: Llm::Config.model,
           source: 'default'
         )
       end
 
-      it 'keeps the V2 assistant default when an account override is selected' do
+      it 'keeps the configured default when an account override is selected' do
         account.enable_features!('captain_integration_v2')
         account.update!(captain_models: { 'assistant' => 'gpt-5.1' })
 
@@ -107,7 +107,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(json_response.dig(:features, :assistant)).to include(
-          default: Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL,
+          default: Llm::Config.model,
           selected: 'gpt-5.1',
           source: 'account_override'
         )
@@ -190,7 +190,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
         expect(response).to have_http_status(:success)
         expect(account.reload.captain_models).to be_nil
         expect(json_response.dig(:features, :editor)).to include(
-          selected: Llm::Models.default_model_for('editor'),
+          selected: Llm::Config.model,
+          provider: 'openai',
           source: 'default'
         )
       end

@@ -29,12 +29,14 @@ const buildContactFormData = contactParams => {
       additionalAttributesProperties[key]
     );
   });
-  Object.keys(social_profiles).forEach(key => {
-    formData.append(
-      `additional_attributes[social_profiles][${key}]`,
-      social_profiles[key]
-    );
-  });
+  if (social_profiles) {
+    Object.keys(social_profiles).forEach(key => {
+      formData.append(
+        `additional_attributes[social_profiles][${key}]`,
+        social_profiles[key]
+      );
+    });
+  }
   return formData;
 };
 
@@ -48,7 +50,7 @@ export const handleContactOperationErrors = error => {
   } else if (error.response?.data?.message) {
     throw new ExceptionWithMessage(error.response.data.message);
   } else {
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -200,7 +202,7 @@ export const actions = {
       if (error.response?.data?.message) {
         throw new Error(error.response.data.message);
       } else {
-        throw new Error(error);
+        throw error;
       }
     }
   },
@@ -215,7 +217,7 @@ export const actions = {
       if (error.response?.data?.message) {
         throw new Error(error.response.data.message);
       } else {
-        throw new Error(error);
+        throw error;
       }
     }
   },
@@ -228,7 +230,7 @@ export const actions = {
       );
       commit(types.EDIT_CONTACT, response.data.payload);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   },
 
@@ -237,7 +239,7 @@ export const actions = {
       const response = await ContactAPI.destroyAvatar(id);
       commit(types.EDIT_CONTACT, response.data.payload);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   },
 
@@ -254,7 +256,7 @@ export const actions = {
       if (error.response?.data?.message) {
         throw new ExceptionWithMessage(error.response.data.message);
       } else {
-        throw new Error(error);
+        throw error;
       }
     } finally {
       commit(types.SET_CONTACT_UI_FLAG, { isFetchingInboxes: false });
@@ -275,7 +277,7 @@ export const actions = {
       const response = await AccountActionsAPI.merge(parentId, childId);
       commit(types.SET_CONTACT_ITEM, response.data);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_CONTACT_UI_FLAG, { isMerging: false });
     }
@@ -346,7 +348,7 @@ export const actions = {
       } else if (error.response?.data?.error) {
         throw new ExceptionWithMessage(error.response.data.error);
       } else {
-        throw new Error(error);
+        throw error;
       }
     }
   },

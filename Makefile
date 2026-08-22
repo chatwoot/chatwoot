@@ -63,4 +63,31 @@ debug_worker:
 docker: 
 	docker build -t $(APP_NAME) -f ./docker/Dockerfile .
 
-.PHONY: setup db_create db_migrate db_seed db_reset db console server burn docker run force_run force_run_tunnel debug debug_worker
+# Dev images (rails + vite) — built straight from docker/Dockerfile, no manual
+# base-image pre-build needed. `docker compose up` then just uses them.
+build-dev:
+	docker compose build
+
+# Start the dev stack WITHOUT rebuilding the images. In dev, your code is
+# bind-mounted (./:/app) so editing Ruby/Vue files does NOT require a rebuild —
+# use this the vast majority of the time. Only `build-dev`/`build` when you
+# change Gemfile / package.json / the Dockerfile itself.
+up:
+	docker compose up -d
+
+# Full rebuild + start (only when deps/Dockerfile changed).
+build-up:
+	docker compose up -d --build
+
+# Recreate containers without rebuilding images (picks up compose/env changes).
+restart:
+	docker compose up -d --force-recreate
+
+# Production image, pushed to ghcr.io/kira-id (linux/amd64).
+# Requires: docker buildx + `docker login ghcr.io`.
+# (Uses BuildKit cache mounts — set DOCKER_BUILDKIT=1 if not default, which is
+# the case on current Docker Desktop for Windows.)
+build-prod:
+	docker buildx build --platform linux/amd64 --tag ghcr.io/kira-id/chatwoot:latest --push -f docker/Dockerfile .
+
+.PHONY: setup db_create db_migrate db_seed db_reset db console server burn docker build-dev build-prod run force_run force_run_tunnel debug debug_worker up build-up restart

@@ -1,6 +1,4 @@
 class Captain::Llm::AssistantFalsePromiseService < Llm::BaseAiService
-  DETECTOR_MODEL = 'gpt-5.2'.freeze
-
   include Integrations::LlmInstrumentation
   include Captain::Llm::AssistantResponseInspectionHelpers
 
@@ -38,7 +36,7 @@ class Captain::Llm::AssistantFalsePromiseService < Llm::BaseAiService
   private
 
   def setup_model
-    @model = DETECTOR_MODEL
+    @model = Llm::Config.model
   end
 
   def normalize_response(parsed, raw_content)

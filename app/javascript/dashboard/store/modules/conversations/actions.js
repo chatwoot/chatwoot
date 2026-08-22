@@ -39,7 +39,8 @@ const actions = {
       commit(types.UPDATE_CONVERSATION, response.data);
       commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to get conversation:', error);
     }
   },
 
@@ -57,7 +58,10 @@ const actions = {
         params.assigneeType
       );
     } catch (error) {
-      // Handle error
+      // Clear the loading state so a failed fetch (or an error while shaping
+      // the response) does not leave the conversation list stuck on its
+      // spinner. Matches the sibling fetchFilteredConversations handling.
+      commit(types.CLEAR_LIST_LOADING_STATUS);
     }
   },
 
@@ -204,7 +208,8 @@ const actions = {
         });
         commit(types.SET_CHAT_DATA_FETCHED, data.id);
       } catch (error) {
-        // Ignore error
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch previous messages:', error);
       }
     }
   },
@@ -364,7 +369,7 @@ const actions = {
       commit(types.ADD_MESSAGE, data);
       commit(types.DELETE_CONVERSATION_ATTACHMENTS, data);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   },
 
@@ -374,7 +379,7 @@ const actions = {
       commit(types.DELETE_CONVERSATION, conversationId);
       dispatch('conversationStats/get', {}, { root: true });
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   },
 
@@ -496,8 +501,20 @@ const actions = {
         customAttributes: custom_attributes,
       });
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
+  },
+
+  toggleBotAiReply: async ({ commit }, { conversationId, enabled }) => {
+    await ConversationApi.updateCustomAttributes({
+      conversationId,
+      customAttributes: { ai_reply_enabled: enabled },
+      merge: true,
+    });
+    commit(types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, {
+      conversationId,
+      customAttributes: { ai_reply_enabled: enabled },
+    });
   },
 
   setConversationFilters({ commit }, data) {

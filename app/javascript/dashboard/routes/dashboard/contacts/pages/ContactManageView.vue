@@ -6,6 +6,8 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRoute, useRouter } from 'vue-router';
 
 import ContactsDetailsLayout from 'dashboard/components-next/Contacts/ContactsDetailsLayout.vue';
+import SendEmailDialog from 'dashboard/components-next/Contacts/SendEmailDialog.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ContactDetails from 'dashboard/components-next/Contacts/Pages/ContactDetails.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
@@ -24,6 +26,7 @@ const uiFlags = useMapGetter('contacts/getUIFlags');
 
 const activeTab = ref('attributes');
 const contactMergeRef = ref(null);
+const sendEmailDialogRef = ref(null);
 
 const isFetchingItem = computed(() => uiFlags.value.isFetchingItem);
 const isMergingContact = computed(() => uiFlags.value.isMerging);
@@ -186,5 +189,22 @@ onMounted(() => {
         </template>
       </template>
     </ContactsDetailsLayout>
+    <div
+      v-if="selectedContact && selectedContact.email"
+      class="absolute top-4 right-4 z-10"
+    >
+      <Button
+        variant="faded"
+        color="slate"
+        :label="t('CONTACTS_LAYOUT.SEND_EMAIL.BUTTON')"
+        @click="sendEmailDialogRef?.open()"
+      />
+    </div>
+    <SendEmailDialog
+      ref="sendEmailDialogRef"
+      :contact-id="route.params.contactId"
+      :contact-email="selectedContact?.email"
+      @sent="fetchActiveContact"
+    />
   </div>
 </template>

@@ -7,13 +7,25 @@ class AutoAssignment::AssignmentService
 
     conversations = unassigned_conversations(limit).to_a
     return 0 if conversations.empty?
-    return 0 if inbox.available_agents.empty?
 
     assigned_count = 0
     conversations.each do |conversation|
-      assigned_count += 1 if perform_for_conversation(conversation)
+      if perform_for_conversation(conversation)
+        assigned_count += 1
+      elsif !conversation.assignee_agent_bot.present?
+        add_all_members_as_participants(conversation)
+      end
     end
     assigned_count
+  end
+
+  # When no single agent can be chosen, ensure the conversation reaches at least
+  # someone by including every inbox member as a participant. This keeps the
+  # conversation visible and notifies all of them until someone takes ownership.
+  def add_all_members_as_participants(conversation)
+    inbox.inbox_members.each do |inbox_member|
+      conversation.conversation_participants.find_or_create_by!(user_id: inbox_member.user_id)
+    end
   end
 
   private

@@ -6,6 +6,7 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   retry_on LockAcquisitionError, wait: 2.seconds, attempts: 20
 
   def perform(params = {})
+    params = params.with_indifferent_access if params.respond_to?(:with_indifferent_access)
     channel = find_channel_from_whatsapp_business_payload(params)
 
     if channel_is_inactive?(channel)
@@ -78,7 +79,7 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
 
   def handle_message_events(channel, params)
     case channel.provider
-    when 'whatsapp_cloud'
+    when 'whatsapp_cloud', 'whatsapp_unofficial'
       Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params).perform
     else
       Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform

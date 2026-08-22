@@ -41,14 +41,7 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
     to.meta &&
     to.meta.requireSignupEnabled;
 
-  // Disable navigation to SAML login if enterprise is not enabled
-  // SAML route has an attribute (requireEnterprise) in it's definition
-  const isEnterpriseOnlyPath =
-    chatwootConfig.isEnterprise !== 'true' &&
-    to.meta &&
-    to.meta.requireEnterprise;
-
-  if (!to.name || isAnInalidSignupNavigation || isEnterpriseOnlyPath) {
+  if (!to.name || isAnInalidSignupNavigation) {
     next(frontendURL('login'));
     return;
   }

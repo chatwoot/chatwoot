@@ -57,6 +57,7 @@ const routeToLastActiveAssistant = () => {
     'captain_assistants_responses_index', // Faq page
     'captain_assistants_documents_index', // Document page
     'captain_assistants_scenarios_index', // Scenario page
+    'captain_assistants_simple_replies_index', // Simple replies page
     'captain_assistants_playground_index', // Playground page
     'captain_assistants_inboxes_index', // Inboxes page
     'captain_tools_index', // Tools page

@@ -8,12 +8,10 @@ class Captain::BaseTaskService
   # sticking with 120000 to be safe
   # 120000 * 4 = 480,000 characters (rounding off downwards to 400,000 to be safe)
   TOKEN_LIMIT = 400_000
-  GPT_MODEL = Llm::Config::DEFAULT_MODEL
+  GPT_MODEL = Llm::Config.model
 
-  # Prepend enterprise module to subclasses when they're defined.
-  # This ensures the enterprise perform wrapper is applied even when
-  # subclasses define their own perform method, since prepend puts
-  # the module before the class in the ancestor chain.
+  # Allow the application to hook into subclass instantiation via the
+  # extension mechanism (prepend_mod_with is a no-op without extensions).
   def self.inherited(subclass)
     super
     subclass.prepend_mod_with('Captain::BaseTaskService')
@@ -200,7 +198,7 @@ class Captain::BaseTaskService
   end
 
   def system_api_key
-    @system_api_key ||= InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+    @system_api_key ||= Llm::Config.system_api_key
   end
 
   def exception_tracking_account

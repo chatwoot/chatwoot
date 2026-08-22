@@ -27,10 +27,6 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
     response = request_chat_completion
 
     Rails.logger.debug { "#{self.class.name} Assistant: #{@assistant.id}, Received response #{response}" }
-    Rails.logger.info(
-      "#{self.class.name} Assistant: #{@assistant.id}, Incrementing response usage for account #{@account.id}"
-    )
-    @account.increment_response_usage
 
     response
   end

@@ -1,5 +1,8 @@
 <script setup>
 import { h } from 'vue';
+// Vendored copy of flag-icons' stylesheet (see assets/css). Without it the
+// `fi fi-xx` classes below render an empty span.
+import 'assets/css/flag-icons.min.css';
 
 const props = defineProps({
   country: { type: String, required: true },
@@ -18,7 +21,3 @@ const renderFlag = () => {
 <template>
   <component :is="renderFlag" />
 </template>
-
-<style>
-@import 'flag-icons/css/flag-icons.min.css';
-</style>

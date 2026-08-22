@@ -17,7 +17,7 @@ export const actions = {
       commit(SET_TEAM_ITEM, team);
       return team;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(SET_TEAM_UI_FLAG, { isCreating: false });
     }
@@ -30,7 +30,8 @@ export const actions = {
         commit(SET_TEAMS, response.data);
       }
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to revalidate teams:', error);
     }
   },
   get: async ({ commit }) => {
@@ -40,7 +41,7 @@ export const actions = {
       commit(CLEAR_TEAMS);
       commit(SET_TEAMS, data);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(SET_TEAM_UI_FLAG, { isFetching: false });
     }
@@ -55,7 +56,7 @@ export const actions = {
         isFetchingItem: false,
       });
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(SET_TEAM_UI_FLAG, {
         isFetchingItem: false,
@@ -69,7 +70,7 @@ export const actions = {
       const response = await TeamsAPI.update(id, updateObj);
       commit(EDIT_TEAM, response.data);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(SET_TEAM_UI_FLAG, { isUpdating: false });
     }
@@ -81,7 +82,7 @@ export const actions = {
       await TeamsAPI.delete(teamId);
       commit(DELETE_TEAM, teamId);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(SET_TEAM_UI_FLAG, { isDeleting: false });
     }

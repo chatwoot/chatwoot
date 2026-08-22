@@ -79,14 +79,12 @@ class Campaign < ApplicationRecord
   end
 
   def execute_campaign
-    case inbox.inbox_type
-    when 'Twilio SMS'
-      Twilio::OneoffSmsCampaignService.new(campaign: self).perform
-    when 'Sms'
-      Sms::OneoffSmsCampaignService.new(campaign: self).perform
-    when 'Whatsapp'
-      Whatsapp::OneoffCampaignService.new(campaign: self).perform
-    end
+    # Kiraid: campaign channel abstraction. Dispatch runs through the strategy
+    # registry (Campaigns::ChannelStrategy) so adding a new campaign channel is a
+    # one-line addition there — no model/controller change. Channels with no send
+    # path raise CustomExceptions::Campaigns::UnsupportedInboxType (loud failure,
+    # not silent skip).
+    Campaigns::ChannelStrategy.for(inbox.inbox_type).execute(self)
   end
 
   def invalidate_filtered_unread_count_filters
@@ -102,17 +100,26 @@ class Campaign < ApplicationRecord
     reload
   end
 
+  # Kiraid: campaign channel abstraction. The allowed inbox types and their
+  # outbound send paths live in Campaigns::ChannelStrategy — this validation only
+  # checks that the inbox is a known campaign channel. Remove the abstraction by
+  # reverting to the hardcoded allow-list in Campaigns::ChannelStrategy's removal
+  # notes.
   def validate_campaign_inbox
     return unless inbox
 
-    errors.add :inbox, 'Unsupported Inbox type' unless ['Website', 'Twilio SMS', 'Sms', 'Whatsapp'].include? inbox.inbox_type
+    return if Campaigns::ChannelStrategy.for(inbox.inbox_type).campaignable?
+
+    errors.add :inbox, 'Unsupported Inbox type'
   end
 
-  # TO-DO we clean up with better validations when campaigns evolve into more inboxes
+  # Kiraid: campaign channel abstraction. Whether a channel runs one_off (outbound)
+  # vs ongoing (on-page trigger) is derived from Campaigns::ChannelStrategy instead
+  # of a hardcoded list.
   def ensure_correct_campaign_attributes
     return if inbox.blank?
 
-    if ['Twilio SMS', 'Sms', 'Whatsapp'].include?(inbox.inbox_type)
+    if Campaigns::ChannelStrategy.for(inbox.inbox_type).one_off?
       self.campaign_type = 'one_off'
       self.scheduled_at ||= Time.now.utc
     else

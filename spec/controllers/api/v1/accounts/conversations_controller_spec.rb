@@ -615,7 +615,7 @@ RSpec.describe 'Conversations API', type: :request do
         snoozed_until = (DateTime.now.utc + 2.days).to_i
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
-             headers: { api_access_token: agent_bot.access_token.token },
+             headers: { 'api-access-token': agent_bot.access_token.token },
              params: { status: 'snoozed', snoozed_until: snoozed_until },
              as: :json
 
@@ -628,7 +628,7 @@ RSpec.describe 'Conversations API', type: :request do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
         post "/api/v1/accounts/#{account.id}/conversations/#{pending_conversation.display_id}/toggle_status",
-             headers: { api_access_token: agent_bot.access_token.token },
+             headers: { 'api-access-token': agent_bot.access_token.token },
              params: { status: 'open' },
              as: :json
 
@@ -697,7 +697,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.priority).to eq('low')
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
-             headers: { api_access_token: agent_bot.access_token.token },
+             headers: { 'api-access-token': agent_bot.access_token.token },
              params: { priority: 'high' },
              as: :json
 
@@ -758,7 +758,7 @@ RSpec.describe 'Conversations API', type: :request do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_typing_status",
-             headers: { api_access_token: agent_bot.access_token.token },
+             headers: { 'api-access-token': agent_bot.access_token.token },
              params: { typing_status: 'on', is_private: false },
              as: :json
 
@@ -773,7 +773,7 @@ RSpec.describe 'Conversations API', type: :request do
 
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_typing_status",
-             headers: { api_access_token: platform_app.access_token.token },
+             headers: { 'api-access-token': platform_app.access_token.token },
              params: { typing_status: 'on', is_private: false },
              as: :json
 
@@ -1249,7 +1249,7 @@ RSpec.describe 'Conversations API', type: :request do
 
       it 'updates custom attributes' do
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
-             headers: { api_access_token: agent_bot.access_token.token },
+             headers: { 'api-access-token': agent_bot.access_token.token },
              params: valid_params,
              as: :json
 

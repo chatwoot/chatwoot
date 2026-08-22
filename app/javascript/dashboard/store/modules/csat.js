@@ -94,7 +94,8 @@ export const actions = {
       const response = await CSATReports.get(params);
       commit(types.SET_CSAT_RESPONSE, response.data);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch CSAT responses:', error);
     } finally {
       commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetching: false });
     }
@@ -105,7 +106,8 @@ export const actions = {
       const response = await CSATReports.getMetrics(params);
       commit(types.SET_CSAT_RESPONSE_METRICS, response.data);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch CSAT metrics:', error);
     } finally {
       commit(types.SET_CSAT_RESPONSE_UI_FLAG, { isFetchingMetrics: false });
     }

@@ -10,6 +10,7 @@ import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
+import { buildCampaignInboxOptions } from 'shared/constants/campaignChannels';
 
 const emit = defineEmits(['submit', 'cancel']);
 
@@ -18,7 +19,9 @@ const { t } = useI18n();
 const formState = {
   uiFlags: useMapGetter('campaigns/getUIFlags'),
   labels: useMapGetter('labels/getLabels'),
-  inboxes: useMapGetter('inboxes/getSMSInboxes'),
+  // Kiraid: surface every connected inbox as a campaign-channel candidate; the
+  // builder disables the ones with no send path yet.
+  inboxes: useMapGetter('inboxes/getInboxes'),
 };
 
 const initialState = {
@@ -61,7 +64,7 @@ const audienceList = computed(() =>
 );
 
 const inboxOptions = computed(() =>
-  mapToOptions(formState.inboxes.value, 'id', 'name')
+  buildCampaignInboxOptions(formState.inboxes.value, t)
 );
 
 const getErrorMessage = (field, errorKey) => {

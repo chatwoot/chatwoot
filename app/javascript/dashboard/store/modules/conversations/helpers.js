@@ -75,7 +75,8 @@ export const applyRoleFilter = (
   conversation,
   role,
   permissions,
-  currentUserId
+  currentUserId,
+  accessibleInboxIds = []
 ) => {
   // the role === "agent" check is typically not correct on it's own
   // the backend handles this by checking the custom_role_id at the user model
@@ -87,6 +88,15 @@ export const applyRoleFilter = (
 
   // Check for full conversation management permission
   if (permissions.includes('conversation_manage')) {
+    return true;
+  }
+
+  // A user who is a collaborator (inbox member) of the conversation's inbox should
+  // always see conversations there, even when they are unassigned or assigned to
+  // someone else (or an agent bot). The backend already scopes the list to the
+  // user's inboxes, so this mirrors the server-side ACL instead of double-gating it.
+  const conversationInboxId = Number(conversation.inbox_id);
+  if (conversationInboxId && accessibleInboxIds.includes(conversationInboxId)) {
     return true;
   }
 

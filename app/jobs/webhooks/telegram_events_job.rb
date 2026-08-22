@@ -33,12 +33,14 @@ class Webhooks::TelegramEventsJob < ApplicationJob
   end
 
   def process_event_params(channel, params)
-    return unless params[:telegram]
+    telegram_params = params[:telegram].presence || params.except(:bot_token, :controller, :action).presence
+    return if telegram_params.blank?
 
-    if params.dig(:telegram, :edited_message).present? || params.dig(:telegram, :edited_business_message).present?
-      Telegram::UpdateMessageService.new(inbox: channel.inbox, params: params['telegram'].with_indifferent_access).perform
+    telegram_params = telegram_params.with_indifferent_access
+    if telegram_params[:edited_message].present? || telegram_params[:edited_business_message].present?
+      Telegram::UpdateMessageService.new(inbox: channel.inbox, params: telegram_params).perform
     else
-      Telegram::IncomingMessageService.new(inbox: channel.inbox, params: params['telegram'].with_indifferent_access).perform
+      Telegram::IncomingMessageService.new(inbox: channel.inbox, params: telegram_params).perform
     end
   end
 end

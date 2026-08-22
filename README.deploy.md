@@ -53,10 +53,21 @@ import { icons } from './theme/icons.js';
 This is the longest build (bundle install + `assets:precompile`, ~10+ min). Run it
 in the background and watch its own log file:
 ```bash
+# Preferred — pinned in the Makefile:
+make build-prod > /tmp/build-chatwoot.log 2>&1
+
+# Equivalent raw command:
 docker buildx build --platform linux/amd64 --tag ghcr.io/kira-id/chatwoot:latest --push -f docker/Dockerfile . > /tmp/build-chatwoot.log 2>&1
 ```
 > Use a SEPARATE log file per build. Sharing one log filename across parallel
 > builds makes their logs clobber each other.
+>
+> **Dev images** are built separately and do NOT need this step — see the note
+> below. `make build-dev` (or `docker compose build`) builds the rails/vite dev
+> images straight from `docker/Dockerfile`; there is no separate
+> `chatwoot:development` base to pre-build first (the old
+> `docker/dockerfiles/{rails,vite}.Dockerfile` thin wrappers were removed because
+> they depended on a base image that nothing produced).
 
 Verify it landed:
 ```bash

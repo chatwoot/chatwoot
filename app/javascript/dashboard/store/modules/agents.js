@@ -70,7 +70,7 @@ export const actions = {
       commit(types.default.SET_AGENT_UPDATING_STATUS, false);
     } catch (error) {
       commit(types.default.SET_AGENT_UPDATING_STATUS, false);
-      throw new Error(error);
+      throw error;
     }
   },
   updateSingleAgentPresence: ({ commit }, { id, availabilityStatus }) => {
@@ -90,7 +90,7 @@ export const actions = {
       commit(types.default.SET_AGENT_DELETING_STATUS, false);
     } catch (error) {
       commit(types.default.SET_AGENT_DELETING_STATUS, false);
-      throw new Error(error);
+      throw error;
     }
   },
 };

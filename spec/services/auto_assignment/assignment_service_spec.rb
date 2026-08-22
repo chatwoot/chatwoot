@@ -56,17 +56,16 @@ RSpec.describe AutoAssignment::AssignmentService do
         expect(conversation.reload.assignee).to be_nil
       end
 
-      it 'short-circuits without iterating conversations when no agents are online' do
+      it 'leaves conversations unassigned but notifies all members as participants when no agents are online' do
         3.times do
           conv = create(:conversation, inbox: inbox, status: 'open')
           conv.update!(assignee_id: nil)
         end
         allow(OnlineStatusTracker).to receive(:get_available_users).and_return({})
 
-        expect(service).not_to receive(:perform_for_conversation)
-
         assigned_count = service.perform_bulk_assignment(limit: 10)
         expect(assigned_count).to eq(0)
+        expect(conversation.reload.conversation_participants.pluck(:user_id)).to eq([agent.id])
       end
 
       it 'respects the limit parameter' do

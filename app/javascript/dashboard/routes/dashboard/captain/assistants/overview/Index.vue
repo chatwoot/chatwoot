@@ -13,6 +13,7 @@ import WelcomeCard from 'dashboard/components-next/captain/pageComponents/overvi
 import MetricCard from 'dashboard/components-next/captain/pageComponents/overview/MetricCard.vue';
 import AssistantDrilldownDrawer from 'dashboard/components-next/captain/pageComponents/overview/AssistantDrilldownDrawer.vue';
 import KnowledgeCard from 'dashboard/components-next/captain/pageComponents/overview/KnowledgeCard.vue';
+import TopIntentsCard from 'dashboard/components-next/captain/pageComponents/overview/TopIntentsCard.vue';
 import QuickLinks from 'dashboard/components-next/captain/pageComponents/overview/QuickLinks.vue';
 import InboxBanner from 'dashboard/components-next/captain/pageComponents/overview/InboxBanner.vue';
 import CoverageBanner from 'dashboard/components-next/captain/pageComponents/overview/CoverageBanner.vue';
@@ -28,14 +29,18 @@ const selectedRange = ref('7');
 const assistantId = computed(() => route.params.assistantId);
 const metricStats = ref(null);
 const faqStats = ref(null);
+const intents = ref(null);
 const isFetchingMetrics = ref(false);
+const isFetchingIntents = ref(false);
 
 // Increments on every fetch so a response (or retry) from a superseded
 // range/assistant can't clobber the latest request's state.
 let metricsFetchToken = 0;
 let faqStatsFetchToken = 0;
+let intentsFetchToken = 0;
 let metricsAbortController = null;
 let faqStatsAbortController = null;
+let intentsAbortController = null;
 
 const fetchMetrics = async () => {
   metricsFetchToken += 1;
@@ -90,6 +95,40 @@ const fetchFaqStats = async () => {
   }
 };
 
+const fetchIntents = async () => {
+  intentsFetchToken += 1;
+  const token = intentsFetchToken;
+  intentsAbortController?.abort();
+  intentsAbortController = new AbortController();
+  const { signal } = intentsAbortController;
+  intents.value = null;
+  isFetchingIntents.value = true;
+
+  let data = null;
+  try {
+    ({ data } = await CaptainAssistant.getIntents({
+      assistantId: assistantId.value,
+      range: selectedRange.value,
+      signal,
+    }));
+  } catch {
+    try {
+      if (token === intentsFetchToken && !signal.aborted)
+        ({ data } = await CaptainAssistant.getIntents({
+          assistantId: assistantId.value,
+          range: selectedRange.value,
+          signal,
+        }));
+    } catch {
+      data = null;
+    }
+  }
+
+  if (token !== intentsFetchToken || signal.aborted) return;
+  intents.value = data;
+  isFetchingIntents.value = false;
+};
+
 const summaryStats = computed(() => {
   if (!metricStats.value || !faqStats.value) return null;
 
@@ -99,9 +138,11 @@ const summaryStats = computed(() => {
 onUnmounted(() => {
   metricsAbortController?.abort();
   faqStatsAbortController?.abort();
+  intentsAbortController?.abort();
 });
 
 watch([selectedRange, assistantId], fetchMetrics, { immediate: true });
+watch([selectedRange, assistantId], fetchIntents, { immediate: true });
 watch(assistantId, fetchFaqStats, { immediate: true });
 
 // `direction` says whether a rising trend is good ('up'), bad ('down'), or
@@ -240,6 +281,13 @@ const closeDrilldown = () => {
         </div>
 
         <KnowledgeCard :knowledge="faqStats ?? undefined" />
+
+        <TopIntentsCard
+          :intents="
+            intents ?? { total_intents: 0, total_questions: 0, intents: [] }
+          "
+          :loading="isFetchingIntents"
+        />
 
         <QuickLinks />
       </div>

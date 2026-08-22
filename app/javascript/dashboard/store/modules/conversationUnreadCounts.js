@@ -73,7 +73,8 @@ export const actions = {
       const response = await ConversationAPI.getUnreadCounts();
       commit(types.SET_CONVERSATION_UNREAD_COUNTS, response.data.payload);
     } catch (error) {
-      // Ignore errors so the sidebar can continue rendering without badges.
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch unread counts:', error);
     }
   },
   clear({ commit }) {

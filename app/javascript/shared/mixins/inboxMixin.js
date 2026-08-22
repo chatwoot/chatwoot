@@ -91,6 +91,12 @@ export default {
         this.whatsAppAPIProvider === 'default'
       );
     },
+    isAWhatsAppUnofficialChannel() {
+      return (
+        this.channelType === INBOX_TYPES.WHATSAPP &&
+        this.whatsAppAPIProvider === 'whatsapp_unofficial'
+      );
+    },
     chatAdditionalAttributes() {
       const { additional_attributes: additionalAttributes } = this.chat || {};
       return additionalAttributes || {};

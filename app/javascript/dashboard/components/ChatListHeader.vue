@@ -16,6 +16,7 @@ const props = defineProps({
   isOnExpandedLayout: { type: Boolean, required: true },
   conversationStats: { type: Object, required: true },
   isListLoading: { type: Boolean, required: true },
+  hasConversations: { type: Boolean, required: true },
 });
 
 const emit = defineEmits([
@@ -71,7 +72,10 @@ const toggleConversationLayout = () => {
       </h1>
       <span
         v-if="
-          allCount > 0 && hasAppliedFiltersOrActiveFolders && !isListLoading
+          allCount > 0 &&
+          hasAppliedFiltersOrActiveFolders &&
+          !isListLoading &&
+          hasConversations
         "
         class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
         :title="allCount"

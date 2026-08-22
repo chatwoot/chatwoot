@@ -75,6 +75,8 @@ class Inbox < ApplicationRecord
   has_one :assignment_policy, through: :inbox_assignment_policy
   has_one :agent_bot_inbox, dependent: :destroy_async
   has_one :agent_bot, through: :agent_bot_inbox
+  has_one :captain_inbox, dependent: :destroy_async, class_name: 'CaptainInbox'
+  has_one :captain_assistant, through: :captain_inbox, class_name: 'Captain::Assistant'
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
 
@@ -163,6 +165,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Telegram'
   end
 
+  def line?
+    channel_type == 'Channel::Line'
+  end
+
   def whatsapp?
     channel_type == 'Channel::Whatsapp'
   end
@@ -197,10 +203,6 @@ class Inbox < ApplicationRecord
     when 'Channel::Whatsapp'
       "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{channel.phone_number}"
     end
-  end
-
-  def member_ids_with_assignment_capacity
-    members.ids
   end
 
   def auto_assignment_v2_enabled?
@@ -254,7 +256,7 @@ class Inbox < ApplicationRecord
   end
 
   def ensure_valid_max_assignment_limit
-    # overridden in enterprise/app/models/enterprise/inbox.rb
+    # overridden by account-specific configuration in the captain auto-resolve concern
   end
 
   def delete_round_robin_agents

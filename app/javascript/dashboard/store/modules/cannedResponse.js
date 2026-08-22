@@ -45,7 +45,8 @@ const actions = {
         commit(types.default.SET_CANNED, response.data);
       }
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to revalidate canned responses:', error);
     }
   },
 

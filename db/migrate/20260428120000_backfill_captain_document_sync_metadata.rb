@@ -1,6 +1,6 @@
 class BackfillCaptainDocumentSyncMetadata < ActiveRecord::Migration[7.0]
   def up
-    return unless ChatwootApp.enterprise?
+    return unless false
 
     # rubocop:disable Rails/SkipsModelValidations
     Captain::Document

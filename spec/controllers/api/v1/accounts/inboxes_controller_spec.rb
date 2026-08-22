@@ -1274,6 +1274,115 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/:id/captain_bot' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/captain_bot"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before { create(:inbox_member, user: agent, inbox: inbox) }
+
+      it 'returns the captain assistant attached to the inbox' do
+        captain_assistant = create(:captain_assistant, account: account)
+        create(:captain_inbox, inbox: inbox, captain_assistant: captain_assistant)
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/captain_bot",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['captain_assistant']['id']).to eq captain_assistant.id
+      end
+
+      it 'returns an empty captain_assistant when none is attached' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/captain_bot",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['captain_assistant']).to be_nil.or be_empty
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/set_captain_bot' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_captain_bot"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'sets the captain assistant on the inbox' do
+        captain_assistant = create(:captain_assistant, account: account)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_captain_bot",
+             headers: admin.create_new_auth_token,
+             params: { captain_assistant_id: captain_assistant.id },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(inbox.reload.captain_assistant.id).to eq captain_assistant.id
+      end
+
+      it 'throws error when invalid captain assistant id' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_captain_bot",
+             headers: admin.create_new_auth_token,
+             params: { captain_assistant_id: 0 },
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'disconnects the captain assistant' do
+        captain_assistant = create(:captain_assistant, account: account)
+        create(:captain_inbox, inbox: inbox, captain_assistant: captain_assistant)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_captain_bot",
+             headers: admin.create_new_auth_token,
+             params: { captain_assistant_id: nil },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(inbox.reload.captain_assistant).to be_nil
+      end
+
+      it 'will not set captain bot when its an agent' do
+        captain_assistant = create(:captain_assistant, account: account)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_captain_bot",
+             headers: agent.create_new_auth_token,
+             params: { captain_assistant_id: captain_assistant.id },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'does not allow binding a captain assistant from another account' do
+        other_account = create(:account)
+        foreign_assistant = create(:captain_assistant, account: other_account)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_captain_bot",
+             headers: admin.create_new_auth_token,
+             params: { captain_assistant_id: foreign_assistant.id },
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(inbox.reload.captain_assistant).to be_nil
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/inboxes/:id/message_templates' do
     let(:last_sync_attempt_at) { 1.hour.ago.change(usec: 0) }
     let(:message_templates) do

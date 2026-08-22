@@ -446,6 +446,12 @@
     "ASSIGNEE_LABEL": "Assigned Agent",
     "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
+    "AI_REPLY": {
+      "TITLE": "Bot replies",
+      "ENABLED": "The bot will reply to this conversation",
+      "DISABLED": "The bot will no longer reply to this conversation",
+      "UPDATE_ERROR": "Could not update bot reply settings"
+    },
     "SELECT": {
       "PLACEHOLDER": "None"
     },

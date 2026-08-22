@@ -1,5 +1,4 @@
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 import {
   CONVERSATION_PERMISSIONS,
   ROLES,
@@ -20,6 +19,7 @@ import AssistantPlaygroundIndex from './assistants/playground/Index.vue';
 import AssistantGuardrailsIndex from './assistants/guardrails/Index.vue';
 import AssistantGuidelinesIndex from './assistants/guidelines/Index.vue';
 import AssistantScenariosIndex from './assistants/scenarios/Index.vue';
+import AssistantSimpleRepliesIndex from './assistants/simpleReplies/Index.vue';
 import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
 import FaqSuggestionsIndex from './responses/FaqSuggestions.vue';
@@ -28,7 +28,6 @@ import CustomToolsIndex from './tools/Index.vue';
 const meta = {
   permissions: ['administrator', 'agent'],
   featureFlag: FEATURE_FLAGS.CAPTAIN,
-  installationTypes: [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE],
 };
 
 const faqSuggestionsMeta = {
@@ -39,72 +38,74 @@ const faqSuggestionsMeta = {
 const metaCustomTools = {
   permissions: ['administrator', 'agent'],
   featureFlag: FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS,
-  installationTypes: [
-    INSTALLATION_TYPES.CLOUD,
-    INSTALLATION_TYPES.ENTERPRISE,
-    INSTALLATION_TYPES.COMMUNITY,
-  ],
 };
 
 const metaV2 = {
   permissions: ['administrator', 'agent'],
   featureFlag: FEATURE_FLAGS.CAPTAIN_V2,
-  installationTypes: [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE],
 };
 
 const assistantRoutes = [
   {
-    path: frontendURL('accounts/:accountId/captain/:assistantId/overview'),
+    path: frontendURL('accounts/:accountId/ai-agent/:assistantId/overview'),
     component: AssistantOverviewIndex,
     name: 'captain_assistants_overview_index',
     meta,
   },
   {
-    path: frontendURL('accounts/:accountId/captain/:assistantId/faqs'),
+    path: frontendURL('accounts/:accountId/ai-agent/:assistantId/faqs'),
     component: ResponsesIndex,
     name: 'captain_assistants_responses_index',
     meta,
   },
   {
-    path: frontendURL('accounts/:accountId/captain/:assistantId/documents'),
+    path: frontendURL('accounts/:accountId/ai-agent/:assistantId/documents'),
     component: DocumentsIndex,
     name: 'captain_assistants_documents_index',
     meta,
   },
   {
-    path: frontendURL('accounts/:accountId/captain/:assistantId/tools'),
+    path: frontendURL('accounts/:accountId/ai-agent/:assistantId/tools'),
     component: CustomToolsIndex,
     name: 'captain_tools_index',
     meta: metaCustomTools,
   },
   {
-    path: frontendURL('accounts/:accountId/captain/:assistantId/scenarios'),
+    path: frontendURL('accounts/:accountId/ai-agent/:assistantId/scenarios'),
     component: AssistantScenariosIndex,
     name: 'captain_assistants_scenarios_index',
     meta: metaV2,
   },
   {
-    path: frontendURL('accounts/:accountId/captain/:assistantId/playground'),
+    path: frontendURL(
+      'accounts/:accountId/ai-agent/:assistantId/simple-replies'
+    ),
+    component: AssistantSimpleRepliesIndex,
+    name: 'captain_assistants_simple_replies_index',
+    meta,
+  },
+  {
+    path: frontendURL('accounts/:accountId/ai-agent/:assistantId/playground'),
     component: AssistantPlaygroundIndex,
     name: 'captain_assistants_playground_index',
     meta,
   },
   {
-    path: frontendURL('accounts/:accountId/captain/:assistantId/inboxes'),
+    path: frontendURL('accounts/:accountId/ai-agent/:assistantId/inboxes'),
     component: AssistantInboxesIndex,
     name: 'captain_assistants_inboxes_index',
     meta,
   },
   {
     path: frontendURL(
-      'accounts/:accountId/captain/:assistantId/faqs/suggestions'
+      'accounts/:accountId/ai-agent/:assistantId/faqs/suggestions'
     ),
     component: FaqSuggestionsIndex,
     name: 'captain_assistants_faq_suggestions',
     meta: faqSuggestionsMeta,
   },
   {
-    path: frontendURL('accounts/:accountId/captain/:assistantId/faqs/pending'),
+    path: frontendURL('accounts/:accountId/ai-agent/:assistantId/faqs/pending'),
     redirect: to => ({
       name: 'captain_assistants_faq_suggestions',
       params: to.params,
@@ -112,7 +113,7 @@ const assistantRoutes = [
     }),
   },
   {
-    path: frontendURL('accounts/:accountId/captain/:assistantId/settings'),
+    path: frontendURL('accounts/:accountId/ai-agent/:assistantId/settings'),
     component: AssistantSettingsIndex,
     name: 'captain_assistants_settings_index',
     meta,
@@ -120,7 +121,7 @@ const assistantRoutes = [
   // Settings sub-pages
   {
     path: frontendURL(
-      'accounts/:accountId/captain/:assistantId/settings/system'
+      'accounts/:accountId/ai-agent/:assistantId/settings/system'
     ),
     component: AssistantSystemSettingsIndex,
     name: 'captain_assistants_settings_system_index',
@@ -128,7 +129,7 @@ const assistantRoutes = [
   },
   {
     path: frontendURL(
-      'accounts/:accountId/captain/:assistantId/settings/audience'
+      'accounts/:accountId/ai-agent/:assistantId/settings/audience'
     ),
     component: AssistantAudienceSettingsIndex,
     name: 'captain_assistants_settings_audience_index',
@@ -136,7 +137,7 @@ const assistantRoutes = [
   },
   {
     path: frontendURL(
-      'accounts/:accountId/captain/:assistantId/settings/schedule'
+      'accounts/:accountId/ai-agent/:assistantId/settings/schedule'
     ),
     component: AssistantScheduleSettingsIndex,
     name: 'captain_assistants_settings_schedule_index',
@@ -144,7 +145,7 @@ const assistantRoutes = [
   },
   {
     path: frontendURL(
-      'accounts/:accountId/captain/:assistantId/settings/guardrails'
+      'accounts/:accountId/ai-agent/:assistantId/settings/guardrails'
     ),
     component: AssistantGuardrailsIndex,
     name: 'captain_assistants_guardrails_index',
@@ -152,26 +153,22 @@ const assistantRoutes = [
   },
   {
     path: frontendURL(
-      'accounts/:accountId/captain/:assistantId/settings/guidelines'
+      'accounts/:accountId/ai-agent/:assistantId/settings/guidelines'
     ),
     component: AssistantGuidelinesIndex,
     name: 'captain_assistants_guidelines_index',
     meta: metaV2,
   },
   {
-    path: frontendURL('accounts/:accountId/captain/assistants'),
+    path: frontendURL('accounts/:accountId/ai-agent/assistants'),
     component: AssistantEmptyStateIndex,
     name: 'captain_assistants_create_index',
     meta: {
       permissions: ['administrator', 'agent'],
-      installationTypes: [
-        INSTALLATION_TYPES.CLOUD,
-        INSTALLATION_TYPES.ENTERPRISE,
-      ],
     },
   },
   {
-    path: frontendURL('accounts/:accountId/captain/:navigationPath'),
+    path: frontendURL('accounts/:accountId/ai-agent/:navigationPath'),
     component: AssistantsIndexPage,
     name: 'captain_assistants_index',
     meta,

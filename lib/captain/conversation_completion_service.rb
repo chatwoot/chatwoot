@@ -3,9 +3,8 @@
 # conversations should be resolved or handed off to human agents.
 #
 # NOTE: This service intentionally does NOT count toward Captain usage limits.
-# The response excludes the :message key that Enterprise::Captain::BaseTaskService
-# checks for usage tracking. This is an internal operational evaluation,
-# not a customer-facing value-add, so we don't charge for it.
+# It is an internal operational evaluation, not a customer-facing value-add,
+# so we don't charge for it.
 class Captain::ConversationCompletionService < Captain::BaseTaskService
   RESPONSE_SCHEMA = Captain::ConversationCompletionSchema
 
@@ -32,10 +31,10 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
 
   private
 
+  # The self-hosted enterprise model override is gone with the enterprise
+  # edition; completion always uses the routed default model.
   def self_hosted_model_override
-    return unless ChatwootApp.self_hosted_enterprise?
-
-    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence
+    nil
   end
 
   def prompt_from_file(file_name)

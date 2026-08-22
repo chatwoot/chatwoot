@@ -338,4 +338,37 @@ RSpec.describe Channel::Whatsapp do
       expect(channel.inbound_calls_enabled?).to be false
     end
   end
+
+  describe '#provider_service (whatsapp_unofficial)' do
+    let(:account) { create(:account) }
+
+    it 'is a valid provider' do
+      expect(described_class::PROVIDERS).to include('whatsapp_unofficial')
+    end
+
+    it 'returns the unofficial provider service' do
+      channel = build(:channel_whatsapp, account: account, provider: 'whatsapp_unofficial',
+                                          validate_provider_config: false, sync_templates: false)
+      expect(channel.provider_service).to be_a(Whatsapp::Providers::WhatsappUnofficialService)
+    end
+
+    it 'does not auto-setup webhooks (no Meta webhook registration)' do
+      channel = build(:channel_whatsapp, account: account, provider: 'whatsapp_unofficial')
+      expect(channel.send(:should_auto_setup_webhooks?)).to be false
+    end
+
+    it 'validates the companion token via the /status endpoint' do
+      channel = build(:channel_whatsapp, account: account, provider: 'whatsapp_unofficial',
+                                          phone_number: '123456789')
+      allow(Whatsapp::CompanionConfig).to receive_messages(
+        companion_url: 'http://companion.test',
+        companion_token: 'shared-token'
+      )
+      stub_request(:get, 'http://companion.test/status/123456789')
+        .with(headers: { 'X-Companion-Token' => 'shared-token' })
+        .to_return(status: 200, body: { status: 'connected' }.to_json)
+
+      expect(channel.provider_service.validate_provider_config?).to be true
+    end
+  end
 end

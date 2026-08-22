@@ -10,11 +10,9 @@ import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
 
 const { t } = useI18n();
 const router = useRouter();
-const { accountId, currentAccount } = useAccount();
+const { accountId } = useAccount();
 
 const globalConfig = useMapGetter('globalConfig/get');
-
-const enabledFeatures = computed(() => currentAccount.value?.features || {});
 
 const hasTiktokConfigured = computed(() => {
   return window.chatwootConfig?.tiktokAppId;
@@ -122,7 +120,6 @@ const initChannelAuth = channel => {
       v-for="channel in channelList"
       :key="channel.key"
       :channel="channel"
-      :enabled-features="enabledFeatures"
       @channel-item-click="initChannelAuth"
     />
   </div>

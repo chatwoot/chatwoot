@@ -118,6 +118,11 @@ export const getters = {
       item => item.channel_type === INBOX_TYPES.WHATSAPP
     );
   },
+  getEmailInboxes($state) {
+    return $state.records.filter(
+      item => item.channel_type === INBOX_TYPES.EMAIL
+    );
+  },
   dialogFlowEnabledInboxes($state) {
     return $state.records.filter(
       item => item.channel_type !== INBOX_TYPES.EMAIL
@@ -161,7 +166,8 @@ export const actions = {
         commit(types.default.SET_INBOXES, response.data.payload);
       }
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to revalidate inboxes:', error);
     }
   },
   get: async ({ commit }) => {
@@ -292,7 +298,7 @@ export const actions = {
       commit(types.default.SET_INBOXES_UI_FLAG, { isDeleting: false });
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isDeleting: false });
-      throw new Error(error);
+      throw error;
     }
   },
   reauthorizeFacebookPage: async ({ commit }, params) => {
@@ -307,14 +313,14 @@ export const actions = {
     try {
       await InboxesAPI.deleteInboxAvatar(inboxId);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   },
   syncTemplates: async (_, inboxId) => {
     try {
       await InboxesAPI.syncTemplates(inboxId);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   },
   createCSATTemplate: async (_, { inboxId, template }) => {

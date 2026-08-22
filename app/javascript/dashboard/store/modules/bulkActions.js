@@ -23,7 +23,7 @@ export const actions = {
     try {
       await BulkActionsAPI.create(payload);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_BULK_ACTIONS_FLAG, { isUpdating: false });
     }

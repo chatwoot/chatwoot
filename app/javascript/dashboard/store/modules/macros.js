@@ -34,7 +34,8 @@ export const actions = {
       const response = await MacrosAPI.get();
       commit(types.SET_MACROS, response.data.payload);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch macros:', error);
     } finally {
       commit(types.SET_MACROS_UI_FLAG, { isFetching: false });
     }
@@ -45,7 +46,8 @@ export const actions = {
       const response = await MacrosAPI.show(macroId);
       commit(types.ADD_MACRO, response.data.payload);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch macro:', error);
     } finally {
       commit(types.SET_MACROS_UI_FLAG, { isFetchingItem: false });
     }

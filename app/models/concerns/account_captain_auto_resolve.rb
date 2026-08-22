@@ -9,6 +9,23 @@ module AccountCaptainAutoResolve
         captain_auto_resolve_mode == mode
       end
     end
+
+    def self.captain_document_sync_intervals
+      parse_captain_document_sync_intervals(
+        InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS')&.value
+      )
+    end
+
+    def self.parse_captain_document_sync_intervals(configured_intervals)
+      return {} if configured_intervals.blank?
+
+      parsed_intervals = configured_intervals.is_a?(String) ? JSON.parse(configured_intervals) : configured_intervals
+      return {} unless parsed_intervals.is_a?(Hash)
+
+      parsed_intervals.transform_keys(&:to_s).transform_keys(&:downcase)
+    rescue JSON::ParserError
+      {}
+    end
   end
 
   def captain_auto_resolve_mode
@@ -21,29 +38,8 @@ module AccountCaptainAutoResolve
 
   # Auto-sync interval for Captain documents, keyed by plan name. Reads the
   # CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS installation config (a JSON map of
-  # plan -> hours). Migrated here from the Enterprise::Account module so the
-  # AI agent keeps its document sync behaviour without the enterprise overlay.
-  class << self
-    def captain_document_sync_intervals
-      parse_captain_document_sync_intervals(
-        InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS')&.value
-      )
-    end
-
-    private
-
-    def parse_captain_document_sync_intervals(configured_intervals)
-      return {} if configured_intervals.blank?
-
-      parsed_intervals = configured_intervals.is_a?(String) ? JSON.parse(configured_intervals) : configured_intervals
-      return {} unless parsed_intervals.is_a?(Hash)
-
-      parsed_intervals.transform_keys(&:to_s).transform_keys(&:downcase)
-    rescue JSON::ParserError
-      {}
-    end
-  end
-
+  # plan -> hours). Migrated into the standard build's captain auto-resolve
+  # concern so the AI agent keeps its document sync behaviour.
   def captain_document_sync_interval(sync_intervals = self.class.captain_document_sync_intervals)
     plan = custom_attributes['plan_name']
     return nil if plan.blank?

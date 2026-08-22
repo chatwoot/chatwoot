@@ -55,7 +55,7 @@ export const actions = {
       const response = await webHookAPI.update(id, updateObj);
       commit(types.default.UPDATE_WEBHOOK, response.data.payload.webhook);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.default.SET_WEBHOOK_UI_FLAG, { updatingItem: false });
     }

@@ -121,6 +121,15 @@ class Message < ApplicationRecord
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('created_at desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
   scope :voice_calls, -> { where(content_type: :voice_call) }
+  # Scheduling and freshness checks must share this scope so an email auto reply cannot cancel a pending response.
+  scope :captain_response_triggering, lambda {
+    incoming.joins(:inbox).where(
+      "((messages.content_attributes #>> '{}')::jsonb -> 'email' ->> 'auto_reply') IS DISTINCT FROM 'true' OR " \
+      '(messages.content_type != :incoming_email AND inboxes.channel_type != :email_channel)',
+      incoming_email: content_types[:incoming_email],
+      email_channel: 'Channel::Email'
+    )
+  }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -215,6 +224,12 @@ class Message < ApplicationRecord
     return false if template? && %w[input_csat text].exclude?(content_type)
 
     true
+  end
+
+  def captain_response_triggering?
+    return incoming? && !auto_reply_email? unless persisted?
+
+    self.class.captain_response_triggering.exists?(id: id)
   end
 
   def auto_reply_email?
@@ -420,7 +435,9 @@ class Message < ApplicationRecord
   end
 
   def captain_pending_conversation?
-    false
+    return false unless conversation.pending?
+
+    CaptainInbox.exists?(inbox_id: conversation.inbox_id)
   end
 
   def reopen_resolved_conversation

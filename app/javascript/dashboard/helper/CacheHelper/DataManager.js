@@ -1,6 +1,11 @@
 import { openDB } from 'idb';
 import { DATA_VERSION } from './version';
 
+// An IndexedDB version bump stays pending while any other tab still holds an
+// older-version connection. Without a deadline the awaiting API client never
+// settles and the dashboard spins on "loading inboxes" forever.
+const IDB_OPEN_TIMEOUT_MS = 3000;
+
 export class DataManager {
   constructor(accountId) {
     this.modelsToSync = ['inbox', 'label', 'team', 'canned_response'];
@@ -11,22 +16,34 @@ export class DataManager {
   async initDb() {
     if (this.db) return this.db;
     const dbName = `cw-store-${this.accountId}`;
-    this.db = await openDB(`cw-store-${this.accountId}`, DATA_VERSION, {
-      upgrade(db) {
-        // Existing databases already carry the stores added in earlier versions,
-        // and createObjectStore throws on a name that is already taken.
-        const createStore = (name, options) => {
-          if (db.objectStoreNames.contains(name)) return;
-          db.createObjectStore(name, options);
-        };
+    this.db = await Promise.race([
+      openDB(dbName, DATA_VERSION, {
+        upgrade(db) {
+          // Existing databases already carry the stores added in earlier versions,
+          // and createObjectStore throws on a name that is already taken.
+          const createStore = (name, options) => {
+            if (db.objectStoreNames.contains(name)) return;
+            db.createObjectStore(name, options);
+          };
 
-        createStore('cache-keys');
-        createStore('inbox', { keyPath: 'id' });
-        createStore('label', { keyPath: 'id' });
-        createStore('team', { keyPath: 'id' });
-        createStore('canned_response', { keyPath: 'id' });
-      },
-    });
+          createStore('cache-keys');
+          createStore('inbox', { keyPath: 'id' });
+          createStore('label', { keyPath: 'id' });
+          createStore('team', { keyPath: 'id' });
+          createStore('canned_response', { keyPath: 'id' });
+        },
+        blocking(event) {
+          // Release this connection so another tab's schema upgrade can proceed.
+          event.target.close();
+        },
+      }),
+      new Promise((resolve, reject) => {
+        setTimeout(
+          () => reject(new Error('IndexedDB open timed out')),
+          IDB_OPEN_TIMEOUT_MS
+        );
+      }),
+    ]);
 
     // Store the database name in LocalStorage
     const dbNames = JSON.parse(localStorage.getItem('cw-idb-names') || '[]');

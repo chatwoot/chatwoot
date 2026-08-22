@@ -3,12 +3,11 @@ class Captain::Tools::FirecrawlService
   FIRECRAWL_EXCLUDE_TAGS = %w[iframe .sidebar .cookie-banner [role=navigation] [role=banner] [role=contentinfo]].freeze
 
   def self.configured?
-    InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')&.value
-                      .present?
+    Llm::Config.firecrawl_api_key.present?
   end
 
   def initialize
-    @api_key = InstallationConfig.find_by!(name: 'CAPTAIN_FIRECRAWL_API_KEY').value
+    @api_key = Llm::Config.firecrawl_api_key
     raise 'Missing API key' if @api_key.blank?
   end
 

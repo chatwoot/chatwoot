@@ -13,7 +13,7 @@ RSpec.describe 'Platform Users API', type: :request do
 
     context 'when it is an invalid platform app token' do
       it 'returns unauthorized' do
-        get "/platform/api/v1/users/#{user.id}", headers: { api_access_token: 'invalid' }, as: :json
+        get "/platform/api/v1/users/#{user.id}", headers: { 'api-access-token': 'invalid' }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -22,7 +22,7 @@ RSpec.describe 'Platform Users API', type: :request do
       let(:platform_app) { create(:platform_app) }
 
       it 'returns unauthorized when its not a permissible object' do
-        get "/platform/api/v1/users/#{user.id}", headers: { api_access_token: platform_app.access_token.token }, as: :json
+        get "/platform/api/v1/users/#{user.id}", headers: { 'api-access-token': platform_app.access_token.token }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
 
@@ -30,7 +30,7 @@ RSpec.describe 'Platform Users API', type: :request do
         create(:platform_app_permissible, platform_app: platform_app, permissible: user)
 
         get "/platform/api/v1/users/#{user.id}",
-            headers: { api_access_token: platform_app.access_token.token }, as: :json
+            headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         data = response.parsed_body
@@ -50,7 +50,7 @@ RSpec.describe 'Platform Users API', type: :request do
 
     context 'when it is an invalid platform app token' do
       it 'returns unauthorized' do
-        get "/platform/api/v1/users/#{user.id}/login", headers: { api_access_token: 'invalid' }, as: :json
+        get "/platform/api/v1/users/#{user.id}/login", headers: { 'api-access-token': 'invalid' }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -59,7 +59,7 @@ RSpec.describe 'Platform Users API', type: :request do
       let(:platform_app) { create(:platform_app) }
 
       it 'returns unauthorized when its not a permissible object' do
-        get "/platform/api/v1/users/#{user.id}/login", headers: { api_access_token: platform_app.access_token.token }, as: :json
+        get "/platform/api/v1/users/#{user.id}/login", headers: { 'api-access-token': platform_app.access_token.token }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
 
@@ -67,7 +67,7 @@ RSpec.describe 'Platform Users API', type: :request do
         create(:platform_app_permissible, platform_app: platform_app, permissible: user)
 
         get "/platform/api/v1/users/#{user.id}/login",
-            headers: { api_access_token: platform_app.access_token.token }, as: :json
+            headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         data = response.parsed_body
@@ -86,7 +86,7 @@ RSpec.describe 'Platform Users API', type: :request do
 
     context 'when it is an invalid platform app token' do
       it 'returns unauthorized' do
-        post "/platform/api/v1/users/#{user.id}/token", headers: { api_access_token: 'invalid' }, as: :json
+        post "/platform/api/v1/users/#{user.id}/token", headers: { 'api-access-token': 'invalid' }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -95,7 +95,7 @@ RSpec.describe 'Platform Users API', type: :request do
       let(:platform_app) { create(:platform_app) }
 
       it 'returns unauthorized when its not a permissible object' do
-        post "/platform/api/v1/users/#{user.id}/token", headers: { api_access_token: platform_app.access_token.token }, as: :json
+        post "/platform/api/v1/users/#{user.id}/token", headers: { 'api-access-token': platform_app.access_token.token }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
 
@@ -103,7 +103,7 @@ RSpec.describe 'Platform Users API', type: :request do
         create(:platform_app_permissible, platform_app: platform_app, permissible: user)
 
         post "/platform/api/v1/users/#{user.id}/token",
-             headers: { api_access_token: platform_app.access_token.token }, as: :json
+             headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         data = response.parsed_body
@@ -134,7 +134,7 @@ RSpec.describe 'Platform Users API', type: :request do
 
     context 'when it is an invalid platform app token' do
       it 'returns unauthorized' do
-        post '/platform/api/v1/users/', headers: { api_access_token: 'invalid' }, as: :json
+        post '/platform/api/v1/users/', headers: { 'api-access-token': 'invalid' }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -150,7 +150,7 @@ RSpec.describe 'Platform Users API', type: :request do
         #   post '/platform/api/v1/users/', params: { name: 'test', display_name: 'displaytest',
         #                                             email: 'test@test.com', password: 'Password1!',
         #                                             custom_attributes: { test: 'test_create' } },
-        #                                   headers: { api_access_token: platform_app.access_token.token }, as: :json
+        #                                   headers: { 'api-access-token': platform_app.access_token.token }, as: :json
         #   byebug
         # end.not_to have_enqueued_mail
 
@@ -158,7 +158,7 @@ RSpec.describe 'Platform Users API', type: :request do
         post '/platform/api/v1/users/', params: { name: 'test', display_name: 'displaytest',
                                                   email: 'test@test.com', password: 'Password1!',
                                                   custom_attributes: { test: 'test_create' } },
-                                        headers: { api_access_token: platform_app.access_token.token }, as: :json
+                                        headers: { 'api-access-token': platform_app.access_token.token }, as: :json
         mail_jobs = ActiveJob::Base.queue_adapter.enqueued_jobs.select do |job|
           job[:job] == 'ActionMailer::MailDeliveryJob'
         end
@@ -183,7 +183,7 @@ RSpec.describe 'Platform Users API', type: :request do
       it 'fetch existing user and creates permissible for the user' do
         create(:user, name: 'old test', email: 'test@test.com')
         post '/platform/api/v1/users/', params: { name: 'test', email: 'test@test.com', password: 'Password1!' },
-                                        headers: { api_access_token: platform_app.access_token.token }, as: :json
+                                        headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         data = response.parsed_body
@@ -203,7 +203,7 @@ RSpec.describe 'Platform Users API', type: :request do
 
     context 'when it is an invalid platform app token' do
       it 'returns unauthorized' do
-        patch "/platform/api/v1/users/#{user.id}", headers: { api_access_token: 'invalid' }, as: :json
+        patch "/platform/api/v1/users/#{user.id}", headers: { 'api-access-token': 'invalid' }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -213,7 +213,7 @@ RSpec.describe 'Platform Users API', type: :request do
 
       it 'returns unauthorized when its not a permissible object' do
         patch "/platform/api/v1/users/#{user.id}", params: { name: 'test' },
-                                                   headers: { api_access_token: platform_app.access_token.token }, as: :json
+                                                   headers: { 'api-access-token': platform_app.access_token.token }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
 
@@ -222,7 +222,7 @@ RSpec.describe 'Platform Users API', type: :request do
         patch "/platform/api/v1/users/#{user.id}", params: {
                                                      name: 'test123', email: 'newtestemail@test.com', custom_attributes: { test: 'test_update' }
                                                    },
-                                                   headers: { api_access_token: platform_app.access_token.token }, as: :json
+                                                   headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         data = response.parsed_body
@@ -243,7 +243,7 @@ RSpec.describe 'Platform Users API', type: :request do
 
     context 'when it is an invalid platform app token' do
       it 'returns unauthorized' do
-        delete "/platform/api/v1/users/#{user.id}", headers: { api_access_token: 'invalid' }, as: :json
+        delete "/platform/api/v1/users/#{user.id}", headers: { 'api-access-token': 'invalid' }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -252,7 +252,7 @@ RSpec.describe 'Platform Users API', type: :request do
       let(:platform_app) { create(:platform_app) }
 
       it 'returns unauthorized when its not a permissible object' do
-        delete "/platform/api/v1/users/#{user.id}", headers: { api_access_token: platform_app.access_token.token }, as: :json
+        delete "/platform/api/v1/users/#{user.id}", headers: { 'api-access-token': platform_app.access_token.token }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
 
@@ -260,7 +260,7 @@ RSpec.describe 'Platform Users API', type: :request do
         create(:platform_app_permissible, platform_app: platform_app, permissible: user)
         expect(DeleteObjectJob).to receive(:perform_later).with(user).once
         delete "/platform/api/v1/users/#{user.id}",
-               headers: { api_access_token: platform_app.access_token.token }, as: :json
+               headers: { 'api-access-token': platform_app.access_token.token }, as: :json
         expect(response).to have_http_status(:success)
       end
     end

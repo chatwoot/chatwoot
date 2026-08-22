@@ -34,6 +34,10 @@ class InboxPolicy < ApplicationPolicy
     true
   end
 
+  def captain_bot?
+    true
+  end
+
   def message_templates?
     true
   end
@@ -55,6 +59,10 @@ class InboxPolicy < ApplicationPolicy
   end
 
   def set_agent_bot?
+    @account_user.administrator?
+  end
+
+  def set_captain_bot?
     @account_user.administrator?
   end
 

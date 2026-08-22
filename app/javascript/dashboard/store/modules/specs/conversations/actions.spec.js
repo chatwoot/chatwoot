@@ -465,6 +465,44 @@ describe('#actions', () => {
     });
   });
 
+  describe('#fetchAllConversations', () => {
+    it('builds the conversation list with a mock commit', async () => {
+      axios.get.mockResolvedValue({
+        data: { data: dataReceived },
+      });
+      await actions.fetchAllConversations(
+        {
+          commit,
+          dispatch,
+          state: { conversationFilters: { assigneeType: 'unassigned', page: 1 } },
+        },
+        dataToSend
+      );
+      expect(commit.mock.calls).toEqual([
+        ['SET_LIST_LOADING_STATUS'],
+        ['SET_ALL_CONVERSATION', dataReceived.payload],
+        ['CLEAR_LIST_LOADING_STATUS'],
+        [
+          `contacts/${types.SET_CONTACTS}`,
+          dataReceived.payload.map(chat => chat.meta.sender),
+        ],
+      ]);
+    });
+
+    it('clears the loading state if the request fails', async () => {
+      axios.get.mockRejectedValue(new Error('Request failed'));
+      await actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: { assigneeType: 'unassigned' } },
+      });
+      expect(commit.mock.calls).toEqual([
+        ['SET_LIST_LOADING_STATUS'],
+        ['CLEAR_LIST_LOADING_STATUS'],
+      ]);
+    });
+  });
+
   describe('#setConversationFilter', () => {
     it('commits the correct mutation and sets filter state', () => {
       const filters = [

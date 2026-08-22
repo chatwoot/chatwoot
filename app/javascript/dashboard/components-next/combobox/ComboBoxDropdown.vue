@@ -99,10 +99,12 @@ defineExpose({
         class="flex items-center justify-between w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-alpha-2"
         :class="{
           'bg-n-alpha-2': isSelected(option),
+          'cursor-not-allowed opacity-50 hover:bg-transparent': option.disabled,
         }"
         role="option"
         :aria-selected="isSelected(option)"
-        @click.stop="emit('select', option)"
+        :aria-disabled="option.disabled || undefined"
+        @click.stop="!option.disabled && emit('select', option)"
       >
         <span
           :class="{
@@ -113,7 +115,13 @@ defineExpose({
           {{ option.label }}
         </span>
         <span
-          v-if="isSelected(option)"
+          v-if="option.secondaryLabel"
+          class="flex-shrink-0 text-xs text-n-slate-11"
+        >
+          {{ option.secondaryLabel }}
+        </span>
+        <span
+          v-else-if="isSelected(option)"
           class="flex-shrink-0 i-lucide-check size-4 text-n-slate-11"
         />
       </li>

@@ -31,7 +31,10 @@ class Channel::Whatsapp < ApplicationRecord
   encrypts :business_management_token if Chatwoot.encryption_configured?
 
   # default at the moment is 360dialog lets change later.
-  PROVIDERS = %w[default whatsapp_cloud].freeze
+  # `whatsapp_unofficial` is the Baileys/QR-login bridge (see PLAN.md). It reuses
+  # this same model/table — no new channel subclass — so inbox, reports, Captain,
+  # and campaigns keep working unchanged.
+  PROVIDERS = %w[default whatsapp_cloud whatsapp_unofficial].freeze
   before_validation :ensure_webhook_verify_token
 
   validates :provider, inclusion: { in: PROVIDERS }
@@ -69,8 +72,11 @@ class Channel::Whatsapp < ApplicationRecord
   end
 
   def provider_service
-    if provider == 'whatsapp_cloud'
+    case provider
+    when 'whatsapp_cloud'
       Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: self)
+    when 'whatsapp_unofficial'
+      Whatsapp::Providers::WhatsappUnofficialService.new(whatsapp_channel: self)
     else
       Whatsapp::Providers::Whatsapp360DialogService.new(whatsapp_channel: self)
     end

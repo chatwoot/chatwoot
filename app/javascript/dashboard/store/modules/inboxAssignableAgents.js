@@ -56,7 +56,7 @@ export const actions = {
         members: payload,
       });
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: false });
     }

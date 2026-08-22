@@ -10,6 +10,7 @@ import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
 export default {
   components: {
@@ -17,6 +18,7 @@ export default {
     MultiselectDropdown,
     ConversationLabels,
     NextButton,
+    ToggleSwitch,
   },
   props: {
     conversationId: {
@@ -81,11 +83,11 @@ export default {
     },
     assignedAgent: {
       get() {
-        const assignee = this.currentChat.meta.assignee;
+        const assignee = this.currentChat?.meta?.assignee;
         return (
           assignee && {
             ...assignee,
-            assignee_type: this.currentChat.meta.assignee_type || 'User',
+            assignee_type: this.currentChat?.meta?.assignee_type || 'User',
           }
         );
       },
@@ -105,28 +107,46 @@ export default {
           })
           .then(() => {
             useAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+          })
+          .catch(() => {
+            useAlert(this.$t('CONVERSATION.CHANGE_AGENT_FAILED'));
+            // Revert optimistic update on failure
+            this.$store.dispatch('setCurrentChatAssignee', {
+              conversationId: this.currentChat.id,
+              assignee: this.currentChat.meta?.assignee ?? null,
+              assigneeType:
+                this.currentChat.meta?.assignee_type ?? null,
+            });
           });
       },
     },
     assignedTeam: {
       get() {
-        return this.currentChat.meta.team;
+        return this.currentChat?.meta?.team ?? null;
       },
       set(team) {
         const conversationId = this.currentChat.id;
         const teamId = team ? team.id : 0;
+        const previousTeam = this.currentChat?.meta?.team ?? null;
         this.$store.dispatch('setCurrentChatTeam', { team, conversationId });
         this.$store
           .dispatch('assignTeam', { conversationId, teamId })
           .then(() => {
             useAlert(this.$t('CONVERSATION.CHANGE_TEAM'));
+          })
+          .catch(() => {
+            useAlert(this.$t('CONVERSATION.CHANGE_TEAM_FAILED'));
+            this.$store.dispatch('setCurrentChatTeam', {
+              team: previousTeam,
+              conversationId,
+            });
           });
       },
     },
     assignedPriority: {
       get() {
         const selectedOption = this.priorityOptions.find(
-          opt => opt.id === this.currentChat.priority
+          opt => opt.id === this.currentChat?.priority
         );
 
         return selectedOption || this.priorityOptions[0];
@@ -154,6 +174,15 @@ export default {
                 conversationId,
               })
             );
+          })
+          .catch(() => {
+            useAlert(
+              this.$t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.FAILED')
+            );
+            this.$store.dispatch('setCurrentChatPriority', {
+              priority: oldValue ?? null,
+              conversationId,
+            });
           });
       },
     },
@@ -168,6 +197,34 @@ export default {
         return true;
       }
       return false;
+    },
+    aiReplyEnabled: {
+      get() {
+        return this.currentChat?.custom_attributes?.ai_reply_enabled === true;
+      },
+      set(enabled) {
+        const conversationId = this.currentChat?.id;
+        if (!conversationId) {
+          return;
+        }
+        const previousEnabled =
+          this.currentChat?.custom_attributes?.ai_reply_enabled === true;
+        this.$store
+          .dispatch('toggleBotAiReply', { conversationId, enabled })
+          .then(() => {
+            const messageKey = enabled
+              ? 'CONVERSATION_SIDEBAR.AI_REPLY.ENABLED'
+              : 'CONVERSATION_SIDEBAR.AI_REPLY.DISABLED';
+            useAlert(this.$t(messageKey));
+          })
+          .catch(() => {
+            this.$store.dispatch('toggleBotAiReply', {
+              conversationId,
+              enabled: previousEnabled,
+            });
+            useAlert(this.$t('CONVERSATION_SIDEBAR.AI_REPLY.UPDATE_ERROR'));
+          });
+      },
     },
   },
   methods: {
@@ -297,6 +354,13 @@ export default {
         "
         @select="onClickAssignPriority"
       />
+    </div>
+    <div>
+      <ContactDetailsItem
+        compact
+        :title="$t('CONVERSATION_SIDEBAR.AI_REPLY.TITLE')"
+      />
+      <ToggleSwitch v-model="aiReplyEnabled" />
     </div>
     <ContactDetailsItem
       compact

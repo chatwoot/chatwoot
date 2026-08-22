@@ -15,3 +15,11 @@ vendor/bundle
 .DS_Store
 *.swp
 *~
+# Excluded purely to shrink the build context (not needed inside the image):
+coverage
+docs
+.husky
+.qlty
+.windsurf
+.vscode
+

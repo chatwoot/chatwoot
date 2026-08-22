@@ -23,8 +23,8 @@
 class Captain::Scenario < ApplicationRecord
   DESCRIPTION_LENGTH_LIMIT = 500
 
-  include Concerns::CaptainToolsHelpers
-  include Concerns::Agentable
+  include CaptainToolsHelpers
+  include Agentable
 
   # OpenAI enforces a 64-char limit on function names. The ai-agents gem
   # prepends "handoff_to_" (11 chars), so we keep a safety margin and cap

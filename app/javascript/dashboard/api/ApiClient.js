@@ -28,10 +28,6 @@ class ApiClient {
   baseUrl() {
     let url = this.apiVersion;
 
-    if (this.options.enterprise) {
-      url = `/enterprise${url}`;
-    }
-
     if (this.options.accountScoped && this.accountIdFromRoute) {
       url = `${url}/accounts/${this.accountIdFromRoute}`;
     }

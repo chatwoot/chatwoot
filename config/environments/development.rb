@@ -64,6 +64,12 @@ Rails.application.configure do
   # Disable host check during development
   config.hosts = nil
   
+  # Allow the web console to render from the Docker dev gateway. The browser
+  # reaches Rails through the compose bridge network (e.g. 172.22.0.1), which is
+  # outside the default localhost allowlist and otherwise logs
+  # "Cannot render console from <ip>".
+  config.web_console.allowed_ips = %w(127.0.0.0/8 ::1 172.16.0.0/12 10.0.0.0/8 192.168.0.0/16)
+
   # GitHub Codespaces configuration
   if ENV['CODESPACES']
     # Allow web console access from any IP

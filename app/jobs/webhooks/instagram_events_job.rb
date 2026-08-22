@@ -14,7 +14,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   SUPPORTED_EVENTS = [:message, :read].freeze
 
   def perform(entries)
-    @entries = entries
+    @entries = Array(entries).map { |e| e.respond_to?(:with_indifferent_access) ? e.with_indifferent_access : e }
 
     key = format(::Redis::Alfred::IG_MESSAGE_MUTEX, sender_id: contact_instagram_id, ig_account_id: ig_account_id)
     # Keep the lock TTL just long enough for the first job to fetch profile data and

@@ -27,7 +27,8 @@ export const actions = {
       const response = await DashboardAppsAPI.get();
       commit(types.SET_DASHBOARD_APPS, response.data);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch dashboard apps:', error);
     } finally {
       commit(types.SET_DASHBOARD_APPS_UI_FLAG, { isFetching: false });
     }
@@ -50,7 +51,7 @@ export const actions = {
       const response = await DashboardAppsAPI.update(id, updateObj);
       commit(types.EDIT_DASHBOARD_APP, response.data);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_DASHBOARD_APPS_UI_FLAG, { isUpdating: false });
     }
@@ -61,7 +62,7 @@ export const actions = {
       await DashboardAppsAPI.delete(id);
       commit(types.DELETE_DASHBOARD_APP, id);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_DASHBOARD_APPS_UI_FLAG, { isDeleting: false });
     }

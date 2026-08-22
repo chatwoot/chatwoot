@@ -34,12 +34,13 @@ RSpec.describe 'Inbox Assignment Policies API', type: :request do
       end
 
       context 'when inbox has no assignment policy' do
-        it 'returns not found' do
+        it 'returns success with an empty payload' do
           get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/assignment_policy",
               headers: admin.create_new_auth_token,
               as: :json
 
-          expect(response).to have_http_status(:not_found)
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body).to be_nil
         end
       end
     end

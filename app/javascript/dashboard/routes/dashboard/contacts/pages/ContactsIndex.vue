@@ -14,6 +14,8 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ContactsList from 'dashboard/components-next/Contacts/Pages/ContactsList.vue';
 import ContactsBulkActionBar from '../components/ContactsBulkActionBar.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import CsvImportDialog from 'dashboard/components-next/Contacts/CsvImportDialog.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import BulkActionsAPI from 'dashboard/api/bulkActions';
 
 const DEFAULT_SORT_FIELD = 'last_activity_at';
@@ -71,6 +73,7 @@ const isSearchView = computed(() => !!searchQuery.value);
 const selectedContactIds = ref([]);
 const isBulkActionLoading = ref(false);
 const bulkDeleteDialogRef = ref(null);
+const csvImportDialogRef = ref(null);
 const selectedCount = computed(() => selectedContactIds.value.length);
 const bulkDeleteDialogTitle = computed(() =>
   selectedCount.value > 1
@@ -95,7 +98,7 @@ const activeSegment = computed(() => {
   return segments.value.find(view => view.id === Number(activeSegmentId.value));
 });
 
-const hasContacts = computed(() => contacts.value.length > 0);
+const hasContacts = computed(() => (contacts.value?.length ?? 0) > 0);
 const isContactIndexView = computed(
   () => route.name === 'contacts_dashboard_index' && pageNumber.value === 1
 );
@@ -137,8 +140,8 @@ const emptyStateMessage = computed(() => {
   return t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE');
 });
 
-const visibleContactIds = computed(() =>
-  contacts.value.map(contact => contact.id)
+const visibleContactIds = computed(
+  () => contacts.value?.map(contact => contact.id) ?? []
 );
 
 const clearSelection = () => {
@@ -276,14 +279,18 @@ const loadMoreSearchResults = async () => {
   isLoadingMore.value = true;
   const nextPage = searchPageNumber.value + 1;
 
-  await store.dispatch('contacts/search', {
-    ...getCommonFetchParams(nextPage),
-    search: searchValue.value,
-    append: true,
-  });
-
-  searchPageNumber.value = nextPage;
-  isLoadingMore.value = false;
+  try {
+    await store.dispatch('contacts/search', {
+      ...getCommonFetchParams(nextPage),
+      search: searchValue.value,
+      append: true,
+    });
+    searchPageNumber.value = nextPage;
+  } catch {
+    useAlert(t('CONTACTS_LAYOUT.SEARCH_FAILED', 'Failed to load more results'));
+  } finally {
+    isLoadingMore.value = false;
+  }
 };
 
 const fetchContactsBasedOnContext = async (page, options = {}) => {
@@ -425,7 +432,11 @@ const handleSort = async ({ sort, order }) => {
 };
 
 const createContact = async contact => {
-  await store.dispatch('contacts/create', contact);
+  try {
+    await store.dispatch('contacts/create', contact);
+  } catch {
+    useAlert(t('CONTACTS_LAYOUT.CREATE_FAILED', 'Failed to create contact'));
+  }
 };
 
 watch(hasSelection, value => {
@@ -449,7 +460,7 @@ watch(
 watch(
   [activeLabel, activeSegment, isActiveView],
   () => {
-    fetchContactsBasedOnContext(pageNumber.value);
+    fetchContactsBasedOnContext(pageNumber.value).catch(() => {});
   },
   { deep: true }
 );
@@ -466,7 +477,7 @@ watch(searchQuery, value => {
       hasAppliedFilters.value
     )
       return;
-    fetchContacts();
+    fetchContacts().catch(() => {});
   }
 });
 
@@ -496,6 +507,14 @@ onMounted(async () => {
   <div
     class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-surface-1"
   >
+    <div class="flex justify-end px-6 pt-4">
+      <Button
+        variant="faded"
+        color="slate"
+        :label="t('CONTACTS_LAYOUT.CSV_IMPORT.BUTTON')"
+        @click="csvImportDialogRef?.open()"
+      />
+    </div>
     <ContactsListLayout
       :search-value="searchValue"
       :header-title="headerTitle"
@@ -576,5 +595,6 @@ onMounted(async () => {
         </div>
       </template>
     </ContactsListLayout>
+    <CsvImportDialog ref="csvImportDialogRef" @imported="fetchContacts" />
   </div>
 </template>

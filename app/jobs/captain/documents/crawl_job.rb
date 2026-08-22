@@ -4,7 +4,7 @@ class Captain::Documents::CrawlJob < ApplicationJob
   def perform(document)
     if document.pdf_document?
       perform_pdf_processing(document)
-    elsif InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')&.value.present?
+    elsif Llm::Config.firecrawl_api_key.present?
       perform_firecrawl_crawl(document)
     else
       perform_simple_crawl(document)
@@ -54,7 +54,7 @@ class Captain::Documents::CrawlJob < ApplicationJob
   end
 
   def firecrawl_webhook_url(document)
-    webhook_url = Rails.application.routes.url_helpers.enterprise_webhooks_firecrawl_url
+    webhook_url = Rails.application.routes.url_helpers.webhooks_captain_firecrawl_url
 
     "#{webhook_url}?assistant_id=#{document.assistant_id}&token=#{generate_firecrawl_token(document.assistant_id, document.account_id)}"
   end

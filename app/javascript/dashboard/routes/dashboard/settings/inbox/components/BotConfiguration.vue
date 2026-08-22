@@ -5,6 +5,7 @@ import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFie
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SelectInput from 'dashboard/components-next/select/Select.vue';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 export default {
   components: {
@@ -22,6 +23,7 @@ export default {
   data() {
     return {
       selectedAgentBotId: null,
+      botFetchError: null,
     };
   },
   computed: {
@@ -37,10 +39,35 @@ export default {
         this.currentInboxId
       );
     },
+    agentBotOptions() {
+      return this.agentBots.map(bot => ({ value: bot.id, label: bot.name }));
+    },
   },
   watch: {
-    activeAgentBot() {
-      this.selectedAgentBotId = this.activeAgentBot.id;
+    activeAgentBot: {
+      handler(newVal) {
+        if (newVal && newVal.id) {
+          this.selectedAgentBotId = newVal.id;
+        } else if (!newVal || !newVal.id) {
+          // keep existing selection if user already picked, otherwise clear
+          // ensures placeholder shows when no bot is connected
+          if (
+            !this.selectedAgentBotId ||
+            this.selectedAgentBotId === newVal?.id
+          ) {
+            this.selectedAgentBotId = null;
+          }
+        }
+      },
+      immediate: true,
+    },
+    currentInboxId: {
+      handler(newId, oldId) {
+        if (newId && newId !== oldId) {
+          this.$store.dispatch('agentBots/fetchAgentBotInbox', newId);
+        }
+      },
+      immediate: false,
     },
   },
   mounted() {
@@ -48,14 +75,24 @@ export default {
   },
 
   methods: {
-    fetchBotData() {
-      this.$store.dispatch('agentBots/get');
-      this.$store.dispatch('agentBots/fetchAgentBotInbox', this.currentInboxId);
+    async fetchBotData() {
+      try {
+        await this.$store.dispatch('agentBots/get');
+        this.botFetchError = null;
+      } catch (error) {
+        this.botFetchError = parseAPIErrorResponse(error);
+      }
+      if (this.currentInboxId) {
+        this.$store.dispatch(
+          'agentBots/fetchAgentBotInbox',
+          this.currentInboxId
+        );
+      }
     },
     async updateActiveAgentBot() {
       try {
         await this.$store.dispatch('agentBots/setAgentBotInbox', {
-          inboxId: this.inbox.id,
+          inboxId: this.currentInboxId,
           // Added this to make sure that empty values are not sent to the API
           botId: this.selectedAgentBotId ? this.selectedAgentBotId : undefined,
         });
@@ -67,8 +104,9 @@ export default {
     async disconnectBot() {
       try {
         await this.$store.dispatch('agentBots/disconnectBot', {
-          inboxId: this.inbox.id,
+          inboxId: this.currentInboxId,
         });
+        this.selectedAgentBotId = null;
         useAlert(
           this.$t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECTED_SUCCESS_MESSAGE')
         );
@@ -95,8 +133,20 @@ export default {
         <SelectInput
           v-model="selectedAgentBotId"
           :placeholder="$t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER')"
-          :options="agentBots.map(bot => ({ value: bot.id, label: bot.name }))"
+          :options="agentBotOptions"
         />
+        <p
+          v-if="!uiFlags.isFetching && botFetchError"
+          class="text-sm text-n-ruby-11 mt-2"
+        >
+          {{ botFetchError }}
+        </p>
+        <p
+          v-else-if="!uiFlags.isFetching && !agentBotOptions.length"
+          class="text-sm text-n-slate-11 mt-2"
+        >
+          {{ $t('AGENT_BOTS.BOT_CONFIGURATION.EMPTY_STATE') }}
+        </p>
         <template #extra>
           <div class="grid grid-cols-1 lg:grid-cols-8 mt-3">
             <div class="col-span-1 lg:col-span-2 invisible" />

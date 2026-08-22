@@ -54,4 +54,8 @@ class Captain::AssistantPolicy < ApplicationPolicy
   def playground?
     true
   end
+
+  def intents?
+    true
+  end
 end

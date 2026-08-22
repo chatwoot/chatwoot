@@ -44,6 +44,10 @@ export const getters = {
     const whatsappChannelTypes = [INBOX_TYPES.WHATSAPP];
     return _getters.getCampaigns(CAMPAIGN_TYPES.ONE_OFF, whatsappChannelTypes);
   },
+  getEmailCampaigns: (_state, _getters) => {
+    const emailChannelTypes = [INBOX_TYPES.EMAIL];
+    return _getters.getCampaigns(CAMPAIGN_TYPES.ONE_OFF, emailChannelTypes);
+  },
   getLiveChatCampaigns: (_state, _getters) => {
     const liveChatChannelTypes = [INBOX_TYPES.WEB];
     return _getters.getCampaigns(CAMPAIGN_TYPES.ONGOING, liveChatChannelTypes);
@@ -60,7 +64,8 @@ export const actions = {
       const response = await CampaignsAPI.get();
       commit(types.SET_CAMPAIGNS, response.data);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch campaigns:', error);
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isFetching: false });
     }
@@ -71,7 +76,7 @@ export const actions = {
       const response = await CampaignsAPI.create(campaignObj);
       commit(types.ADD_CAMPAIGN, response.data);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isCreating: false });
     }
@@ -83,7 +88,7 @@ export const actions = {
       AnalyticsHelper.track(CAMPAIGNS_EVENTS.UPDATE_CAMPAIGN);
       commit(types.EDIT_CAMPAIGN, response.data);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: false });
     }
@@ -95,9 +100,17 @@ export const actions = {
       AnalyticsHelper.track(CAMPAIGNS_EVENTS.DELETE_CAMPAIGN);
       commit(types.DELETE_CAMPAIGN, id);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isDeleting: false });
+    }
+  },
+  // Kiraid: trigger a one_off (cold-outreach) campaign immediately.
+  trigger: async (_context, id) => {
+    try {
+      await CampaignsAPI.trigger(id);
+    } catch (error) {
+      throw error;
     }
   },
 };

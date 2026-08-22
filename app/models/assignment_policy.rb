@@ -34,8 +34,7 @@ class AssignmentPolicy < ApplicationRecord
   validates :exclude_older_than_hours, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
 
   enum conversation_priority: { earliest_created: 0, longest_waiting: 1 }
-
-  enum assignment_order: { round_robin: 0 } unless ChatwootApp.enterprise?
+  enum assignment_order: { round_robin: 0 }
 end
 
 AssignmentPolicy.include_mod_with('Concerns::AssignmentPolicy')

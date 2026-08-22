@@ -1,9 +1,17 @@
 require 'ruby_llm'
 
 module Llm::Config
-  DEFAULT_MODEL = 'gpt-4.1-mini'.freeze
+  DEFAULT_MODEL = 'openrouter/free'.freeze
 
   class << self
+    # Single source of truth for the model used across every Captain feature.
+    # Prefers the configured model (CAPTAIN_OPEN_AI_MODEL via .env or the Super
+    # Admin installation config), so operators never need to set per-feature
+    # gpt/claude/gemini names. Only falls back to the default when nothing is
+    # configured.
+    def model
+      installation_model.presence || DEFAULT_MODEL
+    end
     def initialized?
       @initialized ||= false
     end
@@ -41,6 +49,34 @@ module Llm::Config
       endpoint.end_with?('/v1') ? endpoint : "#{endpoint}/v1"
     end
 
+    # Reads a Captain integration setting from the process environment first,
+    # falling back to the installation_config row (Super Admin console). This
+    # lets operators configure the LLM/Firecrawl credentials via .env without
+    # needing console access.
+    def system_api_key
+      config_value('CAPTAIN_OPEN_AI_API_KEY')
+    end
+
+    def openai_endpoint
+      config_value('CAPTAIN_OPEN_AI_ENDPOINT').presence
+    end
+
+    def installation_model
+      config_value('CAPTAIN_OPEN_AI_MODEL').presence
+    end
+
+    def embedding_model
+      config_value('CAPTAIN_EMBEDDING_MODEL').presence || LlmConstants::DEFAULT_EMBEDDING_MODEL
+    end
+
+    def firecrawl_api_key
+      config_value('CAPTAIN_FIRECRAWL_API_KEY')
+    end
+
+    def openrouter_endpoint?
+      openai_endpoint&.include?('openrouter.ai')
+    end
+
     private
 
     def configure_ruby_llm
@@ -53,16 +89,8 @@ module Llm::Config
       end
     end
 
-    def system_api_key
-      InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
-    end
-
-    def openai_endpoint
-      InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence
-    end
-
-    def openrouter_endpoint?
-      openai_endpoint&.include?('openrouter.ai')
+    def config_value(config_name)
+      ENV.fetch(config_name, nil).presence || InstallationConfig.find_by(name: config_name)&.value
     end
   end
 end

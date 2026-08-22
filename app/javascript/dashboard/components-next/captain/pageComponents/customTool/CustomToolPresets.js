@@ -75,7 +75,7 @@ export const CUSTOM_TOOL_PRESETS = [
     values: {
       title: 'Cal.com: Book appointment',
       description:
-        'Create a Cal.com booking. Book ONLY a slot returned by the availability tool, and confirm the customer\'s preferred time first.',
+        "Create a Cal.com booking. Book ONLY a slot returned by the availability tool, and confirm the customer's preferred time first.",
       http_method: 'POST',
       endpoint_url: 'https://api.cal.com/v2/bookings',
       auth_type: 'bearer',

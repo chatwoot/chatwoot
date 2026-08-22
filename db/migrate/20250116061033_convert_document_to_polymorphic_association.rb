@@ -3,7 +3,7 @@ class ConvertDocumentToPolymorphicAssociation < ActiveRecord::Migration[7.0]
     add_column :captain_assistant_responses, :documentable_type, :string
 
     # rubocop:disable Rails/SkipsModelValidations
-    if ChatwootApp.enterprise?
+    if false
       Captain::AssistantResponse
         .where
         .not(document_id: nil)

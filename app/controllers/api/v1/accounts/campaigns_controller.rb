@@ -16,6 +16,14 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
     @campaign.update!(campaign_params)
   end
 
+  # Kiraid: fire a one_off (cold-outreach) campaign immediately. Returns the
+  # campaign so the dashboard can refresh status. Remove alongside the email
+  # campaign feature if you drop it.
+  def trigger
+    Campaigns::TriggerOneoffCampaignJob.perform_later(@campaign)
+    head :ok
+  end
+
   def destroy
     @campaign.destroy!
     head :ok

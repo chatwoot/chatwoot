@@ -93,12 +93,7 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def setup_telegram_webhook
-    HTTParty.post("#{telegram_api_url}/deleteWebhook")
-    response = HTTParty.post("#{telegram_api_url}/setWebhook",
-                             body: {
-                               url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/telegram/#{bot_token}"
-                             })
-    errors.add(:bot_token, 'error setting up the webook') unless response.success?
+    errors.add(:bot_token, 'error setting up the webhook') unless Telegram::WebhookSetupService.new(channel: self).perform
   end
 
   def send_message(message)

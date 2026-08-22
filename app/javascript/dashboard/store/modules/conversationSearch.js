@@ -50,7 +50,8 @@ export const actions = {
       } = await SearchAPI.get({ q });
       commit(types.SEARCH_CONVERSATIONS_SET, payload);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to search conversations:', error);
     } finally {
       commit(types.SEARCH_CONVERSATIONS_SET_UI_FLAG, {
         isFetching: false,
@@ -74,7 +75,8 @@ export const actions = {
         dispatch('articleSearch', { q, ...filters }),
       ]);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to perform full search:', error);
     } finally {
       commit(types.FULL_SEARCH_SET_UI_FLAG, {
         isFetching: false,
@@ -89,7 +91,8 @@ export const actions = {
       const { data } = await SearchAPI.contacts({ ...searchParams, page });
       commit(types.CONTACT_SEARCH_SET, data.payload.contacts);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to search contacts:', error);
     } finally {
       commit(types.CONTACT_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
@@ -101,7 +104,8 @@ export const actions = {
       const { data } = await SearchAPI.conversations({ ...searchParams, page });
       commit(types.CONVERSATION_SEARCH_SET, data.payload.conversations);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to search conversations:', error);
     } finally {
       commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
@@ -113,7 +117,8 @@ export const actions = {
       const { data } = await SearchAPI.messages({ ...searchParams, page });
       commit(types.MESSAGE_SEARCH_SET, data.payload.messages);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to search messages:', error);
     } finally {
       commit(types.MESSAGE_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
@@ -125,7 +130,8 @@ export const actions = {
       const { data } = await SearchAPI.articles({ ...searchParams, page });
       commit(types.ARTICLE_SEARCH_SET, data.payload.articles);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to search articles:', error);
     } finally {
       commit(types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: false });
     }

@@ -33,7 +33,7 @@ export const actions = {
       const { data } = await ContactNotesAPI.get(contactId);
       commit(types.SET_CONTACT_NOTES, { contactId, data });
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_CONTACT_NOTES_UI_FLAG, { isFetching: false });
     }
@@ -45,7 +45,7 @@ export const actions = {
       const { data } = await ContactNotesAPI.create(contactId, content);
       commit(types.ADD_CONTACT_NOTE, { contactId, data });
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_CONTACT_NOTES_UI_FLAG, { isCreating: false });
     }
@@ -57,7 +57,7 @@ export const actions = {
       await ContactNotesAPI.delete(contactId, noteId);
       commit(types.DELETE_CONTACT_NOTE, { contactId, noteId });
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_CONTACT_NOTES_UI_FLAG, { isDeleting: false });
     }

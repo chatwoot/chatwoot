@@ -60,6 +60,7 @@ import captainBulkActions from './captain/bulkActions';
 import copilotThreads from './captain/copilotThreads';
 import copilotMessages from './captain/copilotMessages';
 import captainScenarios from './captain/scenarios';
+import captainSimpleReplies from './captain/simpleReplies';
 import captainTools from './captain/tools';
 import captainCustomTools from './captain/customTools';
 
@@ -127,6 +128,7 @@ export default createStore({
     copilotThreads,
     copilotMessages,
     captainScenarios,
+    captainSimpleReplies,
     captainTools,
     captainCustomTools,
   },

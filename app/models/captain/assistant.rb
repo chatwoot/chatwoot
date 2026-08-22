@@ -27,8 +27,8 @@ class Captain::Assistant < ApplicationRecord
   RESPONSE_WINDOWS = %w[always business_hours outside_business_hours].freeze
 
   include Avatarable
-  include Concerns::CaptainToolsHelpers
-  include Concerns::Agentable
+  include CaptainToolsHelpers
+  include Agentable
 
   self.table_name = 'captain_assistants'
 
@@ -45,6 +45,7 @@ class Captain::Assistant < ApplicationRecord
   has_many :messages, as: :sender, dependent: :nullify
   has_many :copilot_threads, dependent: :destroy_async
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
+  has_many :simple_replies, class_name: 'Captain::SimpleReply', dependent: :destroy_async
   has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
   has_many :conversation_outcomes, dependent: :destroy_async
 

@@ -459,6 +459,26 @@
         "SUGGESTIONS": "FAQ suggestions",
         "DOCUMENTS": "Documents"
       },
+      "INTENTS": {
+        "TITLE": "Top intents",
+        "COUNT": "{count} questions asked",
+        "EMPTY": "No questions recorded yet. The assistant's top customer intents will appear here.",
+        "LOADING": "Loading intents",
+        "NEW": "New",
+        "ASKED": "{count} times",
+        "RESOLUTION_LINE": "{count} conversations · {resolution}",
+        "RESOLUTION": {
+          "AUTO_RESOLVED": "Auto-resolved",
+          "ESCALATED": "Escalated to agent",
+          "IN_PROGRESS": "In progress",
+          "UNKNOWN": "No outcome yet"
+        }
+      },
+      "INTENTS_REPORT": {
+        "HEADER": "Intents",
+        "SELECT_ASSISTANT": "Select assistant",
+        "NO_ASSISTANTS": "No AI agents found. Create an AI agent to see top customer intents."
+      },
       "LINKS": {
         "DOCS": {
           "TITLE": "AI Agent docs",
@@ -892,6 +912,91 @@
           "DELETE": {
             "SUCCESS": "Scenarios deleted successfully",
             "ERROR": "There was an error deleting scenarios, please try again."
+          }
+        }
+      },
+      "SIMPLE_REPLIES": {
+        "TITLE": "Simple Replies",
+        "DESCRIPTION": "Instant keyword-based replies that run before the AI. When a customer message matches one of your keywords, the assistant answers with your saved reply without calling the AI.",
+        "FORM": {
+          "NAME": {
+            "LABEL": "Name",
+            "PLACEHOLDER": "Enter a name for this reply",
+            "ERROR": "Reply name is required"
+          },
+          "KEYWORDS": {
+            "LABEL": "Keywords",
+            "PLACEHOLDER": "Type a keyword and press enter",
+            "ERROR": "At least one keyword is required"
+          },
+          "REPLY": {
+            "LABEL": "Reply",
+            "PLACEHOLDER": "Write the message to send when a keyword matches",
+            "ERROR": "Reply content is required"
+          },
+          "MATCH_TYPE": {
+            "LABEL": "Match type",
+            "CONTAINS": "Message contains keyword",
+            "EXACT": "Message is exactly the keyword"
+          },
+          "SUBMIT": "Create",
+          "CANCEL": "Cancel"
+        },
+        "ADD": {
+          "NEW": {
+            "CREATE": "Add a simple reply",
+            "TITLE": "Create a simple reply",
+            "FORM": {
+              "NAME": {
+                "LABEL": "Name",
+                "PLACEHOLDER": "Enter a name for this reply",
+                "ERROR": "Reply name is required"
+              },
+              "KEYWORDS": {
+                "LABEL": "Keywords",
+                "PLACEHOLDER": "Type a keyword and press enter",
+                "ERROR": "At least one keyword is required"
+              },
+              "REPLY": {
+                "LABEL": "Reply",
+                "PLACEHOLDER": "Write the message to send when a keyword matches",
+                "ERROR": "Reply content is required"
+              },
+              "MATCH_TYPE": {
+                "LABEL": "Match type",
+                "CONTAINS": "Message contains keyword",
+                "EXACT": "Message is exactly the keyword"
+              },
+              "SUBMIT": "Create",
+              "CANCEL": "Cancel"
+            }
+          }
+        },
+        "UPDATE": {
+          "CANCEL": "Cancel",
+          "UPDATE": "Update changes"
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Search...",
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled",
+          "ENABLE": "Enable",
+          "DISABLE": "Disable"
+        },
+        "EMPTY_MESSAGE": "No simple replies found. Create one to answer common questions instantly.",
+        "SEARCH_EMPTY_MESSAGE": "No simple replies found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Simple reply added successfully",
+            "ERROR": "There was an error adding the simple reply, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Simple reply updated successfully",
+            "ERROR": "There was an error updating the simple reply, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Simple reply deleted successfully",
+            "ERROR": "There was an error deleting the simple reply, please try again."
           }
         }
       }

@@ -253,6 +253,8 @@
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
           "WHATSAPP_CLOUD_MANUAL_SETUP_DESC": "Manual setup with Cloud API credentials",
+          "WHATSAPP_UNOFFICIAL": "WhatsApp (QR / Unofficial)",
+          "WHATSAPP_UNOFFICIAL_DESC": "Login by scanning a QR code",
           "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
         },
@@ -299,6 +301,11 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "UNOFFICIAL": {
+          "QR_TITLE": "Scan this QR code with the WhatsApp app",
+          "QR_WAITING": "Generating QR code…",
+          "QR_SCANNING": "Waiting for you to scan the QR code with your WhatsApp app."
+        },
         "EMBEDDED_SIGNUP": {
           "TITLE": "Quick setup with Meta",
           "DESC": "Use Quick setup with Meta to connect a new number or an existing number from the WhatsApp Business app. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
@@ -844,6 +851,23 @@
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
       "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
       "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+    },
+    "UNOFFICIAL_WHATSAPP": {
+      "TITLE": "WhatsApp connection",
+      "DESCRIPTION": "This inbox connects to WhatsApp through the companion bridge. If the session is lost, scan the QR code again to reconnect.",
+      "STATUS": {
+        "LABEL": "Connection status",
+        "CONNECTED": "Connected",
+        "DISCONNECTED": "Disconnected",
+        "SCANNING": "Waiting for scan",
+        "UNKNOWN": "Unknown"
+      },
+      "RECONNECT_BUTTON": "Scan QR code",
+      "BACK_BUTTON": "Go back",
+      "CANCEL_BUTTON": "Cancel",
+      "QR_TIMEOUT": "QR code scan timed out. Please try again.",
+      "CONNECT_SUCCESS": "WhatsApp connected successfully.",
+      "CONNECT_ERROR": "Could not reach the companion service. Check the companion settings in Super Admin."
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",

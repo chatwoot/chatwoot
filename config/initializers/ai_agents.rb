@@ -3,9 +3,9 @@
 require 'agents'
 
 Rails.application.config.after_initialize do
-  api_key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
-  model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || LlmConstants::DEFAULT_MODEL
-  api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || LlmConstants::OPENAI_API_ENDPOINT
+  api_key = Llm::Config.system_api_key
+  model = Llm::Config.installation_model.presence || LlmConstants::DEFAULT_MODEL
+  api_endpoint = Llm::Config.openai_endpoint || LlmConstants::OPENAI_API_ENDPOINT
 
   if api_key.present?
     Agents.configure do |config|

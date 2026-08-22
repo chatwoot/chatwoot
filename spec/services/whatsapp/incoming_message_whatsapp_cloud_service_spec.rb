@@ -190,6 +190,40 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    context 'when channel provider is whatsapp_unofficial with an image attachment' do
+      let!(:whatsapp_channel) do
+        create(:channel_whatsapp,
+               provider: 'whatsapp_unofficial',
+               phone_number: '62829990001',
+               sync_templates: false, validate_provider_config: false)
+      end
+
+      before do
+        allow(Whatsapp::CompanionConfig).to receive_messages(
+          companion_url: 'http://companion.test',
+          companion_token: 'shared-token'
+        )
+      end
+
+      it 'downloads the raw binary from the companion and attaches it' do
+        # Companion serves raw image bytes (not the Cloud JSON wrapper).
+        stub_request(:get, 'http://companion.test/media/62829990001/b1c68f38-8734-4ad3-b4a1-ef0c10d683')
+          .with(headers: { 'X-Companion-Token' => 'shared-token' })
+          .to_return(body: File.read('spec/assets/sample.png'), status: 200,
+                     headers: { 'Content-Type' => 'image/png' })
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+        attachment = whatsapp_channel.inbox.messages.first.attachments.first
+        expect(attachment).to be_present
+        expect(attachment.file_type).to eq('image')
+        expect(attachment.file.attached?).to be true
+
+        # Uses the companion media URL, not graph.facebook.com.
+        expect(a_request(:get, /graph\.facebook\.com/)).not_to have_been_made
+      end
+    end
+
     context 'when invalid attachment message params' do
       let(:error_params) do
         {

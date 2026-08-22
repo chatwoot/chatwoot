@@ -70,12 +70,14 @@ Rails.application.routes.draw do
                 get :faq_stats
                 get :summary
                 get :drilldown
+                get :intents
               end
               collection do
                 get :tools
               end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
               resources :scenarios
+              resources :simple_replies
             end
             resources :agent_sessions, only: [:show]
             resources :assistant_responses do
@@ -105,7 +107,6 @@ Rails.application.routes.draw do
               post :follow_up
             end
           end
-          resource :saml_settings, only: [:show, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
@@ -141,13 +142,34 @@ Rails.application.routes.draw do
               resources :inbox_limits, only: [:create, :update, :destroy]
             end
           end
-          resources :campaigns, only: [:index, :create, :show, :update, :destroy]
+          resources :campaigns, only: [:index, :create, :show, :update, :destroy] do
+            member do
+              # Kiraid: trigger a one_off (cold-outreach) campaign immediately.
+              post :trigger
+            end
+          end
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
+            # Kiraid: unofficial (Baileys/QR) WhatsApp companion proxy. `status`
+            # and `qr` are custom member actions, so they must be declared in a
+            # member block — `only:` only filters the seven RESTful actions.
+            resources :whatsapp_unofficial, only: [], param: :id do
+              collection do
+                post :connect
+                get :find
+              end
+              member do
+                get :status
+                get :qr
+                post :logout
+              end
+            end
           end
           resources :conversations, only: [:index, :create, :show, :update, :destroy] do
             collection do
+              # Kiraid: one-shot email composer (send email from dashboard).
+              post :send_email
               get :meta
               get :search
               get :unread_counts, to: 'conversations/unread_counts#index'
@@ -210,6 +232,9 @@ Rails.application.routes.draw do
               resources :notes, only: [:index]
             end
           end
+          # Kiraid: modular CSV contact/company importer. Remove this line +
+          # CsvImportController + app/services/csv_import to drop the feature.
+          resources :csv_import, only: [:create]
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
               get :active
@@ -283,6 +308,8 @@ Rails.application.routes.draw do
             get :agent_bot, on: :member
             get :message_templates, on: :member
             post :set_agent_bot, on: :member
+            get :captain_bot, on: :member
+            post :set_captain_bot, on: :member
             delete :avatar, on: :member
             post :sync_templates, on: :member
             put :whatsapp_business_management_token, on: :member
@@ -443,9 +470,6 @@ Rails.application.routes.draw do
       namespace :integrations do
         resources :webhooks, only: [:create]
       end
-
-      # Frontend API endpoint to trigger SAML authentication flow
-      post 'auth/saml_login', to: 'auth#saml_login'
 
       resource :profile, only: [:show, :update] do
         delete :avatar, on: :collection
@@ -628,10 +652,13 @@ Rails.application.routes.draw do
   post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
   get 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#verify'
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
+  # Unofficial (Baileys/QR) WhatsApp bridge — companion posts Cloud-shaped payloads.
+  post 'webhooks/whatsapp_unofficial/:phone_number', to: 'webhooks/whatsapp_unofficial#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
   post 'webhooks/shopify', to: 'webhooks/shopify#events'
+  post 'webhooks/captain/firecrawl', to: 'captain/webhooks/firecrawl#process_payload'
 
   namespace :twitter do
     resource :callback, only: [:show]

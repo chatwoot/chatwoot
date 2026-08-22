@@ -29,6 +29,16 @@ class Inboxes extends CacheEnabledApiClient {
     });
   }
 
+  getCaptainBot(inboxId) {
+    return axios.get(`${this.url}/${inboxId}/captain_bot`);
+  }
+
+  setCaptainBot(inboxId, captainAssistantId) {
+    return axios.post(`${this.url}/${inboxId}/set_captain_bot`, {
+      captain_assistant_id: captainAssistantId,
+    });
+  }
+
   syncTemplates(inboxId) {
     return axios.post(`${this.url}/${inboxId}/sync_templates`);
   }

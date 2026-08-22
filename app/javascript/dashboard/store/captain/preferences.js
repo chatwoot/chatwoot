@@ -55,7 +55,8 @@ export const useCaptainConfigStore = defineStore('captainConfig', {
         this.models = response.data.models || {};
         this.features = response.data.features || {};
       } catch (error) {
-        // Ignore error
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch captain preferences:', error);
       } finally {
         this.uiFlags.isFetching = false;
       }

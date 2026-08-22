@@ -31,7 +31,8 @@ export const actions = {
       const response = await SlaAPI.get();
       commit(types.SET_SLA, response.data.payload);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch SLAs:', error);
     } finally {
       commit(types.SET_SLA_UI_FLAG, { isFetching: false });
     }

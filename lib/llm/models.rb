@@ -32,7 +32,17 @@ module Llm::Models
     end
 
     def provider_for(model_name)
-      model_config(model_name)&.dig('provider')
+      model_config(model_name)&.dig('provider') || detect_provider(model_name)
+    end
+
+    # The single configured model (e.g. "openrouter/free") is not in the
+    # per-feature registry, so derive the provider from its naming prefix.
+    def detect_provider(model_name)
+      model = model_name.to_s.downcase
+      LlmConstants::PROVIDER_PREFIXES.each do |provider, prefixes|
+        return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
+      end
+      nil
     end
 
     def feature_config(feature_key)

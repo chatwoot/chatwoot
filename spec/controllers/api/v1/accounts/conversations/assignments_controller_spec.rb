@@ -24,7 +24,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
 
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/assignments",
-             headers: { api_access_token: agent_bot.access_token.token },
+             headers: { 'api-access-token': agent_bot.access_token.token },
              params: {
                assignee_id: agent.id
              },
@@ -108,7 +108,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
         expect(conversation.reload.assignee).to be_nil
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/assignments",
-             headers: { api_access_token: agent_bot.access_token.token },
+             headers: { 'api-access-token': agent_bot.access_token.token },
              params: {
                assignee_id: agent.id
              },
@@ -125,7 +125,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
         expect(conversation.reload.team).to be_nil
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/assignments",
-             headers: { api_access_token: agent_bot.access_token.token },
+             headers: { 'api-access-token': agent_bot.access_token.token },
              params: {
                team_id: team.id
              },

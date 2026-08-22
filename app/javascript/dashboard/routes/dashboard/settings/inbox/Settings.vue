@@ -31,6 +31,7 @@ import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
 import WhatsappManualMigrationDialog from './components/WhatsappManualMigrationDialog.vue';
 import WhatsappManualMigrationBanner from './components/WhatsappManualMigrationBanner.vue';
+import UnofficialWhatsappConnection from './components/UnofficialWhatsappConnection.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
@@ -82,6 +83,7 @@ export default {
     AccountHealth,
     WhatsappManualMigrationDialog,
     WhatsappManualMigrationBanner,
+    UnofficialWhatsappConnection,
     Widget,
     AccessToken,
     Icon,
@@ -169,6 +171,9 @@ export default {
       }
       if (this.isATwilioWhatsAppChannel) {
         return this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO');
+      }
+      if (this.isAWhatsAppUnofficialChannel) {
+        return this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_UNOFFICIAL');
       }
       return '';
     },
@@ -439,9 +444,9 @@ export default {
         const inboxChanged = to.params.inboxId !== from.params.inboxId;
         if (inboxChanged) {
           this.syncInboxData();
-          this.setTabFromRouteParam();
           this.openWhatsAppManualMigrationIfRequested();
         }
+        this.setTabFromRouteParam();
       }
     },
     inbox: {
@@ -652,13 +657,12 @@ export default {
       if (!tab) return;
 
       const { accountId, inboxId } = this.$route.params;
-      const baseUrl = `/app/accounts/${accountId}/settings/inboxes/${inboxId}`;
+      const tabParam = tab.key === 'inbox-settings' ? undefined : tab.key;
 
-      // Append the tab key only if it's not the default.
-      const newUrl =
-        tab.key === 'inbox-settings' ? baseUrl : `${baseUrl}/${tab.key}`;
-      // Update URL without triggering route watcher
-      window.history.replaceState(null, '', newUrl);
+      this.$router.replace({
+        name: 'settings_inbox_show',
+        params: { accountId, inboxId, tab: tabParam },
+      });
     },
     setTabFromRouteParam() {
       const { tab: tabParam } = this.$route.params;
@@ -974,6 +978,11 @@ export default {
                 class="!mb-0"
               />
             </SettingsFieldSection>
+
+            <UnofficialWhatsappConnection
+              v-if="isAWhatsAppUnofficialChannel"
+              :inbox="inbox"
+            />
 
             <SettingsFieldSection
               :label="$t('INBOX_MGMT.HELP_CENTER.LABEL')"

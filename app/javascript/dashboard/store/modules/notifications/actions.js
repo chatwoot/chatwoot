@@ -68,7 +68,7 @@ export const actions = {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
-      throw new Error(error);
+      throw error;
     }
   },
 

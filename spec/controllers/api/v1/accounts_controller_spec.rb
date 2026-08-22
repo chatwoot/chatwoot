@@ -86,6 +86,19 @@ RSpec.describe 'Accounts API', type: :request do
     end
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to false' do
+      # GlobalConfigService resolves ENABLE_ACCOUNT_SIGNUP from the persisted
+      # InstallationConfig / Redis cache first, falling back to ENV only when
+      # that is absent. Clear both so the env override is actually honored.
+      before do
+        GlobalConfig.clear_cache
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+      end
+
+      after do
+        InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+        GlobalConfig.clear_cache
+      end
+
       it 'responds 404 on requests' do
         params = { account_name: 'test', email: email, user_full_name: user_full_name }
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
@@ -218,7 +231,7 @@ RSpec.describe 'Accounts API', type: :request do
         allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
 
         get "/api/v1/accounts/#{account.id}",
-            headers: { api_access_token: admin.access_token.token },
+            headers: { 'api-access-token': admin.access_token.token },
             as: :json
 
         expect(response).to have_http_status(:forbidden)
@@ -260,7 +273,7 @@ RSpec.describe 'Accounts API', type: :request do
         allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
 
         get "/api/v1/accounts/#{account.id}/cache_keys",
-            headers: { api_access_token: admin.access_token.token },
+            headers: { 'api-access-token': admin.access_token.token },
             as: :json
 
         expect(response).to have_http_status(:forbidden)
@@ -376,7 +389,7 @@ RSpec.describe 'Accounts API', type: :request do
         expect do
           patch "/api/v1/accounts/#{account.id}",
                 params: { name: 'Updated through API' },
-                headers: { api_access_token: admin.access_token.token },
+                headers: { 'api-access-token': admin.access_token.token },
                 as: :json
         end.not_to(change { account.reload.name })
 
@@ -418,7 +431,7 @@ RSpec.describe 'Accounts API', type: :request do
         account_user = agent.account_users.first
 
         post "/api/v1/accounts/#{account.id}/update_active_at",
-             headers: { api_access_token: agent.access_token.token },
+             headers: { 'api-access-token': agent.access_token.token },
              as: :json
 
         expect(response).to have_http_status(:forbidden)

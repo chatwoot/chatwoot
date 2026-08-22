@@ -58,7 +58,7 @@ export const actions = {
         isUpdating: false,
         isError: true,
       });
-      throw new Error(error);
+      throw error;
     }
   },
   setContactLabel({ commit }, { id, data }) {

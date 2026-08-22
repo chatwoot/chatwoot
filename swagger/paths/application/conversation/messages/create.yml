@@ -15,7 +15,7 @@ description: |
 
   ```bash
   curl -X POST "https://app.chatwoot.com/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages" \
-    -H "api_access_token: <your-api-token>" \
+    -H "api-access-token: <your-api-token>" \
     -F "content=Here is the screenshot" \
     -F "message_type=outgoing" \
     -F "private=false" \

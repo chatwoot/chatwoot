@@ -605,6 +605,65 @@ describe('#getters', () => {
       expect(result).toEqual([mockConversations[0]]);
     });
 
+    it('shows all conversations in an inbox the custom-role user is a collaborator of', () => {
+      const conversations = [
+        {
+          id: 1,
+          status: 'open',
+          inbox_id: 100,
+          meta: { assignee: { id: 2 } },
+          last_activity_at: 1000,
+        },
+        {
+          id: 2,
+          status: 'pending',
+          inbox_id: 100,
+          meta: { assignee: { id: 3 } },
+          last_activity_at: 2000,
+        },
+        {
+          id: 3,
+          status: 'open',
+          inbox_id: 200,
+          meta: { assignee: { id: 3 } },
+          last_activity_at: 3000,
+        },
+      ];
+
+      const state = {
+        allConversations: conversations,
+        chatSortFilter: 'last_activity_at_desc',
+        appliedFilters: [],
+      };
+
+      const rootGetters = {
+        ...mockRootGetters,
+        getCurrentUser: {
+          ...mockRootGetters.getCurrentUser,
+          accounts: [
+            {
+              id: 1,
+              custom_role_id: 5,
+              permissions: ['conversation_participating_manage'],
+            },
+          ],
+        },
+        'inboxes/getAllInboxes': () => [{ id: 100 }],
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        rootGetters
+      );
+
+      // Even though neither conversation is assigned to the user, being a
+      // collaborator of inbox 100 lets them see all conversations in it. The
+      // conversation in inbox 200 stays hidden.
+      expect(result).toEqual([conversations[1], conversations[0]]);
+    });
+
     it('filters conversations for custom role with no permissions', () => {
       const state = {
         allConversations: mockConversations,

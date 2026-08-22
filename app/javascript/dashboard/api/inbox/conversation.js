@@ -114,9 +114,10 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/transcript`, { email });
   }
 
-  updateCustomAttributes({ conversationId, customAttributes }) {
+  updateCustomAttributes({ conversationId, customAttributes, merge = false }) {
     return axios.post(`${this.url}/${conversationId}/custom_attributes`, {
       custom_attributes: customAttributes,
+      merge,
     });
   }
 

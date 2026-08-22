@@ -4,7 +4,6 @@ class Whatsapp::OneoffCampaignService
   def perform
     validate_campaign!
     process_audience(extract_audience_labels)
-    campaign.completed!
   end
 
   private
@@ -25,10 +24,16 @@ class Whatsapp::OneoffCampaignService
   end
 
   def validate_provider!
-    raise 'WhatsApp Cloud provider required' if channel.provider != 'whatsapp_cloud'
+    # Unofficial (Baileys/QR) WhatsApp sends free-form text — no template approval,
+    # no 24h window — so it is a valid campaign target alongside the Cloud API.
+    return if %w[whatsapp_cloud whatsapp_unofficial].include?(channel.provider)
+
+    raise 'WhatsApp Cloud provider required'
   end
 
   def validate_feature_flag!
+    return if channel.provider == 'whatsapp_unofficial'
+
     raise 'WhatsApp campaigns feature not enabled' unless campaign.account.feature_enabled?(:whatsapp_campaign)
   end
 
@@ -44,67 +49,61 @@ class Whatsapp::OneoffCampaignService
     campaign.account.labels.where(id: audience_label_ids).pluck(:title)
   end
 
-  def process_contact(contact)
-    Rails.logger.info "Processing contact: #{contact.name} (#{contact.phone_number})"
-
-    if contact.phone_number.blank?
-      Rails.logger.info "Skipping contact #{contact.name} - no phone number"
-      return
-    end
-
-    if campaign.template_params.blank?
-      Rails.logger.error "Skipping contact #{contact.name} - no template_params found for WhatsApp campaign"
-      return
-    end
-
-    processed_template_params = process_liquid_template_params(contact)
-    return if processed_template_params.nil?
-
-    send_whatsapp_template_message(to: contact.phone_number, template_params: processed_template_params)
-  end
-
+  # Instead of sending every message inline, one job per recipient is scheduled
+  # ahead of time. The gaps between sends are randomized and every batch gets an
+  # extra pause, so the traffic pattern looks human instead of a bulk blast —
+  # bulk-blast patterns are what get WhatsApp numbers flagged and banned.
   def process_audience(audience_labels)
     contacts = campaign.account.contacts.tagged_with(audience_labels, any: true)
-    Rails.logger.info "Processing #{contacts.count} contacts for campaign #{campaign.id}"
+                       .where.not(phone_number: [nil, '']).order(:id)
+    total_count = contacts.count
+    Rails.logger.info "Scheduling #{total_count} contacts for WhatsApp campaign #{campaign.id}"
+    return if total_count.zero?
 
-    contacts.each { |contact| process_contact(contact) }
+    # Clear any stale tracking from a previous trigger/retry
+    Redis::Alfred.delete("campaign:#{campaign.id}:whatsapp_dispatch_processed")
+    Redis::Alfred.delete("campaign:#{campaign.id}:whatsapp_dispatch_processed_set")
+    Redis::Alfred.setex("campaign:#{campaign.id}:whatsapp_dispatch_total", total_count, Campaigns::WhatsappContactJob::REDIS_KEY_EXPIRY)
 
-    Rails.logger.info "Campaign #{campaign.id} processing completed"
+    schedule_dispatch(contacts)
   end
 
-  def process_liquid_template_params(contact)
-    liquid_processor = Whatsapp::LiquidTemplateProcessorService.new(campaign: campaign, contact: contact)
-    processed_template_params = liquid_processor.process_template_params(campaign.template_params)
+  def schedule_dispatch(contacts)
+    dispatch_at = Time.current
+    sent_in_current_batch = 0
 
-    Rails.logger.info "Skipping contact #{contact.name} - liquid variables resolved to blank values" if processed_template_params.nil?
+    contacts.find_each do |contact|
+      dispatch_at += rand(min_delay_seconds..max_delay_seconds).seconds
+      sent_in_current_batch += 1
 
-    processed_template_params
-  rescue StandardError => e
-    Rails.logger.error "Failed to process liquid template params for contact #{contact.name}: #{e.message}"
-    nil
+      if sent_in_current_batch == batch_size
+        dispatch_at += rand(min_batch_pause_minutes..max_batch_pause_minutes).minutes
+        sent_in_current_batch = 0
+      end
+
+      Campaigns::WhatsappContactJob.set(wait_until: dispatch_at).perform_later(campaign.id, contact.id)
+    end
   end
 
-  def send_whatsapp_template_message(to:, template_params:)
-    processor = Whatsapp::TemplateProcessorService.new(
-      channel: channel,
-      template_params: template_params
-    )
+  # Anti-ban pacing knobs. ENV-overridable so throughput can be tuned per
+  # deployment without a code change.
+  def min_delay_seconds
+    ENV.fetch('WHATSAPP_CAMPAIGN_MIN_DELAY_SECONDS', '20').to_i
+  end
 
-    name, namespace, lang_code, processed_parameters = processor.call
+  def max_delay_seconds
+    ENV.fetch('WHATSAPP_CAMPAIGN_MAX_DELAY_SECONDS', '60').to_i
+  end
 
-    return if name.blank?
+  def batch_size
+    ENV.fetch('WHATSAPP_CAMPAIGN_BATCH_SIZE', '50').to_i
+  end
 
-    channel.send_template(to, {
-                            name: name,
-                            namespace: namespace,
-                            lang_code: lang_code,
-                            parameters: processed_parameters
-                          }, nil)
+  def min_batch_pause_minutes
+    ENV.fetch('WHATSAPP_CAMPAIGN_MIN_BATCH_PAUSE_MINUTES', '5').to_i
+  end
 
-  rescue StandardError => e
-    Rails.logger.error "Failed to send WhatsApp template message to #{to}: #{e.message}"
-    Rails.logger.error "Backtrace: #{e.backtrace.first(5).join('\n')}"
-    # continue processing remaining contacts
-    nil
+  def max_batch_pause_minutes
+    ENV.fetch('WHATSAPP_CAMPAIGN_MAX_BATCH_PAUSE_MINUTES', '10').to_i
   end
 end

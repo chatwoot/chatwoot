@@ -114,13 +114,16 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('agents/get');
-    this.$store.dispatch('portals/index');
+    this.$store.dispatch('agents/get').catch(() => {});
+    this.$store.dispatch('portals/index').catch(() => {});
     this.initialize();
     this.$watch('$store.state.route', () => this.initialize());
-    this.$watch('chatList.length', () => {
-      this.setActiveChat();
-    });
+    this.$watch(
+      () => this.chatList?.length,
+      () => {
+        this.setActiveChat();
+      }
+    );
   },
 
   methods: {
@@ -152,11 +155,14 @@ export default {
       }
       const chat = this.findConversation();
       if (!chat) {
-        this.$store.dispatch('getConversation', this.conversationId);
+        this.$store
+          .dispatch('getConversation', this.conversationId)
+          .catch(() => {});
       }
     },
     findConversation() {
       const conversationId = parseInt(this.conversationId, 10);
+      if (!Array.isArray(this.chatList)) return undefined;
       const [chat] = this.chatList.filter(c => c.id === conversationId);
       return chat;
     },
@@ -179,7 +185,8 @@ export default {
           })
           .then(() => {
             emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
-          });
+          })
+          .catch(() => {});
       } else {
         this.$store.dispatch('clearSelectedState');
       }

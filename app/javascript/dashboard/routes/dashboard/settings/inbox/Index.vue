@@ -28,11 +28,15 @@ const searchQuery = ref('');
 const inboxes = useMapGetter('inboxes/getInboxes');
 
 onActivated(() => {
-  store.dispatch('inboxes/get');
+  store.dispatch('inboxes/get').catch(() => {});
 });
 
 const inboxesList = computed(() => {
-  return inboxes.value?.slice().sort((a, b) => a.name.localeCompare(b.name));
+  return (
+    inboxes.value
+      ?.slice()
+      .sort((a, b) => (a.name || '').localeCompare(b.name || '')) ?? []
+  );
 });
 
 const filteredInboxesList = computed(() => {
@@ -86,7 +90,7 @@ const openDelete = inbox => {
 
 <template>
   <SettingsLayout
-    :no-records-found="!inboxesList.length"
+    :no-records-found="!inboxesList?.length"
     :no-records-message="$t('INBOX_MGMT.LIST.404')"
     :is-loading="uiFlags.isFetching"
   >

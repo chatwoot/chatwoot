@@ -44,7 +44,7 @@ export const actions = {
       commit(types.SET_SLA_REPORTS, payload);
       commit(types.SET_SLA_REPORTS_META, meta);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_SLA_REPORTS_UI_FLAG, { isFetching: false });
     }
@@ -55,7 +55,8 @@ export const actions = {
       const response = await SLAReportsAPI.getMetrics(params);
       commit(types.SET_SLA_REPORTS_METRICS, response.data);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch SLA report metrics:', error);
     } finally {
       commit(types.SET_SLA_REPORTS_UI_FLAG, { isFetchingMetrics: false });
     }

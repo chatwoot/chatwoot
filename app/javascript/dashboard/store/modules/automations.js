@@ -29,7 +29,8 @@ export const actions = {
       const response = await AutomationAPI.get();
       commit(types.SET_AUTOMATIONS, response.data.payload);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch automations:', error);
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isFetching: false });
     }
@@ -40,7 +41,7 @@ export const actions = {
       const response = await AutomationAPI.create(automationObj);
       commit(types.ADD_AUTOMATION, response.data);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isCreating: false });
     }
@@ -51,7 +52,7 @@ export const actions = {
       const response = await AutomationAPI.update(id, updateObj);
       commit(types.EDIT_AUTOMATION, response.data.payload);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isUpdating: false });
     }
@@ -62,7 +63,7 @@ export const actions = {
       await AutomationAPI.delete(id);
       commit(types.DELETE_AUTOMATION, id);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isDeleting: false });
     }
@@ -72,7 +73,7 @@ export const actions = {
     try {
       await AutomationAPI.clone(id);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isCloning: false });
     }

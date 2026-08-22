@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::BaseController
   before_action -> { check_authorization(Captain::Assistant) }
 
-  before_action :set_assistant, only: [:show, :update, :destroy, :playground, :metrics, :faq_stats, :summary, :drilldown]
+  before_action :set_assistant, only: [:show, :update, :destroy, :playground, :metrics, :faq_stats, :summary, :drilldown, :intents]
 
   def index
     @assistants = account_assistants.ordered
@@ -75,6 +75,13 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     return head :unprocessable_entity unless Captain::AssistantDrilldownBuilder.supported_metric?(params[:metric])
 
     render json: Captain::AssistantDrilldownBuilder.new(@assistant, drilldown_params).build
+  end
+
+  def intents
+    limit = params[:limit].presence&.to_i || Captain::AssistantIntentsBuilder::DEFAULT_LIMIT
+    render json: Captain::AssistantIntentsBuilder.new(
+      @assistant, params[:range], params[:timezone_offset], limit: limit
+    ).build
   end
 
   private

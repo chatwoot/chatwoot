@@ -10,7 +10,7 @@ class Captain::Llm::EmbeddingService
   end
 
   def self.embedding_model
-    InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence || LlmConstants::DEFAULT_EMBEDDING_MODEL
+    Llm::Config.embedding_model
   end
 
   def get_embedding(content, model: @embedding_model)

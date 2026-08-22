@@ -49,7 +49,8 @@ export const actions = {
       const response = await AttributeAPI.getAttributesByModel();
       commit(types.SET_CUSTOM_ATTRIBUTE, response.data);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch attributes:', error);
     } finally {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: false });
     }
@@ -84,7 +85,7 @@ export const actions = {
       await AttributeAPI.delete(id);
       commit(types.DELETE_CUSTOM_ATTRIBUTE, id);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isDeleting: false });
     }

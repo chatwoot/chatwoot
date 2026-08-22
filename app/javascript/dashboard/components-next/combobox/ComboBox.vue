@@ -58,7 +58,10 @@ const selectedLabel = computed(() => {
   return selected?.label ?? (props.displayLabel || selectPlaceholder.value);
 });
 
+// Kiraid: campaign channels — ignore clicks on disabled options so unsupported
+// inboxes cannot be selected. Removable with the campaign channel abstraction.
 const selectOption = option => {
+  if (option.disabled) return;
   if (selectedValue.value === option.value) {
     selectedValue.value = '';
     emit('update:modelValue', '');

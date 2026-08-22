@@ -10,7 +10,7 @@ class Webhooks::WhatsappController < ActionController::API
       return
     end
 
-    Webhooks::WhatsappEventsJob.perform_later(params.to_unsafe_hash)
+    Webhooks::WhatsappEventsJob.perform_later(params.to_unsafe_hash.with_indifferent_access)
     head :ok
   end
 
@@ -44,7 +44,7 @@ class Webhooks::WhatsappController < ActionController::API
   def whatsapp_business_payload_channel
     return unless params[:object] == 'whatsapp_business_account'
 
-    metadata = params.dig(:entry, 0, :changes, 0, :value, :metadata)
+    metadata = params.to_unsafe_hash.with_indifferent_access.dig(:entry, 0, :changes, 0, :value, :metadata)
     return if metadata.blank?
 
     Whatsapp::WebhookChannelFinderService.new(

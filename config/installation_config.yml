@@ -168,6 +168,15 @@
   description: 'Configure this if you want to use a different WhatsApp API version. Make sure its prefixed with `v`'
   value: 'v22.0'
   locked: false
+- name: WHATSAPP_COMPANION_URL
+  display_title: 'WhatsApp Companion URL'
+  description: 'Base URL of the unofficial (QR login) WhatsApp companion bridge, e.g. http://whatsapp-companion:4000'
+  locked: false
+- name: WHATSAPP_COMPANION_TOKEN
+  display_title: 'WhatsApp Companion Token'
+  description: 'Shared secret used to authenticate Chatwoot and the companion bridge. Must match CHATWOOT_SHARED_TOKEN on the companion service.'
+  locked: false
+  type: secret
 # ------- End of WhatsApp Channel Related Config ------- #
 
 # MARK: Microsoft Email Channel Config

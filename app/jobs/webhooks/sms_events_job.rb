@@ -4,6 +4,7 @@ class Webhooks::SmsEventsJob < ApplicationJob
   SUPPORTED_EVENTS = %w[message-received message-delivered message-failed].freeze
 
   def perform(params = {})
+    params = params.with_indifferent_access if params.respond_to?(:with_indifferent_access)
     return unless SUPPORTED_EVENTS.include?(params[:type])
 
     channel = Channel::Sms.find_by(phone_number: params[:to])

@@ -67,7 +67,7 @@ RSpec.describe 'Agent Bot API', type: :request do
 
       it 'supports API token authentication' do
         get "/api/v1/accounts/#{account.id}/agent_bots",
-            headers: { api_access_token: admin.access_token.token },
+            headers: { 'api-access-token': admin.access_token.token },
             as: :json
 
         expect(response).to have_http_status(:success)

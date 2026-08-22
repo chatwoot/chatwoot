@@ -3,6 +3,7 @@ class Internal::TriggerHourlyScheduledItemsJob < ApplicationJob
 
   def perform
     Channels::Whatsapp::HealthSyncSchedulerJob.perform_later
+    Channels::Telegram::ReRegisterWebhooksJob.perform_later
   end
 end
 

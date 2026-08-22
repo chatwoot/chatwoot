@@ -1,9 +1,9 @@
 <script setup>
-import { reactive, computed } from 'vue';
+import { reactive, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
@@ -24,6 +24,14 @@ const formState = {
   inboxes: useMapGetter('inboxes/getInboxes'),
   captainInboxes: useMapGetter('captainInboxes/getRecords'),
 };
+
+const store = useStore();
+
+onMounted(() => {
+  // The connect dialog lists every account inbox, so load them from the
+  // shared inboxes store rather than assuming they are already populated.
+  store.dispatch('inboxes/get');
+});
 
 const initialState = {
   inboxId: null,

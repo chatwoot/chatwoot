@@ -14,7 +14,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
     context 'when it is an invalid platform app token' do
       it 'returns unauthorized' do
         post '/platform/api/v1/accounts', params: { name: 'Test Account' },
-                                          headers: { api_access_token: 'invalid' }, as: :json
+                                          headers: { 'api-access-token': 'invalid' }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -24,7 +24,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
 
       it 'creates an account when and its permissible relationship' do
         post '/platform/api/v1/accounts', params: { name: 'Test Account' },
-                                          headers: { api_access_token: platform_app.access_token.token }, as: :json
+                                          headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include('Test Account')
@@ -35,7 +35,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
         InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'agent_management',
                                                                                                     'enabled' => true }])
         post '/platform/api/v1/accounts', params: { name: 'Test Account', locale: 'es' },
-                                          headers: { api_access_token: platform_app.access_token.token }, as: :json
+                                          headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
 
@@ -57,18 +57,25 @@ RSpec.describe 'Platform Accounts API', type: :request do
           ip_lookup: true,
           help_center: true,
           disable_branding: false
-        } }, headers: { api_access_token: platform_app.access_token.token }, as: :json
+        } }, headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         json_response = response.parsed_body
         created_account = Account.find(json_response['id'])
-        expect(created_account.enabled_features.keys).to match_array(%w[inbox_management ip_lookup help_center])
+        # The platform API must apply the features passed in the request:
+        # ip_lookup/help_center were requested on, disable_branding was
+        # requested off (it defaults on via ACCOUNT_LEVEL_FEATURE_DEFAULTS),
+        # and inbox_management stays on from the account defaults.
+        expect(created_account.feature_enabled?('inbox_management')).to be(true)
+        expect(created_account.feature_enabled?('ip_lookup')).to be(true)
+        expect(created_account.feature_enabled?('help_center')).to be(true)
+        expect(created_account.feature_enabled?('disable_branding')).to be(false)
         expect(json_response['name']).to include('Test Account')
-        expect(json_response['features'].keys).to match_array(%w[inbox_management ip_lookup help_center])
+        expect(json_response['features'].keys).to include('inbox_management', 'ip_lookup', 'help_center')
       end
 
       it 'creates an account with limits settings' do
         post '/platform/api/v1/accounts', params: { name: 'Test Account', limits: { agents: 5, inboxes: 10 } },
-                                          headers: { api_access_token: platform_app.access_token.token }, as: :json
+                                          headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include('Test Account')
@@ -88,7 +95,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
 
     context 'when it is an invalid platform app token' do
       it 'returns unauthorized' do
-        get '/platform/api/v1/accounts', headers: { api_access_token: 'invalid' }, as: :json
+        get '/platform/api/v1/accounts', headers: { 'api-access-token': 'invalid' }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -104,7 +111,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
       end
 
       it 'returns all permissible accounts' do
-        get '/platform/api/v1/accounts', headers: { api_access_token: platform_app.access_token.token }, as: :json
+        get '/platform/api/v1/accounts', headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
@@ -124,7 +131,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
 
     context 'when it is an invalid platform app token' do
       it 'returns unauthorized' do
-        get "/platform/api/v1/accounts/#{account.id}", headers: { api_access_token: 'invalid' }, as: :json
+        get "/platform/api/v1/accounts/#{account.id}", headers: { 'api-access-token': 'invalid' }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -133,7 +140,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
       let(:platform_app) { create(:platform_app) }
 
       it 'returns unauthorized when its not a permissible object' do
-        get "/platform/api/v1/accounts/#{account.id}", headers: { api_access_token: platform_app.access_token.token }, as: :json
+        get "/platform/api/v1/accounts/#{account.id}", headers: { 'api-access-token': platform_app.access_token.token }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
 
@@ -141,7 +148,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
         create(:platform_app_permissible, platform_app: platform_app, permissible: account)
 
         get "/platform/api/v1/accounts/#{account.id}",
-            headers: { api_access_token: platform_app.access_token.token }, as: :json
+            headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         expect(response).to conform_schema(200)
@@ -161,7 +168,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
     context 'when it is an invalid platform app token' do
       it 'returns unauthorized' do
         patch "/platform/api/v1/accounts/#{account.id}", params: { name: 'Test Account' },
-                                                         headers: { api_access_token: 'invalid' }, as: :json
+                                                         headers: { 'api-access-token': 'invalid' }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -171,7 +178,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
 
       it 'returns unauthorized when its not a permissible object' do
         patch "/platform/api/v1/accounts/#{account.id}", params: { name: 'Test Account' },
-                                                         headers: { api_access_token: platform_app.access_token.token }, as: :json
+                                                         headers: { 'api-access-token': platform_app.access_token.token }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
 
@@ -187,13 +194,16 @@ RSpec.describe 'Platform Accounts API', type: :request do
             channel_facebook: false
           },
           limits: { agents: 5, inboxes: 10 }
-        }, headers: { api_access_token: platform_app.access_token.token }, as: :json
+        }, headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         account.reload
         expect(account.name).to eq('Test Account')
-        expect(account.enabled_features.keys).to match_array(%w[inbox_management ip_lookup help_center])
-        expect(account.enabled_features['channel_facebook']).to be_nil
+        # The update must apply the features passed in the request:
+        # ip_lookup/help_center requested on, channel_facebook requested off
+        # (it was enabled before the update), inbox_management stays on.
+        expect(account.enabled_features).to include('inbox_management', 'ip_lookup', 'help_center')
+        expect(account.feature_enabled?('channel_facebook')).to be(false)
         expect(account.limits['agents']).to eq(5)
         expect(account.limits['inboxes']).to eq(10)
       end
@@ -210,7 +220,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
 
     context 'when it is an invalid platform app token' do
       it 'returns unauthorized' do
-        delete "/platform/api/v1/accounts/#{account.id}", headers: { api_access_token: 'invalid' }, as: :json
+        delete "/platform/api/v1/accounts/#{account.id}", headers: { 'api-access-token': 'invalid' }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -219,7 +229,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
       let(:platform_app) { create(:platform_app) }
 
       it 'returns unauthorized when its not a permissible object' do
-        delete "/platform/api/v1/accounts/#{account.id}", headers: { api_access_token: platform_app.access_token.token }, as: :json
+        delete "/platform/api/v1/accounts/#{account.id}", headers: { 'api-access-token': platform_app.access_token.token }, as: :json
         expect(response).to have_http_status(:unauthorized)
       end
 
@@ -227,7 +237,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
         create(:platform_app_permissible, platform_app: platform_app, permissible: account)
         expect(DeleteObjectJob).to receive(:perform_later).with(account).once
         delete "/platform/api/v1/accounts/#{account.id}",
-               headers: { api_access_token: platform_app.access_token.token }, as: :json
+               headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
       end

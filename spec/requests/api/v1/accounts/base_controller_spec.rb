@@ -15,7 +15,7 @@ RSpec.describe 'Api::V1::Accounts::BaseController', type: :request do
 
     it 'allows assignments via API' do
       post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
-           headers: { api_access_token: agent_bot.access_token.token },
+           headers: { 'api-access-token': agent_bot.access_token.token },
            params: { assignee_id: agent.id },
            as: :json
 
@@ -29,7 +29,7 @@ RSpec.describe 'Api::V1::Accounts::BaseController', type: :request do
 
     it 'rejects assignment' do
       post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
-           headers: { api_access_token: external_bot.access_token.token },
+           headers: { 'api-access-token': external_bot.access_token.token },
            params: { assignee_id: agent.id },
            as: :json
 
@@ -42,7 +42,7 @@ RSpec.describe 'Api::V1::Accounts::BaseController', type: :request do
 
     it 'rejects requests without inbox mapping' do
       post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
-           headers: { api_access_token: global_bot.access_token.token },
+           headers: { 'api-access-token': global_bot.access_token.token },
            params: { assignee_id: agent.id },
            as: :json
 
@@ -53,7 +53,7 @@ RSpec.describe 'Api::V1::Accounts::BaseController', type: :request do
       create(:agent_bot_inbox, agent_bot: global_bot, inbox: inbox)
 
       post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
-           headers: { api_access_token: global_bot.access_token.token },
+           headers: { 'api-access-token': global_bot.access_token.token },
            params: { assignee_id: agent.id },
            as: :json
 

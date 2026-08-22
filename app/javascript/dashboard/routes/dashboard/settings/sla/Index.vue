@@ -2,7 +2,7 @@
 import AddSLA from './AddSLA.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from 'dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue';
-import SLAPaywallEnterprise from './SLAPaywallEnterprise.vue';
+import SlaPaywall from './SlaPaywall.vue';
 import {
   BaseTable,
   BaseTableRow,
@@ -22,7 +22,7 @@ export default {
     AddSLA,
     SettingsLayout,
     BaseSettingsHeader,
-    SLAPaywallEnterprise,
+    SlaPaywall,
     BaseTable,
     BaseTableRow,
     BaseTableCell,
@@ -167,7 +167,7 @@ export default {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <SLAPaywallEnterprise
+      <SlaPaywall
         v-if="isBehindAPaywall"
         :is-super-admin="isSuperAdmin"
         :is-on-chatwoot-cloud="isOnChatwootCloud"

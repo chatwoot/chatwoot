@@ -11,7 +11,7 @@ class Captain::PromptRenderer
     private
 
     def load_template(template_name)
-      template_path = Rails.root.join('enterprise', 'lib', 'captain', 'prompts', "#{template_name}.liquid")
+      template_path = Rails.root.join('lib', 'captain', 'prompts', "#{template_name}.liquid")
 
       raise "Template not found: #{template_name}" unless File.exist?(template_path)
 

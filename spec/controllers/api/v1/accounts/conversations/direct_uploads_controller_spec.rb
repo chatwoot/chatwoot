@@ -33,14 +33,14 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'returns unauthorized with an empty api_access_token header' do
-        create_direct_upload({ api_access_token: '' })
+      it 'returns unauthorized with an empty api-access-token header' do
+        create_direct_upload({ 'api-access-token': '' })
 
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'returns unauthorized with an invalid api_access_token header' do
-        create_direct_upload({ api_access_token: 'invalid-token' })
+      it 'returns unauthorized with an invalid api-access-token header' do
+        create_direct_upload({ 'api-access-token': 'invalid-token' })
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -48,7 +48,7 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
 
     context 'when it is an authenticated request with an api access token' do
       it 'creates the blob for the direct upload' do
-        create_direct_upload({ api_access_token: agent.access_token.token })
+        create_direct_upload({ 'api-access-token': agent.access_token.token })
 
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['content_type']).to eq('image/png')
@@ -57,7 +57,7 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
       it 'returns unauthorized for an agent of another account' do
         other_agent = create(:user, account: create(:account), role: :agent)
 
-        create_direct_upload({ api_access_token: other_agent.access_token.token })
+        create_direct_upload({ 'api-access-token': other_agent.access_token.token })
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -65,7 +65,7 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
       it 'returns unauthorized for an agent bot token' do
         agent_bot = create(:agent_bot, account: account)
 
-        create_direct_upload({ api_access_token: agent_bot.access_token.token })
+        create_direct_upload({ 'api-access-token': agent_bot.access_token.token })
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -79,7 +79,7 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
       end
 
       it 'returns forbidden for a token-authenticated request' do
-        create_direct_upload({ api_access_token: agent.access_token.token })
+        create_direct_upload({ 'api-access-token': agent.access_token.token })
 
         expect(response).to have_http_status(:forbidden)
       end
@@ -101,7 +101,7 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
       end
 
       it 'creates the blob when the serialized api access token is empty' do
-        create_direct_upload(agent.create_new_auth_token.merge('api_access_token' => ''))
+        create_direct_upload(agent.create_new_auth_token.merge('api-access-token' => ''))
 
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['content_type']).to eq('image/png')
@@ -117,7 +117,7 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
       end
 
       it 'creates the blob for a token-authenticated request without a CSRF token' do
-        create_direct_upload({ api_access_token: agent.access_token.token })
+        create_direct_upload({ 'api-access-token': agent.access_token.token })
 
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['content_type']).to eq('image/png')

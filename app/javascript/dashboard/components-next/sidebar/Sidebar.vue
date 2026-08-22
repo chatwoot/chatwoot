@@ -100,6 +100,27 @@ const hasDataImport = computed(() => {
   );
 });
 
+const hasCampaigns = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.CAMPAIGNS
+  );
+});
+
+const hasWhatsappCampaign = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.WHATSAPP_CAMPAIGNS
+  );
+});
+
+const hasChannelEmail = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.CHANNEL_EMAIL
+  );
+});
+
 const fetchConversationUnreadCounts = ([currentAccountId, isEnabled]) => {
   if (!currentAccountId) return;
 
@@ -534,6 +555,14 @@ const menuItems = computed(() => {
           }),
         },
         {
+          name: 'Simple Replies',
+          label: t('SIDEBAR.CAPTAIN_SIMPLE_REPLIES'),
+          activeOn: ['captain_assistants_simple_replies_index'],
+          to: accountScopedRoute('captain_assistants_index', {
+            navigationPath: 'captain_assistants_simple_replies_index',
+          }),
+        },
+        {
           name: 'Playground',
           label: t('SIDEBAR.CAPTAIN_PLAYGROUND'),
           activeOn: ['captain_assistants_playground_index'],
@@ -700,30 +729,52 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.REPORTS_BOT'),
           to: accountScopedRoute('bot_reports'),
         },
-      ],
-    },
-    {
-      name: 'Campaigns',
-      label: t('SIDEBAR.CAMPAIGNS'),
-      icon: 'i-lucide-megaphone',
-      children: [
         {
-          name: 'Live chat',
-          label: t('SIDEBAR.LIVE_CHAT'),
-          to: accountScopedRoute('campaigns_livechat_index'),
-        },
-        {
-          name: 'SMS',
-          label: t('SIDEBAR.SMS'),
-          to: accountScopedRoute('campaigns_sms_index'),
-        },
-        {
-          name: 'WhatsApp',
-          label: t('SIDEBAR.WHATSAPP'),
-          to: accountScopedRoute('campaigns_whatsapp_index'),
+          name: 'Reports Intents',
+          label: t('SIDEBAR.REPORTS_INTENTS'),
+          to: accountScopedRoute('intents_reports'),
         },
       ],
     },
+    ...(hasCampaigns.value
+      ? [
+          {
+            name: 'Campaigns',
+            label: t('SIDEBAR.CAMPAIGNS'),
+            icon: 'i-lucide-megaphone',
+            children: [
+              {
+                name: 'Live chat',
+                label: t('SIDEBAR.LIVE_CHAT'),
+                to: accountScopedRoute('campaigns_livechat_index'),
+              },
+              {
+                name: 'SMS',
+                label: t('SIDEBAR.SMS'),
+                to: accountScopedRoute('campaigns_sms_index'),
+              },
+              ...(hasWhatsappCampaign.value
+                ? [
+                    {
+                      name: 'WhatsApp',
+                      label: t('SIDEBAR.WHATSAPP'),
+                      to: accountScopedRoute('campaigns_whatsapp_index'),
+                    },
+                  ]
+                : []),
+              ...(hasChannelEmail.value
+                ? [
+                    {
+                      name: 'Email',
+                      label: t('SIDEBAR.EMAIL'),
+                      to: accountScopedRoute('campaigns_email_index'),
+                    },
+                  ]
+                : []),
+            ],
+          },
+        ]
+      : []),
     {
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),

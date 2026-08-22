@@ -24,6 +24,10 @@ db_namespace = namespace :db do
       end
 
       db_namespace['migrate'].invoke
+      # Database triggers (display_id sequences) cannot live in schema.rb, so a
+      # freshly loaded schema has none. Recreate them idempotently on every
+      # prepare so conversation/campaign inserts always have a display_id.
+      db_namespace['ensure_triggers'].invoke
     rescue ActiveRecord::NoDatabaseError
       db_namespace['setup'].invoke
     end

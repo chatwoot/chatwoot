@@ -9,6 +9,13 @@ rm -rf /app/tmp/cache/*
 # instead of an 8000+ package re-download. `--prefer-offline` still fetches
 # anything genuinely missing, and fails loudly if a required package can't be
 # resolved at all (rather than silently producing a broken install).
+#
+# `CI=true` is required: with no TTY attached to the container, pnpm otherwise
+# blocks on an interactive "reinstall from scratch? (Y/n)" prompt when it
+# considers node_modules content stale/corrupt, which hangs `bin/vite dev`
+# forever and leaves the dashboard with a missing Vite manifest
+# (MissingEntrypointError). In CI mode pnpm answers the prompt automatically.
+export CI=true
 if ! pnpm install --prefer-offline; then
   echo "pnpm install failed; refusing to start Vite with a broken dependency tree." >&2
   exit 1

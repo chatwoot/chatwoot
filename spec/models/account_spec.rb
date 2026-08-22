@@ -432,33 +432,33 @@ RSpec.describe Account do
         account.update!(captain_models: nil)
       end
 
-      it 'returns defaults from llm.yml' do
+      it 'returns the single configured model for all features' do
         prefs = account.captain_preferences
 
         expect(prefs[:features].values).to all(be false)
 
         Llm::Models.feature_keys.each do |feature|
-          expect(prefs[:models][feature]).to eq(Llm::Models.default_model_for(feature))
+          expect(prefs[:models][feature]).to eq(Llm::Config.model)
         end
       end
 
-      it 'returns GPT-5.2 for assistant when Captain V2 is enabled' do
+      it 'returns the single configured model for assistant when Captain V2 is enabled' do
         account.enable_features!('captain_integration_v2')
 
-        expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
+        expect(account.captain_preferences[:models]['assistant']).to eq(Llm::Config.model)
         expect(account.reload.captain_models).to be_nil
       end
     end
 
     describe 'with saved model preferences' do
-      it 'returns saved preferences merged with defaults' do
+      it 'returns saved preferences merged with singles' do
         account.update!(captain_models: { 'editor' => 'gpt-4.1-mini', 'assistant' => 'gpt-5.2' })
 
         prefs = account.captain_preferences
 
         expect(prefs[:models]['editor']).to eq('gpt-4.1-mini')
         expect(prefs[:models]['assistant']).to eq('gpt-5.2')
-        expect(prefs[:models]['copilot']).to eq(Llm::Models.default_model_for('copilot'))
+        expect(prefs[:models]['copilot']).to eq(Llm::Config.model)
       end
     end
 

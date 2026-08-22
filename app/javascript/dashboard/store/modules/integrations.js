@@ -110,7 +110,7 @@ export const actions = {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isFetchingItem: false });
     } catch (error) {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isFetchingItem: false });
-      throw new Error(error);
+      throw error;
     }
   },
   createHook: async ({ commit }, hookData) => {
@@ -132,7 +132,7 @@ export const actions = {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeletingHook: false });
     } catch (error) {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeletingHook: false });
-      throw new Error(error);
+      throw error;
     }
   },
 };

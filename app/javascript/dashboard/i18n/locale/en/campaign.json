@@ -1,5 +1,10 @@
 {
   "CAMPAIGN": {
+    "FORM": {
+      "INBOX": {
+        "UNSUPPORTED_CHANNEL": "Campaigns are not supported for this channel yet"
+      }
+    },
     "LIVE_CHAT": {
       "HEADER_TITLE": "Live chat campaigns",
       "NEW_CAMPAIGN": "Create campaign",
@@ -198,6 +203,64 @@
           },
           "API": {
             "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "There was an error. Please try again."
+          }
+        }
+      }
+    },
+    "EMAIL": {
+      "HEADER_TITLE": "Email campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No email campaigns are available",
+        "SUBTITLE": "Run cold-outreach email campaigns to imported contacts. Click 'Create campaign' to get started."
+      },
+      "LIST": {
+        "SEND": "Send now",
+        "DELETE": "Delete",
+        "SEND_SUCCESS": "Email campaign triggered. Messages are being sent.",
+        "SEND_ERROR": "There was an error triggering the campaign."
+      },
+      "CREATE": {
+        "TITLE": "Create email campaign",
+        "CANCEL_BUTTON_TEXT": "Cancel",
+        "CREATE_BUTTON_TEXT": "Create",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Title",
+            "PLACEHOLDER": "Please enter the title of campaign",
+            "ERROR": "Title is required"
+          },
+          "INBOX": {
+            "LABEL": "Select Email inbox",
+            "PLACEHOLDER": "Select inbox",
+            "ERROR": "Inbox is required"
+          },
+          "SUBJECT": {
+            "LABEL": "Subject",
+            "PLACEHOLDER": "Please enter the email subject"
+          },
+          "MESSAGE": {
+            "LABEL": "Message",
+            "PLACEHOLDER": "Please enter the message",
+            "ERROR": "Message is required"
+          },
+          "AUDIENCE": {
+            "LABEL": "Audience",
+            "PLACEHOLDER": "Select the customer labels",
+            "ERROR": "Audience is required"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Scheduled time",
+            "PLACEHOLDER": "Please select the time",
+            "ERROR": "Scheduled time is required"
+          },
+          "BUTTONS": {
+            "CREATE": "Create",
+            "CANCEL": "Cancel"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Email campaign created and triggered successfully",
             "ERROR_MESSAGE": "There was an error. Please try again."
           }
         }

@@ -41,6 +41,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
         )
       )
       @inbox.save!
+      attach_default_captain_assistant
     end
   end
 
@@ -76,10 +77,34 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def captain_bot
+    @captain_assistant = @inbox.captain_assistant
+  end
+
+  def set_captain_bot
+    if params[:captain_assistant_id].present?
+      captain_assistant = Current.account.captain_assistants.find(params[:captain_assistant_id])
+      captain_inbox = @inbox.captain_inbox || CaptainInbox.new(inbox: @inbox)
+      captain_inbox.captain_assistant = captain_assistant
+      captain_inbox.save!
+    elsif @inbox.captain_inbox.present?
+      @inbox.captain_inbox.destroy!
+    end
+    head :ok
+  end
+
   def reset_secret
     return head :not_found unless @inbox.api?
 
     @inbox.channel.reset_secret!
+  end
+
+  # New inboxes are connected to the account's first Captain assistant by
+  # default so a bot is ready to handle conversations immediately. Accounts
+  # with no assistant yet simply get an unconnected inbox.
+  def attach_default_captain_assistant
+    default_assistant = Current.account.captain_assistants.order(:created_at).first
+    @inbox.create_captain_inbox!(captain_assistant: default_assistant) if default_assistant
   end
 
   def destroy
@@ -105,6 +130,10 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def allowed_channel_types
+    # OAuth channels (facebook, instagram, tiktok, twitter) are created via
+    # callbacks controllers (e.g. Api::V1::Accounts::CallbacksController) and
+    # not via the generic inbox creation endpoint. Keep this list in sync with
+    # `channel_type_from_params` below.
     %w[web_widget api email line telegram whatsapp sms]
   end
 
@@ -208,6 +237,9 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def channel_type_from_params
+    # Keep in sync with `allowed_channel_types` above. OAuth channels (facebook,
+    # instagram, tiktok, twitter) are intentionally omitted – they are created
+    # via callbacks controllers, not via this generic endpoint.
     {
       'web_widget' => Channel::WebWidget,
       'api' => Channel::Api,

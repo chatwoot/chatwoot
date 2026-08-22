@@ -30,7 +30,8 @@ export const actions = {
       } = response;
       commit(types.SET_PORTALS_META, meta);
     } catch (error) {
-      // Ignore error
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch help center portal:', error);
     } finally {
       commit(types.SET_UI_FLAG, { isFetchingItem: false });
     }

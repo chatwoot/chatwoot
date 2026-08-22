@@ -81,7 +81,27 @@ services:
     ports:
       - '127.0.0.1:6379:6379'
 
+  whatsapp-companion:
+    image: ghcr.io/kira-id/whatsapp-companion:latest
+    restart: always
+    environment:
+      - CHATWOOT_URL=http://rails:3000
+      - CHATWOOT_SHARED_TOKEN=${WHATSAPP_COMPANION_TOKEN:-changeme}
+      - PORT=4000
+    volumes:
+      - companion_auth:/app/auth
+      - companion_media:/app/media
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - rails
+
 volumes:
   storage_data:
   postgres_data:
   redis_data:
+  companion_auth:
+  companion_media:

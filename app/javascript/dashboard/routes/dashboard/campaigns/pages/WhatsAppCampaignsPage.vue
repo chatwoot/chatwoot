@@ -23,7 +23,7 @@ const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
 const confirmDeleteCampaignDialogRef = ref(null);
 
 const WhatsAppCampaigns = computed(
-  () => getters['campaigns/getWhatsAppCampaigns'].value
+  () => getters['campaigns/getWhatsAppCampaigns']?.value ?? []
 );
 
 const hasNoWhatsAppCampaigns = computed(
@@ -32,7 +32,7 @@ const hasNoWhatsAppCampaigns = computed(
 
 const handleDelete = campaign => {
   selectedCampaign.value = campaign;
-  confirmDeleteCampaignDialogRef.value.dialogRef.open();
+  confirmDeleteCampaignDialogRef.value?.dialogRef?.open?.();
 };
 </script>
 

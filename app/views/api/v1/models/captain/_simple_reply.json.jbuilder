@@ -1,0 +1,10 @@
+json.id simple_reply.id
+json.name simple_reply.name
+json.keywords simple_reply.keywords
+json.reply simple_reply.reply
+json.match_type simple_reply.match_type
+json.enabled simple_reply.enabled
+json.assistant_id simple_reply.assistant_id
+json.account_id simple_reply.account_id
+json.created_at simple_reply.created_at
+json.updated_at simple_reply.updated_at

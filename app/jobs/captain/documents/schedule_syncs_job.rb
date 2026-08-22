@@ -87,7 +87,6 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
 
   def account_sync_plan(account)
     plan = account.custom_attributes['plan_name']
-    plan = 'enterprise' if plan.blank? && ChatwootApp.self_hosted_enterprise?
     plan.to_s.downcase.presence
   end
 

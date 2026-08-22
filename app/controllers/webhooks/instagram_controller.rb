@@ -6,7 +6,7 @@ class Webhooks::InstagramController < ActionController::API
   def events
     Rails.logger.info('Instagram webhook received events')
     if params['object'].casecmp('instagram').zero?
-      entry_params = params.to_unsafe_hash[:entry]
+      entry_params = params.to_unsafe_hash.with_indifferent_access[:entry]
 
       if contains_echo_event?(entry_params)
         # Add delay to prevent race condition where echo arrives before send message API completes
@@ -55,7 +55,7 @@ class Webhooks::InstagramController < ActionController::API
   end
 
   def instagram_channels_from_payload
-    Array(params.to_unsafe_hash[:entry]).flat_map do |entry|
+    Array(params.to_unsafe_hash.with_indifferent_access[:entry]).flat_map do |entry|
       instagram_ids_from_entry(entry.with_indifferent_access).flat_map do |instagram_id|
         [
           Channel::Instagram.find_by(instagram_id: instagram_id),

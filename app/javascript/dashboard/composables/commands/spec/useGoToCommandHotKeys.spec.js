@@ -65,7 +65,6 @@ const ROUTE_META = {
     permissions: ['administrator'],
   },
   general_settings_index: { permissions: ['administrator'] },
-  billing_settings_index: { permissions: ['administrator'] },
   account_overview_reports: {
     featureFlag: MOCK_FEATURE_FLAGS.REPORTS,
     permissions: ['administrator', 'report_manage'],
@@ -214,7 +213,6 @@ describe('useGoToCommandHotKeys', () => {
     expect(goToCommandHotKeys.value.map(cmd => cmd.id).sort()).toEqual([
       'open_account_settings',
       'open_agent_settings',
-      'open_billing_settings',
       'open_inbox_settings',
     ]);
   });

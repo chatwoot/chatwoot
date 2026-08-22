@@ -9,20 +9,22 @@
     "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "System bot",
     "GLOBAL_BOT_BADGE": "System",
+    "MANAGE": "Manage",
     "AVATAR": {
       "SUCCESS_DELETE": "Bot avatar deleted successfully",
       "ERROR_DELETE": "Error deleting bot avatar, please try again"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
-      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "TITLE": "Select an AI agent",
+      "DESC": "Assign an AI agent to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
       "SUBMIT": "Update",
-      "DISCONNECT": "Disconnect bot",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot.",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot.",
-      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
-      "SELECT_PLACEHOLDER": "Select bot"
+      "DISCONNECT": "Disconnect agent",
+      "SUCCESS_MESSAGE": "Successfully updated the AI agent.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the AI agent.",
+      "ERROR_MESSAGE": "Could not update the AI agent. Please try again.",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the AI agent. Please try again.",
+      "SELECT_PLACEHOLDER": "Select AI agent",
+      "EMPTY_STATE": "No AI agent found. Create one from Settings → Agent Bots."
     },
     "ADD": {
       "TITLE": "Add Bot",

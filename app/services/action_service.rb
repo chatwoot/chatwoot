@@ -81,6 +81,20 @@ class ActionService
     @conversation.with_lock { @conversation.update!(team_id: nil) }
   end
 
+  def add_sla(sla_policy_id)
+    return if sla_policy_id.blank?
+    # Automation rules must not keep applying SLAs once the feature is disabled.
+    return unless @account.feature_enabled?('sla')
+
+    sla_policy = @account.sla_policies.find_by(id: sla_policy_id.first)
+    return if sla_policy.nil?
+    return if @conversation.sla_policy.present?
+    return unless @conversation.sla_applicable?
+
+    Rails.logger.info "SLA:: Adding SLA #{sla_policy.id} to conversation: #{@conversation.id}"
+    @conversation.update!(sla_policy_id: sla_policy.id)
+  end
+
   def send_email_transcript(emails)
     return unless @account.email_transcript_enabled?
 

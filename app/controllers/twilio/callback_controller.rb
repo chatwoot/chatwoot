@@ -1,6 +1,6 @@
 class Twilio::CallbackController < ApplicationController
   def create
-    Webhooks::TwilioEventsJob.perform_later(permitted_params.to_unsafe_hash)
+    Webhooks::TwilioEventsJob.perform_later(permitted_params.to_unsafe_hash.with_indifferent_access)
 
     head :no_content
   end

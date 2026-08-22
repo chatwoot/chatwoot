@@ -19,7 +19,7 @@ RSpec.describe 'Platform Account Users API', type: :request do
         create(:platform_app_permissible, platform_app: platform_app, permissible: account)
 
         get "/platform/api/v1/accounts/#{account.id}/account_users",
-            headers: { api_access_token: platform_app.access_token.token }, as: :json
+            headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(account_user.id.to_s)
@@ -44,7 +44,7 @@ RSpec.describe 'Platform Account Users API', type: :request do
 
         post "/platform/api/v1/accounts/#{account.id}/account_users",
              params: { user_id: user.id, role: 'administrator' },
-             headers: { api_access_token: platform_app.access_token.token }, as: :json
+             headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         data = response.parsed_body
@@ -57,7 +57,7 @@ RSpec.describe 'Platform Account Users API', type: :request do
 
         post "/platform/api/v1/accounts/#{account.id}/account_users",
              params: { user_id: account_user.user_id, role: 'administrator' },
-             headers: { api_access_token: platform_app.access_token.token }, as: :json
+             headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         data = response.parsed_body
@@ -83,7 +83,7 @@ RSpec.describe 'Platform Account Users API', type: :request do
         create(:platform_app_permissible, platform_app: platform_app, permissible: account)
 
         delete "/platform/api/v1/accounts/#{account.id}/account_users", params: { user_id: account_user.user_id },
-                                                                        headers: { api_access_token: platform_app.access_token.token }, as: :json
+                                                                        headers: { 'api-access-token': platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
         expect(account.account_users.count).to eq 0

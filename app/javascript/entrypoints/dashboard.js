@@ -117,6 +117,19 @@ initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
 
-window.onload = () => {
+// Mount as soon as the DOM is parsed rather than waiting for `window.onload`.
+// `onload` only fires after *every* subresource finishes loading, including the
+// large global SCSS stylesheet (tailwind + all plugins). Under Docker Desktop's
+// `:cached` bind mount that stylesheet cold-compiles in tens of seconds, so
+// `onload` could be delayed long enough that the dashboard stays a white page
+// with the app never mounting. Vite serves this entry as a deferred module, so
+// `#app` already exists in the DOM by the time this runs.
+function mountDashboard() {
   app.mount('#app');
-};
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', mountDashboard);
+} else {
+  mountDashboard();
+}

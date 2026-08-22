@@ -26,10 +26,10 @@ RSpec.describe Llm::Models do
       end
     end
 
-    it 'routes each FAQ operation independently' do
-      expect(described_class.default_model_for('document_faq_generation')).to eq('gpt-4.1-mini')
-      expect(described_class.default_model_for('conversation_faq_generation')).to eq('gpt-5.2')
-      expect(described_class.default_model_for('conversation_faq_matching')).to eq('gpt-4.1-mini')
+    it 'routes each FAQ operation to the single configured model' do
+      expect(described_class.default_model_for('document_faq_generation')).to eq(Llm::Config.model)
+      expect(described_class.default_model_for('conversation_faq_generation')).to eq(Llm::Config.model)
+      expect(described_class.default_model_for('conversation_faq_matching')).to eq(Llm::Config.model)
     end
   end
 
@@ -47,10 +47,10 @@ RSpec.describe Llm::Models do
   end
 
   describe '.feature_config' do
-    it 'returns model metadata for a feature' do
+    it 'returns the single configured model for all features' do
       config = described_class.feature_config('editor')
 
-      expect(config[:default]).to eq('gpt-4.1-mini')
+      expect(config[:default]).to eq(Llm::Config.model)
       expect(config[:models].first).to include(
         id: 'gpt-4.1-mini',
         display_name: 'GPT-4.1 Mini',

@@ -2,10 +2,13 @@ class Api::V1::Accounts::Inboxes::AssignmentPoliciesController < Api::V1::Accoun
   before_action :fetch_inbox
   before_action :fetch_assignment_policy, only: [:create]
   before_action -> { check_authorization(AssignmentPolicy) }
-  before_action :validate_assignment_policy, only: [:show, :destroy]
+  before_action :validate_assignment_policy, only: [:destroy]
 
   def show
     @assignment_policy = @inbox.assignment_policy
+    # An inbox without a linked policy is a normal state, so respond with an
+    # empty payload instead of a 404 that the dashboard would have to swallow.
+    render json: nil unless @assignment_policy
   end
 
   def create
