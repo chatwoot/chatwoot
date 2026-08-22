@@ -100,18 +100,15 @@ class Integrations::StudentSyncService
     digits = value.to_s.gsub(/\D/, '')
     return if digits.blank?
 
-    normalized = if digits.start_with?('213') && digits.length == 12
-                   "+#{digits}"
-                 elsif digits.start_with?('0') && digits.length == 10
-                   "+213#{digits[1..]}"
-                 elsif digits.length == 9 && digits.match?(/\A[567]/)
-                   "+213#{digits}"
-                 elsif value.to_s.start_with?('+')
-                   "+#{digits}"
-                 else
-                   "+#{digits}"
-                 end
+    normalized = "+#{algerian_country_digits(digits)}"
+    normalized if normalized.match?(/\A\+[1-9]\d{1,14}\z/)
+  end
 
-    normalized.match?(/\A\+[1-9]\d{1,14}\z/) ? normalized : nil
+  def algerian_country_digits(digits)
+    return digits if digits.start_with?('213') && digits.length == 12
+    return "213#{digits[1..]}" if digits.start_with?('0') && digits.length == 10
+    return "213#{digits}" if digits.length == 9 && digits.match?(/\A[567]/)
+
+    digits
   end
 end
