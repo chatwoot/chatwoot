@@ -43,6 +43,12 @@ const STATUS = {
   CONNECTED: 'connected',
 };
 
+// Health-check tuning. The watchdog heals accidental mid-session failures
+// (half-open socket, hung connect, missed close event) from persisted creds.
+const WATCHDOG_INTERVAL_MS = Number(process.env.WATCHDOG_INTERVAL_MS || 30_000);
+const WATCHDOG_STUCK_TIMEOUT_MS = Number(process.env.WATCHDOG_STUCK_TIMEOUT_MS || 120_000);
+const WATCHDOG_HEARTBEAT_TIMEOUT_MS = Number(process.env.WATCHDOG_HEARTBEAT_TIMEOUT_MS || 1_800_000);
+
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
@@ -140,6 +146,7 @@ export class BaileysManager {
     this.onInbound = onInbound || (() => {});
     ensureDir(AUTH_DIR);
     ensureDir(MEDIA_DIR);
+    this.startWatchdog();
   }
 
   getStatus(identifier) {
@@ -154,6 +161,56 @@ export class BaileysManager {
 
   isConnected(identifier) {
     return this.getStatus(identifier) === STATUS.CONNECTED;
+  }
+
+  startWatchdog() {
+    this.watchdogTimer = setInterval(() => this.runWatchdog(), WATCHDOG_INTERVAL_MS);
+    if (this.watchdogTimer.unref) this.watchdogTimer.unref();
+  }
+
+  /**
+   * Periodic health check so an accidental mid-session failure (silent half-open
+   * socket, hung connect, missed close event) heals from persisted creds without
+   * requiring a fresh QR scan.
+   */
+  async runWatchdog() {
+    const now = Date.now();
+    for (const [identifier, client] of [...this.clients.entries()]) {
+      if (client.status === STATUS.DISCONNECTED) {
+        process.stdout.write(`[companion] watchdog reconnecting ${identifier}\n`);
+        await this.connect(identifier);
+        continue;
+      }
+
+      const stuckConnecting = (client.status === STATUS.CONNECTING || client.status === STATUS.SCANNING) && now - client.lastActivity > WATCHDOG_STUCK_TIMEOUT_MS;
+      if (stuckConnecting) {
+        this.restartClient(identifier, `stuck in ${client.status}`);
+        continue;
+      }
+
+      const zombieConnected = client.status === STATUS.CONNECTED && client.sock?.ws?.readyState === 3;
+      const staleConnected = client.status === STATUS.CONNECTED && now - client.lastActivity > WATCHDOG_HEARTBEAT_TIMEOUT_MS;
+      if (zombieConnected || staleConnected) {
+        this.restartClient(identifier, zombieConnected ? 'dead socket' : 'no activity');
+      }
+    }
+  }
+
+  restartClient(identifier, reason) {
+    process.stdout.write(`[companion] watchdog restarting ${identifier} (${reason})\n`);
+    const existing = this.clients.get(identifier);
+    try {
+      existing?.sock?.end(new Error(`watchdog: ${reason}`));
+    } catch {
+      // ws.close() below still forces the socket down
+    }
+    try {
+      existing?.sock?.ws?.close();
+    } catch {
+      // ignore
+    }
+    this.clients.delete(identifier);
+    this.connect(identifier);
   }
 
   /**
@@ -177,6 +234,7 @@ export class BaileysManager {
       saveCreds,
       mediaNodes: new Map(),
       selfNumber: identifier,
+      lastActivity: Date.now(),
     };
     this.clients.set(identifier, client);
 
@@ -197,6 +255,7 @@ export class BaileysManager {
 
     sock.ev.on('connection.update', (update) => {
       const { connection, lastDisconnect, qr } = update;
+      client.lastActivity = Date.now();
 
       if (qr) {
         client.qr = qr;
@@ -221,12 +280,17 @@ export class BaileysManager {
           this.clients.delete(identifier);
         } else {
           // Transient disconnect (network blip / restart) -> auto reconnect from saved creds.
-          setTimeout(() => this.connect(identifier), 2000);
+          setTimeout(() => {
+            // Only reconnect if this socket is still the current client; a watchdog
+            // restart may have already replaced it with a fresh socket.
+            if (this.clients.get(identifier) === client) this.connect(identifier);
+          }, 2000);
         }
       }
     });
 
     sock.ev.on('messages.upsert', async ({ messages }) => {
+      client.lastActivity = Date.now();
       for (const m of messages) {
         if (m.key.fromMe) continue; // only inbound to Chatwoot
         const remoteJid = m.key.remoteJid || '';
@@ -247,6 +311,7 @@ export class BaileysManager {
     });
 
     sock.ev.on('messages.update', (updates) => {
+      client.lastActivity = Date.now();
       for (const u of updates) {
         if (!u.update?.status) continue;
         // Delivery/read receipts for group messages are not useful in a 1:1 inbox
@@ -315,6 +380,7 @@ export class BaileysManager {
     const client = this.clients.get(identifier);
     if (!client || !client.sock) throw new Error('not_connected');
     if (client.status !== STATUS.CONNECTED) throw new Error('not_connected');
+    client.lastActivity = Date.now();
 
     const jid = to.includes('@') ? to : `${to.replace(/\D/g, '')}@s.whatsapp.net`;
 

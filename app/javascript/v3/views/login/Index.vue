@@ -98,9 +98,6 @@ export default {
         Boolean(window.chatwootConfig.googleOAuthClientId)
       );
     },
-    showSsoButton() {
-      return window.chatwootConfig.ssoLoginEnabled !== 'false';
-    },
     showSignupLink() {
       return window.chatwootConfig.signupEnabled === 'true';
     },
@@ -282,9 +279,6 @@ export default {
       this.limitedSessions = [];
       this.credentials.password = '';
     },
-    initiateSsoLogin() {
-      window.location = '/sso';
-    },
   },
 };
 </script>
@@ -340,25 +334,15 @@ export default {
       v-else
       class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
-        'mb-8 mt-15': !showGoogleOAuth && !showSsoButton,
+        'mb-8 mt-15': !showGoogleOAuth,
         'animate-wiggle': loginApi.hasErrored,
       }"
     >
       <div v-if="!email">
         <div class="flex flex-col gap-4">
-          <button
-            v-if="showSsoButton"
-            type="button"
-            class="inline-flex justify-center w-full px-4 py-3 bg-n-background dark:bg-n-solid-3 items-center rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
-            @click="initiateSsoLogin"
-          >
-            <span class="ml-2 text-base font-medium text-n-slate-12">
-              {{ $t('LOGIN.SAML.LABEL') }}
-            </span>
-          </button>
           <GoogleOAuthButton v-if="showGoogleOAuth" />
           <SimpleDivider
-            v-if="showSsoButton || showGoogleOAuth"
+            v-if="showGoogleOAuth"
             :label="$t('COMMON.OR')"
             class="uppercase"
           />
