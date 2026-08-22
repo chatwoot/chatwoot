@@ -144,7 +144,20 @@ export const actions = {
   subscription: async ({ commit }) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
     try {
-      await EnterpriseAccountAPI.subscription();
+      const response = await EnterpriseAccountAPI.subscription();
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      return null;
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
+    }
+  },
+
+  selectBillingCurrency: async ({ commit }, currency) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
+    try {
+      await EnterpriseAccountAPI.selectBillingCurrency(currency);
     } catch (error) {
       throwErrorMessage(error);
     } finally {

@@ -137,6 +137,34 @@ RSpec.describe ConversationReplyMailer do
       end
     end
 
+    context 'without summary for a non-email inbox' do
+      let(:inbox) { create(:inbox, account: account, channel: create(:channel_widget, account: account)) }
+      let(:conversation) { create(:conversation, assignee: agent, account: account, inbox: inbox) }
+      let!(:incoming_email_message) do
+        create(:message, conversation: conversation, account: account, message_type: :incoming, content_type: :incoming_email)
+      end
+      let!(:outgoing_message) do
+        create(:message, conversation: conversation, account: account, message_type: :outgoing, content: 'Outgoing email reply')
+      end
+      let(:mail) { described_class.reply_without_summary(conversation, incoming_email_message.id).deliver_now }
+
+      it 'applies the account branded email layout' do
+        account.enable_features!(:branded_email_templates)
+        create(:email_template, :layout, account: account, body: '<html><body>Account Brand {{ content_for_layout }}</body></html>')
+
+        expect(mail.decoded).to include('Account Brand')
+        expect(mail.decoded).to include(outgoing_message.content)
+      end
+
+      it 'does not apply an installation layout without an account override' do
+        account.enable_features!(:branded_email_templates)
+        create(:email_template, :layout, body: '<html><body>Installation Brand {{ content_for_layout }}</body></html>')
+
+        expect(mail.decoded).not_to include('Installation Brand')
+        expect(mail.decoded).to include(outgoing_message.content)
+      end
+    end
+
     context 'with references header' do
       let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account).reload }
       let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
@@ -243,8 +271,94 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.decoded).to include message.content
       end
 
+      it 'does not apply branded email layout when feature is disabled' do
+        create(
+          :email_template,
+          :layout,
+          account: account,
+          inbox: conversation.inbox,
+          body: '<html><body>Inbox Brand {{ content_for_layout }}</body></html>'
+        )
+
+        expect(mail.decoded).not_to include('Inbox Brand')
+        expect(mail.decoded).to include(message.content)
+      end
+
+      it 'exposes the reply sender in inbox branded email layouts' do
+        account.enable_features!(:branded_email_templates)
+        conversation.inbox.update!(business_name: 'Acme Support')
+        create(
+          :email_template,
+          :layout,
+          account: account,
+          inbox: conversation.inbox,
+          body: [
+            '<html><body><header>{{ inbox.business_name }}</header>',
+            '{{ content_for_layout }}',
+            '<span>{{ agent.email }}</span>',
+            '<footer>{{ message.sender_display_name }}</footer></body></html>'
+          ].join
+        )
+
+        expect(mail.decoded).to include('Acme Support')
+        expect(mail.decoded).to include(message.content)
+        expect(message.sender).not_to eq(agent)
+        expect(mail.decoded).to include(message.sender.email)
+        expect(mail.decoded).to include(message.sender.available_name)
+      end
+
+      it 'falls back to account branded email layout when inbox layout is absent' do
+        account.enable_features!(:branded_email_templates)
+        create(
+          :email_template,
+          :layout,
+          account: account,
+          body: '<html><body>Account Brand {{ content_for_layout }}</body></html>'
+        )
+
+        expect(mail.decoded).to include('Account Brand')
+        expect(mail.decoded).to include(message.content)
+      end
+
+      it 'applies inbox branded email layout to template messages' do
+        account.enable_features!(:branded_email_templates)
+        create(
+          :email_template,
+          :layout,
+          account: account,
+          inbox: conversation.inbox,
+          body: '<html><body>Template Brand {{ content_for_layout }}</body></html>'
+        )
+        template_message = create(:message, conversation: conversation, account: account, message_type: :template, content_type: :text,
+                                            content: 'Automation template response', sender: agent)
+
+        template_mail = described_class.email_reply(template_message).deliver_now
+
+        expect(template_mail.decoded).to include('Template Brand')
+        expect(template_mail.decoded).to include('Automation template response')
+      end
+
       it 'builds messageID properly' do
         expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
+      end
+
+      context 'when a newer outgoing message exists in the conversation' do
+        let!(:message) do
+          create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Looping in the vendor',
+                           content_attributes: { to_emails: ['customer@example.com'], cc_emails: ['vendor@example.com'],
+                                                 bcc_emails: ['audit@example.com'] })
+        end
+
+        it 'sends to the recipients of the message being delivered' do
+          # a private note added right after the reply carries empty recipient lists
+          create(:message, conversation: conversation, account: account, message_type: 'outgoing', private: true,
+                           content: 'Vendor has been looped in',
+                           content_attributes: { to_emails: [], cc_emails: [], bcc_emails: [] })
+
+          expect(mail.to).to eq(message.content_attributes[:to_emails])
+          expect(mail.cc).to eq(message.content_attributes[:cc_emails])
+          expect(mail.bcc).to eq(message.content_attributes[:bcc_emails])
+        end
       end
 
       context 'when message is a CSAT survey' do
@@ -552,6 +666,31 @@ RSpec.describe ConversationReplyMailer do
           mail = described_class.email_reply(message)
           expect(mail['from'].value).to eq "#{agent_2.available_name} from #{conversation.inbox.business_name} <#{smtp_channel.email}>"
         end
+
+        it 'uses the sender locale for the friendly name' do
+          message.sender.update!(ui_settings: { 'locale' => 'de' })
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "#{message.sender.available_name} von #{conversation.inbox.business_name} <#{smtp_channel.email}>"
+        end
+
+        it 'falls back to the account locale when the sender locale is not set' do
+          account.update!(locale: :de)
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "#{message.sender.available_name} von #{conversation.inbox.business_name} <#{smtp_channel.email}>"
+        end
+
+        it 'uses the account locale when the sender is not a user' do
+          account.update!(locale: :de)
+          message.update!(sender_id: nil)
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "#{conversation.assignee.available_name} von #{conversation.inbox.business_name} <#{smtp_channel.email}>"
+        end
       end
 
       context 'when friendly name disabled' do
@@ -735,6 +874,22 @@ RSpec.describe ConversationReplyMailer do
 
       it 'sets the correct in reply to id' do
         expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{domain}")
+      end
+
+      it 'applies inbox branded email layout to conversation transcript' do
+        new_account.enable_features!(:branded_email_templates)
+        create(
+          :email_template,
+          :layout,
+          account: new_account,
+          inbox: conversation.inbox,
+          body: '<html><body>Transcript Brand {{ content_for_layout }}</body></html>'
+        )
+
+        transcript = described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now
+
+        expect(transcript.decoded).to include('Transcript Brand')
+        expect(transcript.decoded).to include(message.content)
       end
     end
   end

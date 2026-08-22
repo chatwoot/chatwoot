@@ -119,6 +119,28 @@ RSpec.describe Imap::FetchEmailService do
         end
       end
 
+      it 'does not return recently deleted emails' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          email_object = create_inbound_email_from_fixture('only_text.eml')
+          email_header = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content_with_message_id)
+          redis_key = format(Redis::RedisKeys::IMAP_DELETED_MESSAGE,
+                             inbox_id: imap_email_channel.inbox.id,
+                             message_id_digest: Digest::SHA256.hexdigest(email_object.message_id))
+
+          Imap::DeletedMessageTracker.new(inbox: imap_email_channel.inbox).record([email_object.message_id])
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
+          allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
+          allow(imap).to receive(:logout)
+
+          result = described_class.new(channel: imap_email_channel).perform
+
+          expect(result).to be_empty
+          expect(imap).not_to have_received(:fetch).with(1, 'RFC822')
+        ensure
+          Redis::Alfred.delete(redis_key) if redis_key
+        end
+      end
+
       it 'does not count emails without message ids toward the sync limit' do
         travel_to '26.10.2020 10:00'.to_datetime do
           email_object = create_inbound_email_from_fixture('only_text.eml')

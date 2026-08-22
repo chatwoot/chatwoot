@@ -4,7 +4,7 @@ class Captain::Llm::WidgetTaglineService < Captain::BaseTaskService
   pattr_initialize [:account!]
 
   def perform
-    response = make_api_call(model: tagline_model, messages: messages, schema: RESPONSE_SCHEMA)
+    response = make_api_call(feature: 'onboarding_content_generation', messages: messages, schema: RESPONSE_SCHEMA)
     return response if response[:error]
 
     response.merge(message: extract_tagline(response[:message]))
@@ -66,10 +66,6 @@ class Captain::Llm::WidgetTaglineService < Captain::BaseTaskService
   # the customer should not have captain_responses quota deducted for it.
   def counts_toward_usage?
     false
-  end
-
-  def tagline_model
-    @tagline_model ||= InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || GPT_MODEL
   end
 
   def build_follow_up_context?

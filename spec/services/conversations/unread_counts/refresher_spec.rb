@@ -156,6 +156,19 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
                                  )
   end
 
+  it 'removes assignment-aware unassigned membership when an agent bot is assigned' do
+    conversation = create_unread_conversation(account: account, inbox: inbox)
+    Conversations::UnreadCounts::Builder.new(account).build_assignment!
+    agent_bot = create(:agent_bot, account: account)
+
+    conversation.update!(assignee_agent_bot: agent_bot)
+    result = described_class.new(conversation.reload, changed_attributes: { assignee_agent_bot_id: [nil, agent_bot.id] }).perform
+
+    key = store.inbox_unassigned_key(account.id, inbox.id)
+    expect(result).to be(true)
+    expect(store.counts_for_keys([key])).to eq(key => 0)
+  end
+
   it 'moves assignment-aware team membership when team changes' do
     create(:team_member, user: assignee, team: new_team)
     conversation = create_unread_conversation(account: account, inbox: inbox, assignee: assignee, team: team)

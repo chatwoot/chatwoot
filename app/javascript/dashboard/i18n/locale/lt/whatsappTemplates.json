@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Kintamieji",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Kalba",
       "CATEGORY": "Kategorija",
       "VARIABLE_PLACEHOLDER": "Įveskite {variable} reikšmę",

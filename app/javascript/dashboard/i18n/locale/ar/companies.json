@@ -25,6 +25,10 @@
     "ACTIONS": {
       "CREATE": "Add company"
     },
+    "SELECTOR": {
+      "PLACEHOLDER": "Select company",
+      "CREATE_OPTION": "Add \"{name}\""
+    },
     "CREATE": {
       "TITLE": "Add company details",
       "ACTIONS": {
@@ -78,9 +82,9 @@
         "DIALOGS": {
           "ADD": {
             "DESCRIPTION": "Search for an existing contact and link it to this company.",
-            "SEARCH_PLACEHOLDER": "Search contacts...",
+            "SEARCH_PLACEHOLDER": "البحث في جهات الاتصال...",
             "INITIAL": "Start typing to search contacts.",
-            "EMPTY": "No contacts found.",
+            "EMPTY": "لم يتم العثور على جهات اتصال.",
             "CONFIRM_TITLE": "Link contact",
             "CONFIRM_DESCRIPTION": "Confirm the company and contact before linking them.",
             "COMPANY_LABEL": "المنشأة",
