@@ -68,6 +68,12 @@ const shouldShowSmsQr = computed(() => {
 });
 
 const message = computed(() => {
+  if (shouldShowWhatsAppWebhookDetails.value) {
+    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
+      'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
+    )}`;
+  }
+
   if (shouldShowWhatsAppQr.value) {
     return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
       'INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION'
@@ -83,12 +89,6 @@ const message = computed(() => {
   if (isALineChannel.value) {
     return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
       'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
-    )}`;
-  }
-
-  if (isAWhatsAppCloudChannel.value && shouldShowWhatsAppWebhookDetails.value) {
-    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
-      'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
     )}`;
   }
 
