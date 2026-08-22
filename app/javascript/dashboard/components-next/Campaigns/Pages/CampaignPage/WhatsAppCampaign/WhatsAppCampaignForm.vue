@@ -118,7 +118,7 @@ const formErrors = computed(() => ({
 }));
 
 const hasRequiredTemplateParams = computed(() => {
-  return templateParserRef.value?.v$?.$invalid === false || true;
+  return templateParserRef.value?.isFormInvalid === false;
 });
 
 const isSubmitDisabled = computed(
@@ -180,7 +180,7 @@ const prepareCampaignDetails = (status = 'active') => {
 
 const handleSubmit = async () => {
   const isFormValid = await v$.value.$validate();
-  if (!isFormValid) return;
+  if (!isFormValid || !hasRequiredTemplateParams.value) return;
 
   emit('submit', prepareCampaignDetails('active'));
   resetState();

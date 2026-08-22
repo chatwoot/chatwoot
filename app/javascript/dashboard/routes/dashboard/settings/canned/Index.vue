@@ -11,7 +11,7 @@ import {
   useStore,
   useMapGetter,
 } from 'dashboard/composables/store';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 

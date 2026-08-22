@@ -13,7 +13,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import { useBusinessRulesStatusGuard } from 'dashboard/composables/useBusinessRulesStatusGuard';
 import { ATTRIBUTE_TYPES } from './constants';
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits(['submit', 'close']);
 
 const { t } = useI18n();
 const { checkStatusChange } = useBusinessRulesStatusGuard();
@@ -492,6 +492,12 @@ const open = (
   });
 };
 
+const handleClose = () => {
+  conversationContext.value = null;
+  v$.value.$reset();
+  emit('close');
+};
+
 const handleConfirm = async () => {
   v$.value.$touch();
   if (v$.value.$invalid) {
@@ -533,6 +539,7 @@ defineExpose({ open, close, fieldKey });
     "
     :disable-confirm-button="!isFormComplete"
     @confirm="handleConfirm"
+    @close="handleClose"
   >
     <div ref="fieldsRootRef" class="flex flex-col gap-4 pb-2">
       <p

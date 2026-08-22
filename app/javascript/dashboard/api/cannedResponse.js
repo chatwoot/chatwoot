@@ -1,13 +1,17 @@
 /* global axios */
+import CacheEnabledApiClient from './CacheEnabledApiClient';
 
-import ApiClient from './ApiClient';
-
-class CannedResponse extends ApiClient {
+class CannedResponse extends CacheEnabledApiClient {
   constructor() {
     super('canned_responses', { accountScoped: true });
   }
 
-  get({ searchKey, usable } = {}) {
+  get(options = {}) {
+    if (options === true || options.cache) {
+      return super.get(true);
+    }
+
+    const { searchKey, usable } = options;
     const params = {};
     if (searchKey) params.search = searchKey;
     if (usable) params.usable = true;
@@ -20,6 +24,22 @@ class CannedResponse extends ApiClient {
 
   reject(id) {
     return axios.post(`${this.url}/${id}/reject`);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  get cacheModelName() {
+    return 'canned_response';
+  }
+
+  // The index endpoint returns a bare array instead of a payload wrapper
+  // eslint-disable-next-line class-methods-use-this
+  extractDataFromResponse(response) {
+    return response.data;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  marshallData(dataToParse) {
+    return { data: dataToParse };
   }
 }
 

@@ -4,7 +4,16 @@ describe Whatsapp::Providers::WhatsappCloudService do
   subject(:service) { described_class.new(whatsapp_channel: whatsapp_channel) }
 
   let(:conversation) { create(:conversation, inbox: whatsapp_channel.inbox) }
-  let(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false) }
+  let(:business_management_token) { nil }
+  let(:whatsapp_channel) do
+    create(
+      :channel_whatsapp,
+      provider: 'whatsapp_cloud',
+      business_management_token: business_management_token,
+      validate_provider_config: false,
+      sync_templates: false
+    )
+  end
 
   let(:message) do
     create(:message, conversation: conversation, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox, source_id: 'external_id')
@@ -287,33 +296,118 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
   describe '#sync_templates' do
     context 'when called' do
+      context 'with a business management token' do
+        let(:business_management_token) { 'business-token' }
+
+        before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true) }
+
+        it 'uses it instead of the provider API key' do
+          request = stub_request(
+            :get,
+            'https://graph.facebook.com/v14.0/123456789/message_templates'
+          ).with(
+            headers: { 'Authorization' => 'Bearer business-token' }
+          ).to_return(status: 200, headers: response_headers, body: { data: [] }.to_json)
+
+          subject.sync_templates
+
+          expect(request).to have_been_requested
+        end
+      end
+
+      context 'without a business management token' do
+        before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true) }
+
+        it 'uses the provider API key' do
+          request = stub_request(
+            :get,
+            'https://graph.facebook.com/v14.0/123456789/message_templates'
+          ).with(
+            headers: { 'Authorization' => 'Bearer test_key' }
+          ).to_return(status: 200, headers: response_headers, body: { data: [] }.to_json)
+
+          subject.sync_templates
+
+          expect(request).to have_been_requested
+        end
+      end
+
+      context 'with a stored business management token outside Chatwoot Cloud' do
+        let(:business_management_token) { 'business-token' }
+
+        before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false) }
+
+        it 'uses the provider API key' do
+          request = stub_request(
+            :get,
+            'https://graph.facebook.com/v14.0/123456789/message_templates'
+          ).with(
+            headers: { 'Authorization' => 'Bearer test_key' }
+          ).to_return(status: 200, headers: response_headers, body: { data: [] }.to_json)
+
+          subject.sync_templates
+
+          expect(request).to have_been_requested
+        end
+      end
+
       it 'updated the message templates' do
-        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
+        request_headers = { 'Authorization' => 'Bearer test_key' }
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates')
+          .with(headers: request_headers)
           .to_return(
-            { status: 200, headers: response_headers,
-              body: { data: [
-                { id: '123456789', name: 'test_template' }
-              ], paging: { next: 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key' } }.to_json },
-            { status: 200, headers: response_headers,
-              body: { data: [
-                { id: '123456789', name: 'next_template' }
-              ], paging: { next: 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key' } }.to_json },
-            { status: 200, headers: response_headers,
-              body: { data: [
-                { id: '123456789', name: 'last_template' }
-              ], paging: { prev: 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key' } }.to_json }
+            status: 200,
+            headers: response_headers,
+            body: {
+              data: [{ id: '123456789', name: 'test_template' }],
+              paging: {
+                cursors: { after: 'cursor-1' },
+                next: 'https://graph.facebook.com/v14.0/123456789/message_templates?after=cursor-1&access_token=test_key'
+              }
+            }.to_json
+          )
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?after=cursor-1')
+          .with(headers: request_headers)
+          .to_return(
+            status: 200,
+            headers: response_headers,
+            body: {
+              data: [{ id: '123456789', name: 'next_template' }],
+              paging: {
+                cursors: { after: 'cursor-2' },
+                next: 'https://graph.facebook.com/v14.0/123456789/message_templates?after=cursor-2&access_token=test_key'
+              }
+            }.to_json
+          )
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?after=cursor-2')
+          .with(headers: request_headers)
+          .to_return(
+            status: 200,
+            headers: response_headers,
+            body: { data: [{ id: '123456789', name: 'last_template' }] }.to_json
           )
 
         timstamp = whatsapp_channel.reload.message_templates_last_updated
-        expect(subject.sync_templates).to be(true)
+        expect(whatsapp_channel.account).to receive(:update_cache_key).with('inbox').and_call_original
+        subject.sync_templates
         expect(whatsapp_channel.reload.message_templates.first).to eq({ id: '123456789', name: 'test_template' }.stringify_keys)
         expect(whatsapp_channel.reload.message_templates.second).to eq({ id: '123456789', name: 'next_template' }.stringify_keys)
         expect(whatsapp_channel.reload.message_templates.last).to eq({ id: '123456789', name: 'last_template' }.stringify_keys)
         expect(whatsapp_channel.reload.message_templates_last_updated).not_to eq(timstamp)
       end
 
+      it 'does not bump the inbox cache key when no templates are returned' do
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates')
+          .with(headers: { 'Authorization' => 'Bearer test_key' })
+          .to_return(status: 200, headers: response_headers, body: { data: [] }.to_json)
+
+        expect(whatsapp_channel.account).not_to receive(:update_cache_key)
+        subject.sync_templates
+      end
+
       it 'updates message_templates_last_updated even when template request fails' do
-        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates')
+          .with(headers: { 'Authorization' => 'Bearer test_key' })
           .to_return(status: 401)
 
         timstamp = whatsapp_channel.reload.message_templates_last_updated

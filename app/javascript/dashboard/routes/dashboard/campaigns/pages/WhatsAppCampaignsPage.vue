@@ -1,29 +1,25 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useToggle } from '@vueuse/core';
 import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
-
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CampaignLayout from 'dashboard/components-next/Campaigns/CampaignLayout.vue';
 import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignList.vue';
 import WhatsAppCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsAppCampaign/WhatsAppCampaignDialog.vue';
-import WhatsAppCampaignReportDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsAppCampaign/WhatsAppCampaignReportDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
 import WhatsAppCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/WhatsAppCampaignEmptyState.vue';
+import { useRouter } from 'vue-router';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
+const router = useRouter();
 
 const selectedCampaign = ref(null);
 const editingCampaign = ref(null);
-const reportCampaign = ref(null);
 const whatsAppCampaignDialogRef = ref(null);
-const [showReportDialog, toggleReportDialog] = useToggle();
 
 const uiFlags = useMapGetter('campaigns/getUIFlags');
 const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
-
 const confirmDeleteCampaignDialogRef = ref(null);
 
 const WhatsAppCampaigns = computed(
@@ -49,6 +45,13 @@ const handleDelete = campaign => {
   confirmDeleteCampaignDialogRef.value.dialogRef.open();
 };
 
+const goToAnalytics = campaign => {
+  router.push({
+    name: 'campaigns_whatsapp_analytics',
+    params: { campaignId: campaign.id },
+  });
+};
+
 const handleSelect = campaign => {
   if (
     campaign.campaign_status === 'draft' ||
@@ -57,13 +60,8 @@ const handleSelect = campaign => {
     handleEdit(campaign);
     return;
   }
-  reportCampaign.value = campaign;
-  toggleReportDialog(true);
-};
 
-const handleCloseReport = () => {
-  toggleReportDialog(false);
-  reportCampaign.value = null;
+  goToAnalytics(campaign);
 };
 
 const handleCloseDialog = () => {
@@ -90,6 +88,7 @@ const handleCloseDialog = () => {
       @edit="handleEdit"
       @delete="handleDelete"
       @select="handleSelect"
+      @analytics="goToAnalytics"
     />
     <WhatsAppCampaignEmptyState
       v-else
@@ -106,10 +105,5 @@ const handleCloseDialog = () => {
     ref="whatsAppCampaignDialogRef"
     :selected-campaign="editingCampaign"
     @close="handleCloseDialog"
-  />
-  <WhatsAppCampaignReportDialog
-    v-if="showReportDialog && reportCampaign"
-    :campaign="reportCampaign"
-    @close="handleCloseReport"
   />
 </template>

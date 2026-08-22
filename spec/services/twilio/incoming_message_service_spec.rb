@@ -10,6 +10,11 @@ describe Twilio::IncomingMessageService do
   let(:contact_inbox) { create(:contact_inbox, source_id: '+12345', contact: contact, inbox: twilio_channel.inbox) }
   let!(:conversation) { create(:conversation, contact: contact, inbox: twilio_channel.inbox, contact_inbox: contact_inbox) }
 
+  before do
+    allow(Resolv).to receive(:getaddresses).and_call_original
+    allow(Resolv).to receive(:getaddresses).with('chatwoot-assets.local').and_return(['93.184.216.34'])
+  end
+
   describe '#perform' do
     it 'creates a new message in existing conversation' do
       params = {
@@ -200,10 +205,10 @@ describe Twilio::IncomingMessageService do
     context 'when there is an error downloading the attachment' do
       before do
         stub_request(:get, 'https://chatwoot-assets.local/sample.png')
-          .to_raise(Down::Error.new('Download error'))
-
-        stub_request(:get, 'https://chatwoot-assets.local/sample.png')
-          .to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
+          .to_return(
+            { status: 503 },
+            { status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' } }
+          )
       end
 
       let(:params_with_attachment_error) do
@@ -219,7 +224,7 @@ describe Twilio::IncomingMessageService do
         }
       end
 
-      it 'retries downloading the attachment without a token after an error' do
+      it 'retries downloading public media without channel credentials after an error' do
         expect do
           described_class.new(params: params_with_attachment_error).perform
         end.not_to raise_error
@@ -227,6 +232,38 @@ describe Twilio::IncomingMessageService do
         expect(conversation.reload.messages.last.content).to eq('testing3')
         expect(conversation.reload.messages.last.attachments.count).to eq(1)
         expect(conversation.reload.messages.last.attachments.first.file_type).to eq('image')
+      end
+    end
+
+    context 'when authenticated media retries are exhausted' do
+      it 'preserves the inbound text without an attachment' do
+        account_sid = "AC#{'1' * 32}"
+        message_sid = "MM#{'2' * 32}"
+        media_sid = "ME#{'3' * 32}"
+        media_url = "https://api.twilio.com/2010-04-01/Accounts/#{account_sid}/Messages/#{message_sid}/Media/#{media_sid}"
+        twilio_channel.update!(account_sid: account_sid)
+        allow(Resolv).to receive(:getaddresses).with('api.twilio.com').and_return(['54.172.60.0'])
+        stub_request(:get, media_url).to_return(status: 404)
+        allow(Twilio::MediaDownloadService).to receive(:new).and_wrap_original do |method, **args|
+          method.call(**args).tap { |service| allow(service).to receive(:sleep) }
+        end
+
+        described_class.new(
+          params: {
+            SmsSid: message_sid,
+            From: '+12345',
+            AccountSid: account_sid,
+            MessagingServiceSid: twilio_channel.messaging_service_sid,
+            Body: 'testing exhausted media retries',
+            NumMedia: '1',
+            MediaContentType0: 'image/jpeg',
+            MediaUrl0: media_url
+          }
+        ).perform
+
+        message = conversation.reload.messages.last
+        expect(message.content).to eq('testing exhausted media retries')
+        expect(message.attachments.count).to eq(0)
       end
     end
 
@@ -786,6 +823,57 @@ describe Twilio::IncomingMessageService do
           expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Diego López')
           expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Argentina')
           expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+541123456789')
+        end
+      end
+
+      describe 'When the incoming number is a Mexican WhatsApp number with 1 after country code' do
+        let!(:whatsapp_twilio_channel) do
+          create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                                 inbox: create(:inbox, account: account, greeting_enabled: false))
+        end
+
+        it 'appends to existing contact when contact inbox exists without the extra 1' do
+          contact = create(:contact, account: account, phone_number: '+525512345678')
+          contact_inbox = create(:contact_inbox,
+                                 source_id: 'whatsapp:+525512345678',
+                                 contact: contact,
+                                 inbox: whatsapp_twilio_channel.inbox)
+          last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
+
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+5215512345678',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Mexico',
+            ProfileName: 'Maria Lopez'
+          }
+
+          described_class.new(params: params).perform
+
+          expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
+          expect(last_conversation.messages.last.content).to eq('Test message from Mexico')
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id)
+            .to eq('whatsapp:+525512345678')
+        end
+
+        it 'creates contact inbox with incoming number when no existing contact matches' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+5215512345678',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Mexico',
+            ProfileName: 'Maria Lopez'
+          }
+
+          described_class.new(params: params).perform
+
+          expect(whatsapp_twilio_channel.inbox.conversations.count).not_to eq(0)
+          expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Maria Lopez')
+          expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Mexico')
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id)
+            .to eq('whatsapp:+5215512345678')
         end
       end
     end

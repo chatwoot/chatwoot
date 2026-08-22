@@ -9,21 +9,27 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 // Mirrors the availability checks in ChannelItem.vue.
 export function useChannelConfig() {
   const globalConfig = useMapGetter('globalConfig/get');
-  const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
-  const { isCloudFeatureEnabled } = useAccount();
+  const {
+    isCloudFeatureEnabled,
+    isOnChatwootCloud,
+    isMetaInboxCreationDisabled,
+  } = useAccount();
   const installationConfig = window.chatwootConfig || {};
 
   const CHANNEL_CONFIGURED = {
     // WhatsApp is onboarded only via Meta embedded signup, which needs both the
     // app id (not the 'none' sentinel) and the signup configuration id.
     whatsapp: () =>
+      !isMetaInboxCreationDisabled.value &&
       (!isOnChatwootCloud.value ||
         isCloudFeatureEnabled(FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW)) &&
       Boolean(installationConfig.whatsappAppId) &&
       installationConfig.whatsappAppId !== 'none' &&
       Boolean(installationConfig.whatsappConfigurationId),
-    facebook: () => Boolean(installationConfig.fbAppId),
+    facebook: () =>
+      !isMetaInboxCreationDisabled.value && Boolean(installationConfig.fbAppId),
     instagram: () =>
+      !isMetaInboxCreationDisabled.value &&
       Boolean(installationConfig.instagramAppId) &&
       isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_INSTAGRAM),
     tiktok: () => Boolean(installationConfig.tiktokAppId),

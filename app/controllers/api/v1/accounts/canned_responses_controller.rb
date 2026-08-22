@@ -71,12 +71,13 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
     records = records.where(category: params[:category]) if params[:category].present?
 
     if params[:search]
+      search = params[:search].delete("\0")
       records
         .where(
           'short_code ILIKE :search OR content ILIKE :search OR COALESCE(category, \'\') ILIKE :search',
-          search: "%#{params[:search]}%"
+          search: "%#{search}%"
         )
-        .order_by_search(params[:search])
+        .order_by_search(search)
     else
       records.order(:id)
     end

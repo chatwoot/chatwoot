@@ -103,3 +103,5 @@ class Macros::ExecutionService < ActionService
     WebhookJob.perform_later(webhook_url.first, payload)
   end
 end
+
+Macros::ExecutionService.include_mod_with('Macros::ExecutionService')

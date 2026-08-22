@@ -16,14 +16,23 @@ class Conversations::AssignmentService
   attr_reader :conversation, :assignee_id, :assignee_type
 
   def assign_agent
-    if cleared_assignee? && (bot = conversation.inbox.assignable_agent_bot)
-      return assign_inbox_bot(bot)
-    end
+    conversation.with_lock do
+      if cleared_assignee? && (bot = conversation.inbox.assignable_agent_bot)
+        conversation.assignee = nil
+        conversation.assignee_agent_bot = bot
+        conversation.save!
+        return bot
+      end
 
-    conversation.assignee = assignee
-    conversation.assignee_agent_bot = nil
-    clear_panel_ia_state_attrs if assignee.present?
-    conversation.save!
+      if assignee.present? && conversation.assignee_agent_bot_id.present? && conversation.pending?
+        conversation.status = :open
+        conversation.waiting_since = Time.current if conversation.waiting_since.blank?
+      end
+      conversation.assignee = assignee
+      conversation.assignee_agent_bot = nil
+      clear_panel_ia_state_attrs if assignee.present?
+      conversation.save!
+    end
     assignee
   end
 
@@ -50,9 +59,12 @@ class Conversations::AssignmentService
     return unless agent_bot
     return unless bot_assignable_to_inbox?(agent_bot)
 
-    conversation.assignee = nil
-    conversation.assignee_agent_bot = agent_bot
-    conversation.save!
+    conversation.with_lock do
+      conversation.assignee = nil
+      conversation.assignee_agent_bot = agent_bot
+      conversation.status = :pending
+      conversation.save!
+    end
     agent_bot
   end
 

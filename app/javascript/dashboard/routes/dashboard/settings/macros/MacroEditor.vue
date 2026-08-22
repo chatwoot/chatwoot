@@ -7,6 +7,7 @@ import MacroForm from './MacroForm.vue';
 import { MACRO_ACTION_TYPES } from './constants';
 import { useAlert } from 'dashboard/composables';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
+import { getActionIcon } from 'dashboard/helper/automationHelper';
 import { useMacros } from 'dashboard/composables/useMacros';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useStatusLabel } from 'dashboard/composables/useStatusLabel';
@@ -33,6 +34,7 @@ const macroActionTypes = computed(() => {
       type.label === 'RESOLVE_CONVERSATION'
         ? getResolveConversationPhrase()
         : t(`MACROS.ACTIONS.${type.label}`),
+    icon: getActionIcon(type.key),
   }));
 });
 
@@ -44,12 +46,13 @@ const isPublicMacroReadOnly = computed(
   () => macro.value?.visibility === 'global' && !isAdmin.value
 );
 
-const fetchDropdownData = () => {
-  store.dispatch('agents/get');
-  store.dispatch('teams/get');
-  store.dispatch('labels/get');
-  store.dispatch('attributes/get');
-};
+const fetchDropdownData = () =>
+  Promise.all([
+    store.dispatch('agents/get'),
+    store.dispatch('teams/get'),
+    store.dispatch('labels/get'),
+    store.dispatch('attributes/get'),
+  ]);
 
 const formatMacro = macroData => {
   const formattedActions = macroData.actions.map(action => {
@@ -108,7 +111,10 @@ const formatMacro = macroData => {
 };
 
 const manifestMacro = async () => {
-  await store.dispatch('macros/getSingleMacro', macroId.value);
+  await Promise.all([
+    fetchDropdownData(),
+    store.dispatch('macros/getSingleMacro', macroId.value),
+  ]);
   const singleMacro = store.getters['macros/getMacro'](macroId.value);
   macro.value = formatMacro(singleMacro);
 };
@@ -136,10 +142,10 @@ const initNewMacro = () => {
 watch(
   () => route,
   () => {
-    fetchDropdownData();
     if (route.params.macroId) {
       fetchMacro();
     } else {
+      fetchDropdownData();
       initNewMacro();
     }
   },

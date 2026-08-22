@@ -33,24 +33,6 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
     ).perform
   end
 
-  def recipients
-    @recipients = @campaign.campaign_recipients.includes(:contact).order(id: :asc)
-    @recipients = @recipients.where(status: params[:status]) if params[:status].present?
-    q = params[:q].to_s.strip
-    if q.present?
-      @recipients = @recipients.left_joins(:contact).where(
-        'campaign_recipients.phone_number ILIKE :q OR contacts.name ILIKE :q',
-        q: "%#{ActiveRecord::Base.sanitize_sql_like(q)}%"
-      )
-    end
-    @recipients = @recipients.page(params[:page]).per(RESULTS_PER_PAGE)
-  end
-
-  def stats
-    @campaign.refresh_execution_stats! if @campaign.execution_stats.blank?
-    @stats = @campaign.execution_stats
-  end
-
   def export_recipients
     scope = @campaign.campaign_recipients.includes(:contact).order(id: :asc)
     scope = scope.where(status: params[:status]) if params[:status].present?
@@ -62,16 +44,19 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
       )
     end
 
-    headers = %w[contact_name phone_number status error_message sent_at delivered_at read_at]
+    headers = %w[contact_name phone_number status error_code error_title error_message sent_at delivered_at read_at failed_at]
     rows = scope.map do |row|
       [
         row.contact&.name.to_s,
-        row.phone_number.to_s,
+        row.phone_number.presence || row.contact&.phone_number.to_s,
         row.status.to_s,
+        row.error_code.to_s,
+        row.error_title.to_s,
         row.error_message.to_s,
         row.sent_at&.iso8601,
         row.delivered_at&.iso8601,
-        row.read_at&.iso8601
+        row.read_at&.iso8601,
+        row.failed_at&.iso8601
       ]
     end
 
@@ -79,7 +64,7 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
     if export_format == 'xlsx'
       package = Axlsx::Package.new
       package.workbook.add_worksheet(name: 'Recipients') do |sheet|
-        types = %i[string string string string string string string]
+        types = Array.new(headers.length, :string)
         sheet.add_row headers
         rows.each { |row| sheet.add_row row, types: types }
       end
@@ -93,7 +78,7 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
       csv = CSV.generate do |out|
         out << headers
         rows.each do |row|
-          out << [row[0], "\t#{row[1]}", row[2], row[3], row[4], row[5], row[6]]
+          out << [row[0], "\t#{row[1]}", *row[2..]]
         end
       end
       send_data(

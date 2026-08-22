@@ -19,14 +19,6 @@ class CampaignPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def recipients?
-    show?
-  end
-
-  def stats?
-    show?
-  end
-
   def export_recipients?
     show?
   end

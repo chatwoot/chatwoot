@@ -6,6 +6,7 @@ import auditLogs from './auditLogs.json';
 import automation from './automation.json';
 import bulkActions from './bulkActions.json';
 import businessRules from './businessRules.json';
+import calls from './calls.json';
 import campaign from './campaign.json';
 import cannedMgmt from './cannedMgmt.json';
 import chatlist from './chatlist.json';
@@ -44,6 +45,7 @@ import sla from './sla.json';
 import teamsSettings from './teamsSettings.json';
 import variables from './variables.json';
 import whatsappTemplates from './whatsappTemplates.json';
+import whatsappTemplateMgmt from './whatsappTemplateMgmt.json';
 
 export default {
   ...advancedFilters,
@@ -54,6 +56,7 @@ export default {
   ...automation,
   ...bulkActions,
   ...businessRules,
+  ...calls,
   ...campaign,
   ...cannedMgmt,
   ...chatlist,
@@ -92,4 +95,5 @@ export default {
   ...teamsSettings,
   ...variables,
   ...whatsappTemplates,
+  ...whatsappTemplateMgmt,
 };

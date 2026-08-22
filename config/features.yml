@@ -414,3 +414,7 @@
   column: feature_flags_ext_1
   category: integrations
   description: Connect Google calendars and view events in the dashboard.
+- name: delayed_automations
+  display_name: Delayed Automations
+  enabled: false
+  column: feature_flags_ext_1

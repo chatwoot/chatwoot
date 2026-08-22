@@ -120,3 +120,5 @@ class Whatsapp::Providers::BaseService
     )
   end
 end
+
+Whatsapp::Providers::BaseService.prepend_mod_with('Whatsapp::Providers::BaseService')
