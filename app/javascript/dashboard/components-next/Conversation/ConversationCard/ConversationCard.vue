@@ -10,6 +10,7 @@ import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import CardMessagePreview from './CardMessagePreview.vue';
 import CardMessagePreviewWithMeta from './CardMessagePreviewWithMeta.vue';
 import CardPriorityIcon from './CardPriorityIcon.vue';
+import CampaignCardBadge from './CampaignCardBadge.vue';
 
 const props = defineProps({
   conversation: {
@@ -51,6 +52,8 @@ const inboxIcon = computed(() => {
   const { channelType, medium, voiceEnabled } = inbox.value;
   return getInboxIconByType(channelType, medium, 'fill', voiceEnabled);
 });
+
+const campaignMeta = computed(() => props.conversation.meta?.campaign);
 
 const lastActivityAt = computed(() => {
   const timestamp = props.conversation?.timestamp;
@@ -109,6 +112,11 @@ const onCardClick = e => {
         </h4>
         <div class="flex items-center gap-2">
           <CardPriorityIcon :priority="conversation.priority || null" />
+          <CampaignCardBadge
+            v-if="campaignMeta?.title"
+            :title="campaignMeta.title"
+            :display-id="campaignMeta.id"
+          />
           <div
             v-tooltip.left="inboxName"
             class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-5"

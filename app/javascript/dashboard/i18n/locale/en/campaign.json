@@ -150,6 +150,10 @@
     "WHATSAPP": {
       "HEADER_TITLE": "WhatsApp campaigns",
       "NEW_CAMPAIGN": "Create campaign",
+      "ATTRIBUTION_NOTICE": {
+        "TITLE": "Track replies in the inbox",
+        "BODY": "Use templates with Quick reply or Call-to-action buttons. Free-text replies without tapping a button are not linked to the campaign in conversations (no badge or campaign name filter)."
+      },
       "EMPTY_STATE": {
         "TITLE": "No WhatsApp campaigns are available",
         "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
@@ -252,6 +256,44 @@
       },
       "EDIT": {
         "TITLE": "Edit WhatsApp campaign"
+      },
+      "LIST": {
+        "COLUMNS": {
+          "TITLE": "Title",
+          "STATUS": "Status",
+          "INBOX": "Inbox",
+          "DATE": "Scheduled",
+          "AUDIENCE": "Audience",
+          "DELIVERED": "Delivered",
+          "ANALYTICS": "Analytics",
+          "ACTIONS": "Actions"
+        },
+        "STATUS": {
+          "DRAFT": "Draft",
+          "ACTIVE": "Scheduled",
+          "PROCESSING": "Processing",
+          "COMPLETED": "Completed"
+        },
+        "DETAIL": {
+          "DESCRIPTION": "Campaign details and message preview.",
+          "TEMPLATE": "Template",
+          "MESSAGE": "Message"
+        },
+        "DELIVERY_RATE": "{value}% delivered",
+        "NO_RATE": "—",
+        "VIEW_ANALYTICS": "View analytics",
+        "EDIT": "Edit",
+        "DELETE": "Delete",
+        "PAGE_INFO": "Showing {startItem} - {endItem} of {totalItems} campaign | Showing {startItem} - {endItem} of {totalItems} campaigns",
+        "COUNT": "{count} campaign | {count} campaigns",
+        "COUNT_FILTERED": "{count} campaign (filtered) | {count} campaigns (filtered)",
+        "EMPTY_FILTER": "No campaigns match the current filters.",
+        "FILTERS": {
+          "ALL": "All",
+          "SEARCH_PLACEHOLDER": "Search by title",
+          "CLEAR": "Clear filters",
+          "INBOX_ALL": "All inboxes"
+        }
       },
       "ANALYTICS": {
         "LOADING": "Loading analytics...",

@@ -25,6 +25,7 @@ import CampaignAnalyticsLayout from 'dashboard/components-next/Campaigns/Campaig
 import CampaignMetricCard from 'dashboard/components-next/Campaigns/Pages/CampaignAnalyticsPage/CampaignMetricCard.vue';
 import CampaignDeliveryBreakdown from 'dashboard/components-next/Campaigns/Pages/CampaignAnalyticsPage/CampaignDeliveryBreakdown.vue';
 import CampaignDeliveryTable from 'dashboard/components-next/Campaigns/Pages/CampaignAnalyticsPage/CampaignDeliveryTable.vue';
+import WhatsAppCampaignAttributionNotice from 'dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsAppCampaign/WhatsAppCampaignAttributionNotice.vue';
 
 const DELIVERIES_PER_PAGE = 25;
 const ANALYTICS_POLL_INTERVAL = 5000;
@@ -455,6 +456,8 @@ onBeforeUnmount(stopPolling);
           </span>
         </div>
       </Banner>
+
+      <WhatsAppCampaignAttributionNotice />
 
       <div
         v-if="campaign?.inbox"

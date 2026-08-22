@@ -24,6 +24,12 @@ json.meta do
     end
   end
   json.hmac_verified conversation.contact_inbox&.hmac_verified
+  if conversation.campaign.present?
+    json.campaign do
+      json.id conversation.campaign.display_id
+      json.title conversation.campaign.title
+    end
+  end
 end
 
 json.id conversation.display_id
@@ -55,6 +61,7 @@ if conversation.in_flow?
   end
 end
 json.inbox_id conversation.inbox_id
+json.campaign_id conversation.campaign_id
 json.labels conversation.cached_label_list_array
 json.muted conversation.muted?
 json.snoozed_until conversation.snoozed_until

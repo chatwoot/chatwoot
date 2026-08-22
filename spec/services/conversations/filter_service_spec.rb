@@ -356,6 +356,20 @@ describe Conversations::FilterService do
         expect(result[:conversations].pluck(:campaign_id).sort).to eq [campaign_2.id, campaign_1.id].sort
       end
 
+      it 'filter conversations by campaign display_id using equal_to' do
+        params[:payload] = [{
+          attribute_key: 'campaign_id',
+          filter_operator: 'equal_to',
+          values: [campaign_1.display_id],
+          query_operator: nil,
+          custom_attribute_type: ''
+        }.with_indifferent_access]
+        result = filter_service.new(params, user_1, account).perform
+
+        expect(result[:count][:all_count]).to be 1
+        expect(result[:conversations].first.campaign_id).to eq(campaign_1.id)
+      end
+
       it 'treats AgentBot-owned conversations as having an assignee' do
         account.conversations.destroy_all
         agent_bot = create(:agent_bot, account: account)

@@ -16,6 +16,7 @@ import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useI18n } from 'vue-i18n';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import CampaignCardBadge from 'dashboard/components-next/Conversation/ConversationCard/CampaignCardBadge.vue';
 
 const props = defineProps({
   chat: {
@@ -86,6 +87,8 @@ const snoozedDisplayText = computed(() => {
 });
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+
+const campaignMeta = computed(() => props.chat?.meta?.campaign);
 
 const contactSubtitle = computed(() => {
   const contact = currentContact.value;
@@ -190,6 +193,11 @@ const toggleContactSidebar = () => {
         show-extended-info
         :parent-width="width"
         class="hidden md:flex"
+      />
+      <CampaignCardBadge
+        v-if="campaignMeta?.title"
+        :title="campaignMeta.title"
+        :display-id="campaignMeta.id"
       />
       <ConversationCallButton :inbox="inbox" :chat="currentChat" />
       <MoreActions :conversation-id="currentChat.id" />

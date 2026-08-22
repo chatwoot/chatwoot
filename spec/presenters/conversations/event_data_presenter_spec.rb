@@ -21,6 +21,7 @@ RSpec.describe Conversations::EventDataPresenter do
         messages: [],
         labels: [],
         inbox_id: conversation.inbox_id,
+        campaign_id: nil,
         status: conversation.status,
         contact_inbox: conversation.contact_inbox,
         can_reply: conversation.can_reply?,
@@ -42,6 +43,16 @@ RSpec.describe Conversations::EventDataPresenter do
     it 'returns push event payload' do
       # the exceptions are the values that would be added in enterprise edition.
       expect(presenter.push_data.except(:applied_sla, :sla_events)).to include(expected_data)
+    end
+
+    it 'includes campaign metadata when the conversation belongs to a campaign' do
+      campaign = create(:campaign, account: conversation.account, inbox: conversation.inbox)
+      conversation.update!(campaign_id: campaign.id)
+
+      data = presenter.push_data
+
+      expect(data[:campaign_id]).to eq(campaign.id)
+      expect(data[:meta][:campaign]).to eq(id: campaign.display_id, title: campaign.title)
     end
   end
 

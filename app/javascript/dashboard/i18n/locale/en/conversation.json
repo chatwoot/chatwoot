@@ -166,6 +166,10 @@
         "DUE": "due"
       }
     },
+    "CAMPAIGN_BADGE": {
+      "LABEL": "Campaign",
+      "TOOLTIP": "From campaign: {title}"
+    },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
       "SNOOZE_UNTIL": "Snooze",

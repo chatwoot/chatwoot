@@ -61,6 +61,14 @@ class Conversations::FilterService < FilterService
     @conversations.sort_on_last_activity_at.page(current_page)
   end
 
+  def filter_values(query_hash)
+    if query_hash['attribute_key'] == 'campaign_id'
+      return @account.campaigns.where(display_id: query_hash['values']).pluck(:id)
+    end
+
+    super
+  end
+
   private
 
   # The planner hint only pays off when the label condition positively narrows the

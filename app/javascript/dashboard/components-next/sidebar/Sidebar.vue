@@ -18,6 +18,7 @@ import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import SidebarChangelogButton from './SidebarChangelogButton.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
+import TemplatesSidebarLeaf from './TemplatesSidebarLeaf.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
@@ -942,6 +943,13 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.WHATSAPP_TEMPLATES'),
           icon: 'i-lucide-layout-template',
           to: accountScopedRoute('settings_templates'),
+          showTemplateSync: true,
+          component: leafProps =>
+            h(TemplatesSidebarLeaf, {
+              label: leafProps.label,
+              active: leafProps.active,
+              icon: 'i-lucide-layout-template',
+            }),
         },
         {
           name: 'Settings Labels',

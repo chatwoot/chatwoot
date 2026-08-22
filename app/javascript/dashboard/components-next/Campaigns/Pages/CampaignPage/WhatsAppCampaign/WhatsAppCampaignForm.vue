@@ -12,6 +12,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
 import WhatsAppTemplateParser from 'dashboard/components-next/whatsapp/WhatsAppTemplateParser.vue';
+import WhatsAppCampaignAttributionNotice from 'dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsAppCampaign/WhatsAppCampaignAttributionNotice.vue';
 
 const props = defineProps({
   selectedCampaign: {
@@ -254,6 +255,8 @@ watch(
 
 <template>
   <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
+    <WhatsAppCampaignAttributionNotice />
+
     <Input
       v-model="state.title"
       :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.LABEL')"

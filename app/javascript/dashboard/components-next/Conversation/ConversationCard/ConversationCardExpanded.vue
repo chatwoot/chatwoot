@@ -13,6 +13,7 @@ import CardStatusIcon from './CardStatusIcon.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PanelIaStateIndicator from 'dashboard/components/widgets/conversation/PanelIaStateIndicator.vue';
+import CampaignCardBadge from './CampaignCardBadge.vue';
 
 const props = defineProps({
   chat: { type: Object, required: true },
@@ -35,6 +36,7 @@ const emit = defineEmits([
 
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 const showLabelsSection = computed(() => props.chat.labels?.length > 0);
+const campaignMeta = computed(() => props.chat.meta?.campaign);
 
 const voiceCallData = computed(() => {
   const last = lastMessageInChat.value;
@@ -172,6 +174,14 @@ const selectedModel = computed({
 
     <!-- RIGHT SECTION -->
     <div class="flex items-center justify-end gap-1.5 flex-shrink-0">
+      <CampaignCardBadge
+        v-if="campaignMeta?.title"
+        variant="pill"
+        :title="campaignMeta.title"
+        :display-id="campaignMeta.id"
+        class="flex-shrink-0"
+      />
+
       <div v-if="showLabelsSection" class="min-w-0 w-full">
         <CardLabels
           :labels="chat.labels"

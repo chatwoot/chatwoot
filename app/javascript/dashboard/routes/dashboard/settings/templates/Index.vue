@@ -5,9 +5,9 @@ import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 
 import { useAlert } from 'dashboard/composables';
-import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useStore } from 'dashboard/composables/store';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
-import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
+import { useWhatsAppTemplateSync } from 'dashboard/composables/useWhatsAppTemplateSync';
 import InboxesAPI from 'dashboard/api/inboxes';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -38,7 +38,9 @@ const TEMPLATE_LEARN_MORE_URL =
 const store = useStore();
 const { t } = useI18n();
 
-const inboxes = useMapGetter('inboxes/getInboxes');
+const { isSyncing, canSync, whatsappInboxes, syncTemplates } =
+  useWhatsAppTemplateSync();
+
 const templates = ref([]);
 const searchQuery = ref('');
 const selectedInboxId = ref('all');
@@ -49,7 +51,6 @@ const openFilterMenu = ref(null);
 const previewPanelRef = ref(null);
 const templateRecordsByInboxId = new Map();
 const lastSyncAttemptsByInboxId = ref({});
-const isSyncing = ref(false);
 const {
   run: runTemplateRequest,
   abort: abortTemplateRequest,
@@ -78,15 +79,6 @@ const typeLabels = computed(() => ({
   CATALOG: t('WHATSAPP_TEMPLATE_MGMT.TYPES.CATALOG'),
   COPY_CODE: t('WHATSAPP_TEMPLATE_MGMT.TYPES.COPY_CODE'),
 }));
-
-const whatsappInboxes = computed(() =>
-  inboxes.value.filter(
-    inbox =>
-      inbox.channel_type === INBOX_TYPES.WHATSAPP ||
-      (inbox.channel_type === INBOX_TYPES.TWILIO &&
-        inbox.medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP)
-  )
-);
 
 const inboxOptions = computed(() => [
   {
@@ -302,31 +294,6 @@ const fetchTemplates = async () => {
   }
 };
 
-const syncTemplates = async () => {
-  if (isSyncing.value) return;
-
-  isSyncing.value = true;
-
-  const responses = await Promise.allSettled(
-    whatsappInboxes.value.map(inbox =>
-      store.dispatch('inboxes/syncTemplates', inbox.id)
-    )
-  );
-  const failedCount = responses.filter(
-    response => response.status === 'rejected'
-  ).length;
-
-  if (!failedCount) {
-    useAlert(t('WHATSAPP_TEMPLATE_MGMT.SYNC_SUCCESS'));
-  } else if (failedCount < responses.length) {
-    useAlert(t('WHATSAPP_TEMPLATE_MGMT.PARTIAL_SYNC_ERROR'));
-  } else {
-    useAlert(t('WHATSAPP_TEMPLATE_MGMT.SYNC_ERROR'));
-  }
-
-  isSyncing.value = false;
-};
-
 onActivated(fetchTemplates);
 onDeactivated(abortTemplateRequest);
 </script>
@@ -409,7 +376,7 @@ onDeactivated(abortTemplateRequest);
             color="slate"
             size="sm"
             :is-loading="isSyncing"
-            :disabled="!whatsappInboxes.length || isSyncing"
+            :disabled="!canSync || isSyncing"
             @click="syncTemplates"
           />
         </template>

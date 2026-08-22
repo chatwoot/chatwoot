@@ -614,6 +614,9 @@ function onToggleAdvanceFiltersModal() {
   if (!hasAppliedFilters.value && !hasActiveFolders.value) {
     initializeExistingFilterToModal();
   }
+  if (!campaigns.value.length) {
+    store.dispatch('campaigns/get');
+  }
   if (hasActiveFolders.value) {
     initializeFolderToFilterModal(activeFolder.value);
   }
@@ -966,9 +969,7 @@ onMounted(async () => {
   store.dispatch('setChatStatusFilter', activeStatus.value);
   store.dispatch('setChatSortFilter', activeSortBy.value);
   resetAndFetchData();
-  if (hasActiveFolders.value) {
-    store.dispatch('campaigns/get');
-  }
+  store.dispatch('campaigns/get');
 });
 
 watch(activeInboxId, async inboxId => {

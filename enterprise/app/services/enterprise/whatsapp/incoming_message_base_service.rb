@@ -1,5 +1,22 @@
 module Enterprise::Whatsapp::IncomingMessageBaseService
+  def process_messages
+    super
+    attribute_conversation_to_whatsapp_campaign
+  end
+
   private
+
+  def attribute_conversation_to_whatsapp_campaign
+    return if @conversation.blank?
+    return if messages_data.blank?
+
+    Whatsapp::CampaignConversationAttributor.new(
+      conversation: @conversation,
+      inbox: inbox,
+      message_payload: messages_data.first,
+      outgoing_echo: outgoing_echo
+    ).perform
+  end
 
   def process_statuses
     status = @processed_params[:statuses].first

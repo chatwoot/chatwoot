@@ -7,6 +7,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       contact_inbox: contact_inbox,
       id: display_id,
       inbox_id: inbox_id,
+      campaign_id: campaign_id,
       messages: push_messages,
       labels: label_list,
       meta: push_meta,
@@ -41,13 +42,22 @@ class Conversations::EventDataPresenter < SimpleDelegator
   end
 
   def push_meta
-    {
+    meta = {
       sender: contact.push_event_data,
       assignee: assigned_entity&.push_event_data,
       assignee_type: assignee_type,
       team: team&.push_event_data,
       hmac_verified: contact_inbox&.hmac_verified
     }
+    campaign = campaign_meta
+    meta[:campaign] = campaign if campaign.present?
+    meta
+  end
+
+  def campaign_meta
+    return unless campaign_id.present? && campaign.present?
+
+    { id: campaign.display_id, title: campaign.title }
   end
 
   def push_timestamps

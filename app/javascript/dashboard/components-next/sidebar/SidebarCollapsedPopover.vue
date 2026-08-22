@@ -8,6 +8,7 @@ import Icon from 'next/icon/Icon.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 import SidebarUnreadBadge from './SidebarUnreadBadge.vue';
 import SidebarSortMenu from './SidebarSortMenu.vue';
+import { useWhatsAppTemplateSync } from 'dashboard/composables/useWhatsAppTemplateSync';
 
 const props = defineProps({
   label: { type: String, required: true },
@@ -20,6 +21,17 @@ const emit = defineEmits(['close', 'mouseenter', 'mouseleave', 'sortToggle']);
 
 const router = useRouter();
 const { isAllowed, sidebarWidth } = useSidebarContext();
+const {
+  isSyncing: isTemplateSyncing,
+  canSync: canSyncTemplates,
+  syncTemplates,
+} = useWhatsAppTemplateSync();
+
+const onTemplateSyncClick = event => {
+  event.preventDefault();
+  event.stopPropagation();
+  syncTemplates();
+};
 
 const expandedSubGroup = ref(null);
 const popoverRef = ref(null);
@@ -205,23 +217,41 @@ onMounted(async () => {
             </li>
             <!-- Direct child item -->
             <li v-else class="py-0.5">
-              <button
-                class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-sm text-left rtl:text-right transition-colors duration-150 ease-out"
+              <div
+                class="flex items-center gap-1 rounded-lg text-sm transition-colors duration-150 ease-out"
                 :class="{
                   'text-n-slate-12 bg-n-alpha-2': isActive(child),
                   'text-n-slate-11 hover:bg-n-alpha-2': !isActive(child),
                 }"
-                @click="navigateAndClose(child.to)"
               >
-                <component
-                  :is="renderIcon(child.icon).component"
-                  v-if="child.icon"
-                  v-bind="renderIcon(child.icon).props"
-                  class="size-4 flex-shrink-0"
-                />
-                <span class="flex-1 truncate">{{ child.label }}</span>
-                <SidebarUnreadBadge :count="child.badgeCount" />
-              </button>
+                <button
+                  class="flex flex-1 min-w-0 items-center gap-2 px-2 py-1.5 text-left rtl:text-right"
+                  @click="navigateAndClose(child.to)"
+                >
+                  <component
+                    :is="renderIcon(child.icon).component"
+                    v-if="child.icon"
+                    v-bind="renderIcon(child.icon).props"
+                    class="size-4 flex-shrink-0"
+                  />
+                  <span class="flex-1 truncate">{{ child.label }}</span>
+                  <SidebarUnreadBadge :count="child.badgeCount" />
+                </button>
+                <button
+                  v-if="child.showTemplateSync"
+                  v-tooltip.top="$t('WHATSAPP_TEMPLATE_MGMT.SYNC_TEMPLATES')"
+                  type="button"
+                  class="flex size-6 flex-shrink-0 items-center justify-center rounded-md me-1.5 text-n-slate-11 hover:bg-n-alpha-2 focus-visible:bg-n-alpha-2 focus-visible:outline-none disabled:opacity-40 disabled:pointer-events-none"
+                  :disabled="!canSyncTemplates || isTemplateSyncing"
+                  :aria-label="$t('WHATSAPP_TEMPLATE_MGMT.SYNC_TEMPLATES')"
+                  @click="onTemplateSyncClick"
+                >
+                  <span
+                    class="i-lucide-refresh-cw size-4 flex-shrink-0"
+                    :class="{ 'animate-spin': isTemplateSyncing }"
+                  />
+                </button>
+              </div>
             </li>
           </template>
         </ul>

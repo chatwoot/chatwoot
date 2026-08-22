@@ -156,6 +156,10 @@
         "DUE": "vencido"
       }
     },
+    "CAMPAIGN_BADGE": {
+      "LABEL": "Campaña",
+      "TOOLTIP": "De la campaña: {title}"
+    },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marcar como pendiente",
       "SNOOZE_UNTIL": "Posponer",

@@ -13,6 +13,7 @@ import SLACardLabel from './components/SLACardLabel.vue';
 import VoiceCallStatus from './VoiceCallStatus.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import PanelIaStateIndicator from './PanelIaStateIndicator.vue';
+import CampaignCardBadge from 'dashboard/components-next/Conversation/ConversationCard/CampaignCardBadge.vue';
 
 const props = defineProps({
   chat: { type: Object, required: true },
@@ -50,6 +51,8 @@ const voiceCallData = computed(() => {
     direction: last.call.direction === 'outgoing' ? 'outbound' : 'inbound',
   };
 });
+
+const campaignMeta = computed(() => props.chat.meta?.campaign);
 
 const showMetaSection = computed(() => {
   return (
@@ -232,6 +235,13 @@ watch(
           v-if="hasUnread"
           :count="unreadCount"
           class="ltr:ml-auto rtl:mr-auto mt-1"
+        />
+      </div>
+      <div v-if="campaignMeta?.title" class="mt-0.5 mx-2 mb-0">
+        <CampaignCardBadge
+          variant="row"
+          :title="campaignMeta.title"
+          :display-id="campaignMeta.id"
         />
       </div>
       <CardLabels
