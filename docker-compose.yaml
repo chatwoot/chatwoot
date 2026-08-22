@@ -35,7 +35,7 @@ services:
       - VITE_RUBY_HOST=vite
       - NODE_ENV=development
       - RAILS_ENV=development
-    entrypoint: docker/entrypoints/rails.sh
+    entrypoint: ["/bin/sh", "docker/entrypoints/rails.sh"]
     command:
       - bundle
       - exec
@@ -63,7 +63,7 @@ services:
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development
-    entrypoint: docker/entrypoints/sidekiq.sh
+    entrypoint: ["/bin/sh", "docker/entrypoints/sidekiq.sh"]
     command:
       - bundle
       - exec
@@ -92,7 +92,7 @@ services:
       # hot reload silently stops working. Force chokidar to poll instead.
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=1000
-    entrypoint: docker/entrypoints/vite.sh
+    entrypoint: ["/bin/sh", "docker/entrypoints/vite.sh"]
     command:
       - bin/vite
       - dev
