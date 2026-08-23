@@ -172,7 +172,7 @@ budget:
 | فاز | محتوا | Acceptance Criteria |
 |---|---|---|
 | **P0 — Detox & Brand scaffold** | حذف `enterprise/` و رفرنس‌ها، rename package به `@chatpaw/core`، logo/palette tokens، LICENSE، docker compose rename، `upstream` remote | ✅ **انجام شد (2026-08-23):** enterprise/ و spec/enterprise حذف؛ رفرنس‌های Ruby/CI پاک؛ `@chatpaw/core`؛ brand assets + توکن‌های `cp-*`؛ compose ها chatpaw؛ README جدید. *باقیمانده: اجرای rspec روی ماشین با Ruby (لوکال فعلی فقط Node دارد)* |
-| **P1 — Dashboard reskin + RTL** | Inter/Vazirmatn، CSS variables برند، login/sidebar/topbar، i18n fa کامل dashboard | اسکرین‌های قبل/بعد؛ تست e2e لاگین fa/en |
+| **P1 — Dashboard reskin + RTL** | Inter/Vazirmatn، CSS variables برند، login/sidebar/topbar، i18n fa کامل dashboard | ✅ **کد کامل شد (2026-08-23):** Vazirmatn variable self-hosted؛ `--n-brand` teal mode-aware؛ لوگوی سایدبار → مَسکات ChatPaw؛ گرادیان لاگین؛ fa کامل (۱۷۴ کلید پر شد)؛ RTL از قبل موجود (`dir` dynamic). *باقیمانده: اسکرین‌شات قبل/بعد + e2e لاگین fa/en روی ماشین با toolchain* |
 | **P2 — Widget revamp** | تم JSON، ۸ آیکون دیفالت، motion/sound، voice note، dept picker، offline form، RTL | دمو صفحه HTML با ۳ تم متفاوت از یک build |
 | **P3 — Goftino parity backend** | worktime، ondelay، ban rules، rating/NPS، export CSV، SMS adapter، Bale channel، auto-distribution queue | هر feature حداقل ۱ request spec؛ UI فارسی |
 | **P4 — AI layer** | chatpaw_ai engine، provider UI، AI Agent + RAG(pgvector)، copilot، widget AI toggle | پاسخ grounded از مقالات با citation؛ fallback بین providerها تست شود |
