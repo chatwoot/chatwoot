@@ -57,7 +57,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
   def campaign_meta
     return unless campaign_id.present? && campaign.present?
 
-    { id: campaign.display_id, title: campaign.title }
+    { id: campaign.display_id, title: campaign.title, color: campaign.color }
   end
 
   def push_timestamps

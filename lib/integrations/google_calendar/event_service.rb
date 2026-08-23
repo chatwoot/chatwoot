@@ -51,6 +51,29 @@ class Integrations::GoogleCalendar::EventService
                 .map { |record| payload_from_record(record) }
   end
 
+  def self.contact_payloads(account, contact_id, calendar_id: nil, time_min: nil, time_max: nil)
+    scope = account.calendar_events
+                   .kept
+                   .where(contact_id: contact_id)
+                   .includes(:created_by, :updated_by, :deleted_by, :contact, :conversation, :calendar_connection, activities: :user)
+    scope = scope.where(external_calendar_id: calendar_id) if calendar_id.present?
+    if time_min.present? && time_max.present?
+      scope = scope.where('start_at < ? AND end_at > ?', Time.iso8601(time_max), Time.iso8601(time_min))
+    end
+    scope.order(start_at: :asc).map { |record| payload_from_record(record) }
+  end
+
+  def list_for_contact(contact_id:, calendar_id: nil, time_min: nil, time_max: nil)
+    self.class.contact_payloads(
+      account,
+      contact_id,
+      calendar_id: calendar_id,
+      time_min: time_min,
+      time_max: time_max
+    )
+  end
+  alias list_by_contact list_for_contact
+
   def self.payload_from_record(record)
     {
       id: record.google_event_id,
@@ -94,10 +117,18 @@ class Integrations::GoogleCalendar::EventService
   end
 
   def create(params)
+    if (existing = find_by_idempotency_key(params[:idempotency_key]))
+      return self.class.payload_from_record(existing)
+    end
+
     calendar_id = params[:calendar_id]
     ensure_calendar_enabled!(calendar_id)
     start_at, end_at = parse_range(params)
     with_booking_lock(calendar_id) do
+      if (existing = find_by_idempotency_key(params[:idempotency_key]))
+        return self.class.payload_from_record(existing)
+      end
+
       ensure_slot_available!(calendar_id, start_at, end_at)
       contact = find_contact(params[:contact_id])
       conversation = find_conversation(params[:conversation_id])
@@ -111,7 +142,10 @@ class Integrations::GoogleCalendar::EventService
         include_meet: ActiveModel::Type::Boolean.new.cast(params[:include_meet]),
         attendee_email: params[:attendee_email].presence || contact&.email
       )
-      record = upsert_local!(google_event, calendar_id, contact, conversation, creating: true)
+      record = upsert_local!(
+        google_event, calendar_id, contact, conversation,
+        creating: true, idempotency_key: params[:idempotency_key]
+      )
       notify_conversation!(conversation, :event_created, record)
       send_to_contact!(conversation, record, google_event) if send_to_contact?(params, conversation)
       serialize(google_event, record, calendar_id)
@@ -159,7 +193,10 @@ class Integrations::GoogleCalendar::EventService
 
     client.delete_event(calendar_id: calendar_id, event_id: event_id, etag: params[:etag])
     if record && !record.discarded?
-      record.update!(deleted_at: Time.current, deleted_by: user, updated_by: user)
+      attrs = { deleted_at: Time.current }
+      attrs[:deleted_by] = actor_user if actor_user
+      attrs[:updated_by] = actor_user if actor_user
+      record.update!(attrs)
       record_activity!(record, 'deleted', activity_details_from(record).merge('note' => note))
       notify_conversation!(record.conversation, :event_deleted, record)
     end
@@ -300,11 +337,11 @@ class Integrations::GoogleCalendar::EventService
     parts.join(' · ')
   end
 
-  def upsert_local!(google_event, calendar_id, contact, conversation, creating:)
+  def upsert_local!(google_event, calendar_id, contact, conversation, creating:, idempotency_key: nil)
     record = connection.calendar_events.find_or_initialize_by(google_event_id: google_event['id'])
     was_new = record.new_record?
     before = snapshot(record) unless was_new
-    record.assign_attributes(
+    attrs = {
       account: account,
       external_calendar_id: calendar_id,
       etag: google_event['etag'],
@@ -313,10 +350,12 @@ class Integrations::GoogleCalendar::EventService
       end_at: parse_google_time(google_event['end']),
       html_link: google_event['htmlLink'],
       contact: contact,
-      conversation: conversation,
-      updated_by: user
-    )
-    record.created_by ||= user if creating || was_new
+      conversation: conversation
+    }
+    attrs[:updated_by] = actor_user if actor_user
+    attrs[:idempotency_key] = idempotency_key if idempotency_key.present? && record.idempotency_key.blank?
+    record.assign_attributes(attrs)
+    record.created_by ||= actor_user if actor_user && (creating || was_new)
     record.save!
     if was_new || creating
       record_activity!(record, 'created', activity_details_from(record))
@@ -325,6 +364,17 @@ class Integrations::GoogleCalendar::EventService
       record_activity!(record, 'updated', details) if details.any?
     end
     record
+  end
+
+  def find_by_idempotency_key(key)
+    return if key.blank?
+
+    account.calendar_events.kept.find_by(idempotency_key: key)
+  end
+
+  # created_by/updated_by FKs point at users — AgentBot must not be assigned.
+  def actor_user
+    user.is_a?(User) ? user : nil
   end
 
   def discarded_in_range(calendar_id, time_min, time_max, google_ids)
@@ -369,7 +419,7 @@ class Integrations::GoogleCalendar::EventService
   end
 
   def record_activity!(record, action, details = {})
-    actor = action == 'moved_in_google' ? nil : user
+    actor = action == 'moved_in_google' ? nil : actor_user
     record.activities.create!(account: account, user: actor, action: action, details: details)
   end
 

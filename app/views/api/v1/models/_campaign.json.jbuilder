@@ -1,5 +1,6 @@
 json.id resource.display_id
 json.title resource.title
+json.color resource.color
 json.description resource.description
 json.account_id resource.account_id
 json.inbox do

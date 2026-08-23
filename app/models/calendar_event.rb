@@ -18,6 +18,7 @@
 #  conversation_id        :bigint
 #  created_by_id          :bigint
 #  updated_by_id          :bigint
+#  idempotency_key        :string
 #
 class CalendarEvent < ApplicationRecord
   belongs_to :account
@@ -32,6 +33,7 @@ class CalendarEvent < ApplicationRecord
   validates :external_calendar_id, presence: true
   validates :google_event_id, presence: true
   validates :google_event_id, uniqueness: { scope: :calendar_connection_id }
+  validates :idempotency_key, uniqueness: { scope: :account_id }, allow_nil: true
 
   scope :kept, -> { where(deleted_at: nil) }
 

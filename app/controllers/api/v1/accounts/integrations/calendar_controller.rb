@@ -58,11 +58,20 @@ class Api::V1::Accounts::Integrations::CalendarController < Api::V1::Accounts::I
   end
 
   def events
-    items = event_service.list(
-      calendar_id: permitted_params[:calendar_id],
-      time_min: time_min,
-      time_max: time_max
-    )
+    if permitted_params[:contact_id].present?
+      items = event_service.list_for_contact(
+        contact_id: permitted_params[:contact_id],
+        calendar_id: permitted_params[:calendar_id],
+        time_min: permitted_params[:time_min],
+        time_max: permitted_params[:time_max]
+      )
+    else
+      items = event_service.list(
+        calendar_id: permitted_params[:calendar_id],
+        time_min: time_min,
+        time_max: time_max
+      )
+    end
     render json: { payload: items }
   rescue StandardError => e
     render_calendar_error(e)
@@ -259,7 +268,7 @@ class Api::V1::Accounts::Integrations::CalendarController < Api::V1::Accounts::I
     params.permit(
       :id, :connection_id, :calendar_id, :event_id, :time_min, :time_max, :heartbeat,
       :summary, :start, :end, :etag, :contact_id, :conversation_id, :include_meet, :send_to_contact,
-      :attendee_email, :all, :note
+      :attendee_email, :all, :note, :idempotency_key
     )
   end
 

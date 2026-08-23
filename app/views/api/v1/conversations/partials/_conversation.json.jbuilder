@@ -28,6 +28,7 @@ json.meta do
     json.campaign do
       json.id conversation.campaign.display_id
       json.title conversation.campaign.title
+      json.color conversation.campaign.color
     end
   end
 end

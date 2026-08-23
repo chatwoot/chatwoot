@@ -6,6 +6,7 @@
 #  audience                           :jsonb
 #  campaign_status                    :integer          default("active"), not null
 #  campaign_type                      :integer          default("ongoing"), not null
+#  color                              :string           default("#1f93ff"), not null
 #  description                        :text
 #  enabled                            :boolean          default(TRUE)
 #  execution_stats                    :jsonb
