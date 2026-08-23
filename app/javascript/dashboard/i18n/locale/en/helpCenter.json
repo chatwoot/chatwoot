@@ -853,7 +853,7 @@
       "CONFIRM_BUTTON_LABEL": "Create",
       "NAME": {
         "LABEL": "Name",
-        "PLACEHOLDER": "User Guide | ChatPaw",
+        "PLACEHOLDER": "User Guide | Whisker",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Name is required"
       },
@@ -976,7 +976,7 @@
         "HEADER": "Integrations",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with ChatPaw",
+          "TITLE": "Live chat with Whisker",
           "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
           "PLACEHOLDER": "Select live chat widget",
           "NONE_OPTION": "No widget"

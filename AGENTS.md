@@ -1,16 +1,16 @@
-﻿# AGENTS.md — Maddix-Chat (ChatPaw) 🐾
+# AGENTS.md — Maddix-Chat (Whisker) 🐾
 
-> **این ریپو دیگر Chatwoot خام نیست** — در حال تبدیل به **ChatPaw** است: پلتفرم open-source گفتگوی مشتری + CRM با قابلیت‌های گوفتینو، لایه AI با اتصال به هر OpenAI-compatible router (OmniRoute / NineRouter / OpenRouter / LiteLLM / Ollama / Groq)، ویجت تم‌محور و Desktop Pet.
+> **این ریپو دیگر Chatwoot خام نیست** — در حال تبدیل به **Whisker** است: پلتفرم open-source گفتگوی مشتری + CRM با قابلیت‌های گوفتینو، لایه AI با اتصال به هر OpenAI-compatible router (OmniRoute / NineRouter / OpenRouter / LiteLLM / Ollama / Groq)، ویجت تم‌محور و Desktop Pet.
 
 ## شروع هر سِشن — به ترتیب
 1. **`PLANNING.md` را کامل بخوان** — منبع حقیقت: برند/رنگ‌ها، ماتریس ادغام قابلیت‌ها، طراحی AiRouter، فازهای P0–P6.
 2. **`docs/goftino-feature-map.md`** مرجع parity با گوفتینو است (بازمهندسی از پنل واقعی).
 3. جدول فازها در `PLANNING.md §7`؛ اگر فاز قبلی ناتمام است همان را تمام کن. **وضعیت فعلی: P0 و P1 انجام شد (2026-08-23) — فاز بعدی: P2 (Widget revamp).**
-4. کارهای P0: حذف کامل `enterprise/` و همه رفرنس‌ها (`Gemfile`, routes, specs, workflows, جستجوی `Enterprise::`)، rename package → `@chatpaw/core`، brand tokens (§1.1) در CSS variables، لوگو از `docs/brand/`.
+4. کارهای P0: حذف کامل `enterprise/` و همه رفرنس‌ها (`Gemfile`, routes, specs, workflows, جستجوی `Enterprise::`)، rename package → `@whisker/core`، brand tokens (§1.1) در CSS variables، لوگو از `docs/brand/`.
 5. remote `upstream` به chatwoot/chatwoot تنظیم است — فقط برای merge، هرگز push نکن.
 
-## قوانین سخت ChatPaw
-- کد سفارشی را ایزوله بنویس: `engines/chatpaw_*` ، `services/` ، `apps/pet` ، `packages/widget-theme`. تغییر core = حداقلی + کامنت `// [chatpaw]`
+## قوانین سخت Whisker
+- کد سفارشی را ایزوله بنویس: `engines/whisker_*` ، `services/` ، `apps/pet` ، `packages/widget-theme`. تغییر core = حداقلی + کامنت `// [whisker]`
 - کد enterprise را هرگز restore/کپی نکن
 - API keys فقط env-reference؛ هیچ secret در repo/DB
 - commit کوچک conventional: `feat(widget): ...` / `chore(brand): ...`

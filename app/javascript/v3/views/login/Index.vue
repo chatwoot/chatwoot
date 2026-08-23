@@ -343,7 +343,7 @@ export default {
         'animate-wiggle': loginApi.hasErrored,
       }"
     >
-      <!-- [chatpaw] brand gradient accent -->
+      <!-- [whisker] brand gradient accent -->
       <div
         class="absolute top-0 inset-x-0 h-1 bg-[image:linear-gradient(135deg,#1fe0b5,#1ba5ff)]"
       />

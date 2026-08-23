@@ -1,4 +1,4 @@
-// [chatpaw] Default launcher glyph registry.
+// [whisker] Default launcher glyph registry.
 // Each entry is inline SVG markup (white glyphs designed to sit on a colored bubble).
 // Custom themes may pass any SVG URL / data-URI via `icon` instead.
 

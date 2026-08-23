@@ -109,7 +109,7 @@ const handleDialogConfirm = async () => {
     slug: state.slug,
     custom_domain: state.domain,
     blob_id: state.avatarBlobId || null,
-    color: '#12b892', // [chatpaw] default portal color = brand primary
+    color: '#12b892', // [whisker] default portal color = brand primary
   };
   await createPortal(portal);
 };

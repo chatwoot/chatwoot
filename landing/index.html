@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Whisker — Customer conversations with a soul</title>
+  <meta name="description" content="Whisker is a free, open-source customer conversation platform + CRM. Self-hosted, privacy-first, RTL-ready, with BYOR AI that connects to any OpenAI-compatible router." />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <style>
+    :root {
+      --bg: #0d1f26; --surface: #122b34; --text: #e6f1ef; --muted: #9fb8b3;
+      --primary: #1fe0b5; --secondary: #1ba5ff; --accent: #ffc857;
+      --grad: linear-gradient(135deg, #1fe0b5, #1ba5ff);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', 'Vazirmatn', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: var(--primary); text-decoration: none; }
+    .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+    .logo { font-weight: 800; font-size: 22px; letter-spacing: -0.5px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    nav .links a { color: var(--muted); margin-inline-start: 22px; font-size: 15px; }
+    nav .links a:hover { color: var(--text); }
+    header { padding: 90px 0 70px; text-align: center; position: relative; overflow: hidden; }
+    header::before { content: ''; position: absolute; inset: -40% -20% auto; height: 130%; background: radial-gradient(600px 300px at 50% 0%, rgba(31,224,181,.14), transparent 70%); pointer-events: none; }
+    h1 { font-size: clamp(34px, 6vw, 58px); letter-spacing: -1.5px; line-height: 1.12; }
+    h1 span { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .tagline { color: var(--muted); font-size: clamp(16px, 2.4vw, 20px); margin-top: 18px; }
+    .cta-row { margin-top: 36px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 13px 28px; border-radius: 12px; font-weight: 600; font-size: 15px; transition: transform .15s ease, box-shadow .15s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--grad); color: #06251f; box-shadow: 0 8px 30px rgba(31,224,181,.25); }
+    .btn-ghost { border: 1px solid #23444f; color: var(--text); }
+    .badges { margin-top: 26px; color: var(--muted); font-size: 14px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+    section { padding: 64px 0; }
+    h2 { font-size: clamp(24px, 3.6vw, 34px); letter-spacing: -0.5px; margin-bottom: 10px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; margin-top: 34px; }
+    .card { background: var(--surface); border: 1px solid #17333e; border-radius: 18px; padding: 24px; }
+    .card .emoji { font-size: 26px; }
+    .card h3 { margin: 10px 0 8px; font-size: 17px; }
+    .card p { color: var(--muted); font-size: 14.5px; }
+    code.inline { background: #0a161c; padding: 3px 8px; border-radius: 7px; font-size: 13px; }
+    pre { background: #0a161c; border: 1px solid #17333e; border-radius: 14px; padding: 20px; overflow-x: auto; font-size: 13.5px; color: #b9d9d2; margin-top: 20px; }
+    pre b { color: var(--accent); font-weight: 600; }
+    .rtl { direction: rtl; }
+    .rtl h2, .rtl p { text-align: right; }
+    .fa { font-family: 'Vazirmatn', 'Inter', sans-serif; }
+    footer { border-top: 1px solid #17333e; padding: 34px 0; color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    @media (max-width: 640px) { nav .links a:not(:last-child) { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <div class="logo">🐾 Whisker</div>
+      <div class="links">
+        <a href="#features">Features</a>
+        <a href="#selfhost">Self-host</a>
+        <a href="#fa">فارسی</a>
+        <a href="https://github.com/maddixmhn/Maddix-Chat">GitHub ↗</a>
+      </div>
+    </nav>
+
+    <header>
+      <h1>Customer conversations<br /><span>with a soul.</span></h1>
+      <p class="tagline">Free &amp; open-source live chat + CRM you fully own.<br />Self-hosted, privacy-first, RTL-ready — with AI you bring yourself.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/maddixmhn/Maddix-Chat">★ Star on GitHub</a>
+        <a class="btn btn-ghost" href="#selfhost">Deploy in one command</a>
+      </div>
+      <div class="badges">
+        <span>♾️ Unlimited operators</span>
+        <span>🔒 No forced cloud calls</span>
+        <span>🤖 BYOR AI included</span>
+        <span>🌍 Persian · Arabic · English</span>
+      </div>
+    </header>
+
+    <section id="features">
+      <h2>Everything the paid tools charge for — free.</h2>
+      <p class="tagline">Forked from Chatwoot v4.17 with a pet-themed soul and zero locked features.</p>
+      <div class="grid">
+        <div class="card"><div class="emoji">💬</div><h3>Omnichannel inbox</h3><p>Website chat, email, WhatsApp, Telegram, Facebook, Instagram, SMS — unified in one dashboard.</p></div>
+        <div class="card"><div class="emoji">🧠</div><h3>BYOR AI</h3><p>Connect any OpenAI-compatible router: OpenRouter, LiteLLM, OmniRoute, NineRouter, Ollama, Groq, vLLM. Your keys stay in your env.</p></div>
+        <div class="card"><div class="emoji">📚</div><h3>Native RAG</h3><p>Feed your help-center articles to your own AI agent via pgvector. Grounded answers, no external SaaS.</p></div>
+        <div class="card"><div class="emoji">🎨</div><h3>Theme-driven widget</h3><p>theme.json controls icon, colors, motion presets, sounds, position and pet-mode. 8 default mascots included.</p></div>
+        <div class="card"><div class="emoji">🐾</div><h3>Pawly the desktop pet</h3><p>A floating mascot on the operator's desktop that hops on new conversations (Tauri, roadmap P5).</p></div>
+        <div class="card"><div class="emoji">🌍</div><h3>RTL first-class</h3><p>Persian and Arabic as citizens, not afterthoughts — Vazirmatn typography, full RTL dashboard and widget.</p></div>
+      </div>
+    </section>
+
+    <section id="selfhost">
+      <h2>Your data. Your server. One command.</h2>
+      <pre>
+# production stack — rails + sidekiq + postgres(pgvector) + redis
+$ git clone https://github.com/maddixmhn/Maddix-Chat whisker
+$ cd whisker
+$ docker compose -f docker-compose.production.yaml up</pre>
+      <p class="tagline" style="margin-top:16px">No telemetry, no phone-home, no per-seat pricing. MIT licensed.</p>
+    </section>
+
+    <section id="fa" class="rtl fa">
+      <h2>گفتگو با مشتری‌ها، با یک رفیق دیجیتال 🐾</h2>
+      <p class="tagline">
+        ویسکر یک پلتفرم گفتگوی مشتری متن‌باز و رایگان است؛ فورکی از Chatwoot با هویت تازه.
+        فارسی و RTL درجه‌یک دارد، هوش مصنوعی‌اش آزاد است و همه‌چیز روی سرور خودت اجرا می‌شود.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/maddixmhn/Maddix-Chat">مشاهده در گیت‌هاب</a>
+      </div>
+    </section>
+
+    <footer>
+      <div>© 2026 Whisker contributors · upstream © Chatwoot Inc · MIT</div>
+      <div><a href="https://github.com/maddixmhn/Maddix-Chat">GitHub</a> · <a href="https://github.com/maddixmhn/Maddix-Chat/issues">Issues</a></div>
+    </footer>
+  </div>
+</body>
+</html>

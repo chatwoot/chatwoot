@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="./public/brand-assets/logo.svg#gh-light-mode-only" alt="ChatPaw" width="420"/>
-  <img src="./public/brand-assets/logo_dark.svg#gh-dark-mode-only" alt="ChatPaw" width="420"/>
+  <img src="./public/brand-assets/logo.svg#gh-light-mode-only" alt="Whisker" width="420"/>
+  <img src="./public/brand-assets/logo_dark.svg#gh-dark-mode-only" alt="Whisker" width="420"/>
 
   ### *Customer conversations with a soul.*
   **«گفتگو با مشتری‌ها، با یک رفیق دیجیتال»**
@@ -12,19 +12,19 @@
 
 ---
 
-# ChatPaw 🐾
+# Whisker 🐾
 
-**ChatPaw** (چت‌پا) is a free, open-source customer conversation platform + CRM — forked from [Chatwoot](https://github.com/chatwoot/chatwoot), rebuilt with a pet-themed soul, deep RTL/Persian support, and an AI layer that connects to **any OpenAI-compatible router** (OpenRouter / LiteLLM / OmniRoute / NineRouter / Ollama / Groq / vLLM).
+**Whisker** is a free, open-source customer conversation platform + CRM — forked from [Chatwoot](https://github.com/chatwoot/chatwoot), rebuilt with a pet-themed soul, deep RTL/Persian support, and an AI layer that connects to **any OpenAI-compatible router** (OpenRouter / LiteLLM / OmniRoute / NineRouter / Ollama / Groq / vLLM).
 
 Everything is unlimited and self-hosted. No per-seat pricing, no forced cloud calls, no locked AI.
 
-> ChatPaw یک پلتفرم گفتگوی مشتری متن‌باز و رایگان است؛ فورکی از Chatwoot با هویت جدید، پشتیبانی کامل فارسی و RTL، لایه هوش مصنوعی آزاد و ویجت تم‌محور با حالت مَسکات.
+> Whisker یک پلتفرم گفتگوی مشتری متن‌باز و رایگان است؛ فورکی از Chatwoot با هویت جدید، پشتیبانی کامل فارسی و RTL، لایه هوش مصنوعی آزاد و ویجت تم‌محور با حالت مَسکات.
 
 ---
 
 ## 💬 About / درباره ما
 
-We believe customer conversations deserve better than paywalled AI and locked features. ChatPaw started as a fork of Chatwoot `v4.17.0` with one mission: **take the best open-source support desk in the world and make it truly free, personal, and local-first** — with the polish of Goftino-style UX, native Persian/RTL experience, and BYOR (Bring Your Own Router) AI that never phones home.
+We believe customer conversations deserve better than paywalled AI and locked features. Whisker started as a fork of Chatwoot `v4.17.0` with one mission: **take the best open-source support desk in the world and make it truly free, personal, and local-first** — with the polish of Goftino-style UX, native Persian/RTL experience, and BYOR (Bring Your Own Router) AI that never phones home.
 
 | | |
 |---|---|
@@ -34,7 +34,7 @@ We believe customer conversations deserve better than paywalled AI and locked fe
 | 🐾 | Pet-themed widget & desktop mascot (*Pawly*) |
 | 🌍 | RTL-first: Persian, Arabic, English as first-class citizens |
 
-*ما معتقدیم گفتگو با مشتری نباید گروگان پلن‌های پولی باشد. ChatPaw یعنی همه‌ی امکانات، رایگان و روی سرور خودت.*
+*ما معتقدیم گفتگو با مشتری نباید گروگان پلن‌های پولی باشد. Whisker یعنی همه‌ی امکانات، رایگان و روی سرور خودت.*
 
 ---
 
@@ -72,6 +72,16 @@ overmind start -f Procfile.dev
 docker compose -f docker-compose.production.yaml up
 ```
 
+## 🌐 Website / Landing
+
+The marketing/docs home lives in [`landing/`](./landing) — a static site deployable to Vercel in one click:
+
+```bash
+cd landing && npx vercel --prod
+```
+
+See [`landing/README.md`](./landing/README.md) for the custom-domain guide (e.g. `whisker.chat`).
+
 ## 🛣 Roadmap
 
 | Phase | Scope | Status |
@@ -80,7 +90,7 @@ docker compose -f docker-compose.production.yaml up
 | P1 | Dashboard reskin + RTL + fa i18n | ⏳ next |
 | P2 | Widget revamp (themes, voice notes, dept picker) | ☐ |
 | P3 | Goftino parity backend (worktime, ban rules, NPS…) | ☐ |
-| P4 | AI layer (`chatpaw_ai` engine, RAG, copilot) | ☐ |
+| P4 | AI layer (`whisker_ai` engine, RAG, copilot) | ☐ |
 | P5 | Desktop pet (Tauri) | ☐ |
 | P6 | Flow builder & launch | ☐ |
 
@@ -103,7 +113,7 @@ MIT — see [`LICENSE`](./LICENSE). This project is a fork of [Chatwoot](https:/
 
 <div align="center">
 
-*ChatPaw* © 2026, ChatPaw contributors · upstream © 2017–2026 Chatwoot Inc · MIT
+*Whisker* © 2026, Whisker contributors · upstream © 2017–2026 Chatwoot Inc · MIT
 
 🐾 *Customer conversations with a soul.*
 

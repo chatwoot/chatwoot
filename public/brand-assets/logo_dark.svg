@@ -1,29 +1,35 @@
-<svg width="640" height="160" viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg">
+<svg width="720" height="160" viewBox="0 0 720 160" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="cpBody" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="wsBody" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#1fe0b5"/>
       <stop offset="1" stop-color="#1ba5ff"/>
     </linearGradient>
   </defs>
-  <!-- ChatPaw blob mascot -->
-  <g transform="translate(80 80)">
-    <path fill="url(#cpBody)" d="M0 -68 C30 -68 46 -42 46 -16 C46 12 28 26 0 26 C-28 26 -46 12 -46 -16 C-46 -42 -30 -68 0 -68 Z"/>
+  <!-- Whisker blob mascot -->
+  <g transform="translate(80 82)">
+    <path fill="url(#wsBody)" d="M0 -68 C30 -68 46 -42 46 -16 C46 12 28 26 0 26 C-28 26 -46 12 -46 -16 C-46 -42 -30 -68 0 -68 Z"/>
+    <!-- whiskers -->
+    <g stroke="#e6f1ef" stroke-width="2.4" stroke-linecap="round" opacity="0.9">
+      <line x1="-30" y1="-14" x2="-48" y2="-18"/>
+      <line x1="-30" y1="-8" x2="-47" y2="-6"/>
+      <line x1="30" y1="-14" x2="48" y2="-18"/>
+      <line x1="30" y1="-8" x2="47" y2="-6"/>
+    </g>
     <ellipse cx="-16" cy="-28" rx="7.5" ry="9" fill="#06251f"/>
     <ellipse cx="16" cy="-28" rx="7.5" ry="9" fill="#06251f"/>
     <circle cx="-13.5" cy="-31.5" r="2.4" fill="#fff"/>
     <circle cx="18.5" cy="-31.5" r="2.4" fill="#fff"/>
     <path d="M-14 -8 Q0 2 14 -8" stroke="#06251f" stroke-width="4.5" stroke-linecap="round" fill="none"/>
-    <g transform="translate(0 12)">
-      <ellipse cx="0" cy="1.5" rx="6.5" ry="5" fill="#ffc857"/>
-      <circle cx="-6" cy="-4.5" r="2.3" fill="#ffc857"/>
-      <circle cx="-2.2" cy="-7" r="2.3" fill="#ffc857"/>
-      <circle cx="2.2" cy="-7" r="2.3" fill="#ffc857"/>
-      <circle cx="6" cy="-4.5" r="2.3" fill="#ffc857"/>
+    <g transform="translate(0 14)">
+      <ellipse cx="0" cy="1.5" rx="6" ry="4.6" fill="#ffc857"/>
+      <circle cx="-5.6" cy="-4" r="2.1" fill="#ffc857"/>
+      <circle cx="-2" cy="-6.4" r="2.1" fill="#ffc857"/>
+      <circle cx="2" cy="-6.4" r="2.1" fill="#ffc857"/>
+      <circle cx="5.6" cy="-4" r="2.1" fill="#ffc857"/>
     </g>
     <line x1="0" y1="-68" x2="0" y2="-76" stroke="#1fe0b5" stroke-width="3" stroke-linecap="round"/>
     <circle cx="0" cy="-77" r="3" fill="#ffc857"/>
   </g>
   <!-- wordmark (light for dark surfaces) -->
-  <text x="150" y="103" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="72" font-weight="800" letter-spacing="-2" fill="#1fe0b5">Chat</text>
-  <text x="322" y="103" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="72" font-weight="800" letter-spacing="-2" fill="#ffc857">Paw</text>
+  <text x="148" y="103" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="72" font-weight="800" letter-spacing="-2" fill="#1fe0b5">Whisker</text>
 </svg>

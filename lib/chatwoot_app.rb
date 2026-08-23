@@ -11,7 +11,7 @@ module ChatwootApp
     100_000
   end
 
-  # [chatpaw] enterprise overlay removed; kept as `false` so upstream guards stay merge-friendly
+  # [whisker] enterprise overlay removed; kept as `false` so upstream guards stay merge-friendly
   def self.enterprise?
     false
   end
@@ -33,7 +33,7 @@ module ChatwootApp
   end
 
   def self.extensions
-    # [chatpaw] no extension overlays in this fork
+    # [whisker] no extension overlays in this fork
     %w[]
   end
 

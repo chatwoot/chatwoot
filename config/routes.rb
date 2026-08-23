@@ -560,7 +560,7 @@ Rails.application.routes.draw do
     end
   end
 
-  # [chatpaw] enterprise namespace routes removed from this fork
+  # [whisker] enterprise namespace routes removed from this fork
 
   # ----------------------------------------------------------------------
   # Routes for platform APIs

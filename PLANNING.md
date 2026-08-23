@@ -1,4 +1,4 @@
-# PLANNING.md — Maddix-Chat → «ChatPaw» 🐾
+# PLANNING.md — Maddix-Chat → «Whisker» 🐾
 
 > **ماموریت:** ساخت یک پلتفرم گفتگوی مشتری + CRM متن‌باز و رایگان، از فورک Chatwoot، با ادغام کامل قابلیت‌های Goftino، هویت بصری جدید، لایه هوش مصنوعی با اتصال به هر Router/API سازگار با OpenAI (OpenRouter / LiteLLM / OmniRoute / NineRouter / Ollama / Groq / vLLM)، ویجت قابل‌سفارشی‌سازی با حالت Pet و ابزار تولید ویجت با AI.
 >
@@ -10,7 +10,7 @@
 
 | مورد | مقدار |
 |---|---|
-| **نام محصول (پیشنهاد اصلی)** | **ChatPaw** (چت‌پا) — ترکیب Chat + Paw؛ پیوند مستقیم با تم Pet/مَسکات |
+| **نام محصول** | **Whisker** — یعنی «سبیل گربه»؛ کوتاه، بازیگوش و به‌یادماندنی؛ پیوند مستقیم با تم Pet/مَسکات |
 | **جایگزین‌ها** | PawDesk · NexChat · Mochat · OpenPaw |
 | **تگ‌لاین EN** | *Customer conversations with a soul.* |
 | **تگ‌لاین FA** | «گفتگو با مشتری‌ها، با یک رفیق دیجیتال» |
@@ -38,9 +38,9 @@
 - RTL باید شهروند درجه‌یک باشد (Goftino قوت اصلیش فارسی است — ما هم `dir=rtl` را first-class میکنیم).
 
 ### 1.3 لوگو و مَسکات
-- آیکون: بلاب رباتِ گرد با **اثر جای پنجه (paw)** روی شکم — SVG برداری در `docs/brand/logo-icon.svg` (نسخه اولیه ضمیمه شده).
-- وردمارک: "ChatPaw" با p انتهایی به‌شکل پنجه.
-- مَسکات: همان خانواده MaddyBot (بلاب سبز→آبی) ولی با پنجه؛ اسم مَسکات پیشنهادی **«Pawly»**.
+- آیکون: بلاب رباتِ گرد با **سبیل (whisker)** و **اثر جای پنجه (paw)** روی شکم — SVG برداری در `docs/brand/logo-icon.svg`.
+- وردمارک: "Whisker" با گرادیان برند سبز→آبی.
+- مَسکات: همان خانواده MaddyBot (بلاب سبز→آبی) با سبیل و پنجه؛ اسم مَسکات **«Pawly»**.
 
 ---
 
@@ -62,13 +62,13 @@
 
 **اصل طلایی معماری:** برای حفظ امکان merge از upstream، کدهای سفارشی را تا حد ممکن در موتورهای مجزا بنویسیم:
 ```
-engines/chatpaw_ai/        # AiRouter + RAG + agent logic (Rails engine)
-engines/chatpaw_goftino/   # parity features گوفتینو که در core جا نمیشوند
+engines/whisker_ai/        # AiRouter + RAG + agent logic (Rails engine)
+engines/whisker_goftino/   # parity features گوفتینو که در core جا نمیشوند
 services/ai-gateway/       # (اختیاری) Node microservice سبک برای LLM proxy
 apps/pet/                  # Tauri desktop pet
 packages/widget-theme/     # تم‌ها و آیکون‌های ویجت
 ```
-اگر تغییری در core لازم شد: کوچک، ایزوله و با کامنت `// [chatpaw]` نشانه‌گذاری شود.
+اگر تغییری در core لازم شد: کوچک، ایزوله و با کامنت `// [whisker]` نشانه‌گذاری شود.
 
 ---
 
@@ -111,7 +111,7 @@ Omnichannel کامل، Teams، Labels، Automation rules، Macros، Reports، Ca
 10. **Plugin hooks for widgets:** dashboard apps سمت visitor (نمایش داده CRM کنار چت).
 
 ### 4.4 مقایسه پلن‌های گوفتینو → در ما همه رایگان
-| گوفتینو | رایگان | استارتاپ 249K | حرفه‌ای 549K | تجاری 1.19M | **ChatPaw** |
+| گوفتینو | رایگان | استارتاپ 249K | حرفه‌ای 549K | تجاری 1.19M | **Whisker** |
 |---|---|---|---|---|---|
 | اپراتور | ۲ | ۴ | ۱۰ | ۱۰۰ | ♾️ self-host |
 | گفتگوی جدید/ماه | ۱۰۰ | ۵۰۰ | ۲۰۰۰ | ۱۰٬۰۰۰ | ♾️ |
@@ -124,7 +124,7 @@ Omnichannel کامل، Teams، Labels، Automation rules، Macros، Reports، Ca
 ## 5. طراحی لایه AI (AiRouter)
 
 ```yaml
-# engines/chatpaw_ai/config/providers.example.yml
+# engines/whisker_ai/config/providers.example.yml
 providers:
   omniroute_local:      # هر اسم دلخواه
     type: openai_compatible     # تنها نوع لازم است!
@@ -171,11 +171,11 @@ budget:
 
 | فاز | محتوا | Acceptance Criteria |
 |---|---|---|
-| **P0 — Detox & Brand scaffold** | حذف `enterprise/` و رفرنس‌ها، rename package به `@chatpaw/core`، logo/palette tokens، LICENSE، docker compose rename، `upstream` remote | ✅ **انجام شد (2026-08-23):** enterprise/ و spec/enterprise حذف؛ رفرنس‌های Ruby/CI پاک؛ `@chatpaw/core`؛ brand assets + توکن‌های `cp-*`؛ compose ها chatpaw؛ README جدید. *باقیمانده: اجرای rspec روی ماشین با Ruby (لوکال فعلی فقط Node دارد)* |
-| **P1 — Dashboard reskin + RTL** | Inter/Vazirmatn، CSS variables برند، login/sidebar/topbar، i18n fa کامل dashboard | ✅ **کد کامل شد (2026-08-23):** Vazirmatn variable self-hosted؛ `--n-brand` teal mode-aware؛ لوگوی سایدبار → مَسکات ChatPaw؛ گرادیان لاگین؛ fa کامل (۱۷۴ کلید پر شد)؛ RTL از قبل موجود (`dir` dynamic). *باقیمانده: اسکرین‌شات قبل/بعد + e2e لاگین fa/en روی ماشین با toolchain* |
-| **P2 — Widget revamp** | تم JSON، ۸ آیکون دیفالت، motion/sound، voice note، dept picker، offline form، RTL | 🔶 **مرحله ۱ انجام شد (2026-08-23):** `packages/widget-theme` با schema + ۸ تم + ۸ آیکون + motion presets؛ اتصال به SDK از طریق `chatwootSettings.theme` (ایزوله `[chatpaw]`)؛ صفحه دمو ۳ تم از یک build؛ RTL ویجت از قبل فعال. *باقیمانده: voice note، dept picker (نیازمند مدل دپارتمان/تیم عمومی در API)، offline form، انتخاب sound pack سمت ویجت* |
+| **P0 — Detox & Brand scaffold** | حذف `enterprise/` و رفرنس‌ها، rename package به `@whisker/core`، logo/palette tokens، LICENSE، docker compose rename، `upstream` remote | ✅ **انجام شد (2026-08-23):** enterprise/ و spec/enterprise حذف؛ رفرنس‌های Ruby/CI پاک؛ `@whisker/core`؛ brand assets + توکن‌های `cp-*`؛ compose ها whisker؛ README جدید. *باقیمانده: اجرای rspec روی ماشین با Ruby (لوکال فعلی فقط Node دارد)* |
+| **P1 — Dashboard reskin + RTL** | Inter/Vazirmatn، CSS variables برند، login/sidebar/topbar، i18n fa کامل dashboard | ✅ **کد کامل شد (2026-08-23):** Vazirmatn variable self-hosted؛ `--n-brand` teal mode-aware؛ لوگوی سایدبار → مَسکات Whisker؛ گرادیان لاگین؛ fa کامل (۱۷۴ کلید پر شد)؛ RTL از قبل موجود (`dir` dynamic). *باقیمانده: اسکرین‌شات قبل/بعد + e2e لاگین fa/en روی ماشین با toolchain* |
+| **P2 — Widget revamp** | تم JSON، ۸ آیکون دیفالت، motion/sound، voice note، dept picker، offline form، RTL | 🔶 **مرحله ۱ انجام شد (2026-08-23):** `packages/widget-theme` با schema + ۸ تم + ۸ آیکون + motion presets؛ اتصال به SDK از طریق `chatwootSettings.theme` (ایزوله `[whisker]`)؛ صفحه دمو ۳ تم از یک build؛ RTL ویجت از قبل فعال. *باقیمانده: voice note، dept picker (نیازمند مدل دپارتمان/تیم عمومی در API)، offline form، انتخاب sound pack سمت ویجت* |
 | **P3 — Goftino parity backend** | worktime، ondelay، ban rules، rating/NPS، export CSV، SMS adapter، Bale channel، auto-distribution queue | هر feature حداقل ۱ request spec؛ UI فارسی |
-| **P4 — AI layer** | chatpaw_ai engine، provider UI، AI Agent + RAG(pgvector)، copilot، widget AI toggle | پاسخ grounded از مقالات با citation؛ fallback بین providerها تست شود |
+| **P4 — AI layer** | whisker_ai engine، provider UI، AI Agent + RAG(pgvector)، copilot، widget AI toggle | پاسخ grounded از مقالات با citation؛ fallback بین providerها تست شود |
 | **P5 — Pet** | Tauri app + widget pet-mode | pet روی ویندوز/مک اعلان بدهد و inbox باز کند |
 | **P6 — Flow builder & launch** | flow editor، marketplace تم، docs site، demo online | ویدیو دمو ۲ دقیقه‌ای + README نهایی |
 

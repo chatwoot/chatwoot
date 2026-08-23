@@ -1,6 +1,6 @@
 # Security Policy / گزارش آسیب‌پذیری
 
-ChatPaw is a community-maintained open-source project. We take security bugs seriously and welcome responsible disclosure from security researchers worldwide.
+Whisker is a community-maintained open-source project. We take security bugs seriously and welcome responsible disclosure from security researchers worldwide.
 
 ## How to report
 
@@ -23,4 +23,4 @@ ChatPaw is a community-maintained open-source project. We take security bugs ser
 2. We investigate, fix promptly, and release a patch.
 3. Credit is given to reporters in the release notes (unless anonymity is requested).
 
-Thank you for keeping ChatPaw and our users safe. 🐾
+Thank you for keeping Whisker and our users safe. 🐾

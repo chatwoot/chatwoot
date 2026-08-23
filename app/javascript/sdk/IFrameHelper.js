@@ -335,7 +335,7 @@ export const IFrameHelper = {
     bubbleHolder.appendChild(closeBubble);
     onClickChatBubble();
 
-    // [chatpaw] apply widget theme (icon/motion/colors) if provided via settings
+    // [whisker] apply widget theme (icon/motion/colors) if provided via settings
     import('widgetTheme/src/index')
       .then(({ applyWidgetTheme, loadTheme }) =>
         loadTheme(window.$chatwoot.theme).then(theme => {

@@ -1,6 +1,6 @@
-# @chatpaw/widget-theme 🐾
+# @whisker/widget-theme 🐾
 
-Theme system for the ChatPaw web widget — isolated from upstream code.
+Theme system for the Whisker web widget — isolated from upstream code.
 
 ## Layout
 

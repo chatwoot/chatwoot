@@ -1,0 +1,42 @@
+// [whisker] Brand design tokens — PLANNING.md §1.1
+// Teal primary, blue secondary, amber paw accent.
+// Use these for new branded surfaces; existing n-* (Radix) palette stays intact.
+
+@layer base {
+  :root {
+    --ws-primary-dark: #1fe0b5;
+    --ws-primary-light: #12b892;
+    --ws-secondary-dark: #1ba5ff;
+    --ws-secondary-light: #0f7fd4;
+    --ws-accent-dark: #ffc857;
+    --ws-accent-light: #e8a020;
+    --ws-bg-dark: #0d1f26;
+    --ws-bg-light: #f7f9fa;
+    --ws-surface-dark: #122b34;
+    --ws-surface-light: #ffffff;
+    --ws-text-dark: #e6f1ef;
+    --ws-text-light: #1a2b30;
+    --ws-danger-dark: #ff6b6b;
+    --ws-danger-light: #d64545;
+
+    // Semantic aliases resolve to light-mode values by default
+    --ws-primary: var(--ws-primary-light);
+    --ws-secondary: var(--ws-secondary-light);
+    --ws-accent: var(--ws-accent-light);
+    --ws-bg: var(--ws-bg-light);
+    --ws-surface: var(--ws-surface-light);
+    --ws-text: var(--ws-text-light);
+    --ws-danger: var(--ws-danger-light);
+    --ws-gradient: linear-gradient(135deg, #1fe0b5 0%, #1ba5ff 100%);
+  }
+
+  .dark {
+    --ws-primary: var(--ws-primary-dark);
+    --ws-secondary: var(--ws-secondary-dark);
+    --ws-accent: var(--ws-accent-dark);
+    --ws-bg: var(--ws-bg-dark);
+    --ws-surface: var(--ws-surface-dark);
+    --ws-text: var(--ws-text-dark);
+    --ws-danger: var(--ws-danger-dark);
+  }
+}

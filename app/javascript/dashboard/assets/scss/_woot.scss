@@ -5,14 +5,14 @@
 
 @import 'shared/assets/fonts/InterDisplay/inter-display';
 @import 'shared/assets/fonts/inter';
-// [chatpaw] Persian/RTL typeface
+// [whisker] Persian/RTL typeface
 @import 'shared/assets/fonts/vazirmatn';
 
 // Next Colors
 @import 'next-colors';
 
-// [chatpaw] Brand tokens
-@import 'chatpaw-brand';
+// [whisker] Brand tokens
+@import 'whisker-brand';
 
 // Base styles for elements
 @import 'base';
@@ -24,7 +24,7 @@ html,
 body {
   font-family:
     'Inter',
-    // [chatpaw] Persian glyph fallback — Latin renders in Inter, Arabic script in Vazirmatn
+    // [whisker] Persian glyph fallback — Latin renders in Inter, Arabic script in Vazirmatn
     'Vazirmatn',
     -apple-system,
     system-ui,

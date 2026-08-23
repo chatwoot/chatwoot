@@ -40,7 +40,7 @@ module Chatwoot
     config.rails_i18n.enabled_modules = [:pluralization]
 
     config.eager_load_paths << Rails.root.join('lib')
-    # [chatpaw] enterprise overlay removed from this fork
+    # [whisker] enterprise overlay removed from this fork
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

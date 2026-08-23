@@ -226,7 +226,7 @@ export const colors = {
     },
 
     black: '#000000',
-    // [chatpaw] brand accent follows --n-brand (teal, mode-aware)
+    // [whisker] brand accent follows --n-brand (teal, mode-aware)
     brand: 'rgb(var(--n-brand, 18 184 146) / <alpha-value>)',
     portal: 'var(--dynamic-portal-color)',
     'portal-soft': 'var(--dynamic-portal-color-soft)',
@@ -289,21 +289,21 @@ export const colors = {
     },
   },
 
-  // [chatpaw] Brand palette — PLANNING.md §1.1 (bg-cp-primary, text-cp-accent, …)
-  cp: {
-    primary: 'var(--cp-primary)',
+  // [whisker] Brand palette — PLANNING.md §1.1 (bg-ws-primary, text-ws-accent, …)
+  ws: {
+    primary: 'var(--ws-primary)',
     'primary-dark': '#1fe0b5',
     'primary-light': '#12b892',
-    secondary: 'var(--cp-secondary)',
+    secondary: 'var(--ws-secondary)',
     'secondary-dark': '#1ba5ff',
     'secondary-light': '#0f7fd4',
-    accent: 'var(--cp-accent)',
+    accent: 'var(--ws-accent)',
     'accent-dark': '#ffc857',
     'accent-light': '#e8a020',
-    bg: 'var(--cp-bg)',
-    surface: 'var(--cp-surface)',
-    text: 'var(--cp-text)',
-    danger: 'var(--cp-danger)',
+    bg: 'var(--ws-bg)',
+    surface: 'var(--ws-surface)',
+    text: 'var(--ws-text)',
+    danger: 'var(--ws-danger)',
     gradient: 'linear-gradient(135deg, #1fe0b5 0%, #1ba5ff 100%)',
   },
 };

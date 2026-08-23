@@ -1,12 +1,12 @@
-// [chatpaw] Widget theme applier.
-// Reads a ChatPaw theme (inline object or URL to a theme.json) and applies it to
+// [whisker] Widget theme applier.
+// Reads a Whisker theme (inline object or URL to a theme.json) and applies it to
 // the launcher bubble + iframe host page. Isolated: no upstream behavior changes.
 
 import { resolveIconMarkup } from './icons';
 import { injectMotionStyles, motionClassFor } from './motions';
 import defaultTheme from '../themes/paw-blob.json';
 
-const STYLE_ID = 'cp-widget-theme-style';
+const STYLE_ID = 'ws-widget-theme-style';
 
 export const loadTheme = async themeOrUrl => {
   if (!themeOrUrl) return null;
@@ -33,9 +33,9 @@ export const buildIconSource = (icon, color = '#ffffff') => {
 const applyColors = colors => {
   if (!colors) return;
   const root = document.documentElement.style;
-  root.setProperty('--cp-widget-primary', colors.primary);
-  root.setProperty('--cp-widget-bubble-icon', colors.bubbleIcon || '#ffffff');
-  root.setProperty('--cp-widget-accent', colors.accent || colors.primary);
+  root.setProperty('--ws-widget-primary', colors.primary);
+  root.setProperty('--ws-widget-bubble-icon', colors.bubbleIcon || '#ffffff');
+  root.setProperty('--ws-widget-accent', colors.accent || colors.primary);
 };
 
 export const applyWidgetTheme = async (theme, targets = {}) => {
@@ -74,10 +74,10 @@ export const applyWidgetTheme = async (theme, targets = {}) => {
   const bubble = targets.chatBubble || document.querySelector('.woot-widget-bubble');
   if (bubble) {
     bubble.classList.remove(
-      'cp-motion--bounce',
-      'cp-motion--tada',
-      'cp-motion--wiggle',
-      'cp-motion--hop'
+      'ws-motion--bounce',
+      'ws-motion--tada',
+      'ws-motion--wiggle',
+      'ws-motion--hop'
     );
     const motionClass = motionClassFor(resolved.motion?.launcher);
     if (

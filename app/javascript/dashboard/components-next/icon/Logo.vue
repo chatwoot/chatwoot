@@ -7,7 +7,7 @@ const globalConfig = useMapGetter('globalConfig/get');
 </script>
 
 <template>
-  <!-- [chatpaw] fallback mark: blob mascot with paw badge -->
+  <!-- [whisker] fallback mark: blob mascot with paw badge -->
   <img
     v-if="globalConfig.logoThumbnail"
     v-bind="attrs"
@@ -24,13 +24,13 @@ const globalConfig = useMapGetter('globalConfig/get');
     xmlns="http://www.w3.org/2000/svg"
   >
     <defs>
-      <linearGradient id="cp-fallback-body" x1="0" y1="0" x2="1" y2="1">
+      <linearGradient id="ws-fallback-body" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0" stop-color="#1fe0b5" />
         <stop offset="1" stop-color="#1ba5ff" />
       </linearGradient>
     </defs>
     <path
-      fill="url(#cp-fallback-body)"
+      fill="url(#ws-fallback-body)"
       d="M60 12 C90 12 106 38 106 64 C106 92 88 106 60 106 C32 106 14 92 14 64 C14 38 30 12 60 12 Z"
     />
     <ellipse cx="44" cy="52" rx="7.5" ry="9" fill="#06251f" />

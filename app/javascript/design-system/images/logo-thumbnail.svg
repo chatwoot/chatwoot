@@ -1,12 +1,19 @@
 <svg width="512" height="512" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="cpBody" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="wsBody" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#1fe0b5"/>
       <stop offset="1" stop-color="#1ba5ff"/>
     </linearGradient>
   </defs>
-  <!-- ChatPaw blob mascot: rounded robot body + paw badge -->
-  <path fill="url(#cpBody)" d="M60 12 C90 12 106 38 106 64 C106 92 88 106 60 106 C32 106 14 92 14 64 C14 38 30 12 60 12 Z"/>
+  <!-- Whisker blob: rounded robot body + paw badge + whiskers -->
+  <path fill="url(#wsBody)" d="M60 12 C90 12 106 38 106 64 C106 92 88 106 60 106 C32 106 14 92 14 64 C14 38 30 12 60 12 Z"/>
+  <!-- whiskers -->
+  <g stroke="#e6f1ef" stroke-width="2.4" stroke-linecap="round" opacity="0.9">
+    <line x1="30" y1="66" x2="12" y2="62"/>
+    <line x1="30" y1="72" x2="13" y2="74"/>
+    <line x1="90" y1="66" x2="108" y2="62"/>
+    <line x1="90" y1="72" x2="107" y2="74"/>
+  </g>
   <!-- eyes -->
   <ellipse cx="44" cy="52" rx="7.5" ry="9" fill="#06251f"/>
   <ellipse cx="76" cy="52" rx="7.5" ry="9" fill="#06251f"/>
@@ -15,12 +22,12 @@
   <!-- smile -->
   <path d="M46 72 Q60 82 74 72" stroke="#06251f" stroke-width="4.5" stroke-linecap="round" fill="none"/>
   <!-- paw print badge (belly) -->
-  <g transform="translate(60 92)">
-    <ellipse cx="0" cy="1.5" rx="6.5" ry="5" fill="#ffc857"/>
-    <circle cx="-6" cy="-4.5" r="2.3" fill="#ffc857"/>
-    <circle cx="-2.2" cy="-7" r="2.3" fill="#ffc857"/>
-    <circle cx="2.2" cy="-7" r="2.3" fill="#ffc857"/>
-    <circle cx="6" cy="-4.5" r="2.3" fill="#ffc857"/>
+  <g transform="translate(60 94)">
+    <ellipse cx="0" cy="1.5" rx="6" ry="4.6" fill="#ffc857"/>
+    <circle cx="-5.6" cy="-4" r="2.1" fill="#ffc857"/>
+    <circle cx="-2" cy="-6.4" r="2.1" fill="#ffc857"/>
+    <circle cx="2" cy="-6.4" r="2.1" fill="#ffc857"/>
+    <circle cx="5.6" cy="-4" r="2.1" fill="#ffc857"/>
   </g>
   <!-- antenna -->
   <line x1="60" y1="12" x2="60" y2="4" stroke="#1fe0b5" stroke-width="3" stroke-linecap="round"/>
