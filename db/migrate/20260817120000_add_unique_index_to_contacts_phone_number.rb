@@ -1,25 +1,22 @@
 class AddUniqueIndexToContactsPhoneNumber < ActiveRecord::Migration[7.2]
   disable_ddl_transaction!
 
-  OLD_INDEX_NAME = 'index_contacts_on_phone_number_and_account_id'.freeze
   NEW_INDEX_NAME = 'uniq_phone_number_per_account_contact'.freeze
   MAX_ATTEMPTS = 5
 
+  # The old, non-unique index on (phone_number, account_id) is deliberately kept
+  # (not removed) here: the new index's WHERE clause excludes NULL/blank phone
+  # numbers, so Postgres cannot use it to satisfy a plain `WHERE phone_number = ?
+  # AND account_id = ?` lookup (e.g.
+  # ContactInboxWithContactBuilder#find_contact_by_phone_number). Keeping the old
+  # index preserves that lookup path; the storage/write cost of maintaining both
+  # indexes is worth not regressing exact-match phone lookups.
   def up
     build_unique_index_with_retries!
-
-    # Only drop the old, non-unique index once the new unique one is confirmed built.
-    # If build_unique_index_with_retries! raises (e.g. retries exhausted for reasons
-    # other than a write race), contacts keeps its existing phone_number lookup index
-    # instead of being left without either index.
-    remove_index :contacts, name: OLD_INDEX_NAME, algorithm: :concurrently if index_name_exists?(:contacts, OLD_INDEX_NAME)
   end
 
   def down
     remove_index :contacts, name: NEW_INDEX_NAME, algorithm: :concurrently if index_name_exists?(:contacts, NEW_INDEX_NAME)
-    return if index_name_exists?(:contacts, OLD_INDEX_NAME)
-
-    add_index :contacts, [:phone_number, :account_id], name: OLD_INDEX_NAME, algorithm: :concurrently
   end
 
   private
@@ -50,7 +47,7 @@ class AddUniqueIndexToContactsPhoneNumber < ActiveRecord::Migration[7.2]
     execute <<~SQL.squish
       UPDATE contacts c
       SET phone_number = NULL
-      WHERE c.phone_number IS NOT NULL AND btrim(c.phone_number) <> ''
+      WHERE c.phone_number IS NOT NULL AND c.phone_number !~ '^\\s*$'
       AND EXISTS (
         SELECT 1 FROM contacts older
         WHERE older.account_id = c.account_id
@@ -90,7 +87,7 @@ class AddUniqueIndexToContactsPhoneNumber < ActiveRecord::Migration[7.2]
 
       add_index :contacts, [:phone_number, :account_id],
                 unique: true,
-                where: "phone_number IS NOT NULL AND btrim(phone_number) <> ''",
+                where: "phone_number IS NOT NULL AND phone_number !~ '^\\s*$'",
                 name: NEW_INDEX_NAME,
                 algorithm: :concurrently
     rescue ActiveRecord::RecordNotUnique => e
