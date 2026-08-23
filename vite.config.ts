@@ -40,7 +40,14 @@ export default defineConfig({
       // process alive with no listening port while the container looks
       // healthy. The frontend gets its config from Rails anyway, so require
       // an explicit `docker compose restart vite` instead.
-      ignored: ['**/.env', '**/.env.*'],
+      //
+      // The config files are ignored for the same reason: with chokidar
+      // polling over the Docker/WSL bind mount their mtime flaps spuriously,
+      // so Vite kept self-restarting ("vite.config.ts changed, restarting
+      // server...") every time the watchdog came up, dropping the HMR
+      // websocket and forcing a cold recompile behind a white page. Config
+      // edits are rare; require an explicit `docker compose restart vite`.
+      ignored: ['**/.env', '**/.env.*', '**/vite.config.ts', '**/vite.shared.ts'],
     },
   },
 });

@@ -43,9 +43,17 @@ set +x
 # ActionController::RoutingError while the container still looks healthy.
 # Probing the port lets us detect that state and force a fresh start.
 VITE_HEALTHCHECK_URL="http://127.0.0.1:${VITE_DEV_SERVER_PORT:-3036}/vite-dev/@vite/client"
+# The dev server is single-threaded: a cold global-SCSS compile over the slow
+# Docker/WSL bind mount can block the event loop (and thus stop answering the
+# probe) for well over a minute. Probing every 5s with a tiny miss budget used
+# to SIGKILL a perfectly healthy-but-compiling server, which forced a fresh
+# cold compile and left the dashboard stuck on a white page. Allow ~3 minutes
+# of continuous silence before treating the server as truly dead, so a slow
+# compile is never killed. A genuinely hung server still gets restarted, just
+# less eagerly.
 PROBE_INTERVAL_SECONDS=5
-MAX_FAILED_PROBES=3
-BOOT_TIMEOUT_SECONDS=90
+MAX_FAILED_PROBES=36
+BOOT_TIMEOUT_SECONDS=300
 
 dev_server_responding() {
   curl -sf --max-time 2 -o /dev/null "$VITE_HEALTHCHECK_URL"

@@ -69,7 +69,19 @@
     <%= vite_javascript_tag @application_pack %>
   </head>
   <body class="text-slate-600">
-    <div id="app"></div>
+    <div id="app">
+      <%# Shown until the Vite entry mounts the Vue app. On the slow
+          Docker/WSL bind mount a cold recompile can take tens of seconds,
+          so without this the dashboard sits as a blank white page. Vue's
+          mount() replaces #app's innerHTML, so this is discarded on mount. %>
+      <div class="flex min-h-screen flex-col items-center justify-center gap-4 text-slate-500">
+        <svg class="h-10 w-10 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+        </svg>
+        <p>Loading…</p>
+      </div>
+    </div>
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>
     <% if @dashboard_scripts.present? %>
