@@ -2,8 +2,10 @@
 import { useAlert } from 'dashboard/composables';
 import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
+import CannedListItem from './CannedListItem.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import SettingsFilterDropdown from '../components/SettingsFilterDropdown.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import {
@@ -12,16 +14,9 @@ import {
   useMapGetter,
 } from 'dashboard/composables/store';
 import { picoSearch } from '@chatwoot/pico-search';
-import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 
 import Button from 'dashboard/components-next/button/Button.vue';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
-import {
-  BaseTable,
-  BaseTableRow,
-  BaseTableCell,
-} from 'dashboard/components-next/table';
 
 defineOptions({
   name: 'CannedResponseSettings',
@@ -33,8 +28,6 @@ const { t } = useI18n();
 const { isAdmin } = useAdmin();
 const currentUser = useMapGetter('getCurrentUser');
 
-const { getPlainText } = useMessageFormatter();
-
 const showAddPopup = ref(false);
 const loading = ref({});
 const showEditPopup = ref(false);
@@ -44,7 +37,7 @@ const cannedResponseAPI = ref({ message: '' });
 
 const sortOrder = ref('asc');
 const searchQuery = ref('');
-const selectedCategory = ref(null);
+const selectedCategory = ref('all');
 const visibilityFilter = ref('all');
 
 const records = computed(() =>
@@ -57,6 +50,42 @@ const categories = computed(() => {
     if (item.category) set.add(item.category);
   });
   return [...set].sort((a, b) => a.localeCompare(b));
+});
+
+const hasUncategorized = computed(() =>
+  records.value.some(item => !item.category)
+);
+
+const visibilityOptions = computed(() => {
+  const filters = [
+    { value: 'all', label: t('CANNED_MGMT.FILTER_VISIBILITY.ALL') },
+    { value: 'mine', label: t('CANNED_MGMT.FILTER_VISIBILITY.MINE') },
+    { value: 'account', label: t('CANNED_MGMT.FILTER_VISIBILITY.ACCOUNT') },
+  ];
+  if (isAdmin.value) {
+    filters.splice(1, 0, {
+      value: 'pending',
+      label: t('CANNED_MGMT.FILTER_VISIBILITY.PENDING'),
+    });
+  }
+  return filters;
+});
+
+const categoryOptions = computed(() => {
+  const options = [
+    { value: 'all', label: t('CANNED_MGMT.ALL_CATEGORIES') },
+    ...categories.value.map(category => ({
+      value: category,
+      label: category,
+    })),
+  ];
+  if (hasUncategorized.value) {
+    options.push({
+      value: '',
+      label: t('CANNED_MGMT.UNCATEGORIZED'),
+    });
+  }
+  return options;
 });
 
 const visibilityFilteredRecords = computed(() => {
@@ -74,7 +103,7 @@ const visibilityFilteredRecords = computed(() => {
 });
 
 const categoryFilteredRecords = computed(() => {
-  if (selectedCategory.value === null) return visibilityFilteredRecords.value;
+  if (selectedCategory.value === 'all') return visibilityFilteredRecords.value;
   if (selectedCategory.value === '') {
     return visibilityFilteredRecords.value.filter(item => !item.category);
   }
@@ -111,25 +140,6 @@ const deleteMessage = computed(() => {
 const emptyListMessage = computed(() =>
   isAdmin.value ? t('CANNED_MGMT.LIST.404') : t('CANNED_MGMT.LIST.404_AGENT')
 );
-
-const visibilityFilters = computed(() => {
-  const filters = [
-    { key: 'all', label: t('CANNED_MGMT.FILTER_VISIBILITY.ALL') },
-    { key: 'mine', label: t('CANNED_MGMT.FILTER_VISIBILITY.MINE') },
-    { key: 'account', label: t('CANNED_MGMT.FILTER_VISIBILITY.ACCOUNT') },
-  ];
-  if (isAdmin.value) {
-    filters.splice(1, 0, {
-      key: 'pending',
-      label: t('CANNED_MGMT.FILTER_VISIBILITY.PENDING'),
-    });
-  }
-  return filters;
-});
-
-const toggleSort = () => {
-  sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
-};
 
 const fetchCannedResponses = async () => {
   try {
@@ -218,32 +228,42 @@ const rejectResponse = async item => {
   }
 };
 
-const visibilityLabel = item =>
-  t(`CANNED_MGMT.VISIBILITY_LABEL.${item.visibility || 'global'}`);
-
-const statusLabel = item =>
-  t(`CANNED_MGMT.STATUS_LABEL.${item.approval_status || 'pending'}`);
-
-const statusBadgeClass = status => {
-  if (status === 'approved') return 'bg-n-brand/15 text-n-brand';
-  if (status === 'rejected') return 'bg-n-ruby-3 text-n-ruby-12';
-  return 'bg-n-slate-3 text-n-slate-12';
+const uniqueShortCode = baseCode => {
+  const taken = new Set(records.value.map(item => item.short_code));
+  let candidate = `${baseCode}_copy`;
+  let n = 2;
+  while (taken.has(candidate)) {
+    candidate = `${baseCode}_copy_${n}`;
+    n += 1;
+  }
+  return candidate;
 };
 
-const chipClass = active =>
-  active
-    ? 'bg-n-brand text-white border-n-brand'
-    : 'bg-n-alpha-black2 text-n-slate-12 border-n-weak hover:bg-n-alpha-2';
+const duplicateCanned = async item => {
+  loading.value[item.id] = true;
+  try {
+    const visibility =
+      item.visibility === 'global' && !isAdmin.value
+        ? 'personal'
+        : item.visibility || 'personal';
 
-const tableHeaders = computed(() => {
-  return [
-    t('CANNED_MGMT.LIST.TABLE_HEADER.SHORT_CODE'),
-    t('CANNED_MGMT.LIST.TABLE_HEADER.CATEGORY'),
-    t('CANNED_MGMT.LIST.TABLE_HEADER.VISIBILITY'),
-    t('CANNED_MGMT.LIST.TABLE_HEADER.STATUS'),
-    t('CANNED_MGMT.LIST.TABLE_HEADER.ACTIONS'),
-  ];
-});
+    await store.dispatch('createCannedResponse', {
+      short_code: uniqueShortCode(item.short_code),
+      content: item.content,
+      category: item.category || null,
+      visibility,
+    });
+    useAlert(
+      isAdmin.value
+        ? t('CANNED_MGMT.DUPLICATE.API.SUCCESS_MESSAGE')
+        : t('CANNED_MGMT.DUPLICATE.API.SUCCESS_MESSAGE_PENDING')
+    );
+  } catch (error) {
+    useAlert(error?.message || t('CANNED_MGMT.DUPLICATE.API.ERROR_MESSAGE'));
+  } finally {
+    loading.value[item.id] = false;
+  }
+};
 </script>
 
 <template>
@@ -262,9 +282,26 @@ const tableHeaders = computed(() => {
         :search-placeholder="$t('CANNED_MGMT.SEARCH_PLACEHOLDER')"
         feature-name="canned_responses"
       >
-        <template v-if="records?.length" #count>
+        <template v-if="records.length" #tabs>
+          <div class="flex items-center gap-2">
+            <SettingsFilterDropdown
+              v-model="visibilityFilter"
+              :options="visibilityOptions"
+              icon="i-lucide-eye"
+              action-key="visibility"
+            />
+            <SettingsFilterDropdown
+              v-if="categories.length || hasUncategorized"
+              v-model="selectedCategory"
+              :options="categoryOptions"
+              icon="i-lucide-tags"
+              action-key="category"
+            />
+          </div>
+        </template>
+        <template v-if="filteredRecords.length" #count>
           <span class="text-body-main text-n-slate-11">
-            {{ $t('CANNED_MGMT.COUNT', { n: records.length }) }}
+            {{ $t('CANNED_MGMT.COUNT', { n: filteredRecords.length }) }}
           </span>
         </template>
         <template #actions>
@@ -278,195 +315,36 @@ const tableHeaders = computed(() => {
     </template>
 
     <template #body>
-      <div v-if="records.length" class="flex flex-col gap-3 mb-4">
-        <div class="flex flex-wrap gap-2">
-          <button
-            v-for="filter in visibilityFilters"
-            :key="filter.key"
-            type="button"
-            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
-            :class="chipClass(visibilityFilter === filter.key)"
-            @click="visibilityFilter = filter.key"
-          >
-            {{ filter.label }}
-          </button>
-        </div>
-        <div
-          v-if="categories.length || records.some(r => !r.category)"
-          class="flex flex-wrap gap-2"
-        >
-          <button
-            type="button"
-            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
-            :class="chipClass(selectedCategory === null)"
-            @click="selectedCategory = null"
-          >
-            {{ $t('CANNED_MGMT.ALL_CATEGORIES') }}
-          </button>
-          <button
-            v-for="cat in categories"
-            :key="cat"
-            type="button"
-            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
-            :class="chipClass(selectedCategory === cat)"
-            @click="selectedCategory = cat"
-          >
-            {{ cat }}
-          </button>
-          <button
-            v-if="records.some(r => !r.category)"
-            type="button"
-            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
-            :class="chipClass(selectedCategory === '')"
-            @click="selectedCategory = ''"
-          >
-            {{ $t('CANNED_MGMT.UNCATEGORIZED') }}
-          </button>
-        </div>
-      </div>
-
-      <BaseTable
-        :headers="tableHeaders"
-        :items="filteredRecords"
-        :no-data-message="
-          !records.length
-            ? emptyListMessage
-            : searchQuery ||
-                selectedCategory !== null ||
-                visibilityFilter !== 'all'
-              ? $t('CANNED_MGMT.NO_RESULTS')
-              : ''
-        "
+      <div
+        v-if="!filteredRecords.length"
+        class="flex items-center justify-center p-8"
       >
-        <template #header-0>
-          <button
-            class="flex items-center gap-2 p-0 cursor-pointer"
-            @click="toggleSort"
-          >
-            <span class="mb-0">
-              {{ tableHeaders[0] }}
-            </span>
-            <Icon
-              class="size-5 text-n-slate-11 flex-shrink-0"
-              :icon="
-                sortOrder === 'desc'
-                  ? 'i-woot-sort-descending'
-                  : 'i-woot-sort-ascending'
-              "
-            />
-          </button>
-        </template>
-        <template #header-1>
-          {{ tableHeaders[1] }}
-        </template>
-        <template #header-2>
-          {{ tableHeaders[2] }}
-        </template>
-        <template #header-3>
-          {{ tableHeaders[3] }}
-        </template>
-        <template #header-4>
-          <div class="text-end">
-            {{ tableHeaders[4] }}
-          </div>
-        </template>
-
-        <template #row="{ items }">
-          <BaseTableRow
-            v-for="cannedItem in items"
-            :key="cannedItem.id || cannedItem.short_code"
-            :item="cannedItem"
-          >
-            <template #default>
-              <BaseTableCell class="max-w-0">
-                <div class="flex flex-col gap-2 min-w-0">
-                  <span class="text-heading-3 text-n-slate-12 truncate block">
-                    {{ cannedItem.short_code }}
-                  </span>
-                  <p class="text-body-main text-n-slate-11 line-clamp-5">
-                    {{ getPlainText(cannedItem.content) }}
-                  </p>
-                </div>
-              </BaseTableCell>
-
-              <BaseTableCell class="w-32">
-                <span
-                  v-if="cannedItem.category"
-                  class="inline-block px-2 py-0.5 text-xs rounded-lg bg-n-slate-3 text-n-slate-12"
-                >
-                  {{ cannedItem.category }}
-                </span>
-                <span v-else class="text-xs text-n-slate-10">—</span>
-              </BaseTableCell>
-
-              <BaseTableCell class="w-28">
-                <span class="text-xs text-n-slate-11">
-                  {{ visibilityLabel(cannedItem) }}
-                </span>
-              </BaseTableCell>
-
-              <BaseTableCell class="w-28">
-                <span
-                  class="inline-block px-2 py-0.5 text-xs rounded-lg"
-                  :class="statusBadgeClass(cannedItem.approval_status)"
-                >
-                  {{ statusLabel(cannedItem) }}
-                </span>
-              </BaseTableCell>
-
-              <BaseTableCell align="end" class="min-w-[9rem]">
-                <div class="flex gap-2 justify-end flex-wrap flex-shrink-0">
-                  <template
-                    v-if="isAdmin && cannedItem.approval_status === 'pending'"
-                  >
-                    <Button
-                      v-tooltip.top="$t('CANNED_MGMT.APPROVE.PERSONAL')"
-                      icon="i-lucide-user-check"
-                      slate
-                      sm
-                      :is-loading="loading[cannedItem.id]"
-                      @click="approveResponse(cannedItem, 'personal')"
-                    />
-                    <Button
-                      v-tooltip.top="$t('CANNED_MGMT.APPROVE.ACCOUNT')"
-                      icon="i-lucide-users"
-                      slate
-                      sm
-                      :is-loading="loading[cannedItem.id]"
-                      @click="approveResponse(cannedItem, 'global')"
-                    />
-                    <Button
-                      v-tooltip.top="$t('CANNED_MGMT.REJECT.BUTTON')"
-                      icon="i-lucide-x"
-                      slate
-                      sm
-                      class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
-                      :is-loading="loading[cannedItem.id]"
-                      @click="rejectResponse(cannedItem)"
-                    />
-                  </template>
-                  <Button
-                    v-tooltip.top="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
-                    icon="i-woot-edit-pen"
-                    slate
-                    sm
-                    @click="openEditPopup(cannedItem)"
-                  />
-                  <Button
-                    v-tooltip.top="$t('CANNED_MGMT.DELETE.BUTTON_TEXT')"
-                    icon="i-woot-bin"
-                    slate
-                    sm
-                    class="hover:enabled:text-n-ruby-11 hover:enabled:bg-n-ruby-2"
-                    :is-loading="loading[cannedItem.id]"
-                    @click="openDeletePopup(cannedItem)"
-                  />
-                </div>
-              </BaseTableCell>
-            </template>
-          </BaseTableRow>
-        </template>
-      </BaseTable>
+        <span class="text-base text-n-slate-11">
+          {{
+            !records.length
+              ? emptyListMessage
+              : searchQuery ||
+                  selectedCategory !== 'all' ||
+                  visibilityFilter !== 'all'
+                ? $t('CANNED_MGMT.NO_RESULTS')
+                : emptyListMessage
+          }}
+        </span>
+      </div>
+      <div v-else class="border-t divide-y divide-n-weak border-n-weak">
+        <CannedListItem
+          v-for="cannedItem in filteredRecords"
+          :key="cannedItem.id || cannedItem.short_code"
+          :canned="cannedItem"
+          :is-admin="isAdmin"
+          :is-loading="!!loading[cannedItem.id]"
+          @edit="openEditPopup(cannedItem)"
+          @delete="openDeletePopup(cannedItem)"
+          @duplicate="duplicateCanned(cannedItem)"
+          @approve="visibility => approveResponse(cannedItem, visibility)"
+          @reject="rejectResponse(cannedItem)"
+        />
+      </div>
     </template>
     <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
       <AddCanned :on-close="hideAddPopup" />

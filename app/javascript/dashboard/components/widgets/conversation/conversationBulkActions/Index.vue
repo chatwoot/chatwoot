@@ -62,6 +62,8 @@ const {
   onAssignAgent,
   onAssignLabels,
   onRemoveLabels,
+  onAssignContactLabels,
+  onRemoveContactLabels,
   onAssignTeamsForBulk: onAssignTeam,
   onUpdateConversations,
 } = useBulkActions();
@@ -156,9 +158,9 @@ onUnmounted(() => {
         {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
       </div>
       <div
-        class="flex items-center justify-between gap-2 p-2 bg-n-button-color outline outline-1 -outline-offset-1 rounded-[10px] outline-n-weak shadow-[0_0_12px_0_rgba(27,40,59,0.08)]"
+        class="flex items-center justify-between gap-2 p-2 bg-n-button-color outline outline-1 -outline-offset-1 rounded-[10px] outline-n-weak shadow-[0_0_12px_0_rgba(27,40,59,0.08)] min-w-0"
       >
-        <div class="ms-0.5 flex items-center gap-1 min-w-0">
+        <div class="ms-0.5 flex items-center gap-1 min-w-0 shrink">
           <label class="cursor-pointer flex items-center gap-1.5 min-w-0">
             <Checkbox
               v-model="allSelected"
@@ -167,7 +169,7 @@ onUnmounted(() => {
             />
             <span
               :title="selectedLabel"
-              class="cursor-pointer truncate whitespace-nowrap shrink-0"
+              class="cursor-pointer truncate whitespace-nowrap min-w-0"
             >
               {{ selectedLabel }}
             </span>
@@ -181,12 +183,26 @@ onUnmounted(() => {
             @click="allSelected = false"
           />
         </div>
-        <div class="flex items-center gap-2 flex-shrink-0">
+        <div
+          class="flex items-center gap-1 shrink-0 overflow-x-auto max-w-[55%] sm:max-w-none"
+        >
           <BulkLabelActions @assign="onAssignLabels" />
           <BulkLabelActions
             action="remove"
             :applied-labels="appliedLabelsForSelection"
             @remove="onRemoveLabels"
+          />
+          <div class="w-px h-3 bg-n-weak rounded-lg flex-shrink-0" />
+          <BulkLabelActions
+            type="contact"
+            :show-button-label="false"
+            @assign="onAssignContactLabels"
+          />
+          <BulkLabelActions
+            type="contact"
+            action="remove"
+            :show-button-label="false"
+            @remove="onRemoveContactLabels"
           />
           <BulkUpdateActions
             :show-resolve="!showResolvedAction"

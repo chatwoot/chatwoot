@@ -124,6 +124,13 @@
         "NO": "Cancel"
       }
     },
+    "DUPLICATE": {
+      "TOOLTIP": "Duplicate",
+      "API": {
+        "SUCCESS_MESSAGE": "Custom Attribute duplicated successfully.",
+        "ERROR_MESSAGE": "Could not duplicate custom attribute. Please try again."
+      }
+    },
     "EDIT": {
       "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "Update",
@@ -153,7 +160,8 @@
       },
       "BUTTONS": {
         "EDIT": "Edit",
-        "DELETE": "Delete"
+        "DELETE": "Delete",
+        "DUPLICATE": "Duplicate"
       },
       "EMPTY_RESULT": {
         "404": "There are no custom attributes created",

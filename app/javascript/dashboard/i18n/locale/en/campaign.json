@@ -29,6 +29,9 @@
             "PLACEHOLDER": "Please enter the title of campaign",
             "ERROR": "Title is required"
           },
+          "COLOR": {
+            "LABEL": "Color"
+          },
           "MESSAGE": {
             "LABEL": "Message",
             "PLACEHOLDER": "Please enter the message of campaign",
@@ -107,6 +110,9 @@
             "LABEL": "Title",
             "PLACEHOLDER": "Please enter the title of campaign",
             "ERROR": "Title is required"
+          },
+          "COLOR": {
+            "LABEL": "Color"
           },
           "MESSAGE": {
             "LABEL": "Message",
@@ -212,6 +218,9 @@
             "LABEL": "Title",
             "PLACEHOLDER": "Please enter the title of campaign",
             "ERROR": "Title is required"
+          },
+          "COLOR": {
+            "LABEL": "Color"
           },
           "INBOX": {
             "LABEL": "Select Inbox",

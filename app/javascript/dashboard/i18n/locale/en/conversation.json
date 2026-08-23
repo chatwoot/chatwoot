@@ -338,9 +338,10 @@
       },
       "ASSIGN_BEFORE_REPLY": {
         "TITLE": "Assign conversation",
-        "MESSAGE": "To reply you must assign this conversation to yourself. Confirm?",
-        "CONFIRM": "Yes",
-        "CANCEL": "No"
+        "MESSAGE": "To reply you must assign this conversation to yourself. Confirm to assign yourself and send your message.",
+        "ENTER_HINT": "Press Enter to confirm · Esc to cancel",
+        "CONFIRM": "Assign & send",
+        "CANCEL": "Cancel"
       },
       "QUOTED_REPLY": {
         "ENABLE_TOOLTIP": "Include quoted email thread",

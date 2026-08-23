@@ -10,7 +10,7 @@
     "SEARCH_PLACEHOLDER": "Search macros...",
     "NO_RESULTS": "No macros found matching your search",
     "UNCATEGORIZED": "Uncategorized",
-    "ALL_FOLDERS": "All folders",
+    "ALL_FOLDERS": "All categories",
     "FILTER_VISIBILITY": {
       "ALL": "All",
       "MINE": "Mine",
@@ -26,8 +26,8 @@
           "ERROR": "Name is required for creating a macro"
         },
         "FOLDER": {
-          "LABEL": "Folder",
-          "PLACEHOLDER": "Optional folder name (e.g. Sales)"
+          "LABEL": "Category",
+          "PLACEHOLDER": "Optional category name (e.g. Sales)"
         },
         "ACTIONS": {
           "LABEL": "Actions"
@@ -41,7 +41,7 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Name",
-        "FOLDER": "Folder",
+        "FOLDER": "Category",
         "CREATED BY": "Created by",
         "LAST_UPDATED_BY": "Last updated by",
         "VISIBILITY": "Visibility",
@@ -59,6 +59,13 @@
       "API": {
         "SUCCESS_MESSAGE": "Macro deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+      }
+    },
+    "DUPLICATE": {
+      "TOOLTIP": "Duplicate macro",
+      "API": {
+        "SUCCESS_MESSAGE": "Macro duplicated successfully",
+        "ERROR_MESSAGE": "Could not duplicate macro. Please try again later"
       }
     },
     "VIEW": {

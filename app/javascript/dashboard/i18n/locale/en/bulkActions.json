@@ -35,6 +35,17 @@
       "REMOVE_SUCCESFUL": "Labels removed successfully.",
       "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
+    "CONTACT_LABELS": {
+      "ASSIGN_LABELS": "Tag contacts",
+      "REMOVE_LABELS": "Untag contacts",
+      "ASSIGN_SELECTED_LABELS": "Apply to contacts",
+      "REMOVE_SELECTED_LABELS": "Remove from contacts",
+      "ASSIGN_SUCCESFUL": "Contact labels assigned successfully.",
+      "ASSIGN_FAILED": "Failed to assign contact labels. Please try again.",
+      "REMOVE_SUCCESFUL": "Contact labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove contact labels. Please try again.",
+      "NO_CONTACTS": "No contacts found for the selected conversations."
+    },
     "TEAMS": {
       "NONE": "None",
       "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",

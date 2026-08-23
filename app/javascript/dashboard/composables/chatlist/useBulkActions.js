@@ -138,6 +138,59 @@ export function useBulkActions() {
     }
   }
 
+  function contactIdsFromSelectedConversations() {
+    const ids = new Set();
+    selectedConversations.value.forEach(conversationId => {
+      const conversation = store.getters.getConversationById(conversationId);
+      const contactId =
+        conversation?.meta?.sender?.id || conversation?.contact_id;
+      if (contactId) ids.add(contactId);
+    });
+    return [...ids];
+  }
+
+  async function onAssignContactLabels(newLabels) {
+    const contactIds = contactIdsFromSelectedConversations();
+    if (!contactIds.length) {
+      useAlert(t('BULK_ACTION.CONTACT_LABELS.NO_CONTACTS'));
+      return;
+    }
+    try {
+      await store.dispatch('bulkActions/process', {
+        type: 'Contact',
+        ids: contactIds,
+        labels: {
+          add: newLabels,
+        },
+      });
+      store.dispatch('bulkActions/clearSelectedConversationIds');
+      useAlert(t('BULK_ACTION.CONTACT_LABELS.ASSIGN_SUCCESFUL'));
+    } catch (err) {
+      useAlert(t('BULK_ACTION.CONTACT_LABELS.ASSIGN_FAILED'));
+    }
+  }
+
+  async function onRemoveContactLabels(labelsToRemove) {
+    const contactIds = contactIdsFromSelectedConversations();
+    if (!contactIds.length) {
+      useAlert(t('BULK_ACTION.CONTACT_LABELS.NO_CONTACTS'));
+      return;
+    }
+    try {
+      await store.dispatch('bulkActions/process', {
+        type: 'Contact',
+        ids: contactIds,
+        labels: {
+          remove: labelsToRemove,
+        },
+      });
+      store.dispatch('bulkActions/clearSelectedConversationIds');
+      useAlert(t('BULK_ACTION.CONTACT_LABELS.REMOVE_SUCCESFUL'));
+    } catch (err) {
+      useAlert(t('BULK_ACTION.CONTACT_LABELS.REMOVE_FAILED'));
+    }
+  }
+
   // Used by both context menu and bulk action bar.
   async function onRemoveLabels(labelsToRemove, conversationId = null) {
     try {
@@ -257,6 +310,8 @@ export function useBulkActions() {
     onAssignAgent,
     onAssignLabels,
     onRemoveLabels,
+    onAssignContactLabels,
+    onRemoveContactLabels,
     onAssignTeamsForBulk,
     onUpdateConversations,
   };

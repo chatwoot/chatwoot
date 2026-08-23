@@ -4,6 +4,7 @@ import { useToggle } from '@vueuse/core';
 import { useAlert } from 'dashboard/composables';
 import { picoSearch } from '@chatwoot/pico-search';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import SettingsFilterDropdown from '../components/SettingsFilterDropdown.vue';
 import AddAttribute from './AddAttribute.vue';
 import EditAttribute from './EditAttribute.vue';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -28,7 +29,7 @@ const inboxes = useMapGetter('inboxes/getInboxes');
 const [showAddPopup, toggleAddPopup] = useToggle(false);
 const selectedTabIndex = ref(0);
 const searchQuery = ref('');
-const selectedCategory = ref(null);
+const selectedCategory = ref('all');
 const uiFlags = computed(() => getters['attributes/getUIFlags'].value);
 const [showEditPopup, toggleEditPopup] = useToggle(false);
 const [showDeletePopup, toggleDeletePopup] = useToggle(false);
@@ -82,7 +83,7 @@ const attributes = computed(() =>
 const onClickTabChange = tab => {
   selectedTabIndex.value = tab.key;
   searchQuery.value = '';
-  selectedCategory.value = null;
+  selectedCategory.value = 'all';
 };
 
 const handleEditAttribute = attribute => {
@@ -93,6 +94,55 @@ const handleEditAttribute = attribute => {
 const handleDeleteAttribute = attribute => {
   selectedAttribute.value = attribute;
   toggleDeletePopup(true);
+};
+
+const uniqueAttributeKey = baseKey => {
+  const taken = new Set(attributes.value.map(item => item.attribute_key));
+  let candidate = `${baseKey}_copy`;
+  let n = 2;
+  while (taken.has(candidate)) {
+    candidate = `${baseKey}_copy_${n}`;
+    n += 1;
+  }
+  return candidate;
+};
+
+const uniqueAttributeName = baseName => {
+  const taken = new Set(
+    attributes.value.map(item => item.attribute_display_name)
+  );
+  let candidate = `${baseName} (copy)`;
+  let n = 2;
+  while (taken.has(candidate)) {
+    candidate = `${baseName} (copy ${n})`;
+    n += 1;
+  }
+  return candidate;
+};
+
+const handleDuplicateAttribute = async attribute => {
+  try {
+    await store.dispatch('attributes/create', {
+      attribute_display_name: uniqueAttributeName(
+        attribute.attribute_display_name
+      ),
+      attribute_description: attribute.attribute_description || '',
+      attribute_model: attribute.attribute_model,
+      attribute_display_type: attribute.attribute_display_type,
+      attribute_key: uniqueAttributeKey(attribute.attribute_key),
+      attribute_values: attribute.attribute_values || [],
+      regex_pattern: attribute.regex_pattern || null,
+      regex_cue: attribute.regex_cue || null,
+      featured: false,
+      category: attribute.category || '',
+      formula: attribute.formula || null,
+    });
+    useAlert(t('ATTRIBUTES_MGMT.DUPLICATE.API.SUCCESS_MESSAGE'));
+  } catch (error) {
+    useAlert(
+      error?.message || t('ATTRIBUTES_MGMT.DUPLICATE.API.ERROR_MESSAGE')
+    );
+  }
 };
 
 const confirmDeleteAttribute = async () => {
@@ -171,8 +221,25 @@ const showCategoryFilters = computed(
   () => categories.value.length > 0 || hasUncategorized.value
 );
 
+const categoryOptions = computed(() => {
+  const options = [
+    { value: 'all', label: t('ATTRIBUTES_MGMT.ALL_CATEGORIES') },
+    ...categories.value.map(category => ({
+      value: category,
+      label: category,
+    })),
+  ];
+  if (hasUncategorized.value) {
+    options.push({
+      value: '',
+      label: t('ATTRIBUTES_MGMT.UNCATEGORIZED'),
+    });
+  }
+  return options;
+});
+
 const categoryFilteredAttributes = computed(() => {
-  if (selectedCategory.value === null) return derivedAttributes.value;
+  if (selectedCategory.value === 'all') return derivedAttributes.value;
   if (selectedCategory.value === '') {
     return derivedAttributes.value.filter(
       attribute => !attributeCategory(attribute)
@@ -206,7 +273,7 @@ const sortAttributesByName = list =>
 const groupedAttributes = computed(() => {
   const list = filteredAttributes.value;
   const shouldGroup =
-    selectedCategory.value === null && categories.value.length > 0;
+    selectedCategory.value === 'all' && categories.value.length > 0;
 
   if (!shouldGroup) {
     return [
@@ -243,11 +310,6 @@ const groupedAttributes = computed(() => {
       return a.title.localeCompare(b.title);
     });
 });
-
-const chipClass = active =>
-  active
-    ? 'bg-n-brand text-white border-n-brand'
-    : 'bg-n-alpha-black2 text-n-slate-12 border-n-weak hover:bg-n-alpha-2';
 </script>
 
 <template>
@@ -264,17 +326,26 @@ const chipClass = active =>
         :search-placeholder="$t('ATTRIBUTES_MGMT.SEARCH_PLACEHOLDER')"
         feature-name="custom_attributes"
       >
-        <template v-if="attributes?.length" #count>
+        <template v-if="filteredAttributes.length" #count>
           <span class="text-body-main text-n-slate-11 truncate min-w-0">
-            {{ $t('ATTRIBUTES_MGMT.COUNT', { n: attributes.length }) }}
+            {{ $t('ATTRIBUTES_MGMT.COUNT', { n: filteredAttributes.length }) }}
           </span>
         </template>
         <template #tabs>
-          <TabBar
-            :tabs="tabsForTabBar"
-            :initial-active-tab="selectedTabIndex"
-            @tab-changed="onClickTabChange"
-          />
+          <div class="flex items-center gap-2 flex-wrap">
+            <TabBar
+              :tabs="tabsForTabBar"
+              :initial-active-tab="selectedTabIndex"
+              @tab-changed="onClickTabChange"
+            />
+            <SettingsFilterDropdown
+              v-if="attributes.length && showCategoryFilters"
+              v-model="selectedCategory"
+              :options="categoryOptions"
+              icon="i-lucide-tags"
+              action-key="category"
+            />
+          </div>
         </template>
         <template #actions>
           <Button
@@ -287,43 +358,10 @@ const chipClass = active =>
     </template>
     <template #body>
       <div class="flex flex-col gap-4">
-        <div
-          v-if="attributes.length && showCategoryFilters"
-          class="flex flex-wrap gap-2"
-        >
-          <button
-            type="button"
-            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
-            :class="chipClass(selectedCategory === null)"
-            @click="selectedCategory = null"
-          >
-            {{ $t('ATTRIBUTES_MGMT.ALL_CATEGORIES') }}
-          </button>
-          <button
-            v-for="category in categories"
-            :key="category"
-            type="button"
-            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
-            :class="chipClass(selectedCategory === category)"
-            @click="selectedCategory = category"
-          >
-            {{ category }}
-          </button>
-          <button
-            v-if="hasUncategorized"
-            type="button"
-            class="px-2.5 py-1 text-xs rounded-lg border border-solid transition-colors"
-            :class="chipClass(selectedCategory === '')"
-            @click="selectedCategory = ''"
-          >
-            {{ $t('ATTRIBUTES_MGMT.UNCATEGORIZED') }}
-          </button>
-        </div>
-
         <span
           v-if="
             !filteredAttributes.length &&
-            (searchQuery || selectedCategory !== null)
+            (searchQuery || selectedCategory !== 'all')
           "
           class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
         >
@@ -341,7 +379,9 @@ const chipClass = active =>
             >
               <span class="text-xs font-medium text-n-slate-11 truncate">
                 {{ group.title }}
-                <span class="font-normal">({{ group.attributes.length }})</span>
+                <span class="font-normal">{{
+                  `(${group.attributes.length})`
+                }}</span>
               </span>
             </div>
             <div
@@ -355,6 +395,7 @@ const chipClass = active =>
                 :badges="attribute.badges"
                 @edit="handleEditAttribute"
                 @delete="handleDeleteAttribute"
+                @duplicate="handleDuplicateAttribute"
               />
             </div>
           </section>

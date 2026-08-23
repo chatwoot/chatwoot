@@ -146,6 +146,14 @@
         "NO": "No, keep "
       }
     },
+    "DUPLICATE": {
+      "TOOLTIP": "Duplicate",
+      "API": {
+        "SUCCESS_MESSAGE": "Canned response duplicated successfully.",
+        "SUCCESS_MESSAGE_PENDING": "Duplicate submitted. An administrator must approve it before it can be used.",
+        "ERROR_MESSAGE": "Could not duplicate canned response. Please try again."
+      }
+    },
     "PICKER": {
       "TITLE": "Canned responses",
       "SUBTITLE": "Search and insert a canned response into your reply.",

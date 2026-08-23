@@ -31,6 +31,10 @@ const props = defineProps({
     type: Array,
     default: null,
   },
+  showButtonLabel: {
+    type: Boolean,
+    default: undefined,
+  },
 });
 
 const emit = defineEmits(['assign', 'remove']);
@@ -46,25 +50,40 @@ const selectedLabels = ref([]);
 const isTypeContact = computed(() => props.type === 'contact');
 const isRemoveAction = computed(() => props.action === 'remove');
 
+const shouldShowButtonLabel = computed(() => {
+  if (props.showButtonLabel !== undefined) return props.showButtonLabel;
+  return isTypeContact.value;
+});
+
 const buttonLabel = computed(() => {
   if (!isTypeContact.value) return '';
 
   return isRemoveAction.value
-    ? t('CONTACTS_BULK_ACTIONS.REMOVE_LABELS')
-    : t('CONTACTS_BULK_ACTIONS.ASSIGN_LABELS');
+    ? t('BULK_ACTION.CONTACT_LABELS.REMOVE_LABELS')
+    : t('BULK_ACTION.CONTACT_LABELS.ASSIGN_LABELS');
 });
 
-const tooltipLabel = computed(() =>
-  isRemoveAction.value
+const tooltipLabel = computed(() => {
+  if (isTypeContact.value) {
+    return isRemoveAction.value
+      ? t('BULK_ACTION.CONTACT_LABELS.REMOVE_LABELS')
+      : t('BULK_ACTION.CONTACT_LABELS.ASSIGN_LABELS');
+  }
+  return isRemoveAction.value
     ? t('BULK_ACTION.LABELS.REMOVE_LABELS')
-    : t('BULK_ACTION.LABELS.ASSIGN_LABELS')
-);
+    : t('BULK_ACTION.LABELS.ASSIGN_LABELS');
+});
 
-const confirmLabel = computed(() =>
-  isRemoveAction.value
+const confirmLabel = computed(() => {
+  if (isTypeContact.value) {
+    return isRemoveAction.value
+      ? t('BULK_ACTION.CONTACT_LABELS.REMOVE_SELECTED_LABELS')
+      : t('BULK_ACTION.CONTACT_LABELS.ASSIGN_SELECTED_LABELS');
+  }
+  return isRemoveAction.value
     ? t('BULK_ACTION.LABELS.REMOVE_SELECTED_LABELS')
-    : t('BULK_ACTION.LABELS.ASSIGN_SELECTED_LABELS')
-);
+    : t('BULK_ACTION.LABELS.ASSIGN_SELECTED_LABELS');
+});
 
 const isLabelSelected = labelTitle => {
   return selectedLabels.value.includes(labelTitle);
@@ -121,15 +140,15 @@ const handleDismiss = () => {
   <div ref="containerRef" class="relative">
     <NextButton
       v-tooltip="tooltipLabel"
-      :label="buttonLabel"
+      :label="shouldShowButtonLabel ? buttonLabel : ''"
       :icon="isRemoveAction ? 'i-woot-tag-remove' : 'i-lucide-tag'"
       slate
-      :size="isTypeContact ? 'sm' : 'xs'"
+      :size="shouldShowButtonLabel ? 'sm' : 'xs'"
       ghost
       :class="{
         'bg-n-alpha-2': showDropdown,
         '[&>span:nth-child(2)]:hidden md:[&>span:nth-child(2)]:inline w-fit !text-n-blue-11 [&>span]:!text-n-blue-11 !px-2':
-          isTypeContact,
+          shouldShowButtonLabel,
       }"
       :disabled="disabled || isLoading"
       :is-loading="isLoading"

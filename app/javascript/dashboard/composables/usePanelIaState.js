@@ -7,20 +7,20 @@ import {
 
 const STATE_CONFIG = {
   activo: {
-    indicatorClass: 'bg-n-teal-9',
+    indicatorClass: 'bg-n-teal-9/10',
     labelKey: 'CONVERSATION.PANEL_IA_STATE_ACTIVE',
   },
   esperando: {
-    indicatorClass: 'bg-n-amber-9',
+    indicatorClass: 'bg-n-amber-9/10',
     labelKey: 'CONVERSATION.PANEL_IA_STATE_WAITING',
   },
   solicita_ayuda: {
-    indicatorClass: 'bg-n-ruby-9',
+    indicatorClass: 'bg-n-ruby-9/10',
     labelKey: 'CONVERSATION.PANEL_IA_STATE_HELP',
     pulseIndicator: true,
   },
   cerrado_inactividad: {
-    indicatorClass: 'bg-n-slate-9',
+    indicatorClass: 'bg-n-slate-9/10',
     labelKey: 'CONVERSATION.PANEL_IA_STATE_INACTIVITY_CLOSED',
   },
 };
