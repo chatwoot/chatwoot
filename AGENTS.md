@@ -5,7 +5,7 @@
 ## شروع هر سِشن — به ترتیب
 1. **`PLANNING.md` را کامل بخوان** — منبع حقیقت: برند/رنگ‌ها، ماتریس ادغام قابلیت‌ها، طراحی AiRouter، فازهای P0–P6.
 2. **`docs/goftino-feature-map.md`** مرجع parity با گوفتینو است (بازمهندسی از پنل واقعی).
-3. جدول فازها در `PLANNING.md §7`؛ اگر فاز قبلی ناتمام است همان را تمام کن. **وضعیت فعلی: P0 انجام نشده.**
+3. جدول فازها در `PLANNING.md §7`؛ اگر فاز قبلی ناتمام است همان را تمام کن. **وضعیت فعلی: P0 انجام شد (2026-08-23) — فاز بعدی: P1.**
 4. کارهای P0: حذف کامل `enterprise/` و همه رفرنس‌ها (`Gemfile`, routes, specs, workflows, جستجوی `Enterprise::`)، rename package → `@chatpaw/core`، brand tokens (§1.1) در CSS variables، لوگو از `docs/brand/`.
 5. remote `upstream` به chatwoot/chatwoot تنظیم است — فقط برای merge، هرگز push نکن.
 

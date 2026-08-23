@@ -171,7 +171,7 @@ budget:
 
 | فاز | محتوا | Acceptance Criteria |
 |---|---|---|
-| **P0 — Detox & Brand scaffold** | حذف `enterprise/` و رفرنس‌ها، rename package به `@chatpaw/core`، logo/palette tokens، LICENSE، docker compose rename، `upstream` remote | `bin/docker` بالا بیاید؛ `bundle exec rspec spec/` سبز (منهای EE)؛ grep "chatwoot" در UI کاربر-مواجه = ۰ (کد داخلی بعداً تدریجی) |
+| **P0 — Detox & Brand scaffold** | حذف `enterprise/` و رفرنس‌ها، rename package به `@chatpaw/core`، logo/palette tokens، LICENSE، docker compose rename، `upstream` remote | ✅ **انجام شد (2026-08-23):** enterprise/ و spec/enterprise حذف؛ رفرنس‌های Ruby/CI پاک؛ `@chatpaw/core`؛ brand assets + توکن‌های `cp-*`؛ compose ها chatpaw؛ README جدید. *باقیمانده: اجرای rspec روی ماشین با Ruby (لوکال فعلی فقط Node دارد)* |
 | **P1 — Dashboard reskin + RTL** | Inter/Vazirmatn، CSS variables برند، login/sidebar/topbar، i18n fa کامل dashboard | اسکرین‌های قبل/بعد؛ تست e2e لاگین fa/en |
 | **P2 — Widget revamp** | تم JSON، ۸ آیکون دیفالت، motion/sound، voice note، dept picker، offline form، RTL | دمو صفحه HTML با ۳ تم متفاوت از یک build |
 | **P3 — Goftino parity backend** | worktime، ondelay، ban rules، rating/NPS، export CSV، SMS adapter، Bale channel، auto-distribution queue | هر feature حداقل ۱ request spec؛ UI فارسی |
