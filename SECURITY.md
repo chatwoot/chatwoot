@@ -5,7 +5,7 @@ Whisker is a community-maintained open-source project. We take security bugs ser
 ## How to report
 
 - Please **do not** open a public GitHub issue for security vulnerabilities.
-- Open a [private security advisory](https://github.com/maddixmhn/Maddix-Chat/security/advisories/new) on this repository, or contact the maintainers through the repository owner's profile.
+- Open a [private security advisory](https://github.com/maddixmhn/Whisker/security/advisories/new) on this repository, or contact the maintainers through the repository owner's profile.
 
 ## What to include
 

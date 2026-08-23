@@ -1,4 +1,4 @@
-# PLANNING.md — Maddix-Chat → «Whisker» 🐾
+# PLANNING.md — Whisker 🐾
 
 > **ماموریت:** ساخت یک پلتفرم گفتگوی مشتری + CRM متن‌باز و رایگان، از فورک Chatwoot، با ادغام کامل قابلیت‌های Goftino، هویت بصری جدید، لایه هوش مصنوعی با اتصال به هر Router/API سازگار با OpenAI (OpenRouter / LiteLLM / OmniRoute / NineRouter / Ollama / Groq / vLLM)، ویجت قابل‌سفارشی‌سازی با حالت Pet و ابزار تولید ویجت با AI.
 >
@@ -14,7 +14,7 @@
 | **جایگزین‌ها** | PawDesk · NexChat · Mochat · OpenPaw |
 | **تگ‌لاین EN** | *Customer conversations with a soul.* |
 | **تگ‌لاین FA** | «گفتگو با مشتری‌ها، با یک رفیق دیجیتال» |
-| **ریپو** | `maddixmhn/Maddix-Chat` (عمومی، جدا از سایت شخصی) |
+| **ریپو** | `maddixmhn/Whisker` (عمومی، جدا از سایت شخصی) |
 | **لایسنس هدف** | MIT (ارثی از Chatwoot core) — بخش‌های حذف‌شده enterprise را **هرگز** برنگردان |
 
 ### 1.1 پالت رنگ

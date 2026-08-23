@@ -1,4 +1,4 @@
-# AGENTS.md — Maddix-Chat (Whisker) 🐾
+# AGENTS.md — Whisker 🐾
 
 > **این ریپو دیگر Chatwoot خام نیست** — در حال تبدیل به **Whisker** است: پلتفرم open-source گفتگوی مشتری + CRM با قابلیت‌های گوفتینو، لایه AI با اتصال به هر OpenAI-compatible router (OmniRoute / NineRouter / OpenRouter / LiteLLM / Ollama / Groq)، ویجت تم‌محور و Desktop Pet.
 

@@ -1,6 +1,6 @@
 # Whisker Landing 🐾
 
-Static landing/docs site for [Whisker](https://github.com/maddixmhn/Maddix-Chat) — deployable to Vercel in under a minute. No build step.
+Static landing/docs site for [Whisker](https://github.com/maddixmhn/Whisker) — deployable to Vercel in under a minute. No build step.
 
 ## Deploy to Vercel
 
@@ -14,7 +14,7 @@ npx vercel --prod
 ### Option B — Dashboard (recommended)
 
 1. Push the repo to GitHub.
-2. [vercel.com/new](https://vercel.com/new) → import `maddixmhn/Maddix-Chat`.
+2. [vercel.com/new](https://vercel.com/new) → import `maddixmhn/Whisker`.
 3. Set **Root Directory** to `landing`.
 4. Framework preset: **Other** (static). Deploy.
 
