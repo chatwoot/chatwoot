@@ -20,6 +20,7 @@ import {
 import { useDarkMode } from 'widget/composables/useDarkMode';
 import { useRouter } from 'vue-router';
 import { useAvailability } from 'widget/composables/useAvailability';
+import { useNotificationSound } from 'widget/composables/useNotificationSound';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
 import { emitter } from 'shared/helpers/mitt';
 
@@ -33,8 +34,9 @@ export default {
     const { prefersDarkMode } = useDarkMode();
     const router = useRouter();
     const { isInWorkingHours } = useAvailability();
+    const { playMessageReceived } = useNotificationSound();
 
-    return { prefersDarkMode, router, isInWorkingHours };
+    return { prefersDarkMode, router, isInWorkingHours, playMessageReceived };
   },
   data() {
     return {
@@ -176,6 +178,10 @@ export default {
         const { name: routeName } = this.$route;
         if ((this.isWidgetOpen || !this.isIFrame) && routeName === 'messages') {
           this.$store.dispatch('conversation/setUserLastSeen');
+        }
+        // [whisker] play notification sound when widget is closed or not focused
+        if (!this.isWidgetOpen || !document.hasFocus()) {
+          this.playMessageReceived();
         }
         this.setUnreadView();
       });

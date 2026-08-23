@@ -151,6 +151,15 @@ export default {
                   @error="onVideoLoadError"
                 />
 
+                <!-- [whisker] audio playback for voice notes -->
+                <audio
+                  v-else-if="attachment.file_type === 'audio'"
+                  controls
+                  class="h-10"
+                >
+                  <source :src="attachment.data_url" />
+                </audio>
+
                 <FileBubble
                   v-else
                   :url="attachment.data_url"

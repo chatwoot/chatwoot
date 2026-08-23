@@ -121,6 +121,17 @@
     "SEND_EMAIL_SUCCESS": "رونوشت گفتگو با موفقیت ارسال شد",
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
   },
+  "OFFLINE_FORM": {
+    "TITLE": "در حال حاضر آفلاین هستیم",
+    "DESCRIPTION": "پیام خود را بگذارید و ما در اسرع وقت پاسخ خواهیم داد.",
+    "NAME_PLACEHOLDER": "نام شما (اختیاری)",
+    "EMAIL_PLACEHOLDER": "ایمیل شما",
+    "MESSAGE_PLACEHOLDER": "چطور می‌توانیم کمک کنیم؟",
+    "SUBMIT": "ارسال پیام",
+    "SENDING": "در حال ارسال...",
+    "SUCCESS_TITLE": "پیام ارسال شد!",
+    "SUCCESS_MESSAGE": "به محض بازگشت آنلاین با شما تماس خواهیم گرفت."
+  },
   "INTEGRATIONS": {
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "برای ملحق شدن اینجا را کلیک کنید",

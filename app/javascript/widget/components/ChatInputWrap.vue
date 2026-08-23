@@ -5,6 +5,7 @@ import { mapGetters } from 'vuex';
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import { useAttachments } from '../composables/useAttachments';
+import { useVoiceRecorder } from '../composables/useVoiceRecorder';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
@@ -37,10 +38,12 @@ export default {
       shouldShowEmojiPicker,
       hasEmojiPickerEnabled,
     } = useAttachments();
+    const voiceRecorder = useVoiceRecorder();
     return {
       canHandleAttachments,
       shouldShowEmojiPicker,
       hasEmojiPickerEnabled,
+      voiceRecorder,
     };
   },
   data() {
@@ -58,7 +61,16 @@ export default {
       shouldShowEmojiPicker: 'appConfig/getShouldShowEmojiPicker',
     }),
     showAttachment() {
-      return this.canHandleAttachments && this.userInput.length === 0;
+      return (
+        this.canHandleAttachments &&
+        this.userInput.length === 0 &&
+        !this.voiceRecorder.isRecording.value
+      );
+    },
+    showMicButton() {
+      return (
+        this.userInput.length === 0 && !this.voiceRecorder.isRecording.value
+      );
     },
     showSendButton() {
       return this.userInput.length > 0;
@@ -126,7 +138,35 @@ export default {
       this.$store.dispatch('conversation/toggleUserTyping', { typingStatus });
     },
     focusInput() {
-      this.$refs.chatInput.focus();
+      if (this.$refs.chatInput) {
+        this.$refs.chatInput.focus();
+      }
+    },
+    async handleVoiceRecord() {
+      const { isRecording, audioBlob } = this.voiceRecorder;
+      if (isRecording.value) {
+        this.voiceRecorder.stopRecording();
+        // Wait a tick for onstop to fire and set audioBlob
+        await this.$nextTick();
+        if (this.voiceRecorder.audioBlob.value) {
+          this.sendVoiceNote(this.voiceRecorder.audioBlob.value);
+        }
+      } else {
+        this.voiceRecorder.startRecording();
+      }
+    },
+    cancelVoiceRecording() {
+      this.voiceRecorder.cancelRecording();
+    },
+    sendVoiceNote(blob) {
+      const file = new File([blob], `voice-note-${Date.now()}.webm`, {
+        type: 'audio/webm',
+      });
+      this.onSendAttachment({
+        file,
+        thumbUrl: '',
+        fileType: 'audio',
+      });
     },
   },
 };
@@ -134,6 +174,7 @@ export default {
 
 <template>
   <div
+    v-if="!voiceRecorder.isRecording.value"
     class="items-center flex ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2 rounded-[7px] transition-all duration-200 bg-n-background !shadow-[0_0_0_1px,0_0_2px_3px]"
     :class="{
       '!shadow-[var(--widget-color,#12b892)]': isFocused,
@@ -160,6 +201,14 @@ export default {
         class="text-n-slate-12"
         :on-attach="onSendAttachment"
       />
+      <button
+        v-if="showMicButton"
+        class="flex items-center justify-center min-h-8 min-w-8"
+        aria-label="Record voice note"
+        @click="handleVoiceRecord"
+      >
+        <FluentIcon icon="microphone-outline" class="text-n-slate-12" />
+      </button>
       <button
         v-if="shouldShowEmojiPicker && hasEmojiPickerEnabled"
         class="flex items-center justify-center min-h-8 min-w-8"
@@ -188,6 +237,32 @@ export default {
         @click="handleButtonClick"
       />
     </div>
+  </div>
+  <!-- [whisker] Voice recording UI -->
+  <div
+    v-else
+    class="items-center flex gap-2 ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2 rounded-[7px] bg-n-background !shadow-n-strong"
+  >
+    <button
+      class="flex items-center justify-center min-h-8 min-w-8 rounded-full bg-n-ruby-9 text-white"
+      aria-label="Cancel recording"
+      @click="cancelVoiceRecording"
+    >
+      <FluentIcon icon="close" />
+    </button>
+    <div class="flex items-center gap-2 flex-1">
+      <span class="w-2 h-2 rounded-full bg-n-ruby-9 animate-pulse" />
+      <span class="text-sm text-n-slate-12 tabular-nums">
+        {{ voiceRecorder.formatDuration(voiceRecorder.duration.value) }}
+      </span>
+    </div>
+    <button
+      class="flex items-center justify-center min-h-10 min-w-10 rounded-full bg-n-brand text-white"
+      aria-label="Send voice note"
+      @click="handleVoiceRecord"
+    >
+      <FluentIcon icon="send" />
+    </button>
   </div>
 </template>
 

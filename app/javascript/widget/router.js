@@ -35,6 +35,11 @@ const router = createRouter({
           component: () => import('./views/Messages.vue'),
         },
         {
+          path: '/offline',
+          name: 'offline-form',
+          component: () => import('./views/OfflineForm.vue'),
+        },
+        {
           path: '/article',
           name: 'article-viewer',
           component: () => import('./views/ArticleViewer.vue'),

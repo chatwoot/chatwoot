@@ -3,6 +3,7 @@ import TeamAvailability from 'widget/components/TeamAvailability.vue';
 import { mapGetters } from 'vuex';
 import { useRouter } from 'vue-router';
 import configMixin from 'widget/mixins/configMixin';
+import { useAvailability } from 'widget/composables/useAvailability';
 import ArticleContainer from '../components/pageComponents/Home/Article/ArticleContainer.vue';
 export default {
   name: 'Home',
@@ -13,7 +14,8 @@ export default {
   mixins: [configMixin],
   setup() {
     const router = useRouter();
-    return { router };
+    const { isOnline } = useAvailability();
+    return { router, isOnline };
   },
   computed: {
     ...mapGetters({
@@ -24,6 +26,10 @@ export default {
   },
   methods: {
     startConversation() {
+      // [whisker] redirect to offline form when no agents are available
+      if (!this.isOnline && !this.conversationSize) {
+        return this.router.replace({ name: 'offline-form' });
+      }
       if (this.preChatFormEnabled && !this.conversationSize) {
         return this.router.replace({ name: 'prechat-form' });
       }

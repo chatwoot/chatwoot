@@ -121,6 +121,17 @@
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
     "SEND_EMAIL_ERROR": "There was an error, please try again"
   },
+  "OFFLINE_FORM": {
+    "TITLE": "We're currently offline",
+    "DESCRIPTION": "Leave us a message and we'll get back to you as soon as possible.",
+    "NAME_PLACEHOLDER": "Your name (optional)",
+    "EMAIL_PLACEHOLDER": "Your email",
+    "MESSAGE_PLACEHOLDER": "How can we help?",
+    "SUBMIT": "Send message",
+    "SENDING": "Sending...",
+    "SUCCESS_TITLE": "Message sent!",
+    "SUCCESS_MESSAGE": "We'll get back to you as soon as we're back online."
+  },
   "INTEGRATIONS": {
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Click here to join",
