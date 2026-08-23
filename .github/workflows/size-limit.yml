@@ -37,11 +37,6 @@ jobs:
       - name: pnpm
         run: pnpm install
 
-      - name: Strip enterprise code
-        run: |
-          rm -rf enterprise
-          rm -rf spec/enterprise
-
       - name: setup env
         run: |
           cp .env.example .env

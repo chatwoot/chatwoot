@@ -560,28 +560,7 @@ Rails.application.routes.draw do
     end
   end
 
-  if ChatwootApp.enterprise?
-    namespace :enterprise, defaults: { format: 'json' } do
-      namespace :api do
-        namespace :v1 do
-          resources :accounts do
-            member do
-              post :checkout
-              post :subscription
-              post :select_billing_currency
-              get :limits
-              post :toggle_deletion
-              post :topup_checkout
-              get :topup_options
-            end
-          end
-        end
-      end
-
-      post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
-      post 'webhooks/firecrawl', to: 'webhooks/firecrawl#process_payload'
-    end
-  end
+  # [chatpaw] enterprise namespace routes removed from this fork
 
   # ----------------------------------------------------------------------
   # Routes for platform APIs
