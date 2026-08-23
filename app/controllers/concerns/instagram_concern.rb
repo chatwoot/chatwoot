@@ -7,7 +7,9 @@ module InstagramConcern
       client_secret,
       {
         site: 'https://api.instagram.com',
-        authorize_url: 'https://api.instagram.com/oauth/authorize',
+        # Meta retired the authorize page on api.instagram.com (it now 404s);
+        # business login lives on www. Token exchange stays on api.
+        authorize_url: 'https://www.instagram.com/oauth/authorize',
         token_url: 'https://api.instagram.com/oauth/access_token',
         auth_scheme: :request_body,
         token_method: :post
