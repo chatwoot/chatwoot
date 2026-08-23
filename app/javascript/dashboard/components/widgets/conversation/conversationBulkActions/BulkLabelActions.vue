@@ -145,8 +145,10 @@ const handleDismiss = () => {
       slate
       :size="shouldShowButtonLabel ? 'sm' : 'xs'"
       ghost
+      class="transition-all duration-150 ease-out active:scale-95"
       :class="{
         'bg-n-alpha-2': showDropdown,
+        '[&>span]:!text-n-blue-11': !shouldShowButtonLabel,
         '[&>span:nth-child(2)]:hidden md:[&>span:nth-child(2)]:inline w-fit !text-n-blue-11 [&>span]:!text-n-blue-11 !px-2':
           shouldShowButtonLabel,
       }"

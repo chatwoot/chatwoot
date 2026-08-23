@@ -83,6 +83,7 @@ const handleUpdate = item => {
       slate
       xs
       ghost
+      class="transition-all duration-150 ease-out active:scale-95 [&>span]:!text-n-teal-11"
       :class="{ 'bg-n-alpha-2': showDropdown }"
       @click="toggleDropdown()"
     />

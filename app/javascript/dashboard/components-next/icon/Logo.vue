@@ -1,17 +1,23 @@
 <script setup>
-import { useAttrs } from 'vue';
+import { computed, useAttrs } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 
 const attrs = useAttrs();
 const globalConfig = useMapGetter('globalConfig/get');
+
+// Rails serves public/* with Cache-Control max-age=1.year — bust logo URL on deploy.
+const logoThumbnailSrc = computed(() => {
+  const thumb = globalConfig.value?.logoThumbnail;
+  if (!thumb) return null;
+  const bust =
+    globalConfig.value?.gitSha || globalConfig.value?.appVersion || '1';
+  const sep = thumb.includes('?') ? '&' : '?';
+  return `${thumb}${sep}v=${encodeURIComponent(String(bust).slice(0, 12))}`;
+});
 </script>
 
 <template>
-  <img
-    v-if="globalConfig.logoThumbnail"
-    v-bind="attrs"
-    :src="globalConfig.logoThumbnail"
-  />
+  <img v-if="logoThumbnailSrc" v-bind="attrs" :src="logoThumbnailSrc" />
   <svg
     v-else
     v-once

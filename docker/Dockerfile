@@ -86,8 +86,9 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   && rm -rf spec node_modules tmp/cache; \
   fi
 
-# Generate .git_sha (context may omit .git via .dockerignore)
-RUN (git rev-parse HEAD 2>/dev/null || echo local-dev) > /app/.git_sha
+# Generate .git_sha (.git is dockerignored; pass GIT_SHA at build time in CI)
+ARG GIT_SHA=local-dev
+RUN printf '%s\n' "$GIT_SHA" > /app/.git_sha
 
 # Remove unnecessary files
 RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \

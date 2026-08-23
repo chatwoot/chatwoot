@@ -1,64 +1,25 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   viewBox="0 0 80 80"
-   role="img"
-   aria-label="PaluHub"
-   version="1.1"
-   id="svg2"
-   sodipodi:docname="paluhub-mark-white.svg"
-   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <defs
-     id="defs2" />
-  <sodipodi:namedview
-     id="namedview2"
-     pagecolor="#ff82ff"
-     bordercolor="#000000"
-     borderopacity="0.61176471"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     showborder="true"
-     labelstyle="default"
-     inkscape:zoom="5.04375"
-     inkscape:cx="28.054523"
-     inkscape:cy="72.267658"
-     inkscape:window-width="1920"
-     inkscape:window-height="1009"
-     inkscape:window-x="1912"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" />
-  <title
-     id="title1">PaluHub</title>
-  <g
-     transform="rotate(45 40 40)"
-     id="g2">
+  width="16"
+  height="16"
+  viewBox="0 0 16 16"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <g clip-path="url(#woot-logo-clip-2342424e23u32098)">
     <path
-       id="rect1"
-       d="M 12.33859 12.33859 C 10.89259 13.78459 10.000442 15.783588 10.000442 17.999588 L 10.000442 62.000412 C 10.000442 66.432412 13.567588 69.999558 17.999588 69.999558 L 62.000412 69.999558 C 66.432412 69.999558 69.999558 66.432412 69.999558 62.000412 L 69.999558 17.999588 C 69.999558 13.567588 66.432412 10.000442 62.000412 10.000442 L 17.999588 10.000442 C 15.783588 10.000442 13.78459 10.89259 12.33859 12.33859 z M 22.876139 22.876139 C 23.418389 22.333889 24.169221 22.000542 25.000221 22.000542 L 54.999779 22.000542 C 56.661779 22.000542 57.999458 23.338221 57.999458 25.000221 L 57.999458 54.999779 C 57.999458 56.661779 56.661779 57.999458 54.999779 57.999458 L 25.000221 57.999458 C 23.338221 57.999458 22.000542 56.661779 22.000542 54.999779 L 22.000542 25.000221 C 22.000542 24.169221 22.333889 23.418389 22.876139 22.876139 z "
-       style="fill:#ffffff" />
-    <circle
-       cx="40"
-       cy="40"
-       r="4.5"
-       fill="#fff"
-       id="circle2" />
+      d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
+      fill="#2781F6"
+    />
+    <path
+      d="M11.4172 11.4172H7.70831C5.66383 11.4172 4 9.75328 4 7.70828C4 5.66394 5.66383 4 7.70835 4C9.75339 4 11.4172 5.66394 11.4172 7.70828V11.4172Z"
+      fill="white"
+      stroke="white"
+      stroke-width="0.1875"
+    />
   </g>
-  <metadata
-     id="metadata2">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:title>PaluHub</dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
+  <defs>
+    <clipPath id="woot-logo-clip-2342424e23u32098">
+      <rect width="16" height="16" fill="white" />
+    </clipPath>
+  </defs>
 </svg>

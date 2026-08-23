@@ -118,11 +118,12 @@ watch(
 
 <template>
   <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 cursor-pointer conversation border-b border-n-slate-3 hover:border-n-surface-1 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group hover:z-[1] before:content-[none] before:absolute before:-top-px before:inset-x-0 before:h-px before:bg-n-surface-1 before:pointer-events-none hover:before:content-['']"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 cursor-pointer conversation border-b border-n-slate-3 transition-colors duration-200 ease-out hover:border-n-surface-1 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-3 group hover:z-[1] before:content-[none] before:absolute before:-top-px before:inset-x-0 before:h-px before:bg-n-surface-1 before:pointer-events-none hover:before:content-['']"
     :class="{
-      'active animate-card-select bg-n-background !border-n-surface-1':
+      'active animate-card-select bg-n-brand/10 !border-n-surface-1 border-l-4 !border-l-n-brand':
         isActiveChat,
-      'selected bg-n-slate-2 !border-n-surface-1': selected,
+      'selected bg-n-blue-3/70 dark:bg-n-blue-3/30 !border-n-surface-1':
+        selected,
       'px-0': compact,
       'px-3': !compact,
     }"
@@ -162,8 +163,12 @@ watch(
     </div>
     <div class="px-0 py-3 flex-1 min-w-0 border-line">
       <h4
-        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 flex items-center gap-1 min-w-0 ltr:pr-20 rtl:pl-20 text-n-slate-12"
-        :class="hasUnread ? 'font-semibold' : 'font-medium'"
+        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 flex items-center gap-1 min-w-0 ltr:pr-20 rtl:pl-20 transition-colors duration-200"
+        :class="
+          hasUnread
+            ? 'font-semibold text-n-slate-12'
+            : 'font-medium text-n-slate-12'
+        "
       >
         <Avatar
           v-if="showAssigneeAvatar"

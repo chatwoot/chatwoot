@@ -158,7 +158,7 @@ onUnmounted(() => {
         {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
       </div>
       <div
-        class="flex items-center justify-between gap-2 p-2 bg-n-button-color outline outline-1 -outline-offset-1 rounded-[10px] outline-n-weak shadow-[0_0_12px_0_rgba(27,40,59,0.08)] min-w-0"
+        class="flex items-center justify-between gap-2 p-2 bg-n-solid-2/90 backdrop-blur-lg outline outline-1 -outline-offset-1 rounded-[10px] outline-n-weak shadow-[0_8px_24px_0_rgba(27,40,59,0.12)] min-w-0 transition-shadow duration-200"
       >
         <div class="ms-0.5 flex items-center gap-1 min-w-0 shrink">
           <label class="cursor-pointer flex items-center gap-1.5 min-w-0">
