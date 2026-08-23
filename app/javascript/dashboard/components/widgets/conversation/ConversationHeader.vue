@@ -16,6 +16,9 @@ import { useInbox } from 'dashboard/composables/useInbox';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import Button from 'next/button/Button.vue';
 
 const props = defineProps({
   chat: {
@@ -97,6 +100,24 @@ const hasSlaPolicyId = computed(
   () => props.chat?.applied_sla?.id && !currentContact.value?.blocked
 );
 
+const { updateUISettings, uiSettings } = useUISettings();
+const isContactSidebarOpen = computed(
+  () => uiSettings.value.is_contact_sidebar_open
+);
+
+const toggleConversationSidebar = () => {
+  updateUISettings({
+    is_contact_sidebar_open: !isContactSidebarOpen.value,
+  });
+};
+
+const keyboardEvents = {
+  'Alt+KeyO': {
+    action: toggleConversationSidebar,
+  },
+};
+useKeyboardEvents(keyboardEvents);
+
 const copyConversationId = async () => {
   try {
     await copyTextToClipboard(String(props.chat.id));
@@ -148,7 +169,7 @@ const copyConversationId = async () => {
         >
           <button
             type="button"
-            class="truncate text-label-small text-n-slate-11 hover:text-n-slate-12 !p-0 cucursor-pointer"
+            class="truncate text-label-small text-n-slate-11 hover:text-n-slate-12 !p-0 cursor-pointer"
             @click="copyConversationId"
           >
             {{ `#${chat.id}` }}
@@ -173,6 +194,17 @@ const copyConversationId = async () => {
         class="hidden md:flex"
       />
       <ConversationCallButton :inbox="inbox" :chat="currentChat" />
+      <Button
+        v-tooltip.bottom="$t('CONVERSATION.SIDEBAR.CONTACT')"
+        ghost
+        slate
+        sm
+        icon="i-ph-user-bold"
+        :class="{
+          'bg-n-alpha-2': isContactSidebarOpen,
+        }"
+        @click="toggleConversationSidebar"
+      />
       <MoreActions :conversation-id="currentChat.id" />
     </div>
   </div>

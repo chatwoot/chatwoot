@@ -188,6 +188,20 @@ class Captain::Assistant < ApplicationRecord
     customer_visible_citation_urls(citation_document_ids)
   end
 
+  # Agent identity used by the runner and by session/trace capture. Public because
+  # the ResponseBuilderJob surfaces it in run context outside the model.
+  def agent_name
+    name.parameterize(separator: '_')
+  end
+
+  def agent_tools
+    tools = []
+    tools << self.class.resolve_tool_class('faq_lookup').new(self)
+    tools << self.class.resolve_tool_class('handoff').new(self)
+    tools.concat(account.captain_custom_tools.enabled.map { |custom_tool| custom_tool.tool(self) })
+    tools
+  end
+
   private
 
   def normalize_auto_resolve_after
@@ -209,18 +223,6 @@ class Captain::Assistant < ApplicationRecord
     return if config.key?('auto_resolve_mode')
 
     self.auto_resolve_mode = account&.captain_auto_resolve_mode || 'evaluated'
-  end
-
-  def agent_name
-    name.parameterize(separator: '_')
-  end
-
-  def agent_tools
-    tools = []
-    tools << self.class.resolve_tool_class('faq_lookup').new(self)
-    tools << self.class.resolve_tool_class('handoff').new(self)
-    tools.concat(account.captain_custom_tools.enabled.map { |custom_tool| custom_tool.tool(self) })
-    tools
   end
 
   def prompt_context

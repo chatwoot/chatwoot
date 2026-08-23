@@ -191,6 +191,10 @@ export default {
     showContentTemplates() {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
+    // WhatsApp/API stay in public-reply mode even outside the 24h window so
+    // template messages remain selectable. The free-form editor is disabled
+    // separately via isEditorDisabled; here we only decide reply vs. private
+    // note mode.
     isWithinMessagingWindow() {
       return !!(
         this.currentChat?.can_reply ||
@@ -1565,20 +1569,12 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.send-button {
-  @apply mb-0;
-}
-
 .reply-box {
   @apply relative mb-2 mx-2 border border-n-weak rounded-xl bg-n-solid-1;
 
   &.is-private {
     @apply bg-n-solid-amber dark:border-n-amber-3/10 border-n-amber-12/5;
   }
-}
-
-.send-button {
-  @apply mb-0;
 }
 
 .reply-box__top {

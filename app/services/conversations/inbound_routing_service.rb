@@ -15,7 +15,14 @@ class Conversations::InboundRoutingService
   delegate :inbox, :conversation, to: :message
 
   # Routes the conversation and returns the owner: :captain or :human.
+  #
+  # Only inbound messages pick an owner. Outgoing messages (an assistant reply, a
+  # human reply, a template, an echo) must never trigger a status transition here:
+  # route_to_human would force a pending Captain conversation open on every
+  # assistant reply. Guarding at this entry point keeps every caller safe.
   def perform
+    return unless message.incoming?
+
     if route_to_captain?
       schedule_captain_response
       :captain
