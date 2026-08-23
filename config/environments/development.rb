@@ -43,8 +43,9 @@ Rails.application.configure do
   config.active_record.migration_error = :page_load
   config.active_record.dump_schema_after_migration = false
 
-  # Highlight code that triggered database queries in logs.
-  config.active_record.verbose_query_logs = true
+  # Capturing a full Ruby backtrace per query is expensive; disabled to keep
+  # development responses fast.
+  config.active_record.verbose_query_logs = false
 
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
@@ -86,10 +87,9 @@ Rails.application.configure do
   # require 'syslog/logger'
   config.logger = ActiveSupport::Logger.new(Rails.root.join('log', "#{Rails.env}.log"), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
 
-  # Bullet configuration to fix the N+1 queries
+  # Bullet captures a Ruby backtrace to locate N+1 callers; disabled to avoid
+  # storing complete backtraces and the per-query overhead they add.
   config.after_initialize do
-    Bullet.enable = true
-    Bullet.bullet_logger = true
-    Bullet.rails_logger = true
+    Bullet.enable = false
   end
 end
